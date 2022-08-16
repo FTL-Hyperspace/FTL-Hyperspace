@@ -123,7 +123,23 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             {
                 if (strcmp(statBoostNode->name(), "statBoost") == 0)
                 {
-                    weaponDef.customDamage->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
+                    weaponDef.customDamage->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT, false));
+                }
+            }
+        }
+        if (name == "roomStatBoostChance")
+        {
+            hasCustomDamage = true;
+            weaponDef.customDamage->roomStatBoostChance = boost::lexical_cast<int>(val);
+        }
+        if (name == "roomStatBoosts")
+        {
+            hasCustomDamage = true;
+            for (auto statBoostNode = child->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    weaponDef.customDamage->roomStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT, true));
                 }
             }
         }
@@ -166,6 +182,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     if (weaponDef.customDamage->statBoostChance == -1)
     {
         weaponDef.customDamage->statBoostChance = weaponDef.customDamage->statBoosts.empty() ? 0 : 10;
+    }
+    if (weaponDef.customDamage->roomStatBoostChance == -1)
+    {
+        weaponDef.customDamage->roomStatBoostChance = weaponDef.customDamage->roomStatBoosts.empty() ? 0 : 10;
     }
     if (weaponDef.customDamage->crewSpawnChance == -1)
     {
@@ -294,11 +314,11 @@ HOOK_METHOD(WeaponControl, OnRender, (bool unk) -> void)
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {
-        smallAutoFireButton->hitbox.x = this->location.x + 184;
+        smallAutoFireButton->hitbox.x = this->location.x + 97 * this->shipManager->myBlueprint.weaponSlots - 10;
         smallAutoFireButton->hitbox.y = this->location.y + 61;
 
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(this->location.x + 184, this->location.y + 61, 0.0);
+        CSurface::GL_Translate(this->location.x + 97 * this->shipManager->myBlueprint.weaponSlots - 10, this->location.y + 61, 0.0);
         smallAutoFireButton->OnRender();
         CSurface::GL_PopMatrix();
     }

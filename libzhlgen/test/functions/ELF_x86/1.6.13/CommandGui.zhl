@@ -30,3 +30,5 @@ cleanup __cdecl bool CommandGui::IsGameOver(CommandGui *this);
 cleanup __cdecl void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
 "565383ec248b7424348d4424108904248b5c2430":
 cleanup __cdecl void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
+".5557565383ec2c8b7424408b44244c8b7c24448b6c2448":
+cleanup __cdecl void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);

@@ -37,7 +37,7 @@ cleanup __amd64 void CombatControl::DisarmTeleporter(CombatControl *this);
 "415741564155415455534889fb488d7f104c8da3a8090000":
 cleanup __amd64 void CombatControl::constructor(CombatControl *this);
 "534889fb488d7f204883ec20e8":
-cleanup __amd64 void CombatControl::RenderSelfAiming(CombatControl *this);
+cleanup __amd64 void CombatControl::OnRenderSelfAiming(CombatControl *this);
 "41574156415541544989fc55534881ecb8000000660fd60424":
 cleanup __amd64 void CombatControl::RenderShipStatus(CombatControl *this, Pointf pos, GL_Color color);
 "534889fb4883ec10488b86c00700004885c0":

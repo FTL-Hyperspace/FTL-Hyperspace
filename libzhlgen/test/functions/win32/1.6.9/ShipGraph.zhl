@@ -48,6 +48,8 @@ __thiscall float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 __thiscall bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704898d6cffffff8b10894588":
 __thiscall Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
+"578d7c240883e4f0ff77fc5589e557565383ec3c8b57048b018d4dd88b1f8b0490890424":
+__thiscall Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
 
 
 struct ShipGraph depends (Point, Pointf, Room) 
@@ -119,13 +121,6 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 		
 		return Pointf(xx, yy);
-	}
-	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int roomId, int slotId)
-	{
-		Globals::Rect rect = rooms[roomId]->rect;
-		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
 	}
 	
 }};

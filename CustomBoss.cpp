@@ -106,6 +106,18 @@ void CustomBoss::ParseBossDroneNode(rapidxml::xml_node<char> *node, std::array<s
 
             (*def)[difficulty].push_back(droneCount);
         }
+        else
+        {
+            for (int difficulty=0; difficulty<3; ++difficulty)
+            {
+                DroneCount droneCount = DroneCount();
+
+                droneCount.drone = droneNode->first_attribute("name")->value();
+                droneCount.number = boost::lexical_cast<int>(droneNode->first_attribute("count")->value());
+
+                (*def)[difficulty].push_back(droneCount);
+            }
+        }
     }
 }
 

@@ -20,3 +20,5 @@ __thiscall void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember *
 __thiscall void CrewControl::KeyDown(CrewControl *this, SDLKey key);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c807930000f84a00000008b39":
 __thiscall void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
+"5589e557565383e4f083ec20807d080075??8b59048b710831c029dec1fe0285f6":
+__thiscall void CrewControl::SelectCrew(CrewControl *this, bool keep_current);

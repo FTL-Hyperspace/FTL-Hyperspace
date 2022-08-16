@@ -11,6 +11,12 @@ int GenerateLocationSeed(int a, int b)
 {
     return ((a + b) * (a + b + 1)) / 2 + b;
 }
+int GenerateLocationSeed(Location &loc, int seed)
+{
+    int a = loc.loc.x;
+    int b = loc.loc.y;
+    return ((((a + b) * (a + b + 1)) / 2 + b)^seed) & 0x7fffffff;
+}
 
 TextInput* SeedInputBox::seedInput;
 Pointf SeedInputBox::drawLocation;

@@ -19,3 +19,8 @@ __thiscall void ShipObject::ClearShipInfo(ShipObject *this);
 
 "!6bc0340305(???????\?)8b4030c3":
 ShipInfo** Global_ShipObject_ShipInfoList;
+
+struct ShipObject
+{{
+	int HS_HasEquipment(const std::string& equip);
+}};

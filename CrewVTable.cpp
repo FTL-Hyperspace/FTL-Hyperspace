@@ -40,7 +40,15 @@ bool CrewMember::_HS_GetControllable()
         ex = CM_EX(this);
         def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
         ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
-        if (!ret && !requiresFullControl)
+        if (ret)
+        {
+            if (requiresFullControl == 1)
+            {
+                ex->CalculateStat(CrewStat::CAN_MOVE, def, &ret);
+                return ret;
+            }
+        }
+        else if (!requiresFullControl)
         {
             ret = def->selectable;
         }
@@ -54,6 +62,47 @@ bool CrewMember::_HS_GetControllable()
             def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
         }
         ex->CalculateStat(CrewStat::NO_AI, def, &ret);
+        if (!ret)
+        {
+            ex->CalculateStat(CrewStat::CAN_MOVE, def, &ret);
+            return !ret;
+        }
+    }
+
+    return ret;
+}
+
+bool CrewMember_Extend::IsController(bool ai)
+{
+    bool ret = !orig->bDead && orig->Functional();
+
+    if (ret)
+    {
+        ret = orig->iShipId == 0 && !orig->bMindControlled;
+
+        if (!ret && orig->iShipId == 1 && orig->bMindControlled)
+        {
+            ShipManager *ship = G_->GetShipManager(0);
+            if (ship) ret = ship->HasAugmentation("MIND_ORDER");
+        }
+    }
+
+    CrewDefinition *def = GetDefinition();
+
+    if (ret)
+    {
+        CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+    }
+
+    if (ai)
+    {
+        if (ret) return false;
+        CalculateStat(CrewStat::NO_AI, def, &ret);
+        return !ret;
+    }
+    else
+    {
+        return ret;
     }
 
     return ret;
@@ -176,6 +225,20 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -1000, () -> void)
     currentCrewLoop = nullptr;
 }
 
+HOOK_METHOD(CrewMember, MoveToRoom, (int roomId, int slotId, bool bForceMove) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::MoveToRoom -> Begin (CrewVTable.cpp)\n")
+    if (currentCrewLoop == this)
+    {
+        bool canMove;
+        auto ex = CM_EX(this);
+        auto def = ex->GetDefinition();
+        ex->CalculateStat(CrewStat::CAN_MOVE, def, &canMove);
+        if (!canMove) return false;
+    }
+    return super(roomId, slotId, bForceMove);
+}
+
 HOOK_METHOD(CrewAnimation, OnUpdateEffects, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnUpdateEffects -> Begin (CrewVTable.cpp)\n")
@@ -246,52 +309,78 @@ bool CrewMember::_HS_HasSpecialPower()
 {
     auto ex = CM_EX(this);
 
-    return ex->hasSpecialPower;
+    return !ex->crewPowers.empty();
 }
 
 std::pair<float, float> CrewMember::_HS_GetPowerCooldown()
 {
     auto ex = CM_EX(this);
-    return ex->powerCooldown;
+
+    if (ex->crewPowers.empty())
+    {
+        return {0.f, 1.f};
+    }
+    else
+    {
+        return ex->crewPowers[0]->powerCooldown;
+    }
 }
 
 bool CrewMember::_HS_PowerReady()
 {
     auto ex = CM_EX(this);
 
-    auto readyState = ex->PowerReady();
-
-    return readyState == PowerReadyState::POWER_READY;
+    if (ex->crewPowers.empty())
+    {
+        return false;
+    }
+    else
+    {
+        return ex->crewPowers[0]->PowerReady() == PowerReadyState::POWER_READY;
+    }
 }
 
 void CrewMember::_HS_ResetPower()
 {
     auto ex = CM_EX(this);
-
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
-    auto powerDef = ex->GetPowerDef();
 
-    auto jumpCooldown = powerDef->jumpCooldown;
-
-    if (jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
+    if (!ex->crewPowers.empty())
     {
-        ex->powerCooldown.first = ex->powerCooldown.second;
-    }
-    else if (jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_RESET)
-    {
-        ex->powerCooldown.first = 0;
-    }
+        // Calculate modified stats from stat boosts
+        ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def);
 
-    ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + (int)ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def));
+        // Update properties
+        for (ActivatedPower *power : ex->crewPowers)
+        {
+            // Update cooldown
+            if (power->def->jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
+            {
+                power->powerCooldown.first = power->powerCooldown.second;
+            }
+            else if (power->def->jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_RESET)
+            {
+                power->powerCooldown.first = 0;
+            }
+
+            // Update charges
+            power->powerCharges.first = std::min(power->powerCharges.second, power->powerCharges.first + (int)power->modifiedChargesPerJump);
+        }
+    }
 }
 
-// To be used by AI only
+// To be used by AI only: vanilla activation (will activate first ability)
 void CrewMember::_HS_ActivatePower()
 {
     if (this->GetPowerOwner() == 1)
     {
-        CM_EX(this)->PreparePower();
+        auto ex = CM_EX(this);
+
+        if (!ex->crewPowers.empty())
+        {
+            ex->crewPowers[0]->PreparePower();
+        }
     }
 }
 
@@ -418,7 +507,9 @@ void SetupVTable(CrewMember *crew)
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CrewVTable.cpp)\n")
+
     super(bp, shipId, intruder, animation);
+    iManningId = -1; // initialize to prevent crew AI crashes
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 

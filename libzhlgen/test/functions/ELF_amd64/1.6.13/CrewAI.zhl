@@ -1,5 +1,7 @@
 "41574156415541544989f45589d5534889fb4883ec18":
 cleanup __amd64 int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember *crew, int roomId, int target);
+".415641554989fd4154554863ea5389f34883ec50":
+cleanup __amd64 int CrewAI::DangerRating(CrewAI *this, int roomId, int crewId);
 ".4156415541544531e45531ed534889fb4883ec20":
 cleanup __amd64 void CrewAI::CheckForHealing(CrewAI *this);
 ".415641554989fd41544189d4554863e95389f34883ec10":

@@ -1,5 +1,7 @@
 "575381ec84000000a1????????":
 static cleanup __cdecl ShipGraph* ShipGraph::GetShipInfo(int shipId);
+"5589e5565383ec208b550c8b4d14":
+cleanup __cdecl Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
 "5589e557565383ec4c8b7d0c8b75148b4518":
 cleanup __cdecl Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 "538b4424088b4c240c8b58188b501c":
@@ -101,13 +103,6 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 		
 		return Pointf(xx, yy);
-	}
-	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int roomId, int slotId)
-	{
-		Globals::Rect rect = rooms[roomId]->rect;
-		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
 	}
 	
 }};

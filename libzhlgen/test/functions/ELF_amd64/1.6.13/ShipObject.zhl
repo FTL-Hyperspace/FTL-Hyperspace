@@ -17,3 +17,8 @@ cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std:
 
 "!8b570831c0488b0d(???????\?)85d20f94c0488d14004801c2":
 offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;
+
+struct ShipObject
+{{
+	int HS_HasEquipment(const std::string& equip);
+}};

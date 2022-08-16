@@ -2,6 +2,7 @@
 #include "Projectile_Extend.h"
 #include "CustomWeapons.h"
 #include "CrewSpawn.h"
+#include "ShipManager_Extend.h"
 #include <boost/lexical_cast.hpp>
 
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
@@ -10,11 +11,10 @@ Projectile* CustomDamageManager::currentProjectile = nullptr;
 CustomDamageDefinition CustomDamageDefinition::defaultDef = CustomDamageDefinition();
 std::vector<CustomDamageDefinition*> CustomDamageDefinition::customDamageDefs = {&CustomDamageDefinition::defaultDef};
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
-    //Damage* dmg = (Damage*)&dmgParam;
-    bool ret = super(location, dmgParam, forceHit);
+    bool ret = super(location, dmg, forceHit);
 
     if (ret)
     {
@@ -31,17 +31,31 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
                     CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, location);
                 }
             }
+
+            int room = ship.GetSelectedRoomId(location.x, location.y, true);
+
+            if (room > -1)
+            {
+                rng = random32() % 10;
+
+                if (rng < custom->def->roomStatBoostChance)
+                {
+                    for (auto statBoostDef : custom->def->roomStatBoosts)
+                    {
+                        SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room, 1, custom->sourceShipId);
+                    }
+                }
+            }
         }
     }
 
     return ret;
 }
 
-HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, DamageParameter dmgParam) -> bool)
+HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomDamage.cpp)\n")
-    //Damage* dmg = (Damage*)&dmgParam;
-    bool ret = super(location1, location2, dmgParam);
+    bool ret = super(location1, location2, dmg);
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
@@ -64,6 +78,22 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
                 }
             }
         }
+
+        int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
+        int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
+
+        if (room1 > -1 && room1 != room2)
+        {
+            int rng = random32() % 10;
+
+            if (rng < custom->def->roomStatBoostChance)
+            {
+                for (auto statBoostDef : custom->def->roomStatBoosts)
+                {
+                    SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room1, 1, custom->sourceShipId);
+                }
+            }
+        }
     }
 
     return ret;
@@ -82,25 +112,25 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
     return ret;
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParameter dmgParam) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, Damage dmg) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageSystem -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->def->noSysDamage)
     {
-        dmgParam.iSystemDamage -= dmgParam.iDamage;
+        dmg.iSystemDamage -= dmg.iDamage;
     }
 
-    super(roomId, dmgParam);
+    super(roomId, dmg);
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamageParameter dmgParameter) -> char)
+HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageCrew -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
         if (CustomDamageManager::currentWeaponDmg->def->noPersDamage)
         {
-            dmgParameter.iPersDamage -= dmgParameter.iDamage;
+            dmg.iPersDamage -= dmg.iDamage;
         }
 
         int rng = random32() % 10;
@@ -116,7 +146,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
         }
     }
 
-    return super(crew, dmgParameter);
+    return super(crew, dmg);
 }
 
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
@@ -135,7 +165,7 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
     //CustomDamageManager::currentWeaponDmg = nullptr;
 }
 
-HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, DamageParameter damage, bool raytrace) -> CollisionResponse)
+HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CollisionMoving -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg && CustomDamageManager::currentWeaponDmg->def->ionBeamFix && CustomDamageManager::currentProjectile)
@@ -152,7 +182,7 @@ HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, DamagePa
 
 
 //rewrite
-HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, DamageParameter damage, bool raytrace) -> CollisionResponse)
+HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
 	CollisionResponse ret = CollisionResponse();
@@ -225,6 +255,12 @@ HOOK_STATIC(ProjectileFactory, LoadProjectile, (int fh) -> Projectile*)
 {
     LOG_HOOK("HOOK_STATIC -> ProjectileFactory::LoadProjectile -> Begin (CustomDamage.cpp)\n")
     Projectile *ret = super(fh);
+
+    if (!ret)
+    {
+        hs_log_file("ProjectileFactory::LoadProjectile failed!");
+        return ret;
+    }
 
     Projectile_Extend *ex = PR_EX(ret);
 

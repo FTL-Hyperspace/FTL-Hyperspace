@@ -39,7 +39,7 @@ HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) 
 
             Room* room = ship->ship.vRoomList.at(selectedRoom);
             tile = ((wX - room->rect.x) / 35 + (room->rect.w / 35) * ((wY - room->rect.y) / 35) );
-            if (tile < 0 || tile > (room->rect.w / 35)*(room->rect.h / 35))
+            if (tile < 0 || tile >= (room->rect.w / 35)*(room->rect.h / 35))
             {
                 return super(x, y, shiftHeld);
             }

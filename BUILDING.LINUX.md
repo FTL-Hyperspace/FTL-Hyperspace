@@ -6,9 +6,10 @@ So, you'll need *CodeBlocks* installed
 Install several libraries needed for building
 Boost C++ library
 libSDL2 (and the 32-bit version)
+SWIG 4
 liblua5.3-dev (you can probably use liblua5.4-dev without issue but current code is built against 5.3)
 On Ubuntu it's
-`sudo apt-get install libboost-all-dev lua5.3 liblua5.3-dev libsdl2-dev:i386 libsdl2-dev`
+`sudo apt-get install libboost-all-dev lua5.3 liblua5.3-dev libsdl2-dev:i386 libsdl2-dev swig`
 
 You need `gcc` and all the basic C dev stuff
 `sudo apt-get install build-essential gcc-multilib g++-multilib`

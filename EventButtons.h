@@ -31,6 +31,10 @@ struct EventButtonDefinition
     int margin_border = 12;
     int margin_text = 3;
 
+    std::string req = "";
+    int lvl = 1;
+    int max_lvl = 2147483647;
+
     bool jumpClear = false;
     bool once = false;
     bool hideInactive = false;
@@ -63,6 +67,7 @@ struct EventButton
     void OnInitImage();
     void OnInitText();
     void OnLanguageChange();
+    bool CheckReq();
 
     EventButtonDefinition *def = nullptr;
 

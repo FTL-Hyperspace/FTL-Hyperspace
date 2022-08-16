@@ -173,6 +173,10 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> noClone;
     ToggleValue<bool> noAI;
     ToggleValue<bool> validTarget;
+    ToggleValue<bool> canMove;
+    ToggleValue<bool> teleportMove;
+    ToggleValue<bool> teleportMoveOtherShip;
+    ToggleValue<bool> silenced;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -245,6 +249,13 @@ struct ActivatedPowerDefinition
         JUMP_COOLDOWN_CONTINUE
     };
 
+    enum ON_DEATH
+    {
+        ON_DEATH_CONTINUE,
+        ON_DEATH_CANCEL,
+        ON_DEATH_RESET
+    };
+
     static std::vector<ActivatedPowerDefinition> powerDefs;
 
     void AssignIndex()
@@ -261,21 +272,25 @@ struct ActivatedPowerDefinition
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int onDeath = ON_DEATH_RESET;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
+    int respawnCharges = 0;
 
 
     std::vector<std::string> sounds;
+    std::vector<std::string> effectSounds;
     bool soundsEnemy = true;
-
+    bool effectSoundsEnemy = true;
 
     TextString buttonLabel;
     GL_Color cooldownColor;
 
     TextString tooltip;
     std::string effectAnim;
+    std::string effectPostAnim;
 
     ActivatedPowerRequirements playerReq;
     ActivatedPowerRequirements enemyReq;
@@ -296,6 +311,7 @@ struct ActivatedPowerDefinition
     std::vector<CrewSpawn*> crewSpawns;
 
     std::vector<StatBoostDefinition*> statBoosts;
+    std::vector<StatBoostDefinition*> roomStatBoosts;
 
     std::array<std::string,2> event = {"",""};
 
@@ -365,20 +381,20 @@ struct CrewDefinition
     bool noClone = false;
     bool noAI = false;
     bool validTarget = true;
-    bool canPunch = true;
+    ToggleValue<bool> canPunch;
+    bool canMove = true;
+    bool snapToSlot = false;
+    bool teleportMove = false;
+    bool teleportMoveOtherShip = false;
     float essential = 0.f;
+    bool silenced = false;
 
     std::pair<int,int> shootTimer = {-1, -1};
     std::pair<int,int> punchTimer = {-1, -1};
 
     ExplosionDefinition explosionDef;
 
-    //ActivatedPowerDefinition powerDef;
     unsigned int powerDefIdx = 0;
-    ActivatedPowerDefinition* GetPowerDef() const
-    {
-        return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
-    }
 
     std::vector<StatBoostDefinition*> passiveStatBoosts;
 

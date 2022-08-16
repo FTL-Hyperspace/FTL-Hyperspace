@@ -34,6 +34,7 @@ struct ExplosionDefinition
     Damage damage;
     bool shipFriendlyFire = false;
     std::vector<StatBoostDefinition*> statBoosts;
+    std::vector<StatBoostDefinition*> roomStatBoosts;
     std::vector<CrewSpawn*> crewSpawns;
     std::string transformRace = "";
     float transformRaceHealth = 0.f;

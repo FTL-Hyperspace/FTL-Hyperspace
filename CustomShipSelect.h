@@ -1,6 +1,7 @@
 #pragma once
 #include "Global.h"
 #include "ToggleValue.h"
+#include "Room_Extend.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -47,12 +48,6 @@ struct ShipButtonDefinition
     {
         return (variant == 0 && typeA == 2) || (variant == 1 && typeB == 2) || (variant == 2 && typeC == 2);
     }
-};
-
-struct RoomAnimDef
-{
-    int renderLayer;
-    std::string animName;
 };
 
 struct RoomDefinition
@@ -124,6 +119,7 @@ public:
         if (variant == 0) return a;
         if (variant == 1) return b;
         if (variant == 2) return c;
+        return nullptr;
     }
 
     int GetPage()
@@ -324,6 +320,7 @@ public:
         if (type == 0) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeA; } );
         if (type == 1) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeB; } );
         if (type == 2) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeC; } );
+        return 0;
     }
 
     bool IsCustomShip(const std::string& id)

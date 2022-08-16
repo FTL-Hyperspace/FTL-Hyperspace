@@ -2,6 +2,7 @@
 #pragma GCC optimize ("O3")
 
 #include "CrewMember_Extend.h"
+#include "Room_Extend.h"
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
@@ -53,20 +54,24 @@ const std::array<std::string, numStats> crewStats =
     "detectsLifeforms",
     "cloneLoseSkills",
     "powerDrainFriendly",
-    "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
-    "powerCharges",
-    "chargesPerJump",
     "hackDoors",
     "noClone",
     "noSlot",
     "noAI",
     "validTarget",
+    "canMove",
+    "teleportMove",
+    "teleportMoveOtherShip",
+    "silenced",
     // non-cached stats
+    "activateWhenReady",
     "statBoost",
     "deathEffect",
     "powerEffect",
+    "powerCharges",
+    "chargesPerJump",
     "transformRace"
 };
 
@@ -76,7 +81,7 @@ unsigned int StatBoostManager::statCacheFrame = 1;
 
 StatBoostManager StatBoostManager::instance = StatBoostManager();
 
-StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource)
+StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased)
 {
     StatBoostDefinition *def;
     bool newDef = false;
@@ -94,7 +99,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
             else
             {
                 def = savedDef->second;
-                if (boostSource != def->boostSource)
+                if (boostSource != def->boostSource || isRoomBased != def->isRoomBased)
                 {
                     newDef = true; // mismatched source needs a new def
                 }
@@ -117,6 +122,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
     {
         def->GiveId();
         def->boostSource = boostSource;
+        def->isRoomBased = isRoomBased;
         auto stat = std::find(crewStats.begin(), crewStats.end(), node->first_attribute("name")->value());
         if (stat != crewStats.end())
         {
@@ -128,7 +134,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 std::string val = child->value();
                 if (name == "statBoost")
                 {
-                    def->providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW));
+                    def->providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW, false));
                 }
                 if (name == "boostType")
                 {
@@ -157,15 +163,20 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                         def->boostType = StatBoostDefinition::BoostType::MAX;
                     }
                 }
+
                 if (name == "amount")
                 {
                     def->amount = boost::lexical_cast<float>(val);
-
                 }
                 if (name == "value")
                 {
                     def->value = EventsParser::ParseBoolean(val);
                 }
+                if (name == "dangerRating")
+                {
+                    def->dangerRating = boost::lexical_cast<float>(val);
+                }
+
                 if (name == "race" && def->stat == CrewStat::TRANSFORM_RACE)
                 {
                     def->stringValue = val;
@@ -178,6 +189,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->duration = boost::lexical_cast<float>(val);
                 }
+                if (name == "jumpClear")
+                {
+                    def->jumpClear = EventsParser::ParseBoolean(val);
+                }
                 if (name == "priority")
                 {
                     def->priority = boost::lexical_cast<int>(val);
@@ -185,6 +200,11 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 if (name == "boostAnim")
                 {
                     def->boostAnim = val;
+                }
+                if (name == "roomAnim")
+                {
+                    def->roomAnim = new RoomAnimDef();
+                    def->roomAnim->ParseRoomAnimNode(child);
                 }
                 if (name == "affectsSelf")
                 {
@@ -364,6 +384,11 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     if (child->first_attribute("above")) def->oxygenReq.first = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
                     if (child->first_attribute("below")) def->oxygenReq.second = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
                 }
+                if (name == "fireCount")
+                {
+                    if (child->first_attribute("min")) def->fireCount.first = boost::lexical_cast<int>(child->first_attribute("min")->value());
+                    if (child->first_attribute("max")) def->fireCount.second = boost::lexical_cast<int>(child->first_attribute("max")->value());
+                }
                 if (name == "extraConditions")
                 {
                     auto &extraConditions = (child->first_attribute("type") && strcmp(child->first_attribute("type")->value(), "or") == 0) ? def->extraOrConditions : def->extraConditions;
@@ -532,6 +557,7 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
     statBoost.iStacks = nStacks;
 
     statBoost.sourceShipId = shipId;
+    statBoost.crewSourceId = 0;
 
     if (!def->systemList.empty())
     {
@@ -587,6 +613,11 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
         animBoosts.push_back(statBoost);
     }
 
+    if (statBoost.def->dangerRating != -1.f)
+    {
+        dangerBoosts.push_back(statBoost);
+    }
+
     CreateRecursiveBoosts(statBoost, nStacks);
 }
 
@@ -602,7 +633,7 @@ void StatBoostManager::CreateCrewBoost(StatBoostDefinition* def, CrewMember* oth
 
 void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew)
 {
-    statBoost.sourceShipId = otherCrew->currentShipId; // the ship that the crewmember providing the boost is on
+    statBoost.sourceShipId = otherCrew->iShipId; // the owner of the source crew
     if (!statBoost.def->systemList.empty())
     {
         for (auto system : statBoost.def->systemList)
@@ -657,6 +688,11 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
         animBoosts.push_back(statBoost);
     }
 
+    if (statBoost.def->dangerRating != -1.f)
+    {
+        dangerBoosts.push_back(statBoost);
+    }
+
     CreateRecursiveBoosts(statBoost, 1);
 }
 
@@ -687,20 +723,43 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, 
     }
 }
 
+void StatBoostManager::AddRoomStatBoosts(ShipManager *ship)
+{
+    for (Room *room : ship->ship.vRoomList)
+    {
+        for (RoomStatBoost &roomBoost : RM_EX(room)->statBoosts)
+        {
+            statBoosts[roomBoost.statBoost.def->stat].push_back(roomBoost.statBoost);
+
+            if (roomBoost.statBoost.def->boostAnim != "")
+            {
+                animBoosts.push_back(roomBoost.statBoost);
+            }
+
+            if (roomBoost.statBoost.def->dangerRating != -1.f)
+            {
+                dangerBoosts.push_back(roomBoost.statBoost);
+            }
+        }
+    }
+}
+
 void StatBoostManager::OnLoop(WorldManager* world)
 {
-    statBoosts.clear();
-    animBoosts.clear();
+    Clear();
+
     playerShip = world->playerShip->shipManager;
     enemyShip = world->playerShip->enemyShip ? world->playerShip->enemyShip->shipManager : nullptr;
 
     if (playerShip != nullptr)
     {
         std::copy_if(playerShip->vCrewList.begin(), playerShip->vCrewList.end(), std::back_inserter(checkingCrewList), [](CrewMember *i){return !i->bDead;});
+        StatBoostManager::AddRoomStatBoosts(playerShip);
     }
     if (enemyShip != nullptr)
     {
         std::copy_if(enemyShip->vCrewList.begin(), enemyShip->vCrewList.end(), std::back_inserter(checkingCrewList), [](CrewMember *i){return !i->bDead;});
+        StatBoostManager::AddRoomStatBoosts(enemyShip);
     }
 
     // Check augment stat boosts
@@ -736,29 +795,34 @@ void StatBoostManager::OnLoop(WorldManager* world)
 
         if (functional)
         {
-            auto currentStatBoosts = std::vector<StatBoost>();
-
-            if (ex->temporaryPowerActive)
-            {
-                currentStatBoosts = ex->outgoingAbilityStatBoosts;
-            }
-            else
-            {
-                currentStatBoosts = ex->outgoingStatBoosts;
-            }
-
-            for (auto& statBoost : currentStatBoosts)
+            for (auto& statBoost : ex->outgoingStatBoosts)
             {
                 CreateCrewBoost(statBoost, otherCrew);
             }
         }
 
+        // Apply recursive boosts from timed boosts
         auto vStatBoosts = ex->timedStatBoosts.find(CrewStat::STAT_BOOST);
         if (vStatBoosts != ex->timedStatBoosts.end())
         {
             for (StatBoost& statBoost : vStatBoosts->second)
             {
-                CreateRecursiveBoosts(statBoost, statBoost.iStacks, true);
+                if (!statBoost.def->providedStatBoosts.empty())
+                {
+                    int recursiveCrewStacks = statBoost.iStacks;
+                    if (statBoost.def->stackId)
+                    {
+                        int& currentStacks = recursiveStackCount[otherCrew][statBoost.def->stackId];
+                        int maxStacks = statBoost.def->maxStacks - currentStacks;
+                        if (maxStacks <= 0) continue;
+                        if (recursiveCrewStacks > maxStacks) recursiveCrewStacks = maxStacks;
+                        currentStacks += recursiveCrewStacks;
+                    }
+                    for (StatBoostDefinition* recursiveBoostDef : statBoost.def->providedStatBoosts)
+                    {
+                        CreateCrewBoost(recursiveBoostDef, otherCrew, ex, recursiveCrewStacks);
+                    }
+                }
             }
         }
     }
@@ -808,16 +872,14 @@ void StatBoostManager::CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* 
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     super();
 }
 
 HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     super(fileName);
 }
 
@@ -839,11 +901,28 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    std::cout << "World manager time: " << ms_double.count();
 }
 
+HOOK_METHOD(WorldManager, PauseLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::PauseLoop -> Begin (StatBoost.cpp)\n")
+    StatBoostManager::GetInstance()->OnLoop(this);
+    super();
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
+
+
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "World manager time: " << ms_double.count();
+}
+
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     StatBoostManager::GetInstance()->statCacheFrame++;
     super();
 //    using std::chrono::steady_clock;
@@ -862,10 +941,27 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 HOOK_METHOD(WorldManager, Restart, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     StatBoostManager::GetInstance()->statCacheFrame++;
     super();
+}
+
+HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -1000, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)
+{
+    LOG_HOOK("HOOK_STATIC_PRIORITY -> ShipGenerator::CreateShip -> Begin (StatBoost.cpp)\n")
+
+    WorldManager *worldManager = G_->GetWorld();
+
+    // clear the old enemy ship augments
+    G_->GetShipInfo(1)->augList.clear();
+    StatBoostManager::GetInstance()->OnLoop(worldManager);
+
+    ShipManager *ret = super(name, sector, event);
+
+    // loop again for the new enemy ship
+    StatBoostManager::GetInstance()->OnLoop(worldManager);
+
+    return ret;
 }
 
 HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
@@ -884,8 +980,7 @@ HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
     }
     else
     {
-        statBoostManager->statBoosts.clear();
-        statBoostManager->animBoosts.clear();
+        StatBoostManager::GetInstance()->Clear();
         statBoostManager->statCacheFrame++;
     }
 
@@ -940,13 +1035,339 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
     LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (StatBoost.cpp)\n")
     super(fh);
 
-    for (StatBoost *statBoost : StatBoostManager::GetInstance()->loadingStatBoosts)
+    // Find crew sources for timed stat boosts on crew
+    CrewMemberFactory *crewFactory = G_->GetCrewFactory();
+    for (CrewMember *crew : crewFactory->crewMembers)
     {
-        statBoost->FindCrewSource();
+        CrewMember_Extend *ex = CM_EX(crew);
+        for (auto &vStatBoosts : ex->timedStatBoosts)
+        {
+            for (StatBoost &statBoost : vStatBoosts.second)
+            {
+                statBoost.FindCrewSource();
+            }
+        }
     }
 
-    StatBoostManager::GetInstance()->loadingStatBoosts.clear();
+    // Find crew sources for room stat boosts on ships
+    for (int i=0; i<2; ++i)
+    {
+        ShipManager *shipManager = G_->GetShipManager(i);
+        if (shipManager)
+        {
+            for (Room *room : shipManager->ship.vRoomList)
+            {
+                Room_Extend *rex = RM_EX(room);
+                for (RoomStatBoost &statBoost : rex->statBoosts)
+                {
+                    statBoost.statBoost.FindCrewSource();
+                }
+            }
+        }
+    }
 }
+
+// Save/load stat boosts
+
+void StatBoost::Save(int fd)
+{
+    FileHelper::writeInt(fd, def->realBoostId);
+    FileHelper::writeInt(fd, iStacks);
+    FileHelper::writeInt(fd, crewSourceId);
+    FileHelper::writeInt(fd, sourceShipId);
+    FileHelper::writeFloat(fd, timerHelper.currGoal);
+    FileHelper::writeFloat(fd, timerHelper.currTime);
+}
+
+StatBoost StatBoost::LoadStatBoost(int fd)
+{
+    StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(fd)));
+    statBoost.iStacks = FileHelper::readInteger(fd);
+    statBoost.crewSourceId = FileHelper::readInteger(fd);
+    statBoost.sourceShipId = FileHelper::readInteger(fd);
+
+    if (statBoost.def->duration != -1.f)
+    {
+        statBoost.timerHelper.Start(FileHelper::readFloat(fd));
+        statBoost.timerHelper.currTime = FileHelper::readFloat(fd);
+    }
+    else
+    {
+        statBoost.timerHelper.currGoal = FileHelper::readFloat(fd);
+        statBoost.timerHelper.currTime = FileHelper::readFloat(fd);
+        statBoost.timerHelper.running = false;
+    }
+
+    return statBoost;
+}
+
+// Room stat boosts
+
+bool StatBoostDefinition::TestRoomStatBoostSystem(ShipManager *ship, int room)
+{
+    if (!systemList.empty())
+    {
+        ShipSystem *sys = ship->GetSystemInRoom(room);
+        if (sys)
+        {
+            for (auto& systemName : systemList)
+            {
+                if (systemName == "all")
+                {
+                    if (systemRoomTarget == SystemRoomTarget::ALL) return true; // apply to any system room
+                    else if (systemRoomTarget == SystemRoomTarget::NONE) return false; // don't apply to any system room
+                }
+                else
+                {
+                    if (ShipSystem::NameToSystemId(systemName) == sys->iSystemType)
+                    {
+                        if (systemRoomTarget == SystemRoomTarget::ALL) return true; // whitelisted system
+                        else if (systemRoomTarget == SystemRoomTarget::NONE) return false; // blacklisted system
+                    }
+                }
+            }
+            if (systemRoomTarget == SystemRoomTarget::ALL) return false; // didn't find correct system so don't apply stat boost
+        }
+        else
+        {
+            if (systemRoomTarget == SystemRoomTarget::ALL) return false; // don't apply stat boost to empty room
+        }
+    }
+    return true;
+}
+
+void ShipManager_Extend::CreateRoomStatBoost(StatBoost &&statBoost, int room)
+{
+    if (orig->iShipId == 1)
+    {
+        statBoost.sourceRoomIds.second.push_back(room);
+    }
+    else
+    {
+        statBoost.sourceRoomIds.first.push_back(room);
+    }
+
+    statBoost.timerHelper = TimerHelper(false);
+
+    if (statBoost.def->duration != -1.f)
+    {
+        statBoost.timerHelper.Start(statBoost.def->duration);
+    }
+    else
+    {
+        statBoost.timerHelper.currTime = 0.f;
+        statBoost.timerHelper.currGoal = 0.f;
+        statBoost.timerHelper.running = false;
+    }
+
+    auto &vStatBoosts = RM_EX(orig->ship.vRoomList[room])->statBoosts;
+
+    if (statBoost.def->duration == -1.f) // optimization for persistent stacking boosts
+    {
+        for (auto& otherBoost : vStatBoosts)
+        {
+            if (otherBoost.statBoost.crewSourceId == statBoost.crewSourceId && otherBoost.statBoost.sourceShipId == statBoost.sourceShipId)
+            {
+                // same boost; add stacks
+                if (otherBoost.statBoost.def == statBoost.def)
+                {
+                    otherBoost.statBoost.iStacks = std::min(otherBoost.statBoost.iStacks + statBoost.iStacks, statBoost.def->maxStacks);
+                    return;
+                }
+                // check for same stack id, lower priority
+                else if ((statBoost.def->stackId == otherBoost.statBoost.def->stackId) &&
+                         (statBoost.def->priority > otherBoost.statBoost.def->priority))
+                {
+                    // max stacks fewer than new boost's stacks
+                    if (statBoost.iStacks >= otherBoost.statBoost.def->maxStacks)
+                    {
+                        // overwrite otherBoost
+                        otherBoost = RoomStatBoost(std::move(statBoost), orig->ship.vRoomList[room]);
+                        return;
+                    }
+                    else if (otherBoost.statBoost.def->maxStacks - statBoost.iStacks < otherBoost.statBoost.iStacks)
+                    {
+                        // other boost loses extraneous stacks that will be masked by the new boost
+                        otherBoost.statBoost.iStacks = otherBoost.statBoost.def->maxStacks - statBoost.iStacks;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        for (auto& otherBoost : vStatBoosts)
+        {
+            if (otherBoost.statBoost.crewSourceId == statBoost.crewSourceId && otherBoost.statBoost.sourceShipId == statBoost.sourceShipId) // must be same crew/ship source
+            {
+                // same boost and has at least the max stacks
+                if (otherBoost.statBoost.def == statBoost.def)
+                {
+                    if (statBoost.iStacks >= statBoost.def->maxStacks)
+                    {
+                        // refresh stacks and timer
+                        otherBoost.statBoost.iStacks = statBoost.iStacks;
+                        otherBoost.statBoost.timerHelper = statBoost.timerHelper;
+                        return;
+                    }
+                }
+                // check for same stack id, with less time left, lower priority, and max stacks fewer than new boost's stacks
+                else if ((statBoost.def->stackId == otherBoost.statBoost.def->stackId) &&
+                         (otherBoost.statBoost.def->duration != -1.f && otherBoost.statBoost.timerHelper.currGoal-otherBoost.statBoost.timerHelper.currTime <= statBoost.def->duration) &&
+                         (statBoost.def->priority > otherBoost.statBoost.def->priority) &&
+                         (statBoost.iStacks >= otherBoost.statBoost.def->maxStacks))
+                {
+                    // overwrite otherBoost
+                    otherBoost = RoomStatBoost(std::move(statBoost), orig->ship.vRoomList[room]);
+                    return;
+                }
+            }
+        }
+    }
+
+    vStatBoosts.emplace_back(std::move(statBoost), orig->ship.vRoomList[room]);
+}
+
+void ShipManager_Extend::CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, int sourceShipId)
+{
+    if (room < 0) return;
+
+    switch (statBoostDef.shipTarget)
+    {
+    case StatBoostDefinition::ShipTarget::PLAYER_SHIP:
+        if (orig->iShipId != 0) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ORIGINAL_SHIP:
+    case StatBoostDefinition::ShipTarget::CURRENT_ALL:
+        if (orig->iShipId != sourceShipId) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP:
+    case StatBoostDefinition::ShipTarget::OTHER_ALL:
+        if (orig->iShipId == sourceShipId) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
+        if (orig->iShipId != 1) return;
+        break;
+    }
+
+    if (!statBoostDef.TestRoomStatBoostSystem(orig, room)) return;
+
+    StatBoost statBoost = StatBoost(statBoostDef);
+
+    statBoost.iStacks = nStacks;
+    statBoost.sourceShipId = sourceShipId;
+    statBoost.crewSourceId = 0;
+
+    CreateRoomStatBoost(std::move(statBoost), room);
+}
+
+void ShipManager_Extend::CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, CrewMember *crewSource)
+{
+    if (room < 0) return;
+
+    switch (statBoostDef.shipTarget)
+    {
+    case StatBoostDefinition::ShipTarget::PLAYER_SHIP:
+        if (orig->iShipId != 0) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
+        if (orig->iShipId != 1) return;
+        break;
+    }
+
+    if (!statBoostDef.TestRoomStatBoostSystem(orig, room)) return;
+
+    StatBoost statBoost = StatBoost(statBoostDef);
+
+    statBoost.iStacks = nStacks;
+    statBoost.crewSource = crewSource;
+    statBoost.crewSourceId = CM_EX(crewSource)->selfId;
+    statBoost.sourceShipId = crewSource->iShipId;
+
+    CreateRoomStatBoost(std::move(statBoost), room);
+}
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (StatBoost.cpp)\n")
+    super();
+
+    for (Room *room : ship.vRoomList)
+    {
+        auto &vRoomStatBoosts = RM_EX(room)->statBoosts;
+        for (RoomStatBoost& statBoost : vRoomStatBoosts)
+        {
+            statBoost.statBoost.timerHelper.Update();
+            if (statBoost.roomAnim)
+            {
+                statBoost.roomAnim->OnUpdate();
+            }
+        }
+        vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
+                                             vRoomStatBoosts.end(),
+                                             [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
+                                             vRoomStatBoosts.end());
+    }
+}
+
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (StatBoost.cpp)\n")
+    super(bp);
+
+    for (Room *room : vRoomList)
+    {
+        RM_EX(room)->statBoosts.clear();
+    }
+}
+
+HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (StatBoost.cpp)\n")
+    super(fd);
+
+    for (Room *room : ship.vRoomList)
+    {
+        Room_Extend *ex = RM_EX(room);
+
+        FileHelper::writeInt(fd, ex->statBoosts.size());
+        for (RoomStatBoost &statBoost : ex->statBoosts)
+        {
+            statBoost.statBoost.Save(fd);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (StatBoost.cpp)\n")
+    super(fd);
+
+    int n;
+
+    for (Room *room : ship.vRoomList)
+    {
+        Room_Extend *ex = RM_EX(room);
+
+        n = FileHelper::readInteger(fd);
+        for (int i=0; i<n; ++i)
+        {
+            ex->statBoosts.emplace_back(StatBoost::LoadStatBoost(fd), room);
+
+            // set room
+            if (iShipId == 1)
+            {
+                ex->statBoosts.back().statBoost.sourceRoomIds.second.push_back(room->iRoomId);
+            }
+            else
+            {
+                ex->statBoosts.back().statBoost.sourceRoomIds.first.push_back(room->iRoomId);
+            }
+        }
+    }
+}
+
+// Timed stat boosts
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
@@ -954,13 +1375,26 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
     super();
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    /*
-    for (auto i : this->vCrewList)
+    for (CrewMember* i : this->vCrewList)
     {
         auto ex = CM_EX(i);
-        ex->timedStatBoosts.clear();
+        for (auto& timedBoosts : ex->timedStatBoosts)
+        {
+            timedBoosts.second.erase(std::remove_if(timedBoosts.second.begin(),
+                                                    timedBoosts.second.end(),
+                                                    [](StatBoost& statBoost) { return statBoost.def->jumpClear; }),
+                                                    timedBoosts.second.end());
+        }
     }
-    */
+    for (Room *room : this->ship.vRoomList)
+    {
+        auto &statBoosts = RM_EX(room)->statBoosts;
+
+        statBoosts.erase(std::remove_if(statBoosts.begin(),
+                                        statBoosts.end(),
+                                        [](RoomStatBoost& statBoost) { return statBoost.statBoost.def->jumpClear; }),
+                                        statBoosts.end());
+    }
 
     if (G_->GetShipInfo(0) != nullptr)
     {
@@ -1062,53 +1496,19 @@ bool CrewMember_Extend::CheckExtraCondition(CrewExtraCondition condition)
     case CrewExtraCondition::DYING:
         return orig->crewAnim->status == 3;
     case CrewExtraCondition::TELEPORTING:
-        if (orig->crewAnim->status == 6)
-        {
-            CompleteShip *ship = G_->GetWorld()->playerShip;
-            if (ship)
-            {
-                for (CrewMember *crew : ship->arrivingParty)
-                {
-                    if (crew == orig)
-                    {
-                        return true;
-                    }
-                }
-                for (CrewMember *crew : ship->leavingParty)
-                {
-                    if (crew == orig)
-                    {
-                        return true;
-                    }
-                }
-                ship = ship->enemyShip;
-                if (ship)
-                {
-                    for (CrewMember *crew : ship->arrivingParty)
-                    {
-                        if (crew == orig)
-                        {
-                            return true;
-                        }
-                    }
-                    for (CrewMember *crew : ship->leavingParty)
-                    {
-                        if (crew == orig)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+        return customTele.teleporting;
     }
     return false;
 }
 
-bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
+bool CrewMember_Extend::BoostCheck(StatBoost& statBoost, int checkRoomId)
 {
     int ownerShip;
+
+    if (checkRoomId == -1)
+    {
+        checkRoomId = orig->iRoomId;
+    }
 
     switch (statBoost.def->boostSource)
     {
@@ -1144,7 +1544,7 @@ bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
             if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId) return false;
             break;
         case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
-            if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
+            if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId || checkRoomId != statBoost.crewSource->iRoomId) return false;
             break;
         case StatBoostDefinition::ShipTarget::CREW_TARGET:
             if (!statBoost.crewSource || (CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
@@ -1267,17 +1667,23 @@ bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
         break;
     }
 
-    if (!statBoost.def->systemList.empty())
+    if (statBoost.def->isRoomBased)
+    {
+        const std::vector<int> &sourceRoomIds = orig->currentShipId == 1 ? statBoost.sourceRoomIds.second : statBoost.sourceRoomIds.first;
+
+        if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), checkRoomId) == sourceRoomIds.end()) return false;
+    }
+    else if (!statBoost.def->systemList.empty())
     {
         const std::vector<int> &sourceRoomIds = orig->currentShipId == 1 ? statBoost.sourceRoomIds.second : statBoost.sourceRoomIds.first;
 
         switch (statBoost.def->systemRoomTarget)
         {
         case StatBoostDefinition::SystemRoomTarget::ALL:
-            if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), orig->iRoomId) == sourceRoomIds.end()) return false;
+            if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), checkRoomId) == sourceRoomIds.end()) return false;
             break;
         case StatBoostDefinition::SystemRoomTarget::NONE:
-            if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), orig->iRoomId) != sourceRoomIds.end()) return false;
+            if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), checkRoomId) != sourceRoomIds.end()) return false;
             break;
         }
     }
@@ -1298,8 +1704,10 @@ bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
     if (statBoost.def->healthReq.second != -1.f && orig->health.first > statBoost.def->healthReq.second) return false;
     if (statBoost.def->healthFractionReq.first != -1.f && orig->health.first/orig->health.second < statBoost.def->healthFractionReq.first) return false;
     if (statBoost.def->healthFractionReq.second != -1.f && orig->health.first/orig->health.second > statBoost.def->healthFractionReq.second) return false;
-    if (statBoost.def->oxygenReq.first != -1.f && ShipGraph::GetShipInfo(orig->currentShipId)->GetRoomOxygen(orig->iRoomId) < statBoost.def->oxygenReq.first) return false;
-    if (statBoost.def->oxygenReq.second != -1.f && ShipGraph::GetShipInfo(orig->currentShipId)->GetRoomOxygen(orig->iRoomId) > statBoost.def->oxygenReq.second) return false;
+    if (statBoost.def->oxygenReq.first != -1.f && (checkRoomId == -1 || ShipGraph::GetShipInfo(orig->currentShipId)->GetRoomOxygen(checkRoomId) < statBoost.def->oxygenReq.first)) return false;
+    if (statBoost.def->oxygenReq.second != -1.f && (checkRoomId == -1 || ShipGraph::GetShipInfo(orig->currentShipId)->GetRoomOxygen(checkRoomId) > statBoost.def->oxygenReq.second)) return false;
+    if (statBoost.def->fireCount.first != -1 && (checkRoomId == -1 || G_->GetShipManager(orig->currentShipId)->GetFireCount(checkRoomId) < statBoost.def->fireCount.first)) return false;
+    if (statBoost.def->fireCount.second != -1 && (checkRoomId == -1 || G_->GetShipManager(orig->currentShipId)->GetFireCount(checkRoomId) > statBoost.def->fireCount.second)) return false;
 
     if (!statBoost.def->extraConditions.empty())
     {
@@ -1339,6 +1747,19 @@ int CrewMember_Extend::CalculateMaxHealth(const CrewDefinition* def)
     }
 
     return maxHealth;
+}
+
+#define _CALCULATE_BASE_STAT(_destination, _statName) \
+{ \
+    _destination = def->_statName; \
+    for (ActivatedPower *power : crewPowers) \
+    { \
+        if (power->temporaryPowerActive && power->def->tempPower._statName.enabled) \
+        { \
+            _destination = power->def->tempPower._statName.value; \
+            break; \
+        } \
+    } \
 }
 
 float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue)
@@ -1420,79 +1841,108 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
     float finalStat = 0.f;
     bool isBool = false;
     bool isEffect = false;
+
     switch(stat)
     {
         case CrewStat::MAX_HEALTH:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.maxHealth.enabled) ? GetPowerDef()->tempPower.maxHealth.value : def->maxHealth;
+            _CALCULATE_BASE_STAT(finalStat, maxHealth);
             break;
         case CrewStat::STUN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.stunMultiplier.enabled) ? GetPowerDef()->tempPower.stunMultiplier.value : def->stunMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, stunMultiplier);
             break;
         case CrewStat::MOVE_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.moveSpeedMultiplier.enabled) ? GetPowerDef()->tempPower.moveSpeedMultiplier.value : def->moveSpeedMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, moveSpeedMultiplier);
             break;
         case CrewStat::REPAIR_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.repairSpeed.enabled) ? GetPowerDef()->tempPower.repairSpeed.value : def->repairSpeed;
+            _CALCULATE_BASE_STAT(finalStat, repairSpeed);
             break;
         case CrewStat::DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageMultiplier.enabled) ? GetPowerDef()->tempPower.damageMultiplier.value : def->damageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, damageMultiplier);
             break;
         case CrewStat::RANGED_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.rangedDamageMultiplier.enabled) ? GetPowerDef()->tempPower.rangedDamageMultiplier.value : def->rangedDamageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, rangedDamageMultiplier);
             break;
         case CrewStat::DOOR_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.doorDamageMultiplier.enabled) ? GetPowerDef()->tempPower.doorDamageMultiplier.value : def->doorDamageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, doorDamageMultiplier);
             break;
         case CrewStat::FIRE_REPAIR_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.fireRepairMultiplier.enabled) ? GetPowerDef()->tempPower.fireRepairMultiplier.value : def->fireRepairMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, fireRepairMultiplier);
             break;
         case CrewStat::SUFFOCATION_MODIFIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.suffocationModifier.enabled) ? GetPowerDef()->tempPower.suffocationModifier.value : def->suffocationModifier;
+            _CALCULATE_BASE_STAT(finalStat, suffocationModifier);
             break;
         case CrewStat::FIRE_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.fireDamageMultiplier.enabled) ? GetPowerDef()->tempPower.fireDamageMultiplier.value : def->fireDamageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, fireDamageMultiplier);
             break;
         case CrewStat::OXYGEN_CHANGE_SPEED:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.oxygenChangeSpeed.enabled) ? GetPowerDef()->tempPower.oxygenChangeSpeed.value : def->oxygenChangeSpeed;
+            _CALCULATE_BASE_STAT(finalStat, oxygenChangeSpeed);
             break;
         case CrewStat::DAMAGE_TAKEN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageTakenMultiplier.enabled) ? GetPowerDef()->tempPower.damageTakenMultiplier.value : def->damageTakenMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, damageTakenMultiplier);
             break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.passiveHealAmount.enabled) ? GetPowerDef()->tempPower.passiveHealAmount.value : def->passiveHealAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, passiveHealAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::TRUE_PASSIVE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.truePassiveHealAmount.enabled) ? GetPowerDef()->tempPower.truePassiveHealAmount.value : def->truePassiveHealAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, truePassiveHealAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::TRUE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.trueHealAmount.enabled) ? GetPowerDef()->tempPower.trueHealAmount.value : def->trueHealAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, trueHealAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::ACTIVE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.healAmount.enabled) ? GetPowerDef()->tempPower.healAmount.value : def->healAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, healAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::PASSIVE_HEAL_DELAY:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.passiveHealDelay.enabled) ? GetPowerDef()->tempPower.passiveHealDelay.value : def->passiveHealDelay;
+            _CALCULATE_BASE_STAT(finalStat, passiveHealDelay);
             break;
         case CrewStat::SABOTAGE_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.sabotageSpeedMultiplier.enabled) ? GetPowerDef()->tempPower.sabotageSpeedMultiplier.value : def->sabotageSpeedMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, sabotageSpeedMultiplier);
             break;
         case CrewStat::ALL_DAMAGE_TAKEN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.allDamageTakenMultiplier.enabled) ? GetPowerDef()->tempPower.allDamageTakenMultiplier.value : def->allDamageTakenMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, allDamageTakenMultiplier);
             break;
         case CrewStat::HEAL_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.healSpeed.enabled) ? GetPowerDef()->tempPower.healSpeed.value : def->healSpeed;
+            _CALCULATE_BASE_STAT(finalStat, healSpeed);
             break;
         case CrewStat::HEAL_CREW_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.healCrewAmount.enabled) ? GetPowerDef()->tempPower.healCrewAmount.value : def->healCrewAmount;
+            _CALCULATE_BASE_STAT(finalStat, healCrewAmount);
             break;
         case CrewStat::DAMAGE_ENEMIES_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageEnemiesAmount.enabled) ? GetPowerDef()->tempPower.damageEnemiesAmount.value : def->damageEnemiesAmount;
+            _CALCULATE_BASE_STAT(finalStat, damageEnemiesAmount);
             break;
         case CrewStat::BONUS_POWER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.bonusPower.enabled) ? GetPowerDef()->tempPower.bonusPower.value : def->bonusPower;
+            _CALCULATE_BASE_STAT(finalStat, bonusPower);
             break;
         case CrewStat::POWER_DRAIN:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.powerDrain.enabled) ? GetPowerDef()->tempPower.powerDrain.value : def->powerDrain;
+            _CALCULATE_BASE_STAT(finalStat, powerDrain);
             break;
         case CrewStat::ESSENTIAL:
             finalStat = def->essential;
@@ -1501,64 +1951,58 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             finalStat = def->defaultSkillLevel;
             break;
         case CrewStat::POWER_RECHARGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.powerRechargeMultiplier.enabled) ? GetPowerDef()->tempPower.powerRechargeMultiplier.value : def->powerRechargeMultiplier;
-            break;
-        case CrewStat::POWER_MAX_CHARGES:
-            finalStat = GetPowerDef()->powerCharges;
-            break;
-        case CrewStat::POWER_CHARGES_PER_JUMP:
-            finalStat = GetPowerDef()->chargesPerJump;
+            _CALCULATE_BASE_STAT(finalStat, powerRechargeMultiplier);
             break;
         case CrewStat::CAN_FIGHT:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canFight.enabled) ? GetPowerDef()->tempPower.canFight.value : def->canFight;
+            _CALCULATE_BASE_STAT(*boolValue, canFight);
             isBool = true;
             break;
         case CrewStat::CAN_REPAIR:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canRepair.enabled) ? GetPowerDef()->tempPower.canRepair.value : def->canRepair;
+            _CALCULATE_BASE_STAT(*boolValue, canRepair);
             isBool = true;
             break;
         case CrewStat::CAN_SABOTAGE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canSabotage.enabled) ? GetPowerDef()->tempPower.canSabotage.value : def->canSabotage;
+            _CALCULATE_BASE_STAT(*boolValue, canSabotage);
             isBool = true;
             break;
         case CrewStat::CAN_MAN:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canMan.enabled) ? GetPowerDef()->tempPower.canMan.value : def->canMan;
+            _CALCULATE_BASE_STAT(*boolValue, canMan);
             isBool = true;
             break;
         case CrewStat::CAN_TELEPORT:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canTeleport.enabled) ? GetPowerDef()->tempPower.canTeleport.value : def->canTeleport;
+            _CALCULATE_BASE_STAT(*boolValue, canTeleport);
             isBool = true;
             break;
         case CrewStat::CAN_SUFFOCATE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canSuffocate.enabled) ? GetPowerDef()->tempPower.canSuffocate.value : def->canSuffocate;
+            _CALCULATE_BASE_STAT(*boolValue, canSuffocate);
             isBool = true;
             break;
         case CrewStat::CONTROLLABLE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.controllable.enabled) ? GetPowerDef()->tempPower.controllable.value : def->controllable;
+            _CALCULATE_BASE_STAT(*boolValue, controllable);
             isBool = true;
             break;
         case CrewStat::CAN_BURN:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canBurn.enabled) ? GetPowerDef()->tempPower.canBurn.value : def->canBurn;
+            _CALCULATE_BASE_STAT(*boolValue, canBurn);
             isBool = true;
             break;
         case CrewStat::IS_TELEPATHIC:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.isTelepathic.enabled) ? GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
+            _CALCULATE_BASE_STAT(*boolValue, isTelepathic);
             isBool = true;
             break;
         case CrewStat::RESISTS_MIND_CONTROL:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.resistsMindControl.enabled) ? GetPowerDef()->tempPower.resistsMindControl.value : def->resistsMindControl;
+            _CALCULATE_BASE_STAT(*boolValue, resistsMindControl);
             isBool = true;
             break;
         case CrewStat::IS_ANAEROBIC:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.isAnaerobic.enabled) ? GetPowerDef()->tempPower.isAnaerobic.value : def->isAnaerobic;
+            _CALCULATE_BASE_STAT(*boolValue, isAnaerobic);
             isBool = true;
             break;
         case CrewStat::CAN_PHASE_THROUGH_DOORS:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canPhaseThroughDoors.enabled) ? GetPowerDef()->tempPower.canPhaseThroughDoors.value : def->canPhaseThroughDoors;
+            _CALCULATE_BASE_STAT(*boolValue, canPhaseThroughDoors);
             isBool = true;
             break;
         case CrewStat::DETECTS_LIFEFORMS:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.detectsLifeforms.enabled) ? GetPowerDef()->tempPower.detectsLifeforms.value : def->detectsLifeforms;
+            _CALCULATE_BASE_STAT(*boolValue, detectsLifeforms);
             isBool = true;
             break;
         case CrewStat::CLONE_LOSE_SKILLS:
@@ -1566,15 +2010,15 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             isBool = true;
             break;
         case CrewStat::POWER_DRAIN_FRIENDLY:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.powerDrainFriendly.enabled) ? GetPowerDef()->tempPower.powerDrainFriendly.value : def->powerDrainFriendly;
+            _CALCULATE_BASE_STAT(*boolValue, powerDrainFriendly);
             isBool = true;
             break;
         case CrewStat::HACK_DOORS:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.hackDoors.enabled) ? GetPowerDef()->tempPower.hackDoors.value : def->hackDoors;
+            _CALCULATE_BASE_STAT(*boolValue, hackDoors);
             isBool = true;
             break;
         case CrewStat::NO_CLONE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noClone.enabled) ? GetPowerDef()->tempPower.noClone.value : def->noClone;
+            _CALCULATE_BASE_STAT(*boolValue, noClone);
             isBool = true;
             break;
         case CrewStat::NO_SLOT:
@@ -1582,15 +2026,31 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             isBool = true;
             break;
         case CrewStat::NO_AI:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noAI.enabled) ? GetPowerDef()->tempPower.noAI.value : def->noAI;
+            _CALCULATE_BASE_STAT(*boolValue, noAI);
             isBool = true;
             break;
         case CrewStat::VALID_TARGET:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.validTarget.enabled) ? GetPowerDef()->tempPower.validTarget.value : def->validTarget;
+            _CALCULATE_BASE_STAT(*boolValue, validTarget);
+            isBool = true;
+            break;
+        case CrewStat::CAN_MOVE:
+            _CALCULATE_BASE_STAT(*boolValue, canMove);
+            isBool = true;
+            break;
+        case CrewStat::TELEPORT_MOVE:
+            _CALCULATE_BASE_STAT(*boolValue, teleportMove);
+            isBool = true;
+            break;
+        case CrewStat::TELEPORT_MOVE_OTHER_SHIP:
+            _CALCULATE_BASE_STAT(*boolValue, teleportMoveOtherShip);
+            isBool = true;
+            break;
+        case CrewStat::SILENCED:
+            _CALCULATE_BASE_STAT(*boolValue, silenced);
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:
-            *boolValue = GetPowerDef()->activateWhenReady;
+            // the base value should be set before calling this method
             isBool = true;
             break;
         case CrewStat::DEATH_EFFECT:
@@ -1600,6 +2060,20 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::POWER_EFFECT:
             powerChange = def->powerDefIdx;
+            isEffect = true;
+            break;
+        case CrewStat::POWER_MAX_CHARGES:
+            for (ActivatedPower *power : crewPowers)
+            {
+                power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+            }
+            isEffect = true;
+            break;
+        case CrewStat::POWER_CHARGES_PER_JUMP:
+            for (ActivatedPower *power : crewPowers)
+            {
+                power->modifiedChargesPerJump = power->def->chargesPerJump;
+            }
             isEffect = true;
             break;
         case CrewStat::TRANSFORM_RACE:
@@ -1713,7 +2187,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 }
                 else if (isEffect)
                 {
-                    if (stat == CrewStat::POWER_EFFECT)
+                    switch (stat)
+                    {
+                    case CrewStat::POWER_EFFECT:
                     {
                         if (sysPowerScaling)
                         {
@@ -1735,7 +2211,76 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             }
                         }
                     }
-                    else if (stat == CrewStat::DEATH_EFFECT)
+                    break;
+                    case CrewStat::POWER_MAX_CHARGES:
+                    {
+                        for (ActivatedPower *power : crewPowers)
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCharges *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::POWER_CHARGES_PER_JUMP:
+                    {
+                        for (ActivatedPower *power : crewPowers)
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedChargesPerJump *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::DEATH_EFFECT:
                     {
                         if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                         {
@@ -1789,6 +2334,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                         deathEffectChange.statBoosts.push_back(statBoostDef);
                                     }
 
+                                    for (auto statBoostDef : statBoost.def->deathEffectChange->roomStatBoosts)
+                                    {
+                                        deathEffectChange.roomStatBoosts.push_back(statBoostDef);
+                                    }
+
                                     for (auto crewSpawn : statBoost.def->deathEffectChange->crewSpawns)
                                     {
                                         deathEffectChange.crewSpawns.push_back(crewSpawn);
@@ -1834,7 +2384,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                         }
                     }
-                    else if (stat == CrewStat::TRANSFORM_RACE)
+                    break;
+                    case CrewStat::TRANSFORM_RACE:
                     {
                         if (sysPowerScaling)
                         {
@@ -1859,6 +2410,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                             }
                         }
+                    }
+                    break;
+                    default:
+                    break;
                     }
                 }
                 else
@@ -1912,6 +2467,95 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "Calculate stat time: " << ms_double.count();
     return finalStat;
+}
+
+int CrewMember_Extend::CalculateDangerRating(float health, int roomId)
+{
+    std::vector<StatBoost> personalStatBoosts;
+    std::unordered_map<int, std::vector<StatBoost*>> stackLimitedStatBoosts;
+    auto& statBoosts = StatBoostManager::GetInstance()->statBoosts;
+
+    for (StatBoost& statBoost : StatBoostManager::GetInstance()->dangerBoosts)
+    {
+        if (BoostCheck(statBoost, roomId))
+        {
+            if (statBoost.def->duration == -1 || statBoost.timerHelper.Running())
+            {
+                personalStatBoosts.push_back(statBoost);
+            }
+        }
+    }
+
+    for (auto& timedBoosts : timedStatBoosts)
+    {
+        for (StatBoost& statBoost : timedBoosts.second)
+        {
+            if (statBoost.def->dangerRating != -1.f && (statBoost.def->duration == -1 || statBoost.timerHelper.Running()))
+            {
+                personalStatBoosts.push_back(statBoost);
+            }
+        }
+    }
+
+    std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
+        [](const StatBoost &a, const StatBoost &b) -> bool
+        {
+            return a.def->priority < b.def->priority;
+        });
+
+    float dangerRating = -1.f;
+
+    for (auto& statBoost : personalStatBoosts)
+    {
+        if (statBoost.def->stackId)
+        {
+            stackLimitedStatBoosts[statBoost.def->stackId].push_back(&statBoost);
+        }
+        else if (statBoost.iStacks > 0)
+        {
+            // we check non stack id stat boosts immediately
+            if (statBoost.def->dangerRating > health) return 0;
+        }
+    }
+
+    for (auto& statBoostsPair : stackLimitedStatBoosts)
+    {
+        auto& statBoosts = statBoostsPair.second;
+
+        int stacks = 0;
+
+        for (auto it = statBoosts.rbegin(); it != statBoosts.rend(); ++it)
+        {
+            auto statBoost = *it;
+            statBoost->iStacks = std::min(statBoost->iStacks, std::max(statBoost->def->maxStacks - stacks, 0));
+            stacks += statBoost->iStacks;
+
+            if (statBoost->iStacks > 0)
+            {
+                // we check stack id stat boosts as we check them
+                if (statBoost->def->dangerRating > health) return 0;
+            }
+        }
+    }
+
+    return 1;
+}
+
+HOOK_METHOD(CrewAI, DangerRating, (int roomId, int crewId) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewAI::DangerRating -> Begin (StatBoost.cpp)\n")
+
+    if (roomId == -1) return 1;
+
+    int ret = super(roomId, crewId);
+
+    if (ret != 0)
+    {
+        CrewMember *crew = crewList[crewId];
+        return CM_EX(crew)->CalculateDangerRating(crew->health.first/crew->health.second, roomId);
+    }
+
+    return ret;
 }
 
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
@@ -1993,7 +2637,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             if (!i.second)
             {
-                aex->boostAnim[i.first]->destructor();
+                delete aex->boostAnim[i.first];
                 aex->boostAnim.erase(i.first);
             }
         }

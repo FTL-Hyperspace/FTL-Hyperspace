@@ -16,3 +16,5 @@ __thiscall void CrewAI::CheckForHealing(CrewAI *this);
 __thiscall void CrewAI::OnLoop(CrewAI *this);
 "578d7c240883e4f0ff77fc5589e557565389cf83ec7c8b01c64108018b4004890424":
 __thiscall void CrewAI::CheckForProblems(CrewAI *this);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b47048b1f89c18945a88b460c8b0488f30f105028":
+__thiscall int CrewAI::DangerRating(CrewAI *this,int roomId,int crewId);

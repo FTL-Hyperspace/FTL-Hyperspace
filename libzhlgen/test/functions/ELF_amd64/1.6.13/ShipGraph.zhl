@@ -1,4 +1,6 @@
-"41554c63ea41544989fc5589cd5389f34883ec28":
+"534863d289f34883ec20488b07":
+cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
+".41554c63ea41544989fc5589cd5389f34883ec28":
 cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 ".488b4f30488b573831c04829ca48c1fa02":
 cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId);
@@ -101,13 +103,6 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 		
 		return Pointf(xx, yy);
-	}
-	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int roomId, int slotId)
-	{
-		Globals::Rect rect = rooms[roomId]->rect;
-		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
 	}
 	
 }};

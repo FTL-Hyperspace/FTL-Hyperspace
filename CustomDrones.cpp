@@ -235,6 +235,15 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
     {
         super(droneType, name, shipId, blueprint, anim);
     }
+
+    // check if drone is custom race using animSheet
+    auto *def = CustomCrewManager::GetInstance()->GetDroneRaceDefinition(this);
+    if (def && !def->animSheet[1].empty())
+    {
+        // update baseLayer and lightLayer (to do - have this functionality for when a drone uses transformRace)
+        baseLayer = G_->GetResources()->GetImageId("people/" + def->animSheet[1] + "_base.png");
+        lightLayer = G_->GetResources()->GetImageId("people/" + def->animSheet[1] + "_layer1.png");
+    }
 }
 
 static bool blockControllableAI;
@@ -285,8 +294,10 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-    for (auto crew : crewList)
+    for (int crewIndex=0; crewIndex<crewList.size(); ++crewIndex)
     {
+        CrewMember *crew = crewList[crewIndex];
+
         if (crew->IsDrone() && !crew->intruder && custom->IsRace(crew->species))
         {
             auto def = custom->GetDefinition(crew->species);
@@ -349,7 +360,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
                         {
                             if (task.taskId <= 3 && task.taskId > 0)
                             {
-                                if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                                if (PrioritizeTask(task, crewIndex) < PrioritizeTask(crew->task, crewIndex))
                                 {
                                     if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
                                     {
@@ -367,9 +378,9 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
                     {
                         for (auto task : taskList)
                         {
-                            if (task.taskId == 0 && task.system != 5 && task.system != 2 && task.system != 6)
+                            if (task.taskId == 0 && task.system != SYS_MEDBAY && task.system != SYS_OXYGEN && task.system != SYS_PILOT)
                             {
-                                if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                                if (PrioritizeTask(task, crewIndex) < PrioritizeTask(crew->task, crewIndex))
                                 {
                                     if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
                                     {
@@ -643,6 +654,7 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
     if (ret && weaponBlueprint->type == 3) // bomb
     {
         ret->flight_animation.tracker.loop = false;
+        ((BombProjectile*)ret)->superShieldBypass = ((ShipObject*)this)->HasEquipment("ZOLTAN_BYPASS");
     }
     return ret;
 }
@@ -987,9 +999,9 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
         ShipGraph *shipGraph = ShipGraph::GetShipInfo(currentShipId);
 
-        if (currentSlot.slotId != -1 && iRoomId != -1 && !intruder)
+        if (currentSlot.slotId != -1 && currentSlot.roomId != -1 && !intruder)
         {
-            if (_drone.deployed && !_drone.powered && shipGraph->rooms[iRoomId]->primarySlot == currentSlot.slotId)
+            if (_drone.deployed && !_drone.powered && shipGraph->rooms[currentSlot.roomId]->primarySlot == currentSlot.slotId)
             {
                 bFrozenLocation = false;
             }
@@ -998,9 +1010,9 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
             {
                 int closestSlot = -1;
                 int closestRoom = -1;
-                int closestDist = INT_MAX;
+                float closestDist = HUGE_VAL;
 
-                Room *currentRoom = shipGraph->rooms[iRoomId];
+                Room *currentRoom = shipGraph->rooms[currentSlot.roomId];
 
                 if (currentRoom->primarySlot != currentSlot.slotId)
                 {
@@ -1022,13 +1034,13 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
                     for (auto slot : emptySlots)
                     {
-                        int dist = shipGraph->GetSlotWorldPosition(room->iRoomId, slot).RelativeDistance(currentSlot.worldLocation);
+                        Path path = shipGraph->FindPath({(int)x, (int)y}, shipGraph->GetSlotWorldPosition(slot, room->iRoomId), currentShipId);
 
-                        if (dist < closestDist)
+                        if (path.distance != -1.f && path.distance < closestDist)
                         {
                             closestSlot = slot;
                             closestRoom = room->iRoomId;
-                            closestDist = dist;
+                            closestDist = path.distance;
                         }
                     }
                 }
@@ -1039,7 +1051,7 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
                 if (closestRoom != -1)
                 {
-                    MoveToRoom(closestRoom, closestSlot, intruder);
+                    MoveToRoom(closestRoom, closestSlot, true);
                 }
 
             }

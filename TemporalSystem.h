@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 
+extern TemporalArmState g_iTemporal;
+
 class TemporalSystemParser
 {
 public:
@@ -48,7 +50,7 @@ public:
     void NewMouseMove(int x, int y);
     void LeftMouseClick(bool unk);
     void OnKeyDown(SDLKey key, bool shift);
-    
+
     int _HS_GetCooldownLevel();
     float _HS_GetCooldownFraction();
     bool _HS_HasButton();

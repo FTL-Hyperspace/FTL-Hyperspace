@@ -14,6 +14,12 @@ __thiscall void MouseControl::InstantTooltip(MouseControl *this);
 __thiscall void MouseControl::OnRender(MouseControl *this);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f83fb0174??":
 __thiscall void MouseControl::SetDoor(MouseControl *this, int state);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec6c83bb30010000018b078b57048b4f088bbb60010000":
+__thiscall void MouseControl::RenderTooltip(MouseControl *this, Point tooltipPoint, bool staticPos);
+"c7411000000000c7411400000000c7411800000000c7815c01000000000000c7412000000000":
+__thiscall void MouseControl::ResetArmed(MouseControl *this);
+"578d7c240883e4f0ff77fc5589e5575389cb8d890001000083ec20c78120ffffff00000000":
+__thiscall void MouseControl::Reset(MouseControl *this);
 
 "!e8????????e8????????b9(???????\?)":
 MouseControl* Global_MouseControl_Mouse;

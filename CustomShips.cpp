@@ -40,21 +40,12 @@ void ShipManager_Extend::Initialize(bool restarting)
     {
         if (i.first < orig->ship.vRoomList.size())
         {
-            auto rex = RM_EX(orig->ship.vRoomList[i.first]);
+            Room *room = orig->ship.vRoomList[i.first];
+            auto rex = RM_EX(room);
 
-            for (auto def : i.second->roomAnims)
+            for (auto &def : i.second->roomAnims)
             {
-                Animation *anim = new Animation(G_->GetAnimationControl()->GetAnimation(def.animName));
-                RoomAnim roomAnim = RoomAnim();
-
-                roomAnim.anim = anim;
-                roomAnim.renderLayer = def.renderLayer;
-
-                anim->Start(true);
-                anim->tracker.SetLoop(true, 0.f);
-
-                rex->roomAnims.push_back(roomAnim);
-
+                rex->roomAnims.emplace_back(def, room);
             }
 
             rex->sensorBlind = i.second->sensorBlind;
@@ -305,7 +296,30 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
             G_->GetAchievementTracker()->SetAchievement("ACH_SLUG_VISION", false, true);
         }
     }
+}
 
+void RoomAnim::OnUpdate()
+{
+    if (anim)
+    {
+        anim->Update();
+    }
+    for (Animation &tileAnim : tileAnims)
+    {
+        tileAnim.Update();
+    }
+}
+
+void RoomAnim::OnRender()
+{
+    if (anim)
+    {
+        anim->OnRender(1.f, COLOR_WHITE, false);
+    }
+    for (Animation &tileAnim : tileAnims)
+    {
+        tileAnim.OnRender(1.f, COLOR_WHITE, false);
+    }
 }
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
@@ -317,9 +331,9 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         auto ex = RM_EX(i);
 
-        for (auto anim : ex->roomAnims)
+        for (auto& anim : ex->roomAnims)
         {
-            anim.anim->Update();
+            anim.OnUpdate();
         }
     }
 }
@@ -347,14 +361,21 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
 
     for (auto room : ship.vRoomList)
     {
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 4 || (canSeeRooms && i.renderLayer == 3))
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 4 || (canSeeRooms && i.roomAnim->renderLayer == 3))
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -365,14 +386,21 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (CustomShips.cpp)\n")
     for (auto room : vRoomList)
     {
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 2)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 2)
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -387,14 +415,21 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     {
         if (room->bBlackedOut) continue;
 
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 1)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 1)
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -411,14 +446,21 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
     {
         if (room->bBlackedOut) continue;
 
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 0)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 0)
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -603,23 +645,22 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) -> void)
+HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageSystem -> Begin (CustomShips.cpp)\n")
-    Damage* dmg = (Damage*)&dmgParam;
 
     auto ex = RM_EX(ship.vRoomList[roomId]);
 
-    if (random32() % 100 < ex->sysDamageResistChance && (dmg->iSystemDamage > -dmg->iDamage))
+    if (random32() % 100 < ex->sysDamageResistChance && (dmg.iSystemDamage > -dmg.iDamage))
     {
-        dmg->iSystemDamage = -dmg->iDamage;
+        dmg.iSystemDamage = -dmg.iDamage;
         auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
         msg->color.a = 1.f;
         damMessages.push_back(msg);
     }
-    if (random32() % 100 < ex->ionDamageResistChance && dmg->iIonDamage > 0)
+    if (random32() % 100 < ex->ionDamageResistChance && dmg.iIonDamage > 0)
     {
-        dmg->iIonDamage = 0;
+        dmg.iIonDamage = 0;
         auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
         msg->color.r = 40.f / 255.f;
         msg->color.g = 210.f / 255.f;
@@ -628,7 +669,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) ->
         damMessages.push_back(msg);
     }
 
-    super(roomId, dmgParam);
+    super(roomId, dmg);
 }
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
@@ -707,7 +748,7 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-static std::vector<std::pair<Animation,bool>> extraEngineAnim[2];
+static std::vector<std::pair<Animation,int8_t>> extraEngineAnim[2];
 
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
@@ -723,7 +764,8 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
         int nVanillaThrusters = 0;
         std::vector<std::string> thrusters;
         std::vector<Pointf> thrusterPos;
-        std::vector<bool> thrusterRot;
+        std::vector<int8_t> thrusterRot;
+        std::vector<bool> thrusterMirror;
 
         rapidxml::xml_document<> doc;
         doc.parse<0>(xmltext);
@@ -753,7 +795,8 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     if (strcmp(child->name(), "thruster") == 0)
                     {
                         Pointf pos = {0.f,0.f};
-                        bool rot = false;
+                        int8_t rot = 0;
+                        bool mirror = false;
                         if (child->first_attribute("x"))
                         {
                             pos.x = boost::lexical_cast<float>(child->first_attribute("x")->value());
@@ -764,12 +807,21 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                         }
                         if (child->first_attribute("rotate"))
                         {
-                            rot = EventsParser::ParseBoolean(child->first_attribute("rotate")->value());
+                            if (EventsParser::ParseBoolean(child->first_attribute("rotate")->value())) rot = 1;
+                        }
+                        if (child->first_attribute("irotate"))
+                        {
+                            if (EventsParser::ParseBoolean(child->first_attribute("irotate")->value())) rot = -1;
+                        }
+                        if (child->first_attribute("mirror"))
+                        {
+                            mirror = EventsParser::ParseBoolean(child->first_attribute("mirror")->value());
                         }
 
                         thrusters.push_back(child->value());
                         thrusterPos.push_back(pos);
                         thrusterRot.push_back(rot);
+                        thrusterMirror.push_back(mirror);
 
                         nThrusters++;
                         if (!rot && nVanillaThrusters<2) nVanillaThrusters++;
@@ -805,14 +857,19 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     {
                         engineAnim[nVanillaThrusters].RandomStart();
                     }
+                    engineAnim[nVanillaThrusters].bAlwaysMirror = thrusterMirror[i];
                     nVanillaThrusters++;
                 }
                 else
                 {
                     Pointf pos;
-                    if (thrusterRot[i])
+                    if (thrusterRot[i] == 1)
                     {
                         pos = {-(thrusterPos[i].y + shipImage.y + graph->shipBox.y), (thrusterPos[i].x + shipImage.x + graph->shipBox.x)};
+                    }
+                    else if (thrusterRot[i] == -1)
+                    {
+                        pos = {(thrusterPos[i].y + shipImage.y + graph->shipBox.y), -(thrusterPos[i].x + shipImage.x + graph->shipBox.x)};
                     }
                     else
                     {
@@ -820,13 +877,27 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     }
                     if (thrusters[i].empty())
                     {
-                        if (thrusterRot[i]) pos.x -= 22;
+                        if (thrusterRot[i] == 1)
+                        {
+                            pos.x -= 22;
+                        }
+                        else if (thrusterRot[i] == -1)
+                        {
+                            pos.y -= 70;
+                        }
                         extraEngineAnim[iShipId].emplace_back(std::make_pair(Animation("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1),thrusterRot[i]));
                     }
                     else
                     {
                         Animation anim = G_->GetAnimationControl()->GetAnimation(thrusters[i]);
-                        if (thrusterRot[i]) pos.x -= anim.info.frameWidth * anim.fScale;
+                        if (thrusterRot[i] == 1)
+                        {
+                            pos.x -= anim.info.frameWidth * anim.fScale;
+                        }
+                        else if (thrusterRot[i] == -1)
+                        {
+                            pos.y -= anim.info.frameHeight * anim.fScale;
+                        }
                         anim.position = pos;
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
                     }
@@ -839,6 +910,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     {
                         extraEngineAnim[iShipId][nExtraThrusters].first.RandomStart();
                     }
+                    extraEngineAnim[iShipId][nExtraThrusters].first.bAlwaysMirror = thrusterMirror[i];
                     nExtraThrusters++;
                 }
             }
@@ -860,7 +932,7 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnLoop -> Begin (CustomShips.cpp)\n")
     super(oxygenLevels);
 
-    for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+    for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
     {
         anim.first.Update();
     }
@@ -884,14 +956,24 @@ HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
         }
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
         {
             if (anim.second)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                CSurface::GL_PopMatrix();
+                if (anim.second == -1)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
             }
             else
             {
@@ -915,14 +997,24 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
         {
             if (anim.second)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                CSurface::GL_PopMatrix();
+                if (anim.second == -1)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
             }
             else
             {

@@ -250,18 +250,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
         sysBoxes.push_back(box);
 
-        if (shipManager->myBlueprint.weaponSlots >= 4)
-        {
-            xPos += 436;
-        }
-        else if (shipManager->myBlueprint.weaponSlots == 3)
-        {
-            xPos += 339;
-        }
-        else
-        {
-            xPos += 242;
-        }
+        xPos += 48 + 97 * shipManager->myBlueprint.weaponSlots;
     }
     if (shipManager->HasSystem(4))
     {

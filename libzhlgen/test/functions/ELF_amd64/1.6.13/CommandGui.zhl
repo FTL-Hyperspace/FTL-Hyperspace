@@ -12,6 +12,8 @@ cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *sh
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 ".415431d2554889f531f6534889fb4883ec30":
 cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
+".4154555380bf????????004889fb":
+cleanup __amd64 void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
 ".415741564155415455534889d34881ec58020000":
 cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
 ".4157415641554989fd41544989f45531ed5331db4883ec58488b06":

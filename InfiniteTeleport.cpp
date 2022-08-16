@@ -13,7 +13,7 @@ std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool in
             continue;
         }
 
-        if (i->GetIntruder() == intruders && i->CanTeleport())
+        if (i->GetIntruder() == intruders && i->CanTeleport() && (!CM_EX(i)->customTele.teleporting || i->crewAnim->anims[0][6].tracker.reverse))
         {
             i->StartTeleport();
             leavingCrewList.push_back(i);
@@ -28,9 +28,9 @@ std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool in
 }
 
 
-HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> void)
+HOOK_METHOD_PRIORITY(CompleteShip, InitiateTeleport, 9999, (int targetRoom, int command) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CompleteShip::InitiateTeleport -> Begin (InfiniteTeleport.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CompleteShip::InitiateTeleport -> Begin (InfiniteTeleport.cpp)\n")
     if (!arrivingParty.empty() || !leavingParty.empty() || command == 0 ||
         enemyShip == nullptr || enemyShip->shipManager == nullptr || enemyShip->shipManager->bJumping ||
         shipManager == nullptr || shipManager->bJumping)

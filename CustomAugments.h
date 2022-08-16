@@ -4,6 +4,7 @@
 #include <map>
 #include "rapidxml.hpp"
 #include "CrewMember_Extend.h"
+#include "ShipManager_Extend.h"
 #include "EnemyShipIcons.h"
 
 struct AugmentSuperShield

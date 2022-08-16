@@ -12,6 +12,8 @@ cleanup __amd64 void CrewControl::UpdateCrewBoxes(CrewControl *this);
 cleanup __amd64 void CrewControl::LinkShip(CrewControl *this, ShipManager *ship);
 ".415455488dafc8000000534889fb4889ef4883ec30":
 cleanup __amd64 void CrewControl::OnLoop(CrewControl *this);
+".41544084f655534889fb":
+cleanup __amd64 void CrewControl::SelectCrew(CrewControl *this, bool keep_current);
 ".55534889fb4889f74883ec184885f64889742408":
 cleanup __amd64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember *crew, bool allowTeleportLeaving);
 ".4157415641554989fd415455534881ecc8010000":

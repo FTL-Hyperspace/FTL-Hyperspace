@@ -10,14 +10,41 @@
 CommandConsole CommandConsole::instance = CommandConsole();
 
 int speedEnabled = true;
+static bool squishyTextEnabled = false;
+static std::string squishyText = "";
+
+HOOK_METHOD(MouseControl, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (CommandConsole.cpp)\n")
+    if(squishyTextEnabled)
+        freetype::easy_printRightAlign(51, 1280.f, 10.f, squishyText.c_str());
+    super();
+}
 
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
+    hs_log_file(cmd.c_str());
+    hs_log_file("\n");
+
     std::string command = cmd;
 
     std::string cmdName = command.substr(0, command.find(" "));
     boost::to_upper(cmdName);
 
+    if (cmdName == "SQUISHY")
+    {
+        if (command.length() > 8)
+        {
+            std::string squishyTitle = boost::trim_copy(command.substr(8));
+            hs_log_file("Squishy is awesome\n");
+            if(!squishyTitle.empty())
+            {
+                squishyTextEnabled = true;
+                squishyText = squishyTitle;
+            }
+            return true;
+        }
+    }
     if (cmdName == "STORE")
     {
         if (command.length() == 5)
@@ -67,7 +94,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
-    if (cmdName == "DELETECREW")
+    if (cmdName == "DELETECREW" || cmdName == "COOLSWORDBRO")
     {
         if (commandGui->shipComplete->shipManager->current_target)
         {
@@ -80,6 +107,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (cmdName == "SPEED" && command.length() > 5)
     {
+        // TODO: In the future we could force vsync off by calling `graphics_set_display_attr("vsync", 0);`
         try
         {
             int speedFactor = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
@@ -91,6 +119,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
 
         return true;
+    }
+    if (cmdName == "LUA" && command.length() > 3)
+    {
+        std::string luaCode = boost::trim_copy(command.substr(4));
+        Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
     {

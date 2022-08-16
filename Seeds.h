@@ -3,6 +3,7 @@
 #include <boost/crc.hpp>
 
 int GenerateLocationSeed(int a, int b);
+int GenerateLocationSeed(Location &loc, int seed);
 
 class SeedInputBox
 {

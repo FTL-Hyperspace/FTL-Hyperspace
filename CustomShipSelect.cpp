@@ -1,3 +1,5 @@
+#include "Global.h"
+#include "ShipManager_Extend.h"
 #include "CustomShipSelect.h"
 #include "CustomOptions.h"
 #include "Seeds.h"
@@ -484,12 +486,7 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
                         {
                             auto def = RoomAnimDef();
 
-                            def.animName = roomValue;
-
-                            if (roomDefNode->first_attribute("renderLayer"))
-                            {
-                                def.renderLayer = boost::lexical_cast<int>(roomDefNode->first_attribute("renderLayer")->value());
-                            }
+                            def.ParseRoomAnimNode(roomDefNode);
 
                             roomDef->roomAnims.push_back(def);
                         }
@@ -607,6 +604,83 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
     }
 
     return isCustom;
+}
+
+void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
+{
+    if (node->first_attribute("renderLayer"))
+    {
+        renderLayer = boost::lexical_cast<int>(node->first_attribute("renderLayer")->value());
+    }
+
+    if (node->first_node() && node->first_node()->type() == rapidxml::node_type::node_element)
+    {
+        for (auto child = node->first_node(); child; child = child->next_sibling())
+        {
+            if (strcmp(child->name(), "anim") == 0)
+            {
+                animName = child->value();
+
+                if (child->first_attribute("animType"))
+                {
+                    std::string value = child->first_attribute("animType")->value();
+                    if (value == "stretch")
+                    {
+                        animType = RoomAnimType::STRETCH;
+                    }
+                    else if (value == "center")
+                    {
+                        animType = RoomAnimType::CENTER;
+                    }
+                    else if (value == "random")
+                    {
+                        animType = RoomAnimType::RANDOM_POSITION;
+                    }
+                    else
+                    {
+                        animType = RoomAnimType::DEFAULT;
+                    }
+                }
+                if (child->first_attribute("animBorder"))
+                {
+                    animBorder = boost::lexical_cast<int>(child->first_attribute("animBorder")->value());
+                }
+            }
+            if (strcmp(child->name(), "tileAnim") == 0)
+            {
+                tileAnim = child->value();
+            }
+        }
+    }
+    else
+    {
+        animName = node->value();
+
+        if (node->first_attribute("animType"))
+        {
+            std::string value = node->first_attribute("animType")->value();
+            if (value == "stretch")
+            {
+                animType = RoomAnimType::STRETCH;
+            }
+            else if (value == "center")
+            {
+                animType = RoomAnimType::CENTER;
+            }
+            else if (value == "random")
+            {
+                animType = RoomAnimType::RANDOM_POSITION;
+            }
+            else
+            {
+                animType = RoomAnimType::DEFAULT;
+            }
+        }
+        if (node->first_attribute("animBorder"))
+        {
+            animBorder = boost::lexical_cast<int>(node->first_attribute("animBorder")->value());
+        }
+    }
 }
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)

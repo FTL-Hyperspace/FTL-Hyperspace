@@ -10,7 +10,7 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-std::deque<std::pair<std::string,int>> eventQueue = {};
+std::deque<EventQueueEvent> eventQueue = {};
 
 int TriggeredEvent::playerCloneCount = 0;
 
@@ -1441,9 +1441,10 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 
     for (int i=0; i<eventQueueSize; ++i)
     {
-        std::pair<std::string,int> event;
-        event.first = FileHelper::readString(file);
-        event.second = FileHelper::readInteger(file);
+        EventQueueEvent event;
+        event.event = FileHelper::readString(file);
+        event.label = FileHelper::readString(file);
+        event.seed = FileHelper::readInteger(file);
         eventQueue.push_back(event);
     }
 
@@ -1460,8 +1461,9 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
     FileHelper::writeInt(file, eventQueue.size());
     for (auto& event : eventQueue)
     {
-        FileHelper::writeString(file, event.first);
-        FileHelper::writeInt(file, event.second);
+        FileHelper::writeString(file, event.event);
+        FileHelper::writeString(file, event.label);
+        FileHelper::writeInt(file, event.seed);
     }
 }
 
@@ -1471,7 +1473,7 @@ void CheckEventQueue(WorldManager *world)
     {
         auto &nextEvent = eventQueue.front();
 
-        CustomEventsParser::GetInstance()->LoadEvent(world, nextEvent.first, false, nextEvent.second);
+        CustomEventsParser::GetInstance()->LoadEvent(world, nextEvent.event, false, nextEvent.seed);
 
         eventQueue.pop_front();
 

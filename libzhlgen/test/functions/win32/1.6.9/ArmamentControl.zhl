@@ -4,3 +4,7 @@ __thiscall bool ArmamentControl::Dragging(ArmamentControl *this);
 __thiscall void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);
 "578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c8b078b79148945e4":
 __thiscall bool ArmamentControl::KeyDown(ArmamentControl *this, SDLKey key);
+"578d7c240883e4f0ff77fc5589e55756538d45b48d5dcc8d75d489cf81ec9c00000089d9c745b41c000000c7442404000000008904248975cc":
+__thiscall void ArmamentControl::CreateHolderTab(ArmamentControl *this);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b078b79148b511089410c89f829d0c1f80285c0":
+__thiscall void ArmamentControl::LinkShip(ArmamentControl *this, ShipManager *ship);

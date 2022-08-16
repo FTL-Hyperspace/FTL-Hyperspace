@@ -152,7 +152,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
     ClearCustomFleet(&space);
 
     auto customEvents = CustomEventsParser::GetInstance();
-    auto customEvent = customEvents->GetCustomEvent(loc->event->eventName);
+    auto customEvent = customEvents->GetCustomEvent(loc);
 
     if (customEvent != nullptr)
     {
@@ -230,13 +230,13 @@ HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
     {
         for (auto i : layer)
         {
-            CSurface::GL_SetStencilMode(STENCIL_USE, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_USE, 0x80, 0x80);
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y + 5, 0, GL_Color(0.f, 0.f, 0.f, 1.f), 0.6f, i.mirror);
 
-            CSurface::GL_SetStencilMode(STENCIL_SET, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_SET, 0x80, 0x80);
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y, 0, tintColor, 1.f, i.mirror);
 
-            CSurface::GL_SetStencilMode(STENCIL_IGNORE, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0x80, 0x80);
 
             auto color = COLOR_WHITE;
 
@@ -249,6 +249,9 @@ HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y, 0, color, 1.f, i.mirror);
         }
     }
+
+    CSurface::GL_SetStencilMode(STENCIL_SET, 0x80, 0x80);
+    graphics_clear(0.f, 0.f, 0.f, 0.f, 1.f, 0x0);
 
     CSurface::GL_PopStencilMode();
 

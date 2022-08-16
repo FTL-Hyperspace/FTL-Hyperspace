@@ -7,6 +7,7 @@
 
 struct ActivatedPowerDefinition;
 class CrewMember_Extend;
+struct RoomAnimDef;
 
 enum class CrewExtraCondition : unsigned int;
 
@@ -52,20 +53,24 @@ enum class CrewStat : unsigned int
     DETECTS_LIFEFORMS,
     CLONE_LOSE_SKILLS,
     POWER_DRAIN_FRIENDLY,
-    ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
-    POWER_MAX_CHARGES,
-    POWER_CHARGES_PER_JUMP,
     HACK_DOORS,
     NO_CLONE,
     NO_SLOT,
     NO_AI,
     VALID_TARGET,
+    CAN_MOVE,
+    TELEPORT_MOVE,
+    TELEPORT_MOVE_OTHER_SHIP,
+    SILENCED,
     // non-cached stats
+    ACTIVATE_WHEN_READY,
     STAT_BOOST,
     DEATH_EFFECT,
     POWER_EFFECT,
+    POWER_MAX_CHARGES,
+    POWER_CHARGES_PER_JUMP,
     TRANSFORM_RACE
 };
 
@@ -136,8 +141,10 @@ struct StatBoostDefinition
     bool isBool = false;
     int priority = -1;
     float duration = -1;
+    bool jumpClear = false;
 
     std::string boostAnim = "";
+    RoomAnimDef *roomAnim = nullptr;
 
     bool affectsSelf = false;
 
@@ -161,6 +168,7 @@ struct StatBoostDefinition
     bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
     bool systemRoomReq;
+    bool isRoomBased;
     BoostSource boostSource;
     BoostType boostType;
     ShipTarget shipTarget;
@@ -170,6 +178,9 @@ struct StatBoostDefinition
     std::pair<float,float> healthReq = {-1.f, -1.f};
     std::pair<float,float> healthFractionReq = {-1.f, -1.f};
     std::pair<float,float> oxygenReq = {-1.f, -1.f};
+    std::pair<int,int> fireCount = {-1, -1};
+
+    float dangerRating = -1.f;
 
     int realBoostId = -1;
     int stackId = 0;
@@ -183,6 +194,8 @@ struct StatBoostDefinition
         realBoostId = statBoostDefs.size();
         statBoostDefs.push_back(this);
     }
+
+    bool TestRoomStatBoostSystem(ShipManager *ship, int room);
 };
 
 struct StatBoost
@@ -201,6 +214,9 @@ struct StatBoost
 
     int sourceShipId;
 
+    void Save(int fd);
+    static StatBoost LoadStatBoost(int fd);
+
     StatBoost(StatBoostDefinition& definition) : def{&definition}
     {
     }
@@ -217,8 +233,7 @@ public:
 
     std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
     std::vector<StatBoost> animBoosts;
-
-    std::vector<StatBoost*> loadingStatBoosts = {};
+    std::vector<StatBoost> dangerBoosts;
 
     StatBoostManager()
     {
@@ -230,7 +245,14 @@ public:
         return &instance;
     }
 
-    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
+    void Clear()
+    {
+        statBoosts.clear();
+        animBoosts.clear();
+        dangerBoosts.clear();
+    }
+
+    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
 private:
@@ -260,4 +282,5 @@ private:
     void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, CrewMember_Extend* ex, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
     void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
+    void AddRoomStatBoosts(ShipManager *ship);
 };

@@ -14,7 +14,8 @@ __thiscall void Room::destructor(Room *this);
 __thiscall int Room::GetEmptySlot(Room *this, bool intruder);
 "530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c3b04915b0f94c0":
 __thiscall bool Room::Full(Room *this, bool intruder);
-
+"565389cb0fb64424108b73348b4c240c8d14850000000001d08d048689cec1ee058b008d34b0b801000000d3e08b0e85c175??03532809c88906830201":
+__thiscall void Room::FillSlot(Room *this, int slot, bool intruder);
 
 struct Room depends (Globals, Point) {{
 	Point GetIntoRoom(Point pos)

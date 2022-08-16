@@ -910,12 +910,31 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             EventQueueEvent queueEvent = EventQueueEvent();
 
             queueEvent.event = child->value();
+            queueEvent.label = queueEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                queueEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("seeded"))
             {
-                queueEvent.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+                queueEvent.seed = EventsParser::ParseBoolean(child->first_attribute("seeded")->value()) ? 0 : -1;
             }
 
             customEvent->queueEvents.push_back(queueEvent);
+        }
+        if (nodeName == "clearQueueEvent")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearQueueEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearQueueEvents.push_back("");
+            }
         }
 
         if (nodeName == "restartEvent")
@@ -2095,6 +2114,27 @@ CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
     return nullptr;
 }
 
+CustomEvent *CustomEventsParser::GetCustomEvent(Location *loc)
+{
+    if (loc)
+    {
+        if (loc->boss)
+        {
+            BossShip *boss = G_->GetWorld()->bossShip;
+
+            std::stringstream s;
+            s << "BOSS_TEXT_" << boss->nextStage;
+
+            return GetCustomEvent(s.str());
+        }
+        else
+        {
+            return GetCustomEvent(loc->event->eventName);
+        }
+    }
+    return nullptr;
+}
+
 CustomShipEvent *CustomEventsParser::GetCustomShipEvent(const std::string& event)
 {
     auto it = customShipEvents.find(event);
@@ -2425,6 +2465,17 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
     }
 
     return super(equipment);
+}
+
+int ShipObject::HS_HasEquipment(const std::string& equip)
+{
+    bool temp = advancedCheckEquipment[7];
+    advancedCheckEquipment[7] = true;
+
+    int ret = HasEquipment(equip);
+
+    advancedCheckEquipment[7] = temp;
+    return ret;
 }
 
 static std::string removeHiddenAug = "";
@@ -3482,7 +3533,25 @@ void EventDamageEnemy(EventDamage eventDamage)
         }
         else
         {
-            enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
+            Damage damage;
+
+            damage.iDamage = 0;
+            damage.iShieldPiercing = 0;
+            damage.fireChance = 0;
+            damage.breachChance = 0;
+            damage.stunChance = 0;
+            damage.iIonDamage = 0;
+            damage.iSystemDamage = eventDamage.amount;
+            damage.iPersDamage = 0;
+            damage.bHullBuster = false;
+            damage.ownerId = -1;
+            damage.selfId = -1;
+            damage.bLockdown = false;
+            damage.crystalShard = false;
+            damage.bFriendlyFire = false;
+            damage.iStun = 0;
+
+            enemyShip->DamageSystem(room, damage);
         }
 
         if (eventDamage.effect & 4)
@@ -3822,6 +3891,23 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
             renamedBeacons[std::distance(world->starMap.locations.begin(), it)] = customEvent->renameBeacon;
         }
     }
+
+    if (!customEvent->clearQueueEvents.empty())
+    {
+        for (std::string &name : customEvent->clearQueueEvents)
+        {
+            if (!name.empty())
+            {
+                eventQueue.erase(std::remove_if(eventQueue.begin(), eventQueue.end(),
+                                                [&name](EventQueueEvent& obj) { return obj.label == name; }),
+                                                eventQueue.end());
+            }
+            else
+            {
+                eventQueue.clear();
+            }
+        }
+    }
 }
 
 LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *eventList, int seed)
@@ -3925,9 +4011,20 @@ void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, b
     if (event) world->UpdateLocation(event);
 }
 
-void CustomEventsParser::QueueEvent(std::string &eventName, int seed)
+void CustomEventsParser::QueueEvent(EventQueueEvent &event)
 {
-    eventQueue.push_back({eventName, seed});
+    eventQueue.push_back(event);
+}
+
+void CustomEventsParser::QueueEvent(std::string &event, int seed)
+{
+    EventQueueEvent queueEvent;
+
+    queueEvent.event = event;
+    queueEvent.seed = seed;
+    queueEvent.label = "";
+
+    eventQueue.push_back(queueEvent);
 }
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
@@ -4001,27 +4098,27 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         return;
     }
 
-    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(location); // this version of GetCustomEvent accounts for boss
 
     if (customEvent)
     {
         CustomCreateLocation(this, loc, customEvent);
 
-        for (auto& queueEvent : customEvent->queueEvents)
+        for (EventQueueEvent queueEvent : customEvent->queueEvents) // by value
         {
-            int seed = queueEvent.seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::QueueEvent(queueEvent.event, seed);
+            if (queueEvent.seed != -1) queueEvent.seed = GenerateLocationSeed(*location, starMap.currentSectorSeed);
+            CustomEventsParser::QueueEvent(queueEvent);
         }
 
         if (customEvent->eventLoadList != nullptr)
         {
-            int seed = customEvent->eventLoadList->seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadList->seeded ? GenerateLocationSeed(*location, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
-            int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadSeeded ? GenerateLocationSeed(*location, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
@@ -4129,21 +4226,21 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
         CustomCreateLocation(this, loc, customEvent);
 
-        for (auto& queueEvent : customEvent->queueEvents)
+        for (EventQueueEvent queueEvent : customEvent->queueEvents) // by value
         {
-            int seed = queueEvent.seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::QueueEvent(queueEvent.event, seed);
+            if (queueEvent.seed != -1) queueEvent.seed = GenerateLocationSeed(*starMap.currentLoc, starMap.currentSectorSeed);
+            CustomEventsParser::QueueEvent(queueEvent);
         }
 
         if (customEvent->eventLoadList != nullptr)
         {
-            int seed = customEvent->eventLoadList->seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadList->seeded ? GenerateLocationSeed(*starMap.currentLoc, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
-            int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadSeeded ? GenerateLocationSeed(*starMap.currentLoc, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
@@ -5306,7 +5403,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -100, (Location *location) ->
 
     if (event)
     {
-        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(location);
 
         if (customEvent)
         {
@@ -5565,6 +5662,41 @@ HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> 
     return super(seed, racePref);
 }
 
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 100, (Location *location) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
+    LocationEvent *event = location->event;
+
+    if (event && event->stuff.crew < 0)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship && ship->CountCrew(false) == 0)
+        {
+            event->stuff.crew = 0;
+            event->reward.crew = 0;
+        }
+    }
+
+    super(location);
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 100, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
+
+    if (event->stuff.crew < 0)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship && ship->CountCrew(false) == 0)
+        {
+            event->stuff.crew = 0;
+            event->reward.crew = 0;
+        }
+    }
+
+    super(event);
+}
+
 HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> CrewMember*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::FindCrew -> Begin (CustomEvents.cpp)\n")
@@ -5678,45 +5810,48 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
     {
         ShipEvent& event = G_->GetWorld()->currentShipEvent;
 
-        CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(event.name);
-        if (customEvent)
+        if (event.present)
         {
-            if (customEvent->deadCrewAuto)
+            CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(event.name);
+            if (customEvent)
             {
-                shipManager->bAutomated = true;
-                CustomEventsParser::QueueEvent(event.deadCrew, event.shipSeed);
-                return false;
-            }
-
-            if (customEvent->finalBoss.enabled && !bossDefeated)
-            {
-                bossDefeated = true;
-
-                CommandGui* commandGui = G_->GetWorld()->commandGui;
-
-                if (!customEvent->finalBoss.sound.empty())
+                if (customEvent->deadCrewAuto)
                 {
-                    G_->GetSoundControl()->StopPlaylist(100);
-                    G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
-
-                    delete restartMusicTimer;
-                    if (customEvent->bossMusicDelay != -1)
-                    {
-                        restartMusicTimer = new TimerHelper(false);
-                        restartMusicTimer->Start(customEvent->bossMusicDelay);
-                    }
+                    shipManager->bAutomated = true;
+                    CustomEventsParser::QueueEvent(event.deadCrew, event.shipSeed);
+                    return false;
                 }
 
-                if (customEvent->finalBoss.victory)
+                if (customEvent->finalBoss.enabled && !bossDefeated)
                 {
-                    commandGui->alreadyWon = true;
-                    alreadyWonCustom = true;
-                    replaceGameOverText = customEvent->finalBoss.text;
-                    replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
-                    replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
-                    replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
-                    hs_log_file("Final Boss crewkilled: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
-                    CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                    bossDefeated = true;
+
+                    CommandGui* commandGui = G_->GetWorld()->commandGui;
+
+                    if (!customEvent->finalBoss.sound.empty())
+                    {
+                        G_->GetSoundControl()->StopPlaylist(100);
+                        G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+
+                        delete restartMusicTimer;
+                        if (customEvent->bossMusicDelay != -1)
+                        {
+                            restartMusicTimer = new TimerHelper(false);
+                            restartMusicTimer->Start(customEvent->bossMusicDelay);
+                        }
+                    }
+
+                    if (customEvent->finalBoss.victory)
+                    {
+                        commandGui->alreadyWon = true;
+                        alreadyWonCustom = true;
+                        replaceGameOverText = customEvent->finalBoss.text;
+                        replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                        replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
+                        replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                        hs_log_file("Final Boss crewkilled: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
+                        CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                    }
                 }
             }
         }
@@ -5753,35 +5888,38 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         ShipManager *enemy = playerShip->shipManager->current_target;
         if (!enemy) return;
 
-        CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(currentShipEvent.name);
-        if (customEvent && customEvent->finalBoss.enabled && enemy->bDestroyed)
+        if (enemy->bDestroyed && currentShipEvent.present)
         {
-            bossDefeated = true;
-            enemy->ship.explosion.time = 6.0;
-
-            if (!customEvent->finalBoss.sound.empty())
+            CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(currentShipEvent.name);
+            if (customEvent && customEvent->finalBoss.enabled)
             {
-                G_->GetSoundControl()->StopPlaylist(100);
-                G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+                bossDefeated = true;
+                enemy->ship.explosion.time = 6.0;
 
-                delete restartMusicTimer;
-                if (customEvent->bossMusicDelay != -1)
+                if (!customEvent->finalBoss.sound.empty())
                 {
-                    restartMusicTimer = new TimerHelper(false);
-                    restartMusicTimer->Start(customEvent->bossMusicDelay);
-                }
-            }
+                    G_->GetSoundControl()->StopPlaylist(100);
+                    G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
 
-            if (customEvent->finalBoss.victory)
-            {
-                commandGui->alreadyWon = true;
-                alreadyWonCustom = true;
-                replaceGameOverText = customEvent->finalBoss.text;
-                replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
-                replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
-                replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
-                hs_log_file("Final Boss destroyed: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
-                CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                    delete restartMusicTimer;
+                    if (customEvent->bossMusicDelay != -1)
+                    {
+                        restartMusicTimer = new TimerHelper(false);
+                        restartMusicTimer->Start(customEvent->bossMusicDelay);
+                    }
+                }
+
+                if (customEvent->finalBoss.victory)
+                {
+                    commandGui->alreadyWon = true;
+                    alreadyWonCustom = true;
+                    replaceGameOverText = customEvent->finalBoss.text;
+                    replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                    replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
+                    replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                    hs_log_file("Final Boss destroyed: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
+                    CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                }
             }
         }
     }
@@ -5943,9 +6081,9 @@ HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
 
     deathEventActive = true;
 
-    DeathEvent &deathEvent = deathEventQueue.front();
-    CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), deathEvent.event, false, -1);
+    std::string event = deathEventQueue.front().event;
     deathEventQueue.pop_front();
+    CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), event, false, -1);
 }
 
 // Variable Stuff

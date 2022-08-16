@@ -300,7 +300,15 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         if (starMap.locations[i] == location)
         {
             CustomBackgroundObjectManager::instance->currentLocationIndex = i;
-            break;
+            return super(location);
+        }
+    }
+    for (int i=0; i<starMap.locations.size(); ++i)
+    {
+        if (starMap.locations[i] == starMap.currentLoc)
+        {
+            CustomBackgroundObjectManager::instance->currentLocationIndex = i;
+            return super(location);
         }
     }
     super(location);
@@ -582,6 +590,23 @@ void CustomBackgroundObject::OnInit()
         }
         timer.loop = timerDef.loop;
         timer.Start(timerDef.time);
+    }
+
+    if (!def->req.empty())
+    {
+        ShipManager* player = G_->GetShipManager(0);
+
+        if (player)
+        {
+            advancedCheckEquipment[3] = true;
+            int reqLvl = player->HasEquipment(def->req);
+            reqActive = (reqLvl >= def->lvl && reqLvl <= def->max_lvl);
+            advancedCheckEquipment[3] = false;
+        }
+    }
+    else
+    {
+        reqActive = true;
     }
 }
 
