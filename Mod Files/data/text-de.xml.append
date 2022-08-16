@@ -3,7 +3,7 @@
 <!--German Translation by The Dumb Dino #3980-->
 <text name="system_temporal_title" language="de">Temporalmanipulator</text>
 <text name="system_temporal_desc" language="de">Beschleunigt oder verlangsamt die Zeit in einem Raum. Verbesserungen erhöhen die Dauer und Stärke.</text>
-<text name="no_time_sector" language="de">Beim Blick auf die Karte wird dir klar, dass du keine Zeit hast und zum nächsten Sektor musst! Du verschiebst den Auftrag auf eine andermal.</text>
+<text name="no_time_sector" language="de">Beim Blick auf die Karte wird dir klar, dass du keine Zeit hast und zum nächsten Sektor musst! Du verschiebst den Auftrag auf ein andermal.</text>
 <mod:findName type="text" name="no_type_c" language="de">
   <mod:setValue>Hangar Leer</mod:setValue>
 </mod:findName>
@@ -14,16 +14,16 @@
   <mod:setValue>\1 (Hyperspace 1.2.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
-  <mod:setValue>Feuer Chance: \1%</mod:setValue>
+  <mod:setValue>Feuerchance: \1%</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="breach_chance" language="de">
-  <mod:setValue>Bruch Chance: \2%</mod:setValue>
+  <mod:setValue>Bruchchance: \2%</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="stun_chance" language="de">
-  <mod:setValue>Betäubungs Chance: \1%</mod:setValue>
+  <mod:setValue>Betäubungschance: \1%</mod:setValue>
 </mod:findName>
-<text name="free_missile_chance" language="de">Chance keine Rakete zu brachen: \1%</text>
-<text name="crew_statboost_chance" language="de">Verletzungs Chance: \1%</text>
+<text name="free_missile_chance" language="de">Chance keine Rakete zu verbrauchen: \1%</text>
+<text name="crew_statboost_chance" language="de">Verletzungschance: \1%</text>
 <text name="crew_spawn_chance" language="de">Chance Crew zu spawnen: \1%</text>
 <text name="augment_no_effect" language="de">Dieser Ausbau wird in Kombination mit diesem keinen Effekt aufweisen: </text>
 <text name="seed_prompt" language="de">Seed</text>
@@ -35,11 +35,11 @@
   <mod:setValue>Bereit: Klicken, um Raum mit Spezialkraft zu sperren.</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="power_not_ready" language="de">
-  <mod:setValue>Nicht bereit: Sperrkraft lädt (Ladezustand links zu sehen)</mod:setValue>
+  <mod:setValue>Nicht bereit: Spezialkraft lädt (Ladezustand links zu sehen)</mod:setValue>
 </mod:findName>
 <text name="power_not_ready_generic" language="de">Nicht bereit</text>
 <text name="power_not_ready_player_ship" language="de">Nicht bereit: Nicht auf eigenen Schiff</text>
-<text name="power_not_ready_enemy_ship" language="de">Nicht bereit: Nicht auf Feindlichen Schiff</text>
+<text name="power_not_ready_enemy_ship" language="de">Nicht bereit: Nicht auf feindlichem Schiff</text>
 <text name="power_not_ready_enemy_in_room" language="de">Nicht bereit: Keine Feinde im Raum</text>
 <text name="power_not_ready_friendly_in_room" language="de">Nicht bereit: Keine verbündete Crew im Raum</text>
 <text name="power_not_ready_whitelist" language="de">Nicht bereit: Keine Crew auf der weißen Liste im Raum</text>
@@ -47,10 +47,10 @@
 <text name="power_not_ready_friendly_whitelist" language="de">Nicht bereit: Keine verbündete Crew auf der weißen Liste im Raum</text>
 <text name="power_not_ready_enemy_blacklist" language="de">Nicht bereit: Keine Feinde auf der schwarzen Liste im Raum</text>
 <text name="power_not_ready_friendly_blacklist" language="de">Nicht bereit: Keine verbündete auf der schwarzen Liste im Raum</text>
-<text name="power_not_ready_system_in_room" language="de">Nicht bereit: Kein system im Raum</text>
+<text name="power_not_ready_system_in_room" language="de">Nicht bereit: Kein System im Raum</text>
 <text name="power_not_ready_activated" language="de">Activated: Spezialkraft gerade in Verwendung (Restdauer links zu sehen)</text>
 <text name="power_not_ready_ai_disabled" language="de">Nicht bereit: Spezialkraft für KI deaktiviert (Das solltet ihr nicht sehen)</text>
-<text name="power_not_ready_has_clonebay" language="de">Nicht bereit: Keine Clonstation verfügbar</text>
+<text name="power_not_ready_has_clonebay" language="de">Nicht bereit: Keine Klonstation verfügbar</text>
 <text name="power_not_ready_out_of_combat" language="de">Nicht bereit: Im Kampf</text>
 <text name="power_not_ready_in_combat" language="de">Nicht bereit: Kein feindliches Schiff</text>
 <text name="power_not_ready_system" language="de">Nicht bereit: Fehlt \1 System</text>
@@ -95,27 +95,27 @@
 <text name="power_not_ready_teleporting_false" language="de">Nicht bereit: Wird nicht teleportiert</text>
 <text name="advanced_health_tooltip" language="de">Gesundheit</text>
 <text name="weapon_cooldown_negative" language="de">Deaktiviert</text>
-<text name="crew_stun_time" language="de">Betäubt: \1 sekunden</text>
-<text name="crew_death_time" language="de">Lebensdauer: \1 sekunden</text>
+<text name="crew_stun_time" language="de">Betäubt: \1 Sekunden</text>
+<text name="crew_death_time" language="de">Lebensdauer: \1 Sekunden</text>
 <text name="crew_death_time_expired" language="de">Lebensdauer: Abgelaufen</text>
 <text name="reactor_desc_start" language="de">Start Energie: \1</text>
 <text name="reactor_desc_max" language="de">Maximale Energie: \1</text>
-<text name="description_stats" language="de">Stats:</text>
+<text name="description_stats" language="de">Fähigkeiten:</text>
 <text name="requires_no_power" language="de">Braucht keine Energie</text>
 <text name="provides_bonus_power" language="de">Liefert extra Energie</text>
 <text name="cannot_fire" language="de">Kann nicht geschossen werden</text>
 <text name="ammo_consumption" language="de">Raketenverbrauch: \1</text>
-<text name="redesigned_boost_power_damage_positive" language="de">Ketteneffekt: Erhöt schaden um \1</text>
-<text name="redesigned_boost_power_damage_negative" language="de">Ketteneffekt: Senkt schaden um \1</text>
-<text name="redesigned_boost_power_speed_positive" language="de">Ketteneffekt: Beschleunigt Ablinkzeit um \1</text>
-<text name="redesigned_boost_power_speed_negative" language="de">Ketteneffekt: Verlangsamt Ablinkzeit um \1</text>
-<text name="redesigned_damage_cap" language="de">Kettenschaden limit: \1 schaden (\2 ketten)</text>
+<text name="redesigned_boost_power_damage_positive" language="de">Ketteneffekt: Erhöt Schaden um \1</text>
+<text name="redesigned_boost_power_damage_negative" language="de">Ketteneffekt: Senkt Schaden um \1</text>
+<text name="redesigned_boost_power_speed_positive" language="de">Ketteneffekt: Beschleunigt Ablingzeit um \1</text>
+<text name="redesigned_boost_power_speed_negative" language="de">Ketteneffekt: Verlangsamt Ablingzeit um \1</text>
+<text name="redesigned_damage_cap" language="de">Kettenschaden limit: \1 Schaden (\2 ketten)</text>
 <text name="redesigned_speed_cap" language="de">Kettenablinkzeit limit: \1 (\2 ketten)</text>
 <text name="shot_radius" language="de">Schussradius: \1</text>
 <text name="shot_radius_angular" language="de">Schussradius: \1 grad</text>
 <text name="beam_length" language="de">Strahllänge: \1</text>
 <text name="swipe_speed" language="de">Strahlgeschwindigkeit: \1</text>
-<text name="redesigned_double_damage" language="de">Doppelten Hüllenschaden auf Räumen ohne System oder Subsystem.</text>
+<text name="redesigned_double_damage" language="de">Doppelter Hüllenschaden auf Räumen ohne System oder Subsystem.</text>
 <text name="redesigned_damage_room" language="de">Normaler Schaden pro Raum: \1 (x15 für Crew)</text>
 <text name="redesigned_damage_shot" language="de">Normaler Schaden pro Schuss: \1 (x15 für Crew)</text>
 <text name="hull_damage" language="de">Hüllenschaden: \1</text>
@@ -128,26 +128,26 @@
 <text name="damage_word" language="de">Schaden</text>
 <text name="bomb_shots" language="de">Schüsse pro Ladung: \1 (1 auf eigenem Schiff)</text>
 <text name="crew_scrap_value" language="de">Anheuerpreis: \1~</text>
-<text name="drone_speed" language="de">Dronengeschwindigkeit: \1</text>
+<text name="drone_speed" language="de">Drohnengeschwindigkeit: \1</text>
 <text name="defense_drone_reload_speed" language="de">Nachladezeit: \1ms</text>
 <text name="defense_drone_projectile_speed" language="de">Projektilgeschwindigkeit: \1</text>
 <text name="defense_drone_orbit_speed" language="de">Umkreisungsgeschwindigkeit: \1</text>
 <text name="defense_drone_projectile_target_unknown" language="de">Projektilziel: Unbekannt</text>
 <text name="defense_drone_projectile_target_solid" language="de">Projektilziel: Feste Geschosse</text>
 <text name="defense_drone_projectile_target_asteroid" language="de">Projektilziel: Asteroiden</text>
-<text name="defense_drone_drone_target_all" language="de">Ziel: Alle Dronen</text>
+<text name="defense_drone_drone_target_all" language="de">Ziel: Alle Drohnen</text>
 <text name="defense_drone_projectile_target_all" language="de">Projektilziel: Alles</text>
 <text name="defense_drone_drone_target_solid_projectiles" language="de">Ziel: Drohnen + Feste Geschosse</text>
-<text name="defense_drone_drone_target_all_projectiles" language="de">Ziel: Drohnen + Sämtliche Projektile</text>
-<text name="defense_drone_drone_target_solid" language="de">Ziel: Feste Dronen</text>
-<text name="teleporter_instant" language="de">Keine Ablinkzeit</text>
-<text name="clonebay_instant_fullheal" language="de">Sofortiges Klonen + Volleständige Heilung bei Sprung</text>
-<text name="defense_asteroid_friendly" language="de">Eigene Abwehrdrone:\nSchießt Asteroiden ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
-<text name="defense_asteroid_enemy" language="de">Abwehrdrone:\nSchießt Asteroiden ab. Kann deaktiviert werden indem du die Feindliche Drohnensteuerung beschädigst.</text>
-<text name="defense_solid_friendly" language="de">Eigene Abwehrdrone:\nSchießt Asteroiden, Raketen und feindliche Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
-<text name="defense_solid_enemy" language="de">Abwehrdrone:\nSchießt Asteroiden, Raketen und Drohnen ab. Kann deaktiviert werden indem du die Feindliche Drohnensteuerung beschädigst</text>
-<text name="defense_all_friendly" language="de">Eigene Abwehrdrone:\nSchießt sämtliche Projektiele und Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
-<text name="defense_all_enemy" language="de">Abwehrdrone:\nSchießt sämtliche Projektiele und Drohnen ab. Kann deaktiviert werden indem du die Feindliche Drohnensteuerung beschädigst</text>
+<text name="defense_drone_drone_target_all_projectiles" language="de">Ziel: Drohnen + Sämtliche Geschosse</text>
+<text name="defense_drone_drone_target_solid" language="de">Ziel: Feste Drohnen</text>
+<text name="teleporter_instant" language="de">Keine Ablingzeit</text>
+<text name="clonebay_instant_fullheal" language="de">Sofortiges Klonen + Vollständige Heilung bei Sprung</text>
+<text name="defense_asteroid_friendly" language="de">Eigene Abwehrdrohne:\nSchießt Asteroiden ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_asteroid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden ab. Schießt Asteroiden ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
+<text name="defense_solid_friendly" language="de">Eigene Abwehrdrohne:\nSchießt Asteroiden, Raketen und feindliche Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_solid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden, Raketen und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
+<text name="defense_all_friendly" language="de">Eigene Abwehrdrohne:\nSchießt sämtliche Projektiele und Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_all_enemy" language="de">Abwehrdrohne:\nSchießt sämtliche Projektiele und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
 <text name="hotkey_drone4" language="de">Drohnen Slot 4</text>
 <text name="hotkey_speed" language="de">Aktiviere Speedhack</text>
 <text name="hotkey_console" language="de">Öffne Konsole</text>
