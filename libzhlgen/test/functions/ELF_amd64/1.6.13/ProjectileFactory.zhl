@@ -16,6 +16,10 @@ cleanup __amd64 void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
 cleanup __amd64 void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
 "!.530f28c8488d9f580100004883ec10":
 cleanup __amd64 void ProjectileFactory::OnRender(ProjectileFactory *this, float alpha, bool forceVisual);
+".488b97f8000000488b87000100004829d048c1f803":
+cleanup __amd64 void ProjectileFactory::ClearAiming(ProjectileFactory *this);
+".488b87e8050000488987f0050000":
+cleanup __amd64 void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
 ".8b972006000031c085d2":
 cleanup __amd64 bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
 ".53be????????4889fbe8????????85c0":

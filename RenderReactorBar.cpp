@@ -1,5 +1,7 @@
 #include "RenderReactorBar.h"
 
+static GL_Primitive *droneN = nullptr;
+static int droneN_n = -1;
 
 HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 {
@@ -113,7 +115,17 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                     if(sysID == 3) {
                         if(numWeaponSlots == 2) droneSysWireImage = drone2;
                         else if(numWeaponSlots == 3) droneSysWireImage = drone3;
-                        else droneSysWireImage = drone;
+                        else if(numWeaponSlots == 4) droneSysWireImage = drone;
+                        else
+                        {
+                            if (numWeaponSlots != droneN_n)
+                            {
+                                CSurface::GL_DestroyPrimitive(droneN);
+                                droneN = G_->GetResources()->CreateImagePrimitiveString("wireUI/wire_456_" + std::to_string(shipManager->myBlueprint.weaponSlots) + "weapon_cap.png", 31, 31, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
+                                droneN_n = numWeaponSlots;
+                            }
+                            droneSysWireImage = droneN;
+                        }
 
                         CSurface::GL_RenderPrimitiveWithAlpha(droneSysWireImage, greyOpacity);
                         if(unusedPower) CSurface::GL_RenderPrimitive(droneSysWireImage);

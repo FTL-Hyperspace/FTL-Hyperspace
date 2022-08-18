@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--German Translation by The Dumb Dino #3980-->
+<text name="system_temporal_title" language="de">Temporalmanipulator</text>
+<text name="system_temporal_desc" language="de">Beschleunigt oder verlangsamt die Zeit in einem Raum. Verbesserungen erhöhen die Dauer und Stärke.</text>
+<text name="no_time_sector" language="de">Beim Blick auf die Karte wird dir klar, dass du keine Zeit hast und zum nächsten Sektor musst! Du verschiebst den Auftrag auf ein andermal.</text>
+<mod:findName type="text" name="no_type_c" language="de">
+  <mod:setValue>Hangar Leer</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="window_title" language="de">
+  <mod:setValue>FTL: Hyperspace</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="version" language="de">
+  <mod:setValue>\1 (Hyperspace 1.2.2)</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="fire_chance" language="de">
+  <mod:setValue>Feuerchance: \1%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="breach_chance" language="de">
+  <mod:setValue>Bruchchance: \2%</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="stun_chance" language="de">
+  <mod:setValue>Betäubungschance: \1%</mod:setValue>
+</mod:findName>
+<text name="free_missile_chance" language="de">Chance keine Rakete zu verbrauchen: \1%</text>
+<text name="crew_statboost_chance" language="de">Verletzungschance: \1%</text>
+<text name="crew_spawn_chance" language="de">Chance Crew zu spawnen: \1%</text>
+<text name="augment_no_effect" language="de">Dieser Ausbau wird in Kombination mit diesem keinen Effekt aufweisen: </text>
+<text name="seed_prompt" language="de">Seed</text>
+<text name="seed_prompt_disabled" language="de">Seeds deaktiviert</text>
+<text name="menu_status_seed" language="de">Seed</text>
+<text name="unlocks_disabled" language="de">Freischaltungen deaktiviert</text>
+<text name="store_unavailable" language="de">NICHT VERFÜGBAR</text>
+<mod:findName type="text" name="power_ready" language="de">
+  <mod:setValue>Bereit: Klicken, um Raum mit Spezialkraft zu sperren.</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="power_not_ready" language="de">
+  <mod:setValue>Nicht bereit: Spezialkraft lädt (Ladezustand links zu sehen)</mod:setValue>
+</mod:findName>
+<text name="power_not_ready_generic" language="de">Nicht bereit</text>
+<text name="power_not_ready_player_ship" language="de">Nicht bereit: Nicht auf eigenen Schiff</text>
+<text name="power_not_ready_enemy_ship" language="de">Nicht bereit: Nicht auf feindlichem Schiff</text>
+<text name="power_not_ready_enemy_in_room" language="de">Nicht bereit: Keine Feinde im Raum</text>
+<text name="power_not_ready_friendly_in_room" language="de">Nicht bereit: Keine verbündete Crew im Raum</text>
+<text name="power_not_ready_whitelist" language="de">Nicht bereit: Keine Crew auf der weißen Liste im Raum</text>
+<text name="power_not_ready_enemy_whitelist" language="de">Nicht bereit: Keine Feinde auf der weißen Liste im Raum</text>
+<text name="power_not_ready_friendly_whitelist" language="de">Nicht bereit: Keine verbündete Crew auf der weißen Liste im Raum</text>
+<text name="power_not_ready_enemy_blacklist" language="de">Nicht bereit: Keine Feinde auf der schwarzen Liste im Raum</text>
+<text name="power_not_ready_friendly_blacklist" language="de">Nicht bereit: Keine verbündete auf der schwarzen Liste im Raum</text>
+<text name="power_not_ready_system_in_room" language="de">Nicht bereit: Kein System im Raum</text>
+<text name="power_not_ready_activated" language="de">Activated: Spezialkraft gerade in Verwendung (Restdauer links zu sehen)</text>
+<text name="power_not_ready_ai_disabled" language="de">Nicht bereit: Spezialkraft für KI deaktiviert (Das solltet ihr nicht sehen)</text>
+<text name="power_not_ready_has_clonebay" language="de">Nicht bereit: Keine Klonstation verfügbar</text>
+<text name="power_not_ready_out_of_combat" language="de">Nicht bereit: Im Kampf</text>
+<text name="power_not_ready_in_combat" language="de">Nicht bereit: Kein feindliches Schiff</text>
+<text name="power_not_ready_system" language="de">Nicht bereit: Fehlt \1 System</text>
+<text name="power_not_ready_system_functional" language="de">Nicht bereit: \1 System nicht funktionstüchtig</text>
+<text name="power_not_ready_min_health" language="de">Nicht bereit: Gesundheit ist unter \1</text>
+<text name="power_not_ready_max_health" language="de">Nicht bereit: Gesundheit ist über \1</text>
+<text name="power_not_ready_system_damaged" language="de">Nicht bereit: Kein beschädigtes System im Raum</text>
+<text name="power_not_ready_mind_enemy" language="de">Nicht bereit: Feind hat die Kontrolle</text>
+<text name="power_not_ready_teleporting" language="de">Nicht bereit: Verwandlung während Teleport nicht möglich</text>
+<text name="power_not_ready_charges" language="de">Nicht bereit: Nicht geladen</text>
+<text name="power_not_ready_burning" language="de">Nicht bereit: Brennt</text>
+<text name="power_not_ready_suffocating" language="de">Nicht bereit: Erstickt</text>
+<text name="power_not_ready_mind" language="de">Nicht bereit: Wird kontrolliert</text>
+<text name="power_not_ready_stunned" language="de">Nicht bereit: Betäubt</text>
+<text name="power_not_ready_repairing" language="de">Nicht bereit: Repariert</text>
+<text name="power_not_ready_repairing_system" language="de">Nicht bereit: Repariert System</text>
+<text name="power_not_ready_repairing_breach" language="de">Nicht bereit: Repariert Bruch</text>
+<text name="power_not_ready_fighting" language="de">Nicht bereit: Kämpft</text>
+<text name="power_not_ready_sabotaging" language="de">Nicht bereit: Sabotiert</text>
+<text name="power_not_ready_shooting" language="de">Nicht bereit: Schießt</text>
+<text name="power_not_ready_moving" language="de">Nicht bereit: Bewegt sich</text>
+<text name="power_not_ready_idle" language="de">Nicht bereit: Untätig</text>
+<text name="power_not_ready_manning" language="de">Nicht bereit: Bemannt System</text>
+<text name="power_not_ready_firefighting" language="de">Nicht bereit: Löscht Feuer</text>
+<text name="power_not_ready_dying" language="de">Nicht bereit: Stirbt</text>
+<text name="power_not_ready_teleporting" language="de">Nicht bereit: Wird teleportiert</text>
+<text name="power_not_ready_burning_false" language="de">Nicht bereit: Brennt nicht</text>
+<text name="power_not_ready_suffocating_false" language="de">Nicht bereit: Erstickt nicht</text>
+<text name="power_not_ready_mind_false" language="de">Nicht bereit: Wird nicht kontrolliert</text>
+<text name="power_not_ready_stunned_false" language="de">Nicht bereit: Nicht betäubt</text>
+<text name="power_not_ready_repairing_false" language="de">Nicht bereit: Repariert nicht</text>
+<text name="power_not_ready_repairing_system_false" language="de">Nicht bereit: Repariert kein System</text>
+<text name="power_not_ready_repairing_breach_false" language="de">Nicht bereit: Repariert keinen Bruch</text>
+<text name="power_not_ready_fighting_false" language="de">Nicht bereit: Kämpft nicht</text>
+<text name="power_not_ready_sabotaging_false" language="de">Nicht bereit: Sabotiert nicht</text>
+<text name="power_not_ready_shooting_false" language="de">Nicht bereit: Schießt nicht</text>
+<text name="power_not_ready_moving_false" language="de">Nicht bereit: Bewegt sich nicht</text>
+<text name="power_not_ready_idle_false" language="de">Nicht bereit: Ist nicht untätig</text>
+<text name="power_not_ready_manning_false" language="de">Nicht bereit: Bemannt System nicht</text>
+<text name="power_not_ready_firefighting_false" language="de">Nicht bereit: Löscht kein Feuer</text>
+<text name="power_not_ready_dying_false" language="de">Nicht bereit: Stirbt nicht</text>
+<text name="power_not_ready_teleporting_false" language="de">Nicht bereit: Wird nicht teleportiert</text>
+<text name="advanced_health_tooltip" language="de">Gesundheit</text>
+<text name="weapon_cooldown_negative" language="de">Deaktiviert</text>
+<text name="crew_stun_time" language="de">Betäubt: \1 Sekunden</text>
+<text name="crew_death_time" language="de">Lebensdauer: \1 Sekunden</text>
+<text name="crew_death_time_expired" language="de">Lebensdauer: Abgelaufen</text>
+<text name="reactor_desc_start" language="de">Start Energie: \1</text>
+<text name="reactor_desc_max" language="de">Maximale Energie: \1</text>
+<text name="description_stats" language="de">Fähigkeiten:</text>
+<text name="requires_no_power" language="de">Braucht keine Energie</text>
+<text name="provides_bonus_power" language="de">Liefert extra Energie</text>
+<text name="cannot_fire" language="de">Kann nicht geschossen werden</text>
+<text name="ammo_consumption" language="de">Raketenverbrauch: \1</text>
+<text name="redesigned_boost_power_damage_positive" language="de">Ketteneffekt: Erhöt Schaden um \1</text>
+<text name="redesigned_boost_power_damage_negative" language="de">Ketteneffekt: Senkt Schaden um \1</text>
+<text name="redesigned_boost_power_speed_positive" language="de">Ketteneffekt: Beschleunigt Ablingzeit um \1</text>
+<text name="redesigned_boost_power_speed_negative" language="de">Ketteneffekt: Verlangsamt Ablingzeit um \1</text>
+<text name="redesigned_damage_cap" language="de">Kettenschaden limit: \1 Schaden (\2 ketten)</text>
+<text name="redesigned_speed_cap" language="de">Kettenablinkzeit limit: \1 (\2 ketten)</text>
+<text name="shot_radius" language="de">Schussradius: \1</text>
+<text name="shot_radius_angular" language="de">Schussradius: \1 grad</text>
+<text name="beam_length" language="de">Strahllänge: \1</text>
+<text name="swipe_speed" language="de">Strahlgeschwindigkeit: \1</text>
+<text name="redesigned_double_damage" language="de">Doppelter Hüllenschaden auf Räumen ohne System oder Subsystem.</text>
+<text name="redesigned_damage_room" language="de">Normaler Schaden pro Raum: \1 (x15 für Crew)</text>
+<text name="redesigned_damage_shot" language="de">Normaler Schaden pro Schuss: \1 (x15 für Crew)</text>
+<text name="hull_damage" language="de">Hüllenschaden: \1</text>
+<text name="hull_damage_negative" language="de">Hüllenreperatur: \1</text>
+<text name="system_damage_negative" language="de">Systemreperatur: \1</text>
+<text name="personnel_damage_negative" language="de">Crew Heilung: \1</text>
+<text name="stun_length" language="de">Sekunden lang</text>
+<text name="weapon_lockdown" language="de">Treffer sperrt Raum</text>
+<text name="scrap_value" language="de">Kauf/Verkauf Preis: \1 Schrott/\2 Schrott</text>
+<text name="damage_word" language="de">Schaden</text>
+<text name="bomb_shots" language="de">Schüsse pro Ladung: \1 (1 auf eigenem Schiff)</text>
+<text name="crew_scrap_value" language="de">Anheuerpreis: \1~</text>
+<text name="drone_speed" language="de">Drohnengeschwindigkeit: \1</text>
+<text name="defense_drone_reload_speed" language="de">Nachladezeit: \1ms</text>
+<text name="defense_drone_projectile_speed" language="de">Projektilgeschwindigkeit: \1</text>
+<text name="defense_drone_orbit_speed" language="de">Umkreisungsgeschwindigkeit: \1</text>
+<text name="defense_drone_projectile_target_unknown" language="de">Projektilziel: Unbekannt</text>
+<text name="defense_drone_projectile_target_solid" language="de">Projektilziel: Feste Geschosse</text>
+<text name="defense_drone_projectile_target_asteroid" language="de">Projektilziel: Asteroiden</text>
+<text name="defense_drone_drone_target_all" language="de">Ziel: Alle Drohnen</text>
+<text name="defense_drone_projectile_target_all" language="de">Projektilziel: Alles</text>
+<text name="defense_drone_drone_target_solid_projectiles" language="de">Ziel: Drohnen + Feste Geschosse</text>
+<text name="defense_drone_drone_target_all_projectiles" language="de">Ziel: Drohnen + Sämtliche Geschosse</text>
+<text name="defense_drone_drone_target_solid" language="de">Ziel: Feste Drohnen</text>
+<text name="teleporter_instant" language="de">Keine Ablingzeit</text>
+<text name="clonebay_instant_fullheal" language="de">Sofortiges Klonen + Vollständige Heilung bei Sprung</text>
+<text name="defense_asteroid_friendly" language="de">Eigene Abwehrdrohne:\nSchießt Asteroiden ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_asteroid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden ab. Schießt Asteroiden ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
+<text name="defense_solid_friendly" language="de">Eigene Abwehrdrohne:\nSchießt Asteroiden, Raketen und feindliche Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_solid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden, Raketen und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
+<text name="defense_all_friendly" language="de">Eigene Abwehrdrohne:\nSchießt sämtliche Projektiele und Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_all_enemy" language="de">Abwehrdrohne:\nSchießt sämtliche Projektiele und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
+<text name="hotkey_drone4" language="de">Drohnen Slot 4</text>
+<text name="hotkey_speed" language="de">Aktiviere Speedhack</text>
+<text name="hotkey_console" language="de">Öffne Konsole</text>
+<text name="hotkey_info" language="de">Aktiviere Extra Info</text>
+<text name="hotkey_temporal" language="de">Temporalmanipulator aktiv</text>
+<text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
+<text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
+<text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
+<text name="temporal" language="de">\1x/\4x Geschwin. für \3/\6 sek.</text> 
+<text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 sek.</text>
+<text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
+<text name="temporal_arm_speed" language="de">Beschleunige alles im Raum \1x für \3 Sekunden.</text>
+<text name="temporal_arm_slow" language="de">Verlangsame alles im Raum \4x für \6 Sekunden.</text>
+<text name="temporal_button_speed" language="de">Beschleunige alles in einem Raum für einen Moment.\nTaste: \1</text>
+<text name="temporal_button_slow" language="de">Verlangsame alles in einem Raum für einen Moment.\nTaste: \1</text>
+<text name="tooltip_more_info" language="de">Aktiviere erweiterte Informationen, zeigt zusätzliche Infos über:
+-Kurzinfos für Waffen/Drohnen/Ausbauten
+-Kurzinfos für Crew
+-Kartenverbindungen
+-Sauerstoff in Räumen
+-Reaktor Energie im Hangar
+-Kurzinfos für Sonderausrüstung
+
+Taste: \1</text>
+<text name="hangar_achievements_title_custom" language="de">Schiffssiege</text>
+<text name="hangar_achievements_title_filter" language="de">Filter Schiffssiege</text>
+<text name="discord_main_menu" language="de">Im Hauptmenü</text>
+<text name="discord_hangar" language="de">Im Hangar</text>
+<text name="discord_dying" language="de">Stirbt</text>
+<text name="discord_exploring" language="de">Erkundet</text>
+<text name="discord_battle" language="de">Im Kampf</text>
+<text name="discord_battle_boss" language="de">Im Bosskampf (Phase \1)</text>
+<text name="discord_sector" language="de">\1 (\2/8)</text>
+<text name="discord_ship" language="de">\1 Typ \2</text>
+<text name="discord_playing_modded" language="de">Spielt modded (\1)</text>
+<text name="discord_playing_vanilla" language="de">Spielt vanilla</text>
+<text name="discord_victory" language="de">Sieg</text>
+<text name="discord_dead" language="de">Tot</text>
+<text name="discord_mod" language="de"></text>
+<text name="transfer_save_dialog" language="de">Es scheint als ob du das ersten Mal diese Mod nutzt oder noch keinen neuen Spielstand erstellt hast! Möchtst du deinen Vanilla-Spielstand übertragen oder einen neuen spielstand erstellen? Dein Vanilla-Spielstand wird dadurch nicht verändert oder überschriebn.</text>
+<text name="tooltip_crew_page_down" language="de">Drücken um eine Crewseite nach unten zu gehen. \nDu kannst auch das Mausrad nutzen.</text>
+<text name="tooltip_crew_page_up" language="de">Drücken um eine Crewseite nach oben zu gehen. \nDu kannst auch das Mausrad nutzen.</text>
+<text name="tooltip_jump_noJump" language="de">Das feindliche Schiff hat deinen FTL-Antrieb deaktiviert. Es gibt kein Entkommen; Du musst das feindliche Schiff zerstören um zu überleben!</text>
+<text name="tooltip_temporal" language="de">Temporalmanipulator: Ändert den Zeitfluss in einem Raum.</text>
+<text name="tooltip_temporal_enemy" language="de">Temporalmanipulator: Das Feindliche schiff kann dies nutzen um den Zeitfluss in einem Raum zu ändern.</text>
+<!--Fixes one text in the hangar thats broken due to hyperpsace-->
+<mod:findName type="text" name="hangar_achievements_title" language="de">
+  <mod:setValue>2 abschließen für Typ B</mod:setValue>
+</mod:findName>

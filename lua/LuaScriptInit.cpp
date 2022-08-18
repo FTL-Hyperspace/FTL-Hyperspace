@@ -27,22 +27,22 @@ void removeDangerousStuff(lua_State* lua)
           - rawget
           - rawset
     */
-    lua_getglobal(lua, "collectgarbage");
     lua_pushnil(lua);
-    lua_getglobal(lua, "dofile");
+    lua_setglobal(lua, "collectgarbage");
     lua_pushnil(lua);
-    lua_getglobal(lua, "load");
+    lua_setglobal(lua, "dofile");
     lua_pushnil(lua);
-    lua_getglobal(lua, "loadfile");
+    lua_setglobal(lua, "load");
     lua_pushnil(lua);
-    lua_getglobal(lua, "newproxy");
+    lua_setglobal(lua, "loadfile");
     lua_pushnil(lua);
-    lua_getglobal(lua, "rawequal");
+    lua_setglobal(lua, "newproxy");
     lua_pushnil(lua);
-    lua_getglobal(lua, "rawget");
+    lua_setglobal(lua, "rawequal");
     lua_pushnil(lua);
-    lua_getglobal(lua, "rawset");
+    lua_setglobal(lua, "rawget");
     lua_pushnil(lua);
+    lua_setglobal(lua, "rawset");
 
     lua_getglobal(lua, "math");
     lua_pushnil(lua);

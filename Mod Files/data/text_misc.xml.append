@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.0.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.2.2)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -181,7 +181,16 @@
 
 <!-- Hotkeys -->
 
-<text name="hotkey_drone4">Drone Slot 4</text>
+<text name="hotkey_weapon1">Weapon/Drone Slot 1</text>
+<text name="hotkey_weapon2">Weapon/Drone Slot 2</text>
+<text name="hotkey_weapon3">Weapon/Drone Slot 3</text>
+<text name="hotkey_weapon4">Weapon/Drone Slot 4</text>
+<text name="hotkey_drone1">Weapon/Drone Slot 5</text>
+<text name="hotkey_drone2">Weapon/Drone Slot 6</text>
+<text name="hotkey_drone3">Weapon/Drone Slot 7</text>
+<text name="hotkey_drone4">Weapon/Drone Slot 8</text>
+<text name="hotkey_drone5">Weapon/Drone Slot 9</text>
+<text name="hotkey_drone6">Weapon/Drone Slot 10</text>
 <text name="hotkey_speed">Toggle Speedhack</text>
 <text name="hotkey_console">Open Console</text>
 <text name="hotkey_info">Toggle Extra Info</text>

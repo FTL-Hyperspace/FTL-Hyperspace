@@ -48,6 +48,13 @@ void ScrollingChoiceBox::OnInit()
 
     scrollDownButton = new Button();
     scrollDownButton->OnInit("statusUI/button_crew_down", Point(scrollButtonX, scrollButtonY2));
+
+    // fix a bug with ChoiceBox
+    ChoiceBox &choiceBox = G_->GetWorld()->commandGui->choiceBox;
+    if (!choiceBox.box)
+    {
+        choiceBox.box = new WindowFrame(7, 22, 602, 377);
+    }
 }
 
 void ScrollingChoiceBox::Scroll(float amount)
@@ -104,6 +111,7 @@ float ScrollingChoiceBox::GetMaxScroll()
 HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (ScrollingChoiceBox.cpp)\n")
+
     if (ScrollingChoiceBox::renderingEventBoxState == -1)
     {
         ScrollingChoiceBox::OnInit();

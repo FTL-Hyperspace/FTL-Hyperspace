@@ -111,6 +111,8 @@ struct VTable_SpaceDrone;
 struct VTable_Targetable;
 struct VTable_Collideable;
 struct VTable_Projectile;
+struct VTable_ArmamentControl;
+struct VTable_ArmamentBox;
 
 /* 1 */
 struct Globals
@@ -1738,9 +1740,41 @@ struct std__vector_13ArmamentBoxZ1
 };
 
 /* 242 */
+struct VTable_ArmamentControl
+{
+  void (__thiscall *Free)(ArmamentControl *this);
+  void (__thiscall *OnLanguageChange)(ArmamentControl *this);
+  void (__thiscall *OnLoop)(ArmamentControl *this);
+  void (__thiscall *OnRender)(ArmamentControl *this, bool front);
+  void (__thiscall *RenderTouchTooltips)(ArmamentControl *this);
+  void (__thiscall *RenderLabels)(ArmamentControl *this);
+  void (__thiscall *RenderWarnings)(ArmamentControl *this);
+  void (__thiscall *RenderDragging)(ArmamentControl *this);
+  bool (__thiscall *IsDragging)(ArmamentControl *this);
+  void (__thiscall *Restart)(ArmamentControl *this);
+  void (__thiscall *OnCleanup)(ArmamentControl *this);
+  void (__thiscall *Close)(ArmamentControl *this);
+  void (__thiscall *SetOpen)(ArmamentControl *this, bool open);
+  bool (__thiscall *LButton)(ArmamentControl *this, int mX, int mY, bool shift);
+  bool (__thiscall *LButtonUp)(ArmamentControl *this, int mX, int mY, bool shift);
+  void (__thiscall *RButton)(ArmamentControl *this, int mX, int mY, bool shift);
+  void (__thiscall *MouseMove)(ArmamentControl *this, int mX, int mY);
+  bool (__thiscall *OnTouch)(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+  bool (__thiscall *KeyDown)(ArmamentControl *this, SDLKey sym);
+  void (__thiscall *LinkShip)(ArmamentControl *this, ShipManager *ship);
+  ArmamentBox* (__thiscall *CreateArmamentBox)(ArmamentControl *this, Point loc);
+  int (__thiscall *NumArmamentSlots)(ArmamentControl *this);
+  Point (__thiscall *ArmamentBoxOrigin)(ArmamentControl *this);
+  TextString (__thiscall *HolderLabel)(ArmamentControl *this);
+  SDLKey (__thiscall *ArmamentHotkey)(ArmamentControl *this, unsigned int i);
+  void (__thiscall *SelectArmament)(ArmamentControl *this, unsigned int i);
+  void (__thiscall *DeselectArmament)(ArmamentControl *this, unsigned int i);
+  void (__thiscall *SwapArmaments)(ArmamentControl *this, unsigned int a, unsigned int b);
+};
+
 struct ArmamentControl
 {
-  void *vptr;
+  VTable_ArmamentControl *_vtable;
   int systemId;
   CommandGui *gui;
   ShipManager *shipManager;
@@ -3470,9 +3504,31 @@ struct CrewBox
 };
 
 /* 215 */
+struct VTable_ArmamentBox
+{
+  void (__thiscall *Free)(ArmamentBox *this);
+  bool (__thiscall *Empty)(ArmamentBox *this);
+  std__string (__thiscall *Name)(ArmamentBox *this);
+  bool (__thiscall *Powered)(ArmamentBox *this);
+  void (__thiscall *SetDefaultAutofire)(ArmamentBox *this, bool val);
+  int (__thiscall *RealRequiredPower)(ArmamentBox *this);
+  int (__thiscall *GetBonusPower)(ArmamentBox *this);
+  std__string (__thiscall *GetType)(ArmamentBox *this);
+  GL_Color (__thiscall *StatusColor)(ArmamentBox *this);
+  std__string (__thiscall *GenerateTooltip)(ArmamentBox *this);
+  void (__thiscall *OnLoop)(ArmamentBox *this);
+  void (__thiscall *RenderTouchTooltip)(ArmamentBox *this, int spaceToTop);
+  void (__thiscall *OnRender)(ArmamentBox *this, bool dragging, bool flashPowerBox);
+  void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
+  void (__thiscall *RenderLabels)(ArmamentBox *this);
+  void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
+  
+
+};
+
 struct ArmamentBox
 {
-  void *vptr;
+  VTable_ArmamentBox *_vtable;
   std__vector_14GL_PrimitiveZ1 background;
   GL_Primitive *emptyBackground;
   GL_Primitive *hoverHighlight;

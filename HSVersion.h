@@ -7,7 +7,7 @@ Change the version numbers here
 */
 #define HS_VER_MAJOR 1
 #define HS_VER_MINOR 2
-#define HS_VER_PATCH 0
+#define HS_VER_PATCH 2
 
 #define BUILD_IDENTIFIER_HASH "unknown_build"
 #define BUILD_BRANCH ""
@@ -53,7 +53,7 @@ struct HyperspaceVersion
             return "";
         return branchName.substr(featurePrefix.size());
     }
-    
+
     const std::string toIdentifierString() const
     {
         if(computedIdentifier.empty())

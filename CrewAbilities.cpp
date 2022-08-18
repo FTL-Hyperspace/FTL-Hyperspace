@@ -421,6 +421,10 @@ void ActivatedPower::PreparePower()
     PrepareAnimation();
     powerDone = false;
 
+    // Update cooldown and charges
+    powerCooldown.first = 0;
+    powerCharges.first = std::max(0, powerCharges.first - 1);
+
     int ownerShip = crew->GetPowerOwner();
     powerShip = crew->currentShipId;
     powerRoom = crew->iRoomId;
@@ -484,10 +488,6 @@ void ActivatedPower::ActivatePower()
     lua_pop(context->GetLua(), 2);
 
     if (preempt) return;
-
-    // Update cooldown and charges
-    powerCooldown.first = 0;
-    powerCharges.first = std::max(0, powerCharges.first - 1);
 
     powerActivated = true;
 

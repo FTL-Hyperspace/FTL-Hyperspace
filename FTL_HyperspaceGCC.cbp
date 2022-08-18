@@ -762,6 +762,9 @@
 		<Unit filename="AbilityDrone.h">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
+		<Unit filename="AdditionalWeaponSlots.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="AlternateOxygenRendering.cpp">
 			<Option virtualFolder="Content/Ship/" />
 		</Unit>
