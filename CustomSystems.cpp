@@ -54,7 +54,8 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomSystems.cpp)\n")
-    super(event);
+
+    LocationEvent *ret = super(event);
 
     if (event->stuff.upgradeAmount > 0)
     {
@@ -67,6 +68,8 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event)
             playerShip->shipManager->UpgradeSystem(event->stuff.upgradeId, event->stuff.upgradeAmount);
         }
     }
+
+    return ret;
 }
 
 
