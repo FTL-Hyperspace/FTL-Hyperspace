@@ -23,6 +23,7 @@ namespace std {
 	%template(vector_Projectile) vector<Projectile*>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
+    %template(pair_float_float) pair<float, float>;
 }
 
 %apply const std::string& {std::string* GetName()};
