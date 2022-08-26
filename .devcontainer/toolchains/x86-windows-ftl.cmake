@@ -1,23 +1,36 @@
 set(CMAKE_SYSTEM_NAME Windows)
 
+# Get clang version
+execute_process(
+    COMMAND clang -v
+    ERROR_VARIABLE _clang_v_output
+    COMMAND_ERROR_IS_FATAL ANY
+)
+string(REGEX REPLACE ".*version ([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1" _clang_version "${_clang_v_output}")
+message(STATUS "clang version: ${_clang_version}")
+
+# Get mingw root
+file(GLOB _mingw_versioned_root LIST_DIRECTORIES true "/usr/lib/gcc/i686-w64-mingw32/*-posix")
+message(STATUS "mingw versioned root path: ${_mingw_versioned_root}")
+
 string(CONCAT _compiler_flags
 "-target i686-w64-mingw32 -nostdinc"
 
 # clang++-14 -target i686-w64-mingw32 -E -x c -v - < /dev/null
 # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
-" -isystem /usr/lib/llvm-14/lib/clang/14.0.5/include"
+" -isystem /usr/lib/llvm-14/lib/clang/${_clang_version}/include"
 # Force mingw to use clang intrinsics
 # REF: https://github.com/msys2/MINGW-packages/issues/9052#issuecomment-756456305
 " -D__MINGW_FORCE_SYS_INTRINS"
 
 # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/c++"
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/c++/i686-w64-mingw32"
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/c++/backward"
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include"
+" -isystem ${_mingw_versioned_root}/include/c++"
+" -isystem ${_mingw_versioned_root}/include/c++/i686-w64-mingw32"
+" -isystem ${_mingw_versioned_root}/include/c++/backward"
+" -isystem ${_mingw_versioned_root}/include"
 # Do not include fixincludes
 # REF: https://codechecker.readthedocs.io/en/v6.9.0/gcc_incompatibilities/
-#" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include-fixed"
+#" -isystem ${_mingw_versioned_root}/include-fixed"
 " -isystem /usr/i686-w64-mingw32/include"
 
 # Use utils starting with `i686-w64-mingw32-`
@@ -28,7 +41,7 @@ string(CONCAT _compiler_flags
 )
 string(CONCAT _linker_flags
     "-static"
-    " -L/usr/i686-w64-mingw32/lib -L/usr/lib/gcc/i686-w64-mingw32/9.4-posix"
+    " -L/usr/i686-w64-mingw32/lib -L${_mingw_versioned_root}"
 
     # Use lld instead of ld
     " -fuse-ld=lld-14"
