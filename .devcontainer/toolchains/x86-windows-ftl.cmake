@@ -40,6 +40,7 @@ string(CONCAT _linker_flags
 
 set(CMAKE_C_COMPILER "/usr/bin/clang-14" CACHE PATH "")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++-14" CACHE PATH "")
+set(CMAKE_RC_COMPILER "/usr/bin/i686-w64-mingw32-windres" CACHE PATH "")
 set(CMAKE_C_FLAGS_INIT "${_compiler_flags}")
 set(CMAKE_CXX_FLAGS_INIT "${_compiler_flags}")
 set(CMAKE_C_FLAGS_DEBUG_INIT "-DDEBUG")
