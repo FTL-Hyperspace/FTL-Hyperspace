@@ -3,11 +3,14 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# Deps from vcpkg
-find_package(Boost REQUIRED)
-find_package(SDL2 CONFIG REQUIRED)
-find_package(DiscordRpc REQUIRED)
-find_package(Lua REQUIRED)
+find_package(Boost REQUIRED) # From vcpkg
+find_package(Lua REQUIRED) # From vcpkg
+
+if(UNIX)
+    find_package(SDL2 REQUIRED) # From system
+elseif(WIN32)
+    find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
+endif()
 
 # pthread
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -56,8 +59,6 @@ target_include_directories(
 )
 target_link_libraries(
     Hyperspace PRIVATE
-    SDL2::SDL2-static
-    DiscordRpc::DiscordRpc
     ${LUA_LIBRARIES}
     Threads::Threads
 )
@@ -293,7 +294,22 @@ target_compile_options(
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
+    # SDL2
+    target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
+    target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
+    
+    target_compile_definitions(
+        Hyperspace PRIVATE
+        
+        # Steam build specific
+        STEAM_1_6_13_BUILD
+
+        # Disable Discord integration
+        SKIPDISCORD
+    )
 elseif(WIN32)
+    # Discord
+    target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
+
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
-    # target_compile_options(Hyperspace PRIVATE -masm=intel)
 endif()

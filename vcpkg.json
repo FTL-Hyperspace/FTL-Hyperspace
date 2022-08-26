@@ -8,7 +8,6 @@
         "boost-math",
         "boost-format",
         "boost-crc",
-        "sdl2",
         "discord-rpc",
         "lua"
     ],

@@ -49,7 +49,7 @@ RUN cd /usr/local \
 
 # Setup CMake
 RUN cd /usr/local \
-    && (curl -sL https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-linux-x86_64.sh) \
+    && (curl -sL https://github.com/Kitware/CMake/releases/download/v3.24.1/cmake-3.24.1-linux-x86_64.sh) \
         > /tmp/cmakeinstall.sh \
     && bash /tmp/cmakeinstall.sh --skip-license
 
@@ -70,6 +70,13 @@ RUN (curl -sL \
     > /tmp/pwsh.deb \
     && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
+
+# Setup SDL
+# Note: We're using the system-provided SDL because vcpkg-built SDL is very sensitive to the optional dependencies.
+#       For some of them it's a mess to correctly install both amd64 and i386 version at the same time.
+#       The most immediate symptom if the SDL is built without optional deps is that you don't see any of the error
+#       message boxes.
+RUN apt install -y --no-install-recommends libsdl2-dev:amd64 libsdl2-dev:i386
 
 # Setup vcpkg
 RUN cd / \
