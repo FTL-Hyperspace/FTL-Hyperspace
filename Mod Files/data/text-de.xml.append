@@ -11,7 +11,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.2.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.2.3)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -156,7 +156,7 @@
 <text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
 <text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
 <text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
-<text name="temporal" language="de">\1x/\4x Geschwin. für \3/\6 sek.</text> 
+<text name="temporal" language="de">Temporalmanipulator</text> 
 <text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 sek.</text>
 <text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
 <text name="temporal_arm_speed" language="de">Beschleunige alles im Raum \1x für \3 Sekunden.</text>

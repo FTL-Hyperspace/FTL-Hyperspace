@@ -6827,6 +6827,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
 	LIBZHL_API void UpdateCrewMembers();
 	LIBZHL_API void UpdateEnvironment();
+	LIBZHL_API void UpgradeSystem(int id, int amount);
 	LIBZHL_API int constructor(int shipId);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor2();

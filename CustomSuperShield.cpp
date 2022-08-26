@@ -59,7 +59,7 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
                     }
                 }
             }
-            else if (aug.first == "ENERGY_SHIELD")
+            if (aug.first == "ENERGY_SHIELD")
             {
                 hasEnergyShield = true;
             }
