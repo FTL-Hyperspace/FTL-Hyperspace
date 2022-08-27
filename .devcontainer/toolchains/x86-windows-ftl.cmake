@@ -2,7 +2,7 @@ set(CMAKE_SYSTEM_NAME Windows)
 
 # Get clang version
 execute_process(
-    COMMAND clang -v
+    COMMAND clang-14 -v
     ERROR_VARIABLE _clang_v_output
     COMMAND_ERROR_IS_FATAL ANY
 )
@@ -14,30 +14,30 @@ file(GLOB _mingw_versioned_root LIST_DIRECTORIES true "/usr/lib/gcc/i686-w64-min
 message(STATUS "mingw versioned root path: ${_mingw_versioned_root}")
 
 string(CONCAT _compiler_flags
-"-target i686-w64-mingw32 -nostdinc"
+    "-target i686-w64-mingw32 -nostdinc"
 
-# clang++-14 -target i686-w64-mingw32 -E -x c -v - < /dev/null
-# This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
-" -isystem /usr/lib/llvm-14/lib/clang/${_clang_version}/include"
-# Force mingw to use clang intrinsics
-# REF: https://github.com/msys2/MINGW-packages/issues/9052#issuecomment-756456305
-" -D__MINGW_FORCE_SYS_INTRINS"
+    # clang++-14 -target i686-w64-mingw32 -E -x c -v - < /dev/null
+    # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
+    " -isystem /usr/lib/llvm-14/lib/clang/${_clang_version}/include"
+    # Force mingw to use clang intrinsics
+    # REF: https://github.com/msys2/MINGW-packages/issues/9052#issuecomment-756456305
+    " -D__MINGW_FORCE_SYS_INTRINS"
 
-# i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
-" -isystem ${_mingw_versioned_root}/include/c++"
-" -isystem ${_mingw_versioned_root}/include/c++/i686-w64-mingw32"
-" -isystem ${_mingw_versioned_root}/include/c++/backward"
-" -isystem ${_mingw_versioned_root}/include"
-# Do not include fixincludes
-# REF: https://codechecker.readthedocs.io/en/v6.9.0/gcc_incompatibilities/
-#" -isystem ${_mingw_versioned_root}/include-fixed"
-" -isystem /usr/i686-w64-mingw32/include"
+    # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
+    " -isystem ${_mingw_versioned_root}/include/c++"
+    " -isystem ${_mingw_versioned_root}/include/c++/i686-w64-mingw32"
+    " -isystem ${_mingw_versioned_root}/include/c++/backward"
+    " -isystem ${_mingw_versioned_root}/include"
+    # Do not include fixincludes
+    # REF: https://codechecker.readthedocs.io/en/v6.9.0/gcc_incompatibilities/
+    #" -isystem ${_mingw_versioned_root}/include-fixed"
+    " -isystem /usr/i686-w64-mingw32/include"
 
-# Use utils starting with `i686-w64-mingw32-`
-" -Bi686-w64-mingw32-"
+    # Use utils starting with `i686-w64-mingw32-`
+    " -Bi686-w64-mingw32-"
 
-# Use DWARF exceptions
-" -fdwarf-exceptions"
+    # Use DWARF exceptions
+    " -fdwarf-exceptions"
 )
 string(CONCAT _linker_flags
     "-static"
@@ -45,9 +45,6 @@ string(CONCAT _linker_flags
 
     # Use lld instead of ld
     " -fuse-ld=lld-14"
-    
-    # Clang generates code that collides with mingw on some occasions
-    # " -Xlinker /force:multiple"
 )
 
 
