@@ -67,9 +67,11 @@ target_sources(
     Hyperspace PRIVATE
     AbilityDrone.cpp
     AbilityDrone.h
+    AdditionalWeaponSlots.cpp
     AlternateOxygenRendering.cpp
     AlternateOxygenRendering.h
     ArtilleryBarFix.cpp
+    ArtillerySystem.cpp
     AugmentValues.cpp
     Augments.cpp
     Balance.cpp
@@ -85,6 +87,7 @@ target_sources(
     CooldownNumbers.cpp
     CooldownNumbers.h
     Credits.cpp
+    CrewAbilities.cpp
     CrewManifestVTable.cpp
     CrewMember_Extend.cpp
     CrewMember_Extend.h
