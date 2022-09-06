@@ -2,7 +2,7 @@ set(CMAKE_SYSTEM_NAME Windows)
 
 # Get clang version
 execute_process(
-    COMMAND clang-14 -v
+    COMMAND clang-10 -v
     ERROR_VARIABLE _clang_v_output
     COMMAND_ERROR_IS_FATAL ANY
 )
@@ -16,9 +16,9 @@ message(STATUS "mingw versioned root path: ${_mingw_versioned_root}")
 string(CONCAT _compiler_flags
     "-target i686-w64-mingw32 -nostdinc"
 
-    # clang++-14 -target i686-w64-mingw32 -E -x c -v - < /dev/null
+    # clang++-10 -target i686-w64-mingw32 -E -x c -v - < /dev/null
     # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
-    " -isystem /usr/lib/llvm-14/lib/clang/${_clang_version}/include"
+    " -isystem /usr/lib/llvm-10/lib/clang/${_clang_version}/include"
     # Force mingw to use clang intrinsics
     # REF: https://github.com/msys2/MINGW-packages/issues/9052#issuecomment-756456305
     " -D__MINGW_FORCE_SYS_INTRINS"
@@ -44,21 +44,21 @@ string(CONCAT _linker_flags
     " -L/usr/i686-w64-mingw32/lib -L${_mingw_versioned_root}"
 
     # Use lld instead of ld
-    " -fuse-ld=lld-14"
+    " -fuse-ld=lld-10"
 )
 
 
-set(CMAKE_C_COMPILER "/usr/bin/clang-14" CACHE PATH "")
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++-14" CACHE PATH "")
+set(CMAKE_C_COMPILER "/usr/bin/clang-10" CACHE PATH "")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++-10" CACHE PATH "")
 set(CMAKE_RC_COMPILER "/usr/bin/i686-w64-mingw32-windres" CACHE PATH "")
 set(CMAKE_C_FLAGS_INIT "${_compiler_flags}")
 set(CMAKE_CXX_FLAGS_INIT "${_compiler_flags}")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")
 set(CMAKE_C_FLAGS_DEBUG_INIT "-DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE_INIT "-DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-DNDEBUG")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")
 
 # From mingw-w64-i686-dev package
 list(APPEND CMAKE_FIND_ROOT_PATH "/usr/i686-w64-mingw32")
