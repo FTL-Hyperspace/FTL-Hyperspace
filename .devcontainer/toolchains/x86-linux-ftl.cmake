@@ -18,7 +18,7 @@ string(CONCAT _linker_flags
     "-lm"
 
     # Use lld instead of ld
-    " -fuse-ld=lld-10"
+    # " -fuse-ld=lld-10"
     
     # " -Xlinker /force:multiple"
 )

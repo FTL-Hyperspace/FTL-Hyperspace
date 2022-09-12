@@ -44,7 +44,7 @@ string(CONCAT _linker_flags
     " -L/usr/i686-w64-mingw32/lib -L${_mingw_versioned_root}"
 
     # Use lld instead of ld
-    " -fuse-ld=lld-10"
+    # " -fuse-ld=lld-10"
 )
 
 
