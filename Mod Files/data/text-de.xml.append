@@ -3,6 +3,20 @@
 <!--German Translation by The Dumb Dino #3980-->
 <text name="system_temporal_title" language="de">Temporalmanipulator</text>
 <text name="system_temporal_desc" language="de">Beschleunigt oder verlangsamt die Zeit in einem Raum. Verbesserungen erhöhen die Dauer und Stärke.</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="de">Nano-Verteidigungsbot-Verteiler</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_desc" language="de">Feindliche Crew auf deinem Schiff nimmt langsam schaden.</text>
+<text name="aug_FTL_JUMPER_GOOD_title" language="de">Erw. FTL-Navigation II</text>
+<text name="aug_FTL_JUMPER_GOOD_desc" language="de">Ermöglicht dir zu jedem Signalpunktpunkt auf der Karte zu springen.</text>
+<text name="aug_BOARDER_RECOVERY_title" language="de">Boarding Recycler</text>
+<text name="aug_BOARDER_RECOVERY_desc" language="de">Nicht zerstörte Boardingdrohnen werden am Ende eines Gefechts eingesammelt.</text>
+<text name="aug_MIND_ORDER_title" language="de">Neurale Zügel</text>
+<text name="aug_MIND_ORDER_desc" language="de">Erlaubt direkte Kontrolle von Gedanken kontrollierter feindlicher Crew. Erlaubt auch die nutzung von Fähigkeiten der kontrollierten Crew.</text>
+<text name="crew_ghost_desc" language="de">Geister der vergangenen Crew.</text>
+<text name="crew_ghost_title" language="de">Geist</text>
+<text name="crew_ghost_short" language="de">Geist</text>
+<text name="crew_ghost_power_1" language="de">Kann ohne Sauerstoff überleben</text>
+<text name="crew_ghost_power_2" language="de">Maximale Gesundheit ist reduziert</text>
+<text name="crew_ghost_power_3" language="de">Kann dürch Türen gehen</text>
 <text name="no_time_sector" language="de">Beim Blick auf die Karte wird dir klar, dass du keine Zeit hast und zum nächsten Sektor musst! Du verschiebst den Auftrag auf ein andermal.</text>
 <mod:findName type="text" name="no_type_c" language="de">
   <mod:setValue>Hangar Leer</mod:setValue>
