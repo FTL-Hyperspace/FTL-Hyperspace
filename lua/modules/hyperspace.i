@@ -24,6 +24,8 @@ namespace std {
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
     %template(pair_float_float) pair<float, float>;
+    %template(vector_Pointf) vector<Pointf>;
+    %template(vector_Point) vector<Point>;
 }
 
 %apply const std::string& {std::string* GetName()};
