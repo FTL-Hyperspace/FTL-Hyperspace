@@ -10,13 +10,13 @@
 <text name="aug_BOARDER_RECOVERY_title" language="de">Boarding Recycler</text>
 <text name="aug_BOARDER_RECOVERY_desc" language="de">Nicht zerstörte Boardingdrohnen werden am Ende eines Gefechts eingesammelt.</text>
 <text name="aug_MIND_ORDER_title" language="de">Neurale Zügel</text>
-<text name="aug_MIND_ORDER_desc" language="de">Erlaubt direkte Kontrolle von Gedanken kontrollierter feindlicher Crew. Erlaubt auch die nutzung von Fähigkeiten der kontrollierten Crew.</text>
+<text name="aug_MIND_ORDER_desc" language="de">Erlaubt direkte Kontrolle von Gedanken kontrollierter feindlicher Crew. Erlaubt auch die Nutzung von Fähigkeiten der kontrollierten Crew.</text>
 <text name="crew_ghost_desc" language="de">Geister der vergangenen Crew.</text>
 <text name="crew_ghost_title" language="de">Geist</text>
 <text name="crew_ghost_short" language="de">Geist</text>
 <text name="crew_ghost_power_1" language="de">Kann ohne Sauerstoff überleben</text>
 <text name="crew_ghost_power_2" language="de">Maximale Gesundheit ist reduziert</text>
-<text name="crew_ghost_power_3" language="de">Kann dürch Türen gehen</text>
+<text name="crew_ghost_power_3" language="de">Kann durch Türen gehen</text>
 <text name="no_time_sector" language="de">Beim Blick auf die Karte wird dir klar, dass du keine Zeit hast und zum nächsten Sektor musst! Du verschiebst den Auftrag auf ein andermal.</text>
 <mod:findName type="text" name="no_type_c" language="de">
   <mod:setValue>Hangar Leer</mod:setValue>
@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.0.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.2.3)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -121,10 +121,10 @@
 <text name="ammo_consumption" language="de">Raketenverbrauch: \1</text>
 <text name="redesigned_boost_power_damage_positive" language="de">Ketteneffekt: Erhöt Schaden um \1</text>
 <text name="redesigned_boost_power_damage_negative" language="de">Ketteneffekt: Senkt Schaden um \1</text>
-<text name="redesigned_boost_power_speed_positive" language="de">Ketteneffekt: Beschleunigt Ablingzeit um \1</text>
-<text name="redesigned_boost_power_speed_negative" language="de">Ketteneffekt: Verlangsamt Ablingzeit um \1</text>
+<text name="redesigned_boost_power_speed_positive" language="de">Ketteneffekt: Beschleunigt Abklingzeit um \1</text>
+<text name="redesigned_boost_power_speed_negative" language="de">Ketteneffekt: Verlangsamt Abklingzeit um \1</text>
 <text name="redesigned_damage_cap" language="de">Kettenschaden limit: \1 Schaden (\2 ketten)</text>
-<text name="redesigned_speed_cap" language="de">Kettenablinkzeit limit: \1 (\2 ketten)</text>
+<text name="redesigned_speed_cap" language="de">Kettenabklinkzeit limit: \1 (\2 ketten)</text>
 <text name="shot_radius" language="de">Schussradius: \1</text>
 <text name="shot_radius_angular" language="de">Schussradius: \1 grad</text>
 <text name="beam_length" language="de">Strahllänge: \1</text>
@@ -154,14 +154,14 @@
 <text name="defense_drone_drone_target_solid_projectiles" language="de">Ziel: Drohnen + Feste Geschosse</text>
 <text name="defense_drone_drone_target_all_projectiles" language="de">Ziel: Drohnen + Sämtliche Geschosse</text>
 <text name="defense_drone_drone_target_solid" language="de">Ziel: Feste Drohnen</text>
-<text name="teleporter_instant" language="de">Keine Ablingzeit</text>
+<text name="teleporter_instant" language="de">Keine Abklingzeit</text>
 <text name="clonebay_instant_fullheal" language="de">Sofortiges Klonen + Vollständige Heilung bei Sprung</text>
 <text name="defense_asteroid_friendly" language="de">Eigene Abwehrdrohne:\nSchießt Asteroiden ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
 <text name="defense_asteroid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden ab. Schießt Asteroiden ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
 <text name="defense_solid_friendly" language="de">Eigene Abwehrdrohne:\nSchießt Asteroiden, Raketen und feindliche Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
 <text name="defense_solid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden, Raketen und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
-<text name="defense_all_friendly" language="de">Eigene Abwehrdrohne:\nSchießt sämtliche Projektiele und Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
-<text name="defense_all_enemy" language="de">Abwehrdrohne:\nSchießt sämtliche Projektiele und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
+<text name="defense_all_friendly" language="de">Eigene Abwehrdrohne:\nSchießt sämtliche Projektile und Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
+<text name="defense_all_enemy" language="de">Abwehrdrohne:\nSchießt sämtliche Projektile und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
 <text name="hotkey_drone4" language="de">Drohnen Slot 4</text>
 <text name="hotkey_speed" language="de">Aktiviere Speedhack</text>
 <text name="hotkey_console" language="de">Öffne Konsole</text>
@@ -170,8 +170,8 @@
 <text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
 <text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
 <text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
-<text name="temporal" language="de">\1x/\4x Geschwin. für \3/\6 sek.</text> 
-<text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 sek.</text>
+<text name="temporal" language="de">Temporalmanipulator</text> 
+<text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 Sek.</text>
 <text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
 <text name="temporal_arm_speed" language="de">Beschleunige alles im Raum \1x für \3 Sekunden.</text>
 <text name="temporal_arm_slow" language="de">Verlangsame alles im Raum \4x für \6 Sekunden.</text>
@@ -201,12 +201,12 @@ Taste: \1</text>
 <text name="discord_victory" language="de">Sieg</text>
 <text name="discord_dead" language="de">Tot</text>
 <text name="discord_mod" language="de"></text>
-<text name="transfer_save_dialog" language="de">Es scheint als ob du das ersten Mal diese Mod nutzt oder noch keinen neuen Spielstand erstellt hast! Möchtst du deinen Vanilla-Spielstand übertragen oder einen neuen spielstand erstellen? Dein Vanilla-Spielstand wird dadurch nicht verändert oder überschriebn.</text>
+<text name="transfer_save_dialog" language="de">Es scheint als ob du das ersten Mal diese Mod nutzt oder noch keinen neuen Spielstand erstellt hast! Möchtest du deinen Vanilla-Spielstand übertragen oder einen neuen spielstand erstellen? Dein Vanilla-Spielstand wird dadurch nicht verändert oder überschrieben.</text>
 <text name="tooltip_crew_page_down" language="de">Drücken um eine Crewseite nach unten zu gehen. \nDu kannst auch das Mausrad nutzen.</text>
 <text name="tooltip_crew_page_up" language="de">Drücken um eine Crewseite nach oben zu gehen. \nDu kannst auch das Mausrad nutzen.</text>
 <text name="tooltip_jump_noJump" language="de">Das feindliche Schiff hat deinen FTL-Antrieb deaktiviert. Es gibt kein Entkommen; Du musst das feindliche Schiff zerstören um zu überleben!</text>
 <text name="tooltip_temporal" language="de">Temporalmanipulator: Ändert den Zeitfluss in einem Raum.</text>
-<text name="tooltip_temporal_enemy" language="de">Temporalmanipulator: Das Feindliche schiff kann dies nutzen um den Zeitfluss in einem Raum zu ändern.</text>
+<text name="tooltip_temporal_enemy" language="de">Temporalmanipulator: Das Feindliche Schiff kann dies nutzen um den Zeitfluss in einem Raum zu ändern.</text>
 <!--Fixes one text in the hangar thats broken due to hyperpsace-->
 <mod:findName type="text" name="hangar_achievements_title" language="de">
   <mod:setValue>2 abschließen für Typ B</mod:setValue>
