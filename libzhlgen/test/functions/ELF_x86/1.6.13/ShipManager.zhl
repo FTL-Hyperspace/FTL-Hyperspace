@@ -172,6 +172,8 @@ cleanup __cdecl int ShipManager::GetFireCount(ShipManager *this, int roomId);
 cleanup __cdecl void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, int roomId);
 "5557565331db83ec1c0fb6442438":
 cleanup __cdecl std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
+"5589e557565383ec1c8b450c8b75088b5d10":
+cleanup __cdecl void ShipManager::UpgradeSystem(ShipManager *this, int id, int amount);
 
 
 struct ShipManager depends (PowerManager, ShieldPower)

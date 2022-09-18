@@ -382,7 +382,11 @@ HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
     CustomAchievementTracker::instance->WipeProfile();
 
     metaVariables.clear();
+
+    int tempQuestSeed = Global::questSeed;
+    Global::questSeed = random32();
     VariableModifier::ApplyVariables(CustomEventsParser::GetInstance()->initialMetaVars, nullptr);
+    Global::questSeed = tempQuestSeed;
 
     super(permanent);
 }

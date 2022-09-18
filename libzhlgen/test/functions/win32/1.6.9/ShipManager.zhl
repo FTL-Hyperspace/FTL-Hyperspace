@@ -170,6 +170,8 @@ __thiscall int ShipManager::GetFireCount(ShipManager *this, int roomId);
 __thiscall bool ShipManager::DoorsFunction(ShipManager *this);
 "578d7c240883e4f0ff77fc5589f889e557565383ec2c8b3f0fb64004c70100000000c7410400000000":
 __thiscall std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f8b4704891c2489442404":
+__thiscall void ShipManager::UpgradeSystem(ShipManager *this, int id, int amount);
 
 
 struct ShipManager depends (PowerManager, ShieldPower)

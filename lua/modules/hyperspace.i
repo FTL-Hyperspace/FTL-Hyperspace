@@ -22,6 +22,10 @@ namespace std {
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
+    %template(pair_int_int) pair<int, int>;
+    %template(pair_float_float) pair<float, float>;
+    %template(vector_Pointf) vector<Pointf>;
+    %template(vector_Point) vector<Point>;
 }
 
 %apply const std::string& {std::string* GetName()};
@@ -148,6 +152,8 @@ struct CFPS
 %rename("%s") CApp;
 // TODO: Maybe the CApp input functions become like `input.keyDown` etc... so it makes sense for people to call them and maybe `input.onKeyDown(callback)` is a function for registering handlers?
 // TODO: We could even use metatables to set __call of `input.onKeyDown` table to be the register function and `__getitem__` & `__setitem__` to allow `input.onKeyDown[index]` to access & delete registered handlers and then repeat the pattern for other event handlers? Or maybe just the __index & __newindex of it for named event handlers although representing the ordered nature of it might be harder that way.
+%rename("%s") CApp::OnExit; // close game, autosave profile and settings but not current run (current run will be on previous autosave)
+%rename("%s") CApp::OnRequestExit; // close game, autosave run, profile, and settings
 /*
 %rename("%s") CApp::OnKeyDown;
 %rename("%s") CApp::OnKeyUp;
@@ -181,6 +187,7 @@ struct CFPS
 
 /*
 %nodefaultctor CommandGui;
+%nodefaultdtor CommandGui;
 %rename("%s") CommandGui;
 ////%rename("%s") CommandGui::AddEnemyShip;
 ////%rename("%s") CommandGui::CreateNewStore;
@@ -1302,6 +1309,9 @@ struct CFPS
 %rename("%s") ResourceControl::ImageExists;
 %rename("%s") ResourceControl::RenderImage;
 %rename("%s") ResourceControl::RenderImageString;
+
+//%rename("%s") FileHelper;
+//%rename("%s") FileHelper::deleteAllSaveFiles;
 
 %rename("%s") Point;
 %rename("%(regex:/^Point::(.*)$/\\1/)s", regextarget=1, fullname=1) "Point::.*";

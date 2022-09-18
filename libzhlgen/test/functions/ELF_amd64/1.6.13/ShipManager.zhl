@@ -68,6 +68,8 @@ cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
 cleanup __amd64 bool ShipManager::HasSystem(ShipManager *this, int systemId);
 ".488b87580600004863f6486304b083f8ff740d":
 cleanup __amd64 int ShipManager::GetSystemPowerMax(ShipManager *this, int systemId);
+".55534889fb4883ec1883fe11":
+cleanup __amd64 void ShipManager::UpgradeSystem(ShipManager *this, int id, int amount);
 ".83fe117453":
 cleanup __amd64 int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "!.4889f731c989d6baffffffff":
