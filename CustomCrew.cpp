@@ -5714,7 +5714,7 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
             {
                 if (enemyShip->cloakSystem->bTurnedOn) return false;
             }
-            if (enemyShip->GetShieldPower().super.first > 0)
+            if ((enemyShip->iShipId == 0 || enemyShip->_targetable.hostile) && enemyShip->GetShieldPower().super.first > 0)
             {
                 ShipManager *playerShip = G_->GetShipManager(powerOwner);
                 if (playerShip)
