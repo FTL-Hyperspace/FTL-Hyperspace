@@ -5707,19 +5707,27 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
         if (!ret) return false;
 
         int powerOwner = orig->GetPowerOwner();
-        ShipManager *enemyShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
-        if (enemyShip)
+
+        ShipManager *enemyShip = G_->GetShipManager(1);
+        if (orig->currentShipId == powerOwner && (!enemyShip || !enemyShip->_targetable.hostile))
         {
-            if (enemyShip->systemKey[10] != -1)
+            return false; // can't teleport off your own ship when not hostile
+        }
+
+        ShipManager *otherShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
+
+        if (otherShip)
+        {
+            if (otherShip->systemKey[10] != -1)
             {
-                if (enemyShip->cloakSystem->bTurnedOn) return false;
+                if (otherShip->cloakSystem->bTurnedOn) return false;
             }
-            if ((enemyShip->iShipId == 0 || enemyShip->_targetable.hostile) && enemyShip->GetShieldPower().super.first > 0)
+            if ((otherShip->iShipId == 0 || otherShip->_targetable.hostile) && otherShip->GetShieldPower().super.first > 0)
             {
-                ShipManager *playerShip = G_->GetShipManager(powerOwner);
-                if (playerShip)
+                ShipManager *crewShip = G_->GetShipManager(powerOwner);
+                if (crewShip)
                 {
-                    return playerShip->HasEquipment("ZOLTAN_BYPASS");
+                    return crewShip->HasEquipment("ZOLTAN_BYPASS");
                 }
                 return false;
             }
