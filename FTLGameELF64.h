@@ -2861,6 +2861,8 @@ struct SpaceManager;
 
 struct LIBZHL_INTERFACE CompleteShip
 {
+	void CheckTeleportMovement();
+
 	virtual ~CompleteShip() {}
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual void PauseLoop();

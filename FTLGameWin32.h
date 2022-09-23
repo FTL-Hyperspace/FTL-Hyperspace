@@ -2846,6 +2846,8 @@ struct SpaceManager;
 
 struct LIBZHL_INTERFACE CompleteShip
 {
+	void CheckTeleportMovement();
+
 	virtual ~CompleteShip() {}
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual void PauseLoop();
@@ -3856,6 +3858,7 @@ struct CombatControl
 	LIBZHL_API void DrawHostileBox(GL_Color color, int stencilBit);
 	LIBZHL_API std::string GetCrewTooltip(int x, int y);
 	LIBZHL_API ShipManager *GetCurrentTarget();
+	LIBZHL_API std::pair<int, int> GetTeleportationCommand();
 	LIBZHL_API void KeyDown(SDLKey key);
 	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
 	LIBZHL_API bool MouseMove(int mX, int mY);
