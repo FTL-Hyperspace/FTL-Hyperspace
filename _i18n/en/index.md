@@ -18,6 +18,7 @@ The mod also contains some Quality of Life changes to FTL, such as a numerical h
 Please see the respective install guide for:
 - [Windows](install-guides/windows/index.html)
 - [Linux & Steam Deck (Guide coming soon, for now see the forum post)](https://subsetgames.com/forum/viewtopic.php?f=11&t=35095)
+- [Linux & Steam Deck](install-guides/linux/)
 - MacOS is currently not directly supported, your milage may vary but you might get the Windows version working with Crossover or the Linux version working inside a VM with sufficient RAM.
 
 ## Mod Makers
