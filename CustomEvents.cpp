@@ -3248,9 +3248,9 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
 
             for (SectorQuest &event : sec->sectorQuests)
             {
-                if (!event.req.empty())
+                bool reqMet = event.req.empty();
+                if (!reqMet)
                 {
-                    bool reqMet = false;
                     if (ship)
                     {
                         advancedCheckEquipment[6] = true;
@@ -3258,11 +3258,11 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
                         advancedCheckEquipment[6] = false;
                         reqMet = (reqLvl >= event.lvl && reqLvl <= event.max_lvl);
                     }
-                    if (reqMet)
-                    {
-                        // seed is -1
-                        addedSectorQuests.push_back("QUEST\t-1\t" + event.event);
-                    }
+                }
+                if (reqMet)
+                {
+                    // seed is -1
+                    addedSectorQuests.push_back("QUEST\t-1\t" + event.event);
                 }
             }
 
