@@ -12,7 +12,6 @@ This guide assumes your system is using KDE Plasma as the desktop environment (S
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/2.png' | relative_url }})
 2. Ensure the version says `1.6.12` in the lower right.
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/3.png' | relative_url }})
-4. Navigate to this install guide from your Steam Deck if you haven't already in order to download the files in the next steps
 5. Download Hyperspace <a id="hyperspace-download-link" href="https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest">`FTL-Hyperspace.x.x.x.zip` from here</a> to your `Downloads` folder
 ***Do not extract this ZIP yet***
 6. Download [Vhati's Slipstream 1.9.1 for Linux](https://sourceforge.net/projects/slipstreammodmanager/files/Slipstream/1.9.1/SlipstreamModManager_1.9.1-Unix.tar.gz/download) to your `Downloads` folder
