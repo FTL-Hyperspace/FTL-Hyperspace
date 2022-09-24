@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "SteamDeck Steam Hyperspace Install"
+title: "SteamDeck GoG/Humble Hyperspace Install"
 ---
 <script>
 fetch('https://api.github.com/repos/FTL-Hyperspace/FTL-Hyperspace/releases/latest')
@@ -10,6 +10,6 @@ fetch('https://api.github.com/repos/FTL-Hyperspace/FTL-Hyperspace/releases/lates
         document.getElementById('hyperspace-download-link').href=downloadUrl
     })
 </script>
-{% tf install-guides/linux/steamdeck/steam-install.md %}
+{% tf install-guides/linux/steamdeck/gog-humble.md %}
 
 {% tf install-guides/linux/multiverse-install.md %}

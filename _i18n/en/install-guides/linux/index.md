@@ -38,3 +38,4 @@ To potentially fix a corrupted save:
 4. Run the game and once it loads to the main menu close it again
 5. Move your original `hs_mv_prof.sav` back where it was before, replacing the one that was created by the game
 6. If this still doesn't work, delete the entire `~/.local/share/FasterThanLight/` folder
+7. ALso disable Steam Cloud Sync if you are using a version of FTL from steam, it'll frequently break the save files.

@@ -1,53 +1,52 @@
 # Before you start
 **Uninstall any other FTL mods before proceeding!**
 
-1. Launch FTL to make sure you're running the correct version
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_0.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_1.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_2.png' | relative_url }})
-2. Ensure the version says `1.6.13` in the lower right, if it says 1.6.14 or somehow 1.6.9 you're accidentally running the Windows version under proton and need to turn off Steam play compatibility to run the native version.
-![image]({{ '/assets/img/install/steamdeck/steam/check_ftl_version.png' | relative_url }})
-3. Switch the SteamDeck into desktop mode
+***NOTE***
+This guide assumes the GoG installed version and that it's installed to `~/GOG Games/FTL Advanced Edition` (the `GOG Games` folder in your user's home directory) If you are using the Humble Bundle version or have installed the GOG version somewhere else the instructions are *exactly the same* but obviously the game's location may differ.
+
+1. Switch the SteamDeck into desktop mode
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_3.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_4.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_5.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_6.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_7.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/0.png' | relative_url }})
+1. Launch FTL to make sure you're running the correct version
+![image]({{ '/assets/img/install/steamdeck/gog-humble/1.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/2.png' | relative_url }})
+2. Ensure the version says `1.6.12` in the lower right.
+![image]({{ '/assets/img/install/steamdeck/gog-humble/3.png' | relative_url }})
 4. Navigate to this install guide from your Steam Deck if you haven't already in order to download the files in the next steps
 5. Download Hyperspace <a id="hyperspace-download-link" href="https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest">`FTL-Hyperspace.x.x.x.zip` from here</a> onto the deck's `Downloads` folder
 ***Do not extract this ZIP yet***
 6. Download [Slipstream packaged for the SteamDeck, here](https://github.com/Nasa62/slipstream-deck-temporary/blob/main/SlipstreamModManager_1.9.1-SteamDeck.tar.xz?raw=true) onto the deck's `Downloads` folder
 ***Do not extract this ZIP yet***
-7. Launch the Steam library
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_8.png' | relative_url }})
-8. Browse for FTL's local files by right clicking the game in Steam and going to `Manage` and then `Browse local files`
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_9.png' | relative_url }})
-9. Navigate to the `data` folder *(if you see `FTLGame.exe` then you need to stop & go disable SteamPlay compatibility on the title as you have the windows version installed)*
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_10.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_11.png' | relative_url }})
-10. It should look ***exactly*** like this, for an unmodified vanilla install
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_12.png' | relative_url }})
+7. Open Dolphin (file browser) and navigate to the FTL install folder and into the game & data folders
+![image]({{ '/assets/img/install/steamdeck/gog-humble/4.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/5.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/6.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/7.png' | relative_url }})
+10. It should look like this, for an unmodified vanilla install
+![image]({{ '/assets/img/install/steamdeck/gog-humble/8.png' | relative_url }})
 11. Open the Downloads folder in a new window where we previously downloaded Hyperspace & Slipstream to
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_13.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_14.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/9.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/10.png' | relative_url }})
 12. Right click the Hyperspace zip file and `Open with Ark` as we need to extract just a few files from it and not everything
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_15.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_16.png' | relative_url }})
 13. Expand the `Linux` folder in Ark by clicking on the little arrow to the left of it.
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_17.png' | relative_url }})
-14. Select only `Hyperspace.1.6.13.amd64.so` and `liblua5.3.so.0` and drag them over to the data folder to extract them there
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_18.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_19.png' | relative_url }})
+14. Select only `Hyperspace.1.6.12.amd64.so` and `liblua5.3.so.0` and drag them over to the data folder to extract them there
+![image]({{ '/assets/img/install/steamdeck/gog-humble/11.png' | relative_url }})
 15. Your data folder should now look like this
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_20.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/12.png' | relative_url }})
 16. Right click the `FTL` file and `Open with KWrite`
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_21.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_22.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/13.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/14.png' | relative_url }})
 17. Modify the last few lines of the file to look ***EXACTLY*** like this
 You must add these two lines before the `exec` line but after the other `export` lines
 ```sh
 export LD_LIBRARY_PATH="$here":${LD_LIBRARY_PATH}
-export LD_PRELOAD=Hyperspace.1.6.13.amd64.so
+export LD_PRELOAD=Hyperspace.1.6.12.amd64.so
 ```
 For reference, ***BEFORE*** it will look like this:
 ```sh
@@ -62,13 +61,13 @@ export LANG="${LC_ALL:-$LANG}"
 export LC_ALL=
 export LC_NUMERIC=C
 export LD_LIBRARY_PATH="$here":${LD_LIBRARY_PATH}
-export LD_PRELOAD=Hyperspace.1.6.13.amd64.so
+export LD_PRELOAD=Hyperspace.1.6.12.amd64.so
 exec "$here/$command.$arch" "$@"
 ```
 So to be clear you are just adding the two lines but it's ***very important*** you add them before that last line of the file that has `exec`
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_23.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/15.png' | relative_url }})
 18. Save the file & close KWrite
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_24.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/16.png' | relative_url }})
 #### Slipstream
 19. Go back to the downloads folder
 20. Right click `SlipstreamModManager_1.9.1-SteamDeck.tar.xz` and go down to `Extract` and select `Extract archive here`
@@ -89,27 +88,22 @@ It should look like this without any mods added
 ![image]({{ '/assets/img/install/steamdeck/steam/35.png' | relative_url }})
 26. Launch Slipstream by right clicking `modman.command` and selecting `Run In Konsole`
 ![image]({{ '/assets/img/install/steamdeck/steam/37.png' | relative_url }})
-27. Slipstream will ask several questions, they should all match what you see here and you can just hit yes to them
-![image]({{ '/assets/img/install/steamdeck/steam/38.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/39.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/40.png' | relative_url }})
-28. You probably want to select `Steam` at this option.
-![image]({{ '/assets/img/install/steamdeck/steam/41.png' | relative_url }})
+27. Slipstream will likely not auto-detect a GoG or Humble install, you'll have to tell it where the `FTL.dat` file is
+![image]({{ '/assets/img/install/steamdeck/gog-humble/17.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/18.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/19.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/20.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/21.png' | relative_url }})
+![image]({{ '/assets/img/install/steamdeck/gog-humble/22.png' | relative_url }})
+28. Select that it was not installed via Steam
+![image]({{ '/assets/img/install/steamdeck/gog-humble/23.png' | relative_url }})
 29. Your choice, yes/no if you want it to check for updates
 ![image]({{ '/assets/img/install/steamdeck/slipstream_update_prompt.png' | relative_url }})
 30. Slipstream running, check the box next to `Hyperspace` and hit `Patch`
 ![image]({{ '/assets/img/install/steamdeck/slipstream_checkhyperspace_hit_patch.png' | relative_url }})
 32. Say ***NO*** to running the game right now, we need to stop here and go disable steam cloud saves & delete the save files to ensure a successful start.
 ![image]({{ '/assets/img/install/steamdeck/steam/51.png' | relative_url }})
-#### Disabling Steam Cloud sync & removing old saves
-33. Go back to the Steam library
-![image]({{ '/assets/img/install/steamdeck/steam/52.png' | relative_url }})
-34. Right click FTL: Faster Than Light and select `Properties`
-![image]({{ '/assets/img/install/steamdeck/steam/53.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/54.png' | relative_url }})
-35. Uncheck `Keep games saves in the Steam Cloud for FTL: Faster Than Light`
-*This is very important because otherwise it'll constantly break the game from loading properly*
-![image]({{ '/assets/img/install/steamdeck/steam/55.png' | relative_url }})
+#### Removing old saves that will probably freeze the game
 36. Go back to your file browser (Dolphin) select `Home` on the left hand side
 ![image]({{ '/assets/img/install/steamdeck/steam/56.png' | relative_url }})
 37. Select the hamburger menu in the top right and check `Show Hidden Files`
@@ -121,14 +115,11 @@ It should look like this without any mods added
 40. Find the `FasterThanLight` folder, you can back it up somewhere at this point if you want to save your vanilla save
 ![image]({{ '/assets/img/install/steamdeck/steam/60.png' | relative_url }})
 41. Right click `FasterThanLight` and select `Move to Trash`
-***It is very important to delete this folder*** the first time after cloud sync is off as cloud sync results in a save file that Hyperspace can't read and will result in the game freezing at the end of the loading bar.
 ![image]({{ '/assets/img/install/steamdeck/steam/61.png' | relative_url }})
-42. Launch FTL from Steam
-![image]({{ '/assets/img/install/steamdeck/steam/62.png' | relative_url }})
-43. You should see a language selector if you deleted the saves correctly.
+42. Launch FTL
+43. You should see a language selector if you deleted all the saves correctly.
 ![image]({{ '/assets/img/install/steamdeck/steam/63.png' | relative_url }})
 44. You should notice it says `HS-x.x.x x64` in the upper right corner, this indicates the Hyperspace.so file is running
-The `1.6.13 (Hyperspace x.x.x)` in the lower right indicates a successful patching of Hyperspace.ftl with slipstream.
+The `1.6.12 (Hyperspace x.x.x)` in the lower right indicates a successful patching of Hyperspace.ftl with slipstream.
 You should see **BOTH** indicators showing hyperspace is running correctly.
-![image]({{ '/assets/img/install/steamdeck/steam/64.png' | relative_url }})
-
+![image]({{ '/assets/img/install/steamdeck/gog-humble/24.png' | relative_url }})

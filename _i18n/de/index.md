@@ -17,7 +17,7 @@ Dieser Mod enthält außerdem Lebensqualitäts Änderungen, zum Beispiel numeris
 
 Bitte schaue dir die jeweiligen Installations Anleitungen an:
 - [Windows](install-guides/windows/index.html)
-- [Linux & Steam Deck (Anleitung kommt bald, im Moment schaue dir bitte das Forum an)](https://subsetgames.com/forum/viewtopic.php?f=11&t=35095)
+- [Linux & Steam Deck](install-guides/linux/)
 - MacOS wird im Moment nicht unterstützt, du kannst vielleicht die Windows Option mit Crossover nutzen, auch wenn die Resultate variieren oder die Linux Version funktioniert in einem VM mit genug RAM.
 
 ## Mod Macher

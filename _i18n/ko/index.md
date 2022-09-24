@@ -16,7 +16,7 @@ FTL: Hyperspace 는 FTL 의 바이너리 (실행 파일) 에 직접적으로 변
 
 아래에서 적합한 설치 가이드를 참조해주세요.
 - [Windows](install-guides/windows/index.html)
-- [Linux & 스팀 덱 -- 가이드 제작 중. 지금은 포럼을 참조해주세요 (영문).](https://subsetgames.com/forum/viewtopic.php?f=11&t=35095)
+- [Linux & Steam Deck](install-guides/linux/)
 - MacOS 는 현재 직접적으로 지원하지 않습니다. Crossover 를 사용해 Windows 버전을 플레이하거나, VM 을 사용해 Linux 버전을 플레이할 수 있습니다.
 
 ## 모드 제작자용 문서
