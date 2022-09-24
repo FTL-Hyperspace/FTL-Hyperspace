@@ -1,7 +1,3 @@
-- I need to [Update Hyperspace](#updating)
-- I need to [Install Hyperspace](#installation)
-- I need to [Troubleshoot problems](#troubleshooting)
-
 # Updating
 
 Simply replace `Hyperspace.1.6.13.amd64.so` (For Steam) or `Hyperspace.1.6.12.amd64.so` (for GoG/Humble) with the new version from the hyperspace zip.

@@ -4,22 +4,20 @@
 ***NOTE***
 This guide assumes the GoG installed version and that it's installed to `~/GOG Games/FTL Advanced Edition` (the `GOG Games` folder in your user's home directory) If you are using the Humble Bundle version or have installed the GOG version somewhere else the instructions are *exactly the same* but obviously the game's location may differ.
 
-1. Switch the SteamDeck into desktop mode
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_3.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_5.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_6.png' | relative_url }})
-![image]({{ '/assets/img/install/steamdeck/gog-humble/0.png' | relative_url }})
+***NOTE***
+This guide assumes your system is using KDE Plasma as the desktop environment (Same as the Steam Deck & Kubuntu) and shows shortcuts and navigation in the filebrowser & apps common to KDE, if you're using a different desktop environment things might be slightly different but it should be close enough to send you down the right path. One noteable thing `Konsole` is KDE's form of the terminal/command line/xterm/gterm/whatever your system calls it.
+
 1. Launch FTL to make sure you're running the correct version
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/1.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/2.png' | relative_url }})
 2. Ensure the version says `1.6.12` in the lower right.
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/3.png' | relative_url }})
 4. Navigate to this install guide from your Steam Deck if you haven't already in order to download the files in the next steps
-5. Download Hyperspace <a id="hyperspace-download-link" href="https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest">`FTL-Hyperspace.x.x.x.zip` from here</a> onto the deck's `Downloads` folder
+5. Download Hyperspace <a id="hyperspace-download-link" href="https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest">`FTL-Hyperspace.x.x.x.zip` from here</a> to your `Downloads` folder
 ***Do not extract this ZIP yet***
-6. Download [Slipstream packaged for the SteamDeck, here](https://github.com/Nasa62/slipstream-deck-temporary/blob/main/SlipstreamModManager_1.9.1-SteamDeck.tar.xz?raw=true) onto the deck's `Downloads` folder
-***Do not extract this tar.xz yet***
-7. Open Dolphin (file browser) and navigate to the FTL install folder and into the game & data folders
+6. Download [Vhati's Slipstream 1.9.1 for Linux](https://sourceforge.net/projects/slipstreammodmanager/files/Slipstream/1.9.1/SlipstreamModManager_1.9.1-Unix.tar.gz/download) to your `Downloads` folder
+***Do not extract this tar.gz yet***
+7. Open your file browser and navigate to the FTL install folder and into the game & data folders
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/4.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/5.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/6.png' | relative_url }})
@@ -38,7 +36,7 @@ This guide assumes the GoG installed version and that it's installed to `~/GOG G
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/11.png' | relative_url }})
 15. Your data folder should now look like this
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/12.png' | relative_url }})
-16. Right click the `FTL` file and `Open with KWrite`
+16. Right click the `FTL` file and `Open with KWrite` or whatever text editor you want
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/13.png' | relative_url }})
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/14.png' | relative_url }})
 17. Modify the last few lines of the file to look ***EXACTLY*** like this
@@ -69,10 +67,10 @@ So to be clear you are just adding the two lines but it's ***very important*** y
 ![image]({{ '/assets/img/install/steamdeck/gog-humble/16.png' | relative_url }})
 #### Slipstream
 19. Go back to the downloads folder
-20. Right click `SlipstreamModManager_1.9.1-SteamDeck.tar.xz` and go down to `Extract` and select `Extract archive here`
+20. Right click `SlipstreamModManager_1.9.1-Unix.tar.gz` and go down to `Extract` and select `Extract archive here`
 ![image]({{ '/assets/img/install/steamdeck/downloads_extract_slipstream.png' | relative_url }})
-21. Navigate into the `SlipstreamModManager_1.9.1-SteamDeck` folder
-***NOTE*** At this point we're done with the Ark window for Slipstream (but not the other Ark window that has Hyperspace.zip open) we're also done with any use of `SlipstreamModManager_1.9.1-SteamDeck.tar.xz` so you can delete it now if you want to free up space.
+21. Navigate into the `SlipstreamModManager_1.9.1-Unix` folder
+***NOTE*** At this point we're done with the Ark window for Slipstream (but not the other Ark window that has Hyperspace.zip open) we're also done with any use of `SlipstreamModManager_1.9.1-Unix.tar.gz` so you can delete it now if you want to free up space.
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_27.png' | relative_url }})
 22. Navigate into the `mods` folder
 ![image]({{ '/assets/img/install/steamdeck/steam/steamdeck_29.png' | relative_url }})

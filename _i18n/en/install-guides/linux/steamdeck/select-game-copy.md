@@ -5,7 +5,6 @@
         <img class="sub-item selector-grid-image" src="{{ '/assets/img/Steam_logo.svg' | relative_url }}" alt="Steam" />
         <div class="sub-item selector-item-text">Steam</div>
     </a>
-<!-- - [Linux & Steam Deck (Guide coming soon, for now see the forum post)](https://subsetgames.com/forum/viewtopic.php?f=11&t=35095) -->
     <a class="item" href="gog-humble">
         <img class="sub-item selector-grid-image" src="{{ '/assets/img/GOG.com_logo.svg' | relative_url }}" alt="GoG.com" />
         <div class="sub-item selector-item-text">GoG</div>
@@ -14,18 +13,4 @@
         <img class="sub-item selector-grid-image" src="{{ '/assets/img/Humble_Bundle_logo.svg' | relative_url }}" alt="Humble Bundle" />
         <div class="sub-item selector-item-text">Humble Bundle</div>
     </a>
-    <!--
-    <a class="item" href="proton-guide#epic">
-        <img class="sub-item selector-grid-image" src="{{ '/assets/img/Epic_Games_logo.svg' | relative_url }}" alt="Epic Games" />
-        <div class="sub-item selector-item-text">Epic Games</div>
-    </a>
-    <a class="item" href="proton-guide#origin">
-        <img class="sub-item selector-grid-image" src="{{ '/assets/img/Origin.svg' | relative_url }}" alt="Origin" />
-        <div class="sub-item selector-item-text">Origin</div>
-    </a>
-    <a class="item" href="proton-guide#pc-game-pass">
-        <img class="sub-item selector-grid-image" src="{{ '/assets/img/PC_Game_Pass_logo.svg' | relative_url }}" alt="PC Game Pass" />
-        <div class="sub-item selector-item-text">Microsoft/Xbox PC Game Pass</div>
-    </a>
-    -->
 </div>
