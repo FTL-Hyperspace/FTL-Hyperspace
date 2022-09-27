@@ -300,16 +300,23 @@ if(UNIX)
     # SDL2
     target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
-    
-    target_compile_definitions(
-        Hyperspace PRIVATE
-        
-        # Steam build specific
-        STEAM_1_6_13_BUILD
 
-        # Disable Discord integration
-        SKIPDISCORD
-    )
+    # Disable Discord integration
+    target_compile_definitions(Hyperspace PRIVATE SKIPDISCORD)
+
+    # Naming the binary
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(name_suffix "amd64")
+    else()
+        set(name_suffix "x86")
+    endif()
+
+    if(STEAM_1_6_13_BUILD)
+        target_compile_definitions(Hyperspace PRIVATE STEAM_1_6_13_BUILD)
+        set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "${PROJECT_NAME}.1.6.13.${name_suffix}")
+    else()
+        set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "${PROJECT_NAME}.1.6.12.${name_suffix}")
+    endif()
 elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)

@@ -1,3 +1,6 @@
+if(NOT _FTL_TOOLCHAIN)
+set(_FTL_TOOLCHAIN 1)
+
 set(CMAKE_SYSTEM_NAME Windows)
 
 # Get clang version
@@ -14,24 +17,11 @@ file(GLOB _mingw_versioned_root LIST_DIRECTORIES true "/usr/lib/gcc/i686-w64-min
 message(STATUS "mingw versioned root path: ${_mingw_versioned_root}")
 
 string(CONCAT _compiler_flags
-    "-target i686-w64-mingw32 -nostdinc"
+    "-nostdinc"
 
-    # clang++-10 -target i686-w64-mingw32 -E -x c -v - < /dev/null
-    # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
-    " -isystem /usr/lib/llvm-10/lib/clang/${_clang_version}/include"
     # Force mingw to use clang intrinsics
     # REF: https://github.com/msys2/MINGW-packages/issues/9052#issuecomment-756456305
     " -D__MINGW_FORCE_SYS_INTRINS"
-
-    # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
-    " -isystem ${_mingw_versioned_root}/include/c++"
-    " -isystem ${_mingw_versioned_root}/include/c++/i686-w64-mingw32"
-    " -isystem ${_mingw_versioned_root}/include/c++/backward"
-    " -isystem ${_mingw_versioned_root}/include"
-    # Do not include fixincludes
-    # REF: https://codechecker.readthedocs.io/en/v6.9.0/gcc_incompatibilities/
-    #" -isystem ${_mingw_versioned_root}/include-fixed"
-    " -isystem /usr/i686-w64-mingw32/include"
 
     # Use utils starting with `i686-w64-mingw32-`
     " -Bi686-w64-mingw32-"
@@ -47,22 +37,42 @@ string(CONCAT _linker_flags
     # " -fuse-ld=lld-10"
 )
 
-
 set(CMAKE_C_COMPILER "/usr/bin/clang-10" CACHE PATH "")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++-10" CACHE PATH "")
 set(CMAKE_RC_COMPILER "/usr/bin/i686-w64-mingw32-windres" CACHE PATH "")
-set(CMAKE_C_FLAGS_INIT "${_compiler_flags}")
-set(CMAKE_CXX_FLAGS_INIT "${_compiler_flags}")
 set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")
-set(CMAKE_C_FLAGS_DEBUG_INIT "-DDEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-DDEBUG")
-set(CMAKE_C_FLAGS_RELEASE_INIT "-DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE_INIT "-DNDEBUG")
+foreach(lang C CXX)
+    set(CMAKE_${lang}_FLAGS_INIT "${_compiler_flags}")
+    set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
+    set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
 
-# From mingw-w64-i686-dev package
+    set(CMAKE_${lang}_COMPILER_TARGET "i686-w64-mingw32")
+    list(APPEND CMAKE_${lang}_STANDARD_INCLUDE_DIRECTORIES
+        # clang++-10 -target i686-w64-mingw32 -E -x c -v - < /dev/null
+        # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
+        "/usr/lib/llvm-10/lib/clang/${_clang_version}/include"
+        
+        # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
+        "${_mingw_versioned_root}/include/c++"
+        "${_mingw_versioned_root}/include/c++/i686-w64-mingw32"
+        "${_mingw_versioned_root}/include/c++/backward"
+        "${_mingw_versioned_root}/include"
+        # Do not include fixincludes, REF: https://codechecker.readthedocs.io/en/v6.9.0/gcc_incompatibilities/
+        # "${_mingw_versioned_root}/include-fixed"
+        "/usr/i686-w64-mingw32/include"
+    )
+
+    # Workaround for boost: b2 seems to convert -isystem flags to -I which causes some include order problems.
+    # We'll add them manually though it results in duplication in the end.
+    foreach(ipath ${CMAKE_${lang}_STANDARD_INCLUDE_DIRECTORIES})
+        string(APPEND CMAKE_${lang}_FLAGS_INIT " -isystem ${ipath}")
+    endforeach()
+endforeach()
+
 list(APPEND CMAKE_FIND_ROOT_PATH "/usr/i686-w64-mingw32")
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
+endif()
