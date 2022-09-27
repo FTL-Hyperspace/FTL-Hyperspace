@@ -48,6 +48,3 @@ _deps
 
 # Default build location for vscode cmake-tools
 build/
-
-# vscode
-.vscode/settings.json
