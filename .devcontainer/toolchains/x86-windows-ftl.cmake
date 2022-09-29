@@ -5,7 +5,7 @@ set(CMAKE_SYSTEM_NAME Windows)
 
 # Get clang version
 execute_process(
-    COMMAND clang-10 -v
+    COMMAND clang-15 -v
     ERROR_VARIABLE _clang_v_output
     COMMAND_ERROR_IS_FATAL ANY
 )
@@ -23,8 +23,8 @@ string(CONCAT _compiler_flags
     # REF: https://github.com/msys2/MINGW-packages/issues/9052#issuecomment-756456305
     " -D__MINGW_FORCE_SYS_INTRINS"
 
-    # Use utils starting with `i686-w64-mingw32-`
-    " -Bi686-w64-mingw32-"
+    # Disable multiple definition of std::type_info::operator==
+    " -D__GXX_TYPEINFO_EQUALITY_INLINE=0"
 
     # Use DWARF exceptions
     " -fdwarf-exceptions"
@@ -34,24 +34,26 @@ string(CONCAT _linker_flags
     " -L/usr/i686-w64-mingw32/lib -L${_mingw_versioned_root}"
 
     # Use lld instead of ld
-    # " -fuse-ld=lld-10"
+    " -fuse-ld=lld-15"
 )
 
-set(CMAKE_C_COMPILER "/usr/bin/clang-10" CACHE PATH "")
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++-10" CACHE PATH "")
+set(CMAKE_C_COMPILER "/usr/bin/clang-15" CACHE PATH "")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++-15" CACHE PATH "")
 set(CMAKE_RC_COMPILER "/usr/bin/i686-w64-mingw32-windres" CACHE PATH "")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")
+set(CMAKE_SHARED_LINKER_FLAGS_DEBUG_INIT "${_linker_flags} -debug")
+set(CMAKE_SHARED_LINKER_FLAGS_RELEASE_INIT "${_linker_flags}")
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG_INIT "${_linker_flags} -debug")
+set(CMAKE_EXE_LINKER_FLAGS_RELEASE_INIT "${_linker_flags}")
 foreach(lang C CXX)
     set(CMAKE_${lang}_FLAGS_INIT "${_compiler_flags}")
-    set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
+    set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG -gcodeview")
     set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
 
     set(CMAKE_${lang}_COMPILER_TARGET "i686-w64-mingw32")
     list(APPEND CMAKE_${lang}_STANDARD_INCLUDE_DIRECTORIES
-        # clang++-10 -target i686-w64-mingw32 -E -x c -v - < /dev/null
+        # clang++-15 -target i686-w64-mingw32 -E -x c -v - < /dev/null
         # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
-        "/usr/lib/llvm-10/lib/clang/${_clang_version}/include"
+        "/usr/lib/llvm-15/lib/clang/${_clang_version}/include"
         
         # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
         "${_mingw_versioned_root}/include/c++"

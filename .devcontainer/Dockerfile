@@ -42,10 +42,10 @@ RUN apt install -y --no-install-recommends \
         swig locales lsb-release wget software-properties-common gpg-agent \
     && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8)
 
-# Setup LLVM 10
+# Setup LLVM 15
 RUN cd /usr/local \
     && (curl -sL https://apt.llvm.org/llvm.sh > /tmp/llvm.sh) \
-    && bash /tmp/llvm.sh 10
+    && bash /tmp/llvm.sh 15
 
 # Setup CMake
 RUN cd /usr/local \
@@ -88,7 +88,7 @@ COPY triplets/* /vcpkg/triplets/
 COPY toolchains/* /vcpkg/scripts/toolchains/
 
 # Workarounds for boost
-RUN ln -s /usr/bin/clang-10 /usr/bin/clang && ln -s /usr/bin/clang++-10 /usr/bin/clang++
+RUN ln -s /usr/bin/clang-15 /usr/bin/clang && ln -s /usr/bin/clang++-15 /usr/bin/clang++
 
 # Workarounds for SDL2
 RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-toolchain/include/asm

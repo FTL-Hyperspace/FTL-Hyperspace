@@ -313,13 +313,16 @@ if(UNIX)
 
     if(STEAM_1_6_13_BUILD)
         target_compile_definitions(Hyperspace PRIVATE STEAM_1_6_13_BUILD)
-        set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "${PROJECT_NAME}.1.6.13.${name_suffix}")
+        set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "Hyperspace.1.6.13.${name_suffix}")
     else()
-        set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "${PROJECT_NAME}.1.6.12.${name_suffix}")
+        set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "Hyperspace.1.6.12.${name_suffix}")
     endif()
 elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
+
+    # Build PDB
+    target_link_options(Hyperspace PRIVATE "$<IF:$<CONFIG:Debug>,LINKER:--pdb=Hyperspace.pdb,>")
 endif()
