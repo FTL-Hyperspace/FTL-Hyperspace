@@ -553,7 +553,7 @@ struct CFPS
 %immutable ShipManager::vCrewList;
 %rename("%s") ShipManager::vCrewList;
 //%rename("%s") ShipManager::fireSpreader;
-%rename("%s") ShipManager::ship;
+//%rename("%s") ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
 ////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
