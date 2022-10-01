@@ -322,7 +322,4 @@ elseif(WIN32)
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
-
-    # Build PDB
-    target_link_options(Hyperspace PRIVATE "$<IF:$<CONFIG:Debug>,LINKER:--pdb=Hyperspace.pdb,>")
 endif()

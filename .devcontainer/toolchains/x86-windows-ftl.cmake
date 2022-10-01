@@ -46,7 +46,7 @@ set(CMAKE_EXE_LINKER_FLAGS_DEBUG_INIT "${_linker_flags} -debug")
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE_INIT "${_linker_flags}")
 foreach(lang C CXX)
     set(CMAKE_${lang}_FLAGS_INIT "${_compiler_flags}")
-    set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG -gcodeview")
+    set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
     set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
 
     set(CMAKE_${lang}_COMPILER_TARGET "i686-w64-mingw32")
