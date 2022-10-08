@@ -5,9 +5,84 @@
 %{
 #include "../../Global.h"
 #include "../../HSVersion.h"
+#include "../../CustomAchievements.h"
+#include "../../CustomEvents.h"
+#include "../../CustomScoreKeeper.h"
 %}
 
 namespace std {
+    // shamelessly copied from the SWIG library and modified (the SWIG library code is unrestricted)
+    template<class K, class T, class H = std::hash<K>, class E = std::equal_to<K> > class unordered_map {
+        // add typemaps here
+    public:
+        typedef size_t size_type;
+        typedef ptrdiff_t difference_type;
+        typedef K key_type;
+        typedef T mapped_type;
+        typedef std::pair< const K, T > value_type;
+        typedef value_type* pointer;
+        typedef const value_type* const_pointer;
+        typedef value_type& reference;
+        typedef const value_type& const_reference;
+
+        unordered_map();
+        unordered_map(const unordered_map& other);
+
+        unsigned int size() const;
+        bool empty() const;
+        void clear();
+        %extend {
+            const T& get(const K& key) throw (std::out_of_range) {
+                std::unordered_map< K, T, H, E >::iterator i = self->find(key);
+                if (i != self->end())
+                    return i->second;
+                else
+                    throw std::out_of_range("key not found");
+            }
+            void set(const K& key, const T& x) {
+                (*self)[key] = x;
+            }
+            void del(const K& key) throw (std::out_of_range) {
+                std::unordered_map< K, T, H, E >::iterator i = self->find(key);
+                if (i != self->end())
+                    self->erase(i);
+                else
+                    throw std::out_of_range("key not found");
+            }
+            bool has_key(const K& key) {
+                std::unordered_map< K, T, H, E >::iterator i = self->find(key);
+                return i != self->end();
+            }
+            // more stuff
+			const T& __getitem__(const K& key) throw (std::out_of_range)
+			{
+				std::unordered_map< K, T, H, E >::iterator i = self->find(key);
+                if (i != self->end())
+                    return i->second;
+                else
+                    throw std::out_of_range("key not found");
+			}
+			void __setitem__(const K& key, const T& x) throw (std::out_of_range)
+			{
+				(*self)[key] = x;
+			}
+        }
+    };
+
+    // extend the map as well
+    %extend map {
+        const T& __getitem__(const K& key) throw (std::out_of_range) {
+            std::map< K, T, C >::iterator i = self->find(key);
+            if (i != self->end())
+                return i->second;
+            else
+                throw std::out_of_range("key not found");
+        }
+        void __setitem__(const K& key, const T& x) {
+            (*self)[key] = x;
+        }
+    }
+
     %template(vector_int) vector<int>;
     %template(vector_float) vector<float>;
     %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
@@ -26,6 +101,8 @@ namespace std {
     %template(pair_float_float) pair<float, float>;
     %template(vector_Pointf) vector<Pointf>;
     %template(vector_Point) vector<Point>;
+    %template(map_int_SystemTemplate) std::map<int,ShipBlueprint::SystemTemplate>;
+    %template(unordered_map_string_int) unordered_map<string,int>;
 }
 
 %apply const std::string& {std::string* GetName()};
@@ -123,8 +200,77 @@ struct CFPS
 %clearnodefaultctor;
 %clearnodefaultdtor;
 
+// make player variables and metavariables look like a different class
+%{
+typedef std::unordered_map<std::string,int> playerVariableType;
+%}
+
+class playerVariableType {
+    // add typemaps here
+public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef std::string key_type;
+    typedef int mapped_type;
+    typedef std::pair< const std::string, int > value_type;
+    typedef value_type* pointer;
+    typedef const value_type* const_pointer;
+    typedef value_type& reference;
+    typedef const value_type& const_reference;
+
+    playerVariableType();
+    playerVariableType(const playerVariableType& other);
+
+    unsigned int size() const;
+    bool empty() const;
+    void clear();
+    %extend {
+        int get(const std::string& key) {
+            playerVariableType::iterator i = self->find(key);
+            if (i != self->end())
+                return i->second;
+            else
+                return 0;
+        }
+        void set(const std::string& key, int x) {
+            (*self)[key] = x;
+            CustomAchievementTracker::instance->UpdateVariableAchievements(key, x, G_->GetWorld()->bStartedGame);
+        }
+        void del(const std::string& key) {
+            playerVariableType::iterator i = self->find(key);
+            if (i != self->end())
+                self->erase(i);
+        }
+        bool has_key(const std::string& key) {
+            playerVariableType::iterator i = self->find(key);
+            return i != self->end();
+        }
+        // more stuff
+        int __getitem__(const std::string& key)
+        {
+            playerVariableType::iterator i = self->find(key);
+            if (i != self->end())
+                return i->second;
+            else
+                return 0;
+        }
+        void __setitem__(const std::string& key, int x) throw (std::out_of_range)
+        {
+            (*self)[key] = x;
+            CustomAchievementTracker::instance->UpdateVariableAchievements(key, x, G_->GetWorld()->bStartedGame);
+        }
+    }
+};
+
+playerVariableType metaVariables;
+playerVariableType playerVariables;
+
 %rename("%s") metaVariables;
 %rename("%s") playerVariables;
+
+%nodefaultctor CustomAchievementTracker;
+%rename("%s") CustomAchievementTracker;
+%rename("%s") CustomAchievementTracker::UpdateVariableAchievements;
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
@@ -1325,3 +1471,6 @@ struct CFPS
     loaded at compile time) unless we want to access a field in Lua not available to the other versions there is no concern.
 */
 %include "FTLGameELF64.h"
+%include "CustomAchievements.h"
+%include "CustomEvents.h"
+%include "CustomScoreKeeper.h"
