@@ -62,7 +62,7 @@ namespace std {
                 else
                     throw std::out_of_range("key not found");
 			}
-			void __setitem__(const K& key, const T& x) throw (std::out_of_range)
+			void __setitem__(const K& key, const T& x)
 			{
 				(*self)[key] = x;
 			}
@@ -254,7 +254,7 @@ public:
             else
                 return 0;
         }
-        void __setitem__(const std::string& key, int x) throw (std::out_of_range)
+        void __setitem__(const std::string& key, int x)
         {
             (*self)[key] = x;
             CustomAchievementTracker::instance->UpdateVariableAchievements(key, x, G_->GetWorld()->bStartedGame);
