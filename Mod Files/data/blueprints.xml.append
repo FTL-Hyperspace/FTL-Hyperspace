@@ -14,8 +14,8 @@
 </systemBlueprint>
 
 <augBlueprint name="NANOBOT_DEFENSE_SYSTEM">
-    <title>Nanobot Defense System</title>
-	<desc>Boarders take damage over time on your ship.</desc>
+	<title id="aug_NANOBOT_DEFENSE_SYSTEM_title"/>
+	<desc id="aug_NANOBOT_DEFENSE_SYSTEM_desc"/>
     <cost>30</cost>
     <bp>4</bp>
     <rarity>0</rarity>
@@ -24,8 +24,8 @@
 </augBlueprint>
 
 <augBlueprint name="FTL_JUMPER_GOOD">
-    <title>Adv. FTL Navigation II</title>
-	<desc>Allows you to jump to any beacon in a sector.</desc>
+	<title id="aug_FTL_JUMPER_GOOD_title"/>
+	<desc id="aug_FTL_JUMPER_GOOD_desc"/>
     <cost>30</cost>
     <bp>4</bp>
     <rarity>0</rarity>
@@ -34,8 +34,8 @@
 </augBlueprint>
 
 <augBlueprint name="BOARDER_RECOVERY">
-	<title>Boarder Retro-Thrusters</title>
-	<desc>Non-destroyed boarding drones will be retrieved at the end of combat.</desc>
+	<title id="aug_BOARDER_RECOVERY_title"/>
+	<desc id="aug_BOARDER_RECOVERY_desc"/>
 	<cost>50</cost>
 	<bp>8</bp>
 	<rarity>0</rarity>
@@ -43,8 +43,8 @@
 </augBlueprint>
 
 <augBlueprint name="MIND_ORDER">
-	<title>Neural Reins</title>
-	<desc>Allows direct control of mind controlled enemy crew. Also takes ownership of any effects being applied by that crew.</desc>
+	<title id="aug_MIND_ORDER_title"/>
+	<desc id="aug_MIND_ORDER_desc"/>
 	<cost>50</cost>
 	<bp>8</bp>
 	<rarity>0</rarity>
@@ -52,16 +52,16 @@
 </augBlueprint>
 
 <crewBlueprint name="ghost">
-	<desc>Ghosts of the past crew.</desc>
+	<desc id="crew_ghost_desc"/>
 	<cost>50</cost>
 	<bp>2</bp>
-	<title>Ghost</title>
-	<short>Ghost</short>
+	<title id="crew_ghost_title"/>
+	<short id="crew_ghost_short"/>
 	<rarity>0</rarity>
 	<powerList>
-		<power>Can survive without oxygen</power>
-		<power>Maximum health is reduced</power>
-		<power>Can phase through doors</power>
+		<power id="crew_ghost_power_1"/>
+		<power id="crew_ghost_power_2"/>
+		<power id="crew_ghost_power_3"/>
 	</powerList>
 </crewBlueprint>
 
@@ -106,7 +106,7 @@
 	<noPersDamage>false</noPersDamage>               If true, then normal damage does not inflict corresponding crew damage, only actual <persDamage> will.
 	<ionBeamFix>false</ionBeamFix>                   If true, prevents ion beams from inflicting ion damage to shields on every frame (instead it will be similar to beams hitting zoltan shields).
 	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
-	<fireTime>0.0</false>                            Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
+	<fireTime>0.0</fireTime>                         Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
 	
 	<statBoostChance>0</statBoostChance>             Chance to apply stat boosts as listed below.
 	<statBoosts>                                     Same as statBoosts for crew/augment/etc. - list of all stat boosts to apply.

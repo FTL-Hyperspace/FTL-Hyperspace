@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.2.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.2.3)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -202,7 +202,7 @@
 <!-- Custom systems -->
 
 <!--
-For: "temporal", "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
+For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 
 \1: speed strength
 \2: speed cooldown
@@ -212,7 +212,7 @@ For: "temporal", "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \6: slow duration
 -->
 
-<text name="temporal">\1x/\4x speed for \3/\6 sec</text> 
+<text name="temporal">the Temporal Manipulator</text> 
 <text name="temporal_tooltip">\1x/\4x speed for \3/\6 sec</text>
 
 <text name="temporal_arm_super_shields">Blocked by super shields.</text>

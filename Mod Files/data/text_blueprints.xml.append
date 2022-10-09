@@ -1,2 +1,18 @@
 <text name="system_temporal_title">Temporal Manipulator</text>
 <text name="system_temporal_desc">Changes the rate of time in one room. Upgrading increases duration and time dilation strength.</text>
+
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_title">Nanobot Defense System</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_desc">Boarders take damage over time on your ship.</text>
+<text name="aug_FTL_JUMPER_GOOD_title">Adv. FTL Navigation II</text>
+<text name="aug_FTL_JUMPER_GOOD_desc">Allows you to jump to any beacon in a sector.</text>
+<text name="aug_BOARDER_RECOVERY_title">Boarder Retro-Thrusters</text>
+<text name="aug_BOARDER_RECOVERY_desc">Non-destroyed boarding drones will be retrieved at the end of combat.</text>
+<text name="aug_MIND_ORDER_title">Neural Reins</text>
+<text name="aug_MIND_ORDER_desc">Allows direct control of mind controlled enemy crew. Also takes ownership of any effects being applied by that crew.</text>
+
+<text name="crew_ghost_desc">Ghosts of the past crew.</text>
+<text name="crew_ghost_title">Ghost</text>
+<text name="crew_ghost_short">Ghost</text>
+<text name="crew_ghost_power_1">Can survive without oxygen</text>
+<text name="crew_ghost_power_2">Maximum health is reduced</text>
+<text name="crew_ghost_power_3">Can phase through doors</text>

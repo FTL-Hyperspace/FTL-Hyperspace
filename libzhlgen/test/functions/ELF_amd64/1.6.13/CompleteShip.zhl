@@ -46,3 +46,8 @@ cleanup __amd64 void CompleteShip::OnRender(CompleteShip *this);
 cleanup __amd64 void CompleteShip::OnRenderSpace(CompleteShip *this);
 "!.41544189d4ba020000005589f5534889fb8b7708488b7f18":
 cleanup __amd64 void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, bool unk2);
+
+struct CompleteShip
+{{
+	void CheckTeleportMovement();
+}};

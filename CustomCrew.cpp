@@ -5720,19 +5720,27 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
         if (!ret) return false;
 
         int powerOwner = orig->GetPowerOwner();
-        ShipManager *enemyShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
-        if (enemyShip)
+
+        ShipManager *enemyShip = G_->GetShipManager(1);
+        if (orig->currentShipId == powerOwner && (!enemyShip || !enemyShip->_targetable.hostile))
         {
-            if (enemyShip->systemKey[10] != -1)
+            return false; // can't teleport off your own ship when not hostile
+        }
+
+        ShipManager *otherShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
+
+        if (otherShip)
+        {
+            if (otherShip->systemKey[10] != -1)
             {
-                if (enemyShip->cloakSystem->bTurnedOn) return false;
+                if (otherShip->cloakSystem->bTurnedOn) return false;
             }
-            if (enemyShip->GetShieldPower().super.first > 0)
+            if ((otherShip->iShipId == 0 || otherShip->_targetable.hostile) && otherShip->GetShieldPower().super.first > 0)
             {
-                ShipManager *playerShip = G_->GetShipManager(powerOwner);
-                if (playerShip)
+                ShipManager *crewShip = G_->GetShipManager(powerOwner);
+                if (crewShip)
                 {
-                    return playerShip->HasEquipment("ZOLTAN_BYPASS");
+                    return crewShip->HasEquipment("ZOLTAN_BYPASS");
                 }
                 return false;
             }
@@ -5765,11 +5773,8 @@ void CrewMember_Extend::InitiateTeleport(int shipId, int roomId, int slotId)
     customTele.slotId = slotId;
 }
 
-HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> void)
+void CompleteShip::CheckTeleportMovement()
 {
-    LOG_HOOK("HOOK_METHOD -> CompleteShip::InitiateTeleport -> Begin (CustomCrew.cpp)\n")
-    super(targetRoom, command);
-
     bool customTeleports = false;
     for (CrewMember *crew : shipManager->vCrewList)
     {
@@ -5875,6 +5880,25 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
         }
     }
     customTeleCrew.clear();
+}
+
+HOOK_METHOD(CombatControl, GetTeleportationCommand, () -> std::pair<int,int>)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatControl::GetTeleportationCommand -> Begin (CustomCrew.cpp)\n")
+    // Check teleport movement on player ship and then on enemy ship.
+    // Hooked here so it is the same timing as teleport system (affects timing with enemy cloaking).
+    CompleteShip *ship = this->gui->shipComplete;
+    if (ship)
+    {
+        ship->CheckTeleportMovement();
+        ship = ship->enemyShip;
+        if (ship)
+        {
+            ship->CheckTeleportMovement();
+        }
+    }
+
+    return super();
 }
 
 HOOK_METHOD(CrewMember, CheckForTeleport, () -> void)

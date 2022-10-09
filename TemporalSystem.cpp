@@ -983,7 +983,7 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
     {
         int realLevel = level + 1;
 
-        std::string replStr = G_->GetTextLibrary()->GetText(tooltip ? "temporal_tooltip" : "temporal");
+        std::string replStr = G_->GetTextLibrary()->GetText("temporal_tooltip");
 
         ReplaceTemporalText(replStr, realLevel);
         boost::algorithm::replace_all(replStr, "\\n", "\n");

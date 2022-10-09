@@ -865,7 +865,8 @@ class CustomEventsParser
 public:
     CustomEventsParser()
     {
-
+        defaultVictory = new CustomEvent();
+        defaultQuest = new CustomQuest();
     }
 
     void EarlyParseCustomEventNode(rapidxml::xml_node<char> *node);
@@ -931,8 +932,8 @@ public:
     static void QueueEvent(std::string &event, int seed);
 
     std::vector<std::string> eventFiles;
-    CustomEvent *defaultVictory = new CustomEvent();
-    CustomQuest *defaultQuest = new CustomQuest();
+    CustomEvent *defaultVictory;
+    CustomQuest *defaultQuest;
     std::string defaultRevisit = "";
     bool defaultRevisitSeeded = true;
     bool defaultRevisitIgnoreUnique = false;
