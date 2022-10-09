@@ -5,11 +5,13 @@
 #include "../Global.h"
 #include "swigluarun.h"
 
+#include "EnumClassHash.h"
+
 static std::vector<LuaFunctionRef> m_on_load_callbacks;
 static std::vector<LuaFunctionRef> m_on_init_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_loading_callbacks;
-static std::multimap<InternalEvents::Identifiers, LuaFunctionRef> m_on_internal_event_callbacks; // TODO: For now we're only going to support `OnTick` and other potential methods with no argument requirements but we need to add support for methods with arguments later and add them to the call (or maybe add the information into the enum so at call time we can pass them?)
+static std::unordered_map<InternalEvents::Identifiers, std::vector<std::pair<LuaFunctionRef, int>>, EnumClassHash> m_on_internal_event_callbacks;
 static std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>> m_on_render_event_callbacks; // Holds before & after function ref in the pair
 
 void LuaLibScript::LoadTypeInfo()
@@ -197,6 +199,13 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     lua_pushvalue(lua, 2);
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
 
+    int priority = 0;
+    if (lua_gettop(lua) >= 3)
+    {
+        assert(lua_isinteger(lua, 3));
+        priority = lua_tointeger(lua, 3);
+    }
+
     /*
     // TODO: Check that the number of arguments needed matches those for the internal event
     lua_Debug ar;
@@ -206,7 +215,15 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     */
 
     InternalEvents::Identifiers id = static_cast<InternalEvents::Identifiers>(callbackHookId);
-    m_on_internal_event_callbacks.emplace(id, callbackReference);
+
+    std::vector<std::pair<LuaFunctionRef, int>> &vec = m_on_internal_event_callbacks[id];
+    vec.emplace_back(callbackReference, priority);
+    std::stable_sort(vec.begin(), vec.end(),
+        [](const std::pair<LuaFunctionRef, int> &a, const std::pair<LuaFunctionRef, int> &b) -> bool
+        {
+            return a.second > b.second; // higher priority first
+        }
+    );
 
     return 0;
 }
@@ -217,12 +234,14 @@ int LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers i
     assert(id > InternalEvents::UNKNOWN);
     assert(id < InternalEvents::UNKNOWN_MAX);
 
-//    if(m_on_internal_event_callbacks.count(id) == 0)
-//        return; // No registered callbacks
+    auto vecIt = m_on_internal_event_callbacks.find(id);
+    if (vecIt == m_on_internal_event_callbacks.end()) return 0;
 
-    for(std::pair<std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator, std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator> range(m_on_internal_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    std::vector<std::pair<LuaFunctionRef, int>> &vec = vecIt->second;
+
+    for (unsigned int idx = 0; idx < vec.size(); ++idx)
     {
-        LuaFunctionRef refL = range.first->second;
+        LuaFunctionRef refL = vec[idx].first;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
         for (int i=0; i<nArg; ++i)
         {
@@ -259,12 +278,14 @@ bool LuaLibScript::call_on_internal_chain_event_callbacks(InternalEvents::Identi
     assert(id > InternalEvents::UNKNOWN);
     assert(id < InternalEvents::UNKNOWN_MAX);
 
-//    if(m_on_internal_event_callbacks.count(id) == 0)
-//        return; // No registered callbacks
+    auto vecIt = m_on_internal_event_callbacks.find(id);
+    if (vecIt == m_on_internal_event_callbacks.end()) return false;
 
-    for(std::pair<std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator, std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator> range(m_on_internal_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    std::vector<std::pair<LuaFunctionRef, int>> &vec = vecIt->second;
+
+    for (unsigned int idx = 0; idx < vec.size(); ++idx)
     {
-        LuaFunctionRef refL = range.first->second;
+        LuaFunctionRef refL = vec[idx].first;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
         for (int i=0; i<nArg; ++i)
         {

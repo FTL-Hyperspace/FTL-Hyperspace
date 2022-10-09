@@ -6,6 +6,7 @@
 #include "RenderEvents.h"
 #include <assert.h>
 #include <string>
+#include <algorithm>
 
 typedef struct swig_type_info;
 
