@@ -141,11 +141,19 @@ class LuaLibScript
             swig_type_info *pPointf;
             swig_type_info *pProjectile[7]; // Projectile::GetType() can be used to index this array to get the correct derived class (except for CrewLaser)
             swig_type_info *pShipManager;
+            swig_type_info *pShipSystem;
 
+            swig_type_info *pShipSystemTypes[21];
             swig_type_info *pSpaceDroneTypes[8];
         };
 
         TypeInfo types;
+
+        swig_type_info *GetShipSystemType(int id)
+        {
+            if (id >= 0 && id < 21) return types.pShipSystemTypes[id];
+            return types.pShipSystem;
+        }
 };
 
 #endif // LUALIBSCRIPT_H

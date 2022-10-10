@@ -5,8 +5,6 @@
 #include "ShipManager_Extend.h"
 #include <boost/lexical_cast.hpp>
 
-#include "swigluarun.h"
-
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 Projectile* CustomDamageManager::currentProjectile = nullptr;
 
@@ -20,14 +18,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
     // push everything to the lua stack: ShipManager, Projectile, location, Damage, forceHit, shipFriendlyFire
     auto context = Global::GetInstance()->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
-    if (CustomDamageManager::currentProjectile)
-    {
-        SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
-    }
-    else
-    {
-        lua_pushnil(context->GetLua());
-    }
+    CustomDamageManager::lua_PushCurrentProjectile(context);
     SWIG_NewPointerObj(context->GetLua(), &location, context->getLibScript()->types.pPointf, 0);
     SWIG_NewPointerObj(context->GetLua(), &dmg, context->getLibScript()->types.pDamage, 0);
     lua_pushinteger(context->GetLua(), forceHit ? Evasion::HIT : Evasion::NONE);
@@ -79,7 +70,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
     }
 
     bool shipFriendlyFireLocal = shipFriendlyFire;
-    lua_pop(context->GetLua(), 2);
+    lua_pop(context->GetLua(), 2); // pops forceHit and shipFriendlyFire
 
     bool ret = super(location, dmg, forceHit);
 
@@ -158,17 +149,10 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
     }
     int oldBeamHitType = beamHitType;
 
-    // push everything to the lua stack: ShipManager, Projectile, location, Damage, beamHitType
+    // push everything to the lua stack: ShipManager, Projectile, location, Damage, realNewTile, beamHitType
     auto context = Global::GetInstance()->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
-    if (CustomDamageManager::currentProjectile)
-    {
-        SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
-    }
-    else
-    {
-        lua_pushnil(context->GetLua());
-    }
+    CustomDamageManager::lua_PushCurrentProjectile(context);
     SWIG_NewPointerObj(context->GetLua(), &location1, context->getLibScript()->types.pPointf, 0);
     SWIG_NewPointerObj(context->GetLua(), &dmg, context->getLibScript()->types.pDamage, 0);
     lua_pushboolean(context->GetLua(), realNewTile);
@@ -292,12 +276,55 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, Damage dmg) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageSystem -> Begin (CustomDamage.cpp)\n")
-    if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->def->noSysDamage)
+
+    // push everything to the lua stack: ShipManager, Projectile, room ID, Damage
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    CustomDamageManager::lua_PushCurrentProjectile(context);
+    lua_pushinteger(context->GetLua(), roomId);
+    SWIG_NewPointerObj(context->GetLua(), &dmg, context->getLibScript()->types.pDamage, 0);
+
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DAMAGE_SYSTEM, 4, 0);
+
+    if (!preempt)
     {
-        dmg.iSystemDamage -= dmg.iDamage;
+        // noSysDamage modifier
+        if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->def->noSysDamage)
+        {
+            dmg.iSystemDamage -= dmg.iDamage;
+        }
+
+        super(roomId, dmg);
     }
 
-    super(roomId, dmg);
+    lua_pop(context->GetLua(), 4);
+}
+
+HOOK_METHOD_PRIORITY(ShipSystem, AddDamage, -100, (int amount) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::AddDamage -> Begin (CustomDamage.cpp)\n")
+
+    // ShipSystem::AddDamage occurs after all things that could prevent damage (resists, etc.)
+
+    // push everything to the lua stack: ShipSystem, Projectile, amount
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->GetShipSystemType(iSystemType), 0);
+    CustomDamageManager::lua_PushCurrentProjectile(context);
+    lua_pushinteger(context->GetLua(), amount);
+
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SYSTEM_ADD_DAMAGE, 3, 1);
+
+    if (!preempt)
+    {
+        if (lua_isinteger(context->GetLua(), -1))
+        {
+            amount = lua_tointeger(context->GetLua(), -1);
+        }
+
+        super(amount);
+    }
+
+    lua_pop(context->GetLua(), 3);
 }
 
 HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, Damage dmg) -> bool)
@@ -681,14 +708,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
         // push everything to the lua stack: Drone, Projectile, Damage, CollisionResponse
         auto context = Global::GetInstance()->getLuaContext();
         SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDroneTypes[this->type], 0);
-        if (CustomDamageManager::currentProjectile)
-        {
-            SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
-        }
-        else
-        {
-            lua_pushnil(context->GetLua());
-        }
+        CustomDamageManager::lua_PushCurrentProjectile(context);
         SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
         SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
 
@@ -767,14 +787,7 @@ HOOK_METHOD(Projectile, CollisionMoving, (Pointf start, Pointf finish, Damage da
         // push everything to the lua stack: this Projectile, Projectile, Damage, CollisionResponse
         auto context = Global::GetInstance()->getLuaContext();
         SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectile[this->GetType()], 0);
-        if (CustomDamageManager::currentProjectile)
-        {
-            SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
-        }
-        else
-        {
-            lua_pushnil(context->GetLua());
-        }
+        CustomDamageManager::lua_PushCurrentProjectile(context);
         SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
         SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
 
@@ -808,14 +821,7 @@ HOOK_METHOD_PRIORITY(ShipManager, CollisionShield, 9999, (Pointf start, Pointf f
             // push everything to the lua stack: ShipManager, Projectile, Damage, CollisionResponse
             auto context = Global::GetInstance()->getLuaContext();
             SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
-            if (CustomDamageManager::currentProjectile)
-            {
-                SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
-            }
-            else
-            {
-                lua_pushnil(context->GetLua());
-            }
+            CustomDamageManager::lua_PushCurrentProjectile(context);
             SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
             SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
 

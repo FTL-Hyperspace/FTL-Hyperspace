@@ -4,8 +4,6 @@
 #include "ShipUnlocks.h"
 #include "ShipManager_Extend.h"
 
-#include "swigluarun.h"
-
 ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
 {
     crew_ex = CM_EX(_crew);

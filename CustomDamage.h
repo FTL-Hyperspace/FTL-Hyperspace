@@ -2,6 +2,10 @@
 #include "CrewMember_Extend.h"
 #include "Global.h"
 
+#include "LuaScriptInit.h"
+
+#include "swigluarun.h"
+
 struct StatBoostDefinition;
 
 struct ErosionEffect
@@ -75,4 +79,17 @@ class CustomDamageManager
 public:
     static CustomDamage* currentWeaponDmg;
     static Projectile* currentProjectile;
+
+    static void lua_PushCurrentProjectile(LuaScriptInit* context)
+    {
+        // Lua library: pushes the current projectile (or nil if there is none) with the correct type
+        if (currentProjectile)
+        {
+            SWIG_NewPointerObj(context->GetLua(), currentProjectile, context->getLibScript()->types.pProjectile[currentProjectile->GetType()], 0);
+        }
+        else
+        {
+            lua_pushnil(context->GetLua());
+        }
+    }
 };

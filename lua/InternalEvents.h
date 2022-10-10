@@ -31,6 +31,8 @@ struct InternalEvents
         DAMAGE_AREA,
         DAMAGE_AREA_HIT,
         DAMAGE_BEAM,
+        DAMAGE_SYSTEM,
+        SYSTEM_ADD_DAMAGE,
 
         ACTIVATE_POWER,
 

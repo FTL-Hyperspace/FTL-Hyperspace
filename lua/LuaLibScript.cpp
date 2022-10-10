@@ -7,6 +7,8 @@
 
 #include "EnumClassHash.h"
 
+#include "TemporalSystem.h"
+
 static std::vector<LuaFunctionRef> m_on_load_callbacks;
 static std::vector<LuaFunctionRef> m_on_init_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_callbacks;
@@ -39,6 +41,28 @@ void LuaLibScript::LoadTypeInfo()
     types.pSpaceDroneTypes[5] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
     types.pSpaceDroneTypes[6] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
     types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
+
+    types.pShipSystemTypes[SYS_SHIELDS] = SWIG_TypeQuery(this->m_Lua, "Shields *");
+    types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "EngineSystem *");
+    types.pShipSystemTypes[SYS_OXYGEN] = SWIG_TypeQuery(this->m_Lua, "OxygenSystem *");
+    types.pShipSystemTypes[SYS_WEAPONS] = SWIG_TypeQuery(this->m_Lua, "WeaponSystem *");
+    types.pShipSystemTypes[SYS_DRONES] = SWIG_TypeQuery(this->m_Lua, "DroneSystem *");
+    types.pShipSystemTypes[SYS_MEDBAY] = SWIG_TypeQuery(this->m_Lua, "MedbaySystem *");
+    types.pShipSystemTypes[SYS_PILOT] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[SYS_SENSORS] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[SYS_DOORS] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[SYS_TELEPORTER] = SWIG_TypeQuery(this->m_Lua, "TeleportSystem *");
+    types.pShipSystemTypes[SYS_CLOAKING] = SWIG_TypeQuery(this->m_Lua, "CloakingSystem *");
+    types.pShipSystemTypes[SYS_ARTILLERY] = SWIG_TypeQuery(this->m_Lua, "ArtillerySystem *");
+    types.pShipSystemTypes[SYS_BATTERY] = SWIG_TypeQuery(this->m_Lua, "BatterySystem *");
+    types.pShipSystemTypes[SYS_CLONEBAY] = SWIG_TypeQuery(this->m_Lua, "CloneSystem *");
+    types.pShipSystemTypes[SYS_MIND] = SWIG_TypeQuery(this->m_Lua, "MindSystem *");
+    types.pShipSystemTypes[SYS_HACKING] = SWIG_TypeQuery(this->m_Lua, "HackingSystem *");
+    types.pShipSystemTypes[16] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[17] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[18] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[19] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pShipSystemTypes[SYS_TEMPORAL] = SWIG_TypeQuery(this->m_Lua, "TemporalSystem *");
 }
 
 int LuaLibScript::l_on_load(lua_State* lua)
