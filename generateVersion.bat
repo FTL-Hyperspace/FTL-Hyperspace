@@ -7,4 +7,8 @@ FOR /F "delims=" %%A IN (
     ) DO (
         echo #pragma once & echo #undef BUILD_IDENTIFIER_HASH & echo #define BUILD_IDENTIFIER_HASH "%%A" & echo #undef BUILD_BRANCH & echo #define BUILD_BRANCH "%%B" & echo:
     )
-) > Version.autogen.hpp
+) > Version.autogen.hpp.temp
+
+fc /L Version.autogen.hpp Version.autogen.hpp.temp
+if not errorlevel 0 move /Y Version.autogen.hpp.temp Version.autogen.hpp
+del Version.autogen.hpp.temp
