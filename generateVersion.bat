@@ -10,5 +10,5 @@ FOR /F "delims=" %%A IN (
 ) > Version.autogen.hpp.temp
 
 fc /L Version.autogen.hpp Version.autogen.hpp.temp
-if not errorlevel 0 move /Y Version.autogen.hpp.temp Version.autogen.hpp
+if %ERRORLEVEL% NEQ 0 (move /Y Version.autogen.hpp.temp Version.autogen.hpp)
 del Version.autogen.hpp.temp
