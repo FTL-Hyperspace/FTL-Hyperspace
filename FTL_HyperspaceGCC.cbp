@@ -82,6 +82,7 @@
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32">
@@ -158,6 +159,7 @@
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-win-32-llvm">
@@ -241,6 +243,7 @@
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32-llvm">
@@ -324,6 +327,7 @@
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.12-x86">
@@ -754,7 +758,7 @@
 			<Add alias="Release-linux-x86" targets="Release-linux-1.6.12-x86;Release-linux-1.6.13-x86;" />
 		</VirtualTargets>
 		<ExtraCommands>
-			<Add before="swig -c++ -lua $includes -external-runtime lua/swigluarun.h" />
+			<Add before="swig -c++ -lua $includes -external-runtime lua/swigluarun.h.temp1" />
 		</ExtraCommands>
 		<Unit filename="AbilityDrone.cpp">
 			<Option virtualFolder="Core/Drones/" />
