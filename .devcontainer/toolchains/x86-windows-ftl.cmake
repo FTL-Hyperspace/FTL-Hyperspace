@@ -5,7 +5,7 @@ set(CMAKE_SYSTEM_NAME Windows)
 
 # Get clang version
 execute_process(
-    COMMAND clang-15 -v
+    COMMAND clang -v
     ERROR_VARIABLE _clang_v_output
     COMMAND_ERROR_IS_FATAL ANY
 )
@@ -34,26 +34,28 @@ string(CONCAT _linker_flags
     " -L/usr/i686-w64-mingw32/lib -L${_mingw_versioned_root}"
 
     # Use lld instead of ld
-    " -fuse-ld=lld-15"
+    " -fuse-ld=lld"
 )
 
-set(CMAKE_C_COMPILER "/usr/bin/clang-15" CACHE PATH "")
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++-15" CACHE PATH "")
+set(CMAKE_C_COMPILER "clang" CACHE PATH "")
+set(CMAKE_CXX_COMPILER "clang++" CACHE PATH "")
 set(CMAKE_RC_COMPILER "/usr/bin/i686-w64-mingw32-windres" CACHE PATH "")
-set(CMAKE_SHARED_LINKER_FLAGS_DEBUG_INIT "${_linker_flags} -debug")
-set(CMAKE_SHARED_LINKER_FLAGS_RELEASE_INIT "${_linker_flags}")
-set(CMAKE_EXE_LINKER_FLAGS_DEBUG_INIT "${_linker_flags} -debug")
-set(CMAKE_EXE_LINKER_FLAGS_RELEASE_INIT "${_linker_flags}")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
+set(CMAKE_SHARED_LINKER_FLAGS_DEBUG_INIT "-debug")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG_INIT "-debug")
 foreach(lang C CXX)
     set(CMAKE_${lang}_FLAGS_INIT "${_compiler_flags}")
     set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
     set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
+    set(CMAKE_${lang}_FLAGS_MINSIZEREL_INIT "-DNDEBUG")
+    set(CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT "-DNDEBUG")
 
-    set(CMAKE_${lang}_COMPILER_TARGET "i686-w64-mingw32")
+    set(CMAKE_${lang}_COMPILER_TARGET "i686-w64-windows-gnu")
     list(APPEND CMAKE_${lang}_STANDARD_INCLUDE_DIRECTORIES
-        # clang++-15 -target i686-w64-mingw32 -E -x c -v - < /dev/null
+        # clang++ -target i686-w64-windows-gnu -E -x c -v - < /dev/null
         # This should override xmmintrin.h so that gcc intrinsics for vector instructions are not used
-        "/usr/lib/llvm-15/lib/clang/${_clang_version}/include"
+        "/usr/local/lib/clang/${_clang_version}/include"
         
         # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
         "${_mingw_versioned_root}/include/c++"

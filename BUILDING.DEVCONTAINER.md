@@ -1,22 +1,3 @@
-## Current support matrix
-
-```
-                          Windows            Linux 64 bit
-clang-10 Debug (ld)       link fails (*1-1)  MV runs     
-clang-10 Release (ld)     MV runs (*2)       MV runs     
-clang-10 Debug (lld)      link fails (*1-2)  MV runs     
-clang-10 Release (lld)    link fails (*1-2)  MV runs     
-clang-14 Debug            ICE (*3)           ICE (*3)    
-clang-14 Release (lld)    MV runs            MV runs     
-```
-* ld: `ld` or `i686-w64-mingw32-ld`
-* lld: LLVM linker
-* *1: See https://github.com/msys2/MINGW-packages/issues/6855#issuecomment-680859662 for analysis on the similar issue
-* *1-1: `/usr/lib/gcc/i686-w64-mingw32/9.4-posix/libstdc++.a(...): duplicate section '.rdata$<mangled name from libstdc++, e.g., _ZTSSt9exception[__ZTSSt9exception]>' has different size`
-* *1-2: `lld-link: error: duplicate symbol: typeinfo name for <something from libstdc++ e.g., std::exception>`
-* *2: Spews out mostly the same linker messages as 1-1 but weirdly it does build and run fine.
-* *3: Compiler crashes (https://github.com/llvm/llvm-project/issues/56126)
-
 ## Building on VSCode devcontainer 
 
 Open the directory using VSCode w/ Remote Container extension enabled and active.

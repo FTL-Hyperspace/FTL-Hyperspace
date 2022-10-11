@@ -20,15 +20,17 @@ string(CONCAT _linker_flags
     "-lm"
 
     # Use lld instead of ld
-    " -fuse-ld=lld-15"
+    " -fuse-ld=lld"
 )
 
 
-set(CMAKE_C_COMPILER "/usr/bin/clang-15" CACHE PATH "")
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++-15" CACHE PATH "")
+set(CMAKE_C_COMPILER "clang" CACHE PATH "")
+set(CMAKE_CXX_COMPILER "clang++" CACHE PATH "")
 foreach(lang C CXX)
     set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
     set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
+    set(CMAKE_${lang}_FLAGS_MINSIZEREL_INIT "-DNDEBUG")
+    set(CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT "-DNDEBUG")
     # Setting CMAKE_*_FLAGS_INIT will ignore -fPIC under certain circumstances.
     # Setting CMAKE_*_FLAGS directly prevents this (see https://github.com/microsoft/vcpkg/pull/12097 for a similar case).
     string(APPEND CMAKE_${lang}_FLAGS " ${_compiler_flags}")

@@ -1,28 +1,55 @@
-# 1st image: Build mingw-w64 for Windows with modified configurations
-FROM ubuntu:focal
+# 1st image: Build mingw-w64 for Windows with modified configuration
+FROM ubuntu:focal as toolchain-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 COPY mingw.patch /mingw-build/
+COPY llvm.patch /llvm-build/
 
 # Fetch build tools and deps
 RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list \
     && apt update \
-    && apt install -y --no-install-recommends build-essential dpkg-dev devscripts locales \
+    && apt install -y --no-install-recommends \
+        ca-certificates gnupg build-essential dpkg-dev devscripts locales cmake make python3 zlib1g wget subversion \
+        unzip git \
     && ln -s /usr/bin/autoconf /usr/bin/autoconf2.69 \
     && ln -s /usr/bin/autom4te /usr/bin/autom4te2.69 \
     && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8) \
     && apt build-dep -y g++-mingw-w64-i686
 
-# Fetch source
+# Install ninja
+RUN wget "https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip" && \
+    echo "d2fea9ff33b3ef353161ed906f260d565ca55b8ca0568fa07b1d2cab90a84a07 ninja-linux.zip" \
+        | sha256sum -c  && \
+    unzip ninja-linux.zip -d /usr/local/bin && \
+    rm ninja-linux.zip
+
+# mingw-w64: Fetch source
 RUN mkdir -p /mingw-build/mingw-dwarf2-build \
     && cd /mingw-build/mingw-dwarf2-build \
     && apt source g++-mingw-w64-i686
 
-# Patch .deb buildscripts and build
+# mingw-w64: Patch .deb buildscripts and build. Patch details:
+# * Just build C/C++ toolchain, for posix thread models
+# * Switch exception model from sjlj to dwarf2 that FTL uses
 RUN cd /mingw-build/mingw-dwarf2-build \
     && patch -p1 -s < /mingw-build/mingw.patch \
     && cd gcc-mingw-w64-22~exp1ubuntu4 \
     && debuild -b -uc -us
+
+# llvm: Fetch source and patch. Patch details:
+# * ABI incompatibility fix for llvm-project#58255
+RUN git clone -b main --single-branch "https://github.com/llvm/llvm-project.git" --depth=1 /llvm-build/src \
+    && cd /llvm-build/src \
+    && patch -p1 -s < /llvm-build/llvm.patch
+
+# llvm: Build
+RUN mkdir -p /llvm-build/install /llvm-build/build \
+    && cd /llvm-build/build \
+    && cmake -GNinja -DCMAKE_INSTALL_PREFIX=/llvm-build/install -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_PROJECTS="clang;lld" /llvm-build/src/llvm \
+    && ninja install-clang install-clang-resource-headers install-lld \
+    && cd /tmp \
+    && rm -rf /llvm-build/build
 
 # -------------------------------------------------------------------------------
 
@@ -42,10 +69,8 @@ RUN apt install -y --no-install-recommends \
         swig locales lsb-release wget software-properties-common gpg-agent \
     && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8)
 
-# Setup LLVM 15
-RUN cd /usr/local \
-    && (curl -sL https://apt.llvm.org/llvm.sh > /tmp/llvm.sh) \
-    && bash /tmp/llvm.sh 15
+# Setup llvm
+COPY --from=toolchain-builder /llvm-build/install/ /usr/local/
 
 # Setup CMake
 RUN cd /usr/local \
@@ -64,7 +89,7 @@ RUN apt install -y --no-install-recommends g++-4.8-multilib \
     && ln -s /usr/lib/gcc/x86_64-linux-gnu/4.8 4.8
 
 # Setup Windows toolchain (Powershell is required for Windows build when vcpkg is involved)
-COPY --from=0 /mingw-build/mingw-dwarf2-build/*.deb /mingw-build/mingw-dwarf2-build/
+COPY --from=toolchain-builder /mingw-build/mingw-dwarf2-build/*.deb /mingw-build/mingw-dwarf2-build/
 RUN (curl -sL \
     https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/powershell-lts_7.2.4-1.deb_amd64.deb) \
     > /tmp/pwsh.deb \
@@ -86,9 +111,6 @@ RUN cd / \
     && ln -s /vcpkg/vcpkg /usr/bin/vcpkg
 COPY triplets/* /vcpkg/triplets/
 COPY toolchains/* /vcpkg/scripts/toolchains/
-
-# Workarounds for boost
-RUN ln -s /usr/bin/clang-15 /usr/bin/clang && ln -s /usr/bin/clang++-15 /usr/bin/clang++
 
 # Workarounds for SDL2
 RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-toolchain/include/asm
