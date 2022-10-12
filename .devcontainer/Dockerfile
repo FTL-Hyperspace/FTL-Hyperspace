@@ -1,4 +1,4 @@
-# 1st image: Build mingw-w64 for Windows with modified configuration
+# 1st image: Build mingw-w64 and llvm with modified configuration
 FROM ubuntu:focal as toolchain-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -17,6 +17,7 @@ RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list \
     && apt build-dep -y g++-mingw-w64-i686
 
 # Install ninja
+# TODO: Upgrade the version to the latest
 RUN wget "https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip" && \
     echo "d2fea9ff33b3ef353161ed906f260d565ca55b8ca0568fa07b1d2cab90a84a07 ninja-linux.zip" \
         | sha256sum -c  && \
@@ -64,6 +65,7 @@ RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/source
     && apt update
 
 # Install common build tools
+# TODO: Use latest ninja instead of one from system packages (vcpkg requires it)
 RUN apt install -y --no-install-recommends \
         ca-certificates curl zip unzip tar git ninja-build pkg-config \
         swig locales lsb-release wget software-properties-common gpg-agent \
@@ -117,5 +119,7 @@ RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-to
 
 # TODO: Add
 # RUN rm -rf /var/lib/apt/lists/*
+
+# TODO: Add a test project build with vcpkg setup to prefetch dependencies into the image
 
 ENV DEBIAN_FRONTEND=
