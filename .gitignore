@@ -48,3 +48,6 @@ _deps
 
 # Default build location for vscode cmake-tools
 build/
+
+# buildall.sh
+build-*/
