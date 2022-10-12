@@ -52,11 +52,23 @@ void CustomMainMenu::ParseTitleScreenNode(rapidxml::xml_node<char> *node)
 static SplashImage* currentSplashImage = nullptr;
 static GL_Texture* splashImageTexture = nullptr;
 
+void removeItbButtonFromRenderTargets(MainMenu &mainMenu)
+{
+    auto itBegin = mainMenu.buttons.begin();
+    auto itEnd = mainMenu.buttons.end();
+    auto itItbButton = std::find(itBegin, itEnd, &mainMenu.itbButton);
+    if (itItbButton != itEnd)
+        mainMenu.buttons.erase(itItbButton);
+}
+
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (MainMenu.cpp)\n")
-#ifdef _WIN32 // At some point we need to lock this behind a FTL Version as this is 1.6.9 specific (this itbButtonActive doesn't exist in later versions)
+#ifdef _WIN32
+    // At some point we need to lock this behind a FTL Version as this is 1.6.9 specific (this itbButtonActive doesn't exist in later versions)
     itbButtonActive = false;
+    // Make sure we're removing this->itbButton from this->buttons to prevent rendering it.
+    removeItbButtonFromRenderTargets(*this);
 #endif // _WIN32
 
     if (CustomMainMenu::GetInstance()->splashImages.size() > 0)
