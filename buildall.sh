@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 function build_one_variant() {
     local BUILD_DIR="$1"
     local TOOLCHAIN_NAME="$2"
