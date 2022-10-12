@@ -52,6 +52,7 @@ void CustomMainMenu::ParseTitleScreenNode(rapidxml::xml_node<char> *node)
 static SplashImage* currentSplashImage = nullptr;
 static GL_Texture* splashImageTexture = nullptr;
 
+#ifdef _WIN32
 void removeItbButtonFromRenderTargets(MainMenu &mainMenu)
 {
     auto itBegin = mainMenu.buttons.begin();
@@ -60,6 +61,7 @@ void removeItbButtonFromRenderTargets(MainMenu &mainMenu)
     if (itItbButton != itEnd)
         mainMenu.buttons.erase(itItbButton);
 }
+#endif // _WIN32
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
