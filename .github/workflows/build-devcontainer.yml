@@ -5,6 +5,10 @@ on:
     - cron: '0 0 1 * *' 
   workflow_dispatch:
     # Manual run
+  push:
+    # When .devcontainer directory is changed
+    paths:
+      - '.devcontainer/**'
 
 jobs:
   build:
