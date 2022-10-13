@@ -26,3 +26,8 @@ jobs:
           # Should match to devcontainer.json setup
           imageName: ghcr.io/FTL-Hyperspace/HS-devcontainer
           runCmd: echo Done.
+          eventFilterForPush: |
+            push
+            schedule
+            workflow_dispatch
+
