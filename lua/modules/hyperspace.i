@@ -3,11 +3,11 @@
 %include "constraints.i"
 
 %{
-#include "../../Global.h"
-#include "../../HSVersion.h"
-#include "../../CustomAchievements.h"
-#include "../../CustomEvents.h"
-#include "../../CustomScoreKeeper.h"
+#include "Global.h"
+#include "HSVersion.h"
+#include "CustomAchievements.h"
+#include "CustomEvents.h"
+#include "CustomScoreKeeper.h"
 %}
 
 namespace std {
