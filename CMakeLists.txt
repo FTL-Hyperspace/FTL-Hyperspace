@@ -271,7 +271,7 @@ target_sources(
     Version.autogen.hpp
 )
 
-# TODO: Convert to CMake script
+# TODO: https://stackoverflow.com/a/61814218/3567518
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
     COMMAND bash ./generateVersion.sh

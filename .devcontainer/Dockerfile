@@ -117,9 +117,11 @@ COPY toolchains/* /vcpkg/scripts/toolchains/
 # Workarounds for SDL2
 RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-toolchain/include/asm
 
-# TODO: Add
-# RUN rm -rf /var/lib/apt/lists/*
+# Cleanup apt lists from the image
+RUN rm -rf /var/lib/apt/lists/*
 
-# TODO: Add a test project build with vcpkg setup to prefetch dependencies into the image
+# Try to build a test project with vcpkg.json to prefetch dependencies into the image
+COPY deps_prefetch_project/ /tmp/deps_prefetch_project
+RUN cd /tmp/deps_prefetch_project && bash prefetch.sh && cd /tmp && rm -rf /tmp/deps_prefetch_project
 
 ENV DEBIAN_FRONTEND=
