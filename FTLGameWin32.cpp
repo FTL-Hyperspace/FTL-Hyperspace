@@ -59,7 +59,7 @@ namespace _func3
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::LoadProfile", typeid(void (AchievementTracker::*)(int , int )), ".578d7c240883e4f0ff77fc5589f889e557565381ec????????8b3f8b4004894d80893c24", argdata, 3, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::LoadProfile", typeid(void (AchievementTracker::*)(int , int )), ".578d7c240883e4f0ff77fc5589f889e557565381ec8c000000", argdata, 3, 5, &func);
 }
 
 void AchievementTracker::LoadProfile(int file, int version)

@@ -5,7 +5,7 @@ __thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTrack
 __thiscall std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
 ".5789ca8d7c240883e4f0ff77fc5589e5575653":
 __thiscall void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
-".578d7c240883e4f0ff77fc5589f889e557565381ec????????8b3f8b4004894d80893c24":
+".578d7c240883e4f0ff77fc5589f889e557565381ec8c000000":
 __thiscall void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
 ".578d7c240883e4f0ff77fc5589e557565381ec8c000000":
 __thiscall void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
