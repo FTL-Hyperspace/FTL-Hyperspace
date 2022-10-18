@@ -437,7 +437,7 @@ namespace _func31
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AnimationControl::GetAnimation", typeid(Animation (AnimationControl::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b07898dacfeffff8985b0feffff8b4704c70424????????", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("AnimationControl::GetAnimation", typeid(Animation (AnimationControl::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b07898d??feffff8985??feffff8b4704c70424", argdata, 3, 1, &func);
 }
 
 Animation AnimationControl::GetAnimation(const std::string &animName)
