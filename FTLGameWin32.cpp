@@ -451,7 +451,7 @@ AnimationControl *Global_AnimationControl_Animations;
 
 namespace _var32
 {
-	static VariableDefinition varObj("Global_AnimationControl_Animations", "!c70424(???????\?)89c18985ecfeffff", &Global_AnimationControl_Animations);
+	static VariableDefinition varObj("Global_AnimationControl_Animations", "!8d8d1cffffffc70424(???????\?)89442404e8", &Global_AnimationControl_Animations);
 }
 
 namespace _func33

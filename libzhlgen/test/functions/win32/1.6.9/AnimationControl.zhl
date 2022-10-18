@@ -2,5 +2,5 @@
 __thiscall Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
 
 
-"!c70424(???????\?)89c18985ecfeffff":
+"!8d8d1cffffffc70424(???????\?)89442404e8":
 AnimationControl* Global_AnimationControl_Animations;
