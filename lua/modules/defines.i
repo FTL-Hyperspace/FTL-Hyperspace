@@ -9,10 +9,10 @@
 %nodefaultdtor RenderEvents;
 
 %{
-#include "../InternalEvents.h"
-#include "../RenderEvents.h"
-#include "../luaDefines.h"
+#include "InternalEvents.h"
+#include "RenderEvents.h"
+#include "luaDefines.h"
 %}
-%include "../InternalEvents.h"
-%include "../RenderEvents.h"
-%include "../luaDefines.h"
+%include "InternalEvents.h"
+%include "RenderEvents.h"
+%include "luaDefines.h"

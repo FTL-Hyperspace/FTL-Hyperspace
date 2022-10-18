@@ -28,7 +28,7 @@
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -78,7 +78,7 @@
 					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
@@ -103,7 +103,7 @@
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -154,7 +154,7 @@
 					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
@@ -182,7 +182,7 @@
 					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -236,7 +236,7 @@
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add library="liblua-5.3" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 					<Add directory="${LUA_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
@@ -264,7 +264,7 @@
 					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -319,7 +319,7 @@
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add library="liblua-5.3" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 					<Add directory="${LUA_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
