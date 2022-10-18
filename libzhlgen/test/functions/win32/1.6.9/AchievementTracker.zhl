@@ -3,9 +3,9 @@ __thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTrack
 
 "578d7c240883e4f0ff77fc5589e557565383ec6c8b07894da4":
 __thiscall std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
-
-".5789ca8d7c240883e4f0ff77fc5589e557565381ec8c000000":
+".5789ca8d7c240883e4f0ff77fc5589e5575653":
 __thiscall void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
+
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b0789458c0fb6470488857fffffff8b411889c2":
 __thiscall void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
 "578d7c240883e4f0ff77fc5589e55783ec148b57048b0783fa0274??8b790c8d04408d04872":

@@ -45,7 +45,7 @@ namespace _func2
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::CheckShipAchievements", typeid(void (AchievementTracker::*)(int , bool )), ".5789ca8d7c240883e4f0ff77fc5589e557565381ec8c000000", argdata, 3, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::CheckShipAchievements", typeid(void (AchievementTracker::*)(int , bool )), ".5789ca8d7c240883e4f0ff77fc5589e5575653", argdata, 3, 5, &func);
 }
 
 void AchievementTracker::CheckShipAchievements(int shipId, bool hidePopups)
