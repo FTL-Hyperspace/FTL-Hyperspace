@@ -31,7 +31,7 @@ namespace _func1
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::SaveProfile", typeid(void (AchievementTracker::*)(int )), "578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b008b71188945e48b411c", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SaveProfile", typeid(void (AchievementTracker::*)(int )), ".578d7c240883e4f0ff77fc55", argdata, 2, 5, &func);
 }
 
 void AchievementTracker::SaveProfile(int file)
@@ -45,7 +45,7 @@ namespace _func2
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::SetTooltip", typeid(void (AchievementTracker::*)(CAchievement *)), "578d7c240883e4f0ff77fc5589e557565381eccc0100008b07??????????????????????????????????????83c024", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SetTooltip", typeid(void (AchievementTracker::*)(CAchievement *)), ".578d7c240883e4f0ff77fc5589e557565381eccc0100008b07??????????????????????????????????????83c024", argdata, 2, 5, &func);
 }
 
 void AchievementTracker::SetTooltip(CAchievement *ach)
