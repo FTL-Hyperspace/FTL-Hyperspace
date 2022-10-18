@@ -16,7 +16,7 @@ __thiscall void Animation::AddSoundQueue(Animation *this, int frame, const std::
 __thiscall void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
 "558d91a400000089e5575653":
 __thiscall void Animation::destructor(Animation *this);
-"f30f10512480793000f30f104c24048b5104f30f59ca660fefdb660fefc0f30f11492cf30f2ada74??f30f5ecaf30f5fc80f28c1f30f59c383ea01":
+"f30f10512480793000f30f10??2404":
 __thiscall void Animation::SetProgress(Animation *this, float progress);
 "5589e55389cb83e4f0803d????????00754ee8????????8b4b0499c6433200660fefc0c6433001660fefc9":
 __thiscall int Animation::RandomStart(Animation *this);

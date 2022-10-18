@@ -367,7 +367,7 @@ namespace _func26
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Animation::SetProgress", typeid(void (Animation::*)(float )), "f30f10512480793000f30f104c24048b5104f30f59ca660fefdb660fefc0f30f11492cf30f2ada74??f30f5ecaf30f5fc80f28c1f30f59c383ea01", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Animation::SetProgress", typeid(void (Animation::*)(float )), "f30f10512480793000f30f10??2404", argdata, 2, 5, &func);
 }
 
 void Animation::SetProgress(float progress)
