@@ -325,7 +325,7 @@ namespace _func23
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Animation::SetAnimationId", typeid(void (Animation::*)(GL_Texture *)), "8b442404390174??89c2890185d274??8b500489510889c285d274??8b400889410c", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Animation::SetAnimationId", typeid(void (Animation::*)(GL_Texture *)), "538b4424083901", argdata, 2, 5, &func);
 }
 
 void Animation::SetAnimationId(GL_Texture *tex)
