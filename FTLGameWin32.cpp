@@ -58,18 +58,32 @@ void AchievementTracker::CheckShipAchievements(int shipId, bool hidePopups)
 namespace _func3
 {
 	static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("AchievementTracker::LoadProfile", typeid(void (AchievementTracker::*)(int , int )), ".578d7c240883e4f0ff77fc5589f889e557565381ec????????8b3f8b4004894d80893c24", argdata, 3, 5, &func);
+}
+
+void AchievementTracker::LoadProfile(int file, int version)
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg, int version_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3::func;
+	return execfunc(this, file, version);
+}
+
+namespace _func4
+{
+	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::SetAchievement", typeid(void (AchievementTracker::*)(const std::string &, bool , bool )), "578d7c240883e4f0ff77fc5589e557565381ec????????8b0789458c0fb6470488857fffffff8b411889c2", argdata, 4, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SetAchievement", typeid(void (AchievementTracker::*)(const std::string &, bool , bool )), ".578d7c240883e4f0ff77fc5589e557565381ec8c000000", argdata, 4, 5, &func);
 }
 
 void AchievementTracker::SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &achievement_arg, bool noPopup_arg, bool sendToServer_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func4::func;
 	return execfunc(this, achievement, noPopup, sendToServer);
 }
 
-namespace _func4
+namespace _func5
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -79,11 +93,11 @@ namespace _func4
 void AchievementTracker::UnlockShip(int shipId, int shipType)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int shipId_arg, int shipType_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func4::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func5::func;
 	return execfunc(this, shipId, shipType);
 }
 
-namespace _func5
+namespace _func6
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
@@ -93,11 +107,11 @@ namespace _func5
 void AchievementTracker::SetSectorEight()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func5::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func6::func;
 	return execfunc(this);
 }
 
-namespace _func6
+namespace _func7
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -107,11 +121,11 @@ namespace _func6
 int AchievementTracker::GetShipMarker(const std::string &baseName, const std::string &thisName)
 {
 	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &baseName_arg, const std::string &thisName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func6::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func7::func;
 	return execfunc(this, baseName, thisName);
 }
 
-namespace _func7
+namespace _func8
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -121,11 +135,11 @@ namespace _func7
 void AchievementTracker::SetFlag(const std::string &flagName)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func7::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func8::func;
 	return execfunc(this, flagName);
 }
 
-namespace _func8
+namespace _func9
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -135,11 +149,11 @@ namespace _func8
 bool AchievementTracker::GetFlag(const std::string &flagName)
 {
 	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func8::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func9::func;
 	return execfunc(this, flagName);
 }
 
-namespace _func9
+namespace _func10
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -149,22 +163,8 @@ namespace _func9
 void AchievementTracker::SaveProfile(int file)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func9::func;
-	return execfunc(this, file);
-}
-
-namespace _func10
-{
-	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::LoadProfile", typeid(void (AchievementTracker::*)(int , int )), "578d7c240883e4f0ff77fc5589f889e557565381ec????????8b3f8b4004894d80893c24", argdata, 3, 5, &func);
-}
-
-void AchievementTracker::LoadProfile(int file, int version)
-{
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg, int version_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func10::func;
-	return execfunc(this, file, version);
+	return execfunc(this, file);
 }
 
 namespace _func11
