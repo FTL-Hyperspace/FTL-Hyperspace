@@ -528,7 +528,7 @@ namespace _func38
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("AnimationTracker::Progress", typeid(float (AnimationTracker::*)(float )), ".83ec0480791000f30f104c2408660fefc074??0f2ec10f28d077??f30f10410cf30f5ec1", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("AnimationTracker::Progress", typeid(float (AnimationTracker::*)(float )), ".83ec0480791000f30f104c2408660fefc0", argdata, 2, 1, &func);
 }
 
 float AnimationTracker::Progress(float speed)
@@ -556,7 +556,7 @@ namespace _func40
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("AnimationTracker::GetAlphaLevel", typeid(float (AnimationTracker::*)(bool )), ".5589e583ec04f30f1005????????f30f1015????????807d0800f30f594104f30f10490cf30f5cc80f28d8", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("AnimationTracker::GetAlphaLevel", typeid(float (AnimationTracker::*)(bool )), ".5589e583ec04f30f1005", argdata, 2, 1, &func);
 }
 
 float AnimationTracker::GetAlphaLevel(bool reverse)
