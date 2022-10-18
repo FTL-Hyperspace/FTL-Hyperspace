@@ -1,4 +1,10 @@
-"5589e557565383e4f083ec208b550c8b450883fa02":
+"578d7c240883e4f0ff77fc5589e557565381eccc0100008b07??????????????????????????????????????83c024":
+__thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
+".578d7c240883e4f0ff77fc55":
+noHook void DO_NOT_HOOK();
+".578d7c240883e4f0ff77fc55":
+__thiscall int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
+".5589e557565383e4f083ec208b550c8b450883fa02":
 __thiscall void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c":
 __thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
@@ -16,9 +22,6 @@ __thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *th
 __thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
 ".578d7c240883e4f0ff77fc5589e55756538d45d0":
 __thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
-
-"578d7c240883e4f0ff77fc5589f889e557565383ec5c8b3f8b70048b5f048b4e04":
-__thiscall int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec4c8b582c8b17894dc083c128894dcc85db8955c4":
 __thiscall void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
 "578d51288d7c240883e4f0ff77fc5589e557565383ec4c8b078b792c8955cc85ff8945c4":
@@ -27,8 +30,6 @@ __thiscall bool AchievementTracker::GetFlag(AchievementTracker *this, const std:
 __thiscall void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
 "578d7c240883e4f0ff77fc5589e557565381ecfc0400008b511c8b4118898d1cfbffffc7852cfbffff00000000":
 __thiscall void AchievementTracker::OnLanguageChange(AchievementTracker *this);
-"578d7c240883e4f0ff77fc5589e557565381eccc0100008b0780783c00898548feffff":
-__thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 
 
 "!b9(???????\?)e8????????c744240c00000000":
