@@ -570,7 +570,7 @@ namespace _func41
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("ArmamentControl::Dragging", typeid(bool (ArmamentControl::*)()), "578d7c240883e4f0ff77fc5589e5575389cb83ec10837970ff74??8b43688b536c8d4960890424", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("ArmamentControl::Dragging", typeid(bool (ArmamentControl::*)()), "578d7c240883e4f0ff77fc5589e5575389cb83ec10837970ff", argdata, 1, 1, &func);
 }
 
 bool ArmamentControl::Dragging()
