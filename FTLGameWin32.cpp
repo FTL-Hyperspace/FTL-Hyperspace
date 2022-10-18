@@ -696,10 +696,10 @@ namespace _func52
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("ArtillerySystem::OnLoop", typeid(void (ArtillerySystem::*)()), "578d7c240883e4f0ff77fc5589e557565389cf83ec5c894db0e8????????89f9e8????????85c0", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("ArtillerySystem::Jump", typeid(void (ArtillerySystem::*)()), "8b81c0010000c7400800000000c7802c06000000000000c3", argdata, 1, 5, &func);
 }
 
-void ArtillerySystem::OnLoop()
+void ArtillerySystem::Jump()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ArtillerySystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func52::func;
@@ -710,10 +710,10 @@ namespace _func53
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("ArtillerySystem::Jump", typeid(void (ArtillerySystem::*)()), "8b81c0010000c7400800000000c7802c06000000000000c3", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("ArtillerySystem::OnLoop", typeid(void (ArtillerySystem::*)()), ".578d7c240883e4f0ff77fc5589e557565389??83ec5c", argdata, 1, 5, &func);
 }
 
-void ArtillerySystem::Jump()
+void ArtillerySystem::OnLoop()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ArtillerySystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func53::func;
