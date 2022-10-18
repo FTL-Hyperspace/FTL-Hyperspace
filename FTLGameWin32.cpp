@@ -310,6 +310,20 @@ void Animation::Start(bool reset)
 namespace _func22
 {
 	static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("Animation::StartReverse", typeid(void (Animation::*)(bool )), ".578d7c240883e4f0ff77fc5589e5575389cb83ec20", argdata, 2, 5, &func);
+}
+
+void Animation::StartReverse(bool reset)
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Animation *this_arg, bool reset_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func22::func;
+	return execfunc(this, reset);
+}
+
+namespace _func23
+{
+	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("Animation::AddSoundQueue", typeid(void (Animation::*)(int , const std::string &)), "578d7c240883e4f0ff77fc5589e557565383ec3c8b178b770485d278??8b99880000008b818c00000029d8c1f802", argdata, 3, 5, &func);
 }
@@ -317,11 +331,11 @@ namespace _func22
 void Animation::AddSoundQueue(int frame, const std::string &sound)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Animation *this_arg, int frame_arg, const std::string &sound_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func22::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func23::func;
 	return execfunc(this, frame, sound);
 }
 
-namespace _func23
+namespace _func24
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -331,11 +345,11 @@ namespace _func23
 void Animation::SetAnimationId(GL_Texture *tex)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Animation *this_arg, GL_Texture *tex_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func23::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func24::func;
 	return execfunc(this, tex);
 }
 
-namespace _func24
+namespace _func25
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
@@ -345,22 +359,8 @@ namespace _func24
 void Animation::destructor()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Animation *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func24::func;
-	return execfunc(this);
-}
-
-namespace _func25
-{
-	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Animation::StartReverse", typeid(void (Animation::*)(bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec208b0784c00f85????????660fefd2f30f10412cc6413200c64130010f2ed00f87????????f30f104924", argdata, 2, 5, &func);
-}
-
-void Animation::StartReverse(bool reset)
-{
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Animation *this_arg, bool reset_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func25::func;
-	return execfunc(this, reset);
+	return execfunc(this);
 }
 
 namespace _func26
