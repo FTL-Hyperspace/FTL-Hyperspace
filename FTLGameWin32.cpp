@@ -163,6 +163,20 @@ void AchievementTracker::LoadAchievementDescriptions()
 namespace _func11
 {
 	static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("AchievementTracker::GetFlag", typeid(bool (AchievementTracker::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e557565383ec4c", argdata, 2, 1, &func);
+}
+
+bool AchievementTracker::GetFlag(const std::string &flagName)
+{
+	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func11::func;
+	return execfunc(this, flagName);
+}
+
+namespace _func12
+{
+	static void *func = 0;
 	static short argdata[] = {0x101};
 	static FunctionDefinition funcObj("AchievementTracker::SetSectorEight", typeid(void (AchievementTracker::*)()), ".578d7c240883e4f0ff77fc5589e55756538d45d0", argdata, 1, 5, &func);
 }
@@ -170,11 +184,11 @@ namespace _func11
 void AchievementTracker::SetSectorEight()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func11::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func12::func;
 	return execfunc(this);
 }
 
-namespace _func12
+namespace _func13
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -184,20 +198,6 @@ namespace _func12
 void AchievementTracker::SetFlag(const std::string &flagName)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func12::func;
-	return execfunc(this, flagName);
-}
-
-namespace _func13
-{
-	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::GetFlag", typeid(bool (AchievementTracker::*)(const std::string &)), "578d51288d7c240883e4f0ff77fc5589e557565383ec4c8b078b792c8955cc85ff8945c4", argdata, 2, 1, &func);
-}
-
-bool AchievementTracker::GetFlag(const std::string &flagName)
-{
-	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func13::func;
 	return execfunc(this, flagName);
 }
