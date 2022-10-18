@@ -297,7 +297,7 @@ namespace _func21
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Animation::Start", typeid(void (Animation::*)(bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec20803f000f85????????660fefd2f30f10492cc6413200", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Animation::Start", typeid(void (Animation::*)(bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec20803f000f85????????660fefd2f30f10??2cc6413200", argdata, 2, 5, &func);
 }
 
 void Animation::Start(bool reset)
