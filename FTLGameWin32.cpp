@@ -178,7 +178,7 @@ namespace _func12
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::SetFlag", typeid(void (AchievementTracker::*)(const std::string &)), "5789c88d7c240883e4f0ff77fc5589e557565383ec4c8b582c8b17894dc083c128894dcc85db8955c4", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SetFlag", typeid(void (AchievementTracker::*)(const std::string &)), ".578d51248d7c240883e4f0ff77fc5589e557565383ec4c", argdata, 2, 5, &func);
 }
 
 void AchievementTracker::SetFlag(const std::string &flagName)
