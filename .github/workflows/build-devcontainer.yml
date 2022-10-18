@@ -28,7 +28,7 @@ jobs:
         uses: devcontainers/ci@v0.2
         with:
           # Should match to devcontainer.json setup
-          imageName: ghcr.io/FTL-Hyperspace/HS-devcontainer
+          imageName: ghcr.io/ftl-hyperspace/hs-devcontainer
           runCmd: echo Done.
           eventFilterForPush: |
             push
