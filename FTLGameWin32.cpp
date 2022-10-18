@@ -339,7 +339,7 @@ namespace _func24
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("Animation::destructor", typeid(void (Animation::*)()), "558d91a400000089e557565383e4f083ec208b819c000000894c241839d074??890424e8????????8b4424188bb08c00000089f38974241c8bb088000000", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("Animation::destructor", typeid(void (Animation::*)()), "558d91a400000089e5575653", argdata, 1, 5, &func);
 }
 
 void Animation::destructor()
