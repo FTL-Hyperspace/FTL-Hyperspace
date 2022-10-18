@@ -1,7 +1,8 @@
-"57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff":
-__thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
-
-"578d7c240883e4f0ff77fc5589e557565383ec6c8b07894da4":
+"5589e557565383e4f083ec208b550c8b450883fa02":
+__thiscall void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c":
+__thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
+".578d7c240883e4f0ff77fc5589e557565383ec6c8b07894da4":
 __thiscall std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
 ".5789ca8d7c240883e4f0ff77fc5589e5575653":
 __thiscall void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
@@ -10,8 +11,14 @@ __thiscall void AchievementTracker::LoadProfile(AchievementTracker *this, int fi
 ".578d7c240883e4f0ff77fc5589e557565381ec8c000000":
 __thiscall void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
 
-"578d7c240883e4f0ff77fc5589e55783ec148b57048b0783fa0274??8b790c8d04408d04872":
-__thiscall void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
+
+"578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
+__thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
+
+
+"57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff":
+__thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
+
 "578d7c240883e4f0ff77fc5589e55756538d45d08d7dd881ec????????894d84897dd0890424c744240801000000":
 __thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
 "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b3f8b70048b5f048b4e04":
@@ -22,14 +29,10 @@ __thiscall void AchievementTracker::SetFlag(AchievementTracker *this, const std:
 __thiscall bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b008b71188945e48b411c":
 __thiscall void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
-"578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
-__thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
 "578d7c240883e4f0ff77fc5589e557565381ecfc0400008b511c8b4118898d1cfbffffc7852cfbffff00000000":
 __thiscall void AchievementTracker::OnLanguageChange(AchievementTracker *this);
 "578d7c240883e4f0ff77fc5589e557565381eccc0100008b0780783c00898548feffff":
 __thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
-"578d41248d7c240883e4f0ff77fc5589e557565389cf83ec2c8b712c8945e485f6":
-__thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
 
 
 "!b9(???????\?)e8????????c744240c00000000":
