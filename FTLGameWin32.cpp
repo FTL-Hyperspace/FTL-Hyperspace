@@ -31,7 +31,7 @@ namespace _func1
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b40048b3f894db4c744240802000000c744240400000000", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e557565383ec6c8b07894da4", argdata, 3, 1, &func);
 }
 
 std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
