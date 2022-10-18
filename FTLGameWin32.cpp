@@ -241,7 +241,7 @@ namespace _func17
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x2ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Animation::constructor", typeid(void (Animation::*)(const std::string &, int , float , Pointf , int , int , int , int )), "578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b77048b50148b0ff30f104708", argdata, 9, 5, &func);
+	static FunctionDefinition funcObj("Animation::constructor", typeid(void (Animation::*)(const std::string &, int , float , Pointf , int , int , int , int )), "57660fefc98d7c240883e4f0ff77fc5589f889e557565389cb83ec2c", argdata, 9, 5, &func);
 }
 
 void Animation::constructor(const std::string &_image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)

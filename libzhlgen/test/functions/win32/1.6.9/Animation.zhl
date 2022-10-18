@@ -1,4 +1,4 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c8b77048b50148b0ff30f104708":
+"57660fefc98d7c240883e4f0ff77fc5589f889e557565389cb83ec2c":
 __thiscall void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
 "5589e557565389cb83e4f083ec408b451c84c089c775??0fb6b984000000f30f104508":
 __thiscall void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
