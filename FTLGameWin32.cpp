@@ -101,7 +101,7 @@ namespace _func6
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("AchievementTracker::SetVictoryAchievement", typeid(void (AchievementTracker::*)()), "578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SetVictoryAchievement", typeid(void (AchievementTracker::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??", argdata, 1, 5, &func);
 }
 
 void AchievementTracker::SetVictoryAchievement()
@@ -115,7 +115,7 @@ namespace _func7
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("AchievementTracker::LoadAchievementDescriptions", typeid(void (AchievementTracker::*)()), "57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::LoadAchievementDescriptions", typeid(void (AchievementTracker::*)()), ".57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff", argdata, 1, 5, &func);
 }
 
 void AchievementTracker::LoadAchievementDescriptions()
@@ -129,7 +129,7 @@ namespace _func8
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("AchievementTracker::SetSectorEight", typeid(void (AchievementTracker::*)()), "578d7c240883e4f0ff77fc5589e55756538d45d08d7dd881ec????????894d84897dd0890424c744240801000000", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SetSectorEight", typeid(void (AchievementTracker::*)()), ".578d7c240883e4f0ff77fc5589e55756538d45d0", argdata, 1, 5, &func);
 }
 
 void AchievementTracker::SetSectorEight()

@@ -10,17 +10,13 @@ __thiscall void AchievementTracker::CheckShipAchievements(AchievementTracker *th
 __thiscall void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
 ".578d7c240883e4f0ff77fc5589e557565381ec8c000000":
 __thiscall void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
-
-
-"578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
+".578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
 __thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
-
-
-"57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff":
+".57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????8d9da4fffeff29c48db5acfffeff":
 __thiscall void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
-
-"578d7c240883e4f0ff77fc5589e55756538d45d08d7dd881ec????????894d84897dd0890424c744240801000000":
+".578d7c240883e4f0ff77fc5589e55756538d45d0":
 __thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
+
 "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b3f8b70048b5f048b4e04":
 __thiscall int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec4c8b582c8b17894dc083c128894dcc85db8955c4":
