@@ -1,8 +1,12 @@
 #include "MoreInfoButton.h"
 #include "CustomOptions.h"
+#include "CustomDrones.h"
+#include <iomanip>
+#include <sstream>
 #include <boost/algorithm/string.hpp>
 
 static Button* moreInfoButton;
+static Button* shipInfoButton;
 
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
@@ -13,6 +17,11 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     moreInfoButton->OnInit("statusUI/moreInfoButtonOff", Point(1207, 656));
     moreInfoButton->bActive = true;
     moreInfoButton->SetLocation(Point(1207, 656));
+
+    shipInfoButton = new Button();
+    shipInfoButton->OnInit("statusUI/moreInfoButtonOff", Point(1207, 15));
+    shipInfoButton->bActive = true;
+    shipInfoButton->SetLocation(Point(1207, 15));
 }
 
 HOOK_METHOD(ShipStatus, OnRender, () -> void)
@@ -21,6 +30,9 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
     super();
     if (moreInfoButton)
     moreInfoButton->OnRender();
+
+    if (shipInfoButton)
+    shipInfoButton->OnRender();
 }
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)
@@ -81,6 +93,146 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
             std::string replaceWith = Settings::GetHotkeyName("info");
             boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
             G_->GetMouseControl()->SetTooltip(tooltip);
+        }
+    }
+
+    if (shipInfoButton)
+    {
+        shipInfoButton->MouseMove(mX, mY, false);
+        if (shipInfoButton->bActive && shipInfoButton->bHover)
+        {
+            ShipManager* enemyShip = G_->GetShipManager(1);
+            if (enemyShip != nullptr)
+            {
+                std::string tooltip = "";
+                int sensorsLevel = G_->GetShipManager(0)->GetSystemPower(SystemId::SYS_SENSORS);
+
+                if (enemyShip->weaponSystem != nullptr || enemyShip->artillerySystems.size() != 0)
+                {
+                    tooltip += "Weapons: ";
+                    if (enemyShip->weaponSystem != nullptr)
+                    {
+                        for (int i = 0; i < enemyShip->weaponSystem->weapons.size(); ++i)
+                        {
+                            tooltip = tooltip + "\n" + enemyShip->weaponSystem->weapons[i]->name;
+                            if (sensorsLevel >= 3)
+                            {
+                                // show cooldown number
+                                tooltip += "\n";
+                                std::stringstream stream;
+                                stream << std::fixed << std::setprecision(1) << " (" << (enemyShip->weaponSystem->weapons[i]->cooldown.first / (1 + enemyShip->weaponSystem->weapons[i]->GetAugmentationValue("AUTO_COOLDOWN"))) << " / " << (enemyShip->weaponSystem->weapons[i]->cooldown.second / (1 + enemyShip->weaponSystem->weapons[i]->GetAugmentationValue("AUTO_COOLDOWN"))) << ")";
+                                tooltip = tooltip + stream.str();
+                            }
+                        }
+                    }
+                    if (enemyShip->artillerySystems.size() != 0)
+                    {
+                        for (int i = 0; i < enemyShip->artillerySystems.size(); ++i)
+                        {
+                            tooltip = tooltip + "\n" + "Artillery: " + enemyShip->artillerySystems[i]->projectileFactory->name;
+                            if (sensorsLevel >= 3)
+                            {
+                                // show cooldown number
+                                tooltip += "\n";
+                                std::stringstream stream;
+                                stream << std::fixed << std::setprecision(1) << " (" << (enemyShip->artillerySystems[i]->projectileFactory->cooldown.first / (1 + enemyShip->artillerySystems[i]->projectileFactory->GetAugmentationValue("AUTO_COOLDOWN"))) << " / " << (enemyShip->artillerySystems[i]->projectileFactory->cooldown.second / (1 + enemyShip->artillerySystems[i]->projectileFactory->GetAugmentationValue("AUTO_COOLDOWN"))) << ")";
+                                tooltip = tooltip + stream.str();
+                            }
+                        }
+                    }
+                }
+
+                if (sensorsLevel >= 2)
+                {
+                    auto crewList = G_->GetShipManager(1)->vCrewList;
+                    G_->GetCrewFactory()->GetCloneReadyList(crewList,false);
+                    int deadCrewCount = G_->GetCrewFactory()->CountCloneReadyCrew(false);
+                    if (enemyShip->vCrewList.size() > 0 || deadCrewCount > 0)
+                    {
+                        if (tooltip != "")
+                        tooltip += "\n\n";
+                        tooltip += "Crew: ";
+                        for (int i = 0; i < enemyShip->vCrewList.size(); ++i)
+                        {
+                            if (enemyShip->vCrewList[i] != nullptr && enemyShip->vCrewList[i]->iShipId == 1 && !(enemyShip->vCrewList[i]->IsDrone()))
+                            {
+                                tooltip = tooltip + "\n" + enemyShip->vCrewList[i]->blueprint.desc.title.GetText() + " (" + std::to_string((int)enemyShip->vCrewList[i]->health.first) + " / " + std::to_string((int)enemyShip->vCrewList[i]->health.second) + ")";
+                            }
+                        }
+                        auto playerShip = G_->GetShipManager(0);
+                        if (playerShip != nullptr)
+                        {
+                            for (int i = 0; i < playerShip->vCrewList.size(); ++i)
+                            {
+                                if (playerShip->vCrewList[i] != nullptr && playerShip->vCrewList[i]->iShipId == 1  && !(playerShip->vCrewList[i]->IsDrone()))
+                                {
+                                    tooltip = tooltip + "\n" + playerShip->vCrewList[i]->blueprint.desc.title.GetText() + " (" + std::to_string((int)playerShip->vCrewList[i]->health.first) + " / " + std::to_string((int)playerShip->vCrewList[i]->health.second) + ")";
+                                }
+                            }
+                        }
+                        for (int i = crewList.size()-deadCrewCount; i < crewList.size(); ++i)
+                        {
+                            if (i == crewList.size()-deadCrewCount)
+                            {
+                                std::stringstream stream;
+                                if (sensorsLevel >= 4)
+                                {
+                                    float value = enemyShip->cloneSystem->fTimeGoal - enemyShip->cloneSystem->fTimeToClone;
+                                    if (value < 0)
+                                    {
+                                        value = 0.f;
+                                    }
+                                    stream << std::fixed << std::setprecision(1) << value;
+                                    tooltip = tooltip + "\n" + crewList[i]->blueprint.desc.title.GetText() + " (" + stream.str() + " sec left)";
+                                }
+                                else
+                                {
+                                    float value = enemyShip->cloneSystem->fTimeToClone + 1.f;
+                                    stream << std::fixed << std::setprecision(1) << value;
+                                    tooltip = tooltip + "\n" + crewList[i]->blueprint.desc.title.GetText() + " (Cloning for " + stream.str() + " sec)";
+                                }
+                            }
+                            else
+                            {
+                                tooltip = tooltip + "\n" + crewList[i]->blueprint.desc.title.GetText() + " (Dead, in queue)";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (tooltip != "")
+                    tooltip += "\n\n";
+                    tooltip += "Crew: UNKNOWN";
+                }
+
+                if (enemyShip->droneSystem != nullptr)
+                {
+                    if (sensorsLevel >= 2)
+                    {
+                        if (tooltip != "")
+                        tooltip += "\n\n";
+                        tooltip += "Drones: ";
+                        for (int i = 0; i < enemyShip->droneSystem->drones.size(); ++i)
+                        {
+                            tooltip = tooltip + "\n" + enemyShip->droneSystem->drones[i]->blueprint->desc.title.data;
+                        }
+                    }
+                    else
+                    {
+                        if (tooltip != "")
+                        tooltip += "\n\n";
+                        tooltip += "Drones: UNKNOWN";
+                    }
+                }
+
+                int tempFont = G_->GetMouseControl()->tooltipFont;
+                G_->GetMouseControl()->tooltipFont = 51;
+                G_->GetMouseControl()->SetTooltip(tooltip);
+            }
+
+            //std::string replaceWith = Settings::GetHotkeyName("info");
+            //boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
         }
     }
 }

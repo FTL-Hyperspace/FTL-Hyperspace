@@ -39,6 +39,7 @@ public:
     Setting redesignedCrewTooltips;
     Setting redesignedDroneTooltips;
     Setting redesignedAugmentTooltips;
+    Setting tooltipFont;
 
     Setting advancedCrewTooltips;
     Setting showAllyPowers;
@@ -59,6 +60,12 @@ public:
     Setting alternateOxygenRendering;
 
     Setting showScrapCollectorScrap;
+
+    Setting sensorsAccuracyBonus;
+    Setting sensorsAccuracyFirstLevelBonus;
+
+    Setting enemyCloakingChargeRateChange;
+    Setting enemyHackingChargeRateChange;
 
     Defaults defaults;
 

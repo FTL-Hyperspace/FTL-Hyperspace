@@ -80,6 +80,27 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 
         if (bp->cooldown >= 0)
         {
+            if (weaponDef->enemyCloakingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("enemy_cloaking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->enemyCloakingChargeRateChange * 100))) + "\n";
+            }
+            if (weaponDef->enemyHackingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("enemy_hacking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->enemyHackingChargeRateChange * 100))) + "\n";
+            }
+            if (weaponDef->selfCloakingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("self_cloaking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->selfCloakingChargeRateChange * 100))) + "\n";
+            }
+            if (weaponDef->selfHackingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("self_hacking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->selfHackingChargeRateChange * 100))) + "\n";
+            }
+
             if (bp->missiles > 0)
             {
                 currentText = tLib->GetText("ammo_consumption");
@@ -606,6 +627,27 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 
         if (this->cooldown >= 0)
         {
+            if (weaponDef->enemyCloakingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("enemy_cloaking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->enemyCloakingChargeRateChange * 100))) + "\n";
+            }
+            if (weaponDef->enemyHackingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("enemy_hacking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->enemyHackingChargeRateChange * 100))) + "\n";
+            }
+            if (weaponDef->selfCloakingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("self_cloaking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->selfCloakingChargeRateChange * 100))) + "\n";
+            }
+            if (weaponDef->selfHackingChargeRateChange != 0)
+            {
+                currentText = tLib->GetText("self_hacking_charge_rate_change");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((int)(weaponDef->selfHackingChargeRateChange * 100))) + "\n";
+            }
+
             if (this->missiles > 0)
             {
                 currentText = tLib->GetText("ammo_consumption");

@@ -1,0 +1,5 @@
+#pragma once
+#undef BUILD_IDENTIFIER_HASH
+#define BUILD_IDENTIFIER_HASH "1c264bd3-dirty"
+#undef BUILD_BRANCH
+#define BUILD_BRANCH "develop"

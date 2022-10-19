@@ -471,6 +471,56 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "sensorsAccuracyBonus") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->sensorsAccuracyBonus.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->sensorsAccuracyBonus.currentValue = EventsParser::ParseBoolean(enabled);
+                if(enabled)
+                {
+                    if(node->first_attribute("firstLevel"))
+                    {
+                        customOptions->sensorsAccuracyFirstLevelBonus.defaultValue = EventsParser::ParseBoolean(node->first_attribute("firstLevel")->value());
+                        customOptions->sensorsAccuracyFirstLevelBonus.currentValue = EventsParser::ParseBoolean(node->first_attribute("firstLevel")->value());
+                    }
+                    if(node->first_attribute("amount"))
+                    {
+                        customOptions->sensorsAccuracyBonus.defaultAmount = boost::lexical_cast<int>(node->first_attribute("amount")->value());
+                        customOptions->sensorsAccuracyBonus.currentAmount = boost::lexical_cast<int>(node->first_attribute("amount")->value());
+                    }
+                }
+            }
+
+            if (strcmp(node->name(), "enemyCloakingChargeRateChange") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->enemyCloakingChargeRateChange.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->enemyCloakingChargeRateChange.currentValue = EventsParser::ParseBoolean(enabled);
+                if(enabled)
+                {
+                    if(node->first_attribute("amount"))
+                    {
+                        customOptions->enemyCloakingChargeRateChange.defaultAmount = boost::lexical_cast<float>(node->first_attribute("amount")->value());
+                        customOptions->enemyCloakingChargeRateChange.currentAmount = boost::lexical_cast<float>(node->first_attribute("amount")->value());
+                    }
+                }
+            }
+
+            if (strcmp(node->name(), "enemyHackingChargeRateChange") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->enemyHackingChargeRateChange.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->enemyHackingChargeRateChange.currentValue = EventsParser::ParseBoolean(enabled);
+                if(enabled)
+                {
+                    if(node->first_attribute("amount"))
+                    {
+                        customOptions->enemyHackingChargeRateChange.defaultAmount = boost::lexical_cast<float>(node->first_attribute("amount")->value());
+                        customOptions->enemyHackingChargeRateChange.currentAmount = boost::lexical_cast<float>(node->first_attribute("amount")->value());
+                    }
+                }
+            }
+
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

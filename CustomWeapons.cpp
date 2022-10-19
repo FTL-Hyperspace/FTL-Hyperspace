@@ -26,6 +26,22 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         std::string name = child->name();
         std::string val = child->value();
 
+        if (name == "enemyCloakingChargeRateChange")
+        {
+            weaponDef.enemyCloakingChargeRateChange = boost::lexical_cast<float>(val);
+        }
+        if (name == "enemyHackingChargeRateChange")
+        {
+            weaponDef.enemyHackingChargeRateChange = boost::lexical_cast<float>(val);
+        }
+        if (name == "selfCloakingChargeRateChange")
+        {
+            weaponDef.selfCloakingChargeRateChange = boost::lexical_cast<float>(val);
+        }
+        if (name == "selfHackingChargeRateChange")
+        {
+            weaponDef.selfHackingChargeRateChange = boost::lexical_cast<float>(val);
+        }
         if (name == "freeMissileChance")
         {
             weaponDef.freeMissileChance = boost::lexical_cast<int>(val);

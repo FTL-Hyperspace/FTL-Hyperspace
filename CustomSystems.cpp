@@ -2,6 +2,9 @@
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
+#include "CustomWeapons.h"
+#include "Systems.h"
+#include "CustomOptions.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
@@ -571,6 +574,129 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
+
+HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (CustomSystems.cpp)\n");
+    int ret = super();
+
+    auto options = CustomOptionsManager::GetInstance();
+
+    if (options->sensorsAccuracyBonus.currentValue)
+    {
+        if (current_target != nullptr)
+        {
+            if (options->sensorsAccuracyFirstLevelBonus.currentValue)
+            {
+                ret -= options->sensorsAccuracyBonus.currentValue * current_target->GetSystemPower(SystemId::SYS_SENSORS);
+            }
+            else
+            {
+                ret -= options->sensorsAccuracyBonus.currentValue * (-1 + std::max(1, current_target->GetSystemPower(SystemId::SYS_SENSORS)));
+            }
+        }
+    }
+
+    return ret;
+}
+
+void modifyWeaponCooldown(ProjectileFactory* pFactory)
+{
+    float value = 0.f;
+    auto weapon = CustomWeaponManager::instance->GetWeaponDefinition(pFactory->blueprint->name);
+    bool hacked = false;
+    bool enemyCloaked = false;
+
+    if (G_->GetShipManager(pFactory->iShipId) != nullptr && G_->GetShipManager(pFactory->iShipId)->current_target != nullptr && G_->GetShipManager(pFactory->iShipId)->current_target->cloakSystem != nullptr && G_->GetShipManager(pFactory->iShipId)->current_target->cloakSystem->bTurnedOn) // if the target exists and the target is cloaking
+    {
+        enemyCloaked = true;
+        value += pFactory->GetAugmentationValue("ENEMY_CLOAKING_CHARGE_RATE_INCREASE") - pFactory->GetAugmentationValue("ENEMY_CLOAKING_CHARGE_RATE_DECREASE") + weapon->enemyCloakingChargeRateChange;
+    }
+    if (G_->GetShipManager(pFactory->iShipId) != nullptr && G_->GetShipManager(pFactory->iShipId)->cloakSystem != nullptr && G_->GetShipManager(pFactory->iShipId)->cloakSystem->bTurnedOn)
+    {
+        value += pFactory->GetAugmentationValue("SELF_CLOAKING_CHARGE_RATE_INCREASE") - pFactory->GetAugmentationValue("SELF_CLOAKING_CHARGE_RATE_DECREASE") + weapon->selfCloakingChargeRateChange;
+    }
+    if (CustomOptionsManager::GetInstance()->enemyCloakingChargeRateChange.currentValue)
+    {
+        value += CustomOptionsManager::GetInstance()->enemyCloakingChargeRateChange.currentAmount;
+    }
+    if (pFactory->iHackLevel >= 2) // if hacked
+    {
+        hacked = true;
+        value += pFactory->GetAugmentationValue("ENEMY_HACKING_CHARGE_RATE_INCREASE") - pFactory->GetAugmentationValue("ENEMY_HACKING_CHARGE_RATE_DECREASE") + weapon->enemyHackingChargeRateChange;
+    }
+    if (G_->GetShipManager(pFactory->iShipId) != nullptr && G_->GetShipManager(pFactory->iShipId)->hackingSystem != nullptr && G_->GetShipManager(pFactory->iShipId)->hackingSystem->currentSystem != nullptr && G_->GetShipManager(pFactory->iShipId)->hackingSystem->currentSystem->iHackEffect >= 2)
+    {
+        value += pFactory->GetAugmentationValue("SELF_HACKING_CHARGE_RATE_INCREASE") - pFactory->GetAugmentationValue("SELF_HACKING_CHARGE_RATE_DECREASE") + weapon->selfHackingChargeRateChange;
+    }
+    if (CustomOptionsManager::GetInstance()->enemyHackingChargeRateChange.currentValue)
+    {
+        value += CustomOptionsManager::GetInstance()->enemyHackingChargeRateChange.currentAmount;
+    }
+
+    pFactory->cooldown.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625 * value * (1 + pFactory->GetAugmentationValue("AUTO_COOLDOWN")); // change rate of weapon charge while cloaking
+
+    if ((value < -1 || hacked && value < 1 || enemyCloaked && value < 0) && pFactory->blueprint->chargeLevels <= pFactory->chargeLevel)
+    {
+        pFactory->chargeLevel -= 1;
+    }
+    else if ((value < -1 || hacked && value < 1 || enemyCloaked && value < 0) && pFactory->cooldown.first < 0)
+    {
+        if (pFactory->chargeLevel > 0)
+        {
+            pFactory->chargeLevel -= 1;
+            pFactory->cooldown.first += pFactory->cooldown.second;
+        }
+        else
+        {
+            pFactory->cooldown.first = 0;
+        }
+    }
+    else if (pFactory->cooldown.first > pFactory->cooldown.second)
+    {
+        if (pFactory->chargeLevel < pFactory->blueprint->chargeLevels)
+        {
+            pFactory->chargeLevel += 1;
+            if (pFactory->chargeLevel == pFactory->blueprint->chargeLevels)
+            {
+                pFactory->cooldown.first = pFactory->cooldown.second;
+            }
+            else
+            {
+                pFactory->cooldown.first -= pFactory->cooldown.second;
+            }
+        }
+        else
+        {
+            pFactory->cooldown.first = pFactory->cooldown.second;
+        }
+    }
+}
+
+HOOK_METHOD(ProjectileFactory, Update, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Update -> Begin (CustomSystems.cpp)\n");
+
+    modifyWeaponCooldown(this);
+
+    super();
+}
+
+// HOOK_METHOD(MindSystem, ReleaseCrew, () -> void)
+// {
+//     hs_log_file("Did we do it?");
+
+//     super();
+// }
+
+// HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
+// {
+//     LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (CustomSystems.cpp)\n");
+
+//     modifyWeaponCooldown(this->projectileFactory);
+
+//     super();
+// }
 
 /*
 HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> void)

@@ -28,6 +28,10 @@ struct CustomWeaponDefinition
 {
     std::string name;
 
+    float enemyCloakingChargeRateChange = 0.f;
+    float enemyHackingChargeRateChange = 0.f;
+    float selfCloakingChargeRateChange = 0.f;
+    float selfHackingChargeRateChange = 0.f;
     int freeMissileChance;
     TextString descriptionOverride;
     TextString advancedDescriptionOverride;
