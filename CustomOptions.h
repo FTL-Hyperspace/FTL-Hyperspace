@@ -18,8 +18,10 @@ public:
     {
         bool defaultValue = false;
         int defaultAmount = 0;
+        std::string defaultString = "";
         bool currentValue = false;
         int currentAmount = 0;
+        std::string currentString = "";
     };
 
     struct Defaults
@@ -59,6 +61,8 @@ public:
     Setting alternateOxygenRendering;
 
     Setting showScrapCollectorScrap;
+
+    Setting dismissSound;
 
     Defaults defaults;
 

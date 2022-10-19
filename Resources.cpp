@@ -471,6 +471,27 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "dismissSound") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->dismissSound.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->dismissSound.currentValue = EventsParser::ParseBoolean(enabled);
+                if (enabled)
+                {
+                    if(node->first_attribute("sound"))
+                    {
+                        customOptions->dismissSound.defaultString = node->first_attribute("sound")->value();
+                        customOptions->dismissSound.currentString = node->first_attribute("sound")->value();
+                    }
+                    else
+                    {
+                        customOptions->dismissSound.defaultString = "airLoss";
+                        customOptions->dismissSound.currentString = "airLoss";
+                    }
+                }
+            }
+
+
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

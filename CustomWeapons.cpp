@@ -235,6 +235,18 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::NumTargetsRequired -> Begin (CustomWeapons.cpp)\n")
     int ret = super();
 
+    if(blueprint->type == 2)
+    {
+        if(blueprint->length>1)
+        {
+            return 2; //fix for charge beams crashing the game
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
     if (artillery)
     {
         int rooms = ShipGraph::GetShipInfo(!iShipId)->rooms.size();
@@ -245,6 +257,24 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
     }
 
     return ret;
+}
+
+HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Fire -> Begin (CustomWeapons.cpp)\n")
+    if (blueprint->type==2 && blueprint->length==1)
+    {
+        Pointf second;
+        Point grid = ShipGraph::TranslateToGrid(points[0].x, points[0].y);
+        
+        points[0].x=(grid.x * 35.f + 17.0f);
+        points[0].y=(grid.y * 35.f + 17.5f);
+                        
+        second.x=points[0].x+1.0f;
+        second.y=points[0].y;
+        points.push_back(second);
+    }
+    super(points, target);
 }
 
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)

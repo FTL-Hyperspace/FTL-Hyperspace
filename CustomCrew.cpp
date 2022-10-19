@@ -514,6 +514,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.noClone = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "cloneSpeedMultiplier")
+                        {
+                            crew.cloneSpeedMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "noAI")
                         {
                             crew.noAI = EventsParser::ParseBoolean(val);
@@ -1178,6 +1182,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "noClone")
                 {
                     def.tempPower.noClone = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "cloneSpeedMultiplier")
+                {
+                    def.tempPower.cloneSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "noAI")
                 {
