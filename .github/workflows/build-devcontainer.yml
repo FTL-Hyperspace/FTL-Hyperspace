@@ -24,14 +24,8 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build container and do nothing
-        uses: devcontainers/ci@v0.2
-        with:
-          # Should match to devcontainer.json setup
-          imageName: ghcr.io/ftl-hyperspace/hs-devcontainer
-          runCmd: echo Done.
-          eventFilterForPush: |
-            push
-            schedule
-            workflow_dispatch
-
+      - name: Build container and cache it
+        # Should match to devcontainer.json setup
+        run: |
+          docker buildx build --load --build-arg BUILDKIT_INLINE_CACHE=1 -f .devcontainer/Dockerfile-actual -t ghcr.io/ftl-hyperspace/hs-devcontainer:latest .devcontainer
+          docker push ghcr.io/ftl-hyperspace/hs-devcontainer:latest

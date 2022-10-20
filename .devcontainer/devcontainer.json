@@ -2,7 +2,6 @@
 	"name": "HyperspaceBuild",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"cacheFrom": "ghcr.io/ftl-hyperspace/hs-devcontainer"
 	},
 	"runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
 
