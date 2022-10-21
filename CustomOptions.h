@@ -7,6 +7,11 @@ public:
     {
         rightClickDoorOpening.defaultValue = true;
         rightClickDoorOpening.currentValue = true;
+        
+        dismissSound.defaultValue = true;
+        dismissSound.currentValue = true;
+        dismissSound.defaultString = "airLoss";
+        dismissSound.currentString ="airLoss";
     }
 
     static CustomOptionsManager *GetInstance()
