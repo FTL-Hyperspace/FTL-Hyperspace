@@ -36,23 +36,23 @@ HOOK_METHOD_PRIORITY(WeaponControl, RenderAiming, 9999, () -> void)
                 else if(weapon->targets.size() >= 1 && weapon->blueprint->length == 1)
                 {
                     GL_Primitive *prim;
-                        if (i<4)
-                        {
-                            prim = weapon->autoFiring ? targetIconYellow[i] : targetIcon[i];
-                        }
-                        else if (i<10)
-                        {
-                            prim = weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
-                        CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
-                        CSurface::GL_RenderPrimitive(prim);
-                        CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
+                    if (i<4)
+                    {
+                        prim = weapon->autoFiring ? targetIconYellow[i] : targetIcon[i];
                     }
+                    else if (i<10)
+                    {
+                        prim = weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
+                    CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
+                    CSurface::GL_RenderPrimitive(prim);
+                    CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
+                }
                     
             } 
             
@@ -104,22 +104,22 @@ HOOK_METHOD_PRIORITY(WeaponControl, RenderSelfAiming, 9999, () -> void)
                 else if(weapon->targets.size() >= 1 && weapon->blueprint->length == 1)
                 {
                     GL_Primitive *prim;
-                        if (i<4)
-                        {
-                            prim = weapon->autoFiring ? targetIconYellow[i] : targetIcon[i];
-                        }
-                        else if (i<10)
-                        {
-                            prim = weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
-                        CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
-                        CSurface::GL_RenderPrimitive(prim);
-                        CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
+                    if (i<4)
+                    {
+                        prim = weapon->autoFiring ? targetIconYellow[i] : targetIcon[i];
+                    }
+                    else if (i<10)
+                    {
+                        prim = weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
+                    CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
+                    CSurface::GL_RenderPrimitive(prim);
+                    CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
                 }
                     
             }
