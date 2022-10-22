@@ -1212,26 +1212,19 @@ HOOK_METHOD(CloneSystem, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
 
-    float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
-    float cloneSpeedMultiplier = 1;
-    auto crewList = G_->GetShipManager(_shipObj.iShipId)->vCrewList;
-    G_->GetCrewFactory()->GetCloneReadyList(crewList,(_shipObj.iShipId==0));
-    int deadCrewCount=G_->GetCrewFactory()->CountCloneReadyCrew(_shipObj.iShipId==0);
-    if (deadCrewCount>0)
+    if (clone)
     {
-        auto cloningCrew = crewList[crewList.size()-deadCrewCount];
-        if(cloningCrew != nullptr)
-        {    
-            auto custom = CustomCrewManager::GetInstance();
-            if(custom->IsRace(cloningCrew->species))
-            {
-                auto def = custom->GetDefinition(cloningCrew->species);
-                auto ex = CM_EX(cloningCrew);
-                cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
-            } 
-        }
+        float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
+        float cloneSpeedMultiplier = 1.f;
+        auto custom = CustomCrewManager::GetInstance();
+        if (custom->IsRace(clone->species))
+        {
+            auto def = custom->GetDefinition(clone->species);
+            auto ex = CM_EX(clone);
+            cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
+        } 
+        fTimeToClone += (cloneSpeedMultiplier-1.f) * increment;
     }
-    fTimeToClone += (cloneSpeedMultiplier-1) * increment;
 
     super();
     g_dilationAmount = 0;
