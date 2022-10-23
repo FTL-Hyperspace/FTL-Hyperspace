@@ -1211,19 +1211,24 @@ HOOK_METHOD(CloneSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
-
-    if (clone)
+    
+    std::vector<CrewMember*> crewList();
+    G_->GetCrewFactory()->GetCloneReadyList(&crewList,(_shipObj.iShipId==0));
+    
+    if (!crewList.empty())
     {
-        float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
-        float cloneSpeedMultiplier = 1.f;
+        CrewMember *cloningCrew = crewList[0];
+        
         auto custom = CustomCrewManager::GetInstance();
-        if (custom->IsRace(clone->species))
+        if (custom->IsRace(cloningCrew->species))
         {
-            auto def = custom->GetDefinition(clone->species);
-            auto ex = CM_EX(clone);
-            cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
-        } 
-        fTimeToClone += (cloneSpeedMultiplier-1.f) * increment;
+            auto def = custom->GetDefinition(cloningCrew->species);
+            auto ex = CM_EX(cloningCrew);
+            
+            float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
+            float cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
+            fTimeToClone += (cloneSpeedMultiplier-1.f) * increment;
+        }
     }
 
     super();
