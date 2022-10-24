@@ -5557,6 +5557,31 @@ HOOK_METHOD(CrewMember, CheckSkills, () -> void)
     }
 }
 
+//cloneSpeedMultiplier statBoost
+HOOK_METHOD(CloneSystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (CustomCrew.cpp)\n")
+    std::vector<CrewMember*> crewList;
+    G_->GetCrewFactory()->GetCloneReadyList(crewList,(_shipObj.iShipId==0));
+    
+    if (!crewList.empty())
+    {
+        CrewMember *cloningCrew = crewList[0];
+        
+        auto custom = CustomCrewManager::GetInstance();
+        if (custom->IsRace(cloningCrew->species))
+        {
+            auto def = custom->GetDefinition(cloningCrew->species);
+            auto ex = CM_EX(cloningCrew);
+            
+            float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
+            float cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
+            fTimeToClone += (cloneSpeedMultiplier-1.f) * increment;
+        }
+    }
+    super();
+}
+
 // Mind control resist/telepathy split
 HOOK_METHOD(MindSystem, OnLoop, () -> void)
 {

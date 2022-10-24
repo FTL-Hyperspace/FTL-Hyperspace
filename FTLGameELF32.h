@@ -3821,6 +3821,8 @@ struct WeaponControl;
 
 struct WeaponControl : ArmamentControl
 {
+	void RenderAimingNew(bool player);
+
 	LIBZHL_API SDLKey ArmamentHotkey(unsigned int i);
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
 	LIBZHL_API TextString HolderLabel();

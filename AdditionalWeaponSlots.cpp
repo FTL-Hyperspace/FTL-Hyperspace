@@ -5,6 +5,71 @@
 static GL_Primitive *moreTargetIcon[6];
 static GL_Primitive *moreTargetIconYellow[6];
 
+void WeaponControl::RenderAimingNew(bool player)
+{
+    for (int i=0; i<boxes.size(); ++i)
+    {
+        ProjectileFactory *weapon = ((WeaponBox*)(boxes[i]))->pWeapon;
+        if (weapon && !weapon->targets.empty() && !((weapon->targetId == 0) ^ player))
+        {
+            if (weapon->blueprint->type == 2)
+            {
+                if (weapon->targets.size() >= 2 && weapon->blueprint->length > 1)
+                {
+                    RenderBeamAiming(weapon->targets[1], weapon->targets[0], weapon->autoFiring);
+                }
+                
+                else if(weapon->targets.size() >= 1 && weapon->blueprint->length == 1)
+                {
+                    GL_Primitive *prim;
+                    if (i<4)
+                    {
+                        prim = weapon->autoFiring ? targetIconYellow[i] : targetIcon[i];
+                    }
+                    else if (i<10)
+                    {
+                        prim = weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
+                    CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
+                    CSurface::GL_RenderPrimitive(prim);
+                    CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
+                }
+                    
+            }
+            else
+            {
+                if (weapon->radius != 0)
+                {
+                    CSurface::GL_DrawCircle(weapon->targets[0].x, weapon->targets[0].y, weapon->radius, GL_Color(1.f, 0.f, 0.f, 0.25f));
+                }
+
+                GL_Primitive *prim;
+                if (i<4)
+                {
+                    prim = weapon->autoFiring ? targetIconYellow[i] : targetIcon[i];
+                }
+                else if (i<10)
+                {
+                    prim = weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
+                }
+                else
+                {
+                    continue;
+                }
+
+                CSurface::GL_Translate(weapon->targets[0].x, weapon->targets[0].y, 0.f);
+                CSurface::GL_RenderPrimitive(prim);
+                CSurface::GL_Translate(-weapon->targets[0].x, -weapon->targets[0].y, 0.f);
+            }
+        }
+    }
+}
+
 HOOK_METHOD(WeaponControl, constructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::constructor -> Begin (AdditionalWeaponSlots.cpp)\n")
@@ -20,7 +85,7 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
 HOOK_METHOD_PRIORITY(WeaponControl, RenderAiming, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponControl::RenderAiming -> Begin (AdditionalWeaponSlots.cpp)\n")
-
+    /*
     for (int i=0; i<boxes.size(); ++i)
     {
         ProjectileFactory *weapon = ((WeaponBox*)(boxes[i]))->pWeapon;
@@ -54,8 +119,7 @@ HOOK_METHOD_PRIORITY(WeaponControl, RenderAiming, 9999, () -> void)
                     CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
                 }
                     
-            } 
-            
+            }
             else
             {
                 if (weapon->radius != 0)
@@ -83,12 +147,14 @@ HOOK_METHOD_PRIORITY(WeaponControl, RenderAiming, 9999, () -> void)
             }
         }
     }
+    */
+   RenderAimingNew(false);
 }
 
 HOOK_METHOD_PRIORITY(WeaponControl, RenderSelfAiming, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponControl::RenderSelfAiming -> Begin (AdditionalWeaponSlots.cpp)\n")
-
+    /*
     for (int i=0; i<boxes.size(); ++i)
     {
         ProjectileFactory *weapon = ((WeaponBox*)(boxes[i]))->pWeapon;
@@ -150,6 +216,8 @@ HOOK_METHOD_PRIORITY(WeaponControl, RenderSelfAiming, 9999, () -> void)
             }
         }
     }
+    */
+   RenderAimingNew(true);
 }
 
 HOOK_METHOD(CombatControl, SetMouseCursor, () -> void)

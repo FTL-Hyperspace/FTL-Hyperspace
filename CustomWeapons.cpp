@@ -263,9 +263,22 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Fire -> Begin (CustomWeapons.cpp)\n")
     if (blueprint->type==2 && blueprint->length==1)
-    {
+    {  
         Pointf second;
-        Point grid = ShipGraph::TranslateToGrid(points[0].x, points[0].y);
+        Point grid;
+
+        if(target == 1)
+        {
+            grid = ShipGraph::TranslateToGrid(points[0].x, points[0].y);
+        }
+        else //enemy targetting picks a random slot
+        {   
+            int roomNumber = G_->GetShipManager(target)->ship.GetSelectedRoomId(points[0].x, points[0].y, true);
+            int numSlots = ShipGraph::GetShipInfo(target)->GetNumSlots(roomNumber);
+            int randomSlot = random32() % numSlots;
+            Point gridPos = ShipGraph::GetShipInfo(target)->GetSlotWorldPosition(randomSlot, roomNumber);
+            grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+        }
         
         points[0].x=(grid.x * 35.f + 17.0f);
         points[0].y=(grid.y * 35.f + 17.5f);

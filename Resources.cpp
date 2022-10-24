@@ -480,13 +480,8 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     if(node->first_attribute("sound"))
                     {
-                        customOptions->dismissSound.defaultString = node->first_attribute("sound")->value();
-                        customOptions->dismissSound.currentString = node->first_attribute("sound")->value();
-                    }
-                    else
-                    {
-                        customOptions->dismissSound.defaultString = "airLoss";
-                        customOptions->dismissSound.currentString = "airLoss";
+                        customOptions->dismissSound.defaultAmount = node->first_attribute("sound")->value();
+                        customOptions->dismissSound.currentAmount = node->first_attribute("sound")->value();
                     }
                 }
             }

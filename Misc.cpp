@@ -12,7 +12,7 @@ HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
     int ret = super();
     if (CustomOptionsManager::GetInstance()->dismissSound.currentValue==true)
     {
-        G_->GetSoundControl()->PlaySoundMix(CustomOptionsManager::GetInstance()->dismissSound.currentString, -1.f, false);
+        G_->GetSoundControl()->PlaySoundMix(CustomOptionsManager::GetInstance()->dismissSound.currentAmount, -1.f, false);
     }
     return ret;
 }

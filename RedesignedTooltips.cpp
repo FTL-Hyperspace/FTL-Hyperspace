@@ -236,7 +236,7 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
                 }
                 else
                 {
-                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", "Pinpoint") + "\n";
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", tLib->GetText("pinpoint")) + "\n";
                 }
                 currentText = tLib->GetText("swipe_speed");
                 if (bp->speed != 0)
