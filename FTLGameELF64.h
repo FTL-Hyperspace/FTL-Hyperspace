@@ -166,6 +166,11 @@ struct TextLibrary
 		return TextLibrary::GetText(name, currentLanguage);
 	}
 
+	void SetLanguage(const std::string &language)
+	{
+		currentLanguage = language;
+	}
+
 	LIBZHL_API std::string GetText(const std::string &name, const std::string &lang);
 	
 	std::map<std::string, std::string> dictionary;
