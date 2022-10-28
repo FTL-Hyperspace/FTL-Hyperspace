@@ -126,6 +126,8 @@ target_sources(
     CustomFleetShips.h
     CustomHotkeys.cpp
     CustomHotkeys.h
+    CustomLocalization.cpp
+    CustomLocalization.h
     CustomMap.cpp
     CustomOptions.cpp
     CustomOptions.h
