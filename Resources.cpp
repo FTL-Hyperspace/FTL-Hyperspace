@@ -473,17 +473,12 @@ void Global::InitializeResources(ResourceControl *resources)
 
             if (strcmp(node->name(), "dismissSound") == 0)
             {
-                auto enabled = node->first_attribute("enabled")->value();
-                customOptions->dismissSound.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->dismissSound.currentValue = EventsParser::ParseBoolean(enabled);
-                if (enabled)
+                if (node->first_attribute("sound"))
                 {
-                    if (node->first_attribute("sound"))
-                    {
-                        customOptions->dismissSound.defaultValue = node->first_attribute("sound")->value();
-                        customOptions->dismissSound.currentValue = node->first_attribute("sound")->value();
-                    }
+                    customOptions->dismissSound.defaultValue = node->first_attribute("sound")->value();
+                    customOptions->dismissSound.currentValue = node->first_attribute("sound")->value();
                 }
+
                 else
                 {
                     customOptions->dismissSound.defaultValue = "";
