@@ -34,9 +34,9 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->altModeChanged = false;
         custom->showAllyPowers.currentValue = true;
         custom->showEnemyPowers.currentValue = true;
-        if (custom->advancedCrewTooltipRounding.defaultAmount == 0 || custom->advancedCrewTooltipRounding.defaultAmount == 1)
+        if (custom->advancedCrewTooltipRounding.defaultValue == 0 || custom->advancedCrewTooltipRounding.defaultValue == 1)
         {
-            custom->advancedCrewTooltipRounding.currentAmount = 2;
+            custom->advancedCrewTooltipRounding.currentValue = 2;
         }
         custom->eventTooltips.currentValue = true;
         custom->showReactor.currentValue = true;
@@ -53,7 +53,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->altModeChanged = false;
         custom->showAllyPowers.currentValue = custom->showAllyPowers.defaultValue;
         custom->showEnemyPowers.currentValue = custom->showEnemyPowers.defaultValue;
-        custom->advancedCrewTooltipRounding.currentAmount = custom->advancedCrewTooltipRounding.defaultAmount;
+        custom->advancedCrewTooltipRounding.currentValue = custom->advancedCrewTooltipRounding.defaultValue;
         custom->eventTooltips.currentValue = custom->eventTooltips.defaultValue;
         custom->showReactor.currentValue = custom->showReactor.defaultValue;
         custom->showAllConnections.currentValue = custom->showAllConnections.defaultValue;

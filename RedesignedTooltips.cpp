@@ -230,8 +230,14 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
             if (bp->type == 2)
             {
                 currentText = tLib->GetText("beam_length");
-                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->length)) + "\n";
-
+                if (bp->length > 1)
+                {
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->length)) + "\n";
+                }
+                else
+                {
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", tLib->GetText("pinpoint")) + "\n";
+                }
                 currentText = tLib->GetText("swipe_speed");
                 if (bp->speed != 0)
                 {

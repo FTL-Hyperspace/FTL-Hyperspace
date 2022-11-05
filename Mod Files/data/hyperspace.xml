@@ -60,6 +60,8 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
 
 <infinite enabled="false"/>
 
+<dismissSound enabled="true" sound="airLoss"/>
+
 <!-- Discord rich presence integration -->
 
 <discord enabled="true">
@@ -577,6 +579,7 @@ Syntax ->
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
 		<healSpeed>1.0</healSpeed>                                                       Modifier for healing from non-true healing effects.
+		<cloneSpeedMultiplier>1.0</cloneSpeedMultiplier>                                 The speed at which this crewmember is cloned is multiplied by this value.
 		<deathSounds>                                                                    Sounds to play on death. A random sound is selected.
 			<deathSound>death1</deathSound>
 			<deathSound>death2</deathSound>

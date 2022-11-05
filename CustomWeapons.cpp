@@ -233,6 +233,19 @@ static bool artillery = false;
 HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::NumTargetsRequired -> Begin (CustomWeapons.cpp)\n")
+
+    if (blueprint->type == 2)
+    {
+        if (blueprint->length>1) // regular beam
+        {
+            return 2; //fix for charge beams crashing the game
+        }
+        else // pinpoint beam
+        {
+            return 1;
+        }
+    }
+
     int ret = super();
 
     if (artillery)
@@ -245,6 +258,41 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
     }
 
     return ret;
+}
+
+// Pinpoint targeting
+HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Fire -> Begin (CustomWeapons.cpp)\n")
+    if (blueprint->type==2 && blueprint->length==1)
+    {
+        Pointf second;
+        Point grid;
+
+        if (target == 1) // targeting enemy ship (TODO: change to detect weapon's owner if we expand this targeting mode beyond just beams, in case of self-targeting)
+        {
+            grid = ShipGraph::TranslateToGrid(points[0].x, points[0].y);
+        }
+        else //enemy targetting picks a random slot
+        {
+            int roomNumber = G_->GetShipManager(target)->ship.GetSelectedRoomId(points[0].x, points[0].y, true);
+            if (roomNumber != -1)
+            {
+                int numSlots = ShipGraph::GetShipInfo(target)->GetNumSlots(roomNumber);
+                int randomSlot = random32() % numSlots;
+                Point gridPos = ShipGraph::GetShipInfo(target)->GetSlotWorldPosition(randomSlot, roomNumber);
+                grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+            }
+        }
+
+        points[0].x=(grid.x * 35.f + 17.0f);
+        points[0].y=(grid.y * 35.f + 17.5f);
+
+        second.x=points[0].x+1.0f;
+        second.y=points[0].y;
+        points.push_back(second);
+    }
+    super(points, target);
 }
 
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
