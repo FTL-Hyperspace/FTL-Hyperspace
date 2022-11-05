@@ -5013,14 +5013,14 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
             std::stringstream stream;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + " (100%)";
         }
-        else if (custom->advancedCrewTooltipRounding.currentAmount == 0)
+        else if (custom->advancedCrewTooltipRounding.currentValue == 0)
         {
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)this->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(this->health.first / maxHealth * 100)) + "%)";
         }
         else
         {
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << this->health.first;
+            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentValue) << this->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(this->health.first / maxHealth * 100)) + "%)";
         }
 
@@ -5563,17 +5563,17 @@ HOOK_METHOD(CloneSystem, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (CustomCrew.cpp)\n")
     std::vector<CrewMember*> crewList;
     G_->GetCrewFactory()->GetCloneReadyList(crewList,(_shipObj.iShipId==0));
-    
+
     if (!crewList.empty())
     {
         CrewMember *cloningCrew = crewList[0];
-        
+
         auto custom = CustomCrewManager::GetInstance();
         if (custom->IsRace(cloningCrew->species))
         {
             auto def = custom->GetDefinition(cloningCrew->species);
             auto ex = CM_EX(cloningCrew);
-            
+
             float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
             float cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
             fTimeToClone += (cloneSpeedMultiplier-1.f) * increment;

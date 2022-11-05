@@ -465,8 +465,8 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                     if(node->first_attribute("rounding"))
                     {
-                        customOptions->advancedCrewTooltipRounding.defaultAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
-                        customOptions->advancedCrewTooltipRounding.currentAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.defaultValue = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.currentValue = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
                     }
                 }
             }
@@ -478,11 +478,16 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->dismissSound.currentValue = EventsParser::ParseBoolean(enabled);
                 if (enabled)
                 {
-                    if(node->first_attribute("sound"))
+                    if (node->first_attribute("sound"))
                     {
-                        customOptions->dismissSound.defaultAmount = node->first_attribute("sound")->value();
-                        customOptions->dismissSound.currentAmount = node->first_attribute("sound")->value();
+                        customOptions->dismissSound.defaultValue = node->first_attribute("sound")->value();
+                        customOptions->dismissSound.currentValue = node->first_attribute("sound")->value();
                     }
+                }
+                else
+                {
+                    customOptions->dismissSound.defaultValue = "";
+                    customOptions->dismissSound.currentValue = "";
                 }
             }
 

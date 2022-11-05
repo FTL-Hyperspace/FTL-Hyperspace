@@ -7,11 +7,9 @@ public:
     {
         rightClickDoorOpening.defaultValue = true;
         rightClickDoorOpening.currentValue = true;
-        
-        dismissSound.defaultValue = true;
-        dismissSound.currentValue = true;
-        dismissSound.defaultAmount = "airLoss";
-        dismissSound.currentAmount ="airLoss";
+
+        dismissSound.defaultValue = "airLoss";
+        dismissSound.currentValue ="airLoss";
     }
 
     static CustomOptionsManager *GetInstance()
@@ -21,10 +19,8 @@ public:
 
     template<typename T> struct Setting
     {
-        T defaultAmount = T();
-        bool defaultValue = false;
-        T currentAmount = T();
-        bool currentValue = false;
+        T defaultValue = T();
+        T currentValue = T();
     };
 
     struct Defaults
@@ -40,30 +36,30 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
-    Setting<int> redesignedWeaponTooltips;
-    Setting<int> redesignedCrewTooltips;
-    Setting<int> redesignedDroneTooltips;
-    Setting<int> redesignedAugmentTooltips;
+    Setting<bool> redesignedWeaponTooltips;
+    Setting<bool> redesignedCrewTooltips;
+    Setting<bool> redesignedDroneTooltips;
+    Setting<bool> redesignedAugmentTooltips;
 
-    Setting<int> advancedCrewTooltips;
-    Setting<int> showAllyPowers;
-    Setting<int> showEnemyPowers;
+    Setting<bool> advancedCrewTooltips;
+    Setting<bool> showAllyPowers;
+    Setting<bool> showEnemyPowers;
     Setting<int> advancedCrewTooltipRounding;
 
-    Setting<int> eventTooltips;
+    Setting<bool> eventTooltips;
 
-    Setting<int> alternateCrewMovement;
-    Setting<int> rightClickDoorOpening;
+    Setting<bool> alternateCrewMovement;
+    Setting<bool> rightClickDoorOpening;
 
-    Setting<int> showWeaponCooldown;
+    Setting<bool> showWeaponCooldown;
 
-    Setting<int> showReactor;
+    Setting<bool> showReactor;
 
-    Setting<int> showAllConnections;
+    Setting<bool> showAllConnections;
 
-    Setting<int> alternateOxygenRendering;
+    Setting<bool> alternateOxygenRendering;
 
-    Setting<int> showScrapCollectorScrap;
+    Setting<bool> showScrapCollectorScrap;
 
     Setting<std::string> dismissSound;
 

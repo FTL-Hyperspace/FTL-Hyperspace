@@ -1207,9 +1207,9 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
     g_dilationAmount = 0;
 }
 
-HOOK_METHOD(CloneSystem, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(CloneSystem, OnLoop, -500, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
     super();
     g_dilationAmount = 0;
