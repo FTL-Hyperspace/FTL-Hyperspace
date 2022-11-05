@@ -281,7 +281,7 @@ add_custom_command(
 
 # TODO: https://stackoverflow.com/a/61814218/3567518
 add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp.temp ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
     COMMAND bash ./generateVersion.sh
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
