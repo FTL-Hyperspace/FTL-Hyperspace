@@ -451,7 +451,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->advancedCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->advancedCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
-                if(enabled)
+                if(EventsParser::ParseBoolean(enabled))
                 {
                     if(node->first_attribute("ally"))
                     {
@@ -474,9 +474,7 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "dismissSound") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                customOptions->dismissSound.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->dismissSound.currentValue = EventsParser::ParseBoolean(enabled);
-                if (enabled)
+                if (EventsParser::ParseBoolean(enabled))
                 {
                     if (node->first_attribute("sound"))
                     {
