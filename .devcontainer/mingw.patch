@@ -1,0 +1,130 @@
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/control.template	Mon Jun 13 20:48:17 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/control.template	Mon Jun 13 20:48:43 2022
+@@ -1,7 +1,6 @@
+ Package: @@PACKAGE@@-mingw-w64
+ Architecture: all
+ Depends: @@PACKAGE@@-mingw-w64-i686,
+-         @@PACKAGE@@-mingw-w64-x86-64,
+          ${misc:Depends}
+ Recommends: @@RECOMMENDS@@
+ Built-Using: gcc-@@VERSION@@ (= ${gcc:Version})
+@@ -32,22 +31,3 @@
+  This package contains the @@LANGUAGE@@ compiler, supporting
+  cross-compiling to 32-bit MinGW-w64 targets.
+ Build-Profiles: <!stage1>
+-
+-Package: @@PACKAGE@@-mingw-w64-x86-64
+-Architecture: any
+-Depends: @@DEPENDS64@@,
+-         ${misc:Depends},
+-         ${shlibs:Depends}
+-Suggests: gcc-@@VERSION@@-locales (>= ${local:Version})
+-Breaks: @@BREAKS64@@
+-Conflicts: @@CONFLICTS64@@
+-Replaces: @@REPLACES64@@
+-Built-Using: gcc-@@VERSION@@ (= ${gcc:Version})
+-Description: GNU @@LANGUAGE@@ compiler for MinGW-w64 targeting Win64
+- MinGW-w64 provides a development and runtime environment for 32- and
+- 64-bit (x86 and x64) Windows applications using the Windows API and
+- the GNU Compiler Collection (gcc).
+- .
+- This package contains the @@LANGUAGE@@ compiler, supporting
+- cross-compiling to 64-bit MinGW-w64 targets.
+-Build-Profiles: <!stage1>
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/g++-mingw-w64-i686.postinst	Mon Jun 13 22:36:44 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/g++-mingw-w64-i686.postinst	Mon Jun 13 22:39:03 2022
+@@ -22,8 +22,6 @@
+ 
+         update-alternatives --install /usr/bin/i686-w64-mingw32-g++ i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix 30 \
+ 	  --slave /usr/bin/i686-w64-mingw32-c++ i686-w64-mingw32-c++ /usr/bin/i686-w64-mingw32-c++-posix
+-        update-alternatives --install /usr/bin/i686-w64-mingw32-g++ i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-win32 60 \
+-	  --slave /usr/bin/i686-w64-mingw32-c++ i686-w64-mingw32-c++ /usr/bin/i686-w64-mingw32-c++-win32
+ 
+     ;;
+ 
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/g++-mingw-w64-i686.prerm	Mon Jun 13 22:36:44 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/g++-mingw-w64-i686.prerm	Mon Jun 13 22:39:06 2022
+@@ -18,7 +18,6 @@
+ 
+ if [ "$1" != "upgrade" ]; then
+           update-alternatives --remove i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix
+-          update-alternatives --remove i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-win32
+ fi
+ 
+ # dh_installdeb will replace this with shell code automatically
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/gcc-mingw-w64-i686.install.in	Mon Jun 13 19:58:22 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/gcc-mingw-w64-i686.install.in	Mon Jun 13 21:35:07 2022
+@@ -1,7 +1,6 @@
+ # @@WARNING@@
+ usr/bin/i686-w64-mingw32-cpp*
+ usr/bin/i686-w64-mingw32-gcc-posix
+-usr/bin/i686-w64-mingw32-gcc-win32
+ usr/bin/i686-w64-mingw32-gcc-@@VERSION@@*
+ usr/bin/i686-w64-mingw32-gcc-ar*
+ usr/bin/i686-w64-mingw32-gcc-nm*
+@@ -20,7 +19,7 @@
+ usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgcc.a
+ usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgcc_eh.a
+ usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgcc_s.a
+-usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgcc_s_sjlj-1.dll
++usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgcc_s_dw2-1.dll
+ usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgcov.a
+ usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgomp.a
+ usr/lib/gcc/i686-w64-mingw32/@@VERSION@@*/libgomp-1.dll
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/gcc-mingw-w64-i686.postinst.in	Mon Jun 13 22:36:44 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/gcc-mingw-w64-i686.postinst.in	Mon Jun 13 22:38:42 2022
+@@ -28,13 +28,6 @@
+ 	  --slave /usr/bin/i686-w64-mingw32-gcc-nm i686-w64-mingw32-gcc-nm /usr/bin/i686-w64-mingw32-gcc-nm-posix \
+ 	  --slave /usr/bin/i686-w64-mingw32-gcc-ranlib i686-w64-mingw32-gcc-ranlib /usr/bin/i686-w64-mingw32-gcc-ranlib-posix \
+ 	  --slave /usr/bin/i686-w64-mingw32-gcov i686-w64-mingw32-gcov /usr/bin/i686-w64-mingw32-gcov-posix
+-        update-alternatives --install /usr/bin/i686-w64-mingw32-gcc i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-win32 60 \
+-	  --slave /usr/bin/i686-w64-mingw32-cpp i686-w64-mingw32-cpp /usr/bin/i686-w64-mingw32-cpp-win32 \
+-	  --slave /usr/bin/i686-w64-mingw32-gcc-@@VERSION@@ i686-w64-mingw32-gcc-@@VERSION@@ /usr/bin/i686-w64-mingw32-gcc-@@BASEVERSION@@-win32 \
+-	  --slave /usr/bin/i686-w64-mingw32-gcc-ar i686-w64-mingw32-gcc-ar /usr/bin/i686-w64-mingw32-gcc-ar-win32 \
+-	  --slave /usr/bin/i686-w64-mingw32-gcc-nm i686-w64-mingw32-gcc-nm /usr/bin/i686-w64-mingw32-gcc-nm-win32 \
+-	  --slave /usr/bin/i686-w64-mingw32-gcc-ranlib i686-w64-mingw32-gcc-ranlib /usr/bin/i686-w64-mingw32-gcc-ranlib-win32 \
+-	  --slave /usr/bin/i686-w64-mingw32-gcov i686-w64-mingw32-gcov /usr/bin/i686-w64-mingw32-gcov-win32
+ 
+     ;;
+ 
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/gcc-mingw-w64-i686.prerm	Mon Jun 13 22:36:44 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/gcc-mingw-w64-i686.prerm	Mon Jun 13 22:38:58 2022
+@@ -18,7 +18,6 @@
+ 
+ if [ "$1" != "upgrade" ]; then
+           update-alternatives --remove i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
+-          update-alternatives --remove i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-win32
+ fi
+ 
+ # dh_installdeb will replace this with shell code automatically
+--- a/gcc-mingw-w64-22~exp1ubuntu4/debian/rules	Mon Jun 13 19:57:32 2022
++++ b/gcc-mingw-w64-22~exp1ubuntu4/debian/rules	Mon Jun 13 19:58:50 2022
+@@ -58,7 +58,7 @@
+     INSTALL_TARGET := install-gcc
+ else
+ # Build the full GCC.
+-    languages := c,c++,fortran,objc,obj-c++,ada
++    languages := c,c++
+     BUILD_TARGET :=
+     INSTALL_TARGET := install install-lto-plugin
+ endif
+@@ -86,8 +86,8 @@
+ 	for file in debian/*.in; do sed 'sX@@WARNING@@XThis file is generated using debian/rules control, do not editXg;s/@@VERSION@@/$(target_version)/g;s/@@BASEVERSION@@/$(base_version)/g' < $$file > $${file%%.in}; chmod --reference=$$file $${file%%.in}; done
+ 	touch $@
+ 
+-targets := i686-w64-mingw32 x86_64-w64-mingw32
+-threads := posix win32
++targets := i686-w64-mingw32
++threads := posix
+ 
+ # Hardening on the host, none on the target
+ # Format fails the build currently; using PIE produces a compiler
+@@ -199,6 +199,8 @@
+ # /usr/lib/gcc rather than /usr/$(target)
+ CONFFLAGS += \
+ 	--enable-version-specific-runtime-libs \
++	--with-dwarf2 \
++	--disable-sjlj-exceptions \
+ 	--enable-fully-dynamic-string \
+ 	--enable-libgomp
+ # Languages

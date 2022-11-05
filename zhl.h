@@ -29,6 +29,8 @@
 #include <stdlib.h>
 #include <typeinfo>
 #include <cstdio>
+#include <utility>
+#include <new>
 
 //=================================================================================================
 
@@ -56,12 +58,17 @@ public:
 	namespace { namespace Hook_##_id { \
 		static void *internalSuper = NULL; \
 		struct wrapper : public _classname { \
+			using _callsign = auto (wrapper::*) __VA_ARGS__; \
 			auto hook __VA_ARGS__ ; \
-			auto super __VA_ARGS__ ; \
+			template <typename... Args> decltype((std::declval<wrapper>().*(std::declval<_callsign>()))(std::declval<Args>()...)) super(Args&&... args) { \
+				_callsign mfp = &wrapper::hook; \
+				uintptr_t *mfpAsUintPtr = reinterpret_cast<uintptr_t*>(&mfp); \
+				*mfpAsUintPtr = reinterpret_cast<uintptr_t&>(internalSuper) + (*mfpAsUintPtr % 2 == 1 ? 1 : 0); \
+				return (this->*mfp)(std::forward<Args>(args)...); \
+			} \
 		}; \
 		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) __VA_ARGS__), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto FUNC_NAKED Hook_##_id :: wrapper::super __VA_ARGS__ {__asm__ (JUMP_INSTRUCTION :: "m"(internalSuper)); } \
 	auto Hook_##_id ::wrapper::hook __VA_ARGS__
 
 #define _DEFINE_METHOD_HOOK0(_id, _classname, _name, _priority, ...) _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, __VA_ARGS__)
@@ -75,12 +82,14 @@ public:
 	namespace { namespace Hook_##_id { \
 		static void *internalSuper = NULL; \
 		struct wrapper : public _classname { \
+			using _callsign = auto __stdcall (*) _type; \
 			static auto __stdcall hook _type ; \
-			static auto __stdcall super _type ; \
+			template <typename... Args> static decltype(std::declval<_callsign>()(std::declval<Args>()...)) super(Args&&... args) { \
+				return (*reinterpret_cast<_callsign*>(&internalSuper))(std::forward<Args>(args)...); \
+			} \
 		}; \
 		static FunctionHook hookObj(#_classname "::" #_name, typeid(auto (*) _type), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto FUNC_NAKED Hook_##_id :: wrapper::super _type {__asm__ (JUMP_INSTRUCTION :: "m"(internalSuper)); } \
 	auto Hook_##_id ::wrapper::hook _type
 
 #define _DEFINE_STATIC_HOOK0(_id, _classname, _name, _priority, _type) _DEFINE_STATIC_HOOK1(_id, _classname, _name, _priority, _type)
@@ -93,12 +102,14 @@ public:
 #define _DEFINE_GLOBAL_HOOK1(_id, _name, _priority, _type) \
 	namespace { namespace Hook_##_id { \
 		static void *internalSuper = NULL; \
+		using _callsign = auto __stdcall (*) _type; \
 		static auto __stdcall hook _type ; \
-		static auto __stdcall super _type ; \
+		template <typename... Args> static decltype(std::declval<_callsign>()(std::declval<Args>()...)) super(Args&&... args) { \
+			return (*reinterpret_cast<_callsign*>(&internalSuper))(std::forward<Args>(args)...); \
+		} \
 		\
 		static FunctionHook hookObj(#_name, typeid(auto (*) _type), &hook, &internalSuper, _priority); \
 	} } \
-	auto FUNC_NAKED __stdcall Hook_##_id ::super _type {__asm__ (JUMP_INSTRUCTION :: "m"(internalSuper)); } \
 	auto __stdcall Hook_##_id ::hook _type
 
 #define _DEFINE_GLOBAL_HOOK0(_id, _name, _priority, _type) _DEFINE_GLOBAL_HOOK1(_id, _name, _priority, _type)

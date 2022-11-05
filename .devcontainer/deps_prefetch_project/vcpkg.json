@@ -1,0 +1,23 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "test",
+    "version": "0.1.0",
+    "dependencies": [
+        "boost-conversion",
+        "boost-algorithm",
+        "boost-math",
+        "boost-format",
+        "boost-crc",
+        "discord-rpc",
+        "lua"
+    ],
+
+    "builtin-baseline": "8e1f46de11423e5f7d2395458f5252738ffffbbd",
+    "overrides": [
+        {
+            "name": "lua",
+            "version": "5.3.5",
+            "port-version": 6
+        }
+    ]
+}

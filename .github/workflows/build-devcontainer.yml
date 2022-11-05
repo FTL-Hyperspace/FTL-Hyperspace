@@ -1,0 +1,31 @@
+name: 'Build devcontainer'
+on:
+  schedule:
+    # 1st every months
+    - cron: '0 0 1 * *' 
+  workflow_dispatch:
+    # Manual run
+  push:
+    # When .devcontainer directory is changed
+    paths:
+      - '.devcontainer/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build container and cache it
+        # Should match to devcontainer.json setup
+        run: |
+          docker buildx build --load --build-arg BUILDKIT_INLINE_CACHE=1 -f .devcontainer/Dockerfile-actual -t ghcr.io/ftl-hyperspace/hs-devcontainer:latest .devcontainer
+          docker push ghcr.io/ftl-hyperspace/hs-devcontainer:latest

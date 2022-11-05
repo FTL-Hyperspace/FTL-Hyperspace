@@ -6132,7 +6132,7 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
     super(effect, target, targetType);
     if (effect.system == 16 && (targetType == effect.target || effect.target == 2)) // all systems
     {
-        super({effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+        super(StatusEffect{effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
     }
 }
 

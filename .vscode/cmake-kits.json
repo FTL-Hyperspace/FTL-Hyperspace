@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Linux x64 build for FTL, Steam 1.6.13",
+        "toolchainFile": "/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "cmakeSettings": {
+            "VCPKG_HOST_TRIPLET": "amd64-linux-ftl",
+            "VCPKG_TARGET_TRIPLET": "amd64-linux-ftl",
+            "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "/vcpkg/scripts/toolchains/amd64-linux-ftl.cmake",
+            "STEAM_1_6_13_BUILD": "ON"
+        }
+    },
+    {
+        "name": "Linux x64 build for FTL, Steam 1.6.12",
+        "toolchainFile": "/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "cmakeSettings": {
+            "VCPKG_HOST_TRIPLET": "amd64-linux-ftl",
+            "VCPKG_TARGET_TRIPLET": "amd64-linux-ftl",
+            "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "/vcpkg/scripts/toolchains/amd64-linux-ftl.cmake",
+            "STEAM_1_6_13_BUILD": "OFF"
+        }
+    },
+    {
+        "name": "Windows x86 build for FTL",
+        "toolchainFile": "/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "cmakeSettings": {
+            "VCPKG_HOST_TRIPLET": "x86-windows-ftl",
+            "VCPKG_TARGET_TRIPLET": "x86-windows-ftl",
+            "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "/vcpkg/scripts/toolchains/x86-windows-ftl.cmake"
+        }
+    }
+]
