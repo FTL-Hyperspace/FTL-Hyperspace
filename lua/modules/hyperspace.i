@@ -3,14 +3,14 @@
 %include "constraints.i"
 
 %{
-#include "../../Global.h"
-#include "../../HSVersion.h"
-#include "../../CustomAchievements.h"
-#include "../../CustomCrew.h"
-#include "../../CustomEvents.h"
-#include "../../CustomScoreKeeper.h"
-#include "../../CrewMember_Extend.h"
-#include "../../Projectile_Extend.h"
+#include "Global.h"
+#include "HSVersion.h"
+#include "CustomAchievements.h"
+#include "CustomCrew.h"
+#include "CustomEvents.h"
+#include "CustomScoreKeeper.h"
+#include "CrewMember_Extend.h"
+#include "Projectile_Extend.h"
 %}
 
 namespace std {
