@@ -10,59 +10,112 @@
 
 CustomSystemManager CustomSystemManager::instance = CustomSystemManager();
 
+template<typename T> void CustomSystemManager::ParseLevelValues(rapidxml::xml_node<char>* node, std::pair<T,T> &levelPair)
+{
+    if (node->first_attribute("amount"))
+    {
+        levelPair.first=boost::lexical_cast<T>(node->first_attribute("amount")->value());
+        levelPair.second=boost::lexical_cast<T>(node->first_attribute("amount")->value());
+    }
+    if (node->first_attribute("player"))
+    {
+        levelPair.first=boost::lexical_cast<T>(node->first_attribute("player")->value());
+    }
+    if (node->first_attribute("enemy"))
+    {
+        levelPair.second=boost::lexical_cast<T>(node->first_attribute("enemy")->value());
+    }
+}
+
+
 void CustomSystemManager::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
     std::string sysName = node->first_attribute("id")->value();
 
     if (sysName == "engines")
     {
-        for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
+        for (auto immediateChild = node->first_node(); immediateChild; immediateChild = immediateChild->next_sibling())
         {
-            std::pair<int,int> evasionPair{-2147483648,-2147483648};
-            std::pair<float,float> chargePair{-2147483648.f,-2147483648.f};
-            for (auto child = levelNode->first_node(); child; child = child->next_sibling())
+            if (strcmp(immediateChild->name(),"levels") == 0)
             {
-                std::string nodeName = child->name();
-            
-                if (nodeName == "evasionBoost")
+                for (auto levelNode = immediateChild->first_node(); levelNode; levelNode = levelNode->next_sibling())
                 {
-                    if (child->first_attribute("amount"))
+                    std::pair<int,int> evasionPair{-2147483648,-2147483648};
+                    std::pair<float,float> chargePair{-2147483648.f,-2147483648.f};
+                    for (auto child = levelNode->first_node(); child; child = child->next_sibling())
                     {
-                        evasionPair.first=boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                        evasionPair.second=boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                    }
-                    if (child->first_attribute("player"))
-                    {
-                        evasionPair.first=boost::lexical_cast<int>(child->first_attribute("player")->value());
-                    }
-                    if (child->first_attribute("enemy"))
-                    {
-                        evasionPair.second=boost::lexical_cast<int>(child->first_attribute("enemy")->value());
-                    }
+                        std::string nodeName = child->name();
                     
-                }
+                        if (nodeName == "evasionBoost")
+                        {
+                            ParseLevelValues<int>(child, evasionPair);
+                        }
 
-                if (nodeName == "jumpCharge")
-                {
-                    if (child->first_attribute("amount"))
-                    {
-                        chargePair.first=boost::lexical_cast<float>(child->first_attribute("amount")->value());
-                        chargePair.second=boost::lexical_cast<float>(child->first_attribute("amount")->value());
+                        if (nodeName == "jumpCharge")
+                        {
+                            ParseLevelValues<float>(child, chargePair);   
+                        }
                     }
-                    if (child->first_attribute("player"))
-                    {
-                        chargePair.first=boost::lexical_cast<float>(child->first_attribute("player")->value());
-                    }
-                    if (child->first_attribute("enemy"))
-                    {
-                        chargePair.second=boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                    }
-                    
+                    engineDodgeLevels.systemLevels.push_back(evasionPair);
+                    engineChargeLevels.systemLevels.push_back(chargePair);
                 }
             }
-            this->engineDodgeLevels.systemLevels.push_back(evasionPair);
-            this->engineChargeLevels.systemLevels.push_back(chargePair);
-        }
+
+            if (strcmp(immediateChild->name(),"hackEffects") == 0)
+            {
+                engineDodgeLevels.hackLevels = {0,0};
+                engineChargeLevels.hackLevels = {0.f,0.f};
+                for (auto child = immediateChild->first_node(); child; child = child->next_sibling())
+                {
+                    std::string nodeName = child->name();
+                    if (nodeName == "evasionBoost")
+                    {
+                        ParseLevelValues<int>(child, engineDodgeLevels.hackLevels);
+                    }
+
+                    if (nodeName == "jumpCharge")
+                    {
+                        ParseLevelValues<float>(child, engineChargeLevels.hackLevels);   
+                    }
+                }  
+            }  
+        }     
+    }
+
+    if (sysName == "oxygen")
+    {
+        for (auto immediateChild = node->first_node(); immediateChild; immediateChild = immediateChild->next_sibling())
+        {
+            if (strcmp(immediateChild->name(),"levels") == 0)
+            {
+                for (auto levelNode = immediateChild->first_node(); levelNode; levelNode = levelNode->next_sibling())
+                {
+                    std::pair<float,float> fillPair{-2147483648.f,-2147483648.f};
+                    for (auto child = levelNode->first_node(); child; child = child->next_sibling())
+                    {
+                        std::string nodeName = child->name();
+                        if (nodeName == "fillRate")
+                        {
+                            ParseLevelValues<float>(child, fillPair);   
+                        }
+                    }
+                    oxygenLevels.systemLevels.push_back(fillPair);
+                }
+            }
+
+            if (strcmp(immediateChild->name(),"hackEffects") == 0)
+            {
+                oxygenLevels.hackLevels = {0.f,0.f};
+                for (auto child = immediateChild->first_node(); child; child = child->next_sibling())
+                {
+                    std::string nodeName = child->name();
+                    if (nodeName == "fillRate")
+                    {
+                        ParseLevelValues<float>(child, oxygenLevels.hackLevels);   
+                    }
+                }  
+            }  
+        }     
     }
 }
 
@@ -174,6 +227,10 @@ HOOK_METHOD(EngineSystem, GetEngineSpeed, () -> float)
     }    
 
 }
+
+
+
+
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
