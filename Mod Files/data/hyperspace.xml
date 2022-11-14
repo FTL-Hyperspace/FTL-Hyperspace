@@ -1129,6 +1129,49 @@ Syntax ->
 			</level3>
 		</slow>
 	</system>
+
+	<system id="engines">
+		<level1>
+			<evasionBoost enemy="5" player="5" amount="5"/>
+			<jumpCharge enemy="1.0" player="1.0" amount="1.0"/>
+		</level1>
+
+		<level2>
+			<evasionBoost enemy="10" player="10" amount="10"/>
+			<jumpCharge enemy="1.25" player="1.25" amount="1.25"/>
+		</level2>
+
+		<level3>
+			<evasionBoost enemy="15" player="15" amount="15"/>
+			<jumpCharge enemy="1.5" player="1.5" amount="1.5"/>
+		</level3>
+
+		<level4>
+			<evasionBoost enemy="20" player="20" amount="20"/>
+			<jumpCharge enemy="1.75" player="1.75" amount="1.75"/>
+		</level4>
+
+		<level5>
+			<evasionBoost enemy="25" player="25" amount="25"/>
+			<jumpCharge enemy="2" player="2" amount="2"/>
+		</level5>
+
+		<level6>
+			<evasionBoost enemy="28" player="28" amount="28"/>
+			<jumpCharge enemy="2.25" player="2.25" amount="2.25"/>
+		</level6>
+
+		<level7>
+			<evasionBoost enemy="31" player="31" amount="31"/>
+			<jumpCharge enemy="2.5" player="2.5" amount="2.5"/>
+		</level7>
+
+		<level8>
+			<evasionBoost enemy="35" player="35" amount="35"/>
+			<jumpCharge enemy="2.75" player="2.75" amount="2.75"/>
+		</level8>
+	</system>
+	
 </customSystems>
 
 <!-- Stat boosts

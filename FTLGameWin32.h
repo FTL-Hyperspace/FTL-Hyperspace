@@ -5287,8 +5287,14 @@ struct EngiAnimation
 {
 };
 
-struct EngineSystem
+struct EngineSystem;
+
+struct EngineSystem : ShipSystem
 {
+	LIBZHL_API int GetDodgeFactor();
+	LIBZHL_API float GetEngineSpeed();
+	
+	bool bBoostFTL;
 };
 
 struct EventDamage
@@ -6752,7 +6758,6 @@ struct ShipInfo
 	int augCount;
 };
 
-struct EngineSystem;
 struct MedbaySystem;
 struct ParticleEmitter;
 
