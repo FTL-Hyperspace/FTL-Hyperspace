@@ -2858,7 +2858,11 @@ struct std__vector_12ShipSystemZ1
 };
 
 /* 295 */
-struct EngineSystem;
+struct EngineSystem
+{
+  ShipSystem _base;
+  bool bBoostFTL;
+};
 
 /* 409 */
 struct MedbaySystem;

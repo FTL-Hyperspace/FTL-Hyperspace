@@ -1,0 +1,4 @@
+"5589e55389cb83e4??83ec208b414885c07e??80794c0075??31c08944????":
+__thiscall int EngineSystem::GetDodgeFactor(EngineSystem *this);
+"5731d28d????0883e4??ff????5589e557565389cb83ec4c8b414885c07e??":
+__thiscall float EngineSystem::GetEngineSpeed(EngineSystem *this);

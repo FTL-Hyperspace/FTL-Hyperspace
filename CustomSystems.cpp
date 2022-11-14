@@ -6,8 +6,70 @@
 #include "Systems.h"
 #include "CustomOptions.h"
 
+#include <boost/lexical_cast.hpp>
+
+CustomSystemManager CustomSystemManager::instance = CustomSystemManager();
+
+void CustomSystemManager::ParseSystemNode(rapidxml::xml_node<char>* node)
+{
+    std::string sysName = node->first_attribute("id")->value();
+
+    if (sysName == "engines")
+    {
+        for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
+        {
+            std::pair<int,int> evasionPair{-2147483648,-2147483648};
+            std::pair<float,float> chargePair{-2147483648.f,-2147483648.f};
+            for (auto child = levelNode->first_node(); child; child = child->next_sibling())
+            {
+                std::string nodeName = child->name();
+            
+                if (nodeName == "evasionBoost")
+                {
+                    if (child->first_attribute("amount"))
+                    {
+                        evasionPair.first=boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                        evasionPair.second=boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                    }
+                    if (child->first_attribute("player"))
+                    {
+                        evasionPair.first=boost::lexical_cast<int>(child->first_attribute("player")->value());
+                    }
+                    if (child->first_attribute("enemy"))
+                    {
+                        evasionPair.second=boost::lexical_cast<int>(child->first_attribute("enemy")->value());
+                    }
+                    
+                }
+
+                if (nodeName == "jumpCharge")
+                {
+                    if (child->first_attribute("amount"))
+                    {
+                        chargePair.first=boost::lexical_cast<float>(child->first_attribute("amount")->value());
+                        chargePair.second=boost::lexical_cast<float>(child->first_attribute("amount")->value());
+                    }
+                    if (child->first_attribute("player"))
+                    {
+                        chargePair.first=boost::lexical_cast<float>(child->first_attribute("player")->value());
+                    }
+                    if (child->first_attribute("enemy"))
+                    {
+                        chargePair.second=boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+                    }
+                    
+                }
+            }
+            this->engineDodgeLevels.systemLevels.push_back(evasionPair);
+            this->engineChargeLevels.systemLevels.push_back(chargePair);
+        }
+    }
+}
+
+
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
+    
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string name = child->name();
@@ -21,13 +83,97 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
             {
                 TemporalSystemParser::ParseSystemNode(child);
             }
+
+            CustomSystemManager::GetInstance()->ParseSystemNode(child);
         }
     }
 }
 
 
+HOOK_METHOD(EngineSystem, GetDodgeFactor, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> EngineSystem::GetDodgeFactor -> Begin (CustomSystems.cpp)\n")
+    int effectivePower = this->GetEffectivePower();
+    if (effectivePower == 0) {return 0;}
+    else
+    {
+        auto levelVector = CustomSystemManager::GetInstance()->engineDodgeLevels.systemLevels;
+         //TODO: Make sure it defaults properly if none of this information is declared.
+        int overrideLevel  = (this->_shipObj.iShipId == 0) ? levelVector[effectivePower-1].first : levelVector[effectivePower-1].second;
+        if (overrideLevel == -2147483648 || (effectivePower > levelVector.size())) {return super();} //when a <level> node doesn't have a defined evasionBoost, it will default to -2147483648 for both the player and enemy
+        else
+        {
+            int manLevel = this->iActiveManned; 
+            if ((manLevel < 1) || (this->bBoostable == false))
+            {
+                manLevel = 0;
+            }
+            else if (this->healthState.first != this->healthState.second)
+            {
+                manLevel = 0;
+            }
 
+            
+            float skill = getSkillBonus(1, manLevel);
+            return int(skill) + overrideLevel;
+        }    
+    }
+}
 
+HOOK_METHOD(EngineSystem, GetEngineSpeed, () -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> EngineSystem::GetEngineSpeed -> Begin (CustomSystems.cpp)\n")
+    /*
+    int manLevel = this->iActiveManned;
+    float manBoost = 1.f;
+
+    if ((manLevel > 0) && (this->bBoostable) && (this->healthState.second == this->healthState.first))
+    {
+        if (manLevel == 1)
+        {
+            manBoost = 1.1f;
+        }
+        else if (manLevel == 2)
+        {
+            manBoost = 1.17f;
+        }
+        else if (manLevel == 3)
+        {
+            manBoost = 1.25f;
+        }
+    }
+
+    float additionalBoost = this->bBoostFTL ? 3.0f : 1.0f;
+    float augBoost = this->_shipObj.GetAugmentationValue("FTL_BOOSTER");
+    
+    int powerLevel = this->GetEffectivePower();
+
+    
+    float speedFactor = G_->GetCFPS()->GetSpeedFactor();
+    
+    float jumpSpeed = manBoost * (augBoost + 1.0f) * ((float)(powerLevel - 1) * 0.35f + 1.25f) * 0.0625f * speedFactor;
+    
+    float ret = super();
+
+    printf("Real value: %f Calculated value: %f \n",ret,jumpSpeed); //just testing to see if it works as it should
+    return ret;
+    */
+    float originalCharge = super();
+    int effectivePower = this->GetEffectivePower();
+
+    float originalMult = 1.f + ((effectivePower - 1.f) * 0.25f);
+    float baseCharge = originalCharge / originalMult;
+
+    auto levelVector = CustomSystemManager::GetInstance()->engineChargeLevels.systemLevels;
+    float overrideLevel  = (this->_shipObj.iShipId == 0) ? levelVector[effectivePower-1].first : levelVector[effectivePower-1].second;
+    
+    if (overrideLevel == -2147483648 || (effectivePower > levelVector.size()) || effectivePower == 0) {return originalCharge;} //when a <level> node doesn't have a defined evasionBoost, it will default to -2147483648 for both the player and enemy
+    else
+    {
+        return (baseCharge * overrideLevel);
+    }    
+
+}
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
@@ -574,7 +720,6 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
-
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (CustomSystems.cpp)\n");
