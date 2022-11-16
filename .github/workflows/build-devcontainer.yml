@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
     # Manual run
   push:
-    # When .devcontainer directory is changed
+    # When .devcontainer directory is changed in the develop branch
+    branches: [develop]
     paths:
       - '.devcontainer/**'
 
