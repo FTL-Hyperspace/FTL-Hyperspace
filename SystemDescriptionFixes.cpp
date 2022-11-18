@@ -61,9 +61,9 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
         std::string text = G_->GetTextLibrary()->GetText("engine");
         auto& dodgeVector = CustomSystemManager::GetInstance()->engineDodgeLevels.systemLevels;
     
-        int dodge = (level >= dodgeVector.size()) ? -2147483648 : dodgeVector[level].first;
+        int dodge = (level >= dodgeVector.size()) ? DEFAULT_LEVEL : dodgeVector[level].first;
         
-        if (dodge == -2147483648)
+        if (dodge == DEFAULT_LEVEL)
         {
             auto& defaultVector = CustomSystemManager::GetInstance()->engineDodgeLevels.defaultLevels;
             if (level >= defaultVector.size())
@@ -82,9 +82,9 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
         
 
         auto& chargeVector = CustomSystemManager::GetInstance()->engineChargeLevels.systemLevels;
-        float jumpCharge = (level >= chargeVector.size()) ? -2147483648.f :chargeVector[level].first;
+        float jumpCharge = (level >= chargeVector.size()) ? static_cast<float>(DEFAULT_LEVEL) : chargeVector[level].first;
 
-        if (jumpCharge == -2147483648.f)
+        if (jumpCharge == static_cast<float>(DEFAULT_LEVEL))
         {
             jumpCharge = 1.f + (level * 0.25f);
         }
