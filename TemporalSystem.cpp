@@ -1103,7 +1103,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 
 // Effects
 
-static int g_dilationAmount = 0;
+int g_dilationAmount = 0;
 static float g_dilationExtraMul = 1.0;
 
 HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
@@ -1119,10 +1119,10 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
     return ret;
 }
 
-static std::map<int, int> g_crewDilationRooms = std::map<int, int>();
-static std::map<int, int> g_envDilationRooms = std::map<int, int>();
-static std::map<int, int> g_sysDilationRooms = std::map<int, int>();
-static std::map<int, int> g_shardDilationRooms = std::map<int, int>();
+std::map<int, int> g_crewDilationRooms = std::map<int, int>();
+std::map<int, int> g_envDilationRooms = std::map<int, int>();
+std::map<int, int> g_sysDilationRooms = std::map<int, int>();
+std::map<int, int> g_shardDilationRooms = std::map<int, int>();
 
 int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId)
 {
