@@ -308,6 +308,10 @@ void RoomAnim::OnUpdate()
     {
         tileAnim.Update();
     }
+    if (wallAnim)
+    {
+        wallAnim->Update();
+    }
 }
 
 void RoomAnim::OnRender()
@@ -319,6 +323,116 @@ void RoomAnim::OnRender()
     for (Animation &tileAnim : tileAnims)
     {
         tileAnim.OnRender(1.f, COLOR_WHITE, false);
+    }
+    if (wallAnim)
+    {
+        // bottom
+        for (int xPos = 0; xPos < w; xPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + xPos * 35, pos.y + h*35 - 35);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+
+        // top
+        for (int xPos = 0; xPos < w; xPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + xPos * 35 + 35, pos.y + 35.f);
+            CSurface::GL_Rotate(180.f, 0.f, 0.f, 1.f);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+
+        // left
+        for (int yPos = 0; yPos < h; yPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + 35, pos.y + yPos * 35.f);
+            CSurface::GL_Rotate(90.f, 0.f, 0.f, 1.f);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+
+        // right
+        for (int yPos = 0; yPos < h; yPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + w*35 - 35.f, pos.y + yPos * 35.f + 35.f);
+            CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+    }
+}
+
+void RoomAnim::SaveState(int fd)
+{
+    FileHelper::writeInt(fd, renderLayer);
+    FileHelper::writeFloat(fd, pos.x);
+    FileHelper::writeFloat(fd, pos.y);
+    FileHelper::writeInt(fd, w);
+    FileHelper::writeInt(fd, h);
+
+    FileHelper::writeInt(fd, anim.get() != nullptr);
+    if (anim)
+    {
+        anim->SaveState(fd);
+    }
+
+    FileHelper::writeInt(fd, tileAnims.size());
+    for (Animation &tileAnim : tileAnims)
+    {
+        tileAnim.SaveState(fd);
+    }
+
+    FileHelper::writeInt(fd, wallAnim.get() != nullptr);
+    if (wallAnim)
+    {
+        wallAnim->SaveState(fd);
+    }
+}
+
+void RoomAnim::LoadState(int fd, Room *room)
+{
+    pos.x = room->rect.x;
+    pos.y = room->rect.y;
+    w = room->rect.w/35;
+    h = room->rect.h/35;
+
+    renderLayer = FileHelper::readInteger(fd);
+    pos.x = FileHelper::readFloat(fd);
+    pos.y = FileHelper::readFloat(fd);
+    w = FileHelper::readInteger(fd);
+    h = FileHelper::readInteger(fd);
+
+    if (FileHelper::readInteger(fd))
+    {
+        anim.reset(new Animation);
+        anim->LoadState(fd);
+    }
+
+    int n = FileHelper::readInteger(fd);
+    for (int i=0; i<n; ++i)
+    {
+        tileAnims.emplace_back();
+        Animation &tileAnim = tileAnims.back();
+        tileAnim.LoadState(fd);
+    }
+
+    if (FileHelper::readInteger(fd))
+    {
+        wallAnim.reset(new Animation);
+        wallAnim->LoadState(fd);
     }
 }
 

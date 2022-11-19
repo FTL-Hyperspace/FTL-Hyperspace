@@ -482,6 +482,7 @@ Syntax ->
 				<roomAnim renderLayer="1">                                                    (new syntax)
 					<anim animType="default" animBorder="0">custom</roomAnim>                 (animType can be default, stretch, random, or center, animBorder controls spawning margins)
 					<tileAnim>custom</tileAnim>                                               (spawn this animation on each tile)
+					<wallAnim>custom</wallAnim>                                               (spawn this animation on each wall)
 				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
