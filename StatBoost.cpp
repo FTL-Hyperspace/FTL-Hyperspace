@@ -6,6 +6,7 @@
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
+#include "TemporalSystem.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <math.h>
@@ -1296,18 +1297,25 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     for (Room *room : ship.vRoomList)
     {
         auto &vRoomStatBoosts = RM_EX(room)->statBoosts;
-        for (RoomStatBoost& statBoost : vRoomStatBoosts)
+        if (!vRoomStatBoosts.empty())
         {
-            statBoost.statBoost.timerHelper.Update();
-            if (statBoost.roomAnim)
+            g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, room->iRoomId);
+
+            for (RoomStatBoost& statBoost : vRoomStatBoosts)
             {
-                statBoost.roomAnim->OnUpdate();
+                statBoost.statBoost.timerHelper.Update();
+                if (statBoost.roomAnim)
+                {
+                    statBoost.roomAnim->OnUpdate();
+                }
             }
+            vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
+                                                 vRoomStatBoosts.end(),
+                                                 [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
+                                                 vRoomStatBoosts.end());
+
+            g_dilationAmount = 0;
         }
-        vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
-                                             vRoomStatBoosts.end(),
-                                             [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
-                                             vRoomStatBoosts.end());
     }
 }
 
