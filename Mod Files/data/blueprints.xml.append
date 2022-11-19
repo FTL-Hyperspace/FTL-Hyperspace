@@ -108,6 +108,19 @@
 	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
 	<fireTime>0.0</fireTime>                         Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
 	
+	<erosionChance>0</erosionChance>                          Chance to apply erosion (0-10)
+	<erosion>                                                 Leave out any child tags to use the defaults
+		<speed>0.63</speed>                                   How quickly to erode the system, equivalent to sabotage multiplier
+		<maxSpeed>3.15</maxSpeed>                             Maximum for stacking
+		<time>10.0</time>                                     Length of effect
+		<maxTime>25.0</maxTime>                               Maximum for stacking
+		<systemRepairMultiplier>0.75</systemRepairMultiplier> Debuff for repairing the afflicted system
+		<erodeShields>false</erodeShields>                    Whether to do erosion check when hitting shields, similar to ion weapons doing system damage, stun, etc.
+		<roomAnim>                                            Animation to play
+			(uses roomAnim syntax, see custom ships)
+		</roomAnim>
+	</erosion>
+	
 	<statBoostChance>0</statBoostChance>             Chance to apply stat boosts as listed below.
 	<statBoosts>                                     Same as statBoosts for crew/augment/etc. - list of all stat boosts to apply.
 		<statBoost>                                  Conditions for stat boost are checked on application. Once applied, the effect is continuous. Use a nested self statboost if you want to check conditions continuously.

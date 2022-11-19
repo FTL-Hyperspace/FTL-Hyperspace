@@ -19,7 +19,9 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     weaponDef.name = node->first_attribute("name")->value();
 
     weaponDef.customDamage = new CustomDamageDefinition();
+    weaponDef.customDamage->erosionEffect = ErosionEffect::defaultErosionEffect; // copy assignment
     bool hasCustomDamage = false;
+    bool hasErosion = false;
 
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
@@ -158,6 +160,18 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             }
         }
 
+        if (name == "erosion")
+        {
+            hasCustomDamage = true;
+            hasErosion = true;
+            weaponDef.customDamage->erosionEffect.ParseErosionEffect(child);
+        }
+        if (name == "erosionChance")
+        {
+            hasCustomDamage = true;
+            weaponDef.customDamage->erosionChance = boost::lexical_cast<int>(val);
+        }
+
         if (name == "iconScale")
         {
             weaponDef.iconScale = boost::lexical_cast<float>(val);
@@ -190,6 +204,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     if (weaponDef.customDamage->crewSpawnChance == -1)
     {
         weaponDef.customDamage->crewSpawnChance = weaponDef.customDamage->crewSpawns.empty() ? 0 : 10;
+    }
+    if (weaponDef.customDamage->erosionChance == -1)
+    {
+        weaponDef.customDamage->erosionChance = hasErosion ? 10 : 0;
     }
 
     if (hasCustomDamage)

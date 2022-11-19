@@ -1330,52 +1330,6 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (StatBoost.cpp)\n")
-    super(fd);
-
-    for (Room *room : ship.vRoomList)
-    {
-        Room_Extend *ex = RM_EX(room);
-
-        FileHelper::writeInt(fd, ex->statBoosts.size());
-        for (RoomStatBoost &statBoost : ex->statBoosts)
-        {
-            statBoost.statBoost.Save(fd);
-        }
-    }
-}
-
-HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (StatBoost.cpp)\n")
-    super(fd);
-
-    int n;
-
-    for (Room *room : ship.vRoomList)
-    {
-        Room_Extend *ex = RM_EX(room);
-
-        n = FileHelper::readInteger(fd);
-        for (int i=0; i<n; ++i)
-        {
-            ex->statBoosts.emplace_back(StatBoost::LoadStatBoost(fd), room);
-
-            // set room
-            if (iShipId == 1)
-            {
-                ex->statBoosts.back().statBoost.sourceRoomIds.second.push_back(room->iRoomId);
-            }
-            else
-            {
-                ex->statBoosts.back().statBoost.sourceRoomIds.first.push_back(room->iRoomId);
-            }
-        }
-    }
-}
-
 // Timed stat boosts
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)

@@ -127,6 +127,8 @@ static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL
 */
 "5589e557565383e4f083ec408b75088b46042b06c1f8048d14c5????????89c78944243cc1e00581fa????????ba????????0f47c2":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
+"5589e557565383e4f081ec90020000f30f105514f30f105d180f2eda":
+static cleanup __cdecl GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
 
 
 struct CSurface

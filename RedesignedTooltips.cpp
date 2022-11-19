@@ -472,6 +472,41 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 
                 descText += currentText + "\n";
             }
+            if (weaponDef->customDamage->erosionChance > 0)
+            {
+                currentText = tLib->GetText("erosion_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->erosionChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage->erosionChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage->erosionChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+
+                currentText = tLib->GetText("erosion_effect");
+
+                std::stringstream stream;
+                stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
+                boost::algorithm::replace_all(currentText, "\\1", stream.str());
+
+                stream = std::stringstream();
+                stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
+                boost::algorithm::replace_all(currentText, "\\2", stream.str());
+
+                stream = std::stringstream();
+                stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
+                boost::algorithm::replace_all(currentText, "\\3", stream.str());
+
+                descText += currentText + "\n";
+            }
             if (weaponDef->customDamage->statBoostChance > 0)
             {
                 currentText = tLib->GetText("crew_statboost_chance");
@@ -977,6 +1012,41 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 
                 descText += currentText + "\n";
             }
+            if (weaponDef->customDamage->erosionChance > 0)
+            {
+                currentText = tLib->GetText("erosion_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->erosionChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage->erosionChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage->erosionChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+
+                currentText = tLib->GetText("erosion_effect");
+
+                std::stringstream stream;
+                stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
+                boost::algorithm::replace_all(currentText, "\\1", stream.str());
+
+                stream = std::stringstream();
+                stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
+                boost::algorithm::replace_all(currentText, "\\2", stream.str());
+
+                stream = std::stringstream();
+                stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
+                boost::algorithm::replace_all(currentText, "\\3", stream.str());
+
+                descText += currentText + "\n";
+            }
             if (weaponDef->customDamage->statBoostChance > 0)
             {
                 currentText = tLib->GetText("crew_statboost_chance");
@@ -1198,6 +1268,41 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
             }
 
             boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage->erosionChance > 0)
+        {
+            currentText = tLib->GetText("erosion_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->erosionChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage->erosionChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage->erosionChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+
+            currentText = tLib->GetText("erosion_effect");
+
+            std::stringstream stream;
+            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
+            boost::algorithm::replace_all(currentText, "\\1", stream.str());
+
+            stream = std::stringstream();
+            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
+            boost::algorithm::replace_all(currentText, "\\2", stream.str());
+
+            stream = std::stringstream();
+            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
+            boost::algorithm::replace_all(currentText, "\\3", stream.str());
 
             descText += currentText + "\n";
         }
@@ -1727,6 +1832,41 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                             }
 
                             boost::algorithm::replace_all(currentText, "\\2", level);
+
+                            newDesc += currentText + "\n";
+                        }
+                        if (weaponDef->customDamage->erosionChance > 0)
+                        {
+                            currentText = tLib->GetText("erosion_chance");
+                            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->erosionChance * 10));
+
+                            std::string level = tLib->GetText("chance_low");
+                            if (weaponDef->customDamage->erosionChance >= 7)
+                            {
+                                level = tLib->GetText("chance_high");
+                            }
+                            else if (weaponDef->customDamage->erosionChance >= 4)
+                            {
+                                level = tLib->GetText("chance_medium");
+                            }
+
+                            boost::algorithm::replace_all(currentText, "\\2", level);
+
+                            newDesc += currentText + "\n";
+
+                            currentText = tLib->GetText("erosion_effect");
+
+                            std::stringstream stream;
+                            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
+                            boost::algorithm::replace_all(currentText, "\\1", stream.str());
+
+                            stream = std::stringstream();
+                            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
+                            boost::algorithm::replace_all(currentText, "\\2", stream.str());
+
+                            stream = std::stringstream();
+                            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
+                            boost::algorithm::replace_all(currentText, "\\3", stream.str());
 
                             newDesc += currentText + "\n";
                         }

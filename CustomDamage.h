@@ -2,14 +2,31 @@
 #include "CrewMember_Extend.h"
 #include "Global.h"
 
+struct RoomAnimDef;
 struct StatBoostDefinition;
 
 struct ErosionEffect
 {
-    float systemDamageSpeed = 0.8f;
+    float erosionSpeed = 0.63f;
+    float erosionSpeedMax = 3.15f;
+
     float systemRepairMultiplier = 0.75f;
-    int erosionTime = 10;
-    std::string animation = "room_erosion";
+
+    float erosionTime = 10.f;
+    float erosionTimeMax = 25.f;
+
+    bool erodeShields = false;
+
+    RoomAnimDef *animation = nullptr;
+
+    void ParseErosionEffect(rapidxml::xml_node<char>* node);
+
+    static float growBreachMultiplier;
+    static float newBreachDamage;
+    static float newBreachRequirement;
+    static bool canDilate;
+
+    static ErosionEffect defaultErosionEffect;
 };
 
 struct CrewSpawn;
@@ -30,7 +47,7 @@ struct CustomDamageDefinition
     std::vector<StatBoostDefinition*> statBoosts;
     std::vector<StatBoostDefinition*> roomStatBoosts;
 
-    int erosionChance = 0;
+    int erosionChance = -1;
     ErosionEffect erosionEffect;
 
     int crewSpawnChance = -1;

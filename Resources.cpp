@@ -6,6 +6,7 @@
 #include "CommandConsole.h"
 #include "CustomShipSelect.h"
 #include "CustomCrew.h"
+#include "CustomDamage.h"
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
@@ -136,6 +137,29 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "erosion") == 0)
+                    {
+                        ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
+                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                        {
+                            if (strcmp(child2->name(), "growBreachMultiplier") == 0)
+                            {
+                                ErosionEffect::growBreachMultiplier = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "newBreachDamage") == 0)
+                            {
+                                ErosionEffect::newBreachDamage = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "newBreachRequirement") == 0)
+                            {
+                                ErosionEffect::newBreachRequirement = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "canDilate") == 0)
+                            {
+                                ErosionEffect::canDilate = EventsParser::ParseBoolean(child2->value());
+                            }
+                        }
                     }
                 }
             }

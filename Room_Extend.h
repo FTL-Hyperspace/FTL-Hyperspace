@@ -163,9 +163,17 @@ struct Room_Extend
     Animation* speedUpAnim = nullptr;
     Animation* slowDownAnim = nullptr;
 
-    ErosionEffect* currentErosion = nullptr;
-    TimerHelper erosionTimer;
-    Animation* erosionAnim = nullptr;
+    struct Erosion
+    {
+        float timer = 0.f;
+        float speed = 0.f;
+        float systemRepairMultiplier = 1.f;
+        RoomAnim *anim = nullptr;
+
+        float amount = 0.f; // currently only used for new breaches to track progress
+    };
+
+    Erosion erosion;
 
     std::vector<RoomStatBoost> statBoosts = std::vector<RoomStatBoost>();
 
