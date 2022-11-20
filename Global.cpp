@@ -73,7 +73,7 @@ std::wstring ConvertToUtf16(const char *str, UINT codepage)
         if (size == 0) {
             return false;
         }
-        
+
         utf16String.resize(size);
         return MultiByteToWideChar(codepage, 0, str, -1, &utf16String[0], size) != 0;
     })();
@@ -157,7 +157,7 @@ void Global::Initialize()
     }
 
     logFile = fopen("FTL_HS.log", "w");
-    
+
     printf("Starting Lua\n");
     m_luaScript = new LuaScriptInit();
     printf("Lua Inited\n");
@@ -174,7 +174,17 @@ void Global::Initialize()
 HOOK_METHOD(WorldManager, LoadGame, (const std::string file) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (Global.cpp)\n")
+
     loadingGame = true;
+
+    // block time advancement during loading
+    CFPS *cFPS = G_->GetCFPS();
+    float speed = cFPS->SpeedFactor;
+    cFPS->SpeedFactor = 0.f;
+
     super(file);
+
+    cFPS->SpeedFactor = speed;
+
     loadingGame = false;
 }
