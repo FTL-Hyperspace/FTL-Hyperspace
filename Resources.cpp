@@ -6,6 +6,7 @@
 #include "CommandConsole.h"
 #include "CustomShipSelect.h"
 #include "CustomCrew.h"
+#include "CustomDamage.h"
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
@@ -136,6 +137,29 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "erosion") == 0)
+                    {
+                        ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
+                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                        {
+                            if (strcmp(child2->name(), "growBreachMultiplier") == 0)
+                            {
+                                ErosionEffect::growBreachMultiplier = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "newBreachDamage") == 0)
+                            {
+                                ErosionEffect::newBreachDamage = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "newBreachRequirement") == 0)
+                            {
+                                ErosionEffect::newBreachRequirement = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "canDilate") == 0)
+                            {
+                                ErosionEffect::canDilate = EventsParser::ParseBoolean(child2->value());
+                            }
+                        }
                     }
                 }
             }
@@ -451,7 +475,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->advancedCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->advancedCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
-                if(enabled)
+                if(EventsParser::ParseBoolean(enabled))
                 {
                     if(node->first_attribute("ally"))
                     {
@@ -465,11 +489,30 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                     if(node->first_attribute("rounding"))
                     {
-                        customOptions->advancedCrewTooltipRounding.defaultAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
-                        customOptions->advancedCrewTooltipRounding.currentAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.defaultValue = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.currentValue = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
                     }
                 }
             }
+
+            if (strcmp(node->name(), "dismissSound") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                if (EventsParser::ParseBoolean(enabled))
+                {
+                    if (node->first_attribute("sound"))
+                    {
+                        customOptions->dismissSound.defaultValue = node->first_attribute("sound")->value();
+                        customOptions->dismissSound.currentValue = node->first_attribute("sound")->value();
+                    }
+                }
+                else
+                {
+                    customOptions->dismissSound.defaultValue = "";
+                    customOptions->dismissSound.currentValue = "";
+                }
+            }
+
 
             if (strcmp(node->name(), "console") == 0)
             {

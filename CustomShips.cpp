@@ -127,9 +127,16 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -1000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomShips.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
+
+    if (!importingShip) super();
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, ImportShip, -1000, (int fileHelper) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ImportShip -> Begin (CustomShips.cpp)\n")
     if (iShipId == 0)
     {
         G_->GetWorld()->playerShip = nullptr; // remove invalid reference
@@ -138,6 +145,17 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     importingShip = true;
     super(fileHelper);
     importingShip = false;
+
+    // Normally FTL calls OnLoop after importing the ship; here we want to block it and call it after the hooks instead
+    if (bDestroyed)
+    {
+        std::vector<float> oxygenLevels;
+        ship.OnLoop(oxygenLevels);
+    }
+    else
+    {
+        OnLoop();
+    }
 }
 
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
@@ -308,6 +326,10 @@ void RoomAnim::OnUpdate()
     {
         tileAnim.Update();
     }
+    if (wallAnim)
+    {
+        wallAnim->Update();
+    }
 }
 
 void RoomAnim::OnRender()
@@ -319,6 +341,116 @@ void RoomAnim::OnRender()
     for (Animation &tileAnim : tileAnims)
     {
         tileAnim.OnRender(1.f, COLOR_WHITE, false);
+    }
+    if (wallAnim)
+    {
+        // bottom
+        for (int xPos = 0; xPos < w; xPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + xPos * 35, pos.y + h*35 - 35);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+
+        // top
+        for (int xPos = 0; xPos < w; xPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + xPos * 35 + 35, pos.y + 35.f);
+            CSurface::GL_Rotate(180.f, 0.f, 0.f, 1.f);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+
+        // left
+        for (int yPos = 0; yPos < h; yPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + 35, pos.y + yPos * 35.f);
+            CSurface::GL_Rotate(90.f, 0.f, 0.f, 1.f);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+
+        // right
+        for (int yPos = 0; yPos < h; yPos++)
+        {
+            CSurface::GL_PushMatrix();
+
+            CSurface::GL_Translate(pos.x + w*35 - 35.f, pos.y + yPos * 35.f + 35.f);
+            CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+            wallAnim->OnRender(1.f, COLOR_WHITE, false);
+
+            CSurface::GL_PopMatrix();
+        }
+    }
+}
+
+void RoomAnim::SaveState(int fd)
+{
+    FileHelper::writeInt(fd, renderLayer);
+    FileHelper::writeFloat(fd, pos.x);
+    FileHelper::writeFloat(fd, pos.y);
+    FileHelper::writeInt(fd, w);
+    FileHelper::writeInt(fd, h);
+
+    FileHelper::writeInt(fd, anim.get() != nullptr);
+    if (anim)
+    {
+        anim->SaveState(fd);
+    }
+
+    FileHelper::writeInt(fd, tileAnims.size());
+    for (Animation &tileAnim : tileAnims)
+    {
+        tileAnim.SaveState(fd);
+    }
+
+    FileHelper::writeInt(fd, wallAnim.get() != nullptr);
+    if (wallAnim)
+    {
+        wallAnim->SaveState(fd);
+    }
+}
+
+void RoomAnim::LoadState(int fd, Room *room)
+{
+    pos.x = room->rect.x;
+    pos.y = room->rect.y;
+    w = room->rect.w/35;
+    h = room->rect.h/35;
+
+    renderLayer = FileHelper::readInteger(fd);
+    pos.x = FileHelper::readFloat(fd);
+    pos.y = FileHelper::readFloat(fd);
+    w = FileHelper::readInteger(fd);
+    h = FileHelper::readInteger(fd);
+
+    if (FileHelper::readInteger(fd))
+    {
+        anim.reset(new Animation);
+        anim->LoadState(fd);
+    }
+
+    int n = FileHelper::readInteger(fd);
+    for (int i=0; i<n; ++i)
+    {
+        tileAnims.emplace_back();
+        Animation &tileAnim = tileAnims.back();
+        tileAnim.LoadState(fd);
+    }
+
+    if (FileHelper::readInteger(fd))
+    {
+        wallAnim.reset(new Animation);
+        wallAnim->LoadState(fd);
     }
 }
 
@@ -334,6 +466,10 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
         for (auto& anim : ex->roomAnims)
         {
             anim.OnUpdate();
+        }
+        if (ex->erosion.anim)
+        {
+            ex->erosion.anim->OnUpdate();
         }
     }
 }
@@ -361,14 +497,16 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
 
     for (auto room : ship.vRoomList)
     {
-        for (auto& i : RM_EX(room)->roomAnims)
+        auto ex = RM_EX(room);
+
+        for (auto& i : ex->roomAnims)
         {
             if (i.renderLayer == 4 || (canSeeRooms && i.renderLayer == 3))
             {
                 i.OnRender();
             }
         }
-        for (auto& i : RM_EX(room)->statBoosts)
+        for (auto& i : ex->statBoosts)
         {
             if (i.roomAnim)
             {
@@ -376,6 +514,13 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
                 {
                     i.roomAnim->OnRender();
                 }
+            }
+        }
+        if (ex->erosion.anim)
+        {
+            if (ex->erosion.anim->renderLayer == 4 || (canSeeRooms && ex->erosion.anim->renderLayer == 3))
+            {
+                ex->erosion.anim->OnRender();
             }
         }
     }
@@ -386,14 +531,16 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (CustomShips.cpp)\n")
     for (auto room : vRoomList)
     {
-        for (auto& i : RM_EX(room)->roomAnims)
+        auto ex = RM_EX(room);
+
+        for (auto& i : ex->roomAnims)
         {
             if (i.renderLayer == 2)
             {
                 i.OnRender();
             }
         }
-        for (auto& i : RM_EX(room)->statBoosts)
+        for (auto& i : ex->statBoosts)
         {
             if (i.roomAnim)
             {
@@ -401,6 +548,13 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
                 {
                     i.roomAnim->OnRender();
                 }
+            }
+        }
+        if (ex->erosion.anim)
+        {
+            if (ex->erosion.anim->renderLayer == 2)
+            {
+                ex->erosion.anim->OnRender();
             }
         }
     }
@@ -413,16 +567,18 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBreaches -> Begin (CustomShips.cpp)\n")
     for (auto room : vRoomList)
     {
+        auto ex = RM_EX(room);
+
         if (room->bBlackedOut) continue;
 
-        for (auto& i : RM_EX(room)->roomAnims)
+        for (auto& i : ex->roomAnims)
         {
             if (i.renderLayer == 1)
             {
                 i.OnRender();
             }
         }
-        for (auto& i : RM_EX(room)->statBoosts)
+        for (auto& i : ex->statBoosts)
         {
             if (i.roomAnim)
             {
@@ -430,6 +586,13 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
                 {
                     i.roomAnim->OnRender();
                 }
+            }
+        }
+        if (ex->erosion.anim)
+        {
+            if (ex->erosion.anim->renderLayer == 1)
+            {
+                ex->erosion.anim->OnRender();
             }
         }
     }
@@ -444,16 +607,18 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 
     for (auto room : vRoomList)
     {
+        auto ex = RM_EX(room);
+
         if (room->bBlackedOut) continue;
 
-        for (auto& i : RM_EX(room)->roomAnims)
+        for (auto& i : ex->roomAnims)
         {
             if (i.renderLayer == 0)
             {
                 i.OnRender();
             }
         }
-        for (auto& i : RM_EX(room)->statBoosts)
+        for (auto& i : ex->statBoosts)
         {
             if (i.roomAnim)
             {
@@ -461,6 +626,13 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
                 {
                     i.roomAnim->OnRender();
                 }
+            }
+        }
+        if (ex->erosion.anim)
+        {
+            if (ex->erosion.anim->renderLayer == 0)
+            {
+                ex->erosion.anim->OnRender();
             }
         }
     }
@@ -1020,6 +1192,74 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
             {
                 anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
             }
+        }
+    }
+}
+
+// save and load rooms
+
+HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomShips.cpp)\n")
+    super(fd);
+
+    for (Room *room : ship.vRoomList)
+    {
+        Room_Extend *ex = RM_EX(room);
+
+        FileHelper::writeInt(fd, ex->statBoosts.size());
+        for (RoomStatBoost &statBoost : ex->statBoosts)
+        {
+            statBoost.statBoost.Save(fd);
+        }
+
+        FileHelper::writeFloat(fd, ex->erosion.timer);
+        FileHelper::writeFloat(fd, ex->erosion.speed);
+        FileHelper::writeFloat(fd, ex->erosion.systemRepairMultiplier);
+
+        FileHelper::writeInt(fd, ex->erosion.anim != nullptr);
+        if (ex->erosion.anim)
+        {
+            ex->erosion.anim->SaveState(fd);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomShips.cpp)\n")
+    super(fd);
+
+    int n;
+
+    for (Room *room : ship.vRoomList)
+    {
+        Room_Extend *ex = RM_EX(room);
+
+        n = FileHelper::readInteger(fd);
+        for (int i=0; i<n; ++i)
+        {
+            ex->statBoosts.emplace_back(StatBoost::LoadStatBoost(fd), room);
+
+            // set room
+            if (iShipId == 1)
+            {
+                ex->statBoosts.back().statBoost.sourceRoomIds.second.push_back(room->iRoomId);
+            }
+            else
+            {
+                ex->statBoosts.back().statBoost.sourceRoomIds.first.push_back(room->iRoomId);
+            }
+        }
+
+        //erosion
+        ex->erosion.timer = FileHelper::readFloat(fd);
+        ex->erosion.speed = FileHelper::readFloat(fd);
+        ex->erosion.systemRepairMultiplier = FileHelper::readFloat(fd);
+        if (FileHelper::readInteger(fd))
+        {
+            ex->erosion.anim = new RoomAnim();
+            ex->erosion.anim->LoadState(fd, room);
         }
     }
 }

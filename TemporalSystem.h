@@ -3,6 +3,15 @@
 
 extern TemporalArmState g_iTemporal;
 
+extern int g_dilationAmount;
+
+extern std::map<int, int> g_crewDilationRooms;
+extern std::map<int, int> g_envDilationRooms;
+extern std::map<int, int> g_sysDilationRooms;
+extern std::map<int, int> g_shardDilationRooms;
+
+int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId);
+
 class TemporalSystemParser
 {
 public:

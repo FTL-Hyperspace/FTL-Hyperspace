@@ -7,6 +7,9 @@ public:
     {
         rightClickDoorOpening.defaultValue = true;
         rightClickDoorOpening.currentValue = true;
+
+        dismissSound.defaultValue = "airLoss";
+        dismissSound.currentValue ="airLoss";
     }
 
     static CustomOptionsManager *GetInstance()
@@ -14,12 +17,10 @@ public:
         return &instance;
     }
 
-    struct Setting
+    template<typename T> struct Setting
     {
-        bool defaultValue = false;
-        int defaultAmount = 0;
-        bool currentValue = false;
-        int currentAmount = 0;
+        T defaultValue = T();
+        T currentValue = T();
     };
 
     struct Defaults
@@ -35,30 +36,32 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
-    Setting redesignedWeaponTooltips;
-    Setting redesignedCrewTooltips;
-    Setting redesignedDroneTooltips;
-    Setting redesignedAugmentTooltips;
+    Setting<bool> redesignedWeaponTooltips;
+    Setting<bool> redesignedCrewTooltips;
+    Setting<bool> redesignedDroneTooltips;
+    Setting<bool> redesignedAugmentTooltips;
 
-    Setting advancedCrewTooltips;
-    Setting showAllyPowers;
-    Setting showEnemyPowers;
-    Setting advancedCrewTooltipRounding;
+    Setting<bool> advancedCrewTooltips;
+    Setting<bool> showAllyPowers;
+    Setting<bool> showEnemyPowers;
+    Setting<int> advancedCrewTooltipRounding;
 
-    Setting eventTooltips;
+    Setting<bool> eventTooltips;
 
-    Setting alternateCrewMovement;
-    Setting rightClickDoorOpening;
+    Setting<bool> alternateCrewMovement;
+    Setting<bool> rightClickDoorOpening;
 
-    Setting showWeaponCooldown;
+    Setting<bool> showWeaponCooldown;
 
-    Setting showReactor;
+    Setting<bool> showReactor;
 
-    Setting showAllConnections;
+    Setting<bool> showAllConnections;
 
-    Setting alternateOxygenRendering;
+    Setting<bool> alternateOxygenRendering;
 
-    Setting showScrapCollectorScrap;
+    Setting<bool> showScrapCollectorScrap;
+
+    Setting<std::string> dismissSound;
 
     Defaults defaults;
 

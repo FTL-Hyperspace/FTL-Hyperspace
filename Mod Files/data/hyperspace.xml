@@ -27,6 +27,24 @@ This way mods that frequently use a particular value can just make it the defaul
 	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
 	<checkCargo>false</checkCargo>
 	<choiceRequiresCrew>false</choiceRequiresCrew>
+	<!--
+	<erosion>                                              (set the defaults for the erosion effect; Hyperspace has its own defaults but you can change them globally here)
+		<speed>0.63</speed>
+		<maxSpeed>3.15</maxSpeed>
+		<time>10.0</time>
+		<maxTime>25.0</maxTime>
+		<systemRepairMultiplier>0.75</systemRepairMultiplier>
+		<erodeShields>false</erodeShields>
+		<roomAnim>                                         (roomAnim to use for erosion, recommended to set it here rather than on each weapon)
+			(uses roomAnim syntax, see custom ships)
+		</roomAnim>
+		
+		<growBreachMultiplier>1.0</growBreachMultiplier>   (multiplier on growing a breach, 1.0 means 1 system damage to fully grow a breach)
+		<newBreachDamage>100.0</newBreachDamage>           (how big of a breach to open, 100 is full breach)
+		<newBreachRequirement>100.0</newBreachRequirement> (erosion damage to open a new breach, 100 is equivalent to 1 point of system damage)
+		<canDilate>false</canDilate>                       (whether erosion is affected by temporal manipulator)
+	</erosion>
+	-->
 </defaults>
 
 <!-- Custom save file:
@@ -59,6 +77,8 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
 -->
 
 <infinite enabled="false"/>
+
+<dismissSound enabled="true" sound="airLoss"/>
 
 <!-- Discord rich presence integration -->
 
@@ -480,6 +500,7 @@ Syntax ->
 				<roomAnim renderLayer="1">                                                    (new syntax)
 					<anim animType="default" animBorder="0">custom</roomAnim>                 (animType can be default, stretch, random, or center, animBorder controls spawning margins)
 					<tileAnim>custom</tileAnim>                                               (spawn this animation on each tile)
+					<wallAnim>custom</wallAnim>                                               (spawn this animation on each wall)
 				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
@@ -577,6 +598,7 @@ Syntax ->
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
 		<healSpeed>1.0</healSpeed>                                                       Modifier for healing from non-true healing effects.
+		<cloneSpeedMultiplier>1.0</cloneSpeedMultiplier>                                 The speed at which this crewmember is cloned is multiplied by this value.
 		<deathSounds>                                                                    Sounds to play on death. A random sound is selected.
 			<deathSound>death1</deathSound>
 			<deathSound>death2</deathSound>
