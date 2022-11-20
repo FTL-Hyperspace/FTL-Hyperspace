@@ -1475,6 +1475,64 @@ struct CFPS
 %rename("%s") CrewMember::bCloned;
 
 
+%nodefaultctor CrewAnimation;
+%nodefaultdtor CrewAnimation;
+%rename("%s") CrewAnimation;
+
+%rename("%s") CrewAnimation::OnRender;
+%rename("%s") CrewAnimation::OnRenderProps;
+%rename("%s") CrewAnimation::OnUpdateEffects;
+%rename("%s") CrewAnimation::UpdateFiring;
+%rename("%s") CrewAnimation::UpdateShooting;
+%rename("%s") CrewAnimation::FireShot;
+%rename("%s") CrewAnimation::GetFiringFrame;
+%rename("%s") CrewAnimation::GetShootingSound;
+%rename("%s") CrewAnimation::GetDeathSound;
+%rename("%s") CrewAnimation::Restart;
+%rename("%s") CrewAnimation::CustomDeath;
+%rename("%s") CrewAnimation::OnInit;
+%rename("%s") CrewAnimation::OnUpdate;
+%rename("%s") CrewAnimation::RenderIcon;
+%rename("%s") CrewAnimation::SetupStrips;
+
+%rename("%s") CrewAnimation::iShipId;
+%rename("%s") CrewAnimation::anims;
+%rename("%s") CrewAnimation::baseStrip;
+%rename("%s") CrewAnimation::colorStrip;
+%rename("%s") CrewAnimation::layerStrips;
+%rename("%s") CrewAnimation::lastPosition;
+%rename("%s") CrewAnimation::direction;
+%rename("%s") CrewAnimation::sub_direction;
+%rename("%s") CrewAnimation::status;
+%rename("%s") CrewAnimation::moveDirection;
+%rename("%s") CrewAnimation::smokeEmitter;
+%rename("%s") CrewAnimation::bSharedSpot;
+%rename("%s") CrewAnimation::shots;
+%rename("%s") CrewAnimation::shootTimer;
+%rename("%s") CrewAnimation::punchTimer;
+%rename("%s") CrewAnimation::target;
+%rename("%s") CrewAnimation::fDamageDone;
+%rename("%s") CrewAnimation::bPlayer;
+%rename("%s") CrewAnimation::bFrozen;
+%rename("%s") CrewAnimation::bDrone;
+%rename("%s") CrewAnimation::bGhost;
+%rename("%s") CrewAnimation::bExactShooting;
+%rename("%s") CrewAnimation::projectile;
+%rename("%s") CrewAnimation::bTyping;
+%rename("%s") CrewAnimation::race;
+%rename("%s") CrewAnimation::currentShip;
+%rename("%s") CrewAnimation::bMale;
+%rename("%s") CrewAnimation::colorblind;
+%rename("%s") CrewAnimation::layerColors;
+%rename("%s") CrewAnimation::forcedAnimation;
+%rename("%s") CrewAnimation::forcedDirection;
+%rename("%s") CrewAnimation::projectileColor;
+%rename("%s") CrewAnimation::bStunned;
+%rename("%s") CrewAnimation::bDoorTarget;
+%rename("%s") CrewAnimation::uniqueBool1;
+%rename("%s") CrewAnimation::uniqueBool2;
+
+
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
 %rename("%s") AnimationTracker::Progress;
