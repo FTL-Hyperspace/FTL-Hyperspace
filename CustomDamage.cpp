@@ -841,7 +841,7 @@ HOOK_METHOD_PRIORITY(ShipManager, CollisionShield, 9999, (Pointf start, Pointf f
                 if (raytrace) // beam hit
                 {
                     damage.iDamage = 0;
-                    shieldSystem->CollisionReal(finish.x, finish.y, damage, false);
+                    shieldSystem->CollisionReal(finish.x, finish.y, damage, false); // intentionally doesn't set ret; same as vanilla code
                 }
                 else if (GetDodged()) // miss
                 {
