@@ -62,7 +62,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pShipSystemTypes[17] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
     types.pShipSystemTypes[18] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
     types.pShipSystemTypes[19] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
-    types.pShipSystemTypes[SYS_TEMPORAL] = SWIG_TypeQuery(this->m_Lua, "TemporalSystem *");
+    types.pShipSystemTypes[SYS_TEMPORAL] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *"); // eventually reimplement temporal as TemporalSystem class?
 }
 
 int LuaLibScript::l_on_load(lua_State* lua)
