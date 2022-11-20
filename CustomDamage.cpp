@@ -311,7 +311,8 @@ HOOK_METHOD_PRIORITY(ShipSystem, AddDamage, -100, (int amount) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::AddDamage -> Begin (CustomDamage.cpp)\n")
 
-    // ShipSystem::AddDamage occurs after all things that could prevent damage (resists, etc.)
+    // ShipSystem::AddDamage occurs after all things that could prevent damage (resists, etc.), but it is also used when loading the game, so skip callbacks in that case
+    if (loadingGame) return super(amount);
 
     // push everything to the lua stack: ShipSystem, Projectile, amount
     auto context = Global::GetInstance()->getLuaContext();
