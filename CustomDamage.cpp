@@ -3,6 +3,7 @@
 #include "CustomWeapons.h"
 #include "CrewSpawn.h"
 #include "ShipManager_Extend.h"
+#include "Room_Extend.h"
 #include <boost/lexical_cast.hpp>
 
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
@@ -95,13 +96,19 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
             if (room > -1)
             {
                 rng = random32() % 10;
-
                 if (rng < custom->def->roomStatBoostChance)
                 {
                     for (auto statBoostDef : custom->def->roomStatBoosts)
                     {
                         SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room, 1, custom->sourceShipId);
                     }
+                }
+
+                rng = random32() % 10;
+                if (rng < custom->def->erosionChance)
+                {
+                    auto ex = RM_EX(ship.vRoomList[room]);
+                    ex->StartErosion(custom->def->erosionEffect);
                 }
             }
         }
