@@ -1398,7 +1398,9 @@ struct CFPS
 
 %rename("%s") CrewMember::iShipId;
 %rename("%s") CrewMember::x;
+%immutable CrewMember::x;
 %rename("%s") CrewMember::y;
+%immutable CrewMember::y;
 %rename("%s") CrewMember::size;
 %rename("%s") CrewMember::scale;
 %rename("%s") CrewMember::goal_x;
