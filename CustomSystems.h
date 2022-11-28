@@ -1,7 +1,7 @@
 #pragma once
 #include "Global.h"
 
-
+static const int DEFAULT_LEVEL = -2147483648;
 void ParseSystemsNode(rapidxml::xml_node<char>* node);
 
 class CustomSystemManager
@@ -20,7 +20,7 @@ public:
     template<typename T> struct CustomSystemLevels
     {
         std::vector<std::pair<T,T>> systemLevels = std::vector<std::pair<T,T>>();
-        std::pair<T,T> hackLevels = std::pair<T,T>();
+        std::pair<T,T> hackLevels{static_cast<T>(DEFAULT_LEVEL),static_cast<T>(DEFAULT_LEVEL)};
         std::vector<T> defaultLevels = std::vector<T>();
     };
 

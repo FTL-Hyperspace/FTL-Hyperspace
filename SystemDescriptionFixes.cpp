@@ -18,7 +18,6 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (SystemDescriptionFixes.cpp)\n")
     std::string ret = super(systemId, level, tooltip);
-
     if (systemId == SYS_MEDBAY)
     {
         float multiplier = 1.f;
@@ -55,16 +54,18 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
         }
     }
  
+    
     if (systemId == SYS_ENGINES && level != -1)
     {
+    
         std::string text = G_->GetTextLibrary()->GetText("engine");
-
-        const std::vector<std::pair<int,int>>& dodgeVector = CustomSystemManager::GetInstance()->engineDodgeLevels.systemLevels;
-        int dodge = dodgeVector[level].first;
-
-        if (level >= dodgeVector.size() || dodge == -2147483648)
+        auto& dodgeVector = CustomSystemManager::GetInstance()->engineDodgeLevels.systemLevels;
+    
+        int dodge = (level >= dodgeVector.size()) ? DEFAULT_LEVEL : dodgeVector[level].first;
+        
+        if (dodge == DEFAULT_LEVEL)
         {
-            const std::vector<int>& defaultVector = CustomSystemManager::GetInstance()->engineDodgeLevels.defaultLevels;
+            auto& defaultVector = CustomSystemManager::GetInstance()->engineDodgeLevels.defaultLevels;
             if (level >= defaultVector.size())
             {
                 dodge = 0;
@@ -80,10 +81,10 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
         boost::algorithm::replace_all(text, "\\1", stream.str());
         
 
-        const std::vector<std::pair<float,float>>& chargeVector = CustomSystemManager::GetInstance()->engineChargeLevels.systemLevels;
-        float jumpCharge = chargeVector[level].first;
+        auto& chargeVector = CustomSystemManager::GetInstance()->engineChargeLevels.systemLevels;
+        float jumpCharge = (level >= chargeVector.size()) ? static_cast<float>(DEFAULT_LEVEL) : chargeVector[level].first;
 
-        if (level >= chargeVector.size() || jumpCharge == -2147483648.f)
+        if (jumpCharge == static_cast<float>(DEFAULT_LEVEL))
         {
             jumpCharge = 1.f + (level * 0.25f);
         }
@@ -94,10 +95,10 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
         stream2 << std::fixed << std::setprecision(2) << jumpCharge;
         std::string valueStr = RemoveTrailingZeros(stream2.str());
         boost::algorithm::replace_all(text, "\\2", valueStr);
+
         ret = text;
     }
     
 
-    
     return ret;
 }

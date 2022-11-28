@@ -40,8 +40,8 @@ void CustomSystemManager::ParseSystemNode(rapidxml::xml_node<char>* node)
             {
                 for (auto levelNode = immediateChild->first_node(); levelNode; levelNode = levelNode->next_sibling())
                 {
-                    std::pair<int,int> evasionPair{-2147483648,-2147483648};
-                    std::pair<float,float> chargePair{-2147483648.f,-2147483648.f};
+                    std::pair<int,int> evasionPair{DEFAULT_LEVEL,DEFAULT_LEVEL};
+                    std::pair<float,float> chargePair{static_cast<float>(DEFAULT_LEVEL),static_cast<float>(DEFAULT_LEVEL)};
                     for (auto child = levelNode->first_node(); child; child = child->next_sibling())
                     {
                         std::string nodeName = child->name();
@@ -63,8 +63,6 @@ void CustomSystemManager::ParseSystemNode(rapidxml::xml_node<char>* node)
 
             if (strcmp(immediateChild->name(),"hackEffects") == 0)
             {
-                engineDodgeLevels.hackLevels = {0,0};
-                engineChargeLevels.hackLevels = {0.f,0.f};
                 for (auto child = immediateChild->first_node(); child; child = child->next_sibling())
                 {
                     std::string nodeName = child->name();
@@ -90,7 +88,7 @@ void CustomSystemManager::ParseSystemNode(rapidxml::xml_node<char>* node)
             {
                 for (auto levelNode = immediateChild->first_node(); levelNode; levelNode = levelNode->next_sibling())
                 {
-                    std::pair<float,float> fillPair{-2147483648.f,-2147483648.f};
+                    std::pair<float,float> fillPair{static_cast<float>(DEFAULT_LEVEL),static_cast<float>(DEFAULT_LEVEL)};
                     for (auto child = levelNode->first_node(); child; child = child->next_sibling())
                     {
                         std::string nodeName = child->name();
@@ -105,7 +103,6 @@ void CustomSystemManager::ParseSystemNode(rapidxml::xml_node<char>* node)
 
             if (strcmp(immediateChild->name(),"hackEffects") == 0)
             {
-                oxygenLevels.hackLevels = {0.f,0.f};
                 for (auto child = immediateChild->first_node(); child; child = child->next_sibling())
                 {
                     std::string nodeName = child->name();
@@ -151,9 +148,16 @@ HOOK_METHOD(EngineSystem, GetDodgeFactor, () -> int)
     else
     {
         auto levelVector = CustomSystemManager::GetInstance()->engineDodgeLevels.systemLevels;
-         //TODO: Make sure it defaults properly if none of this information is declared.
-        int overrideLevel  = (this->_shipObj.iShipId == 0) ? levelVector[effectivePower-1].first : levelVector[effectivePower-1].second;
-        if (overrideLevel == -2147483648 || (effectivePower > levelVector.size())) {return super();} //when a <level> node doesn't have a defined evasionBoost, it will default to -2147483648 for both the player and enemy
+        int overrideLevel;
+        if (effectivePower > levelVector.size())
+        {   
+            overrideLevel = DEFAULT_LEVEL;
+        }
+        else
+        {
+            overrideLevel  = (this->_shipObj.iShipId == 0) ? levelVector[effectivePower-1].first : levelVector[effectivePower-1].second;
+        }
+        if (overrideLevel == DEFAULT_LEVEL) {return super();} //when a <level> node doesn't have a defined evasionBoost, it will default to -2147483648 for both the player and enemy
         else
         {
             int manLevel = this->iActiveManned; 
@@ -218,9 +222,18 @@ HOOK_METHOD(EngineSystem, GetEngineSpeed, () -> float)
     float baseCharge = originalCharge / originalMult;
 
     auto levelVector = CustomSystemManager::GetInstance()->engineChargeLevels.systemLevels;
-    float overrideLevel  = (this->_shipObj.iShipId == 0) ? levelVector[effectivePower-1].first : levelVector[effectivePower-1].second;
+    float overrideLevel;
+    if (effectivePower > levelVector.size())
+    {
+        overrideLevel = static_cast<float>(DEFAULT_LEVEL);
+    }
+    else
+    {
+        overrideLevel = (this->_shipObj.iShipId == 0) ? levelVector[effectivePower-1].first : levelVector[effectivePower-1].second;
+    }
     
-    if (overrideLevel == -2147483648 || (effectivePower > levelVector.size()) || effectivePower == 0) {return originalCharge;} //when a <level> node doesn't have a defined evasionBoost, it will default to -2147483648 for both the player and enemy
+    
+    if (overrideLevel == static_cast<float>(DEFAULT_LEVEL) || effectivePower == 0) {return originalCharge;} //when a <level> node doesn't have a defined evasionBoost, it will default to -2147483648 for both the player and enemy
     else
     {
         return (baseCharge * overrideLevel);
