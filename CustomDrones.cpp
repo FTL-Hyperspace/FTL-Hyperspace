@@ -139,6 +139,16 @@ HOOK_METHOD(BlueprintManager, ProcessDroneBlueprint, (rapidxml::xml_node<char>* 
     return ret;
 }
 
+HOOK_STATIC(DroneSystem, StringToDrone, (std::string &name) ->  int)
+{
+    LOG_HOOK("HOOK_STATIC -> DroneSystem::StringToDrone -> Begin (CustomDrones.cpp)\n")
+    int ret = super(name);
+
+    if (ret == -1 && name == "HACKING") ret = 6; // give HackingDrone a specific drone id type so other code can use the drone type to downcast
+
+    return ret;
+}
+
 //====================================================
 
 HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)

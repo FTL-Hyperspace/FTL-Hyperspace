@@ -4,12 +4,12 @@
 #include "ShipUnlocks.h"
 #include "ShipManager_Extend.h"
 
-inline ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
+ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
 {
     crew_ex = CM_EX(_crew);
 }
 
-inline ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember_Extend *_ex) : def{_def}, crew_ex{_ex}
+ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember_Extend *_ex) : def{_def}, crew_ex{_ex}
 {
     crew = _ex->orig;
 }
@@ -475,6 +475,17 @@ void ActivatedPower::ActivatePower()
     {
         ship = G_->GetWorld()->playerShip->enemyShip ? G_->GetWorld()->playerShip->enemyShip->shipManager : nullptr;
     }
+
+    // Lua callback - has two arguments: ActivatedPower, ship
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    SWIG_NewPointerObj(context->GetLua(), ship, context->getLibScript()->types.pShipManager, 0);
+
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::ACTIVATE_POWER, 2, 0);
+
+    lua_pop(context->GetLua(), 2);
+
+    if (preempt) return;
 
     powerActivated = true;
 

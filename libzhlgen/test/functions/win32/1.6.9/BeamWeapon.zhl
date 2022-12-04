@@ -2,7 +2,8 @@
 __thiscall void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
 "578d7c240883e4f0ff77fc5589e557565381eccc0100008b99080300008b0785db8985a4feffff740e89cf89c18b00ff50243b4770740e":
 __thiscall void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
-
+"80b920030000000f841e030000578d7c240883e4f0ff77fc5589e557565389cb31ff8d93f402000083ec3c":
+__thiscall void BeamWeapon::OnUpdate(BeamWeapon *this);
 
 struct BeamWeapon
 {{

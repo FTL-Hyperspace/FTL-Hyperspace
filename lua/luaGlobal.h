@@ -36,9 +36,9 @@ static int hslua_g_printMessage(lua_State* lua)
 {
     assert(lua_isstring(lua, 1));
     const char* msg = lua_tostring(lua, 1);
-    const char* logMessage = boost::str(boost::format("[Lua]: %s\n") % msg).c_str();
-    printf(logMessage);
-    hs_log_file(logMessage);
+    std::string logMessage = boost::str(boost::format("[Lua]: %s\n") % msg);
+    printf(logMessage.c_str());
+    hs_log_file(logMessage.c_str());
     return 0;
 }
 

@@ -10,3 +10,9 @@ cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf position, 
 cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
 ".415641554154554889fd534883ec10488b872802000048c707????????48c74708????????48c78738020000????????488d78e84881ff????????0f8507030000":
 cleanup __amd64 void Projectile::destructor(Projectile *this);
+
+struct Projectile
+{{
+	void HS_OnUpdate();
+	void HS_CollisionCheck(Collideable *other);
+}};

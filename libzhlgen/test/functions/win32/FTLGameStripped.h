@@ -110,6 +110,7 @@ struct VTable_Drone;
 struct VTable_SpaceDrone;
 struct VTable_Targetable;
 struct VTable_Collideable;
+struct VTable_Projectile;
 struct VTable_ArmamentControl;
 struct VTable_ArmamentBox;
 
@@ -3785,7 +3786,7 @@ struct VTable_SpaceDrone
   Pointf (__thiscall *GetSpeed)(SpaceDrone *);
   int (__thiscall *GetOwnerId)(SpaceDrone *);
   int (__thiscall *GetSelfId)(SpaceDrone *);
-  static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk);
+  CollisionResponse (__thiscall *CollisionMoving)(SpaceDrone *, Pointf start, Pointf finish, Damage damage, bool raytrace);
   bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, Damage damage);
   bool (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
   BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);

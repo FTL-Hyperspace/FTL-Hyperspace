@@ -2,6 +2,10 @@
 static cleanup __cdecl float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
 "8b15????????8d420185d2ba????????0f44c2a3????????":
 static __cdecl int Globals::GetNextSpaceId();
+"8d4c240483e4f0ff71fc5589e55183ec44f30f1005????????f30f59410cf30f105108f30f1019f30f106104f30f1155d4f30f115de4f30f1165e0":
+static cleanup __cdecl Pointf Globals::GetNextPoint(Pointf current, float mag_speed, float heading);
+"8d4c240483e4f0ff71fc5589e5535183ec408b41108b590cf30f104108f30f10510c8945e4f30f1019f30f106904":
+static cleanup __cdecl Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
 
 "!899d8ccaffffc6041800b9(???????\?)":
 TextLibrary* Global_Globals_Library;
