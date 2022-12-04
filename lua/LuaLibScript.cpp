@@ -14,7 +14,7 @@ static std::vector<LuaFunctionRef> m_on_init_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_loading_callbacks;
 static std::unordered_map<InternalEvents::Identifiers, std::vector<std::pair<LuaFunctionRef, int>>, EnumClassHash> m_on_internal_event_callbacks;
-static std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>> m_on_render_event_callbacks; // Holds before & after function ref in the pair
+static std::unordered_map<RenderEvents::Identifiers, std::vector<std::pair<std::pair<LuaFunctionRef, LuaFunctionRef>, int>>, EnumClassHash> m_on_render_event_callbacks; // Holds before & after function ref in the pair
 
 void LuaLibScript::LoadTypeInfo()
 {
@@ -159,7 +159,7 @@ void LuaLibScript::call_on_game_event_callbacks(std::string eventName, bool isLo
 int LuaLibScript::l_on_render_event(lua_State* lua)
 {
     assert(lua_isinteger(lua, 1));
-    assert(lua_isfunction(lua, 2));
+    assert(lua_isfunction(lua, 2)); // TODO: Allow one or both functions to be nil
     assert(lua_isfunction(lua, 3));
     const int callbackHookId = lua_tointeger(lua, 1);
     assert(callbackHookId > RenderEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
@@ -168,47 +168,97 @@ int LuaLibScript::l_on_render_event(lua_State* lua)
     LuaFunctionRef callbackBeforeRef = luaL_ref(lua, LUA_REGISTRYINDEX);
     lua_pushvalue(lua, 3);
     LuaFunctionRef callbackAfterRef = luaL_ref(lua, LUA_REGISTRYINDEX);
+
+    int priority = 0;
+    if (lua_gettop(lua) >= 4)
+    {
+        assert(lua_isinteger(lua, 4));
+        priority = lua_tointeger(lua, 4);
+    }
+
     RenderEvents::Identifiers id = static_cast<RenderEvents::Identifiers>(callbackHookId);
-    m_on_render_event_callbacks.emplace(id, std::pair<LuaFunctionRef, LuaFunctionRef>(callbackBeforeRef, callbackAfterRef));
+
+    std::vector<std::pair<std::pair<LuaFunctionRef, LuaFunctionRef>, int>> &vec = m_on_render_event_callbacks[id];
+    vec.emplace_back(std::make_pair(callbackBeforeRef,callbackAfterRef), priority);
+    std::stable_sort(vec.begin(), vec.end(),
+        [](const std::pair<std::pair<LuaFunctionRef, LuaFunctionRef>, int> &a, const std::pair<std::pair<LuaFunctionRef, LuaFunctionRef>, int> &b) -> bool
+        {
+            return a.second > b.second; // higher priority first
+        }
+    );
 
     return 0;
 }
 
-void LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers id)
+// Pre callback calls from highest priority to lowest priority, can return chain to stop the loop, returns index of last callback called plus 1.
+// If pre-empt is signalled then returns a negative index.
+// Absolute value of the pre_callbacks return is passed to the post_callbacks method.
+int LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers id, int nArg)
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
 
-//    if(m_on_render_event_callbacks.count(id) == 0)
-//        return; // No registered callbacks
+    auto vecIt = m_on_render_event_callbacks.find(id);
+    if (vecIt == m_on_render_event_callbacks.end()) return 0;
 
-    for(std::pair<std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator, std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator> range(m_on_render_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    std::vector<std::pair<std::pair<LuaFunctionRef, LuaFunctionRef>, int>> &vec = vecIt->second;
+
+    unsigned int idx;
+    for (idx = 0; idx < vec.size(); ++idx)
     {
-        std::pair<LuaFunctionRef, LuaFunctionRef> beforeAndAfterCallbacksRefL = range.first->second;
-        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.first);
-        if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
+        LuaFunctionRef refL = vec[idx].first.first;
+        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
+        for (int i=0; i<nArg; ++i)
+        {
+            lua_pushvalue(this->m_Lua, -1-nArg);
+        }
+        if(lua_pcall(this->m_Lua, nArg, 1, 0) != 0) {
             hs_log_file("Failed to call the before callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Maybe map RenderEvents to a readable string also?
             lua_pop(this->m_Lua, 1);
-            return;
+            continue;
+        }
+        int chain;
+        if (lua_isinteger(this->m_Lua, -1))
+        {
+            chain = lua_tointeger(this->m_Lua, -1);
+        }
+        else
+        {
+            chain = Chain::CONTINUE;
+        }
+        lua_pop(this->m_Lua, 1);
+
+        if (chain != Chain::CONTINUE)
+        {
+            int ret = idx+1;
+            return chain == Chain::PREEMPT ? -ret : ret;
         }
     }
+
+    return idx;
 }
-void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id)
+void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, unsigned int idx, int nArg)
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
 
-//    if(m_on_render_event_callbacks.count(id) == 0)
-//        return; // No registered callbacks
+    auto vecIt = m_on_render_event_callbacks.find(id);
+    if (vecIt == m_on_render_event_callbacks.end()) return;
 
-    for(std::pair<std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator, std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator> range(m_on_render_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    std::vector<std::pair<std::pair<LuaFunctionRef, LuaFunctionRef>, int>> &vec = vecIt->second;
+
+    for (--idx; idx >= 0; --idx)
     {
-        std::pair<LuaFunctionRef, LuaFunctionRef> beforeAndAfterCallbacksRefL = range.first->second;
-        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.second);
-        if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
-            hs_log_file("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1));
+        LuaFunctionRef refL = vec[idx].first.second;
+        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
+        for (int i=0; i<nArg; ++i)
+        {
+            lua_pushvalue(this->m_Lua, -1-nArg);
+        }
+        if(lua_pcall(this->m_Lua, nArg, 0, 0) != 0) {
+            hs_log_file("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Maybe map RenderEvents to a readable string also?
             lua_pop(this->m_Lua, 1);
-            return;
+            continue;
         }
     }
 }
@@ -335,23 +385,23 @@ bool LuaLibScript::call_on_internal_chain_event_callbacks(InternalEvents::Identi
                     lua_pop(this->m_Lua, 1);
                 }
             }
+        }
 
-            int chain;
-            if (lua_isinteger(this->m_Lua, -1))
-            {
-                chain = lua_tointeger(this->m_Lua, -1);
-            }
-            else
-            {
-                chain = Chain::CONTINUE;
-                // maybe add error handling code here? For now just silently use Chain::CONTINUE
-            }
-            lua_pop(this->m_Lua, 1);
+        int chain;
+        if (lua_isinteger(this->m_Lua, -1))
+        {
+            chain = lua_tointeger(this->m_Lua, -1);
+        }
+        else
+        {
+            chain = Chain::CONTINUE;
+            // maybe add error handling code here? For now just silently use Chain::CONTINUE
+        }
+        lua_pop(this->m_Lua, 1);
 
-            if (chain != Chain::CONTINUE)
-            {
-                return chain == Chain::PREEMPT;
-            }
+        if (chain != Chain::CONTINUE)
+        {
+            return chain == Chain::PREEMPT;
         }
     }
     return false;

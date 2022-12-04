@@ -33,8 +33,8 @@ class LuaLibScript
         int call_on_internal_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
         bool call_on_internal_chain_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
 
-        void call_on_render_event_pre_callbacks(RenderEvents::Identifiers);
-        void call_on_render_event_post_callbacks(RenderEvents::Identifiers);
+        int call_on_render_event_pre_callbacks(RenderEvents::Identifiers, int nArg);
+        void call_on_render_event_post_callbacks(RenderEvents::Identifiers, unsigned int idx, int nArg);
 
         void call_on_game_event_callbacks(std::string eventName, bool isLoading);
 
