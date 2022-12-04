@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "x86-windows-ftl",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "x86-linux-ftl",
+            "compilerPath": "",
+            "intelliSenseMode": "linux-clang-x86",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "amd64-linux-ftl",
+            "compilerPath": "",
+            "intelliSenseMode": "linux-clang-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

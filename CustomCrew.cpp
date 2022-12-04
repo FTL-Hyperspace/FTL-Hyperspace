@@ -514,6 +514,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.noClone = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "cloneSpeedMultiplier")
+                        {
+                            crew.cloneSpeedMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "noAI")
                         {
                             crew.noAI = EventsParser::ParseBoolean(val);
@@ -1178,6 +1182,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "noClone")
                 {
                     def.tempPower.noClone = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "cloneSpeedMultiplier")
+                {
+                    def.tempPower.cloneSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "noAI")
                 {
@@ -3854,7 +3862,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, Damage dm
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageArea -> Begin (CustomCrew.cpp)\n")
     if (blockDamageArea) return false;
 
-    if (!shipFriendlyFire)
+    if (!shipFriendlyFire) // todo, make this possible to miss if forceHit is false
     {
         shipFriendlyFire = true;
 
@@ -5005,14 +5013,14 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
             std::stringstream stream;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + " (100%)";
         }
-        else if (custom->advancedCrewTooltipRounding.currentAmount == 0)
+        else if (custom->advancedCrewTooltipRounding.currentValue == 0)
         {
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)this->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(this->health.first / maxHealth * 100)) + "%)";
         }
         else
         {
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << this->health.first;
+            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentValue) << this->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(this->health.first / maxHealth * 100)) + "%)";
         }
 
@@ -5549,6 +5557,31 @@ HOOK_METHOD(CrewMember, CheckSkills, () -> void)
     }
 }
 
+//cloneSpeedMultiplier statBoost
+HOOK_METHOD(CloneSystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (CustomCrew.cpp)\n")
+    std::vector<CrewMember*> crewList;
+    G_->GetCrewFactory()->GetCloneReadyList(crewList,(_shipObj.iShipId==0));
+
+    if (!crewList.empty())
+    {
+        CrewMember *cloningCrew = crewList[0];
+
+        auto custom = CustomCrewManager::GetInstance();
+        if (custom->IsRace(cloningCrew->species))
+        {
+            auto def = custom->GetDefinition(cloningCrew->species);
+            auto ex = CM_EX(cloningCrew);
+
+            float increment = (G_->GetCFPS()->GetSpeedFactor() * 0.0625);
+            float cloneSpeedMultiplier = ex->CalculateStat(CrewStat::CLONE_SPEED_MULTIPLIER, def);
+            fTimeToClone += (cloneSpeedMultiplier-1.f) * increment;
+        }
+    }
+    super();
+}
+
 // Mind control resist/telepathy split
 HOOK_METHOD(MindSystem, OnLoop, () -> void)
 {
@@ -5707,19 +5740,27 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
         if (!ret) return false;
 
         int powerOwner = orig->GetPowerOwner();
-        ShipManager *enemyShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
-        if (enemyShip)
+
+        ShipManager *enemyShip = G_->GetShipManager(1);
+        if (orig->currentShipId == powerOwner && (!enemyShip || !enemyShip->_targetable.hostile))
         {
-            if (enemyShip->systemKey[10] != -1)
+            return false; // can't teleport off your own ship when not hostile
+        }
+
+        ShipManager *otherShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
+
+        if (otherShip)
+        {
+            if (otherShip->systemKey[10] != -1)
             {
-                if (enemyShip->cloakSystem->bTurnedOn) return false;
+                if (otherShip->cloakSystem->bTurnedOn) return false;
             }
-            if (enemyShip->GetShieldPower().super.first > 0)
+            if ((otherShip->iShipId == 0 || otherShip->_targetable.hostile) && otherShip->GetShieldPower().super.first > 0)
             {
-                ShipManager *playerShip = G_->GetShipManager(powerOwner);
-                if (playerShip)
+                ShipManager *crewShip = G_->GetShipManager(powerOwner);
+                if (crewShip)
                 {
-                    return playerShip->HasEquipment("ZOLTAN_BYPASS");
+                    return crewShip->HasEquipment("ZOLTAN_BYPASS");
                 }
                 return false;
             }
@@ -5752,11 +5793,8 @@ void CrewMember_Extend::InitiateTeleport(int shipId, int roomId, int slotId)
     customTele.slotId = slotId;
 }
 
-HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> void)
+void CompleteShip::CheckTeleportMovement()
 {
-    LOG_HOOK("HOOK_METHOD -> CompleteShip::InitiateTeleport -> Begin (CustomCrew.cpp)\n")
-    super(targetRoom, command);
-
     bool customTeleports = false;
     for (CrewMember *crew : shipManager->vCrewList)
     {
@@ -5862,6 +5900,25 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
         }
     }
     customTeleCrew.clear();
+}
+
+HOOK_METHOD(CombatControl, GetTeleportationCommand, () -> std::pair<int,int>)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatControl::GetTeleportationCommand -> Begin (CustomCrew.cpp)\n")
+    // Check teleport movement on player ship and then on enemy ship.
+    // Hooked here so it is the same timing as teleport system (affects timing with enemy cloaking).
+    CompleteShip *ship = this->gui->shipComplete;
+    if (ship)
+    {
+        ship->CheckTeleportMovement();
+        ship = ship->enemyShip;
+        if (ship)
+        {
+            ship->CheckTeleportMovement();
+        }
+    }
+
+    return super();
 }
 
 HOOK_METHOD(CrewMember, CheckForTeleport, () -> void)

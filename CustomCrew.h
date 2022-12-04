@@ -154,6 +154,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> isAnaerobic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
+    ToggleValue<float> cloneSpeedMultiplier;
     ToggleValue<float> passiveHealAmount;
     ToggleValue<float> truePassiveHealAmount;
     ToggleValue<float> healAmount;
@@ -341,6 +342,7 @@ struct CrewDefinition
     float moveSpeedMultiplier = 1.f;
     float repairSpeed = 1.f;
     float damageMultiplier = 1.f;
+    float cloneSpeedMultiplier = 1.f;
     float rangedDamageMultiplier = 1.f;
     float doorDamageMultiplier = 1.f;
     bool providesPower = false;

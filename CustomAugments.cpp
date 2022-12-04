@@ -586,9 +586,9 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
 
 static bool exportingShip = false;
 
-HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, ExportShip, 100, (int fileHelper) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ExportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     std::vector<std::string> hiddenList = std::vector<std::string>();
@@ -614,9 +614,9 @@ HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, ImportShip, 100, (int fileHelper) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ImportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     int hiddenCount = FileHelper::readInteger(fileHelper);

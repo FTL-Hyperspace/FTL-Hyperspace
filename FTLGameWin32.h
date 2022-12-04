@@ -1148,6 +1148,9 @@ struct ShipObject;
 struct ShipObject
 {
 	int HS_HasEquipment(const std::string& equip);
+	int HasItem(const std::string& equip);
+	int HasCargo(const std::string& equip);
+	void CheckCargo(const std::string& equip, int& ret);
 
 	LIBZHL_API bool AddAugmentation(const std::string &augment);
 	LIBZHL_API void ClearShipInfo();
@@ -1242,6 +1245,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual bool Powered() LIBZHL_PLACEHOLDER
 	virtual void ShipDestroyed() LIBZHL_PLACEHOLDER
 	LIBZHL_API void AddLock(int lock);
+	LIBZHL_API bool BlockedBoosted(bool countLimit);
 	LIBZHL_API void CheckForRepower();
 	LIBZHL_API void ClearStatus();
 	LIBZHL_API bool DamageOverTime(float unk);
@@ -1258,7 +1262,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API void LoadState(int file);
 	LIBZHL_API void LockSystem(int lock);
 	LIBZHL_API static int __stdcall NameToSystemId(const std::string &name);
-	LIBZHL_API void RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
+	LIBZHL_API int RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
 	LIBZHL_API void SaveState(int file);
 	LIBZHL_API void SetPowerCap(int cap);
 	LIBZHL_API int SetPowerLoss(int power);
@@ -2846,6 +2850,8 @@ struct SpaceManager;
 
 struct LIBZHL_INTERFACE CompleteShip
 {
+	void CheckTeleportMovement();
+
 	virtual ~CompleteShip() {}
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual void PauseLoop();
@@ -3672,6 +3678,7 @@ struct CSurface
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> &vec, GL_Color color);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
@@ -3817,6 +3824,9 @@ struct WeaponControl;
 
 struct WeaponControl : ArmamentControl
 {
+	void RenderAimingNew(bool player);
+	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
+
 	LIBZHL_API SDLKey ArmamentHotkey(unsigned int i);
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
 	LIBZHL_API TextString HolderLabel();
@@ -3856,6 +3866,7 @@ struct CombatControl
 	LIBZHL_API void DrawHostileBox(GL_Color color, int stencilBit);
 	LIBZHL_API std::string GetCrewTooltip(int x, int y);
 	LIBZHL_API ShipManager *GetCurrentTarget();
+	LIBZHL_API std::pair<int, int> GetTeleportationCommand();
 	LIBZHL_API void KeyDown(SDLKey key);
 	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
 	LIBZHL_API bool MouseMove(int mX, int mY);
@@ -6641,11 +6652,13 @@ struct Ship : ShipObject
 	};
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
+	LIBZHL_API void BreachSpecificHull(int grid_x, int grid_y);
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
+	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
 	LIBZHL_API void OnInit(ShipBlueprint &bp);
@@ -7710,6 +7723,21 @@ extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
+extern LIBZHL_API GL_Primitive **ShipSystem__glowBlue;
+extern LIBZHL_API GL_Primitive **ShipSystem__glowWhite;
+extern LIBZHL_API GL_Primitive **ShipSystem__glowRed;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningOutline;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningWhite;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningGreen;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningYellow;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningBarOn;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningBarOff;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningBarIon;
+extern LIBZHL_API GL_Primitive **ShipSystem__lockBlue;
+extern LIBZHL_API GL_Primitive **ShipSystem__lockWhite;
+extern LIBZHL_API GL_Primitive **ShipSystem__lockHack;
+extern LIBZHL_API GL_Primitive **ShipSystem__sabotageImage;
+extern LIBZHL_API GL_Primitive **ShipSystem__fireImage;
 extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;
 extern LIBZHL_API Point *Global_SystemControl_drone_position;

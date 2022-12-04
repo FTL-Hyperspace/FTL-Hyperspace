@@ -22,6 +22,8 @@ cleanup __amd64 void CombatControl::OnInit(CombatControl *this, Point pos);
 cleanup __amd64 void CombatControl::OnLoop(CombatControl *this);
 "534883bff8000000004889fb":
 cleanup __amd64 void CombatControl::SetMouseCursor(CombatControl *this);
+"41545553488b87c0070000":
+cleanup __amd64 std::pair<int,int> CombatControl::GetTeleportationCommand(CombatControl *this);
 "534883bfc0070000004889fb":
 cleanup __amd64 void CombatControl::DisarmAll(CombatControl *this);
 "4157be0900000041564155415455534889fb4883ec58488b7f08":

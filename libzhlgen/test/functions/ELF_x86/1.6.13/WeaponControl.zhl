@@ -28,3 +28,9 @@ cleanup __cdecl void WeaponControl::MouseMove(WeaponControl *this, int x, int y)
 cleanup __cdecl void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
 "57bf01000000565383ec308b5c24408b742444":
 cleanup __cdecl bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
+
+struct WeaponControl
+{{
+	void RenderAimingNew(bool player);
+	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
+}};

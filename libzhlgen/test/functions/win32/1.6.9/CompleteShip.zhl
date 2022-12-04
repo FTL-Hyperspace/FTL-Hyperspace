@@ -46,3 +46,8 @@ __thiscall void CompleteShip::OnRender(CompleteShip *this);
 __thiscall void CompleteShip::OnRenderSpace(CompleteShip *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb":
 __thiscall void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, bool unk2);
+
+struct CompleteShip
+{{
+	void CheckTeleportMovement();
+}};

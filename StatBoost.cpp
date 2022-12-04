@@ -6,6 +6,7 @@
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
+#include "TemporalSystem.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <math.h>
@@ -26,6 +27,7 @@ const std::array<std::string, numStats> crewStats =
     "fireDamageMultiplier",
     "oxygenChangeSpeed",
     "damageTakenMultiplier",
+    "cloneSpeedMultiplier",
     "passiveHealAmount",
     "truePassiveHealAmount",
     "trueHealAmount",
@@ -1295,18 +1297,25 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     for (Room *room : ship.vRoomList)
     {
         auto &vRoomStatBoosts = RM_EX(room)->statBoosts;
-        for (RoomStatBoost& statBoost : vRoomStatBoosts)
+        if (!vRoomStatBoosts.empty())
         {
-            statBoost.statBoost.timerHelper.Update();
-            if (statBoost.roomAnim)
+            g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, room->iRoomId);
+
+            for (RoomStatBoost& statBoost : vRoomStatBoosts)
             {
-                statBoost.roomAnim->OnUpdate();
+                statBoost.statBoost.timerHelper.Update();
+                if (statBoost.roomAnim)
+                {
+                    statBoost.roomAnim->OnUpdate();
+                }
             }
+            vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
+                                                 vRoomStatBoosts.end(),
+                                                 [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
+                                                 vRoomStatBoosts.end());
+
+            g_dilationAmount = 0;
         }
-        vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
-                                             vRoomStatBoosts.end(),
-                                             [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
-                                             vRoomStatBoosts.end());
     }
 }
 
@@ -1318,52 +1327,6 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     for (Room *room : vRoomList)
     {
         RM_EX(room)->statBoosts.clear();
-    }
-}
-
-HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (StatBoost.cpp)\n")
-    super(fd);
-
-    for (Room *room : ship.vRoomList)
-    {
-        Room_Extend *ex = RM_EX(room);
-
-        FileHelper::writeInt(fd, ex->statBoosts.size());
-        for (RoomStatBoost &statBoost : ex->statBoosts)
-        {
-            statBoost.statBoost.Save(fd);
-        }
-    }
-}
-
-HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (StatBoost.cpp)\n")
-    super(fd);
-
-    int n;
-
-    for (Room *room : ship.vRoomList)
-    {
-        Room_Extend *ex = RM_EX(room);
-
-        n = FileHelper::readInteger(fd);
-        for (int i=0; i<n; ++i)
-        {
-            ex->statBoosts.emplace_back(StatBoost::LoadStatBoost(fd), room);
-
-            // set room
-            if (iShipId == 1)
-            {
-                ex->statBoosts.back().statBoost.sourceRoomIds.second.push_back(room->iRoomId);
-            }
-            else
-            {
-                ex->statBoosts.back().statBoost.sourceRoomIds.first.push_back(room->iRoomId);
-            }
-        }
     }
 }
 
@@ -1879,6 +1842,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::DAMAGE_TAKEN_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, damageTakenMultiplier);
+            break;
+        case CrewStat::CLONE_SPEED_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, cloneSpeedMultiplier);
             break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
             if (orig->Functional())

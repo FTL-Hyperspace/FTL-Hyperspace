@@ -21,6 +21,7 @@ struct RoomAnimDef
     int animBorder = 0;
     std::string animName;
     std::string tileAnim;
+    std::string wallAnim;
 
     void ParseRoomAnimNode(rapidxml::xml_node<char> *node);
 };
@@ -29,10 +30,20 @@ struct RoomAnim
 {
     std::unique_ptr<Animation> anim;
     std::vector<Animation> tileAnims;
+    std::unique_ptr<Animation> wallAnim;
     int renderLayer;
+    Pointf pos = {0.f, 0.f};
+    int w = 0;
+    int h = 0;
 
     void OnUpdate();
     void OnRender();
+    void SaveState(int fd);
+    void LoadState(int fd, Room *room);
+
+    RoomAnim()
+    {
+    }
 
     RoomAnim(RoomAnimDef &def) :
     renderLayer{def.renderLayer}
@@ -40,16 +51,27 @@ struct RoomAnim
         if (!def.animName.empty())
         {
             anim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(def.animName)));
+            anim->Start(true);
+            anim->tracker.SetLoop(true, 0.f);
         }
 
-        anim->Start(true);
-        anim->tracker.SetLoop(true, 0.f);
+        if (!def.wallAnim.empty())
+        {
+            wallAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(def.wallAnim)));
+            wallAnim->Start(true);
+            wallAnim->tracker.SetLoop(true, 0.f);
+        }
     }
 
     RoomAnim(RoomAnimDef &def, Room *room) : RoomAnim(def)
     {
         if (room)
         {
+            pos.x = room->rect.x;
+            pos.y = room->rect.y;
+            w = room->rect.w/35;
+            h = room->rect.h/35;
+
             switch (def.animType)
             {
             case RoomAnimDef::RoomAnimType::STRETCH:
@@ -84,9 +106,6 @@ struct RoomAnim
 
             if (!def.tileAnim.empty())
             {
-                int w = room->rect.w/35;
-                int h = room->rect.h/35;
-
                 Animation tileAnim = G_->GetAnimationControl()->GetAnimation(def.tileAnim);
                 tileAnim.position.x = room->rect.x;
                 tileAnim.position.y = room->rect.y;
@@ -144,9 +163,17 @@ struct Room_Extend
     Animation* speedUpAnim = nullptr;
     Animation* slowDownAnim = nullptr;
 
-    ErosionEffect* currentErosion = nullptr;
-    TimerHelper erosionTimer;
-    Animation* erosionAnim = nullptr;
+    struct Erosion
+    {
+        float timer = 0.f;
+        float speed = 0.f;
+        float systemRepairMultiplier = 1.f;
+        RoomAnim *anim = nullptr;
+
+        float amount = 0.f; // currently only used for new breaches to track progress
+    };
+
+    Erosion erosion;
 
     std::vector<RoomStatBoost> statBoosts = std::vector<RoomStatBoost>();
 

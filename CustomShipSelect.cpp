@@ -650,6 +650,10 @@ void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
             {
                 tileAnim = child->value();
             }
+            if (strcmp(child->name(), "wallAnim") == 0)
+            {
+                wallAnim = child->value();
+            }
         }
     }
     else
