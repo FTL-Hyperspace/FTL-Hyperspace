@@ -6,8 +6,11 @@
 #include "Global.h"
 #include "HSVersion.h"
 #include "CustomAchievements.h"
+#include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CrewMember_Extend.h"
+#include "Projectile_Extend.h"
 %}
 
 namespace std {
@@ -149,6 +152,8 @@ public:
     static Global* GetInstance();
     ShipManager* GetShipManager(int iShipId);
     CApp* GetCApp();
+    BlueprintManager* GetBlueprints();
+    SoundControl* GetSoundControl();
 };
 
 void ErrorMessage(const char* msg);
@@ -426,6 +431,16 @@ playerVariableType playerVariables;
 //%rename("%s") SpaceManager::SwitchImages;
 %rename("%s") SpaceManager::SwitchPlanet; // Could be useful for rendering planet animations
 %rename("%s") SpaceManager::UpdatePlanetImage; // Maybe needed if planet texture is messed with directly and then this updates the cached image?
+%rename("%s") SpaceManager::UpdateProjectile;
+
+// hyperspace projectile creation methods
+%rename("%s") SpaceManager::CreateLaserBlast;
+%rename("%s") SpaceManager::CreateAsteroid;
+%rename("%s") SpaceManager::CreateMissile;
+%rename("%s") SpaceManager::CreateBomb;
+%rename("%s") SpaceManager::CreateBeam;
+%rename("%s") SpaceManager::CreateBurstProjectile;
+%rename("%s") SpaceManager::CreatePDSFire;
 
 %rename("%s") SpaceManager::projectiles;
 %immutable SpaceManager::projectiles;
@@ -699,7 +714,8 @@ playerVariableType playerVariables;
 %immutable ShipManager::vCrewList;
 %rename("%s") ShipManager::vCrewList;
 //%rename("%s") ShipManager::fireSpreader;
-//%rename("%s") ShipManager::ship;
+%rename("%s") ShipManager::ship;
+%immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
 ////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
@@ -1148,8 +1164,8 @@ playerVariableType playerVariables;
 %rename("%s") WeaponAnimation::hackSparks;
 %rename("%s") WeaponAnimation::playerShip;
 
-%nodefaultctors Ship;
-%nodefaultdtors Ship;
+%nodefaultctor Ship;
+%nodefaultdtor Ship;
 %rename("%s") Ship;
 %rename("%s") Ship::DoorStateType;
 %rename("%s") Ship::GetRoomCenter;
@@ -1172,9 +1188,9 @@ playerVariableType playerVariables;
 %rename("%s") Ship::SetRoomBlackout;
 %rename("%s") Ship::SetSelectedRoom;
 //%rename("%s") Ship::vRoomList; // TODO: Expose Room
-//%rename("%s") Ship::vDoorList; // TODO: Expose Door
+%rename("%s") Ship::vDoorList;
 //%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
-//%rename("%s") Ship::vOuterAirlocks;
+%rename("%s") Ship::vOuterAirlocks;
 %rename("%s") Ship::hullIntegrity;
 %rename("%s") Ship::weaponMounts;
 %rename("%s") Ship::floorImageName;
@@ -1206,6 +1222,53 @@ playerVariableType playerVariables;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
 //%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+
+%nodefaultctor Door;
+%nodefaultdtor Door;
+%rename("%s") Door;
+
+%rename("%s") Door::ApplyDamage;
+
+%rename("%s") Door::iRoom1;
+%immutable Door::iRoom1;
+%rename("%s") Door::iRoom2;
+%immutable Door::iRoom2;
+%rename("%s") Door::bOpen;
+%rename("%s") Door::iBlast;
+%rename("%s") Door::bFakeOpen;
+%rename("%s") Door::width;
+%immutable Door::width;
+%rename("%s") Door::height;
+%immutable Door::height;
+%rename("%s") Door::outlinePrimitive;
+%rename("%s") Door::highlightPrimitive;
+%rename("%s") Door::doorAnim;
+%rename("%s") Door::doorAnimLarge;
+%rename("%s") Door::iDoorId;
+%immutable Door::iDoorId;
+%rename("%s") Door::baseHealth;
+%rename("%s") Door::health;
+%rename("%s") Door::forcedOpen;
+%rename("%s") Door::gotHit;
+%rename("%s") Door::doorLevel;
+%rename("%s") Door::bIoned;
+%rename("%s") Door::fakeOpenTimer;
+%rename("%s") Door::lockedDown;
+%rename("%s") Door::lastbase;
+%rename("%s") Door::iHacked;
+%rename("%s") Door::x;
+%immutable Door::x;
+%rename("%s") Door::y;
+%immutable Door::y;
+%rename("%s") Door::bVertical;
+%immutable Door::bVertical;
+
+%nodefaultctor BlueprintManager;
+%nodefaultdtor BlueprintManager;
+%rename("%s") BlueprintManager;
+%rename("%s") BlueprintManager::GetWeaponBlueprint;
+
+%rename("%s") WeaponBlueprint;
 
 // TODO: Make most if not all of ShipBlueprint immutable
 %nodefaultctors ShipBlueprint;
@@ -1332,6 +1395,12 @@ playerVariableType playerVariables;
 %rename("%s") Targetable::hostile;
 %rename("%s") Targetable::targeted;
 
+%rename("%s") CollisionResponse;
+%rename("%s") CollisionResponse::collision_type;
+%rename("%s") CollisionResponse::point;
+%rename("%s") CollisionResponse::damage;
+%rename("%s") CollisionResponse::superDamage;
+
 %nodefaultctor Projectile; // users should only construct subclasses
 %rename("%s") Projectile;
 
@@ -1342,8 +1411,8 @@ playerVariableType playerVariables;
 
 %rename("%s") Projectile::SetWeaponAnimation; // does nothing except for beams, used to link weapon animation to beam progress
 %rename("%s") Projectile::OnRenderSpecific; // virtual method for rendering the specific projectile
-%rename("%s") Projectile::CollisionCheck; // checks if this object is colliding with other object, calls CollisionMoving
-%rename("%s") Projectile::OnUpdate; // updates the projectile position by one frame
+%rename("CollisionCheck") Projectile::HS_CollisionCheck; // checks if this object is colliding with other object, calls CollisionMoving
+%rename("OnUpdate") Projectile::HS_OnUpdate; // updates the projectile position by one frame
 %rename("%s") Projectile::GetWorldCenterPoint; // returns the position of the projectile
 %rename("%s") Projectile::GetRandomTargettingPoint; // returns the position of the projectile
 %rename("%s") Projectile::ComputeHeading; // calculates the correct heading to get from its current position to the target point
@@ -1364,7 +1433,12 @@ playerVariableType playerVariables;
 %rename("%s") Projectile::AtTarget; // checks if we're hitting the target point (based on distance from projectile to target). Returns false if missed.
 %rename("%s") Projectile::Initialize; // updates a projectile's attributes from a weapon blueprint
 %rename("%s") Projectile::OnRender; // renders the projectile and also the target dot for flak
-%rename("%s") Projectile::RenderSidePoint; // picks a random side point (e.g. for missed ASB)
+%rename("%s") Projectile::RandomSidePoint; // picks a random side point (e.g. for missed ASB) - static method
+%contract Projectile::RandomSidePoint(int side) {
+    require:
+        side >= 0;
+        side < 4;
+}
 %rename("%s") Projectile::SetTarget; // sets a new target point and changes the heading, in vanilla only really used when generating asteroids
 %rename("%s") Projectile::StartedDeath; // checks if the projectile has started its death, but also changes it to false if it has, in vanilla only used for checking when crew lasers should do damage
 
@@ -1401,6 +1475,13 @@ playerVariableType playerVariables;
 %nodefaultctor CrewMember;
 %nodefaultdtor CrewMember;
 %rename("%s") CrewMember;
+
+%rename("%s") Get_CrewMember_Extend;
+%nodefaultctor CrewMember_Extend;
+%nodefaultdtor CrewMember_Extend;
+%rename("%s") CrewMember_Extend;
+%rename("%s") CrewMember_Extend::orig;
+%immutable CrewMember_Extend::orig;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;
@@ -1682,6 +1763,97 @@ playerVariableType playerVariables;
 %rename("%s") CrewAnimation::uniqueBool1;
 %rename("%s") CrewAnimation::uniqueBool2;
 
+%rename("%s") Get_Projectile_Extend;
+%nodefaultctor Projectile_Extend;
+%nodefaultdtor Projectile_Extend;
+%rename("%s") Projectile_Extend;
+%rename("%s") Projectile_Extend::orig;
+%immutable Projectile_Extend::orig;
+%rename("%s") Projectile_Extend::name;
+%rename("%s") Projectile_Extend::customDamage;
+%rename("%s") Projectile_Extend::missedDrones; // list of selfId of drones that have dodged this projectile
+
+%nodefaultctor LaserBlast;
+%rename("%s") LaserBlast;
+%rename("%s") LaserBlast::LaserBlast;
+%rename("%s") LaserBlast::movingTarget;
+%rename("%s") LaserBlast::spinAngle;
+%rename("%s") LaserBlast::spinSpeed;
+
+%nodefaultctor Asteroid;
+%rename("%s") Asteroid;
+%rename("%s") Asteroid::Asteroid;
+%rename("%s") Asteroid::imageId;
+%rename("%s") Asteroid::angle;
+
+%nodefaultctor Missile;
+%rename("%s") Missile;
+%rename("%s") Missile::Missile;
+
+%nodefaultctor BombProjectile;
+%rename("%s") BombProjectile;
+%rename("%s") BombProjectile::BombProjectile;
+%rename("%s") BombProjectile::bMissed;
+%rename("%s") BombProjectile::missMessage;
+%rename("%s") BombProjectile::explosiveDelay;
+%rename("%s") BombProjectile::bSuperShield;
+%rename("%s") BombProjectile::superShieldBypass;
+
+%nodefaultctor BeamWeapon;
+%rename("%s") BeamWeapon;
+%rename("%s") BeamWeapon::BeamWeapon;
+%rename("%s") BeamWeapon::sub_end;
+%rename("%s") BeamWeapon::sub_start;
+%rename("%s") BeamWeapon::shield_end;
+%rename("%s") BeamWeapon::final_end;
+%rename("%s") BeamWeapon::target2;
+%rename("%s") BeamWeapon::target1;
+%rename("%s") BeamWeapon::lifespan;
+%rename("%s") BeamWeapon::length;
+%rename("%s") BeamWeapon::dh;
+%rename("%s") BeamWeapon::last_collision;
+%rename("%s") BeamWeapon::soundChannel;
+%rename("%s") BeamWeapon::contactAnimations;
+%rename("%s") BeamWeapon::animationTimer;
+%rename("%s") BeamWeapon::lastDamage;
+%rename("%s") BeamWeapon::movingTarget;
+%rename("%s") BeamWeapon::start_heading;
+%rename("%s") BeamWeapon::timer;
+%rename("%s") BeamWeapon::weapAnimation;
+%rename("%s") BeamWeapon::piercedShield;
+%rename("%s") BeamWeapon::oneSpace;
+%rename("%s") BeamWeapon::bDamageSuperShield;
+%rename("%s") BeamWeapon::movingTargetId;
+%rename("%s") BeamWeapon::checkedCollision;
+%rename("%s") BeamWeapon::smokeAnims;
+%rename("%s") BeamWeapon::lastSmokeAnim;
+
+%nodefaultctor PDSFire;
+%rename("%s") PDSFire;
+%rename("%s") PDSFire::PDSFire;
+%rename("%s") PDSFire::startPoint;
+%rename("%s") PDSFire::passedTarget;
+%rename("%s") PDSFire::currentScale;
+%rename("%s") PDSFire::missed;
+%rename("%s") PDSFire::explosionAnimation;
+
+%nodefaultctor ActivatedPower;
+%nodefaultdtor ActivatedPower;
+%rename("%s") ActivatedPower;
+%rename("%s") ActivatedPower::def;
+%immutable ActivatedPower::def;
+%rename("%s") ActivatedPower::crew;
+%immutable ActivatedPower::crew;
+%rename("%s") ActivatedPower::crew_ex;
+%immutable ActivatedPower::crew_ex;
+%rename("%s") ActivatedPower::powerRoom;
+%rename("%s") ActivatedPower::powerShip;
+
+%nodefaultctor ActivatedPowerDefinition;
+%nodefaultdtor ActivatedPowerDefinition;
+%rename("%s") ActivatedPowerDefinition;
+%rename("%s") ActivatedPowerDefinition::name;
+%immutable ActivatedPowerDefinition::name;
 
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
@@ -1715,6 +1887,11 @@ playerVariableType playerVariables;
 %rename("%s") TimerHelper::currGoal;
 %rename("%s") TimerHelper::loop;
 %rename("%s") TimerHelper::running;
+
+%nodefaultctors SoundControl;
+%nodefaultdtors SoundControl;
+%rename("%s") SoundControl;
+%rename("%s") SoundControl::PlaySoundMix;
 
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
@@ -1758,5 +1935,8 @@ playerVariableType playerVariables;
 */
 %include "FTLGameELF64.h"
 %include "CustomAchievements.h"
+%include "CustomCrew.h"
 %include "CustomEvents.h"
 %include "CustomScoreKeeper.h"
+%include "CrewMember_Extend.h"
+%include "Projectile_Extend.h"

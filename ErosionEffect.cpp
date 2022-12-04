@@ -50,36 +50,6 @@ void ErosionEffect::ParseErosionEffect(rapidxml::xml_node<char>* node)
     }
 }
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (ErosionEffect.cpp)\n")
-
-    bool ret = super(location, dmg, forceHit);
-
-    if (ret)
-    {
-        auto custom = CustomDamageManager::currentWeaponDmg;
-
-        if (custom)
-        {
-            int rng = random32() % 10;
-
-            if (rng < custom->def->erosionChance)
-            {
-                int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
-
-                if (roomId != -1)
-                {
-                    auto ex = RM_EX(ship.vRoomList[roomId]);
-                    ex->StartErosion(custom->def->erosionEffect);
-                }
-            }
-        }
-    }
-
-    return ret;
-}
-
 HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool force) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD -> Shields::CollisionReal -> Begin (ErosionEffect.cpp)\n")

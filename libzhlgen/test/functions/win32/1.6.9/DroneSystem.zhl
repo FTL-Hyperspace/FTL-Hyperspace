@@ -8,3 +8,5 @@ virtual __thiscall void DroneSystem::SetBonusPower(DroneSystem *this, int amount
 __thiscall void DroneSystem::OnLoop(DroneSystem *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f04008b37":
 __thiscall bool DroneSystem::DePowerDrone(DroneSystem *this, Drone *drone, bool unk);
+"8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c0750a8d65f8595b5d8d61fcc3c70424????????89d9e8????????89c283ec04b80100000085d274da":
+static cleanup __cdecl int DroneSystem::StringToDrone(std::string &name);

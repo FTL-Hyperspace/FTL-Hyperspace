@@ -13695,12 +13695,12 @@ void SoundControl::StartPlaylist(std::vector<std::string> &playlist)
 namespace _func1074
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("SoundControl::PlaySoundMix", typeid(int (SoundControl::*)(const std::string &, float , char )), ".415731c04156415541544989fc55534883ec48803f00", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SoundControl::PlaySoundMix", typeid(int (SoundControl::*)(const std::string &, float , bool )), ".415731c04156415541544989fc55534883ec48803f00", nullptr, 0, 0, &func);
 }
 
-int SoundControl::PlaySoundMix(const std::string &soundName, float volume, char loop)
+int SoundControl::PlaySoundMix(const std::string &soundName, float volume, bool loop)
 {
-	typedef int (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &soundName_arg, float volume_arg, char loop_arg);
+	typedef int (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &soundName_arg, float volume_arg, bool loop_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1074::func;
 	return execfunc(this, soundName, volume, loop);
 }
