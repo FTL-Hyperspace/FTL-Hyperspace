@@ -1,4 +1,6 @@
-"488b87800000004885c0741c":
+"488b8758060000837828ff7413488b4750":
+cleanup __amd64 bool ShipManager::IsCloaked(ShipManager *this);
+".488b87800000004885c0741c":
 cleanup __amd64 ShieldPower ShipManager::GetShieldPower(ShipManager *this);
 ".415483fe054989fc5553":
 cleanup __amd64 bool ShipManager::CanFitSystem(ShipManager *this, int systemId);
@@ -122,6 +124,8 @@ cleanup __amd64 bool ShipManager::RestoreCrewPositions(ShipManager *this);
 cleanup __amd64 void ShipManager::UpdateEnvironment(ShipManager *this);
 ".41574156415541544989fc554889cd534883ec68":
 cleanup __amd64 CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
+".415741564189d641554154554889f5534889fb4881ece8000000":
+cleanup __amd64 CollisionResponse ShipManager::CollisionShield(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 ".41574989ff488d7f044156415541544189d4554889f5534881ec08010000":
 cleanup __amd64 CollisionResponse ShipManager::CollisionMoving(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 ".4157b901000000415641554189f5415455534889fb4881ecc8000000":
