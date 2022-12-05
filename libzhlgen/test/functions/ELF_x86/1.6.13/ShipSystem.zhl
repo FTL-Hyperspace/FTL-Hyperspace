@@ -18,6 +18,8 @@ cleanup __cdecl int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
 cleanup __cdecl void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 "8b54240431c08b8a0801000083f907":
 cleanup __cdecl int ShipSystem::GetPowerCap(ShipSystem *this);
+".5383ec18807c242400":
+cleanup __cdecl bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimit);
 "5383ec188b5c24208b442424898308010000":
 cleanup __cdecl void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
 "8b5424088b44240483fa00":
@@ -59,11 +61,41 @@ cleanup __cdecl bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
 "5631c05383ec148b5c24208b7424288b93f0000000":
 cleanup __cdecl bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
 "5557565381ec8c0000008bac24a00000000fb68424bc000000":
-cleanup __cdecl void ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+cleanup __cdecl int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
 "56538b44240c8b88f00000008b90ec000000":
 cleanup __cdecl void ShipSystem::AddDamage(ShipSystem *this, int amount);
 "57bf05000000565383ec208b7424308b464c89f3":
 cleanup __cdecl void ShipSystem::destructor(ShipSystem *this);
+
+"!8b3d(???????\?)84d28b8580010000":
+GL_Primitive** ShipSystem__lockBlue;
+"!.a1(???????\?)890424":
+GL_Primitive** ShipSystem__fireImage;
+"!.a1(???????\?)890424":
+GL_Primitive** ShipSystem__lockHack;
+"!.84c0a1(???????\?)0f4405(???????\?)":
+GL_Primitive** ShipSystem__manningBarIon;
+GL_Primitive** ShipSystem__manningBarOff;
+"!.8b3d(???????\?)b9ff000000":
+GL_Primitive** ShipSystem__lockWhite;
+"!.a1(???????\?)890424":
+GL_Primitive** ShipSystem__sabotageImage;
+"!.a1(???????\?)bef0ffffffbb10000000":
+GL_Primitive** ShipSystem__manningOutline;
+"!.0f85????????a1(???????\?)e9":
+GL_Primitive** ShipSystem__manningBarOn;
+"!.a1(???????\?)bef0ffffffbb10000000":
+GL_Primitive** ShipSystem__manningWhite;
+"!.a1(???????\?)bee8ffffffbb18000000":
+GL_Primitive** ShipSystem__manningGreen;
+"!.a1(???????\?)bee8ffffffbb18000000":
+GL_Primitive** ShipSystem__manningYellow;
+"!.f30f116c2404e8????????a1(???????\?)890424":
+GL_Primitive** ShipSystem__glowBlue;
+"!.f30f116c2404e8????????a1(???????\?)890424":
+GL_Primitive** ShipSystem__glowRed;
+"!.8b153c114a08c7865801000000000000":
+GL_Primitive** ShipSystem__glowWhite;
 
 
 struct ShipSystem

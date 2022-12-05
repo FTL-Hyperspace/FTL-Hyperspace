@@ -36,6 +36,10 @@ cleanup __cdecl void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 cleanup __cdecl void Ship::BreachRandomHull(Ship *this, int roomId);
 "5589e557565383ec5c8b5510":
 cleanup __cdecl int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
+"5589e557565383ec4c8b450c8b7d10":
+cleanup __cdecl void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
+"57565383ec208b7c24348b5c24308b4c2438":
+cleanup __cdecl std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 
 "!39d07d0b(c6840d74fefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;
