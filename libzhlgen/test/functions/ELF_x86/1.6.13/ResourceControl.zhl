@@ -15,7 +15,7 @@ cleanup __cdecl int ResourceControl::RenderImageString(ResourceControl *this, st
 "5383ec588b4424648b9c2488000000894424048b442460890424e8????????f30f104c2474f30f10442478f30f1054247c85c00f84????????89c285d2f30f2a6c2470":
 cleanup __cdecl GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 "5557565383ec4c8b4424648b5c24608b4c24688d50fa83fa02":
-cleanup __cdecl freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int fontType, bool unk);
+cleanup __cdecl freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int size, bool ignoreLanguage);
 "5531d257565383ec1c8b4424348b7c24388b7034":
 cleanup __cdecl ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
 ".5589e557565383ec4c8b7d0c":

@@ -6310,7 +6310,7 @@ struct ResourceControl
 	
 	LIBZHL_API GL_Primitive *CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
 	LIBZHL_API GL_Primitive *CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
-	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
+	LIBZHL_API freetype::font_data &GetFontData(int size, bool ignoreLanguage);
 	LIBZHL_API ImageDesc GetImageData(GL_Texture *tex);
 	LIBZHL_API GL_Texture *GetImageId(const std::string &dir);
 	LIBZHL_API bool ImageExists(const std::string &name);

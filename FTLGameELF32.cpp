@@ -10835,11 +10835,11 @@ namespace _func787
 	static FunctionDefinition funcObj("ResourceControl::GetFontData", typeid(freetype::font_data &(ResourceControl::*)(int , bool )), "5557565383ec4c8b4424648b5c24608b4c24688d50fa83fa02", argdata, 3, 2, &func);
 }
 
-freetype::font_data &ResourceControl::GetFontData(int fontType, bool unk)
+freetype::font_data &ResourceControl::GetFontData(int size, bool ignoreLanguage)
 {
-	typedef freetype::font_data &__attribute__((cdecl)) (*custom_arg_funcptr_t)(ResourceControl *this_arg, int fontType_arg, bool unk_arg);
+	typedef freetype::font_data &__attribute__((cdecl)) (*custom_arg_funcptr_t)(ResourceControl *this_arg, int size_arg, bool ignoreLanguage_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func787::func;
-	return execfunc(this, fontType, unk);
+	return execfunc(this, size, ignoreLanguage);
 }
 
 namespace _func788

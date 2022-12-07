@@ -21,7 +21,7 @@ cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(Resour
 ".415455534889fb4883ec604883bf5001000000":
 cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
 ".41548d46fa55534889fb4883ec3083f802":
-cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int fontType, bool unk);
+cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int size, bool ignoreLanguage);
 ".415741564155415455534889fb4881ec88000000408874241f":
 cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
 
