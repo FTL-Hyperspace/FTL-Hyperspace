@@ -497,11 +497,11 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
                 stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
                 boost::algorithm::replace_all(currentText, "\\1", stream.str());
 
-                stream = std::stringstream();
+                stream.str("");
                 stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
                 boost::algorithm::replace_all(currentText, "\\2", stream.str());
 
-                stream = std::stringstream();
+                stream.str("");
                 stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
                 boost::algorithm::replace_all(currentText, "\\3", stream.str());
 
@@ -1037,11 +1037,11 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
                 stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
                 boost::algorithm::replace_all(currentText, "\\1", stream.str());
 
-                stream = std::stringstream();
+                stream.str("");
                 stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
                 boost::algorithm::replace_all(currentText, "\\2", stream.str());
 
-                stream = std::stringstream();
+                stream.str("");
                 stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
                 boost::algorithm::replace_all(currentText, "\\3", stream.str());
 
@@ -1296,11 +1296,11 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
             stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
             boost::algorithm::replace_all(currentText, "\\1", stream.str());
 
-            stream = std::stringstream();
+            stream.str("");
             stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
             boost::algorithm::replace_all(currentText, "\\2", stream.str());
 
-            stream = std::stringstream();
+            stream.str("");
             stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
             boost::algorithm::replace_all(currentText, "\\3", stream.str());
 
@@ -1860,11 +1860,11 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                             stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
                             boost::algorithm::replace_all(currentText, "\\1", stream.str());
 
-                            stream = std::stringstream();
+                            stream.str("");
                             stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
                             boost::algorithm::replace_all(currentText, "\\2", stream.str());
 
-                            stream = std::stringstream();
+                            stream.str("");
                             stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
                             boost::algorithm::replace_all(currentText, "\\3", stream.str());
 

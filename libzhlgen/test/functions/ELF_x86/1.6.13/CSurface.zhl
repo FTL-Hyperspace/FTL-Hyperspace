@@ -84,6 +84,8 @@ static cleanup __cdecl GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
 "5557565383ec4c8b6c2460f30f105424748b7d04":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
+".5557565381ec8c020000":
+static cleanup __cdecl GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
 "5557565383ec4c8b7424648b5c24608b46048b2e":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color);
 "a1????????3b05????????74??85c074??8b15????????":
@@ -119,6 +121,7 @@ static cleanup __cdecl char* CSurface::generate_fragment_shader_source(GraphicsP
 "5557565383ec6c8b8424800000008b9424840000008b480483f908":
 static cleanup __cdecl int CSurface::opengl_select_shader(const void *primitive, const void *texture, int tex_offset, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 */
+
 
 struct CSurface
 {{

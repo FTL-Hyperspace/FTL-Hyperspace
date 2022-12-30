@@ -16,6 +16,8 @@ cleanup __amd64 int ShipSystem::GetEffectivePower(ShipSystem *this);
 cleanup __amd64 void ShipSystem::SetBonusPower(ShipSystem *this, int amount, int permanentPower);
 ".8b979001000031c083fa07":
 cleanup __amd64 int ShipSystem::GetPowerCap(ShipSystem *this);
+".4084f6534889fb":
+cleanup __amd64 bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimit);
 ".8b474885c07e21":
 cleanup __amd64 int ShipSystem::IsMannedBoost(ShipSystem *this);
 ".8b879c01000083f8ff":
@@ -30,8 +32,38 @@ cleanup __amd64 int ShipSystem::GetMaxPower(ShipSystem *this);
 cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
 ".83ff0c741383ff06":
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
-".41574989ff41564189ce41554189f541544589c4554489cd5389d34881ec88000000":
-cleanup __amd64 void ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+"!.41574989ff41564189ce41554189f541544589c4554489cd5389d34881ec88000000":
+cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__glowWhite;
+"!.4c8b05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__lockBlue;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__fireImage;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__lockHack;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarIon;
+"!.480f443d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarOff;
+"!.4c8b05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__lockWhite;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__sabotageImage;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningOutline;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarOn;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningWhite;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningGreen;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningYellow;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__glowBlue;
+"!.488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__glowRed;
 ".534889fb4883ec108b879c010000":
 cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
 ".55534889fb4883ec080fb6878c010000":
