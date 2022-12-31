@@ -1738,7 +1738,7 @@ playerVariableType playerVariables;
 %rename("%s") CrewAnimation::moveDirection;
 %rename("%s") CrewAnimation::smokeEmitter;
 %rename("%s") CrewAnimation::bSharedSpot;
-%rename("%s") CrewAnimation::shots;
+//%rename("%s") CrewAnimation::shots;
 %rename("%s") CrewAnimation::shootTimer;
 %rename("%s") CrewAnimation::punchTimer;
 %rename("%s") CrewAnimation::target;
