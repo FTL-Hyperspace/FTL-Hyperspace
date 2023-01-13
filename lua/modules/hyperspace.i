@@ -1334,6 +1334,57 @@ playerVariableType playerVariables;
 %rename("%s") Blueprint::desc;
 %rename("%s") Blueprint::type;
 
+%rename("%s") ShipGraph;
+%nodefaultctor ShipGraph;
+%nodefaultdtor ShipGraph;
+
+%rename("%s") ShipGraph::ConvertToWorldPosition;
+%rename("%s") ShipGraph::ConvertToLocalPosition;
+%rename("%s") ShipGraph::GetSlotRenderPosition;
+%rename("%s") ShipGraph::TranslateFromGrid;
+%rename("%s") ShipGraph::TranslateToGrid;
+%rename("%s") ShipGraph::GetIntoRoom;
+%rename("%s") ShipGraph::GetRoomCenter;
+%rename("%s") ShipGraph::ConvertToWorldPosition;
+%rename("%s") ShipGraph::ConvertToWorldPosition;
+%rename("%s") ShipGraph::ConvertToWorldPosition;
+%rename("%s") ShipGraph::ConvertToWorldPosition;
+
+%rename("%s") ShipGraph::ComputeCenter;
+%rename("%s") ShipGraph::ConnectedGridSquares;
+%rename("%s") ShipGraph::ConnectedGridSquaresPoint;
+%rename("%s") ShipGraph::ConnectingDoor;
+%rename("%s") ShipGraph::ConnectingDoor;
+%rename("%s") ShipGraph::ContainsPoint;
+%rename("%s") ShipGraph::ConvertToLocalAngle;
+%rename("%s") ShipGraph::ConvertToWorldAngle;
+%rename("%s") ShipGraph::Dijkstra;
+%rename("%s") ShipGraph::DoorCount;
+%rename("%s") ShipGraph::FindPath;
+%rename("%s") ShipGraph::GetClosestSlot;
+%rename("%s") ShipGraph::GetDoors;
+%rename("%s") ShipGraph::GetNumSlots;
+%rename("%s") ShipGraph::GetRoomBlackedOut;
+%rename("%s") ShipGraph::GetRoomOxygen;
+%rename("%s") ShipGraph::GetRoomShape;
+%rename("%s") ShipGraph::GetSelectedRoom;
+%rename("%s") ShipGraph::GetShipInfo;
+%rename("%s") ShipGraph::GetSlotWorldPosition;
+%rename("%s") ShipGraph::IsRoomConnected;
+%rename("%s") ShipGraph::PopClosestDoor;
+%rename("%s") ShipGraph::RoomCount;
+
+%rename("%s") ShipGraph::rooms;
+%rename("%s") ShipGraph::doors;
+%rename("%s") ShipGraph::doorCounts;
+%rename("%s") ShipGraph::center;
+%rename("%s") ShipGraph::worldPosition;
+%rename("%s") ShipGraph::worldHeading;
+%rename("%s") ShipGraph::lastWorldPosition;
+%rename("%s") ShipGraph::lastWorldHeading;
+%rename("%s") ShipGraph::shipBox;
+%rename("%s") ShipGraph::shipName;
+
 %nodefaultctor ShieldPower;
 %rename("%s") ShieldPower;
 %rename("%s") ShieldPower::first;
