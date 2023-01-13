@@ -1345,10 +1345,6 @@ playerVariableType playerVariables;
 %rename("%s") ShipGraph::TranslateToGrid;
 %rename("%s") ShipGraph::GetIntoRoom;
 %rename("%s") ShipGraph::GetRoomCenter;
-%rename("%s") ShipGraph::ConvertToWorldPosition;
-%rename("%s") ShipGraph::ConvertToWorldPosition;
-%rename("%s") ShipGraph::ConvertToWorldPosition;
-%rename("%s") ShipGraph::ConvertToWorldPosition;
 
 %rename("%s") ShipGraph::ComputeCenter;
 %rename("%s") ShipGraph::ConnectedGridSquares;
