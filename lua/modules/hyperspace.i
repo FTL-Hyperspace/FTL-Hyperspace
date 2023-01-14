@@ -573,6 +573,20 @@ playerVariableType playerVariables;
 %rename("%s") NebulaCloud::lightningRotation;
 */
 
+%rename("%s") Globals;
+%nodefaultctor Globals;
+%nodefaultdtor Globals;
+%rename("%s") Globals::Ellipse;
+%rename("%s") Globals::Ellipse::center;
+%rename("%s") Globals::Ellipse::a;
+%rename("%s") Globals::Ellipse::b;
+%rename("%s") Globals::Rect;
+%rename("%s") Globals::Rect::x;
+%rename("%s") Globals::Rect::y;
+%rename("%s") Globals::Rect::w;
+%rename("%s") Globals::Rect::h;
+
+
 %nodefaultctor Location;
 %rename("%s") Location;
 %rename("%s") Location::space;
