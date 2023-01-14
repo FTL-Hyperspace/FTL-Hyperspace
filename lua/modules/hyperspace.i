@@ -13,6 +13,8 @@
 #include "Projectile_Extend.h"
 %}
 
+%feature("flatnested");
+
 namespace std {
     // shamelessly copied from the SWIG library and modified (the SWIG library code is unrestricted)
     template<class K, class T, class H = std::hash<K>, class E = std::equal_to<K> > class unordered_map {
