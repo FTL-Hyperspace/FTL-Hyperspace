@@ -33,14 +33,14 @@ void LuaLibScript::LoadTypeInfo()
     types.pProjectile[6] = SWIG_TypeQuery(this->m_Lua, "PDSFire *");
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
 
-    types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
-    types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
+    types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
     types.pSpaceDroneTypes[2] = nullptr;
     types.pSpaceDroneTypes[3] = nullptr;
-    types.pSpaceDroneTypes[4] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
-    types.pSpaceDroneTypes[5] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
-    types.pSpaceDroneTypes[6] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
-    types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
+    types.pSpaceDroneTypes[4] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
+    types.pSpaceDroneTypes[5] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
+    types.pSpaceDroneTypes[6] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
+    types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
 
     types.pShipSystemTypes[SYS_SHIELDS] = SWIG_TypeQuery(this->m_Lua, "Shields *");
     types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "EngineSystem *");
@@ -237,7 +237,7 @@ int LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers i
 
     return idx;
 }
-void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, int idx, int nArg)
+void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, unsigned int idx, int nArg)
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);

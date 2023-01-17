@@ -783,7 +783,6 @@ HOOK_METHOD_PRIORITY(HackingDrone, CollisionMoving, 9999, (Pointf start, Pointf 
 
     ret = this->SpaceDrone::CollisionMoving(start, finish, damage, raytrace);
     this->bDead = false; // vanilla does something like this for some reason
-    return ret;
 }
 
 HOOK_METHOD(Projectile, CollisionMoving, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
