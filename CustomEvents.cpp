@@ -2495,7 +2495,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
             if (ship)
             {
                 Blueprint &shipBp = ship->myBlueprint;
-                return shipBp.name == equipment.substr(5);
+                return shipBp.blueprintName == equipment.substr(5);
             }
             return 0;
         }
