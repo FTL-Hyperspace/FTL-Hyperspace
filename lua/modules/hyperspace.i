@@ -93,6 +93,7 @@ namespace std {
     %template(vector_CrewMember) vector<CrewMember*>;
     %template(vector_ShipSystem) vector<ShipSystem*>;
     %template(vector_Drone) vector<Drone*>;
+    %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
 	%template(vector_Door) vector<Door*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
