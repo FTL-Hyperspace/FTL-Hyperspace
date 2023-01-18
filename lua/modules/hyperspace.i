@@ -444,8 +444,6 @@ playerVariableType playerVariables;
 
 %rename("%s") SpaceManager::projectiles;
 %immutable SpaceManager::projectiles;
-%rename("%s") SpaceManager::drones;
-%immutable SpaceManager::drones;
 %rename("%s") SpaceManager::currentBack;
 %rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
 //%nodefaultctor SpaceManager::FleetShip;
@@ -759,6 +757,7 @@ playerVariableType playerVariables;
 %immutable ShipManager::tempVision;
 %rename("%s") ShipManager::tempVision;
 %rename("%s") ShipManager::bHighlightCrew;
+%rename("%s") ShipManager::spaceDrones;
 %rename("%s") ShipManager::bShowRoom;
 %rename("%s") ShipManager::superBarrage;
 %rename("%s") ShipManager::bInvincible;
