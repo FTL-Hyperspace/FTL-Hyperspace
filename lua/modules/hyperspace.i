@@ -1480,6 +1480,7 @@ playerVariableType playerVariables;
 %nodefaultctor CrewMember_Extend;
 %nodefaultdtor CrewMember_Extend;
 %rename("%s") CrewMember_Extend;
+%rename("%s") CrewMember_Extend::InitiateTeleport;
 %rename("%s") CrewMember_Extend::orig;
 %immutable CrewMember_Extend::orig;
 %rename("%s") CrewMember_Extend::selfId;
