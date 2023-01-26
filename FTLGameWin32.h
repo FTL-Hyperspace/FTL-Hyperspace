@@ -5312,7 +5312,7 @@ struct EngiAnimation
 {
 };
 
-struct EngineSystem
+struct EngineSystem : ShipSystem
 {
 };
 
