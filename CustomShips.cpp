@@ -1126,7 +1126,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
     {
         alphaCloak = cloakingTracker.Progress(-1.f);
         alphaOther = (1.f - alphaCloak) * 0.5f + 0.5f;
-        alphaHull = alphaOther * 0.75f;
+        alphaHull = bCloaked ? alphaOther * 0.75f : (1.f - alphaCloak) * 0.625f + 0.375f;
     }
     else if (bCloaked)
     {
