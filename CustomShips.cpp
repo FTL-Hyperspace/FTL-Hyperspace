@@ -1120,19 +1120,19 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
     
     // Calculate cloak alpha for each sprite
     float alphaCloak = 0.f;
-    float alphaHull = 1.f;
     float alphaOther = 1.f;
+    float alphaHull = 1.f;
     if (cloakingTracker.running)
     {
         alphaCloak = cloakingTracker.Progress(-1.f);
-        alphaHull = ((1.f - alphaCloak) * 0.5f + 0.5f) * 0.75f;
         alphaOther = (1.f - alphaCloak) * 0.5f + 0.5f;
+        alphaHull = alphaOther * 0.75f;
     }
     else if (bCloaked)
     {
         alphaCloak = 1.f;
-        alphaHull = 0.375f;
         alphaOther = 0.5f;
+        alphaHull = 0.375f;
     }
     
     // Render hull
@@ -1140,7 +1140,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
     CSurface::GL_RenderPrimitiveWithAlpha(this->shipImagePrimitive, alphaHull);
     
     // Render cloak
-    if (bCloaked || cloakingTracker.running)
+    if (alphaCloak > 0.f)
     {
         auto cloakTexture = G_->GetResources()->GetImageId(this->cloakImageName);
         this->cloakPrimitive = CSurface::GL_CreateImagePrimitive(
