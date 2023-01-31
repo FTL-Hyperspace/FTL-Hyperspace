@@ -1115,8 +1115,8 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
     
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(this->iShipId);
-    int xPos = (shipGraph->shipBox).x;
-    int yPos = (shipGraph->shipBox).y;
+    float xPos = (float)(shipGraph->shipBox).x;
+    float yPos = (float)(shipGraph->shipBox).y;
     
     // Calculate cloak alpha for each sprite
     float alphaCloak = 0.f;
@@ -1136,7 +1136,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
     }
     
     // Render hull
-    CSurface::GL_Translate((float)xPos, (float)yPos, 0.0);
+    CSurface::GL_Translate(xPos, yPos, 0.0);
     CSurface::GL_RenderPrimitiveWithAlpha(this->shipImagePrimitive, alphaHull);
     
     // Render cloak
@@ -1150,7 +1150,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
             0.f, COLOR_WHITE);
         CSurface::GL_RenderPrimitiveWithAlpha(this->cloakPrimitive, alphaCloak);
     }
-    CSurface::GL_Translate((float)-xPos, (float)-yPos, 0.0);
+    CSurface::GL_Translate(-xPos, -yPos, 0.0);
     
     // Render thruster animations
     if (engines && bShowEngines)
@@ -1186,9 +1186,9 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
     // Render floor
     if (this->iShipId == 0)
     {
-        CSurface::GL_Translate((float)xPos, (float)yPos, 0.0);
+        CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(this->floorPrimitive, alphaOther);
-        CSurface::GL_Translate((float)-xPos, (float)-yPos, 0.0);
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
 }
 
