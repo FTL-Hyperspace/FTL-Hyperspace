@@ -6372,11 +6372,6 @@ struct StatTracker
 
 struct TopScore
 {
-	TopScore(const TopScore& other)
-	{
-		//this->copy_constructor(other);
-	}
-	
 	TopScore()
 	{
 	}
