@@ -2494,8 +2494,8 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
             ShipManager *ship = G_->GetShipManager(iShipId);
             if (ship)
             {
-                Blueprint &shipBp = ship->myBlueprint;
-                return shipBp.name == equipment.substr(5);
+                ShipBlueprint &shipBp = ship->myBlueprint;
+                return shipBp.blueprintName == equipment.substr(5);
             }
             return 0;
         }
