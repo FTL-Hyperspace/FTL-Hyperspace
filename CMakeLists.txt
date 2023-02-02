@@ -26,6 +26,7 @@ set(
         lua/modules/defines.i
         lua/modules/graphics.i
         lua/modules/hyperspace.i
+        lua/modules/rapidxml.i
 )
 set_property(SOURCE ${swigfiles} PROPERTY USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)

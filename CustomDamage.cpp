@@ -949,6 +949,7 @@ BombProjectile* SpaceManager::CreateBomb(WeaponBlueprint *weapon, int ownerId, P
 
     projectile->Initialize(*weapon);
 
+    projectile->flight_animation.tracker.loop = false;
     projectiles.push_back(projectile);
 
     return projectile;

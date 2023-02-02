@@ -10,6 +10,7 @@ extern "C"
     int luaopen_Hyperspace(lua_State* L);
     int luaopen_Graphics(lua_State* L);
     int luaopen_Defines(lua_State* L);
+    int luaopen_RapidXML(lua_State* L);
 }
 
 class LuaScriptInit

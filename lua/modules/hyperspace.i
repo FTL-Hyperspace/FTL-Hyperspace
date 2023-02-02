@@ -1985,6 +1985,8 @@ playerVariableType playerVariables;
 %rename("%s") ResourceControl::RenderImage;
 %rename("%s") ResourceControl::RenderImageString;
 
+%rename("%s") ResourceControl::LoadFile;
+
 //%rename("%s") FileHelper;
 //%rename("%s") FileHelper::deleteAllSaveFiles;
 
