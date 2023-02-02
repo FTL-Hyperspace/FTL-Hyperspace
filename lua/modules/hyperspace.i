@@ -1290,7 +1290,7 @@ playerVariableType playerVariables;
 %nodefaultctors ShipBlueprint;
 %nodefaultdtors ShipBlueprint;
 %rename("%s") ShipBlueprint;
-/*
+
 %nodefaultctors ShipBlueprint::SystemTemplate;
 %nodefaultdtors ShipBlueprint::SystemTemplate;
 %rename("%s") ShipBlueprint::SystemTemplate;
@@ -1303,7 +1303,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::SystemTemplate::slot;
 %rename("%s") ShipBlueprint::SystemTemplate::direction;
 %rename("%s") ShipBlueprint::SystemTemplate::weapon;
-*/
+
 %rename("%s") ShipBlueprint::desc; // TODO: Expose Description
 %rename("%s") ShipBlueprint::blueprintName;
 %rename("%s") ShipBlueprint::name;
@@ -1313,7 +1313,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::cloakFile;
 %rename("%s") ShipBlueprint::shieldFile;
 %rename("%s") ShipBlueprint::floorFile;
-%rename("%s") ShipBlueprint::systemInfo; // TODO: Expose SystemTemplate
+%rename("%s") ShipBlueprint::systemInfo;
 %rename("%s") ShipBlueprint::systems;
 %rename("%s") ShipBlueprint::droneCount;
 %rename("%s") ShipBlueprint::originalDroneCount;
