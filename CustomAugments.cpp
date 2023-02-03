@@ -492,7 +492,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 500, (const std::string& 
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::GetAugmentationValue -> Begin (CustomAugments.cpp)\n")
     float ret = super(name);
 
-    auto context = Global::GetInstance()->getLuaContext();
+    auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), G_->GetShipManager(this->iShipId), context->getLibScript()->types.pShipManager, 0);
     lua_pushstring(context->GetLua(), name.c_str());
     lua_pushnumber(context->GetLua(), ret);
