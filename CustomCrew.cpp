@@ -4200,7 +4200,9 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
                 int y0 = 0;
                 int y1 = 0;
 
-                for (int i=0; i<charges.first; ++i)
+                int iMax = std::min(charges.first,10); // add a maximum to prevent hangs while still revealing bugs
+
+                for (int i=0; i<iMax; ++i)
                 {
                     y1 = y0 + segmentHeight;
                     if (i < segmentRemainder) y1++;
