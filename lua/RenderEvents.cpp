@@ -53,7 +53,7 @@ HOOK_METHOD(CommandGui, RenderPlayerShip, (Point &shipCenter, float jumpScale) -
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderSparks, -1000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderSparks -> Begin (RenderEvents.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
     lua_pushinteger(context->GetLua(), this->iShipId);
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_SPARKS, 1);
