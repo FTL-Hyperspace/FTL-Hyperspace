@@ -2,6 +2,7 @@
 
 HOOK_METHOD(HackingSystem, SoundLoop, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> HackingSystem::SoundLoop -> Begin (HackingSystem.cpp)\n")
     if (drone.arrived && bHacking && iLockCount == -1) // Original conditions
     {
         return true;

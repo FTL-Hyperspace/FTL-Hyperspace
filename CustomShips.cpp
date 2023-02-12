@@ -129,7 +129,7 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -1000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
 
     if (!importingShip) super();
 }
