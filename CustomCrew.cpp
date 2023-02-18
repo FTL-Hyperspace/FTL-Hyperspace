@@ -1,4 +1,5 @@
 #include "CrewMember_Extend.h"
+#include "CrewBox_Extend.h"
 #include "ShipManager_Extend.h"
 #include "CustomCrew.h"
 #include "CustomOptions.h"
@@ -3913,6 +3914,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     if (custom->IsRace(crew->species))
     {
         auto ex = CM_EX(crew);
+        auto bex = CBOX_EX(this);
 
         if (!ex->crewPowers.empty())
         {
@@ -3923,6 +3925,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
 
             if (ex->crewPowers[0]->powerCharges.second > 0)
             {
+                // redraw the entire box to accommodate the charges bar
                 GL_Color boxColor = GL_Color();
                 boxColor.r = 1.0f;
                 boxColor.g = 1.0f;
@@ -3967,6 +3970,14 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
                 boxLines.emplace_back(Pointf(skillBox.x+skillBox.w-1, skillBox.y), Pointf(skillBox.x+skillBox.w-1, skillBox.y+skillBox.h)); //right of skillBox
 
                 skillBoxOutline = CSurface::GL_CreateMultiLinePrimitive(boxLines, boxColor, 2);
+                // end of redraw the entire box
+
+                bex->cooldownBars.emplace_back(ex->crewPowers[0], Globals::Rect({box.x+1, box.y+3, 3, box.h-6}));
+                bex->chargesBars.emplace_back(ex->crewPowers[0], Globals::Rect({box.x-5, box.y+3, 2, box.h-6}));
+            }
+            else
+            {
+                bex->cooldownBars.emplace_back(ex->crewPowers[0], Globals::Rect({box.x-1, box.y+3, 4, box.h-6}));
             }
         }
     }
@@ -4125,92 +4136,15 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
     }
 
     auto ex = CM_EX(crew);
+    auto bex = CBOX_EX(this);
 
-    if (!ex->crewPowers.empty())
+    for (CrewAbilityCooldownBar &bar : bex->cooldownBars)
     {
-        std::pair<float, float> cooldown;
-        std::pair<int, int> charges = ex->crewPowers[0]->powerCharges;
-
-        if (ex->crewPowers[0]->temporaryPowerActive)
-        {
-            cooldown = ex->crewPowers[0]->temporaryPowerDuration;
-        }
-        else
-        {
-            cooldown = ex->crewPowers[0]->powerCooldown;
-        }
-
-        int cooldownHeight = std::floor((cooldown.first / cooldown.second) * (box.h - 6));
-
-        GL_Primitive* prim = nullptr;
-
-        if (cooldownHeight == lastCooldownHeight && cooldownBar)
-        {
-            prim = cooldownBar;
-        }
-        else
-        {
-            CSurface::GL_DestroyPrimitive(cooldownBar);
-            lastCooldownHeight = cooldownHeight;
-
-            if (cooldownHeight <= 0)
-            {
-                cooldownBar = nullptr;
-            }
-            else
-            {
-                GL_Color barColor = ex->crewPowers[0]->temporaryPowerActive ? ex->crewPowers[0]->def->tempPower.cooldownColor : ex->crewPowers[0]->def->cooldownColor;
-
-                if (charges.second > 0)
-                {
-                    prim = CSurface::GL_CreateRectPrimitive(box.x + 1, (box.h - cooldownHeight) + box.y - 3, 3, cooldownHeight, barColor);
-                }
-                else
-                {
-                    prim = CSurface::GL_CreateRectPrimitive(box.x - 1, (box.h - cooldownHeight) + box.y - 3, 4, cooldownHeight, barColor);
-                }
-
-                cooldownBar = prim;
-            }
-        }
-
-        if (prim)
-        {
-            CSurface::GL_RenderPrimitive(prim);
-        }
-
-        if (charges.second > 0 && charges.first > 0)
-        {
-            GL_Color barColor = ex->crewPowers[0]->def->cooldownColor;
-
-            if (charges.second > 7)
-            {
-                int chargesHeight = std::max(1, (box.h - 6) * charges.first / charges.second);
-
-                CSurface::GL_DrawRect(box.x - 5, (box.h - chargesHeight) + box.y - 3, 2, chargesHeight, barColor);
-            }
-            else
-            {
-                int chargesGap = 1;
-                int chargesMaxHeight = box.h - 6 - (chargesGap * (charges.second - 1));
-
-                int segmentHeight = chargesMaxHeight / charges.second;
-                int segmentRemainder = chargesMaxHeight % charges.second;
-
-                int y0 = 0;
-                int y1 = 0;
-
-                int iMax = std::min(charges.first,10); // add a maximum to prevent hangs while still revealing bugs
-
-                for (int i=0; i<iMax; ++i)
-                {
-                    y1 = y0 + segmentHeight;
-                    if (i < segmentRemainder) y1++;
-                    CSurface::GL_DrawRect(box.x - 5, box.y + box.h - y1 - 3, 2, y1 - y0, barColor);
-                    y0 = y1 + chargesGap;
-                }
-            }
-        }
+        bar.OnRender();
+    }
+    for (CrewAbilityChargesBar &bar : bex->chargesBars)
+    {
+        bar.OnRender();
     }
 
     int healthMaxWidth = box.w - 37;
