@@ -237,7 +237,7 @@ int LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers i
 
     return idx;
 }
-void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, unsigned int idx, int nArg)
+void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, int idx, int nArg)
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
