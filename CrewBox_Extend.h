@@ -56,6 +56,7 @@ struct CrewBox_Extend
 public:
     CrewBox *orig;
 
+    Point crewPos = {0,0};
     std::vector<CrewAbilityCooldownBar> cooldownBars;
     std::vector<CrewAbilityChargesBar> chargesBars;
 };

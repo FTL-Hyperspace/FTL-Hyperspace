@@ -3910,14 +3910,18 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     LOG_HOOK("HOOK_METHOD -> CrewBox::constructor -> Begin (CustomCrew.cpp)\n")
     super(pos, crew, number);
 
+    auto bex = CBOX_EX(this);
+    bex->crewPos = {15,15};
+
     auto custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(crew->species))
     {
         auto ex = CM_EX(crew);
-        auto bex = CBOX_EX(this);
 
         if (!ex->crewPowers.empty())
         {
+            bex->crewPos.x += 2;
+
             if (!ex->crewPowers[0]->def->buttonLabel.data.empty())
             {
                 powerButton.label = ex->crewPowers[0]->def->buttonLabel;
@@ -4231,6 +4235,30 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
             mouse->InstantTooltip();
         }
     }
+}
+
+HOOK_METHOD_PRIORITY(CrewBox, RenderIcon, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewBox::RenderIcon -> Begin (CustomCrew.cpp)\n")
+    auto bex = CBOX_EX(this);
+
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(box.x+bex->crewPos.x, box.y+bex->crewPos.y, 0.f);
+
+    pCrew->crewAnim->RenderIcon(true);
+
+    if (pCrew->bMindControlled)
+    {
+        // Render mind controlled animation in magenta
+        mindControlled.OnRender(1.f,GL_Color(1.f,0.f,1.f,1.f),false);
+    }
+    else if (pCrew->fStunTime > 0.f)
+    {
+        // Render stunned animation in yellow
+        stunned.OnRender(1.f,GL_Color(1.f,1.f,0.f,1.f),false);
+    }
+
+    CSurface::GL_PopMatrix();
 }
 
 HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
