@@ -3482,9 +3482,11 @@ struct CrewBox
   Globals__Rect skillBox;
   CrewMember *pCrew;
   bool mouseHover;
+  uint8_t gap_ex_1[4];
   TextButton powerButton;
   int number;
   bool bSelectable;
+  uint8_t gap_ex_2[4];
   AnimationTracker flashHealthTracker;
   GL_Primitive *boxBackground;
   GL_Primitive *boxOutline;

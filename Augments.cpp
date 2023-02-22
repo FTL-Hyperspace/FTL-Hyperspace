@@ -9,7 +9,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
     {
         if (i->intruder && !i->bMindControlled && i->crewAnim->status != 6)
         {
-            if (HasAugmentation("NANOBOT_DEFENSE_SYSTEM"))
+            if (GetAugmentationValue("NANOBOT_DEFENSE_SYSTEM") != 0.f)
             {
                 float augSpeed = GetAugmentationValue("NANOBOT_DEFENSE_SYSTEM") / 500.f;
                 float speed = G_->GetCFPS()->GetSpeedFactor() * -augSpeed;

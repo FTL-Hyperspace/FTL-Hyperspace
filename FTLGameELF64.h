@@ -4559,9 +4559,18 @@ struct CrewBox
 		this->constructor(pos_, crew_, number_);
 	}
 	
+	void DestroyCustom();
+	
 	~CrewBox()
 	{
-		this->destructor();
+		// redefined to avoid double destroy
+		DestroyCustom();
+		CSurface::GL_DestroyPrimitive(boxBackground);
+		CSurface::GL_DestroyPrimitive(boxOutline);
+		CSurface::GL_DestroyPrimitive(skillBoxBackground);
+		CSurface::GL_DestroyPrimitive(skillBoxOutline);
+		CSurface::GL_DestroyPrimitive(cooldownBar);
+		CSurface::GL_DestroyPrimitive(healthBar);
 	}
 
 	LIBZHL_API CrewMember *GetSelected(int mouseX, int mouseY);
@@ -4579,9 +4588,11 @@ struct CrewBox
 	Globals::Rect skillBox;
 	CrewMember *pCrew;
 	bool mouseHover;
+	uint8_t gap_ex_1[4];
 	TextButton powerButton;
 	int number;
 	bool bSelectable;
+	uint8_t gap_ex_2[4];
 	AnimationTracker flashHealthTracker;
 	GL_Primitive *boxBackground;
 	GL_Primitive *boxOutline;

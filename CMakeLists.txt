@@ -89,6 +89,8 @@ target_sources(
     CooldownNumbers.h
     Credits.cpp
     CrewAbilities.cpp
+    CrewBox_Extend.cpp
+    CrewBox_Extend.h
     CrewManifestVTable.cpp
     CrewMember_Extend.cpp
     CrewMember_Extend.h

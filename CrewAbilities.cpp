@@ -855,8 +855,13 @@ void CrewMember_Extend::CalculatePowerDef()
                     power->powerCooldown.first = (power->powerCooldown.first/power->powerCooldown.second) * newDef->cooldown;
                     power->powerCooldown.second = newDef->cooldown;
 
-                    power->powerCharges.second = newDef->powerCharges;
-                    power->modifiedPowerCharges = newDef->powerCharges;
+                    // if old ability had no charges then reset to initialCharges
+                    // temporary behaviour; will be replaced when ability classification/grouping support is added
+                    // in future versions when an ability is replaced by one in the same group it will keep the same number of charges
+                    // but an ability in a different group will be given initialCharges
+                    if (power->powerCharges.second == -1) power->powerCharges.first = newDef->initialCharges;
+
+                    power->modifiedPowerCharges = newDef->powerCharges; // power->powerCharges.second will be updated after modifiedPowerCharges is fully calculated
                 }
             }
             else
