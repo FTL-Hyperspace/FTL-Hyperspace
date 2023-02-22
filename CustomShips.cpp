@@ -1110,24 +1110,53 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 }
 
-HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
+HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
-    super(false);
-
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
+    
+    ShipGraph *shipGraph = ShipGraph::GetShipInfo(this->iShipId);
+    float xPos = (float)(shipGraph->shipBox).x;
+    float yPos = (float)(shipGraph->shipBox).y;
+    
+    // Calculate cloak alpha for each sprite
+    float alphaCloak = 0.f;
+    float alphaOther = 1.f;
+    float alphaHull = 1.f;
+    if (cloakingTracker.running)
+    {
+        alphaCloak = cloakingTracker.Progress(-1.f);
+        alphaOther = (1.f - alphaCloak) * 0.5f + 0.5f;
+        alphaHull = bCloaked ? alphaOther * 0.75f : (1.f - alphaCloak) * 0.625f + 0.375f;
+    }
+    else if (bCloaked)
+    {
+        alphaCloak = 1.f;
+        alphaOther = 0.5f;
+        alphaHull = 0.375f;
+    }
+    
+    // Render hull
+    CSurface::GL_Translate(xPos, yPos, 0.0);
+    CSurface::GL_RenderPrimitiveWithAlpha(this->shipImagePrimitive, alphaHull);
+    
+    // Render cloak
+    if (alphaCloak > 0.f)
+    {
+        auto cloakTexture = G_->GetResources()->GetImageId(this->cloakImageName);
+        this->cloakPrimitive = CSurface::GL_CreateImagePrimitive(
+            cloakTexture,
+            (this->shipImageCloak).x, (this->shipImageCloak).y,
+            cloakTexture->width_, cloakTexture->height_,
+            0.f, COLOR_WHITE);
+        CSurface::GL_RenderPrimitiveWithAlpha(this->cloakPrimitive, alphaCloak);
+    }
+    CSurface::GL_Translate(-xPos, -yPos, 0.0);
+    
+    // Render thruster animations
     if (engines && bShowEngines)
     {
-        float alpha = 1.f;
-        if (bCloaked)
-        {
-            alpha = 0.5f;
-            if (cloakingTracker.running)
-            {
-                alpha = 1.f - 0.5f * cloakingTracker.Progress(-1.f);
-            }
-        }
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
         for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
         {
             if (anim.second)
@@ -1136,22 +1165,30 @@ HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
                 {
                     CSurface::GL_PushMatrix();
                     CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
                     CSurface::GL_PopMatrix();
                 }
                 else
                 {
                     CSurface::GL_PushMatrix();
                     CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
                     CSurface::GL_PopMatrix();
                 }
             }
             else
             {
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
             }
         }
+    }
+    
+    // Render floor
+    if (this->iShipId == 0)
+    {
+        CSurface::GL_Translate(xPos, yPos, 0.0);
+        CSurface::GL_RenderPrimitiveWithAlpha(this->floorPrimitive, alphaOther);
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
 }
 
