@@ -1001,6 +1001,7 @@ HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
 
 HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::constructor -> Begin (CustomDrones.cpp)\n")
     super(iShipId, selfId, blueprint);
     
     drone_image_on = CachedImage("ship/drones/" + blueprint->droneImage + "_charged.png", CachedImage::Centered::CENTERED);
