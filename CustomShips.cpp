@@ -1110,7 +1110,7 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(Ship, OnRenderBase, -1000, (bool engines) -> void)
+HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
     
