@@ -787,25 +787,22 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
     CSurface::GL_Translate(0.f, height, 0.f);
     CSurface::GL_Translate(x-x_00, y_01-y_00, 0.f);
 
-    if (bBoostable && !BlockedBoosted(!bLevelBoostable))
+    if (bBoostable && !BlockedBoosted(!bLevelBoostable)) // can be manned
     {
         GL_Primitive *manningPrimitive;
-        if (bLevelBoostable)
+        if (bLevelBoostable) // subsystems that can be boosted
         {
-            if (iActiveManned < 1 || !bBoostable)
+            if (iActiveManned >= 1 && bBoostable && healthState.first == healthState.second)
             {
-                if (iActiveManned >= 1 && bBoostable && healthState.first == healthState.second)
-                {
-                    manningPrimitive = *ShipSystem__manningBarOn;
-                }
-                else if (BlockedBoosted(true))
-                {
-                    manningPrimitive = *ShipSystem__manningBarIon;
-                }
-                else
-                {
-                    manningPrimitive = *ShipSystem__manningBarOff;
-                }
+                manningPrimitive = *ShipSystem__manningBarOn;
+            }
+            else if (BlockedBoosted(true))
+            {
+                manningPrimitive = *ShipSystem__manningBarIon;
+            }
+            else
+            {
+                manningPrimitive = *ShipSystem__manningBarOff;
             }
             CSurface::GL_RenderPrimitive(manningPrimitive);
         }
