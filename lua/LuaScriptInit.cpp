@@ -32,9 +32,8 @@ void removeDangerousStuff(lua_State* lua)
     lua_pushnil(lua);
     lua_setglobal(lua, "dofile");
     lua_pushnil(lua);
-    /* Serpent needs this, so saving.i makes a local version of load then sets it to nil
     lua_setglobal(lua, "load");
-    lua_pushnil(lua);*/
+    lua_pushnil(lua);
     lua_setglobal(lua, "loadfile");
     lua_pushnil(lua);
     lua_setglobal(lua, "newproxy");
