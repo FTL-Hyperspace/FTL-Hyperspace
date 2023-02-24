@@ -213,7 +213,7 @@ __thiscall bool CrewMember::GetControllable(CrewMember *this);
 __thiscall std::string CrewMember::GetUniqueRepairing(CrewMember *this);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0":
 __thiscall std::string CrewMember::GetTooltip(CrewMember *this);
-"8d4c240483e4f0ff71fc5589e55756535181ec280100008b790c8b018b59048b710889bde0feffff":
+".8d4c240483e4f0ff71fc5589e55756535181ec280100008b790c8b018b59048b710889bde0feffff":
 static cleanup __cdecl std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
 "8b015589e55389cb8b808800000083e4f03d????????75??0fb681fc01000084c075??8b939c000000":
 __thiscall bool CrewMember::CountForVictory(CrewMember *this);

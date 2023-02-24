@@ -6877,7 +6877,7 @@ namespace _func492
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetSkillTooltip", typeid(std::string (*)(int , int , std::pair<int, int> , bool )), "8d4c240483e4f0ff71fc5589e55756535181ec280100008b790c8b018b59048b710889bde0feffff", argdata, 5, 2, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillTooltip", typeid(std::string (*)(int , int , std::pair<int, int> , bool )), ".8d4c240483e4f0ff71fc5589e55756535181ec280100008b790c8b018b59048b710889bde0feffff", argdata, 5, 2, &func);
 }
 
 std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)

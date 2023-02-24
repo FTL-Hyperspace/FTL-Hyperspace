@@ -196,8 +196,8 @@ cleanup __amd64 void CrewMember::UpdateMovement(CrewMember *this);
 cleanup __amd64 void CrewMember::OnLoop(CrewMember *this);
 ".4157415641554154554889f5":
 cleanup __amd64 std::string CrewMember::GetTooltip(CrewMember *this);
-
-//static cleanup __amd64 std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
+".41574589c7415641554189d541544989fc554889cd5389f3":
+static cleanup __amd64 std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
 ".5589f5534889fb4883ec08488bbfc0000000":
 cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
 ".4155415449bcabaaaaaaaaaaaaaa55534889fb4883ec48":

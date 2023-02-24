@@ -12,8 +12,8 @@ cleanup __cdecl void CrewMember::UpdateMovement(CrewMember *this);
 cleanup __cdecl void CrewMember::OnLoop(CrewMember *this);
 "5589e557565381ec8c0000008b45088d5dd8895c2408":
 cleanup __cdecl std::string CrewMember::GetTooltip(CrewMember *this);
-
-//static cleanup __cdecl std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
+".5589e557565381ecac000000":
+static cleanup __cdecl std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
 "565383ec148b5c24208b7424248b839c000000":
 cleanup __cdecl void CrewMember::SetSex(CrewMember *this, bool male);
 "5557565383ec4c8b442460????????00000000????????00000000":
