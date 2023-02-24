@@ -867,11 +867,18 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
     {
         float ionBoxGap = ((int)(gap/2))+2;
 
-        lockOutline.x = (x_00-ionBoxGap)-x;
-        lockOutline.y = heightMod - ionBoxGap;
-        lockOutline.w = width + 2*ionBoxGap;
-        lockOutline.h = (y_00 + ionBoxGap) - (heightMod - ionBoxGap + y_01);
-        lockOutline.thickness = 2;
+        Globals::Rect newOutline = {int((x_00-ionBoxGap)-x), int(heightMod - ionBoxGap), int(width + 2*ionBoxGap), int((y_00 + ionBoxGap) - (heightMod - ionBoxGap + y_01))};
+        if (newOutline.x != lockOutline.x || newOutline.y != lockOutline.y || newOutline.w != lockOutline.w || newOutline.h != lockOutline.h)
+        {
+            CSurface::GL_DestroyPrimitive(lockOutline.primitive);
+            lockOutline.primitive = nullptr;
+            lockOutline.x = newOutline.x;
+            lockOutline.y = newOutline.y;
+            lockOutline.w = newOutline.w;
+            lockOutline.h = newOutline.h;
+            lockOutline.thickness = 2;
+        }
+
         lockOutline.OnRender(lockColor);
         CSurface::GL_Translate(0.f, -ionBoxGap, 0.f);
         y_01 -= ionBoxGap;
