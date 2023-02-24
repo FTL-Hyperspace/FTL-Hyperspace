@@ -4503,6 +4503,21 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 pButton.button.bHover = false;
             }
         }
+
+        // If hovered button not found then check skills
+        if (!found && mouseX > skillBox.x && mouseX < skillBox.x+skillBox.w && mouseY > skillBox.y && mouseY < skillBox.y+skillBox.h)
+        {
+            sTooltip = "";
+            for (int i=0; i<6; ++i)
+            {
+                int skillY = box.y + 24*i + bex->skillOffset;
+                if (mouseY > skillY + 3 && mouseY < skillY + 21)
+                {
+                    sTooltip = CrewMember::GetSkillTooltip(i,pCrew->GetSkillLevel(i),pCrew->GetSkillProgress(i),false);
+                    break;
+                }
+            }
+        }
     }
 
     return ret;
