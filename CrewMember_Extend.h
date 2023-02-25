@@ -59,6 +59,10 @@ public:
     CrewMember *crew;
     CrewMember_Extend *crew_ex;
 
+    // enabled
+    bool enabled = true;
+    bool tempEnabled = true;
+
     // definition modifiers that should be saved
     float modifiedPowerCharges = -1.f;
 
@@ -103,6 +107,9 @@ public:
     void PreparePower();
     void ActivatePower();
     void CancelPower(bool clearAnim);
+    void ChangePowerDef(ActivatedPowerDefinition *newDef);
+    void EnablePower();
+    void DisablePower();
 
     void SaveState(int fd);
     void LoadState(int fd);
@@ -142,8 +149,9 @@ public:
     bool triggerExplosion = false;
 
     std::vector<ActivatedPower*> crewPowers;
+    bool hasSpecialPower = false;
 
-    unsigned int powerChange;
+    std::vector<ActivatedPowerDefinition*> powerChange;
     void CalculatePowerDef();
 
     ExplosionDefinition deathEffectChange;
@@ -188,6 +196,15 @@ public:
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
     static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
+
+    ActivatedPower *GetFirstCrewPower()
+    {
+        for (ActivatedPower *power : crewPowers)
+        {
+            if (power->enabled) return power;
+        }
+        return nullptr;
+    }
 
     void ClearCrewPowers()
     {

@@ -562,6 +562,10 @@ void ActivatedPower::ActivatePower()
         extraAnims.emplace_back(G_->GetAnimationControl()->GetAnimation(def->effectPostAnim));
         Animation &extraAnim = extraAnims.back();
 
+        // set the position
+        extraAnim.position.x += effectPos.x;
+        extraAnim.position.y += effectPos.y;
+
         extraAnim.SetCurrentFrame(0);
         extraAnim.tracker.SetLoop(false, -1);
         extraAnim.Start(true);
@@ -647,7 +651,7 @@ void CrewMember_Extend::UpdateAbilityStatBoosts(CrewDefinition *def)
     bool noActiveAbility = true;
 
     // Get stat boosts from temporary effects
-    for (ActivatedPower* &power : crewPowers)
+    for (ActivatedPower* power : crewPowers)
     {
         if (power->temporaryPowerActive)
         {
@@ -707,6 +711,8 @@ HOOK_METHOD_PRIORITY(WorldManager, PauseLoop, 100, () -> void)
 void ActivatedPower::SaveState(int fd)
 {
     FileHelper::writeInt(fd, def->index);
+
+    FileHelper::writeInt(fd, enabled);
 
     FileHelper::writeFloat(fd, modifiedPowerCharges);
 
@@ -775,6 +781,8 @@ void ActivatedPower::LoadState(int fd)
 
     std::string s;
 
+    enabled = FileHelper::readInteger(fd);
+
     modifiedPowerCharges = FileHelper::readFloat(fd);
 
     powerCooldown.first = FileHelper::readFloat(fd);
@@ -831,77 +839,205 @@ void CrewMember_Extend::CalculatePowerDef()
     CrewDefinition* def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
 
     // First determine which abilities the crewmember should have
-    if (crewPowers.empty() || (!crewPowers[0]->powerActivated && !crewPowers[0]->temporaryPowerActive && crewPowers[0]->powerDone && crewPowers[0]->temporaryPowerDone))
+    CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
+
+    for (ActivatedPower* power : crewPowers)
     {
-        int currentPowerIndex = crewPowers.empty() ? 0 : crewPowers[0]->def->index;
-        CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
+        power->tempEnabled = false;
+    }
+    hasSpecialPower = false;
+    bool powerChanged = false; // tracks if any powers have changed
 
-        if (powerChange != currentPowerIndex)
+    // Loop 1: Check for existing powers matching exact definitions
+    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+    {
+        for (ActivatedPower* power : crewPowers)
         {
-            ActivatedPowerDefinition *newDef = &ActivatedPowerDefinition::powerDefs[powerChange];
-
-            if (newDef->hasSpecialPower) // def is an actual power and not a lack of a power
+            if (!power->tempEnabled && power->enabled && power->def == *powerDef)
             {
-                if (crewPowers.empty())
+                hasSpecialPower = true;
+                power->tempEnabled = true;
+                powerDef = powerChange.erase(powerDef);
+                goto endloop1;
+            }
+        }
+        powerDef++;
+    endloop1:
+        ;
+    }
+
+    // Loop 2: Check for existing powers in the same group (direct replacement)
+    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+    {
+        if ((*powerDef)->groupIndex != 0)
+        {
+            for (ActivatedPower* power : crewPowers)
+            {
+                if (!power->tempEnabled && power->enabled && power->def->groupIndex == (*powerDef)->groupIndex)
                 {
-                    ActivatedPower *power = new ActivatedPower(newDef, orig, this);
-                    crewPowers.push_back(power);
-
-                    power->powerCooldown.first = 0.f;
-                    power->powerCooldown.second = newDef->cooldown;
-                    power->powerCharges.first = newDef->initialCharges;
-                    power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
-                    power->modifiedPowerCharges = newDef->powerCharges;
-                }
-                else
-                {
-                    ActivatedPower *power = crewPowers[0];
-                    power->def = newDef;
-
-                    power->powerCooldown.first = (power->powerCooldown.first/power->powerCooldown.second) * newDef->cooldown;
-                    power->powerCooldown.second = newDef->cooldown;
-
-                    // if old ability had no charges then reset to initialCharges
-                    // temporary behaviour; will be replaced when ability classification/grouping support is added
-                    // in future versions when an ability is replaced by one in the same group it will keep the same number of charges
-                    // but an ability in a different group will be given initialCharges
-                    if (power->powerCharges.second == -1) power->powerCharges.first = newDef->initialCharges;
-
-                    power->modifiedPowerCharges = newDef->powerCharges; // power->powerCharges.second will be updated after modifiedPowerCharges is fully calculated
+                    hasSpecialPower = true;
+                    power->tempEnabled = true;
+                    powerChanged = true;
+                    power->ChangePowerDef(*powerDef);
+                    powerDef = powerChange.erase(powerDef);
+                    goto endloop2;
                 }
             }
-            else
-            {
-                ClearCrewPowers();
-            }
+        }
+        powerDef++;
+    endloop2:
+        ;
+    }
 
-            // Had no power, still has no power
-            if (currentPowerIndex == 0 && crewPowers.empty()) return;
-
-            if (orig->iShipId == 0)
+    // Loop 3: Check for dormant powers matching exact definition, if so then re-enable that power
+    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+    {
+        for (ActivatedPower* power : crewPowers)
+        {
+            if (!power->tempEnabled && power->def == *powerDef)
             {
-                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                hasSpecialPower = true;
+                power->tempEnabled = true;
+                power->EnablePower();
+                powerChanged = true;
+                powerDef = powerChange.erase(powerDef);
+                goto endloop3;
             }
+        }
+        powerDef++;
+    endloop3:
+        ;
+    }
+
+    // Loop 4: Check for dormant powers in the same group but previously disabled, if so then change the definition and enable
+    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+    {
+        if ((*powerDef)->groupIndex != 0)
+        {
+            for (ActivatedPower* power : crewPowers)
+            {
+                if (!power->tempEnabled && power->def->groupIndex == (*powerDef)->groupIndex)
+                {
+                    hasSpecialPower = true;
+                    power->tempEnabled = true;
+                    power->EnablePower();
+                    powerChanged = true;
+                    power->ChangePowerDef(*powerDef);
+                    powerDef = powerChange.erase(powerDef);
+                    goto endloop4;
+                }
+            }
+        }
+        powerDef++;
+    endloop4:
+        ;
+    }
+
+    // Now any powers that still have tempEnabled = false should be disabled
+    for (ActivatedPower* power : crewPowers)
+    {
+        if (!power->tempEnabled && power->enabled)
+        {
+            power->DisablePower();
+            powerChanged = true;
+        }
+    }
+
+    // Any remaining definitions in powerChange are brand new
+    if (!powerChange.empty())
+    {
+        hasSpecialPower = true;
+        for (ActivatedPowerDefinition* powerDef : powerChange)
+        {
+            ActivatedPower *power = new ActivatedPower(powerDef, orig, this);
+            crewPowers.push_back(power);
+
+            power->powerCooldown.first = 0.f;
+            power->powerCooldown.second = powerDef->cooldown;
+            power->powerCharges.first = powerDef->initialCharges;
+            power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
+            power->modifiedPowerCharges = powerDef->powerCharges;
+        }
+    }
+
+    if (powerChanged)
+    {
+        // to do: add ability priority ordering; when abilities change they should be sorted
+
+        if (orig->iShipId == 0 || orig->bMindControlled)
+        {
+            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
         }
     }
 
     // Now calculate power definition modifiers (any that need to be updated every frame)
-    if (!crewPowers.empty())
+    if (hasSpecialPower)
     {
         // Update the max charges
         CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
         for (ActivatedPower *power : crewPowers)
         {
+            if (!power->enabled) continue;
             int iMaxCharges = power->modifiedPowerCharges >= 2147483648.f ? -1 : power->modifiedPowerCharges;
             if (power->powerCharges.second != iMaxCharges)
             {
+                // If changing from or to -1 then clear crew boxes
+                if ((power->powerCharges.second == -1) != (iMaxCharges == -1)) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+
                 power->powerCharges.second = iMaxCharges;
                 if (iMaxCharges != -1)
                 {
                     power->powerCharges.first = std::min(power->powerCharges.first, iMaxCharges);
                 }
-                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
             }
         }
+    }
+}
+
+void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
+{
+    // If new definition has no temp power but current one is active then end it
+    if (!newDef->hasTemporaryPower && temporaryPowerActive)
+    {
+        temporaryPowerDuration.first = 0.f;
+        TemporaryPowerFinished();
+    }
+
+    // Set the new definition
+    def = newDef;
+
+    // If new definition has temp power and current one is active then reset the animations and duration
+    if (newDef->hasTemporaryPower && temporaryPowerActive)
+    {
+        PrepareTemporaryAnimation();
+
+        temporaryPowerDuration.first = def->tempPower.duration * (temporaryPowerDuration.first/temporaryPowerDuration.second);
+        temporaryPowerDuration.second = def->tempPower.duration;
+
+        crew_ex->UpdateAbilityStatBoosts();
+        StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
+    }
+
+    // Update cooldown
+    powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
+    powerCooldown.second = newDef->cooldown;
+}
+
+void ActivatedPower::EnablePower()
+{
+    enabled = true;
+}
+
+void ActivatedPower::DisablePower()
+{
+    enabled = false;
+
+    // Note that in this version the active effect continues when the power is disabled
+    // But the temporary effect is terminated
+
+    if (temporaryPowerActive)
+    {
+        temporaryPowerDuration.first = 0.f;
+        TemporaryPowerFinished();
     }
 }

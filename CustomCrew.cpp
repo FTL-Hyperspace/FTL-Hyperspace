@@ -502,7 +502,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "powerEffect")
                         {
                             ActivatedPowerDefinition *powerDef = ParseAbilityEffect(stat);
-                            crew.powerDefIdx = powerDef->index;
+                            crew.powerDefs.push_back(powerDef);
                         }
                         if (str == "noSlot")
                         {
@@ -1636,7 +1636,10 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
         {
             power->CancelPower(true);
         }
-        power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
+        if (power->enabled)
+        {
+            power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
+        }
     }
 
     super();
@@ -2489,7 +2492,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                         power->TemporaryPowerFinished();
                     }
                 }
-                else
+                else if (power->enabled) // power recharge and auto-activation requires power to be enabled
                 {
                     if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
                     {
@@ -2571,6 +2574,8 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                         ++anim;
                     }
                 }
+
+                // possible future optimization - put disabled powers to sleep if they're not doing anything; sleeping powers skip the entire loop
             }
         }
     }
@@ -3857,6 +3862,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
             for (ActivatedPower *power : ex->crewPowers)
             {
+                // apply the activated power damage effect
                 if (power->powerActivated)
                 {
                     ShipManager* actualShip = this;
@@ -3952,7 +3958,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     {
         auto ex = CM_EX(crew);
 
-        if (!ex->crewPowers.empty())
+        if (ex->hasSpecialPower)
         {
             int cooldownsWidth = 0;
             std::vector<int> cooldownBorders;
@@ -3962,6 +3968,8 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
             // Loop over powers
             for (ActivatedPower* power : ex->crewPowers)
             {
+                if (!power->enabled) continue;
+
                 // power button
                 bex->powerButtons.emplace_back(powerButton); // copy the default powerButton
                 ActivatedPowerButton &pButton = bex->powerButtons.back();
@@ -3979,8 +3987,10 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
             // Loop for actual ability bars
             for (ActivatedPower* power : ex->crewPowers)
             {
+                if (!power->enabled) continue;
+
                 // charges and cooldown when having charges
-                if (ex->crewPowers[0]->powerCharges.second > 0)
+                if (power->powerCharges.second > 0)
                 {
                     if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
                     {
@@ -4000,7 +4010,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
                 }
                 else // only cooldown
                 {
-                    bex->cooldownBars.emplace_back(ex->crewPowers[0], Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
+                    bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
                     cooldownBorders.push_back(cooldownsWidth+9);
                     cooldownsWidth += 8;
                 }
@@ -4623,6 +4633,11 @@ HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
             CSurface::GL_Translate(-power->effectFinishAnim->info.frameWidth / 2, -power->effectFinishAnim->info.frameHeight / 2);
             power->effectFinishAnim->OnRender(1.f, COLOR_WHITE, false);
             CSurface::GL_PopMatrix();
+        }
+
+        for (Animation& anim : power->extraAnims)
+        {
+            anim.OnRender(1.f, COLOR_WHITE, false);
         }
     }
 
@@ -5352,11 +5367,11 @@ HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
         {
             auto ex = CM_EX(i);
 
-            if (!ex->crewPowers.empty())
+            if (ex->hasSpecialPower)
             {
-                if (ex->crewPowers[0]->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                if (ex->GetFirstCrewPower()->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
                 {
-                    ex->crewPowers[0]->PreparePower();
+                    ex->GetFirstCrewPower()->PreparePower();
                 }
             }
         }

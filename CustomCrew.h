@@ -483,7 +483,7 @@ struct CrewDefinition
 
     ExplosionDefinition explosionDef;
 
-    unsigned int powerDefIdx = 0;
+    std::vector<ActivatedPowerDefinition*> powerDefs;
 
     std::vector<StatBoostDefinition*> passiveStatBoosts;
 
