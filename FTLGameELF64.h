@@ -5790,6 +5790,7 @@ struct HackingSystem : ShipSystem
 {
 	LIBZHL_API void BlowHackingDrone();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API bool SoundLoop();
 	
 	bool bHacking;
 	HackingDrone drone;
@@ -6975,6 +6976,7 @@ struct SoundControl
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	LIBZHL_API void StopPlaylist(int fadeOut);
+	LIBZHL_API void UpdateSoundLoop(const std::string &loopId, float count);
 	
 };
 
