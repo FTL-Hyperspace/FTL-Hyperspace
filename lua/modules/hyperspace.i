@@ -875,14 +875,14 @@ playerVariableType playerVariables;
 %nodefaultctors Shields;
 %nodefaultdtors Shields;
 %rename("%s") Shields;
-/*
+
 %nodefaultctors Shields::Shield;
 %nodefaultdtors Shields::Shield;
 %rename("%s") Shields::Shield;
 %rename("%s") Shields::Shield::charger;
 %rename("%s") Shields::Shield::power;
 %rename("%s") Shields::Shield::superTimer;
-*/
+
 /*
 %nodefaultctors Shields::ShieldAnimation;
 %nodefaultdtors Shields::ShieldAnimation;
