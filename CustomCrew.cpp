@@ -2708,12 +2708,14 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 
     // Crew ability stuff
     ex->ClearCrewPowers();
+    ex->hasSpecialPower = false;
     int n = FileHelper::readInteger(file);
     for (int i=0; i<n; ++i)
     {
         ActivatedPower *power = new ActivatedPower(nullptr, this, ex);
         ex->crewPowers.push_back(power);
         power->LoadState(file);
+        if (power->enabled) ex->hasSpecialPower = true;
     }
 
     ex->UpdateAbilityStatBoosts();
