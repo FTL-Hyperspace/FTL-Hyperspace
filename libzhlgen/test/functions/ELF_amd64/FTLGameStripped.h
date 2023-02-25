@@ -4861,7 +4861,15 @@ struct BoarderDrone
 };
 
 /* 163 */
-struct SuperShieldDrone;
+struct SuperShieldDrone
+{
+  DefenseDrone _base;
+  Shields *shieldSystem;
+  CachedImage drone_image_on;
+  CachedImage drone_image_off;
+  CachedImage drone_image_glow;
+  float glowAnimation;
+};
 
 /* 164 */
 struct DefenseDrone
