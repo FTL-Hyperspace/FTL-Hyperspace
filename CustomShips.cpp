@@ -480,16 +480,28 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     }
     if (!hackSoundLoop)
     {
-        ShipManager* otherShip = G_->GetShipManager((iShipId + 1)%2);
-        if (otherShip) for (auto system : otherShip->vSystemList) if (system->bUnderAttack && system->iHackEffect == 2)
+        ShipManager* otherShip = G_->GetShipManager(iShipId == 1 ? 0 : 1);
+        if (otherShip)
         {
-            hackSoundLoop = true;
-            break;
+            for (auto system : otherShip->vSystemList)
+            {
+                if (system->bUnderAttack && system->iHackEffect == 2)
+                {
+                    hackSoundLoop = true;
+                    break;
+                }
+            }
         }
-        if (!hackSoundLoop) for (auto system : vSystemList) if (system->bUnderAttack && system->iHackEffect == 2)
+        if (!hackSoundLoop)
         {
-            hackSoundLoop = true;
-            break;
+            for (auto system : vSystemList)
+            {
+                if (system->bUnderAttack && system->iHackEffect == 2)
+                {
+                    hackSoundLoop = true;
+                    break;
+                }
+            }
         }
     }
     G_->GetSoundControl()->UpdateSoundLoop("hackLoopHS", hackSoundLoop ? 1.f : 0.f);
