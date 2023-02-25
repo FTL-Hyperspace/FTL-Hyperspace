@@ -534,10 +534,8 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 }
                 if (name == "powerEffect")
                 {
-                    ActivatedPowerDefinition powerDef;
-                    CustomCrewManager::GetInstance()->ParseAbilityEffect(child, &powerDef);
-                    powerDef.AssignIndex();
-                    def->powerChange = powerDef.index;
+                    ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
+                    def->powerChange = powerDef;
                 }
             }
         }
@@ -2025,20 +2023,20 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             isEffect = true;
             break;
         case CrewStat::POWER_EFFECT:
-            powerChange = def->powerDefIdx;
+            powerChange = def->powerDefs;
             isEffect = true;
             break;
         case CrewStat::POWER_MAX_CHARGES:
             for (ActivatedPower *power : crewPowers)
             {
-                power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+                if (power->enabled) power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
             }
             isEffect = true;
             break;
         case CrewStat::POWER_CHARGES_PER_JUMP:
             for (ActivatedPower *power : crewPowers)
             {
-                power->modifiedChargesPerJump = power->def->chargesPerJump;
+                if (power->enabled) power->modifiedChargesPerJump = power->def->chargesPerJump;
             }
             isEffect = true;
             break;
@@ -2169,7 +2167,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             }
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
                             {
-                                powerChange = statBoost.def->powerChange;
+                                powerChange.clear();
+                                powerChange.push_back(statBoost.def->powerChange);
                             }
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
                             {
@@ -2182,6 +2181,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
+                            if (!power->enabled) continue;
+
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
                                 if (!statBoost.def->powerScaling.empty())
@@ -2216,6 +2217,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
+                            if (!power->enabled) continue;
+
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
                                 if (!statBoost.def->powerScaling.empty())

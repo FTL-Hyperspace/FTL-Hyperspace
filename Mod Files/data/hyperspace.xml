@@ -537,6 +537,19 @@ Syntax ->
 <ships>
 </ships>
 
+<!-- Custom Thruster Animations
+
+You can define thruster animations in the XML of individual ships (kestral.xml for example). The animation must be defined in animations.xml.
+
+Syntax -> 
+
+<thrusters sync="true">                                              If sync = true, all thruster animations will start on their first frame rather than on a random frame.
+    <thruster x="25" y="90" mirror="true">thrusters_on</thruster>    If mirror = true, the animation will be flipped along the y axis.
+    <thruster x="87" y="90">thrusters_on</thruster>
+</thrusters>
+
+-->
+
 
 
 <!-- Custom Races
@@ -690,7 +703,9 @@ Syntax ->
 			<playerEvent load="EVENT_NAME"/>                                             Event to load when the death effect is triggered (only player crew). Either load or define an event.
 			<enemyEvent load="EVENT_NAME"/>                                              Event to load when the death effect is triggered (only enemy crew). Either load or define an event.
 		</deathEffect>
-		<powerEffect>                                                                    Special crew abilities.
+		<powerEffect name="foo">                                                         Special crew abilities. Name is optional.
+			<groupName>bar</groupName>                                                   Optional ability grouping name; abilities in the same group are treated as variations of the same ability.
+			                                                                               and can replace one another if an effect swaps the abilities.
 			<cooldown>30</cooldown>                                                      Ability cooldown in seconds. Does not include temporaryEffect duration.
 			<jumpCooldown>full</jumpCooldown>                                            Cooldown behaviour on jump. Either "reset" the charge, "continue" charging, or set to "full".
 			<onDeath>continue/cancel/reset</onDeath>                                     On death effect for activated ability. "cancel" cancels the ability when dying. "reset" cancels the ability on respawn.
@@ -846,6 +861,10 @@ Syntax ->
 				</statBoosts>
 			</temporaryEffect>
 		</powerEffect>
+		<powerEffect copy="foo">                                                         Create a new power based on the most recent name="foo" power.
+			...                                                                          Crew can have multiple abilities!
+		</powerEffect>
+		<powerEffect load="foo"/>                                                        Loads the most recent power definition named "foo" (or the next one if there are none yet).
 		
 		<droneAI>                                                                        Custom AI to use for crew drones. This feature is currently disabled for boarding drones.
 			<fightAI/>

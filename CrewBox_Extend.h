@@ -51,14 +51,28 @@ struct CrewAbilityChargesBar
     void OnRender();
 };
 
+struct ActivatedPowerButton
+{
+    TextButton button;
+    ActivatedPower *power;
+
+    ActivatedPowerButton(TextButton _button) :
+    button(_button)
+    {
+    }
+};
+
 struct CrewBox_Extend
 {
 public:
     CrewBox *orig;
 
-    Point crewPos = {0,0};
+    Point crewPos;
+    int skillOffset;
+
     std::vector<CrewAbilityCooldownBar> cooldownBars;
     std::vector<CrewAbilityChargesBar> chargesBars;
+    std::vector<ActivatedPowerButton> powerButtons;
 };
 
 CrewBox_Extend* Get_CrewBox_Extend(const CrewBox* c);

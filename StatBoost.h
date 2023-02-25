@@ -156,7 +156,7 @@ struct StatBoostDefinition
 
     std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
-    unsigned int powerChange = 0;
+    ActivatedPowerDefinition *powerChange = nullptr;
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
