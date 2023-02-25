@@ -534,10 +534,8 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 }
                 if (name == "powerEffect")
                 {
-                    ActivatedPowerDefinition powerDef;
-                    CustomCrewManager::GetInstance()->ParseAbilityEffect(child, &powerDef);
-                    powerDef.AssignIndex();
-                    def->powerChange = powerDef.index;
+                    ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
+                    def->powerChange = powerDef->index;
                 }
             }
         }

@@ -537,6 +537,19 @@ Syntax ->
 <ships>
 </ships>
 
+<!-- Custom Thruster Animations
+
+You can define thruster animations in the XML of individual ships (kestral.xml for example). The animation must be defined in animations.xml.
+
+Syntax -> 
+
+<thrusters sync="true">                                              If sync = true, all thruster animations will start on their first frame rather than on a random frame.
+    <thruster x="25" y="90" mirror="true">thrusters_on</thruster>    If mirror = true, the animation will be flipped along the y axis.
+    <thruster x="87" y="90">thrusters_on</thruster>
+</thrusters>
+
+-->
+
 
 
 <!-- Custom Races

@@ -2161,6 +2161,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API int GetSkillLevel(int skillId);
 	LIBZHL_API float GetSkillModifier(int skillId);
 	LIBZHL_API std::pair<int, int> GetSkillProgress(int skillId);
+	LIBZHL_API static std::string __stdcall GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen);
 	LIBZHL_API std::string GetTooltip();
 	LIBZHL_API void IncreaseSkill(int skillId);
 	LIBZHL_API void InitializeSkills();
@@ -4553,9 +4554,18 @@ struct CrewBox
 		this->constructor(pos_, crew_, number_);
 	}
 	
+	void DestroyCustom();
+	
 	~CrewBox()
 	{
-		this->destructor();
+		// redefined to avoid double destroy
+		DestroyCustom();
+		CSurface::GL_DestroyPrimitive(boxBackground);
+		CSurface::GL_DestroyPrimitive(boxOutline);
+		CSurface::GL_DestroyPrimitive(skillBoxBackground);
+		CSurface::GL_DestroyPrimitive(skillBoxOutline);
+		CSurface::GL_DestroyPrimitive(cooldownBar);
+		CSurface::GL_DestroyPrimitive(healthBar);
 	}
 
 	LIBZHL_API CrewMember *GetSelected(int mouseX, int mouseY);
@@ -4573,9 +4583,11 @@ struct CrewBox
 	Globals::Rect skillBox;
 	CrewMember *pCrew;
 	bool mouseHover;
+	uint8_t gap_ex_1[2];
 	TextButton powerButton;
 	int number;
 	bool bSelectable;
+	uint8_t gap_ex_2[2];
 	AnimationTracker flashHealthTracker;
 	GL_Primitive *boxBackground;
 	GL_Primitive *boxOutline;

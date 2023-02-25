@@ -27,8 +27,17 @@ struct CrewBox
 		this->constructor(pos_, crew_, number_);
 	}
 	
+	void DestroyCustom();
+	
 	~CrewBox()
 	{
-		this->destructor();
+		// redefined to avoid double destroy
+		DestroyCustom();
+		CSurface::GL_DestroyPrimitive(boxBackground);
+		CSurface::GL_DestroyPrimitive(boxOutline);
+		CSurface::GL_DestroyPrimitive(skillBoxBackground);
+		CSurface::GL_DestroyPrimitive(skillBoxOutline);
+		CSurface::GL_DestroyPrimitive(cooldownBar);
+		CSurface::GL_DestroyPrimitive(healthBar);
 	}
 }};

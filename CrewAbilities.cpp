@@ -4,6 +4,12 @@
 #include "ShipUnlocks.h"
 #include "ShipManager_Extend.h"
 
+std::vector<ActivatedPowerDefinition> ActivatedPowerDefinition::powerDefs = std::vector<ActivatedPowerDefinition>();
+std::unordered_map<std::string,ActivatedPowerDefinition*> ActivatedPowerDefinition::nameDefList;
+std::unordered_map<std::string,ActivatedPowerDefinition*> ActivatedPowerDefinition::undefinedNameDefList;
+std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::groupNameIndexList;
+unsigned int ActivatedPowerDefinition::nextGroupNameIndex = 1;
+
 ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
 {
     crew_ex = CM_EX(_crew);
