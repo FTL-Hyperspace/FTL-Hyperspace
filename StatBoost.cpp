@@ -2168,7 +2168,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
                             {
                                 powerChange.clear();
-                                powerChange.push_back(statBoost.def->powerChange);
+                                if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
                             }
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
                             {
