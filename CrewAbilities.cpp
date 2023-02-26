@@ -851,86 +851,90 @@ void CrewMember_Extend::CalculatePowerDef()
     // Loop 1: Check for existing powers matching exact definitions
     for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
     {
-        for (ActivatedPower* power : crewPowers)
-        {
-            if (!power->tempEnabled && power->enabled && power->def == *powerDef)
-            {
-                hasSpecialPower = true;
-                power->tempEnabled = true;
-                powerDef = powerChange.erase(powerDef);
-                goto endloop1;
-            }
-        }
-        powerDef++;
-    endloop1:
-        ;
-    }
-
-    // Loop 2: Check for existing powers in the same group (direct replacement)
-    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
-    {
-        if ((*powerDef)->groupIndex != 0)
-        {
+        [&]{
             for (ActivatedPower* power : crewPowers)
             {
-                if (!power->tempEnabled && power->enabled && power->def->groupIndex == (*powerDef)->groupIndex)
+                if (!power->tempEnabled && power->enabled && power->def == *powerDef)
                 {
                     hasSpecialPower = true;
                     power->tempEnabled = true;
-                    powerChanged = true;
-                    power->ChangePowerDef(*powerDef);
                     powerDef = powerChange.erase(powerDef);
-                    goto endloop2;
+                    return;
                 }
             }
-        }
-        powerDef++;
-    endloop2:
-        ;
+            powerDef++;
+        }();
     }
 
-    // Loop 3: Check for dormant powers matching exact definition, if so then re-enable that power
-    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+    // Most likely scenario is that no powers need changing/addition so check here to skip everything
+    if (!powerChange.empty())
     {
-        for (ActivatedPower* power : crewPowers)
+        // Loop 2: Check for existing powers in the same group (direct replacement)
+        for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
         {
-            if (!power->tempEnabled && power->def == *powerDef)
-            {
-                hasSpecialPower = true;
-                power->tempEnabled = true;
-                power->EnablePower();
-                powerChanged = true;
-                powerDef = powerChange.erase(powerDef);
-                goto endloop3;
-            }
-        }
-        powerDef++;
-    endloop3:
-        ;
-    }
-
-    // Loop 4: Check for dormant powers in the same group but previously disabled, if so then change the definition and enable
-    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
-    {
-        if ((*powerDef)->groupIndex != 0)
-        {
-            for (ActivatedPower* power : crewPowers)
-            {
-                if (!power->tempEnabled && power->def->groupIndex == (*powerDef)->groupIndex)
+            [&]{
+                if ((*powerDef)->groupIndex != 0)
                 {
-                    hasSpecialPower = true;
-                    power->tempEnabled = true;
-                    power->EnablePower();
-                    powerChanged = true;
-                    power->ChangePowerDef(*powerDef);
-                    powerDef = powerChange.erase(powerDef);
-                    goto endloop4;
+                    for (ActivatedPower* power : crewPowers)
+                    {
+                        if (!power->tempEnabled && power->enabled && power->def->groupIndex == (*powerDef)->groupIndex)
+                        {
+                            hasSpecialPower = true;
+                            power->tempEnabled = true;
+                            powerChanged = true;
+                            power->ChangePowerDef(*powerDef);
+                            powerDef = powerChange.erase(powerDef);
+                            return;
+                        }
+                    }
                 }
-            }
+                powerDef++;
+            }();
         }
-        powerDef++;
-    endloop4:
-        ;
+
+        // Loop 3: Check for dormant powers matching exact definition, if so then re-enable that power
+        for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+        {
+            [&]{
+                for (ActivatedPower* power : crewPowers)
+                {
+                    if (!power->tempEnabled && power->def == *powerDef)
+                    {
+                        hasSpecialPower = true;
+                        power->tempEnabled = true;
+                        power->EnablePower();
+                        powerChanged = true;
+                        powerDef = powerChange.erase(powerDef);
+                        return;
+                    }
+                }
+                powerDef++;
+            }();
+        }
+
+        // Loop 4: Check for dormant powers in the same group but previously disabled, if so then change the definition and enable
+        for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+        {
+            [&]{
+                if ((*powerDef)->groupIndex != 0)
+                {
+                    for (ActivatedPower* power : crewPowers)
+                    {
+                        if (!power->tempEnabled && power->def->groupIndex == (*powerDef)->groupIndex)
+                        {
+                            hasSpecialPower = true;
+                            power->tempEnabled = true;
+                            power->EnablePower();
+                            powerChanged = true;
+                            power->ChangePowerDef(*powerDef);
+                            powerDef = powerChange.erase(powerDef);
+                            return;
+                        }
+                    }
+                }
+                powerDef++;
+            }();
+        }
     }
 
     // Now any powers that still have tempEnabled = false should be disabled
