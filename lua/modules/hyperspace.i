@@ -1216,7 +1216,7 @@ playerVariableType playerVariables;
 %rename("%s") Animation::mask_y_pos;
 %rename("%s") Animation::mask_y_size;
 %rename("%s") Animation::primitive;
-%rename("%s") Animation::mirroredPrimitive
+%rename("%s") Animation::mirroredPrimitive;
 
 %nodefaultctor Ship;
 %nodefaultdtor Ship;
