@@ -2155,6 +2155,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API int GetSkillLevel(int skillId);
 	LIBZHL_API float GetSkillModifier(int skillId);
 	LIBZHL_API std::pair<int, int> GetSkillProgress(int skillId);
+	LIBZHL_API static std::string __stdcall GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen);
 	LIBZHL_API std::string GetTooltip();
 	LIBZHL_API void IncreaseSkill(int skillId);
 	LIBZHL_API void InitializeSkills();

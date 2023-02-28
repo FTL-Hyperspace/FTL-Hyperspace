@@ -258,6 +258,10 @@ struct ActivatedPowerDefinition
     };
 
     static std::vector<ActivatedPowerDefinition> powerDefs;
+    static std::unordered_map<std::string,ActivatedPowerDefinition*> nameDefList; // maps names to definitions
+    static std::unordered_map<std::string,ActivatedPowerDefinition*> undefinedNameDefList; // maps names to definitions
+    static std::unordered_map<std::string,unsigned int> groupNameIndexList; // maps group names to integer IDs
+    static unsigned int nextGroupNameIndex;
 
     void AssignIndex()
     {
@@ -265,8 +269,90 @@ struct ActivatedPowerDefinition
         powerDefs.push_back(*this);
     }
 
+    void AssignName(std::string &_name)
+    {
+        name = _name;
+        nameDefList[name] = this;
+    }
+
+    static ActivatedPowerDefinition* GetPowerByName(std::string &_name)
+    {
+        auto it = nameDefList.find(_name);
+        if (it == nameDefList.end()) // unused name
+        {
+            return nullptr;
+        }
+        else // used name so get it
+        {
+            return it->second;
+        }
+    }
+
+    static ActivatedPowerDefinition* AddUndefinedPower(std::string &_name)
+    {
+        auto it = undefinedNameDefList.find(_name);
+        if (it == undefinedNameDefList.end()) // unused name
+        {
+            ActivatedPowerDefinition *def = new ActivatedPowerDefinition();
+            def->name = _name;
+            undefinedNameDefList[_name] = def;
+            return def;
+        }
+        else // used name so get it
+        {
+            return it->second;
+        }
+    }
+
+    static ActivatedPowerDefinition* AddNamedDefinition(std::string &_name, ActivatedPowerDefinition* copyDef)
+    {
+        ActivatedPowerDefinition *def;
+
+        auto it = undefinedNameDefList.find(_name);
+        if (it == undefinedNameDefList.end()) // does not exist as an undefined definition
+        {
+            if (copyDef)
+            {
+                def = new ActivatedPowerDefinition(*copyDef);
+            }
+            else
+            {
+                def = new ActivatedPowerDefinition();
+            }
+        }
+        else // does exist as an undefined name so turn it into a defined definition
+        {
+            def = it->second;
+            if (copyDef)
+            {
+                *def = *copyDef;
+            }
+            undefinedNameDefList.erase(it);
+        }
+
+        def->name = _name;
+        nameDefList[_name] = def;
+        return def;
+    }
+
+    void AssignGroup(std::string &_name)
+    {
+        auto it = groupNameIndexList.find(_name);
+        if (it == groupNameIndexList.end()) // if name is unused assign the next unused index
+        {
+            groupIndex = nextGroupNameIndex++;
+            groupNameIndexList[_name] = groupIndex;
+        }
+        else // if name is used then set the index
+        {
+            groupIndex = it->second;
+        }
+    }
+
     unsigned int index = 0;
     std::string name = "";
+
+    unsigned int groupIndex = 0;
 
     Damage damage;
     float cooldown = 50.f;
@@ -397,7 +483,7 @@ struct CrewDefinition
 
     ExplosionDefinition explosionDef;
 
-    unsigned int powerDefIdx = 0;
+    std::vector<ActivatedPowerDefinition*> powerDefs;
 
     std::vector<StatBoostDefinition*> passiveStatBoosts;
 
@@ -422,7 +508,7 @@ public:
 
     void AddCrewDefinition(CrewDefinition crew);
     void ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef);
-    void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
+    ActivatedPowerDefinition* ParseAbilityEffect(rapidxml::xml_node<char>* stat);
     void ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def);
     void ParseExtraConditionsNode(rapidxml::xml_node<char> *node, std::vector<std::pair<CrewExtraCondition,bool>> &extraConditions);
     void ParseCrewNode(rapidxml::xml_node<char> *node);
