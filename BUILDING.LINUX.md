@@ -53,6 +53,7 @@ mkdir -p /usr/gcc-4.8-clang-toolchain/usr/lib/gcc/x86_64-linux-gnu
 cd /usr/gcc-4.8-clang-toolchain
 ln -s /usr/include include
 ln -s /usr/bin bin
+ln -s /usr/lib lib
 cd lib/gcc/x86_64-linux-gnu
 ln -s /usr/lib/gcc/x86_64-linux-gnu/4.8 4.8
 ```
