@@ -130,6 +130,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
         {
             int statId = stat - crewStats.begin();
             def->stat = static_cast<CrewStat>(statId);
+            if (def->stat == CrewStat::POWER_EFFECT)
+            {
+                def->amount = -1.f; // default amount for count of abilities to replace, negative = unlimited
+            }
             for (auto child = node->first_node(); child; child = child->next_sibling())
             {
                 std::string name = child->name();
@@ -144,7 +148,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     {
                         def->boostType = StatBoostDefinition::BoostType::MULT;
                     }
-                    if (val == "FLAT")
+                    if (val == "FLAT" || val == "ADD")
                     {
                         def->boostType = StatBoostDefinition::BoostType::FLAT;
                     }
@@ -163,6 +167,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     if (val == "MAX")
                     {
                         def->boostType = StatBoostDefinition::BoostType::MAX;
+                    }
+                    if (val == "REPLACE_GROUP")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::REPLACE_GROUP;
+                    }
+                    if (val == "REPLACE_POWER")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::REPLACE_POWER;
                     }
                 }
 
@@ -536,6 +548,26 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
                     def->powerChange = powerDef;
+                }
+                if (name == "targetPowerEffect")
+                {
+                    ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
+                    def->targetPower = powerDef;
+                }
+            }
+            if (def->stat == CrewStat::POWER_EFFECT)
+            {
+                if (def->targetPower == nullptr && (def->boostType == StatBoostDefinition::BoostType::REPLACE_GROUP || def->boostType == StatBoostDefinition::BoostType::REPLACE_POWER))
+                {
+                    if (def->powerChange == nullptr)
+                    {
+                        throw std::invalid_argument(std::string("PowerEffect statboost is missing powerEffect"));
+                    }
+                    def->targetPower = def->powerChange;
+                }
+                if (def->powerChange == nullptr && (def->boostType == StatBoostDefinition::BoostType::ADD))
+                {
+                    throw std::invalid_argument(std::string("PowerEffect statboost is missing powerEffect"));
                 }
             }
         }
@@ -2157,22 +2189,63 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         if (sysPowerScaling)
                         {
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            switch (statBoost.def->boostType)
                             {
-
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
+                            case StatBoostDefinition::BoostType::SET: // all existing powers are cleared and the new one is added (backwards compatibility)
                                 powerChange.clear();
                                 if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
-                            {
-
+                                break;
+                            case StatBoostDefinition::BoostType::ADD: // adds the power as an additional power
+                                if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
+                                break;
+                            case StatBoostDefinition::BoostType::REPLACE_GROUP: // replaces powers in the targetPower group with powerChange
+                                {
+                                    int i = statBoost.def->amount * sysPowerScaling;
+                                    if (i==0) break;
+                                    for (auto it = powerChange.begin(); it != powerChange.end();)
+                                    {
+                                        if ((*it)->groupIndex == statBoost.def->targetPower->groupIndex)
+                                        {
+                                            if (statBoost.def->powerChange)
+                                            {
+                                                *it = statBoost.def->powerChange;
+                                                if (--i == 0) break;
+                                            }
+                                            else
+                                            {
+                                                it = powerChange.erase(it);
+                                                if (--i == 0) break;
+                                                continue;
+                                            }
+                                        }
+                                        ++it;
+                                    }
+                                }
+                                break;
+                            case StatBoostDefinition::BoostType::REPLACE_POWER: // replaces targetPower with powerChange
+                                {
+                                    int i = statBoost.def->amount * sysPowerScaling;
+                                    if (i==0) break;
+                                    for (auto it = powerChange.begin(); it != powerChange.end();)
+                                    {
+                                        if ((*it) == statBoost.def->targetPower)
+                                        {
+                                            if (statBoost.def->powerChange)
+                                            {
+                                                *it = statBoost.def->powerChange;
+                                                if (--i == 0) break;
+                                            }
+                                            else
+                                            {
+                                                it = powerChange.erase(it);
+                                                if (--i == 0) break;
+                                                continue;
+                                            }
+                                        }
+                                        ++it;
+                                    }
+                                }
+                                break;
                             }
                         }
                     }
