@@ -1366,6 +1366,10 @@
 			<Option compile="1" />
 			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
+		<Unit filename="lua/modules/saving.i">
+			<Option compile="1" />
+			<Option virtualFolder="Scripting/modules/" />
+		</Unit>
 		<Unit filename="lua/swigluarun.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>

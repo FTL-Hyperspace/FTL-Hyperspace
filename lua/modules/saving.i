@@ -1,4 +1,8 @@
+%module Saving
+
 %luacode {
+    local oldLoad = load
+    
     local n, v = "serpent", "0.303" -- (C) 2012-18 Paul Kulchenko; MIT License
     local c, d = "Paul Kulchenko", "Lua serializer and pretty printer"
     local snum = {[tostring(1/0)]='1/0 --[[math.huge]]',[tostring(-1/0)]='-1/0 --[[-math.huge]]',[tostring(0/0)]='0/0'}
@@ -138,11 +142,15 @@
             __index = function(t,k) return t end,
             __call = function(t,...) error("cannot call functions") end
           })
-      local f, res = (loadstring or load)('return '..data, nil, nil, env)
-      if not f then f, res = (loadstring or load)(data, nil, nil, env) end
+      local f, res = (loadstring or oldLoad)('return '..data, nil, nil, env)
+      if not f then f, res = (loadstring or oldLoad)(data, nil, nil, env) end
       if not f then return f, res end
       if setfenv then setfenv(f, env) end
-      return pcall(f)
+      local ok, final = pcall(f)
+      if not ok then
+        log("Error deserializing data: "..data:sub(1, min(50, string.len(data))))
+      end
+      return final
     end
 
     local function merge(a, b) if b then for k,v in pairs(b) do a[k] = v end end; return a; end
