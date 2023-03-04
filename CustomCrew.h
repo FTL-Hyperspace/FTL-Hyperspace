@@ -260,8 +260,10 @@ struct ActivatedPowerDefinition
     static std::vector<ActivatedPowerDefinition> powerDefs;
     static std::unordered_map<std::string,ActivatedPowerDefinition*> nameDefList; // maps names to definitions
     static std::unordered_map<std::string,ActivatedPowerDefinition*> undefinedNameDefList; // maps names to definitions
-    static std::unordered_map<std::string,unsigned int> groupNameIndexList; // maps group names to integer IDs
-    static unsigned int nextGroupNameIndex;
+    static std::unordered_map<std::string,unsigned int> activateGroupNameIndexList; // maps group names to integer IDs
+    static std::unordered_map<std::string,unsigned int> replaceGroupNameIndexList; // maps group names to integer IDs
+    static unsigned int nextActivateGroupNameIndex;
+    static unsigned int nextReplaceGroupNameIndex;
 
     void AssignIndex()
     {
@@ -335,24 +337,45 @@ struct ActivatedPowerDefinition
         return def;
     }
 
-    void AssignGroup(std::string &_name)
+    void AssignActivateGroup(std::string &_name)
     {
-        auto it = groupNameIndexList.find(_name);
-        if (it == groupNameIndexList.end()) // if name is unused assign the next unused index
+        auto it = activateGroupNameIndexList.find(_name);
+        if (it == activateGroupNameIndexList.end()) // if name is unused assign the next unused index
         {
-            groupIndex = nextGroupNameIndex++;
-            groupNameIndexList[_name] = groupIndex;
+            activateGroupIndex = nextActivateGroupNameIndex++;
+            activateGroupNameIndexList[_name] = activateGroupIndex;
         }
         else // if name is used then set the index
         {
-            groupIndex = it->second;
+            activateGroupIndex = it->second;
         }
+    }
+
+    void AssignReplaceGroup(std::string &_name)
+    {
+        auto it = replaceGroupNameIndexList.find(_name);
+        if (it == replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
+        {
+            replaceGroupIndex = nextReplaceGroupNameIndex++;
+            replaceGroupNameIndexList[_name] = replaceGroupIndex;
+        }
+        else // if name is used then set the index
+        {
+            replaceGroupIndex = it->second;
+        }
+    }
+
+    void AssignGroup(std::string &_name)
+    {
+        AssignActivateGroup(_name);
+        AssignReplaceGroup(_name);
     }
 
     unsigned int index = 0;
     std::string name = "";
 
-    unsigned int groupIndex = 0;
+    unsigned int activateGroupIndex = 0;
+    unsigned int replaceGroupIndex = 0;
 
     int sortOrder = 0;
 

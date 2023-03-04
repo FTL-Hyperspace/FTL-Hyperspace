@@ -705,7 +705,9 @@ Syntax ->
 		</deathEffect>
 		<powerEffect name="foo">                                                         Special crew abilities. Name is optional.
 			<groupName>bar</groupName>                                                   Optional ability grouping name; abilities in the same group are treated as variations of the same ability.
-			                                                                               and can replace one another if an effect swaps the abilities.
+			                                                                               and can replace one another if an effect swaps the abilities and will be grouped for activation (future version).
+			<replaceGroupName>bar</replaceGroupName>                                     Like <groupName> but only for abilities replacing one another, not for activation buttons.
+			<activateGroupName>bar</activateGroupName>                                   Like <groupName> but only for ability activation buttons, currently for forwards compatibility only.
 			<sortOrder>0</sortOrder>                                                     Sorting order for multiple powers; lower number comes first, equal numbers in the order obtained.
 			<cooldown>30</cooldown>                                                      Ability cooldown in seconds. Does not include temporaryEffect duration.
 			<jumpCooldown>full</jumpCooldown>                                            Cooldown behaviour on jump. Either "reset" the charge, "continue" charging, or set to "full".

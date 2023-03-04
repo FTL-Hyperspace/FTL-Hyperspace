@@ -7,8 +7,10 @@
 std::vector<ActivatedPowerDefinition> ActivatedPowerDefinition::powerDefs = std::vector<ActivatedPowerDefinition>();
 std::unordered_map<std::string,ActivatedPowerDefinition*> ActivatedPowerDefinition::nameDefList;
 std::unordered_map<std::string,ActivatedPowerDefinition*> ActivatedPowerDefinition::undefinedNameDefList;
-std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::groupNameIndexList;
-unsigned int ActivatedPowerDefinition::nextGroupNameIndex = 1;
+std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::activateGroupNameIndexList;
+std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::replaceGroupNameIndexList;
+unsigned int ActivatedPowerDefinition::nextActivateGroupNameIndex = 1;
+unsigned int ActivatedPowerDefinition::nextReplaceGroupNameIndex = 1;
 
 ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
 {
@@ -873,11 +875,11 @@ void CrewMember_Extend::CalculatePowerDef()
         for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
         {
             [&]{
-                if ((*powerDef)->groupIndex != 0)
+                if ((*powerDef)->replaceGroupIndex != 0)
                 {
                     for (ActivatedPower* power : crewPowers)
                     {
-                        if (!power->tempEnabled && power->enabled && power->def->groupIndex == (*powerDef)->groupIndex)
+                        if (!power->tempEnabled && power->enabled && power->def->replaceGroupIndex == (*powerDef)->replaceGroupIndex)
                         {
                             hasSpecialPower = true;
                             power->tempEnabled = true;
@@ -916,11 +918,11 @@ void CrewMember_Extend::CalculatePowerDef()
         for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
         {
             [&]{
-                if ((*powerDef)->groupIndex != 0)
+                if ((*powerDef)->replaceGroupIndex != 0)
                 {
                     for (ActivatedPower* power : crewPowers)
                     {
-                        if (!power->tempEnabled && power->def->groupIndex == (*powerDef)->groupIndex)
+                        if (!power->tempEnabled && power->def->replaceGroupIndex == (*powerDef)->replaceGroupIndex)
                         {
                             hasSpecialPower = true;
                             power->tempEnabled = true;

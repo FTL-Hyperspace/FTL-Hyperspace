@@ -2204,7 +2204,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                     if (i==0) break;
                                     for (auto it = powerChange.begin(); it != powerChange.end();)
                                     {
-                                        if ((*it)->groupIndex == statBoost.def->targetPower->groupIndex)
+                                        if ((*it)->replaceGroupIndex == statBoost.def->targetPower->replaceGroupIndex)
                                         {
                                             if (statBoost.def->powerChange)
                                             {

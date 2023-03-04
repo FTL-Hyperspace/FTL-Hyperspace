@@ -763,6 +763,16 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
             name = effectNode->value();
             def->AssignGroup(name);
         }
+        if (effectName == "activateGroupName")
+        {
+            name = effectNode->value();
+            def->AssignActivateGroup(name);
+        }
+        if (effectName == "replaceGroupName")
+        {
+            name = effectNode->value();
+            def->AssignReplaceGroup(name);
+        }
 
         if (effectName == "powerSounds")
         {
