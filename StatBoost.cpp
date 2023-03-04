@@ -2063,12 +2063,20 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             {
                 if (power->enabled) power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
             }
+            for (ActivatedPowerResource *resource : powerResources)
+            {
+                if (resource->enabled) resource->modifiedPowerCharges = resource->def->powerCharges == -1 ? HUGE_VAL : resource->def->powerCharges;
+            }
             isEffect = true;
             break;
         case CrewStat::POWER_CHARGES_PER_JUMP:
             for (ActivatedPower *power : crewPowers)
             {
                 if (power->enabled) power->modifiedChargesPerJump = power->def->chargesPerJump;
+            }
+            for (ActivatedPowerResource *resource : powerResources)
+            {
+                if (resource->enabled) resource->modifiedChargesPerJump = resource->def->chargesPerJump;
             }
             isEffect = true;
             break;
@@ -2284,11 +2292,75 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                 power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
                             }
                         }
+                        for (ActivatedPowerResource *power : powerResources)
+                        {
+                            if (!power->enabled) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCharges *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
                     }
                     break;
                     case CrewStat::POWER_CHARGES_PER_JUMP:
                     {
                         for (ActivatedPower *power : crewPowers)
+                        {
+                            if (!power->enabled) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedChargesPerJump *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                        for (ActivatedPowerResource *power : powerResources)
                         {
                             if (!power->enabled) continue;
 

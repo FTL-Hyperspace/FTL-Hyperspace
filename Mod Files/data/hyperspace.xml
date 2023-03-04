@@ -703,6 +703,9 @@ Syntax ->
 			<playerEvent load="EVENT_NAME"/>                                             Event to load when the death effect is triggered (only player crew). Either load or define an event.
 			<enemyEvent load="EVENT_NAME"/>                                              Event to load when the death effect is triggered (only enemy crew). Either load or define an event.
 		</deathEffect>
+		<powerResource name="foo">                                                       Can define these here as well but has no effect.
+			...
+		</powerResource>
 		<powerEffect name="foo">                                                         Special crew abilities. Name is optional.
 			<groupName>bar</groupName>                                                   Optional ability grouping name; abilities in the same group are treated as variations of the same ability.
 			                                                                               and can replace one another if an effect swaps the abilities and will be grouped for activation (future version).
@@ -717,6 +720,24 @@ Syntax ->
 			<initialCharges>999</initialCharges>                                         Initial number of ability uses when the crewmember is born.
 			<chargesPerJump>999</chargesPerJump>                                         Number of uses regenerated per jump.
 			<respawnCharges>0</respawnCharges>                                           Number of charges to add when cloning crew or respawning drones.
+			<hideCooldown>false</hideCooldown>                                           Set to true to hide cooldown bar.
+			<hideCharges>false</hideCharges>                                             Set to true to hide charge bar.
+			<powerResource name="foo">                                                   Additional resources (cooldowns and charges) that can be shared between abilities, can use load and copy keywords.
+				<groupName>bar</groupName>                                               Shared with replaceGroupName for powers; used for conditional modifier statboosts.
+				<sortOrder>0</sortOrder>
+				<cooldown>30</cooldown>
+				<jumpCooldown>full</jumpCooldown>
+				<powerCharges>-1</powerCharges>
+				<initialCharges>999</initialCharges>
+				<chargesPerJump>999</chargesPerJump>
+				<respawnCharges>0</respawnCharges>
+				<chargeReq>
+					...
+				</chargeReq>
+				<cooldownColor r="133" g="231" b="237"/>
+				<hideCooldown>false</hideCooldown>
+				<hideCharges>false</hideCharges>
+			</powerResource>
 			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
@@ -804,6 +825,7 @@ Syntax ->
 			                                                                                         and activation effect will follow the crewmember, otherwise it will stay in the original room.
 			<buttonText id="button_lockdown">LOCKDOWN</buttonText>                                 Text for activation button. Either use text id or literal string.
 			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>  Text for activation tooltip. Either use text id or literal string.
+			<hideButton>false</hideButton>                                                         If true, completely hides the ability activation button.
 			<cooldownColor r="133" g="231" b="237"/>                                               Color for cooldown bar.
 			<effectAnim>explosion_crystal</effectAnim>                                             Animation for activated ability effect.
 			<effectPostAnim>explosion_big1_strip10</effectPostAnim>                                Animation that replaces effectAnim after the effect goes off.
