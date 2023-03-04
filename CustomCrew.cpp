@@ -1024,6 +1024,12 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         {
             def->event[1] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewAbility");
         }
+
+        if (effectName == "sortOrder")
+        {
+            def->sortOrder = boost::lexical_cast<int>(effectNode->value());
+        }
+
         if (effectName == "temporaryEffect")
         {
             def->hasTemporaryPower = true;

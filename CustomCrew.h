@@ -354,6 +354,8 @@ struct ActivatedPowerDefinition
 
     unsigned int groupIndex = 0;
 
+    int sortOrder = 0;
+
     Damage damage;
     float cooldown = 50.f;
     bool shipFriendlyFire = false;

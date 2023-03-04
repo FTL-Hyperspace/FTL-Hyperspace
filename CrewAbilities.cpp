@@ -966,7 +966,11 @@ void CrewMember_Extend::CalculatePowerDef()
 
     if (powerChanged)
     {
-        // to do: add ability priority ordering; when abilities change they should be sorted
+        std::stable_sort(crewPowers.begin(), crewPowers.end(),
+        [](const ActivatedPower *a, const ActivatedPower *b) -> bool
+        {
+            return a->def->sortOrder < b->def->sortOrder;
+        });
 
         if (orig->iShipId == 0 || orig->bMindControlled)
         {
