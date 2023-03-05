@@ -487,9 +487,9 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     return ret;
 }
 
-HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 500, (const std::string& name) -> float)
+HOOK_METHOD(ShipObject, GetAugmentationValue, (const std::string& name) -> float)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::GetAugmentationValue -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipObject::GetAugmentationValue -> Begin (CustomAugments.cpp)\n")
     float ret = super(name);
 
     auto context = G_->getLuaContext();
