@@ -5,6 +5,7 @@
 struct CrewAbilityCooldownBar
 {
     ActivatedPower *power;
+    ActivatedPowerResource *resource;
 
     GL_Primitive *prim = nullptr;
 
@@ -17,6 +18,14 @@ struct CrewAbilityCooldownBar
     power{_power},
     box{_box}
     {
+        resource = nullptr;
+    }
+
+    CrewAbilityCooldownBar(ActivatedPowerResource *_resource, Globals::Rect _box) :
+    resource{_resource},
+    box{_box}
+    {
+        power = nullptr;
     }
 
     ~CrewAbilityCooldownBar()
@@ -30,6 +39,7 @@ struct CrewAbilityCooldownBar
 struct CrewAbilityChargesBar
 {
     ActivatedPower *power;
+    ActivatedPowerResource *resource;
 
     GL_Primitive *prim = nullptr;
 
@@ -41,6 +51,14 @@ struct CrewAbilityChargesBar
     power{_power},
     box{_box}
     {
+        resource = nullptr;
+    }
+
+    CrewAbilityChargesBar(ActivatedPowerResource *_resource, Globals::Rect _box) :
+    resource{_resource},
+    box{_box}
+    {
+        power = nullptr;
     }
 
     ~CrewAbilityChargesBar()
@@ -51,14 +69,28 @@ struct CrewAbilityChargesBar
     void OnRender();
 };
 
+struct ActivatedPowerButton
+{
+    TextButton button;
+    ActivatedPower *power;
+
+    ActivatedPowerButton(TextButton _button) :
+    button(_button)
+    {
+    }
+};
+
 struct CrewBox_Extend
 {
 public:
     CrewBox *orig;
 
-    Point crewPos = {0,0};
+    Point crewPos;
+    int skillOffset;
+
     std::vector<CrewAbilityCooldownBar> cooldownBars;
     std::vector<CrewAbilityChargesBar> chargesBars;
+    std::vector<ActivatedPowerButton> powerButtons;
 };
 
 CrewBox_Extend* Get_CrewBox_Extend(const CrewBox* c);

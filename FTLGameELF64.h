@@ -2170,6 +2170,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API int GetSkillLevel(int skillId);
 	LIBZHL_API float GetSkillModifier(int skillId);
 	LIBZHL_API std::pair<int, int> GetSkillProgress(int skillId);
+	LIBZHL_API static std::string __stdcall GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen);
 	LIBZHL_API std::string GetTooltip();
 	LIBZHL_API void IncreaseSkill(int skillId);
 	LIBZHL_API void InitializeSkills();
@@ -4588,11 +4589,11 @@ struct CrewBox
 	Globals::Rect skillBox;
 	CrewMember *pCrew;
 	bool mouseHover;
-	uint8_t gap_ex_1[4];
+	uint8_t gap_ex_1[5];
 	TextButton powerButton;
 	int number;
 	bool bSelectable;
-	uint8_t gap_ex_2[4];
+	uint8_t gap_ex_2[3];
 	AnimationTracker flashHealthTracker;
 	GL_Primitive *boxBackground;
 	GL_Primitive *boxOutline;

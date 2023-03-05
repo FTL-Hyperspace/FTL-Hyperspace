@@ -787,25 +787,22 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
     CSurface::GL_Translate(0.f, height, 0.f);
     CSurface::GL_Translate(x-x_00, y_01-y_00, 0.f);
 
-    if (bBoostable && !BlockedBoosted(!bLevelBoostable))
+    if (bBoostable && !BlockedBoosted(!bLevelBoostable)) // can be manned
     {
         GL_Primitive *manningPrimitive;
-        if (bLevelBoostable)
+        if (bLevelBoostable) // subsystems that can be boosted
         {
-            if (iActiveManned < 1 || !bBoostable)
+            if (iActiveManned >= 1 && bBoostable && healthState.first == healthState.second)
             {
-                if (iActiveManned >= 1 && bBoostable && healthState.first == healthState.second)
-                {
-                    manningPrimitive = *ShipSystem__manningBarOn;
-                }
-                else if (BlockedBoosted(true))
-                {
-                    manningPrimitive = *ShipSystem__manningBarIon;
-                }
-                else
-                {
-                    manningPrimitive = *ShipSystem__manningBarOff;
-                }
+                manningPrimitive = *ShipSystem__manningBarOn;
+            }
+            else if (BlockedBoosted(true))
+            {
+                manningPrimitive = *ShipSystem__manningBarIon;
+            }
+            else
+            {
+                manningPrimitive = *ShipSystem__manningBarOff;
             }
             CSurface::GL_RenderPrimitive(manningPrimitive);
         }
@@ -870,11 +867,18 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
     {
         float ionBoxGap = ((int)(gap/2))+2;
 
-        lockOutline.x = (x_00-ionBoxGap)-x;
-        lockOutline.y = heightMod - ionBoxGap;
-        lockOutline.w = width + 2*ionBoxGap;
-        lockOutline.h = (y_00 + ionBoxGap) - (heightMod - ionBoxGap + y_01);
-        lockOutline.thickness = 2;
+        Globals::Rect newOutline = {int((x_00-ionBoxGap)-x), int(heightMod - ionBoxGap), int(width + 2*ionBoxGap), int((y_00 + ionBoxGap) - (heightMod - ionBoxGap + y_01))};
+        if (newOutline.x != lockOutline.x || newOutline.y != lockOutline.y || newOutline.w != lockOutline.w || newOutline.h != lockOutline.h)
+        {
+            CSurface::GL_DestroyPrimitive(lockOutline.primitive);
+            lockOutline.primitive = nullptr;
+            lockOutline.x = newOutline.x;
+            lockOutline.y = newOutline.y;
+            lockOutline.w = newOutline.w;
+            lockOutline.h = newOutline.h;
+            lockOutline.thickness = 2;
+        }
+
         lockOutline.OnRender(lockColor);
         CSurface::GL_Translate(0.f, -ionBoxGap, 0.f);
         y_01 -= ionBoxGap;

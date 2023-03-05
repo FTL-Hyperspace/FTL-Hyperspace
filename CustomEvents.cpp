@@ -5801,16 +5801,10 @@ HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> C
     {
         if (crew->blueprint.crewNameLong.isLiteral != bp->crewNameLong.isLiteral) continue;
         if (crew->blueprint.crewNameLong.data != bp->crewNameLong.data) continue;
-        if (crew->blueprint.colorChoices.size() != bp->colorChoices.size()) continue;
-        for (unsigned int i=0; i<bp->colorChoices.size(); ++i)
-        {
-            if (crew->blueprint.colorChoices[i] != bp->colorChoices[i]) goto ShipManager__FindCrew__continue_crewList_loop;
-        }
+        if (crew->blueprint.colorChoices != bp->colorChoices) continue;
         if (crew->blueprint.male != bp->male) continue;
         if (crew->blueprint.name != bp->name) continue;
         return crew;
-        ShipManager__FindCrew__continue_crewList_loop:
-        ;
     }
 
     return nullptr;
