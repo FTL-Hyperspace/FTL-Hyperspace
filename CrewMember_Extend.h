@@ -11,6 +11,7 @@
 
 struct CrewDefinition;
 struct ActivatedPowerDefinition;
+struct PowerResourceDefinition;
 struct ActivatedPowerRequirements;
 
 enum class CrewStat : unsigned int;
@@ -52,12 +53,50 @@ extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
 extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
+struct ActivatedPowerResource
+{
+public:
+    PowerResourceDefinition *def;
+    CrewMember *crew;
+    CrewMember_Extend *crew_ex;
+
+    // enabled
+    bool enabled = true;
+
+    // definition modifiers that should be saved
+    float modifiedPowerCharges = -1.f;
+
+    // definition modifiers that don't need to be saved
+    float modifiedChargesPerJump = 0.f;
+
+    std::pair<float, float> powerCooldown = std::pair<float, float>();
+    std::pair<int, int> powerCharges = std::pair<int, int>();
+
+    // constructors with definitions and crew
+    ActivatedPowerResource(PowerResourceDefinition *_def) : def{_def} {}
+    ActivatedPowerResource(PowerResourceDefinition *_def, CrewMember *_crew, CrewMember_Extend *_ex) : def{_def}, crew{_crew}, crew_ex{_ex} {}
+    ActivatedPowerResource(PowerResourceDefinition *_def, CrewMember *_crew);
+    ActivatedPowerResource(PowerResourceDefinition *_def, CrewMember_Extend *_ex);
+
+    // methods
+    PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
+    void EnablePower();
+    void DisablePower();
+
+    void SaveState(int fd);
+    void LoadState(int fd);
+};
+
 struct ActivatedPower
 {
 public:
     ActivatedPowerDefinition *def;
     CrewMember *crew;
     CrewMember_Extend *crew_ex;
+
+    // enabled
+    bool enabled = true;
+    bool tempEnabled;
 
     // definition modifiers that should be saved
     float modifiedPowerCharges = -1.f;
@@ -68,6 +107,10 @@ public:
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
     std::pair<int, int> powerCharges = std::pair<int, int>();
+
+    std::vector<ActivatedPowerResource*> powerResources;
+    void LinkPowerResources(); // links/adds power resources on the crew and sets enabled flag
+    void EnablePowerResources(); // simply sets enabled flag on existing resources
 
     int powerRoom = -1;
     int powerShip = -1;
@@ -93,6 +136,7 @@ public:
     ActivatedPower(ActivatedPowerDefinition *_def, CrewMember_Extend *_ex);
 
     // methods
+    template <class T> static PowerReadyState PowerReqStatic(const T *power, const ActivatedPowerRequirements *req); // ugly
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
     PowerReadyState PowerReady();
     Damage* GetPowerDamage();
@@ -103,6 +147,9 @@ public:
     void PreparePower();
     void ActivatePower();
     void CancelPower(bool clearAnim);
+    void ChangePowerDef(ActivatedPowerDefinition *newDef);
+    void EnablePower();
+    void DisablePower();
 
     void SaveState(int fd);
     void LoadState(int fd);
@@ -142,8 +189,12 @@ public:
     bool triggerExplosion = false;
 
     std::vector<ActivatedPower*> crewPowers;
+    bool hasSpecialPower = false;
+    bool tempAddedPowerResource;
+    std::vector<ActivatedPowerResource*> powerResources;
+    std::unordered_map<unsigned int,ActivatedPowerResource*> powerResourceMap;
 
-    unsigned int powerChange;
+    std::vector<ActivatedPowerDefinition*> powerChange;
     void CalculatePowerDef();
 
     ExplosionDefinition deathEffectChange;
@@ -189,6 +240,15 @@ public:
     bool TransformRace(const std::string& newRace);
     static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
 
+    ActivatedPower *GetFirstCrewPower()
+    {
+        for (ActivatedPower *power : crewPowers)
+        {
+            if (power->enabled) return power;
+        }
+        return nullptr;
+    }
+
     void ClearCrewPowers()
     {
         for (ActivatedPower *power : crewPowers)
@@ -196,6 +256,12 @@ public:
             delete power;
         }
         crewPowers.clear();
+        for (ActivatedPowerResource *resource : powerResources)
+        {
+            delete resource;
+        }
+        powerResources.clear();
+        powerResourceMap.clear();
     }
 
     CrewMember_Extend()
@@ -211,6 +277,10 @@ public:
         for (ActivatedPower *power : crewPowers)
         {
             delete power;
+        }
+        for (ActivatedPowerResource *resource : powerResources)
+        {
+            delete resource;
         }
     }
 

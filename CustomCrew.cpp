@@ -502,7 +502,11 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "powerEffect")
                         {
                             ActivatedPowerDefinition *powerDef = ParseAbilityEffect(stat);
-                            crew.powerDefIdx = powerDef->index;
+                            crew.powerDefs.push_back(powerDef);
+                        }
+                        if (str == "powerResource")
+                        {
+                            ParseAbilityResource(stat); // doesn't get used directly for now, just allows it to be
                         }
                         if (str == "noSlot")
                         {
@@ -762,6 +766,16 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         {
             name = effectNode->value();
             def->AssignGroup(name);
+        }
+        if (effectName == "activateGroupName")
+        {
+            name = effectNode->value();
+            def->AssignActivateGroup(name);
+        }
+        if (effectName == "replaceGroupName")
+        {
+            name = effectNode->value();
+            def->AssignReplaceGroup(name);
         }
 
         if (effectName == "powerSounds")
@@ -1024,6 +1038,31 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         {
             def->event[1] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewAbility");
         }
+
+        if (effectName == "sortOrder")
+        {
+            def->sortOrder = boost::lexical_cast<int>(effectNode->value());
+        }
+
+        if (effectName == "hideCooldown")
+        {
+            def->hideCooldown = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "hideCharges")
+        {
+            def->hideCharges = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "hideButton")
+        {
+            def->hideButton = EventsParser::ParseBoolean(effectNode->value());
+        }
+
+
+        if (effectName == "powerResource")
+        {
+            def->powerResources.push_back(ParseAbilityResource(effectNode));
+        }
+
         if (effectName == "temporaryEffect")
         {
             def->hasTemporaryPower = true;
@@ -1255,6 +1294,126 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
                     def->tempPower.silenced = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
+        }
+    }
+
+    return def;
+}
+
+PowerResourceDefinition* CustomCrewManager::ParseAbilityResource(rapidxml::xml_node<char>* stat)
+{
+    PowerResourceDefinition* def;
+    std::string name;
+
+    if (stat->first_attribute("load"))
+    {
+        name = stat->first_attribute("load")->value();
+        def = PowerResourceDefinition::GetByName(name);
+        if (!def)
+        {
+            PowerResourceDefinition::AddUndefined(name); // allows the power to be defined later
+        }
+        return def;
+    }
+
+    PowerResourceDefinition* copyDef = nullptr;
+
+    if (stat->first_attribute("copy"))
+    {
+        name = stat->first_attribute("copy")->value();
+        copyDef = PowerResourceDefinition::GetByName(name);
+    }
+
+    if (stat->first_attribute("name"))
+    {
+        name = stat->first_attribute("name")->value();
+        def = PowerResourceDefinition::AddNamedDefinition(name, copyDef);
+    }
+    else if (copyDef)
+    {
+        def = new PowerResourceDefinition(*copyDef);
+    }
+    else
+    {
+        def = new PowerResourceDefinition();
+    }
+
+    def->AssignIndex();
+
+    if (!name.empty())
+    {
+        def->name = name;
+    }
+
+    for (auto effectNode = stat->first_node(); effectNode; effectNode = effectNode->next_sibling())
+    {
+        std::string effectName = std::string(effectNode->name());
+
+        if (effectName == "groupName")
+        {
+            name = effectNode->value();
+            def->AssignGroup(name);
+        }
+
+        if (effectName == "chargeReq")
+        {
+            def->chargeReq = new ActivatedPowerRequirements();
+
+            ParsePowerRequirementsNode(effectNode, def->chargeReq);
+        }
+        if (effectName == "jumpCooldown")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_FULL;
+            else if (v == "reset") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_RESET;
+            else if (v == "continue") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_CONTINUE;
+        }
+        if (effectName == "onDeath")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "continue") def->onDeath = ActivatedPowerDefinition::ON_DEATH_CONTINUE;
+            else if (v == "cancel") def->onDeath = ActivatedPowerDefinition::ON_DEATH_CANCEL;
+            else if (v == "reset") def->onDeath = ActivatedPowerDefinition::ON_DEATH_RESET;
+        }
+        if (effectName == "cooldown")
+        {
+            def->cooldown = boost::lexical_cast<float>(effectNode->value());
+        }
+        if (effectName == "powerCharges")
+        {
+            def->powerCharges = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "initialCharges")
+        {
+            def->initialCharges = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "respawnCharges")
+        {
+            def->respawnCharges = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "chargesPerJump")
+        {
+            def->chargesPerJump = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "cooldownColor")
+        {
+            ParseColorNode(def->cooldownColor, effectNode);
+        }
+
+        if (effectName == "sortOrder")
+        {
+            def->sortOrder = boost::lexical_cast<int>(effectNode->value());
+        }
+
+        if (effectName == "hideCooldown")
+        {
+            def->hideCooldown = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "hideCharges")
+        {
+            def->hideCharges = EventsParser::ParseBoolean(effectNode->value());
         }
     }
 
@@ -1636,7 +1795,17 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
         {
             power->CancelPower(true);
         }
-        power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
+        if (power->enabled)
+        {
+            power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
+        }
+    }
+    for (ActivatedPowerResource *power : ex->powerResources)
+    {
+        if (power->enabled)
+        {
+            power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
+        }
     }
 
     super();
@@ -2472,24 +2641,114 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
         // Crew ability loop/activation
         ex->CalculatePowerDef();
-        if (!ex->crewPowers.empty() && !G_->GetCApp()->menu.shipBuilder.bOpen)
+        if (!G_->GetCApp()->menu.shipBuilder.bOpen)
         {
-            for (ActivatedPower *power : ex->crewPowers)
+            if (!ex->crewPowers.empty())
             {
-                if (crewAnim->status == 3 && power->def->onDeath == ActivatedPowerDefinition::ON_DEATH_CANCEL)
+                for (ActivatedPower *power : ex->crewPowers)
                 {
-                    power->CancelPower(false);
-                }
-                if (power->temporaryPowerActive)
-                {
-                    power->temporaryPowerDuration.first = std::max(0.f, power->temporaryPowerDuration.first - (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625));
-
-                    if (power->temporaryPowerDuration.first <= 0.f)
+                    if (crewAnim->status == 3 && power->def->onDeath == ActivatedPowerDefinition::ON_DEATH_CANCEL)
                     {
-                        power->TemporaryPowerFinished();
+                        power->CancelPower(false);
                     }
+                    if (power->temporaryPowerActive)
+                    {
+                        power->temporaryPowerDuration.first = std::max(0.f, power->temporaryPowerDuration.first - (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625));
+
+                        if (power->temporaryPowerDuration.first <= 0.f)
+                        {
+                            power->TemporaryPowerFinished();
+                        }
+                    }
+                    else if (power->enabled) // power recharge and auto-activation requires power to be enabled
+                    {
+                        if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
+                        {
+                            power->powerCooldown.first = 0.f;
+                        }
+                        else if (power->def->chargeReq == nullptr || power->PowerReq(power->def->chargeReq) == POWER_READY)
+                        {
+                            power->powerCooldown.first = std::max(0.f, std::min(power->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + power->powerCooldown.first));
+                        }
+
+                        if (!IsDead() && Functional())
+                        {
+                            bool activateWhenReady = power->def->activateWhenReady && (!power->def->activateReadyEnemies || (GetPowerOwner() == 1));
+                            // Only check activateWhenReady if not dying
+                            if (crewAnim->status != 3) ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
+                            if (activateWhenReady)
+                            {
+                                if (power->PowerReady() == POWER_READY)
+                                {
+                                    power->PreparePower();
+                                }
+                            }
+                            else // vanilla condition but for enemy controlling your crew with MIND_ORDER
+                            {
+                                if (iShipId == 0 && crewTarget && CanFight() && crewTarget->IsCrew() && power->PowerReady() == POWER_READY &&
+                                    GetPowerOwner() == 1 && health.first > 0.5f*health.second)
+                                {
+                                    if (!ship->RoomLocked(iRoomId))
+                                    {
+                                        power->PreparePower();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (!power->powerDone && power->def->followCrew)
+                    {
+                        power->powerShip = currentShipId;
+                        power->powerRoom = iRoomId;
+                        if (power->effectAnim) power->effectPos = Pointf(x - power->effectAnim->info.frameWidth / 2, y - power->effectAnim->info.frameHeight / 2 + PositionShift());
+                        power->effectWorldPos = Pointf(x, y);
+                    }
+
+                    // Delayed activation of active and temporary effects (animFrame)
+                    if (power->effectAnim)
+                    {
+                        power->effectAnim->Update();
+
+                        if (!power->powerDone && power->def->animFrame != -1 && power->effectAnim->tracker.running && power->effectAnim->currentFrame >= power->def->animFrame)
+                        {
+                            power->ActivatePower();
+                        }
+
+                        if (!power->temporaryPowerDone && power->def->tempPower.animFrame != -1 && power->effectAnim->tracker.running && power->effectAnim->currentFrame >= power->def->tempPower.animFrame)
+                        {
+                            power->ActivateTemporaryPower();
+                        }
+                    }
+
+                    if (power->tempEffectAnim)
+                    {
+                        power->tempEffectAnim->Update();
+                    }
+                    if (power->effectFinishAnim)
+                    {
+                        power->effectFinishAnim->Update();
+                    }
+
+                    for (auto anim = power->extraAnims.begin(); anim != power->extraAnims.end(); )
+                    {
+                        anim->Update();
+                        if (anim->Done())
+                        {
+                            anim = power->extraAnims.erase(anim);
+                        }
+                        else
+                        {
+                            ++anim;
+                        }
+                    }
+
+                    // possible future optimization - put disabled powers to sleep if they're not doing anything; sleeping powers skip the entire loop
                 }
-                else
+            }
+            for (ActivatedPowerResource *power : ex->powerResources)
+            {
+                if (power->enabled) // power recharge and auto-activation requires power to be enabled
                 {
                     if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
                     {
@@ -2498,77 +2757,6 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                     else if (power->def->chargeReq == nullptr || power->PowerReq(power->def->chargeReq) == POWER_READY)
                     {
                         power->powerCooldown.first = std::max(0.f, std::min(power->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + power->powerCooldown.first));
-                    }
-
-                    if (!IsDead() && Functional())
-                    {
-                        bool activateWhenReady = power->def->activateWhenReady && (!power->def->activateReadyEnemies || (GetPowerOwner() == 1));
-                        // Only check activateWhenReady if not dying
-                        if (crewAnim->status != 3) ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
-                        if (activateWhenReady)
-                        {
-                            if (power->PowerReady() == POWER_READY)
-                            {
-                                power->PreparePower();
-                            }
-                        }
-                        else // vanilla condition but for enemy controlling your crew with MIND_ORDER
-                        {
-                            if (iShipId == 0 && crewTarget && CanFight() && crewTarget->IsCrew() && power->PowerReady() == POWER_READY &&
-                                GetPowerOwner() == 1 && health.first > 0.5f*health.second)
-                            {
-                                if (!ship->RoomLocked(iRoomId))
-                                {
-                                    power->PreparePower();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (!power->powerDone && power->def->followCrew)
-                {
-                    power->powerShip = currentShipId;
-                    power->powerRoom = iRoomId;
-                    if (power->effectAnim) power->effectPos = Pointf(x - power->effectAnim->info.frameWidth / 2, y - power->effectAnim->info.frameHeight / 2 + PositionShift());
-                    power->effectWorldPos = Pointf(x, y);
-                }
-
-                // Delayed activation of active and temporary effects (animFrame)
-                if (power->effectAnim)
-                {
-                    power->effectAnim->Update();
-
-                    if (!power->powerDone && power->def->animFrame != -1 && power->effectAnim->tracker.running && power->effectAnim->currentFrame >= power->def->animFrame)
-                    {
-                        power->ActivatePower();
-                    }
-
-                    if (!power->temporaryPowerDone && power->def->tempPower.animFrame != -1 && power->effectAnim->tracker.running && power->effectAnim->currentFrame >= power->def->tempPower.animFrame)
-                    {
-                        power->ActivateTemporaryPower();
-                    }
-                }
-
-                if (power->tempEffectAnim)
-                {
-                    power->tempEffectAnim->Update();
-                }
-                if (power->effectFinishAnim)
-                {
-                    power->effectFinishAnim->Update();
-                }
-
-                for (auto anim = power->extraAnims.begin(); anim != power->extraAnims.end(); )
-                {
-                    anim->Update();
-                    if (anim->Done())
-                    {
-                        anim = power->extraAnims.erase(anim);
-                    }
-                    else
-                    {
-                        ++anim;
                     }
                 }
             }
@@ -2617,6 +2805,11 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     for (ActivatedPower *power : ex->crewPowers)
     {
         power->SaveState(file);
+    }
+    FileHelper::writeInt(file, ex->powerResources.size());
+    for (ActivatedPowerResource *resource : ex->powerResources)
+    {
+        resource->SaveState(file);
     }
 
     // Original race
@@ -2703,12 +2896,26 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 
     // Crew ability stuff
     ex->ClearCrewPowers();
+    ex->hasSpecialPower = false;
     int n = FileHelper::readInteger(file);
     for (int i=0; i<n; ++i)
     {
         ActivatedPower *power = new ActivatedPower(nullptr, this, ex);
         ex->crewPowers.push_back(power);
         power->LoadState(file);
+        if (power->enabled) ex->hasSpecialPower = true;
+    }
+    n = FileHelper::readInteger(file);
+    for (int i=0; i<n; ++i)
+    {
+        ActivatedPowerResource *resource = new ActivatedPowerResource(nullptr, this, ex);
+        ex->powerResources.push_back(resource);
+        resource->LoadState(file);
+        ex->powerResourceMap[resource->def->index] = resource;
+    }
+    for (ActivatedPower *power : ex->crewPowers)
+    {
+        power->LinkPowerResources();
     }
 
     ex->UpdateAbilityStatBoosts();
@@ -3857,6 +4064,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
             for (ActivatedPower *power : ex->crewPowers)
             {
+                // apply the activated power damage effect
                 if (power->powerActivated)
                 {
                     ShipManager* actualShip = this;
@@ -3952,55 +4160,160 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     {
         auto ex = CM_EX(crew);
 
-        if (!ex->crewPowers.empty())
+        if (ex->hasSpecialPower)
         {
             int cooldownsWidth = 0;
             std::vector<int> cooldownBorders;
 
             int abilityBarCount = 0;
+            int abilityBarCount_CD = 0;
+            int abilityBarCount_CH = 0;
+            int abilityBarCount_CD_CH = 0;
 
             // Loop over powers
             for (ActivatedPower* power : ex->crewPowers)
             {
-                // power button
-                bex->powerButtons.emplace_back(powerButton); // copy the default powerButton
-                ActivatedPowerButton &pButton = bex->powerButtons.back();
-                pButton.power = power;
-                pButton.button.SetLocation(Point(box.x+box.w+11, box.y+7+bex->skillOffset));
-                if (!power->def->buttonLabel.data.empty()) pButton.button.label = power->def->buttonLabel;
+                if (!power->enabled) continue;
 
-                // offset to make room for ability buttons
-                bex->skillOffset += 24;
+                // power button
+                if (!power->def->hideButton)
+                {
+                    bex->powerButtons.emplace_back(powerButton); // copy the default powerButton
+                    ActivatedPowerButton &pButton = bex->powerButtons.back();
+                    pButton.power = power;
+                    pButton.button.SetLocation(Point(box.x+box.w+11, box.y+7+bex->skillOffset));
+                    if (!power->def->buttonLabel.data.empty()) pButton.button.label = power->def->buttonLabel;
+
+                    // offset to make room for ability buttons
+                    bex->skillOffset += 24;
+                }
 
                 // just count the abilities with charge/cooldown bars for now
                 abilityBarCount++;
+                if (power->powerCharges.second > 0 && !power->def->hideCharges)
+                {
+                    if (power->def->hideCooldown)
+                    {
+                        abilityBarCount_CH++;
+                    }
+                    else
+                    {
+                        abilityBarCount_CD_CH++;
+                    }
+                }
+                else
+                {
+                    if (power->def->hideCooldown)
+                    {
+                    }
+                    else
+                    {
+                        abilityBarCount_CD++;
+                    }
+                }
+            }
+            for (ActivatedPowerResource* power : ex->powerResources)
+            {
+                if (!power->enabled) continue;
+                abilityBarCount++;
+                if (power->powerCharges.second > 0 && !power->def->hideCharges)
+                {
+                    if (power->def->hideCooldown)
+                    {
+                        abilityBarCount_CH++;
+                    }
+                    else
+                    {
+                        abilityBarCount_CD_CH++;
+                    }
+                }
+                else
+                {
+                    if (power->def->hideCooldown)
+                    {
+                    }
+                    else
+                    {
+                        abilityBarCount_CD++;
+                    }
+                }
             }
 
             // Loop for actual ability bars
             for (ActivatedPower* power : ex->crewPowers)
             {
+                if (!power->enabled) continue;
+
                 // charges and cooldown when having charges
-                if (ex->crewPowers[0]->powerCharges.second > 0)
+                if (power->powerCharges.second > 0 && !power->def->hideCharges)
                 {
-                    if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
+                    if (power->def->hideCooldown) // only charges
                     {
-                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                        bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+11);
-                        cooldownsWidth += 10;
+                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 3, box.h-6}));
+                        cooldownBorders.push_back(cooldownsWidth+8);
+                        cooldownsWidth += 7;
                     }
                     else
                     {
-                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+7);
-                        bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+14);
-                        cooldownsWidth += 13;
+                        if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
+                        {
+                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
+                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
+                            cooldownBorders.push_back(cooldownsWidth+11);
+                            cooldownsWidth += 10;
+                        }
+                        else // full cooldown plus charges
+                        {
+                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
+                            cooldownBorders.push_back(cooldownsWidth+7);
+                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
+                            cooldownBorders.push_back(cooldownsWidth+14);
+                            cooldownsWidth += 13;
+                        }
                     }
                 }
-                else // only cooldown
+                else if (!power->def->hideCooldown) // only cooldown
                 {
-                    bex->cooldownBars.emplace_back(ex->crewPowers[0], Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
+                    bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
+                    cooldownBorders.push_back(cooldownsWidth+9);
+                    cooldownsWidth += 8;
+                }
+            }
+            for (ActivatedPowerResource* power : ex->powerResources)
+            {
+                if (!power->enabled) continue;
+
+                // charges and cooldown when having charges
+                if (power->powerCharges.second > 0 && !power->def->hideCharges)
+                {
+                    if (power->def->hideCooldown) // only charges
+                    {
+                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 3, box.h-6}));
+                        cooldownBorders.push_back(cooldownsWidth+8);
+                        cooldownsWidth += 7;
+                    }
+                    else
+                    {
+                        if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
+                        {
+                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
+                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
+                            cooldownBorders.push_back(cooldownsWidth+11);
+                            cooldownsWidth += 10;
+                        }
+                        else // full cooldown plus charges
+                        {
+                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
+                            cooldownBorders.push_back(cooldownsWidth+7);
+                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
+                            cooldownBorders.push_back(cooldownsWidth+14);
+                            cooldownsWidth += 13;
+                        }
+                    }
+                }
+                else if (!power->def->hideCooldown) // only cooldown
+                {
+                    bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
                     cooldownBorders.push_back(cooldownsWidth+9);
                     cooldownsWidth += 8;
                 }
@@ -4073,7 +4386,7 @@ HOOK_METHOD(CrewBox, OnLoop, (bool selected) -> void)
     auto bex = CBOX_EX(this);
     for (ActivatedPowerButton &pButton : bex->powerButtons)
     {
-        pButton.button.SetActive(pCrew->GetPowerOwner() == 0 && pButton.power->PowerReady() && !pCrew->bDead);
+        pButton.button.SetActive(pCrew->GetPowerOwner() == 0 && pButton.power->PowerReady() == PowerReadyState::POWER_READY && !pCrew->bDead);
     }
 }
 
@@ -4623,6 +4936,11 @@ HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
             CSurface::GL_Translate(-power->effectFinishAnim->info.frameWidth / 2, -power->effectFinishAnim->info.frameHeight / 2);
             power->effectFinishAnim->OnRender(1.f, COLOR_WHITE, false);
             CSurface::GL_PopMatrix();
+        }
+
+        for (Animation& anim : power->extraAnims)
+        {
+            anim.OnRender(1.f, COLOR_WHITE, false);
         }
     }
 
@@ -5352,11 +5670,11 @@ HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
         {
             auto ex = CM_EX(i);
 
-            if (!ex->crewPowers.empty())
+            if (ex->hasSpecialPower)
             {
-                if (ex->crewPowers[0]->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                if (ex->GetFirstCrewPower()->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
                 {
-                    ex->crewPowers[0]->PreparePower();
+                    ex->GetFirstCrewPower()->PreparePower();
                 }
             }
         }

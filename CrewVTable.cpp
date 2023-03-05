@@ -309,38 +309,34 @@ bool CrewMember::_HS_HasSpecialPower()
 {
     auto ex = CM_EX(this);
 
-    return !ex->crewPowers.empty();
+    return ex->hasSpecialPower;
 }
 
-std::pair<float, float> CrewMember::_HS_GetPowerCooldown()
+std::pair<float, float> CrewMember::_HS_GetPowerCooldown() // get the first enabled power
 {
     auto ex = CM_EX(this);
 
-    if (ex->crewPowers.empty())
+    if (ex->hasSpecialPower)
     {
-        return {0.f, 1.f};
+        return ex->GetFirstCrewPower()->powerCooldown;
     }
-    else
-    {
-        return ex->crewPowers[0]->powerCooldown;
-    }
+
+    return {0.f, 1.f};
 }
 
-bool CrewMember::_HS_PowerReady()
+bool CrewMember::_HS_PowerReady() // get whether the first enabled power is ready
 {
     auto ex = CM_EX(this);
 
-    if (ex->crewPowers.empty())
+    if (ex->hasSpecialPower)
     {
-        return false;
+        return ex->GetFirstCrewPower()->PowerReady() == PowerReadyState::POWER_READY;
     }
-    else
-    {
-        return ex->crewPowers[0]->PowerReady() == PowerReadyState::POWER_READY;
-    }
+
+    return false;
 }
 
-void CrewMember::_HS_ResetPower()
+void CrewMember::_HS_ResetPower() // called on FTL jump
 {
     auto ex = CM_EX(this);
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -354,6 +350,8 @@ void CrewMember::_HS_ResetPower()
         // Update properties
         for (ActivatedPower *power : ex->crewPowers)
         {
+            if (!power->enabled) continue;
+
             // Update cooldown
             if (power->def->jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
             {
@@ -377,9 +375,9 @@ void CrewMember::_HS_ActivatePower()
     {
         auto ex = CM_EX(this);
 
-        if (!ex->crewPowers.empty())
+        if (ex->hasSpecialPower)
         {
-            ex->crewPowers[0]->PreparePower();
+            ex->GetFirstCrewPower()->PreparePower();
         }
     }
 }

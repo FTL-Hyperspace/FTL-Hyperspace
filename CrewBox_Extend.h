@@ -5,6 +5,7 @@
 struct CrewAbilityCooldownBar
 {
     ActivatedPower *power;
+    ActivatedPowerResource *resource;
 
     GL_Primitive *prim = nullptr;
 
@@ -17,6 +18,14 @@ struct CrewAbilityCooldownBar
     power{_power},
     box{_box}
     {
+        resource = nullptr;
+    }
+
+    CrewAbilityCooldownBar(ActivatedPowerResource *_resource, Globals::Rect _box) :
+    resource{_resource},
+    box{_box}
+    {
+        power = nullptr;
     }
 
     ~CrewAbilityCooldownBar()
@@ -30,6 +39,7 @@ struct CrewAbilityCooldownBar
 struct CrewAbilityChargesBar
 {
     ActivatedPower *power;
+    ActivatedPowerResource *resource;
 
     GL_Primitive *prim = nullptr;
 
@@ -41,6 +51,14 @@ struct CrewAbilityChargesBar
     power{_power},
     box{_box}
     {
+        resource = nullptr;
+    }
+
+    CrewAbilityChargesBar(ActivatedPowerResource *_resource, Globals::Rect _box) :
+    resource{_resource},
+    box{_box}
+    {
+        power = nullptr;
     }
 
     ~CrewAbilityChargesBar()

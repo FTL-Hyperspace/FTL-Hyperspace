@@ -4,11 +4,17 @@
 #include "ShipUnlocks.h"
 #include "ShipManager_Extend.h"
 
-std::vector<ActivatedPowerDefinition> ActivatedPowerDefinition::powerDefs = std::vector<ActivatedPowerDefinition>();
+std::vector<ActivatedPowerDefinition*> ActivatedPowerDefinition::powerDefs = std::vector<ActivatedPowerDefinition*>();
 std::unordered_map<std::string,ActivatedPowerDefinition*> ActivatedPowerDefinition::nameDefList;
 std::unordered_map<std::string,ActivatedPowerDefinition*> ActivatedPowerDefinition::undefinedNameDefList;
-std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::groupNameIndexList;
-unsigned int ActivatedPowerDefinition::nextGroupNameIndex = 1;
+std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::activateGroupNameIndexList;
+std::unordered_map<std::string,unsigned int> ActivatedPowerDefinition::replaceGroupNameIndexList;
+unsigned int ActivatedPowerDefinition::nextActivateGroupNameIndex = 1;
+unsigned int ActivatedPowerDefinition::nextReplaceGroupNameIndex = 1;
+
+std::vector<PowerResourceDefinition*> PowerResourceDefinition::powerDefs = std::vector<PowerResourceDefinition*>();
+std::unordered_map<std::string,PowerResourceDefinition*> PowerResourceDefinition::nameDefList;
+std::unordered_map<std::string,PowerResourceDefinition*> PowerResourceDefinition::undefinedNameDefList;
 
 ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
 {
@@ -20,29 +26,29 @@ ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember_Extend
     crew = _ex->orig;
 }
 
-PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
+template <class T> PowerReadyState ActivatedPower::PowerReqStatic(const T *power, const ActivatedPowerRequirements *req)
 {
-    ShipManager *currentShip = G_->GetShipManager(crew->currentShipId);
-    ShipManager *crewShip = G_->GetShipManager(crew->iShipId);
-    int ownerId = crew->GetPowerOwner();
+    ShipManager *currentShip = G_->GetShipManager(power->crew->currentShipId);
+    ShipManager *crewShip = G_->GetShipManager(power->crew->iShipId);
+    int ownerId = power->crew->GetPowerOwner();
     ShipManager *ownerShip = G_->GetShipManager(ownerId);
 
-    if (!crew->intruder && req->enemyShip)
+    if (!power->crew->intruder && req->enemyShip)
     {
         return POWER_NOT_READY_ENEMY_SHIP;
     }
-    if (crew->intruder && req->playerShip)
+    if (power->crew->intruder && req->playerShip)
     {
         return POWER_NOT_READY_PLAYER_SHIP;
     }
     // known bug: GetSystemInRoom rarely crashes upon loading a saved run, usually on chargeReq (it crashes trying to dereference a system in vSystemList)
-    if (currentShip && req->systemInRoom && !currentShip->GetSystemInRoom(crew->iRoomId))
+    if (currentShip && req->systemInRoom && !currentShip->GetSystemInRoom(power->crew->iRoomId))
     {
         return POWER_NOT_READY_SYSTEM_IN_ROOM;
     }
     else if (currentShip && req->systemDamaged)
     {
-        auto sys = currentShip->GetSystemInRoom(crew->iRoomId);
+        auto sys = currentShip->GetSystemInRoom(power->crew->iRoomId);
 
         if (sys && sys->healthState.first == sys->healthState.second) return POWER_NOT_READY_SYSTEM_DAMAGED;
     }
@@ -58,7 +64,7 @@ PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
 
         for (auto i : currentShip->vCrewList)
         {
-            if (i->iRoomId == crew->iRoomId && i != crew && !i->bDead)
+            if (i->iRoomId == power->crew->iRoomId && i != power->crew && !i->bDead)
             {
                 if (i->iShipId != ownerId)
                 {
@@ -198,11 +204,11 @@ PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
             return POWER_NOT_READY_SYSTEM_FUNCTIONAL;
         }
     }
-    if (req->minHealth.enabled && crew->health.first < req->minHealth.value)
+    if (req->minHealth.enabled && power->crew->health.first < req->minHealth.value)
     {
         return POWER_NOT_READY_MIN_HEALTH;
     }
-    if (req->maxHealth.enabled && crew->health.first > req->maxHealth.value)
+    if (req->maxHealth.enabled && power->crew->health.first > req->maxHealth.value)
     {
         return POWER_NOT_READY_MAX_HEALTH;
     }
@@ -211,7 +217,7 @@ PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
     {
         for (auto& condition : req->extraConditions)
         {
-            if (crew_ex->CheckExtraCondition(condition.first) != condition.second)
+            if (power->crew_ex->CheckExtraCondition(condition.first) != condition.second)
             {
                 return (PowerReadyState)((condition.second ? POWER_NOT_READY_EXTRACONDITION_FALSE : POWER_NOT_READY_EXTRACONDITION_TRUE) + (PowerReadyState)condition.first);
             }
@@ -222,12 +228,22 @@ PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
     {
         for (auto& condition : req->extraOrConditions)
         {
-            if (crew_ex->CheckExtraCondition(condition.first) == condition.second) return POWER_READY;
+            if (power->crew_ex->CheckExtraCondition(condition.first) == condition.second) return POWER_READY;
         }
         return POWER_NOT_READY_EXTRACONDITION_OR;
     }
 
     return POWER_READY;
+}
+
+PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
+{
+    return PowerReqStatic(this, req);
+}
+
+PowerReadyState ActivatedPowerResource::PowerReq(const ActivatedPowerRequirements *req)
+{
+    return ActivatedPower::PowerReqStatic(this, req);
 }
 
 PowerReadyState ActivatedPower::PowerReady()
@@ -242,9 +258,23 @@ PowerReadyState ActivatedPower::PowerReady()
     {
         return POWER_NOT_READY_CHARGES;
     }
+    for (ActivatedPowerResource* resource : powerResources)
+    {
+        if (resource->powerCharges.second >= 0 && resource->powerCharges.first <= 0)
+        {
+            return POWER_NOT_READY_CHARGES;
+        }
+    }
     if (powerCooldown.first < powerCooldown.second)
     {
         return POWER_NOT_READY_COOLDOWN;
+    }
+    for (ActivatedPowerResource* resource : powerResources)
+    {
+        if (resource->powerCooldown.first < resource->powerCooldown.second)
+        {
+            return POWER_NOT_READY_COOLDOWN;
+        }
     }
 
     bool silenced;
@@ -428,6 +458,11 @@ void ActivatedPower::PreparePower()
     // Update cooldown and charges
     powerCooldown.first = 0;
     powerCharges.first = std::max(0, powerCharges.first - 1);
+    for (ActivatedPowerResource* resource : powerResources)
+    {
+        resource->powerCooldown.first = 0;
+        resource->powerCharges.first = std::max(0, resource->powerCharges.first - 1);
+    }
 
     int ownerShip = crew->GetPowerOwner();
     powerShip = crew->currentShipId;
@@ -562,6 +597,10 @@ void ActivatedPower::ActivatePower()
         extraAnims.emplace_back(G_->GetAnimationControl()->GetAnimation(def->effectPostAnim));
         Animation &extraAnim = extraAnims.back();
 
+        // set the position
+        extraAnim.position.x += effectPos.x;
+        extraAnim.position.y += effectPos.y;
+
         extraAnim.SetCurrentFrame(0);
         extraAnim.tracker.SetLoop(false, -1);
         extraAnim.Start(true);
@@ -647,7 +686,7 @@ void CrewMember_Extend::UpdateAbilityStatBoosts(CrewDefinition *def)
     bool noActiveAbility = true;
 
     // Get stat boosts from temporary effects
-    for (ActivatedPower* &power : crewPowers)
+    for (ActivatedPower* power : crewPowers)
     {
         if (power->temporaryPowerActive)
         {
@@ -707,6 +746,8 @@ HOOK_METHOD_PRIORITY(WorldManager, PauseLoop, 100, () -> void)
 void ActivatedPower::SaveState(int fd)
 {
     FileHelper::writeInt(fd, def->index);
+
+    FileHelper::writeInt(fd, enabled);
 
     FileHelper::writeFloat(fd, modifiedPowerCharges);
 
@@ -770,10 +811,12 @@ void ActivatedPower::SaveState(int fd)
 
 void ActivatedPower::LoadState(int fd)
 {
-    def = &ActivatedPowerDefinition::powerDefs[FileHelper::readInteger(fd)];
+    def = ActivatedPowerDefinition::powerDefs[FileHelper::readInteger(fd)];
     PrepareTemporaryAnimation(); // for tempEffectStrip
 
     std::string s;
+
+    enabled = FileHelper::readInteger(fd);
 
     modifiedPowerCharges = FileHelper::readFloat(fd);
 
@@ -831,77 +874,327 @@ void CrewMember_Extend::CalculatePowerDef()
     CrewDefinition* def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
 
     // First determine which abilities the crewmember should have
-    if (crewPowers.empty() || (!crewPowers[0]->powerActivated && !crewPowers[0]->temporaryPowerActive && crewPowers[0]->powerDone && crewPowers[0]->temporaryPowerDone))
+    CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
+
+    for (ActivatedPower* power : crewPowers)
     {
-        int currentPowerIndex = crewPowers.empty() ? 0 : crewPowers[0]->def->index;
-        CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
+        power->tempEnabled = false;
+    }
+    for (ActivatedPowerResource* resource : powerResources)
+    {
+        resource->enabled = false;
+    }
+    hasSpecialPower = false;
+    bool powerChanged = false; // tracks if any powers have changed
+    tempAddedPowerResource = false;
 
-        if (powerChange != currentPowerIndex)
+    // Loop 1: Check for existing powers matching exact definitions
+    for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+    {
+        [&]{
+            for (ActivatedPower* power : crewPowers)
+            {
+                if (!power->tempEnabled && power->enabled && power->def == *powerDef)
+                {
+                    hasSpecialPower = true;
+                    power->tempEnabled = true;
+                    power->EnablePowerResources();
+                    powerDef = powerChange.erase(powerDef);
+                    return;
+                }
+            }
+            powerDef++;
+        }();
+    }
+
+    // Most likely scenario is that no powers need changing/addition so check here to skip everything
+    if (!powerChange.empty())
+    {
+        // Loop 2: Check for existing powers in the same group (direct replacement)
+        for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
         {
-            ActivatedPowerDefinition *newDef = &ActivatedPowerDefinition::powerDefs[powerChange];
-
-            if (newDef->hasSpecialPower) // def is an actual power and not a lack of a power
-            {
-                if (crewPowers.empty())
+            [&]{
+                if ((*powerDef)->replaceGroupIndex != 0)
                 {
-                    ActivatedPower *power = new ActivatedPower(newDef, orig, this);
-                    crewPowers.push_back(power);
-
-                    power->powerCooldown.first = 0.f;
-                    power->powerCooldown.second = newDef->cooldown;
-                    power->powerCharges.first = newDef->initialCharges;
-                    power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
-                    power->modifiedPowerCharges = newDef->powerCharges;
+                    for (ActivatedPower* power : crewPowers)
+                    {
+                        if (!power->tempEnabled && power->enabled && power->def->replaceGroupIndex == (*powerDef)->replaceGroupIndex)
+                        {
+                            hasSpecialPower = true;
+                            power->tempEnabled = true;
+                            powerChanged = true;
+                            power->ChangePowerDef(*powerDef);
+                            powerDef = powerChange.erase(powerDef);
+                            return;
+                        }
+                    }
                 }
-                else
+                powerDef++;
+            }();
+        }
+
+        // Loop 3: Check for dormant powers matching exact definition, if so then re-enable that power
+        for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+        {
+            [&]{
+                for (ActivatedPower* power : crewPowers)
                 {
-                    ActivatedPower *power = crewPowers[0];
-                    power->def = newDef;
-
-                    power->powerCooldown.first = (power->powerCooldown.first/power->powerCooldown.second) * newDef->cooldown;
-                    power->powerCooldown.second = newDef->cooldown;
-
-                    // if old ability had no charges then reset to initialCharges
-                    // temporary behaviour; will be replaced when ability classification/grouping support is added
-                    // in future versions when an ability is replaced by one in the same group it will keep the same number of charges
-                    // but an ability in a different group will be given initialCharges
-                    if (power->powerCharges.second == -1) power->powerCharges.first = newDef->initialCharges;
-
-                    power->modifiedPowerCharges = newDef->powerCharges; // power->powerCharges.second will be updated after modifiedPowerCharges is fully calculated
+                    if (!power->tempEnabled && power->def == *powerDef)
+                    {
+                        hasSpecialPower = true;
+                        power->tempEnabled = true;
+                        power->EnablePower();
+                        power->EnablePowerResources();
+                        powerChanged = true;
+                        powerDef = powerChange.erase(powerDef);
+                        return;
+                    }
                 }
-            }
-            else
-            {
-                ClearCrewPowers();
-            }
+                powerDef++;
+            }();
+        }
 
-            // Had no power, still has no power
-            if (currentPowerIndex == 0 && crewPowers.empty()) return;
+        // Loop 4: Check for dormant powers in the same group but previously disabled, if so then change the definition and enable
+        for (auto powerDef = powerChange.begin(); powerDef != powerChange.end();)
+        {
+            [&]{
+                if ((*powerDef)->replaceGroupIndex != 0)
+                {
+                    for (ActivatedPower* power : crewPowers)
+                    {
+                        if (!power->tempEnabled && power->def->replaceGroupIndex == (*powerDef)->replaceGroupIndex)
+                        {
+                            hasSpecialPower = true;
+                            power->tempEnabled = true;
+                            power->EnablePower();
+                            powerChanged = true;
+                            power->ChangePowerDef(*powerDef);
+                            powerDef = powerChange.erase(powerDef);
+                            return;
+                        }
+                    }
+                }
+                powerDef++;
+            }();
+        }
+    }
 
-            if (orig->iShipId == 0)
+    // Now any powers that still have tempEnabled = false should be disabled
+    for (ActivatedPower* power : crewPowers)
+    {
+        if (!power->tempEnabled && power->enabled)
+        {
+            power->DisablePower();
+            powerChanged = true;
+        }
+    }
+
+    // Any remaining definitions in powerChange are brand new
+    if (!powerChange.empty())
+    {
+        hasSpecialPower = true;
+        for (ActivatedPowerDefinition* powerDef : powerChange)
+        {
+            ActivatedPower *power = new ActivatedPower(powerDef, orig, this);
+            crewPowers.push_back(power);
+
+            power->powerCooldown.first = 0.f;
+            power->powerCooldown.second = powerDef->cooldown;
+            power->powerCharges.first = powerDef->initialCharges;
+            power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
+            power->modifiedPowerCharges = powerDef->powerCharges;
+
+            power->LinkPowerResources();
+        }
+    }
+
+    if (powerChanged)
+    {
+        std::stable_sort(crewPowers.begin(), crewPowers.end(),
+        [](const ActivatedPower *a, const ActivatedPower *b) -> bool
+        {
+            return a->def->sortOrder < b->def->sortOrder;
+        });
+
+        if (tempAddedPowerResource)
+        {
+            std::stable_sort(powerResources.begin(), powerResources.end(),
+            [](const ActivatedPowerResource *a, const ActivatedPowerResource *b) -> bool
             {
-                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
-            }
+                return a->def->sortOrder < b->def->sortOrder;
+            });
+        }
+
+        if (orig->iShipId == 0 || orig->bMindControlled)
+        {
+            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
         }
     }
 
     // Now calculate power definition modifiers (any that need to be updated every frame)
-    if (!crewPowers.empty())
+    if (hasSpecialPower)
     {
         // Update the max charges
         CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
         for (ActivatedPower *power : crewPowers)
         {
+            if (!power->enabled) continue;
             int iMaxCharges = power->modifiedPowerCharges >= 2147483648.f ? -1 : power->modifiedPowerCharges;
             if (power->powerCharges.second != iMaxCharges)
             {
+                // If changing from or to -1 then clear crew boxes
+                if ((power->powerCharges.second == -1) != (iMaxCharges == -1)) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+
                 power->powerCharges.second = iMaxCharges;
                 if (iMaxCharges != -1)
                 {
                     power->powerCharges.first = std::min(power->powerCharges.first, iMaxCharges);
                 }
-                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+            }
+        }
+        for (ActivatedPowerResource *resource : powerResources)
+        {
+            if (!resource->enabled) continue;
+            int iMaxCharges = resource->modifiedPowerCharges >= 2147483648.f ? -1 : resource->modifiedPowerCharges;
+            if (resource->powerCharges.second != iMaxCharges)
+            {
+                // If changing from or to -1 then clear crew boxes
+                if ((resource->powerCharges.second == -1) != (iMaxCharges == -1)) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+
+                resource->powerCharges.second = iMaxCharges;
+                if (iMaxCharges != -1)
+                {
+                    resource->powerCharges.first = std::min(resource->powerCharges.first, iMaxCharges);
+                }
             }
         }
     }
+}
+
+void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
+{
+    // If new definition has no temp power but current one is active then end it
+    if (!newDef->hasTemporaryPower && temporaryPowerActive)
+    {
+        temporaryPowerDuration.first = 0.f;
+        TemporaryPowerFinished();
+    }
+
+    // Set the new definition
+    def = newDef;
+
+    // If new definition has temp power and current one is active then reset the animations and duration
+    if (newDef->hasTemporaryPower && temporaryPowerActive)
+    {
+        PrepareTemporaryAnimation();
+
+        temporaryPowerDuration.first = def->tempPower.duration * (temporaryPowerDuration.first/temporaryPowerDuration.second);
+        temporaryPowerDuration.second = def->tempPower.duration;
+
+        crew_ex->UpdateAbilityStatBoosts();
+        StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
+    }
+
+    // Update cooldown
+    powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
+    powerCooldown.second = newDef->cooldown;
+
+    // Redefine resources
+    powerResources.clear();
+    LinkPowerResources();
+}
+
+void ActivatedPower::EnablePower()
+{
+    enabled = true;
+}
+
+void ActivatedPower::DisablePower()
+{
+    enabled = false;
+
+    // Note that in this version the active effect continues when the power is disabled
+    // But the temporary effect is terminated
+
+    if (temporaryPowerActive)
+    {
+        temporaryPowerDuration.first = 0.f;
+        TemporaryPowerFinished();
+    }
+}
+
+void ActivatedPower::LinkPowerResources()
+{
+    for (PowerResourceDefinition *resourceDef : def->powerResources)
+    {
+        ActivatedPowerResource *resource;
+
+        auto it = crew_ex->powerResourceMap.find(resourceDef->index);
+        if (it == crew_ex->powerResourceMap.end()) // need to create new
+        {
+            resource = new ActivatedPowerResource(resourceDef, crew, crew_ex);
+            crew_ex->powerResources.push_back(resource);
+            crew_ex->powerResourceMap[resourceDef->index] = resource;
+            crew_ex->tempAddedPowerResource = true;
+
+            resource->powerCooldown.first = 0.f;
+            resource->powerCooldown.second = resourceDef->cooldown;
+            resource->powerCharges.first = resourceDef->initialCharges;
+            resource->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
+            resource->modifiedPowerCharges = resourceDef->powerCharges;
+        }
+        else
+        {
+            resource = it->second;
+        }
+
+        resource->enabled = true;
+        powerResources.push_back(resource);
+    }
+}
+
+void ActivatedPower::EnablePowerResources()
+{
+    for (ActivatedPowerResource *resource : powerResources)
+    {
+        resource->enabled = true;
+    }
+}
+
+void ActivatedPowerResource::SaveState(int fd)
+{
+    FileHelper::writeInt(fd, def->index);
+
+    FileHelper::writeInt(fd, enabled);
+
+    FileHelper::writeFloat(fd, modifiedPowerCharges);
+
+    FileHelper::writeFloat(fd, powerCooldown.first);
+    FileHelper::writeFloat(fd, powerCooldown.second);
+    FileHelper::writeInt(fd, powerCharges.first);
+    FileHelper::writeInt(fd, powerCharges.second);
+}
+
+void ActivatedPowerResource::LoadState(int fd)
+{
+    def = PowerResourceDefinition::powerDefs[FileHelper::readInteger(fd)];
+
+    enabled = FileHelper::readInteger(fd);
+
+    modifiedPowerCharges = FileHelper::readFloat(fd);
+
+    powerCooldown.first = FileHelper::readFloat(fd);
+    powerCooldown.second = FileHelper::readFloat(fd);
+    powerCharges.first = FileHelper::readInteger(fd);
+    powerCharges.second = FileHelper::readInteger(fd);
+}
+
+void ActivatedPowerResource::EnablePower()
+{
+    enabled = true;
+}
+
+void ActivatedPowerResource::DisablePower()
+{
+    enabled = false;
 }

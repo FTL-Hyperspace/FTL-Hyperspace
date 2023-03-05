@@ -875,14 +875,14 @@ playerVariableType playerVariables;
 %nodefaultctors Shields;
 %nodefaultdtors Shields;
 %rename("%s") Shields;
-/*
+
 %nodefaultctors Shields::Shield;
 %nodefaultdtors Shields::Shield;
 %rename("%s") Shields::Shield;
 %rename("%s") Shields::Shield::charger;
 %rename("%s") Shields::Shield::power;
 %rename("%s") Shields::Shield::superTimer;
-*/
+
 /*
 %nodefaultctors Shields::ShieldAnimation;
 %nodefaultdtors Shields::ShieldAnimation;
@@ -1181,6 +1181,42 @@ playerVariableType playerVariables;
 %rename("%s") WeaponAnimation::iHackLevel;
 %rename("%s") WeaponAnimation::hackSparks;
 %rename("%s") WeaponAnimation::playerShip;
+
+%nodefaultctors Animation;
+%nodefaultdtors Animation;
+%rename("%s") Animation;
+%rename("%s") Animation::AddSoundQueue;
+%rename("%s") Animation::Done;
+%rename("%s") Animation::LoadState;
+%rename("%s") Animation::RandomStart;
+%rename("%s") Animation::SaveState;
+%rename("%s") Animation::SetAnimationId;
+%rename("%s") Animation::SetCurrentFrame;
+%rename("%s") Animation::SetProgress;
+%rename("%s") Animation::Start;
+%rename("%s") Animation::StartReverse;
+%rename("%s") Animation::Update;
+%rename("%s") Animation::animationStrip;
+%rename("%s") Animation::info;
+%rename("%s") Animation::tracker;
+%rename("%s") Animation::position;
+%rename("%s") Animation::soundForward;
+%rename("%s") Animation::soundReverse;
+%rename("%s") Animation::randomizeFrames;
+%rename("%s") Animation::fScale;
+%rename("%s") Animation::fYStretch;
+%rename("%s") Animation::currentFrame;
+%rename("%s") Animation::bAlwaysMirror;
+%rename("%s") Animation::soundQueue;
+%rename("%s") Animation::fadeOut;
+%rename("%s") Animation::startFadeOut;
+%rename("%s") Animation::animName;
+%rename("%s") Animation::mask_x_pos;
+%rename("%s") Animation::mask_x_size;
+%rename("%s") Animation::mask_y_pos;
+%rename("%s") Animation::mask_y_size;
+%rename("%s") Animation::primitive;
+%rename("%s") Animation::mirroredPrimitive;
 
 %nodefaultctor Ship;
 %nodefaultdtor Ship;
