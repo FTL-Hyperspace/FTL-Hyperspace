@@ -1372,10 +1372,6 @@
 			<Option compile="1" />
 			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
-		<Unit filename="lua/modules/rapidxml.i">
-			<Option compile="1" />
-			<Option virtualFolder="Scripting/modules/" />
-		</Unit>
 		<Unit filename="lua/swigluarun.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
