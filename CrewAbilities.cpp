@@ -882,6 +882,7 @@ void CrewMember_Extend::CalculatePowerDef()
     }
     for (ActivatedPowerResource* resource : powerResources)
     {
+        resource->lastEnabled = resource->enabled;
         resource->enabled = false;
     }
     hasSpecialPower = false;
@@ -998,7 +999,7 @@ void CrewMember_Extend::CalculatePowerDef()
             ActivatedPower *power = new ActivatedPower(powerDef, orig, this);
             crewPowers.push_back(power);
 
-            power->powerCooldown.first = 0.f;
+            power->powerCooldown.first = powerDef->cooldown * powerDef->initialCooldownFraction;
             power->powerCooldown.second = powerDef->cooldown;
             power->powerCharges.first = powerDef->initialCharges;
             power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
@@ -1032,10 +1033,11 @@ void CrewMember_Extend::CalculatePowerDef()
     }
 
     // Now calculate power definition modifiers (any that need to be updated every frame)
-    if (hasSpecialPower)
+    if (!crewPowers.empty() || !powerResources.empty())
     {
         // Update the max charges
         CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+
         for (ActivatedPower *power : crewPowers)
         {
             if (!power->enabled) continue;
@@ -1067,6 +1069,16 @@ void CrewMember_Extend::CalculatePowerDef()
                     resource->powerCharges.first = std::min(resource->powerCharges.first, iMaxCharges);
                 }
             }
+        }
+
+        // Now reinitialize any power cooldowns/charges that need to be reinitialized when enabled
+        for (ActivatedPower *power : crewPowers)
+        {
+            if (power->enabledInit) power->EnableInit();
+        }
+        for (ActivatedPowerResource *power : powerResources)
+        {
+            if (power->enabled && !power->lastEnabled) power->EnableInit();
         }
     }
 }
@@ -1107,6 +1119,42 @@ void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
 void ActivatedPower::EnablePower()
 {
     enabled = true;
+    enabledInit = true;
+}
+
+void ActivatedPowerResource::EnablePower()
+{
+    enabled = true;
+}
+
+void ActivatedPower::EnableInit()
+{
+    if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
+    else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
+    else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+
+    if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL)
+    {
+        if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+    }
+    else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
+    else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
+
+    enabledInit = false;
+}
+
+void ActivatedPowerResource::EnableInit()
+{
+    if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
+    else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
+    else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+
+    if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_FULL)
+    {
+        if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+    }
+    else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
+    else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
 }
 
 void ActivatedPower::DisablePower()
@@ -1121,6 +1169,11 @@ void ActivatedPower::DisablePower()
         temporaryPowerDuration.first = 0.f;
         TemporaryPowerFinished();
     }
+}
+
+void ActivatedPowerResource::DisablePower()
+{
+    enabled = false;
 }
 
 void ActivatedPower::LinkPowerResources()
@@ -1157,7 +1210,7 @@ void ActivatedPower::EnablePowerResources()
 {
     for (ActivatedPowerResource *resource : powerResources)
     {
-        resource->enabled = true;
+        resource->EnablePower();
     }
 }
 
@@ -1187,14 +1240,4 @@ void ActivatedPowerResource::LoadState(int fd)
     powerCooldown.second = FileHelper::readFloat(fd);
     powerCharges.first = FileHelper::readInteger(fd);
     powerCharges.second = FileHelper::readInteger(fd);
-}
-
-void ActivatedPowerResource::EnablePower()
-{
-    enabled = true;
-}
-
-void ActivatedPowerResource::DisablePower()
-{
-    enabled = false;
 }

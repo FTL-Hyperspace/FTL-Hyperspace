@@ -252,6 +252,15 @@ struct ActivatedPowerDefinition
         JUMP_COOLDOWN_CONTINUE
     };
 
+    enum DISABLED_COOLDOWN
+    {
+        DISABLED_COOLDOWN_FULL,
+        DISABLED_COOLDOWN_RESET,
+        DISABLED_COOLDOWN_CONTINUE,
+        DISABLED_COOLDOWN_PAUSE,
+        DISABLED_COOLDOWN_ZERO
+    };
+
     enum ON_DEATH
     {
         ON_DEATH_CONTINUE,
@@ -387,12 +396,15 @@ struct ActivatedPowerDefinition
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
+    float initialCooldownFraction = 0.f;
     int onDeath = ON_DEATH_RESET;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
     int respawnCharges = 0;
+    int disabledCharges = DISABLED_COOLDOWN_PAUSE;
 
     bool hideCooldown = false;
     bool hideCharges = false;
@@ -450,6 +462,15 @@ struct PowerResourceDefinition
         JUMP_COOLDOWN_FULL,
         JUMP_COOLDOWN_RESET,
         JUMP_COOLDOWN_CONTINUE
+    };
+
+    enum DISABLED_COOLDOWN
+    {
+        DISABLED_COOLDOWN_FULL,
+        DISABLED_COOLDOWN_RESET,
+        DISABLED_COOLDOWN_CONTINUE,
+        DISABLED_COOLDOWN_PAUSE,
+        DISABLED_COOLDOWN_ZERO
     };
 
     enum ON_DEATH
@@ -558,12 +579,15 @@ struct PowerResourceDefinition
 
     float cooldown = 0.f;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
+    float initialCooldownFraction = 0.f;
     int onDeath = ON_DEATH_RESET;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
     int respawnCharges = 0;
+    int disabledCharges = DISABLED_COOLDOWN_PAUSE;
 
     bool hideCooldown = false;
     bool hideCharges = false;

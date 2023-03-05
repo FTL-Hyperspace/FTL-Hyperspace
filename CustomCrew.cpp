@@ -850,6 +850,30 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
             else if (v == "reset") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_RESET;
             else if (v == "continue") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_CONTINUE;
         }
+        if (effectName == "disabledCooldown")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "disabledCharges")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "initialCooldownFraction")
+        {
+            def->initialCooldownFraction = boost::lexical_cast<float>(effectNode->value());
+        }
         if (effectName == "onDeath")
         {
             std::string v = effectNode->value();
@@ -1369,6 +1393,30 @@ PowerResourceDefinition* CustomCrewManager::ParseAbilityResource(rapidxml::xml_n
             else if (v == "reset") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_RESET;
             else if (v == "continue") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_CONTINUE;
         }
+        if (effectName == "disabledCooldown")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "disabledCharges")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "initialCooldownFraction")
+        {
+            def->initialCooldownFraction = boost::lexical_cast<float>(effectNode->value());
+        }
         if (effectName == "onDeath")
         {
             std::string v = effectNode->value();
@@ -1795,14 +1843,14 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
         {
             power->CancelPower(true);
         }
-        if (power->enabled)
+        if (power->enabled || power->def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
         {
             power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
         }
     }
     for (ActivatedPowerResource *power : ex->powerResources)
     {
-        if (power->enabled)
+        if (power->enabled || power->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
         {
             power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
         }
@@ -2660,8 +2708,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                             power->TemporaryPowerFinished();
                         }
                     }
-                    else if (power->enabled) // power recharge and auto-activation requires power to be enabled
+                    else if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
                     {
+                        // power recharge and auto-activation requires power to be enabled (or recharge to continue when disabled)
                         if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
                         {
                             power->powerCooldown.first = 0.f;
@@ -2671,7 +2720,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                             power->powerCooldown.first = std::max(0.f, std::min(power->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + power->powerCooldown.first));
                         }
 
-                        if (!IsDead() && Functional())
+                        if (power->enabled && !IsDead() && Functional())
                         {
                             bool activateWhenReady = power->def->activateWhenReady && (!power->def->activateReadyEnemies || (GetPowerOwner() == 1));
                             // Only check activateWhenReady if not dying
@@ -2748,8 +2797,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             }
             for (ActivatedPowerResource *power : ex->powerResources)
             {
-                if (power->enabled) // power recharge and auto-activation requires power to be enabled
+                if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
                 {
+                    // power recharge and auto-activation requires power to be enabled or disabledCooldown to be CONTINUE
                     if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
                     {
                         power->powerCooldown.first = 0.f;

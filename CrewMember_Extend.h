@@ -62,6 +62,7 @@ public:
 
     // enabled
     bool enabled = true;
+    bool lastEnabled;
 
     // definition modifiers that should be saved
     float modifiedPowerCharges = -1.f;
@@ -82,6 +83,7 @@ public:
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
     void EnablePower();
     void DisablePower();
+    void EnableInit();
 
     void SaveState(int fd);
     void LoadState(int fd);
@@ -96,6 +98,7 @@ public:
 
     // enabled
     bool enabled = true;
+    bool enabledInit = false;
     bool tempEnabled;
 
     // definition modifiers that should be saved
@@ -150,6 +153,7 @@ public:
     void ChangePowerDef(ActivatedPowerDefinition *newDef);
     void EnablePower();
     void DisablePower();
+    void EnableInit();
 
     void SaveState(int fd);
     void LoadState(int fd);
