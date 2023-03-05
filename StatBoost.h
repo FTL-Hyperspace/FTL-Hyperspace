@@ -83,11 +83,14 @@ struct StatBoostDefinition
     {
         MULT,
         FLAT,
+        ADD=FLAT,
         SET,
         FLIP,
         SET_VALUE,
         MIN,
-        MAX
+        MAX,
+        REPLACE_GROUP,
+        REPLACE_POWER,
     };
 
     enum class BoostSource
@@ -157,6 +160,7 @@ struct StatBoostDefinition
     std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
     ActivatedPowerDefinition *powerChange = nullptr;
+    ActivatedPowerDefinition *targetPower = nullptr;
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();

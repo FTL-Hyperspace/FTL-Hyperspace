@@ -13,7 +13,7 @@ HOOK_METHOD_PRIORITY(CrewBox, constructor, 900, (Point pos_, CrewMember *crew_, 
     gap_ex_1[2] = (dEx >> 56) & 0xFF;
     gap_ex_1[3] = (dEx >> 48) & 0xFF;
     gap_ex_2[2] = (dEx >> 40) & 0xFF;
-    gap_ex_2[3] = (dEx >> 32) & 0xFF;
+    gap_ex_1[4] = (dEx >> 32) & 0xFF;
 #endif // __amd64__
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
@@ -45,7 +45,7 @@ CrewBox_Extend* Get_CrewBox_Extend(const CrewBox* c)
     dEx <<= 8;
     dEx |= c->gap_ex_2[2];
     dEx <<= 8;
-    dEx |= c->gap_ex_2[3];
+    dEx |= c->gap_ex_1[4];
 #endif // __amd64__
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
@@ -61,10 +61,36 @@ CrewBox_Extend* Get_CrewBox_Extend(const CrewBox* c)
 
 void CrewAbilityCooldownBar::OnRender()
 {
-    bool powerActive = power->temporaryPowerActive;
+    std::pair<float, float> *cooldown;
+    GL_Color *barColor;
+    bool powerActive = false;
 
-    std::pair<float, float> &cooldown = powerActive ? power->temporaryPowerDuration : power->powerCooldown;
-    int cooldownHeight = (cooldown.first / cooldown.second) * box.h;
+    if (power)
+    {
+        powerActive = power->temporaryPowerActive;
+        if (powerActive)
+        {
+            cooldown = &power->temporaryPowerDuration;
+            barColor = &power->def->tempPower.cooldownColor;
+        }
+        else if (resource)
+        {
+            cooldown = &resource->powerCooldown;
+            barColor = &resource->def->cooldownColor;
+        }
+        else
+        {
+            cooldown = &power->powerCooldown;
+            barColor = &power->def->cooldownColor;
+        }
+    }
+    else
+    {
+        cooldown = &resource->powerCooldown;
+        barColor = &resource->def->cooldownColor;
+    }
+
+    int cooldownHeight = ((*cooldown).first / (*cooldown).second) * box.h;
 
     // check if bar has changed since last render
     if (barActive != powerActive || cooldownHeight != lastCooldownHeight)
@@ -75,8 +101,7 @@ void CrewAbilityCooldownBar::OnRender()
 
         if (cooldownHeight > 0)
         {
-            GL_Color &barColor = powerActive ? power->def->tempPower.cooldownColor : power->def->cooldownColor;
-            prim = CSurface::GL_CreateRectPrimitive(box.x, (box.h - cooldownHeight) + box.y, box.w, cooldownHeight, barColor);
+            prim = CSurface::GL_CreateRectPrimitive(box.x, (box.h - cooldownHeight) + box.y, box.w, cooldownHeight, *barColor);
         }
         else
         {
@@ -92,11 +117,13 @@ void CrewAbilityCooldownBar::OnRender()
 
 void CrewAbilityChargesBar::OnRender()
 {
+    std::pair<int, int> &powerCharges = power ? power->powerCharges : resource->powerCharges;
+
     // check if bar has changed since last render
-    if (power->powerCharges.first != charges.first || power->powerCharges.second != charges.second)
+    if (powerCharges.first != charges.first || powerCharges.second != charges.second)
     {
         CSurface::GL_DestroyPrimitive(prim);
-        charges = power->powerCharges;
+        charges = powerCharges;
 
         if (charges.first > 0 && charges.second > 0)
         {
@@ -104,7 +131,8 @@ void CrewAbilityChargesBar::OnRender()
             if (charges.second*3-1 > box.h)
             {
                 int chargesHeight = std::max(1, box.h * charges.first / charges.second);
-                prim = CSurface::GL_CreateRectPrimitive(box.x, (box.h - chargesHeight) + box.y, box.w, chargesHeight, power->def->cooldownColor);
+                GL_Color &color = power ? power->def->cooldownColor : resource->def->cooldownColor;
+                prim = CSurface::GL_CreateRectPrimitive(box.x, (box.h - chargesHeight) + box.y, box.w, chargesHeight, color);
             }
             else
             {
@@ -129,7 +157,8 @@ void CrewAbilityChargesBar::OnRender()
                     rects.emplace_back(Globals::Rect({box.x, box.y + box.h - y1, box.w, y1 - y0}));
                     y0 = y1 + chargesGap;
                 }
-                prim = CSurface::GL_CreateMultiRectPrimitive(rects, power->def->cooldownColor);
+                GL_Color &color = power ? power->def->cooldownColor : resource->def->cooldownColor;
+                prim = CSurface::GL_CreateMultiRectPrimitive(rects, color);
             }
         }
         else
