@@ -8490,7 +8490,7 @@ void HackingSystem::OnLoop()
 namespace _func659
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("HackingSystem::SoundLoop", typeid(bool (HackingSystem::*)()), "5380bf44020000????89fb75??31c05bc30f1f8000000000e8????????83f8??75??0fb683b0050000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("HackingSystem::SoundLoop", typeid(bool (HackingSystem::*)()), "5380bf44020000004889fb75??31c05bc30f1f8000000000e8????????83f8ff", nullptr, 0, 0, &func);
 }
 
 bool HackingSystem::SoundLoop()
@@ -14112,7 +14112,7 @@ int SoundControl::PlaySoundMix(const std::string &soundName, float volume, bool 
 namespace _func1113
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("SoundControl::UpdateSoundLoop", typeid(void (SoundControl::*)(const std::string &, float )), "??57??56??55??5455??89fd53??83ec??803f????8974????f30f1104??74??", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SoundControl::UpdateSoundLoop", typeid(void (SoundControl::*)(const std::string &, float )), ".4157415641554154554889fd534883ec38", nullptr, 0, 0, &func);
 }
 
 void SoundControl::UpdateSoundLoop(const std::string &loopId, float count)
