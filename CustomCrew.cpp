@@ -2399,7 +2399,10 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bo
         {
             lastDamageTimer = -2;
         }
-        // if (newHealth <= 0 && iOnFire != 0 && bFighting && (blockingDoor != (*Door)crewTarget) && iShipId != 0 && currentShipId != 0) // inner ACH_ROCK_FIRE check TBD
+        if (newHealth <= 0 && iOnFire != 0 && bFighting && (blockingDoor != (Door*)crewTarget) && iShipId != 0 && currentShipId != 0 && IsCrew() && crewTarget->iShipId == 0)
+        {
+            G_->GetAchievementTracker()->SetAchievement("ACH_ROCK_FIRE", false, true);
+        }
         float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, CustomCrewManager::GetInstance()->GetDefinition(species));
         if (newHealth <= lowHealthThreshold && originalHealth > lowHealthThreshold && iShipId == 0 && IsCrew())
         {
