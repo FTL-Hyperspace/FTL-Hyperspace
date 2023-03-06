@@ -12,6 +12,8 @@ __thiscall void CachedImage::SetPosition(CachedImage *this, int x, int y);
 __thiscall void CachedImage::SetRotation(CachedImage *this, float _rotation);
 "5589e5565383e4f083ec108b750889f038414874198b410489cb890424":
 __thiscall void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
+"5589e55383e4f083ec10f30f1045080f2e412c7a??75??f30f105d0c0f2e5930":
+__thiscall void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b712085f6":
 __thiscall void CachedImage::CreatePrimitive(CachedImage *this);
 

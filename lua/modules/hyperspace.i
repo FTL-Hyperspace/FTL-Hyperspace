@@ -1586,6 +1586,7 @@ playerVariableType playerVariables;
 %immutable CrewMember_Extend::orig;
 %rename("%s") CrewMember_Extend::selfId;
 %immutable CrewMember_Extend::selfId;
+%rename("%s") CrewMember_Extend::lowHealthThreshold;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;

@@ -12,6 +12,8 @@ cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const Cach
 cleanup __amd64 void CachedImage::SetRotation(CachedImage *this, float _rotation);
 ".5589f5534889fb4883ec0840387744":
 cleanup __amd64 void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
+"534889fb4883ec100f2e4728":
+cleanup __amd64 void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
 "415455534889fb4883ec50488b6f184885ed":
 cleanup __amd64 void CachedImage::CreatePrimitive(CachedImage *this);
 

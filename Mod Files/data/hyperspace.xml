@@ -643,6 +643,7 @@ Syntax ->
 		<trueHealAmount>2.0</trueHealAmount>                                             Amount of health to heal over time, in HP/second. Unaffected by healSpeed, continuous. Use negative value for DoT.
 		<detectsLifeforms>false</detectsLifeforms>                                       If true, having this crewmember will allow the player to see enemy crew (slug).
 		<healCrewAmount>0.0</healCrewAmount>                                             Amount of health to heal friendly crew in the same room over time, in HP/second. Affected by healSpeed of the respective crew.
+		<lowHealthThreshold>25.0</lowHealthThreshold>                                    Health value at which beeping sound plays and health bar flashes red. Can be set to negative value to disable this behavior.
 		<skills>                                                                         Controls experience requirement per skill level for each crew skill type.
 			<piloting req="15"/>
 			<engines req="15"/>

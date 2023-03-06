@@ -227,6 +227,8 @@ public:
     std::string originalRace = "";
     std::string transformRace = "";
 
+    float lowHealthThreshold = 25.f;
+
     struct CustomTeleport
     {
         bool teleporting = false;

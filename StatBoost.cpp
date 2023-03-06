@@ -67,6 +67,7 @@ const std::array<std::string, numStats> crewStats =
     "teleportMove",
     "teleportMoveOtherShip",
     "silenced",
+    "lowHealthThreshold",
     // non-cached stats
     "activateWhenReady",
     "statBoost",
@@ -2083,6 +2084,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::TRANSFORM_RACE:
             transformRace = originalRace;
             isEffect = true;
+            break;
+        case CrewStat::LOW_HEALTH_THRESHOLD:
+            _CALCULATE_BASE_STAT(finalStat, lowHealthThreshold);
             break;
     }
 

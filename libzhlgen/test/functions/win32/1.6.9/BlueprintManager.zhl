@@ -36,6 +36,8 @@ __thiscall std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(Bluepri
 __thiscall ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager* this, rapidxml::xml_node<char>* node);
 "578d7c240883e4f0ff77fc5589e557565389ce81ecec0000008b07898d24ffffff89851cffffff8b470489c7898518ffffff":
 __thiscall DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager* this, rapidxml::xml_node<char>* node);
+"8d4c240483e4f0ff71fc5589e55756535181ec880000008b198b49040fb6f98d045f":
+static cleanup __cdecl GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
 
 "!8b85c0feffff83ec04b9(???????\?)83b83401000003":
 BlueprintManager* Global_BlueprintManager_Blueprints;
