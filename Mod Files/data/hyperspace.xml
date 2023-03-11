@@ -741,6 +741,8 @@ Syntax ->
 				<hideCooldown>false</hideCooldown>
 				<hideCharges>false</hideCharges>
 				<showTemporaryBars>false</showTemporaryBars>                             If true then when a linked ability is active its effect bar will replace the resource cooldown bar.
+				<showLinkedCooldowns>false</showLinkedCooldowns>                         Linked ability cooldown bars will be grouped with this resource; make sure to disable showing the individual bars.
+				<showLinkedCharges>false</showLinkedCharges>                             Linked ability charges will be grouped with this resource; make sure to disable showing the individual bars.
 			</powerResource>
 			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>

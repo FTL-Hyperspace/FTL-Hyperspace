@@ -592,6 +592,8 @@ struct PowerResourceDefinition
     bool hideCooldown = false;
     bool hideCharges = false;
     bool showTemporaryBars = false; // whether to overlay temporary effect bars from linked powers on this resource's cooldown bar
+    bool showLinkedCooldowns = false; // when true the linked cooldowns are grouped with this resource
+    bool showLinkedCharges = false; // when true the linked charges are grouped with this resource
 
     GL_Color cooldownColor;
 

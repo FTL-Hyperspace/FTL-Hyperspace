@@ -1467,6 +1467,14 @@ PowerResourceDefinition* CustomCrewManager::ParseAbilityResource(rapidxml::xml_n
         {
             def->showTemporaryBars = EventsParser::ParseBoolean(effectNode->value());
         }
+        if (effectName == "showLinkedCooldowns")
+        {
+            def->showLinkedCooldowns = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "showLinkedCharges")
+        {
+            def->showLinkedCharges = EventsParser::ParseBoolean(effectNode->value());
+        }
     }
 
     return def;
@@ -4200,6 +4208,8 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, 200, (Pointf location, Damage dmg,
     return super(location, dmg, forceHit);
 }
 
+static std::array<int,5> maxCooldownWidth = {12,18,18,22,999};
+
 HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewBox::constructor -> Begin (CustomCrew.cpp)\n")
@@ -4216,15 +4226,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
 
         if (ex->hasSpecialPower)
         {
-            int cooldownsWidth = 0;
-            std::vector<int> cooldownBorders;
-
-            int abilityBarCount = 0;
-            int abilityBarCount_CD = 0;
-            int abilityBarCount_CH = 0;
-            int abilityBarCount_CD_CH = 0;
-
-            // Loop over powers
+            // Loop over powers for buttons
             for (ActivatedPower* power : ex->crewPowers)
             {
                 if (!power->enabled) continue;
@@ -4241,165 +4243,63 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
                     // offset to make room for ability buttons
                     bex->skillOffset += 24;
                 }
-
-                // just count the abilities with charge/cooldown bars for now
-                abilityBarCount++;
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
-                {
-                    if (power->def->hideCooldown)
-                    {
-                        abilityBarCount_CH++;
-                    }
-                    else
-                    {
-                        abilityBarCount_CD_CH++;
-                    }
-                }
-                else
-                {
-                    if (power->def->hideCooldown)
-                    {
-                    }
-                    else
-                    {
-                        abilityBarCount_CD++;
-                    }
-                }
-            }
-            for (ActivatedPowerResource* power : ex->powerResources)
-            {
-                if (!power->enabled) continue;
-                abilityBarCount++;
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
-                {
-                    if (power->def->hideCooldown)
-                    {
-                        abilityBarCount_CH++;
-                    }
-                    else
-                    {
-                        abilityBarCount_CD_CH++;
-                    }
-                }
-                else
-                {
-                    if (power->def->hideCooldown)
-                    {
-                    }
-                    else
-                    {
-                        abilityBarCount_CD++;
-                    }
-                }
             }
 
-            // Loop for actual ability bars
-            for (ActivatedPower* power : ex->crewPowers)
-            {
-                if (!power->enabled) continue;
+            int mode;
+            int cooldownsWidth;
+            std::vector<int> cooldownBorders;
 
-                // charges and cooldown when having charges
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
-                {
-                    if (power->def->hideCooldown) // only charges
-                    {
-                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 3, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+8);
-                        cooldownsWidth += 7;
-                    }
-                    else
-                    {
-                        if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
-                        {
-                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+11);
-                            cooldownsWidth += 10;
-                        }
-                        else // full cooldown plus charges
-                        {
-                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+7);
-                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+14);
-                            cooldownsWidth += 13;
-                        }
-                    }
-                }
-                else if (!power->def->hideCooldown) // only cooldown
-                {
-                    bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
-                    cooldownBorders.push_back(cooldownsWidth+9);
-                    cooldownsWidth += 8;
-                }
-            }
+            // update tempLinkedPowers for resources
             for (ActivatedPowerResource* resource : ex->powerResources)
             {
-                if (!resource->enabled) continue;
-
-                // charges and cooldown when having charges
-                if (resource->powerCharges.second > 0 && !resource->def->hideCharges)
+                if (resource->enabled && (resource->def->showTemporaryBars || resource->def->showLinkedCooldowns || resource->def->showLinkedCharges))
                 {
-                    if (resource->def->hideCooldown) // only charges
+                    resource->GetLinkedPowers();
+                }
+            }
+
+            for (mode=0; mode<5; mode++)
+            {
+                cooldownsWidth = bex->GetTotalCooldownWidth(mode, ex);
+                if (cooldownsWidth <= maxCooldownWidth[mode]) break;
+            }
+
+            auto iter1 = ex->crewPowers.begin();
+            auto end1 = ex->crewPowers.end();
+            auto iter2 = ex->powerResources.begin();
+            auto end2 = ex->powerResources.end();
+
+            int startX = std::max(-13, cooldownsWidth>10 ? 5-cooldownsWidth : -cooldownsWidth/2);
+            bex->crewPos.x += std::min(startX+cooldownsWidth,std::max(2,startX+cooldownsWidth-3));
+            int offset = startX;
+
+            while (true)
+            {
+                if (iter1 != end1)
+                {
+                    if (iter2 == end2 || (*iter1)->def->sortOrder <= (*iter2)->def->sortOrder)
                     {
-                        bex->chargesBars.emplace_back(resource, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 3, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+8);
-                        cooldownsWidth += 7;
+                        bex->EmplacePower(*iter1, mode, offset, cooldownBorders);
+                        iter1++;
                     }
                     else
                     {
-                        if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
-                        {
-                            bex->chargesBars.emplace_back(resource, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            bex->cooldownBars.emplace_back(resource, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+11);
-                            cooldownsWidth += 10;
-                        }
-                        else // full cooldown plus charges
-                        {
-                            bex->chargesBars.emplace_back(resource, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+7);
-                            bex->cooldownBars.emplace_back(resource, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+14);
-                            cooldownsWidth += 13;
-                        }
+                        bex->EmplacePower(*iter2, mode, offset, cooldownBorders);
+                        iter2++;
                     }
                 }
-                else if (!resource->def->hideCooldown) // only cooldown
+                else if (iter2 != end2)
                 {
-                    bex->cooldownBars.emplace_back(resource, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
-                    cooldownBorders.push_back(cooldownsWidth+9);
-                    cooldownsWidth += 8;
+                    bex->EmplacePower(*iter2, mode, offset, cooldownBorders);
+                    iter2++;
                 }
-
-                // scan for showTemporaryBars to link powers (in the future maybe store the linked powers directly in the resource)
-                if (!resource->def->hideCooldown && resource->def->showTemporaryBars)
+                else
                 {
-                    CrewAbilityCooldownBar &cooldownBar = bex->cooldownBars.back(); // get the cooldownBar that was most recently emplaced
-                    for (ActivatedPower* power : ex->crewPowers)
-                    {
-                        if (!power->enabled) continue; // at this time just skip disabled powers
-
-                        for (ActivatedPowerResource* resource2 : power->powerResources)
-                        {
-                            if (resource2 == resource) // power is linked to this resource
-                            {
-                                cooldownBar.morePowers.push_back(power);
-                                break;
-                            }
-                        }
-                    }
+                    break;
                 }
             }
 
             skillBox.h = 146 + bex->skillOffset;
-
-            int startX = std::max(-13, cooldownsWidth>10 ? 5-cooldownsWidth : -cooldownsWidth/2);
-            bex->crewPos.x += std::min(startX+cooldownsWidth,std::max(2,startX+cooldownsWidth-3));
-
-            for (auto &bar : bex->chargesBars) bar.box.x += startX;
-            for (auto &bar : bex->cooldownBars) bar.box.x += startX;
-            for (int &linePos : cooldownBorders) linePos += startX;
 
             // draw the crew box
 

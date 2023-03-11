@@ -53,6 +53,8 @@ extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
 extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
+struct ActivatedPower;
+
 struct ActivatedPowerResource
 {
 public:
@@ -73,6 +75,9 @@ public:
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<int, int> powerCharges = std::pair<int, int>();
 
+    std::vector<ActivatedPower*> tempLinkedPowers; // linked powers, temporary used for UI construction
+    void GetLinkedPowers();
+
     // constructors with definitions and crew
     ActivatedPowerResource(PowerResourceDefinition *_def) : def{_def} {}
     ActivatedPowerResource(PowerResourceDefinition *_def, CrewMember *_crew, CrewMember_Extend *_ex) : def{_def}, crew{_crew}, crew_ex{_ex} {}
@@ -84,6 +89,7 @@ public:
     void EnablePower();
     void DisablePower();
     void EnableInit();
+    int GetCrewBoxResourceWidth(int mode);
 
     void SaveState(int fd);
     void LoadState(int fd);
@@ -154,6 +160,7 @@ public:
     void EnablePower();
     void DisablePower();
     void EnableInit();
+    int GetCrewBoxResourceWidth(int mode);
 
     void SaveState(int fd);
     void LoadState(int fd);

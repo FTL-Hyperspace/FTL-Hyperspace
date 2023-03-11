@@ -92,6 +92,10 @@ public:
     std::vector<CrewAbilityCooldownBar> cooldownBars;
     std::vector<CrewAbilityChargesBar> chargesBars;
     std::vector<ActivatedPowerButton> powerButtons;
+
+    int GetTotalCooldownWidth(int mode, CrewMember_Extend *ex);
+    void EmplacePower(ActivatedPower *power, int mode, int &offset, std::vector<int> &cooldownBorders);
+    void EmplacePower(ActivatedPowerResource *resource, int mode, int &offset, std::vector<int> &cooldownBorders);
 };
 
 CrewBox_Extend* Get_CrewBox_Extend(const CrewBox* c);
