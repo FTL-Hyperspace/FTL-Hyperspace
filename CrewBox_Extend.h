@@ -6,6 +6,7 @@ struct CrewAbilityCooldownBar
 {
     ActivatedPower *power;
     ActivatedPowerResource *resource;
+    std::vector<ActivatedPower*> morePowers;
 
     GL_Primitive *prim = nullptr;
 

@@ -740,6 +740,7 @@ Syntax ->
 				<cooldownColor r="133" g="231" b="237"/>
 				<hideCooldown>false</hideCooldown>
 				<hideCharges>false</hideCharges>
+				<showTemporaryBars>false</showTemporaryBars>                             If true then when a linked ability is active its effect bar will replace the resource cooldown bar.
 			</powerResource>
 			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>
