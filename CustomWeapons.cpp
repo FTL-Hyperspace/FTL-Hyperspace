@@ -612,6 +612,7 @@ HOOK_METHOD(WeaponAnimation, Update, () -> void)
 // Icon Replace
 HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponBlueprint::RenderIcon -> Begin (CustomWeapons.cpp)\n")
     std::string iconReplaceName = CustomWeaponManager::instance->GetWeaponDefinition(name)->iconReplace;
     if (iconReplaceName != "")
     {
