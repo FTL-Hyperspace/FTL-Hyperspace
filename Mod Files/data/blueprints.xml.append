@@ -151,6 +151,7 @@
 		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
 	</spawnCrew>
 	
+	<iconReplace>ANIMATION</iconReplace>             Replaces the weapon icon in equipment/store/hangar screens. Animation should have a single frame.
 	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
 -->

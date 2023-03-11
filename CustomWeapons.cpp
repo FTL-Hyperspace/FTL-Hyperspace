@@ -172,6 +172,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             weaponDef.customDamage->erosionChance = boost::lexical_cast<int>(val);
         }
 
+        if (name == "iconReplace")
+        {
+            weaponDef.iconReplace = val;
+        }
         if (name == "iconScale")
         {
             weaponDef.iconScale = boost::lexical_cast<float>(val);
@@ -602,6 +606,24 @@ HOOK_METHOD(WeaponAnimation, Update, () -> void)
     else
     {
         super();
+    }
+}
+
+// Icon Replace
+HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
+{
+    std::string iconReplaceName = CustomWeaponManager::instance->GetWeaponDefinition(name)->iconReplace;
+    if (iconReplaceName != "")
+    {
+        Animation iconReplace = G_->GetAnimationControl()->GetAnimation(iconReplaceName);
+        iconReplace.SetCurrentFrame(0);
+        CSurface::GL_Translate(-(float)(iconReplace.info.frameWidth/2), -(float)(iconReplace.info.frameHeight/2), 0.0);
+        iconReplace.OnRender(1.f, COLOR_WHITE, false);
+        CSurface::GL_Translate((float)(iconReplace.info.frameWidth/2), (float)(iconReplace.info.frameHeight/2), 0.0);
+    }
+    else
+    {
+        super(scale);
     }
 }
 
