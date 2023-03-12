@@ -268,6 +268,13 @@ struct ActivatedPowerDefinition
         ON_DEATH_RESET
     };
 
+    enum HOTKEY_SETTING
+    {
+        HOTKEY_FIRST,
+        HOTKEY_ALWAYS,
+        HOTKEY_NEVER
+    };
+
     static std::vector<ActivatedPowerDefinition*> powerDefs;
     static std::unordered_map<std::string,ActivatedPowerDefinition*> nameDefList; // maps names to definitions
     static std::unordered_map<std::string,ActivatedPowerDefinition*> undefinedNameDefList; // maps names to definitions
@@ -399,6 +406,7 @@ struct ActivatedPowerDefinition
     int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
     float initialCooldownFraction = 0.f;
     int onDeath = ON_DEATH_RESET;
+    int onHotkey = HOTKEY_FIRST;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;

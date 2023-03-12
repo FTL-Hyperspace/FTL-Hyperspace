@@ -882,6 +882,14 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
             else if (v == "cancel") def->onDeath = ActivatedPowerDefinition::ON_DEATH_CANCEL;
             else if (v == "reset") def->onDeath = ActivatedPowerDefinition::ON_DEATH_RESET;
         }
+        if (effectName == "onHotkey")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "first") def->onHotkey = ActivatedPowerDefinition::HOTKEY_FIRST;
+            else if (v == "always") def->onHotkey = ActivatedPowerDefinition::HOTKEY_ALWAYS;
+            else if (v == "never") def->onHotkey = ActivatedPowerDefinition::HOTKEY_NEVER;
+        }
         if (effectName == "damage")
         {
             def->damage.iDamage = boost::lexical_cast<int>(effectNode->value());
@@ -1080,7 +1088,6 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         {
             def->hideButton = EventsParser::ParseBoolean(effectNode->value());
         }
-
 
         if (effectName == "powerResource")
         {
@@ -5645,9 +5652,32 @@ HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
 
             if (ex->hasSpecialPower)
             {
-                if (ex->GetFirstCrewPower()->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                bool activated = false;
+                for (ActivatedPower *power : ex->crewPowers) // first check for "always" hotkeys
                 {
-                    ex->GetFirstCrewPower()->PreparePower();
+                    if (!power->enabled) continue;
+
+                    if (power->def->onHotkey == ActivatedPowerDefinition::HOTKEY_ALWAYS)
+                    {
+                        if (power->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                        {
+                            power->PreparePower();
+                            activated = true;
+                        }
+                    }
+                }
+                for (ActivatedPower *power : ex->crewPowers) // then check for "first" hotkeys if none were activated from "always"
+                {
+                    if (!power->enabled) continue;
+
+                    if (power->def->onHotkey == ActivatedPowerDefinition::HOTKEY_FIRST)
+                    {
+                        if (power->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                        {
+                            power->PreparePower();
+                            break;
+                        }
+                    }
                 }
             }
         }
