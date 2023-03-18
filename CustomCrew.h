@@ -369,18 +369,24 @@ struct ActivatedPowerDefinition
         }
     }
 
-    void AssignReplaceGroup(std::string &_name)
+    static unsigned int GetReplaceGroup(std::string &_name)
     {
         auto it = replaceGroupNameIndexList.find(_name);
         if (it == replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
         {
-            replaceGroupIndex = nextReplaceGroupNameIndex++;
-            replaceGroupNameIndexList[_name] = replaceGroupIndex;
+            unsigned int i = nextReplaceGroupNameIndex++;
+            replaceGroupNameIndexList[_name] = i;
+            return i;
         }
         else // if name is used then set the index
         {
-            replaceGroupIndex = it->second;
+            return it->second;
         }
+    }
+
+    void AssignReplaceGroup(std::string &_name)
+    {
+        replaceGroupIndex = GetReplaceGroup(_name);
     }
 
     void AssignGroup(std::string &_name)

@@ -549,25 +549,57 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
                     def->powerChange = powerDef;
                 }
-                if (name == "targetPowerEffect")
+
+                // power whitelist and blacklist store the pointers to powerDef
+                if (name == "powerWhitelist")
                 {
-                    ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
-                    def->targetPower = powerDef;
-                }
-            }
-            if (def->stat == CrewStat::POWER_EFFECT)
-            {
-                if (def->targetPower == nullptr && (def->boostType == StatBoostDefinition::BoostType::REPLACE_GROUP || def->boostType == StatBoostDefinition::BoostType::REPLACE_POWER))
-                {
-                    if (def->powerChange == nullptr)
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
                     {
-                        throw std::invalid_argument(std::string("PowerEffect statboost is missing powerEffect"));
+                        if (strcmp(child2->name(), "powerEffect") == 0)
+                        {
+                            ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child2);
+                            def->powerWhitelist.emplace(powerDef);
+                        }
+                        else if (strcmp(child2->name(), "powerResource") == 0)
+                        {
+                            PowerResourceDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityResource(child2);
+                            def->powerResourceWhitelist.emplace(powerDef);
+                        }
                     }
-                    def->targetPower = def->powerChange;
                 }
-                if (def->powerChange == nullptr && (def->boostType == StatBoostDefinition::BoostType::ADD))
+                if (name == "powerBlacklist")
                 {
-                    throw std::invalid_argument(std::string("PowerEffect statboost is missing powerEffect"));
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        if (strcmp(child2->name(), "powerEffect") == 0)
+                        {
+                            ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child2);
+                            def->powerBlacklist.emplace(powerDef);
+                        }
+                        else if (strcmp(child2->name(), "powerResource") == 0)
+                        {
+                            PowerResourceDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityResource(child2);
+                            def->powerResourceBlacklist.emplace(powerDef);
+                        }
+                    }
+                }
+
+                // power group whitelist and blacklist gets the integer ID corresponding to each name and stores it
+                if (name == "powerGroupWhitelist")
+                {
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        std::string groupName = child2->name();
+                        def->powerGroupWhitelist.emplace(ActivatedPowerDefinition::GetReplaceGroup(groupName));
+                    }
+                }
+                if (name == "powerGroupBlacklist")
+                {
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        std::string groupName = child2->name();
+                        def->powerGroupBlacklist.emplace(ActivatedPowerDefinition::GetReplaceGroup(groupName));
+                    }
                 }
             }
         }
@@ -580,6 +612,18 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
     {
         StatBoostDefinition::savedStatBoostDefs[node->first_attribute("save")->value()] = def;
     }
+
+    // post process
+    if (def->boostType == StatBoostDefinition::BoostType::REPLACE_GROUP && def->powerGroupWhitelist.empty())
+    {
+        // REPLACE_GROUP is alias for REPLACE_POWER that includes the group of the replacement power
+        if (!def->powerChange) throw std::invalid_argument(std::string("Stat Boost REPLACE_GROUP but no powerEffect specified."));
+        def->powerGroupWhitelist.emplace(def->powerChange->replaceGroupIndex);
+        def->boostType = StatBoostDefinition::BoostType::REPLACE_POWER;
+    }
+    def->hasPowerList = !def->powerWhitelist.empty() || !def->powerResourceWhitelist.empty() || !def->powerGroupWhitelist.empty() ||
+                        !def->powerBlacklist.empty() || !def->powerResourceBlacklist.empty() || !def->powerGroupBlacklist.empty();
+
     return def;
 }
 
@@ -2206,37 +2250,13 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             case StatBoostDefinition::BoostType::ADD: // adds the power as an additional power
                                 if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
                                 break;
-                            case StatBoostDefinition::BoostType::REPLACE_GROUP: // replaces powers in the targetPower group with powerChange
+                            case StatBoostDefinition::BoostType::REPLACE_POWER: // replace powers (or whitelisted powers) with powerChange
                                 {
                                     int i = statBoost.def->amount * sysPowerScaling;
                                     if (i==0) break;
                                     for (auto it = powerChange.begin(); it != powerChange.end();)
                                     {
-                                        if ((*it)->replaceGroupIndex == statBoost.def->targetPower->replaceGroupIndex)
-                                        {
-                                            if (statBoost.def->powerChange)
-                                            {
-                                                *it = statBoost.def->powerChange;
-                                                if (--i == 0) break;
-                                            }
-                                            else
-                                            {
-                                                it = powerChange.erase(it);
-                                                if (--i == 0) break;
-                                                continue;
-                                            }
-                                        }
-                                        ++it;
-                                    }
-                                }
-                                break;
-                            case StatBoostDefinition::BoostType::REPLACE_POWER: // replaces targetPower with powerChange
-                                {
-                                    int i = statBoost.def->amount * sysPowerScaling;
-                                    if (i==0) break;
-                                    for (auto it = powerChange.begin(); it != powerChange.end();)
-                                    {
-                                        if ((*it) == statBoost.def->targetPower)
+                                        if (statBoost.def->IsTargetPower(*it))
                                         {
                                             if (statBoost.def->powerChange)
                                             {
@@ -2263,6 +2283,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         for (ActivatedPower *power : crewPowers)
                         {
                             if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
@@ -2295,6 +2316,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         for (ActivatedPowerResource *power : powerResources)
                         {
                             if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
@@ -2331,6 +2353,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         for (ActivatedPower *power : crewPowers)
                         {
                             if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
@@ -2363,6 +2386,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         for (ActivatedPowerResource *power : powerResources)
                         {
                             if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
@@ -2760,6 +2784,42 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             boostAnim.second->Update();
         }
     }
+}
+
+bool StatBoostDefinition::IsTargetPower(ActivatedPowerDefinition *power)
+{
+    // shortcut optimization
+    if (!hasPowerList) return true;
+
+    // is there a whitelist?
+    if (!powerWhitelist.empty() || !powerGroupWhitelist.empty())
+    {
+        // check if this power is not in the whitelist
+        if (powerWhitelist.find(power) == powerWhitelist.end() && powerGroupWhitelist.find(power->replaceGroupIndex) == powerGroupWhitelist.end()) return false;
+    }
+    // check blacklist
+    if (!powerBlacklist.empty() && powerBlacklist.find(power) != powerBlacklist.end()) return false;
+    if (!powerGroupBlacklist.empty() && powerGroupBlacklist.find(power->replaceGroupIndex) != powerGroupBlacklist.end()) return false;
+    // no whitelist/blacklist restriction
+    return true;
+}
+
+bool StatBoostDefinition::IsTargetPower(PowerResourceDefinition *power)
+{
+    // shortcut optimization
+    if (!hasPowerList) return true;
+
+    // is there a whitelist?
+    if (!powerResourceWhitelist.empty() || !powerGroupWhitelist.empty())
+    {
+        // check if this power is not in the whitelist
+        if (powerResourceWhitelist.find(power) == powerResourceWhitelist.end() && powerGroupWhitelist.find(power->groupIndex) == powerGroupWhitelist.end()) return false;
+    }
+    // check blacklist
+    if (!powerResourceBlacklist.empty() && powerResourceBlacklist.find(power) != powerResourceBlacklist.end()) return false;
+    if (!powerGroupBlacklist.empty() && powerGroupBlacklist.find(power->groupIndex) != powerGroupBlacklist.end()) return false;
+    // no whitelist/blacklist restriction
+    return true;
 }
 
 #pragma GCC pop_options

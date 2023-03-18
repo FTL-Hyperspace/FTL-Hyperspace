@@ -1261,9 +1261,15 @@ deathEffect: When the statBoost name is "deathEffect", specifies the deathEffect
 powerEffect: When the statBoost name is "powerEffect", adds a new powerEffect.
   If boost type is SET then all the crew's existing powerEffects are removed and the new effect is added (or no power if none is specified).
   If boost type is ADD then the powerEffect is added as an additional power.
-  If boost type is REPLACE_GROUP then powers in the same group as targetPowerEffect will be replaced with powerEffect (or deleted if no powerEffect). All powers are replaced unless amount is specified.
-  If boost type is REPLACE_POWER then powers equal to targetPowerEffect will be replaced with powerEffect (or deleted if no powerEffect). All powers are replaced unless amount is specified.
-targetPowerEffect: Target power to replace for REPLACE_GROUP and REPLACE_POWER types with powerEffect stat. Default is equal to powerEffect.
+  If boost type is REPLACE_POWER then powers matching the whitelist (and not the blacklist) will be replaced; if no whitelist or blacklist then all are eligible. Replaces all powers unless amount is specified.
+  If boost type is REPLACE_GROUP this is the same as REPLACE_POWER but the group of the powerEffect is automatically whitelisted.
+powerWhitelist: List of powerEffect and/or powerResource that are replaced/modified by this statboost. Uses <powerEffect> and <powerResource> child tags; recommended to use "load" keyword.
+powerGroupWhitelist: List of powerEffect and/or powerResource replacement groups that are replaced/modified by this statboost. Put the name as the tag, e.g. <foo/> for group named "foo".
+powerBlacklist: List of powerEffect and/or powerResource that are excluded from being replaced/modified by this statboost.
+powerGroupBlacklist: List of powerEffect and/or powerResource replacement groups that are excluded from being replaced/modified by this statboost.
+  Note, power whitelists and blacklists work for all "powerEffect" REPLACE_POWER statboosts, as well as modifiers such as "powerCharges" and "chargesPerJump".
+  The "activateWhenReady" modifier will be supported in a future version.
+  The "powerRechargeMultiplier" modifier is crewmember global and does not support whitelists/blacklists (for now, possibly will be in a future version along with cooldowns themselves).
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds (WIP). -1 is infinite.
 jumpClear: If true, any applied timed stat boosts (including those with infinite duration) will be cleared on jump (does not affect passive boosts).
 maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit.
