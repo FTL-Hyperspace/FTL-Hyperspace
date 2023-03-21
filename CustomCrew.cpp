@@ -4854,6 +4854,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMember::OnRender -> Begin (CustomCrew.cpp)\n")
     super(outlineOnly);
 
+    if (bDead) return;
     if (outlineOnly) return;
 
     CrewMember_Extend *ex = CM_EX(this);
