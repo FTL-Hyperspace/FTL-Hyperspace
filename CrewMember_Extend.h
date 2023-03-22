@@ -228,6 +228,7 @@ public:
     std::string transformRace = "";
 
     float lowHealthThreshold = 25.f;
+    float lowHealthThresholdPercentage = 1.f;
 
     struct CustomTeleport
     {

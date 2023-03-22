@@ -556,6 +556,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.lowHealthThreshold = boost::lexical_cast<float>(val);
                         }
+                        if (str == "lowHealthThresholdPercentage")
+                        {
+                            crew.lowHealthThresholdPercentage = boost::lexical_cast<float>(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -2403,7 +2407,9 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bo
         {
             G_->GetAchievementTracker()->SetAchievement("ACH_ROCK_FIRE", false, true);
         }
-        float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, CustomCrewManager::GetInstance()->GetDefinition(species));
+        auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
+        float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
+        lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
         if (newHealth <= lowHealthThreshold && originalHealth > lowHealthThreshold && iShipId == 0 && IsCrew())
         {
             G_->GetSoundControl()->PlaySoundMix("lowCrewHealth", -1.f, false);
@@ -2433,7 +2439,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
         mindControlled.position.x = stunIcon.position.x = x - 8.f;
         mindControlled.position.y = stunIcon.position.y = y - 17.f;
         GL_Color healthBarColor = iShipId == 0 ? GL_Color(0.f, 1.f, 0.f, 1.f) : (G_->GetSettings()->colorblind ? GL_Color(0.f, 147.f / 255, 224.f / 255, 1.f) : GL_Color(1.f, 0.f, 0.f, 1.f));
-        float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, CustomCrewManager::GetInstance()->GetDefinition(species));
+        auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
+        float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
+        lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
         if (selectionState > 0 || lastHealthChange > 0 || (health.first < health.second * 0.55f) || (health.first <= lowHealthThreshold))
         {
             flashHealthTracker.Update();
