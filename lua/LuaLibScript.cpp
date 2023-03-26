@@ -33,6 +33,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pProjectile[6] = SWIG_TypeQuery(this->m_Lua, "PDSFire *");
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
 
+    // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
     types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     types.pSpaceDroneTypes[2] = nullptr;
@@ -43,7 +44,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
 
     types.pShipSystemTypes[SYS_SHIELDS] = SWIG_TypeQuery(this->m_Lua, "Shields *");
-    types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "EngineSystem *");
+    types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *"); // todo: add EngineSystem struct and expose in lua
     types.pShipSystemTypes[SYS_OXYGEN] = SWIG_TypeQuery(this->m_Lua, "OxygenSystem *");
     types.pShipSystemTypes[SYS_WEAPONS] = SWIG_TypeQuery(this->m_Lua, "WeaponSystem *");
     types.pShipSystemTypes[SYS_DRONES] = SWIG_TypeQuery(this->m_Lua, "DroneSystem *");
