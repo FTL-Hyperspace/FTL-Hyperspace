@@ -203,6 +203,8 @@ void Global::PreInitializeResources(ResourceControl *resources)
     {
         ErrorMessage(e);
     }
+    
+    delete [] hyperspacetext;
 }
 
 void Global::InitializeResources(ResourceControl *resources)
@@ -701,6 +703,7 @@ void Global::InitializeResources(ResourceControl *resources)
         ErrorMessage("Error parsing hyperspace.xml\n");
     }
 
+    delete [] hyperspacetext;
     //G_->lua = new LuaState;
 }
 

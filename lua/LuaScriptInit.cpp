@@ -124,4 +124,6 @@ void LuaScriptInit::runLuaFileFromDat(std::string filename)
         lua_pop(this->m_Lua, 1);
         return;
     }
+    
+    delete [] code;
 }
