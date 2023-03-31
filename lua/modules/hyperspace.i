@@ -2025,7 +2025,7 @@ playerVariableType playerVariables;
 %rename("%s") SpaceDrone::GetBoardingDrone;
 %rename("%s") SpaceDrone::SetDeployed;
 %rename("%s") SpaceDrone::UpdateAimingAngle;
-	
+
 %rename("%s") SpaceDrone::_targetable;
 %rename("%s") SpaceDrone::_collideable;
 %rename("%s") SpaceDrone::currentSpace;
@@ -2173,6 +2173,7 @@ playerVariableType playerVariables;
 %rename("%s") ResourceControl::RenderImage;
 %rename("%s") ResourceControl::RenderImageString;
 
+%newobject ResourceControl::LoadFile;
 %rename("%s") ResourceControl::LoadFile;
 
 //%rename("%s") FileHelper;
