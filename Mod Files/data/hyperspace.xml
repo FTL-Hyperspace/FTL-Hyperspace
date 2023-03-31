@@ -15,7 +15,7 @@
     <version>^0.9.2</version> A major match, allows minor & patch to be changed (upwards) but not major, in this case 0.10.0 would match as would 0.9.5 but not 1.0.0.
     If you fail to specify a match character and just do <version>0.9.2</version> this will be considered the same as `^` above but will also generate a warning message in FTL_HS.log.
 -->  
-<version>^1.2.3</version>
+<version>^1.3.0</version>
 
 <!-- Hyperspace defaults
 
@@ -714,8 +714,13 @@ Syntax ->
 			<sortOrder>0</sortOrder>                                                     Sorting order for multiple powers; lower number comes first, equal numbers in the order obtained.
 			<cooldown>30</cooldown>                                                      Ability cooldown in seconds. Does not include temporaryEffect duration.
 			<jumpCooldown>full</jumpCooldown>                                            Cooldown behaviour on jump. Either "reset" the charge, "continue" charging, or set to "full".
+			<disabledCooldown>pause</disabledCooldown>                                   Cooldown behaviour while disabled, either "full", "continue", "pause", "reset", or "zero".
+			<initialCooldownFraction>0</initialCooldownFraction>                         Initial cooldown progress fraction when initialized or reset.
+			<disabledCharges>pause</disabledCooldown>                                    Charges behaviour while disabled, either "full", "continue", "pause", "reset", or "zero".
 			<onDeath>continue/cancel/reset</onDeath>                                     On death effect for activated ability. "cancel" cancels the ability when dying. "reset" cancels the ability on respawn.
 			                                                                               "continue" allows effect to continue if the crew respawns. Default is "reset".
+			<onHotkey>first</onHotkey>                                                   Either try to activate the ability "always", "never", or only the "first" available ability.
+			                                                                               (abilities with "always" preferred first)
 			<powerCharges>-1</powerCharges>                                              Maximum number of ability uses per fight. Default is unlimited.
 			<initialCharges>999</initialCharges>                                         Initial number of ability uses when the crewmember is born.
 			<chargesPerJump>999</chargesPerJump>                                         Number of uses regenerated per jump.
@@ -737,6 +742,9 @@ Syntax ->
 				<cooldownColor r="133" g="231" b="237"/>
 				<hideCooldown>false</hideCooldown>
 				<hideCharges>false</hideCharges>
+				<showTemporaryBars>false</showTemporaryBars>                             If true then when a linked ability is active its effect bar will replace the resource cooldown bar.
+				<showLinkedCooldowns>false</showLinkedCooldowns>                         Linked ability cooldown bars will be grouped with this resource; make sure to disable showing the individual bars.
+				<showLinkedCharges>false</showLinkedCharges>                             Linked ability charges will be grouped with this resource; make sure to disable showing the individual bars.
 			</powerResource>
 			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>
@@ -1253,9 +1261,15 @@ deathEffect: When the statBoost name is "deathEffect", specifies the deathEffect
 powerEffect: When the statBoost name is "powerEffect", adds a new powerEffect.
   If boost type is SET then all the crew's existing powerEffects are removed and the new effect is added (or no power if none is specified).
   If boost type is ADD then the powerEffect is added as an additional power.
-  If boost type is REPLACE_GROUP then powers in the same group as targetPowerEffect will be replaced with powerEffect (or deleted if no powerEffect). All powers are replaced unless amount is specified.
-  If boost type is REPLACE_POWER then powers equal to targetPowerEffect will be replaced with powerEffect (or deleted if no powerEffect). All powers are replaced unless amount is specified.
-targetPowerEffect: Target power to replace for REPLACE_GROUP and REPLACE_POWER types with powerEffect stat. Default is equal to powerEffect.
+  If boost type is REPLACE_POWER then powers matching the whitelist (and not the blacklist) will be replaced; if no whitelist or blacklist then all are eligible. Replaces all powers unless amount is specified.
+  If boost type is REPLACE_GROUP this is the same as REPLACE_POWER but the group of the powerEffect is automatically whitelisted.
+powerWhitelist: List of powerEffect and/or powerResource that are replaced/modified by this statboost. Uses <powerEffect> and <powerResource> child tags; recommended to use "load" keyword.
+powerGroupWhitelist: List of powerEffect and/or powerResource replacement groups that are replaced/modified by this statboost. Put the name as the tag, e.g. <foo/> for group named "foo".
+powerBlacklist: List of powerEffect and/or powerResource that are excluded from being replaced/modified by this statboost.
+powerGroupBlacklist: List of powerEffect and/or powerResource replacement groups that are excluded from being replaced/modified by this statboost.
+  Note, power whitelists and blacklists work for all "powerEffect" REPLACE_POWER statboosts, as well as modifiers such as "powerCharges" and "chargesPerJump".
+  The "activateWhenReady" modifier will be supported in a future version.
+  The "powerRechargeMultiplier" modifier is crewmember global and does not support whitelists/blacklists (for now, possibly will be in a future version along with cooldowns themselves).
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds (WIP). -1 is infinite.
 jumpClear: If true, any applied timed stat boosts (including those with infinite duration) will be cleared on jump (does not affect passive boosts).
 maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit.
@@ -1842,6 +1856,7 @@ The event has to load a vanilla store in events.xml - it will be replaced with t
 For example <choice req="CUSTOM_REQ"> in events.xml will look for a <req> named "CUSTOM_REQ" before looking for a blueprintList or blueprint.
 Alternatively, you can use the keywords ANY, ALL, or SUM with a blueprintList (e.g. "ALL LIST_GATLING_PARTS") for simpler custom requirements to avoid needing to add a <req> here.
 The keyword SEC can be used to check the current sector ID instead of checking a blueprint (e.g. "SEC CIVILIAN_SECTOR").
+The keyword SHIP can be used to check the blueprint name of the player's ship.
 The keyword ACH checks for an achievement name. This currently only works for custom achievements in <achievements>, not autogenerated victory/quest achievements.
 The keyword ITEM forces an exact equipment check. This ignores custom reqs and augment functions, and hidden augments must be prefixed with "HIDDEN " (with a space) and are treated separately.
 For example the name "ADV_SCANNERS" will check for the LRS augment functionality, "ITEM ADV_SCANNERS" will check for specifically the vanilla augment and not other augments with its function.

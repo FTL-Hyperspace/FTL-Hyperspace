@@ -850,6 +850,30 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
             else if (v == "reset") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_RESET;
             else if (v == "continue") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_CONTINUE;
         }
+        if (effectName == "disabledCooldown")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "disabledCharges")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "initialCooldownFraction")
+        {
+            def->initialCooldownFraction = boost::lexical_cast<float>(effectNode->value());
+        }
         if (effectName == "onDeath")
         {
             std::string v = effectNode->value();
@@ -857,6 +881,14 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
             if (v == "continue") def->onDeath = ActivatedPowerDefinition::ON_DEATH_CONTINUE;
             else if (v == "cancel") def->onDeath = ActivatedPowerDefinition::ON_DEATH_CANCEL;
             else if (v == "reset") def->onDeath = ActivatedPowerDefinition::ON_DEATH_RESET;
+        }
+        if (effectName == "onHotkey")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "first") def->onHotkey = ActivatedPowerDefinition::HOTKEY_FIRST;
+            else if (v == "always") def->onHotkey = ActivatedPowerDefinition::HOTKEY_ALWAYS;
+            else if (v == "never") def->onHotkey = ActivatedPowerDefinition::HOTKEY_NEVER;
         }
         if (effectName == "damage")
         {
@@ -1056,7 +1088,6 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         {
             def->hideButton = EventsParser::ParseBoolean(effectNode->value());
         }
-
 
         if (effectName == "powerResource")
         {
@@ -1369,6 +1400,30 @@ PowerResourceDefinition* CustomCrewManager::ParseAbilityResource(rapidxml::xml_n
             else if (v == "reset") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_RESET;
             else if (v == "continue") def->jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_CONTINUE;
         }
+        if (effectName == "disabledCooldown")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCooldown = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "disabledCharges")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "full") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL;
+            else if (v == "reset") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET;
+            else if (v == "continue") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE;
+            else if (v == "pause") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_PAUSE;
+            else if (v == "zero") def->disabledCharges = ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO;
+        }
+        if (effectName == "initialCooldownFraction")
+        {
+            def->initialCooldownFraction = boost::lexical_cast<float>(effectNode->value());
+        }
         if (effectName == "onDeath")
         {
             std::string v = effectNode->value();
@@ -1414,6 +1469,18 @@ PowerResourceDefinition* CustomCrewManager::ParseAbilityResource(rapidxml::xml_n
         if (effectName == "hideCharges")
         {
             def->hideCharges = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "showTemporaryBars")
+        {
+            def->showTemporaryBars = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "showLinkedCooldowns")
+        {
+            def->showLinkedCooldowns = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "showLinkedCharges")
+        {
+            def->showLinkedCharges = EventsParser::ParseBoolean(effectNode->value());
         }
     }
 
@@ -1795,14 +1862,14 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
         {
             power->CancelPower(true);
         }
-        if (power->enabled)
+        if (power->enabled || power->def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
         {
             power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
         }
     }
     for (ActivatedPowerResource *power : ex->powerResources)
     {
-        if (power->enabled)
+        if (power->enabled || power->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
         {
             power->powerCharges.first = std::max(0,std::min(power->powerCharges.first + power->def->respawnCharges, power->powerCharges.second));
         }
@@ -2660,8 +2727,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                             power->TemporaryPowerFinished();
                         }
                     }
-                    else if (power->enabled) // power recharge and auto-activation requires power to be enabled
+                    else if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
                     {
+                        // power recharge and auto-activation requires power to be enabled (or recharge to continue when disabled)
                         if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
                         {
                             power->powerCooldown.first = 0.f;
@@ -2671,7 +2739,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                             power->powerCooldown.first = std::max(0.f, std::min(power->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + power->powerCooldown.first));
                         }
 
-                        if (!IsDead() && Functional())
+                        if (power->enabled && !IsDead() && Functional())
                         {
                             bool activateWhenReady = power->def->activateWhenReady && (!power->def->activateReadyEnemies || (GetPowerOwner() == 1));
                             // Only check activateWhenReady if not dying
@@ -2748,8 +2816,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             }
             for (ActivatedPowerResource *power : ex->powerResources)
             {
-                if (power->enabled) // power recharge and auto-activation requires power to be enabled
+                if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
                 {
+                    // power recharge and auto-activation requires power to be enabled or disabledCooldown to be CONTINUE
                     if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
                     {
                         power->powerCooldown.first = 0.f;
@@ -4146,6 +4215,8 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, 200, (Pointf location, Damage dmg,
     return super(location, dmg, forceHit);
 }
 
+static std::array<int,5> maxCooldownWidth = {12,18,18,22,999};
+
 HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewBox::constructor -> Begin (CustomCrew.cpp)\n")
@@ -4162,15 +4233,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
 
         if (ex->hasSpecialPower)
         {
-            int cooldownsWidth = 0;
-            std::vector<int> cooldownBorders;
-
-            int abilityBarCount = 0;
-            int abilityBarCount_CD = 0;
-            int abilityBarCount_CH = 0;
-            int abilityBarCount_CD_CH = 0;
-
-            // Loop over powers
+            // Loop over powers for buttons
             for (ActivatedPower* power : ex->crewPowers)
             {
                 if (!power->enabled) continue;
@@ -4187,146 +4250,63 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
                     // offset to make room for ability buttons
                     bex->skillOffset += 24;
                 }
+            }
 
-                // just count the abilities with charge/cooldown bars for now
-                abilityBarCount++;
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
+            int mode;
+            int cooldownsWidth;
+            std::vector<int> cooldownBorders;
+
+            // update tempLinkedPowers for resources
+            for (ActivatedPowerResource* resource : ex->powerResources)
+            {
+                if (resource->enabled && (resource->def->showTemporaryBars || resource->def->showLinkedCooldowns || resource->def->showLinkedCharges))
                 {
-                    if (power->def->hideCooldown)
+                    resource->GetLinkedPowers();
+                }
+            }
+
+            for (mode=0; mode<5; mode++)
+            {
+                cooldownsWidth = bex->GetTotalCooldownWidth(mode, ex);
+                if (cooldownsWidth <= maxCooldownWidth[mode]) break;
+            }
+
+            auto iter1 = ex->crewPowers.begin();
+            auto end1 = ex->crewPowers.end();
+            auto iter2 = ex->powerResources.begin();
+            auto end2 = ex->powerResources.end();
+
+            int startX = std::max(-13, cooldownsWidth>10 ? 5-cooldownsWidth : -cooldownsWidth/2);
+            bex->crewPos.x += std::min(startX+cooldownsWidth,std::max(2,startX+cooldownsWidth-3));
+            int offset = startX;
+
+            while (true)
+            {
+                if (iter1 != end1)
+                {
+                    if (iter2 == end2 || (*iter1)->def->sortOrder <= (*iter2)->def->sortOrder)
                     {
-                        abilityBarCount_CH++;
+                        bex->EmplacePower(*iter1, mode, offset, cooldownBorders);
+                        iter1++;
                     }
                     else
                     {
-                        abilityBarCount_CD_CH++;
+                        bex->EmplacePower(*iter2, mode, offset, cooldownBorders);
+                        iter2++;
                     }
+                }
+                else if (iter2 != end2)
+                {
+                    bex->EmplacePower(*iter2, mode, offset, cooldownBorders);
+                    iter2++;
                 }
                 else
                 {
-                    if (power->def->hideCooldown)
-                    {
-                    }
-                    else
-                    {
-                        abilityBarCount_CD++;
-                    }
-                }
-            }
-            for (ActivatedPowerResource* power : ex->powerResources)
-            {
-                if (!power->enabled) continue;
-                abilityBarCount++;
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
-                {
-                    if (power->def->hideCooldown)
-                    {
-                        abilityBarCount_CH++;
-                    }
-                    else
-                    {
-                        abilityBarCount_CD_CH++;
-                    }
-                }
-                else
-                {
-                    if (power->def->hideCooldown)
-                    {
-                    }
-                    else
-                    {
-                        abilityBarCount_CD++;
-                    }
-                }
-            }
-
-            // Loop for actual ability bars
-            for (ActivatedPower* power : ex->crewPowers)
-            {
-                if (!power->enabled) continue;
-
-                // charges and cooldown when having charges
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
-                {
-                    if (power->def->hideCooldown) // only charges
-                    {
-                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 3, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+8);
-                        cooldownsWidth += 7;
-                    }
-                    else
-                    {
-                        if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
-                        {
-                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+11);
-                            cooldownsWidth += 10;
-                        }
-                        else // full cooldown plus charges
-                        {
-                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+7);
-                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+14);
-                            cooldownsWidth += 13;
-                        }
-                    }
-                }
-                else if (!power->def->hideCooldown) // only cooldown
-                {
-                    bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
-                    cooldownBorders.push_back(cooldownsWidth+9);
-                    cooldownsWidth += 8;
-                }
-            }
-            for (ActivatedPowerResource* power : ex->powerResources)
-            {
-                if (!power->enabled) continue;
-
-                // charges and cooldown when having charges
-                if (power->powerCharges.second > 0 && !power->def->hideCharges)
-                {
-                    if (power->def->hideCooldown) // only charges
-                    {
-                        bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 3, box.h-6}));
-                        cooldownBorders.push_back(cooldownsWidth+8);
-                        cooldownsWidth += 7;
-                    }
-                    else
-                    {
-                        if (abilityBarCount > 1) // more compact ability charge/cooldown indicator when multiple abilities present
-                        {
-                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+6, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+11);
-                            cooldownsWidth += 10;
-                        }
-                        else // full cooldown plus charges
-                        {
-                            bex->chargesBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 2, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+7);
-                            bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+9, box.y+3, 3, box.h-6}));
-                            cooldownBorders.push_back(cooldownsWidth+14);
-                            cooldownsWidth += 13;
-                        }
-                    }
-                }
-                else if (!power->def->hideCooldown) // only cooldown
-                {
-                    bex->cooldownBars.emplace_back(power, Globals::Rect({box.x+cooldownsWidth+3, box.y+3, 4, box.h-6}));
-                    cooldownBorders.push_back(cooldownsWidth+9);
-                    cooldownsWidth += 8;
+                    break;
                 }
             }
 
             skillBox.h = 146 + bex->skillOffset;
-
-            int startX = std::max(-13, cooldownsWidth>10 ? 5-cooldownsWidth : -cooldownsWidth/2);
-            bex->crewPos.x += std::min(startX+cooldownsWidth,std::max(2,startX+cooldownsWidth-3));
-
-            for (auto &bar : bex->chargesBars) bar.box.x += startX;
-            for (auto &bar : bex->cooldownBars) bar.box.x += startX;
-            for (int &linePos : cooldownBorders) linePos += startX;
 
             // draw the crew box
 
@@ -4874,6 +4854,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMember::OnRender -> Begin (CustomCrew.cpp)\n")
     super(outlineOnly);
 
+    if (bDead) return;
     if (outlineOnly) return;
 
     CrewMember_Extend *ex = CM_EX(this);
@@ -5672,9 +5653,32 @@ HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
 
             if (ex->hasSpecialPower)
             {
-                if (ex->GetFirstCrewPower()->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                bool activated = false;
+                for (ActivatedPower *power : ex->crewPowers) // first check for "always" hotkeys
                 {
-                    ex->GetFirstCrewPower()->PreparePower();
+                    if (!power->enabled) continue;
+
+                    if (power->def->onHotkey == ActivatedPowerDefinition::HOTKEY_ALWAYS)
+                    {
+                        if (power->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                        {
+                            power->PreparePower();
+                            activated = true;
+                        }
+                    }
+                }
+                for (ActivatedPower *power : ex->crewPowers) // then check for "first" hotkeys if none were activated from "always"
+                {
+                    if (!power->enabled) continue;
+
+                    if (power->def->onHotkey == ActivatedPowerDefinition::HOTKEY_FIRST)
+                    {
+                        if (power->PowerReady() == PowerReadyState::POWER_READY && i->GetPowerOwner() == 0)
+                        {
+                            power->PreparePower();
+                            break;
+                        }
+                    }
                 }
             }
         }

@@ -53,6 +53,8 @@ extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
 extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
+struct ActivatedPower;
+
 struct ActivatedPowerResource
 {
 public:
@@ -62,6 +64,7 @@ public:
 
     // enabled
     bool enabled = true;
+    bool lastEnabled;
 
     // definition modifiers that should be saved
     float modifiedPowerCharges = -1.f;
@@ -71,6 +74,9 @@ public:
 
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<int, int> powerCharges = std::pair<int, int>();
+
+    std::vector<ActivatedPower*> tempLinkedPowers; // linked powers, temporary used for UI construction
+    void GetLinkedPowers();
 
     // constructors with definitions and crew
     ActivatedPowerResource(PowerResourceDefinition *_def) : def{_def} {}
@@ -82,6 +88,8 @@ public:
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
     void EnablePower();
     void DisablePower();
+    void EnableInit();
+    int GetCrewBoxResourceWidth(int mode);
 
     void SaveState(int fd);
     void LoadState(int fd);
@@ -96,6 +104,7 @@ public:
 
     // enabled
     bool enabled = true;
+    bool enabledInit = false;
     bool tempEnabled;
 
     // definition modifiers that should be saved
@@ -150,6 +159,8 @@ public:
     void ChangePowerDef(ActivatedPowerDefinition *newDef);
     void EnablePower();
     void DisablePower();
+    void EnableInit();
+    int GetCrewBoxResourceWidth(int mode);
 
     void SaveState(int fd);
     void LoadState(int fd);

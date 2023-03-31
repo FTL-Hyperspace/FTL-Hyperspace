@@ -4,8 +4,10 @@
 #include "CustomCrew.h"
 #include "CustomCrewCommon.h"
 #include "EnumClassHash.h"
+#include <unordered_set>
 
 struct ActivatedPowerDefinition;
+struct PowerResourceDefinition;
 class CrewMember_Extend;
 struct RoomAnimDef;
 
@@ -160,7 +162,13 @@ struct StatBoostDefinition
     std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
     ActivatedPowerDefinition *powerChange = nullptr;
-    ActivatedPowerDefinition *targetPower = nullptr;
+    std::unordered_set<ActivatedPowerDefinition*> powerWhitelist;
+    std::unordered_set<ActivatedPowerDefinition*> powerBlacklist;
+    std::unordered_set<PowerResourceDefinition*> powerResourceWhitelist;
+    std::unordered_set<PowerResourceDefinition*> powerResourceBlacklist;
+    std::unordered_set<unsigned int> powerGroupWhitelist;
+    std::unordered_set<unsigned int> powerGroupBlacklist;
+    bool hasPowerList;
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
@@ -201,6 +209,9 @@ struct StatBoostDefinition
     }
 
     bool TestRoomStatBoostSystem(ShipManager *ship, int room);
+
+    bool IsTargetPower(ActivatedPowerDefinition *power);
+    bool IsTargetPower(PowerResourceDefinition *power);
 };
 
 struct StatBoost

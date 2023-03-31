@@ -252,11 +252,27 @@ struct ActivatedPowerDefinition
         JUMP_COOLDOWN_CONTINUE
     };
 
+    enum DISABLED_COOLDOWN
+    {
+        DISABLED_COOLDOWN_FULL,
+        DISABLED_COOLDOWN_RESET,
+        DISABLED_COOLDOWN_CONTINUE,
+        DISABLED_COOLDOWN_PAUSE,
+        DISABLED_COOLDOWN_ZERO
+    };
+
     enum ON_DEATH
     {
         ON_DEATH_CONTINUE,
         ON_DEATH_CANCEL,
         ON_DEATH_RESET
+    };
+
+    enum HOTKEY_SETTING
+    {
+        HOTKEY_FIRST,
+        HOTKEY_ALWAYS,
+        HOTKEY_NEVER
     };
 
     static std::vector<ActivatedPowerDefinition*> powerDefs;
@@ -353,18 +369,24 @@ struct ActivatedPowerDefinition
         }
     }
 
-    void AssignReplaceGroup(std::string &_name)
+    static unsigned int GetReplaceGroup(std::string &_name)
     {
         auto it = replaceGroupNameIndexList.find(_name);
         if (it == replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
         {
-            replaceGroupIndex = nextReplaceGroupNameIndex++;
-            replaceGroupNameIndexList[_name] = replaceGroupIndex;
+            unsigned int i = nextReplaceGroupNameIndex++;
+            replaceGroupNameIndexList[_name] = i;
+            return i;
         }
         else // if name is used then set the index
         {
-            replaceGroupIndex = it->second;
+            return it->second;
         }
+    }
+
+    void AssignReplaceGroup(std::string &_name)
+    {
+        replaceGroupIndex = GetReplaceGroup(_name);
     }
 
     void AssignGroup(std::string &_name)
@@ -387,12 +409,16 @@ struct ActivatedPowerDefinition
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
+    float initialCooldownFraction = 0.f;
     int onDeath = ON_DEATH_RESET;
+    int onHotkey = HOTKEY_FIRST;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
     int respawnCharges = 0;
+    int disabledCharges = DISABLED_COOLDOWN_PAUSE;
 
     bool hideCooldown = false;
     bool hideCharges = false;
@@ -450,6 +476,15 @@ struct PowerResourceDefinition
         JUMP_COOLDOWN_FULL,
         JUMP_COOLDOWN_RESET,
         JUMP_COOLDOWN_CONTINUE
+    };
+
+    enum DISABLED_COOLDOWN
+    {
+        DISABLED_COOLDOWN_FULL,
+        DISABLED_COOLDOWN_RESET,
+        DISABLED_COOLDOWN_CONTINUE,
+        DISABLED_COOLDOWN_PAUSE,
+        DISABLED_COOLDOWN_ZERO
     };
 
     enum ON_DEATH
@@ -558,15 +593,21 @@ struct PowerResourceDefinition
 
     float cooldown = 0.f;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
+    float initialCooldownFraction = 0.f;
     int onDeath = ON_DEATH_RESET;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
     int respawnCharges = 0;
+    int disabledCharges = DISABLED_COOLDOWN_PAUSE;
 
     bool hideCooldown = false;
     bool hideCharges = false;
+    bool showTemporaryBars = false; // whether to overlay temporary effect bars from linked powers on this resource's cooldown bar
+    bool showLinkedCooldowns = false; // when true the linked cooldowns are grouped with this resource
+    bool showLinkedCharges = false; // when true the linked charges are grouped with this resource
 
     GL_Color cooldownColor;
 

@@ -3667,6 +3667,7 @@ void EventDamageEnemy(EventDamage eventDamage)
 void RecallBoarders(int direction)
 {
     int targetRoom;
+    bool canTeleport;
 
     CompleteShip *playerShip = G_->GetWorld()->playerShip;
     if (playerShip == nullptr) return;
@@ -3680,10 +3681,17 @@ void RecallBoarders(int direction)
         for (auto i : enemyShip->shipManager->vCrewList)
         {
             //if (i->iShipId == 0 && !i->IsDrone())
-            if (i->iShipId == 0 && !i->IsDrone() && i->CanTeleport())
+            if (!i->bDead && i->iShipId == 0 && !i->IsDrone())
             {
-                i->EmptySlot();
-                playerShip->AddCrewMember2(i,targetRoom);
+                CrewMember_Extend *ex = CM_EX(i);
+                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
+                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+
+                if (canTeleport) // do it this way to ignore the vanilla conditions
+                {
+                    i->EmptySlot();
+                    playerShip->AddCrewMember2(i,targetRoom);
+                }
             }
         }
     }
@@ -3693,10 +3701,17 @@ void RecallBoarders(int direction)
         for (auto i : playerShip->shipManager->vCrewList)
         {
             //if (i->iShipId == 1 && !i->IsDrone())
-            if (i->iShipId == 1 && !i->IsDrone() && i->CanTeleport())
+            if (!i->bDead && i->iShipId == 1 && !i->IsDrone())
             {
-                i->EmptySlot();
-                enemyShip->AddCrewMember2(i,targetRoom);
+                CrewMember_Extend *ex = CM_EX(i);
+                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
+                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+
+                if (canTeleport) // do it this way to ignore the vanilla conditions
+                {
+                    i->EmptySlot();
+                    enemyShip->AddCrewMember2(i,targetRoom);
+                }
             }
         }
     }

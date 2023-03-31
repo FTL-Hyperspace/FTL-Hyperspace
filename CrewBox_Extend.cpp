@@ -65,7 +65,7 @@ void CrewAbilityCooldownBar::OnRender()
     GL_Color *barColor;
     bool powerActive = false;
 
-    if (power)
+    if (power) // has a main power
     {
         powerActive = power->temporaryPowerActive;
         if (powerActive)
@@ -73,21 +73,29 @@ void CrewAbilityCooldownBar::OnRender()
             cooldown = &power->temporaryPowerDuration;
             barColor = &power->def->tempPower.cooldownColor;
         }
-        else if (resource)
-        {
-            cooldown = &resource->powerCooldown;
-            barColor = &resource->def->cooldownColor;
-        }
         else
         {
             cooldown = &power->powerCooldown;
             barColor = &power->def->cooldownColor;
         }
     }
-    else
+    else // no main power
     {
-        cooldown = &resource->powerCooldown;
-        barColor = &resource->def->cooldownColor;
+        for (ActivatedPower *extraPower : morePowers) // check extra powers if temp active
+        {
+            if (extraPower->temporaryPowerActive)
+            {
+                powerActive = true;
+                cooldown = &extraPower->temporaryPowerDuration;
+                barColor = &extraPower->def->tempPower.cooldownColor;
+                break;
+            }
+        }
+        if (!powerActive) // no temp active show resource cooldown
+        {
+            cooldown = &resource->powerCooldown;
+            barColor = &resource->def->cooldownColor;
+        }
     }
 
     int cooldownHeight = ((*cooldown).first / (*cooldown).second) * box.h;
@@ -96,7 +104,7 @@ void CrewAbilityCooldownBar::OnRender()
     if (barActive != powerActive || cooldownHeight != lastCooldownHeight)
     {
         CSurface::GL_DestroyPrimitive(prim);
-        barActive = powerActive;
+        barActive = powerActive; // barActive isn't perfect (in case multiple temporaries at the same time) but unlikely to be an issue in nearly all scenarios
         lastCooldownHeight = cooldownHeight;
 
         if (cooldownHeight > 0)

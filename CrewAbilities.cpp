@@ -1,4 +1,5 @@
 #include "CrewMember_Extend.h"
+#include "CrewBox_Extend.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "ShipUnlocks.h"
@@ -869,6 +870,35 @@ void ActivatedPower::LoadState(int fd)
     effectWorldPos.y = FileHelper::readFloat(fd);
 }
 
+void ActivatedPowerResource::SaveState(int fd)
+{
+    FileHelper::writeInt(fd, def->index);
+
+    FileHelper::writeInt(fd, enabled);
+
+    FileHelper::writeFloat(fd, modifiedPowerCharges);
+
+    FileHelper::writeFloat(fd, powerCooldown.first);
+    FileHelper::writeFloat(fd, powerCooldown.second);
+    FileHelper::writeInt(fd, powerCharges.first);
+    FileHelper::writeInt(fd, powerCharges.second);
+}
+
+void ActivatedPowerResource::LoadState(int fd)
+{
+    def = PowerResourceDefinition::powerDefs[FileHelper::readInteger(fd)];
+
+    enabled = FileHelper::readInteger(fd);
+
+    modifiedPowerCharges = FileHelper::readFloat(fd);
+
+    powerCooldown.first = FileHelper::readFloat(fd);
+    powerCooldown.second = FileHelper::readFloat(fd);
+    powerCharges.first = FileHelper::readInteger(fd);
+    powerCharges.second = FileHelper::readInteger(fd);
+}
+
+
 void CrewMember_Extend::CalculatePowerDef()
 {
     CrewDefinition* def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
@@ -882,6 +912,7 @@ void CrewMember_Extend::CalculatePowerDef()
     }
     for (ActivatedPowerResource* resource : powerResources)
     {
+        resource->lastEnabled = resource->enabled;
         resource->enabled = false;
     }
     hasSpecialPower = false;
@@ -998,7 +1029,7 @@ void CrewMember_Extend::CalculatePowerDef()
             ActivatedPower *power = new ActivatedPower(powerDef, orig, this);
             crewPowers.push_back(power);
 
-            power->powerCooldown.first = 0.f;
+            power->powerCooldown.first = powerDef->cooldown * powerDef->initialCooldownFraction;
             power->powerCooldown.second = powerDef->cooldown;
             power->powerCharges.first = powerDef->initialCharges;
             power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
@@ -1032,10 +1063,11 @@ void CrewMember_Extend::CalculatePowerDef()
     }
 
     // Now calculate power definition modifiers (any that need to be updated every frame)
-    if (hasSpecialPower)
+    if (!crewPowers.empty() || !powerResources.empty())
     {
         // Update the max charges
         CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+
         for (ActivatedPower *power : crewPowers)
         {
             if (!power->enabled) continue;
@@ -1068,6 +1100,16 @@ void CrewMember_Extend::CalculatePowerDef()
                 }
             }
         }
+
+        // Now reinitialize any power cooldowns/charges that need to be reinitialized when enabled
+        for (ActivatedPower *power : crewPowers)
+        {
+            if (power->enabledInit) power->EnableInit();
+        }
+        for (ActivatedPowerResource *power : powerResources)
+        {
+            if (power->enabled && !power->lastEnabled) power->EnableInit();
+        }
     }
 }
 
@@ -1096,7 +1138,14 @@ void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
     }
 
     // Update cooldown
-    powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
+    if (powerCooldown.second > 0.f)
+    {
+        powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
+    }
+    else
+    {
+        powerCooldown.first = powerCooldown.second;
+    }
     powerCooldown.second = newDef->cooldown;
 
     // Redefine resources
@@ -1107,6 +1156,42 @@ void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
 void ActivatedPower::EnablePower()
 {
     enabled = true;
+    enabledInit = true;
+}
+
+void ActivatedPowerResource::EnablePower()
+{
+    enabled = true;
+}
+
+void ActivatedPower::EnableInit()
+{
+    if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
+    else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
+    else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+
+    if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL)
+    {
+        if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+    }
+    else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
+    else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
+
+    enabledInit = false;
+}
+
+void ActivatedPowerResource::EnableInit()
+{
+    if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
+    else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
+    else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+
+    if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_FULL)
+    {
+        if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+    }
+    else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
+    else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
 }
 
 void ActivatedPower::DisablePower()
@@ -1123,6 +1208,11 @@ void ActivatedPower::DisablePower()
     }
 }
 
+void ActivatedPowerResource::DisablePower()
+{
+    enabled = false;
+}
+
 void ActivatedPower::LinkPowerResources()
 {
     for (PowerResourceDefinition *resourceDef : def->powerResources)
@@ -1137,7 +1227,7 @@ void ActivatedPower::LinkPowerResources()
             crew_ex->powerResourceMap[resourceDef->index] = resource;
             crew_ex->tempAddedPowerResource = true;
 
-            resource->powerCooldown.first = 0.f;
+            resource->powerCooldown.first = resourceDef->cooldown * resourceDef->initialCooldownFraction;
             resource->powerCooldown.second = resourceDef->cooldown;
             resource->powerCharges.first = resourceDef->initialCharges;
             resource->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
@@ -1157,44 +1247,173 @@ void ActivatedPower::EnablePowerResources()
 {
     for (ActivatedPowerResource *resource : powerResources)
     {
-        resource->enabled = true;
+        resource->EnablePower();
     }
 }
 
-void ActivatedPowerResource::SaveState(int fd)
+void ActivatedPowerResource::GetLinkedPowers()
 {
-    FileHelper::writeInt(fd, def->index);
+    tempLinkedPowers.clear();
 
-    FileHelper::writeInt(fd, enabled);
+    for (ActivatedPower* power : crew_ex->crewPowers)
+    {
+        if (!power->enabled) continue; // at this time just skip disabled powers
 
-    FileHelper::writeFloat(fd, modifiedPowerCharges);
-
-    FileHelper::writeFloat(fd, powerCooldown.first);
-    FileHelper::writeFloat(fd, powerCooldown.second);
-    FileHelper::writeInt(fd, powerCharges.first);
-    FileHelper::writeInt(fd, powerCharges.second);
+        for (ActivatedPowerResource* resource : power->powerResources)
+        {
+            if (resource == this) // power is linked to this resource
+            {
+                tempLinkedPowers.push_back(power);
+                break;
+            }
+        }
+    }
 }
 
-void ActivatedPowerResource::LoadState(int fd)
+static std::array<int,5> cooldownWidthsArray = {4,3,2,2,1};
+static std::array<int,5> chargesWidthsArray = {3,2,2,1,1};
+
+int ActivatedPower::GetCrewBoxResourceWidth(int mode)
 {
-    def = PowerResourceDefinition::powerDefs[FileHelper::readInteger(fd)];
+    bool hasCooldown = !def->hideCooldown && powerCooldown.second > 0.f;
+    bool hasCharges = !def->hideCharges && powerCharges.second > 0;
 
-    enabled = FileHelper::readInteger(fd);
+    int cooldownWidth = hasCooldown ? cooldownWidthsArray[mode]+1 : 0;
+    int chargesWidth = hasCharges ? chargesWidthsArray[mode]+1 : 0;
 
-    modifiedPowerCharges = FileHelper::readFloat(fd);
-
-    powerCooldown.first = FileHelper::readFloat(fd);
-    powerCooldown.second = FileHelper::readFloat(fd);
-    powerCharges.first = FileHelper::readInteger(fd);
-    powerCharges.second = FileHelper::readInteger(fd);
+    int width = cooldownWidth + chargesWidth;
+    return width > 0 ? width + 3 : 0; // add the inter-ability margin if needed (3 px)
 }
 
-void ActivatedPowerResource::EnablePower()
+int ActivatedPowerResource::GetCrewBoxResourceWidth(int mode)
 {
-    enabled = true;
+    int hasCooldown = !def->hideCooldown && powerCooldown.second > 0.f;
+    int hasCharges = !def->hideCharges && powerCharges.second > 0;
+
+    if (def->showLinkedCooldowns || def->showLinkedCharges)
+    {
+        for (ActivatedPower *power : tempLinkedPowers)
+        {
+            if (def->showLinkedCooldowns && power->powerCooldown.second > 0.f) hasCooldown++;
+            if (def->showLinkedCharges && power->powerCharges.second > 0) hasCharges++;
+        }
+    }
+
+    int cooldownWidth = hasCooldown*(cooldownWidthsArray[mode]+1);
+    int chargesWidth = hasCharges*(chargesWidthsArray[mode]+1);
+
+    int width = cooldownWidth + chargesWidth;
+    return width > 0 ? width + 3 : 0; // add the inter-ability margin if needed (3 px)
 }
 
-void ActivatedPowerResource::DisablePower()
+int CrewBox_Extend::GetTotalCooldownWidth(int mode, CrewMember_Extend *ex)
 {
-    enabled = false;
+    int width = 0;
+
+    // Loop over powers
+    for (ActivatedPower* power : ex->crewPowers)
+    {
+        if (!power->enabled) continue;
+        width += power->GetCrewBoxResourceWidth(mode);
+    }
+    for (ActivatedPowerResource* power : ex->powerResources)
+    {
+        if (!power->enabled) continue;
+        width += power->GetCrewBoxResourceWidth(mode);
+    }
+
+    return width;
+}
+
+void CrewBox_Extend::EmplacePower(ActivatedPower *power, int mode, int &offset, std::vector<int> &cooldownBorders)
+{
+    bool hasCooldown = !power->def->hideCooldown && power->powerCooldown.second > 0.f;
+    bool hasCharges = !power->def->hideCharges && power->powerCharges.second > 0;
+    if (!(hasCooldown || hasCharges)) return;
+
+    // first calculate how much width we need
+    int cooldownWidth = cooldownWidthsArray[mode];
+    int chargesWidth = chargesWidthsArray[mode];
+
+    // add charge bar
+    if (hasCharges)
+    {
+        chargesBars.emplace_back(power, Globals::Rect({orig->box.x+offset+3, orig->box.y+3, chargesWidth, orig->box.h-6}));
+        offset += chargesWidth+1;
+    }
+
+    // add cooldown bar
+    if (hasCooldown)
+    {
+        cooldownBars.emplace_back(power, Globals::Rect({orig->box.x+offset+3, orig->box.y+3, cooldownWidth, orig->box.h-6}));
+        offset += cooldownWidth+1;
+    }
+
+    // add border
+    cooldownBorders.push_back(offset+4);
+    offset += 3;
+}
+
+void CrewBox_Extend::EmplacePower(ActivatedPowerResource *resource, int mode, int &offset, std::vector<int> &cooldownBorders)
+{
+    bool hasCooldown = !resource->def->hideCooldown && resource->powerCooldown.second > 0.f;
+    bool hasCharges = !resource->def->hideCharges && resource->powerCharges.second > 0;
+    int oldOffset = offset;
+
+    // first calculate how much width we need
+    int cooldownWidth = cooldownWidthsArray[mode];
+    int chargesWidth = chargesWidthsArray[mode];
+
+    // add linked charge bars
+    if (resource->def->showLinkedCharges)
+    {
+        for (ActivatedPower *power : resource->tempLinkedPowers)
+        {
+            if (power->powerCharges.second > 0)
+            {
+                chargesBars.emplace_back(power, Globals::Rect({orig->box.x+offset+3, orig->box.y+3, chargesWidth, orig->box.h-6}));
+                offset += chargesWidth+1;
+            }
+        }
+    }
+
+    // add charge bar
+    if (hasCharges)
+    {
+        chargesBars.emplace_back(resource, Globals::Rect({orig->box.x+offset+3, orig->box.y+3, chargesWidth, orig->box.h-6}));
+        offset += chargesWidth+1;
+    }
+
+    // add linked cooldown bars
+    if (resource->def->showLinkedCooldowns)
+    {
+        for (ActivatedPower *power : resource->tempLinkedPowers)
+        {
+            if (power->powerCooldown.second > 0.f)
+            {
+                cooldownBars.emplace_back(power, Globals::Rect({orig->box.x+offset+3, orig->box.y+3, cooldownWidth, orig->box.h-6}));
+                offset += cooldownWidth+1;
+            }
+        }
+    }
+
+    // add cooldown bar
+    if (hasCooldown)
+    {
+        cooldownBars.emplace_back(resource, Globals::Rect({orig->box.x+offset+3, orig->box.y+3, cooldownWidth, orig->box.h-6}));
+        offset += cooldownWidth+1;
+
+        if (resource->def->showTemporaryBars)
+        {
+            CrewAbilityCooldownBar &cooldownBar = cooldownBars.back(); // get the cooldownBar that was most recently emplaced
+            cooldownBar.morePowers = std::move(resource->tempLinkedPowers); // shouldn't need tempLinkedPowers anymore
+        }
+    }
+
+    // add border
+    if (offset != oldOffset)
+    {
+        cooldownBorders.push_back(offset+4);
+        offset += 3;
+    }
 }
