@@ -261,6 +261,13 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
                     SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room1, 1, custom->sourceShipId);
                 }
             }
+
+            rng = random32() % 10;
+            if (rng < custom->def->erosionChance)
+            {
+                auto ex = RM_EX(ship.vRoomList[room1]);
+                ex->StartErosion(custom->def->erosionEffect);
+            }
         }
     }
 
