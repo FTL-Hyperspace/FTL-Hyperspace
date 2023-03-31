@@ -153,6 +153,8 @@ void CustomEventsParser::ReadCustomEventFiles()
         {
             ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e));
         }
+        
+        delete [] eventText;
     }
 
     for (auto i : CustomEventsParser::GetInstance()->eventFiles)
@@ -179,6 +181,8 @@ void CustomEventsParser::ReadCustomEventFiles()
             {
                 ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e));
             }
+            
+            delete [] eventText;
         }
     }
 }

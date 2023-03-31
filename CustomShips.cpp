@@ -1096,6 +1096,8 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 
             if (nThrusters) bShowEngines = true;
         }
+        
+        delete [] xmltext;
     }
 }
 
