@@ -11,7 +11,7 @@
         delete [] s;
         if (text)
         {
-            s = new char[strlen(text)];
+            s = new char[strlen(text)+1];
             strcpy(s, text);
         }
         else
