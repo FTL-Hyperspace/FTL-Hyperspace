@@ -2382,12 +2382,12 @@ bool CrewMember_Extend::IsInvulnerable()
 HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::DirectModifyHealth -> Begin (CustomCrew.cpp)\n")
-    if (health.first > 0)
+    if (health.first > 0.f)
     {
         float newHealth = health.first + healthMod;
-        if (newHealth < 0)
+        if (newHealth < 0.f)
         {
-            newHealth = 0;
+            newHealth = 0.f;
         }
         else if (newHealth > health.second)
         {
@@ -2395,26 +2395,29 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bo
         }
         float originalHealth = health.first;
         health.first = newHealth;
-        if (std::abs(healthMod) > 0 && newHealth != health.second)
+        if (std::abs(healthMod) > 0.f && newHealth != health.second)
         {
-            lastHealthChange = 2;
+            lastHealthChange = 2.f;
         }
-        if (healthMod < 0)
+        if (healthMod < 0.f)
         {
-            lastDamageTimer = -2;
+            lastDamageTimer = -2.f;
         }
-        if (newHealth <= 0 && iOnFire != 0 && bFighting && (blockingDoor != (Door*)crewTarget) && iShipId != 0 && currentShipId != 0 && IsCrew() && crewTarget->iShipId == 0)
+        if (newHealth <= 0.f && iOnFire != 0 && bFighting && (blockingDoor != (Door*)crewTarget) && iShipId != 0 && currentShipId != 0 && IsCrew() && crewTarget && crewTarget->iShipId == 0)
         {
             G_->GetAchievementTracker()->SetAchievement("ACH_ROCK_FIRE", false, true);
         }
-        auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
-        float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
-        lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
-        if (newHealth <= lowHealthThreshold && originalHealth > lowHealthThreshold && iShipId == 0 && IsCrew())
+        if (healthMod < 0.f)
         {
-            G_->GetSoundControl()->PlaySoundMix("lowCrewHealth", -1.f, false);
+            auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
+            float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
+            lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
+            if (newHealth <= lowHealthThreshold && originalHealth > lowHealthThreshold && iShipId == 0 && IsCrew())
+            {
+                G_->GetSoundControl()->PlaySoundMix("lowCrewHealth", -1.f, false);
+            }
         }
-        return newHealth <= 0;
+        return newHealth <= 0.f;
     }
     return false;
 }
