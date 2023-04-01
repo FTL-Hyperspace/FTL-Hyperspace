@@ -999,6 +999,16 @@ HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
     return G_->GetTextLibrary()->GetText(tooltipText, G_->GetTextLibrary()->currentLanguage);
 }
 
+HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    super(iShipId, selfId, blueprint);
+    
+    drone_image_on = CachedImage("ship/drones/" + blueprint->droneImage + "_charged.png", CachedImage::Centered::CENTERED);
+    drone_image_off = CachedImage("ship/drones/" + blueprint->droneImage + "_off.png", CachedImage::Centered::CENTERED);
+    drone_image_glow = CachedImage("ship/drones/" + blueprint->droneImage + "_glow.png", CachedImage::Centered::CENTERED);
+}
+
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {

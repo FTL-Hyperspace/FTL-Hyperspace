@@ -6,6 +6,8 @@ cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::str
 cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
 "41544189cc5589d5534889fb48c7470800000000":
 cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
+"53??89fb??c74708??????????c707??????????c74710??????????????????":
+cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);
 "554889f5488d7610534889fb488d7f104883ec0848c747f800000000":
 cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
 "534889fb4883ec100f2e4740":
@@ -30,6 +32,11 @@ struct CachedImage
 		constructor1(path, x, y);
 	}
 	
+	CachedImage(const std::string& path, Centered centered)
+	{
+		constructor2(path, centered);
+	}
+
 	CachedImage()
 	{
 		
@@ -40,7 +47,7 @@ struct CachedImage
 		constructor_copy(other);
 	}
 	
-	CachedImage& operator=(CachedImage &other)
+	CachedImage& operator=(const CachedImage &other)
 	{
 		constructor_copy(other);
 		return *this;

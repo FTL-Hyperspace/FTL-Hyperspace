@@ -103,6 +103,11 @@ struct CachedImage : CachedPrimitive
 		constructor1(path, x, y);
 	}
 	
+	CachedImage(const std::string& path, Centered centered)
+	{
+		constructor2(path, centered);
+	}
+
 	CachedImage()
 	{
 		
@@ -113,7 +118,7 @@ struct CachedImage : CachedPrimitive
 		constructor_copy(other);
 	}
 	
-	CachedImage& operator=(CachedImage &other)
+	CachedImage& operator=(const CachedImage &other)
 	{
 		constructor_copy(other);
 		return *this;
@@ -126,6 +131,7 @@ struct CachedImage : CachedPrimitive
 	LIBZHL_API void SetRotation(float _rotation);
 	LIBZHL_API void SetScale(float wScale, float hScale);
 	LIBZHL_API void constructor1(const std::string &path, int x, int y);
+	LIBZHL_API void constructor2(const std::string &path, CachedImage::Centered centered);
 	LIBZHL_API void constructor_copy(const CachedImage &other);
 	LIBZHL_API void destructor();
 	
@@ -7377,8 +7383,22 @@ struct Store : FocusWindow
 	int forceSystemInfoWidth;
 };
 
-struct SuperShieldDrone
+struct SuperShieldDrone;
+
+struct SuperShieldDrone : DefenseDrone
 {
+	SuperShieldDrone(int iShipId, int selfId, DroneBlueprint *blueprint)
+	{
+		this->constructor(iShipId, selfId, blueprint);
+	}
+
+	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
+	
+	Shields *shieldSystem;
+	CachedImage drone_image_on;
+	CachedImage drone_image_off;
+	CachedImage drone_image_glow;
+	float glowAnimation;
 };
 
 struct SystemCustomBox : SystemBox
