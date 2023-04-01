@@ -454,6 +454,22 @@ void RoomAnim::LoadState(int fd, Room *room)
     }
 }
 
+HOOK_METHOD(SoundControl, UpdateSoundLoop, (const std::string &loopId, float count) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SoundControl::UpdateSoundLoop -> Begin (CustomShips.cpp)\n")
+
+    if (loopId == "hackLoop") return;
+
+    if (loopId == "hackLoopHS")
+    {
+        super("hackLoop", count);
+    }
+    else
+    {
+        super(loopId, count);
+    }
+}
+
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
@@ -472,7 +488,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             ex->erosion.anim->OnUpdate();
         }
     }
-    
+
     bool hackSoundLoop = false;
     if (hackingSystem)
     {
@@ -1129,7 +1145,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 
             if (nThrusters) bShowEngines = true;
         }
-        
+
         delete [] xmltext;
     }
 }
@@ -1148,11 +1164,11 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
-    
+
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(this->iShipId);
     float xPos = (float)(shipGraph->shipBox).x;
     float yPos = (float)(shipGraph->shipBox).y;
-    
+
     // Calculate cloak alpha for each sprite
     float alphaCloak = 0.f;
     float alphaOther = 1.f;
@@ -1169,11 +1185,11 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         alphaOther = 0.5f;
         alphaHull = 0.375f;
     }
-    
+
     // Render hull
     CSurface::GL_Translate(xPos, yPos, 0.0);
     CSurface::GL_RenderPrimitiveWithAlpha(this->shipImagePrimitive, alphaHull);
-    
+
     // Render cloak
     if (alphaCloak > 0.f)
     {
@@ -1186,7 +1202,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         CSurface::GL_RenderPrimitiveWithAlpha(this->cloakPrimitive, alphaCloak);
     }
     CSurface::GL_Translate(-xPos, -yPos, 0.0);
-    
+
     // Render thruster animations
     if (engines && bShowEngines)
     {
@@ -1217,7 +1233,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
             }
         }
     }
-    
+
     // Render floor
     if (this->iShipId == 0)
     {
