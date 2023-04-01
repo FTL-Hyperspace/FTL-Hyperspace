@@ -117,6 +117,7 @@ struct CachedImage : CachedPrimitive
 	LIBZHL_API void SetMirrored(bool _mirrored);
 	LIBZHL_API void SetPosition(int x, int y);
 	LIBZHL_API void SetRotation(float _rotation);
+	LIBZHL_API void SetScale(float wScale, float hScale);
 	LIBZHL_API void constructor1(const std::string &path, int x, int y);
 	LIBZHL_API void constructor_copy(const CachedImage &other);
 	LIBZHL_API void destructor();
@@ -1128,8 +1129,13 @@ struct ArtilleryBox : CooldownSystemBox
 
 struct ProjectileFactory;
 
+struct CachedRect;
+
 struct CachedRect : CachedPrimitive
 {
+	LIBZHL_API void SetPosition(int x, int y);
+	LIBZHL_API void SetSize(int w, int h);
+	
 	int x;
 	int y;
 	int w;
@@ -1966,6 +1972,7 @@ struct CrewBlueprint;
 struct CrewBlueprint : Blueprint
 {
 
+	LIBZHL_API GL_Color GetCurrentSkillColor(int skill);
 	LIBZHL_API std::string GetNameShort();
 	LIBZHL_API void RandomSkills(int worldLevel);
 	LIBZHL_API void RenderIcon(float opacity);
@@ -2605,6 +2612,7 @@ struct BlueprintManager
 	LIBZHL_API std::vector<DroneBlueprint*> GetRandomDrone(int count, bool demo_lock);
 	LIBZHL_API std::vector<WeaponBlueprint*> GetRandomWeapon(int count, bool demo_lock);
 	LIBZHL_API ShipBlueprint *GetShipBlueprint(const std::string &name, int sector);
+	LIBZHL_API static GL_Texture *__stdcall GetSkillIcon(int skill, bool outline);
 	LIBZHL_API SystemBlueprint *GetSystemBlueprint(const std::string &name);
 	LIBZHL_API std::string GetUnusedCrewName(bool *isMale_ret);
 	LIBZHL_API WeaponBlueprint *GetWeaponBlueprint(const std::string &name);

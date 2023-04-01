@@ -67,6 +67,7 @@ enum class CrewStat : unsigned int
     TELEPORT_MOVE,
     TELEPORT_MOVE_OTHER_SHIP,
     SILENCED,
+    LOW_HEALTH_THRESHOLD,
     // non-cached stats
     ACTIVATE_WHEN_READY,
     STAT_BOOST,

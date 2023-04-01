@@ -552,6 +552,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.silenced = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "lowHealthThreshold")
+                        {
+                            crew.lowHealthThreshold = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "lowHealthThresholdPercentage")
+                        {
+                            crew.lowHealthThresholdPercentage = boost::lexical_cast<float>(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -1323,6 +1331,10 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
                 if (tempEffectName == "silenced")
                 {
                     def->tempPower.silenced = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "lowHealthThreshold")
+                {
+                    def->tempPower.lowHealthThreshold = boost::lexical_cast<float>(tempEffectNode->value());
                 }
             }
         }
@@ -2383,6 +2395,108 @@ bool CrewMember_Extend::IsInvulnerable()
         }
     }
     return false;
+}
+
+// rewrite to modify lowCrewHealth behavior
+HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::DirectModifyHealth -> Begin (CustomCrew.cpp)\n")
+    if (health.first > 0.f)
+    {
+        float newHealth = health.first + healthMod;
+        if (newHealth < 0.f)
+        {
+            newHealth = 0.f;
+        }
+        else if (newHealth > health.second)
+        {
+            newHealth = health.second;
+        }
+        float originalHealth = health.first;
+        health.first = newHealth;
+        if (std::abs(healthMod) > 0.f && newHealth != health.second)
+        {
+            lastHealthChange = 2.f;
+        }
+        if (healthMod < 0.f)
+        {
+            lastDamageTimer = -2.f;
+        }
+        if (newHealth <= 0.f && iOnFire != 0 && bFighting && (blockingDoor != (Door*)crewTarget) && iShipId != 0 && currentShipId != 0 && IsCrew() && crewTarget && crewTarget->iShipId == 0)
+        {
+            G_->GetAchievementTracker()->SetAchievement("ACH_ROCK_FIRE", false, true);
+        }
+        if (healthMod < 0.f)
+        {
+            auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
+            float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
+            lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
+            if (static_cast<int>(newHealth) <= lowHealthThreshold && static_cast<int>(originalHealth) > lowHealthThreshold && iShipId == 0 && IsCrew())
+            {
+                G_->GetSoundControl()->PlaySoundMix("lowCrewHealth", -1.f, false);
+            }
+        }
+        return newHealth <= 0.f;
+    }
+    return false;
+}
+
+// rewrite to modify lowCrewHealth behavior
+HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnRenderHealth -> Begin (CustomCrew.cpp)\n")
+    if (!bDead && crewAnim->status != 3)
+    {
+        crewAnim->OnRenderProps();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(0.f, PositionShift());
+        if (healing.tracker.running)
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(x - std::round(scale * 17.f), y - std::round(scale * 20.f));
+            CSurface::GL_Scale(scale, scale, 1.f);
+            healing.OnRender(1.f, GL_Color(1.f, 1.f, 1.f, 1.f), false);
+            CSurface::GL_PopMatrix();
+        }
+        mindControlled.position.x = stunIcon.position.x = x - 8.f;
+        mindControlled.position.y = stunIcon.position.y = y - 17.f;
+        GL_Color healthBarColor = iShipId == 0 ? GL_Color(0.f, 1.f, 0.f, 1.f) : (G_->GetSettings()->colorblind ? GL_Color(0.f, 147.f / 255, 224.f / 255, 1.f) : GL_Color(1.f, 0.f, 0.f, 1.f));
+        auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
+        float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
+        lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
+        if (selectionState > 0 || lastHealthChange > 0 || (health.first < health.second * 0.55f) || (health.first <= lowHealthThreshold))
+        {
+            flashHealthTracker.Update();
+            CachedImage healthBoxActive = (health.first <= lowHealthThreshold && flashHealthTracker.Progress(-1.f) < 0.5f) ? healthBoxRed : healthBox;
+            Pointf healthBoxLoc = Pointf(x - std::round(scale * 18.f), y - 2.f - std::round(scale * 15.f));
+            healthBoxActive.SetPosition(healthBoxLoc.x, healthBoxLoc.y);
+            healthBoxActive.SetScale(scale, scale);
+            healthBoxActive.OnRender(GL_Color(1.f, 1.f, 1.f, 1.f));
+            healthBar.SetPosition(healthBoxLoc.x + std::round(scale * 5.f), healthBoxLoc.y + std::round(scale * 3.f));
+            healthBar.SetSize(static_cast<int>(std::round(health.first / health.second * scale * 25.f)), static_cast<int>(std::round(scale * 3.f)));
+            healthBar.OnRender(healthBarColor);
+            mindControlled.position.x = stunIcon.position.x = x - 27.f;
+            mindControlled.position.y = stunIcon.position.y = y - 20.f;
+        }
+        if (fStunTime > 0)
+        {
+            stunIcon.OnRender(1.f, GL_Color(1.f, 1.f, 0.f, 1.f), false);
+        }
+        else if (bMindControlled)
+        {
+            mindControlled.OnRender(1.f, healthBarColor, false);
+        }
+        if (levelUp.running && iShipId == 0)
+        {
+            GL_Texture *skillIcon = G_->GetBlueprints()->GetSkillIcon(lastLevelUp, true);
+            float animProgress = levelUp.Progress(-1.f);
+            GL_Color skillColorFadeOut = blueprint.GetCurrentSkillColor(lastLevelUp);
+            skillColorFadeOut.a = 1.f - animProgress * 2.4f;
+            CSurface::GL_BlitPixelImage(skillIcon, x - animProgress * 96.f, y - animProgress * 96.f - 14.f, animProgress * 192.f, animProgress * 192.f, 0.f, skillColorFadeOut, false);
+            G_->GetResources()->RenderImage(skillIcon, x - 16.f, y - 30.f, 0.f, blueprint.GetCurrentSkillColor(lastLevelUp), animProgress * 2.4f, false);
+        }
+        CSurface::GL_PopMatrix();
+    }
 }
 
 HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> bool)

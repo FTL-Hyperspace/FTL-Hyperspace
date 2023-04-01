@@ -643,6 +643,8 @@ Syntax ->
 		<trueHealAmount>2.0</trueHealAmount>                                             Amount of health to heal over time, in HP/second. Unaffected by healSpeed, continuous. Use negative value for DoT.
 		<detectsLifeforms>false</detectsLifeforms>                                       If true, having this crewmember will allow the player to see enemy crew (slug).
 		<healCrewAmount>0.0</healCrewAmount>                                             Amount of health to heal friendly crew in the same room over time, in HP/second. Affected by healSpeed of the respective crew.
+		<lowHealthThreshold>25.0</lowHealthThreshold>                                    Health value at which beeping sound plays and health bar flashes red. Can be set to negative value to disable this behavior.
+		<lowHealthThresholdPercentage>1.0</lowHealthThresholdPercentage>                 Same as lowHealthThreshold, but calculated as a multiple of max health. The lower final value of the two will be used, so be sure to override the default value of lowHealthThreshold if it would conflict with a desired percentage value.
 		<skills>                                                                         Controls experience requirement per skill level for each crew skill type.
 			<piloting req="15"/>
 			<engines req="15"/>
@@ -879,6 +881,7 @@ Syntax ->
 				<suffocationModifier>1</suffocationModifier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>                             Modifier to damage from all sources (anything that would reduce health).
+				<lowHealthThreshold>0</lowHealthThreshold>
 				<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
 				<effectAnim>mindcontrol</effectAnim>                                               Animation to play over the crewmember during the temporary effect.
 				<invulnerable>false</invulnerable>                                                 If true, the crewmember cannot lose health.

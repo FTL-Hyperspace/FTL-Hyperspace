@@ -12,6 +12,8 @@ cleanup __cdecl void CachedImage::constructor_copy(CachedImage *this, const Cach
 cleanup __cdecl void CachedImage::SetRotation(CachedImage *this, float _rotation);
 "565383ec148b5c24208b74242489f0":
 cleanup __cdecl void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
+"5383ec188b5c2420f30f104424240f2e4318":
+cleanup __cdecl void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
 "565383ec748b9c24800000008b430c":
 cleanup __cdecl void CachedImage::CreatePrimitive(CachedImage *this);
 
