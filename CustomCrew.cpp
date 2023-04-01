@@ -2412,7 +2412,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bo
             auto def = CustomCrewManager::GetInstance()->GetDefinition(species);
             float lowHealthThreshold = CM_EX(this)->CalculateStat(CrewStat::LOW_HEALTH_THRESHOLD, def);
             lowHealthThreshold = std::min(lowHealthThreshold, health.second * def->lowHealthThresholdPercentage);
-            if (newHealth <= lowHealthThreshold && originalHealth > lowHealthThreshold && iShipId == 0 && IsCrew())
+            if (static_cast<int>(newHealth) <= lowHealthThreshold && static_cast<int>(originalHealth) > lowHealthThreshold && iShipId == 0 && IsCrew())
             {
                 G_->GetSoundControl()->PlaySoundMix("lowCrewHealth", -1.f, false);
             }
