@@ -177,6 +177,7 @@ target_sources(
     FTLGameWin32.h
     Global.cpp
     Global.h
+    HackingSystem.cpp
     HSVersion.h
     HullNumbers.cpp
     HullNumbers.h

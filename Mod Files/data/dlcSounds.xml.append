@@ -1,0 +1,5 @@
+<!-- Since Hyperspace can't control how the original hack loop sound is played, a new one needs to be defined which can be controlled. -->
+<mod:findLike type="hackLoop">
+    <mod:removeTag />
+</mod:findLike>
+<hackLoopHS volume="5" loop="true" count="1">dlc/AESFX_Hacking_Loop.ogg</hackLoopHS>
