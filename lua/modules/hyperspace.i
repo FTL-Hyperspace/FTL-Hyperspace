@@ -1241,6 +1241,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::RoomLocked;
 %rename("%s") Ship::SetRoomBlackout;
 %rename("%s") Ship::SetSelectedRoom;
+%rename("%s") Ship::iShipId; // just in case
 //%rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
 //%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull

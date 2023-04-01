@@ -55,7 +55,7 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderSparks -> Begin (RenderEvents.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
-    lua_pushinteger(context->GetLua(), this);
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_SPARKS, 1);
     if (idx >= 0) super();
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_SPARKS, std::abs(idx), 1);
