@@ -1241,6 +1241,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::RoomLocked;
 %rename("%s") Ship::SetRoomBlackout;
 %rename("%s") Ship::SetSelectedRoom;
+%rename("%s") Ship::iShipId; // just in case
 //%rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
 //%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
@@ -1328,7 +1329,7 @@ playerVariableType playerVariables;
 %nodefaultctors ShipBlueprint;
 %nodefaultdtors ShipBlueprint;
 %rename("%s") ShipBlueprint;
-/*
+
 %nodefaultctors ShipBlueprint::SystemTemplate;
 %nodefaultdtors ShipBlueprint::SystemTemplate;
 %rename("%s") ShipBlueprint::SystemTemplate;
@@ -1341,7 +1342,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::SystemTemplate::slot;
 %rename("%s") ShipBlueprint::SystemTemplate::direction;
 %rename("%s") ShipBlueprint::SystemTemplate::weapon;
-*/
+
 %rename("%s") ShipBlueprint::desc; // TODO: Expose Description
 %rename("%s") ShipBlueprint::blueprintName;
 %rename("%s") ShipBlueprint::name;
@@ -1351,7 +1352,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::cloakFile;
 %rename("%s") ShipBlueprint::shieldFile;
 %rename("%s") ShipBlueprint::floorFile;
-%rename("%s") ShipBlueprint::systemInfo; // TODO: Expose SystemTemplate
+%rename("%s") ShipBlueprint::systemInfo;
 %rename("%s") ShipBlueprint::systems;
 %rename("%s") ShipBlueprint::droneCount;
 %rename("%s") ShipBlueprint::originalDroneCount;
@@ -2026,7 +2027,7 @@ playerVariableType playerVariables;
 %rename("%s") SpaceDrone::GetBoardingDrone;
 %rename("%s") SpaceDrone::SetDeployed;
 %rename("%s") SpaceDrone::UpdateAimingAngle;
-	
+
 %rename("%s") SpaceDrone::_targetable;
 %rename("%s") SpaceDrone::_collideable;
 %rename("%s") SpaceDrone::currentSpace;
@@ -2173,6 +2174,9 @@ playerVariableType playerVariables;
 %rename("%s") ResourceControl::ImageExists;
 %rename("%s") ResourceControl::RenderImage;
 %rename("%s") ResourceControl::RenderImageString;
+
+%newobject ResourceControl::LoadFile;
+%rename("%s") ResourceControl::LoadFile;
 
 //%rename("%s") FileHelper;
 //%rename("%s") FileHelper::deleteAllSaveFiles;

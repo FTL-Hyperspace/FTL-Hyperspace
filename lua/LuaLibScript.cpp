@@ -31,6 +31,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pProjectile[4] = SWIG_TypeQuery(this->m_Lua, "BombProjectile *");
     types.pProjectile[5] = SWIG_TypeQuery(this->m_Lua, "BeamWeapon *");
     types.pProjectile[6] = SWIG_TypeQuery(this->m_Lua, "PDSFire *");
+    types.pShip = SWIG_TypeQuery(this->m_Lua, "Ship *");
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
 
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
