@@ -1389,6 +1389,9 @@
 		<Unit filename="palWindowsGeneric.h">
 			<Option virtualFolder="PAL/" />
 		</Unit>
+		<Unit filename="rapidxml_interface.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
 		<Unit filename="zhl.cpp">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
