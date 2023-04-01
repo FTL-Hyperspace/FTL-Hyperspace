@@ -252,6 +252,7 @@ target_sources(
     main.cpp
     main.h
     palWindowsGeneric.h
+    rapidxml_interface.h
     zhl.cpp
     zhl.h
     zhl_internal.h
