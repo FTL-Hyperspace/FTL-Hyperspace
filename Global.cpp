@@ -93,7 +93,7 @@ void ErrorMessage(const char *msg)
         MessageBoxW(NULL, utf16String.c_str(), L"Error", MB_ICONERROR | MB_SETFOREGROUND);
     #elif defined(__linux__)
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", msg, NULL);
-        fprintf(stderr, msg);
+        fprintf(stderr, "%s", msg);
     #endif
 }
 
