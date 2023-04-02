@@ -4,7 +4,7 @@
 
 // wrapper around xml_document
 template<class Ch = char>
-class xml_document : rapidxml::xml_document<Ch>
+class xml_document : public rapidxml::xml_document<Ch>
 {
 private:
     Ch *s = nullptr; // the xml string being parsed
