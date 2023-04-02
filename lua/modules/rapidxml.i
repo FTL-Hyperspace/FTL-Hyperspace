@@ -55,7 +55,7 @@ namespace rapidxml
     %template(xml_node) xml_node<char>;
     %template(xml_attribute) xml_attribute<char>;
 
-    %ignore xml_document;
+    //%ignore xml_document;
     %template(xml_document_) xml_document<char>;
 }
 
