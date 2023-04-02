@@ -47,20 +47,23 @@ namespace rapidxml
 {
     %ignore memory_pool;
 
+    // ignore all the methods in xml_document<char>
     %ignore xml_document<char>::parse;
     %ignore xml_document<char>::clear;
+    %ignore xml_document<char>::xml_document;
+    %nodefaultctor xml_document<char>;
+    %nodefaultdtor xml_document<char>;
 
     %template(memory_pool) memory_pool<char>;
     %template(xml_base) xml_base<char>;
     %template(xml_node) xml_node<char>;
     %template(xml_attribute) xml_attribute<char>;
 
-    //%ignore xml_document;
-    %template(xml_document_) xml_document<char>;
+    // this needs to be exposed and not ignored for inheritance to work
+    %template(__xml_document) xml_document<char>;
 }
 
 %template(xml_document) xml_document<char>;
-%ignore xml_document::parse;
 %extend xml_document<char> {
     %template(parse_string) parse_string<rapidxml::parse_default>;
     %template(parse_file) parse_file<rapidxml::parse_default>;
