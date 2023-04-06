@@ -22,8 +22,11 @@ struct InternalEvents
         ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
+        // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
+        HAS_EQUIPMENT,
 
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
