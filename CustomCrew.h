@@ -154,6 +154,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> isAnaerobic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
+    ToggleValue<float> cloneSpeedMultiplier;
     ToggleValue<float> passiveHealAmount;
     ToggleValue<float> truePassiveHealAmount;
     ToggleValue<float> healAmount;
@@ -177,6 +178,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> teleportMove;
     ToggleValue<bool> teleportMoveOtherShip;
     ToggleValue<bool> silenced;
+    ToggleValue<float> lowHealthThreshold;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -212,6 +214,8 @@ struct ActivatedPowerRequirements
     std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
     TextString extraOrConditionsTooltip;
 };
+
+struct PowerResourceDefinition;
 
 struct ActivatedPowerDefinition
 {
@@ -249,6 +253,15 @@ struct ActivatedPowerDefinition
         JUMP_COOLDOWN_CONTINUE
     };
 
+    enum DISABLED_COOLDOWN
+    {
+        DISABLED_COOLDOWN_FULL,
+        DISABLED_COOLDOWN_RESET,
+        DISABLED_COOLDOWN_CONTINUE,
+        DISABLED_COOLDOWN_PAUSE,
+        DISABLED_COOLDOWN_ZERO
+    };
+
     enum ON_DEATH
     {
         ON_DEATH_CONTINUE,
@@ -256,29 +269,163 @@ struct ActivatedPowerDefinition
         ON_DEATH_RESET
     };
 
-    static std::vector<ActivatedPowerDefinition> powerDefs;
+    enum HOTKEY_SETTING
+    {
+        HOTKEY_FIRST,
+        HOTKEY_ALWAYS,
+        HOTKEY_NEVER
+    };
+
+    static std::vector<ActivatedPowerDefinition*> powerDefs;
+    static std::unordered_map<std::string,ActivatedPowerDefinition*> nameDefList; // maps names to definitions
+    static std::unordered_map<std::string,ActivatedPowerDefinition*> undefinedNameDefList; // maps names to definitions
+    static std::unordered_map<std::string,unsigned int> activateGroupNameIndexList; // maps group names to integer IDs
+    static std::unordered_map<std::string,unsigned int> replaceGroupNameIndexList; // maps group names to integer IDs
+    static unsigned int nextActivateGroupNameIndex;
+    static unsigned int nextReplaceGroupNameIndex;
 
     void AssignIndex()
     {
         this->index = powerDefs.size();
-        powerDefs.push_back(*this);
+        powerDefs.push_back(this);
+    }
+
+    void AssignName(std::string &_name)
+    {
+        name = _name;
+        nameDefList[name] = this;
+    }
+
+    static ActivatedPowerDefinition* GetPowerByName(std::string &_name)
+    {
+        auto it = nameDefList.find(_name);
+        if (it == nameDefList.end()) // unused name
+        {
+            return nullptr;
+        }
+        else // used name so get it
+        {
+            return it->second;
+        }
+    }
+
+    static ActivatedPowerDefinition* AddUndefinedPower(std::string &_name)
+    {
+        auto it = undefinedNameDefList.find(_name);
+        if (it == undefinedNameDefList.end()) // unused name
+        {
+            ActivatedPowerDefinition *def = new ActivatedPowerDefinition();
+            def->name = _name;
+            undefinedNameDefList[_name] = def;
+            return def;
+        }
+        else // used name so get it
+        {
+            return it->second;
+        }
+    }
+
+    static ActivatedPowerDefinition* AddNamedDefinition(std::string &_name, ActivatedPowerDefinition* copyDef)
+    {
+        ActivatedPowerDefinition *def;
+
+        auto it = undefinedNameDefList.find(_name);
+        if (it == undefinedNameDefList.end()) // does not exist as an undefined definition
+        {
+            if (copyDef)
+            {
+                def = new ActivatedPowerDefinition(*copyDef);
+            }
+            else
+            {
+                def = new ActivatedPowerDefinition();
+            }
+        }
+        else // does exist as an undefined name so turn it into a defined definition
+        {
+            def = it->second;
+            if (copyDef)
+            {
+                *def = *copyDef;
+            }
+            undefinedNameDefList.erase(it);
+        }
+
+        def->name = _name;
+        nameDefList[_name] = def;
+        return def;
+    }
+
+    void AssignActivateGroup(std::string &_name)
+    {
+        auto it = activateGroupNameIndexList.find(_name);
+        if (it == activateGroupNameIndexList.end()) // if name is unused assign the next unused index
+        {
+            activateGroupIndex = nextActivateGroupNameIndex++;
+            activateGroupNameIndexList[_name] = activateGroupIndex;
+        }
+        else // if name is used then set the index
+        {
+            activateGroupIndex = it->second;
+        }
+    }
+
+    static unsigned int GetReplaceGroup(std::string &_name)
+    {
+        auto it = replaceGroupNameIndexList.find(_name);
+        if (it == replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
+        {
+            unsigned int i = nextReplaceGroupNameIndex++;
+            replaceGroupNameIndexList[_name] = i;
+            return i;
+        }
+        else // if name is used then set the index
+        {
+            return it->second;
+        }
+    }
+
+    void AssignReplaceGroup(std::string &_name)
+    {
+        replaceGroupIndex = GetReplaceGroup(_name);
+    }
+
+    void AssignGroup(std::string &_name)
+    {
+        AssignActivateGroup(_name);
+        AssignReplaceGroup(_name);
     }
 
     unsigned int index = 0;
+    std::string name = "";
+
+    unsigned int activateGroupIndex = 0;
+    unsigned int replaceGroupIndex = 0;
+
+    int sortOrder = 0;
 
     Damage damage;
     float cooldown = 50.f;
-    float shipFriendlyFire = false;
+    bool shipFriendlyFire = false;
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
+    float initialCooldownFraction = 0.f;
     int onDeath = ON_DEATH_RESET;
+    int onHotkey = HOTKEY_FIRST;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
     int respawnCharges = 0;
+    int disabledCharges = DISABLED_COOLDOWN_PAUSE;
 
+    bool hideCooldown = false;
+    bool hideCharges = false;
+    bool hideButton = false;
+
+    std::vector<PowerResourceDefinition*> powerResources;
 
     std::vector<std::string> sounds;
     std::vector<std::string> effectSounds;
@@ -318,6 +465,156 @@ struct ActivatedPowerDefinition
     TemporaryPowerDefinition tempPower;
 };
 
+struct PowerResourceDefinition
+{
+    PowerResourceDefinition()
+    {
+        cooldownColor = GL_Color(133.f / 255.f, 231.f / 255.f, 237.f / 255.f, 1.f);
+    }
+
+    enum JUMP_COOLDOWN
+    {
+        JUMP_COOLDOWN_FULL,
+        JUMP_COOLDOWN_RESET,
+        JUMP_COOLDOWN_CONTINUE
+    };
+
+    enum DISABLED_COOLDOWN
+    {
+        DISABLED_COOLDOWN_FULL,
+        DISABLED_COOLDOWN_RESET,
+        DISABLED_COOLDOWN_CONTINUE,
+        DISABLED_COOLDOWN_PAUSE,
+        DISABLED_COOLDOWN_ZERO
+    };
+
+    enum ON_DEATH
+    {
+        ON_DEATH_CONTINUE,
+        ON_DEATH_CANCEL,
+        ON_DEATH_RESET
+    };
+
+    static std::vector<PowerResourceDefinition*> powerDefs;
+    static std::unordered_map<std::string,PowerResourceDefinition*> nameDefList; // maps names to definitions
+    static std::unordered_map<std::string,PowerResourceDefinition*> undefinedNameDefList; // maps names to definitions
+
+    void AssignIndex()
+    {
+        this->index = powerDefs.size();
+        powerDefs.push_back(this);
+    }
+
+    void AssignName(std::string &_name)
+    {
+        name = _name;
+        nameDefList[name] = this;
+    }
+
+    static PowerResourceDefinition* GetByName(std::string &_name)
+    {
+        auto it = nameDefList.find(_name);
+        if (it == nameDefList.end()) // unused name
+        {
+            return nullptr;
+        }
+        else // used name so get it
+        {
+            return it->second;
+        }
+    }
+
+    static PowerResourceDefinition* AddUndefined(std::string &_name)
+    {
+        auto it = undefinedNameDefList.find(_name);
+        if (it == undefinedNameDefList.end()) // unused name
+        {
+            PowerResourceDefinition *def = new PowerResourceDefinition();
+            def->name = _name;
+            undefinedNameDefList[_name] = def;
+            return def;
+        }
+        else // used name so get it
+        {
+            return it->second;
+        }
+    }
+
+    static PowerResourceDefinition* AddNamedDefinition(std::string &_name, PowerResourceDefinition* copyDef)
+    {
+        PowerResourceDefinition *def;
+
+        auto it = undefinedNameDefList.find(_name);
+        if (it == undefinedNameDefList.end()) // does not exist as an undefined definition
+        {
+            if (copyDef)
+            {
+                def = new PowerResourceDefinition(*copyDef);
+            }
+            else
+            {
+                def = new PowerResourceDefinition();
+            }
+        }
+        else // does exist as an undefined name so turn it into a defined definition
+        {
+            def = it->second;
+            if (copyDef)
+            {
+                *def = *copyDef;
+            }
+            undefinedNameDefList.erase(it);
+        }
+
+        def->name = _name;
+        nameDefList[_name] = def;
+        return def;
+    }
+
+    void AssignGroup(std::string &_name)
+    {
+        auto it = ActivatedPowerDefinition::replaceGroupNameIndexList.find(_name);
+        if (it == ActivatedPowerDefinition::replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
+        {
+            groupIndex = ActivatedPowerDefinition::nextReplaceGroupNameIndex++;
+            ActivatedPowerDefinition::replaceGroupNameIndexList[_name] = groupIndex;
+        }
+        else // if name is used then set the index
+        {
+            groupIndex = it->second;
+        }
+    }
+
+    unsigned int index = 0;
+    std::string name = "";
+
+    unsigned int groupIndex = 0; // overlaps with ActivatedPowerDefinition::replaceGroupIndex
+
+    int sortOrder = 0;
+
+    float cooldown = 0.f;
+    int jumpCooldown = JUMP_COOLDOWN_FULL;
+    int disabledCooldown = DISABLED_COOLDOWN_PAUSE;
+    float initialCooldownFraction = 0.f;
+    int onDeath = ON_DEATH_RESET;
+
+    int powerCharges = -1;
+    int initialCharges = 2147483647;
+    int chargesPerJump = 1073741823;
+    int respawnCharges = 0;
+    int disabledCharges = DISABLED_COOLDOWN_PAUSE;
+
+    bool hideCooldown = false;
+    bool hideCharges = false;
+    bool showTemporaryBars = false; // whether to overlay temporary effect bars from linked powers on this resource's cooldown bar
+    bool showLinkedCooldowns = false; // when true the linked cooldowns are grouped with this resource
+    bool showLinkedCharges = false; // when true the linked charges are grouped with this resource
+
+    GL_Color cooldownColor;
+
+    ActivatedPowerRequirements *chargeReq = nullptr;
+};
+
 struct CrewDefinition
 {
     std::string race;
@@ -341,6 +638,7 @@ struct CrewDefinition
     float moveSpeedMultiplier = 1.f;
     float repairSpeed = 1.f;
     float damageMultiplier = 1.f;
+    float cloneSpeedMultiplier = 1.f;
     float rangedDamageMultiplier = 1.f;
     float doorDamageMultiplier = 1.f;
     bool providesPower = false;
@@ -388,13 +686,15 @@ struct CrewDefinition
     bool teleportMoveOtherShip = false;
     float essential = 0.f;
     bool silenced = false;
+    float lowHealthThreshold = 25.f;
+    float lowHealthThresholdPercentage = 1.f;
 
     std::pair<int,int> shootTimer = {-1, -1};
     std::pair<int,int> punchTimer = {-1, -1};
 
     ExplosionDefinition explosionDef;
 
-    unsigned int powerDefIdx = 0;
+    std::vector<ActivatedPowerDefinition*> powerDefs;
 
     std::vector<StatBoostDefinition*> passiveStatBoosts;
 
@@ -419,7 +719,8 @@ public:
 
     void AddCrewDefinition(CrewDefinition crew);
     void ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef);
-    void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
+    ActivatedPowerDefinition* ParseAbilityEffect(rapidxml::xml_node<char>* stat);
+    PowerResourceDefinition* ParseAbilityResource(rapidxml::xml_node<char>* stat);
     void ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def);
     void ParseExtraConditionsNode(rapidxml::xml_node<char> *node, std::vector<std::pair<CrewExtraCondition,bool>> &extraConditions);
     void ParseCrewNode(rapidxml::xml_node<char> *node);

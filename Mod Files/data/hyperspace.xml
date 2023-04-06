@@ -15,7 +15,7 @@
     <version>^0.9.2</version> A major match, allows minor & patch to be changed (upwards) but not major, in this case 0.10.0 would match as would 0.9.5 but not 1.0.0.
     If you fail to specify a match character and just do <version>0.9.2</version> this will be considered the same as `^` above but will also generate a warning message in FTL_HS.log.
 -->  
-<version>^1.2.3</version>
+<version>^1.3.0</version>
 
 <!-- Hyperspace defaults
 
@@ -27,6 +27,24 @@ This way mods that frequently use a particular value can just make it the defaul
 	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
 	<checkCargo>false</checkCargo>
 	<choiceRequiresCrew>false</choiceRequiresCrew>
+	<!--
+	<erosion>                                              (set the defaults for the erosion effect; Hyperspace has its own defaults but you can change them globally here)
+		<speed>0.63</speed>
+		<maxSpeed>3.15</maxSpeed>
+		<time>10.0</time>
+		<maxTime>25.0</maxTime>
+		<systemRepairMultiplier>0.75</systemRepairMultiplier>
+		<erodeShields>false</erodeShields>
+		<roomAnim>                                         (roomAnim to use for erosion, recommended to set it here rather than on each weapon)
+			(uses roomAnim syntax, see custom ships)
+		</roomAnim>
+		
+		<growBreachMultiplier>1.0</growBreachMultiplier>   (multiplier on growing a breach, 1.0 means 1 system damage to fully grow a breach)
+		<newBreachDamage>100.0</newBreachDamage>           (how big of a breach to open, 100 is full breach)
+		<newBreachRequirement>100.0</newBreachRequirement> (erosion damage to open a new breach, 100 is equivalent to 1 point of system damage)
+		<canDilate>false</canDilate>                       (whether erosion is affected by temporal manipulator)
+	</erosion>
+	-->
 </defaults>
 
 <!-- Custom save file:
@@ -59,6 +77,8 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
 -->
 
 <infinite enabled="false"/>
+
+<dismissSound enabled="true" sound="airLoss"/>
 
 <!-- Discord rich presence integration -->
 
@@ -480,6 +500,7 @@ Syntax ->
 				<roomAnim renderLayer="1">                                                    (new syntax)
 					<anim animType="default" animBorder="0">custom</roomAnim>                 (animType can be default, stretch, random, or center, animBorder controls spawning margins)
 					<tileAnim>custom</tileAnim>                                               (spawn this animation on each tile)
+					<wallAnim>custom</wallAnim>                                               (spawn this animation on each wall)
 				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
@@ -515,6 +536,19 @@ Syntax ->
 
 <ships>
 </ships>
+
+<!-- Custom Thruster Animations
+
+You can define thruster animations in the XML of individual ships (kestral.xml for example). The animation must be defined in animations.xml.
+
+Syntax -> 
+
+<thrusters sync="true">                                              If sync = true, all thruster animations will start on their first frame rather than on a random frame.
+    <thruster x="25" y="90" mirror="true">thrusters_on</thruster>    If mirror = true, the animation will be flipped along the y axis.
+    <thruster x="87" y="90">thrusters_on</thruster>
+</thrusters>
+
+-->
 
 
 
@@ -577,6 +611,7 @@ Syntax ->
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
 		<healSpeed>1.0</healSpeed>                                                       Modifier for healing from non-true healing effects.
+		<cloneSpeedMultiplier>1.0</cloneSpeedMultiplier>                                 The speed at which this crewmember is cloned is multiplied by this value.
 		<deathSounds>                                                                    Sounds to play on death. A random sound is selected.
 			<deathSound>death1</deathSound>
 			<deathSound>death2</deathSound>
@@ -608,6 +643,8 @@ Syntax ->
 		<trueHealAmount>2.0</trueHealAmount>                                             Amount of health to heal over time, in HP/second. Unaffected by healSpeed, continuous. Use negative value for DoT.
 		<detectsLifeforms>false</detectsLifeforms>                                       If true, having this crewmember will allow the player to see enemy crew (slug).
 		<healCrewAmount>0.0</healCrewAmount>                                             Amount of health to heal friendly crew in the same room over time, in HP/second. Affected by healSpeed of the respective crew.
+		<lowHealthThreshold>25.0</lowHealthThreshold>                                    Health value at which beeping sound plays and health bar flashes red. Can be set to negative value to disable this behavior.
+		<lowHealthThresholdPercentage>1.0</lowHealthThresholdPercentage>                 Same as lowHealthThreshold, but calculated as a multiple of max health. The lower final value of the two will be used, so be sure to override the default value of lowHealthThreshold if it would conflict with a desired percentage value.
 		<skills>                                                                         Controls experience requirement per skill level for each crew skill type.
 			<piloting req="15"/>
 			<engines req="15"/>
@@ -668,15 +705,49 @@ Syntax ->
 			<playerEvent load="EVENT_NAME"/>                                             Event to load when the death effect is triggered (only player crew). Either load or define an event.
 			<enemyEvent load="EVENT_NAME"/>                                              Event to load when the death effect is triggered (only enemy crew). Either load or define an event.
 		</deathEffect>
-		<powerEffect>                                                                    Special crew abilities.
+		<powerResource name="foo">                                                       Can define these here as well but has no effect.
+			...
+		</powerResource>
+		<powerEffect name="foo">                                                         Special crew abilities. Name is optional.
+			<groupName>bar</groupName>                                                   Optional ability grouping name; abilities in the same group are treated as variations of the same ability.
+			                                                                               and can replace one another if an effect swaps the abilities and will be grouped for activation (future version).
+			<replaceGroupName>bar</replaceGroupName>                                     Like <groupName> but only for abilities replacing one another, not for activation buttons.
+			<activateGroupName>bar</activateGroupName>                                   Like <groupName> but only for ability activation buttons, currently for forwards compatibility only.
+			<sortOrder>0</sortOrder>                                                     Sorting order for multiple powers; lower number comes first, equal numbers in the order obtained.
 			<cooldown>30</cooldown>                                                      Ability cooldown in seconds. Does not include temporaryEffect duration.
 			<jumpCooldown>full</jumpCooldown>                                            Cooldown behaviour on jump. Either "reset" the charge, "continue" charging, or set to "full".
+			<disabledCooldown>pause</disabledCooldown>                                   Cooldown behaviour while disabled, either "full", "continue", "pause", "reset", or "zero".
+			<initialCooldownFraction>0</initialCooldownFraction>                         Initial cooldown progress fraction when initialized or reset.
+			<disabledCharges>pause</disabledCooldown>                                    Charges behaviour while disabled, either "full", "continue", "pause", "reset", or "zero".
 			<onDeath>continue/cancel/reset</onDeath>                                     On death effect for activated ability. "cancel" cancels the ability when dying. "reset" cancels the ability on respawn.
 			                                                                               "continue" allows effect to continue if the crew respawns. Default is "reset".
+			<onHotkey>first</onHotkey>                                                   Either try to activate the ability "always", "never", or only the "first" available ability.
+			                                                                               (abilities with "always" preferred first)
 			<powerCharges>-1</powerCharges>                                              Maximum number of ability uses per fight. Default is unlimited.
 			<initialCharges>999</initialCharges>                                         Initial number of ability uses when the crewmember is born.
 			<chargesPerJump>999</chargesPerJump>                                         Number of uses regenerated per jump.
 			<respawnCharges>0</respawnCharges>                                           Number of charges to add when cloning crew or respawning drones.
+			<hideCooldown>false</hideCooldown>                                           Set to true to hide cooldown bar.
+			<hideCharges>false</hideCharges>                                             Set to true to hide charge bar.
+			<powerResource name="foo">                                                   Additional resources (cooldowns and charges) that can be shared between abilities, can use load and copy keywords.
+				<groupName>bar</groupName>                                               Shared with replaceGroupName for powers; used for conditional modifier statboosts.
+				<sortOrder>0</sortOrder>
+				<cooldown>30</cooldown>
+				<jumpCooldown>full</jumpCooldown>
+				<powerCharges>-1</powerCharges>
+				<initialCharges>999</initialCharges>
+				<chargesPerJump>999</chargesPerJump>
+				<respawnCharges>0</respawnCharges>
+				<chargeReq>
+					...
+				</chargeReq>
+				<cooldownColor r="133" g="231" b="237"/>
+				<hideCooldown>false</hideCooldown>
+				<hideCharges>false</hideCharges>
+				<showTemporaryBars>false</showTemporaryBars>                             If true then when a linked ability is active its effect bar will replace the resource cooldown bar.
+				<showLinkedCooldowns>false</showLinkedCooldowns>                         Linked ability cooldown bars will be grouped with this resource; make sure to disable showing the individual bars.
+				<showLinkedCharges>false</showLinkedCharges>                             Linked ability charges will be grouped with this resource; make sure to disable showing the individual bars.
+			</powerResource>
 			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
@@ -764,6 +835,7 @@ Syntax ->
 			                                                                                         and activation effect will follow the crewmember, otherwise it will stay in the original room.
 			<buttonText id="button_lockdown">LOCKDOWN</buttonText>                                 Text for activation button. Either use text id or literal string.
 			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>  Text for activation tooltip. Either use text id or literal string.
+			<hideButton>false</hideButton>                                                         If true, completely hides the ability activation button.
 			<cooldownColor r="133" g="231" b="237"/>                                               Color for cooldown bar.
 			<effectAnim>explosion_crystal</effectAnim>                                             Animation for activated ability effect.
 			<effectPostAnim>explosion_big1_strip10</effectPostAnim>                                Animation that replaces effectAnim after the effect goes off.
@@ -809,6 +881,7 @@ Syntax ->
 				<suffocationModifier>1</suffocationModifier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>                             Modifier to damage from all sources (anything that would reduce health).
+				<lowHealthThreshold>0</lowHealthThreshold>
 				<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
 				<effectAnim>mindcontrol</effectAnim>                                               Animation to play over the crewmember during the temporary effect.
 				<invulnerable>false</invulnerable>                                                 If true, the crewmember cannot lose health.
@@ -824,6 +897,10 @@ Syntax ->
 				</statBoosts>
 			</temporaryEffect>
 		</powerEffect>
+		<powerEffect copy="foo">                                                         Create a new power based on the most recent name="foo" power.
+			...                                                                          Crew can have multiple abilities!
+		</powerEffect>
+		<powerEffect load="foo"/>                                                        Loads the most recent power definition named "foo" (or the next one if there are none yet).
 		
 		<droneAI>                                                                        Custom AI to use for crew drones. This feature is currently disabled for boarding drones.
 			<fightAI/>
@@ -1148,6 +1225,7 @@ If you load a saved stat boost without additional tags, the definition will be l
 
 boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, SET, MIN or MAX, and for true/false values it can be SET or FLIP
   The MIN and MAX types will apply the min() and max() operators. min() selects the lower of the current stat value and the new stat value, while max() selects the higher value.
+  There is also ADD which is synonymous with FLAT, as well as REPLACE_GROUP and REPLACE_POWER for replacing abilities.
 value/amount: use value for true/false stats and amount for numerical ones
 race: for transformRace, name of race to transform to
 permanent: for transformRace, whether the transformation should be permanent
@@ -1183,7 +1261,18 @@ systemPowerScaling: determines how the boost is affected by the total power bars
   noSys and hackedSys are values used for if the system isn't there and if the system is being hacked, respectively.
   The other tag names don't matter; the first value is used when the system is offline, and the second onwards determines the power at each given bar of power (with any amount of power over the max using the last number).
 deathEffect: When the statBoost name is "deathEffect", specifies the deathEffect to replace or be added to the crewmember's normal deathEffect.
-powerEffect: When the statBoost name is "powerEffect", adds a new powerEffect which replaces the crewmember's normal powerEffect. Active powerEffects will not be replaced until they finish.
+powerEffect: When the statBoost name is "powerEffect", adds a new powerEffect.
+  If boost type is SET then all the crew's existing powerEffects are removed and the new effect is added (or no power if none is specified).
+  If boost type is ADD then the powerEffect is added as an additional power.
+  If boost type is REPLACE_POWER then powers matching the whitelist (and not the blacklist) will be replaced; if no whitelist or blacklist then all are eligible. Replaces all powers unless amount is specified.
+  If boost type is REPLACE_GROUP this is the same as REPLACE_POWER but the group of the powerEffect is automatically whitelisted.
+powerWhitelist: List of powerEffect and/or powerResource that are replaced/modified by this statboost. Uses <powerEffect> and <powerResource> child tags; recommended to use "load" keyword.
+powerGroupWhitelist: List of powerEffect and/or powerResource replacement groups that are replaced/modified by this statboost. Put the name as the tag, e.g. <foo/> for group named "foo".
+powerBlacklist: List of powerEffect and/or powerResource that are excluded from being replaced/modified by this statboost.
+powerGroupBlacklist: List of powerEffect and/or powerResource replacement groups that are excluded from being replaced/modified by this statboost.
+  Note, power whitelists and blacklists work for all "powerEffect" REPLACE_POWER statboosts, as well as modifiers such as "powerCharges" and "chargesPerJump".
+  The "activateWhenReady" modifier will be supported in a future version.
+  The "powerRechargeMultiplier" modifier is crewmember global and does not support whitelists/blacklists (for now, possibly will be in a future version along with cooldowns themselves).
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds (WIP). -1 is infinite.
 jumpClear: If true, any applied timed stat boosts (including those with infinite duration) will be cleared on jump (does not affect passive boosts).
 maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit.
@@ -1770,6 +1859,13 @@ The event has to load a vanilla store in events.xml - it will be replaced with t
 For example <choice req="CUSTOM_REQ"> in events.xml will look for a <req> named "CUSTOM_REQ" before looking for a blueprintList or blueprint.
 Alternatively, you can use the keywords ANY, ALL, or SUM with a blueprintList (e.g. "ALL LIST_GATLING_PARTS") for simpler custom requirements to avoid needing to add a <req> here.
 The keyword SEC can be used to check the current sector ID instead of checking a blueprint (e.g. "SEC CIVILIAN_SECTOR").
+The keyword SHIP can be used to check the blueprint name of the player's ship.
+The keyword ACH checks for an achievement name. This currently only works for custom achievements in <achievements>, not autogenerated victory/quest achievements.
+The keyword ITEM forces an exact equipment check. This ignores custom reqs and augment functions, and hidden augments must be prefixed with "HIDDEN " (with a space) and are treated separately.
+For example the name "ADV_SCANNERS" will check for the LRS augment functionality, "ITEM ADV_SCANNERS" will check for specifically the vanilla augment and not other augments with its function.
+"ITEM ADV_SCANNERS" will only count non-hidden augments, while "ITEM HIDDEN ADV_SCANNERS" will count only hidden augments. ITEM can be used with a blueprintList, and checkCargo works.
+The ITEM keyword is useful when an event relies on the exact item rather than the functionality (for example, an event where you sell or craft something that uses up the item).
+The following keywords are also available: "difficulty" for the difficulty level enumeration, "dlc" for Advanced Edition on/off, "hull" for the player's remaining hull.
 
 Triggered events are a tool that can be used to have events which occur once a certain condition is met.
 The current triggers are elapsed time, jumps taken, damage taken by player or enemy, and crew lost by player or enemy.

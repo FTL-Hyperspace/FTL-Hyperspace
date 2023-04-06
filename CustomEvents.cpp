@@ -153,6 +153,8 @@ void CustomEventsParser::ReadCustomEventFiles()
         {
             ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e));
         }
+        
+        delete [] eventText;
     }
 
     for (auto i : CustomEventsParser::GetInstance()->eventFiles)
@@ -179,6 +181,8 @@ void CustomEventsParser::ReadCustomEventFiles()
             {
                 ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e));
             }
+            
+            delete [] eventText;
         }
     }
 }
@@ -2362,6 +2366,54 @@ void SetCheckCargo(CustomEvent *event)
     }
 }
 
+void ShipObject::CheckCargo(const std::string& equipment, int &ret)
+{
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(equipment);
+
+    if (ret != 0 && blueprintList.size() > 0) return; // list check; if already found then return
+
+    Equipment equip = G_->GetWorld()->commandGui->equipScreen;
+    auto boxes = equip.vEquipmentBoxes;
+
+    for (auto const& box: boxes)
+    {
+        bool isCargo = box->IsCargoBox();
+
+        if (isCargo)
+        {
+            Blueprint* cargoItem = box->GetBlueprint();
+            if (cargoItem)
+            {
+                if (blueprintList.size() > 0)
+                {
+                    for (auto const& x: blueprintList)
+                    {
+                        if (cargoItem->name == x)
+                        {
+                            ret = 1;
+                            return; // blueprintList check returns 1 if any item is found
+                        }
+                    }
+                }
+                else
+                {
+                    if (cargoItem->name == equipment)
+                    {
+                        ret++;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int ShipObject::HasCargo(const std::string& equip)
+{
+    int ret = 0;
+    CheckCargo(equip, ret);
+    return ret;
+}
+
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
@@ -2369,43 +2421,41 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 
     if (g_checkCargo)
     {
-        std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(equipment);
+        CheckCargo(equipment, ret);
+    }
 
-        if (ret != 0 && blueprintList.size() > 0) return ret; // list check; if already found then return
+    return ret;
+}
 
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
+int ShipObject::HasItem(const std::string& equip)
+{
+    int ret = 0;
 
-        for (auto const& box: boxes)
+    std::map<std::string, int> &equipList = G_->GetShipInfo(iShipId)->equipList;
+
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(equip);
+
+    if (blueprintList.size() > 0)
+    {
+        for (std::string &bp : blueprintList)
         {
-            bool isCargo = box->IsCargoBox();
-
-
-            if (isCargo)
+            if (equipList.count(bp) && equipList[bp] > 0)
             {
-                Blueprint* cargoItem = box->GetBlueprint();
-                if (cargoItem)
-                {
-                    if (blueprintList.size() > 0)
-                    {
-                        for (auto const& x: blueprintList)
-                        {
-                            if (cargoItem->name == x)
-                            {
-                                return 1; // blueprintList check returns 1 if any item is found
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (cargoItem->name == equipment)
-                        {
-                            ret++;
-                        }
-                    }
-                }
+                return 1;
             }
         }
+    }
+    else
+    {
+        if (equipList.count(equip))
+        {
+            ret = equipList[equip];
+        }
+    }
+
+    if (g_checkCargo)
+    {
+        CheckCargo(equip, ret);
     }
 
     return ret;
@@ -2439,7 +2489,51 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
         }
         if (boost::algorithm::starts_with(equipment, "SEC "))
         {
+            // checks the current sector ID
             return G_->GetWorld()->starMap.currentSector->description.type == equipment.substr(4);
+        }
+        if (boost::algorithm::starts_with(equipment, "SHIP "))
+        {
+            // checks if ship's blueprint name matches a given name
+            ShipManager *ship = G_->GetShipManager(iShipId);
+            if (ship)
+            {
+                ShipBlueprint &shipBp = ship->myBlueprint;
+                return shipBp.blueprintName == equipment.substr(5);
+            }
+            return 0;
+        }
+        if (boost::algorithm::starts_with(equipment, "ACH "))
+        {
+            // add 1 so it's 0 if no achievement, 1 on easy, 2 on normal, 3 on hard
+            // does not count autogenerated victory/quest achievements, only user-created custom achievements
+            return CustomAchievementTracker::instance->GetAchievementStatus(equipment.substr(4)) + 1;
+        }
+        if (boost::algorithm::starts_with(equipment, "ITEM "))
+        {
+            // checks if the ship has the exact item, no custom reqs, no augment functions, hidden augments are separate, blueprintList and checkCargo are still processed
+            // use for reqs where the exact item is needed (e.g. crafting events that remove the item)
+            return HasItem(equipment.substr(5));
+        }
+        if (equipment == "difficulty")
+        {
+            // returns the current difficulty level
+            return *G_->difficulty;
+        }
+        if (equipment == "dlc")
+        {
+            // returns whether Advanced Edition is enabled
+            return Settings::GetDlcEnabled();
+        }
+        if (equipment == "hull")
+        {
+            // returns the ship's remaining hull integrity, good to stop players from killing themselves on hull damage risking events
+            ShipManager *ship = G_->GetShipManager(iShipId);
+            if (ship)
+            {
+                return ship->ship.hullIntegrity.first;
+            }
+            return 0;
         }
 
         auto customReq = CustomEventsParser::GetInstance()->GetCustomReq(equipment);
@@ -3248,9 +3342,9 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
 
             for (SectorQuest &event : sec->sectorQuests)
             {
-                if (!event.req.empty())
+                bool reqMet = event.req.empty();
+                if (!reqMet)
                 {
-                    bool reqMet = false;
                     if (ship)
                     {
                         advancedCheckEquipment[6] = true;
@@ -3258,11 +3352,11 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
                         advancedCheckEquipment[6] = false;
                         reqMet = (reqLvl >= event.lvl && reqLvl <= event.max_lvl);
                     }
-                    if (reqMet)
-                    {
-                        // seed is -1
-                        addedSectorQuests.push_back("QUEST\t-1\t" + event.event);
-                    }
+                }
+                if (reqMet)
+                {
+                    // seed is -1
+                    addedSectorQuests.push_back("QUEST\t-1\t" + event.event);
                 }
             }
 
@@ -3577,6 +3671,7 @@ void EventDamageEnemy(EventDamage eventDamage)
 void RecallBoarders(int direction)
 {
     int targetRoom;
+    bool canTeleport;
 
     CompleteShip *playerShip = G_->GetWorld()->playerShip;
     if (playerShip == nullptr) return;
@@ -3590,10 +3685,17 @@ void RecallBoarders(int direction)
         for (auto i : enemyShip->shipManager->vCrewList)
         {
             //if (i->iShipId == 0 && !i->IsDrone())
-            if (i->iShipId == 0 && !i->IsDrone() && i->CanTeleport())
+            if (!i->bDead && i->iShipId == 0 && !i->IsDrone())
             {
-                i->EmptySlot();
-                playerShip->AddCrewMember2(i,targetRoom);
+                CrewMember_Extend *ex = CM_EX(i);
+                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
+                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+
+                if (canTeleport) // do it this way to ignore the vanilla conditions
+                {
+                    i->EmptySlot();
+                    playerShip->AddCrewMember2(i,targetRoom);
+                }
             }
         }
     }
@@ -3603,10 +3705,17 @@ void RecallBoarders(int direction)
         for (auto i : playerShip->shipManager->vCrewList)
         {
             //if (i->iShipId == 1 && !i->IsDrone())
-            if (i->iShipId == 1 && !i->IsDrone() && i->CanTeleport())
+            if (!i->bDead && i->iShipId == 1 && !i->IsDrone())
             {
-                i->EmptySlot();
-                enemyShip->AddCrewMember2(i,targetRoom);
+                CrewMember_Extend *ex = CM_EX(i);
+                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
+                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+
+                if (canTeleport) // do it this way to ignore the vanilla conditions
+                {
+                    i->EmptySlot();
+                    enemyShip->AddCrewMember2(i,targetRoom);
+                }
             }
         }
     }
@@ -5711,33 +5820,16 @@ HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> C
     {
         if (crew->blueprint.crewNameLong.isLiteral != bp->crewNameLong.isLiteral) continue;
         if (crew->blueprint.crewNameLong.data != bp->crewNameLong.data) continue;
-        if (crew->blueprint.colorChoices.size() != bp->colorChoices.size()) continue;
-        for (unsigned int i=0; i<bp->colorChoices.size(); ++i)
-        {
-            if (crew->blueprint.colorChoices[i] != bp->colorChoices[i]) goto ShipManager__FindCrew__continue_crewList_loop;
-        }
+        if (crew->blueprint.colorChoices != bp->colorChoices) continue;
         if (crew->blueprint.male != bp->male) continue;
         if (crew->blueprint.name != bp->name) continue;
         return crew;
-        ShipManager__FindCrew__continue_crewList_loop:
-        ;
     }
 
     return nullptr;
 }
 
 //
-
-HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
-    if (name == "difficulty")
-    {
-        return *G_->difficulty;
-    }
-
-    return super(name);
-}
 
 void GoToFlagship(bool atBase, bool allFleet)
 {
@@ -6053,7 +6145,7 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
     super(effect, target, targetType);
     if (effect.system == 16 && (targetType == effect.target || effect.target == 2)) // all systems
     {
-        super({effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+        super(StatusEffect{effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
     }
 }
 

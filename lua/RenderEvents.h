@@ -32,7 +32,7 @@ struct RenderEvents
         ////CREW_MEMBER_PATH, // CrewMember::OnRenderPath
         ////SHIP_HIGHLIGHT, // Ship::OnRenderHighlight
         ////SHIP_WALLS, // Ship::OnRenderWalls
-        ////SHIP_SPARKS, // Ship::OnRenderSparks
+        SHIP_SPARKS, // Ship::OnRenderSparks
         ////CREW_MEMBER_HEALTH, // CrewMember::OnRenderHealth
         ////ANIMATION, // Animation::OnRender, we'll definetly have to pass something or make completely different events for this one to allow hooking animations where important, maybe we don't allow this one at all?
         ////DAMAGE_MESSAGE, // DamageMessage::OnRender

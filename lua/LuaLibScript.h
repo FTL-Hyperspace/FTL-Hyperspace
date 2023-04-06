@@ -6,6 +6,9 @@
 #include "RenderEvents.h"
 #include <assert.h>
 #include <string>
+#include <algorithm>
+
+typedef struct swig_type_info;
 
 /*** Functions for script execution control
  * @module script
@@ -18,19 +21,23 @@ class LuaLibScript
     public:
         LuaLibScript(lua_State* lua);
 
+        // Call during initialization to load the type info
+        void LoadTypeInfo();
+
         // Call once upon starting the game
         void call_on_load_callbacks();
 
         // Call upon starting a new run (maybe also starting a loaded run? not sure)
         void call_on_init_callbacks();
-        
-        void call_on_internal_event_callbacks(InternalEvents::Identifiers);
-        
-        void call_on_render_event_pre_callbacks(RenderEvents::Identifiers);
-        void call_on_render_event_post_callbacks(RenderEvents::Identifiers);
-        
+
+        int call_on_internal_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
+        bool call_on_internal_chain_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
+
+        int call_on_render_event_pre_callbacks(RenderEvents::Identifiers, int nArg);
+        void call_on_render_event_post_callbacks(RenderEvents::Identifiers, int idx, int nArg);
+
         void call_on_game_event_callbacks(std::string eventName, bool isLoading);
-        
+
         /*** Register a function to call upon loading your script
          * @function on_load
          * @tparam function callback Callback function to register
@@ -44,7 +51,7 @@ class LuaLibScript
          *
          * Actually currently runs on `AcheivementTracker::LoadAchievementDescriptions` (right after most of Hyperspace initalizes XML stuff)
          *
-         * @usage 
+         * @usage
          * function myModInitializationCode()
          *   log("My code was run after the game started")
          *   if not _G["myModLoaded"] then
@@ -61,7 +68,7 @@ class LuaLibScript
          * script.on_load(myModInitializationCode)
          */
         static int l_on_load(lua_State* lua);
-        
+
         /*** Register a function to call upon starting a run
          * @function on_init
          * @tparam function callback Callback function to register
@@ -77,7 +84,7 @@ class LuaLibScript
          * Currently happens on `ScoreKeeper::LoadGame` so you might need to check if your values are already initialized in your code
          */
         static int l_on_init(lua_State* lua);
-        
+
         /*** Register a function to call upon a specific internal event being called
          * @function on_internal_event
          * @tparam string event Event name/identifier to hook, see @{Defines.InternalEvents} table for a full list of currently supported events.
@@ -107,9 +114,9 @@ class LuaLibScript
          *
          * Functions will be called in the order they are registered.
          * **Warning:** you can accidentally register your function multiple times and it will be called multiple times!
-         */        
+         */
         static int l_on_render_event(lua_State* lua);
-        
+
         /***
          * @function on_game_event
          * @tparam string event name in XML, can only hook to named events (includes choices)
@@ -122,6 +129,32 @@ class LuaLibScript
 
     private:
         lua_State* m_Lua;
+
+    public:
+        struct TypeInfo
+        {
+            swig_type_info *pActivatedPower;
+            swig_type_info *pCollideable;
+            swig_type_info *pCollisionResponse;
+            swig_type_info *pCrewMember;
+            swig_type_info *pDamage;
+            swig_type_info *pPointf;
+            swig_type_info *pProjectile[7]; // Projectile::GetType() can be used to index this array to get the correct derived class (except for CrewLaser)
+            swig_type_info *pShip;
+            swig_type_info *pShipManager;
+            swig_type_info *pShipSystem;
+
+            swig_type_info *pShipSystemTypes[21];
+            swig_type_info *pSpaceDroneTypes[8];
+        };
+
+        TypeInfo types;
+
+        swig_type_info *GetShipSystemType(int id)
+        {
+            if (id >= 0 && id < 21) return types.pShipSystemTypes[id];
+            return types.pShipSystem;
+        }
 };
 
 #endif // LUALIBSCRIPT_H

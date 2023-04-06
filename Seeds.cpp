@@ -221,9 +221,9 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 static bool startingNewGame = false;
 
-HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
+HOOK_METHOD_PRIORITY(StarMap, NewGame, -500, (bool unk) -> Location*)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(unk);
 
 	std::string str = SeedInputBox::seedInput->GetText();

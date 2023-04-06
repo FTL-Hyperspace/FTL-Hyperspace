@@ -80,6 +80,8 @@ static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth); /* GL_Color is in XMM0:XMM1 */
 ".4157415641554989fd415455534883ec484c8b6708":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness); /* GL_Color is in XMM0:XMM1 */
+".41564155415455534881ec80020000":
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
 ".415541544989f455534883ec48":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".488b05????????483b05":

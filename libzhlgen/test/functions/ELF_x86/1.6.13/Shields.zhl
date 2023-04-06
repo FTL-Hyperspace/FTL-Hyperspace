@@ -14,6 +14,8 @@ cleanup __cdecl void Shields::OnLoop(Shields *this);
 cleanup __cdecl void Shields::AddSuperShield(Shields *this, Point pos);
 "5557565381ec8c0000008b9c24a00000008b83c4010000":
 cleanup __cdecl void Shields::RenderBase(Shields *this, float alpha, float superShieldOverwrite);
+"565383ec148b5c24208b7424248d4304c70300000000c7442408000000cf":
+cleanup __cdecl CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
 
 "!f30f101d(???????\?)f30f1025????????f30f1015":
 GL_Color *Global_COLOR_GREEN;

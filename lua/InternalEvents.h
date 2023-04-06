@@ -6,7 +6,7 @@
     Used for specifying a name to Lua that Lua can access via `Defines.InternalEvents.ON_TICK` (or other name in the Defines.InternalEvents table)
     And for specifying a name to C in our hooks (defined in InternalEvents.cpp right now but they could technically be called from anywhere)
     Eventually will include argument data for Lua to specify what we expect to send to and receive from Lua hooks
-    
+
     You can have more than one actual C ZHL hook calling the same identifier (such as we would do for START_RUN, although currently that is handled by `scripts.on_init(` but maybe we accomplish that with an internal event instead and clean it up)
 */
 struct InternalEvents
@@ -14,11 +14,50 @@ struct InternalEvents
     enum Identifiers {
         UNKNOWN, // Must always be first, used to check for bounds of enum input value
 
+        // function on_tick()
         ON_TICK, // We'll use CApp::OnLoop for this ticking
+        // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
-        // ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
+        // function on_key_down(SDLKey key) return Chain
+        ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
+        // function crew_loop(CrewMember& crew)
+        CREW_LOOP,
+        // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
+        GET_AUGMENTATION_VALUE,
+
+        // function projectile_pre(Projectile& projectile) return Chain
+        PROJECTILE_PRE, // SpaceManager::UpdateProjectile
+        // function projectile_post(Projectile& projectile, bool preempted) return Chain
+        PROJECTILE_POST, // SpaceManager::UpdateProjectile
+        // function projectile_update_pre(Projectile& projectile) return Chain
+        PROJECTILE_UPDATE_PRE, // Projectile::Update
+        // function projectile_update_post(Projectile& projectile, bool preempted) return Chain
+        PROJECTILE_UPDATE_POST, // Projectile::Update
+
+        // function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain
+        DRONE_COLLISION,
+        // function projectile_collision(Projectile& thisProjectile, Projectile& otherProjectile, Damage& damage, CollisionResponse& response) return Chain
+        PROJECTILE_COLLISION, // thisProjectile is the projectile being collided into
+        // function shield_collision_pre(ShipManager& ship, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain
+        SHIELD_COLLISION_PRE,
+        // function shield_collision(ShipManager& ship, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain
+        SHIELD_COLLISION,
+        // function damage_area(ShipManager& ship, Projectile& projectile, Pointf& location, Damage& damage, Evasion forceHit, bool shipFriendlyFire) return Chain, forceHit, shipFriendlyFire
+        DAMAGE_AREA,
+        // function damage_area_hit(ShipManager& ship, Projectile& projectile, Pointf& location, Damage& damage, bool shipFriendlyFire) return Chain
+        DAMAGE_AREA_HIT,
+        // function damage_beam(ShipManager& ship, Projectile& projectile, Pointf& location, Damage& damage, bool newTile, BeamHit beamHit) return Chain, beamHit
+        DAMAGE_BEAM,
+        // function damage_system(ShipManager& ship, Projectile& projectile, int roomId, Damage& damage) return Chain
+        DAMAGE_SYSTEM,
+        // function system_add_damage(ShipSystem& sys, Projectile& projectile, int amount) return Chain, amount
+        SYSTEM_ADD_DAMAGE,
+
+        // function activate_power(ActivatedPower& power, ShipManager& ship) return Chain
+        ACTIVATE_POWER,
+
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
-        
+
         /*
         Once we support return values from InternalEvents (or maybe this moves to an InternalHooks in the future)
         Called upon hull damage to the player's ship
@@ -27,7 +66,7 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
-        
+
         /* TODO Maybe add
         ShipManager::JumpArrive
         ShipManager::JumpLeave
@@ -48,5 +87,32 @@ static InternalEvent_CallData CallData[InternalEvents::UNKNOWN_MAX - 1];
 CallData[ON_TICK] = { 0, false };
 };
 */
+
+struct Chain
+{
+    enum ChainValues {
+        CONTINUE, // call the next callback in the sequence if there is one
+        HALT,     // halt the callback loop, but still run subsequent C++ code
+        PREEMPT   // halt the callback loop and skip subsequent C++ code (implementation specific per internal event)
+    };
+};
+
+struct Evasion
+{
+    enum EvasionValues {
+        NONE, // indicates evasion still needs to be checked
+        HIT,  // force projectile to hit
+        MISS  // force projectile to miss
+    };
+};
+
+struct BeamHit
+{
+    enum BeamHitValues {
+        SAME_TILE, // treat beam hit as same tile as last frame
+        NEW_TILE,  // treat beam hit as new tile but same room as last frame
+        NEW_ROOM   // treat beam hit as new room from last frame
+    };
+};
 
 #endif // INTERNALEVENTS_H

@@ -2,6 +2,7 @@
 #include "CustomCrew.h"
 #include "ShipUnlocks.h"
 #include "EnemyShipIcons.h"
+#include "CustomOptions.h"
 
 // Plays airlock sound when crew have been "dismissed"
 
@@ -9,8 +10,10 @@ HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewEquipBox::RemoveItem -> Begin (Misc.cpp)\n")
     int ret = super();
-    // TODO: R4V3ON Really wants this to be an option to disable in a custom options menu (or maybe in hyperspace.xml)
-    G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
+    if (!CustomOptionsManager::GetInstance()->dismissSound.currentValue.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix(CustomOptionsManager::GetInstance()->dismissSound.currentValue, -1.f, false);
+    }
     return ret;
 }
 

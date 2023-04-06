@@ -23,8 +23,7 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
-    hs_log_file(cmd.c_str());
-    hs_log_file("\n");
+    hs_log_file("%s\n", cmd.c_str());
 
     std::string command = cmd;
 

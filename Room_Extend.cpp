@@ -64,7 +64,6 @@ Room_Extend::~Room_Extend()
 {
     if (speedUpAnim) delete speedUpAnim;
     if (slowDownAnim) delete slowDownAnim;
-    if (erosionAnim) delete erosionAnim;
 
-    delete currentErosion;
+    delete erosion.anim;
 }

@@ -4,8 +4,10 @@
 #include "CustomCrew.h"
 #include "CustomCrewCommon.h"
 #include "EnumClassHash.h"
+#include <unordered_set>
 
 struct ActivatedPowerDefinition;
+struct PowerResourceDefinition;
 class CrewMember_Extend;
 struct RoomAnimDef;
 
@@ -25,6 +27,7 @@ enum class CrewStat : unsigned int
     FIRE_DAMAGE_MULTIPLIER,
     OXYGEN_CHANGE_SPEED,
     DAMAGE_TAKEN_MULTIPLIER,
+    CLONE_SPEED_MULTIPLIER,
     PASSIVE_HEAL_AMOUNT,
     TRUE_PASSIVE_HEAL_AMOUNT,
     TRUE_HEAL_AMOUNT,
@@ -64,6 +67,7 @@ enum class CrewStat : unsigned int
     TELEPORT_MOVE,
     TELEPORT_MOVE_OTHER_SHIP,
     SILENCED,
+    LOW_HEALTH_THRESHOLD,
     // non-cached stats
     ACTIVATE_WHEN_READY,
     STAT_BOOST,
@@ -82,11 +86,14 @@ struct StatBoostDefinition
     {
         MULT,
         FLAT,
+        ADD=FLAT,
         SET,
         FLIP,
         SET_VALUE,
         MIN,
-        MAX
+        MAX,
+        REPLACE_GROUP,
+        REPLACE_POWER,
     };
 
     enum class BoostSource
@@ -155,7 +162,14 @@ struct StatBoostDefinition
 
     std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
-    unsigned int powerChange = 0;
+    ActivatedPowerDefinition *powerChange = nullptr;
+    std::unordered_set<ActivatedPowerDefinition*> powerWhitelist;
+    std::unordered_set<ActivatedPowerDefinition*> powerBlacklist;
+    std::unordered_set<PowerResourceDefinition*> powerResourceWhitelist;
+    std::unordered_set<PowerResourceDefinition*> powerResourceBlacklist;
+    std::unordered_set<unsigned int> powerGroupWhitelist;
+    std::unordered_set<unsigned int> powerGroupBlacklist;
+    bool hasPowerList;
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
@@ -196,6 +210,9 @@ struct StatBoostDefinition
     }
 
     bool TestRoomStatBoostSystem(ShipManager *ship, int room);
+
+    bool IsTargetPower(ActivatedPowerDefinition *power);
+    bool IsTargetPower(PowerResourceDefinition *power);
 };
 
 struct StatBoost

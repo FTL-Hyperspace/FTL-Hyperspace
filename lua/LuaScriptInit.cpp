@@ -70,7 +70,10 @@ LuaScriptInit::LuaScriptInit()
     luaopen_Hyperspace(lua);
     luaopen_Graphics(lua);
     luaopen_Defines(lua);
+    luaopen_RapidXML(lua);
     removeDangerousStuff(lua);
+
+    this->m_libScript->LoadTypeInfo(); // Preload all the SWIG typedata so we don't need to do it every time we want to push a class for a callback
 
     printf("Lua initialized!\n");
 }
@@ -104,8 +107,9 @@ void LuaScriptInit::runLuaFileFromDat(std::string filename)
     char* code = Global::GetInstance()->GetResources()->LoadFile(filename);
     //printf("Lua file loaded: %s, contents: '%s'\n", filename.c_str(), code);
 
-    int iErr = 0;
-    if((iErr = luaL_loadbufferx(this->m_Lua, code, strlen(code), filename.c_str(), "t")) != 0) // the "t" with loadbufferx means text chunks only, default is "bt" but that would allow loading binary lua files, while cool, could be bad.
+    int iErr = luaL_loadbufferx(this->m_Lua, code, strlen(code), filename.c_str(), "t");
+    delete [] code;
+    if(iErr != 0) // the "t" with loadbufferx means text chunks only, default is "bt" but that would allow loading binary lua files, while cool, could be bad.
     {
         const char* errorMessage = lua_tostring(this->m_Lua, -1);
         hs_log_file("Failed to load lua code from file '%s'. Error: '%s'\n", filename.c_str(), errorMessage);

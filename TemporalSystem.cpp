@@ -1103,7 +1103,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 
 // Effects
 
-static int g_dilationAmount = 0;
+int g_dilationAmount = 0;
 static float g_dilationExtraMul = 1.0;
 
 HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
@@ -1119,10 +1119,10 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
     return ret;
 }
 
-static std::map<int, int> g_crewDilationRooms = std::map<int, int>();
-static std::map<int, int> g_envDilationRooms = std::map<int, int>();
-static std::map<int, int> g_sysDilationRooms = std::map<int, int>();
-static std::map<int, int> g_shardDilationRooms = std::map<int, int>();
+std::map<int, int> g_crewDilationRooms = std::map<int, int>();
+std::map<int, int> g_envDilationRooms = std::map<int, int>();
+std::map<int, int> g_sysDilationRooms = std::map<int, int>();
+std::map<int, int> g_shardDilationRooms = std::map<int, int>();
 
 int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId)
 {
@@ -1199,17 +1199,17 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 
 
 
-HOOK_METHOD(CrewMember, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -900, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::OnLoop -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
     super();
     g_dilationAmount = 0;
 }
 
-HOOK_METHOD(CloneSystem, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(CloneSystem, OnLoop, -500, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
     super();
     g_dilationAmount = 0;

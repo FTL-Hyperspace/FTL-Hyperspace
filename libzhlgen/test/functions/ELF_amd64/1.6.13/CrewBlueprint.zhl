@@ -8,6 +8,8 @@ cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldL
 cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
 "415541544c8d6678554889fd534889f34883ec28":
 cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
+"488b87b80000004863f6":
+cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
 
 
 struct CrewBlueprint

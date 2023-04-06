@@ -41,7 +41,7 @@ cleanup __cdecl void SpaceManager::SetDangerZone(SpaceManager *this, int fleetTy
 "57565383ec308b7c24408b74244480bf9400000000":
 cleanup __cdecl void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float unk2);
 "5557565383ec4c8b7c24688b4424648b5c2460":
-cleanup __cdecl void SpaceManager::OnRenderProjectiles(SpaceManager *this, int unk1, int unk2);
+cleanup __cdecl void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
 "5589e557565383ec5c8b75088d5de4":
 cleanup __cdecl void SpaceManager::OnInit(SpaceManager *this);
 ".57565383ec108b7424208b168b4604":
@@ -78,4 +78,11 @@ cleanup __cdecl void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 
 struct SpaceManager
 {{
+	LaserBlast* CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	Asteroid* CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
+	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 }};

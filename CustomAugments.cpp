@@ -487,6 +487,24 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     return ret;
 }
 
+HOOK_METHOD(ShipObject, GetAugmentationValue, (const std::string& name) -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipObject::GetAugmentationValue -> Begin (CustomAugments.cpp)\n")
+    float ret = super(name);
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), G_->GetShipManager(this->iShipId), context->getLibScript()->types.pShipManager, 0);
+    lua_pushstring(context->GetLua(), name.c_str());
+    lua_pushnumber(context->GetLua(), ret);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::GET_AUGMENTATION_VALUE, 3, 1); //Unsure what preempt would do here, if anything
+    if (lua_isnumber(context->GetLua(), -1))
+    {
+        ret = lua_tonumber(context->GetLua(), -1);
+    }
+    lua_pop(context->GetLua(), 3);
+    return ret;
+}
+
 // Locked augments
 
 static GL_Texture* augLockTexture = nullptr;
@@ -586,9 +604,9 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
 
 static bool exportingShip = false;
 
-HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, ExportShip, 100, (int fileHelper) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ExportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     std::vector<std::string> hiddenList = std::vector<std::string>();
@@ -614,9 +632,9 @@ HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, ImportShip, 100, (int fileHelper) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ImportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     int hiddenCount = FileHelper::readInteger(fileHelper);

@@ -6,6 +6,7 @@
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
+#include "TemporalSystem.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <math.h>
@@ -26,6 +27,7 @@ const std::array<std::string, numStats> crewStats =
     "fireDamageMultiplier",
     "oxygenChangeSpeed",
     "damageTakenMultiplier",
+    "cloneSpeedMultiplier",
     "passiveHealAmount",
     "truePassiveHealAmount",
     "trueHealAmount",
@@ -65,6 +67,7 @@ const std::array<std::string, numStats> crewStats =
     "teleportMove",
     "teleportMoveOtherShip",
     "silenced",
+    "lowHealthThreshold",
     // non-cached stats
     "activateWhenReady",
     "statBoost",
@@ -128,6 +131,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
         {
             int statId = stat - crewStats.begin();
             def->stat = static_cast<CrewStat>(statId);
+            if (def->stat == CrewStat::POWER_EFFECT)
+            {
+                def->amount = -1.f; // default amount for count of abilities to replace, negative = unlimited
+            }
             for (auto child = node->first_node(); child; child = child->next_sibling())
             {
                 std::string name = child->name();
@@ -142,7 +149,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     {
                         def->boostType = StatBoostDefinition::BoostType::MULT;
                     }
-                    if (val == "FLAT")
+                    if (val == "FLAT" || val == "ADD")
                     {
                         def->boostType = StatBoostDefinition::BoostType::FLAT;
                     }
@@ -161,6 +168,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     if (val == "MAX")
                     {
                         def->boostType = StatBoostDefinition::BoostType::MAX;
+                    }
+                    if (val == "REPLACE_GROUP")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::REPLACE_GROUP;
+                    }
+                    if (val == "REPLACE_POWER")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::REPLACE_POWER;
                     }
                 }
 
@@ -532,10 +547,60 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 }
                 if (name == "powerEffect")
                 {
-                    ActivatedPowerDefinition powerDef;
-                    CustomCrewManager::GetInstance()->ParseAbilityEffect(child, &powerDef);
-                    powerDef.AssignIndex();
-                    def->powerChange = powerDef.index;
+                    ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child);
+                    def->powerChange = powerDef;
+                }
+
+                // power whitelist and blacklist store the pointers to powerDef
+                if (name == "powerWhitelist")
+                {
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        if (strcmp(child2->name(), "powerEffect") == 0)
+                        {
+                            ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child2);
+                            def->powerWhitelist.emplace(powerDef);
+                        }
+                        else if (strcmp(child2->name(), "powerResource") == 0)
+                        {
+                            PowerResourceDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityResource(child2);
+                            def->powerResourceWhitelist.emplace(powerDef);
+                        }
+                    }
+                }
+                if (name == "powerBlacklist")
+                {
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        if (strcmp(child2->name(), "powerEffect") == 0)
+                        {
+                            ActivatedPowerDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityEffect(child2);
+                            def->powerBlacklist.emplace(powerDef);
+                        }
+                        else if (strcmp(child2->name(), "powerResource") == 0)
+                        {
+                            PowerResourceDefinition *powerDef = CustomCrewManager::GetInstance()->ParseAbilityResource(child2);
+                            def->powerResourceBlacklist.emplace(powerDef);
+                        }
+                    }
+                }
+
+                // power group whitelist and blacklist gets the integer ID corresponding to each name and stores it
+                if (name == "powerGroupWhitelist")
+                {
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        std::string groupName = child2->name();
+                        def->powerGroupWhitelist.emplace(ActivatedPowerDefinition::GetReplaceGroup(groupName));
+                    }
+                }
+                if (name == "powerGroupBlacklist")
+                {
+                    for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                    {
+                        std::string groupName = child2->name();
+                        def->powerGroupBlacklist.emplace(ActivatedPowerDefinition::GetReplaceGroup(groupName));
+                    }
                 }
             }
         }
@@ -548,6 +613,18 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
     {
         StatBoostDefinition::savedStatBoostDefs[node->first_attribute("save")->value()] = def;
     }
+
+    // post process
+    if (def->boostType == StatBoostDefinition::BoostType::REPLACE_GROUP && def->powerGroupWhitelist.empty())
+    {
+        // REPLACE_GROUP is alias for REPLACE_POWER that includes the group of the replacement power
+        if (!def->powerChange) throw std::invalid_argument(std::string("Stat Boost REPLACE_GROUP but no powerEffect specified."));
+        def->powerGroupWhitelist.emplace(def->powerChange->replaceGroupIndex);
+        def->boostType = StatBoostDefinition::BoostType::REPLACE_POWER;
+    }
+    def->hasPowerList = !def->powerWhitelist.empty() || !def->powerResourceWhitelist.empty() || !def->powerGroupWhitelist.empty() ||
+                        !def->powerBlacklist.empty() || !def->powerResourceBlacklist.empty() || !def->powerGroupBlacklist.empty();
+
     return def;
 }
 
@@ -1295,18 +1372,25 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     for (Room *room : ship.vRoomList)
     {
         auto &vRoomStatBoosts = RM_EX(room)->statBoosts;
-        for (RoomStatBoost& statBoost : vRoomStatBoosts)
+        if (!vRoomStatBoosts.empty())
         {
-            statBoost.statBoost.timerHelper.Update();
-            if (statBoost.roomAnim)
+            g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, room->iRoomId);
+
+            for (RoomStatBoost& statBoost : vRoomStatBoosts)
             {
-                statBoost.roomAnim->OnUpdate();
+                statBoost.statBoost.timerHelper.Update();
+                if (statBoost.roomAnim)
+                {
+                    statBoost.roomAnim->OnUpdate();
+                }
             }
+            vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
+                                                 vRoomStatBoosts.end(),
+                                                 [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
+                                                 vRoomStatBoosts.end());
+
+            g_dilationAmount = 0;
         }
-        vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
-                                             vRoomStatBoosts.end(),
-                                             [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
-                                             vRoomStatBoosts.end());
     }
 }
 
@@ -1318,52 +1402,6 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     for (Room *room : vRoomList)
     {
         RM_EX(room)->statBoosts.clear();
-    }
-}
-
-HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (StatBoost.cpp)\n")
-    super(fd);
-
-    for (Room *room : ship.vRoomList)
-    {
-        Room_Extend *ex = RM_EX(room);
-
-        FileHelper::writeInt(fd, ex->statBoosts.size());
-        for (RoomStatBoost &statBoost : ex->statBoosts)
-        {
-            statBoost.statBoost.Save(fd);
-        }
-    }
-}
-
-HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (StatBoost.cpp)\n")
-    super(fd);
-
-    int n;
-
-    for (Room *room : ship.vRoomList)
-    {
-        Room_Extend *ex = RM_EX(room);
-
-        n = FileHelper::readInteger(fd);
-        for (int i=0; i<n; ++i)
-        {
-            ex->statBoosts.emplace_back(StatBoost::LoadStatBoost(fd), room);
-
-            // set room
-            if (iShipId == 1)
-            {
-                ex->statBoosts.back().statBoost.sourceRoomIds.second.push_back(room->iRoomId);
-            }
-            else
-            {
-                ex->statBoosts.back().statBoost.sourceRoomIds.first.push_back(room->iRoomId);
-            }
-        }
     }
 }
 
@@ -1880,6 +1918,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::DAMAGE_TAKEN_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, damageTakenMultiplier);
             break;
+        case CrewStat::CLONE_SPEED_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, cloneSpeedMultiplier);
+            break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
             if (orig->Functional())
             {
@@ -2059,26 +2100,37 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             isEffect = true;
             break;
         case CrewStat::POWER_EFFECT:
-            powerChange = def->powerDefIdx;
+            powerChange = def->powerDefs;
             isEffect = true;
             break;
         case CrewStat::POWER_MAX_CHARGES:
             for (ActivatedPower *power : crewPowers)
             {
-                power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+                if (power->enabled) power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+            }
+            for (ActivatedPowerResource *resource : powerResources)
+            {
+                if (resource->enabled) resource->modifiedPowerCharges = resource->def->powerCharges == -1 ? HUGE_VAL : resource->def->powerCharges;
             }
             isEffect = true;
             break;
         case CrewStat::POWER_CHARGES_PER_JUMP:
             for (ActivatedPower *power : crewPowers)
             {
-                power->modifiedChargesPerJump = power->def->chargesPerJump;
+                if (power->enabled) power->modifiedChargesPerJump = power->def->chargesPerJump;
+            }
+            for (ActivatedPowerResource *resource : powerResources)
+            {
+                if (resource->enabled) resource->modifiedChargesPerJump = resource->def->chargesPerJump;
             }
             isEffect = true;
             break;
         case CrewStat::TRANSFORM_RACE:
             transformRace = originalRace;
             isEffect = true;
+            break;
+        case CrewStat::LOW_HEALTH_THRESHOLD:
+            _CALCULATE_BASE_STAT(finalStat, lowHealthThreshold);
             break;
     }
 
@@ -2193,21 +2245,39 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         if (sysPowerScaling)
                         {
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            switch (statBoost.def->boostType)
                             {
-
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                powerChange = statBoost.def->powerChange;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
-                            {
-
+                            case StatBoostDefinition::BoostType::SET: // all existing powers are cleared and the new one is added (backwards compatibility)
+                                powerChange.clear();
+                                if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
+                                break;
+                            case StatBoostDefinition::BoostType::ADD: // adds the power as an additional power
+                                if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
+                                break;
+                            case StatBoostDefinition::BoostType::REPLACE_POWER: // replace powers (or whitelisted powers) with powerChange
+                                {
+                                    int i = statBoost.def->amount * sysPowerScaling;
+                                    if (i==0) break;
+                                    for (auto it = powerChange.begin(); it != powerChange.end();)
+                                    {
+                                        if (statBoost.def->IsTargetPower(*it))
+                                        {
+                                            if (statBoost.def->powerChange)
+                                            {
+                                                *it = statBoost.def->powerChange;
+                                                if (--i == 0) break;
+                                            }
+                                            else
+                                            {
+                                                it = powerChange.erase(it);
+                                                if (--i == 0) break;
+                                                continue;
+                                            }
+                                        }
+                                        ++it;
+                                    }
+                                }
+                                break;
                             }
                         }
                     }
@@ -2216,6 +2286,42 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
+                            if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCharges *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                        for (ActivatedPowerResource *power : powerResources)
+                        {
+                            if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
                                 if (!statBoost.def->powerScaling.empty())
@@ -2250,6 +2356,42 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
+                            if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedChargesPerJump *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                        for (ActivatedPowerResource *power : powerResources)
+                        {
+                            if (!power->enabled) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
                                 if (!statBoost.def->powerScaling.empty())
@@ -2646,6 +2788,42 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             boostAnim.second->Update();
         }
     }
+}
+
+bool StatBoostDefinition::IsTargetPower(ActivatedPowerDefinition *power)
+{
+    // shortcut optimization
+    if (!hasPowerList) return true;
+
+    // is there a whitelist?
+    if (!powerWhitelist.empty() || !powerGroupWhitelist.empty())
+    {
+        // check if this power is not in the whitelist
+        if (powerWhitelist.find(power) == powerWhitelist.end() && powerGroupWhitelist.find(power->replaceGroupIndex) == powerGroupWhitelist.end()) return false;
+    }
+    // check blacklist
+    if (!powerBlacklist.empty() && powerBlacklist.find(power) != powerBlacklist.end()) return false;
+    if (!powerGroupBlacklist.empty() && powerGroupBlacklist.find(power->replaceGroupIndex) != powerGroupBlacklist.end()) return false;
+    // no whitelist/blacklist restriction
+    return true;
+}
+
+bool StatBoostDefinition::IsTargetPower(PowerResourceDefinition *power)
+{
+    // shortcut optimization
+    if (!hasPowerList) return true;
+
+    // is there a whitelist?
+    if (!powerResourceWhitelist.empty() || !powerGroupWhitelist.empty())
+    {
+        // check if this power is not in the whitelist
+        if (powerResourceWhitelist.find(power) == powerResourceWhitelist.end() && powerGroupWhitelist.find(power->groupIndex) == powerGroupWhitelist.end()) return false;
+    }
+    // check blacklist
+    if (!powerResourceBlacklist.empty() && powerResourceBlacklist.find(power) != powerResourceBlacklist.end()) return false;
+    if (!powerGroupBlacklist.empty() && powerGroupBlacklist.find(power->groupIndex) != powerGroupBlacklist.end()) return false;
+    // no whitelist/blacklist restriction
+    return true;
 }
 
 #pragma GCC pop_options

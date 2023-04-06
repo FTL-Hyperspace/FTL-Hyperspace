@@ -28,3 +28,9 @@ cleanup __amd64 void WeaponControl::MouseMove(WeaponControl *this, int x, int y)
 cleanup __amd64 bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
 ".55534889fb4883ec28":
 cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
+
+struct WeaponControl
+{{
+	void RenderAimingNew(bool player);
+	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
+}};

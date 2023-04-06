@@ -139,6 +139,16 @@ HOOK_METHOD(BlueprintManager, ProcessDroneBlueprint, (rapidxml::xml_node<char>* 
     return ret;
 }
 
+HOOK_STATIC(DroneSystem, StringToDrone, (std::string &name) ->  int)
+{
+    LOG_HOOK("HOOK_STATIC -> DroneSystem::StringToDrone -> Begin (CustomDrones.cpp)\n")
+    int ret = super(name);
+
+    if (ret == -1 && name == "HACKING") ret = 6; // give HackingDrone a specific drone id type so other code can use the drone type to downcast
+
+    return ret;
+}
+
 //====================================================
 
 HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)
@@ -987,6 +997,16 @@ HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
     }
 
     return G_->GetTextLibrary()->GetText(tooltipText, G_->GetTextLibrary()->currentLanguage);
+}
+
+HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    super(iShipId, selfId, blueprint);
+    
+    drone_image_on = CachedImage("ship/drones/" + blueprint->droneImage + "_charged.png", CachedImage::Centered::CENTERED);
+    drone_image_off = CachedImage("ship/drones/" + blueprint->droneImage + "_off.png", CachedImage::Centered::CENTERED);
+    drone_image_glow = CachedImage("ship/drones/" + blueprint->droneImage + "_glow.png", CachedImage::Centered::CENTERED);
 }
 
 

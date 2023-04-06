@@ -28,7 +28,7 @@
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -78,10 +78,11 @@
 					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32">
@@ -103,7 +104,7 @@
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -154,10 +155,11 @@
 					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-win-32-llvm">
@@ -182,7 +184,7 @@
 					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -236,11 +238,12 @@
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add library="liblua-5.3" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 					<Add directory="${LUA_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32-llvm">
@@ -264,7 +267,7 @@
 					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
 					<Add directory="rapidxml" />
 					<Add directory="${BOOST_DIR}/include/boost-1_70" />
-					<Add directory="discord/include" />
+					<Add directory="${DISCORD_DIR}/include" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -319,11 +322,12 @@
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add library="liblua-5.3" />
 					<Add directory="${BOOST_DIR}/lib" />
-					<Add directory="discord/lib" />
+					<Add directory="${DISCORD_DIR}/lib" />
 					<Add directory="${LUA_DIR}/lib" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
+					<Add before="processSwigRuntime.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.12-x86">
@@ -753,6 +757,9 @@
 			<Add alias="Release-linux-amd64" targets="Release-linux-1.6.12-amd64;Release-linux-1.6.13-amd64;" />
 			<Add alias="Release-linux-x86" targets="Release-linux-1.6.12-x86;Release-linux-1.6.13-x86;" />
 		</VirtualTargets>
+		<ExtraCommands>
+			<Add before="swig -c++ -lua $includes -external-runtime lua/swigluarun.h.temp1" />
+		</ExtraCommands>
 		<Unit filename="AbilityDrone.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
@@ -820,6 +827,12 @@
 			<Option virtualFolder="Core/Credits/" />
 		</Unit>
 		<Unit filename="CrewAbilities.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CrewBox_Extend.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CrewBox_Extend.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CrewManifestVTable.cpp">
@@ -1359,6 +1372,13 @@
 			<Option compile="1" />
 			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
+		<Unit filename="lua/modules/rapidxml.i">
+			<Option compile="1" />
+			<Option virtualFolder="Scripting/modules/" />
+		</Unit>
+		<Unit filename="lua/swigluarun.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
 		<Unit filename="main.cpp">
 			<Option weight="100" />
 			<Option virtualFolder="Core/" />
@@ -1368,6 +1388,9 @@
 		</Unit>
 		<Unit filename="palWindowsGeneric.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="rapidxml_interface.h">
+			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="zhl.cpp">
 			<Option virtualFolder="ZHL/" />
