@@ -60,11 +60,14 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 	gap_ex_2[0] = (dEx >> 8) & 0xFF;
 	gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
+
+    HS_MAKE_TABLE(this)
 }
 
 HOOK_METHOD(CrewMember, destructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::destructor -> Begin (CrewMember_Extend.cpp)\n")
+    HS_BREAK_TABLE(this)
     delete CM_EX(this);
     super();
 }
