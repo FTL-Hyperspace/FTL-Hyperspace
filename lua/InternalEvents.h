@@ -23,10 +23,12 @@ struct InternalEvents
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
 
-        // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
-        GET_AUGMENTATION_VALUE,
         // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
         HAS_EQUIPMENT,
+        // function has_augmentation(ShipManager& ship, char* augment, int value) return Chain, value
+        HAS_AUGMENTATION,
+        // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
+        GET_AUGMENTATION_VALUE,
 
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile

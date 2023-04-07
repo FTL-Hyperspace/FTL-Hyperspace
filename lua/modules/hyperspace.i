@@ -6,6 +6,7 @@
 #include "Global.h"
 #include "HSVersion.h"
 #include "CustomAchievements.h"
+#include "CustomAugments.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
@@ -275,6 +276,8 @@ playerVariableType playerVariables;
 
 %rename("%s") metaVariables;
 %rename("%s") playerVariables;
+
+%rename("%s") useAugmentReq;
 
 %nodefaultctor CustomAchievementTracker;
 %rename("%s") CustomAchievementTracker;
@@ -2194,6 +2197,7 @@ playerVariableType playerVariables;
 */
 %include "FTLGameELF64.h"
 %include "CustomAchievements.h"
+%include "CustomAugments.h"
 %include "CustomCrew.h"
 %include "CustomEvents.h"
 %include "CustomScoreKeeper.h"
