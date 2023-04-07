@@ -27,6 +27,16 @@ ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember_Extend
     crew = _ex->orig;
 }
 
+ActivatedPowerResource::ActivatedPowerResource(PowerResourceDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
+{
+    crew_ex = CM_EX(_crew);
+}
+
+ActivatedPowerResource::ActivatedPowerResource(PowerResourceDefinition *_def, CrewMember_Extend *_ex) : def{_def}, crew_ex{_ex}
+{
+    crew = _ex->orig;
+}
+
 template <class T> PowerReadyState ActivatedPower::PowerReqStatic(const T *power, const ActivatedPowerRequirements *req)
 {
     ShipManager *currentShip = G_->GetShipManager(power->crew->currentShipId);
