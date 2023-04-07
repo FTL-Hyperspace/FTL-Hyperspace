@@ -1503,6 +1503,7 @@ int CrewBox_Extend::GetTotalCooldownWidth(int mode, CrewMember_Extend *ex)
 
 void CrewBox_Extend::EmplacePower(ActivatedPower *power, int mode, int &offset, std::vector<int> &cooldownBorders)
 {
+    if (!power->enabled) return;
     bool hasCooldown = !power->def->hideCooldown && power->powerCooldown.second > 0.f;
     bool hasCharges = !power->def->hideCharges && power->powerCharges.second > 0;
     if (!(hasCooldown || hasCharges)) return;
@@ -1532,6 +1533,7 @@ void CrewBox_Extend::EmplacePower(ActivatedPower *power, int mode, int &offset, 
 
 void CrewBox_Extend::EmplacePower(ActivatedPowerResource *resource, int mode, int &offset, std::vector<int> &cooldownBorders)
 {
+    if (!resource->enabled) return;
     bool hasCooldown = !resource->def->hideCooldown && resource->powerCooldown.second > 0.f;
     bool hasCharges = !resource->def->hideCharges && resource->powerCharges.second > 0;
     int oldOffset = offset;
