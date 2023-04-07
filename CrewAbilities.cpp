@@ -463,6 +463,13 @@ void ActivatedPower::PrepareTemporaryAnimation()
 
 void ActivatedPower::PreparePower()
 {
+    // Lua callback - has one argument: ActivatedPower
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PREPARE_POWER, 1, 0);
+    lua_pop(context->GetLua(), 1);
+    if (preempt) return;
+
     PrepareAnimation();
     powerDone = false;
 
@@ -674,6 +681,14 @@ void ActivatedPower::ActivatePower()
 
 void ActivatedPower::CancelPower(bool clearAnim)
 {
+    // Lua callback - ActivatedPower, clearAnim
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    lua_pushboolean(context->GetLua(), clearAnim);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CANCEL_POWER, 2, 0);
+    lua_pop(context->GetLua(), 2);
+    if (preempt) return;
+
     // Clear the animation and stop the effect from activating.
     if (!powerDone || clearAnim)
     {
@@ -696,6 +711,14 @@ void ActivatedPower::OnUpdate()
     {
         this->CancelPower(false);
     }
+
+    // Lua callback - ActivatedPower
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_ON_UPDATE, 1, 0);
+    lua_pop(context->GetLua(), 1);
+    if (preempt) return;
+
     if (this->temporaryPowerActive)
     {
         this->temporaryPowerDuration.first = std::max(0.f, this->temporaryPowerDuration.first - (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625));
@@ -794,6 +817,13 @@ void ActivatedPower::OnUpdate()
 
 void ActivatedPowerResource::OnUpdate()
 {
+    // Lua callback - ActivatedPowerResource
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPowerResource, 0);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_RESOURCE_ON_UPDATE, 1, 0);
+    lua_pop(context->GetLua(), 1);
+    if (preempt) return;
+
     if (this->enabled || this->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
     {
         // power recharge and auto-activation requires power to be enabled or disabledCooldown to be CONTINUE
@@ -1294,32 +1324,50 @@ void ActivatedPowerResource::EnablePower()
 
 void ActivatedPower::EnableInit()
 {
-    if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
-    else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
-    else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+    // Lua callback - ActivatedPower
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_ENABLE_INIT, 1, 0);
+    lua_pop(context->GetLua(), 1);
 
-    if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL)
+    if (!preempt)
     {
-        if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+        if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
+        else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
+        else if (def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+
+        if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_FULL)
+        {
+            if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+        }
+        else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
+        else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
     }
-    else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
-    else if (def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
 
     enabledInit = false;
 }
 
 void ActivatedPowerResource::EnableInit()
 {
-    if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
-    else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
-    else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+    // Lua callback - ActivatedPowerResource
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPowerResource, 0);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_RESOURCE_ENABLE_INIT, 1, 0);
+    lua_pop(context->GetLua(), 1);
 
-    if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_FULL)
+    if (!preempt)
     {
-        if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+        if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_FULL) powerCooldown.first = powerCooldown.second;
+        else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCooldown.first = 0.f;
+        else if (def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCooldown.first = powerCooldown.second * def->initialCooldownFraction;
+
+        if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_FULL)
+        {
+            if (powerCharges.second > 0) powerCharges.first = powerCharges.second;
+        }
+        else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
+        else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
     }
-    else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_ZERO) powerCharges.first = 0;
-    else if (def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_RESET) powerCharges.first = def->initialCharges;
 }
 
 void ActivatedPower::DisablePower()
