@@ -680,6 +680,124 @@ void ActivatedPower::CancelPower(bool clearAnim)
     }
 }
 
+void ActivatedPower::OnUpdate()
+{
+    if (crew->crewAnim->status == 3 && this->def->onDeath == ActivatedPowerDefinition::ON_DEATH_CANCEL)
+    {
+        this->CancelPower(false);
+    }
+    if (this->temporaryPowerActive)
+    {
+        this->temporaryPowerDuration.first = std::max(0.f, this->temporaryPowerDuration.first - (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625));
+
+        if (this->temporaryPowerDuration.first <= 0.f)
+        {
+            this->TemporaryPowerFinished();
+        }
+    }
+    else if (this->enabled || this->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+    {
+        CrewDefinition *crewdef = crew_ex->GetDefinition();
+
+        // power recharge and auto-activation requires power to be enabled (or recharge to continue when disabled)
+        if (this->powerCharges.second >= 0 && this->powerCharges.first <= 0)
+        {
+            this->powerCooldown.first = 0.f;
+        }
+        else if (this->def->chargeReq == nullptr || this->PowerReq(this->def->chargeReq) == POWER_READY)
+        {
+            this->powerCooldown.first = std::max(0.f, std::min(this->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * crew_ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, crewdef)) + this->powerCooldown.first));
+        }
+
+        if (this->enabled && !crew->IsDead() && crew->Functional())
+        {
+            bool activateWhenReady = this->def->activateWhenReady && (!this->def->activateReadyEnemies || (crew->GetPowerOwner() == 1));
+            // Only check activateWhenReady if not dying
+            if (crew->crewAnim->status != 3) crew_ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, crewdef, &activateWhenReady);
+            if (activateWhenReady)
+            {
+                if (this->PowerReady() == POWER_READY)
+                {
+                    this->PreparePower();
+                }
+            }
+            else // vanilla condition but for enemy controlling your crew with MIND_ORDER
+            {
+                if (crew->iShipId == 0 && crew->crewTarget && crew->CanFight() && crew->crewTarget->IsCrew() && this->PowerReady() == POWER_READY &&
+                    crew->GetPowerOwner() == 1 && crew->health.first > 0.5f*crew->health.second)
+                {
+                    if (!crew->ship->RoomLocked(crew->iRoomId))
+                    {
+                        this->PreparePower();
+                    }
+                }
+            }
+        }
+    }
+
+    if (!this->powerDone && this->def->followCrew)
+    {
+        this->powerShip = crew->currentShipId;
+        this->powerRoom = crew->iRoomId;
+        if (this->effectAnim) this->effectPos = Pointf(crew->x - this->effectAnim->info.frameWidth / 2, crew->y - this->effectAnim->info.frameHeight / 2 + crew->PositionShift());
+        this->effectWorldPos = Pointf(crew->x, crew->y);
+    }
+
+    // Delayed activation of active and temporary effects (animFrame)
+    if (this->effectAnim)
+    {
+        this->effectAnim->Update();
+
+        if (!this->powerDone && this->def->animFrame != -1 && this->effectAnim->tracker.running && this->effectAnim->currentFrame >= this->def->animFrame)
+        {
+            this->ActivatePower();
+        }
+
+        if (!this->temporaryPowerDone && this->def->tempPower.animFrame != -1 && this->effectAnim->tracker.running && this->effectAnim->currentFrame >= this->def->tempPower.animFrame)
+        {
+            this->ActivateTemporaryPower();
+        }
+    }
+
+    if (this->tempEffectAnim)
+    {
+        this->tempEffectAnim->Update();
+    }
+    if (this->effectFinishAnim)
+    {
+        this->effectFinishAnim->Update();
+    }
+
+    for (auto anim = this->extraAnims.begin(); anim != this->extraAnims.end(); )
+    {
+        anim->Update();
+        if (anim->Done())
+        {
+            anim = this->extraAnims.erase(anim);
+        }
+        else
+        {
+            ++anim;
+        }
+    }
+}
+
+void ActivatedPowerResource::OnUpdate()
+{
+    if (this->enabled || this->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+    {
+        // power recharge and auto-activation requires power to be enabled or disabledCooldown to be CONTINUE
+        if (this->powerCharges.second >= 0 && this->powerCharges.first <= 0)
+        {
+            this->powerCooldown.first = 0.f;
+        }
+        else if (this->def->chargeReq == nullptr || this->PowerReq(this->def->chargeReq) == POWER_READY)
+        {
+            this->powerCooldown.first = std::max(0.f, std::min(this->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * crew_ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER)) + this->powerCooldown.first));
+        }
+    }
+}
+
 void CrewMember_Extend::UpdateAbilityStatBoosts(CrewDefinition *def)
 {
     outgoingStatBoosts.clear();
