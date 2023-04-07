@@ -22,6 +22,11 @@ struct InternalEvents
         ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+
+        // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
+        HAS_EQUIPMENT,
+        // function has_augmentation(ShipManager& ship, char* augment, int value) return Chain, value
+        HAS_AUGMENTATION,
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
 
@@ -55,6 +60,18 @@ struct InternalEvents
 
         // function activate_power(ActivatedPower& power, ShipManager& ship) return Chain
         ACTIVATE_POWER,
+        // function prepare_power(ActivatedPower& power) return Chain
+        PREPARE_POWER,
+        // function cancel_power(ActivatedPower& power, bool clearAnim) return Chain
+        CANCEL_POWER,
+        // function power_on_update(ActivatedPower& power) return Chain
+        POWER_ON_UPDATE,
+        // function power_resource_on_update(ActivatedPowerResource& power) return Chain
+        POWER_RESOURCE_ON_UPDATE,
+        // function power_enable_init(ActivatedPower& power) return Chain
+        POWER_ENABLE_INIT,
+        // function power_resource_enable_init(ActivatedPowerResource& power) return Chain
+        POWER_RESOURCE_ENABLE_INIT,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 

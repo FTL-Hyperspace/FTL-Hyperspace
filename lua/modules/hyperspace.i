@@ -6,6 +6,7 @@
 #include "Global.h"
 #include "HSVersion.h"
 #include "CustomAchievements.h"
+#include "CustomAugments.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
@@ -14,6 +15,7 @@
 #include "ShipManager_Extend.h"
 #include "System_Extend.h"
 #include "Room_Extend.h"
+#include "ToggleValue.h"
 %}
 
 %feature("flatnested");
@@ -110,9 +112,23 @@ namespace std {
     %template(pair_float_float) pair<float, float>;
     %template(vector_Pointf) vector<Pointf>;
     %template(vector_Point) vector<Point>;
-    %template(map_int_SystemTemplate) std::map<int,ShipBlueprint::SystemTemplate>;
+    %template(map_int_SystemTemplate) map<int,ShipBlueprint::SystemTemplate>;
     %template(unordered_map_string_int) unordered_map<string,int>;
+    %template(vector_ActivatedPower) vector<ActivatedPower*>;
+    %template(vector_ActivatedPowerResource) vector<ActivatedPowerResource*>;
+    %template(unordered_map_unsigned_int_ActivatedPowerResource) unordered_map<unsigned int,ActivatedPowerResource*>;
 }
+
+%include "ToggleValue.h"
+%template(ToggleValue_int) ToggleValue<int>;
+%template(ToggleValue_float) ToggleValue<float>;
+%template(ToggleValue_bool) ToggleValue<bool>;
+%rename("%s") ToggleValue::value;
+%immutable ToggleValue::value;
+%rename("%s") ToggleValue::enabled;
+%immutable ToggleValue::enabled;
+%rename("%s") ToggleValue::ToggleValue;
+%rename("%s") ToggleValue::operator=;
 
 %apply const std::string& {std::string* GetName()};
 
@@ -278,6 +294,8 @@ playerVariableType playerVariables;
 
 %rename("%s") metaVariables;
 %rename("%s") playerVariables;
+
+%rename("%s") useAugmentReq;
 
 %nodefaultctor CustomAchievementTracker;
 %rename("%s") CustomAchievementTracker;
@@ -1675,6 +1693,29 @@ playerVariableType playerVariables;
 %rename("%s") CrewMember_Extend::selfId;
 %immutable CrewMember_Extend::selfId;
 %rename("%s") CrewMember_Extend::lowHealthThreshold;
+%rename("%s") CrewMember_Extend::canPhaseThroughDoors;
+%rename("%s") CrewMember_Extend::isHealing;
+%rename("%s") CrewMember_Extend::passiveHealTimer;
+%rename("%s") CrewMember_Extend::deathTimer;
+%rename("%s") CrewMember_Extend::lastRoom;
+%rename("%s") CrewMember_Extend::lastShipId;
+%rename("%s") CrewMember_Extend::exploded;
+%rename("%s") CrewMember_Extend::triggerExplosion;
+%rename("%s") CrewMember_Extend::crewPowers;
+%immutable CrewMember_Extend::crewPowers;
+%rename("%s") CrewMember_Extend::hasSpecialPower;
+%rename("%s") CrewMember_Extend::powerResources;
+%immutable CrewMember_Extend::powerResources;
+%rename("%s") CrewMember_Extend::powerResourceMap;
+%immutable CrewMember_Extend::powerResourceMap;
+%rename("%s") CrewMember_Extend::noSlot;
+%rename("%s") CrewMember_Extend::noClone;
+%rename("%s") CrewMember_Extend::CustomTeleport;
+%rename("%s") CrewMember_Extend::CustomTeleport::teleporting;
+%rename("%s") CrewMember_Extend::CustomTeleport::shipId;
+%rename("%s") CrewMember_Extend::CustomTeleport::roomId;
+%rename("%s") CrewMember_Extend::CustomTeleport::slotId;
+%rename("%s") CrewMember_Extend::customTele;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;
@@ -2185,18 +2226,246 @@ playerVariableType playerVariables;
 %rename("%s") ActivatedPower;
 %rename("%s") ActivatedPower::def;
 %immutable ActivatedPower::def;
+%rename("%s") ActivatedPower::enabled;
 %rename("%s") ActivatedPower::crew;
 %immutable ActivatedPower::crew;
 %rename("%s") ActivatedPower::crew_ex;
 %immutable ActivatedPower::crew_ex;
+%rename("%s") ActivatedPower::modifiedPowerCharges;
+%rename("%s") ActivatedPower::modifiedChargesPerJump;
+%rename("%s") ActivatedPower::powerCooldown;
+%rename("%s") ActivatedPower::temporaryPowerDuration;
+%rename("%s") ActivatedPower::powerCharges;
+%rename("%s") ActivatedPower::powerResources;
+%immutable ActivatedPower::powerResources;
 %rename("%s") ActivatedPower::powerRoom;
 %rename("%s") ActivatedPower::powerShip;
+%rename("%s") ActivatedPower::powerActivated;
+%rename("%s") ActivatedPower::temporaryPowerActive;
+%rename("%s") ActivatedPower::powerDone;
+%rename("%s") ActivatedPower::temporaryPowerDone;
+%rename("%s") ActivatedPower::effectAnim;
+%immutable ActivatedPower::effectAnim;
+%rename("%s") ActivatedPower::tempEffectAnim;
+%immutable ActivatedPower::tempEffectAnim;
+%rename("%s") ActivatedPower::effectFinishAnim;
+%immutable ActivatedPower::effectFinishAnim;
+%rename("%s") ActivatedPower::extraAnims;
+%rename("%s") ActivatedPower::tempEffectStrip;
+%rename("%s") ActivatedPower::effectPos;
+%rename("%s") ActivatedPower::effectWorldPos;
+
+%rename("%s") ActivatedPower::PowerReq;
+%rename("%s") ActivatedPower::PowerReady;
+%rename("%s") ActivatedPower::GetPowerDamage;
+%rename("%s") ActivatedPower::ActivateTemporaryPower;
+%rename("%s") ActivatedPower::TemporaryPowerFinished;
+%rename("%s") ActivatedPower::PrepareAnimation;
+%rename("%s") ActivatedPower::PrepareTemporaryAnimation;
+%rename("%s") ActivatedPower::PreparePower;
+%rename("%s") ActivatedPower::ActivatePower;
+%rename("%s") ActivatedPower::CancelPower;
+%rename("%s") ActivatedPower::OnUpdate;
+%rename("%s") ActivatedPower::ChangePowerDef;
+%rename("%s") ActivatedPower::EnablePower;
+%rename("%s") ActivatedPower::DisablePower;
+%rename("%s") ActivatedPower::EnableInit;
+%rename("%s") ActivatedPower::GetCrewBoxResourceWidth;
+
+%nodefaultctor ActivatedPowerResource;
+%nodefaultdtor ActivatedPowerResource;
+%rename("%s") ActivatedPowerResource;
+%rename("%s") ActivatedPowerResource::def;
+%immutable ActivatedPowerResource::def;
+%rename("%s") ActivatedPowerResource::enabled;
+%rename("%s") ActivatedPowerResource::crew;
+%immutable ActivatedPowerResource::crew;
+%rename("%s") ActivatedPowerResource::crew_ex;
+%immutable ActivatedPowerResource::crew_ex;
+%rename("%s") ActivatedPowerResource::modifiedPowerCharges;
+%rename("%s") ActivatedPowerResource::modifiedChargesPerJump;
+%rename("%s") ActivatedPowerResource::powerCooldown;
+%rename("%s") ActivatedPowerResource::powerCharges;
+
+%rename("%s") ActivatedPowerResource::GetLinkedPowers;
+%rename("%s") ActivatedPowerResource::PowerReq;
+%rename("%s") ActivatedPowerResource::OnUpdate;
+%rename("%s") ActivatedPowerResource::EnablePower;
+%rename("%s") ActivatedPowerResource::DisablePower;
+%rename("%s") ActivatedPowerResource::EnableInit;
+%rename("%s") ActivatedPowerResource::GetCrewBoxResourceWidth;
 
 %nodefaultctor ActivatedPowerDefinition;
 %nodefaultdtor ActivatedPowerDefinition;
 %rename("%s") ActivatedPowerDefinition;
 %rename("%s") ActivatedPowerDefinition::name;
 %immutable ActivatedPowerDefinition::name;
+%rename("%s") ActivatedPowerDefinition::activateGroupIndex;
+%immutable ActivatedPowerDefinition::activateGroupIndex;
+%rename("%s") ActivatedPowerDefinition::replaceGroupIndex;
+%immutable ActivatedPowerDefinition::replaceGroupIndex;
+%rename("%s") ActivatedPowerDefinition::sortOrder;
+%rename("%s") ActivatedPowerDefinition::damage;
+%rename("%s") ActivatedPowerDefinition::cooldown;
+%rename("%s") ActivatedPowerDefinition::shipFriendlyFire;
+%rename("%s") ActivatedPowerDefinition::hasSpecialPower;
+%rename("%s") ActivatedPowerDefinition::hasTemporaryPower;
+%rename("%s") ActivatedPowerDefinition::jumpCooldown;
+%rename("%s") ActivatedPowerDefinition::disabledCooldown;
+%rename("%s") ActivatedPowerDefinition::initialCooldownFraction;
+%rename("%s") ActivatedPowerDefinition::onDeath;
+%rename("%s") ActivatedPowerDefinition::onHotkey;
+%rename("%s") ActivatedPowerDefinition::powerCharges;
+%rename("%s") ActivatedPowerDefinition::initialCharges;
+%rename("%s") ActivatedPowerDefinition::chargesPerJump;
+%rename("%s") ActivatedPowerDefinition::respawnCharges;
+%rename("%s") ActivatedPowerDefinition::disabledCharges;
+%rename("%s") ActivatedPowerDefinition::hideCooldown;
+%rename("%s") ActivatedPowerDefinition::hideCharges;
+%rename("%s") ActivatedPowerDefinition::hideButton;
+%rename("%s") ActivatedPowerDefinition::powerResources;
+%rename("%s") ActivatedPowerDefinition::respawnCharges;
+%rename("%s") ActivatedPowerDefinition::sounds;
+%rename("%s") ActivatedPowerDefinition::effectSounds;
+%rename("%s") ActivatedPowerDefinition::soundsEnemy;
+%rename("%s") ActivatedPowerDefinition::effectSoundsEnemy;
+%rename("%s") ActivatedPowerDefinition::buttonLabel;
+%rename("%s") ActivatedPowerDefinition::cooldownColor;
+%rename("%s") ActivatedPowerDefinition::tooltip;
+%rename("%s") ActivatedPowerDefinition::effectAnim;
+%rename("%s") ActivatedPowerDefinition::effectPostAnim;
+%rename("%s") ActivatedPowerDefinition::playerReq;
+%rename("%s") ActivatedPowerDefinition::enemyReq;
+%rename("%s") ActivatedPowerDefinition::chargeReq;
+%rename("%s") ActivatedPowerDefinition::win;
+%rename("%s") ActivatedPowerDefinition::crewHealth;
+%rename("%s") ActivatedPowerDefinition::enemyHealth;
+%rename("%s") ActivatedPowerDefinition::selfHealth;
+%rename("%s") ActivatedPowerDefinition::animFrame;
+%rename("%s") ActivatedPowerDefinition::followCrew;
+%rename("%s") ActivatedPowerDefinition::activateWhenReady;
+%rename("%s") ActivatedPowerDefinition::activateReadyEnemies;
+%rename("%s") ActivatedPowerDefinition::transformRace;
+%rename("%s") ActivatedPowerDefinition::crewSpawns;
+%rename("%s") ActivatedPowerDefinition::statBoosts;
+%rename("%s") ActivatedPowerDefinition::roomStatBoosts;
+%rename("%s") ActivatedPowerDefinition::event;
+%rename("%s") ActivatedPowerDefinition::tempPower;
+
+%rename("%s") ActivatedPowerDefinition::JUMP_COOLDOWN;
+%rename("%s") ActivatedPowerDefinition::DISABLED_COOLDOWN;
+%rename("%s") ActivatedPowerDefinition::ON_DEATH;
+%rename("%s") ActivatedPowerDefinition::HOTKEY_SETTING;
+
+%rename("%s") ActivatedPowerDefinition::AssignIndex; // beware, do not create new definitions/indices on the fly, only in a predetermined order on load
+%rename("%s") ActivatedPowerDefinition::AssignName;
+%rename("%s") ActivatedPowerDefinition::AssignActivateGroup;
+%rename("%s") ActivatedPowerDefinition::AssignReplaceGroup;
+%rename("%s") ActivatedPowerDefinition::AssignGroup;
+
+%rename("%s") ActivatedPowerDefinition::GetPowerByName;
+%rename("%s") ActivatedPowerDefinition::AddNamedDefinition;
+
+%nodefaultctor PowerResourceDefinition;
+%nodefaultdtor PowerResourceDefinition;
+%rename("%s") PowerResourceDefinition;
+%rename("%s") PowerResourceDefinition::name;
+%immutable PowerResourceDefinition::name;
+%rename("%s") PowerResourceDefinition::groupIndex;
+%immutable PowerResourceDefinition::groupIndex;
+%rename("%s") PowerResourceDefinition::sortOrder;
+%rename("%s") PowerResourceDefinition::cooldown;
+%rename("%s") PowerResourceDefinition::jumpCooldown;
+%rename("%s") PowerResourceDefinition::disabledCooldown;
+%rename("%s") PowerResourceDefinition::initialCooldownFraction;
+%rename("%s") PowerResourceDefinition::onDeath;
+%rename("%s") PowerResourceDefinition::powerCharges;
+%rename("%s") PowerResourceDefinition::initialCharges;
+%rename("%s") PowerResourceDefinition::chargesPerJump;
+%rename("%s") PowerResourceDefinition::respawnCharges;
+%rename("%s") PowerResourceDefinition::disabledCharges;
+%rename("%s") PowerResourceDefinition::hideCooldown;
+%rename("%s") PowerResourceDefinition::hideCharges;
+%rename("%s") PowerResourceDefinition::showTemporaryBars;
+%rename("%s") PowerResourceDefinition::showLinkedCooldowns;
+%rename("%s") PowerResourceDefinition::showLinkedCharges;
+%rename("%s") PowerResourceDefinition::cooldownColor;
+%rename("%s") PowerResourceDefinition::chargeReq;
+
+%rename("%s") PowerResourceDefinition::JUMP_COOLDOWN;
+%rename("%s") PowerResourceDefinition::DISABLED_COOLDOWN;
+%rename("%s") PowerResourceDefinition::ON_DEATH;
+
+%rename("%s") PowerResourceDefinition::AssignIndex; // beware, do not create new definitions/indices on the fly, only in a predetermined order on load
+%rename("%s") PowerResourceDefinition::AssignName;
+%rename("%s") PowerResourceDefinition::AssignGroup;
+
+%rename("%s") PowerResourceDefinition::GetByName;
+%rename("%s") PowerResourceDefinition::AddNamedDefinition;
+
+%nodefaultctor TemporaryPowerDefinition;
+%nodefaultdtor TemporaryPowerDefinition;
+%rename("%s") TemporaryPowerDefinition;
+%rename("%s") TemporaryPowerDefinition::duration;
+%rename("%s") TemporaryPowerDefinition::effectAnim;
+%rename("%s") TemporaryPowerDefinition::effectFinishAnim;
+%rename("%s") TemporaryPowerDefinition::animSheet;
+%rename("%s") TemporaryPowerDefinition::baseVisible;
+%rename("%s") TemporaryPowerDefinition::soundsEnemy;
+%rename("%s") TemporaryPowerDefinition::sounds;
+%rename("%s") TemporaryPowerDefinition::maxHealth;
+%rename("%s") TemporaryPowerDefinition::stunMultiplier;
+%rename("%s") TemporaryPowerDefinition::moveSpeedMultiplier;
+%rename("%s") TemporaryPowerDefinition::damageMultiplier;
+%rename("%s") TemporaryPowerDefinition::rangedDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::doorDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::repairSpeed;
+%rename("%s") TemporaryPowerDefinition::fireRepairMultiplier;
+%rename("%s") TemporaryPowerDefinition::controllable;
+%rename("%s") TemporaryPowerDefinition::canFight;
+%rename("%s") TemporaryPowerDefinition::canRepair;
+%rename("%s") TemporaryPowerDefinition::canSabotage;
+%rename("%s") TemporaryPowerDefinition::canMan;
+%rename("%s") TemporaryPowerDefinition::canTeleport;
+%rename("%s") TemporaryPowerDefinition::canSuffocate;
+%rename("%s") TemporaryPowerDefinition::canBurn;
+%rename("%s") TemporaryPowerDefinition::oxygenChangeSpeed;
+%rename("%s") TemporaryPowerDefinition::canPhaseThroughDoors;
+%rename("%s") TemporaryPowerDefinition::fireDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::isTelepathic;
+%rename("%s") TemporaryPowerDefinition::resistsMindControl;
+%rename("%s") TemporaryPowerDefinition::isAnaerobic;
+%rename("%s") TemporaryPowerDefinition::detectsLifeforms;
+%rename("%s") TemporaryPowerDefinition::damageTakenMultiplier;
+%rename("%s") TemporaryPowerDefinition::cloneSpeedMultiplier;
+%rename("%s") TemporaryPowerDefinition::passiveHealAmount;
+%rename("%s") TemporaryPowerDefinition::truePassiveHealAmount;
+%rename("%s") TemporaryPowerDefinition::healAmount;
+%rename("%s") TemporaryPowerDefinition::trueHealAmount;
+%rename("%s") TemporaryPowerDefinition::passiveHealDelay;
+%rename("%s") TemporaryPowerDefinition::sabotageSpeedMultiplier;
+%rename("%s") TemporaryPowerDefinition::allDamageTakenMultiplier;
+%rename("%s") TemporaryPowerDefinition::healSpeed;
+%rename("%s") TemporaryPowerDefinition::suffocationModifier;
+%rename("%s") TemporaryPowerDefinition::healCrewAmount;
+%rename("%s") TemporaryPowerDefinition::powerDrain;
+%rename("%s") TemporaryPowerDefinition::powerDrainFriendly;
+%rename("%s") TemporaryPowerDefinition::bonusPower;
+%rename("%s") TemporaryPowerDefinition::damageEnemiesAmount;
+%rename("%s") TemporaryPowerDefinition::hackDoors;
+%rename("%s") TemporaryPowerDefinition::powerRechargeMultiplier;
+%rename("%s") TemporaryPowerDefinition::noClone;
+%rename("%s") TemporaryPowerDefinition::noAI;
+%rename("%s") TemporaryPowerDefinition::validTarget;
+%rename("%s") TemporaryPowerDefinition::canMove;
+%rename("%s") TemporaryPowerDefinition::teleportMove;
+%rename("%s") TemporaryPowerDefinition::teleportMoveOtherShip;
+%rename("%s") TemporaryPowerDefinition::silenced;
+%rename("%s") TemporaryPowerDefinition::lowHealthThreshold;
+%rename("%s") TemporaryPowerDefinition::statBoosts;
+%rename("%s") TemporaryPowerDefinition::invulnerable;
+%rename("%s") TemporaryPowerDefinition::animFrame;
+%rename("%s") TemporaryPowerDefinition::cooldownColor;
 
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
@@ -2325,6 +2594,7 @@ playerVariableType playerVariables;
 */
 %include "FTLGameELF64.h"
 %include "CustomAchievements.h"
+%include "CustomAugments.h"
 %include "CustomCrew.h"
 %include "CustomEvents.h"
 %include "CustomScoreKeeper.h"

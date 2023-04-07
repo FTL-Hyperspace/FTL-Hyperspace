@@ -2828,120 +2828,12 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             {
                 for (ActivatedPower *power : ex->crewPowers)
                 {
-                    if (crewAnim->status == 3 && power->def->onDeath == ActivatedPowerDefinition::ON_DEATH_CANCEL)
-                    {
-                        power->CancelPower(false);
-                    }
-                    if (power->temporaryPowerActive)
-                    {
-                        power->temporaryPowerDuration.first = std::max(0.f, power->temporaryPowerDuration.first - (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625));
-
-                        if (power->temporaryPowerDuration.first <= 0.f)
-                        {
-                            power->TemporaryPowerFinished();
-                        }
-                    }
-                    else if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
-                    {
-                        // power recharge and auto-activation requires power to be enabled (or recharge to continue when disabled)
-                        if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
-                        {
-                            power->powerCooldown.first = 0.f;
-                        }
-                        else if (power->def->chargeReq == nullptr || power->PowerReq(power->def->chargeReq) == POWER_READY)
-                        {
-                            power->powerCooldown.first = std::max(0.f, std::min(power->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + power->powerCooldown.first));
-                        }
-
-                        if (power->enabled && !IsDead() && Functional())
-                        {
-                            bool activateWhenReady = power->def->activateWhenReady && (!power->def->activateReadyEnemies || (GetPowerOwner() == 1));
-                            // Only check activateWhenReady if not dying
-                            if (crewAnim->status != 3) ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
-                            if (activateWhenReady)
-                            {
-                                if (power->PowerReady() == POWER_READY)
-                                {
-                                    power->PreparePower();
-                                }
-                            }
-                            else // vanilla condition but for enemy controlling your crew with MIND_ORDER
-                            {
-                                if (iShipId == 0 && crewTarget && CanFight() && crewTarget->IsCrew() && power->PowerReady() == POWER_READY &&
-                                    GetPowerOwner() == 1 && health.first > 0.5f*health.second)
-                                {
-                                    if (!ship->RoomLocked(iRoomId))
-                                    {
-                                        power->PreparePower();
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (!power->powerDone && power->def->followCrew)
-                    {
-                        power->powerShip = currentShipId;
-                        power->powerRoom = iRoomId;
-                        if (power->effectAnim) power->effectPos = Pointf(x - power->effectAnim->info.frameWidth / 2, y - power->effectAnim->info.frameHeight / 2 + PositionShift());
-                        power->effectWorldPos = Pointf(x, y);
-                    }
-
-                    // Delayed activation of active and temporary effects (animFrame)
-                    if (power->effectAnim)
-                    {
-                        power->effectAnim->Update();
-
-                        if (!power->powerDone && power->def->animFrame != -1 && power->effectAnim->tracker.running && power->effectAnim->currentFrame >= power->def->animFrame)
-                        {
-                            power->ActivatePower();
-                        }
-
-                        if (!power->temporaryPowerDone && power->def->tempPower.animFrame != -1 && power->effectAnim->tracker.running && power->effectAnim->currentFrame >= power->def->tempPower.animFrame)
-                        {
-                            power->ActivateTemporaryPower();
-                        }
-                    }
-
-                    if (power->tempEffectAnim)
-                    {
-                        power->tempEffectAnim->Update();
-                    }
-                    if (power->effectFinishAnim)
-                    {
-                        power->effectFinishAnim->Update();
-                    }
-
-                    for (auto anim = power->extraAnims.begin(); anim != power->extraAnims.end(); )
-                    {
-                        anim->Update();
-                        if (anim->Done())
-                        {
-                            anim = power->extraAnims.erase(anim);
-                        }
-                        else
-                        {
-                            ++anim;
-                        }
-                    }
-
-                    // possible future optimization - put disabled powers to sleep if they're not doing anything; sleeping powers skip the entire loop
+                    power->OnUpdate();
                 }
             }
             for (ActivatedPowerResource *power : ex->powerResources)
             {
-                if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
-                {
-                    // power recharge and auto-activation requires power to be enabled or disabledCooldown to be CONTINUE
-                    if (power->powerCharges.second >= 0 && power->powerCharges.first <= 0)
-                    {
-                        power->powerCooldown.first = 0.f;
-                    }
-                    else if (power->def->chargeReq == nullptr || power->PowerReq(power->def->chargeReq) == POWER_READY)
-                    {
-                        power->powerCooldown.first = std::max(0.f, std::min(power->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + power->powerCooldown.first));
-                    }
-                }
+                power->OnUpdate();
             }
         }
     }

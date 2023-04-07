@@ -86,6 +86,7 @@ public:
 
     // methods
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
+    void OnUpdate();
     void EnablePower();
     void DisablePower();
     void EnableInit();
@@ -156,6 +157,7 @@ public:
     void PreparePower();
     void ActivatePower();
     void CancelPower(bool clearAnim);
+    void OnUpdate();
     void ChangePowerDef(ActivatedPowerDefinition *newDef);
     void EnablePower();
     void DisablePower();
