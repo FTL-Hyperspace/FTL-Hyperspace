@@ -12,6 +12,7 @@
 #include "CustomScoreKeeper.h"
 #include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
+#include "ToggleValue.h"
 %}
 
 %feature("flatnested");
@@ -114,6 +115,17 @@ namespace std {
     %template(vector_ActivatedPowerResource) vector<ActivatedPowerResource*>;
     %template(unordered_map_unsigned_int_ActivatedPowerResource) unordered_map<unsigned int,ActivatedPowerResource*>;
 }
+
+%include "ToggleValue.h"
+%template(ToggleValue_int) ToggleValue<int>;
+%template(ToggleValue_float) ToggleValue<float>;
+%template(ToggleValue_bool) ToggleValue<bool>;
+%rename("%s") ToggleValue::value;
+%immutable ToggleValue::value;
+%rename("%s") ToggleValue::enabled;
+%immutable ToggleValue::enabled;
+%rename("%s") ToggleValue::ToggleValue;
+%rename("%s") ToggleValue::operator=;
 
 %apply const std::string& {std::string* GetName()};
 
@@ -2303,6 +2315,70 @@ playerVariableType playerVariables;
 
 %rename("%s") PowerResourceDefinition::GetByName;
 %rename("%s") PowerResourceDefinition::AddNamedDefinition;
+
+%nodefaultctor TemporaryPowerDefinition;
+%nodefaultdtor TemporaryPowerDefinition;
+%rename("%s") TemporaryPowerDefinition;
+%rename("%s") TemporaryPowerDefinition::duration;
+%rename("%s") TemporaryPowerDefinition::effectAnim;
+%rename("%s") TemporaryPowerDefinition::effectFinishAnim;
+%rename("%s") TemporaryPowerDefinition::animSheet;
+%rename("%s") TemporaryPowerDefinition::baseVisible;
+%rename("%s") TemporaryPowerDefinition::soundsEnemy;
+%rename("%s") TemporaryPowerDefinition::sounds;
+%rename("%s") TemporaryPowerDefinition::maxHealth;
+%rename("%s") TemporaryPowerDefinition::stunMultiplier;
+%rename("%s") TemporaryPowerDefinition::moveSpeedMultiplier;
+%rename("%s") TemporaryPowerDefinition::damageMultiplier;
+%rename("%s") TemporaryPowerDefinition::rangedDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::doorDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::repairSpeed;
+%rename("%s") TemporaryPowerDefinition::fireRepairMultiplier;
+%rename("%s") TemporaryPowerDefinition::controllable;
+%rename("%s") TemporaryPowerDefinition::canFight;
+%rename("%s") TemporaryPowerDefinition::canRepair;
+%rename("%s") TemporaryPowerDefinition::canSabotage;
+%rename("%s") TemporaryPowerDefinition::canMan;
+%rename("%s") TemporaryPowerDefinition::canTeleport;
+%rename("%s") TemporaryPowerDefinition::canSuffocate;
+%rename("%s") TemporaryPowerDefinition::canBurn;
+%rename("%s") TemporaryPowerDefinition::oxygenChangeSpeed;
+%rename("%s") TemporaryPowerDefinition::canPhaseThroughDoors;
+%rename("%s") TemporaryPowerDefinition::fireDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::isTelepathic;
+%rename("%s") TemporaryPowerDefinition::resistsMindControl;
+%rename("%s") TemporaryPowerDefinition::isAnaerobic;
+%rename("%s") TemporaryPowerDefinition::detectsLifeforms;
+%rename("%s") TemporaryPowerDefinition::damageTakenMultiplier;
+%rename("%s") TemporaryPowerDefinition::cloneSpeedMultiplier;
+%rename("%s") TemporaryPowerDefinition::passiveHealAmount;
+%rename("%s") TemporaryPowerDefinition::truePassiveHealAmount;
+%rename("%s") TemporaryPowerDefinition::healAmount;
+%rename("%s") TemporaryPowerDefinition::trueHealAmount;
+%rename("%s") TemporaryPowerDefinition::passiveHealDelay;
+%rename("%s") TemporaryPowerDefinition::sabotageSpeedMultiplier;
+%rename("%s") TemporaryPowerDefinition::allDamageTakenMultiplier;
+%rename("%s") TemporaryPowerDefinition::healSpeed;
+%rename("%s") TemporaryPowerDefinition::suffocationModifier;
+%rename("%s") TemporaryPowerDefinition::healCrewAmount;
+%rename("%s") TemporaryPowerDefinition::powerDrain;
+%rename("%s") TemporaryPowerDefinition::powerDrainFriendly;
+%rename("%s") TemporaryPowerDefinition::bonusPower;
+%rename("%s") TemporaryPowerDefinition::damageEnemiesAmount;
+%rename("%s") TemporaryPowerDefinition::hackDoors;
+%rename("%s") TemporaryPowerDefinition::powerRechargeMultiplier;
+%rename("%s") TemporaryPowerDefinition::noClone;
+%rename("%s") TemporaryPowerDefinition::noAI;
+%rename("%s") TemporaryPowerDefinition::validTarget;
+%rename("%s") TemporaryPowerDefinition::canMove;
+%rename("%s") TemporaryPowerDefinition::teleportMove;
+%rename("%s") TemporaryPowerDefinition::teleportMoveOtherShip;
+%rename("%s") TemporaryPowerDefinition::silenced;
+%rename("%s") TemporaryPowerDefinition::lowHealthThreshold;
+%rename("%s") TemporaryPowerDefinition::statBoosts;
+%rename("%s") TemporaryPowerDefinition::invulnerable;
+%rename("%s") TemporaryPowerDefinition::animFrame;
+%rename("%s") TemporaryPowerDefinition::cooldownColor;
 
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
