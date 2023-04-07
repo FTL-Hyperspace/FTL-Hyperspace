@@ -108,8 +108,11 @@ namespace std {
     %template(pair_float_float) pair<float, float>;
     %template(vector_Pointf) vector<Pointf>;
     %template(vector_Point) vector<Point>;
-    %template(map_int_SystemTemplate) std::map<int,ShipBlueprint::SystemTemplate>;
+    %template(map_int_SystemTemplate) map<int,ShipBlueprint::SystemTemplate>;
     %template(unordered_map_string_int) unordered_map<string,int>;
+    %template(vector_ActivatedPower) vector<ActivatedPower*>;
+    %template(vector_ActivatedPowerResource) vector<ActivatedPowerResource*>;
+    %template(unordered_map_unsigned_int_ActivatedPowerResource) unordered_map<unsigned int,ActivatedPowerResource*>;
 }
 
 %apply const std::string& {std::string* GetName()};
@@ -1591,6 +1594,29 @@ playerVariableType playerVariables;
 %rename("%s") CrewMember_Extend::selfId;
 %immutable CrewMember_Extend::selfId;
 %rename("%s") CrewMember_Extend::lowHealthThreshold;
+%rename("%s") CrewMember_Extend::canPhaseThroughDoors;
+%rename("%s") CrewMember_Extend::isHealing;
+%rename("%s") CrewMember_Extend::passiveHealTimer;
+%rename("%s") CrewMember_Extend::deathTimer;
+%rename("%s") CrewMember_Extend::lastRoom;
+%rename("%s") CrewMember_Extend::lastShipId;
+%rename("%s") CrewMember_Extend::exploded;
+%rename("%s") CrewMember_Extend::triggerExplosion;
+%rename("%s") CrewMember_Extend::crewPowers;
+%immutable CrewMember_Extend::crewPowers;
+%rename("%s") CrewMember_Extend::hasSpecialPower;
+%rename("%s") CrewMember_Extend::powerResources;
+%immutable CrewMember_Extend::powerResources;
+%rename("%s") CrewMember_Extend::powerResourceMap;
+%immutable CrewMember_Extend::powerResourceMap;
+%rename("%s") CrewMember_Extend::noSlot;
+%rename("%s") CrewMember_Extend::noClone;
+%rename("%s") CrewMember_Extend::CustomTeleport;
+%rename("%s") CrewMember_Extend::CustomTeleport::teleporting;
+%rename("%s") CrewMember_Extend::CustomTeleport::shipId;
+%rename("%s") CrewMember_Extend::CustomTeleport::roomId;
+%rename("%s") CrewMember_Extend::CustomTeleport::slotId;
+%rename("%s") CrewMember_Extend::customTele;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;
