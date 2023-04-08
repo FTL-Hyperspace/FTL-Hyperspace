@@ -1623,6 +1623,7 @@ playerVariableType playerVariables;
 %immutable CrewMember_Extend::powerResources;
 %rename("%s") CrewMember_Extend::powerResourceMap;
 %immutable CrewMember_Extend::powerResourceMap;
+%rename("%s") CrewMember_Extend::powerChange;
 %rename("%s") CrewMember_Extend::noSlot;
 %rename("%s") CrewMember_Extend::noClone;
 %rename("%s") CrewMember_Extend::CustomTeleport;
