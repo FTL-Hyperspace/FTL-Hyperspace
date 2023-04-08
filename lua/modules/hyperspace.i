@@ -114,6 +114,8 @@ namespace std {
     %template(vector_ActivatedPower) vector<ActivatedPower*>;
     %template(vector_ActivatedPowerResource) vector<ActivatedPowerResource*>;
     %template(unordered_map_unsigned_int_ActivatedPowerResource) unordered_map<unsigned int,ActivatedPowerResource*>;
+    %template(pair_CrewExtraCondition_bool) pair<CrewExtraCondition,bool>;
+    %template(vector_pair_CrewExtraCondition_bool) vector<pair<CrewExtraCondition,bool>>;
 }
 
 %include "ToggleValue.h"
@@ -2315,6 +2317,40 @@ playerVariableType playerVariables;
 
 %rename("%s") PowerResourceDefinition::GetByName;
 %rename("%s") PowerResourceDefinition::AddNamedDefinition;
+
+%nodefaultctor ActivatedPowerRequirements;
+%nodefaultdtor ActivatedPowerRequirements;
+%rename("%s") ActivatedPowerRequirements;
+%rename("%s") ActivatedPowerRequirements::Type;
+%rename("%s") ActivatedPowerRequirements::type;
+%rename("%s") ActivatedPowerRequirements::playerShip;
+%rename("%s") ActivatedPowerRequirements::enemyShip;
+%rename("%s") ActivatedPowerRequirements::checkRoomCrew;
+%rename("%s") ActivatedPowerRequirements::enemyInRoom;
+%rename("%s") ActivatedPowerRequirements::friendlyInRoom;
+%rename("%s") ActivatedPowerRequirements::whiteList;
+%rename("%s") ActivatedPowerRequirements::friendlyWhiteList;
+%rename("%s") ActivatedPowerRequirements::friendlyBlackList;
+%rename("%s") ActivatedPowerRequirements::enemyWhiteList;
+%rename("%s") ActivatedPowerRequirements::enemyBlackList;
+%rename("%s") ActivatedPowerRequirements::systemInRoom;
+%rename("%s") ActivatedPowerRequirements::systemDamaged;
+%rename("%s") ActivatedPowerRequirements::hasClonebay;
+%rename("%s") ActivatedPowerRequirements::aiDisabled;
+%rename("%s") ActivatedPowerRequirements::outOfCombat;
+%rename("%s") ActivatedPowerRequirements::inCombat;
+%rename("%s") ActivatedPowerRequirements::requiredSystem;
+%rename("%s") ActivatedPowerRequirements::requiredSystemFunctional;
+%rename("%s") ActivatedPowerRequirements::minHealth;
+%rename("%s") ActivatedPowerRequirements::maxHealth;
+%rename("%s") ActivatedPowerRequirements::extraConditions;
+%rename("%s") ActivatedPowerRequirements::extraOrConditions;
+%rename("%s") ActivatedPowerRequirements::extraOrConditionsTooltip;
+
+%rename("%s") PowerReadyState;
+%rename("%s") GetNextPowerReadyState;
+
+%rename("%s") CrewExtraCondition;
 
 %nodefaultctor TemporaryPowerDefinition;
 %nodefaultdtor TemporaryPowerDefinition;

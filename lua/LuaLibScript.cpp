@@ -19,6 +19,7 @@ static std::unordered_map<RenderEvents::Identifiers, std::vector<std::pair<std::
 void LuaLibScript::LoadTypeInfo()
 {
     types.pActivatedPower = SWIG_TypeQuery(this->m_Lua, "ActivatedPower *");
+    types.pActivatedPowerRequirements = SWIG_TypeQuery(this->m_Lua, "ActivatedPowerRequirements *");
     types.pActivatedPowerResource = SWIG_TypeQuery(this->m_Lua, "ActivatedPowerResource *");
     types.pCollideable = SWIG_TypeQuery(this->m_Lua, "Collideable *");
     types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");

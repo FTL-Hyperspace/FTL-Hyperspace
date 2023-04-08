@@ -72,6 +72,12 @@ struct InternalEvents
         POWER_ENABLE_INIT,
         // function power_resource_enable_init(ActivatedPowerResource& power) return Chain
         POWER_RESOURCE_ENABLE_INIT,
+        // function power_req(ActivatedPower& power, ActivatedPowerRequirements& req, PowerReadyState result) return Chain, result
+        POWER_REQ,
+        // function power_ready(ActivatedPower& power, PowerReadyState result) return Chain, result
+        POWER_READY,
+        // function power_tooltip(ActivatedPower& power, PowerReadyState state) return tooltip, skipAppend
+        POWER_TOOLTIP,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 

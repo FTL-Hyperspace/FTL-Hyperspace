@@ -17,6 +17,14 @@ std::vector<PowerResourceDefinition*> PowerResourceDefinition::powerDefs = std::
 std::unordered_map<std::string,PowerResourceDefinition*> PowerResourceDefinition::nameDefList;
 std::unordered_map<std::string,PowerResourceDefinition*> PowerResourceDefinition::undefinedNameDefList;
 
+unsigned int nextPowerReadyState = POWER_NOT_READY_CUSTOM;
+unsigned int GetNextPowerReadyState(unsigned int amount)
+{
+    unsigned int ret = nextPowerReadyState;
+    nextPowerReadyState += amount;
+    return ret;
+}
+
 ActivatedPower::ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew) : def{_def}, crew{_crew}
 {
     crew_ex = CM_EX(_crew);
@@ -249,53 +257,90 @@ template <class T> PowerReadyState ActivatedPower::PowerReqStatic(const T *power
 
 PowerReadyState ActivatedPower::PowerReq(const ActivatedPowerRequirements *req)
 {
-    return PowerReqStatic(this, req);
+
+    PowerReadyState ret = PowerReqStatic(this, req);
+
+    // POWER_REQ(ActivatedPower, ActivatedPowerRequirements, retValue)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    SWIG_NewPointerObj(context->GetLua(), req, context->getLibScript()->types.pActivatedPowerRequirements, 0);
+    lua_pushinteger(context->GetLua(), ret);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_REQ, 3, 1);
+    if (lua_isinteger(context->GetLua(), -1)) ret = (PowerReadyState)lua_tointeger(context->GetLua(), -1);
+    lua_pop(context->GetLua(), 3);
+
+    return ret;
 }
 
 PowerReadyState ActivatedPowerResource::PowerReq(const ActivatedPowerRequirements *req)
 {
-    return ActivatedPower::PowerReqStatic(this, req);
+    PowerReadyState ret = ActivatedPower::PowerReqStatic(this, req);
+
+    // POWER_REQ(ActivatedPowerResource, ActivatedPowerRequirements, retValue)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPowerResource, 0);
+    SWIG_NewPointerObj(context->GetLua(), req, context->getLibScript()->types.pActivatedPowerRequirements, 0);
+    lua_pushinteger(context->GetLua(), ret);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_REQ, 3, 1);
+    if (lua_isinteger(context->GetLua(), -1)) ret = (PowerReadyState)lua_tointeger(context->GetLua(), -1);
+    lua_pop(context->GetLua(), 3);
+
+    return ret;
 }
 
 PowerReadyState ActivatedPower::PowerReady()
 {
     if (loadingGame) return POWER_NOT_READY_COOLDOWN;
 
-    if (temporaryPowerActive)
-    {
-        return POWER_NOT_READY_ACTIVATED;
-    }
-    if (powerCharges.second >= 0 && powerCharges.first <= 0)
-    {
-        return POWER_NOT_READY_CHARGES;
-    }
-    for (ActivatedPowerResource* resource : powerResources)
-    {
-        if (resource->powerCharges.second >= 0 && resource->powerCharges.first <= 0)
+    PowerReadyState ret = [&]{
+
+        if (temporaryPowerActive)
+        {
+            return POWER_NOT_READY_ACTIVATED;
+        }
+        if (powerCharges.second >= 0 && powerCharges.first <= 0)
         {
             return POWER_NOT_READY_CHARGES;
         }
-    }
-    if (powerCooldown.first < powerCooldown.second)
-    {
-        return POWER_NOT_READY_COOLDOWN;
-    }
-    for (ActivatedPowerResource* resource : powerResources)
-    {
-        if (resource->powerCooldown.first < resource->powerCooldown.second)
+        for (ActivatedPowerResource* resource : powerResources)
+        {
+            if (resource->powerCharges.second >= 0 && resource->powerCharges.first <= 0)
+            {
+                return POWER_NOT_READY_CHARGES;
+            }
+        }
+        if (powerCooldown.first < powerCooldown.second)
         {
             return POWER_NOT_READY_COOLDOWN;
         }
-    }
+        for (ActivatedPowerResource* resource : powerResources)
+        {
+            if (resource->powerCooldown.first < resource->powerCooldown.second)
+            {
+                return POWER_NOT_READY_COOLDOWN;
+            }
+        }
 
-    bool silenced;
-    crew_ex->CalculateStat(CrewStat::SILENCED, &silenced);
-    if (silenced)
-    {
-        return POWER_NOT_READY_SILENCED;
-    }
+        bool silenced;
+        crew_ex->CalculateStat(CrewStat::SILENCED, &silenced);
+        if (silenced)
+        {
+            return POWER_NOT_READY_SILENCED;
+        }
 
-    return PowerReq(crew->GetPowerOwner() == 0 ? &def->playerReq : &def->enemyReq);
+        return PowerReq(crew->GetPowerOwner() == 0 ? &def->playerReq : &def->enemyReq);
+
+    }();
+
+    // POWER_READY(ActivatedPower, retValue)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    lua_pushinteger(context->GetLua(), ret);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_READY, 2, 1);
+    if (lua_isinteger(context->GetLua(), -1)) ret = (PowerReadyState)lua_tointeger(context->GetLua(), -1);
+    lua_pop(context->GetLua(), 2);
+
+    return ret;
 }
 
 Damage* ActivatedPower::GetPowerDamage()

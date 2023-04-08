@@ -135,6 +135,7 @@ class LuaLibScript
         {
             swig_type_info *pActivatedPower;
             swig_type_info *pActivatedPowerResource;
+            swig_type_info *pActivatedPowerRequirements;
             swig_type_info *pCollideable;
             swig_type_info *pCollisionResponse;
             swig_type_info *pCrewMember;

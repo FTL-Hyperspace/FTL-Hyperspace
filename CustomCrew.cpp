@@ -827,26 +827,32 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
                 if (strcmp(effectNode->first_attribute("type")->value(), "player") == 0)
                 {
                     def->playerReq = reqDef;
+                    def->playerReq.type = ActivatedPowerRequirements::Type::PLAYER;
                 }
                 else if (strcmp(effectNode->first_attribute("type")->value(), "enemy") == 0)
                 {
                     def->enemyReq = reqDef;
+                    def->enemyReq.type = ActivatedPowerRequirements::Type::ENEMY;
                 }
                 else
                 {
                     def->enemyReq = reqDef;
+                    def->enemyReq.type = ActivatedPowerRequirements::Type::ENEMY;
                     def->playerReq = reqDef;
+                    def->playerReq.type = ActivatedPowerRequirements::Type::PLAYER;
                 }
             }
             else
             {
                 def->enemyReq = reqDef;
+                def->enemyReq.type = ActivatedPowerRequirements::Type::ENEMY;
                 def->playerReq = reqDef;
+                def->playerReq.type = ActivatedPowerRequirements::Type::PLAYER;
             }
         }
         if (effectName == "chargeReq")
         {
-            def->chargeReq = new ActivatedPowerRequirements();
+            def->chargeReq = new ActivatedPowerRequirements(ActivatedPowerRequirements::Type::CHARGE);
 
             ParsePowerRequirementsNode(effectNode, def->chargeReq);
         }
@@ -1400,7 +1406,7 @@ PowerResourceDefinition* CustomCrewManager::ParseAbilityResource(rapidxml::xml_n
 
         if (effectName == "chargeReq")
         {
-            def->chargeReq = new ActivatedPowerRequirements();
+            def->chargeReq = new ActivatedPowerRequirements(ActivatedPowerRequirements::Type::CHARGE);
 
             ParsePowerRequirementsNode(effectNode, def->chargeReq);
         }
@@ -4666,9 +4672,10 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
             {
                 // find the button that the mouse is over
                 pButton.button.MouseMove(mouseX, mouseY, true);
-                if (pButton.button.bHover)
+                if (pButton.button.bHover) // todo: move the stuff in here into its own function
                 {
                     found = true;
+                    bool skipAppend = false;
 
                     std::string tooltip = "";
                     if (pCrew->GetPowerOwner() != 0)
@@ -4678,12 +4685,29 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                     else
                     {
                         PowerReadyState state = pButton.power->PowerReady();
+
                         if (state == PowerReadyState::POWER_READY)
                         {
                             appendHotkey = true;
-                            if (!pButton.power->def->tooltip.data.empty())
+
+                            // run callback
+                            auto context = Global::GetInstance()->getLuaContext();
+                            SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+                            lua_pushinteger(context->GetLua(), state);
+                            int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::POWER_TOOLTIP, 2, 2);
+                            if (nRet == 2)
                             {
-                                tooltip = pButton.power->def->tooltip.GetText();
+                                tooltip = lua_tostring(context->GetLua(), -nRet);
+                                bool skipAppend = lua_toboolean(context->GetLua(), -nRet+1);
+                                lua_pop(context->GetLua(), nRet+2);
+                            }
+                            else // no return from callback
+                            {
+                                lua_pop(context->GetLua(), 2);
+                                if (!pButton.power->def->tooltip.data.empty())
+                                {
+                                    tooltip = pButton.power->def->tooltip.GetText();
+                                }
                             }
                         }
                         else
@@ -4697,112 +4721,128 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                                 if (state == POWER_READY) state = POWER_NOT_READY_COOLDOWN;
                             }
 
-                            std::string tooltipName = "";
-                            std::string replaceValue = "";
-
-
-                            switch (state)
+                            // run callback
+                            auto context = Global::GetInstance()->getLuaContext();
+                            SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+                            lua_pushinteger(context->GetLua(), state);
+                            int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::POWER_TOOLTIP, 2, 2);
+                            if (nRet == 2)
                             {
-                            case POWER_NOT_READY_COOLDOWN:
-                                tooltipName = "power_not_ready";
-                                break;
-                            case POWER_NOT_READY_ACTIVATED:
-                                tooltipName = "power_not_ready_activated";
-                                break;
-                            case POWER_NOT_READY_PLAYER_SHIP:
-                                tooltipName = "power_not_ready_player_ship";
-                                break;
-                            case POWER_NOT_READY_ENEMY_SHIP:
-                                tooltipName = "power_not_ready_enemy_ship";
-                                break;
-                            case POWER_NOT_READY_ENEMY_IN_ROOM:
-                                tooltipName = "power_not_ready_enemy_in_room";
-                                break;
-                            case POWER_NOT_READY_FRIENDLY_IN_ROOM:
-                                tooltipName = "power_not_ready_friendly_in_room";
-                                break;
-                            case POWER_NOT_READY_WHITELIST:
-                                tooltipName = "power_not_ready_whitelist";
-                                break;
-                            case POWER_NOT_READY_ENEMY_WHITELIST:
-                                tooltipName = "power_not_ready_enemy_whitelist";
-                                break;
-                            case POWER_NOT_READY_FRIENDLY_WHITELIST:
-                                tooltipName = "power_not_ready_friendly_whitelist";
-                                break;
-                            case POWER_NOT_READY_ENEMY_BLACKLIST:
-                                tooltipName = "power_not_ready_enemy_blacklist";
-                                break;
-                            case POWER_NOT_READY_FRIENDLY_BLACKLIST:
-                                tooltipName = "power_not_ready_friendly_blacklist";
-                                break;
-                            case POWER_NOT_READY_SYSTEM_IN_ROOM:
-                                tooltipName = "power_not_ready_system_in_room";
-                                break;
-                            case POWER_NOT_READY_SYSTEM_DAMAGED:
-                                tooltipName = "power_not_ready_system_damaged";
-                                break;
-                            case POWER_NOT_READY_AI_DISABLED:
-                                tooltipName = "power_not_ready_ai_disabled";
-                                break;
-                            case POWER_NOT_READY_HAS_CLONEBAY:
-                                tooltipName = "power_not_ready_has_clonebay";
-                                break;
-                            case POWER_NOT_READY_OUT_OF_COMBAT:
-                                tooltipName = "power_not_ready_out_of_combat";
-                                break;
-                            case POWER_NOT_READY_IN_COMBAT:
-                                tooltipName = "power_not_ready_in_combat";
-                                break;
-                            case POWER_NOT_READY_SYSTEM:
-                                tooltipName = "power_not_ready_system";
-                                {
-                                    SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(powerReq->requiredSystem));
-                                    if (bp != nullptr) replaceValue = bp->desc.title.GetText();
-                                }
-                                break;
-                            case POWER_NOT_READY_SYSTEM_FUNCTIONAL:
-                                tooltipName = "power_not_ready_system_functional";
-                                {
-                                    SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(powerReq->requiredSystem));
-                                    if (bp != nullptr) replaceValue = bp->desc.title.GetText();
-                                }
-                                break;
-                            case POWER_NOT_READY_MIN_HEALTH:
-                                tooltipName = "power_not_ready_min_health";
-                                replaceValue = boost::lexical_cast<std::string>(powerReq->minHealth.value);
-                                break;
-                            case POWER_NOT_READY_MAX_HEALTH:
-                                tooltipName = "power_not_ready_max_health";
-                                replaceValue = boost::lexical_cast<std::string>(powerReq->maxHealth.value);
-                                break;
-                            case POWER_NOT_READY_CHARGES:
-                                tooltipName = "power_not_ready_charges";
-                                break;
-                            case POWER_NOT_READY_SILENCED:
-                                tooltipName = "power_not_ready_silenced";
-                                break;
-                            case POWER_NOT_READY_EXTRACONDITION_OR:
-                                tooltip = powerReq->extraOrConditionsTooltip.GetText();
-                                break;
-                            default:
-                                if (state >= POWER_NOT_READY_EXTRACONDITION_FALSE)
-                                {
-                                    tooltipName = powerReadyStateExtraTextFalse[state - POWER_NOT_READY_EXTRACONDITION_FALSE];
-                                }
-                                else if (state >= POWER_NOT_READY_EXTRACONDITION_TRUE)
-                                {
-                                    tooltipName = powerReadyStateExtraTextTrue[state - POWER_NOT_READY_EXTRACONDITION_TRUE];
-                                }
-                                break;
+                                tooltip = lua_tostring(context->GetLua(), -nRet);
+                                bool skipAppend = lua_toboolean(context->GetLua(), -nRet+1);
+                                lua_pop(context->GetLua(), nRet+2);
                             }
-
-                            if (!tooltipName.empty())
+                            else // no return from callback
                             {
-                                tooltip = G_->GetTextLibrary()->GetText(tooltipName);
-                                if (!replaceValue.empty())
+                                lua_pop(context->GetLua(), 2);
+
+                                std::string tooltipName = "";
+                                std::string replaceValue = "";
+
+
+                                switch (state)
                                 {
-                                    boost::algorithm::replace_all(tooltip, "\\1", replaceValue);
+                                case POWER_NOT_READY_COOLDOWN:
+                                    tooltipName = "power_not_ready";
+                                    break;
+                                case POWER_NOT_READY_ACTIVATED:
+                                    tooltipName = "power_not_ready_activated";
+                                    break;
+                                case POWER_NOT_READY_PLAYER_SHIP:
+                                    tooltipName = "power_not_ready_player_ship";
+                                    break;
+                                case POWER_NOT_READY_ENEMY_SHIP:
+                                    tooltipName = "power_not_ready_enemy_ship";
+                                    break;
+                                case POWER_NOT_READY_ENEMY_IN_ROOM:
+                                    tooltipName = "power_not_ready_enemy_in_room";
+                                    break;
+                                case POWER_NOT_READY_FRIENDLY_IN_ROOM:
+                                    tooltipName = "power_not_ready_friendly_in_room";
+                                    break;
+                                case POWER_NOT_READY_WHITELIST:
+                                    tooltipName = "power_not_ready_whitelist";
+                                    break;
+                                case POWER_NOT_READY_ENEMY_WHITELIST:
+                                    tooltipName = "power_not_ready_enemy_whitelist";
+                                    break;
+                                case POWER_NOT_READY_FRIENDLY_WHITELIST:
+                                    tooltipName = "power_not_ready_friendly_whitelist";
+                                    break;
+                                case POWER_NOT_READY_ENEMY_BLACKLIST:
+                                    tooltipName = "power_not_ready_enemy_blacklist";
+                                    break;
+                                case POWER_NOT_READY_FRIENDLY_BLACKLIST:
+                                    tooltipName = "power_not_ready_friendly_blacklist";
+                                    break;
+                                case POWER_NOT_READY_SYSTEM_IN_ROOM:
+                                    tooltipName = "power_not_ready_system_in_room";
+                                    break;
+                                case POWER_NOT_READY_SYSTEM_DAMAGED:
+                                    tooltipName = "power_not_ready_system_damaged";
+                                    break;
+                                case POWER_NOT_READY_AI_DISABLED:
+                                    tooltipName = "power_not_ready_ai_disabled";
+                                    break;
+                                case POWER_NOT_READY_HAS_CLONEBAY:
+                                    tooltipName = "power_not_ready_has_clonebay";
+                                    break;
+                                case POWER_NOT_READY_OUT_OF_COMBAT:
+                                    tooltipName = "power_not_ready_out_of_combat";
+                                    break;
+                                case POWER_NOT_READY_IN_COMBAT:
+                                    tooltipName = "power_not_ready_in_combat";
+                                    break;
+                                case POWER_NOT_READY_SYSTEM:
+                                    tooltipName = "power_not_ready_system";
+                                    {
+                                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(powerReq->requiredSystem));
+                                        if (bp != nullptr) replaceValue = bp->desc.title.GetText();
+                                    }
+                                    break;
+                                case POWER_NOT_READY_SYSTEM_FUNCTIONAL:
+                                    tooltipName = "power_not_ready_system_functional";
+                                    {
+                                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(powerReq->requiredSystem));
+                                        if (bp != nullptr) replaceValue = bp->desc.title.GetText();
+                                    }
+                                    break;
+                                case POWER_NOT_READY_MIN_HEALTH:
+                                    tooltipName = "power_not_ready_min_health";
+                                    replaceValue = boost::lexical_cast<std::string>(powerReq->minHealth.value);
+                                    break;
+                                case POWER_NOT_READY_MAX_HEALTH:
+                                    tooltipName = "power_not_ready_max_health";
+                                    replaceValue = boost::lexical_cast<std::string>(powerReq->maxHealth.value);
+                                    break;
+                                case POWER_NOT_READY_CHARGES:
+                                    tooltipName = "power_not_ready_charges";
+                                    break;
+                                case POWER_NOT_READY_SILENCED:
+                                    tooltipName = "power_not_ready_silenced";
+                                    break;
+                                case POWER_NOT_READY_EXTRACONDITION_OR:
+                                    tooltip = powerReq->extraOrConditionsTooltip.GetText();
+                                    break;
+                                default:
+                                    if (state >= POWER_NOT_READY_EXTRACONDITION_FALSE)
+                                    {
+                                        tooltipName = powerReadyStateExtraTextFalse[state - POWER_NOT_READY_EXTRACONDITION_FALSE];
+                                    }
+                                    else if (state >= POWER_NOT_READY_EXTRACONDITION_TRUE)
+                                    {
+                                        tooltipName = powerReadyStateExtraTextTrue[state - POWER_NOT_READY_EXTRACONDITION_TRUE];
+                                    }
+                                    break;
+                                }
+
+                                if (!tooltipName.empty())
+                                {
+                                    tooltip = G_->GetTextLibrary()->GetText(tooltipName);
+                                    if (!replaceValue.empty())
+                                    {
+                                        boost::algorithm::replace_all(tooltip, "\\1", replaceValue);
+                                    }
                                 }
                             }
                         }
@@ -4813,20 +4853,23 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                         sTooltip = tooltip;
                     }
 
-                    if (pButton.power->def->powerCharges > -1)
+                    if (!skipAppend) // if callback sets skipAppend then do not append extra info such as charges or hotkey
                     {
-                        std::string tooltip = G_->GetTextLibrary()->GetText("power_number_charges");
-                        boost::algorithm::replace_all(tooltip, "\\1", boost::lexical_cast<std::string>(pButton.power->powerCharges.first));
-                        boost::algorithm::replace_all(tooltip, "\\2", boost::lexical_cast<std::string>(pButton.power->powerCharges.second));
-                        sTooltip = sTooltip + "\n" + tooltip;
-                    }
+                        if (pButton.power->def->powerCharges > -1)
+                        {
+                            std::string tooltip = G_->GetTextLibrary()->GetText("power_number_charges");
+                            boost::algorithm::replace_all(tooltip, "\\1", boost::lexical_cast<std::string>(pButton.power->powerCharges.first));
+                            boost::algorithm::replace_all(tooltip, "\\2", boost::lexical_cast<std::string>(pButton.power->powerCharges.second));
+                            sTooltip = sTooltip + "\n" + tooltip;
+                        }
 
-                    if (appendHotkey)
-                    {
-                        std::string tooltip = G_->GetTextLibrary()->GetText("hotkey");
-                        std::string replaceWith = Settings::GetHotkeyName("lockdown");
-                        boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
-                        sTooltip = sTooltip + "\n" + tooltip;
+                        if (appendHotkey)
+                        {
+                            std::string tooltip = G_->GetTextLibrary()->GetText("hotkey");
+                            std::string replaceWith = Settings::GetHotkeyName("lockdown");
+                            boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
+                            sTooltip = sTooltip + "\n" + tooltip;
+                        }
                     }
                 }
             }
