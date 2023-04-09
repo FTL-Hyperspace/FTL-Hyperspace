@@ -110,12 +110,6 @@ struct CachedImage : CachedPrimitive
 	{
 		constructor_copy(other);
 	}
-	
-	CachedImage& operator=(const CachedImage &other)
-	{
-		constructor_copy(other);
-		return *this;
-	}
 
 	LIBZHL_API void CreatePrimitive();
 	LIBZHL_API void SetImagePath(const std::string &imagePath);

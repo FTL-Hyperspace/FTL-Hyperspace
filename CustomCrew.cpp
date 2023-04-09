@@ -2473,7 +2473,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
         if (selectionState > 0 || lastHealthChange > 0 || (health.first < health.second * 0.55f) || (health.first <= lowHealthThreshold))
         {
             flashHealthTracker.Update();
-            CachedImage healthBoxActive = (health.first <= lowHealthThreshold && flashHealthTracker.Progress(-1.f) < 0.5f) ? healthBoxRed : healthBox;
+            CachedImage& healthBoxActive = (health.first <= lowHealthThreshold && flashHealthTracker.Progress(-1.f) < 0.5f) ? healthBoxRed : healthBox;
             Pointf healthBoxLoc = Pointf(x - std::round(scale * 18.f), y - 2.f - std::round(scale * 15.f));
             healthBoxActive.SetPosition(healthBoxLoc.x, healthBoxLoc.y);
             healthBoxActive.SetScale(scale, scale);
