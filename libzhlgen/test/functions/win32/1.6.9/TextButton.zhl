@@ -34,7 +34,7 @@ __thiscall void TextButton::SetTextColor(TextButton *this, GL_Color color);
 __thiscall void TextButton::InitPrimitives(TextButton *this);
 
 
-struct TextButton
+struct TextButton depends (CSurface)
 {{
 public:
 	TextButton()
@@ -45,5 +45,13 @@ public:
 	{
 		__int64 ret = GetSize_DO_NOT_USE_DIRECTLY();
 		return *((Point*)&ret);
+	}
+	
+	~TextButton()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
+		CSurface::GL_DestroyPrimitive(basePrimitive);
 	}
 }};

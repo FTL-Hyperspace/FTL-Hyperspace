@@ -7,6 +7,8 @@
 #include "ShipManager_Extend.h"
 #include "EnemyShipIcons.h"
 
+extern bool useAugmentReq;
+
 struct AugmentSuperShield
 {
     int value = 0;

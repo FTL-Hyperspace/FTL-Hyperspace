@@ -153,7 +153,7 @@ void CustomEventsParser::ReadCustomEventFiles()
         {
             ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e));
         }
-        
+
         delete [] eventText;
     }
 
@@ -181,7 +181,7 @@ void CustomEventsParser::ReadCustomEventFiles()
             {
                 ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e));
             }
-            
+
             delete [] eventText;
         }
     }
@@ -2464,6 +2464,8 @@ int ShipObject::HasItem(const std::string& equip)
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipment) -> int)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+
+    // advancedCheckEquipment is true for actual requirement checks and false for embedded checks such as for slug lifeform detection or clonebay for cloning
     if (advancedCheckEquipment.any())
     {
         if (boost::algorithm::starts_with(equipment, "ANY "))
@@ -2559,6 +2561,27 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
     }
 
     return super(equipment);
+}
+
+HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -1000, (const std::string& equipment) -> int)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+
+    int ret = super(equipment);
+
+    if (advancedCheckEquipment.any()) // avoids clobbering any embedded equipment checks
+    {
+        // HAS_EQUIPMENT(ShipManager, equipment, retValue)
+        auto context = G_->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), G_->GetShipManager(this->iShipId), context->getLibScript()->types.pShipManager, 0);
+        lua_pushstring(context->GetLua(), equipment.c_str());
+        lua_pushinteger(context->GetLua(), ret);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::HAS_EQUIPMENT, 3, 1);
+        if (lua_isinteger(context->GetLua(), -1)) ret = lua_tointeger(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 3);
+    }
+
+    return ret;
 }
 
 int ShipObject::HS_HasEquipment(const std::string& equip)

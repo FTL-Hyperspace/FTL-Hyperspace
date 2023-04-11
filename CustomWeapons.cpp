@@ -286,7 +286,7 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Fire -> Begin (CustomWeapons.cpp)\n")
-    if (blueprint->type==2 && blueprint->length==1)
+    if (blueprint->type==2 && blueprint->length<=1)
     {
         Pointf second;
         Point grid;
