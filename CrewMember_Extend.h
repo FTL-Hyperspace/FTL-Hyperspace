@@ -153,7 +153,7 @@ public:
     template <class T> static PowerReadyState PowerReqStatic(const T *power, const ActivatedPowerRequirements *req); // ugly
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
     PowerReadyState PowerReady();
-    Damage* GetPowerDamage();
+    Damage GetPowerDamage();
     void ActivateTemporaryPower();
     void TemporaryPowerFinished();
     void PrepareAnimation();

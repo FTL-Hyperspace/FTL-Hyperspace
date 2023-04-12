@@ -343,28 +343,15 @@ PowerReadyState ActivatedPower::PowerReady()
     return ret;
 }
 
-Damage* ActivatedPower::GetPowerDamage()
+Damage ActivatedPower::GetPowerDamage()
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    Damage* damage = new Damage;
+    Damage damage = def->damage;
 
-    Damage* newDamage = &(def->damage);
-
-    damage->iDamage = newDamage->iDamage;
-    damage->fireChance = newDamage->fireChance;
-    damage->breachChance = newDamage->breachChance;
-    damage->stunChance = newDamage->stunChance;
-    damage->iIonDamage = newDamage->iIonDamage;
-    damage->iSystemDamage = newDamage->iSystemDamage;
-    damage->iPersDamage = newDamage->iPersDamage;
-    damage->bHullBuster = newDamage->bHullBuster;
-    damage->ownerId = crew->GetPowerOwner();
-    damage->selfId = crew_ex->selfId;
-    damage->bLockdown = false;
-    damage->crystalShard = newDamage->crystalShard;
-    damage->bFriendlyFire = newDamage->bFriendlyFire;
-    damage->iStun = newDamage->iStun;
+    damage.ownerId = crew->GetPowerOwner();
+    damage.selfId = crew_ex->selfId;
+    damage.bLockdown = false;
 
     return damage;
 }
