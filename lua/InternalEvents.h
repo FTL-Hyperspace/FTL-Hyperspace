@@ -79,6 +79,11 @@ struct InternalEvents
         // function power_tooltip(ActivatedPower& power, PowerReadyState state) return tooltip, skipAppend
         POWER_TOOLTIP,
 
+        // function generator_create_ship(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain, sector, event, bp, ret
+        GENERATOR_CREATE_SHIP,
+        // function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain
+        GENERATOR_CREATE_SHIP_POST,
+
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 
         /*
