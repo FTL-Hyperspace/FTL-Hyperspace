@@ -658,6 +658,13 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, GetProjectile, -1000, () -> Projectile*)
         CustomWeaponManager::ProcessMiniProjectile(ret, blueprint, boostLevel);
     }
 
+    // Callback with Projectile and ProjectileFactory
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), ret, context->getLibScript()->types.pProjectile[ret->GetType()], 0);
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_FIRE, 2, 0);
+    lua_pop(context->GetLua(), 2);
+
     return ret;
 }
 

@@ -30,6 +30,10 @@ struct InternalEvents
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
 
+        // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
+        PROJECTILE_INITIALIZE,
+        // function projectile_initialize(Projectile& projectile, ProjectileFactory &weapon)
+        PROJECTILE_FIRE,
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
         // function projectile_post(Projectile& projectile, bool preempted) return Chain
