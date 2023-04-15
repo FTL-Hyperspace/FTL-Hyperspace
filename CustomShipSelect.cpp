@@ -2907,15 +2907,91 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
     super();
 }
 
+HOOK_METHOD(MenuScreen, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::Open -> Begin (CustomShipSelect.cpp)\n")
+
+    super();
+
+    if (G_->GetWorld()->playerShip)
+    {
+        ShipManager *ship = G_->GetWorld()->playerShip->shipManager;
+        ShipManager_Extend *ex = SM_EX(ship);
+        if (ex->isNewShip)
+        {
+            auto customSel = CustomShipSelect::GetInstance();
+            std::pair<int,int> shipId = customSel->GetShipIdAndVariantFromName(ship->myBlueprint.blueprintName);
+
+            if (shipId.first >= 0)
+            {
+                if (!customSel->dummyAchievement)
+                {
+                    customSel->dummyAchievement = new CAchievement();
+                    customSel->dummyAchievement->gap_ex_custom = -127;
+                }
+
+                ShipButtonDefinition &buttonDef = customSel->GetShipButtonDefinition(shipId.first);
+
+                shipAchievements.clear();
+
+                std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(shipId.first+100, shipId.second, false);
+                int maxCount = std::min(int(customShipAchievements.size()),3);
+                for (auto i=0; i<maxCount; ++i)
+                {
+                    shipAchievements.push_back({customShipAchievements[i], Point(742.5 - 30.5*maxCount + 71*i, 362), 64});
+                }
+                for (auto i=maxCount; i<3; ++i) // need to insert dummies so that the victory and quest achievements render correctly
+                {
+                    shipAchievements.push_back({customSel->dummyAchievement, Point(-2147483647, -2147483647), 0});
+                }
+
+                CAchievement *ach = nullptr;
+                if (buttonDef.splitVictoryAchievement)
+                {
+                    ach = CustomShipUnlocks::instance->GetVictoryAchievement(ship->myBlueprint.blueprintName);
+                }
+                else
+                {
+                    ach = CustomShipUnlocks::instance->GetVictoryAchievement(buttonDef.name);
+                }
+                if (ach) shipAchievements.push_back({ach, Point(859, 396), 32});
+
+                ach = nullptr;
+                if (buttonDef.splitUnlockQuestAchievement)
+                {
+                    if (CustomShipUnlocks::instance->CustomShipHasUnlockQuest(ship->myBlueprint.blueprintName))
+                    {
+                        ach = CustomShipUnlocks::instance->GetQuestAchievement(ship->myBlueprint.blueprintName);
+                    }
+                }
+                else
+                {
+                    if (CustomShipUnlocks::instance->CustomShipHasUnlockQuestAnyLayout(buttonDef.name))
+                    {
+                        ach = CustomShipUnlocks::instance->GetQuestAchievement(buttonDef.name);
+                    }
+                }
+                if (ach) shipAchievements.push_back({ach, Point(859, 362), 32});
+            }
+        }
+    }
+}
 
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (G_->GetWorld()->playerShip)
     {
-        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip)
+        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip || CustomShipSelect::GetInstance()->showShipAchievements || CustomShipSelect::GetInstance()->shipAchievementsToggle)
         {
             super();
+
+            if (shipAchievements.empty() || shipAchievements[0].dimension != 64)
+            {
+                //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
+                CSurface::GL_SetColor(COLOR_BUTTON_ON);
+                freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+            }
 
             if (!bShowControls && !G_->GetTutorialManager()->Running())
             {
