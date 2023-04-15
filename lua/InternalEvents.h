@@ -22,6 +22,8 @@ struct InternalEvents
         ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+        // function ship_loop(ShipManager& ship)
+        SHIP_LOOP,
 
         // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
         HAS_EQUIPMENT,

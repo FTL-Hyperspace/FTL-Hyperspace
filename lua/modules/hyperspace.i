@@ -763,7 +763,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::fuel_count;
 //%immutable ShipManager::hostile_ship;
 //%rename("%s") ShipManager::hostile_ship;
-//%rename("%s") ShipManager::bDestroyed;
+%immutable ShipManager::bDestroyed;
+%rename("%s") ShipManager::bDestroyed;
 %immutable ShipManager::iLastDamage;
 %rename("%s") ShipManager::iLastDamage;
 //%rename("%s") ShipManager::damMessages;
@@ -811,6 +812,8 @@ playerVariableType playerVariables;
 //%immutable ShipManager::fireExtinguishers;
 //%rename("%s") ShipManager::fireExtinguishers;
 //%rename("%s") ShipManager::bWasSafe;
+%immutable ShipManager::_targetable;
+%rename("%s") ShipManager::_targetable;
 
 %immutable ShipManager::extend;
 %rename("%s") ShipManager::extend;
@@ -1041,6 +1044,7 @@ playerVariableType playerVariables;
 //%rename("%s") ShipSystem::GetWeaponInfo; // New object needs cleanup?
 //%rename("%s") ShipSystem::GetOverrideTooltip; // New object needs cleanup?
 %rename("%s") ShipSystem::CheckMaxPower;
+%rename("%s") ShipSystem::CheckForRepower;
 %rename("%s") ShipSystem::SetBonusPower;
 %rename("%s") ShipSystem::AddDamage;
 %rename("%s") ShipSystem::ForceDecreasePower;
@@ -1141,6 +1145,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend;
+%rename("%s") ShipSystem_Extend::additionalPowerLoss;
 
 %nodefaultctors ProjectileFactory;
 %nodefaultdtors ProjectileFactory;
@@ -1335,6 +1340,10 @@ playerVariableType playerVariables;
 %nodefaultctor Room;
 %nodefaultdtor Room;
 %rename("%s") Room;
+
+%rename("%s") Room::bBlackedOut;
+%immutable Room::rect;
+%rename("%s") Room::rect;
 
 %immutable Room::extend;
 %rename("%s") Room::extend;
