@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "ToggleValue.h"
 #include "Room_Extend.h"
+#include "CustomAchievements.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -38,6 +39,9 @@ struct ShipButtonDefinition
     bool splitVictoryAchievement = false;
 
     std::vector<CustomUnlockArrow> unlockArrows;
+
+    std::array<std::vector<CustomAchievement*>,3> shipAchievements;
+    TextString shipAchievementHeading;
 
     bool VariantExists(int variant)
     {
@@ -152,6 +156,10 @@ public:
     {
 
     }
+
+    static std::array<std::string, 10> vanillaShipNames;
+    static std::array<int, 10> vanillaShipOrder;
+    CAchievement *dummyAchievement = nullptr;
 
     static std::string GetVariantName(const std::string& name, int variant = 0)
     {
@@ -350,6 +358,10 @@ public:
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
+
+    bool showShipAchievements = false;
+    bool shipAchievementsToggle = false;
+    std::string shipAchievementsTitle = "hangar_achievements_title_default";
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
     std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();

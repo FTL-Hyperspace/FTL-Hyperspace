@@ -1332,6 +1332,8 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
     LOG_HOOK("HOOK_METHOD -> CAchievement::OnRender -> Begin (ShipUnlocks.cpp)\n")
     if (gap_ex_custom)
     {
+        if (gap_ex_custom == -127) return; // dummy achievement, don't render
+
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(pos.x, pos.y, 0.f);
 
@@ -1376,7 +1378,7 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
             CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
         }
 
-        if (unlocked && (gap_ex_custom&1))
+        if (unlocked && (gap_ex_custom&1)) // last bit signals whether the achievement is tracked for each layout
         {
             CSurface::GL_PushMatrix();
 
@@ -1527,7 +1529,7 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
 HOOK_METHOD(AchievementTracker, SetTooltip, (CAchievement *ach) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetTooltip -> Begin (ShipUnlocks.cpp)\n")
-    if (ach->gap_ex_custom)
+    if (ach->gap_ex_custom) // if this is zero it's a vanilla achievement
     {
         G_->GetMouseControl()->SetTooltipTitle(ach->name.GetText());
 
@@ -1536,7 +1538,7 @@ HOOK_METHOD(AchievementTracker, SetTooltip, (CAchievement *ach) -> void)
         if (ach->unlocked && ach->multiDifficulty)
         {
             tooltip += "\n";
-            if (ach->gap_ex_custom&1)
+            if (ach->gap_ex_custom&1) // last bit signals whether the achievement is tracked for each layout
             {
                 for (int i=0; i<3; ++i)
                 {

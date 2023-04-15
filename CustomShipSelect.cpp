@@ -6,12 +6,29 @@
 #include "ShipUnlocks.h"
 #include "EnemyShipIcons.h"
 #include "Resources.h"
+#include "CustomColors.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
+std::array<std::string, 10> CustomShipSelect::vanillaShipNames =
+{
+    "PLAYER_SHIP_HARD",
+    "PLAYER_SHIP_STEALTH",
+    "PLAYER_SHIP_MANTIS",
+    "PLAYER_SHIP_CIRCLE",
+    "PLAYER_SHIP_FED",
+    "PLAYER_SHIP_JELLY",
+    "PLAYER_SHIP_ROCK",
+    "PLAYER_SHIP_ENERGY",
+    "PLAYER_SHIP_CRYSTAL",
+    "PLAYER_SHIP_ANAEROBIC",
+};
+
+std::array<int, 10> CustomShipSelect::vanillaShipOrder = {0, 3, 4, 7, 2, 5, 6, 1, 9, 8};
 
 void CustomShipSelect::EarlyParseShipsNode(rapidxml::xml_node<char> *node)
 {
@@ -137,6 +154,39 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                         if (strcmp(shipChild->name(), "splitVictoryAchievement") == 0)
                         {
                             buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(shipChild->value());
+                        }
+
+                        if (strcmp(shipChild->name(), "achievement") == 0) // ship achievement
+                        {
+                            CustomAchievement &sAch = CustomAchievementTracker::instance->ParseShipAchievement(shipChild, shipName);
+
+                            if (shipChild->first_attribute("variant"))
+                            {
+                                if (strcmp(shipChild->first_attribute("variant")->value(), "a") == 0)
+                                {
+                                    buttonDef.shipAchievements[0].push_back(&sAch);
+                                }
+                                else if (strcmp(shipChild->first_attribute("variant")->value(), "b") == 0)
+                                {
+                                    buttonDef.shipAchievements[1].push_back(&sAch);
+                                }
+                                else if (strcmp(shipChild->first_attribute("variant")->value(), "c") == 0)
+                                {
+                                    buttonDef.shipAchievements[2].push_back(&sAch);
+                                }
+                                else if (strcmp(shipChild->first_attribute("variant")->value(), "all") == 0)
+                                {
+                                    buttonDef.shipAchievements[0].push_back(&sAch);
+                                    buttonDef.shipAchievements[1].push_back(&sAch);
+                                    buttonDef.shipAchievements[2].push_back(&sAch);
+                                }
+                            }
+                            else
+                            {
+                                buttonDef.shipAchievements[0].push_back(&sAch);
+                                buttonDef.shipAchievements[1].push_back(&sAch);
+                                buttonDef.shipAchievements[2].push_back(&sAch);
+                            }
                         }
 
                         if (strcmp(shipChild->name(), "unlock") == 0)
@@ -689,6 +739,12 @@ void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 {
+    if (!dummyAchievement)
+    {
+        dummyAchievement = new CAchievement();
+        dummyAchievement->gap_ex_custom = -127;
+    }
+
     if (!initialized)
     {
         auto toAdd = std::vector<std::string>();
@@ -941,6 +997,44 @@ void CustomShipSelect::UpdateFilteredAchievements()
     }
     if (victoryTypes.size() > 3) victoryTypes.resize(3);
 
+    int counter = 0;
+    for (ShipButton *button : shipSelect->shipButtons) // vanilla buttons
+    {
+        std::string shipName = vanillaShipNames[vanillaShipOrder[counter%10]];
+
+        if (victoryTypes.empty())
+        {
+            std::vector<CAchievement*> shipAchievements = G_->GetAchievementTracker()->GetShipAchievements(shipName);
+            for (auto i=0; i<3; ++i)
+            {
+                button->achievements[i] = shipAchievements[i];
+            }
+        }
+        else
+        {
+            for (auto i=0; i<3; ++i)
+            {
+                CAchievement *ach = dummyAchievement; // because nullptr will crash
+
+                if (i < victoryTypes.size())
+                {
+                    ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(shipName);
+                }
+
+                if (button->achievements.size() > i)
+                {
+                    button->achievements[i] = ach;
+                }
+                else
+                {
+                    button->achievements.push_back(ach);
+                }
+            }
+        }
+
+        counter = counter + 1;
+    }
+
     for (auto x : shipButtons)
     {
         std::string shipName = GetShipBlueprint(x->GetId());
@@ -960,31 +1054,56 @@ void CustomShipSelect::UpdateFilteredAchievements()
             {
                 std::string finalName = GetVariantName(shipName, variant);
 
-                for (auto i=0; i<3; ++i)
+                if (victoryTypes.empty())
                 {
-                    CAchievement *ach = nullptr;
-
-                    if (i < victoryTypes.size())
+                    std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(shipName, variant, false);
+                    for (auto i=0; i<3; ++i)
                     {
-                        CustomVictoryAchievement &victoryAch = CustomShipUnlocks::instance->customVictories[victoryTypes[i]];
-
-                        if (buttonDef.splitVictoryAchievement)
+                        CAchievement *ach = nullptr;
+                        if (i < buttonDef.shipAchievements[variant].size())
                         {
-                            ach = victoryAch.GetVictoryAchievement(finalName);
+                           ach = customShipAchievements[i];
+                           ach->miniIcon.SetImagePath(boost::str(boost::format("achievements/S_%1d_on.png") % (i+1)));
+                           ach->miniIconLocked.SetImagePath(boost::str(boost::format("achievements/S_%1d_off.png") % (i+1)));
+                        }
+                        if (button->achievements.size() > i)
+                        {
+                            button->achievements[i] = ach;
                         }
                         else
                         {
-                            ach = victoryAch.GetVictoryAchievement(shipName);
+                            button->achievements.push_back(ach);
                         }
                     }
+                }
+                else
+                {
+                    for (auto i=0; i<3; ++i)
+                    {
+                        CAchievement *ach = nullptr;
 
-                    if (button->achievements.size() > i)
-                    {
-                        button->achievements[i] = ach;
-                    }
-                    else
-                    {
-                        button->achievements.push_back(ach);
+                        if (i < victoryTypes.size())
+                        {
+                            CustomVictoryAchievement &victoryAch = CustomShipUnlocks::instance->customVictories[victoryTypes[i]];
+
+                            if (buttonDef.splitVictoryAchievement)
+                            {
+                                ach = victoryAch.GetVictoryAchievement(finalName);
+                            }
+                            else
+                            {
+                                ach = victoryAch.GetVictoryAchievement(shipName);
+                            }
+                        }
+
+                        if (button->achievements.size() > i)
+                        {
+                            button->achievements[i] = ach;
+                        }
+                        else
+                        {
+                            button->achievements.push_back(ach);
+                        }
                     }
                 }
             }
@@ -1535,9 +1654,15 @@ void CustomShipSelect::MouseMove(int x, int y)
 
 std::string CustomShipSelect::GetShipBlueprint(int shipId)
 {
-    int customIndex = shipId - 100;
-
-    return shipButtonDefs[customIndex].name;
+    if (shipId >= 100)
+    {
+        int customIndex = shipId - 100;
+        return shipButtonDefs[customIndex].name;
+    }
+    else
+    {
+        return vanillaShipNames[shipId];
+    }
 }
 
 
@@ -1876,7 +2001,7 @@ HOOK_METHOD_PRIORITY(ShipButton, MouseMove, 9999, (int x, int y) -> void)
             {
                 if (x > b_x && x < b_x + 32)
                 {
-                    if (achievements[i])
+                    if (achievements[i] && achievements[i] != CustomShipSelect::GetInstance()->dummyAchievement)
                     {
                         G_->GetAchievementTracker()->SetTooltip(achievements[i]);
                         iSelectedAch = i;
@@ -1978,6 +2103,15 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
         customSel->SwitchShip(this, customSel->GetSelectedId(), shipSelect.currentType, true);
         customSel->ClearSelection();
+    }
+    else
+    {
+        if (customSel->shipAchievementsToggle && x > 244 && x < 276 && y > 438 && y < 470) // victory icon
+        {
+            customSel->showShipAchievements = !customSel->showShipAchievements;
+
+            G_->GetSoundControl()->PlaySoundMix(customSel->showShipAchievements ? "powerDownSystem" : "powerUpSystem", -1.f, false);
+        }
     }
 }
 
@@ -2141,6 +2275,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnRender -> Begin (CustomShipSelect.cpp)\n")
     bool isVanillaShip = currentShipId < 100;
 
+    auto customSel = CustomShipSelect::GetInstance();
+
     if (Global::forceDlc)
     {
         advancedOffButton.bActive = false;
@@ -2192,7 +2328,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         }
         else
         {
-            auto customSel = CustomShipSelect::GetInstance();
             ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
             dlcLocked = def->VariantNeedsDlc(currentType);
         }
@@ -2248,7 +2383,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     // Render texts
 
-    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+    CSurface::GL_SetColor(g_defaultTextButtonColors[3]); // color used for text overlays
 
     TextLibrary* lib = G_->GetTextLibrary();
 
@@ -2260,14 +2395,34 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     freetype::easy_print(62, 388, 599, lib->GetText("equipment_frame_drones"));
     freetype::easy_print(62, 954, 489, lib->GetText("equipment_frame_augments"));
 
-    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+    CSurface::GL_SetColor(g_defaultTextButtonColors[1]); // color used for achievement title
 
-    if (isVanillaShip)
+    if (customSel->showShipAchievements)
     {
-        freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title"));
+        if (isVanillaShip)
+        {
+            // Vanilla achievement heading
+            freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title"));
+        }
+        else
+        {
+            ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
+
+            if (def->shipAchievementHeading.data.empty())
+            {
+                // Default custom achievement heading
+                freetype::easy_printCenter(13, 124, 374, lib->GetText(customSel->shipAchievementsTitle));
+            }
+            else
+            {
+                // Ship specific custom achievement heading
+                freetype::easy_printCenter(13, 124, 374, def->shipAchievementHeading.GetText());
+            }
+        }
     }
     else
     {
+        // Ship victory heading
         freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title_custom"));
     }
 
@@ -2386,6 +2541,10 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(COLOR_WHITE);
 
+    // Do victory/quest achievements and regular ship achievements
+
+    ShipButtonDefinition *shipButtonDef = nullptr;
+    std::string finalName;
 
     if (isVanillaShip)
     {
@@ -2393,16 +2552,24 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         for (auto &ach: shipAchievements)
         {
             Point pos(ach.position.x, ach.position.y);
-            ach.achievement->OnRender(pos, selectedAch == counter, 1);
+
+            if (counter >= 3)
+            {
+                ach.achievement->OnRender(pos, selectedAch == counter ? 2 : 3, 1);
+            }
+            else if (customSel->showShipAchievements)
+            {
+                ach.achievement->OnRender(pos, selectedAch == counter, 1);
+            }
+
             counter++;
         }
     }
     else
     {
-        auto customSel = CustomShipSelect::GetInstance();
-        ShipButtonDefinition *shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
+        shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
 
-        std::string finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
+        finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
 
         CAchievement *ach = nullptr;
         if (shipButtonDef->splitVictoryAchievement)
@@ -2416,7 +2583,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         if (ach)
         {
-            ach->OnRender(Point(244, 438), selectedAch == -2 ? 2 : 3, 1);
+            ach->OnRender(Point(244, 438), selectedAch == 3 ? 2 : 3, 1);
         }
 
         ach = nullptr;
@@ -2437,9 +2604,35 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         if (ach)
         {
-            ach->OnRender(Point(244, 404), selectedAch == -3 ? 2 : 3, 1);
+            ach->OnRender(Point(244, 404), selectedAch == 4 ? 2 : 3, 1);
         }
 
+        if (customSel->showShipAchievements)
+        {
+            std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(currentShipId, currentType, false);
+            int counter = 0;
+            int maxCounter = customShipAchievements.size()<3 ? customShipAchievements.size() : 3;
+
+            if (maxCounter > 0)
+            {
+                for (CAchievement* ach: customShipAchievements)
+                {
+                    ach->OnRender(Point(126 - 35*maxCounter + 70*counter, 404), selectedAch == counter, 1);
+                    if (++counter >= maxCounter) break;
+                }
+            }
+            else
+            {
+                CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
+                freetype::easy_printCenter(13, 124, 429, lib->GetText("hangar_no_ship_achievements"));
+            }
+        }
+    }
+
+    // Do individual victory achievements
+
+    if (!customSel->showShipAchievements)
+    {
         std::vector<std::string> victoryTypes;
         for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
         {
@@ -2453,7 +2646,13 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         int max_b = victoryTypes.size()/6;
         for (int i=0; i<victoryTypes.size(); ++i)
         {
-            if (shipButtonDef->splitVictoryAchievement)
+            CAchievement *ach = nullptr;
+
+            if (!shipButtonDef)
+            {
+                ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(customSel->GetShipBlueprint(currentShipId));
+            }
+            else if (shipButtonDef->splitVictoryAchievement)
             {
                 ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(finalName);
             }
@@ -2465,7 +2664,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             int a = i%6;
             int b = i/6;
 
-            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == i ? 2 : 3, 1);
+            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == -i-2 ? 2 : 3, 1);
         }
     }
 
@@ -2523,12 +2722,16 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
     if (introScreen.bOpen) return;
     if (shipSelect.bOpen) return;
 
+    auto customSel = CustomShipSelect::GetInstance();
+
+    ShipButtonDefinition *shipButtonDef = nullptr;
+    std::string finalName;
+
     if (currentShipId >= 100)
     {
-        auto customSel = CustomShipSelect::GetInstance();
-        ShipButtonDefinition *shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
+        shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
 
-        std::string finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
+        finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
 
         if (x > 244 && x < 276)
         {
@@ -2554,7 +2757,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
                 if (ach)
                 {
                     G_->GetAchievementTracker()->SetTooltip(ach);
-                    selectedAch = -3;
+                    selectedAch = 4;
                 }
             }
             else if (y > 438 && y < 470)
@@ -2573,45 +2776,78 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
                 if (ach)
                 {
                     G_->GetAchievementTracker()->SetTooltip(ach);
-                    selectedAch = -2;
+                    selectedAch = 3;
                 }
             }
         }
-        else
+        else if (customSel->showShipAchievements)
         {
-            std::vector<std::string> victoryTypes;
-            for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
+            std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(currentShipId, currentType, false);
+            int counter = 0;
+            int maxCounter = customShipAchievements.size()<3 ? customShipAchievements.size() : 3;
+
+            for (CAchievement* ach: customShipAchievements)
             {
-                if (!CustomShipUnlocks::instance->customVictories[i].secret || !CustomShipUnlocks::instance->customVictories[i].SecretLocked())
-                {
-                    victoryTypes.push_back(i);
-                }
-            }
+                Point pos(126 - 35*maxCounter + 70*counter, 404);
 
-            int max_a = victoryTypes.size()%6;
-            int max_b = victoryTypes.size()/6;
-            for (int i=0; i<victoryTypes.size(); ++i)
-            {
-                CAchievement *ach;
-                if (shipButtonDef->splitVictoryAchievement)
-                {
-                    ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(finalName);
-                }
-                else
-                {
-                    ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(shipButtonDef->name);
-                }
-
-                int a = i%6;
-                int b = i/6;
-
-                Point pos(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b);
-
-                if (x > pos.x && x < pos.x+32 && y > pos.y && y < pos.y+32)
+                if (x > pos.x && x < pos.x+64 && y > pos.y && y < pos.y+64)
                 {
                     G_->GetAchievementTracker()->SetTooltip(ach);
-                    selectedAch = i;
+                    selectedAch = counter;
                 }
+
+                if (++counter >= maxCounter) break;
+            }
+        }
+    }
+
+    if (!customSel->showShipAchievements)
+    {
+        // deselect ship achievements
+        if (selectedAch >= 0 && selectedAch < 3)
+        {
+            G_->GetMouseControl()->tooltip = "";
+            G_->GetMouseControl()->tooltipTitle = "";
+            selectedAch = -1;
+        }
+
+        std::vector<std::string> victoryTypes;
+        for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
+        {
+            if (!CustomShipUnlocks::instance->customVictories[i].secret || !CustomShipUnlocks::instance->customVictories[i].SecretLocked())
+            {
+                victoryTypes.push_back(i);
+            }
+        }
+
+        int max_a = victoryTypes.size()%6;
+        int max_b = victoryTypes.size()/6;
+        for (int i=0; i<victoryTypes.size(); ++i)
+        {
+            CAchievement *ach;
+
+            if (!shipButtonDef)
+            {
+                ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(customSel->GetShipBlueprint(currentShipId));
+            }
+            else if (shipButtonDef->splitVictoryAchievement)
+            {
+                ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(finalName);
+            }
+            else
+            {
+                ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(shipButtonDef->name);
+            }
+
+            int a = i%6;
+            int b = i/6;
+
+            Point pos(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b);
+
+            if (x > pos.x && x < pos.x+32 && y > pos.y && y < pos.y+32)
+            {
+                G_->GetAchievementTracker()->SetTooltip(ach);
+                selectedAch = -i-2;
             }
         }
     }

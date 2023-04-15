@@ -257,6 +257,13 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <forceDlc enabled="false"/>
 
+<!-- Show ship achievements on menu for custom ships instead of custom victories -->
+<!-- Set toggle = true to be able to toggle between ship achievements and victories -->
+
+<showShipAchievements enabled="true" toggle="false" id="hangar_achievements_title_default"/>
+
+<!-- Enable seeded runs -->
+
 <seeds enabled="true"/>
 
 <!-- Enables command console in game - press \ to use
@@ -491,6 +498,10 @@ Syntax ->
 			</victories>
 			<silent/>
         </unlock>
+		
+		<achievement name="ACH_ID" load="ACH_ID" layout="all"> (Use either "name" or "load", "load" can be used to recycle achievement over multiple ships; names must be unique, layout can be a/b/c/all)
+			...                                                (Same properties as global achievements.)
+		</achievement>
     </ship>
 	
 	<customShip name="PLAYER_SHIP_CUSTOM_2">

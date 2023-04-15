@@ -203,7 +203,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
     {
         ErrorMessage(e);
     }
-    
+
     delete [] hyperspacetext;
 }
 
@@ -537,6 +537,23 @@ void Global::InitializeResources(ResourceControl *resources)
                 else if (strcmp(node->name(), "KEEP_INDICES") == 0)
                 {
                     g_transformColorMode = TransformColorMode::KEEP_INDICES;
+                }
+            }
+
+            if (strcmp(node->name(), "showShipAchievements") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                if (node->first_attribute("enabled"))
+                {
+                    customShipManager->showShipAchievements = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("toggle"))
+                {
+                    customShipManager->shipAchievementsToggle = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("id"))
+                {
+                    customShipManager->shipAchievementsTitle = node->first_attribute("id")->value();
                 }
             }
 
