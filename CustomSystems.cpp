@@ -679,7 +679,7 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
                 CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
                 CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
             }
-            if (iSystemType == 0 && i+1<powerState.second && i&1 != 0) // shields power bar gap
+            if (iSystemType == 0 && i+1<powerState.second && (i&1) != 0) // shields power bar gap
             {
                 CSurface::GL_Translate(0.f, -gap*2, 0.f);
             }
@@ -774,7 +774,7 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
             }
         }
 
-        if (iSystemType == 0 && i+1<powerState.second && i&1 != 0) // shields power bar gap
+        if (iSystemType == 0 && i+1<powerState.second && (i&1) != 0) // shields power bar gap
         {
             y_01 -= gap*2;
         }
