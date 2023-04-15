@@ -653,17 +653,20 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, GetProjectile, -1000, () -> Projectile*)
 
     Projectile* ret = super();
 
-    if (ret && blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+    if (ret)
     {
-        CustomWeaponManager::ProcessMiniProjectile(ret, blueprint, boostLevel);
-    }
+        if (blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+        {
+            CustomWeaponManager::ProcessMiniProjectile(ret, blueprint, boostLevel);
+        }
 
-    // Callback with Projectile and ProjectileFactory
-    auto context = Global::GetInstance()->getLuaContext();
-    SWIG_NewPointerObj(context->GetLua(), ret, context->getLibScript()->types.pProjectile[ret->GetType()], 0);
-    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
-    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_FIRE, 2, 0);
-    lua_pop(context->GetLua(), 2);
+        // Callback with Projectile and ProjectileFactory
+        auto context = Global::GetInstance()->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), ret, context->getLibScript()->types.pProjectile[ret->GetType()], 0);
+        SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_FIRE, 2, 0);
+        lua_pop(context->GetLua(), 2);
+    }
 
     return ret;
 }
