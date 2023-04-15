@@ -705,7 +705,7 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, 
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::GENERATOR_CREATE_SHIP, 5, 4); // can replace sector, change the ShipEvent or replace the blueprint
 
     // pre-empt won't actually do anything; instead it's based on whether the callback returns a ShipManager or not.
-    if (SWIG_isptrtype(context->GetLua(), -1) && SWIG_IsOK(SWIG_ConvertPtr(context->GetLua(), -1, (void**)&ret, context->getLibScript()->types.pShipManager, SWIG_POINTER_DISOWN)))
+    if (SWIG_isptrtype(context->GetLua(), -1) && SWIG_IsOK(SWIG_ConvertPtr(context->GetLua(), -1, (void**)&ret, context->getLibScript()->types.pShipManager, SWIG_POINTER_DISOWN)) && ret)
     {
         // keep the ShipManager from the lua script
     }
