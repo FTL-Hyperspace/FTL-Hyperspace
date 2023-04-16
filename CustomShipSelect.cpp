@@ -2674,7 +2674,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
 		std::string inputSeed = SeedInputBox::seedInput->GetText();
 
-		if (inputSeed != "")
+		if (inputSeed != "" && !SeedInputBox::seedsAllowUnlocks)
         {
             CSurface::GL_RenderPrimitive(unlocksDisabledPrimitive);
         }
@@ -2992,6 +2992,8 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                 CSurface::GL_SetColor(COLOR_BUTTON_ON);
                 freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
             }
+
+            // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
 
             if (!bShowControls && !G_->GetTutorialManager()->Running())
             {

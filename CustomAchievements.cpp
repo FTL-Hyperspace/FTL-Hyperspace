@@ -1,6 +1,7 @@
 #include "CustomAchievements.h"
 #include "CustomShipSelect.h"
 #include "Resources.h"
+#include "Seeds.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -461,6 +462,8 @@ bool CustomAchievementTracker::CheckShipAchievement(CustomAchievement &ach)
 
 void CustomAchievementTracker::SetAchievement(const std::string &name, bool noPopup)
 {
+    if (!SeedInputBox::seedsAllowAchievements && Global::IsSeededRun()) return;
+
     int oldDiff = GetAchievementStatus(name);
     int newDiff = *Global::difficulty;
 

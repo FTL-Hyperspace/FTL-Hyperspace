@@ -263,8 +263,9 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 <showShipAchievements enabled="true" toggle="false" id="hangar_achievements_title_default"/>
 
 <!-- Enable seeded runs -->
+<!-- Can also control whether unlocks, achievements, or metavariable changes are allowed during a seeded run -->
 
-<seeds enabled="true"/>
+<seeds enabled="true" allowUnlocks="false" allowAchievements="false" allowMetaVars="false"/>
 
 <!-- Enables command console in game - press \ to use
 
@@ -1905,8 +1906,8 @@ Syntax ->
 	
 	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
-	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>            See <variable> below for details. Applied at the start of the run.
-	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>        See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
+	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>                   See <variable> below for details. Applied at the start of the run.
+	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_" force="false"/> See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
 	
 	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
@@ -2075,7 +2076,8 @@ Syntax ->
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
 		                                                                                          The "var" attribute lets you apply a variable or equipment req to another variable, instead of a constant.
 		                                                                                          If "var" and "val" (or min/max) are both given, then they are multiplied together.
-		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"           Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		              force="false"/>                                                             If "force" is true, bypasses conditions that would block setting meta-variables.
 		<tempVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but temporary (only lasts for this event). Used for intermediate calculations.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
 		<allowNoSlot/>                                                                          Allows crew-removal or transform event to pick noSlot crew (default is not allowed unless no other choice).

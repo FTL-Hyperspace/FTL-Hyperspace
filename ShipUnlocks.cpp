@@ -4,6 +4,7 @@
 #include "CustomScoreKeeper.h"
 #include "SaveFile.h"
 #include "Resources.h"
+#include "Seeds.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -336,69 +337,76 @@ void CustomShipUnlocks::Save(int file)
 
 void CustomShipUnlocks::UnlockShip(const std::string& ship, bool silent, bool checkMultiUnlocks, bool isEvent)
 {
-    if (Global::isCustomSeed && G_->GetWorld()->bStartedGame) return;
-    if (!GetCustomShipUnlocked(ship))
+    // unlock the ship
+    if (SeedInputBox::seedsAllowUnlocks || !Global::IsSeededRun())
     {
-        if (!silent && customShipUnlockAchievements.find(ship) != customShipUnlockAchievements.end())
+        if (!GetCustomShipUnlocked(ship))
         {
-            CAchievement* ach = customShipUnlockAchievements[ship];
-            ach->unlocked = true;
+            if (!silent && customShipUnlockAchievements.find(ship) != customShipUnlockAchievements.end())
+            {
+                CAchievement* ach = customShipUnlockAchievements[ship];
+                ach->unlocked = true;
 
-            if (G_->GetSettings()->achPopups) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
-        }
+                if (G_->GetSettings()->achPopups) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+            }
 
-        customUnlockedShips.push_back(ship);
+            customUnlockedShips.push_back(ship);
 
-        if (checkMultiUnlocks)
-        {
-            CheckMultiUnlocks();
+            if (checkMultiUnlocks)
+            {
+                CheckMultiUnlocks();
+            }
         }
     }
 
-    if (isEvent && CheckCustomShipUnlockQuest(ship) < *Global::difficulty)
+    // unlock quest achievements
+    if (SeedInputBox::seedsAllowAchievements || !Global::IsSeededRun())
     {
-        customUnlockQuestShips[ship] = *Global::difficulty;
-        int shipId = CustomShipSelect::GetInstance()->GetShipButtonIdFromName(ship);
-
-        if (shipId != -1)
+        if (isEvent && CheckCustomShipUnlockQuest(ship) < *Global::difficulty)
         {
-            ShipButtonDefinition &buttonDef = CustomShipSelect::GetInstance()->GetShipButtonDefinition(shipId);
-            CAchievement* ach;
+            customUnlockQuestShips[ship] = *Global::difficulty;
+            int shipId = CustomShipSelect::GetInstance()->GetShipButtonIdFromName(ship);
 
-            if (buttonDef.splitUnlockQuestAchievement)
+            if (shipId != -1)
             {
-                ach = GetQuestAchievement(ship);
-                ach->unlocked = true;
-                ach->newAchievement = true;
+                ShipButtonDefinition &buttonDef = CustomShipSelect::GetInstance()->GetShipButtonDefinition(shipId);
+                CAchievement* ach;
 
-                ach->difficulty = *Global::difficulty;
-            }
-            else
-            {
-                ach = GetQuestAchievement(buttonDef.name);
-                ach->unlocked = true;
-                ach->newAchievement = true;
+                if (buttonDef.splitUnlockQuestAchievement)
+                {
+                    ach = GetQuestAchievement(ship);
+                    ach->unlocked = true;
+                    ach->newAchievement = true;
 
-                int layout = 0;
-                if (ship == buttonDef.name + "_2")
-                {
-                    layout = 1;
-                }
-                else if (ship == buttonDef.name + "_3")
-                {
-                    layout = 2;
-                }
-
-                ach->shipDifficulties[layout] = *Global::difficulty;
-                if (!(ach->gap_ex_custom&1))
-                {
                     ach->difficulty = *Global::difficulty;
                 }
-            }
+                else
+                {
+                    ach = GetQuestAchievement(buttonDef.name);
+                    ach->unlocked = true;
+                    ach->newAchievement = true;
 
-            if (!silent && G_->GetSettings()->achPopups)
-            {
-                G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+                    int layout = 0;
+                    if (ship == buttonDef.name + "_2")
+                    {
+                        layout = 1;
+                    }
+                    else if (ship == buttonDef.name + "_3")
+                    {
+                        layout = 2;
+                    }
+
+                    ach->shipDifficulties[layout] = *Global::difficulty;
+                    if (!(ach->gap_ex_custom&1))
+                    {
+                        ach->difficulty = *Global::difficulty;
+                    }
+                }
+
+                if (!silent && G_->GetSettings()->achPopups)
+                {
+                    G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+                }
             }
         }
     }
@@ -637,6 +645,51 @@ void CustomShipUnlocks::CheckMultiVictoryUnlocks()
     }
 }
 
+// this overload checks a specific victory on its own to see if it suffices to unlock something (for when achievements are locked)
+void CustomShipUnlocks::CheckMultiVictoryUnlocks(std::string &victoryShip, std::string &victoryType)
+{
+    for (auto i : customShipUnlocks)
+    {
+        for (auto unlock : i.second)
+        {
+            if (unlock.type == ShipUnlock::UnlockType::VICTORY_CUSTOM)
+            {
+                if (unlock.otherRequiredShips.size() > 1) continue; // skip any check with more than one condition
+
+                bool shouldUnlock = true;
+
+                for (auto shipCheck : unlock.otherRequiredShips)
+                {
+                    std::vector<std::string> s = std::vector<std::string>();
+                    boost::split(s, shipCheck, boost::is_any_of(" "));
+
+                    if (s.size() >= 2)
+                    {
+                        if (s[0] != victoryShip || s[1] != victoryType)
+                        {
+                            shouldUnlock = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (shipCheck != victoryShip)
+                        {
+                            shouldUnlock = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (shouldUnlock)
+                {
+                    UnlockShip(i.first, unlock.silent, false);
+                }
+            }
+        }
+    }
+}
+
 void CustomShipUnlocks::CheckSectorUnlocks(const std::string& currentShip, int sector)
 {
     for (auto i : customShipUnlocks)
@@ -829,22 +882,33 @@ HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetVictoryAchievement -> Begin (ShipUnlocks.cpp)\n")
-    super();
 
+    bool achievementsOk = SeedInputBox::seedsAllowAchievements || !Global::IsSeededRun();
+
+    // Award normal victory achievement
+    if (achievementsOk) super();
     hs_log_file("Victory achieved: %s as %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str(), currentShip.c_str());
-
     if (CustomShipUnlocks::instance->setCustomVictoryType == "flagship")
     {
         CustomShipUnlocks::instance->CheckBasicUnlock(currentShip, ShipUnlock::UnlockType::DEFEAT_FLAGSHIP);
     }
 
-    CustomShipUnlocks::instance->SetVictoryAchievement(currentShip);
-    if (!CustomShipUnlocks::instance->setCustomVictoryType.empty())
+    // Award specific victory achievement
+    if (achievementsOk)
     {
-        CustomShipUnlocks::instance->SetVictoryAchievement(currentShip, CustomShipUnlocks::instance->setCustomVictoryType);
+        CustomShipUnlocks::instance->SetVictoryAchievement(currentShip);
+        if (!CustomShipUnlocks::instance->setCustomVictoryType.empty())
+        {
+            CustomShipUnlocks::instance->SetVictoryAchievement(currentShip, CustomShipUnlocks::instance->setCustomVictoryType);
+        }
+    }
+    else // If achievements are locked then a single specific ending unlock should still work
+    {
+        CustomShipUnlocks::instance->CheckMultiVictoryUnlocks(currentShip, CustomShipUnlocks::instance->setCustomVictoryType);
     }
 
     CustomShipUnlocks::instance->setCustomVictoryType = "flagship";
+
     hs_log_file("Reset custom victory type: %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str());
 }
 
@@ -1052,6 +1116,8 @@ void CustomShipUnlocks::SetupVictoryAchievementText(CAchievement* ach)
 
 void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship)
 {
+    if (!SeedInputBox::seedsAllowAchievements && Global::IsSeededRun()) return;
+
     auto customSel = CustomShipSelect::GetInstance();
     if (customSel->IsCustomShip(ship) && CheckCustomShipVictory(ship) < *Global::difficulty)
     {

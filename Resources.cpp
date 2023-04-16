@@ -637,6 +637,18 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
                 }
+                if (node->first_attribute("allowUnlocks"))
+                {
+                    SeedInputBox::seedsAllowUnlocks = EventsParser::ParseBoolean(node->first_attribute("allowUnlocks")->value());
+                }
+                if (node->first_attribute("allowAchievements"))
+                {
+                    SeedInputBox::seedsAllowAchievements = EventsParser::ParseBoolean(node->first_attribute("allowAchievements")->value());
+                }
+                if (node->first_attribute("allowMetaVars"))
+                {
+                    SeedInputBox::seedsAllowMetaVars = EventsParser::ParseBoolean(node->first_attribute("allowMetaVars")->value());
+                }
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {

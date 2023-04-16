@@ -187,6 +187,8 @@ public:
     CApp* GetCApp();
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
+
+    static bool IsSeededRun();
 };
 
 void ErrorMessage(const char* msg);
