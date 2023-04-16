@@ -2634,6 +2634,11 @@ playerVariableType playerVariables;
 %rename("%s") Pointf;
 %rename("%(regex:/^Pointf::(.*)$/\\1/)s", regextarget=1, fullname=1) "Pointf::.*";
 
+%rename("%s") TextString;
+%rename("%s") TextString::GetText;
+%rename("%s") TextString::data;
+%rename("%s") TextString::isLiteral;
+
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.
     To avoid having to change codeblocks compiler settings (that don't save/share between our installs) we're going to just try to use the
