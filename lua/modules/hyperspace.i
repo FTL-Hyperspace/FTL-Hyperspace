@@ -312,7 +312,11 @@ playerVariableType playerVariables;
 
 %nodefaultctor CustomAchievementTracker;
 %rename("%s") CustomAchievementTracker;
+%immutable CustomAchievementTracker::instance;
+%rename("%s") CustomAchievementTracker::instance;
 %rename("%s") CustomAchievementTracker::UpdateVariableAchievements;
+%rename("%s") CustomAchievementTracker::GetAchievementStatus;
+%rename("%s") CustomAchievementTracker::SetAchievement; // used to award achievements (CheckShipAchievement is automatically called if needed)
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
