@@ -590,6 +590,8 @@ struct VariableModifier
     int maxVal = 0;
     std::string var = "";
 
+    bool force = false;
+
     void ParseVariableModifierNode(rapidxml::xml_node<char> *node);
     static void ApplyVariables(std::vector<VariableModifier> &variables, ShipManager *ship);
 };

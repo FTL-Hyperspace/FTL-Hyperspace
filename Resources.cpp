@@ -203,7 +203,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
     {
         ErrorMessage(e);
     }
-    
+
     delete [] hyperspacetext;
 }
 
@@ -540,6 +540,23 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "showShipAchievements") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                if (node->first_attribute("enabled"))
+                {
+                    customShipManager->showShipAchievements = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("toggle"))
+                {
+                    customShipManager->shipAchievementsToggle = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("id"))
+                {
+                    customShipManager->shipAchievementsTitle = node->first_attribute("id")->value();
+                }
+            }
+
             if (strcmp(node->name(), "victories") == 0)
             {
                 auto customUnlocks = CustomShipUnlocks::instance;
@@ -619,6 +636,18 @@ void Global::InitializeResources(ResourceControl *resources)
                 if (node->first_attribute("enabled"))
                 {
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("allowUnlocks"))
+                {
+                    SeedInputBox::seedsAllowUnlocks = EventsParser::ParseBoolean(node->first_attribute("allowUnlocks")->value());
+                }
+                if (node->first_attribute("allowAchievements"))
+                {
+                    SeedInputBox::seedsAllowAchievements = EventsParser::ParseBoolean(node->first_attribute("allowAchievements")->value());
+                }
+                if (node->first_attribute("allowMetaVars"))
+                {
+                    SeedInputBox::seedsAllowMetaVars = EventsParser::ParseBoolean(node->first_attribute("allowMetaVars")->value());
                 }
             }
             if (strcmp(node->name(), "customSystems") == 0)

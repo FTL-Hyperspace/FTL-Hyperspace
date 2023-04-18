@@ -680,6 +680,8 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, 
     LOG_HOOK("HOOK_STATIC_PRIORITY -> ShipGenerator::CreateShip -> Begin (CustomShipGenerator.cpp)\n")
     if (!CustomShipGenerator::enabled) return super(name, sector, event);
 
+    ShipManager *ret;
+
     if (event.shipSeed != 0) srandom32(event.shipSeed);
     ShipBlueprint *bp = G_->GetBlueprints()->GetShipBlueprint(name, sector);
 
@@ -692,14 +694,51 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, 
         generator = CustomShipGenerator::GetShipGenerator(customShip->shipGenerator);
     }
 
-    if (generator != nullptr)
+    // Lua callback: name, sector, ShipEvent, ShipBlueprint, ShipManager
+    // Note that the ShipManager is initially a nil
+    auto context = Global::GetInstance()->getLuaContext();
+    lua_pushstring(context->GetLua(), name.c_str());
+    lua_pushinteger(context->GetLua(), sector);
+    SWIG_NewPointerObj(context->GetLua(), &event, context->getLibScript()->types.pShipEvent, 0);
+    SWIG_NewPointerObj(context->GetLua(), bp, context->getLibScript()->types.pShipBlueprint, 0); // note to users, this is not a temporary copy for just this ship!
+    lua_pushnil(context->GetLua());
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::GENERATOR_CREATE_SHIP, 5, 4); // can replace sector, change the ShipEvent or replace the blueprint
+
+    // pre-empt won't actually do anything; instead it's based on whether the callback returns a ShipManager or not.
+    if (SWIG_isptrtype(context->GetLua(), -1) && SWIG_IsOK(SWIG_ConvertPtr(context->GetLua(), -1, (void**)&ret, context->getLibScript()->types.pShipManager, SWIG_POINTER_DISOWN)) && ret)
     {
-        return generator->CreateShip(bp, sector, event);
+        // keep the ShipManager from the lua script
     }
     else
     {
-        return super(bp->blueprintName, sector, event);
+        ShipEvent* pEvent = &event;
+        ShipEvent* retEvent;
+        ShipBlueprint* retBlueprint;
+        if (lua_isinteger(context->GetLua(), -4)) sector = lua_tointeger(context->GetLua(), -4);
+        if (SWIG_isptrtype(context->GetLua(), -3) && SWIG_IsOK(SWIG_ConvertPtr(context->GetLua(), -3, (void**)&retEvent, context->getLibScript()->types.pShipEvent, 0))) pEvent = retEvent;
+        if (SWIG_isptrtype(context->GetLua(), -2) && SWIG_IsOK(SWIG_ConvertPtr(context->GetLua(), -2, (void**)&retBlueprint, context->getLibScript()->types.pShipBlueprint, 0))) bp = retBlueprint;
+
+        // Note that pEvent and bp can either be the original event/blueprint or an alternate one, potentially a temporary lua copy, but it stays on the stack
+
+        if (generator != nullptr)
+        {
+            ret = generator->CreateShip(bp, sector, *pEvent);
+        }
+        else
+        {
+            ret = super(bp->blueprintName, sector, *pEvent);
+        }
+
+        // Place the ShipManager on the last spot of the stack
+        lua_pop(context->GetLua(), 1);
+        SWIG_NewPointerObj(context->GetLua(), ret, context->getLibScript()->types.pShipManager, 0);
     }
+
+    // The post-callback does not return anything, but can be used to modify the ShipManager after the main generator has run
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::GENERATOR_CREATE_SHIP_POST, 5, 0);
+
+    lua_pop(context->GetLua(), 5);
+    return ret;
 }
 /*
 HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)

@@ -10,6 +10,8 @@
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CustomShipGenerator.h"
+#include "CustomShipSelect.h"
 #include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
 #include "ShipManager_Extend.h"
@@ -93,6 +95,8 @@ namespace std {
         }
     }
 
+    // todo: add std::array
+
     %template(vector_int) vector<int>;
     %template(vector_float) vector<float>;
     %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
@@ -117,6 +121,16 @@ namespace std {
     %template(vector_ActivatedPower) vector<ActivatedPower*>;
     %template(vector_ActivatedPowerResource) vector<ActivatedPowerResource*>;
     %template(unordered_map_unsigned_int_ActivatedPowerResource) unordered_map<unsigned int,ActivatedPowerResource*>;
+    %template(pair_CrewExtraCondition_bool) pair<CrewExtraCondition,bool>;
+    %template(vector_pair_CrewExtraCondition_bool) vector<pair<CrewExtraCondition,bool>>;
+    %template(vector_CrewBlueprint) vector<CrewBlueprint>;
+    %template(vector_DroneBlueprint) vector<DroneBlueprint*>;
+    %template(vector_WeaponBlueprint) vector<WeaponBlueprint*>;
+    %template(vector_pair_int_int) vector<pair<int, int>>;
+    %template(vector_TextString) vector<TextString>;
+    %template(vector_GL_Color) vector<GL_Color>;
+    %template(vector_vector_GL_Color) vector<vector<GL_Color>>;
+    %template(vector_CrewDesc) vector<CrewDesc>;
 }
 
 %include "ToggleValue.h"
@@ -176,6 +190,8 @@ public:
     CApp* GetCApp();
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
+
+    static bool IsSeededRun();
 };
 
 void ErrorMessage(const char* msg);
@@ -299,7 +315,11 @@ playerVariableType playerVariables;
 
 %nodefaultctor CustomAchievementTracker;
 %rename("%s") CustomAchievementTracker;
+%immutable CustomAchievementTracker::instance;
+%rename("%s") CustomAchievementTracker::instance;
 %rename("%s") CustomAchievementTracker::UpdateVariableAchievements;
+%rename("%s") CustomAchievementTracker::GetAchievementStatus;
+%rename("%s") CustomAchievementTracker::SetAchievement; // used to award achievements (CheckShipAchievement is automatically called if needed)
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
@@ -565,7 +585,14 @@ playerVariableType playerVariables;
 %rename("%s") ShipEvent::droneOverride;
 %rename("%s") ShipEvent::droneOverCount;
 %rename("%s") ShipEvent::shipSeed;
+*/
 
+%rename("%s") CrewDesc;
+%rename("%s") CrewDesc::type;
+%rename("%s") CrewDesc::prop;
+%rename("%s") CrewDesc::amount;
+
+/*
 //%nodefaultctor RandomAmount;
 %rename("%s") RandomAmount;
 %rename("%s") RandomAmount::min;
@@ -644,6 +671,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager;
 %nodefaultctor ShipManager;
 %nodefaultdtor ShipManager;
+%rename("%s") ShipManager::ShipManager;
 //%rename("%s") ShipManager::AddAugmentation; // Might prefer this be done via an event? Not sure.
 //%rename("%s") ShipManager::ClearShipInfo;
 //%rename("%s") ShipManager::GetAugmentationCount;
@@ -659,11 +687,11 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetAvailablePower;
 //%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
 //%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
-//%rename("%s") ShipManager::AddDrone; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddDrone;
 //%rename("%s") ShipManager::AddEquipmentFromList; // Might prefer via event?
-//%rename("%s") ShipManager::AddInitialCrew;
+%rename("%s") ShipManager::AddInitialCrew;
 %rename("%s") ShipManager::AddSystem;
-//%rename("%s") ShipManager::AddWeapon; // Might prefer via event?
+%rename("%s") ShipManager::AddWeapon;
 %rename("%s") ShipManager::CanFitSubsystem;
 %rename("%s") ShipManager::CanFitSystem;
 %rename("%s") ShipManager::CanUpgrade;
@@ -682,7 +710,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::DamageSystem;
 %rename("%s") ShipManager::DoSensorsProvide;
 %rename("%s") ShipManager::DoorsFunction;
-//%rename("%s") ShipManager::FindCrew; // TODO: requires exposing the CrewBlueprint, this might be better solved with a different method like finding a crew by name?
+%rename("%s") ShipManager::FindCrew;
 %rename("%s") ShipManager::ForceDecreaseSystemPower;
 %rename("%s") ShipManager::GetCrewmember;
 %rename("%s") ShipManager::GetDodgeFactor;
@@ -701,6 +729,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetTooltip;
 %rename("%s") ShipManager::GetWeaponList;
 %rename("%s") ShipManager::HasSystem;
+%rename("%s") ShipManager::OnInit;
 %rename("%s") ShipManager::InstantPowerShields;
 %rename("%s") ShipManager::IsCrewFull;
 %rename("%s") ShipManager::IsCrewOverFull;
@@ -828,6 +857,21 @@ playerVariableType playerVariables;
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
 
+%nodefaultctors PowerManager;
+%nodefaultdtors PowerManager;
+%rename("%s") PowerManager;
+%rename("%s") PowerManager::GetAvailablePower;
+%rename("%s") PowerManager::GetMaxPower;
+%rename("%s") PowerManager::GetPowerManager;
+%rename("%s") PowerManager::currentPower;
+%rename("%s") PowerManager::over_powered;
+%rename("%s") PowerManager::fFuel;
+%rename("%s") PowerManager::failedPowerup;
+%rename("%s") PowerManager::iTempPowerCap;
+%rename("%s") PowerManager::iTempPowerLoss;
+%rename("%s") PowerManager::iTempDividePower;
+%rename("%s") PowerManager::iHacked;
+%rename("%s") PowerManager::batteryPower;
 
 %nodefaultctors OxygenSystem;
 %nodefaultdtors OxygenSystem;
@@ -1399,14 +1443,20 @@ playerVariableType playerVariables;
 %nodefaultctor BlueprintManager;
 %nodefaultdtor BlueprintManager;
 %rename("%s") BlueprintManager;
+%rename("%s") BlueprintManager::GetAugmentBlueprint;
+%rename("%s") BlueprintManager::GetCrewBlueprint;
+%rename("%s") BlueprintManager::GetDroneBlueprint;
+%rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 
 %rename("%s") WeaponBlueprint;
 
 // TODO: Make most if not all of ShipBlueprint immutable
+// Note: Making ShipBlueprint immutable would make it more difficult to create custom blueprints on the fly
 //%nodefaultctors ShipBlueprint;
 //%nodefaultdtors ShipBlueprint;
 %rename("%s") ShipBlueprint;
+%copyctor ShipBlueprint;
 
 //%nodefaultctors ShipBlueprint::SystemTemplate;
 //%nodefaultdtors ShipBlueprint::SystemTemplate;
@@ -1448,7 +1498,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::health;
 %rename("%s") ShipBlueprint::originalCrewCount;
 %rename("%s") ShipBlueprint::defaultCrew;
-%rename("%s") ShipBlueprint::customCrew; // TODO: Expose CrewBlueprint
+%rename("%s") ShipBlueprint::customCrew;
 %rename("%s") ShipBlueprint::maxPower;
 %rename("%s") ShipBlueprint::boardingAI;
 %rename("%s") ShipBlueprint::bp_count;
@@ -1456,6 +1506,52 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::maxSector;
 %rename("%s") ShipBlueprint::minSector;
 %rename("%s") ShipBlueprint::unlock;
+
+%rename("%s") ShipBlueprint::ShipBlueprint;
+
+%rename("%s") CustomShipSelect;
+%rename("%s") CustomShipSelect::GetInstance;
+%rename("%s") CustomShipSelect::GetDefinition;
+
+%rename("%s") CustomShipDefinition;
+%rename("%s") CustomShipDefinition::name;
+%rename("%s") CustomShipDefinition::hiddenAugs;
+%rename("%s") CustomShipDefinition::crewList;
+%rename("%s") CustomShipDefinition::noJump;
+%rename("%s") CustomShipDefinition::noFuelStalemate;
+%rename("%s") CustomShipDefinition::hpCap;
+%rename("%s") CustomShipDefinition::startingFuel;
+%rename("%s") CustomShipDefinition::startingScrap;
+%rename("%s") CustomShipDefinition::roomDefs;
+%rename("%s") CustomShipDefinition::shipIcons;
+%rename("%s") CustomShipDefinition::forceAutomated;
+%rename("%s") CustomShipDefinition::crewLimit;
+%rename("%s") CustomShipDefinition::systemLimit;
+%rename("%s") CustomShipDefinition::subsystemLimit;
+%rename("%s") CustomShipDefinition::reactorPrices;
+%rename("%s") CustomShipDefinition::reactorPriceIncrement;
+%rename("%s") CustomShipDefinition::maxReactorLevel;
+%rename("%s") CustomShipDefinition::shipGenerator;
+
+%rename("%s") CrewPlacementDefinition;
+%rename("%s") CrewPlacementDefinition::species;
+%rename("%s") CrewPlacementDefinition::roomId;
+%rename("%s") CrewPlacementDefinition::name;
+%rename("%s") CrewPlacementDefinition::isList;
+
+%rename("%s") CrewBlueprint;
+%copyctor CrewBlueprint;
+%rename("%s") CrewBlueprint::GetCurrentSkillColor;
+%rename("%s") CrewBlueprint::GetNameShort;
+%rename("%s") CrewBlueprint::RandomSkills;
+%rename("%s") CrewBlueprint::RenderIcon;
+%rename("%s") CrewBlueprint::RenderSkill;
+%rename("%s") CrewBlueprint::crewNameLong;
+%rename("%s") CrewBlueprint::powers;
+%rename("%s") CrewBlueprint::male;
+%rename("%s") CrewBlueprint::skillLevel;
+%rename("%s") CrewBlueprint::colorLayers;
+%rename("%s") CrewBlueprint::colorChoices;
 
 //%nodefaultctors Blueprint;
 //%nodefaultdtors Blueprint;
@@ -1708,6 +1804,7 @@ playerVariableType playerVariables;
 %immutable CrewMember_Extend::powerResources;
 %rename("%s") CrewMember_Extend::powerResourceMap;
 %immutable CrewMember_Extend::powerResourceMap;
+%rename("%s") CrewMember_Extend::powerChange;
 %rename("%s") CrewMember_Extend::noSlot;
 %rename("%s") CrewMember_Extend::noClone;
 %rename("%s") CrewMember_Extend::CustomTeleport;
@@ -2403,6 +2500,40 @@ playerVariableType playerVariables;
 %rename("%s") PowerResourceDefinition::GetByName;
 %rename("%s") PowerResourceDefinition::AddNamedDefinition;
 
+%nodefaultctor ActivatedPowerRequirements;
+%nodefaultdtor ActivatedPowerRequirements;
+%rename("%s") ActivatedPowerRequirements;
+%rename("%s") ActivatedPowerRequirements::Type;
+%rename("%s") ActivatedPowerRequirements::type;
+%rename("%s") ActivatedPowerRequirements::playerShip;
+%rename("%s") ActivatedPowerRequirements::enemyShip;
+%rename("%s") ActivatedPowerRequirements::checkRoomCrew;
+%rename("%s") ActivatedPowerRequirements::enemyInRoom;
+%rename("%s") ActivatedPowerRequirements::friendlyInRoom;
+%rename("%s") ActivatedPowerRequirements::whiteList;
+%rename("%s") ActivatedPowerRequirements::friendlyWhiteList;
+%rename("%s") ActivatedPowerRequirements::friendlyBlackList;
+%rename("%s") ActivatedPowerRequirements::enemyWhiteList;
+%rename("%s") ActivatedPowerRequirements::enemyBlackList;
+%rename("%s") ActivatedPowerRequirements::systemInRoom;
+%rename("%s") ActivatedPowerRequirements::systemDamaged;
+%rename("%s") ActivatedPowerRequirements::hasClonebay;
+%rename("%s") ActivatedPowerRequirements::aiDisabled;
+%rename("%s") ActivatedPowerRequirements::outOfCombat;
+%rename("%s") ActivatedPowerRequirements::inCombat;
+%rename("%s") ActivatedPowerRequirements::requiredSystem;
+%rename("%s") ActivatedPowerRequirements::requiredSystemFunctional;
+%rename("%s") ActivatedPowerRequirements::minHealth;
+%rename("%s") ActivatedPowerRequirements::maxHealth;
+%rename("%s") ActivatedPowerRequirements::extraConditions;
+%rename("%s") ActivatedPowerRequirements::extraOrConditions;
+%rename("%s") ActivatedPowerRequirements::extraOrConditionsTooltip;
+
+%rename("%s") PowerReadyState;
+%rename("%s") GetNextPowerReadyState;
+
+%rename("%s") CrewExtraCondition;
+
 %nodefaultctor TemporaryPowerDefinition;
 %nodefaultdtor TemporaryPowerDefinition;
 %rename("%s") TemporaryPowerDefinition;
@@ -2466,6 +2597,53 @@ playerVariableType playerVariables;
 %rename("%s") TemporaryPowerDefinition::invulnerable;
 %rename("%s") TemporaryPowerDefinition::animFrame;
 %rename("%s") TemporaryPowerDefinition::cooldownColor;
+
+%rename("%s") ShipGenerator;
+%newobject ShipGenerator::CreateShip;
+%rename("%s") ShipGenerator::CreateShip;
+%rename("%s") ShipGenerator::GenerateSystemMaxes;
+%rename("%s") ShipGenerator::GetPossibleCrewList;
+%rename("%s") ShipGenerator::GetPossibleDroneList;
+%rename("%s") ShipGenerator::GetPossibleSystemUpgrades;
+%rename("%s") ShipGenerator::GetPossibleWeaponList;
+%rename("%s") ShipGenerator::UpgradeSystem;
+
+// Note to devs: CustomShipGenerator is deprecated, only minimal support is provided through lua bindings. New mods should use lua for custom ship generation.
+%rename("%s") CustomShipGenerator;
+%newobject CustomShipGenerator::CreateShip;
+%rename("%s") CustomShipGenerator::CreateShip;
+/*
+%rename("%s") CustomShipGenerator::SectorScaling;
+%rename("%s") CustomShipGenerator::SectorScaling::enabled;
+%rename("%s") CustomShipGenerator::SectorScaling::minValue;
+%rename("%s") CustomShipGenerator::SectorScaling::maxValue;
+%rename("%s") CustomShipGenerator::SectorScaling::baseValue;
+%rename("%s") CustomShipGenerator::SectorScaling::sectorValue;
+%rename("%s") CustomShipGenerator::SectorScaling::GetValue;
+%rename("%s") CustomShipGenerator::SystemLevelScaling;
+%rename("%s") CustomShipGenerator::SystemLevelScaling::enabled;
+%rename("%s") CustomShipGenerator::SystemLevelScaling::sectorScaling;
+%rename("%s") CustomShipGenerator::SystemLevelScaling::randomScaling;
+%rename("%s") CustomShipGenerator::SystemLevelScaling::GetRandomScalingValue;
+%rename("%s") CustomShipGenerator::difficultyMod;
+//%rename("%s") CustomShipGenerator::defaultSectorScaling;
+//%rename("%s") CustomShipGenerator::systemLevelScaling;
+%rename("%s") CustomShipGenerator::RemoveAugments;
+%rename("%s") CustomShipGenerator::SetMaximumHull;
+%rename("%s") CustomShipGenerator::InitShip;
+%rename("%s") CustomShipGenerator::GenerateSystemMaxes;
+%rename("%s") CustomShipGenerator::GenerateShipBudget;
+%rename("%s") CustomShipGenerator::AddSystems;
+%rename("%s") CustomShipGenerator::UpgradeSystems;
+%rename("%s") CustomShipGenerator::GetPossibleSystemUpgrades;
+%rename("%s") CustomShipGenerator::AddOverrideWeapons;
+%rename("%s") CustomShipGenerator::AddOverrideDrones;
+%rename("%s") CustomShipGenerator::AddWeapons;
+%rename("%s") CustomShipGenerator::AddDrones;
+%rename("%s") CustomShipGenerator::AddCrew;
+%rename("%s") CustomShipGenerator::enabled;
+%rename("%s") CustomShipGenerator::GetShipGenerator;
+*/
 
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
@@ -2585,6 +2763,10 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
 %}
+%rename("%s") TextString;
+%rename("%s") TextString::GetText;
+%rename("%s") TextString::data;
+%rename("%s") TextString::isLiteral;
 
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.
@@ -2598,6 +2780,8 @@ playerVariableType playerVariables;
 %include "CustomCrew.h"
 %include "CustomEvents.h"
 %include "CustomScoreKeeper.h"
+%include "CustomShipGenerator.h"
+%include "CustomShipSelect.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
 %include "ShipManager_Extend.h"

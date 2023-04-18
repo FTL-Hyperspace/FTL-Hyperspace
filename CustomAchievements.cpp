@@ -1,5 +1,7 @@
 #include "CustomAchievements.h"
+#include "CustomShipSelect.h"
 #include "Resources.h"
+#include "Seeds.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -138,8 +140,24 @@ void CustomAchievementTracker::ParseAchievements(rapidxml::xml_node<char> *node)
 
 void CustomAchievementTracker::ParseAchievement(rapidxml::xml_node<char> *node)
 {
-    std::string achName = node->first_attribute("name")->value();
-    std::string varName = "";
+    bool define;
+    std::string achName;
+
+    if (node->first_attribute("name"))
+    {
+        define = true;
+        achName = node->first_attribute("name")->value();
+    }
+    else if (node->first_attribute("load"))
+    {
+        define = false;
+        achName = node->first_attribute("load")->value();
+    }
+    else // fallback
+    {
+        define = true;
+        achName = "";
+    }
 
     CustomAchievement &ach = customAchievements[achName];
     ach.ach.gap_ex_custom = -2; // misc custom achievement
@@ -151,13 +169,69 @@ void CustomAchievementTracker::ParseAchievement(rapidxml::xml_node<char> *node)
     ach.ach.mini_outline = smallOutline;
     ach.ach.lockOverlay = largeOverlay;
 
-    ach.ParseAchievement(node, &varName);
-
-    if (!varName.empty())
+    if (define)
     {
-        variableAchievements[varName].push_back(&customAchievements[achName]);
+        std::string varName = "";
+        ach.ParseAchievement(node, &varName);
+
+        if (!varName.empty())
+        {
+            variableAchievements[varName].push_back(&customAchievements[achName]);
+        }
+        UpdateAchievement(ach);
     }
-    UpdateAchievement(ach);
+}
+
+CustomAchievement& CustomAchievementTracker::ParseShipAchievement(rapidxml::xml_node<char> *node, const std::string& ship)
+{
+    bool define;
+    std::string achName;
+
+    if (node->first_attribute("name"))
+    {
+        define = true;
+        achName = node->first_attribute("name")->value();
+    }
+    else if (node->first_attribute("load"))
+    {
+        define = false;
+        achName = node->first_attribute("load")->value();
+    }
+    else // fallback
+    {
+        define = true;
+        achName = "";
+    }
+
+    CustomAchievement &ach = customAchievements[achName];
+    ach.ach.gap_ex_custom = -4; // misc custom ship achievement
+    ach.ach.name_id = achName;
+
+    ach.ach.multiDifficulty = true;
+    ach.ach.dimension = 64;
+    ach.ach.outline = largeOutline;
+    ach.ach.mini_outline = smallOutline;
+    ach.ach.lockOverlay = largeOverlay;
+
+    if (define)
+    {
+        ach.ach.ship = ship;
+
+        std::string varName = "";
+        ach.ParseAchievement(node, &varName);
+
+        if (!varName.empty())
+        {
+            variableAchievements[varName].push_back(&customAchievements[achName]);
+        }
+        UpdateAchievement(ach);
+    }
+    else if (ach.ach.ship.empty())
+    {
+        ach.ach.ship = ship;
+    }
+
+    return ach;
 }
 
 void CustomAchievement::ParseAchievement(rapidxml::xml_node<char> *node, std::string *varName)
@@ -342,7 +416,7 @@ void CustomAchievementTracker::UpdateVariableAchievements(const std::string &var
                 {
                     SetAchievement(ach->ach.name_id, false);
                 }
-                else
+                else if (ach->ach.ship.empty()) // if not in game don't award ship achievements
                 {
                     // if not in game then set the achievement to EASY
                     int diff = *Global::difficulty;
@@ -355,16 +429,52 @@ void CustomAchievementTracker::UpdateVariableAchievements(const std::string &var
     }
 }
 
+bool CustomAchievementTracker::CheckShipAchievement(CustomAchievement &ach)
+{
+    // This method checks if a ship achievement belongs to the current ship.
+
+    std::string &ship = G_->GetAchievementTracker()->currentShip;
+    auto customSel = CustomShipSelect::GetInstance();
+    int shipId = customSel->GetShipButtonIdFromName(ship);
+
+    if (shipId != -1)
+    {
+        ShipButtonDefinition &buttonDef = customSel->GetShipButtonDefinition(shipId);
+
+        int layout = 0;
+        if (ship == buttonDef.name + "_2")
+        {
+            layout = 1;
+        }
+        else if (ship == buttonDef.name + "_3")
+        {
+            layout = 2;
+        }
+
+        for (CustomAchievement *sAch : buttonDef.shipAchievements[layout])
+        {
+            if (sAch == &ach) return true;
+        }
+    }
+
+    return false;
+}
+
 void CustomAchievementTracker::SetAchievement(const std::string &name, bool noPopup)
 {
+    if (!SeedInputBox::seedsAllowAchievements && Global::IsSeededRun()) return;
+
     int oldDiff = GetAchievementStatus(name);
     int newDiff = *Global::difficulty;
 
     if (newDiff > oldDiff)
     {
+        CustomAchievement &ach = GetAchievement(name);
+
+        if (!ach.ach.ship.empty() && !CheckShipAchievement(ach)) return; // wrong ship for achievement
+
         achievementUnlocks[name] = newDiff;
 
-        CustomAchievement &ach = GetAchievement(name);
         UpdateAchievement(ach);
 
         if (ach.ach.multiDifficulty || oldDiff == -1)
@@ -656,4 +766,43 @@ HOOK_METHOD(AchievementTracker, CheckShipAchievements, (int shipId, bool hidePop
     LOG_HOOK("HOOK_METHOD -> AchievementTracker::CheckShipAchievements -> Begin (CustomAchievements.cpp)\n")
     if (shipId == -1) return;
     super(shipId, hidePopups);
+}
+
+std::vector<CAchievement*> CustomAchievementTracker::GetShipAchievementsCustom(const std::string &ship, int layout, bool showHidden)
+{
+    auto customSel = CustomShipSelect::GetInstance();
+    int shipId = customSel->GetShipButtonIdFromName(ship);
+
+    std::vector<CAchievement*> ret;
+
+    if (shipId != -1)
+    {
+        ShipButtonDefinition &buttonDef = customSel->GetShipButtonDefinition(shipId);
+
+        for (CustomAchievement *sAch : buttonDef.shipAchievements[layout])
+        {
+            if (showHidden || sAch->ach.unlocked || !sAch->hidden) ret.push_back(&sAch->ach);
+        }
+    }
+
+    return ret;
+}
+
+std::vector<CAchievement*> CustomAchievementTracker::GetShipAchievementsCustom(int shipId, int layout, bool showHidden)
+{
+    auto customSel = CustomShipSelect::GetInstance();
+
+    std::vector<CAchievement*> ret;
+
+    if (shipId >= 100)
+    {
+        ShipButtonDefinition &buttonDef = customSel->GetShipButtonDefinition(shipId-100);
+
+        for (CustomAchievement *sAch : buttonDef.shipAchievements[layout])
+        {
+            if (showHidden || sAch->ach.unlocked || !sAch->hidden) ret.push_back(&sAch->ach);
+        }
+    }
+
+    return ret;
 }

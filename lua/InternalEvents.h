@@ -30,6 +30,10 @@ struct InternalEvents
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
 
+        // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
+        PROJECTILE_INITIALIZE,
+        // function projectile_initialize(Projectile& projectile, ProjectileFactory &weapon)
+        PROJECTILE_FIRE,
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
         // function projectile_post(Projectile& projectile, bool preempted) return Chain
@@ -72,6 +76,17 @@ struct InternalEvents
         POWER_ENABLE_INIT,
         // function power_resource_enable_init(ActivatedPowerResource& power) return Chain
         POWER_RESOURCE_ENABLE_INIT,
+        // function power_req(ActivatedPower& power, ActivatedPowerRequirements& req, PowerReadyState result) return Chain, result
+        POWER_REQ,
+        // function power_ready(ActivatedPower& power, PowerReadyState result) return Chain, result
+        POWER_READY,
+        // function power_tooltip(ActivatedPower& power, PowerReadyState state) return tooltip, skipAppend
+        POWER_TOOLTIP,
+
+        // function generator_create_ship(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain, sector, event, bp, ret
+        GENERATOR_CREATE_SHIP,
+        // function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain
+        GENERATOR_CREATE_SHIP_POST,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 
