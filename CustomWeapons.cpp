@@ -288,14 +288,14 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Fire -> Begin (CustomWeapons.cpp)\n")
     if (blueprint->type==2 && blueprint->length<=1)
     {
-        Pointf second;
+        if (points.size() < 2) points.emplace_back(); // construct second targeting point (only if needed; arty will give two points)
         Point grid;
 
-        if (target == 1) // targeting enemy ship (TODO: change to detect weapon's owner if we expand this targeting mode beyond just beams, in case of self-targeting)
+        if (target == 1 && !artillery) // targeting enemy ship (TODO: change to detect weapon's owner if we expand this targeting mode beyond just beams, in case of self-targeting)
         {
             grid = ShipGraph::TranslateToGrid(points[0].x, points[0].y);
         }
-        else //enemy targetting picks a random slot
+        else //enemy/artillery targetting picks a random slot
         {
             int roomNumber = G_->GetShipManager(target)->ship.GetSelectedRoomId(points[0].x, points[0].y, true);
             if (roomNumber != -1)
@@ -310,9 +310,8 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[0].x=(grid.x * 35.f + 17.0f);
         points[0].y=(grid.y * 35.f + 17.5f);
 
-        second.x=points[0].x+1.0f;
-        second.y=points[0].y;
-        points.push_back(second);
+        points[1].x=points[0].x+1.0f;
+        points[1].y=points[0].y;
     }
     super(points, target);
 }
