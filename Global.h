@@ -75,6 +75,8 @@ public:
 
     static std::vector<std::vector<GL_Color*>> colorPointers;
 
+    static bool IsSeededRun() { return isCustomSeed && GetInstance()->GetWorld()->bStartedGame; }
+
 private:
     bool __resourcesInitialized;
     static Global* instance;

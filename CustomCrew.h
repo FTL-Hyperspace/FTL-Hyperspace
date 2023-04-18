@@ -190,6 +190,26 @@ struct TemporaryPowerDefinition
 
 struct ActivatedPowerRequirements
 {
+    enum class Type : unsigned int
+    {
+        PLAYER = 0,
+        ENEMY,
+        CHARGE,
+        UNKNOWN,
+    };
+
+    ActivatedPowerRequirements()
+    : type{Type::UNKNOWN}
+    {
+    }
+
+    ActivatedPowerRequirements(Type reqType)
+    : type{reqType}
+    {
+    }
+
+    Type type;
+
     bool playerShip = false;
     bool enemyShip = false;
     bool checkRoomCrew = false;
@@ -242,8 +262,8 @@ struct ActivatedPowerDefinition
         cooldownColor = GL_Color(133.f / 255.f, 231.f / 255.f, 237.f / 255.f, 1.f);
         tempPower = TemporaryPowerDefinition();
         tempPower.cooldownColor = GL_Color(1.f, 1.f, 1.f, 1.f);
-        playerReq = ActivatedPowerRequirements();
-        enemyReq = ActivatedPowerRequirements();
+        playerReq = ActivatedPowerRequirements(ActivatedPowerRequirements::Type::PLAYER);
+        enemyReq = ActivatedPowerRequirements(ActivatedPowerRequirements::Type::ENEMY);
     }
 
     enum JUMP_COOLDOWN

@@ -46,8 +46,12 @@ enum PowerReadyState : unsigned int
     POWER_NOT_READY_SILENCED,
     POWER_NOT_READY_EXTRACONDITION_OR,
     POWER_NOT_READY_EXTRACONDITION_TRUE = 16384,
-    POWER_NOT_READY_EXTRACONDITION_FALSE = 32768
+    POWER_NOT_READY_EXTRACONDITION_FALSE = 32768,
+    POWER_NOT_READY_CUSTOM = 65536,
 };
+
+extern unsigned int nextPowerReadyState;
+unsigned int GetNextPowerReadyState(unsigned int amount);
 
 extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
@@ -149,7 +153,7 @@ public:
     template <class T> static PowerReadyState PowerReqStatic(const T *power, const ActivatedPowerRequirements *req); // ugly
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
     PowerReadyState PowerReady();
-    Damage* GetPowerDamage();
+    Damage GetPowerDamage();
     void ActivateTemporaryPower();
     void TemporaryPowerFinished();
     void PrepareAnimation();

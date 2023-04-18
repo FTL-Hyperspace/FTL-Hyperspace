@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "ToggleValue.h"
 #include "Room_Extend.h"
+#include "CustomAchievements.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -38,6 +39,9 @@ struct ShipButtonDefinition
     bool splitVictoryAchievement = false;
 
     std::vector<CustomUnlockArrow> unlockArrows;
+
+    std::array<std::vector<CustomAchievement*>,3> shipAchievements;
+    TextString shipAchievementHeading;
 
     bool VariantExists(int variant)
     {
@@ -153,6 +157,10 @@ public:
 
     }
 
+    static std::array<std::string, 10> vanillaShipNames;
+    static std::array<int, 10> vanillaShipOrder;
+    CAchievement *dummyAchievement = nullptr;
+
     static std::string GetVariantName(const std::string& name, int variant = 0)
     {
         switch (variant)
@@ -266,6 +274,42 @@ public:
         }
     }
 
+    std::pair<int,int> GetShipIdAndVariantFromName(const std::string& name)
+    {
+        int variant = 0;
+
+        if (name == "empty")
+        {
+            return std::make_pair<int,int>(-1,std::move(variant));
+        }
+        else
+        {
+            std::string finalName = name;
+
+            if (boost::ends_with(name, "_2"))
+            {
+                finalName = name.substr(0, name.size() - 2);
+                variant = 1;
+            }
+            else if (boost::ends_with(name, "_3"))
+            {
+                finalName = name.substr(0, name.size() - 2);
+                variant = 2;
+            }
+
+            auto it = std::find_if(shipButtonDefs.begin(), shipButtonDefs.end(), [&finalName](const ShipButtonDefinition& def) { return def.name == finalName; });
+
+            if (it != shipButtonDefs.end())
+            {
+                return std::make_pair<int,int>(std::distance(shipButtonDefs.begin(), it), std::move(variant));
+            }
+            else
+            {
+                return std::make_pair<int,int>(-1,std::move(variant));
+            }
+        }
+    }
+
     ShipButtonDefinition* GetOrderedShipButtonDefinition(int id)
     {
         if (id > customShipOrder.size()) return nullptr;
@@ -350,6 +394,10 @@ public:
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
+
+    bool showShipAchievements = false;
+    bool shipAchievementsToggle = false;
+    std::string shipAchievementsTitle = "hangar_achievements_title_default";
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
     std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();

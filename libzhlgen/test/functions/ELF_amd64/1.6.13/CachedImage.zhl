@@ -46,11 +46,5 @@ struct CachedImage
 	{
 		constructor_copy(other);
 	}
-	
-	CachedImage& operator=(const CachedImage &other)
-	{
-		constructor_copy(other);
-		return *this;
-	}
 }};
 

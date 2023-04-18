@@ -2097,6 +2097,12 @@ void VariableModifier::ParseVariableModifierNode(rapidxml::xml_node<char> *node)
     {
         maxVal = boost::lexical_cast<int>(node->first_attribute("max")->value());
     }
+
+    // Force attribute bypasses anything that might block the variable modifier from being applied
+    if (node->first_attribute("force"))
+    {
+        force = EventsParser::ParseBoolean(node->first_attribute("force")->value());
+    }
 }
 
 CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
@@ -6274,6 +6280,7 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
             varList = &playerVariables;
             break;
         case VarType::METAVAR:
+            if (!i.force && !SeedInputBox::seedsAllowMetaVars && Global::IsSeededRun()) continue; // seeded run blocks meta variables unless force = true
             varList = &metaVariables;
             break;
         default:

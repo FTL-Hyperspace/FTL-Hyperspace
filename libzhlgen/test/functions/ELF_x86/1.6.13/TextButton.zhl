@@ -32,10 +32,18 @@ cleanup __cdecl void TextButton::SetTextColor(TextButton *this, GL_Color color);
 cleanup __cdecl void TextButton::InitPrimitives(TextButton *this);
 
 
-struct TextButton
+struct TextButton depends (CSurface)
 {{
 	TextButton()
 	{
 		this->constructor();
+	}
+	
+	~TextButton()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
+		CSurface::GL_DestroyPrimitive(basePrimitive);
 	}
 }};
