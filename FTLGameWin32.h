@@ -3987,6 +3987,7 @@ struct CombatDrone : SpaceDrone
 		this->constructor(shipId, self, bp);
 	}
 
+	LIBZHL_API void PickTarget();
 	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API void constructor(int iShipId, int selfId, const DroneBlueprint *bp);
 	

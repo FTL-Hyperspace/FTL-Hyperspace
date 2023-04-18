@@ -300,9 +300,10 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
             int roomNumber = G_->GetShipManager(target)->ship.GetSelectedRoomId(points[0].x, points[0].y, true);
             if (roomNumber != -1)
             {
-                int numSlots = ShipGraph::GetShipInfo(target)->GetNumSlots(roomNumber);
+                ShipGraph *shipInfo = ShipGraph::GetShipInfo(target);
+                int numSlots = shipInfo->GetNumSlots(roomNumber);
                 int randomSlot = random32() % numSlots;
-                Point gridPos = ShipGraph::GetShipInfo(target)->GetSlotWorldPosition(randomSlot, roomNumber);
+                Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
                 grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
             }
         }
@@ -314,6 +315,36 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[1].y=points[0].y;
     }
     super(points, target);
+}
+
+HOOK_METHOD(CombatDrone, PickTarget, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatDrone::PickTarget -> Begin (CustomWeapons.cpp)\n")
+
+    super();
+
+    if (weaponBlueprint->type==2 && weaponBlueprint->length<=1) // pinpoint beam
+    {
+        ShipManager *ship = G_->GetShipManager(currentSpace);
+
+        // check that expected ship is actually the target
+        if (&ship->_targetable == weaponTarget)
+        {
+            // move target point to random tile in the room
+            int roomNumber = ship->ship.GetSelectedRoomId(targetLocation.x, targetLocation.y, true);
+            if (roomNumber != -1)
+            {
+                ShipGraph *shipInfo = ShipGraph::GetShipInfo(ship->iShipId);
+                int numSlots = shipInfo->GetNumSlots(roomNumber);
+                int randomSlot = random32() % numSlots;
+                Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
+                Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+
+                targetLocation.x = (grid.x * 35.f + 17.5f);
+                targetLocation.y = (grid.y * 35.f + 17.5f);
+            }
+        }
+    }
 }
 
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
