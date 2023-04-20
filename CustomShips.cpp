@@ -1194,6 +1194,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     if (alphaCloak > 0.f)
     {
         auto cloakTexture = G_->GetResources()->GetImageId(this->cloakImageName);
+        delete[] this->cloakPrimitive;
         this->cloakPrimitive = CSurface::GL_CreateImagePrimitive(
             cloakTexture,
             (this->shipImageCloak).x, (this->shipImageCloak).y,
