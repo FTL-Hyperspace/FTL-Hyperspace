@@ -1165,7 +1165,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
 
-    ShipGraph *shipGraph = ShipGraph::GetShipInfo(this->iShipId);
+    ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
     float xPos = (float)(shipGraph->shipBox).x;
     float yPos = (float)(shipGraph->shipBox).y;
 
@@ -1188,19 +1188,19 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 
     // Render hull
     CSurface::GL_Translate(xPos, yPos, 0.0);
-    CSurface::GL_RenderPrimitiveWithAlpha(this->shipImagePrimitive, alphaHull);
+    CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
 
     // Render cloak
     if (alphaCloak > 0.f)
     {
-        auto cloakTexture = G_->GetResources()->GetImageId(this->cloakImageName);
-        delete[] this->cloakPrimitive;
-        this->cloakPrimitive = CSurface::GL_CreateImagePrimitive(
+        GL_Texture* cloakTexture = G_->GetResources()->GetImageId(cloakImageName);
+        delete cloakPrimitive;
+        cloakPrimitive = CSurface::GL_CreateImagePrimitive(
             cloakTexture,
-            (this->shipImageCloak).x, (this->shipImageCloak).y,
+            (shipImageCloak).x, (shipImageCloak).y,
             cloakTexture->width_, cloakTexture->height_,
             0.f, COLOR_WHITE);
-        CSurface::GL_RenderPrimitiveWithAlpha(this->cloakPrimitive, alphaCloak);
+        CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
     }
     CSurface::GL_Translate(-xPos, -yPos, 0.0);
 
@@ -1236,10 +1236,10 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     }
 
     // Render floor
-    if (this->iShipId == 0)
+    if (iShipId == 0)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
-        CSurface::GL_RenderPrimitiveWithAlpha(this->floorPrimitive, alphaOther);
+        CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
 }
