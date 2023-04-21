@@ -1193,8 +1193,15 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     // Render cloak
     if (alphaCloak > 0.f)
     {
-        CSurface::GL_DestroyPrimitive(cloakPrimitive);
-        cloakPrimitive = G_->GetResources()->CreateImagePrimitiveString(cloakImageName, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
+        if (!shipImageCloak.tex && !cloakImageName.empty())
+        {
+            ResourceControl *resources = G_->GetResources();
+            GL_Texture *image = resources->GetImageId(cloakImageName);
+            shipImageCloak.tex = image;
+            shipImageCloak.w = image ? image->width_ : 1;
+            shipImageCloak.h = image ? image->height_ : 1;
+            cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
+        }
         CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
     }
     CSurface::GL_Translate(-xPos, -yPos, 0.0);
