@@ -2,6 +2,8 @@
 cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
 "554889f5534889fb4883ec084885f6743f":
 cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable *target);
+"53488b074889fbff90000100":
+cleanup __amd64 void CombatDrone::PickTarget(CombatDrone *this);
 
 
 struct CombatDrone depends (DroneBlueprint)
