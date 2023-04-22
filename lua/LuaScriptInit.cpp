@@ -68,9 +68,13 @@ LuaScriptInit::LuaScriptInit()
     hsluaglobal_register(lua);
     this->m_libScript = new LuaLibScript(lua);
     luaopen_Hyperspace(lua);
+    lua_pop(lua, 2);
     luaopen_Graphics(lua);
+    lua_pop(lua, 2);
     luaopen_Defines(lua);
+    lua_pop(lua, 2);
     luaopen_RapidXML(lua);
+    lua_pop(lua, 2);
     removeDangerousStuff(lua);
 
     this->m_libScript->LoadTypeInfo(); // Preload all the SWIG typedata so we don't need to do it every time we want to push a class for a callback
