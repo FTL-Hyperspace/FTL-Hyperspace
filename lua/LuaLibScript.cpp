@@ -481,4 +481,5 @@ LuaLibScript::LuaLibScript(lua_State* lua)
 {
    this->m_Lua = lua;
    luaL_requiref(lua, "script", luaopen_scriptlib, 1);
+   lua_pop(lua, 1);
 }
