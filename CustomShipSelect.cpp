@@ -2683,6 +2683,15 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
             if (!bShowControls && !G_->GetTutorialManager()->Running())
             {
+                if (shipAchievements.empty() || shipAchievements[0].dimension != 64)
+                {
+                    //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
+                    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+                    freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+                }
+
+                // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
+
                 if (confirmDialog.bOpen)
                 {
                     CSurface::GL_SetColorTint(COLOR_TINT);
