@@ -610,6 +610,8 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
         ErosionIconPrimitive[7] = G_->GetResources()->CreateImagePrimitiveString("icons/erosion/base_8.png",16,-30,0,COLOR_TRUE_WHITE,1.f,false);
         ErosionIconPrimitive[8] = G_->GetResources()->CreateImagePrimitiveString("icons/erosion/base_9.png",16,-30,0,COLOR_TRUE_WHITE,1.f,false);
         ErosionIconPrimitive[9] = G_->GetResources()->CreateImagePrimitiveString("icons/erosion/base_9p.png",16,-30,0,COLOR_TRUE_WHITE,1.f,false);
+
+        initRenderPowerBoxes = true;
     }
 
     super(systemId, roomId, shipId, startingPower);
