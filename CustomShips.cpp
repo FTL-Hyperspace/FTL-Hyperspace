@@ -22,30 +22,30 @@ bool g_enemyPreigniterFix = false;
 
 void ShipManager_Extend::Initialize(bool restarting)
 {
-    auto customSel = CustomShipSelect::GetInstance();
+    CustomShipSelect *customSel = CustomShipSelect::GetInstance();
 
     isNewShip = customSel->IsCustomShip(orig->myBlueprint.blueprintName);
 
-    auto def = customSel->GetDefinition(orig->myBlueprint.blueprintName);
+    CustomShipDefinition &def = customSel->GetDefinition(orig->myBlueprint.blueprintName);
     if (!importingShip)
     {
-        for (auto i : def.hiddenAugs)
+        for (auto &i : def.hiddenAugs)
         {
             G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
         }
         CustomAugmentManager::GetInstance()->UpdateAugments(orig->iShipId);
     }
 
-    for (auto i : def.roomDefs)
+    for (auto &i : def.roomDefs)
     {
         if (i.first < orig->ship.vRoomList.size())
         {
             Room *room = orig->ship.vRoomList[i.first];
             auto rex = RM_EX(room);
 
-            for (auto &def : i.second->roomAnims)
+            for (auto &def2 : i.second->roomAnims)
             {
-                rex->roomAnims.emplace_back(def, room);
+                rex->roomAnims.emplace_back(def2, room);
             }
 
             rex->sensorBlind = i.second->sensorBlind;
@@ -54,7 +54,7 @@ void ShipManager_Extend::Initialize(bool restarting)
         }
     }
 
-    for (auto i : def.shipIcons)
+    for (auto &i : def.shipIcons)
     {
         auto iconDef = ShipIconManager::instance->GetShipIconDefinition(i);
         if (iconDef)
@@ -68,7 +68,7 @@ void ShipManager_Extend::Initialize(bool restarting)
 
     if (!restarting && !revisitingShip)
     {
-        for (auto i : def.crewList)
+        for (auto &i : def.crewList)
         {
             auto species = i.species;
 
