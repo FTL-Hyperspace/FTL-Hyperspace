@@ -79,6 +79,9 @@ LuaScriptInit::LuaScriptInit()
 
     this->m_libScript->LoadTypeInfo(); // Preload all the SWIG typedata so we don't need to do it every time we want to push a class for a callback
 
+    // set modified defaults for garbage collector
+    lua_gc(lua, LUA_GCSETPAUSE, 100);
+
     printf("Lua initialized!\n");
 }
 
