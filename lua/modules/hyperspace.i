@@ -330,7 +330,7 @@ playerVariableType playerVariables;
 }
 
 %ignore "";
-%rename("%(regex:/^(.*::~.*)$/\\1/)s", regextarget=1, fullname=1) ".*::~.*";
+%rename("%(regex:/^(.*::~.*)$/\\1/)s", regextarget=1, fullname=1) ".*::~.*"; // don't ignore destructors
 
 %rename("setWindowTitle") sys_graphics_set_window_title;
 
