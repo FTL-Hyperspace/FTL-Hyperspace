@@ -1674,9 +1674,9 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
 
 
 
-    auto oldShip = builder->currentShip;
+    ShipManager *oldShip = builder->currentShip;
 
-    ShipButtonDefinition def = shipButtonDefs[type - 100];
+    ShipButtonDefinition &def = shipButtonDefs[type - 100];
     std::string name( def.name );
 
     if (variant == 1)
