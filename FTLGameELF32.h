@@ -3986,6 +3986,7 @@ struct CombatDrone : SpaceDrone
 		this->constructor(shipId, self, bp);
 	}
 
+	LIBZHL_API void PickTarget();
 	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API void constructor(int iShipId, int selfId, const DroneBlueprint *bp);
 	
@@ -4249,6 +4250,7 @@ struct MenuScreen;
 struct MenuScreen : FocusWindow
 {
 	LIBZHL_API void OnRender();
+	LIBZHL_API void Open();
 	LIBZHL_API void constructor();
 	
 	GL_Texture *mainImage;
