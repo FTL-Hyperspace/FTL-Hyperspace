@@ -3248,40 +3248,40 @@ void CombatControl::MouseClick(int mX, int mY, bool shift)
 namespace _func251
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CombatDrone::constructor", typeid(void (CombatDrone::*)(int , int , const DroneBlueprint *)), "41554154554889cd4c8da5a0000000534889fb4883ec38", nullptr, 0, 0, &func);
-}
-
-void CombatDrone::constructor(int iShipId, int selfId, const DroneBlueprint *bp)
-{
-	typedef void (*custom_arg_funcptr_t)(CombatDrone *this_arg, int iShipId_arg, int selfId_arg, const DroneBlueprint *bp_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func251::func;
-	return execfunc(this, iShipId, selfId, bp);
-}
-
-namespace _func252
-{
-	static void *func = 0;
 	static FunctionDefinition funcObj("CombatDrone::SetWeaponTarget", typeid(void (CombatDrone::*)(Targetable *)), "554889f5534889fb4883ec084885f6743f", nullptr, 0, 0, &func);
 }
 
 void CombatDrone::SetWeaponTarget(Targetable *target)
 {
 	typedef void (*custom_arg_funcptr_t)(CombatDrone *this_arg, Targetable *target_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func252::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func251::func;
 	return execfunc(this, target);
 }
 
-namespace _func253
+namespace _func252
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CombatDrone::PickTarget", typeid(void (CombatDrone::*)()), "53488b074889fbff90000100", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CombatDrone::PickTarget", typeid(void (CombatDrone::*)()), ".53488b074889fbff90000100", nullptr, 0, 0, &func);
 }
 
 void CombatDrone::PickTarget()
 {
 	typedef void (*custom_arg_funcptr_t)(CombatDrone *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func253::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func252::func;
 	return execfunc(this);
+}
+
+namespace _func253
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("CombatDrone::constructor", typeid(void (CombatDrone::*)(int , int , const DroneBlueprint *)), ".41554154554889cd4c8da5a0000000534889fb4883ec38", nullptr, 0, 0, &func);
+}
+
+void CombatDrone::constructor(int iShipId, int selfId, const DroneBlueprint *bp)
+{
+	typedef void (*custom_arg_funcptr_t)(CombatDrone *this_arg, int iShipId_arg, int selfId_arg, const DroneBlueprint *bp_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func253::func;
+	return execfunc(this, iShipId, selfId, bp);
 }
 
 namespace _func254
@@ -9069,10 +9069,10 @@ std::string MantisAnimation::GetShootingSound()
 namespace _func707
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MenuScreen::OnRender", typeid(void (MenuScreen::*)()), "41564155415455534889fb4881eca000000080bf0803000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MenuScreen::constructor", typeid(void (MenuScreen::*)()), "41564155415455534889fb488d6b784881ece0000000", nullptr, 0, 0, &func);
 }
 
-void MenuScreen::OnRender()
+void MenuScreen::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(MenuScreen *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func707::func;
@@ -9082,10 +9082,10 @@ void MenuScreen::OnRender()
 namespace _func708
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MenuScreen::Open", typeid(void (MenuScreen::*)()), "415641554989fd488d7f7841", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MenuScreen::OnRender", typeid(void (MenuScreen::*)()), ".41564155415455534889fb4881eca000000080bf0803000000", nullptr, 0, 0, &func);
 }
 
-void MenuScreen::Open()
+void MenuScreen::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(MenuScreen *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func708::func;
@@ -9095,10 +9095,10 @@ void MenuScreen::Open()
 namespace _func709
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MenuScreen::constructor", typeid(void (MenuScreen::*)()), "41564155415455534889fb488d6b784881ece0000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MenuScreen::Open", typeid(void (MenuScreen::*)()), ".415641554989fd488d7f7841", nullptr, 0, 0, &func);
 }
 
-void MenuScreen::constructor()
+void MenuScreen::Open()
 {
 	typedef void (*custom_arg_funcptr_t)(MenuScreen *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func709::func;
