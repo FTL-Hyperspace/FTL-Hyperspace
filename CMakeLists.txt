@@ -10,6 +10,7 @@ if(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
+    find_package(GLUT REQUIRED) # From vcpkg
 endif()
 
 # pthread
@@ -293,16 +294,16 @@ add_custom_command(
 
 target_compile_options(
     Hyperspace PRIVATE
-    
+
     # Enable SSE2
     -msse -msse2 -mfpmath=sse
-    
+
     # Error on narrowing conversion
     -Werror=narrowing
-    
+
     # Explicit C++11 mode
     -std=c++11
-    
+
     # Warn everything
     # TODO: Check if it's meaningful (original .cbp defined it)
     # -Wall
@@ -333,6 +334,9 @@ if(UNIX)
 elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
+
+    # OpenGL GLUT (freeglut)
+    target_link_libraries(Hyperspace PRIVATE GLUT::GLUT)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

@@ -130,9 +130,6 @@ RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-to
 RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
     && cp /usr/local/lib/clang/17/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
 
-# Install freeglut3-dev for the OpenGL/GLUT headers (Only Windows needs this)
-RUN apt-get install -y --no-install-recommends freeglut3-dev:i386
-
 # Cleanup apt lists from the image
 RUN rm -rf /var/lib/apt/lists/*
 
