@@ -312,6 +312,7 @@ playerVariableType playerVariables;
 }
 
 %ignore "";
+%rename("%(regex:/^(.*::~.*)$/\\1/)s", regextarget=1, fullname=1) ".*::~.*"; // don't ignore destructors
 
 %rename("setWindowTitle") sys_graphics_set_window_title;
 
@@ -2491,6 +2492,11 @@ playerVariableType playerVariables;
 %rename("%(regex:/^Point::(.*)$/\\1/)s", regextarget=1, fullname=1) "Point::.*";
 %rename("%s") Pointf;
 %rename("%(regex:/^Pointf::(.*)$/\\1/)s", regextarget=1, fullname=1) "Pointf::.*";
+
+%rename("%s") TextString;
+%rename("%s") TextString::GetText;
+%rename("%s") TextString::data;
+%rename("%s") TextString::isLiteral;
 
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.

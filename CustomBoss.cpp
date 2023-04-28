@@ -388,11 +388,40 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
                 {
                     Pointf targetPos = current_target->GetRandomRoomCenter();
                     Pointf finalPos;
-                    do
+
+                    if (bp->length > 1) // real beam
                     {
-                        finalPos = current_target->GetRandomRoomCenter();
+                        do
+                        {
+                            finalPos = current_target->GetRandomRoomCenter();
+                        }
+                        while (finalPos.x == targetPos.x && finalPos.y == targetPos.y);
                     }
-                    while (finalPos.x == targetPos.x && finalPos.y == targetPos.y);
+                    else // pinpoint beam
+                    {
+                        int roomNumber = G_->GetShipManager(targetId)->ship.GetSelectedRoomId(targetPos.x, targetPos.y, true);
+                        if (roomNumber != -1)
+                        {
+                            ShipGraph *shipInfo = ShipGraph::GetShipInfo(targetId);
+                            int numSlots = shipInfo->GetNumSlots(roomNumber);
+                            int randomSlot = random32() % numSlots;
+                            Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
+                            Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+
+                            targetPos.x = (grid.x * 35.f + 17.0f);
+                            targetPos.y = (grid.y * 35.f + 17.5f);
+                            finalPos.x=targetPos.x+1.0f;
+                            finalPos.y=targetPos.y;
+                        }
+                        else // fallback
+                        {
+                            do
+                            {
+                                finalPos = current_target->GetRandomRoomCenter();
+                            }
+                            while (finalPos.x == targetPos.x && finalPos.y == targetPos.y);
+                        }
+                    }
                     float heading = random32()%360;
 
                     BeamWeapon *projectile = new BeamWeapon(pos,iShipId,targetId,targetPos,finalPos,bp->length,&current_target->_targetable);

@@ -4160,12 +4160,10 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
                     if (actualShip)
                     {
-                        Damage* dmg = power->GetPowerDamage(); // creates a new object
+                        Damage dmg = power->GetPowerDamage();
 
                         shipFriendlyFire = power->def->shipFriendlyFire;
-                        actualShip->DamageArea(power->effectWorldPos, *dmg, true);
-
-                        delete dmg;
+                        actualShip->DamageArea(power->effectWorldPos, dmg, true);
                     }
                     power->powerActivated = false;
                 }
