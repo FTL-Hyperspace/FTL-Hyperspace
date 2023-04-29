@@ -785,7 +785,7 @@ HOOK_METHOD_PRIORITY(HackingDrone, CollisionMoving, 9999, (Pointf start, Pointf 
     LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
     CollisionResponse ret;
 
-    if (explosion.tracker.running || arrived)
+    if (!deployed || explosion.tracker.running || arrived)
     {
         ret = CollisionResponse();
         ret.collision_type = 0;
@@ -796,7 +796,7 @@ HOOK_METHOD_PRIORITY(HackingDrone, CollisionMoving, 9999, (Pointf start, Pointf 
     }
 
     ret = this->SpaceDrone::CollisionMoving(start, finish, damage, raytrace);
-    this->bDead = false; // vanilla does something like this for some reason
+    this->bDead = false; // vanilla does something like this for some reason, why do we even do this it seems like it would just break things
     return ret;
 }
 
