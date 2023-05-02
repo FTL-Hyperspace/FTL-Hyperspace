@@ -15,3 +15,5 @@ private:
     static CommandConsole instance;
 };
 
+extern bool speedEnabled;
+
