@@ -15,6 +15,7 @@
 #include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
 #include "ToggleValue.h"
+#include "CommandConsole.h"
 %}
 
 %feature("flatnested");
@@ -239,6 +240,34 @@ struct CFPS
 };
 %clearnodefaultctor;
 %clearnodefaultdtor;
+
+//Add setter/getter members such that Hyperspace.FPS.speedEnabled appears to be a valid member.
+%init %{
+        SWIG_Lua_get_class_metatable(L, "CFPS"); //Get CFPS metatable.
+        SWIG_Lua_get_table(L, ".get");
+        SWIG_Lua_add_function(L, "speedEnabled", 
+        [](lua_State* L) -> int
+        {
+            lua_pushboolean(L, speedEnabled);
+            return 1;
+        });
+        lua_pop(L, 1);             //Remove .get table
+        SWIG_Lua_get_table(L, ".set");
+        SWIG_Lua_add_function(L, "speedEnabled", 
+        [](lua_State* L) -> int
+        {
+            SWIG_check_num_args("CFPS::speedEnabled", 2, 2)
+            if (!lua_isboolean(L, 2)) SWIG_fail_arg("CFPS::speedEnabled", 2, "bool");
+            speedEnabled = (lua_toboolean(L, 2) != 0 );
+            return 0;
+            fail:
+                lua_error(L);
+                return 0;
+        });
+        lua_pop(L, 2); //Remove .set table and metatable
+
+%}
+
 
 // make player variables and metavariables look like a different class
 %{
