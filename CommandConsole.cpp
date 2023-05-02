@@ -9,7 +9,7 @@
 
 CommandConsole CommandConsole::instance = CommandConsole();
 
-int speedEnabled = true;
+bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
 
