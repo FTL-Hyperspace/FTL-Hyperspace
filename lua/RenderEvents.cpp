@@ -51,6 +51,17 @@ HOOK_METHOD(CommandGui, RenderPlayerShip, (Point &shipCenter, float jumpScale) -
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::LAYER_PLAYER, std::abs(idx), 0);
 }
 
+HOOK_METHOD(CompleteShip, OnRenderShip, (bool unk1, bool unk2) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CompleteShip::OnRenderShip -> Begin (RenderEvents.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), &(shipManager->ship), context->getLibScript()->types.pShip, 0);
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP, 1);
+    if (idx >= 0) super(unk1, unk2);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP, std::abs(idx), 1);
+    lua_pop(context->GetLua(), 1);
+}
+
 HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderSparks -> Begin (RenderEvents.cpp)\n")

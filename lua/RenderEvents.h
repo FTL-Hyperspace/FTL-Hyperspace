@@ -13,7 +13,7 @@ struct RenderEvents
         LAYER_FOREGROUND, // SpaceManager::OnRenderForeground
         LAYER_ASTEROIDS, // SpaceManager::OnRenderAsteroids with Layer 3
         LAYER_PLAYER, // CommandGui::RenderPlayerShip (before)
-        ////SHIP, // CompleteShip::OnRenderShip (affects enemy too), NOTE: We probably want a ENEMY_SHIP render instead of just SHIP, Might be able to trigger from the hook in `CombatControl::RenderTarget` or `CombatControl::OnRenderCombat`?
+        SHIP, // CompleteShip::OnRenderShip (affects enemy too), NOTE: We probably want a ENEMY_SHIP render instead of just SHIP, Might be able to trigger from the hook in `CombatControl::RenderTarget` or `CombatControl::OnRenderCombat`?
         ////PLAYER_SHIP_PROJECTILES_BACKGROUND, // SpaceManager::OnRenderProjectiles with Layer 2 (before ship), NOTE: We may wish to split this out into PLAYER_SHIP_PROJECTILES_BACKGROUND & ENEMY_SHIP_PROJECTILES_BACKGROUND
         ////PLAYER_SHIP_PROJECTILES_FOREGROUND, // SpaceManager::OnRenderProjectiles with Lyaer 1 (after ship), NOTE: We may wish to split this out into PLAYER_SHIP_PROJECTILES_FOREGROUND & ENEMY_SHIP_PROJECTILES_FOREGROUND
         ////SHIP_MANAGER, // ShipManager::OnRender (note, has some details about showInterior & doorControlMode that might be important)

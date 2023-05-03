@@ -187,6 +187,7 @@ public:
     CApp* GetCApp();
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
+    AnimationControl *GetAnimationControl();
 
     static bool IsSeededRun();
 };
@@ -1210,6 +1211,22 @@ playerVariableType playerVariables;
 %rename("%s") WeaponMount::slide;
 %rename("%s") WeaponMount::gib;
 
+%nodefaultctors AnimationControl;
+%nodefaultdtors AnimationControl;
+%rename("%s") AnimationControl;
+%rename("%s") AnimationControl::GetAnimation;
+
+%nodefaultctors AnimationDescriptor;
+%nodefaultdtors AnimationDescriptor;
+%rename("%s") AnimationDescriptor;
+%rename("%s") AnimationDescriptor::numFrames;
+%rename("%s") AnimationDescriptor::imageWidth;
+%rename("%s") AnimationDescriptor::imageHeight;
+%rename("%s") AnimationDescriptor::stripStartY;
+%rename("%s") AnimationDescriptor::stripStartX;
+%rename("%s") AnimationDescriptor::frameWidth;
+%rename("%s") AnimationDescriptor::frameHeight;
+
 %nodefaultctors WeaponAnimation;
 %nodefaultdtors WeaponAnimation;
 %rename("%s") WeaponAnimation;
@@ -1252,6 +1269,7 @@ playerVariableType playerVariables;
 %rename("%s") Animation::AddSoundQueue;
 %rename("%s") Animation::Done;
 %rename("%s") Animation::LoadState;
+%rename("%s") Animation::OnRender;
 %rename("%s") Animation::RandomStart;
 %rename("%s") Animation::SaveState;
 %rename("%s") Animation::SetAnimationId;
