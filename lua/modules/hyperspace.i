@@ -637,6 +637,17 @@ playerVariableType playerVariables;
 %rename("%s") Globals::Rect::h;
 
 
+%rename("%s") ImageDesc;
+%nodefaultctor ImageDesc;
+%nodefaultdtor ImageDesc;
+%rename("%s") ImageDesc::tex;
+%rename("%s") ImageDesc::resId;
+%rename("%s") ImageDesc::w;
+%rename("%s") ImageDesc::h;
+%rename("%s") ImageDesc::x;
+%rename("%s") ImageDesc::y;
+%rename("%s") ImageDesc::rot;
+
 %nodefaultctor Location;
 %rename("%s") Location;
 %rename("%s") Location::space;
