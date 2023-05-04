@@ -2090,10 +2090,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             _CALCULATE_BASE_STAT(*boolValue, silenced);
             isBool = true;
             break;
-        case CrewStat::ACTIVATE_WHEN_READY:
-            // the base value should be set before calling this method
-            isBool = true;
-            break;
         case CrewStat::DEATH_EFFECT:
             deathEffectChange = def->explosionDef;
             hasDeathExplosion = def->hasDeathExplosion;
@@ -2106,22 +2102,33 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::POWER_MAX_CHARGES:
             for (ActivatedPower *power : crewPowers)
             {
-                if (power->enabled) power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+                if (power->enabled || power->def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
             }
             for (ActivatedPowerResource *resource : powerResources)
             {
-                if (resource->enabled) resource->modifiedPowerCharges = resource->def->powerCharges == -1 ? HUGE_VAL : resource->def->powerCharges;
+                if (resource->enabled || resource->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    resource->modifiedPowerCharges = resource->def->powerCharges == -1 ? HUGE_VAL : resource->def->powerCharges;
             }
             isEffect = true;
             break;
         case CrewStat::POWER_CHARGES_PER_JUMP:
             for (ActivatedPower *power : crewPowers)
             {
-                if (power->enabled) power->modifiedChargesPerJump = power->def->chargesPerJump;
+                if (power->enabled || power->def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    power->modifiedChargesPerJump = power->def->chargesPerJump;
             }
             for (ActivatedPowerResource *resource : powerResources)
             {
-                if (resource->enabled) resource->modifiedChargesPerJump = resource->def->chargesPerJump;
+                if (resource->enabled || resource->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    resource->modifiedChargesPerJump = resource->def->chargesPerJump;
+            }
+            isEffect = true;
+            break;
+        case CrewStat::ACTIVATE_WHEN_READY:
+            for (ActivatedPower *power : crewPowers)
+            {
+                if (power->enabled) power->activateWhenReady = power->def->activateWhenReady  && (!power->def->activateReadyEnemies || (orig->GetPowerOwner() == 1));
             }
             isEffect = true;
             break;
@@ -2286,7 +2293,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2319,7 +2326,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         }
                         for (ActivatedPowerResource *power : powerResources)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2356,7 +2363,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2389,7 +2396,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         }
                         for (ActivatedPowerResource *power : powerResources)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2418,6 +2425,27 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
                             {
                                 power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::ACTIVATE_WHEN_READY:
+                    {
+                        if (sysPowerScaling)
+                        {
+                            for (ActivatedPower *power : crewPowers)
+                            {
+                                if (!power->enabled) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->activateWhenReady = statBoost.def->value;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
+                                {
+                                    power->activateWhenReady = !power->activateWhenReady;
+                                }
                             }
                         }
                     }
