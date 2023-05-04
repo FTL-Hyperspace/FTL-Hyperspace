@@ -1230,6 +1230,7 @@ playerVariableType playerVariables;
 %nodefaultctors WeaponAnimation;
 %nodefaultdtors WeaponAnimation;
 %rename("%s") WeaponAnimation;
+%rename("%s") WeaponAnimation::GetSlide;
 %rename("%s") WeaponAnimation::SetFireTime;
 %rename("%s") WeaponAnimation::anim;
 %rename("%s") WeaponAnimation::bFireShot;
