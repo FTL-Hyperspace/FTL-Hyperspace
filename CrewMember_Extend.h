@@ -117,6 +117,7 @@ public:
 
     // definition modifiers that don't need to be saved
     float modifiedChargesPerJump = 0.f;
+    bool activateWhenReady = false;
 
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();

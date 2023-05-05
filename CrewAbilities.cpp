@@ -774,21 +774,20 @@ void ActivatedPower::OnUpdate()
             this->powerCooldown.first = std::max(0.f, std::min(this->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * crew_ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, crewdef)) + this->powerCooldown.first));
         }
 
-        if (this->enabled && !crew->IsDead() && crew->Functional())
+        // If power is enabled and crew is alive and functional then check if they should activate their power automatically.
+        if (this->enabled && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
         {
-            bool activateWhenReady = this->def->activateWhenReady && (!this->def->activateReadyEnemies || (crew->GetPowerOwner() == 1));
-            // Only check activateWhenReady if not dying
-            if (crew->crewAnim->status != 3) crew_ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, crewdef, &activateWhenReady);
-            if (activateWhenReady)
+            if (this->activateWhenReady)
             {
                 if (this->PowerReady() == POWER_READY)
                 {
                     this->PreparePower();
                 }
             }
-            else // vanilla condition but for enemy controlling your crew with MIND_ORDER
+            else
             {
-                if (crew->iShipId == 0 && crew->crewTarget && crew->CanFight() && crew->crewTarget->IsCrew() && this->PowerReady() == POWER_READY &&
+                // Vanilla condition
+                if (crew->crewTarget && crew->CanFight() && crew->crewTarget->IsCrew() && this->PowerReady() == POWER_READY &&
                     crew->GetPowerOwner() == 1 && crew->health.first > 0.5f*crew->health.second)
                 {
                     if (!crew->ship->RoomLocked(crew->iRoomId))
@@ -1255,9 +1254,11 @@ void CrewMember_Extend::CalculatePowerDef()
     // Now calculate power definition modifiers (any that need to be updated every frame)
     if (!crewPowers.empty() || !powerResources.empty())
     {
-        // Update the max charges
+        // Calculate modifier stats
         CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+        CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def); // no further action needed, sets the activateWhenReady flag for OnUpdate call
 
+        // Apply max charges stat
         for (ActivatedPower *power : crewPowers)
         {
             if (!power->enabled) continue;
