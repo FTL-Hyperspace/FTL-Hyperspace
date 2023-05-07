@@ -1256,17 +1256,58 @@ void CrewMember_Extend::CalculatePowerDef()
     {
         // Calculate modifier stats
         CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+        CalculateStat(CrewStat::POWER_COOLDOWN, def);
         CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def); // no further action needed, sets the activateWhenReady flag for OnUpdate call
+
+        // Apply cooldown modifier
+        for (ActivatedPower *power : crewPowers)
+        {
+            if (!power->enabled && !power->def->disabledCooldown != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+            if (power->powerCooldown.second != power->modifiedPowerCooldown)
+            {
+                // If changing from or to positive then clear crew boxes
+                if ((power->powerCooldown.second > 0.f) != (power->modifiedPowerCooldown > 0.f) && power->enabled) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+
+                if (power->powerCooldown.second > 0.f)
+                {
+                    power->powerCooldown.first = power->modifiedPowerCooldown * (power->powerCooldown.first / power->powerCooldown.second);
+                }
+                else
+                {
+                    power->powerCooldown.first = power->modifiedPowerCooldown;
+                }
+                power->powerCooldown.second = power->modifiedPowerCooldown;
+            }
+        }
+        for (ActivatedPowerResource *resource : powerResources)
+        {
+            if (!resource->enabled && !resource->def->disabledCooldown != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+            if (resource->powerCooldown.second != resource->modifiedPowerCooldown)
+            {
+                // If changing from or to positive then clear crew boxes
+                if ((resource->powerCooldown.second > 0.f) != (resource->modifiedPowerCooldown > 0.f) && resource->enabled) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+
+                if (resource->powerCooldown.second > 0.f)
+                {
+                    resource->powerCooldown.first = resource->modifiedPowerCooldown * (resource->powerCooldown.first / resource->powerCooldown.second);
+                }
+                else
+                {
+                    resource->powerCooldown.first = resource->modifiedPowerCooldown;
+                }
+                resource->powerCooldown.second = resource->modifiedPowerCooldown;
+            }
+        }
 
         // Apply max charges stat
         for (ActivatedPower *power : crewPowers)
         {
-            if (!power->enabled) continue;
+            if (!power->enabled && !power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
             int iMaxCharges = power->modifiedPowerCharges >= 2147483648.f ? -1 : power->modifiedPowerCharges;
             if (power->powerCharges.second != iMaxCharges)
             {
                 // If changing from or to -1 then clear crew boxes
-                if ((power->powerCharges.second == -1) != (iMaxCharges == -1)) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                if ((power->powerCharges.second == -1) != (iMaxCharges == -1) && power->enabled) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
 
                 power->powerCharges.second = iMaxCharges;
                 if (iMaxCharges != -1)
@@ -1277,12 +1318,12 @@ void CrewMember_Extend::CalculatePowerDef()
         }
         for (ActivatedPowerResource *resource : powerResources)
         {
-            if (!resource->enabled) continue;
+            if (!resource->enabled && !resource->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
             int iMaxCharges = resource->modifiedPowerCharges >= 2147483648.f ? -1 : resource->modifiedPowerCharges;
             if (resource->powerCharges.second != iMaxCharges)
             {
                 // If changing from or to -1 then clear crew boxes
-                if ((resource->powerCharges.second == -1) != (iMaxCharges == -1)) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                if ((resource->powerCharges.second == -1) != (iMaxCharges == -1) && resource->enabled) G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
 
                 resource->powerCharges.second = iMaxCharges;
                 if (iMaxCharges != -1)
@@ -1328,7 +1369,8 @@ void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
         StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
     }
 
-    // Update cooldown
+    // Update cooldown (no longer happens here, updated with power modifiers in CalculatePowerDef)
+    /*
     if (powerCooldown.second > 0.f)
     {
         powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
@@ -1338,6 +1380,7 @@ void ActivatedPower::ChangePowerDef(ActivatedPowerDefinition *newDef)
         powerCooldown.first = powerCooldown.second;
     }
     powerCooldown.second = newDef->cooldown;
+    */
 
     // Redefine resources
     powerResources.clear();

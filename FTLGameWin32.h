@@ -4698,6 +4698,8 @@ struct CrewMemberFactory
 	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+	
+	float GetCrewCapacityUsed();
 
 	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
@@ -4750,6 +4752,8 @@ struct CrewStoreBox : StoreBox
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
 	}
 
+	LIBZHL_API bool CanHold();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	
