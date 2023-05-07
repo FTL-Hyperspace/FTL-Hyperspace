@@ -201,14 +201,18 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
     SM_EX(this)->Initialize(true);
 }
 
+float CrewMemberFactory::GetCrewCapacityUsed()
+{
+    return CustomCrewManager::GetInstance()->crewCapacityUsed;
+}
 
 HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
-    if (iShipId == 1) return false;
+    if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    int crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
     if (crewLimit > crewCount)
@@ -222,16 +226,16 @@ HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewOverFull -> Begin (CustomShips.cpp)\n")
-    if (iShipId == 1) return false;
+    if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
     if (crewLimit >= crewCount) return false;
 
+    // Allow the upgrade/equipment screens to be opened without forcing the crew screen open
     CommandGui *commandGui = G_->GetWorld()->commandGui;
-
     return !(commandGui->upgradeScreen.bOpen || commandGui->equipScreen.bOpen);
 }
 

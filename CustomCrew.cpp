@@ -506,7 +506,11 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         }
                         if (str == "powerResource")
                         {
-                            ParseAbilityResource(stat); // doesn't get used directly for now, just allows it to be
+                            ParseAbilityResource(stat); // doesn't get used directly for now, just allows it to be defined
+                        }
+                        if (str == "crewSlots")
+                        {
+                            crew.crewSlots = boost::lexical_cast<float>(val);
                         }
                         if (str == "noSlot")
                         {
@@ -5933,10 +5937,13 @@ static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = 
 HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::OnLoop -> Begin (CustomCrew.cpp)\n")
+
+    CustomCrewManager *crewManager = CustomCrewManager::GetInstance();
+
     for (auto i : crewMembers)
     {
         bool noSlot;
-        CM_EX(i)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(i->species), &noSlot);
+        CM_EX(i)->CalculateStat(CrewStat::NO_SLOT, crewManager->GetDefinition(i->species), &noSlot);
         if (noSlot)
         {
             g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
@@ -5947,6 +5954,21 @@ HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
     }
 
     super();
+
+    crewManager->crewCapacityUsed = 0.f;
+    for (auto i : crewMembers)
+    {
+        if (i->iShipId == 0)
+        {
+            if (!i->bOutOfGame || i->clone_ready)
+            {
+                if (i->CountForVictory())
+                {
+                    crewManager->crewCapacityUsed += CM_EX(i)->CalculateStat(CrewStat::CREW_SLOTS, crewManager->GetDefinition(i->species));
+                }
+            }
+        }
+    }
 
     for (auto i : g_tempOutOfGame)
     {

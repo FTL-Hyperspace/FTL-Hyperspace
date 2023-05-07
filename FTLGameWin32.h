@@ -4698,6 +4698,8 @@ struct CrewMemberFactory
 	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+	
+	float GetCrewCapacityUsed();
 
 	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);

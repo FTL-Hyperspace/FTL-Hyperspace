@@ -69,6 +69,7 @@ const std::array<std::string, numStats> crewStats =
     "silenced",
     "lowHealthThreshold",
     // non-cached stats
+    "crewSlots",
     "activateWhenReady",
     "statBoost",
     "deathEffect",
@@ -1994,6 +1995,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::POWER_RECHARGE_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, powerRechargeMultiplier);
+            break;
+        case CrewStat::CREW_SLOTS:
+            finalStat = def->crewSlots;
             break;
         case CrewStat::CAN_FIGHT:
             _CALCULATE_BASE_STAT(*boolValue, canFight);

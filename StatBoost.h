@@ -69,6 +69,7 @@ enum class CrewStat : unsigned int
     SILENCED,
     LOW_HEALTH_THRESHOLD,
     // non-cached stats
+    CREW_SLOTS, // this doesn't need to be cached since the crew slots are totalled once per frame
     ACTIVATE_WHEN_READY,
     STAT_BOOST,
     DEATH_EFFECT,
