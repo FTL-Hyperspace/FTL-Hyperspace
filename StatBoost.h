@@ -75,6 +75,7 @@ enum class CrewStat : unsigned int
     POWER_EFFECT,
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
+    POWER_COOLDOWN,
     TRANSFORM_RACE
 };
 
