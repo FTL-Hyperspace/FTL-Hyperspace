@@ -69,12 +69,14 @@ const std::array<std::string, numStats> crewStats =
     "silenced",
     "lowHealthThreshold",
     // non-cached stats
+    "crewSlots",
     "activateWhenReady",
     "statBoost",
     "deathEffect",
     "powerEffect",
     "powerCharges",
     "chargesPerJump",
+    "powerCooldown",
     "transformRace"
 };
 
@@ -1994,6 +1996,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::POWER_RECHARGE_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, powerRechargeMultiplier);
             break;
+        case CrewStat::CREW_SLOTS:
+            finalStat = def->crewSlots;
+            break;
         case CrewStat::CAN_FIGHT:
             _CALCULATE_BASE_STAT(*boolValue, canFight);
             isBool = true;
@@ -2122,6 +2127,19 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             {
                 if (resource->enabled || resource->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
                     resource->modifiedChargesPerJump = resource->def->chargesPerJump;
+            }
+            isEffect = true;
+            break;
+        case CrewStat::POWER_COOLDOWN:
+            for (ActivatedPower *power : crewPowers)
+            {
+                if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    power->modifiedPowerCooldown = power->def->cooldown;
+            }
+            for (ActivatedPowerResource *resource : powerResources)
+            {
+                if (resource->enabled || resource->def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    resource->modifiedPowerCooldown = resource->def->cooldown;
             }
             isEffect = true;
             break;
@@ -2429,6 +2447,76 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         }
                     }
                     break;
+                    case CrewStat::POWER_COOLDOWN:
+                    {
+                        for (ActivatedPower *power : crewPowers)
+                        {
+                            if (!power->enabled && power->def->disabledCooldown != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCooldown *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                        for (ActivatedPowerResource *power : powerResources)
+                        {
+                            if (!power->enabled && power->def->disabledCooldown != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCooldown *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
                     case CrewStat::ACTIVATE_WHEN_READY:
                     {
                         if (sysPowerScaling)
@@ -2637,6 +2725,39 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "Calculate stat time: " << ms_double.count();
     return finalStat;
+}
+
+float StatBoostManager::CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId, int roomId)
+{
+    // This method calculates a stat for a dummy crew. Use for float stats.
+    dummyCrew->species = def->race;
+    dummyCrew->type = def->race;
+    dummyCrew->crewAnim->race = def->race;
+    dummyCrew->iShipId = ownerId;
+    dummyCrew->currentShipId = shipId;
+    dummyCrew->iRoomId = roomId;
+
+    return CM_EX(dummyCrew)->CalculateStat(stat, def);
+}
+
+void StatBoostManager::CreateDummyCrew()
+{
+    if (!dummyCrew)
+    {
+        // create a dummy crew outside of CrewMemberFactory
+        CrewBlueprint crewBlue = G_->GetBlueprints()->GetCrewBlueprint("human");
+        dummyCrew = new CrewMember(crewBlue, 0, false, nullptr);
+    }
+}
+
+HOOK_METHOD(MainMenu, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (StatBoost.cpp)\n")
+
+    // since creating a dummy crew still adds the crew to the ship's equipment list, do it when the game loads so it doesn't affect anything
+    StatBoostManager::GetInstance()->CreateDummyCrew();
+
+    super();
 }
 
 int CrewMember_Extend::CalculateDangerRating(float health, int roomId)

@@ -6,6 +6,7 @@
 #include "EnumClassHash.h"
 #include <unordered_set>
 
+struct CrewDefinition;
 struct ActivatedPowerDefinition;
 struct PowerResourceDefinition;
 class CrewMember_Extend;
@@ -69,12 +70,14 @@ enum class CrewStat : unsigned int
     SILENCED,
     LOW_HEALTH_THRESHOLD,
     // non-cached stats
+    CREW_SLOTS, // this doesn't need to be cached since the crew slots are totalled once per frame
     ACTIVATE_WHEN_READY,
     STAT_BOOST,
     DEATH_EFFECT,
     POWER_EFFECT,
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
+    POWER_COOLDOWN,
     TRANSFORM_RACE
 };
 
@@ -272,6 +275,9 @@ public:
     StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
+
+    float CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId = -1, int roomId = -1);
+    void CreateDummyCrew();
 private:
     static StatBoostManager instance;
     ShipManager* playerShip;
@@ -281,6 +287,8 @@ private:
 
     int nextStackId = 0;
     std::unordered_map<std::string, int> stackIdMap;
+
+    CrewMember *dummyCrew = nullptr;
 
     int GiveStackId()
     {
