@@ -6,6 +6,7 @@
 #include "EnumClassHash.h"
 #include <unordered_set>
 
+struct CrewDefinition;
 struct ActivatedPowerDefinition;
 struct PowerResourceDefinition;
 class CrewMember_Extend;
@@ -274,6 +275,9 @@ public:
     StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
+
+    float CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId = -1, int roomId = -1);
+    void CreateDummyCrew();
 private:
     static StatBoostManager instance;
     ShipManager* playerShip;
@@ -283,6 +287,8 @@ private:
 
     int nextStackId = 0;
     std::unordered_map<std::string, int> stackIdMap;
+
+    CrewMember *dummyCrew = nullptr;
 
     int GiveStackId()
     {

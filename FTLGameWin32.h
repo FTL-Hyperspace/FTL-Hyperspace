@@ -4752,6 +4752,8 @@ struct CrewStoreBox : StoreBox
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
 	}
 
+	LIBZHL_API bool CanHold();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	

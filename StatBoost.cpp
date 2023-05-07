@@ -2727,6 +2727,39 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
     return finalStat;
 }
 
+float StatBoostManager::CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId, int roomId)
+{
+    // This method calculates a stat for a dummy crew. Use for float stats.
+    dummyCrew->species = def->race;
+    dummyCrew->type = def->race;
+    dummyCrew->crewAnim->race = def->race;
+    dummyCrew->iShipId = ownerId;
+    dummyCrew->currentShipId = shipId;
+    dummyCrew->iRoomId = roomId;
+
+    return CM_EX(dummyCrew)->CalculateStat(stat, def);
+}
+
+void StatBoostManager::CreateDummyCrew()
+{
+    if (!dummyCrew)
+    {
+        // create a dummy crew outside of CrewMemberFactory
+        CrewBlueprint crewBlue = G_->GetBlueprints()->GetCrewBlueprint("human");
+        dummyCrew = new CrewMember(crewBlue, 0, false, nullptr);
+    }
+}
+
+HOOK_METHOD(MainMenu, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (StatBoost.cpp)\n")
+
+    // since creating a dummy crew still adds the crew to the ship's equipment list, do it when the game loads so it doesn't affect anything
+    StatBoostManager::GetInstance()->CreateDummyCrew();
+
+    super();
+}
+
 int CrewMember_Extend::CalculateDangerRating(float health, int roomId)
 {
     std::vector<StatBoost> personalStatBoosts;
