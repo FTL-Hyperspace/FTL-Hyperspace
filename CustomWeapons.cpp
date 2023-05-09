@@ -372,6 +372,23 @@ HOOK_METHOD(ProjectileFactory, SpendMissiles, () -> int)
     return super();
 }
 
+// Charger pre-ignition
+HOOK_METHOD(ProjectileFactory, ForceCoolup, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::ForceCoolup -> Begin (CustomWeapons.cpp)\n")
+
+    if (CustomOptionsManager::GetInstance()->preIgniteChargers.currentValue)
+    {
+        if (powered) {
+            cooldown.first = cooldown.second;
+            chargeLevel = std::max(1, this->blueprint->chargeLevels);
+        }
+        return;
+    }
+
+    super();
+}
+
 // Weapon Types:
 // 0: LASER
 // 1: MISSILES

@@ -80,6 +80,8 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
 
 <dismissSound enabled="true" sound="airLoss"/>
 
+<preIgniteChargers enabled="true"/> <!-- If enabled, charger type weapons will gain all their charges when pre-ignited instead of just one -->
+
 <!-- Discord rich presence integration -->
 
 <discord enabled="true">

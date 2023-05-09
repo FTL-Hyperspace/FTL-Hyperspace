@@ -451,6 +451,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "preIgniteChargers") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
