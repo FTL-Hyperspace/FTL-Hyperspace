@@ -175,6 +175,7 @@ public:
     CApp* GetCApp();
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
+    AnimationControl *GetAnimationControl();
 };
 
 void ErrorMessage(const char* msg);
@@ -610,6 +611,17 @@ playerVariableType playerVariables;
 %rename("%s") Globals::Rect::w;
 %rename("%s") Globals::Rect::h;
 
+
+%rename("%s") ImageDesc;
+%nodefaultctor ImageDesc;
+%nodefaultdtor ImageDesc;
+%rename("%s") ImageDesc::tex;
+%rename("%s") ImageDesc::resId;
+%rename("%s") ImageDesc::w;
+%rename("%s") ImageDesc::h;
+%rename("%s") ImageDesc::x;
+%rename("%s") ImageDesc::y;
+%rename("%s") ImageDesc::rot;
 
 %nodefaultctor Location;
 %rename("%s") Location;
@@ -1167,9 +1179,26 @@ playerVariableType playerVariables;
 %rename("%s") WeaponMount::slide;
 %rename("%s") WeaponMount::gib;
 
+%nodefaultctors AnimationControl;
+%nodefaultdtors AnimationControl;
+%rename("%s") AnimationControl;
+%rename("%s") AnimationControl::GetAnimation;
+
+%nodefaultctors AnimationDescriptor;
+%nodefaultdtors AnimationDescriptor;
+%rename("%s") AnimationDescriptor;
+%rename("%s") AnimationDescriptor::numFrames;
+%rename("%s") AnimationDescriptor::imageWidth;
+%rename("%s") AnimationDescriptor::imageHeight;
+%rename("%s") AnimationDescriptor::stripStartY;
+%rename("%s") AnimationDescriptor::stripStartX;
+%rename("%s") AnimationDescriptor::frameWidth;
+%rename("%s") AnimationDescriptor::frameHeight;
+
 %nodefaultctors WeaponAnimation;
 %nodefaultdtors WeaponAnimation;
 %rename("%s") WeaponAnimation;
+%rename("%s") WeaponAnimation::GetSlide;
 %rename("%s") WeaponAnimation::SetFireTime;
 %rename("%s") WeaponAnimation::anim;
 %rename("%s") WeaponAnimation::bFireShot;
@@ -1209,6 +1238,7 @@ playerVariableType playerVariables;
 %rename("%s") Animation::AddSoundQueue;
 %rename("%s") Animation::Done;
 %rename("%s") Animation::LoadState;
+%rename("%s") Animation::OnRender;
 %rename("%s") Animation::RandomStart;
 %rename("%s") Animation::SaveState;
 %rename("%s") Animation::SetAnimationId;
