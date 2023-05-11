@@ -2,6 +2,7 @@
 
 HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ArtilleryBox::OnRender -> Begin (ArtilleryBarFix.cpp)\n")
     CooldownSystemBox::OnRender(ignoreStatus);
 
     CSurface::GL_PushMatrix();

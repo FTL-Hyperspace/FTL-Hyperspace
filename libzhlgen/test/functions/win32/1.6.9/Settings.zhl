@@ -1,0 +1,19 @@
+"0fb605????????c3908db426000000005589e583e4f083ec100fb605????????c70424????????83f001a2????????":
+static __cdecl char Settings::GetCommandConsole();
+"0fb605????????84c075??c38d74260055b9????????89e583e4f0e8????????":
+static __cdecl bool Settings::GetDlcEnabled();
+"8d4c240483e4f0ff71fc5589e5575653518d75cc8d7dd483ec788b01":
+static cleanup __cdecl std::string Settings::GetHotkeyName(const std::string& name);
+".5589e557565383e4f0":
+static cleanup __cdecl SDLKey Settings::GetHotkey(const std::string& hotkeyName);
+".8d4c240483e4f0ff71fc5589e5575653":
+static cleanup __cdecl void Settings::SetHotkey(const std::string& hotkeyName, SDLKey key);
+".8d4c240483e4f0ff71fc5589e557565351":
+static cleanup __cdecl void Settings::SaveSettings();
+".8d4c240483e4f0ff71fc5589e557565351be????????83ec688b465c8b5e6039d88945a489c774??90":
+static cleanup __cdecl void Settings::ResetHotkeys();
+".8d4c240483e4f0ff71fc5589e5575653518d9d24ffffff81ec????????e8????????8d8d60ffffffe8????????a1????????c645d400":
+static cleanup __cdecl void Settings::LoadSettings();
+
+"!5756535183ec588b01c745a8(???????\?)":
+SettingValues* Global_Settings_Settings;

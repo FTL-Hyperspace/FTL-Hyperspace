@@ -81,11 +81,22 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <rewards> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <rewards> in hyperspace.xml\n") + std::string(e.what()));
     }
-
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <rewards> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <rewards> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <rewards> in hyperspace.xml\n");
+    }
 }
 
 void CustomRewardsManager::ParseResourceRewardsNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards)
@@ -452,17 +463,17 @@ std::string CustomRewardType::GetReward(ResourceEvent &resourceEvent, int level,
     // Add items
     if (weapon)
     {
-        auto bps = blueprintManager->GetRandomWeapon(1, true);
+        std::vector<WeaponBlueprint*> bps = blueprintManager->GetRandomWeapon(1, true);
         resourceEvent.weapon = bps[0];
     }
     if (drone)
     {
-        auto bps = blueprintManager->GetRandomDrone(1, true);
+        std::vector<DroneBlueprint*> bps = blueprintManager->GetRandomDrone(1, true);
         resourceEvent.drone = bps[0];
     }
     if (augment)
     {
-        auto bps = blueprintManager->GetRandomAugment(1, true);
+        std::vector<AugmentBlueprint*> bps = blueprintManager->GetRandomAugment(1, true);
         resourceEvent.augment = bps[0];
     }
 
@@ -471,6 +482,7 @@ std::string CustomRewardType::GetReward(ResourceEvent &resourceEvent, int level,
 
 HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_GLOBAL -> GenerateReward -> Begin (CustomRewards.cpp)\n")
     if (reward.level == -1) return;
 
     auto customRewards = CustomRewardsManager::GetInstance();
@@ -505,6 +517,7 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
 
 HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_GLOBAL -> GetValue -> Begin (CustomRewards.cpp)\n")
     CustomRewardsManager* customRewards = CustomRewardsManager::GetInstance();
     if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
 

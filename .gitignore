@@ -1,8 +1,54 @@
+## FTL Game stuff
+/settings.ini
 *.log
-bin/
 crashlogs/
+
+## Build Stuff
+bin/
 obj/
 libzhlproject/
 FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
+*.autogen.hpp
+lua/swigluarun.h
 
+## Other
+.save-failed
+
+## Editor stuff
+# KATE
+*.kate-swp
+
+# KDE Dolphin
+*.directory
+
+# Doxygen
+docs/*
+
+# Created by https://www.toptal.com/developers/gitignore/api/cmake
+# Edit at https://www.toptal.com/developers/gitignore?templates=cmake
+
+### CMake ###
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+### CMake Patch ###
+# External projects
+*-prefix/
+
+# End of https://www.toptal.com/developers/gitignore/api/cmake
+
+# Default build location for vscode cmake-tools
+build/
+
+# buildall.sh
+build-*/

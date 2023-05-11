@@ -146,12 +146,13 @@ void ClearCustomFleet(SpaceManager *space)
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (CustomFleetShips.cpp)\n")
     super(loc);
 
     ClearCustomFleet(&space);
 
     auto customEvents = CustomEventsParser::GetInstance();
-    auto customEvent = customEvents->GetCustomEvent(loc->event->eventName);
+    auto customEvent = customEvents->GetCustomEvent(loc);
 
     if (customEvent != nullptr)
     {
@@ -161,6 +162,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomFleetShips.cpp)\n")
     super(loc);
 
     auto customEvents = CustomEventsParser::GetInstance();
@@ -184,6 +186,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* loc) -> void)
 
 HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderFleet -> Begin (CustomFleetShips.cpp)\n")
     int fleetCount = 0;
 
     for (auto& i : g_currentFleetShips)
@@ -227,13 +230,13 @@ HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
     {
         for (auto i : layer)
         {
-            CSurface::GL_SetStencilMode(STENCIL_USE, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_USE, 0x80, 0x80);
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y + 5, 0, GL_Color(0.f, 0.f, 0.f, 1.f), 0.6f, i.mirror);
 
-            CSurface::GL_SetStencilMode(STENCIL_SET, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_SET, 0x80, 0x80);
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y, 0, tintColor, 1.f, i.mirror);
 
-            CSurface::GL_SetStencilMode(STENCIL_IGNORE, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0x80, 0x80);
 
             auto color = COLOR_WHITE;
 
@@ -247,6 +250,9 @@ HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
         }
     }
 
+    CSurface::GL_SetStencilMode(STENCIL_SET, 0x80, 0x80);
+    graphics_clear(0.f, 0.f, 0.f, 0.f, 1.f, 0x0);
+
     CSurface::GL_PopStencilMode();
 
 
@@ -258,6 +264,7 @@ HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
 
 HOOK_METHOD(SpaceManager, SaveSpace, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::SaveSpace -> Begin (CustomFleetShips.cpp)\n")
     super(file);
 
     if (!g_leftFleet.fleetDefName.empty())
@@ -289,6 +296,7 @@ HOOK_METHOD(SpaceManager, SaveSpace, (int file) -> void)
 
 HOOK_METHOD(SpaceManager, LoadSpace, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::LoadSpace -> Begin (CustomFleetShips.cpp)\n")
     super(file);
 
     EventFleet left;

@@ -1,11 +1,175 @@
 #include "CustomCrewManifest.h"
 #include "CustomShipSelect.h"
-#include "freetype.h"
 #include "CustomCrew.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 
 CustomCrewManifest CustomCrewManifest::instance = CustomCrewManifest();
+
+void CrewMemberFactory::SwapCrewMembers(CrewMember *_first, CrewMember *_second)
+{
+    unsigned int i,j;
+    unsigned int n = crewMembers.size();
+    for (i=0; i<n; ++i)
+    {
+        if (crewMembers[i] == _first)
+        {
+            j = i;
+            break;
+        }
+        else if (crewMembers[i] == _second)
+        {
+            j = i;
+            _second = _first;
+            _first = crewMembers[i];
+            break;
+        }
+    }
+    for (++i; i<n; ++i)
+    {
+        if (crewMembers[i] == _second)
+        {
+            std::swap(crewMembers[j], crewMembers[i]);
+            return;
+        }
+    }
+}
+void CrewMemberFactory::MoveCrewMemberToEnd(CrewMember *crew)
+{
+    for (auto it = crewMembers.end()-1; ; --it)
+    {
+        if (*it == crew)
+        {
+            std::rotate(it, it+1, crewMembers.end());
+            return;
+        }
+        if (it == crewMembers.begin()) break;
+    }
+}
+
+void CrewMemberFactory::MoveCrewMemberBefore(CrewMember *crew, CrewMember *other)
+{
+    unsigned int i,j;
+    unsigned int n = crewMembers.size();
+    for (i=0; i<n; ++i)
+    {
+        if (crewMembers[i] == crew)
+        {
+            j = i;
+            for (++i; i<n; ++i)
+            {
+                if (crewMembers[i] == other)
+                {
+                    std::rotate(crewMembers.begin()+j, crewMembers.begin()+j+1, crewMembers.begin()+i);
+                    return;
+                }
+            }
+            break;
+        }
+        else if (crewMembers[i] == other)
+        {
+            j = i;
+            for (++i; i<n; ++i)
+            {
+                if (crewMembers[i] == crew)
+                {
+                    std::rotate(crewMembers.rend()-i-1, crewMembers.rend()-i, crewMembers.rend()-j);
+                    return;
+                }
+            }
+            break;
+        }
+    }
+}
+
+void CrewMemberFactory::MoveCrewMemberAfter(CrewMember *crew, CrewMember *other)
+{
+    unsigned int i,j;
+    unsigned int n = crewMembers.size();
+    for (i=0; i<n; ++i)
+    {
+        if (crewMembers[i] == crew)
+        {
+            j = i;
+            for (++i; i<n; ++i)
+            {
+                if (crewMembers[i] == other)
+                {
+                    std::rotate(crewMembers.begin()+j, crewMembers.begin()+j+1, crewMembers.begin()+i+1);
+                    return;
+                }
+            }
+            break;
+        }
+        else if (crewMembers[i] == other)
+        {
+            j = i;
+            for (++i; i<n; ++i)
+            {
+                if (crewMembers[i] == crew)
+                {
+                    std::rotate(crewMembers.rend()-i-1, crewMembers.rend()-i, crewMembers.rend()-j-1);
+                    return;
+                }
+            }
+            break;
+        }
+    }
+}
+
+void CrewMemberFactory::MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other)
+{
+    unsigned int i,j;
+    unsigned int n = crewMembers.size();
+    for (i=0; i<n; ++i)
+    {
+        if (crewMembers[i] == crew)
+        {
+            j = i;
+            for (++i; i<n; ++i)
+            {
+                if (crewMembers[i] == other)
+                {
+                    std::rotate(crewMembers.begin()+j, crewMembers.begin()+j+1, crewMembers.begin()+i+1);
+                    return;
+                }
+            }
+            break;
+        }
+        else if (crewMembers[i] == other)
+        {
+            j = i;
+            for (++i; i<n; ++i)
+            {
+                if (crewMembers[i] == crew)
+                {
+                    std::rotate(crewMembers.rend()-i-1, crewMembers.rend()-i, crewMembers.rend()-j);
+                    return;
+                }
+            }
+            break;
+        }
+    }
+}
+
+int CustomCrewManifest::GetEffectiveCrewLimit(ShipManager *ship)
+{
+    CrewMemberFactory *crewFactory = G_->GetCrewFactory();
+    int shipLimit = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
+    int crewCount = crewFactory->GetCrewCount(0);
+    float crewCapacityUsed = crewFactory->GetCrewCapacityUsed();
+
+    if (crewCapacityUsed > shipLimit) // over capacity
+    {
+        int overSlots = std::ceil(crewCapacityUsed - shipLimit);
+        return crewCount - overSlots;
+    }
+    else
+    {
+        int usedSlots = crewCapacityUsed + 0.001f; // add 0.001 before rounding down to allow for rounding shenanigans
+        return crewCount + shipLimit - usedSlots;
+    }
+}
 
 void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 {
@@ -16,21 +180,20 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
     if (!leftButton)
     {
         leftButton = new Button();
-        leftButton->OnInit(buttonImg, crewManifest->position.x + 515, crewManifest->position.y + 54);
+        leftButton->OnInit(buttonImg, Point(crewManifest->position.x + 515, crewManifest->position.y + 54));
     }
 
     if (!rightButton)
     {
         rightButton = new Button();
-        rightButton->OnInit(buttonImg, crewManifest->position.x + 550, crewManifest->position.y + 54);
+        rightButton->OnInit(buttonImg, Point(crewManifest->position.x + 550, crewManifest->position.y + 54));
 
         rightButton->bMirror = true;
     }
 
 
 
-    auto custom = CustomShipSelect::GetInstance();
-    crewLimit = custom->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
+    if (crewLimit < 0) crewLimit = GetEffectiveCrewLimit(ship);
 
     for (auto& page : crewEquipBoxes)
     {
@@ -97,7 +260,7 @@ void CustomCrewManifest::OnRender()
     CSurface::GL_PushMatrix();
     if (crewManifest->confirmingDelete >= 0)
     {
-        CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.0f);
+        CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.0f));
     }
 
 
@@ -132,8 +295,18 @@ void CustomCrewManifest::OnRender()
             }
         }
 
-        i->OnRender(false);
-        i->RenderLabels(false, false);
+        if (draggingCrewMember != nullptr && i->IsEmpty() && i->bMouseHovering && !i->bGlow)
+        {
+            i->bGlow = true;
+            i->OnRender(draggingCrewMember && draggingCrewMember == i->item.pCrew);
+            i->RenderLabels(draggingCrewMember && draggingCrewMember == i->item.pCrew, false);
+            i->bGlow = false;
+        }
+        else
+        {
+            i->OnRender(draggingCrewMember && draggingCrewMember == i->item.pCrew);
+            i->RenderLabels(draggingCrewMember && draggingCrewMember == i->item.pCrew, false);
+        }
 
         if (i->GetConfirmDelete())
         {
@@ -154,7 +327,7 @@ void CustomCrewManifest::OnRender()
 
         if (crewManifest->confirmingDelete == slot)
         {
-            CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.f);
+            CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.f));
         }
         slot++;
     }
@@ -166,8 +339,19 @@ void CustomCrewManifest::OnRender()
             CSurface::GL_RemoveColorTint();
         }
 
-        overCrewBox->OnRender(false);
-        overCrewBox->RenderLabels(false, false);
+        if (draggingCrewMember != nullptr && overCrewBox->IsEmpty() && overCrewBox->bMouseHovering && !overCrewBox->bGlow)
+        {
+            overCrewBox->bGlow = true;
+            overCrewBox->OnRender(draggingCrewMember && draggingCrewMember == overCrewBox->item.pCrew);
+            overCrewBox->RenderLabels(draggingCrewMember && draggingCrewMember == overCrewBox->item.pCrew, false);
+            overCrewBox->bGlow = false;
+        }
+        else
+        {
+            overCrewBox->OnRender(draggingCrewMember && draggingCrewMember == overCrewBox->item.pCrew);
+            overCrewBox->RenderLabels(draggingCrewMember && draggingCrewMember == overCrewBox->item.pCrew, false);
+        }
+
 
         if (overCrewBox->GetConfirmDelete())
         {
@@ -188,7 +372,7 @@ void CustomCrewManifest::OnRender()
 
         if (crewManifest->confirmingDelete == crewLimit)
         {
-            CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.f);
+            CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.f));
         }
     }
 
@@ -208,15 +392,44 @@ void CustomCrewManifest::OnRender()
         CSurface::GL_RemoveColorTint();
         crewManifest->deleteDialog.OnRender();
     }
+
+    if (draggingCrewMember != nullptr)
+    {
+        MouseControl *mouseControl = G_->GetMouseControl();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(mouseControl->position.x, mouseControl->position.y);
+        CSurface::GL_Scale(2.f,2.f,0.f);
+        draggingCrewMember->crewAnim->RenderIcon(false);
+        CSurface::GL_PopMatrix();
+    }
 }
 
 void CustomCrewManifest::Update()
 {
+    if (crewManifest->shipManager)
+    {
+        float newCrewLimit = GetEffectiveCrewLimit(crewManifest->shipManager);
+        if (newCrewLimit != crewLimit)
+        {
+            crewLimit = newCrewLimit;
+            OnInit(crewManifest, crewManifest->shipManager);
+        }
+    }
+    else if (crewLimit == -1)
+    {
+        return;
+    }
+
     std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
 
     G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
 
-    crewList.erase(std::remove_if(crewList.begin(), crewList.end(), [](CrewMember* crew) { return CM_EX(crew)->noSlot; }), crewList.end());
+    crewList.erase(std::remove_if(crewList.begin(), crewList.end(),[](CrewMember* crew)
+                                  {
+                                      bool noSlot;
+                                      CM_EX(crew)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(crew->species), &noSlot);
+                                      return noSlot;
+                                  }), crewList.end());
 
     int slot = 0;
 
@@ -296,6 +509,47 @@ void CustomCrewManifest::Close()
     {
         overCrewBox->CloseRename();
     }
+
+    draggingCrewMember = nullptr;
+}
+
+void CustomCrewManifest::OnScrollWheel(float direction)
+{
+    if (crewLimit > 8)
+    {
+        if (direction == -1.f)
+        {
+            if (currentPage == 0)
+            {
+                currentPage = crewEquipBoxes.size() - 1;
+            }
+            else
+            {
+                currentPage--;
+            }
+        }
+
+        if (direction == 1.f)
+        {
+            if (currentPage == crewEquipBoxes.size() - 1)
+            {
+                currentPage = 0;
+            }
+            else
+            {
+                currentPage++;
+            }
+        }
+    }
+
+    if (currentPage < 0)
+    {
+        currentPage = 0;
+    }
+    if (currentPage > crewEquipBoxes.size() - 1)
+    {
+        currentPage = crewEquipBoxes.size() - 1;
+    }
 }
 
 void CustomCrewManifest::MouseClick(int mX, int mY)
@@ -305,10 +559,22 @@ void CustomCrewManifest::MouseClick(int mX, int mY)
         for (auto i : GetPage(currentPage))
         {
             i->MouseClick();
+            if (i->bMouseHovering && !i->IsEmpty() &&
+                (!i->bShowDelete || !i->deleteButton.bActive || !i->deleteButton.bHover) &&
+                (!i->bShowRename || !i->renameButton.bActive || !i->renameButton.bHover))
+            {
+                draggingCrewMember = i->item.pCrew;
+            }
         }
         if (!overCrewBox->IsEmpty())
         {
             overCrewBox->MouseClick();
+            if (overCrewBox->bMouseHovering &&
+                (!overCrewBox->bShowDelete || !overCrewBox->deleteButton.bActive || !overCrewBox->deleteButton.bHover) &&
+                (!overCrewBox->bShowRename || !overCrewBox->renameButton.bActive || !overCrewBox->renameButton.bHover))
+            {
+                draggingCrewMember = overCrewBox->item.pCrew;
+            }
         }
     }
     else
@@ -374,6 +640,48 @@ void CustomCrewManifest::MouseClick(int mX, int mY)
     Update();
 }
 
+void CustomCrewManifest::MouseUp(int mX, int mY)
+{
+    CrewEquipBox *targetBox = nullptr;
+    if (draggingCrewMember != nullptr)
+    {
+        for (auto i : GetPage(currentPage))
+        {
+            if (i->bMouseHovering)
+            {
+                targetBox = i;
+                break;
+            }
+        }
+        if (!overCrewBox->IsEmpty())
+        {
+            if (overCrewBox->bMouseHovering)
+            {
+                targetBox = overCrewBox;
+            }
+        }
+
+        if (targetBox != nullptr)
+        {
+            CrewMemberFactory *factory = G_->GetCrewFactory();
+            CrewControl *crewControl = &G_->GetCApp()->gui->crewControl;
+            if (targetBox->IsEmpty())
+            {
+                factory->MoveCrewMemberToEnd(draggingCrewMember);
+            }
+            else if (draggingCrewMember != targetBox->item.pCrew)
+            {
+                factory->SwapCrewMembers(draggingCrewMember, targetBox->item.pCrew);
+            }
+            crewControl->ClearCrewBoxes();
+            crewControl->UpdateCrewBoxes();
+            Update();
+        }
+
+        draggingCrewMember = nullptr;
+    }
+}
+
 void CustomCrewManifest::MouseMove(int mX, int mY)
 {
     crewManifest->infoBox.Clear();
@@ -424,12 +732,14 @@ void CustomCrewManifest::MouseMove(int mX, int mY)
 
 HOOK_METHOD(CrewManifest, OnInit, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnInit -> Begin (CustomCrewManifest.cpp)\n")
     super(ship);
     CustomCrewManifest::GetInstance()->OnInit(this, ship);
 }
 
 HOOK_METHOD(CrewManifest, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnRender -> Begin (CustomCrewManifest.cpp)\n")
     //super();
 
     CustomCrewManifest::GetInstance()->OnRender();
@@ -437,22 +747,26 @@ HOOK_METHOD(CrewManifest, OnRender, () -> void)
 
 HOOK_METHOD(CrewManifest, Update, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::Update -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->Update();
 }
 
 HOOK_METHOD(CrewManifest, OnTextInput, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnTextInput -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->OnTextInput(key);
 }
 
 
 HOOK_METHOD(CrewManifest, OnTextEvent, (CEvent::TextEvent event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnTextEvent -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->OnTextEvent(event);
 }
 
 HOOK_METHOD(CrewManifest, Close, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::Close -> Begin (CustomCrewManifest.cpp)\n")
     super();
     CustomCrewManifest::GetInstance()->Close();
 }
@@ -460,11 +774,13 @@ HOOK_METHOD(CrewManifest, Close, () -> void)
 
 HOOK_METHOD(CrewManifest, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::MouseClick -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->MouseClick(mX, mY);
 }
 
 HOOK_METHOD(CrewManifest, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::MouseMove -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->MouseMove(mX, mY);
 }
 
@@ -472,6 +788,7 @@ static bool forceNextSlot = false;
 
 HOOK_METHOD(CrewStoreBox, Purchase, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewStoreBox::Purchase -> Begin (CustomCrewManifest.cpp)\n")
     forceNextSlot = true;
     super();
     forceNextSlot = false;
@@ -479,6 +796,7 @@ HOOK_METHOD(CrewStoreBox, Purchase, () -> void)
 
 HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddCrewMemberFromBlueprint -> Begin (CustomCrewManifest.cpp)\n")
     if (forceNextSlot)
     {
         slot = -1;

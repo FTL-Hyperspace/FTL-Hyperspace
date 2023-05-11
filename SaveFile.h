@@ -22,7 +22,7 @@ public:
     bool welcomeDialog;
 
     InheritMode inheritMode = InheritMode::FORCE_OLD;
-    static const int version = 1;
+    static const int version = 3;
 private:
 
 };

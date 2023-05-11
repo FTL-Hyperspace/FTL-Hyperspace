@@ -1,0 +1,11 @@
+"5589e557565383ec5c8b450c83c01c89c2":
+cleanup __cdecl std::string TextLibrary::GetText(TextLibrary *this, const std::string& name, const std::string& lang);
+
+
+struct TextLibrary
+{{
+	std::string GetText(const std::string& name)
+	{
+		return TextLibrary::GetText(name, currentLanguage);
+	}
+}};

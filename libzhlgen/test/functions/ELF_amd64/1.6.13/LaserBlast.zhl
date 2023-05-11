@@ -1,0 +1,15 @@
+"534889fb4883ec1080bfc400000000745f":
+cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
+"538b477c4889fb394778c7474001000000":
+cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+
+
+"!b8b7600bb64589e84c89e741f7ed4489e849c70424(???????\?)c1f81f49c7442408(???????\?)":
+void** VTable_LaserBlast;
+void** VTable_Targetable_LaserBlast;
+
+
+struct LaserBlast
+{{
+	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
+}};

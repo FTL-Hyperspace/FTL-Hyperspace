@@ -3,6 +3,7 @@
 
 HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponBox::RenderBox -> Begin (CooldownNumbers.cpp)\n")
     super(dragging, flashPowerBox);
     if (pWeapon && CustomOptionsManager::GetInstance()->showWeaponCooldown.currentValue)
     {
@@ -43,7 +44,21 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         if (pWeapon->blueprint->boostPower.type == 2)
         {
             std::stringstream stream2;
-            stream2 << std::setprecision(3) << pWeapon->blueprint->damage.iDamage + pWeapon->boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            int boostLevel = std::min(pWeapon->boostLevel, pWeapon->blueprint->boostPower.count);
+            int damage = pWeapon->blueprint->damage.iDamage;
+            if (damage < 1)
+            {
+                damage = pWeapon->blueprint->damage.iIonDamage;
+                if (damage < 1)
+                {
+                    damage = pWeapon->blueprint->damage.iPersDamage;
+                    if (damage < 1)
+                    {
+                        damage = pWeapon->blueprint->damage.iSystemDamage;
+                    }
+                }
+            }
+            stream2 << std::setprecision(3) << damage + boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
             freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2.str());
         }
     }

@@ -1,6 +1,9 @@
 #include "Global.h"
 #include <time.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
+#include "CustomOptions.h"
+#include "HSVersion.h"
 
 // Code for creation of FTL_HS.log and crashlogs
 
@@ -26,8 +29,11 @@ void copy_log(const char *oldName, const char *newName)
     }
 }
 
+#ifdef _WIN32
+// Not Available in Linux version, or at least the crash handler is different and hasn't been figured out yet.
 HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
 {
+    LOG_HOOK("HOOK_STATIC -> DebugHelper::CrashCatcher -> Begin (Debugging.cpp)\n")
     int ret = super(exception_pointers);
 
     char ftlLogName[256];
@@ -45,9 +51,11 @@ HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
 
     return ret;
 }
+#endif // _WIN32
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (Debugging.cpp)\n")
     hs_log_file("Creating event: %s\n", event->eventName.c_str());
 
     super(event);
@@ -55,6 +63,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateShip -> Begin (Debugging.cpp)\n")
 
     auto ret = super(shipEvent, boss);
 
@@ -71,6 +80,7 @@ static bool generatingEvents = false;
 
 HOOK_METHOD(StarMap, GenerateEvents, (bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateEvents -> Begin (Debugging.cpp)\n")
     hs_log_file("\n-- Generating Events --\n");
 
     if (!forceSectorChoice.empty())
@@ -91,26 +101,47 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool unk) -> void)
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (Debugging.cpp)\n")
     if (generatingEvents)
     {
         hs_log_file("Getting Event: %s\n", name.c_str());
     }
 
-    super(name, worldLevel, ignoreUnique, seed);
+    return super(name, worldLevel, ignoreUnique, seed);
 }
 
 HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateNebulas -> Begin (Debugging.cpp)\n")
     hs_log_file("Generating nebulas: %s\n", boost::algorithm::join(names, ", ").c_str());
 
     super(names);
 }
 
-HOOK_METHOD(CApp, OnInit, () -> void)
+HOOK_METHOD(CApp, OnInit, () -> bool)
 {
-    super();
+    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Debugging.cpp)\n")
+    bool ret = super();
     std::string date = __DATE__;
     std::string time = __TIME__;
 
-    hs_log_file(("Hyperspace compiled: " + date + " " + time).c_str());
+    hs_log_file(boost::str(boost::format("Hyperspace: v%s Compiled: %s %s\n") % HS_Version.toIdentifierString() % date % time).c_str());
+    return ret;
+}
+
+HOOK_METHOD(MouseControl, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Debugging.cpp)\n")
+    if(CustomOptionsManager::GetInstance()->altMode)
+    {
+        freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
+    }
+    super();
+}
+
+HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float finalProgress) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderLoadingBar -> Begin (Debugging.cpp)\n")
+    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
+    super(initialProgress, finalProgress);
 }

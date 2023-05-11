@@ -1,6 +1,21 @@
+<systemBlueprint name="temporal">
+	<type>temporal</type>
+	<title id="system_temporal_title"/>
+	<desc id="system_temporal_desc"/>
+	<startPower>1</startPower>
+	<maxPower>3</maxPower>
+	<rarity>1</rarity>
+	<upgradeCost>
+		<level>40</level> <!-- level 2 -->
+		<level>80</level> <!-- level 3 -->
+		<level>120</level> <!-- imaginary level 4 -->
+	</upgradeCost>
+	<cost>80</cost>
+</systemBlueprint>
+
 <augBlueprint name="NANOBOT_DEFENSE_SYSTEM">
-    <title>Nanobot Defense System</title>
-	<desc>Boarders take damage over time on your ship.</desc>
+	<title id="aug_NANOBOT_DEFENSE_SYSTEM_title"/>
+	<desc id="aug_NANOBOT_DEFENSE_SYSTEM_desc"/>
     <cost>30</cost>
     <bp>4</bp>
     <rarity>0</rarity>
@@ -9,8 +24,8 @@
 </augBlueprint>
 
 <augBlueprint name="FTL_JUMPER_GOOD">
-    <title>Adv. FTL Navigation II</title>
-	<desc>Allows you to jump to any beacon in a sector.</desc>
+	<title id="aug_FTL_JUMPER_GOOD_title"/>
+	<desc id="aug_FTL_JUMPER_GOOD_desc"/>
     <cost>30</cost>
     <bp>4</bp>
     <rarity>0</rarity>
@@ -18,17 +33,35 @@
     <stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="BOARDER_RECOVERY">
+	<title id="aug_BOARDER_RECOVERY_title"/>
+	<desc id="aug_BOARDER_RECOVERY_desc"/>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="MIND_ORDER">
+	<title id="aug_MIND_ORDER_title"/>
+	<desc id="aug_MIND_ORDER_desc"/>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
 <crewBlueprint name="ghost">
-	<desc>Ghosts of the past crew.</desc>
+	<desc id="crew_ghost_desc"/>
 	<cost>50</cost>
 	<bp>2</bp>
-	<title>Ghost</title>
-	<short>Ghost</short>
+	<title id="crew_ghost_title"/>
+	<short id="crew_ghost_short"/>
 	<rarity>0</rarity>
 	<powerList>
-		<power>Can survive without oxygen</power>
-		<power>Maximum health is reduced</power>
-		<power>Can phase through doors</power>
+		<power id="crew_ghost_power_1"/>
+		<power id="crew_ghost_power_2"/>
+		<power id="crew_ghost_power_3"/>
 	</powerList>
 </crewBlueprint>
 
@@ -51,12 +84,75 @@
 <!--
 <weaponBlueprint name="WEAPON_NAME">
 	...
+	
+	(added blueprint attribute for BURST weapons; allows a certain projectile to inherit the stats of a different blueprint)
+	(does not work for fake projectiles; also all projectiles with the same anim_name will be affected, even if they don't all have the blueprint attribute)
+	(if you want different overrides on the same animation, you will need to make copies of the animation; they can use the same sheet)
+	(tooltips/descriptions will not reflect overrides; you'll need to write custom descriptions)
+	<projectiles>
+		<projectile count="3" fake="false" blueprint="OTHER_BP">anim_name</projectile>
+	</projectiles>
+	
 	<freeMissileChance>0.0</freeMissileChance>       Probability that the weapon does not consume missiles when fired. Rolled separately from explosive replicator.
-	<descriptionOverride>TEXT</descriptionOverride>  Replaces weapon description with custom text.
+	
+	<descriptionOverride id="">TEXT</descriptionOverride>                 Replaces standard weapon description with custom text. Also replaces extended if the latter is not specified.
+	<advancedDescriptionOverride id="">TEXT</advancedDescriptionOverride> Replaces extended weapon description with custom text.
+	<tooltipOverride id="">TEXT</tooltipOverride>                         Replaces standard weapon tooltip with custom text. Also replaces extended if the latter is not specified.
+	<advancedTooltipOverride id="">TEXT</advancedTooltipOverride>         Replaces extended weapon tooltip with custom text.
+	
 	<hideEventTooltip>false</hideEventTooltip>       Prevents showing event tooltip on hover in events; useful for mystery weapons or weapons whose stats should otherwise not be seen on the event screen.
 	<accuracyMod>0</accuracyMod>                     Changes weapon accuracy. This is equivalent to subtracting accuracyMod from the enemy's evasion for this weapon when performing the evasion check.
 	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
 	<noPersDamage>false</noPersDamage>               If true, then normal damage does not inflict corresponding crew damage, only actual <persDamage> will.
+	<ionBeamFix>false</ionBeamFix>                   If true, prevents ion beams from inflicting ion damage to shields on every frame (instead it will be similar to beams hitting zoltan shields).
+	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
+	<fireTime>0.0</fireTime>                         Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
+	
+	<erosionChance>0</erosionChance>                          Chance to apply erosion (0-10)
+	<erosion>                                                 Leave out any child tags to use the defaults
+		<speed>0.63</speed>                                   How quickly to erode the system, equivalent to sabotage multiplier
+		<maxSpeed>3.15</maxSpeed>                             Maximum for stacking
+		<time>10.0</time>                                     Length of effect
+		<maxTime>25.0</maxTime>                               Maximum for stacking
+		<systemRepairMultiplier>0.75</systemRepairMultiplier> Debuff for repairing the afflicted system
+		<erodeShields>false</erodeShields>                    Whether to do erosion check when hitting shields, similar to ion weapons doing system damage, stun, etc.
+		<roomAnim>                                            Animation to play
+			(uses roomAnim syntax, see custom ships)
+		</roomAnim>
+	</erosion>
+	
+	<statBoostChance>0</statBoostChance>             Chance to apply stat boosts as listed below.
+	<statBoosts>                                     Same as statBoosts for crew/augment/etc. - list of all stat boosts to apply.
+		<statBoost>                                  Conditions for stat boost are checked on application. Once applied, the effect is continuous. Use a nested self statboost if you want to check conditions continuously.
+			<duration>10</duration>                  Duration in seconds. If this tag is not included, the stat boost is permanent.
+			...
+		</statBoost>
+	</statBoosts>
+	
+	<roomStatBoostChance>0</roomStatBoostChance>     Chance to apply room stat boosts as listed below.
+	<roomStatBoosts>                                 Same as statBoosts but applies a lingering effect to the hit room.
+		<statBoost>                                  Conditions for stat boosts are on top of being restricted to the affected room. If the room cannot be affected, the stat boost is not applied.
+			<duration>10</duration>
+			...
+		</statBoost>
+	</roomStatBoosts>
+	
+	<crewSpawnChance>0</crewSpawnChance>             Chance to spawn the crew listed below.
+	<spawnCrew>                                      Include as many <spawnCrew> tags as you need.
+		<race>human</race>                           Race to spawn.
+		<name>Gun-Born</name>                        Custom name to assign.
+		<number>1</number>                           Number of crew to spawn.
+		<healthPercentage>1.0</healthPercentage>     Fraction of max health to spawn with.
+		<lifetime>30</lifetime>                      After this amount of time passes, the crewmember will die permanently.
+		<statBoosts>                                 Stat boosts (temporary or permanent) to apply to the spawned crewmember. Will check conditions on creation only.
+			...
+		</statBoosts>
+		<enemy>false</enemy>                         If true, spawns crew of enemy alignment.
+		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
+	</spawnCrew>
+	
+	<iconReplace>ANIMATION</iconReplace>             Replaces the weapon icon in equipment/store/hangar screens. Animation should have a single frame.
+	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
 -->
 

@@ -6,10 +6,29 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <cstdarg>
+#include "PALMemoryProtection.h"
+#include <inttypes.h>
 
+#ifdef _WIN32
+    #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 1
+#elif defined(__linux__)
+    #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 0
+    #define USE_STACK_ALIGNMENT
+    #define STACK_ALIGNMENT_SIZE 0x10
+#else
+    #define "Unknown OS"
+#endif
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#ifdef __i386__
+    #define PTR_PRINT_F "0x%08" PRIxPTR
+    #define POINTER_BYTES 4
+#elif defined(__amd64__)
+    #define PTR_PRINT_F "0x%016" PRIxPTR
+    #define POINTER_BYTES 8
+#else
+    #error "Unknown processor architecture not supported."
+#endif // Architecture
 
 using namespace ZHL;
 
@@ -23,14 +42,26 @@ void ZHL::Init()
 
 	if(!Definition::Init())
 	{
+        // TODO: Maybe change this over to SDL_ShowSimpleMessageBox for all systems; however, we'll have to add libsdl to the build & maybe the sdl.dll runtime DLL on Windows
+        // SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", FunctionDefinition::GetLastError(), NULL);
+#ifdef _WIN32
 		MessageBox(0, FunctionDefinition::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal Error %s:", FunctionDefinition::GetLastError());
+        exit(1);
+#endif
 	}
 
 	if(!FunctionHook_private::Init())
 	{
+#ifdef _WIN32
 		MessageBox(0, FunctionHook_private::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
+        exit(1);
+#endif
 	}
 
 	initialized = true;
@@ -50,7 +81,7 @@ void ZHL::SetLogPath(const char *logPath)
 static void Log(const char *format, ...)
 {
 	if(!g_logPath) return;
-	if(!g_hookLog) fopen_s(&g_hookLog, g_logPath, "w");
+	if(!g_hookLog) g_hookLog = std::fopen(g_logPath, "w");
 	if(!g_hookLog) return;
 
 
@@ -155,11 +186,65 @@ int VariableDefinition::Load()
 	}
 
 	const SigScan::Match &m = sig.GetMatch();
-	memcpy(_outVar, m.address, m.length);
+	if(_useOffset)
+    {
+        /* Instruction Pointer relative addressing
+         * Determine real address of variable match
+         * RIP + var = real addr
+         * During execution (E|R)IP would be at the next instruction so instead we add the length of the match
+         * NOTE: This means it is only possible to match a variable with offset computation that is at the END of the instruction bytes
+         * i.e., operands that can take two memory addresses, only the second memory address (end of the bytes of the instruction) can be matched.
+         */
+        uintptr_t valueVar = 0;
+        memcpy(&valueVar, m.address, m.length);
+        uintptr_t realAddr = (uintptr_t) m.address;
+        realAddr += m.length;
+        realAddr += valueVar;
+        *(void**)_outVar = (void*) realAddr;
+    }
+	else if(_useValue)
+        memcpy(_outVar, m.address, m.length);
+    else
+        *(void**)_outVar = (void*)m.address;
 
-	Log("Found value for %s:", _name);
-	for(int i=0 ; i<m.length ; ++i) Log(" %02x", ((unsigned char*)_outVar)[i]);
-	Log("\n");
+	Log("Found value for %s: " PTR_PRINT_F ", dist %d\n", _name, *((uintptr_t*) _outVar), sig.GetDistance());
+
+	return 1;
+}
+
+//================================================================================
+// NoOpDefinition
+
+
+int NoOpDefinition::Load()
+{
+	SigScan sig(_sig);
+	if(!sig.Scan())
+	{
+		snprintf(g_defLastError, 1024, "Failed to find match for no-op region %s, address could not be found", _name);
+		return 0;
+	}
+
+	if(sig.GetMatchCount() == 0)
+	{
+		snprintf(g_defLastError, 1024, "Failed to find match for no-op region %s, no capture in input signature", _name);
+		return 0;
+	}
+
+	const SigScan::Match &m = sig.GetMatch();
+	
+	uintptr_t ptrToCode = (uintptr_t) m.address;
+    const size_t noopingSize = sizeof(uint8_t) * m.length;
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(ptrToCode, noopingSize, dwOldProtect);
+    for(unsigned int i = 0; i < m.length; i++)
+    {
+        *(uint8_t*)(ptrToCode++) = 0x90;
+    }
+    MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
+
+	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes, dist %d\n", _name, (uintptr_t) m.address, m.length, sig.GetDistance());
 
 	return 1;
 }
@@ -188,15 +273,15 @@ int FunctionDefinition::Load()
 {
 	SigScan sig = SigScan(_sig);
 
-
 	if(!sig.Scan())
 	{
 		snprintf(g_defLastError, 1024, "Failed to find address for function %s", _name);
 		return 0;
 	}
+
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
-	Log("Found address for %s: %08x, dist %d\n", _name, (unsigned int)_address, sig.GetDistance());
+	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, (uintptr_t)_address, sig.GetDistance());
 
 	return 1;
 }
@@ -226,7 +311,7 @@ FunctionHook_private::FunctionHook_private(const char *name, const std::type_inf
 		_priority(priority)
 {
     SetName(name, type.name());
-    memcpy(&_outInternalSuper, &outInternalSuper, 4);
+    memcpy(&_outInternalSuper, &outInternalSuper, POINTER_BYTES);
 	strcpy(_name, name);
 	Add(this);
 }
@@ -280,32 +365,64 @@ int FunctionHook_private::Install()
 
 	const ArgData *argd = (const ArgData*)def->GetArgData();
 	int argc = def->GetArgCount();
+#ifdef __i386__
 	unsigned char *ptr;
 	int stackPos;
+#ifdef USE_STACK_ALIGNMENT
+	unsigned int stackAlignPosition;
+	unsigned int stackAlignOffset;
+	unsigned int registersUsedSize;
+#endif // USE_STACK_ALIGNMENT
 	int k;
-	DWORD oldProtect;
-
+	MEMPROT_SAVE_PROT(oldProtect);
+	MEMPROT_PAGESIZE();
+#endif // __i386__
 
 	//==================================================
 	// Internal hook
 	// Converts userpurge to thiscall to call the user
 	// defined hook
+
+#ifdef __i386__
 	ptr = _internalHook;
-
-
-
 
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
 
+	// Not sure yet if this is different on 64-bit, I think it is because of push EBP + CALL so maybe?
 	// Compute stack size
+	#ifdef USE_STACK_ALIGNMENT
+	registersUsedSize = 0;
+	#endif // USE_STACK_ALIGNMENT
 	stackPos = 8;
 	for(int i=0 ; i<argc ; ++i)
 	{
 		if(argd[i].r < 0)
 			stackPos += 4 * argd[i].s;
+        #ifdef USE_STACK_ALIGNMENT
+        else
+            registersUsedSize += 4; // Must also include arguments that come in on registers that we push to the stack for proper alignment computation
+        #endif // USE_STACK_ALIGNMENT
 	}
+
+	#ifdef USE_STACK_ALIGNMENT
+        stackAlignPosition = stackPos + registersUsedSize;
+        /* We need to account for everything pushed onto the stack so we can compute the proper 16-byte alignment per System V ABI specification */
+        if(def->IsVoid() || !def->IsLongLong())
+            stackAlignPosition += 4;
+        if(def->IsVoid())
+            stackAlignPosition += 4;
+        stackAlignPosition += 4 * 4; // Because of the regular ECX/EBX/ESI/EDI registers we always push (or their R equivalents for 64-bit),
+
+        // Modulo to get amount of padding we need to add to ensure the correct alignment
+        stackAlignOffset = (STACK_ALIGNMENT_SIZE - (stackAlignPosition % STACK_ALIGNMENT_SIZE)) % STACK_ALIGNMENT_SIZE;
+        
+        // Reserve some extra space to ensure proper stack alignment
+        if(stackAlignOffset != 0) {
+            P(0x83); P(0xec); P(stackAlignOffset); // sub esp, N8
+        }
+	#endif // USE_STACK_ALIGNMENT
 
 	// Push general purpose registers
 	if(def->IsVoid() || !def->IsLongLong())
@@ -318,6 +435,7 @@ int FunctionHook_private::Install()
 	P(0x57);	// push edi
 
 	// Copy arguments to their appropriate location
+	int sizePushed = 0;
 	k = stackPos;
 	for(int i=argc-1 ; i>=0 ; --i)
 	{
@@ -342,6 +460,7 @@ int FunctionHook_private::Install()
 			if(argd[i].r >= 0)
 			{
 				P(0x50 + argd[i].r);							// push XXX
+				sizePushed += 4;
 			}
 			else
 			{
@@ -349,14 +468,27 @@ int FunctionHook_private::Install()
 				{
 					k -= 4;
 					P(0xff); P(0x75); P(k);						// push [ebp+8+4*X]
+					sizePushed += 4;
 				}
 			}
 		}
 	}
 
+	if(def->isMemPassedStructPointer())
+        sizePushed -= 4;
+
 
 	// Call the hook
-	P(0xE8); PL((unsigned int)_hook - (unsigned int)ptr - 4);	// call _hook
+	P(0xE8); PL((uintptr_t)_hook - (uintptr_t)ptr - 4);	// call _hook
+
+#if OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP == 0
+    if(sizePushed != 0)
+    {
+        // If our hook function requires caller cleanup, increment the stack pointer here. This will only be true on non-Windows platforms where our hook will be generated as __cdecl
+        if(sizePushed < 128)	{ P(0x83); P(0xc4); P(sizePushed); }	// add esp, N8
+        else					{ P(0x81); P(0xc4); PL(sizePushed); }	// add esp, N32
+    }
+#endif // OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP
 
 	// Restore all saved registers
 	P(0x5f);	// pop edi
@@ -375,16 +507,31 @@ int FunctionHook_private::Install()
 	{
 		P(0xc2); PS(stackPos - 8);	// ret 4*N
 	}
+	else if(def->isMemPassedStructPointer()) // TODO: Might need to limit this only to Sys V i386 ABI and not Windows also?
+	{
+        P(0xc2); PS(4);
+	}
 	else
 		P(0xc3);					// ret
 
 	_hSize = ptr - _internalHook;
-	VirtualProtect(_internalHook, _hSize, PAGE_EXECUTE_READWRITE, &oldProtect);
+	MEMPROT_UNPROTECT(_internalHook, _hSize, oldProtect);
+#endif // __i386__
 
 	// Install the hook with MologieDetours
 	try
 	{
-		_detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook);
+#ifdef __i386__
+        if(def->forceDetourSize()) // This flag should be used with caution as it'll allow it to skip past RET when writing the detour, if used on a function that was larger it'll create garbage code.
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook, MOLOGIE_DETOURS_DETOUR_SIZE);
+        else
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook);
+#else
+        if(def->forceDetourSize()) // This flag should be used with caution as it'll allow it to skip past RET when writing the detour, if used on a function that was larger it'll create garbage code.
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _hook, MOLOGIE_DETOURS_DETOUR_SIZE);
+        else
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _hook);
+#endif // __amd64__
 	}
 	catch(MologieDetours::DetourException &e)
 	{
@@ -397,11 +544,47 @@ int FunctionHook_private::Install()
 	// Internal super
 	// Converts thiscall to userpurge to call the
 	// original function from the user defined hook
+#ifdef __i386__
 	ptr = _internalSuper;
 
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
+
+	// TODO: I think this needs to change for 64-bit
+	// Compute stack size
+	#ifdef USE_STACK_ALIGNMENT
+	registersUsedSize = 0;
+	#endif // USE_STACK_ALIGNMENT
+	stackPos = 8;
+	for(int i=0 ; i<argc ; ++i)
+	{
+		if(!def->IsThiscall() || i != 0)
+			stackPos += 4 * argd[i].s;
+
+        #ifdef USE_STACK_ALIGNMENT
+        if(argd[i].r >= 0)
+            registersUsedSize += 4;
+        #endif // USE_STACK_ALIGNMENT
+	}
+
+	#ifdef USE_STACK_ALIGNMENT
+        stackAlignPosition = stackPos - registersUsedSize; // Need to ignore arguments currently on the stack that are destined for register storage as they will not be pushed back to the stack.
+        /* We need to account for everything pushed onto the stack so we can compute the proper 16-byte alignment per System V ABI specification */
+        if(def->IsVoid() || !def->IsLongLong())
+            stackAlignPosition += 4;
+        if(def->IsVoid())
+            stackAlignPosition += 4;
+        stackAlignPosition += 4 * 4; // Because of the regular ECX/EBX/ESI/EDI registers we always push (or their R equivalents for 64-bit),
+
+        // Modulo to get amount of padding we need to add to ensure the correct alignment
+        stackAlignOffset = (STACK_ALIGNMENT_SIZE - (stackAlignPosition % STACK_ALIGNMENT_SIZE)) % STACK_ALIGNMENT_SIZE;
+        
+        // Reserve some extra space to ensure proper stack alignment
+        if(stackAlignOffset != 0) {
+            P(0x83); P(0xec); P(stackAlignOffset); // sub esp, N8
+        }
+	#endif // USE_STACK_ALIGNMENT
 
 	// Push general purpose registers
 	if(def->IsVoid() || !def->IsLongLong())
@@ -414,15 +597,8 @@ int FunctionHook_private::Install()
 	P(0x57);	// push edi
 
 	// Copy arguments to their appropriate location
-	stackPos = 8;
-	for(int i=0 ; i<argc ; ++i)
-	{
-		if(!def->IsThiscall() || i != 0)
-			stackPos += 4 * argd[i].s;
-	}
-
 	// Stack arguments first
-	int sizePushed = 0;
+    sizePushed = 0;
 	k = stackPos;
 	for(int i=argc-1 ; i>=0 ; --i)
 	{
@@ -473,12 +649,15 @@ int FunctionHook_private::Install()
 			k += 4 * argd[i].s;
 		}
 	}
+	
+	if(def->isMemPassedStructPointer())
+        sizePushed -= 4;
 
 	// Call the original function
-	P(0xE8); PL((unsigned int)original - (unsigned int)ptr - 4);	// call original
+	P(0xE8); PL((uintptr_t)original - (uintptr_t)ptr - 4);	// call original
 
 	// If the function requires caller cleanup, increment the stack pointer here
-	if(def->NeedsCallerCleanup())
+	if(def->NeedsCallerCleanup() && sizePushed != 0)
 	{
 		if(sizePushed < 128)	{ P(0x83); P(0xc4); P(sizePushed); }	// add esp, N8
 		else					{ P(0x81); P(0xc4); PL(sizePushed); }	// add esp, N32
@@ -497,30 +676,53 @@ int FunctionHook_private::Install()
 	// Epilogue
 	P(0x89); P(0xec);				// mov esp, ebp
 	P(0x5d);						// pop ebp
-	if(stackPos > 8)
+
+	if(stackPos > 8 && OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP)
 	{
 		P(0xc2); PS(stackPos - 8);	// ret 4*N
+	}
+	else if(def->isMemPassedStructPointer()) // TODO: Might need to limit this only to Sys V i386 ABI and not Windows also? (but then again, the OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP thing might already take care of this for Windows)
+	{
+        P(0xc2); PS(4);
 	}
 	else
 		P(0xc3);					// ret
 
 	_sSize = ptr - _internalSuper;
-	VirtualProtect(_internalSuper, _sSize, PAGE_EXECUTE_READWRITE, &oldProtect);
+	MEMPROT_UNPROTECT(_internalSuper, _sSize, oldProtect);
 
 	// Set the external reference to internalSuper so it can be used inside the user defined hook
 
 	*_outInternalSuper = _internalSuper;
-
+#endif // __i386__
+#ifdef __amd64__
+	// Set the external reference to the original function so it can be used inside the user defined hook
+	*_outInternalSuper = original;
+#endif // __amd64__
 
 	Log("Successfully hooked function %s\n", _name);
+#ifdef __amd64__
+	Log("HookAddress: " PTR_PRINT_F ", SuperAddress: " PTR_PRINT_F "\n\n", (uintptr_t) _hook, (uintptr_t) original);
+#endif // __amd64__
+#ifdef __i386__
+#ifdef DEBUG
+    Log("InternalHookAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalHook);
+#endif // DEBUG
 	Log("%s\ninternalHook:\n", _name);
+    
 	for(unsigned int i=0 ; i<_hSize ; ++i)
 		Log("%02x ", _internalHook[i]);
+    Log("\n");
 
+#ifdef DEBUG
+    Log("InternalSuperAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalSuper);
+#endif // DEBUG
 	Log("\ninternalSuper:\n", _name);
 
 	for(unsigned int i=0 ; i<_sSize ; ++i)
 		Log("%02x ", _internalSuper[i]);
+    Log("\n");
+#endif // __i386__
 
 
 	return 1;

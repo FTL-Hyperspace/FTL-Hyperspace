@@ -1,0 +1,13 @@
+--- a/clang/lib/CodeGen/TargetInfo.cpp	Mon Oct 10 12:58:21 2022
++++ b/clang/lib/CodeGen/TargetInfo.cpp	Mon Oct 10 12:57:14 2022
+@@ -1864,10 +1864,6 @@
+     if (RT && RT->getDecl()->hasFlexibleArrayMember())
+       return getIndirectResult(Ty, true, State);
+ 
+-    // Ignore empty structs/unions on non-Windows.
+-    if (!IsWin32StructABI && isEmptyRecord(getContext(), Ty, true))
+-      return ABIArgInfo::getIgnore();
+-
+     llvm::LLVMContext &LLVMContext = getVMContext();
+     llvm::IntegerType *Int32 = llvm::Type::getInt32Ty(LLVMContext);
+     bool NeedsPadding = false;

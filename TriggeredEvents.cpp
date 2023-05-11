@@ -10,8 +10,7 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-bool locationUpdated = false;
-std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
+std::deque<EventQueueEvent> eventQueue = {};
 
 int TriggeredEvent::playerCloneCount = 0;
 
@@ -226,6 +225,10 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             {
                 def->triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("max")->value());
             }
+            if (child->first_attribute("type"))
+            {
+                def->jumpType = boost::lexical_cast<int>(child->first_attribute("type")->value());
+            }
         }
         if (strcmp(child->name(), "playerHull") == 0)
         {
@@ -393,6 +396,73 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             if (child->first_attribute("includeClonebay"))
             {
                 def->enemyDeathsCountClonebay = EventsParser::ParseBoolean(child->first_attribute("includeClonebay")->value());
+            }
+        }
+        if (strcmp(child->name(), "req") == 0)
+        {
+            bool hasMinLevel = false;
+            bool hasMaxLevel = false;
+            if (child->first_attribute("name"))
+            {
+                def->req = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("inverse"))
+            {
+                def->inverseReq = EventsParser::ParseBoolean(child->first_attribute("inverse")->value());
+            }
+            if (child->first_attribute("lvl"))
+            {
+                hasMinLevel = true;
+                def->reqMinLvl.first = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
+                def->reqMinLvl.second = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
+            }
+            if (child->first_attribute("max_lvl"))
+            {
+                hasMaxLevel = true;
+                def->reqMaxLvl.first = boost::lexical_cast<int>(child->first_attribute("max_lvl")->value());
+                def->reqMaxLvl.second = boost::lexical_cast<int>(child->first_attribute("max_lvl")->value());
+            }
+            for (auto reqChild = child->first_node(); reqChild; reqChild = reqChild->next_sibling())
+            {
+                if (strcmp(reqChild->name(), "lvl") == 0)
+                {
+                    hasMinLevel = true;
+                    if (reqChild->first_attribute("amount"))
+                    {
+                        def->reqMinLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                        def->reqMinLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                    }
+                    if (reqChild->first_attribute("min"))
+                    {
+                        def->reqMinLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("min")->value());
+                    }
+                    if (reqChild->first_attribute("max"))
+                    {
+                        def->reqMinLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("max")->value());
+                    }
+                }
+                if (strcmp(reqChild->name(), "max_lvl") == 0)
+                {
+                    hasMaxLevel = true;
+                    if (reqChild->first_attribute("amount"))
+                    {
+                        def->reqMaxLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                        def->reqMaxLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                    }
+                    if (reqChild->first_attribute("min"))
+                    {
+                        def->reqMaxLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("min")->value());
+                    }
+                    if (reqChild->first_attribute("max"))
+                    {
+                        def->reqMaxLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("max")->value());
+                    }
+                }
+            }
+            if (hasMaxLevel && !hasMinLevel)
+            {
+                def->reqMinLvl.first = -2147483648;
+                def->reqMinLvl.second = -2147483648;
             }
         }
         if (strcmp(child->name(), "triggeredEventBox") == 0)
@@ -618,6 +688,14 @@ void CustomEventsParser::ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<cha
                 {
                     box->textType = TriggeredEventBoxDefinition::TextType::JUMPS;
                 }
+                if (textType == "req")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::REQ;
+                }
+                if (textType == "reqprogress")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::REQ_PROGRESS;
+                }
             }
             if (child->first_attribute("x"))
             {
@@ -826,12 +904,12 @@ void TriggeredEvent::UpdateAll()
         {
             ShipManager* enemy = G_->GetShipManager(1);
 
-            if (enemy != nullptr && !enemy->bDestroyed && !enemy->bJumping)
+            if (enemy != nullptr && enemy->_targetable.hostile && !enemy->bDestroyed && !enemy->bJumping)
             {
                 it->second.Update();
             }
 
-            if (enemy == nullptr || !enemy->_targetable.hostile)
+            if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
             {
                 it = eventList.erase(it);
                 TriggeredEventGui::GetInstance()->reset = true;
@@ -847,6 +925,17 @@ void TriggeredEvent::UpdateAll()
             ++it;
         }
     }
+
+    if (!deathEventQueue.empty())
+    {
+        ShipManager* enemy = G_->GetShipManager(1);
+        if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
+        {
+            deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                                  [](DeathEvent& obj) { return obj.thisFight; }),
+                                  deathEventQueue.end());
+        }
+    }
 }
 
 void TriggeredEvent::RenderAll()
@@ -857,11 +946,11 @@ void TriggeredEvent::RenderAll()
     }
 }
 
-void TriggeredEvent::JumpAll()
+void TriggeredEvent::JumpAll(uint8_t jumpType)
 {
     for (auto it=eventList.begin(); it!=eventList.end(); )
     {
-        it->second.Jump();
+        it->second.Jump(jumpType);
         if (it->second.def->clearOnJump)
         {
             it = eventList.erase(it);
@@ -876,7 +965,7 @@ void TriggeredEvent::JumpAll()
 
 void TriggeredEvent::TriggerCheck()
 {
-    for (auto it=eventList.begin(); it!=eventList.end(); ++it)
+    for (auto it=eventList.begin(); it!=eventList.end(); )
     {
         if (it->second.triggered)
         {
@@ -891,17 +980,22 @@ void TriggeredEvent::TriggerCheck()
 
             if (--(it->second.loops) <= 0)
             {
-                eventList.erase(it);
+                it = eventList.erase(it);
                 TriggeredEventGui::GetInstance()->reset = true;
             }
             else
             {
                 it->second.triggered = false;
                 it->second.Reset();
+                ++it;
             }
 
-            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
-            break;
+            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
+            if (G_->GetWorld()->commandGui->choiceBox.bOpen) break;
+        }
+        else
+        {
+            ++it;
         }
     }
 }
@@ -990,11 +1084,11 @@ void TriggeredEvent::Reset()
             int enemyDamageScaling = G_->GetWorld()->starMap.worldLevel * def->enemyDamageScaling;
             if (def->maxEnemyDamage > def->minEnemyDamage)
             {
-                triggerEnemyDamage = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) + enemyDamageScaling;
             }
             else
             {
-                triggerEnemyHull = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + enemyDamageScaling;
             }
         }
     }
@@ -1045,11 +1139,31 @@ void TriggeredEvent::Reset()
         currentEnemyCrew = GetEnemyCrew(def->enemyDeathsCountClonebay);
         if (def->maxEnemyDeaths > def->minEnemyDeaths)
         {
-            triggerEnemyCrew = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
+            triggerEnemyDeaths = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
         }
         else
         {
-            triggerEnemyCrew = def->minEnemyDeaths;
+            triggerEnemyDeaths = def->minEnemyDeaths;
+        }
+    }
+
+    if (!def->req.empty())
+    {
+        if (def->reqMinLvl.second > def->reqMinLvl.first)
+        {
+            reqMinLvl = def->reqMinLvl.first + random32()%(def->reqMinLvl.second-def->reqMinLvl.first+1);
+        }
+        else
+        {
+            reqMinLvl = def->reqMinLvl.first;
+        }
+        if (def->reqMaxLvl.second > def->reqMaxLvl.first)
+        {
+            reqMaxLvl = def->reqMaxLvl.first + random32()%(def->reqMaxLvl.second-def->reqMaxLvl.first+1);
+        }
+        else
+        {
+            reqMaxLvl = def->reqMaxLvl.first;
         }
     }
 }
@@ -1172,6 +1286,21 @@ void TriggeredEvent::Update()
             triggered = true;
         }
     }
+
+    if (!def->req.empty())
+    {
+        ship = G_->GetShipManager(0);
+        if (ship != nullptr)
+        {
+            advancedCheckEquipment[5] = true;
+            reqLvl = ship->HasEquipment(def->req);
+            advancedCheckEquipment[5] = false;
+        }
+        if ((reqLvl >= reqMinLvl && reqLvl <= reqMaxLvl) != def->inverseReq)
+        {
+            triggered = true;
+        }
+    }
 }
 
 void TriggeredEvent::OnRender()
@@ -1183,9 +1312,9 @@ void TriggeredEvent::OnRender()
     }
 }
 
-void TriggeredEvent::Jump()
+void TriggeredEvent::Jump(uint8_t jumpType)
 {
-    if (triggerJumps > 0)
+    if (triggerJumps > 0 && def->jumpType == jumpType)
     {
         if (--triggerJumps == 0)
         {
@@ -1239,11 +1368,14 @@ void TriggeredEvent::Save(int file)
     FileHelper::writeInt(file, triggerEnemyDamage);
     FileHelper::writeInt(file, triggerPlayerDeaths);
     FileHelper::writeInt(file, triggerEnemyDeaths);
+    FileHelper::writeInt(file, reqMinLvl);
+    FileHelper::writeInt(file, reqMaxLvl);
 
     FileHelper::writeInt(file, currentPlayerHull);
     FileHelper::writeInt(file, currentEnemyHull);
     FileHelper::writeInt(file, currentPlayerCrew);
     FileHelper::writeInt(file, currentEnemyCrew);
+    FileHelper::writeInt(file, reqLvl);
 
     FileHelper::writeInt(file, triggered);
 }
@@ -1273,17 +1405,21 @@ void TriggeredEvent::Load(int file)
     triggerEnemyDamage = FileHelper::readInteger(file);
     triggerPlayerDeaths = FileHelper::readInteger(file);
     triggerEnemyDeaths = FileHelper::readInteger(file);
+    reqMinLvl = FileHelper::readInteger(file);
+    reqMaxLvl = FileHelper::readInteger(file);
 
     currentPlayerHull = FileHelper::readInteger(file);
     currentEnemyHull = FileHelper::readInteger(file);
     currentPlayerCrew = FileHelper::readInteger(file);
     currentEnemyCrew = FileHelper::readInteger(file);
+    reqLvl = FileHelper::readInteger(file);
 
     triggered = FileHelper::readInteger(file);
 }
 
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (TriggeredEvents.cpp)\n")
     TriggeredEvent::eventList.clear();
     TriggeredEventGui::GetInstance()->reset = true;
 
@@ -1294,17 +1430,21 @@ HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (TriggeredEvents.cpp)\n")
     auto ret = super(file);
 
-    TriggeredEvent::LoadAll(file);
+    TriggeredEvent::LoadAll(file); // also clears
+
+    eventQueue.clear();
 
     int eventQueueSize = FileHelper::readInteger(file);
 
     for (int i=0; i<eventQueueSize; ++i)
     {
-        std::pair<std::string,int> event;
-        event.first = FileHelper::readString(file);
-        event.second = FileHelper::readInteger(file);
+        EventQueueEvent event;
+        event.event = FileHelper::readString(file);
+        event.label = FileHelper::readString(file);
+        event.seed = FileHelper::readInteger(file);
         eventQueue.push_back(event);
     }
 
@@ -1313,6 +1453,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 
 HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::SaveGame -> Begin (TriggeredEvents.cpp)\n")
     super(file);
 
     TriggeredEvent::SaveAll(file);
@@ -1320,50 +1461,67 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
     FileHelper::writeInt(file, eventQueue.size());
     for (auto& event : eventQueue)
     {
-        FileHelper::writeString(file, event.first);
-        FileHelper::writeInt(file, event.second);
+        FileHelper::writeString(file, event.event);
+        FileHelper::writeString(file, event.label);
+        FileHelper::writeInt(file, event.seed);
     }
+}
+
+void CheckEventQueue(WorldManager *world)
+{
+    while (!eventQueue.empty())
+    {
+        auto &nextEvent = eventQueue.front();
+
+        CustomEventsParser::GetInstance()->LoadEvent(world, nextEvent.event, false, nextEvent.seed);
+
+        eventQueue.pop_front();
+
+        if (world->commandGui->choiceBox.bOpen) return;
+    }
+
+    if (world->playerShip && !world->playerShip->shipManager->bJumping && !world->starMap.waiting.running) TriggeredEvent::TriggerCheck();
 }
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
-    locationUpdated = false;
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (TriggeredEvents.cpp)\n")
+    super();
+
     TriggeredEvent::UpdateAll();
 
-    super();
-
-    if (!locationUpdated && !eventQueue.empty())
+    if (!commandGui->choiceBox.bOpen)
     {
-        std::string eventName = eventQueue.back().first;
-        int seed = eventQueue.back().second;
-        int level = G_->GetWorld()->starMap.currentSector->level;
-
-        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
-        locationUpdated = true;
-
-        eventQueue.pop_back();
-        return;
+        CheckEventQueue(this);
     }
-
-    if (!locationUpdated && (playerShip && !playerShip->shipManager->bJumping)) TriggeredEvent::TriggerCheck();
 }
 
-HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
+HOOK_METHOD(WorldManager, PauseLoop, () -> void)
 {
-    super(loc);
-    locationUpdated = true;
-}
-
-HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
-{
-    TriggeredEvent::JumpAll();
+    LOG_HOOK("HOOK_METHOD -> WorldManager::PauseLoop -> Begin (TriggeredEvents.cpp)\n")
     super();
+
+    if (!commandGui->choiceBox.bOpen)
+    {
+        CheckEventQueue(this);
+    }
 }
 
-HOOK_METHOD(StarMap, StartSecretSector, () -> void)
+HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
-    TriggeredEvent::JumpAll();
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (TriggeredEvents.cpp)\n")
+    if (!loadingGame) TriggeredEvent::JumpAll(0);
+    super(location);
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (TriggeredEvents.cpp)\n")
     super();
+    if (iShipId == 0)
+    {
+        TriggeredEvent::JumpAll(1);
+    }
 }
 
 std::string TriggeredEventBox::GetTimeTextClock(int t)
@@ -1411,6 +1569,14 @@ void TriggeredEventBox::OnRender(bool flash)
     if (boxDef->textType == TriggeredEventBoxDefinition::TextType::JUMPS)
     {
         text = std::to_string(event->triggerJumps);
+    }
+    else if (boxDef->textType == TriggeredEventBoxDefinition::TextType::REQ)
+    {
+        text = std::to_string(event->reqLvl);
+    }
+    else if (boxDef->textType == TriggeredEventBoxDefinition::TextType::REQ_PROGRESS)
+    {
+        text = std::to_string(event->reqLvl) + "/" + std::to_string(event->reqMinLvl);
     }
     else
     {
@@ -1596,6 +1762,7 @@ void TriggeredEventGui::MouseMove(int x, int y)
 
 HOOK_METHOD(ShipStatus, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (TriggeredEvents.cpp)\n")
     super();
     TriggeredEventGui::GetInstance()->OnRender();
     TriggeredEvent::RenderAll();
@@ -1603,12 +1770,14 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (TriggeredEvents.cpp)\n")
     super();
     TriggeredEventGui::GetInstance()->OnRenderCombat(this);
 }
 
 HOOK_METHOD(CommandGui, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (TriggeredEvents.cpp)\n")
     super(x, y);
     TriggeredEventGui::GetInstance()->MouseMove(x, y);
 }

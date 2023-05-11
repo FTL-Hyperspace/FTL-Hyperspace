@@ -6,7 +6,11 @@ struct Projectile_Extend
 {
     Projectile *orig;
 
+    std::string name = "";
+
     CustomDamage customDamage;
+
+    std::vector<int> missedDrones;
 
     ~Projectile_Extend()
     {

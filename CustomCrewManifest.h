@@ -24,7 +24,11 @@ public:
     void OnTextEvent(CEvent::TextEvent event);
     void Close();
     void MouseClick(int mX, int mY);
+    void MouseUp(int mX, int mY);
     void MouseMove(int mX, int mY);
+    void OnScrollWheel(float direction);
+
+    int GetEffectiveCrewLimit(ShipManager *ship);
 
     static CustomCrewManifest* GetInstance()
     {
@@ -39,7 +43,9 @@ private:
     std::vector<std::vector<CrewEquipBox*>> crewEquipBoxes;
 
     int currentPage = 0;
-    int crewLimit = 8;
+    int crewLimit = -1;
+
+    CrewMember *draggingCrewMember = nullptr;
 
     static CustomCrewManifest instance;
 };

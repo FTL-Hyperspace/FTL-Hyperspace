@@ -1,3 +1,4 @@
 #pragma once
 
-static const unsigned int numStats = 46;
+static const unsigned int numCachedStats = 53;
+static const unsigned int numStats = numCachedStats + 9;

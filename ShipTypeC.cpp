@@ -1,9 +1,10 @@
+/*
 #include "Global.h"
 #include "ASMHooks.h"
 
-/*
 HOOK_METHOD(ShipBuilder, CheckTypes, () -> void*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CheckTypes -> Begin (ShipTypeC.cpp)\n")
     auto ret = super();
 
 
@@ -25,6 +26,7 @@ HOOK_METHOD(ShipBuilder, CheckTypes, () -> void*)
 
 HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipUnlocked -> Begin (ShipTypeC.cpp)\n")
     if (shipId >= 8 && shipVariant == 2) return true;
     return super(shipId, shipVariant);
 }
