@@ -506,7 +506,11 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         }
                         if (str == "powerResource")
                         {
-                            ParseAbilityResource(stat); // doesn't get used directly for now, just allows it to be
+                            ParseAbilityResource(stat); // doesn't get used directly for now, just allows it to be defined
+                        }
+                        if (str == "crewSlots")
+                        {
+                            crew.crewSlots = boost::lexical_cast<float>(val);
                         }
                         if (str == "noSlot")
                         {
@@ -5907,13 +5911,40 @@ HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
     return ret;
 }
 
-// Selectable/controllable split; requiresFullControl == 1 when player is ordering
 HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CommandCrewMoveRoom -> Begin (CustomCrew.cpp)\n")
-    if (requiresFullControl == 1 && !crew->GetControllable())
+
+    // Selectable/controllable split; requiresFullControl == 1 when player is ordering
+    if (requiresFullControl == 1)
     {
-        return false;
+        if (!crew->GetControllable()) return false;
+    }
+    // requiresFullControl == -1 when AI is ordering
+    else if (requiresFullControl == -1)
+    {
+        CrewMember_Extend *ex = CM_EX(crew);
+        // check if crew is teleporting (leaving) within their own ship, if so block any orders so that the tile is reserved for them
+        if ((ex->customTele.teleporting || crew->crewAnim->status == 6) && !crew->crewAnim->anims[0][6].tracker.reverse && ex->customTele.shipId == crew->currentShipId)
+        {
+            return false;
+        }
+        bool ret = super(crew, room);
+        if (!ret)
+        {
+            if (crew->bDead || room == crew->iRoomId) return false;
+            if (ex->customTele.teleporting || crew->crewAnim->status == 6) return false;
+            if (!crew->Functional() || crew->fStunTime > 0.f) return false;
+            if (ship.FullRoom(room, crew->GetIntruder())) return false;
+            if (ex->CanTeleportMove(false))
+            {
+                ex->customTele.shipId = iShipId;
+                ex->customTele.roomId = room;
+                ex->customTele.slotId = -1;
+                return true;
+            }
+        }
+        return ret;
     }
     return super(crew, room);
 }
@@ -5933,10 +5964,13 @@ static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = 
 HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::OnLoop -> Begin (CustomCrew.cpp)\n")
+
+    CustomCrewManager *crewManager = CustomCrewManager::GetInstance();
+
     for (auto i : crewMembers)
     {
         bool noSlot;
-        CM_EX(i)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(i->species), &noSlot);
+        CM_EX(i)->CalculateStat(CrewStat::NO_SLOT, crewManager->GetDefinition(i->species), &noSlot);
         if (noSlot)
         {
             g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
@@ -5947,6 +5981,21 @@ HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
     }
 
     super();
+
+    crewManager->crewCapacityUsed = 0.f;
+    for (auto i : crewMembers)
+    {
+        if (i->iShipId == 0)
+        {
+            if (!i->bOutOfGame || i->clone_ready)
+            {
+                if (i->CountForVictory())
+                {
+                    crewManager->crewCapacityUsed += CM_EX(i)->CalculateStat(CrewStat::CREW_SLOTS, crewManager->GetDefinition(i->species));
+                }
+            }
+        }
+    }
 
     for (auto i : g_tempOutOfGame)
     {
@@ -6303,6 +6352,31 @@ void CompleteShip::CheckTeleportMovement()
         }
         else // initiate armed custom teleport
         {
+            if (!crew->GetControllable() && ex->customTele.shipId == crew->currentShipId && ex->customTele.roomId != -1)
+            {
+                if (ex->customTele.roomId == crew->currentSlot.roomId)
+                {
+                    // Set the teleport slot to actual slot if the room matches
+                    ex->customTele.slotId = crew->currentSlot.slotId;
+                }
+                else
+                {
+                    // The following logic will reassign the crew slot for AI controlled crew to the teleport room
+                    // Note: This works even if the room is otherwise unreachable. Since we commit to the teleport here this is okay.
+                    Slot slot = crew->FindSlot(ex->customTele.roomId, ex->customTele.slotId, false);
+                    if (slot.roomId == ex->customTele.roomId)
+                    {
+                        crew->EmptySlot();
+
+                        ShipGraph *graph = ShipGraph::GetShipInfo(ex->customTele.shipId);
+                        Room *room = graph->rooms[ex->customTele.roomId];
+                        room->FillSlot(slot.slotId, crew->GetIntruder());
+                        crew->currentSlot = slot;
+
+                        ex->customTele.slotId = slot.slotId;
+                    }
+                }
+            }
             crew->StartTeleport();
             customTeleports = true;
         }

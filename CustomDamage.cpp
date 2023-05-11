@@ -233,19 +233,22 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
-    if (custom && custom->sourceShipId != -1 && custom->def->crewSpawnChance > 0)
+    if (custom)
     {
         if (beamHitType != BeamHit::SAME_TILE)
         {
-            int rng = random32() % 10;
-
-            if (rng < custom->def->crewSpawnChance)
+            if (custom->sourceShipId != -1 && custom->def->crewSpawnChance > 0)
             {
-                Pointf spawnLoc = {grid1.x * 35.f + 17.5f, grid1.y * 35.f + 17.5f};
+                int rng = random32() % 10;
 
-                for (CrewSpawn *i : custom->def->crewSpawns)
+                if (rng < custom->def->crewSpawnChance)
                 {
-                    CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
+                    Pointf spawnLoc = {grid1.x * 35.f + 17.5f, grid1.y * 35.f + 17.5f};
+
+                    for (CrewSpawn *i : custom->def->crewSpawns)
+                    {
+                        CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
+                    }
                 }
             }
         }

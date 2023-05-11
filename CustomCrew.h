@@ -695,6 +695,7 @@ struct CrewDefinition
     float damageEnemiesAmount = 0.f;
     bool hackDoors = false;
     float powerRechargeMultiplier = 1.f;
+    float crewSlots = 1.f;
     bool noSlot = false;
     bool noClone = false;
     bool noAI = false;
@@ -772,6 +773,8 @@ public:
     {
         return &instance;
     }
+
+    float crewCapacityUsed = 0.f;
 
 private:
     static CustomCrewManager instance;

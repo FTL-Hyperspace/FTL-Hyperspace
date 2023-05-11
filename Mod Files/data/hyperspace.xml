@@ -1285,7 +1285,7 @@ powerGroupWhitelist: List of powerEffect and/or powerResource replacement groups
 powerBlacklist: List of powerEffect and/or powerResource that are excluded from being replaced/modified by this statboost.
 powerGroupBlacklist: List of powerEffect and/or powerResource replacement groups that are excluded from being replaced/modified by this statboost.
   Note, power whitelists and blacklists work for all "powerEffect" REPLACE_POWER statboosts, as well as modifiers such as "powerCharges" and "chargesPerJump".
-  The "activateWhenReady" modifier will be supported in a future version.
+  Also "powerCooldown" and "activateWhenReady" are under this system.
   The "powerRechargeMultiplier" modifier is crewmember global and does not support whitelists/blacklists (for now, possibly will be in a future version along with cooldowns themselves).
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds (WIP). -1 is infinite.
 jumpClear: If true, any applied timed stat boosts (including those with infinite duration) will be cleared on jump (does not affect passive boosts).
