@@ -28,6 +28,8 @@ cleanup __cdecl int ShipManager::CreateSystems(ShipManager *this);
 cleanup __cdecl int ShipManager::AddSystem(ShipManager *this, int systemId);
 "5589e557565331db81ecfc0000008b7d088b57188b471c":
 cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this);
+".5557565383ec1c8b7424308b5c24348b7c243c8b":
+cleanup __cdecl bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
 "5589e557565381ec9c0000008b7d088d4770":
 cleanup __cdecl void ShipManager::UpdateEnvironment(ShipManager *this);
 "5589e557565383ec6c8b4514c7442404????????8b7508":

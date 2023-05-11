@@ -4757,6 +4757,8 @@ struct CrewStoreBox : StoreBox
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
 	}
 
+	LIBZHL_API bool CanHold();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	
@@ -6890,6 +6892,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(bool showInterior, bool doorControlMode);
+	LIBZHL_API bool PowerDrone(Drone *drone, int roomId, bool userDriven, bool force);
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API void PrepareSuperDrones();
 	LIBZHL_API void RemoveItem(const std::string &name);
