@@ -152,6 +152,25 @@ void CrewMemberFactory::MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other
     }
 }
 
+int CustomCrewManifest::GetEffectiveCrewLimit(ShipManager *ship)
+{
+    CrewMemberFactory *crewFactory = G_->GetCrewFactory();
+    int shipLimit = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
+    int crewCount = crewFactory->GetCrewCount(0);
+    float crewCapacityUsed = crewFactory->GetCrewCapacityUsed();
+
+    if (crewCapacityUsed > shipLimit) // over capacity
+    {
+        int overSlots = std::ceil(crewCapacityUsed - shipLimit);
+        return crewCount - overSlots;
+    }
+    else
+    {
+        int usedSlots = crewCapacityUsed + 0.001f; // add 0.001 before rounding down to allow for rounding shenanigans
+        return crewCount + shipLimit - usedSlots;
+    }
+}
+
 void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 {
     currentPage = 0;
@@ -174,8 +193,7 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 
 
 
-    auto custom = CustomShipSelect::GetInstance();
-    crewLimit = custom->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
+    if (crewLimit < 0) crewLimit = GetEffectiveCrewLimit(ship);
 
     for (auto& page : crewEquipBoxes)
     {
@@ -388,6 +406,20 @@ void CustomCrewManifest::OnRender()
 
 void CustomCrewManifest::Update()
 {
+    if (crewManifest->shipManager)
+    {
+        float newCrewLimit = GetEffectiveCrewLimit(crewManifest->shipManager);
+        if (newCrewLimit != crewLimit)
+        {
+            crewLimit = newCrewLimit;
+            OnInit(crewManifest, crewManifest->shipManager);
+        }
+    }
+    else if (crewLimit == -1)
+    {
+        return;
+    }
+
     std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
 
     G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);

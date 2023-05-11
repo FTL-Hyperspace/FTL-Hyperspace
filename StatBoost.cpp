@@ -69,12 +69,14 @@ const std::array<std::string, numStats> crewStats =
     "silenced",
     "lowHealthThreshold",
     // non-cached stats
+    "crewSlots",
     "activateWhenReady",
     "statBoost",
     "deathEffect",
     "powerEffect",
     "powerCharges",
     "chargesPerJump",
+    "powerCooldown",
     "transformRace"
 };
 
@@ -1994,6 +1996,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::POWER_RECHARGE_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, powerRechargeMultiplier);
             break;
+        case CrewStat::CREW_SLOTS:
+            finalStat = def->crewSlots;
+            break;
         case CrewStat::CAN_FIGHT:
             _CALCULATE_BASE_STAT(*boolValue, canFight);
             isBool = true;
@@ -2090,10 +2095,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             _CALCULATE_BASE_STAT(*boolValue, silenced);
             isBool = true;
             break;
-        case CrewStat::ACTIVATE_WHEN_READY:
-            // the base value should be set before calling this method
-            isBool = true;
-            break;
         case CrewStat::DEATH_EFFECT:
             deathEffectChange = def->explosionDef;
             hasDeathExplosion = def->hasDeathExplosion;
@@ -2106,22 +2107,46 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::POWER_MAX_CHARGES:
             for (ActivatedPower *power : crewPowers)
             {
-                if (power->enabled) power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+                if (power->enabled || power->def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
             }
             for (ActivatedPowerResource *resource : powerResources)
             {
-                if (resource->enabled) resource->modifiedPowerCharges = resource->def->powerCharges == -1 ? HUGE_VAL : resource->def->powerCharges;
+                if (resource->enabled || resource->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    resource->modifiedPowerCharges = resource->def->powerCharges == -1 ? HUGE_VAL : resource->def->powerCharges;
             }
             isEffect = true;
             break;
         case CrewStat::POWER_CHARGES_PER_JUMP:
             for (ActivatedPower *power : crewPowers)
             {
-                if (power->enabled) power->modifiedChargesPerJump = power->def->chargesPerJump;
+                if (power->enabled || power->def->disabledCharges == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    power->modifiedChargesPerJump = power->def->chargesPerJump;
             }
             for (ActivatedPowerResource *resource : powerResources)
             {
-                if (resource->enabled) resource->modifiedChargesPerJump = resource->def->chargesPerJump;
+                if (resource->enabled || resource->def->disabledCharges == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    resource->modifiedChargesPerJump = resource->def->chargesPerJump;
+            }
+            isEffect = true;
+            break;
+        case CrewStat::POWER_COOLDOWN:
+            for (ActivatedPower *power : crewPowers)
+            {
+                if (power->enabled || power->def->disabledCooldown == ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    power->modifiedPowerCooldown = power->def->cooldown;
+            }
+            for (ActivatedPowerResource *resource : powerResources)
+            {
+                if (resource->enabled || resource->def->disabledCooldown == PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE)
+                    resource->modifiedPowerCooldown = resource->def->cooldown;
+            }
+            isEffect = true;
+            break;
+        case CrewStat::ACTIVATE_WHEN_READY:
+            for (ActivatedPower *power : crewPowers)
+            {
+                if (power->enabled) power->activateWhenReady = power->def->activateWhenReady  && (!power->def->activateReadyEnemies || (orig->GetPowerOwner() == 1));
             }
             isEffect = true;
             break;
@@ -2286,7 +2311,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2319,7 +2344,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         }
                         for (ActivatedPowerResource *power : powerResources)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2356,7 +2381,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     {
                         for (ActivatedPower *power : crewPowers)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2389,7 +2414,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         }
                         for (ActivatedPowerResource *power : powerResources)
                         {
-                            if (!power->enabled) continue;
+                            if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                             if (!statBoost.def->IsTargetPower(power->def)) continue;
 
                             if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
@@ -2418,6 +2443,97 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
                             {
                                 power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::POWER_COOLDOWN:
+                    {
+                        for (ActivatedPower *power : crewPowers)
+                        {
+                            if (!power->enabled && power->def->disabledCooldown != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCooldown *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                        for (ActivatedPowerResource *power : powerResources)
+                        {
+                            if (!power->enabled && power->def->disabledCooldown != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                            if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCooldown *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::ACTIVATE_WHEN_READY:
+                    {
+                        if (sysPowerScaling)
+                        {
+                            for (ActivatedPower *power : crewPowers)
+                            {
+                                if (!power->enabled) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->activateWhenReady = statBoost.def->value;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
+                                {
+                                    power->activateWhenReady = !power->activateWhenReady;
+                                }
                             }
                         }
                     }
@@ -2609,6 +2725,39 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "Calculate stat time: " << ms_double.count();
     return finalStat;
+}
+
+float StatBoostManager::CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId, int roomId)
+{
+    // This method calculates a stat for a dummy crew. Use for float stats.
+    dummyCrew->species = def->race;
+    dummyCrew->type = def->race;
+    dummyCrew->crewAnim->race = def->race;
+    dummyCrew->iShipId = ownerId;
+    dummyCrew->currentShipId = shipId;
+    dummyCrew->iRoomId = roomId;
+
+    return CM_EX(dummyCrew)->CalculateStat(stat, def);
+}
+
+void StatBoostManager::CreateDummyCrew()
+{
+    if (!dummyCrew)
+    {
+        // create a dummy crew outside of CrewMemberFactory
+        CrewBlueprint crewBlue = G_->GetBlueprints()->GetCrewBlueprint("human");
+        dummyCrew = new CrewMember(crewBlue, 0, false, nullptr);
+    }
+}
+
+HOOK_METHOD(MainMenu, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (StatBoost.cpp)\n")
+
+    // since creating a dummy crew still adds the crew to the ship's equipment list, do it when the game loads so it doesn't affect anything
+    StatBoostManager::GetInstance()->CreateDummyCrew();
+
+    super();
 }
 
 int CrewMember_Extend::CalculateDangerRating(float health, int roomId)
