@@ -32,7 +32,7 @@ struct InternalEvents
         // function on_mouse_r_button_down(int x, int y) return Chain
         ON_MOUSE_R_BUTTON_DOWN,
         // function on_mouse_r_button_up(int x, int y) return Chain
-        //ON_MOUSE_R_BUTTON_UP,
+        ON_MOUSE_R_BUTTON_UP,
         // function on_mouse_m_button_down(int x, int y) return Chain
         ON_MOUSE_M_BUTTON_DOWN,
         

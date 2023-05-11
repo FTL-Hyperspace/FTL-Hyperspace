@@ -105,10 +105,9 @@ HOOK_METHOD(CApp, OnRButtonDown, (int x, int y) -> void)
     if (!preempt) super(x, y);
 }
 
-/*
-HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
+HOOK_METHOD_PRIORITY(CApp, OnRButtonUp, -100, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnRButtonUp -> Begin (InternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -119,7 +118,6 @@ HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
 
     if (!preempt) super(x, y);
 }
-*/
 
 HOOK_METHOD(CApp, OnMButtonDown, (int x, int y) -> void)
 {
