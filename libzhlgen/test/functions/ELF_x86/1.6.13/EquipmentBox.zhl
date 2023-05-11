@@ -20,6 +20,8 @@ virtual cleanup __cdecl void EquipmentBox::destructor(EquipmentBox *this);
 virtual cleanup __cdecl void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool unk);
 "5589e557565383ec5c8b5d088b450c8d7dd8":
 virtual cleanup __cdecl void EquipmentBox::RenderLabels(EquipmentBox *this, bool unk);
+"5383ec188b5c24208b434c85":
+virtual cleanup __cdecl void EquipmentBox::RenderIcon(EquipmentBox *this);
 "565383ec548b0d????????8b5c24608d74243c8b4424688b542464894b088b0d????????8943388943408b44246c":
 cleanup __cdecl void EquipmentBox::constructor(EquipmentBox *this, Point pos, int slot);
 "8b5424048b424c85c074??8b401c":
@@ -35,5 +37,38 @@ struct EquipmentBox depends (AugmentBlueprint)
 	bool IsEmpty()
 	{
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
+	}
+
+	bool IsWeapon()
+	{
+		return item.pWeapon;
+	}
+
+	bool IsDrone()
+	{
+		return item.pDrone;
+	}
+
+	bool IsAugment()
+	{
+		return item.augment && !item.augment->name.empty();
+	}
+
+	bool IsCrew()
+	{
+		return item.pCrew;
+	}
+
+	bool CanSwap(EquipmentBox *other)
+	{
+		if (IsWeapon() && !other->CanHoldWeapon()) return false;
+		if (IsDrone() && !other->CanHoldDrone()) return false;
+		if (IsAugment() && !other->CanHoldAugment()) return false;
+		if (IsCrew() && !other->CanHoldCrew()) return false;
+		if (other->IsWeapon() && !CanHoldWeapon()) return false;
+		if (other->IsDrone() && !CanHoldDrone()) return false;
+		if (other->IsAugment() && !CanHoldAugment()) return false;
+		if (other->IsCrew() && !CanHoldCrew()) return false;
+		return true;
 	}
 }};

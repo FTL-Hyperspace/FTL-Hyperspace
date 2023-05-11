@@ -1642,6 +1642,39 @@ struct LIBZHL_INTERFACE EquipmentBox
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
 	}
 
+	bool IsWeapon()
+	{
+		return item.pWeapon;
+	}
+
+	bool IsDrone()
+	{
+		return item.pDrone;
+	}
+
+	bool IsAugment()
+	{
+		return item.augment && !item.augment->name.empty();
+	}
+
+	bool IsCrew()
+	{
+		return item.pCrew;
+	}
+
+	bool CanSwap(EquipmentBox *other)
+	{
+		if (IsWeapon() && !other->CanHoldWeapon()) return false;
+		if (IsDrone() && !other->CanHoldDrone()) return false;
+		if (IsAugment() && !other->CanHoldAugment()) return false;
+		if (IsCrew() && !other->CanHoldCrew()) return false;
+		if (other->IsWeapon() && !CanHoldWeapon()) return false;
+		if (other->IsDrone() && !CanHoldDrone()) return false;
+		if (other->IsAugment() && !CanHoldAugment()) return false;
+		if (other->IsCrew() && !CanHoldCrew()) return false;
+		return true;
+	}
+
 	virtual ~EquipmentBox() {}
 	LIBZHL_API virtual void SetPosition(Point pos);
 	LIBZHL_API virtual void OnRender(bool isEmpty);
@@ -1665,6 +1698,7 @@ struct LIBZHL_INTERFACE EquipmentBox
 	LIBZHL_API Blueprint *GetBlueprint();
 	LIBZHL_API int GetItemValue();
 	LIBZHL_API virtual int GetType();
+	LIBZHL_API virtual void RenderIcon();
 	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool detailedBox);
 	LIBZHL_API void constructor(Point pos, int slot);
 	LIBZHL_API virtual void destructor();
