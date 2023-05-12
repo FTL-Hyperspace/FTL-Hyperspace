@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Scripting/;Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/;Core/StarMap/;Scripting/modules/" />
+		<Option virtualFolders="Scripting/;Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/;Core/StarMap/;Scripting/modules/;Core/UI/" />
 		<Build>
 			<Target title="Debug-win-32">
 				<Option platforms="Windows;" />
@@ -943,6 +943,12 @@
 		<Unit filename="CustomFleetShips.h">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
+		<Unit filename="CustomFocusWindow.cpp">
+			<Option virtualFolder="Core/UI/" />
+		</Unit>
+		<Unit filename="CustomFocusWindow.h">
+			<Option virtualFolder="Core/UI/" />
+		</Unit>
 		<Unit filename="CustomHotkeys.cpp">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
@@ -1096,6 +1102,7 @@
 		<Unit filename="FTLGameWin32.h">
 			<Option virtualFolder="FTLGame/" />
 		</Unit>
+		<Unit filename="FocusWindowVTable.cpp" />
 		<Unit filename="Global.cpp">
 			<Option virtualFolder="Core/" />
 		</Unit>
