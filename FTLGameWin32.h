@@ -3094,12 +3094,28 @@ struct GL_FrameBuffer;
 
 struct FocusWindow;
 
-struct FocusWindow
+struct LIBZHL_INTERFACE FocusWindow
 {
-	LIBZHL_API void MouseClick(int x, int y);
-	LIBZHL_API void MouseMove(int x, int y);
+	FocusWindow();
+
+	virtual ~FocusWindow() {}
+	virtual void SetOpen(bool open) LIBZHL_PLACEHOLDER
+	virtual void Open() LIBZHL_PLACEHOLDER
+	virtual void Close() LIBZHL_PLACEHOLDER
+	virtual void SetPosition(Point p) LIBZHL_PLACEHOLDER
+	virtual void OnLoop() LIBZHL_PLACEHOLDER
+	virtual bool LockWindow() LIBZHL_PLACEHOLDER
+	virtual void OnRender() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseMove(int x, int y);
+	LIBZHL_API virtual void MouseClick(int x, int y);
+	virtual void MouseUp(int mX, int mY) LIBZHL_PLACEHOLDER
+	virtual void MouseRightClick(int mX, int mY) LIBZHL_PLACEHOLDER
+	virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
+	virtual bool KeyDown(SDLKey sym) LIBZHL_PLACEHOLDER
+	virtual bool KeyUp(SDLKey sym) LIBZHL_PLACEHOLDER
+	virtual bool PriorityPopup() LIBZHL_PLACEHOLDER
+	LIBZHL_API void constructor();
 	
-	void *vptr;
 	bool bOpen;
 	bool bFullFocus;
 	uint8_t gap_ex_fw[2];
@@ -7803,6 +7819,7 @@ extern LIBZHL_API CrewMemberFactory *Global_CrewMemberFactory_Factory;
 extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
+extern LIBZHL_API void **VTable_FocusWindow;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API int *Globals_GetNextSpaceId_id;
 extern LIBZHL_API bool *Globals_RNG;

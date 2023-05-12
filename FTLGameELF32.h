@@ -3100,12 +3100,25 @@ struct GL_FrameBuffer;
 
 struct FocusWindow;
 
-struct FocusWindow
+struct LIBZHL_INTERFACE FocusWindow
 {
-	LIBZHL_API void MouseClick(int x, int y);
-	LIBZHL_API void MouseMove(int x, int y);
+	virtual ~FocusWindow() {}
+	virtual void SetOpen(bool open) LIBZHL_PLACEHOLDER
+	virtual void Open() LIBZHL_PLACEHOLDER
+	virtual void Close() LIBZHL_PLACEHOLDER
+	virtual void SetPosition(Point p) LIBZHL_PLACEHOLDER
+	virtual void OnLoop() LIBZHL_PLACEHOLDER
+	virtual bool LockWindow() LIBZHL_PLACEHOLDER
+	virtual void OnRender() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseMove(int x, int y);
+	LIBZHL_API virtual void MouseClick(int x, int y);
+	virtual void MouseUp(int mX, int mY) LIBZHL_PLACEHOLDER
+	virtual void MouseRightClick(int mX, int mY) LIBZHL_PLACEHOLDER
+	virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
+	virtual bool KeyDown(SDLKey sym) LIBZHL_PLACEHOLDER
+	virtual bool KeyUp(SDLKey sym) LIBZHL_PLACEHOLDER
+	virtual bool PriorityPopup() LIBZHL_PLACEHOLDER
 	
-	void *vptr;
 	bool bOpen;
 	bool bFullFocus;
 	uint8_t gap_ex_fw[2];

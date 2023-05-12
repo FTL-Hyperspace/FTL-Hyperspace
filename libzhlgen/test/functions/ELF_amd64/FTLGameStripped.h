@@ -1133,10 +1133,30 @@ struct std__vector_11UnlockArrow
   UnlockArrow *_end;
 };
 
+struct VTable_FocusWindow
+{
+  void (__thiscall *Free)(FocusWindow *this);
+  void (__thiscall *SetOpen)(FocusWindow *this, bool open);
+  void (__thiscall *Open)(FocusWindow *this);
+  void (__thiscall *Close)(FocusWindow *this);
+  void (__thiscall *SetPosition)(FocusWindow *this, Point p);
+  void (__thiscall *OnLoop)(FocusWindow *this);
+  bool (__thiscall *LockWindow)(FocusWindow *this);
+  void (__thiscall *OnRender)(FocusWindow *this);
+  void (__thiscall *MouseMove)(FocusWindow *this, int mX, int mY);
+  void (__thiscall *MouseClick)(FocusWindow *this, int mX, int mY);
+  void (__thiscall *MouseUp)(FocusWindow *this, int mX, int mY);
+  void (__thiscall *MouseRightClick)(FocusWindow *this, int mX, int mY);
+  void (__thiscall *OnTouch)(FocusWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+  bool (__thiscall *KeyDown)(FocusWindow *this, SDLKey sym);
+  bool (__thiscall *KeyUp)(FocusWindow *this, SDLKey sym);
+  bool (__thiscall *PriorityPopup)(FocusWindow *this);
+};
+
 /* 241 */
 struct FocusWindow
 {
-  void *vptr;
+  VTable_FocusWindow *_vtable;
   bool bOpen;
   bool bFullFocus;
   uint8_t gap_ex_fw[2];

@@ -2,3 +2,13 @@
 __thiscall void FocusWindow::MouseClick(FocusWindow *this, int x, int y);
 "578d7c240883e4f0ff77fc5589e5575383ec108b41088b1f8b7f0483f8ff":
 __thiscall void FocusWindow::MouseMove(FocusWindow *this, int x, int y);
+"578d7c240883e4f0ff77fc5589e5575389cb8d490883ec10c741f8????????c641fc00c641fd00":
+__thiscall void FocusWindow::constructor(FocusWindow *this);
+
+"578d7c240883e4f0ff77fc5589e5575389cb8d490883ec10c741f8(???????\?)c641fc00c641fd00":
+void** VTable_FocusWindow;
+
+struct FocusWindow
+{{
+	FocusWindow();
+}};

@@ -127,6 +127,8 @@ target_sources(
     CustomEvents.h
     CustomFleetShips.cpp
     CustomFleetShips.h
+	CustomFocusWindow.cpp
+	CustomFocusWindow.h
     CustomHotkeys.cpp
     CustomHotkeys.h
     CustomMap.cpp
@@ -168,6 +170,7 @@ target_sources(
     EventButtons.h
     EventTooltip.cpp
     EventTooltip.h
+	FocusWindowVTable.cpp
     FTLGame.cpp
     FTLGame.h
     # FTLGameELF32.cpp
