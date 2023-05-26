@@ -1213,6 +1213,7 @@ void CrewMember_Extend::CalculatePowerDef()
     if (!powerChange.empty())
     {
         hasSpecialPower = true;
+        powerChanged = true;
         for (ActivatedPowerDefinition* powerDef : powerChange)
         {
             ActivatedPower *power = new ActivatedPower(powerDef, orig, this);
