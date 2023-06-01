@@ -123,8 +123,9 @@ COPY toolchains/* /vcpkg/scripts/toolchains/
 # Workarounds for SDL2
 RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-toolchain/include/asm
 
-# Clang workaround for incompatibilities with gcc headers
-# Clang has different sets of vector intrinsics compared to gcc. This command "overwrites" those intrinsic defs to use Clang's intead.
+# Workaround for clang-mingw incompatibilities
+# Clang has different sets of vector intrinsics compared to gcc.
+# This command "overwrites" those intrinsic defs to Clang's ones instead.
 # See https://clang.llvm.org/compatibility.html#vector_builtins for more description.
 RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
     && cp /usr/local/lib/clang/17/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
