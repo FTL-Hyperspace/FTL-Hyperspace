@@ -9,8 +9,8 @@ COPY llvm.patch /llvm-build/
 RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list \
     && apt update \
     && apt install -y --no-install-recommends \
-        ca-certificates gnupg build-essential dpkg-dev devscripts locales make python3 zlib1g wget subversion \
-        unzip git \
+        ca-certificates gnupg build-essential dpkg-dev devscripts locales \
+        make python3 zlib1g wget subversion unzip git curl \
     && ln -s /usr/bin/autoconf /usr/bin/autoconf2.69 \
     && ln -s /usr/bin/autom4te /usr/bin/autom4te2.69 \
     && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8) \
@@ -122,6 +122,12 @@ COPY toolchains/* /vcpkg/scripts/toolchains/
 
 # Workarounds for SDL2
 RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-toolchain/include/asm
+
+# Clang workaround for incompatibilities with gcc headers
+# Clang has different sets of vector intrinsics compared to gcc. This command "overwrites" those intrinsic defs to use Clang's intead.
+# See https://clang.llvm.org/compatibility.html#vector_builtins for more description.
+RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
+    && cp /usr/local/lib/clang/17/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
 
 # Cleanup apt lists from the image
 RUN rm -rf /var/lib/apt/lists/*
