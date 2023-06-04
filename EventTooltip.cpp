@@ -8,12 +8,14 @@ bool g_eventTooltips = true;
 
 HOOK_METHOD(CommandGui, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::constructor -> Begin (EventTooltip.cpp)\n")
     super();
     infoBox = new InfoBox();
 }
 
 HOOK_METHOD(ChoiceBox, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::MouseMove -> Begin (EventTooltip.cpp)\n")
     super(x,y);
 
     if (g_eventTooltips)
@@ -46,6 +48,7 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (EventTooltip.cpp)\n")
     super();
 
     if (g_eventTooltips)

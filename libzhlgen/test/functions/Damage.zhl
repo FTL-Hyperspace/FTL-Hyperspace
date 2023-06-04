@@ -1,9 +1,0 @@
-
-
-struct Damage
-{{
-	Damage()
-	{
-	};
-	
-}};

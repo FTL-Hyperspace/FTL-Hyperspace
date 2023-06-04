@@ -1,11 +1,11 @@
 #include "Global.h"
-#include "freetype.h"
 #include "CustomEvents.h"
 #include "CustomOptions.h"
 #include <unordered_set>
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (CustomMap.cpp)\n")
     return super();
     if (!bChoosingNewSector)
     {
@@ -20,7 +20,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
             float unk3;
             for (unk3 = 200; ; unk3 += 10)
             {
-                pos = freetype_hack::easy_measurePrintLines(52, 0, 0, unk3 + 12, txt);
+                pos = freetype::easy_measurePrintLines(52, 0, 0, unk3 + 12, txt);
                 if (pos.y <= 50.f)
                     break;
             }
@@ -225,8 +225,9 @@ static std::vector<std::unordered_set<Location*>> g_locConnections;
 static bool g_useNonColorVertices = false;
 
 
-HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool unk) -> void)
+HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias) -> void)
 {
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_BlitMultiColorImage -> Begin (CustomMap.cpp)\n")
     if (g_useNonColorVertices)
     {
         auto newVec = std::vector<GL_TexVertex>();
@@ -242,16 +243,17 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
             newVec.push_back(newVertex);
         }
 
-        CSurface::GL_BlitMultiImage(tex, newVec, unk);
+        CSurface::GL_BlitMultiImage(tex, newVec, antialias);
 
         return;
     }
 
-    super(tex, texVertices, unk);
+    super(tex, texVertices, antialias);
 }
 
 HOOK_METHOD(StarMap, DrawConnection, (const Pointf& pos1, const Pointf& pos2, const GL_Color& color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::DrawConnection -> Begin (CustomMap.cpp)\n")
     if (g_firstTimeConnection && CustomOptionsManager::GetInstance()->showAllConnections.currentValue == true)
     {
         for (auto i : g_locConnections)
@@ -274,6 +276,7 @@ HOOK_METHOD(StarMap, DrawConnection, (const Pointf& pos1, const Pointf& pos2, co
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (CustomMap.cpp)\n")
     g_firstTimeConnection = true;
     super();
     g_firstTimeConnection = false;
@@ -281,6 +284,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool unk2) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomMap.cpp)\n")
     auto ret = super(unk1, unk2);
 
     g_locConnections.clear();

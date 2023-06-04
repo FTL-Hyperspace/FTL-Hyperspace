@@ -110,6 +110,7 @@ GL_Color AlternateOxygenManager::CalculateGradient(float value)
 
 HOOK_METHOD(Room, OnRenderFloor, (float alpha, bool experimental) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Room::OnRenderFloor -> Begin (AlternateOxygenRendering.cpp)\n")
     if (CustomOptionsManager::GetInstance()->alternateOxygenRendering.currentValue == true)
     {
         return CSurface::GL_RenderPrimitiveWithColor(this->floorPrimitive, AlternateOxygenManager::GetInstance()->CalculateGradient(this->lastO2));

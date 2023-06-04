@@ -1,6 +1,8 @@
 #include "Global.h"
 #include "CustomCommandGui.h"
+#include "CustomCrewManifest.h"
 #include "ShipZoom.h"
+#include "ScrollingChoiceBox.h"
 
 static void OnScrollWheel(float direction)
 {
@@ -10,13 +12,25 @@ static void OnScrollWheel(float direction)
     {
         if (!cApp->menu.bOpen)
         {
-            CustomCommandGui::GetInstance()->OnScrollWheel(direction);
+            if (ScrollingChoiceBox::OnScrollWheel(direction))
+            {
+
+            }
+            else if (cApp->gui->crewScreen.bOpen)
+            {
+                CustomCrewManifest::GetInstance()->OnScrollWheel(direction);
+            }
+            else
+            {
+                CustomCommandGui::GetInstance()->OnScrollWheel(direction);
+            }
         }
     }
 }
 
 HOOK_METHOD(CEvent, OnEvent, (const InputEvent* inputEvent) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CEvent::OnEvent -> Begin (Input.cpp)\n")
     if (inputEvent->type == InputEventType::INPUT_EVENT_MOUSE)
     {
         MouseInputEvent *mEvent = (MouseInputEvent*)(&inputEvent->event);

@@ -1,5 +1,4 @@
 #include "SaveFile.h"
-#include "freetype.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -39,8 +38,7 @@ void SaveFileHandler::ParseSaveFileNode(rapidxml::xml_node<char>* node)
 
 void SaveFileHandler::CreateTransferFile()
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     int f = FileHelper::createBinaryFile(userFolder + SaveFileHandler::instance->savePrefix + "_not_selected_transfer");
     FileHelper::closeBinaryFile(f);
@@ -48,32 +46,29 @@ void SaveFileHandler::CreateTransferFile()
 
 void SaveFileHandler::DeleteTransferFile()
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     FileHelper::deleteFile(userFolder + SaveFileHandler::instance->savePrefix + "_not_selected_transfer");
 }
 
 bool SaveFileHandler::TransferFileExists()
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     return FileHelper::fileExists(userFolder + SaveFileHandler::instance->savePrefix + "_not_selected_transfer");
 }
 
 HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
 {
-    std::string versionFileName;
-    FileHelper::getUserFolder(versionFileName);
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::Save -> Begin (SaveFile.cpp)\n")
+    std::string versionFileName = FileHelper::getUserFolder();
 
     versionFileName.append(SaveFileHandler::instance->savePrefix + "_version.sav");
     int versionFile = FileHelper::createBinaryFile(versionFileName);
     FileHelper::writeInt(versionFile, SaveFileHandler::version);
     FileHelper::closeBinaryFile(versionFile);
 
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     if (FileHelper::fileExists(userFolder + SaveFileHandler::instance->savePrefix + "_prof.sav"))
     {
@@ -150,8 +145,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
             bSavedScore = true;
         }
 
-        std::string userFolder;
-        FileHelper::getUserFolder(userFolder);
+        std::string userFolder = FileHelper::getUserFolder();
 
         std::string newSave = userFolder + SaveFileHandler::instance->savePrefix + "_prof.new.sav";
         std::string oldSave = userFolder + SaveFileHandler::instance->savePrefix + "_prof.sav";
@@ -220,8 +214,8 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
 
 HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnInit -> Begin (SaveFile.cpp)\n")
+    std::string userFolder = FileHelper::getUserFolder();
 
     std::string newFile = userFolder;
     newFile.append(SaveFileHandler::instance->savePrefix + "_prof.sav");
@@ -253,9 +247,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 
     super();
 
-    std::string newSave;
-
-    FileHelper::getUserFolder(newSave);
+    std::string newSave = FileHelper::getUserFolder();
     newSave.append(SaveFileHandler::instance->savePrefix + "_prof.sav");
 
     if (FileHelper::fileExists(newSave))
@@ -266,6 +258,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 
 HOOK_STATIC(FileHelper, readBinaryFile, (const std::string& fileName) -> int)
 {
+    LOG_HOOK("HOOK_STATIC -> FileHelper::readBinaryFile -> Begin (SaveFile.cpp)\n")
     if (boost::algorithm::ends_with(fileName, "ae_prof.sav") && !readFromAe)
     {
         std::string newFile = fileName;
@@ -279,6 +272,7 @@ HOOK_STATIC(FileHelper, readBinaryFile, (const std::string& fileName) -> int)
 
 HOOK_STATIC(FileHelper, fileExists, (const std::string& fileName) -> bool)
 {
+    LOG_HOOK("HOOK_STATIC -> FileHelper::fileExists -> Begin (SaveFile.cpp)\n")
     if (boost::algorithm::ends_with(fileName, "ae_prof.sav") && !readFromAe)
     {
         std::string newFile = fileName;
@@ -293,6 +287,7 @@ HOOK_STATIC(FileHelper, fileExists, (const std::string& fileName) -> bool)
 
 HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
 {
+    LOG_HOOK("HOOK_STATIC -> FileHelper::createBinaryFile -> Begin (SaveFile.cpp)\n")
     if (boost::algorithm::ends_with(fileName, "ae_prof.sav") && !readFromAe)
     {
         std::string newFile = fileName;
@@ -313,13 +308,20 @@ HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
 }
 
 
-HOOK_STATIC(FileHelper, getSaveFile, (std::string& str) -> std::string&)
+HOOK_STATIC(FileHelper, getSaveFile, () -> std::string)
 {
-    auto ret = super(str);
+    LOG_HOOK("HOOK_STATIC -> FileHelper::getSaveFile -> Begin (SaveFile.cpp)\n")
+    std::string str = super();
 
     str.replace(str.size()-12, str.size(), SaveFileHandler::instance->savePrefix + "_continue.sav");
 
-    return ret;
+    return str;
+}
+
+HOOK_STATIC(FileHelper, deleteAllSaveFiles, () -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> FileHelper::deleteAllSaveFiles -> Begin (SaveFile.cpp)\n")
+    deleteFile(FileHelper::getSaveFile()); // Because deleteAllSaveFiles in Linux inlines this, we just re-implement deleteALlSaveFiles
 }
 
 static ConfirmWindow* confirmWipeSave;
@@ -330,16 +332,18 @@ static float welcomeDialogHeight;
 
 HOOK_METHOD(MainMenu, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::constructor -> Begin (SaveFile.cpp)\n")
     super();
     confirmWipeSave = new ConfirmWindow();
 }
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (SaveFile.cpp)\n")
     super();
     /*
     std::string text = G_->GetTextLibrary()->GetText("transfer_save_dialog");
-    auto printLines = freetype_hack::easy_measurePrintLines(52, 0, 0, 400, text);
+    auto printLines = freetype::easy_measurePrintLines(52, 0, 0, 400, text);
 
     welcomeDialogHeight = printLines.y + 10.f;
 
@@ -357,7 +361,7 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     rect.y = std::floor((720 - welcomeDialogHeight) / 2 + welcomeDialogHeight);
     rect.w = 170;
     rect.h = 32;
-    welcomeDialogButton->OnInit(0, 0, 100, 80, 4, &welcomeDialogButtonText, 63);
+    welcomeDialogButton->OnInit(Point(0, 0), Point(100, 80), 4, &welcomeDialogButtonText, 63);
     */
 
 
@@ -399,6 +403,7 @@ HOOK_METHOD(MainMenu, Open, () -> void)
 
 HOOK_METHOD(MainMenu, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::OnRender -> Begin (SaveFile.cpp)\n")
     super();
 
     if (confirmWipeSave->bOpen)
@@ -418,6 +423,7 @@ HOOK_METHOD(MainMenu, OnRender, () -> void)
 
 HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::MouseClick -> Begin (SaveFile.cpp)\n")
     if (confirmWipeSave->bOpen)
     {
         confirmWipeSave->MouseClick(x, y);
@@ -442,6 +448,7 @@ HOOK_METHOD(MainMenu, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(MainMenu, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::MouseMove -> Begin (SaveFile.cpp)\n")
     if (confirmWipeSave->bOpen)
     {
         confirmWipeSave->MouseMove(x, y);

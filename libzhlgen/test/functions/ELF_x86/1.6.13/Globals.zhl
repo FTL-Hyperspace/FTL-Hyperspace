@@ -1,0 +1,20 @@
+"57565383ec308b7c24508d442444":
+static cleanup __cdecl Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
+".8b15????????b8650000008d4a0185d20f45c1":
+static __cdecl int Globals::GetNextSpaceId();
+".83ec1cf30f10642424f30f10442428f30f106c242c0f28f4":
+static cleanup __cdecl float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
+".5383ec28f30f10442440f30f10542434f30f105c2438":
+static cleanup __cdecl Pointf Globals::GetNextPoint(Pointf current, float mag_speed, float heading);
+
+"!c744240c????????895c2408c7442404(???????\?)893c24":
+TextLibrary* Global_Globals_Library;
+
+"!8b15(???????\?)b8650000008d4a0185d20f45c1":
+int* Globals_GetNextSpaceId_id;
+
+"!803d(???????\?)00c787800000003c000000c78784000000c8000000":
+bool* Globals_RNG;
+
+"!8974240c895c2408c744240401000000890424e8????????a1(???????\?)890424":
+FILE* ftl_log_logfile;

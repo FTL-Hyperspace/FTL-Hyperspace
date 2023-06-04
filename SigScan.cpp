@@ -1,14 +1,31 @@
 #include "SigScan.h"
 #include <string>
-#include <Windows.h>
-
 #include "hde.h"
+
+#ifdef _WIN32
+    #include <windows.h>
+#elif defined(__linux__)
+    #include <stdio.h>
+    #include <link.h>
+    #include <stdlib.h>
+    #include <inttypes.h>
+    
+    #ifdef __i386__
+        #define PTR_PRINT_F "0x%08" PRIxPTR
+    #elif defined(__amd64__)
+        #define PTR_PRINT_F "0x%016" PRIxPTR
+    #else
+        #error "Unknown processor architecture not supported."
+    #endif // Architecture
+#else
+    #error "Unsupported OS"
+#endif
 
 unsigned char *SigScan::s_pBase = 0;
 size_t SigScan::s_iBaseLen = 0;
 unsigned char *SigScan::s_pLastStartAddress = 0;
 unsigned char *SigScan::s_pLastAddress = 0;
-std::list<SigScan::Match> SigScan::s_lastMatches;
+//std::list<SigScan::Match> SigScan::s_lastMatches;
 
 //=====================================================================
 
@@ -20,16 +37,17 @@ SigScan::SigScan(const char *sig) : m_pAddress(0)
 	// Default signature if nothing was specified
 	if(!sig || !sig[0])
 	{
-		if(s_lastMatches.empty())
+		if(s_lastMatches().empty())
 		{
 			// Look for the first function after the last scanned function
+			// TODO: This sig will need a tweak for AMD64 variants
 			sig = ".558bec";
 		}
 		else
 		{
 			// Get remaining matches from the last scan
-			s_lastMatches.pop_front();
-			m_matches = s_lastMatches;
+			s_lastMatches().pop_front();
+			m_matches = s_lastMatches();
 			m_iLength = 0;
 			m_sig = NULL;
 			m_mask = NULL;
@@ -171,12 +189,12 @@ bool SigScan::Scan(Callback callback)
 			}
 			else
 			{
-				hde32s s = {0};
+				T_HDE s = {0};
 				int n = 0;
 
 				do
 				{
-					n = hde32_disasm(s_pLastAddress, &s);
+					n = HDE_DISASM(s_pLastAddress, &s);
 					s_pLastAddress += n;
 				} while(n && s.opcode != 0xc2 && s.opcode != 0xc3);
 
@@ -190,7 +208,7 @@ bool SigScan::Scan(Callback callback)
 			for(auto it = m_matches.begin() ; it != m_matches.end() ; ++it)
 				it->address = m_pAddress + it->begin;
 
-			s_lastMatches = m_matches;
+			s_lastMatches() = m_matches;
 
 			if(callback) callback(this);
 			return true;
@@ -202,7 +220,7 @@ bool SigScan::Scan(Callback callback)
 }
 
 //=====================================================================
-
+#ifdef _WIN32
 void SigScan::Init()
 {
 	HMODULE hModule = GetModuleHandle(NULL);
@@ -220,3 +238,48 @@ void SigScan::Init()
 	s_iBaseLen = pe->OptionalHeader.SizeOfImage;
 	s_pLastAddress = s_pBase;
 }
+#elif defined(__linux__)
+size_t segmentLength = 0;
+uintptr_t programBaseAddress = 0;
+
+static int callback(struct dl_phdr_info *info, size_t size, void *data) {
+    static int once = 0;
+    
+    if(once) return 0;
+    once = 1;
+    
+    printf("ELF Relocation addr: " PTR_PRINT_F "\n", (uintptr_t) info->dlpi_addr);
+    
+    for(int j = 0; j < info->dlpi_phnum; j++) {
+        ElfW(Phdr) t_phdr = info->dlpi_phdr[j];
+        if(t_phdr.p_type == PT_LOAD && t_phdr.p_flags & 0x11 /* executable & read I think */) {
+
+            printf("ELF Loaded at " PTR_PRINT_F ", " PTR_PRINT_F "\n", (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr), (uintptr_t) t_phdr.p_vaddr);
+
+            programBaseAddress = (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr);
+            
+            size_t seg_size = 0;
+            // get segment size
+            while(seg_size < t_phdr.p_filesz) {
+                printf("SEG SIZE: 0x%016x\n", t_phdr.p_align);
+                seg_size += t_phdr.p_align; // TODO: Dump these individual seg sizes to see if any are correct, maybe we're scanning too far?
+            }
+            segmentLength = seg_size; // TODO: This segment size might be wrong on 64-bit, it seems to compute a length too long?
+
+            break;
+        }
+    }
+    
+    return 0;
+}
+
+void SigScan::Init()
+{
+    dl_iterate_phdr(callback, NULL);
+
+    s_pBase = (unsigned char *) programBaseAddress;
+    s_iBaseLen = segmentLength;
+	s_pLastAddress = s_pBase;
+}
+#endif
+

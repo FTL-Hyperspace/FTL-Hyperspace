@@ -1,0 +1,8 @@
+"!0f85060100004c8d6c2430bf2009000049c70424(???????\?)":
+void** VTable_RepairAnimation;
+
+
+struct RepairAnimation
+{{
+	RepairAnimation(int _shipId, const std::string& _race, Pointf _unk, bool _hostile);
+}};

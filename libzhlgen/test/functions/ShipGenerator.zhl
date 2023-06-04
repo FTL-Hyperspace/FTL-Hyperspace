@@ -1,2 +1,0 @@
-"8d4c240483e4f0ff71fc5589e55756535131db81ec????????8b01c7850cfbffff00000000c78510fbffff00000000c78514fbffff000000008985f0faffff8b4104898500fbffff8b4108":
-static cleanup ShipManager* ShipGenerator::CreateShip(const std::string& name, int sector, ShipEvent& event);

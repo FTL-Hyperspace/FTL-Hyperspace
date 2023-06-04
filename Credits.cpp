@@ -3,6 +3,7 @@
 
 HOOK_METHOD_PRIORITY(GameOver, OnLoop, 9999, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> GameOver::OnLoop -> Begin (Credits.cpp)\n")
     openedTimer += G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
     if (openedTimer >= 25.f && bVictory)
     {

@@ -1,5 +1,6 @@
 #include "CustomColors.h"
 #include "Resources.h"
+#include "PALMemoryProtection.h"
 
 GL_Color g_defaultTextButtonColors[4] =
 {
@@ -35,12 +36,14 @@ void SetColorPointerValues(rapidxml::xml_node<char>* node, int index, bool divid
     ParseColorNode(color, node, divide);
     for (auto i : Global::colorPointers[index])
     {
-        DWORD dwOldProtect, dwBkup;
-        VirtualProtect(i, sizeof(GL_Color), PAGE_EXECUTE_READWRITE, &dwOldProtect);
+        MEMPROT_SAVE_PROT(dwOldProtect);
+        MEMPROT_PAGESIZE();
+
+        MEMPROT_UNPROTECT(i, sizeof(GL_Color), dwOldProtect);
 
         *i = color;
 
-        VirtualProtect(i, sizeof(GL_Color), dwOldProtect, &dwBkup);
+        MEMPROT_REPROTECT(i, sizeof(GL_Color), dwOldProtect);
     }
 }
 
@@ -190,36 +193,42 @@ void SetTextButtonDefaultColors(TextButton *btn, bool force=false)
 
 HOOK_METHOD(TextButton, InitPrimitives, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::InitPrimitives -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super();
 }
 
 HOOK_METHOD(TextButton, SetInactiveColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetInactiveColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(TextButton, SetActiveColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetActiveColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(TextButton, SetSelectedColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetSelectedColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(TextButton, SetTextColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetTextColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(ShipBuilder, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (CustomColors.cpp)\n")
     super();
 
     easyButton.SetInactiveColor(g_defaultTextButtonColors[2]);
@@ -229,9 +238,10 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     advancedOnButton.SetInactiveColor(g_defaultTextButtonColors[2]);
 }
 
-HOOK_METHOD(ShipSelect, Open, () -> void)
+HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 {
-    super();
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::Open -> Begin (CustomColors.cpp)\n")
+    super(currentLayout, currentType);
 
     typeA.SetInactiveColor(g_defaultTextButtonColors[2]);
     typeB.SetInactiveColor(g_defaultTextButtonColors[2]);
@@ -241,6 +251,7 @@ HOOK_METHOD(ShipSelect, Open, () -> void)
 
 HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (CustomColors.cpp)\n")
     super(on, simple);
 
     if (on)
@@ -263,6 +274,7 @@ static bool g_ftlNoFuel = false;
 
 HOOK_METHOD(TextButton, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::OnRender -> Begin (CustomColors.cpp)\n")
     if (g_isFTLButton)
     {
         if (!g_ftlButtonDown)
@@ -295,8 +307,9 @@ HOOK_METHOD(TextButton, OnRender, () -> void)
     super();
 }
 
-HOOK_METHOD(FTLButton, OnRender, () -> void)
+HOOK_METHOD_PRIORITY(FTLButton, OnRender, 5000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> FTLButton::OnRender -> Begin (CustomColors.cpp)\n")
     g_isFTLButton = true;
     g_ftlNoFuel = bOutOfFuel;
     g_ftlButtonDown = !ship->SystemFunctions(SYS_PILOT) || ship->IsSystemHacked(SYS_PILOT) > 1 || !ship->SystemFunctions(SYS_ENGINES) || ship->IsSystemHacked(SYS_ENGINES) > 1;

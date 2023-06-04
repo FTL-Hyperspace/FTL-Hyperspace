@@ -5,7 +5,11 @@ class CustomOptionsManager
 public:
     CustomOptionsManager()
     {
+        rightClickDoorOpening.defaultValue = true;
+        rightClickDoorOpening.currentValue = true;
 
+        dismissSound.defaultValue = "airLoss";
+        dismissSound.currentValue ="airLoss";
     }
 
     static CustomOptionsManager *GetInstance()
@@ -13,47 +17,51 @@ public:
         return &instance;
     }
 
-    struct Setting
+    template<typename T> struct Setting
     {
-        bool defaultValue = false;
-        int defaultAmount = 0;
-        bool currentValue = false;
-        int currentAmount = 0;
+        T defaultValue = T();
+        T currentValue = T();
     };
 
     struct Defaults
     {
         bool beaconType_hideVanillaLabel = true;
         bool checkCargo = false;
+        bool choiceRequiresCrew = false;
     };
 
-    bool altMode = false;
-    bool altModeChanged = false;
+    bool altMode = true;
+    bool altModeChanged = true;
 
 //    Setting holdButton;
 
 //    Setting hullNumbers;
-    Setting redesignedWeaponTooltips;
-    Setting redesignedCrewTooltips;
-    Setting redesignedDroneTooltips;
-    Setting redesignedAugmentTooltips;
+    Setting<bool> redesignedWeaponTooltips;
+    Setting<bool> redesignedCrewTooltips;
+    Setting<bool> redesignedDroneTooltips;
+    Setting<bool> redesignedAugmentTooltips;
 
-    Setting advancedCrewTooltips;
-    Setting showAllyPowers;
-    Setting showEnemyPowers;
-    Setting advancedCrewTooltipRounding;
+    Setting<bool> advancedCrewTooltips;
+    Setting<bool> showAllyPowers;
+    Setting<bool> showEnemyPowers;
+    Setting<int> advancedCrewTooltipRounding;
 
-    Setting eventTooltips;
+    Setting<bool> eventTooltips;
 
-    Setting showWeaponCooldown;
+    Setting<bool> alternateCrewMovement;
+    Setting<bool> rightClickDoorOpening;
 
-    Setting showReactor;
+    Setting<bool> showWeaponCooldown;
 
-    Setting showAllConnections;
+    Setting<bool> showReactor;
 
-    Setting alternateOxygenRendering;
+    Setting<bool> showAllConnections;
 
-    Setting showScrapCollectorScrap;
+    Setting<bool> alternateOxygenRendering;
+
+    Setting<bool> showScrapCollectorScrap;
+
+    Setting<std::string> dismissSound;
 
     Defaults defaults;
 

@@ -1,0 +1,12 @@
+struct GL_Line
+{{
+	GL_Line(float x1, float y1, float x2, float y2)
+	{
+		start = Pointf(x1, y1);
+		end = Pointf(x2, y2);
+	}
+	
+	GL_Line(Pointf _start, Pointf _end) : start(_start), end(_end)
+	{
+	}		
+}};

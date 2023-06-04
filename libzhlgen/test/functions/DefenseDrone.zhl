@@ -1,4 +1,0 @@
-"5589e55756538b5d0883e4f085db74??8b430483f80274??":
-bool DefenseDrone::ValidTargetObject(DefenseDrone *this<ecx>, Targetable *other);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b955020000000f84????????0fb6710c":
-void DefenseDrone::PickTarget(DefenseDrone *this<ecx>);

@@ -3,11 +3,15 @@
 #include <boost/crc.hpp>
 
 int GenerateLocationSeed(int a, int b);
+int GenerateLocationSeed(Location &loc, int seed);
 
 class SeedInputBox
 {
 public:
     static bool seedsEnabled;
+    static bool seedsAllowUnlocks;
+    static bool seedsAllowAchievements;
+    static bool seedsAllowMetaVars;
     static Pointf drawLocation;
     static float width;
     static float height;
@@ -106,7 +110,7 @@ extern SeededRng secretRng;
 
 static unsigned int nextSeed;
 unsigned int SeededRandom32();
-void SetSeed(UINT);
+void SetSeed(unsigned int);
 
 extern bool loadingMap;
 static bool generatingMap = false;

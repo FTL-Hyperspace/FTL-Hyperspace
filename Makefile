@@ -46,9 +46,9 @@ DEF_RELEASE = ..\\Program\ Files\ (x86)\\Steam\\steamapps\\common\\FTL\ Faster\ 
 SHAREDINT_RELEASE = ..\\Program\ Files\ (x86)\\Steam\\steamapps\\common\\FTL\ Faster\ Than\ Light\\libHyperspace.a
 OUT_RELEASE = ..\\Program\ Files\ (x86)\\Steam\\steamapps\\common\\FTL\ Faster\ Than\ Light\\Hyperspace.dll
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)\\HullNumbers.o $(OBJDIR_DEBUG)\\Infinite.o $(OBJDIR_DEBUG)\\MainMenu.o $(OBJDIR_DEBUG)\\Misc.o $(OBJDIR_DEBUG)\\Resources.o $(OBJDIR_DEBUG)\\Seeds.o $(OBJDIR_DEBUG)\\ShipManager_Extend.o $(OBJDIR_DEBUG)\\ShipTypeC.o $(OBJDIR_DEBUG)\\SigScan.o $(OBJDIR_DEBUG)\\Wormhole.o $(OBJDIR_DEBUG)\\freetype.o $(OBJDIR_DEBUG)\\hde.o $(OBJDIR_DEBUG)\\main.o $(OBJDIR_DEBUG)\\zhl.o $(OBJDIR_DEBUG)\\CustomCrew.o $(OBJDIR_DEBUG)\\AugmentValues.o $(OBJDIR_DEBUG)\\Augments.o $(OBJDIR_DEBUG)\\Balance.o $(OBJDIR_DEBUG)\\Captain.o $(OBJDIR_DEBUG)\\Colors.o $(OBJDIR_DEBUG)\\CommandConsole.o $(OBJDIR_DEBUG)\\CrewMember_Extend.o $(OBJDIR_DEBUG)\\CrewVTable.o $(OBJDIR_DEBUG)\\CustomAugments.o $(OBJDIR_DEBUG)\\ASMHooks.o $(OBJDIR_DEBUG)\\CustomEvents.o $(OBJDIR_DEBUG)\\CustomMap.o $(OBJDIR_DEBUG)\\CustomSaves.o $(OBJDIR_DEBUG)\\CustomShips.o $(OBJDIR_DEBUG)\\CustomSystems.o $(OBJDIR_DEBUG)\\CustomWeapons.o $(OBJDIR_DEBUG)\\FTLGame.o $(OBJDIR_DEBUG)\\Global.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)\\HullNumbers.o $(OBJDIR_DEBUG)\\Infinite.o $(OBJDIR_DEBUG)\\MainMenu.o $(OBJDIR_DEBUG)\\Misc.o $(OBJDIR_DEBUG)\\Resources.o $(OBJDIR_DEBUG)\\Seeds.o $(OBJDIR_DEBUG)\\ShipManager_Extend.o $(OBJDIR_DEBUG)\\ShipTypeC.o $(OBJDIR_DEBUG)\\SigScan.o $(OBJDIR_DEBUG)\\Wormhole.o $(OBJDIR_DEBUG)\\hde.o $(OBJDIR_DEBUG)\\main.o $(OBJDIR_DEBUG)\\zhl.o $(OBJDIR_DEBUG)\\CustomCrew.o $(OBJDIR_DEBUG)\\AugmentValues.o $(OBJDIR_DEBUG)\\Augments.o $(OBJDIR_DEBUG)\\Balance.o $(OBJDIR_DEBUG)\\Captain.o $(OBJDIR_DEBUG)\\Colors.o $(OBJDIR_DEBUG)\\CommandConsole.o $(OBJDIR_DEBUG)\\CrewMember_Extend.o $(OBJDIR_DEBUG)\\CrewVTable.o $(OBJDIR_DEBUG)\\CustomAugments.o $(OBJDIR_DEBUG)\\ASMHooks.o $(OBJDIR_DEBUG)\\CustomEvents.o $(OBJDIR_DEBUG)\\CustomMap.o $(OBJDIR_DEBUG)\\CustomSaves.o $(OBJDIR_DEBUG)\\CustomShips.o $(OBJDIR_DEBUG)\\CustomSystems.o $(OBJDIR_DEBUG)\\CustomWeapons.o $(OBJDIR_DEBUG)\\FTLGame.o $(OBJDIR_DEBUG)\\Global.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)\\HullNumbers.o $(OBJDIR_RELEASE)\\Infinite.o $(OBJDIR_RELEASE)\\MainMenu.o $(OBJDIR_RELEASE)\\Misc.o $(OBJDIR_RELEASE)\\Resources.o $(OBJDIR_RELEASE)\\Seeds.o $(OBJDIR_RELEASE)\\ShipManager_Extend.o $(OBJDIR_RELEASE)\\ShipTypeC.o $(OBJDIR_RELEASE)\\SigScan.o $(OBJDIR_RELEASE)\\Wormhole.o $(OBJDIR_RELEASE)\\freetype.o $(OBJDIR_RELEASE)\\hde.o $(OBJDIR_RELEASE)\\main.o $(OBJDIR_RELEASE)\\zhl.o $(OBJDIR_RELEASE)\\CustomCrew.o $(OBJDIR_RELEASE)\\AugmentValues.o $(OBJDIR_RELEASE)\\Augments.o $(OBJDIR_RELEASE)\\Balance.o $(OBJDIR_RELEASE)\\Captain.o $(OBJDIR_RELEASE)\\Colors.o $(OBJDIR_RELEASE)\\CommandConsole.o $(OBJDIR_RELEASE)\\CrewMember_Extend.o $(OBJDIR_RELEASE)\\CrewVTable.o $(OBJDIR_RELEASE)\\CustomAugments.o $(OBJDIR_RELEASE)\\ASMHooks.o $(OBJDIR_RELEASE)\\CustomEvents.o $(OBJDIR_RELEASE)\\CustomMap.o $(OBJDIR_RELEASE)\\CustomSaves.o $(OBJDIR_RELEASE)\\CustomShips.o $(OBJDIR_RELEASE)\\CustomSystems.o $(OBJDIR_RELEASE)\\CustomWeapons.o $(OBJDIR_RELEASE)\\FTLGame.o $(OBJDIR_RELEASE)\\Global.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)\\HullNumbers.o $(OBJDIR_RELEASE)\\Infinite.o $(OBJDIR_RELEASE)\\MainMenu.o $(OBJDIR_RELEASE)\\Misc.o $(OBJDIR_RELEASE)\\Resources.o $(OBJDIR_RELEASE)\\Seeds.o $(OBJDIR_RELEASE)\\ShipManager_Extend.o $(OBJDIR_RELEASE)\\ShipTypeC.o $(OBJDIR_RELEASE)\\SigScan.o $(OBJDIR_RELEASE)\\Wormhole.o $(OBJDIR_RELEASE)\\hde.o $(OBJDIR_RELEASE)\\main.o $(OBJDIR_RELEASE)\\zhl.o $(OBJDIR_RELEASE)\\CustomCrew.o $(OBJDIR_RELEASE)\\AugmentValues.o $(OBJDIR_RELEASE)\\Augments.o $(OBJDIR_RELEASE)\\Balance.o $(OBJDIR_RELEASE)\\Captain.o $(OBJDIR_RELEASE)\\Colors.o $(OBJDIR_RELEASE)\\CommandConsole.o $(OBJDIR_RELEASE)\\CrewMember_Extend.o $(OBJDIR_RELEASE)\\CrewVTable.o $(OBJDIR_RELEASE)\\CustomAugments.o $(OBJDIR_RELEASE)\\ASMHooks.o $(OBJDIR_RELEASE)\\CustomEvents.o $(OBJDIR_RELEASE)\\CustomMap.o $(OBJDIR_RELEASE)\\CustomSaves.o $(OBJDIR_RELEASE)\\CustomShips.o $(OBJDIR_RELEASE)\\CustomSystems.o $(OBJDIR_RELEASE)\\CustomWeapons.o $(OBJDIR_RELEASE)\\FTLGame.o $(OBJDIR_RELEASE)\\Global.o
 
 all: before_build build_debug build_release after_build
 
@@ -101,9 +101,6 @@ $(OBJDIR_DEBUG)\\SigScan.o: SigScan.cpp
 
 $(OBJDIR_DEBUG)\\Wormhole.o: Wormhole.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Wormhole.cpp -o $(OBJDIR_DEBUG)\\Wormhole.o
-
-$(OBJDIR_DEBUG)\\freetype.o: freetype.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c freetype.cpp -o $(OBJDIR_DEBUG)\\freetype.o
 
 $(OBJDIR_DEBUG)\\hde.o: hde.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c hde.cpp -o $(OBJDIR_DEBUG)\\hde.o
@@ -218,9 +215,6 @@ $(OBJDIR_RELEASE)\\SigScan.o: SigScan.cpp
 
 $(OBJDIR_RELEASE)\\Wormhole.o: Wormhole.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Wormhole.cpp -o $(OBJDIR_RELEASE)\\Wormhole.o
-
-$(OBJDIR_RELEASE)\\freetype.o: freetype.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c freetype.cpp -o $(OBJDIR_RELEASE)\\freetype.o
 
 $(OBJDIR_RELEASE)\\hde.o: hde.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c hde.cpp -o $(OBJDIR_RELEASE)\\hde.o
