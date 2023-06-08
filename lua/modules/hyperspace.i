@@ -891,22 +891,6 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager_Extend;
 
 
-%immutable ShipManager::extend;
-%rename("%s") ShipManager::extend;
-
-%extend ShipManager {
-    ShipManager_Extend* extend;
-}
-%wrapper %{
-    static ShipManager_Extend *ShipManager_extend_get(ShipManager* shipManager)
-    {
-        return Get_ShipManager_Extend(shipManager);
-    };
-%}
-
-%nodefaultctor ShipManager_Extend;
-%rename("%s") ShipManager_Extend;
-
 %nodefaultctors PowerManager;
 %nodefaultdtors PowerManager;
 %rename("%s") PowerManager;
@@ -1431,9 +1415,11 @@ playerVariableType playerVariables;
 %nodefaultctor Room;
 %nodefaultdtor Room;
 %rename("%s") Room;
+
 %rename("%s") Room::bBlackedOut;
 %immutable Room::rect;
 %rename("%s") Room::rect;
+
 %immutable Room::extend;
 %rename("%s") Room::extend;
 
