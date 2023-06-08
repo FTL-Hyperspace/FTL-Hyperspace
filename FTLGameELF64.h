@@ -6231,6 +6231,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API static int __stdcall StringToWeapon(const std::string &str);
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor(const WeaponBlueprint *bp, int shipId);
+	LIBZHL_API void destructor();
 	
 	std::pair<float, float> cooldown;
 	std::pair<float, float> subCooldown;
