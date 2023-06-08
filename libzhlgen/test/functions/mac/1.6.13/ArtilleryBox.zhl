@@ -1,0 +1,13 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
+"554889e541574156534883ec784989ff400fb6f6":
+cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
+
+
+struct ArtilleryBox
+{{
+	ArtilleryBox(Point pos, ArtillerySystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

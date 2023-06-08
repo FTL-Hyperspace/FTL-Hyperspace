@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *ship, bool repairAll, int price);
+
+
+struct RepairStoreBox
+{{
+	RepairStoreBox(ShipManager *_ship, bool _repairAll, int _price)
+	{
+		this->constructor(_ship, _repairAll, _price);
+	}
+}};

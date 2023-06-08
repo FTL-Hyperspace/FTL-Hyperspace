@@ -1,0 +1,22 @@
+"488bbf78":
+cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
+"554889e541574156534881ec88010000":
+cleanup __amd64 void CrewStoreBox::Purchase(CrewStoreBox *this);
+"554889e5534883ec384889fb488d7b2831c9e8????f8ff80":
+cleanup __amd64 void CrewStoreBox::MouseMove(CrewStoreBox *this, int mX, int mY);
+
+
+struct CrewStoreBox
+{{
+	CrewStoreBox(ShipManager *_ship, int _worldLevel, const std::string& _type)
+	{
+		this->constructor(_ship, _worldLevel, _type);
+	}
+	
+	CrewStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
+	}
+}};

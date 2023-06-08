@@ -1,0 +1,5 @@
+"554889e54157415641554154534883ec384989d6":
+cleanup __amd64 Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
+
+"UNKNOWN FUNCTION DEFENITION":
+AnimationControl* Global_AnimationControl_Animations;

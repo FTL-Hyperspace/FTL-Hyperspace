@@ -1,0 +1,17 @@
+"554889e54157415641554154534883ec184189fe":
+static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
+
+
+struct PowerManager
+{{
+	int GetAvailablePower()
+	{
+		return currentPower.second - currentPower.first;
+	}
+	
+	int GetMaxPower()
+	{
+		int ret = currentPower.second - (iTempPowerLoss + iHacked);
+		return ret > iTempPowerCap ? iTempPowerCap : ret;
+	}
+}};

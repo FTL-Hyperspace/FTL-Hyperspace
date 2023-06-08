@@ -1,0 +1,30 @@
+"COULD NOT FIND UNIQUE SIGNATURE":
+cleanup __amd64 void Button::SetLocation(Button *this, const Point pos);
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+cleanup __amd64 void Button::OnInit(Button *this, const std::string& img, Point pos);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void Button::constructor(Button *this);
+"554889e553504889fb48837b6800741e":
+cleanup __amd64 void Button::OnRender(Button *this);
+"554889e548397750":
+cleanup __amd64 void Button::SetInactiveImage(Button *this, GL_Texture *texture);
+"554889e548397758":
+cleanup __amd64 void Button::SetActiveImage(Button *this, GL_Texture *texture);
+"554889e541574156534883ec184989f64889fb488d15????":
+cleanup __amd64 void Button::SetImageBase(Button *this, const std::string& imageBase);
+
+
+struct Button depends (CSurface)
+{{
+	Button()
+	{
+		this->constructor();
+	}
+	
+	~Button()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
+	}
+}};

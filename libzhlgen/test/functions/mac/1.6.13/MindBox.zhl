@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
+
+
+struct MindBox
+{{
+	MindBox(Point pos, MindSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

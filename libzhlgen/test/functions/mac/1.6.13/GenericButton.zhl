@@ -1,0 +1,14 @@
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void GenericButton::SetLocation(GenericButton *this, Point pos);
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
+"UNKNOWN FUNCTION DEFENITION":
+noHook __amd64 void GenericButton::DO_NOT_HOOK_1();
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void GenericButton::OnClick(GenericButton *this);
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void GenericButton::OnRightClick(GenericButton *this);
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void GenericButton::ResetPrimitives(GenericButton *this);

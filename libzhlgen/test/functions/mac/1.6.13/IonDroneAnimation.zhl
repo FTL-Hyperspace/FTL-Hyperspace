@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy);
+
+
+struct IonDroneAnimation
+{{
+	IonDroneAnimation(int _shipId, Pointf _position, bool _hostile)
+	{
+		this->constructor(_shipId, _position, _hostile);
+	}
+}};

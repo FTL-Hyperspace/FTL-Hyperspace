@@ -1,0 +1,8 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool unk);
+"554889e54084f6741280bf70":
+cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
+"554889e541574156534883ec2889f349":
+cleanup __amd64 void ShipAI::OnLoop(ShipAI *this, bool hostile);
+"UNKNOWN FUNCTION DEFENITION":
+cleanup __amd64 std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this);

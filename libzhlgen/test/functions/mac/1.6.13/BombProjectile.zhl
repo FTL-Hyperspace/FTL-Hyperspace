@@ -1,0 +1,15 @@
+"554889e54157415653504989ff498d9f":
+cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this);
+"554889e541574156534881ecd8000000":
+cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+
+
+struct BombProjectile
+{{
+	BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target);
+	}
+}};

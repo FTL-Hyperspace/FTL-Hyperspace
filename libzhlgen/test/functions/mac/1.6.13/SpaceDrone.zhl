@@ -1,0 +1,10 @@
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target);
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+"554889e54157415653504989f64889fb0f134de0":
+cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+"554889e54156534883ec300f28e10f28":
+cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);

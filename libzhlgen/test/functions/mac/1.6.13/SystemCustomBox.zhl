@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point pos, ShipSystem *sys, ShipManager *ship);
+
+
+struct SystemCustomBox
+{{
+	SystemCustomBox(Point pos, ShipSystem *sys, ShipManager *ship)
+	{
+		this->constructor(pos, sys, ship);
+	}
+}};

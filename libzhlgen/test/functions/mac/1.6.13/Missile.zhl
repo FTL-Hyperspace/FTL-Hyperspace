@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void Missile::constructor(Missile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
+
+
+struct Missile
+{{
+	Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target, _heading);
+	}
+}};

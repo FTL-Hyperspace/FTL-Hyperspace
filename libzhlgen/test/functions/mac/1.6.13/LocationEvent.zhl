@@ -1,0 +1,14 @@
+"554889e5415741564154534883ec204989ff4183":
+cleanup __amd64 void LocationEvent::ClearEvent(LocationEvent *this, bool force);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void LocationEvent::constructor(LocationEvent *this);
+
+
+struct LocationEvent
+{{
+	LocationEvent()
+	{
+		this->constructor();
+	}
+}};
+

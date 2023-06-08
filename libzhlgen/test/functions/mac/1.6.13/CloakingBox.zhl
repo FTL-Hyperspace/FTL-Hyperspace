@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void CloakingBox::constructor(CloakingBox *this, Point pos, CloakingSystem* sys);
+
+
+struct CloakingBox
+{{
+	CloakingBox(Point pos, CloakingSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

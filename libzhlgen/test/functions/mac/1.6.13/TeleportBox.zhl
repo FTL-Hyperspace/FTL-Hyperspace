@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
+
+
+struct TeleportBox
+{{
+	TeleportBox(Point pos, TeleportSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

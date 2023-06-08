@@ -1,0 +1,15 @@
+"554889e553504889fbe8b2f9":
+cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
+"554889e553504889fbc74340":
+cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+
+
+"UNKNOWN FUNCTION DEFENITION":
+void** VTable_LaserBlast;
+void** VTable_Targetable_LaserBlast;
+
+
+struct LaserBlast
+{{
+	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
+}};

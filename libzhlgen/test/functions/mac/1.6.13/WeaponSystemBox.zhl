@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point pos, ShipSystem* sys, WeaponControl *weapCtrl);
+
+
+struct WeaponSystemBox
+{{
+	WeaponSystemBox(Point pos, ShipSystem* sys, WeaponControl *weapCtrl)
+	{
+		this->constructor(pos, sys, weapCtrl);
+	}
+}};

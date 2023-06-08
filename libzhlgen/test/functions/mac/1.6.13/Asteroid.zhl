@@ -1,0 +1,13 @@
+"554889e553504889fbe812fcffff0f57":
+cleanup __amd64 void Asteroid::OnUpdate(Asteroid *this);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace);
+
+
+struct Asteroid
+{{
+	Asteroid(Pointf pos, int destinationSpace)
+	{
+		this->constructor(pos, destinationSpace);
+	}
+}};

@@ -1,0 +1,8 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void ShipBlueprint::destructor(ShipBlueprint *this);
+
+
+struct ShipBlueprint
+{{
+
+}};

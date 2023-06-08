@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point pos, BatterySystem* sys);
+
+
+struct BatteryBox
+{{
+	BatteryBox(Point pos, BatterySystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

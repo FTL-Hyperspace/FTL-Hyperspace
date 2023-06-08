@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point pos, ShipSystem* sys, ShipManager* ship);
+
+
+struct DoorBox
+{{
+	DoorBox(Point pos, ShipSystem* sys, ShipManager *ship)
+	{
+		this->constructor(pos, sys, ship);
+	}
+}};

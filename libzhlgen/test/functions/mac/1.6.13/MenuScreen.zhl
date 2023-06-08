@@ -1,0 +1,6 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void MenuScreen::constructor(MenuScreen *this);
+"554889e54157415641554154534881ecb80000004989ff4180bf5803":
+cleanup __amd64 void MenuScreen::OnRender(MenuScreen *this);
+"554889e54157415641554154534883ec684889fbc6430801":
+cleanup __amd64 void MenuScreen::Open(MenuScreen *this);

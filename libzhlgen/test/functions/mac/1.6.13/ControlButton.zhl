@@ -1,0 +1,2 @@
+"554889e5534883ec684889fb8b436083":
+cleanup __amd64 void ControlButton::OnRender(ControlButton *this);

@@ -1,0 +1,19 @@
+"UNKNOWN FUNCTION DEFENITION":
+noHook __amd64 void WeaponStoreBox::__DO_NOT_HOOK();
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
+
+
+struct WeaponStoreBox
+{{
+	WeaponStoreBox(ShipManager *_ship, Equipment *_equip, const WeaponBlueprint *_bp)
+	{
+		this->constructor(_ship, _equip, _bp);
+	}
+	
+	WeaponStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
+}};

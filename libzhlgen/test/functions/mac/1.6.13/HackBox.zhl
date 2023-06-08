@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+
+
+struct HackBox
+{{
+	HackBox(Point pos, HackingSystem* sys, ShipManager *ship)
+	{
+		this->constructor(pos, sys, ship);
+	}
+}};

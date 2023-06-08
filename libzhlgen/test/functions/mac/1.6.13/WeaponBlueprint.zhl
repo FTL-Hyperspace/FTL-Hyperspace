@@ -1,0 +1,17 @@
+"554889e5488db7b8":
+cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
+"554889e54157415641554154534881ec68010000899544ff":
+cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WeaponBlueprint::constructor(WeaponBlueprint *this);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
+
+
+struct WeaponBlueprint
+{{
+	WeaponBlueprint()
+	{
+		this->constructor();
+	}
+}};

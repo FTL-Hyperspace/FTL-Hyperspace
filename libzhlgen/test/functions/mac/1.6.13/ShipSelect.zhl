@@ -1,0 +1,24 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void ShipSelect::constructor(ShipSelect *this);
+"554889e54156534989fe498b4628498b4e304889ca4829c248c1ea0385d27e3c31db66666666662e0f1f840000000000488b3cd84885ff740e488b07ff5008498b4628498b4e3048ffc34889ca4829c248c1ea034863d24839d37cd4498946305b415e5d":
+cleanup __amd64 void ShipSelect::ClearShipButtons(ShipSelect *this);
+"554889e5415741564154534881ec800000004889fb80bb20":
+cleanup __amd64 void ShipSelect::OnLoop(ShipSelect *this);
+"554889e54881c7180600005d":
+cleanup __amd64 int ShipSelect::KeyDown(ShipSelect *this, SDLKey key);
+"554889e553504889fb80bb20":
+cleanup __amd64 void ShipSelect::MouseClick(ShipSelect *this);
+"554889e5c6475800":
+cleanup __amd64 void ShipSelect::Close(ShipSelect *this);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this);
+"554889e54157415641554154534881ecc8020000":
+cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int shipType);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect *this, int shipType);
+"554889e54157415641554154534881ec980000004189f548":
+cleanup __amd64 void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
+"554889e54157415641554154534881ec280200004989fe41":
+cleanup __amd64 void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
+"554889e54157415641554154534883ec384989fc4180bc24":
+cleanup __amd64 void ShipSelect::OnRender(ShipSelect *this);

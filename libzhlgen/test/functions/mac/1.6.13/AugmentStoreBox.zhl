@@ -1,0 +1,16 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp);
+
+
+struct AugmentStoreBox
+{{
+	AugmentStoreBox(ShipManager *_ship, const AugmentBlueprint* _bp)
+	{
+		this->constructor(_ship, _bp);
+	}
+	
+	AugmentStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
+	}
+}};

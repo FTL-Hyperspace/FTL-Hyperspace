@@ -1,0 +1,6 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void UnlockArrow::constructor(UnlockArrow *this, Point pos, int unk1, int unk2);
+"554889e5837f0403":
+cleanup __amd64 bool UnlockArrow::MouseMove(UnlockArrow *this, int x, int y);
+"554889e54156534883ec204889fb8b03":
+cleanup __amd64 void UnlockArrow::OnRender(UnlockArrow *this);

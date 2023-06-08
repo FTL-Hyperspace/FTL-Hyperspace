@@ -1,0 +1,20 @@
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
+"UNKNOWN FUNCTION DEFENITION":
+static __amd64 int Globals::GetNextSpaceId();
+"554889e5f30f16d9":
+static cleanup __amd64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, float heading);
+
+"UNKNOWN FUNCTION DEFENITION":
+TextLibrary* Global_Globals_Library;
+
+"UNKNOWN FUNCTION DEFENITION":
+offsetVariable int* Globals_GetNextSpaceId_id;
+
+"UNKNOWN FUNCTION DEFENITION":
+offsetVariable bool* Globals_RNG;
+
+"UNKNOWN FUNCTION DEFENITION":
+offsetVariable FILE* ftl_log_logfile;

@@ -1,0 +1,11 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager *ship, const std::string& resourceName);
+
+
+struct ItemStoreBox
+{{
+	ItemStoreBox(ShipManager *_ship, const std::string& _resourceName)
+	{
+		this->constructor(_ship, _resourceName);
+	}
+}};

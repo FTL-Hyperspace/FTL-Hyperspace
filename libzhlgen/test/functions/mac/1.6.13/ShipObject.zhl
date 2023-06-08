@@ -1,0 +1,27 @@
+"554889e531c0837f08000f94":
+cleanup __amd64 int ShipObject::GetAugmentationCount(ShipObject *this);
+"554889e541574156535031c0":
+cleanup __amd64 void ShipObject::ClearShipInfo(ShipObject *this);
+"554889e5415741564155415453504989fc31c083":
+cleanup __amd64 std::vector<std::string> ShipObject::GetAugmentationList(ShipObject *this);
+"554889e54156534883ec2031c0837f08000f94c0486bd83848031d89":
+cleanup __amd64 int ShipObject::HasAugmentation(ShipObject *this, const std::string& augment);
+"554889e54157415641554154534883ec684989f74989fe48":
+cleanup __amd64 int ShipObject::HasEquipment(ShipObject *this, const std::string& equip);
+"554889e54156534883ec2031c0837f08000f94c0486bd83848031d59":
+cleanup __amd64 float ShipObject::GetAugmentationValue(ShipObject *this, const std::string& augment);
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::string& augment);
+"554889e54156534883ec2031c0837f08000f94c0486bd83848031dc9":
+cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
+
+"UNKNOWN FUNCTION DEFENITION":
+offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;
+
+struct ShipObject
+{{
+	int HS_HasEquipment(const std::string& equip);
+	int HasItem(const std::string& equip);
+	int HasCargo(const std::string& equip);
+	void CheckCargo(const std::string& equip, int& ret);
+}};

@@ -1,0 +1,23 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WindowFrame::destructor(WindowFrame *this);
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int x, int y);
+"554889e553504889fbbf0100":
+cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int unk);
+
+
+struct WindowFrame
+{{
+	WindowFrame(int _x, int _y, int _w, int _h) 
+	{
+		this->constructor(_x, _y, _w, _h);
+	}
+	
+	~WindowFrame()
+	{
+		this->destructor();
+	}
+
+}};

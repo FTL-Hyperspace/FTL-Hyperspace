@@ -1,0 +1,35 @@
+"554889e54157415641554154534883ec480f2945":
+cleanup __amd64 void WarningMessage::RenderWithAlpha(WarningMessage *this, float alpha);
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void WarningMessage::constructor(WarningMessage *this);
+"554889e54157415641554154534883ec18894dd0":
+cleanup __amd64 void WarningMessage::InitImage(WarningMessage *this, const std::string& imageName, Point position, float time, bool flash);
+"554889e5415741564154534883ec304589c64189":
+cleanup __amd64 void WarningMessage::InitText(WarningMessage *this, const TextString& text, Point position, float time, GL_Color textColor, bool centerText, bool flash);
+"554889e54156534889fb4c8d73084c89":
+cleanup __amd64 void WarningMessage::OnLoop(WarningMessage *this);
+"554889e553504889fb807b1e":
+cleanup __amd64 void WarningMessage::OnRender(WarningMessage *this);
+"554889e5415741564155415453504989f64989fc41807c24":
+cleanup __amd64 void WarningMessage::SetImage(WarningMessage *this, const std::string& imageName);
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextString& text);
+"MULTIPLE MATCHES IN SIGNATURE DATA":
+cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextString& text, GL_Color textColor);
+"554889e54889f248":
+cleanup __amd64 void WarningMessage::SetPosition(WarningMessage *this, Point position);
+"554889e54883c708400fb6f6":
+cleanup __amd64 void WarningMessage::SetLoop(WarningMessage *this, bool loop);
+"COULD NOT FIND UNIQUE SIGNATURE":
+cleanup __amd64 void WarningMessage::SetSound(WarningMessage *this, const std::string& sound);
+"554889e54156534889fb807b1c007405":
+cleanup __amd64 void WarningMessage::Start(WarningMessage *this);
+
+
+struct WarningMessage
+{{
+	WarningMessage()
+	{
+		this->constructor();
+	}
+}};

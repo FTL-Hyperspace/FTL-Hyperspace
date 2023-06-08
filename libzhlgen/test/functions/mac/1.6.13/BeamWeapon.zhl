@@ -1,0 +1,15 @@
+"NOT FOUND IN SIGNATURE DATA":
+cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
+"554889e54157415641554154534883ec284989fe4180be90":
+cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
+"554889e54157415641554154534881ec78020000":
+cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
+
+
+struct BeamWeapon
+{{
+	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float _heading = 0.0f)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target, _target2, _length, _targetable, _heading);
+	}
+}};
