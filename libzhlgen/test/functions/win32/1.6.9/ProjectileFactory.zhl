@@ -34,6 +34,8 @@ __thiscall Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this)
 __thiscall void ProjectileFactory::ClearAiming(ProjectileFactory *this);
 "8b8100060000898104060000c3":
 __thiscall void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
+"5589e557565389cf83e4f083ec208b8100060000":
+__thiscall void ProjectileFactory::destructor(ProjectileFactory *this);
 
 "8d4c240483e4f0ff71fc5589e556535183ec6c8b19891c24":
 static cleanup __cdecl Projectile *ProjectileFactory::LoadProjectile(int fd);

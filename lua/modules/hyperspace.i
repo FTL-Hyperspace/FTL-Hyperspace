@@ -14,7 +14,11 @@
 #include "CustomShipSelect.h"
 #include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
+#include "ShipManager_Extend.h"
+#include "System_Extend.h"
+#include "Room_Extend.h"
 #include "ToggleValue.h"
+#include "CommandConsole.h"
 %}
 
 %feature("flatnested");
@@ -239,6 +243,34 @@ struct CFPS
 };
 %clearnodefaultctor;
 %clearnodefaultdtor;
+
+//Add setter/getter members such that Hyperspace.FPS.speedEnabled appears to be a valid member.
+%init %{
+        SWIG_Lua_get_class_metatable(L, "CFPS"); //Get CFPS metatable.
+        SWIG_Lua_get_table(L, ".get");
+        SWIG_Lua_add_function(L, "speedEnabled", 
+        [](lua_State* L) -> int
+        {
+            lua_pushboolean(L, speedEnabled);
+            return 1;
+        });
+        lua_pop(L, 1);             //Remove .get table
+        SWIG_Lua_get_table(L, ".set");
+        SWIG_Lua_add_function(L, "speedEnabled", 
+        [](lua_State* L) -> int
+        {
+            SWIG_check_num_args("CFPS::speedEnabled", 2, 2)
+            if (!lua_isboolean(L, 2)) SWIG_fail_arg("CFPS::speedEnabled", 2, "bool");
+            speedEnabled = (lua_toboolean(L, 2) != 0 );
+            return 0;
+            fail:
+                lua_error(L);
+                return 0;
+        });
+        lua_pop(L, 2); //Remove .set table and metatable
+
+%}
+
 
 // make player variables and metavariables look like a different class
 %{
@@ -790,7 +822,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::fuel_count;
 //%immutable ShipManager::hostile_ship;
 //%rename("%s") ShipManager::hostile_ship;
-//%rename("%s") ShipManager::bDestroyed;
+%immutable ShipManager::bDestroyed;
+%rename("%s") ShipManager::bDestroyed;
 %immutable ShipManager::iLastDamage;
 %rename("%s") ShipManager::iLastDamage;
 //%rename("%s") ShipManager::damMessages;
@@ -838,6 +871,25 @@ playerVariableType playerVariables;
 //%immutable ShipManager::fireExtinguishers;
 //%rename("%s") ShipManager::fireExtinguishers;
 //%rename("%s") ShipManager::bWasSafe;
+%immutable ShipManager::_targetable;
+%rename("%s") ShipManager::_targetable;
+
+%immutable ShipManager::extend;
+%rename("%s") ShipManager::extend;
+
+%extend ShipManager {
+    ShipManager_Extend* extend;
+}
+%wrapper %{
+    static ShipManager_Extend *ShipManager_extend_get(ShipManager* shipManager)
+    {
+        return Get_ShipManager_Extend(shipManager);
+    };
+%}
+
+%nodefaultctor ShipManager_Extend;
+%rename("%s") ShipManager_Extend;
+
 
 %nodefaultctors PowerManager;
 %nodefaultdtors PowerManager;
@@ -1067,6 +1119,7 @@ playerVariableType playerVariables;
 //%rename("%s") ShipSystem::GetWeaponInfo; // New object needs cleanup?
 //%rename("%s") ShipSystem::GetOverrideTooltip; // New object needs cleanup?
 %rename("%s") ShipSystem::CheckMaxPower;
+%rename("%s") ShipSystem::CheckForRepower;
 %rename("%s") ShipSystem::SetBonusPower;
 %rename("%s") ShipSystem::AddDamage;
 %rename("%s") ShipSystem::ForceDecreasePower;
@@ -1151,6 +1204,23 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem::bTriggerIon;
 //%rename("%s") ShipSystem::damagingEffects;
 %rename("%s") ShipSystem::computerLevel;
+
+%immutable ShipSystem::extend;
+%rename("%s") ShipSystem::extend;
+
+%extend ShipSystem {
+    ShipSystem_Extend* extend;
+}
+%wrapper %{
+    static ShipSystem_Extend *ShipSystem_extend_get(ShipSystem* shipSystem)
+    {
+        return Get_ShipSystem_Extend(shipSystem);
+    };
+%}
+
+%nodefaultctor ShipSystem_Extend;
+%rename("%s") ShipSystem_Extend;
+%rename("%s") ShipSystem_Extend::additionalPowerLoss;
 
 %nodefaultctors ProjectileFactory;
 %nodefaultdtors ProjectileFactory;
@@ -1306,7 +1376,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::SetRoomBlackout;
 %rename("%s") Ship::SetSelectedRoom;
 %rename("%s") Ship::iShipId; // just in case
-//%rename("%s") Ship::vRoomList; // TODO: Expose Room
+%rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
 //%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
 %rename("%s") Ship::vOuterAirlocks;
@@ -1341,6 +1411,34 @@ playerVariableType playerVariables;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
 //%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+
+%nodefaultctor Room;
+%nodefaultdtor Room;
+%rename("%s") Room;
+
+%rename("%s") Room::bBlackedOut;
+%immutable Room::rect;
+%rename("%s") Room::rect;
+
+%immutable Room::extend;
+%rename("%s") Room::extend;
+
+
+%extend Room {
+    Room_Extend* extend;
+}
+%wrapper %{
+    static Room_Extend *Room_extend_get(Room* room)
+    {
+        return Get_Room_Extend(room);
+    };
+%}
+
+%nodefaultctor Room_Extend;
+%rename("%s") Room_Extend;
+%rename("%s") Room_Extend::sysDamageResistChance;
+%rename("%s") Room_Extend::ionDamageResistChance;
+%rename("%s") Room_Extend::timeDilation;
 
 %nodefaultctor Door;
 %nodefaultdtor Door;
@@ -1400,8 +1498,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint;
 %copyctor ShipBlueprint;
 
-%nodefaultctors ShipBlueprint::SystemTemplate;
-%nodefaultdtors ShipBlueprint::SystemTemplate;
+//%nodefaultctors ShipBlueprint::SystemTemplate;
+//%nodefaultdtors ShipBlueprint::SystemTemplate;
 %rename("%s") ShipBlueprint::SystemTemplate;
 %rename("%s") ShipBlueprint::SystemTemplate::systemId;
 %rename("%s") ShipBlueprint::SystemTemplate::powerLevel;
@@ -1689,10 +1787,37 @@ playerVariableType playerVariables;
 %rename("%s") Projectile::flashTracker;
 %rename("%s") Projectile::color;
 
+%immutable Projectile::extend;
+%rename("%s") Projectile::extend;
+
+%extend Projectile {
+    Projectile_Extend* extend;
+}
+%wrapper %{
+    static Projectile_Extend *Projectile_extend_get(Projectile* projectile)
+    {
+        return Get_Projectile_Extend(projectile);
+    };
+%}
+
+
 
 %nodefaultctor CrewMember;
 %nodefaultdtor CrewMember;
 %rename("%s") CrewMember;
+
+%immutable CrewMember::extend;
+%rename("%s") CrewMember::extend;
+
+%extend CrewMember {
+    CrewMember_Extend* extend;
+}
+%wrapper %{
+    static CrewMember_Extend *CrewMember_extend_get(CrewMember* crewMember)
+    {
+        return Get_CrewMember_Extend(crewMember);
+    };
+%}
 
 %rename("%s") Get_CrewMember_Extend;
 %nodefaultctor CrewMember_Extend;
@@ -2635,6 +2760,50 @@ playerVariableType playerVariables;
 %rename("%s") Pointf;
 %rename("%(regex:/^Pointf::(.*)$/\\1/)s", regextarget=1, fullname=1) "Pointf::.*";
 
+%wrapper %{
+
+    static void script_add_native_member(lua_State *L, const char *className, const char *memberName, lua_CFunction fn)
+    {
+        SWIG_Lua_get_class_registry(L); /* get the registry */
+        lua_pushstring(L, className);   /* get the name */
+        lua_rawget(L,-2);               /* get the metatable itself */
+        lua_remove(L,-2);               /* tidy up (remove registry) */
+
+        // If the metatable is not null, add the method to the ".get" table
+        if(lua_isnil(L, -1) != 1)
+        {
+            SWIG_Lua_get_table(L, ".get");
+            SWIG_Lua_add_function(L, memberName, fn);
+            lua_pop(L, 2);              /* tidy up (remove metatable and ".get" table) */
+        }
+        else
+        {
+            printf("[script_add_native_member(..)] - \"%s\" metatable is not found. Member \"%s\" will not be added\n", className, memberName);
+            return;
+        }
+    }
+
+%}
+
+
+%{
+    static int hs_Userdata_table_get(lua_State* lua)
+    {
+        luaL_argcheck(lua, lua_isuserdata(lua, 1), 1, "Expected argument of type 'Userdata'");
+        swig_lua_userdata *usr = (swig_lua_userdata*) lua_touserdata(lua, 1);
+        lua_rawgetp(lua, LUA_REGISTRYINDEX, usr->ptr);
+        return 1;
+    };
+%}
+
+%init %{
+    script_add_native_member(L, "Projectile", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "ProjectileFactory", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "CrewMember", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "ShipSystem", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
+%}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
 %rename("%s") TextString::data;
@@ -2656,3 +2825,6 @@ playerVariableType playerVariables;
 %include "CustomShipSelect.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
+%include "ShipManager_Extend.h"
+%include "System_Extend.h"
+%include "Room_Extend.h"

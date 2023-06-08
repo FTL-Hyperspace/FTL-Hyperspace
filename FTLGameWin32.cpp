@@ -10782,6 +10782,20 @@ void ProjectileFactory::ClearProjectiles()
 namespace _func779
 {
 	static void *func = 0;
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("ProjectileFactory::destructor", typeid(void (ProjectileFactory::*)()), "5589e557565389cf83e4f083ec208b8100060000", argdata, 1, 5, &func);
+}
+
+void ProjectileFactory::destructor()
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ProjectileFactory *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func778::func;
+	return execfunc(this);
+}
+
+namespace _func779
+{
+	static void *func = 0;
 	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("ProjectileFactory::LoadProjectile", typeid(Projectile *(*)(int )), "8d4c240483e4f0ff71fc5589e556535183ec6c8b19891c24", argdata, 1, 2, &func);
 }

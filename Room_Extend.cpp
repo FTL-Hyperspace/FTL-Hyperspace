@@ -22,11 +22,14 @@ HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, i
 	this->gap_ex_2[1] = dEx & 0xFF;
 
 	ex->orig = this;
+
+    HS_MAKE_TABLE(this)
 }
 
 HOOK_METHOD(Room, destructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Room::destructor -> Begin (Room_Extend.cpp)\n")
+    HS_BREAK_TABLE(this)
     delete RM_EX(this);
 
     return super();

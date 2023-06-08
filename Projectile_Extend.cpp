@@ -20,11 +20,14 @@ HOOK_METHOD_PRIORITY(Projectile, constructor, 900, (Pointf position, int ownerId
 	this->gap_ex_2[0] = (dEx >> 8) & 0xFF;
 	this->gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
+
+    HS_MAKE_TABLE(this)
 }
 
 HOOK_METHOD(Projectile, destructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Projectile::destructor -> Begin (Projectile_Extend.cpp)\n")
+    HS_BREAK_TABLE(this)
     delete PR_EX(this);
 
     return super();

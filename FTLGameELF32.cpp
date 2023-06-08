@@ -10796,6 +10796,20 @@ Projectile *ProjectileFactory::GetProjectile()
 namespace _func784
 {
 	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("ProjectileFactory::destructor", typeid(void (ProjectileFactory::*)()), "5557565383ec2c8b442440c700????3d088b8084", argdata, 1, 6, &func);
+}
+
+void ProjectileFactory::destructor()
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ProjectileFactory *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func783::func;
+	return execfunc(this);
+}
+
+namespace _func784
+{
+	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("ProjectileFactory::SaveProjectile", typeid(void (*)(Projectile *, int )), "565383ec148b5c24208b7424248b03891c24", argdata, 2, 6, &func);
 }

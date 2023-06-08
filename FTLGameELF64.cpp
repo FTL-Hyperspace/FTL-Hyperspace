@@ -10005,6 +10005,19 @@ void ProjectileFactory::Update()
 namespace _func781
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ProjectileFactory::destructor", typeid(void (ProjectileFactory::*)()), ".415641554154554889fd534883ec1048c70770??", nullptr, 0, 0, &func);
+}
+
+void ProjectileFactory::destructor()
+{
+	typedef void (*custom_arg_funcptr_t)(ProjectileFactory *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func780::func;
+	return execfunc(this);
+}
+
+namespace _func781
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ReactorButton::Accept", typeid(void (ReactorButton::*)()), "55534889fb4883ec288b878c000000", nullptr, 0, 0, &func);
 }
 
