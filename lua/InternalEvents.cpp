@@ -145,3 +145,14 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_LOOP, 1);
     lua_pop(context->GetLua(), 1);
 }
+//Priority was necessary to make this run after the hook for calculating stuff with additionalPowerLoss, so user can do stuff like modify that for weapon effects here.
+HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (InternalEvents.cpp)\n")
+    super();
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::SHIP_LOOP, 1);
+    lua_pop(context->GetLua(), 1);
+}
