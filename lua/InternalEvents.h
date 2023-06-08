@@ -38,6 +38,8 @@ struct InternalEvents
         
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+        // function ship_loop(ShipManager& ship)
+        SHIP_LOOP,
 
         // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
         HAS_EQUIPMENT,
