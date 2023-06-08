@@ -614,7 +614,7 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::constructor -> Begin (CustomWeapons.cpp)\n")
     super(bp, shipId);
-
+    HS_MAKE_TABLE(this)
     if (bp->type != 2)
     {
         auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
@@ -623,6 +623,13 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
             weaponVisual.SetFireTime(def->fireTime);
         }
     }
+}
+
+HOOK_METHOD(ProjectileFactory, destructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::destructor -> Begin (CustomWeapons.cpp)\n")
+    HS_BREAK_TABLE(this)
+    super();
 }
 
 // Fix for weapon animations with many frames.

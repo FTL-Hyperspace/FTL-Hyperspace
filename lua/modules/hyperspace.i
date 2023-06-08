@@ -2798,6 +2798,7 @@ playerVariableType playerVariables;
 
 %init %{
     script_add_native_member(L, "Projectile", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "ProjectileFactory", "table", hs_Userdata_table_get);
     script_add_native_member(L, "CrewMember", "table", hs_Userdata_table_get);
     script_add_native_member(L, "ShipSystem", "table", hs_Userdata_table_get);
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
