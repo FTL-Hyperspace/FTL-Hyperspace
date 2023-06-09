@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415653504989fe488d05????????4883c010498906":
 cleanup __amd64 void CrewBlueprint::destructor(CrewBlueprint *this);
 "554889e54157415641554154534883ec184589c74189ce41":
 cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);

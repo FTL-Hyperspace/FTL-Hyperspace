@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fb488d7b1048c743":
 cleanup __amd64 void WorldManager::constructor(WorldManager *this);
 "554889e54157415653504989ff4d8d77104c89f7":
 cleanup __amd64 int WorldManager::OnInit(WorldManager *this);
@@ -18,7 +18,7 @@ cleanup __amd64 void WorldManager::ModifyStatusEffect(WorldManager *this, Status
 cleanup __amd64 LocationEvent* WorldManager::ModifyResources(WorldManager *this, LocationEvent *event);
 "554889e5415741564155415453504989f64889fb498b0649":
 cleanup __amd64 void WorldManager::CheckStatusEffects(WorldManager *this, std::vector<StatusEffect>& vec);
-"554889e54157415641554154534881ec18060000":
+"!554889e54157415641554154534881ec18060000":
 cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
 "NOT FOUND IN SIGNATURE DATA":
 cleanup __amd64 void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event);

@@ -1,4 +1,4 @@
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e553504889fb488bbb880100004885ff7410488b07":
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 "554889e553504889fb4885f6":
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
@@ -6,7 +6,7 @@ cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, T
 cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
 "554889e5534883ec384889fb80be3805":
 cleanup __amd64 CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-"NOT FOUND IN SIGNATURE DATA":
+".554889e54157415641554154534881ec????????4989ce4889fb":
 cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
 
 

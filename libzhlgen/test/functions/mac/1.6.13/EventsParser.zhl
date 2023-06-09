@@ -1,4 +1,3 @@
-/* Note: RandomAmount actually returns on RAX:XMM0 because the first half is INTEGER and the second half of the struct is SSE so this is currently borked */
 "554889e54157415641554154534883ec684989d5":
 cleanup __amd64 RandomAmount EventsParser::PullMinMax(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& name);
 "554889e54157415641554154534881ecb80000004989cf48":

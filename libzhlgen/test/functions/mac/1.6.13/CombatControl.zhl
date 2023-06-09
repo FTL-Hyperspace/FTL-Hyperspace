@@ -1,6 +1,6 @@
 "554889e54157415641554154534881ec680100004989fd48":
 cleanup __amd64 void CombatControl::RenderTarget(CombatControl *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5488b87100900004885c07406":
 cleanup __amd64 ShipManager *CombatControl::GetCurrentTarget(CombatControl *this);
 "554889e5488bbf10":
 cleanup __amd64 char CombatControl::CurrentTargetIsBoss(CombatControl *this);
@@ -22,7 +22,7 @@ cleanup __amd64 void CombatControl::OnInit(CombatControl *this, Point pos);
 cleanup __amd64 void CombatControl::OnLoop(CombatControl *this);
 "554889e54156534889fb4883":
 cleanup __amd64 void CombatControl::SetMouseCursor(CombatControl *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5415741564154534889fb41be":
 cleanup __amd64 std::pair<int,int> CombatControl::GetTeleportationCommand(CombatControl *this);
 "554889e553504889fb4883bb10090000":
 cleanup __amd64 void CombatControl::DisarmAll(CombatControl *this);
@@ -36,7 +36,7 @@ cleanup __amd64 bool CombatControl::WeaponsArmed(CombatControl *this);
 cleanup __amd64 void CombatControl::KeyDown(CombatControl *this, SDLKey key);
 "554889e54156534889fb488b7b08be09000000e808b0fcff":
 cleanup __amd64 void CombatControl::DisarmTeleporter(CombatControl *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881eca80000004889fb":
 cleanup __amd64 void CombatControl::constructor(CombatControl *this);
 "554889e5534883ec184889fb488d7b20":
 cleanup __amd64 void CombatControl::OnRenderSelfAiming(CombatControl *this);

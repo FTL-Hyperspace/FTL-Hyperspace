@@ -1,8 +1,8 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4189cd4189f7":
 cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fb488b7b10e8????fdff488b":
 cleanup __amd64 void WindowFrame::destructor(WindowFrame *this);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54157415653504189d789f34989fee8":
 cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int x, int y);
 "554889e553504889fbbf0100":
 cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int unk);

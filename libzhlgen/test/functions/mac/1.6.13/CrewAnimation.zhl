@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"!554889e5415741564155415453504989fe488d05":
 cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this);
 "554889e58b4f5c83":
 cleanup __amd64 int CrewAnimation::GetFiringFrame(CrewAnimation *this);
@@ -20,7 +20,7 @@ cleanup __amd64 std::string CrewAnimation::GetShootingSound(CrewAnimation *this)
 cleanup __amd64 void CrewAnimation::SetupStrips(CrewAnimation *this);
 "554889e54157415641554154534881ecc80300000f2985a0":
 cleanup __amd64 void CrewAnimation::OnInit(CrewAnimation *this, const std::string& name, Pointf position, bool enemy);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????894d8c":
 cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
 "554889e5415741564155415453504989fe498d7e":
 cleanup __amd64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this);

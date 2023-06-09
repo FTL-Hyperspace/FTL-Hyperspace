@@ -4,3 +4,7 @@ cleanup __amd64 Description& Description::copy_assign_2(Description *this, Descr
 cleanup __amd64 Description& Description::copy_assign_1(Description *this, const Description& other);
 "NOT FOUND IN SIGNATURE DATA":
 cleanup __amd64 void Description::destructor(Description *this);
+
+/*
+WHERE the hell are all the functions, ghidra does not show a single one :anguish:
+/*

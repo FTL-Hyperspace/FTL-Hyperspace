@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534881ec????????4889fbe8????????488d05????????4889??4c8d":
 cleanup __amd64 void CrewManifest::constructor(CrewManifest *this);
 "554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e8778900":
 cleanup __amd64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);

@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4889fb49be":
 cleanup __amd64 void MainMenu::constructor(MainMenu *this);
 "554889e54157415641554154534881ecd80000004989fc41":
 cleanup __amd64 void MainMenu::OnRender(MainMenu *this);

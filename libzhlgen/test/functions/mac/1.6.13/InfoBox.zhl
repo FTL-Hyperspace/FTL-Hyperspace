@@ -1,26 +1,26 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fb31f631d2e8????070048c7":
 cleanup __amd64 void InfoBox::constructor(InfoBox *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??448945ac":
 cleanup __amd64 void InfoBox::SetBlueprintWeapon(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift); 
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec8800000044898574ffffff":
 cleanup __amd64 void InfoBox::SetBlueprintDrone(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift); 
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+".554889e54157415653504889f34989fe498d????8d":
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const ItemBlueprint* bp);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4189cf4889f3":
 cleanup __amd64 void InfoBox::SetBlueprintCrew(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415653504889f34989fe498d????488d????e83d101d00":
 cleanup __amd64 void InfoBox::SetBlueprintAugment(InfoBox *this, const AugmentBlueprint* bp);
 "554889e54156534883ec204889fb83bbcc000000":
 cleanup __amd64 bool InfoBox::IsEmpty(InfoBox *this);
 "554889e54157415641554154534881ecb80000004889fb83":
 cleanup __amd64 int InfoBox::CalcBoxHeight(InfoBox *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4589c5":
 cleanup __amd64 void InfoBox::SetSystemId(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 "554889e5415741564155415453504589c74189cc4189d648":
 cleanup __amd64 void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
 "554889e54157415641554154534881ecb800000044894dd0":
 cleanup __amd64 void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir); 
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54157415641554154534883ec284589c5":
 cleanup __amd64 void InfoBox::SetSystem(InfoBox *this, ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
 "554889e541574156534883ec184889fb48c783e0":
 cleanup __amd64 void InfoBox::Clear(InfoBox *this);

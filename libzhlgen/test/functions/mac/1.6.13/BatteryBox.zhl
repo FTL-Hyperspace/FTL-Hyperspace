@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534883ec404889d34989ff31c9e8????????488d05????????":
 cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point pos, BatterySystem* sys);
 
 

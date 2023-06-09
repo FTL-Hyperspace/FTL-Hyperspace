@@ -30,5 +30,5 @@ cleanup __amd64 void CommandGui::LButtonDown(CommandGui *this, int mX, int mY, b
 cleanup __amd64 void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
 "554889e54157415641554154534883ec384889fb80bb????0000007447488d05":
 cleanup __amd64 void CommandGui::OnLoop(CommandGui *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ece80000004889fbe8":
 cleanup __amd64 void CommandGui::constructor(CommandGui *this);

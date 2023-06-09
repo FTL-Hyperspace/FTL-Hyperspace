@@ -6,9 +6,9 @@ cleanup __amd64 ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, con
 cleanup __amd64 SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
 "554889e541574156534883ec184889d3":
 cleanup __amd64 SectorDescription EventGenerator::GetSpecificSector(EventGenerator *this, const std::string& name);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec48050000":
 cleanup __amd64 LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534189cf4189d64989f4":
 cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
 
 "UNKNOWN FUNCTION DEFENITION":

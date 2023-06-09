@@ -1,10 +1,10 @@
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5415741564155415453504889fb4c8db3":
 virtual cleanup __amd64 void CrewDrone::OnLoop(CrewDrone *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4c894dc8":
 cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5837f0800740980bf":
 virtual cleanup __amd64 bool CrewDrone::ProvidesVision(CrewDrone *this);
-"NOT FOUND IN SIGNATURE DATA":
+"!554889e553504889fb488d05??????00488903488d05??????00488983f8080000488dbb300a0000e893a9ff":
 cleanup __amd64 void CrewDrone::destructor(CrewDrone *this);
 "554889e589b7ac01":
 cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);

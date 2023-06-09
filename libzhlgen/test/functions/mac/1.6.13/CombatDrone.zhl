@@ -2,7 +2,7 @@
 cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable *target);
 "554889e553504889fb488b03ff900001":
 cleanup __amd64 void CombatDrone::PickTarget(CombatDrone *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534883ec404989ce4889fb":
 cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
 
 

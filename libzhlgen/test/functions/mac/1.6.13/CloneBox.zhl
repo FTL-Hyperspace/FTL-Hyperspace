@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ecc80000004889d34989fc31":
 cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point pos, CloneSystem* sys);
 
 

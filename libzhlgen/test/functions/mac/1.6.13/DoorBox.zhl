@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4989cc4889fb":
 cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point pos, ShipSystem* sys, ShipManager* ship);
 
 

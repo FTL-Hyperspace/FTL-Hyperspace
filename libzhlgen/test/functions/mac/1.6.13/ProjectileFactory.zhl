@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4989f64889fb":
 cleanup __amd64 void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* bp, int shipId);
 "554889e553504889fb488d05e0????0080380074":
 cleanup __amd64 void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
@@ -38,5 +38,5 @@ static cleanup __amd64 Projectile* ProjectileFactory::LoadProjectile(int fd);
 cleanup __amd64 void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
 "554889e54157415641554154534881ecf8010000":
 cleanup __amd64 void ProjectileFactory::Update(ProjectileFactory *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fb488d05????310048890348":
 cleanup __amd64 void ProjectileFactory::destructor(ProjectileFactory *this);

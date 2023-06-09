@@ -1,6 +1,6 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec284889fb48c70300":
 cleanup __amd64 void ScoreKeeper::constructor(ScoreKeeper *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54157415641554154534883ec384889f1":
 cleanup __amd64 std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this, const std::string& blueprintName);
 "554889e553504889fb4863c2488d0440":
 cleanup __amd64 std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int index);
@@ -8,7 +8,7 @@ cleanup __amd64 std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int
 cleanup __amd64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 "554889e5415741564154534881ec8001":
 cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54157415641554154534883ec684189d44189f648":
 forceDetour cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
 "554889e5c7472800":
 cleanup __amd64 void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
@@ -18,9 +18,9 @@ cleanup __amd64 void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
 cleanup __amd64 void ScoreKeeper::AddScrapCollected(ScoreKeeper *this, int scrap);
 "554889e54157415641554154534883ec584189f5":
 cleanup __amd64 void ScoreKeeper::SaveScores(ScoreKeeper *this, int file, std::vector<TopScore>& topScores);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564155415453504989d64989f7498b364d":
 cleanup __amd64 int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec080200004189d449":
 cleanup __amd64 void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
 "554889e5415741564154534881eca000000089f3":
 cleanup __amd64 void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);

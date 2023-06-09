@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534883ec204989d64889f04889fb":
 cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp);
 
 

@@ -8,5 +8,5 @@ cleanup __amd64 void DroneSystem::RemoveDrone(DroneSystem *this, int slot);
 cleanup __amd64 void DroneSystem::UpdateBonusPower(DroneSystem *this);
 "554889e54157415641554154534883ec284989fee807cf00":
 cleanup __amd64 void DroneSystem::OnLoop(DroneSystem *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54156534189f64889fbe86eac":
 virtual cleanup __amd64 void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);

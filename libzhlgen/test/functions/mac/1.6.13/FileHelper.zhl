@@ -1,10 +1,10 @@
 "554889e54156534889fb4c8d7301f60301488b7b10490f44fe31f6e8????160085c07405":
 static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
-"COULD NOT FIND UNIQUE SIGNATURE":
+"554889e54157415641554154534883ec??4989ffe8????????4989c6":
 static cleanup __amd64 std::string FileHelper::getResourceFile();
 "554889e5415741564155415453504989ffe8????":
 static cleanup __amd64 std::string FileHelper::getUserFolder();
-"554889e54157415641554154534883ec184989ffe8????0c":
+".554889e54157415641554154534883ec184989ffe8????0c":
 static cleanup __amd64 std::string FileHelper::getSaveFile();
 "554889e54157415641554154534883ec18e8????":
 static cleanup __amd64 void FileHelper::initFileHelper();

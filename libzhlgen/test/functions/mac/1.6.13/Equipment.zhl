@@ -1,6 +1,6 @@
 "554889e54157415653504989fee8ee84":
 cleanup __amd64 void Equipment::Open(Equipment *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e5c64708??5d":
 cleanup __amd64 void Equipment::Close(Equipment *this);
 "554889e553504889fbe81281":
 cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);

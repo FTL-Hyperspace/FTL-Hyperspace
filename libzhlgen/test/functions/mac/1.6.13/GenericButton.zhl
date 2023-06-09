@@ -1,14 +1,19 @@
-"UNKNOWN FUNCTION DEFENITION":
-virtual cleanup __amd64 void GenericButton::SetLocation(GenericButton *this, Point pos);
-"UNKNOWN FUNCTION DEFENITION":
-virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
-"UNKNOWN FUNCTION DEFENITION":
-virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54889f048c1e8??8b":
 noHook __amd64 void GenericButton::DO_NOT_HOOK_1();
+".554889e54889f048c1e8??8b":
+virtual cleanup __amd64 void GenericButton::SetLocation(GenericButton *this, Point pos);
+"554889e540887748":
+virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
+"554889e58b471039":
+virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
 "UNKNOWN FUNCTION DEFENITION":
 virtual cleanup __amd64 void GenericButton::OnClick(GenericButton *this);
 "UNKNOWN FUNCTION DEFENITION":
 virtual cleanup __amd64 void GenericButton::OnRightClick(GenericButton *this);
 "UNKNOWN FUNCTION DEFENITION":
 virtual cleanup __amd64 void GenericButton::ResetPrimitives(GenericButton *this);
+
+
+/*
+Unsure how to hook the functions here, they give hundreds of matches
+/*

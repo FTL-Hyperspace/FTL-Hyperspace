@@ -4,15 +4,15 @@ cleanup __amd64 void CrewEquipBox::RemoveItem(CrewEquipBox *this);
 cleanup __amd64 bool CrewEquipBox::GetConfirmDelete(CrewEquipBox *this);
 "554889e580bfea02":
 cleanup __amd64 void CrewEquipBox::CloseRename(CrewEquipBox *this);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54156534883ec504889fb488b":
 cleanup __amd64 void CrewEquipBox::RenderLabels(CrewEquipBox *this, bool dragging, bool isNew);
 "554889e541574156534883ec384889fb4883bb80":
 cleanup __amd64 void CrewEquipBox::MouseClick(CrewEquipBox *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".!554889e54156534189f64889fb4881c3":
 cleanup __amd64 void CrewEquipBox::OnTextInput(CrewEquipBox *this, SDLKey key);
-"COULD NOT FIND UNIQUE SIGNATURE":
+"!554889e54156534189f64889fb4881c3":
 cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox *this, CEvent::TextEvent event);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec880000004189ce4989d7":
 cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point pos, ShipManager *ship, int slot);
 "554889e54157415641554154534883ec484189f64989fc4d":
 cleanup __amd64 void CrewEquipBox::OnRender(CrewEquipBox *this, bool unk);

@@ -4,10 +4,10 @@ cleanup __amd64 void CApp::OnRequestExit(CApp *this);
 cleanup __amd64 void CApp::OnExit(CApp *this);
 "554889e580bf????0000007506807f20":
 cleanup __amd64 void CApp::OnMButtonDown(CApp *this, int x, int y);
-"COULD NOT FIND UNIQUE SIGNATURE":
-cleanup __amd64 void CApp::OnTextInput(CApp *this, int ch);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".!554889e580bf484100000074":
 cleanup __amd64 void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
+"!554889e580bf484100000074":
+cleanup __amd64 void CApp::OnTextInput(CApp *this, int ch);
 "554889e553504889fb80bb????000000752e488d":
 cleanup __amd64 void CApp::OnInputFocus(CApp *this);
 "554889e54156534889fbc683????000000488b7b":
@@ -28,9 +28,11 @@ cleanup __amd64 void CApp::OnKeyUp(CApp *this, SDLKey key);
 cleanup __amd64 void CApp::OnLanguageChange(CApp *this);
 "554889e541574156534883ec584189f7":
 cleanup __amd64 void CApp::OnKeyDown(CApp *this, SDLKey key);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fbe8????????488d05????????488903c6":
 cleanup __amd64 void CApp::constructor(CApp *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e55d":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
+"554889e55d":
 cleanup __amd64 void CApp::ParseArgs(CApp *this, int argc, const char** argv);
 "554889e5415741564154534883ec304989fc488d":
 cleanup __amd64 void CApp::OnLoop(CApp *this);

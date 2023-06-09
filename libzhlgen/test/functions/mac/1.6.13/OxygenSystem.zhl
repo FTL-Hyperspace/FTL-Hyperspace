@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534189f64989ffbe0200":
 cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this, int numRooms, int roomId, int shipId, int startingPower);
 "554889e553504889fb80bb44":
 cleanup __amd64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this);

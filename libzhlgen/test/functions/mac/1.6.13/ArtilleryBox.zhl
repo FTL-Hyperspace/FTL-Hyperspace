@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"55b9010000004889d5534889fb4883ec08":
 cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
 "554889e541574156534883ec784989ff400fb6f6":
 cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);

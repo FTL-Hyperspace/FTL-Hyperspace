@@ -4,7 +4,7 @@ cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float sc
 cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
 "NOT FOUND IN SIGNATURE DATA":
 cleanup __amd64 void WeaponBlueprint::constructor(WeaponBlueprint *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415653504989fe488d05????????49890641f68638020000":
 cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
 
 

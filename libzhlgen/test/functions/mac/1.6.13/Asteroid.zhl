@@ -1,6 +1,6 @@
 "554889e553504889fbe812fcffff0f57":
 cleanup __amd64 void Asteroid::OnUpdate(Asteroid *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e541574156534881ec68010000":
 cleanup __amd64 void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace);
 
 

@@ -8,13 +8,13 @@ cleanup __amd64 CollisionResponse Projectile::CollisionMoving(Projectile *this, 
 cleanup __amd64 void Projectile::OnUpdate(Projectile *this);
 "554889e54157415641554154534881ecc80000004989f549":
 cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable *other);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4889fbc74310????????66c74314":
 cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e5415741564154534881ec700100004989f64889fb":
 cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e5535089fb488d7df0":
 static cleanup __amd64 Pointf Projectile::RandomSidePoint(int side);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fb488d05????300066480f6ec0488d05????300066480f6ec8660f6cc8f30f7f0bf683a8020000017544f68390020000017550f6837802000001740c488bbb88020000e8????2800488dbb78010000e8c432ffff":
 cleanup __amd64 void Projectile::destructor(Projectile *this);
 
 

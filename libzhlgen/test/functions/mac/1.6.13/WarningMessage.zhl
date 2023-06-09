@@ -1,6 +1,6 @@
 "554889e54157415641554154534883ec480f2945":
 cleanup __amd64 void WarningMessage::RenderWithAlpha(WarningMessage *this, float alpha);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415653504889fb488d05":
 cleanup __amd64 void WarningMessage::constructor(WarningMessage *this);
 "554889e54157415641554154534883ec18894dd0":
 cleanup __amd64 void WarningMessage::InitImage(WarningMessage *this, const std::string& imageName, Point position, float time, bool flash);
@@ -12,9 +12,9 @@ cleanup __amd64 void WarningMessage::OnLoop(WarningMessage *this);
 cleanup __amd64 void WarningMessage::OnRender(WarningMessage *this);
 "554889e5415741564155415453504989f64989fc41807c24":
 cleanup __amd64 void WarningMessage::SetImage(WarningMessage *this, const std::string& imageName);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e5415741564155415453504989f64889fb807b3000":
 cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextString& text);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54157415641554154534883ec284989f64889fb80":
 cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextString& text, GL_Color textColor);
 "554889e54889f248":
 cleanup __amd64 void WarningMessage::SetPosition(WarningMessage *this, Point position);

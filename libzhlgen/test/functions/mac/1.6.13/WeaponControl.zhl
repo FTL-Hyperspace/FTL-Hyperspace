@@ -1,8 +1,6 @@
-"UNKNOWN FUNCTION DEFENITION":
-noHook __amd64 void WeaponControl::DO_NOT_HOOK();
 "554889e5534883ec184889fb0f57c00f2945e048c745f000000000c645e01a48b86e735f":
 cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4989febe????????e8128ff6ff488d05????????498906":
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
 "554889e541574156534883ec584189fe":
 static cleanup __amd64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);

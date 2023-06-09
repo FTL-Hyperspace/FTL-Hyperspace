@@ -2,7 +2,7 @@
 cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this);
 "554889e541574156534881ecd8000000":
 cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534881ec100100004889":
 cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
 
 

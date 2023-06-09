@@ -1,6 +1,6 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4889fb488d05":
 cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, Pointf pos, DamageMessage::MessageType type);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4189f54989fc":
 cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
 
 

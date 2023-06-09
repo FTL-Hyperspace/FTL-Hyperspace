@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534883ec204989ce4989d74989f44889fbbf20000000e8????1900488945d00f2805????19000f2945c048b9795f64726f6e":
 cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *ship, Equipment *equip, const DroneBlueprint* bp);
 
 

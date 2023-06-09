@@ -1,6 +1,4 @@
 /*
-"UNKNOWN FUNCTION DEFENITION":
-noHook __amd64 void CSurface::__DO_NOT_HOOK();
 "554889e5e8????0b0085c00f":
 static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
 "554889e5e8f79800":
@@ -10,7 +8,7 @@ static cleanup __amd64 void CSurface::StartFrame();
 static cleanup __amd64 void CSurface::GL_ClearAll();
 "554889e50f57c00f57c90f57":
 static cleanup __amd64 void CSurface::GL_ClearColor();
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5e8????????b0":
 static cleanup __amd64 int CSurface::SetViewPort(int left, int bottom, int h, int w);
 "554889e5488b05??????00488b35????":
 static cleanup __amd64 void CSurface::GL_PopScissor();
@@ -103,9 +101,9 @@ static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, 
 "554889e5415741564154534881eca00000004189ce89d3c7":
 static cleanup __amd64 bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness); /* GL_Color is in XMM2:XMM3 */
 
-"COULD NOT FIND UNIQUE SIGNATURE":
+"48833d??????????0f84???????554889e541565331ff":
 static cleanup __amd64 void CSurface::FinishFrame();
-"COULD NOT FIND UNIQUE SIGNATURE":
+"554889e54883ec??440f28d1":
 static cleanup __amd64 int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
 
 

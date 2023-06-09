@@ -1,26 +1,28 @@
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54889f048c1e82089":
 virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox *this, Point pos);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e58b477039":
 virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int x, int y);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e548c78798000000":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
+".554889e548c78798000000":
 virtual cleanup __amd64 void EquipmentBox::Restart(EquipmentBox *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5488b4528":
 virtual cleanup __amd64 void EquipmentBox::AddItem(EquipmentBox *this, EquipmentBoxItem item);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5488b87800000004885c0750a":
 virtual cleanup __amd64 bool EquipmentBox::CanHoldWeapon(EquipmentBox *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54883bf8000000000488b8788":
 virtual cleanup __amd64 bool EquipmentBox::CanHoldDrone(EquipmentBox *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5488b8f800000004885c9750a":
 virtual cleanup __amd64 int EquipmentBox::GetType(EquipmentBox *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e541574156534883ec284189f64889fbe8":
 virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
 "UNKNOWN FUNCTION DEFENITION":
 virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5415741564154534883ec504989ff0f57":
 virtual cleanup __amd64 void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool unk);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54156534883ec504989fe0f57":
 virtual cleanup __amd64 void EquipmentBox::RenderLabels(EquipmentBox *this, bool unk);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5534883ec184889fb4889f048c1e820488d0d????":
 cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point pos, int slot);
 "554889e5488b87800000004885c0750c":
 cleanup __amd64 int EquipmentBox::GetItemValue(EquipmentBox *this);

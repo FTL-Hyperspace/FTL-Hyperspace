@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534889fbc603":
 cleanup __amd64 void TutorialManager::constructor(TutorialManager *this);
 "554889e58a075d":
 cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);

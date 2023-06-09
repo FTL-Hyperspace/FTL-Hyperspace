@@ -8,7 +8,9 @@ cleanup __amd64 std::string CrewMember::GetUniqueRepairing(CrewMember *this);
 cleanup __amd64 bool CrewMember::CanTeleport(CrewMember *this);
 "554889e5488b8708060000ff":
 cleanup __amd64 void CrewMember::Jump(CrewMember *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e58b??????????3b47080f94c10f":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
+"554889e58b??????????3b47080f94c10f":
 cleanup __amd64 bool CrewMember::GetIntruder(CrewMember *this);
 "554889e5c6874002":
 cleanup __amd64 void CrewMember::SetOutOfGame(CrewMember *this);
@@ -16,7 +18,7 @@ cleanup __amd64 void CrewMember::SetOutOfGame(CrewMember *this);
 cleanup __amd64 float CrewMember::PositionShift(CrewMember *this);
 "554889e54156534883ec104189f64889fb80bb60":
 cleanup __amd64 void CrewMember::OnRender(CrewMember *this, bool outlineOnly);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54156534889fbf30f10432c41":
 virtual cleanup __amd64 bool CrewMember::CanHeal(CrewMember *this);
 "554889e541565389f34989fef3410f10":
 cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
@@ -46,7 +48,7 @@ cleanup __amd64 bool CrewMember::GetResisted(CrewMember *this);
 cleanup __amd64 void CrewMember::SetSkillProgress(CrewMember *this, int skillId, int skillLevel);
 "554889e5b80100000083fe0577314863c6488b97b80300008b0cc28b54c204b80300000039d1741789d0c1e81f01d0d1f831d239c10f9cc2b80200000029d05d":
 cleanup __amd64 int CrewMember::GetSkillLevel(CrewMember *this, int skillId);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54863ce488b??????????8b04??8b4c????89ca":
 cleanup __amd64 std::pair<int, int> CrewMember::GetSkillProgress(CrewMember *this, int skillId);
 "554889e5b80100000083fe0577314863c6488b97b80300008b0cc28b54c204b80300000039d1741789d0c1e81f01d0d1f831d239c10f9cc2b80200000029d089":
 cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId);
@@ -54,7 +56,7 @@ cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId
 cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
 "8b97ac00":
 cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e580bf60020000??75":
 cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
 "NOT FOUND IN SIGNATURE DATA":
 cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health);
@@ -202,17 +204,17 @@ static cleanup __amd64 std::string CrewMember::GetSkillTooltip(int skillId, int 
 cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
 "554889e54157415641554154534883ec484189f64989fc0f":
 cleanup __amd64 void CrewMember::CycleColorLayer(CrewMember *this, int unk);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4d89c64189cf4889":
 cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 "554889e5488b07ff90100100":
 cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
 "554889e553504889fb488b03ff901001":
 cleanup __amd64 bool CrewMember::CountForVictory(CrewMember *this);
-"UNKNOWN FUNCTION DEFENITION":
+".554889e58a87bc000000":
 virtual cleanup __amd64 bool CrewMember::CanSabotage(CrewMember *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e580bfbc00":
 virtual cleanup __amd64 bool CrewMember::CanMan(CrewMember *this);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e553504889fb80bbbc":
 virtual cleanup __amd64 bool CrewMember::CanRepair(CrewMember *this);
 "554889e553504889fb837b08":
 cleanup __amd64 bool CrewMember::GetControllable(CrewMember *this);

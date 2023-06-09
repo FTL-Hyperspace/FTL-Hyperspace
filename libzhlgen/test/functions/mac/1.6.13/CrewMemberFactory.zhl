@@ -1,4 +1,6 @@
-"NOT FOUND IN SIGNATURE DATA":
+".!554889e54156534989fe498b7e10498b4e184839f975054889ca":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
+"!554889e54156534989fe498b7e10498b4e184839f975054889ca":
 cleanup __amd64 void CrewMemberFactory::destructor(CrewMemberFactory *this);
 "554889e54157415653504989fe498b4610498b56":
 cleanup __amd64 void CrewMemberFactory::Restart(CrewMemberFactory *this);
@@ -26,7 +28,7 @@ cleanup __amd64 BattleDrone* CrewMemberFactory::CreateBattleDrone(CrewMemberFact
 cleanup __amd64 void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this, std::vector<CrewMember*>& vec, bool player);
 "554889e54157415641554154534883ec384989d74189f549":
 cleanup __amd64 RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54157415641554154534881ec980000004989d548":
 cleanup __amd64 std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this, const std::string& race);
 "554889e54157415641554154534883ec184989f44989fe49c7461000":
 cleanup __amd64 std::vector<std::string> CrewMemberFactory::GetCrewNames(CrewMemberFactory *this);
@@ -34,7 +36,7 @@ cleanup __amd64 std::vector<std::string> CrewMemberFactory::GetCrewNames(CrewMem
 cleanup __amd64 void CrewMemberFactory::OnLoop(CrewMemberFactory *this);
 "554889e5415741564154534989ff498b47104939":
 cleanup __amd64 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ecb80100004189cd41":
 cleanup __amd64 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
 
 "UNKNOWN FUNCTION DEFENITION":

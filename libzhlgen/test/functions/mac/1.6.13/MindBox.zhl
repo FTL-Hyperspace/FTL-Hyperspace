@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534883ec??4989d64889fb31c9e8086a0300488d05????????488903":
 cleanup __amd64 void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
 
 

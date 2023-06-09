@@ -1,6 +1,6 @@
 "488bbf78":
 cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4989cc4189d64889f0":
 cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
 "554889e541574156534881ec88010000":
 cleanup __amd64 void CrewStoreBox::Purchase(CrewStoreBox *this);
