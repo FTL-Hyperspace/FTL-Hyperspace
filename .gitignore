@@ -52,3 +52,6 @@ build/
 
 # buildall.sh
 build-*/
+
+# Mac
+.DS_Store
