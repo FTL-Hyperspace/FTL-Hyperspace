@@ -2,8 +2,8 @@
 cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
 "554889e54157415641554154534881ec68010000899544ff":
 cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
-"NOT FOUND IN SIGNATURE DATA":
-cleanup __amd64 void WeaponBlueprint::constructor(WeaponBlueprint *this);
+"NOT LISTED IN GHIDRA":
+cleanup __amd64 void WeaponBlueprint::constructor(WeaponBlueprint *this); /* Not listed in Ghidra */
 "554889e54157415653504989fe488d05????????49890641f68638020000":
 cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
 

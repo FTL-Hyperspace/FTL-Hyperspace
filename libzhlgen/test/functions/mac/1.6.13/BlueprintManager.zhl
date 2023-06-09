@@ -39,7 +39,7 @@ cleanup __amd64 DroneBlueprint BlueprintManager::ProcessDroneBlueprint(Blueprint
 "554889e5415741564154534883ec7048":
 static cleanup __amd64 GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 BlueprintManager* Global_BlueprintManager_Blueprints;
 
 

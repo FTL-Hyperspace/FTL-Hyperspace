@@ -12,7 +12,7 @@ cleanup __amd64 void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *t
 cleanup __amd64 void CrewMemberFactory::GetCrewList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int unk, bool unk2);
 "554889e58b075d":
 cleanup __amd64 int CrewMemberFactory::GetPlayerCrewCount(CrewMemberFactory *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e58b47085dc3":
 cleanup __amd64 int CrewMemberFactory::GetEnemyCloneCount(CrewMemberFactory *this);
 "554889e5488d4704":
 cleanup __amd64 int CrewMemberFactory::GetCrewCount(CrewMemberFactory *this, bool enemy);
@@ -39,7 +39,7 @@ cleanup __amd64 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this
 "554889e54157415641554154534881ecb80100004189cd41":
 cleanup __amd64 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 CrewMemberFactory* Global_CrewMemberFactory_Factory;
 
 

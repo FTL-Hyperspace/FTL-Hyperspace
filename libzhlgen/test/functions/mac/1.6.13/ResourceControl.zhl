@@ -25,7 +25,7 @@ cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceContro
 "554889e54157415641554154534881ecc800000089b530ff":
 cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 ResourceControl* Global_ResourceControl_GlobalResources;
 
 

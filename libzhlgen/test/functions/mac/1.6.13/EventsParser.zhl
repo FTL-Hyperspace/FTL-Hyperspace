@@ -15,7 +15,7 @@ cleanup __amd64 void EventsParser::AddEvents(EventsParser *this, EventGenerator&
 "554889e54157415641554154534883ec4848897d98488d3d":
 cleanup __amd64 void EventsParser::AddAllEvents(EventsParser *this);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 EventsParser* Global_EventsParser_Parser;
 
 

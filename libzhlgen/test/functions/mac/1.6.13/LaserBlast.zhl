@@ -4,7 +4,7 @@ cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
 cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
 
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 void** VTable_LaserBlast;
 void** VTable_Targetable_LaserBlast;
 

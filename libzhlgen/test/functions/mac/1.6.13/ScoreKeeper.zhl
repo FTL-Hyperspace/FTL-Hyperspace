@@ -53,7 +53,7 @@ cleanup __amd64 void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrou
 "554889e5415741564155415453504189d74189f64989fd41":
 cleanup __amd64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 ScoreKeeper* Global_ScoreKeeper_Keeper;
 
 

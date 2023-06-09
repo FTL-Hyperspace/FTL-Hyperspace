@@ -22,9 +22,9 @@ cleanup __amd64 void CrewMember::OnRender(CrewMember *this, bool outlineOnly);
 virtual cleanup __amd64 bool CrewMember::CanHeal(CrewMember *this);
 "554889e541565389f34989fef3410f10":
 cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4989ff488d05":
 cleanup __amd64 void CrewMember::destructor(CrewMember *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4d89c64189cf":
 cleanup __amd64 void CrewMember::Cleanup(CrewMember *this);
 "554889e541574156535089f34989fe89dfe8????0f00f341":
 cleanup __amd64 void CrewMember::LoadState(CrewMember *this, int fileHelper);
@@ -58,8 +58,8 @@ cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
 cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
 "554889e580bf60020000??75":
 cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
-"NOT FOUND IN SIGNATURE DATA":
-cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health);
+"NOT LISTED IN GHIDRA":
+cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health); /* Not listed in Ghidra */
 "554889e55350f30f1145f44889fb488d":
 cleanup __amd64 void CrewMember::ModifyHealth(CrewMember *this, float health);
 "554889e553504889fbf30f104b2cf30f":
@@ -130,8 +130,8 @@ cleanup __amd64 void CrewMember::Kill(CrewMember *this, bool noClone);
 cleanup __amd64 bool CrewMember::NeedFrozenLocation(CrewMember *this);
 "554889e541574156534883ec184989ff498b9fc0":
 cleanup __amd64 void CrewMember::CheckForTeleport(CrewMember *this);
-"NOT FOUND IN SIGNATURE DATA":
-cleanup __amd64 void CrewMember::SetCurrentShip(CrewMember *this, int shipId);
+"NOT LISTED IN GHIDRA":
+cleanup __amd64 void CrewMember::SetCurrentShip(CrewMember *this, int shipId); /* Not listed in Ghidra */
 "554889e54883bfd8":
 cleanup __amd64 void CrewMember::CheckFighting(CrewMember *this);
 "554889e589b77406":
@@ -210,12 +210,12 @@ cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& bl
 cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
 "554889e553504889fb488b03ff901001":
 cleanup __amd64 bool CrewMember::CountForVictory(CrewMember *this);
-".554889e58a87bc000000":
-virtual cleanup __amd64 bool CrewMember::CanSabotage(CrewMember *this);
 "554889e580bfbc00":
 virtual cleanup __amd64 bool CrewMember::CanMan(CrewMember *this);
 "554889e553504889fb80bbbc":
 virtual cleanup __amd64 bool CrewMember::CanRepair(CrewMember *this);
+".554889e58a87bc000000":
+virtual cleanup __amd64 bool CrewMember::CanSabotage(CrewMember *this);
 "554889e553504889fb837b08":
 cleanup __amd64 bool CrewMember::GetControllable(CrewMember *this);
 

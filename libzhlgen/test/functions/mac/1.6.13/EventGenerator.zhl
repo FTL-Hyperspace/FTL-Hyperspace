@@ -11,7 +11,7 @@ cleanup __amd64 LocationEvent *EventGenerator::CreateEvent(EventGenerator *this,
 "554889e5415741564154534189cf4189d64989f4":
 cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 EventGenerator* Global_EventGenerator_Generator;
 
 

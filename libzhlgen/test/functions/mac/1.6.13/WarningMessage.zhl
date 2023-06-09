@@ -20,7 +20,7 @@ cleanup __amd64 void WarningMessage::SetText(WarningMessage *this, const TextStr
 cleanup __amd64 void WarningMessage::SetPosition(WarningMessage *this, Point position);
 "554889e54883c708400fb6f6":
 cleanup __amd64 void WarningMessage::SetLoop(WarningMessage *this, bool loop);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".!554889e54881c7????????5de9":
 cleanup __amd64 void WarningMessage::SetSound(WarningMessage *this, const std::string& sound);
 "554889e54156534889fb807b1c007405":
 cleanup __amd64 void WarningMessage::Start(WarningMessage *this);

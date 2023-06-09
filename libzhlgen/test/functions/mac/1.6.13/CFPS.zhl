@@ -3,5 +3,5 @@ forceDetour cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
 "554889e5534883ec184889fbf20f1043":
 cleanup __amd64 void CFPS::OnLoop(CFPS *this);
 
-"UNKNOWN FUNCTION DEFENITION":
+"GLOBAL FUNCTION":
 CFPS* Global_CFPS_FPSControl;
