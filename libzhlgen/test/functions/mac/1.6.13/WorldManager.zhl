@@ -21,7 +21,7 @@ cleanup __amd64 void WorldManager::CheckStatusEffects(WorldManager *this, std::v
 "!554889e54157415641554154534881ec18060000":
 cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
 "NOT FOUND IN SIGNATURE DATA":
-cleanup __amd64 void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event);
+cleanup __amd64 void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event); /* Does not exist and no similar type */
 "554889e54157415641554154534881ec380a0000":
 cleanup __amd64 CompleteShip* WorldManager::CreateShip(WorldManager *this, ShipEvent* shipEvent, bool boss);
 "554889e54157415641554154534881ec38060000":
@@ -29,7 +29,7 @@ cleanup __amd64 void WorldManager::CreateLocation(WorldManager *this, Location *
 "554889e54157415641554154534881ecc8050000":
 cleanup __amd64 void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
 "NOT FOUND IN SIGNATURE DATA":
-cleanup __amd64 void WorldManager::UpdateLocation0(WorldManager *this, LocationEvent* event);
+cleanup __amd64 void WorldManager::UpdateLocation0(WorldManager *this, LocationEvent* event); /* Does not exist and no similar type */
 "554889e5415741564154534881ecc003":
 cleanup __amd64 void WorldManager::ClearLocation(WorldManager *this);
 "554889e54157415641554154534881ecf8020000":

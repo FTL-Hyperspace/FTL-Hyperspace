@@ -1,6 +1,6 @@
 "554889e553504889fb488d05????1e00488903f6":
 cleanup __amd64 void CachedImage::destructor(CachedImage *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534889fb488d3d????1f":
 cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
 "554889e54157415653504189d64189f74889fb44397b3075":
 cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
