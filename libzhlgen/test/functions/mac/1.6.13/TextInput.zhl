@@ -1,4 +1,6 @@
-"NOT FOUND IN SIGNATURE DATA":
+".554889e54157415653504189d74189f64889fb4889cee8":
+noHook __amd64 void AchievementTracker::ALTERNATIVE_DESTRUCTOR(); /* If this one doesn't work we will need to remove the nohook */
+".554889e54157415653504189d74189f64889fb4889cee8":
 cleanup __amd64 void TextInput::constructor(TextInput *this, int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt);
 "554889e54157415641554154534881ec980000004889d341":
 cleanup __amd64 void TextInput::OnRender(TextInput *this, int font, Point pos);

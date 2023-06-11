@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534883ec??4989ce4989f4":
 cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point pos, ShipSystem *sys, ShipManager *ship);
 
 

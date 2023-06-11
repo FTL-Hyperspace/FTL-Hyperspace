@@ -2,8 +2,6 @@
 virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox *this, Point pos);
 "554889e58b477039":
 virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int x, int y);
-"554889e548c78798000000":
-noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
 ".554889e548c78798000000":
 virtual cleanup __amd64 void EquipmentBox::Restart(EquipmentBox *this);
 "554889e5488b4528":
@@ -15,8 +13,12 @@ virtual cleanup __amd64 bool EquipmentBox::CanHoldDrone(EquipmentBox *this);
 "554889e5488b8f800000004885c9750a":
 virtual cleanup __amd64 int EquipmentBox::GetType(EquipmentBox *this);
 "554889e541574156534883ec284189f64889fbe8":
-virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
-"UNKNOWN FUNCTION DEFENITION":
+virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty); /* In case of a memory leak we can try to adjust the nohooks
+".554889e553504889fb488d05????????488903488b7b38":
+noHook __amd64 void AchievementTracker::FALSE_DESTRUCTOR_1();
+".554889e553504889fb488d05????????488903488b7b38":
+noHook __amd64 void AchievementTracker::FALSE_DESTRUCTOR_2(); */
+".554889e553504889fb488d05????????488903488b7b38":
 virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
 "554889e5415741564154534883ec504989ff0f57":
 virtual cleanup __amd64 void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool unk);

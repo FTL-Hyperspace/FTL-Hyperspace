@@ -1,5 +1,5 @@
-"NOT FOUND IN SIGNATURE DATA":
-cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+"NOT LISTED IN GHIDRA":
+cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* This comment here wasn't made by Dino ---> /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
 "554889e5488b871805000048":
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 "554889e541574156534883ec18f30f1145e44889":
@@ -14,13 +14,13 @@ cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
 cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 "554889e54157415641554154534883ec284189d74189f448":
 cleanup __amd64 void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54157415653504189d64989f74c89fb48c1eb":
 cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 "554889e54157415653504189f64989ff498b4710":
 cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e54863c6488b4f10488b3cc10fb6f2":
 cleanup __amd64 void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e54863c6488b4f10488b3cc10fb6f2":
 cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
 "554889e54157415653504989fe4c63fe":
 cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);

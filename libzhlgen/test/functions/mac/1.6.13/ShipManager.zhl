@@ -42,17 +42,21 @@ cleanup __amd64 void ShipManager::CheckSpreadDamage(ShipManager *this);
 cleanup __amd64 int ShipManager::GetSystemPower(ShipManager *this, int systemId);
 "554889e54157415641554154534883ec284989ff498b87d8":
 cleanup __amd64 void ShipManager::CheckVision(ShipManager *this);
-"NOT FOUND IN SIGNATURE DATA":
+".554889e54156534989fe498b46284939463074":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
+".554889e54156534989fe498b46284939463074":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_2();
+".554889e54156534989fe498b46284939463074":
 cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this);
-"NOT FOUND IN SIGNATURE DATA":
+".83feff74??83fe1175":
 cleanup __amd64 void ShipManager::ClearStatusSystem(ShipManager *this, int system);
-"UNKNOWN FUNCTION DEFENITION":
-noHook __amd64 void ShipManager::DO_NOT_HOOK();
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e5535089d383fe":
+noHook __amd64 void ShipManager::DO_NOT_HOOK_3();
+".554889e5535089d383fe":
 cleanup __amd64 void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
 "554889e583feff74334863c6488b8fd8060000486304814883f8ff741f488b4f28488b3cc14885ff7412488b07488b8008010000":
 cleanup __amd64 bool ShipManager::ForceDecreaseSystemPower(ShipManager *this, int sys);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564155415453504189f74989fc498b442428":
 cleanup __amd64 ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this, int roomId);
 "554889e583feff742b4863c6":
 cleanup __amd64 int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
@@ -76,7 +80,7 @@ cleanup __amd64 void ShipManager::UpgradeSystem(ShipManager *this, int id, int a
 cleanup __amd64 int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "554889e589d0baff":
 cleanup __amd64 bool ShipManager::CommandCrewMoveRoom(ShipManager *this, CrewMember *crew, int roomId);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??894dc44189d7":
 cleanup __amd64 CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this, int x, int y, bool intruder);
 "554889e54157415641554154534883ec584189cd":
 cleanup __amd64 std::string ShipManager::GetTooltip(ShipManager *this, int x, int y);
@@ -102,15 +106,17 @@ cleanup __amd64 int ShipManager::IsSystemHacked(ShipManager *this, int systemId)
 cleanup __amd64 void ShipManager::ExportBattleState(ShipManager *this, int file);
 "554889e54881c7d8000000ba":
 cleanup __amd64 void ShipManager::StartFire(ShipManager *this, int roomId);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e580bfb00b0000??0f94c05dc3":
+noHook __amd64 void ShipManager::DO_NOT_HOOK_4();
+".554889e54881c7????????5de9":
 cleanup __amd64 int ShipManager::GetFireCount(ShipManager *this, int roomId);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4189d74989f64889fb":
 cleanup __amd64 void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, int roomId);
 "554889e54157415641554154534883ec384189ce":
 cleanup __amd64 std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *this, int roomId, bool intruders);
 "554889e54157415641554154534883ec284189d54889f34989ff49c7":
 cleanup __amd64 std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????44894dd0448945c8":
 cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder);
 "554889e54157415641554154534883ec784189f44989fd8b":
 cleanup __amd64 void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
@@ -138,9 +144,9 @@ cleanup __amd64 void ShipManager::RenderChargeBars(ShipManager *this);
 cleanup __amd64 void ShipManager::RenderWeapons(ShipManager *this);
 "554889e54157415641554154534881ecd80000004189d589":
 cleanup __amd64 void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4889f04889fb8b":
 cleanup __amd64 CrewDrone *ShipManager::CreateCrewDrone(ShipManager *this, const DroneBlueprint *bp);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4889f34989ff31c08b":
 cleanup __amd64 SpaceDrone *ShipManager::CreateSpaceDrone(ShipManager *this, const DroneBlueprint *bp);
 "554889e5415741564154534189d64989f44989ff":
 cleanup __amd64 Drone* ShipManager::AddDrone(ShipManager *this, const DroneBlueprint *bp, int slot);
@@ -152,7 +158,7 @@ cleanup __amd64 int ShipManager::AddSystem(ShipManager *this, int systemId);
 cleanup __amd64 int ShipManager::CreateSystems(ShipManager *this);
 "554889e54157415641554154534881ec580100004889fb80":
 cleanup __amd64 bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4989fe498b":
 cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this);
 "554889e5415741564155415453504589c74189cc4889f349":
 cleanup __amd64 bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
@@ -162,7 +168,7 @@ cleanup __amd64 void ShipManager::ImportBattleState(ShipManager *this, int file)
 cleanup __amd64 void ShipManager::OnLoop(ShipManager *this);
 "554889e54157415641554154534881ec080200004189f649":
 cleanup __amd64 void ShipManager::ExportShip(ShipManager *this, int file);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????44894dcc":
 cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male);
 "554889e54157415641554154534881ec680300004889f349":
 cleanup __amd64 void ShipManager::AddInitialCrew(ShipManager *this, std::vector<CrewBlueprint>& blueprints);
@@ -174,11 +180,15 @@ cleanup __amd64 ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bo
 cleanup __amd64 int ShipManager::OnInit(ShipManager *this, ShipBlueprint *bp, int shipLevel);
 "554889e54157415641554154534881ec88060000":
 cleanup __amd64 void ShipManager::ImportShip(ShipManager *this, int file);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534883ec??4189f6":
 cleanup __amd64 int ShipManager::constructor(ShipManager *this, int shipId);
-"NOT FOUND IN SIGNATURE DATA":
+"!554889e5415741564155415453504989fd488d05":
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
-"NOT FOUND IN SIGNATURE DATA":
+".554889e5415741564155415453504889fb488d05????????4889034c8b7b284d85ff0f84":
+noHook __amd64 void ShipManager::DO_NOT_HOOK_5();
+".554889e5415741564155415453504889fb488d05????????4889034c8b7b284d85ff0f84":
+noHook __amd64 void ShipManager::DO_NOT_HOOK_6();
+".554889e55de9":
 cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
 
 

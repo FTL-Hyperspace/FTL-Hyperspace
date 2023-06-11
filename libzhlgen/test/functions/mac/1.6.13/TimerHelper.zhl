@@ -6,7 +6,7 @@ cleanup __amd64 bool TimerHelper::Running(TimerHelper *this);
 cleanup __amd64 void TimerHelper::ResetMinMax(TimerHelper *this, int min, int max);
 "554889e5f30f104f08f30f5e":
 cleanup __amd64 void TimerHelper::SetMaxTime(TimerHelper *this, float max);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e5c64711??5dc3":
 cleanup __amd64 void TimerHelper::Stop(TimerHelper *this);
 "554889e553504889fb807b1100741e48":
 cleanup __amd64 void TimerHelper::Update(TimerHelper *this);

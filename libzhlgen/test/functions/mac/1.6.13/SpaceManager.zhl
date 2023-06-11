@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4889fb48c74310":
 cleanup __amd64 void SpaceManager::constructor(SpaceManager *this);
 "554889e58a87a004":
 cleanup __amd64 int SpaceManager::GetScreenShake(SpaceManager *this);
