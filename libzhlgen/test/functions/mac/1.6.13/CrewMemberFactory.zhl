@@ -1,6 +1,6 @@
-".!554889e54156534989fe498b7e10498b4e184839f975054889ca":
-noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
 "!554889e54156534989fe498b7e10498b4e184839f975054889ca":
+noHook __amd64 void CrewMemberFactory::DO_NOT_HOOK_1();
+".!554889e54156534989fe498b7e10498b4e184839f975054889ca":
 cleanup __amd64 void CrewMemberFactory::destructor(CrewMemberFactory *this);
 "554889e54157415653504989fe498b4610498b56":
 cleanup __amd64 void CrewMemberFactory::Restart(CrewMemberFactory *this);

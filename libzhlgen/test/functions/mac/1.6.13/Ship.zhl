@@ -1,5 +1,5 @@
 "NOT LISTED IN GHIDRA":
-cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* This comment here wasn't made by Dino ---> /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* Not listed in Ghidra */
 "554889e5488b871805000048":
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 "554889e541574156534883ec18f30f1145e44889":

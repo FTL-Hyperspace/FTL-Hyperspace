@@ -43,9 +43,9 @@ cleanup __amd64 int ShipManager::GetSystemPower(ShipManager *this, int systemId)
 "554889e54157415641554154534883ec284989ff498b87d8":
 cleanup __amd64 void ShipManager::CheckVision(ShipManager *this);
 ".554889e54156534989fe498b46284939463074":
-noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
+noHook __amd64 void ShipManager::DO_NOT_HOOK_1();
 ".554889e54156534989fe498b46284939463074":
-noHook __amd64 void AchievementTracker::DO_NOT_HOOK_2();
+noHook __amd64 void ShipManager::DO_NOT_HOOK_2();
 ".554889e54156534989fe498b46284939463074":
 cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this);
 ".83feff74??83fe1175":
