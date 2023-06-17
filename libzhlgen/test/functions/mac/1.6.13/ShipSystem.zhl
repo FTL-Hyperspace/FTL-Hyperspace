@@ -4,7 +4,7 @@ cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerL
 cleanup __amd64 void ShipSystem::AddDamage(ShipSystem *this, int amount);
 "554889e58b87ac01000085c07f0e83f8":
 cleanup __amd64 bool ShipSystem::Ioned(ShipSystem *this, int num);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415653504989fe488d05????????498906488d05????????49894610498b7e78":
 cleanup __amd64 void ShipSystem::destructor(ShipSystem *this);
 "554889e54156534189f64889fb8bb3a0":
 cleanup __amd64 void ShipSystem::SaveState(ShipSystem *this, int file);
@@ -22,7 +22,7 @@ cleanup __amd64 bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimi
 cleanup __amd64 int ShipSystem::IsMannedBoost(ShipSystem *this);
 "554889e58b8fac01":
 cleanup __amd64 bool ShipSystem::GetLocked(ShipSystem *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e5c68744020000??488b07488b80c800000031f65dffe0":
 cleanup __amd64 void ShipSystem::StopHacking(ShipSystem *this);
 "554889e54156534189f64889fb488b03ff502044":
 cleanup __amd64 bool ShipSystem::UpgradeSystem(ShipSystem *this, int amount);
@@ -36,7 +36,7 @@ static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
 /* TODO: Once everything else is working, try to crash the game with ships that have big rooms
 "UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__glowWhite;
+offsetVariable GL_Primitive** ShipSystem__glowWhite; /* Dunno what these are */
 "UNKNOWN FUNCTION DEFENITION":
 offsetVariable GL_Primitive** ShipSystem__lockBlue;
 "UNKNOWN FUNCTION DEFENITION":
@@ -94,10 +94,12 @@ static cleanup __amd64 int ShipSystem::NameToSystemId(const std::string& name);
 static cleanup __amd64 std::string ShipSystem::SystemIdToName(int systemId);
 "554889e54157415641554154534881ec9800000089d34989":
 static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ec????????4589c74189d6":
 cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 
-"COULD NOT FIND UNIQUE SIGNATURE":
+"554889e553504889fb8b7650":
+noHook __amd64 void ShipSystem::DO_NOT_HOOK_1();
+".554889e55de9":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
 
 

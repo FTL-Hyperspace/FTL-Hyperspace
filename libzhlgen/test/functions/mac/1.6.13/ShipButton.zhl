@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??89d34189f6":
 cleanup __amd64 void ShipButton::constructor(ShipButton *this, int shipType, int shipVariant);
 "554889e553504889fb4889d0":
 cleanup __amd64 void ShipButton::OnInit(ShipButton *this, const std::string& imgName, Point pos);

@@ -1,13 +1,15 @@
 "554889e54889b788":
 cleanup __amd64 void StarMap::SetPosition(StarMap *this, Point unk0);
-"COULD NOT FIND UNIQUE SIGNATURE":
-cleanup __amd64 void StarMap::SetOpen(StarMap *this, bool unk0);
 "554889e531c083bfac000000":
 cleanup __amd64 int StarMap::GetNextDangerMove(StarMap *this);
 "554889e580bf1009000000747183fe32":
 cleanup __amd64 void StarMap::KeyDown(StarMap *this, int unk0);
 "554889e5534883ec184889fb80bb9408":
 cleanup __amd64 void StarMap::Close(StarMap *this);
+".554889e5488b074084f6":
+cleanup __amd64 void StarMap::SetOpen(StarMap *this, bool unk0);
+".554889e55dc3":
+cleanup __amd64 void StarMap::OnRenderFogEffect(StarMap *this);
 "554889e54156534889fb807b08000f85":
 cleanup __amd64 void StarMap::Open(StarMap *this);
 "554889e54157415641554154534883ec584889fb488bbb80":
@@ -32,11 +34,13 @@ cleanup __amd64 void StarMap::ReachSector(StarMap *this, Sector * unk0);
 cleanup __amd64 void StarMap::UpdateSectorMap(StarMap *this, Sector * unk0);
 "554889e54157415641554154534883ec184189f64989fd498b8d0009":
 cleanup __amd64 void StarMap::SaveGame(StarMap *this, int file);
-"COULD NOT FIND UNIQUE SIGNATURE":
+"554889e548897770":
+cleanup __amd64 void StarMap::TravelToLocation(StarMap *this, Location * unk0);
+".554889e55dc3":
 cleanup __amd64 void StarMap::InitStatistics(StarMap *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e55dc3":
 cleanup __amd64 void StarMap::PrintStatistics(StarMap *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
+".554889e55dc3":
 cleanup __amd64 void StarMap::AnalyzeMap(StarMap *this);
 "554889e501b75005":
 cleanup __amd64 void StarMap::ModifyPursuit(StarMap *this, int unk0);
@@ -50,12 +54,8 @@ cleanup __amd64 void StarMap::StartBeacon(StarMap *this);
 cleanup __amd64 bool StarMap::LocationsConnected(StarMap *this, Location * unk0, Location * unk1);
 "554889e54883ec10f30f1145f4f30f10":
 cleanup __amd64 Point StarMap::PointToGrid(StarMap *this, float x, float y);
-"554889e548897770":
-cleanup __amd64 void StarMap::TravelToLocation(StarMap *this, Location * unk0);
 "554889e5488b4770c6402001":
 cleanup __amd64 void StarMap::ForceExitBeacon(StarMap *this);
-"COULD NOT FIND UNIQUE SIGNATURE":
-cleanup __amd64 void StarMap::OnRenderFogEffect(StarMap *this);
 "554889e5486387a0":
 cleanup __amd64 void StarMap::LocationHasBoss(StarMap *this, Location * unk0);
 "554889e5488b46304885c074224883b8":
@@ -132,7 +132,9 @@ cleanup __amd64 void StarMap::OnTouch(StarMap *this, TouchAction unk0, int unk1,
 cleanup __amd64 void StarMap::MouseMove(StarMap *this, int x, int y);
 "554889e54157415641554154534881ecb80000000f298d30":
 cleanup __amd64 void StarMap::RenderSectorName(StarMap *this, Sector * unk0, GL_Color unk1); /* GL_Color is on XMM0:XMM1 */
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534881ece80100004989fd41":
+cleanup __amd64 void StarMap::OnRender(StarMap *this);
+".554889e54157415641554154534881ec????????4989fce8????????488d05":
 cleanup __amd64 void StarMap::constructor(StarMap *this);
 "554889e54157415641554154534881ec98050000":
 cleanup __amd64 Location* StarMap::LoadGame(StarMap *this, int fileHelper);
@@ -140,8 +142,6 @@ cleanup __amd64 Location* StarMap::LoadGame(StarMap *this, int fileHelper);
 cleanup __amd64 void StarMap::RenderLeftInsetButton(StarMap *this, float unk0, float unk1, bool unk2);
 "554889e541574156534881ec280100004889fb0f":
 cleanup __amd64 void StarMap::RenderDistressButtons(StarMap *this);
-"554889e54157415641554154534881ece80100004989fd41":
-cleanup __amd64 void StarMap::OnRender(StarMap *this);
 
 
 struct StarMap

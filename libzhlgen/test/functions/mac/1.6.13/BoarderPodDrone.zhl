@@ -1,4 +1,6 @@
-".554889e553504889fb488bbb880100004885ff7410488b07":
+"554889e5415653488d05????????488947b0":
+noHook __amd64 void BoarderPodDrone::DO_NOT_HOOK_1();
+".554889e553504889fb488bbb88010000":
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 "554889e553504889fb4885f6":
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);

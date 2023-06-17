@@ -1,4 +1,4 @@
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534883ec??4889fb488d7b18":
 cleanup __amd64 void ShipBuilder::constructor(ShipBuilder *this);
 "554889e54157415641554154534881ec98040000":
 cleanup __amd64 void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);

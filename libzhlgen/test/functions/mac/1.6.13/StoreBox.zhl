@@ -6,7 +6,7 @@ cleanup __amd64 void StoreBox::Activate(StoreBox *this);
 cleanup __amd64 void StoreBox::SetPosition(StoreBox *this, Point pos);
 "554889e541574156534883ec184989f64889fb41":
 cleanup __amd64 void StoreBox::InitBlueprint(StoreBox *this, Blueprint* bp);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??48894da8":
 cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& buttonImage, ShipManager *shopper, Equipment *equip);
 "554889e55350488d5f2883bf":
 cleanup __amd64 void StoreBox::OnLoop(StoreBox *this);

@@ -4,13 +4,13 @@ cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotI
 cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 "554889e531c085f67819488b":
 cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+"554889e54157415641554154534883ec??4589c44189cd4189d6":
 cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+".554889e54157415641554154534883ec??4589c6":
 cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
-"NOT FOUND IN SIGNATURE DATA":
+".554889e54889f048c1e820":
 cleanup __amd64 int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this, Point p1, Point p2);
-"MULTIPLE MATCHES IN SIGNATURE DATA":
+".554889e54157415641554154534883ec??4589c4":
 cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2);
 "554889e54863c6488b0f488b":
 cleanup __amd64 int ShipGraph::GetNumSlots(ShipGraph *this, int room);

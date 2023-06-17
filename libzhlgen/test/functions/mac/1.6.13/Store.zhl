@@ -4,7 +4,7 @@ cleanup __amd64 bool Store::KeyDown(Store *this, SDLKey key);
 cleanup __amd64 void Store::OnLoop(Store *this);
 "554889e553504889fbc64308":
 cleanup __amd64 void Store::Close(Store *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e553504889fbe8????????488d05????????48890348c74338????????48c74330????????48c74328????????c64340":
 cleanup __amd64 void Store::constructor(Store *this);
 "554889e5415741564155415453504189f64989fc418bb424":
 cleanup __amd64 void Store::SaveStore(Store *this, int file);
@@ -22,10 +22,10 @@ static cleanup __amd64 void Store::DrawBuySellTabText();
 cleanup __amd64 void Store::SetPositions(Store *this);
 "554889e54157415641554154534881ec180100008955a089":
 cleanup __amd64 void Store::LoadStore(Store *this, int file, int worldLevel);
-"COULD NOT FIND UNIQUE SIGNATURE":
-cleanup __amd64 void Store::SetPosition(Store *this, Point pos);
 "554889e54157415641554154534881ece80000004989d489":
 cleanup __amd64 void Store::CreateStoreBoxes(Store *this, int type, Equipment *equip);
+".554889e553504889fbe8????????4889df4883c4??5b5de9":
+cleanup __amd64 void Store::SetPosition(Store *this, Point pos);
 "554889e5415741564155415453504189cf488955":
 cleanup __amd64 void Store::OnInit(Store *this, ShipManager *shopper, Equipment *equip, int worldLevel);
 "554889e54157415641554154534883ec584189d74189f449":
@@ -34,7 +34,7 @@ cleanup __amd64 void Store::MouseMove(Store *this, int x, int y);
 cleanup __amd64 void Store::MouseClick(Store *this, int x, int y);
 "554889e54157415641554154534883ec684989ffe8c78e02":
 cleanup __amd64 void Store::OnRender(Store *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534989fe488d05????????498906498b8668050000":
 cleanup __amd64 void Store::destructor(Store *this);
 
 

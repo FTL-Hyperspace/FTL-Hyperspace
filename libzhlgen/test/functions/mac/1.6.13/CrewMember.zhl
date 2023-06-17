@@ -8,9 +8,9 @@ cleanup __amd64 std::string CrewMember::GetUniqueRepairing(CrewMember *this);
 cleanup __amd64 bool CrewMember::CanTeleport(CrewMember *this);
 "554889e5488b8708060000ff":
 cleanup __amd64 void CrewMember::Jump(CrewMember *this);
-".554889e58b??????????3b47080f94c10f":
-noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
 "554889e58b??????????3b47080f94c10f":
+noHook __amd64 void CrewMember::DO_NOT_HOOK_1();
+".554889e58b??????????3b47080f94c10f":
 cleanup __amd64 bool CrewMember::GetIntruder(CrewMember *this);
 "554889e5c6874002":
 cleanup __amd64 void CrewMember::SetOutOfGame(CrewMember *this);

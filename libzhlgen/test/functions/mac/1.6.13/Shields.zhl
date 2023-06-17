@@ -2,7 +2,7 @@
 cleanup __amd64 void Shields::Jump(Shields *this);
 "554889e54157415641554154534883ec684989fde8776500":
 cleanup __amd64 void Shields::OnLoop(Shields *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e5415741564154534883ec??4d89c6":
 cleanup __amd64 void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
 "554889e54157415653504989f64889fb8b839802":
 cleanup __amd64 void Shields::AddSuperShield(Shields *this, Point pos);
