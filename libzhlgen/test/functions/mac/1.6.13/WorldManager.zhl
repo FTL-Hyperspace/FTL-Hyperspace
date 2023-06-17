@@ -20,8 +20,10 @@ cleanup __amd64 LocationEvent* WorldManager::ModifyResources(WorldManager *this,
 cleanup __amd64 void WorldManager::CheckStatusEffects(WorldManager *this, std::vector<StatusEffect>& vec);
 "!554889e54157415641554154534881ec18060000":
 cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
+/* TODO: Look into getting rid of CreateChoiceBox0 and only using CreateChoiceBox for all systems
 "NOT LISTED IN GHIDRA":
-cleanup __amd64 void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event); /* Not listed in Ghidra */
+cleanup __amd64 void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event);
+*/
 "554889e54157415641554154534881ec380a0000":
 cleanup __amd64 CompleteShip* WorldManager::CreateShip(WorldManager *this, ShipEvent* shipEvent, bool boss);
 "554889e54157415641554154534881ec38060000":

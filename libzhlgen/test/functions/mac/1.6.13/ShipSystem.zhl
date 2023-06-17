@@ -34,6 +34,7 @@ cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 "554889e54157415641554154534881ecb80000004589cd4c":
 cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+/* TODO: Once everything else is working, try to crash the game with ships that have big rooms
 "UNKNOWN FUNCTION DEFENITION":
 offsetVariable GL_Primitive** ShipSystem__glowWhite;
 "UNKNOWN FUNCTION DEFENITION":
@@ -64,6 +65,7 @@ offsetVariable GL_Primitive** ShipSystem__manningYellow;
 offsetVariable GL_Primitive** ShipSystem__glowBlue;
 "UNKNOWN FUNCTION DEFENITION":
 offsetVariable GL_Primitive** ShipSystem__glowRed;
+*/
 "554889e54156534189d64889fb8b8bac":
 cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
 "554889e54156534189f64889fb80bb9c":
