@@ -365,26 +365,26 @@ struct GlobalPost
 // Since the next function definition isn't preceded by a signature, the sigscanner will then automatically seek the next instance of the instructions "push ebp; mov ebp, esp"
 // which are present at the beginning of most functions, then assign the resulting address to PopRenderTarget()
 
-"UNKNOWN FUNCTION DEFENITION":
+"558bec83ec18833d??????????530f92c0560fb6c868????????51e8????????33c083c4088d5df88945f88945fce8????????8d45f4e8":
 void PushRenderTarget();
 void PopRenderTarget();
 
 // This will rewind the sigscanner to the beginning and then seek the first instance of this pattern, then assign the result to Random()
 
-"UNKNOWN FUNCTION DEFENITION":
+"a1????????3d????????0f8c????????3d????????75??b8????????e8????????33c9eb??":
 unsigned int Random();
 
 // If you don't want the sigscanner to rewind, and want to continue from its current position instead, add a '.' at the beginning of the pattern
 // This is useful if you have several functions next to each other but one of them doesn't begin with the usual instructions "push ebp; mov ebp, esp"
 
-"UNKNOWN FUNCTION DEFENITION":
+".a1????????8b523c508bcfffd2eb??81c6????????56e8????????8b8558ffffff05":
 float RandomFloat();
 
 // When a function contains arguments, the ones which are passed via registers must be explicitly specified
 // In the example below, "a" is passed via the ECX register, "c" is passed via the EDX register, while "b" is passed on the stack since
 // no register is specified
 
-"UNKNOWN FUNCTION DEFENITION":
+"558bec518b00568bf133c9c746140f000000894e10894dfc880e3bc174??5383c0085083c8ff33db8bcee8":
 int SomeFunction(int a<ecx>, int b, int c<edx>);
 
 // Common calling conventions are easy to translate:
@@ -423,7 +423,7 @@ void Msg(const std::string &txt);
 // Adding '!' at the beginning of the pattern will make the sigscanner stay in place after the pattern is matched instead of seeking for the next "ret" instruction
 // This is highly recommended when scanning for variables
 
-"UNKNOWN FUNCTION DEFENITION":
+"!68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)":
 Shader *g_ShaderColorOffset;
 Shader *g_ShaderPixelation;
 Shader *g_ShaderBloom;
@@ -437,7 +437,7 @@ Shader *g_ShaderOldTV;
 // Note that this doesn't actually declare a reference, but a pointer and a macro which gives the illusion of a reference (the end result is pretty much the same though)
 // Also note that '.' and '!' can be combined in a pattern
 
-"UNKNOWN FUNCTION DEFENITION":
+".!890d(????????)d96dd6d97dd6dec90fb745d60d????????8945f4d96df4df7df08b45f0505168????????d96dd6a3(????????)":
 reference int g_viewportW;
 reference int g_viewportH;
 
@@ -447,7 +447,7 @@ reference int g_viewportH;
 // Use with caution.
 // You should be able to use uintptr_t, void*, or maybe even cast directly to a char** /char [] or uint8_t** /uint8_t [] array but those are untested :)
 // Despite the fact it's using the instruction address, the 4-byte matching rule still applies like above since it uses the same matching code and this was a simple addition.
-"UNKNOWN FUNCTION DEFENITION":
+"!39d089d37d(????????)83c22383c10139df":
 instruction uintptr_t Global__NOP__Ship_OnInit_0;
 
 // Some x86_64 variables are actually using RIP relative addressing
@@ -458,7 +458,7 @@ instruction uintptr_t Global__NOP__Ship_OnInit_0;
 // This is because the math is just address of match + length = "next instruction's assumed address" since we don't actually know the instruction pointer's real value at compile time.
 // You will probably not run into this need in 32-bit but it's still also supported just in case
 // The "instruction" tag above is not supported while using offsetVariable as offsetVariable implies you want the value and not the instruction's address
-"UNKNOWN FUNCTION DEFENITION":
+"!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd":
 offsetVariable GL_Color *Global_COLOR_GREEN;
 
 // Also it can now replace code with NOP statements in a match
@@ -466,7 +466,7 @@ offsetVariable GL_Color *Global_COLOR_GREEN;
 // The match must end on a byte boundary (every group of 2 hex digits, ending in an odd numbered spot is invalid)
 // So this one below replaces c6840d74fefeff01 with NOP's, the match can be anywhere in the signature.
 // Rules like ! . still apply and ! is still highly recommended.
-"UNKNOWN FUNCTION DEFENITION":
+"!39d07d0b(c6840d74fefeff01)":
 noop void* Global__Ship_OnInit;
 // The void* can be anything, just has to be something there for the parser to match, name also doesn't really matter except for logging purposes as it does not create any variable.
 
