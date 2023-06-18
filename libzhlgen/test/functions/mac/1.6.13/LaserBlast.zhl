@@ -4,9 +4,9 @@ cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
 cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
 
 
-"GLOBAL FUNCTION":
-void** VTable_LaserBlast;
-void** VTable_Targetable_LaserBlast;
+"!0f288d????????e8????????488d05(???????\?)4889c1488d81(???????\?)66480f6ec0488d41??":
+offsetVariable void** VTable_LaserBlast;
+offsetVariable void** VTable_Targetable_LaserBlast;
 
 
 struct LaserBlast
