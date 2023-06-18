@@ -3,5 +3,5 @@ cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
 "554889e5534883ec184889fbf20f1043":
 cleanup __amd64 void CFPS::OnLoop(CFPS *this);
 
-"GLOBAL FUNCTION":
-CFPS* Global_CFPS_FPSControl;
+"!4c8d3d????????4983c7304c8d2d(???????\?)4c897d??660f1f840000000000e8????????":
+offsetVariable CFPS* Global_CFPS_FPSControl;

@@ -15,5 +15,5 @@ static cleanup __amd64 void Settings::ResetHotkeys();
 "554889e54157415641554154534881ec18020000488b05??":
 static cleanup __amd64 void Settings::LoadSettings();
 
-"GLOBAL FUNCTION":
-SettingValues* Global_Settings_Settings;
+"!c6832002000000488d05(???????\?)8378??0348895d??":
+offsetVariable SettingValues* Global_Settings_Settings;

@@ -15,7 +15,7 @@ cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::st
 "554889e54156534883ec2031c0837f08000f94c0486bd83848031dc9":
 cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
 
-"GLOBAL FUNCTION":
+"!488905????????488d35(???????\?)488d4870":
 offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;
 
 struct ShipObject

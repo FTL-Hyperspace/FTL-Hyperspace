@@ -53,8 +53,8 @@ cleanup __amd64 void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrou
 "554889e5415741564155415453504189d74189f64989fd41":
 cleanup __amd64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
 
-"GLOBAL FUNCTION":
-ScoreKeeper* Global_ScoreKeeper_Keeper;
+"!488b7d??e8????????488d3d(???????\?)be01000000e8????????":
+offsetVariable ScoreKeeper* Global_ScoreKeeper_Keeper;
 
 
 struct ScoreKeeper

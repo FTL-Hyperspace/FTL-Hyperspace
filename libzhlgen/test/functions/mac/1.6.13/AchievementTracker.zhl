@@ -32,5 +32,5 @@ cleanup __amd64 void AchievementTracker::SetTooltip(AchievementTracker *this, CA
 cleanup __amd64 void AchievementTracker::ResetFlags(AchievementTracker *this);
 
 
-"GLOBAL FUNCTION":
-AchievementTracker* Global_AchievementTracker_Tracker;
+"!410fb6b6e802000089dfe8????????488d3d(???????\?)89de5b415e5d":
+offsetVariable AchievementTracker* Global_AchievementTracker_Tracker;

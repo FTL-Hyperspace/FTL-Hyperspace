@@ -5,5 +5,5 @@ cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);
 "554889e5415741564154534883ec604889fb488b4510488b":
 cleanup __amd64 void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
 
-"GLOBAL FUNCTION":
-TutorialManager* Global_TutorialManager_Tutorial;
+"!41807e200075??488d3d(???????\?)e8????????84c0":
+offsetVariable TutorialManager* Global_TutorialManager_Tutorial;

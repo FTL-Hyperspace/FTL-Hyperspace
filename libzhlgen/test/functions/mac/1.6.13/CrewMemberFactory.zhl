@@ -39,8 +39,8 @@ cleanup __amd64 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this
 "554889e54157415641554154534881ecb80100004189cd41":
 cleanup __amd64 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
 
-"GLOBAL FUNCTION":
-CrewMemberFactory* Global_CrewMemberFactory_Factory;
+"!807b2800400f94c6488d3d(???????\?)e8????????4189c6807b2800":
+offsetVariable CrewMemberFactory* Global_CrewMemberFactory_Factory;
 
 
 struct CrewMemberFactory

@@ -29,9 +29,9 @@ cleanup __amd64 void InfoBox::Clear(InfoBox *this);
 "554889e54157415641554154534881ec080100004889fb44":
 cleanup __amd64 void InfoBox::OnRender(InfoBox *this);
 
-"GLOBAL FUNCTION":
-GL_Color *Global_InfoBox_detailsBarOff;
-GL_Color *Global_InfoBox_detailsBarOn;
+"!488b9d????????4939dc488d05(???????\?)488d0d(???????\?)":
+offsetVariable GL_Color *Global_InfoBox_detailsBarOff;
+offsetVariable GL_Color *Global_InfoBox_detailsBarOn;
 
 
 struct InfoBox 

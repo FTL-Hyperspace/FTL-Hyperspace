@@ -25,8 +25,8 @@ cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceContro
 "554889e54157415641554154534881ecc800000089b530ff":
 cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
 
-"GLOBAL FUNCTION":
-ResourceControl* Global_ResourceControl_GlobalResources;
+"!4881ecb80000004889fb488d3d(???????\?)31f6e8????????":
+offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 
 
 struct ResourceControl depends (freetype)
