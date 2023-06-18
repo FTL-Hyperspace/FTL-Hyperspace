@@ -505,26 +505,26 @@ noHook void DO_NOT_HOOK();
 noHook __amd64 void DO_NOT_HOOK();
 */
 
-"UNKNOWN FUNCTION DEFENITION":
+"0f28c885ff0f57c07e??393d????????":
 cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e548b82d7f954c2df45158":
 __amd64 int random32();
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e589f8488905????????":
 cleanup __amd64 void srandom32(unsigned int seed);
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e583ff0577??89f8488d0d????????":
 cleanup __amd64 float getSkillBonus(int skill, int level);
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e5415741564154534883ec104189cc":
 cleanup __amd64 void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54157415641554154534881ecb8040000":
 cleanup __amd64 void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e553504889fb488b3d????????":
 cleanup __amd64 void sys_graphics_set_window_title(char* title);
 
-"UNKNOWN FUNCTION DEFENITION":
+"554889e54883ec2089f8":
 cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
