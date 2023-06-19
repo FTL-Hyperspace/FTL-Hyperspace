@@ -44,10 +44,10 @@ static cleanup __amd64 bool FileHelper::writeString(int file, const std::string&
 static cleanup __amd64 void FileHelper::closeBinaryFile(int file);
 "554889e54157415641554154534883ec284189f44989fe41":
 static cleanup __amd64 std::string FileHelper::readString(int file);
-"554889e5415741564154534883ec104189fe4181fe00ffff7f7c5e4181fe00ffff7f74194181fe02ffff7f7569488d05????1f004c8d3d????1f00eb0e488d05????1f004c8d3d????1f008b48082b08458b274429e183f904bb040000000f42d94c89e6480330488d7ddc4889dae8????16004401e341891f488d75dcba040000004489f7e8????160085c07e190105????1f00eb11488d3d????180031c04489f6e8c9":
-static cleanup __amd64 float FileHelper::readFloat(int file);
-"554889e5415741564154534883ec104189fe4181fe00ffff7f7c5e4181fe00ffff7f74194181fe02ffff7f7569488d05????1f004c8d3d????1f00eb0e488d05????1f004c8d3d????1f008b48082b08458b274429e183f904bb040000000f42d94c89e6480330488d7ddc4889dae8????16004401e341891f488d75dcba040000004489f7e8????160085c07e190105????1f00eb11488d3d????180031c04489f6e849":
+".554889e5415741564154534883ec10":
 static cleanup __amd64 int FileHelper::readInteger(int file);
+".554889e5415741564154534883ec10":
+static cleanup __amd64 float FileHelper::readFloat(int file);
 "554889e58935????":
 static cleanup __amd64 bool FileHelper::seekPosition(int file, int pos);
 "554889e54157415641554154534883ec1889d341":

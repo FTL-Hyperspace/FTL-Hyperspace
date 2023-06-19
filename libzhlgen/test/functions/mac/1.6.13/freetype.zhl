@@ -1,18 +1,18 @@
-"554889e54157415641554154534883ec284889d3":
-static cleanup __amd64 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text);
-"554889e54157415641554154534883ec184889f389f8488d":
-static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
 "554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d??????0031d289c6e8??910000":
 static cleanup __amd64 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string& text);
-"554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d??????0031d289c6e8??900000":
+".554889e54157415641554154534883ec??":
 static cleanup __amd64 Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string& text);
-"554889e54157415641554154534883ec484889d34189f6f30f114da0f30f1145d489f8488d3d??????0031d289c6e8????00004989c74c8d6301f603014c0f4563100f57c00f2945b048c745c0000000004c89e7e8????16":
+".554889e54157415641554154534883ec??":
 static cleanup __amd64 Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string& text);
-"554889e54157415641554154534883ec484889d34189f6f30f114da0f30f1145d489f8488d3d??????0031d289c6e8????00004989c74c8d6301f603014c0f4563100f57c00f2945b048c745c0000000004c89e7e8??????004889c34883fbf00f83a100":
+".554889e54157415641554154534883ec??":
 static cleanup __amd64 Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string& text);
-"554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d??????0031d289c6e8????00004989c64c8d7b01f603014c0f457b100f57c00f2945b048c745c0000000004c89ffe8??????004989c54983fdf00f83950000004983fd1773134489e800c08845b04c8d65b14d85ed7528eb344c89eb4883c3104883e3f04889dfe8??????004989c44c8965c04883cb0148895db04c896db84c89e74c89fe4c89eae8??????0043c6042c00488d4db031f6ba01000000":
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
+".554889e54157415641554154534883ec??":
 static cleanup __amd64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
-"554889e54157415641554154534883ec284989cf4189f489":
+".554889e54157415641554154534883ec??":
 static cleanup __amd64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
 
 

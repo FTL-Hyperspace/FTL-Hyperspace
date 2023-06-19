@@ -2,6 +2,10 @@
 cleanup __amd64 void ResourceControl::constructor(ResourceControl *this);
 "0f28f20f":
 cleanup __amd64 int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+".554889e5415741564154534883ec??":
+cleanup __amd64 int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+".554889e5415741564154534883ec??":
+cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 "554889e50f28f20f":
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
 "554889e553504889fb89b398":
@@ -14,10 +18,6 @@ cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, G
 cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
 "554889e5415741564154534883ec704989f44989":
 cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
-"554889e5415741564154534883ec??4589ce0f2955b00f294dd00f2945c04589c74189cc89d3e8????????4885c074??0f57c0f30f2ac30f57c9f3410f2acc4889c14885c974??0f57d2f30f2a5004f30f2a5808eb??f30f1015068c1500":
-cleanup __amd64 int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-"554889e5415741564154534883ec??4589ce0f2955b00f294dd00f2945c04589c74189cc89d3e8????????4885c074??0f57c0f30f2ac30f57c9f3410f2acc4889c14885c974??0f57d2f30f2a5004f30f2a5808eb??31c04883c4":
-cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 "554889e54156534883ec504989fe4983":
 cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
 "554889e541574156534883ec284189f7":

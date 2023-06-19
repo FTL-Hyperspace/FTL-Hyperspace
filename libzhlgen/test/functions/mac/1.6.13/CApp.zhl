@@ -8,15 +8,15 @@ cleanup __amd64 void CApp::OnMButtonDown(CApp *this, int x, int y);
 cleanup __amd64 void CApp::OnInputFocus(CApp *this);
 "554889e54156534889fbc683????000000488b7b":
 cleanup __amd64 void CApp::OnInputBlur(CApp *this);
-"554889e553504889fb2bb3????00002b93????0000f30f2ac6f30f5983????0000f30f2cf00f57c0f30f2ac2f30f5983????0000f30f2cd02bb3????00002b93????0000488d7df0e8????140080bb????000000751e807b":
-cleanup __amd64 void CApp::OnRButtonUp(CApp *this, int x, int y);
-"554889e553504889fb2bb3????00002b93????0000f30f2ac6f30f5983????0000f30f2cf00f57c0f30f2ac2f30f5983????0000f30f2cd02bb3????00002b93????0000488d7df0e8????140080bb????000000752c488b":
-cleanup __amd64 void CApp::OnRButtonDown(CApp *this, int x, int y);
-"554889e553504889fb2bb3????00002b93????0000f30f2ac6f30f5983????0000f30f2cf00f57c0f30f2ac2f30f5983????0000f30f2cd02bb3????00002b93????0000488d7df0e8??????0080bb????000000753e488b":
+"554889e553504889fb2bb3????????":
 cleanup __amd64 void CApp::OnLButtonUp(CApp *this, int x, int y);
-"554889e553504889fb2bb3????00002b93????0000f30f2ac6f30f5983????0000f30f2cf00f57c0f30f2ac2f30f5983????0000f30f2cd02bb3????00002b93????0000488d7df0e8????1400488b75":
+".554889e553504889fb2bb3????????":
 cleanup __amd64 void CApp::OnLButtonDown(CApp *this, int x, int y);
-"554889e54157415653504889fb2bb3??":
+".554889e553504889fb2bb3????????":
+cleanup __amd64 void CApp::OnRButtonDown(CApp *this, int x, int y);
+".554889e553504889fb2bb3????????":
+cleanup __amd64 void CApp::OnRButtonUp(CApp *this, int x, int y);
+".554889e553504889fb2bb3????????":
 cleanup __amd64 void CApp::OnMouseMove(CApp *this, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
 "554889e541574156534883ec384189f7":
 cleanup __amd64 void CApp::OnKeyUp(CApp *this, SDLKey key);

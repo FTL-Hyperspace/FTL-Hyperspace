@@ -1,6 +1,6 @@
 "554889e553504889fbbe????????ba????????e8????????488d":
 cleanup __amd64 void ShipSelect::constructor(ShipSelect *this);
-"554889e54156534989fe498b4628498b4e304889ca4829c248c1ea0385d27e3c31db66666666662e0f1f840000000000488b3cd84885ff740e488b07ff5008498b4628498b4e3048ffc34889ca4829c248c1ea034863d24839d37cd4498946305b415e5d":
+".554889e54156534989fe498b4628":
 cleanup __amd64 void ShipSelect::ClearShipButtons(ShipSelect *this);
 "554889e5415741564154534881ec800000004889fb80bb20":
 cleanup __amd64 void ShipSelect::OnLoop(ShipSelect *this);

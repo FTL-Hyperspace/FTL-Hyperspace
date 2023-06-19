@@ -44,13 +44,13 @@ cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fie
 cleanup __amd64 void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
 "554889e54157415641554154534883ec484989ffbf200000":
 cleanup __amd64 void SpaceManager::OnInit(SpaceManager *this);
-"554889e54157415653504989fe498b0e498b46084839c8745a41bf0100000031db4889c86666662e0f1f840000000000488b3cd8488b07ff90c0000000498b06488b3cd84885ff7409488b07ff5008498b0648c704d8000000004489fb498b06498b4e084829c148c1f90341ffc74839d977bd4989460849":
+".554889e54157415653504989fe498b0e498b4608":
 cleanup __amd64 void SpaceManager::Restart(SpaceManager *this);
 "554889e566c78740":
 cleanup __amd64 void SpaceManager::ClearEnvironment(SpaceManager *this);
 "554889e54157415653504989fe498b86b0000000":
 cleanup __amd64 void SpaceManager::Clear(SpaceManager *this);
-"554889e54157415653504989fe498b0e498b46084839c8745a41bf0100000031db4889c86666662e0f1f840000000000488b3cd8488b07ff90c0000000498b06488b3cd84885ff7409488b07ff5008498b0648c704d8000000004489fb498b06498b4e084829c148c1f90341ffc74839d977bd4989460848":
+".554889e54157415653504989fe498b0e498b4608":
 cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this);
 "554889e5415741564155415453504989f44989fe498b0424":
 cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile *proj);
