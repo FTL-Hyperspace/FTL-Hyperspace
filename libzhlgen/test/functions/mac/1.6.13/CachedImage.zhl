@@ -4,7 +4,7 @@ cleanup __amd64 void CachedImage::destructor(CachedImage *this);
 cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
 "554889e54157415653504189d64189f74889fb44397b3075":
 cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
-"554889e54157415653504189ce4189d74889fb48c7430800000000488d05????????488903488d7b10e8????????48c743280000000044897b30448973340f28055b7f1600":
+"554889e54157415653504189ce4189d74889fb48c7430800000000":
 cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
 "!554889e553504889fb48c7430800000000488d05":
 cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);

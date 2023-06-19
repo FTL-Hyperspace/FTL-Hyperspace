@@ -86,7 +86,9 @@ static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_T
 static cleanup __amd64 void CSurface::GL_PushStencilMode();
 "554889e54883ec100f1345f0":
 static cleanup __amd64 void CSurface::GL_SetColorTint(GL_Color color); /* GL_Color is in XMM0:XMM1 */
-"0f2e2d????16007716f30f16fd0f2e3d????160077090f2e35????160076170f592d????1600f30f103d????1600f30f59fef30f10f7554889e54883ec30400f":
+"0f2e2d????????7716f30f16fd0f2e3d????????77090f2e35????????":
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color); /* GL_Color is in XMM5:XMM6 */
+".0f2e2d????????7716f30f16fd0f2e3d????????77090f2e35????????":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk); /* GL_Color is in XMM5:XMM6 */
 /*
 "554889e54156534883ec60f30f117dd0":
@@ -94,8 +96,6 @@ static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL
 */
 "554889e54156534883ec204989fe498b06498b5e":
 static cleanup __amd64 void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
-"0f2e2d????16007716f30f16fd0f2e3d????160077090f2e35????160076170f592d????1600f30f103d????1600f30f59fef30f10f7554889e54883ec300f13":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color); /* GL_Color is in XMM5:XMM6 */
 "554889e541574156534883ec38660f28d9660f14":
 static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
 "554889e5415741564154534881eca00000004189ce89d3c7":

@@ -1,5 +1,3 @@
-"554889e54156534989fe498b46284939463074??bb0100000031c90f1f440000488b3cc8e8????????89d9498b4628498b56304829c248c1fa03ffc34839ca77??498b465849394660":
-virtual cleanup __amd64 void CompleteShip::PauseLoop(CompleteShip *this);
 "554889e553504889fb488b7b10e8????0800488b":
 virtual cleanup __amd64 void CompleteShip::Restart(CompleteShip *this);
 ".554889e553504889fb488d05????????488903894b08":
@@ -26,6 +24,8 @@ cleanup __amd64 void CompleteShip::LoadState(CompleteShip *this, int unk);
 cleanup __amd64 void CompleteShip::InitiateTeleport(CompleteShip *this, int targetRoom, int command);
 "554889e5415741564155415453504989fc498b7c2410":
 virtual cleanup __amd64 void CompleteShip::OnLoop(CompleteShip *this);
+".!554889e5488b7f105de9????????":
+virtual cleanup __amd64 void CompleteShip::PauseLoop(CompleteShip *this);
 "554889e5415741564155415453504989fe4c8bbe":
 cleanup __amd64 std::vector<CrewMember*> CompleteShip::GetTeleportingParty(CompleteShip *this);
 "554889e54156534881eca0010000":

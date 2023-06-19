@@ -46,12 +46,12 @@ cleanup __amd64 void CrewMember::SetResisted(CrewMember *this, bool resisted);
 cleanup __amd64 bool CrewMember::GetResisted(CrewMember *this);
 "554889e54863c6488b8fb80300008914":
 cleanup __amd64 void CrewMember::SetSkillProgress(CrewMember *this, int skillId, int skillLevel);
-"554889e5b80100000083fe0577314863c6488b97b80300008b0cc28b54c204b80300000039d1741789d0c1e81f01d0d1f831d239c10f9cc2b80200000029d05d":
+"554889e5b80100000083fe0577??4863c6488b97b8030000":
 cleanup __amd64 int CrewMember::GetSkillLevel(CrewMember *this, int skillId);
+".554889e5b80100000083fe0577??4863c6488b97b8030000":
+cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId);
 "554889e54863ce488b??????????8b04??8b4c????89ca":
 cleanup __amd64 std::pair<int, int> CrewMember::GetSkillProgress(CrewMember *this, int skillId);
-"554889e5b80100000083fe0577314863c6488b97b80300008b0cc28b54c204b80300000039d1741789d0c1e81f01d0d1f831d239c10f9cc2b80200000029d089":
-cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId);
 "554889e553504889fb488b03ff905001":
 cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
 "8b97ac00":
