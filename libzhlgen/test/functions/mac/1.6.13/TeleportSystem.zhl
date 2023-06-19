@@ -4,7 +4,7 @@ cleanup __amd64 void TeleportSystem::Jump(TeleportSystem *this);
 cleanup __amd64 void TeleportSystem::SetHackingLevel(TeleportSystem *this, int hackingLevel);
 "554889e54157415641554154534883ec284989fe8a05????":
 cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
-"NOT FOUND IN SIGNATURE DATA":
+"554889e54156534189d64889fbe8????????488d05????????":
 cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int systemId, int roomId, int shipId, int startingPower);
 "554889e5f30f108764020000f30f5905":
 cleanup __amd64 float TeleportSystem::GetChargedPercent(TeleportSystem *this);
