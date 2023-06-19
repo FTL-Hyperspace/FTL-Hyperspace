@@ -17,7 +17,7 @@ cleanup __amd64 CollisionResponse Shields::CollisionTest(Shields *this, float x,
 "554889e5534883ec384889fb8b454089":
 cleanup __amd64 CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
 
-"UNKNOWN FUNCTION DEFENITION":
+"!48894d??85d2488d0d(???????\?)488d55a8":
 offsetVariable GL_Color *Global_COLOR_GREEN;
 
 

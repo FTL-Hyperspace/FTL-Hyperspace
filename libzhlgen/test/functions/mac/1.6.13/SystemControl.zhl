@@ -7,6 +7,6 @@ cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
 "554889e54157415641554154534881ecb80000004889fb488d7dc031":
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
 
-"UNKNOWN FUNCTION DEFENITION":
+"!488d05(???????\?)8b3083c620488d7de0ba5f020000e8????????488b75??4c89f7e8????????4881c3b0040000488d05(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;
 offsetVariable Point* Global_SystemControl_drone_position;

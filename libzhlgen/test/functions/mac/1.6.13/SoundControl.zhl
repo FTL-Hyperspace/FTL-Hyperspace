@@ -7,5 +7,5 @@ cleanup __amd64 int SoundControl::PlaySoundMix(SoundControl *this, const std::st
 "554889e54157415641554154534883ec284889f34989fe41":
 cleanup __amd64 void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
 
-"UNKNOWN FUNCTION DEFENITION":
-SoundControl* Global_SoundControl_Sounds;
+"!41c684242002000001488d1d(???????\?)be64000000":
+offsetVariable SoundControl* Global_SoundControl_Sounds;
