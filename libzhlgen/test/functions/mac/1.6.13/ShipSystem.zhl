@@ -34,38 +34,35 @@ cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 "554889e54157415641554154534881ecb80000004589cd4c":
 cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
-/* TODO: Once everything else is working, try to crash the game with ships that have big rooms
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__glowWhite; /* Dunno what these are */
-"UNKNOWN FUNCTION DEFENITION":
+"!83f9ff488d05(???????\?)488d0d(???????\?)480f45c8":
 offsetVariable GL_Primitive** ShipSystem__lockBlue;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__fireImage;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__lockHack;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__manningBarIon;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__manningBarOff;
-"UNKNOWN FUNCTION DEFENITION":
 offsetVariable GL_Primitive** ShipSystem__lockWhite;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__sabotageImage;
-"UNKNOWN FUNCTION DEFENITION":
+"!0f84????????488b3d(???????\?)f30f114d??":
+offsetVariable GL_Primitive** ShipSystem__lockHack;
+"!4180bd80010000000f84????????488d05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarIon;
+"!4183bda8010000020f8d????????488d05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarOff;
+"!b9e8ffffff41b8000000004531c90f28c8e8????????488905(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__manningOutline;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__manningBarOn;
-"UNKNOWN FUNCTION DEFENITION":
+".!0f28c8e8????????488905(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__manningWhite;
-"UNKNOWN FUNCTION DEFENITION":
+".!0f28c8e8????????488905(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__manningGreen;
-"UNKNOWN FUNCTION DEFENITION":
+".!0f28c8e8????????488905(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__manningYellow;
-"UNKNOWN FUNCTION DEFENITION":
-offsetVariable GL_Primitive** ShipSystem__glowBlue;
-"UNKNOWN FUNCTION DEFENITION":
+"!84d274??85c974??488d05(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__manningBarOn;
+"!c78360020000ffffffff48833d(???????\?)0048899d????????":
+offsetVariable GL_Primitive** ShipSystem__glowWhite;
+"!f30f104d??e8????????488b3d(???????\?)e8????????e8????????":
 offsetVariable GL_Primitive** ShipSystem__glowRed;
-*/
+".!f30f104d??e8????????488b3d(???????\?)e8????????e8????????":
+offsetVariable GL_Primitive** ShipSystem__glowBlue;
+"!f30f114d??74??488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__fireImage;
+"!415f5dc3488b3d(???????\?)":
+offsetVariable GL_Primitive** ShipSystem__sabotageImage;
 "554889e54156534189d64889fb8b8bac":
 cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
 "554889e54156534189f64889fb80bb9c":
