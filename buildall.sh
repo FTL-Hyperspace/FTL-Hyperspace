@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+./ZipModFiles.py
+
 function build_one_variant() {
     local BUILD_DIR="$1"
     local TOOLCHAIN_NAME="$2"

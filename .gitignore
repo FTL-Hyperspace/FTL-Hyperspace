@@ -11,6 +11,7 @@ FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
 *.autogen.hpp
 lua/swigluarun.h
+"Mod Files/Hyperspace.ftl"
 
 ## Other
 .save-failed
