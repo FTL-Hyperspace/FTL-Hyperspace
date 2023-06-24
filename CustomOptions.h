@@ -61,6 +61,8 @@ public:
 
     Setting<bool> showScrapCollectorScrap;
 
+    Setting<bool> preIgniteChargers;
+
     Setting<std::string> dismissSound;
 
     Defaults defaults;

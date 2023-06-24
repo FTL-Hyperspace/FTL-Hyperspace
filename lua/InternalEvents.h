@@ -18,10 +18,28 @@ struct InternalEvents
         ON_TICK, // We'll use CApp::OnLoop for this ticking
         // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
+        
         // function on_key_down(SDLKey key) return Chain
-        ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
+        ON_KEY_DOWN,
+        // function on_key_up(SDLKey key) return Chain
+        ON_KEY_UP,
+        // function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain
+        ON_MOUSE_MOVE,
+        // function on_mouse_l_button_down(int x, int y) return Chain
+        ON_MOUSE_L_BUTTON_DOWN,
+        // function on_mouse_l_button_up(int x, int y) return Chain
+        ON_MOUSE_L_BUTTON_UP,
+        // function on_mouse_r_button_down(int x, int y) return Chain
+        ON_MOUSE_R_BUTTON_DOWN,
+        // function on_mouse_r_button_up(int x, int y) return Chain
+        ON_MOUSE_R_BUTTON_UP,
+        // function on_mouse_m_button_down(int x, int y) return Chain
+        ON_MOUSE_M_BUTTON_DOWN,
+        
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+        // function ship_loop(ShipManager& ship)
+        SHIP_LOOP,
 
         // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
         HAS_EQUIPMENT,
