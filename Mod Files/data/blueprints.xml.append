@@ -105,6 +105,7 @@
 	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
 	<noPersDamage>false</noPersDamage>               If true, then normal damage does not inflict corresponding crew damage, only actual <persDamage> will.
 	<ionBeamFix>false</ionBeamFix>                   If true, prevents ion beams from inflicting ion damage to shields on every frame (instead it will be similar to beams hitting zoltan shields).
+	<invisibleBeam>false</invisibleBeam>             If true, prevents beams from being rendered.
 	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
 	<fireTime>0.0</fireTime>                         Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
 	

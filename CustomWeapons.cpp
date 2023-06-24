@@ -101,6 +101,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             hasCustomDamage = true;
             weaponDef.customDamage->ionBeamFix = EventsParser::ParseBoolean(val);
         }
+        if (name == "invisibleBeam")
+        {
+            weaponDef.invisibleBeam = EventsParser::ParseBoolean(val);
+        }
         if (name == "simultaneousFire")
         {
             weaponDef.simultaneousFire = EventsParser::ParseBoolean(val);
@@ -660,6 +664,16 @@ HOOK_METHOD(WeaponAnimation, Update, () -> void)
     else
     {
         super();
+    }
+}
+
+// Invisible beams
+HOOK_METHOD(BeamWeapon, OnRenderSpecific, (int spaceId) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BeamWeapon::OnRenderSpecific -> Begin (CustomWeapons.cpp)\n")
+    if (!CustomWeaponManager::instance->GetWeaponDefinition(Get_Projectile_Extend(this)->name)->invisibleBeam)
+    {
+        super(spaceId);
     }
 }
 
