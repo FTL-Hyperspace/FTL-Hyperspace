@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 cmake -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
     -DVCPKG_HOST_TRIPLET=amd64-linux-ftl \
     -DVCPKG_TARGET_TRIPLET=amd64-linux-ftl \
