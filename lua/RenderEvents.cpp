@@ -81,6 +81,17 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+HOOK_METHOD(CompleteShip, OnRenderShip, (bool unk1, bool unk2) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CompleteShip::OnRenderShip -> Begin (RenderEvents.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), &(shipManager->ship), context->getLibScript()->types.pShip, 0);
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP, 1);
+    if (idx >= 0) super(unk1, unk2);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP, std::abs(idx), 1);
+    lua_pop(context->GetLua(), 1);
+}
+
 //Room anim layer 2
 HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 {
@@ -111,6 +122,21 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_MANAGER, std::abs(idx), 3);
     
     lua_pop(context->GetLua(), 3);
+}
+
+HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (RenderEvents.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), progress);
+
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_JUMP, 2);
+    if (idx >= 0) super(progress);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_JUMP, std::abs(idx), 2);
+
+    lua_pop(context->GetLua(), 2);
 }
 
 
