@@ -19,9 +19,10 @@ struct RenderEvents
         SHIP_MANAGER, // ShipManager::OnRender (note, has some details about showInterior & doorControlMode that might be important)
         ////PROJECTILE, // Projectile::OnRender
         ////SHIP_MANAGER_WEAPONS, // ShipManager::RenderWeapons
-        ////SHIP_JUMP, // Ship::OnRenderJump
+        SHIP_JUMP, // Ship::OnRenderJump
         ////SHEILDS_BASE, // Shields::OnRenderBaseShield
         ////SHIP_BASE, // Ship::OnRenderBase
+        SHIP_HULL, // Inside Ship::OnRenderBase
         SHIP_FLOOR, // Ship::OnRenderFloor
         ////SHIP_FLOOR_EFFECTS, // Ship::OnRenderFloorEffects
         ////SHIP_SYSTEM, // Ship::OnRenderSystem, might need to do a separate PLAYER & ENEMY version or pass that info maybe

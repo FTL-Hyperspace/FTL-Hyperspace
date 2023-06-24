@@ -124,6 +124,21 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
     lua_pop(context->GetLua(), 3);
 }
 
+HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (RenderEvents.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), progress);
+
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_JUMP, 2);
+    if (idx >= 0) super(progress);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_JUMP, std::abs(idx), 2);
+
+    lua_pop(context->GetLua(), 2);
+}
+
 
 
 
