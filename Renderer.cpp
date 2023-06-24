@@ -27,10 +27,11 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
 
     bool isUnderWINE = checkIfUnderWINE();
 
-    /* if (argv.find("--skip-gpu-check") == std::string::npos) */
-    /* { */
-    /*     // do GPU check */
-    /* } */
+    if (argv.find("-opengl") != std::string::npos)
+    {
+        hs_log_file("Warning command line argument `-opengl` is no longer supported!\nIf you are encountering issues with the auto-detection please report it to the Hyperspace team on Discord or on Github.\n");
+        ErrorMessage("Startup argument `-opengl` is no longer supported! (We now auto-detect your GPU configuration)\nPlease remove `-opengl` or I'll just keep complaining\n\nIf this is your first install of Hyperspace don't try random things and see the install guide at https://ftl-hyperspace.github.io/FTL-Hyperspace/\n");
+    }
 
     // TODO: Should we detect legacy `-opengl` command and tell people it's meaningless now or just ignore silently?
     if (argv.find("--force-d3d") != std::string::npos)
