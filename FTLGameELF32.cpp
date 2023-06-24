@@ -18960,6 +18960,20 @@ void WeaponAnimation::SetFireTime(float time)
 namespace _func1386
 {
 	static void *func = 0;
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("WeaponAnimation::GetSlide", typeid(Pointf (WeaponAnimation::*)()), "565383ec148b5c2424c74424", argdata, 2, 18, &func);
+}
+
+Pointf WeaponAnimation::GetSlide()
+{
+	typedef Pointf __attribute__((cdecl)) (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1385::func;
+	return execfunc(this);
+}
+
+namespace _func1386
+{
+	static void *func = 0;
 	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("WeaponAnimation::Update", typeid(void (WeaponAnimation::*)()), "5557565383ec2c8b5c24408b7b5880bb9100000000", argdata, 1, 6, &func);
 }

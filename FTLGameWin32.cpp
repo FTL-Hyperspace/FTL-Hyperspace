@@ -19086,6 +19086,20 @@ namespace _func1383
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("WeaponAnimation::GetSlide", typeid(Pointf (WeaponAnimation::*)()), "578d??????83e4??ff????5589e5575389cb81c1????????83ec??c704", argdata, 1, 9, &func);
+}
+
+Pointf WeaponAnimation::GetSlide()
+{
+	typedef Pointf __attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1382::func;
+	return execfunc(this);
+}
+
+namespace _func1383
+{
+	static void *func = 0;
+	static short argdata[] = {0x101};
 	static FunctionDefinition funcObj("WeaponAnimation::Update", typeid(void (WeaponAnimation::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec3c80bbcd000000008b81800000008945d489c1", argdata, 1, 5, &func);
 }
 

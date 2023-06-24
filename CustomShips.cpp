@@ -1223,6 +1223,14 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         alphaOther = 0.5f;
         alphaHull = 0.375f;
     }
+    
+    // Lua callback init
+    auto context = Global::GetInstance()->getLuaContext();
+    
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), alphaCloak);
+    
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
 
     // Render hull
     CSurface::GL_Translate(xPos, yPos, 0.0);
@@ -1274,6 +1282,10 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
             }
         }
     }
+    
+    // Lua callback close
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_HULL, std::abs(idx), 2);
+    lua_pop(context->GetLua(), 2);
 
     // Render floor
     if (iShipId == 0)

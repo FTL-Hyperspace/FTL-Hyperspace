@@ -782,6 +782,7 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
