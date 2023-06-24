@@ -16,7 +16,9 @@
 
 #include <GL/glut.h>
 #include <shlwapi.h>
+
 bool checkIfUnderWINE(void);
+void renderHyperspaceTestDisplay();
 
 HOOK_METHOD(CApp, SetupWindow, () -> void)
 {
@@ -25,9 +27,15 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
 
     bool isUnderWINE = checkIfUnderWINE();
 
+    /* if (argv.find("--skip-gpu-check") == std::string::npos) */
+    /* { */
+    /*     // do GPU check */
+    /* } */
+
     // TODO: Should we detect legacy `-opengl` command and tell people it's meaningless now or just ignore silently?
     if (argv.find("--force-d3d") != std::string::npos)
     {
+        // TODO: Rework so that we check the GPU first (even on WINE) and always print out GPU info, then WINE info, and then finally decide to either follow it or use forced setting. Maybe add a `--skip-gpu-check` `--skip-wine-check` just in case it causes problems?
         hs_log_file("GPU Renderer: Direct3D Mode (Forced)\n");
         useDirect3D = true;
     }
@@ -45,13 +53,13 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
     else
     {
         hs_log_file("Opening GLUT to determine GPU\n");
-        int fakeArgc = 0;
-        char **fakeArgv;
-        glutInit(&fakeArgc, fakeArgv);
+        glutInit(&__argc, __argv);
         /* glutInitWindowPosition(-1, -1); // Might be optional since -1, -1 is the defaults? */
         /* glutInitWindowSize(800, 600); // Might be optional? */
         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
         int window = glutCreateWindow("OpenGL GPU Checking Window");
+        glutDisplayFunc(renderHyperspaceTestDisplay);
+        glutMainLoop();
         glutHideWindow();
         const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
         const GLubyte* gpuRenderer = glGetString(GL_RENDERER);
@@ -68,6 +76,13 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
     }
 
     super();
+}
+
+void renderHyperspaceTestDisplay()
+{
+    glClearColor(1.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glFlush();
 }
 
 bool checkIfUnderWINE(void)
