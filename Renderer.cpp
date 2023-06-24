@@ -17,8 +17,9 @@
 #include <GL/glut.h>
 #include <shlwapi.h>
 
-bool checkIfUnderWINE(void);
-void renderHyperspaceTestDisplay();
+bool checkIfUnderWINE();
+/* void renderHyperspaceTestDisplay(); */
+/* void renderCloseTimer(int window); */
 
 HOOK_METHOD(CApp, SetupWindow, () -> void)
 {
@@ -33,10 +34,8 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         ErrorMessage("Startup argument `-opengl` is no longer supported! (We now auto-detect your GPU configuration)\nPlease remove `-opengl` or I'll just keep complaining\n\nIf this is your first install of Hyperspace don't try random things and see the install guide at https://ftl-hyperspace.github.io/FTL-Hyperspace/\n");
     }
 
-    // TODO: Should we detect legacy `-opengl` command and tell people it's meaningless now or just ignore silently?
     if (argv.find("--force-d3d") != std::string::npos)
     {
-        // TODO: Rework so that we check the GPU first (even on WINE) and always print out GPU info, then WINE info, and then finally decide to either follow it or use forced setting. Maybe add a `--skip-gpu-check` `--skip-wine-check` just in case it causes problems?
         hs_log_file("GPU Renderer: Direct3D Mode (Forced)\n");
         useDirect3D = true;
     }
@@ -56,12 +55,13 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         hs_log_file("Opening GLUT to determine GPU\n");
         glutInit(&__argc, __argv);
         /* glutInitWindowPosition(-1, -1); // Might be optional since -1, -1 is the defaults? */
-        /* glutInitWindowSize(800, 600); // Might be optional? */
+        glutInitWindowSize(40, 40); // Might be optional?
         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
         int window = glutCreateWindow("OpenGL GPU Checking Window");
-        glutDisplayFunc(renderHyperspaceTestDisplay);
-        glutMainLoop();
-        glutHideWindow();
+        /* glutDisplayFunc(renderHyperspaceTestDisplay); */
+        /* glutTimerFunc(3000, renderCloseTimer, window); // Doesn't actually work unless glutMainLoop is initalized, currently the window will stay open forever */
+        /* glutMainLoop(); */ // We can only call this once per C application, so if we call it, FTL will fail to start correctly, might need to find a different solution other than GLUT, maybe GLFW or just use OpenGL directly (pain)?
+        /* glutHideWindow(); */
         const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
         const GLubyte* gpuRenderer = glGetString(GL_RENDERER);
         if (StrStrIA(gpuVendor, "nvidia") != NULL)
@@ -73,20 +73,24 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
             useDirect3D = false;
         }
         hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer);
-        glutDestroyWindow(window); // Doesn't seem to work, still figuring out how to close the window after it's opened
     }
 
     super();
 }
 
-void renderHyperspaceTestDisplay()
-{
-    glClearColor(1.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glFlush();
-}
+/* void renderCloseTimer(int window) */
+/* { */
+/*     glutDestroyWindow(window); */
+/* } */
 
-bool checkIfUnderWINE(void)
+/* void renderHyperspaceTestDisplay() */
+/* { */
+/*     glClearColor(1.0, 0.0, 0.0, 0.0); */
+/*     glClear(GL_COLOR_BUFFER_BIT); */
+/*     glFlush(); */
+/* } */
+
+bool checkIfUnderWINE()
 {
     typedef void (CDECL *pwine_get_host_version_ptr)(const char **sysname, const char **release);
     typedef const char* (CDECL *pwine_get_version_ptr)(void);
