@@ -594,7 +594,8 @@ Syntax ->
 	<race name="newRace">
 		<nameRace transformName="Admiral Billy" changeIfSame="true">newRace2</nameRace>  Transforms the crew's race to newRace2 if they're given the transformName (or if changeIfSame is false, if they are given a different name).
 		<noSlot>false</noSlot>                                                           If true, this crewmember does not count as an actual crewmember in the crew manifest.
-		<noClone>false</noClone>                                                         If true, this crewmember cannot be cloned.
+		<crewSlots>1.0</crewSlots>                                                       Can set crewmembers to use one slot, multiple slots, fractional slots, or even no slots (this differs from noSlot in that your crew will still fully count as a crewmember, appear on the manifest, etc., just that they won't count towards your limit).
+        <noClone>false</noClone>                                                         If true, this crewmember cannot be cloned.
 		<essential>0</essential>                                                         Higher value is less likely to be picked in crew events (for crew loss, etc.).
 		<canFight>true</canFight>                                                        If true, this crewmember can fight enemy crewmembers.
 		<controllable>true</controllable>                                                If true, the player can control this crewmember. Otherwise it acts like an AI crewmember.
