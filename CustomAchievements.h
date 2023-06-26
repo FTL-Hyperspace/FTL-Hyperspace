@@ -55,12 +55,16 @@ public:
 
     void ParseAchievements(rapidxml::xml_node<char> *node);
     void ParseAchievement(rapidxml::xml_node<char> *node);
+    CustomAchievement &ParseShipAchievement(rapidxml::xml_node<char> *node, const std::string &ship);
     CustomAchievement &GetAchievement(const std::string &name);
     int GetAchievementStatus(const std::string &name);
     void UpdateAchievement(CustomAchievement &ach);
     void UpdateAchievements();
     void UpdateVariableAchievements(const std::string &varName, int varValue, bool inGame=true);
+    bool CheckShipAchievement(CustomAchievement &ach);
     void SetAchievement(const std::string &name, bool noPopup);
+    std::vector<CAchievement*> GetShipAchievementsCustom(const std::string &ship, int layout, bool showHidden);
+    std::vector<CAchievement*> GetShipAchievementsCustom(int shipId, int layout, bool showHidden);
 
     void OnInitStats();
 

@@ -18,10 +18,28 @@ struct InternalEvents
         ON_TICK, // We'll use CApp::OnLoop for this ticking
         // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
+        
         // function on_key_down(SDLKey key) return Chain
-        ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
+        ON_KEY_DOWN,
+        // function on_key_up(SDLKey key) return Chain
+        ON_KEY_UP,
+        // function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain
+        ON_MOUSE_MOVE,
+        // function on_mouse_l_button_down(int x, int y) return Chain
+        ON_MOUSE_L_BUTTON_DOWN,
+        // function on_mouse_l_button_up(int x, int y) return Chain
+        ON_MOUSE_L_BUTTON_UP,
+        // function on_mouse_r_button_down(int x, int y) return Chain
+        ON_MOUSE_R_BUTTON_DOWN,
+        // function on_mouse_r_button_up(int x, int y) return Chain
+        ON_MOUSE_R_BUTTON_UP,
+        // function on_mouse_m_button_down(int x, int y) return Chain
+        ON_MOUSE_M_BUTTON_DOWN,
+        
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+        // function ship_loop(ShipManager& ship)
+        SHIP_LOOP,
 
         // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
         HAS_EQUIPMENT,
@@ -30,6 +48,10 @@ struct InternalEvents
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
 
+        // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
+        PROJECTILE_INITIALIZE,
+        // function projectile_initialize(Projectile& projectile, ProjectileFactory &weapon)
+        PROJECTILE_FIRE,
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
         // function projectile_post(Projectile& projectile, bool preempted) return Chain
@@ -78,6 +100,11 @@ struct InternalEvents
         POWER_READY,
         // function power_tooltip(ActivatedPower& power, PowerReadyState state) return tooltip, skipAppend
         POWER_TOOLTIP,
+
+        // function generator_create_ship(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain, sector, event, bp, ret
+        GENERATOR_CREATE_SHIP,
+        // function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain
+        GENERATOR_CREATE_SHIP_POST,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 

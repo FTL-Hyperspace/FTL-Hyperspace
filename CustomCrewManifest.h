@@ -28,6 +28,8 @@ public:
     void MouseMove(int mX, int mY);
     void OnScrollWheel(float direction);
 
+    int GetEffectiveCrewLimit(ShipManager *ship);
+
     static CustomCrewManifest* GetInstance()
     {
         return &instance;
@@ -41,7 +43,7 @@ private:
     std::vector<std::vector<CrewEquipBox*>> crewEquipBoxes;
 
     int currentPage = 0;
-    int crewLimit = 8;
+    int crewLimit = -1;
 
     CrewMember *draggingCrewMember = nullptr;
 

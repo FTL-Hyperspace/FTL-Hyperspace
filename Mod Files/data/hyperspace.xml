@@ -78,6 +78,8 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
 
 <infinite enabled="false"/>
 
+<preIgniteChargers enabled="true"/> <!-- If enabled, charger type weapons will gain all their charges when pre-ignited instead of just one -->
+
 <dismissSound enabled="true" sound="airLoss"/>
 
 <!-- Discord rich presence integration -->
@@ -257,7 +259,15 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <forceDlc enabled="false"/>
 
-<seeds enabled="true"/>
+<!-- Show ship achievements on menu for custom ships instead of custom victories -->
+<!-- Set toggle = true to be able to toggle between ship achievements and victories -->
+
+<showShipAchievements enabled="true" toggle="false" id="hangar_achievements_title_default"/>
+
+<!-- Enable seeded runs -->
+<!-- Can also control whether unlocks, achievements, or metavariable changes are allowed during a seeded run -->
+
+<seeds enabled="true" allowUnlocks="false" allowAchievements="false" allowMetaVars="false"/>
 
 <!-- Enables command console in game - press \ to use
 
@@ -491,6 +501,10 @@ Syntax ->
 			</victories>
 			<silent/>
         </unlock>
+		
+		<achievement name="ACH_ID" load="ACH_ID" layout="all"> (Use either "name" or "load", "load" can be used to recycle achievement over multiple ships; names must be unique, layout can be a/b/c/all)
+			...                                                (Same properties as global achievements.)
+		</achievement>
     </ship>
 	
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
@@ -580,6 +594,7 @@ Syntax ->
 	<race name="newRace">
 		<nameRace transformName="Admiral Billy" changeIfSame="true">newRace2</nameRace>  Transforms the crew's race to newRace2 if they're given the transformName (or if changeIfSame is false, if they are given a different name).
 		<noSlot>false</noSlot>                                                           If true, this crewmember does not count as an actual crewmember in the crew manifest.
+		<crewSlots>1.0</crewSlots>                                                       Can set crewmembers to use one slot, multiple slots, fractional slots, or even no slots (this differs from noSlot in that your crew will still fully count as a crewmember, appear on the manifest, etc., just that they won't count towards your limit).
 		<noClone>false</noClone>                                                         If true, this crewmember cannot be cloned.
 		<essential>0</essential>                                                         Higher value is less likely to be picked in crew events (for crew loss, etc.).
 		<canFight>true</canFight>                                                        If true, this crewmember can fight enemy crewmembers.
@@ -1271,7 +1286,7 @@ powerGroupWhitelist: List of powerEffect and/or powerResource replacement groups
 powerBlacklist: List of powerEffect and/or powerResource that are excluded from being replaced/modified by this statboost.
 powerGroupBlacklist: List of powerEffect and/or powerResource replacement groups that are excluded from being replaced/modified by this statboost.
   Note, power whitelists and blacklists work for all "powerEffect" REPLACE_POWER statboosts, as well as modifiers such as "powerCharges" and "chargesPerJump".
-  The "activateWhenReady" modifier will be supported in a future version.
+  Also "powerCooldown" and "activateWhenReady" are under this system.
   The "powerRechargeMultiplier" modifier is crewmember global and does not support whitelists/blacklists (for now, possibly will be in a future version along with cooldowns themselves).
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds (WIP). -1 is infinite.
 jumpClear: If true, any applied timed stat boosts (including those with infinite duration) will be cleared on jump (does not affect passive boosts).
@@ -1894,8 +1909,8 @@ Syntax ->
 	
 	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
-	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>            See <variable> below for details. Applied at the start of the run.
-	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>        See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
+	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>                   See <variable> below for details. Applied at the start of the run.
+	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_" force="false"/> See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
 	
 	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
@@ -2064,7 +2079,8 @@ Syntax ->
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
 		                                                                                          The "var" attribute lets you apply a variable or equipment req to another variable, instead of a constant.
 		                                                                                          If "var" and "val" (or min/max) are both given, then they are multiplied together.
-		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"           Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		              force="false"/>                                                             If "force" is true, bypasses conditions that would block setting meta-variables.
 		<tempVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but temporary (only lasts for this event). Used for intermediate calculations.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
 		<allowNoSlot/>                                                                          Allows crew-removal or transform event to pick noSlot crew (default is not allowed unless no other choice).

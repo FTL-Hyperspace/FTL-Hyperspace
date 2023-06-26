@@ -468,6 +468,13 @@ HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
         customDamage.accuracyMod = customWeapon->customDamage->accuracyMod;
         customDamage.droneAccuracyMod = customWeapon->customDamage->droneAccuracyMod;
     }
+
+    // Callback with Projectile and WeaponBlueprint
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectile[this->GetType()], 0);
+    SWIG_NewPointerObj(context->GetLua(), &bp, context->getLibScript()->types.pWeaponBlueprint, 0);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_INITIALIZE, 2, 0);
+    lua_pop(context->GetLua(), 2);
 }
 
 HOOK_METHOD(SpaceManager, UpdateProjectile, (Projectile *projectile) -> void)

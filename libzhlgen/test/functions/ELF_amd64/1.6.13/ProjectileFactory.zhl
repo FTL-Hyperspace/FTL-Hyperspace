@@ -38,3 +38,5 @@ static cleanup __amd64 Projectile* ProjectileFactory::LoadProjectile(int fd);
 cleanup __amd64 void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
 ".4157415641554989fd415455534881ec88010000":
 cleanup __amd64 void ProjectileFactory::Update(ProjectileFactory *this);
+".415641554154554889fd534883ec1048c70770??":
+cleanup __amd64 void ProjectileFactory::destructor(ProjectileFactory *this);

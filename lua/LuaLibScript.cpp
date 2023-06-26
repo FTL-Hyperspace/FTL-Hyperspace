@@ -33,8 +33,13 @@ void LuaLibScript::LoadTypeInfo()
     types.pProjectile[4] = SWIG_TypeQuery(this->m_Lua, "BombProjectile *");
     types.pProjectile[5] = SWIG_TypeQuery(this->m_Lua, "BeamWeapon *");
     types.pProjectile[6] = SWIG_TypeQuery(this->m_Lua, "PDSFire *");
+    types.pProjectileFactory = SWIG_TypeQuery(this->m_Lua, "ProjectileFactory *");
     types.pShip = SWIG_TypeQuery(this->m_Lua, "Ship *");
+    types.pShipBlueprint = SWIG_TypeQuery(this->m_Lua, "ShipBlueprint *");
+    types.pShipEvent = SWIG_TypeQuery(this->m_Lua, "ShipEvent *");
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
+    types.pShipSystem = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
 
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
     types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
@@ -71,7 +76,7 @@ void LuaLibScript::LoadTypeInfo()
 
 int LuaLibScript::l_on_load(lua_State* lua)
 {
-    assert(lua_isfunction(lua, 1));
+    luaL_argcheck(lua, lua_isfunction(lua, 1), 1, "function expected!");
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
     m_on_load_callbacks.push_back(callbackReference);
     return 0;
@@ -96,7 +101,7 @@ void LuaLibScript::call_on_load_callbacks()
 
 int LuaLibScript::l_on_init(lua_State* lua)
 {
-    assert(lua_isfunction(lua, 1));
+    luaL_argcheck(lua, lua_isfunction(lua, 1), 1, "function expected!");
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
     m_on_init_callbacks.push_back(callbackReference);
     return 0;
@@ -121,9 +126,9 @@ void LuaLibScript::call_on_init_callbacks()
 
 int LuaLibScript::l_on_game_event(lua_State* lua)
 {
-    assert(lua_isstring(lua, 1));
-    assert(lua_isboolean(lua, 2));
-    assert(lua_isfunction(lua, 3));
+    luaL_argcheck(lua, lua_isstring(lua, 1), 1, "string expected!");
+    luaL_argcheck(lua, lua_isboolean(lua, 2), 2, "boolean expected!");
+    luaL_argcheck(lua, lua_isfunction(lua, 3), 3, "function expected!");
     const std::string eventName = std::string(lua_tostring(lua, 1));
     const bool onLoad = lua_toboolean(lua, 2);
     lua_pushvalue(lua, 3);
@@ -162,12 +167,12 @@ void LuaLibScript::call_on_game_event_callbacks(std::string eventName, bool isLo
 
 int LuaLibScript::l_on_render_event(lua_State* lua)
 {
-    assert(lua_isinteger(lua, 1));
-    assert(lua_isfunction(lua, 2)); // TODO: Allow one or both functions to be nil
-    assert(lua_isfunction(lua, 3));
+    luaL_argcheck(lua, lua_isinteger(lua, 1), 1, "integer expected!");
+    luaL_argcheck(lua, lua_isfunction(lua, 2), 2, "function expected!"); // TODO: Allow one or both functions to be nil
+    luaL_argcheck(lua, lua_isfunction(lua, 3), 3, "function expected!");
     const int callbackHookId = lua_tointeger(lua, 1);
-    assert(callbackHookId > RenderEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
-    assert(callbackHookId < RenderEvents::UNKNOWN_MAX);
+    luaL_argcheck(lua, callbackHookId > RenderEvents::UNKNOWN && callbackHookId < RenderEvents::UNKNOWN_MAX, 1, "Unknown RenderEvent!");
+    // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
     lua_pushvalue(lua, 2);
     LuaFunctionRef callbackBeforeRef = luaL_ref(lua, LUA_REGISTRYINDEX);
     lua_pushvalue(lua, 3);
@@ -176,7 +181,7 @@ int LuaLibScript::l_on_render_event(lua_State* lua)
     int priority = 0;
     if (lua_gettop(lua) >= 4)
     {
-        assert(lua_isinteger(lua, 4));
+        luaL_argcheck(lua, lua_isinteger(lua, 4), 4, "integer expected!");
         priority = lua_tointeger(lua, 4);
     }
 
@@ -269,18 +274,18 @@ void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers
 
 int LuaLibScript::l_on_internal_event(lua_State* lua)
 {
-    assert(lua_isinteger(lua, 1));
-    assert(lua_isfunction(lua, 2));
+    luaL_argcheck(lua, lua_isinteger(lua, 1), 1, "integer expected!");
+    luaL_argcheck(lua, lua_isfunction(lua, 2), 2, "function expected!");
     const int callbackHookId = lua_tointeger(lua, 1);
-    assert(callbackHookId > InternalEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
-    assert(callbackHookId < InternalEvents::UNKNOWN_MAX);
+    luaL_argcheck(lua, callbackHookId > InternalEvents::UNKNOWN && callbackHookId < InternalEvents::UNKNOWN_MAX, 1, "Unknown InternalEvent!"); 
+    // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
     lua_pushvalue(lua, 2);
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
 
     int priority = 0;
     if (lua_gettop(lua) >= 3)
     {
-        assert(lua_isinteger(lua, 3));
+        luaL_argcheck(lua, lua_isinteger(lua, 3), 3, "integer expected!");
         priority = lua_tointeger(lua, 3);
     }
 

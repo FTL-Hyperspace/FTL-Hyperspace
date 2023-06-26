@@ -240,8 +240,10 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <!-- Achievements/hangar stuff -->
 
+<text name="hangar_achievements_title_default">Ship Achievements</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom">Ship Victories</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter">Filter Victory Types</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_no_ship_achievements">No Ship Achievements</text> 
 
 <!-- Discord Integration -->
 

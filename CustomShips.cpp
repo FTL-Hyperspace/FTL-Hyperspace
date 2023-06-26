@@ -201,37 +201,75 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
     SM_EX(this)->Initialize(true);
 }
 
+float CrewMemberFactory::GetCrewCapacityUsed()
+{
+    return CustomCrewManager::GetInstance()->crewCapacityUsed;
+}
 
+static CrewBlueprint *storeCrewBlue = nullptr;
 HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
-    if (iShipId == 1) return false;
+    if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
-    if (crewLimit > crewCount)
+    if (storeCrewBlue)
     {
-        return false;
+        // If looking at a store blueprint, check if adding this crew would put the player over capacity
+        CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(storeCrewBlue->name);
+        if (crewDef)
+        {
+            crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
+        }
+        else
+        {
+            crewCount += 1.f;
+        }
+        return crewCount > crewLimit;
     }
+    else
+    {
+        // Just check whether there is any capacity remaining, add an extra 0.001 to crewCount so if there's less than 0.001 slot then act as though it is full
+        return crewCount + 0.001f >= crewLimit;
+    }
+}
 
-    return true;
+HOOK_METHOD(CrewStoreBox, CanHold, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewStoreBox::CanHold -> Begin (CustomShips.cpp)\n")
+
+    storeCrewBlue = &blueprint;
+    bool ret = super();
+    storeCrewBlue = nullptr;
+
+    return ret;
+}
+
+HOOK_METHOD(CrewStoreBox, MouseMove, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewStoreBox::MouseMove -> Begin (CustomShips.cpp)\n")
+
+    storeCrewBlue = &blueprint;
+    super(mX, mY);
+    storeCrewBlue = nullptr;
 }
 
 HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewOverFull -> Begin (CustomShips.cpp)\n")
-    if (iShipId == 1) return false;
+    if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
     if (crewLimit >= crewCount) return false;
 
+    // Allow the upgrade/equipment screens to be opened without forcing the crew screen open
     CommandGui *commandGui = G_->GetWorld()->commandGui;
-
     return !(commandGui->upgradeScreen.bOpen || commandGui->equipScreen.bOpen);
 }
 
@@ -1185,6 +1223,14 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         alphaOther = 0.5f;
         alphaHull = 0.375f;
     }
+    
+    // Lua callback init
+    auto context = Global::GetInstance()->getLuaContext();
+    
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), alphaCloak);
+    
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
 
     // Render hull
     CSurface::GL_Translate(xPos, yPos, 0.0);
@@ -1236,6 +1282,10 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
             }
         }
     }
+    
+    // Lua callback close
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_HULL, std::abs(idx), 2);
+    lua_pop(context->GetLua(), 2);
 
     // Render floor
     if (iShipId == 0)

@@ -774,6 +774,7 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -2552,6 +2553,7 @@ struct BeamWeapon : Projectile
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API void OnRenderSpecific(int spaceId);
 	LIBZHL_API void OnUpdate();
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
 	
@@ -4252,6 +4254,7 @@ struct MenuScreen;
 struct MenuScreen : FocusWindow
 {
 	LIBZHL_API void OnRender();
+	LIBZHL_API void Open();
 	LIBZHL_API void constructor();
 	
 	GL_Texture *mainImage;
@@ -4697,6 +4700,8 @@ struct CrewMemberFactory
 	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+	
+	float GetCrewCapacityUsed();
 
 	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
@@ -4749,6 +4754,8 @@ struct CrewStoreBox : StoreBox
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
 	}
 
+	LIBZHL_API bool CanHold();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	
@@ -6233,6 +6240,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API static int __stdcall StringToWeapon(const std::string &str);
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor(const WeaponBlueprint *bp, int shipId);
+	LIBZHL_API void destructor();
 	
 	std::pair<float, float> cooldown;
 	std::pair<float, float> subCooldown;
@@ -6939,6 +6947,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(bool showInterior, bool doorControlMode);
+	LIBZHL_API bool PowerDrone(Drone *drone, int roomId, bool userDriven, bool force);
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API void PrepareSuperDrones();
 	LIBZHL_API void RemoveItem(const std::string &name);
