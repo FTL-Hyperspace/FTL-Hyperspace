@@ -1,3 +1,5 @@
+"554889e54157415641554154534883ec??4189f64989ff4180bf90030000":
+__thiscall void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
 "554889e54157415641554154534883ec28f30f115dd44d89c74189cd0f2955b04889fb":
 cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
 "554889e54157415641554154534883ec284989fe4180be90":
