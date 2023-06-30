@@ -34,6 +34,7 @@ struct CustomWeaponDefinition
     TextString tooltipOverride;
     TextString advancedTooltipOverride;
     bool hideEventTooltip = false;
+    bool invisibleBeam = false;
     bool simultaneousFire = false;
     float fireTime = 0.f;
     float angularRadius = -1.f;

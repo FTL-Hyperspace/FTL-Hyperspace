@@ -50,7 +50,7 @@ _deps
 # Default build location for vscode cmake-tools
 build/
 
-# buildall.sh
+# buildscripts/buildall.sh, .github/workflows/release.yml
 build-*/
 
 # Mac

@@ -2,5 +2,7 @@
 __thiscall bool WeaponAnimation::StartFire(WeaponAnimation *this);
 "8b5104660fefc0660fefc989d02b81d4000000f30f2acaf30f2ac0f30f5ec1f30f104c2404f30f5ec8f30f114924":
 __thiscall void WeaponAnimation::SetFireTime(WeaponAnimation *this, float time);
+"578d??????83e4??ff????5589e5575389cb81c1????????83ec??c704":
+__thiscall Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c80bbcd000000008b81800000008945d489c1":
 __thiscall void WeaponAnimation::Update(WeaponAnimation *this);
