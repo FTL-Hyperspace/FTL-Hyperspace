@@ -103,6 +103,7 @@ RUN (curl -sL \
     > /tmp/pwsh.deb \
     && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
+    && apt-get install -y --no-install-recommends libxmu-dev libxi-dev libgl-dev
 
 # Setup SDL
 # Note: We're using the system-provided SDL because vcpkg-built SDL is very sensitive to the optional dependencies.

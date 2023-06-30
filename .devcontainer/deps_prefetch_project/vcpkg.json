@@ -9,6 +9,7 @@
         "boost-format",
         "boost-crc",
         "discord-rpc",
+        "glew",
         "sfml",
         "lua"
     ],
