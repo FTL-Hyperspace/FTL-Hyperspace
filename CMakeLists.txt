@@ -10,7 +10,7 @@ if(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
-    find_package(GLUT REQUIRED) # From vcpkg
+    find_package(SFML REQUIRED) # From vcpkg
 endif()
 
 # pthread
@@ -335,8 +335,8 @@ elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 
-    # OpenGL GLUT (freeglut)
-    target_link_libraries(Hyperspace PRIVATE GLUT::GLUT)
+    # SFML graphics wrapper (Simple and Fast Multimedia Library)
+    target_link_libraries(Hyperspace PRIVATE SFML::SFML)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

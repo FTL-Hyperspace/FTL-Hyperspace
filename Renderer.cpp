@@ -14,8 +14,10 @@
 /* } */
 /* #endif */
 
-#include <GL/glut.h>
 #include <shlwapi.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+/* #include <GL/glew.h> */
 
 bool checkIfUnderWINE();
 /* void renderHyperspaceTestDisplay(); */
@@ -52,43 +54,60 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
     }
     else
     {
-        hs_log_file("Opening GLUT to determine GPU\n");
-        glutInit(&__argc, __argv);
-        /* glutInitWindowPosition(-1, -1); // Might be optional since -1, -1 is the defaults? */
-        glutInitWindowSize(40, 40); // Might be optional?
-        glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-        int window = glutCreateWindow("OpenGL GPU Checking Window");
-        /* glutDisplayFunc(renderHyperspaceTestDisplay); */
-        /* glutTimerFunc(3000, renderCloseTimer, window); // Doesn't actually work unless glutMainLoop is initalized, currently the window will stay open forever */
-        /* glutMainLoop(); */ // We can only call this once per C application, so if we call it, FTL will fail to start correctly, might need to find a different solution other than GLUT, maybe GLFW or just use OpenGL directly (pain)?
-        /* glutHideWindow(); */
-        const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
-        const GLubyte* gpuRenderer = glGetString(GL_RENDERER);
-        if (StrStrIA(gpuVendor, "nvidia") != NULL)
+        hs_log_file("Opening SFML to determine GPU\n");
+        sf::RenderWindow window(sf::VideoMode(800, 600, "Hyperspace GPU Checking Window");
+        window.setFramerateLimit(60);
+
+        /* // Initialize GLEW */
+        /* glewExperimental = GL_TRUE; */
+        /* glewInit(); */
+
+        /* // Print the GPU vendor name */
+        /* std::cout << "GPU Vendor: " << glGetString(GL_VENDOR) << std::endl; */
+
+        // Run the main loop
+        while (window.isOpen())
         {
-            useDirect3D = true;
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                {
+                    window.close();
+                }
+            }
+
+            // Clear the window
+            window.clear();
+
+            // Draw text on the window
+            sf::Font font;
+            if (font.loadFromFile("arial.ttf")) // Replace with your desired font file
+            {
+                sf::Text text("Hello World", font, 24);
+                text.setPosition(10.f, 10.f);
+                window.draw(text);
+            }
+
+            // Display the window contents
+            window.display();
         }
-        else
-        {
-            useDirect3D = false;
-        }
-        hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer);
+
+        /* const char* gpuVendor = (const char*) glGetString(GL_VENDOR); */
+        /* const GLubyte* gpuRenderer = glGetString(GL_RENDERER); */
+        /* if (StrStrIA(gpuVendor, "nvidia") != NULL) */
+        /* { */
+        /*     useDirect3D = true; */
+        /* } */
+        /* else */
+        /* { */
+        /*     useDirect3D = false; */
+        /* } */
+        /* hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer); */
     }
 
     super();
 }
-
-/* void renderCloseTimer(int window) */
-/* { */
-/*     glutDestroyWindow(window); */
-/* } */
-
-/* void renderHyperspaceTestDisplay() */
-/* { */
-/*     glClearColor(1.0, 0.0, 0.0, 0.0); */
-/*     glClear(GL_COLOR_BUFFER_BIT); */
-/*     glFlush(); */
-/* } */
 
 bool checkIfUnderWINE()
 {
