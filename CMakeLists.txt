@@ -11,6 +11,7 @@ if(UNIX)
 elseif(WIN32)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
     find_package(SFML REQUIRED) # From vcpkg
+    find_package(GLEW REQUIRED) # From vcpkg
 endif()
 
 # pthread
@@ -337,6 +338,8 @@ elseif(WIN32)
 
     # SFML graphics wrapper (Simple and Fast Multimedia Library)
     target_link_libraries(Hyperspace PRIVATE SFML::SFML)
+    # GLEW openGL graphics library
+    target_link_libraries(Hyperspace PRIVATE GLEW::GLEW)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

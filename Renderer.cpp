@@ -58,12 +58,22 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         sf::RenderWindow window(sf::VideoMode(800, 600, "Hyperspace GPU Checking Window");
         window.setFramerateLimit(60);
 
-        /* // Initialize GLEW */
-        /* glewExperimental = GL_TRUE; */
-        /* glewInit(); */
+        // Initialize GLEW
+        glewExperimental = GL_TRUE;
+        glewInit();
 
-        /* // Print the GPU vendor name */
-        /* std::cout << "GPU Vendor: " << glGetString(GL_VENDOR) << std::endl; */
+        // Get the GPU vendor name and use it to determine if we should use D3D or not
+        const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
+        const GLubyte* gpuRenderer = glGetString(GL_RENDERER);
+        if (StrStrIA(gpuVendor, "nvidia") != NULL)
+        {
+            useDirect3D = true;
+        }
+        else
+        {
+            useDirect3D = false;
+        }
+        hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer);
 
         // Run the main loop
         while (window.isOpen())
@@ -92,18 +102,6 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
             // Display the window contents
             window.display();
         }
-
-        /* const char* gpuVendor = (const char*) glGetString(GL_VENDOR); */
-        /* const GLubyte* gpuRenderer = glGetString(GL_RENDERER); */
-        /* if (StrStrIA(gpuVendor, "nvidia") != NULL) */
-        /* { */
-        /*     useDirect3D = true; */
-        /* } */
-        /* else */
-        /* { */
-        /*     useDirect3D = false; */
-        /* } */
-        /* hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer); */
     }
 
     super();
