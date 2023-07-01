@@ -19,15 +19,14 @@
 
 ## 문제 해결
 
-#### My game complains about `-opengl`
-- Stop using `-opengl` flag, it was removed in Hyperspace 1.5.0 and is no longer needed
+#### 게임에서 `-opengl` 관련 메시지가 나와요
+- `-opengl` 옵션은 하이퍼스페이스 1.5.0 에서 제거되었고, 더 이상 필요하지 않습니다. 만약 해당 옵션을 사용하고 있었다면 제거해주세요.
 
-#### My game crashes before loading Multiverse
-- ***Ensure you're on the latest version of Hyperspace, the Multiverse installer is frequently not up to date!***
-- This problem should be pretty much eliminated unless your save file is corrupt but there are some instances where this can still occur on ***laptops only***
-- If you're not using a laptop, **your save file is corrupt** and that's why it's not launching, see below.
-- If your laptop does not have dedicated graphics (i.e. AMD or Nvidia GPU, not the one built into the CPU) then **your save file is corrupt** and that's the problem.
-- If your laptop **DOES** actually have a dedicated GPU, you may need to force FTL to run on either the dedicated or internal GPU, one of them might be causing you a problem.
+#### Multiverse 로딩 전에 게임이 튕깁니다
+- ***최신 버전의 하이퍼스페이스를 사용하고 있는지 확인해주세요. 공식 영문 Multiverse 인스톨러는 잘 최신화 되지 않습니다!***
+- 이 문제는 대개 두 가지 경우에 대해 보고되어 있습니다. 하나는 세이브 파일이 손상된 경우이고, 다른 하나는 ***랩탑***에서 플레이하는 경우입니다.
+- **랩탑**에서 플레이하고 있으며 NVIDIA Optimus 및 AMD Dynamic Switchable Graphics 가 설정되어 있는 경우, 그래픽 카드 설정에서 FTL 이 전용 GPU 나 내장 GPU 중 하나에서만 실행되도록 강제할 필요가 있습니다.
+- **그 외에는** 십중팔구 세이브 파일이 손상되었습니다. 아래의 복구 지침을 참고하십시오.
 
 #### Multiverse 로딩 중 마지막 `E`에서 튕깁니다
 - [세이브 파일이 손상된 경우입니다](#손상된-세이브-파일-복구하기)

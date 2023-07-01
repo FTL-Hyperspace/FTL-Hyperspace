@@ -20,15 +20,17 @@ Hyperspace funktioniert nur mit FTL 1.6.9, die nachfolgenden Links werden dir er
 
 ## Problembehebung
 
-#### My game complains about `-opengl`
-- Stop using `-opengl` flag, it was removed in Hyperspace 1.5.0 and is no longer needed
+#### Mein Spiel beschwert sich über `-opengl`
+- Sie sollten auf den `-opengl` Anhängsel verzichten, seit Hyperspace 1.5.0 wird er nicht mehr benötigt.
 
-#### My game crashes before loading Multiverse
-- ***Ensure you're on the latest version of Hyperspace, the Multiverse installer is frequently not up to date!***
-- This problem should be pretty much eliminated unless your save file is corrupt but there are some instances where this can still occur on ***laptops only***
-- If you're not using a laptop, **your save file is corrupt** and that's why it's not launching, see below.
-- If your laptop does not have dedicated graphics (i.e. AMD or Nvidia GPU, not the one built into the CPU) then **your save file is corrupt** and that's the problem.
+#### Mein Spiel stürzt ab bevor es Multiverse zu laden beginnt
+- ***Versichern Sie sich, dass sie die neuste Hyperspace version nutzen, der Multiverse Installer ist häufig nicht auf dem neusten Stand!***
+- Dieses Problem sollte so weit es geht behoben sein, es sei denn, Ihre Speicherstände sind beschädigt. Es ist jedoch immer noch möglich diesem Fehler über den Weg zu laufen.
+***Nur auf Laptops***
+- Sollten sie keinen Laptop nutzen, **sind Ihre Speicherstände beschädigt** und sorgen dafür, dass es nicht startet. Siehe nächstes.
+- Falls Ihr Laptop keine dedizierte Grafikeinheit verbaut hat (gemeint sind z.B. AMD oder Nvidia GPUs, nicht die integrierte Grafikeinheit in der CPU) dann **sind Ihre Speicherstände beschädigt** und verursachen das Problem.
 - If your laptop **DOES** actually have a dedicated GPU, you may need to force FTL to run on either the dedicated or internal GPU, one of them might be causing you a problem.
+- **Falls** ihr Laptop eine dedizierte GPU besitzt, dann müssen Sie möglicherweise FTL dazu zwingen entweder die dedizierte oder integrierten GPU zu nutzen, eine der beiden löst möglicherweise das Problem aus.
 
 #### Mein Spiel hängt dich bei dem `E` von Multiversum auf
 - [Du hast einen korrumpierten Spielstand](#einen-korrumpierten-spielstand-reparieren)
