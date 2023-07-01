@@ -10,7 +10,7 @@
         "boost-crc",
         "discord-rpc",
         "glew",
-        "sfml",
+        "glfw3",
         "lua"
     ],
 

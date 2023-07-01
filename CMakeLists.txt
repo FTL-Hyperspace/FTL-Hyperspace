@@ -10,7 +10,7 @@ if(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
-    find_package(SFML REQUIRED) # From vcpkg
+    find_package(glfw3 REQUIRED) # From vcpkg
     find_package(GLEW REQUIRED) # From vcpkg
 endif()
 
@@ -336,10 +336,10 @@ elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 
-    # SFML graphics wrapper (Simple and Fast Multimedia Library)
-    target_link_libraries(Hyperspace PRIVATE SFML::SFML)
     # GLEW openGL graphics library
     target_link_libraries(Hyperspace PRIVATE GLEW::GLEW)
+    # GLFW3 Graphics library
+    target_link_libraries(Hyperspace PRIVATE glfw)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

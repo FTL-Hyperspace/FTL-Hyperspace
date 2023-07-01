@@ -15,9 +15,8 @@
 /* #endif */
 
 #include <shlwapi.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
-/* #include <GL/glew.h> */
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 bool checkIfUnderWINE();
 /* void renderHyperspaceTestDisplay(); */
@@ -54,13 +53,33 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
     }
     else
     {
-        hs_log_file("Opening SFML to determine GPU\n");
-        sf::RenderWindow window(sf::VideoMode(800, 600, "Hyperspace GPU Checking Window");
-        window.setFramerateLimit(60);
+        hs_log_file("Opening GLFW Window to determine GPU\n");
+        // Initialize GLFW
+        if (!glfwInit())
+        {
+            hs_log_file("Failed to initialize GLFW\n");
+            return;
+        }
+
+        // Create a GLFW window
+        GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Window", nullptr, nullptr);
+        if (!window)
+        {
+            hs_log_file("Failed to create GLFW window\n");
+            glfwTerminate();
+            return;
+        }
+
+        // Make the created window the current context
+        glfwMakeContextCurrent(window);
 
         // Initialize GLEW
-        glewExperimental = GL_TRUE;
-        glewInit();
+        if (glewInit() != GLEW_OK)
+        {
+            hs_log_file("Failed to initialize GLEW\n");
+            glfwTerminate();
+            return;
+        }
 
         // Get the GPU vendor name and use it to determine if we should use D3D or not
         const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
@@ -75,33 +94,19 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         }
         hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer);
 
-        // Run the main loop
-        while (window.isOpen())
+        // Now we could render the box or graphics or whatever in the window if we wanted
+
+        // Close the GLFW window
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+
+        // Main loop to print numbers every second
+        while (!glfwWindowShouldClose(window))
         {
-            sf::Event event;
-            while (window.pollEvent(event))
-            {
-                if (event.type == sf::Event::Closed)
-                {
-                    window.close();
-                }
-            }
-
-            // Clear the window
-            window.clear();
-
-            // Draw text on the window
-            sf::Font font;
-            if (font.loadFromFile("arial.ttf")) // Replace with your desired font file
-            {
-                sf::Text text("Hello World", font, 24);
-                text.setPosition(10.f, 10.f);
-                window.draw(text);
-            }
-
-            // Display the window contents
-            window.display();
+            hs_log_file("Waiting for GLFW window to close\n");
         }
+
+        // Clean up and exit
+        glfwTerminate();
     }
 
     super();
