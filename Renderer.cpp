@@ -16,52 +16,8 @@
 
 #include <shlwapi.h>
 #include <GL/gl.h>
-// Window dimensions
-const int WIDTH = 800;
-const int HEIGHT = 600;
-
-// Function to handle key events
-void handleKey(int key, int action)
-{
-    // Handle key events here
-}
-
-// Function to handle window resize
-void handleResize(int width, int height)
-{
-    // Handle window resize here
-    glViewport(0, 0, width, height);
-}
-
-// Function to render the scene
-void renderScene()
-{
-    // Clear the screen
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    // Render your scene here
-
-    // Swap buffers
-    glFlush();
-}
-bool windowDestroyed = false;
-// Function to close the window
-void closeWindow(HWND hwnd)
-{
-    windowDestroyed = true;
-    // Close the window here
-    DestroyWindow(hwnd);
-}
-
-// Timer callback function
-VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
-{
-    closeWindow(hwnd);
-}
 
 bool checkIfUnderWINE();
-/* void renderHyperspaceTestDisplay(); */
-/* void renderCloseTimer(int window); */
 
 HOOK_METHOD(CApp, SetupWindow, () -> void)
 {
@@ -94,7 +50,10 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
     }
     else
     {
-        hs_log_file("Starting to setup\n");
+        // Window dimensions
+        const int WIDTH = 800;
+        const int HEIGHT = 600;
+
         // Create a window on Windows
         HWND hwnd;
         HDC hdc;
@@ -107,10 +66,9 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         wc.lpszClassName = L"OpenGLWindow";
         RegisterClassW(&wc);
 
-        hs_log_file("About to create window\n");
-        hwnd = CreateWindowW(wc.lpszClassName, L"OpenGL Window", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, WIDTH, HEIGHT, NULL, NULL, wc.hInstance, NULL);
+        // Create an invisible window because we left out `WS_VISIBLE` flag
+        hwnd = CreateWindowW(wc.lpszClassName, L"FTL: Hyperspace - Graphics Detection", WS_OVERLAPPEDWINDOW, 0, 0, WIDTH, HEIGHT, NULL, NULL, wc.hInstance, NULL);
 
-        hs_log_file("Get device context\n");
         // Get the device context
         hdc = GetDC(hwnd);
 
@@ -124,26 +82,18 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         pfd.cDepthBits = 16;
         pfd.iLayerType = PFD_MAIN_PLANE;
 
-        hs_log_file("Choose PixelFormat\n");
         int pixelFormat = ChoosePixelFormat(hdc, &pfd);
-        hs_log_file("SetPixelFormat\n");
         SetPixelFormat(hdc, pixelFormat, &pfd);
 
-        hs_log_file("Create OpenGL context\n");
+        hs_log_file("Create OpenGL context for Hyperspace graphics auto-detection\n");
         // Create the OpenGL context
         hglrc = wglCreateContext(hdc);
-        hs_log_file("Make the context current\n");
         wglMakeCurrent(hdc, hglrc);
 
-        // Set up OpenGL
-        glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
-        glViewport(0, 0, WIDTH, HEIGHT);
+        /* // Set up OpenGL */
+        /* glClearColor(0.2f, 0.3f, 0.4f, 1.0f); */
+        /* glViewport(0, 0, WIDTH, HEIGHT); */
 
-        // Close the window after 500 milliseconds
-        SetTimer(hwnd, 1, 500, TimerProc);
-
-        hs_log_file("Get GPU Vendor string\n");
-        // Get the GPU vendor name and use it to determine if we should use D3D or not
         const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
         const GLubyte* gpuRenderer = glGetString(GL_RENDERER);
         if (StrStrIA(gpuVendor, "nvidia") != NULL)
@@ -156,34 +106,10 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         }
         hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer);
 
-        // Main loop
-        MSG msg;
-        while (!windowDestroyed)
-        {
-            if (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
-            {
-                // TODO: These never actually seemed to trip for me, but... I guess they are important to handle?
-                if (msg.message == WM_QUIT || msg.message == WM_DESTROY || msg.message == WM_CLOSE)
-                    break;
-
-                TranslateMessage(&msg);
-                DispatchMessageW(&msg);
-            }
-            else
-            {
-                // Render the scene
-                renderScene();
-
-                // Swap buffers
-                SwapBuffers(hdc);
-            }
-        }
-
         // Clean up on Windows
         wglMakeCurrent(NULL, NULL);
         wglDeleteContext(hglrc);
         ReleaseDC(hwnd, hdc);
-        /* KillTimer(hwnd, 1); */
         DestroyWindow(hwnd);
     }
 
