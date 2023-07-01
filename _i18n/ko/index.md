@@ -37,6 +37,7 @@ FTL: Hyperspace 는 FTL 의 바이너리 (실행 파일) 에 직접적으로 변
 - laszlogasd
 - mathchamp93
 - Mr. Doom/Nasa62
+- ChronoVortex
 
 아트:
 - SaltyFriedRice

@@ -44,6 +44,7 @@ Development:
 - laszlogasd
 - mathchamp93
 - Mr. Doom/Nasa62
+- ChronoVortex
 
 Art:
 - SaltyFriedRice
