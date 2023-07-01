@@ -10,8 +10,7 @@ if(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
-    find_package(glfw3 REQUIRED) # From vcpkg
-    find_package(GLEW REQUIRED) # From vcpkg
+    find_package(OpenGL REQUIRED)
 endif()
 
 # pthread
@@ -336,10 +335,8 @@ elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 
-    # GLEW openGL graphics library
-    target_link_libraries(Hyperspace PRIVATE GLEW::GLEW)
-    # GLFW3 Graphics library
-    target_link_libraries(Hyperspace PRIVATE glfw)
+    # OpenGL, just raw OpenGL goodness
+    target_link_libraries(Hyperspace PRIVATE OpenGL::GL)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

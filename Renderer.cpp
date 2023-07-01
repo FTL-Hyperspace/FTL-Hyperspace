@@ -15,8 +15,49 @@
 /* #endif */
 
 #include <shlwapi.h>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <GL/gl.h>
+// Window dimensions
+const int WIDTH = 800;
+const int HEIGHT = 600;
+
+// Function to handle key events
+void handleKey(int key, int action)
+{
+    // Handle key events here
+}
+
+// Function to handle window resize
+void handleResize(int width, int height)
+{
+    // Handle window resize here
+    glViewport(0, 0, width, height);
+}
+
+// Function to render the scene
+void renderScene()
+{
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Render your scene here
+
+    // Swap buffers
+    glFlush();
+}
+bool windowDestroyed = false;
+// Function to close the window
+void closeWindow(HWND hwnd)
+{
+    windowDestroyed = true;
+    // Close the window here
+    DestroyWindow(hwnd);
+}
+
+// Timer callback function
+VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+    closeWindow(hwnd);
+}
 
 bool checkIfUnderWINE();
 /* void renderHyperspaceTestDisplay(); */
@@ -53,34 +94,55 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
     }
     else
     {
-        hs_log_file("Opening GLFW Window to determine GPU\n");
-        // Initialize GLFW
-        if (!glfwInit())
-        {
-            hs_log_file("Failed to initialize GLFW\n");
-            return;
-        }
+        hs_log_file("Starting to setup\n");
+        // Create a window on Windows
+        HWND hwnd;
+        HDC hdc;
+        HGLRC hglrc;
 
-        // Create a GLFW window
-        GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Window", nullptr, nullptr);
-        if (!window)
-        {
-            hs_log_file("Failed to create GLFW window\n");
-            glfwTerminate();
-            return;
-        }
+        // Create the window
+        WNDCLASSW wc = { 0 };
+        wc.lpfnWndProc = DefWindowProc;
+        wc.hInstance = GetModuleHandle(NULL);
+        wc.lpszClassName = L"OpenGLWindow";
+        RegisterClassW(&wc);
 
-        // Make the created window the current context
-        glfwMakeContextCurrent(window);
+        hs_log_file("About to create window\n");
+        hwnd = CreateWindowW(wc.lpszClassName, L"OpenGL Window", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, WIDTH, HEIGHT, NULL, NULL, wc.hInstance, NULL);
 
-        // Initialize GLEW
-        if (glewInit() != GLEW_OK)
-        {
-            hs_log_file("Failed to initialize GLEW\n");
-            glfwTerminate();
-            return;
-        }
+        hs_log_file("Get device context\n");
+        // Get the device context
+        hdc = GetDC(hwnd);
 
+        // Set the pixel format
+        PIXELFORMATDESCRIPTOR pfd = { 0 };
+        pfd.nSize = sizeof(pfd);
+        pfd.nVersion = 1;
+        pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+        pfd.iPixelType = PFD_TYPE_RGBA;
+        pfd.cColorBits = 24;
+        pfd.cDepthBits = 16;
+        pfd.iLayerType = PFD_MAIN_PLANE;
+
+        hs_log_file("Choose PixelFormat\n");
+        int pixelFormat = ChoosePixelFormat(hdc, &pfd);
+        hs_log_file("SetPixelFormat\n");
+        SetPixelFormat(hdc, pixelFormat, &pfd);
+
+        hs_log_file("Create OpenGL context\n");
+        // Create the OpenGL context
+        hglrc = wglCreateContext(hdc);
+        hs_log_file("Make the context current\n");
+        wglMakeCurrent(hdc, hglrc);
+
+        // Set up OpenGL
+        glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
+        glViewport(0, 0, WIDTH, HEIGHT);
+
+        // Close the window after 500 milliseconds
+        SetTimer(hwnd, 1, 500, TimerProc);
+
+        hs_log_file("Get GPU Vendor string\n");
         // Get the GPU vendor name and use it to determine if we should use D3D or not
         const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
         const GLubyte* gpuRenderer = glGetString(GL_RENDERER);
@@ -94,19 +156,35 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
         }
         hs_log_file("GPU Renderer: %s (AutoSelect) (Vendor: %s, Renderer: %s)\n", useDirect3D ? "Direct3D" : "OpenGL", gpuVendor, gpuRenderer);
 
-        // Now we could render the box or graphics or whatever in the window if we wanted
-
-        // Close the GLFW window
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-
-        // Main loop to print numbers every second
-        while (!glfwWindowShouldClose(window))
+        // Main loop
+        MSG msg;
+        while (!windowDestroyed)
         {
-            hs_log_file("Waiting for GLFW window to close\n");
+            if (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
+            {
+                // TODO: These never actually seemed to trip for me, but... I guess they are important to handle?
+                if (msg.message == WM_QUIT || msg.message == WM_DESTROY || msg.message == WM_CLOSE)
+                    break;
+
+                TranslateMessage(&msg);
+                DispatchMessageW(&msg);
+            }
+            else
+            {
+                // Render the scene
+                renderScene();
+
+                // Swap buffers
+                SwapBuffers(hdc);
+            }
         }
 
-        // Clean up and exit
-        glfwTerminate();
+        // Clean up on Windows
+        wglMakeCurrent(NULL, NULL);
+        wglDeleteContext(hglrc);
+        ReleaseDC(hwnd, hdc);
+        /* KillTimer(hwnd, 1); */
+        DestroyWindow(hwnd);
     }
 
     super();
