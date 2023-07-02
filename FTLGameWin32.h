@@ -774,6 +774,7 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -2552,6 +2553,7 @@ struct BeamWeapon : Projectile
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API void OnRenderSpecific(int spaceId);
 	LIBZHL_API void OnUpdate();
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
 	
