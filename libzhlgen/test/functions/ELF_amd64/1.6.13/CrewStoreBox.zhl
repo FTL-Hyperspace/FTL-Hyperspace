@@ -1,4 +1,4 @@
-"488bbf18":
+"488bbf1801000031c0":
 cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
 ".41574989ff415641554154554889f5":
 cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
