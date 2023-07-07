@@ -955,6 +955,7 @@ playerVariableType playerVariables;
 %nodefaultdtors CloakingSystem;
 %rename("%s") CloakingSystem;
 %rename("%s") CloakingSystem::bTurnedOn;
+%rename("%s") CloakingSystem::timer;
 %rename("%s") CloakingSystem::soundeffect;
 
 %nodefaultctors BatterySystem;
