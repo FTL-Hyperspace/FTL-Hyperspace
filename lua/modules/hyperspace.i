@@ -1,7 +1,7 @@
 %module Hyperspace
 %include "stl.i"
 %include "constraints.i"
-
+%include "typemaps.i"
 %{
 #include "Global.h"
 #include "HSVersion.h"
@@ -19,6 +19,7 @@
 #include "Room_Extend.h"
 #include "ToggleValue.h"
 #include "CommandConsole.h"
+#include "StatBoost.h"
 %}
 
 %feature("flatnested");
@@ -1910,6 +1911,8 @@ playerVariableType playerVariables;
 %nodefaultctor CrewMember_Extend;
 %nodefaultdtor CrewMember_Extend;
 %rename("%s") CrewMember_Extend;
+%apply bool* OUTPUT {bool* boolValue};
+%rename("%s") CrewMember_Extend::CalculateStat;
 %rename("%s") CrewMember_Extend::InitiateTeleport;
 %rename("%s") CrewMember_Extend::orig;
 %immutable CrewMember_Extend::orig;
@@ -2613,7 +2616,7 @@ playerVariableType playerVariables;
 %rename("%s") PowerResourceDefinition::showTemporaryBars;
 %rename("%s") PowerResourceDefinition::showLinkedCooldowns;
 %rename("%s") PowerResourceDefinition::showLinkedCharges;
-%rename("%s") PowerResourceDefinition::cooldownColor;
+%rename("%s") PowerResourceDefinition::cooldownColor; 
 %rename("%s") PowerResourceDefinition::chargeReq;
 
 %rename("%s") PowerResourceDefinition::JUMP_COOLDOWN;
@@ -2724,6 +2727,129 @@ playerVariableType playerVariables;
 %rename("%s") TemporaryPowerDefinition::invulnerable;
 %rename("%s") TemporaryPowerDefinition::animFrame;
 %rename("%s") TemporaryPowerDefinition::cooldownColor;
+
+%luacode { 
+    --function to strip prefixes before adding enum to table
+    local function CreateEnumTable(prefix, table, key, value)
+        if key:find(prefix) then
+            key = key:gsub(prefix, "")
+            table[key] = value
+        end
+    end
+}
+
+
+%rename("%s") CrewStat;
+%rename("%(regex:/^(w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "CrewStat::.*";
+
+%luacode {
+    --Create CrewStat enum table
+    Hyperspace.CrewStat = {}
+    for key, value in pairs(Hyperspace) do
+        CreateEnumTable("CrewStat_", Hyperspace.CrewStat, key, value)
+    end
+}
+%rename("%s") StatBoost;
+
+%rename("%s") StatBoostDefinition;
+
+%rename("%s") StatBoostDefinition::GiveId;
+%rename("%s") StatBoostDefinition::TestRoomStatBoostSystem;
+%rename("%s") StatBoostDefinition::IsTargetPower;
+
+%rename("%s") StatBoostDefinition::BoostType;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "StatBoostDefinition::BoostType::.*";
+%rename("%s") StatBoostDefinition::BoostSource;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "StatBoostDefinition::BoostSource::.*";
+%rename("%s") StatBoostDefinition::ShipTarget;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "StatBoostDefinition::ShipTarget::.*";
+%rename("%s") StatBoostDefinition::SystemRoomTarget;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "StatBoostDefinition::SystemRoomTarget::.*";
+%rename("%s") StatBoostDefinition::CrewTarget;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "StatBoostDefinition::CrewTarget::.*";
+%rename("%s") StatBoostDefinition::DroneTarget;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "StatBoostDefinition::DroneTarget::.*";
+
+%luacode {
+    --Create StatBoostDefinition enum tables
+    Hyperspace.StatBoostDefinition.BoostType = {}
+    Hyperspace.StatBoostDefinition.BoostSource = {}
+    Hyperspace.StatBoostDefinition.ShipTarget = {}
+    Hyperspace.StatBoostDefinition.SystemRoomTarget = {}
+    Hyperspace.StatBoostDefinition.CrewTarget = {}
+    Hyperspace.StatBoostDefinition.DroneTarget = {}
+
+    for key, value in pairs(Hyperspace.StatBoostDefinition) do
+        CreateEnumTable("BoostType_", Hyperspace.StatBoostDefinition.BoostType, key, value)
+        CreateEnumTable("BoostSource_", Hyperspace.StatBoostDefinition.BoostSource, key, value)
+        CreateEnumTable("ShipTarget_", Hyperspace.StatBoostDefinition.ShipTarget, key, value)
+        CreateEnumTable("SystemRoomTarget_", Hyperspace.StatBoostDefinition.SystemRoomTarget, key, value)
+        CreateEnumTable("CrewTarget_", Hyperspace.StatBoostDefinition.CrewTarget, key, value)
+        CreateEnumTable("DroneTarget_", Hyperspace.StatBoostDefinition.DroneTarget, key, value)
+    end
+}
+
+
+%rename("%s") StatBoostDefinition::stat;
+%rename("%s") StatBoostDefinition::amount;
+%rename("%s") StatBoostDefinition::value;
+%rename("%s") StatBoostDefinition::stringValue;
+%rename("%s") StatBoostDefinition::isBool;
+%rename("%s") StatBoostDefinition::priority;
+%rename("%s") StatBoostDefinition::duration;
+%rename("%s") StatBoostDefinition::jumpClear;
+%rename("%s") StatBoostDefinition::cloneClear;
+%rename("%s") StatBoostDefinition::boostAnim;
+%rename("%s") StatBoostDefinition::roomAnim;
+%rename("%s") StatBoostDefinition::affectsSelf;
+%rename("%s") StatBoostDefinition::whiteList;
+%rename("%s") StatBoostDefinition::blackList;
+%rename("%s") StatBoostDefinition::systemRoomReqs;
+%rename("%s") StatBoostDefinition::systemList;
+%rename("%s") StatBoostDefinition::providedStatBoosts;
+%rename("%s") StatBoostDefinition::powerChange;
+%rename("%s") StatBoostDefinition::powerWhitelist;
+%rename("%s") StatBoostDefinition::powerBlacklist;
+%rename("%s") StatBoostDefinition::powerResourceWhitelist;
+%rename("%s") StatBoostDefinition::powerResourceBlacklist;
+%rename("%s") StatBoostDefinition::powerGroupWhitelist;
+%rename("%s") StatBoostDefinition::powerGroupBlacklist;
+%rename("%s") StatBoostDefinition::hasPowerList;
+%rename("%s") StatBoostDefinition::deathEffectChange;
+%rename("%s") StatBoostDefinition::powerScaling;
+%rename("%s") StatBoostDefinition::powerScalingNoSys;
+%rename("%s") StatBoostDefinition::powerScalingHackedSys;
+%rename("%s") StatBoostDefinition::systemPowerScaling;
+%rename("%s") StatBoostDefinition::extraConditions;
+%rename("%s") StatBoostDefinition::extraOrConditions;
+%rename("%s") StatBoostDefinition::extraConditionsReq;
+%rename("%s") StatBoostDefinition::systemRoomTarget;
+%rename("%s") StatBoostDefinition::systemRoomReq;
+%rename("%s") StatBoostDefinition::isRoomBased;
+%rename("%s") StatBoostDefinition::boostSource;
+%rename("%s") StatBoostDefinition::boostType;
+%rename("%s") StatBoostDefinition::shipTarget;
+%rename("%s") StatBoostDefinition::crewTarget;
+%rename("%s") StatBoostDefinition::droneTarget;
+%rename("%s") StatBoostDefinition::functionalTarget;
+%rename("%s") StatBoostDefinition::healthReq;
+%rename("%s") StatBoostDefinition::healthFractionReq;
+%rename("%s") StatBoostDefinition::oxygenReq;
+%rename("%s") StatBoostDefinition::fireCount;
+%rename("%s") StatBoostDefinition::dangerRating;
+%rename("%s") StatBoostDefinition::realBoostId;
+%rename("%s") StatBoostDefinition::stackId;
+%rename("%s") StatBoostDefinition::maxStacks;
+%rename("%s") StatBoostDefinition::statBoostDefs;
+%rename("%s") StatBoostDefinition::savedStatBoostDefs;
+
+
+
+%nodefaultctor StatBoostManager;
+%nodefaultdtor StatBoostManager;
+%rename("%s") StatBoostManager;
+%rename("%s") StatBoostManager::GetInstance;
+%rename("%s") StatBoostManager::CreateTimedAugmentBoost;
 
 %rename("%s") ShipGenerator;
 %newobject ShipGenerator::CreateShip;
@@ -2915,3 +3041,4 @@ playerVariableType playerVariables;
 %include "ShipManager_Extend.h"
 %include "System_Extend.h"
 %include "Room_Extend.h"
+%include "StatBoost.h"
