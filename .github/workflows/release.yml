@@ -1,4 +1,4 @@
-name: 'Bump (+ Merge) + Tag + Release'
+name: 'Bump + Tag + Release'
 on:
   workflow_dispatch:
     inputs:
@@ -6,10 +6,6 @@ on:
         description: 'Version name ("v" will be prepended to the tag name)'
         required: true
         default: '1.x.x'
-      merge:
-        description: 'Merge all changes from develop to master, not just bump ones'
-        required: true
-        type: boolean
 
 jobs:
   build:
@@ -18,28 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: develop
+          ref: master
           fetch-depth: 0
 
-      - name: Bump version on develop
+      - name: Bump version on master
         run: |
           git config --global user.email "ftl-hyperspace@github.com"
           git config --global user.name "FTL Hyperspace"
           buildscripts/ci-bump-version.sh ${{ inputs.version }}
           git commit -a -m "Bump version to ${{ inputs.version }}"
       
-      - name: Merge to master
-        if:  ${{ inputs.merge }} 
-        run: |
-          git checkout master
-          git merge develop
-
-      - name: Cherrypick version bump to master
-        if:  ${{ !inputs.merge }} 
-        run: |
-          git checkout master
-          git cherry-pick -x develop
-
       - name: Build binaries
         run: |
           buildscripts/ci-buildall-release-only-from-docker.sh
@@ -58,7 +42,7 @@ jobs:
 
       - name: Push changes to the repo
         run: |
-          git push origin develop:develop master:master
+          git push origin master:master
           git tag v${{ inputs.version }} master
           git push origin v${{ inputs.version }}
 
