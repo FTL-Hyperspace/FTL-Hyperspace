@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
-    "name": "test",
+    "name": "hyperspace",
     "version": "0.1.0",
     "dependencies": [
         "boost-conversion",
@@ -9,6 +9,7 @@
         "boost-format",
         "boost-crc",
         "discord-rpc",
+        "opengl",
         "lua"
     ],
 
