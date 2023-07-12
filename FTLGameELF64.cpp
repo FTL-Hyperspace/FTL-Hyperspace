@@ -6739,7 +6739,7 @@ namespace _var519
 namespace _func520
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewStoreBox::CanHold", typeid(bool (CrewStoreBox::*)()), "488bbf18", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewStoreBox::CanHold", typeid(bool (CrewStoreBox::*)()), "488bbf1801000031c0", nullptr, 0, 0, &func);
 }
 
 bool CrewStoreBox::CanHold()

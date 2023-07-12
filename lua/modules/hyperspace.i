@@ -113,6 +113,7 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
+	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
     %template(pair_float_float) pair<float, float>;
@@ -195,6 +196,8 @@ public:
     AnimationControl *GetAnimationControl();
 
     static bool IsSeededRun();
+    %immutable;
+    static unsigned int currentSeed;
 };
 
 void ErrorMessage(const char* msg);
@@ -352,6 +355,13 @@ playerVariableType playerVariables;
 %rename("%s") CustomAchievementTracker::GetAchievementStatus;
 %rename("%s") CustomAchievementTracker::SetAchievement; // used to award achievements (CheckShipAchievement is automatically called if needed)
 
+
+%nodefaultctor CustomEventsParser;
+%nodefaultdtor CustomEventsParser;
+
+%rename("%s") CustomEventsParser;
+%rename("%s") CustomEventsParser::GetInstance;
+%rename("%s") CustomEventsParser::LoadEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
@@ -412,7 +422,6 @@ playerVariableType playerVariables;
 }
 */
 
-/*
 %nodefaultctor CommandGui;
 %nodefaultdtor CommandGui;
 %rename("%s") CommandGui;
@@ -444,6 +453,10 @@ playerVariableType playerVariables;
 %immutable CommandGui::menu_pause;
 %rename("%s") CommandGui::event_pause;
 %immutable CommandGui::event_pause;
+%rename("%s") CommandGui::upgradeButton;
+%immutable CommandGui::upgradeButton;
+%rename("%s") CommandGui::dangerLocation;
+%immutable CommandGui::dangerLocation;
 
 //%rename("%s") CommandGui::equipScreen;
 //%immutable CommandGui::equipScreen;
@@ -463,7 +476,16 @@ playerVariableType playerVariables;
 %immutable CommandGui::secretSector;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
-*/
+
+%nodefaultctor Button;
+%nodefaultdtor Button;
+%rename("%s") Button;
+%nodefaultctor GenericButton;
+%nodefaultdtor GenericButton;
+%rename("%s") GenericButton;
+%rename("%s") GenericButton::bActive;
+%immutable GenericButton::bActive;
+
 
 %nodefaultctor WorldManager;
 %rename("%s") WorldManager;
@@ -522,6 +544,10 @@ playerVariableType playerVariables;
 %immutable SpaceManager::projectiles;
 %rename("%s") SpaceManager::currentBack;
 %rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
+%rename("%s") SpaceManager::bNebula;
+%immutable SpaceManager::bNebula;
+%rename("%s") SpaceManager::bStorm;
+%immutable SpaceManager::bStorm;
 //%nodefaultctor SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip::location;
@@ -956,6 +982,7 @@ playerVariableType playerVariables;
 %nodefaultdtors CloakingSystem;
 %rename("%s") CloakingSystem;
 %rename("%s") CloakingSystem::bTurnedOn;
+%rename("%s") CloakingSystem::timer;
 %rename("%s") CloakingSystem::soundeffect;
 
 %nodefaultctors BatterySystem;
@@ -1520,7 +1547,37 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 
+%nodefaultctor WeaponBlueprint;
+%nodefaultdtor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
+%rename("%s") WeaponBlueprint::BoostPower;
+%rename("%s") WeaponBlueprint::BoostPower::type;
+%rename("%s") WeaponBlueprint::BoostPower::amount;
+%rename("%s") WeaponBlueprint::BoostPower::count;
+%rename("%s") WeaponBlueprint::MiniProjectile;
+%rename("%s") WeaponBlueprint::MiniProjectile::image;
+%rename("%s") WeaponBlueprint::MiniProjectile::fake;
+%rename("%s") WeaponBlueprint::typeName;
+%rename("%s") WeaponBlueprint::damage;
+%rename("%s") WeaponBlueprint::shots;
+%rename("%s") WeaponBlueprint::missiles;
+%rename("%s") WeaponBlueprint::cooldown;
+%rename("%s") WeaponBlueprint::power;
+%rename("%s") WeaponBlueprint::length;
+%rename("%s") WeaponBlueprint::speed;
+%rename("%s") WeaponBlueprint::miniCount;
+%rename("%s") WeaponBlueprint::effects;
+%rename("%s") WeaponBlueprint::weaponArt;
+%rename("%s") WeaponBlueprint::combatIcon;
+%rename("%s") WeaponBlueprint::explosion;
+%rename("%s") WeaponBlueprint::radius;
+%rename("%s") WeaponBlueprint::miniProjectiles;
+%rename("%s") WeaponBlueprint::boostPower;
+%rename("%s") WeaponBlueprint::drone_targetable;
+%rename("%s") WeaponBlueprint::spin;
+%rename("%s") WeaponBlueprint::chargeLevels;
+%rename("%s") WeaponBlueprint::flavorType;
+%rename("%s") WeaponBlueprint::color;
 
 // TODO: Make most if not all of ShipBlueprint immutable
 // Note: Making ShipBlueprint immutable would make it more difficult to create custom blueprints on the fly
