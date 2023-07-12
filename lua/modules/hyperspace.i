@@ -195,6 +195,8 @@ public:
     AnimationControl *GetAnimationControl();
 
     static bool IsSeededRun();
+    %immutable;
+    static unsigned int currentSeed;
 };
 
 void ErrorMessage(const char* msg);
@@ -352,6 +354,13 @@ playerVariableType playerVariables;
 %rename("%s") CustomAchievementTracker::GetAchievementStatus;
 %rename("%s") CustomAchievementTracker::SetAchievement; // used to award achievements (CheckShipAchievement is automatically called if needed)
 
+
+%nodefaultctor CustomEventsParser;
+%nodefaultdtor CustomEventsParser;
+
+%rename("%s") CustomEventsParser;
+%rename("%s") CustomEventsParser::GetInstance;
+%rename("%s") CustomEventsParser::LoadEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
@@ -412,7 +421,6 @@ playerVariableType playerVariables;
 }
 */
 
-/*
 %nodefaultctor CommandGui;
 %nodefaultdtor CommandGui;
 %rename("%s") CommandGui;
@@ -444,6 +452,10 @@ playerVariableType playerVariables;
 %immutable CommandGui::menu_pause;
 %rename("%s") CommandGui::event_pause;
 %immutable CommandGui::event_pause;
+%rename("%s") CommandGui::upgradeButton;
+%immutable CommandGui::upgradeButton;
+%rename("%s") CommandGui::dangerLocation;
+%immutable CommandGui::dangerLocation;
 
 //%rename("%s") CommandGui::equipScreen;
 //%immutable CommandGui::equipScreen;
@@ -463,7 +475,16 @@ playerVariableType playerVariables;
 %immutable CommandGui::secretSector;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
-*/
+
+%nodefaultctor Button;
+%nodefaultdtor Button;
+%rename("%s") Button;
+%nodefaultctor GenericButton;
+%nodefaultdtor GenericButton;
+%rename("%s") GenericButton;
+%rename("%s") GenericButton::bActive;
+%immutable GenericButton::bActive;
+
 
 %nodefaultctor WorldManager;
 %rename("%s") WorldManager;
@@ -522,6 +543,10 @@ playerVariableType playerVariables;
 %immutable SpaceManager::projectiles;
 %rename("%s") SpaceManager::currentBack;
 %rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
+%rename("%s") SpaceManager::bNebula;
+%immutable SpaceManager::bNebula;
+%rename("%s") SpaceManager::bStorm;
+%immutable SpaceManager::bStorm;
 //%nodefaultctor SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip::location;
