@@ -194,6 +194,8 @@ public:
     AnimationControl *GetAnimationControl();
 
     static bool IsSeededRun();
+    %immutable;
+    static unsigned int currentSeed;
 };
 
 void ErrorMessage(const char* msg);
@@ -351,6 +353,13 @@ playerVariableType playerVariables;
 %rename("%s") CustomAchievementTracker::GetAchievementStatus;
 %rename("%s") CustomAchievementTracker::SetAchievement; // used to award achievements (CheckShipAchievement is automatically called if needed)
 
+
+%nodefaultctor CustomEventsParser;
+%nodefaultdtor CustomEventsParser;
+
+%rename("%s") CustomEventsParser;
+%rename("%s") CustomEventsParser::GetInstance;
+%rename("%s") CustomEventsParser::LoadEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
