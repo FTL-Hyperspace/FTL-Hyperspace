@@ -112,6 +112,7 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
+	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
     %template(pair_float_float) pair<float, float>;
@@ -1520,7 +1521,37 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 
+%nodefaultctor WeaponBlueprint;
+%nodefaultdtor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
+%rename("%s") WeaponBlueprint::BoostPower;
+%rename("%s") WeaponBlueprint::BoostPower::type;
+%rename("%s") WeaponBlueprint::BoostPower::amount;
+%rename("%s") WeaponBlueprint::BoostPower::count;
+%rename("%s") WeaponBlueprint::MiniProjectile;
+%rename("%s") WeaponBlueprint::MiniProjectile::image;
+%rename("%s") WeaponBlueprint::MiniProjectile::fake;
+%rename("%s") WeaponBlueprint::typeName;
+%rename("%s") WeaponBlueprint::damage;
+%rename("%s") WeaponBlueprint::shots;
+%rename("%s") WeaponBlueprint::missiles;
+%rename("%s") WeaponBlueprint::cooldown;
+%rename("%s") WeaponBlueprint::power;
+%rename("%s") WeaponBlueprint::length;
+%rename("%s") WeaponBlueprint::speed;
+%rename("%s") WeaponBlueprint::miniCount;
+%rename("%s") WeaponBlueprint::effects;
+%rename("%s") WeaponBlueprint::weaponArt;
+%rename("%s") WeaponBlueprint::combatIcon;
+%rename("%s") WeaponBlueprint::explosion;
+%rename("%s") WeaponBlueprint::radius;
+%rename("%s") WeaponBlueprint::miniProjectiles;
+%rename("%s") WeaponBlueprint::boostPower;
+%rename("%s") WeaponBlueprint::drone_targetable;
+%rename("%s") WeaponBlueprint::spin;
+%rename("%s") WeaponBlueprint::chargeLevels;
+%rename("%s") WeaponBlueprint::flavorType;
+%rename("%s") WeaponBlueprint::color;
 
 // TODO: Make most if not all of ShipBlueprint immutable
 // Note: Making ShipBlueprint immutable would make it more difficult to create custom blueprints on the fly
