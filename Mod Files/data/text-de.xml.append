@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--German Translation by The Dumb Dino #3980-->
+<!--German Translation by The Dumb Dino-->
 <text name="system_temporal_title" language="de">Temporalmanipulator</text>
 <text name="system_temporal_desc" language="de">Beschleunigt oder verlangsamt die Zeit in einem Raum. Verbesserungen erhöhen die Dauer und Stärke.</text>
 <text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="de">Nano-Verteidigungsbot-Verteiler</text>
@@ -37,8 +37,11 @@
   <mod:setValue>Betäubungschance: \1%</mod:setValue>
 </mod:findName>
 <text name="free_missile_chance" language="de">Chance keine Rakete zu verbrauchen: \1%</text>
+<text name="erosion_chance">Erosionschance: \1%</text>
 <text name="crew_statboost_chance" language="de">Verletzungschance: \1%</text>
+<text name="room_statboost_chance">Raumeffektchance: \1%</text>
 <text name="crew_spawn_chance" language="de">Chance Crew zu spawnen: \1%</text>
+<text name="erosion_effect">Erosion: \1 (\2 Sekunden)</text>
 <text name="augment_no_effect" language="de">Dieser Ausbau wird in Kombination mit diesem keinen Effekt aufweisen: </text>
 <text name="seed_prompt" language="de">Seed</text>
 <text name="seed_prompt_disabled" language="de">Seeds deaktiviert</text>
@@ -75,6 +78,7 @@
 <text name="power_not_ready_mind_enemy" language="de">Nicht bereit: Feind hat die Kontrolle</text>
 <text name="power_not_ready_teleporting" language="de">Nicht bereit: Verwandlung während Teleport nicht möglich</text>
 <text name="power_not_ready_charges" language="de">Nicht bereit: Nicht geladen</text>
+<text name="power_not_ready_silenced" language="de">Nicht bereit: Gestummt</text>
 <text name="power_not_ready_burning" language="de">Nicht bereit: Brennt</text>
 <text name="power_not_ready_suffocating" language="de">Nicht bereit: Erstickt</text>
 <text name="power_not_ready_mind" language="de">Nicht bereit: Wird kontrolliert</text>
@@ -128,6 +132,7 @@
 <text name="shot_radius" language="de">Schussradius: \1</text>
 <text name="shot_radius_angular" language="de">Schussradius: \1 grad</text>
 <text name="beam_length" language="de">Strahllänge: \1</text>
+<text name="pinpoint">Akupunktur</text> <!--No german word exists here so I gave it a bit different name that fits is very good-->
 <text name="swipe_speed" language="de">Strahlgeschwindigkeit: \1</text>
 <text name="redesigned_double_damage" language="de">Doppelter Hüllenschaden auf Räumen ohne System oder Subsystem.</text>
 <text name="redesigned_damage_room" language="de">Normaler Schaden pro Raum: \1 (x15 für Crew)</text>
@@ -162,7 +167,16 @@
 <text name="defense_solid_enemy" language="de">Abwehrdrohne:\nSchießt Asteroiden, Raketen und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
 <text name="defense_all_friendly" language="de">Eigene Abwehrdrohne:\nSchießt sämtliche Projektile und Drohnen ab. Funktioniert solange sie nicht getroffen wird oder du springst.</text>
 <text name="defense_all_enemy" language="de">Abwehrdrohne:\nSchießt sämtliche Projektile und Drohnen ab. Kann deaktiviert werden, indem du die feindliche Drohnensteuerung beschädigst.</text>
-<text name="hotkey_drone4" language="de">Drohnen Slot 4</text>
+<text name="hotkey_weapon1">Waffen/Drohnen Slot 1</text>
+<text name="hotkey_weapon2">Waffen/Drohnen Slot 2</text>
+<text name="hotkey_weapon3">Waffen/Drohnen Slot 3</text>
+<text name="hotkey_weapon4">Waffen/Drohnen Slot 4</text>
+<text name="hotkey_drone1">Waffen/Drohnen Slot 5</text>
+<text name="hotkey_drone2">Waffen/Drohnen Slot 6</text>
+<text name="hotkey_drone3">Waffen/Drohnen Slot 7</text>
+<text name="hotkey_drone4">Waffen/Drohnen Slot 8</text>
+<text name="hotkey_drone5">Waffen/Drohnen Slot 9</text>
+<text name="hotkey_drone6">Waffen/Drohnen Slot 10</text>
 <text name="hotkey_speed" language="de">Aktiviere Speedhack</text>
 <text name="hotkey_console" language="de">Öffne Konsole</text>
 <text name="hotkey_info" language="de">Aktiviere Extra Info</text>
@@ -186,8 +200,10 @@
 -Kurzinfos für Sonderausrüstung
 
 Taste: \1</text>
+<text name="hangar_achievements_title_default" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_custom" language="de">Schiffssiege</text>
 <text name="hangar_achievements_title_filter" language="de">Filter Schiffssiege</text>
+<text name="hangar_no_ship_achievements" language="de">Keine Schiffssiege</text> 
 <text name="discord_main_menu" language="de">Im Hauptmenü</text>
 <text name="discord_hangar" language="de">Im Hangar</text>
 <text name="discord_dying" language="de">Stirbt</text>
