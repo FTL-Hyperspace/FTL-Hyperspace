@@ -223,7 +223,10 @@ Taste: \1</text>
 <text name="tooltip_jump_noJump" language="de">Das feindliche Schiff hat deinen FTL-Antrieb deaktiviert. Es gibt kein Entkommen; Du musst das feindliche Schiff zerstören um zu überleben!</text>
 <text name="tooltip_temporal" language="de">Temporalmanipulator: Ändert den Zeitfluss in einem Raum.</text>
 <text name="tooltip_temporal_enemy" language="de">Temporalmanipulator: Das Feindliche Schiff kann dies nutzen um den Zeitfluss in einem Raum zu ändern.</text>
-<!--Fixes one text in the hangar thats broken due to hyperpsace-->
+<!--Fixes for hangar texts broken due to hyperpsace-->
 <mod:findName type="text" name="hangar_achievements_title" language="de">
   <mod:setValue>2 abschließen für Typ B</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="hangar_advanced_title" language="de">
+  <mod:setValue>Advanced Edition</mod:setValue>
 </mod:findName>
