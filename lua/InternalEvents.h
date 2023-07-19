@@ -50,7 +50,7 @@ struct InternalEvents
 
         // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
         PROJECTILE_INITIALIZE,
-        // function projectile_initialize(Projectile& projectile, ProjectileFactory &weapon)
+        // function projectile_fire(Projectile& projectile, ProjectileFactory &weapon)
         PROJECTILE_FIRE,
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
@@ -60,6 +60,9 @@ struct InternalEvents
         PROJECTILE_UPDATE_PRE, // Projectile::Update
         // function projectile_update_post(Projectile& projectile, bool preempted) return Chain
         PROJECTILE_UPDATE_POST, // Projectile::Update
+
+        //function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain
+        DRONE_FIRE,
 
         // function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain
         DRONE_COLLISION,

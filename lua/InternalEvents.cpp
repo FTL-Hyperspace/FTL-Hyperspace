@@ -156,3 +156,26 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::SHIP_LOOP, 1);
     lua_pop(context->GetLua(), 1);
 }
+
+//Priority to run after callback in CustomDrones.cpp
+HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::GetNextProjectile -> Begin (InternalEvents.cpp)\n")
+    
+    Projectile* ret = super();
+    if (ret != nullptr)
+    {
+        auto context = G_->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), ret, context->getLibScript()->types.pProjectile[ret->GetType()], 0);
+        SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDroneTypes[this->type], 0);
+        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DRONE_FIRE, 2, 0);
+        lua_pop(context->GetLua(), 2);
+        //preempt prevents projectile from firing
+        if (preempt)
+        {
+            delete ret;
+            return nullptr;
+        }
+    }
+    return ret;
+}
