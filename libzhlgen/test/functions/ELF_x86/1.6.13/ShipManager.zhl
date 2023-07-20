@@ -58,6 +58,8 @@ cleanup __cdecl void ShipManager::JumpLeave(ShipManager *this);
 cleanup __cdecl void ShipManager::ModifyScrapCount(ShipManager *this, int scrap, bool income);
 "8b4424048b4c24088b9000040000837a0cff":
 cleanup __cdecl void ShipManager::ModifyMissileCount(ShipManager *this, int missiles);
+"8b4424048b9000040000837a0cff74108b40488b":
+cleanup __cdecl int ShipManager::GetMissileCount(ShipManager *this);
 "8b4424048b4c24088b9000040000837a10ff":
 cleanup __cdecl void ShipManager::ModifyDroneCount(ShipManager *this, int drones);
 "5383ec188b5424208b82000400008b401c":

@@ -785,6 +785,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetDodgeFactor;
 %rename("%s") ShipManager::GetDodged; // Don't know what this represents
 %rename("%s") ShipManager::GetDroneCount;
+%rename("%s") ShipManager::GetMissileCount;
 %rename("%s") ShipManager::GetDroneList;
 %rename("%s") ShipManager::GetFireCount; // Get number of fires in a room, could be quite useful for computing damage
 %rename("%s") ShipManager::GetOxygenPercentage; // Ship's oxygen (not per-room)
@@ -857,7 +858,7 @@ playerVariableType playerVariables;
 ////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
-%immutable ShipManager::fuel_count;
+//%immutable ShipManager::fuel_count;
 %rename("%s") ShipManager::fuel_count;
 //%immutable ShipManager::hostile_ship;
 //%rename("%s") ShipManager::hostile_ship;
