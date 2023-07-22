@@ -2733,7 +2733,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
     ShipButtonDefinition *shipButtonDef = nullptr;
     std::string finalName;
 
-    bool showShipAchievements = currentShipId < 100 ? customSel->showShipAchievements && customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements : customSel->showShipAchievements;
+    bool showShipAchievements = currentShipId < 100 ? customSel->showShipAchievements : customSel->showShipAchievements && customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
 
     if (currentShipId >= 100)
     {
