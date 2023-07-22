@@ -36,8 +36,6 @@ struct InternalEvents
         // function on_mouse_m_button_down(int x, int y) return Chain
         ON_MOUSE_M_BUTTON_DOWN,
         
-        // function crew_loop_pre(CrewMember& crew)
-        CREW_LOOP_PRE,
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
         // function ship_loop(ShipManager& ship)

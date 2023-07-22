@@ -137,13 +137,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (InternalEvents.cpp)\n")
 
-    auto context = Global::GetInstance()->getLuaContext();
-    
-    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_LOOP_PRE, 1);
-    lua_pop(context->GetLua(), 1);
-
     super();
+
+    auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_LOOP, 1);
