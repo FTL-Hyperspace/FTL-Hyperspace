@@ -289,36 +289,28 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
     }
     if (def == nullptr) return super();
 
-    if (superDrones.size() == 0)
-    {
-        std::vector<DroneCount> droneCount = (*def)[*G_->difficulty];
+    std::vector<DroneCount> droneCount = (*def)[*G_->difficulty];
 
-        for (auto i : droneCount)
+    for (auto i : droneCount)
+    {
+        auto bp = G_->GetBlueprints()->GetDroneBlueprint(i.drone);
+        for (int j = 0; j < i.number; j++)
         {
-            auto bp = G_->GetBlueprints()->GetDroneBlueprint(i.drone);
-            for (int j = 0; j < i.number; j++)
-            {
-                auto drone = new CombatDrone(iShipId, Globals::GetNextSpaceId(), bp);
-                superDrones.push_back(drone);
+            auto drone = new CombatDrone(iShipId, Globals::GetNextSpaceId(), bp);
+            superDrones.push_back(drone);
 
-                drone->powerRequired = 0;
-                drone->lifespan = 2;
+            drone->powerRequired = 0;
+            drone->lifespan = 2;
+            drone->SetMovementTarget(&current_target->_targetable);
+            drone->SetWeaponTarget(&current_target->_targetable);
+            drone->powered = true;
+            drone->SetDeployed(true);
+            drone->bDead = false;
 
 
-                droneTrash.push_back(drone);
-                newDroneArrivals.push_back(drone);
-            }
+            droneTrash.push_back(drone);
+            newDroneArrivals.push_back(drone);
         }
-    }
-
-    for (auto drone : superDrones)
-    {
-        drone->SetMovementTarget(&current_target->_targetable);
-        drone->SetWeaponTarget(&current_target->_targetable);
-        drone->lifespan = 2;
-        drone->powered = true;
-        drone->SetDeployed(true);
-        drone->bDead = false;
     }
 }
 
