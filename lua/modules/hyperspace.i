@@ -20,6 +20,7 @@
 #include "ToggleValue.h"
 #include "CommandConsole.h"
 #include "StatBoost.h"
+#include "ShipUnlocks.h"
 %}
 
 %feature("flatnested");
@@ -723,6 +724,14 @@ playerVariableType playerVariables;
 %rename("%s") BoardingEvent::max;
 %rename("%s") BoardingEvent::amount;
 %rename("%s") BoardingEvent::breach;
+
+%nodefaultctor CustomShipUnlocks;
+%nodefaultdtor CustomShipUnlocks;
+%rename("%s") CustomShipUnlocks;
+%rename("%s") CustomShipUnlocks::instance;
+%immutable CustomShipUnlocks::instance;
+%rename("%s") CustomShipUnlocks::UnlockShip;
+%rename("%s") CustomShipUnlocks::GetCustomShipUnlocked;
 
 %rename("%s") ShipObject;
 %nodefaultctor ShipObject;
@@ -3111,3 +3120,4 @@ playerVariableType playerVariables;
 %include "System_Extend.h"
 %include "Room_Extend.h"
 %include "StatBoost.h"
+%include "ShipUnlocks.h"
