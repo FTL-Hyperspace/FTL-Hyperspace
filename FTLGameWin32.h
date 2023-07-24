@@ -4835,6 +4835,7 @@ struct DefenseDrone;
 struct DefenseDrone : SpaceDrone
 {
 	LIBZHL_API std::string GetTooltip();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void PickTarget();
 	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API bool ValidTargetObject(Targetable *target);
@@ -7464,6 +7465,7 @@ struct SuperShieldDrone : DefenseDrone
 		this->constructor(iShipId, selfId, blueprint);
 	}
 
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
 	
 	Shields *shieldSystem;
