@@ -771,7 +771,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::CountCrew; // Count crew on this ship, true for boarders false for regular crewmembers.
 %rename("%s") ShipManager::CountCrewShipId; // Count crew on the specific ship & room
 //%rename("%s") ShipManager::CreateCrewDrone; // Use Events
-//%rename("%s") ShipManager::CreateSpaceDrone; // Use Events
+%rename("%s") ShipManager::CreateSpaceDrone;
 %rename("%s") ShipManager::DamageArea;
 %rename("%s") ShipManager::DamageBeam;
 //%rename("%s") ShipManager::DamageCrew;
