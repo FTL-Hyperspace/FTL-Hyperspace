@@ -134,6 +134,8 @@ namespace std {
     %template(vector_GL_Color) vector<GL_Color>;
     %template(vector_vector_GL_Color) vector<vector<GL_Color>>;
     %template(vector_CrewDesc) vector<CrewDesc>;
+    %template(vector_Fire) vector<Fire>;
+    %template(vector_vector_Fire) vector<vector<Fire>>;
     %template(vector_string) vector<string>;
 }
 
@@ -850,7 +852,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::artillerySystems;
 %immutable ShipManager::vCrewList;
 %rename("%s") ShipManager::vCrewList;
-//%rename("%s") ShipManager::fireSpreader;
+%rename("%s") ShipManager::fireSpreader;
 %rename("%s") ShipManager::ship;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
@@ -929,7 +931,89 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
+//Potential fix for fireSpreader indexing issue
+%rename("%s") ShipManager::GetFireAtPoint;
+%rename("%s") ShipManager::GetFire;
+%extend ShipManager {
+    //Or some similar helper method, because indexing the fireSpreader grid in lua returns vectors and fires by value and not by reference, meaning the relevant Fire objects cannot be edited
 
+    //Possible Methods
+
+    //Get fire at spacial coordinates
+    Fire& GetFireAtPoint(float x, float y)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordintes (Point form)
+    Fire& GetFireAtPoint(Point p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordinates (Pointf form)
+    Fire& GetFireAtPoint(Pointf p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Indexing function, grid coordinates
+    Fire& GetFire(int x, int y)
+    {
+        return $self->fireSpreader.grid[x][y];
+    }
+}
+
+
+%rename("%s") Spreader_Fire;
+%rename("%s") Spreader_Fire::count;
+%rename("%s") Spreader_Fire::roomCount;
+%rename("%s") Spreader_Fire::grid;
+
+%nodefaultctor Selectable;
+%nodefaultdtor Selectable;
+%rename("%s") Selectable;
+%rename("%s") Selectable::selectedState;
+
+%nodefaultctor Repairable;
+%nodefaultdtor Repairable;
+%rename("%s") Repairable;
+%rename("%s") Repairable::shipObj;
+%rename("%s") Repairable::fDamage;
+%rename("%s") Repairable::pLoc;
+%rename("%s") Repairable::fMaxDamage;
+%rename("%s") Repairable::name;
+%rename("%s") Repairable::roomId;
+%rename("%s") Repairable::iRepairCount;
+
+
+%nodefaultctor Spreadable;
+%nodefaultdtor Spreadable;
+%rename("%s") Spreadable;
+%rename("%s") Spreadable::soundName;
+
+%nodefaultctor Fire;
+%nodefaultdtor Fire;
+%rename("%s") Fire;
+%rename("%s") Fire::OnLoop;
+%rename("%s") Fire::UpdateDeathTimer;
+%rename("%s") Fire::UpdateStartTimer;
+
+%rename("%s") Fire::fDeathTimer;
+%rename("%s") Fire::fStartTimer;
+%rename("%s") Fire::fOxygen;
+%rename("%s") Fire::fireAnimation;
+%rename("%s") Fire::smokeAnimation;
+%rename("%s") Fire::bWasOnFire;
+
+%nodefaultctor OuterHull;
+%nodefaultdtor OuterHull;
+%rename("%s") OuterHull;
+%rename("%s") OuterHull::breach;
+%rename("%s") OuterHull::heal;
 
 %nodefaultctors PowerManager;
 %nodefaultdtors PowerManager;
@@ -1437,7 +1521,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::iShipId; // just in case
 %rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
-//%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
+%rename("%s") Ship::vOuterWalls; 
 %rename("%s") Ship::vOuterAirlocks;
 %rename("%s") Ship::hullIntegrity;
 %rename("%s") Ship::weaponMounts;
