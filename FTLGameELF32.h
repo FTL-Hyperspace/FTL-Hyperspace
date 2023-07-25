@@ -2818,6 +2818,8 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
+	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
+	LIBZHL_API void destructor();
 	
 	Targetable _targetable;
 	Collideable _collideable;

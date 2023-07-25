@@ -37,6 +37,7 @@ struct ShipButtonDefinition
     bool noAppend = false;
     bool splitUnlockQuestAchievement = false;
     bool splitVictoryAchievement = false;
+    bool showShipAchievements = true;
 
     std::vector<CustomUnlockArrow> unlockArrows;
 

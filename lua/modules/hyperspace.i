@@ -135,6 +135,9 @@ namespace std {
     %template(vector_GL_Color) vector<GL_Color>;
     %template(vector_vector_GL_Color) vector<vector<GL_Color>>;
     %template(vector_CrewDesc) vector<CrewDesc>;
+    %template(vector_Fire) vector<Fire>;
+    %template(vector_vector_Fire) vector<vector<Fire>>;
+    %template(vector_string) vector<string>;
 }
 
 %include "ToggleValue.h"
@@ -861,7 +864,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::artillerySystems;
 %immutable ShipManager::vCrewList;
 %rename("%s") ShipManager::vCrewList;
-//%rename("%s") ShipManager::fireSpreader;
+%rename("%s") ShipManager::fireSpreader;
 %rename("%s") ShipManager::ship;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
@@ -883,7 +886,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::currentScrap;
 %immutable ShipManager::bJumping;
 %rename("%s") ShipManager::bJumping;
-%immutable ShipManager::bAutomated;
+//%immutable ShipManager::bAutomated;
 %rename("%s") ShipManager::bAutomated;
 %immutable ShipManager::shipLevel;
 %rename("%s") ShipManager::shipLevel;
@@ -940,7 +943,89 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
+//Potential fix for fireSpreader indexing issue
+%rename("%s") ShipManager::GetFireAtPoint;
+%rename("%s") ShipManager::GetFire;
+%extend ShipManager {
+    //Or some similar helper method, because indexing the fireSpreader grid in lua returns vectors and fires by value and not by reference, meaning the relevant Fire objects cannot be edited
 
+    //Possible Methods
+
+    //Get fire at spacial coordinates
+    Fire& GetFireAtPoint(float x, float y)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordintes (Point form)
+    Fire& GetFireAtPoint(Point p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordinates (Pointf form)
+    Fire& GetFireAtPoint(Pointf p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Indexing function, grid coordinates
+    Fire& GetFire(int x, int y)
+    {
+        return $self->fireSpreader.grid[x][y];
+    }
+}
+
+
+%rename("%s") Spreader_Fire;
+%rename("%s") Spreader_Fire::count;
+%rename("%s") Spreader_Fire::roomCount;
+%rename("%s") Spreader_Fire::grid;
+
+%nodefaultctor Selectable;
+%nodefaultdtor Selectable;
+%rename("%s") Selectable;
+%rename("%s") Selectable::selectedState;
+
+%nodefaultctor Repairable;
+%nodefaultdtor Repairable;
+%rename("%s") Repairable;
+%rename("%s") Repairable::shipObj;
+%rename("%s") Repairable::fDamage;
+%rename("%s") Repairable::pLoc;
+%rename("%s") Repairable::fMaxDamage;
+%rename("%s") Repairable::name;
+%rename("%s") Repairable::roomId;
+%rename("%s") Repairable::iRepairCount;
+
+
+%nodefaultctor Spreadable;
+%nodefaultdtor Spreadable;
+%rename("%s") Spreadable;
+%rename("%s") Spreadable::soundName;
+
+%nodefaultctor Fire;
+%nodefaultdtor Fire;
+%rename("%s") Fire;
+%rename("%s") Fire::OnLoop;
+%rename("%s") Fire::UpdateDeathTimer;
+%rename("%s") Fire::UpdateStartTimer;
+
+%rename("%s") Fire::fDeathTimer;
+%rename("%s") Fire::fStartTimer;
+%rename("%s") Fire::fOxygen;
+%rename("%s") Fire::fireAnimation;
+%rename("%s") Fire::smokeAnimation;
+%rename("%s") Fire::bWasOnFire;
+
+%nodefaultctor OuterHull;
+%nodefaultdtor OuterHull;
+%rename("%s") OuterHull;
+%rename("%s") OuterHull::breach;
+%rename("%s") OuterHull::heal;
 
 %nodefaultctors PowerManager;
 %nodefaultdtors PowerManager;
@@ -1031,7 +1116,7 @@ playerVariableType playerVariables;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
-//%rename("%s") HackingSystem::drone;
+%rename("%s") HackingSystem::drone;
 %rename("%s") HackingSystem::bBlocked;
 %rename("%s") HackingSystem::bArmed;
 %rename("%s") HackingSystem::currentSystem;
@@ -1448,7 +1533,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::iShipId; // just in case
 %rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
-//%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
+%rename("%s") Ship::vOuterWalls; 
 %rename("%s") Ship::vOuterAirlocks;
 %rename("%s") Ship::hullIntegrity;
 %rename("%s") Ship::weaponMounts;
@@ -1558,6 +1643,7 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetDroneBlueprint;
 %rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
+%rename("%s") BlueprintManager::GetBlueprintList;
 
 %nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
@@ -2433,6 +2519,79 @@ playerVariableType playerVariables;
 %rename("%s") SpaceDrone::beamSpeed;
 %rename("%s") SpaceDrone::hackSparks;
 
+%rename("%s") DefenseDrone;
+%rename("%s") DefenseDrone::GetTooltip;
+%rename("%s") DefenseDrone::PickTarget;
+%rename("%s") DefenseDrone::SetWeaponTarget;
+%rename("%s") DefenseDrone::ValidTargetObject;
+	
+%rename("%s") DefenseDrone::currentTargetId;
+%rename("%s") DefenseDrone::shotAtTargetId;
+%rename("%s") DefenseDrone::currentSpeed;
+%rename("%s") DefenseDrone::drone_image;
+%rename("%s") DefenseDrone::gun_image_off;
+%rename("%s") DefenseDrone::gun_image_charging;
+%rename("%s") DefenseDrone::gun_image_on;
+%rename("%s") DefenseDrone::engine_image;
+%rename("%s") DefenseDrone::currentTargetType;
+
+%rename("%s") CombatDrone;
+%rename("%s") CombatDrone::SetWeaponTarget;
+	
+%rename("%s") CombatDrone::lastDestination;
+%rename("%s") CombatDrone::progressToDestination;
+%rename("%s") CombatDrone::heading;
+%rename("%s") CombatDrone::oldHeading;
+%rename("%s") CombatDrone::drone_image_off;
+%rename("%s") CombatDrone::drone_image_charging;
+%rename("%s") CombatDrone::drone_image_on;
+%rename("%s") CombatDrone::engine_image;
+
+%rename("%s") BoarderPodDrone;
+
+%rename("%s") BoarderPodDrone::CanBeDeployed;
+%rename("%s") BoarderPodDrone::CollisionMoving;
+%rename("%s") BoarderPodDrone::SetDeployed;
+%rename("%s") BoarderPodDrone::SetMovementTarget;
+	
+%rename("%s") BoarderPodDrone::baseSheet;
+%rename("%s") BoarderPodDrone::colorSheet;
+%rename("%s") BoarderPodDrone::startingPosition;
+%rename("%s") BoarderPodDrone::droneImage;
+%rename("%s") BoarderPodDrone::flame;
+%rename("%s") BoarderPodDrone::boarderDrone;
+%rename("%s") BoarderPodDrone::bDeliveredDrone;
+%rename("%s") BoarderPodDrone::diedInSpace;
+
+%rename("%s") ShipRepairDrone;
+
+%rename("%s") HackingDrone;
+
+%rename("%s") HackingDrone::CollisionMoving;
+%rename("%s") HackingDrone::OnLoop;
+%rename("%s") HackingDrone::SetMovementTarget;
+	
+%rename("%s") HackingDrone::startingPosition;
+%rename("%s") HackingDrone::droneImage_on;
+%rename("%s") HackingDrone::droneImage_off;
+%rename("%s") HackingDrone::lightImage;
+%rename("%s") HackingDrone::finalDestination;
+%rename("%s") HackingDrone::arrived;
+%rename("%s") HackingDrone::finishedSetup;
+%rename("%s") HackingDrone::flashTracker;
+%rename("%s") HackingDrone::flying;
+%rename("%s") HackingDrone::extending;
+%rename("%s") HackingDrone::explosion;
+%rename("%s") HackingDrone::prefRoom;
+
+%rename("%s") SuperShieldDrone;
+
+%rename("%s") SuperShieldDrone::shieldSystem;
+%rename("%s") SuperShieldDrone::drone_image_on;
+%rename("%s") SuperShieldDrone::drone_image_off;
+%rename("%s") SuperShieldDrone::drone_image_glow;
+%rename("%s") SuperShieldDrone::glowAnimation;
+
 
 %rename("%s") DroneBlueprint;
 %nodefaultctor DroneBlueprint;
@@ -3094,6 +3253,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipSystem", "table", hs_Userdata_table_get);
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
