@@ -3089,6 +3089,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipSystem", "table", hs_Userdata_table_get);
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
