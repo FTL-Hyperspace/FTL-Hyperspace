@@ -228,5 +228,5 @@ Taste: \1</text>
   <mod:setValue>2 abschließen für Typ B</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="hangar_advanced_title" language="de">
-  <mod:setValue>Advanced Edition</mod:setValue>
+  <mod:setValue> </mod:setValue>
 </mod:findName>
