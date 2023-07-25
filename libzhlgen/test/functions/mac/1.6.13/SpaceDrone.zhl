@@ -8,3 +8,9 @@ cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, 
 cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
 "554889e5415741564154534883ec??4889fb488b03":
 virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+"554889e54157415641554154534881ec580100004989ce????????7308":
+__thiscall void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint);
+"554889e553504889fb488b43c04883c3??4889df":
+noHook __amd64 void ShipManager::DO_NOT_HOOK();
+".554889e553504889fb488d05????????488903488d05????????48894340488d05":
+__thiscall void SpaceDrone::destructor(SpaceDrone* this);
