@@ -134,6 +134,7 @@ namespace std {
     %template(vector_GL_Color) vector<GL_Color>;
     %template(vector_vector_GL_Color) vector<vector<GL_Color>>;
     %template(vector_CrewDesc) vector<CrewDesc>;
+    %template(vector_string) vector<string>;
 }
 
 %include "ToggleValue.h"
@@ -1546,6 +1547,7 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetDroneBlueprint;
 %rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
+%rename("%s") BlueprintManager::GetBlueprintList;
 
 %nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
