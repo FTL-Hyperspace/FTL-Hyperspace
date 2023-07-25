@@ -8,3 +8,7 @@ cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, 
 cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
 ".415741564155415455534889fb4883ec68488b07":
 virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+"41570f57d24989ff":
+cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint);
+"4157415641554154554889fd488dbf80":
+cleanup __amd64 void SpaceDrone::destructor(SpaceDrone* this, int __in_chrg); //no idea why this was in the generated sig json

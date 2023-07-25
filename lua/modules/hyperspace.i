@@ -136,6 +136,7 @@ namespace std {
     %template(vector_CrewDesc) vector<CrewDesc>;
     %template(vector_Fire) vector<Fire>;
     %template(vector_vector_Fire) vector<vector<Fire>>;
+    %template(vector_string) vector<string>;
 }
 
 %include "ToggleValue.h"
@@ -873,7 +874,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::currentScrap;
 %immutable ShipManager::bJumping;
 %rename("%s") ShipManager::bJumping;
-%immutable ShipManager::bAutomated;
+//%immutable ShipManager::bAutomated;
 %rename("%s") ShipManager::bAutomated;
 %immutable ShipManager::shipLevel;
 %rename("%s") ShipManager::shipLevel;
@@ -1103,7 +1104,7 @@ playerVariableType playerVariables;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
-//%rename("%s") HackingSystem::drone;
+%rename("%s") HackingSystem::drone;
 %rename("%s") HackingSystem::bBlocked;
 %rename("%s") HackingSystem::bArmed;
 %rename("%s") HackingSystem::currentSystem;
@@ -1630,6 +1631,7 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetDroneBlueprint;
 %rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
+%rename("%s") BlueprintManager::GetBlueprintList;
 
 %nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
@@ -2505,6 +2507,79 @@ playerVariableType playerVariables;
 %rename("%s") SpaceDrone::beamSpeed;
 %rename("%s") SpaceDrone::hackSparks;
 
+%rename("%s") DefenseDrone;
+%rename("%s") DefenseDrone::GetTooltip;
+%rename("%s") DefenseDrone::PickTarget;
+%rename("%s") DefenseDrone::SetWeaponTarget;
+%rename("%s") DefenseDrone::ValidTargetObject;
+	
+%rename("%s") DefenseDrone::currentTargetId;
+%rename("%s") DefenseDrone::shotAtTargetId;
+%rename("%s") DefenseDrone::currentSpeed;
+%rename("%s") DefenseDrone::drone_image;
+%rename("%s") DefenseDrone::gun_image_off;
+%rename("%s") DefenseDrone::gun_image_charging;
+%rename("%s") DefenseDrone::gun_image_on;
+%rename("%s") DefenseDrone::engine_image;
+%rename("%s") DefenseDrone::currentTargetType;
+
+%rename("%s") CombatDrone;
+%rename("%s") CombatDrone::SetWeaponTarget;
+	
+%rename("%s") CombatDrone::lastDestination;
+%rename("%s") CombatDrone::progressToDestination;
+%rename("%s") CombatDrone::heading;
+%rename("%s") CombatDrone::oldHeading;
+%rename("%s") CombatDrone::drone_image_off;
+%rename("%s") CombatDrone::drone_image_charging;
+%rename("%s") CombatDrone::drone_image_on;
+%rename("%s") CombatDrone::engine_image;
+
+%rename("%s") BoarderPodDrone;
+
+%rename("%s") BoarderPodDrone::CanBeDeployed;
+%rename("%s") BoarderPodDrone::CollisionMoving;
+%rename("%s") BoarderPodDrone::SetDeployed;
+%rename("%s") BoarderPodDrone::SetMovementTarget;
+	
+%rename("%s") BoarderPodDrone::baseSheet;
+%rename("%s") BoarderPodDrone::colorSheet;
+%rename("%s") BoarderPodDrone::startingPosition;
+%rename("%s") BoarderPodDrone::droneImage;
+%rename("%s") BoarderPodDrone::flame;
+%rename("%s") BoarderPodDrone::boarderDrone;
+%rename("%s") BoarderPodDrone::bDeliveredDrone;
+%rename("%s") BoarderPodDrone::diedInSpace;
+
+%rename("%s") ShipRepairDrone;
+
+%rename("%s") HackingDrone;
+
+%rename("%s") HackingDrone::CollisionMoving;
+%rename("%s") HackingDrone::OnLoop;
+%rename("%s") HackingDrone::SetMovementTarget;
+	
+%rename("%s") HackingDrone::startingPosition;
+%rename("%s") HackingDrone::droneImage_on;
+%rename("%s") HackingDrone::droneImage_off;
+%rename("%s") HackingDrone::lightImage;
+%rename("%s") HackingDrone::finalDestination;
+%rename("%s") HackingDrone::arrived;
+%rename("%s") HackingDrone::finishedSetup;
+%rename("%s") HackingDrone::flashTracker;
+%rename("%s") HackingDrone::flying;
+%rename("%s") HackingDrone::extending;
+%rename("%s") HackingDrone::explosion;
+%rename("%s") HackingDrone::prefRoom;
+
+%rename("%s") SuperShieldDrone;
+
+%rename("%s") SuperShieldDrone::shieldSystem;
+%rename("%s") SuperShieldDrone::drone_image_on;
+%rename("%s") SuperShieldDrone::drone_image_off;
+%rename("%s") SuperShieldDrone::drone_image_glow;
+%rename("%s") SuperShieldDrone::glowAnimation;
+
 
 %rename("%s") DroneBlueprint;
 %nodefaultctor DroneBlueprint;
@@ -3100,6 +3175,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipSystem", "table", hs_Userdata_table_get);
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
