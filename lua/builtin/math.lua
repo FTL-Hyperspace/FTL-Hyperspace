@@ -113,12 +113,8 @@ function math.rad(x) end
 -- `math.random` returns a uniform pseudo-random integer in the range *[1,
 -- m]*. When called with two integer numbers `m` and `n`, `math.random`
 -- returns a uniform pseudo-random integer in the range *[m, n]*.
---
--- @remark Will be re-added in the future and will use the same random state as FTL uses internally.
--- @removed
 function math.random(m , n) end
 
---- @removed
 -- Sets `x` as the "seed" for the pseudo-random generator: equal seeds
 -- produce equal sequences of numbers.
 function math.randomseed(x) end
