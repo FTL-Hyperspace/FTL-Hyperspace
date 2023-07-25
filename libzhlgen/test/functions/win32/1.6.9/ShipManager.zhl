@@ -58,6 +58,8 @@ __thiscall void ShipManager::JumpLeave(ShipManager *this);
 __thiscall void ShipManager::ModifyScrapCount(ShipManager *this, int scrap, bool income);
 "578d7c240883e4f0ff77fc5589e55783ec148b81c80400008b1783780cff75300191040800008b7dfc8b810408000085c0b800000000":
 __thiscall void ShipManager::ModifyMissileCount(ShipManager *this, int missiles);
+".8b81c804000083780cff":
+__thiscall int ShipManager::GetMissileCount(ShipManager *this);
 "578d7c240883e4f0ff77fc5589e55783ec148b81c80400008b17837810ff75300191000800008b7dfc8b8100080000":
 __thiscall void ShipManager::ModifyDroneCount(ShipManager *this, int drones);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b81c80400008b3f8b701c83feff74??":

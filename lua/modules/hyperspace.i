@@ -20,6 +20,7 @@
 #include "ToggleValue.h"
 #include "CommandConsole.h"
 #include "StatBoost.h"
+#include "ShipUnlocks.h"
 %}
 
 %feature("flatnested");
@@ -155,10 +156,12 @@ namespace std {
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
+%rename("Settings") Global_Settings_Settings;
 
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
+%immutable Global_Settings_Settings;
 
 %rename("setRandomSeed") srandom32;
 
@@ -725,6 +728,14 @@ playerVariableType playerVariables;
 %rename("%s") BoardingEvent::amount;
 %rename("%s") BoardingEvent::breach;
 
+%nodefaultctor CustomShipUnlocks;
+%nodefaultdtor CustomShipUnlocks;
+%rename("%s") CustomShipUnlocks;
+%rename("%s") CustomShipUnlocks::instance;
+%immutable CustomShipUnlocks::instance;
+%rename("%s") CustomShipUnlocks::UnlockShip;
+%rename("%s") CustomShipUnlocks::GetCustomShipUnlocked;
+
 %rename("%s") ShipObject;
 %nodefaultctor ShipObject;
 %nodefaultdtor ShipObject;
@@ -774,7 +785,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::CountCrew; // Count crew on this ship, true for boarders false for regular crewmembers.
 %rename("%s") ShipManager::CountCrewShipId; // Count crew on the specific ship & room
 //%rename("%s") ShipManager::CreateCrewDrone; // Use Events
-//%rename("%s") ShipManager::CreateSpaceDrone; // Use Events
+%rename("%s") ShipManager::CreateSpaceDrone;
 %rename("%s") ShipManager::DamageArea;
 %rename("%s") ShipManager::DamageBeam;
 //%rename("%s") ShipManager::DamageCrew;
@@ -788,6 +799,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetDodgeFactor;
 %rename("%s") ShipManager::GetDodged; // Don't know what this represents
 %rename("%s") ShipManager::GetDroneCount;
+%rename("%s") ShipManager::GetMissileCount;
 %rename("%s") ShipManager::GetDroneList;
 %rename("%s") ShipManager::GetFireCount; // Get number of fires in a room, could be quite useful for computing damage
 %rename("%s") ShipManager::GetOxygenPercentage; // Ship's oxygen (not per-room)
@@ -860,7 +872,7 @@ playerVariableType playerVariables;
 ////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
-%immutable ShipManager::fuel_count;
+//%immutable ShipManager::fuel_count;
 %rename("%s") ShipManager::fuel_count;
 //%immutable ShipManager::hostile_ship;
 //%rename("%s") ShipManager::hostile_ship;
@@ -3095,6 +3107,72 @@ playerVariableType playerVariables;
 %rename("%s") SoundControl;
 %rename("%s") SoundControl::PlaySoundMix;
 
+%nodefaultctors SettingValues;
+%nodefaultdtors SettingValues;
+%rename("%s") SettingValues;
+%rename("%s") SettingValues::fullscreen;
+%immutable SettingValues::fullscreen;
+%rename("%s") SettingValues::currentFullscreen;
+%immutable SettingValues::currentFullscreen;
+%rename("%s") SettingValues::lastFullscreen;
+%immutable SettingValues::lastFullscreen;
+%rename("%s") SettingValues::sound;
+%immutable SettingValues::sound;
+%rename("%s") SettingValues::music;
+%immutable SettingValues::music;
+%rename("%s") SettingValues::difficulty;
+%immutable SettingValues::difficulty;
+%rename("%s") SettingValues::commandConsole;
+%immutable SettingValues::commandConsole;
+%rename("%s") SettingValues::altPause;
+%immutable SettingValues::altPause;
+%rename("%s") SettingValues::touchAutoPause;
+%immutable SettingValues::touchAutoPause;
+%rename("%s") SettingValues::lowend;
+%immutable SettingValues::lowend;
+%rename("%s") SettingValues::fbError;
+%immutable SettingValues::fbError;
+%rename("%s") SettingValues::language;
+%immutable SettingValues::language;
+%rename("%s") SettingValues::languageSet;
+%immutable SettingValues::languageSet;
+%rename("%s") SettingValues::screenResolution;
+%immutable SettingValues::screenResolution;
+%rename("%s") SettingValues::dialogKeys;
+%immutable SettingValues::dialogKeys;
+%rename("%s") SettingValues::logging;
+%immutable SettingValues::logging;
+%rename("%s") SettingValues::bShowChangelog;
+%immutable SettingValues::bShowChangelog;
+%rename("%s") SettingValues::loadingSaveVersion;
+%immutable SettingValues::loadingSaveVersion;
+%rename("%s") SettingValues::achPopups;
+%immutable SettingValues::achPopups;
+%rename("%s") SettingValues::vsync;
+%immutable SettingValues::vsync;
+%rename("%s") SettingValues::frameLimit;
+%immutable SettingValues::frameLimit;
+%rename("%s") SettingValues::manualResolution;
+%immutable SettingValues::manualResolution;
+%rename("%s") SettingValues::manualWindowed;
+%immutable SettingValues::manualWindowed;
+%rename("%s") SettingValues::manualStretched;
+%immutable SettingValues::manualStretched;
+%rename("%s") SettingValues::showPaths;
+%immutable SettingValues::showPaths;
+%rename("%s") SettingValues::swapTextureType;
+%immutable SettingValues::swapTextureType;
+%rename("%s") SettingValues::colorblind;
+%immutable SettingValues::colorblind;
+%rename("%s") SettingValues::holdingModifier;
+%immutable SettingValues::holdingModifier;
+%rename("%s") SettingValues::bDlcEnabled;
+%immutable SettingValues::bDlcEnabled;
+%rename("%s") SettingValues::openedList;
+%immutable SettingValues::openedList;
+%rename("%s") SettingValues::beamTutorial;
+%immutable SettingValues::beamTutorial;
+
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
 %rename("%s") ResourceControl;
@@ -3202,3 +3280,4 @@ playerVariableType playerVariables;
 %include "System_Extend.h"
 %include "Room_Extend.h"
 %include "StatBoost.h"
+%include "ShipUnlocks.h"
