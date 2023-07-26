@@ -155,6 +155,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                         {
                             buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(shipChild->value());
                         }
+                        if (strcmp(shipChild->name(), "showShipAchievements") == 0)
+                        {
+                            buttonDef.showShipAchievements = EventsParser::ParseBoolean(shipChild->value());
+                        }
 
                         if (strcmp(shipChild->name(), "achievement") == 0) // ship achievement
                         {
@@ -2276,6 +2280,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     bool isVanillaShip = currentShipId < 100;
 
     auto customSel = CustomShipSelect::GetInstance();
+    
+    bool showShipAchievements = isVanillaShip ? customSel->showShipAchievements : customSel->showShipAchievements && customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
 
     if (Global::forceDlc)
     {
@@ -2397,7 +2403,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(g_defaultTextButtonColors[1]); // color used for achievement title
 
-    if (customSel->showShipAchievements)
+    if (showShipAchievements)
     {
         if (isVanillaShip)
         {
@@ -2557,7 +2563,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             {
                 ach.achievement->OnRender(pos, selectedAch == counter ? 2 : 3, 1);
             }
-            else if (customSel->showShipAchievements)
+            else if (showShipAchievements)
             {
                 ach.achievement->OnRender(pos, selectedAch == counter, 1);
             }
@@ -2607,7 +2613,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             ach->OnRender(Point(244, 404), selectedAch == 4 ? 2 : 3, 1);
         }
 
-        if (customSel->showShipAchievements)
+        if (showShipAchievements)
         {
             std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(currentShipId, currentType, false);
             int counter = 0;
@@ -2631,7 +2637,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     // Do individual victory achievements
 
-    if (!customSel->showShipAchievements)
+    if (!showShipAchievements)
     {
         std::vector<std::string> victoryTypes;
         for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
@@ -2727,9 +2733,12 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
     ShipButtonDefinition *shipButtonDef = nullptr;
     std::string finalName;
 
+    bool showShipAchievements = currentShipId < 100 ? customSel->showShipAchievements : customSel->showShipAchievements && customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
+
     if (currentShipId >= 100)
     {
         shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
+
 
         finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
 
@@ -2780,7 +2789,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
                 }
             }
         }
-        else if (customSel->showShipAchievements)
+        else if (showShipAchievements)
         {
             std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(currentShipId, currentType, false);
             int counter = 0;
@@ -2801,7 +2810,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
         }
     }
 
-    if (!customSel->showShipAchievements)
+    if (!showShipAchievements)
     {
         // deselect ship achievements
         if (selectedAch >= 0 && selectedAch < 3)
@@ -2976,13 +2985,16 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
         }
     }
 }
-
+//TODO: Might be nice to also show victories here (Like in the ship select menu)
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (G_->GetWorld()->playerShip)
     {
-        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip || CustomShipSelect::GetInstance()->showShipAchievements || CustomShipSelect::GetInstance()->shipAchievementsToggle)
+        auto customSel = CustomShipSelect::GetInstance();
+        int currentShipId = G_->GetCApp()->menu.shipBuilder.currentShipId;
+        bool specificShipAchievements = currentShipId < 100 ? true : customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
+        if ((!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip || CustomShipSelect::GetInstance()->showShipAchievements || CustomShipSelect::GetInstance()->shipAchievementsToggle) && specificShipAchievements)
         {
             super();
 

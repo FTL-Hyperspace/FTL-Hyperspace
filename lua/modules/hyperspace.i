@@ -20,6 +20,7 @@
 #include "ToggleValue.h"
 #include "CommandConsole.h"
 #include "StatBoost.h"
+#include "ShipUnlocks.h"
 %}
 
 %feature("flatnested");
@@ -134,6 +135,9 @@ namespace std {
     %template(vector_GL_Color) vector<GL_Color>;
     %template(vector_vector_GL_Color) vector<vector<GL_Color>>;
     %template(vector_CrewDesc) vector<CrewDesc>;
+    %template(vector_Fire) vector<Fire>;
+    %template(vector_vector_Fire) vector<vector<Fire>>;
+    %template(vector_string) vector<string>;
 }
 
 %include "ToggleValue.h"
@@ -152,10 +156,12 @@ namespace std {
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
+%rename("Settings") Global_Settings_Settings;
 
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
+%immutable Global_Settings_Settings;
 
 %rename("setRandomSeed") srandom32;
 
@@ -722,6 +728,14 @@ playerVariableType playerVariables;
 %rename("%s") BoardingEvent::amount;
 %rename("%s") BoardingEvent::breach;
 
+%nodefaultctor CustomShipUnlocks;
+%nodefaultdtor CustomShipUnlocks;
+%rename("%s") CustomShipUnlocks;
+%rename("%s") CustomShipUnlocks::instance;
+%immutable CustomShipUnlocks::instance;
+%rename("%s") CustomShipUnlocks::UnlockShip;
+%rename("%s") CustomShipUnlocks::GetCustomShipUnlocked;
+
 %rename("%s") ShipObject;
 %nodefaultctor ShipObject;
 %nodefaultdtor ShipObject;
@@ -771,7 +785,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::CountCrew; // Count crew on this ship, true for boarders false for regular crewmembers.
 %rename("%s") ShipManager::CountCrewShipId; // Count crew on the specific ship & room
 //%rename("%s") ShipManager::CreateCrewDrone; // Use Events
-//%rename("%s") ShipManager::CreateSpaceDrone; // Use Events
+%rename("%s") ShipManager::CreateSpaceDrone;
 %rename("%s") ShipManager::DamageArea;
 %rename("%s") ShipManager::DamageBeam;
 //%rename("%s") ShipManager::DamageCrew;
@@ -785,6 +799,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetDodgeFactor;
 %rename("%s") ShipManager::GetDodged; // Don't know what this represents
 %rename("%s") ShipManager::GetDroneCount;
+%rename("%s") ShipManager::GetMissileCount;
 %rename("%s") ShipManager::GetDroneList;
 %rename("%s") ShipManager::GetFireCount; // Get number of fires in a room, could be quite useful for computing damage
 %rename("%s") ShipManager::GetOxygenPercentage; // Ship's oxygen (not per-room)
@@ -849,7 +864,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::artillerySystems;
 %immutable ShipManager::vCrewList;
 %rename("%s") ShipManager::vCrewList;
-//%rename("%s") ShipManager::fireSpreader;
+%rename("%s") ShipManager::fireSpreader;
 %rename("%s") ShipManager::ship;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
@@ -857,7 +872,7 @@ playerVariableType playerVariables;
 ////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
-%immutable ShipManager::fuel_count;
+//%immutable ShipManager::fuel_count;
 %rename("%s") ShipManager::fuel_count;
 //%immutable ShipManager::hostile_ship;
 //%rename("%s") ShipManager::hostile_ship;
@@ -871,7 +886,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::currentScrap;
 %immutable ShipManager::bJumping;
 %rename("%s") ShipManager::bJumping;
-%immutable ShipManager::bAutomated;
+//%immutable ShipManager::bAutomated;
 %rename("%s") ShipManager::bAutomated;
 %immutable ShipManager::shipLevel;
 %rename("%s") ShipManager::shipLevel;
@@ -928,7 +943,89 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
+//Potential fix for fireSpreader indexing issue
+%rename("%s") ShipManager::GetFireAtPoint;
+%rename("%s") ShipManager::GetFire;
+%extend ShipManager {
+    //Or some similar helper method, because indexing the fireSpreader grid in lua returns vectors and fires by value and not by reference, meaning the relevant Fire objects cannot be edited
 
+    //Possible Methods
+
+    //Get fire at spacial coordinates
+    Fire& GetFireAtPoint(float x, float y)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordintes (Point form)
+    Fire& GetFireAtPoint(Point p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordinates (Pointf form)
+    Fire& GetFireAtPoint(Pointf p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Indexing function, grid coordinates
+    Fire& GetFire(int x, int y)
+    {
+        return $self->fireSpreader.grid[x][y];
+    }
+}
+
+
+%rename("%s") Spreader_Fire;
+%rename("%s") Spreader_Fire::count;
+%rename("%s") Spreader_Fire::roomCount;
+%rename("%s") Spreader_Fire::grid;
+
+%nodefaultctor Selectable;
+%nodefaultdtor Selectable;
+%rename("%s") Selectable;
+%rename("%s") Selectable::selectedState;
+
+%nodefaultctor Repairable;
+%nodefaultdtor Repairable;
+%rename("%s") Repairable;
+%rename("%s") Repairable::shipObj;
+%rename("%s") Repairable::fDamage;
+%rename("%s") Repairable::pLoc;
+%rename("%s") Repairable::fMaxDamage;
+%rename("%s") Repairable::name;
+%rename("%s") Repairable::roomId;
+%rename("%s") Repairable::iRepairCount;
+
+
+%nodefaultctor Spreadable;
+%nodefaultdtor Spreadable;
+%rename("%s") Spreadable;
+%rename("%s") Spreadable::soundName;
+
+%nodefaultctor Fire;
+%nodefaultdtor Fire;
+%rename("%s") Fire;
+%rename("%s") Fire::OnLoop;
+%rename("%s") Fire::UpdateDeathTimer;
+%rename("%s") Fire::UpdateStartTimer;
+
+%rename("%s") Fire::fDeathTimer;
+%rename("%s") Fire::fStartTimer;
+%rename("%s") Fire::fOxygen;
+%rename("%s") Fire::fireAnimation;
+%rename("%s") Fire::smokeAnimation;
+%rename("%s") Fire::bWasOnFire;
+
+%nodefaultctor OuterHull;
+%nodefaultdtor OuterHull;
+%rename("%s") OuterHull;
+%rename("%s") OuterHull::breach;
+%rename("%s") OuterHull::heal;
 
 %nodefaultctors PowerManager;
 %nodefaultdtors PowerManager;
@@ -1019,7 +1116,7 @@ playerVariableType playerVariables;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
-//%rename("%s") HackingSystem::drone;
+%rename("%s") HackingSystem::drone;
 %rename("%s") HackingSystem::bBlocked;
 %rename("%s") HackingSystem::bArmed;
 %rename("%s") HackingSystem::currentSystem;
@@ -1436,7 +1533,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::iShipId; // just in case
 %rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
-//%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
+%rename("%s") Ship::vOuterWalls; 
 %rename("%s") Ship::vOuterAirlocks;
 %rename("%s") Ship::hullIntegrity;
 %rename("%s") Ship::weaponMounts;
@@ -1546,6 +1643,7 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetDroneBlueprint;
 %rename("%s") BlueprintManager::GetShipBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
+%rename("%s") BlueprintManager::GetBlueprintList;
 
 %nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
@@ -2421,6 +2519,79 @@ playerVariableType playerVariables;
 %rename("%s") SpaceDrone::beamSpeed;
 %rename("%s") SpaceDrone::hackSparks;
 
+%rename("%s") DefenseDrone;
+%rename("%s") DefenseDrone::GetTooltip;
+%rename("%s") DefenseDrone::PickTarget;
+%rename("%s") DefenseDrone::SetWeaponTarget;
+%rename("%s") DefenseDrone::ValidTargetObject;
+	
+%rename("%s") DefenseDrone::currentTargetId;
+%rename("%s") DefenseDrone::shotAtTargetId;
+%rename("%s") DefenseDrone::currentSpeed;
+%rename("%s") DefenseDrone::drone_image;
+%rename("%s") DefenseDrone::gun_image_off;
+%rename("%s") DefenseDrone::gun_image_charging;
+%rename("%s") DefenseDrone::gun_image_on;
+%rename("%s") DefenseDrone::engine_image;
+%rename("%s") DefenseDrone::currentTargetType;
+
+%rename("%s") CombatDrone;
+%rename("%s") CombatDrone::SetWeaponTarget;
+	
+%rename("%s") CombatDrone::lastDestination;
+%rename("%s") CombatDrone::progressToDestination;
+%rename("%s") CombatDrone::heading;
+%rename("%s") CombatDrone::oldHeading;
+%rename("%s") CombatDrone::drone_image_off;
+%rename("%s") CombatDrone::drone_image_charging;
+%rename("%s") CombatDrone::drone_image_on;
+%rename("%s") CombatDrone::engine_image;
+
+%rename("%s") BoarderPodDrone;
+
+%rename("%s") BoarderPodDrone::CanBeDeployed;
+%rename("%s") BoarderPodDrone::CollisionMoving;
+%rename("%s") BoarderPodDrone::SetDeployed;
+%rename("%s") BoarderPodDrone::SetMovementTarget;
+	
+%rename("%s") BoarderPodDrone::baseSheet;
+%rename("%s") BoarderPodDrone::colorSheet;
+%rename("%s") BoarderPodDrone::startingPosition;
+%rename("%s") BoarderPodDrone::droneImage;
+%rename("%s") BoarderPodDrone::flame;
+%rename("%s") BoarderPodDrone::boarderDrone;
+%rename("%s") BoarderPodDrone::bDeliveredDrone;
+%rename("%s") BoarderPodDrone::diedInSpace;
+
+%rename("%s") ShipRepairDrone;
+
+%rename("%s") HackingDrone;
+
+%rename("%s") HackingDrone::CollisionMoving;
+%rename("%s") HackingDrone::OnLoop;
+%rename("%s") HackingDrone::SetMovementTarget;
+	
+%rename("%s") HackingDrone::startingPosition;
+%rename("%s") HackingDrone::droneImage_on;
+%rename("%s") HackingDrone::droneImage_off;
+%rename("%s") HackingDrone::lightImage;
+%rename("%s") HackingDrone::finalDestination;
+%rename("%s") HackingDrone::arrived;
+%rename("%s") HackingDrone::finishedSetup;
+%rename("%s") HackingDrone::flashTracker;
+%rename("%s") HackingDrone::flying;
+%rename("%s") HackingDrone::extending;
+%rename("%s") HackingDrone::explosion;
+%rename("%s") HackingDrone::prefRoom;
+
+%rename("%s") SuperShieldDrone;
+
+%rename("%s") SuperShieldDrone::shieldSystem;
+%rename("%s") SuperShieldDrone::drone_image_on;
+%rename("%s") SuperShieldDrone::drone_image_off;
+%rename("%s") SuperShieldDrone::drone_image_glow;
+%rename("%s") SuperShieldDrone::glowAnimation;
+
 
 %rename("%s") DroneBlueprint;
 %nodefaultctor DroneBlueprint;
@@ -2936,6 +3107,72 @@ playerVariableType playerVariables;
 %rename("%s") SoundControl;
 %rename("%s") SoundControl::PlaySoundMix;
 
+%nodefaultctors SettingValues;
+%nodefaultdtors SettingValues;
+%rename("%s") SettingValues;
+%rename("%s") SettingValues::fullscreen;
+%immutable SettingValues::fullscreen;
+%rename("%s") SettingValues::currentFullscreen;
+%immutable SettingValues::currentFullscreen;
+%rename("%s") SettingValues::lastFullscreen;
+%immutable SettingValues::lastFullscreen;
+%rename("%s") SettingValues::sound;
+%immutable SettingValues::sound;
+%rename("%s") SettingValues::music;
+%immutable SettingValues::music;
+%rename("%s") SettingValues::difficulty;
+%immutable SettingValues::difficulty;
+%rename("%s") SettingValues::commandConsole;
+%immutable SettingValues::commandConsole;
+%rename("%s") SettingValues::altPause;
+%immutable SettingValues::altPause;
+%rename("%s") SettingValues::touchAutoPause;
+%immutable SettingValues::touchAutoPause;
+%rename("%s") SettingValues::lowend;
+%immutable SettingValues::lowend;
+%rename("%s") SettingValues::fbError;
+%immutable SettingValues::fbError;
+%rename("%s") SettingValues::language;
+%immutable SettingValues::language;
+%rename("%s") SettingValues::languageSet;
+%immutable SettingValues::languageSet;
+%rename("%s") SettingValues::screenResolution;
+%immutable SettingValues::screenResolution;
+%rename("%s") SettingValues::dialogKeys;
+%immutable SettingValues::dialogKeys;
+%rename("%s") SettingValues::logging;
+%immutable SettingValues::logging;
+%rename("%s") SettingValues::bShowChangelog;
+%immutable SettingValues::bShowChangelog;
+%rename("%s") SettingValues::loadingSaveVersion;
+%immutable SettingValues::loadingSaveVersion;
+%rename("%s") SettingValues::achPopups;
+%immutable SettingValues::achPopups;
+%rename("%s") SettingValues::vsync;
+%immutable SettingValues::vsync;
+%rename("%s") SettingValues::frameLimit;
+%immutable SettingValues::frameLimit;
+%rename("%s") SettingValues::manualResolution;
+%immutable SettingValues::manualResolution;
+%rename("%s") SettingValues::manualWindowed;
+%immutable SettingValues::manualWindowed;
+%rename("%s") SettingValues::manualStretched;
+%immutable SettingValues::manualStretched;
+%rename("%s") SettingValues::showPaths;
+%immutable SettingValues::showPaths;
+%rename("%s") SettingValues::swapTextureType;
+%immutable SettingValues::swapTextureType;
+%rename("%s") SettingValues::colorblind;
+%immutable SettingValues::colorblind;
+%rename("%s") SettingValues::holdingModifier;
+%immutable SettingValues::holdingModifier;
+%rename("%s") SettingValues::bDlcEnabled;
+%immutable SettingValues::bDlcEnabled;
+%rename("%s") SettingValues::openedList;
+%immutable SettingValues::openedList;
+%rename("%s") SettingValues::beamTutorial;
+%immutable SettingValues::beamTutorial;
+
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
 %rename("%s") ResourceControl;
@@ -3016,6 +3253,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipSystem", "table", hs_Userdata_table_get);
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
@@ -3042,3 +3280,4 @@ playerVariableType playerVariables;
 %include "System_Extend.h"
 %include "Room_Extend.h"
 %include "StatBoost.h"
+%include "ShipUnlocks.h"

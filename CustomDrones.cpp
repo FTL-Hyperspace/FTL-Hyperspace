@@ -1214,3 +1214,18 @@ HOOK_METHOD(ShipManager, PowerDrone, (Drone *drone, int roomId, bool userDriven,
 
     cFPS->SpeedFactor = speed;
 }
+
+//SpaceDrone table member
+HOOK_METHOD(SpaceDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    super(iShipId, selfId, blueprint);
+    HS_MAKE_TABLE(this)
+}
+
+HOOK_METHOD(SpaceDrone, destructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    HS_BREAK_TABLE(this)
+    super();   
+}
