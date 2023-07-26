@@ -2812,6 +2812,8 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
+	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
+	LIBZHL_API void destructor();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -6922,6 +6924,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API std::vector<Drone*> GetDroneList();
 	LIBZHL_API int GetFireCount(int roomId);
 	LIBZHL_API std::vector<CrewMember*> GetLeavingCrew(bool intruders);
+	LIBZHL_API int GetMissileCount();
 	LIBZHL_API int GetOxygenPercentage();
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	LIBZHL_API ShieldPower GetShieldPower();
