@@ -3010,19 +3010,21 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
             if (!bShowControls && !G_->GetTutorialManager()->Running())
             {
-                if (shipAchievements.empty() || shipAchievements[0].dimension != 64)
+                if (confirmDialog.bOpen)
+                {
+                    CSurface::GL_SetColorTint(COLOR_TINT);
+                }
+
+                // todo: checking !confirmDialog.bOpen is a hacky solution keep this from drawing
+                //       on top of the "return to hangar" prompt, this function needs to be
+                //       reverse-engineered and re-implemented to fix properly
+                if (!confirmDialog.bOpen && (shipAchievements.empty() || shipAchievements[0].dimension != 64))
                 {
                     //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
                 }
-
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
-
-                if (confirmDialog.bOpen)
-                {
-                    CSurface::GL_SetColorTint(COLOR_TINT);
-                }
 
                 CSurface::GL_BlitPixelImageWide(seedBox,
                                         statusPosition.x + 66,
