@@ -1115,6 +1115,16 @@ void CustomShipSelect::UpdateFilteredAchievements()
     }
 }
 
+bool CustomShipSelect::ShowAchievementsForShip(int currentShipId, int currentType)
+{
+    if (currentShipId >= 100)
+    {
+        ShipButtonDefinition *def = &GetShipButtonDefinition(currentShipId - 100);
+        return showShipAchievements && def->showShipAchievements && !(hideMissingShipAchievements && def->shipAchievements[currentType].empty());
+    }
+    return showShipAchievements;
+}
+
 void CustomShipSelect::OnRender(bool renderSelect)
 {
     if (shipSelect->tutorial.bOpen)
@@ -2281,7 +2291,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     auto customSel = CustomShipSelect::GetInstance();
     
-    bool showShipAchievements = isVanillaShip ? customSel->showShipAchievements : customSel->showShipAchievements && customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
+    bool showShipAchievements = customSel->ShowAchievementsForShip(currentShipId, currentType);
 
     if (Global::forceDlc)
     {
@@ -2733,7 +2743,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
     ShipButtonDefinition *shipButtonDef = nullptr;
     std::string finalName;
 
-    bool showShipAchievements = currentShipId < 100 ? customSel->showShipAchievements : customSel->showShipAchievements && customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
+    bool showShipAchievements = customSel->ShowAchievementsForShip(currentShipId, currentType);
 
     if (currentShipId >= 100)
     {
@@ -2947,7 +2957,7 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                 int maxCount = std::min(int(customShipAchievements.size()),3);
                 for (auto i=0; i<maxCount; ++i)
                 {
-                    shipAchievements.push_back({customShipAchievements[i], Point(742.5 - 30.5*maxCount + 71*i, 362), 64});
+                    shipAchievements.push_back({customShipAchievements[i], Point(727.5 - 30.5*maxCount + 71*i, 362), 64});
                 }
                 for (auto i=maxCount; i<3; ++i) // need to insert dummies so that the victory and quest achievements render correctly
                 {
@@ -2993,26 +3003,28 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     {
         auto customSel = CustomShipSelect::GetInstance();
         int currentShipId = G_->GetCApp()->menu.shipBuilder.currentShipId;
-        bool specificShipAchievements = currentShipId < 100 ? true : customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
+        bool specificShipAchievements = currentShipId < 100 || customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
         if ((!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip || CustomShipSelect::GetInstance()->showShipAchievements || CustomShipSelect::GetInstance()->shipAchievementsToggle) && specificShipAchievements)
         {
             super();
 
             if (!bShowControls && !G_->GetTutorialManager()->Running())
             {
-                if (shipAchievements.empty() || shipAchievements[0].dimension != 64)
+                if (confirmDialog.bOpen)
+                {
+                    CSurface::GL_SetColorTint(COLOR_TINT);
+                }
+
+                // todo: checking !confirmDialog.bOpen is a hacky solution keep this from drawing
+                //       on top of the "return to hangar" prompt, this function needs to be
+                //       reverse-engineered and re-implemented to fix properly
+                if (!confirmDialog.bOpen && (shipAchievements.empty() || shipAchievements[0].dimension != 64))
                 {
                     //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
                 }
-
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
-
-                if (confirmDialog.bOpen)
-                {
-                    CSurface::GL_SetColorTint(COLOR_TINT);
-                }
 
                 CSurface::GL_BlitPixelImageWide(seedBox,
                                         statusPosition.x + 66,
