@@ -3173,6 +3173,33 @@ playerVariableType playerVariables;
 %rename("%s") SettingValues::beamTutorial;
 %immutable SettingValues::beamTutorial;
 
+//Access PrintHelper singleton through Hyperspace.PrintHelper.GetInstance()
+%nodefaultctor PrintHelper;
+%nodefaultdtor PrintHelper;
+%rename("%s") PrintHelper;
+%rename("%s") PrintHelper::GetInstance;
+//Access settings through Hyperspace.PrintHelper.GetInstance().settingName or Hyperspace.PrintHelper.settingName
+%rename("%s") PrintHelper::x; //x coordinate of messages (messages go down and to the right of this point)
+%rename("%s") PrintHelper::y; //y coordinate of messages
+%rename("%s") PrintHelper::font; //font that messages are rendered in
+%rename("%s") PrintHelper::lineLength; //width (in pixels) before automatic newline
+%rename("%s") PrintHelper::messageLimit; //how many messages may be displayed at once
+%rename("%s") PrintHelper::duration; //how long each message lasts
+%rename("%s") PrintHelper::useSpeed; //if the speed at which messages are cleared scales with game speed
+
+%luacode
+{
+    setmetatable(Hyperspace.PrintHelper, {
+        __index = function(PrintHelper, key)
+            return PrintHelper.GetInstance()[key]
+        end,
+
+        __newindex = function(PrintHelper, key, value)
+            PrintHelper.GetInstance()[key] = value
+        end
+    })
+}
+
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
 %rename("%s") ResourceControl;
@@ -3281,3 +3308,4 @@ playerVariableType playerVariables;
 %include "Room_Extend.h"
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
+%include "CommandConsole.h"
