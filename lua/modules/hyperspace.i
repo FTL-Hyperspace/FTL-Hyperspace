@@ -224,11 +224,18 @@ void ErrorMessage(const char* msg);
             elseif key == "enemy" then
                 return Hyperspace.Global.GetInstance():GetShipManager(1)
             else
-                error("Unknown ship " .. key)
+                error("Unknown ship " .. key, 2)
             end
         end,
         __newindex = function(ships, key, value)
-            error("ships is immutable")
+            error("ships is immutable", 2)
+        end,
+        __call = function(ships, shipId)
+            if shipId ~= 0 and shipId ~= 1 then 
+                error("Invalid shipId!", 2)
+            else
+                return Hyperspace.Global.GetInstance():GetShipManager(shipId)
+            end
         end
     })
 }
