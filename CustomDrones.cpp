@@ -1009,6 +1009,60 @@ HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBluepr
     drone_image_glow = CachedImage("ship/drones/" + blueprint->droneImage + "_glow.png", CachedImage::Centered::CENTERED);
 }
 
+HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
+{  
+    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
+    this->DefenseDrone::OnLoop();
+    if (!GetPowered()) 
+    {
+        weaponCooldown = GetWeaponCooldown();
+        glowAnimation = -1.0;
+        return;
+    }
+    else 
+    {
+        if (GetDeployed()) 
+        {
+            currentSpeed = (float) blueprint->speed;
+            if (weaponCooldown < 1.5 && glowAnimation <= 0.0) 
+            {
+                glowAnimation = 3.0;
+                G_->GetSoundControl()->PlaySoundMix("shieldDroneCharge", -1.0, false);
+            }
+            if (weaponCooldown < 2.5) 
+            {
+                currentSpeed = std::max(weaponCooldown - 1.5, 0.0) * currentSpeed;
+            }
+            if (0.0 < glowAnimation) 
+            {
+                currentSpeed = 0.0;
+            }
+            glowAnimation -= G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
+            if (glowAnimation < 0.0) 
+            {
+                glowAnimation = -1.0;
+            }
+
+            if (!bFire) return;
+
+            bFire = false;
+
+            // Prevent vanilla crash when shieldSystem is null (occurs when not defined in the shipBlueprint)
+            if (shieldSystem)
+            {
+                shieldSystem->AddSuperShield(Point(currentLocation.x, currentLocation.y));
+            }
+
+            G_->GetSoundControl()->PlaySoundMix("shieldDroneActivate", -1.0, false);
+            weaponCooldown = GetWeaponCooldown();
+            return;
+        }
+        weaponCooldown = GetWeaponCooldown();
+        glowAnimation = -1.0;
+        return;
+    }
+}
+
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
