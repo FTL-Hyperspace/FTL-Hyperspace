@@ -261,8 +261,9 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <!-- Show ship achievements on menu for custom ships instead of custom victories -->
 <!-- Set toggle = true to be able to toggle between ship achievements and victories -->
+<!-- Set hideIfMissing = true to hide ship achievements for ships that have none -->
 
-<showShipAchievements enabled="true" toggle="false" id="hangar_achievements_title_default"/>
+<showShipAchievements enabled="true" toggle="false" hideIfMissing="false" id="hangar_achievements_title_default"/>
 
 <!-- Enable seeded runs -->
 <!-- Can also control whether unlocks, achievements, or metavariable changes are allowed during a seeded run -->
