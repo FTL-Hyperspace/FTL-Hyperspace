@@ -191,7 +191,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLEave -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (InternalEvents.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
