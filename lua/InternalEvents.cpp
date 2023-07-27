@@ -179,3 +179,22 @@ HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
     }
     return ret;
 }
+HOOK_METHOD(ShipManager, JumpArrive, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (TemporalSystem.cpp)\n")
+    super();
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::JUMP_ARRIVE, 1);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLEave -> Begin (TemporalSystem.cpp)\n")
+    super();
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::JUMP_LEAVE, 1);
+    lua_pop(context->GetLua(), 1);
+}
