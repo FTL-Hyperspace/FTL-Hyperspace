@@ -181,7 +181,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 }
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (InternalEvents.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
@@ -191,7 +191,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLEave -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLEave -> Begin (InternalEvents.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
