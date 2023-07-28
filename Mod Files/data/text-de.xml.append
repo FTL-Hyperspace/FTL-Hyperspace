@@ -201,9 +201,9 @@
 
 Taste: \1</text>
 <text name="hangar_achievements_title_default" language="de">Schiffserfolge</text>
-<text name="hangar_achievements_title_custom" language="de">Schiffssiege</text>
-<text name="hangar_achievements_title_filter" language="de">Filter Schiffssiege</text>
-<text name="hangar_no_ship_achievements" language="de">Keine Schiffssiege</text> 
+<text name="hangar_achievements_title_custom" language="de">Schiffserfolge</text>
+<text name="hangar_achievements_title_filter" language="de">Filter Schiffserfolge</text>
+<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text> 
 <text name="discord_main_menu" language="de">Im Hauptmenü</text>
 <text name="discord_hangar" language="de">Im Hangar</text>
 <text name="discord_dying" language="de">Stirbt</text>
