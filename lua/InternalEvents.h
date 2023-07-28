@@ -48,6 +48,9 @@ struct InternalEvents
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
 
+        // function get_dodge_factor(ShipManager& ship, int value) return Chain, value
+        GET_DODGE_FACTOR,
+
         // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
         PROJECTILE_INITIALIZE,
         // function projectile_fire(Projectile& projectile, ProjectileFactory &weapon)
