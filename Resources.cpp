@@ -556,7 +556,11 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
                 if (node->first_attribute("toggle"))
                 {
-                    customShipManager->shipAchievementsToggle = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                    customShipManager->shipAchievementsToggle = EventsParser::ParseBoolean(node->first_attribute("toggle")->value());
+                }
+                if (node->first_attribute("hideIfMissing"))
+                {
+                    customShipManager->hideMissingShipAchievements = EventsParser::ParseBoolean(node->first_attribute("hideIfMissing")->value());
                 }
                 if (node->first_attribute("id"))
                 {
