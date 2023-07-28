@@ -915,6 +915,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::bInvincible;
 %rename("%s") ShipManager::superDrones;
 %rename("%s") ShipManager::failedDodgeCounter;
+%immutable ShipManager::iCustomizeMode;
+%rename("%s") ShipManager::iCustomizeMode;
 //%immutable ShipManager::hitByBeam;
 //%rename("%s") ShipManager::hitByBeam;
 %rename("%s") ShipManager::enemyDamagedUncloaked;
