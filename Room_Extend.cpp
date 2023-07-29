@@ -24,6 +24,11 @@ HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, i
 	ex->orig = this;
 
     HS_MAKE_TABLE(this)
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pRoom, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_ROOM, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(Room, destructor, () -> void)
