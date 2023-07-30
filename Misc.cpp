@@ -104,7 +104,7 @@ HOOK_METHOD(SpaceManager, SwitchBackground, (const std::string& backgroundList) 
 //Neutral ASB text
 HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int textOffset) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceManager::SwitchBackground -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::RenderWarningText -> Begin (Misc.cpp)\n")
     GL_Texture *tex;
     GL_Color color;
     std::string text;
