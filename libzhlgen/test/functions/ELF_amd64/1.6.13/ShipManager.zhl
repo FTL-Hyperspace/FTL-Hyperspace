@@ -182,7 +182,8 @@ cleanup __amd64 int ShipManager::constructor(ShipManager *this, int shipId);
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
 "!.534889fb":
 cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
-
+"41564989fe415541545553488b87c800":
+cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

@@ -564,6 +564,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.lowHealthThresholdPercentage = boost::lexical_cast<float>(val);
                         }
+                        if (str == "noWarning")
+                        {
+                            crew.noWarning = EventsParser::ParseBoolean(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -1345,6 +1349,10 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
                 if (tempEffectName == "lowHealthThreshold")
                 {
                     def->tempPower.lowHealthThreshold = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "noWarning")
+                {
+                    def->tempPower.noWarning = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }
@@ -6742,4 +6750,18 @@ HOOK_METHOD(ShipManager, AddCrewMember, (CrewMember *crew, int roomId) -> void)
     {
         super(crew, roomId);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
+    int ret = 0;
+    for (auto& crew: vCrewList)
+    {   
+        bool noWarning;
+        auto ex = CM_EX(crew);
+        ex->CalculateStat(CrewStat::NO_WARNING, &noWarning);
+        if (crew->iShipId == 0 && !crew->IsDead() && !crew->IsDrone() && !noWarning) ret++;
+    }
+    return ret;
 }
