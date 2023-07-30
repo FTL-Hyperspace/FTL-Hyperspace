@@ -51,7 +51,7 @@ struct RenderEvents
         //SYSTEM_CONTROL, // SystemControl::OnRender
         //COMBAT_CONTROL_INTERFACE, // CombatControl::OnRenderInterface
         ////PAUSE, // CommandGui::RenderPause (not hooked yet)
-        //SPACE_STATUS, // SpaceStatus::OnRender
+        SPACE_STATUS, // SpaceStatus::OnRender
         //SHIP_STATUS, // ShipStatus::OnRender
         ////CONFIRM_WINDOW, // ConfirmWindow::OnRender, TODO: Might need to pass which window it is
         ////CHOICE_BOX, // ChoiceBox::OnRender, TODO: Might need to pass which choice it is

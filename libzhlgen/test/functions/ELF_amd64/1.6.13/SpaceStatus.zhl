@@ -1,0 +1,6 @@
+"415741564155415449bc0000":
+cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
+"415455534889fb4883ec10488b7f58e8":
+cleanup __amd64 void SpaceStatus::OnRender(SpaceStatus *this);
+"41544189d45589f5534889fb4883ec20":
+cleanup __amd64 void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);

@@ -4358,8 +4358,14 @@ struct ShipStatus
 	Point intruderPos;
 };
 
+struct SpaceStatus;
+
 struct SpaceStatus
 {
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void RenderWarningText(int effect, int textOffset);
+	
 	GL_Primitive *warningImages[10];
 	WarningMessage *warningMessage;
 	WarningMessage *incomingFire;
@@ -6054,6 +6060,7 @@ struct MouseControl;
 struct MouseControl
 {
 	LIBZHL_API void InstantTooltip();
+	LIBZHL_API void LoadTooltip(const std::string &tooltipName);
 	LIBZHL_API Point MeasureTooltip(int unk);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
