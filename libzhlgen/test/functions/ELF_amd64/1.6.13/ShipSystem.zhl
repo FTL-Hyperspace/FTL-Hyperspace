@@ -98,6 +98,12 @@ cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int
 "55534889fbbf????????4883ec18f30f1144240c":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
 
+"4157b840":
+static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
+"41545589d5534889fb4883ec":
+cleanup __amd64 void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
+"488b96a0":
+cleanup __amd64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 
 struct ShipSystem
 {{
