@@ -1110,6 +1110,9 @@ playerVariableType playerVariables;
 %rename("%s") CloneSystem::fTimeGoal;
 %rename("%s") CloneSystem::fDeathTime;
 %rename("%s") CloneSystem::slot;
+%rename("%s") CloneSystem::bottom;
+%rename("%s") CloneSystem::top;
+%rename("%s") CloneSystem::gas;
 
 %nodefaultctors HackingSystem;
 %nodefaultdtors HackingSystem;
