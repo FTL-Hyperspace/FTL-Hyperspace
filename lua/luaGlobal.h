@@ -62,8 +62,10 @@ static int hslua_g_printToScreen(lua_State* lua)
         message += "    ";
         lua_pop(lua, 1);
     }
+    message = boost::str(boost::format("[Lua]: %s") % message);
     PrintHelper::GetInstance()->AddMessage(message);
     printf("%s\n", message.c_str());
+    hs_log_file("%s\n", message.c_str());
     return 0;
 }
 
