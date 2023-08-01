@@ -106,6 +106,7 @@ static bool initExtraPrimitive = false;
 
 HOOK_METHOD(SystemBox, constructor, (Point pos, ShipSystem *sys, bool playerUI) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemBox::constructor -> Begin (Misc.cpp)\n")
     if (!initExtraPrimitive)
     {
         timerCircleMax = G_->GetResources()->CreateImagePrimitiveString("icons/locking/s_ring_9+_base.png",0,0,0,GL_Color(1.0, 1.0, 1.0, 1.0),1.f,false);
@@ -117,6 +118,7 @@ HOOK_METHOD(SystemBox, constructor, (Point pos, ShipSystem *sys, bool playerUI) 
 
 HOOK_METHOD_PRIORITY(SystemBox, OnRender, 9999, (bool ignoreStatus) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::OnRender -> Begin (Misc.cpp)\n")
     bool bVar1;
     bool bVar2;
     int iVar1;
