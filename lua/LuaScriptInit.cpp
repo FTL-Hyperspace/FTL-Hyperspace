@@ -7,7 +7,6 @@
     - Have a `global_run` (or `global`) table that contents is saved with the run (functions not allowed to be inserted into the table, data only)
     - Have a `profile` (or `global_profile`) table that contents is saved across runs (functions not allowed, data only)
     - Add serpent library to allow easy printing of Lua tables with `serpent.block()` for debugging for developers of Lua scripts
-    - Add a print function to write messages to the in-game screen like a chat/console
     - Implement table_size() like Factorio does for tables with non-contiguous keys.?
     - Maybe add abilitly to pull localized string?
     - Re-implement require to load only .lua files from the dat, or maybe re-enable lua package (which contains require) and figure out how to restrict it.
