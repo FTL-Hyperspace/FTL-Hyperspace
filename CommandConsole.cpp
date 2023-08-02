@@ -8,7 +8,7 @@
 #include <boost/lexical_cast.hpp>
 
 CommandConsole CommandConsole::instance = CommandConsole();
-
+PrintHelper PrintHelper::instance = PrintHelper();
 bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
@@ -342,3 +342,45 @@ HOOK_METHOD(CFPS, OnLoop, () -> void)
     speedLevel = oldSpeedLevel;
 }
 
+void PrintHelper::Render()
+{
+    if (messages.size() > 0)
+    {
+        if (timer <= duration)
+        {
+            std::string screenMessage = std::string();
+            //Maybe change to just translate each message by the height of the previous one, but the Pointf.y value doesn't seem to be useful for that.
+            for (const auto& message : messages)
+            {
+                screenMessage += message;
+                screenMessage += "\n";
+            }
+            freetype::easy_printAutoNewlines(font, x, y, lineLength, screenMessage);
+            float increment = useSpeed ? G_->GetCFPS()->GetSpeedFactor() * 0.0625 : 1.0 / G_->GetCFPS()->NumFrames;
+            timer += increment;
+        }
+        else
+        {
+            timer = 0;
+            messages.pop_front();
+        }
+    }  
+}
+
+void PrintHelper::AddMessage(const std::string message)
+{
+
+    timer = 0;
+    messages.push_back(message);
+    if (messages.size() > messageLimit)
+    {
+        messages.pop_front();
+    }
+}
+
+HOOK_METHOD(MouseControl, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (CommandConsole.cpp)\n")
+    PrintHelper::GetInstance()->Render();
+    super();
+}
