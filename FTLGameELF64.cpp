@@ -12304,17 +12304,30 @@ void ShipManager::ResetScrapLevel()
 namespace _func966
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::CountPlayerCrew", typeid(int (ShipManager::*)()), ".41564989fe415541545553488b87c800", nullptr, 0, 0, &func);
+}
+
+int ShipManager::CountPlayerCrew()
+{
+	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func966::func;
+	return execfunc(this);
+}
+
+namespace _func967
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CountCrew", typeid(int (ShipManager::*)(bool )), ".41574989ff41564155415455534883ec08488b8fc0000000", nullptr, 0, 0, &func);
 }
 
 int ShipManager::CountCrew(bool boarders)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, bool boarders_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func966::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func967::func;
 	return execfunc(this, boarders);
 }
 
-namespace _func967
+namespace _func968
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CountCrewShipId", typeid(int (ShipManager::*)(int , int )), ".415741564989fe4155415455534883ec18488b87c8000000", nullptr, 0, 0, &func);
@@ -12323,30 +12336,17 @@ namespace _func967
 int ShipManager::CountCrewShipId(int roomId, int shipId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int roomId_arg, int shipId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func967::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func968::func;
 	return execfunc(this, roomId, shipId);
 }
 
-namespace _func968
+namespace _func969
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::IsCrewOverFull", typeid(bool (ShipManager::*)()), ".538b470831f64889fb", nullptr, 0, 0, &func);
 }
 
 bool ShipManager::IsCrewOverFull()
-{
-	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func968::func;
-	return execfunc(this);
-}
-
-namespace _func969
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::IsCrewFull", typeid(bool (ShipManager::*)()), ".538b470831f64889fb", nullptr, 0, 0, &func);
-}
-
-bool ShipManager::IsCrewFull()
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func969::func;
@@ -12356,36 +12356,36 @@ bool ShipManager::IsCrewFull()
 namespace _func970
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::IsCrewFull", typeid(bool (ShipManager::*)()), ".538b470831f64889fb", nullptr, 0, 0, &func);
+}
+
+bool ShipManager::IsCrewFull()
+{
+	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func970::func;
+	return execfunc(this);
+}
+
+namespace _func971
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DoSensorsProvide", typeid(bool (ShipManager::*)(int )), ".4883ec08488b87580600004863401c83f8ff", nullptr, 0, 0, &func);
 }
 
 bool ShipManager::DoSensorsProvide(int vision)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, int vision_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func970::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func971::func;
 	return execfunc(this, vision);
 }
 
-namespace _func971
+namespace _func972
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::SetDestroyed", typeid(void (ShipManager::*)()), "!.5531c94889fd5331db4883ec08488b5728", nullptr, 0, 0, &func);
 }
 
 void ShipManager::SetDestroyed()
-{
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func971::func;
-	return execfunc(this);
-}
-
-namespace _func972
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::JumpLeave", typeid(void (ShipManager::*)()), ".415431c055534889fb4883ec2083af1006000001", nullptr, 0, 0, &func);
-}
-
-void ShipManager::JumpLeave()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func972::func;
@@ -12395,36 +12395,36 @@ void ShipManager::JumpLeave()
 namespace _func973
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::JumpLeave", typeid(void (ShipManager::*)()), ".415431c055534889fb4883ec2083af1006000001", nullptr, 0, 0, &func);
+}
+
+void ShipManager::JumpLeave()
+{
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func973::func;
+	return execfunc(this);
+}
+
+namespace _func974
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(bool (ShipManager::*)(CrewMember *, Damage )), ".4156415541545553807c245e004889f3", nullptr, 0, 0, &func);
 }
 
 bool ShipManager::DamageCrew(CrewMember *crew, Damage dmg)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, Damage dmg_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func973::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func974::func;
 	return execfunc(this, crew, dmg);
 }
 
-namespace _func974
+namespace _func975
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::JumpArrive", typeid(void (ShipManager::*)()), ".55534889fb488dbf200600004883ec28", nullptr, 0, 0, &func);
 }
 
 void ShipManager::JumpArrive()
-{
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func974::func;
-	return execfunc(this);
-}
-
-namespace _func975
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::InstantPowerShields", typeid(void (ShipManager::*)()), ".53488b87580600004889fb48630083f8ff", nullptr, 0, 0, &func);
-}
-
-void ShipManager::InstantPowerShields()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func975::func;
@@ -12434,10 +12434,10 @@ void ShipManager::InstantPowerShields()
 namespace _func976
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::CheckSpreadDamage", typeid(void (ShipManager::*)()), ".41574989ff41564155415455534883ec28488b4f28", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::InstantPowerShields", typeid(void (ShipManager::*)()), ".53488b87580600004889fb48630083f8ff", nullptr, 0, 0, &func);
 }
 
-void ShipManager::CheckSpreadDamage()
+void ShipManager::InstantPowerShields()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func976::func;
@@ -12447,36 +12447,36 @@ void ShipManager::CheckSpreadDamage()
 namespace _func977
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::CheckSpreadDamage", typeid(void (ShipManager::*)()), ".41574989ff41564155415455534883ec28488b4f28", nullptr, 0, 0, &func);
+}
+
+void ShipManager::CheckSpreadDamage()
+{
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func977::func;
+	return execfunc(this);
+}
+
+namespace _func978
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetSystemPower", typeid(int (ShipManager::*)(int )), ".488b87580600004863f6486304b083f8ff740d", nullptr, 0, 0, &func);
 }
 
 int ShipManager::GetSystemPower(int systemId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func977::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func978::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func978
+namespace _func979
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CheckVision", typeid(void (ShipManager::*)()), ".415741564155415455534889fb4883ec28488b8758060000", nullptr, 0, 0, &func);
 }
 
 void ShipManager::CheckVision()
-{
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func978::func;
-	return execfunc(this);
-}
-
-namespace _func979
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::ClearStatusAll", typeid(void (ShipManager::*)()), "!.5531c94889fd5331db4883ec08488b5728", nullptr, 0, 0, &func);
-}
-
-void ShipManager::ClearStatusAll()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func979::func;
@@ -12486,23 +12486,36 @@ void ShipManager::ClearStatusAll()
 namespace _func980
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::ClearStatusAll", typeid(void (ShipManager::*)()), "!.5531c94889fd5331db4883ec08488b5728", nullptr, 0, 0, &func);
+}
+
+void ShipManager::ClearStatusAll()
+{
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func980::func;
+	return execfunc(this);
+}
+
+namespace _func981
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ClearStatusSystem", typeid(void (ShipManager::*)(int )), ".83fe11743383feff7426", nullptr, 0, 0, &func);
 }
 
 void ShipManager::ClearStatusSystem(int system)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int system_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func980::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func981::func;
 	return execfunc(this, system);
 }
 
-namespace _func981
+namespace _func982
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DO_NOT_HOOK", typeid(void (ShipManager::*)()), ".83fe11743b83feff742e", nullptr, 0, 0, &func);
 }
 
-namespace _func982
+namespace _func983
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::SetSystemPowerLoss", typeid(void (ShipManager::*)(int , int )), ".83fe11743b83feff742e", nullptr, 0, 0, &func);
@@ -12511,11 +12524,11 @@ namespace _func982
 void ShipManager::SetSystemPowerLoss(int systemId, int powerLoss)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg, int powerLoss_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func982::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func983::func;
 	return execfunc(this, systemId, powerLoss);
 }
 
-namespace _func983
+namespace _func984
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ForceDecreaseSystemPower", typeid(bool (ShipManager::*)(int )), ".83feff743b488b87580600004863f6486304b083f8ff7428488b5728488b3cc24885ff741b488b07be01000000488b8008010000", nullptr, 0, 0, &func);
@@ -12524,11 +12537,11 @@ namespace _func983
 bool ShipManager::ForceDecreaseSystemPower(int sys)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, int sys_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func983::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func984::func;
 	return execfunc(this, sys);
 }
 
-namespace _func984
+namespace _func985
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetSystemInRoom", typeid(ShipSystem *(ShipManager::*)(int )), ".415531d24989fd41545589f55331db4883ec08488b4f28", nullptr, 0, 0, &func);
@@ -12537,11 +12550,11 @@ namespace _func984
 ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 {
 	typedef ShipSystem *(*custom_arg_funcptr_t)(ShipManager *this_arg, int roomId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func984::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func985::func;
 	return execfunc(this, roomId);
 }
 
-namespace _func985
+namespace _func986
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetSystemRoom", typeid(int (ShipManager::*)(int )), ".83feff7433488b87580600004863f6", nullptr, 0, 0, &func);
@@ -12550,11 +12563,11 @@ namespace _func985
 int ShipManager::GetSystemRoom(int sysId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int sysId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func985::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func986::func;
 	return execfunc(this, sysId);
 }
 
-namespace _func986
+namespace _func987
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetSystem", typeid(ShipSystem *(ShipManager::*)(int )), ".83feff7423488b87580600004863f6", nullptr, 0, 0, &func);
@@ -12563,11 +12576,11 @@ namespace _func986
 ShipSystem *ShipManager::GetSystem(int systemId)
 {
 	typedef ShipSystem *(*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func986::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func987::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func987
+namespace _func988
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DoorsFunction", typeid(bool (ShipManager::*)()), ".53488b87580600004889fb4863402083f8ff", nullptr, 0, 0, &func);
@@ -12576,11 +12589,11 @@ namespace _func987
 bool ShipManager::DoorsFunction()
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func987::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func988::func;
 	return execfunc(this);
 }
 
-namespace _func988
+namespace _func989
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::SystemFunctions", typeid(bool (ShipManager::*)(int )), ".488b87580600004863f6486304b083f8ff7415", nullptr, 0, 0, &func);
@@ -12589,11 +12602,11 @@ namespace _func988
 bool ShipManager::SystemFunctions(int systemId)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func988::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func989::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func989
+namespace _func990
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetDodgeFactor", typeid(int (ShipManager::*)()), ".534889fb4883ec10488b9758060000", nullptr, 0, 0, &func);
@@ -12602,11 +12615,11 @@ namespace _func989
 int ShipManager::GetDodgeFactor()
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func989::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func990::func;
 	return execfunc(this);
 }
 
-namespace _func990
+namespace _func991
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetDodged", typeid(bool (ShipManager::*)()), ".415455534889fb4883ec20807f1c00", nullptr, 0, 0, &func);
@@ -12615,11 +12628,11 @@ namespace _func990
 bool ShipManager::GetDodged()
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func990::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func991::func;
 	return execfunc(this);
 }
 
-namespace _func991
+namespace _func992
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::HasSystem", typeid(bool (ShipManager::*)(int )), ".83fe11741b488b8758060000", nullptr, 0, 0, &func);
@@ -12628,11 +12641,11 @@ namespace _func991
 bool ShipManager::HasSystem(int systemId)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func991::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func992::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func992
+namespace _func993
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetSystemPowerMax", typeid(int (ShipManager::*)(int )), ".488b87580600004863f6486304b083f8ff740d", nullptr, 0, 0, &func);
@@ -12641,11 +12654,11 @@ namespace _func992
 int ShipManager::GetSystemPowerMax(int systemId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func992::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func993::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func993
+namespace _func994
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::UpgradeSystem", typeid(void (ShipManager::*)(int , int )), ".55534889fb4883ec1883fe11", nullptr, 0, 0, &func);
@@ -12654,11 +12667,11 @@ namespace _func993
 void ShipManager::UpgradeSystem(int id, int amount)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int id_arg, int amount_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func993::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func994::func;
 	return execfunc(this, id, amount);
 }
 
-namespace _func994
+namespace _func995
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CanUpgrade", typeid(int (ShipManager::*)(int , int )), ".83fe117453", nullptr, 0, 0, &func);
@@ -12667,11 +12680,11 @@ namespace _func994
 int ShipManager::CanUpgrade(int systemId, int amount)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg, int amount_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func994::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func995::func;
 	return execfunc(this, systemId, amount);
 }
 
-namespace _func995
+namespace _func996
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CommandCrewMoveRoom", typeid(bool (ShipManager::*)(CrewMember *, int )), "!.4889f731c989d6baffffffff", nullptr, 0, 0, &func);
@@ -12680,11 +12693,11 @@ namespace _func995
 bool ShipManager::CommandCrewMoveRoom(CrewMember *crew, int roomId)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, int roomId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func995::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func996::func;
 	return execfunc(this, crew, roomId);
 }
 
-namespace _func996
+namespace _func997
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetSelectedCrewPoint", typeid(CrewMember *(ShipManager::*)(int , int , bool )), ".415741564989fe41554189d5415455534883ec38", nullptr, 0, 0, &func);
@@ -12693,11 +12706,11 @@ namespace _func996
 CrewMember *ShipManager::GetSelectedCrewPoint(int x, int y, bool intruder)
 {
 	typedef CrewMember *(*custom_arg_funcptr_t)(ShipManager *this_arg, int x_arg, int y_arg, bool intruder_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func996::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func997::func;
 	return execfunc(this, x, y, intruder);
 }
 
-namespace _func997
+namespace _func998
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetTooltip", typeid(std::string (ShipManager::*)(int , int )), ".415741564989fe41554189cd41544989f4", nullptr, 0, 0, &func);
@@ -12706,11 +12719,11 @@ namespace _func997
 std::string ShipManager::GetTooltip(int x, int y)
 {
 	typedef std::string (*custom_arg_funcptr_t)(ShipManager *this_arg, int x_arg, int y_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func997::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func998::func;
 	return execfunc(this, x, y);
 }
 
-namespace _func998
+namespace _func999
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetWeaponList", typeid(std::vector<ProjectileFactory*> (ShipManager::*)()), ".41545553488b86580600004889fb83780cff", nullptr, 0, 0, &func);
@@ -12719,11 +12732,11 @@ namespace _func998
 std::vector<ProjectileFactory*> ShipManager::GetWeaponList()
 {
 	typedef std::vector<ProjectileFactory*> (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func998::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func999::func;
 	return execfunc(this);
 }
 
-namespace _func999
+namespace _func1000
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetDroneCount", typeid(int (ShipManager::*)()), ".488b8758060000837810ff7413", nullptr, 0, 0, &func);
@@ -12732,11 +12745,11 @@ namespace _func999
 int ShipManager::GetDroneCount()
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func999::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1000::func;
 	return execfunc(this);
 }
 
-namespace _func1000
+namespace _func1001
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ModifyDroneCount", typeid(void (ShipManager::*)(int )), ".488b8758060000837810ff7523", nullptr, 0, 0, &func);
@@ -12745,11 +12758,11 @@ namespace _func1000
 void ShipManager::ModifyDroneCount(int drones)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int drones_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1000::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1001::func;
 	return execfunc(this, drones);
 }
 
-namespace _func1001
+namespace _func1002
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetOxygenPercentage", typeid(int (ShipManager::*)()), ".488b8758060000837808ff742b", nullptr, 0, 0, &func);
@@ -12758,11 +12771,11 @@ namespace _func1001
 int ShipManager::GetOxygenPercentage()
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1001::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1002::func;
 	return execfunc(this);
 }
 
-namespace _func1002
+namespace _func1003
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::RemoveItem", typeid(void (ShipManager::*)(const std::string &)), ".41574156415541544989f455534889fb4883ec48", nullptr, 0, 0, &func);
@@ -12771,11 +12784,11 @@ namespace _func1002
 void ShipManager::RemoveItem(const std::string &name)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, const std::string &name_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1002::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1003::func;
 	return execfunc(this, name);
 }
 
-namespace _func1003
+namespace _func1004
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddWeapon", typeid(int (ShipManager::*)(const WeaponBlueprint *, int )), ".488b875806000083780cff7413", nullptr, 0, 0, &func);
@@ -12784,11 +12797,11 @@ namespace _func1003
 int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, const WeaponBlueprint *bp_arg, int slot_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1003::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1004::func;
 	return execfunc(this, bp, slot);
 }
 
-namespace _func1004
+namespace _func1005
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ModifyMissileCount", typeid(void (ShipManager::*)(int )), ".488b875806000083780cff7523", nullptr, 0, 0, &func);
@@ -12797,11 +12810,11 @@ namespace _func1004
 void ShipManager::ModifyMissileCount(int missiles)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int missiles_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1004::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1005::func;
 	return execfunc(this, missiles);
 }
 
-namespace _func1005
+namespace _func1006
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetMissileCount", typeid(int (ShipManager::*)()), ".488b875806000083780cff7413", nullptr, 0, 0, &func);
@@ -12810,11 +12823,11 @@ namespace _func1005
 int ShipManager::GetMissileCount()
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1005::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1006::func;
 	return execfunc(this);
 }
 
-namespace _func1006
+namespace _func1007
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetDroneList", typeid(std::vector<Drone*> (ShipManager::*)()), ".41545553488b86580600004889fb837810ff", nullptr, 0, 0, &func);
@@ -12823,11 +12836,11 @@ namespace _func1006
 std::vector<Drone*> ShipManager::GetDroneList()
 {
 	typedef std::vector<Drone*> (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1006::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1007::func;
 	return execfunc(this);
 }
 
-namespace _func1007
+namespace _func1008
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::IsSystemHacked", typeid(int (ShipManager::*)(int )), ".83fe11741b488b87580600004863d6", nullptr, 0, 0, &func);
@@ -12836,11 +12849,11 @@ namespace _func1007
 int ShipManager::IsSystemHacked(int systemId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1007::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1008::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func1008
+namespace _func1009
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ExportBattleState", typeid(void (ShipManager::*)(int )), ".4157415641554154554889fd5389f34883ec28", nullptr, 0, 0, &func);
@@ -12849,11 +12862,11 @@ namespace _func1008
 void ShipManager::ExportBattleState(int file)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int file_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1008::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1009::func;
 	return execfunc(this, file);
 }
 
-namespace _func1009
+namespace _func1010
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::StartFire", typeid(void (ShipManager::*)(int )), "!.4881c7d8000000", nullptr, 0, 0, &func);
@@ -12862,11 +12875,11 @@ namespace _func1009
 void ShipManager::StartFire(int roomId)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int roomId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1009::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1010::func;
 	return execfunc(this, roomId);
 }
 
-namespace _func1010
+namespace _func1011
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetFireCount", typeid(int (ShipManager::*)(int )), "!.4881c7d8000000", nullptr, 0, 0, &func);
@@ -12875,11 +12888,11 @@ namespace _func1010
 int ShipManager::GetFireCount(int roomId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int roomId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1010::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1011::func;
 	return execfunc(this, roomId);
 }
 
-namespace _func1011
+namespace _func1012
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddCrewMember", typeid(void (ShipManager::*)(CrewMember *, int )), ".5589d5534889fb4889f74883ec184889742408", nullptr, 0, 0, &func);
@@ -12888,11 +12901,11 @@ namespace _func1011
 void ShipManager::AddCrewMember(CrewMember *crew, int roomId)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, int roomId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1011::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1012::func;
 	return execfunc(this, crew, roomId);
 }
 
-namespace _func1012
+namespace _func1013
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::TeleportCrew", typeid(std::vector<CrewMember*> (ShipManager::*)(int , bool )), ".4157415641554989fd41544989f455534883ec18", nullptr, 0, 0, &func);
@@ -12901,11 +12914,11 @@ namespace _func1012
 std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool intruders)
 {
 	typedef std::vector<CrewMember*> (*custom_arg_funcptr_t)(ShipManager *this_arg, int roomId_arg, bool intruders_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1012::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1013::func;
 	return execfunc(this, roomId, intruders);
 }
 
-namespace _func1013
+namespace _func1014
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetLeavingCrew", typeid(std::vector<CrewMember*> (ShipManager::*)(bool )), ".415631c941554989f541544989fc5589d553", nullptr, 0, 0, &func);
@@ -12914,11 +12927,11 @@ namespace _func1013
 std::vector<CrewMember*> ShipManager::GetLeavingCrew(bool intruders)
 {
 	typedef std::vector<CrewMember*> (*custom_arg_funcptr_t)(ShipManager *this_arg, bool intruders_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1013::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1014::func;
 	return execfunc(this, intruders);
 }
 
-namespace _func1014
+namespace _func1015
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromBlueprint", typeid(CrewMember *(ShipManager::*)(CrewBlueprint *, int , bool , int , bool )), ".41574989ff415641554589cd4154554889f5", nullptr, 0, 0, &func);
@@ -12927,11 +12940,11 @@ namespace _func1014
 CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)
 {
 	typedef CrewMember *(*custom_arg_funcptr_t)(ShipManager *this_arg, CrewBlueprint *bp_arg, int slot_arg, bool init_arg, int roomId_arg, bool intruder_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1014::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1015::func;
 	return execfunc(this, bp, slot, init, roomId, intruder);
 }
 
-namespace _func1015
+namespace _func1016
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DamageSystem", typeid(void (ShipManager::*)(int , Damage )), ".41574989ff4156415541545589f5534883ec48", nullptr, 0, 0, &func);
@@ -12940,11 +12953,11 @@ namespace _func1015
 void ShipManager::DamageSystem(int systemId, Damage damage)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg, Damage damage_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1015::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1016::func;
 	return execfunc(this, systemId, damage);
 }
 
-namespace _func1016
+namespace _func1017
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CheckCrystalAugment", typeid(void (ShipManager::*)(Pointf )), ".4157be????????4156415541544989fc55534883ec68", nullptr, 0, 0, &func);
@@ -12953,11 +12966,11 @@ namespace _func1016
 void ShipManager::CheckCrystalAugment(Pointf pos)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf pos_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1016::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1017::func;
 	return execfunc(this, pos);
 }
 
-namespace _func1017
+namespace _func1018
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::PrepareSuperBarrage", typeid(void (ShipManager::*)()), ".415741564155415455534889fb4881ec980000004883bf0006000000", nullptr, 0, 0, &func);
@@ -12966,11 +12979,11 @@ namespace _func1017
 void ShipManager::PrepareSuperBarrage()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1017::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1018::func;
 	return execfunc(this);
 }
 
-namespace _func1018
+namespace _func1019
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::RestoreCrewPositions", typeid(bool (ShipManager::*)()), ".415531d2bf????????415455534883ec684889e6", nullptr, 0, 0, &func);
@@ -12979,11 +12992,11 @@ namespace _func1018
 bool ShipManager::RestoreCrewPositions()
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1018::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1019::func;
 	return execfunc(this);
 }
 
-namespace _func1019
+namespace _func1020
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::UpdateEnvironment", typeid(void (ShipManager::*)()), ".4157488d87d800000041564989fe4889c74155415455534883ec78", nullptr, 0, 0, &func);
@@ -12992,11 +13005,11 @@ namespace _func1019
 void ShipManager::UpdateEnvironment()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1019::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1020::func;
 	return execfunc(this);
 }
 
-namespace _func1020
+namespace _func1021
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::SelectRandomCrew", typeid(CrewBlueprint (ShipManager::*)(int , const std::string &)), ".41574156415541544989fc554889cd534883ec68", nullptr, 0, 0, &func);
@@ -13005,30 +13018,17 @@ namespace _func1020
 CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::string &racePref)
 {
 	typedef CrewBlueprint (*custom_arg_funcptr_t)(ShipManager *this_arg, int seed_arg, const std::string &racePref_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1020::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1021::func;
 	return execfunc(this, seed, racePref);
 }
 
-namespace _func1021
+namespace _func1022
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CollisionShield", typeid(CollisionResponse (ShipManager::*)(Pointf , Pointf , Damage , bool )), ".415741564189d641554154554889f5534889fb4881ece8000000", nullptr, 0, 0, &func);
 }
 
 CollisionResponse ShipManager::CollisionShield(Pointf start, Pointf finish, Damage damage, bool raytrace)
-{
-	typedef CollisionResponse (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf start_arg, Pointf finish_arg, Damage damage_arg, bool raytrace_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1021::func;
-	return execfunc(this, start, finish, damage, raytrace);
-}
-
-namespace _func1022
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::CollisionMoving", typeid(CollisionResponse (ShipManager::*)(Pointf , Pointf , Damage , bool )), ".41574989ff488d7f044156415541544189d4554889f5534881ec08010000", nullptr, 0, 0, &func);
-}
-
-CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)
 {
 	typedef CollisionResponse (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf start_arg, Pointf finish_arg, Damage damage_arg, bool raytrace_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1022::func;
@@ -13038,36 +13038,36 @@ CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf finish, Dama
 namespace _func1023
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::CollisionMoving", typeid(CollisionResponse (ShipManager::*)(Pointf , Pointf , Damage , bool )), ".41574989ff488d7f044156415541544189d4554889f5534881ec08010000", nullptr, 0, 0, &func);
+}
+
+CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)
+{
+	typedef CollisionResponse (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf start_arg, Pointf finish_arg, Damage damage_arg, bool raytrace_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1023::func;
+	return execfunc(this, start, finish, damage, raytrace);
+}
+
+namespace _func1024
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DamageArea", typeid(bool (ShipManager::*)(Pointf , Damage , bool )), ".4157b901000000415641554189f5415455534889fb4881ecc8000000", nullptr, 0, 0, &func);
 }
 
 bool ShipManager::DamageArea(Pointf location, Damage dmg, bool forceHit)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location_arg, Damage dmg_arg, bool forceHit_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1023::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1024::func;
 	return execfunc(this, location, dmg, forceHit);
 }
 
-namespace _func1024
+namespace _func1025
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::PrepareSuperDrones", typeid(void (ShipManager::*)()), ".415741564155415455534889fb4883ec58488b87b8090000", nullptr, 0, 0, &func);
 }
 
 void ShipManager::PrepareSuperDrones()
-{
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1024::func;
-	return execfunc(this);
-}
-
-namespace _func1025
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::RenderChargeBars", typeid(void (ShipManager::*)()), ".4155415455534889fb4883ec388b5708", nullptr, 0, 0, &func);
-}
-
-void ShipManager::RenderChargeBars()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1025::func;
@@ -13077,10 +13077,10 @@ void ShipManager::RenderChargeBars()
 namespace _func1026
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::RenderWeapons", typeid(void (ShipManager::*)()), ".41574156415541544c8da718010000554889fd4c89e7534883ec68", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::RenderChargeBars", typeid(void (ShipManager::*)()), ".4155415455534889fb4883ec388b5708", nullptr, 0, 0, &func);
 }
 
-void ShipManager::RenderWeapons()
+void ShipManager::RenderChargeBars()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1026::func;
@@ -13090,17 +13090,30 @@ void ShipManager::RenderWeapons()
 namespace _func1027
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::RenderWeapons", typeid(void (ShipManager::*)()), ".41574156415541544c8da718010000554889fd4c89e7534883ec68", nullptr, 0, 0, &func);
+}
+
+void ShipManager::RenderWeapons()
+{
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1027::func;
+	return execfunc(this);
+}
+
+namespace _func1028
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::OnRender", typeid(void (ShipManager::*)(bool , bool )), ".4157415641554989fd4154555389f34881ec98000000", nullptr, 0, 0, &func);
 }
 
 void ShipManager::OnRender(bool showInterior, bool doorControlMode)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, bool showInterior_arg, bool doorControlMode_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1027::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1028::func;
 	return execfunc(this, showInterior, doorControlMode);
 }
 
-namespace _func1028
+namespace _func1029
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CreateCrewDrone", typeid(CrewDrone *(ShipManager::*)(const DroneBlueprint *)), ".55534889fb4883ec188b4670", nullptr, 0, 0, &func);
@@ -13109,11 +13122,11 @@ namespace _func1028
 CrewDrone *ShipManager::CreateCrewDrone(const DroneBlueprint *bp)
 {
 	typedef CrewDrone *(*custom_arg_funcptr_t)(ShipManager *this_arg, const DroneBlueprint *bp_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1028::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1029::func;
 	return execfunc(this, bp);
 }
 
-namespace _func1029
+namespace _func1030
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CreateSpaceDrone", typeid(SpaceDrone *(ShipManager::*)(const DroneBlueprint *)), ".41554154554889f5534883ec38837e7007", nullptr, 0, 0, &func);
@@ -13122,11 +13135,11 @@ namespace _func1029
 SpaceDrone *ShipManager::CreateSpaceDrone(const DroneBlueprint *bp)
 {
 	typedef SpaceDrone *(*custom_arg_funcptr_t)(ShipManager *this_arg, const DroneBlueprint *bp_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1029::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1030::func;
 	return execfunc(this, bp);
 }
 
-namespace _func1030
+namespace _func1031
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddDrone", typeid(Drone *(ShipManager::*)(const DroneBlueprint *, int )), ".4155415455534889fb4883ec18488b8758060000", nullptr, 0, 0, &func);
@@ -13135,11 +13148,11 @@ namespace _func1030
 Drone *ShipManager::AddDrone(const DroneBlueprint *bp, int slot)
 {
 	typedef Drone *(*custom_arg_funcptr_t)(ShipManager *this_arg, const DroneBlueprint *bp_arg, int slot_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1030::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1031::func;
 	return execfunc(this, bp, slot);
 }
 
-namespace _func1031
+namespace _func1032
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddEquipmentFromList", typeid(void (ShipManager::*)(std::vector<std::string> *)), ".415641554154554889f5534883ec30", nullptr, 0, 0, &func);
@@ -13148,11 +13161,11 @@ namespace _func1031
 void ShipManager::AddEquipmentFromList(std::vector<std::string> *equipmentList)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, std::vector<std::string> *equipmentList_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1031::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1032::func;
 	return execfunc(this, equipmentList);
 }
 
-namespace _func1032
+namespace _func1033
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddSystem", typeid(int (ShipManager::*)(int )), ".415741564155415455534889fb4881ece8000000", nullptr, 0, 0, &func);
@@ -13161,11 +13174,11 @@ namespace _func1032
 int ShipManager::AddSystem(int systemId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1032::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1033::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func1033
+namespace _func1034
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::CreateSystems", typeid(int (ShipManager::*)()), ".4154488d8fb007000055534889fb4883ec20", nullptr, 0, 0, &func);
@@ -13174,11 +13187,11 @@ namespace _func1033
 int ShipManager::CreateSystems()
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1033::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1034::func;
 	return execfunc(this);
 }
 
-namespace _func1034
+namespace _func1035
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::DamageBeam", typeid(bool (ShipManager::*)(Pointf , Pointf , Damage )), ".4157415641554154554889fd534881ece8000000", nullptr, 0, 0, &func);
@@ -13187,11 +13200,11 @@ namespace _func1034
 bool ShipManager::DamageBeam(Pointf location1, Pointf location2, Damage dmg)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location1_arg, Pointf location2_arg, Damage dmg_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1034::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1035::func;
 	return execfunc(this, location1, location2, dmg);
 }
 
-namespace _func1035
+namespace _func1036
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::UpdateCrewMembers", typeid(void (ShipManager::*)()), ".415731c94156415541544989fc555331db4881ec38010000", nullptr, 0, 0, &func);
@@ -13200,11 +13213,11 @@ namespace _func1035
 void ShipManager::UpdateCrewMembers()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1035::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1036::func;
 	return execfunc(this);
 }
 
-namespace _func1036
+namespace _func1037
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::PowerDrone", typeid(bool (ShipManager::*)(Drone *, int , bool , bool )), ".41554154554889fd534883ec08488b87", nullptr, 0, 0, &func);
@@ -13213,11 +13226,11 @@ namespace _func1036
 bool ShipManager::PowerDrone(Drone *drone, int roomId, bool userDriven, bool force)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, Drone *drone_arg, int roomId_arg, bool userDriven_arg, bool force_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1036::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1037::func;
 	return execfunc(this, drone, roomId, userDriven, force);
 }
 
-namespace _func1037
+namespace _func1038
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ImportBattleState", typeid(void (ShipManager::*)(int )), "!.4157415641554154554889fd5389f34883ec18", nullptr, 0, 0, &func);
@@ -13226,11 +13239,11 @@ namespace _func1037
 void ShipManager::ImportBattleState(int file)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int file_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1037::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1038::func;
 	return execfunc(this, file);
 }
 
-namespace _func1038
+namespace _func1039
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::OnLoop", typeid(void (ShipManager::*)()), ".41574989ffbe????????41564155415455534881ec48010000", nullptr, 0, 0, &func);
@@ -13239,11 +13252,11 @@ namespace _func1038
 void ShipManager::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1038::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1039::func;
 	return execfunc(this);
 }
 
-namespace _func1039
+namespace _func1040
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ExportShip", typeid(void (ShipManager::*)(int )), ".41574989ff415641554154555389f3488db75807000089df4881ec78010000", nullptr, 0, 0, &func);
@@ -13252,11 +13265,11 @@ namespace _func1039
 void ShipManager::ExportShip(int file)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int file_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1039::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1040::func;
 	return execfunc(this, file);
 }
 
-namespace _func1040
+namespace _func1041
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromString", typeid(CrewMember *(ShipManager::*)(const std::string &, const std::string &, bool , int , bool , bool )), ".415741564589c641554154554889fd534881ec58020000", nullptr, 0, 0, &func);
@@ -13265,11 +13278,11 @@ namespace _func1040
 CrewMember *ShipManager::AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)
 {
 	typedef CrewMember *(*custom_arg_funcptr_t)(ShipManager *this_arg, const std::string &name_arg, const std::string &race_arg, bool intruder_arg, int roomId_arg, bool init_arg, bool male_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1040::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1041::func;
 	return execfunc(this, name, race, intruder, roomId, init, male);
 }
 
-namespace _func1041
+namespace _func1042
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddInitialCrew", typeid(void (ShipManager::*)(std::vector<CrewBlueprint> &)), ".41574156415541544989f4be????????554889fd534881ec88010000", nullptr, 0, 0, &func);
@@ -13278,11 +13291,11 @@ namespace _func1041
 void ShipManager::AddInitialCrew(std::vector<CrewBlueprint> &blueprints)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, std::vector<CrewBlueprint> &blueprints_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1041::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1042::func;
 	return execfunc(this, blueprints);
 }
 
-namespace _func1042
+namespace _func1043
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::Restart", typeid(void (ShipManager::*)()), ".415641554154554889fd534883ec208b4708", nullptr, 0, 0, &func);
@@ -13291,11 +13304,11 @@ namespace _func1042
 void ShipManager::Restart()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1042::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1043::func;
 	return execfunc(this);
 }
 
-namespace _func1043
+namespace _func1044
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::SaveToBlueprint", typeid(ShipBlueprint (ShipManager::*)(bool )), ".4157415641554189d54154554889f5534889fb4883ec48", nullptr, 0, 0, &func);
@@ -13304,11 +13317,11 @@ namespace _func1043
 ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
 {
 	typedef ShipBlueprint (*custom_arg_funcptr_t)(ShipManager *this_arg, bool unk_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1043::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1044::func;
 	return execfunc(this, unk);
 }
 
-namespace _func1044
+namespace _func1045
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::OnInit", typeid(int (ShipManager::*)(ShipBlueprint *, int )), ".4156415541544c8da7800600005589d5534889fb4c89e74883ec50", nullptr, 0, 0, &func);
@@ -13317,11 +13330,11 @@ namespace _func1044
 int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, ShipBlueprint *bp_arg, int shipLevel_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1044::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1045::func;
 	return execfunc(this, bp, shipLevel);
 }
 
-namespace _func1045
+namespace _func1046
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::ImportShip", typeid(void (ShipManager::*)(int )), ".415741564189f64155415455534889fb4c8dab800600004c8dbb880700004881ec18040000", nullptr, 0, 0, &func);
@@ -13330,11 +13343,11 @@ namespace _func1045
 void ShipManager::ImportShip(int file)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int file_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1045::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1046::func;
 	return execfunc(this, file);
 }
 
-namespace _func1046
+namespace _func1047
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::constructor", typeid(int (ShipManager::*)(int )), ".415741564989fe488dbfd800000041554154555389f34881ec98000000", nullptr, 0, 0, &func);
@@ -13343,30 +13356,17 @@ namespace _func1046
 int ShipManager::constructor(int shipId)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1046::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1047::func;
 	return execfunc(this, shipId);
 }
 
-namespace _func1047
+namespace _func1048
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::destructor", typeid(void (ShipManager::*)()), ".415641554989fd4154555348c707", nullptr, 0, 0, &func);
 }
 
 void ShipManager::destructor()
-{
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1047::func;
-	return execfunc(this);
-}
-
-namespace _func1048
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::destructor2", typeid(void (ShipManager::*)()), "!.534889fb", nullptr, 0, 0, &func);
-}
-
-void ShipManager::destructor2()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1048::func;
@@ -13376,12 +13376,12 @@ void ShipManager::destructor2()
 namespace _func1049
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::CountPlayerCrew", typeid(int (ShipManager::*)()), "41564989fe415541545553488b87c800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::destructor2", typeid(void (ShipManager::*)()), "!.534889fb", nullptr, 0, 0, &func);
 }
 
-int ShipManager::CountPlayerCrew()
+void ShipManager::destructor2()
 {
-	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1049::func;
 	return execfunc(this);
 }
