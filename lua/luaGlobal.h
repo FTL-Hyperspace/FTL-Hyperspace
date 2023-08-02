@@ -35,10 +35,27 @@
  */
 static int hslua_g_printMessage(lua_State* lua)
 {
-    const char* msg = luaL_checkstring(lua, 1);
-    std::string logMessage = boost::str(boost::format("[Lua]: %s\n") % msg);
-    printf("%s", logMessage.c_str());
-    hs_log_file("%s", logMessage.c_str());
+    std::string message = std::string();
+    int argCount = lua_gettop(lua);
+    lua_getglobal(lua, "tostring");
+    for (int i = 1; i <= argCount; i++)
+    {
+        lua_pushvalue(lua, -1);
+        lua_pushvalue(lua, i);
+        lua_call(lua, 1, 1);
+        const char* str = lua_tostring(lua, -1);
+        if (str == NULL)
+        {
+            return luaL_error(lua, "'tostring' must return a string to 'log'");
+        }
+        
+        message += str;
+        message += "    ";
+        lua_pop(lua, 1);
+    }
+    message = boost::str(boost::format("[Lua]: %s\n") % message);
+    printf("%s", message.c_str());
+    hs_log_file("%s", message.c_str());
     return 0;
 }
 
@@ -62,10 +79,10 @@ static int hslua_g_printToScreen(lua_State* lua)
         message += "    ";
         lua_pop(lua, 1);
     }
-    message = boost::str(boost::format("[Lua]: %s") % message);
     PrintHelper::GetInstance()->AddMessage(message);
-    printf("%s\n", message.c_str());
-    hs_log_file("%s\n", message.c_str());
+    message = boost::str(boost::format("[Lua]: %s\n") % message);
+    printf("%s", message.c_str());
+    hs_log_file("%s", message.c_str());
     return 0;
 }
 
