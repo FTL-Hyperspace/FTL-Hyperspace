@@ -9329,23 +9329,23 @@ void MouseControl::Reset()
 namespace _func727
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MouseControl::SetTooltip", typeid(void (MouseControl::*)(const std::string &)), ".41544989f4554889fd53488b06488b58e84885db", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MouseControl::LoadTooltip", typeid(void (MouseControl::*)(const std::string &)), ".415541544989fc55534889f34883ec38", nullptr, 0, 0, &func);
 }
 
-void MouseControl::SetTooltip(const std::string &tooltip)
+void MouseControl::LoadTooltip(const std::string &tooltipName)
 {
-	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, const std::string &tooltip_arg);
+	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, const std::string &tooltipName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func727::func;
-	return execfunc(this, tooltip);
+	return execfunc(this, tooltipName);
 }
 
 namespace _func728
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MouseControl::SetTooltipTitle", typeid(void (MouseControl::*)(const std::string &)), ".488b8728010000488378e800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MouseControl::SetTooltip", typeid(void (MouseControl::*)(const std::string &)), ".41544989f4554889fd53488b06488b58e84885db", nullptr, 0, 0, &func);
 }
 
-void MouseControl::SetTooltipTitle(const std::string &tooltip)
+void MouseControl::SetTooltip(const std::string &tooltip)
 {
 	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, const std::string &tooltip_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func728::func;
@@ -9355,27 +9355,27 @@ void MouseControl::SetTooltipTitle(const std::string &tooltip)
 namespace _func729
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("MouseControl::SetTooltipTitle", typeid(void (MouseControl::*)(const std::string &)), ".488b8728010000488378e800", nullptr, 0, 0, &func);
+}
+
+void MouseControl::SetTooltipTitle(const std::string &tooltip)
+{
+	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, const std::string &tooltip_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func729::func;
+	return execfunc(this, tooltip);
+}
+
+namespace _func730
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("MouseControl::SetDoor", typeid(void (MouseControl::*)(int )), ".554889fd5389f34883ec0883fe01", nullptr, 0, 0, &func);
 }
 
 void MouseControl::SetDoor(int state)
 {
 	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, int state_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func729::func;
-	return execfunc(this, state);
-}
-
-namespace _func730
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("MouseControl::LoadTooltip", typeid(void (MouseControl::*)(const std::string &)), "415541544989fc55534889f34883ec38", nullptr, 0, 0, &func);
-}
-
-void MouseControl::LoadTooltip(const std::string &tooltipName)
-{
-	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, const std::string &tooltipName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func730::func;
-	return execfunc(this, tooltipName);
+	return execfunc(this, state);
 }
 
 MouseControl *Global_MouseControl_Mouse;
@@ -14938,27 +14938,27 @@ void SpaceStatus::RenderWarningText(int effect, int textOffset)
 namespace _func1177
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("SpaceStatus::OnRender", typeid(void (SpaceStatus::*)()), "415455534889fb4883ec10488b7f58e8", nullptr, 0, 0, &func);
-}
-
-void SpaceStatus::OnRender()
-{
-	typedef void (*custom_arg_funcptr_t)(SpaceStatus *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1177::func;
-	return execfunc(this);
-}
-
-namespace _func1178
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("SpaceStatus::MouseMove", typeid(void (SpaceStatus::*)(int , int )), "41544189d45589f5534889fb4883ec20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SpaceStatus::MouseMove", typeid(void (SpaceStatus::*)(int , int )), ".41544189d45589f5534889fb4883ec20", nullptr, 0, 0, &func);
 }
 
 void SpaceStatus::MouseMove(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(SpaceStatus *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1178::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1177::func;
 	return execfunc(this, mX, mY);
+}
+
+namespace _func1178
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("SpaceStatus::OnRender", typeid(void (SpaceStatus::*)()), ".415455534889fb4883ec10488b7f58e8", nullptr, 0, 0, &func);
+}
+
+void SpaceStatus::OnRender()
+{
+	typedef void (*custom_arg_funcptr_t)(SpaceStatus *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1178::func;
+	return execfunc(this);
 }
 
 namespace _func1179
