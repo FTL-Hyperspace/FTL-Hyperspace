@@ -13877,17 +13877,30 @@ bool ShipSystem::GetLocked()
 namespace _func1088
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("ShipSystem::GetLockTimer", typeid(TimerHelper (ShipSystem::*)()), ".488b96a0", nullptr, 0, 0, &func);
+}
+
+TimerHelper ShipSystem::GetLockTimer()
+{
+	typedef TimerHelper (*custom_arg_funcptr_t)(ShipSystem *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1088::func;
+	return execfunc(this);
+}
+
+namespace _func1089
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::StopHacking", typeid(void (ShipSystem::*)()), "!.488b07c6872402000000", nullptr, 0, 0, &func);
 }
 
 void ShipSystem::StopHacking()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1088::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1089::func;
 	return execfunc(this);
 }
 
-namespace _func1089
+namespace _func1090
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::UpgradeSystem", typeid(bool (ShipSystem::*)(int )), ".5589f5534889fb4883ec08488b07", nullptr, 0, 0, &func);
@@ -13896,11 +13909,11 @@ namespace _func1089
 bool ShipSystem::UpgradeSystem(int amount)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg, int amount_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1089::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1090::func;
 	return execfunc(this, amount);
 }
 
-namespace _func1090
+namespace _func1091
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::GetMaxPower", typeid(int (ShipSystem::*)()), ".8b4f548b877401000031d2", nullptr, 0, 0, &func);
@@ -13909,11 +13922,11 @@ namespace _func1090
 int ShipSystem::GetMaxPower()
 {
 	typedef int (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1090::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1091::func;
 	return execfunc(this);
 }
 
-namespace _func1091
+namespace _func1092
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::CheckMaxPower", typeid(void (ShipSystem::*)()), ".4155415455534889fb4883ec0880bf8c01000000", nullptr, 0, 0, &func);
@@ -13922,11 +13935,37 @@ namespace _func1091
 void ShipSystem::CheckMaxPower()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1091::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1092::func;
 	return execfunc(this);
 }
 
-namespace _func1092
+namespace _func1093
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("ShipSystem::RenderSystemSymbol", typeid(void (ShipSystem::*)(bool , int )), ".41545589d5534889fb4883ec", nullptr, 0, 0, &func);
+}
+
+void ShipSystem::RenderSystemSymbol(bool forPowerUI, int forceColor)
+{
+	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg, bool forPowerUI_arg, int forceColor_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1093::func;
+	return execfunc(this, forPowerUI, forceColor);
+}
+
+namespace _func1094
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("ShipSystem::RenderPowerBoxesPlain", typeid(int (*)(int , int , int , int , int , int , int , int )), ".4157b840", nullptr, 0, 0, &func);
+}
+
+int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max)
+{
+	typedef int (*custom_arg_funcptr_t)(int x_arg, int y_arg, int width_arg, int height_arg, int gap_arg, int current_arg, int temp_arg, int max_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1094::func;
+	return execfunc(x, y, width, height, gap, current, temp, max);
+}
+
+namespace _func1095
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::IsSubsystem", typeid(bool (*)(int )), ".83ff0c741383ff06", nullptr, 0, 0, &func);
@@ -13935,11 +13974,11 @@ namespace _func1092
 bool ShipSystem::IsSubsystem(int systemType)
 {
 	typedef bool (*custom_arg_funcptr_t)(int systemType_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1092::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1095::func;
 	return execfunc(systemType);
 }
 
-namespace _func1093
+namespace _func1096
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::RenderPowerBoxes", typeid(int (ShipSystem::*)(int , int , int , int , int , int , bool )), "!.41574989ff41564189ce41554189f541544589c4554489cd5389d34881ec88000000", nullptr, 0, 0, &func);
@@ -13948,116 +13987,116 @@ namespace _func1093
 int ShipSystem::RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipSystem *this_arg, int x_arg, int y_arg, int width_arg, int height_arg, int gap_arg, int heightMod_arg, bool flash_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1093::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1096::func;
 	return execfunc(this, x, y, width, height, gap, heightMod, flash);
 }
 
 GL_Primitive **ShipSystem__glowWhite;
 
-namespace _var1094
+namespace _var1097
 {
 	static VariableDefinition varObj("ShipSystem__glowWhite", "!.488b3d(???????\?)", &ShipSystem__glowWhite, true, true);
 }
 
 GL_Primitive **ShipSystem__lockBlue;
 
-namespace _var1095
+namespace _var1098
 {
 	static VariableDefinition varObj("ShipSystem__lockBlue", "!.4c8b05(???????\?)", &ShipSystem__lockBlue, true, true);
 }
 
 GL_Primitive **ShipSystem__fireImage;
 
-namespace _var1096
+namespace _var1099
 {
 	static VariableDefinition varObj("ShipSystem__fireImage", "!.488b3d(???????\?)", &ShipSystem__fireImage, true, true);
 }
 
 GL_Primitive **ShipSystem__lockHack;
 
-namespace _var1097
+namespace _var1100
 {
 	static VariableDefinition varObj("ShipSystem__lockHack", "!.488b3d(???????\?)", &ShipSystem__lockHack, true, true);
 }
 
 GL_Primitive **ShipSystem__manningBarIon;
 
-namespace _var1098
+namespace _var1101
 {
 	static VariableDefinition varObj("ShipSystem__manningBarIon", "!.488b3d(???????\?)", &ShipSystem__manningBarIon, true, true);
 }
 
 GL_Primitive **ShipSystem__manningBarOff;
 
-namespace _var1099
+namespace _var1102
 {
 	static VariableDefinition varObj("ShipSystem__manningBarOff", "!.480f443d(???????\?)", &ShipSystem__manningBarOff, true, true);
 }
 
 GL_Primitive **ShipSystem__lockWhite;
 
-namespace _var1100
+namespace _var1103
 {
 	static VariableDefinition varObj("ShipSystem__lockWhite", "!.4c8b05(???????\?)", &ShipSystem__lockWhite, true, true);
 }
 
 GL_Primitive **ShipSystem__sabotageImage;
 
-namespace _var1101
+namespace _var1104
 {
 	static VariableDefinition varObj("ShipSystem__sabotageImage", "!.488b3d(???????\?)", &ShipSystem__sabotageImage, true, true);
 }
 
 GL_Primitive **ShipSystem__manningOutline;
 
-namespace _var1102
+namespace _var1105
 {
 	static VariableDefinition varObj("ShipSystem__manningOutline", "!.488b3d(???????\?)", &ShipSystem__manningOutline, true, true);
 }
 
 GL_Primitive **ShipSystem__manningBarOn;
 
-namespace _var1103
+namespace _var1106
 {
 	static VariableDefinition varObj("ShipSystem__manningBarOn", "!.488b3d(???????\?)", &ShipSystem__manningBarOn, true, true);
 }
 
 GL_Primitive **ShipSystem__manningWhite;
 
-namespace _var1104
+namespace _var1107
 {
 	static VariableDefinition varObj("ShipSystem__manningWhite", "!.488b3d(???????\?)", &ShipSystem__manningWhite, true, true);
 }
 
 GL_Primitive **ShipSystem__manningGreen;
 
-namespace _var1105
+namespace _var1108
 {
 	static VariableDefinition varObj("ShipSystem__manningGreen", "!.488b3d(???????\?)", &ShipSystem__manningGreen, true, true);
 }
 
 GL_Primitive **ShipSystem__manningYellow;
 
-namespace _var1106
+namespace _var1109
 {
 	static VariableDefinition varObj("ShipSystem__manningYellow", "!.488b3d(???????\?)", &ShipSystem__manningYellow, true, true);
 }
 
 GL_Primitive **ShipSystem__glowBlue;
 
-namespace _var1107
+namespace _var1110
 {
 	static VariableDefinition varObj("ShipSystem__glowBlue", "!.488b3d(???????\?)", &ShipSystem__glowBlue, true, true);
 }
 
 GL_Primitive **ShipSystem__glowRed;
 
-namespace _var1108
+namespace _var1111
 {
 	static VariableDefinition varObj("ShipSystem__glowRed", "!.488b3d(???????\?)", &ShipSystem__glowRed, true, true);
 }
 
-namespace _func1109
+namespace _func1112
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::IncreasePower", typeid(bool (ShipSystem::*)(int , bool )), ".534889fb4883ec108b879c010000", nullptr, 0, 0, &func);
@@ -14066,11 +14105,11 @@ namespace _func1109
 bool ShipSystem::IncreasePower(int amount, bool force)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg, int amount_arg, bool force_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1109::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1112::func;
 	return execfunc(this, amount, force);
 }
 
-namespace _func1110
+namespace _func1113
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::DecreasePower", typeid(bool (ShipSystem::*)(bool )), ".55534889fb4883ec080fb6878c010000", nullptr, 0, 0, &func);
@@ -14079,11 +14118,11 @@ namespace _func1110
 bool ShipSystem::DecreasePower(bool force)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg, bool force_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1110::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1113::func;
 	return execfunc(this, force);
 }
 
-namespace _func1111
+namespace _func1114
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::DamageOverTime", typeid(bool (ShipSystem::*)(float )), ".55534889fb", nullptr, 0, 0, &func);
@@ -14092,11 +14131,11 @@ namespace _func1111
 bool ShipSystem::DamageOverTime(float unk)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg, float unk_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1111::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1114::func;
 	return execfunc(this, unk);
 }
 
-namespace _func1112
+namespace _func1115
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::CheckForRepower", typeid(void (ShipSystem::*)()), ".415541544531e455534889fb4883ec08", nullptr, 0, 0, &func);
@@ -14105,11 +14144,11 @@ namespace _func1112
 void ShipSystem::CheckForRepower()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1112::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1115::func;
 	return execfunc(this);
 }
 
-namespace _func1113
+namespace _func1116
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::LockSystem", typeid(void (ShipSystem::*)(int )), ".83fe00751b8b879c010000", nullptr, 0, 0, &func);
@@ -14118,11 +14157,11 @@ namespace _func1113
 void ShipSystem::LockSystem(int lock)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg, int lock_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1113::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1116::func;
 	return execfunc(this, lock);
 }
 
-namespace _func1114
+namespace _func1117
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::ClearStatus", typeid(void (ShipSystem::*)()), ".83bf9001000007", nullptr, 0, 0, &func);
@@ -14131,11 +14170,11 @@ namespace _func1114
 void ShipSystem::ClearStatus()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1114::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1117::func;
 	return execfunc(this);
 }
 
-namespace _func1115
+namespace _func1118
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::SetPowerCap", typeid(void (ShipSystem::*)(int )), "!.53488b074889fb89b790010000", nullptr, 0, 0, &func);
@@ -14144,11 +14183,11 @@ namespace _func1115
 void ShipSystem::SetPowerCap(int cap)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg, int cap_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1115::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1118::func;
 	return execfunc(this, cap);
 }
 
-namespace _func1116
+namespace _func1119
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::SetPowerLoss", typeid(int (ShipSystem::*)(int )), "!.53488b074889fb89b794010000", nullptr, 0, 0, &func);
@@ -14157,11 +14196,11 @@ namespace _func1116
 int ShipSystem::SetPowerLoss(int power)
 {
 	typedef int (*custom_arg_funcptr_t)(ShipSystem *this_arg, int power_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1116::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1119::func;
 	return execfunc(this, power);
 }
 
-namespace _func1117
+namespace _func1120
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::PartialRepair", typeid(bool (ShipSystem::*)(float , bool )), ".5531c0534889fb4883ec18", nullptr, 0, 0, &func);
@@ -14170,11 +14209,11 @@ namespace _func1117
 bool ShipSystem::PartialRepair(float speed, bool autoRepair)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg, float speed_arg, bool autoRepair_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1117::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1120::func;
 	return execfunc(this, speed, autoRepair);
 }
 
-namespace _func1118
+namespace _func1121
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::AddLock", typeid(void (ShipSystem::*)(int )), ".8b879c01000083f8ff", nullptr, 0, 0, &func);
@@ -14183,11 +14222,11 @@ namespace _func1118
 void ShipSystem::AddLock(int lock)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg, int lock_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1118::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1121::func;
 	return execfunc(this, lock);
 }
 
-namespace _func1119
+namespace _func1122
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::OnLoop", typeid(void (ShipSystem::*)()), ".415455538b879c0100004889fb85c0", nullptr, 0, 0, &func);
@@ -14196,11 +14235,11 @@ namespace _func1119
 void ShipSystem::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1119::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1122::func;
 	return execfunc(this);
 }
 
-namespace _func1120
+namespace _func1123
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::NameToSystemId", typeid(int (*)(const std::string &)), ".53be????????4889fb", nullptr, 0, 0, &func);
@@ -14209,11 +14248,11 @@ namespace _func1120
 int ShipSystem::NameToSystemId(const std::string &name)
 {
 	typedef int (*custom_arg_funcptr_t)(const std::string &name_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1120::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1123::func;
 	return execfunc(name);
 }
 
-namespace _func1121
+namespace _func1124
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::SystemIdToName", typeid(std::string (*)(int )), ".534889fb4883ec1083fe11488d54240f", nullptr, 0, 0, &func);
@@ -14222,11 +14261,11 @@ namespace _func1121
 std::string ShipSystem::SystemIdToName(int systemId)
 {
 	typedef std::string (*custom_arg_funcptr_t)(int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1121::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1124::func;
 	return execfunc(systemId);
 }
 
-namespace _func1122
+namespace _func1125
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::GetLevelDescription", typeid(std::string (*)(int , int , bool )), ".4156415541544189d455534889fb4881ec10020000", nullptr, 0, 0, &func);
@@ -14235,11 +14274,11 @@ namespace _func1122
 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip)
 {
 	typedef std::string (*custom_arg_funcptr_t)(int systemId_arg, int level_arg, bool tooltip_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1122::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1125::func;
 	return execfunc(systemId, level, tooltip);
 }
 
-namespace _func1123
+namespace _func1126
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::constructor", typeid(void (ShipSystem::*)(int , int , int , int )), ".41574989ff41564189f641554589c54154555389d389ca4881ecd8010000", nullptr, 0, 0, &func);
@@ -14248,11 +14287,11 @@ namespace _func1123
 void ShipSystem::constructor(int systemId, int roomId, int shipId, int startingPower)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg, int systemId_arg, int roomId_arg, int shipId_arg, int startingPower_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1123::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1126::func;
 	return execfunc(this, systemId, roomId, shipId, startingPower);
 }
 
-namespace _func1124
+namespace _func1127
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::PartialDamage", typeid(bool (ShipSystem::*)(float )), "55534889fbbf????????4883ec18f30f1144240c", nullptr, 0, 0, &func);
@@ -14261,47 +14300,8 @@ namespace _func1124
 bool ShipSystem::PartialDamage(float amount)
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg, float amount_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1124::func;
-	return execfunc(this, amount);
-}
-
-namespace _func1125
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipSystem::RenderPowerBoxesPlain", typeid(int (*)(int , int , int , int , int , int , int , int )), "4157b840", nullptr, 0, 0, &func);
-}
-
-int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max)
-{
-	typedef int (*custom_arg_funcptr_t)(int x_arg, int y_arg, int width_arg, int height_arg, int gap_arg, int current_arg, int temp_arg, int max_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1125::func;
-	return execfunc(x, y, width, height, gap, current, temp, max);
-}
-
-namespace _func1126
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipSystem::RenderSystemSymbol", typeid(void (ShipSystem::*)(bool , int )), "41545589d5534889fb4883ec", nullptr, 0, 0, &func);
-}
-
-void ShipSystem::RenderSystemSymbol(bool forPowerUI, int forceColor)
-{
-	typedef void (*custom_arg_funcptr_t)(ShipSystem *this_arg, bool forPowerUI_arg, int forceColor_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1126::func;
-	return execfunc(this, forPowerUI, forceColor);
-}
-
-namespace _func1127
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("ShipSystem::GetLockTimer", typeid(TimerHelper (ShipSystem::*)()), "488b96a0", nullptr, 0, 0, &func);
-}
-
-TimerHelper ShipSystem::GetLockTimer()
-{
-	typedef TimerHelper (*custom_arg_funcptr_t)(ShipSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1127::func;
-	return execfunc(this);
+	return execfunc(this, amount);
 }
 
 namespace _func1128

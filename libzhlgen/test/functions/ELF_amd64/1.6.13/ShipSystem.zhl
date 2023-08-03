@@ -22,6 +22,8 @@ cleanup __amd64 bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimi
 cleanup __amd64 int ShipSystem::IsMannedBoost(ShipSystem *this);
 ".8b879c01000083f8ff":
 cleanup __amd64 bool ShipSystem::GetLocked(ShipSystem *this);
+".488b96a0":
+cleanup __amd64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 "!.488b07c6872402000000":
 cleanup __amd64 void ShipSystem::StopHacking(ShipSystem *this);
 ".5589f5534889fb4883ec08488b07":
@@ -30,6 +32,10 @@ cleanup __amd64 bool ShipSystem::UpgradeSystem(ShipSystem *this, int amount);
 cleanup __amd64 int ShipSystem::GetMaxPower(ShipSystem *this);
 ".4155415455534889fb4883ec0880bf8c01000000":
 cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
+".41545589d5534889fb4883ec":
+cleanup __amd64 void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
+".4157b840":
+static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
 ".83ff0c741383ff06":
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 "!.41574989ff41564189ce41554189f541544589c4554489cd5389d34881ec88000000":
@@ -97,13 +103,6 @@ cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int
 
 "55534889fbbf????????4883ec18f30f1144240c":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
-
-"4157b840":
-static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
-"41545589d5534889fb4883ec":
-cleanup __amd64 void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
-"488b96a0":
-cleanup __amd64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 
 struct ShipSystem
 {{
