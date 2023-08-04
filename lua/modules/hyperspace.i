@@ -606,7 +606,8 @@ playerVariableType playerVariables;
 // TODO: We might be able to allow access to the `sectors` vector and maybe allow rendering secret sectors onto the map but instead just jumping to them when they're clicked?
 ////%rename("%s") StarMap::sectors; // also there is lastSectors, not sure what they're for yet
 // TODO: Not sure what scrapCollected, dronesCollected, fuelCollected, weaponFound, droneFound maps do, does the game record what was found at each node? Can't find calls to it internally.
-
+%rename("%s") StarMap::ship;
+%rename("%s") StarMap::shipNoFuel;
 /*
 ////%rename("%s") StarMap::ReverseBossPath;
 ////%rename("%s") StarMap::UpdateBoss; // Could be interesting for allowing the boss to move manually *although* maybe this is dangerous on non-boss levels, maybe UpdateDangerZone is safer to call?
