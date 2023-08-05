@@ -515,6 +515,7 @@ playerVariableType playerVariables;
 %immutable WorldManager::currentDifficulty;
 
 %rename("%s") WorldManager::starMap;
+%immutable WorldManager::starMap;
 
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable
