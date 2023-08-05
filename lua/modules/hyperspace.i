@@ -878,7 +878,8 @@ playerVariableType playerVariables;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
-////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
+%immutable ShipManager::current_target;
+%rename("%s") ShipManager::current_target; 
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
 //%immutable ShipManager::fuel_count;
