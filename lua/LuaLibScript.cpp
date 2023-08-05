@@ -427,13 +427,18 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_load_callbacks();
 }
 
+//On selecting Continue and loading up a run.
 HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (LuaLibScript.cpp)\n")
     super(fh);
-    // TODO: Probably need LoadGame, Opening the ship editor & game restart hooks to all call this
-    // TODO: Or maybe we can use StarMap::NewGame ?
-    // TODO: Or maybe WorldManager::StartGame or WorldManager::CreateNewGame? (Note, WOrldManager::CreateNewGame might be ideal)
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
+}
+//On restarting run or starting a new run from the hanger
+HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (LuaLibScript.cpp)\n")
+    super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
 }
 
