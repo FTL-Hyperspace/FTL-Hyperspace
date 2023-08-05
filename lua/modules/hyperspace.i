@@ -606,6 +606,10 @@ playerVariableType playerVariables;
 // TODO: We might be able to allow access to the `sectors` vector and maybe allow rendering secret sectors onto the map but instead just jumping to them when they're clicked?
 ////%rename("%s") StarMap::sectors; // also there is lastSectors, not sure what they're for yet
 // TODO: Not sure what scrapCollected, dronesCollected, fuelCollected, weaponFound, droneFound maps do, does the game record what was found at each node? Can't find calls to it internally.
+%rename("%s") StarMap::ship;
+%rename("%s") StarMap::shipNoFuel;
+%immutable StarMap::worldLevel; //Sector number (Sector 1 has worldLevel = 0, Sector 2 has worldLevel = 1, etc.)
+%rename("%s") StarMap::worldLevel;
 
 /*
 ////%rename("%s") StarMap::ReverseBossPath;
@@ -876,7 +880,8 @@ playerVariableType playerVariables;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
-////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
+%immutable ShipManager::current_target;
+%rename("%s") ShipManager::current_target; 
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
 //%immutable ShipManager::fuel_count;
@@ -922,6 +927,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::bInvincible;
 %rename("%s") ShipManager::superDrones;
 %rename("%s") ShipManager::failedDodgeCounter;
+%immutable ShipManager::iCustomizeMode;
+%rename("%s") ShipManager::iCustomizeMode;
 //%immutable ShipManager::hitByBeam;
 //%rename("%s") ShipManager::hitByBeam;
 %rename("%s") ShipManager::enemyDamagedUncloaked;
@@ -1117,6 +1124,9 @@ playerVariableType playerVariables;
 %rename("%s") CloneSystem::fTimeGoal;
 %rename("%s") CloneSystem::fDeathTime;
 %rename("%s") CloneSystem::slot;
+%rename("%s") CloneSystem::bottom;
+%rename("%s") CloneSystem::top;
+%rename("%s") CloneSystem::gas;
 
 %nodefaultctors HackingSystem;
 %nodefaultdtors HackingSystem;
@@ -2338,6 +2348,42 @@ playerVariableType playerVariables;
 %rename("%s") Projectile_Extend::name;
 %rename("%s") Projectile_Extend::customDamage;
 %rename("%s") Projectile_Extend::missedDrones; // list of selfId of drones that have dodged this projectile
+
+%rename("%s") CustomDamage;
+%rename("%S") CustomDamage::Clear;
+
+%rename("%s") CustomDamage::def;
+%rename("%s") CustomDamage::sourceShipId;
+%immutable CustomDamage::sourceShipId;
+%rename("%s") CustomDamage::accuracyMod;
+%rename("%s") CustomDamage::droneAccuracyMod;
+
+%rename("%s") CustomDamageDefinition;
+%rename("%s") CustomDamageDefinition::GiveId;
+
+%rename("%s") CustomDamageDefinition::idx;
+%immutable CustomDamageDefinition::idx;
+%rename("%s") CustomDamageDefinition::accuracyMod;
+%rename("%s") CustomDamageDefinition::droneAccuracyMod;
+%rename("%s") CustomDamageDefinition::noSysDamage;
+%rename("%s") CustomDamageDefinition::noPersDamage;
+%rename("%s") CustomDamageDefinition::ionBeamFix;
+%rename("%s") CustomDamageDefinition::statBoostChance;
+%rename("%s") CustomDamageDefinition::roomStatBoostChance;
+%rename("%s") CustomDamageDefinition::statBoosts;
+%immutable CustomDamageDefinition::statBoosts;
+%rename("%s") CustomDamageDefinition::roomStatBoosts;
+%immutable CustomDamageDefinition::roomStatBoosts;
+%rename("%s") CustomDamageDefinition::erosionChance;
+%rename("%s") CustomDamageDefinition::erosionEffect;
+%rename("%s") CustomDamageDefinition::crewSpawnChance;
+%rename("%s") CustomDamageDefinition::crewSpawns;
+%immutable CustomDamageDefinition::crewSpawns;
+
+//%rename("%s") CustomDamageDefinition::customDamageDefs;
+//%immutable CustomDamageDefinition::customDamageDefs;
+//%rename("%s") CustomDamageDefinition::defaultDef;
+//%immutable CustomDamageDefinition::defaultDef;
 
 %nodefaultctor LaserBlast;
 %rename("%s") LaserBlast;
