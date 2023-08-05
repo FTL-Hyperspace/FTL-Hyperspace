@@ -2349,6 +2349,42 @@ playerVariableType playerVariables;
 %rename("%s") Projectile_Extend::customDamage;
 %rename("%s") Projectile_Extend::missedDrones; // list of selfId of drones that have dodged this projectile
 
+%rename("%s") CustomDamage;
+%rename("%S") CustomDamage::Clear;
+
+%rename("%s") CustomDamage::def;
+%rename("%s") CustomDamage::sourceShipId;
+%immutable CustomDamage::sourceShipId;
+%rename("%s") CustomDamage::accuracyMod;
+%rename("%s") CustomDamage::droneAccuracyMod;
+
+%rename("%s") CustomDamageDefinition;
+%rename("%s") CustomDamageDefinition::GiveId;
+
+%rename("%s") CustomDamageDefinition::idx;
+%immutable CustomDamageDefinition::idx;
+%rename("%s") CustomDamageDefinition::accuracyMod;
+%rename("%s") CustomDamageDefinition::droneAccuracyMod;
+%rename("%s") CustomDamageDefinition::noSysDamage;
+%rename("%s") CustomDamageDefinition::noPersDamage;
+%rename("%s") CustomDamageDefinition::ionBeamFix;
+%rename("%s") CustomDamageDefinition::statBoostChance;
+%rename("%s") CustomDamageDefinition::roomStatBoostChance;
+%rename("%s") CustomDamageDefinition::statBoosts;
+%immutable CustomDamageDefinition::statBoosts;
+%rename("%s") CustomDamageDefinition::roomStatBoosts;
+%immutable CustomDamageDefinition::roomStatBoosts;
+%rename("%s") CustomDamageDefinition::erosionChance;
+%rename("%s") CustomDamageDefinition::erosionEffect;
+%rename("%s") CustomDamageDefinition::crewSpawnChance;
+%rename("%s") CustomDamageDefinition::crewSpawns;
+%immutable CustomDamageDefinition::crewSpawns;
+
+//%rename("%s") CustomDamageDefinition::customDamageDefs;
+//%immutable CustomDamageDefinition::customDamageDefs;
+//%rename("%s") CustomDamageDefinition::defaultDef;
+//%immutable CustomDamageDefinition::defaultDef;
+
 %nodefaultctor LaserBlast;
 %rename("%s") LaserBlast;
 %rename("%s") LaserBlast::LaserBlast;
