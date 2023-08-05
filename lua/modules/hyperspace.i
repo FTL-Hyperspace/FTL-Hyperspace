@@ -515,7 +515,6 @@ playerVariableType playerVariables;
 %immutable WorldManager::currentDifficulty;
 
 %rename("%s") WorldManager::starMap;
-%immutable WorldManager::starMap;
 
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable
@@ -608,6 +607,9 @@ playerVariableType playerVariables;
 // TODO: Not sure what scrapCollected, dronesCollected, fuelCollected, weaponFound, droneFound maps do, does the game record what was found at each node? Can't find calls to it internally.
 %rename("%s") StarMap::ship;
 %rename("%s") StarMap::shipNoFuel;
+%immutable StarMap::worldLevel; //Sector number (Sector 1 has worldLevel = 0, Sector 2 has worldLevel = 1, etc.)
+%rename("%s") StarMap::worldLevel;
+
 /*
 ////%rename("%s") StarMap::ReverseBossPath;
 ////%rename("%s") StarMap::UpdateBoss; // Could be interesting for allowing the boss to move manually *although* maybe this is dangerous on non-boss levels, maybe UpdateDangerZone is safer to call?
@@ -877,7 +879,8 @@ playerVariableType playerVariables;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
-////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
+%immutable ShipManager::current_target;
+%rename("%s") ShipManager::current_target; 
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
 //%immutable ShipManager::fuel_count;
@@ -923,6 +926,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::bInvincible;
 %rename("%s") ShipManager::superDrones;
 %rename("%s") ShipManager::failedDodgeCounter;
+%immutable ShipManager::iCustomizeMode;
+%rename("%s") ShipManager::iCustomizeMode;
 //%immutable ShipManager::hitByBeam;
 //%rename("%s") ShipManager::hitByBeam;
 %rename("%s") ShipManager::enemyDamagedUncloaked;
@@ -1118,6 +1123,9 @@ playerVariableType playerVariables;
 %rename("%s") CloneSystem::fTimeGoal;
 %rename("%s") CloneSystem::fDeathTime;
 %rename("%s") CloneSystem::slot;
+%rename("%s") CloneSystem::bottom;
+%rename("%s") CloneSystem::top;
+%rename("%s") CloneSystem::gas;
 
 %nodefaultctors HackingSystem;
 %nodefaultdtors HackingSystem;
