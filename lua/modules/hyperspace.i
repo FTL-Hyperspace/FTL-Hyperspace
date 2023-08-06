@@ -452,6 +452,15 @@ playerVariableType playerVariables;
 %rename("%s") MainMenu;
 %immutable MainMenu::bOpen;
 %rename("%s") MainMenu::bOpen;
+%immutable MainMenu::shipBuilder;
+%rename("%s") MainMenu::shipBuilder;
+
+%nodefaultctor ShipBuilder;
+%nodefaultdtor ShipBuilder;
+
+%rename("%s") ShipBuilder;
+%immutable ShipBuilder::bOpen;
+%rename("%s") ShipBuilder::bOpen;
 
 %nodefaultctor CommandGui;
 %nodefaultdtor CommandGui;
