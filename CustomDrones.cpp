@@ -1221,6 +1221,12 @@ HOOK_METHOD(SpaceDrone, constructor, (int iShipId, int selfId, DroneBlueprint *b
     LOG_HOOK("HOOK_METHOD -> SpaceDrone::constructor -> Begin (CustomDrones.cpp)\n")
     super(iShipId, selfId, blueprint);
     HS_MAKE_TABLE(this)
+    
+    //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDrone, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_SPACEDRONE, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(SpaceDrone, destructor, () -> void)

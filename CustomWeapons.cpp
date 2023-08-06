@@ -627,6 +627,11 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
             weaponVisual.SetFireTime(def->fireTime);
         }
     }
+    
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_PROJECTILE_FACTORY, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(ProjectileFactory, destructor, () -> void)
