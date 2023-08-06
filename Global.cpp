@@ -40,7 +40,6 @@ void hs_log_file(const char *str...)
     FILE* log = G_->logFile;
     if (log != nullptr)
     {
-        vprintf(str, va);
         vfprintf(log, str, va);
         fflush(G_->logFile);
     }

@@ -155,6 +155,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                         {
                             buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(shipChild->value());
                         }
+                        if (strcmp(shipChild->name(), "showShipAchievements") == 0)
+                        {
+                            buttonDef.showShipAchievements = EventsParser::ParseBoolean(shipChild->value());
+                        }
 
                         if (strcmp(shipChild->name(), "achievement") == 0) // ship achievement
                         {
@@ -1109,6 +1113,16 @@ void CustomShipSelect::UpdateFilteredAchievements()
             }
         }
     }
+}
+
+bool CustomShipSelect::ShowAchievementsForShip(int currentShipId, int currentType)
+{
+    if (currentShipId >= 100)
+    {
+        ShipButtonDefinition *def = &GetShipButtonDefinition(currentShipId - 100);
+        return showShipAchievements && def->showShipAchievements && !(hideMissingShipAchievements && def->shipAchievements[currentType].empty());
+    }
+    return showShipAchievements;
 }
 
 void CustomShipSelect::OnRender(bool renderSelect)
@@ -2276,6 +2290,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     bool isVanillaShip = currentShipId < 100;
 
     auto customSel = CustomShipSelect::GetInstance();
+    
+    bool showShipAchievements = customSel->ShowAchievementsForShip(currentShipId, currentType);
 
     if (Global::forceDlc)
     {
@@ -2397,7 +2413,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(g_defaultTextButtonColors[1]); // color used for achievement title
 
-    if (customSel->showShipAchievements)
+    if (showShipAchievements)
     {
         if (isVanillaShip)
         {
@@ -2557,7 +2573,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             {
                 ach.achievement->OnRender(pos, selectedAch == counter ? 2 : 3, 1);
             }
-            else if (customSel->showShipAchievements)
+            else if (showShipAchievements)
             {
                 ach.achievement->OnRender(pos, selectedAch == counter, 1);
             }
@@ -2607,7 +2623,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             ach->OnRender(Point(244, 404), selectedAch == 4 ? 2 : 3, 1);
         }
 
-        if (customSel->showShipAchievements)
+        if (showShipAchievements)
         {
             std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(currentShipId, currentType, false);
             int counter = 0;
@@ -2631,7 +2647,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     // Do individual victory achievements
 
-    if (!customSel->showShipAchievements)
+    if (!showShipAchievements)
     {
         std::vector<std::string> victoryTypes;
         for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
@@ -2727,9 +2743,12 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
     ShipButtonDefinition *shipButtonDef = nullptr;
     std::string finalName;
 
+    bool showShipAchievements = customSel->ShowAchievementsForShip(currentShipId, currentType);
+
     if (currentShipId >= 100)
     {
         shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
+
 
         finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
 
@@ -2780,7 +2799,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
                 }
             }
         }
-        else if (customSel->showShipAchievements)
+        else if (showShipAchievements)
         {
             std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(currentShipId, currentType, false);
             int counter = 0;
@@ -2801,7 +2820,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
         }
     }
 
-    if (!customSel->showShipAchievements)
+    if (!showShipAchievements)
     {
         // deselect ship achievements
         if (selectedAch >= 0 && selectedAch < 3)
@@ -2938,7 +2957,7 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                 int maxCount = std::min(int(customShipAchievements.size()),3);
                 for (auto i=0; i<maxCount; ++i)
                 {
-                    shipAchievements.push_back({customShipAchievements[i], Point(742.5 - 30.5*maxCount + 71*i, 362), 64});
+                    shipAchievements.push_back({customShipAchievements[i], Point(727.5 - 30.5*maxCount + 71*i, 362), 64});
                 }
                 for (auto i=maxCount; i<3; ++i) // need to insert dummies so that the victory and quest achievements render correctly
                 {
@@ -2976,31 +2995,36 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
         }
     }
 }
-
+//TODO: Might be nice to also show victories here (Like in the ship select menu)
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (G_->GetWorld()->playerShip)
     {
-        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip || CustomShipSelect::GetInstance()->showShipAchievements || CustomShipSelect::GetInstance()->shipAchievementsToggle)
+        auto customSel = CustomShipSelect::GetInstance();
+        int currentShipId = G_->GetCApp()->menu.shipBuilder.currentShipId;
+        bool specificShipAchievements = currentShipId < 100 || customSel->GetShipButtonDefinition(currentShipId - 100).showShipAchievements;
+        if ((!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip || CustomShipSelect::GetInstance()->showShipAchievements || CustomShipSelect::GetInstance()->shipAchievementsToggle) && specificShipAchievements)
         {
             super();
 
             if (!bShowControls && !G_->GetTutorialManager()->Running())
             {
-                if (shipAchievements.empty() || shipAchievements[0].dimension != 64)
+                if (confirmDialog.bOpen)
+                {
+                    CSurface::GL_SetColorTint(COLOR_TINT);
+                }
+
+                // todo: checking !confirmDialog.bOpen is a hacky solution keep this from drawing
+                //       on top of the "return to hangar" prompt, this function needs to be
+                //       reverse-engineered and re-implemented to fix properly
+                if (!confirmDialog.bOpen && (shipAchievements.empty() || shipAchievements[0].dimension != 64))
                 {
                     //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
                     freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
                 }
-
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
-
-                if (confirmDialog.bOpen)
-                {
-                    CSurface::GL_SetColorTint(COLOR_TINT);
-                }
 
                 CSurface::GL_BlitPixelImageWide(seedBox,
                                         statusPosition.x + 66,

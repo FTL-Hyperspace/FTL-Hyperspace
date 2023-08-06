@@ -210,6 +210,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->jumpClear = EventsParser::ParseBoolean(val);
                 }
+                if (name == "cloneClear")
+                {
+                    def->cloneClear = EventsParser::ParseBoolean(val);
+                }
                 if (name == "priority")
                 {
                     def->priority = boost::lexical_cast<int>(val);
@@ -1497,7 +1501,14 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::Restart -> Begin (StatBoost.cpp)\n")
     // Occurs when a crewmember is cloned or when a crew drone is deployed/redeployed
-    CM_EX(this)->timedStatBoosts.clear();
+    for (auto& statPair : CM_EX(this)->timedStatBoosts)
+    {
+        auto& statBoosts = statPair.second;
+        statBoosts.erase(std::remove_if(statBoosts.begin(),
+                                        statBoosts.end(),
+                                        [](StatBoost& statBoost) { return statBoost.def->cloneClear; }),
+                                        statBoosts.end());
+    }
     super();
 }
 

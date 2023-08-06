@@ -48,9 +48,12 @@ struct InternalEvents
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
 
+        // function get_dodge_factor(ShipManager& ship, int value) return Chain, value
+        GET_DODGE_FACTOR,
+
         // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
         PROJECTILE_INITIALIZE,
-        // function projectile_initialize(Projectile& projectile, ProjectileFactory &weapon)
+        // function projectile_fire(Projectile& projectile, ProjectileFactory &weapon)
         PROJECTILE_FIRE,
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
@@ -60,6 +63,9 @@ struct InternalEvents
         PROJECTILE_UPDATE_PRE, // Projectile::Update
         // function projectile_update_post(Projectile& projectile, bool preempted) return Chain
         PROJECTILE_UPDATE_POST, // Projectile::Update
+
+        //function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain
+        DRONE_FIRE,
 
         // function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain
         DRONE_COLLISION,
@@ -116,11 +122,28 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
+        // function jump_arrive(ShipManager& ship)
+        JUMP_ARRIVE,
+        // function jump_leave(ShipManager& ship)
+        JUMP_LEAVE,
 
-        /* TODO Maybe add
-        ShipManager::JumpArrive
-        ShipManager::JumpLeave
-        */
+
+        //Constructor Events
+
+        //function construct_crewmember(CrewMember& crew)
+        CONSTRUCT_CREWMEMBER,
+        //function construct_spacedrone(SpaceDrone& drone)
+        CONSTRUCT_SPACEDRONE,
+        //function construct_projectile_factory(ProjectileFactory& weapon)
+        CONSTRUCT_PROJECTILE_FACTORY,
+        //function construct_projectile(Projectile& projectile)
+        CONSTRUCT_PROJECTILE,
+        //function construct_room(Room& room)
+        CONSTRUCT_ROOM,
+        //function construct_ship_manager(ShipManager& ship)
+        CONSTRUCT_SHIP_MANAGER,
+        //function construct_ship_system(ShipSystem& system)
+        CONSTRUCT_SHIP_SYSTEM,
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };

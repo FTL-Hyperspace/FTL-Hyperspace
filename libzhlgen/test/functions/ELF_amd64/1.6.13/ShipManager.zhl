@@ -94,6 +94,8 @@ cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::strin
 cleanup __amd64 int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
 ".488b875806000083780cff7523":
 cleanup __amd64 void ShipManager::ModifyMissileCount(ShipManager *this, int missiles);
+".488b875806000083780cff7413":
+cleanup __amd64 int ShipManager::GetMissileCount(ShipManager *this);
 ".41545553488b86580600004889fb837810ff":
 cleanup __amd64 std::vector<Drone*> ShipManager::GetDroneList(ShipManager *this);
 ".83fe11741b488b87580600004863d6":

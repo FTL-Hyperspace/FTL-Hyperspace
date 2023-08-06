@@ -37,6 +37,7 @@ struct ShipButtonDefinition
     bool noAppend = false;
     bool splitUnlockQuestAchievement = false;
     bool splitVictoryAchievement = false;
+    bool showShipAchievements = true;
 
     std::vector<CustomUnlockArrow> unlockArrows;
 
@@ -204,6 +205,8 @@ public:
     int CountUnlockedShips(int variant);
 
     void UpdateFilteredAchievements();
+    
+    bool ShowAchievementsForShip(int currentShipId, int currentType);
 
 
     bool IsOpen()
@@ -397,6 +400,7 @@ public:
 
     bool showShipAchievements = false;
     bool shipAchievementsToggle = false;
+    bool hideMissingShipAchievements = false;
     std::string shipAchievementsTitle = "hangar_achievements_title_default";
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
