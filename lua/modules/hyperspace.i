@@ -153,11 +153,21 @@ namespace std {
 
 %apply const std::string& {std::string* GetName()};
 
+%rename("cApp") __cApp;
+%rename("Blueprints") Global_BlueprintManager_Blueprints; 
+%rename("Sounds") Global_SoundControl_Sounds;
+%rename("Animations") Global_AnimationControl_Animations;
+%rename("CrewFactory") Global_CrewMemberFactory_Factory;
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
 %rename("Settings") Global_Settings_Settings;
 
+%immutable __cApp;
+%immutable Global_BlueprintManager_Blueprints;
+%immutable Global_SoundControl_Sounds;
+%immutable Global_AnimationControl_Animations;
+%immutable Global_CrewMemberFactory_Factory;
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
@@ -200,6 +210,7 @@ public:
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
+    CrewMemberFactory *GetCrewFactory();
 
     static bool IsSeededRun();
     %immutable;
@@ -421,6 +432,8 @@ playerVariableType playerVariables;
 */
 %rename("%s") CApp::gui; // Maybe we only allow access to the command gui via WorldManager and just hide the CApp implementation by something that gives us access to WorldManager like below?
 %rename("%s") CApp::world;
+%immutable CApp::menu;
+%rename("%s") CApp::menu;
 // TODO: It might be nice to hide away CApp entirely for access to global things like `CommandGui` or `WorldManager` and hide other functions to do clicks & button presses & stuff under `input` as described above
 /* Potential example for a Hyperspace.world
 %luacode {
@@ -434,6 +447,13 @@ playerVariableType playerVariables;
     })
 }
 */
+
+%nodefaultctor MainMenu;
+%nodefaultdtor MainMenu;
+
+%rename("%s") MainMenu;
+%immutable MainMenu::bOpen;
+%rename("%s") MainMenu::bOpen;
 
 %nodefaultctor CommandGui;
 %nodefaultdtor CommandGui;
@@ -2338,6 +2358,13 @@ playerVariableType playerVariables;
 %rename("%s") CrewAnimation::bDoorTarget;
 %rename("%s") CrewAnimation::uniqueBool1;
 %rename("%s") CrewAnimation::uniqueBool2;
+
+%nodefaultctor CrewMemberFactory;
+%nodefaultdtor CrewMemberFactory;
+%rename("%s") CrewMemberFactory;
+%rename("%s") CrewMemberFactory::GetCloneReadyList;
+
+%rename("%s") CrewMemberFactory::crewMembers;
 
 %rename("%s") Get_Projectile_Extend;
 %nodefaultctor Projectile_Extend;
