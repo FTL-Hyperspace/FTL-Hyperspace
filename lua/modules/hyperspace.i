@@ -137,6 +137,7 @@ namespace std {
     %template(vector_CrewDesc) vector<CrewDesc>;
     %template(vector_Fire) vector<Fire>;
     %template(vector_vector_Fire) vector<vector<Fire>>;
+    %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
 }
 
@@ -1248,7 +1249,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem::SetSelected;
 %rename("%s") ShipSystem::GetSelected;
 %rename("%s") ShipSystem::CompletelyDestroyed;
-%rename("%s") ShipSystem::GetName;
+//%rename("%s") ShipSystem::GetName; // crashes the game, use SystemIdToName instead
 %rename("%s") ShipSystem::SetName;
 %rename("%s") ShipSystem::Repair;
 %rename("%s") ShipSystem::PartialRepair;
