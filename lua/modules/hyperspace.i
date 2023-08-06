@@ -2360,8 +2360,21 @@ playerVariableType playerVariables;
 %nodefaultctor CrewMemberFactory;
 %nodefaultdtor CrewMemberFactory;
 %rename("%s") CrewMemberFactory;
-%rename("%s") CrewMemberFactory::GetCloneReadyList;
 
+%rename("%s") CrewMemberFactory::GetCloneReadyList;
+%extend CrewMemberFactory {
+   
+    //Overload for returning vector in lua, pass by reference still works but this simplifies things.
+    std::vector<CrewMember*> GetCloneReadyList(bool player)
+    {
+        std::vector<CrewMember*> ret;
+        $self->GetCloneReadyList(ret, player);
+        return ret;
+    }
+}
+
+
+%immutable CrewMemberFactory::crewMembers;
 %rename("%s") CrewMemberFactory::crewMembers;
 
 %rename("%s") Get_Projectile_Extend;
