@@ -83,6 +83,7 @@
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
 					<Add before="processSwigRuntime.bat" />
+					<Add before="libzhlgen/parsefuncs.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32">
@@ -160,6 +161,7 @@
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
 					<Add before="processSwigRuntime.bat" />
+					<Add before="libzhlgen/parsefuncs.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-win-32-llvm">
@@ -244,6 +246,7 @@
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
 					<Add before="processSwigRuntime.bat" />
+					<Add before="libzhlgen/parsefuncs.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32-llvm">
@@ -328,6 +331,7 @@
 				<ExtraCommands>
 					<Add before="generateVersion.bat" />
 					<Add before="processSwigRuntime.bat" />
+					<Add before="libzhlgen/parsefuncs.bat" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.12-x86">
@@ -375,6 +379,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.13-x86">
@@ -423,6 +428,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-linux-1.6.12-x86">
@@ -469,6 +475,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-linux-1.6.13-x86">
@@ -516,6 +523,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-win-32-crosscompile">
@@ -559,6 +567,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.12-amd64">
@@ -606,6 +615,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.13-amd64">
@@ -654,6 +664,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-linux-1.6.12-amd64">
@@ -700,6 +711,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release-linux-1.6.13-amd64">
@@ -747,6 +759,7 @@
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
 					<Add before="./generateVersion.sh" />
+					<Add before="./libzhlgen/parsefuncs.sh" />
 				</ExtraCommands>
 			</Target>
 		</Build>

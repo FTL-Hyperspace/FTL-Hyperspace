@@ -41,6 +41,16 @@ swig_add_library(
     LANGUAGE lua
     SOURCES ${swigfiles}
 )
+set_property(
+    TARGET Hyperspace
+    PROPERTY SWIG_DEPENDS
+    
+    # These files should be generated prior to SWIG codegen. 
+
+    FTLGameELF32.h
+    FTLGameELF64.h
+    FTLGameWin32.h
+)
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
 target_include_directories(
     Hyperspace PRIVATE
