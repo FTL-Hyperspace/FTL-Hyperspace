@@ -153,7 +153,6 @@ namespace std {
 
 %apply const std::string& {std::string* GetName()};
 
-%rename("cApp") __cApp;
 %rename("Blueprints") Global_BlueprintManager_Blueprints; 
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
@@ -163,7 +162,6 @@ namespace std {
 %rename("Resources") Global_ResourceControl_GlobalResources;
 %rename("Settings") Global_Settings_Settings;
 
-%immutable __cApp;
 %immutable Global_BlueprintManager_Blueprints;
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
