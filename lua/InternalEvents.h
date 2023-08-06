@@ -122,11 +122,28 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
+        // function jump_arrive(ShipManager& ship)
+        JUMP_ARRIVE,
+        // function jump_leave(ShipManager& ship)
+        JUMP_LEAVE,
 
-        /* TODO Maybe add
-        ShipManager::JumpArrive
-        ShipManager::JumpLeave
-        */
+
+        //Constructor Events
+
+        //function construct_crewmember(CrewMember& crew)
+        CONSTRUCT_CREWMEMBER,
+        //function construct_spacedrone(SpaceDrone& drone)
+        CONSTRUCT_SPACEDRONE,
+        //function construct_projectile_factory(ProjectileFactory& weapon)
+        CONSTRUCT_PROJECTILE_FACTORY,
+        //function construct_projectile(Projectile& projectile)
+        CONSTRUCT_PROJECTILE,
+        //function construct_room(Room& room)
+        CONSTRUCT_ROOM,
+        //function construct_ship_manager(ShipManager& ship)
+        CONSTRUCT_SHIP_MANAGER,
+        //function construct_ship_system(ShipSystem& system)
+        CONSTRUCT_SHIP_SYSTEM,
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };

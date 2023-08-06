@@ -224,11 +224,18 @@ void ErrorMessage(const char* msg);
             elseif key == "enemy" then
                 return Hyperspace.Global.GetInstance():GetShipManager(1)
             else
-                error("Unknown ship " .. key)
+                error("Unknown ship " .. key, 2)
             end
         end,
         __newindex = function(ships, key, value)
-            error("ships is immutable")
+            error("ships is immutable", 2)
+        end,
+        __call = function(ships, shipId)
+            if shipId ~= 0 and shipId ~= 1 then 
+                error("Invalid shipId!", 2)
+            else
+                return Hyperspace.Global.GetInstance():GetShipManager(shipId)
+            end
         end
     })
 }
@@ -599,6 +606,10 @@ playerVariableType playerVariables;
 // TODO: We might be able to allow access to the `sectors` vector and maybe allow rendering secret sectors onto the map but instead just jumping to them when they're clicked?
 ////%rename("%s") StarMap::sectors; // also there is lastSectors, not sure what they're for yet
 // TODO: Not sure what scrapCollected, dronesCollected, fuelCollected, weaponFound, droneFound maps do, does the game record what was found at each node? Can't find calls to it internally.
+%rename("%s") StarMap::ship;
+%rename("%s") StarMap::shipNoFuel;
+%immutable StarMap::worldLevel; //Sector number (Sector 1 has worldLevel = 0, Sector 2 has worldLevel = 1, etc.)
+%rename("%s") StarMap::worldLevel;
 
 /*
 ////%rename("%s") StarMap::ReverseBossPath;
@@ -869,7 +880,8 @@ playerVariableType playerVariables;
 %immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
-////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
+%immutable ShipManager::current_target;
+%rename("%s") ShipManager::current_target; 
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
 //%immutable ShipManager::fuel_count;
@@ -915,6 +927,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::bInvincible;
 %rename("%s") ShipManager::superDrones;
 %rename("%s") ShipManager::failedDodgeCounter;
+%immutable ShipManager::iCustomizeMode;
+%rename("%s") ShipManager::iCustomizeMode;
 //%immutable ShipManager::hitByBeam;
 //%rename("%s") ShipManager::hitByBeam;
 %rename("%s") ShipManager::enemyDamagedUncloaked;
@@ -1110,6 +1124,9 @@ playerVariableType playerVariables;
 %rename("%s") CloneSystem::fTimeGoal;
 %rename("%s") CloneSystem::fDeathTime;
 %rename("%s") CloneSystem::slot;
+%rename("%s") CloneSystem::bottom;
+%rename("%s") CloneSystem::top;
+%rename("%s") CloneSystem::gas;
 
 %nodefaultctors HackingSystem;
 %nodefaultdtors HackingSystem;
@@ -2332,6 +2349,42 @@ playerVariableType playerVariables;
 %rename("%s") Projectile_Extend::customDamage;
 %rename("%s") Projectile_Extend::missedDrones; // list of selfId of drones that have dodged this projectile
 
+%rename("%s") CustomDamage;
+%rename("%S") CustomDamage::Clear;
+
+%rename("%s") CustomDamage::def;
+%rename("%s") CustomDamage::sourceShipId;
+%immutable CustomDamage::sourceShipId;
+%rename("%s") CustomDamage::accuracyMod;
+%rename("%s") CustomDamage::droneAccuracyMod;
+
+%rename("%s") CustomDamageDefinition;
+%rename("%s") CustomDamageDefinition::GiveId;
+
+%rename("%s") CustomDamageDefinition::idx;
+%immutable CustomDamageDefinition::idx;
+%rename("%s") CustomDamageDefinition::accuracyMod;
+%rename("%s") CustomDamageDefinition::droneAccuracyMod;
+%rename("%s") CustomDamageDefinition::noSysDamage;
+%rename("%s") CustomDamageDefinition::noPersDamage;
+%rename("%s") CustomDamageDefinition::ionBeamFix;
+%rename("%s") CustomDamageDefinition::statBoostChance;
+%rename("%s") CustomDamageDefinition::roomStatBoostChance;
+%rename("%s") CustomDamageDefinition::statBoosts;
+%immutable CustomDamageDefinition::statBoosts;
+%rename("%s") CustomDamageDefinition::roomStatBoosts;
+%immutable CustomDamageDefinition::roomStatBoosts;
+%rename("%s") CustomDamageDefinition::erosionChance;
+%rename("%s") CustomDamageDefinition::erosionEffect;
+%rename("%s") CustomDamageDefinition::crewSpawnChance;
+%rename("%s") CustomDamageDefinition::crewSpawns;
+%immutable CustomDamageDefinition::crewSpawns;
+
+//%rename("%s") CustomDamageDefinition::customDamageDefs;
+//%immutable CustomDamageDefinition::customDamageDefs;
+//%rename("%s") CustomDamageDefinition::defaultDef;
+//%immutable CustomDamageDefinition::defaultDef;
+
 %nodefaultctor LaserBlast;
 %rename("%s") LaserBlast;
 %rename("%s") LaserBlast::LaserBlast;
@@ -3173,6 +3226,33 @@ playerVariableType playerVariables;
 %rename("%s") SettingValues::beamTutorial;
 %immutable SettingValues::beamTutorial;
 
+//Access PrintHelper singleton through Hyperspace.PrintHelper.GetInstance()
+%nodefaultctor PrintHelper;
+%nodefaultdtor PrintHelper;
+%rename("%s") PrintHelper;
+%rename("%s") PrintHelper::GetInstance;
+//Access settings through Hyperspace.PrintHelper.GetInstance().settingName or Hyperspace.PrintHelper.settingName
+%rename("%s") PrintHelper::x; //x coordinate of messages (messages go down and to the right of this point)
+%rename("%s") PrintHelper::y; //y coordinate of messages
+%rename("%s") PrintHelper::font; //font that messages are rendered in
+%rename("%s") PrintHelper::lineLength; //width (in pixels) before automatic newline
+%rename("%s") PrintHelper::messageLimit; //how many messages may be displayed at once
+%rename("%s") PrintHelper::duration; //how long each message lasts
+%rename("%s") PrintHelper::useSpeed; //if the speed at which messages are cleared scales with game speed
+
+%luacode
+{
+    setmetatable(Hyperspace.PrintHelper, {
+        __index = function(PrintHelper, key)
+            return PrintHelper.GetInstance()[key]
+        end,
+
+        __newindex = function(PrintHelper, key, value)
+            PrintHelper.GetInstance()[key] = value
+        end
+    })
+}
+
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
 %rename("%s") ResourceControl;
@@ -3281,3 +3361,4 @@ playerVariableType playerVariables;
 %include "Room_Extend.h"
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
+%include "CommandConsole.h"

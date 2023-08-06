@@ -40,7 +40,9 @@ void LuaLibScript::LoadTypeInfo()
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
     types.pShipSystem = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
     types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
+    types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
 
+    types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
     types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
     types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
@@ -425,13 +427,18 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_load_callbacks();
 }
 
+//On selecting Continue and loading up a run.
 HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (LuaLibScript.cpp)\n")
     super(fh);
-    // TODO: Probably need LoadGame, Opening the ship editor & game restart hooks to all call this
-    // TODO: Or maybe we can use StarMap::NewGame ?
-    // TODO: Or maybe WorldManager::StartGame or WorldManager::CreateNewGame? (Note, WOrldManager::CreateNewGame might be ideal)
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
+}
+//On restarting run or starting a new run from the hanger
+HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (LuaLibScript.cpp)\n")
+    super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
 }
 

@@ -62,6 +62,11 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 	ex->orig = this;
 
     HS_MAKE_TABLE(this)
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_CREWMEMBER, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(CrewMember, destructor, () -> void)
