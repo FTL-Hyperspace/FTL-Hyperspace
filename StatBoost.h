@@ -69,6 +69,7 @@ enum class CrewStat : unsigned int
     TELEPORT_MOVE_OTHER_SHIP,
     SILENCED,
     LOW_HEALTH_THRESHOLD,
+    NO_WARNING,
     // non-cached stats
     CREW_SLOTS, // this doesn't need to be cached since the crew slots are totalled once per frame
     ACTIVATE_WHEN_READY,
