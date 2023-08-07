@@ -490,6 +490,12 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
 
+%nodefaultctor CombatControl;
+%nodefaultdtor CombatControl;
+%rename("%s") CombatControl;
+%rename("%s") CombatControl::boss_visual;
+%immutable CombatControl::boss_visual;
+
 %nodefaultctor Button;
 %nodefaultdtor Button;
 %rename("%s") Button;
