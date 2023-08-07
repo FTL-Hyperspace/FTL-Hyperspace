@@ -662,6 +662,7 @@ Syntax ->
 		<healCrewAmount>0.0</healCrewAmount>                                             Amount of health to heal friendly crew in the same room over time, in HP/second. Affected by healSpeed of the respective crew.
 		<lowHealthThreshold>25.0</lowHealthThreshold>                                    Health value at which beeping sound plays and health bar flashes red. Can be set to negative value to disable this behavior.
 		<lowHealthThresholdPercentage>1.0</lowHealthThresholdPercentage>                 Same as lowHealthThreshold, but calculated as a multiple of max health. The lower final value of the two will be used, so be sure to override the default value of lowHealthThreshold if it would conflict with a desired percentage value.
+		<noWarning>false</noWarning>													 If true, this crewmember will not trigger the warning for leaving crew behind upon jumping. Useful for disposable crewspawns.
 		<skills>                                                                         Controls experience requirement per skill level for each crew skill type.
 			<piloting req="15"/>
 			<engines req="15"/>
