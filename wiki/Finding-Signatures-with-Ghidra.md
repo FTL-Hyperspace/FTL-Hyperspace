@@ -39,25 +39,25 @@
 4. Open them in Ghidra, see special instructions for each type:
    - Windows Binaries
       - After importing the EXE but before opening it you must change the language
-      - ![image](https://user-images.githubusercontent.com/1423894/172201781-e00e2107-4feb-47d3-bd45-2938811b5fcc.png)
+      - [[/img/sig-tutorial/language-change.png]]
       - For Windows we must set the language to "x86" "default" "32" "little" "gcc"
-      - ![image](https://user-images.githubusercontent.com/1423894/172202026-b8fcfc70-447f-4e6d-bad3-68886d5af201.png)
+      - [[/img/sig-tutorial/language-set.png]]
    - Mac Binaries
       - Depending on which file you used (the pkg, dmg, or the direct binary from Steam) your Ghidra might look a little weird, if using the `pkg` file from GoG it'll be buried under a bunch of folders like so:
-      - ![image](https://user-images.githubusercontent.com/1423894/172202688-b48e90c9-0ea7-40c3-8428-fbe96772b4e4.png)
+      - [[/img/sig-tutorial/buried-FTL.png]]
       - Steam one will probably be just `FTL` and the `dmg` I don't know yet.
       - The default language setting is "x86 default 64 little gcc" it is unknown if we should try "x86 default 64 little clang" or not at this time to get better decompile results, you could try both and find out which provides more accurate results and update this wiki.
-      - ![image](https://user-images.githubusercontent.com/1423894/172203030-b2c70392-6fb0-40dc-bdc9-c84b48186222.png)
+      - [[/img/sig-tutorial/language-mac.png]]
    - Linux Binaries
       - There is nothing special for the Linux binaries, they should be already autodetected as gcc (32 or 64 depending on the binary you're looking at)
 5. When opening the first time you'll be prompted for auto-analysis, ***STOP and read below***!
    - You must adjust the DWARF debug item count (Mac does not seem to have DWARF information or this option)
    - ***Attention Windows Binaries*** *If you do not see this option on a windows binary (on any host system) you might of not set the language correctly above*
    - On Windows & Linux binaries, adjust the `Debug item count limit` to a higher number, adding a `0` is sufficient or changing the first number to a `3` as it only needs a number slightly higher than the default anyways
-   - ![image](https://user-images.githubusercontent.com/1423894/172203859-1c02ee57-d4a6-4c97-b185-61fba29590a3.png)
+   - [[/img/sig-tutorial/debug-item-count.png]]
    - ***Hit APPLY first*** and then Analyze
    - Note: If you have already run the analysis you can get to this window again from the `Analysis` tab
-   - ![image](https://user-images.githubusercontent.com/1423894/172204501-3aaec6c0-1e3a-42bd-901e-0d71ccea0bb6.png)
+   - [[/img/sig-tutorial/run-analysis.png]]
    - Note: Binaries without any debugging information (such as Windows Steam 1.6.14) will not have any DWARF information let alone other debugging information, but a lack of DWARF does not imply a lack of other debugging information like with the Mac binaries.
    - DWARF provides original struct information & function argument names, it will be very helpful in reverse engineering & even finding signatures when comparing functions but it is not 100% required.
 6. Let the analysis happen, repeat for any other binaries you wish to also analyze, depending on your hardware this might take a significant amount of time.
@@ -120,7 +120,7 @@ For example, even though Steam 1.6.9 and GoG 1.6.9 are the exact same version, b
 The sample above is from Linux 1.6.12/1.6.13 AMD64 versions.
 We'll get to more information about how this ties to a signature in a different section and how to get to this exact function in Ghidra later, but here's a screenshot of the starting bytes of this function:
 
-![image](https://user-images.githubusercontent.com/1423894/172208475-2351a68b-c71d-4661-94b3-31948bea80e9.png)
+[[/img/sig-tutorial/start-bytes-ex.png]]
 
 We can see:
 - `41 57` is `PUSH R15`
@@ -131,48 +131,48 @@ We can see:
 
 After performing the analysis in Ghidra you'll be left at a window similar to this:
 
-![image](https://user-images.githubusercontent.com/1423894/172209994-afd79571-1595-4e27-a065-001e0673f981.png)
+[[/img/sig-tutorial/post-analysis-window.png]]
 
 ### Finding functions/methods
 
 If it's successfully analyzed & done you'll see a `Classes` section on the left in the Symbol Tree where you can expand to find the original classes & function names
 
-![image](https://user-images.githubusercontent.com/1423894/172210133-94a3fea1-1b27-42ba-889e-2536fabf6e2b.png)
+[[/img/sig-tutorial/find-func-and-method.png]]
 
 **Note**: If you are analyzing a binary like Steam's 1.6.14 that *does not* have debugging symbols you will not get any of this benefit of finding functions by their original name and instead will only have the clobbered compiled names, so matching them to our existing signatures will be much more difficult.
 
 If we expand `AchievementTracker` and go down to `LoadAchievementDescriptions` and click on it, the listing window will jump directly to that function's assembly code in the file:
 
-![image](https://user-images.githubusercontent.com/1423894/172210566-878259d9-eae4-430d-b92d-fad84390cd51.png)
+[[/img/sig-tutorial/find-ach-ex.png]]
 
 ### Finding instruction signatures
 
 1. We select a section of code starting from the start of the function until a few lines further, the exact length we need to select will vary for each function (and some functions a unique match is not possible and there are additional tricks we can use to still match them uniquely)
 
-![image](https://user-images.githubusercontent.com/1423894/172211117-95716d7c-00bb-4762-bea1-d9e6f50e1f8f.png)
+[[/img/sig-tutorial/sig-select.png]]
 
 2. After selecting the code we go to `Search` -> `For Instruction Patterns` in Ghidra's menu
 
-![image](https://user-images.githubusercontent.com/1423894/172211209-f010a634-d9c5-4e3e-b286-2028155c2788.png)
+[[/img/sig-tutorial/search-pattern.png]]
 
 3. From here we need to wildcard out memory addresses in this example (From FTL Linux 1.6.12's x86 binary) this is the code that was blue in Ghidra and represented the global variable for `s_data/achievements.xml`, it's visible here that there's a 4-byte (32-bit) memory address in use that is `0x083d89b3`, we can simply click on it in the instruction pattern search in order to have it ignored as a wildcard in the search. *You can also use the `A` button but it frequently selects more than just addresses and can lead to more wildcards than needed and can make it harder to find a unique match, it's a good double check though to see if you missed an obvious address*
 
-![image](https://user-images.githubusercontent.com/1423894/172211686-08880eaa-5747-40a3-9bbd-42090916fd2c.png)
+[[/img/sig-tutorial/wildcard-memory.png]]
 
 4. Now we click `Search All` at the bottom, if we find only one match like below, then we've got a good unique signature.
 If there are multiple matches we might need to select more instructions and search again. If we can't make a unique match even with a tremendous amount of the function selected we might need a different approach which will be discussed later.
 
-![image](https://user-images.githubusercontent.com/1423894/172211996-bd5f01f4-7f8f-4533-86f1-61069759f498.png)
+[[/img/sig-tutorial/search-all.png]]
 
 5. At this point it's ideal if we can check other binaries, such as comparing that this signature matches in both GoG 1.6.9 Windows and Steam 1.6.9 Windows or on Linux to check 1.6.12 from GoG/Humble and 1.6.13 from Steam... if you don't have multiple copies of the game though you'll just have to try your best to find what should be a good unique signature that doesn't depend on any addresses of jumps/calls/mov's or anything else that uses a relative or absolute address.
 
 6. Now we can go back to the Listing window, right click somewhere in the selected code and select `Copy Special`
 
-![image](https://user-images.githubusercontent.com/1423894/172212614-41197122-5f1c-4cc3-921d-bece6d4a57fc.png)
+[[/img/sig-tutorial/copy-special.png]]
 
 7. We can select `Byte String (No Spaces)`
 
-![image](https://user-images.githubusercontent.com/1423894/172212714-062a2d3f-0e4b-4170-81c2-64f29b2c454e.png)
+[[/img/sig-tutorial/byte-string-no-space.png]]
 
 8. And now the entire matched string (***including bytes we need to still wildcard***) will be copied to the clipboard, like so:
 ```
@@ -195,7 +195,7 @@ If there are multiple matches we might need to select more instructions and sear
 cleanup __cdecl void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
 ```
 - There's a couple special things here, we look at the function definition for its arguments but now we have to deal with some OS & compiler specific quirks
-![image](https://user-images.githubusercontent.com/1423894/172213421-5e2435ff-fe65-4bcd-b135-3709eb2df9fb.png)
+[[/img/sig-tutorial/look-func-def.png]]
 - Because this is Linux 32-bit there's a few possible calling styles but all `__thiscall` and `__cdecl` are simply `cdecl` style under Linux x86 32-bit. We do have to look to make sure the first arguments were not on a register (if they were it might be regparm style) but *most* of the Linux x86 32-bit calls are just cdecl. More info on the calling styles are available in `Global.zhl` and will be probably mentioned in a different Wiki article because it's more involved.
 - `cleanup` is required because it's required on all Linux & Mac calls, 32-bit and 64-bit, it's really only not defined on some Windows calls where there is some cases where the caller must do cleanup.
 
