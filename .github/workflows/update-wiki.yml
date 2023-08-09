@@ -1,0 +1,22 @@
+name: Update Wiki
+
+on:
+  push:
+    paths:
+      - 'wiki/**'
+    branches:
+      - master
+
+jobs:
+  update-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Update wiki
+        run: ./updateWiki.sh 
+        shell: bash
+        env:       
+          WIKI_DIR: wiki
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
