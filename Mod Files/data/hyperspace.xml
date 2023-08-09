@@ -294,6 +294,7 @@ CREW           Add a crew member.                      Usage: CREW [race_name]  
 EXIT           Makes your location an exit beacon      Usage: EXIT
 STORE          Creates a store at your location        Usage: STORE [sector]          Example: STORE 3
 KILL           Kills a person on your ship             Usage: KILL <crew_name>        Example: KILL John
+SKILL		   Grants full skills to all of your crew  Usage: SKILL
 DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
