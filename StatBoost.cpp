@@ -68,6 +68,7 @@ const std::array<std::string, numStats> crewStats =
     "teleportMoveOtherShip",
     "silenced",
     "lowHealthThreshold",
+    "noWarning",
     // non-cached stats
     "crewSlots",
     "activateWhenReady",
@@ -2167,6 +2168,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::LOW_HEALTH_THRESHOLD:
             _CALCULATE_BASE_STAT(finalStat, lowHealthThreshold);
+            break;
+        case CrewStat::NO_WARNING:
+            _CALCULATE_BASE_STAT(*boolValue, noWarning);
+            isBool = true;
             break;
     }
 
