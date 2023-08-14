@@ -216,3 +216,10 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::JUMP_LEAVE, 1);
     lua_pop(context->GetLua(), 1);
 }
+
+HOOK_METHOD(ShipManager, Wait, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (InternalEvents.cpp)\n")
+    super();
+    G_->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_WAIT, 0);
+}
