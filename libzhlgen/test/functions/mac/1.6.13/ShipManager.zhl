@@ -16,6 +16,8 @@ cleanup __amd64 CrewMember* ShipManager::GetCrewmember(ShipManager *this, int sl
 cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint *bp);
 "554889e5c787f006":
 cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
+"554889e5415741564154534989fe498b86c00000004531ff":   
+cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
 "554889e5415741564155415453504189f64989ff498b87c000000045":
 cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
 "554889e5415741564155415453504189d74989fc":
