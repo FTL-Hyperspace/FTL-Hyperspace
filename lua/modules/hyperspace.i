@@ -2,6 +2,7 @@
 %include "stl.i"
 %include "constraints.i"
 %include "typemaps.i"
+%include "stdint.i"
 %{
 #include "Global.h"
 #include "HSVersion.h"
@@ -21,6 +22,7 @@
 #include "CommandConsole.h"
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
+#include "CustomShips.h"
 %}
 
 %feature("flatnested");
@@ -139,6 +141,8 @@ namespace std {
     %template(vector_vector_Fire) vector<vector<Fire>>;
     %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
+    %template(pair_Animation_int8_t) pair<Animation, int8_t>;
+    %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
 }
 
 %include "ToggleValue.h"
@@ -1617,6 +1621,23 @@ playerVariableType playerVariables;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
 //%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+
+
+//Expose Hyperspace engine anims as a member variable
+//Note: Pairs are returned by value rather than by reference, change if there is a need for mutability via lua
+%immutable Ship::extraEngineAnim;
+%rename("%s") Ship::extraEngineAnim;
+
+%extend Ship {
+   std::vector<std::pair<Animation,int8_t>> extraEngineAnim;
+}
+%wrapper %{
+    static std::vector<std::pair<Animation,int8_t>>* Ship_extraEngineAnim_get(Ship* ship)
+    {
+        return &extraEngineAnim[ship->iShipId];
+    };
+%}
+
 
 %nodefaultctor Room;
 %nodefaultdtor Room;

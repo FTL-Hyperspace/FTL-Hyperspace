@@ -6710,6 +6710,8 @@ struct Ship : ShipObject
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+
+	void RenderEngineAnimation(float alpha);
 	
 	enum DoorStateType
 	{

@@ -1007,7 +1007,7 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-static std::vector<std::pair<Animation,int8_t>> extraEngineAnim[2];
+std::vector<std::pair<Animation, int8_t>> extraEngineAnim[2];
 
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
@@ -1199,6 +1199,47 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 }
 
+void Ship::RenderEngineAnimation(float alpha)
+{
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), alpha);
+    
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_ENGINES, 2);
+    if (idx >= 0)
+    {
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+        {
+            if (anim.second)
+            {
+                if (anim.second == -1)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+            }
+            else
+            {
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            }
+        }
+    }
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_ENGINES, std::abs(idx), 2);
+
+    lua_pop(context->GetLua(), 2);
+}
+
 HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
@@ -1255,32 +1296,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     // Render thruster animations
     if (engines && bShowEngines)
     {
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
-        {
-            if (anim.second)
-            {
-                if (anim.second == -1)
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
-                else
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
-            }
-            else
-            {
-                anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-            }
-        }
+        RenderEngineAnimation(alphaOther);
     }
     
     // Lua callback close
@@ -1307,33 +1323,7 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     if (customEngines)
     {
         float alpha = 1.f - std::min(progress / 0.75f, 1.f);
-
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
-        {
-            if (anim.second)
-            {
-                if (anim.second == -1)
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
-                else
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
-            }
-            else
-            {
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-            }
-        }
+        RenderEngineAnimation(alpha);
     }
 }
 
