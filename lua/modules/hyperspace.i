@@ -162,6 +162,7 @@ namespace std {
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
 %rename("Settings") Global_Settings_Settings;
+%rename("Mouse") Global_MouseControl_Mouse;
 
 %immutable Global_BlueprintManager_Blueprints;
 %immutable Global_SoundControl_Sounds;
@@ -171,6 +172,7 @@ namespace std {
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
 %immutable Global_Settings_Settings;
+%immutable Global_MouseControl_Mouse;
 
 %rename("setRandomSeed") srandom32;
 
@@ -210,6 +212,7 @@ public:
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
     CrewMemberFactory *GetCrewFactory();
+    MouseControl *GetMouseControl();
 
     static bool IsSeededRun();
     %immutable;
@@ -524,15 +527,91 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
-%nodefaultctor Button;
-%nodefaultdtor Button;
 %rename("%s") Button;
+%rename("%s") Button::OnInit;
+%rename("%s") Button::OnRender;
+%rename("%s") Button::SetActiveImage;
+%rename("%s") Button::SetImageBase;
+%rename("%s") Button::SetInactiveImage;
+%rename("%s") Button::SetLocation;
+
+%rename("%s") Button::images;
+%rename("%s") Button::primitives;
+%rename("%s") Button::imageSize;
+%rename("%s") Button::bMirror;
+
 %nodefaultctor GenericButton;
 %nodefaultdtor GenericButton;
 %rename("%s") GenericButton;
-%rename("%s") GenericButton::bActive;
-%immutable GenericButton::bActive;
+%rename("%s") GenericButton::Reset;
+%rename("%s") GenericButton::SetLocation;
+%rename("%s") GenericButton::SetHitBox;
+%rename("%s") GenericButton::SetActive;
+%rename("%s") GenericButton::OnLoop;
+%rename("%s") GenericButton::OnRender;
+%rename("%s") GenericButton::MouseMove;
+%rename("%s") GenericButton::OnClick;
+%rename("%s") GenericButton::OnRightClick;
+%rename("%s") GenericButton::OnTouch;
+%rename("%s") GenericButton::ResetPrimitives;
 
+%immutable GenericButton::position;
+%rename("%s") GenericButton::position;
+%immutable GenericButton::hitbox;
+%rename("%s") GenericButton::hitbox;
+%rename("%s") GenericButton::allowAnyTouch;
+%rename("%s") GenericButton::touchSelectable;
+%rename("%s") GenericButton::bRenderOff;
+%rename("%s") GenericButton::bRenderSelected;
+%rename("%s") GenericButton::bFlashing;
+%rename("%s") GenericButton::flashing;
+%rename("%s") GenericButton::bActive;
+%rename("%s") GenericButton::bHover;
+%rename("%s") GenericButton::bActivated;
+%rename("%s") GenericButton::bSelected;
+%rename("%s") GenericButton::activeTouch;
+
+%nodefaultctor MouseControl;
+%nodefaultdtor MouseControl;
+%rename("%s") MouseControl;
+%rename("%s") MouseControl::InstantTooltip;
+%rename("%s") MouseControl::MeasureTooltip;
+%rename("%s") MouseControl::OnLoop;
+%rename("%s") MouseControl::OnRender;
+%rename("%s") MouseControl::QueueStaticTooltip;
+%rename("%s") MouseControl::RenderTooltip;
+%rename("%s") MouseControl::Reset;
+%rename("%s") MouseControl::ResetArmed;
+%rename("%s") MouseControl::SetDoor;
+%rename("%s") MouseControl::SetTooltip;
+%rename("%s") MouseControl::SetTooltipTitle;
+	
+%rename("%s") MouseControl::position;
+%rename("%s") MouseControl::lastPosition;
+%rename("%s") MouseControl::aiming_required;
+%rename("%s") MouseControl::iTeleporting;
+%rename("%s") MouseControl::iMindControlling;
+%rename("%s") MouseControl::bSellingStuff;
+%rename("%s") MouseControl::valid;
+%rename("%s") MouseControl::newHover;
+%rename("%s") MouseControl::lastValid;
+%rename("%s") MouseControl::animateDoor;
+%rename("%s") MouseControl::validPointer;
+%rename("%s") MouseControl::invalidPointer;
+%rename("%s") MouseControl::cselling;
+%rename("%s") MouseControl::openDoor;
+%rename("%s") MouseControl::tooltip;
+%rename("%s") MouseControl::tooltipTimer;
+%rename("%s") MouseControl::bMoving;
+%rename("%s") MouseControl::bHideMouse;
+%rename("%s") MouseControl::lastIcon;
+%rename("%s") MouseControl::lastAddition;
+%rename("%s") MouseControl::bForceTooltip;
+%rename("%s") MouseControl::tooltipTitle;
+%rename("%s") MouseControl::lastTooltipText;
+%rename("%s") MouseControl::iHacking;
+%rename("%s") MouseControl::overrideTooltipWidth;
+%rename("%s") MouseControl::staticTooltip;
 
 %nodefaultctor WorldManager;
 %rename("%s") WorldManager;
@@ -736,10 +815,12 @@ playerVariableType playerVariables;
 %rename("%s") Globals;
 %nodefaultctor Globals;
 %nodefaultdtor Globals;
+%rename("%s") Ellipse;
 %rename("%s") Globals::Ellipse;
 %rename("%s") Globals::Ellipse::center;
 %rename("%s") Globals::Ellipse::a;
 %rename("%s") Globals::Ellipse::b;
+%rename("%s") Rect;
 %rename("%s") Globals::Rect;
 %rename("%s") Globals::Rect::x;
 %rename("%s") Globals::Rect::y;
@@ -3199,7 +3280,8 @@ playerVariableType playerVariables;
 %rename("%s") TimerHelper::ResetMinMax;
 %rename("%s") TimerHelper::Running;
 %rename("%s") TimerHelper::SetMaxTime;
-//%rename("%s") TimerHelper::Start; // TODO: Figure out how to allow this since it's overloaded?
+%rename("%s") TimerHelper::Start;
+%rename("Start_Float") TimerHelper::Start(float);
 %rename("%s") TimerHelper::Stop;
 %rename("%s") TimerHelper::Update;
 %rename("%s") TimerHelper::maxTime;
