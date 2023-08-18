@@ -390,7 +390,18 @@ Extends ShipObject
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
 -  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+### Hyperspace Fields
+-  `std::vector<std::pair<Animation, int8_t>>` 
+`extraEngineAnim`
+   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
+   
+   |Value | Rotation                     |
+   | ---: | :--------------------------- |
+   | -1   | 90 Degrees Clockwise         |
+   |  0   | No Rotation                  |
+   |  1   | 90 Degrees Counterclockwise  |
 
+   Note: Pairs are returned by value, and not by reference.
 ## ShipSystem
 
 ### Static methods
