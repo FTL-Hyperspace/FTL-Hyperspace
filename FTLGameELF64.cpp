@@ -9173,10 +9173,10 @@ void MindBox::constructor(Point pos, MindSystem *sys)
 namespace _func715
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MindControl::ReleaseCrew", typeid(void (MindControl::*)()), "41554989fd415455534883ec28488b8f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MindSystem::ReleaseCrew", typeid(void (MindSystem::*)()), "41554989fd415455534883ec28488b8f", nullptr, 0, 0, &func);
 }
 
-void MindControl::ReleaseCrew()
+void MindSystem::ReleaseCrew()
 {
 	typedef void (*custom_arg_funcptr_t)(MindSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func715::func;

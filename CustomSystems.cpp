@@ -44,7 +44,7 @@ std::vector<CustomMindSystem::MindLevel> CustomMindSystem::levels = {
     {DAMAGE_BOOST[3], HEALTH_BOOST[3], MIND_CONTROL_TIMER[3], MIND_CONTROL_LOCK[3], MIND_CONTROL_COUNT[3]}
 }; 
 //Define default MindLevel values
-CustomMindSystem::MindLevel CustomMindSystem::defaultLevel{3.f, 50.f, 10.f, 4, 1};
+CustomMindSystem::MindLevel CustomMindSystem::defaultLevel{3.f, 50.f, 30.f, 4, 1};
 void CustomMindSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
     unsigned int level = 1;
