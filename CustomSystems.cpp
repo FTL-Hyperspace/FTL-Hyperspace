@@ -1039,7 +1039,7 @@ HOOK_METHOD_PRIORITY(MindSystem, OnLoop, 9999, () -> void)
     }
     controlledCrew.erase(std::remove_if(controlledCrew.begin(),
                                         controlledCrew.end(),
-                                        [](CrewMember* crew) { return crew->OutOfGame() || crew->IsDead() || crew->crewAnim->status == 3; }),
+                                        [](CrewMember* crew) { return crew->OutOfGame() || crew->IsDead() || crew->crewAnim->status == 3 || !crew->bMindControlled; }),
                                         controlledCrew.end());
                                         
     for (CrewMember* crew : controlledCrew)
