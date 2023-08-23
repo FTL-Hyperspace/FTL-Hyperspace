@@ -1109,12 +1109,17 @@ HOOK_METHOD_PRIORITY(MindSystem, InitiateMindControl, 9999, () -> void)
         }
         count++;
     }
-    if (!controlledCrew.empty()) 
+    if (!controlledCrew.empty()) //If controlling enemy crew, activate duration
     {
         controlTimer.first = 0;
         LockSystem(-1);
     }
-    else
+    else if (count > 0) //If only freeing allied crew, start cooldown
+    {
+        controlTimer.first = controlTimer.second;
+        LockSystem(level.lock);
+    }
+    else //No activation
     {
         controlTimer.first = controlTimer.second;
     }
