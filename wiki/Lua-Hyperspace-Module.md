@@ -800,7 +800,7 @@ No additional items over base `ShipSystem`
 - `bool` `.jumpClear`
 - `bool` `.cloneClear`
 - `std::string` `.boostAnim`
-- `RoomAnimDef` `.roomAnim`
+- [`RoomAnimDef`](#roomanimdef) `.roomAnim`
 - `bool` `.affectsSelf`
 - `std::vector<std::string>` `.whiteList`
 - `std::vector<std::string>` `.blackList`
@@ -863,6 +863,21 @@ function player_crew_health_boost()
 	end
 end
 ```
+## RoomAnimDef
+
+
+### Fields
+- `int` `renderLayer`
+- `RoomAnimType` `animType`
+   - Valid values:
+      - `Hyperspace.RoomAnimDef.DEFAULT`
+      - `Hyperspace.RoomAnimDef.STRETCH`
+      - `Hyperspace.RoomAnimDef.CENTER`
+      - `Hyperspace.RoomAnimDef.RANDOM_POSITION`
+- `int` `animBorder`
+- `std::string` `animName`
+- `std::string` `tileAnim`
+- `std::string` `wallAnim`
 
 ## CrewMember_Extend
 Accessed via `CrewMember`'s `.extend` field

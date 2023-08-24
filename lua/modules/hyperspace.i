@@ -3130,6 +3130,24 @@ playerVariableType playerVariables;
 %rename("%s") StatBoostManager::GetInstance;
 %rename("%s") StatBoostManager::CreateTimedAugmentBoost;
 
+%rename("%s") RoomAnimDef;
+%rename("%s") RoomAnimDef::RoomAnimType;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "RoomAnimDef::RoomAnimType::.*";
+%luacode {
+    --Create StatBoostDefinition enum tables
+    Hyperspace.RoomAnimDef.RoomAnimType = {}
+
+    for key, value in pairs(Hyperspace.RoomAnimDef) do
+        CreateEnumTable("RoomAnimType_", Hyperspace.RoomAnimDef.RoomAnimType, key, value)
+    end
+}
+%rename("%s") RoomAnimDef::renderLayer;
+%rename("%s") RoomAnimDef::animType;
+%rename("%s") RoomAnimDef::animBorder;
+%rename("%s") RoomAnimDef::animName;
+%rename("%s") RoomAnimDef::tileAnim;
+%rename("%s") RoomAnimDef::wallAnim;
+
 %rename("%s") ShipGenerator;
 %newobject ShipGenerator::CreateShip;
 %rename("%s") ShipGenerator::CreateShip;
