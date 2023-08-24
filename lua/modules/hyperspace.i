@@ -3134,7 +3134,7 @@ playerVariableType playerVariables;
 %rename("%s") RoomAnimDef::RoomAnimType;
 %rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "RoomAnimDef::RoomAnimType::.*";
 %luacode {
-    --Create StatBoostDefinition enum tables
+    --Create RoomAnimDef enum table
     Hyperspace.RoomAnimDef.RoomAnimType = {}
 
     for key, value in pairs(Hyperspace.RoomAnimDef) do
