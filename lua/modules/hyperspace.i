@@ -877,6 +877,42 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::StartFire; // TODO: add this to examples for fun Hyperspace.ships.player:StartFire(1)
 %rename("%s") ShipManager::SystemFunctions;
 %rename("%s") ShipManager::TeleportCrew; // Teleport crew & get back the list of CrewMembers.
+//Potential fix for fireSpreader indexing issue
+%rename("%s") ShipManager::GetFireAtPoint;
+%rename("%s") ShipManager::GetFire;
+%extend ShipManager {
+    //Or some similar helper method, because indexing the fireSpreader grid in lua returns vectors and fires by value and not by reference, meaning the relevant Fire objects cannot be edited
+
+    //Possible Methods
+
+    //Get fire at spacial coordinates
+    Fire& GetFireAtPoint(float x, float y)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordintes (Point form)
+    Fire& GetFireAtPoint(Point p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Get fire at spacial coordinates (Pointf form)
+    Fire& GetFireAtPoint(Pointf p)
+    {
+        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
+    }
+
+    //Indexing function, grid coordinates
+    Fire& GetFire(int x, int y)
+    {
+        return $self->fireSpreader.grid[x][y];
+    }
+}
+
 %immutable ShipManager::vSystemList;
 %rename("%s") ShipManager::vSystemList;
 %immutable ShipManager::oxygenSystem;
@@ -991,42 +1027,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
-//Potential fix for fireSpreader indexing issue
-%rename("%s") ShipManager::GetFireAtPoint;
-%rename("%s") ShipManager::GetFire;
-%extend ShipManager {
-    //Or some similar helper method, because indexing the fireSpreader grid in lua returns vectors and fires by value and not by reference, meaning the relevant Fire objects cannot be edited
-
-    //Possible Methods
-
-    //Get fire at spacial coordinates
-    Fire& GetFireAtPoint(float x, float y)
-    {
-        Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
-        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
-    }
-
-    //Get fire at spacial coordintes (Point form)
-    Fire& GetFireAtPoint(Point p)
-    {
-        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
-        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
-    }
-
-    //Get fire at spacial coordinates (Pointf form)
-    Fire& GetFireAtPoint(Pointf p)
-    {
-        Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
-        return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
-    }
-
-    //Indexing function, grid coordinates
-    Fire& GetFire(int x, int y)
-    {
-        return $self->fireSpreader.grid[x][y];
-    }
-}
-
+%rename("%s") ShipManager_Extend::CreateRoomStatBoost;
 
 %rename("%s") Spreader_Fire;
 %rename("%s") Spreader_Fire::count;
