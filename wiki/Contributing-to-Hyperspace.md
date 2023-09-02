@@ -33,7 +33,7 @@ All the files which make up the wiki are held in `FTL-Hyperspace/wiki`. Right no
 
 ## LUA Hyperspace Module
 
-The [`hyperspace.i`](../blob/master/lua/modules/hyperspace.i) source file contains everything that is exposed to the `Hyperspace` module. For example, here's the section which exposes `ShipManager`:
+The [`hyperspace.i`](../../blob/master/lua/modules/hyperspace.i) source file contains everything that is exposed to the `Hyperspace` module. For example, here's the section which exposes `ShipManager`:
 
 ```c
 %rename("%s") ShipManager;
@@ -49,14 +49,14 @@ If you want to document a class like `ShipManager`, first find where it's expose
 %rename("%s") ShipManager::DamageArea;
 ```
 
-In order to get more information, we need to find these in the [`FTLGameWin32.h`](../blob/master/FTLGameWin32.h) file. First, find where `ShipManager` is defined.
+In order to get more information, we need to find these in the [`FTLGameWin32.h`](../../blob/master/FTLGameWin32.h) file. First, find where `ShipManager` is defined.
 
 ```c
 struct ShipManager : ShipObject
 ...
 ```
 
-Now, find where the member and method in question are defined.
+Now, find where the member and method in question are defined inside that class.
 
 ```c
 LIBZHL_API bool DamageArea(Pointf location, Damage dmg, bool forceHit);
@@ -64,6 +64,18 @@ LIBZHL_API bool DamageArea(Pointf location, Damage dmg, bool forceHit);
 bool bDestroyed;
 ```
 
-Now that we know what type `bDestroyed` has, as well as which type `DamageArea` returns as well as all the arguments it takes, we can document them in the .md markdown file.
+Now that we know what type `bDestroyed` has, as well as which type `DamageArea` returns as well as all the arguments it takes, we can document them in the .md markdown file and, if necessary, we can add some additional info.
 
+- `bool :DamageArea(Pointf location, DamageParameter dmg, bool force)`
+   - I think this causes damage to a area like when a projectile hits but it's not tested yet, could possibly be used for bursts?
+   - `force` ignores room resistances.
 
+...
+
+- `bool` `.bDestroyed`
+
+If you think a member or method needs additional info, you can open the console in-game with the `\` key and use the `LUA` command to execute arbitrary LUA code and check exactly how something works.
+
+## Defines and Graphics Modules
+
+The hookable events for the Defines module are in the [`InternalEvents.i`](../../blob/master/lua/InternalEvents.h) source file, and the events for the Graphics module are in the [`RenderEvents.i`](../../blob/master/lua/RenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the wiki pages. Refer to the "Render Events" section in the `Defines` module page for proper formatting.
