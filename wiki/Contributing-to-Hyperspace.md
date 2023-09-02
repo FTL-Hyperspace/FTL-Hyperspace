@@ -33,7 +33,7 @@ All the files which make up the wiki are held in `FTL-Hyperspace/wiki`. Right no
 
 ## LUA Hyperspace Module
 
-The [`hyperspace.i`](../../blob/master/lua/modules/hyperspace.i) source file contains everything that is exposed to the `Hyperspace` module. For example, here's the section which exposes `ShipManager`:
+The [`hyperspace.i`](../blob/master/lua/modules/hyperspace.i) source file contains everything that is exposed to the `Hyperspace` module. For example, here's the section which exposes `ShipManager`:
 
 ```c
 %rename("%s") ShipManager;
@@ -49,7 +49,7 @@ If you want to document a class like `ShipManager`, first find where it's expose
 %rename("%s") ShipManager::DamageArea;
 ```
 
-In order to get more information, we need to find these in the [`FTLGameWin32.h`](../../blob/master/FTLGameWin32.h) file. First, find where `ShipManager` is defined.
+In order to get more information, we need to find these in the [`FTLGameWin32.h`](../blob/master/FTLGameWin32.h) file. First, find where `ShipManager` is defined.
 
 ```c
 struct ShipManager : ShipObject
@@ -78,4 +78,4 @@ If you think a member or method needs additional info, you can open the console 
 
 ## Defines and Graphics Modules
 
-The hookable events for the Defines module are in the [`InternalEvents.i`](../../blob/master/lua/InternalEvents.h) source file, and the events for the Graphics module are in the [`RenderEvents.i`](../../blob/master/lua/RenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the wiki pages. Refer to the "Render Events" section in the `Defines` module page for proper formatting.
+The hookable events for the Defines module are in the [`InternalEvents.i`](../blob/master/lua/InternalEvents.h) source file, and the events for the Graphics module are in the [`RenderEvents.i`](../blob/master/lua/RenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the wiki pages. Refer to the "Render Events" section in the `Defines` module page for proper formatting.
