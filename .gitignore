@@ -52,3 +52,7 @@ build/
 
 # buildscripts/buildall.sh, .github/workflows/release.yml
 build-*/
+
+FTLGameWin32.h
+FTLGameELF32.h
+FTLGameELF64.h
