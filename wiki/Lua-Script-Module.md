@@ -31,8 +31,12 @@ Actually currently runs on `AcheivementTracker::LoadAchievementDescriptions` (ri
 #### Usage:
 
   ```lua
-  function myModInitializationCode()
-    log("My code was run after the game started")
+  function myModInitializationCode(newGame)
+    if (newGame) then
+      log("My code was run after a new game started")
+    else
+      log("My code was run after a saved game loaded")
+    end
     if not _G["myModLoaded"] then
       _G["myModLoaded"] = true
     end
@@ -51,7 +55,7 @@ Register a function to call upon starting a run
 #### Parameters:
 
 *   callback `function`
-    * Callback function to register
+    * Callback function to register *note this function can take an argument which specifies whether it was called for starting a new game or loading a saved game*
 
 Your function will be called once upon starting a new run (and/or loading a run)
 
