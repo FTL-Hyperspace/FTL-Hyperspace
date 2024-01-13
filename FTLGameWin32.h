@@ -7078,7 +7078,7 @@ struct SpaceManager
 	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
 	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
-	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 
 	struct FleetShip
