@@ -2098,6 +2098,7 @@ playerVariableType playerVariables;
 %apply bool* OUTPUT {bool* boolValue};
 %rename("%s") CrewMember_Extend::CalculateStat;
 %rename("%s") CrewMember_Extend::InitiateTeleport;
+%rename("%s") CrewMember_Extend::GetDefinition;
 %rename("%s") CrewMember_Extend::orig;
 %immutable CrewMember_Extend::orig;
 %rename("%s") CrewMember_Extend::selfId;
@@ -2407,6 +2408,14 @@ playerVariableType playerVariables;
 %rename("%s") CrewAnimation::bDoorTarget;
 %rename("%s") CrewAnimation::uniqueBool1;
 %rename("%s") CrewAnimation::uniqueBool2;
+
+%nodefaultctor CrewDefinition;
+%nodefaultdtor CrewDefinition;
+%rename("%s") CrewDefinition;
+//Expose all CrewDefinition members by regex to reduce maintenance of CrewDefinition exposure
+%immutable; //All members are immutable
+%rename("%(regex:/^CrewDefinition::(.*)$/\\1/)s", regextarget=1, fullname=1) "CrewDefinition::.*";
+%clearimmutable; //Clear global feature flag
 
 %nodefaultctor CrewMemberFactory;
 %nodefaultdtor CrewMemberFactory;
