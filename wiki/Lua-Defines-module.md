@@ -63,7 +63,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is pressed |
 | 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is unpressed |
 | 1.4.0 | ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `None` | Detect mouse movement |
-| N/A | GUI_MOUSE_MOVE | `int x`, `int y` | `Defines.Chain` chain | Detect mouse movement (To be used for button MouseMove function)
+| 1.9.0 | GUI_MOUSE_MOVE | `int x`, `int y` | `Defines.Chain` chain | Detect mouse movement (To be used for button MouseMove function)
 | 1.4.0 | ON_MOUSE_L_BUTTON_DOWN | `int x`, `int y` | `None` | Detect left mouse button is pressed |
 | 1.4.0 | ON_MOUSE_L_BUTTON_UP | `int x`, `int y` | `None` | Detect left mouse button is unpressed |
 | 1.4.0 | ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `None` | Detect right mouse button is pressed |
