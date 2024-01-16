@@ -141,6 +141,41 @@ namespace std {
     %template(vector_string) vector<string>;
 }
 
+%rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
+%native(Get_Drone_Subclass)  static int Get_Drone_Subclass(lua_State* L);
+%{
+    static int Get_Drone_Subclass(lua_State* L) {
+        int SWIG_arg = 0;
+        SpaceDrone* arg1 = nullptr;
+
+
+        SWIG_check_num_args("Get_Drone_Subclass",1,1)
+        if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Get_Drone_Subclass",1,"SpaceDrone *");
+        
+        if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceDrone,0))){
+            SWIG_fail_ptr("Get_Drone_Subclass",1,SWIGTYPE_p_SpaceDrone);
+        }
+        
+
+        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->type], 0); SWIG_arg++; 
+        return SWIG_arg;
+        
+        if(0) SWIG_fail;
+        
+        fail:
+        lua_error(L);
+        return SWIG_arg;
+    }
+%}
+
+// Automatically get the derived class of a SpaceDrone when retriving it from a vector
+%luacode {
+    local indexFn = getmetatable(Hyperspace.vector_SpaceDrone)[".instance"].__index
+    getmetatable(Hyperspace.vector_SpaceDrone)[".instance"].__index = function(vector, index)
+        return Hyperspace.Get_Drone_Subclass(indexFn(vector, index))
+    end
+}
+
 %include "ToggleValue.h"
 %template(ToggleValue_int) ToggleValue<int>;
 %template(ToggleValue_float) ToggleValue<float>;
@@ -2144,6 +2179,7 @@ playerVariableType playerVariables;
 %apply bool* OUTPUT {bool* boolValue};
 %rename("%s") CrewMember_Extend::CalculateStat;
 %rename("%s") CrewMember_Extend::InitiateTeleport;
+%rename("%s") CrewMember_Extend::GetDefinition;
 %rename("%s") CrewMember_Extend::orig;
 %immutable CrewMember_Extend::orig;
 %rename("%s") CrewMember_Extend::selfId;
@@ -2453,6 +2489,14 @@ playerVariableType playerVariables;
 %rename("%s") CrewAnimation::bDoorTarget;
 %rename("%s") CrewAnimation::uniqueBool1;
 %rename("%s") CrewAnimation::uniqueBool2;
+
+%nodefaultctor CrewDefinition;
+%nodefaultdtor CrewDefinition;
+%rename("%s") CrewDefinition;
+//Expose all CrewDefinition members by regex to reduce maintenance of CrewDefinition exposure
+%immutable; //All members are immutable
+%rename("%(regex:/^CrewDefinition::(.*)$/\\1/)s", regextarget=1, fullname=1) "CrewDefinition::.*";
+%clearimmutable; //Clear global feature flag
 
 %nodefaultctor CrewMemberFactory;
 %nodefaultdtor CrewMemberFactory;

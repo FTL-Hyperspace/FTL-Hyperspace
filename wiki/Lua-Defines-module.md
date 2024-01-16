@@ -89,6 +89,28 @@ For example `Defines.Chain.CONTINUE`
 | HALT | Halt the callback loop, but still run subsequent C++ code |
 | PREEMPT | Halt the callback loop and skip subsequent C++ code |
 
+### Evasion
+Used by callbacks to determine whether a projectile hits or misses.
+`Defines.Evasion` table:
+
+For example `Defines.Evasion.HIT`
+| Name | Description |
+| :--- | --- |
+| NONE | Indicates evasion still needs to be checked |
+| HIT | Force projectile to hit |
+| MISS | Force projectile to miss |
+
+### BeamHit
+Used by beam damage callbacks to determine what type of hit is currently being processed.
+`Defines.BeamHit` table:
+
+For example `Defines.BeamHit.NEW_ROOM`
+| Name | Description |
+| :--- | --- |
+| SAME_TILE | Treat beam hit as same tile as last frame |
+| NEW_TILE | Treat beam hit as new tile but same room as last frame |
+| NEW_ROOM | Treat beam hit as new room from last frame |
+
 ### SDL keys
 `Defines.SDL` table:
 

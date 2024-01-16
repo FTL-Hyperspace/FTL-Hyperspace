@@ -907,6 +907,95 @@ local maxHealth, _ = crew.extend:CalculateStat(Hyperspace.CrewStat.MAX_HEALTH)
 local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 -- This will return 0, canMove. Since this is a boolean stat, the value 0 is discarded.
 ```
+- `CrewDefinition* :GetDefinition()`
+    - Returns the CrewMember's [`CrewDefinition`](#CrewDefinition)
+
+   
+## CrewDefinition
+   
+### Fields
+   NOTE: All fields under this object are immutable.
+- `std::string` `.race`
+- `std::vector<std::string>` `.deathSounds`
+- `std::vector<std::string>` `.deathSoundsFemale`
+- `std::vector<std::string>` `.shootingSounds`
+- `std::vector<std::string>` `.repairSounds`
+- `int` `.repairSoundFrame`
+- `bool` `.canFight`
+- `bool` `.canRepair`
+- `bool` `.canSabotage`
+- `bool` `.canMan`
+- `bool` `.canTeleport`
+- `bool` `.canSuffocate`
+- `bool` `.controllable`
+- `bool` `.selectable`
+- `bool` `.canBurn`
+- `int` `.maxHealth`
+- `float` `.stunMultiplier`
+- `float` `.moveSpeedMultiplier`
+- `float` `.repairSpeed`
+- `float` `.damageMultiplier`
+- `float` `.cloneSpeedMultiplier`
+- `float` `.rangedDamageMultiplier`
+- `float` `.doorDamageMultiplier`
+- `bool` `.providesPower`
+- `int` `.bonusPower`
+- `float` `.fireRepairMultiplier`
+- `float` `.suffocationModifier`
+- `bool` `.isTelepathic`
+- `bool` `.resistsMindControl`
+- `bool` `.isAnaerobic`
+- `float` `.fireDamageMultiplier`
+- `bool` `.canPhaseThroughDoors`
+- `float` `.oxygenChangeSpeed`
+- `float` `.damageTakenMultiplier`
+- `float` `.passiveHealAmount`
+- `float` `.truePassiveHealAmount`
+- `float` `.healAmount`
+- `float` `.trueHealAmount`
+- `int` `.passiveHealDelay`
+- `bool` `.detectsLifeforms`
+- `bool` `.hasCustomDeathAnimation`
+- `bool` `.hasDeathExplosion`
+- `std::string` `.animBase`
+- `std::string` `.animSheet[2]`
+- `float` `.sabotageSpeedMultiplier`
+- `float` `.allDamageTakenMultiplier`
+- `int` `.defaultSkillLevel`
+- `float` `.healSpeed`
+- `bool` `.cloneLoseSkills`
+- `float` `.healCrewAmount`
+- `DroneAI` `.droneAI`
+- `bool` `.droneMoveFromManningSlot`
+- `int` `.powerDrain`
+- `bool` `.powerDrainFriendly`
+- `float` `.damageEnemiesAmount`
+- `bool` `.hackDoors`
+- `float` `.powerRechargeMultiplier`
+- `float` `.crewSlots`
+- `bool` `.noSlot`
+- `bool` `.noClone`
+- `bool` `.noAI`
+- `bool` `.validTarget`
+- `ToggleValue<bool>` `.canPunch`
+- `bool` `.canMove`
+- `bool` `.snapToSlot`
+- `bool` `.teleportMove`
+- `bool` `.teleportMoveOtherShip`
+- `float` `.essential`
+- `bool` `.silenced`
+- `float` `.lowHealthThreshold`
+- `float` `.lowHealthThresholdPercentage`
+- `bool` `.noWarning`
+- `std::pair<int,int>` `.shootTimer`
+- `std::pair<int,int>` `.punchTimer`
+- `ExplosionDefinition` `.explosionDef`
+- `std::vector<ActivatedPowerDefinition*>` `.powerDefs`
+- `std::vector<StatBoostDefinition*>` `.passiveStatBoosts`
+- `std::vector<std::string>` `.nameRace`
+- `std::vector<std::string>` `.transformName`
+- `bool` `.changeIfSame`
+- `SkillsDefinition` `.skillsDef`
 ## GenericButton
 
 ### Methods
