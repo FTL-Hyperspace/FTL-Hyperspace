@@ -26,11 +26,59 @@ All calls are under `Hyperspace`
    - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
 - `AnimationControl :GetAnimationControl()`
    - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
-   
+- `MouseControl :GetMouseControl()`
+   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
+
 ### Fields
 - `int` `.currentSeed`
    - **Read-only**
    - The seed for the run.
+
+## MouseControl
+
+### Methods
+
+- `void :InstantTooltip()`
+- `Point :MeasureTooltip(int width)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :QueueStaticTooltip(Point pos)`
+- `void :RenderTooltip(Point tooltipPoint, bool staticPos)`
+- `void :Reset()`
+- `void :ResetArmed()`
+- `void :SetDoor(int state)`
+- `void :SetTooltip(const std::string &tooltip)`
+- `void :SetTooltipTitle(const std::string &tooltip)`
+	
+### Members
+- `Point` `.position`
+- `Point` `.lastPosition`
+- `int` `.aiming_required`
+- `int` `.iTeleporting`
+- `int` `.iMindControlling`
+- `bool` `.bSellingStuff`
+- `bool` `.valid`
+- `bool` `.newHover`
+- `bool` `.lastValid`
+- `int` `.animateDoor`
+- `GL_Texture*` `.validPointer`
+- `GL_Texture*` `.invalidPointer`
+- `GL_Texture*` `.selling`
+- `Animation` `.openDoor`
+- `std::string` `.tooltip`
+- `float` `.tooltipTimer`
+- `bool` `.bMoving`
+- `bool` `.bHideMouse`
+- `GL_Texture*` `.lastIcon`
+- `GL_Texture*` `.lastAddition`
+- `bool` `.bForceTooltip`
+- `std::string` `.tooltipTitle`
+- `std::string` `.lastTooltipText`
+- `int` `.iHacking`
+- `int` `.overrideTooltipWidth`
+- `Point` `.staticTooltip`
+
+
 
 ## PrintHelper
 The members held by this class determine how the `print` function displays messages.
@@ -948,3 +996,54 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.transformName`
 - `bool` `.changeIfSame`
 - `SkillsDefinition` `.skillsDef`
+## GenericButton
+
+### Methods
+
+- `void :Reset()` 
+- `void :SetLocation(Point pos)`
+- `void :SetHitBox(Globals::Rect rect)`
+- `void :SetActive(bool active)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :MouseMove(int x, int y, bool silent)`
+- `void :OnClick()`
+- `void :OnRightClick()`
+- `void :OnTouch()`
+- `void :ResetPrimitives()`
+
+### Fields
+
+- `Point` `.position`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `Globals::Rect` `.hitbox` 
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.allowAnyTouch`
+- `bool` `.touchSelectable`
+- `bool` `.bRenderOff`
+- `bool` `.bRenderSelected`
+- `bool` `.bFlashing`
+- `AnimationTracker` `.flashing`
+- `bool` `.bActive`
+- `bool` `.bHover`
+- `bool` `.bActivated`
+- `bool` `.bSelected`
+- `int` `.activeTouch`
+
+## Button
+
+### Methods
+
+**Extends [`GenericButton`](#GenericButton)**
+- `void :OnInit(const std::string &img, Point pos)`
+- `void :OnRender()`
+- `void :SetActiveImage(GL_Texture *texture)`
+- `void :SetImageBase(const std::string &imageBase)`
+- `void :SetInactiveImage(GL_Texture *texture)`
+- `void :SetLocation(const Point pos)`
+
+### Fields
+- `GL_Texture*[3]` `.images`
+- `GL_Primitive*[3]` `.primitives`
+- `Point` `.imageSize`
+- `bool` `.bMirror`
