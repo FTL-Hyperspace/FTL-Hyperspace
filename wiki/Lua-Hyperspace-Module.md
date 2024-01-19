@@ -26,11 +26,59 @@ All calls are under `Hyperspace`
    - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
 - `AnimationControl :GetAnimationControl()`
    - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
-   
+- `MouseControl :GetMouseControl()`
+   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
+
 ### Fields
 - `int` `.currentSeed`
    - **Read-only**
    - The seed for the run.
+
+## MouseControl
+
+### Methods
+
+- `void :InstantTooltip()`
+- `Point :MeasureTooltip(int width)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :QueueStaticTooltip(Point pos)`
+- `void :RenderTooltip(Point tooltipPoint, bool staticPos)`
+- `void :Reset()`
+- `void :ResetArmed()`
+- `void :SetDoor(int state)`
+- `void :SetTooltip(const std::string &tooltip)`
+- `void :SetTooltipTitle(const std::string &tooltip)`
+	
+### Members
+- `Point` `.position`
+- `Point` `.lastPosition`
+- `int` `.aiming_required`
+- `int` `.iTeleporting`
+- `int` `.iMindControlling`
+- `bool` `.bSellingStuff`
+- `bool` `.valid`
+- `bool` `.newHover`
+- `bool` `.lastValid`
+- `int` `.animateDoor`
+- `GL_Texture*` `.validPointer`
+- `GL_Texture*` `.invalidPointer`
+- `GL_Texture*` `.selling`
+- `Animation` `.openDoor`
+- `std::string` `.tooltip`
+- `float` `.tooltipTimer`
+- `bool` `.bMoving`
+- `bool` `.bHideMouse`
+- `GL_Texture*` `.lastIcon`
+- `GL_Texture*` `.lastAddition`
+- `bool` `.bForceTooltip`
+- `std::string` `.tooltipTitle`
+- `std::string` `.lastTooltipText`
+- `int` `.iHacking`
+- `int` `.overrideTooltipWidth`
+- `Point` `.staticTooltip`
+
+
 
 ## PrintHelper
 The members held by this class determine how the `print` function displays messages.
@@ -859,3 +907,143 @@ local maxHealth, _ = crew.extend:CalculateStat(Hyperspace.CrewStat.MAX_HEALTH)
 local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 -- This will return 0, canMove. Since this is a boolean stat, the value 0 is discarded.
 ```
+- `CrewDefinition* :GetDefinition()`
+    - Returns the CrewMember's [`CrewDefinition`](#CrewDefinition)
+
+   
+## CrewDefinition
+   
+### Fields
+   NOTE: All fields under this object are immutable.
+- `std::string` `.race`
+- `std::vector<std::string>` `.deathSounds`
+- `std::vector<std::string>` `.deathSoundsFemale`
+- `std::vector<std::string>` `.shootingSounds`
+- `std::vector<std::string>` `.repairSounds`
+- `int` `.repairSoundFrame`
+- `bool` `.canFight`
+- `bool` `.canRepair`
+- `bool` `.canSabotage`
+- `bool` `.canMan`
+- `bool` `.canTeleport`
+- `bool` `.canSuffocate`
+- `bool` `.controllable`
+- `bool` `.selectable`
+- `bool` `.canBurn`
+- `int` `.maxHealth`
+- `float` `.stunMultiplier`
+- `float` `.moveSpeedMultiplier`
+- `float` `.repairSpeed`
+- `float` `.damageMultiplier`
+- `float` `.cloneSpeedMultiplier`
+- `float` `.rangedDamageMultiplier`
+- `float` `.doorDamageMultiplier`
+- `bool` `.providesPower`
+- `int` `.bonusPower`
+- `float` `.fireRepairMultiplier`
+- `float` `.suffocationModifier`
+- `bool` `.isTelepathic`
+- `bool` `.resistsMindControl`
+- `bool` `.isAnaerobic`
+- `float` `.fireDamageMultiplier`
+- `bool` `.canPhaseThroughDoors`
+- `float` `.oxygenChangeSpeed`
+- `float` `.damageTakenMultiplier`
+- `float` `.passiveHealAmount`
+- `float` `.truePassiveHealAmount`
+- `float` `.healAmount`
+- `float` `.trueHealAmount`
+- `int` `.passiveHealDelay`
+- `bool` `.detectsLifeforms`
+- `bool` `.hasCustomDeathAnimation`
+- `bool` `.hasDeathExplosion`
+- `std::string` `.animBase`
+- `std::string` `.animSheet[2]`
+- `float` `.sabotageSpeedMultiplier`
+- `float` `.allDamageTakenMultiplier`
+- `int` `.defaultSkillLevel`
+- `float` `.healSpeed`
+- `bool` `.cloneLoseSkills`
+- `float` `.healCrewAmount`
+- `DroneAI` `.droneAI`
+- `bool` `.droneMoveFromManningSlot`
+- `int` `.powerDrain`
+- `bool` `.powerDrainFriendly`
+- `float` `.damageEnemiesAmount`
+- `bool` `.hackDoors`
+- `float` `.powerRechargeMultiplier`
+- `float` `.crewSlots`
+- `bool` `.noSlot`
+- `bool` `.noClone`
+- `bool` `.noAI`
+- `bool` `.validTarget`
+- `ToggleValue<bool>` `.canPunch`
+- `bool` `.canMove`
+- `bool` `.snapToSlot`
+- `bool` `.teleportMove`
+- `bool` `.teleportMoveOtherShip`
+- `float` `.essential`
+- `bool` `.silenced`
+- `float` `.lowHealthThreshold`
+- `float` `.lowHealthThresholdPercentage`
+- `bool` `.noWarning`
+- `std::pair<int,int>` `.shootTimer`
+- `std::pair<int,int>` `.punchTimer`
+- `ExplosionDefinition` `.explosionDef`
+- `std::vector<ActivatedPowerDefinition*>` `.powerDefs`
+- `std::vector<StatBoostDefinition*>` `.passiveStatBoosts`
+- `std::vector<std::string>` `.nameRace`
+- `std::vector<std::string>` `.transformName`
+- `bool` `.changeIfSame`
+- `SkillsDefinition` `.skillsDef`
+## GenericButton
+
+### Methods
+
+- `void :Reset()` 
+- `void :SetLocation(Point pos)`
+- `void :SetHitBox(Globals::Rect rect)`
+- `void :SetActive(bool active)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :MouseMove(int x, int y, bool silent)`
+- `void :OnClick()`
+- `void :OnRightClick()`
+- `void :OnTouch()`
+- `void :ResetPrimitives()`
+
+### Fields
+
+- `Point` `.position`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `Globals::Rect` `.hitbox` 
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.allowAnyTouch`
+- `bool` `.touchSelectable`
+- `bool` `.bRenderOff`
+- `bool` `.bRenderSelected`
+- `bool` `.bFlashing`
+- `AnimationTracker` `.flashing`
+- `bool` `.bActive`
+- `bool` `.bHover`
+- `bool` `.bActivated`
+- `bool` `.bSelected`
+- `int` `.activeTouch`
+
+## Button
+
+### Methods
+
+**Extends [`GenericButton`](#GenericButton)**
+- `void :OnInit(const std::string &img, Point pos)`
+- `void :OnRender()`
+- `void :SetActiveImage(GL_Texture *texture)`
+- `void :SetImageBase(const std::string &imageBase)`
+- `void :SetInactiveImage(GL_Texture *texture)`
+- `void :SetLocation(const Point pos)`
+
+### Fields
+- `GL_Texture*[3]` `.images`
+- `GL_Primitive*[3]` `.primitives`
+- `Point` `.imageSize`
+- `bool` `.bMirror`
