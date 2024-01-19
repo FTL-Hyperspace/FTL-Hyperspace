@@ -758,7 +758,7 @@
 			<Add alias="Release-linux-x86" targets="Release-linux-1.6.12-x86;Release-linux-1.6.13-x86;" />
 		</VirtualTargets>
 		<ExtraCommands>
-			<Add before="swig -c++ -lua $includes -external-runtime lua/swigluarun.h.temp1" />
+			<Add before="swig -c++ -lua $includes -external-runtime swigluarun.h.temp1" />
 		</ExtraCommands>
 		<Unit filename="AbilityDrone.cpp">
 			<Option virtualFolder="Core/Drones/" />
@@ -1319,45 +1319,45 @@
 		<Unit filename="libzhl.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
-		<Unit filename="lua/InternalEvents.cpp">
+		<Unit filename="LuaInternalEvents.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/InternalEvents.h">
+		<Unit filename="LuaInternalEvents.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/LuaLibScript.cpp">
+		<Unit filename="LuaLibScript.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/LuaLibScript.h">
+		<Unit filename="LuaLibScript.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/LuaScriptInit.cpp">
+		<Unit filename="LuaScriptInit.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/LuaScriptInit.h">
+		<Unit filename="LuaScriptInit.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/RenderEvents.cpp">
+		<Unit filename="LuaRenderEvents.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/RenderEvents.h">
+		<Unit filename="LuaRenderEvents.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/linit.c">
+		<Unit filename="linit.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/luaDefines.h">
+		<Unit filename="luaDefines.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/luaGlobal.h">
+		<Unit filename="luaGlobal.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/luaInclude.h">
+		<Unit filename="luaInclude.h">
 			<Option virtualFolder="Scripting/" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="lua/luaLibBase.h">
+		<Unit filename="luaLibBase.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/modules/defines.i">
@@ -1376,7 +1376,7 @@
 			<Option compile="1" />
 			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
-		<Unit filename="lua/swigluarun.h">
+		<Unit filename="swigluarun.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="main.cpp">

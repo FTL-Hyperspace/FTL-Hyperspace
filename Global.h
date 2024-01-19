@@ -13,7 +13,7 @@
 #include "CrewMember_Extend.h"
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
-#include "lua/LuaScriptInit.h"
+#include "LuaScriptInit.h"
 
 extern bool loadingGame;
 

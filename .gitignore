@@ -10,7 +10,7 @@ libzhlproject/
 FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
 *.autogen.hpp
-lua/swigluarun.h
+swigluarun.h
 
 ## Other
 .save-failed

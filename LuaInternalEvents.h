@@ -4,7 +4,7 @@
 /**
     Internal Event enumerations
     Used for specifying a name to Lua that Lua can access via `Defines.InternalEvents.ON_TICK` (or other name in the Defines.InternalEvents table)
-    And for specifying a name to C in our hooks (defined in InternalEvents.cpp right now but they could technically be called from anywhere)
+    And for specifying a name to C in our hooks (defined in LuaInternalEvents.cpp right now but they could technically be called from anywhere)
     Eventually will include argument data for Lua to specify what we expect to send to and receive from Lua hooks
 
     You can have more than one actual C ZHL hook calling the same identifier (such as we would do for START_RUN, although currently that is handled by `scripts.on_init(` but maybe we accomplish that with an internal event instead and clean it up)

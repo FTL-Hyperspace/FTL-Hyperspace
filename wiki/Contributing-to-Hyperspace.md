@@ -78,4 +78,4 @@ If you think a member or method needs additional info, you can open the console 
 
 ## LUA Defines Module
 
-The hookable events for the `Defines` module are in the [`InternalEvents.i`](../blob/master/lua/InternalEvents.h) source file, and the events for the `Graphics` module are in the [`RenderEvents.i`](../blob/master/lua/RenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the `Defines` module wiki page.
+The hookable events for the `Defines` module are in the [`LuaInternalEvents.i`](../blob/master/LuaInternalEvents.h) source file, and the events for the `Graphics` module are in the [`LuaRenderEvents.i`](../blob/master/LuaRenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the `Defines` module wiki page.

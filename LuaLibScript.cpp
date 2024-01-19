@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include "LuaLibScript.h"
-#include "../Global.h"
+#include "Global.h"
 #include "swigluarun.h"
 
 #include "EnumClassHash.h"

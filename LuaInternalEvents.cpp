@@ -1,26 +1,26 @@
-#include "InternalEvents.h"
-#include "../Global.h"
+#include "LuaInternalEvents.h"
+#include "Global.h"
 #include "swigluarun.h"
 
 /** All the hook code for the various InternalEvents belongs here **/
 
 HOOK_METHOD(CApp, OnLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnLoop -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLoop -> Begin (LuaInternalEvents.cpp)\n")
     super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_TICK);
 }
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (LuaInternalEvents.cpp)\n")
     super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::MAIN_MENU);
 }
 
 HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -33,7 +33,7 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(CApp, OnKeyUp, (SDLKey key) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyUp -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -46,7 +46,7 @@ HOOK_METHOD(CApp, OnKeyUp, (SDLKey key) -> void)
 
 HOOK_METHOD(CApp, OnMouseMove, (int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnMouseMove -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnMouseMove -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -65,7 +65,7 @@ HOOK_METHOD(CApp, OnMouseMove, (int x, int y, int xdiff, int ydiff, bool holding
 
 HOOK_METHOD(CApp, OnLButtonDown, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonDown -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -79,7 +79,7 @@ HOOK_METHOD(CApp, OnLButtonDown, (int x, int y) -> void)
 
 HOOK_METHOD(CApp, OnLButtonUp, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonUp -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -93,7 +93,7 @@ HOOK_METHOD(CApp, OnLButtonUp, (int x, int y) -> void)
 
 HOOK_METHOD(CApp, OnRButtonDown, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonDown -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -107,7 +107,7 @@ HOOK_METHOD(CApp, OnRButtonDown, (int x, int y) -> void)
 
 HOOK_METHOD_PRIORITY(CApp, OnRButtonUp, -100, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnRButtonUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnRButtonUp -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -121,7 +121,7 @@ HOOK_METHOD_PRIORITY(CApp, OnRButtonUp, -100, (int x, int y) -> void)
 
 HOOK_METHOD(CApp, OnMButtonDown, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnMButtonDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnMButtonDown -> Begin (LuaInternalEvents.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -135,7 +135,7 @@ HOOK_METHOD(CApp, OnMButtonDown, (int x, int y) -> void)
 
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (LuaInternalEvents.cpp)\n")
 
     super();
 
@@ -148,7 +148,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
 //Priority was necessary to make this run after the hook for calculating stuff with additionalPowerLoss, so user can do stuff like modify that for weapon effects here.
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (LuaInternalEvents.cpp)\n")
     super();
 
     auto context = G_->getLuaContext();
@@ -160,7 +160,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
 //Priority to run after callback in CustomDrones.cpp
 HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceDrone::GetNextProjectile -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::GetNextProjectile -> Begin (LuaInternalEvents.cpp)\n")
     
     Projectile* ret = super();
     if (ret != nullptr)
@@ -182,7 +182,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (LuaInternalEvents.cpp)\n")
     int ret = super();
 
     auto context = G_->getLuaContext();
@@ -199,7 +199,7 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (LuaInternalEvents.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
@@ -209,7 +209,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (LuaInternalEvents.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
