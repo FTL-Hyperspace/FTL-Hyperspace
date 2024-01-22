@@ -35,6 +35,8 @@ struct InternalEvents
         ON_MOUSE_R_BUTTON_UP,
         // function on_mouse_m_button_down(int x, int y) return Chain
         ON_MOUSE_M_BUTTON_DOWN,
+        // function gui_move_move(int x, int y) return Chain
+        GUI_MOUSE_MOVE,
         
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
