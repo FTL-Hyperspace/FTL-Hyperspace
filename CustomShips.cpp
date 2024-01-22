@@ -1014,7 +1014,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
     super(bp);
 
-    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->imgFile + ".xml");
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->layoutFile + ".xml");
     if (xmltext)
     {
         bool hasThrusters = false;
