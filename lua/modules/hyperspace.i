@@ -172,7 +172,9 @@ namespace std {
 %luacode {
     local indexFn = getmetatable(Hyperspace.vector_SpaceDrone)[".instance"].__index
     getmetatable(Hyperspace.vector_SpaceDrone)[".instance"].__index = function(vector, index)
-        return Hyperspace.Get_Drone_Subclass(indexFn(vector, index))
+        local ret = indexFn(vector, index)
+        if type(ret) == "function" then return ret end
+        return Hyperspace.Get_Drone_Subclass(ret)
     end
 }
 
