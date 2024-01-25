@@ -1743,6 +1743,8 @@ playerVariableType playerVariables;
 %rename("%s") Room::bBlackedOut;
 %immutable Room::rect;
 %rename("%s") Room::rect;
+%immutable Room::iRoomId;
+%rename("%s") Room::iRoomId;
 
 %immutable Room::extend;
 %rename("%s") Room::extend;
