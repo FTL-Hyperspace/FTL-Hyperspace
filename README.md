@@ -1,11 +1,8 @@
 # FTL-Hyperspace
 Hyperspace -- A binary mod for FTL: Faster than Light
 
-# Platforms
-## Windows + Linux
-Windows and Linux have native Hyperspace ports, download the latest releases [here](https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest).
-## MacOS
-Mac users, please go to [this](https://github.com/The-Dumb-Dino/Dinos-Hyperspace-Wrapper-for-Mac) repository and read the installation instructions there. It is our recommended method to run Hyperspace on MacOS.
+# Installation
+The installation guides for all platforms can be found on the [FTL Hyperspace page](https://ftl-hyperspace.github.io/FTL-Hyperspace/). The latest version of Hyperspace can be found on the [release page](https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest).
 
 # Building
 ## Windows
