@@ -45,13 +45,7 @@
    - **Do not** patch mods that are not designed for FTL Multiverse or they may conflict (even small UI mods can sometime conflict, seek help on the MV Discord if you have questions about a specific favorite mod of yours compatibility)
    - Example: ![image](https://user-images.githubusercontent.com/1423894/173681032-76e9b056-ede6-42f5-ad5a-ffa0fece384a.png)
    - Click `Patch`
-4. If you have **AMD** or **Intel** graphics, you'll need an extra step before you can launch FTL Multiverse and **do not** launch it from Slipstream
-5. See: [Checking if Hyperspace is installed correctly](#installed-correctly)
-
-##### AMD/Intel GPUs
-- You need to create a shortcut to FTLGame.exe to launch it with `-opengl`
-- Steam users can add the `-opengl` to the launch options.
-- This will be automatic in a future version of hyperspace but right now is required on AMD/Intel GPU systems and only applies to massive mods like Multiverse.
+4. See: [Checking if Hyperspace is installed correctly](#installed-correctly)
 
 ### Installed Correctly
 
