@@ -110,15 +110,15 @@ The members held by this class determine how the `print` function displays messa
    - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
 - `void :RemoveAugmentation(string augmentName)`
    - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
-- `void :ClearShipInfo`
-- `int :GetAugmentationCount`
-   - Returns how many augments are on the ship
-- `string[] :GetAugmentationList`
+- `void :ClearShipInfo()`
+- `int :GetAugmentationCount()`
+   - Returns the number of augments on the ship.
+- `string[] :GetAugmentationList()`
    - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
 - `float :GetAugmentationValue(string augmentName)`
    - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
 - `int :HasAugmentation(string augmentName)`
-   - Returns how many of the augment you have, NOT a bool.
+   - Returns the number of the given augment you have, NOT a bool.
 - `void :AddEquipment(string equipmentName)`
    - Gives the blue options for the specified equipment (weapon, drone, augment, crew).
 - `void :RemoveEquipment(string equipmentName)`
@@ -243,6 +243,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
 
 ### Fields
+- [`Targetable`](#targetable) `._targetable`
+   - **Read-only**
 - `int` `.iShipId`
    - **Read-only**
    - The ship's ID (0 is player, 1 is enemy)
@@ -364,29 +366,28 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
 ## Targetable
-***Not yet exposed***
 
 ### Methods
-- ~~`Pointf :GetWorldCenterPoint()`~~
-- ~~`Pointf :GetRandomTargettingPoint(bool unk)`~~
-- ~~`std::vector<Pointf> :GetAllTargettingPoints()`~~
-- ~~`Globals::Ellipse :GetShieldShape()`~~
-- ~~`ShieldPower :GetShieldPower()`~~
-- ~~`int :GetSpaceId()`~~
-- ~~`Pointf :GetSpeed()`~~
-- ~~`int :GetOwnerId()`~~
-- ~~`int :GetSelfId()`~~
-- ~~`bool :IsCloaked()`~~
-- ~~`void :DamageTarget(Pointf pos, DamageParameter damage)`~~
-- ~~`bool :GetIsDying()`~~
-- ~~`bool :GetIsJumping()`~~
-- ~~`bool :ValidTarget()`~~
-- ~~`Globals::Rect :GetShape()`~~
+- `Pointf :GetWorldCenterPoint()`
+- `Pointf :GetRandomTargettingPoint(bool unk)`
+- `std::vector<Pointf> :GetAllTargettingPoints()`
+- `Globals::Ellipse :GetShieldShape()`
+- `ShieldPower :GetShieldPower()`
+- `int :GetSpaceId()`
+- `Pointf :GetSpeed()`
+- `int :GetOwnerId()`
+- `int :GetSelfId()`
+- `bool :IsCloaked()`
+- `void :DamageTarget(Pointf pos, DamageParameter damage)`
+- `bool :GetIsDying()`
+- `bool :GetIsJumping()`
+- `bool :ValidTarget()`
+- `Globals::Rect :GetShape()`
 
 ### Fields
-- ~~`int` `.type`~~
-- ~~`bool` `.hostile`~~
-- ~~`bool` `.targeted`~~
+- `int` `.type`
+- `bool` `.hostile`
+- `bool` `.targeted`
 
 ## ShipSystem
 
