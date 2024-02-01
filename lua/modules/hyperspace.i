@@ -1851,6 +1851,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor EffectsBlueprint;
 %nodefaultdtor EffectsBlueprint;
+%rename("%s") EffectsBlueprint;
 %rename("%s") EffectsBlueprint::launchSounds;
 %rename("%s") EffectsBlueprint::hitShipSounds;
 %rename("%s") EffectsBlueprint::hitShieldSounds;
