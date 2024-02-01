@@ -1163,14 +1163,8 @@ struct ShipObject;
 
 struct ShipObject
 {
-	int HS_HasEquipment(const std::string& equip);
-	int HasItem(const std::string& equip);
-	int HasCargo(const std::string& equip);
-	void CheckCargo(const std::string& equip, int& ret);
-
 	LIBZHL_API bool AddAugmentation(const std::string &augment);
-	LIBZHL_API void ClearShipInfo();
-	LIBZHL_API int GetAugmentationCount();
+	LIBZHL_API void AddEquipment(const std::string &blueprint);
 	LIBZHL_API std::vector<std::string> GetAugmentationList();
 	LIBZHL_API float GetAugmentationValue(const std::string &augment);
 	LIBZHL_API int HasAugmentation(const std::string &augment);
@@ -7766,7 +7760,6 @@ extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
-extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API GL_Primitive **ShipSystem__lockBlue;
 extern LIBZHL_API GL_Primitive **ShipSystem__fireImage;
 extern LIBZHL_API GL_Primitive **ShipSystem__lockHack;
