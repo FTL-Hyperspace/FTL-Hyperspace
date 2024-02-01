@@ -103,21 +103,35 @@ The members held by this class determine how the `print` function displays messa
 - `bool` `.useSpeed`
    - Whether the speed at which messages are cleared scales with game speed. Default is `false`.
 
-## ShipManager
-Extends [Targetable](#targetable) & Collidable
+## ShipObject
 
 ### Methods
-- ~~`void :AddAugmentation(string augmentName)`~~ (Not yet available, suggested to do via events instead)
-- ~~`void :ClearShipInfo`~~
+- `void :AddAugmentation(string augmentName)`
+   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+- `void :RemoveAugmentation(string augmentName)`
+   - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
+- `void :ClearShipInfo`
 - `int :GetAugmentationCount`
    - Returns how many augments are on the ship
 - `string[] :GetAugmentationList`
-   - Returns a `std::vector<std::string>` of augmentations, in Lua you can handle this as if it was an array of strings.
+   - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
 - `float :GetAugmentationValue(string augmentName)`
-   - Returns the value of the augmentation, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
-- `bool :HasAugmentation(string augmentName)`
+   - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
+- `int :HasAugmentation(string augmentName)`
+   - Returns how many of the augment you have, NOT a bool.
+- `void :AddEquipment(string equipmentName)`
+   - Gives the blue options for the specified equipment (weapon, drone, augment, crew).
+- `void :RemoveEquipment(string equipmentName)`
+   - Removes the blue options for the specified equipment (weapon, drone, augment, crew).
 - `bool :HasEquipment(string equipmentName)`
-- ~~`void :RemoveAugmentation(string augmentName)`~~ (Disabled, probably preferred to be done via events)
+   - Returns a bool indicating whether you have the blue options for the specified equipment.
+
+## ShipManager
+Extends [ShipObject](#shipobject)
+
+As ShipManager extends ShipObject, the methods of ShipObject can be called from ShipManager.
+
+### Methods
 - `Pointf :GetRandomRoomCenter()`
    - Chooses a random room on the ship and returns the center point of that room
 - `Pointf :GetRoomCenter(int roomId)`
