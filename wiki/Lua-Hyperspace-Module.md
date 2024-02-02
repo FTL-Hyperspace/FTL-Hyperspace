@@ -1047,3 +1047,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `GL_Primitive*[3]` `.primitives`
 - `Point` `.imageSize`
 - `bool` `.bMirror`
+
+## EffectsBlueprint
+
+### Fields
+- `std::vector<std::string>` `.launchSounds`
+- `std::vector<std::string>` `.hitShipSounds`
+- `std::vector<std::string>` `.hitShieldSounds`
+- `std::vector<std::string>` `.missSounds`
+- `string` `.image`
