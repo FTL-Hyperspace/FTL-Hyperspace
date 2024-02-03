@@ -343,7 +343,7 @@ PowerReadyState ActivatedPower::PowerReady()
     return ret;
 }
 
-std::vector<PowerReadyState> ActivatedPower::PowerUnfulfilledRequirements()
+std::vector<PowerReadyState> ActivatedPower::PowerUnfulfilledRequirements(const ActivatedPowerRequirements *req)
 {
     std::vector ret;
     
@@ -352,6 +352,11 @@ std::vector<PowerReadyState> ActivatedPower::PowerUnfulfilledRequirements()
         ret.push_back(POWER_NOT_READY_COOLDOWN);
         return ret;
     }
+
+    ShipManager *currentShip = G_->GetShipManager(this->crew->currentShipId);
+    ShipManager *crewShip = G_->GetShipManager(this->crew->iShipId);
+    int ownerId = this->crew->GetPowerOwner();
+    ShipManager *ownerShip = G_->GetShipManager(ownerId);
 
     if (temporaryPowerActive)
     {
@@ -389,7 +394,210 @@ std::vector<PowerReadyState> ActivatedPower::PowerUnfulfilledRequirements()
         ret.push_back(POWER_NOT_READY_SILENCED);
     }
 
-    return PowerReq(crew->GetPowerOwner() == 0 ? &def->playerReq : &def->enemyReq);
+    if (!this->crew->intruder && req->enemyShip)
+    {
+        ret.push_back(POWER_NOT_READY_ENEMY_SHIP);
+    }
+    if (this->crew->intruder && req->playerShip)
+    {
+        ret.push_back(POWER_NOT_READY_PLAYER_SHIP);
+    }
+    // known bug: GetSystemInRoom rarely crashes upon loading a saved run, usually on chargeReq (it crashes trying to dereference a system in vSystemList)
+    if (currentShip && req->systemInRoom && !currentShip->GetSystemInRoom(this->crew->iRoomId))
+    {
+        ret.push_back(POWER_NOT_READY_SYSTEM_IN_ROOM);
+    }
+    else if (currentShip && req->systemDamaged)
+    {
+        auto sys = currentShip->GetSystemInRoom(this->crew->iRoomId);
+
+        if (sys && sys->healthState.first == sys->healthState.second) ret.push_back(POWER_NOT_READY_SYSTEM_DAMAGED);
+    }
+    if (req->checkRoomCrew && currentShip)
+    {
+        bool enemyInRoom = !req->enemyInRoom;
+        bool friendlyInRoom = !req->friendlyInRoom;
+        bool whiteList = req->whiteList.empty();
+        bool enemyWhiteList = req->enemyWhiteList.empty();
+        bool friendlyWhiteList = req->friendlyWhiteList.empty();
+        bool enemyBlackList = true;
+        bool friendlyBlackList = true;
+
+        for (auto i : currentShip->vCrewList)
+        {
+            if (i->iRoomId == this->crew->iRoomId && i != this->crew && !i->bDead)
+            {
+                if (i->iShipId != ownerId)
+                {
+                    enemyInRoom = true;
+                    if (!whiteList)
+                    {
+                        for (const std::string& race : req->whiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                whiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!enemyWhiteList)
+                    {
+                        for (const std::string& race : req->enemyWhiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                enemyWhiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (enemyBlackList)
+                    {
+                        for (const std::string& race : req->enemyBlackList)
+                        {
+                            if (i->species == race)
+                            {
+                                enemyBlackList = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    friendlyInRoom = true;
+                    if (!whiteList)
+                    {
+                        for (const std::string& race : req->whiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                whiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!friendlyWhiteList)
+                    {
+                        for (const std::string& race : req->friendlyWhiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                friendlyWhiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (friendlyBlackList)
+                    {
+                        for (const std::string& race : req->friendlyBlackList)
+                        {
+                            if (i->species == race)
+                            {
+                                friendlyBlackList = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!enemyInRoom)
+        {
+            ret.push_back(POWER_NOT_READY_ENEMY_IN_ROOM);
+        }
+        else if (!friendlyInRoom)
+        {
+            ret.push_back(POWER_NOT_READY_FRIENDLY_IN_ROOM);
+        }
+        else if (!whiteList)
+        {
+            ret.push_back(POWER_NOT_READY_WHITELIST);
+        }
+        else if (!enemyWhiteList)
+        {
+            ret.push_back(POWER_NOT_READY_ENEMY_WHITELIST);
+        }
+        else if (!friendlyWhiteList)
+        {
+            ret.push_back(POWER_NOT_READY_FRIENDLY_WHITELIST;
+        }
+        else if (!enemyBlackList)
+        {
+            ret.push_back(POWER_NOT_READY_ENEMY_BLACKLIST);
+        }
+        else if (!friendlyBlackList)
+        {
+            ret.push_back(POWER_NOT_READY_FRIENDLY_BLACKLIST);
+        }
+    }
+    if ((!crewShip || !crewShip->HasSystem(13)) && req->hasClonebay)
+    {
+        ret.push_back(POWER_NOT_READY_HAS_CLONEBAY);
+    }
+    if (req->aiDisabled && ownerId == 1)
+    {
+        ret.push_back(POWER_NOT_READY_AI_DISABLED);
+    }
+    if (req->outOfCombat && (crewShip && crewShip->current_target && crewShip->current_target->_targetable.hostile))
+    {
+        ret.push_back(POWER_NOT_READY_OUT_OF_COMBAT);
+    }
+    if (req->inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
+    {
+        ret.push_back(POWER_NOT_READY_IN_COMBAT);
+    }
+    if (req->requiredSystem != -1)
+    {
+        if (!ownerShip || !ownerShip->HasSystem(req->requiredSystem))
+        {
+            ret.push_back(POWER_NOT_READY_SYSTEM);
+        }
+        ShipSystem* sys = ownerShip->GetSystem(req->requiredSystem);
+        if (sys == nullptr)
+        {
+            ret.push_back(POWER_NOT_READY_SYSTEM);
+        }
+        if (req->requiredSystemFunctional && (sys->iHackEffect > 1 || sys->GetEffectivePower() == 0))
+        {
+            ret.push_back(POWER_NOT_READY_SYSTEM_FUNCTIONAL);
+        }
+    }
+    if (req->minHealth.enabled && this->crew->health.first < req->minHealth.value)
+    {
+        ret.push_back(POWER_NOT_READY_MIN_HEALTH);
+    }
+    if (req->maxHealth.enabled && this->crew->health.first > req->maxHealth.value)
+    {
+        ret.push_back(POWER_NOT_READY_MAX_HEALTH);
+    }
+
+    if (!req->extraConditions.empty())
+    {
+        for (auto& condition : req->extraConditions)
+        {
+            if (this->crew_ex->CheckExtraCondition(condition.first) != condition.second)
+            {
+                PowerReadyState extraConditionState = (PowerReadyState)((condition.second ? POWER_NOT_READY_EXTRACONDITION_FALSE : POWER_NOT_READY_EXTRACONDITION_TRUE) + (PowerReadyState)condition.first);
+                if (extraConditionState != POWER_READY) ret.push_back(extraConditionState);
+            }
+        }
+    }
+
+    if (!req->extraOrConditions.empty())
+    {
+        bool extraOrConditionValid = false;
+        for (auto& condition : req->extraOrConditions)
+        {
+            if (this->crew_ex->CheckExtraCondition(condition.first) == condition.second) {
+                extraOrConditionValid = true;
+                break;
+            }
+        }
+        if (!extraOrCondition) ret.push_back(POWER_NOT_READY_EXTRACONDITION_OR);
+    }
 
     /* I'm guessing I need to change this, but I don't know how
     // POWER_READY(ActivatedPower, retValue)
