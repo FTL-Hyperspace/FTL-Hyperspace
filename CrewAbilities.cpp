@@ -343,6 +343,66 @@ PowerReadyState ActivatedPower::PowerReady()
     return ret;
 }
 
+std::vector<PowerReadyState> ActivatedPower::PowerUnfulfilledRequirements()
+{
+    std::vector ret;
+    
+    if (loadingGame)
+    {
+        ret.push_back(POWER_NOT_READY_COOLDOWN);
+        return ret;
+    }
+
+    if (temporaryPowerActive)
+    {
+        ret.push_back(POWER_NOT_READY_ACTIVATED);
+    }
+    if (powerCharges.second >= 0 && powerCharges.first <= 0)
+    {
+        ret.push_back(POWER_NOT_READY_CHARGES);
+    }
+    for (ActivatedPowerResource* resource : powerResources)
+    {
+        if (resource->powerCharges.second >= 0 && resource->powerCharges.first <= 0)
+        {
+            ret.push_back(POWER_NOT_READY_CHARGES);
+            break;
+        }
+    }
+    if (powerCooldown.first < powerCooldown.second)
+    {
+        ret.push_back(POWER_NOT_READY_COOLDOWN);
+    }
+    for (ActivatedPowerResource* resource : powerResources)
+    {
+        if (resource->powerCooldown.first < resource->powerCooldown.second)
+        {
+            ret.push_back(POWER_NOT_READY_COOLDOWN);
+            break;
+        }
+    }
+
+    bool silenced;
+    crew_ex->CalculateStat(CrewStat::SILENCED, &silenced);
+    if (silenced)
+    {
+        ret.push_back(POWER_NOT_READY_SILENCED);
+    }
+
+    return PowerReq(crew->GetPowerOwner() == 0 ? &def->playerReq : &def->enemyReq);
+
+    /* I'm guessing I need to change this, but I don't know how
+    // POWER_READY(ActivatedPower, retValue)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pActivatedPower, 0);
+    lua_pushinteger(context->GetLua(), ret);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POWER_READY, 2, 1);
+    if (lua_isinteger(context->GetLua(), -1)) ret = (PowerReadyState)lua_tointeger(context->GetLua(), -1);
+    lua_pop(context->GetLua(), 2);
+    */
+    return ret;
+}
+
 Damage ActivatedPower::GetPowerDamage()
 {
     auto custom = CustomCrewManager::GetInstance();
