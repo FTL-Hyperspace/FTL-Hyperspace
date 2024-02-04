@@ -39,11 +39,11 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         {
             stream << std::fixed <<std::setprecision(1) << pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")) << "/" << pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN"));
         }
-        freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, stream.str());
-
+        
+        std::stringstream stream2;
         if (pWeapon->blueprint->boostPower.type == 2)
         {
-            std::stringstream stream2;
+            
             int boostLevel = std::min(pWeapon->boostLevel, pWeapon->blueprint->boostPower.count);
             int damage = pWeapon->blueprint->damage.iDamage;
             if (damage < 1)
@@ -59,6 +59,19 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
                 }
             }
             stream2 << std::setprecision(3) << damage + boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            
+        }
+
+        auto context = Global::GetInstance()->getLuaContext();
+        //SWIG_NewPointerObj(context->GetLua(), &weapon, context->getLibScript()->pWeapon, 0);
+        lua_pushstring(context->GetLua(), stream.c_str());
+        lua_pushstring(context->GetLua(), stream2.c_str());
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 2, 1);
+        lua_pop(context->GetLua(), 2);
+
+        freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, stream.str());
+        if (stream2.str().length() > 0)
+        {
             freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2.str());
         }
     }
