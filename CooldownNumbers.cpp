@@ -62,17 +62,30 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
             
         }
 
-        auto context = Global::GetInstance()->getLuaContext();
-        //SWIG_NewPointerObj(context->GetLua(), &weapon, context->getLibScript()->pWeapon, 0);
-        lua_pushstring(context->GetLua(), stream.c_str());
-        lua_pushstring(context->GetLua(), stream2.c_str());
-        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 2, 1);
-        lua_pop(context->GetLua(), 2);
+        std::string streamStr = stream.str();
+        std::string stream2Str = stream2.str();
 
-        freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, stream.str());
-        if (stream2.str().length() > 0)
+        auto context = Global::GetInstance()->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), &pWeapon, context->getLibScript()->types.pProjectileFactory, 0);
+        lua_pushnumber(context->GetLua(), pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
+        lua_pushnumber(context->GetLua(), pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
+        lua_pushstring(context->GetLua(), streamStr.c_str());
+        lua_pushstring(context->GetLua(), stream2Str.c_str());
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 3);
+        if (lua_isstring(context->GetLua(), -1))
         {
-            freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2.str());
+            streamStr = lua_tostring(context->GetLua(), -1);
+        }
+        if (lua_isstring(context->GetLua(), -2))
+        {
+            stream2Str = lua_tostring(context->GetLua(), -2);
+        }
+        lua_pop(context->GetLua(), 5);
+
+        freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
+        if (stream2.length() > 0)
+        {
+            freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2Str);
         }
     }
 }

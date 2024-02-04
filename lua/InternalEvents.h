@@ -66,8 +66,8 @@ struct InternalEvents
         // function projectile_update_post(Projectile& projectile, bool preempted) return Chain
         PROJECTILE_UPDATE_POST, // Projectile::Update
 
-        // function weapon_renderbox(ProjectileFactory& weapon, char* first_line, char* second_line) return Chain
-        WEAPON_RENDERBOX, 
+        // function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine
+        WEAPON_RENDERBOX,
 
         //function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain
         DRONE_FIRE,
