@@ -66,7 +66,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         std::string stream2Str = stream2.str();
 
         auto context = Global::GetInstance()->getLuaContext();
-        SWIG_NewPointerObj(context->GetLua(), &pWeapon, context->getLibScript()->types.pProjectileFactory, 0);
+        SWIG_NewPointerObj(context->GetLua(), pWeapon, context->getLibScript()->types.pProjectileFactory, 0);
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
         lua_pushstring(context->GetLua(), streamStr.c_str());
