@@ -73,7 +73,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
         lua_pushstring(context->GetLua(), streamStr.c_str());
         lua_pushstring(context->GetLua(), stream2Str.c_str());
-        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 3);
+        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 2);
         if (lua_isstring(context->GetLua(), -2))
         {
             streamStr = lua_tostring(context->GetLua(), -2);
