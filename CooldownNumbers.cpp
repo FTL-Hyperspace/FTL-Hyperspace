@@ -81,8 +81,9 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
             stream2Str = lua_tostring(context->GetLua(), -2);
         }
         lua_pop(context->GetLua(), 5);
-
-        freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
+        if (streamStr.length() > 0){
+            freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
+        }
         if (stream2Str.length() > 0)
         {
             freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2Str);
