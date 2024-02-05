@@ -71,22 +71,25 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
         lua_pushstring(context->GetLua(), streamStr.c_str());
         lua_pushstring(context->GetLua(), stream2Str.c_str());
-        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 3);
-        if (lua_isstring(context->GetLua(), -1))
-        {
-            streamStr = lua_tostring(context->GetLua(), -1);
-        }
+        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 3);
         if (lua_isstring(context->GetLua(), -2))
         {
-            stream2Str = lua_tostring(context->GetLua(), -2);
+            streamStr = lua_tostring(context->GetLua(), -2);
+        }
+        if (lua_isstring(context->GetLua(), -3))
+        {
+            stream2Str = lua_tostring(context->GetLua(), -3);
         }
         lua_pop(context->GetLua(), 5);
-        if (streamStr.length() > 0){
-            freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
-        }
-        if (stream2Str.length() > 0)
+        if (!preempt)
         {
-            freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2Str);
+            if (streamStr.length() > 0){
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
+            }
+            if (stream2Str.length() > 0)
+            {
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2Str);
+            }
         }
     }
 }
