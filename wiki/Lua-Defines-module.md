@@ -75,6 +75,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | N/A | ~~ON_INIT~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code on the start of a run (and loading a run), currently handled by `script.on_init` this internal event will potentially replace it~~ |
 | N/A | ~~ON_LOAD~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code after the game is loaded (currently after hyperspace.xml is initialized but might change to on main menu loading so all Lua is ready first), currently handled by `script.on_load` this internal event will potentially replace it~~ |
 | N/A | ~~PLAYERSHIP_ON_HULL_DAMAGE~~ | ~~`int damage`~~ | ~~`int` hull value~~ | ~~Detect damage to the player ship & return a value of the final hull hitpoints, returning 0 will blow up the ship. Receiving a negative value implies healing~~ |
+| 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory Weapon` `int Cooldown` `int MaxCooldown` `char* First Line` `char* Second Line` | `char* Second Line` `char* First Line` | While unpaused, run code every in-game tick for each weapon in the player weapon slot screen, used to rendering cooldown timer |
 
 ## Other predefined values
 

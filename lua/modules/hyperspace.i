@@ -139,7 +139,6 @@ namespace std {
     %template(vector_vector_Fire) vector<vector<Fire>>;
     %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
-    %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -1848,15 +1847,6 @@ playerVariableType playerVariables;
 %rename("%s") WeaponBlueprint::chargeLevels;
 %rename("%s") WeaponBlueprint::flavorType;
 %rename("%s") WeaponBlueprint::color;
-
-%nodefaultctor EffectsBlueprint;
-%nodefaultdtor EffectsBlueprint;
-%rename("%s") EffectsBlueprint;
-%rename("%s") EffectsBlueprint::launchSounds;
-%rename("%s") EffectsBlueprint::hitShipSounds;
-%rename("%s") EffectsBlueprint::hitShieldSounds;
-%rename("%s") EffectsBlueprint::missSounds;
-%rename("%s") EffectsBlueprint::image;
 
 // TODO: Make most if not all of ShipBlueprint immutable
 // Note: Making ShipBlueprint immutable would make it more difficult to create custom blueprints on the fly
