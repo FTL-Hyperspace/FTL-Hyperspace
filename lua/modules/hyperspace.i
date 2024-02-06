@@ -904,13 +904,15 @@ playerVariableType playerVariables;
 %nodefaultctor ShipObject;
 %nodefaultdtor ShipObject;
 %rename("%s") ShipObject::AddAugmentation;
+%rename("%s") ShipObject::RemoveAugmentation;
 %rename("%s") ShipObject::ClearShipInfo;
 %rename("%s") ShipObject::GetAugmentationCount;
 %rename("%s") ShipObject::GetAugmentationList;
 %rename("%s") ShipObject::GetAugmentationValue;
 %rename("%s") ShipObject::HasAugmentation;
+%rename("%s") ShipObject::AddEquipment;
+%rename("%s") ShipObject::RemoveEquipment;
 %rename("HasEquipment") ShipObject::HS_HasEquipment;
-%rename("%s") ShipObject::RemoveAugmentation;
 %immutable ShipObject::iShipId;
 %rename("%s") ShipObject::iShipId;
 

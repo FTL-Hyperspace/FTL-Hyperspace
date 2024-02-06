@@ -12,6 +12,10 @@ cleanup __amd64 int ShipObject::HasEquipment(ShipObject *this, const std::string
 cleanup __amd64 float ShipObject::GetAugmentationValue(ShipObject *this, const std::string& augment);
 ".415741564155415455534889fb4883ec58488d7c2430":
 cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::string& augment);
+".415741564155415455534889fb4883ec??488d??2430":
+cleanup __amd64 void ShipObject::RemoveEquipment(ShipObject *this, const std::string& blueprint, bool completely);
+".415741564155415455534889fb4883ec":
+cleanup __amd64 void ShipObject::AddEquipment(ShipObject *this, const std::string& blueprint);
 ".415741564155415455534889fb4883ec48488d7c2420":
 cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
 

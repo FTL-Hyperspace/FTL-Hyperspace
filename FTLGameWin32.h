@@ -1162,6 +1162,7 @@ struct ShipObject
 	void CheckCargo(const std::string& equip, int& ret);
 
 	LIBZHL_API bool AddAugmentation(const std::string &augment);
+	LIBZHL_API void AddEquipment(const std::string &blueprint);
 	LIBZHL_API void ClearShipInfo();
 	LIBZHL_API int GetAugmentationCount();
 	LIBZHL_API std::vector<std::string> GetAugmentationList();
@@ -1169,6 +1170,7 @@ struct ShipObject
 	LIBZHL_API int HasAugmentation(const std::string &augment);
 	LIBZHL_API int HasEquipment(const std::string &equip);
 	LIBZHL_API void RemoveAugmentation(const std::string &augment);
+	LIBZHL_API void RemoveEquipment(const std::string &blueprint, bool completely);
 	
 	void *vptr;
 	int iShipId;
