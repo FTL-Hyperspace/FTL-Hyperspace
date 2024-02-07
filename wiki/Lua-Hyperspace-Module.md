@@ -1090,23 +1090,23 @@ The members held by this class determine how commands run in the console behave.
    - Runs a vanilla console command.
 
 ### Fields
-- `ShipStatus` `shipStatus`
-- `CrewControl` `crewControl`
-- `SystemControl` `sysControl`
-- `CombatControl` `combatControl`
-- `FTLButton` `ftlButton`
-- `SpaceStatus` `spaceStatus`
-- `Point` `pauseTextLoc`
-- `Point` `shipPosition`
-- `bool` `outOfFuel`
-- `bool` `bPaused`
-- `bool` `bAutoPaused`
-- `bool` `menu_pause`
-- `bool` `event_pause`
-- [`Button`](#button) `upgradeButton`
-- `bool` `dangerLocation`
-- `bool` `bHideUI`
-- `bool` `jumpComplete`
-- `int` `mapId`
-- `bool` `secretSector`
-- `bool` `choiceBoxOpen`
+- `ShipStatus` `.shipStatus`
+- `CrewControl` `.crewControl`
+- `SystemControl` `.sysControl`
+- `CombatControl` `.combatControl`
+- `FTLButton` `.ftlButton`
+- `SpaceStatus` `.spaceStatus`
+- `Point` `.pauseTextLoc`
+- `Point` `.shipPosition`
+- `bool` `.outOfFuel`
+- `bool` `.bPaused`
+- `bool` `.bAutoPaused`
+- `bool` `.menu_pause`
+- `bool` `.event_pause`
+- [`Button`](#button) `.upgradeButton`
+- `bool` `.dangerLocation`
+- `bool` `.bHideUI`
+- `bool` `.jumpComplete`
+- `int` `.mapId`
+- `bool` `.secretSector`
+- `bool` `.choiceBoxOpen`
