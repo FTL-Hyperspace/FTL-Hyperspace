@@ -18,7 +18,7 @@ The mod also contains some Quality of Life changes to FTL, such as a numerical h
 Please see the respective install guide for:
 - [Windows](install-guides/windows/index.html)
 - [Linux & Steam Deck](install-guides/linux/)
-- MacOS is currently not directly supported, your milage may vary but you might get the Windows version working with Crossover or the Linux version working inside a VM with sufficient RAM.
+- [MacOS](install-guides/mac/)
 
 ## Mod Makers
 
@@ -59,11 +59,3 @@ Art:
 - BlizzArchonJ (mr_easy_money)
 - Paradigm
 - FTL Multiverse Team
-
-### Previews
-
-[Custom Ship Selector](https://gfycat.com/academicgargantuanbug)
-
-[Custom Races](https://gfycat.com/handmadeflimsyarizonaalligatorlizard)
-
-[Seeds](https://gfycat.com/favoritesickbarnswallow)

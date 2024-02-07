@@ -45,13 +45,8 @@
    - **Auf keinen Fall** sollst du Mods patchen die nicht für die Nutzung mit Multiversum gedacht sind oder sich ausschließen (selbst kleine UI Mods können Probleme verursachen, suche im Multiverse Discord Hilfe, wenn du wissen willst ob der Mod den du installieren willst mit Multiverse funktioniert)
    - Example: ![image](https://user-images.githubusercontent.com/1423894/173681032-76e9b056-ede6-42f5-ad5a-ffa0fece384a.png)
    - Clicke `Patch`
-4. Wenn du eine **AMD** oder **Intel** Graphikkarte hast, musst du einen weiteren Schritt durchführen bevor du FTL Multiversum starten kannst und **es nicht** aus Slipstream starten
-5. Betrachten: [Überprüfen ob Hyperspace richtig installiert ist](#inkorrekt-installiert)
+4. Betrachten: [Überprüfen ob Hyperspace richtig installiert ist](#inkorrekt-installiert)
 
-##### AMD/Intel GPUs
-- Du musst einen Shortcut zu FTLGame.exe erstellen, um es mit dieser Option zu starten `-opengl`
-- Steam Nutzer können `-opengl` zu den Startoptionen hinzufügen.
-- Das wird in der Zukunft automatisch geschehen, aber zumindest jetzt müssen AMD/Intel GPUs das durchführen und nur wenn große Mods wie Multiversum genutzt werden
 ### Richtig installiert
 
 - Wenn Hyperspace.dll richtig installiert ist, wirst du eine kleine Nachricht in der rechten oberen Ecke sehen, wenn das Spiel halb geladen ist die etwa so aussieht (kann je nach Version unterschiedlich aussehen):

@@ -18,7 +18,7 @@ Dieser Mod enthält außerdem Lebensqualitäts Änderungen, zum Beispiel numeris
 Bitte schaue dir die jeweiligen Installations Anleitungen an:
 - [Windows](install-guides/windows/index.html)
 - [Linux & Steam Deck](install-guides/linux/)
-- MacOS wird im Moment nicht unterstützt, du kannst vielleicht die Windows Option mit Crossover nutzen, auch wenn die Resultate variieren oder die Linux Version funktioniert in einem VM mit genug RAM.
+- [MacOS](install-guides/mac/)
 
 ## Mod Macher
 
@@ -59,11 +59,3 @@ Art:
 - BlizzArchonJ (mr_easy_money)
 - Paradigm
 - FTL Multiverse Team
-
-### Previews
-
-[Custom Ship Selector](https://gfycat.com/academicgargantuanbug)
-
-[Custom Races](https://gfycat.com/handmadeflimsyarizonaalligatorlizard)
-
-[Seeds](https://gfycat.com/favoritesickbarnswallow)
