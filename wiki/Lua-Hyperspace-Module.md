@@ -1081,7 +1081,7 @@ The members held by this class determine how commands run in the console behave.
 
 ### Fields
 - `bool` `.enabled`
-   - Whether or not the Command Console is enabled, this is set in Hyperspace.xml.
+   - Whether or not the Command Console is enabled.
 
 ## CommandGui
 
