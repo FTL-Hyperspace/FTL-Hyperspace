@@ -1081,32 +1081,32 @@ The members held by this class determine how commands run in the console behave.
 
 ### Fields
 - `bool` `.enabled`
-   - Whether or not the Command Console is enabled or not, this is set in Hyperspace.xml.
+   - Whether or not the Command Console is enabled, this is set in Hyperspace.xml.
 
-## CommandGUI
+## CommandGui
 
 ### Methods
 - `void :RunCommand(const std::string &command)`
    - Runs a vanilla console command.
 
 ### Fields
-- `ShipStatus shipStatus`
-- `CrewControl crewControl`
-- `SystemControl sysControl`
-- `CombatControl combatControl`
-- `FTLButton ftlButton`
-- `SpaceStatus spaceStatus`
-- `Point pauseTextLoc`
-- `Point shipPosition`
-- `bool outOfFuel`
-- `bool bPaused`
-- `bool bAutoPaused`
-- `bool menu_pause`
-- `bool event_pause`
-- `Button upgradeButton`
-- `bool dangerLocation`
-- `bool bHideUI`
-- `bool jumpComplete`
-- `int mapId`
-- `bool secretSector`
-- `bool choiceBoxOpen`
+- `ShipStatus` `shipStatus`
+- `CrewControl` `crewControl`
+- `SystemControl` `sysControl`
+- `CombatControl` `combatControl`
+- `FTLButton` `ftlButton`
+- `SpaceStatus` `spaceStatus`
+- `Point` `pauseTextLoc`
+- `Point` `shipPosition`
+- `bool` `outOfFuel`
+- `bool` `bPaused`
+- `bool` `bAutoPaused`
+- `bool` `menu_pause`
+- `bool` `event_pause`
+- [`Button`](#button) `upgradeButton`
+- `bool` `dangerLocation`
+- `bool` `bHideUI`
+- `bool` `jumpComplete`
+- `int` `mapId`
+- `bool` `secretSector`
+- `bool` `choiceBoxOpen`
