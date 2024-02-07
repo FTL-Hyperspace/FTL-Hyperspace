@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b378945888d45a8898d7cffffff8d4d88c7458c00000000c6459000":
-__thiscall void CommandGui::RunCommand(CommandGui *this, std::string& command);
+__thiscall void CommandGui::RunCommand(CommandGui *this, const std::string& command);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178dbbdc380000c70424????????":
 __thiscall Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
 "578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec3c8b078b77048b7f088945d4e8????????":

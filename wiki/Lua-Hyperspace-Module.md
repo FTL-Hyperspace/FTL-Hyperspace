@@ -1056,3 +1056,44 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
+
+## CommandConsole
+The members held by this class determine how commands run in the console behave.
+
+### Methods
+- `bool :RunCommand(CommandGui *commandGui, const std::string& command)`
+   - Used for running a Hyperspace command.
+- `CommandConsole .GetInstance()`
+   - Returns the main instance of `CommandConsole`. Always use this to access any members belonging to this class.
+
+### Fields
+- `bool` `.enabled`
+   - Whether or not the Command Console is enabled or not, this is set in Hyperspace.xml.
+
+## CommandGUI
+
+### Methods
+- `void :RunCommand(const std::string &command)`
+   - Runs a vanilla console command.
+
+### Fields
+- `ShipStatus shipStatus`
+- `CrewControl crewControl`
+- `SystemControl sysControl`
+- `CombatControl combatControl`
+- `FTLButton ftlButton`
+- `SpaceStatus spaceStatus`
+- `Point pauseTextLoc`
+- `Point shipPosition`
+- `bool outOfFuel`
+- `bool bPaused`
+- `bool bAutoPaused`
+- `bool menu_pause`
+- `bool event_pause`
+- `Button upgradeButton`
+- `bool dangerLocation`
+- `bool bHideUI`
+- `bool jumpComplete`
+- `int mapId`
+- `bool secretSector`
+- `bool choiceBoxOpen`

@@ -330,7 +330,7 @@ HOOK_STATIC(Settings, GetCommandConsole, () -> char)
     return shouldOpenConsole && CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
 }
 
-HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
+HOOK_METHOD(CommandGui, RunCommand, (const std::string& command) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::RunCommand -> Begin (CommandConsole.cpp)\n")
     if (!CommandConsole::GetInstance()->RunCommand(this, command))

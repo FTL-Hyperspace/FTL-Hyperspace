@@ -1,5 +1,5 @@
 "5589e557565331db81ec8c0000008b750c":
-cleanup __cdecl void CommandGui::RunCommand(CommandGui *this, std::string& command);
+cleanup __cdecl void CommandGui::RunCommand(CommandGui *this, const std::string& command);
 "5557565383ec2cc70424a40400008b5c2440":
 cleanup __cdecl Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
 "5589e557565383ec3c8b5d188d55d8":

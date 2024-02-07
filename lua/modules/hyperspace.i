@@ -512,6 +512,7 @@ playerVariableType playerVariables;
 ////%newobject CommandGui::CreateNewStore;
 ////%rename("%s") CommandGui::GetWorldCoordinates;
 ////%rename("%s") CommandGui::NewLocation;
+%rename("%s") CommandGui::RunCommand;
 %rename("%s") CommandGui::shipStatus;
 %rename("%s") CommandGui::crewControl;
 %rename("%s") CommandGui::sysControl;
@@ -3534,6 +3535,13 @@ playerVariableType playerVariables;
 %rename("%s") TextString::data;
 %rename("%s") TextString::isLiteral;
 
+%nodefaultctor CommandConsole;
+%nodefaultdtor CommandConsole;
+
+%rename("%s") CommandConsole;
+%rename("%s") CommandConsole::enabled;
+%rename("%s") CommandConsole::RunCommand;
+%rename("%s") CommandConsole::GetInstance;
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.
     To avoid having to change codeblocks compiler settings (that don't save/share between our installs) we're going to just try to use the

@@ -3417,12 +3417,12 @@ void CommandGui::NewLocation(const std::string &mainText, std::vector<ChoiceText
 namespace _func264
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CommandGui::RunCommand", typeid(void (CommandGui::*)(std::string &)), ".4157415641554989fd41544989f45531ed5331db4883ec58488b06", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CommandGui::RunCommand", typeid(void (CommandGui::*)(const std::string &)), ".4157415641554989fd41544989f45531ed5331db4883ec58488b06", nullptr, 0, 0, &func);
 }
 
-void CommandGui::RunCommand(std::string &command)
+void CommandGui::RunCommand(const std::string &command)
 {
-	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, std::string &command_arg);
+	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, const std::string &command_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func264::func;
 	return execfunc(this, command);
 }

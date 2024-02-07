@@ -4496,7 +4496,7 @@ struct CommandGui
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RenderPlayerShip(Point &shipCenter, float jumpScale);
 	LIBZHL_API void RenderStatic();
-	LIBZHL_API void RunCommand(std::string &command);
+	LIBZHL_API void RunCommand(const std::string &command);
 	LIBZHL_API void Victory();
 	LIBZHL_API void constructor();
 	

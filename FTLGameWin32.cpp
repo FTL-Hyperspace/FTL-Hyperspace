@@ -3587,12 +3587,12 @@ namespace _func257
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CommandGui::RunCommand", typeid(void (CommandGui::*)(std::string &)), "578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b378945888d45a8898d7cffffff8d4d88c7458c00000000c6459000", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("CommandGui::RunCommand", typeid(void (CommandGui::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b378945888d45a8898d7cffffff8d4d88c7458c00000000c6459000", argdata, 2, 5, &func);
 }
 
-void CommandGui::RunCommand(std::string &command)
+void CommandGui::RunCommand(const std::string &command)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CommandGui *this_arg, std::string &command_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CommandGui *this_arg, const std::string &command_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func257::func;
 	return execfunc(this, command);
 }
