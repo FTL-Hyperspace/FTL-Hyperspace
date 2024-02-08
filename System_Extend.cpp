@@ -25,6 +25,12 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 	ex->orig = this;
 
     HS_MAKE_TABLE(this)
+
+    //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipSystem, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_SHIP_SYSTEM, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD_PRIORITY(ShipSystem, destructor, 900, () -> void)

@@ -16,6 +16,8 @@ cleanup __amd64 CrewMember* ShipManager::GetCrewmember(ShipManager *this, int sl
 cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint *bp);
 ".8b05????????c787700600001e00000083f801":
 cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
+".41564989fe415541545553488b87c800":   
+cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this); 
 ".41574989ff41564155415455534883ec08488b8fc0000000":
 cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
 ".415741564989fe4155415455534883ec18488b87c8000000":
@@ -182,7 +184,6 @@ cleanup __amd64 int ShipManager::constructor(ShipManager *this, int shipId);
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
 "!.534889fb":
 cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
-
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

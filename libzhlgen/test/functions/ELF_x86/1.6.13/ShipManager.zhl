@@ -182,6 +182,8 @@ cleanup __cdecl void ShipManager::UpgradeSystem(ShipManager *this, int id, int a
 cleanup __cdecl CollisionResponse ShipManager::CollisionShield(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "8b4424048b9000040000837a28ff":
 cleanup __cdecl bool ShipManager::IsCloaked(ShipManager *this);
+"5557565383ec1c8b4424308b50648b406889c129d1c1f90285c9747e":
+cleanup __cdecl int ShipManager::CountPlayerCrew(ShipManager *this);
 
 
 struct ShipManager depends (PowerManager, ShieldPower)

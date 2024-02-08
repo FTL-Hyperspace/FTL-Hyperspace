@@ -35,6 +35,8 @@ struct InternalEvents
         ON_MOUSE_R_BUTTON_UP,
         // function on_mouse_m_button_down(int x, int y) return Chain
         ON_MOUSE_M_BUTTON_DOWN,
+        // function gui_move_move(int x, int y) return Chain
+        GUI_MOUSE_MOVE,
         
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
@@ -47,6 +49,9 @@ struct InternalEvents
         HAS_AUGMENTATION,
         // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
         GET_AUGMENTATION_VALUE,
+
+        // function get_dodge_factor(ShipManager& ship, int value) return Chain, value
+        GET_DODGE_FACTOR,
 
         // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
         PROJECTILE_INITIALIZE,
@@ -119,11 +124,28 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
+        // function jump_arrive(ShipManager& ship)
+        JUMP_ARRIVE,
+        // function jump_leave(ShipManager& ship)
+        JUMP_LEAVE,
 
-        /* TODO Maybe add
-        ShipManager::JumpArrive
-        ShipManager::JumpLeave
-        */
+
+        //Constructor Events
+
+        //function construct_crewmember(CrewMember& crew)
+        CONSTRUCT_CREWMEMBER,
+        //function construct_spacedrone(SpaceDrone& drone)
+        CONSTRUCT_SPACEDRONE,
+        //function construct_projectile_factory(ProjectileFactory& weapon)
+        CONSTRUCT_PROJECTILE_FACTORY,
+        //function construct_projectile(Projectile& projectile)
+        CONSTRUCT_PROJECTILE,
+        //function construct_room(Room& room)
+        CONSTRUCT_ROOM,
+        //function construct_ship_manager(ShipManager& ship)
+        CONSTRUCT_SHIP_MANAGER,
+        //function construct_ship_system(ShipSystem& system)
+        CONSTRUCT_SHIP_SYSTEM,
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };

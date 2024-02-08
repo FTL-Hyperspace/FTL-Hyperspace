@@ -5013,6 +5013,22 @@ struct ShipGraph
 		return Pointf(xx, yy);
 	}
 	
+	// This function is messed up in Linux so just redefine it manually
+	Globals::Rect GetRoomShape(int roomId) 
+	{
+		auto rooms = this->rooms;
+		
+		for (auto const& x: rooms)
+		{
+			if (roomId == x->iRoomId)
+			{
+				return x->GetRect();
+			}
+		}
+		
+		return {-1, -1, 0, 0};
+	}
+	
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
@@ -5032,7 +5048,6 @@ struct ShipGraph
 	LIBZHL_API int GetNumSlots(int room);
 	LIBZHL_API bool GetRoomBlackedOut(int room);
 	LIBZHL_API float GetRoomOxygen(int room);
-	LIBZHL_API Globals::Rect GetRoomShape(int room);
 	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API Point GetSlotRenderPosition(int slotId, int roomId, bool intruder);
@@ -6853,6 +6868,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
+	LIBZHL_API int CountPlayerCrew();
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
@@ -7027,7 +7043,7 @@ struct SpaceManager
 	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
 	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
-	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 
 	struct FleetShip

@@ -1007,7 +1007,7 @@ BeamWeapon* SpaceManager::CreateBeam(WeaponBlueprint *weapon, Pointf position, i
     return projectile;
 }
 
-LaserBlast* SpaceManager::CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
+LaserBlast* SpaceManager::CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
 {
     LaserBlast *projectile = new LaserBlast(position, space, targetSpace, target);
     projectile->ownerId = ownerId;

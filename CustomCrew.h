@@ -179,6 +179,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> teleportMoveOtherShip;
     ToggleValue<bool> silenced;
     ToggleValue<float> lowHealthThreshold;
+    ToggleValue<bool> noWarning;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -709,6 +710,7 @@ struct CrewDefinition
     bool silenced = false;
     float lowHealthThreshold = 25.f;
     float lowHealthThresholdPercentage = 1.f;
+    bool noWarning = false;
 
     std::pair<int,int> shootTimer = {-1, -1};
     std::pair<int,int> punchTimer = {-1, -1};

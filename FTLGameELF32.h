@@ -6845,6 +6845,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
+	LIBZHL_API int CountPlayerCrew();
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
@@ -7019,7 +7020,7 @@ struct SpaceManager
 	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
 	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
-	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 
 	struct FleetShip

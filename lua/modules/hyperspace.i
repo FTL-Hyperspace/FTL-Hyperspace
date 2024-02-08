@@ -137,7 +137,46 @@ namespace std {
     %template(vector_CrewDesc) vector<CrewDesc>;
     %template(vector_Fire) vector<Fire>;
     %template(vector_vector_Fire) vector<vector<Fire>>;
+    %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
+    %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
+}
+
+%rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
+%native(Get_Drone_Subclass)  static int Get_Drone_Subclass(lua_State* L);
+%{
+    static int Get_Drone_Subclass(lua_State* L) {
+        int SWIG_arg = 0;
+        SpaceDrone* arg1 = nullptr;
+
+
+        SWIG_check_num_args("Get_Drone_Subclass",1,1)
+        if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Get_Drone_Subclass",1,"SpaceDrone *");
+        
+        if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceDrone,0))){
+            SWIG_fail_ptr("Get_Drone_Subclass",1,SWIGTYPE_p_SpaceDrone);
+        }
+        
+
+        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->type], 0); SWIG_arg++; 
+        return SWIG_arg;
+        
+        if(0) SWIG_fail;
+        
+        fail:
+        lua_error(L);
+        return SWIG_arg;
+    }
+%}
+
+// Automatically get the derived class of a SpaceDrone when retriving it from a vector
+%luacode {
+    local indexFn = getmetatable(Hyperspace.vector_SpaceDrone)[".instance"].__index
+    getmetatable(Hyperspace.vector_SpaceDrone)[".instance"].__index = function(vector, index)
+        local ret = indexFn(vector, index)
+        if type(ret) == "function" then return ret end
+        return Hyperspace.Get_Drone_Subclass(ret)
+    end
 }
 
 %include "ToggleValue.h"
@@ -153,15 +192,25 @@ namespace std {
 
 %apply const std::string& {std::string* GetName()};
 
+%rename("Blueprints") Global_BlueprintManager_Blueprints; 
+%rename("Sounds") Global_SoundControl_Sounds;
+%rename("Animations") Global_AnimationControl_Animations;
+%rename("CrewFactory") Global_CrewMemberFactory_Factory;
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
 %rename("Settings") Global_Settings_Settings;
+%rename("Mouse") Global_MouseControl_Mouse;
 
+%immutable Global_BlueprintManager_Blueprints;
+%immutable Global_SoundControl_Sounds;
+%immutable Global_AnimationControl_Animations;
+%immutable Global_CrewMemberFactory_Factory;
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
 %immutable Global_Settings_Settings;
+%immutable Global_MouseControl_Mouse;
 
 %rename("setRandomSeed") srandom32;
 
@@ -200,6 +249,8 @@ public:
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
+    CrewMemberFactory *GetCrewFactory();
+    MouseControl *GetMouseControl();
 
     static bool IsSeededRun();
     %immutable;
@@ -421,6 +472,8 @@ playerVariableType playerVariables;
 */
 %rename("%s") CApp::gui; // Maybe we only allow access to the command gui via WorldManager and just hide the CApp implementation by something that gives us access to WorldManager like below?
 %rename("%s") CApp::world;
+%immutable CApp::menu;
+%rename("%s") CApp::menu;
 // TODO: It might be nice to hide away CApp entirely for access to global things like `CommandGui` or `WorldManager` and hide other functions to do clicks & button presses & stuff under `input` as described above
 /* Potential example for a Hyperspace.world
 %luacode {
@@ -434,6 +487,22 @@ playerVariableType playerVariables;
     })
 }
 */
+
+%nodefaultctor MainMenu;
+%nodefaultdtor MainMenu;
+
+%rename("%s") MainMenu;
+%immutable MainMenu::bOpen;
+%rename("%s") MainMenu::bOpen;
+%immutable MainMenu::shipBuilder;
+%rename("%s") MainMenu::shipBuilder;
+
+%nodefaultctor ShipBuilder;
+%nodefaultdtor ShipBuilder;
+
+%rename("%s") ShipBuilder;
+%immutable ShipBuilder::bOpen;
+%rename("%s") ShipBuilder::bOpen;
 
 %nodefaultctor CommandGui;
 %nodefaultdtor CommandGui;
@@ -490,15 +559,97 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
 
-%nodefaultctor Button;
-%nodefaultdtor Button;
+%nodefaultctor CombatControl;
+%nodefaultdtor CombatControl;
+%rename("%s") CombatControl;
+%rename("%s") CombatControl::boss_visual;
+%immutable CombatControl::boss_visual;
+
 %rename("%s") Button;
+%rename("%s") Button::OnInit;
+%rename("%s") Button::OnRender;
+%rename("%s") Button::SetActiveImage;
+%rename("%s") Button::SetImageBase;
+%rename("%s") Button::SetInactiveImage;
+%rename("%s") Button::SetLocation;
+
+%rename("%s") Button::images;
+%rename("%s") Button::primitives;
+%rename("%s") Button::imageSize;
+%rename("%s") Button::bMirror;
+
 %nodefaultctor GenericButton;
 %nodefaultdtor GenericButton;
 %rename("%s") GenericButton;
-%rename("%s") GenericButton::bActive;
-%immutable GenericButton::bActive;
+%rename("%s") GenericButton::Reset;
+%rename("%s") GenericButton::SetLocation;
+%rename("%s") GenericButton::SetHitBox;
+%rename("%s") GenericButton::SetActive;
+%rename("%s") GenericButton::OnLoop;
+%rename("%s") GenericButton::OnRender;
+%rename("%s") GenericButton::MouseMove;
+%rename("%s") GenericButton::OnClick;
+%rename("%s") GenericButton::OnRightClick;
+%rename("%s") GenericButton::OnTouch;
+%rename("%s") GenericButton::ResetPrimitives;
 
+%immutable GenericButton::position;
+%rename("%s") GenericButton::position;
+%immutable GenericButton::hitbox;
+%rename("%s") GenericButton::hitbox;
+%rename("%s") GenericButton::allowAnyTouch;
+%rename("%s") GenericButton::touchSelectable;
+%rename("%s") GenericButton::bRenderOff;
+%rename("%s") GenericButton::bRenderSelected;
+%rename("%s") GenericButton::bFlashing;
+%rename("%s") GenericButton::flashing;
+%rename("%s") GenericButton::bActive;
+%rename("%s") GenericButton::bHover;
+%rename("%s") GenericButton::bActivated;
+%rename("%s") GenericButton::bSelected;
+%rename("%s") GenericButton::activeTouch;
+
+%nodefaultctor MouseControl;
+%nodefaultdtor MouseControl;
+%rename("%s") MouseControl;
+%rename("%s") MouseControl::InstantTooltip;
+%rename("%s") MouseControl::MeasureTooltip;
+%rename("%s") MouseControl::OnLoop;
+%rename("%s") MouseControl::OnRender;
+%rename("%s") MouseControl::QueueStaticTooltip;
+%rename("%s") MouseControl::RenderTooltip;
+%rename("%s") MouseControl::Reset;
+%rename("%s") MouseControl::ResetArmed;
+%rename("%s") MouseControl::SetDoor;
+%rename("%s") MouseControl::SetTooltip;
+%rename("%s") MouseControl::SetTooltipTitle;
+	
+%rename("%s") MouseControl::position;
+%rename("%s") MouseControl::lastPosition;
+%rename("%s") MouseControl::aiming_required;
+%rename("%s") MouseControl::iTeleporting;
+%rename("%s") MouseControl::iMindControlling;
+%rename("%s") MouseControl::bSellingStuff;
+%rename("%s") MouseControl::valid;
+%rename("%s") MouseControl::newHover;
+%rename("%s") MouseControl::lastValid;
+%rename("%s") MouseControl::animateDoor;
+%rename("%s") MouseControl::validPointer;
+%rename("%s") MouseControl::invalidPointer;
+%rename("%s") MouseControl::cselling;
+%rename("%s") MouseControl::openDoor;
+%rename("%s") MouseControl::tooltip;
+%rename("%s") MouseControl::tooltipTimer;
+%rename("%s") MouseControl::bMoving;
+%rename("%s") MouseControl::bHideMouse;
+%rename("%s") MouseControl::lastIcon;
+%rename("%s") MouseControl::lastAddition;
+%rename("%s") MouseControl::bForceTooltip;
+%rename("%s") MouseControl::tooltipTitle;
+%rename("%s") MouseControl::lastTooltipText;
+%rename("%s") MouseControl::iHacking;
+%rename("%s") MouseControl::overrideTooltipWidth;
+%rename("%s") MouseControl::staticTooltip;
 
 %nodefaultctor WorldManager;
 %rename("%s") WorldManager;
@@ -702,10 +853,12 @@ playerVariableType playerVariables;
 %rename("%s") Globals;
 %nodefaultctor Globals;
 %nodefaultdtor Globals;
+%rename("%s") Ellipse;
 %rename("%s") Globals::Ellipse;
 %rename("%s") Globals::Ellipse::center;
 %rename("%s") Globals::Ellipse::a;
 %rename("%s") Globals::Ellipse::b;
+%rename("%s") Rect;
 %rename("%s") Globals::Rect;
 %rename("%s") Globals::Rect::x;
 %rename("%s") Globals::Rect::y;
@@ -1248,7 +1401,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem::SetSelected;
 %rename("%s") ShipSystem::GetSelected;
 %rename("%s") ShipSystem::CompletelyDestroyed;
-%rename("%s") ShipSystem::GetName;
+//%rename("%s") ShipSystem::GetName; // crashes the game, use SystemIdToName instead
 %rename("%s") ShipSystem::SetName;
 %rename("%s") ShipSystem::Repair;
 %rename("%s") ShipSystem::PartialRepair;
@@ -1591,6 +1744,8 @@ playerVariableType playerVariables;
 %rename("%s") Room::bBlackedOut;
 %immutable Room::rect;
 %rename("%s") Room::rect;
+%immutable Room::iRoomId;
+%rename("%s") Room::iRoomId;
 
 %immutable Room::extend;
 %rename("%s") Room::extend;
@@ -1693,6 +1848,15 @@ playerVariableType playerVariables;
 %rename("%s") WeaponBlueprint::chargeLevels;
 %rename("%s") WeaponBlueprint::flavorType;
 %rename("%s") WeaponBlueprint::color;
+
+%nodefaultctor EffectsBlueprint;
+%nodefaultdtor EffectsBlueprint;
+%rename("%s") EffectsBlueprint;
+%rename("%s") EffectsBlueprint::launchSounds;
+%rename("%s") EffectsBlueprint::hitShipSounds;
+%rename("%s") EffectsBlueprint::hitShieldSounds;
+%rename("%s") EffectsBlueprint::missSounds;
+%rename("%s") EffectsBlueprint::image;
 
 // TODO: Make most if not all of ShipBlueprint immutable
 // Note: Making ShipBlueprint immutable would make it more difficult to create custom blueprints on the fly
@@ -2029,6 +2193,7 @@ playerVariableType playerVariables;
 %apply bool* OUTPUT {bool* boolValue};
 %rename("%s") CrewMember_Extend::CalculateStat;
 %rename("%s") CrewMember_Extend::InitiateTeleport;
+%rename("%s") CrewMember_Extend::GetDefinition;
 %rename("%s") CrewMember_Extend::orig;
 %immutable CrewMember_Extend::orig;
 %rename("%s") CrewMember_Extend::selfId;
@@ -2338,6 +2503,34 @@ playerVariableType playerVariables;
 %rename("%s") CrewAnimation::bDoorTarget;
 %rename("%s") CrewAnimation::uniqueBool1;
 %rename("%s") CrewAnimation::uniqueBool2;
+
+%nodefaultctor CrewDefinition;
+%nodefaultdtor CrewDefinition;
+%rename("%s") CrewDefinition;
+//Expose all CrewDefinition members by regex to reduce maintenance of CrewDefinition exposure
+%immutable; //All members are immutable
+%rename("%(regex:/^CrewDefinition::(.*)$/\\1/)s", regextarget=1, fullname=1) "CrewDefinition::.*";
+%clearimmutable; //Clear global feature flag
+
+%nodefaultctor CrewMemberFactory;
+%nodefaultdtor CrewMemberFactory;
+%rename("%s") CrewMemberFactory;
+
+%rename("%s") CrewMemberFactory::GetCloneReadyList;
+%extend CrewMemberFactory {
+   
+    //Overload for returning vector in lua, pass by reference still works but this simplifies things.
+    std::vector<CrewMember*> GetCloneReadyList(bool player)
+    {
+        std::vector<CrewMember*> ret;
+        $self->GetCloneReadyList(ret, player);
+        return ret;
+    }
+}
+
+
+%immutable CrewMemberFactory::crewMembers;
+%rename("%s") CrewMemberFactory::crewMembers;
 
 %rename("%s") Get_Projectile_Extend;
 %nodefaultctor Projectile_Extend;
@@ -3145,7 +3338,8 @@ playerVariableType playerVariables;
 %rename("%s") TimerHelper::ResetMinMax;
 %rename("%s") TimerHelper::Running;
 %rename("%s") TimerHelper::SetMaxTime;
-//%rename("%s") TimerHelper::Start; // TODO: Figure out how to allow this since it's overloaded?
+%rename("%s") TimerHelper::Start;
+%rename("Start_Float") TimerHelper::Start(float);
 %rename("%s") TimerHelper::Stop;
 %rename("%s") TimerHelper::Update;
 %rename("%s") TimerHelper::maxTime;
