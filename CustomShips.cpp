@@ -1232,57 +1232,60 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
 
-    // Render hull
-    CSurface::GL_Translate(xPos, yPos, 0.0);
-    CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
-
-    // Render cloak
-    if (alphaCloak > 0.f)
+    if (idx >= 0)
     {
-        if (!shipImageCloak.tex && !cloakImageName.empty())
-        {
-            ResourceControl *resources = G_->GetResources();
-            GL_Texture *image = resources->GetImageId(cloakImageName);
-            shipImageCloak.tex = image;
-            shipImageCloak.w = image ? image->width_ : 1;
-            shipImageCloak.h = image ? image->height_ : 1;
-            cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
-        }
-        CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
-    }
-    CSurface::GL_Translate(-xPos, -yPos, 0.0);
+        // Render hull
+        CSurface::GL_Translate(xPos, yPos, 0.0);
+        CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
 
-    // Render thruster animations
-    if (engines && bShowEngines)
-    {
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+        // Render cloak
+        if (alphaCloak > 0.f)
         {
-            if (anim.second)
+            if (!shipImageCloak.tex && !cloakImageName.empty())
             {
-                if (anim.second == -1)
+                ResourceControl *resources = G_->GetResources();
+                GL_Texture *image = resources->GetImageId(cloakImageName);
+                shipImageCloak.tex = image;
+                shipImageCloak.w = image ? image->width_ : 1;
+                shipImageCloak.h = image ? image->height_ : 1;
+                cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
+            }
+            CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
+        }
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
+
+        // Render thruster animations
+        if (engines && bShowEngines)
+        {
+            if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+            if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+            for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+            {
+                if (anim.second)
                 {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
+                    if (anim.second == -1)
+                    {
+                        CSurface::GL_PushMatrix();
+                        CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                        anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+                        CSurface::GL_PopMatrix();
+                    }
+                    else
+                    {
+                        CSurface::GL_PushMatrix();
+                        CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                        anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+                        CSurface::GL_PopMatrix();
+                    }
                 }
                 else
                 {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
                     anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
                 }
-            }
-            else
-            {
-                anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
             }
         }
     }
-    
+
     // Lua callback close
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_HULL, std::abs(idx), 2);
     lua_pop(context->GetLua(), 2);
