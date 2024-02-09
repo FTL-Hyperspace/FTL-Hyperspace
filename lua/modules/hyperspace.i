@@ -562,6 +562,7 @@ playerVariableType playerVariables;
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
 %rename("%s") CombatControl;
+%rename("%s") CombatControl::targetPosition;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
