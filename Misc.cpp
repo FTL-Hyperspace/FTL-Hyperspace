@@ -101,7 +101,8 @@ HOOK_METHOD(SpaceManager, SwitchBackground, (const std::string& backgroundList) 
 }
 
 //TODO: Move to appropriate file and cleanup a bit
-static GL_Primitive* timerCircleMax = nullptr;
+static GL_Primitive* timerCircleMaxOcta = nullptr;
+static GL_Primitive* timerCircleMaxRing = nullptr;
 static bool initExtraPrimitive = false;
 
 HOOK_METHOD(SystemBox, constructor, (Point pos, ShipSystem *sys, bool playerUI) -> void)
@@ -109,7 +110,8 @@ HOOK_METHOD(SystemBox, constructor, (Point pos, ShipSystem *sys, bool playerUI) 
     LOG_HOOK("HOOK_METHOD -> SystemBox::constructor -> Begin (Misc.cpp)\n")
     if (!initExtraPrimitive)
     {
-        timerCircleMax = G_->GetResources()->CreateImagePrimitiveString("icons/locking/s_ring_9+_base.png",0,0,0,GL_Color(1.0, 1.0, 1.0, 1.0),1.f,false);
+        timerCircleMaxOcta = G_->GetResources()->CreateImagePrimitiveString("icons/locking/s_octa_9+_base.png", 0, 0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
+        timerCircleMaxRing = G_->GetResources()->CreateImagePrimitiveString("icons/locking/s_ring_9+_base.png", 0, 0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
         initExtraPrimitive = true;
     }
 
@@ -284,7 +286,7 @@ LABEL_2:
         }
         iVar1 = pSystem->iLockCount;
         //Fix for ion greater than 9 rendering invalid primitive
-        CSurface::GL_RenderPrimitive(iVar1 <= 9 ? timerCircle[iVar1] : timerCircleMax);
+        CSurface::GL_RenderPrimitive(iVar1 <= 9 ? timerCircle[iVar1] : (ShipSystem::IsSubsystem(pSystem->GetId()) ? timerCircleMaxOcta : timerCircleMaxRing));
         
         timer = pSystem->GetLockTimer();
         iVar1 = (int)((12.0 - (timer.currTime / timer.currGoal) * 12.0) + 1.0);
