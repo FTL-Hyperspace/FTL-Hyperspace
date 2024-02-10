@@ -326,6 +326,57 @@ LABEL_2:
 
 //Not sure what file this should be in, move to appropriate location later
 //Neutral ASB text
+static GL_Primitive* warningPdsAll = nullptr;
+
+HOOK_METHOD(SpaceStatus, OnInit, (SpaceManager *space, Point pos) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnInit -> Begin (Misc.cpp)\n")
+    super(space, pos);
+    warningPdsAll = G_->GetResources()->CreateImagePrimitiveString("warnings/danger_pds_neutral.png", position.x - 30, position.y, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
+}
+
+HOOK_METHOD(SpaceStatus, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnRender -> Begin (Misc.cpp)\n")
+
+    int idx = G_->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SPACE_STATUS, 0);
+    
+    if (idx >= 0)
+    {
+        incomingFire->OnRender();
+        if (currentEffect == 0)
+        {
+            G_->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SPACE_STATUS, std::abs(idx), 0);
+            return;
+        }
+        CSurface::GL_PushMatrix();
+        bool neutralAsb = (currentEffect == 6 || currentEffect == 9) && space->envTarget == 2; // Special case for neutral ASB
+        CSurface::GL_RenderPrimitive(neutralAsb ? warningPdsAll : warningImages[currentEffect]);
+        if (currentEffect2 != 0)
+        {
+            CSurface::GL_Translate(72.f, 0.f, 0.f);
+            CSurface::GL_RenderPrimitive(warningImages[currentEffect2]);
+        }
+        CSurface::GL_PopMatrix();
+        RenderWarningText(currentEffect, (currentEffect2 == 0) ? 0 : 36);
+        if (touchedTooltip == 1)
+        {
+            int mX = hitbox.w / 2 + hitbox.x;
+            int mY = hitbox.y + hitbox.h;
+            MouseMove(mX, mY + -1);
+            G_->GetMouseControl()->QueueStaticTooltip(Point(mX - 80, mY + 20));
+        }
+        if (((space->sunLevel == false) && (space->pulsarLevel == false)) && (space->bPDS == false))
+        {
+            G_->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SPACE_STATUS, std::abs(idx), 0);
+            return;
+        }
+        warningMessage->OnRender();
+    }
+
+    G_->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SPACE_STATUS, std::abs(idx), 0);
+}
+
 HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int textOffset) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::RenderWarningText -> Begin (Misc.cpp)\n")
@@ -354,13 +405,16 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
         color.g = 50.f / 255.f;
         color.r = 255.f / 255.f;
 
-
         tex = G_->GetResources()->GetImageId("warnings/backglow_warning_red.png");
         text = G_->GetTextLibrary()->GetText("warning_environment_danger");
     }
 
     if ((effect == 6 || effect == 9) && space->envTarget == 2) //If ASB and targetting both ships
     {
+        color.b = 50.f / 255.f;
+        color.g = 160.f / 255.f;
+        color.r = 255.f / 255.f;
+
         text = G_->GetTextLibrary()->GetText("warning_pds_all");
     }
 
@@ -435,6 +489,3 @@ LABEL_TWO:
     }
     return;
 }
-
-
-

@@ -4368,6 +4368,7 @@ struct SpaceStatus;
 struct SpaceStatus
 {
 	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void OnInit(SpaceManager *space, Point pos);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RenderWarningText(int effect, int textOffset);
 	

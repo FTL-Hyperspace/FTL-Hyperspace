@@ -139,16 +139,6 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     lua_pop(context->GetLua(), 2);
 }
 
-//TODO: Maybe pass SpaceStatus as argument for user convenience (Or at very least expose SpaceStatus so the user can access it)
-HOOK_METHOD(SpaceStatus, OnRender, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnRender -> Begin (RenderEvents.cpp)\n")
-    int idx = G_->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SPACE_STATUS, 0);
-    if (idx >= 0) super();
-    G_->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SPACE_STATUS, std::abs(idx), 0);
-}
-
-
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (RenderEvents.cpp)\n")
