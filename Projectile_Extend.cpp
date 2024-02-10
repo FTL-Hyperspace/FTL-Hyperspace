@@ -22,6 +22,11 @@ HOOK_METHOD_PRIORITY(Projectile, constructor, 900, (Pointf position, int ownerId
 	ex->orig = this;
 
     HS_MAKE_TABLE(this)
+    //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectile[0], 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_PROJECTILE, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(Projectile, destructor, () -> void)

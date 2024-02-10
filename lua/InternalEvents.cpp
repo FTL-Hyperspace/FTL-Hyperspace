@@ -179,3 +179,51 @@ HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
     }
     return ret;
 }
+
+HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (InternalEvents.cpp)\n")
+    int ret = super();
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    lua_pushinteger(context->GetLua(), ret);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::GET_DODGE_FACTOR, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) //Round floats and account for values like 1.0
+    {
+        ret = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    }
+    lua_pop(context->GetLua(), 2);
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, JumpArrive, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (InternalEvents.cpp)\n")
+    super();
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::JUMP_ARRIVE, 1);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (InternalEvents.cpp)\n")
+    super();
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::JUMP_LEAVE, 1);
+    lua_pop(context->GetLua(), 1);
+}
+//To be used for button MouseMove functions as to create proper beep sounds and mouse pointer animation changes.
+HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
+{
+    auto context = Global::GetInstance()->getLuaContext();
+    lua_pushinteger(context->GetLua(), mX);
+    lua_pushinteger(context->GetLua(), mY);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::GUI_MOUSE_MOVE, 2, 0);
+    lua_pop(context->GetLua(), 2);
+
+    if (!preempt) super(mX, mY);
+}
