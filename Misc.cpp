@@ -755,7 +755,7 @@ bool LuaLibScript::call_on_internal_chain_event_callbacks(InternalEvents::Identi
 // TODO: This hook to kick it off, could potentially move if needed? Or maybe we should of done a singleton pattern initialized by LuaScriptInit instead of passing the object back to LuaScriptInit and getting it from the global context there?
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadAchievementDescriptions -> Begin (LuaLibScript.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadAchievementDescriptions -> Begin (Misc.cpp)\n")
     super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_load_callbacks();
 }
@@ -763,21 +763,21 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 //On selecting Continue and loading up a run.
 HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (LuaLibScript.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (Misc.cpp)\n")
     super(fh);
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks(false);
 }
 //On restarting run or starting a new run from the hanger
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (LuaLibScript.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (Misc.cpp)\n")
     super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks(true);
 }
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* locationEvent) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (LuaLibScript.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (Misc.cpp)\n")
     printf("UpdateLocation - LocationEvent Seen, name: %s\n", locationEvent->eventName.c_str());
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_game_event_callbacks(locationEvent->eventName.c_str(), false);
     super(locationEvent);
@@ -785,7 +785,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* locationEvent) -> void
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location* location) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (LuaLibScript.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (Misc.cpp)\n")
 
     std::string eventName;
 
@@ -837,21 +837,21 @@ LuaLibScript::LuaLibScript(lua_State* lua)
 
 HOOK_METHOD(CApp, OnLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnLoop -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLoop -> Begin (Misc.cpp)\n")
     super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_TICK);
 }
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (Misc.cpp)\n")
     super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::MAIN_MENU);
 }
 
 HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -864,7 +864,7 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(CApp, OnKeyUp, (SDLKey key) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyUp -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -877,7 +877,7 @@ HOOK_METHOD(CApp, OnKeyUp, (SDLKey key) -> void)
 
 HOOK_METHOD(CApp, OnMouseMove, (int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnMouseMove -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnMouseMove -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -896,7 +896,7 @@ HOOK_METHOD(CApp, OnMouseMove, (int x, int y, int xdiff, int ydiff, bool holding
 
 HOOK_METHOD(CApp, OnLButtonDown, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonDown -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -910,7 +910,7 @@ HOOK_METHOD(CApp, OnLButtonDown, (int x, int y) -> void)
 
 HOOK_METHOD(CApp, OnLButtonUp, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLButtonUp -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -924,7 +924,7 @@ HOOK_METHOD(CApp, OnLButtonUp, (int x, int y) -> void)
 
 HOOK_METHOD(CApp, OnRButtonDown, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonDown -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -938,7 +938,7 @@ HOOK_METHOD(CApp, OnRButtonDown, (int x, int y) -> void)
 
 HOOK_METHOD_PRIORITY(CApp, OnRButtonUp, -100, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnRButtonUp -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CApp::OnRButtonUp -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -952,7 +952,7 @@ HOOK_METHOD_PRIORITY(CApp, OnRButtonUp, -100, (int x, int y) -> void)
 
 HOOK_METHOD(CApp, OnMButtonDown, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CApp::OnMButtonDown -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CApp::OnMButtonDown -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -966,7 +966,7 @@ HOOK_METHOD(CApp, OnMButtonDown, (int x, int y) -> void)
 
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (Misc.cpp)\n")
 
     super();
 
@@ -979,7 +979,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
 //Priority was necessary to make this run after the hook for calculating stuff with additionalPowerLoss, so user can do stuff like modify that for weapon effects here.
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnLoop -> Begin (Misc.cpp)\n")
     super();
 
     auto context = G_->getLuaContext();
@@ -991,7 +991,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
 //Priority to run after callback in CustomDrones.cpp
 HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceDrone::GetNextProjectile -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::GetNextProjectile -> Begin (Misc.cpp)\n")
     
     Projectile* ret = super();
     if (ret != nullptr)
@@ -1013,7 +1013,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (Misc.cpp)\n")
     int ret = super();
 
     auto context = G_->getLuaContext();
@@ -1030,7 +1030,7 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (Misc.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
@@ -1040,7 +1040,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (Misc.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
@@ -1050,6 +1050,7 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 //To be used for button MouseMove functions as to create proper beep sounds and mouse pointer animation changes.
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
     lua_pushinteger(context->GetLua(), mX);
     lua_pushinteger(context->GetLua(), mY);
@@ -1067,7 +1068,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(MainMenu, OnRender, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MainMenu::OnRender -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> MainMenu::OnRender -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::MAIN_MENU, 0);
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::MAIN_MENU, std::abs(idx), 0);
@@ -1075,7 +1076,7 @@ HOOK_METHOD(MainMenu, OnRender, () -> void)
 
 HOOK_METHOD(CommandGui, RenderStatic, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::RenderStatic -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CommandGui::RenderStatic -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::GUI_CONTAINER, 0);
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::GUI_CONTAINER, std::abs(idx), 0);
@@ -1083,7 +1084,7 @@ HOOK_METHOD(CommandGui, RenderStatic, () -> void)
 
 HOOK_METHOD(SpaceManager, OnRenderBackground, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderBackground -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderBackground -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::LAYER_BACKGROUND, 0);
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::LAYER_BACKGROUND, std::abs(idx), 0);
@@ -1091,7 +1092,7 @@ HOOK_METHOD(SpaceManager, OnRenderBackground, () -> void)
 
 HOOK_METHOD(SpaceManager, OnRenderForeground, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderForeground -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderForeground -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::LAYER_FOREGROUND, 0);
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::LAYER_FOREGROUND, std::abs(idx), 0);
@@ -1099,7 +1100,7 @@ HOOK_METHOD(SpaceManager, OnRenderForeground, () -> void)
 
 HOOK_METHOD(SpaceManager, OnRenderAsteroids, (int layers, float alpha) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderAsteroids -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderAsteroids -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(layers == 3 ? RenderEvents::LAYER_ASTEROIDS : RenderEvents::LAYER_FRONT, 0);
     if (idx >= 0) super(layers, alpha);
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(layers == 3 ? RenderEvents::LAYER_ASTEROIDS : RenderEvents::LAYER_FRONT, std::abs(idx), 0);
@@ -1107,7 +1108,7 @@ HOOK_METHOD(SpaceManager, OnRenderAsteroids, (int layers, float alpha) -> void)
 
 HOOK_METHOD(CommandGui, RenderPlayerShip, (Point &shipCenter, float jumpScale) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::RenderPlayerShip -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CommandGui::RenderPlayerShip -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::LAYER_PLAYER, 0);
     if (idx >= 0) super(shipCenter, jumpScale);
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::LAYER_PLAYER, std::abs(idx), 0);
@@ -1115,7 +1116,7 @@ HOOK_METHOD(CommandGui, RenderPlayerShip, (Point &shipCenter, float jumpScale) -
 //Room anim layer 0
 HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderFloor -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderFloor -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
@@ -1131,7 +1132,7 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 //Room anim layer 1
 HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBreaches -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBreaches -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
@@ -1145,7 +1146,7 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
 
 HOOK_METHOD(CompleteShip, OnRenderShip, (bool unk1, bool unk2) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CompleteShip::OnRenderShip -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::OnRenderShip -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), &(shipManager->ship), context->getLibScript()->types.pShip, 0);
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP, 1);
@@ -1157,7 +1158,7 @@ HOOK_METHOD(CompleteShip, OnRenderShip, (bool unk1, bool unk2) -> void)
 //Room anim layer 2
 HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
@@ -1172,7 +1173,7 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 //Room anim layers 3 and 4
 HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::OnRender -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnRender -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
@@ -1188,7 +1189,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
 
 HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
@@ -1206,7 +1207,7 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (RenderEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Misc.cpp)\n")
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::MOUSE_CONTROL, 0);
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::MOUSE_CONTROL, std::abs(idx), 0);
