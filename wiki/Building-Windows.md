@@ -86,8 +86,16 @@ You can find out who's motherboard you have by, hitting Win+R and typing `msinfo
 In the "System Information", the right information board you should find the item "BaseBoard Manufacturer" with its corresponding value.[[/img/build-tutorial/board.png]]
 
 ## Building ZHL files (not required to build Hyperspace)
-Install Lua
-You'll also need luarocks to install some lua libraries
 
-Install `luarocks` and then install `luafilesystem` and `lpeg` with luarocks.
-Then you will be able to run libzhlgen\test\generate.bat
+
+For building ZHL files you need some dependencies, run all the following command in `wsl`
+`sudo apt install lua5.3`
+`sudo apt-get install lua5.3-dev`
+`sudo apt-get install lua5.3 luarocks`
+`sudo luarocks install luafilesystem`
+`sudo luarocks install lpeg`
+
+The navigate to `\FTL-Hyperspace\libzhlgen\`
+and run
+`sudo bash ./parsefuncs.sh`
+your ZHL files should now be built
