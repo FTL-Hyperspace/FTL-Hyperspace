@@ -2,13 +2,10 @@
 
 Note that these instructions are a WIP so if you follow them, please report any issues you find and propose any recommendations (e.g., if you needed to perform an additional step or if you were able to omit a step).
 
-We currently build in CodeBlocks... someone could setup CMake and or GNU Autotools for us but currently we don't use a makefile at all...
-So, you'll need *CodeBlocks* installed
+We Used to build in CodeBlocks... But now a new method far simpler is in place to build Hyperspace.
+You will need to have Git installed, if you do not have it, get it here: https://git-scm.com/downloads
 
-Install several libraries needed for building
-Boost C++ library (Hyperspace currently uses 1.70)
-SWIG 4
-Lua 5.3
+The basis of the building process is that it is ran through a virtual UNIX, allowing for a less restrictive and automated "tool installation" process.
 
 ### Enabling Hyper-V
 As said you will need to virtualise Ubuntu in order to build Hypespace.
@@ -77,6 +74,17 @@ The first build of Hyperspace is the lenghty as it has to install all dependenci
 At the end of the building process you should find your new hyperspace.dll at `FTL-Hyperspace\build-windows-release\` ready to be tested.
 
 # Optional
+
+## Hypervisor Error
+During the above guide it may happen that you encounter this error [[/img/build-tutorial/hypererror.png]]
+
+This error means that the hardware visualization is disabled on your motherboard, it is an issue that is hardware specific so we recommend the following solution:
+
+Google "how to enable hardware visualization on `insert motherboard manufacturer here`" and follow the guide that present themselves.
+
+You can find out who's motherboard you have by, hitting Win+R and typing `msinfo32`.
+In the "System Information", the right information board you should find the item "BaseBoard Manufacturer" with its corresponding value.[[/img/build-tutorial/board.png]]
+
 ## Building ZHL files (not required to build Hyperspace)
 Install Lua
 You'll also need luarocks to install some lua libraries
