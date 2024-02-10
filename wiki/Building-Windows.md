@@ -98,4 +98,4 @@ For building ZHL files you need some dependencies, run all the following command
 The navigate to `\FTL-Hyperspace\libzhlgen\`
 and run
 `sudo bash ./parsefuncs.sh`
-your ZHL files should now be built
+your ZHL files should now be built.
