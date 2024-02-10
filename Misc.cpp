@@ -328,7 +328,7 @@ LABEL_2:
 //Neutral ASB text
 HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int textOffset) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceManager::RenderWarningText -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::RenderWarningText -> Begin (Misc.cpp)\n")
     GL_Texture *tex;
     GL_Color color;
     std::string text;
@@ -378,7 +378,7 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
 
 HOOK_METHOD_PRIORITY(SpaceStatus, MouseMove, 9999, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceManager::MouseMove -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::MouseMove -> Begin (Misc.cpp)\n")
     std::string tip;
 
     if (mX <= hitbox.x || hitbox.x + hitbox.w <= mX || mY <= hitbox.y || hitbox.y + hitbox.h <= mY)
