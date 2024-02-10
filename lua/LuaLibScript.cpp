@@ -109,7 +109,7 @@ int LuaLibScript::l_on_init(lua_State* lua)
     return 0;
 }
 
-void LuaLibScript::call_on_init_callbacks()
+void LuaLibScript::call_on_init_callbacks(bool newGame)
 {
     lua_State* lua = this->m_Lua;
     // Load the callback by reference number
@@ -118,7 +118,8 @@ void LuaLibScript::call_on_init_callbacks()
     {
         LuaFunctionRef refL = *i;
         lua_rawgeti(lua, LUA_REGISTRYINDEX, refL);
-        if(lua_pcall(lua, 0, 0, 0) != 0) {
+        lua_pushboolean(lua, newGame);
+        if(lua_pcall(lua, 1, 0, 0) != 0) {
             hs_log_file("Failed to call the callback!\n %s\n", lua_tostring(lua, -1));
             lua_pop(lua, 1);
             return;
@@ -432,14 +433,14 @@ HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (LuaLibScript.cpp)\n")
     super(fh);
-    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks(false);
 }
 //On restarting run or starting a new run from the hanger
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (LuaLibScript.cpp)\n")
     super();
-    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks(true);
 }
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* locationEvent) -> void)

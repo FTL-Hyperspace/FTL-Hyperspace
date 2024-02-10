@@ -1011,7 +1011,7 @@ HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBluepr
 
 HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
 {  
-    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SuperShieldDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     this->DefenseDrone::OnLoop();
     if (!GetPowered()) 
     {
@@ -1231,7 +1231,7 @@ HOOK_METHOD(SpaceDrone, constructor, (int iShipId, int selfId, DroneBlueprint *b
 
 HOOK_METHOD(SpaceDrone, destructor, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SpaceDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::destructor -> Begin (CustomDrones.cpp)\n")
     HS_BREAK_TABLE(this)
     super();   
 }

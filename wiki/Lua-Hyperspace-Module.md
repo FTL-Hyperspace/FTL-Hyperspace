@@ -26,11 +26,59 @@ All calls are under `Hyperspace`
    - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
 - `AnimationControl :GetAnimationControl()`
    - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
-   
+- `MouseControl :GetMouseControl()`
+   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
+
 ### Fields
 - `int` `.currentSeed`
    - **Read-only**
    - The seed for the run.
+
+## MouseControl
+
+### Methods
+
+- `void :InstantTooltip()`
+- `Point :MeasureTooltip(int width)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :QueueStaticTooltip(Point pos)`
+- `void :RenderTooltip(Point tooltipPoint, bool staticPos)`
+- `void :Reset()`
+- `void :ResetArmed()`
+- `void :SetDoor(int state)`
+- `void :SetTooltip(const std::string &tooltip)`
+- `void :SetTooltipTitle(const std::string &tooltip)`
+	
+### Members
+- `Point` `.position`
+- `Point` `.lastPosition`
+- `int` `.aiming_required`
+- `int` `.iTeleporting`
+- `int` `.iMindControlling`
+- `bool` `.bSellingStuff`
+- `bool` `.valid`
+- `bool` `.newHover`
+- `bool` `.lastValid`
+- `int` `.animateDoor`
+- `GL_Texture*` `.validPointer`
+- `GL_Texture*` `.invalidPointer`
+- `GL_Texture*` `.selling`
+- `Animation` `.openDoor`
+- `std::string` `.tooltip`
+- `float` `.tooltipTimer`
+- `bool` `.bMoving`
+- `bool` `.bHideMouse`
+- `GL_Texture*` `.lastIcon`
+- `GL_Texture*` `.lastAddition`
+- `bool` `.bForceTooltip`
+- `std::string` `.tooltipTitle`
+- `std::string` `.lastTooltipText`
+- `int` `.iHacking`
+- `int` `.overrideTooltipWidth`
+- `Point` `.staticTooltip`
+
+
 
 ## PrintHelper
 The members held by this class determine how the `print` function displays messages.
@@ -55,21 +103,33 @@ The members held by this class determine how the `print` function displays messa
 - `bool` `.useSpeed`
    - Whether the speed at which messages are cleared scales with game speed. Default is `false`.
 
-## ShipManager
-Extends [Targetable](#targetable) & Collidable
+## ShipObject
 
 ### Methods
-- ~~`void :AddAugmentation(string augmentName)`~~ (Not yet available, suggested to do via events instead)
-- ~~`void :ClearShipInfo`~~
-- `int :GetAugmentationCount`
-   - Returns how many augments are on the ship
-- `string[] :GetAugmentationList`
-   - Returns a `std::vector<std::string>` of augmentations, in Lua you can handle this as if it was an array of strings.
+- `void :AddAugmentation(string augmentName)`
+   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+- `void :RemoveAugmentation(string augmentName)`
+   - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
+- `void :ClearShipInfo()`
+- `int :GetAugmentationCount()`
+   - Returns the number of augments on the ship.
+- `string[] :GetAugmentationList()`
+   - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
 - `float :GetAugmentationValue(string augmentName)`
-   - Returns the value of the augmentation, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
-- `bool :HasAugmentation(string augmentName)`
+   - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
+- `int :HasAugmentation(string augmentName)`
+   - Returns the number of the given augment you have, NOT a bool.
+- ~~`void :AddEquipment(string equipmentName)`~~
+- ~~`void :RemoveEquipment(string equipmentName, bool completely)`~~
 - `bool :HasEquipment(string equipmentName)`
-- ~~`void :RemoveAugmentation(string augmentName)`~~ (Disabled, probably preferred to be done via events)
+   - Returns a bool indicating whether you have the blue options for the specified equipment.
+
+## ShipManager
+Extends [ShipObject](#shipobject)
+
+As ShipManager extends ShipObject, the methods of ShipObject can be called from ShipManager.
+
+### Methods
 - `Pointf :GetRandomRoomCenter()`
    - Chooses a random room on the ship and returns the center point of that room
 - `Pointf :GetRoomCenter(int roomId)`
@@ -181,6 +241,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
 
 ### Fields
+- [`Targetable`](#targetable) `._targetable`
+   - **Read-only**
 - `int` `.iShipId`
    - **Read-only**
    - The ship's ID (0 is player, 1 is enemy)
@@ -302,29 +364,28 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
 ## Targetable
-***Not yet exposed***
 
 ### Methods
-- ~~`Pointf :GetWorldCenterPoint()`~~
-- ~~`Pointf :GetRandomTargettingPoint(bool unk)`~~
-- ~~`std::vector<Pointf> :GetAllTargettingPoints()`~~
-- ~~`Globals::Ellipse :GetShieldShape()`~~
-- ~~`ShieldPower :GetShieldPower()`~~
-- ~~`int :GetSpaceId()`~~
-- ~~`Pointf :GetSpeed()`~~
-- ~~`int :GetOwnerId()`~~
-- ~~`int :GetSelfId()`~~
-- ~~`bool :IsCloaked()`~~
-- ~~`void :DamageTarget(Pointf pos, DamageParameter damage)`~~
-- ~~`bool :GetIsDying()`~~
-- ~~`bool :GetIsJumping()`~~
-- ~~`bool :ValidTarget()`~~
-- ~~`Globals::Rect :GetShape()`~~
+- `Pointf :GetWorldCenterPoint()`
+- `Pointf :GetRandomTargettingPoint(bool unk)`
+- `std::vector<Pointf> :GetAllTargettingPoints()`
+- `Globals::Ellipse :GetShieldShape()`
+- `ShieldPower :GetShieldPower()`
+- `int :GetSpaceId()`
+- `Pointf :GetSpeed()`
+- `int :GetOwnerId()`
+- `int :GetSelfId()`
+- `bool :IsCloaked()`
+- `void :DamageTarget(Pointf pos, DamageParameter damage)`
+- `bool :GetIsDying()`
+- `bool :GetIsJumping()`
+- `bool :ValidTarget()`
+- `Globals::Rect :GetShape()`
 
 ### Fields
-- ~~`int` `.type`~~
-- ~~`bool` `.hostile`~~
-- ~~`bool` `.targeted`~~
+- `int` `.type`
+- `bool` `.hostile`
+- `bool` `.targeted`
 
 ## ShipSystem
 
@@ -859,3 +920,152 @@ local maxHealth, _ = crew.extend:CalculateStat(Hyperspace.CrewStat.MAX_HEALTH)
 local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 -- This will return 0, canMove. Since this is a boolean stat, the value 0 is discarded.
 ```
+- `CrewDefinition* :GetDefinition()`
+    - Returns the CrewMember's [`CrewDefinition`](#CrewDefinition)
+
+   
+## CrewDefinition
+   
+### Fields
+   NOTE: All fields under this object are immutable.
+- `std::string` `.race`
+- `std::vector<std::string>` `.deathSounds`
+- `std::vector<std::string>` `.deathSoundsFemale`
+- `std::vector<std::string>` `.shootingSounds`
+- `std::vector<std::string>` `.repairSounds`
+- `int` `.repairSoundFrame`
+- `bool` `.canFight`
+- `bool` `.canRepair`
+- `bool` `.canSabotage`
+- `bool` `.canMan`
+- `bool` `.canTeleport`
+- `bool` `.canSuffocate`
+- `bool` `.controllable`
+- `bool` `.selectable`
+- `bool` `.canBurn`
+- `int` `.maxHealth`
+- `float` `.stunMultiplier`
+- `float` `.moveSpeedMultiplier`
+- `float` `.repairSpeed`
+- `float` `.damageMultiplier`
+- `float` `.cloneSpeedMultiplier`
+- `float` `.rangedDamageMultiplier`
+- `float` `.doorDamageMultiplier`
+- `bool` `.providesPower`
+- `int` `.bonusPower`
+- `float` `.fireRepairMultiplier`
+- `float` `.suffocationModifier`
+- `bool` `.isTelepathic`
+- `bool` `.resistsMindControl`
+- `bool` `.isAnaerobic`
+- `float` `.fireDamageMultiplier`
+- `bool` `.canPhaseThroughDoors`
+- `float` `.oxygenChangeSpeed`
+- `float` `.damageTakenMultiplier`
+- `float` `.passiveHealAmount`
+- `float` `.truePassiveHealAmount`
+- `float` `.healAmount`
+- `float` `.trueHealAmount`
+- `int` `.passiveHealDelay`
+- `bool` `.detectsLifeforms`
+- `bool` `.hasCustomDeathAnimation`
+- `bool` `.hasDeathExplosion`
+- `std::string` `.animBase`
+- `std::string` `.animSheet[2]`
+- `float` `.sabotageSpeedMultiplier`
+- `float` `.allDamageTakenMultiplier`
+- `int` `.defaultSkillLevel`
+- `float` `.healSpeed`
+- `bool` `.cloneLoseSkills`
+- `float` `.healCrewAmount`
+- `DroneAI` `.droneAI`
+- `bool` `.droneMoveFromManningSlot`
+- `int` `.powerDrain`
+- `bool` `.powerDrainFriendly`
+- `float` `.damageEnemiesAmount`
+- `bool` `.hackDoors`
+- `float` `.powerRechargeMultiplier`
+- `float` `.crewSlots`
+- `bool` `.noSlot`
+- `bool` `.noClone`
+- `bool` `.noAI`
+- `bool` `.validTarget`
+- `ToggleValue<bool>` `.canPunch`
+- `bool` `.canMove`
+- `bool` `.snapToSlot`
+- `bool` `.teleportMove`
+- `bool` `.teleportMoveOtherShip`
+- `float` `.essential`
+- `bool` `.silenced`
+- `float` `.lowHealthThreshold`
+- `float` `.lowHealthThresholdPercentage`
+- `bool` `.noWarning`
+- `std::pair<int,int>` `.shootTimer`
+- `std::pair<int,int>` `.punchTimer`
+- `ExplosionDefinition` `.explosionDef`
+- `std::vector<ActivatedPowerDefinition*>` `.powerDefs`
+- `std::vector<StatBoostDefinition*>` `.passiveStatBoosts`
+- `std::vector<std::string>` `.nameRace`
+- `std::vector<std::string>` `.transformName`
+- `bool` `.changeIfSame`
+- `SkillsDefinition` `.skillsDef`
+## GenericButton
+
+### Methods
+
+- `void :Reset()` 
+- `void :SetLocation(Point pos)`
+- `void :SetHitBox(Globals::Rect rect)`
+- `void :SetActive(bool active)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :MouseMove(int x, int y, bool silent)`
+- `void :OnClick()`
+- `void :OnRightClick()`
+- `void :OnTouch()`
+- `void :ResetPrimitives()`
+
+### Fields
+
+- `Point` `.position`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `Globals::Rect` `.hitbox` 
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.allowAnyTouch`
+- `bool` `.touchSelectable`
+- `bool` `.bRenderOff`
+- `bool` `.bRenderSelected`
+- `bool` `.bFlashing`
+- `AnimationTracker` `.flashing`
+- `bool` `.bActive`
+- `bool` `.bHover`
+- `bool` `.bActivated`
+- `bool` `.bSelected`
+- `int` `.activeTouch`
+
+## Button
+
+### Methods
+
+**Extends [`GenericButton`](#GenericButton)**
+- `void :OnInit(const std::string &img, Point pos)`
+- `void :OnRender()`
+- `void :SetActiveImage(GL_Texture *texture)`
+- `void :SetImageBase(const std::string &imageBase)`
+- `void :SetInactiveImage(GL_Texture *texture)`
+- `void :SetLocation(const Point pos)`
+
+### Fields
+- `GL_Texture*[3]` `.images`
+- `GL_Primitive*[3]` `.primitives`
+- `Point` `.imageSize`
+- `bool` `.bMirror`
+
+## EffectsBlueprint
+
+### Fields
+- `std::vector<std::string>` `.launchSounds`
+- `std::vector<std::string>` `.hitShipSounds`
+- `std::vector<std::string>` `.hitShieldSounds`
+- `std::vector<std::string>` `.missSounds`
+- `string` `.image`
