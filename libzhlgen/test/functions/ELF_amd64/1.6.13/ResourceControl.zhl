@@ -8,6 +8,8 @@ cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceCont
 cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
 ".415541544531e4554889f5":
 cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
+".4156b91000000041554531ed415455":
+cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
 ".534889d04989d14889fb488d7e604883ec10":
 cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
 ".554889f5534889fb4883ec38":

@@ -6,6 +6,8 @@ cleanup __cdecl GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceCont
 cleanup __cdecl void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
 "555731ff565383ec4c8d44241e8b5c246089442408":
 cleanup __cdecl char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
+".5531ed57565383ec2c8b442444":
+cleanup __cdecl char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
 "5589e557565383ec5c8d45d4890424":
 cleanup __cdecl GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
 "83ec5c8b4424648b8c248800000085c00f84????????89c285d2f30f1074247cf30f10542478f30f105c2474f30f2a442470":
