@@ -3126,10 +3126,13 @@ struct FocusWindow
 	Point position;
 };
 
+struct LanguageChooser;
 struct TextButton;
 
 struct LanguageChooser : FocusWindow
 {
+	LIBZHL_API void OnRender();
+	
 	std::vector<TextButton*> buttons;
 	int iChoice;
 };
@@ -6309,6 +6312,9 @@ struct freetype
 
 	struct font_data
 	{
+		LIBZHL_API static void clean();
+		LIBZHL_API static void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		
 		float h;
 		int font;
 		float fontsize;
@@ -6358,6 +6364,7 @@ struct ResourceControl
 	LIBZHL_API GL_Texture *GetImageId(const std::string &dir);
 	LIBZHL_API bool ImageExists(const std::string &name);
 	LIBZHL_API char *LoadFile(const std::string &fileName);
+	LIBZHL_API char *LoadFromResourceFile(const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
 	LIBZHL_API void OnInit(int imageSwappingMode);
 	LIBZHL_API bool PreloadResources(bool unk);
 	LIBZHL_API int RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
@@ -7745,6 +7752,8 @@ struct RewardDesc;
 
 LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
+LIBZHL_API static float __stdcall font_baseline(int font_id, float size);
+LIBZHL_API static float __stdcall font_height(int font_id, float size);
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 LIBZHL_API void __stdcall graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
@@ -7766,6 +7775,7 @@ extern LIBZHL_API bool *Globals_RNG;
 extern LIBZHL_API FILE *ftl_log_logfile;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOn;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
+extern LIBZHL_API std::vector<std::string> *Global_OptionsScreen_languageList;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
@@ -7795,5 +7805,6 @@ extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;
 extern LIBZHL_API Point *Global_SystemControl_drone_position;
 extern LIBZHL_API TutorialManager *Global_TutorialManager_Tutorial;
+extern LIBZHL_API float *Global_freetype_sil_freetype_outline;
 
 
