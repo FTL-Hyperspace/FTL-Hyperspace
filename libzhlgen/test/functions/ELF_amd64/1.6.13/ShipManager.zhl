@@ -34,6 +34,8 @@ cleanup __amd64 void ShipManager::SetDestroyed(ShipManager *this);
 cleanup __amd64 void ShipManager::JumpLeave(ShipManager *this);
 ".4156415541545553807c245e004889f3":
 cleanup __amd64 bool ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
+".55534889fb4883ec08488b875806000083780cff":
+cleanup __amd64 void ShipManager::Wait(ShipManager *this);
 ".55534889fb488dbf200600004883ec28":
 cleanup __amd64 void ShipManager::JumpArrive(ShipManager *this);
 ".53488b87580600004889fb48630083f8ff":
