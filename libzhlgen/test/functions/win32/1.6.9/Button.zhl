@@ -14,10 +14,17 @@ __thiscall void Button::SetActiveImage(Button *this, GL_Texture *texture);
 __thiscall void Button::SetImageBase(Button *this, const std::string& imageBase);
 
 
-struct Button
+struct Button depends (CSurface)
 {{
 	Button()
 	{
 		this->constructor();
+	}
+	
+	~Button()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
 	}
 }};

@@ -209,6 +209,8 @@ void Global::PreInitializeResources(ResourceControl *resources)
     {
         ErrorMessage(e);
     }
+
+    delete [] hyperspacetext;
 }
 
 void Global::InitializeResources(ResourceControl *resources)
@@ -454,6 +456,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showScrapCollectorScrap.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
             }
+            
+            if (strcmp(node->name(), "preIgniteChargers") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
@@ -544,6 +553,27 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "showShipAchievements") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                if (node->first_attribute("enabled"))
+                {
+                    customShipManager->showShipAchievements = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("toggle"))
+                {
+                    customShipManager->shipAchievementsToggle = EventsParser::ParseBoolean(node->first_attribute("toggle")->value());
+                }
+                if (node->first_attribute("hideIfMissing"))
+                {
+                    customShipManager->hideMissingShipAchievements = EventsParser::ParseBoolean(node->first_attribute("hideIfMissing")->value());
+                }
+                if (node->first_attribute("id"))
+                {
+                    customShipManager->shipAchievementsTitle = node->first_attribute("id")->value();
+                }
+            }
+
             if (strcmp(node->name(), "victories") == 0)
             {
                 auto customUnlocks = CustomShipUnlocks::instance;
@@ -623,6 +653,18 @@ void Global::InitializeResources(ResourceControl *resources)
                 if (node->first_attribute("enabled"))
                 {
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("allowUnlocks"))
+                {
+                    SeedInputBox::seedsAllowUnlocks = EventsParser::ParseBoolean(node->first_attribute("allowUnlocks")->value());
+                }
+                if (node->first_attribute("allowAchievements"))
+                {
+                    SeedInputBox::seedsAllowAchievements = EventsParser::ParseBoolean(node->first_attribute("allowAchievements")->value());
+                }
+                if (node->first_attribute("allowMetaVars"))
+                {
+                    SeedInputBox::seedsAllowMetaVars = EventsParser::ParseBoolean(node->first_attribute("allowMetaVars")->value());
                 }
             }
             if (strcmp(node->name(), "customSystems") == 0)
@@ -707,6 +749,7 @@ void Global::InitializeResources(ResourceControl *resources)
         ErrorMessage("Error parsing hyperspace.xml\n");
     }
 
+    delete [] hyperspacetext;
     //G_->lua = new LuaState;
 }
 

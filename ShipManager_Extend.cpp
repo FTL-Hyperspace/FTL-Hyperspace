@@ -23,11 +23,19 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 	this->gap_ex_2[0] = (dEx >> 8) & 0xFF;
 	this->gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
+
+    HS_MAKE_TABLE(this)
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_SHIP_MANAGER, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(ShipManager, destructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::destructor -> Begin (ShipManager_Extend.cpp)\n")
+    HS_BREAK_TABLE(this)
     delete SM_EX(this);
 
     return super();

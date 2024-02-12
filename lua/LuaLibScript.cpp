@@ -19,6 +19,8 @@ static std::unordered_map<RenderEvents::Identifiers, std::vector<std::pair<std::
 void LuaLibScript::LoadTypeInfo()
 {
     types.pActivatedPower = SWIG_TypeQuery(this->m_Lua, "ActivatedPower *");
+    types.pActivatedPowerRequirements = SWIG_TypeQuery(this->m_Lua, "ActivatedPowerRequirements *");
+    types.pActivatedPowerResource = SWIG_TypeQuery(this->m_Lua, "ActivatedPowerResource *");
     types.pCollideable = SWIG_TypeQuery(this->m_Lua, "Collideable *");
     types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");
     types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");
@@ -31,8 +33,17 @@ void LuaLibScript::LoadTypeInfo()
     types.pProjectile[4] = SWIG_TypeQuery(this->m_Lua, "BombProjectile *");
     types.pProjectile[5] = SWIG_TypeQuery(this->m_Lua, "BeamWeapon *");
     types.pProjectile[6] = SWIG_TypeQuery(this->m_Lua, "PDSFire *");
+    types.pProjectileFactory = SWIG_TypeQuery(this->m_Lua, "ProjectileFactory *");
+    types.pShip = SWIG_TypeQuery(this->m_Lua, "Ship *");
+    types.pShipBlueprint = SWIG_TypeQuery(this->m_Lua, "ShipBlueprint *");
+    types.pShipEvent = SWIG_TypeQuery(this->m_Lua, "ShipEvent *");
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
+    types.pShipSystem = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
+    types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
 
+    types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
+    // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
     types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
     types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
     types.pSpaceDroneTypes[2] = nullptr;
@@ -43,7 +54,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
 
     types.pShipSystemTypes[SYS_SHIELDS] = SWIG_TypeQuery(this->m_Lua, "Shields *");
-    types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "EngineSystem *");
+    types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *"); // todo: add EngineSystem struct and expose in lua
     types.pShipSystemTypes[SYS_OXYGEN] = SWIG_TypeQuery(this->m_Lua, "OxygenSystem *");
     types.pShipSystemTypes[SYS_WEAPONS] = SWIG_TypeQuery(this->m_Lua, "WeaponSystem *");
     types.pShipSystemTypes[SYS_DRONES] = SWIG_TypeQuery(this->m_Lua, "DroneSystem *");
@@ -67,7 +78,7 @@ void LuaLibScript::LoadTypeInfo()
 
 int LuaLibScript::l_on_load(lua_State* lua)
 {
-    assert(lua_isfunction(lua, 1));
+    luaL_argcheck(lua, lua_isfunction(lua, 1), 1, "function expected!");
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
     m_on_load_callbacks.push_back(callbackReference);
     return 0;
@@ -92,13 +103,13 @@ void LuaLibScript::call_on_load_callbacks()
 
 int LuaLibScript::l_on_init(lua_State* lua)
 {
-    assert(lua_isfunction(lua, 1));
+    luaL_argcheck(lua, lua_isfunction(lua, 1), 1, "function expected!");
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
     m_on_init_callbacks.push_back(callbackReference);
     return 0;
 }
 
-void LuaLibScript::call_on_init_callbacks()
+void LuaLibScript::call_on_init_callbacks(bool newGame)
 {
     lua_State* lua = this->m_Lua;
     // Load the callback by reference number
@@ -107,7 +118,8 @@ void LuaLibScript::call_on_init_callbacks()
     {
         LuaFunctionRef refL = *i;
         lua_rawgeti(lua, LUA_REGISTRYINDEX, refL);
-        if(lua_pcall(lua, 0, 0, 0) != 0) {
+        lua_pushboolean(lua, newGame);
+        if(lua_pcall(lua, 1, 0, 0) != 0) {
             hs_log_file("Failed to call the callback!\n %s\n", lua_tostring(lua, -1));
             lua_pop(lua, 1);
             return;
@@ -117,9 +129,9 @@ void LuaLibScript::call_on_init_callbacks()
 
 int LuaLibScript::l_on_game_event(lua_State* lua)
 {
-    assert(lua_isstring(lua, 1));
-    assert(lua_isboolean(lua, 2));
-    assert(lua_isfunction(lua, 3));
+    luaL_argcheck(lua, lua_isstring(lua, 1), 1, "string expected!");
+    luaL_argcheck(lua, lua_isboolean(lua, 2), 2, "boolean expected!");
+    luaL_argcheck(lua, lua_isfunction(lua, 3), 3, "function expected!");
     const std::string eventName = std::string(lua_tostring(lua, 1));
     const bool onLoad = lua_toboolean(lua, 2);
     lua_pushvalue(lua, 3);
@@ -158,12 +170,12 @@ void LuaLibScript::call_on_game_event_callbacks(std::string eventName, bool isLo
 
 int LuaLibScript::l_on_render_event(lua_State* lua)
 {
-    assert(lua_isinteger(lua, 1));
-    assert(lua_isfunction(lua, 2)); // TODO: Allow one or both functions to be nil
-    assert(lua_isfunction(lua, 3));
+    luaL_argcheck(lua, lua_isinteger(lua, 1), 1, "integer expected!");
+    luaL_argcheck(lua, lua_isfunction(lua, 2), 2, "function expected!"); // TODO: Allow one or both functions to be nil
+    luaL_argcheck(lua, lua_isfunction(lua, 3), 3, "function expected!");
     const int callbackHookId = lua_tointeger(lua, 1);
-    assert(callbackHookId > RenderEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
-    assert(callbackHookId < RenderEvents::UNKNOWN_MAX);
+    luaL_argcheck(lua, callbackHookId > RenderEvents::UNKNOWN && callbackHookId < RenderEvents::UNKNOWN_MAX, 1, "Unknown RenderEvent!");
+    // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
     lua_pushvalue(lua, 2);
     LuaFunctionRef callbackBeforeRef = luaL_ref(lua, LUA_REGISTRYINDEX);
     lua_pushvalue(lua, 3);
@@ -172,7 +184,7 @@ int LuaLibScript::l_on_render_event(lua_State* lua)
     int priority = 0;
     if (lua_gettop(lua) >= 4)
     {
-        assert(lua_isinteger(lua, 4));
+        luaL_argcheck(lua, lua_isinteger(lua, 4), 4, "integer expected!");
         priority = lua_tointeger(lua, 4);
     }
 
@@ -237,7 +249,7 @@ int LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers i
 
     return idx;
 }
-void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, unsigned int idx, int nArg)
+void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id, int idx, int nArg)
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
@@ -265,18 +277,18 @@ void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers
 
 int LuaLibScript::l_on_internal_event(lua_State* lua)
 {
-    assert(lua_isinteger(lua, 1));
-    assert(lua_isfunction(lua, 2));
+    luaL_argcheck(lua, lua_isinteger(lua, 1), 1, "integer expected!");
+    luaL_argcheck(lua, lua_isfunction(lua, 2), 2, "function expected!");
     const int callbackHookId = lua_tointeger(lua, 1);
-    assert(callbackHookId > InternalEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
-    assert(callbackHookId < InternalEvents::UNKNOWN_MAX);
+    luaL_argcheck(lua, callbackHookId > InternalEvents::UNKNOWN && callbackHookId < InternalEvents::UNKNOWN_MAX, 1, "Unknown InternalEvent!"); 
+    // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
     lua_pushvalue(lua, 2);
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
 
     int priority = 0;
     if (lua_gettop(lua) >= 3)
     {
-        assert(lua_isinteger(lua, 3));
+        luaL_argcheck(lua, lua_isinteger(lua, 3), 3, "integer expected!");
         priority = lua_tointeger(lua, 3);
     }
 
@@ -416,14 +428,19 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_load_callbacks();
 }
 
+//On selecting Continue and loading up a run.
 HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (LuaLibScript.cpp)\n")
     super(fh);
-    // TODO: Probably need LoadGame, Opening the ship editor & game restart hooks to all call this
-    // TODO: Or maybe we can use StarMap::NewGame ?
-    // TODO: Or maybe WorldManager::StartGame or WorldManager::CreateNewGame? (Note, WOrldManager::CreateNewGame might be ideal)
-    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks(false);
+}
+//On restarting run or starting a new run from the hanger
+HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (LuaLibScript.cpp)\n")
+    super();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks(true);
 }
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* locationEvent) -> void)
@@ -477,4 +494,5 @@ LuaLibScript::LuaLibScript(lua_State* lua)
 {
    this->m_Lua = lua;
    luaL_requiref(lua, "script", luaopen_scriptlib, 1);
+   lua_pop(lua, 1);
 }

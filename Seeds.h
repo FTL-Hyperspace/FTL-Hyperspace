@@ -9,6 +9,9 @@ class SeedInputBox
 {
 public:
     static bool seedsEnabled;
+    static bool seedsAllowUnlocks;
+    static bool seedsAllowAchievements;
+    static bool seedsAllowMetaVars;
     static Pointf drawLocation;
     static float width;
     static float height;

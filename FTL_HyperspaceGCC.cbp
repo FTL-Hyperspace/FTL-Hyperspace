@@ -829,6 +829,12 @@
 		<Unit filename="CrewAbilities.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CrewBox_Extend.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CrewBox_Extend.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CrewManifestVTable.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -1366,6 +1372,10 @@
 			<Option compile="1" />
 			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
+		<Unit filename="lua/modules/rapidxml.i">
+			<Option compile="1" />
+			<Option virtualFolder="Scripting/modules/" />
+		</Unit>
 		<Unit filename="lua/swigluarun.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
@@ -1378,6 +1388,9 @@
 		</Unit>
 		<Unit filename="palWindowsGeneric.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="rapidxml_interface.h">
+			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="zhl.cpp">
 			<Option virtualFolder="ZHL/" />

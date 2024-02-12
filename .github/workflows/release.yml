@@ -1,0 +1,55 @@
+name: 'Bump + Tag + Release'
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version name ("v" will be prepended to the tag name)'
+        required: true
+        default: '1.x.x'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Bump version on master
+        run: |
+          git config --global user.email "ftl-hyperspace@github.com"
+          git config --global user.name "FTL Hyperspace"
+          buildscripts/ci-bump-version.sh ${{ inputs.version }}
+          git commit -a -m "Bump version to ${{ inputs.version }}"
+      
+      - name: Build binaries
+        run: |
+          buildscripts/ci-buildall-release-only-from-docker.sh
+
+      - name: Package
+        run: |
+          cp -r "Release Files" build-package
+          cd "Mod Files"
+          zip -r Hyperspace.ftl * -x Hyperspace.ftl
+          cd ..
+          mv "Mod Files/Hyperspace.ftl" build-package
+          cp build-*/Hyperspace.*.so "build-package/Linux/"
+          cp build-*/Hyperspace.dll "build-package/Windows - Extract these files into where FTLGame.exe is/"
+          cd build-package
+          zip -r FTL.Hyperspace.${{ inputs.version }}.zip * -x FTL.Hyperspace.${{ inputs.version }}.zip -x Linux/IGNORE_THIS_FILE.txt
+
+      - name: Push changes to the repo
+        run: |
+          git push origin master:master
+          git tag v${{ inputs.version }} master
+          git push origin v${{ inputs.version }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build-package/FTL.Hyperspace.${{ inputs.version }}.zip
+          tag_name: v${{ inputs.version }}
+          name: ${{ inputs.version }}
+          generate_release_notes: true

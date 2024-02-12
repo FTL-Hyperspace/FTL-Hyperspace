@@ -258,9 +258,9 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
 
 static bool blockControllableAI;
 
-HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
+HOOK_METHOD_PRIORITY(ShipManager, CommandCrewMoveRoom, -100, (CrewMember* crew, int room) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CommandCrewMoveRoom -> Begin (CustomDrones.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CommandCrewMoveRoom -> Begin (CustomDrones.cpp)\n")
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
@@ -999,6 +999,70 @@ HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
     return G_->GetTextLibrary()->GetText(tooltipText, G_->GetTextLibrary()->currentLanguage);
 }
 
+HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    super(iShipId, selfId, blueprint);
+
+    drone_image_on = CachedImage("ship/drones/" + blueprint->droneImage + "_charged.png", CachedImage::Centered::CENTERED);
+    drone_image_off = CachedImage("ship/drones/" + blueprint->droneImage + "_off.png", CachedImage::Centered::CENTERED);
+    drone_image_glow = CachedImage("ship/drones/" + blueprint->droneImage + "_glow.png", CachedImage::Centered::CENTERED);
+}
+
+HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
+{  
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SuperShieldDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
+    this->DefenseDrone::OnLoop();
+    if (!GetPowered()) 
+    {
+        weaponCooldown = GetWeaponCooldown();
+        glowAnimation = -1.0;
+        return;
+    }
+    else 
+    {
+        if (GetDeployed()) 
+        {
+            currentSpeed = (float) blueprint->speed;
+            if (weaponCooldown < 1.5 && glowAnimation <= 0.0) 
+            {
+                glowAnimation = 3.0;
+                G_->GetSoundControl()->PlaySoundMix("shieldDroneCharge", -1.0, false);
+            }
+            if (weaponCooldown < 2.5) 
+            {
+                currentSpeed = std::max(weaponCooldown - 1.5, 0.0) * currentSpeed;
+            }
+            if (0.0 < glowAnimation) 
+            {
+                currentSpeed = 0.0;
+            }
+            glowAnimation -= G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
+            if (glowAnimation < 0.0) 
+            {
+                glowAnimation = -1.0;
+            }
+
+            if (!bFire) return;
+
+            bFire = false;
+
+            // Prevent vanilla crash when shieldSystem is null (occurs when not defined in the shipBlueprint)
+            if (shieldSystem)
+            {
+                shieldSystem->AddSuperShield(Point(currentLocation.x, currentLocation.y));
+            }
+
+            G_->GetSoundControl()->PlaySoundMix("shieldDroneActivate", -1.0, false);
+            weaponCooldown = GetWeaponCooldown();
+            return;
+        }
+        weaponCooldown = GetWeaponCooldown();
+        glowAnimation = -1.0;
+        return;
+    }
+}
+
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
@@ -1137,3 +1201,37 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
     }
 }
 
+// Fixes time advancement when powering a drone (it can call UpdateCrewmembers if the drone needs a room)
+
+HOOK_METHOD(ShipManager, PowerDrone, (Drone *drone, int roomId, bool userDriven, bool force) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PowerDrone -> Begin (CustomDrones.cpp)\n")
+    CFPS *cFPS = G_->GetCFPS();
+    float speed = cFPS->SpeedFactor;
+    cFPS->SpeedFactor = 0.f;
+
+    super(drone, roomId, userDriven, force);
+
+    cFPS->SpeedFactor = speed;
+}
+
+//SpaceDrone table member
+HOOK_METHOD(SpaceDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::constructor -> Begin (CustomDrones.cpp)\n")
+    super(iShipId, selfId, blueprint);
+    HS_MAKE_TABLE(this)
+    
+    //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDrone, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_SPACEDRONE, 1);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(SpaceDrone, destructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::destructor -> Begin (CustomDrones.cpp)\n")
+    HS_BREAK_TABLE(this)
+    super();   
+}

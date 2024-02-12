@@ -153,6 +153,8 @@ void CustomEventsParser::ReadCustomEventFiles()
         {
             ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e));
         }
+
+        delete [] eventText;
     }
 
     for (auto i : CustomEventsParser::GetInstance()->eventFiles)
@@ -179,6 +181,8 @@ void CustomEventsParser::ReadCustomEventFiles()
             {
                 ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e));
             }
+
+            delete [] eventText;
         }
     }
 }
@@ -2093,6 +2097,12 @@ void VariableModifier::ParseVariableModifierNode(rapidxml::xml_node<char> *node)
     {
         maxVal = boost::lexical_cast<int>(node->first_attribute("max")->value());
     }
+
+    // Force attribute bypasses anything that might block the variable modifier from being applied
+    if (node->first_attribute("force"))
+    {
+        force = EventsParser::ParseBoolean(node->first_attribute("force")->value());
+    }
 }
 
 CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
@@ -2460,6 +2470,8 @@ int ShipObject::HasItem(const std::string& equip)
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipment) -> int)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+
+    // advancedCheckEquipment is true for actual requirement checks and false for embedded checks such as for slug lifeform detection or clonebay for cloning
     if (advancedCheckEquipment.any())
     {
         if (boost::algorithm::starts_with(equipment, "ANY "))
@@ -2494,8 +2506,8 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
             ShipManager *ship = G_->GetShipManager(iShipId);
             if (ship)
             {
-                Blueprint &shipBp = ship->myBlueprint;
-                return shipBp.name == equipment.substr(5);
+                ShipBlueprint &shipBp = ship->myBlueprint;
+                return shipBp.blueprintName == equipment.substr(5);
             }
             return 0;
         }
@@ -2555,6 +2567,27 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
     }
 
     return super(equipment);
+}
+
+HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -1000, (const std::string& equipment) -> int)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+
+    int ret = super(equipment);
+
+    if (advancedCheckEquipment.any()) // avoids clobbering any embedded equipment checks
+    {
+        // HAS_EQUIPMENT(ShipManager, equipment, retValue)
+        auto context = G_->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), G_->GetShipManager(this->iShipId), context->getLibScript()->types.pShipManager, 0);
+        lua_pushstring(context->GetLua(), equipment.c_str());
+        lua_pushinteger(context->GetLua(), ret);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::HAS_EQUIPMENT, 3, 1);
+        if (lua_isinteger(context->GetLua(), -1)) ret = lua_tointeger(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 3);
+    }
+
+    return ret;
 }
 
 int ShipObject::HS_HasEquipment(const std::string& equip)
@@ -3667,6 +3700,7 @@ void EventDamageEnemy(EventDamage eventDamage)
 void RecallBoarders(int direction)
 {
     int targetRoom;
+    bool canTeleport;
 
     CompleteShip *playerShip = G_->GetWorld()->playerShip;
     if (playerShip == nullptr) return;
@@ -3680,10 +3714,17 @@ void RecallBoarders(int direction)
         for (auto i : enemyShip->shipManager->vCrewList)
         {
             //if (i->iShipId == 0 && !i->IsDrone())
-            if (i->iShipId == 0 && !i->IsDrone() && i->CanTeleport())
+            if (!i->bDead && i->iShipId == 0 && !i->IsDrone())
             {
-                i->EmptySlot();
-                playerShip->AddCrewMember2(i,targetRoom);
+                CrewMember_Extend *ex = CM_EX(i);
+                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
+                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+
+                if (canTeleport) // do it this way to ignore the vanilla conditions
+                {
+                    i->EmptySlot();
+                    playerShip->AddCrewMember2(i,targetRoom);
+                }
             }
         }
     }
@@ -3693,10 +3734,17 @@ void RecallBoarders(int direction)
         for (auto i : playerShip->shipManager->vCrewList)
         {
             //if (i->iShipId == 1 && !i->IsDrone())
-            if (i->iShipId == 1 && !i->IsDrone() && i->CanTeleport())
+            if (!i->bDead && i->iShipId == 1 && !i->IsDrone())
             {
-                i->EmptySlot();
-                enemyShip->AddCrewMember2(i,targetRoom);
+                CrewMember_Extend *ex = CM_EX(i);
+                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
+                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+
+                if (canTeleport) // do it this way to ignore the vanilla conditions
+                {
+                    i->EmptySlot();
+                    enemyShip->AddCrewMember2(i,targetRoom);
+                }
             }
         }
     }
@@ -5801,16 +5849,10 @@ HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> C
     {
         if (crew->blueprint.crewNameLong.isLiteral != bp->crewNameLong.isLiteral) continue;
         if (crew->blueprint.crewNameLong.data != bp->crewNameLong.data) continue;
-        if (crew->blueprint.colorChoices.size() != bp->colorChoices.size()) continue;
-        for (unsigned int i=0; i<bp->colorChoices.size(); ++i)
-        {
-            if (crew->blueprint.colorChoices[i] != bp->colorChoices[i]) goto ShipManager__FindCrew__continue_crewList_loop;
-        }
+        if (crew->blueprint.colorChoices != bp->colorChoices) continue;
         if (crew->blueprint.male != bp->male) continue;
         if (crew->blueprint.name != bp->name) continue;
         return crew;
-        ShipManager__FindCrew__continue_crewList_loop:
-        ;
     }
 
     return nullptr;
@@ -6238,6 +6280,7 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
             varList = &playerVariables;
             break;
         case VarType::METAVAR:
+            if (!i.force && !SeedInputBox::seedsAllowMetaVars && Global::IsSeededRun()) continue; // seeded run blocks meta variables unless force = true
             varList = &metaVariables;
             break;
         default:

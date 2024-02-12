@@ -7,13 +7,55 @@
     - Have a `global_run` (or `global`) table that contents is saved with the run (functions not allowed to be inserted into the table, data only)
     - Have a `profile` (or `global_profile`) table that contents is saved across runs (functions not allowed, data only)
     - Add serpent library to allow easy printing of Lua tables with `serpent.block()` for debugging for developers of Lua scripts
-    - Add a print function to write messages to the in-game screen like a chat/console
     - Implement table_size() like Factorio does for tables with non-contiguous keys.?
     - Maybe add abilitly to pull localized string?
     - Re-implement require to load only .lua files from the dat, or maybe re-enable lua package (which contains require) and figure out how to restrict it.
-    - Re-implement math.random to use FTL's random. (might want to use FTL's (SIL's) frandom)
     - Maybe add a story system like https://wiki.factorio.com/Tutorial:Scripting#Story_script ?
 */
+
+// Copied from https://www.lua.org/source/5.3/lmathlib.c.html and edited to use FTL's random32 instead
+
+/*
+** This function uses 'double' (instead of 'lua_Number') to ensure that
+** all bits from 'random32' can be represented, and that 'RANDMAX + 1.0'
+** will keep full precision (ensuring that 'r' is always less than 1.0.)
+*/
+static int math_random (lua_State *L) {
+  lua_Integer low, up;
+  double r = (double)random32() * (1.0 / ((double)2147483647 + 1.0));
+  switch (lua_gettop(L)) {  /* check number of arguments */
+    case 0: {  /* no arguments */
+      lua_pushnumber(L, (lua_Number)r);  /* Number between 0 and 1 */
+      return 1;
+    }
+    case 1: {  /* only upper limit */
+      low = 1;
+      up = luaL_checkinteger(L, 1);
+      break;
+    }
+    case 2: {  /* lower and upper limits */
+      low = luaL_checkinteger(L, 1);
+      up = luaL_checkinteger(L, 2);
+      break;
+    }
+    default: return luaL_error(L, "wrong number of arguments");
+  }
+  /* random integer in the interval [low, up] */
+  luaL_argcheck(L, low <= up, 1, "interval is empty");
+  luaL_argcheck(L, low >= 0 || up <= LUA_MAXINTEGER + low, 1,
+                   "interval too large");
+  r *= (double)(up - low) + 1.0;
+  lua_pushinteger(L, (lua_Integer)r + low);
+  return 1;
+}
+
+static int math_randomseed (lua_State *L) {
+  srandom32((unsigned int)(lua_Integer)luaL_checknumber(L, 1));
+  (void)random32(); /* discard first value to avoid undesirable correlations */
+  return 0;
+}
+
+
 void removeDangerousStuff(lua_State* lua)
 {
     /* Remove the basic functions (if they're not removed already) of these:
@@ -43,20 +85,15 @@ void removeDangerousStuff(lua_State* lua)
     lua_setglobal(lua, "rawget");
     lua_pushnil(lua);
     lua_setglobal(lua, "rawset");
-
+    
     lua_getglobal(lua, "math");
-    lua_pushnil(lua);
-    lua_setfield(lua, -2, "randomseed");
-    lua_pushnil(lua);
+    lua_pushcfunction(lua, math_random);
     lua_setfield(lua, -2, "random");
+    lua_pushcfunction(lua, math_randomseed);
+    lua_setfield(lua, -2, "randomseed");
     lua_pop(lua, 1); // remove math table from stack
 }
-    /* TODO: Replace math.random with call to FTL's random32
-    math.random ([m [, n]])
-When called without arguments, returns a pseudo-random float with uniform distribution in the range [0,1). When called with two integers m and n, math.random returns a pseudo-random integer with uniform distribution in the range [m, n]. (The value n-m cannot be negative and must fit in a Lua integer.) The call math.random(n) is equivalent to math.random(1,n).
 
-This function is an interface to the underling pseudo-random generator function provided by C.
-*/
 
 LuaScriptInit::LuaScriptInit()
 {
@@ -68,11 +105,19 @@ LuaScriptInit::LuaScriptInit()
     hsluaglobal_register(lua);
     this->m_libScript = new LuaLibScript(lua);
     luaopen_Hyperspace(lua);
+    lua_pop(lua, 2);
     luaopen_Graphics(lua);
+    lua_pop(lua, 2);
     luaopen_Defines(lua);
+    lua_pop(lua, 2);
+    luaopen_RapidXML(lua);
+    lua_pop(lua, 2);
     removeDangerousStuff(lua);
 
     this->m_libScript->LoadTypeInfo(); // Preload all the SWIG typedata so we don't need to do it every time we want to push a class for a callback
+
+    // set modified defaults for garbage collector
+    lua_gc(lua, LUA_GCSETPAUSE, 100);
 
     printf("Lua initialized!\n");
 }
@@ -106,8 +151,9 @@ void LuaScriptInit::runLuaFileFromDat(std::string filename)
     char* code = Global::GetInstance()->GetResources()->LoadFile(filename);
     //printf("Lua file loaded: %s, contents: '%s'\n", filename.c_str(), code);
 
-    int iErr = 0;
-    if((iErr = luaL_loadbufferx(this->m_Lua, code, strlen(code), filename.c_str(), "t")) != 0) // the "t" with loadbufferx means text chunks only, default is "bt" but that would allow loading binary lua files, while cool, could be bad.
+    int iErr = luaL_loadbufferx(this->m_Lua, code, strlen(code), filename.c_str(), "t");
+    delete [] code;
+    if(iErr != 0) // the "t" with loadbufferx means text chunks only, default is "bt" but that would allow loading binary lua files, while cool, could be bad.
     {
         const char* errorMessage = lua_tostring(this->m_Lua, -1);
         hs_log_file("Failed to load lua code from file '%s'. Error: '%s'\n", filename.c_str(), errorMessage);

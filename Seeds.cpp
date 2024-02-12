@@ -25,6 +25,9 @@ float SeedInputBox::height = 21.f;
 bool SeedInputBox::firstClick = true;
 bool SeedInputBox::seedsEnabled = true;
 std::string SeedInputBox::prompt;
+bool SeedInputBox::seedsAllowUnlocks = false;
+bool SeedInputBox::seedsAllowAchievements = false;
+bool SeedInputBox::seedsAllowMetaVars = true; // true to avoid breaking older mods
 
 SeededRng worldRng = SeededRng(0);
 SeededRng secretRng = SeededRng(0);
@@ -189,10 +192,8 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetAchievement -> Begin (Seeds.cpp)\n")
-    if (Global::isCustomSeed && G_->GetWorld()->bStartedGame)
-    {
-        return;
-    }
+
+    if (!SeedInputBox::seedsAllowAchievements && Global::IsSeededRun()) return;
 
     return super(ach, noPopup, sendToServer);
 }
@@ -200,10 +201,8 @@ HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool no
 HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::UnlockShip -> Begin (Seeds.cpp)\n")
-    if (Global::isCustomSeed && G_->GetWorld()->bStartedGame)
-    {
-        return;
-    }
+
+    if (!SeedInputBox::seedsAllowUnlocks && Global::IsSeededRun()) return;
 
     return super(shipId, shipType, save, hidePopup);
 }
@@ -221,9 +220,9 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 static bool startingNewGame = false;
 
-HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
+HOOK_METHOD_PRIORITY(StarMap, NewGame, -500, (bool unk) -> Location*)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(unk);
 
 	std::string str = SeedInputBox::seedInput->GetText();

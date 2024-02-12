@@ -10,6 +10,7 @@ if(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
+    find_package(OpenGL REQUIRED)
 endif()
 
 # pthread
@@ -26,6 +27,7 @@ set(
         lua/modules/defines.i
         lua/modules/graphics.i
         lua/modules/hyperspace.i
+        lua/modules/rapidxml.i
 )
 set_property(SOURCE ${swigfiles} PROPERTY USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)
@@ -88,6 +90,8 @@ target_sources(
     CooldownNumbers.h
     Credits.cpp
     CrewAbilities.cpp
+    CrewBox_Extend.cpp
+    CrewBox_Extend.h
     CrewManifestVTable.cpp
     CrewMember_Extend.cpp
     CrewMember_Extend.h
@@ -177,6 +181,7 @@ target_sources(
     FTLGameWin32.h
     Global.cpp
     Global.h
+    HackingSystem.cpp
     HSVersion.h
     HullNumbers.cpp
     HullNumbers.h
@@ -251,6 +256,7 @@ target_sources(
     main.cpp
     main.h
     palWindowsGeneric.h
+    rapidxml_interface.h
     zhl.cpp
     zhl.h
     zhl_internal.h
@@ -290,16 +296,16 @@ add_custom_command(
 
 target_compile_options(
     Hyperspace PRIVATE
-    
+
     # Enable SSE2
     -msse -msse2 -mfpmath=sse
-    
+
     # Error on narrowing conversion
     -Werror=narrowing
-    
+
     # Explicit C++11 mode
     -std=c++11
-    
+
     # Warn everything
     # TODO: Check if it's meaningful (original .cbp defined it)
     # -Wall
@@ -330,6 +336,9 @@ if(UNIX)
 elseif(WIN32)
     # Discord
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
+
+    # OpenGL, just raw OpenGL goodness
+    target_link_libraries(Hyperspace PRIVATE OpenGL::GL)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

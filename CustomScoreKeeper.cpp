@@ -212,6 +212,19 @@ HOOK_METHOD(ScoreKeeper, SetupTopShip, (int variant) -> void)
     if (selectedShip >= 100)
     {
         shipAchievements.clear();
+
+        std::vector<CAchievement*> customShipAchievements = CustomAchievementTracker::instance->GetShipAchievementsCustom(selectedShip, variant, false);
+
+        int numAch = std::min(int(customShipAchievements.size()),3);
+
+        Point p(515-35*numAch,118);
+
+        for (int i=0; i<numAch; ++i)
+        {
+            shipAchievements.push_back(std::make_pair(customShipAchievements[i],p));
+            p.x += 70;
+        }
+
         selectedLayout = variant;
 
         CheckTypes();

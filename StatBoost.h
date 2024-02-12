@@ -4,8 +4,11 @@
 #include "CustomCrew.h"
 #include "CustomCrewCommon.h"
 #include "EnumClassHash.h"
+#include <unordered_set>
 
+struct CrewDefinition;
 struct ActivatedPowerDefinition;
+struct PowerResourceDefinition;
 class CrewMember_Extend;
 struct RoomAnimDef;
 
@@ -65,13 +68,17 @@ enum class CrewStat : unsigned int
     TELEPORT_MOVE,
     TELEPORT_MOVE_OTHER_SHIP,
     SILENCED,
+    LOW_HEALTH_THRESHOLD,
+    NO_WARNING,
     // non-cached stats
+    CREW_SLOTS, // this doesn't need to be cached since the crew slots are totalled once per frame
     ACTIVATE_WHEN_READY,
     STAT_BOOST,
     DEATH_EFFECT,
     POWER_EFFECT,
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
+    POWER_COOLDOWN,
     TRANSFORM_RACE
 };
 
@@ -83,11 +90,14 @@ struct StatBoostDefinition
     {
         MULT,
         FLAT,
+        ADD=FLAT,
         SET,
         FLIP,
         SET_VALUE,
         MIN,
-        MAX
+        MAX,
+        REPLACE_GROUP,
+        REPLACE_POWER,
     };
 
     enum class BoostSource
@@ -143,6 +153,7 @@ struct StatBoostDefinition
     int priority = -1;
     float duration = -1;
     bool jumpClear = false;
+    bool cloneClear = true;
 
     std::string boostAnim = "";
     RoomAnimDef *roomAnim = nullptr;
@@ -156,7 +167,14 @@ struct StatBoostDefinition
 
     std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
-    unsigned int powerChange = 0;
+    ActivatedPowerDefinition *powerChange = nullptr;
+    std::unordered_set<ActivatedPowerDefinition*> powerWhitelist;
+    std::unordered_set<ActivatedPowerDefinition*> powerBlacklist;
+    std::unordered_set<PowerResourceDefinition*> powerResourceWhitelist;
+    std::unordered_set<PowerResourceDefinition*> powerResourceBlacklist;
+    std::unordered_set<unsigned int> powerGroupWhitelist;
+    std::unordered_set<unsigned int> powerGroupBlacklist;
+    bool hasPowerList;
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
@@ -197,6 +215,9 @@ struct StatBoostDefinition
     }
 
     bool TestRoomStatBoostSystem(ShipManager *ship, int room);
+
+    bool IsTargetPower(ActivatedPowerDefinition *power);
+    bool IsTargetPower(PowerResourceDefinition *power);
 };
 
 struct StatBoost
@@ -256,6 +277,9 @@ public:
     StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
+
+    float CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId = -1, int roomId = -1);
+    void CreateDummyCrew();
 private:
     static StatBoostManager instance;
     ShipManager* playerShip;
@@ -265,6 +289,8 @@ private:
 
     int nextStackId = 0;
     std::unordered_map<std::string, int> stackIdMap;
+
+    CrewMember *dummyCrew = nullptr;
 
     int GiveStackId()
     {

@@ -15,7 +15,7 @@
 		If there's no thread yet, create one to announce your upcoming mod in the
 		forum. Then paste the url here.
 	-->
-	<threadUrl><![CDATA[ NA ]]></threadUrl>
+	<threadUrl><![CDATA[ https://subsetgames.com/forum/viewtopic.php?t=35095#p121862 ]]></threadUrl>
 
 
 	<!-- Your forum user name. -->
@@ -30,7 +30,7 @@
 			2.4.1 Hi-res Bkgs
 			1.0 for FTL 1.03.1
 	-->
-	<version><![CDATA[ 1.2.3 ]]></version>
+	<version><![CDATA[ 1.10.0 ]]></version>
 
 
 	<description>
@@ -47,7 +47,8 @@ Development:
 	Admiral Billy
 	laszlogasd
 	mathchamp93
-    Mr. Doom
+	Mr. Doom
+	Chrono Vortex
 
 Art:
 	SaltyFriedRice

@@ -233,19 +233,22 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
-    if (custom && custom->sourceShipId != -1 && custom->def->crewSpawnChance > 0)
+    if (custom)
     {
         if (beamHitType != BeamHit::SAME_TILE)
         {
-            int rng = random32() % 10;
-
-            if (rng < custom->def->crewSpawnChance)
+            if (custom->sourceShipId != -1 && custom->def->crewSpawnChance > 0)
             {
-                Pointf spawnLoc = {grid1.x * 35.f + 17.5f, grid1.y * 35.f + 17.5f};
+                int rng = random32() % 10;
 
-                for (CrewSpawn *i : custom->def->crewSpawns)
+                if (rng < custom->def->crewSpawnChance)
                 {
-                    CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
+                    Pointf spawnLoc = {grid1.x * 35.f + 17.5f, grid1.y * 35.f + 17.5f};
+
+                    for (CrewSpawn *i : custom->def->crewSpawns)
+                    {
+                        CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
+                    }
                 }
             }
         }
@@ -260,6 +263,13 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
                 {
                     SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room1, 1, custom->sourceShipId);
                 }
+            }
+
+            rng = random32() % 10;
+            if (rng < custom->def->erosionChance)
+            {
+                auto ex = RM_EX(ship.vRoomList[room1]);
+                ex->StartErosion(custom->def->erosionEffect);
             }
         }
     }
@@ -458,6 +468,13 @@ HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
         customDamage.accuracyMod = customWeapon->customDamage->accuracyMod;
         customDamage.droneAccuracyMod = customWeapon->customDamage->droneAccuracyMod;
     }
+
+    // Callback with Projectile and WeaponBlueprint
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectile[this->GetType()], 0);
+    SWIG_NewPointerObj(context->GetLua(), &bp, context->getLibScript()->types.pWeaponBlueprint, 0);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_INITIALIZE, 2, 0);
+    lua_pop(context->GetLua(), 2);
 }
 
 HOOK_METHOD(SpaceManager, UpdateProjectile, (Projectile *projectile) -> void)
@@ -771,7 +788,7 @@ HOOK_METHOD_PRIORITY(HackingDrone, CollisionMoving, 9999, (Pointf start, Pointf 
     LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
     CollisionResponse ret;
 
-    if (explosion.tracker.running || arrived)
+    if (!deployed || explosion.tracker.running || arrived)
     {
         ret = CollisionResponse();
         ret.collision_type = 0;
@@ -782,7 +799,8 @@ HOOK_METHOD_PRIORITY(HackingDrone, CollisionMoving, 9999, (Pointf start, Pointf 
     }
 
     ret = this->SpaceDrone::CollisionMoving(start, finish, damage, raytrace);
-    this->bDead = false; // vanilla does something like this for some reason
+    this->bDead = false; // vanilla does something like this for some reason, why do we even do this it seems like it would just break things
+    return ret;
 }
 
 HOOK_METHOD(Projectile, CollisionMoving, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
@@ -948,6 +966,7 @@ BombProjectile* SpaceManager::CreateBomb(WeaponBlueprint *weapon, int ownerId, P
 
     projectile->Initialize(*weapon);
 
+    projectile->flight_animation.tracker.loop = false;
     projectiles.push_back(projectile);
 
     return projectile;
@@ -988,7 +1007,7 @@ BeamWeapon* SpaceManager::CreateBeam(WeaponBlueprint *weapon, Pointf position, i
     return projectile;
 }
 
-LaserBlast* SpaceManager::CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
+LaserBlast* SpaceManager::CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
 {
     LaserBlast *projectile = new LaserBlast(position, space, targetSpace, target);
     projectile->ownerId = ownerId;

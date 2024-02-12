@@ -18,11 +18,45 @@ struct InternalEvents
         ON_TICK, // We'll use CApp::OnLoop for this ticking
         // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
+        
         // function on_key_down(SDLKey key) return Chain
-        ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
+        ON_KEY_DOWN,
+        // function on_key_up(SDLKey key) return Chain
+        ON_KEY_UP,
+        // function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain
+        ON_MOUSE_MOVE,
+        // function on_mouse_l_button_down(int x, int y) return Chain
+        ON_MOUSE_L_BUTTON_DOWN,
+        // function on_mouse_l_button_up(int x, int y) return Chain
+        ON_MOUSE_L_BUTTON_UP,
+        // function on_mouse_r_button_down(int x, int y) return Chain
+        ON_MOUSE_R_BUTTON_DOWN,
+        // function on_mouse_r_button_up(int x, int y) return Chain
+        ON_MOUSE_R_BUTTON_UP,
+        // function on_mouse_m_button_down(int x, int y) return Chain
+        ON_MOUSE_M_BUTTON_DOWN,
+        // function gui_move_move(int x, int y) return Chain
+        GUI_MOUSE_MOVE,
+        
         // function crew_loop(CrewMember& crew)
         CREW_LOOP,
+        // function ship_loop(ShipManager& ship)
+        SHIP_LOOP,
 
+        // function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value
+        HAS_EQUIPMENT,
+        // function has_augmentation(ShipManager& ship, char* augment, int value) return Chain, value
+        HAS_AUGMENTATION,
+        // function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value
+        GET_AUGMENTATION_VALUE,
+
+        // function get_dodge_factor(ShipManager& ship, int value) return Chain, value
+        GET_DODGE_FACTOR,
+
+        // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
+        PROJECTILE_INITIALIZE,
+        // function projectile_fire(Projectile& projectile, ProjectileFactory &weapon)
+        PROJECTILE_FIRE,
         // function projectile_pre(Projectile& projectile) return Chain
         PROJECTILE_PRE, // SpaceManager::UpdateProjectile
         // function projectile_post(Projectile& projectile, bool preempted) return Chain
@@ -31,6 +65,9 @@ struct InternalEvents
         PROJECTILE_UPDATE_PRE, // Projectile::Update
         // function projectile_update_post(Projectile& projectile, bool preempted) return Chain
         PROJECTILE_UPDATE_POST, // Projectile::Update
+
+        //function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain
+        DRONE_FIRE,
 
         // function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain
         DRONE_COLLISION,
@@ -53,6 +90,29 @@ struct InternalEvents
 
         // function activate_power(ActivatedPower& power, ShipManager& ship) return Chain
         ACTIVATE_POWER,
+        // function prepare_power(ActivatedPower& power) return Chain
+        PREPARE_POWER,
+        // function cancel_power(ActivatedPower& power, bool clearAnim) return Chain
+        CANCEL_POWER,
+        // function power_on_update(ActivatedPower& power) return Chain
+        POWER_ON_UPDATE,
+        // function power_resource_on_update(ActivatedPowerResource& power) return Chain
+        POWER_RESOURCE_ON_UPDATE,
+        // function power_enable_init(ActivatedPower& power) return Chain
+        POWER_ENABLE_INIT,
+        // function power_resource_enable_init(ActivatedPowerResource& power) return Chain
+        POWER_RESOURCE_ENABLE_INIT,
+        // function power_req(ActivatedPower& power, ActivatedPowerRequirements& req, PowerReadyState result) return Chain, result
+        POWER_REQ,
+        // function power_ready(ActivatedPower& power, PowerReadyState result) return Chain, result
+        POWER_READY,
+        // function power_tooltip(ActivatedPower& power, PowerReadyState state) return tooltip, skipAppend
+        POWER_TOOLTIP,
+
+        // function generator_create_ship(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain, sector, event, bp, ret
+        GENERATOR_CREATE_SHIP,
+        // function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain
+        GENERATOR_CREATE_SHIP_POST,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 
@@ -64,11 +124,30 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
+        // function jump_arrive(ShipManager& ship)
+        JUMP_ARRIVE,
+        // function jump_leave(ShipManager& ship)
+        JUMP_LEAVE,
+        // function on_wait(ShipManager& ship)
+        ON_WAIT,
 
-        /* TODO Maybe add
-        ShipManager::JumpArrive
-        ShipManager::JumpLeave
-        */
+
+        //Constructor Events
+
+        //function construct_crewmember(CrewMember& crew)
+        CONSTRUCT_CREWMEMBER,
+        //function construct_spacedrone(SpaceDrone& drone)
+        CONSTRUCT_SPACEDRONE,
+        //function construct_projectile_factory(ProjectileFactory& weapon)
+        CONSTRUCT_PROJECTILE_FACTORY,
+        //function construct_projectile(Projectile& projectile)
+        CONSTRUCT_PROJECTILE,
+        //function construct_room(Room& room)
+        CONSTRUCT_ROOM,
+        //function construct_ship_manager(ShipManager& ship)
+        CONSTRUCT_SHIP_MANAGER,
+        //function construct_ship_system(ShipSystem& system)
+        CONSTRUCT_SHIP_SYSTEM,
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };

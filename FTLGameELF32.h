@@ -103,6 +103,11 @@ struct CachedImage : CachedPrimitive
 		constructor1(path, x, y);
 	}
 	
+	CachedImage(const std::string& path, Centered centered)
+	{
+		constructor2(path, centered);
+	}
+
 	CachedImage()
 	{
 		
@@ -112,19 +117,15 @@ struct CachedImage : CachedPrimitive
 	{
 		constructor_copy(other);
 	}
-	
-	CachedImage& operator=(CachedImage &other)
-	{
-		constructor_copy(other);
-		return *this;
-	}
 
 	LIBZHL_API void CreatePrimitive();
 	LIBZHL_API void SetImagePath(const std::string &imagePath);
 	LIBZHL_API void SetMirrored(bool _mirrored);
 	LIBZHL_API void SetPosition(int x, int y);
 	LIBZHL_API void SetRotation(float _rotation);
+	LIBZHL_API void SetScale(float wScale, float hScale);
 	LIBZHL_API void constructor1(const std::string &path, int x, int y);
+	LIBZHL_API void constructor2(const std::string &path, CachedImage::Centered centered);
 	LIBZHL_API void constructor_copy(const CachedImage &other);
 	LIBZHL_API void destructor();
 	
@@ -785,6 +786,7 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -1140,8 +1142,13 @@ struct ArtilleryBox : CooldownSystemBox
 
 struct ProjectileFactory;
 
+struct CachedRect;
+
 struct CachedRect : CachedPrimitive
 {
+	LIBZHL_API void SetPosition(int x, int y);
+	LIBZHL_API void SetSize(int w, int h);
+	
 	int x;
 	int y;
 	int w;
@@ -1266,6 +1273,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API bool DecreasePower(bool force);
 	LIBZHL_API int GetEffectivePower();
 	LIBZHL_API static std::string __stdcall GetLevelDescription(int systemId, int level, bool tooltip);
+	LIBZHL_API TimerHelper GetLockTimer();
 	LIBZHL_API bool GetLocked();
 	LIBZHL_API int GetMaxPower();
 	LIBZHL_API int GetPowerCap();
@@ -1277,6 +1285,8 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API void LockSystem(int lock);
 	LIBZHL_API static int __stdcall NameToSystemId(const std::string &name);
 	LIBZHL_API int RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
+	LIBZHL_API static int __stdcall RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
+	LIBZHL_API void RenderSystemSymbol(bool forPowerUI, int forceColor);
 	LIBZHL_API void SaveState(int file);
 	LIBZHL_API void SetPowerCap(int cap);
 	LIBZHL_API int SetPowerLoss(int power);
@@ -1694,6 +1704,121 @@ struct AugmentStoreBox;
 
 struct Button;
 
+struct GL_ColorTexVertex
+{
+	float x;
+	float y;
+	float u;
+	float v;
+	float r;
+	float g;
+	float b;
+	float a;
+};
+
+struct GL_Line
+{
+	GL_Line(float x1, float y1, float x2, float y2)
+	{
+		start = Pointf(x1, y1);
+		end = Pointf(x2, y2);
+	}
+	
+	GL_Line(Pointf _start, Pointf _end) : start(_start), end(_end)
+	{
+	}		
+
+	Pointf start;
+	Pointf end;
+};
+
+struct GL_TexVertex
+{
+	float x;
+	float y;
+	float u;
+	float v;
+};
+
+struct CSurface
+{
+	/*
+	static void GL_ApplyShader(int pipeline)
+	{
+		shader_pipeline_apply(pipeline);
+	}
+	
+	static void GL_DestroyShader(int pipeline)
+	{
+		shader_pipeline_destroy(pipeline);
+	}
+	
+	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
+	{
+		return shader_pipeline_create(vertex_shader, fragment_shader);
+	}
+	
+	static int GL_CreateShader(ShaderType type, const char* source)
+	{
+		return shader_create_from_source(type, source, -1);
+	}
+	*/
+	
+
+	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
+	LIBZHL_API static void __stdcall FinishFrame();
+	LIBZHL_API static bool __stdcall GL_BlitImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
+	LIBZHL_API static bool __stdcall GL_BlitImagePartial(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
+	LIBZHL_API static void __stdcall GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias);
+	LIBZHL_API static void __stdcall GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool antialias);
+	LIBZHL_API static bool __stdcall GL_BlitPixelImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
+	LIBZHL_API static bool __stdcall GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
+	LIBZHL_API static void __stdcall GL_ClearAll();
+	LIBZHL_API static void __stdcall GL_ClearColor();
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> &vec, GL_Color color);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
+	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
+	LIBZHL_API static bool __stdcall GL_DisableBlend();
+	LIBZHL_API static bool __stdcall GL_DrawCircle(int x, int y, float radius, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth);
+	LIBZHL_API static bool __stdcall GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
+	LIBZHL_API static bool __stdcall GL_DrawTriangle(Point vertex1, Point vertex2, Point vertex3, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_EnableBlend();
+	LIBZHL_API static void __stdcall GL_ForceAntialias(bool on);
+	LIBZHL_API static GL_Color __stdcall GL_GetColor();
+	LIBZHL_API static int __stdcall GL_LoadIdentity();
+	LIBZHL_API static int __stdcall GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
+	LIBZHL_API static int __stdcall GL_PopMatrix();
+	LIBZHL_API static void __stdcall GL_PopScissor();
+	LIBZHL_API static void __stdcall GL_PopStencilMode();
+	LIBZHL_API static int __stdcall GL_PushMatrix();
+	LIBZHL_API static void __stdcall GL_PushStencilMode();
+	LIBZHL_API static void __stdcall GL_RemoveColorTint();
+	LIBZHL_API static void __stdcall GL_RenderPrimitive(GL_Primitive *primitive);
+	LIBZHL_API static void __stdcall GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, float alpha);
+	LIBZHL_API static void __stdcall GL_RenderPrimitiveWithColor(GL_Primitive *primitive, GL_Color color);
+	LIBZHL_API static void __stdcall GL_Rotate(float angle, float x, float y, float z = 1.f);
+	LIBZHL_API static void __stdcall GL_Rotate2(float angle, float x, float y, float z = 1.f);
+	LIBZHL_API static void __stdcall GL_Scale(float x, float y, float z);
+	LIBZHL_API static int __stdcall GL_SetColor(GL_Color color);
+	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
+	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
+	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
+	LIBZHL_API static GL_Color __stdcall GetColorTint();
+	LIBZHL_API static bool __stdcall IsFrameBufferSupported();
+	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
+	LIBZHL_API static void __stdcall StartFrame();
+	
+};
+
 struct LIBZHL_INTERFACE GenericButton
 {
 	virtual ~GenericButton() {}
@@ -1729,6 +1854,13 @@ struct Button : GenericButton
 	Button()
 	{
 		this->constructor();
+	}
+	
+	~Button()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
 	}
 
 	LIBZHL_API void OnInit(const std::string &img, Point pos);
@@ -1977,6 +2109,7 @@ struct CrewBlueprint;
 struct CrewBlueprint : Blueprint
 {
 
+	LIBZHL_API GL_Color GetCurrentSkillColor(int skill);
 	LIBZHL_API std::string GetNameShort();
 	LIBZHL_API void RandomSkills(int worldLevel);
 	LIBZHL_API void RenderIcon(float opacity);
@@ -2166,6 +2299,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API int GetSkillLevel(int skillId);
 	LIBZHL_API float GetSkillModifier(int skillId);
 	LIBZHL_API std::pair<int, int> GetSkillProgress(int skillId);
+	LIBZHL_API static std::string __stdcall GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen);
 	LIBZHL_API std::string GetTooltip();
 	LIBZHL_API void IncreaseSkill(int skillId);
 	LIBZHL_API void InitializeSkills();
@@ -2433,6 +2567,7 @@ struct BeamWeapon : Projectile
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API void OnRenderSpecific(int spaceId);
 	LIBZHL_API void OnUpdate();
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
 	
@@ -2615,6 +2750,7 @@ struct BlueprintManager
 	LIBZHL_API std::vector<DroneBlueprint*> GetRandomDrone(int count, bool demo_lock);
 	LIBZHL_API std::vector<WeaponBlueprint*> GetRandomWeapon(int count, bool demo_lock);
 	LIBZHL_API ShipBlueprint *GetShipBlueprint(const std::string &name, int sector);
+	LIBZHL_API static GL_Texture *__stdcall GetSkillIcon(int skill, bool outline);
 	LIBZHL_API SystemBlueprint *GetSystemBlueprint(const std::string &name);
 	LIBZHL_API std::string GetUnusedCrewName(bool *isMale_ret);
 	LIBZHL_API WeaponBlueprint *GetWeaponBlueprint(const std::string &name);
@@ -2690,6 +2826,8 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
+	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
+	LIBZHL_API void destructor();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -3070,6 +3208,14 @@ struct TextButton : GenericButton
 	TextButton()
 	{
 		this->constructor();
+	}
+	
+	~TextButton()
+	{
+		CSurface::GL_DestroyPrimitive(primitives[0]);
+		CSurface::GL_DestroyPrimitive(primitives[1]);
+		CSurface::GL_DestroyPrimitive(primitives[2]);
+		CSurface::GL_DestroyPrimitive(basePrimitive);
 	}
 
 	LIBZHL_API int GetIdealButtonWidth();
@@ -3626,121 +3772,6 @@ struct CFPS
 	int speedLevel;
 };
 
-struct GL_ColorTexVertex
-{
-	float x;
-	float y;
-	float u;
-	float v;
-	float r;
-	float g;
-	float b;
-	float a;
-};
-
-struct GL_Line
-{
-	GL_Line(float x1, float y1, float x2, float y2)
-	{
-		start = Pointf(x1, y1);
-		end = Pointf(x2, y2);
-	}
-	
-	GL_Line(Pointf _start, Pointf _end) : start(_start), end(_end)
-	{
-	}		
-
-	Pointf start;
-	Pointf end;
-};
-
-struct GL_TexVertex
-{
-	float x;
-	float y;
-	float u;
-	float v;
-};
-
-struct CSurface
-{
-	/*
-	static void GL_ApplyShader(int pipeline)
-	{
-		shader_pipeline_apply(pipeline);
-	}
-	
-	static void GL_DestroyShader(int pipeline)
-	{
-		shader_pipeline_destroy(pipeline);
-	}
-	
-	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
-	{
-		return shader_pipeline_create(vertex_shader, fragment_shader);
-	}
-	
-	static int GL_CreateShader(ShaderType type, const char* source)
-	{
-		return shader_create_from_source(type, source, -1);
-	}
-	*/
-	
-
-	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
-	LIBZHL_API static void __stdcall FinishFrame();
-	LIBZHL_API static bool __stdcall GL_BlitImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
-	LIBZHL_API static bool __stdcall GL_BlitImagePartial(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
-	LIBZHL_API static void __stdcall GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias);
-	LIBZHL_API static void __stdcall GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool antialias);
-	LIBZHL_API static bool __stdcall GL_BlitPixelImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
-	LIBZHL_API static bool __stdcall GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
-	LIBZHL_API static void __stdcall GL_ClearAll();
-	LIBZHL_API static void __stdcall GL_ClearColor();
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> &vec, GL_Color color);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
-	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
-	LIBZHL_API static bool __stdcall GL_DisableBlend();
-	LIBZHL_API static bool __stdcall GL_DrawCircle(int x, int y, float radius, GL_Color color);
-	LIBZHL_API static bool __stdcall GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
-	LIBZHL_API static bool __stdcall GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
-	LIBZHL_API static bool __stdcall GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth);
-	LIBZHL_API static bool __stdcall GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
-	LIBZHL_API static bool __stdcall GL_DrawTriangle(Point vertex1, Point vertex2, Point vertex3, GL_Color color);
-	LIBZHL_API static bool __stdcall GL_EnableBlend();
-	LIBZHL_API static void __stdcall GL_ForceAntialias(bool on);
-	LIBZHL_API static GL_Color __stdcall GL_GetColor();
-	LIBZHL_API static int __stdcall GL_LoadIdentity();
-	LIBZHL_API static int __stdcall GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
-	LIBZHL_API static int __stdcall GL_PopMatrix();
-	LIBZHL_API static void __stdcall GL_PopScissor();
-	LIBZHL_API static void __stdcall GL_PopStencilMode();
-	LIBZHL_API static int __stdcall GL_PushMatrix();
-	LIBZHL_API static void __stdcall GL_PushStencilMode();
-	LIBZHL_API static void __stdcall GL_RemoveColorTint();
-	LIBZHL_API static void __stdcall GL_RenderPrimitive(GL_Primitive *primitive);
-	LIBZHL_API static void __stdcall GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, float alpha);
-	LIBZHL_API static void __stdcall GL_RenderPrimitiveWithColor(GL_Primitive *primitive, GL_Color color);
-	LIBZHL_API static void __stdcall GL_Rotate(float angle, float x, float y, float z = 1.f);
-	LIBZHL_API static void __stdcall GL_Rotate2(float angle, float x, float y, float z = 1.f);
-	LIBZHL_API static void __stdcall GL_Scale(float x, float y, float z);
-	LIBZHL_API static int __stdcall GL_SetColor(GL_Color color);
-	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
-	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
-	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
-	LIBZHL_API static GL_Color __stdcall GetColorTint();
-	LIBZHL_API static bool __stdcall IsFrameBufferSupported();
-	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
-	LIBZHL_API static void __stdcall StartFrame();
-	
-};
-
 struct ChoiceReq
 {
 	std::string object;
@@ -3967,6 +3998,7 @@ struct CombatDrone : SpaceDrone
 		this->constructor(shipId, self, bp);
 	}
 
+	LIBZHL_API void PickTarget();
 	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API void constructor(int iShipId, int selfId, const DroneBlueprint *bp);
 	
@@ -4230,6 +4262,7 @@ struct MenuScreen;
 struct MenuScreen : FocusWindow
 {
 	LIBZHL_API void OnRender();
+	LIBZHL_API void Open();
 	LIBZHL_API void constructor();
 	
 	GL_Texture *mainImage;
@@ -4558,9 +4591,18 @@ struct CrewBox
 		this->constructor(pos_, crew_, number_);
 	}
 	
+	void DestroyCustom();
+	
 	~CrewBox()
 	{
-		this->destructor();
+		// redefined to avoid double destroy
+		DestroyCustom();
+		CSurface::GL_DestroyPrimitive(boxBackground);
+		CSurface::GL_DestroyPrimitive(boxOutline);
+		CSurface::GL_DestroyPrimitive(skillBoxBackground);
+		CSurface::GL_DestroyPrimitive(skillBoxOutline);
+		CSurface::GL_DestroyPrimitive(cooldownBar);
+		CSurface::GL_DestroyPrimitive(healthBar);
 	}
 
 	LIBZHL_API CrewMember *GetSelected(int mouseX, int mouseY);
@@ -4578,9 +4620,11 @@ struct CrewBox
 	Globals::Rect skillBox;
 	CrewMember *pCrew;
 	bool mouseHover;
+	uint8_t gap_ex_1[2];
 	TextButton powerButton;
 	int number;
 	bool bSelectable;
+	uint8_t gap_ex_2[2];
 	AnimationTracker flashHealthTracker;
 	GL_Primitive *boxBackground;
 	GL_Primitive *boxOutline;
@@ -4664,6 +4708,8 @@ struct CrewMemberFactory
 	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
 	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+	
+	float GetCrewCapacityUsed();
 
 	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
@@ -4716,6 +4762,8 @@ struct CrewStoreBox : StoreBox
 		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
 	}
 
+	LIBZHL_API bool CanHold();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	
@@ -4793,6 +4841,7 @@ struct DefenseDrone;
 struct DefenseDrone : SpaceDrone
 {
 	LIBZHL_API std::string GetTooltip();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void PickTarget();
 	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API bool ValidTargetObject(Targetable *target);
@@ -5775,6 +5824,7 @@ struct HackingSystem : ShipSystem
 {
 	LIBZHL_API void BlowHackingDrone();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API bool SoundLoop();
 	
 	bool bHacking;
 	HackingDrone drone;
@@ -6185,6 +6235,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API static int __stdcall StringToWeapon(const std::string &str);
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor(const WeaponBlueprint *bp, int shipId);
+	LIBZHL_API void destructor();
 	
 	std::pair<float, float> cooldown;
 	std::pair<float, float> subCooldown;
@@ -6377,11 +6428,6 @@ struct StatTracker
 
 struct TopScore
 {
-	TopScore(const TopScore& other)
-	{
-		//this->copy_constructor(other);
-	}
-	
 	TopScore()
 	{
 	}
@@ -6804,6 +6850,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
+	LIBZHL_API int CountPlayerCrew();
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
@@ -6825,6 +6872,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API std::vector<Drone*> GetDroneList();
 	LIBZHL_API int GetFireCount(int roomId);
 	LIBZHL_API std::vector<CrewMember*> GetLeavingCrew(bool intruders);
+	LIBZHL_API int GetMissileCount();
 	LIBZHL_API int GetOxygenPercentage();
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	LIBZHL_API ShieldPower GetShieldPower();
@@ -6851,6 +6899,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(bool showInterior, bool doorControlMode);
+	LIBZHL_API bool PowerDrone(Drone *drone, int roomId, bool userDriven, bool force);
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API void PrepareSuperDrones();
 	LIBZHL_API void RemoveItem(const std::string &name);
@@ -6869,6 +6918,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void UpdateCrewMembers();
 	LIBZHL_API void UpdateEnvironment();
 	LIBZHL_API void UpgradeSystem(int id, int amount);
+	LIBZHL_API void Wait();
 	LIBZHL_API int constructor(int shipId);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor2();
@@ -6965,6 +7015,7 @@ struct SoundControl
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	LIBZHL_API void StopPlaylist(int fadeOut);
+	LIBZHL_API void UpdateSoundLoop(const std::string &loopId, float count);
 	
 };
 
@@ -6975,7 +7026,7 @@ struct SpaceManager
 	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
 	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
-	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 
 	struct FleetShip
@@ -7357,8 +7408,23 @@ struct Store : FocusWindow
 	int forceSystemInfoWidth;
 };
 
-struct SuperShieldDrone
+struct SuperShieldDrone;
+
+struct SuperShieldDrone : DefenseDrone
 {
+	SuperShieldDrone(int iShipId, int selfId, DroneBlueprint *blueprint)
+	{
+		this->constructor(iShipId, selfId, blueprint);
+	}
+
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
+	
+	Shields *shieldSystem;
+	CachedImage drone_image_on;
+	CachedImage drone_image_off;
+	CachedImage drone_image_glow;
+	float glowAnimation;
 };
 
 struct SystemCustomBox : SystemBox

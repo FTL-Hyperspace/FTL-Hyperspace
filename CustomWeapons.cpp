@@ -101,6 +101,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             hasCustomDamage = true;
             weaponDef.customDamage->ionBeamFix = EventsParser::ParseBoolean(val);
         }
+        if (name == "invisibleBeam")
+        {
+            weaponDef.invisibleBeam = EventsParser::ParseBoolean(val);
+        }
         if (name == "simultaneousFire")
         {
             weaponDef.simultaneousFire = EventsParser::ParseBoolean(val);
@@ -172,6 +176,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             weaponDef.customDamage->erosionChance = boost::lexical_cast<int>(val);
         }
 
+        if (name == "iconReplace")
+        {
+            weaponDef.iconReplace = val;
+        }
         if (name == "iconScale")
         {
             weaponDef.iconScale = boost::lexical_cast<float>(val);
@@ -282,23 +290,24 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Fire -> Begin (CustomWeapons.cpp)\n")
-    if (blueprint->type==2 && blueprint->length==1)
+    if (blueprint->type==2 && blueprint->length<=1)
     {
-        Pointf second;
+        if (points.size() < 2) points.emplace_back(); // construct second targeting point (only if needed; arty will give two points)
         Point grid;
 
-        if (target == 1) // targeting enemy ship (TODO: change to detect weapon's owner if we expand this targeting mode beyond just beams, in case of self-targeting)
+        if (target == 1 && !artillery) // targeting enemy ship (TODO: change to detect weapon's owner if we expand this targeting mode beyond just beams, in case of self-targeting)
         {
             grid = ShipGraph::TranslateToGrid(points[0].x, points[0].y);
         }
-        else //enemy targetting picks a random slot
+        else //enemy/artillery targetting picks a random slot
         {
             int roomNumber = G_->GetShipManager(target)->ship.GetSelectedRoomId(points[0].x, points[0].y, true);
             if (roomNumber != -1)
             {
-                int numSlots = ShipGraph::GetShipInfo(target)->GetNumSlots(roomNumber);
+                ShipGraph *shipInfo = ShipGraph::GetShipInfo(target);
+                int numSlots = shipInfo->GetNumSlots(roomNumber);
                 int randomSlot = random32() % numSlots;
-                Point gridPos = ShipGraph::GetShipInfo(target)->GetSlotWorldPosition(randomSlot, roomNumber);
+                Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
                 grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
             }
         }
@@ -306,11 +315,40 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[0].x=(grid.x * 35.f + 17.0f);
         points[0].y=(grid.y * 35.f + 17.5f);
 
-        second.x=points[0].x+1.0f;
-        second.y=points[0].y;
-        points.push_back(second);
+        points[1].x=points[0].x+1.0f;
+        points[1].y=points[0].y;
     }
     super(points, target);
+}
+
+HOOK_METHOD(CombatDrone, PickTarget, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatDrone::PickTarget -> Begin (CustomWeapons.cpp)\n")
+
+    super();
+
+    if (weaponBlueprint->type==2 && weaponBlueprint->length<=1) // pinpoint beam
+    {
+        ShipManager *ship = G_->GetShipManager(currentSpace);
+
+        // check that expected ship is actually the target
+        if (&ship->_targetable == weaponTarget)
+        {
+            // move target point to random tile in the room
+            int roomNumber = ship->ship.GetSelectedRoomId(targetLocation.x, targetLocation.y, true);
+            if (roomNumber != -1)
+            {
+                ShipGraph *shipInfo = ShipGraph::GetShipInfo(ship->iShipId);
+                int numSlots = shipInfo->GetNumSlots(roomNumber);
+                int randomSlot = random32() % numSlots;
+                Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
+                Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+
+                targetLocation.x = (grid.x * 35.f + 17.5f);
+                targetLocation.y = (grid.y * 35.f + 17.5f);
+            }
+        }
+    }
 }
 
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
@@ -336,6 +374,23 @@ HOOK_METHOD(ProjectileFactory, SpendMissiles, () -> int)
     }
 
     return super();
+}
+
+// Charger pre-ignition
+HOOK_METHOD(ProjectileFactory, ForceCoolup, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::ForceCoolup -> Begin (CustomWeapons.cpp)\n")
+
+    if (CustomOptionsManager::GetInstance()->preIgniteChargers.currentValue)
+    {
+        if (powered) {
+            cooldown.first = cooldown.second;
+            chargeLevel = std::max(1, this->blueprint->chargeLevels);
+        }
+        return;
+    }
+    
+    super();
 }
 
 // Weapon Types:
@@ -563,7 +618,7 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::constructor -> Begin (CustomWeapons.cpp)\n")
     super(bp, shipId);
-
+    HS_MAKE_TABLE(this)
     if (bp->type != 2)
     {
         auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
@@ -572,6 +627,18 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
             weaponVisual.SetFireTime(def->fireTime);
         }
     }
+    
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_PROJECTILE_FACTORY, 1);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(ProjectileFactory, destructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::destructor -> Begin (CustomWeapons.cpp)\n")
+    HS_BREAK_TABLE(this)
+    super();
 }
 
 // Fix for weapon animations with many frames.
@@ -605,6 +672,35 @@ HOOK_METHOD(WeaponAnimation, Update, () -> void)
     }
 }
 
+// Invisible beams
+HOOK_METHOD(BeamWeapon, OnRenderSpecific, (int spaceId) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BeamWeapon::OnRenderSpecific -> Begin (CustomWeapons.cpp)\n")
+    if (!CustomWeaponManager::instance->GetWeaponDefinition(Get_Projectile_Extend(this)->name)->invisibleBeam)
+    {
+        super(spaceId);
+    }
+}
+
+// Icon Replace
+HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponBlueprint::RenderIcon -> Begin (CustomWeapons.cpp)\n")
+    std::string iconReplaceName = CustomWeaponManager::instance->GetWeaponDefinition(name)->iconReplace;
+    if (iconReplaceName != "")
+    {
+        Animation iconReplace = G_->GetAnimationControl()->GetAnimation(iconReplaceName);
+        iconReplace.SetCurrentFrame(0);
+        CSurface::GL_Translate(-(float)(iconReplace.info.frameWidth/2), -(float)(iconReplace.info.frameHeight/2), 0.0);
+        iconReplace.OnRender(1.f, COLOR_WHITE, false);
+        CSurface::GL_Translate((float)(iconReplace.info.frameWidth/2), (float)(iconReplace.info.frameHeight/2), 0.0);
+    }
+    else
+    {
+        super(scale);
+    }
+}
+
 // Icon Scale
 HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
 {
@@ -630,9 +726,19 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, GetProjectile, -1000, () -> Projectile*)
 
     Projectile* ret = super();
 
-    if (ret && blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+    if (ret)
     {
-        CustomWeaponManager::ProcessMiniProjectile(ret, blueprint, boostLevel);
+        if (blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+        {
+            CustomWeaponManager::ProcessMiniProjectile(ret, blueprint, boostLevel);
+        }
+
+        // Callback with Projectile and ProjectileFactory
+        auto context = Global::GetInstance()->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), ret, context->getLibScript()->types.pProjectile[ret->GetType()], 0);
+        SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_FIRE, 2, 0);
+        lua_pop(context->GetLua(), 2);
     }
 
     return ret;

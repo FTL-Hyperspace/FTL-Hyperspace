@@ -27,14 +27,14 @@ class LuaLibScript
         // Call once upon starting the game
         void call_on_load_callbacks();
 
-        // Call upon starting a new run (maybe also starting a loaded run? not sure)
-        void call_on_init_callbacks();
+        // Call upon starting a new run and loading a saved run
+        void call_on_init_callbacks(bool newGame);
 
         int call_on_internal_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
         bool call_on_internal_chain_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
 
         int call_on_render_event_pre_callbacks(RenderEvents::Identifiers, int nArg);
-        void call_on_render_event_post_callbacks(RenderEvents::Identifiers, unsigned int idx, int nArg);
+        void call_on_render_event_post_callbacks(RenderEvents::Identifiers, int idx, int nArg);
 
         void call_on_game_event_callbacks(std::string eventName, bool isLoading);
 
@@ -134,16 +134,25 @@ class LuaLibScript
         struct TypeInfo
         {
             swig_type_info *pActivatedPower;
+            swig_type_info *pActivatedPowerResource;
+            swig_type_info *pActivatedPowerRequirements;
             swig_type_info *pCollideable;
             swig_type_info *pCollisionResponse;
             swig_type_info *pCrewMember;
             swig_type_info *pDamage;
             swig_type_info *pPointf;
             swig_type_info *pProjectile[7]; // Projectile::GetType() can be used to index this array to get the correct derived class (except for CrewLaser)
+            swig_type_info *pProjectileFactory;
+            swig_type_info *pShip;
+            swig_type_info *pShipBlueprint;
+            swig_type_info *pShipEvent;
             swig_type_info *pShipManager;
             swig_type_info *pShipSystem;
+            swig_type_info *pWeaponBlueprint;
+            swig_type_info *pRoom;
 
             swig_type_info *pShipSystemTypes[21];
+            swig_type_info *pSpaceDrone;
             swig_type_info *pSpaceDroneTypes[8];
         };
 

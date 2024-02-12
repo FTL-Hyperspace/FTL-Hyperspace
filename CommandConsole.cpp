@@ -8,8 +8,8 @@
 #include <boost/lexical_cast.hpp>
 
 CommandConsole CommandConsole::instance = CommandConsole();
-
-int speedEnabled = true;
+PrintHelper PrintHelper::instance = PrintHelper();
+bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
 
@@ -23,8 +23,7 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
-    hs_log_file(cmd.c_str());
-    hs_log_file("\n");
+    hs_log_file("%s\n", cmd.c_str());
 
     std::string command = cmd;
 
@@ -93,6 +92,20 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             }
         }
         return true;
+    }
+    if (cmdName == "SKILL")
+    {
+        for (auto i : G_->GetCrewFactory()->crewMembers)
+        {
+            if (i->iShipId == 0)
+            { 
+                for (int skill = 0; skill<6; skill++)
+                {
+                    i->MasterSkill(skill);
+                }
+            }
+        }
+        G_->GetSoundControl()->PlaySoundMix("levelup", -1.f, false);
     }
     if (cmdName == "DELETECREW" || cmdName == "COOLSWORDBRO")
     {
@@ -278,7 +291,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 
-    if (key == Settings::GetHotkey("console"))
+    if (CommandConsole::GetInstance()->enabled && key == Settings::GetHotkey("console"))
     {
         if (!writeErrorDialog.bOpen &&
             !menuBox.bOpen &&
@@ -343,3 +356,45 @@ HOOK_METHOD(CFPS, OnLoop, () -> void)
     speedLevel = oldSpeedLevel;
 }
 
+void PrintHelper::Render()
+{
+    if (messages.size() > 0)
+    {
+        if (timer <= duration)
+        {
+            std::string screenMessage = std::string();
+            //Maybe change to just translate each message by the height of the previous one, but the Pointf.y value doesn't seem to be useful for that.
+            for (const auto& message : messages)
+            {
+                screenMessage += message;
+                screenMessage += "\n";
+            }
+            freetype::easy_printAutoNewlines(font, x, y, lineLength, screenMessage);
+            float increment = useSpeed ? G_->GetCFPS()->GetSpeedFactor() * 0.0625 : 1.0 / G_->GetCFPS()->NumFrames;
+            timer += increment;
+        }
+        else
+        {
+            timer = 0;
+            messages.pop_front();
+        }
+    }  
+}
+
+void PrintHelper::AddMessage(const std::string message)
+{
+
+    timer = 0;
+    messages.push_back(message);
+    if (messages.size() > messageLimit)
+    {
+        messages.pop_front();
+    }
+}
+
+HOOK_METHOD(MouseControl, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (CommandConsole.cpp)\n")
+    PrintHelper::GetInstance()->Render();
+    super();
+}

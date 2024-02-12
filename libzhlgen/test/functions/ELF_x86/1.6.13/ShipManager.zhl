@@ -28,6 +28,8 @@ cleanup __cdecl int ShipManager::CreateSystems(ShipManager *this);
 cleanup __cdecl int ShipManager::AddSystem(ShipManager *this, int systemId);
 "5589e557565331db81ecfc0000008b7d088b57188b471c":
 cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this);
+".5557565383ec1c8b7424308b5c24348b7c243c8b":
+cleanup __cdecl bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
 "5589e557565381ec9c0000008b7d088d4770":
 cleanup __cdecl void ShipManager::UpdateEnvironment(ShipManager *this);
 "5589e557565383ec6c8b4514c7442404????????8b7508":
@@ -56,6 +58,8 @@ cleanup __cdecl void ShipManager::JumpLeave(ShipManager *this);
 cleanup __cdecl void ShipManager::ModifyScrapCount(ShipManager *this, int scrap, bool income);
 "8b4424048b4c24088b9000040000837a0cff":
 cleanup __cdecl void ShipManager::ModifyMissileCount(ShipManager *this, int missiles);
+"8b4424048b9000040000837a0cff74108b40488b":
+cleanup __cdecl int ShipManager::GetMissileCount(ShipManager *this);
 "8b4424048b4c24088b9000040000837a10ff":
 cleanup __cdecl void ShipManager::ModifyDroneCount(ShipManager *this, int drones);
 "5383ec188b5424208b82000400008b401c":
@@ -178,7 +182,10 @@ cleanup __cdecl void ShipManager::UpgradeSystem(ShipManager *this, int id, int a
 cleanup __cdecl CollisionResponse ShipManager::CollisionShield(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "8b4424048b9000040000837a28ff":
 cleanup __cdecl bool ShipManager::IsCloaked(ShipManager *this);
-
+"5557565383ec1c8b4424308b50648b406889c129d1c1f90285c9747e":
+cleanup __cdecl int ShipManager::CountPlayerCrew(ShipManager *this);
+"565383ec148b5c24208b8300":
+cleanup __cdecl void ShipManager::Wait(ShipManager *this);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

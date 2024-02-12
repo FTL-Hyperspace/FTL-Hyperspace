@@ -159,74 +159,75 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 
     if(maxPower > 0) {
         powerCounter = 0;
-        while(1) {
+        [&]{
             while(1) {
-                //battery bar boxes
-                if(powerCounter < batteryEffPower){
-                    powerBarColour = powerBarColourOn;
-                    if(flashBatteryPower.running && flashTracker.Progress(-1) > 0.5 && !colourBlindOn) {
-                        powerBarColour = COLOR_WHITE;
+                while(1) {
+                    //battery bar boxes
+                    if(powerCounter < batteryEffPower){
+                        powerBarColour = powerBarColourOn;
+                        if(flashBatteryPower.running && flashTracker.Progress(-1) > 0.5 && !colourBlindOn) {
+                            powerBarColour = COLOR_WHITE;
+                        }
+
+                        CSurface::GL_RenderPrimitiveWithColor(powerBars->tiny[powerCounter], powerBarColour);
+                        CSurface::GL_RenderPrimitiveWithColor(powerBars->empty[powerCounter], borderColour);
+                        powerCounter++;
+                        if(maxPower == powerCounter){
+                            sysPowerH = 9 * maxPower;
+                            return;
+                        } else if(powerCounter == displayLevel) {
+                            sysPowerH = 9 * displayLevel;
+                            return;
+                        }
+                        continue;
                     }
 
-                    CSurface::GL_RenderPrimitiveWithColor(powerBars->tiny[powerCounter], powerBarColour);
-                    CSurface::GL_RenderPrimitiveWithColor(powerBars->empty[powerCounter], borderColour);
+                    //blue bar boxes (nebula)
+                    if(powerCounter < std::min((reactorLevel + playerPowerManager->batteryPower.second), displayLevel)) break;
+                    CSurface::GL_RenderPrimitiveWithColor(powerBars->damaged[powerCounter], blueColour);
                     powerCounter++;
-                    if(maxPower == powerCounter){
+                    if(maxPower == powerCounter) {
                         sysPowerH = 9 * maxPower;
-                        goto doubleWhileEnd;
+                        return;
                     } else if(powerCounter == displayLevel) {
                         sysPowerH = 9 * displayLevel;
-                        goto doubleWhileEnd;
+                        return;
+                    }
+                }//inner while(1) end
+
+                //power bar boxes
+                if(unusedPower > powerCounter) {
+                    if(bPowerWarningRunning) {
+                        CSurface::GL_RenderPrimitive(powerBars->normal[powerCounter]);
+                    } else {
+                        powerBarColour = powerBarColourOn;
+                        CSurface::GL_RenderPrimitiveWithColor(powerBars->normal[powerCounter], powerBarColour);
+                    }
+                    powerCounter++;
+                    if(maxPower == powerCounter) {
+                        sysPowerH = 9 * maxPower;
+                        return;
+                    } else if(powerCounter == displayLevel) {
+                        sysPowerH = 9 * displayLevel;
+                        return;
                     }
                     continue;
                 }
 
-                //blue bar boxes (nebula)
-                if(powerCounter < std::min((reactorLevel + playerPowerManager->batteryPower.second), displayLevel)) break;
-                CSurface::GL_RenderPrimitiveWithColor(powerBars->damaged[powerCounter], blueColour);
+                //empty bar boxes
+                CSurface::GL_RenderPrimitive(powerBars->empty[powerCounter]);
                 powerCounter++;
                 if(maxPower == powerCounter) {
                     sysPowerH = 9 * maxPower;
-                    goto doubleWhileEnd;
+                    return;
                 } else if(powerCounter == displayLevel) {
                     sysPowerH = 9 * displayLevel;
-                    goto doubleWhileEnd;
+                    return;
                 }
-            }//inner while(1) end
-
-            //power bar boxes
-            if(unusedPower > powerCounter) {
-                if(bPowerWarningRunning) {
-                    CSurface::GL_RenderPrimitive(powerBars->normal[powerCounter]);
-                } else {
-                    powerBarColour = powerBarColourOn;
-                    CSurface::GL_RenderPrimitiveWithColor(powerBars->normal[powerCounter], powerBarColour);
-                }
-                powerCounter++;
-                if(maxPower == powerCounter) {
-                    sysPowerH = 9 * maxPower;
-                    goto doubleWhileEnd;
-                } else if(powerCounter == displayLevel) {
-                    sysPowerH = 9 * displayLevel;
-                    goto doubleWhileEnd;
-                }
-                continue;
-            }
-
-            //empty bar boxes
-            CSurface::GL_RenderPrimitive(powerBars->empty[powerCounter]);
-            powerCounter++;
-            if(maxPower == powerCounter) {
-                sysPowerH = 9 * maxPower;
-                goto doubleWhileEnd;
-            } else if(powerCounter == displayLevel) {
-                sysPowerH = 9 * displayLevel;
-                goto doubleWhileEnd;
-            }
-        }//outer while(1) end
+            }//outer while(1) end
+        }();
     }//if(maxPower > 0) end
 
-doubleWhileEnd:
     CSurface::GL_PopMatrix();
 
     if(maxPower > 29){

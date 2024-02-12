@@ -22,30 +22,30 @@ bool g_enemyPreigniterFix = false;
 
 void ShipManager_Extend::Initialize(bool restarting)
 {
-    auto customSel = CustomShipSelect::GetInstance();
+    CustomShipSelect *customSel = CustomShipSelect::GetInstance();
 
     isNewShip = customSel->IsCustomShip(orig->myBlueprint.blueprintName);
 
-    auto def = customSel->GetDefinition(orig->myBlueprint.blueprintName);
+    CustomShipDefinition &def = customSel->GetDefinition(orig->myBlueprint.blueprintName);
     if (!importingShip)
     {
-        for (auto i : def.hiddenAugs)
+        for (auto &i : def.hiddenAugs)
         {
             G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
         }
         CustomAugmentManager::GetInstance()->UpdateAugments(orig->iShipId);
     }
 
-    for (auto i : def.roomDefs)
+    for (auto &i : def.roomDefs)
     {
         if (i.first < orig->ship.vRoomList.size())
         {
             Room *room = orig->ship.vRoomList[i.first];
             auto rex = RM_EX(room);
 
-            for (auto &def : i.second->roomAnims)
+            for (auto &def2 : i.second->roomAnims)
             {
-                rex->roomAnims.emplace_back(def, room);
+                rex->roomAnims.emplace_back(def2, room);
             }
 
             rex->sensorBlind = i.second->sensorBlind;
@@ -54,7 +54,7 @@ void ShipManager_Extend::Initialize(bool restarting)
         }
     }
 
-    for (auto i : def.shipIcons)
+    for (auto &i : def.shipIcons)
     {
         auto iconDef = ShipIconManager::instance->GetShipIconDefinition(i);
         if (iconDef)
@@ -68,7 +68,7 @@ void ShipManager_Extend::Initialize(bool restarting)
 
     if (!restarting && !revisitingShip)
     {
-        for (auto i : def.crewList)
+        for (auto &i : def.crewList)
         {
             auto species = i.species;
 
@@ -129,7 +129,7 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -1000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
 
     if (!importingShip) super();
 }
@@ -201,37 +201,75 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
     SM_EX(this)->Initialize(true);
 }
 
+float CrewMemberFactory::GetCrewCapacityUsed()
+{
+    return CustomCrewManager::GetInstance()->crewCapacityUsed;
+}
 
+static CrewBlueprint *storeCrewBlue = nullptr;
 HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
-    if (iShipId == 1) return false;
+    if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
-    if (crewLimit > crewCount)
+    if (storeCrewBlue)
     {
-        return false;
+        // If looking at a store blueprint, check if adding this crew would put the player over capacity
+        CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(storeCrewBlue->name);
+        if (crewDef)
+        {
+            crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
+        }
+        else
+        {
+            crewCount += 1.f;
+        }
+        return crewCount > crewLimit;
     }
+    else
+    {
+        // Just check whether there is any capacity remaining, add an extra 0.001 to crewCount so if there's less than 0.001 slot then act as though it is full
+        return crewCount + 0.001f >= crewLimit;
+    }
+}
 
-    return true;
+HOOK_METHOD(CrewStoreBox, CanHold, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewStoreBox::CanHold -> Begin (CustomShips.cpp)\n")
+
+    storeCrewBlue = &blueprint;
+    bool ret = super();
+    storeCrewBlue = nullptr;
+
+    return ret;
+}
+
+HOOK_METHOD(CrewStoreBox, MouseMove, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewStoreBox::MouseMove -> Begin (CustomShips.cpp)\n")
+
+    storeCrewBlue = &blueprint;
+    super(mX, mY);
+    storeCrewBlue = nullptr;
 }
 
 HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewOverFull -> Begin (CustomShips.cpp)\n")
-    if (iShipId == 1) return false;
+    if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
     if (crewLimit >= crewCount) return false;
 
+    // Allow the upgrade/equipment screens to be opened without forcing the crew screen open
     CommandGui *commandGui = G_->GetWorld()->commandGui;
-
     return !(commandGui->upgradeScreen.bOpen || commandGui->equipScreen.bOpen);
 }
 
@@ -454,6 +492,22 @@ void RoomAnim::LoadState(int fd, Room *room)
     }
 }
 
+HOOK_METHOD(SoundControl, UpdateSoundLoop, (const std::string &loopId, float count) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SoundControl::UpdateSoundLoop -> Begin (CustomShips.cpp)\n")
+
+    if (loopId == "hackLoop") return;
+
+    if (loopId == "hackLoopHS")
+    {
+        super("hackLoop", count);
+    }
+    else
+    {
+        super(loopId, count);
+    }
+}
+
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
@@ -472,6 +526,39 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             ex->erosion.anim->OnUpdate();
         }
     }
+
+    bool hackSoundLoop = false;
+    if (hackingSystem)
+    {
+        hackSoundLoop = hackingSystem->SoundLoop();
+    }
+    if (!hackSoundLoop)
+    {
+        ShipManager* otherShip = G_->GetShipManager(iShipId == 1 ? 0 : 1);
+        if (otherShip)
+        {
+            for (auto system : otherShip->vSystemList)
+            {
+                if (system->bUnderAttack && system->iHackEffect == 2)
+                {
+                    hackSoundLoop = true;
+                    break;
+                }
+            }
+        }
+        if (!hackSoundLoop)
+        {
+            for (auto system : vSystemList)
+            {
+                if (system->bUnderAttack && system->iHackEffect == 2)
+                {
+                    hackSoundLoop = true;
+                    break;
+                }
+            }
+        }
+    }
+    G_->GetSoundControl()->UpdateSoundLoop("hackLoopHS", hackSoundLoop ? 1.f : 0.f);
 }
 
 
@@ -927,7 +1014,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
     super(bp);
 
-    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->imgFile + ".xml");
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->layoutFile + ".xml");
     if (xmltext)
     {
         bool hasThrusters = false;
@@ -1096,6 +1183,8 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 
             if (nThrusters) bShowEngines = true;
         }
+
+        delete [] xmltext;
     }
 }
 
@@ -1110,48 +1199,103 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 }
 
-HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
+HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
-    super(false);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
 
-    if (engines && bShowEngines)
+    ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
+    float xPos = (float)(shipGraph->shipBox).x;
+    float yPos = (float)(shipGraph->shipBox).y;
+
+    // Calculate cloak alpha for each sprite
+    float alphaCloak = 0.f;
+    float alphaOther = 1.f;
+    float alphaHull = 1.f;
+    if (cloakingTracker.running)
     {
-        float alpha = 1.f;
-        if (bCloaked)
+        alphaCloak = cloakingTracker.Progress(-1.f);
+        alphaOther = (1.f - alphaCloak) * 0.5f + 0.5f;
+        alphaHull = bCloaked ? alphaOther * 0.75f : (1.f - alphaCloak) * 0.625f + 0.375f;
+    }
+    else if (bCloaked)
+    {
+        alphaCloak = 1.f;
+        alphaOther = 0.5f;
+        alphaHull = 0.375f;
+    }
+    
+    // Lua callback init
+    auto context = Global::GetInstance()->getLuaContext();
+    
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), alphaCloak);
+    
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
+
+    if (idx >= 0)
+    {
+        // Render hull
+        CSurface::GL_Translate(xPos, yPos, 0.0);
+        CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
+
+        // Render cloak
+        if (alphaCloak > 0.f)
         {
-            alpha = 0.5f;
-            if (cloakingTracker.running)
+            if (!shipImageCloak.tex && !cloakImageName.empty())
             {
-                alpha = 1.f - 0.5f * cloakingTracker.Progress(-1.f);
+                ResourceControl *resources = G_->GetResources();
+                GL_Texture *image = resources->GetImageId(cloakImageName);
+                shipImageCloak.tex = image;
+                shipImageCloak.w = image ? image->width_ : 1;
+                shipImageCloak.h = image ? image->height_ : 1;
+                cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
             }
+            CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
         }
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
+
+        // Render thruster animations
+        if (engines && bShowEngines)
         {
-            if (anim.second)
+            if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+            if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+            for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
             {
-                if (anim.second == -1)
+                if (anim.second)
                 {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
+                    if (anim.second == -1)
+                    {
+                        CSurface::GL_PushMatrix();
+                        CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                        anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+                        CSurface::GL_PopMatrix();
+                    }
+                    else
+                    {
+                        CSurface::GL_PushMatrix();
+                        CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                        anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
+                        CSurface::GL_PopMatrix();
+                    }
                 }
                 else
                 {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
+                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
                 }
             }
-            else
-            {
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-            }
         }
+    }
+
+    // Lua callback close
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_HULL, std::abs(idx), 2);
+    lua_pop(context->GetLua(), 2);
+
+    // Render floor
+    if (iShipId == 0)
+    {
+        CSurface::GL_Translate(xPos, yPos, 0.0);
+        CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
 }
 

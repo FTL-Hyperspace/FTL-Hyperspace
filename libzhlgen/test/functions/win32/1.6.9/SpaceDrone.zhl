@@ -8,3 +8,7 @@ virtual __thiscall void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetab
 __thiscall CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b01ff507c8b0389d9ff908000000084c0":
 virtual __thiscall Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+"578d????0883e4f0ff????5589e557565389cb83c150":
+__thiscall void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint);
+"558d9118030000":
+__thiscall void SpaceDrone::destructor(SpaceDrone* this);

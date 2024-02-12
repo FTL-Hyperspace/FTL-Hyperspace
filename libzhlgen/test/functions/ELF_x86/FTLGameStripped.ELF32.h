@@ -3479,9 +3479,11 @@ struct CrewBox
   Globals__Rect skillBox;
   CrewMember *pCrew;
   bool mouseHover;
+  uint8_t gap_ex_1[2];
   TextButton powerButton;
   int number;
   bool bSelectable;
+  uint8_t gap_ex_2[2];
   AnimationTracker flashHealthTracker;
   GL_Primitive *boxBackground;
   GL_Primitive *boxOutline;
@@ -4848,7 +4850,15 @@ struct BoarderDrone
 };
 
 /* 163 */
-struct SuperShieldDrone;
+struct SuperShieldDrone
+{
+  DefenseDrone _base;
+  Shields *shieldSystem;
+  CachedImage drone_image_on;
+  CachedImage drone_image_off;
+  CachedImage drone_image_glow;
+  float glowAnimation;
+};
 
 /* 164 */
 struct DefenseDrone
