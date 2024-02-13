@@ -90,7 +90,7 @@ In the "System Information", the right information board you should find the ite
 
 For building ZHL files you need some dependencies, run all the following command in `wsl`
 ```
-sudo apt-get install lua5.3 lua5.3-dev luarocks
+sudo apt-get install lua5.3 luarocks
 sudo luarocks install luafilesystem
 sudo luarocks install lpeg
 ```
