@@ -30,6 +30,7 @@ public:
     // movable
     FreeTypeFont(FreeTypeFont&&) = default;
     FreeTypeFont& operator=(FreeTypeFont&&) = default;
+    FreeTypeFont(const FreeTypeFont&);
 
     ~FreeTypeFont()
     {
