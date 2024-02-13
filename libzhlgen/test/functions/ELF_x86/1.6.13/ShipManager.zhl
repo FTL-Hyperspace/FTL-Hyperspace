@@ -184,7 +184,8 @@ cleanup __cdecl CollisionResponse ShipManager::CollisionShield(ShipManager *this
 cleanup __cdecl bool ShipManager::IsCloaked(ShipManager *this);
 "5557565383ec1c8b4424308b50648b406889c129d1c1f90285c9747e":
 cleanup __cdecl int ShipManager::CountPlayerCrew(ShipManager *this);
-
+"565383ec148b5c24208b8300":
+cleanup __cdecl void ShipManager::Wait(ShipManager *this);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

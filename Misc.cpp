@@ -1060,6 +1060,16 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
     if (!preempt) super(mX, mY);
 }
 
+HOOK_METHOD(ShipManager, Wait, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (InternalEvents.cpp)\n")
+    super();
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_WAIT, 1);
+    lua_pop(context->GetLua(), 1);
+}
+
 //////////////////////////////////////////////////
 //////////////// RenderEvents.cpp ////////////////
 //////////////////////////////////////////////////
