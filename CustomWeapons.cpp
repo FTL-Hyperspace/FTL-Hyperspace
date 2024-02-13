@@ -319,7 +319,8 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[1].y=points[0].y;
     }
     super(points, target);
-    if (cooldown.second < 0)
+    // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
+    if (cooldown.second < 0 && iShipId == 0)
     {
         targets.clear();
     }    
@@ -348,8 +349,22 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
                 Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
                 Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
 
-                targetLocation.x = (grid.x * 35.f + 17.5f);
-                targetLocation.y = (grid.y * 35.f + 17.5f);
+                bool alreadyDone = false;
+                for (int i = 0; i < numSlots; ++i)
+                {
+                    Point testGridPos = shipInfo->GetSlotWorldPosition(i, roomNumber);
+                    Point testGrid = ShipGraph::TranslateToGrid(testGridPos.x, testGridPos.y);
+                    if (targetLocation.x == testGrid.x * 35.f + 17.5f && targetLocation.y == testGrid.y * 35.f + 17.5f)
+                    {
+                        alreadyDone = true;
+                        break;
+                    }
+                }
+                if (!alreadyDone)
+                {
+                    targetLocation.x = (grid.x * 35.f + 17.5f);
+                    targetLocation.y = (grid.y * 35.f + 17.5f);
+                }
             }
         }
     }
