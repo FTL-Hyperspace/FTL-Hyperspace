@@ -6335,8 +6335,8 @@ struct freetype
 
 	struct font_data
 	{
-		LIBZHL_API static void clean();
-		LIBZHL_API static void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void clean();
+		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
 		
 		float h;
 		int font;

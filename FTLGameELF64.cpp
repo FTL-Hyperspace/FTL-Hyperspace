@@ -18449,7 +18449,7 @@ void WorldManager::PauseLoop()
 namespace _func1450
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::font_data::init", typeid(void (*)(const void *, int , unsigned int , bool )), "89c9534889fbf3480f2ac14889f731c989d631d2", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::font_data::init", typeid(void (freetype::font_data::*)(const void *, int , unsigned int , bool )), "89c9534889fbf3480f2ac14889f731c989d631d2", nullptr, 0, 0, &func);
 }
 
 void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int h, bool glow)
@@ -18462,7 +18462,7 @@ void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int 
 namespace _func1451
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (*)()), "!.8b7f04e9", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.8b7f04e9", nullptr, 0, 0, &func);
 }
 
 void freetype::font_data::clean()

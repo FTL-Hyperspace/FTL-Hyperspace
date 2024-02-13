@@ -19941,7 +19941,7 @@ namespace _func1459
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::font_data::init", typeid(void (*)(const void *, int , unsigned int , bool )), "5383ec288b44243c8b5c24300fb7d0c1e810", argdata, 5, 6, &func);
+	static FunctionDefinition funcObj("freetype::font_data::init", typeid(void (freetype::font_data::*)(const void *, int , unsigned int , bool )), "5383ec288b44243c8b5c24300fb7d0c1e810", argdata, 5, 6, &func);
 }
 
 void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int h, bool glow)
@@ -19955,7 +19955,7 @@ namespace _func1460
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (*)()), "!.8b4424048b400489442404", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.8b4424048b400489442404", argdata, 1, 6, &func);
 }
 
 void freetype::font_data::clean()
