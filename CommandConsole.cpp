@@ -3,6 +3,7 @@
 #include "CustomStore.h"
 #include "CustomOptions.h"
 #include "CustomEvents.h"
+#include "CustomShipGenerator.h"
 #include "CustomScoreKeeper.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
@@ -261,6 +262,16 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             }
             hs_log_file("Metavariable %s = %d\n", varName.c_str(), metaVariables[varName]);
         }
+        return true;
+    }
+    if(cmdName == "SWITCH")
+    {
+        if (command.length() > 7)
+        {
+            std::string shipName = boost::trim_copy(command.substr(7));
+            commandGui->shipComplete->shipManager = CustomShipGenerator::GetShipGenerator()->CreateShip(G_->GetBlueprints()->GetShipBlueprint(shipName, -1), -1);
+        }
+        
         return true;
     }
 
