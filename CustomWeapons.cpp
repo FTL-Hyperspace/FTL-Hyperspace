@@ -319,6 +319,10 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[1].y=points[0].y;
     }
     super(points, target);
+    if (cooldown.second < 0)
+    {
+        targets.clear();
+    }    
 }
 
 HOOK_METHOD(CombatDrone, PickTarget, () -> void)
