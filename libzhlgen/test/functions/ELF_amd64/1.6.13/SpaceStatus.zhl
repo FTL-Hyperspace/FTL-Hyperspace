@@ -1,4 +1,4 @@
-"41564889d08d4add48c1e820"
+"41564889d08d4add48c1e820":
 cleanup __amd64 void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager *space, Point pos);
 ".415741564155415449bc0000":
 cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
