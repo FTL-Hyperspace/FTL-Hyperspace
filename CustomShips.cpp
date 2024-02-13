@@ -1014,7 +1014,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
     super(bp);
 
-    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->imgFile + ".xml");
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->layoutFile + ".xml");
     if (xmltext)
     {
         bool hasThrusters = false;
@@ -1273,32 +1273,35 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
 
-    // Render hull
-    CSurface::GL_Translate(xPos, yPos, 0.0);
-    CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
-
-    // Render cloak
-    if (alphaCloak > 0.f)
+    if (idx >= 0)
     {
-        if (!shipImageCloak.tex && !cloakImageName.empty())
+        // Render hull
+        CSurface::GL_Translate(xPos, yPos, 0.0);
+        CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
+
+        // Render cloak
+        if (alphaCloak > 0.f)
         {
-            ResourceControl *resources = G_->GetResources();
-            GL_Texture *image = resources->GetImageId(cloakImageName);
-            shipImageCloak.tex = image;
-            shipImageCloak.w = image ? image->width_ : 1;
-            shipImageCloak.h = image ? image->height_ : 1;
-            cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
+            if (!shipImageCloak.tex && !cloakImageName.empty())
+            {
+                ResourceControl *resources = G_->GetResources();
+                GL_Texture *image = resources->GetImageId(cloakImageName);
+                shipImageCloak.tex = image;
+                shipImageCloak.w = image ? image->width_ : 1;
+                shipImageCloak.h = image ? image->height_ : 1;
+                cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
+            }
+            CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
         }
-        CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
-    }
-    CSurface::GL_Translate(-xPos, -yPos, 0.0);
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
 
-    // Render thruster animations
-    if (engines && bShowEngines)
-    {
-        RenderEngineAnimation(alphaOther);
+        // Render thruster animations
+        if (engines && bShowEngines)
+        {
+            RenderEngineAnimation(alphaOther);
+        }
     }
-    
+
     // Lua callback close
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_HULL, std::abs(idx), 2);
     lua_pop(context->GetLua(), 2);

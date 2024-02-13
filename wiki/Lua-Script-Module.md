@@ -51,13 +51,27 @@ Register a function to call upon starting a run
 #### Parameters:
 
 *   callback `function`
-    * Callback function to register
+    * Callback function to register *note this function can take an argument which specifies whether it was called for starting a new game or loading a saved game*
 
 Your function will be called once upon starting a new run (and/or loading a run)
 
 Functions will be called in the order they are registered, lua entry scripts are executed in the order they are defined in the hyperspace.xml, so if your mod was defined before another in Slipstream it'll load before the other mod.
 
 **Warning:** you can accidentally register your function multiple times and it will be called multiple times!
+
+#### Usage:
+
+  ```lua
+  function myModGameStartCode(newGame)
+    if (newGame) then
+      log("My code was run after a new game started")
+    else
+      log("My code was run after a saved game loaded")
+    end
+  end
+
+  script.on_init(myModGameStartCode)
+  ```
 
 <a name="func-on_internal_event"></a>
 ### on\_internal\_event([`InternalEvents`](Lua-Defines-module#internal-events) event, callback)
