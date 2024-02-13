@@ -269,7 +269,8 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         if (command.length() > 7)
         {
             std::string shipName = boost::trim_copy(command.substr(7));
-            commandGui->shipComplete->shipManager = CustomShipGenerator::GetShipGenerator()->CreateShip(G_->GetBlueprints()->GetShipBlueprint(shipName, -1), -1);
+            hs_log_file("Loading new ship\n");
+            commandGui->shipComplete->shipManager = G_->GetShipManager(5);
         }
         
         return true;
