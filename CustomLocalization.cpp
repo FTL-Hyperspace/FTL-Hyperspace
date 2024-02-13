@@ -28,6 +28,7 @@ public:
     }
 
     // movable
+    FreeTypeFont() = default;
     FreeTypeFont(FreeTypeFont&&) = default;
     FreeTypeFont& operator=(FreeTypeFont&&) = default;
     FreeTypeFont(const FreeTypeFont&);
