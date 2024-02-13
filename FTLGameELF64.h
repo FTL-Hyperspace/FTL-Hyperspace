@@ -7798,7 +7798,7 @@ extern LIBZHL_API bool *Globals_RNG;
 extern LIBZHL_API FILE *ftl_log_logfile;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOn;
-extern LIBZHL_API std::vector<std::String> *Global_OptionsScreen_languageList;
+extern LIBZHL_API std::vector<std::string> *Global_OptionsScreen_languageList;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;

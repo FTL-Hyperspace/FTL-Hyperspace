@@ -8904,7 +8904,7 @@ void ItemStoreBox::constructor(ShipManager *ship, const std::string &resourceNam
 	return execfunc(this, ship, resourceName);
 }
 
-std::vector<std::String> *Global_OptionsScreen_languageList;
+std::vector<std::string> *Global_OptionsScreen_languageList;
 
 namespace _var692
 {
