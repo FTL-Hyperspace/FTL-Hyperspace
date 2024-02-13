@@ -28,7 +28,6 @@ public:
     }
 
     // movable
-    FreeTypeFont() = default;
     FreeTypeFont(FreeTypeFont&&) = default;
     FreeTypeFont& operator=(FreeTypeFont&&) = default;
     FreeTypeFont(const FreeTypeFont&);
@@ -168,7 +167,7 @@ public:
 };
 
 // Font data comes in pair: (normal, outlined).
-std::unordered_map<std::string, std::pair<FreeTypeFont, FreeTypeFont>> g_customFontOverrides;
+static std::unordered_map<std::string, std::pair<FreeTypeFont, FreeTypeFont>> g_customFontOverrides;
 
 void AddLanguage(const char *langcode)
 {
