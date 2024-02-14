@@ -1313,9 +1313,9 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     }
 }
 
-HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
+HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
 
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
     float sparkProgress = progress/0.75;
