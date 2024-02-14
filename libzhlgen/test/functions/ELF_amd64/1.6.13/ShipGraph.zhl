@@ -32,8 +32,6 @@ cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 cleanup __amd64 int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 ".488b4708482b0748c1f803":
 cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this);
-".4883ec184c8b0e4c8b46084889f84d29c849c1f8034d85c0":
-cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int room);
 ".85f60f57c0":
 cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 ".85f6b801000000":
@@ -103,6 +101,22 @@ struct ShipGraph depends (Point, Pointf, Room)
 		}
 		
 		return Pointf(xx, yy);
+	}
+	
+	// This function is messed up in Linux so just redefine it manually
+	Globals::Rect GetRoomShape(int roomId) 
+	{
+		auto rooms = this->rooms;
+		
+		for (auto const& x: rooms)
+		{
+			if (roomId == x->iRoomId)
+			{
+				return x->GetRect();
+			}
+		}
+		
+		return {-1, -1, 0, 0};
 	}
 	
 }};

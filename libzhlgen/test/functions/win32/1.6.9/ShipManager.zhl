@@ -182,7 +182,8 @@ __thiscall bool ShipManager::IsCloaked(ShipManager *this);
 __thiscall void ShipManager::UpgradeSystem(ShipManager *this, int id, int amount);
 "5589e557565383e4f083ec108b41688b516489c3":
 __thiscall int ShipManager::CountPlayerCrew(ShipManager *this);
-
+"578d????0883e4f0ff????5589e557565389cb83ec1c8b81c8040000":
+__thiscall void ShipManager::Wait(ShipManager *this);
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId) 
