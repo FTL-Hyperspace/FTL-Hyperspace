@@ -1,0 +1,17 @@
+"554889e5534883ec184889fbbf20000000e8????1900488945f00f2805????19000f2945e048b9795f776561":
+cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
+
+
+struct WeaponStoreBox
+{{
+	WeaponStoreBox(ShipManager *_ship, Equipment *_equip, const WeaponBlueprint *_bp)
+	{
+		this->constructor(_ship, _equip, _bp);
+	}
+	
+	WeaponStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
+}};

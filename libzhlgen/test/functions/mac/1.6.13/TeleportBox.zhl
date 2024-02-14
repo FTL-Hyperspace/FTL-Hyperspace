@@ -1,0 +1,11 @@
+"554889e54157415641554154534883ec??4889d34989fdb9":
+cleanup __amd64 void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
+
+
+struct TeleportBox
+{{
+	TeleportBox(Point pos, TeleportSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

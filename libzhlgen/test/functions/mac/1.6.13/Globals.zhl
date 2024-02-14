@@ -1,0 +1,20 @@
+"554889e54883ec400f294d??0f2945??":
+static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
+"554889e58b05????????85c0750fc705????????64000000":
+static __amd64 int Globals::GetNextSpaceId();
+"554889e5f30f16d9":
+static cleanup __amd64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
+"554889e54883ec40f30f114d??0f2945??":
+static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, float heading);
+
+"!458ba6c0410000458bbec4410000488d1d(???????\?)488d4b3??":
+offsetVariable TextLibrary* Global_Globals_Library;
+
+"!554889e58b05(???????\?)85c075??":
+offsetVariable int* Globals_GetNextSpaceId_id;
+
+"!e8????????488d0d(???????\?)80390074??":
+offsetVariable bool* Globals_RNG;
+
+"!74??488d35????????488dbdc0fbffffe8????????4889c748893d(???????\?)":
+offsetVariable FILE* ftl_log_logfile;

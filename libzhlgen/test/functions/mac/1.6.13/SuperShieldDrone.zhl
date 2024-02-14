@@ -1,0 +1,11 @@
+"554889e54157415641554154534883ec??4889fbe8????????488d05":
+cleanup __amd64 void SuperShieldDrone::constructor(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint);
+
+
+struct SuperShieldDrone
+{{
+	SuperShieldDrone(int iShipId, int selfId, DroneBlueprint *blueprint)
+	{
+		this->constructor(iShipId, selfId, blueprint);
+	}
+}};
