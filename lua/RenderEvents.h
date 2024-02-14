@@ -23,6 +23,7 @@ struct RenderEvents
         ////SHEILDS_BASE, // Shields::OnRenderBaseShield
         ////SHIP_BASE, // Ship::OnRenderBase
         SHIP_HULL, // Inside Ship::OnRenderBase
+        SHIP_ENGINES, //Inside Ship::OnRenderBase (Engine animation)
         SHIP_FLOOR, // Ship::OnRenderFloor
         ////SHIP_FLOOR_EFFECTS, // Ship::OnRenderFloorEffects
         ////SHIP_SYSTEM, // Ship::OnRenderSystem, might need to do a separate PLAYER & ENEMY version or pass that info maybe

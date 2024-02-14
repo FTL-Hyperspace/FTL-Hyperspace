@@ -19,7 +19,7 @@ typedef int LuaFunctionRef;
 #define HS_BREAK_TABLE(pointer)\
     auto L = G_->getLuaContext()->GetLua();\
     lua_pushnil(L);\
-    lua_rawsetp(L, LUA_REGISTRYINDEX, pointer);\ 
+    lua_rawsetp(L, LUA_REGISTRYINDEX, pointer);\
 
 
 #endif // LUAINCLUDE_H_INCLUDED
