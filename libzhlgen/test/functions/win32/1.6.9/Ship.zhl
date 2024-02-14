@@ -57,6 +57,8 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+
+	void RenderEngineAnimation(bool showEngines, float alpha);
 	
 	enum DoorStateType
 	{
