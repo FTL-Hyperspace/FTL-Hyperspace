@@ -269,8 +269,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         if (command.length() > 7)
         {
             std::string shipName = boost::trim_copy(command.substr(7));
-            hs_log_file("Loading new ship\n");
-            commandGui->shipComplete->shipManager = G_->GetShipManager(5);
+            hs_log_file("Loading new ship %s\n", shipName.c_str());
+            //commandGui->shipComplete->shipManager = G_->GetShipManager(5);
+            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+            ShipManager *ship = new ShipManager(0);
+            ship->OnInit(bp, 0);
+            G_->GetWorld()->playerShip->SetShip(ship);
         }
         
         return true;
