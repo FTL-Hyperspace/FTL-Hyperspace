@@ -1199,14 +1199,15 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 }
 
-void Ship::RenderEngineAnimation(float alpha)
+void Ship::RenderEngineAnimation(bool showEngines, float alpha)
 {
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), showEngines);
     lua_pushnumber(context->GetLua(), alpha);
     
-    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_ENGINES, 2);
-    if (idx >= 0)
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_ENGINES, 3);
+    if (showEngines && idx >= 0)
     {
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
@@ -1235,9 +1236,9 @@ void Ship::RenderEngineAnimation(float alpha)
             }
         }
     }
-    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_ENGINES, std::abs(idx), 2);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_ENGINES, std::abs(idx), 3);
 
-    lua_pop(context->GetLua(), 2);
+    lua_pop(context->GetLua(), 3);
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
@@ -1296,10 +1297,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
 
         // Render thruster animations
-        if (engines && bShowEngines)
-        {
-            RenderEngineAnimation(alphaOther);
-        }
+        RenderEngineAnimation(engines && bShowEngines, alphaOther);
     }
 
     // Lua callback close
@@ -1318,16 +1316,64 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
-    bool customEngines = bShowEngines && thrustersImage == nullptr;
-    if (customEngines) bShowEngines = false;
-    super(progress);
-    if (customEngines) bShowEngines = true;
 
-    if (customEngines)
+    ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
+    float sparkProgress = progress/0.75;
+    float sparkScale = 0.0;
+    float sparkX = 0.0;
+    float sparkY = 0.0;
+
+    // Render hull image
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(shipGraph->shipBox.x, shipGraph->shipBox.y, 0.0);
+    shipImagePrimitive->textureAntialias = iShipId == 0;
+    CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, 1.0 - progress);
+    shipImagePrimitive->textureAntialias = false;
+    CSurface::GL_PopMatrix();
+
+    // Calculate values
+    if (sparkProgress < 1.0)
     {
-        float alpha = 1.f - std::min(progress / 0.75f, 1.f);
-        RenderEngineAnimation(alpha);
+        if (0.0 < sparkProgress)
+        {
+            if (sparkProgress < 0.5)
+            {
+                sparkScale = sparkProgress*600.0 + sparkProgress*600.0 + 64.0;
+                sparkX = sparkScale*0.5;
+            }
+            else
+            {
+                sparkX = (sparkProgress - 0.5)*600.0;
+                sparkScale = 600.0 - (sparkX + sparkX);
+                sparkX = sparkScale*0.5;
+            }
+        }
     }
+    else
+    {
+        sparkProgress = 1.0;
+    }
+    if (iShipId == 0)
+    {
+        sparkY = (float)(shipGraph->shipBox.h/2) - sparkX;
+        sparkX = -sparkScale*0.5 + (float)shipGraph->shipBox.w*sparkProgress;
+    }
+    else
+    {
+        sparkY = (float)shipGraph->shipBox.h;
+        sparkY = (sparkY - sparkX) - sparkY*sparkProgress;
+        sparkX = (float)(shipGraph->shipBox.w/2) - sparkX;
+    }
+
+    // Render thrusters
+    RenderEngineAnimation(bShowEngines, 1.f - sparkProgress);
+
+    // Render jump spark
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(shipGraph->shipBox.x + sparkX, shipGraph->shipBox.y + sparkY, 0.0);
+    CSurface::GL_Scale(sparkScale*0.015625, sparkScale*0.015625, 0.0);
+    CSurface::GL_BlitPixelImage(jumpGlare, 0.0, 0.0, 64.0, 64.0, 0.0, COLOR_WHITE, false);
+    CSurface::GL_PopMatrix();
 }
 
 // save and load rooms

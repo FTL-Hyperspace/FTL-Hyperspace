@@ -6653,7 +6653,7 @@ struct Ship : ShipObject
 		return graph->GetRoomCenter(room);
 	}
 
-	void RenderEngineAnimation(float alpha);
+	void RenderEngineAnimation(bool showEngines, float alpha);
 	
 	enum DoorStateType
 	{
