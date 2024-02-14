@@ -1,68 +1,95 @@
-## Building
+# Building
 
-Note that these instructions are a WIP so if you follow them, please report any issues you find and propose any recommendations (e.g., if you needed to perform an additional step or if you were able to omit a step).
+You will need to have Git installed. If you do not have it, it can be downloaded it here: https://git-scm.com/downloads
 
-We currently build in CodeBlocks... someone could setup CMake and or GNU Autotools for us but currently we don't use a makefile at all...
-So, you'll need *CodeBlocks* installed
+### Enabling Hyper-V
 
-Install several libraries needed for building
-Boost C++ library (Hyperspace currently uses 1.70)
-SWIG 4
-Lua 5.3
+Press the Windows key, search for "Turn Windows feature on or off" and open it.
 
-You need `gcc` and all the basic C dev stuff
-***NOTE*** Unlike the Linux version, the Windows version of FTL was built with GCC 5.3.1, and newer versions of GCC and libstdc++ should also work.
+[[/img/building-tutorial/winfeat.png]]
 
-### Installing GCC/MinGW
-CodeBlocks comes with its own version of MinGW which includes GNU compilers. However we need a different version to build for FTL correctly:
+Inside Windows Features, ensure that Hyper-V is activated if it is present in the list.
 
-1. Install mingw-builds mingw-w64 from http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download
-2. Setup the mingw-w64 GCC as CodeBlocks default GCC. This can be done by going to Settings -> Compiler..., select GNU GCC Compiler, select the "Toolchain executables" tab, then change the installation directory to the mingw-w64 you installed.
+[[/img/building-tutorial/hyper-v.png]]
 
-mingw32 should also work as FTL on Windows is 32-bit.
+### Installing Docker Desktop
 
-### Installing Clang
-In the end you need MinGW for the libstdc++ library but we'll use LLVM-Clang for the actual build, as Clang is able to build an optimized DLL that works, but GCC cannot.
+Go to [the Docker website](https://www.docker.com/products/docker-desktop/) and select "Download for Windows." You do not need to create an account.
 
-1. Install LLVM-Clang 10 (not 11 or later), 32-bit or 64-bit.
-2. Set CodeBlocks to use the LLVM-Clang instance you just installed as its default LLVM-Clang compiler (same method as step 2 for installing MinGW).
+Once downloaded, run the installer. It takes some time, so you can continue to the next step while it works.
 
-### Installing Lua
-Download lua 5.3 from lua.org, extract and follow the build instructions.
+### Installing WSL Ubuntu
 
-For Windows you may use the following steps after extraction:
+The build process runs on Ubuntu, meaning you have to virtualise a UNIX environment. Windows Subsystem for Linux will provide this environment.
 
-1. Create a new CodeBlocks DLL project in the lua directory and add every file in the src directory except for lua.c (interpreter) and luac.c (compiler).
-2. Set the project's compiler/linker build options to match those for Hyperspace.
-3. Set the library target directory to the lib subdirectory.
-4. Build Lua (remember to build for 32-bit, not 64-bit, if you've followed step 2 you should get a 32-bit build).
-5. Copy the DLL to your FTL installation directory. The DLL is needed to run Hyperspace.
+Open the command prompt (Win+R, type "cmd" then press enter). Inside the command prompt type `wsl --install Ubuntu`. This should start the installation process. You will be asked to enter a username and a password.
 
-### Installing Boost
-Download Boost version 1.70 and extract the Boost library to your preferred directory.
+[[/img/building-tutorial/wslUbuntu.png]]
 
-### Installing SWIG 4
-Download and extract swigwin-4.0.2. Then add it to your PATH (either in CodeBlocks or system-wide).
+At the end of the installation process you will be asked to reboot you computer. If Docker Desktop is still installing, wait for it to finish before doing so.
+
+### Setting Up Docker Desktop
+
+Once you have rebooted your computer, launch Docker Desktop. Go inside the settings (up, next to the search bar). Under "General," ensure that `Use the WSL 2 based engine (Windows Home can only run the WSL 2 backend)` is activated.
+
+[[/img/building-tutorial/wsldocker.png]]
+
+Keep Docker Desktop open for the rest of the guide.
+
+### Setting Up WSL
+
+Return to the command prompt (Win+R, type "cmd" then enter). Type `wslconfig /l`. The output should look something like this.
+
+[[/img/building-tutorial/badwsl.png]]
+
+You will need to set WSL Ubuntu as the default. Type `wslconfig /s Ubuntu`. The output should look like this after rerunning `wslconfig /l`.
+
+[[/img/building-tutorial/goodwsl.png]]
+
+### Cloning the Repository
+
+In the command prompt, type `wsl`, navigate to the folder you want to clone the Hyperspace repository to using the `cd` command to change directories, then run `git clone https://github.com/FTL-Hyperspace/FTL-Hyperspace.git`.
+
+[[/img/building-tutorial/clonehs.png]]
+
+This will clone the current Hyperspace repository from GitHub to your computer. If you plan to contribute to Hyperspace, instead of cloning the original repository, you can create a fork and clone that instead.
+
+Once the repo is cloned, you can `cd` into `FTL-Hyperspace/buildscripts/windows/` to enter the folder where the Windows build scripts are located.
+
+[[/img/building-tutorial/reachsh.png]]
+
+Inside the folder, run `sudo chmod 777 *` to ensure that your system will authorize the execution of those file when building Hyperspace.
 
 ### Building Hyperspace
-Before you build Hyperspace you will need to configure the following environment variables (in addition to adding SWIG to your PATH):
 
-1. FTL_PATH = C:\Path\To\FasterThanLight (replace with your actual path to the directory containing FTLGame.exe)
-2. LUA_DIR = C:\Path\To\lua-5.3.6 (replace with your actual path)
-3. BOOST_DIR = C:\Path\To\boost (replace with your actual path)
+Ensure that you have Docker Desktop running, otherwise the build will not start. While still in WSL, inside `FTL-Hyperspace/buildscripts/windows/`, run `./build-releaseonly-from-docker.sh`
 
-Note that spaces and quotation marks are not allowed in these paths. If any directory name has a space (e.g., "Program Files"), you must replace it with the directory's 8.3 filename. You can use the command `dir /x` to show the short filenames in a directory alongside the long names.
+If everything has been set up correctly, the build will start. The first build of Hyperspace will take some time as it has to install all dependencies and build from scratch, subsequent builds will be faster.
 
-There should already be build targets set up for building with either GCC or LLVM-Clang, either an unoptimized debug build or an optimized release build (optimized only with Clang).
-Any compiler options or #defines required for each build target should already be configured (at least for LLVM-Clang; the GCC targets are deprecated).
+At the end of the build process, you should find `Hyperspace.dll` inside `FTL-Hyperspace\build-windows-release\`.
 
-You must have installed all of the above dependencies, including building Lua. If you've done everything right you should just be able to click the "Build" button in CodeBlocks and build Hyperspace successfully.
+# Troubleshooting
 
-The DLL will automatically be placed in your FTL directory, overwriting any existing DLL.
+## Hypervisor Error
+
+While following the above steps, you may encounter this error.
+
+[[/img/building-tutorial/hypererror.png]]
+
+The error means that the hardware visualization is disabled on your motherboard. This issue is hardware specific, so you'll have to Google "how to enable hardware visualization on `insert motherboard manufacturer here`" and follow the instructions you find.
+
+You can find your motherboard's manufacturer by hitting Win+R and typing `msinfo32`.
+In "System Information," the right information board you should find the item "BaseBoard Manufacturer" with its corresponding value.
+
+[[/img/building-tutorial/board.png]]
 
 ## Building ZHL files (not required to build Hyperspace)
-Install Lua
-You'll also need luarocks to install some lua libraries
 
-Install `luarocks` and then install `luafilesystem` and `lpeg` with luarocks.
-Then you will be able to run libzhlgen\test\generate.bat
+For building ZHL files you need some dependencies. Run all the following commands in the WSL console:
+```
+sudo apt-get install lua5.3 luarocks
+sudo luarocks install luafilesystem
+sudo luarocks install lpeg
+```
+
+Then navigate to `\FTL-Hyperspace\libzhlgen\` and run `./parsefuncs.sh` to regenerate the source files generated from ZHL.
