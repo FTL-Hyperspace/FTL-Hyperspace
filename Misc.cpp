@@ -421,21 +421,19 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
 
     if ((effect == 6 || effect == 9) && space->envTarget == 2) //If ASB and targetting both ships
     {
-        color.b = 50.f / 255.f;
-        color.g = 160.f / 255.f;
+        color.b = 90.f / 255.f;
+        color.g = 255.f / 255.f;
         color.r = 255.f / 255.f;
 
+        tex = G_->GetResources()->GetImageId("warnings/backglow_warning_yellow.png");
         text = G_->GetTextLibrary()->GetText("warning_pds_all");
     }
 
-    Point point1 = Point(textOffset + position.x, position.y + 51);
-    Pointf pointf1 = freetype::easy_measurePrintLines(52, 0.0, 0.0, 999, text);
-    float fVar1 = roundf(pointf1.x);
-    float fVar2 = roundf(pointf1.y);
-    Point point2 = Point((int) fVar1, (int) fVar2);
-    CSurface::GL_BlitImage(tex, point1.x - point2.x / 2, point1.y - 1, point2.x, point2.y, 0.0, GL_Color(1.0, 1.0, 1.0, 1.0), false);
+    Point textPos = Point(textOffset + position.x, position.y + 51);
+    Pointf textSize = freetype::easy_measurePrintLines(52, 0.0, 0.0, 999, text);
+    CSurface::GL_BlitImage(tex, textPos.x - (int)textSize.x / 2, textPos.y - 1, (int)textSize.x, (int)textSize.y, 0.0, GL_Color(1.0, 1.0, 1.0, 1.0), false);
     CSurface::GL_SetColor(color);
-    freetype::easy_printCenter(52, point1.x, point1.y, text);
+    freetype::easy_printCenter(52, textPos.x, textPos.y, text);
     CSurface::GL_SetColor(GL_Color(1.0, 1.0, 1.0, 1.0));
     return;
 }
