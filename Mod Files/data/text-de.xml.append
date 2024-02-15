@@ -230,3 +230,7 @@ Taste: \1</text>
 <mod:findName type="text" name="hangar_advanced_title" language="de">
   <mod:setValue> </mod:setValue>
 </mod:findName>
+<!--Neutral ASB text-->
+<text name="warning_pds_all">NEUTRAL!</text>
+<text name="tooltip_PDS_FLEET_ALL" language="de">Die Anti-Schiff Batterien der Flotte feuern auf alle Schiffe im Signalpunkt.</text>
+<text name="tooltip_PDS_FLEET_ENEMY" language="de">Die Anti-Schiff Batterien der Flotte feuern auf deine Gegner.</text>
