@@ -19,9 +19,9 @@ static cleanup __cdecl Pointf freetype::easy_printCenter(int fontSize, float x, 
 "5589e557565383ec6c8b7d088b75188b4514":
 static cleanup __cdecl void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
 ".57565383ec208b4c2430f30f1044243485c9":
-static cleanup __cdecl float font_baseline(int font_id, float size);
+cleanup __cdecl float font_height(int font_id, float size);
 ".57565383ec208b4c2430f30f1044243485c9":
-static cleanup __cdecl float font_height(int font_id, float size);
+cleanup __cdecl float font_baseline(int font_id, float size);
 
 "!.f30f5905(???????\?)c744240801000000f30f2dc0":
 float *Global_freetype_sil_freetype_outline;

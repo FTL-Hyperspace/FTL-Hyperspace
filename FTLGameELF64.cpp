@@ -18579,10 +18579,10 @@ void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, 
 namespace _func1460
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
 }
 
-float __stdcall font_baseline(int font_id, float size)
+float __stdcall font_height(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1460::func;
@@ -18592,10 +18592,10 @@ float __stdcall font_baseline(int font_id, float size)
 namespace _func1461
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
 }
 
-float __stdcall font_height(int font_id, float size)
+float __stdcall font_baseline(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1461::func;

@@ -20081,10 +20081,10 @@ namespace _func1469
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".57565383ec208b4c2430f30f1044243485c9", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".57565383ec208b4c2430f30f1044243485c9", argdata, 2, 2, &func);
 }
 
-float __stdcall font_baseline(int font_id, float size)
+float __stdcall font_height(int font_id, float size)
 {
 	typedef float __attribute__((cdecl)) (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1469::func;
@@ -20095,10 +20095,10 @@ namespace _func1470
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".57565383ec208b4c2430f30f1044243485c9", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".57565383ec208b4c2430f30f1044243485c9", argdata, 2, 2, &func);
 }
 
-float __stdcall font_height(int font_id, float size)
+float __stdcall font_baseline(int font_id, float size)
 {
 	typedef float __attribute__((cdecl)) (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1470::func;
