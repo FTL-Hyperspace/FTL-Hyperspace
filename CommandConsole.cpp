@@ -306,6 +306,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 
                 // effective to update combatControl
                 G_->GetCApp()->gui->combatControl.shipManager = ship;
+                G_->GetCApp()->gui->combatControl.weapControl.LinkShip(ship);
 
                 // effective to update crew
                 G_->GetCApp()->gui->crewControl.shipManager = ship;
