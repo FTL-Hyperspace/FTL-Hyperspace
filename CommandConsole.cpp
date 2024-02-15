@@ -270,11 +270,24 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         {
             std::string shipName = boost::trim_copy(command.substr(7));
             hs_log_file("Loading new ship %s\n", shipName.c_str());
-            //commandGui->shipComplete->shipManager = G_->GetShipManager(5);
-            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-            ShipManager *ship = new ShipManager(0);
-            ship->OnInit(bp, 0);
-            G_->GetWorld()->playerShip->SetShip(ship);
+
+            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint("PLAYER_SHIP_MVFED", -1);
+            if (bp)
+            {
+                ShipManager *ship = new ShipManager(0);
+                ship->OnInit(bp, 0);
+                G_->GetWorld()->playerShip->SetShip(ship);
+                
+                // The ship gets loaded correctly, but the interface doesn't update, reloading the save works but we need a better solution
+                //G_->GetWorld()->SaveGame();
+
+                // crash
+                //G_->GetCApp()->gui->constructor();
+
+                //G_->GetCApp()->gui->sysControl.CreateSystemBoxes();
+                //G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+            }
+            
         }
         
         return true;
