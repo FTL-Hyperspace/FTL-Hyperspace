@@ -168,6 +168,14 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <redesignedWeaponTooltips enabled="false"/>
 
+<!-- Shows newly redesigned drone tooltips, primarily adding weapon stats to space drones where relevant. -->
+
+<redesignedDroneTooltips enabled="false"/>
+
+<!-- Shows newly redesigned augment tooltips, pretty much just adding scrap cost for now. -->
+
+<redesignedAugmentTooltips enabled="false"/>
+
 <!-- Shows maximum reactor in the hangar -->
 
 <showReactor enabled="false"/>
