@@ -271,7 +271,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             std::string shipName = boost::trim_copy(command.substr(7));
             hs_log_file("Loading new ship %s\n", shipName.c_str());
 
-            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint("PLAYER_SHIP_MVFED", -1);
+            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
             if (bp)
             {
                  
@@ -285,9 +285,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
                 // The ship gets loaded correctly, but the interface doesn't update, manually reloading the save works but we need a better solution
                 //G_->GetWorld()->SaveGame();
-
-                std::string shipRealName = std::string();
-                shipRealName = ship->myBlueprint.name.GetText();
 
                 // no effect
                 builder.CreateEquipmentBoxes();
@@ -306,6 +303,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 
                 // effective to update combatControl
                 G_->GetCApp()->gui->combatControl.shipManager = ship;
+                G_->GetCApp()->gui->combatControl.droneControl.LinkShip(ship);
                 G_->GetCApp()->gui->combatControl.weapControl.LinkShip(ship);
 
                 // effective to update crew
@@ -327,8 +325,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 //no apparent effect, best to keep it
                 G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
                 G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
-                
-
 
             }
             
