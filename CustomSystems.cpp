@@ -999,7 +999,7 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
 
 //Custom mind control rewrites
 
-HOOK_METHOD_PRIORITY(MindSystem, ReleaseCrew, 9999, () -> void)
+HOOK_METHOD(MindSystem, ReleaseCrew, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MindSystem::ReleaseCrew -> Begin (CustomSystems.cpp)\n")
     for (CrewMember* crew : controlledCrew)
@@ -1013,7 +1013,7 @@ HOOK_METHOD_PRIORITY(MindSystem, ReleaseCrew, 9999, () -> void)
     controlTimer.first = controlTimer.second;
 }
 
-HOOK_METHOD_PRIORITY(MindSystem, OnLoop, 9999, () -> void)
+HOOK_METHOD(MindSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MindSystem::OnLoop -> Begin (CustomSystems.cpp)\n")
     this->ShipSystem::OnLoop();
@@ -1062,7 +1062,7 @@ HOOK_METHOD_PRIORITY(MindSystem, OnLoop, 9999, () -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(MindSystem, InitiateMindControl, 9999, () -> void)
+HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MindSystem::InitiateMindControl -> Begin (CustomSystems.cpp)\n")
 
