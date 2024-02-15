@@ -272,15 +272,18 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             hs_log_file("Loading new ship %s\n", shipName.c_str());
 
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-            if (bp)
+            hs_log_file("Shipname %s\n", bp->blueprintName.c_str());
+            if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-                 
+
                 ShipBuilder builder = G_->GetCApp()->menu.shipBuilder;
                 ShipManager *ship = new ShipManager(0);
 
                 builder.currentShip = ship;
 
                 ship->OnInit(bp, 0);
+                ShipManager *oldShip = G_->GetWorld()->playerShip->shipManager;
+                //oldShip->destructor2();
                 G_->GetWorld()->playerShip->SetShip(ship);
 
                 // The ship gets loaded correctly, but the interface doesn't update, manually reloading the save works but we need a better solution
@@ -290,6 +293,9 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 builder.CreateEquipmentBoxes();
                 builder.CreateSystemBoxes();
                 //builder.SetupShipAchievements();
+
+                // effective to update StarMap
+                G_->GetCApp()->gui->starMap->shipManager = ship;
 
                 // effective to update equipment
                 G_->GetCApp()->gui->equipScreen.OnInit(ship);
@@ -308,6 +314,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
                 // effective to update crew
                 G_->GetCApp()->gui->crewControl.shipManager = ship;
+                G_->GetCApp()->gui->crewScreen.shipManager = ship;
 
                 // effective to update shipStatus
                 G_->GetCApp()->gui->shipStatus.ship = ship;
@@ -325,6 +332,8 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 //no apparent effect, best to keep it
                 G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
                 G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+
+                // Deconstruct everything we can from the old ship
 
             }
             
