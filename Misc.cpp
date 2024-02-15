@@ -396,7 +396,16 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
   
     color.g = 1.0;
     color.a = 1.0;
-    if (effect == 9) 
+    if ((effect == 6 || effect == 9) && space->envTarget == 2) // ASB and targeting both ships
+    {
+        color.b = 90.f / 255.f;
+        color.g = 255.f / 255.f;
+        color.r = 255.f / 255.f;
+
+        tex = G_->GetResources()->GetImageId("warnings/backglow_warning_yellow.png");
+        text = G_->GetTextLibrary()->GetText("warning_pds_all");
+    }
+    else if (effect == 9) 
     {
         color.r = 0.4705882;
         color.b = 0.4705882;
@@ -417,16 +426,6 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
 
         tex = G_->GetResources()->GetImageId("warnings/backglow_warning_red.png");
         text = G_->GetTextLibrary()->GetText("warning_environment_danger");
-    }
-
-    if ((effect == 6 || effect == 9) && space->envTarget == 2) //If ASB and targetting both ships
-    {
-        color.b = 90.f / 255.f;
-        color.g = 255.f / 255.f;
-        color.r = 255.f / 255.f;
-
-        tex = G_->GetResources()->GetImageId("warnings/backglow_warning_yellow.png");
-        text = G_->GetTextLibrary()->GetText("warning_pds_all");
     }
 
     Point textPos = Point(textOffset + position.x, position.y + 51);
