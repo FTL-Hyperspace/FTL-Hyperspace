@@ -485,9 +485,7 @@ HOOK_METHOD_PRIORITY(SpaceStatus, MouseMove, 9999, (int mX, int mY) -> void)
         }
     }
 LABEL_ONE:
-  G_->GetMouseControl()->LoadTooltip(tip);
-  
-  
+    G_->GetMouseControl()->LoadTooltip(tip);
 LABEL_TWO:
     if (hitbox2.x < mX && mX < hitbox2.x + hitbox2.w && hitbox2.y < mY && mY < hitbox2.y + hitbox2.h && currentEffect2 == 4)
     {
