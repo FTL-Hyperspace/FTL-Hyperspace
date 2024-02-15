@@ -274,18 +274,61 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint("PLAYER_SHIP_MVFED", -1);
             if (bp)
             {
+                 
+                ShipBuilder builder = G_->GetCApp()->menu.shipBuilder;
                 ShipManager *ship = new ShipManager(0);
+
+                builder.currentShip = ship;
+
                 ship->OnInit(bp, 0);
                 G_->GetWorld()->playerShip->SetShip(ship);
-                
-                // The ship gets loaded correctly, but the interface doesn't update, reloading the save works but we need a better solution
+
+                // The ship gets loaded correctly, but the interface doesn't update, manually reloading the save works but we need a better solution
                 //G_->GetWorld()->SaveGame();
 
-                // crash
-                //G_->GetCApp()->gui->constructor();
+                std::string shipRealName = std::string();
+                shipRealName = ship->myBlueprint.name.GetText();
 
-                //G_->GetCApp()->gui->sysControl.CreateSystemBoxes();
-                //G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+                // no effect
+                builder.CreateEquipmentBoxes();
+                builder.CreateSystemBoxes();
+                //builder.SetupShipAchievements();
+
+                // effective to update equipment
+                G_->GetCApp()->gui->equipScreen.OnInit(ship);
+                G_->GetCApp()->gui->equipScreen.shipManager = ship;
+
+                // effective to update system upgrade
+                G_->GetCApp()->gui->upgradeScreen.shipManager = ship;
+
+                // effective to update system
+                G_->GetCApp()->gui->sysControl.shipManager = ship;
+                
+                // effective to update combatControl
+                G_->GetCApp()->gui->combatControl.shipManager = ship;
+
+                // effective to update crew
+                G_->GetCApp()->gui->crewControl.shipManager = ship;
+
+                // effective to update shipStatus
+                G_->GetCApp()->gui->shipStatus.ship = ship;
+
+                // effective to update ftlButton
+                G_->GetCApp()->gui->ftlButton.ship = ship;
+
+                // Might be effective, need to be fixed
+                //G_->GetCApp()->gui->shipComplete = G_->GetWorld()->playerShip
+
+                // might be effective (no, that's a crash)
+                //builder.CycleShipNext();
+                //builder.CycleShipPrevious();
+
+                //no apparent effect, best to keep it
+                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+                
+
+
             }
             
         }
