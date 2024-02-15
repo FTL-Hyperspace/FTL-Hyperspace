@@ -30,7 +30,6 @@ public:
     // movable
     FreeTypeFont(FreeTypeFont&&) = default;
     FreeTypeFont& operator=(FreeTypeFont&&) = default;
-    FreeTypeFont(const FreeTypeFont& other) : fontData(new freetype::font_data(*other.fontData)) {}
 
     ~FreeTypeFont()
     {
