@@ -275,16 +275,23 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             hs_log_file("Shipname %s\n", bp->blueprintName.c_str());
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-
+                hs_log_file("setp -3\n");
                 ShipBuilder builder = G_->GetCApp()->menu.shipBuilder;
+                hs_log_file("setp -2\n");
+                //ShipManager *oldShip = G_->GetWorld()->playerShip->shipManager;
+                ShipManager *oldShip = builder.currentShip;
+                // working for no reason now
+                oldShip->destructor();
+                hs_log_file("setp -1\n");
                 ShipManager *ship = new ShipManager(0);
-
                 builder.currentShip = ship;
+                hs_log_file("setp -0.5\n");
+                hs_log_file("setp 0\n");
 
                 ship->OnInit(bp, 0);
-                ShipManager *oldShip = G_->GetWorld()->playerShip->shipManager;
-                //oldShip->destructor2();
+                
                 G_->GetWorld()->playerShip->SetShip(ship);
+                hs_log_file("setp 1\n");
 
                 // The ship gets loaded correctly, but the interface doesn't update, manually reloading the save works but we need a better solution
                 //G_->GetWorld()->SaveGame();
@@ -292,15 +299,17 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 // no effect
                 builder.CreateEquipmentBoxes();
                 builder.CreateSystemBoxes();
+                builder.SetupShipAchievements();
+                builder.ClearShipAchievements();
                 //builder.SetupShipAchievements();
-
+                hs_log_file("setp 2\n");
                 // effective to update StarMap
                 G_->GetCApp()->gui->starMap->shipManager = ship;
 
                 // effective to update equipment
                 G_->GetCApp()->gui->equipScreen.OnInit(ship);
                 G_->GetCApp()->gui->equipScreen.shipManager = ship;
-
+                hs_log_file("setp 3\n");
                 // effective to update system upgrade
                 G_->GetCApp()->gui->upgradeScreen.shipManager = ship;
 
@@ -311,14 +320,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 G_->GetCApp()->gui->combatControl.shipManager = ship;
                 G_->GetCApp()->gui->combatControl.droneControl.LinkShip(ship);
                 G_->GetCApp()->gui->combatControl.weapControl.LinkShip(ship);
-
+                hs_log_file("setp 4\n");
                 // effective to update crew
                 G_->GetCApp()->gui->crewControl.shipManager = ship;
                 G_->GetCApp()->gui->crewScreen.shipManager = ship;
 
                 // effective to update shipStatus
                 G_->GetCApp()->gui->shipStatus.ship = ship;
-
+                hs_log_file("setp 5\n");
                 // effective to update ftlButton
                 G_->GetCApp()->gui->ftlButton.ship = ship;
 
@@ -328,13 +337,24 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 // might be effective (no, that's a crash)
                 //builder.CycleShipNext();
                 //builder.CycleShipPrevious();
-
+                hs_log_file("setp 6\n");
                 //no apparent effect, best to keep it
                 G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
                 G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
-
+                hs_log_file("setp 7\n");
                 // Deconstruct everything we can from the old ship
 
+                // Useless, we only clear the list, we don't delete the crew
+                //oldShip->vCrewList.clear();
+
+                // Another crah
+                //for (auto i : oldShip->vCrewList)
+                //{           
+                //    i->destructor();
+                //}
+
+                //Best hope, but it's a crash, ship must be referenced somewhere else
+                //oldShip->destructor2();
             }
             
         }
