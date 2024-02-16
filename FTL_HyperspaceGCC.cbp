@@ -949,6 +949,12 @@
 		<Unit filename="CustomHotkeys.h">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
+		<Unit filename="CustomLocalization.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomLocalization.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
