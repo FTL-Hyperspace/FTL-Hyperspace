@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
 #include "CustomAugments.h"
@@ -173,6 +174,11 @@ void Global::PreInitializeResources(ResourceControl *resources)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->EarlyParseShipsNode(node);
+            }
+
+            if (strcmp(node->name(), "languages") == 0)
+            {
+                ParseLanguagesNode(resources, node);
             }
 
             // Read event files and other early stuff.

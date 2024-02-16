@@ -5,3 +5,6 @@
 
 <text name="tooltip_temporal">Temporal Manipulator: Changes the rate of time in one room.</text>
 <text name="tooltip_temporal_enemy">Temporal Manipulator: The enemy can use this to change the rate of time in one room.</text>
+
+<text name="tooltip_PDS_FLEET_ALL">The Fleet's Anti-Ship Batteries are firing on all ships in the area.</text>
+<text name="tooltip_PDS_FLEET_ENEMY">The Fleet's Anti-Ship Batteries are targeting your enemies.</text>

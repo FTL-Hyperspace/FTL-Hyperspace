@@ -1,0 +1,5 @@
+"!8d348500000000a1(???????\?)":
+std::vector<std::string>* Global_OptionsScreen_languageList;
+
+".5557565331db83ec6c":
+cleanup __cdecl void LanguageChooser::OnRender(LanguageChooser *this);
