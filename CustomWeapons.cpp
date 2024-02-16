@@ -329,40 +329,7 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatDrone::PickTarget -> Begin (CustomWeapons.cpp)\n")
 
-    int currentTargetId;
-    float targetAngle;
-
-    currentTargetId = 1;
-
-    if (currentTargetId != 0 &&
-        (this->targetLocation.x == -3.402823e+38 ||  
-        this->targetLocation.y == -3.402823e+38)) {
-
-        targetAngle = this->aimingAngle;
-
-        if (targetAngle <= 180.0f) {
-        // angle is in valid range
-        } else {  
-        if (targetAngle < -180.0f) {
-            targetAngle += 360.0f;  
-        } else {
-            targetAngle -= 360.0f;
-        }
-        this->aimingAngle = targetAngle; 
-        }
-
-        this->lastAimingAngle = targetAngle;
-
-        Targetable* weaponTarget = this->weaponTarget;
-
-        Pointf targetLocation = weaponTarget->GetRandomTargettingPoint(false);
-
-        this->targetLocation.x = targetLocation.x;  
-        this->targetLocation.y = targetLocation.y;
-
-    }
-
-    return;
+    super();
 
     if (weaponBlueprint->type==2 && weaponBlueprint->length<=1) // pinpoint beam
     {
