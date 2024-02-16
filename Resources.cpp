@@ -458,6 +458,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "newCrewNameSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->newCrewNameSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->newCrewNameSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
