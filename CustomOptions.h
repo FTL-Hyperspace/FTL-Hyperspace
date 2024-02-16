@@ -63,6 +63,8 @@ public:
 
     Setting<bool> preIgniteChargers;
 
+    Setting<bool> newCrewNameSystem;
+
     Setting<std::string> dismissSound;
 
     Defaults defaults;
