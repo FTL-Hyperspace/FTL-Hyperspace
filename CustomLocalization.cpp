@@ -27,10 +27,6 @@ public:
         fontData->init(buffer, bufferSize, hDefault, glow);
     }
 
-    // movable
-    FreeTypeFont(FreeTypeFont&&) = default;
-    FreeTypeFont& operator=(FreeTypeFont&&) = default;
-
     ~FreeTypeFont()
     {
         if (fontData)
@@ -166,7 +162,7 @@ public:
 };
 
 // Font data comes in pair: (normal, outlined).
-static std::unordered_map<std::string, std::pair<FreeTypeFont, FreeTypeFont>> g_customFontOverrides;
+static std::unordered_map<std::string, std::pair<FreeTypeFont*, FreeTypeFont*>> g_customFontOverrides;
 
 void AddLanguage(const char *langcode)
 {
@@ -193,10 +189,10 @@ void AddFontOverride(ResourceControl *resources, const char *langcode, const cha
     // or require customization (outline = 2.0 seems a good default to me?).
     // TODO: Allow customization for these values from XML?
     auto fontPair = std::make_pair(
-        FreeTypeFont{buffer, size, 12, false, 0.0f},
-        FreeTypeFont{buffer, size, 12, false, 2.0f}
+        new FreeTypeFont{buffer, size, 12, false, 0.0f},
+        new FreeTypeFont{buffer, size, 12, false, 2.0f}
     );
-    if (g_customFontOverrides.insert({langcode, std::move(fontPair)}).second)
+    if (g_customFontOverrides.insert({langcode, fontPair}).second)
     {
         printf("Added an override font %s for language %s.\n", fontOverride, langcode);
     }
@@ -244,8 +240,8 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
         if (it != std::end(g_customFontOverrides))
         {
             auto &font = (size - 0x3eU >= 2) ? it->second.first : it->second.second;
-            font.AdjustForSizeType(size);
-            return *font.data();
+            font->AdjustForSizeType(size);
+            return *font->data();
         }
     }
 
