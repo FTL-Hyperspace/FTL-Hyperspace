@@ -1252,6 +1252,19 @@ Syntax ->
 			</level3>
 		</slow>
 	</system>
+
+	<!--
+		damageBoost: Multiplier to combat damage dealt by mind controlled crew.
+		healthBoost: Flat modifier to health of mind controlled crew.
+		duration: Duration of mind control system effect, in seconds.
+		lock: Number of ion cycles applied on effect finish.
+		count: Maximum number of crew affected at once.
+	-->
+	<system id="mind">
+		<level damageBoost="1.0" healthBoost="0.0" duration="14.0" lock="4" count="1"/>
+		<level damageBoost="1.25" healthBoost="15.0" duration="20.0" lock="4" count="1"/>
+		<level damageBoost="2.0" healthBoost="30.0" duration="28.0" lock="4" count="1"/>  
+	</system>
 </customSystems>
 
 <!-- Stat boosts
