@@ -18,6 +18,9 @@ struct InternalEvents
         ON_TICK, // We'll use CApp::OnLoop for this ticking
         // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
+
+        // function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed
+        GET_RUN_SEED,
         
         // function on_key_down(SDLKey key) return Chain
         ON_KEY_DOWN,
@@ -66,6 +69,13 @@ struct InternalEvents
         // function projectile_update_post(Projectile& projectile, bool preempted) return Chain
         PROJECTILE_UPDATE_POST, // Projectile::Update
 
+        // function weapon_statbox(WeaponBlueprint& bp, char* stats) return stats
+        WEAPON_STATBOX,
+        // function weapon_descbox(WeaponBlueprint& bp, char* desc) return desc
+        WEAPON_DESCBOX,
+        // function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine
+        WEAPON_RENDERBOX,
+
         //function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain
         DRONE_FIRE,
 
@@ -113,6 +123,10 @@ struct InternalEvents
         GENERATOR_CREATE_SHIP,
         // function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain
         GENERATOR_CREATE_SHIP_POST,
+        // function pre_create_choicebox(LocationEvent &event)
+        PRE_CREATE_CHOICEBOX,
+        // function post_create_choicebox(choiceBox &choiceBox, LocationEvent &event)
+        POST_CREATE_CHOICEBOX,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 

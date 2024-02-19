@@ -6,7 +6,7 @@ cleanup __amd64 void Equipment::OnLoop(Equipment *this);
 ".554889e5415741564154534989f74989fe49c746":
 cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
 ".554889e541574156534883ec484989f7":
-cleanup __amd64 void Equipment::AddToCargo(Equipment *this, std::string& name);
+cleanup __amd64 void Equipment::AddToCargo(Equipment *this, const std::string& name);
 "!.554889e54157415641554154534881ec9800000089cb4989":
 cleanup __amd64 void Equipment::AddWeapon(Equipment *this, WeaponBlueprint* bp, bool free, bool forceCargo);
 ".554889e5415741564154534883ec704189cf4989":

@@ -1139,10 +1139,26 @@ void CustomShipSelect::OnRender(bool renderSelect)
         {
             if (x->GetPage() == shipPage - 1)
             {
+                std::string shipName = GetShipBlueprint(x->GetId());
                 ShipButton* button = x->GetButton(shipSelect->currentType);
+                if (shipSelect->currentType == 1)
+                {
+                    shipName += "_2";
+                }
+                else if (shipSelect->currentType == 2)
+                {
+                    shipName += "_3";
+                }
 
+                // Set locked miniship image to the version with the "_base" postfix if it exists
                 if (button)
+                {
+                    auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+                    std::string lockImgName = "customizeUI/miniship_" + bp->imgFile + "_base.png";
+                    bool useLockImg = CustomOptionsManager::GetInstance()->altLockedMiniships.currentValue && button->bShipLocked && G_->GetResources()->ImageExists(lockImgName);
+                    button->iShipImage = G_->GetResources()->GetImageId(useLockImg ? lockImgName : "customizeUI/miniship_" + bp->imgFile + ".png");
                     button->OnRender();
+                }
             }
         }
         if (shipPage > 0)
@@ -2268,7 +2284,11 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 }
 
 static GL_Texture* seedBox;
+static GL_Texture* unlocksDisabledTexture;
 static GL_Primitive* unlocksDisabledPrimitive;
+static GL_Primitive* crewSlotsBoxPrimitive;
+static GL_Primitive* missilesCountBoxPrimitive;
+static GL_Primitive* dronesCountBoxPrimitive;
 
 
 HOOK_METHOD(MenuScreen, constructor, () -> void)
@@ -2277,8 +2297,24 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     super();
 
     seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
-    auto unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
+    unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
     unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
+
+    if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
+    {
+        GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
+        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    }
+    if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
+    {
+        GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
+        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    }
+    if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
+    {
+        GL_Texture *crewSlotsBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_crewlimit_box.png");
+        crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, 314, 484, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
+    }
 }
 
 static Button* reactorInfoButton = nullptr;
@@ -2717,6 +2753,25 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         CSurface::GL_SetColor(COLOR_WHITE);
     }
 
+    // Render additional values in hangar
+
+    if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
+    {
+        CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
+        freetype::easy_printCenter(14, 923, 482, std::to_string(currentShip->myBlueprint.missiles));
+    }
+    if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
+    {
+        CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
+        freetype::easy_printCenter(14, 923, 592, std::to_string(currentShip->myBlueprint.drone_count));
+    }
+    if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
+    {
+        int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).crewLimit;
+        CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
+        freetype::easy_printCenter(14, 357, 482, std::to_string(crewLimit));
+    }
+
     CSurface::GL_RemoveColorTint();
     if (shipSelect.bOpen)
     {
@@ -2907,7 +2962,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-        freetype::easy_printCenter(13, position.x + 81.f + 160.f, position.y + 325.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
+        freetype::easy_printCenter(13, position.x + 81.f + 160.f, position.y + 325.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed", G_->GetTextLibrary()->currentLanguage));
 
         CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -3037,7 +3092,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
                 CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-                freetype::easy_printCenter(13, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
+                freetype::easy_printCenter(13, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed", G_->GetTextLibrary()->currentLanguage));
 
                 CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -3144,7 +3199,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-    freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
+    freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed", G_->GetTextLibrary()->currentLanguage));
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -3160,6 +3215,19 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     {
         CSurface::GL_RemoveColorTint();
         confirmDialog.OnRender();
+    }
+}
+
+HOOK_METHOD(MenuScreen, OnLanguageChange, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::OnLanguageChange -> Begin (CustomShipSelect.cpp)\n")
+    super();
+
+    if (G_->GetResources()->ImageExists("customizeUI/unlocks_disabled.png"))
+    {
+        delete unlocksDisabledPrimitive;
+        unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
+        unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
     }
 }
 

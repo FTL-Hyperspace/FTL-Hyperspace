@@ -4,6 +4,8 @@ __thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWa
 __thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf position);
 "538b81bc0300008b89c00300008b5c240829c1c1f90469c9????????85c974??3b98ec00000074??05????????31d2eb??05????????3b9810ffffff":
 __thiscall bool Ship::RoomLocked(Ship *this, int roomId);
+"0fb681f001000084c0":
+__thiscall bool Ship::DestroyedDone(Ship *this);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b59088b410c8b178b770429d8":
 __thiscall bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec1c8b008b51088b0c828d1c85????????8b5134":

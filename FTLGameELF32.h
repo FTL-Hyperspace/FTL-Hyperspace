@@ -3168,6 +3168,7 @@ struct ResourceEvent
 
 struct ChoiceText
 {
+	inline ChoiceText() : type(0), text(""), rewards() {};
 	ChoiceText(int _type, const std::string& _text, ResourceEvent _rewards) : 
 	type(_type), text(_text), rewards(_rewards)
 	{
@@ -4142,7 +4143,7 @@ struct Equipment : FocusWindow
 {
 	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool free, bool forceCargo);
-	LIBZHL_API void AddToCargo(std::string &name);
+	LIBZHL_API void AddToCargo(const std::string &name);
 	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void Close();
 	LIBZHL_API std::vector<std::string> GetCargoHold();
@@ -4290,6 +4291,7 @@ struct MenuScreen : FocusWindow
         this->constructor();
     }
 
+	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
 	LIBZHL_API void constructor();
@@ -6074,6 +6076,7 @@ struct MindSystem : ShipSystem
 {
 	LIBZHL_API void InitiateMindControl();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void ReleaseCrew();
 	LIBZHL_API void SetArmed(int armed);
 	
 	std::pair<float, float> controlTimer;
@@ -6374,6 +6377,7 @@ struct freetype
 	{
 		LIBZHL_API void clean();
 		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void init_bitmap(const void *buffer, int bufferSize, int size, int h);
 		
 		float h;
 		int font;
@@ -6751,6 +6755,7 @@ struct Ship : ShipObject
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API void BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);

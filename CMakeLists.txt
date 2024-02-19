@@ -10,7 +10,6 @@ set(LUA_INCLUDE_DIR "/Users/dino/vcpkg/installed/x64-osx/include")
 if(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
-    find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
     find_package(OpenGL REQUIRED)
 endif()
 
@@ -162,8 +161,6 @@ target_sources(
     CustomWeapons.cpp
     CustomWeapons.h
     Debugging.cpp
-    DiscordIntegration.cpp
-    DiscordIntegration.h
     DroneVTable.cpp
     EnemyShipIcons.cpp
     EnemyShipIcons.h
@@ -317,8 +314,8 @@ if(UNIX)
     target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
 
-    # Disable Discord integration
-    target_compile_definitions(Hyperspace PRIVATE SKIPDISCORD)
+    # Disable Discord integration by default
+    set(USE_DISCORD_DEFAULT OFF)
 
     # Naming the binary
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -334,11 +331,21 @@ if(UNIX)
         set_target_properties(Hyperspace PROPERTIES OUTPUT_NAME "Hyperspace.1.6.12.${name_suffix}")
     endif()
 elseif(WIN32)
-    # Discord
-    target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
+    # Enable the Discord integration on Windows by default
+    set(USE_DISCORD_DEFAULT ON)
 
     # OpenGL, just raw OpenGL goodness
     target_link_libraries(Hyperspace PRIVATE OpenGL::GL)
 
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
+endif()
+
+option(USE_DISCORD "Enable the Discord Rich Presence integration" ${USE_DISCORD_DEFAULT})
+
+if(USE_DISCORD)
+    find_package(DiscordRpc REQUIRED) # From vcpkg & our custom find module
+
+    target_sources(Hyperspace PRIVATE DiscordIntegration.h DiscordIntegration.cpp)
+    target_compile_definitions(Hyperspace PRIVATE USE_DISCORD)
+    target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 endif()
