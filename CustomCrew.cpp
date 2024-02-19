@@ -6754,7 +6754,7 @@ HOOK_METHOD(ShipManager, AddCrewMember, (CrewMember *crew, int roomId) -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
     int ret = 0;
     for (auto& crew: vCrewList)
     {   

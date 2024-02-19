@@ -34,10 +34,12 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.4.0 | SHIP_HULL | On rendering the ship hull, cloak and thruster animations |
 | 1.4.0 | SHIP_FLOOR | Equivalent to `roomAnim` layer 0 |
 | 1.4.0 | SHIP_BREACHES | Equivalent to `roomAnim` layer 1 |
-| 1.3.0 | SHIP_SPARKS| Equivalent to `roomAnim` layer 2 |
+| 1.3.0 | SHIP_SPARKS | Equivalent to `roomAnim` layer 2 |
+| 1.10.0 | SHIP_ENGINES | Thruster animations |
 | N/A | ~~SHIP_EXPLOSION~~ | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
 | 1.2.0 | LAYER_FRONT | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
 | N/A | ~~PAUSE~~ | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
+| 1.10.0 | SPACE_STATUS | On rendering hazard environment icons |
 | N/A | ~~CHOICE~~ | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
@@ -72,6 +74,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.3.0 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
 | 1.4.0 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
 | 1.8.0 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain` chain, `int` value | Can be used to alter the dodge factor for the given ship |
+| 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
 | N/A | ~~ON_INIT~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code on the start of a run (and loading a run), currently handled by `script.on_init` this internal event will potentially replace it~~ |
 | N/A | ~~ON_LOAD~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code after the game is loaded (currently after hyperspace.xml is initialized but might change to on main menu loading so all Lua is ready first), currently handled by `script.on_load` this internal event will potentially replace it~~ |
 | N/A | ~~PLAYERSHIP_ON_HULL_DAMAGE~~ | ~~`int damage`~~ | ~~`int` hull value~~ | ~~Detect damage to the player ship & return a value of the final hull hitpoints, returning 0 will blow up the ship. Receiving a negative value implies healing~~ |

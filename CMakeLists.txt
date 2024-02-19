@@ -130,6 +130,8 @@ target_sources(
     CustomFleetShips.h
     CustomHotkeys.cpp
     CustomHotkeys.h
+    CustomLocalization.cpp
+    CustomLocalization.h
     CustomMap.cpp
     CustomOptions.cpp
     CustomOptions.h
@@ -259,13 +261,10 @@ target_sources(
     zhl.h
     zhl_internal.h
     zhl_private.h
-    lua/InternalEvents.cpp
     lua/InternalEvents.h
-    lua/LuaLibScript.cpp
     lua/LuaLibScript.h
     lua/LuaScriptInit.cpp
     lua/LuaScriptInit.h
-    lua/RenderEvents.cpp
     lua/RenderEvents.h
     lua/linit.c
     lua/luaDefines.h

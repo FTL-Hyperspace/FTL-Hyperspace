@@ -2,6 +2,7 @@
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
+#include <boost/lexical_cast.hpp>
 
 #include <cmath>
 
@@ -20,10 +21,66 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
             {
                 TemporalSystemParser::ParseSystemNode(child);
             }
+            else if (sysName == "mind")
+            {
+                CustomMindSystem::ParseSystemNode(child);
+            }
         }
     }
 }
 
+
+//TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
+static float DAMAGE_BOOST[4] = {1.0, 1.0, 1.25, 2.0};
+static float HEALTH_BOOST[4] = {0.0, 0.0, 15.0, 30.0};
+static int MIND_CONTROL_COUNT[4] = {0, 1, 1, 1};
+static int MIND_CONTROL_LOCK[4] = {4, 4, 4, 4};
+static float MIND_CONTROL_TIMER[4] = {14.0, 14.0, 20.0, 28.0};
+//Automatically initialize vector with 4 MindLevels using the game's native arrays
+std::vector<CustomMindSystem::MindLevel> CustomMindSystem::levels = {
+    {DAMAGE_BOOST[0], HEALTH_BOOST[0], MIND_CONTROL_TIMER[0], MIND_CONTROL_LOCK[0], MIND_CONTROL_COUNT[0]},
+    {DAMAGE_BOOST[1], HEALTH_BOOST[1], MIND_CONTROL_TIMER[1], MIND_CONTROL_LOCK[1], MIND_CONTROL_COUNT[1]},
+    {DAMAGE_BOOST[2], HEALTH_BOOST[2], MIND_CONTROL_TIMER[2], MIND_CONTROL_LOCK[2], MIND_CONTROL_COUNT[2]},
+    {DAMAGE_BOOST[3], HEALTH_BOOST[3], MIND_CONTROL_TIMER[3], MIND_CONTROL_LOCK[3], MIND_CONTROL_COUNT[3]}
+}; 
+//Define default MindLevel values
+CustomMindSystem::MindLevel CustomMindSystem::defaultLevel{3.f, 50.f, 30.f, 4, 1};
+void CustomMindSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
+{
+    unsigned int level = 1;
+    for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
+    {
+        //Modify vanilla levels, keeping unspecified attributes as their default values
+        if (level < 4) 
+        {
+            CustomMindSystem::MindLevel& mindLevel = levels[level];
+            if (levelNode->first_attribute("damageBoost")) mindLevel.damageBoost = boost::lexical_cast<float>(levelNode->first_attribute("damageBoost")->value());
+            if (levelNode->first_attribute("healthBoost")) mindLevel.healthBoost = boost::lexical_cast<float>(levelNode->first_attribute("healthBoost")->value());
+            if (levelNode->first_attribute("duration")) mindLevel.duration = boost::lexical_cast<float>(levelNode->first_attribute("duration")->value());
+            if (levelNode->first_attribute("lock")) mindLevel.lock = boost::lexical_cast<int>(levelNode->first_attribute("lock")->value());
+            if (levelNode->first_attribute("count")) mindLevel.count = boost::lexical_cast<int>(levelNode->first_attribute("count")->value());
+        }
+        else //Construct new levels, using DefaultLevel to substitute unspecified values
+        {
+            CustomMindSystem::MindLevel mindLevel {
+                levelNode->first_attribute("damageBoost") ? boost::lexical_cast<float>(levelNode->first_attribute("damageBoost")->value()) : defaultLevel.damageBoost,
+                levelNode->first_attribute("healthBoost") ? boost::lexical_cast<float>(levelNode->first_attribute("healthBoost")->value()) : defaultLevel.healthBoost,
+                levelNode->first_attribute("duration") ? boost::lexical_cast<float>(levelNode->first_attribute("duration")->value()) : defaultLevel.duration,
+                levelNode->first_attribute("lock") ? boost::lexical_cast<int>(levelNode->first_attribute("lock")->value()) : defaultLevel.lock,
+                levelNode->first_attribute("count") ? mindLevel.count = boost::lexical_cast<int>(levelNode->first_attribute("count")->value()) : defaultLevel.count
+            };
+            levels.push_back(mindLevel);
+        }
+        level++;
+    }
+}
+
+CustomMindSystem::MindLevel& CustomMindSystem::GetLevel(MindSystem* sys)
+{
+    bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
+    int power = hacked ? sys->healthState.first : sys->GetEffectivePower();
+    return power < levels.size() ? levels[power] : defaultLevel;
+}
 
 
 
@@ -938,4 +995,137 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
     CSurface::GL_PopMatrix();
 
     return y_01 - 20.f;
+}
+
+//Custom mind control rewrites
+
+HOOK_METHOD(MindSystem, ReleaseCrew, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MindSystem::ReleaseCrew -> Begin (CustomSystems.cpp)\n")
+    for (CrewMember* crew : controlledCrew)
+    {
+        crew->SetMindControl(false);
+        G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
+    }
+    controlledCrew.clear();
+    CustomMindSystem::MindLevel& level = CustomMindSystem::GetLevel(this);
+    LockSystem(level.lock);
+    controlTimer.first = controlTimer.second;
+}
+
+HOOK_METHOD(MindSystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MindSystem::OnLoop -> Begin (CustomSystems.cpp)\n")
+    this->ShipSystem::OnLoop();
+    if (!queuedCrew.empty())
+    {
+        InitiateMindControl();
+    }
+    float oldFirst = controlTimer.first;
+    if (controlTimer.first < controlTimer.second)
+    {
+        controlTimer.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
+    }
+    if (oldFirst != controlTimer.first && controlTimer.second <= controlTimer.first)
+    {
+        ReleaseCrew();
+    }
+    CustomMindSystem::MindLevel& level = CustomMindSystem::GetLevel(this);
+    while (level.count < controlledCrew.size())
+    {
+        controlledCrew.back()->SetMindControl(false);
+        controlledCrew.pop_back();
+        G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
+    }
+    controlledCrew.erase(std::remove_if(controlledCrew.begin(),
+                                        controlledCrew.end(),
+                                        [](CrewMember* crew) { 
+                                            return crew->OutOfGame() || 
+                                            crew->IsDead() || 
+                                            crew->crewAnim->status == 3 || 
+                                            !crew->bMindControlled; }),
+                                        controlledCrew.end());
+                                        
+    for (CrewMember* crew : controlledCrew)
+    {
+        crew->SetHealthBoost(level.healthBoost);
+        crew->SetDamageBoost(level.damageBoost);
+    }
+    if (controlledCrew.empty() && controlTimer.first != controlTimer.second) ReleaseCrew();
+    if (level.duration != controlTimer.second)
+    {
+        if (controlTimer.first == controlTimer.second)
+        {
+            controlTimer.first = level.duration;
+        }
+        controlTimer.second = level.duration;
+    }
+}
+
+HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MindSystem::InitiateMindControl -> Begin (CustomSystems.cpp)\n")
+
+    int targetShip = iQueuedShip;
+    iQueuedTarget = -1;
+    iQueuedShip = -1;
+    //If targetting other ship, with supershields and no bypass
+    if (bSuperShields && targetShip != _shipObj.iShipId && _shipObj.HasEquipment("ZOLTAN_BYPASS") <= 0) 
+    {
+        queuedCrew.clear();
+        return;
+    }
+    for (CrewMember* crew : queuedCrew)
+    {
+        if (crew->IsTelepathic()) crew->SetResisted(true); //Set resisted crew
+    }
+    //Remove crew that are not valid targets
+    bool hacked = iHackEffect >= 2 && bUnderAttack;
+    int allyId = hacked ? 1 - _shipObj.iShipId : _shipObj.iShipId;
+    queuedCrew.erase(std::remove_if(queuedCrew.begin(),
+                                    queuedCrew.end(),
+                                    [&](CrewMember* crew) { 
+                                        return crew->OutOfGame() || //Out of game
+                                        crew->IsDead() || //Dead
+                                        crew->crewAnim->status == 3 || //Dying
+                                        ((crew->iShipId == allyId) ^ crew->bMindControlled) || //Non-controlled allied crew and controlled enemy crew
+                                        crew->IsTelepathic() || //Immune
+                                        crew->IsDrone(); }), //Drone
+                                    queuedCrew.end());
+
+    CustomMindSystem::MindLevel& level = CustomMindSystem::GetLevel(this);
+    unsigned int count = 0;
+    while (count < level.count && !queuedCrew.empty())
+    {
+        unsigned int index = random32() % queuedCrew.size();
+        CrewMember* crew = queuedCrew[index];
+        queuedCrew.erase(queuedCrew.begin() + index);
+        if (crew->bMindControlled)
+        {
+            crew->SetMindControl(false);
+            G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.f, false);
+        }
+        else
+        {
+            crew->SetMindControl(true);
+            G_->GetSoundControl()->PlaySoundMix("mindControl", -1.f, false);
+            controlledCrew.push_back(crew);
+        }
+        count++;
+    }
+    if (!controlledCrew.empty()) //If controlling enemy crew, activate duration
+    {
+        controlTimer.first = 0;
+        LockSystem(-1);
+    }
+    else if (count > 0) //If only freeing allied crew, start cooldown
+    {
+        controlTimer.first = controlTimer.second;
+        LockSystem(level.lock);
+    }
+    else //No activation
+    {
+        controlTimer.first = controlTimer.second;
+    }
+    queuedCrew.clear();
 }
