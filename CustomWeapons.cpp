@@ -333,7 +333,7 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
     super();
 
     // check that drone uses pinpoint beam and isn't already targeting the center of a room tile
-    if (weaponBlueprint->type==2 && weaponBlueprint->length<=1 && (std::abs(fmod(targetLocation.x, 35.f) - 17.5f) > 0.01 || std::abs(fmod(targetLocation.y, 35.f) - 17.5f) > 0.01))
+    if (weaponBlueprint->type == 2 && weaponBlueprint->length <= 1 && (std::abs(fmod(targetLocation.x, 35.f) - 17.5f) > 0.01 || std::abs(fmod(targetLocation.y, 35.f) - 17.5f) > 0.01))
     {
         ShipManager *ship = G_->GetShipManager(currentSpace);
 
