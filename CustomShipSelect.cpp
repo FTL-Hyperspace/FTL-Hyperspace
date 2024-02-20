@@ -1150,24 +1150,15 @@ void CustomShipSelect::OnRender(bool renderSelect)
                     shipName += "_3";
                 }
 
+                // Set locked miniship image to the version with the "_base" postfix if it exists
                 if (button)
                 {
                     auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-                    auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+".png");
-
-                    if (button->bShipLocked)
-                    {
-                        imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+"_base.png");
-                    }
-
-                    if (imgId->width_ == 191)// Ensure that the image exists and respect miniship dimension, otherwise use the default
-                    {
-                        button->iShipImage = imgId;
-                    }
-
+                    auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_" + bp->imgFile + ".png");
+                    auto lockImgId = G_->GetResources()->GetImageId("customizeUI/miniship_" + bp->imgFile + "_base.png");
+                    button->iShipImage = (button->bShipLocked && lockImgId->width_ == 191) ? lockImgId : imgId;
                     button->OnRender();
                 }
-                    
             }
         }
         if (shipPage > 0)
