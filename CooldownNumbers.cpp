@@ -64,8 +64,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 
         std::string streamStr = stream.str();
         std::string stream2Str = stream2.str();
-
-        // function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine
+        
         auto context = Global::GetInstance()->getLuaContext();
         SWIG_NewPointerObj(context->GetLua(), pWeapon, context->getLibScript()->types.pProjectileFactory, 0);
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
@@ -73,15 +72,8 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         lua_pushstring(context->GetLua(), streamStr.c_str());
         lua_pushstring(context->GetLua(), stream2Str.c_str());
         bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 2);
-        
-        if (lua_isstring(context->GetLua(), -2))
-        {
-            streamStr = lua_tostring(context->GetLua(), -2);
-        }
-        if (lua_isstring(context->GetLua(), -1))
-        {
-            stream2Str = lua_tostring(context->GetLua(), -1);
-        }
+        if (lua_isstring(context->GetLua(), -2)) streamStr = lua_tostring(context->GetLua(), -2);
+        if (lua_isstring(context->GetLua(), -1)) stream2Str = lua_tostring(context->GetLua(), -1);
         lua_pop(context->GetLua(), 5);
 
         if (!preempt)
