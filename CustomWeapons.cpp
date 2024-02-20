@@ -349,6 +349,9 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
                 Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
                 Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
 
+                // TODO: This check currently runs for every cell of the targeted room every frame.
+                // At some point CombatDrone::PickTarget should be rewritten from scratch so that
+                // this only has to run once when the target is first picked.
                 bool alreadyDone = false;
                 for (int i = 0; i < numSlots; ++i)
                 {
