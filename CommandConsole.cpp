@@ -350,6 +350,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                     hs_log_file("name: %s\n", i->stats.name.c_str());
                     //i->destructor();
                 }
+                //seems to work for system, so I keep it in case I need that method
+                //for (auto it = crewList.begin(); it != crewList.end(); ++it)
+                //{
+                //    delete *it;
+                //    crewList.erase(it);
+                //}
                 hs_log_file("step 8\n");
                 //oldShip->vCrewList.clear();
                 hs_log_file("step 9\n");
