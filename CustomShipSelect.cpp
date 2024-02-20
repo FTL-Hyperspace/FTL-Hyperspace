@@ -909,16 +909,6 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 {
                     aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName);
                     aButton->bLayoutLocked = aButton->bShipLocked;
-
-                    if (aButton->bShipLocked)
-                    {
-                        auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-                        auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+"_base.png");
-                        if (imgId->width_ == 191)// Ensure that the image exists and respect miniship dimension
-                        {
-                            aButton->iShipImage = imgId;
-                        }
-                    }
                     
                     if (aButton->bShipLocked && aButton->hitbox.h > 140)
                     {
@@ -939,16 +929,6 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                     bButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName + "_2");
                     bButton->bLayoutLocked = bButton->bShipLocked;
 
-                    if (bButton->bShipLocked)
-                    {
-                        auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName + "_2", -1);
-                        auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+"_base.png");
-                        if (imgId->width_ == 191)
-                        {
-                            bButton->iShipImage = imgId;
-                        }
-                    }
-
                     if (bButton->bShipLocked && bButton->hitbox.h > 140)
                     {
                         bButton->hitbox.h -= 40;
@@ -967,16 +947,6 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 {
                     cButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName + "_3");
                     cButton->bLayoutLocked = cButton->bShipLocked;
-
-                    if (cButton->bShipLocked)
-                    {
-                        auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName + "_3", -1);
-                        auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+"_base.png");
-                        if (imgId->width_ == 191)
-                        { 
-                            cButton->iShipImage = imgId;
-                        }
-                    }
 
                     if (cButton->bShipLocked && cButton->hitbox.h > 140)
                     {
@@ -1172,10 +1142,35 @@ void CustomShipSelect::OnRender(bool renderSelect)
         {
             if (x->GetPage() == shipPage - 1)
             {
+                std::string shipName = GetShipBlueprint(x->GetId());
                 ShipButton* button = x->GetButton(shipSelect->currentType);
+                if (shipSelect->currentType == 1)
+                {
+                    shipName += "_2";
+                }
+                else if (shipSelect->currentType == 2)
+                {
+                    shipName += "_3";
+                }
 
                 if (button)
+                {
+                    auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+                    auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+".png");
+
+                    if (button->bShipLocked)
+                    {
+                        imgId = G_->GetResources()->GetImageId("customizeUI/miniship_"+bp->imgFile+"_base.png");
+                    }
+
+                    if (imgId->width_ == 191)// Ensure that the image exists and respect miniship dimension, otherwise use the default
+                    {
+                        button->iShipImage = imgId;
+                    }
+
                     button->OnRender();
+                }
+                    
             }
         }
         if (shipPage > 0)
