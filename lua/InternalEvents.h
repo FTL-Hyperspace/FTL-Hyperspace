@@ -131,6 +131,8 @@ struct InternalEvents
         JUMP_ARRIVE,
         // function jump_leave(ShipManager& ship)
         JUMP_LEAVE,
+        // function on_wait(ShipManager& ship)
+        ON_WAIT,
 
 
         //Constructor Events

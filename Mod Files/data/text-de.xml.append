@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.9.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.10.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -230,3 +230,7 @@ Taste: \1</text>
 <mod:findName type="text" name="hangar_advanced_title" language="de">
   <mod:setValue> </mod:setValue>
 </mod:findName>
+<!--Neutral ASB text-->
+<text name="warning_pds_all">NEUTRAL!</text>
+<text name="tooltip_PDS_FLEET_ALL" language="de">Die Anti-Schiff Batterien der Flotte feuern auf alle Schiffe im Signalpunkt.</text>
+<text name="tooltip_PDS_FLEET_ENEMY" language="de">Die Anti-Schiff Batterien der Flotte feuern auf deine Gegner.</text>
