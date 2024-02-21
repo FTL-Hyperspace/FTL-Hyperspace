@@ -1139,10 +1139,26 @@ void CustomShipSelect::OnRender(bool renderSelect)
         {
             if (x->GetPage() == shipPage - 1)
             {
+                std::string shipName = GetShipBlueprint(x->GetId());
                 ShipButton* button = x->GetButton(shipSelect->currentType);
+                if (shipSelect->currentType == 1)
+                {
+                    shipName += "_2";
+                }
+                else if (shipSelect->currentType == 2)
+                {
+                    shipName += "_3";
+                }
 
+                // Set locked miniship image to the version with the "_base" postfix if it exists
                 if (button)
+                {
+                    auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+                    auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_" + bp->imgFile + ".png");
+                    auto lockImgId = G_->GetResources()->GetImageId("customizeUI/miniship_" + bp->imgFile + "_base.png");
+                    button->iShipImage = (button->bShipLocked && lockImgId->width_ == 191) ? lockImgId : imgId;
                     button->OnRender();
+                }
             }
         }
         if (shipPage > 0)

@@ -319,6 +319,11 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[1].y=points[0].y;
     }
     super(points, target);
+    // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
+    if (cooldown.second < 0 && iShipId == 0)
+    {
+        targets.clear();
+    }    
 }
 
 HOOK_METHOD(CombatDrone, PickTarget, () -> void)
@@ -327,7 +332,8 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
 
     super();
 
-    if (weaponBlueprint->type==2 && weaponBlueprint->length<=1) // pinpoint beam
+    // check that drone uses pinpoint beam and isn't already targeting the center of a room tile
+    if (weaponBlueprint->type == 2 && weaponBlueprint->length <= 1 && (std::abs(fmod(targetLocation.x, 35.f) - 17.5f) > 0.01 || std::abs(fmod(targetLocation.y, 35.f) - 17.5f) > 0.01))
     {
         ShipManager *ship = G_->GetShipManager(currentSpace);
 

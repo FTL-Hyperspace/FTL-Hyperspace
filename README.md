@@ -6,7 +6,7 @@ The installation guides for all platforms can be found on the [FTL Hyperspace pa
 
 # Building
 ## Windows
-See [Building Windows](BUILDING.WINDOWS.md)
+See [Building Windows](../../wiki/Building-on-Windows)
 ## Linux
 See [Building Linux](BUILDING.LINUX.md)
 

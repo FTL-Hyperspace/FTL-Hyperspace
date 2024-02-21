@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.9.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.10.0)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -264,3 +264,6 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <!-- New save file -->
 
 <text name="transfer_save_dialog">It appears this is either your first time playing this mod, or have not yet set up a new save file! Would you like to transfer vanilla progress, or play with a fresh save? This will NOT influence your vanilla progress in any way.</text>
+
+<!--Neutral ASB text-->
+<text name="warning_pds_all">NEUTRAL!</text>
