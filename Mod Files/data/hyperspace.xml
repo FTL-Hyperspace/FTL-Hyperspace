@@ -99,6 +99,8 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 <preIgniteChargers enabled="true"/> <!-- If enabled, charger type weapons will gain all their charges when pre-ignited instead of just one -->
 
+<altLockedMiniships enabled="false"/> <!-- If enabled, locked miniships will prioritize the image with the "_base" postfix -->
+
 <dismissSound enabled="true" sound="airLoss"/>
 
 <!-- Discord rich presence integration -->
