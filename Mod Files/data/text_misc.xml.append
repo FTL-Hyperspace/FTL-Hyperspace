@@ -267,3 +267,5 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <!--Neutral ASB text-->
 <text name="warning_pds_all">NEUTRAL!</text>
+
+<text name="font">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>

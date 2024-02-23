@@ -234,3 +234,5 @@ Taste: \1</text>
 <text name="warning_pds_all">NEUTRAL!</text>
 <text name="tooltip_PDS_FLEET_ALL" language="de">Die Anti-Schiff Batterien der Flotte feuern auf alle Schiffe im Signalpunkt.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="de">Die Anti-Schiff Batterien der Flotte feuern auf deine Gegner.</text>
+
+<text name="font" language="de">"Half-Life 1 + 2"-Schriften mit freundlicher Genehmigung durch freakyfonts.de</text>
