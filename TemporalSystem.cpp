@@ -259,10 +259,10 @@ void TemporalSystem_Wrapper::StopTimeDilation()
             {
                 rm_ex->timeDilationSource = nullptr;
                 rm_ex->timeDilation = 0;
-                G_->GetSoundControl()->PlaySoundMix("temporalEnd", -1.f, false);
             }
         }
 
+        G_->GetSoundControl()->PlaySoundMix("temporalEnd", -1.f, false);
         orig->AddLock(TemporalSystemParser::GetDilationCooldown(GetRealDilation()));
         bTurnedOn = false;
         currentRoom = nullptr;
