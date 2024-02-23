@@ -1,3 +1,7 @@
+<temporalFast volume="10">ship/HSSFX_TemporalFast.ogg</temporalFast>
+<temporalSlow volume="10">ship/HSSFX_TemporalSlow.ogg</temporalSlow>
+<temporalEnd volume="10">ship/HSSFX_TemporalEnd.ogg</temporalEnd>
+
 <phase volume="6">aliens/bp_phase.ogg</phase>
 
 <moreInfoOn volume="10">ui/select_up1.wav</moreInfoOn>

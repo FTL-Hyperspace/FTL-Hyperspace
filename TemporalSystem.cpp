@@ -240,6 +240,7 @@ void TemporalSystem_Wrapper::StartTimeDilation(int shipId, int roomId, bool spee
                     {
                         rm_ex->timeDilationSource = this;
                         rm_ex->timeDilation = GetRealDilation();
+                        G_->GetSoundControl()->PlaySoundMix(speedUp ? "temporalFast" : "temporalSlow", -1.f, false);
                     }
                 }
             }
@@ -258,6 +259,7 @@ void TemporalSystem_Wrapper::StopTimeDilation()
             {
                 rm_ex->timeDilationSource = nullptr;
                 rm_ex->timeDilation = 0;
+                G_->GetSoundControl()->PlaySoundMix("temporalEnd", -1.f, false);
             }
         }
 
