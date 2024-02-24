@@ -6037,6 +6037,7 @@ struct MindSystem : ShipSystem
 {
 	LIBZHL_API void InitiateMindControl();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void ReleaseCrew();
 	LIBZHL_API void SetArmed(int armed);
 	
 	std::pair<float, float> controlTimer;

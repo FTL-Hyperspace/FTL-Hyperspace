@@ -6,6 +6,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
+#include <float.h>
 
 CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
 CustomWeaponDefinition *CustomWeaponManager::currentWeapon = nullptr;
@@ -319,7 +320,8 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
         points[1].y=points[0].y;
     }
     super(points, target);
-    if (cooldown.second < 0)
+    // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
+    if (cooldown.second < 0 && iShipId == 0)
     {
         targets.clear();
     }    
@@ -329,27 +331,46 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatDrone::PickTarget -> Begin (CustomWeapons.cpp)\n")
 
-    super();
-
-    if (weaponBlueprint->type==2 && weaponBlueprint->length<=1) // pinpoint beam
-    {
-        ShipManager *ship = G_->GetShipManager(currentSpace);
-
-        // check that expected ship is actually the target
-        if (&ship->_targetable == weaponTarget)
+    // NOTE: original implementation called HasTarget, but it was a pain to expose so I just used the same conditions
+    if (weaponTarget != nullptr && weaponTarget->hostile && (targetLocation.x == -FLT_MAX || targetLocation.y == -FLT_MAX)) {
+        float angle = aimingAngle;
+        if (angle <= 180.0)
         {
-            // move target point to random tile in the room
-            int roomNumber = ship->ship.GetSelectedRoomId(targetLocation.x, targetLocation.y, true);
-            if (roomNumber != -1)
+            if (angle < -180.0)
             {
-                ShipGraph *shipInfo = ShipGraph::GetShipInfo(ship->iShipId);
-                int numSlots = shipInfo->GetNumSlots(roomNumber);
-                int randomSlot = random32() % numSlots;
-                Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
-                Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+                angle += 360.0;
+                aimingAngle = angle;
+            }
+        }
+        else
+        {
+            angle -= 360.0;
+            aimingAngle = angle;
+        }
+        lastAimingAngle = angle;
+        targetLocation = weaponTarget->GetRandomTargettingPoint(false);
+        
+        // check that drone uses pinpoint beam
+        if (weaponBlueprint->type == 2 && weaponBlueprint->length <= 1)
+        {
+            ShipManager *ship = G_->GetShipManager(currentSpace);
 
-                targetLocation.x = (grid.x * 35.f + 17.5f);
-                targetLocation.y = (grid.y * 35.f + 17.5f);
+            // check that expected ship is actually the target
+            if (&ship->_targetable == weaponTarget)
+            {
+                // move target point to random tile in the room
+                int roomNumber = ship->ship.GetSelectedRoomId(targetLocation.x, targetLocation.y, true);
+                if (roomNumber != -1)
+                {
+                    ShipGraph *shipInfo = ShipGraph::GetShipInfo(ship->iShipId);
+                    int numSlots = shipInfo->GetNumSlots(roomNumber);
+                    int randomSlot = random32() % numSlots;
+                    Point gridPos = shipInfo->GetSlotWorldPosition(randomSlot, roomNumber);
+                    Point grid = ShipGraph::TranslateToGrid(gridPos.x, gridPos.y);
+
+                    targetLocation.x = (grid.x * 35.f + 17.5f);
+                    targetLocation.y = (grid.y * 35.f + 17.5f);
+                }
             }
         }
     }

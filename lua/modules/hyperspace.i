@@ -659,6 +659,7 @@ playerVariableType playerVariables;
 %nodefaultctor WorldManager;
 %rename("%s") WorldManager;
 %rename("%s") WorldManager::AddBoarders; // Might make more sense under the player's ship or something?
+%rename("%s") WorldManager::ClearLocation;
 ////%rename("%s") WorldManager::ModifyEnvironment;
 ////%rename("%s") WorldManager::HostileEnvironment;
 ////%rename("%s") WorldManager::ModifyStatusEffect;
@@ -886,7 +887,7 @@ playerVariableType playerVariables;
 %rename("%s") Location;
 %rename("%s") Location::space;
 %rename("%s") Location::spaceImage;
-//%rename("%s") Location::planet;
+%rename("%s") Location::planet;
 %rename("%s") Location::planetImage;
 
 
