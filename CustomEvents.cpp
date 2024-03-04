@@ -3716,15 +3716,8 @@ void RecallBoarders(int direction)
             //if (i->iShipId == 0 && !i->IsDrone())
             if (!i->bDead && i->iShipId == 0 && !i->IsDrone())
             {
-                CrewMember_Extend *ex = CM_EX(i);
-                auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
-                ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
-
-                if (canTeleport) // do it this way to ignore the vanilla conditions
-                {
-                    i->EmptySlot();
-                    playerShip->AddCrewMember2(i,targetRoom);
-                }
+                i->EmptySlot();
+                playerShip->AddCrewMember2(i,targetRoom);
             }
         }
     }
