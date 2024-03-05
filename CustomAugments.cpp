@@ -840,3 +840,21 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 }
+
+HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, 200, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
+
+    super(event);
+
+    // Lua callback - PostCreateChoiceBox
+    if (commandGui->choiceBoxOpen)
+    {
+        ChoiceBox *choiceBox = &commandGui->choiceBox;
+
+        auto context = Global::GetInstance()->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), choiceBox, context->getLibScript()->types.pChoiceBox, 0);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::POST_CREATE_CHOICEBOX, 1, 0);
+        lua_pop(context->GetLua(), 1);
+    }
+}
