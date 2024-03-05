@@ -144,7 +144,7 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
-    %template(vector_choice) vector<Choice*>;
+    %template(vector_choice) vector<LocationEvent::Choice*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -555,8 +555,8 @@ playerVariableType playerVariables;
 //%rename("%s") Equipment::GetCargoHold;
 
 %rename("%s") CommandGui::bHideUI; // Not sure if we should disallow setting this
-%rename("%s") CommandGui::choiceBox
-%immutable CommandGui::choiceBox
+%rename("%s") CommandGui::choiceBox;
+%immutable CommandGui::choiceBox;
 %rename("%s") CommandGui::jumpComplete;
 %immutable CommandGui::jumpComplete;
 %rename("%s") CommandGui::mapId;
@@ -620,9 +620,9 @@ playerVariableType playerVariables;
 %rename("%s") ChoiceBox::currentTextColor;
 %rename("%s") ChoiceBox::lastChoice;
 
-%nodefaultctor ChoiceText
-%nodefaultdtor ChoiceText
-%rename("%s") ChoiceText
+%nodefaultctor ChoiceText;
+%nodefaultdtor ChoiceText;
+%rename("%s") ChoiceText;
 %rename("%s") ChoiceText::type;
 %rename("%s") ChoiceText::text;
 %rename("%s") ChoiceText::rewards;
