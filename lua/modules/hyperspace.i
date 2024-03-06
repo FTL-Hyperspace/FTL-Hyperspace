@@ -144,7 +144,8 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
-    %template(vector_choice) vector<LocationEvent::Choice*>;
+    %template(vector_locationEventChoice) vector<LocationEvent::Choice*>;
+    %template(vector_choiceText) vector<ChoiceText*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
