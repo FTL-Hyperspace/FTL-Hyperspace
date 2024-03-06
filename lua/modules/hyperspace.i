@@ -145,7 +145,7 @@ namespace std {
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice*>;
-    %template(vector_choiceText) vector<ChoiceText*>;
+    %template(vector_choiceText) vector<ChoiceText>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -572,14 +572,14 @@ playerVariableType playerVariables;
 %rename("%s") Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
-%rename("%s") LocationEvent::Choice::requirement;
+//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
 %rename("%s") LocationEvent::Choice::hiddenReward;
 %rename("%s") LocationEvent::text;
-%rename("%s") LocationEvent::ship;
-%rename("%s") LocationEvent::stuff;
+//%rename("%s") LocationEvent::ship; ShipEvent not exposed
+//%rename("%s") LocationEvent::stuff; ResourceEvent not exposed
 %rename("%s") LocationEvent::environment;
 %rename("%s") LocationEvent::environmentTarget;
-%rename("%s") LocationEvent::store;
+%rename("%s") LocationEvent::store; 
 %rename("%s") LocationEvent::gap_ex_cleared;
 %rename("%s") LocationEvent::fleetPosition;
 %rename("%s") LocationEvent::beacon;
@@ -588,15 +588,15 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::repair;
 
 %rename("%s") LocationEvent::modifyPursuit;
-%rename("%s") LocationEvent::pStore;
-%rename("%s") LocationEvent::damage;
+//%rename("%s") LocationEvent::pStore; Store not exposed
+//%rename("%s") LocationEvent::damage; EventDamage not exposed
 %rename("%s") LocationEvent::quest;
-%rename("%s") LocationEvent::statusEffects;
-%rename("%s") LocationEvent::nameDefinitions;
+//%rename("%s") LocationEvent::statusEffects; StatusEffect not exposed
+//%rename("%s") LocationEvent::nameDefinitions; std_pair_std_string_std_string require further testing
 %rename("%s") LocationEvent::spaceImage;
 %rename("%s") LocationEvent::planetImage;
 %rename("%s") LocationEvent::eventName;
-%rename("%s") LocationEvent::reward;
+//%rename("%s") LocationEvent::reward; ResourceEvent not exposed
 %rename("%s") LocationEvent::boarders;
 %rename("%s") LocationEvent::choices;
 %rename("%s") LocationEvent::unlockShip;
