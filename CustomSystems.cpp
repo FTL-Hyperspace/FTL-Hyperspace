@@ -1026,7 +1026,7 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
     {
         controlTimer.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
     }
-    if (oldFirst != controlTimer.first && controlTimer.second <= controlTimer.first)
+    if (oldFirst != controlTimer.second && controlTimer.second <= controlTimer.first)
     {
         ReleaseCrew();
     }
