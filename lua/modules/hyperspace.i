@@ -607,7 +607,7 @@ playerVariableType playerVariables;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
 %rename("%s") ChoiceBox::columnSize;
-//%rename("%s") ChoiceBox::choiceBoxes; not sure of its purpose
+%rename("%s") ChoiceBox::choiceBoxes;
 %rename("%s") ChoiceBox::potentialChoice;
 %rename("%s") ChoiceBox::selectedChoice;
 %rename("%s") ChoiceBox::fontSize;
