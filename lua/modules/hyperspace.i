@@ -568,7 +568,6 @@ playerVariableType playerVariables;
 %immutable CommandGui::choiceBoxOpen;
 
 %nodefaultctor LocationEvent;
-%nodefaultdtor LocationEvent;
 %rename("%s") LocationEvent;
 %rename("%s") Choice;
 %rename("%s") LocationEvent::Choice::event;
@@ -604,8 +603,6 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::unlockShipText;
 %rename("%s") LocationEvent::secretSector;
 
-%nodefaultctor ChoiceBox;
-%nodefaultdtor ChoiceBox;
 %rename("%s") ChoiceBox;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
@@ -622,7 +619,6 @@ playerVariableType playerVariables;
 %rename("%s") ChoiceBox::lastChoice;
 
 %nodefaultctor ChoiceText;
-%nodefaultdtor ChoiceText;
 %rename("%s") ChoiceText;
 %rename("%s") ChoiceText::type;
 %rename("%s") ChoiceText::text;
