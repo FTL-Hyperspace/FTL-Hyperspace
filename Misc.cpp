@@ -535,6 +535,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
     types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
     types.pChoiceBox = SWIG_TypeQuery(this->m_Lua, "ChoiceBox *");
+    types.pLocationEvent = SWIG_TypeQuery(this->m_Lua, "LocationEvent *");
 
     types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
