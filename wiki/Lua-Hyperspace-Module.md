@@ -1147,3 +1147,16 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
+
+## CombatControl
+
+### Fields
+- `WeaponControl` `weapControl`
+- `Point` `.position`
+- `Point` `.targetPosition`
+- `bool` `.bossVisual`
+
+## WeaponControl
+**Extends ~~`ArmamentControl`~~**
+### Fields
+- `bool` `.autoFiring`
