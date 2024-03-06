@@ -855,7 +855,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, 200, (LocationEvent *event) 
         auto context = Global::GetInstance()->getLuaContext();
         SWIG_NewPointerObj(context->GetLua(), choiceBox, context->getLibScript()->types.pChoiceBox, 0);
         SWIG_NewPointerObj(context->GetLua(), event, context->getLibScript()->types.pLocationEvent, 0);
-        context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::POST_CREATE_CHOICEBOX, 1, 0);
+        context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::POST_CREATE_CHOICEBOX, 2, 0);
         lua_pop(context->GetLua(), 1);
     }
 }
