@@ -116,6 +116,8 @@ struct InternalEvents
         GENERATOR_CREATE_SHIP,
         // function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain
         GENERATOR_CREATE_SHIP_POST,
+        // function post_createChoiceBox(LocationEvent &event)
+        PRE_CREATE_CHOICEBOX,
         // function post_createChoiceBox(choiceBox &choiceBox, LocationEvent &event)
         POST_CREATE_CHOICEBOX,
 

@@ -144,7 +144,7 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
-    %template(vector_locationEventChoice) vector<LocationEvent::Choice*>;
+    %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
     %template(vector_choiceText) vector<ChoiceText>;
 }
 
@@ -569,7 +569,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
-%rename("%s") Choice;
+%rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
 //%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
