@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.10.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.10.2)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -267,3 +267,5 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <!--Neutral ASB text-->
 <text name="warning_pds_all">NEUTRAL!</text>
+
+<text name="font">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>

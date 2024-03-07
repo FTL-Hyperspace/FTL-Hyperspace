@@ -63,6 +63,8 @@ public:
 
     Setting<bool> preIgniteChargers;
 
+    Setting<bool> altLockedMiniships;
+
     Setting<std::string> dismissSound;
 
     Defaults defaults;

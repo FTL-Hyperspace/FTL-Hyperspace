@@ -18,6 +18,9 @@ struct InternalEvents
         ON_TICK, // We'll use CApp::OnLoop for this ticking
         // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
+
+        // function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed
+        GET_RUN_SEED,
         
         // function on_key_down(SDLKey key) return Chain
         ON_KEY_DOWN,
