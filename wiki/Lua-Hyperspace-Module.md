@@ -1155,9 +1155,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `Point` `.position`
 - `Point` `.targetPosition`
 - `bool` `.bossVisual`
+   - **Read-only**
 
 ## WeaponControl
 **Extends ~~`ArmamentControl`~~**
 ### Fields
-   - **Read-only**
 - `bool` `.autoFiring`
+   - **Read-only**
