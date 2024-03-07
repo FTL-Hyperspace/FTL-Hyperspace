@@ -1161,7 +1161,6 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.reveal_map`
 - `bool` `.distressBeacon`
 - `bool` `.repair`
-
 - `int` `.modifyPursuit`
 - `std::string` `.quest`
 - `std::string` `.spaceImage`
@@ -1171,7 +1170,6 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.unlockShip`
 - `TextString` `.unlockShipText`
 - `bool` `.secretSector`
-
 - `std::vector<Choice>` `.choices`
 - - `LocationEvent` `.choices.event`
 - - `TextString` `.choices.text`
