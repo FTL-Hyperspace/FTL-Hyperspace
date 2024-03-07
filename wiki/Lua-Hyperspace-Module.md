@@ -1151,7 +1151,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## LocationEvent
 
 ### Fields
-- `TextString` `.text`
+- [`TextString`](#TextString) `.text`
 - `int` `.environment`
 - `int` `.environmentTarget`
 - `bool` `.store`
@@ -1166,19 +1166,19 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
 - `std::string` `.eventName`
-- `BoardingEvent` `.boarders`
+- [`BoardingEvent`](#BoardingEvent) `.boarders`
 - `int` `.unlockShip`
-- `TextString` `.unlockShipText`
+- [`TextString`](#TextString) `.unlockShipText`
 - `bool` `.secretSector`
-- `std::vector<Choice>` `.choices`
+- [`std::vector<Choice>`](#Choice) `.choices`
 
 ## Choice
 
 **Internal Struct Of [`LocationEvent`](#LocationEvent)**
 
 ### Fields
-- `LocationEvent` `.event`
-- `TextString` `.text`
+- [`LocationEvent`](#LocationEvent) `.event`
+- [`TextString`](#TextString) `.text`
 - `bool` `.hiddenReward`
 
 ## FocusWindow
@@ -1194,16 +1194,16 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 - `std::string` `.mainText`
-- `std::vector<ChoiceText>` `.choices`
+- [`std::vector<ChoiceText>`](#ChoiceText) `.choices`
 - `int` `.columnSize`
-- `std::vector<Globals::Rect>` `.choiceBoxes`
+- [`std::vector<Globals::Rect>`](#Globals) `.choiceBoxes`
 - `int` `.potentialChoice`
 - `int` `.selectedChoice`
 - `int` `.fontSize`
 - `bool` `.centered`
 - `int` `.gap_size`
 - `float` `.openTime`
-- `GL_Color` `.currentTextColor`
+- [`GL_Color`](#GL_Color) `.currentTextColor`
 - `Pointf` `.lastChoice`
 
 ## ChoiceText
@@ -1215,36 +1215,35 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CommandGui
 
 ### Fields
-- `ShipStatus` `.shipStatus`
-- `CrewControl` `.crewControl`
-- `SystemControl` `.sysControl`
-- `CombatControl` `.combatControl`
-- `FTLButton` `.ftlButton`
-- `SpaceStatus` `.spaceStatus`
-- `Point` `.pauseTextLoc`
-- `Point` `.shipPosition`
+- [`ShipStatus`](#ShipStatus) `.shipStatus`
+- [`CrewControl`](#CrewControl) `.crewControl`
+- [`SystemControl`](#SystemControl) `.sysControl`
+- [`CombatControl`](#CombatControl) `.combatControl`
+- [`FTLButton`](#FTLButton) `.ftlButton`
+- [`SpaceStatus`](#SpaceStatus) `.spaceStatus`
+- [`Point`](#Point) `.pauseTextLoc`
+- [`Point`](#Point) `.shipPosition`
 - `bool` `.outOfFuel`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.bPaused`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.bAutoPaused`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.menu_pause`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.event_pause`
-   - Read-Only
+   - **Read-Only**
 - `Button` `.upgradeButton`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.dangerLocation`
-   - Read-Only`
+   - **Read-Only**`
 - `bool` `.bHideUI`
-- `ChoiceBox` `.choiceBox`
-   - Read-Only
+- [`ChoiceBox`](#ChoiceBox) `.choiceBox`
 - `bool` `.jumpComplete`
-   - Read-Only
+   - **Read-Only**
 - `int` `.mapId`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.secretSector`
-   - Read-Only
+   - **Read-Only**
 - `bool` `.choiceBoxOpen`
-   - Read-Only
+   - **Read-Only**
