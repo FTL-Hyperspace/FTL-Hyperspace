@@ -1151,7 +1151,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CombatControl
 
 ### Fields
-- `WeaponControl` `weapControl`
+- [`WeaponControl`](#weaponcontrol) `weapControl`
 - `Point` `.position`
 - `Point` `.targetPosition`
 - `bool` `.bossVisual`
@@ -1159,4 +1159,5 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## WeaponControl
 **Extends ~~`ArmamentControl`~~**
 ### Fields
+   - **Read-only**
 - `bool` `.autoFiring`
