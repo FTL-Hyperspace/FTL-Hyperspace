@@ -1247,3 +1247,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - **Read-Only**
 - `bool` `.choiceBoxOpen`
    - **Read-Only**
+
+## TextString
+
+### Method
+- `std::string :GetText()`
+
+### Fields
+- `bool` `.data`
+- `uint8_t` `.isLiteral`
