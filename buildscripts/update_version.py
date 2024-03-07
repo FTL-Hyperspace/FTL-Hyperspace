@@ -21,22 +21,25 @@ def update_version(major, minor, patch):
 
     # Update hyperspace.xml
     with open(hyperspace_xml_file, "r") as file:
-        content = file.read()
-    content = re.sub(r'<version>\^\d+\.\d+\.\d+</version>', f'<version>^{major}.{minor}.{patch}</version>', content)
+        lines = file.readlines()
+    for i, line in enumerate(lines):
+        if "<version>^" in line and line.strip().endswith("</version>"):
+            lines[i] = f"<version>^{major}.{minor}.{patch}</version>\n"
+            break
     with open(hyperspace_xml_file, "w") as file:
-        file.write(content)
+        file.writelines(lines)
 
     # Update text-de.xml.append
     with open(text_de_xml_file, "r") as file:
         content = file.read()
-    content = re.sub(r'<mod:setValue>\\\\1 \(Hyperspace \d+\.\d+\.\d+\)</mod:setValue>', f'<mod:setValue>\\\\1 (Hyperspace {major}.{minor}.{patch})</mod:setValue>', content)
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
     with open(text_de_xml_file, "w") as file:
         file.write(content)
 
     # Update text_misc.xml.append
     with open(text_misc_xml_file, "r") as file:
         content = file.read()
-    content = re.sub(r'<mod:setValue>\\\\1 \(Hyperspace \d+\.\d+\.\d+\)</mod:setValue>', f'<mod:setValue>\\\\1 (Hyperspace {major}.{minor}.{patch})</mod:setValue>', content)
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
     with open(text_misc_xml_file, "w") as file:
         file.write(content)
 
