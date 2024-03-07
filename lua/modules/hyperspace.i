@@ -603,6 +603,11 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::unlockShipText;
 %rename("%s") LocationEvent::secretSector;
 
+%rename("%s") FocusWindow;
+%rename("%s") FocusWindow::bOpen;
+%rename("%s") FocusWindow::bFullFocus;
+%rename("%s") FocusWindow::bCloseButtonSelected;
+
 %rename("%s") ChoiceBox;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
@@ -614,7 +619,7 @@ playerVariableType playerVariables;
 %rename("%s") ChoiceBox::centered;
 %rename("%s") ChoiceBox::gap_size;
 %rename("%s") ChoiceBox::openTime;
-%rename("%s") ChoiceBox::rewards;
+// %rename("%s") ChoiceBox::rewards; ResourceEvent not exposed
 %rename("%s") ChoiceBox::currentTextColor;
 %rename("%s") ChoiceBox::lastChoice;
 
@@ -622,7 +627,7 @@ playerVariableType playerVariables;
 %rename("%s") ChoiceText;
 %rename("%s") ChoiceText::type;
 %rename("%s") ChoiceText::text;
-%rename("%s") ChoiceText::rewards;
+//%rename("%s") ChoiceText::rewards; ResourceEvent not exposed
 
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;

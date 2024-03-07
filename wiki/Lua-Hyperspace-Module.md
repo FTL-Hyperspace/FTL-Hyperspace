@@ -1145,3 +1145,63 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
+
+## LocationEvent
+
+### Fields
+- `TextString` `.text`
+- `int` `.environment`
+- `int` `.environmentTarget`
+- `bool` `.store`
+- `bool` `.gap_ex_cleared`
+- `int` `.fleetPosition`
+- `bool` `.beacon`
+- `bool` `.reveal_map`
+- `bool` `.distressBeacon`
+- `bool` `.repair`
+
+- `int` `.modifyPursuit`
+- `std::string` `.quest`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `std::string` `.eventName`
+- `BoardingEvent` `.boarders`
+- `int` `.unlockShip`
+- `TextString` `.unlockShipText`
+- `bool` `.secretSector`
+
+- `std::vector<Choice>` `.choices`
+- - `LocationEvent` `.choices.event`
+- - `TextString` `.choices.text`
+- - `bool` `.choices.hiddenReward`
+
+## FocusWindow
+
+### Fields
+- `bool` `.bOpen`
+- `bool` `.bFullFocus`
+- `bool` `.bCloseButtonSelected`
+
+## ChoiceBox
+
+**Extends [`FocusWindow`](#FocusWindow)**
+
+### Fields
+- `std::string` `.mainText`
+- `std::vector<ChoiceText>` `.choices`
+- `int` `.columnSize`
+- `std::vector<Globals::Rect>` `.choiceBoxes`
+- `int` `.potentialChoice`
+- `int` `.selectedChoice`
+- `int` `.fontSize`
+- `bool` `.centered`
+- `int` `.gap_size`
+- `float` `.openTime`
+- `GL_Color` `.currentTextColor`
+- `Pointf` `.lastChoice`
+
+## ChoiceText
+
+### Fields
+- `int` `.type`
+- `std::string` `.text`
