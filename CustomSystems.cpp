@@ -1085,7 +1085,7 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
                                         ((crew->iShipId == allyId) ^ crew->bMindControlled) || //Non-controlled allied crew and controlled enemy crew
                                         crew->IsTelepathic() || //Immune
                                         crew->IsDrone() || //Drone
-                                        (crew->iShipId == 1 && _shipObj.iShipId == 1) || //enemies can't use MC to uncontrol their crew
+                                        (crew->iShipId == 1 && _shipObj.iShipId == 1 && crew->bMindControlled) || //enemies can't use MC to uncontrol their crew
                                         (bSuperShields && crew->currentShipId != _shipObj.iShipId && _shipObj.HasEquipment("ZOLTAN_BYPASS") <= 0); }), //targetting other ship, with supershields and no bypass
                                     queuedCrew.end());
 
