@@ -1205,3 +1205,40 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `int` `.type`
 - `std::string` `.text`
+
+## CommandGui
+
+### Fields
+- `ShipStatus` `.shipStatus`
+- `CrewControl` `.crewControl`
+- `SystemControl` `.sysControl`
+- `CombatControl` `.combatControl`
+- `FTLButton` `.ftlButton`
+- `SpaceStatus` `.spaceStatus`
+- `Point` `.pauseTextLoc`
+- `Point` `.shipPosition`
+- `bool` `.outOfFuel`
+   - Read-Only
+- `bool` `.bPaused`
+   - Read-Only
+- `bool` `.bAutoPaused`
+   - Read-Only
+- `bool` `.menu_pause`
+   - Read-Only
+- `bool` `.event_pause`
+   - Read-Only
+- `Button` `.upgradeButton`
+   - Read-Only
+- `bool` `.dangerLocation`
+   - Read-Only`
+- `bool` `.bHideUI`
+- `ChoiceBox` `.choiceBox`
+   - Read-Only
+- `bool` `.jumpComplete`
+   - Read-Only
+- `int` `.mapId`
+   - Read-Only
+- `bool` `.secretSector`
+   - Read-Only
+- `bool` `.choiceBoxOpen`
+   - Read-Only
