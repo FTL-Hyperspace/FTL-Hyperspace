@@ -1171,9 +1171,15 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `TextString` `.unlockShipText`
 - `bool` `.secretSector`
 - `std::vector<Choice>` `.choices`
-  - `LocationEvent` `.choices.event`
-  - `TextString` `.choices.text`
-  - `bool` `.choices.hiddenReward`
+
+## Choice
+
+**Internal Struct Of [`LocationEvent`](#LocationEvent)**
+
+### Fields
+- `LocationEvent` `.event`
+- `TextString` `.text`
+- `bool` `.hiddenReward`
 
 ## FocusWindow
 
