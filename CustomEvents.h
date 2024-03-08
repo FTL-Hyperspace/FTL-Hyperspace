@@ -621,6 +621,7 @@ struct CustomEvent
     std::string secretSectorWarp = "";
     bool recallBoarders = false;
     int recallBoardersShip = 0;
+    bool recallBoardersForce = false;
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     bool eventLoadIgnoreUnique = false;
@@ -1023,4 +1024,4 @@ public:
 
 void EventDamageEnemy(EventDamage eventDamage);
 void GoToFlagship(bool atBase, bool allFleet);
-void RecallBoarders(int direction);
+void RecallBoarders(int direction, bool force);

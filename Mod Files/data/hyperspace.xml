@@ -2205,7 +2205,8 @@ Syntax ->
 		<loadSurrender force="false"/>                                                          Triggers surrender (including event), if the enemy was set to surrender on hull threshold or if force="true".
 		<disableEscape force="false"/>                                                          Clears the enemy escape trigger. If force="true" then makes the enemy stop escaping if they were already escaping.
 		<disableSurrender force="false"/>                                                       Clears the enemy surrender trigger. If force="true" then also clears any existing surrender flag.
-		<recallBoarders ship="both"/>                                                           Moves boarders off of ships. Set ship to "player" or "enemy" to get boarders off of one ship only.
+		<recallBoarders ship="both" force="false"/>                                             Moves boarders off of ships. Set ship to "player" or "enemy" to get boarders off of one ship only.
+		                                                                                          If force="true" then boarders will be recalled even if their canTeleport stat is false.
 		<repairAllSystems/>                                                                     Fully repairs all of a player's systems.
 		<killEnemyBoarders/>                                                                    Kills all enemy crew on the player ship.
 		<enemyDamage amount="1" system="sys" effect="eff" force="false" damageHull="true"/>     Same syntax as vanilla's <damage> but afflicts the enemy ship. If force="true" then bypasses all system damage resistances.
