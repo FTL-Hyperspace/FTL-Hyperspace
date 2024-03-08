@@ -621,7 +621,7 @@ struct CustomEvent
     std::string secretSectorWarp = "";
     bool recallBoarders = false;
     int recallBoardersShip = 0;
-	bool recallBoardersForce = false;
+    bool recallBoardersForce = false;
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     bool eventLoadIgnoreUnique = false;

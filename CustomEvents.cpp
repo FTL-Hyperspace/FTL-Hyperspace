@@ -1060,7 +1060,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                     customEvent->recallBoardersShip = -1;
                 }
             }
-			if (child->first_attribute("force"))
+            if (child->first_attribute("force"))
             {
                 customEvent->recallBoardersForce = EventsParser::ParseBoolean(child->first_attribute("force")->value());
             }
