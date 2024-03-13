@@ -278,7 +278,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 hs_log_file("step 0\n");
                 WorldManager *world = G_->GetWorld();
 
-                ShipManager *oldShip = world->playerShip->shipManager;
+                world->playerShip->destructor(0);
                 ShipManager *newShip = new ShipManager(0);
                 newShip->OnInit(bp, 0);
                 hs_log_file("step 1\n");
