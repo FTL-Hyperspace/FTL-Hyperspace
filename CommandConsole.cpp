@@ -275,96 +275,21 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             hs_log_file("Shipname %s\n", bp->blueprintName.c_str());
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-                hs_log_file("step -3\n");
-                ShipBuilder builder = G_->GetCApp()->menu.shipBuilder;
-                hs_log_file("step -2\n");
-                //ShipManager *oldShip = G_->GetWorld()->playerShip->shipManager;
-                ShipManager *oldShip = builder.currentShip;
-
-                // "working" for no reason now
-                //oldShip->destructor();
-
-                hs_log_file("step -1\n");
-                ShipManager *ship = new ShipManager(0);
-                builder.currentShip = ship;
                 hs_log_file("step 0\n");
-
-                ship->OnInit(bp, 0);
-                
-                G_->GetWorld()->playerShip->SetShip(ship);
-                //Most likely redundant
-                G_->GetWorld()->playerShip->shipManager = ship;
-                hs_log_file("step 1\n");
-
-                // Better be safe
-                builder.CreateEquipmentBoxes();
-                builder.CreateSystemBoxes();
-                builder.SetupShipAchievements();
-                builder.ClearShipAchievements();
-                //builder.SetupShipAchievements();
-                hs_log_file("step 2\n");
-                // effective to update StarMap
-                G_->GetCApp()->gui->starMap->shipManager = ship;
-
-                // effective to update equipment
-                G_->GetCApp()->gui->equipScreen.OnInit(ship);
-                G_->GetCApp()->gui->equipScreen.shipManager = ship;
-                hs_log_file("step 3\n");
-                // effective to update system upgrade
-                G_->GetCApp()->gui->upgradeScreen.shipManager = ship;
-
-                // effective to update system
-                G_->GetCApp()->gui->sysControl.shipManager = ship;
-                
-                // effective to update combatControl
-                G_->GetCApp()->gui->combatControl.shipManager = ship;
-                G_->GetCApp()->gui->combatControl.droneControl.LinkShip(ship);
-                G_->GetCApp()->gui->combatControl.weapControl.LinkShip(ship);
-                hs_log_file("step 4\n");
-                // effective to update crew
-                G_->GetCApp()->gui->crewControl.shipManager = ship;
-                G_->GetCApp()->gui->crewScreen.shipManager = ship;
-
-                // effective to update shipStatus
-                G_->GetCApp()->gui->shipStatus.ship = ship;
-                hs_log_file("step 5\n");
-                // effective to update ftlButton
-                G_->GetCApp()->gui->ftlButton.ship = ship;
-
-                // Might be effective, need to be fixed
-                //G_->GetCApp()->gui->shipComplete = G_->GetWorld()->playerShip
-
-                // might be effective (no, that's a crash)
-                //builder.CycleShipNext();
-                //builder.CycleShipPrevious();
-                hs_log_file("step 6\n");
-                //no apparent effect, best to keep it
-                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
-                G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
-                hs_log_file("step 7\n");
-                std::vector<CrewMember*> crewList = oldShip->vCrewList;
-                oldShip->destructor();
-                // Another crah
-                for (auto i : crewList)
-                {           
-                    hs_log_file("name: %s\n", i->stats.name.c_str());
-                    //i->destructor();
-                }
-                //seems to work for system, so I keep it in case I need that method
-                //for (auto it = crewList.begin(); it != crewList.end(); ++it)
-                //{
-                //    delete *it;
-                //    crewList.erase(it);
-                //}
-                hs_log_file("step 8\n");
-                //oldShip->vCrewList.clear();
-                hs_log_file("step 9\n");
-                //oldShip->destructor();
-                hs_log_file("step 10\n");
-                //G_->GetCFPS()->SpeedFactor = 0.f;
-                hs_log_file("step 11\n");
+                //WorldManager world = G_->GetWorld();
+//
+                //ShipManager *oldShip = builder.currentShip;
+                //ShipManager *newShip = new ShipManager(0);
+                //newShip->OnInit(bp, 0);
+                //
+                //CompleteShip *newCompleteShip = new CompleteShip(world->space,true, 0);
+                //world->playerShip = newCompleteShip;
+                //newCompleteShip->SetShip(newShip);
+                //newShip = world->playerShip->shipManager;
+//
+                //world->gui->starMap->shipManager = newShip;
+                //world->LinkShip(world->playerShip);
             }
-            
         }
         
         return true;
