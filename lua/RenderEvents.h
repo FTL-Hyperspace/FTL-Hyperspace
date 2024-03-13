@@ -23,6 +23,7 @@ struct RenderEvents
         ////SHEILDS_BASE, // Shields::OnRenderBaseShield
         ////SHIP_BASE, // Ship::OnRenderBase
         SHIP_HULL, // Inside Ship::OnRenderBase
+        SHIP_ENGINES, //Inside Ship::OnRenderBase (Engine animation)
         SHIP_FLOOR, // Ship::OnRenderFloor
         ////SHIP_FLOOR_EFFECTS, // Ship::OnRenderFloorEffects
         ////SHIP_SYSTEM, // Ship::OnRenderSystem, might need to do a separate PLAYER & ENEMY version or pass that info maybe
@@ -51,7 +52,7 @@ struct RenderEvents
         //SYSTEM_CONTROL, // SystemControl::OnRender
         //COMBAT_CONTROL_INTERFACE, // CombatControl::OnRenderInterface
         ////PAUSE, // CommandGui::RenderPause (not hooked yet)
-        //SPACE_STATUS, // SpaceStatus::OnRender
+        SPACE_STATUS, // SpaceStatus::OnRender
         //SHIP_STATUS, // ShipStatus::OnRender
         ////CONFIRM_WINDOW, // ConfirmWindow::OnRender, TODO: Might need to pass which window it is
         ////CHOICE_BOX, // ChoiceBox::OnRender, TODO: Might need to pass which choice it is

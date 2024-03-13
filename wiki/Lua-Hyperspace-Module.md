@@ -289,7 +289,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - **Note:** Vectors are 0 indexed unlike lua's normal arrays
    - Field is **read-only** but fields under this object may still be mutable.
 - ~~`Spreader_Fire` `.fireSpreader`~~
-- ~~`Ship` `.ship`~~
+- `Ship` `.ship`
+   - Field is **read-only** but fields under this object may still be mutable.
 - ~~`char` `.statusMessages[80]`~~
 - ~~`bool` `.bGameOver`~~
 - ~~`ShipManager*` `.current_target`~~ Just use `Hyperspace.ships.enemy` or `Hyperspace.ships.player` depending on the ship you're currently looking at instead.
@@ -387,6 +388,81 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool` `.hostile`
 - `bool` `.targeted`
 
+## Ship
+Extends ShipObject
+
+### Methods
+
+-  `bool :BreachRandomHull(int roomId)`
+   -  Breaches a random tile in the room with `roomId` as its id. This can select an already breached tile, in which case nothing will happen.
+-  `int :EmptySlots(int roomId)`
+   -  Returns the number of tiles within the room (Equivalent to the area of the room). I think this marks all tiles in the room as empty, so you can use this to fit more crew than you should in a given room.
+-  `bool :FullRoom(int roomId, bool intruder)`
+   -  Returns true if the room cannot fit any more crew of the allegiance specifies by the `intruder` arg. If `intruder` is false, counts player crew when on the player ship, and enemy crew when on the enemy ship. If `intruder` is true, counts enemy crew when on the player ship, and player crew when on the enemy ship.
+-  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
+-  `Globals::Ellipse GetBaseEllipse()`
+   -  Return `baseEllipse` member by value.
+- `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
+   -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
+-  `void LockdownRoom(int roomId, Pointf pos)` 
+   -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well.
+-  `bool RoomLocked(int roomId)`
+   -  Returns true if the room is locked down.
+-  `void SetRoomBlackout(int roomId, bool blackout)`
+   -  When `blackout` is true, hide the room's interior (As if sensors were disabled). When it is false, show the room's interior. Note: This must be done every tick to have an effect.
+-  `void SetSelectedRoom(int roomId)`
+   -  Sets the room to be selected (Yellow outline). Note: Must be done every tick to have an effect.
+
+### Fields
+-  `int` `.iShipId` 
+-  `std::vector<Room*>` `.vRoomList`
+-  `std::vector<Door*>` `.vDoorList`
+-  `std::vector<OuterHull*>` `.vOuterWalls`
+-  `std::vector<OuterHull*>` `.vOuterWalls`
+-  `std::vector<Door*>` `.vOuterAirlocks`
+-  `std::pair<int, int>` `.hullIntegrity`
+-  `std::vector<WeaponMount>` `.weaponMounts`
+-  `std::string` `.floorImageName`
+-  `ImageDesc ` `.shipFloor`
+-  `GL_Primitive*` `.floorPrimitive`
+-  `std::string` `.shipImageName`
+-  `ImageDesc` `.shipImage`
+-  `Point` `.glowOffset`
+-  `GL_Primitive*` `.shipImagePrimitive`
+-  `std::string` `.cloakImageName`
+-  `ImageDesc` `.shipImageCloak`
+-  `GL_Primitive*` `.cloakPrimitive`
+-  `GL_Primitive*` `.gridPrimitive`
+-  `GL_Primitive*` `.wallsPrimitive`
+-  `GL_Primitive*` `.doorsPrimitive`
+-  `std::vector<DoorState>` `.doorState`
+-  `bool` `.lastDoorControlMode`
+-  `GL_Texture*` `.thrustersImage`
+-  `GL_Texture*` `.jumpGlare`
+-  `int` `.vertical_shift`
+-  `int` `.horizontal_shift`
+-  `std::string` `.shipName`
+-  `~~ExplosionAnimation` `.explosion`~~
+-  `bool` `.bDestroyed`
+-  `Globals::Ellipse` `.baseEllipse`
+-  `Animation[2]` `.engineAnim`
+-  `AnimationTracker` `.cloakingTracker`
+-  `bool` `.bCloaked`
+-  `bool` `.bExperiment`
+-  `bool` `.bShowEngines`
+-  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+### Hyperspace Fields
+-  `std::vector<std::pair<Animation, int8_t>>` 
+`extraEngineAnim`
+   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
+   
+   |Value | Rotation                     |
+   | ---: | :--------------------------- |
+   | -1   | 90 Degrees Clockwise         |
+   |  0   | No Rotation                  |
+   |  1   | 90 Degrees Counterclockwise  |
+
+   Note: Pairs are returned by value, and not by reference.
 ## ShipSystem
 
 ### Static methods
@@ -897,6 +973,8 @@ def.boostSource = Hyperspace.StatBoostDefinition.BoostSource.AUGMENT
 def.shipTarget = Hyperspace.StatBoostDefinition.ShipTarget.ALL
 def.crewTarget = Hyperspace.StatBoostDefinition.CrewTarget.ALL
 def.duration = 10
+def.realBoostId = Hyperspace.StatBoostDefinition.statBoostDefs:size()
+Hyperspace.StatBoostDefinition.statBoostDefs:push_back(def)
 function player_crew_health_boost()
 	local crewList = Hyperspace.ships.player.vCrewList
 	for i = 0, crewList:size() - 1 do

@@ -66,6 +66,12 @@ cleanup __cdecl int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y,
 cleanup __cdecl void ShipSystem::AddDamage(ShipSystem *this, int amount);
 "57bf05000000565383ec208b7424308b464c89f3":
 cleanup __cdecl void ShipSystem::destructor(ShipSystem *this);
+"55b84000":
+static cleanup __cdecl int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
+"5589e557565383ec3c8b75108b5d0885":
+cleanup __cdecl void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
+"8b5424088b4424048b8a1801":
+cleanup __cdecl TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 
 "!8b3d(???????\?)84d28b8580010000":
 GL_Primitive** ShipSystem__lockBlue;

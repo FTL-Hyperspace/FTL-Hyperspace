@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
 #include "CustomAugments.h"
@@ -173,6 +174,11 @@ void Global::PreInitializeResources(ResourceControl *resources)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->EarlyParseShipsNode(node);
+            }
+
+            if (strcmp(node->name(), "languages") == 0)
+            {
+                ParseLanguagesNode(resources, node);
             }
 
             // Read event files and other early stuff.
@@ -456,6 +462,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "altLockedMiniships") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->altLockedMiniships.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->altLockedMiniships.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
