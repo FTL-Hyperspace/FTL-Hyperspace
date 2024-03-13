@@ -281,14 +281,16 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 ShipManager *oldShip = world->playerShip->shipManager;
                 ShipManager *newShip = new ShipManager(0);
                 newShip->OnInit(bp, 0);
-                
-                CompleteShip *newCompleteShip = new CompleteShip(world->space,true, 0);
-                //world->playerShip = newCompleteShip;
-                //newCompleteShip->SetShip(newShip);
-                //newShip = world->playerShip->shipManager;
-
-                //world->gui->starMap->shipManager = newShip;
-                //world->LinkShip(world->playerShip);
+                hs_log_file("step 1\n");
+                CompleteShip *newCompleteShip = new CompleteShip(&world->space,true, 0);
+                world->playerShip = newCompleteShip;
+                hs_log_file("step 2\n");
+                newCompleteShip->SetShip(newShip);
+                newShip = world->playerShip->shipManager;
+                hs_log_file("step 3\n");
+                world->starMap.shipManager = newShip;
+                world->commandGui->LinkShip(world->playerShip);
+                hs_log_file("step 4\n");
             }
         }
         

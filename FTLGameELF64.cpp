@@ -3550,11 +3550,11 @@ namespace _func274
 	static FunctionDefinition funcObj("CompleteShip::constructor", typeid(void (CompleteShip::*)(SpaceManager *, bool , int )), ".534889fb48897718", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::constructor(SpaceManager *space, bool unk, int unk2)
+void CompleteShip::constructor(SpaceManager *space, bool bPlayerShip, int iShipId)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, SpaceManager *space_arg, bool unk_arg, int unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, SpaceManager *space_arg, bool bPlayerShip_arg, int iShipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func274::func;
-	return execfunc(this, space, unk, unk2);
+	return execfunc(this, space, bPlayerShip, iShipId);
 }
 
 namespace _func275
