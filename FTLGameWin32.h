@@ -3012,6 +3012,10 @@ struct SpaceManager;
 
 struct LIBZHL_INTERFACE CompleteShip
 {
+	CompleteShip(SpaceManager *space,bool bPlayerShip,int iShipId)
+	{
+		this->constructor(space, bPlayerShip, iShipId);
+	}
 	void CheckTeleportMovement();
 
 	virtual ~CompleteShip() {}
@@ -3040,7 +3044,7 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API void SetEnemyShip(CompleteShip *other);
 	LIBZHL_API void SetShip(ShipManager *ship);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
-	LIBZHL_API void constructor(SpaceManager *space, bool unk, int unk2);
+	LIBZHL_API void constructor(SpaceManager *space, bool bPlayerShip, int iShipId);
 	
 	int iShipId;
 	ShipManager *shipManager;

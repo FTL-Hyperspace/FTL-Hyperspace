@@ -3,7 +3,7 @@ virtual cleanup __amd64 void CompleteShip::PauseLoop(CompleteShip *this);
 "!.534889fb488b7f10":
 virtual cleanup __amd64 void CompleteShip::Restart(CompleteShip *this);
 ".534889fb48897718":
-cleanup __amd64 void CompleteShip::constructor(CompleteShip *this, SpaceManager *space, bool unk, int unk2);
+cleanup __amd64 void CompleteShip::constructor(CompleteShip *this, SpaceManager *space, bool bPlayerShip, int iShipId);
 "!.8b96ac08000048897710":
 cleanup __amd64 void CompleteShip::SetShip(CompleteShip *this, ShipManager *ship);
 "!.41554189d541544989f455534889fbbf580a0000":
@@ -49,5 +49,9 @@ cleanup __amd64 void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, b
 
 struct CompleteShip
 {{
+	CompleteShip(SpaceManager *space,bool bPlayerShip,int iShipId)
+	{
+		this->constructor(space, bPlayerShip, iShipId);
+	}
 	void CheckTeleportMovement();
 }};

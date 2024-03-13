@@ -276,17 +276,17 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
                 hs_log_file("step 0\n");
-                //WorldManager world = G_->GetWorld();
-//
-                //ShipManager *oldShip = builder.currentShip;
-                //ShipManager *newShip = new ShipManager(0);
-                //newShip->OnInit(bp, 0);
-                //
-                //CompleteShip *newCompleteShip = new CompleteShip(world->space,true, 0);
+                WorldManager *world = G_->GetWorld();
+
+                ShipManager *oldShip = world->playerShip->shipManager;
+                ShipManager *newShip = new ShipManager(0);
+                newShip->OnInit(bp, 0);
+                
+                CompleteShip *newCompleteShip = new CompleteShip(world->space,true, 0);
                 //world->playerShip = newCompleteShip;
                 //newCompleteShip->SetShip(newShip);
                 //newShip = world->playerShip->shipManager;
-//
+
                 //world->gui->starMap->shipManager = newShip;
                 //world->LinkShip(world->playerShip);
             }

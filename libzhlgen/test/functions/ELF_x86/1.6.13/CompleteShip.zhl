@@ -7,7 +7,7 @@ virtual cleanup __cdecl void CompleteShip::PauseLoop(CompleteShip *this);
 "5383ec188b5c24208b430883c318890424":
 virtual cleanup __cdecl void CompleteShip::Restart(CompleteShip *this);
 "5383ec188b5c24208b54242c8b442428":
-cleanup __cdecl void CompleteShip::constructor(CompleteShip *this, SpaceManager *space, bool unk, int unk2);
+cleanup __cdecl void CompleteShip::constructor(CompleteShip *this, SpaceManager *space, bool bPlayerShip, int iShipId);
 "83ec1c8b4424248b5424208b8850050000894208":
 cleanup __cdecl void CompleteShip::SetShip(CompleteShip *this, ShipManager *ship);
 "5557565383ec1cc7042440060000":
@@ -53,5 +53,9 @@ cleanup __cdecl void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, b
 
 struct CompleteShip
 {{
+	CompleteShip(SpaceManager *space,bool bPlayerShip,int iShipId)
+	{
+		this->constructor(space, bPlayerShip, iShipId);
+	}
 	void CheckTeleportMovement();
 }};
