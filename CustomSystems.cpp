@@ -1026,7 +1026,7 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
     {
         controlTimer.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
     }
-    if (oldFirst != controlTimer.first && controlTimer.second <= controlTimer.first)
+    if (oldFirst != controlTimer.second && controlTimer.second <= controlTimer.first)
     {
         ReleaseCrew();
     }
@@ -1066,15 +1066,9 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MindSystem::InitiateMindControl -> Begin (CustomSystems.cpp)\n")
 
-    int targetShip = iQueuedShip;
     iQueuedTarget = -1;
     iQueuedShip = -1;
-    //If targetting other ship, with supershields and no bypass
-    if (bSuperShields && targetShip != _shipObj.iShipId && _shipObj.HasEquipment("ZOLTAN_BYPASS") <= 0) 
-    {
-        queuedCrew.clear();
-        return;
-    }
+
     for (CrewMember* crew : queuedCrew)
     {
         if (crew->IsTelepathic()) crew->SetResisted(true); //Set resisted crew
@@ -1090,7 +1084,9 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
                                         crew->crewAnim->status == 3 || //Dying
                                         ((crew->iShipId == allyId) ^ crew->bMindControlled) || //Non-controlled allied crew and controlled enemy crew
                                         crew->IsTelepathic() || //Immune
-                                        crew->IsDrone(); }), //Drone
+                                        crew->IsDrone() || //Drone
+                                        (crew->iShipId == 1 && _shipObj.iShipId == 1 && crew->bMindControlled) || //enemies can't use MC to uncontrol their crew
+                                        (bSuperShields && crew->currentShipId != _shipObj.iShipId && _shipObj.HasEquipment("ZOLTAN_BYPASS") <= 0); }), //targetting other ship, with supershields and no bypass
                                     queuedCrew.end());
 
     CustomMindSystem::MindLevel& level = CustomMindSystem::GetLevel(this);
