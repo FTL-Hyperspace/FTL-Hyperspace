@@ -1493,11 +1493,29 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->gameOver.sound = "victory";
             if (child->first_attribute("text"))
             {
-                customEvent->gameOver.text = child->first_attribute("text")->value();
+                std::string textValue = child->first_attribute("text")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->gameOver.text = textValue;
+                }
+                else
+                {
+                    customEvent->gameOver.text = parsedText;
+                }
             }
             if (child->first_attribute("creditsText"))
             {
-                customEvent->gameOver.creditsText = child->first_attribute("creditsText")->value();
+                std::string textValue = child->first_attribute("creditsText")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->gameOver.creditsText = textValue;
+                }
+                else
+                {
+                    customEvent->gameOver.creditsText = parsedText;
+                }
             }
             if (child->first_attribute("creditsBackground"))
             {
@@ -1522,7 +1540,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->gameOver.enabled = true;
             if (child->first_attribute("text"))
             {
-                customEvent->gameOver.text = child->first_attribute("text")->value();
+                std::string textValue = child->first_attribute("text")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->gameOver.text = textValue;
+                }
+                else
+                {
+                    customEvent->gameOver.text = parsedText;
+                }
             }
             if (child->first_attribute("sound"))
             {
@@ -1982,11 +2009,29 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             customEvent->finalBoss.sound = "victory";
             if (child->first_attribute("text"))
             {
-                customEvent->finalBoss.text = child->first_attribute("text")->value();
+                std::string textValue = child->first_attribute("text")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->finalBoss.text = textValue;
+                }
+                else
+                {
+                    customEvent->finalBoss.text = parsedText;
+                }
             }
             if (child->first_attribute("creditsText"))
             {
-                customEvent->finalBoss.creditsText = child->first_attribute("creditsText")->value();
+                std::string textValue = child->first_attribute("creditsText")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->finalBoss.creditsText = textValue;
+                }
+                else
+                {
+                    customEvent->finalBoss.creditsText = parsedText;
+                }
             }
             if (child->first_attribute("creditsBackground"))
             {
