@@ -2284,6 +2284,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 }
 
 static GL_Texture* seedBox;
+static GL_Texture* unlocksDisabledTexture;
 static GL_Primitive* unlocksDisabledPrimitive;
 
 
@@ -2293,7 +2294,7 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     super();
 
     seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
-    auto unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
+    unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
     unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
 }
 
