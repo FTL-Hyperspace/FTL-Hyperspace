@@ -26,6 +26,31 @@ extern TimerHelper *restartMusicTimer;
 
 extern std::string replaceCreditsMusic;
 
+struct CreditText
+{
+    std::string text;
+    int font;
+    int spacing;
+    int horizontal;
+};
+extern std::vector<CreditText> creditTextValues;
+
+struct CreditFinishText
+{
+    std::string text;
+    int font;
+    int spacing;
+    int horizontal;
+};
+extern std::vector<CreditFinishText> creditFinishTextValues;
+
+struct CreditFile
+{
+    std::string names;
+    int spacing;
+};
+extern std::vector<CreditFile> creditFileNames;
+
 extern bool needSectorQuests;
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
@@ -873,12 +898,14 @@ public:
 
     void EarlyParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ReadCustomEventFiles();
-    void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void PostProcessCustomEvents();
     void ParseVanillaBaseNode(rapidxml::xml_node<char> *node);
     void ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName);
     void ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName);
     void ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla = false);
+    void ParseCustomCredits(rapidxml::xml_node<char> *node);
+    void ParseCustomCreditsPause(rapidxml::xml_node<char> *node);
+    void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event, bool parsingVanilla = false);
     bool ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *event);
     bool ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);

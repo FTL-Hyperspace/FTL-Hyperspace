@@ -471,6 +471,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->altLockedMiniships.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "altCreditSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -534,7 +541,6 @@ void Global::InitializeResources(ResourceControl *resources)
                     customOptions->dismissSound.currentValue = "";
                 }
             }
-
 
             if (strcmp(node->name(), "console") == 0)
             {

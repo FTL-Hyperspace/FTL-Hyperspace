@@ -233,7 +233,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 -Crew hover tooltips
 -Map connections
 -Room oxygen colors
--Reactor numbers in hanger
+-Reactor numbers in hangar
 -Event equipment tooltips
 
 Key: \1</text> <!-- \1 is more info hotkey -->
@@ -266,6 +266,41 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="transfer_save_dialog">It appears this is either your first time playing this mod, or have not yet set up a new save file! Would you like to transfer vanilla progress, or play with a fresh save? This will NOT influence your vanilla progress in any way.</text>
 
 <!--Neutral ASB text-->
+
 <text name="warning_pds_all">NEUTRAL!</text>
 
+<!--Credits-->
+
+<text name="thank_ai">Controlled by its precise onboard AI</text>
 <text name="font">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>
+<text name="font_halflife">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>
+<text name="font_dotgothic">'DotGothic' font used under license from Fontworks Inc.</text>
+
+<text name="credits_hyperspace_project">Hyperspace Project</text>
+<text name="credits_hyperspace_developed_by">Developed by:</text>
+<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_art">Additional Art:</text>
+<text name="credits_hyperspace_art_names">SaltyFriedRice</text>
+<text name="credits_hyperspace_contributors">Additional Contributions:</text>
+<text name="credits_hyperspace_contributors_names">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_loc">Hyperspace Translators:</text>
+<text name="credits_hyperspace_loc_fr">French</text>
+<text name="credits_hyperspace_loc_fr_names">Onceuponaban</text>
+<text name="credits_hyperspace_loc_it">Italian</text>
+<text name="credits_hyperspace_loc_it_names">RawToast</text>
+<text name="credits_hyperspace_loc_de">German</text>
+<text name="credits_hyperspace_loc_de_names">The Dumb Dino</text>
+<text name="credits_hyperspace_loc_es">Spanish</text>
+<text name="credits_hyperspace_loc_es_names">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_pl">Polish</text>
+<text name="credits_hyperspace_loc_pl_names">Marcinus, Palon</text>
+<text name="credits_hyperspace_loc_pt_BR">Portuguese (Brazil)</text>
+<text name="credits_hyperspace_loc_pt_BR_names">Gabriel Cooper</text>
+<text name="credits_hyperspace_loc_ru">Russian</text>
+<text name="credits_hyperspace_loc_ru_names">aleev0_o</text>
+<text name="credits_hyperspace_loc_zn_Hans">Chinese</text>
+<text name="credits_hyperspace_loc_zn_Hans_names">Mwalls</text>
+<text name="credits_hyperspace_loc_ja">Japanese</text>
+<text name="credits_hyperspace_loc_ja_names">ranhai</text>
+<text name="credits_hyperspace_loc_kor">Korean</text>
+<text name="credits_hyperspace_loc_kor_names">nedsociety</text>

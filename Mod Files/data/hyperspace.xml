@@ -101,6 +101,8 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 <altLockedMiniships enabled="false"/> <!-- If enabled, locked miniships will prioritize the image with the "_base" postfix -->
 
+<altCreditSystem enabled="true"/> <!-- If enabled, the game will use the XML credits over the hardcoded vanilla ones. Also fixes the empty crew section on auto ships -->
+
 <dismissSound enabled="true" sound="airLoss"/>
 
 <!-- Discord rich presence integration -->
@@ -305,6 +307,7 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 EVENT          Run an event.                           Usage: EVENT <event_id>        Example: EVENT FREE_AUG
 LOAD           Loads a ship blueprint.                 Usage: LOAD <ship_id> <str>    Example: LOAD MANTIS_BOMBER 5 (with 5 sector strength)
 ACH            Unlock achievement.                     Usage: ACH <achievement_id>    Example: ACH ACH_SECTOR_8
+VICTORY        Forces a Victory and plays Credits.     Usage: VICTORY
 SECTOR         Go to sector type.                      Usage: SECTOR <sector_type>    Example: SECTOR PIRATE_SECTOR
 SCRAP          Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
 WEAPON         Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
@@ -2446,6 +2449,187 @@ Syntax ->
 </events>
 
 
+<!-- 
+
+About <scrollSpeed/> :
+"ppt" short for pixels per tick to be scrolled.
+Defaults to -0.5 if missing.
+
+
+About <scrollPause/> :
+"duration" the duration how long the credit pause will be (in seconds).
+Defaults to 3 if missing.
+
+"pauseAtText" tells the code at which text to pause at.
+Defaults to 3 if missing.
+
+
+About <text/> and <finishText/> :
+"id" links to the text id declared in a text file.
+
+"fontSize" refers to the text size/style (see fonts.png for examples).
+Defaults to 14 if missing.
+
+"horizontal" is the x position on the screen (center = 640 | left = 427 | right = 853 | screenwidth = 1280).
+Defaults to 640 if missing.
+
+"spacing" is the number of pixels between the current and the next text (having 1 row of font: 18/14 means you should increment by 34).
+Defaults to 40 if missing.
+
+
+About <creditNames/> :
+"fontSize" refers to the text size/style (see fonts.png for examples).
+Defaults to 14 if missing.
+
+"spacingBetweenNames" is the amount of pixels inbeetween lines.
+Defaults to 40 if missing.
+
+"spacingToFinishTexts" is the amount of pixels from the last line of names to the finish texts.
+Defaults to 100 if missing.
+
+
+
+Example in form of the Vanilla credits rewritten in XML:
+
+<customCredits>
+	<scrollSpeed ppt="-0.5"/>
+	<scrollPause duration="3" pauseAtText="10"/>
+	<text id="game_from" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="subset_games" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="created_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="matthew_justin" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="addition_code" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="andrew_church" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="music_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="ben_prunty" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="writing_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="tom_jubert" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="guest_writer" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="chris_a" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="additional_art" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="bryan_ma" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="editing" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="alison_w" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="additional_testing" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="family_friends" fontSize="18" horizontal="640" spacing="190"/>
+	<text id="credits_loc_riotloc" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_loc_project" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_project_names" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_loc_fr" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_fr_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_it" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_it_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_de" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_de_names" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_loc_es" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_es_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_pl" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_pl_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_pt_BR" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_pt_BR_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_ru" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_ru_names" fontSize="18" horizontal="640" spacing="248"/> 
+	<text id="credits_loc_ja" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_ja_84" fontSize="18" horizontal="640" spacing="60"/>
+	<text id="credits_loc_ja_names" fontSize="18" horizontal="640" spacing="214"/>
+	<text id="kickstarter" fontSize="14" horizontal="640" spacing="80"/>
+	<creditNames fontSize="14" spacingBetweenNames="40" spacingToFinishTexts="100"/>
+	<finishText id="third_party" fontSize="1" horizontal="640" spacing="40"/>
+	<finishText id="folder" fontSize="1" horizontal="640" spacing="80"/>
+	<finishText id="bass" fontSize="1" horizontal="640" spacing="50"/>
+	<finishText id="rapidxml" fontSize="1" horizontal="640" spacing="50"/>
+	<finishText id="freetype" fontSize="1" horizontal="640" spacing="100"/>
+	<finishText id="font_halflife" fontSize="1" horizontal="640" spacing="50"/>
+	<finishText id="font_dotgothic" fontSize="1" horizontal="640" spacing="0"/>	Last spacing can also adjust the automatic end of the credits
+</customCredits>
+
+-->
+
+<customCredits>
+	<scrollSpeed ppt="-0.5"/>
+	<scrollPause duration="3" pauseAtText="10"/>
+	<!-- Vanilla names: -->
+	<text id="game_from" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="subset_games" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="created_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="matthew_justin" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="addition_code" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="andrew_church" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="music_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="ben_prunty" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="writing_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="tom_jubert" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="guest_writer" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="chris_a" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="additional_art" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="bryan_ma" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="editing" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="alison_w" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="additional_testing" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="family_friends" fontSize="18" horizontal="640" spacing="190"/>
+	<!-- Vanilla translations: -->
+	<text id="credits_loc_riotloc" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_loc_project" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_project_names" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_loc_fr" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_fr_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_it" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_it_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_de" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_de_names" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_loc_es" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_es_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_pl" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_pl_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_pt_BR" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_pt_BR_names" fontSize="18" horizontal="640" spacing="114"/>
+	<text id="credits_loc_ru" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_ru_names" fontSize="18" horizontal="640" spacing="148"/> 
+	<text id="credits_loc_ja" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_ja_84" fontSize="18" horizontal="640" spacing="60"/>
+	<text id="credits_loc_ja_names" fontSize="18" horizontal="640" spacing="168"/>
+	<!-- Hyperspace part: -->
+	<text id="credits_hyperspace_project" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_hyperspace_developed_by" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_hyperspace_developed_names" fontSize="18" horizontal="640" spacing="178"/>
+	<text id="credits_hyperspace_art" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_hyperspace_art_names" fontSize="18" horizontal="640" spacing="90"/>
+	<text id="credits_hyperspace_contributors" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_hyperspace_contributors_names" fontSize="18" horizontal="640" spacing="266"/>
+	<text id="credits_hyperspace_loc" fontSize="18" horizontal="640" spacing="90"/>
+
+	<text id="credits_hyperspace_loc_fr" fontSize="14" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_it" fontSize="14" horizontal="853" spacing="40"/>
+	<text id="credits_hyperspace_loc_fr_names" fontSize="18" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_it_names" fontSize="18" horizontal="853" spacing="70"/>
+	<text id="credits_hyperspace_loc_de" fontSize="14" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_es" fontSize="14" horizontal="853" spacing="40"/>
+	<text id="credits_hyperspace_loc_de_names" fontSize="18" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_es_names" fontSize="18" horizontal="853" spacing="70"/>
+	<text id="credits_hyperspace_loc_pl" fontSize="14" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_pt_BR" fontSize="14" horizontal="853" spacing="40"/>
+	<text id="credits_hyperspace_loc_pl_names" fontSize="18" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_pt_BR_names" fontSize="18" horizontal="853" spacing="70"/>
+	<text id="credits_hyperspace_loc_ru" fontSize="14" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_zn_Hans" fontSize="14" horizontal="853" spacing="40"/>
+	<text id="credits_hyperspace_loc_ru_names" fontSize="18" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_zn_Hans_names" fontSize="18" horizontal="853" spacing="70"/>
+	<text id="credits_hyperspace_loc_ja" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_hyperspace_loc_ja_names" fontSize="18" horizontal="640" spacing="110"/>
+	<!--						Waiting for Ned to respond
+	<text id="credits_hyperspace_loc_kor" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_hyperspace_loc_kor_names" fontSize="18" horizontal="640" spacing="110"/>
+	-->
+	<text id="kickstarter" fontSize="14" horizontal="640" spacing="80"/>
+	<creditNames fontSize="14" spacingBetweenNames="40" spacingToFinishTexts="100"/>
+	<finishText id="third_party" fontSize="1" horizontal="640" spacing="40"/>
+	<finishText id="folder" fontSize="1" horizontal="640" spacing="80"/>
+	<finishText id="bass" fontSize="1" horizontal="640" spacing="50"/>
+	<finishText id="rapidxml" fontSize="1" horizontal="640" spacing="50"/>
+	<finishText id="freetype" fontSize="1" horizontal="640" spacing="100"/>
+	<finishText id="font_halflife" fontSize="1" horizontal="640" spacing="50"/>
+	<finishText id="font_dotgothic" fontSize="1" horizontal="640" spacing="0"/>
+</customCredits>
 
 
 <boss>
