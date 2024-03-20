@@ -318,6 +318,7 @@ POOR           Takes away all of your resources        Usage: POOR
 GOD            Fully upgrade every system and reactor. Usage: GOD
 DELETE         Destroys enemy ship.                    Usage: DELETE
 SYS            Add a system.                           Usage: SYS <system_name>       Example: SYS cloaking
+SYS ALL        Add every system.                       Usage: SYS ALL
 AUG            Add an augmentation.                    Usage: AUG <augment_name>      Example: AUG O2_MASKS
 CREW           Add a crew member.                      Usage: CREW [race_name]        Example: CREW slug
 EXIT           Makes your location an exit beacon      Usage: EXIT
