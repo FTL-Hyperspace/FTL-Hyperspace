@@ -244,31 +244,31 @@
 <text name="font" language="ja">freakyfonts.deの許諾を得て、「Half-Life 1 + 2」フォントを使用しています。</text>
 <text name="font_halflife" language="ja">freakyfonts.deの許諾を得て、「Half-Life 1 + 2」フォントを使用しています。</text>
 <text name="font_dotgothic" language="ja">フォントワークス株式会社のライセンスを得て、「ドットゴシック」フォントを使用しています。</text>
-<text name="credits_hyperspace_project" language="ja">Hyperspace Project</text>
-<text name="credits_hyperspace_developed_by" language="ja">Developed by:</text>
+<text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
+<text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
 <text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
-<text name="credits_hyperspace_art" language="ja">Additional Art:</text>
+<text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
-<text name="credits_hyperspace_contributors" language="ja">Additional Contributions:</text>
-<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
-<text name="credits_hyperspace_loc" language="ja">Hyperspace Translators:</text>
-<text name="credits_hyperspace_loc_fr" language="ja">French</text>
+<text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>
+<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_loc" language="ja">Hyperspace翻訳者:</text>
+<text name="credits_hyperspace_loc_fr" language="ja">フランス語</text>
 <text name="credits_hyperspace_loc_fr_names" language="ja">Onceuponaban</text>
-<text name="credits_hyperspace_loc_it" language="ja">Italian</text>
+<text name="credits_hyperspace_loc_it" language="ja">イタリア語</text>
 <text name="credits_hyperspace_loc_it_names" language="ja">RawToast</text>
-<text name="credits_hyperspace_loc_de" language="ja">German</text>
+<text name="credits_hyperspace_loc_de" language="ja">ドイツ語</text>
 <text name="credits_hyperspace_loc_de_names" language="ja">The Dumb Dino</text>
-<text name="credits_hyperspace_loc_es" language="ja">Spanish</text>
+<text name="credits_hyperspace_loc_es" language="ja">スペイン語</text>
 <text name="credits_hyperspace_loc_es_names" language="ja">DavidRedFox, Serpy</text>
-<text name="credits_hyperspace_loc_pl" language="ja">Polish</text>
+<text name="credits_hyperspace_loc_pl" language="ja">ポーランド語</text>
 <text name="credits_hyperspace_loc_pl_names" language="ja">Marcinus, Palon</text>
-<text name="credits_hyperspace_loc_pt_BR" language="ja">Portuguese (Brazil)</text>
+<text name="credits_hyperspace_loc_pt_BR" language="ja">ポルトガル語(ブラジル)</text>
 <text name="credits_hyperspace_loc_pt_BR_names" language="ja">Gabriel Cooper</text>
-<text name="credits_hyperspace_loc_ru" language="ja">Russian</text>
+<text name="credits_hyperspace_loc_ru" language="ja">ロシア語</text>
 <text name="credits_hyperspace_loc_ru_names" language="ja">aleev0_o</text>
-<text name="credits_hyperspace_loc_zn_Hans" language="ja">Chinese</text>
+<text name="credits_hyperspace_loc_zn_Hans" language="ja">中国語</text>
 <text name="credits_hyperspace_loc_zn_Hans_names" language="ja">Mwalls</text>
-<text name="credits_hyperspace_loc_ja" language="ja">Japanese</text>
+<text name="credits_hyperspace_loc_ja" language="ja">日本語</text>
 <text name="credits_hyperspace_loc_ja_names" language="ja">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="ja">Korean</text>
+<text name="credits_hyperspace_loc_kor" language="ja">韓国語</text>
 <text name="credits_hyperspace_loc_kor_names" language="ja">nedsociety</text>
