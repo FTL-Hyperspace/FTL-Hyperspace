@@ -261,7 +261,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_art" language="fr">Additional Art:</text>
 <text name="credits_hyperspace_art_names" language="fr">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="fr">Additional Contributions:</text>
-<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="fr">Hyperspace Translators:</text>
 <text name="credits_hyperspace_loc_fr" language="fr">French</text>
 <text name="credits_hyperspace_loc_fr_names" language="fr">Onceuponaban</text>

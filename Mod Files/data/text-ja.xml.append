@@ -148,7 +148,7 @@
 <text name="weapon_lockdown" language="ja">命中区画を入出不能にする</text>
 <text name="scrap_value" language="ja">購入/売却価格：\1スクラップ/\2スクラップ</text>
 <text name="damage_word" language="ja">通常ダメージ</text>
-<text name="bomb_shots" language="ja">チャージごと弾数：\1 (1 on own ship)</text>
+<text name="bomb_shots" language="ja">チャージごとの弾数：\1 (1ミサイル消費)</text>
 <text name="crew_scrap_value" language="ja">レンタル料：\1~</text>
 <text name="drone_speed" language="ja">ドローン移動速度：\1</text>
 <text name="defense_drone_reload_speed" language="ja">再装填速度：\1ms</text>
@@ -250,7 +250,7 @@
 <text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>
-<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverseチーム</text>
+<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverseチーム</text>
 <text name="credits_hyperspace_loc" language="ja">Hyperspace翻訳者:</text>
 <text name="credits_hyperspace_loc_fr" language="ja">フランス語</text>
 <text name="credits_hyperspace_loc_fr_names" language="ja">Onceuponaban</text>
