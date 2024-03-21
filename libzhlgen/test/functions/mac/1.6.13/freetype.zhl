@@ -1,0 +1,21 @@
+"554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d??????0031d289c6e8??910000":
+static cleanup __amd64 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
+".554889e54157415641554154534883ec??":
+static cleanup __amd64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
+
+
+struct freetype
+{{
+}};
