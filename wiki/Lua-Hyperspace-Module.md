@@ -973,6 +973,8 @@ def.boostSource = Hyperspace.StatBoostDefinition.BoostSource.AUGMENT
 def.shipTarget = Hyperspace.StatBoostDefinition.ShipTarget.ALL
 def.crewTarget = Hyperspace.StatBoostDefinition.CrewTarget.ALL
 def.duration = 10
+def.realBoostId = Hyperspace.StatBoostDefinition.statBoostDefs:size()
+Hyperspace.StatBoostDefinition.statBoostDefs:push_back(def)
 function player_crew_health_boost()
 	local crewList = Hyperspace.ships.player.vCrewList
 	for i = 0, crewList:size() - 1 do
