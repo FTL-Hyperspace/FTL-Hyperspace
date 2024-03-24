@@ -272,28 +272,61 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             hs_log_file("Loading new ship %s\n", shipName.c_str());
 
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-            hs_log_file("Shipname %s\n", bp->blueprintName.c_str());
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-                hs_log_file("step 0\n");
-                WorldManager *world = G_->GetWorld();
+                //hs_log_file("step 0\n");
+                //WorldManager *world = G_->GetWorld();
+                //SpaceManager *space = &world->space;
 
-                world->playerShip->destructor(0);
+                //world->playerShip->destructor(0);
+                //hs_log_file("step 1\n");
                 ShipManager *newShip = new ShipManager(0);
                 newShip->OnInit(bp, 0);
-                hs_log_file("step 1\n");
-                CompleteShip *newCompleteShip = new CompleteShip(&world->space,true, 0);
-                world->playerShip = newCompleteShip;
-                hs_log_file("step 2\n");
-                newCompleteShip->SetShip(newShip);
-                newShip = world->playerShip->shipManager;
-                hs_log_file("step 3\n");
-                world->starMap.shipManager = newShip;
-                world->commandGui->LinkShip(world->playerShip);
-                hs_log_file("step 4\n");
+
+                //hs_log_file("step 2\n");
+                //CompleteShip *newCompleteShip = new CompleteShip(space,true, 0);
+                //world->playerShip = newCompleteShip;
+
+                //hs_log_file("step 3 bis\n");
+                G_->GetWorld()->playerShip->SetShip(newShip);
+                //newCompleteShip = world->playerShip;
+                //CommandGui *gui = world->commandGui;
+
+                //hs_log_file("step 3\n");
+                //newCompleteShip->SetShip(newShip);
+                //newCompleteShip = world->playerShip;
+                //CommandGui *gui = world->commandGui;
+    
+                //hs_log_file("step 4\n");
+                //world->starMap.shipManager = newShip;
+                //gui->LinkShip(newCompleteShip);
+
+                //hs_log_file("step 5\n");
             }
         }
         
+        
+        return true;
+    }
+    if(cmdName == "SWITCH2")
+    {
+        if (command.length() > 8)
+        {
+            std::string shipName = boost::trim_copy(command.substr(7));
+            hs_log_file("Loading new ship %s\n", shipName.c_str());
+            WorldManager *world = G_->GetWorld();
+            SpaceManager *space = &world->space;
+            CommandGui *gui = world->commandGui;
+
+            ShipManager *oldShip = world->playerShip->shipManager;
+            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+            ShipManager *ship = new ShipManager(0);
+            ship->OnInit(bp, 0);
+            world->playerShip->SetShip(ship);
+            world->starMap.shipManager = ship;
+            gui->LinkShip(world->playerShip);
+            oldShip->destructor();
+        }
         return true;
     }
 
