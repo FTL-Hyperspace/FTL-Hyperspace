@@ -18,9 +18,9 @@ static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::
 static cleanup __amd64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
 ".554889e54157415641554154534883ec??":
 static cleanup __amd64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
-"NOT LISTED IN GHIDRA":
+".554889e5535085ff":
 cleanup __amd64 float font_height(int font_id, float size);
-"NOT LISTED IN GHIDRA":
+".554889e5535085ff":
 cleanup __amd64 float font_baseline(int font_id, float size);
 
 struct freetype

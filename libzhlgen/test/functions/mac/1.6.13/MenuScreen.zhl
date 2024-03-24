@@ -4,3 +4,5 @@ cleanup __amd64 void MenuScreen::constructor(MenuScreen *this);
 cleanup __amd64 void MenuScreen::OnRender(MenuScreen *this);
 "554889e54157415641554154534883ec684889fbc6430801":
 cleanup __amd64 void MenuScreen::Open(MenuScreen *this);
+"554889e54157415641554154534881ec????????4989ff498b4720":
+cleanup __amd64 void MenuScreen::OnLanguageChange(MenuScreen *this);
