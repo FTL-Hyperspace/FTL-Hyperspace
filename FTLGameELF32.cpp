@@ -7923,11 +7923,11 @@ namespace _func570
 	static FunctionDefinition funcObj("Equipment::AddWeapon", typeid(void (Equipment::*)(WeaponBlueprint *, bool , bool )), "5557565383ec4c8b44246c8b5c2460", argdata, 4, 6, &func);
 }
 
-void Equipment::AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, WeaponBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, WeaponBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func570::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func571
@@ -7937,11 +7937,11 @@ namespace _func571
 	static FunctionDefinition funcObj("Equipment::AddDrone", typeid(void (Equipment::*)(DroneBlueprint *, bool , bool )), "57565383ec30807c244c00", argdata, 4, 6, &func);
 }
 
-void Equipment::AddDrone(DroneBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, DroneBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, DroneBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func571::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func572
@@ -7951,11 +7951,11 @@ namespace _func572
 	static FunctionDefinition funcObj("Equipment::AddAugment", typeid(void (Equipment::*)(AugmentBlueprint *, bool , bool )), "5557565383ec4c8b7c24648d742430", argdata, 4, 6, &func);
 }
 
-void Equipment::AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, AugmentBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, AugmentBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func572::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func573
