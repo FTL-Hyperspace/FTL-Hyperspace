@@ -1116,6 +1116,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
+%rename("%s") ShipManager_Extend::hiddenAugs;
 //Potential fix for fireSpreader indexing issue
 %rename("%s") ShipManager::GetFireAtPoint;
 %rename("%s") ShipManager::GetFire;
