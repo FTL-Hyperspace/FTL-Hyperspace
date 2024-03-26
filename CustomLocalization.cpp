@@ -228,14 +228,9 @@ void ParseLanguagesNode(ResourceControl *resources, rapidxml::xml_node<char> *no
 HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> freetype::font_data&)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetFontData -> Begin (CustomLocalization.cpp)\n")
-
+    
     if (!ignoreLanguage)
     {
-        // REF: ResourceControl::GetFontData()
-        if (size - 6U < 3) { size = 9; }
-        else if (size == 0xb) { size = 0xc; }
-        else if (size == 0) { return super(size, ignoreLanguage); }
-
         auto it = g_customFontOverrides.find(G_->GetTextLibrary()->currentLanguage);
         if (it != std::end(g_customFontOverrides))
         {
@@ -289,6 +284,9 @@ HOOK_METHOD(LanguageChooser, OnRender, () -> void)
 
     G_->GetTextLibrary()->SetLanguage(oldLanguage);
 }
+
+#ifdef WIN32
+// Manually re-implement Japanese language for Windows
 
 static freetype::font_data *FONT_JA_MISAKI = new freetype::font_data;
 static freetype::font_data *FONT_JA_DOTGOTHIC_24 = new freetype::font_data;
@@ -465,5 +463,17 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
 
         return *fontData;
     }
+    return super(size, ignoreLanguage);
+}
+
+#endif
+
+HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> freetype::font_data&)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetFontData -> Begin (CustomLocalization.cpp)\n")
+    
+    if (size < 9) size = 9;
+    else if (size == 11) size = 12;
+
     return super(size, ignoreLanguage);
 }
