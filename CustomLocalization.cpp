@@ -2,6 +2,184 @@
 #include <algorithm>
 #include <string.h>
 
+static freetype::font_data *FONT_JA_MISAKI = new freetype::font_data;
+static freetype::font_data *FONT_JA_DOTGOTHIC_24 = new freetype::font_data;
+static freetype::font_data *FONT_JA_DOTGOTHIC_32 = new freetype::font_data;
+static freetype::font_data *FONT_JA_DOTGOTHIC_16_OUTLINE = new freetype::font_data;
+static freetype::font_data *FONT_JA_DOTGOTHIC_24_OUTLINE = new freetype::font_data;
+static freetype::font_data *FONT_JA_DOTGOTHIC_32_OUTLINE = new freetype::font_data;
+static freetype::font_data *FONT_JA_MPLUS_10 = new freetype::font_data;
+static freetype::font_data *FONT_JA_MPLUS_12 = new freetype::font_data;
+
+HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::PreloadResources -> Begin (CustomLocalization.cpp)\n")
+    
+    Global_OptionsScreen_languageList->push_back("ja");
+
+    std::string unused;
+    std::size_t size = 0;
+    char *buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/misaki_gothic.font", size, &unused);
+    FONT_JA_MISAKI->init_bitmap(buffer, size, 8, 8);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/DotGothic-24.font", size, &unused);
+    FONT_JA_DOTGOTHIC_24->init_bitmap(buffer, size, 32, 24);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/DotGothic-32.font", size, &unused);
+    FONT_JA_DOTGOTHIC_32->init_bitmap(buffer, size, 44, 32);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/DotGothic-16-O.font", size, &unused);
+    FONT_JA_DOTGOTHIC_16_OUTLINE->init_bitmap(buffer, size, 22, 16);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/DotGothic-24-O.font", size, &unused);
+    FONT_JA_DOTGOTHIC_24_OUTLINE->init_bitmap(buffer, size, 32, 24);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/DotGothic-32-O.font", size, &unused);
+    FONT_JA_DOTGOTHIC_32_OUTLINE->init_bitmap(buffer, size, 43, 32);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/mplus10.font", size, &unused);
+    FONT_JA_MPLUS_10->init_bitmap(buffer, size, 12, 10);
+    delete []buffer;
+    
+    buffer = LoadFromResourceFile("fonts/ja/mplus12.font", size, &unused);
+    FONT_JA_MPLUS_12->init_bitmap(buffer, size, 14, 12);
+    delete []buffer;
+    
+    return super(unk);
+}
+
+HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> freetype::font_data&)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetFontData -> Begin (CustomLocalization.cpp)\n")
+    
+    if (!ignoreLanguage && G_->GetTextLibrary()->currentLanguage == "ja") {
+        freetype::font_data *fontData;
+        float fontSize = fontData->fontsize;
+        float baselineOffset, lineHeightOffset;
+        
+        switch (size) {
+            case 5:
+                fontData = FONT_JA_MISAKI;
+                lineHeightOffset = 3.0f;
+                baselineOffset = 2.0f;
+                break;
+            case 9:
+                fontData = FONT_JA_MPLUS_10;
+                lineHeightOffset = 3.0f;
+                baselineOffset = 2.0f;
+                break;
+            case 10:
+                fontData = FONT_JA_MPLUS_12;
+                lineHeightOffset = 3.0f;
+                baselineOffset = 1.0f;
+                break;
+            case 12:
+                fontData = FONT_JA_MPLUS_12;
+                lineHeightOffset = 5.0f;
+                baselineOffset = 1.0f;
+                break;
+            case 13:
+                fontData = FONT_JA_DOTGOTHIC_32;
+                lineHeightOffset = 0.0f;
+                baselineOffset = -3.0f;
+                fontSize = 22.0f;
+                break;
+            case 14:
+                fontData = FONT_JA_MPLUS_10;
+                lineHeightOffset = 10.0f;
+                baselineOffset = 6.0f;
+                fontSize = 24.0f;
+                break;
+            case 16:
+                fontData = FONT_JA_MPLUS_10;
+                lineHeightOffset = 2.0f;
+                baselineOffset = 6.0f;
+                fontSize = 24.0f;
+                break;
+            case 18:
+                fontData = FONT_JA_DOTGOTHIC_24;
+                baselineOffset = 0.0f;
+                lineHeightOffset = 2.0f;
+                break;
+            case 20:
+                fontData = FONT_JA_DOTGOTHIC_32;
+                baselineOffset = 0.0f;
+                lineHeightOffset = 5.0f;
+                break;
+            case 24:
+                fontData = FONT_JA_DOTGOTHIC_24;
+                lineHeightOffset = 14.0f;
+                baselineOffset = 13.0f;
+                break;
+            case 51:
+                fontData = FONT_JA_MPLUS_10;
+                lineHeightOffset = 2.0f;
+                baselineOffset = -1.0f;
+                break;
+            case 52:
+                fontData = FONT_JA_DOTGOTHIC_32;
+                lineHeightOffset = 8.0f;
+                baselineOffset = 1.0f;
+                fontSize = 22.0f;
+                break;
+            case 53:
+                fontData = FONT_JA_DOTGOTHIC_24;
+                lineHeightOffset = 13.0f;
+                baselineOffset = 2.0f;
+                break;
+            case 59:
+                fontData = FONT_JA_DOTGOTHIC_32;
+                lineHeightOffset = 0.0f;
+                baselineOffset = 1.0f;
+                fontSize = 22.0f;
+                break;
+            case 61:
+                fontData = FONT_JA_DOTGOTHIC_32_OUTLINE;
+                baselineOffset = 0.0f;
+                lineHeightOffset = 2.0f;
+                fontSize = 12.0f;
+                break;
+            case 62:
+                fontData = FONT_JA_DOTGOTHIC_16_OUTLINE;
+                baselineOffset = 0.0f;
+                lineHeightOffset = 4.0f;
+                break;
+            case 63:
+                fontData = FONT_JA_DOTGOTHIC_24_OUTLINE;
+                lineHeightOffset = 9.0f;
+                baselineOffset = 1.0f;
+                break;
+            case 64:
+                fontData = FONT_JA_DOTGOTHIC_32_OUTLINE;
+                lineHeightOffset = 9.0f;
+                baselineOffset = -1.0f;
+                break;
+            default:
+                fontData = FONT_JA_DOTGOTHIC_32;
+                lineHeightOffset = 0.0f;
+                baselineOffset = 0.0f;
+                fontSize = static_cast<float>(size);
+                break;
+        }
+
+        fontData->h = fontSize;
+        fontData->fontsize = fontSize;
+        fontData->baseline = std::roundf(font_baseline(fontData->font, fontSize)) + baselineOffset;
+        fontData->lineHeight = std::roundf(font_height(fontData->font, fontSize)) + lineHeightOffset;
+
+        return *fontData;
+    }
+    return super(size, ignoreLanguage);
+}
+
 namespace
 {
 
