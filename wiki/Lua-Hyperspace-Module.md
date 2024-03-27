@@ -1147,3 +1147,59 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
+
+## CommandGui
+
+### Fields
+- `ShipStatus` `.shipStatus`
+- `CrewControl` `.crewControl`
+- `SystemControl` `.sysControl`
+- `CombatControl` `.combatControl`
+- `FTLButton` `.ftlButton`
+- `SpaceStatus` `.spaceStatus`
+- ~~`StarMap` `.starMap`~~
+   - Access via `WorldManager` instead.
+- ~~`ShipComplete` `.shipComplete`~~
+- `Point` `.pauseTextLoc`
+- `Point` `.shipPosition`
+- ~~`string` `.locationText`~~
+- ~~`string` `.loadEvent`~~
+- ~~`int` `.loadSector`~~
+- `bool` `.outOfFuel`
+   - **Read-only**
+- `bool` `.bPaused`
+   - **Read-only**
+   - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+- `bool` `.bAutoPaused`
+   - **Read-only**
+   - Maybe true for event pauses and ESC menu pauses? Not sure.
+- `bool` `.menu_pause`
+   - **Read-only**
+   - Probably true for ESC menu pauses.
+- `bool` `.event_pause`
+   - **Read-only**
+   - True for event pauses.
+- `Button` `.upgradeButton`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.dangerLocation`
+   - **Read-only**
+- `Equipment` `.equipScreen`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.bHideUI`
+- `bool` `.jumpComplete`
+   - **Read-only**
+- `int` `.mapId`
+   - **Read-only**
+- `bool` `.secretSector`
+   - **Read-only**
+- `bool` `.choiceBoxOpen`
+   - **Read-only**
+
+## Equipment
+
+### Methods
+- `void :AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)`
+- `void :AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)`
+- `void :AddToCargo(std::string &name)`
+- `void :AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)`
+- `std::vector<std::string> :GetCargoHold()`
