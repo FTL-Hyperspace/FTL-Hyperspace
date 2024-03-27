@@ -26,9 +26,6 @@ cleanup __amd64 CompleteShip* WorldManager::CreateShip(WorldManager *this, ShipE
 cleanup __amd64 void WorldManager::CreateLocation(WorldManager *this, Location *loc);
 "554889e54157415641554154534881ecc8050000":
 cleanup __amd64 void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
-/* TODO: Look into getting rid of UpdateLocation0 and only using UpdateLocation
-"NOT LISTED IN GHIDRA":
-cleanup __amd64 void WorldManager::UpdateLocation0(WorldManager *this, LocationEvent* event); /* Not listed in Ghidra */
 "554889e5415741564154534881ecc003":
 cleanup __amd64 void WorldManager::ClearLocation(WorldManager *this);
 "554889e54157415641554154534881ecf8020000":

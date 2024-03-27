@@ -12,12 +12,8 @@ __thiscall void WorldManager::ClearLocation(WorldManager *this);
 __thiscall void WorldManager::SaveGame(WorldManager *this);
 "5789c805????????8d7c240883e4f0ff77fc5589e557565389cb89c681ec????????8b3f":
 __thiscall void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b48088b018b40443d????????752a0fb6819904000084c0751185f6742889342489d9e8????????83ec04":
-__thiscall void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b3f898d70fbffff807f1c000f85????????8d85bcfbffff89ce898568fbffff8d85c4fbffff898564fbffff8d874406000089f1890424":
 __thiscall void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b48088b018b40443d????????75270fb6819904000084c0750d89342489d9e8????????83ec04":
-__thiscall void WorldManager::UpdateLocation0(WorldManager *this, LocationEvent* event);
 "578d7c240883e4f0ff77fc5589e557565389ce8d8d2cfeffff81ec????????8b078985d8fcffff":
 __thiscall LocationEvent *WorldManager::ModifyResources(WorldManager *this, LocationEvent *event);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570483f801":
