@@ -364,6 +364,12 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - **Since 1.4.0**
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
+ ## ShipManager_Extend
+Accessed via `ShipManager`'s `.extend` field
+
+### Fields
+- `std::map<std::string, int>` `.hiddenAugs`
+
 ## Targetable
 
 ### Methods
