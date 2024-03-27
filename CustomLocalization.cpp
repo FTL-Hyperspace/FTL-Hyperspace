@@ -301,7 +301,8 @@ HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::PreloadResources -> Begin (CustomLocalization.cpp)\n")
     
-    Global_OptionsScreen_languageList->push_back("ja");
+    // Add just above Chinese 
+    Global_OptionsScreen_languageList->insert(Global_OptionsScreen_languageList->end() - 1, "ja");
 
     std::string unused;
     std::size_t size = 0;
@@ -348,29 +349,32 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     
     if (!ignoreLanguage && G_->GetTextLibrary()->currentLanguage == "ja") {
         freetype::font_data *fontData;
-        float fontSize = fontData->fontsize;
-        float baselineOffset, lineHeightOffset;
+        float fontSize, baselineOffset, lineHeightOffset;
         
         switch (size) {
             case 5:
                 fontData = FONT_JA_MISAKI;
                 lineHeightOffset = 3.0f;
                 baselineOffset = 2.0f;
+                fontSize = 8.0f;
                 break;
             case 9:
                 fontData = FONT_JA_MPLUS_10;
                 lineHeightOffset = 3.0f;
                 baselineOffset = 2.0f;
+                fontSize = 12.0f;
                 break;
             case 10:
                 fontData = FONT_JA_MPLUS_12;
                 lineHeightOffset = 3.0f;
                 baselineOffset = 1.0f;
+                fontSize = 14.0f;
                 break;
             case 12:
                 fontData = FONT_JA_MPLUS_12;
                 lineHeightOffset = 5.0f;
                 baselineOffset = 1.0f;
+                fontSize = 14.0f;
                 break;
             case 13:
                 fontData = FONT_JA_DOTGOTHIC_32;
@@ -394,21 +398,25 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
                 fontData = FONT_JA_DOTGOTHIC_24;
                 baselineOffset = 0.0f;
                 lineHeightOffset = 2.0f;
+                fontSize = 32.0f;
                 break;
             case 20:
                 fontData = FONT_JA_DOTGOTHIC_32;
                 baselineOffset = 0.0f;
                 lineHeightOffset = 5.0f;
+                fontSize = 44.0f;
                 break;
             case 24:
                 fontData = FONT_JA_DOTGOTHIC_24;
                 lineHeightOffset = 14.0f;
                 baselineOffset = 13.0f;
+                fontSize = 32.0f;
                 break;
             case 51:
                 fontData = FONT_JA_MPLUS_10;
                 lineHeightOffset = 2.0f;
                 baselineOffset = -1.0f;
+                fontSize = 12.0f;
                 break;
             case 52:
                 fontData = FONT_JA_DOTGOTHIC_32;
@@ -420,6 +428,7 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
                 fontData = FONT_JA_DOTGOTHIC_24;
                 lineHeightOffset = 13.0f;
                 baselineOffset = 2.0f;
+                fontSize = 32.0f;
                 break;
             case 59:
                 fontData = FONT_JA_DOTGOTHIC_32;
@@ -437,16 +446,19 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
                 fontData = FONT_JA_DOTGOTHIC_16_OUTLINE;
                 baselineOffset = 0.0f;
                 lineHeightOffset = 4.0f;
+                fontSize = 22.0f;
                 break;
             case 63:
                 fontData = FONT_JA_DOTGOTHIC_24_OUTLINE;
                 lineHeightOffset = 9.0f;
                 baselineOffset = 1.0f;
+                fontSize = 32.0f;
                 break;
             case 64:
                 fontData = FONT_JA_DOTGOTHIC_32_OUTLINE;
                 lineHeightOffset = 9.0f;
                 baselineOffset = -1.0f;
+                fontSize = 43.0f;
                 break;
             default:
                 fontData = FONT_JA_DOTGOTHIC_32;
