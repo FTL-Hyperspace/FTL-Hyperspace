@@ -3184,9 +3184,12 @@ HOOK_METHOD(MenuScreen, OnLanguageChange, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MenuScreen::OnLanguageChange -> Begin (CustomShipSelect.cpp)\n")
     super();
-    
-    unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
-    unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
+
+    if (G_->GetResources()->ImageExists("customizeUI/unlocks_disabled.png"))
+    {
+        unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
+        unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
+    }
 }
 
 HOOK_METHOD(ShipBuilder, Open, () -> void)
