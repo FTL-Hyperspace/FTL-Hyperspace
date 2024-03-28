@@ -480,30 +480,60 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
 }
 
 #pragma region
-// Fix for FTL button "CHARGING" and "READY!" font size
+// Font size fix for various texts
 
-static bool g_emptyJpChargingText = true;
+static bool g_emptyJpChargingText = false;
+static bool g_emptyJpEnemyStatusText = false;
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomLocalization.cpp)\n")
 
-    // Return empty string for these texts
-    if (g_emptyJpChargingText && lang == "ja" && (name == "ftl_charging" || name == "ftl_ready"))
+    if (lang == "ja")
     {
-        return "";
+        // Return empty string for "HULL" and "SHIELDS"
+        // Use spaces to make freetype::easy_measurePrintLines return roughly the correct value
+        if (g_emptyJpEnemyStatusText && (name == "status_hull" || name == "status_shields"))
+        {
+            return std::string((int)std::ceil(0.6f*super(name, lang).size()), ' ');
+        }
+        // Return empty string for "CHARGING" and "READY!"
+        if (g_emptyJpChargingText && (name == "ftl_charging" || name == "ftl_ready"))
+        {
+            return "";
+        }
     }
     return super(name, lang);
+}
+
+HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderShipStatus -> Begin (CustomLocalization.cpp)\n")
+    
+    // Take over the rendering of "HULL" and "SHIELDS" texts
+    if (G_->GetTextLibrary()->currentLanguage == "ja")
+    {
+        g_emptyJpEnemyStatusText = true;
+        super(pos, color);
+        g_emptyJpEnemyStatusText = false;
+
+        CSurface::GL_SetColor(GL_Color(116.f/255.f, 83.f/255.f, 80.f/255.f, 1.f));
+        freetype::easy_print(51, pos.x - 3, pos.y - 11, G_->GetTextLibrary()->GetText("status_hull"));
+        freetype::easy_print(51, pos.x - 3, pos.y + 16, G_->GetTextLibrary()->GetText("status_shields"));
+    }
+    else
+    {
+        super(pos, color);
+    }
 }
 
 HOOK_METHOD(FTLButton, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (CustomLocalization.cpp)\n")
 
-    // Take over the rendering of the texts
+    // Take over the rendering of "CHARGING" and "READY!" texts
     if (G_->GetTextLibrary()->currentLanguage == "ja")
     {
-        g_emptyJpChargingText = false;
 
         CSurface::GL_SetColor(GL_Color(COLOR_BUTTON_ON.r, COLOR_BUTTON_ON.g, (1.0 - ftl_blink/0.75)*COLOR_BUTTON_ON.b, 1.f));
 
@@ -521,9 +551,13 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
         }
 
         g_emptyJpChargingText = true;
+        super();
+        g_emptyJpChargingText = false;
     }
-
-    super();
+    else
+    {
+        super();
+    }
 }
 
 #pragma endregion
@@ -542,6 +576,9 @@ HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float fin
     g_fixJpLoadBarPos = false;
 }
 
+// Since the loading bar is rendered with this function and there's only
+// one call of it inside ResourceControl::RenderLoadingBar, we can fix
+// the positioning here
 HOOK_METHOD(CSurface, GL_BlitImagePartial, (GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CSurface::GL_BlitImagePartial -> Begin (CustomLocalization.cpp)\n")
