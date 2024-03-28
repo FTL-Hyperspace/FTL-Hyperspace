@@ -1,6 +1,8 @@
-"554889e5535089d04889fb89c9f3480f2ac1":
+"!554889e5535089d04889fb89c9":
 cleanup __amd64 void freetype::font_data::init(freetype::font_data *this, const void *buffer, int bufferSize, unsigned int h, bool glow);
-"554889e58b7f045de9????????":
+".554889e54157":
+cleanup __amd64 void freetype::font_data::init_bitmap(freetype::font_data *this, const void *buffer, int bufferSize, int size, int h);
+"!.554889e5":
 cleanup __amd64 void freetype::font_data::clean(freetype::font_data *this);
 "554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d??????0031d289c6e8??910000":
 static cleanup __amd64 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string& text);
