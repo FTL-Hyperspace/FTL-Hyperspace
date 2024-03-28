@@ -478,6 +478,55 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     return super(size, ignoreLanguage);
 }
 
+#pragma region
+// Fix for FTL button "CHARGING" and "READY!" font size
+
+static bool g_emptyJpChargingText = true;
+
+HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomLocalization.cpp)\n")
+
+    // Return empty string for these texts
+    if (g_emptyJpChargingText && lang == "ja" && (name == "ftl_charging" || name == "ftl_ready"))
+    {
+        return "";
+    }
+    return super(name, lang);
+}
+
+HOOK_METHOD(FTLButton, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (CustomLocalization.cpp)\n")
+
+    // Take over the rendering of the texts
+    if (G_->GetTextLibrary()->currentLanguage == "ja")
+    {
+        g_emptyJpChargingText = false;
+
+        CSurface::GL_SetColor(GL_Color(COLOR_BUTTON_ON.r, COLOR_BUTTON_ON.g, (1.0 - ftl_blink/0.75)*COLOR_BUTTON_ON.b, 1.f));
+
+        bool engines = ship->IsSystemHacked(1) < 2;
+        bool piloting = ship->IsSystemHacked(6) < 2;
+        if (ship->jump_timer.first < ship->jump_timer.second)
+        {
+            if (piloting && engines)
+            {
+                freetype::easy_printCenter(51, position.x + 37, position.y + 37, G_->GetTextLibrary()->GetText("ftl_charging"));
+            }
+        }
+        else if (piloting && engines && bActive) {
+            freetype::easy_printCenter(51, position.x + 37, position.y + 37, G_->GetTextLibrary()->GetText("ftl_ready"));
+        }
+
+        g_emptyJpChargingText = true;
+    }
+
+    super();
+}
+
+#pragma endregion
+
 #endif
 
 HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> freetype::font_data&)
