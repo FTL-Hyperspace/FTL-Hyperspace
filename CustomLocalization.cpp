@@ -517,7 +517,14 @@ HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> voi
         super(pos, color);
         g_emptyJpEnemyStatusText = false;
 
-        CSurface::GL_SetColor(GL_Color(116.f/255.f, 83.f/255.f, 80.f/255.f, 1.f));
+        if (currentTarget->shipManager->_targetable.hostile) 
+        {
+            CSurface::GL_SetColor(GL_Color(116.f/255.f, 83.f/255.f, 80.f/255.f, 1.f));
+        }
+        else
+        {
+            CSurface::GL_SetColor(GL_Color(116.f/255.f, 119.f/255.f, 113.f/255.f, 1.f));
+        }
         freetype::easy_print(51, pos.x - 3, pos.y - 11, G_->GetTextLibrary()->GetText("status_hull"));
         freetype::easy_print(51, pos.x - 3, pos.y + 16, G_->GetTextLibrary()->GetText("status_shields"));
     }
