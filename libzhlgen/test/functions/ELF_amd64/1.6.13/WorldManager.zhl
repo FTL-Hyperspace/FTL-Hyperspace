@@ -20,16 +20,12 @@ cleanup __amd64 LocationEvent* WorldManager::ModifyResources(WorldManager *this,
 cleanup __amd64 void WorldManager::CheckStatusEffects(WorldManager *this, std::vector<StatusEffect>& vec);
 ".4157488d87501500004989ff41564889c741554154554889f5534889c34881ec08030000":
 cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
-".554889f5534889fb4883ec08488b07488b7810488b17":
-cleanup __amd64 void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event);
 ".4156415541544989fc55534881ec60030000":
 cleanup __amd64 CompleteShip* WorldManager::CreateShip(WorldManager *this, ShipEvent* shipEvent, bool boss);
 ".41574156415541544989f455534889fb4881ecf8030000":
 cleanup __amd64 void WorldManager::CreateLocation(WorldManager *this, Location *loc);
 ".4157415641554154554889fd534889f34881ec88030000":
 cleanup __amd64 void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
-".554889f5534889fb4883ec08488b07488b7810488b17":
-cleanup __amd64 void WorldManager::UpdateLocation0(WorldManager *this, LocationEvent* event);
 ".415741564155415455534889fb488d7f104881ec68020000":
 cleanup __amd64 void WorldManager::ClearLocation(WorldManager *this);
 ".415741564155415455534889fb4881ece8010000":

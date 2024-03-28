@@ -6,3 +6,5 @@ cleanup __amd64 void DefenseDrone::PickTarget(DefenseDrone *this);
 cleanup __amd64 void DefenseDrone::SetWeaponTarget(DefenseDrone *this, Targetable *target);
 "554889e54156534883ec404889f34989fe0f57c0":
 cleanup __amd64 std::string DefenseDrone::GetTooltip(DefenseDrone *this);
+"554889e541574156534883ec284989ffe8????????":
+cleanup __amd64 void DefenseDrone::OnLoop(DefenseDrone *this);

@@ -105,4 +105,20 @@ struct ShipGraph depends (Point, Pointf, Room)
 		return Pointf(xx, yy);
 	}
 	
+	// This function is messed up in Linux so just redefine it manually
+	Globals::Rect GetRoomShape(int roomId) 
+	{
+		auto rooms = this->rooms;
+		
+		for (auto const& x: rooms)
+		{
+			if (roomId == x->iRoomId)
+			{
+				return x->GetRect();
+			}
+		}
+		
+		return {-1, -1, 0, 0};
+	}
+	
 }};

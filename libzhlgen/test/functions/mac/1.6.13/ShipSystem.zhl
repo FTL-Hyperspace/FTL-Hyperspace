@@ -22,14 +22,20 @@ cleanup __amd64 bool ShipSystem::BlockedBoosted(ShipSystem *this, bool countLimi
 cleanup __amd64 int ShipSystem::IsMannedBoost(ShipSystem *this);
 "554889e58b8fac01":
 cleanup __amd64 bool ShipSystem::GetLocked(ShipSystem *this);
+"554889e58b86c0010000894710488b??????????":
+cleanup __amd64 TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 ".554889e5c68744020000??488b07488b80c800000031f65dffe0":
 cleanup __amd64 void ShipSystem::StopHacking(ShipSystem *this);
 "554889e54156534189f64889fb488b03ff502044":
 cleanup __amd64 bool ShipSystem::UpgradeSystem(ShipSystem *this, int amount);
-"554889e58b47648b8fa00100":
-cleanup __amd64 int ShipSystem::GetMaxPower(ShipSystem *this);
 "554889e5415741564154534889fb80bb":
 cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
+"554889e58b47648b8fa00100":
+cleanup __amd64 int ShipSystem::GetMaxPower(ShipSystem *this);
+".554889e541574156534883ec1889d3":
+cleanup __amd64 void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
+"554889e5415741564155415453504589cc4589c7":
+static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
 "554889e583c7fa83":
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 "554889e54157415641554154534881ecb80000004589cd4c":

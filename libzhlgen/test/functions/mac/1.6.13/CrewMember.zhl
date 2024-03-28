@@ -58,8 +58,8 @@ cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
 cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
 "554889e580bf60020000??75":
 cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
-"NOT LISTED IN GHIDRA":
-cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health); /* Not listed in Ghidra */
+"554889e541574156534883ec??4889fbf30f104b2c": /* might cause issues */
+cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health);
 "554889e55350f30f1145f44889fb488d":
 cleanup __amd64 void CrewMember::ModifyHealth(CrewMember *this, float health);
 "554889e553504889fbf30f104b2cf30f":
@@ -130,8 +130,8 @@ cleanup __amd64 void CrewMember::Kill(CrewMember *this, bool noClone);
 cleanup __amd64 bool CrewMember::NeedFrozenLocation(CrewMember *this);
 "554889e541574156534883ec184989ff498b9fc0":
 cleanup __amd64 void CrewMember::CheckForTeleport(CrewMember *this);
-"NOT LISTED IN GHIDRA":
-cleanup __amd64 void CrewMember::SetCurrentShip(CrewMember *this, int shipId); /* Not listed in Ghidra */
+"554889e589b7ac010000488b??????????89b0280a0000": /* might cause issues */
+cleanup __amd64 void CrewMember::SetCurrentShip(CrewMember *this, int shipId);
 "554889e54883bfd8":
 cleanup __amd64 void CrewMember::CheckFighting(CrewMember *this);
 "554889e589b77406":
