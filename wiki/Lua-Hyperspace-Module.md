@@ -1147,3 +1147,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
+
+## ScoreKeeper
+
+### Fields
+- `std::vector<std::TopScore>` `.sector`
+   - Stores the current sector "level" (int)
+- `std::vector<std::TopScore>` `.score`
+   - Stores the current score value (int)
+
+## Sector
+
+### Fields
+- `std::vector<std::SectorDescription>` `.name`
+   - Stores the current sectors name
