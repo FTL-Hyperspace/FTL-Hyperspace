@@ -40,23 +40,18 @@ cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool 
 cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
 "554889e54157415641554154534881ec88030100":
 cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
-/* TODO: These are here to make doors work with large rooms.
-Once everything else is working, try to crash the game with
-ships that have big rooms to see if we need these.
-"UNKNOWN FUNCTION DEFENITION":
+"4983fc177319(4489e0)":
 noop void* Global__NOP__Ship_OnInit_4;
-"UNKNOWN FUNCTION DEFENITION":
+"4983fd177319(4489e8)":
 noop void* Global__NOP__Ship_OnInit_1;
-"UNKNOWN FUNCTION DEFENITION":
+"8079057275c3(488b7008)":
 noop void* Global__NOP__Ship_OnInit_5;
-"UNKNOWN FUNCTION DEFENITION":
+"8079056575c3(488b5808)":
 noop void* Global__NOP__Ship_OnInit_2;
-"UNKNOWN FUNCTION DEFENITION":
+"4983fc170f83d3000000(4489e0)":
 noop void* Global__NOP__Ship_OnInit_3;
-"UNKNOWN FUNCTION DEFENITION":
+"4983fd170f8399000000(4489e8)":
 noop void* Global__NOP__Ship_OnInit_0;
-*/
-
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	Pointf GetRoomCenter(int room)
