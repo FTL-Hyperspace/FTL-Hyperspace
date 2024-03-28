@@ -264,7 +264,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_contributors_names" language="pl">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nZespół FTL Multiverse</text>
 <text name="credits_hyperspace_loc" language="pl">Tłumacze Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="pl">Francuski</text>
-<text name="credits_hyperspace_loc_fr_names" language="pl">Onceuponaban</text>
+<text name="credits_hyperspace_loc_fr_names" language="pl">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="pl">Włoski</text>
 <text name="credits_hyperspace_loc_it_names" language="pl">RawToast</text>
 <text name="credits_hyperspace_loc_de" language="pl">Niemiecki</text>
