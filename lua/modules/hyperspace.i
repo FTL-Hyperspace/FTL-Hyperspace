@@ -446,10 +446,17 @@ playerVariableType playerVariables;
 
 %rename("setWindowTitle") sys_graphics_set_window_title;
 
-/* %rename("%s") ScoreKeeper; */
+%rename("%s") ScoreKeeper;
+%rename("%s") ScoreKeeper::TopScore;
+%rename("%s") ScoreKeeper::TopScore::sector; // returns the current sector as an integer value
+%rename("%s") ScoreKeeper::TopScore::score; // returns the current score as an integer value
 /* %rename("%s") ScoreKeeper::AddScrapCollected; */
 /* %rename("%s") ScoreKeeper::gamesPlayed; */
 /* %rename("%(regex:/^ScoreKeeper::(.*)$/\\1/)s", regextarget=1, fullname=1) "ScoreKeeper::.*"; */
+
+%rename("%s") Sector;
+%rename("%s") Sector::SectorDescription;
+%rename("%s") Sector::SectorDescription::name; // returns the sector name as a string value
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
