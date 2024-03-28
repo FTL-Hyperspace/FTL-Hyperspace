@@ -285,8 +285,8 @@ HOOK_METHOD(LanguageChooser, OnRender, () -> void)
     G_->GetTextLibrary()->SetLanguage(oldLanguage);
 }
 
-#ifdef WIN32
 // Manually re-implement Japanese language for 1.6.9 on Windows
+#ifdef WIN32
 
 static freetype::font_data *FONT_JA_MISAKI = new freetype::font_data;
 static freetype::font_data *FONT_JA_DOTGOTHIC_24 = new freetype::font_data;
@@ -479,8 +479,8 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     return super(size, ignoreLanguage);
 }
 
-#pragma region
 // Font size fix for various texts
+#pragma region
 
 static bool g_emptyJpChargingText = false;
 static bool g_emptyJpEnemyStatusText = false;
@@ -569,8 +569,8 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
 
 #pragma endregion
 
-#pragma region
 // Fix for loading bar positioning
+#pragma region
 
 static bool g_fixJpLoadBarPos = false;
 
