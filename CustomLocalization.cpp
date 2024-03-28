@@ -343,6 +343,7 @@ HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
     return super(unk);
 }
 
+// Rewrite of ResourceControl::GetJapaneseFont
 HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> freetype::font_data&)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetFontData -> Begin (CustomLocalization.cpp)\n")
@@ -523,6 +524,30 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
     }
 
     super();
+}
+
+#pragma endregion
+
+#pragma region
+// Fix for loading bar positioning
+
+static bool g_fixJpLoadBarPos = false;
+
+HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float finalProgress) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderLoadingBar -> Begin (CustomLocalization.cpp)\n")
+    
+    g_fixJpLoadBarPos = G_->GetTextLibrary()->currentLanguage == "ja";
+    super(initialProgress, finalProgress);
+    g_fixJpLoadBarPos = false;
+}
+
+HOOK_METHOD(CSurface, GL_BlitImagePartial, (GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CSurface::GL_BlitImagePartial -> Begin (CustomLocalization.cpp)\n")
+    
+    if (g_fixJpLoadBarPos) y += 3;
+    return super(tex, x, y, size_x, size_y, start_x, end_x, start_y, end_y, alpha, color, mirror);
 }
 
 #pragma endregion
