@@ -65,6 +65,8 @@ public:
 
     Setting<bool> altLockedMiniships;
 
+    Setting<bool> altCreditSystem;
+
     Setting<std::string> dismissSound;
 
     Defaults defaults;
