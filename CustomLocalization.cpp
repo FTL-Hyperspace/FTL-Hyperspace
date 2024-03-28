@@ -286,7 +286,7 @@ HOOK_METHOD(LanguageChooser, OnRender, () -> void)
 }
 
 #ifdef WIN32
-// Manually re-implement Japanese language for Windows
+// Manually re-implement Japanese language for 1.6.9 on Windows
 
 static freetype::font_data *FONT_JA_MISAKI = new freetype::font_data;
 static freetype::font_data *FONT_JA_DOTGOTHIC_24 = new freetype::font_data;
