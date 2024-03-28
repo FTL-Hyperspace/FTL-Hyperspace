@@ -52,3 +52,5 @@ build/
 
 # buildscripts/buildall.sh, .github/workflows/release.yml
 build-*/
+buildscripts/.DS_Store
+.DS_Store
