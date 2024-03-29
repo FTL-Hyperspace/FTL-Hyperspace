@@ -231,6 +231,10 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     
     if (!ignoreLanguage)
     {
+        if (size - 6U < 3) { size = 9; }
+        else if (size == 0xb) { size = 0xc; }
+        else if (size == 0) { return super(size, ignoreLanguage); }
+        
         auto it = g_customFontOverrides.find(G_->GetTextLibrary()->currentLanguage);
         if (it != std::end(g_customFontOverrides))
         {
@@ -349,6 +353,10 @@ HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> fre
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetFontData -> Begin (CustomLocalization.cpp)\n")
     
     if (!ignoreLanguage && G_->GetTextLibrary()->currentLanguage == "ja") {
+        if (size - 6U < 3) { size = 9; }
+        else if (size == 0xb) { size = 0xc; }
+        else if (size == 0) { return super(size, ignoreLanguage); }
+
         freetype::font_data *fontData;
         float fontSize, baselineOffset, lineHeightOffset;
         
@@ -597,13 +605,3 @@ HOOK_METHOD(CSurface, GL_BlitImagePartial, (GL_Texture *tex, float x, float y, f
 #pragma endregion
 
 #endif
-
-HOOK_METHOD(ResourceControl, GetFontData, (int size, bool ignoreLanguage) -> freetype::font_data&)
-{
-    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetFontData -> Begin (CustomLocalization.cpp)\n")
-    
-    if (size < 9) size = 9;
-    else if (size == 11) size = 12;
-
-    return super(size, ignoreLanguage);
-}
