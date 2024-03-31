@@ -8,6 +8,8 @@ cleanup __amd64 bool CommandGui::IsGameOver(CommandGui *this);
 cleanup __amd64 void CommandGui::OnInit(CommandGui *this);
 ".4154554889f5534889fb488dbf880500004883ec30":
 cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
+".415731d2415641554154554889f5":
+cleanup __amd64 void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
 ".41544189d4554889fd534889f34883ec204889e7":
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 ".415431d2554889f531f6534889fb4883ec30":
@@ -32,5 +34,3 @@ cleanup __amd64 void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
 cleanup __amd64 void CommandGui::OnLoop(CommandGui *this);
 ".41574156415541545548c7c5ffffffff534889fb":
 cleanup __amd64 void CommandGui::constructor(CommandGui *this);
-".415731d2415641554154554889f5":
-cleanup __amd64 void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
