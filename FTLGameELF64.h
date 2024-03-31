@@ -3057,7 +3057,6 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API void SetShip(ShipManager *ship);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
 	LIBZHL_API void constructor(SpaceManager *space, bool bPlayerShip, int iShipId);
-	LIBZHL_API void destructor(int unk);
 	
 	int iShipId;
 	ShipManager *shipManager;
