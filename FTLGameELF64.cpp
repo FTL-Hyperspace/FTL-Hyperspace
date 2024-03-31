@@ -3365,17 +3365,30 @@ void CommandGui::AddEnemyShip(CompleteShip *ship)
 namespace _func260
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("CommandGui::LinkShip", typeid(void (CommandGui::*)(CompleteShip *)), ".415731d2415641554154554889f5", nullptr, 0, 0, &func);
+}
+
+void CommandGui::LinkShip(CompleteShip *ship)
+{
+	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, CompleteShip *ship_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func260::func;
+	return execfunc(this, ship);
+}
+
+namespace _func261
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::GetWorldCoordinates", typeid(Point (CommandGui::*)(Point , bool )), ".41544189d4554889fd534889f34883ec204889e7", nullptr, 0, 0, &func);
 }
 
 Point CommandGui::GetWorldCoordinates(Point point, bool fromTarget)
 {
 	typedef Point (*custom_arg_funcptr_t)(CommandGui *this_arg, Point point_arg, bool fromTarget_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func260::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func261::func;
 	return execfunc(this, point, fromTarget);
 }
 
-namespace _func261
+namespace _func262
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::RenderPlayerShip", typeid(void (CommandGui::*)(Point &, float )), ".415431d2554889f531f6534889fb4883ec30", nullptr, 0, 0, &func);
@@ -3384,11 +3397,11 @@ namespace _func261
 void CommandGui::RenderPlayerShip(Point &shipCenter, float jumpScale)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, Point &shipCenter_arg, float jumpScale_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func261::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func262::func;
 	return execfunc(this, shipCenter, jumpScale);
 }
 
-namespace _func262
+namespace _func263
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::LButtonUp", typeid(void (CommandGui::*)(int , int , bool )), ".4154555380bf????????004889fb", nullptr, 0, 0, &func);
@@ -3397,11 +3410,11 @@ namespace _func262
 void CommandGui::LButtonUp(int mX, int mY, bool shiftHeld)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, int mX_arg, int mY_arg, bool shiftHeld_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func262::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func263::func;
 	return execfunc(this, mX, mY, shiftHeld);
 }
 
-namespace _func263
+namespace _func264
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::NewLocation", typeid(void (CommandGui::*)(const std::string &, std::vector<ChoiceText> *, ResourceEvent &, bool )), ".415741564155415455534889d34881ec58020000", nullptr, 0, 0, &func);
@@ -3410,11 +3423,11 @@ namespace _func263
 void CommandGui::NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, const std::string &mainText_arg, std::vector<ChoiceText> *choices_arg, ResourceEvent &resources_arg, bool testingEvents_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func263::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func264::func;
 	return execfunc(this, mainText, choices, resources, testingEvents);
 }
 
-namespace _func264
+namespace _func265
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::RunCommand", typeid(void (CommandGui::*)(std::string &)), ".4157415641554989fd41544989f45531ed5331db4883ec58488b06", nullptr, 0, 0, &func);
@@ -3423,11 +3436,11 @@ namespace _func264
 void CommandGui::RunCommand(std::string &command)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, std::string &command_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func264::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func265::func;
 	return execfunc(this, command);
 }
 
-namespace _func265
+namespace _func266
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::CreateNewStore", typeid(Store *(CommandGui::*)(int )), ".41554189f5415455534889fbbf580600004c8da3????0000", nullptr, 0, 0, &func);
@@ -3436,11 +3449,11 @@ namespace _func265
 Store *CommandGui::CreateNewStore(int sectorNumber)
 {
 	typedef Store *(*custom_arg_funcptr_t)(CommandGui *this_arg, int sectorNumber_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func265::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func266::func;
 	return execfunc(this, sectorNumber);
 }
 
-namespace _func266
+namespace _func267
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::KeyDown", typeid(void (CommandGui::*)(SDLKey , bool )), ".415541545589f5534889fb4883ec38", nullptr, 0, 0, &func);
@@ -3449,11 +3462,11 @@ namespace _func266
 void CommandGui::KeyDown(SDLKey key, bool shiftHeld)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, SDLKey key_arg, bool shiftHeld_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func266::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func267::func;
 	return execfunc(this, key, shiftHeld);
 }
 
-namespace _func267
+namespace _func268
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::RenderStatic", typeid(void (CommandGui::*)()), ".41564155415455534889fb4883ec40", nullptr, 0, 0, &func);
@@ -3462,11 +3475,11 @@ namespace _func267
 void CommandGui::RenderStatic()
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func267::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func268::func;
 	return execfunc(this);
 }
 
-namespace _func268
+namespace _func269
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::LButtonDown", typeid(void (CommandGui::*)(int , int , bool )), ".415541544189d45589f5534889fb4883ec28", nullptr, 0, 0, &func);
@@ -3475,11 +3488,11 @@ namespace _func268
 void CommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, int mX_arg, int mY_arg, bool shiftHeld_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func268::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func269::func;
 	return execfunc(this, mX, mY, shiftHeld);
 }
 
-namespace _func269
+namespace _func270
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::MouseMove", typeid(void (CommandGui::*)(int , int )), ".41544189d45589f5534889fb4883ec50", nullptr, 0, 0, &func);
@@ -3488,30 +3501,17 @@ namespace _func269
 void CommandGui::MouseMove(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func269::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func270::func;
 	return execfunc(this, mX, mY);
 }
 
-namespace _func270
+namespace _func271
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("CommandGui::OnLoop", typeid(void (CommandGui::*)()), ".41564155415455534889fb4883ec20", nullptr, 0, 0, &func);
 }
 
 void CommandGui::OnLoop()
-{
-	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func270::func;
-	return execfunc(this);
-}
-
-namespace _func271
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("CommandGui::constructor", typeid(void (CommandGui::*)()), ".41574156415541545548c7c5ffffffff534889fb", nullptr, 0, 0, &func);
-}
-
-void CommandGui::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func271::func;
@@ -3521,14 +3521,14 @@ void CommandGui::constructor()
 namespace _func272
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CommandGui::LinkShip", typeid(void (CommandGui::*)(CompleteShip *)), ".415731d2415641554154554889f5be", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CommandGui::constructor", typeid(void (CommandGui::*)()), ".41574156415541545548c7c5ffffffff534889fb", nullptr, 0, 0, &func);
 }
 
-void CommandGui::LinkShip(CompleteShip *ship)
+void CommandGui::constructor()
 {
-	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg, CompleteShip *ship_arg);
+	typedef void (*custom_arg_funcptr_t)(CommandGui *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func272::func;
-	return execfunc(this, ship);
+	return execfunc(this);
 }
 
 namespace _func273
