@@ -317,21 +317,65 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             WorldManager *world = G_->GetWorld();
             SpaceManager *space = &world->space;
             CommandGui *gui = world->commandGui;
+            ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
+            hs_log_file("setp 1\n");
 
             ShipManager *oldShip = world->playerShip->shipManager;
+            for (auto i : oldShip->GetWeaponList())
+                oldShip->RemoveItem(i->blueprint->name);
+            hs_log_file("setp 2\n");
+
+            //for (auto i : space->drones)
+            //{
+            //    hs_log_file("spacedrone\n");
+            //    i->destructor();
+            //}
+
+            //for (auto i : oldShip->GetDroneList())
+            //    oldShip->RemoveItem(i->blueprint->name);
+
+            //TODO
+            // Remove all deployed drone, the destructor should be taking care of that according to the code but it crashes
+            // clear the beacon
+            // defense drone do not fire when deployed from a switched ship
+            // gdb freaks out on the store::OnRender() resource_list_files_next, (most likely related to the point below) 
+            // something related png in scorekeeper is the main reason for the second switch crash
+            oldShip->destructor();
+            
+            hs_log_file("setp 3\n");
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+            hs_log_file("setp 3.1\n");
             ShipManager *ship = new ShipManager(0);
+            hs_log_file("setp 3.2\n");
             ship->OnInit(bp, 0);
+            hs_log_file("setp 4\n");
+
+            for (auto i : gui->storeTrash)
+            {   
+                hs_log_file("storeTrashGUI\n");
+                i->RelinkShip(gui->shipComplete->shipManager, &(gui->equipScreen));
+            }
+
+            hs_log_file("setp 5\n");
             world->playerShip->SetShip(ship);
             world->starMap.shipManager = ship;
             gui->LinkShip(world->playerShip);
-            oldShip->destructor();
+
+            hs_log_file("Done\n");
         }
         return true;
     }
 
 
     return false;
+}
+
+HOOK_METHOD(Store, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Store::OnRender -> Begin (CommandConsole.cpp)\n")
+    hs_log_file("Store::OnRender\n");
+    hs_log_file("Store: %d\n", worldLevel);
+    super();
 }
 
 //===============================================
