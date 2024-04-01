@@ -36,6 +36,8 @@ __thiscall CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this
 __thiscall CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b41048b77048904248b0f":
 __thiscall void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, int roomId);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b0789c78945bc":
+__thiscall void ShipManager::SetTarget(ShipManager *this,ShipManager *target)
 "8b81c8040000837808ff74??55660fefc989e583e4f083ec208b4124f30f1005????????f30f5980d0010000f30f5ac8f20f110c24e8????????dd5c2418f20f2c442418":
 __thiscall int ShipManager::GetOxygenPercentage(ShipManager *this);
 "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04":

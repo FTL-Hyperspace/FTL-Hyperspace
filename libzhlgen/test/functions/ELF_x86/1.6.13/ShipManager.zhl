@@ -26,6 +26,8 @@ cleanup __cdecl void ShipManager::SetSystemPowerLoss(ShipManager *this, int syst
 cleanup __cdecl int ShipManager::CreateSystems(ShipManager *this);
 "5589e557565381ecdc0000008b45088d98c0040000":
 cleanup __cdecl int ShipManager::AddSystem(ShipManager *this, int systemId);
+".5557565383ec4c8b7424608b7c24648b464489bec0030000"
+cleanup __cdecl void ShipManager::SetTarget(ShipManager *this,ShipManager *target)
 "5589e557565331db81ecfc0000008b7d088b57188b471c":
 cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this);
 ".5557565383ec1c8b7424308b5c24348b7c243c8b":
