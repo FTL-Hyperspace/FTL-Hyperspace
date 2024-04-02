@@ -388,6 +388,16 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool` `.hostile`
 - `bool` `.targeted`
 
+## Slot
+
+### Fields
+- `int` `.roomId`
+   - **Read-only**
+- `int ` `.slotId`
+   - **Read-only**
+- `Point` `.worldLocation`
+   - Field is **read-only** but fields under this object may still be mutable.
+
 ## Ship
 Extends ShipObject
 

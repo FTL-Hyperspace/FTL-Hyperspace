@@ -1830,6 +1830,17 @@ playerVariableType playerVariables;
 %rename("%s") Door::bVertical;
 %immutable Door::bVertical;
 
+%nodefaultctor Slot;
+%nodefaultdtor Slot;
+%rename("%s") Slot;
+
+%immutable Slot::roomId;
+%rename("%s") Slot::roomId;
+%immutable Slot::slotId;
+%rename("%s") Slot::slotId;
+%immutable Slot::worldLocation;
+%rename("%s") Slot::worldLocation;
+
 %nodefaultctor BlueprintManager;
 %nodefaultdtor BlueprintManager;
 %rename("%s") BlueprintManager;
