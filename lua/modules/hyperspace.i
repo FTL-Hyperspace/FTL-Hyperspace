@@ -112,6 +112,7 @@ namespace std {
     %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
 	%template(vector_Door) vector<Door*>;
+	%template(vector_Repairable) vector<Repairable*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
@@ -1701,6 +1702,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::FullRoom;
 %rename("%s") Ship::GetAvailableRoomSlot;
 %rename("%s") Ship::GetBaseEllipse;
+%rename("%s") Ship::GetHullBreaches;
 %rename("%s") Ship::GetSelectedRoomId;
 %rename("%s") Ship::LockdownRoom;
 %rename("%s") Ship::RoomLocked;
