@@ -340,7 +340,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             // defense drone do not fire when deployed from a switched ship
             // gdb freaks out on the store::OnRender() resource_list_files_next, (most likely related to the point below) 
             // something related png in scorekeeper is the main reason for the second switch crash
-            oldShip->destructor();
+            
             
             hs_log_file("setp 3\n");
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
@@ -360,6 +360,10 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             world->playerShip->SetShip(ship);
             world->starMap.shipManager = ship;
             gui->LinkShip(world->playerShip);
+            hs_log_file("setp 6\n");
+            scoreKeeper->SetShipBlueprint(&shipName);
+
+            oldShip->destructor();
 
             hs_log_file("Done\n");
         }
@@ -368,14 +372,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
 
     return false;
-}
-
-HOOK_METHOD(Store, OnRender, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> Store::OnRender -> Begin (CommandConsole.cpp)\n")
-    hs_log_file("Store::OnRender\n");
-    hs_log_file("Store: %d\n", worldLevel);
-    super();
 }
 
 //===============================================
