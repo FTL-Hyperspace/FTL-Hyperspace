@@ -1,0 +1,10 @@
+<FTL>
+
+<nameList race="human" sex="male" language="ko">
+	<name>철수</name>
+</nameList>
+<nameList race="human" sex="female" language="ko">
+	<name>영희</name>
+</nameList>
+
+</FTL>
