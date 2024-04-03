@@ -19,7 +19,7 @@ All calls are under `Hyperspace`
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
 - `CApp :GetCApp()`
-   - Returns the main instance of `CApp`. Always use this to access any members and methods belonging to the `CApp` class.
+   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class.
 - `BlueprintManager :GetBlueprints()`
    - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class.
 - `SoundControl :GetSoundControl()`
@@ -38,6 +38,42 @@ All calls are under `Hyperspace`
    - **Read-only**
    - The seed for the run.
 
+## CApp
+
+### Methods
+
+- `void :OnExit()`
+   - Close game, autosave profile and settings but not current run (current run will be on previous autosave).
+- `void :OnRequestExit()`
+   - Close game, autosave run, profile, and settings.
+
+### Fields
+
+- [`CommandGui`](#CommandGui) `.gui`
+- [`WorldManager`](#WorldManager) `.world`
+- `MainMenu` `.menu`
+   - **Read-only**
+
+## WorldManager
+
+### Methods
+
+- `bool :AddBoarders(BoardingEvent boardingEvent)`
+- `void :ClearLocation()`
+	
+### Fields
+
+- `SpaceManager` `.space`
+   - **Read-only**
+- `int` `.currentDifficulty`
+   - **Read-only**
+- [`StarMap`](#StarMap) `.starMap`
+   - **Read-only**
+- `bool` `.bStartedGame`
+   - **Read-only**
+- `bool` `.bLoadingGame`
+   - **Read-only**
+
 ## MouseControl
 
 ### Methods
@@ -54,7 +90,8 @@ All calls are under `Hyperspace`
 - `void :SetTooltip(const std::string &tooltip)`
 - `void :SetTooltipTitle(const std::string &tooltip)`
 	
-### Members
+### Fields
+
 - `Point` `.position`
 - `Point` `.lastPosition`
 - `int` `.aiming_required`
@@ -1163,6 +1200,25 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `int` `.sector`
 - `int` `.score`
+
+## StarMap
+
+### Methods
+
+- `void :ModifyPursuit(int amount)` 
+- `Point :PointToGrid(float x, float y)`
+
+### Fields
+
+- `Location` `.currentLoc`
+- [`Sector`](#Sector) `.currentSector`
+- `int` `.pursuitDelay`
+- `GL_Primitive` `.ship`
+   - The map icon that rotates around the current location representing the player ship.
+- `GL_Primitive` `.shipNoFuel`
+   - The no fuel variant of the `ship` icon.
+- `int` `.worldLevel`
+   - **Read-only**
 
 ## Sector
 
