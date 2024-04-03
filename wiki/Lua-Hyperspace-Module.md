@@ -26,6 +26,10 @@ All calls are under `Hyperspace`
    - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
 - `AnimationControl :GetAnimationControl()`
    - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
+- `ScoreKeeper :GetScoreKeeper()`
+   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class.
+- `CrewMemberFactory :GetCrewFactory()`
+   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class.
 - `MouseControl :GetMouseControl()`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
 
@@ -1151,13 +1155,34 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## ScoreKeeper
 
 ### Fields
-- `std::vector<std::TopScore>` `.sector`
-   - Stores the current sector "level" (int)
-- `std::vector<std::TopScore>` `.score`
-   - Stores the current score value (int)
+- [`TopScore`](#TopScore) `.currentScore`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## TopScore
+
+### Fields
+- `int` `.sector`
+- `int` `.score`
 
 ## Sector
 
 ### Fields
-- `std::vector<std::SectorDescription>` `.name`
-   - Stores the current sectors name
+- [`SectorDescription`](#SectorDescription) `.description`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## SectorDescription
+
+### Fields
+- [`TextString`](#TextString) `.name`
+- [`TextString`](#TextString) `.shortName`
+
+## TextString
+
+### Methods
+
+- `std::string :GetText()`
+
+### Fields
+
+- `std::string` `.data`
+- `bool` `.isLiteral`
