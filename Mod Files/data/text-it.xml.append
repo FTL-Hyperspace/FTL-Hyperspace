@@ -250,36 +250,36 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="transfer_save_dialog" language="it">Sembra che questa sia la prima volta che giochi a questa mod, o non hai ancora impostato un nuovo file di salvataggio! Desideri trasferire i progressi di Vanilla, o gioca con un nuovo salvataggio? Ciò NON influenzerà in alcun modo i tuoi progressi nel Vanilla.</text>
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="it">NEUTRO!</text>
-<!--Hardcoded Credits-->
+<!--Credits-->
 <text name="thank_ai" language="it">Controllato dalla sua precisa intelligenza artificiale integrata</text>
 <text name="font" language="it">Font "Half-Life 1 + 2" utilizzati per gentile concessione di freakyfonts.de</text>
 <text name="font_halflife" language="it">Font "Half-Life 1 + 2" utilizzati per gentile concessione di freakyfonts.de</text>
 <text name="font_dotgothic" language="it">Il font 'DotGothic' utilizzato con la licenza di Fontworks Inc.</text>
-<text name="credits_hyperspace_project" language="it">Hyperspace Project</text>
-<text name="credits_hyperspace_developed_by" language="it">Developed by:</text>
+<text name="credits_hyperspace_project" language="it">Progetto Hyperspace</text>
+<text name="credits_hyperspace_developed_by" language="it">Sviluppato da:</text>
 <text name="credits_hyperspace_developed_names" language="it">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
-<text name="credits_hyperspace_art" language="it">Additional Art:</text>
+<text name="credits_hyperspace_art" language="it">Ulteriore art:</text>
 <text name="credits_hyperspace_art_names" language="it">SaltyFriedRice</text>
-<text name="credits_hyperspace_contributors" language="it">Additional Contributions:</text>
+<text name="credits_hyperspace_contributors" language="it">Contributi Aggiuntivi:</text>
 <text name="credits_hyperspace_contributors_names" language="it">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
-<text name="credits_hyperspace_loc" language="it">Hyperspace Translators:</text>
-<text name="credits_hyperspace_loc_fr" language="it">French</text>
+<text name="credits_hyperspace_loc" language="it">Hyperspace Traduttori:</text>
+<text name="credits_hyperspace_loc_fr" language="it">Francese</text>
 <text name="credits_hyperspace_loc_fr_names" language="it">Pepson</text>
-<text name="credits_hyperspace_loc_it" language="it">Italian</text>
+<text name="credits_hyperspace_loc_it" language="it">Italiano</text>
 <text name="credits_hyperspace_loc_it_names" language="it">RawToast</text>
-<text name="credits_hyperspace_loc_de" language="it">German</text>
+<text name="credits_hyperspace_loc_de" language="it">Tedesco</text>
 <text name="credits_hyperspace_loc_de_names" language="it">The Dumb Dino</text>
-<text name="credits_hyperspace_loc_es" language="it">Spanish</text>
+<text name="credits_hyperspace_loc_es" language="it">Spagnolo</text>
 <text name="credits_hyperspace_loc_es_names" language="it">DavidRedFox, Serpy</text>
-<text name="credits_hyperspace_loc_pl" language="it">Polish</text>
+<text name="credits_hyperspace_loc_pl" language="it">Polacco</text>
 <text name="credits_hyperspace_loc_pl_names" language="it">Marcinus, Palon</text>
-<text name="credits_hyperspace_loc_pt_BR" language="it">Portuguese (Brazil)</text>
+<text name="credits_hyperspace_loc_pt_BR" language="it">Portoghese (Brazil)</text>
 <text name="credits_hyperspace_loc_pt_BR_names" language="it">Gabriel Cooper</text>
-<text name="credits_hyperspace_loc_ru" language="it">Russian</text>
+<text name="credits_hyperspace_loc_ru" language="it">Russo</text>
 <text name="credits_hyperspace_loc_ru_names" language="it">aleev0_o</text>
-<text name="credits_hyperspace_loc_zn_Hans" language="it">Chinese</text>
+<text name="credits_hyperspace_loc_zn_Hans" language="it">Cinese</text>
 <text name="credits_hyperspace_loc_zn_Hans_names" language="it">Mwalls</text>
-<text name="credits_hyperspace_loc_ja" language="it">Japanese</text>
+<text name="credits_hyperspace_loc_ja" language="it">Giapponese</text>
 <text name="credits_hyperspace_loc_ja_names" language="it">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="it">Korean</text>
+<text name="credits_hyperspace_loc_kor" language="it">Coreano</text>
 <text name="credits_hyperspace_loc_kor_names" language="it">nedsociety</text>
