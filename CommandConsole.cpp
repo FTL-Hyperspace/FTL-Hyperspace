@@ -337,9 +337,21 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             //TODO
             // Remove all deployed drone, the destructor should be taking care of that according to the code but it crashes
             // clear the beacon
+            // clear system box, especially the artillery box
             // defense drone do not fire when deployed from a switched ship
-            // gdb freaks out on the store::OnRender() resource_list_files_next, (most likely related to the point below) 
+            // gdb freaks out on the store::OnRender() resource_list_files_next, (most likely related to the point below) only happen with destructor() (not 2)
             // something related png in scorekeeper is the main reason for the second switch crash
+
+            //for (auto i : gui->sysControl.sysBoxes)
+            //{   
+            //    hs_log_file("LookSysBox %d\n", i->pSystem->GetId());
+            //    if (i->pSystem->GetId() == 11)
+            //    {
+            //        hs_log_file("DeletedArtiBox\n");
+            //        i->destroy();
+            //    }
+            //}
+
             
             
             hs_log_file("setp 3\n");
@@ -348,22 +360,31 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             ShipManager *ship = new ShipManager(0);
             hs_log_file("setp 3.2\n");
             ship->OnInit(bp, 0);
+            
             hs_log_file("setp 4\n");
-
-            for (auto i : gui->storeTrash)
-            {   
-                hs_log_file("storeTrashGUI\n");
-                i->RelinkShip(gui->shipComplete->shipManager, &(gui->equipScreen));
-            }
-
-            hs_log_file("setp 5\n");
             world->playerShip->SetShip(ship);
             world->starMap.shipManager = ship;
-            gui->LinkShip(world->playerShip);
-            hs_log_file("setp 6\n");
+            
+            hs_log_file("setp 5\n");
             scoreKeeper->SetShipBlueprint(&shipName);
 
-            oldShip->destructor();
+            hs_log_file("setp 6\n");
+
+            gui->LinkShip(world->playerShip);
+            hs_log_file("setp 7\n");
+            //for (auto i : gui->storeTrash)
+            //{   
+            //    hs_log_file("storeTrashGUI\n");
+            //    i->RelinkShip(gui->shipComplete->shipManager, &(gui->equipScreen));
+            //}
+            hs_log_file("setp 8\n");
+            oldShip->destructor2();
+
+            // From this point on it may be best to copy the method of CommandGui::Restart
+            // Not copy, actually call it
+            // Maybe do the whole WorldManager::Restart minus the reset of position
+
+            gui->combatControl.Clear();
 
             hs_log_file("Done\n");
         }
