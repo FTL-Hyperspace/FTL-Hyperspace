@@ -364,12 +364,6 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - **Since 1.4.0**
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
- ## ShipManager_Extend
-Accessed via `ShipManager`'s `.extend` field
-
-### Fields
-- `std::map<std::string, int>` `.hiddenAugs`
-
 ## Targetable
 
 ### Methods
@@ -1153,3 +1147,11 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
+
+## CustomAugmentManager
+
+### Methods
+- `CustomAugmentManager .GetInstance()`
+   - Returns the main instance of `CustomAugmentManager`. Always use this to access any members belonging to this class.
+- `bool :IsAugment(const std::string& name)`
+- `std::unordered_map<std::string, int>* :GetShipAugments(int iShipId);`

@@ -1116,7 +1116,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
-%rename("%s") ShipManager_Extend::hiddenAugs;
+//%rename("%s") ShipManager_Extend::hiddenAugs; // apparently this is never used after it's created?
 //Potential fix for fireSpreader indexing issue
 %rename("%s") ShipManager::GetFireAtPoint;
 %rename("%s") ShipManager::GetFire;
@@ -3291,6 +3291,16 @@ playerVariableType playerVariables;
 %rename("%s") StatBoostManager;
 %rename("%s") StatBoostManager::GetInstance;
 %rename("%s") StatBoostManager::CreateTimedAugmentBoost;
+
+// Access through Hyperspace.CustomAugmentManager.GetInstance()
+%nodefaultctor CustomAugmentManager;
+%nodefaultdtor CustomAugmentManager;
+%rename("%s") CustomAugmentManager;
+%rename("%s") CustomAugmentManager::GetInstance;
+//%rename("%s") CustomAugmentManager::GetAugmentDefinition; // have to resist exposing AugmentDefinition for now... will wait until 1.12
+%rename("%s") CustomAugmentManager::IsAugment;
+%rename("%s") CustomAugmentManager::GetShipAugments
+//%rename("%s") CustomAugmentManager::GetSuperShieldValue; // use ShipManager:GetShieldPower().super instead
 
 %rename("%s") ShipGenerator;
 %newobject ShipGenerator::CreateShip;
