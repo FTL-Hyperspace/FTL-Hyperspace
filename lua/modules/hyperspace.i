@@ -253,6 +253,7 @@ public:
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
+    ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
 
@@ -448,6 +449,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor ScoreKeeper;
 %rename("%s") ScoreKeeper;
+%immutable ScoreKeeper::currentScore;
 %rename("%s") ScoreKeeper::currentScore;
 /* %rename("%s") ScoreKeeper::AddScrapCollected; */
 /* %rename("%s") ScoreKeeper::gamesPlayed; */
@@ -460,7 +462,8 @@ playerVariableType playerVariables;
 
 %nodefaultctor Sector;
 %rename("%s") Sector;
-%rename("%s") Sector::description
+%immutable Sector::description;
+%rename("%s") Sector::description;
 
 %nodefaultctor SectorDescription;
 %rename("%s") SectorDescription;
