@@ -395,12 +395,15 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             //PowerManager::RestartAll();
             //gui->Restart();
             // CreateNewGamePart
-            // Ship::ClearImages(&this->playerShip->shipManager->ship);
+            // Ship::ClearImages(&this->playerShip->shipManager->ship); those two could be nice to have, but I doubt its necessary to avoid crash
             // Ship::LoadImages(&this->playerShip->shipManager->ship);
-            space->Clear();
+            // space->Clear(); redundant with ClearLocation
             hs_log_file("setp 10\n");
-            Location *loc = world->starMap.currentLoc;
+            //world->bossShip->ClearLocation();
+            
+            hs_log_file("setp 11\n");
             world->ClearLocation();
+            
             
 
             hs_log_file("Done\n");
