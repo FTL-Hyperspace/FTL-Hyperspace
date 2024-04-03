@@ -34,3 +34,5 @@ __thiscall void CommandGui::NewLocation(CommandGui *this, const std::string& mai
 __thiscall void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????c681d419000000":
 __thiscall void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
+"578d7c240883e4f0ff77fc5589e557568db178010000":
+__thiscall void CommandGui::Restart(CommandGui *this);

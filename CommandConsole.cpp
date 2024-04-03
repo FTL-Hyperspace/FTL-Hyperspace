@@ -312,6 +312,13 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     {
         if (command.length() > 8)
         {
+            // All signature exposed
+            // CommandGUI::LinkShip (window/AMD64)
+            // ScoreKeeper::SetShipBlueprint (window)
+            // ShipGraph::Restart()
+            // PowerManager::RestartAll()
+            // CommandGui::Restart() (window)
+
             std::string shipName = boost::trim_copy(command.substr(7));
             hs_log_file("Loading new ship %s\n", shipName.c_str());
             WorldManager *world = G_->GetWorld();
@@ -324,6 +331,8 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             for (auto i : oldShip->GetWeaponList())
                 oldShip->RemoveItem(i->blueprint->name);
             hs_log_file("setp 2\n");
+
+            oldShip->destructor2();
 
             //for (auto i : space->drones)
             //{
@@ -351,8 +360,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             //        i->destroy();
             //    }
             //}
-
-            
             
             hs_log_file("setp 3\n");
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
@@ -370,7 +377,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
             hs_log_file("setp 6\n");
 
-            gui->LinkShip(world->playerShip);
             hs_log_file("setp 7\n");
             //for (auto i : gui->storeTrash)
             //{   
@@ -378,13 +384,24 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             //    i->RelinkShip(gui->shipComplete->shipManager, &(gui->equipScreen));
             //}
             hs_log_file("setp 8\n");
-            oldShip->destructor2();
 
             // From this point on it may be best to copy the method of CommandGui::Restart
             // Not copy, actually call it
+        
+            gui->LinkShip(world->playerShip);
             // Maybe do the whole WorldManager::Restart minus the reset of position
-
-            gui->combatControl.Clear();
+            hs_log_file("setp 9\n");
+            //ShipGraph::Restart();
+            //PowerManager::RestartAll();
+            //gui->Restart();
+            // CreateNewGamePart
+            // Ship::ClearImages(&this->playerShip->shipManager->ship);
+            // Ship::LoadImages(&this->playerShip->shipManager->ship);
+            space->Clear();
+            hs_log_file("setp 10\n");
+            Location *loc = world->starMap.currentLoc;
+            world->ClearLocation();
+            
 
             hs_log_file("Done\n");
         }
