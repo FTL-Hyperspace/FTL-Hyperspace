@@ -3187,6 +3187,8 @@ HOOK_METHOD(MenuScreen, OnLanguageChange, () -> void)
 
     if (G_->GetResources()->ImageExists("customizeUI/unlocks_disabled.png"))
     {
+        delete unlocksDisabledTexture;
+        delete unlocksDisabledPrimitive;
         unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
         unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
     }
