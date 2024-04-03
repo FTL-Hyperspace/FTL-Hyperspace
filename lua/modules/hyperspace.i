@@ -3319,7 +3319,7 @@ playerVariableType playerVariables;
 %rename("%s") CustomAugmentManager::GetInstance;
 //%rename("%s") CustomAugmentManager::GetAugmentDefinition; // have to resist exposing AugmentDefinition for now... will wait until 1.12
 %rename("%s") CustomAugmentManager::IsAugment;
-%rename("%s") CustomAugmentManager::GetShipAugments
+%rename("%s") CustomAugmentManager::GetShipAugments;
 //%rename("%s") CustomAugmentManager::GetSuperShieldValue; // use ShipManager:GetShieldPower().super instead
 
 %rename("%s") ShipGenerator;
