@@ -332,8 +332,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 oldShip->RemoveItem(i->blueprint->name);
             hs_log_file("setp 2\n");
 
-            oldShip->destructor2();
-
             //for (auto i : space->drones)
             //{
             //    hs_log_file("spacedrone\n");
@@ -389,6 +387,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             // Not copy, actually call it
         
             gui->LinkShip(world->playerShip);
+            oldShip->destructor2();
             // Maybe do the whole WorldManager::Restart minus the reset of position
             hs_log_file("setp 9\n");
             //ShipGraph::Restart();
