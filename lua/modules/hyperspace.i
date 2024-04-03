@@ -253,6 +253,7 @@ public:
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
+    ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
 
@@ -446,10 +447,28 @@ playerVariableType playerVariables;
 
 %rename("setWindowTitle") sys_graphics_set_window_title;
 
-/* %rename("%s") ScoreKeeper; */
+%nodefaultctor ScoreKeeper;
+%rename("%s") ScoreKeeper;
+%immutable ScoreKeeper::currentScore;
+%rename("%s") ScoreKeeper::currentScore;
 /* %rename("%s") ScoreKeeper::AddScrapCollected; */
 /* %rename("%s") ScoreKeeper::gamesPlayed; */
 /* %rename("%(regex:/^ScoreKeeper::(.*)$/\\1/)s", regextarget=1, fullname=1) "ScoreKeeper::.*"; */
+
+%nodefaultctor TopScore;
+%rename("%s") TopScore;
+%rename("%s") TopScore::sector;
+%rename("%s") TopScore::score;
+
+%nodefaultctor Sector;
+%rename("%s") Sector;
+%immutable Sector::description;
+%rename("%s") Sector::description;
+
+%nodefaultctor SectorDescription;
+%rename("%s") SectorDescription;
+%rename("%s") SectorDescription::name;
+%rename("%s") SectorDescription::shortName;
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
@@ -752,6 +771,7 @@ playerVariableType playerVariables;
 
 //%rename("%s") StarMap::visual_size; // Not sure
 %rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.
+%rename("%s") StarMap::currentSector;
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
 // TODO: Maybe one of the members in StarMap (that are not exposed) could help to determine how many free event locations are left so an event can be chosen to spawn in the current sector or next sector?
 ////%rename("%s") StarMap::dangerZone; // Messing with this might be interesting, imagine if the fleet didn't proceed directly from the left? lol
