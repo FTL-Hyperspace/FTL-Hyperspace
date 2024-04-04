@@ -274,34 +274,27 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-                //hs_log_file("step 0\n");
-                //WorldManager *world = G_->GetWorld();
-                //SpaceManager *space = &world->space;
+                WorldManager *world = G_->GetWorld();
+                SpaceManager *space = &world->space;
+                CommandGui *gui = world->commandGui;
+                ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
 
-                //world->playerShip->destructor(0);
-                //hs_log_file("step 1\n");
-                ShipManager *newShip = new ShipManager(0);
-                newShip->OnInit(bp, 0);
+                world->ClearLocation();
 
-                //hs_log_file("step 2\n");
-                //CompleteShip *newCompleteShip = new CompleteShip(space,true, 0);
-                //world->playerShip = newCompleteShip;
+                ShipManager *oldShip = world->playerShip->shipManager;
+                for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
 
-                //hs_log_file("step 3 bis\n");
-                G_->GetWorld()->playerShip->SetShip(newShip);
-                //newCompleteShip = world->playerShip;
-                //CommandGui *gui = world->commandGui;
-
-                //hs_log_file("step 3\n");
-                //newCompleteShip->SetShip(newShip);
-                //newCompleteShip = world->playerShip;
-                //CommandGui *gui = world->commandGui;
-    
-                //hs_log_file("step 4\n");
-                //world->starMap.shipManager = newShip;
-                //gui->LinkShip(newCompleteShip);
-
-                //hs_log_file("step 5\n");
+                ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+                ShipManager *ship = new ShipManager(0);
+                ship->OnInit(bp, 0);
+                
+                world->playerShip->SetShip(ship);
+                world->starMap.shipManager = ship;
+                
+                scoreKeeper->SetShipBlueprint(&shipName);
+            
+                gui->LinkShip(world->playerShip);
+                oldShip->destructor2();
             }
         }
         
@@ -326,6 +319,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             CommandGui *gui = world->commandGui;
             ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
             hs_log_file("setp 1\n");
+            world->ClearLocation();
 
             ShipManager *oldShip = world->playerShip->shipManager;
             for (auto i : oldShip->GetWeaponList())
@@ -401,7 +395,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             //world->bossShip->ClearLocation();
             
             hs_log_file("setp 11\n");
-            world->ClearLocation();
+            //world->ClearLocation();
             
             
 
