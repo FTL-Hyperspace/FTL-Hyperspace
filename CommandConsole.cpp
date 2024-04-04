@@ -274,30 +274,9 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-                WorldManager *world = G_->GetWorld();
-                SpaceManager *space = &world->space;
-                CommandGui *gui = world->commandGui;
-                ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
-
-                world->ClearLocation();
-
-                ShipManager *oldShip = world->playerShip->shipManager;
-                for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
-
-                ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-                ShipManager *ship = new ShipManager(0);
-                ship->OnInit(bp, 0);
-                
-                world->playerShip->SetShip(ship);
-                world->starMap.shipManager = ship;
-                
-                scoreKeeper->SetShipBlueprint(&shipName);
-            
-                gui->LinkShip(world->playerShip);
-                oldShip->destructor2();
+                SwitchShip(&shipName);
             }
         }
-        
         
         return true;
     }
@@ -408,6 +387,30 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
+void CommandConsole::SwitchShip(std::string *shipBlueprintName)
+{
+    WorldManager *world = G_->GetWorld();
+    SpaceManager *space = &world->space;
+    CommandGui *gui = world->commandGui;
+    ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
+
+    world->ClearLocation();
+
+    ShipManager *oldShip = world->playerShip->shipManager;
+    for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
+
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipBlueprintName, -1);
+    ShipManager *ship = new ShipManager(0);
+    ship->OnInit(bp, 0);
+    
+    world->playerShip->SetShip(ship);
+    world->starMap.shipManager = ship;
+    
+    scoreKeeper->SetShipBlueprint(&shipName);
+
+    gui->LinkShip(world->playerShip);
+    oldShip->destructor2();
+}
 //===============================================
 
 static AnimationTracker *g_consoleMessage;

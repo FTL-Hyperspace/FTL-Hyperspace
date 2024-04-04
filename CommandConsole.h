@@ -8,6 +8,7 @@ public:
     bool enabled;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
+    void SwitchShip(std::string *shipBlueprintName);
 
 
     static CommandConsole *GetInstance() { return &instance; }

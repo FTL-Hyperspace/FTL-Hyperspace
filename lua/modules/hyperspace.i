@@ -3470,6 +3470,27 @@ playerVariableType playerVariables;
     })
 }
 
+%nodefaultctor CommandConsole;
+%nodefaultdtor CommandConsole;
+%rename("%s") CommandConsole;
+%rename("%s") CommandConsole::GetInstance;
+%rename("%s") CommandConsole::enabled;
+//%rename("%s") CommandConsole::RunCommand; letting this be handled by lua would be bad practice
+%rename("%s") CommandConsole::SwitchShip;
+
+%luacode
+{
+    setmetatable(Hyperspace.CommandConsole, {
+        __index = function(CommandConsole, key)
+            return CommandConsole.GetInstance()[key]
+        end,
+
+        __newindex = function(CommandConsole, key, value)
+            CommandConsole.GetInstance()[key] = value
+        end
+    })
+}
+
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
 %rename("%s") ResourceControl;
