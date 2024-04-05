@@ -547,6 +547,9 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::equipScreen;
 %immutable CommandGui::equipScreen;
 
+%nodefaultctor Equipment;
+%nodefaultdtor Equipment;
+%rename("%s") Equipment;
 %rename("%s") Equipment::AddAugment;
 %rename("%s") Equipment::AddDrone;
 %rename("%s") Equipment::AddToCargo;
