@@ -272,6 +272,8 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <!--Credits-->
 
 <text name="thank_ai">Controlled by its precise onboard AI</text>
+<text name="credits_loc_ko">Korean Community Version</text>
+<text name="credits_loc_ko_names">H20, nedsociety</text>
 <text name="font">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>
 <text name="font_halflife">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>
 <text name="font_dotgothic">'DotGothic' font used under license from Fontworks Inc.</text>
@@ -302,5 +304,5 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names">Mwalls</text>
 <text name="credits_hyperspace_loc_ja">Japanese</text>
 <text name="credits_hyperspace_loc_ja_names">ranhai</text>
-<text name="credits_hyperspace_loc_kor">Korean</text>
-<text name="credits_hyperspace_loc_kor_names">nedsociety</text>
+<text name="credits_hyperspace_loc_ko">Korean</text>
+<text name="credits_hyperspace_loc_ko_names">nedsociety, H20</text>

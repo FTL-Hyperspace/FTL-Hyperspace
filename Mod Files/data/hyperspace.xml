@@ -2548,7 +2548,8 @@ Example in form of the Vanilla credits rewritten in XML:
 <customCredits>
 	<scrollSpeed ppt="-0.5"/>
 	<scrollPause duration="3" pauseAtText="10"/>
-	<!-- Vanilla names: -->
+
+	<!-- Vanilla Credits: -->
 	<text id="game_from" fontSize="14" horizontal="640" spacing="40"/>
 	<text id="subset_games" fontSize="18" horizontal="640" spacing="90"/>
 	<text id="created_by" fontSize="14" horizontal="640" spacing="40"/>
@@ -2567,6 +2568,7 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="alison_w" fontSize="18" horizontal="640" spacing="90"/>
 	<text id="additional_testing" fontSize="14" horizontal="640" spacing="40"/>
 	<text id="family_friends" fontSize="18" horizontal="640" spacing="190"/>
+
 	<!-- Vanilla translations: -->
 	<text id="credits_loc_riotloc" fontSize="18" horizontal="640" spacing="90"/>
 	<text id="credits_loc_project" fontSize="14" horizontal="640" spacing="40"/>
@@ -2584,11 +2586,14 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="credits_loc_pt_BR" fontSize="14" horizontal="640" spacing="40"/>
 	<text id="credits_loc_pt_BR_names" fontSize="18" horizontal="640" spacing="114"/>
 	<text id="credits_loc_ru" fontSize="14" horizontal="640" spacing="40"/>
-	<text id="credits_loc_ru_names" fontSize="18" horizontal="640" spacing="148"/> 
+	<text id="credits_loc_ru_names" fontSize="18" horizontal="640" spacing="148"/>
 	<text id="credits_loc_ja" fontSize="14" horizontal="640" spacing="40"/>
 	<text id="credits_loc_ja_84" fontSize="18" horizontal="640" spacing="60"/>
-	<text id="credits_loc_ja_names" fontSize="18" horizontal="640" spacing="168"/>
-	<!-- Hyperspace part: -->
+	<text id="credits_loc_ja_names" fontSize="18" horizontal="640" spacing="148"/>
+	<text id="credits_loc_ko" fontSize="14" horizontal="640" spacing="40"/>
+	<text id="credits_loc_ko_names" fontSize="18" horizontal="640" spacing="90"/>
+
+	<!-- Hyperspace Credits: -->
 	<text id="credits_hyperspace_project" fontSize="18" horizontal="640" spacing="90"/>
 	<text id="credits_hyperspace_developed_by" fontSize="14" horizontal="640" spacing="40"/>
 	<text id="credits_hyperspace_developed_names" fontSize="18" horizontal="640" spacing="178"/>
@@ -2598,30 +2603,38 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="credits_hyperspace_contributors_names" fontSize="18" horizontal="640" spacing="266"/>
 	<text id="credits_hyperspace_loc" fontSize="18" horizontal="640" spacing="90"/>
 
+	<!-- Hyperspace Translations -->
+	<!-- 1st. Row --> 
 	<text id="credits_hyperspace_loc_fr" fontSize="14" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_it" fontSize="14" horizontal="853" spacing="40"/>
 	<text id="credits_hyperspace_loc_fr_names" fontSize="18" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_it_names" fontSize="18" horizontal="853" spacing="70"/>
+	<!-- 2nd. Row --> 
 	<text id="credits_hyperspace_loc_de" fontSize="14" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_es" fontSize="14" horizontal="853" spacing="40"/>
 	<text id="credits_hyperspace_loc_de_names" fontSize="18" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_es_names" fontSize="18" horizontal="853" spacing="70"/>
+	<!-- 3rd. Row --> 
 	<text id="credits_hyperspace_loc_pl" fontSize="14" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_pt_BR" fontSize="14" horizontal="853" spacing="40"/>
 	<text id="credits_hyperspace_loc_pl_names" fontSize="18" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_pt_BR_names" fontSize="18" horizontal="853" spacing="70"/>
+	<!-- 4th. Row --> 
 	<text id="credits_hyperspace_loc_ru" fontSize="14" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_zn_Hans" fontSize="14" horizontal="853" spacing="40"/>
 	<text id="credits_hyperspace_loc_ru_names" fontSize="18" horizontal="427" spacing="0"/>
 	<text id="credits_hyperspace_loc_zn_Hans_names" fontSize="18" horizontal="853" spacing="70"/>
-	<text id="credits_hyperspace_loc_ja" fontSize="14" horizontal="640" spacing="40"/>
-	<text id="credits_hyperspace_loc_ja_names" fontSize="18" horizontal="640" spacing="110"/>
-	<!--						Waiting for Ned to respond
-	<text id="credits_hyperspace_loc_kor" fontSize="14" horizontal="640" spacing="40"/>
-	<text id="credits_hyperspace_loc_kor_names" fontSize="18" horizontal="640" spacing="110"/>
-	-->
+	<!-- 5th. Row --> 
+	<text id="credits_hyperspace_loc_ja" fontSize="14" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_ko" fontSize="14" horizontal="853" spacing="40"/>
+	<text id="credits_hyperspace_loc_ja_names" fontSize="18" horizontal="427" spacing="0"/>
+	<text id="credits_hyperspace_loc_ko_names" fontSize="18" horizontal="853" spacing="110"/>
+
+	<!-- credits.txt -->
 	<text id="kickstarter" fontSize="14" horizontal="640" spacing="80"/>
 	<creditNames fontSize="14" spacingBetweenNames="40" spacingToFinishTexts="100"/>
+
+	<!-- Vanilla copyright stuff -->
 	<finishText id="third_party" fontSize="1" horizontal="640" spacing="40"/>
 	<finishText id="folder" fontSize="1" horizontal="640" spacing="80"/>
 	<finishText id="bass" fontSize="1" horizontal="640" spacing="50"/>
