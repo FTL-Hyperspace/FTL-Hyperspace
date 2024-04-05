@@ -158,16 +158,12 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         int xOffsetFont = freetype::easy_measurePrintLines(62, 0, 0, 999, textCurrent).x - freetype::easy_measurePrintLines(62, 0, 0, 999, textEnglish).x;
 
         CSurface::GL_PushMatrix();
-        int xOffsetBox, yOffsetBox;
+        int xOffsetBox = 0;
+        int yOffsetBox = 0;
         if (boss_visual)
         {
-            xOffsetBox = 94;
-            yOffsetBox = 2;
-        }
-        else
-        {
-            xOffsetBox = 98;
-            yOffsetBox = 7;
+            xOffsetBox = -4;
+            yOffsetBox = -5;
         }
         CSurface::GL_Translate(position.x + boxPosition.x + xOffsetBox + xOffsetFont, position.y + boxPosition.y + yOffsetBox, 0.0);
         CSurface::GL_RenderPrimitiveWithColor(enemyHullNumbersBox, GetCurrentTarget()->_targetable.hostile ? GL_Color(1.f, 0.7f, 0.7f, 1.f) : COLOR_WHITE);
