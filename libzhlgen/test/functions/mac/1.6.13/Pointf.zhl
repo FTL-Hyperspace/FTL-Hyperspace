@@ -1,8 +1,8 @@
 "554889e5f30f1107":
 cleanup __amd64 void Pointf::constructor(Pointf *this, float x, float y);
-"554889e5f20f100f0f5cc80f59c9f30f16c1f30f":
+".554889e5f20f100f0f5cc80f59c9f30f16c1f30f":
 cleanup __amd64 float Pointf::RelativeDistance(Pointf *this, Pointf other);
-"554889e5f30f7e0f":
+".554889e5f30f7e0f":
 cleanup __amd64 Pointf Pointf::Normalize(Pointf *this);
 
 

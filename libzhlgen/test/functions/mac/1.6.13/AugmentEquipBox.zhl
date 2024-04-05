@@ -1,6 +1,6 @@
 "554889e553504889fbe8????060031c0":
 cleanup __amd64 void AugmentEquipBox::RenderIcon(AugmentEquipBox *this);
-"554889e54156534883ec304889fb488bb3b80000":
-cleanup __amd64 void AugmentEquipBox::CheckContents(AugmentEquipBox *this);
-"554889e541574156534883ec184889fb4c8bb3b8":
+".554889e541574156534883ec184889fb4c8bb3b8":
 cleanup __amd64 void AugmentEquipBox::RemoveItem(AugmentEquipBox *this);
+".554889e54156534883ec304889fb488bb3b80000":
+cleanup __amd64 void AugmentEquipBox::CheckContents(AugmentEquipBox *this);
