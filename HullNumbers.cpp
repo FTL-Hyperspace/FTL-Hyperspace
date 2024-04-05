@@ -122,12 +122,17 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 }
 
 static GL_Primitive* enemyHullNumbersBox = nullptr;
+static GL_Primitive* bossHullNumbersBox = nullptr;
 
 HOOK_METHOD(CombatControl, constructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (HullNumbers.cpp)\n")
     super();
     enemyHullNumbersBox = G_->GetResources()->CreateImagePrimitiveString("combatUI/enemy_hull_numbers_box.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
+    if (G_->GetResources()->ImageExists("combatUI/boss_hull_numbers_box.png"))
+    {
+        bossHullNumbersBox = G_->GetResources()->CreateImagePrimitiveString("combatUI/boss_hull_numbers_box.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
+    }
 }
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
@@ -160,13 +165,18 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         CSurface::GL_PushMatrix();
         int xOffsetBox = 0;
         int yOffsetBox = 0;
+        GL_Primitive* box = enemyHullNumbersBox;
         if (boss_visual)
         {
             xOffsetBox = -4;
             yOffsetBox = -5;
+            if (bossHullNumbersBox != nullptr)
+            {
+                box = bossHullNumbersBox;
+            }
         }
         CSurface::GL_Translate(position.x + boxPosition.x + xOffsetBox + xOffsetFont, position.y + boxPosition.y + yOffsetBox, 0.0);
-        CSurface::GL_RenderPrimitiveWithColor(enemyHullNumbersBox, GetCurrentTarget()->_targetable.hostile ? GL_Color(1.f, 0.7f, 0.7f, 1.f) : COLOR_WHITE);
+        CSurface::GL_RenderPrimitiveWithColor(box, GetCurrentTarget()->_targetable.hostile ? GL_Color(1.f, 0.7f, 0.7f, 1.f) : COLOR_WHITE);
         CSurface::GL_PopMatrix();
 
         if (GetCurrentTarget()->_targetable.hostile)
