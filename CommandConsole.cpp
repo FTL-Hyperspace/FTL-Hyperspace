@@ -274,7 +274,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
             if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
             {
-                SwitchShip(&shipName);
+                SwitchShip(bp);
             }
         }
         
@@ -387,8 +387,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
-void CommandConsole::SwitchShip(std::string *shipBlueprintName)
+void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
 {
+    if (switching) return;
+
+    switching = true;
     WorldManager *world = G_->GetWorld();
     SpaceManager *space = &world->space;
     CommandGui *gui = world->commandGui;
@@ -397,19 +400,23 @@ void CommandConsole::SwitchShip(std::string *shipBlueprintName)
     world->ClearLocation();
 
     ShipManager *oldShip = world->playerShip->shipManager;
+    oldShip->ship.ClearImages();
     for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
+    oldShip->destructor2();
 
-    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipBlueprintName, -1);
+    //ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipBlueprint, -1);
     ShipManager *ship = new ShipManager(0);
-    ship->OnInit(bp, 0);
+    ship->OnInit(shipBlueprint, 0);
     
     world->playerShip->SetShip(ship);
     world->starMap.shipManager = ship;
-    
-    scoreKeeper->SetShipBlueprint(&shipName);
 
+    scoreKeeper->SetShipBlueprint(&(shipBlueprint->blueprintName));
+
+    //gui->Restart(); // no effect
     gui->LinkShip(world->playerShip);
-    oldShip->destructor2();
+    
+    switching = false;
 }
 //===============================================
 
