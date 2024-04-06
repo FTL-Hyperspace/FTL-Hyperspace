@@ -613,14 +613,6 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
     }
     else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
     {
-        std::string newDesc = tLib->GetText("description_stats") + "\n";
-        newDesc += GetWeaponStatsString(bp);
-        newDesc += "\n";
-        currentText = G_->GetTextLibrary()->GetText("scrap_value");
-        currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
-        newDesc += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(bp->desc.cost / 2));
-        newDesc += "\n";
-
         ret.assign(GetWeaponStatsString(bp));
     }
 
@@ -656,7 +648,13 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
     else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
     {
         descText += this->desc.description.GetText() + "\n\n";
+        descText += tLib->GetText("description_stats") + "\n";
         descText += GetWeaponStatsString(this);
+        descText += "\n\n";
+        currentText = G_->GetTextLibrary()->GetText("scrap_value");
+        currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->desc.cost));
+        descText += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(this->desc.cost / 2));
+        descText += "\n";
     }
 
     ret.assign(descText);
