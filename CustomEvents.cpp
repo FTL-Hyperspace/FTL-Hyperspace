@@ -1060,6 +1060,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                     customEvent->recallBoardersShip = -1;
                 }
             }
+            if (child->first_attribute("force"))
+            {
+                customEvent->recallBoardersForce = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+            }
         }
 
         if (nodeName == "resetFtl")
@@ -3697,7 +3701,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void RecallBoarders(int direction)
+void RecallBoarders(int direction, bool force)
 {
     int targetRoom;
     bool canTeleport;
@@ -3720,7 +3724,7 @@ void RecallBoarders(int direction)
                 auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
                 ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
 
-                if (canTeleport) // do it this way to ignore the vanilla conditions
+                if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
                     playerShip->AddCrewMember2(i,targetRoom);
@@ -3740,7 +3744,7 @@ void RecallBoarders(int direction)
                 auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
                 ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
 
-                if (canTeleport) // do it this way to ignore the vanilla conditions
+                if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
                     enemyShip->AddCrewMember2(i,targetRoom);
@@ -3817,7 +3821,7 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 
     if (customEvent->recallBoarders) {
-        RecallBoarders(customEvent->recallBoardersShip);
+        RecallBoarders(customEvent->recallBoardersShip, customEvent->recallBoardersForce);
     }
 
     if (!customEvent->playSound.empty())
