@@ -959,8 +959,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetRandomRoomCenter;
 %rename("%s") ShipManager::GetRoomCenter;
 %rename("%s") ShipManager::GetAvailablePower;
-//%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
-//%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
 %rename("%s") ShipManager::AddDrone;
 //%rename("%s") ShipManager::AddEquipmentFromList; // Might prefer via event?
 %rename("%s") ShipManager::AddInitialCrew;

@@ -177,8 +177,8 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
    - Gets the room center point of a specific room id.
 - `std::pair<int, int> :GetAvailablePower()`
    - First element of the pair is the maximum reactor power, the second element is the available reactor power.
-- ~~`:AddCrewMemberFromBlueprint`~~
-- ~~`:AddCrewMemberFromString`~~
+- `CrewMember* :AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
+- `CrewMember* :AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)`
 - ~~`:AddDrone`~~
 - ~~`:AddEquipmentFromList`~~
 - ~~`:AddInitialCrew`~~
