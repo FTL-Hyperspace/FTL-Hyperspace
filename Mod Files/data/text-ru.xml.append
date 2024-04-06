@@ -255,6 +255,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="font" language="ru">Шрифты 'Half-Life 1 + 2' использованы с разрешения freakyfonts.de</text>
 <text name="font_halflife" language="ru">Шрифты 'Half-Life 1 + 2' использованы с разрешения freakyfonts.de</text>
 <text name="font_dotgothic" language="ru">Шрифт 'DotGothic' использован в соответствии с лицензией от Fontworks Inc.</text>
+<text name="credits_loc_ko" language="ru">Корейская версия сообщества</text>
+<text name="credits_loc_ko_names" language="ru">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ru">Проект Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="ru">Разработчики:</text>
 <text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>

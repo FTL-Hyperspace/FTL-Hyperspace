@@ -241,6 +241,8 @@ Taste: \1</text>
 <text name="font" language="de">"Half-Life 1 + 2"-Schriften mit freundlicher Genehmigung durch freakyfonts.de</text>
 <text name="font_halflife" language="de">"Half-Life 1 + 2"-Schriften mit freundlicher Genehmigung durch freakyfonts.de</text>
 <text name="font_dotgothic" language="de">"DotGothic"-Schriften unter Lizens von Fontworks Inc. genutz</text>
+<text name="credits_loc_ko" language="de">Koreanische Community-Version</text>
+<text name="credits_loc_ko_names" language="de">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="de">Hyperspace Projekt</text>
 <text name="credits_hyperspace_developed_by" language="de">Entwickelt von:</text>
 <text name="credits_hyperspace_developed_names" language="de">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>

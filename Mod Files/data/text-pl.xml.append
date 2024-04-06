@@ -255,6 +255,8 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="font" language="pl">Za zgodą freakyfonts.de użytko czcionek „Half-Life 1 + 2”.</text>
 <text name="font_halflife" language="pl">Za zgodą freakyfonts.de użytko czcionek „Half-Life 1 + 2”.</text>
 <text name="font_dotgothic" language="pl">Czcionka 'DotGothic' użyta pod licencją od Fontworks Inc.</text>
+<text name="credits_loc_ko" language="pl">Wersja koreańska społecznościowa</text>
+<text name="credits_loc_ko_names" language="pl">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pl">Projekt Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pl">Stworzony przez:</text>
 <text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>

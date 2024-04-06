@@ -257,6 +257,8 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="font" language="fr">Polices utilisées : "Half-Life 1 + 2", avec la permission de freakyfonts.de</text>
 <text name="font_halflife" language="fr">Polices utilisées : "Half-Life 1 + 2", avec la permission de freakyfonts.de</text>
 <text name="font_dotgothic" language="fr">Police 'DotGothic' utilisé sous licence de Fontworks Inc.</text>
+<text name="credits_loc_ko" language="fr">Version Coréenne Communautaire</text>
+<text name="credits_loc_ko_names" language="fr">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="fr">Projet Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="fr">Developpé par :</text>
 <text name="credits_hyperspace_developed_names" language="fr">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>

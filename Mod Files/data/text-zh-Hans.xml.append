@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Blueprint Text -->
 <text name="system_temporal_title" language="zh-Hans">时流系统</text>
@@ -264,6 +264,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <!--Hardcoded Credits-->
 <text name="thank_ai" language="zh-Hans">及其精密的舰载人工智能</text>
 <text name="font" language="zh-Hans">在 freakyfonts.de 的许可下使用了“半条命 1 + 2”字体</text>
+<text name="credits_loc_ko" language="zh-Hans"> 韩语版</text>
+<text name="credits_loc_ko_names" language="zh-Hans">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="zh-Hans">超空间(Hyperspace)项目</text>
 <text name="credits_hyperspace_developed_by" language="zh-Hans">开发者：</text>
 <text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex</text>

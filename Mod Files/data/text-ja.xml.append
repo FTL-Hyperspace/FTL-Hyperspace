@@ -244,6 +244,8 @@
 <text name="font" language="ja">freakyfonts.deの許諾を得て、「Half-Life 1 + 2」フォントを使用しています。</text>
 <text name="font_halflife" language="ja">freakyfonts.deの許諾を得て、「Half-Life 1 + 2」フォントを使用しています。</text>
 <text name="font_dotgothic" language="ja">フォントワークス株式会社のライセンスを得て、「ドットゴシック」フォントを使用しています。</text>
+<text name="credits_loc_ko" language="ja">韓国語版(コミュニティ版)</text>
+<text name="credits_loc_ko_names" language="ja">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
 <text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
 <text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
