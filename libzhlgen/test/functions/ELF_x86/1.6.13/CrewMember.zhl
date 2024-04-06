@@ -115,7 +115,7 @@ cleanup __cdecl void CrewMember::SetFrozenLocation(CrewMember *this, bool frozen
 "8b4424048b54240889907c010000":
 cleanup __cdecl void CrewMember::SetTask(CrewMember *this, CrewTask task);
 "5589e557565383ec3c8b45188b7d0c8b5d088b7510":
-cleanup __cdecl Slot CrewMember::FindSlot(CrewMember *this, int unk1, int roomId, bool unk2);
+cleanup __cdecl Slot CrewMember::FindSlot(CrewMember *this, int roomId, int slotId, bool closeEnough);
 "5589e557565383ec6c8b750c8b5d088d45b8":
 cleanup __cdecl bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
 "565383ec248b4424348b5424388b5c2430":
