@@ -6347,6 +6347,7 @@ struct freetype
 	{
 		LIBZHL_API void clean();
 		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void init_bitmap(const void *buffer, int bufferSize, int size, int h);
 		
 		float h;
 		int font;

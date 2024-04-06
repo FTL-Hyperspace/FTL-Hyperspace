@@ -18553,6 +18553,19 @@ void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int 
 namespace _func1458
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("freetype::font_data::init_bitmap", typeid(void (freetype::font_data::*)(const void *, int , int , int )), ".41544189cc31c955", nullptr, 0, 0, &func);
+}
+
+void freetype::font_data::init_bitmap(const void *buffer, int bufferSize, int size, int h)
+{
+	typedef void (*custom_arg_funcptr_t)(freetype::font_data *this_arg, const void *buffer_arg, int bufferSize_arg, int size_arg, int h_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1457::func;
+	return execfunc(this, buffer, bufferSize, size, h);
+}
+
+namespace _func1458
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.8b7f04e9", nullptr, 0, 0, &func);
 }
 
