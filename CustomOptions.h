@@ -65,8 +65,6 @@ public:
 
     Setting<bool> altLockedMiniships;
 
-    Setting<bool> newCrewNameSystem;
-
     Setting<std::string> dismissSound;
 
     Defaults defaults;
