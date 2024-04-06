@@ -183,12 +183,3 @@
 	<name>デビー</name>
 	<name>カラ</name>
 </nameList>
-
-<!-- Korean -->
-
-<nameList race="human" sex="male" language="ko">
-	<name>철수</name>
-</nameList>
-<nameList race="human" sex="female" language="ko">
-	<name>영희</name>
-</nameList>
