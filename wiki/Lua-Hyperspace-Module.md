@@ -177,8 +177,8 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
    - Gets the room center point of a specific room id.
 - `std::pair<int, int> :GetAvailablePower()`
    - First element of the pair is the maximum reactor power, the second element is the available reactor power.
-- ~~`:AddCrewMemberFromBlueprint`~~
-- ~~`:AddCrewMemberFromString`~~
+- `CrewMember* :AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
+- `CrewMember* :AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)`
 - ~~`:AddDrone`~~
 - ~~`:AddEquipmentFromList`~~
 - ~~`:AddInitialCrew`~~
@@ -429,6 +429,16 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool` `.hostile`
 - `bool` `.targeted`
 
+## Slot
+
+### Fields
+- `int` `.roomId`
+   - **Read-only**
+- `int ` `.slotId`
+   - **Read-only**
+- `Point` `.worldLocation`
+   - Field is **read-only** but fields under this object may still be mutable.
+
 ## Ship
 Extends ShipObject
 
@@ -443,6 +453,7 @@ Extends ShipObject
 -  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
 -  `Globals::Ellipse GetBaseEllipse()`
    -  Return `baseEllipse` member by value.
+- `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
 -  `void LockdownRoom(int roomId, Pointf pos)` 

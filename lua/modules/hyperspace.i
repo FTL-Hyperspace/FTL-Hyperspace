@@ -112,6 +112,7 @@ namespace std {
     %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
 	%template(vector_Door) vector<Door*>;
+	%template(vector_Repairable) vector<Repairable*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
@@ -958,8 +959,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetRandomRoomCenter;
 %rename("%s") ShipManager::GetRoomCenter;
 %rename("%s") ShipManager::GetAvailablePower;
-//%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
-//%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
 %rename("%s") ShipManager::AddDrone;
 //%rename("%s") ShipManager::AddEquipmentFromList; // Might prefer via event?
 %rename("%s") ShipManager::AddInitialCrew;
@@ -1721,6 +1722,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::FullRoom;
 %rename("%s") Ship::GetAvailableRoomSlot;
 %rename("%s") Ship::GetBaseEllipse;
+%rename("%s") Ship::GetHullBreaches;
 %rename("%s") Ship::GetSelectedRoomId;
 %rename("%s") Ship::LockdownRoom;
 %rename("%s") Ship::RoomLocked;
@@ -1849,6 +1851,17 @@ playerVariableType playerVariables;
 %immutable Door::y;
 %rename("%s") Door::bVertical;
 %immutable Door::bVertical;
+
+%nodefaultctor Slot;
+%nodefaultdtor Slot;
+%rename("%s") Slot;
+
+%immutable Slot::roomId;
+%rename("%s") Slot::roomId;
+%immutable Slot::slotId;
+%rename("%s") Slot::slotId;
+%immutable Slot::worldLocation;
+%rename("%s") Slot::worldLocation;
 
 %nodefaultctor BlueprintManager;
 %nodefaultdtor BlueprintManager;
