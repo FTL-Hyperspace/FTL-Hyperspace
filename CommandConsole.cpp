@@ -276,6 +276,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             {
                 SwitchShip(bp);
             }
+            bp->destructor();
         }
         
         return true;
@@ -400,7 +401,7 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
     world->ClearLocation();
 
     ShipManager *oldShip = world->playerShip->shipManager;
-    oldShip->ship.ClearImages();
+    //oldShip->ship.ClearImages();
     for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
     oldShip->destructor2();
 
