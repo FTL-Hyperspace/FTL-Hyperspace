@@ -619,7 +619,7 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
         currentText = G_->GetTextLibrary()->GetText("scrap_value");
         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
         newDesc += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(bp->desc.cost / 2));
-        newDesc += "\n"
+        newDesc += "\n";
 
         ret.assign(GetWeaponStatsString(bp));
     }
