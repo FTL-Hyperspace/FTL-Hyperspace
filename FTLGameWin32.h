@@ -6052,6 +6052,7 @@ struct MindSystem : ShipSystem
 {
 	LIBZHL_API void InitiateMindControl();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void ReleaseCrew();
 	LIBZHL_API void SetArmed(int armed);
 	
 	std::pair<float, float> controlTimer;
@@ -6373,6 +6374,7 @@ struct freetype
 	{
 		LIBZHL_API void clean();
 		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void init_bitmap(const void *buffer, int bufferSize, int size, int h);
 		
 		float h;
 		int font;

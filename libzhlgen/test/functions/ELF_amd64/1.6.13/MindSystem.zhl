@@ -1,6 +1,8 @@
-"83fe01534889fb740f":
+"41554989fd415455534883ec28488b8f":
+cleanup __amd64 void MindSystem::ReleaseCrew(MindSystem *this);
+".83fe01534889fb740f":
 cleanup __amd64 void MindSystem::SetArmed(MindSystem *this, int armed);
-"415741564155415455534889fb4883ec48488bb780020000":
+".415741564155415455534889fb4883ec48488bb780020000":
 cleanup __amd64 void MindSystem::InitiateMindControl(MindSystem *this);
-"415455534889fb4883ec20e8????????488b8380020000":
+".415455534889fb4883ec20e8????????488b8380020000":
 cleanup __amd64 void MindSystem::OnLoop(MindSystem *this);
