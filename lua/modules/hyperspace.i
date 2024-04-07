@@ -1948,7 +1948,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::SystemTemplate::direction;
 %rename("%s") ShipBlueprint::SystemTemplate::weapon;
 
-%rename("%s") ShipBlueprint::desc; // TODO: Expose Description
+%rename("%s") ShipBlueprint::desc;
 %rename("%s") ShipBlueprint::blueprintName;
 %rename("%s") ShipBlueprint::name;
 %rename("%s") ShipBlueprint::shipClass;
@@ -1985,6 +1985,12 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::unlock;
 
 %rename("%s") ShipBlueprint::ShipBlueprint;
+
+%nodefaultctor Description;
+%nodefaultdtor Description;
+%rename("%s") Description;
+%rename("%s") Description::title;
+%rename("%s") Description::shortTitle;
 
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
