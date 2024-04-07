@@ -1362,3 +1362,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 - `std::string` `.data`
 - `bool` `.isLiteral`
+
+## Description
+
+### Fields
+
+- [`TextString`](#TextString) `.title`
+- [`TextString`](#TextString) `.shortTitle`
