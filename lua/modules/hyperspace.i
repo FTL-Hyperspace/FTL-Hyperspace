@@ -88,6 +88,13 @@ namespace std {
 
     // extend the map as well
     %extend map {
+        std::vector<K> keys() {
+            std::vector<K> keys;
+            keys.reserve(self->size());
+            for (std::map< K, T, C >::iterator i = self->begin(); i != self->end(); ++i)
+                keys.push_back(i->first);
+            return keys;
+        }
         const T& __getitem__(const K& key) throw (std::out_of_range) {
             std::map< K, T, C >::iterator i = self->find(key);
             if (i != self->end())
@@ -123,6 +130,7 @@ namespace std {
     %template(pair_float_float) pair<float, float>;
     %template(vector_Pointf) vector<Pointf>;
     %template(vector_Point) vector<Point>;
+    %template(map_string_int) map<string,int>;
     %template(map_int_SystemTemplate) map<int,ShipBlueprint::SystemTemplate>;
     %template(unordered_map_string_int) unordered_map<string,int>;
     %template(vector_ActivatedPower) vector<ActivatedPower*>;
@@ -251,6 +259,7 @@ public:
     static Global* GetInstance();
     ShipManager* GetShipManager(int iShipId);
     CApp* GetCApp();
+    ShipInfo* GetShipInfo(bool enemy);
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
@@ -927,6 +936,11 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipUnlocks::UnlockShip;
 %rename("%s") CustomShipUnlocks::GetCustomShipUnlocked;
 
+%rename("%s") ShipInfo;
+%nodefaultctor ShipInfo;
+%nodefaultdtor ShipInfo;
+%rename("%s") ShipInfo::augList;
+
 %rename("%s") ShipObject;
 %nodefaultctor ShipObject;
 %nodefaultdtor ShipObject;
@@ -1137,7 +1151,6 @@ playerVariableType playerVariables;
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
-//%rename("%s") ShipManager_Extend::hiddenAugs; // apparently this is never used after it's created?
 //Potential fix for fireSpreader indexing issue
 %rename("%s") ShipManager::GetFireAtPoint;
 %rename("%s") ShipManager::GetFire;
@@ -3324,16 +3337,6 @@ playerVariableType playerVariables;
 %rename("%s") StatBoostManager;
 %rename("%s") StatBoostManager::GetInstance;
 %rename("%s") StatBoostManager::CreateTimedAugmentBoost;
-
-// Access through Hyperspace.CustomAugmentManager.GetInstance()
-%nodefaultctor CustomAugmentManager;
-%nodefaultdtor CustomAugmentManager;
-%rename("%s") CustomAugmentManager;
-%rename("%s") CustomAugmentManager::GetInstance;
-//%rename("%s") CustomAugmentManager::GetAugmentDefinition; // have to resist exposing AugmentDefinition for now... will wait until 1.12
-%rename("%s") CustomAugmentManager::IsAugment;
-%rename("%s") CustomAugmentManager::GetShipAugments;
-//%rename("%s") CustomAugmentManager::GetSuperShieldValue; // use ShipManager:GetShieldPower().super instead
 
 %rename("%s") ShipGenerator;
 %newobject ShipGenerator::CreateShip;
