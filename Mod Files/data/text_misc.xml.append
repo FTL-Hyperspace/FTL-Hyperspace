@@ -141,6 +141,7 @@
 <text name="beam_length">Beam Length: \1</text>
 <text name="pinpoint">Pinpoint</text>
 <text name="swipe_speed">Beam Speed: \1</text>
+<text name="max_shots">Max Shots: \1</text>
 <text name="redesigned_double_damage">2x hull damage on systemless rooms.</text>
 <text name="redesigned_damage_room">Normal Damage Per Room: \1 (x15 for crew)</text>
 <text name="redesigned_damage_shot">Normal Damage Per Shot: \1 (x15 for crew)</text>

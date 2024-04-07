@@ -1,5 +1,7 @@
 "5383ec288b44243c8b5c24300fb7d0c1e810":
 cleanup __cdecl void freetype::font_data::init(freetype::font_data *this, const void *buffer, int bufferSize, unsigned int h, bool glow);
+".57565383ec208b44????":
+cleanup __cdecl void freetype::font_data::init_bitmap(freetype::font_data *this, const void *buffer, int bufferSize, int size, int h);
 "!.8b4424048b400489442404":
 cleanup __cdecl void freetype::font_data::clean(freetype::font_data *this);
 ".5589e5565383ec208b5d088d45f289442408":

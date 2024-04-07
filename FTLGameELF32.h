@@ -2282,7 +2282,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void CycleColorLayer(int unk);
 	LIBZHL_API bool DirectModifyHealth(float health);
 	LIBZHL_API void EmptySlot();
-	LIBZHL_API Slot FindSlot(int unk1, int roomId, bool unk2);
+	LIBZHL_API Slot FindSlot(int roomId, int slotId, bool closeEnough);
 	LIBZHL_API void ForceMindControl(bool force);
 	LIBZHL_API Point GetFinalGoal();
 	LIBZHL_API int GetIntegerHealth();
@@ -6324,6 +6324,7 @@ struct freetype
 	{
 		LIBZHL_API void clean();
 		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void init_bitmap(const void *buffer, int bufferSize, int size, int h);
 		
 		float h;
 		int font;
