@@ -137,6 +137,7 @@
 <text name="beam_length" language="pl">Długość Wiązki: \1</text>
 <text name="pinpoint" language="pl">Punktownica</text>
 <text name="swipe_speed" language="pl">Prękość Wiązki: \1</text>
+<text name="max_shots" language="pl">Maksimum Strzałów: \1</text>
 <text name="redesigned_double_damage" language="pl">2x większe obrażenia na pomieszczeniu bez systemu.</text>
 <text name="redesigned_damage_room" language="pl">Normalne Obrażenia Na Pomieszczenie: \1 (x15 dla załogi)</text>
 <text name="redesigned_damage_shot" language="pl">Normalne Obrażenia Na Strzał: \1 (x15 dla załogi)</text>

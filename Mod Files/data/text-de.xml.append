@@ -134,6 +134,7 @@
 <text name="beam_length" language="de">Strahllänge: \1</text>
 <text name="pinpoint">Akupunktur</text> <!--No german word exists here so I gave it a bit different name that fits is very good-->
 <text name="swipe_speed" language="de">Strahlgeschwindigkeit: \1</text>
+<text name="max_shots" language="de">Max. Schüsse: \1</text>
 <text name="redesigned_double_damage" language="de">Doppelter Hüllenschaden auf Räumen ohne System oder Subsystem.</text>
 <text name="redesigned_damage_room" language="de">Normaler Schaden pro Raum: \1 (x15 für Crew)</text>
 <text name="redesigned_damage_shot" language="de">Normaler Schaden pro Schuss: \1 (x15 für Crew)</text>

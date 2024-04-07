@@ -137,6 +137,7 @@
 <text name="beam_length" language="it">Lunghezza del raggio: \1</text>
 <text name="pinpoint" language="it">Individuare</text>
 <text name="swipe_speed" language="it">Velocità del raggio: \1</text>
+<text name="max_shots" language="it">Tiri Massimi: \1</text>
 <text name="redesigned_double_damage" language="it">2x danni allo scafo nelle stanze prive di sistema.</text>
 <text name="redesigned_damage_room" language="it">Danno normale per stanza: \1 (x15 per l'equipaggio)</text>
 <text name="redesigned_damage_shot" language="it">Danno normale per colpo: \1 (x15 per l'equipaggio)</text>

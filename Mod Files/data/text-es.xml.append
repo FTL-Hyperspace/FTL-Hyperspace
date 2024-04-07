@@ -137,6 +137,7 @@
 <text name="beam_length" language="es">Longitud del Rayo: \1</text>
 <text name="pinpoint" language="es">Pinpoint</text>
 <text name="swipe_speed" language="es">Velocidad del Rayo: \1</text>
+<text name="max_shots" language="es">Disparos Máximos: \1</text>
 <text name="redesigned_double_damage" language="es">2x de daño al casco en habitaciones sin sistemas.</text>
 <text name="redesigned_damage_room" language="es">Daño Normal por Habitación: \1 (x15 para tripulación)</text>
 <text name="redesigned_damage_shot" language="es">Daño Normal por Disparo: \1 (x15 para tripulación)</text>

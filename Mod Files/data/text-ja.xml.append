@@ -137,6 +137,7 @@
 <text name="beam_length" language="ja">ビーム長：\1</text>
 <text name="pinpoint" language="ja">Pinpoint</text>
 <text name="swipe_speed" language="ja">ビーム速度：\1</text>
+<text name="max_shots" language="ja">最大弾数: \1</text>
 <text name="redesigned_double_damage" language="ja">システム不在区画へ2倍のダメージ</text>
 <text name="redesigned_damage_room" language="ja">命中区画ごとにダメージ：\1（対クルー：15倍）</text>
 <text name="redesigned_damage_shot" language="ja">1射撃あたりの通常ダメージ：\1（対クルー：15倍）</text>

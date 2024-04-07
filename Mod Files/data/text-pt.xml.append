@@ -137,6 +137,7 @@
 <text name="beam_length" language="pt">Comprimento do Feixe: \1</text>
 <text name="pinpoint" language="pt">Feixe Preciso</text>
 <text name="swipe_speed" language="pt">Velocidade do Feixe: \1</text>
+<text name="max_shots" language="pt">Tiros Máximos: \1</text>
 <text name="redesigned_double_damage" language="pt">2x dano no casco em salas sem sistemas.</text>
 <text name="redesigned_damage_room" language="pt">Dano Normal Por Sala: \1 (x15 para tripulação)</text>
 <text name="redesigned_damage_shot" language="pt">Dano Normal Por Tiro: \1 (x15 para tripulação)</text>

@@ -137,6 +137,7 @@
 <text name="beam_length" language="ru">Длина луча: \1</text>
 <text name="pinpoint" language="ru">Точечный луч</text>
 <text name="swipe_speed" language="ru">Скорость луча: \1</text>
+<text name="max_shots" language="ru">Максимум выстрелов: \1</text>
 <text name="redesigned_double_damage" language="ru">Двойной урон отсекам без систем.</text>
 <text name="redesigned_damage_room" language="ru">Урон за каждый отсек: \1 (x15 экипажу)</text>
 <text name="redesigned_damage_shot" language="ru">Урон одного выстрела: \1 (x15 экипажу)</text>

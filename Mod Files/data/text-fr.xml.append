@@ -137,6 +137,7 @@
 <text name="beam_length" language="fr">Longueur Du Rayon : \1</text>
 <text name="pinpoint" language="fr">Rayon Concentré</text>
 <text name="swipe_speed" language="fr">Vitesse Du Rayon : \1</text>
+<text name="max_shots" language="fr">Tirs Max: \1</text>
 <text name="redesigned_double_damage" language="fr">2x dégâts de coque dans une salle sans système.</text>
 <text name="redesigned_damage_room" language="fr">Dégât Standard Par Salle : \1 (x15 pour l'équipage)</text>
 <text name="redesigned_damage_shot" language="fr">Dégât Standard Par Tir : \1 (x15 pour l'équipage)</text>

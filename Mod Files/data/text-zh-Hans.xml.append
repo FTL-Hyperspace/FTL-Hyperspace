@@ -137,6 +137,7 @@
 <text name="beam_length" language="zh-Hans">光束长度：\1</text>
 <text name="pinpoint" language="zh-Hans">光点</text>
 <text name="swipe_speed" language="zh-Hans">光束速度：\1</text>
+<text name="max_shots" language="zh-Hans">最高弹体数: \1</text>
 <text name="redesigned_double_damage" language="zh-Hans">对空舱室造成2倍舰体伤害。</text>
 <text name="redesigned_damage_room" language="zh-Hans">每间舱室标准伤害：\1(船员伤害则乘15)</text>
 <text name="redesigned_damage_shot" language="zh-Hans">每发弹体标准伤害：\1(船员伤害则乘15)</text>
