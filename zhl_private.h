@@ -8,7 +8,6 @@
 class FunctionHook_private
 {
 private:
-	char _shortName[128];
 	char _name[256];
 
 
