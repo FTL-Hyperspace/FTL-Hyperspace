@@ -403,9 +403,7 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
     ShipManager *oldShip = world->playerShip->shipManager;
     //oldShip->ship.ClearImages();
     for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
-    oldShip->destructor2();
-
-    //ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipBlueprint, -1);
+    
     ShipManager *ship = new ShipManager(0);
     ship->OnInit(shipBlueprint, 0);
     
@@ -416,6 +414,8 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
 
     //gui->Restart(); // no effect
     gui->LinkShip(world->playerShip);
+    oldShip->destructor2();
+
     
     switching = false;
 }
