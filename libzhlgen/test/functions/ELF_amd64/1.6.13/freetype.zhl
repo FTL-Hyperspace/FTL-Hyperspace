@@ -1,5 +1,7 @@
 "89c9534889fbf3480f2ac14889f731c989d631d2":
 cleanup __amd64 void freetype::font_data::init(freetype::font_data *this, const void *buffer, int bufferSize, unsigned int h, bool glow);
+".41544189cc31c955":
+cleanup __amd64 void freetype::font_data::init_bitmap(freetype::font_data *this, const void *buffer, int bufferSize, int size, int h);
 "!.8b7f04e9":
 cleanup __amd64 void freetype::font_data::clean(freetype::font_data *this);
 ".554889d089fd5389f34883ec38":

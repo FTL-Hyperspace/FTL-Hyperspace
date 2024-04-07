@@ -89,7 +89,7 @@ cleanup __amd64 void CrewMember::SetFrozenLocation(CrewMember *this, bool frozen
 ".4889b7d80100008997e0010000":
 cleanup __amd64 void CrewMember::SetTask(CrewMember *this, CrewTask task);
 ".4155415455534889fb4883ec18488bbff0010000":
-cleanup __amd64 Slot CrewMember::FindSlot(CrewMember *this, int unk1, int roomId, bool unk2);
+cleanup __amd64 Slot CrewMember::FindSlot(CrewMember *this, int roomId, int slotId, bool closeEnough);
 ".415531c9baffffffff41544531e4554889fd5389f34883ec38":
 cleanup __amd64 bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
 ".f30f2ace4889f248c1fa2055f30f2ac2534889fb4883ec18":

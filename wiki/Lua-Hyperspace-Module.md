@@ -453,7 +453,7 @@ Extends ShipObject
 -  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
 -  `Globals::Ellipse GetBaseEllipse()`
    -  Return `baseEllipse` member by value.
--  `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
+- `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
 -  `void LockdownRoom(int roomId, Pointf pos)` 
