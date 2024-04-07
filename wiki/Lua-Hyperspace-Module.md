@@ -20,6 +20,8 @@ All calls are under `Hyperspace`
    - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
 - `CApp :GetCApp()`
    - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class.
+- `ShipInfo :GetShipInfo(bool enemy)`
+   - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
 - `BlueprintManager :GetBlueprints()`
    - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class.
 - `SoundControl :GetSoundControl()`
@@ -53,6 +55,12 @@ All calls are under `Hyperspace`
 - [`WorldManager`](#WorldManager) `.world`
 - `MainMenu` `.menu`
    - **Read-only**
+
+## ShipInfo
+
+### Fields
+
+- `std::map<std::string, int>` `.augList`
 
 ## WorldManager
 
@@ -1139,6 +1147,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.transformName`
 - `bool` `.changeIfSame`
 - `SkillsDefinition` `.skillsDef`
+
 ## GenericButton
 
 ### Methods
