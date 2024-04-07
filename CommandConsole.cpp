@@ -7,6 +7,7 @@
 #include "CustomScoreKeeper.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <new>
 
 CommandConsole CommandConsole::instance = CommandConsole();
 PrintHelper PrintHelper::instance = PrintHelper();
@@ -404,14 +405,17 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
     //oldShip->ship.ClearImages();
     for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
     
-    ShipManager *ship = new ShipManager(0);
+    //ShipManager *ship = new ShipManager(0);
+    auto *ship = static_cast<ShipManager*>(::operator new(sizeof(ShipManager))); // same effect as new ShipManager(0), no memory improvement
+    ship->constructor(0);
     ship->OnInit(shipBlueprint, 0);
     
     world->playerShip->SetShip(ship);
     world->starMap.shipManager = ship;
 
     scoreKeeper->SetShipBlueprint(&(shipBlueprint->blueprintName));
-
+    //world->OnLoop();
+    
     //gui->Restart(); // no effect
     gui->LinkShip(world->playerShip);
     oldShip->destructor2();
