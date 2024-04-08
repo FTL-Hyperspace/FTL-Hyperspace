@@ -153,6 +153,8 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
+    %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
+    %template(vector_choiceText) vector<ChoiceText>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -583,6 +585,8 @@ playerVariableType playerVariables;
 //%rename("%s") Equipment::GetCargoHold;
 
 %rename("%s") CommandGui::bHideUI; // Not sure if we should disallow setting this
+%rename("%s") CommandGui::choiceBox;
+%immutable CommandGui::choiceBox;
 %rename("%s") CommandGui::jumpComplete;
 %immutable CommandGui::jumpComplete;
 %rename("%s") CommandGui::mapId;
@@ -591,6 +595,68 @@ playerVariableType playerVariables;
 %immutable CommandGui::secretSector;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
+
+%nodefaultctor LocationEvent;
+%rename("%s") LocationEvent;
+%rename("%s") LocationEvent::Choice;
+%rename("%s") LocationEvent::Choice::event;
+%rename("%s") LocationEvent::Choice::text;
+//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
+%rename("%s") LocationEvent::Choice::hiddenReward;
+%rename("%s") LocationEvent::text;
+//%rename("%s") LocationEvent::ship; ShipEvent not exposed
+//%rename("%s") LocationEvent::stuff; ResourceEvent not exposed
+%rename("%s") LocationEvent::environment;
+%rename("%s") LocationEvent::environmentTarget;
+%rename("%s") LocationEvent::store; 
+%rename("%s") LocationEvent::gap_ex_cleared;
+%rename("%s") LocationEvent::fleetPosition;
+%rename("%s") LocationEvent::beacon;
+%rename("%s") LocationEvent::reveal_map;
+%rename("%s") LocationEvent::distressBeacon;
+%rename("%s") LocationEvent::repair;
+
+%rename("%s") LocationEvent::modifyPursuit;
+//%rename("%s") LocationEvent::pStore; Store not exposed
+//%rename("%s") LocationEvent::damage; EventDamage not exposed
+%rename("%s") LocationEvent::quest;
+//%rename("%s") LocationEvent::statusEffects; StatusEffect not exposed
+//%rename("%s") LocationEvent::nameDefinitions; std_pair_std_string_std_string require further testing
+%rename("%s") LocationEvent::spaceImage;
+%rename("%s") LocationEvent::planetImage;
+%rename("%s") LocationEvent::eventName;
+//%rename("%s") LocationEvent::reward; ResourceEvent not exposed
+%rename("%s") LocationEvent::boarders;
+%rename("%s") LocationEvent::choices;
+%rename("%s") LocationEvent::unlockShip;
+%rename("%s") LocationEvent::unlockShipText;
+%rename("%s") LocationEvent::secretSector;
+
+%rename("%s") FocusWindow;
+%rename("%s") FocusWindow::bOpen;
+%rename("%s") FocusWindow::bFullFocus;
+%rename("%s") FocusWindow::bCloseButtonSelected;
+
+%rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::mainText;
+%rename("%s") ChoiceBox::choices;
+%rename("%s") ChoiceBox::columnSize;
+%rename("%s") ChoiceBox::choiceBoxes;
+%rename("%s") ChoiceBox::potentialChoice;
+%rename("%s") ChoiceBox::selectedChoice;
+%rename("%s") ChoiceBox::fontSize;
+%rename("%s") ChoiceBox::centered;
+%rename("%s") ChoiceBox::gap_size;
+%rename("%s") ChoiceBox::openTime;
+// %rename("%s") ChoiceBox::rewards; ResourceEvent not exposed
+%rename("%s") ChoiceBox::currentTextColor;
+%rename("%s") ChoiceBox::lastChoice;
+
+%nodefaultctor ChoiceText;
+%rename("%s") ChoiceText;
+%rename("%s") ChoiceText::type;
+%rename("%s") ChoiceText::text;
+//%rename("%s") ChoiceText::rewards; ResourceEvent not exposed
 
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
