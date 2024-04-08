@@ -137,6 +137,7 @@
 <text name="beam_length" language="ko">타격 범위 \1</text>
 <text name="pinpoint" language="ko">핀포인트</text>
 <text name="swipe_speed" language="ko">타격 속도: \1</text>
+<text name="max_shots" language="ko">최대 충전량: \1</text>
 <text name="redesigned_double_damage" language="ko">시스템이 없는 선실에 2배의 선체 피해를 입힘.</text>
 <text name="redesigned_damage_room" language="ko">선실당 피해: \1 (선원에게는 x15)</text>
 <text name="redesigned_damage_shot" language="ko">발사체당 피해: \1 (선원에게는 x15)</text>
