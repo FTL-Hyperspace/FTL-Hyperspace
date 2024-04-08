@@ -1,5 +1,3 @@
-#ifndef SKIPDISCORD
-
 #include "DiscordIntegration.h"
 #include <ctime>
 #include <boost/algorithm/string.hpp>
@@ -291,5 +289,3 @@ HOOK_METHOD(CApp, OnExit, () -> void)
     DiscordHandler::GetInstance()->Shutdown();
     super();
 }
-
-#endif // WIN32
