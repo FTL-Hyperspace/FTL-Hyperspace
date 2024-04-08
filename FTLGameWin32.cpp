@@ -7920,12 +7920,12 @@ namespace _func567
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(std::string &)), "578d7c240883e4f0ff77fc5589e55756538d459089cb81ec8c0000008b378945888b168b7e0489d001f8", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e55756538d459089cb81ec8c0000008b378945888b168b7e0489d001f8", argdata, 2, 5, &func);
 }
 
-void Equipment::AddToCargo(std::string &name)
+void Equipment::AddToCargo(const std::string &name)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Equipment *this_arg, std::string &name_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Equipment *this_arg, const std::string &name_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func567::func;
 	return execfunc(this, name);
 }

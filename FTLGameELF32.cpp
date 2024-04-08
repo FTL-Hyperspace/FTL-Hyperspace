@@ -7962,12 +7962,12 @@ namespace _func573
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(std::string &)), "5557565383ec3c8b7424548d5c242c", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(const std::string &)), "5557565383ec3c8b7424548d5c242c", argdata, 2, 6, &func);
 }
 
-void Equipment::AddToCargo(std::string &name)
+void Equipment::AddToCargo(const std::string &name)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, std::string &name_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, const std::string &name_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func573::func;
 	return execfunc(this, name);
 }

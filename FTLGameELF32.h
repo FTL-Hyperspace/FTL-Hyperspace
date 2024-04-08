@@ -4121,7 +4121,7 @@ struct Equipment : FocusWindow
 {
 	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool free, bool forceCargo);
-	LIBZHL_API void AddToCargo(std::string &name);
+	LIBZHL_API void AddToCargo(const std::string &name);
 	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void Close();
 	LIBZHL_API std::vector<std::string> GetCargoHold();

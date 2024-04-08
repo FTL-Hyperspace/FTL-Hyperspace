@@ -7330,12 +7330,12 @@ void Equipment::AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)
 namespace _func566
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(std::string &)), ".554889fd534889f34883ec38488d7c2420", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(const std::string &)), ".554889fd534889f34883ec38488d7c2420", nullptr, 0, 0, &func);
 }
 
-void Equipment::AddToCargo(std::string &name)
+void Equipment::AddToCargo(const std::string &name)
 {
-	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, std::string &name_arg);
+	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, const std::string &name_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func566::func;
 	return execfunc(this, name);
 }

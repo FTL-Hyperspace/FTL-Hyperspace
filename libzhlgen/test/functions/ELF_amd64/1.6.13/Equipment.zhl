@@ -17,6 +17,6 @@ cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this
 ".415641554989f541545589cd534889fb4883ec5084c9":
 cleanup __amd64 void Equipment::AddWeapon(Equipment *this, WeaponBlueprint *bp, bool free, bool forceCargo);
 ".554889fd534889f34883ec38488d7c2420":
-cleanup __amd64 void Equipment::AddToCargo(Equipment *this, std::string &name);
+cleanup __amd64 void Equipment::AddToCargo(Equipment *this, const std::string &name);
 ".4157415641554154554889f5534889fb4881ec98000000":
 cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager *ship);
