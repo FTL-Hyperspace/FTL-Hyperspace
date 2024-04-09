@@ -1345,7 +1345,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 
-- `Location` `.currentLoc`
+- `std::vector<Location>` `.locations`
+   - **Read-only**
+- [`Location`](#Location) `.currentLoc`
 - [`Sector`](#Sector) `.currentSector`
 - `int` `.pursuitDelay`
 - `GL_Primitive` `.ship`
@@ -1354,6 +1356,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - The no fuel variant of the `ship` icon.
 - `int` `.worldLevel`
    - **Read-only**
+
+## Location
+
+### Fields
+
+- `ImageDesc` `.space`
+- `ImageDesc` `.planet`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `bool` `.known`
+- [`LocationEvent`](#LocationEvent) `.event`
 
 ## Sector
 

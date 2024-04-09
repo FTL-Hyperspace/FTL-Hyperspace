@@ -153,6 +153,7 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
+    %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
     %template(vector_choiceText) vector<ChoiceText>;
 }
@@ -854,6 +855,8 @@ playerVariableType playerVariables;
 //%rename("%s") StarMap::TurnIntoFleetLocation; // Could be interesting to allow something like 1. Delaying the pursuit for many many turns, 2. having every node you jump out of (or random nodes you've already visited or that do not line up with the path to the exit) convert to a fleet location as if they were chasing your path rather than the whole sector.
 
 //%rename("%s") StarMap::visual_size; // Not sure
+%immutable StarMap::locations;
+%rename("%s") StarMap::locations;
 %rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.
 %rename("%s") StarMap::currentSector;
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
@@ -993,6 +996,8 @@ playerVariableType playerVariables;
 %rename("%s") Location::spaceImage;
 %rename("%s") Location::planet;
 %rename("%s") Location::planetImage;
+%rename("%s") Location::known;
+%rename("%s") Location::event;
 
 
 %rename("%s") BoardingEvent;
