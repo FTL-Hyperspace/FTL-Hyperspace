@@ -1212,10 +1212,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CombatControl
 
 ### Fields
-- [`WeaponControl`](#weaponcontrol) `weapControl`
+- [`WeaponControl`](#WeaponControl) `weapControl`
 - `Point` `.position`
 - `Point` `.targetPosition`
-- `bool` `.bossVisual`
+- `bool` `.boss_visual`
    - **Read-only**
 
 ## WeaponControl
