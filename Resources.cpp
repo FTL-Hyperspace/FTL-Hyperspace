@@ -181,6 +181,13 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 ParseLanguagesNode(resources, node);
             }
 
+            if (strcmp(node->name(), "customCredits") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomCredits(node);
+                customEventParser->ParseCustomCreditsPause(node);
+            }
+
             // Read event files and other early stuff.
             if (strcmp(node->name(), "events") == 0)
             {

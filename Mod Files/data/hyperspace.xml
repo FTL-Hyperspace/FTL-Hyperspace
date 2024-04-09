@@ -2546,7 +2546,7 @@ Example in form of the Vanilla credits rewritten in XML:
 -->
 
 <customCredits>
-	<scrollSpeed ppt="-0.5"/>
+	<!--<scrollSpeed ppt="-0.5"/> Not working as of now --> 
 	<scrollPause duration="3" pauseAtText="10"/>
 
 	<!-- Vanilla Credits: -->

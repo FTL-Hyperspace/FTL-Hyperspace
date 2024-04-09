@@ -5359,11 +5359,14 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
     return super(name);
 }
 
+// I'm sorry, IDK C++ better to know what to write instead of globals :anguish:
 float fadeIn;
+float fadeInSpeed = -0.005f;
 int loopCounter;
+int loopsCounted = 1;
 float calculatedLoopCounterCapMin;
 float calculatedLoopCounterCapMax;
-float creditFinish;
+float scrollEnd;
 HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Start -> Begin (CustomEvents.cpp)\n")
@@ -5385,7 +5388,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         loopCounter = 500;
         calculatedLoopCounterCapMin = loopCounterCapMin + -150.f;
         calculatedLoopCounterCapMax = loopCounterCapMax + -150.f;
-        creditFinish = 725.f;
+        scrollEnd = 725.f;
     }
     else
     {
@@ -5393,20 +5396,23 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         loopCounter = 0;
         calculatedLoopCounterCapMin = loopCounterCapMin;
         calculatedLoopCounterCapMax = loopCounterCapMax;
-        creditFinish = 750.f;
+        scrollEnd = 750.f;
     }
+
     for (const auto &creditText : creditTextValues)
     {
-        creditFinish += creditText.spacing;
+        scrollEnd += creditText.spacing;
     }
     for (const auto &creditFile : creditFileNames)
     {
-        creditFinish += creditFile.spacing;
+        scrollEnd += creditFile.spacing;
     }
     for (const auto &creditFinishText : creditFinishTextValues)
     {
-        creditFinish += creditFinishText.spacing;
+        scrollEnd += creditFinishText.spacing;
     }
+
+    bg = G_->GetResources()->GetImageId(replaceCreditsBackground.empty() ? "stars/bg_darknebula.png" : replaceCreditsBackground);
 
     return super(shipName, crewNames);
 }
@@ -5418,7 +5424,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     bool ret;
     if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
     {
-        ret = (creditFinish <= 0) ? true : false;
+        ret = (scrollEnd <= 0) ? true : false;
     }
     else
     {
@@ -5429,6 +5435,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     {
         replaceCreditsBackground = "";
         replaceGameOverCreditsText = "";
+        delete bg;
     }
 
     return ret;
@@ -5441,39 +5448,56 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
 
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) {
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    {
         /* ----- Resources ----- */
-        bg = G_->GetResources()->GetImageId(replaceCreditsBackground.empty() ? "stars/bg_darknebula.png" : replaceCreditsBackground);
-        std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
-        std::string creditTextThankCrew = G_->GetTextLibrary()->GetText("thank_crew");
-        std::string creditTextThankAi = G_->GetTextLibrary()->GetText("thank_ai", G_->GetTextLibrary()->currentLanguage);
-        std::string creditTextVictory = replaceGameOverCreditsText.empty() ? G_->GetTextLibrary()->GetText("credit_victory") : replaceGameOverCreditsText;
+        std::string creditTextThankShip = "thank_ship";
+        std::string creditTextThankCrew = "thank_crew";
+        std::string creditTextThankAi = "thank_ai";
+        std::string creditTextVictory = replaceGameOverCreditsText;
+
         /* ----- Positions ----- */
-        int creditTextCentered = G_->GetResources()->screenWidth / 2;
-        int creditTextLeft = G_->GetResources()->screenWidth / 5;
-        int creditTextRight = creditTextLeft * 4;
+        int creditTextCentered = 640;
+        int creditTextLeft = 256;
+        int creditTextRight = 1024;
         int creditNamesHorizontal;
-        int creditTextStartHeight = G_->GetResources()->screenHeight / 5; // 144
+        int creditTextStartHeight = 144;
         int xmlCreditTextStartHeight = 740;
         int currentHeight = xmlCreditTextStartHeight;
+
+        /* ----- Colors -----*/
+        GL_Color colorWhite;
+        colorWhite.r = 1.f;
+        colorWhite.g = 1.f;
+        colorWhite.b = 1.f;
+        colorWhite.a = 1.f;
+        GL_Color colorGray;
+        colorGray.r = 0.5f;
+        colorGray.g = 0.5f;
+        colorGray.b = 0.5f;
+        colorGray.a = 1.f;
+
         /* ----- Visuals -----*/
-        float fadeInSpeed = -0.005f;
-        fadeIn += fadeInSpeed;
-        int loopsCounted = 1;
-        if (loopCounter >= 500 && !(loopCounter >= calculatedLoopCounterCapMin && loopCounter < calculatedLoopCounterCapMax)) {
-            scroll += scrollSpeed;
-            creditFinish += scrollSpeed;
+        float scrollSpeed = G_->GetCFPS()->GetSpeedFactor();
+        if (loopCounter >= 500 && !(loopCounter >= calculatedLoopCounterCapMin && loopCounter < calculatedLoopCounterCapMax)) {
+            float newScroll = scroll - scrollSpeed * 3.5;
+            scroll = newScroll;
+            // scroll += scrollSpeed;
+            //scrollEnd += scrollSpeed;
         }
         loopCounter += loopsCounted;
+        fadeIn += fadeInSpeed;
+
+
         /* ----- Rendering -----*/
         // Background rendering
-        G_->GetResources()->RenderImage(bg, 0, 0, 0, GL_Color(0.5f,0.5f,0.5f,1.f), 1.f, false);
-        CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
+        G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, 1.f, false);
+        CSurface::GL_SetColor(colorWhite);
         // Hardcoded Texts
         if (!shipName.empty()) {
             int yPos = static_cast<int>(creditTextStartHeight + scroll);
             if (yPos > -100 && yPos < 800) {
-                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankShip);
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, G_->GetTextLibrary()->GetText(creditTextThankShip, G_->GetTextLibrary()->currentLanguage));
             }
             yPos += 40;
             if (yPos > -100 && yPos < 800) {
@@ -5482,7 +5506,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             if (!crewString.empty()) {
                 yPos += 80;
                 if (yPos > -100 && yPos < 800) {
-                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankCrew);
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, G_->GetTextLibrary()->GetText(creditTextThankCrew, G_->GetTextLibrary()->currentLanguage));
                 }
                 yPos += 40;
                 if (yPos > -100 && yPos < 800) {
@@ -5491,19 +5515,18 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             } else {
                 yPos += 80;
                 if (yPos > -100 && yPos < 800) {
-                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankAi);
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, G_->GetTextLibrary()->GetText(creditTextThankAi, G_->GetTextLibrary()->currentLanguage));
                 }
             }
             yPos += 246;
             if (yPos > -100 && yPos < 800) {
-                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 750, creditTextVictory);
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 750, G_->GetTextLibrary()->GetText(creditTextVictory, G_->GetTextLibrary()->currentLanguage));
             }
         }
         // xml Texts
         for (const auto& creditText : creditTextValues) {
-            std::string displayedText = G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage);
             if ((currentHeight + scroll) > -150 && (currentHeight + scroll) < 800) {
-                freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), 750, displayedText);
+                freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), 750, G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditText.spacing;
         }
@@ -5512,10 +5535,8 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         for (const auto& creditFile : creditFileNames) {
             if (nameCount == 0) {
                 creditNamesHorizontal = creditTextLeft;
-            } else if (nameCount == 1) {
-                creditNamesHorizontal = creditTextCentered;
             } else {
-                creditNamesHorizontal = creditTextRight;
+                creditNamesHorizontal = (nameCount == 1) ? creditTextCentered : creditTextRight;
             }
             if ((currentHeight + scroll) > -60 && (currentHeight + scroll) < 800) {
                 freetype::easy_printNewlinesCentered(creditNamesFontSize, creditNamesHorizontal, static_cast<int>(currentHeight + scroll), 750, creditFile.names);
@@ -5528,19 +5549,19 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         }
         // xml Finish Texts
         for (const auto& creditFinishText : creditFinishTextValues) {
-            std::string displayedText = G_->GetTextLibrary()->GetText(creditFinishText.text, G_->GetTextLibrary()->currentLanguage);
             if ((currentHeight + scroll) > -100 && (currentHeight + scroll) < 800) {
-                freetype::easy_printNewlinesCentered(creditFinishText.font, creditFinishText.horizontal, static_cast<int>(currentHeight + scroll), 1000, displayedText);
+                freetype::easy_printNewlinesCentered(creditFinishText.font, creditFinishText.horizontal, static_cast<int>(currentHeight + scroll), 1000, G_->GetTextLibrary()->GetText(creditFinishText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditFinishText.spacing;
         }
         // Text Fading
         if (fadeIn > 0) {
-            G_->GetResources()->RenderImage(bg, 0, 0, 0, GL_Color(0.5f,0.5f,0.5f,1.f), fadeIn, false);
-            CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
+            G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
+            CSurface::GL_SetColor(colorWhite);
         }
+        
         /* ----- Auto Stop -----*/
-        CreditScreen::Done();
+        Done();
     } 
     else
     {
