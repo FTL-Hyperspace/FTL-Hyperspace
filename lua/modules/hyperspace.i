@@ -661,9 +661,17 @@ playerVariableType playerVariables;
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
 %rename("%s") CombatControl;
+%rename("%s") CombatControl::weapControl;
+%rename("%s") CombatControl::position;
 %rename("%s") CombatControl::targetPosition;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
+
+%nodefaultctor WeaponControl;
+%nodefaultdtor WeaponControl;
+%rename("%s") WeaponControl;
+%rename("%s") WeaponControl::autoFiring;
+%immutable WeaponControl::autoFiring;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
