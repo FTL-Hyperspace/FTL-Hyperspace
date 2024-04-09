@@ -582,6 +582,17 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
     }
 
     boost::trim_right(descText);
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), bp, context->getLibScript()->types.pWeaponBlueprint, 0);
+    lua_pushstring(context->GetLua(), descText.c_str());
+    int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPON_STATBOX, 2, 1);
+    if (nRet > 0)
+    {
+        descText = lua_tostring(context->GetLua(), -nRet);
+    }
+    lua_pop(context->GetLua(), nRet + 2);
+    
     return descText;
 }
 
