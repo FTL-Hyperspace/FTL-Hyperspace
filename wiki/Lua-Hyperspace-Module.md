@@ -19,13 +19,19 @@ All calls are under `Hyperspace`
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
 - `CApp :GetCApp()`
-   - Returns the main instance of `CApp`. Always use this to access any members and methods belonging to the `CApp` class.
+   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class.
+- `ShipInfo :GetShipInfo(bool enemy)`
+   - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
 - `BlueprintManager :GetBlueprints()`
    - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class.
 - `SoundControl :GetSoundControl()`
    - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
 - `AnimationControl :GetAnimationControl()`
    - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
+- `ScoreKeeper :GetScoreKeeper()`
+   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class.
+- `CrewMemberFactory :GetCrewFactory()`
+   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class.
 - `MouseControl :GetMouseControl()`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
 
@@ -33,6 +39,48 @@ All calls are under `Hyperspace`
 - `int` `.currentSeed`
    - **Read-only**
    - The seed for the run.
+
+## CApp
+
+### Methods
+
+- `void :OnExit()`
+   - Close game, autosave profile and settings but not current run (current run will be on previous autosave).
+- `void :OnRequestExit()`
+   - Close game, autosave run, profile, and settings.
+
+### Fields
+
+- [`CommandGui`](#CommandGui) `.gui`
+- [`WorldManager`](#WorldManager) `.world`
+- `MainMenu` `.menu`
+   - **Read-only**
+
+## ShipInfo
+
+### Fields
+
+- `std::map<std::string, int>` `.augList`
+
+## WorldManager
+
+### Methods
+
+- `bool :AddBoarders(BoardingEvent boardingEvent)`
+- `void :ClearLocation()`
+	
+### Fields
+
+- `SpaceManager` `.space`
+   - **Read-only**
+- `int` `.currentDifficulty`
+   - **Read-only**
+- [`StarMap`](#StarMap) `.starMap`
+   - **Read-only**
+- `bool` `.bStartedGame`
+   - **Read-only**
+- `bool` `.bLoadingGame`
+   - **Read-only**
 
 ## MouseControl
 
@@ -50,7 +98,8 @@ All calls are under `Hyperspace`
 - `void :SetTooltip(const std::string &tooltip)`
 - `void :SetTooltipTitle(const std::string &tooltip)`
 	
-### Members
+### Fields
+
 - `Point` `.position`
 - `Point` `.lastPosition`
 - `int` `.aiming_required`
@@ -136,8 +185,8 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
    - Gets the room center point of a specific room id.
 - `std::pair<int, int> :GetAvailablePower()`
    - First element of the pair is the maximum reactor power, the second element is the available reactor power.
-- ~~`:AddCrewMemberFromBlueprint`~~
-- ~~`:AddCrewMemberFromString`~~
+- `CrewMember* :AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
+- `CrewMember* :AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)`
 - ~~`:AddDrone`~~
 - ~~`:AddEquipmentFromList`~~
 - ~~`:AddInitialCrew`~~
@@ -388,6 +437,16 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool` `.hostile`
 - `bool` `.targeted`
 
+## Slot
+
+### Fields
+- `int` `.roomId`
+   - **Read-only**
+- `int ` `.slotId`
+   - **Read-only**
+- `Point` `.worldLocation`
+   - Field is **read-only** but fields under this object may still be mutable.
+
 ## Ship
 Extends ShipObject
 
@@ -402,6 +461,7 @@ Extends ShipObject
 -  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
 -  `Globals::Ellipse GetBaseEllipse()`
    -  Return `baseEllipse` member by value.
+- `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
 -  `void LockdownRoom(int roomId, Pointf pos)` 
@@ -1087,6 +1147,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.transformName`
 - `bool` `.changeIfSame`
 - `SkillsDefinition` `.skillsDef`
+
 ## GenericButton
 
 ### Methods
@@ -1162,3 +1223,165 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `bool` `.autoFiring`
    - **Read-only**
+
+## LocationEvent
+
+### Fields
+- [`TextString`](#TextString) `.text`
+- `int` `.environment`
+- `int` `.environmentTarget`
+- `bool` `.store`
+- `bool` `.gap_ex_cleared`
+- `int` `.fleetPosition`
+- `bool` `.beacon`
+- `bool` `.reveal_map`
+- `bool` `.distressBeacon`
+- `bool` `.repair`
+- `int` `.modifyPursuit`
+- `std::string` `.quest`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `std::string` `.eventName`
+- [`BoardingEvent`](#BoardingEvent) `.boarders`
+- `int` `.unlockShip`
+- [`TextString`](#TextString) `.unlockShipText`
+- `bool` `.secretSector`
+- [`std::vector<Choice>`](#Choice) `.choices`
+
+## Choice
+
+**Internal Struct Of [`LocationEvent`](#LocationEvent)**
+
+### Fields
+- [`LocationEvent`](#LocationEvent) `.event`
+- [`TextString`](#TextString) `.text`
+- `bool` `.hiddenReward`
+
+## FocusWindow
+
+### Fields
+- `bool` `.bOpen`
+- `bool` `.bFullFocus`
+- `bool` `.bCloseButtonSelected`
+
+## ChoiceBox
+
+**Extends [`FocusWindow`](#FocusWindow)**
+
+### Fields
+- `std::string` `.mainText`
+- [`std::vector<ChoiceText>`](#ChoiceText) `.choices`
+- `int` `.columnSize`
+- [`std::vector<Globals::Rect>`](#Globals) `.choiceBoxes`
+- `int` `.potentialChoice`
+- `int` `.selectedChoice`
+- `int` `.fontSize`
+- `bool` `.centered`
+- `int` `.gap_size`
+- `float` `.openTime`
+- [`GL_Color`](#GL_Color) `.currentTextColor`
+- `Pointf` `.lastChoice`
+
+## ChoiceText
+
+### Fields
+- `int` `.type`
+- `std::string` `.text`
+
+## CommandGui
+
+### Fields
+- [`ShipStatus`](#ShipStatus) `.shipStatus`
+- [`CrewControl`](#CrewControl) `.crewControl`
+- [`SystemControl`](#SystemControl) `.sysControl`
+- [`CombatControl`](#CombatControl) `.combatControl`
+- [`FTLButton`](#FTLButton) `.ftlButton`
+- [`SpaceStatus`](#SpaceStatus) `.spaceStatus`
+- [`Point`](#Point) `.pauseTextLoc`
+- [`Point`](#Point) `.shipPosition`
+- `bool` `.outOfFuel`
+   - **Read-Only**
+- `bool` `.bPaused`
+   - **Read-Only**
+- `bool` `.bAutoPaused`
+   - **Read-Only**
+- `bool` `.menu_pause`
+   - **Read-Only**
+- `bool` `.event_pause`
+   - **Read-Only**
+- `Button` `.upgradeButton`
+   - **Read-Only**
+- `bool` `.dangerLocation`
+   - **Read-Only**`
+- `bool` `.bHideUI`
+- [`ChoiceBox`](#ChoiceBox) `.choiceBox`
+- `bool` `.jumpComplete`
+   - **Read-Only**
+- `int` `.mapId`
+   - **Read-Only**
+- `bool` `.secretSector`
+   - **Read-Only**
+- `bool` `.choiceBoxOpen`
+   - **Read-Only**
+
+## ScoreKeeper
+
+### Fields
+- [`TopScore`](#TopScore) `.currentScore`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## TopScore
+
+### Fields
+- `int` `.sector`
+- `int` `.score`
+
+## StarMap
+
+### Methods
+
+- `void :ModifyPursuit(int amount)` 
+- `Point :PointToGrid(float x, float y)`
+
+### Fields
+
+- `Location` `.currentLoc`
+- [`Sector`](#Sector) `.currentSector`
+- `int` `.pursuitDelay`
+- `GL_Primitive` `.ship`
+   - The map icon that rotates around the current location representing the player ship.
+- `GL_Primitive` `.shipNoFuel`
+   - The no fuel variant of the `ship` icon.
+- `int` `.worldLevel`
+   - **Read-only**
+
+## Sector
+
+### Fields
+- [`SectorDescription`](#SectorDescription) `.description`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## SectorDescription
+
+### Fields
+- [`TextString`](#TextString) `.name`
+- [`TextString`](#TextString) `.shortName`
+
+## TextString
+
+### Methods
+
+- `std::string :GetText()`
+
+### Fields
+
+- `std::string` `.data`
+- `bool` `.isLiteral`
+
+## Description
+
+### Fields
+
+- [`TextString`](#TextString) `.title`
+- [`TextString`](#TextString) `.shortTitle`
+

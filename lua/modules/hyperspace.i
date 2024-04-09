@@ -88,6 +88,13 @@ namespace std {
 
     // extend the map as well
     %extend map {
+        std::vector<K> keys() {
+            std::vector<K> keys;
+            keys.reserve(self->size());
+            for (std::map< K, T, C >::iterator i = self->begin(); i != self->end(); ++i)
+                keys.push_back(i->first);
+            return keys;
+        }
         const T& __getitem__(const K& key) throw (std::out_of_range) {
             std::map< K, T, C >::iterator i = self->find(key);
             if (i != self->end())
@@ -112,6 +119,7 @@ namespace std {
     %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
 	%template(vector_Door) vector<Door*>;
+	%template(vector_Repairable) vector<Repairable*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
@@ -122,6 +130,7 @@ namespace std {
     %template(pair_float_float) pair<float, float>;
     %template(vector_Pointf) vector<Pointf>;
     %template(vector_Point) vector<Point>;
+    %template(map_string_int) map<string,int>;
     %template(map_int_SystemTemplate) map<int,ShipBlueprint::SystemTemplate>;
     %template(unordered_map_string_int) unordered_map<string,int>;
     %template(vector_ActivatedPower) vector<ActivatedPower*>;
@@ -144,6 +153,8 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
+    %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
+    %template(vector_choiceText) vector<ChoiceText>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -250,9 +261,11 @@ public:
     static Global* GetInstance();
     ShipManager* GetShipManager(int iShipId);
     CApp* GetCApp();
+    ShipInfo* GetShipInfo(bool enemy);
     BlueprintManager* GetBlueprints();
     SoundControl* GetSoundControl();
     AnimationControl *GetAnimationControl();
+    ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
 
@@ -446,10 +459,28 @@ playerVariableType playerVariables;
 
 %rename("setWindowTitle") sys_graphics_set_window_title;
 
-/* %rename("%s") ScoreKeeper; */
+%nodefaultctor ScoreKeeper;
+%rename("%s") ScoreKeeper;
+%immutable ScoreKeeper::currentScore;
+%rename("%s") ScoreKeeper::currentScore;
 /* %rename("%s") ScoreKeeper::AddScrapCollected; */
 /* %rename("%s") ScoreKeeper::gamesPlayed; */
 /* %rename("%(regex:/^ScoreKeeper::(.*)$/\\1/)s", regextarget=1, fullname=1) "ScoreKeeper::.*"; */
+
+%nodefaultctor TopScore;
+%rename("%s") TopScore;
+%rename("%s") TopScore::sector;
+%rename("%s") TopScore::score;
+
+%nodefaultctor Sector;
+%rename("%s") Sector;
+%immutable Sector::description;
+%rename("%s") Sector::description;
+
+%nodefaultctor SectorDescription;
+%rename("%s") SectorDescription;
+%rename("%s") SectorDescription::name;
+%rename("%s") SectorDescription::shortName;
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
@@ -554,6 +585,8 @@ playerVariableType playerVariables;
 //%rename("%s") Equipment::GetCargoHold;
 
 %rename("%s") CommandGui::bHideUI; // Not sure if we should disallow setting this
+%rename("%s") CommandGui::choiceBox;
+%immutable CommandGui::choiceBox;
 %rename("%s") CommandGui::jumpComplete;
 %immutable CommandGui::jumpComplete;
 %rename("%s") CommandGui::mapId;
@@ -562,6 +595,68 @@ playerVariableType playerVariables;
 %immutable CommandGui::secretSector;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
+
+%nodefaultctor LocationEvent;
+%rename("%s") LocationEvent;
+%rename("%s") LocationEvent::Choice;
+%rename("%s") LocationEvent::Choice::event;
+%rename("%s") LocationEvent::Choice::text;
+//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
+%rename("%s") LocationEvent::Choice::hiddenReward;
+%rename("%s") LocationEvent::text;
+//%rename("%s") LocationEvent::ship; ShipEvent not exposed
+//%rename("%s") LocationEvent::stuff; ResourceEvent not exposed
+%rename("%s") LocationEvent::environment;
+%rename("%s") LocationEvent::environmentTarget;
+%rename("%s") LocationEvent::store; 
+%rename("%s") LocationEvent::gap_ex_cleared;
+%rename("%s") LocationEvent::fleetPosition;
+%rename("%s") LocationEvent::beacon;
+%rename("%s") LocationEvent::reveal_map;
+%rename("%s") LocationEvent::distressBeacon;
+%rename("%s") LocationEvent::repair;
+
+%rename("%s") LocationEvent::modifyPursuit;
+//%rename("%s") LocationEvent::pStore; Store not exposed
+//%rename("%s") LocationEvent::damage; EventDamage not exposed
+%rename("%s") LocationEvent::quest;
+//%rename("%s") LocationEvent::statusEffects; StatusEffect not exposed
+//%rename("%s") LocationEvent::nameDefinitions; std_pair_std_string_std_string require further testing
+%rename("%s") LocationEvent::spaceImage;
+%rename("%s") LocationEvent::planetImage;
+%rename("%s") LocationEvent::eventName;
+//%rename("%s") LocationEvent::reward; ResourceEvent not exposed
+%rename("%s") LocationEvent::boarders;
+%rename("%s") LocationEvent::choices;
+%rename("%s") LocationEvent::unlockShip;
+%rename("%s") LocationEvent::unlockShipText;
+%rename("%s") LocationEvent::secretSector;
+
+%rename("%s") FocusWindow;
+%rename("%s") FocusWindow::bOpen;
+%rename("%s") FocusWindow::bFullFocus;
+%rename("%s") FocusWindow::bCloseButtonSelected;
+
+%rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::mainText;
+%rename("%s") ChoiceBox::choices;
+%rename("%s") ChoiceBox::columnSize;
+%rename("%s") ChoiceBox::choiceBoxes;
+%rename("%s") ChoiceBox::potentialChoice;
+%rename("%s") ChoiceBox::selectedChoice;
+%rename("%s") ChoiceBox::fontSize;
+%rename("%s") ChoiceBox::centered;
+%rename("%s") ChoiceBox::gap_size;
+%rename("%s") ChoiceBox::openTime;
+// %rename("%s") ChoiceBox::rewards; ResourceEvent not exposed
+%rename("%s") ChoiceBox::currentTextColor;
+%rename("%s") ChoiceBox::lastChoice;
+
+%nodefaultctor ChoiceText;
+%rename("%s") ChoiceText;
+%rename("%s") ChoiceText::type;
+%rename("%s") ChoiceText::text;
+//%rename("%s") ChoiceText::rewards; ResourceEvent not exposed
 
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
@@ -760,6 +855,7 @@ playerVariableType playerVariables;
 
 //%rename("%s") StarMap::visual_size; // Not sure
 %rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.
+%rename("%s") StarMap::currentSector;
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
 // TODO: Maybe one of the members in StarMap (that are not exposed) could help to determine how many free event locations are left so an event can be chosen to spawn in the current sector or next sector?
 ////%rename("%s") StarMap::dangerZone; // Messing with this might be interesting, imagine if the fleet didn't proceed directly from the left? lol
@@ -914,6 +1010,11 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipUnlocks::UnlockShip;
 %rename("%s") CustomShipUnlocks::GetCustomShipUnlocked;
 
+%rename("%s") ShipInfo;
+%nodefaultctor ShipInfo;
+%nodefaultdtor ShipInfo;
+%rename("%s") ShipInfo::augList;
+
 %rename("%s") ShipObject;
 %nodefaultctor ShipObject;
 %nodefaultdtor ShipObject;
@@ -946,8 +1047,8 @@ playerVariableType playerVariables;
 %rename("%s") ShipManager::GetRandomRoomCenter;
 %rename("%s") ShipManager::GetRoomCenter;
 %rename("%s") ShipManager::GetAvailablePower;
-//%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
-//%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
 %rename("%s") ShipManager::AddDrone;
 //%rename("%s") ShipManager::AddEquipmentFromList; // Might prefer via event?
 %rename("%s") ShipManager::AddInitialCrew;
@@ -1709,6 +1810,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::FullRoom;
 %rename("%s") Ship::GetAvailableRoomSlot;
 %rename("%s") Ship::GetBaseEllipse;
+%rename("%s") Ship::GetHullBreaches;
 %rename("%s") Ship::GetSelectedRoomId;
 %rename("%s") Ship::LockdownRoom;
 %rename("%s") Ship::RoomLocked;
@@ -1838,6 +1940,17 @@ playerVariableType playerVariables;
 %rename("%s") Door::bVertical;
 %immutable Door::bVertical;
 
+%nodefaultctor Slot;
+%nodefaultdtor Slot;
+%rename("%s") Slot;
+
+%immutable Slot::roomId;
+%rename("%s") Slot::roomId;
+%immutable Slot::slotId;
+%rename("%s") Slot::slotId;
+%immutable Slot::worldLocation;
+%rename("%s") Slot::worldLocation;
+
 %nodefaultctor BlueprintManager;
 %nodefaultdtor BlueprintManager;
 %rename("%s") BlueprintManager;
@@ -1909,7 +2022,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::SystemTemplate::direction;
 %rename("%s") ShipBlueprint::SystemTemplate::weapon;
 
-%rename("%s") ShipBlueprint::desc; // TODO: Expose Description
+%rename("%s") ShipBlueprint::desc;
 %rename("%s") ShipBlueprint::blueprintName;
 %rename("%s") ShipBlueprint::name;
 %rename("%s") ShipBlueprint::shipClass;
@@ -1946,6 +2059,12 @@ playerVariableType playerVariables;
 %rename("%s") ShipBlueprint::unlock;
 
 %rename("%s") ShipBlueprint::ShipBlueprint;
+
+%nodefaultctor Description;
+%nodefaultdtor Description;
+%rename("%s") Description;
+%rename("%s") Description::title;
+%rename("%s") Description::shortTitle;
 
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
