@@ -668,6 +668,16 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
         descText += "\n";
     }
 
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pWeaponBlueprint, 0);
+    lua_pushstring(context->GetLua(), descText.c_str());
+    int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPON_DESCBOX, 2, 1);
+    if (nRet > 0)
+    {
+        descText = lua_tostring(context->GetLua(), -nRet);
+    }
+    lua_pop(context->GetLua(), nRet + 2);
+
     ret.assign(descText);
     return ret;
 }

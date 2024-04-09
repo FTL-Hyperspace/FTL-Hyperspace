@@ -71,6 +71,8 @@ struct InternalEvents
 
         // function weapon_statbox(WeaponBlueprint& bp, char* stats) return stats
         WEAPON_STATBOX,
+        // function weapon_descbox(WeaponBlueprint& bp, char* desc) return desc
+        WEAPON_DESCBOX,
         // function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine
         WEAPON_RENDERBOX,
 
