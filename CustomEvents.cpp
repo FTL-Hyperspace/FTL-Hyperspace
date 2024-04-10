@@ -26,7 +26,7 @@ TimerHelper *restartMusicTimer = nullptr;
 std::vector<CreditText> creditTextValues;
 std::vector<CreditFinishText> creditFinishTextValues;
 std::vector<CreditFile> creditFileNames;
-float scrollSpeed = -0.5f;
+float scrollSpeed = 1.f;
 int creditNamesFontSize = 14;
 float loopCounterCapMin = 1850.f; // 250 + 650(xml) = 900 x 2 = 1800 + 50
 float loopCounterCapMax = 2150.f;
@@ -5385,7 +5385,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
     if (shipName.empty())
     {
         fadeIn = 0.f;
-        loopCounter = 500;
+        pausing = 1.f;
         calculatedLoopCounterCapMin = loopCounterCapMin + -150.f;
         calculatedLoopCounterCapMax = loopCounterCapMax + -150.f;
         scrollEnd = 725.f;
@@ -5393,7 +5393,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
     else
     {
         fadeIn = 1.f;
-        loopCounter = 0;
+        pausing = 0.f;
         calculatedLoopCounterCapMin = loopCounterCapMin;
         calculatedLoopCounterCapMax = loopCounterCapMax;
         scrollEnd = 750.f;
@@ -5424,7 +5424,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     bool ret;
     if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
     {
-        ret = (scrollEnd <= 0) ? true : false;
+        ret = (scroll <= -scrollEnd) ? true : false;
     }
     else
     {
@@ -5451,17 +5451,17 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
     {
         /* ----- Resources ----- */
-        std::string creditTextThankShip = "thank_ship";
-        std::string creditTextThankCrew = "thank_crew";
-        std::string creditTextThankAi = "thank_ai";
-        std::string creditTextVictory = replaceGameOverCreditsText;
+        std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
+        std::string creditTextThankCrew = G_->GetTextLibrary()->GetText("thank_crew");
+        std::string creditTextThankAi = G_->GetTextLibrary()->GetText("thank_ai", G_->GetTextLibrary()->currentLanguage);
+        std::string creditTextVictory = replaceGameOverCreditsText.empty() ? G_->GetTextLibrary()->GetText("credit_victory") : replaceGameOverCreditsText;
 
         /* ----- Positions ----- */
-        int creditTextCentered = 640;
-        int creditTextLeft = 256;
-        int creditTextRight = 1024;
+        int creditTextCentered = 640; // G_->GetResources()->screenWidth / 2
+        int creditTextLeft = 256; // G_->GetResources()->screenWidth / 5
+        int creditTextRight = 1024; // G_->GetResources()->screenHeight / 5 * 2
         int creditNamesHorizontal;
-        int creditTextStartHeight = 144;
+        int creditTextStartHeight = 144; // G_->GetResources()->screenHeight / 5
         int xmlCreditTextStartHeight = 740;
         int currentHeight = xmlCreditTextStartHeight;
 
@@ -5477,17 +5477,34 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         colorGray.b = 0.5f;
         colorGray.a = 1.f;
 
-        /* ----- Visuals -----*/
-        float scrollSpeed = G_->GetCFPS()->GetSpeedFactor();
-        if (loopCounter >= 500 && !(loopCounter >= calculatedLoopCounterCapMin && loopCounter < calculatedLoopCounterCapMax)) {
-            float newScroll = scroll - scrollSpeed * 3.5;
-            scroll = newScroll;
-            // scroll += scrollSpeed;
-            //scrollEnd += scrollSpeed;
-        }
-        loopCounter += loopsCounted;
-        fadeIn += fadeInSpeed;
 
+        //float scroll;
+        //float pausing;
+        /* ----- Visuals -----*/
+        float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
+        
+        // -250 wait | -900 pause
+        if (scroll == 0.f) {
+            if (pausing > -250.f) {
+                pausing -= gameSpeed * 3.5 * scrollSpeed;
+            } else {
+                scroll -= gameSpeed * 3.5 * scrollSpeed;
+            }
+        } 
+        /*
+        else if (scroll == -900.f) {
+            if (pausing > -400.f) {
+                pausing -= gameSpeed * 3.5 * scrollSpeed;
+            } else {
+                scroll -= gameSpeed * 3.5 * scrollSpeed;
+            }
+        } else {
+            scroll -= gameSpeed * 3.5 * scrollSpeed;
+        }
+        */
+
+        float newFadeIn = fadeIn + gameSpeed * 3.5 * -0.005f;
+        fadeIn = newFadeIn;
 
         /* ----- Rendering -----*/
         // Background rendering
@@ -5497,7 +5514,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         if (!shipName.empty()) {
             int yPos = static_cast<int>(creditTextStartHeight + scroll);
             if (yPos > -100 && yPos < 800) {
-                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, G_->GetTextLibrary()->GetText(creditTextThankShip, G_->GetTextLibrary()->currentLanguage));
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankShip);
             }
             yPos += 40;
             if (yPos > -100 && yPos < 800) {
@@ -5506,7 +5523,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             if (!crewString.empty()) {
                 yPos += 80;
                 if (yPos > -100 && yPos < 800) {
-                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, G_->GetTextLibrary()->GetText(creditTextThankCrew, G_->GetTextLibrary()->currentLanguage));
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankCrew);
                 }
                 yPos += 40;
                 if (yPos > -100 && yPos < 800) {
@@ -5515,12 +5532,12 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             } else {
                 yPos += 80;
                 if (yPos > -100 && yPos < 800) {
-                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, G_->GetTextLibrary()->GetText(creditTextThankAi, G_->GetTextLibrary()->currentLanguage));
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankAi);
                 }
             }
             yPos += 246;
             if (yPos > -100 && yPos < 800) {
-                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 750, G_->GetTextLibrary()->GetText(creditTextVictory, G_->GetTextLibrary()->currentLanguage));
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 750, creditTextVictory);
             }
         }
         // xml Texts
