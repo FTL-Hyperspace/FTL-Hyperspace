@@ -268,6 +268,45 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
+void CommandConsole::UpdateCursor(CommandGui *commandGui, int newCursorPosition)
+{
+    if (!commandGui->inputBox.bOpen) return;
+
+    std::string& inputText = commandGui->inputBox.inputText;
+    const int textLength = static_cast<int>(inputText.size());
+
+    // Find and remove old cursor at cursorPosition
+    size_t oldCursorPos = inputText.find('|', cursorPosition);
+    if (oldCursorPos != std::string::npos)
+    {
+        inputText.erase(oldCursorPos, 1);
+    }
+
+    std::string newText;
+
+    if (newCursorPosition < textLength && newCursorPosition > 0)
+    {
+        newText = inputText.substr(0, newCursorPosition) + "|" + inputText.substr(newCursorPosition);
+    }
+    else if (newCursorPosition == textLength)
+    {
+        newText = inputText + "|";
+    }
+    else if (newCursorPosition == 0)
+    {
+        newText = "|" + inputText;
+    }
+    else
+    {
+        newText = inputText;
+    }
+
+    commandGui->inputBox.inputText = newText;
+    cursorPosition = newCursorPosition;
+}
+
+
+
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
@@ -321,6 +360,20 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     shouldOpenConsole = false;
     super(key, shiftHeld);
     shouldOpenConsole = true;
+
+    if (inputBox.bOpen)
+    {
+        CommandConsole* console = CommandConsole::GetInstance();
+        int cursorPosition = console->cursorPosition;
+        if (key == SDLK_LEFT && cursorPosition > 0) cursorPosition--;
+        else if (key == SDLK_RIGHT && cursorPosition <= static_cast<int>(inputBox.inputText.size())) cursorPosition++;
+        else if (key == SDLK_BACKSPACE && cursorPosition > 0) cursorPosition--;
+        else cursorPosition++;
+
+        console->UpdateCursor(this, cursorPosition);
+        
+        hs_log_file("KeyInput Cursor position: %d\n", console->cursorPosition);
+    }
 }
 
 
@@ -398,3 +451,21 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     PrintHelper::GetInstance()->Render();
     super();
 }
+
+HOOK_METHOD(InputBox, StartInput, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::StartInput -> Begin (CommandConsole.cpp)\n")
+    CommandConsole::GetInstance()->cursorPosition = 0;
+    super();
+}
+
+//HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
+//{
+//    LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
+//
+//    if (event == 5 && cursorPosition > 0) cursorPosition--;
+//    if (event == 6) cursorPosition++;
+//    hs_log_file("TextEvent Cursor position: %d\n", cursorPosition);
+//
+//    super(event);
+//}
