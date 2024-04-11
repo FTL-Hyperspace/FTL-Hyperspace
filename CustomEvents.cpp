@@ -28,7 +28,7 @@ std::vector<CreditFinishText> creditFinishTextValues;
 std::vector<CreditFile> creditFileNames;
 float scrollSpeed = 1.f;
 float pausePosition = 675.f;
-float pauseDuration = 150.f;
+float pauseDuration = 400.f;
 int creditNamesFontSize = 14;
 
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
@@ -280,9 +280,9 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         }
 
         // Parse scroll pause
-        if (strcmp(node->name(), "scrollPause") == 0)
+        if (strcmp(creditNode->name(), "scrollPause") == 0)
         {
-            if (auto pausePositionAttribute = node->first_attribute("pausePosition")) 
+            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
             {
                 try 
                 {
@@ -294,11 +294,11 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
 
-            if (auto durationAttribute = node->first_attribute("duration")) 
+            if (auto durationAttribute = creditNode->first_attribute("duration")) 
             {
                 try 
                 {
-                    pauseDuration = std::stof(durationAttribute->value()) * 50;
+                    pauseDuration = std::stof(durationAttribute->value()) * 50 + 250;
                 } 
                 catch (const std::invalid_argument& e) 
                 {
@@ -5369,7 +5369,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
     else
     {
         fadeIn = 1.f;
-        pauseDuration = -250.f;
+        pausing = -250.f;
     }
 
     scrollEnd = 750.f;
@@ -5533,7 +5533,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             currentHeight += creditFinishText.spacing;
         }
         // Text Fading
-        if (fadeIn > 0.f) {
+        if (fadeIn > 0) {
             G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
             CSurface::GL_SetColor(colorWhite);
         }
