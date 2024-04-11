@@ -27,9 +27,9 @@ std::vector<CreditText> creditTextValues;
 std::vector<CreditFinishText> creditFinishTextValues;
 std::vector<CreditFile> creditFileNames;
 float scrollSpeed = 1.f;
+float pausePosition = 675.f;
+float pauseDuration = 150.f;
 int creditNamesFontSize = 14;
-float loopCounterCapMin = 1850.f; // 250 + 650(xml) = 900 x 2 = 1800 + 50
-float loopCounterCapMax = 2150.f;
 
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
 
@@ -279,6 +279,34 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
             creditFinishTextValues.push_back(creditFinishText);
         }
 
+        // Parse scroll pause
+        if (strcmp(node->name(), "scrollPause") == 0)
+        {
+            if (auto pausePositionAttribute = node->first_attribute("pausePosition")) 
+            {
+                try 
+                {
+                    pausePosition = std::stof(pausePositionAttribute->value());
+                } 
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
+                }
+            }
+
+            if (auto durationAttribute = node->first_attribute("duration")) 
+            {
+                try 
+                {
+                    pauseDuration = std::stof(durationAttribute->value()) * 50;
+                } 
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
+                }
+            }
+        }
+
         // Parse values for credits.txt
         if (strcmp(creditNode->name(), "creditNames") == 0)
         {   
@@ -353,50 +381,6 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
 
     int lastIndex = creditFileNames.size() - 1;
     creditFileNames[lastIndex].spacing = creditNamesToFinishTextSpacing;
-}
-
-void CustomEventsParser::ParseCustomCreditsPause(rapidxml::xml_node<char> *node)
-{
-    for (auto creditNode = node->first_node(); creditNode; creditNode = creditNode->next_sibling())
-    {
-        if (strcmp(node->name(), "scrollPause") == 0)
-        {
-            if (auto pausePositionAttribute = node->first_attribute("pauseAtText")) 
-            {
-                std::string pausePositionStr = pausePositionAttribute->value();
-                try 
-                {
-                    int pausePosition = std::stoi(pausePositionStr);
-                    int spacingSum = 0;
-
-                    for (int index = 0; index < std::min(pausePosition, static_cast<int>(creditTextValues.size())); ++index) 
-                    {
-                        spacingSum += creditTextValues[index].spacing;
-                    }
-
-                    loopCounterCapMin = (spacingSum + 250) * 2 + 50;
-                    hs_log_file("Pause Value: %d\n", spacingSum);
-                } 
-                catch (const std::invalid_argument& e) 
-                {
-                    hs_log_file("Failed to convert an attribute value in 'pauseAtText' to an integer. Using default value.\n");
-                }
-            }
-
-            if (auto durationAttribute = node->first_attribute("duration")) 
-            {
-                try 
-                {
-                    float pauseDuration = std::stof(durationAttribute->value()) * 100;
-                    loopCounterCapMax = loopCounterCapMin + pauseDuration;
-                } 
-                catch (const std::invalid_argument& e) 
-                {
-                    hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
-                }
-            }
-        }
-    }
 }
 
 void CustomEventsParser::ReadCustomEventFiles()
@@ -5362,10 +5346,6 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
 // I'm sorry, IDK C++ better to know what to write instead of globals :anguish:
 float fadeIn;
 float fadeInSpeed = -0.005f;
-int loopCounter;
-int loopsCounted = 1;
-float calculatedLoopCounterCapMin;
-float calculatedLoopCounterCapMax;
 float scrollEnd;
 HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
 {
@@ -5384,21 +5364,15 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
     }
     if (shipName.empty())
     {
-        fadeIn = 0.f;
-        pausing = 1.f;
-        calculatedLoopCounterCapMin = loopCounterCapMin + -150.f;
-        calculatedLoopCounterCapMax = loopCounterCapMax + -150.f;
-        scrollEnd = 725.f;
+        scroll = 0.1f;
     }
     else
     {
         fadeIn = 1.f;
-        pausing = 0.f;
-        calculatedLoopCounterCapMin = loopCounterCapMin;
-        calculatedLoopCounterCapMax = loopCounterCapMax;
-        scrollEnd = 750.f;
+        pauseDuration = -250.f;
     }
 
+    scrollEnd = 750.f;
     for (const auto &creditText : creditTextValues)
     {
         scrollEnd += creditText.spacing;
@@ -5477,34 +5451,21 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         colorGray.b = 0.5f;
         colorGray.a = 1.f;
 
-
-        //float scroll;
-        //float pausing;
         /* ----- Visuals -----*/
         float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
+        float trueScrollSpeed = gameSpeed * 3.5 * scrollSpeed;
         
-        // -250 wait | -900 pause
-        if (scroll == 0.f) {
-            if (pausing > -250.f) {
-                pausing -= gameSpeed * 3.5 * scrollSpeed;
-            } else {
-                scroll -= gameSpeed * 3.5 * scrollSpeed;
-            }
-        } 
-        /*
-        else if (scroll == -900.f) {
-            if (pausing > -400.f) {
-                pausing -= gameSpeed * 3.5 * scrollSpeed;
-            } else {
-                scroll -= gameSpeed * 3.5 * scrollSpeed;
-            }
-        } else {
-            scroll -= gameSpeed * 3.5 * scrollSpeed;
-        }
-        */
+        fadeIn += gameSpeed * 3.5 * -0.005f;
 
-        float newFadeIn = fadeIn + gameSpeed * 3.5 * -0.005f;
-        fadeIn = newFadeIn;
+        if (scroll == 0.f && pausing > -250.f) {
+            pausing -= trueScrollSpeed;
+        }
+        else if (std::max(scroll, -pausePosition) ==  -pausePosition && pausing > -pauseDuration) {
+            pausing -= trueScrollSpeed;
+        }
+        else {
+            scroll -= trueScrollSpeed;
+        }
 
         /* ----- Rendering -----*/
         // Background rendering
@@ -5542,7 +5503,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         }
         // xml Texts
         for (const auto& creditText : creditTextValues) {
-            if ((currentHeight + scroll) > -150 && (currentHeight + scroll) < 800) {
+            if ((currentHeight + scroll) > -200 && (currentHeight + scroll) < 800) {
                 freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), 750, G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditText.spacing;
@@ -5572,7 +5533,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             currentHeight += creditFinishText.spacing;
         }
         // Text Fading
-        if (fadeIn > 0) {
+        if (fadeIn > 0.f) {
             G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
             CSurface::GL_SetColor(colorWhite);
         }

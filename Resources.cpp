@@ -185,7 +185,6 @@ void Global::PreInitializeResources(ResourceControl *resources)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
                 customEventParser->ParseCustomCredits(node);
-                customEventParser->ParseCustomCreditsPause(node);
             }
 
             // Read event files and other early stuff.

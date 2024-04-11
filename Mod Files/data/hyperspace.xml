@@ -2460,8 +2460,8 @@ About <scrollPause/> :
 "duration" the duration how long the credit pause will be (in seconds).
 Defaults to 3 if missing.
 
-"pauseAtText" tells the code at which text to pause at.
-Defaults to 3 if missing.
+"pausePosition" determin where to pause at (measured in pixels scrolled).
+Defaults to 675 if missing.
 
 
 About <text/> and <finishText/> :
@@ -2475,6 +2475,9 @@ Defaults to 640 if missing.
 
 "spacing" is the number of pixels between the current and the next text (having 1 row of font: 18/14 means you should increment by 34).
 Defaults to 40 if missing.
+
+"lineLength" is only available for <text/> and serves as a override for the default 750 line lenght.
+Defaults to 750 if missing. (scrapped)
 
 
 About <creditNames/> :
@@ -2493,7 +2496,7 @@ Example in form of the Vanilla credits rewritten in XML:
 
 <customCredits>
 	<scrollSpeed ppt="1"/>
-	<scrollPause duration="3" pauseAtText="10"/>
+	<scrollPause duration="3" pausePosition="675"/>
 	<text id="game_from" fontSize="14" horizontal="640" spacing="40"/>
 	<text id="subset_games" fontSize="18" horizontal="640" spacing="90"/>
 	<text id="created_by" fontSize="14" horizontal="640" spacing="40"/>
@@ -2533,21 +2536,21 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="credits_loc_ja_84" fontSize="18" horizontal="640" spacing="60"/>
 	<text id="credits_loc_ja_names" fontSize="18" horizontal="640" spacing="214"/>
 	<text id="kickstarter" fontSize="14" horizontal="640" spacing="80"/>
-	<creditNames fontSize="14" spacingBetweenNames="40" spacingToFinishTexts="100"/>
+	<creditNames fontSize="14" spacingBetweenNames="40" spacingToFinishTexts="100"/>	Make Sure the credits.txt file has an empty line at the end
 	<finishText id="third_party" fontSize="1" horizontal="640" spacing="40"/>
 	<finishText id="folder" fontSize="1" horizontal="640" spacing="80"/>
 	<finishText id="bass" fontSize="1" horizontal="640" spacing="50"/>
 	<finishText id="rapidxml" fontSize="1" horizontal="640" spacing="50"/>
 	<finishText id="freetype" fontSize="1" horizontal="640" spacing="100"/>
 	<finishText id="font_halflife" fontSize="1" horizontal="640" spacing="50"/>
-	<finishText id="font_dotgothic" fontSize="1" horizontal="640" spacing="0"/>	Last spacing can also adjust the automatic end of the credits
+	<finishText id="font_dotgothic" fontSize="1" horizontal="640" spacing="0"/>		Last spacing can also adjust the automatic end of the credits
 </customCredits>
 
 -->
 
 <customCredits>
-	<!--<scrollSpeed ppt="1"/> Not working as of now --> 
-	<scrollPause duration="3" pauseAtText="10"/>
+	<scrollSpeed ppt="1"/>
+	<scrollPause duration="3" pausePosition="675"/>
 
 	<!-- Vanilla Credits: -->
 	<text id="game_from" fontSize="14" horizontal="640" spacing="40"/>
