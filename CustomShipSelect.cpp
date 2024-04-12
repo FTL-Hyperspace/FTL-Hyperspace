@@ -1154,9 +1154,9 @@ void CustomShipSelect::OnRender(bool renderSelect)
                 if (button)
                 {
                     auto bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-                    auto imgId = G_->GetResources()->GetImageId("customizeUI/miniship_" + bp->imgFile + ".png");
-                    auto lockImgId = G_->GetResources()->GetImageId("customizeUI/miniship_" + bp->imgFile + "_base.png");
-                    button->iShipImage = (CustomOptionsManager::GetInstance()->altLockedMiniships.currentValue && button->bShipLocked && lockImgId->width_ == 191) ? lockImgId : imgId;
+                    std::string lockImgName = "customizeUI/miniship_" + bp->imgFile + "_base.png";
+                    bool useLockImg = CustomOptionsManager::GetInstance()->altLockedMiniships.currentValue && button->bShipLocked && G_->GetResources()->ImageExists(lockImgName);
+                    button->iShipImage = G_->GetResources()->GetImageId(useLockImg ? lockImgName : "customizeUI/miniship_" + bp->imgFile + ".png");
                     button->OnRender();
                 }
             }

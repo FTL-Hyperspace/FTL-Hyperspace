@@ -5656,11 +5656,11 @@ namespace _func436
 	static FunctionDefinition funcObj("CrewMember::FindSlot", typeid(Slot (CrewMember::*)(int , int , bool )), ".4155415455534889fb4883ec18488bbff0010000", nullptr, 0, 0, &func);
 }
 
-Slot CrewMember::FindSlot(int unk1, int roomId, bool unk2)
+Slot CrewMember::FindSlot(int roomId, int slotId, bool closeEnough)
 {
-	typedef Slot (*custom_arg_funcptr_t)(CrewMember *this_arg, int unk1_arg, int roomId_arg, bool unk2_arg);
+	typedef Slot (*custom_arg_funcptr_t)(CrewMember *this_arg, int roomId_arg, int slotId_arg, bool closeEnough_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func436::func;
-	return execfunc(this, unk1, roomId, unk2);
+	return execfunc(this, roomId, slotId, closeEnough);
 }
 
 namespace _func437
@@ -7281,11 +7281,11 @@ namespace _func562
 	static FunctionDefinition funcObj("Equipment::AddDrone", typeid(void (Equipment::*)(DroneBlueprint *, bool , bool )), ".41554154554889f5534889fb4883ec4884c9", nullptr, 0, 0, &func);
 }
 
-void Equipment::AddDrone(DroneBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, DroneBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, DroneBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func562::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func563
@@ -7294,11 +7294,11 @@ namespace _func563
 	static FunctionDefinition funcObj("Equipment::AddAugment", typeid(void (Equipment::*)(AugmentBlueprint *, bool , bool )), ".4154554889f5488d7608534889fb4883ec60", nullptr, 0, 0, &func);
 }
 
-void Equipment::AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, AugmentBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, AugmentBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func563::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func564
@@ -7320,22 +7320,22 @@ namespace _func565
 	static FunctionDefinition funcObj("Equipment::AddWeapon", typeid(void (Equipment::*)(WeaponBlueprint *, bool , bool )), ".415641554989f541545589cd534889fb4883ec5084c9", nullptr, 0, 0, &func);
 }
 
-void Equipment::AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, WeaponBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, WeaponBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func565::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func566
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(std::string &)), ".554889fd534889f34883ec38488d7c2420", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(const std::string &)), ".554889fd534889f34883ec38488d7c2420", nullptr, 0, 0, &func);
 }
 
-void Equipment::AddToCargo(std::string &name)
+void Equipment::AddToCargo(const std::string &name)
 {
-	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, std::string &name_arg);
+	typedef void (*custom_arg_funcptr_t)(Equipment *this_arg, const std::string &name_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func566::func;
 	return execfunc(this, name);
 }
@@ -18540,17 +18540,30 @@ void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int 
 namespace _func1457
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("freetype::font_data::init_bitmap", typeid(void (freetype::font_data::*)(const void *, int , int , int )), ".41544189cc31c955", nullptr, 0, 0, &func);
+}
+
+void freetype::font_data::init_bitmap(const void *buffer, int bufferSize, int size, int h)
+{
+	typedef void (*custom_arg_funcptr_t)(freetype::font_data *this_arg, const void *buffer_arg, int bufferSize_arg, int size_arg, int h_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1457::func;
+	return execfunc(this, buffer, bufferSize, size, h);
+}
+
+namespace _func1458
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.8b7f04e9", nullptr, 0, 0, &func);
 }
 
 void freetype::font_data::clean()
 {
 	typedef void (*custom_arg_funcptr_t)(freetype::font_data *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1457::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1458::func;
 	return execfunc(this);
 }
 
-namespace _func1458
+namespace _func1459
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_measurePrintLines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
@@ -18559,11 +18572,11 @@ namespace _func1458
 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1458::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1459::func;
 	return execfunc(fontSize, x, y, line_length, text);
 }
 
-namespace _func1459
+namespace _func1460
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_measureWidth", typeid(int (*)(int , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
@@ -18572,30 +18585,17 @@ namespace _func1459
 int freetype::easy_measureWidth(int fontSize, const std::string &text)
 {
 	typedef int (*custom_arg_funcptr_t)(int fontSize_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1459::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1460::func;
 	return execfunc(fontSize, text);
 }
 
-namespace _func1460
+namespace _func1461
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_print", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string &text)
-{
-	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1460::func;
-	return execfunc(fontSize, x, y, text);
-}
-
-namespace _func1461
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
-}
-
-Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1461::func;
@@ -18605,23 +18605,23 @@ Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std:
 namespace _func1462
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
 }
 
-Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)
+Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string &text)
 {
-	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
+	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1462::func;
-	return execfunc(fontSize, x, y, line_length, text);
+	return execfunc(fontSize, x, y, text);
 }
 
 namespace _func1463
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
 }
 
-Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)
+Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1463::func;
@@ -18631,17 +18631,30 @@ Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line
 namespace _func1464
 {
 	static void *func = 0;
+	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
+}
+
+Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)
+{
+	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1464::func;
+	return execfunc(fontSize, x, y, line_length, text);
+}
+
+namespace _func1465
+{
+	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_printCenter", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1464::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1465::func;
 	return execfunc(fontSize, x, y, text);
 }
 
-namespace _func1465
+namespace _func1466
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_printAutoShrink", typeid(void (*)(int , float , float , int , bool , const std::string &)), ".41578d47cc415641554989cd4154555389fb4883ec5883f801", nullptr, 0, 0, &func);
@@ -18650,11 +18663,11 @@ namespace _func1465
 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text)
 {
 	typedef void (*custom_arg_funcptr_t)(int fontId_arg, float x_arg, float y_arg, int maxWidth_arg, bool centered_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1465::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1466::func;
 	return execfunc(fontId, x, y, maxWidth, centered, text);
 }
 
-namespace _func1466
+namespace _func1467
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
@@ -18663,11 +18676,11 @@ namespace _func1466
 float __stdcall font_height(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1466::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1467::func;
 	return execfunc(font_id, size);
 }
 
-namespace _func1467
+namespace _func1468
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
@@ -18676,13 +18689,13 @@ namespace _func1467
 float __stdcall font_baseline(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1467::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1468::func;
 	return execfunc(font_id, size);
 }
 
 float *Global_freetype_sil_freetype_outline;
 
-namespace _var1468
+namespace _var1469
 {
 	static VariableDefinition varObj("Global_freetype_sil_freetype_outline", "!.f30f5905(???????\?)4531c031c9f30f2df0", &Global_freetype_sil_freetype_outline, true, true);
 }

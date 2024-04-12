@@ -121,20 +121,18 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     }
 }
 
-HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
+static GL_Primitive* enemyHullNumbersBox = nullptr;
+static GL_Primitive* bossHullNumbersBox = nullptr;
+
+HOOK_METHOD(CombatControl, constructor, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (HullNumbers.cpp)\n")
-    if (path == "combatUI/box_hostiles2.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
+    LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (HullNumbers.cpp)\n")
+    super();
+    enemyHullNumbersBox = G_->GetResources()->CreateImagePrimitiveString("combatUI/enemy_hull_numbers_box.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
+    if (G_->GetResources()->ImageExists("combatUI/boss_hull_numbers_box.png"))
     {
-        path.assign("combatUI/box_hostiles2_numbers.png");
+        bossHullNumbersBox = G_->GetResources()->CreateImagePrimitiveString("combatUI/boss_hull_numbers_box.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
-    if (path == "combatUI/box_hostiles_boss.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
-    {
-        path.assign("combatUI/box_hostiles_boss_numbers.png");
-    }
-
-
-    return super(path);
 }
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
@@ -145,21 +143,8 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     HullNumbers *manager = HullNumbers::GetInstance();
 
 
-    if (this->GetCurrentTarget() && manager && manager->enabled)
+    if (GetCurrentTarget() && manager && manager->enabled)
     {
-        bool hostile = this->GetCurrentTarget()->_targetable.hostile;
-        if (hostile)
-        {
-            GL_Color color = GL_Color(1.f, 0.2f, 0.2f, 1.f);
-            CSurface::GL_SetColor(color);
-
-        }
-        else
-        {
-            GL_Color color = GL_Color(1.f, 1.f, 1.f, 1.f);
-            CSurface::GL_SetColor(color);
-        }
-
         char buffer[64];
         sprintf(buffer, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
 
@@ -173,7 +158,36 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
             textInfo = manager->enemyIndicator;
         }
 
-        HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
+        std::string textEnglish = G_->GetTextLibrary()->GetText("target_window", "");
+        std::string textCurrent = G_->GetTextLibrary()->GetText("target_window");
+        int xOffsetFont = freetype::easy_measurePrintLines(62, 0, 0, 999, textCurrent).x - freetype::easy_measurePrintLines(62, 0, 0, 999, textEnglish).x;
+
+        CSurface::GL_PushMatrix();
+        int xOffsetBox = 0;
+        int yOffsetBox = 0;
+        GL_Primitive* box = enemyHullNumbersBox;
+        if (boss_visual)
+        {
+            xOffsetBox = -4;
+            yOffsetBox = -5;
+            if (bossHullNumbersBox != nullptr)
+            {
+                box = bossHullNumbersBox;
+            }
+        }
+        CSurface::GL_Translate(position.x + boxPosition.x + xOffsetBox + xOffsetFont, position.y + boxPosition.y + yOffsetBox, 0.0);
+        CSurface::GL_RenderPrimitiveWithColor(box, GetCurrentTarget()->_targetable.hostile ? GL_Color(1.f, 0.7f, 0.7f, 1.f) : COLOR_WHITE);
+        CSurface::GL_PopMatrix();
+
+        if (GetCurrentTarget()->_targetable.hostile)
+        {
+            CSurface::GL_SetColor(GL_Color(1.f, 0.2f, 0.2f, 1.f));
+        }
+        else
+        {
+            CSurface::GL_SetColor(COLOR_WHITE);
+        }
+        HullNumbers::PrintAlignment(textInfo.type, textInfo.x + xOffsetFont, textInfo.y, buffer, textInfo.align);
     }
 }
 

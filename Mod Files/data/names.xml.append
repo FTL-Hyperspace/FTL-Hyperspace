@@ -1,0 +1,185 @@
+<!-- Re-implement vanilla Japanese names -->
+
+<mod:findLike type="nameList">
+    <mod:selector race="human" sex="male" language="ja"/>
+    <mod:removeTag />
+</mod:findLike>
+<nameList race="human" sex="male" language="ja">
+	<name>カービィ</name>
+	<name>マファン</name>
+	<name>ジョン</name>
+	<name>ビョルン</name>
+	<name>ジャスティン</name>
+	<name>マット</name>
+	<name>オニ</name>
+	<name>ジャック</name>
+	<name>マーカス</name>
+	<name>アドナン</name>
+	<name>ヘクター</name>
+	<name>リュウ・ジュン</name>
+	<name>ホセ</name>
+	<name>リアム</name>
+	<name>オーエン</name>
+	<name>マーケル</name>
+	<name>ネイサン</name>
+	<name>トマス</name>
+	<name>フィリップ</name>
+	<name>二コラ</name>
+	<name>マキシム</name>
+	<name>アルチョム</name>
+	<name>ミハイル</name>
+	<name>タイ・イー</name>
+	<name>ジュンペン</name>
+	<name>スティーブン</name>
+	<name>フェリー</name>
+	<name>セム</name>
+	<name>ティレク</name>
+	<name>マシュー</name>
+	<name>キング</name>
+	<name>グラフィン</name>
+	<name>ハッツ</name>
+	<name>アトレイユ</name>
+	<name>ブライアン</name>
+	<name>ザス</name>
+	<name>ビグビー</name>
+	<name>アレックス・リゴプロス</name>
+	<name short="モート">モートラヴァン</name>
+	<name>ノッチ</name>
+	<name>スティーブン</name>
+	<name short="ウェイ">ウェイシン</name>
+	<name>カドリアル</name>
+	<name>スターガー</name>
+	<name>アンドリュー・フェン</name>
+	<name>ブーガ師</name>
+	<name>ボーマン</name>
+	<name>スコット・クレツキン</name>
+	<name>フライシ</name>
+	<name>ジョエル</name>
+	<name>シェルトン</name>
+	<name>タック</name>
+	<name>ローガン・ジョンソン</name>
+	<name>エンツォ・マーティン</name>
+	<name>ジャクス</name>
+	<name>ジェフ・バーズ</name>
+	<name>オーム</name>
+	<name>イーライ・カリス</name>
+	<name>グンポ</name>
+	<name>ゼリマー</name>
+	<name>ボンフィM</name>
+	<name>ネコセ</name>
+	<name>スクープス</name>
+	<name>レモ</name>
+	<name>ベルコ</name>
+	<name>ジョラック</name>
+	<name>ハシファ</name>
+	<name short="マグマー">マグマロス</name>
+	<name>バターズ</name>
+	<name>ジョシュ・クビン</name>
+	<name>ヴィタス・ヴァルナス</name>
+	<name>モンスヴィク</name>
+	<name>グロゾリィ</name>
+	<name>ショーン・オリーガン</name>
+	<name>トム・バンクス</name>
+	<name>ニクミ</name>
+	<name>マレット</name>
+	<name>ヴィヴィモード</name>
+	<name>クレイグ・ドラン</name>
+	<name>ドレー・コザー</name>
+	<name>ニック・ラング</name>
+	<name>ジャイルズ</name>
+	<name>サイ・ヘング</name>
+	<name short="ナース">ナーソリス</name>
+	<name short="シュルツ">ノーウィン・シュルツ</name>
+	<name short="クリス">クリストフZ</name>
+	<name>ブルース・ジェリク</name>
+	<name>クリス・フィリップス</name>
+	<name>ミカエル・オロフソン</name>
+	<name>ジェームズ・ポメロイ</name>
+	<name>マイク・ウェストン</name>
+	<name>ジェイソン・ボービー</name>
+	<name>ゼム</name>
+	<name>ニック・ブレッコン</name>
+	<name>カパルカ</name>
+	<name>スティック</name>
+	<name>ローパー</name>
+	<name short="フレディ">フレデリック</name>
+	<name>ヘンリク・エイステッド</name>
+	<name>ファイアディム</name>
+	<name>トリコ</name>
+	<name short="マラ">マラディン</name>
+	<name short="スワンプ">スワンプソン</name>
+	<name>アリエス</name>
+	<name>エルナブナブ</name>
+	<name>ケン</name>
+	<name>ランディ・ウォーカー</name>
+	<name>デクラン</name>
+	<name>ルアン・ティ</name>
+	<name>カークナー</name>
+	<name>ロンバード</name>
+	<name>フェラス</name>
+	<name>イェオズ</name>
+	<name>ライアン・マニスカルコ</name>
+	<name>GM・フォークス</name>
+	<name>O・ウィリアムス</name>
+	<name>イェボン・シィ</name>
+	<name>ジョニー・マロニー</name>
+	<name>ウィル</name>
+	<name>マクスウェル</name>
+	<name>トマス・ブロック</name>
+	<name>リンハート</name>
+	<name>クレミティ</name>
+	<name>AJ・ヘイガー</name>
+	<name>スティーブン・エックマン</name>
+	<name>ジャン・マグナ</name>
+	<name>ジャック・シライ</name>
+	<name>ジュリアン・ラフン</name>
+	<name>マルカンド</name>
+	<name>スティーブン・デングラー</name>
+	<name>ネリス</name>
+	<name>クリス・マロット</name>
+	<name>デヴィオン</name>
+	<name>ジョン・カルドウェル</name>
+	<name>クシ</name>
+	<name>ラガルディ</name>
+	<name>ヴィンセント</name>
+	<name>ケヴィン・フィッシュ</name>
+	<name>チューリング</name>
+	<name>ステリィ</name>
+	<name>テルダリン</name>
+</nameList>
+
+<mod:findLike type="nameList">
+    <mod:selector race="human" sex="female" language="ja"/>
+    <mod:removeTag />
+</mod:findLike>
+<nameList race="human" sex="female" language="ja">
+	<name>ツテン</name>
+	<name>レイラ</name>
+	<name>ジル</name>
+	<name>アリソン</name>
+	<name>レクシィ</name>
+	<name>アキ</name>
+	<name>マリア</name>
+	<name>ローレン</name>
+	<name>エリザベス</name>
+	<name>ナツィア</name>
+	<name>エミリー</name>
+	<name>ウィロー</name>
+	<name>シンシン</name>
+	<name>フェリシティ</name>
+	<name>アリエル</name>
+	<name>アイシャ</name>
+	<name>マノン</name>
+	<name>エマ</name>
+	<name>ソフィア</name>
+	<name>レベッカ</name>
+	<name>リサンドラ</name>
+	<name>ピパルク</name>
+	<name>ラナ</name>
+	<name>ノオミ</name>
+	<name>ヴァレリア</name>
+	<name>グレイシー</name>
+	<name>ベス</name>
+	<name>デビー</name>
+	<name>カラ</name>
+</nameList>
