@@ -268,41 +268,63 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
-void CommandConsole::UpdateCursor(CommandGui *commandGui, int newCursorPosition)
+bool CommandConsole::InputData(CommandGui *commandGui, SDLKey key, bool shiftHeld)
 {
-    if (!commandGui->inputBox.bOpen) return;
+    //TODO we will need to get the sig for
+    // InputBox::OnRender
+    // InputBox::TextInput
+    auto& inputBox = commandGui->inputBox;
+    bool chain = true;
 
-    std::string& inputText = commandGui->inputBox.inputText;
-    const int textLength = static_cast<int>(inputText.size());
+    // Remove the cursor
+    inputBox.inputText.erase(cursorPosition, 1);
+    
+    // Handle left arrow key
+    if (key == SDLK_LEFT && cursorPosition > 0) cursorPosition--;
+    
+    // Handle right arrow key
+    if (key == SDLK_RIGHT && cursorPosition < inputBox.inputText.length()) cursorPosition++;
 
-    // Find and remove old cursor at cursorPosition
-    size_t oldCursorPos = inputText.find('|', cursorPosition);
-    if (oldCursorPos != std::string::npos)
-    {
-        inputText.erase(oldCursorPos, 1);
+    // Handle a-z keys
+    if ((key >= 97 && key <= 122)) {
+        char inputKey = shiftHeld ? key : key - 32;
+        inputBox.inputText.insert(cursorPosition, 1, inputKey);
+        cursorPosition++;
+        chain = false;
     }
 
-    std::string newText;
-
-    if (newCursorPosition < textLength && newCursorPosition > 0)
-    {
-        newText = inputText.substr(0, newCursorPosition) + "|" + inputText.substr(newCursorPosition);
-    }
-    else if (newCursorPosition == textLength)
-    {
-        newText = inputText + "|";
-    }
-    else if (newCursorPosition == 0)
-    {
-        newText = "|" + inputText;
-    }
-    else
-    {
-        newText = inputText;
+    // Handle all other character key
+    if (key >= 32 && key <= 64) {
+        inputBox.inputText.insert(cursorPosition, 1, key);
+        cursorPosition++;
+        chain = false;
     }
 
-    commandGui->inputBox.inputText = newText;
-    cursorPosition = newCursorPosition;
+    // Handle backspace
+    if (key == SDLK_BACKSPACE && cursorPosition > 0) {
+        inputBox.inputText.erase(cursorPosition - 1, 1);
+        cursorPosition--;
+        chain = false;
+    }
+    
+    // Handle delete
+    if (key == SDLK_DELETE && cursorPosition < inputBox.inputText.length()) {
+        inputBox.inputText.erase(cursorPosition, 1);
+        chain = false;
+    }
+
+    // Add the cursor back
+    inputBox.inputText.insert(cursorPosition, 1, '|');
+
+    if (key == SDLK_RETURN) {
+        // Remove the cursor
+        inputBox.inputText.erase(cursorPosition, 1);
+        commandGui->RunCommand(inputBox.inputText);
+        inputBox.bOpen = false;
+        chain = false;
+    }
+
+    return chain; // Key not handled
 }
 
 
@@ -315,6 +337,7 @@ static bool shouldOpenConsole = true;
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::KeyDown -> Begin (CommandConsole.cpp)\n")
+    bool chain = true;
     if (key == Settings::GetHotkey("speed"))
     {
         //shouldOpen = !shouldOpen;
@@ -357,23 +380,19 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         }
     }
 
-    shouldOpenConsole = false;
-    super(key, shiftHeld);
-    shouldOpenConsole = true;
+    if (inputBox.bOpen) chain = CommandConsole::GetInstance()->InputData(this, key, shiftHeld);
 
-    if (inputBox.bOpen)
-    {
-        CommandConsole* console = CommandConsole::GetInstance();
-        int cursorPosition = console->cursorPosition;
-        if (key == SDLK_LEFT && cursorPosition > 0) cursorPosition--;
-        else if (key == SDLK_RIGHT && cursorPosition <= static_cast<int>(inputBox.inputText.size())) cursorPosition++;
-        else if (key == SDLK_BACKSPACE && cursorPosition > 0) cursorPosition--;
-        else cursorPosition++;
-
-        console->UpdateCursor(this, cursorPosition);
-        
-        hs_log_file("KeyInput Cursor position: %d\n", console->cursorPosition);
+    if (chain) {
+        shouldOpenConsole = false;
+        super(key, shiftHeld);
+        shouldOpenConsole = true;
     }
+}
+
+HOOK_METHOD(CApp, OnTextInput, (int ch) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnTextInput -> Begin (CommandConsole.cpp)\n")
+    if (!this->gui->inputBox.bOpen) super(ch); // Since we handle the inputs ourselves we disable the regular one
 }
 
 
