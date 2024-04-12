@@ -6993,6 +6993,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewBlueprint SelectRandomCrew(int seed, const std::string &racePref);
 	LIBZHL_API void SetDestroyed();
 	LIBZHL_API void SetSystemPowerLoss(int systemId, int powerLoss);
+	LIBZHL_API void SetTarget(ShipManager *target);
 	LIBZHL_API void StartFire(int roomId);
 	LIBZHL_API bool SystemFunctions(int systemId);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
