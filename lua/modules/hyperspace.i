@@ -576,14 +576,17 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::dangerLocation;
 %immutable CommandGui::dangerLocation;
 
-//%rename("%s") CommandGui::equipScreen;
-//%immutable CommandGui::equipScreen;
-//
-//%rename("%s") Equipment::AddAugment;
-//%rename("%s") Equipment::AddDrone;
-//%rename("%s") Equipment::AddToCargo;
-//%rename("%s") Equipment::AddWeapon;
-//%rename("%s") Equipment::GetCargoHold;
+%rename("%s") CommandGui::equipScreen;
+%immutable CommandGui::equipScreen;
+
+%nodefaultctor Equipment;
+%nodefaultdtor Equipment;
+%rename("%s") Equipment;
+%rename("%s") Equipment::AddAugment;
+%rename("%s") Equipment::AddDrone;
+%rename("%s") Equipment::AddToCargo;
+%rename("%s") Equipment::AddWeapon;
+%rename("%s") Equipment::GetCargoHold;
 
 %rename("%s") CommandGui::bHideUI; // Not sure if we should disallow setting this
 %rename("%s") CommandGui::choiceBox;
