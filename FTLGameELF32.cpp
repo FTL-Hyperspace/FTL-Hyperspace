@@ -6341,11 +6341,11 @@ namespace _func456
 	static FunctionDefinition funcObj("CrewMember::FindSlot", typeid(Slot (CrewMember::*)(int , int , bool )), "5589e557565383ec3c8b45188b7d0c8b5d088b7510", argdata, 5, 18, &func);
 }
 
-Slot CrewMember::FindSlot(int unk1, int roomId, bool unk2)
+Slot CrewMember::FindSlot(int roomId, int slotId, bool closeEnough)
 {
-	typedef Slot __attribute__((cdecl)) (*custom_arg_funcptr_t)(CrewMember *this_arg, int unk1_arg, int roomId_arg, bool unk2_arg);
+	typedef Slot __attribute__((cdecl)) (*custom_arg_funcptr_t)(CrewMember *this_arg, int roomId_arg, int slotId_arg, bool closeEnough_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func456::func;
-	return execfunc(this, unk1, roomId, unk2);
+	return execfunc(this, roomId, slotId, closeEnough);
 }
 
 namespace _func457
@@ -7923,11 +7923,11 @@ namespace _func570
 	static FunctionDefinition funcObj("Equipment::AddWeapon", typeid(void (Equipment::*)(WeaponBlueprint *, bool , bool )), "5557565383ec4c8b44246c8b5c2460", argdata, 4, 6, &func);
 }
 
-void Equipment::AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, WeaponBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, WeaponBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func570::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func571
@@ -7937,11 +7937,11 @@ namespace _func571
 	static FunctionDefinition funcObj("Equipment::AddDrone", typeid(void (Equipment::*)(DroneBlueprint *, bool , bool )), "57565383ec30807c244c00", argdata, 4, 6, &func);
 }
 
-void Equipment::AddDrone(DroneBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, DroneBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, DroneBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func571::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func572
@@ -7951,23 +7951,23 @@ namespace _func572
 	static FunctionDefinition funcObj("Equipment::AddAugment", typeid(void (Equipment::*)(AugmentBlueprint *, bool , bool )), "5557565383ec4c8b7c24648d742430", argdata, 4, 6, &func);
 }
 
-void Equipment::AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2)
+void Equipment::AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, AugmentBlueprint *bp_arg, bool unk1_arg, bool unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, AugmentBlueprint *bp_arg, bool free_arg, bool forceCargo_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func572::func;
-	return execfunc(this, bp, unk1, unk2);
+	return execfunc(this, bp, free, forceCargo);
 }
 
 namespace _func573
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(std::string &)), "5557565383ec3c8b7424548d5c242c", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("Equipment::AddToCargo", typeid(void (Equipment::*)(const std::string &)), "5557565383ec3c8b7424548d5c242c", argdata, 2, 6, &func);
 }
 
-void Equipment::AddToCargo(std::string &name)
+void Equipment::AddToCargo(const std::string &name)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, std::string &name_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Equipment *this_arg, const std::string &name_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func573::func;
 	return execfunc(this, name);
 }
@@ -12051,6 +12051,20 @@ bool Ship::RoomLocked(int roomId)
 	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func878::func;
 	return execfunc(this, roomId);
+}
+
+namespace _func879
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("Ship::DestroyedDone", typeid(bool (Ship::*)()), "8b54????0fb682a0010000", argdata, 1, 2, &func);
+}
+
+bool Ship::DestroyedDone()
+{
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(Ship *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func878::func;
+	return execfunc(this);
 }
 
 namespace _func879
