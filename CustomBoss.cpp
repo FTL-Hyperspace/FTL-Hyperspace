@@ -272,7 +272,6 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
     super(fh);
 }
 
-
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperDrones -> Begin (CustomBoss.cpp)\n")
@@ -320,6 +319,23 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
         drone->SetDeployed(true);
         drone->bDead = false;
     }
+}
+
+// Clear super drones when the ship they're attacking is destroyed
+HOOK_METHOD(Ship, DestroyedDone, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::DestroyedDone -> Begin (CustomBoss.cpp)\n")
+    bool ret = super();
+    if (ret)
+    {
+        ShipManager *otherShip = G_->GetShipManager(1 - iShipId);
+        if (otherShip && !otherShip->superDrones.empty())
+        {
+            for (auto drone : otherShip->superDrones) drone->SetDestroyed(true, false);
+            otherShip->superDrones.clear();
+        }
+    }
+    return ret;
 }
 
 HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
