@@ -55,6 +55,8 @@ public:
 
     Setting<bool> showReactor;
 
+    Setting<bool> showResourceCountInHangar;
+
     Setting<bool> showAllConnections;
 
     Setting<bool> alternateOxygenRendering;

@@ -2285,6 +2285,8 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 
 static GL_Texture* seedBox;
 static GL_Primitive* unlocksDisabledPrimitive;
+static GL_Primitive* missilesCountBoxPrimitive;
+static GL_Primitive* dronesCountBoxPrimitive;
 
 
 HOOK_METHOD(MenuScreen, constructor, () -> void)
@@ -2295,6 +2297,11 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
     auto unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
     unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
+
+    GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
+    GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
+    missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 881, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 881, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
 }
 
 static Button* reactorInfoButton = nullptr;
@@ -2731,6 +2738,20 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+43, std::to_string(def.maxReactorLevel));
         freetype::easy_printCenter(52, reactorInfoPos.x+19, reactorInfoPos.y+27, "_");
         CSurface::GL_SetColor(COLOR_WHITE);
+    }
+
+    // Render Missile and Drone count
+
+    if (CustomOptionsManager::GetInstance()->showResourceCountInHangar.currentValue)
+    {
+        ScoreKeeper *scoreKeeperInstance;
+        std::string blueprintName = scoreKeeperInstance->GetShipBlueprint(currentShipId);
+        ShipBlueprint *bp = G_->GetBlueprints()->GetShipBlueprint(scoreKeeperInstance->GetShipBlueprint(currentShipId), -1);
+
+        CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
+        CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
+        freetype::easy_printCenter(1, 881+42, 484+8, std::to_string(bp->missiles));
+        freetype::easy_printCenter(1, 881+42, 594+8, std::to_string(bp->drone_count));
     }
 
     CSurface::GL_RemoveColorTint();
