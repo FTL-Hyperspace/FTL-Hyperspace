@@ -143,6 +143,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
 {
     CreditText creditText;
     CreditFinishText creditFinishText;
+    Pointf dynamicCutOff;
     int creditNamesLineSpacing = 40;
     int creditNamesToFinishTextSpacing = 100;
     
@@ -168,9 +169,12 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         // Parse <text/> xml tag
         if (strcmp(creditNode->name(), "text") == 0)
         {
+            std::string textString;
+            int textFont;
             if (auto idAttribute = creditNode->first_attribute("id"))
             {
                 creditText.text = idAttribute->value();
+                textString = creditText.text;
             }
             else creditText.text = "Error: 'id' attribute missing";
 
@@ -180,6 +184,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 try
                 {
                     creditText.font = std::stoi(fontSizeStr);
+                    textFont = creditText.font;
                 }
                 catch (const std::invalid_argument& e)
                 {
@@ -218,6 +223,9 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditText.spacing = 40;
+            
+            dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 750, textString);
+            creditText.cutOff = dynamicCutOff.x + 50;
 
             creditTextValues.push_back(creditText);
         }
@@ -225,9 +233,12 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         // Parse <finishText/> xml tag
         if (strcmp(creditNode->name(), "finishText") == 0)
         {
+            std::string textString;
+            int textFont;
             if (auto idAttribute = creditNode->first_attribute("id"))
             {
                 creditFinishText.text = idAttribute->value();
+                textString = creditFinishText.text;
             }
             else creditFinishText.text = "Error: 'id' attribute missing";
 
@@ -237,6 +248,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 try
                 {
                     creditFinishText.font = std::stoi(fontSizeStr);
+                    textFont = creditFinishText.font;
                 }
                 catch (const std::invalid_argument& e)
                 {
@@ -275,6 +287,9 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditFinishText.spacing = 40;
+            
+            dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 1000, textString);
+            creditFinishText.cutOff = dynamicCutOff.x + 50;
 
             creditFinishTextValues.push_back(creditFinishText);
         }
@@ -350,11 +365,10 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
             }
         }
     }
-    
+
     // Parse contents in credit.txt
     CreditFile creditFile;
-    std::string creditsTextFile = G_->GetResources()->LoadFile("data/credits.txt");
-
+    char* creditsTextFile = G_->GetResources()->LoadFile("data/credits.txt");
     std::stringstream ss(creditsTextFile);
     std::string line;
     int lineCount = 0;
@@ -367,6 +381,8 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
     {
         creditFile.names = line;
         creditFile.spacing = ((lineCount + 1) % 3 == 0) ? creditNamesLineSpacing : 0;
+        dynamicCutOff = freetype::easy_measurePrintLines(creditNamesFontSize, 0, 0, 750, line);
+        creditFile.cutOff = dynamicCutOff.x + 50;
         creditFileNames.push_back(creditFile);
         lineCount++;
     }
@@ -5351,6 +5367,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
 float fadeIn;
 float fadeInSpeed = -0.005f;
 float scrollEnd;
+float crewStringCutOff;
 HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Start -> Begin (CustomEvents.cpp)\n")
@@ -5389,6 +5406,9 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
     {
         scrollEnd += creditFinishText.spacing;
     }
+
+    Pointf dynamicCutOff = freetype::easy_measurePrintLines(18, 0, 0, 720, crewString);
+    crewStringCutOff = dynamicCutOff.x + 50;
 
     bg = G_->GetResources()->GetImageId(replaceCreditsBackground.empty() ? "stars/bg_darknebula.png" : replaceCreditsBackground);
 
@@ -5479,25 +5499,25 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         if (!shipName.empty()) {
             int yPos = static_cast<int>(creditTextStartHeight + scroll);
             if (yPos > -100 && yPos < 800) {
-                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankShip);
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 1200, creditTextThankShip);
             }
             yPos += 40;
             if (yPos > -100 && yPos < 800) {
-                freetype::easy_printNewlinesCentered(20, creditTextCentered, yPos, 720, shipName);
+                freetype::easy_printNewlinesCentered(20, creditTextCentered, yPos, 1200, shipName);
             }
             if (!crewString.empty()) {
                 yPos += 80;
-                if (yPos > -100 && yPos < 800) {
-                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankCrew);
+                if (yPos > -720 && yPos < 800) {
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 1200, creditTextThankCrew);
                 }
                 yPos += 40;
-                if (yPos > -100 && yPos < 800) {
+                if (yPos > -crewStringCutOff && yPos < 800) {
                     freetype::easy_printNewlinesCentered(18, creditTextCentered, yPos, 720, crewString);
                 }
             } else {
                 yPos += 80;
                 if (yPos > -100 && yPos < 800) {
-                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 720, creditTextThankAi);
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 1200, creditTextThankAi);
                 }
             }
             yPos += 246;
@@ -5507,7 +5527,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         }
         // xml Texts
         for (const auto& creditText : creditTextValues) {
-            if ((currentHeight + scroll) > -200 && (currentHeight + scroll) < 800) {
+            if ((currentHeight + scroll) > -creditText.cutOff && (currentHeight + scroll) < 800) {
                 freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), 750, G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditText.spacing;
@@ -5520,7 +5540,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             } else {
                 creditNamesHorizontal = (nameCount == 1) ? creditTextCentered : creditTextRight;
             }
-            if ((currentHeight + scroll) > -60 && (currentHeight + scroll) < 800) {
+            if ((currentHeight + scroll) > -creditFile.cutOff && (currentHeight + scroll) < 800) {
                 freetype::easy_printNewlinesCentered(creditNamesFontSize, creditNamesHorizontal, static_cast<int>(currentHeight + scroll), 750, creditFile.names);
             }
             nameCount++;
@@ -5531,7 +5551,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         }
         // xml Finish Texts
         for (const auto& creditFinishText : creditFinishTextValues) {
-            if ((currentHeight + scroll) > -100 && (currentHeight + scroll) < 800) {
+            if ((currentHeight + scroll) > -creditFinishText.cutOff && (currentHeight + scroll) < 800) {
                 freetype::easy_printNewlinesCentered(creditFinishText.font, creditFinishText.horizontal, static_cast<int>(currentHeight + scroll), 1000, G_->GetTextLibrary()->GetText(creditFinishText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditFinishText.spacing;
