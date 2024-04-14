@@ -370,6 +370,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
     CreditFile creditFile;
     char* creditsTextFile = G_->GetResources()->LoadFile("data/credits.txt");
     std::stringstream ss(creditsTextFile);
+    delete [] creditsTextFile;
     std::string line;
     int lineCount = 0;
     int totalLines = std::count(std::istreambuf_iterator<char>(ss), std::istreambuf_iterator<char>(), '\n');
