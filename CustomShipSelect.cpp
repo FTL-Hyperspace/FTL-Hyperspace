@@ -2300,8 +2300,8 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
 
     GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
     GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
-    missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 881, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
-    dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 881, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
 }
 
 static Button* reactorInfoButton = nullptr;
@@ -2750,8 +2750,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
         CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
-        freetype::easy_printCenter(1, 881+42, 484+8, std::to_string(bp->missiles));
-        freetype::easy_printCenter(1, 881+42, 594+8, std::to_string(bp->drone_count));
+        freetype::easy_printCenter(14, 880+43, 484-2, std::to_string(bp->missiles));
+        freetype::easy_printCenter(14, 880+43, 594-2, std::to_string(bp->drone_count));
     }
 
     CSurface::GL_RemoveColorTint();
