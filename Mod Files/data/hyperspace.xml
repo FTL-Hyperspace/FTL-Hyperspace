@@ -200,9 +200,9 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <showReactor enabled="false"/>
 
-<!-- Shows missile & drone count in the hangar -->
+<!-- Shows additional value according to the selected ship in the hangar -->
 
-<showResourceCountInHangar enabled="true"/>
+<showExtraShipInfo enabled="true" noMaxCrew="false"/>
 
 <!-- Shows all beacon connections in the beacon map -->
 

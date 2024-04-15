@@ -443,11 +443,16 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "showResourceCountInHangar") == 0)
+            if (strcmp(node->name(), "showExtraShipInfo") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                customOptions->showResourceCountInHangar.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->showResourceCountInHangar.currentValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showExtraShipInfo.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showExtraShipInfo.currentValue = EventsParser::ParseBoolean(enabled);
+
+                // In case you don't want the max crew slots
+                auto hideMaxCrew = node->first_attribute("noMaxCrew")->value();
+                customOptions->hideMaxCrew.defaultValue = EventsParser::ParseBoolean(hideMaxCrew);
+                customOptions->hideMaxCrew.currentValue = EventsParser::ParseBoolean(hideMaxCrew);
             }
 
             if (strcmp(node->name(), "showAllConnections") == 0)

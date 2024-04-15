@@ -55,7 +55,8 @@ public:
 
     Setting<bool> showReactor;
 
-    Setting<bool> showResourceCountInHangar;
+    Setting<bool> showExtraShipInfo;
+    Setting<bool> hideMaxCrew;
 
     Setting<bool> showAllConnections;
 
