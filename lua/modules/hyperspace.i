@@ -219,6 +219,7 @@ namespace std {
 %rename("Resources") Global_ResourceControl_GlobalResources;
 %rename("Settings") Global_Settings_Settings;
 %rename("Mouse") Global_MouseControl_Mouse;
+%rename("Text") Global_Globals_Library;
 
 %immutable Global_CApp;
 %immutable Global_BlueprintManager_Blueprints;
@@ -230,6 +231,7 @@ namespace std {
 %immutable Global_ResourceControl_GlobalResources;
 %immutable Global_Settings_Settings;
 %immutable Global_MouseControl_Mouse;
+%immutable Global_Globals_Library;
 
 %rename("setRandomSeed") srandom32;
 
@@ -272,6 +274,7 @@ public:
     ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
+    TextLibrary *GetTextLibrary();
 
     static bool IsSeededRun();
     %immutable;
@@ -431,6 +434,11 @@ playerVariableType playerVariables;
 %rename("%s") playerVariables;
 
 %rename("%s") useAugmentReq;
+
+%nodefaultctor TextLibrary;
+%nodefaultdtor TextLibrary;
+%rename("%s") TextLibrary;
+%rename("%s") TextLibrary::GetText;
 
 %nodefaultctor CustomAchievementTracker;
 %rename("%s") CustomAchievementTracker;

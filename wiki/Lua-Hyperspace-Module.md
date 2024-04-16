@@ -34,6 +34,8 @@ All calls are under `Hyperspace`
    - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class.
 - `MouseControl :GetMouseControl()`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
+- `TextLibrary :GetTextLibrary()`
+   - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class.
 
 ### Fields
 - `int` `.currentSeed`
@@ -1435,6 +1437,13 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+
+## TextLibrary
+
+### Methods
+
+- `std::string :GetText(std::string name)`
+   - Retrieve the corresponding text string from the `text_` xml files in the current language.
 
 ## TextString
 
