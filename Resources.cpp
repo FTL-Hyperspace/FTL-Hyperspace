@@ -443,26 +443,19 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "showExtraShipInfo") == 0)
+            if (strcmp(node->name(), "extraShipInfo") == 0)
             {
-                auto enabled = node->first_attribute("enabled")->value();
-                customOptions->showExtraShipInfo.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->showExtraShipInfo.currentValue = EventsParser::ParseBoolean(enabled);
+                auto showMissileCount = node->first_attribute("missileCount")->value();
+                customOptions->showMissileCount.defaultValue = EventsParser::ParseBoolean(showMissileCount);
+                customOptions->showMissileCount.currentValue = EventsParser::ParseBoolean(showMissileCount);
 
-                // In case you don't want the missile count
-                auto hideMissileCount = node->first_attribute("hideMissileCount")->value();
-                customOptions->hideMissileCount.defaultValue = EventsParser::ParseBoolean(hideMissileCount);
-                customOptions->hideMissileCount.currentValue = EventsParser::ParseBoolean(hideMissileCount);
+                auto showDroneCount = node->first_attribute("droneCount")->value();
+                customOptions->showDroneCount.defaultValue = EventsParser::ParseBoolean(showDroneCount);
+                customOptions->showDroneCount.currentValue = EventsParser::ParseBoolean(showDroneCount);
 
-                // In case you don't want the drone count
-                auto hideDroneCount = node->first_attribute("hideDroneCount")->value();
-                customOptions->hideDroneCount.defaultValue = EventsParser::ParseBoolean(hideDroneCount);
-                customOptions->hideDroneCount.currentValue = EventsParser::ParseBoolean(hideDroneCount);
-
-                // In case you don't want the max crew slots
-                auto hideCrewLimit = node->first_attribute("hideCrewLimit")->value();
-                customOptions->hideCrewLimit.defaultValue = EventsParser::ParseBoolean(hideCrewLimit);
-                customOptions->hideCrewLimit.currentValue = EventsParser::ParseBoolean(hideCrewLimit);
+                auto showCrewLimit = node->first_attribute("crewLimit")->value();
+                customOptions->showCrewLimit.defaultValue = EventsParser::ParseBoolean(showCrewLimit);
+                customOptions->showCrewLimit.currentValue = EventsParser::ParseBoolean(showCrewLimit);
             }
 
             if (strcmp(node->name(), "showAllConnections") == 0)

@@ -2299,23 +2299,20 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     auto unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
     unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
 
-    if (CustomOptionsManager::GetInstance()->showExtraShipInfo.currentValue)
+    if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
-        if (!CustomOptionsManager::GetInstance()->hideMissileCount.currentValue)
-        {
-            GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
-            dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
-        }
-        if (!CustomOptionsManager::GetInstance()->hideDroneCount.currentValue)
-        {
-            GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
-            missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
-        }
-        if (!CustomOptionsManager::GetInstance()->hideCrewLimit.currentValue)
-        {
-            GL_Texture *crewSlotsBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_crewlimit_box.png");
-            crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, 314, 484, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
-        }
+        GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
+        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    }
+    if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
+    {
+        GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
+        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+    }
+    if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
+    {
+        GL_Texture *crewSlotsBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_crewlimit_box.png");
+        crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, 314, 484, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
     }
 }
 
@@ -2757,28 +2754,25 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     // Render additional values in hangar
 
-    if (CustomOptionsManager::GetInstance()->showExtraShipInfo.currentValue)
-    {
-        ScoreKeeper *scoreKeeperInstance;
-        std::string blueprintName = scoreKeeperInstance->GetShipBlueprint(currentShipId);
-        ShipBlueprint *bp = G_->GetBlueprints()->GetShipBlueprint(scoreKeeperInstance->GetShipBlueprint(currentShipId), -1);
+    ScoreKeeper *scoreKeeperInstance;
+    std::string blueprintName = scoreKeeperInstance->GetShipBlueprint(currentShipId);
+    ShipBlueprint *bp = G_->GetBlueprints()->GetShipBlueprint(scoreKeeperInstance->GetShipBlueprint(currentShipId), -1);
 
-        if (!CustomOptionsManager::GetInstance()->hideMissileCount.currentValue)
-        {
-            CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
-            freetype::easy_printCenter(14, 880+43, 484-2, std::to_string(bp->missiles));
-        }
-        if (!CustomOptionsManager::GetInstance()->hideDroneCount.currentValue)
-        {
-            CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
-            freetype::easy_printCenter(14, 880+43, 594-2, std::to_string(bp->drone_count));
-        }
-        if (!CustomOptionsManager::GetInstance()->hideCrewLimit.currentValue)
-        {
-            int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(bp->blueprintName).crewLimit;
-            CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
-            freetype::easy_printCenter(14, 314+43, 484-2, std::to_string(crewLimit));
-        }
+    if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
+    {
+        CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
+        freetype::easy_printCenter(14, 880+43, 484-2, std::to_string(bp->missiles));
+    }
+    if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
+    {
+        CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
+        freetype::easy_printCenter(14, 880+43, 594-2, std::to_string(bp->drone_count));
+    }
+    if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
+    {
+        int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(bp->blueprintName).crewLimit;
+        CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
+        freetype::easy_printCenter(14, 314+43, 484-2, std::to_string(crewLimit));
     }
 
     CSurface::GL_RemoveColorTint();
