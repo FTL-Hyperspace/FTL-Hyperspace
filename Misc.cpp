@@ -14,6 +14,19 @@
 #include "EnumClassHash.h"
 #include "TemporalSystem.h"
 
+// Set the global CApp variable for Lua
+
+CApp *Global_CApp = nullptr;
+
+HOOK_METHOD(CApp, OnInit, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Misc.cpp)\n")
+    Global_CApp = this;
+    return super();
+}
+
+
+
 // Plays airlock sound when crew have been "dismissed"
 
 HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
