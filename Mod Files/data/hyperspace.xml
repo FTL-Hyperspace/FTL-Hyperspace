@@ -206,6 +206,10 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <showReactor enabled="false"/>
 
+<!-- Shows additional values for the selected ship in the hangar -->
+
+<extraShipInfo missileCount="true" droneCount="true" crewLimit="true"/>
+
 <!-- Shows all beacon connections in the beacon map -->
 
 <showAllConnections enabled="false"/>
