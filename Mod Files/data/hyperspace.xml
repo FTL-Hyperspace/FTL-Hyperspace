@@ -153,7 +153,13 @@ align can be left, center or right
 <hullNumbers enabled="true">
 	<playerText x="335" y="50" type="0" align="left" />
 	<enemyText x="988" y="59" type="0" align="center" />
+	<enemyText x="1008" y="59" language="es" type="0" align="center" />
+	<enemyText x="1017" y="59" language="it" type="0" align="center" />
+	<enemyText x="1002" y="59" language="ja" type="0" align="center" />
 	<bossText x="864" y="16" type="0" align="center" />
+	<bossText x="884" y="16" language="es" type="0" align="center" />
+	<bossText x="893" y="16" language="it" type="0" align="center" />
+	<bossText x="878" y="16" language="ja" type="0" align="center" />
 </hullNumbers>
 
 <!--  Blows up hacking drone if hacking is depowered
