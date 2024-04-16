@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "Misc.h"
 %}
 
 %feature("flatnested");
@@ -208,6 +209,7 @@ namespace std {
 
 %apply const std::string& {std::string* GetName()};
 
+%rename("App") Global_CApp;
 %rename("Blueprints") Global_BlueprintManager_Blueprints; 
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
@@ -218,6 +220,7 @@ namespace std {
 %rename("Settings") Global_Settings_Settings;
 %rename("Mouse") Global_MouseControl_Mouse;
 
+%immutable Global_CApp;
 %immutable Global_BlueprintManager_Blueprints;
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
@@ -3714,3 +3717,4 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "Misc.h"
