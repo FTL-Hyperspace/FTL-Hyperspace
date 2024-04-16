@@ -208,7 +208,7 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <!-- Shows additional value according to the selected ship in the hangar -->
 
-<showExtraShipInfo enabled="true" noMaxCrew="false"/>
+<showExtraShipInfo enabled="true" hideMissileCount="false" hideDroneCount="false" hideCrewLimit="false"/>
 
 <!-- Shows all beacon connections in the beacon map -->
 

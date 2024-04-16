@@ -56,7 +56,9 @@ public:
     Setting<bool> showReactor;
 
     Setting<bool> showExtraShipInfo;
-    Setting<bool> hideMaxCrew;
+    Setting<bool> hideMissileCount;
+    Setting<bool> hideDroneCount;
+    Setting<bool> hideCrewLimit;
 
     Setting<bool> showAllConnections;
 
