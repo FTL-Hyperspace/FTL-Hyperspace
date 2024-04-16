@@ -273,7 +273,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <!--Credits-->
 
 <text name="thank_ai">Controlled by its precise onboard AI</text>
-<text name="credits_loc_ko">Korean Community Version</text>
+<text name="credits_loc_ko">Korean community version</text>
 <text name="credits_loc_ko_names">H20, nedsociety</text>
 <text name="font">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>
 <text name="font_halflife">'Half-Life 1 + 2' fonts used with permission from freakyfonts.de</text>
