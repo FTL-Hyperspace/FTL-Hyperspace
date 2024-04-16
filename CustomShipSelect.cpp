@@ -2301,13 +2301,13 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
 
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
-        GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
-        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+        GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
+        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
-        GL_Texture *missilesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_missiles_box.png");
-        missilesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(missilesCountBoxTexture, 880, 484, missilesCountBoxTexture->width_, missilesCountBoxTexture->height_, 0.f, COLOR_WHITE);
+        GL_Texture *dronesCountBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_drones_box.png");
+        dronesCountBoxPrimitive = CSurface::GL_CreateImagePrimitive(dronesCountBoxTexture, 880, 594, dronesCountBoxTexture->width_, dronesCountBoxTexture->height_, 0.f, COLOR_WHITE);
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
