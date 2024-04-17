@@ -5384,6 +5384,8 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
             replaceGameOverCreditsText = defaultVictory->gameOver.creditsText;
         }
     }
+
+    // Setting if started in-game or from menu:
     if (shipName.empty())
     {
         scroll = 0.1f;
@@ -5394,6 +5396,8 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         pausing = -250.f;
     }
 
+
+    // Calculate when the credits stop:
     scrollEnd = 750.f;
     for (const auto &creditText : creditTextValues)
     {
@@ -5408,12 +5412,49 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         scrollEnd += creditFinishText.spacing;
     }
 
-    Pointf dynamicCutOff = freetype::easy_measurePrintLines(18, 0, 0, 720, crewString);
-    crewStringCutOff = dynamicCutOff.x + 50;
 
+    // Run original code:
+    super(shipName, crewNames);
+
+
+    // select background image:
     bg = G_->GetResources()->GetImageId(replaceCreditsBackground.empty() ? "stars/bg_darknebula.png" : replaceCreditsBackground);
 
-    return super(shipName, crewNames);
+
+    // Parse crewString with patch:
+    std::string crewlistAnd = G_->GetTextLibrary()->GetText("crewlist_and");
+    std::string crewlistComma = G_->GetTextLibrary()->GetText("crewlist_comma");
+    std::string crewlistMore = G_->GetTextLibrary()->GetText("crewlist_more");
+
+    std::string newCrewString;
+    int totalLength = 0;
+
+    if (!(crewNames.size() <= 1))
+    {
+        for (size_t i = 0; i < crewNames.size(); ++i)
+        {
+            newCrewString += crewlistComma + crewNames[i];
+            totalLength += crewNames[i].length() + crewlistComma.length();
+            if (totalLength > 140) 
+            {
+                newCrewString += crewlistMore;
+                break;
+            }
+        }
+
+        newCrewString.erase(0, crewlistComma.length());
+        if (!(newCrewString.find(crewlistMore) != std::string::npos))
+        {
+            newCrewString.replace(newCrewString.rfind(crewlistComma), 2, crewlistAnd);
+        }
+
+        crewString = newCrewString;
+    }
+
+
+    // Calculate crew names cut out:
+    Pointf dynamicCutOff = freetype::easy_measurePrintLines(18, 0, 0, 720, crewString);
+    crewStringCutOff = dynamicCutOff.x + 50;
 }
 
 HOOK_METHOD(CreditScreen, Done, () -> bool)

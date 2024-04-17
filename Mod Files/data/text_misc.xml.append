@@ -272,6 +272,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <!--Credits-->
 
+<text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai">Controlled by its precise onboard AI</text>
 <text name="credits_loc_ko">Korean community version</text>
 <text name="credits_loc_ko_names">H20, nedsociety</text>
