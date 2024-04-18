@@ -32,6 +32,7 @@ struct CreditText
     int font;
     int spacing;
     int horizontal;
+    int lineLenght;
     float cutOff;
 };
 extern std::vector<CreditText> creditTextValues;
@@ -42,6 +43,7 @@ struct CreditFinishText
     int font;
     int spacing;
     int horizontal;
+    int lineLenght;
     float cutOff;
 };
 extern std::vector<CreditFinishText> creditFinishTextValues;

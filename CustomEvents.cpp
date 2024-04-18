@@ -223,6 +223,22 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditText.spacing = 40;
+
+
+            if (auto lineLenghtAttribute = creditNode->first_attribute("lineLenght"))
+            {
+                std::string lineLenghtStr = lineLenghtAttribute->value();
+                try
+                {
+                    creditText.lineLenght = std::stoi(lineLenghtStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditText.lineLenght = 750;
+                }
+            }
+            else creditText.lineLenght = 750;
             
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 750, textString);
             creditText.cutOff = dynamicCutOff.x + 50;
@@ -287,6 +303,21 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditFinishText.spacing = 40;
+
+            if (auto lineLenghtAttribute = creditNode->first_attribute("lineLenght"))
+            {
+                std::string lineLenghtStr = lineLenghtAttribute->value();
+                try
+                {
+                    creditFinishText.lineLenght = std::stoi(lineLenghtStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditFinishText.lineLenght = 1000;
+                }
+            }
+            else creditFinishText.lineLenght = 1000;
             
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 1000, textString);
             creditFinishText.cutOff = dynamicCutOff.x + 50;
@@ -5570,7 +5601,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         // xml Texts
         for (const auto& creditText : creditTextValues) {
             if ((currentHeight + scroll) > -creditText.cutOff && (currentHeight + scroll) < 800) {
-                freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), 750, G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage));
+                freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), creditText.lineLenght, G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditText.spacing;
         }
@@ -5594,7 +5625,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         // xml Finish Texts
         for (const auto& creditFinishText : creditFinishTextValues) {
             if ((currentHeight + scroll) > -creditFinishText.cutOff && (currentHeight + scroll) < 800) {
-                freetype::easy_printNewlinesCentered(creditFinishText.font, creditFinishText.horizontal, static_cast<int>(currentHeight + scroll), 1000, G_->GetTextLibrary()->GetText(creditFinishText.text, G_->GetTextLibrary()->currentLanguage));
+                freetype::easy_printNewlinesCentered(creditFinishText.font, creditFinishText.horizontal, static_cast<int>(currentHeight + scroll), creditFinishText.lineLenght, G_->GetTextLibrary()->GetText(creditFinishText.text, G_->GetTextLibrary()->currentLanguage));
             }
             currentHeight += creditFinishText.spacing;
         }
