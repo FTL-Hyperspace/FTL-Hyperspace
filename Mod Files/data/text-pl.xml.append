@@ -252,6 +252,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="pl">NEUTRALNA!!</text>
 <!--Credits-->
+<text name="crewlist_more" language="pl"> i inni</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="pl">Kontrolowanego przez jego precyzyjną, pokładową SI</text>
 <text name="font" language="pl">Za zgodą freakyfonts.de użytko czcionek „Half-Life 1 + 2”.</text>
 <text name="font_halflife" language="pl">Za zgodą freakyfonts.de użytko czcionek „Half-Life 1 + 2”.</text>

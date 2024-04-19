@@ -252,6 +252,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="ru">НЕЙТРАЛЬНЫЙ!</text>
 <!--Credits-->
+<text name="crewlist_more" language="ru"> и другие</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="ru">Под управлением высокоточного бортового ИИ</text>
 <text name="font" language="ru">Шрифты 'Half-Life 1 + 2' использованы с разрешения freakyfonts.de</text>
 <text name="font_halflife" language="ru">Шрифты 'Half-Life 1 + 2' использованы с разрешения freakyfonts.de</text>

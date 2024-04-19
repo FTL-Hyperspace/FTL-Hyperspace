@@ -252,6 +252,7 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="es">NEUTRAL!</text>
 <!--Credits-->
+<text name="crewlist_more" language="es"> Y otros</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="es">Controlado por su precisa IA a bordo</text>
 <text name="font" language="es">Fuentes de "Half-Life 1 + 2" usadas con permiso de freakyfonts.de</text>
 <text name="font_halflife" language="es">Fuentes de "Half-Life 1 + 2" usadas con permiso de freakyfonts.de</text>

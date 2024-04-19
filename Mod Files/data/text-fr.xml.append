@@ -254,6 +254,7 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="fr">NEUTRE !</text>
 <!--Credits-->
+<text name="crewlist_more" language="fr"> et les autres</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="fr">Controllé par sa sublime IA embarquée</text>
 <text name="font" language="fr">Polices utilisées : "Half-Life 1 + 2", avec la permission de freakyfonts.de</text>
 <text name="font_halflife" language="fr">Polices utilisées : "Half-Life 1 + 2", avec la permission de freakyfonts.de</text>

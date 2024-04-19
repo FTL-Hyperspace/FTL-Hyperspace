@@ -252,6 +252,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="ko">중립!</text>
 <!--Credits-->
+<text name="crewlist_more" language="ko"> 외 다수</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="ko">정교한 내장 AI가 조종하고 있습니다.</text>
 <text name="font" language="ko">Half-Life 1 + 2의 폰트는 freakyfonts.de로부터 허락을 받고 사용되었습니다.</text>
 <text name="font_halflive" language="ko">Half-Life 1 + 2의 폰트는 freakyfonts.de로부터 허락을 받고 사용되었습니다.</text>

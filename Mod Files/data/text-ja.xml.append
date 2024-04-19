@@ -241,6 +241,7 @@
 
 <text name="warning_pds_all" language="ja">中立!</text>
 
+<text name="crewlist_more" language="ja"> その他大勢</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="ja">と精密な艦載AI</text>
 <text name="font" language="ja">freakyfonts.deの許諾を得て、「Half-Life 1 + 2」フォントを使用しています。</text>
 <text name="font_halflife" language="ja">freakyfonts.deの許諾を得て、「Half-Life 1 + 2」フォントを使用しています。</text>

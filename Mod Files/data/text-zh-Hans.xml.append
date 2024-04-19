@@ -262,7 +262,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 看样子这是你第一次玩本Mod，或者没有创建过一个新的存档！你想导入原版进度，还是创建一个新存档？不用担心，该操作不会对你的原版游戏的存档与进度有任何影响。</text>
 <!--Neutral ASB text-->
 <text name="warning_pds_all" language="zh-Hans">中立！</text>
-<!--Hardcoded Credits-->
+<!--Credits-->
+<text name="crewlist_more" language="zh-Hans"> 等船员</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="zh-Hans">及其精密的舰载人工智能</text>
 <text name="font" language="zh-Hans">在 freakyfonts.de 的许可下使用了“半条命 1 + 2”字体</text>
 <text name="credits_loc_ko" language="zh-Hans"> 韩语版</text>
