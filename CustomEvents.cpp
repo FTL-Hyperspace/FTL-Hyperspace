@@ -5524,7 +5524,6 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     {
         replaceCreditsBackground = "";
         replaceGameOverCreditsText = "";
-        delete bg;
     }
 
     return ret;
