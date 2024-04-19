@@ -27,6 +27,7 @@ std::vector<CreditText> creditTextValues;
 std::vector<CreditFinishText> creditFinishTextValues;
 std::vector<CreditFile> creditFileNames;
 float scrollSpeed = 1.f;
+float fadeInSpeed = -0.005f;
 float pausePosition = 675.f;
 float pauseDuration = 400.f;
 int creditNamesFontSize = 14;
@@ -152,16 +153,33 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         // Parse <scrollSpeed/> xml tag
         if (strcmp(creditNode->name(), "scrollSpeed") == 0) 
         {
-            if (auto pptAttribute = creditNode->first_attribute("ppt"))
+            if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
-                std::string pptStr = pptAttribute->value();
+                std::string multiplierStr = speedMultiplier->value();
                 try
                 {
-                    scrollSpeed = std::stof(pptStr);
+                    scrollSpeed = std::stof(multiplierStr);
                 }
                 catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'scrollSpeed' to a float. Using default value.\n");
+                }
+            }
+        }
+
+        // Parse <fadeInSpeed/> xml tag
+        if (strcmp(creditNode->name(), "fadeInSpeed") == 0) 
+        {
+            if (auto speedMultiplier = creditNode->first_attribute("speed"))
+            {
+                std::string multiplierStr = speedMultiplier->value();
+                try
+                {
+                    fadeInSpeed = std::stof(multiplierStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'fadeInSpeed' to a float. Using default value.\n");
                 }
             }
         }
@@ -5397,7 +5415,6 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
 
 // I'm sorry, IDK C++ better to know what to write instead of globals :anguish:
 float fadeIn;
-float fadeInSpeed = -0.005f;
 float scrollEnd;
 float crewStringCutOff;
 HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
@@ -5552,7 +5569,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
         float trueScrollSpeed = gameSpeed * 3.5 * scrollSpeed;
         
-        fadeIn += gameSpeed * 3.5 * -0.005f;
+        fadeIn += gameSpeed * 3.5 * -0.025f * fadeInSpeed;
 
         if (scroll == 0.f && pausing > -250.f) {
             pausing -= trueScrollSpeed;

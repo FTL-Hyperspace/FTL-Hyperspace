@@ -2459,8 +2459,12 @@ Syntax ->
 <!-- 
 
 About <scrollSpeed/> :
-"ppt" short for pixels per tick to be scrolled.
-Defaults to -0.5 if missing.
+"speed" is a multiplier if you want to adjust the speed.
+Defaults to 1 if missing.
+
+About <fadeInSpeed/> :
+"speed" is a multiplier if you want to adjust the speed.
+Defaults to 1 if missing.
 
 
 About <scrollPause/> :
@@ -2505,7 +2509,8 @@ Defaults to 1000 if missing.
 Example in form of the Vanilla credits rewritten in XML:
 
 <customCredits>
-	<scrollSpeed ppt="1"/>
+	<scrollSpeed speed="1"/>
+	<fadeInSpeed speed="1"/>
 	<scrollPause duration="3" pausePosition="675"/>
 	<text id="game_from" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
 	<text id="subset_games" fontSize="18" horizontal="640" spacing="90" lineLenght="750"/>
@@ -2559,7 +2564,8 @@ Example in form of the Vanilla credits rewritten in XML:
 -->
 
 <customCredits>
-	<scrollSpeed ppt="1"/>
+	<scrollSpeed speed="1"/>
+	<fadeInSpeed speed="1"/>
 	<scrollPause duration="3" pausePosition="675"/>
 
 	<!-- Vanilla Credits: -->
