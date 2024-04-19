@@ -5433,6 +5433,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         }
     }
 
+
     // Setting if started in-game or from menu:
     if (shipName.empty())
     {
