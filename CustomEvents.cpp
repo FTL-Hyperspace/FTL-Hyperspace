@@ -28,8 +28,9 @@ std::vector<CreditFinishText> creditFinishTextValues;
 std::vector<CreditFile> creditFileNames;
 float scrollSpeed = 1.f;
 float fadeInSpeed = -0.005f;
-float pausePosition = 675.f;
+float scrollDelay = 250.f;
 float pauseDuration = 400.f;
+float pausePosition = 675.f;
 int creditNamesFontSize = 14;
 
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
@@ -180,6 +181,46 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'fadeInSpeed' to a float. Using default value.\n");
+                }
+            }
+        }
+
+        // Parse scroll pause & initial delay
+        if (strcmp(creditNode->name(), "scrollPause") == 0)
+        {
+            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay")) 
+            {
+                try
+                {
+                    scrollDelay = std::stof(scrollDelayAttribute->value()) * 50;
+                }
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'scrollDelay' to a float. Using default value.\n");
+                }
+            }
+
+            if (auto pauseDurationAttribute = creditNode->first_attribute("duration")) 
+            {
+                try 
+                {
+                    pauseDuration = std::stof(pauseDurationAttribute->value()) * 50 + scrollDelay;
+                } 
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
+                }
+            }
+
+            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
+            {
+                try 
+                {
+                    pausePosition = std::stof(pausePositionAttribute->value());
+                } 
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
                 }
             }
         }
@@ -341,34 +382,6 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
             creditFinishText.cutOff = dynamicCutOff.x + 50;
 
             creditFinishTextValues.push_back(creditFinishText);
-        }
-
-        // Parse scroll pause
-        if (strcmp(creditNode->name(), "scrollPause") == 0)
-        {
-            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
-            {
-                try 
-                {
-                    pausePosition = std::stof(pausePositionAttribute->value());
-                } 
-                catch (const std::invalid_argument& e) 
-                {
-                    hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
-                }
-            }
-
-            if (auto durationAttribute = creditNode->first_attribute("duration")) 
-            {
-                try 
-                {
-                    pauseDuration = std::stof(durationAttribute->value()) * 50 + 250;
-                } 
-                catch (const std::invalid_argument& e) 
-                {
-                    hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
-                }
-            }
         }
 
         // Parse values for credits.txt
@@ -5442,7 +5455,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
     else
     {
         fadeIn = 1.f;
-        pausing = -250.f;
+        pausing = -scrollDelay;
     }
 
 
@@ -5571,7 +5584,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         
         fadeIn += gameSpeed * 3.5 * -0.025f * fadeInSpeed;
 
-        if (scroll == 0.f && pausing > -250.f) {
+        if (scroll == 0.f && pausing > -scrollDelay) {
             pausing -= trueScrollSpeed;
         }
         else if (std::max(scroll, -pausePosition) ==  -pausePosition && pausing > -pauseDuration) {

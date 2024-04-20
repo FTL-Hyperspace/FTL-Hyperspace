@@ -2468,7 +2468,10 @@ Defaults to 1 if missing.
 
 
 About <scrollPause/> :
-"duration" the duration how long the credit pause will be (in seconds).
+"scrollDelay" is the duration of the initial credit scroll delay (in seconds).
+Defaults to 5 if missing.
+
+"duration" it the duration how long the credit pause will be (in seconds).
 Defaults to 3 if missing.
 
 "pausePosition" determin where to pause at (measured in pixels scrolled).
@@ -2511,7 +2514,7 @@ Example in form of the Vanilla credits rewritten in XML:
 <customCredits>
 	<scrollSpeed speed="1"/>
 	<fadeInSpeed speed="1"/>
-	<scrollPause duration="3" pausePosition="675"/>
+	<scrollPause scrollDelay="5" duration="3" pausePosition="675"/>
 	<text id="game_from" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
 	<text id="subset_games" fontSize="18" horizontal="640" spacing="90" lineLenght="750"/>
 	<text id="created_by" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
@@ -2566,7 +2569,7 @@ Example in form of the Vanilla credits rewritten in XML:
 <customCredits>
 	<scrollSpeed speed="1"/>
 	<fadeInSpeed speed="1"/>
-	<scrollPause duration="3" pausePosition="675"/>
+	<scrollPause scrollDelay="5" duration="3" pausePosition="675"/>
 
 	<!-- Vanilla Credits: -->
 	<text id="game_from" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
