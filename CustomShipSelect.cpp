@@ -2754,25 +2754,21 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     // Render additional values in hangar
 
-    ScoreKeeper *scoreKeeperInstance;
-    std::string blueprintName = scoreKeeperInstance->GetShipBlueprint(currentShipId);
-    ShipBlueprint *bp = G_->GetBlueprints()->GetShipBlueprint(scoreKeeperInstance->GetShipBlueprint(currentShipId), -1);
-
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
-        freetype::easy_printCenter(14, 880+43, 484-2, std::to_string(bp->missiles));
+        freetype::easy_printCenter(14, 923, 482, std::to_string(currentShip->myBlueprint.missiles));
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
-        freetype::easy_printCenter(14, 880+43, 594-2, std::to_string(bp->drone_count));
+        freetype::easy_printCenter(14, 923, 592, std::to_string(currentShip->myBlueprint.drone_count));
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
-        int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(bp->blueprintName).crewLimit;
+        int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).crewLimit;
         CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
-        freetype::easy_printCenter(14, 314+43, 484-2, std::to_string(crewLimit));
+        freetype::easy_printCenter(14, 357, 482, std::to_string(crewLimit));
     }
 
     CSurface::GL_RemoveColorTint();
