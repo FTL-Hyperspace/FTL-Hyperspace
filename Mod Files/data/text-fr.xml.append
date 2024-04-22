@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Blueprint Text -->
+<text name="system_temporal_title" language="fr">Manipulateur Temporel</text>
+<text name="system_temporal_desc" language="fr">Change l'écoulement du temps dans une salle. Chaque amélioration augmente la durée et l'intensité de la dilatation temporelle.</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="fr">Système de Défense a Nanomachine</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_desc" language="fr">Les intrus subissent des dégâts au fil du temps dans votre vaisseau.</text>
+<text name="aug_FTL_JUMPER_GOOD_title" language="fr">Sup. FTL-Navigation II</text>
+<text name="aug_FTL_JUMPER_GOOD_desc" language="fr">Vous permet de sauter à n'importe quelle balise dans le secteur.</text>
+<text name="aug_BOARDER_RECOVERY_title" language="fr">Recycleur d'abordage</text>
+<text name="aug_BOARDER_RECOVERY_desc" language="fr">Les drones d'abordage intact sont retournés à votre vaisseau.</text>
+<text name="aug_MIND_ORDER_title" language="fr">Laisse Neurale</text>
+<text name="aug_MIND_ORDER_desc" language="fr">Permet le contrôle direct des membres d'équipages ennemis contrôlés mentalement. Vous permet aussi de prendre contrôle de tout les effets appliqués à ce membre.</text>
+<text name="crew_ghost_desc" language="fr">Fantome d'un défun.</text>
+<text name="crew_ghost_title" language="fr">Fantome</text>
+<text name="crew_ghost_short" language="fr">Fantome</text>
+<text name="crew_ghost_power_1" language="fr">Peut survivre sans oxygène</text>
+<text name="crew_ghost_power_2" language="fr">Santé maximale réduite</text>
+<text name="crew_ghost_power_3" language="fr">Peut phaser à travers les portes</text>
+<text name="no_time_sector" language="fr">Après examen de la carte, vous réalisez que vous n’avez pas le temps et devez vous rendre au prochain secteur! Vous laissez cette tâche pour un autre jour.</text>
+<!-- Misc Text -->
+<mod:findName type="text" name="no_type_c" language="fr">
+  <mod:setValue>Hangars vide</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="window_title" language="fr">
+  <mod:setValue>FTL: Hyperspace</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="version" language="fr">
+  <mod:setValue>\1 (Hyperspace 1.11.0)</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="fire_chance" language="fr">
+  <mod:setValue>Chance d'Incendie : \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="breach_chance" language="fr">
+  <mod:setValue>Chance de Brèche : \2%</mod:setValue> <!-- \1 is blueprint breachChance * 10, \2 is actual breachChance, \3 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="stun_chance" language="fr">
+  <mod:setValue>Chance d'Immobilisation : \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<text name="free_missile_chance" language="fr">Chance de Conserver Missile : \1%</text>  <!-- \1: chance -->
+<text name="erosion_chance" language="fr">Chance d'Érosion : \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_statboost_chance" language="fr">Chance Affliction : \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="room_statboost_chance" language="fr">Chance d'Effet de Salle : \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_spawn_chance" language="fr">Chance de Créer un Équipage : \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="erosion_effect" language="fr">Érosion: \1 (\2 seconds)</text>  <!-- \1: total damage, \2: duration, \3: damage rate -->
+<text name="augment_no_effect" language="fr">Cette amélioration aura aucun effet si les améliorations suivantes sont installées:</text>
+<text name="seed_prompt" language="fr">Seed</text>
+<text name="seed_prompt_disabled" language="fr">Seeds Désactivé</text>
+<text name="menu_status_seed" language="fr">Seed</text>
+<text name="unlocks_disabled" language="fr">Récompense Désactivé</text>
+<text name="store_unavailable" language="fr">INDISPONIBLE</text>
+<mod:findName type="text" name="power_ready" language="fr">
+  <mod:setValue>Paré: Cliquer pour verrouiller la salle</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="power_not_ready" language="fr">
+  <mod:setValue>Non Paré: Pouvoir en recharge (niveau de charge à gauche du portrait)</mod:setValue>
+</mod:findName>
+<text name="power_not_ready_generic" language="fr">Non Paré</text>
+<text name="power_not_ready_player_ship" language="fr">Non Paré : Pas dans le vaisseau du joueur</text>
+<text name="power_not_ready_enemy_ship" language="fr">Non Paré : Pas dans le vaisseau de l'ennemis</text>
+<text name="power_not_ready_enemy_in_room" language="fr">Non Paré : Aucun ennemis dans la salle</text>
+<text name="power_not_ready_friendly_in_room" language="fr">Non Paré : Aucun allié dans la salle</text>
+<text name="power_not_ready_whitelist" language="fr">Non Paré : Aucun équipage requis dans la salle</text>
+<text name="power_not_ready_enemy_whitelist" language="fr">Non Paré : Aucun ennemis requis dans la salle</text>
+<text name="power_not_ready_friendly_whitelist" language="fr">Non Paré : Aucun allié requis dans la salle</text>
+<text name="power_not_ready_enemy_blacklist" language="fr">Non Paré : ennemis immunisé dans la salle</text>
+<text name="power_not_ready_friendly_blacklist" language="fr">Non Paré : alliés immunisé dans la salle</text>
+<text name="power_not_ready_system_in_room" language="fr">Non Paré : Aucun système dans la salle</text>
+<text name="power_not_ready_activated" language="fr">Activé : Pouvoir en cours d'utilisation (voir la durée à gauche du portrait)</text>
+<text name="power_not_ready_ai_disabled" language="fr">Non Paré : Pouvoir désactivé pour l'IA (vous ne devriez pas voir ça)</text>
+<text name="power_not_ready_has_clonebay" language="fr">Non Paré : Aucune baie de clonage disponible</text>
+<text name="power_not_ready_out_of_combat" language="fr">Non Paré : En combat</text>
+<text name="power_not_ready_in_combat" language="fr">Non Paré : Pas de vaisseau ennemis</text>
+<text name="power_not_ready_system" language="fr">Non Paré : Système \1 manquant</text>
+<text name="power_not_ready_system_functional" language="fr">Non Paré : Système \1 n'est pas fonctionnel</text>
+<text name="power_not_ready_min_health" language="fr">Non Paré : Santé est en dessous de \1</text> <!-- \1 is min health req -->
+<text name="power_not_ready_max_health" language="fr">Non Paré : Santé est au delà de \1</text> <!-- \1 is max health req -->
+<text name="power_not_ready_system_damaged" language="fr">Non Paré : Aucun système endommagé dans la salle</text>
+<text name="power_not_ready_mind_enemy" language="fr">Non Paré : L'ennemis à le controle</text>
+<text name="power_not_ready_teleporting" language="fr">Non Paré : Ne peut pas se transformer lors d'une téléportation</text>
+<text name="power_not_ready_charges" language="fr">Non Paré : Aucune charge disponible</text>
+<text name="power_not_ready_silenced" language="fr">Non Paré : Pouvoir désactivé</text>
+<text name="power_not_ready_burning" language="fr">Non Paré : Dans un feu</text>
+<text name="power_not_ready_suffocating" language="fr">Non Paré : Suffoque</text>
+<text name="power_not_ready_mind" language="fr">Non Paré : Controllé mentalement</text>
+<text name="power_not_ready_stunned" language="fr">Non Paré : Étourdis</text>
+<text name="power_not_ready_repairing" language="fr">Non Paré : En train de réparer</text>
+<text name="power_not_ready_repairing_system" language="fr">Non Paré : Répare un système</text>
+<text name="power_not_ready_repairing_breach" language="fr">Non Paré : Répare une brèche</text>
+<text name="power_not_ready_fighting" language="fr">Non Paré : En combat</text>
+<text name="power_not_ready_sabotaging" language="fr">Non Paré : Sabotage un système</text>
+<text name="power_not_ready_shooting" language="fr">Non Paré : Tire</text>
+<text name="power_not_ready_moving" language="fr">Non Paré : En mouvement</text>
+<text name="power_not_ready_idle" language="fr">Non Paré : Immobile</text>
+<text name="power_not_ready_manning" language="fr">Non Paré : Tient une station</text>
+<text name="power_not_ready_firefighting" language="fr">Non Paré : Éteind un feu</text>
+<text name="power_not_ready_dying" language="fr">Non Paré : Meurt</text>
+<text name="power_not_ready_teleporting" language="fr">Non Paré : Téléportation</text>
+<text name="power_not_ready_burning_false" language="fr">Non Paré : N'est pas en feu</text>
+<text name="power_not_ready_suffocating_false" language="fr">Non Paré : Ne suffoque pas</text>
+<text name="power_not_ready_mind_false" language="fr">Non Paré : N'est pas contrôlé mentalement</text>
+<text name="power_not_ready_stunned_false" language="fr">Non Paré : N'est pas étourdis</text>
+<text name="power_not_ready_repairing_false" language="fr">Non Paré : Ne répare pas</text>
+<text name="power_not_ready_repairing_system_false" language="fr">Non Paré : Ne répare pas un système</text>
+<text name="power_not_ready_repairing_breach_false" language="fr">Non Paré : Ne répare pas une brèche</text>
+<text name="power_not_ready_fighting_false" language="fr">Non Paré : N'est pas en combat</text>
+<text name="power_not_ready_sabotaging_false" language="fr">Non Paré : N'est pas en train de saboter</text>
+<text name="power_not_ready_shooting_false" language="fr">Non Paré : Ne tire pas</text>
+<text name="power_not_ready_moving_false" language="fr">Non Paré : Ne bouge pas</text>
+<text name="power_not_ready_idle_false" language="fr">Non Paré : N'est pas statique</text>
+<text name="power_not_ready_manning_false" language="fr">Non Paré : N'est pas a une station</text>
+<text name="power_not_ready_firefighting_false" language="fr">Non Paré : N'éteins pas un feu</text>
+<text name="power_not_ready_dying_false" language="fr">Non Paré : Ne meurt pas</text>
+<text name="power_not_ready_teleporting_false" language="fr">Non Paré : Ne se téléporte pas</text>
+<text name="advanced_health_tooltip" language="fr">Santé</text>
+<text name="weapon_cooldown_negative" language="fr">Désactivé</text>
+<text name="crew_stun_time" language="fr">Étourdis : \1 seconds</text>
+<text name="crew_death_time" language="fr">Durée de vie : \1 seconds</text>
+<text name="crew_death_time_expired" language="fr">Durée de vie : Expiré</text>
+<!-- System info boxes -->
+<text name="reactor_desc_start" language="fr">Énergie de départ : \1</text>
+<text name="reactor_desc_max" language="fr">Énergie maximale : \1</text>
+<!-- Redesigned Tooltips -->
+<text name="description_stats" language="fr">Stats :</text>
+<text name="requires_no_power" language="fr">Nécessite Pas d'Énergie</text>
+<text name="provides_bonus_power" language="fr">Octroie De l'Énergie Bonus</text>
+<text name="cannot_fire" language="fr">Ne peut pas être tiré</text>
+<text name="ammo_consumption" language="fr">Consommation de missile : \1</text>
+<text name="redesigned_boost_power_damage_positive" language="fr">Effet d'Accumulation : Augmente les dégats par \1</text>
+<text name="redesigned_boost_power_damage_negative" language="fr">Effet d'Accumulation : Réduit les dégâts par \1</text>
+<text name="redesigned_boost_power_speed_positive" language="fr">Effet d'Accumulation : Réduit le temps de rechargement par \1</text>
+<text name="redesigned_boost_power_speed_negative" language="fr">Effet d'Accumulation : Augmente le temps de rechargement par \1</text>
+<text name="redesigned_damage_cap" language="fr">Max d'Accumulation de Dégat : \1 dégats (\2 Accumulation)</text>
+<text name="redesigned_speed_cap" language="fr">Max d'Accumulation de Temps de Rechargement : \1 (\2 Accumulation)</text>
+<text name="shot_radius" language="fr">Dispersion du tir : \1</text>
+<text name="shot_radius_angular" language="fr">Dispersion du tir : \1 degrés</text>
+<text name="beam_length" language="fr">Longueur Du Rayon : \1</text>
+<text name="pinpoint" language="fr">Rayon Concentré</text>
+<text name="swipe_speed" language="fr">Vitesse Du Rayon : \1</text>
+<text name="max_shots" language="fr">Tirs Max: \1</text>
+<text name="redesigned_double_damage" language="fr">2x dégâts de coque dans une salle sans système.</text>
+<text name="redesigned_damage_room" language="fr">Dégât Standard Par Salle : \1 (x15 pour l'équipage)</text>
+<text name="redesigned_damage_shot" language="fr">Dégât Standard Par Tir : \1 (x15 pour l'équipage)</text>
+<text name="hull_damage" language="fr">Dégat De Coque : \1</text>
+<text name="hull_damage_negative" language="fr">Réparation De Coque : \1</text>
+<text name="system_damage_negative" language="fr">Réparation De Système : \1</text>
+<text name="personnel_damage_negative" language="fr">Soin de l'Équipage : \1</text>
+<text name="stun_length" language="fr">Durée De l'Étourdiseement</text>
+<text name="weapon_lockdown" language="fr">Verrouille la salle sur impact</text>
+<text name="scrap_value" language="fr">Prix Achat/Vente : \1 scrap/\2 scrap</text>
+<text name="damage_word" language="fr">Dégat</text>
+<text name="bomb_shots" language="fr">Tirs par charge : \1 (1 on own ship)</text>
+<text name="crew_scrap_value" language="fr">Prix De Recrutement : \1~</text>
+<text name="drone_speed" language="fr">Vitesse Du Drone : \1</text>
+<text name="defense_drone_reload_speed" language="fr">Temps De Rechargement : \1ms</text>
+<text name="defense_drone_projectile_speed" language="fr">Vitesse Du Projectile : \1</text>
+<text name="defense_drone_orbit_speed" language="fr">Vitesse De l'Orbite : \1</text>
+<text name="defense_drone_projectile_target_unknown" language="fr">Cible Du Projectile : Inconnu</text>
+<text name="defense_drone_projectile_target_solid" language="fr">Cible Du Projectile : Solide</text>
+<text name="defense_drone_projectile_target_asteroid" language="fr">Cible Du Projectile : Astéroides</text>
+<text name="defense_drone_drone_target_all" language="fr">Target : Tout Drones</text>
+<text name="defense_drone_projectile_target_all" language="fr">Cible Du Projectile : Tout</text>
+<text name="defense_drone_drone_target_solid_projectiles" language="fr">Cible : Drones + Astéroides</text>
+<text name="defense_drone_drone_target_all_projectiles" language="fr">Cible : Drones + Tout Projectiles</text>
+<text name="defense_drone_drone_target_solid" language="fr">Cible : Drone + Solide</text>
+<text name="teleporter_instant" language="fr">Pas De Rechargement</text>
+<text name="clonebay_instant_fullheal" language="fr">Clonage Instantanée + Soin Entier Sur Saut</text>
+<!-- Tooltips when hovering over deployed drones -->
+<text name="defense_asteroid_friendly" language="fr">Votre Drone De Défense :\nAbats les astéroïdes. Fonctionnera jusqu'a destruction ou jusqu'à ce que vous sauterez.</text>
+<text name="defense_asteroid_enemy" language="fr">Drone De Défense :\nAbats les astéroïdes. Peut être désactivé en détruisant la baie à drone ennemie.</text>
+<text name="defense_solid_friendly" language="fr">Votre Drone De Défense :\nAbats les missiles, astéroïdes, et les drones de combat. Fonctionnera jusqu'a destruction ou jusqu'à ce que vous sauterez.</text>
+<text name="defense_solid_enemy" language="fr">Drone De Défense :\nAbats les missiles, astéroïdes, et les drones de combat. Peut être désactivé en détruisant la baie à drone ennemie.</text>
+<text name="defense_all_friendly" language="fr">Votre Drone De Défense :\nAbats tout les projectiles et les drones de combat. Will function until destroyed or until you jump away.</text>
+<text name="defense_all_enemy" language="fr">Drone De Défense :\nAbats tout les projectiles et les drones de combat. Peut être désactivé en détruisant la baie à drone ennemie.</text>
+<!-- Hotkeys -->
+<text name="hotkey_weapon1" language="fr">Emplacement Arme/Drone 1</text>
+<text name="hotkey_weapon2" language="fr">Emplacement Arme/Drone 2</text>
+<text name="hotkey_weapon3" language="fr">Emplacement Arme/Drone 3</text>
+<text name="hotkey_weapon4" language="fr">Emplacement Arme/Drone 4</text>
+<text name="hotkey_drone1" language="fr">Emplacement Arme/Drone 5</text>
+<text name="hotkey_drone2" language="fr">Emplacement Arme/Drone 6</text>
+<text name="hotkey_drone3" language="fr">Emplacement Arme/Drone 7</text>
+<text name="hotkey_drone4" language="fr">Emplacement Arme/Drone 8</text>
+<text name="hotkey_drone5" language="fr">Emplacement Arme/Drone 9</text>
+<text name="hotkey_drone6" language="fr">Emplacement Arme/Drone 10</text>
+<text name="hotkey_speed" language="fr">Activer Speedhack</text>
+<text name="hotkey_console" language="fr">Ouvrir Console</text>
+<text name="hotkey_info" language="fr">Activer Information Supplémentaire</text>
+<text name="hotkey_temporal" language="fr">Énergiser Manipulateur Temporel</text>
+<text name="hotkey_un_temporal" language="fr">De-Énergiser Manipulateur Temporel</text>
+<text name="hotkey_temporal_speed" language="fr">Accélération Du Temps</text>
+<text name="hotkey_temporal_slow" language="fr">Dilatation Du Temps</text>
+<!-- Custom systems -->
+<!--
+For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
+
+
+\1: speed strength
+\2: speed cooldown
+\3: speed duration
+\4: slow strength
+\5: slow cooldown
+\6: slow duration
+-->
+<text name="temporal" language="fr">le Manipulateur Temporel</text>
+<text name="temporal_tooltip" language="fr">\1x/\4x vitesse pour \3/\6 sec</text>
+<text name="temporal_arm_super_shields" language="fr">Bloqué par les supers-bouclier.</text>
+<text name="temporal_arm_speed" language="fr">Accélère tout dans la salle par \1x pour \3 seconds.</text>
+<text name="temporal_arm_slow" language="fr">Ralentit tout dans la salle par \4x pour \6 seconds.</text>
+<text name="temporal_button_speed" language="fr">Accélère tout ce qui se déroule dans la salle pour une courte durée.\nTouche : \1</text> <!-- key name -->
+<text name="temporal_button_slow" language="fr">Ralentit tout ce qui se déroule dans la salle pour une courte durée.\nTouche : \1</text> <!-- key name -->
+<!-- More Info Button -->
+<text name="tooltip_more_info" language="fr">Activer les informations supplémentaire, qui offre plus d'information sur :
+-Description Arme/Drone/Amélioration
+-Description d'équipage survolé
+-Connexion de carte
+-Couleur d'oxygène des salles
+-Puissance du réacteur dans le hangar
+-Description des améliorations offerte par un événement
+
+
+Key : \1</text> <!-- \1 is more info hotkey -->
+<!-- Achievements/hangar stuff -->
+<text name="hangar_achievements_title_default" language="fr">Succès Du Vaisseau</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_custom" language="fr">Victoire Du Vaisseau</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_filter" language="fr">Filtre Du Type de Victoire</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_no_ship_achievements" language="fr">Pas de Succès Du Vaisseau</text>
+<!-- Discord Integration -->
+<!--
+<text name="discord_main_menu" language="fr">Dans le menu</text>
+<text name="discord_hangar" language="fr">Dans l'hangar</text>
+<text name="discord_dying" language="fr">Meurt</text>
+<text name="discord_exploring" language="fr">Explore</text>
+<text name="discord_battle" language="fr">En combat</text>
+<text name="discord_battle_boss" language="fr">Affronte le Boss (Phase \1)</text>
+<text name="discord_sector" language="fr">\1 (\2/8)</text>
+<text name="discord_ship" language="fr">\1 Type \2</text>
+<text name="discord_playing_modded" language="fr">Joue moddé (\1)</text>
+<text name="discord_playing_vanilla" language="fr">Joue Vanilla</text>
+<text name="discord_victory" language="fr">Victoire</text>
+<text name="discord_dead" language="fr">Mort</text>
+<text name="discord_mod" language="fr"></text>
+-->
+<!-- Tooltips -->
+<text name="tooltip_crew_page_down" language="fr">Cliquer pour descendre la page d'équipage. \nVous pouvez aussi utiliser la molette.</text>
+<text name="tooltip_crew_page_up" language="fr">Cliquer pour monter la page d'équipage. \nVous pouvez aussi utiliser la molette.</text>
+<text name="tooltip_jump_noJump" language="fr">Le vaisseau ennemi à désactiver votre moteur de saut. Il n'y a pas d'échappatoire ; vous devez vaincre l’ennemi si vous voulez survivre!</text>
+<text name="tooltip_temporal" language="fr">Manipulateur Temporel : Affecte le découlement du temp dans une salle.</text>
+<text name="tooltip_temporal_enemy" language="fr">Manipulateur Temporel : L'ennemis peut utiliser cela pour affecter l'écoulement du temps dans une salle.</text>
+<text name="tooltip_PDS_FLEET_ALL" language="fr">La flotte utilise sa batterie anti-vaisseau pour éliminer tout vaisseau dans le secteur.</text>
+<text name="tooltip_PDS_FLEET_ENEMY" language="fr">La flotte utilise sa batterie anti-vaisseau pour éliminer votre ennemis.</text>
+<!-- New save file -->
+<text name="transfer_save_dialog" language="fr">Il semble que ce soit la première fois que vous jouez à ce mod, ou que vous n'ayez pas encore configuré de nouveau fichier de sauvegarde ! Souhaitez-vous transférer la progression de Vanilla ou jouer avec une nouvelle sauvegarde ? Cela n'influencera en aucun cas votre progression vanilla.</text>
+<!--Neutral ASB text-->
+<text name="warning_pds_all" language="fr">NEUTRE !</text>
+<!--Credits-->
+<text name="crewlist_more" language="fr"> et les autres</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
+<text name="thank_ai" language="fr">Controllé par sa sublime IA embarquée</text>
+<text name="font" language="fr">Polices utilisées : "Half-Life 1 + 2", avec la permission de freakyfonts.de</text>
+<text name="font_halflife" language="fr">Polices utilisées : "Half-Life 1 + 2", avec la permission de freakyfonts.de</text>
+<text name="font_dotgothic" language="fr">Police 'DotGothic' utilisé sous licence de Fontworks Inc.</text>
+<text name="credits_loc_ko" language="fr">Version Coréenne Communautaire</text>
+<text name="credits_loc_ko_names" language="fr">H20, nedsociety</text>
+<text name="credits_hyperspace_project" language="fr">Projet Hyperspace</text>
+<text name="credits_hyperspace_developed_by" language="fr">Developpé par :</text>
+<text name="credits_hyperspace_developed_names" language="fr">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_art" language="fr">Art Additionel :</text>
+<text name="credits_hyperspace_art_names" language="fr">SaltyFriedRice</text>
+<text name="credits_hyperspace_contributors" language="fr">Contributions Additionnel :</text>
+<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, L'équipe FTL: Multiverse</text>
+<text name="credits_hyperspace_loc" language="fr">Traducteurs Hyperspace :</text>
+<text name="credits_hyperspace_loc_fr" language="fr">Français</text>
+<text name="credits_hyperspace_loc_fr_names" language="fr">Pepson</text>
+<text name="credits_hyperspace_loc_it" language="fr">Italien</text>
+<text name="credits_hyperspace_loc_it_names" language="fr">RawToast</text>
+<text name="credits_hyperspace_loc_de" language="fr">Allemand</text>
+<text name="credits_hyperspace_loc_de_names" language="fr">The Dumb Dino</text>
+<text name="credits_hyperspace_loc_es" language="fr">Espagnol</text>
+<text name="credits_hyperspace_loc_es_names" language="fr">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_pl" language="fr">Polonais</text>
+<text name="credits_hyperspace_loc_pl_names" language="fr">Marcinus, Palon</text>
+<text name="credits_hyperspace_loc_pt_BR" language="fr">Portugais (Brazil)</text>
+<text name="credits_hyperspace_loc_pt_BR_names" language="fr">Gabriel Cooper</text>
+<text name="credits_hyperspace_loc_ru" language="fr">Russe</text>
+<text name="credits_hyperspace_loc_ru_names" language="fr">aleev0_o</text>
+<text name="credits_hyperspace_loc_zn_Hans" language="fr">Chinois</text>
+<text name="credits_hyperspace_loc_zn_Hans_names" language="fr">Mwalls</text>
+<text name="credits_hyperspace_loc_ja" language="fr">Japonais</text>
+<text name="credits_hyperspace_loc_ja_names" language="fr">ranhai</text>
+<text name="credits_hyperspace_loc_kor" language="fr">Coréen</text>
+<text name="credits_hyperspace_loc_kor_names" language="fr">nedsociety</text>

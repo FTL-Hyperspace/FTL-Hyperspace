@@ -4265,6 +4265,7 @@ struct MenuScreen;
 
 struct MenuScreen : FocusWindow
 {
+	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
 	LIBZHL_API void constructor();

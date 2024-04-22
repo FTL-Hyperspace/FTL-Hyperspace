@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Blueprint Text -->
+<text name="system_temporal_title" language="ko">시간 조율기</text>
+<text name="system_temporal_desc" language="ko">한 선실의 시간의 흐름을 바꿉니다. 업그레이드하면 지속 시간과 시간 조작의 강도가 증가합니다.</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="ko">나노봇 방어 시스템</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_desc" language="ko">침입자가 지속적으로 피해를 입습니다.</text>
+<text name="aug_FTL_JUMPER_GOOD_title" language="ko">고등형 FTL 항법 장치 II</text>
+<text name="aug_FTL_JUMPER_GOOD_desc" language="ko">구역 내 어느 송신소로도 도약할 수 있게 해줍니다.</text>
+<text name="aug_BOARDER_RECOVERY_title" language="ko">강습 드론 역추진기</text>
+<text name="aug_BOARDER_RECOVERY_desc" language="ko">전투가 끝난 후 파괴되지 않은 강습 드론이 회수됩니다.</text>
+<text name="aug_MIND_ORDER_title" language="ko">신경 억제기</text>
+<text name="aug_MIND_ORDER_desc" language="ko">정신 지배한 적 선원을 직접 조종할 수 있습니다. 해당 선원이 지닌 모든 능력도 사용할 수 있습니다.</text>
+<text name="crew_ghost_desc" language="ko">떠나버린 선원의 유령.</text>
+<text name="crew_ghost_title" language="ko">고스트</text>
+<text name="crew_ghost_short" language="ko">Ghost</text>
+<text name="crew_ghost_power_1" language="ko">산소 없이도 살 수 있습니다</text>
+<text name="crew_ghost_power_2" language="ko">최대 체력이 감소</text>
+<text name="crew_ghost_power_3" language="ko">문을 통과할 수 있음</text>
+<text name="no_time_sector" language="ko">성도를 조사하다가 시간이 없으니 빠르게 다음 구역으로 가야 한다는 사실을 깨달았습니다! 퀘스트는 나중으로 미뤄둡시다.</text>
+<!-- Misc Text -->
+<mod:findName type="text" name="no_type_c" language="ko">
+  <mod:setValue>격납고 빔</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="window_title" language="ko">
+  <mod:setValue>FTL: Hyperspace</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="version" language="ko">
+  <mod:setValue>\1 (Hyperspace 1.11.0)</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="fire_chance" language="ko">
+  <mod:setValue>화재 발생 확률: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="breach_chance" language="ko">
+  <mod:setValue>균열 발생 확률: \2%</mod:setValue> <!-- \1 is blueprint breachChance * 10, \2 is actual breachChance, \3 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="stun_chance" language="ko">
+  <mod:setValue>기절 확률: \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<text name="free_missile_chance" language="ko">탄약 미사용 확률: \1%</text>  <!-- \1: chance -->
+<text name="erosion_chance" language="ko">부식 확률: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_statboost_chance" language="ko">상태 부여 확률: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="room_statboost_chance" language="ko">선실 효과 확률: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_spawn_chance" language="ko">Chance: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="erosion_effect" language="ko">부식: \1(\2초)</text>  <!-- \1: total damage, \2: duration, \3: damage rate -->
+<text name="augment_no_effect" language="ko">이 보조장비의 효과는 다음 보조장비와 중첩되지 않습니다:</text>
+<text name="seed_prompt" language="ko">시드</text>
+<text name="seed_prompt_disabled" language="ko">시드 비활성</text>
+<text name="menu_status_seed" language="ko">시드</text>
+<text name="unlocks_disabled" language="ko">해금 비활성</text>
+<text name="store_unavailable" language="ko">사용 불가</text>
+<mod:findName type="text" name="power_ready" language="ko">
+  <mod:setValue>준비됨: 클릭 시 특수 능력을 사용해 선실을 봉쇄합니다</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="power_not_ready" language="ko">
+  <mod:setValue>사용불가: 능력 충전중 (초상화 왼편에서 충전량을 확인하세요)</mod:setValue>
+</mod:findName>
+<text name="power_not_ready_generic" language="ko">사용불가</text>
+<text name="power_not_ready_player_ship" language="ko">사용불가: 플레이어 함선에 있지 않음</text>
+<text name="power_not_ready_enemy_ship" language="ko">사용불가: 적 함선에 있지 않음</text>
+<text name="power_not_ready_enemy_in_room" language="ko">사용불가: 주변에 적이 없음</text>
+<text name="power_not_ready_friendly_in_room" language="ko">사용불가: 주변에 아군이 없음</text>
+<text name="power_not_ready_whitelist" language="ko">사용불가: 주변에 특정 선원이 없음</text>
+<text name="power_not_ready_enemy_whitelist" language="ko">사용불가: 주변에 특정 적이 없음</text>
+<text name="power_not_ready_friendly_whitelist" language="ko">사용불가: 주변에 특정 아군이 없음</text>
+<text name="power_not_ready_enemy_blacklist" language="ko">사용불가: 주변에 특정 적이 있음</text>
+<text name="power_not_ready_friendly_blacklist" language="ko">사용불가: 주변에 특정 아군이 있음</text>
+<text name="power_not_ready_system_in_room" language="ko">사용불가: 해당 선실에 시스템 없음</text>
+<text name="power_not_ready_activated" language="ko">활성화됨: 능력 사용 중 (초상화 왼편에서 지속 시간을 확인하세요)</text>
+<text name="power_not_ready_ai_disabled" language="ko">Not Ready: Power disabled for AI (shouldn't see this)</text>
+<text name="power_not_ready_has_clonebay" language="ko">사용불가: 클론베이 사용 불가</text>
+<text name="power_not_ready_out_of_combat" language="ko">사용불가: 전투 중</text>
+<text name="power_not_ready_in_combat" language="ko">사용불가: 적함 없음</text>
+<text name="power_not_ready_system" language="ko">사용불가: \1 시스템 없음</text>
+<text name="power_not_ready_system_functional" language="ko">사용불가: \1 시스템이 작동 중이지 않음</text>
+<text name="power_not_ready_min_health" language="ko">사용불가: 체력이 \1 보다 적음</text> <!-- \1 is min health req -->
+<text name="power_not_ready_max_health" language="ko">사용불가: 체력이 \1 보다 많음</text> <!-- \1 is max health req -->
+<text name="power_not_ready_system_damaged" language="ko">사용불가: 손상되지 않은 시스템</text>
+<text name="power_not_ready_mind_enemy" language="ko">사용불가: 적이 조종 중</text>
+<text name="power_not_ready_teleporting" language="ko">사용불가: 순간이동 중에 변신할 수 없음</text>
+<text name="power_not_ready_charges" language="ko">사용불가: 충전 횟수 고갈</text>
+<text name="power_not_ready_silenced" language="ko">사용불가: 침묵</text>
+<text name="power_not_ready_burning" language="ko">사용불가: 불붙음</text>
+<text name="power_not_ready_suffocating" language="ko">사용불가: 질식 중</text>
+<text name="power_not_ready_mind" language="ko">사용불가: 정신 지배됨</text>
+<text name="power_not_ready_stunned" language="ko">사용불가: 기절</text>
+<text name="power_not_ready_repairing" language="ko">사용불가: 수리 중</text>
+<text name="power_not_ready_repairing_system" language="ko">사용불가: 시스템 수리 중</text>
+<text name="power_not_ready_repairing_breach" language="ko">사용불가: 균열 수리 중</text>
+<text name="power_not_ready_fighting" language="ko">사용불가: 싸우는 중</text>
+<text name="power_not_ready_sabotaging" language="ko">사용불가: 시스템 파괴 중</text>
+<text name="power_not_ready_shooting" language="ko">사용불가: 사격 중</text>
+<text name="power_not_ready_moving" language="ko">사용불가: 이동 중</text>
+<text name="power_not_ready_idle" language="ko">사용불가: 아무것도 하지 않는 중</text>
+<text name="power_not_ready_manning" language="ko">사용불가: 시스템 관리 중</text>
+<text name="power_not_ready_firefighting" language="ko">사용불가: 불 끄는 중</text>
+<text name="power_not_ready_dying" language="ko">사용불가: 사망</text>
+<text name="power_not_ready_teleporting" language="ko">사용불가: 순간이동 중</text>
+<text name="power_not_ready_burning_false" language="ko">사용불가: 불붙지 않음</text>
+<text name="power_not_ready_suffocating_false" language="ko">사용불가: 질식 중이지 않음</text>
+<text name="power_not_ready_mind_false" language="ko">사용불가: 정신 지배되지 않음</text>
+<text name="power_not_ready_stunned_false" language="ko">사용불가: 기절하지 않음</text>
+<text name="power_not_ready_repairing_false" language="ko">사용불가: 수리 중이지 않음</text>
+<text name="power_not_ready_repairing_system_false" language="ko">사용불가: 시스템 수리 중이지 않음</text>
+<text name="power_not_ready_repairing_breach_false" language="ko">사용불가: 균열 수리 중이지 않음</text>
+<text name="power_not_ready_fighting_false" language="ko">사용불가: 싸우고 있지 않음</text>
+<text name="power_not_ready_sabotaging_false" language="ko">사용불가: 시스템 파괴 중이지 않음</text>
+<text name="power_not_ready_shooting_false" language="ko">사용불가: 사격 중이지 않음</text>
+<text name="power_not_ready_moving_false" language="ko">사용불가: 이동 중이 아님</text>
+<text name="power_not_ready_idle_false" language="ko">사용불가: 무언가 하고 있음</text>
+<text name="power_not_ready_manning_false" language="ko">사용불가: 시스템 관리 중이지 않음</text>
+<text name="power_not_ready_firefighting_false" language="ko">사용불가: 불을 끄는 중이지 않음</text>
+<text name="power_not_ready_dying_false" language="ko">사용불가: 죽지 않음</text>
+<text name="power_not_ready_teleporting_false" language="ko">사용불가: 순간이동 중이지 않음</text>
+<text name="advanced_health_tooltip" language="ko">체력</text>
+<text name="weapon_cooldown_negative" language="ko">비활성화</text>
+<text name="crew_stun_time" language="ko">기절: \1 초</text>
+<text name="crew_death_time" language="ko">수명: \1 초</text>
+<text name="crew_death_time_expired" language="ko">수명: 만료됨</text>
+<!-- System info boxes -->
+<text name="reactor_desc_start" language="ko">시작 반응로: \1</text>
+<text name="reactor_desc_max" language="ko">최대 반응로: \1</text>
+<!-- Redesigned Tooltips -->
+<text name="description_stats" language="ko">능력치:</text>
+<text name="requires_no_power" language="ko">전력을 소비하지 않음</text>
+<text name="provides_bonus_power" language="ko">추가 전력을 제공</text>
+<text name="cannot_fire" language="ko">발포 불가</text>
+<text name="ammo_consumption" language="ko">미사일 소모: \1</text>
+<text name="redesigned_boost_power_damage_positive" language="ko">연쇄 효과: 피해량 \1 증가</text>
+<text name="redesigned_boost_power_damage_negative" language="ko">연쇄 효과: 피해량 \1 감소</text>
+<text name="redesigned_boost_power_speed_positive" language="ko">연쇄 효과: 충전 시간 \1 감소</text>
+<text name="redesigned_boost_power_speed_negative" language="ko">연쇄 효과: 충전 시간 \1 증가</text>
+<text name="redesigned_damage_cap" language="ko">피해량 한계: \1 피해 (\2 연쇄)</text>
+<text name="redesigned_speed_cap" language="ko">충전 시간 한계: \1 (\2 연쇄)</text>
+<text name="shot_radius" language="ko">사격 범위: \1</text>
+<text name="shot_radius_angular" language="ko">사격 범위: \1 도</text>
+<text name="beam_length" language="ko">타격 범위 \1</text>
+<text name="pinpoint" language="ko">핀포인트</text>
+<text name="swipe_speed" language="ko">타격 속도: \1</text>
+<text name="max_shots" language="ko">최대 충전량: \1</text>
+<text name="redesigned_double_damage" language="ko">시스템이 없는 선실에 2배의 선체 피해를 입힘.</text>
+<text name="redesigned_damage_room" language="ko">선실당 피해: \1 (선원에게는 x15)</text>
+<text name="redesigned_damage_shot" language="ko">발사체당 피해: \1 (선원에게는 x15)</text>
+<text name="hull_damage" language="ko">선체 피해: \1</text>
+<text name="hull_damage_negative" language="ko">선체 수리: \1</text>
+<text name="system_damage_negative" language="ko">시스템 수리: \1</text>
+<text name="personnel_damage_negative" language="ko">선원 치료: \1</text>
+<text name="stun_length" language="ko">초</text>
+<text name="weapon_lockdown" language="ko">피격된 선실을 봉쇄</text>
+<text name="scrap_value" language="ko">구매/판매 가격: \1 스크랩/\2 스크랩</text>
+<text name="damage_word" language="ko">피해</text>
+<text name="bomb_shots" language="ko">충전 횟수당 발사체 수: \1 (당신의 함선에는 1)</text>
+<text name="crew_scrap_value" language="ko">고용 가격: \1~</text>
+<text name="drone_speed" language="ko">드론 속도: \1</text>
+<text name="defense_drone_reload_speed" language="ko">장전 속도: \1ms</text>
+<text name="defense_drone_projectile_speed" language="ko">투사체 속도: \1</text>
+<text name="defense_drone_orbit_speed" language="ko">궤도 이동속도: \1</text>
+<text name="defense_drone_projectile_target_unknown" language="ko">목표 투사체: 확인불가</text>
+<text name="defense_drone_projectile_target_solid" language="ko">목표 투사체: 고체</text>
+<text name="defense_drone_projectile_target_asteroid" language="ko">목표 투사체: 소행성</text>
+<text name="defense_drone_drone_target_all" language="ko">목표: 모든 드론</text>
+<text name="defense_drone_projectile_target_all" language="ko">목표 투사체: 전체</text>
+<text name="defense_drone_drone_target_solid_projectiles" language="ko">목표: 드론 + 고체</text>
+<text name="defense_drone_drone_target_all_projectiles" language="ko">목표: 드론 + 모든 투사체</text>
+<text name="defense_drone_drone_target_solid" language="ko">목표: 고형 드론</text>
+<text name="teleporter_instant" language="ko">충전 시간 없음</text>
+<text name="clonebay_instant_fullheal" language="ko">즉시 복제 + 도약 시 체력 완전 회복</text>
+<!-- Tooltips when hovering over deployed drones -->
+<text name="defense_asteroid_friendly" language="ko">당신의 방어 드론:\n소행성을 요격합니다. 파괴되거나 도약하기 전까지 작동합니다.</text>
+<text name="defense_asteroid_enemy" language="ko">방어 드론:\n소행성을 요격합니다. 적함의 드론 관제실을 손상시켜 무력화할 수 있습니다.</text>
+<text name="defense_solid_friendly" language="ko">당신의 방어 드론:\n미사일, 소행성, 전투 드론을 요격합니다. 파괴되거나 도약하기 전까지 작동합니다.</text>
+<text name="defense_solid_enemy" language="ko">방어 드론:\n미사일, 소행성, 전투 드론을 요격합니다. 적함의 드론 관제실을 손상시켜 무력화할 수 있습니다.</text>
+<text name="defense_all_friendly" language="ko">당신의 방어 드론:\n모든 투사체와 드론을 요격합니다. 파괴되거나 도약하기 전까지 작동합니다.</text>
+<text name="defense_all_enemy" language="ko">방어 드론:\n모든 투사체와 드론을 요격합니다. 적함의 드론 관제실을 손상시켜 무력화할 수 있습니다.</text>
+<!-- Hotkeys -->
+<text name="hotkey_weapon1" language="ko">무기/드론 슬롯 1</text>
+<text name="hotkey_weapon2" language="ko">무기/드론 슬롯 2</text>
+<text name="hotkey_weapon3" language="ko">무기/드론 슬롯 3</text>
+<text name="hotkey_weapon4" language="ko">무기/드론 슬롯 4</text>
+<text name="hotkey_drone1" language="ko">무기/드론 슬롯 5</text>
+<text name="hotkey_drone2" language="ko">무기/드론 슬롯 6</text>
+<text name="hotkey_drone3" language="ko">무기/드론 슬롯 7</text>
+<text name="hotkey_drone4" language="ko">무기/드론 슬롯 8</text>
+<text name="hotkey_drone5" language="ko">무기/드론 슬롯 9</text>
+<text name="hotkey_drone6" language="ko">무기/드론 슬롯 10</text>
+<text name="hotkey_speed" language="ko">스피드핵 적용</text>
+<text name="hotkey_console" language="ko">콘솔 열기</text>
+<text name="hotkey_info" language="ko">추가 정보 표시</text>
+<text name="hotkey_temporal" language="ko">시간 조율기 전력공급</text>
+<text name="hotkey_un_temporal" language="ko">시간 조율기 전력공급 중단</text>
+<text name="hotkey_temporal_speed" language="ko">시간 가속</text>
+<text name="hotkey_temporal_slow" language="ko">시간 감속</text>
+<!-- Custom systems -->
+<!--
+For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
+
+\1: speed strength
+\2: speed cooldown
+\3: speed duration
+\4: slow strength
+\5: slow cooldown
+\6: slow duration
+-->
+<text name="temporal" language="ko">시간 조율기</text> 
+<text name="temporal_tooltip" language="ko">\3/\6초 동안 \1/\4배</text>
+<text name="temporal_arm_super_shields" language="ko">슈퍼 방어막에 의해 차단됨.</text>
+<text name="temporal_arm_speed" language="ko">\3초 동안 선실 내에 있는 모든 것을 \1x배로 가속합니다.</text>
+<text name="temporal_arm_slow" language="ko">\6초 동안 선실 내에 있는 모든 것을 \4배로 감속합니다.</text>
+<text name="temporal_button_speed" language="ko">짧은 시간 동안 한 선실 내에 있는 모든 것을 가속합니다.\n단축키: \1</text> <!-- key name -->
+<text name="temporal_button_slow" language="ko">짧은 시간 동안 한 선실 내에 있는 모든 것을 감속합니다.\n단축키: \1</text> <!-- key name -->
+<!-- More Info Button -->
+<text name="tooltip_more_info" language="ko">상세 정보를 표시합니다. 다음 정보가 추가로 표시됩니다:
+-무기/드론/보조장비 툴팁
+-선원 툴팁
+-송신소 간 연결선
+-선실 산소 색상
+-격납고에서 반응로 숫자 표시
+-이벤트 장비 툴팁
+
+단축키: \1</text> <!-- \1 is more info hotkey -->
+<!-- Achievements/hangar stuff -->
+<text name="hangar_achievements_title_default" language="ko">함선 업적</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_custom" language="ko">함선 승리</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_filter" language="ko">승리 유형 필터</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_no_ship_achievements" language="ko">함선 업적 없음</text> 
+<!-- Discord Integration -->
+<!--
+<text name="discord_main_menu" language="ko">In main menu</text>
+<text name="discord_hangar" language="ko">In the hangar</text>
+<text name="discord_dying" language="ko">Dying</text>
+<text name="discord_exploring" language="ko">Exploring</text>
+<text name="discord_battle" language="ko">In Battle</text>
+<text name="discord_battle_boss" language="ko">In Boss Battle (Phase \1)</text>
+<text name="discord_sector" language="ko">\1 (\2/8)</text>
+<text name="discord_ship" language="ko">\1 Type \2</text>
+<text name="discord_playing_modded" language="ko">Playing modded (\1)</text>
+<text name="discord_playing_vanilla" language="ko">Playing vanilla</text>
+<text name="discord_victory" language="ko">Victory</text>
+<text name="discord_dead" language="ko">Dead</text>
+<text name="discord_mod" language="ko"></text>
+-->
+<!-- Tooltips -->
+<text name="tooltip_crew_page_down" language="ko">클릭 시 다음 페이지로 이동합니다. \n스크롤 휠도 사용할 수 있습니다.</text>
+<text name="tooltip_crew_page_up" language="ko">클릭 시 이전 페이지로 이동합니다. \n스크롤 휠도 사용할 수 있습니다.</text>
+<text name="tooltip_jump_noJump" language="ko">적함이 당신의 FTL 드라이브를 무력화했습니다. 탈출은 없습니다. 살아남으려면 전투를 이겨야 합니다!</text>
+<text name="tooltip_temporal" language="ko">시간 조율기: 한 선실의 시간의 흐름을 바꿉니다.</text>
+<text name="tooltip_temporal_enemy" language="ko">시간 조율기: 적이 이 시스템을 사용해서 한 선실의 시간의 흐름을 바꿀 수 있습니다.</text>
+<text name="tooltip_PDS_FLEET_ALL" language="ko">대함포대가 모든 함선을 향해 발포하고 있습니다.</text>
+<text name="tooltip_PDS_FLEET_ENEMY" language="ko">대함포대가 당신의 적을 향해 발포하고 있습니다.</text>
+<!-- New save file -->
+<text name="transfer_save_dialog" language="ko">이 모드를 처음 플레이하거나 아직 새 세이브 파일을 생성하지 않은 것 같습니다! 바닐라 진행도를 연동하고 싶으신가요, 새로운 세이브로 플레이하고 싶으신가요? 어떤 결정을 해도 바닐라 세이브에는 영향을 주지 않습니다.</text>
+<!--Neutral ASB text-->
+<text name="warning_pds_all" language="ko">중립!</text>
+<!--Credits-->
+<text name="crewlist_more" language="ko"> 외 다수</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
+<text name="thank_ai" language="ko">정교한 내장 AI가 조종하고 있습니다.</text>
+<text name="font" language="ko">Half-Life 1 + 2의 폰트는 freakyfonts.de로부터 허락을 받고 사용되었습니다.</text>
+<text name="font_halflive" language="ko">Half-Life 1 + 2의 폰트는 freakyfonts.de로부터 허락을 받고 사용되었습니다.</text>
+<text name="font_dotgothic" language="ko">'DotGothic' 폰트는 Fontworks Inc.의 라이센스 하에 사용되었습니다.</text>
+<text name="credits_loc_ko" language="ko">한국 커뮤니티 번역</text>
+<text name="credits_loc_ko_names" language="ko">H20, nedsociety</text>
+<text name="credits_hyperspace_project" language="ko">하이퍼스페이스 프로잭트</text>
+<text name="credits_hyperspace_developed_by" language="ko">개발:</text>
+<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_art" language="ko">추가 아트웍:</text>
+<text name="credits_hyperspace_art_names" language="ko">SaltyFriedRice</text>
+<text name="credits_hyperspace_contributors" language="ko">추가 기여:</text>
+<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
+<text name="credits_hyperspace_loc" language="ko">하이퍼스페이스 번역:</text>
+<text name="credits_hyperspace_loc_fr" language="ko">프랑스어</text>
+<text name="credits_hyperspace_loc_fr_names" language="ko">Pepson</text>
+<text name="credits_hyperspace_loc_it" language="ko">이탈리아어</text>
+<text name="credits_hyperspace_loc_it_names" language="ko">RawToast</text>
+<text name="credits_hyperspace_loc_de" language="ko">독일어</text>
+<text name="credits_hyperspace_loc_de_names" language="ko">The Dumb Dino</text>
+<text name="credits_hyperspace_loc_es" language="ko">스페인어</text>
+<text name="credits_hyperspace_loc_es_names" language="ko">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_pl" language="ko">폴란드어</text>
+<text name="credits_hyperspace_loc_pl_names" language="ko">Marcinus, Palon</text>
+<text name="credits_hyperspace_loc_pt_BR" language="ko">포르투갈어 (브라질)</text>
+<text name="credits_hyperspace_loc_pt_BR_names" language="ko">Gabriel Cooper</text>
+<text name="credits_hyperspace_loc_ru" language="ko">러시아어</text>
+<text name="credits_hyperspace_loc_ru_names" language="ko">aleev0_o</text>
+<text name="credits_hyperspace_loc_zn_Hans" language="ko">중국어</text>
+<text name="credits_hyperspace_loc_zn_Hans_names" language="ko">Mwalls</text>
+<text name="credits_hyperspace_loc_ja" language="ko">일본어</text>
+<text name="credits_hyperspace_loc_ja_names" language="ko">ranhai</text>
+<text name="credits_hyperspace_loc_ko" language="ko">한국어</text>
+<text name="credits_hyperspace_loc_ko_names" language="ko">nedsociety, H2O</text>

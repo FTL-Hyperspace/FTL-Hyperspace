@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Blueprint Text -->
+<text name="system_temporal_title" language="zh-Hans">时流系统</text>
+<text name="system_temporal_desc" language="zh-Hans">更改一间舱室内的时间流速。升级可增加持续时间与变更强度。</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="zh-Hans">纳米机器人防御系统</text>
+<text name="aug_NANOBOT_DEFENSE_SYSTEM_desc" language="zh-Hans">登舰者将在你的战舰中持续受到伤害。</text>
+<text name="aug_FTL_JUMPER_GOOD_title" language="zh-Hans">高级超光速导航II</text>
+<text name="aug_FTL_JUMPER_GOOD_desc" language="zh-Hans">使你能跃迁至星区内任意一座信标。</text>
+<text name="aug_BOARDER_RECOVERY_title" language="zh-Hans">复古无人机推进器</text>
+<text name="aug_BOARDER_RECOVERY_desc" language="zh-Hans">战斗结束后，未被摧毁的登舰无人机将返还无人机部件消耗。</text>
+<text name="aug_MIND_ORDER_title" language="zh-Hans">神经信号器</text>
+<text name="aug_MIND_ORDER_desc" language="zh-Hans">使你能主动操控被心灵控制的敌方船员，并获得其所有特殊能力，包括主动技能的释放权。</text>
+<text name="crew_ghost_desc" language="zh-Hans">死去船员的鬼魂。</text>
+<text name="crew_ghost_title" language="zh-Hans">鬼魂</text>
+<text name="crew_ghost_short" language="zh-Hans">鬼魂</text>
+<text name="crew_ghost_power_1" language="zh-Hans">能在无氧环境生存</text>
+<text name="crew_ghost_power_2" language="zh-Hans">更低的最大生命值</text>
+<text name="crew_ghost_power_3" language="zh-Hans">能够穿透舱门</text>
+<text name="no_time_sector" language="zh-Hans">检查信标地图之后，你意识到已经没有时间了，必须立刻赶至下个星区！你把这项任务留至以后再说。</text>
+<!-- Misc Text -->
+<mod:findName type="text" name="no_type_c" language="zh-Hans">
+  <mod:setValue>舰库空荡</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="window_title" language="zh-Hans">
+  <mod:setValue>超越光速：超空间</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="version" language="zh-Hans">
+  <mod:setValue>\1 (超空间 1.11.0)</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="fire_chance" language="zh-Hans">
+  <mod:setValue>起火率：\1 %</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="breach_chance" language="zh-Hans">
+  <mod:setValue>破舱率：\2 %</mod:setValue> <!-- \1 is blueprint breachChance * 10, \2 is actual breachChance, \3 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="stun_chance" language="zh-Hans">
+  <mod:setValue>击晕率：\1 %</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<text name="free_missile_chance" language="zh-Hans">不耗弹率：\1 %</text>  <!-- \1: chance -->
+<text name="erosion_chance" language="zh-Hans">腐蚀率：\1 %</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_statboost_chance" language="zh-Hans">虚弱率：\1 %</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="room_statboost_chance" language="zh-Hans">部署率：\1 %</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_spawn_chance" language="zh-Hans">生成船员率：\1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="erosion_effect" language="zh-Hans">腐蚀伤害：\1点 (\2 秒)</text>  <!-- \1: total damage, \2: duration, \3: damage rate -->
+<text name="augment_no_effect" language="zh-Hans">本部件安装后下列部件失效：</text>
+<text name="seed_prompt" language="zh-Hans">种子</text>
+<text name="seed_prompt_disabled" language="zh-Hans">已禁用种子</text>
+<text name="menu_status_seed" language="zh-Hans">种子</text>
+<text name="unlocks_disabled" language="zh-Hans">无法获得成就</text>
+<text name="store_unavailable" language="zh-Hans">不提供</text>
+<mod:findName type="text" name="power_ready" language="zh-Hans">
+  <mod:setValue>就绪：点此使用特殊能力封锁该舱室</mod:setValue>
+</mod:findName>
+<mod:findName type="text" name="power_not_ready" language="zh-Hans">
+  <mod:setValue>未就绪：技能冷却中(船员列表左方显示冷却)</mod:setValue>
+</mod:findName>
+<text name="power_not_ready_generic" language="zh-Hans">未就绪</text>
+<text name="power_not_ready_player_ship" language="zh-Hans">无法使用：不在己方舰内</text>
+<text name="power_not_ready_enemy_ship" language="zh-Hans">无法使用：不在敌方舰内</text>
+<text name="power_not_ready_enemy_in_room" language="zh-Hans">无法使用：舱室内无敌方单位</text>
+<text name="power_not_ready_friendly_in_room" language="zh-Hans">无法使用：舱室内无己方船员</text>
+<text name="power_not_ready_whitelist" language="zh-Hans">无法使用：舱室内无白名单内船员</text>
+<text name="power_not_ready_enemy_whitelist" language="zh-Hans">无法使用：舱室内无白名单内敌方船员</text>
+<text name="power_not_ready_friendly_whitelist" language="zh-Hans">无法使用：舱室内无白名单内己方船员</text>
+<text name="power_not_ready_enemy_blacklist" language="zh-Hans">无法使用：舱室内有黑名单内敌方船员</text>
+<text name="power_not_ready_friendly_blacklist" language="zh-Hans">无法使用：舱室内有黑名单内己方船员</text>
+<text name="power_not_ready_system_in_room" language="zh-Hans">无法使用：舱室内无系统</text>
+<text name="power_not_ready_activated" language="zh-Hans">无法使用：技能正在持续(船员列表左方显示冷却)</text>
+<text name="power_not_ready_ai_disabled" language="zh-Hans">无法使用：该技能AI禁用(开发人员提示信息)</text>
+<text name="power_not_ready_has_clonebay" language="zh-Hans">无法使用：无克隆舱</text>
+<text name="power_not_ready_out_of_combat" language="zh-Hans">无法使用：战斗中</text>
+<text name="power_not_ready_in_combat" language="zh-Hans">无法使用：敌舰不存在</text>
+<text name="power_not_ready_system" language="zh-Hans">无法使用：舱室内无 \1 系统</text>
+<text name="power_not_ready_system_functional" language="zh-Hans">无法使用：\1系统非运作中</text>
+<text name="power_not_ready_min_health" language="zh-Hans">无法使用：船员生命值低于\1点</text> <!-- \1 is min health req -->
+<text name="power_not_ready_max_health" language="zh-Hans">无法使用：船员生命值高于\1点</text> <!-- \1 is max health req -->
+<text name="power_not_ready_system_damaged" language="zh-Hans">无法使用：舱室内无损坏的系统</text>
+<text name="power_not_ready_mind_enemy" language="zh-Hans">无法使用：船员被敌方控制中</text>
+<text name="power_not_ready_teleporting" language="zh-Hans">无法使用：船员传送中</text>
+<text name="power_not_ready_charges" language="zh-Hans">无法使用：使用次数已耗尽</text>
+<text name="power_not_ready_silenced" language="zh-Hans">无法使用：船员已被沉默</text>
+<text name="power_not_ready_burning" language="zh-Hans">无法使用：船员被灼烧中</text>
+<text name="power_not_ready_suffocating" language="zh-Hans">无法使用：船员窒息中</text>
+<text name="power_not_ready_mind" language="zh-Hans">无法使用：船员被敌方心灵控制中</text>
+<text name="power_not_ready_stunned" language="zh-Hans">无法使用：船员眩晕中</text>
+<text name="power_not_ready_repairing" language="zh-Hans">无法使用：船员修理中</text>
+<text name="power_not_ready_repairing_system" language="zh-Hans">无法使用：船员修理系统中</text>
+<text name="power_not_ready_repairing_breach" language="zh-Hans">无法使用：船员修理破舱中</text>
+<text name="power_not_ready_fighting" language="zh-Hans">无法使用：船员战斗中</text>
+<text name="power_not_ready_sabotaging" language="zh-Hans">无法使用：船员破坏中</text>
+<text name="power_not_ready_shooting" language="zh-Hans">无法使用：船员射击中</text>
+<text name="power_not_ready_moving" language="zh-Hans">无法使用：船员移动中</text>
+<text name="power_not_ready_idle" language="zh-Hans">无法使用：船员闲置中</text>
+<text name="power_not_ready_manning" language="zh-Hans">无法使用：船员操控系统中</text>
+<text name="power_not_ready_firefighting" language="zh-Hans">无法使用：船员灭火中</text>
+<text name="power_not_ready_dying" language="zh-Hans">无法使用：船员濒死</text>
+<text name="power_not_ready_teleporting" language="zh-Hans">无法使用：船员传送中</text>
+<text name="power_not_ready_burning_false" language="zh-Hans">无法使用：船员不被灼烧中</text>
+<text name="power_not_ready_suffocating_false" language="zh-Hans">无法使用：船员未窒息</text>
+<text name="power_not_ready_mind_false" language="zh-Hans">无法使用：船员未被敌方心灵控制</text>
+<text name="power_not_ready_stunned_false" language="zh-Hans">无法使用：船员未被击晕</text>
+<text name="power_not_ready_repairing_false" language="zh-Hans">无法使用：船员非修理中</text>
+<text name="power_not_ready_repairing_system_false" language="zh-Hans">无法使用：船员非修理系统中</text>
+<text name="power_not_ready_repairing_breach_false" language="zh-Hans">无法使用：船员非修理破舱中</text>
+<text name="power_not_ready_fighting_false" language="zh-Hans">无法使用：船员非近战战斗中</text>
+<text name="power_not_ready_sabotaging_false" language="zh-Hans">无法使用：船员非破坏中</text>
+<text name="power_not_ready_shooting_false" language="zh-Hans">无法使用：船员非远程战斗中</text>
+<text name="power_not_ready_moving_false" language="zh-Hans">无法使用：船员非移动中</text>
+<text name="power_not_ready_idle_false" language="zh-Hans">无法使用：船员非闲置中</text>
+<text name="power_not_ready_manning_false" language="zh-Hans">无法使用：船员非操控系统中</text>
+<text name="power_not_ready_firefighting_false" language="zh-Hans">无法使用：船员非灭火中</text>
+<text name="power_not_ready_dying_false" language="zh-Hans">无法使用：船员非濒死</text>
+<text name="power_not_ready_teleporting_false" language="zh-Hans">无法使用：船员非传送中</text>
+<text name="advanced_health_tooltip" language="zh-Hans">生命值</text>
+<text name="weapon_cooldown_negative" language="zh-Hans">已失效</text>
+<text name="crew_stun_time" language="zh-Hans">眩晕中：\1秒</text>
+<text name="crew_death_time" language="zh-Hans">存活期：\1秒</text>
+<text name="crew_death_time_expired" language="zh-Hans">已到期</text>
+<!-- System info boxes -->
+<text name="reactor_desc_start" language="zh-Hans">起始能量：\1</text>
+<text name="reactor_desc_max" language="zh-Hans">最大能量：\1</text>
+<!-- Redesigned Tooltips -->
+<text name="description_stats" language="zh-Hans">属性：</text>
+<text name="requires_no_power" language="zh-Hans">无需供能</text>
+<text name="provides_bonus_power" language="zh-Hans">提供额外能量</text>
+<text name="cannot_fire" language="zh-Hans">无法被发射</text>
+<text name="ammo_consumption" language="zh-Hans">弹药消耗：\1 发</text>
+<text name="redesigned_boost_power_damage_positive" language="zh-Hans">链式效果：伤害加\1</text>
+<text name="redesigned_boost_power_damage_negative" language="zh-Hans">链式效果：伤害减\1</text>
+<text name="redesigned_boost_power_speed_positive" language="zh-Hans">链式效果：冷却减\1秒</text>
+<text name="redesigned_boost_power_speed_negative" language="zh-Hans">链式效果：冷却加\1秒</text>
+<text name="redesigned_damage_cap" language="zh-Hans">链式伤害上限：\1(\2次攻击后)</text>
+<text name="redesigned_speed_cap" language="zh-Hans">链式冷却下限：\1秒(\2次攻击后)</text>
+<text name="shot_radius" language="zh-Hans">着弹范围：\1</text>
+<text name="shot_radius_angular" language="zh-Hans">着弹角度：\1 度</text>
+<text name="beam_length" language="zh-Hans">光束长度：\1</text>
+<text name="pinpoint" language="zh-Hans">光点</text>
+<text name="swipe_speed" language="zh-Hans">光束速度：\1</text>
+<text name="max_shots" language="zh-Hans">最高弹体数: \1</text>
+<text name="redesigned_double_damage" language="zh-Hans">对空舱室造成2倍舰体伤害。</text>
+<text name="redesigned_damage_room" language="zh-Hans">每间舱室标准伤害：\1(船员伤害则乘15)</text>
+<text name="redesigned_damage_shot" language="zh-Hans">每发弹体标准伤害：\1(船员伤害则乘15)</text>
+<text name="hull_damage" language="zh-Hans">舰体伤害： \1 点</text>
+<text name="hull_damage_negative" language="zh-Hans">舰体修复： \1 点</text>
+<text name="system_damage_negative" language="zh-Hans">系统修复： \1 格</text>
+<text name="personnel_damage_negative" language="zh-Hans">生命恢复： \1 点</text>
+<text name="stun_length" language="zh-Hans">秒</text>
+<text name="weapon_lockdown" language="zh-Hans">封锁击中的舱室</text>
+<text name="scrap_value" language="zh-Hans">购买/出售价格：\1废料/\2废料</text>
+<text name="damage_word" language="zh-Hans">伤害</text>
+<text name="bomb_shots" language="zh-Hans">弹体数：\1 发 (对己舰只发射1发)</text>
+<text name="crew_scrap_value" language="zh-Hans">雇佣价格：\1废料</text>
+<text name="drone_speed" language="zh-Hans">移动速度：\1</text>
+<text name="defense_drone_reload_speed" language="zh-Hans">装弹速度：\1 毫秒</text>
+<text name="defense_drone_projectile_speed" language="zh-Hans">弹体速度：\1</text>
+<text name="defense_drone_orbit_speed" language="zh-Hans">环绕速度： \1</text>
+<text name="defense_drone_projectile_target_unknown" language="zh-Hans">防御目标：未知</text>
+<text name="defense_drone_projectile_target_solid" language="zh-Hans">防御目标：实体弹</text>
+<text name="defense_drone_projectile_target_asteroid" language="zh-Hans">防御目标：小行星</text>
+<text name="defense_drone_drone_target_all" language="zh-Hans">防御目标：所有无人机</text>
+<text name="defense_drone_projectile_target_all" language="zh-Hans">防御目标：所有弹体</text>
+<text name="defense_drone_drone_target_solid_projectiles" language="zh-Hans">防御目标：无人机+实体弹</text>
+<text name="defense_drone_drone_target_all_projectiles" language="zh-Hans">防御目标：无人机+所有弹体</text>
+<text name="defense_drone_drone_target_solid" language="zh-Hans">防御目标：无人机+实体弹</text>
+<text name="teleporter_instant" language="zh-Hans">无冷却时间</text>
+<text name="clonebay_instant_fullheal" language="zh-Hans">瞬间克隆/跃迁时完全恢复生命值</text>
+<!-- Tooltips when hovering over deployed drones -->
+<text name="defense_asteroid_friendly" language="zh-Hans">
+你的防御无人机会拦截来袭的小行星。己舰跃迁或其自身被摧毁前会一直生效。</text>
+<text name="defense_asteroid_enemy" language="zh-Hans">
+防御无人机：\n拦截来袭的小行星。可摧毁敌舰无人机系统来阻止其运作。</text>
+<text name="defense_solid_friendly" language="zh-Hans">
+你的防御无人机：\n拦截来袭的导弹与小行星等实体弹。己舰跃迁或其自身被摧毁前会一直生效。
+</text>
+<text name="defense_solid_enemy" language="zh-Hans">
+防御无人机：\n拦截来袭的导弹、小行星，以及无人机。可摧毁敌舰无人机系统来阻止其运作。</text>
+<text name="defense_all_friendly" language="zh-Hans">
+你的防御无人机：\n拦截所有来袭的弹体及所有敌方无人机。己舰跃迁或其自身被摧毁前会一直生效。</text>
+<text name="defense_all_enemy" language="zh-Hans">
+防御无人机：\n拦截你发射的所有弹体及所有己方无人机。可摧毁敌舰无人机系统来阻止其运作。
+</text>
+<!-- Hotkeys -->
+<text name="hotkey_weapon1" language="zh-Hans">选择武器/无人机1</text>
+<text name="hotkey_weapon2" language="zh-Hans">选择武器/无人机2</text>
+<text name="hotkey_weapon3" language="zh-Hans">选择武器/无人机3</text>
+<text name="hotkey_weapon4" language="zh-Hans">选择武器/无人机4</text>
+<text name="hotkey_drone1" language="zh-Hans">选择武器/无人机5</text>
+<text name="hotkey_drone2" language="zh-Hans">选择武器/无人机6</text>
+<text name="hotkey_drone3" language="zh-Hans">选择武器/无人机7</text>
+<text name="hotkey_drone4" language="zh-Hans">选择武器/无人机8</text>
+<text name="hotkey_drone5" language="zh-Hans">选择武器/无人机9</text>
+<text name="hotkey_drone6" language="zh-Hans">选择武器/无人机10</text>
+<text name="hotkey_speed" language="zh-Hans">启用变速</text>
+<text name="hotkey_console" language="zh-Hans">打开控制台</text>
+<text name="hotkey_info" language="zh-Hans">开关额外信息模式</text>
+<text name="hotkey_temporal" language="zh-Hans">增能时流系统</text>
+<text name="hotkey_un_temporal" language="zh-Hans">减能时流系统</text>
+<text name="hotkey_temporal_speed" language="zh-Hans">时流加快</text>
+<text name="hotkey_temporal_slow" language="zh-Hans">时流减慢</text>
+<!-- Custom systems -->
+<!--
+For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
+
+\1: speed strength
+\2: speed cooldown
+\3: speed duration
+\4: slow strength
+\5: slow cooldown
+\6: slow duration
+-->
+<text name="temporal" language="zh-Hans">时流系统</text> 
+<text name="temporal_tooltip" language="zh-Hans">\3/\6秒内时间流速变为\1/\4倍</text>
+<text name="temporal_arm_super_shields" language="zh-Hans">被超级护盾阻挡。</text>
+<text name="temporal_arm_speed" language="zh-Hans">使舱室内时间流速在\3秒内加快\1倍。</text>
+<text name="temporal_arm_slow" language="zh-Hans">使舱室内时间流速在\6秒内减慢\4倍。</text>
+<text name="temporal_button_speed" language="zh-Hans">
+短时使舱室内时间流速加快。\n热键：\1</text> <!-- key name -->
+<text name="temporal_button_slow" language="zh-Hans">S短时使舱室内时间流速减慢。\n热键：\1</text> <!-- key name -->
+<!-- More Info Button -->
+<text name="tooltip_more_info" language="zh-Hans">
+开启额外信息模式后，系统将额外显示下列项目：
+-武器/无人机/增强部件的额外提示
+-鼠标悬停至船员时的相关信息
+-信标地图中信标间的连接
+-用颜色表示舱室内的氧气浓度
+-船库中战舰的初始能量
+-事件设备的提示
+
+热键： \1</text> <!-- \1 is more info hotkey -->
+<!-- Achievements/hangar stuff -->
+<text name="hangar_achievements_title_default" language="zh-Hans">战舰成就</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_custom" language="zh-Hans">战舰胜利统计</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_filter" language="zh-Hans">筛选胜利类别</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_no_ship_achievements" language="zh-Hans">无战舰专属成就</text> 
+<!-- Discord Integration -->
+<!--
+<text name="discord_main_menu" language="zh-Hans">主菜单</text>
+<text name="discord_hangar" language="zh-Hans">浏览舰库</text>
+<text name="discord_dying" language="zh-Hans">濒死</text>
+<text name="discord_exploring" language="zh-Hans">探索中</text>
+<text name="discord_battle" language="zh-Hans">战斗中</text>
+<text name="discord_battle_boss" language="zh-Hans">BOSS战中(第\1阶段)</text>
+<text name="discord_sector" language="zh-Hans">\1(第\2星区)</text>
+<text name="discord_ship" language="zh-Hans">\1\2型</text>
+<text name="discord_playing_modded" language="zh-Hans">正在游玩Mod(\1)</text>
+<text name="discord_playing_vanilla" language="zh-Hans">正在游玩原版</text>
+<text name="discord_victory" language="zh-Hans">胜利</text>
+<text name="discord_dead" language="zh-Hans">失败</text>
+<text name="discord_mod" language="zh-Hans"></text>
+-->
+<!-- Tooltips -->
+<text name="tooltip_crew_page_down" language="zh-Hans">点击翻至下页船员。\n你也可以用鼠标滚轮。</text>
+<text name="tooltip_crew_page_up" language="zh-Hans">点击翻至上页船员。\n你也可以用鼠标滚轮。</text>
+<text name="tooltip_jump_noJump" language="zh-Hans">敌舰破坏了你的超光速推进器。已经无路可退，要想活下去必须击败敌舰！</text>
+<text name="tooltip_temporal" language="zh-Hans">时流：改变一间舱室内的时间流速。</text>
+<text name="tooltip_temporal_enemy" language="zh-Hans">时流：敌人可以用此来改变一间舱室内的时间流速。</text>
+<text name="tooltip_PDS_FLEET_ALL" language="zh-Hans">舰队的反舰炮台正在对此处双方都进行攻击。</text>
+<text name="tooltip_PDS_FLEET_ENEMY" language="zh-Hans">舰队的反舰炮台正在攻击敌舰</text>
+<!-- New save file -->
+<text name="transfer_save_dialog" language="zh-Hans">
+看样子这是你第一次玩本Mod，或者没有创建过一个新的存档！你想导入原版进度，还是创建一个新存档？不用担心，该操作不会对你的原版游戏的存档与进度有任何影响。</text>
+<!--Neutral ASB text-->
+<text name="warning_pds_all" language="zh-Hans">中立！</text>
+<!--Credits-->
+<text name="crewlist_more" language="zh-Hans"> 等船员</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
+<text name="thank_ai" language="zh-Hans">及其精密的舰载人工智能</text>
+<text name="font" language="zh-Hans">在 freakyfonts.de 的许可下使用了“半条命 1 + 2”字体</text>
+<text name="credits_loc_ko" language="zh-Hans"> 韩语版</text>
+<text name="credits_loc_ko_names" language="zh-Hans">H20, nedsociety</text>
+<text name="credits_hyperspace_project" language="zh-Hans">超空间(Hyperspace)项目</text>
+<text name="credits_hyperspace_developed_by" language="zh-Hans">开发者：</text>
+<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex</text>
+<text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
+<text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
+<text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>
+<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc，bamalf， BlizzArchonJ，Choosechee，codyfun，_Kilburn，Kix，Masala，nedsociety，Paradigm，PDTM， Pepson，slowriderxcorps，The Dumb Dino，Vertaalfout，多元宇宙制作组</text>
+<text name="credits_hyperspace_loc" language="zh-Hans">超空间本地化人员：</text>
+<text name="credits_hyperspace_loc_fr" language="zh-Hans">法语：</text>
+<text name="credits_hyperspace_loc_fr_names" language="zh-Hans">Pepson</text>
+<text name="credits_hyperspace_loc_it" language="zh-Hans">意大利语：</text>
+<text name="credits_hyperspace_loc_it_names" language="zh-Hans">RawToast</text>
+<text name="credits_hyperspace_loc_de" language="zh-Hans">德语：</text>
+<text name="credits_hyperspace_loc_de_names" language="zh-Hans">The Dumb Dino</text>
+<text name="credits_hyperspace_loc_es" language="zh-Hans">西班牙语：</text>
+<text name="credits_hyperspace_loc_es_names" language="zh-Hans">DavidRedFox，Serpy</text>
+<text name="credits_hyperspace_loc_pl" language="zh-Hans">波兰语</text>
+<text name="credits_hyperspace_loc_pl_names" language="zh-Hans">Marcinus，Palon</text>
+<text name="credits_hyperspace_loc_pt_BR" language="zh-Hans">葡萄牙语（巴西）：</text>
+<text name="credits_hyperspace_loc_pt_BR_names" language="zh-Hans">Gabriel Cooper</text>
+<text name="credits_hyperspace_loc_ru" language="zh-Hans">俄语：</text>
+<text name="credits_hyperspace_loc_ru_names" language="zh-Hans">aleev0_o</text>
+<text name="credits_hyperspace_loc_zn_Hans" language="zh-Hans">简体中文：</text>
+<text name="credits_hyperspace_loc_zn_Hans_names" language="zh-Hans">多元宇宙汉化组</text>
+<text name="credits_hyperspace_loc_ja" language="zh-Hans">日语：</text>
+<text name="credits_hyperspace_loc_ja_names" language="zh-Hans">ranhai</text>
+<text name="credits_hyperspace_loc_kor" language="zh-Hans">韩语：</text>
+<text name="credits_hyperspace_loc_kor_names" language="zh-Hans">nedsociety</text>

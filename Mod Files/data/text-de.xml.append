@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.10.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.11.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -134,6 +134,7 @@
 <text name="beam_length" language="de">Strahllänge: \1</text>
 <text name="pinpoint">Akupunktur</text> <!--No german word exists here so I gave it a bit different name that fits is very good-->
 <text name="swipe_speed" language="de">Strahlgeschwindigkeit: \1</text>
+<text name="max_shots" language="de">Max. Schüsse: \1</text>
 <text name="redesigned_double_damage" language="de">Doppelter Hüllenschaden auf Räumen ohne System oder Subsystem.</text>
 <text name="redesigned_damage_room" language="de">Normaler Schaden pro Raum: \1 (x15 für Crew)</text>
 <text name="redesigned_damage_shot" language="de">Normaler Schaden pro Schuss: \1 (x15 für Crew)</text>
@@ -200,6 +201,7 @@
 -Kurzinfos für Sonderausrüstung
 
 Taste: \1</text>
+<!--
 <text name="hangar_achievements_title_default" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_custom" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_filter" language="de">Filter Schiffserfolge</text>
@@ -217,6 +219,7 @@ Taste: \1</text>
 <text name="discord_victory" language="de">Sieg</text>
 <text name="discord_dead" language="de">Tot</text>
 <text name="discord_mod" language="de"></text>
+-->
 <text name="transfer_save_dialog" language="de">Es scheint als ob du das ersten Mal diese Mod nutzt oder noch keinen neuen Spielstand erstellt hast! Möchtest du deinen Vanilla-Spielstand übertragen oder einen neuen spielstand erstellen? Dein Vanilla-Spielstand wird dadurch nicht verändert oder überschrieben.</text>
 <text name="tooltip_crew_page_down" language="de">Drücken um eine Crewseite nach unten zu gehen. \nDu kannst auch das Mausrad nutzen.</text>
 <text name="tooltip_crew_page_up" language="de">Drücken um eine Crewseite nach oben zu gehen. \nDu kannst auch das Mausrad nutzen.</text>
@@ -234,5 +237,39 @@ Taste: \1</text>
 <text name="warning_pds_all">NEUTRAL!</text>
 <text name="tooltip_PDS_FLEET_ALL" language="de">Die Anti-Schiff Batterien der Flotte feuern auf alle Schiffe im Signalpunkt.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="de">Die Anti-Schiff Batterien der Flotte feuern auf deine Gegner.</text>
-
+<!--Credits-->
+<text name="crewlist_more" language="it"> und mehr</text>
+<text name="thank_ai">Gesteuert durch die präzise verbaute KI</text>
 <text name="font" language="de">"Half-Life 1 + 2"-Schriften mit freundlicher Genehmigung durch freakyfonts.de</text>
+<text name="font_halflife" language="de">"Half-Life 1 + 2"-Schriften mit freundlicher Genehmigung durch freakyfonts.de</text>
+<text name="font_dotgothic" language="de">"DotGothic"-Schriften unter Lizens von Fontworks Inc. genutz</text>
+<text name="credits_loc_ko" language="de">Koreanische Community-Version</text>
+<text name="credits_loc_ko_names" language="de">H20, nedsociety</text>
+<text name="credits_hyperspace_project" language="de">Hyperspace Projekt</text>
+<text name="credits_hyperspace_developed_by" language="de">Entwickelt von:</text>
+<text name="credits_hyperspace_developed_names" language="de">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_art" language="de">Zusätzliche Grafiken:</text>
+<text name="credits_hyperspace_art_names" language="de">SaltyFriedRice</text>
+<text name="credits_hyperspace_contributors" language="de">Zusätzliche Beiträge:</text>
+<text name="credits_hyperspace_contributors_names" language="de">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_loc" language="de">Hyperspace Translators:</text>
+<text name="credits_hyperspace_loc_fr" language="de">Französisch</text>
+<text name="credits_hyperspace_loc_fr_names" language="de">Pepson</text>
+<text name="credits_hyperspace_loc_it" language="de">Italienisch</text>
+<text name="credits_hyperspace_loc_it_names" language="de">RawToast</text>
+<text name="credits_hyperspace_loc_de" language="de">Deutsch</text>
+<text name="credits_hyperspace_loc_de_names" language="de">The Dumb Dino</text>
+<text name="credits_hyperspace_loc_es" language="de">Spanisch</text>
+<text name="credits_hyperspace_loc_es_names" language="de">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_pl" language="de">Polnisch</text>
+<text name="credits_hyperspace_loc_pl_names" language="de">Marcinus, Palon</text>
+<text name="credits_hyperspace_loc_pt_BR" language="de">Brasilianisch-Portugiesisch</text>
+<text name="credits_hyperspace_loc_pt_BR_names" language="de">Gabriel Cooper</text>
+<text name="credits_hyperspace_loc_ru" language="de">Russisch</text>
+<text name="credits_hyperspace_loc_ru_names" language="de">aleev0_o</text>
+<text name="credits_hyperspace_loc_zn_Hans" language="de">Chinesisch</text>
+<text name="credits_hyperspace_loc_zn_Hans_names" language="de">Mwalls</text>
+<text name="credits_hyperspace_loc_ja" language="de">Japanisch</text>
+<text name="credits_hyperspace_loc_ja_names" language="de">ranhai</text>
+<text name="credits_hyperspace_loc_kor" language="de">Koreanisch</text>
+<text name="credits_hyperspace_loc_kor_names" language="de">nedsociety</text>
