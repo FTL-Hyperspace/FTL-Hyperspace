@@ -55,6 +55,10 @@ public:
 
     Setting<bool> showReactor;
 
+    Setting<bool> showMissileCount;
+    Setting<bool> showDroneCount;
+    Setting<bool> showCrewLimit;
+
     Setting<bool> showAllConnections;
 
     Setting<bool> alternateOxygenRendering;
