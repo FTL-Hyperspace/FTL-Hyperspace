@@ -9154,7 +9154,7 @@ void MenuScreen::OnLanguageChange()
 namespace _func714
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MenuScreen::constructor", typeid(void (MenuScreen::*)()), ".415741564155415455534889fb4883ec78", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MenuScreen::constructor", typeid(void (MenuScreen::*)()), ".41564155415455534889fb488d6b784881ece0000000", nullptr, 0, 0, &func);
 }
 
 void MenuScreen::constructor()
