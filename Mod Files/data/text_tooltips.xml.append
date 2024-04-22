@@ -1,5 +1,5 @@
 <text name="tooltip_crew_page_down">Click to go down one page of crew. \nYou can also use the scroll wheel.</text>
-<text name="tooltip_crew_page_up">Click to go down up page of crew. \nYou can also use the scroll wheel.</text>
+<text name="tooltip_crew_page_up">Click to go up one page of crew. \nYou can also use the scroll wheel.</text>
 
 <text name="tooltip_jump_noJump">The enemy ship has disabled your FTL drive. There is no escape; you must defeat the enemy ship if you want to survive!</text>
 

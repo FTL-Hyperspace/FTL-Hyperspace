@@ -181,6 +181,12 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 ParseLanguagesNode(resources, node);
             }
 
+            if (strcmp(node->name(), "customCredits") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomCredits(node);
+            }
+
             // Read event files and other early stuff.
             if (strcmp(node->name(), "events") == 0)
             {
@@ -486,6 +492,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->altLockedMiniships.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "altCreditSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -549,7 +562,6 @@ void Global::InitializeResources(ResourceControl *resources)
                     customOptions->dismissSound.currentValue = "";
                 }
             }
-
 
             if (strcmp(node->name(), "console") == 0)
             {
