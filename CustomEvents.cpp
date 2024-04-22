@@ -1573,16 +1573,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
             if (child->first_attribute("creditsText"))
             {
-                std::string textValue = child->first_attribute("creditsText")->value();
-                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
-                if (parsedText.find("Could not find:") != std::string::npos)
-                {
-                    customEvent->gameOver.creditsText = textValue;
-                }
-                else
-                {
-                    customEvent->gameOver.creditsText = parsedText;
-                }
+                customEvent->gameOver.creditsText = child->first_attribute("creditsText")->value();
             }
             if (child->first_attribute("creditsBackground"))
             {
@@ -2089,16 +2080,7 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             }
             if (child->first_attribute("creditsText"))
             {
-                std::string textValue = child->first_attribute("creditsText")->value();
-                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
-                if (parsedText.find("Could not find:") != std::string::npos)
-                {
-                    customEvent->finalBoss.creditsText = textValue;
-                }
-                else
-                {
-                    customEvent->finalBoss.creditsText = parsedText;
-                }
+                customEvent->finalBoss.creditsText = child->first_attribute("creditsText")->value();
             }
             if (child->first_attribute("creditsBackground"))
             {
@@ -5554,8 +5536,8 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         /* ----- Resources ----- */
         std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
         std::string creditTextThankCrew = G_->GetTextLibrary()->GetText("thank_crew");
-        std::string creditTextThankAi = G_->GetTextLibrary()->GetText("thank_ai", G_->GetTextLibrary()->currentLanguage);
-        std::string creditTextVictory = replaceGameOverCreditsText.empty() ? G_->GetTextLibrary()->GetText("credit_victory") : replaceGameOverCreditsText;
+        std::string creditTextThankAi = G_->GetTextLibrary()->GetText("thank_ai");
+        std::string creditTextVictory = G_->GetTextLibrary()->GetText("credit_victory");
 
         /* ----- Positions ----- */
         int creditTextCentered = 640; // G_->GetResources()->screenWidth / 2
