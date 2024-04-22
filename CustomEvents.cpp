@@ -5644,7 +5644,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
                 creditNamesHorizontal = (nameCount == 1) ? creditTextCentered : creditTextRight;
             }
             if ((currentHeight + scroll) > -creditFile.cutOff && (currentHeight + scroll) < 800) {
-                freetype::easy_printNewlinesCentered(creditNamesFontSize, creditNamesHorizontal, static_cast<int>(currentHeight + scroll), 750, creditFile.names);
+                freetype::easy_printNewlinesCentered(creditNamesFontSize, creditNamesHorizontal, static_cast<int>(currentHeight + scroll), 1280, creditFile.names);
             }
             nameCount++;
             if (nameCount == 3) {
