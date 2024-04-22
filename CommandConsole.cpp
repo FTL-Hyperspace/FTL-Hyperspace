@@ -234,6 +234,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if (cmdName == "CREDITS" || cmdName == "VICTORY")
+    {
+        G_->GetWorld()->commandGui->Victory();
+        return true;
+    }
     if(cmdName == "VARIABLE" || cmdName == "VAR")
     {
         std::vector<std::string> cmdList = std::vector<std::string>();

@@ -338,6 +338,27 @@ HOOK_METHOD(Ship, DestroyedDone, () -> bool)
     return ret;
 }
 
+// Clear super drones when the game is restarted
+HOOK_METHOD(WorldManager, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (CustomBoss.cpp)\n")
+    
+    ShipManager *ship = G_->GetShipManager(0);
+    if (ship && !ship->superDrones.empty())
+    {
+        for (auto drone : ship->superDrones) drone->SetDestroyed(true, false);
+        ship->superDrones.clear();
+    }
+    ship = G_->GetShipManager(1);
+    if (ship && !ship->superDrones.empty())
+    {
+        for (auto drone : ship->superDrones) drone->SetDestroyed(true, false);
+        ship->superDrones.clear();
+    }
+
+    super();
+}
+
 HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperBarrage -> Begin (CustomBoss.cpp)\n")

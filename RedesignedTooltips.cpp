@@ -586,12 +586,10 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), bp, context->getLibScript()->types.pWeaponBlueprint, 0);
     lua_pushstring(context->GetLua(), descText.c_str());
-    int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPON_STATBOX, 2, 1);
-    if (nRet > 0)
-    {
-        descText = lua_tostring(context->GetLua(), -nRet);
-    }
-    lua_pop(context->GetLua(), nRet + 2);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_STATBOX, 2, 1);
+    if (preempt) return "";
+    if (lua_isstring(context->GetLua(), -1)) descText = lua_tostring(context->GetLua(), -1);
+    lua_pop(context->GetLua(), 2);
     
     return descText;
 }
@@ -671,12 +669,10 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pWeaponBlueprint, 0);
     lua_pushstring(context->GetLua(), descText.c_str());
-    int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPON_DESCBOX, 2, 1);
-    if (nRet > 0)
-    {
-        descText = lua_tostring(context->GetLua(), -nRet);
-    }
-    lua_pop(context->GetLua(), nRet + 2);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_DESCBOX, 2, 1);
+    if (preempt) return "";
+    if (lua_isstring(context->GetLua(), -1)) descText = lua_tostring(context->GetLua(), -1);
+    lua_pop(context->GetLua(), 2);
 
     ret.assign(descText);
     return ret;

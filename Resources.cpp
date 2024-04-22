@@ -181,6 +181,12 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 ParseLanguagesNode(resources, node);
             }
 
+            if (strcmp(node->name(), "customCredits") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomCredits(node);
+            }
+
             // Read event files and other early stuff.
             if (strcmp(node->name(), "events") == 0)
             {
@@ -443,6 +449,21 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "extraShipInfo") == 0)
+            {
+                auto showMissileCount = node->first_attribute("missileCount")->value();
+                customOptions->showMissileCount.defaultValue = EventsParser::ParseBoolean(showMissileCount);
+                customOptions->showMissileCount.currentValue = EventsParser::ParseBoolean(showMissileCount);
+
+                auto showDroneCount = node->first_attribute("droneCount")->value();
+                customOptions->showDroneCount.defaultValue = EventsParser::ParseBoolean(showDroneCount);
+                customOptions->showDroneCount.currentValue = EventsParser::ParseBoolean(showDroneCount);
+
+                auto showCrewLimit = node->first_attribute("crewLimit")->value();
+                customOptions->showCrewLimit.defaultValue = EventsParser::ParseBoolean(showCrewLimit);
+                customOptions->showCrewLimit.currentValue = EventsParser::ParseBoolean(showCrewLimit);
+            }
+
             if (strcmp(node->name(), "showAllConnections") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -469,6 +490,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->altLockedMiniships.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->altLockedMiniships.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "altCreditSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
@@ -534,7 +562,6 @@ void Global::InitializeResources(ResourceControl *resources)
                     customOptions->dismissSound.currentValue = "";
                 }
             }
-
 
             if (strcmp(node->name(), "console") == 0)
             {

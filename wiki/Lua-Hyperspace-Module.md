@@ -18,22 +18,24 @@ All calls are under `Hyperspace`
    - Returns the main instance of `Global`. Always use this to access any members and methods belonging to this class.
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
-- `CApp :GetCApp()`
-   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class.
+- `CApp :GetCApp()` 
+   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class, or the shortcut `Hyperspace.App`.
 - `ShipInfo :GetShipInfo(bool enemy)`
    - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
 - `BlueprintManager :GetBlueprints()`
-   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class.
+   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class, or the shortcut `Hyperspace.Blueprints`.
 - `SoundControl :GetSoundControl()`
-   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
+   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class, or the shortcut `Hyperspace.Sounds`.
 - `AnimationControl :GetAnimationControl()`
-   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
+   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class, or the shortcut `Hyperspace.Animations`.
 - `ScoreKeeper :GetScoreKeeper()`
-   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class.
+   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class, or the shortcut `Hyperspace.Score`.
 - `CrewMemberFactory :GetCrewFactory()`
-   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class.
+   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class, or the shortcut `Hyperspace.CrewFactory`.
 - `MouseControl :GetMouseControl()`
-   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
+   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
+- `TextLibrary :GetTextLibrary()`
+   - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class, or the shortcut `Hyperspace.Text`.
 
 ### Fields
 - `int` `.currentSeed`
@@ -1435,6 +1437,13 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+
+## TextLibrary
+
+### Methods
+
+- `std::string :GetText(std::string name)`
+   - Retrieve the corresponding text string from the `text_` xml files in the current language.
 
 ## TextString
 
