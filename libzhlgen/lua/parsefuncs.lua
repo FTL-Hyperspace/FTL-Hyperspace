@@ -3,12 +3,11 @@ local cparser = require("cparser")
 local lfs = require("lfs")
 
 -- Currently supported "HOST" modes
--- i386-*linux* -- GCC
--- i386-*mingw* -- Windows GCC
+-- i386-*linux* -- GCC/LLVM
+-- i386-*mingw* -- Windows GCC (or LLVM)
 -- i386-*windows* -- MSVC
--- Planned:
--- x86_64-*linux* -- GCC
--- x86_64-*darwin -- GCC
+-- x86_64-*linux* -- GCC/LLVM
+-- x86_64-*darwin -- LLVM
 
 local arch
 local archPushSize = 4 -- Bytes of default register/stack push size for the CPU architecture
@@ -69,6 +68,26 @@ if string.find(mode, "linux") ~= nil then
 			[ "map" ] = 48
 		}
     end
+elseif string.find(mode, "darwin") ~= nil then
+    -- compiler = "gcc"
+    useStackAlignment = true
+    isPOSIX = true
+	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
+    saveAllRegistersForSomeReason = false
+    useNaked = true
+    recordClobberedRegisters = true
+	if arch == "i386" then
+		error("32-bit Darwin is not supported")
+	elseif arch == "x86_64" then
+		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
+		stdNamespaceSizes = {
+			[ "string" ] = 28,
+			[ "vector" ] = 24,
+			[ "set" ] = 48, -- Unknown if correct
+			[ "pair" ] = 8,
+			[ "map" ] = 48
+		}
+    end
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
@@ -98,8 +117,6 @@ elseif string.find(mode, "mingw") ~= nil then
         error("64-bit x86 is not yet supported for Windows MinGW")
     end
     -- compiler = "gcc"
-elseif string.find(mode, "darwin") ~= nil then
-    error("OSX/iOS Not Supported")
 else
     error("Unsupported OS")
 end
