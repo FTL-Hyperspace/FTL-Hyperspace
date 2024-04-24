@@ -19,7 +19,9 @@
 #include "MainMenu.h"
 #include "CustomBoss.h"
 #include "CustomStore.h"
+#ifdef USE_DISCORD
 #include "DiscordIntegration.h"
+#endif // USE_DISCORD
 #include "CustomDrones.h"
 #include "Seeds.h"
 #include "SaveFile.h"
@@ -715,7 +717,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                 }
             }
-            #ifndef SKIPDISCORD
+            #ifdef USE_DISCORD
             if (strcmp(node->name(), "discord") == 0)
             {
                 auto enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
@@ -745,7 +747,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     DiscordHandler::GetInstance()->SetLargeImageText(details);
                 }
             }
-            #endif // WIN32
+            #endif // USE_DISCORD
             if (strcmp(node->name(), "saveFile") == 0)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);

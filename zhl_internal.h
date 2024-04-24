@@ -26,7 +26,6 @@ public:
 class FunctionDefinition : public Definition
 {
 private:
-	char _shortName[128];
 	char _name[256];
 
 	char _sig[512];
