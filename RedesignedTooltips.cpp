@@ -648,16 +648,14 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
         std::string newDesc = weaponDef->advancedDescriptionOverride.GetText();
 
         ret.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
-        return ret;
     }
     else if (!weaponDef->descriptionOverride.data.empty())
     {
         std::string newDesc = weaponDef->descriptionOverride.GetText();
 
         ret.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
-        return ret;
     }
-    else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
+    else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue)
     {
         descText += this->desc.description.GetText() + "\n\n";
         descText += tLib->GetText("description_stats") + "\n";
@@ -667,17 +665,299 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->desc.cost));
         descText += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(this->desc.cost / 2));
         descText += "\n";
+        ret.assign(descText);
+    }
+    else
+    {
+        descText += this->desc.description.GetText() + "\n\n";
+
+        currentText = tLib->GetText("required_power");
+        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->power)) + "\n";
+
+        currentText = tLib->GetText("charge_time");
+
+        std::stringstream cooldownString;
+        cooldownString << this->cooldown;
+
+
+        descText += boost::algorithm::replace_all_copy(currentText, "\\1", cooldownString.str()) + "\n";
+
+        if (this->boostPower.count > 1)
+        {
+            std::string boostType = "";
+
+            if (this->boostPower.type == 2)
+            {
+                boostType += tLib->GetText("boost_power_damage") + "\n";
+
+                int dmg = this->damage.iIonDamage;
+                if (dmg <= 0)
+                {
+                    dmg = this->damage.iDamage;
+                }
+
+                std::stringstream damageCapString;
+                damageCapString << (this->boostPower.count * this->boostPower.amount + dmg);
+
+                currentText = tLib->GetText("damage_cap");
+                boostType += boost::algorithm::replace_all_copy(currentText, "\\1", damageCapString.str()) + "\n";
+            }
+            else
+            {
+                boostType += tLib->GetText("boost_power_speed") + "\n";
+
+                currentText = tLib->GetText("speed_cap");
+
+                std::stringstream speedCapString;
+                speedCapString << this->cooldown - (this->boostPower.count * this->boostPower.amount);
+
+                boostType += boost::algorithm::replace_all_copy(currentText, "\\1", speedCapString.str()) + "\n";
+            }
+
+            descText += boostType;
+        }
+
+        if (this->missiles > 0)
+        {
+            descText += tLib->GetText("requires_missiles") + "\n";
+        }
+
+        if ((this->type == 0 || this->type == 1) && this->shots > 0)
+        {
+            currentText = tLib->GetText("shots");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->shots)) + "\n";
+        }
+
+        if (this->type == 4)
+        {
+            currentText = tLib->GetText("shots");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->miniCount)) + "\n";
+        }
+
+        if (this->chargeLevels > 1)
+        {
+            currentText = tLib->GetText("charge");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->chargeLevels)) + "\n";
+        }
+
+        if (this->type == 2)
+        {
+            currentText = tLib->GetText("damage_room");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->damage.iDamage)) + "\n";
+        }
+        else
+        {
+            currentText = tLib->GetText("damage_shot");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->damage.iDamage)) + "\n";
+        }
+
+        if (this->damage.iShieldPiercing != 0)
+        {
+            currentText = tLib->GetText("shield_piercing");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->damage.iShieldPiercing)) + "\n";
+        }
+
+        if (this->damage.fireChance > 0)
+        {
+            currentText = tLib->GetText("fire_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(this->damage.fireChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (this->damage.fireChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (this->damage.fireChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+
+        }
+        if (this->damage.breachChance > 0)
+        {
+            currentText = tLib->GetText("breach_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(this->damage.breachChance * 10));
+            boost::algorithm::replace_all(currentText, "\\2", std::to_string(this->damage.breachChance * 10 - this->damage.fireChance * this->damage.breachChance));
+
+            std::string level = tLib->GetText("chance_low");
+            if (this->damage.breachChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (this->damage.breachChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\3", level);
+
+            descText += currentText + "\n";
+        }
+
+        if (this->damage.iIonDamage != 0)
+        {
+            currentText = tLib->GetText("ion_damage");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->damage.iIonDamage)) + "\n";
+        }
+        if (this->damage.iStun > 0 && Settings::GetDlcEnabled())
+        {
+            currentText = tLib->GetText("stun_damage");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(this->damage.iStun)) + "\n";
+        }
+        else if (this->damage.stunChance > 0 && Settings::GetDlcEnabled())
+        {
+            currentText = tLib->GetText("stun_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(this->damage.stunChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (this->damage.stunChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (this->damage.stunChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage->erosionChance > 0)
+        {
+            currentText = tLib->GetText("erosion_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->erosionChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage->erosionChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage->erosionChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+
+            currentText = tLib->GetText("erosion_effect");
+
+            std::stringstream stream;
+            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed * weaponDef->customDamage->erosionEffect.erosionTime * 0.16f;
+            boost::algorithm::replace_all(currentText, "\\1", stream.str());
+
+            stream.str("");
+            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionTime;
+            boost::algorithm::replace_all(currentText, "\\2", stream.str());
+
+            stream.str("");
+            stream << std::setprecision(2) << weaponDef->customDamage->erosionEffect.erosionSpeed;
+            boost::algorithm::replace_all(currentText, "\\3", stream.str());
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage->statBoostChance > 0)
+        {
+            currentText = tLib->GetText("crew_statboost_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->statBoostChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage->statBoostChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage->statBoostChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage->roomStatBoostChance > 0)
+        {
+            currentText = tLib->GetText("room_statboost_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->roomStatBoostChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage->roomStatBoostChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage->roomStatBoostChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage->crewSpawnChance > 0)
+        {
+            currentText = tLib->GetText("crew_spawn_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage->crewSpawnChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage->crewSpawnChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage->crewSpawnChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        int persDamage = this->damage.iPersDamage;
+        if (weaponDef->customDamage->noPersDamage) persDamage -= this->damage.iDamage;
+        if (persDamage != 0)
+        {
+            currentText = tLib->GetText("personnel_damage");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(persDamage * 15)) + "\n";
+        }
+        int sysDamage = this->damage.iSystemDamage;
+        if (weaponDef->customDamage->noSysDamage) sysDamage -= this->damage.iDamage;
+        if (sysDamage != 0)
+        {
+            currentText = tLib->GetText("system_damage");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(sysDamage)) + "\n";
+        }
+        if (this->damage.bHullBuster)
+        {
+            descText += tLib->GetText("double_damage") + "\n";
+        }
+        if (weaponDef->freeMissileChance > 0)
+        {
+            currentText = tLib->GetText("free_missile_chance");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
+        }
+        if (weaponDef->customDamage->accuracyMod != 0)
+        {
+            currentText = tLib->GetText("accuracy_modifier");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage->accuracyMod)) + "\n";
+        }
+        ret.assign(descText);
     }
 
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pWeaponBlueprint, 0);
-    lua_pushstring(context->GetLua(), descText.c_str());
+    lua_pushstring(context->GetLua(), ret.c_str());
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_DESCBOX, 2, 1);
     if (preempt) return "";
-    if (lua_isstring(context->GetLua(), -1)) descText = lua_tostring(context->GetLua(), -1);
+    if (lua_isstring(context->GetLua(), -1)) ret = lua_tostring(context->GetLua(), -1);
     lua_pop(context->GetLua(), 2);
 
-    ret.assign(descText);
     return ret;
 }
 
