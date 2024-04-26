@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <boost/algorithm/string/predicate.hpp>
 
-std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, int droneSpeed = 0)
+std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, int dronePower = 0, int droneSpeed = 0)
 {
     auto tLib = G_->GetTextLibrary();
     std::string descText = "";
@@ -20,6 +20,9 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
 
     if (drone)
     {
+        currentText = G_->GetTextLibrary()->GetText("required_power");
+        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(dronePower)) + "\n";
+        descText += G_->GetTextLibrary()->GetText("drone_required") + "\n\n";
         currentText = tLib->GetText("drone_speed");
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneSpeed)) + "\n\n";
     }
@@ -848,6 +851,18 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
     super(bp, 2, hasDroneSystem, yShift);
 }
 
+static bool g_emptyDroneStatText = false;
+HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomLocalization.cpp)\n")
+
+    if (g_emptyDroneStatText && (name == "required_power" || name == "drone_required"))
+    {
+        return "";
+    }
+    return super(name, lang);
+}
+
 HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintDrone -> Begin (RedesignedTooltips.cpp)\n")
@@ -864,95 +879,103 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
     if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue)
     {
-        if (!bp->weaponBlueprint.empty() && (CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue))
+        if (!bp->weaponBlueprint.empty() && CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue)
         {
             auto droneBp = G_->GetBlueprints()->GetWeaponBlueprint(bp->weaponBlueprint);
             auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(droneBp->name);
             auto tLib = G_->GetTextLibrary();
 
-            if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
+            if (bp->typeName == "COMBAT")
             {
-                if (bp->typeName == "COMBAT")
+                newDesc += GetWeaponStatsString(droneBp, true, bp->power, bp->speed);
+            }
+            else
+            {
+                newDesc += "\n\n";
+                newDesc += tLib->GetText("description_stats") + "\n";
+                currentText = G_->GetTextLibrary()->GetText("required_power");
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->power)) + "\n";
+                newDesc += G_->GetTextLibrary()->GetText("drone_required") + "\n\n";
+                switch (bp->targetType)
                 {
-                    newDesc += GetWeaponStatsString(droneBp, true, bp->speed);
+                case 1:
+                    currentText = tLib->GetText("defense_drone_projectile_target_solid");
+                    break;
+                case 2:
+                    currentText = tLib->GetText("defense_drone_projectile_target_asteroid");
+                    break;
+                case 3:
+                    currentText = tLib->GetText("defense_drone_drone_target_all");
+                    break;
+                case 4:
+                    currentText = tLib->GetText("defense_drone_projectile_target_all");
+                    break;
+                case 5:
+                    currentText = tLib->GetText("defense_drone_drone_target_solid_projectiles");
+                    break;
+                case 6:
+                    currentText = tLib->GetText("defense_drone_drone_target_all_projectiles");
+                    break;
+                default:
+                    currentText = tLib->GetText("defense_drone_projectile_target_unknown");
+                }
+                newDesc += currentText + "\n";
+                currentText = tLib->GetText("defense_drone_reload_speed");
+                std::stringstream stream;
+                stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+
+                stream.str("");
+                currentText = tLib->GetText("defense_drone_projectile_speed");
+                if (droneBp->speed != 0)
+                {
+                    stream << std::fixed << std::setprecision(0) << droneBp->speed;
+                    newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
                 }
                 else
                 {
-                    newDesc += "\n\n";
-                    newDesc += tLib->GetText("description_stats") + "\n";
-                    switch (bp->targetType)
-                    {
-                    case 1:
-                        currentText = tLib->GetText("defense_drone_projectile_target_solid");
-                        break;
-                    case 2:
-                        currentText = tLib->GetText("defense_drone_projectile_target_asteroid");
-                        break;
-                    case 3:
-                        currentText = tLib->GetText("defense_drone_drone_target_all");
-                        break;
-                    case 4:
-                        currentText = tLib->GetText("defense_drone_projectile_target_all");
-                        break;
-                    case 5:
-                        currentText = tLib->GetText("defense_drone_drone_target_solid_projectiles");
-                        break;
-                    case 6:
-                        currentText = tLib->GetText("defense_drone_drone_target_all_projectiles");
-                        break;
-                    default:
-                        currentText = tLib->GetText("defense_drone_projectile_target_unknown");
-                    }
-                    newDesc += currentText + "\n";
-                    currentText = tLib->GetText("defense_drone_reload_speed");
-                    std::stringstream stream;
-                    stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;
+                    stream << std::fixed << std::setprecision(0) << 60;
                     newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+                }
 
-                    stream.str("");
-                    currentText = tLib->GetText("defense_drone_projectile_speed");
-                    if (droneBp->speed != 0)
+                if ((bp->targetType == 3) &&
+                    weaponDef->customDamage->droneAccuracyMod != 0)
+                {
+                    currentText = tLib->GetText("accuracy_modifier");
+                    newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage->droneAccuracyMod)) + "\n";
+                }
+
+                stream.str("");
+                currentText = tLib->GetText("defense_drone_orbit_speed");
+                stream << std::fixed << std::setprecision(0) << bp->speed;
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+                if (droneBp->type == 4)
+                {
+                    newDesc += "\n\n";
+                    if (weaponDef->angularRadius != -1.f)
                     {
-                        stream << std::fixed << std::setprecision(0) << droneBp->speed;
+                        stream.str("");
+                        currentText = tLib->GetText("shot_radius_angular");
+                        stream << std::fixed << std::setprecision(2) << weaponDef->angularRadius;
                         newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
                     }
-                    else
+                    else if (droneBp->radius > 0)
                     {
-                        stream << std::fixed << std::setprecision(0) << 60;
-                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+                        currentText = tLib->GetText("shot_radius");
+                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->radius)) + "\n";
                     }
-
-                    if ((bp->targetType == 3) &&
-                        weaponDef->customDamage->droneAccuracyMod != 0)
-                    {
-                        currentText = tLib->GetText("accuracy_modifier");
-                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage->droneAccuracyMod)) + "\n";
-                    }
-
-                    stream.str("");
-                    currentText = tLib->GetText("defense_drone_orbit_speed");
-                    stream << std::fixed << std::setprecision(0) << bp->speed;
-                    newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
-                    if (droneBp->type == 4)
-                    {
-                        newDesc += "\n\n";
-                        if (weaponDef->angularRadius != -1.f)
-                        {
-                            stream.str("");
-                            currentText = tLib->GetText("shot_radius_angular");
-                            stream << std::fixed << std::setprecision(2) << weaponDef->angularRadius;
-                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
-                        }
-                        else if (droneBp->radius > 0)
-                        {
-                            currentText = tLib->GetText("shot_radius");
-                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->radius)) + "\n";
-                        }
-                        currentText = tLib->GetText("shots");
-                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->miniCount));
-                    }
+                    currentText = tLib->GetText("shots");
+                    newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->miniCount));
                 }
             }
+        }
+        else
+        {
+            newDesc += "\n\n";
+            newDesc += G_->GetTextLibrary()->GetText("description_stats") + "\n";
+            currentText = G_->GetTextLibrary()->GetText("required_power");
+            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->power)) + "\n";
+            newDesc += G_->GetTextLibrary()->GetText("drone_required");
         }
 
         newDesc += "\n\n";
@@ -964,12 +987,14 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
         newBp.desc.description.data.assign(newDesc);
         newBp.desc.description.isLiteral = true;
 
+        g_emptyDroneStatText = true;
         super(&newBp, status, hasDroneSystem, yShift);
+        g_emptyDroneStatText = false;
 
         Pointf titleSize = freetype::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
         Pointf descSize = freetype::easy_measurePrintLines(10, 0, 0, descBoxSize.x, newDesc);
 
-        Pointf boxSize = titleSize + descSize + Pointf(0, 84.f);
+        Pointf boxSize = titleSize + descSize + Pointf(0, 45.f);
         boxSize.y = std::max(boxSize.y, 162.f);
 
         delete primaryBox;
