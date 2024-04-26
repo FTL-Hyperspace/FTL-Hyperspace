@@ -79,7 +79,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | N/A | ~~ON_INIT~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code on the start of a run (and loading a run), currently handled by `script.on_init` this internal event will potentially replace it~~ |
 | N/A | ~~ON_LOAD~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code after the game is loaded (currently after hyperspace.xml is initialized but might change to on main menu loading so all Lua is ready first), currently handled by `script.on_load` this internal event will potentially replace it~~ |
 | N/A | ~~PLAYERSHIP_ON_HULL_DAMAGE~~ | ~~`int damage`~~ | ~~`int` hull value~~ | ~~Detect damage to the player ship & return a value of the final hull hitpoints, returning 0 will blow up the ship. Receiving a negative value implies healing~~ |
-| 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats |
+| 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
 | 1.11.0 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
 | 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine` | `string firstLine`, `string secondLine` | Change the text displayed for the player weapon cooldown timers |
 | 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
