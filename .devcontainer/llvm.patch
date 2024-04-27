@@ -1,6 +1,8 @@
---- a/clang/lib/CodeGen/TargetInfo.cpp	Mon Oct 10 12:58:21 2022
-+++ b/clang/lib/CodeGen/TargetInfo.cpp	Mon Oct 10 12:57:14 2022
-@@ -1864,10 +1864,6 @@
+diff --git a/clang/lib/CodeGen/Targets/X86.cpp b/clang/lib/CodeGen/Targets/X86.cpp
+index 94cf0d86f..d3b622204 100644
+--- a/clang/lib/CodeGen/Targets/X86.cpp
++++ b/clang/lib/CodeGen/Targets/X86.cpp
+@@ -801,10 +801,6 @@ ABIArgInfo X86_32ABIInfo::classifyArgumentType(QualType Ty, CCState &State,
      if (RT && RT->getDecl()->hasFlexibleArrayMember())
        return getIndirectResult(Ty, true, State);
  

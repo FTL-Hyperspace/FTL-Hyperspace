@@ -40,6 +40,16 @@ swig_add_library(
     LANGUAGE lua
     SOURCES ${swigfiles}
 )
+set_property(
+    TARGET Hyperspace
+    PROPERTY SWIG_DEPENDS
+    
+    # These files should be generated prior to SWIG codegen. 
+
+    FTLGameELF32.h
+    FTLGameELF64.h
+    FTLGameWin32.h
+)
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
 target_include_directories(
     Hyperspace PRIVATE
@@ -281,10 +291,20 @@ add_custom_command(
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# TODO: https://stackoverflow.com/a/61814218/3567518
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp.temp ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
     COMMAND bash ./generateVersion.sh
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+file(GLOB_RECURSE zhl_input CONFIGURE_DEPENDS "libzhlgen/test/functions/*")
+add_custom_command(
+    OUTPUT
+        ${CMAKE_CURRENT_SOURCE_DIR}/FTLGameELF32.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FTLGameELF64.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FTLGameWin32.h
+    DEPENDS ${zhl_input}
+    COMMAND ./libzhlgen/parsefuncs.sh
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
