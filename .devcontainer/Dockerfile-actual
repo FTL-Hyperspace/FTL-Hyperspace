@@ -41,7 +41,7 @@ RUN cd /mingw-build/mingw-dwarf2-build \
 
 # llvm: Fetch source and patch. Patch details:
 # * ABI incompatibility fix for llvm-project#58255
-RUN git clone -b llvmorg-16.0.6 --single-branch https://github.com/llvm/llvm-project --depth=1 /llvm-build/src \
+RUN git clone -b llvmorg-18.1.4 --single-branch https://github.com/llvm/llvm-project --depth=1 /llvm-build/src \
     && cd /llvm-build/src \
     && patch -p1 -s < /llvm-build/llvm.patch
 
@@ -132,7 +132,7 @@ RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-to
 # This command "overwrites" those intrinsic defs to Clang's ones instead.
 # See https://clang.llvm.org/compatibility.html#vector_builtins for more description.
 RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
-    && cp /usr/local/lib/clang/16/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
+    && cp /usr/local/lib/clang/18/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
 
 # Cleanup apt lists from the image
 RUN rm -rf /var/lib/apt/lists/*
