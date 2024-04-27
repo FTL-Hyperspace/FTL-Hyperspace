@@ -1583,14 +1583,8 @@ struct AsteroidGenerator
 
 struct Blueprint;
 
-struct Description;
-
 struct Description
 {
-	LIBZHL_API Description &copy_assign_1(const Description &other);
-	LIBZHL_API Description &copy_assign_2(Description &other);
-	LIBZHL_API void destructor();
-	
 	TextString title;
 	TextString shortTitle;
 	TextString description;
@@ -2716,7 +2710,6 @@ struct WeaponBlueprint : Blueprint
 	
 	LIBZHL_API std::string GetDescription(bool tooltip);
 	LIBZHL_API void RenderIcon(float scale);
-	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
 	
 	std::string typeName;
@@ -2833,7 +2826,7 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
-	LIBZHL_API void destructor(int __in_chrg);
+	LIBZHL_API void destructor();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -3497,7 +3490,6 @@ struct ShipSelect
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open(int currentId, int currentType);
-	LIBZHL_API void PreSelectShip(int shipType);
 	LIBZHL_API void SelectShip(int shipType);
 	LIBZHL_API void constructor();
 	
@@ -4125,10 +4117,10 @@ struct CrewManifest : FocusWindow
 
 struct Equipment : FocusWindow
 {
-	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2);
-	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo);
+	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void AddToCargo(std::string &name);
-	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void Close();
 	LIBZHL_API std::vector<std::string> GetCargoHold();
 	LIBZHL_API void MouseClick(int mX, int mY);
@@ -4270,6 +4262,7 @@ struct MenuScreen;
 
 struct MenuScreen : FocusWindow
 {
+	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
 	LIBZHL_API void constructor();
@@ -5063,6 +5056,7 @@ struct ShipGraph
 	LIBZHL_API int GetNumSlots(int room);
 	LIBZHL_API bool GetRoomBlackedOut(int room);
 	LIBZHL_API float GetRoomOxygen(int room);
+	LIBZHL_API Globals::Rect GetRoomShape(int room);
 	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API Point GetSlotRenderPosition(int slotId, int roomId, bool intruder);
@@ -6345,6 +6339,7 @@ struct freetype
 	{
 		LIBZHL_API void clean();
 		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void init_bitmap(const void *buffer, int bufferSize, int size, int h);
 		
 		float h;
 		int font;
@@ -6390,7 +6385,7 @@ struct ResourceControl
 	
 	LIBZHL_API GL_Primitive *CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
 	LIBZHL_API GL_Primitive *CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
-	LIBZHL_API freetype::font_data &GetFontData(int size, bool ignoreLanguage);
+	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
 	LIBZHL_API ImageDesc GetImageData(GL_Texture *tex);
 	LIBZHL_API GL_Texture *GetImageId(const std::string &dir);
 	LIBZHL_API bool ImageExists(const std::string &name);
@@ -6721,7 +6716,6 @@ struct Ship : ShipObject
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
-	LIBZHL_API Globals::Ellipse GetBaseEllipse();
 	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
@@ -7815,24 +7809,23 @@ extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowWhite;
-extern LIBZHL_API GL_Primitive **ShipSystem__lockBlue;
-extern LIBZHL_API GL_Primitive **ShipSystem__fireImage;
-extern LIBZHL_API GL_Primitive **ShipSystem__lockHack;
-extern LIBZHL_API GL_Primitive **ShipSystem__manningBarIon;
-extern LIBZHL_API GL_Primitive **ShipSystem__manningBarOff;
-extern LIBZHL_API GL_Primitive **ShipSystem__lockWhite;
-extern LIBZHL_API GL_Primitive **ShipSystem__sabotageImage;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningOutline;
-extern LIBZHL_API GL_Primitive **ShipSystem__manningBarOn;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningWhite;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningGreen;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningYellow;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowBlue;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowRed;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningBarOn;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningBarIon;
+extern LIBZHL_API GL_Primitive **ShipSystem__manningBarOff;
+extern LIBZHL_API GL_Primitive **ShipSystem__lockBlue;
+extern LIBZHL_API GL_Primitive **ShipSystem__lockWhite;
+extern LIBZHL_API GL_Primitive **ShipSystem__lockHack;
+extern LIBZHL_API GL_Primitive **ShipSystem__sabotageImage;
+extern LIBZHL_API GL_Primitive **ShipSystem__fireImage;
 extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;
 extern LIBZHL_API Point *Global_SystemControl_drone_position;
 extern LIBZHL_API TutorialManager *Global_TutorialManager_Tutorial;
-extern LIBZHL_API float *Global_freetype_sil_freetype_outline;
 
 
