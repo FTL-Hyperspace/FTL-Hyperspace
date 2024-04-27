@@ -3,7 +3,7 @@
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
     #if __clang__
     #elif __GNUC__ < 8
         #error "GCC version too old, must be at least version 8"

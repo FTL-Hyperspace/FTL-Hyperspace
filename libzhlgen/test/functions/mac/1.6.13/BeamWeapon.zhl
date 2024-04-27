@@ -5,7 +5,7 @@ cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
 ".554889e54157415641554154534881ec78020000":
 cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
 ".554889e54157415641554154534883ec??4189f64989ff4180bf90030000":
-__thiscall void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
+cleanup __amd64 void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
 
 
 struct BeamWeapon
