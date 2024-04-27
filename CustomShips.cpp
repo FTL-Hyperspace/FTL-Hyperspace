@@ -1007,14 +1007,14 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-static std::vector<std::pair<Animation,int8_t>> extraEngineAnim[2];
+std::vector<std::pair<Animation, int8_t>> extraEngineAnim[2];
 
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
     super(bp);
 
-    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->imgFile + ".xml");
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->layoutFile + ".xml");
     if (xmltext)
     {
         bool hasThrusters = false;
@@ -1199,6 +1199,48 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 }
 
+void Ship::RenderEngineAnimation(bool showEngines, float alpha)
+{
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
+    lua_pushnumber(context->GetLua(), showEngines);
+    lua_pushnumber(context->GetLua(), alpha);
+    
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_ENGINES, 3);
+    if (showEngines && idx >= 0)
+    {
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+        {
+            if (anim.second)
+            {
+                if (anim.second == -1)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+            }
+            else
+            {
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            }
+        }
+    }
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_ENGINES, std::abs(idx), 3);
+
+    lua_pop(context->GetLua(), 3);
+}
+
 HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
@@ -1232,57 +1274,32 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
 
-    // Render hull
-    CSurface::GL_Translate(xPos, yPos, 0.0);
-    CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
-
-    // Render cloak
-    if (alphaCloak > 0.f)
+    if (idx >= 0)
     {
-        if (!shipImageCloak.tex && !cloakImageName.empty())
-        {
-            ResourceControl *resources = G_->GetResources();
-            GL_Texture *image = resources->GetImageId(cloakImageName);
-            shipImageCloak.tex = image;
-            shipImageCloak.w = image ? image->width_ : 1;
-            shipImageCloak.h = image ? image->height_ : 1;
-            cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
-        }
-        CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
-    }
-    CSurface::GL_Translate(-xPos, -yPos, 0.0);
+        // Render hull
+        CSurface::GL_Translate(xPos, yPos, 0.0);
+        CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, alphaHull);
 
-    // Render thruster animations
-    if (engines && bShowEngines)
-    {
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+        // Render cloak
+        if (alphaCloak > 0.f)
         {
-            if (anim.second)
+            if (!shipImageCloak.tex && !cloakImageName.empty())
             {
-                if (anim.second == -1)
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
-                else
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
+                ResourceControl *resources = G_->GetResources();
+                GL_Texture *image = resources->GetImageId(cloakImageName);
+                shipImageCloak.tex = image;
+                shipImageCloak.w = image ? image->width_ : 1;
+                shipImageCloak.h = image ? image->height_ : 1;
+                cloakPrimitive = resources->CreateImagePrimitive(image, shipImageCloak.x, shipImageCloak.y, 0, COLOR_WHITE, 1.f, false);
             }
-            else
-            {
-                anim.first.OnRender(alphaOther, {1.f, 1.f, 1.f, 1.f}, false);
-            }
+            CSurface::GL_RenderPrimitiveWithAlpha(cloakPrimitive, alphaCloak);
         }
+        CSurface::GL_Translate(-xPos, -yPos, 0.0);
+
+        // Render thruster animations
+        RenderEngineAnimation(engines && bShowEngines, alphaOther);
     }
-    
+
     // Lua callback close
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_HULL, std::abs(idx), 2);
     lua_pop(context->GetLua(), 2);
@@ -1296,45 +1313,67 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     }
 }
 
-HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
+HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
-    bool customEngines = bShowEngines && thrustersImage == nullptr;
-    if (customEngines) bShowEngines = false;
-    super(progress);
-    if (customEngines) bShowEngines = true;
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
 
-    if (customEngines)
+    ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
+    float sparkProgress = progress/0.75;
+    float sparkScale = 0.0;
+    float sparkX = 0.0;
+    float sparkY = 0.0;
+
+    // Render hull image
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(shipGraph->shipBox.x, shipGraph->shipBox.y, 0.0);
+    shipImagePrimitive->textureAntialias = iShipId == 0;
+    CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, 1.0 - progress);
+    shipImagePrimitive->textureAntialias = false;
+    CSurface::GL_PopMatrix();
+
+    // Calculate values
+    if (sparkProgress < 1.0)
     {
-        float alpha = 1.f - std::min(progress / 0.75f, 1.f);
-
-        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
+        if (0.0 < sparkProgress)
         {
-            if (anim.second)
+            if (sparkProgress < 0.5)
             {
-                if (anim.second == -1)
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
-                else
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                    CSurface::GL_PopMatrix();
-                }
+                sparkScale = sparkProgress*600.0 + sparkProgress*600.0 + 64.0;
+                sparkX = sparkScale*0.5;
             }
             else
             {
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                sparkX = (sparkProgress - 0.5)*600.0;
+                sparkScale = 600.0 - (sparkX + sparkX);
+                sparkX = sparkScale*0.5;
             }
         }
     }
+    else
+    {
+        sparkProgress = 1.0;
+    }
+    if (iShipId == 0)
+    {
+        sparkY = (float)(shipGraph->shipBox.h/2) - sparkX;
+        sparkX = -sparkScale*0.5 + (float)shipGraph->shipBox.w*sparkProgress;
+    }
+    else
+    {
+        sparkY = (float)shipGraph->shipBox.h;
+        sparkY = (sparkY - sparkX) - sparkY*sparkProgress;
+        sparkX = (float)(shipGraph->shipBox.w/2) - sparkX;
+    }
+
+    // Render thrusters
+    RenderEngineAnimation(bShowEngines, 1.f - sparkProgress);
+
+    // Render jump spark
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(shipGraph->shipBox.x + sparkX, shipGraph->shipBox.y + sparkY, 0.0);
+    CSurface::GL_Scale(sparkScale*0.015625, sparkScale*0.015625, 0.0);
+    CSurface::GL_BlitPixelImage(jumpGlare, 0.0, 0.0, 64.0, 64.0, 0.0, COLOR_WHITE, false);
+    CSurface::GL_PopMatrix();
 }
 
 // save and load rooms

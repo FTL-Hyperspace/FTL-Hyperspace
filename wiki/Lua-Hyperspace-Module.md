@@ -18,19 +18,118 @@ All calls are under `Hyperspace`
    - Returns the main instance of `Global`. Always use this to access any members and methods belonging to this class.
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
-- `CApp :GetCApp()`
-   - Returns the main instance of `CApp`. Always use this to access any members and methods belonging to the `CApp` class.
+- `CApp :GetCApp()` 
+   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class, or the shortcut `Hyperspace.App`.
+- `ShipInfo :GetShipInfo(bool enemy)`
+   - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
 - `BlueprintManager :GetBlueprints()`
-   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class.
+   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class, or the shortcut `Hyperspace.Blueprints`.
 - `SoundControl :GetSoundControl()`
-   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
+   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class, or the shortcut `Hyperspace.Sounds`.
 - `AnimationControl :GetAnimationControl()`
-   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
-   
+   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class, or the shortcut `Hyperspace.Animations`.
+- `ScoreKeeper :GetScoreKeeper()`
+   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class, or the shortcut `Hyperspace.Score`.
+- `CrewMemberFactory :GetCrewFactory()`
+   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class, or the shortcut `Hyperspace.CrewFactory`.
+- `MouseControl :GetMouseControl()`
+   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
+- `TextLibrary :GetTextLibrary()`
+   - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class, or the shortcut `Hyperspace.Text`.
+
 ### Fields
 - `int` `.currentSeed`
    - **Read-only**
    - The seed for the run.
+
+## CApp
+
+### Methods
+
+- `void :OnExit()`
+   - Close game, autosave profile and settings but not current run (current run will be on previous autosave).
+- `void :OnRequestExit()`
+   - Close game, autosave run, profile, and settings.
+
+### Fields
+
+- [`CommandGui`](#CommandGui) `.gui`
+- [`WorldManager`](#WorldManager) `.world`
+- `MainMenu` `.menu`
+   - **Read-only**
+
+## ShipInfo
+
+### Fields
+
+- `std::map<std::string, int>` `.augList`
+
+## WorldManager
+
+### Methods
+
+- `bool :AddBoarders(BoardingEvent boardingEvent)`
+- `void :ClearLocation()`
+	
+### Fields
+
+- `SpaceManager` `.space`
+   - **Read-only**
+- `int` `.currentDifficulty`
+   - **Read-only**
+- [`StarMap`](#StarMap) `.starMap`
+   - **Read-only**
+- `bool` `.bStartedGame`
+   - **Read-only**
+- `bool` `.bLoadingGame`
+   - **Read-only**
+
+## MouseControl
+
+### Methods
+
+- `void :InstantTooltip()`
+- `Point :MeasureTooltip(int width)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :QueueStaticTooltip(Point pos)`
+- `void :RenderTooltip(Point tooltipPoint, bool staticPos)`
+- `void :Reset()`
+- `void :ResetArmed()`
+- `void :SetDoor(int state)`
+- `void :SetTooltip(const std::string &tooltip)`
+- `void :SetTooltipTitle(const std::string &tooltip)`
+	
+### Fields
+
+- `Point` `.position`
+- `Point` `.lastPosition`
+- `int` `.aiming_required`
+- `int` `.iTeleporting`
+- `int` `.iMindControlling`
+- `bool` `.bSellingStuff`
+- `bool` `.valid`
+- `bool` `.newHover`
+- `bool` `.lastValid`
+- `int` `.animateDoor`
+- `GL_Texture*` `.validPointer`
+- `GL_Texture*` `.invalidPointer`
+- `GL_Texture*` `.selling`
+- `Animation` `.openDoor`
+- `std::string` `.tooltip`
+- `float` `.tooltipTimer`
+- `bool` `.bMoving`
+- `bool` `.bHideMouse`
+- `GL_Texture*` `.lastIcon`
+- `GL_Texture*` `.lastAddition`
+- `bool` `.bForceTooltip`
+- `std::string` `.tooltipTitle`
+- `std::string` `.lastTooltipText`
+- `int` `.iHacking`
+- `int` `.overrideTooltipWidth`
+- `Point` `.staticTooltip`
+
+
 
 ## PrintHelper
 The members held by this class determine how the `print` function displays messages.
@@ -55,29 +154,41 @@ The members held by this class determine how the `print` function displays messa
 - `bool` `.useSpeed`
    - Whether the speed at which messages are cleared scales with game speed. Default is `false`.
 
-## ShipManager
-Extends [Targetable](#targetable) & Collidable
+## ShipObject
 
 ### Methods
-- ~~`void :AddAugmentation(string augmentName)`~~ (Not yet available, suggested to do via events instead)
-- ~~`void :ClearShipInfo`~~
-- `int :GetAugmentationCount`
-   - Returns how many augments are on the ship
-- `string[] :GetAugmentationList`
-   - Returns a `std::vector<std::string>` of augmentations, in Lua you can handle this as if it was an array of strings.
+- `void :AddAugmentation(string augmentName)`
+   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+- `void :RemoveAugmentation(string augmentName)`
+   - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
+- `void :ClearShipInfo()`
+- `int :GetAugmentationCount()`
+   - Returns the number of augments on the ship.
+- `string[] :GetAugmentationList()`
+   - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
 - `float :GetAugmentationValue(string augmentName)`
-   - Returns the value of the augmentation, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
-- `bool :HasAugmentation(string augmentName)`
+   - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
+- `int :HasAugmentation(string augmentName)`
+   - Returns the number of the given augment you have, NOT a bool.
+- ~~`void :AddEquipment(string equipmentName)`~~
+- ~~`void :RemoveEquipment(string equipmentName, bool completely)`~~
 - `bool :HasEquipment(string equipmentName)`
-- ~~`void :RemoveAugmentation(string augmentName)`~~ (Disabled, probably preferred to be done via events)
+   - Returns a bool indicating whether you have the blue options for the specified equipment.
+
+## ShipManager
+Extends [ShipObject](#shipobject)
+
+As ShipManager extends ShipObject, the methods of ShipObject can be called from ShipManager.
+
+### Methods
 - `Pointf :GetRandomRoomCenter()`
    - Chooses a random room on the ship and returns the center point of that room
 - `Pointf :GetRoomCenter(int roomId)`
    - Gets the room center point of a specific room id.
 - `std::pair<int, int> :GetAvailablePower()`
    - First element of the pair is the maximum reactor power, the second element is the available reactor power.
-- ~~`:AddCrewMemberFromBlueprint`~~
-- ~~`:AddCrewMemberFromString`~~
+- `CrewMember* :AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
+- `CrewMember* :AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)`
 - ~~`:AddDrone`~~
 - ~~`:AddEquipmentFromList`~~
 - ~~`:AddInitialCrew`~~
@@ -181,6 +292,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
 
 ### Fields
+- [`Targetable`](#targetable) `._targetable`
+   - **Read-only**
 - `int` `.iShipId`
    - **Read-only**
    - The ship's ID (0 is player, 1 is enemy)
@@ -227,7 +340,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - **Note:** Vectors are 0 indexed unlike lua's normal arrays
    - Field is **read-only** but fields under this object may still be mutable.
 - ~~`Spreader_Fire` `.fireSpreader`~~
-- ~~`Ship` `.ship`~~
+- `Ship` `.ship`
+   - Field is **read-only** but fields under this object may still be mutable.
 - ~~`char` `.statusMessages[80]`~~
 - ~~`bool` `.bGameOver`~~
 - ~~`ShipManager*` `.current_target`~~ Just use `Hyperspace.ships.enemy` or `Hyperspace.ships.player` depending on the ship you're currently looking at instead.
@@ -302,30 +416,115 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
 ## Targetable
-***Not yet exposed***
 
 ### Methods
-- ~~`Pointf :GetWorldCenterPoint()`~~
-- ~~`Pointf :GetRandomTargettingPoint(bool unk)`~~
-- ~~`std::vector<Pointf> :GetAllTargettingPoints()`~~
-- ~~`Globals::Ellipse :GetShieldShape()`~~
-- ~~`ShieldPower :GetShieldPower()`~~
-- ~~`int :GetSpaceId()`~~
-- ~~`Pointf :GetSpeed()`~~
-- ~~`int :GetOwnerId()`~~
-- ~~`int :GetSelfId()`~~
-- ~~`bool :IsCloaked()`~~
-- ~~`void :DamageTarget(Pointf pos, DamageParameter damage)`~~
-- ~~`bool :GetIsDying()`~~
-- ~~`bool :GetIsJumping()`~~
-- ~~`bool :ValidTarget()`~~
-- ~~`Globals::Rect :GetShape()`~~
+- `Pointf :GetWorldCenterPoint()`
+- `Pointf :GetRandomTargettingPoint(bool unk)`
+- `std::vector<Pointf> :GetAllTargettingPoints()`
+- `Globals::Ellipse :GetShieldShape()`
+- `ShieldPower :GetShieldPower()`
+- `int :GetSpaceId()`
+- `Pointf :GetSpeed()`
+- `int :GetOwnerId()`
+- `int :GetSelfId()`
+- `bool :IsCloaked()`
+- `void :DamageTarget(Pointf pos, DamageParameter damage)`
+- `bool :GetIsDying()`
+- `bool :GetIsJumping()`
+- `bool :ValidTarget()`
+- `Globals::Rect :GetShape()`
 
 ### Fields
-- ~~`int` `.type`~~
-- ~~`bool` `.hostile`~~
-- ~~`bool` `.targeted`~~
+- `int` `.type`
+- `bool` `.hostile`
+- `bool` `.targeted`
 
+## Slot
+
+### Fields
+- `int` `.roomId`
+   - **Read-only**
+- `int ` `.slotId`
+   - **Read-only**
+- `Point` `.worldLocation`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## Ship
+Extends ShipObject
+
+### Methods
+
+-  `bool :BreachRandomHull(int roomId)`
+   -  Breaches a random tile in the room with `roomId` as its id. This can select an already breached tile, in which case nothing will happen.
+-  `int :EmptySlots(int roomId)`
+   -  Returns the number of tiles within the room (Equivalent to the area of the room). I think this marks all tiles in the room as empty, so you can use this to fit more crew than you should in a given room.
+-  `bool :FullRoom(int roomId, bool intruder)`
+   -  Returns true if the room cannot fit any more crew of the allegiance specifies by the `intruder` arg. If `intruder` is false, counts player crew when on the player ship, and enemy crew when on the enemy ship. If `intruder` is true, counts enemy crew when on the player ship, and player crew when on the enemy ship.
+-  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
+-  `Globals::Ellipse GetBaseEllipse()`
+   -  Return `baseEllipse` member by value.
+- `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
+- `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
+   -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
+-  `void LockdownRoom(int roomId, Pointf pos)` 
+   -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well.
+-  `bool RoomLocked(int roomId)`
+   -  Returns true if the room is locked down.
+-  `void SetRoomBlackout(int roomId, bool blackout)`
+   -  When `blackout` is true, hide the room's interior (As if sensors were disabled). When it is false, show the room's interior. Note: This must be done every tick to have an effect.
+-  `void SetSelectedRoom(int roomId)`
+   -  Sets the room to be selected (Yellow outline). Note: Must be done every tick to have an effect.
+
+### Fields
+-  `int` `.iShipId` 
+-  `std::vector<Room*>` `.vRoomList`
+-  `std::vector<Door*>` `.vDoorList`
+-  `std::vector<OuterHull*>` `.vOuterWalls`
+-  `std::vector<OuterHull*>` `.vOuterWalls`
+-  `std::vector<Door*>` `.vOuterAirlocks`
+-  `std::pair<int, int>` `.hullIntegrity`
+-  `std::vector<WeaponMount>` `.weaponMounts`
+-  `std::string` `.floorImageName`
+-  `ImageDesc ` `.shipFloor`
+-  `GL_Primitive*` `.floorPrimitive`
+-  `std::string` `.shipImageName`
+-  `ImageDesc` `.shipImage`
+-  `Point` `.glowOffset`
+-  `GL_Primitive*` `.shipImagePrimitive`
+-  `std::string` `.cloakImageName`
+-  `ImageDesc` `.shipImageCloak`
+-  `GL_Primitive*` `.cloakPrimitive`
+-  `GL_Primitive*` `.gridPrimitive`
+-  `GL_Primitive*` `.wallsPrimitive`
+-  `GL_Primitive*` `.doorsPrimitive`
+-  `std::vector<DoorState>` `.doorState`
+-  `bool` `.lastDoorControlMode`
+-  `GL_Texture*` `.thrustersImage`
+-  `GL_Texture*` `.jumpGlare`
+-  `int` `.vertical_shift`
+-  `int` `.horizontal_shift`
+-  `std::string` `.shipName`
+-  `~~ExplosionAnimation` `.explosion`~~
+-  `bool` `.bDestroyed`
+-  `Globals::Ellipse` `.baseEllipse`
+-  `Animation[2]` `.engineAnim`
+-  `AnimationTracker` `.cloakingTracker`
+-  `bool` `.bCloaked`
+-  `bool` `.bExperiment`
+-  `bool` `.bShowEngines`
+-  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+### Hyperspace Fields
+-  `std::vector<std::pair<Animation, int8_t>>` 
+`extraEngineAnim`
+   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
+   
+   |Value | Rotation                     |
+   | ---: | :--------------------------- |
+   | -1   | 90 Degrees Clockwise         |
+   |  0   | No Rotation                  |
+   |  1   | 90 Degrees Counterclockwise  |
+
+   Note: Pairs are returned by value, and not by reference.
 ## ShipSystem
 
 ### Static methods
@@ -836,6 +1035,8 @@ def.boostSource = Hyperspace.StatBoostDefinition.BoostSource.AUGMENT
 def.shipTarget = Hyperspace.StatBoostDefinition.ShipTarget.ALL
 def.crewTarget = Hyperspace.StatBoostDefinition.CrewTarget.ALL
 def.duration = 10
+def.realBoostId = Hyperspace.StatBoostDefinition.statBoostDefs:size()
+Hyperspace.StatBoostDefinition.statBoostDefs:push_back(def)
 function player_crew_health_boost()
 	local crewList = Hyperspace.ships.player.vCrewList
 	for i = 0, crewList:size() - 1 do
@@ -859,3 +1060,406 @@ local maxHealth, _ = crew.extend:CalculateStat(Hyperspace.CrewStat.MAX_HEALTH)
 local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 -- This will return 0, canMove. Since this is a boolean stat, the value 0 is discarded.
 ```
+- `CrewDefinition* :GetDefinition()`
+    - Returns the CrewMember's [`CrewDefinition`](#CrewDefinition)
+
+   
+## CrewDefinition
+   
+### Fields
+   NOTE: All fields under this object are immutable.
+- `std::string` `.race`
+- `std::vector<std::string>` `.deathSounds`
+- `std::vector<std::string>` `.deathSoundsFemale`
+- `std::vector<std::string>` `.shootingSounds`
+- `std::vector<std::string>` `.repairSounds`
+- `int` `.repairSoundFrame`
+- `bool` `.canFight`
+- `bool` `.canRepair`
+- `bool` `.canSabotage`
+- `bool` `.canMan`
+- `bool` `.canTeleport`
+- `bool` `.canSuffocate`
+- `bool` `.controllable`
+- `bool` `.selectable`
+- `bool` `.canBurn`
+- `int` `.maxHealth`
+- `float` `.stunMultiplier`
+- `float` `.moveSpeedMultiplier`
+- `float` `.repairSpeed`
+- `float` `.damageMultiplier`
+- `float` `.cloneSpeedMultiplier`
+- `float` `.rangedDamageMultiplier`
+- `float` `.doorDamageMultiplier`
+- `bool` `.providesPower`
+- `int` `.bonusPower`
+- `float` `.fireRepairMultiplier`
+- `float` `.suffocationModifier`
+- `bool` `.isTelepathic`
+- `bool` `.resistsMindControl`
+- `bool` `.isAnaerobic`
+- `float` `.fireDamageMultiplier`
+- `bool` `.canPhaseThroughDoors`
+- `float` `.oxygenChangeSpeed`
+- `float` `.damageTakenMultiplier`
+- `float` `.passiveHealAmount`
+- `float` `.truePassiveHealAmount`
+- `float` `.healAmount`
+- `float` `.trueHealAmount`
+- `int` `.passiveHealDelay`
+- `bool` `.detectsLifeforms`
+- `bool` `.hasCustomDeathAnimation`
+- `bool` `.hasDeathExplosion`
+- `std::string` `.animBase`
+- `std::string` `.animSheet[2]`
+- `float` `.sabotageSpeedMultiplier`
+- `float` `.allDamageTakenMultiplier`
+- `int` `.defaultSkillLevel`
+- `float` `.healSpeed`
+- `bool` `.cloneLoseSkills`
+- `float` `.healCrewAmount`
+- `DroneAI` `.droneAI`
+- `bool` `.droneMoveFromManningSlot`
+- `int` `.powerDrain`
+- `bool` `.powerDrainFriendly`
+- `float` `.damageEnemiesAmount`
+- `bool` `.hackDoors`
+- `float` `.powerRechargeMultiplier`
+- `float` `.crewSlots`
+- `bool` `.noSlot`
+- `bool` `.noClone`
+- `bool` `.noAI`
+- `bool` `.validTarget`
+- `ToggleValue<bool>` `.canPunch`
+- `bool` `.canMove`
+- `bool` `.snapToSlot`
+- `bool` `.teleportMove`
+- `bool` `.teleportMoveOtherShip`
+- `float` `.essential`
+- `bool` `.silenced`
+- `float` `.lowHealthThreshold`
+- `float` `.lowHealthThresholdPercentage`
+- `bool` `.noWarning`
+- `std::pair<int,int>` `.shootTimer`
+- `std::pair<int,int>` `.punchTimer`
+- `ExplosionDefinition` `.explosionDef`
+- `std::vector<ActivatedPowerDefinition*>` `.powerDefs`
+- `std::vector<StatBoostDefinition*>` `.passiveStatBoosts`
+- `std::vector<std::string>` `.nameRace`
+- `std::vector<std::string>` `.transformName`
+- `bool` `.changeIfSame`
+- `SkillsDefinition` `.skillsDef`
+
+## GenericButton
+
+### Methods
+
+- `void :Reset()` 
+- `void :SetLocation(Point pos)`
+- `void :SetHitBox(Globals::Rect rect)`
+- `void :SetActive(bool active)`
+- `void :OnLoop()`
+- `void :OnRender()`
+- `void :MouseMove(int x, int y, bool silent)`
+- `void :OnClick()`
+- `void :OnRightClick()`
+- `void :OnTouch()`
+- `void :ResetPrimitives()`
+
+### Fields
+
+- `Point` `.position`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `Globals::Rect` `.hitbox` 
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.allowAnyTouch`
+- `bool` `.touchSelectable`
+- `bool` `.bRenderOff`
+- `bool` `.bRenderSelected`
+- `bool` `.bFlashing`
+- `AnimationTracker` `.flashing`
+- `bool` `.bActive`
+- `bool` `.bHover`
+- `bool` `.bActivated`
+- `bool` `.bSelected`
+- `int` `.activeTouch`
+
+## Button
+
+### Methods
+
+**Extends [`GenericButton`](#GenericButton)**
+- `void :OnInit(const std::string &img, Point pos)`
+- `void :OnRender()`
+- `void :SetActiveImage(GL_Texture *texture)`
+- `void :SetImageBase(const std::string &imageBase)`
+- `void :SetInactiveImage(GL_Texture *texture)`
+- `void :SetLocation(const Point pos)`
+
+### Fields
+- `GL_Texture*[3]` `.images`
+- `GL_Primitive*[3]` `.primitives`
+- `Point` `.imageSize`
+- `bool` `.bMirror`
+
+## EffectsBlueprint
+
+### Fields
+- `std::vector<std::string>` `.launchSounds`
+- `std::vector<std::string>` `.hitShipSounds`
+- `std::vector<std::string>` `.hitShieldSounds`
+- `std::vector<std::string>` `.missSounds`
+- `string` `.image`
+
+## CommandGui
+
+### Fields
+- `ShipStatus` `.shipStatus`
+- `CrewControl` `.crewControl`
+- `SystemControl` `.sysControl`
+- `CombatControl` `.combatControl`
+- `FTLButton` `.ftlButton`
+- `SpaceStatus` `.spaceStatus`
+- ~~`StarMap` `.starMap`~~
+   - Access via `WorldManager` instead.
+- ~~`ShipComplete` `.shipComplete`~~
+- `Point` `.pauseTextLoc`
+- `Point` `.shipPosition`
+- ~~`string` `.locationText`~~
+- ~~`string` `.loadEvent`~~
+- ~~`int` `.loadSector`~~
+- `bool` `.outOfFuel`
+   - **Read-only**
+- `bool` `.bPaused`
+   - **Read-only**
+   - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+- `bool` `.bAutoPaused`
+   - **Read-only**
+   - Maybe true for event pauses and ESC menu pauses? Not sure.
+- `bool` `.menu_pause`
+   - **Read-only**
+   - Probably true for ESC menu pauses.
+- `bool` `.event_pause`
+   - **Read-only**
+   - True for event pauses.
+- `Button` `.upgradeButton`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.dangerLocation`
+   - **Read-only**
+- `Equipment` `.equipScreen`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.bHideUI`
+- `bool` `.jumpComplete`
+   - **Read-only**
+- `int` `.mapId`
+   - **Read-only**
+- `bool` `.secretSector`
+   - **Read-only**
+- `bool` `.choiceBoxOpen`
+   - **Read-only**
+
+## Equipment
+
+### Methods
+- `void :AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)`
+- `void :AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)`
+- `void :AddToCargo(std::string &name)`
+- `void :AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)`
+- `std::vector<std::string> :GetCargoHold()`
+
+## CombatControl
+
+### Fields
+- [`WeaponControl`](#WeaponControl) `weapControl`
+- `Point` `.position`
+- `Point` `.targetPosition`
+- `bool` `.boss_visual`
+   - **Read-only**
+
+## WeaponControl
+**Extends ~~`ArmamentControl`~~**
+### Fields
+- `bool` `.autoFiring`
+   - **Read-only**
+
+## LocationEvent
+
+### Fields
+- [`TextString`](#TextString) `.text`
+- `int` `.environment`
+- `int` `.environmentTarget`
+- `bool` `.store`
+- `bool` `.gap_ex_cleared`
+- `int` `.fleetPosition`
+- `bool` `.beacon`
+- `bool` `.reveal_map`
+- `bool` `.distressBeacon`
+- `bool` `.repair`
+- `int` `.modifyPursuit`
+- `std::string` `.quest`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `std::string` `.eventName`
+- [`BoardingEvent`](#BoardingEvent) `.boarders`
+- `int` `.unlockShip`
+- [`TextString`](#TextString) `.unlockShipText`
+- `bool` `.secretSector`
+- [`std::vector<Choice>`](#Choice) `.choices`
+
+## Choice
+
+**Internal Struct Of [`LocationEvent`](#LocationEvent)**
+
+### Fields
+- [`LocationEvent`](#LocationEvent) `.event`
+- [`TextString`](#TextString) `.text`
+- `bool` `.hiddenReward`
+
+## FocusWindow
+
+### Fields
+- `bool` `.bOpen`
+- `bool` `.bFullFocus`
+- `bool` `.bCloseButtonSelected`
+
+## ChoiceBox
+
+**Extends [`FocusWindow`](#FocusWindow)**
+
+### Fields
+- `std::string` `.mainText`
+- [`std::vector<ChoiceText>`](#ChoiceText) `.choices`
+- `int` `.columnSize`
+- [`std::vector<Globals::Rect>`](#Globals) `.choiceBoxes`
+- `int` `.potentialChoice`
+- `int` `.selectedChoice`
+- `int` `.fontSize`
+- `bool` `.centered`
+- `int` `.gap_size`
+- `float` `.openTime`
+- [`GL_Color`](#GL_Color) `.currentTextColor`
+- `Pointf` `.lastChoice`
+
+## ChoiceText
+
+### Fields
+- `int` `.type`
+- `std::string` `.text`
+
+## CommandGui
+
+### Fields
+- [`ShipStatus`](#ShipStatus) `.shipStatus`
+- [`CrewControl`](#CrewControl) `.crewControl`
+- [`SystemControl`](#SystemControl) `.sysControl`
+- [`CombatControl`](#CombatControl) `.combatControl`
+- [`FTLButton`](#FTLButton) `.ftlButton`
+- [`SpaceStatus`](#SpaceStatus) `.spaceStatus`
+- [`Point`](#Point) `.pauseTextLoc`
+- [`Point`](#Point) `.shipPosition`
+- `bool` `.outOfFuel`
+   - **Read-Only**
+- `bool` `.bPaused`
+   - **Read-Only**
+- `bool` `.bAutoPaused`
+   - **Read-Only**
+- `bool` `.menu_pause`
+   - **Read-Only**
+- `bool` `.event_pause`
+   - **Read-Only**
+- `Button` `.upgradeButton`
+   - **Read-Only**
+- `bool` `.dangerLocation`
+   - **Read-Only**`
+- `bool` `.bHideUI`
+- [`ChoiceBox`](#ChoiceBox) `.choiceBox`
+- `bool` `.jumpComplete`
+   - **Read-Only**
+- `int` `.mapId`
+   - **Read-Only**
+- `bool` `.secretSector`
+   - **Read-Only**
+- `bool` `.choiceBoxOpen`
+   - **Read-Only**
+
+## ScoreKeeper
+
+### Fields
+- [`TopScore`](#TopScore) `.currentScore`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## TopScore
+
+### Fields
+- `int` `.sector`
+- `int` `.score`
+
+## StarMap
+
+### Methods
+
+- `void :ModifyPursuit(int amount)` 
+- `Point :PointToGrid(float x, float y)`
+
+### Fields
+
+- `std::vector<Location>` `.locations`
+   - **Read-only**
+- [`Location`](#Location) `.currentLoc`
+- [`Sector`](#Sector) `.currentSector`
+- `int` `.pursuitDelay`
+- `GL_Primitive` `.ship`
+   - The map icon that rotates around the current location representing the player ship.
+- `GL_Primitive` `.shipNoFuel`
+   - The no fuel variant of the `ship` icon.
+- `int` `.worldLevel`
+   - **Read-only**
+
+## Location
+
+### Fields
+
+- `ImageDesc` `.space`
+- `ImageDesc` `.planet`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `bool` `.known`
+- [`LocationEvent`](#LocationEvent) `.event`
+
+## Sector
+
+### Fields
+- [`SectorDescription`](#SectorDescription) `.description`
+   - Field is **read-only** but fields under this object may still be mutable.
+
+## SectorDescription
+
+### Fields
+- [`TextString`](#TextString) `.name`
+- [`TextString`](#TextString) `.shortName`
+
+## TextLibrary
+
+### Methods
+
+- `std::string :GetText(std::string name)`
+   - Retrieve the corresponding text string from the `text_` xml files in the current language.
+
+## TextString
+
+### Methods
+
+- `std::string :GetText()`
+
+### Fields
+
+- `std::string` `.data`
+- `bool` `.isLiteral`
+
+## Description
+
+### Fields
+
+- [`TextString`](#TextString) `.title`
+- [`TextString`](#TextString) `.shortTitle`
+

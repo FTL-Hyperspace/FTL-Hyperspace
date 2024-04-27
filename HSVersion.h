@@ -6,8 +6,8 @@
 Change the version numbers here
 */
 #define HS_VER_MAJOR 1
-#define HS_VER_MINOR 8
-#define HS_VER_PATCH 0
+#define HS_VER_MINOR 11
+#define HS_VER_PATCH 2
 
 #define BUILD_IDENTIFIER_HASH "unknown_build"
 #define BUILD_BRANCH ""

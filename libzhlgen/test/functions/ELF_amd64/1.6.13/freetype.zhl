@@ -1,4 +1,10 @@
-"554889d089fd5389f34883ec38":
+"89c9534889fbf3480f2ac14889f731c989d631d2":
+cleanup __amd64 void freetype::font_data::init(freetype::font_data *this, const void *buffer, int bufferSize, unsigned int h, bool glow);
+".41544189cc31c955":
+cleanup __amd64 void freetype::font_data::init_bitmap(freetype::font_data *this, const void *buffer, int bufferSize, int size, int h);
+"!.8b7f04e9":
+cleanup __amd64 void freetype::font_data::clean(freetype::font_data *this);
+".554889d089fd5389f34883ec38":
 static cleanup __amd64 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text);
 ".5389fb4883ec30488b36488d54241e":
 static cleanup __amd64 int freetype::easy_measureWidth(int fontSize, const std::string& text);
@@ -14,7 +20,13 @@ static cleanup __amd64 Pointf freetype::easy_printAutoNewlines(int fontSize, flo
 static cleanup __amd64 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string& text);
 ".41578d47cc415641554989cd4154555389fb4883ec5883f801":
 static cleanup __amd64 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string& text);
+".85ff530f8e":
+cleanup __amd64 float font_height(int font_id, float size);
+".85ff530f8e":
+cleanup __amd64 float font_baseline(int font_id, float size);
 
+"!.f30f5905(???????\?)4531c031c9f30f2df0":
+offsetVariable float* Global_freetype_sil_freetype_outline;
 
 struct freetype
 {{

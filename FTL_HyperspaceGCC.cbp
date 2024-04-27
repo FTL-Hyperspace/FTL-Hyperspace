@@ -962,6 +962,12 @@
 		<Unit filename="CustomHotkeys.h">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
+		<Unit filename="CustomLocalization.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomLocalization.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
@@ -1323,13 +1329,7 @@
 		<Unit filename="libzhl.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
-		<Unit filename="lua/InternalEvents.cpp">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
 		<Unit filename="lua/InternalEvents.h">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
-		<Unit filename="lua/LuaLibScript.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/LuaLibScript.h">
@@ -1339,9 +1339,6 @@
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/LuaScriptInit.h">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
-		<Unit filename="lua/RenderEvents.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/RenderEvents.h">

@@ -34,10 +34,12 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.4.0 | SHIP_HULL | On rendering the ship hull, cloak and thruster animations |
 | 1.4.0 | SHIP_FLOOR | Equivalent to `roomAnim` layer 0 |
 | 1.4.0 | SHIP_BREACHES | Equivalent to `roomAnim` layer 1 |
-| 1.3.0 | SHIP_SPARKS| Equivalent to `roomAnim` layer 2 |
+| 1.3.0 | SHIP_SPARKS | Equivalent to `roomAnim` layer 2 |
+| 1.10.0 | SHIP_ENGINES | Thruster animations |
 | N/A | ~~SHIP_EXPLOSION~~ | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
 | 1.2.0 | LAYER_FRONT | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
 | N/A | ~~PAUSE~~ | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
+| 1.10.0 | SPACE_STATUS | On rendering hazard environment icons |
 | N/A | ~~CHOICE~~ | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
@@ -60,9 +62,11 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | :--- | --- | --- | --- | --- |
 | 1.2.0 | ON_TICK | `None` | `None` | Run code every in-game tick (frame), use in combination with other events to turn logic on and off in your code that runs every tick |
 | 1.2.0 | MAIN_MENU | `None` | `None` | Run code when the main menu opens |
+| 1.10.0 | GET_RUN_SEED | `bool isCustomSeed`, `int seed` | `bool isCustomSeed`, `int seed` | Run code when the seed for the run is set |
 | 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is pressed |
 | 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is unpressed |
 | 1.4.0 | ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `None` | Detect mouse movement |
+| 1.9.0 | GUI_MOUSE_MOVE | `int x`, `int y` | `Defines.Chain` chain | Detect mouse movement (to be used for `GenericButton`'s `MouseMove` method) |
 | 1.4.0 | ON_MOUSE_L_BUTTON_DOWN | `int x`, `int y` | `None` | Detect left mouse button is pressed |
 | 1.4.0 | ON_MOUSE_L_BUTTON_UP | `int x`, `int y` | `None` | Detect left mouse button is unpressed |
 | 1.4.0 | ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `None` | Detect right mouse button is pressed |
@@ -71,9 +75,15 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.3.0 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
 | 1.4.0 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
 | 1.8.0 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain` chain, `int` value | Can be used to alter the dodge factor for the given ship |
+| 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
 | N/A | ~~ON_INIT~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code on the start of a run (and loading a run), currently handled by `script.on_init` this internal event will potentially replace it~~ |
 | N/A | ~~ON_LOAD~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code after the game is loaded (currently after hyperspace.xml is initialized but might change to on main menu loading so all Lua is ready first), currently handled by `script.on_load` this internal event will potentially replace it~~ |
 | N/A | ~~PLAYERSHIP_ON_HULL_DAMAGE~~ | ~~`int damage`~~ | ~~`int` hull value~~ | ~~Detect damage to the player ship & return a value of the final hull hitpoints, returning 0 will blow up the ship. Receiving a negative value implies healing~~ |
+| 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
+| 1.11.0 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
+| 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine` | `string firstLine`, `string secondLine` | Change the text displayed for the player weapon cooldown timers |
+| 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
+| 1.11.0 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
 
 ## Other predefined values
 
@@ -87,6 +97,28 @@ For example `Defines.Chain.CONTINUE`
 | CONTINUE | Call the next callback in the sequence if there is one |
 | HALT | Halt the callback loop, but still run subsequent C++ code |
 | PREEMPT | Halt the callback loop and skip subsequent C++ code |
+
+### Evasion
+Used by callbacks to determine whether a projectile hits or misses.
+`Defines.Evasion` table:
+
+For example `Defines.Evasion.HIT`
+| Name | Description |
+| :--- | --- |
+| NONE | Indicates evasion still needs to be checked |
+| HIT | Force projectile to hit |
+| MISS | Force projectile to miss |
+
+### BeamHit
+Used by beam damage callbacks to determine what type of hit is currently being processed.
+`Defines.BeamHit` table:
+
+For example `Defines.BeamHit.NEW_ROOM`
+| Name | Description |
+| :--- | --- |
+| SAME_TILE | Treat beam hit as same tile as last frame |
+| NEW_TILE | Treat beam hit as new tile but same room as last frame |
+| NEW_ROOM | Treat beam hit as new room from last frame |
 
 ### SDL keys
 `Defines.SDL` table:

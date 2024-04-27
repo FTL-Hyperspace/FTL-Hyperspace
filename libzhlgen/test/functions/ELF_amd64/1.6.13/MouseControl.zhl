@@ -14,6 +14,8 @@ cleanup __amd64 void MouseControl::RenderTooltip(MouseControl *this, Point toolt
 cleanup __amd64 void MouseControl::OnRender(MouseControl *this);
 ".534889fb488dbf0001000031d2":
 cleanup __amd64 void MouseControl::Reset(MouseControl *this);
+".415541544989fc55534889f34883ec38":
+cleanup __amd64 void MouseControl::LoadTooltip(MouseControl *this, const std::string& tooltipName);
 ".41544989f4554889fd53488b06488b58e84885db":
 cleanup __amd64 void MouseControl::SetTooltip(MouseControl *this, const std::string& tooltip);
 ".488b8728010000488378e800":

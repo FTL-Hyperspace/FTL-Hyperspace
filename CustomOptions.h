@@ -55,6 +55,10 @@ public:
 
     Setting<bool> showReactor;
 
+    Setting<bool> showMissileCount;
+    Setting<bool> showDroneCount;
+    Setting<bool> showCrewLimit;
+
     Setting<bool> showAllConnections;
 
     Setting<bool> alternateOxygenRendering;
@@ -62,6 +66,10 @@ public:
     Setting<bool> showScrapCollectorScrap;
 
     Setting<bool> preIgniteChargers;
+
+    Setting<bool> altLockedMiniships;
+
+    Setting<bool> altCreditSystem;
 
     Setting<std::string> dismissSound;
 

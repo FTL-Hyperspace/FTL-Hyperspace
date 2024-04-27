@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
 #include "CustomAugments.h"
@@ -18,7 +19,9 @@
 #include "MainMenu.h"
 #include "CustomBoss.h"
 #include "CustomStore.h"
+#ifdef USE_DISCORD
 #include "DiscordIntegration.h"
+#endif // USE_DISCORD
 #include "CustomDrones.h"
 #include "Seeds.h"
 #include "SaveFile.h"
@@ -173,6 +176,17 @@ void Global::PreInitializeResources(ResourceControl *resources)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->EarlyParseShipsNode(node);
+            }
+
+            if (strcmp(node->name(), "languages") == 0)
+            {
+                ParseLanguagesNode(resources, node);
+            }
+
+            if (strcmp(node->name(), "customCredits") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomCredits(node);
             }
 
             // Read event files and other early stuff.
@@ -437,6 +451,21 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "extraShipInfo") == 0)
+            {
+                auto showMissileCount = node->first_attribute("missileCount")->value();
+                customOptions->showMissileCount.defaultValue = EventsParser::ParseBoolean(showMissileCount);
+                customOptions->showMissileCount.currentValue = EventsParser::ParseBoolean(showMissileCount);
+
+                auto showDroneCount = node->first_attribute("droneCount")->value();
+                customOptions->showDroneCount.defaultValue = EventsParser::ParseBoolean(showDroneCount);
+                customOptions->showDroneCount.currentValue = EventsParser::ParseBoolean(showDroneCount);
+
+                auto showCrewLimit = node->first_attribute("crewLimit")->value();
+                customOptions->showCrewLimit.defaultValue = EventsParser::ParseBoolean(showCrewLimit);
+                customOptions->showCrewLimit.currentValue = EventsParser::ParseBoolean(showCrewLimit);
+            }
+
             if (strcmp(node->name(), "showAllConnections") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -456,6 +485,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "altLockedMiniships") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->altLockedMiniships.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->altLockedMiniships.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "altCreditSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
@@ -521,7 +564,6 @@ void Global::InitializeResources(ResourceControl *resources)
                     customOptions->dismissSound.currentValue = "";
                 }
             }
-
 
             if (strcmp(node->name(), "console") == 0)
             {
@@ -675,7 +717,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                 }
             }
-            #ifndef SKIPDISCORD
+            #ifdef USE_DISCORD
             if (strcmp(node->name(), "discord") == 0)
             {
                 auto enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
@@ -705,7 +747,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     DiscordHandler::GetInstance()->SetLargeImageText(details);
                 }
             }
-            #endif // WIN32
+            #endif // USE_DISCORD
             if (strcmp(node->name(), "saveFile") == 0)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);

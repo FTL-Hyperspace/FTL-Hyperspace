@@ -23,6 +23,16 @@ bool bossDefeated = false;
 
 TimerHelper *restartMusicTimer = nullptr;
 
+std::vector<CreditText> creditTextValues;
+std::vector<CreditFinishText> creditFinishTextValues;
+std::vector<CreditFile> creditFileNames;
+float scrollSpeed = 1.f;
+float fadeInSpeed = -0.005f;
+float scrollDelay = 250.f;
+float pauseDuration = 400.f;
+float pausePosition = 675.f;
+int creditNamesFontSize = 14;
+
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
 
 std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, std::string>();
@@ -129,6 +139,327 @@ void CustomEventsParser::EarlyParseCustomEventNode(rapidxml::xml_node<char> *nod
             }
         }
     }
+}
+
+void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
+{
+    CreditText creditText;
+    CreditFinishText creditFinishText;
+    Pointf dynamicCutOff;
+    int creditNamesLineSpacing = 40;
+    int creditNamesToFinishTextSpacing = 100;
+    
+    for (auto creditNode = node->first_node(); creditNode; creditNode = creditNode->next_sibling())
+    {
+        // Parse <scrollSpeed/> xml tag
+        if (strcmp(creditNode->name(), "scrollSpeed") == 0) 
+        {
+            if (auto speedMultiplier = creditNode->first_attribute("speed"))
+            {
+                std::string multiplierStr = speedMultiplier->value();
+                try
+                {
+                    scrollSpeed = std::stof(multiplierStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'scrollSpeed' to a float. Using default value.\n");
+                }
+            }
+        }
+
+        // Parse <fadeInSpeed/> xml tag
+        if (strcmp(creditNode->name(), "fadeInSpeed") == 0) 
+        {
+            if (auto speedMultiplier = creditNode->first_attribute("speed"))
+            {
+                std::string multiplierStr = speedMultiplier->value();
+                try
+                {
+                    fadeInSpeed = std::stof(multiplierStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'fadeInSpeed' to a float. Using default value.\n");
+                }
+            }
+        }
+
+        // Parse scroll pause & initial delay
+        if (strcmp(creditNode->name(), "scrollPause") == 0)
+        {
+            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay")) 
+            {
+                try
+                {
+                    scrollDelay = std::stof(scrollDelayAttribute->value()) * 50;
+                }
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'scrollDelay' to a float. Using default value.\n");
+                }
+            }
+
+            if (auto pauseDurationAttribute = creditNode->first_attribute("duration")) 
+            {
+                try 
+                {
+                    pauseDuration = std::stof(pauseDurationAttribute->value()) * 50 + scrollDelay;
+                } 
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
+                }
+            }
+
+            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
+            {
+                try 
+                {
+                    pausePosition = std::stof(pausePositionAttribute->value());
+                } 
+                catch (const std::invalid_argument& e) 
+                {
+                    hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
+                }
+            }
+        }
+
+        // Parse <text/> xml tag
+        if (strcmp(creditNode->name(), "text") == 0)
+        {
+            std::string textString;
+            int textFont;
+            if (auto idAttribute = creditNode->first_attribute("id"))
+            {
+                creditText.text = idAttribute->value();
+                textString = creditText.text;
+            }
+            else creditText.text = "Error: 'id' attribute missing";
+
+            if (auto fontSizeAttribute = creditNode->first_attribute("fontSize"))
+            {
+                std::string fontSizeStr = fontSizeAttribute->value();
+                try
+                {
+                    creditText.font = std::stoi(fontSizeStr);
+                    textFont = creditText.font;
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditText.font = 14;
+                }
+            }
+            else creditText.font = 14;
+
+            if (auto horizontalAttribute = creditNode->first_attribute("horizontal"))
+            {
+                std::string horizontalStr = horizontalAttribute->value();
+                try
+                {
+                    creditText.horizontal = std::stoi(horizontalStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditText.horizontal = 360;
+                }
+            }
+            else creditText.horizontal = 360;
+
+            if (auto spacingAttribute = creditNode->first_attribute("spacing"))
+            {
+                std::string spacingStr = spacingAttribute->value();
+                try
+                {
+                    creditText.spacing = std::stoi(spacingStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditText.spacing = 40;
+                }
+            }
+            else creditText.spacing = 40;
+
+
+            if (auto lineLenghtAttribute = creditNode->first_attribute("lineLenght"))
+            {
+                std::string lineLenghtStr = lineLenghtAttribute->value();
+                try
+                {
+                    creditText.lineLenght = std::stoi(lineLenghtStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditText.lineLenght = 750;
+                }
+            }
+            else creditText.lineLenght = 750;
+            
+            dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 750, textString);
+            creditText.cutOff = dynamicCutOff.x + 50;
+
+            creditTextValues.push_back(creditText);
+        }
+
+        // Parse <finishText/> xml tag
+        if (strcmp(creditNode->name(), "finishText") == 0)
+        {
+            std::string textString;
+            int textFont;
+            if (auto idAttribute = creditNode->first_attribute("id"))
+            {
+                creditFinishText.text = idAttribute->value();
+                textString = creditFinishText.text;
+            }
+            else creditFinishText.text = "Error: 'id' attribute missing";
+
+            if (auto fontSizeAttribute = creditNode->first_attribute("fontSize"))
+            {
+                std::string fontSizeStr = fontSizeAttribute->value();
+                try
+                {
+                    creditFinishText.font = std::stoi(fontSizeStr);
+                    textFont = creditFinishText.font;
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'finishText' to an integer. Using default value.\n");
+                    creditFinishText.font = 14;
+                }
+            }
+            else creditFinishText.font = 14;
+
+            if (auto horizontalAttribute = creditNode->first_attribute("horizontal"))
+            {
+                std::string horizontalStr = horizontalAttribute->value();
+                try
+                {
+                    creditFinishText.horizontal = std::stoi(horizontalStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'finishText' to an integer. Using default value.\n");
+                    creditFinishText.horizontal = 360;
+                }
+            }
+            else creditFinishText.horizontal = 360;
+
+            if (auto spacingAttribute = creditNode->first_attribute("spacing"))
+            {
+                std::string spacingStr = spacingAttribute->value();
+                try
+                {
+                    creditFinishText.spacing = std::stoi(spacingStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'finishText' to an integer. Using default value.\n");
+                    creditFinishText.spacing = 40;
+                }
+            }
+            else creditFinishText.spacing = 40;
+
+            if (auto lineLenghtAttribute = creditNode->first_attribute("lineLenght"))
+            {
+                std::string lineLenghtStr = lineLenghtAttribute->value();
+                try
+                {
+                    creditFinishText.lineLenght = std::stoi(lineLenghtStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'text' to an integer. Using default value.\n");
+                    creditFinishText.lineLenght = 1000;
+                }
+            }
+            else creditFinishText.lineLenght = 1000;
+            
+            dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 1000, textString);
+            creditFinishText.cutOff = dynamicCutOff.x + 50;
+
+            creditFinishTextValues.push_back(creditFinishText);
+        }
+
+        // Parse values for credits.txt
+        if (strcmp(creditNode->name(), "creditNames") == 0)
+        {   
+            if (auto valueAttribute = creditNode->first_attribute("fontSize"))
+            {
+                std::string valueStr = valueAttribute->value();
+                try
+                {
+                    creditNamesFontSize = std::stoi(valueStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'creditNames' to an integer. Using default value.\n");
+                }
+            }
+
+            if (auto valueAttribute = creditNode->first_attribute("spacingBetweenNames"))
+            {
+                std::string valueStr = valueAttribute->value();
+                try
+                {
+                    creditNamesLineSpacing = std::stoi(valueStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'creditNames' to an integer. Using default value.\n");
+                }
+            }
+
+            if (auto valueAttribute = creditNode->first_attribute("spacingToFinishTexts"))
+            {
+                std::string valueStr = valueAttribute->value();
+                try
+                {
+                    creditNamesToFinishTextSpacing = std::stoi(valueStr);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    hs_log_file("Failed to convert an attribute value in 'creditNames' to an integer. Using default value.\n");
+                }
+            }
+        }
+    }
+
+    // Parse contents in credit.txt
+    CreditFile creditFile;
+    char* creditsTextFile = G_->GetResources()->LoadFile("data/credits.txt");
+    std::stringstream ss(creditsTextFile);
+    delete [] creditsTextFile;
+    std::string line;
+    int lineCount = 0;
+    int totalLines = std::count(std::istreambuf_iterator<char>(ss), std::istreambuf_iterator<char>(), '\n');
+    ss.seekg(0);
+    int remainder = totalLines % 3;
+    int additionalEntries = (remainder == 0) ? 0 : 3 - remainder;
+
+    while (std::getline(ss, line))
+    {
+        creditFile.names = line;
+        creditFile.spacing = ((lineCount + 1) % 3 == 0) ? creditNamesLineSpacing : 0;
+        dynamicCutOff = freetype::easy_measurePrintLines(creditNamesFontSize, 0, 0, 750, line);
+        creditFile.cutOff = dynamicCutOff.x + 50;
+        creditFileNames.push_back(creditFile);
+        lineCount++;
+    }
+
+    for (int i = 0; i < additionalEntries; ++i)
+    {
+        CreditFile emptyEntry;
+        emptyEntry.names = "\n";
+        emptyEntry.spacing = 0;
+        creditFileNames.push_back(emptyEntry);
+    }
+
+    int lastIndex = creditFileNames.size() - 1;
+    creditFileNames[lastIndex].spacing = creditNamesToFinishTextSpacing;
 }
 
 void CustomEventsParser::ReadCustomEventFiles()
@@ -1060,6 +1391,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                     customEvent->recallBoardersShip = -1;
                 }
             }
+            if (child->first_attribute("force"))
+            {
+                customEvent->recallBoardersForce = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+            }
         }
 
         if (nodeName == "resetFtl")
@@ -1225,7 +1560,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->gameOver.sound = "victory";
             if (child->first_attribute("text"))
             {
-                customEvent->gameOver.text = child->first_attribute("text")->value();
+                std::string textValue = child->first_attribute("text")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->gameOver.text = textValue;
+                }
+                else
+                {
+                    customEvent->gameOver.text = parsedText;
+                }
             }
             if (child->first_attribute("creditsText"))
             {
@@ -1254,7 +1598,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->gameOver.enabled = true;
             if (child->first_attribute("text"))
             {
-                customEvent->gameOver.text = child->first_attribute("text")->value();
+                std::string textValue = child->first_attribute("text")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->gameOver.text = textValue;
+                }
+                else
+                {
+                    customEvent->gameOver.text = parsedText;
+                }
             }
             if (child->first_attribute("sound"))
             {
@@ -1714,7 +2067,16 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             customEvent->finalBoss.sound = "victory";
             if (child->first_attribute("text"))
             {
-                customEvent->finalBoss.text = child->first_attribute("text")->value();
+                std::string textValue = child->first_attribute("text")->value();
+                std::string parsedText = G_->GetTextLibrary()->GetText(textValue, G_->GetTextLibrary()->currentLanguage);
+                if (parsedText.find("Could not find:") != std::string::npos)
+                {
+                    customEvent->finalBoss.text = textValue;
+                }
+                else
+                {
+                    customEvent->finalBoss.text = parsedText;
+                }
             }
             if (child->first_attribute("creditsText"))
             {
@@ -3697,7 +4059,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void RecallBoarders(int direction)
+void RecallBoarders(int direction, bool force)
 {
     int targetRoom;
     bool canTeleport;
@@ -3720,7 +4082,7 @@ void RecallBoarders(int direction)
                 auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
                 ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
 
-                if (canTeleport) // do it this way to ignore the vanilla conditions
+                if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
                     playerShip->AddCrewMember2(i,targetRoom);
@@ -3740,7 +4102,7 @@ void RecallBoarders(int direction)
                 auto def = CustomCrewManager::GetInstance()->GetDefinition(i->species);
                 ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
 
-                if (canTeleport) // do it this way to ignore the vanilla conditions
+                if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
                     enemyShip->AddCrewMember2(i,targetRoom);
@@ -3817,7 +4179,7 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 
     if (customEvent->recallBoarders) {
-        RecallBoarders(customEvent->recallBoardersShip);
+        RecallBoarders(customEvent->recallBoardersShip, customEvent->recallBoardersForce);
     }
 
     if (!customEvent->playSound.empty())
@@ -5046,6 +5408,10 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
     return super(name);
 }
 
+// I'm sorry, IDK C++ better to know what to write instead of globals :anguish:
+float fadeIn;
+float scrollEnd;
+float crewStringCutOff;
 HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Start -> Begin (CustomEvents.cpp)\n")
@@ -5062,13 +5428,92 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         }
     }
 
-    return super(shipName, crewNames);
+
+    // Setting if started in-game or from menu:
+    if (shipName.empty())
+    {
+        scroll = 0.1f;
+    }
+    else
+    {
+        fadeIn = 1.f;
+        pausing = -scrollDelay;
+    }
+
+
+    // Calculate when the credits stop:
+    scrollEnd = 750.f;
+    for (const auto &creditText : creditTextValues)
+    {
+        scrollEnd += creditText.spacing;
+    }
+    for (const auto &creditFile : creditFileNames)
+    {
+        scrollEnd += creditFile.spacing;
+    }
+    for (const auto &creditFinishText : creditFinishTextValues)
+    {
+        scrollEnd += creditFinishText.spacing;
+    }
+
+
+    // Run original code:
+    super(shipName, crewNames);
+
+
+    // select background image:
+    bg = G_->GetResources()->GetImageId(replaceCreditsBackground.empty() ? "stars/bg_darknebula.png" : replaceCreditsBackground);
+
+
+    // Parse crewString with patch:
+    std::string crewlistAnd = G_->GetTextLibrary()->GetText("crewlist_and");
+    std::string crewlistComma = G_->GetTextLibrary()->GetText("crewlist_comma");
+    std::string crewlistMore = G_->GetTextLibrary()->GetText("crewlist_more");
+
+    std::string newCrewString;
+    int totalLength = 0;
+
+    if (!(crewNames.size() <= 1))
+    {
+        for (size_t i = 0; i < crewNames.size(); ++i)
+        {
+            newCrewString += crewlistComma + crewNames[i];
+            totalLength += crewNames[i].length() + crewlistComma.length();
+            if (totalLength > 140) 
+            {
+                newCrewString += crewlistMore;
+                break;
+            }
+        }
+
+        newCrewString.erase(0, crewlistComma.length());
+        if (!(newCrewString.find(crewlistMore) != std::string::npos))
+        {
+            newCrewString.replace(newCrewString.rfind(crewlistComma), 2, crewlistAnd);
+        }
+
+        crewString = newCrewString;
+    }
+
+
+    // Calculate crew names cut out:
+    Pointf dynamicCutOff = freetype::easy_measurePrintLines(18, 0, 0, 720, crewString);
+    crewStringCutOff = dynamicCutOff.x + 50;
 }
 
 HOOK_METHOD(CreditScreen, Done, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Done -> Begin (CustomEvents.cpp)\n")
-    bool ret = super();
+
+    bool ret;
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    {
+        ret = (scroll <= -scrollEnd) ? true : false;
+    }
+    else
+    {
+        ret = super();
+    }
 
     if (ret)
     {
@@ -5082,9 +5527,134 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
 HOOK_METHOD(CreditScreen, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CreditScreen::OnRender -> Begin (CustomEvents.cpp)\n")
+
     shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
-    super();
+
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    {
+        /* ----- Resources ----- */
+        std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
+        std::string creditTextThankCrew = G_->GetTextLibrary()->GetText("thank_crew");
+        std::string creditTextThankAi = G_->GetTextLibrary()->GetText("thank_ai");
+        std::string creditTextVictory = G_->GetTextLibrary()->GetText("credit_victory");
+
+        /* ----- Positions ----- */
+        int creditTextCentered = 640; // G_->GetResources()->screenWidth / 2
+        int creditTextLeft = 256; // G_->GetResources()->screenWidth / 5
+        int creditTextRight = 1024; // G_->GetResources()->screenHeight / 5 * 2
+        int creditNamesHorizontal;
+        int creditTextStartHeight = 144; // G_->GetResources()->screenHeight / 5
+        int xmlCreditTextStartHeight = 740;
+        int currentHeight = xmlCreditTextStartHeight;
+
+        /* ----- Colors -----*/
+        GL_Color colorWhite;
+        colorWhite.r = 1.f;
+        colorWhite.g = 1.f;
+        colorWhite.b = 1.f;
+        colorWhite.a = 1.f;
+        GL_Color colorGray;
+        colorGray.r = 0.5f;
+        colorGray.g = 0.5f;
+        colorGray.b = 0.5f;
+        colorGray.a = 1.f;
+
+        /* ----- Visuals -----*/
+        float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
+        float trueScrollSpeed = gameSpeed * 3.5 * scrollSpeed;
+        
+        fadeIn += gameSpeed * 3.5 * -0.025f * fadeInSpeed;
+
+        if (scroll == 0.f && pausing > -scrollDelay) {
+            pausing -= trueScrollSpeed;
+        }
+        else if (std::max(scroll, -pausePosition) ==  -pausePosition && pausing > -pauseDuration) {
+            pausing -= trueScrollSpeed;
+        }
+        else {
+            scroll -= trueScrollSpeed;
+        }
+
+        /* ----- Rendering -----*/
+        // Background rendering
+        G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, 1.f, false);
+        CSurface::GL_SetColor(colorWhite);
+        // Hardcoded Texts
+        if (!shipName.empty()) {
+            int yPos = static_cast<int>(creditTextStartHeight + scroll);
+            if (yPos > -100 && yPos < 800) {
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 1200, creditTextThankShip);
+            }
+            yPos += 40;
+            if (yPos > -100 && yPos < 800) {
+                freetype::easy_printNewlinesCentered(20, creditTextCentered, yPos, 1200, shipName);
+            }
+            if (!crewString.empty()) {
+                yPos += 80;
+                if (yPos > -720 && yPos < 800) {
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 1200, creditTextThankCrew);
+                }
+                yPos += 40;
+                if (yPos > -crewStringCutOff && yPos < 800) {
+                    freetype::easy_printNewlinesCentered(18, creditTextCentered, yPos, 720, crewString);
+                }
+            } else {
+                yPos += 80;
+                if (yPos > -100 && yPos < 800) {
+                    freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 1200, creditTextThankAi);
+                }
+            }
+            yPos += 246;
+            if (yPos > -100 && yPos < 800) {
+                freetype::easy_printNewlinesCentered(14, creditTextCentered, yPos, 750, creditTextVictory);
+            }
+        }
+        // xml Texts
+        for (const auto& creditText : creditTextValues) {
+            if ((currentHeight + scroll) > -creditText.cutOff && (currentHeight + scroll) < 800) {
+                freetype::easy_printNewlinesCentered(creditText.font, creditText.horizontal, static_cast<int>(currentHeight + scroll), creditText.lineLenght, G_->GetTextLibrary()->GetText(creditText.text, G_->GetTextLibrary()->currentLanguage));
+            }
+            currentHeight += creditText.spacing;
+        }
+        // credit.txt Names
+        int nameCount = 0;
+        for (const auto& creditFile : creditFileNames) {
+            if (nameCount == 0) {
+                creditNamesHorizontal = creditTextLeft;
+            } else {
+                creditNamesHorizontal = (nameCount == 1) ? creditTextCentered : creditTextRight;
+            }
+            if ((currentHeight + scroll) > -creditFile.cutOff && (currentHeight + scroll) < 800) {
+                freetype::easy_printNewlinesCentered(creditNamesFontSize, creditNamesHorizontal, static_cast<int>(currentHeight + scroll), 1280, creditFile.names);
+            }
+            nameCount++;
+            if (nameCount == 3) {
+                nameCount = 0;
+                currentHeight += creditFile.spacing;
+            }
+        }
+        // xml Finish Texts
+        for (const auto& creditFinishText : creditFinishTextValues) {
+            if ((currentHeight + scroll) > -creditFinishText.cutOff && (currentHeight + scroll) < 800) {
+                freetype::easy_printNewlinesCentered(creditFinishText.font, creditFinishText.horizontal, static_cast<int>(currentHeight + scroll), creditFinishText.lineLenght, G_->GetTextLibrary()->GetText(creditFinishText.text, G_->GetTextLibrary()->currentLanguage));
+            }
+            currentHeight += creditFinishText.spacing;
+        }
+        // Text Fading
+        if (fadeIn > 0) {
+            G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
+            CSurface::GL_SetColor(colorWhite);
+        }
+        
+        /* ----- Auto Stop -----*/
+        Done();
+    } 
+    else
+    {
+        super();
+    }
+
     shouldReplaceCreditsText = false;
     shouldReplaceBackground = false;
 }

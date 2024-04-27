@@ -27,8 +27,8 @@ class LuaLibScript
         // Call once upon starting the game
         void call_on_load_callbacks();
 
-        // Call upon starting a new run (maybe also starting a loaded run? not sure)
-        void call_on_init_callbacks();
+        // Call upon starting a new run and loading a saved run
+        void call_on_init_callbacks(bool newGame);
 
         int call_on_internal_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
         bool call_on_internal_chain_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
@@ -150,6 +150,8 @@ class LuaLibScript
             swig_type_info *pShipSystem;
             swig_type_info *pWeaponBlueprint;
             swig_type_info *pRoom;
+            swig_type_info *pChoiceBox;
+            swig_type_info *pLocationEvent;
 
             swig_type_info *pShipSystemTypes[21];
             swig_type_info *pSpaceDrone;

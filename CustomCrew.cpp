@@ -5281,7 +5281,12 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     crewAnim->anims[0][6].tracker.SetLoop(false, 0.f);
     crewAnim->anims[0][6].Start(true);
     crewAnim->anims[0][6].StartReverse(true);
-    G_->GetSoundControl()->PlaySoundMix("cloneArrive", -1.f, false);
+
+    ShipManager *ship = G_->GetShipManager(iShipId);
+    if (ship && !ship->bDestroyed)
+    {
+        G_->GetSoundControl()->PlaySoundMix("cloneArrive", -1.f, false);
+    }
 }
 
 static bool needsIntruderControllable = false;
@@ -6754,7 +6759,7 @@ HOOK_METHOD(ShipManager, AddCrewMember, (CrewMember *crew, int roomId) -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
     int ret = 0;
     for (auto& crew: vCrewList)
     {   

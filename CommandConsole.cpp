@@ -93,6 +93,20 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if (cmdName == "SKILL")
+    {
+        for (auto i : G_->GetCrewFactory()->crewMembers)
+        {
+            if (i->iShipId == 0)
+            { 
+                for (int skill = 0; skill<6; skill++)
+                {
+                    i->MasterSkill(skill);
+                }
+            }
+        }
+        G_->GetSoundControl()->PlaySoundMix("levelup", -1.f, false);
+    }
     if (cmdName == "DELETECREW" || cmdName == "COOLSWORDBRO")
     {
         if (commandGui->shipComplete->shipManager->current_target)
@@ -123,6 +137,23 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     {
         std::string luaCode = boost::trim_copy(command.substr(4));
         Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
+    }
+    if (command == "SYS ALL")
+    {
+        ShipManager *ship = commandGui->shipComplete->shipManager;
+        
+        for (int systemId = 0; systemId< 17; systemId++) {
+            if (systemId == 16)
+            {
+                ship->AddSystem(20);
+            } 
+            else
+            {
+            if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
+                ship->AddSystem(systemId);
+            } 
+        }
+        return true;
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
     {
@@ -203,6 +234,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if (cmdName == "CREDITS" || cmdName == "VICTORY")
+    {
+        G_->GetWorld()->commandGui->Victory();
+        return true;
+    }
     if(cmdName == "VARIABLE" || cmdName == "VAR")
     {
         std::vector<std::string> cmdList = std::vector<std::string>();
@@ -277,7 +313,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 
-    if (key == Settings::GetHotkey("console"))
+    if (CommandConsole::GetInstance()->enabled && key == Settings::GetHotkey("console"))
     {
         if (!writeErrorDialog.bOpen &&
             !menuBox.bOpen &&

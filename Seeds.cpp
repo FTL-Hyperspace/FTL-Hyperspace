@@ -226,22 +226,28 @@ HOOK_METHOD_PRIORITY(StarMap, NewGame, -500, (bool unk) -> Location*)
     if (!SeedInputBox::seedsEnabled) return super(unk);
 
 	std::string str = SeedInputBox::seedInput->GetText();
-	if (str == "" || unk)
-	{
-	    int seed = SeededRandom32();
-		worldRng = SeededRng(seed);
-		secretRng = SeededRng(seed);
-		Global::currentSeed = seed;
-		Global::isCustomSeed = false;
-	}
-	else
-	{
-	    int seed = boost::lexical_cast<unsigned int>(str);
-		worldRng = SeededRng(seed);
-		secretRng = SeededRng(seed);
-		Global::currentSeed = seed;
-		Global::isCustomSeed = true;
-	}
+    bool customSeed = !(str == "" || unk);
+    int seed = customSeed ? boost::lexical_cast<unsigned int>(str) : SeededRandom32();
+
+    // Make it possible to intercept seed and change in Lua
+    auto context = Global::GetInstance()->getLuaContext();
+    lua_pushboolean(context->GetLua(), customSeed);
+    lua_pushinteger(context->GetLua(), seed);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_RUN_SEED, 2, 2) == 2)
+    {
+        customSeed = lua_toboolean(context->GetLua(), -2);
+        seed = lua_tonumber(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 4);
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 2);
+    }
+
+    worldRng = SeededRng(seed);
+    secretRng = SeededRng(seed);
+    Global::currentSeed = seed;
+    Global::isCustomSeed = customSeed;
 
 	startingNewGame = true;
 

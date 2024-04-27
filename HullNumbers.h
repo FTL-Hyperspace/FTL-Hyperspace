@@ -1,6 +1,7 @@
 #pragma once
 #include "rapidxml.hpp"
 #include <string>
+#include <unordered_map>
 
 class HullNumbers
 {
@@ -17,7 +18,9 @@ public:
 
     IndicatorInfo playerIndicator;
     IndicatorInfo enemyIndicator;
+    std::unordered_map<std::string, IndicatorInfo> enemyIndicatorLoc;
     IndicatorInfo bossIndicator;
+    std::unordered_map<std::string, IndicatorInfo> bossIndicatorLoc;
 
     bool enabled;
 

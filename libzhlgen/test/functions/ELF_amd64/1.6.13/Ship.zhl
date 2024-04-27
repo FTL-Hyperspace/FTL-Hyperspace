@@ -2,6 +2,8 @@
 cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
 ".4c8b8778040000488b8f8004000048b835c2724f232cf7344c29c148c1f903":
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
+".0fb687b802000084c0":
+cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
 ".41564155415455534889fb4883ec208b7f08":
 cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress);
 ".41554189f5415455534889fb4883ec288b7f08":
@@ -60,6 +62,8 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+
+	void RenderEngineAnimation(bool showEngines, float alpha);
 	
 	enum DoorStateType
 	{
