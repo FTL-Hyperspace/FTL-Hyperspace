@@ -1423,6 +1423,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `ImageDesc` `.planet`
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
+- `Pointf` `.loc`
 - `bool` `.known`
 - [`LocationEvent`](#LocationEvent) `.event`
 
@@ -1437,6 +1438,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+- `std::string` `.type`
 
 ## TextLibrary
 

@@ -493,6 +493,7 @@ playerVariableType playerVariables;
 %rename("%s") SectorDescription;
 %rename("%s") SectorDescription::name;
 %rename("%s") SectorDescription::shortName;
+%rename("%s") SectorDescription::type;
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
@@ -1012,6 +1013,7 @@ playerVariableType playerVariables;
 %rename("%s") Location::planetImage;
 %rename("%s") Location::known;
 %rename("%s") Location::event;
+%rename("%s") Location::loc;
 
 
 %rename("%s") BoardingEvent;
