@@ -134,7 +134,7 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Debugging.cpp)\n")
     if(CustomOptionsManager::GetInstance()->altMode)
     {
-        freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
+        freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-TOURNEY-%s") % HS_Version.toIdentifierString()).c_str());
     }
     super();
 }
@@ -142,6 +142,6 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float finalProgress) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderLoadingBar -> Begin (Debugging.cpp)\n")
-    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
+    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-TOURNEY-%s") % HS_Version.toIdentifierString()).c_str());
     super(initialProgress, finalProgress);
 }
