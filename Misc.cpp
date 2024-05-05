@@ -14,6 +14,19 @@
 #include "EnumClassHash.h"
 #include "TemporalSystem.h"
 
+// Set the global CApp variable for Lua
+
+CApp *Global_CApp = nullptr;
+
+HOOK_METHOD(CApp, OnInit, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Misc.cpp)\n")
+    Global_CApp = this;
+    return super();
+}
+
+
+
 // Plays airlock sound when crew have been "dismissed"
 
 HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
@@ -534,6 +547,8 @@ void LuaLibScript::LoadTypeInfo()
     types.pShipSystem = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
     types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
     types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
+    types.pChoiceBox = SWIG_TypeQuery(this->m_Lua, "ChoiceBox *");
+    types.pLocationEvent = SWIG_TypeQuery(this->m_Lua, "LocationEvent *");
 
     types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)

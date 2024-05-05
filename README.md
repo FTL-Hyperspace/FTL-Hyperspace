@@ -13,5 +13,8 @@ See [Building Linux](BUILDING.LINUX.md)
 # Licenses
 Please see [LICENSE.md](LICENSE.md) for license details & other open source licenses in use by libraries.
 
+Korean translation is unofficial, not from Subset Games.<br>
+한국어 번역은 Subset Games 에서 제공하지 않은 비공식 번역입니다.
+
 ### Special Thanks
 Special thanks to Kilburn for his original contribution of ZHL that provides Hyperspace with the core ability to hook functions.

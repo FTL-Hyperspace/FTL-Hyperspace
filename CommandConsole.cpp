@@ -140,6 +140,23 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string luaCode = boost::trim_copy(command.substr(4));
         Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
+    if (command == "SYS ALL")
+    {
+        ShipManager *ship = commandGui->shipComplete->shipManager;
+        
+        for (int systemId = 0; systemId< 17; systemId++) {
+            if (systemId == 16)
+            {
+                ship->AddSystem(20);
+            } 
+            else
+            {
+            if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
+                ship->AddSystem(systemId);
+            } 
+        }
+        return true;
+    }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
     {
         ShipSystem* sys = commandGui->shipComplete->shipManager->GetSystem(ShipSystem::NameToSystemId(boost::trim_copy(command.substr(10))));
@@ -217,6 +234,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             std::string eventName = boost::trim_copy(command.substr(10));
             CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
         }
+        return true;
+    }
+    if (cmdName == "CREDITS" || cmdName == "VICTORY")
+    {
+        G_->GetWorld()->commandGui->Victory();
         return true;
     }
     if(cmdName == "VARIABLE" || cmdName == "VAR")
