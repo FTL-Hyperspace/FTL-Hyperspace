@@ -3475,8 +3475,8 @@ playerVariableType playerVariables;
 %rename("%s") CommandConsole;
 %rename("%s") CommandConsole::GetInstance;
 %rename("%s") CommandConsole::enabled;
-//%rename("%s") CommandConsole::RunCommand; letting this be handled by lua would be bad practice
-%rename("%s") CommandConsole::SwitchShip;
+//%rename("%s") CommandConsole::RunCommand; Should not be exposed to Lua (would encourage bad practices)
+//%rename("%s") CommandConsole::SwitchShip; Do not expose unless memory leak associated with ship creation is fixed
 
 %luacode
 {

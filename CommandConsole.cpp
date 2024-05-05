@@ -282,109 +282,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         
         return true;
     }
-    if(cmdName == "SWITCH2")
-    {
-        if (command.length() > 8)
-        {
-            // All signature exposed
-            // CommandGUI::LinkShip (window/AMD64)
-            // ScoreKeeper::SetShipBlueprint (window)
-            // ShipGraph::Restart()
-            // PowerManager::RestartAll()
-            // CommandGui::Restart() (window)
-
-            std::string shipName = boost::trim_copy(command.substr(7));
-            hs_log_file("Loading new ship %s\n", shipName.c_str());
-            WorldManager *world = G_->GetWorld();
-            SpaceManager *space = &world->space;
-            CommandGui *gui = world->commandGui;
-            ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
-            hs_log_file("setp 1\n");
-            world->ClearLocation();
-
-            ShipManager *oldShip = world->playerShip->shipManager;
-            for (auto i : oldShip->GetWeaponList())
-                oldShip->RemoveItem(i->blueprint->name);
-            hs_log_file("setp 2\n");
-
-            //for (auto i : space->drones)
-            //{
-            //    hs_log_file("spacedrone\n");
-            //    i->destructor();
-            //}
-
-            //for (auto i : oldShip->GetDroneList())
-            //    oldShip->RemoveItem(i->blueprint->name);
-
-            //TODO
-            // Remove all deployed drone, the destructor should be taking care of that according to the code but it crashes
-            // clear the beacon
-            // clear system box, especially the artillery box
-            // defense drone do not fire when deployed from a switched ship
-            // gdb freaks out on the store::OnRender() resource_list_files_next, (most likely related to the point below) only happen with destructor() (not 2)
-            // something related png in scorekeeper is the main reason for the second switch crash
-
-            //for (auto i : gui->sysControl.sysBoxes)
-            //{   
-            //    hs_log_file("LookSysBox %d\n", i->pSystem->GetId());
-            //    if (i->pSystem->GetId() == 11)
-            //    {
-            //        hs_log_file("DeletedArtiBox\n");
-            //        i->destroy();
-            //    }
-            //}
-            
-            hs_log_file("setp 3\n");
-            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-            hs_log_file("setp 3.1\n");
-            ShipManager *ship = new ShipManager(0);
-            hs_log_file("setp 3.2\n");
-            ship->OnInit(bp, 0);
-            
-            hs_log_file("setp 4\n");
-            world->playerShip->SetShip(ship);
-            world->starMap.shipManager = ship;
-            
-            hs_log_file("setp 5\n");
-            scoreKeeper->SetShipBlueprint(&shipName);
-
-            hs_log_file("setp 6\n");
-
-            hs_log_file("setp 7\n");
-            //for (auto i : gui->storeTrash)
-            //{   
-            //    hs_log_file("storeTrashGUI\n");
-            //    i->RelinkShip(gui->shipComplete->shipManager, &(gui->equipScreen));
-            //}
-            hs_log_file("setp 8\n");
-
-            // From this point on it may be best to copy the method of CommandGui::Restart
-            // Not copy, actually call it
-        
-            gui->LinkShip(world->playerShip);
-            oldShip->destructor2();
-            // Maybe do the whole WorldManager::Restart minus the reset of position
-            hs_log_file("setp 9\n");
-            //ShipGraph::Restart();
-            //PowerManager::RestartAll();
-            //gui->Restart();
-            // CreateNewGamePart
-            // Ship::ClearImages(&this->playerShip->shipManager->ship); those two could be nice to have, but I doubt its necessary to avoid crash
-            // Ship::LoadImages(&this->playerShip->shipManager->ship);
-            // space->Clear(); redundant with ClearLocation
-            hs_log_file("setp 10\n");
-            //world->bossShip->ClearLocation();
-            
-            hs_log_file("setp 11\n");
-            //world->ClearLocation();
-            
-            
-
-            hs_log_file("Done\n");
-        }
-        return true;
-    }
-
 
     return false;
 }
@@ -395,18 +292,15 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
 
     switching = true;
     WorldManager *world = G_->GetWorld();
-    SpaceManager *space = &world->space;
     CommandGui *gui = world->commandGui;
     ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
 
     world->ClearLocation();
 
     ShipManager *oldShip = world->playerShip->shipManager;
-    //oldShip->ship.ClearImages();
     for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
     
-    //ShipManager *ship = new ShipManager(0);
-    auto *ship = static_cast<ShipManager*>(::operator new(sizeof(ShipManager))); // same effect as new ShipManager(0), no memory improvement
+    auto *ship = static_cast<ShipManager*>(::operator new(sizeof(ShipManager)));
     ship->constructor(0);
     ship->OnInit(shipBlueprint, 0);
     
@@ -414,9 +308,7 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
     world->starMap.shipManager = ship;
 
     scoreKeeper->SetShipBlueprint(&(shipBlueprint->blueprintName));
-    //world->OnLoop();
-    
-    //gui->Restart(); // no effect
+
     gui->LinkShip(world->playerShip);
     oldShip->destructor2();
 
