@@ -3616,6 +3616,27 @@ playerVariableType playerVariables;
     })
 }
 
+%nodefaultctor CommandConsole;
+%nodefaultdtor CommandConsole;
+%rename("%s") CommandConsole;
+%rename("%s") CommandConsole::GetInstance;
+%rename("%s") CommandConsole::enabled;
+//%rename("%s") CommandConsole::RunCommand; Should not be exposed to Lua (would encourage bad practices)
+//%rename("%s") CommandConsole::SwitchShip; Do not expose unless memory leak associated with ship creation is fixed
+
+%luacode
+{
+    setmetatable(Hyperspace.CommandConsole, {
+        __index = function(CommandConsole, key)
+            return CommandConsole.GetInstance()[key]
+        end,
+
+        __newindex = function(CommandConsole, key, value)
+            CommandConsole.GetInstance()[key] = value
+        end
+    })
+}
+
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
 %rename("%s") ResourceControl;

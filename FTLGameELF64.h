@@ -3024,6 +3024,10 @@ struct SpaceManager;
 
 struct LIBZHL_INTERFACE CompleteShip
 {
+	CompleteShip(SpaceManager *space,bool bPlayerShip,int iShipId)
+	{
+		this->constructor(space, bPlayerShip, iShipId);
+	}
 	void CheckTeleportMovement();
 
 	virtual ~CompleteShip() {}
@@ -3052,7 +3056,7 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API void SetEnemyShip(CompleteShip *other);
 	LIBZHL_API void SetShip(ShipManager *ship);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
-	LIBZHL_API void constructor(SpaceManager *space, bool unk, int unk2);
+	LIBZHL_API void constructor(SpaceManager *space, bool bPlayerShip, int iShipId);
 	
 	int iShipId;
 	ShipManager *shipManager;
@@ -4510,6 +4514,7 @@ struct CommandGui
 	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
 	LIBZHL_API void LButtonDown(int mX, int mY, bool shiftHeld);
 	LIBZHL_API void LButtonUp(int mX, int mY, bool shiftHeld);
+	LIBZHL_API void LinkShip(CompleteShip *ship);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents);
 	LIBZHL_API void OnInit();

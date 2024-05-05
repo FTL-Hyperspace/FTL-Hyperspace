@@ -3877,11 +3877,11 @@ namespace _func279
 	static FunctionDefinition funcObj("CompleteShip::constructor", typeid(void (CompleteShip::*)(SpaceManager *, bool , int )), "5383ec188b5c24208b54242c8b442428", argdata, 4, 6, &func);
 }
 
-void CompleteShip::constructor(SpaceManager *space, bool unk, int unk2)
+void CompleteShip::constructor(SpaceManager *space, bool bPlayerShip, int iShipId)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CompleteShip *this_arg, SpaceManager *space_arg, bool unk_arg, int unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CompleteShip *this_arg, SpaceManager *space_arg, bool bPlayerShip_arg, int iShipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func279::func;
-	return execfunc(this, space, unk, unk2);
+	return execfunc(this, space, bPlayerShip, iShipId);
 }
 
 namespace _func280
