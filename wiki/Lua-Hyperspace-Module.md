@@ -1313,7 +1313,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`LocationEvent`](#LocationEvent) `.event`
 - [`TextString`](#TextString) `.text`
+- [`ChoiceReq`](#ChoiceReq) `.requirement`
 - `bool` `.hiddenReward`
+
+## ChoiceReq
+
+### Fields
+- `std::string` `.object`
+- `int` `.min_level`
+- `int` `.max_level`
+- `int` `.max_group`
+- `bool` `.blue`
 
 ## FocusWindow
 
