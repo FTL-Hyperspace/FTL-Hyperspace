@@ -2721,16 +2721,23 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     if (SeedInputBox::seedInput)
-	{
-		SeedInputBox::seedInput->OnRender(0, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y+5));
+    {
+        std::string inputSeed = SeedInputBox::seedInput->GetText();
 
-		std::string inputSeed = SeedInputBox::seedInput->GetText();
-
-		if (inputSeed != "" && !SeedInputBox::seedsAllowUnlocks)
+        if (inputSeed != "")
         {
-            CSurface::GL_RenderPrimitive(unlocksDisabledPrimitive);
+            if (!SeedInputBox::seedsAllowUnlocks)
+            {
+                CSurface::GL_RenderPrimitive(unlocksDisabledPrimitive);
+            }
+
+            SeedInputBox::seedInput->OnRender(0, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y+5));
         }
-	}
+        else
+        {
+            SeedInputBox::seedInput->OnRender(14, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y-6));
+        }
+    }
 
 	if (!reactorInfoButton)
     {
