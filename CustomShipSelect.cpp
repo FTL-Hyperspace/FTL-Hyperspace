@@ -2765,18 +2765,18 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     if (CustomOptionsManager::GetInstance()->showMissileCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(missilesCountBoxPrimitive);
-        freetype::easy_printCenter(14, 923, 482, std::to_string(currentShip->myBlueprint.missiles));
+        freetype::easy_printCenter(0, 923, 494, std::to_string(currentShip->myBlueprint.missiles));
     }
     if (CustomOptionsManager::GetInstance()->showDroneCount.currentValue)
     {
         CSurface::GL_RenderPrimitive(dronesCountBoxPrimitive);
-        freetype::easy_printCenter(14, 923, 592, std::to_string(currentShip->myBlueprint.drone_count));
+        freetype::easy_printCenter(0, 923, 604, std::to_string(currentShip->myBlueprint.drone_count));
     }
     if (CustomOptionsManager::GetInstance()->showCrewLimit.currentValue)
     {
         int crewLimit = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).crewLimit;
         CSurface::GL_RenderPrimitive(crewSlotsBoxPrimitive);
-        freetype::easy_printCenter(14, 357, 482, std::to_string(crewLimit));
+        freetype::easy_printCenter(0, 357, 494, std::to_string(crewLimit));
     }
 
     CSurface::GL_RemoveColorTint();
