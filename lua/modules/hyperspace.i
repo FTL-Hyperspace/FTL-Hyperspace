@@ -447,7 +447,7 @@ playerVariableType playerVariables;
 %rename("%s") CustomAchievementTracker::UpdateVariableAchievements;
 %rename("%s") CustomAchievementTracker::GetAchievementStatus;
 %rename("%s") CustomAchievementTracker::SetAchievement; // used to award achievements (CheckShipAchievement is automatically called if needed)
-
+// %rename("%s") CustomAchievementTracker::RemoveAchievement; // used to remove achievements, do not expose, the console command `ACH_REMOVE` is enough
 
 %nodefaultctor CustomEventsParser;
 %nodefaultdtor CustomEventsParser;
