@@ -489,6 +489,15 @@ void CustomAchievementTracker::SetAchievement(const std::string &name, bool noPo
     }
 }
 
+void CustomAchievementTracker::RemoveAchievement(const std::string &name)
+{
+    if (GetAchievementStatus(name) != -1)
+    {
+        achievementUnlocks[name] = -1;
+        UpdateAchievements();
+    }
+}
+
 void CustomAchievementTracker::ResetFlags()
 {
     for (auto &it : customAchievements)

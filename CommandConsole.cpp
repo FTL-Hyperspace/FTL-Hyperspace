@@ -4,6 +4,7 @@
 #include "CustomOptions.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -285,6 +286,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if(cmdName == "ACH_LOCK" && command.length() > 11)
+    {
+        std::string achName = boost::trim_copy(command.substr(11));
+        CustomAchievementTracker *customAchTrack = CustomAchievementTracker::instance;
+        customAchTrack->RemoveAchievement(achName);
+
+        return true;
+    }
 
 
     return false;
@@ -358,8 +367,20 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
-        if(command == "GOD")
+
+        std::string cmdName = command.substr(0, command.find(" "));
+        boost::to_upper(cmdName);
+
+        if(cmdName == "GOD")
+        {
             PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
+        }
+
+        if(cmdName == "ACH" && command.length() > 4)
+        {
+            std::string achName = boost::trim_copy(command.substr(4));
+            CustomAchievementTracker::instance->SetAchievement(achName, false);
+        }
     }
 }
 
