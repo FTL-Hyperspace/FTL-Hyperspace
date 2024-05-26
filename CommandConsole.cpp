@@ -6,6 +6,8 @@
 #include "CustomScoreKeeper.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <cstdlib>
+#include <string>
 
 CommandConsole CommandConsole::instance = CommandConsole();
 PrintHelper PrintHelper::instance = PrintHelper();
@@ -268,66 +270,16 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
-bool CommandConsole::InputData(CommandGui *commandGui, SDLKey key, bool shiftHeld)
+void CommandConsole::InputData(CommandGui *commandGui, int key)
 {
     //TODO we will need to get the sig for
-    // InputBox::OnRender
-    // InputBox::TextInput
+    // InputBox::OnRender (win : 80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753)
+    // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
     auto& inputBox = commandGui->inputBox;
-    bool chain = true;
-
-    // Remove the cursor
-    inputBox.inputText.erase(cursorPosition, 1);
-    
-    // Handle left arrow key
-    if (key == SDLK_LEFT && cursorPosition > 0) cursorPosition--;
-    
-    // Handle right arrow key
-    if (key == SDLK_RIGHT && cursorPosition < inputBox.inputText.length()) cursorPosition++;
-
-    // Handle a-z keys
-    if ((key >= 97 && key <= 122)) {
-        char inputKey = shiftHeld ? key : key - 32;
-        inputBox.inputText.insert(cursorPosition, 1, inputKey);
-        cursorPosition++;
-        chain = false;
-    }
-
-    // Handle all other character key
-    if (key >= 32 && key <= 64) {
-        inputBox.inputText.insert(cursorPosition, 1, key);
-        cursorPosition++;
-        chain = false;
-    }
-
-    // Handle backspace
-    if (key == SDLK_BACKSPACE && cursorPosition > 0) {
-        inputBox.inputText.erase(cursorPosition - 1, 1);
-        cursorPosition--;
-        chain = false;
-    }
-    
-    // Handle delete
-    if (key == SDLK_DELETE && cursorPosition < inputBox.inputText.length()) {
-        inputBox.inputText.erase(cursorPosition, 1);
-        chain = false;
-    }
-
-    // Add the cursor back
-    inputBox.inputText.insert(cursorPosition, 1, '|');
-
-    if (key == SDLK_RETURN) {
-        // Remove the cursor
-        inputBox.inputText.erase(cursorPosition, 1);
-        commandGui->RunCommand(inputBox.inputText);
-        inputBox.bOpen = false;
-        chain = false;
-    }
-
-    return chain; // Key not handled
+    char inputKey = key;
+    inputBox.inputText.insert(cursorPosition, 1, inputKey);
+    cursorPosition++;
 }
-
-
 
 //===============================================
 
@@ -337,7 +289,6 @@ static bool shouldOpenConsole = true;
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::KeyDown -> Begin (CommandConsole.cpp)\n")
-    bool chain = true;
     if (key == Settings::GetHotkey("speed"))
     {
         //shouldOpen = !shouldOpen;
@@ -380,21 +331,10 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         }
     }
 
-    if (inputBox.bOpen) chain = CommandConsole::GetInstance()->InputData(this, key, shiftHeld);
-
-    if (chain) {
-        shouldOpenConsole = false;
-        super(key, shiftHeld);
-        shouldOpenConsole = true;
-    }
+    shouldOpenConsole = false;
+    super(key, shiftHeld);
+    shouldOpenConsole = true;
 }
-
-HOOK_METHOD(CApp, OnTextInput, (int ch) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> CApp::OnTextInput -> Begin (CommandConsole.cpp)\n")
-    if (!this->gui->inputBox.bOpen) super(ch); // Since we handle the inputs ourselves we disable the regular one
-}
-
 
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 {
@@ -478,13 +418,64 @@ HOOK_METHOD(InputBox, StartInput, () -> void)
     super();
 }
 
-//HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
-//{
-//    LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
-//
-//    if (event == 5 && cursorPosition > 0) cursorPosition--;
-//    if (event == 6) cursorPosition++;
-//    hs_log_file("TextEvent Cursor position: %d\n", cursorPosition);
-//
-//    super(event);
-//}
+HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
+    size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
+
+    enum TextEvent
+	{
+	  TEXT_CONFIRM = 0x0,
+	  TEXT_CANCEL = 0x1,
+	  TEXT_CLEAR = 0x2,
+	  TEXT_BACKSPACE = 0x3,
+	  TEXT_DELETE = 0x4,
+	  TEXT_LEFT = 0x5,
+	  TEXT_RIGHT = 0x6,
+	  TEXT_HOME = 0x7,
+	  TEXT_END = 0x8,
+	};
+
+    if (event == 5 && cursorPosition > 0) cursorPosition--;
+    if (event == 6 && cursorPosition < inputText.length() ) cursorPosition++;
+    hs_log_file("TextEvent Cursor position: %d\n", cursorPosition);
+
+    super(event);
+}
+
+HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::TextInput -> Begin (CommandConsole.cpp)\n")
+
+    CommandConsole::GetInstance()->InputData(G_->GetWorld()->commandGui, ch);
+    //super(event);
+}
+
+HOOK_METHOD(InputBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::OnRender -> Begin (CommandConsole.cpp)\n")
+        
+    if (bOpen == false) return;
+
+    Point *pos = new Point(0x146, 0xd2);
+    textBox->Draw(pos->x, pos->y);
+
+    pos->y = pos->y + 0x37;
+    pos->x = pos->x + 0x19;
+
+    size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
+    std::string commandText = inputText;
+    std::string inputText1 = inputText.substr(0, cursorPosition);
+    std::string inputText2 = inputText.substr(cursorPosition);
+
+    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,0x1ea,mainText);
+    Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0,0x1ea, inputText1);
+
+    freetype::easy_printAutoNewlines(8,posInput.x, posInput.y,0x1ea, "|");
+
+    if (inputText2.length() > 0) freetype::easy_printAutoNewlines(8,posInput.x, posInput.y,0x1ea, inputText2);
+
+    delete pos; // to be on the safe side
+    return;
+
+}

@@ -9,7 +9,7 @@ public:
     bool enabled;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
-    bool InputData(CommandGui *commandGui, SDLKey key, bool shiftHeld);
+    void InputData(CommandGui *commandGui, int key);
     size_t cursorPosition = 0;
 
 
