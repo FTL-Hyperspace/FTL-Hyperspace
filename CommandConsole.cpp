@@ -435,10 +435,20 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
 	  TEXT_HOME = 0x7,
 	  TEXT_END = 0x8,
 	};
-
+    hs_log_file("TextEvent Cursor position before: %d\n", cursorPosition);
+    hs_log_file("TextEvent Event: %d\n", event);
     if (event == 5 && cursorPosition > 0) cursorPosition--;
     if (event == 6 && cursorPosition < inputText.length() ) cursorPosition++;
-    hs_log_file("TextEvent Cursor position: %d\n", cursorPosition);
+    if (event == 3 && cursorPosition > 0)
+    {
+        cursorPosition--;
+        inputText.erase(cursorPosition, 1);
+    }
+    if (event == 4 && cursorPosition < inputText.length())
+    {
+        inputText.erase(cursorPosition, 1);
+    }
+    hs_log_file("TextEvent Cursor position after: %d\n", cursorPosition);
 
     super(event);
 }
