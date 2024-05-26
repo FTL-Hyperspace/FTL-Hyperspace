@@ -423,22 +423,20 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
     LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
     size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
 
-    enum TextEvent
-	{
-	  TEXT_CONFIRM = 0x0,
-	  TEXT_CANCEL = 0x1,
-	  TEXT_CLEAR = 0x2,
-	  TEXT_BACKSPACE = 0x3,
-	  TEXT_DELETE = 0x4,
-	  TEXT_LEFT = 0x5,
-	  TEXT_RIGHT = 0x6,
-	  TEXT_HOME = 0x7,
-	  TEXT_END = 0x8,
-	};
+    //enum TextEvent
+	//{
+	//  TEXT_CONFIRM = 0x0,
+	//  TEXT_CANCEL = 0x1,
+	//  TEXT_CLEAR = 0x2,
+	//  TEXT_BACKSPACE = 0x3,
+	//  TEXT_DELETE = 0x4,
+	//  TEXT_LEFT = 0x5,
+	//  TEXT_RIGHT = 0x6,
+	//  TEXT_HOME = 0x7,
+	//  TEXT_END = 0x8,
+	//};
     hs_log_file("TextEvent Cursor position before: %d\n", cursorPosition);
     hs_log_file("TextEvent Event: %d\n", event);
-    if (event == 5 && cursorPosition > 0) cursorPosition--;
-    if (event == 6 && cursorPosition < inputText.length() ) cursorPosition++;
     if (event == 3 && cursorPosition > 0)
     {
         cursorPosition--;
@@ -448,6 +446,8 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
     {
         inputText.erase(cursorPosition, 1);
     }
+    if (event == 5 && cursorPosition > 0) cursorPosition--;
+    if (event == 6 && cursorPosition < inputText.length() ) cursorPosition++;
     hs_log_file("TextEvent Cursor position after: %d\n", cursorPosition);
 
     super(event);
@@ -487,5 +487,4 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
 
     delete pos; // to be on the safe side
     return;
-
 }
