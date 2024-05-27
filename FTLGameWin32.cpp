@@ -9593,10 +9593,10 @@ namespace _func691
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("InputBox::OnRender", typeid(void (InputBox::*)()), ".80790400750a", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("InputBox::StartInput", typeid(void (InputBox::*)()), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 1, 5, &func);
 }
 
-void InputBox::OnRender()
+void InputBox::StartInput()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(InputBox *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func691::func;
@@ -9606,29 +9606,29 @@ void InputBox::OnRender()
 namespace _func692
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("InputBox::TextInput", typeid(void (InputBox::*)(int )), ".578d7c240883e4f0ff77fc5589e557565389", argdata, 2, 5, &func);
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("InputBox::OnRender", typeid(void (InputBox::*)()), "80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753", argdata, 1, 5, &func);
 }
 
-void InputBox::TextInput(int ch)
+void InputBox::OnRender()
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(InputBox *this_arg, int ch_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(InputBox *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func692::func;
-	return execfunc(this, ch);
+	return execfunc(this);
 }
 
 namespace _func693
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("InputBox::StartInput", typeid(void (InputBox::*)()), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 1, 5, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("InputBox::TextInput", typeid(void (InputBox::*)(int )), "578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000", argdata, 2, 5, &func);
 }
 
-void InputBox::StartInput()
+void InputBox::TextInput(int ch)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(InputBox *this_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(InputBox *this_arg, int ch_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func693::func;
-	return execfunc(this);
+	return execfunc(this, ch);
 }
 
 namespace _func694

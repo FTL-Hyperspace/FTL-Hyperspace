@@ -270,17 +270,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
-void CommandConsole::InputData(CommandGui *commandGui, int key)
-{
-    //TODO we will need to get the sig for
-    // InputBox::OnRender (win : 80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753)
-    // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
-    auto& inputBox = commandGui->inputBox;
-    char inputKey = key;
-    inputBox.inputText.insert(cursorPosition, 1, inputKey);
-    cursorPosition++;
-}
-
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
@@ -411,6 +400,17 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     super();
 }
 
+void CommandConsole::InputData(CommandGui *commandGui, int key)
+{
+    //TODO we will need to get the sig for
+    // InputBox::OnRender (win : 80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753)
+    // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
+    auto& inputBox = commandGui->inputBox;
+    char inputKey = key;
+    inputBox.inputText.insert(cursorPosition, 1, inputKey);
+    cursorPosition++;
+}
+
 HOOK_METHOD(InputBox, StartInput, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::StartInput -> Begin (CommandConsole.cpp)\n")
@@ -421,34 +421,23 @@ HOOK_METHOD(InputBox, StartInput, () -> void)
 HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
-    size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
 
-    //enum TextEvent
-	//{
-	//  TEXT_CONFIRM = 0x0,
-	//  TEXT_CANCEL = 0x1,
-	//  TEXT_CLEAR = 0x2,
-	//  TEXT_BACKSPACE = 0x3,
-	//  TEXT_DELETE = 0x4,
-	//  TEXT_LEFT = 0x5,
-	//  TEXT_RIGHT = 0x6,
-	//  TEXT_HOME = 0x7,
-	//  TEXT_END = 0x8,
-	//};
-    hs_log_file("TextEvent Cursor position before: %d\n", cursorPosition);
+    hs_log_file("TextEvent Cursor position before: %d\n", CommandConsole::GetInstance()->cursorPosition);
     hs_log_file("TextEvent Event: %d\n", event);
-    if (event == 3 && cursorPosition > 0)
+    if (event == 3 && CommandConsole::GetInstance()->cursorPosition > 0)
     {
-        cursorPosition--;
-        inputText.erase(cursorPosition, 1);
+        CommandConsole::GetInstance()->cursorPosition--;
+        inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
+        return;
     }
-    if (event == 4 && cursorPosition < inputText.length())
+    if (event == 4 && CommandConsole::GetInstance()->cursorPosition < inputText.length())
     {
-        inputText.erase(cursorPosition, 1);
+        inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
+        return;
     }
-    if (event == 5 && cursorPosition > 0) cursorPosition--;
-    if (event == 6 && cursorPosition < inputText.length() ) cursorPosition++;
-    hs_log_file("TextEvent Cursor position after: %d\n", cursorPosition);
+    if (event == 5 && CommandConsole::GetInstance()->cursorPosition > 0) CommandConsole::GetInstance()->cursorPosition--;
+    if (event == 6 && CommandConsole::GetInstance()->cursorPosition < inputText.length() ) CommandConsole::GetInstance()->cursorPosition++;
+    hs_log_file("TextEvent Cursor position after: %d\n", CommandConsole::GetInstance()->cursorPosition);
 
     super(event);
 }
@@ -458,7 +447,7 @@ HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
     LOG_HOOK("HOOK_METHOD -> InputBox::TextInput -> Begin (CommandConsole.cpp)\n")
 
     CommandConsole::GetInstance()->InputData(G_->GetWorld()->commandGui, ch);
-    //super(event);
+    //super(ch);
 }
 
 HOOK_METHOD(InputBox, OnRender, () -> void)
@@ -474,6 +463,12 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     pos->x = pos->x + 0x19;
 
     size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
+    if (cursorPosition > inputText.length())
+    { 
+        cursorPosition = inputText.length(); 
+        CommandConsole::GetInstance()->cursorPosition = cursorPosition;
+    }
+    
     std::string commandText = inputText;
     std::string inputText1 = inputText.substr(0, cursorPosition);
     std::string inputText2 = inputText.substr(cursorPosition);
