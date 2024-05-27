@@ -1780,6 +1780,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
 	LIBZHL_API static bool __stdcall GL_DisableBlend();
 	LIBZHL_API static bool __stdcall GL_DrawCircle(int x, int y, float radius, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth);
@@ -2276,7 +2277,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void CycleColorLayer(int unk);
 	LIBZHL_API bool DirectModifyHealth(float health);
 	LIBZHL_API void EmptySlot();
-	LIBZHL_API Slot FindSlot(int unk1, int roomId, bool unk2);
+	LIBZHL_API Slot FindSlot(int roomId, int slotId, bool closeEnough);
 	LIBZHL_API void ForceMindControl(bool force);
 	LIBZHL_API Point GetFinalGoal();
 	LIBZHL_API int GetIntegerHealth();
@@ -3163,6 +3164,7 @@ struct ResourceEvent
 
 struct ChoiceText
 {
+	inline ChoiceText() : type(0), text(""), rewards() {};
 	ChoiceText(int _type, const std::string& _text, ResourceEvent _rewards) : 
 	type(_type), text(_text), rewards(_rewards)
 	{
@@ -4122,10 +4124,10 @@ struct CrewManifest : FocusWindow
 
 struct Equipment : FocusWindow
 {
-	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2);
-	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool unk1, bool unk2);
-	LIBZHL_API void AddToCargo(std::string &name);
-	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo);
+	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool free, bool forceCargo);
+	LIBZHL_API void AddToCargo(const std::string &name);
+	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo);
 	LIBZHL_API void Close();
 	LIBZHL_API std::vector<std::string> GetCargoHold();
 	LIBZHL_API void MouseClick(int mX, int mY);
@@ -4268,6 +4270,7 @@ struct MenuScreen;
 
 struct MenuScreen : FocusWindow
 {
+	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
 	LIBZHL_API void constructor();
@@ -6376,6 +6379,7 @@ struct freetype
 	{
 		LIBZHL_API void clean();
 		LIBZHL_API void init(const void *buffer, int bufferSize, unsigned int h, bool glow);
+		LIBZHL_API void init_bitmap(const void *buffer, int bufferSize, int size, int h);
 		
 		float h;
 		int font;
@@ -6758,6 +6762,7 @@ struct Ship : ShipObject
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API void BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);

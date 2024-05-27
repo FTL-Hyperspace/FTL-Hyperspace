@@ -135,7 +135,6 @@ const char *Definition::GetLastError() {return g_defLastError;}
 void FunctionDefinition::SetName(const char *name, const char *type)
 {
 	ConvertToUniqueName(_name, name, type);
-	strncpy(_shortName, name, 512);
 }
 
 int Definition::Init()
@@ -321,7 +320,6 @@ const char *FunctionHook_private::GetLastError() {return g_hookLastError;}
 void FunctionHook_private::SetName(const char *name, const char *type)
 {
 	ConvertToUniqueName(_name, name, type);
-	strncpy(_shortName, name, 512);
 }
 
 int FunctionHook_private::Init()

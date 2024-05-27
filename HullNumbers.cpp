@@ -49,24 +49,51 @@ void HullNumbers::ParseHullNumbersNode(rapidxml::xml_node<char>* node)
 
 
         auto child = node->first_node("playerText");
-
         if (child)
         {
             ParseIndicatorInfo(playerIndicator, child);
         }
 
         child = node->first_node("enemyText");
-
-        if (child)
+        while (child)
         {
-            ParseIndicatorInfo(enemyIndicator, child);
+            auto langAttr = child->first_attribute("language");
+            if (langAttr)
+            {
+                IndicatorInfo locIndicator = HullNumbers::IndicatorInfo();
+                locIndicator.x = 988;
+                locIndicator.y = 59;
+                locIndicator.type = 0;
+                locIndicator.align = "center";
+                ParseIndicatorInfo(locIndicator, child);
+                enemyIndicatorLoc.insert({langAttr->value(), locIndicator});
+            }
+            else
+            {
+                ParseIndicatorInfo(enemyIndicator, child);
+            }
+            child = child->next_sibling("enemyText");
         }
 
         child = node->first_node("bossText");
-
-        if (child)
+        while (child)
         {
-            ParseIndicatorInfo(bossIndicator, child);
+            auto langAttr = child->first_attribute("language");
+            if (langAttr)
+            {
+                IndicatorInfo locIndicator = HullNumbers::IndicatorInfo();
+                locIndicator.x = 864;
+                locIndicator.y = 16;
+                locIndicator.type = 0;
+                locIndicator.align = "center";
+                ParseIndicatorInfo(locIndicator, child);
+                bossIndicatorLoc.insert({langAttr->value(), locIndicator});
+            }
+            else
+            {
+                ParseIndicatorInfo(bossIndicator, child);
+            }
+            child = child->next_sibling("bossText");
         }
 
 
@@ -166,11 +193,27 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         HullNumbers::IndicatorInfo textInfo;
         if (boss_visual)
         {
-            textInfo = manager->bossIndicator;
+            auto it = manager->bossIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
+            if (it != std::end(manager->bossIndicatorLoc))
+            {
+                textInfo = it->second;
+            }
+            else
+            {
+                textInfo = manager->bossIndicator;
+            }
         }
         else
         {
-            textInfo = manager->enemyIndicator;
+            auto it = manager->enemyIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
+            if (it != std::end(manager->enemyIndicatorLoc))
+            {
+                textInfo = it->second;
+            }
+            else
+            {
+                textInfo = manager->enemyIndicator;
+            }
         }
 
         HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
