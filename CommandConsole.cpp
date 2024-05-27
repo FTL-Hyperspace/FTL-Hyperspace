@@ -15,6 +15,7 @@ PrintHelper PrintHelper::instance = PrintHelper();
 bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
+static int cursorTickCount = 0;
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
@@ -271,6 +272,27 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
+void CommandConsole::InputData(CommandGui *commandGui, int key)
+{
+    //TODO we will need to get the sig for
+    // InputBox::OnRender (win : 80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753)
+    // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
+    auto& inputBox = commandGui->inputBox;
+    char inputKey = key;
+
+    if (inputKey >= 'a' && inputKey <= 'z')
+    {
+        inputKey -= 32;
+    }
+    else if (inputKey >= 'A' && inputKey <= 'Z')
+    {
+        inputKey += 32;
+    }
+
+    inputBox.inputText.insert(cursorPosition, 1, inputKey);
+    cursorTickCount = 0;
+    cursorPosition++;
+}
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
@@ -401,27 +423,6 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     super();
 }
 
-void CommandConsole::InputData(CommandGui *commandGui, int key)
-{
-    //TODO we will need to get the sig for
-    // InputBox::OnRender (win : 80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753)
-    // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
-    auto& inputBox = commandGui->inputBox;
-    char inputKey = key;
-    // Invert case of the input key
-    if (inputKey >= 'a' && inputKey <= 'z')
-    {
-        inputKey -= 32;
-    }
-    else if (inputKey >= 'A' && inputKey <= 'Z')
-    {
-        inputKey += 32;
-    }
-
-    inputBox.inputText.insert(cursorPosition, 1, inputKey);
-    cursorPosition++;
-}
-
 HOOK_METHOD(InputBox, StartInput, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::StartInput -> Begin (CommandConsole.cpp)\n")
@@ -435,6 +436,7 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
 
     hs_log_file("TextEvent Cursor position before: %d\n", CommandConsole::GetInstance()->cursorPosition);
     hs_log_file("TextEvent Event: %d\n", event);
+    cursorTickCount = 0;
     if (event == 3 && CommandConsole::GetInstance()->cursorPosition > 0)
     {
         CommandConsole::GetInstance()->cursorPosition--;
@@ -485,7 +487,8 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,0x1ea,mainText);
     Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 0x1ea, inputText);
 
-    freetype::easy_printAutoNewlines(8,pos->x + (inputTextCursorPosition % 0x1ea), posInput.y-15, 0x1ea, "|");
+    if (cursorTickCount++ < 50) freetype::easy_printAutoNewlines(10,pos->x + (inputTextCursorPosition % 0x1ea), posInput.y-15, 0x1ea, "|");
+    if (cursorTickCount == 100) cursorTickCount = 0;
 
     delete pos;
     return;
