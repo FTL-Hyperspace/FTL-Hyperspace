@@ -6,6 +6,7 @@
 #include "CustomScoreKeeper.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <cstddef>
 #include <cstdlib>
 #include <string>
 
@@ -407,6 +408,16 @@ void CommandConsole::InputData(CommandGui *commandGui, int key)
     // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
     auto& inputBox = commandGui->inputBox;
     char inputKey = key;
+    // Invert case of the input key
+    if (inputKey >= 'a' && inputKey <= 'z')
+    {
+        inputKey -= 32;
+    }
+    else if (inputKey >= 'A' && inputKey <= 'Z')
+    {
+        inputKey += 32;
+    }
+
     inputBox.inputText.insert(cursorPosition, 1, inputKey);
     cursorPosition++;
 }
@@ -447,7 +458,6 @@ HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
     LOG_HOOK("HOOK_METHOD -> InputBox::TextInput -> Begin (CommandConsole.cpp)\n")
 
     CommandConsole::GetInstance()->InputData(G_->GetWorld()->commandGui, ch);
-    //super(ch);
 }
 
 HOOK_METHOD(InputBox, OnRender, () -> void)
@@ -468,18 +478,15 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
         cursorPosition = inputText.length(); 
         CommandConsole::GetInstance()->cursorPosition = cursorPosition;
     }
-    
+
     std::string commandText = inputText;
-    std::string inputText1 = inputText.substr(0, cursorPosition);
-    std::string inputText2 = inputText.substr(cursorPosition);
+    int inputTextCursorPosition = freetype::easy_measureWidth(8, inputText.substr(0, cursorPosition));
 
     Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,0x1ea,mainText);
-    Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0,0x1ea, inputText1);
+    Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 0x1ea, inputText);
 
-    freetype::easy_printAutoNewlines(8,posInput.x, posInput.y,0x1ea, "|");
+    freetype::easy_printAutoNewlines(8,pos->x + (inputTextCursorPosition % 0x1ea), posInput.y-15, 0x1ea, "|");
 
-    if (inputText2.length() > 0) freetype::easy_printAutoNewlines(8,posInput.x, posInput.y,0x1ea, inputText2);
-
-    delete pos; // to be on the safe side
+    delete pos;
     return;
 }
