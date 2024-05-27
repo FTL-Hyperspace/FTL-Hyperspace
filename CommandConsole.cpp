@@ -274,9 +274,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
 void CommandConsole::InputData(CommandGui *commandGui, int key)
 {
-    //TODO we will need to get the sig for
-    // InputBox::OnRender (win : 80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753)
-    // InputBox::TextInput (win : 578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000)
     auto& inputBox = commandGui->inputBox;
     char inputKey = key;
 

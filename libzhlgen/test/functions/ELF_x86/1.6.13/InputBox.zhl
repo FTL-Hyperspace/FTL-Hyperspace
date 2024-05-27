@@ -1,4 +1,8 @@
-"5557565383ec2c8b4424448b5c244083f801":
+"5589e5565383ec??8b5d08807b04??":
+cleanup __cdecl void InputBox::OnRender(InputBox *this);
+".5557565383ec??8b4424448b5c244083f8??":
+cleanup __cdecl void InputBox::TextInput(InputBox *this,int ch);
+".578d7c240883e4??ff77fc5589e557565383ec??8b0783f8??":
 cleanup __cdecl void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
-"565383ec348b5c2440c744240800000000":
+".565383ec??8b5c2440c7442408????????c7442404????????8d4328":
 cleanup __cdecl void InputBox::StartInput(InputBox *this);

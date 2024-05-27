@@ -4246,8 +4246,10 @@ struct InputBox;
 
 struct InputBox : FocusWindow
 {
+	LIBZHL_API void OnRender();
 	LIBZHL_API void StartInput();
 	LIBZHL_API void TextEvent(CEvent::TextEvent event);
+	LIBZHL_API void TextInput(int ch);
 	
 	WindowFrame *textBox;
 	std::string mainText;
