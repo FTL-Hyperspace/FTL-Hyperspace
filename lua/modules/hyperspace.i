@@ -612,6 +612,24 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
 
+%rename("%s") DamageMessage;
+
+%rename("%s") DamageMessage::MessageType;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)", regextarget=1, fullname=1) "DamageMessage::MessageType::.*";
+%luacode {
+    Hyperspace.DamageMessage.MessageType = {}
+    for key, value in pairs(Hyperspace.DamageMessage) do
+        CreateEnumTable("DamageMessage_", Hyperspace.DamageMessage.MessageType, key, value)
+    end
+}
+
+%rename("%s") DamageMessage::tracker;
+%rename("%s") DamageMessage::position;
+%rename("%s") DamageMessage::color;
+%rename("%s") DamageMessage::bFloatDown;
+%rename("%s") DamageMessage::primitives;
+%template(vector_primitive) vector<GL_Primitive*>;
+
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
 %rename("%s") LocationEvent::Choice;

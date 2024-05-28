@@ -1282,6 +1282,16 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.autoFiring`
    - **Read-only**
 
+## DamageMessage
+
+### Fields
+- [`TextString`](#TextString) `.MessageType`
+- `int` `.tracker`
+- `int` `.position`
+- `bool` `.color`
+- `bool` `.bFloatDown`
+- `int` `.primitives`
+
 ## LocationEvent
 
 ### Fields
