@@ -157,7 +157,6 @@ namespace std {
     %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
     %template(vector_choiceText) vector<ChoiceText>;
-    %template(vector_primitive) vector<GL_Primitive*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -612,23 +611,6 @@ playerVariableType playerVariables;
 %immutable CommandGui::secretSector;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
-
-%rename("%s") DamageMessage;
-
-%rename("%s") DamageMessage::MessageType;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)", regextarget=1, fullname=1) "DamageMessage::MessageType::.*";
-%luacode {
-    Hyperspace.DamageMessage.MessageType = {}
-    for key, value in pairs(Hyperspace.DamageMessage) do
-        CreateEnumTable("DamageMessage_", Hyperspace.DamageMessage.MessageType, key, value)
-    end
-}
-
-%rename("%s") DamageMessage::tracker;
-%rename("%s") DamageMessage::position;
-%rename("%s") DamageMessage::color;
-%rename("%s") DamageMessage::bFloatDown;
-%rename("%s") DamageMessage::primitives;
 
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
