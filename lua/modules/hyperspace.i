@@ -157,6 +157,7 @@ namespace std {
     %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
     %template(vector_choiceText) vector<ChoiceText>;
+    %template(vector_primitive) vector<GL_Primitive*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -628,7 +629,6 @@ playerVariableType playerVariables;
 %rename("%s") DamageMessage::color;
 %rename("%s") DamageMessage::bFloatDown;
 %rename("%s") DamageMessage::primitives;
-%template(vector_primitive) vector<GL_Primitive*>;
 
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
