@@ -506,7 +506,7 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,0x1ea,mainText);
     Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 0x1ea, inputText);
 
-    if (cursorTickCount++ < 50) freetype::easy_printAutoNewlines(10,pos->x + (inputTextCursorPosition % 0x1ea), posInput.y-15, 0x1ea, "|");
+    if (cursorTickCount++ < 50) freetype::easy_printAutoNewlines(14,pos->x + (inputTextCursorPosition % 0x1ea), posInput.y-15, 0x1ea, "I");
     if (cursorTickCount == 100) cursorTickCount = 0;
 
     delete pos;
