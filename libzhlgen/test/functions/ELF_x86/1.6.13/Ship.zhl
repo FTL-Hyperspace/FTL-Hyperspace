@@ -2,7 +2,9 @@
 cleanup __cdecl int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 "5589e557565381ec2c0100008b45088b4004890424":
 cleanup __cdecl void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
-"538b4424088b5c240c8b90f40200008b88f8020000":
+"5383ec??8b5c24208b436c":
+cleanup __cdecl void Ship::ClearImages(Ship *this);
+".538b4424088b5c240c8b90f40200008b88f8020000":
 cleanup __cdecl bool Ship::RoomLocked(Ship *this, int roomId);
 "8b54????0fb682a0010000":
 cleanup __cdecl bool Ship::DestroyedDone(Ship *this);

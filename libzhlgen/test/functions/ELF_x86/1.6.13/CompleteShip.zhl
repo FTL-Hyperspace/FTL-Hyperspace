@@ -50,6 +50,8 @@ cleanup __cdecl void CompleteShip::OnRender(CompleteShip *this);
 cleanup __cdecl void CompleteShip::OnRenderSpace(CompleteShip *this);
 "57565383ec108b5c2420c744240802000000":
 cleanup __cdecl void CompleteShip::OnRenderShip(CompleteShip *this, bool unk1, bool unk2);
+".5383ec??8b5c24208b4308c703????????85c0":
+cleanup __cdecl void CompleteShip::destructor(CompleteShip *this, int unk);
 
 struct CompleteShip
 {{
