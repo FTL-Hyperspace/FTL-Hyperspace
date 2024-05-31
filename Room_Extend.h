@@ -157,6 +157,7 @@ struct Room_Extend
 
     float sysDamageResistChance = 0.f;
     float ionDamageResistChance = 0.f;
+    float hullDamageResistChance = 0.f;
 
     int timeDilation = 0;
     TemporalSystem_Wrapper* timeDilationSource = nullptr;

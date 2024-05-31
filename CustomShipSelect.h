@@ -63,6 +63,7 @@ struct RoomDefinition
 
     float sysDamageResistChance = 0.f;
     float ionDamageResistChance = 0.f;
+    float hullDamageResistChance = 0.f;
 };
 
 struct CrewPlacementDefinition

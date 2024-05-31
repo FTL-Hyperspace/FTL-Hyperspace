@@ -51,6 +51,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             rex->sensorBlind = i.second->sensorBlind;
             rex->sysDamageResistChance = i.second->sysDamageResistChance;
             rex->ionDamageResistChance = i.second->ionDamageResistChance;
+            rex->hullDamageResistChance = i.second->hullDamageResistChance;
         }
     }
 
@@ -924,6 +925,15 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
         msg->color.r = 40.f / 255.f;
         msg->color.g = 210.f / 255.f;
         msg->color.b = 230.f / 255.f;
+        msg->color.a = 1.f;
+        damMessages.push_back(msg);
+    }
+        if (random32() % 100 < ex->hullDamageResistChance && dmg.iDamage > 0)
+    {
+        dmg.iSystemDamage = +dmg.iDamage;
+        dmg.iPersDamage = +dmg.iDamage;
+        dmg.iDamage = 0;
+        auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
         msg->color.a = 1.f;
         damMessages.push_back(msg);
     }

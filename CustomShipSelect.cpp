@@ -556,6 +556,10 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
                         {
                             roomDef->ionDamageResistChance = boost::lexical_cast<float>(roomValue);
                         }
+                        if (roomName == "hullDamageResistChance")
+                        {
+                            roomDef->hullDamageResistChance = boost::lexical_cast<float>(roomValue);
+                        }
                     }
 
                     def.roomDefs[roomId] = roomDef;
