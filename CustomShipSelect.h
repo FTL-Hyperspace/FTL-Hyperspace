@@ -61,9 +61,9 @@ struct RoomDefinition
     std::vector<RoomAnimDef> roomAnims;
     bool sensorBlind = false;
 
+    float hullDamageResistChance = 0.f;
     float sysDamageResistChance = 0.f;
     float ionDamageResistChance = 0.f;
-    float hullDamageResistChance = 0.f;
 };
 
 struct CrewPlacementDefinition
