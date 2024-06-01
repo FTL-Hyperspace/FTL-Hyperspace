@@ -952,7 +952,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
         damMessages.push_back(msg);
     }
 
-    super(dmg);
+    super(location, dmg, forceHit);
 }
 
 HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> void)
@@ -971,7 +971,7 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
             dmg.iSystemDamage = +dmg.iDamage;
             dmg.iPersDamage = +dmg.iDamage;
             dmg.iDamage = 0;
-            auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
+            auto msg = new DamageMessage(1.f, ship.GetRoomCenter(room2), DamageMessage::MessageType::RESIST);
             msg->color.r = 255.f / 255.f;
             msg->color.g = 0.f / 255.f;
             msg->color.b = 255.f / 255.f;
@@ -979,8 +979,9 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
             damMessages.push_back(msg);
         }
 
-        super(dmg);
     }
+
+    super(location1, location2, dmg);
 }
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
