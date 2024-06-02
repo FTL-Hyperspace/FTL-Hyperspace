@@ -932,30 +932,35 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
     super(roomId, dmg);
 }
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> void)
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
 
     int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
     auto ex = RM_EX(ship.vRoomList[roomId]);
+    bool resist = false;
 
     if (random32() % 100 < ex->hullDamageResistChance && dmg.iDamage > 0)
     {
         dmg.iSystemDamage = +dmg.iDamage;
         dmg.iPersDamage = +dmg.iDamage;
         dmg.iDamage = 0;
-        if (whateverVariableHoldsTheEvasionState == Evasion::HIT)
-        {
-            auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
-            msg->color.r = 255.f / 255.f;
-            msg->color.g = 0.f / 255.f;
-            msg->color.b = 255.f / 255.f;
-            msg->color.a = 1.f;
-            damMessages.push_back(msg);
-        }
+        resist = true;
     }
 
-    super(location, dmg, forceHit);
+    bool ret = super(location, dmg, forceHit);
+
+    if (resist && ret)
+    {
+        auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
+        msg->color.r = 127.f / 255.f;
+        msg->color.g = 127.f / 255.f;
+        msg->color.b = 127.f / 255.f;
+        msg->color.a = 1.f;
+        damMessages.push_back(msg);
+    }
+    
+    return ret;
 }
 
 HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> void)
@@ -974,24 +979,17 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
             dmg.iSystemDamage = +dmg.iDamage;
             dmg.iPersDamage = +dmg.iDamage;
             dmg.iDamage = 0;
-            if (room1 != room2)
+          
+            if (room1 > -1)
             {
                 auto msg1 = new DamageMessage(1.f, ship.GetRoomCenter(room1), DamageMessage::MessageType::RESIST);
-                msg1->color.r = 255.f / 255.f;
-                msg1->color.g = 0.f / 255.f;
-                msg1->color.b = 255.f / 255.f;
+                msg1->color.r = 127.f / 255.f;
+                msg1->color.g = 127.f / 255.f;
+                msg1->color.b = 127.f / 255.f;
                 msg1->color.a = 1.f;
                 damMessages.push_back(msg1);
             }
-            else
-            {
-                auto msg2 = new DamageMessage(1.f, ship.GetRoomCenter(room2), DamageMessage::MessageType::RESIST);
-                msg2->color.r = 255.f / 255.f;
-                msg2->color.g = 0.f / 255.f;
-                msg2->color.b = 255.f / 255.f;
-                msg2->color.a = 1.f;
-                damMessages.push_back(msg2);
-            }
+            
         }
     }
 
