@@ -51,6 +51,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             rex->sensorBlind = i.second->sensorBlind;
             rex->sysDamageResistChance = i.second->sysDamageResistChance;
             rex->ionDamageResistChance = i.second->ionDamageResistChance;
+            rex->hullDamageResistChance = i.second->hullDamageResistChance;
         }
     }
 
@@ -929,6 +930,70 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
     }
 
     super(roomId, dmg);
+}
+
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
+
+    int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
+    auto ex = RM_EX(ship.vRoomList[roomId]);
+    bool resist = false;
+
+    if (random32() % 100 < ex->hullDamageResistChance && dmg.iDamage > 0)
+    {
+        dmg.iSystemDamage = +dmg.iDamage;
+        dmg.iPersDamage = +dmg.iDamage;
+        dmg.iDamage = 0;
+        resist = true;
+    }
+
+    bool ret = super(location, dmg, forceHit);
+
+    if (resist && ret)
+    {
+        auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
+        msg->color.r = 127.f / 255.f;
+        msg->color.g = 127.f / 255.f;
+        msg->color.b = 127.f / 255.f;
+        msg->color.a = 1.f;
+        damMessages.push_back(msg);
+    }
+    
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomDamage.cpp)\n")
+
+    int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
+    int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
+    bool willDamage = (room1 != room2);
+    if (willDamage)
+    {
+        auto ex = RM_EX(ship.vRoomList[willDamage]);
+
+        if (random32() % 100 < ex->hullDamageResistChance && dmg.iDamage > 0)
+        {
+            dmg.iSystemDamage = +dmg.iDamage;
+            dmg.iPersDamage = +dmg.iDamage;
+            dmg.iDamage = 0;
+          
+            if (room1 > -1)
+            {
+                auto msg1 = new DamageMessage(1.f, ship.GetRoomCenter(room1), DamageMessage::MessageType::RESIST);
+                msg1->color.r = 127.f / 255.f;
+                msg1->color.g = 127.f / 255.f;
+                msg1->color.b = 127.f / 255.f;
+                msg1->color.a = 1.f;
+                damMessages.push_back(msg1);
+            }
+            
+        }
+    }
+
+    super(location1, location2, dmg);
 }
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)

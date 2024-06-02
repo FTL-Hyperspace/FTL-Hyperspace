@@ -548,6 +548,10 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
                         {
                             roomDef->sensorBlind = EventsParser::ParseBoolean(roomValue);
                         }
+                        if (roomName == "hullDamageResistChance")
+                        {
+                            roomDef->hullDamageResistChance = boost::lexical_cast<float>(roomValue);
+                        }
                         if (roomName == "sysDamageResistChance")
                         {
                             roomDef->sysDamageResistChance = boost::lexical_cast<float>(roomValue);
