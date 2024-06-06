@@ -1793,6 +1793,7 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
         if (page != GetCurrentPage() && page != -1)
         {
             SwitchPage(page);
+            shipSelect->currentType = variant;
         }
 
         if (shipSelect && shipSelect->bOpen)
