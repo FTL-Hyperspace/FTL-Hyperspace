@@ -277,6 +277,33 @@ public:
         }
     }
 
+    ShipButtonDefinition* GetShipButtonFromName(const std::string& name)
+    {
+        if (name == "empty")
+        {
+            return nullptr;
+        }
+        else
+        {
+            std::string finalName = name;
+
+            if (boost::ends_with(name, "_2") || boost::ends_with(name, "_3"))
+            {
+                finalName = name.substr(0, name.size() - 2);
+            }
+
+            for (auto& def : shipButtonDefs)
+            {
+                if (def.name == finalName)
+                {
+                    return &def;
+                }
+            }
+
+            return nullptr;
+        }
+    }
+
     std::pair<int,int> GetShipIdAndVariantFromName(const std::string& name)
     {
         int variant = 0;
