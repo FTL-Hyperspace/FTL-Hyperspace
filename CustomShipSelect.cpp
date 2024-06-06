@@ -1701,9 +1701,6 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     if (type == builder->currentShipId && variant == builder->currentType && !(force))
         return;
 
-
-
-
     ShipManager *oldShip = builder->currentShip;
 
     ShipButtonDefinition &def = shipButtonDefs[type - 100];
@@ -1790,6 +1787,8 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
 
         Point typeCPos(builder->typeCLoc.x + builder->typeCOffset, builder->typeCLoc.y);
         builder->typeC.SetLocation(typeCPos);
+
+        SwitchPage(GetShipButtonListFromID(type)->GetPage());
 
         if (shipSelect && shipSelect->bOpen)
         {

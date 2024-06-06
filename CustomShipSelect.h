@@ -277,29 +277,21 @@ public:
         }
     }
 
-    ShipButtonDefinition* GetShipButtonFromName(const std::string& name)
+    ShipButtonList* GetShipButtonListFromID(int id)
     {
-        if (name == "empty")
+        if (id == -1)
         {
             return nullptr;
         }
         else
         {
-            std::string finalName = name;
-
-            if (boost::ends_with(name, "_2") || boost::ends_with(name, "_3"))
+            for (auto& def : shipButtons)
             {
-                finalName = name.substr(0, name.size() - 2);
-            }
-
-            for (auto& def : shipButtonDefs)
-            {
-                if (def.name == finalName)
+                if (def->GetId() == id)
                 {
-                    return &def;
+                    return def;
                 }
             }
-
             return nullptr;
         }
     }
