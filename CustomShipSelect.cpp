@@ -1788,7 +1788,12 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
         Point typeCPos(builder->typeCLoc.x + builder->typeCOffset, builder->typeCLoc.y);
         builder->typeC.SetLocation(typeCPos);
 
-        SwitchPage(GetShipButtonListFromID(type)->GetPage());
+        int page = GetShipButtonListFromID(type)->GetPage() + 1;
+
+        if (page != GetCurrentPage() && page != -1)
+        {
+            SwitchPage(page);
+        }
 
         if (shipSelect && shipSelect->bOpen)
         {
