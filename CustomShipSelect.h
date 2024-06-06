@@ -279,21 +279,16 @@ public:
 
     ShipButtonList* GetShipButtonListFromID(int id)
     {
-        if (id == -1)
+        ShipButtonList* ret = nullptr;
+        for (auto& def : shipButtons)
         {
-            return nullptr;
-        }
-        else
-        {
-            for (auto& def : shipButtons)
+            if (def->GetId() == id) 
             {
-                if (def->GetId() == id)
-                {
-                    return def;
-                }
+                ret = def;
+                break;
             }
-            return nullptr;
         }
+        return ret;
     }
 
     std::pair<int,int> GetShipIdAndVariantFromName(const std::string& name)
