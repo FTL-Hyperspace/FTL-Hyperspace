@@ -299,7 +299,7 @@ void CommandConsole::InputData(CommandGui *commandGui, int key)
     auto& inputBox = commandGui->inputBox;
     char inputKey = key;
 
-    // Vanilla console invert the capitalisation of the input key, we replicate this behaviour here
+    // Vanilla console invert the capitalisation of the input key, we replicate this behaviour here (ASCII shift of 32 between capital and lowercase letters)
     if (inputKey >= 'a' && inputKey <= 'z')
     {
         inputKey -= 32;
@@ -485,11 +485,11 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
         
     if (bOpen == false) return;
 
-    Point *pos = new Point(0x146, 0xd2);
+    Point *pos = new Point(326, 210);
     textBox->Draw(pos->x, pos->y);
 
-    pos->y = pos->y + 0x37;
-    pos->x = pos->x + 0x19;
+    pos->y = pos->y + 55;
+    pos->x = pos->x + 25;
 
     size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
     if (cursorPosition > inputText.length())
@@ -501,10 +501,10 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     std::string commandText = inputText;
     int inputTextCursorPosition = freetype::easy_measureWidth(8, inputText.substr(0, cursorPosition));
 
-    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,0x1ea,mainText);
-    Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 0x1ea, inputText);
+    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,490,mainText);
+    Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 490, inputText);
 
-    if (cursorTickCount++ < 50) freetype::easy_printAutoNewlines(10,pos->x + (inputTextCursorPosition % 0x1ea) - 1.5, posInput.y-13.5, 0x1ea, "I");
+    if (cursorTickCount++ < 50) freetype::easy_printAutoNewlines(10,pos->x + (inputTextCursorPosition % 490) - 1.5, posInput.y-13.5, 490, "I");
     if (cursorTickCount == 100) cursorTickCount = 0;
 
     delete pos;
