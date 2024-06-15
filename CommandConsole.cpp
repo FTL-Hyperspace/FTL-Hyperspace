@@ -299,6 +299,7 @@ void CommandConsole::InputData(CommandGui *commandGui, int key)
     auto& inputBox = commandGui->inputBox;
     char inputKey = key;
 
+    // Vanilla console invert the capitalisation of the input key, we replicate this behaviour here
     if (inputKey >= 'a' && inputKey <= 'z')
     {
         inputKey -= 32;
@@ -453,23 +454,20 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
 
-    hs_log_file("TextEvent Cursor position before: %d\n", CommandConsole::GetInstance()->cursorPosition);
-    hs_log_file("TextEvent Event: %d\n", event);
     cursorTickCount = 0;
-    if (event == 3 && CommandConsole::GetInstance()->cursorPosition > 0)
+    if (event == CEvent::TextEvent::TEXT_BACKSPACE && CommandConsole::GetInstance()->cursorPosition > 0)
     {
         CommandConsole::GetInstance()->cursorPosition--;
         inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
         return;
     }
-    if (event == 4 && CommandConsole::GetInstance()->cursorPosition < inputText.length())
+    if (event == CEvent::TextEvent::TEXT_DELETE && CommandConsole::GetInstance()->cursorPosition < inputText.length())
     {
         inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
         return;
     }
-    if (event == 5 && CommandConsole::GetInstance()->cursorPosition > 0) CommandConsole::GetInstance()->cursorPosition--;
-    if (event == 6 && CommandConsole::GetInstance()->cursorPosition < inputText.length() ) CommandConsole::GetInstance()->cursorPosition++;
-    hs_log_file("TextEvent Cursor position after: %d\n", CommandConsole::GetInstance()->cursorPosition);
+    if (event == CEvent::TextEvent::TEXT_LEFT && CommandConsole::GetInstance()->cursorPosition > 0) CommandConsole::GetInstance()->cursorPosition--;
+    if (event == CEvent::TextEvent::TEXT_RIGHT && CommandConsole::GetInstance()->cursorPosition < inputText.length() ) CommandConsole::GetInstance()->cursorPosition++;
 
     super(event);
 }
