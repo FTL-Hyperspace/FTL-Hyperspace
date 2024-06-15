@@ -510,5 +510,4 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     if (cursorTickCount == 100) cursorTickCount = 0;
 
     delete pos;
-    return;
 }
