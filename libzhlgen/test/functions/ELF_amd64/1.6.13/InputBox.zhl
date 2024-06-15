@@ -1,4 +1,8 @@
-"4155415455534889fb4883ec1883fe01":
+"415683fe??415541545589f5":
+cleanup __amd64 void InputBox::TextInput(InputBox *this,int ch);
+".4155415455534889fb4883ec??83fe??0f84????????0f8e????????":
 cleanup __amd64 void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
-"534889fb488d7f3831d2":
+".534889fb4883ec??807f08??0f84????????488d7c2410":
+cleanup __amd64 void InputBox::OnRender(InputBox *this);
+".534889fb488d7f3831d2":
 cleanup __amd64 void InputBox::StartInput(InputBox *this);

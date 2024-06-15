@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include <cstddef>
 
 
 class CommandConsole
@@ -8,6 +9,8 @@ public:
     bool enabled;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
+    void InputData(CommandGui *commandGui, int key);
+    size_t cursorPosition = 0;
 
 
     static CommandConsole *GetInstance() { return &instance; }

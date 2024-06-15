@@ -2,3 +2,7 @@
 __thiscall void InputBox::TextEvent(InputBox *this, CEvent::TextEvent event);
 ".578d7c240883e4f0ff77fc5589e5575653":
 __thiscall void InputBox::StartInput(InputBox *this);
+"80790400750ac389f68dbc2700000000578d7c240883e4f0ff77fc5589e55753":
+__thiscall void InputBox::OnRender(InputBox *this);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec??8b3783fe??0f8f7f000000":
+__thiscall void InputBox::TextInput(InputBox *this,int ch);
