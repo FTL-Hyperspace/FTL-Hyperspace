@@ -290,6 +290,15 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `CrewMember*[] :TeleportCrew(int roomId, bool intruders)`
    - Teleport crew & get back the list of CrewMembers.
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
+- `Fire& GetFireAtPoint(float x, float y)`
+   - Get the `Fire` object at the specified coordinates.
+- `Fire& GetFireAtPoint(Point p)`
+   - Get the `Fire` object at the specified location.
+- `Fire& GetFireAtPoint(Pointf p)`
+   - Get the `Fire` object at the specified location.
+- `Fire& GetFire(int x, int y)`
+   - Get the `Fire` object at the specified tile. Equivalant to `ShipManager.fireSpreader.grid[x][y]`, except returns by reference to allow for modification.
+  
 
 ### Fields
 - [`Targetable`](#targetable) `._targetable`
@@ -409,11 +418,21 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - ~~`int` `.minBeaconHealth`~~
 - ~~`ParticleEmitter*[]` `.fireExtinguishers`~~
 - ~~`bool` `.bWasSafe`~~
-- `ShipManager_Extend` `.extend`
+- [`ShipManager_Extend`](#shipmanager_extend) `.extend`
   - **Since 1.4.0**
 - LUA table `.table`
   - **Since 1.4.0**
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
+
+## ShipManager_Extend
+
+### Methods
+
+- `void :CreateRoomStatBoost(StatBoost &&statBoost, int room)`
+- `void :CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, int sourceShipId)`
+- `void :CreateRoomStatBoost(StatBoostDefinition statBoostDef, int room, int nStacks, CrewMember *crewSource)`
+
+
 
 ## Targetable
 
@@ -980,7 +999,7 @@ No additional items over base `ShipSystem`
 - `bool` `.jumpClear`
 - `bool` `.cloneClear`
 - `std::string` `.boostAnim`
-- `RoomAnimDef` `.roomAnim`
+- [`RoomAnimDef`](#roomanimdef) `.roomAnim`
 - `bool` `.affectsSelf`
 - `std::vector<std::string>` `.whiteList`
 - `std::vector<std::string>` `.blackList`
@@ -1045,6 +1064,21 @@ function player_crew_health_boost()
 	end
 end
 ```
+## RoomAnimDef
+
+
+### Fields
+- `int` `renderLayer`
+- `RoomAnimType` `animType`
+   - Valid values:
+      - `Hyperspace.RoomAnimDef.DEFAULT`
+      - `Hyperspace.RoomAnimDef.STRETCH`
+      - `Hyperspace.RoomAnimDef.CENTER`
+      - `Hyperspace.RoomAnimDef.RANDOM_POSITION`
+- `int` `animBorder`
+- `std::string` `animName`
+- `std::string` `tileAnim`
+- `std::string` `wallAnim`
 
 ## CrewMember_Extend
 Accessed via `CrewMember`'s `.extend` field
