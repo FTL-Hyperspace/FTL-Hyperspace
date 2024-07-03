@@ -9,7 +9,6 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     return super();
     if (!bChoosingNewSector)
     {
-        Pointf locPos = currentLoc->loc;
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(position.x, position.y, 0.f);
         if (arrivedAtBase)
