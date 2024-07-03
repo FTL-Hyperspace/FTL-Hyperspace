@@ -1006,6 +1006,8 @@ playerVariableType playerVariables;
 
 %nodefaultctor Location;
 %rename("%s") Location;
+%rename("%s") Location::loc;
+%rename("%s") Location::connectedLocations;
 %rename("%s") Location::space;
 %rename("%s") Location::spaceImage;
 %rename("%s") Location::planet;
