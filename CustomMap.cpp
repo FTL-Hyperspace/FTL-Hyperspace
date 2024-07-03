@@ -282,10 +282,10 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     g_firstTimeConnection = false;
 }
 
-HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool unk2) -> Location*)
+HOOK_METHOD(StarMap, Open, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomMap.cpp)\n")
-    auto ret = super(unk1, unk2);
+    LOG_HOOK("HOOK_METHOD -> StarMap::Open -> Begin (CustomMap.cpp)\n")
+    super();
 
     g_locConnections.clear();
 
@@ -300,6 +300,4 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool unk2) -> Location*)
             }
         }
     }
-
-    return ret;
 }
