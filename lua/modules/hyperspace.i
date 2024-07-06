@@ -1008,19 +1008,16 @@ playerVariableType playerVariables;
 %rename("%s") Location;
 %rename("%s") Location::loc;
 %rename("%s") Location::connectedLocations;
-
 %rename("%s") Location::beacon;
-//%rename("%s") Location::known;
+%rename("%s") Location::known;
 %rename("%s") Location::visited;
 %rename("%s") Location::dangerZone;
 //%rename("%s") Location::newSector;
 %rename("%s") Location::nebula;
 %rename("%s") Location::boss;
-
 %rename("%s") Location::event;
 %rename("%s") Location::planet;
 %rename("%s") Location::space;
-
 %rename("%s") Location::fleetChanging;
 %rename("%s") Location::planetImage;
 %rename("%s") Location::spaceImage;
