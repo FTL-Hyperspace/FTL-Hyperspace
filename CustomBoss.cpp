@@ -272,7 +272,6 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
     super(fh);
 }
 
-
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperDrones -> Begin (CustomBoss.cpp)\n")
@@ -320,6 +319,44 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
         drone->SetDeployed(true);
         drone->bDead = false;
     }
+}
+
+// Clear super drones when the ship they're attacking is destroyed
+HOOK_METHOD(Ship, DestroyedDone, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::DestroyedDone -> Begin (CustomBoss.cpp)\n")
+    bool ret = super();
+    if (ret)
+    {
+        ShipManager *otherShip = G_->GetShipManager(1 - iShipId);
+        if (otherShip && !otherShip->superDrones.empty())
+        {
+            for (auto drone : otherShip->superDrones) drone->SetDestroyed(true, false);
+            otherShip->superDrones.clear();
+        }
+    }
+    return ret;
+}
+
+// Clear super drones when the game is restarted
+HOOK_METHOD(WorldManager, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (CustomBoss.cpp)\n")
+    
+    ShipManager *ship = G_->GetShipManager(0);
+    if (ship && !ship->superDrones.empty())
+    {
+        for (auto drone : ship->superDrones) drone->SetDestroyed(true, false);
+        ship->superDrones.clear();
+    }
+    ship = G_->GetShipManager(1);
+    if (ship && !ship->superDrones.empty())
+    {
+        for (auto drone : ship->superDrones) drone->SetDestroyed(true, false);
+        ship->superDrones.clear();
+    }
+
+    super();
 }
 
 HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)

@@ -102,6 +102,8 @@ static cleanup __cdecl void CSurface::AddTexVertices(std::vector<GL_TexVertex>* 
 static cleanup __cdecl bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
 ".5557565383ec7c8b15????????f30f10b42498000000":
 static cleanup __cdecl bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
+".5557565383ec5c":
+static cleanup __cdecl bool CSurface::GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
 "565383ec54f30f10442478":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 "565383ec54f30f104c2478":

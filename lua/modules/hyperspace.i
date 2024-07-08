@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "Misc.h"
 %}
 
 %feature("flatnested");
@@ -153,6 +154,9 @@ namespace std {
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
+    %template(vector_location) vector<Location*>;
+    %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
+    %template(vector_choiceText) vector<ChoiceText>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -205,6 +209,7 @@ namespace std {
 
 %apply const std::string& {std::string* GetName()};
 
+%rename("App") Global_CApp;
 %rename("Blueprints") Global_BlueprintManager_Blueprints; 
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
@@ -214,7 +219,9 @@ namespace std {
 %rename("Resources") Global_ResourceControl_GlobalResources;
 %rename("Settings") Global_Settings_Settings;
 %rename("Mouse") Global_MouseControl_Mouse;
+%rename("Text") Global_Globals_Library;
 
+%immutable Global_CApp;
 %immutable Global_BlueprintManager_Blueprints;
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
@@ -224,6 +231,7 @@ namespace std {
 %immutable Global_ResourceControl_GlobalResources;
 %immutable Global_Settings_Settings;
 %immutable Global_MouseControl_Mouse;
+%immutable Global_Globals_Library;
 
 %rename("setRandomSeed") srandom32;
 
@@ -266,6 +274,7 @@ public:
     ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
+    TextLibrary *GetTextLibrary();
 
     static bool IsSeededRun();
     %immutable;
@@ -426,6 +435,11 @@ playerVariableType playerVariables;
 
 %rename("%s") useAugmentReq;
 
+%nodefaultctor TextLibrary;
+%nodefaultdtor TextLibrary;
+%rename("%s") TextLibrary;
+%rename("%s") TextLibrary::GetText;
+
 %nodefaultctor CustomAchievementTracker;
 %rename("%s") CustomAchievementTracker;
 %immutable CustomAchievementTracker::instance;
@@ -573,16 +587,21 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::dangerLocation;
 %immutable CommandGui::dangerLocation;
 
-//%rename("%s") CommandGui::equipScreen;
-//%immutable CommandGui::equipScreen;
-//
-//%rename("%s") Equipment::AddAugment;
-//%rename("%s") Equipment::AddDrone;
-//%rename("%s") Equipment::AddToCargo;
-//%rename("%s") Equipment::AddWeapon;
-//%rename("%s") Equipment::GetCargoHold;
+%rename("%s") CommandGui::equipScreen;
+%immutable CommandGui::equipScreen;
+
+%nodefaultctor Equipment;
+%nodefaultdtor Equipment;
+%rename("%s") Equipment;
+%rename("%s") Equipment::AddAugment;
+%rename("%s") Equipment::AddDrone;
+%rename("%s") Equipment::AddToCargo;
+%rename("%s") Equipment::AddWeapon;
+%rename("%s") Equipment::GetCargoHold;
 
 %rename("%s") CommandGui::bHideUI; // Not sure if we should disallow setting this
+%rename("%s") CommandGui::choiceBox;
+%immutable CommandGui::choiceBox;
 %rename("%s") CommandGui::jumpComplete;
 %immutable CommandGui::jumpComplete;
 %rename("%s") CommandGui::mapId;
@@ -592,12 +611,82 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::choiceBoxOpen;
 %immutable CommandGui::choiceBoxOpen;
 
+%nodefaultctor LocationEvent;
+%rename("%s") LocationEvent;
+%rename("%s") LocationEvent::Choice;
+%rename("%s") LocationEvent::Choice::event;
+%rename("%s") LocationEvent::Choice::text;
+//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
+%rename("%s") LocationEvent::Choice::hiddenReward;
+%rename("%s") LocationEvent::text;
+//%rename("%s") LocationEvent::ship; ShipEvent not exposed
+//%rename("%s") LocationEvent::stuff; ResourceEvent not exposed
+%rename("%s") LocationEvent::environment;
+%rename("%s") LocationEvent::environmentTarget;
+%rename("%s") LocationEvent::store; 
+%rename("%s") LocationEvent::gap_ex_cleared;
+%rename("%s") LocationEvent::fleetPosition;
+%rename("%s") LocationEvent::beacon;
+%rename("%s") LocationEvent::reveal_map;
+%rename("%s") LocationEvent::distressBeacon;
+%rename("%s") LocationEvent::repair;
+
+%rename("%s") LocationEvent::modifyPursuit;
+//%rename("%s") LocationEvent::pStore; Store not exposed
+//%rename("%s") LocationEvent::damage; EventDamage not exposed
+%rename("%s") LocationEvent::quest;
+//%rename("%s") LocationEvent::statusEffects; StatusEffect not exposed
+//%rename("%s") LocationEvent::nameDefinitions; std_pair_std_string_std_string require further testing
+%rename("%s") LocationEvent::spaceImage;
+%rename("%s") LocationEvent::planetImage;
+%rename("%s") LocationEvent::eventName;
+//%rename("%s") LocationEvent::reward; ResourceEvent not exposed
+%rename("%s") LocationEvent::boarders;
+%rename("%s") LocationEvent::choices;
+%rename("%s") LocationEvent::unlockShip;
+%rename("%s") LocationEvent::unlockShipText;
+%rename("%s") LocationEvent::secretSector;
+
+%rename("%s") FocusWindow;
+%rename("%s") FocusWindow::bOpen;
+%rename("%s") FocusWindow::bFullFocus;
+%rename("%s") FocusWindow::bCloseButtonSelected;
+
+%rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::mainText;
+%rename("%s") ChoiceBox::choices;
+%rename("%s") ChoiceBox::columnSize;
+%rename("%s") ChoiceBox::choiceBoxes;
+%rename("%s") ChoiceBox::potentialChoice;
+%rename("%s") ChoiceBox::selectedChoice;
+%rename("%s") ChoiceBox::fontSize;
+%rename("%s") ChoiceBox::centered;
+%rename("%s") ChoiceBox::gap_size;
+%rename("%s") ChoiceBox::openTime;
+// %rename("%s") ChoiceBox::rewards; ResourceEvent not exposed
+%rename("%s") ChoiceBox::currentTextColor;
+%rename("%s") ChoiceBox::lastChoice;
+
+%nodefaultctor ChoiceText;
+%rename("%s") ChoiceText;
+%rename("%s") ChoiceText::type;
+%rename("%s") ChoiceText::text;
+//%rename("%s") ChoiceText::rewards; ResourceEvent not exposed
+
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
 %rename("%s") CombatControl;
+%rename("%s") CombatControl::weapControl;
+%rename("%s") CombatControl::position;
 %rename("%s") CombatControl::targetPosition;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
+
+%nodefaultctor WeaponControl;
+%nodefaultdtor WeaponControl;
+%rename("%s") WeaponControl;
+%rename("%s") WeaponControl::autoFiring;
+%immutable WeaponControl::autoFiring;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
@@ -780,6 +869,8 @@ playerVariableType playerVariables;
 //%rename("%s") StarMap::TurnIntoFleetLocation; // Could be interesting to allow something like 1. Delaying the pursuit for many many turns, 2. having every node you jump out of (or random nodes you've already visited or that do not line up with the path to the exit) convert to a fleet location as if they were chasing your path rather than the whole sector.
 
 //%rename("%s") StarMap::visual_size; // Not sure
+%immutable StarMap::locations;
+%rename("%s") StarMap::locations;
 %rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.
 %rename("%s") StarMap::currentSector;
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
@@ -919,6 +1010,8 @@ playerVariableType playerVariables;
 %rename("%s") Location::spaceImage;
 %rename("%s") Location::planet;
 %rename("%s") Location::planetImage;
+%rename("%s") Location::known;
+%rename("%s") Location::event;
 
 
 %rename("%s") BoardingEvent;
@@ -3632,3 +3725,4 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "Misc.h"

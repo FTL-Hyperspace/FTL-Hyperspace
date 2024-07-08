@@ -616,6 +616,17 @@ struct CSurface
     */
     static bool GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
     /***
+    @function CSurface_GL_DrawLaser
+    @tparam int x
+    @tparam int y
+    @tparam int w
+    @tparam int h
+    @tparam GL_Color color
+    @treturn bool
+    @within functions
+    */
+    static bool GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
+    /***
     @function CSurface_GL_DrawTriangle
     @tparam Point vertex1
     @tparam Point vertex2

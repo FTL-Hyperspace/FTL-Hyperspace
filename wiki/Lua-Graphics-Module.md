@@ -193,10 +193,17 @@ All below methods are static, so they are to be called with the `.` operator.
 
 - `bool GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness)`
 
-  - Renders a gradient shield effect. (like how a portion of the shield turns white when a bean hits it)
+  - Renders a gradient shield effect. (like how a portion of the shield turns white when a beam hits it)
   - `int x, int y` -- center point
   - `float a1, float b1` -- radius X, radius Y
   - `int angle1, int angle2` -- start direction, end direction
+
+- `bool GL_DrawLaser(int x, int y, int w, int h, GL_Color color)`
+
+  - Renders a beam.
+  - `int x, int y` -- origin point
+  - `int w` -- beam length
+  - `int h` -- beam thickness
 
 - `bool GL_DrawTriangle(Point vertex1, Point vertex2, Point vertex3, GL_Color color)`
 

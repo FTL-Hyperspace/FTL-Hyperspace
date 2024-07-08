@@ -18,22 +18,24 @@ All calls are under `Hyperspace`
    - Returns the main instance of `Global`. Always use this to access any members and methods belonging to this class.
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
-- `CApp :GetCApp()`
-   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class.
+- `CApp :GetCApp()` 
+   - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class, or the shortcut `Hyperspace.App`.
 - `ShipInfo :GetShipInfo(bool enemy)`
    - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
 - `BlueprintManager :GetBlueprints()`
-   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class.
+   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class, or the shortcut `Hyperspace.Blueprints`.
 - `SoundControl :GetSoundControl()`
-   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class.
+   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class, or the shortcut `Hyperspace.Sounds`.
 - `AnimationControl :GetAnimationControl()`
-   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class.
+   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class, or the shortcut `Hyperspace.Animations`.
 - `ScoreKeeper :GetScoreKeeper()`
-   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class.
+   - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class, or the shortcut `Hyperspace.Score`.
 - `CrewMemberFactory :GetCrewFactory()`
-   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class.
+   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class, or the shortcut `Hyperspace.CrewFactory`.
 - `MouseControl :GetMouseControl()`
-   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class.
+   - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
+- `TextLibrary :GetTextLibrary()`
+   - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class, or the shortcut `Hyperspace.Text`.
 
 ### Fields
 - `int` `.currentSeed`
@@ -1209,6 +1211,177 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.missSounds`
 - `string` `.image`
 
+## CommandGui
+
+### Fields
+- `ShipStatus` `.shipStatus`
+- `CrewControl` `.crewControl`
+- `SystemControl` `.sysControl`
+- `CombatControl` `.combatControl`
+- `FTLButton` `.ftlButton`
+- `SpaceStatus` `.spaceStatus`
+- ~~`StarMap` `.starMap`~~
+   - Access via `WorldManager` instead.
+- ~~`ShipComplete` `.shipComplete`~~
+- `Point` `.pauseTextLoc`
+- `Point` `.shipPosition`
+- ~~`string` `.locationText`~~
+- ~~`string` `.loadEvent`~~
+- ~~`int` `.loadSector`~~
+- `bool` `.outOfFuel`
+   - **Read-only**
+- `bool` `.bPaused`
+   - **Read-only**
+   - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+- `bool` `.bAutoPaused`
+   - **Read-only**
+   - Maybe true for event pauses and ESC menu pauses? Not sure.
+- `bool` `.menu_pause`
+   - **Read-only**
+   - Probably true for ESC menu pauses.
+- `bool` `.event_pause`
+   - **Read-only**
+   - True for event pauses.
+- `Button` `.upgradeButton`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.dangerLocation`
+   - **Read-only**
+- `Equipment` `.equipScreen`
+   - Field is **read-only** but fields under this object may still be mutable.
+- `bool` `.bHideUI`
+- `bool` `.jumpComplete`
+   - **Read-only**
+- `int` `.mapId`
+   - **Read-only**
+- `bool` `.secretSector`
+   - **Read-only**
+- `bool` `.choiceBoxOpen`
+   - **Read-only**
+
+## Equipment
+
+### Methods
+- `void :AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)`
+- `void :AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)`
+- `void :AddToCargo(std::string &name)`
+- `void :AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)`
+- `std::vector<std::string> :GetCargoHold()`
+
+## CombatControl
+
+### Fields
+- [`WeaponControl`](#WeaponControl) `weapControl`
+- `Point` `.position`
+- `Point` `.targetPosition`
+- `bool` `.boss_visual`
+   - **Read-only**
+
+## WeaponControl
+**Extends ~~`ArmamentControl`~~**
+### Fields
+- `bool` `.autoFiring`
+   - **Read-only**
+
+## LocationEvent
+
+### Fields
+- [`TextString`](#TextString) `.text`
+- `int` `.environment`
+- `int` `.environmentTarget`
+- `bool` `.store`
+- `bool` `.gap_ex_cleared`
+- `int` `.fleetPosition`
+- `bool` `.beacon`
+- `bool` `.reveal_map`
+- `bool` `.distressBeacon`
+- `bool` `.repair`
+- `int` `.modifyPursuit`
+- `std::string` `.quest`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `std::string` `.eventName`
+- [`BoardingEvent`](#BoardingEvent) `.boarders`
+- `int` `.unlockShip`
+- [`TextString`](#TextString) `.unlockShipText`
+- `bool` `.secretSector`
+- [`std::vector<Choice>`](#Choice) `.choices`
+
+## Choice
+
+**Internal Struct Of [`LocationEvent`](#LocationEvent)**
+
+### Fields
+- [`LocationEvent`](#LocationEvent) `.event`
+- [`TextString`](#TextString) `.text`
+- `bool` `.hiddenReward`
+
+## FocusWindow
+
+### Fields
+- `bool` `.bOpen`
+- `bool` `.bFullFocus`
+- `bool` `.bCloseButtonSelected`
+
+## ChoiceBox
+
+**Extends [`FocusWindow`](#FocusWindow)**
+
+### Fields
+- `std::string` `.mainText`
+- [`std::vector<ChoiceText>`](#ChoiceText) `.choices`
+- `int` `.columnSize`
+- [`std::vector<Globals::Rect>`](#Globals) `.choiceBoxes`
+- `int` `.potentialChoice`
+- `int` `.selectedChoice`
+- `int` `.fontSize`
+- `bool` `.centered`
+- `int` `.gap_size`
+- `float` `.openTime`
+- [`GL_Color`](#GL_Color) `.currentTextColor`
+- `Pointf` `.lastChoice`
+
+## ChoiceText
+
+### Fields
+- `int` `.type`
+- `std::string` `.text`
+
+## CommandGui
+
+### Fields
+- [`ShipStatus`](#ShipStatus) `.shipStatus`
+- [`CrewControl`](#CrewControl) `.crewControl`
+- [`SystemControl`](#SystemControl) `.sysControl`
+- [`CombatControl`](#CombatControl) `.combatControl`
+- [`FTLButton`](#FTLButton) `.ftlButton`
+- [`SpaceStatus`](#SpaceStatus) `.spaceStatus`
+- [`Point`](#Point) `.pauseTextLoc`
+- [`Point`](#Point) `.shipPosition`
+- `bool` `.outOfFuel`
+   - **Read-Only**
+- `bool` `.bPaused`
+   - **Read-Only**
+- `bool` `.bAutoPaused`
+   - **Read-Only**
+- `bool` `.menu_pause`
+   - **Read-Only**
+- `bool` `.event_pause`
+   - **Read-Only**
+- `Button` `.upgradeButton`
+   - **Read-Only**
+- `bool` `.dangerLocation`
+   - **Read-Only**`
+- `bool` `.bHideUI`
+- [`ChoiceBox`](#ChoiceBox) `.choiceBox`
+- `bool` `.jumpComplete`
+   - **Read-Only**
+- `int` `.mapId`
+   - **Read-Only**
+- `bool` `.secretSector`
+   - **Read-Only**
+- `bool` `.choiceBoxOpen`
+   - **Read-Only**
+
 ## ScoreKeeper
 
 ### Fields
@@ -1230,7 +1403,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 
-- `Location` `.currentLoc`
+- `std::vector<Location>` `.locations`
+   - **Read-only**
+- [`Location`](#Location) `.currentLoc`
 - [`Sector`](#Sector) `.currentSector`
 - `int` `.pursuitDelay`
 - `GL_Primitive` `.ship`
@@ -1239,6 +1414,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - The no fuel variant of the `ship` icon.
 - `int` `.worldLevel`
    - **Read-only**
+
+## Location
+
+### Fields
+
+- `ImageDesc` `.space`
+- `ImageDesc` `.planet`
+- `std::string` `.spaceImage`
+- `std::string` `.planetImage`
+- `bool` `.known`
+- [`LocationEvent`](#LocationEvent) `.event`
 
 ## Sector
 
@@ -1251,6 +1437,13 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+
+## TextLibrary
+
+### Methods
+
+- `std::string :GetText(std::string name)`
+   - Retrieve the corresponding text string from the `text_` xml files in the current language.
 
 ## TextString
 
@@ -1269,3 +1462,4 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
+

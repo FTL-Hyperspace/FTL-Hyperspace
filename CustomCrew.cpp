@@ -5281,7 +5281,12 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     crewAnim->anims[0][6].tracker.SetLoop(false, 0.f);
     crewAnim->anims[0][6].Start(true);
     crewAnim->anims[0][6].StartReverse(true);
-    G_->GetSoundControl()->PlaySoundMix("cloneArrive", -1.f, false);
+
+    ShipManager *ship = G_->GetShipManager(iShipId);
+    if (ship && !ship->bDestroyed)
+    {
+        G_->GetSoundControl()->PlaySoundMix("cloneArrive", -1.f, false);
+    }
 }
 
 static bool needsIntruderControllable = false;
