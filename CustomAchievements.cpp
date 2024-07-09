@@ -493,8 +493,10 @@ void CustomAchievementTracker::RemoveAchievement(const std::string &name)
 {
     if (GetAchievementStatus(name) != -1)
     {
+        CustomAchievement &ach = GetAchievement(name);
+        ach.ach.newAchievement = false;
         achievementUnlocks[name] = -1;
-        UpdateAchievements();
+        UpdateAchievement(ach);
     }
 }
 

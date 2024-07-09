@@ -295,7 +295,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if(cmdName == "ACH_LOCK" && command.length() > 8)
     {
-        std::string achName = boost::trim_copy(command.substr(11));
+        std::string achName = boost::trim_copy(command.substr(9));
         CustomAchievementTracker *customAchTrack = CustomAchievementTracker::instance;
         customAchTrack->RemoveAchievement(achName);
 
