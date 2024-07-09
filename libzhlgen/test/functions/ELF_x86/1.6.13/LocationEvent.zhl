@@ -3,11 +3,29 @@ cleanup __cdecl void LocationEvent::ClearEvent(LocationEvent *this, bool force);
 "565383ec248b5c24308d74241f89742408":
 cleanup __cdecl void LocationEvent::constructor(LocationEvent *this);
 
-struct LocationEvent
+struct LocationEvent depends (LocationEvent::Choice)
 {{
+	struct Choice
+	{
+		LocationEvent *event;
+		TextString text;
+		ChoiceReq requirement;
+		bool hiddenReward;
+	};
+
 	LocationEvent()
 	{
 		this->constructor();
 	}
-}};
 
+	std::vector<Choice*> GetChoices()
+    {
+		std::vector<Choice*> ret = std::vector<Choice*>();
+		for (int i=0; i < (int)this->choices.size(); ++i)
+		{
+			ret.push_back(&this->choices[i]);
+		}
+
+       	return ret;
+    }
+}};

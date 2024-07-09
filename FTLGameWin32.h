@@ -5454,11 +5454,6 @@ struct StatusEffect
 
 struct LocationEvent
 {
-	LocationEvent()
-	{
-		this->constructor();
-	}
-
 	struct Choice
 	{
 		LocationEvent *event;
@@ -5466,7 +5461,23 @@ struct LocationEvent
 		ChoiceReq requirement;
 		bool hiddenReward;
 	};
-	
+
+	LocationEvent()
+	{
+		this->constructor();
+	}
+
+	std::vector<Choice*> GetChoices()
+    {
+		std::vector<Choice*> ret = std::vector<Choice*>();
+		for (int i=0; i < (int)this->choices.size(); ++i)
+		{
+			ret.push_back(&this->choices[i]);
+		}
+
+       	return ret;
+    }
+
 	LIBZHL_API void ClearEvent(bool force);
 	LIBZHL_API void constructor();
 	
