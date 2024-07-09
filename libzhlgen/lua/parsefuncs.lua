@@ -120,6 +120,7 @@ local vtables = {}
 local pools = {}
 local functionsByFile = {}
 local functions = {}
+local overridenChild = {}
 
 local globalVars = {}
 
@@ -471,6 +472,7 @@ for k,fd in pairs(tfiles) do
         str = f:read("*a")
         f:close()
     end
+	
     
     local t = cparser.ParseFunctions(str)
     
@@ -479,15 +481,16 @@ for k,fd in pairs(tfiles) do
         if func.struct then
             -- Generic code and extra dependencies for structs
             local s = structs[func:cname()]
-            
+			--print(func:cname())
             if s then
                 if func.generic_code then
                     s.generic_code = (s.generic_code or "")..func.generic_code
                 end
-                
+
                 if func.depends then
                     for _,d in ipairs(func.depends) do
                         local dname = d:cname()
+						if (string.find(dname, func:cname().."::")) then overridenChild[dname] = true end
                         addDependency(s, dname, false)
                     end
                 end
@@ -730,7 +733,9 @@ template <class T, int Size> struct Pool
     local children = struct.children or {}
 	local sortedChildrenKeys = sortKeys(children)
     for _,k in ipairs(sortedChildrenKeys) do
-        writeStruct(children[k], out, struct)
+		if not overridenChild[children[k]:cname()] then
+        	writeStruct(children[k], out, struct)
+		end
 	end
 end
 
