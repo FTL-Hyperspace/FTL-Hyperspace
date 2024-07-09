@@ -3185,6 +3185,17 @@ struct WindowFrame;
 
 struct ChoiceBox : FocusWindow
 {
+    std::vector<ChoiceText*> GetChoices()
+    {
+		std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+		for (int i=0; i < (int)this->choices.size(); ++i)
+		{
+			ret.push_back(&this->choices[i]);
+		}
+
+       	return ret;
+    }
+
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();

@@ -4,3 +4,16 @@ cleanup __cdecl void ChoiceBox::OnRender(ChoiceBox *this);
 cleanup __cdecl void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y);
 "833d????????02538b4424088b54240c8b4c2410":
 cleanup __cdecl void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
+struct ChoiceBox
+{{
+    std::vector<ChoiceText*> GetChoices()
+    {
+		std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+		for (int i=0; i < (int)this->choices.size(); ++i)
+		{
+			ret.push_back(&this->choices[i]);
+		}
+
+       	return ret;
+    }
+}};

@@ -157,6 +157,7 @@ namespace std {
     %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
     %template(vector_choiceText) vector<ChoiceText>;
+    %template(vector_p_choiceText) vector<ChoiceText*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -653,6 +654,7 @@ playerVariableType playerVariables;
 %rename("%s") FocusWindow::bCloseButtonSelected;
 
 %rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::GetChoices;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
 %rename("%s") ChoiceBox::columnSize;
