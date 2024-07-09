@@ -725,6 +725,20 @@ HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
         super(scale);
     }
 }
+HOOK_METHOD(WeaponBlueprint, GetDimensions, () -> Point)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponBlueprint::GetDimensions -> Begin (CustomWeapons.cpp)\n")
+    std::string iconReplaceName = CustomWeaponManager::instance->GetWeaponDefinition(name)->iconReplace;
+    if (iconReplaceName != "")
+    {
+        Animation iconReplace = G_->GetAnimationControl()->GetAnimation(iconReplaceName);
+        return Point(iconReplace.info.frameWidth, iconReplace.info.frameHeight);
+    }
+    else
+    {
+        return super();
+    }
+}
 
 // Icon Scale
 HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)

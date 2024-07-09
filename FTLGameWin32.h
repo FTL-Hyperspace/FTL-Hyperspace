@@ -2704,6 +2704,7 @@ struct WeaponBlueprint : Blueprint
 	};
 	
 	LIBZHL_API std::string GetDescription(bool tooltip);
+	LIBZHL_API Point GetDimensions();
 	LIBZHL_API void RenderIcon(float scale);
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
