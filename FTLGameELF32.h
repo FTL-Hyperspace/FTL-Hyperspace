@@ -3188,13 +3188,13 @@ struct ChoiceBox : FocusWindow
 {
     std::vector<ChoiceText*> GetChoices()
     {
-		std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
-		for (int i=0; i < (int)this->choices.size(); ++i)
-		{
-			ret.push_back(&this->choices[i]);
-		}
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
 
-       	return ret;
+        return ret;
     }
 
 	LIBZHL_API void MouseClick(int mX, int mY);
@@ -5431,28 +5431,28 @@ struct StatusEffect
 
 struct LocationEvent
 {
-	struct Choice
-	{
-		LocationEvent *event;
-		TextString text;
-		ChoiceReq requirement;
-		bool hiddenReward;
-	};
-
-	LocationEvent()
-	{
-		this->constructor();
-	}
-
-	std::vector<Choice*> GetChoices()
+    struct Choice
     {
-		std::vector<Choice*> ret = std::vector<Choice*>();
-		for (int i=0; i < (int)this->choices.size(); ++i)
-		{
-			ret.push_back(&this->choices[i]);
-		}
+        LocationEvent *event;
+        TextString text;
+        ChoiceReq requirement;
+        bool hiddenReward;
+    };
 
-       	return ret;
+    LocationEvent()
+    {
+        this->constructor();
+    }
+
+    std::vector<Choice*> GetChoices()
+    {
+        std::vector<Choice*> ret = std::vector<Choice*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
     }
 
 	LIBZHL_API void ClearEvent(bool force);

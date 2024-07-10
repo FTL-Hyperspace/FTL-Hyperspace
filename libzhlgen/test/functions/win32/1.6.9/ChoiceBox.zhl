@@ -8,12 +8,12 @@ struct ChoiceBox
 {{
     std::vector<ChoiceText*> GetChoices()
     {
-		std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
-		for (int i=0; i < (int)this->choices.size(); ++i)
-		{
-			ret.push_back(&this->choices[i]);
-		}
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
 
-       	return ret;
+        return ret;
     }
 }};
