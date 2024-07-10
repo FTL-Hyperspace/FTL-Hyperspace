@@ -481,7 +481,6 @@ for k,fd in pairs(tfiles) do
         if func.struct then
             -- Generic code and extra dependencies for structs
             local s = structs[func:cname()]
-			--print(func:cname())
             if s then
                 if func.generic_code then
                     s.generic_code = (s.generic_code or "")..func.generic_code
