@@ -35,66 +35,66 @@ local useNaked = true
 local compiler_passSmallStructsInTwoRegisters = true -- Should small structs be passed in EDX:EAX (or RDX:RAX) or only returned by memory pointer
 -- TODO: Maybe read stdNamespaceSizes and some of these other compiler/libstdc++ configuration settings from a separate config file? Or maybe from the IDA stripped header file under different names?
 local stdNamespaceSizes = {
-	[ "string" ] = 28,
-	[ "vector" ] = 16,
-	[ "set" ] = 16,
-	[ "pair" ] = 8
+    [ "string" ] = 28,
+    [ "vector" ] = 16,
+    [ "set" ] = 16,
+    [ "pair" ] = 8
 }
 if string.find(mode, "linux") ~= nil then
     -- compiler = "gcc"
     useStackAlignment = true
     isPOSIX = true
-	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
+    useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
     saveAllRegistersForSomeReason = false
     useNaked = true
     recordClobberedRegisters = true
-	if arch == "i386" then
-		memPassedStructsPoppedByCallee = true
-		compiler_passSmallStructsInTwoRegisters = false -- Pass all structs by memory even if they fit in EDX:EAX
-		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
-		stdNamespaceSizes = {
-			[ "string" ] = 28,
-			[ "vector" ] = 12,
-			[ "set" ] = 24, -- Unknown if correct
-			[ "pair" ] = 8,
-			[ "map" ] = 24
-		}
-	elseif arch == "x86_64" then
-		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
-		stdNamespaceSizes = {
-			[ "string" ] = 28,
-			[ "vector" ] = 24,
-			[ "set" ] = 48, -- Unknown if correct
-			[ "pair" ] = 8,
-			[ "map" ] = 48
-		}
+    if arch == "i386" then
+        memPassedStructsPoppedByCallee = true
+        compiler_passSmallStructsInTwoRegisters = false -- Pass all structs by memory even if they fit in EDX:EAX
+        -- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
+        stdNamespaceSizes = {
+            [ "string" ] = 28,
+            [ "vector" ] = 12,
+            [ "set" ] = 24, -- Unknown if correct
+            [ "pair" ] = 8,
+            [ "map" ] = 24
+        }
+    elseif arch == "x86_64" then
+        -- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
+        stdNamespaceSizes = {
+            [ "string" ] = 28,
+            [ "vector" ] = 24,
+            [ "set" ] = 48, -- Unknown if correct
+            [ "pair" ] = 8,
+            [ "map" ] = 48
+        }
     end
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
-	useIntelASMSyntax = true -- Use Intel syntax with MSVC
-	if arch == "i386" then
-		stdNamespaceSizes = {
-			[ "string" ] = 28,
-			[ "vector" ] = 16,
-			[ "set" ] = 16,
-			[ "pair" ] = 8
-		}
-	elseif arch == "x86_64" then
+    useIntelASMSyntax = true -- Use Intel syntax with MSVC
+    if arch == "i386" then
+        stdNamespaceSizes = {
+            [ "string" ] = 28,
+            [ "vector" ] = 16,
+            [ "set" ] = 16,
+            [ "pair" ] = 8
+        }
+    elseif arch == "x86_64" then
         error("64-bit x86 is not yet supported for Windows MSVC")
     end
     -- compiler = "msvc"
 elseif string.find(mode, "mingw") ~= nil then
     thiscallFirstArgumentECX = true
-	if arch == "i386" then
-		stdNamespaceSizes = {
-			[ "string" ] = 24,
-			[ "vector" ] = 12,
-			[ "set" ] = 24, -- Unknown if correct
-			[ "pair" ] = 8,
-			[ "map" ] = 24
-		}
-	elseif arch == "x86_64" then
+    if arch == "i386" then
+        stdNamespaceSizes = {
+            [ "string" ] = 24,
+            [ "vector" ] = 12,
+            [ "set" ] = 24, -- Unknown if correct
+            [ "pair" ] = 8,
+            [ "map" ] = 24
+        }
+    elseif arch == "x86_64" then
         error("64-bit x86 is not yet supported for Windows MinGW")
     end
     -- compiler = "gcc"
@@ -105,10 +105,10 @@ else
 end
 
 local function makeset(t)
-	for k,v in ipairs(t) do
-		t[v], t[k] = true, nil
-	end
-	return t
+    for k,v in ipairs(t) do
+        t[v], t[k] = true, nil
+    end
+    return t
 end
 
 local hasFuncDef = {}
@@ -129,21 +129,21 @@ local global = cparser.ParseDefinition("namespace Global {};")
 global.dependencies = {}
 
 local blacklist = makeset{
-	"__m64";
-	"__m128";
-	"__m128d";
-	"__m128i";
-	"_EH4_SCOPETABLE_RECORD";
-	"_EH4_SCOPETABLE";
-	"struct_fileInfo";
-	"struct_archive";
-	"struct_a1";
-	"struct_a1b";
-	"struct_v3";
-	"string_u";
-	"LARGE_INTEGER";
-	"type_info";
-	"tagRECT";
+    "__m64";
+    "__m128";
+    "__m128d";
+    "__m128i";
+    "_EH4_SCOPETABLE_RECORD";
+    "_EH4_SCOPETABLE";
+    "struct_fileInfo";
+    "struct_archive";
+    "struct_a1";
+    "struct_a1b";
+    "struct_v3";
+    "string_u";
+    "LARGE_INTEGER";
+    "type_info";
+    "tagRECT";
 }
 
 function sortKeys(t)
@@ -167,282 +167,282 @@ local defs = cparser.ParseDefinitions(str)
 cparser.UseIdaFormat(false)
 
 local function shouldBlacklist(t)
-	if t.template then return true end
-	
-	if not t.parent then
-		return blacklist[t.class]
-	else
-		while t.parent do
-			t = t.parent
-			if t.template then return true end
-		end
-		if t.class == "std" then return true end
-	end
-	
-	return false
+    if t.template then return true end
+    
+    if not t.parent then
+        return blacklist[t.class]
+    else
+        while t.parent do
+            t = t.parent
+            if t.template then return true end
+        end
+        if t.class == "std" then return true end
+    end
+    
+    return false
 end
 
 local function getsize_alignment(t)
-	-- May need further verification
-	local size = 4
-	local alignment = 4
-	
-	local field_size = 0
-	local field_alignment = 0
-	
-	if not t.ptr or #t.ptr == 0 then
-		local sdef = structs[t:cname()]
-		if sdef and sdef.fields then
-			size = 0
-			alignment = 0
-			if sdef.inherits then
-				for _,f in ipairs(sdef.inherits) do
-					field_size, field_alignment = getsize_alignment(structs[f:cname()])
-					size = math.ceil(size/field_alignment)*field_alignment + field_size
-					alignment = math.max(alignment, field_alignment)
-				end
-			elseif sdef.vtable then
-				size = math.ceil(size/4)*4 + 4 -- TODO: Is 4 correct on 64-bit?
-				alignment = math.max(alignment, 4)
-			end
-			
-			for _,f in pairs(sdef.fields) do
-				field_size, field_alignment = getsize_alignment(f)
-				size = math.ceil(size/field_alignment)*field_alignment + field_size
-				alignment = math.max(alignment, field_alignment)
-			end
-		elseif t.class == "__int64" or t.class == "double" or t.class == 'uint64_t' or t.class == 'int64_t' then
-			size = 8
-			alignment = 8
-		elseif t.class == "__int16" or t.class == "short" or t.class == 'uint16_t' or t.class == 'int16_t'  then
-			size = 2
-			alignment = 2
-		elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t' or t.class == "bool"  then
-			size = 1
-			alignment = 1
-		elseif t.parent and t.parent.class == "std" then
-			local stdStructSize = stdNamespaceSizes[t.class]
-			if not stdStructSize then
-				print("Warning, unknown size for std::" .. t.class)
-			else
-				size = stdNamespaceSizes[t.class]
-			end
-		elseif t.class == "SmartPointer" then
-			size = 8
-		elseif t.class == "ReferenceCount" then
-			size = 12
-		end 
+    -- May need further verification
+    local size = 4
+    local alignment = 4
+    
+    local field_size = 0
+    local field_alignment = 0
+    
+    if not t.ptr or #t.ptr == 0 then
+        local sdef = structs[t:cname()]
+        if sdef and sdef.fields then
+            size = 0
+            alignment = 0
+            if sdef.inherits then
+                for _,f in ipairs(sdef.inherits) do
+                    field_size, field_alignment = getsize_alignment(structs[f:cname()])
+                    size = math.ceil(size/field_alignment)*field_alignment + field_size
+                    alignment = math.max(alignment, field_alignment)
+                end
+            elseif sdef.vtable then
+                size = math.ceil(size/4)*4 + 4 -- TODO: Is 4 correct on 64-bit?
+                alignment = math.max(alignment, 4)
+            end
+            
+            for _,f in pairs(sdef.fields) do
+                field_size, field_alignment = getsize_alignment(f)
+                size = math.ceil(size/field_alignment)*field_alignment + field_size
+                alignment = math.max(alignment, field_alignment)
+            end
+        elseif t.class == "__int64" or t.class == "double" or t.class == 'uint64_t' or t.class == 'int64_t' then
+            size = 8
+            alignment = 8
+        elseif t.class == "__int16" or t.class == "short" or t.class == 'uint16_t' or t.class == 'int16_t'  then
+            size = 2
+            alignment = 2
+        elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t' or t.class == "bool"  then
+            size = 1
+            alignment = 1
+        elseif t.parent and t.parent.class == "std" then
+            local stdStructSize = stdNamespaceSizes[t.class]
+            if not stdStructSize then
+                print("Warning, unknown size for std::" .. t.class)
+            else
+                size = stdNamespaceSizes[t.class]
+            end
+        elseif t.class == "SmartPointer" then
+            size = 8
+        elseif t.class == "ReferenceCount" then
+            size = 12
+        end 
     else
         size = archPushSize -- pointer size, only really ends up mattering on 64-bit as otherwise it was already 4
-		alignment = archPushSize
-	end
-	
-	if t.array and t.array > 1 then
-		size = size + math.ceil(size/alignment)*alignment * (t.array-1)
-	end
-	
-	return size, alignment
+        alignment = archPushSize
+    end
+    
+    if t.array and t.array > 1 then
+        size = size + math.ceil(size/alignment)*alignment * (t.array-1)
+    end
+    
+    return size, alignment
 end
 
 local function sizeof(t)
-	local size
-	local alignment
-	
-	size, alignment = getsize_alignment(t)
-	
-	return size
+    local size
+    local alignment
+    
+    size, alignment = getsize_alignment(t)
+    
+    return size
 end
 
 local function sizeof_aligned(t)
-	return math.ceil(sizeof(t)/archPushSize)
+    return math.ceil(sizeof(t)/archPushSize)
 end
 
 ----------------------------------------------------------------------------------
 -- Perform some preprocessing on those structures
 
 local function addDependency(v, name, ptr)
-	local t = (ptr and 1) or 2
-	
-	v.dependencies[name] = math.max(v.dependencies[name] or 0, t)
-	if v.parent then
-		local ps = structs[v.parent:cname()]
-		if ps then
-			addDependency(ps, name, ptr)
-		end
-	end
+    local t = (ptr and 1) or 2
+    
+    v.dependencies[name] = math.max(v.dependencies[name] or 0, t)
+    if v.parent then
+        local ps = structs[v.parent:cname()]
+        if ps then
+            addDependency(ps, name, ptr)
+        end
+    end
 end
 
 local function processField(f, v)
-	if not shouldBlacklist(f) then
-		-- integer types
-		if f.class == "_DWORD" then
-			f.class, f.unsigned = "int", true
-		elseif f.class == "_WORD" then
-			f.class, f.unsigned = "short", true
-		elseif f.class == "_BYTE" then
-			f.class, f.unsigned = "char", true
-		end
-		
-		-- struct dependencies
-		local cname = f:cname()
-		if structs[cname] then
-			addDependency(v, cname, f:isPointer())
-		end
-	end
-	
-	-- template arguments
-	for _,a in pairs(f.template or {}) do
-		processField(a, v)
-	end
-	
-	-- function arguments
-	for _,a in pairs(f.args or {}) do
-		processField(a, v)
-	end
+    if not shouldBlacklist(f) then
+        -- integer types
+        if f.class == "_DWORD" then
+            f.class, f.unsigned = "int", true
+        elseif f.class == "_WORD" then
+            f.class, f.unsigned = "short", true
+        elseif f.class == "_BYTE" then
+            f.class, f.unsigned = "char", true
+        end
+        
+        -- struct dependencies
+        local cname = f:cname()
+        if structs[cname] then
+            addDependency(v, cname, f:isPointer())
+        end
+    end
+    
+    -- template arguments
+    for _,a in pairs(f.template or {}) do
+        processField(a, v)
+    end
+    
+    -- function arguments
+    for _,a in pairs(f.args or {}) do
+        processField(a, v)
+    end
 end
 
 -- Register all non-blacklisted structs
 for _,v in pairs(defs) do
-	if not shouldBlacklist(v) then
-		structs[v:cname()] = v
-	end
+    if not shouldBlacklist(v) then
+        structs[v:cname()] = v
+    end
 end
 
 -- Entity pools (we'll manually register those since they're a bit tricky)
 --[[
 for _,v in pairs(structs) do
-	for k,f in pairs(v.fields) do
-		local cname = f:cname()
-		if structs[cname] and f.class:find("^Pool_") then
-			local p = structs[cname]
-			local pclass = p.fields[1].class
-			local psize = p.fields[1].array
-			
-			pools[cname] = true
-			f.class = "Pool"
-			f.template = {
-				setmetatable({class = pclass, ptr={}}, getmetatable(f)),
-				setmetatable({class = tostring(psize), ptr={}}, getmetatable(f))
-			}
-		end
-	end
+    for k,f in pairs(v.fields) do
+        local cname = f:cname()
+        if structs[cname] and f.class:find("^Pool_") then
+            local p = structs[cname]
+            local pclass = p.fields[1].class
+            local psize = p.fields[1].array
+            
+            pools[cname] = true
+            f.class = "Pool"
+            f.template = {
+                setmetatable({class = pclass, ptr={}}, getmetatable(f)),
+                setmetatable({class = tostring(psize), ptr={}}, getmetatable(f))
+            }
+        end
+    end
 end
 
 for k,v in pairs(pools) do
-	structs[k] = nil
+    structs[k] = nil
 end]]
 
 -- vtables
 for _,v in pairs(structs) do
-	for k,f in pairs(v.fields) do
-		local cname = f:cname()
-		if k == 1 and f.name == "_vtable" and f:isPointer() and structs[cname] then
-			-- vtables
-			vtables[cname] = structs[cname]
-			v.vtable = structs[cname]
-			
-			if v.vtable.fields[1] and v.vtable.fields[1].name == "Free" then
-				v.hasVirtualDestructor = true
-			end
-		end
-	end
-	
-	if v.vtable then
-		table.remove(v.fields, 1)
-	end
+    for k,f in pairs(v.fields) do
+        local cname = f:cname()
+        if k == 1 and f.name == "_vtable" and f:isPointer() and structs[cname] then
+            -- vtables
+            vtables[cname] = structs[cname]
+            v.vtable = structs[cname]
+            
+            if v.vtable.fields[1] and v.vtable.fields[1].name == "Free" then
+                v.hasVirtualDestructor = true
+            end
+        end
+    end
+    
+    if v.vtable then
+        table.remove(v.fields, 1)
+    end
 end
 
 for k,v in pairs(vtables) do
-	-- HACK: consecutive functions with the same name but different arguments are compiled in reverse order by MSVC
-	-- ... go figure
-	local lastName
-	local seqStart
-	for i=1, #v.fields+1 do
-		local f = v.fields[i]
-		local name
-		if f then
-			name = f.name:gsub("__.*$", "")
-		end
-		
-		if name == lastName then
-			if not seqStart then
-				seqStart = i-1
-			end
-		else
-			if seqStart then
-				local seqEnd = i-1
-				for j=0, (seqEnd-seqStart-1)/2 do
-					v.fields[seqStart+j], v.fields[seqEnd-j] = v.fields[seqEnd-j], v.fields[seqStart+j]
-				end
-				seqStart = nil
-			end
-			lastName = name
-		end
-		
-		if f and f.args and f.args[1] then f.args[1].hidden = true end
-	end
-	
-	-- Process virtual functions with an implicit output argument
-	for _,f in ipairs(v.fields) do
-		if f.args and f.args[2] and f.args[2].name == "implicit_output" then
-			table.remove(f.ptr)
-			table.remove(f.args, 2)
-		end
-	end
-	
-	-- Remove this vtable from the structures list
-	structs[k] = nil
+    -- HACK: consecutive functions with the same name but different arguments are compiled in reverse order by MSVC
+    -- ... go figure
+    local lastName
+    local seqStart
+    for i=1, #v.fields+1 do
+        local f = v.fields[i]
+        local name
+        if f then
+            name = f.name:gsub("__.*$", "")
+        end
+        
+        if name == lastName then
+            if not seqStart then
+                seqStart = i-1
+            end
+        else
+            if seqStart then
+                local seqEnd = i-1
+                for j=0, (seqEnd-seqStart-1)/2 do
+                    v.fields[seqStart+j], v.fields[seqEnd-j] = v.fields[seqEnd-j], v.fields[seqStart+j]
+                end
+                seqStart = nil
+            end
+            lastName = name
+        end
+        
+        if f and f.args and f.args[1] then f.args[1].hidden = true end
+    end
+    
+    -- Process virtual functions with an implicit output argument
+    for _,f in ipairs(v.fields) do
+        if f.args and f.args[2] and f.args[2].name == "implicit_output" then
+            table.remove(f.ptr)
+            table.remove(f.args, 2)
+        end
+    end
+    
+    -- Remove this vtable from the structures list
+    structs[k] = nil
 end
 
 -- remove any remaining vtables
 for k,v in pairs(structs) do
-	if v.class:lower():find("^vtable") then
-		structs[k] = nil
-	end
+    if v.class:lower():find("^vtable") then
+        structs[k] = nil
+    end
 end
 
 -- struct dependencies
 for _,v in pairs(structs) do
-	v.dependencies = {}
+    v.dependencies = {}
 end
 
 for _,v in pairs(structs) do
-	-- nested classes
-	if v.parent then
-		local ps = structs[v.parent:cname()]
-		if ps then
-			if not ps.children then ps.children = {} end
-			ps.children[v:cname()] = v
-		else
-			error(string.format("namespaces not supported yet (%s)", v.parent:cname()))
-		end
-	end
-	
-	for k,f in pairs(v.fields) do
-		local cname = f:cname()
-		if not f:isPointer() and structs[cname] and (f.name == "_entity" or f.name == "_base") then
-			-- inheritance
-			if v.inherits == nil then
-				v.inherits = {}
-			end
-			table.insert(v.inherits, f)
-			addDependency(v, cname, false)
-			hasFuncDef[cname] = true
-		end
-		processField(f, v)
-	end
-	
-	if v.vtable then
-		for _,f in ipairs(v.vtable.fields) do
-			processField(f, v)
-		end
-	end
-	
-	if v.inherits then
-		for i = 1,#v.inherits do
-			table.remove(v.fields, 1)
-		end
-	end
+    -- nested classes
+    if v.parent then
+        local ps = structs[v.parent:cname()]
+        if ps then
+            if not ps.children then ps.children = {} end
+            ps.children[v:cname()] = v
+        else
+            error(string.format("namespaces not supported yet (%s)", v.parent:cname()))
+        end
+    end
+    
+    for k,f in pairs(v.fields) do
+        local cname = f:cname()
+        if not f:isPointer() and structs[cname] and (f.name == "_entity" or f.name == "_base") then
+            -- inheritance
+            if v.inherits == nil then
+                v.inherits = {}
+            end
+            table.insert(v.inherits, f)
+            addDependency(v, cname, false)
+            hasFuncDef[cname] = true
+        end
+        processField(f, v)
+    end
+    
+    if v.vtable then
+        for _,f in ipairs(v.vtable.fields) do
+            processField(f, v)
+        end
+    end
+    
+    if v.inherits then
+        for i = 1,#v.inherits do
+            table.remove(v.fields, 1)
+        end
+    end
 end
 
 ----------------------------------------------------------------------------------
@@ -450,9 +450,9 @@ end
 
 local tfiles = {}
 for d in lfs.dir(funcPath) do
-	local name = d:match("^(.-)%.zhl$")
+    local name = d:match("^(.-)%.zhl$")
     local filepath = funcPath.."/"..d
-	local a = lfs.attributes(filepath)
+    local a = lfs.attributes(filepath)
     if name and a and a.mode == "file" then
         table.insert(tfiles, {
             path = filepath,
@@ -472,7 +472,7 @@ for k,fd in pairs(tfiles) do
         str = f:read("*a")
         f:close()
     end
-	
+    
     
     local t = cparser.ParseFunctions(str)
     
@@ -489,7 +489,7 @@ for k,fd in pairs(tfiles) do
                 if func.depends then
                     for _,d in ipairs(func.depends) do
                         local dname = d:cname()
-						if (string.find(dname, func:cname().."::")) then overridenChild[dname] = true end
+                        if (string.find(dname, func:cname().."::")) then overridenChild[dname] = true end
                         addDependency(s, dname, false)
                     end
                 end
@@ -528,12 +528,12 @@ for k,fd in pairs(tfiles) do
                 isImplicitType = false
             end
                 
-			local structMaxRegisterPassSize
-			if compiler_passSmallStructsInTwoRegisters then
-				structMaxRegisterPassSize = archPushSize * 2
-			else
-				structMaxRegisterPassSize = archPushSize
-			end
+            local structMaxRegisterPassSize
+            if compiler_passSmallStructsInTwoRegisters then
+                structMaxRegisterPassSize = archPushSize * 2
+            else
+                structMaxRegisterPassSize = archPushSize
+            end
 
             if sizeof(func) > structMaxRegisterPassSize and isImplicitType then
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this" and using MSVC)
@@ -688,24 +688,24 @@ local prototypeWritten = {}
 local included = {}
 
 local function fileWriter(path)
-	print(path)
-	return setmetatable({
-		f = io.open(path, "w");
-		i = 0;
-		included = {};
-		declared = {};
-	}, {
-		__call = function(self, fmt, ...)
-			local sp = string.rep("\t", self.i)
-			local str = string.format(fmt, ...):gsub("\n", "\n"..sp)
-			self.f:write(str)
-		end,
-		__index = {
-			indent = function(self) self.i = self.i + 1 end;
-			unindent = function(self) self.i = math.max(self.i - 1, 0) end;
-			close = function(self) self.f:close() end;
-		}
-	})
+    print(path)
+    return setmetatable({
+        f = io.open(path, "w");
+        i = 0;
+        included = {};
+        declared = {};
+    }, {
+        __call = function(self, fmt, ...)
+            local sp = string.rep("\t", self.i)
+            local str = string.format(fmt, ...):gsub("\n", "\n"..sp)
+            self.f:write(str)
+        end,
+        __index = {
+            indent = function(self) self.i = self.i + 1 end;
+            unindent = function(self) self.i = math.max(self.i - 1, 0) end;
+            close = function(self) self.f:close() end;
+        }
+    })
 end
 
 ---------------------------------------------------------------
@@ -714,205 +714,205 @@ end
 local writeStruct
 
 local function writeChildStructs(struct, out)
-	local cname = struct:cname()
-	
+    local cname = struct:cname()
+    
 --[==[
-	-- Child structs
-	if cname == "EntityFactory" then
-		out([[
+    -- Child structs
+    if cname == "EntityFactory" then
+        out([[
 
 template <class T, int Size> struct Pool
 {
-	T _data[Size];
-	int _current;
+    T _data[Size];
+    int _current;
 };
 ]])
-	end
+    end
 ]==]
     local children = struct.children or {}
-	local sortedChildrenKeys = sortKeys(children)
+    local sortedChildrenKeys = sortKeys(children)
     for _,k in ipairs(sortedChildrenKeys) do
-		if not overridenChild[children[k]:cname()] then
-        	writeStruct(children[k], out, struct)
-		end
-	end
+        if not overridenChild[children[k]:cname()] then
+            writeStruct(children[k], out, struct)
+        end
+    end
 end
 
 ---------------------------------------------------------------
 -- Fields
 
 local function writeFields(struct, out)
-	for _,f in pairs(struct.fields) do
-		out("\n%s;", f:toStringFull(struct))
-	end
+    for _,f in pairs(struct.fields) do
+        out("\n%s;", f:toStringFull(struct))
+    end
 end
 
 ---------------------------------------------------------------
 -- Virtual functions
 
 local ref_exceptions = {
-	void = true;
-	int = true;
-	char = true;
-	VertexAttributeDescriptor = true;
-	ShaderInitData = true;
+    void = true;
+    int = true;
+    char = true;
+    VertexAttributeDescriptor = true;
+    ShaderInitData = true;
 }
 
 local function compareFuncs(f1, f2)
-	if f1.name:gsub("__.*$", "") ~= f2.name:gsub("__.*$", "") then
-		return false
-	end
-	
-	if not f1.args and not f2.args then
-		return true
-	end
-	
-	local n1, n2 = 0, 0
-	for _, a in ipairs(f1.args) do
-		if not a.hidden then
-			n1 = n1 + 1
-		end
-	end
-	for _, a in ipairs(f2.args) do
-		if not a.hidden then
-			n2 = n2 + 1
-		end
-	end
-	
-	return n1 == n2
+    if f1.name:gsub("__.*$", "") ~= f2.name:gsub("__.*$", "") then
+        return false
+    end
+    
+    if not f1.args and not f2.args then
+        return true
+    end
+    
+    local n1, n2 = 0, 0
+    for _, a in ipairs(f1.args) do
+        if not a.hidden then
+            n1 = n1 + 1
+        end
+    end
+    for _, a in ipairs(f2.args) do
+        if not a.hidden then
+            n2 = n2 + 1
+        end
+    end
+    
+    return n1 == n2
 end
 
 local function writeVirtualFunctions(struct, out)
-	if not struct.vtable then return end
-	
-	for _,f in ipairs(struct.vtable.fields) do
-		local name = f.name:gsub("__.*$", "")
-		
-	
-		-- Look for a function definition in the structure that shares the same name and argument types
-		for _, func in ipairs(struct.funcs or {}) do
-			if compareFuncs(func, f) then
-				f = func
-				f.virtualDeclared = true
-				break
-			end
-		end
-		
-		if f.name == "Free" then -- this is actually a virtual destructor
-			if f.virtualDeclared then
-				out("\nLIBZHL_API virtual ~%s();", struct.class)
-			else
-				--out("\nvirtual ~%s() LIBZHL_PLACEHOLDER", struct.class)
-				out("\nvirtual ~%s() {}", struct.class)
-			end
-		elseif f.args then
-			if f.virtualDeclared then
-				out("\nLIBZHL_API virtual %s%s(", f:toString(), name)
-			else
-				out("\nvirtual %s%s(", f:toString(), name)
-			end
-			
-			local i = 0
-			for k,arg in ipairs(f.args) do
-				if not arg.hidden then
-					if i>0 then
-						out(", ")
-					end
-					
-					-- replace pointers with references
-					if arg.ptr and #arg.ptr == 1 and arg.ptr[1] == "*" then
-						local s = structs[arg:cname()]
-						if (not s or (not s.vtable and not s.inherits)) and not ref_exceptions[arg.class] then
-							arg.ptr[1] = "&"
-						end
-					end
-					
-					local str = arg:toString()..(arg.name or "")
-					if arg.default then
-						str = str.." = "..arg.default
-					end
-					
-					out("%s", str)
-					i = i+1
-				end
-			end
-			--out(") = 0;")
-			
-			if f.virtualDeclared then
-				out(");")
-			else
-				out(") LIBZHL_PLACEHOLDER")
-			end
-		else
-			--out("\nvirtual void v__%s() = 0;", name)
-			out("\nvirtual void v__%s();", name)
-		end
-	end
+    if not struct.vtable then return end
+    
+    for _,f in ipairs(struct.vtable.fields) do
+        local name = f.name:gsub("__.*$", "")
+        
+    
+        -- Look for a function definition in the structure that shares the same name and argument types
+        for _, func in ipairs(struct.funcs or {}) do
+            if compareFuncs(func, f) then
+                f = func
+                f.virtualDeclared = true
+                break
+            end
+        end
+        
+        if f.name == "Free" then -- this is actually a virtual destructor
+            if f.virtualDeclared then
+                out("\nLIBZHL_API virtual ~%s();", struct.class)
+            else
+                --out("\nvirtual ~%s() LIBZHL_PLACEHOLDER", struct.class)
+                out("\nvirtual ~%s() {}", struct.class)
+            end
+        elseif f.args then
+            if f.virtualDeclared then
+                out("\nLIBZHL_API virtual %s%s(", f:toString(), name)
+            else
+                out("\nvirtual %s%s(", f:toString(), name)
+            end
+            
+            local i = 0
+            for k,arg in ipairs(f.args) do
+                if not arg.hidden then
+                    if i>0 then
+                        out(", ")
+                    end
+                    
+                    -- replace pointers with references
+                    if arg.ptr and #arg.ptr == 1 and arg.ptr[1] == "*" then
+                        local s = structs[arg:cname()]
+                        if (not s or (not s.vtable and not s.inherits)) and not ref_exceptions[arg.class] then
+                            arg.ptr[1] = "&"
+                        end
+                    end
+                    
+                    local str = arg:toString()..(arg.name or "")
+                    if arg.default then
+                        str = str.." = "..arg.default
+                    end
+                    
+                    out("%s", str)
+                    i = i+1
+                end
+            end
+            --out(") = 0;")
+            
+            if f.virtualDeclared then
+                out(");")
+            else
+                out(") LIBZHL_PLACEHOLDER")
+            end
+        else
+            --out("\nvirtual void v__%s() = 0;", name)
+            out("\nvirtual void v__%s();", name)
+        end
+    end
 end
 
 ---------------------------------------------------------------
 -- Functions
 
 local function argsToString(func, names, def, includeThis, hideType, suffix)
-	local t = {}
-	local i = 0
-	for _, arg in ipairs(func.args) do
-		if not arg.hidden or (includeThis and arg.name == "this") then
+    local t = {}
+    local i = 0
+    for _, arg in ipairs(func.args) do
+        if not arg.hidden or (includeThis and arg.name == "this") then
             local str = ""
             if not hideType then
                 str = arg:toString()
             end
-			if names then
-				str = str..arg.name
+            if names then
+                str = str..arg.name
                 if suffix ~= nil then
                     str = str..suffix
                 end
-				if def and arg.default then
-					str = str.." = "..arg.default
-				end
-			end
-			t[#t+1] = str
-		end
-	end
-	return table.concat(t, ", ")
+                if def and arg.default then
+                    str = str.." = "..arg.default
+                end
+            end
+            t[#t+1] = str
+        end
+    end
+    return table.concat(t, ", ")
 end
 
 local function writeFunctions(struct, out)
-	if struct.funcs then
+    if struct.funcs then
         table.sort(struct.funcs, function(a, b) return a.name < b.name end)
-		for _, func in ipairs(struct.funcs) do
-			if func.args and not func.virtualDeclared and not func.noHook then
-				out("\n")
-				out("LIBZHL_API ")
-				if func.static then
-					out("static ")
-				end
-				if func.virtual then
-					out("virtual ")
-				end
-				
-				if func.virtual and func.name == "Free" then
-					out("~%s();", struct.class)
-				else
-					out("%s", func:toString())
+        for _, func in ipairs(struct.funcs) do
+            if func.args and not func.virtualDeclared and not func.noHook then
+                out("\n")
+                out("LIBZHL_API ")
+                if func.static then
+                    out("static ")
+                end
+                if func.virtual then
+                    out("virtual ")
+                end
+                
+                if func.virtual and func.name == "Free" then
+                    out("~%s();", struct.class)
+                else
+                    out("%s", func:toString())
 
-					if not func.thiscall then
-						out("__stdcall ")
-					end
-					
-					out("%s(", func.name)
-					out(argsToString(func, true, true))
-					out(")")
-					if func.constfunc then out(" const") end
-					out(";")
-				end
-			end
-		end
-		
-		if #struct.funcs > 0 then
-			out("\n")
-		end
-	end
+                    if not func.thiscall then
+                        out("__stdcall ")
+                    end
+                    
+                    out("%s(", func.name)
+                    out(argsToString(func, true, true))
+                    out(")")
+                    if func.constfunc then out(" const") end
+                    out(";")
+                end
+            end
+        end
+        
+        if #struct.funcs > 0 then
+            out("\n")
+        end
+    end
 end
 
 ---------------------------------------------------------------
@@ -920,102 +920,102 @@ end
 
 function writeStructDependencies(dep, out, parent)
     local sortedDepKeys = sortKeys(dep)
-	local lastWasStructPrototype = false
-	for _,c in ipairs(sortedDepKeys) do
+    local lastWasStructPrototype = false
+    for _,c in ipairs(sortedDepKeys) do
         local n = dep[c]
-		local st = structs[c]
-		if parent then
-			if st.parent and st.parent:cname() == parent:cname() then
-				writeStruct(st, out, parent)
-				lastWasStructPrototype = false
-			end
-		else
-			while st.parent do
-				st = structs[st.parent:cname()]
-				n = 2
-			end
-			c = st:cname()
-			
-			if n == 1 then
-				if not out.declared[c] then
-					if not lastWasStructPrototype then out("\n") end
-					out('struct %s;\n', c)
-					out.declared[c] = true;
-					lastWasStructPrototype = true
-				end
-			else
-				writeStruct(st, out)
-				lastWasStructPrototype = false
-			end
-		end
-	end
+        local st = structs[c]
+        if parent then
+            if st.parent and st.parent:cname() == parent:cname() then
+                writeStruct(st, out, parent)
+                lastWasStructPrototype = false
+            end
+        else
+            while st.parent do
+                st = structs[st.parent:cname()]
+                n = 2
+            end
+            c = st:cname()
+            
+            if n == 1 then
+                if not out.declared[c] then
+                    if not lastWasStructPrototype then out("\n") end
+                    out('struct %s;\n', c)
+                    out.declared[c] = true;
+                    lastWasStructPrototype = true
+                end
+            else
+                writeStruct(st, out)
+                lastWasStructPrototype = false
+            end
+        end
+    end
 end
 
 function writeStruct(struct, out, parent)
-	local isGlobal = struct.class == "Global"
-	
-	local cname = struct:cname()
-	if written[cname] or writing[cname] then return end
-	if struct.parent and not writing[struct.parent:cname()] then return end
-	
-	writing[cname] = true
-	
-	-----------------------------------------------------
-	-- If this struct depends on other structs, write those first
-	writeStructDependencies(struct.dependencies, out, parent)
-	
-	-----------------------------------------------------
-	-- Write the struct
-	
-	if not isGlobal then
-		if struct.vtable then
-			out("\nstruct LIBZHL_INTERFACE %s", struct:cname(parent))
-		else
-			out("\nstruct %s", struct:cname(parent))
-		end
-		
-		if struct.inherits then
-			for i,v in ipairs(struct.inherits) do
-				if i == 1 then
-					out(" : %s", v:cname(parent))
-				else
-					out(", %s", v:cname(parent))
-				end
-			end
-		end
-		out("\n{")
-		if struct.generic_code then
-			out("%s", struct.generic_code)
-		end
-		out:indent()
-		
-		writeChildStructs(struct, out)
-		writeVirtualFunctions(struct, out)
-	end
-	
-	writeFunctions(struct, out)
-	writeFields(struct, out)
-	
-	if not isGlobal then
-		out:unindent()
+    local isGlobal = struct.class == "Global"
+    
+    local cname = struct:cname()
+    if written[cname] or writing[cname] then return end
+    if struct.parent and not writing[struct.parent:cname()] then return end
+    
+    writing[cname] = true
+    
+    -----------------------------------------------------
+    -- If this struct depends on other structs, write those first
+    writeStructDependencies(struct.dependencies, out, parent)
+    
+    -----------------------------------------------------
+    -- Write the struct
+    
+    if not isGlobal then
+        if struct.vtable then
+            out("\nstruct LIBZHL_INTERFACE %s", struct:cname(parent))
+        else
+            out("\nstruct %s", struct:cname(parent))
+        end
+        
+        if struct.inherits then
+            for i,v in ipairs(struct.inherits) do
+                if i == 1 then
+                    out(" : %s", v:cname(parent))
+                else
+                    out(", %s", v:cname(parent))
+                end
+            end
+        end
+        out("\n{")
+        if struct.generic_code then
+            out("%s", struct.generic_code)
+        end
+        out:indent()
+        
+        writeChildStructs(struct, out)
+        writeVirtualFunctions(struct, out)
+    end
+    
+    writeFunctions(struct, out)
+    writeFields(struct, out)
+    
+    if not isGlobal then
+        out:unindent()
         if struct.attribute then
             out("\n} __attribute__%s;\n", struct.attribute)
         else
             out("\n};\n")
         end
-	end
-	
-	writing[cname] = false
-	written[cname] = true
+    end
+    
+    writing[cname] = false
+    written[cname] = true
 end
 
 ---------------------------------------------------------------
 -- Functions
 
 local function writeFunctionWrappers(funcs, out)
-	local name_h = outputH:match("([^/\\]+)$")
-	
-	out([[#include "%s"
+    local name_h = outputH:match("([^/\\]+)$")
+    
+    out([[#include "%s"
 #include "zhl_internal.h"
 
 #ifdef _WIN32
@@ -1031,26 +1031,26 @@ local function writeFunctionWrappers(funcs, out)
 using namespace ZHL;
 
 ]], name_h)
-	
-	local regid = {
-		eax = 0;
-		ecx = 1;
-		edx = 2;
-		ebx = 3;
-		esp = 4;
-		ebp = 5;
-		esi = 6;
-		edi = 7;
-	}
+    
+    local regid = {
+        eax = 0;
+        ecx = 1;
+        edx = 2;
+        ebx = 3;
+        esp = 4;
+        ebp = 5;
+        esi = 6;
+        edi = 7;
+    }
 
-	-- C++ function implementations
-	local counter = 0;
-	for _, func in ipairs(funcs) do
-		if func.args then
-			-- function definition
-			out([[namespace _func%d
+    -- C++ function implementations
+    local counter = 0;
+    for _, func in ipairs(funcs) do
+        if func.args then
+            -- function definition
+            out([[namespace _func%d
 {
-	static void *func = 0;
+    static void *func = 0;
 ]], counter)
 
             local isSystemVAMD64StandardCall = arch == "x86_64" and isPOSIX and func.callingConvention == "__amd64"
@@ -1075,11 +1075,11 @@ using namespace ZHL;
                 end
             end
 
-			local isGlobal = not func.varparent
-			local classname
-			if func.varparent then classname = func.varparent:cname() end
-			
-			local flags = 0
+            local isGlobal = not func.varparent
+            local classname
+            if func.varparent then classname = func.varparent:cname() end
+            
+            local flags = 0
             if not isSystemVAMD64StandardCall then
                 if func.thiscall and not isPOSIX then flags = flags + 1 end
                 if func.cleanup then flags = flags + 2 end
@@ -1088,15 +1088,15 @@ using namespace ZHL;
                 if func.memPassedPointer then flags = flags + 16 end
             end
             if func.forceDetour then flags = flags + 32 end
-			
-			local funcptr
-			if func.static or isGlobal then
-				funcptr = string.format("%s(*)(%s)", func:toString(), argsToString(func, false))
-			else
-				funcptr = string.format("%s(%s::*)(%s)%s", func:toString(), classname, argsToString(func, false), (func.constfunc and " const") or "")
-			end
+            
+            local funcptr
+            if func.static or isGlobal then
+                funcptr = string.format("%s(*)(%s)", func:toString(), argsToString(func, false))
+            else
+                funcptr = string.format("%s(%s::*)(%s)%s", func:toString(), classname, argsToString(func, false), (func.constfunc and " const") or "")
+            end
 
-			if isSystemVAMD64StandardCall then
+            if isSystemVAMD64StandardCall then
                 if isGlobal then
                     out("\tstatic FunctionDefinition funcObj(\"%s\", typeid(%s), \"%s\", nullptr, 0, %d, &func);\n", func.name, funcptr, func.sig or "", flags)
                 else
@@ -1110,11 +1110,11 @@ using namespace ZHL;
                 end
             end
             out("}\n\n")
-			
-			local isDestructor = func.virtual and func.name == "Free"
-			
-			--if not func.virtual then
-			--if func.name ~= "Free" then
+            
+            local isDestructor = func.virtual and func.name == "Free"
+            
+            --if not func.virtual then
+            --if func.name ~= "Free" then
             if not func.noHook then
                 if func.callingConvention ~= nil then
                     if isDestructor then
@@ -1402,68 +1402,68 @@ using namespace ZHL;
                     out("\n}\n\n")
                 end
             end
-		else
-			-- variable definition
-			if func.reference then
-				out("%s*__ptr_%s;\n\n", func:toString(), func.name)
-				out([[namespace _var%d
+        else
+            -- variable definition
+            if func.reference then
+                out("%s*__ptr_%s;\n\n", func:toString(), func.name)
+                out([[namespace _var%d
 {
-	static VariableDefinition varObj("%s", "%s", &__ptr_%s);
+    static VariableDefinition varObj("%s", "%s", &__ptr_%s);
 }
 
 ]], counter, func.name, func.sig or "", func.name)
-			elseif func.isOffsetVariable then
-				out("%s%s;\n\n", func:toString(), func.name)
-				out([[namespace _var%d
+            elseif func.isOffsetVariable then
+                out("%s%s;\n\n", func:toString(), func.name)
+                out([[namespace _var%d
 {
-	static VariableDefinition varObj("%s", "%s", &%s, true, true);
+    static VariableDefinition varObj("%s", "%s", &%s, true, true);
 }
 
 ]], counter, func.name, func.sig or "", func.name)
-			elseif func.instruction then
-				out("%s%s;\n\n", func:toString(), func.name)
-				out([[namespace _instruction%d
+            elseif func.instruction then
+                out("%s%s;\n\n", func:toString(), func.name)
+                out([[namespace _instruction%d
 {
-	static VariableDefinition varObj("%s", "%s", &%s, false);
+    static VariableDefinition varObj("%s", "%s", &%s, false);
 }
 
 ]], counter, func.name, func.sig or "", func.name)
-			elseif func.noop then
-				out([[namespace _noop%d
+            elseif func.noop then
+                out([[namespace _noop%d
 {
-	static NoOpDefinition noOpObj("%s", "%s");
+    static NoOpDefinition noOpObj("%s", "%s");
 }
 
 ]], counter, func.name, func.sig or "", func.name)
-			else
-				out("%s%s;\n\n", func:toString(), func.name)
-				out([[namespace _var%d
+            else
+                out("%s%s;\n\n", func:toString(), func.name)
+                out([[namespace _var%d
 {
-	static VariableDefinition varObj("%s", "%s", &%s);
+    static VariableDefinition varObj("%s", "%s", &%s);
 }
 
 ]], counter, func.name, func.sig or "", func.name)
-			end
-		end
-		counter = counter + 1
-	end
+            end
+        end
+        counter = counter + 1
+    end
 end
 
 ---------------------------------------------------------------
 -- Global vars
 
 local function writeGlobalVars(funcs, out)
-	for _,var in ipairs(funcs) do
-		if not var.args and not var.noop then
-			if var.reference then
-				out("\nextern LIBZHL_API %s*__ptr_%s;", var:toString(), var.name)
-				out("\n#define %s (*__ptr_%s)", var.name, var.name)
-			else
-				out("\nextern LIBZHL_API %s%s;", var:toString(), var.name)
-			end
-		end
-	end
-	out("\n");
+    for _,var in ipairs(funcs) do
+        if not var.args and not var.noop then
+            if var.reference then
+                out("\nextern LIBZHL_API %s*__ptr_%s;", var:toString(), var.name)
+                out("\n#define %s (*__ptr_%s)", var.name, var.name)
+            else
+                out("\nextern LIBZHL_API %s%s;", var:toString(), var.name)
+            end
+        end
+    end
+    out("\n");
 end
 
 local datestr = os.date()
@@ -1498,24 +1498,24 @@ f([[#pragma once
 ]])
 
 if globalPreCode then
-	f("%s\n", globalPreCode)
+    f("%s\n", globalPreCode)
 end
 
 if globalConstCode then
-	writeStructDependencies(globalConstDependencies, f)
-	f("%s\n", globalConstCode)
+    writeStructDependencies(globalConstDependencies, f)
+    f("%s\n", globalConstCode)
 end
 
 local sortedStructKeys = sortKeys(structs)
 
 for _,k in ipairs(sortedStructKeys) do
-	writeStruct(structs[k], f)
+    writeStruct(structs[k], f)
 end
 writeStruct(global, f)
 writeGlobalVars(functions, f)
 
 if globalPostCode then
-	f("%s\n", globalPostCode)
+    f("%s\n", globalPostCode)
 end
 
 f:close()
