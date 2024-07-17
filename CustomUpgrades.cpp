@@ -61,8 +61,17 @@ void CustomUpgrades::OnRender()
         rightButton->OnRender();
     }
 
-    if (allowRename && allowButton)
-        renameButton->OnRender();
+    if (allowRename)
+    {
+        if (allowButton)
+            renameButton->OnRender();
+
+        if (renameInput->GetActive())
+        {
+            float size = freetype::easy_measureWidth(24, renameInput->GetText())/2.f;
+            CSurface::GL_DrawRect(orig->position.x+ 302.f + size, orig->position.y + 47.f, 1.f, 35.f, COLOR_YELLOW);
+        }
+    }
 }
 
 void CustomUpgrades::MouseMove(int mX, int mY)
