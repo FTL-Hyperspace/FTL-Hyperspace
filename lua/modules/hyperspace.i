@@ -2109,6 +2109,12 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipDefinition::maxReactorLevel;
 %rename("%s") CustomShipDefinition::shipGenerator;
 
+%rename("%s") RoomDefinition;
+%rename("%s") RoomDefinition::roomId;
+%rename("%s") RoomDefinition::sensorBlind;
+%rename("%s") RoomDefinition::sysDamageResistChance;
+%rename("%s") RoomDefinition::ionDamageResistChance;
+
 %rename("%s") CrewPlacementDefinition;
 %rename("%s") CrewPlacementDefinition::species;
 %rename("%s") CrewPlacementDefinition::roomId;
