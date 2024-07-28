@@ -2115,6 +2115,7 @@ playerVariableType playerVariables;
 %rename("%s") RoomDefinition::sensorBlind;
 %rename("%s") RoomDefinition::sysDamageResistChance;
 %rename("%s") RoomDefinition::ionDamageResistChance;
+%rename("%s") RoomDefinition::hullDamageResistChance;
 
 %rename("%s") CrewPlacementDefinition;
 %rename("%s") CrewPlacementDefinition::species;
