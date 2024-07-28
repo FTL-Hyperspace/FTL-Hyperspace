@@ -600,7 +600,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 ### Fields
 
 - ~~`int` `.selectedState`~~
-- ~~`ShipObject` `._shipObj`~~
+- `ShipObject` `._shipObj`
 - `float` `.fDamage`
 - `Point` `.pLoc`
 - `float` `.fMaxDamage`

@@ -1588,7 +1588,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem::SystemIdToName;
 %rename("%s") ShipSystem::UpgradeSystem;
 //%rename("%s") ShipSystem::selectedState;
-//%rename("%s") ShipSystem::_shipObj;
+%rename("%s") ShipSystem::_shipObj;
 %rename("%s") ShipSystem::fDamage;
 %rename("%s") ShipSystem::pLoc;
 %rename("%s") ShipSystem::fMaxDamage;
