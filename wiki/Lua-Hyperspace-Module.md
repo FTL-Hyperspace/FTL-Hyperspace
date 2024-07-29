@@ -853,6 +853,34 @@ No additional items over base `ShipSystem`
 - `std::string` `.droneImage`
 - `std::string` `.combatIcon`
 
+## Room
+
+### Fields
+- `bool` `.bBlackedOut`
+- `Globals::Rect` `.rect`
+   - **Read-only**
+- `int` `.iRoomId`
+   - **Read-only**
+- [`Room_Extend`](#room_extend) `.extend`
+   - **Read-only**
+
+## Room_Extend
+
+### Fields
+- `float` `.sysDamageResistChance`
+- `float` `.ionDamageResistChance`
+- `float` `.hullDamageResistChance`
+- `int` `.timeDilation`
+
+## RoomDefinition
+
+### Fields
+- `int` `.roomId`
+- `bool` `.sensorBlind`
+- `float` `.sysDamageResistChance`
+- `float` `.ionDamageResistChance`
+- `float` `.hullDamageResistChance`
+
 ## CrewStat
 
 ### Fields
