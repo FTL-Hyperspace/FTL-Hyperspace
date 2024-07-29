@@ -969,10 +969,9 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
 
     int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
     int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
-    bool willDamage = (room1 != room2);
-    if (willDamage)
+    if (room1 != room2)
     {
-        auto ex = RM_EX(ship.vRoomList[willDamage]);
+        auto ex = room2 != -1 ? RM_EX(ship.vRoomList[room2]) : RM_EX(ship.vRoomList[room1]);
 
         if (random32() % 100 < ex->hullDamageResistChance && dmg.iDamage > 0)
         {
