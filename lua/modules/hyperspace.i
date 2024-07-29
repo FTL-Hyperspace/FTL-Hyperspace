@@ -119,6 +119,7 @@ namespace std {
     %template(vector_Drone) vector<Drone*>;
     %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
+    %template(unordered_map_int_RoomDefinition) unordered_map<int, RoomDefinition*>;
 	%template(vector_Door) vector<Door*>;
 	%template(vector_Repairable) vector<Repairable*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
