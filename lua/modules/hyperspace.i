@@ -119,6 +119,7 @@ namespace std {
     %template(vector_Drone) vector<Drone*>;
     %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
+    %template(unordered_map_int_RoomDefinition) unordered_map<int, RoomDefinition*>;
 	%template(vector_Door) vector<Door*>;
 	%template(vector_Repairable) vector<Repairable*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
@@ -1588,7 +1589,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem::SystemIdToName;
 %rename("%s") ShipSystem::UpgradeSystem;
 //%rename("%s") ShipSystem::selectedState;
-//%rename("%s") ShipSystem::_shipObj;
+%rename("%s") ShipSystem::_shipObj;
 %rename("%s") ShipSystem::fDamage;
 %rename("%s") ShipSystem::pLoc;
 %rename("%s") ShipSystem::fMaxDamage;
@@ -2108,6 +2109,12 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipDefinition::reactorPriceIncrement;
 %rename("%s") CustomShipDefinition::maxReactorLevel;
 %rename("%s") CustomShipDefinition::shipGenerator;
+
+%rename("%s") RoomDefinition;
+%rename("%s") RoomDefinition::roomId;
+%rename("%s") RoomDefinition::sensorBlind;
+%rename("%s") RoomDefinition::sysDamageResistChance;
+%rename("%s") RoomDefinition::ionDamageResistChance;
 
 %rename("%s") CrewPlacementDefinition;
 %rename("%s") CrewPlacementDefinition::species;
