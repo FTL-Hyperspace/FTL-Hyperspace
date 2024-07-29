@@ -1213,11 +1213,9 @@ HOOK_METHOD(ShipSystem, SetBonusPower, (int amount, int permanentPower) -> void)
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipSystem, 0);
     lua_pushinteger(context->GetLua(), amount);
-    lua_pushinteger(context->GetLua(), permanentPower);
-    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 3, 2);
-    if (lua_isnumber(context->GetLua(), -2)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -2));
-    if (lua_isnumber(context->GetLua(), -1)) permanentPower = static_cast<int>(lua_tonumber(context->GetLua(), -1));
-    lua_pop(context->GetLua(), 3);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    lua_pop(context->GetLua(), 2);
     
     if (!preempt) super(amount, permanentPower);
 }
@@ -1228,11 +1226,9 @@ HOOK_METHOD(WeaponSystem, SetBonusPower, (int amount, int permanentPower) -> voi
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pWeaponSystem, 0);
     lua_pushinteger(context->GetLua(), amount);
-    lua_pushinteger(context->GetLua(), permanentPower);
-    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 3, 2);
-    if (lua_isnumber(context->GetLua(), -2)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -2));
-    if (lua_isnumber(context->GetLua(), -1)) permanentPower = static_cast<int>(lua_tonumber(context->GetLua(), -1));
-    lua_pop(context->GetLua(), 3);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    lua_pop(context->GetLua(), 2);
     
     if (!preempt) super(amount, permanentPower);
 }
@@ -1243,11 +1239,9 @@ HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pDroneSystem, 0);
     lua_pushinteger(context->GetLua(), amount);
-    lua_pushinteger(context->GetLua(), permanentPower);
-    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 3, 2);
-    if (lua_isnumber(context->GetLua(), -2)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -2));
-    if (lua_isnumber(context->GetLua(), -1)) permanentPower = static_cast<int>(lua_tonumber(context->GetLua(), -1));
-    lua_pop(context->GetLua(), 3);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    lua_pop(context->GetLua(), 2);
     
     if (!preempt) super(amount, permanentPower);
 }
