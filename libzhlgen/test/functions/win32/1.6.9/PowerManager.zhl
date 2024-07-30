@@ -1,6 +1,7 @@
 "8d4c240483e4f0ff71fc5589e5535183ec408b15????????a1????????8b1989d129c1":
 static cleanup __cdecl PowerManager* PowerManager::GetPowerManager(int iShipId);
-
+"807c24040119c0f7d083e002894120":
+__thiscall void PowerManager::SetHacked(PowerManager *this,bool val);
 
 struct PowerManager
 {{
