@@ -1071,7 +1071,7 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
     for (CrewMember* crew : queuedCrew)
     {
-        if (crew->IsTelepathic()) crew->SetResisted(true); //Set resisted crew
+        if (crew->_HS_IsTelepathic()) crew->SetResisted(true); //Set resisted crew
     }
     //Remove crew that are not valid targets
     bool hacked = iHackEffect >= 2 && bUnderAttack;
@@ -1083,7 +1083,7 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
                                         crew->IsDead() || //Dead
                                         crew->crewAnim->status == 3 || //Dying
                                         ((crew->iShipId == allyId) ^ crew->bMindControlled) || //Non-controlled allied crew and controlled enemy crew
-                                        crew->IsTelepathic() || //Immune
+                                        crew->_HS_IsTelepathic() || //Immune if the crew is telepathic or has mc immunity if the option g_resistsMindControlStat is enabled
                                         crew->IsDrone() || //Drone
                                         (crew->iShipId == 1 && _shipObj.iShipId == 1 && crew->bMindControlled) || //enemies can't use MC to uncontrol their crew
                                         (bSuperShields && crew->currentShipId != _shipObj.iShipId && _shipObj.HasEquipment("ZOLTAN_BYPASS") <= 0); }), //targetting other ship, with supershields and no bypass
