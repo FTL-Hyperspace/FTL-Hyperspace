@@ -21,7 +21,7 @@ class PrintHelper
 {
 public:
     void Render();
-    void AddMessage(std::string message);
+    void AddMessage(const std::string message);
     static PrintHelper *GetInstance() { return &instance; }
 
     int x = 100;
