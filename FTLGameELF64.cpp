@@ -9713,7 +9713,7 @@ Pointf Pointf::Normalize()
 namespace _func759
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("PowerManager::SetHacked", typeid(void (PowerManager::*)(bool )), ".??80fe0119c0f7d083e002894720", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("PowerManager::SetHacked", typeid(void (PowerManager::*)(bool )), "??80fe0119c0f7d083e002894720", nullptr, 0, 0, &func);
 }
 
 void PowerManager::SetHacked(bool val)
@@ -9726,7 +9726,7 @@ void PowerManager::SetHacked(bool val)
 namespace _func760
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("PowerManager::GetPowerManager", typeid(PowerManager *(*)(int )), "5389fb4883ec30488b05????????488b0d????????4889c2", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("PowerManager::GetPowerManager", typeid(PowerManager *(*)(int )), ".5389fb4883ec30488b05????????488b0d????????4889c2", nullptr, 0, 0, &func);
 }
 
 PowerManager *PowerManager::GetPowerManager(int iShipId)
