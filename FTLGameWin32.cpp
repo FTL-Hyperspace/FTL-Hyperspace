@@ -10495,20 +10495,6 @@ Pointf Pointf::Normalize()
 namespace _func759
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("PowerManager::GetPowerManager", typeid(PowerManager *(*)(int )), "8d4c240483e4f0ff71fc5589e5535183ec408b15????????a1????????8b1989d129c1", argdata, 1, 2, &func);
-}
-
-PowerManager *PowerManager::GetPowerManager(int iShipId)
-{
-	typedef PowerManager *__attribute__((cdecl)) (*custom_arg_funcptr_t)(int iShipId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func759::func;
-	return execfunc(iShipId);
-}
-
-namespace _func760
-{
-	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
 	static FunctionDefinition funcObj("PowerManager::SetHacked", typeid(void (PowerManager::*)(bool )), "807c24040119c0f7d083e002894120", argdata, 2, 5, &func);
 }
@@ -10516,8 +10502,22 @@ namespace _func760
 void PowerManager::SetHacked(bool val)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(PowerManager *this_arg, bool val_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func760::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func759::func;
 	return execfunc(this, val);
+}
+
+namespace _func760
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("PowerManager::GetPowerManager", typeid(PowerManager *(*)(int )), "8d4c240483e4f0ff71fc5589e5535183ec408b15????????a1????????8b1989d129c1", argdata, 1, 2, &func);
+}
+
+PowerManager *PowerManager::GetPowerManager(int iShipId)
+{
+	typedef PowerManager *__attribute__((cdecl)) (*custom_arg_funcptr_t)(int iShipId_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func760::func;
+	return execfunc(iShipId);
 }
 
 namespace _func761

@@ -6218,6 +6218,7 @@ struct PowerManager
 	}
 
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	LIBZHL_API void SetHacked(bool val);
 	
 	std::pair<int, int> currentPower;
 	int over_powered;
