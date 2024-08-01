@@ -1,4 +1,6 @@
-"415641554154554889fd5380bf8c01000000":
+"89b720020000":
+cleanup __amd64 void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
+".415641554154554889fd5380bf8c01000000":
 cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
 ".8b87740100008b977801000029f08b775439d00f4fc231c985c00f48c1":
 cleanup __amd64 void ShipSystem::AddDamage(ShipSystem *this, int amount);
