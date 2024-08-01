@@ -1245,7 +1245,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual int GetRoomId() LIBZHL_PLACEHOLDER
 	virtual bool Ioned() LIBZHL_PLACEHOLDER
 	virtual void SetRoomId() LIBZHL_PLACEHOLDER
-	virtual void SetHackingLevel(int level) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetHackingLevel(int hackingLevel);
 	virtual void ForceBatteryPower(int power) LIBZHL_PLACEHOLDER
 	virtual void RemoveBatteryPower() LIBZHL_PLACEHOLDER
 	virtual WeaponBlueprint *GetWeaponInfo() LIBZHL_PLACEHOLDER
@@ -6043,6 +6043,7 @@ struct MindSystem : ShipSystem
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void ReleaseCrew();
 	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	
 	std::pair<float, float> controlTimer;
 	bool bCanUse;
@@ -6640,6 +6641,7 @@ struct Shields : ShipSystem
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RenderBase(float alpha, float superShieldOverwrite);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string &shieldFile);
 	
 	float ellipseRatio;
