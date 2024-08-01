@@ -5,6 +5,7 @@
 #include "CustomEvents.h"
 #include "CustomShipGenerator.h"
 #include "CustomScoreKeeper.h"
+#include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <new>
@@ -287,6 +288,21 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if(cmdName == "ACH" && command.length() > 3)
+    {
+        std::string achName = boost::trim_copy(command.substr(4));
+        CustomAchievementTracker::instance->SetAchievement(achName, false);
+
+        return true;
+    }
+    if(cmdName == "ACH_LOCK" && command.length() > 8)
+    {
+        std::string achName = boost::trim_copy(command.substr(9));
+        CustomAchievementTracker *customAchTrack = CustomAchievementTracker::instance;
+        customAchTrack->RemoveAchievement(achName);
+
+        return true;
+    }
     if(cmdName == "SWITCH")
     {
         if (command.length() > 7)
@@ -301,7 +317,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             }
             bp->destructor();
         }
-        
+
         return true;
     }
 
@@ -405,6 +421,8 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
+
+        // This is here instead of in CommandConsole::RunCommand because CommandGui has shipComplete
         if(command == "GOD")
             PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }

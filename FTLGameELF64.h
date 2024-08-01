@@ -1246,7 +1246,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual int GetRoomId() LIBZHL_PLACEHOLDER
 	virtual bool Ioned() LIBZHL_PLACEHOLDER
 	virtual void SetRoomId() LIBZHL_PLACEHOLDER
-	virtual void SetHackingLevel(int level) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetHackingLevel(int hackingLevel);
 	virtual void ForceBatteryPower(int power) LIBZHL_PLACEHOLDER
 	virtual void RemoveBatteryPower() LIBZHL_PLACEHOLDER
 	virtual WeaponBlueprint *GetWeaponInfo() LIBZHL_PLACEHOLDER
@@ -1795,6 +1795,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
 	LIBZHL_API static bool __stdcall GL_DisableBlend();
 	LIBZHL_API static bool __stdcall GL_DrawCircle(int x, int y, float radius, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth);
@@ -2715,6 +2716,7 @@ struct WeaponBlueprint : Blueprint
 	};
 	
 	LIBZHL_API std::string GetDescription(bool tooltip);
+	LIBZHL_API Point GetDimensions();
 	LIBZHL_API void RenderIcon(float scale);
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
@@ -6070,6 +6072,7 @@ struct MindSystem : ShipSystem
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void ReleaseCrew();
 	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	
 	std::pair<float, float> controlTimer;
 	bool bCanUse;
@@ -6244,6 +6247,7 @@ struct PowerManager
 	}
 
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	LIBZHL_API void SetHacked(bool val);
 	
 	std::pair<int, int> currentPower;
 	int over_powered;
@@ -6668,6 +6672,7 @@ struct Shields : ShipSystem
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RenderBase(float alpha, float superShieldOverwrite);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string &shieldFile);
 	
 	float ellipseRatio;

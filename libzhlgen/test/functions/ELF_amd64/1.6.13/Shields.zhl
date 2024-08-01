@@ -1,4 +1,6 @@
-"534889fb4883ec30e8????????f30f100d":
+"83fe017e??83bf20020000017e??89b720020000":
+cleanup __amd64 void Shields::SetHackingLevel(Shields *this, int hackingLevel);
+".534889fb4883ec30e8????????f30f100d":
 cleanup __amd64 void Shields::Jump(Shields *this);
 ".41564155415455534889fb4c8d6b104883ec30":
 cleanup __amd64 void Shields::OnLoop(Shields *this);
