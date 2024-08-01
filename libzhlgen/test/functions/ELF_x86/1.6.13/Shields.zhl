@@ -1,3 +1,5 @@
+"538b54????8b44????83fa01":
+cleanup __cdecl void Shields::SetHackingLevel(Shields *this, int hackingLevel);
 "5557565381ec9c0000008b8424c00000008bac24b0000000":
 cleanup __cdecl CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
 "57565383ec508b44246c8b5c2460c744240400000000":
