@@ -8,7 +8,6 @@
 #include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
-#include <new>
 
 CommandConsole CommandConsole::instance = CommandConsole();
 PrintHelper PrintHelper::instance = PrintHelper();
