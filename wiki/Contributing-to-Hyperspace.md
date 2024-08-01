@@ -29,7 +29,7 @@ Be sure to write a description which explains the changes you made.
 
 # Adding to the Wiki
 
-All the files which make up the wiki are held in `FTL-Hyperspace/wiki`. Right now the LUA documentation is severely lacking, specifically the `Hyperspace` module page (`Lua-Hyperspace-Module.md`), which should cover everything you can access through the `Hyperspace` module. The `Defines` module page (`Lua-Defines-module.md`) is also missing a number of events which can be hooked with callback functions. This section explains how to read the source code files relevant to these pages so you that they can be expanded.
+All the files which make up the wiki are held in `FTL-Hyperspace/wiki`. Right now the LUA documentation is severely lacking, specifically the `Hyperspace` module page (`Lua-Hyperspace-Module.md`), which should cover everything you can access through the `Hyperspace` module. The `Defines` module page (`Lua-Defines-module.md`) is also missing a number of events which can be hooked with callback functions. This section explains how to read the source code files relevant to these pages so that they can be expanded.
 
 ## LUA Hyperspace Module
 
