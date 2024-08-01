@@ -838,6 +838,7 @@ playerVariableType playerVariables;
 %immutable SpaceManager::pulsarLevel;
 %rename("%s") SpaceManager::bPDS;
 %immutable SpaceManager::bPDS;
+%rename("%s") SpaceManager::envTarget;
 %rename("%s") SpaceManager::bNebula;
 %immutable SpaceManager::bNebula;
 %rename("%s") SpaceManager::bStorm;

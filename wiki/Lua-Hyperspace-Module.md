@@ -121,6 +121,8 @@ All calls are under `Hyperspace`
       - **Read-only**
    - `bool` `.bPDS`
       - **Read-only**
+   - `int` `.envTarget`
+      - Dictate the current target of the PDS (0: player, 1: enemy, 2: both)
    - `bool` `.bNebula`
       - **Read-only**
    - `bool` `.bStorm`
