@@ -84,6 +84,55 @@ All calls are under `Hyperspace`
 - `bool` `.bLoadingGame`
    - **Read-only**
 
+## SpaceManager
+
+### Methods
+
+- [`LaserBlast`](#LaserBlast) `:CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`Asteroid`](#Asteroid) `:CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`Missile`](#Missile) `:CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`BombProjectile`](#BombProjectile) `:CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace)`
+- [`BeamWeapon`](#BeamWeapon) `:CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading)`
+- [`LaserBlast`](#LaserBlast) `:CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`PDSFire`](#PDSFire) `:CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke)`
+#
+- `bool :DangerousEnvironment()`
+- [`ImageDesc`](#ImageDesc) `:SwitchBackground(const std::string &name)`
+- [`ImageDesc`](#ImageDesc) `:SwitchPlanet(const std::string &name)`
+- `void :UpdatePlanetImage()`
+- `void :UpdateProjectile(Projectile *proj)`
+	
+### Fields
+
+- [`Projectile*[]`](#Projectile) `.projectiles`
+   - **Read-only**
+- [`GL_Texture`](#GL_Texture) `.currentBack`
+- `bool` `.gamePaused`
+   - **Read-only**
+   # 
+   ### Hazards
+
+   - [`AsteroidGenerator`](#AsteroidGenerator) `.asteroidGenerator`
+      - `.asteroidGenerator.bRunning` will indicate if the current space has an asteroid hazard, similar to the variables below
+      - **Read-only**
+   - `bool` `.sunLevel`
+      - **Read-only**
+   - `bool` `.pulsarLevel`
+      - **Read-only**
+   - `bool` `.bPDS`
+      - **Read-only**
+   - `bool` `.bNebula`
+      - **Read-only**
+   - `bool` `.bStorm`
+      - **Read-only**
+
+## AsteroidGenerator
+	
+### Fields
+
+- `bool` `.bRunning`
+   - **Read-only**
+
 ## MouseControl
 
 ### Methods
