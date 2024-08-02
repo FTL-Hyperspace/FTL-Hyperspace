@@ -631,6 +631,13 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
 
+HOOK_METHOD(PowerManager, SetHacked, (bool activated) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> PowerManager::SetHacked -> Begin (CustomSystems.cpp)\n")
+
+    iHacked = activated ? std::min(currentPower.second, 2) : 0;
+}
+
 static bool initRenderPowerBoxes = false;
 
 static GL_Color COLOR_TRUE_WHITE = {1.f, 1.f, 1.f, 1.f};

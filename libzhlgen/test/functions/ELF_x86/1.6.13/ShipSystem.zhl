@@ -1,3 +1,5 @@
+"8b54????8b44????899080010000":
+cleanup __cdecl void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
 "565383ec14c70424????????8b5c2420":
 cleanup __cdecl bool ShipSystem::DamageOverTime(ShipSystem *this, float unk);
 "5557565383ec1c8b5c24308b432c":

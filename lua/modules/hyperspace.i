@@ -829,14 +829,25 @@ playerVariableType playerVariables;
 %rename("%s") SpaceManager::CreateBurstProjectile;
 %rename("%s") SpaceManager::CreatePDSFire;
 
-%rename("%s") SpaceManager::projectiles;
-%immutable SpaceManager::projectiles;
-%rename("%s") SpaceManager::currentBack;
-%rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
+// hazards
+%rename("%s") SpaceManager::asteroidGenerator;
+%immutable SpaceManager::asteroidGenerator;
+%rename("%s") SpaceManager::sunLevel;
+%immutable SpaceManager::sunLevel;
+%rename("%s") SpaceManager::pulsarLevel;
+%immutable SpaceManager::pulsarLevel;
+%rename("%s") SpaceManager::bPDS;
+%immutable SpaceManager::bPDS;
+%rename("%s") SpaceManager::envTarget;
 %rename("%s") SpaceManager::bNebula;
 %immutable SpaceManager::bNebula;
 %rename("%s") SpaceManager::bStorm;
 %immutable SpaceManager::bStorm;
+
+%rename("%s") SpaceManager::projectiles;
+%immutable SpaceManager::projectiles;
+%rename("%s") SpaceManager::currentBack;
+%rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
 //%nodefaultctor SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip::location;
@@ -846,6 +857,11 @@ playerVariableType playerVariables;
 ////%rename("%s") SpaceManager::shipHealth; // Not sure if this is player health or WHY THE HELL IT'S HERE (or possibly duplicated) and not part of the SHIP.
 %rename("%s") SpaceManager::gamePaused; // Not sure how this differs from CommandGui's pause information.
 %immutable SpaceManager::gamePaused;
+
+%nodefaultctor AsteroidGenerator;
+%rename("%s") AsteroidGenerator;
+%rename("%s") AsteroidGenerator::bRunning;
+%immutable AsteroidGenerator::bRunning;
 
 //%rename("%s") ImageDesc;
 //%rename("%s") ImageDesc:rot;
@@ -1394,6 +1410,7 @@ playerVariableType playerVariables;
 %nodefaultdtor MindSystem;
 %rename("%s") MindSystem;
 %rename("%s") MindSystem::SetArmed;
+%rename("%s") MindSystem::SetHackingLevel;
 %rename("%s") MindSystem::controlTimer;
 %rename("%s") MindSystem::bCanUse;
 %rename("%s") MindSystem::iArmed;
@@ -1460,6 +1477,7 @@ playerVariableType playerVariables;
 %rename("%s") Shields::CollisionReal;
 %rename("%s") Shields::InstantCharge;
 %rename("%s") Shields::SetBaseEllipse;
+%rename("%s") Shields::SetHackingLevel;
 %rename("%s") Shields::ellipseRatio;
 %rename("%s") Shields::center;
 %rename("%s") Shields::baseShield;
