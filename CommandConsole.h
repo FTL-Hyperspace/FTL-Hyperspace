@@ -8,11 +8,13 @@ public:
     bool enabled;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
+    void SwitchShip(ShipBlueprint* shipBlueprint);
 
 
     static CommandConsole *GetInstance() { return &instance; }
 private:
     static CommandConsole instance;
+    bool switching = false;
 };
 
 class PrintHelper

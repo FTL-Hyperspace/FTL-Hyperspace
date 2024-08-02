@@ -3,6 +3,7 @@
 #include "CustomStore.h"
 #include "CustomOptions.h"
 #include "CustomEvents.h"
+#include "CustomShipGenerator.h"
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
@@ -301,11 +302,57 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "SWITCH")
+    {
+        if (command.length() > 7)
+        {
+            std::string shipName = boost::trim_copy(command.substr(7));
+            hs_log_file("Loading new ship %s\n", shipName.c_str());
 
+            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+            if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
+            {
+                SwitchShip(bp);
+            }
+            bp->destructor();
+        }
+
+        return true;
+    }
 
     return false;
 }
 
+void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
+{
+    if (switching) return;
+
+    switching = true;
+    WorldManager *world = G_->GetWorld();
+    CommandGui *gui = world->commandGui;
+    ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
+
+    world->ClearLocation();
+
+    ShipManager *oldShip = world->playerShip->shipManager;
+    for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
+    
+    auto *ship = static_cast<ShipManager*>(::operator new(sizeof(ShipManager)));
+    ship->constructor(0);
+    ship->OnInit(shipBlueprint, 0);
+    
+    world->playerShip->SetShip(ship);
+    world->starMap.shipManager = ship;
+
+    // Equivalent to ScoreKeeper::SetShipBlueprint, not exposed because the linux sig sucks
+    scoreKeeper->currentScore.blueprint = shipBlueprint->blueprintName;
+
+    gui->LinkShip(world->playerShip);
+    oldShip->destructor2();
+
+    
+    switching = false;
+}
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
