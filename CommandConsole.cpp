@@ -501,17 +501,15 @@ HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
     CommandConsole::GetInstance()->InputData(G_->GetWorld()->commandGui, ch);
 }
 
+Point *consolePos = new Point(381, 235);
+
 HOOK_METHOD(InputBox, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::OnRender -> Begin (CommandConsole.cpp)\n")
         
     if (bOpen == false) return;
 
-    Point *pos = new Point(326, 210);
-    textBox->Draw(pos->x, pos->y);
-
-    pos->y = pos->y + 55;
-    pos->x = pos->x + 25;
+    textBox->Draw(consolePos->x - 55, consolePos->y - 25);
 
     size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
     if (cursorPosition > inputText.length())
@@ -523,11 +521,9 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     std::string commandText = inputText;
     int inputTextCursorPosition = freetype::easy_measureWidth(8, inputText.substr(0, cursorPosition));
 
-    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,490,mainText);
-    freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 490, inputText);
+    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)consolePos->x,(float)consolePos->y,490,mainText);
+    freetype::easy_printAutoNewlines(8,(float)consolePos->x, posMain.y + 10.0, 490, inputText);
 
-    if (cursorTickCount++ < 750) CSurface::GL_DrawRect(pos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
+    if (cursorTickCount++ < 750) CSurface::GL_DrawRect(consolePos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
     if (cursorTickCount == 1500) cursorTickCount = 0;
-
-    delete pos;
 }
