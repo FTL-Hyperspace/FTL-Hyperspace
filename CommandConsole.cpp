@@ -344,7 +344,8 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
     world->playerShip->SetShip(ship);
     world->starMap.shipManager = ship;
 
-    scoreKeeper->SetShipBlueprint(&(shipBlueprint->blueprintName));
+    // Equivalent to ScoreKeeper::SetShipBlueprint, not exposed because the linux sig sucks
+    scoreKeeper->currentScore.blueprint = shipBlueprint->blueprintName;
 
     gui->LinkShip(world->playerShip);
     oldShip->destructor2();

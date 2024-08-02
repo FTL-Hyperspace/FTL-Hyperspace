@@ -6496,7 +6496,6 @@ struct ScoreKeeper
 	LIBZHL_API void SaveGame(int fd);
 	LIBZHL_API void SaveScores(int file, std::vector<TopScore> &topScores);
 	LIBZHL_API void SetSector(int sector);
-	LIBZHL_API void SetShipBlueprint(std::string *blueprint);
 	LIBZHL_API void SetVictory(bool victory);
 	LIBZHL_API void SetupTopShip(int variant);
 	LIBZHL_API void UnlockShip(int shipType, int shipVariant, bool save, bool hidePopup);
