@@ -7,6 +7,7 @@
 #include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <string>
@@ -523,10 +524,10 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     int inputTextCursorPosition = freetype::easy_measureWidth(8, inputText.substr(0, cursorPosition));
 
     Pointf posMain = freetype::easy_printAutoNewlines(8,(float)pos->x,(float)pos->y,490,mainText);
-    Pointf posInput = freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 490, inputText);
+    freetype::easy_printAutoNewlines(8,(float)pos->x, posMain.y + 10.0, 490, inputText);
 
-    if (cursorTickCount++ < 50) freetype::easy_printAutoNewlines(10,pos->x + (inputTextCursorPosition % 490) - 1.5, posInput.y-13.5, 490, "I");
-    if (cursorTickCount == 100) cursorTickCount = 0;
+    if (cursorTickCount++ < 750) CSurface::GL_DrawRect(pos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
+    if (cursorTickCount == 1500) cursorTickCount = 0;
 
     delete pos;
 }
