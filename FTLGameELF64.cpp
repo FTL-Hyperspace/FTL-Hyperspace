@@ -10661,12 +10661,12 @@ bool ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 namespace _func835
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ScoreKeeper::SetShipBlueprint", typeid(void (ScoreKeeper::*)(std::string *)), ".4881c780010000e9????????0f1f4000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::SetShipBlueprint", typeid(void (ScoreKeeper::*)(std::string &)), ".4881c780010000", nullptr, 0, 0, &func);
 }
 
-void ScoreKeeper::SetShipBlueprint(std::string *blueprint)
+void ScoreKeeper::SetShipBlueprint(std::string &blueprint)
 {
-	typedef void (*custom_arg_funcptr_t)(ScoreKeeper *this_arg, std::string *blueprint_arg);
+	typedef void (*custom_arg_funcptr_t)(ScoreKeeper *this_arg, std::string &blueprint_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func835::func;
 	return execfunc(this, blueprint);
 }

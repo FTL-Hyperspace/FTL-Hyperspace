@@ -10,8 +10,8 @@ cleanup __amd64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
 ".83fa02760b31c0":
 forceDetour cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
-".4881c780010000e9????????0f1f4000":
-cleanup __amd64 void ScoreKeeper::SetShipBlueprint(ScoreKeeper *this, std::string *blueprint);
+".4881c780010000":
+cleanup __amd64 void ScoreKeeper::SetShipBlueprint(ScoreKeeper *this, std::string& blueprint);
 ".c7471800000000c7473800000000":
 cleanup __amd64 void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
 ".4084f64088b798010000":
