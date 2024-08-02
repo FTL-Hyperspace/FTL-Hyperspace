@@ -1,7 +1,5 @@
 "534889fb4883ec20f30f108fc4020000":
 cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
-".534889fb488bbfb8000000":
-cleanup __amd64 void Ship::ClearImages(Ship *this);
 ".4c8b8778040000488b8f8004000048b835c2724f232cf7344c29c148c1f903":
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 ".0fb687b802000084c0":
