@@ -7,6 +7,7 @@ class CommandConsole
 {
 public:
     bool enabled;
+    bool invertCaps = true;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
     void InputData(CommandGui *commandGui, int key);

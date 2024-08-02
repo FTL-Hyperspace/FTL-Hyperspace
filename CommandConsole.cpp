@@ -315,14 +315,17 @@ void CommandConsole::InputData(CommandGui *commandGui, int key)
     auto& inputBox = commandGui->inputBox;
     char inputKey = key;
 
-    // Vanilla console invert the capitalisation of the input key, we replicate this behaviour here (ASCII shift of 32 between capital and lowercase letters)
-    if (inputKey >= 'a' && inputKey <= 'z')
+    // Vanilla console inverts the capitalization of the input key, we replicate this behaviour here (ASCII shift of 32 between capital and lowercase letters)
+    if (invertCaps)
     {
-        inputKey -= 32;
-    }
-    else if (inputKey >= 'A' && inputKey <= 'Z')
-    {
-        inputKey += 32;
+        if (inputKey >= 'a' && inputKey <= 'z')
+        {
+            inputKey -= 32;
+        }
+        else if (inputKey >= 'A' && inputKey <= 'Z')
+        {
+            inputKey += 32;
+        }
     }
 
     inputBox.inputText.insert(cursorPosition, 1, inputKey);
