@@ -4,6 +4,8 @@ __thiscall CollisionResponse Shields::CollisionReal(Shields *this, float x, floa
 __thiscall void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
 "5589e5f30f104d108b4508f30f1045148b550cf30f1181d8010000f30f5ec1f30f1189d40100008981cc0100008991d00100005df30f1181c0010000":
 __thiscall void Shields::SetBaseEllipse(Shields *this, Globals::Ellipse ellipse);
+"538b44????83f8017e??83b9a801000001":
+__thiscall void Shields::SetHackingLevel(Shields *this, int hackingLevel);
 "578d7c240883e4f0ff77fc5589e557565389cb8db33802000083ec3ce8????????89c289f1c70424????????c1ea1f01d0d1f8":
 __thiscall void Shields::InstantCharge(Shields *this);
 "578d7c240883e4f0ff77fc5589e557565389cb8d7dd883ec3ce8????????f30f1015????????8b83040200000f28ca8d4b08f30f108314020000897dd0":

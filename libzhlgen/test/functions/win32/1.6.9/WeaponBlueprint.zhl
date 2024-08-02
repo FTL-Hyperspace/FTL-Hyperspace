@@ -8,6 +8,8 @@ __thiscall void WeaponBlueprint::destructor(WeaponBlueprint *this);
 __thiscall std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
 "5781c16c0100008d7c240883e4f0ff77fc5589e55783ec14890c24b9????????e8????????8b7dfc83ec04c98d67f85fc20400":
 __thiscall void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
+".5781c16c0100008d7c2408":
+__thiscall Point WeaponBlueprint::GetDimensions(WeaponBlueprint *this);
 
 
 struct WeaponBlueprint
