@@ -70,7 +70,6 @@ void CustomUpgrades::OnRender()
         if (allowButton) renameButton->OnRender();
 
         if (G_->GetCFPS()->NumFrames != 0) cursorTickCount += 1.0/G_->GetCFPS()->NumFrames;
-        hs_log_file("CursorTickCount: %f\n", cursorTickCount);
         if (renameInput->GetActive() && cursorTickCount < 0.5)
         {
             float width = freetype::easy_measureWidth(24, renameInput->GetText().substr(0, renameInput->pos));
