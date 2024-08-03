@@ -157,7 +157,9 @@ namespace std {
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
+    %template(vector_p_locationEventChoice) vector<LocationEvent::Choice*>;
     %template(vector_choiceText) vector<ChoiceText>;
+    %template(vector_p_choiceText) vector<ChoiceText*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -615,6 +617,7 @@ playerVariableType playerVariables;
 
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
+%rename("%s") LocationEvent::GetChoices;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
@@ -662,6 +665,7 @@ playerVariableType playerVariables;
 %rename("%s") ChoiceReq::blue;
 
 %rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::GetChoices;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
 %rename("%s") ChoiceBox::columnSize;
