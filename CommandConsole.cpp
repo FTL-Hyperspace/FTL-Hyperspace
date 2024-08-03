@@ -4,14 +4,20 @@
 #include "CustomOptions.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <string>
 
 CommandConsole CommandConsole::instance = CommandConsole();
 PrintHelper PrintHelper::instance = PrintHelper();
 bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
+static float cursorTickCount = 0.0;
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
@@ -285,11 +291,48 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if(cmdName == "ACH" && command.length() > 3)
+    {
+        std::string achName = boost::trim_copy(command.substr(4));
+        CustomAchievementTracker::instance->SetAchievement(achName, false);
+
+        return true;
+    }
+    if(cmdName == "ACH_LOCK" && command.length() > 8)
+    {
+        std::string achName = boost::trim_copy(command.substr(9));
+        CustomAchievementTracker *customAchTrack = CustomAchievementTracker::instance;
+        customAchTrack->RemoveAchievement(achName);
+
+        return true;
+    }
 
 
     return false;
 }
 
+void CommandConsole::InputData(CommandGui *commandGui, int key)
+{
+    auto& inputBox = commandGui->inputBox;
+    char inputKey = key;
+
+    // Vanilla console inverts the capitalization of the input key, we replicate this behaviour here (ASCII shift of 32 between capital and lowercase letters)
+    if (invertCaps)
+    {
+        if (inputKey >= 'a' && inputKey <= 'z')
+        {
+            inputKey -= 32;
+        }
+        else if (inputKey >= 'A' && inputKey <= 'Z')
+        {
+            inputKey += 32;
+        }
+    }
+
+    inputBox.inputText.insert(cursorPosition, 1, inputKey);
+    cursorTickCount = 0.0;
+    cursorPosition++;
+}
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
@@ -345,7 +388,6 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     shouldOpenConsole = true;
 }
 
-
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 {
     LOG_HOOK("HOOK_STATIC -> Settings::GetCommandConsole -> Begin (CommandConsole.cpp)\n")
@@ -358,6 +400,8 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
+
+        // This is here instead of in CommandConsole::RunCommand because CommandGui has shipComplete
         if(command == "GOD")
             PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }
@@ -419,4 +463,68 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (CommandConsole.cpp)\n")
     PrintHelper::GetInstance()->Render();
     super();
+}
+
+HOOK_METHOD(InputBox, StartInput, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::StartInput -> Begin (CommandConsole.cpp)\n")
+    CommandConsole::GetInstance()->cursorPosition = 0;
+    super();
+}
+
+HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
+
+    cursorTickCount = 0.0;
+    if (event == CEvent::TextEvent::TEXT_BACKSPACE && CommandConsole::GetInstance()->cursorPosition > 0)
+    {
+        CommandConsole::GetInstance()->cursorPosition--;
+        inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
+        return;
+    }
+    if (event == CEvent::TextEvent::TEXT_DELETE && CommandConsole::GetInstance()->cursorPosition < inputText.length())
+    {
+        inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
+        return;
+    }
+    if (event == CEvent::TextEvent::TEXT_LEFT && CommandConsole::GetInstance()->cursorPosition > 0) CommandConsole::GetInstance()->cursorPosition--;
+    if (event == CEvent::TextEvent::TEXT_RIGHT && CommandConsole::GetInstance()->cursorPosition < inputText.length() ) CommandConsole::GetInstance()->cursorPosition++;
+
+    super(event);
+}
+
+HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::TextInput -> Begin (CommandConsole.cpp)\n")
+
+    CommandConsole::GetInstance()->InputData(G_->GetWorld()->commandGui, ch);
+}
+
+Point *consolePos = new Point(381, 235);
+
+HOOK_METHOD(InputBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InputBox::OnRender -> Begin (CommandConsole.cpp)\n")
+        
+    if (bOpen == false) return;
+
+    textBox->Draw(consolePos->x - 55, consolePos->y - 25);
+
+    size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
+    if (cursorPosition > inputText.length())
+    { 
+        cursorPosition = inputText.length(); 
+        CommandConsole::GetInstance()->cursorPosition = cursorPosition;
+    }
+
+    std::string commandText = inputText;
+    int inputTextCursorPosition = freetype::easy_measureWidth(8, inputText.substr(0, cursorPosition));
+
+    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)consolePos->x,(float)consolePos->y,490,mainText);
+    freetype::easy_printAutoNewlines(8,(float)consolePos->x, posMain.y + 10.0, 490, inputText);
+
+    if (G_->GetCFPS()->NumFrames != 0) cursorTickCount += 1.0/G_->GetCFPS()->NumFrames;
+    if (cursorTickCount < 0.5) CSurface::GL_DrawRect(consolePos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
+    if (cursorTickCount >= 1.0) cursorTickCount = 0.0;
 }
