@@ -565,6 +565,7 @@ Syntax ->
 				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
+				<hullDamageResistChance>30</hullDamageResistChance>
 			</room>
 		</rooms>
 		<crew>

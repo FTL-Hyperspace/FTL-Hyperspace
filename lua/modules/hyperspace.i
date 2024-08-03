@@ -1945,6 +1945,7 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend;
 %rename("%s") Room_Extend::sysDamageResistChance;
 %rename("%s") Room_Extend::ionDamageResistChance;
+%rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
 
 %nodefaultctor Door;
@@ -2142,6 +2143,7 @@ playerVariableType playerVariables;
 %rename("%s") RoomDefinition::sensorBlind;
 %rename("%s") RoomDefinition::sysDamageResistChance;
 %rename("%s") RoomDefinition::ionDamageResistChance;
+%rename("%s") RoomDefinition::hullDamageResistChance;
 
 %rename("%s") CrewPlacementDefinition;
 %rename("%s") CrewPlacementDefinition::species;
