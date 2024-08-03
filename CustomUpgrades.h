@@ -28,17 +28,21 @@ public:
     void AddSystemBox(UpgradeBox* box);
     void ConfirmUpgrades();
 
+    Upgrades *orig = nullptr;
     std::vector<std::vector<UpgradeBox*>> systemUpgradeBoxes;
+    TextInput *renameInput = nullptr;
+    float cursorTickCount = 0;
+    bool allowRename = false;
+    bool allowButton = false;
 
     static CustomUpgrades* GetInstance()
     {
         return &instance;
     }
 private:
-    Upgrades *orig = nullptr;
     Button *leftButton = nullptr;
     Button *rightButton = nullptr;
-
+    Button *renameButton = nullptr;
 
     int currentPage = 0;
 

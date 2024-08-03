@@ -9,7 +9,6 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     return super();
     if (!bChoosingNewSector)
     {
-        Pointf locPos = currentLoc->loc;
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(position.x, position.y, 0.f);
         if (arrivedAtBase)
@@ -282,10 +281,10 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     g_firstTimeConnection = false;
 }
 
-HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool unk2) -> Location*)
+HOOK_METHOD(StarMap, Open, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomMap.cpp)\n")
-    auto ret = super(unk1, unk2);
+    LOG_HOOK("HOOK_METHOD -> StarMap::Open -> Begin (CustomMap.cpp)\n")
+    super();
 
     g_locConnections.clear();
 
@@ -300,6 +299,38 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool unk2) -> Location*)
             }
         }
     }
+}
 
-    return ret;
+HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (CustomMap.cpp)\n")
+
+    super(x, y);
+    
+    bool canJump = false;
+    for (auto i : locations)
+    {   
+        if (i->loc.x + 35.f + position.x  <= x &&
+        i->loc.x + 55.f + position.x >= x && 
+        i->loc.y + 33.f + position.y <= y && 
+        i->loc.y + 53.f + position.y >= y)
+        {
+            hoverLoc = i;
+
+            ShipManager *ship = G_->GetShipManager(0);
+            if (hoverLoc->visited != 0 && ship->HasAugmentation("FTL_JUMPER")) canJump = hoverLoc != currentLoc;
+
+            for (auto x : currentLoc->connectedLocations)
+            {
+                if (x == hoverLoc)
+                {
+                    canJump = true;
+                    break;
+                }
+            }
+
+            if (canJump) potentialLoc = hoverLoc;
+            break;
+        }
+    }
 }
