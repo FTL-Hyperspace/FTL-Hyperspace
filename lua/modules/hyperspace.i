@@ -494,6 +494,7 @@ playerVariableType playerVariables;
 %rename("%s") SectorDescription;
 %rename("%s") SectorDescription::name;
 %rename("%s") SectorDescription::shortName;
+%rename("%s") SectorDescription::type;
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
@@ -617,7 +618,7 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
-//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
+%rename("%s") LocationEvent::Choice::requirement;
 %rename("%s") LocationEvent::Choice::hiddenReward;
 %rename("%s") LocationEvent::text;
 //%rename("%s") LocationEvent::ship; ShipEvent not exposed
@@ -652,6 +653,13 @@ playerVariableType playerVariables;
 %rename("%s") FocusWindow::bOpen;
 %rename("%s") FocusWindow::bFullFocus;
 %rename("%s") FocusWindow::bCloseButtonSelected;
+
+%rename("%s") ChoiceReq; 
+%rename("%s") ChoiceReq::object;
+%rename("%s") ChoiceReq::min_level;
+%rename("%s") ChoiceReq::max_level;
+%rename("%s") ChoiceReq::max_group;
+%rename("%s") ChoiceReq::blue;
 
 %rename("%s") ChoiceBox;
 %rename("%s") ChoiceBox::mainText;
@@ -1029,6 +1037,7 @@ playerVariableType playerVariables;
 %rename("%s") Location::planetImage;
 %rename("%s") Location::known;
 %rename("%s") Location::event;
+%rename("%s") Location::loc;
 
 
 %rename("%s") BoardingEvent;

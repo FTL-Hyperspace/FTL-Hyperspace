@@ -1364,7 +1364,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`LocationEvent`](#LocationEvent) `.event`
 - [`TextString`](#TextString) `.text`
+- [`ChoiceReq`](#ChoiceReq) `.requirement`
 - `bool` `.hiddenReward`
+
+## ChoiceReq
+
+### Fields
+- `std::string` `.object`
+- `int` `.min_level`
+- `int` `.max_level`
+- `int` `.max_group`
+- `bool` `.blue`
 
 ## FocusWindow
 
@@ -1474,6 +1484,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `ImageDesc` `.planet`
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
+- `Pointf` `.loc`
 - `bool` `.known`
 - [`LocationEvent`](#LocationEvent) `.event`
 
@@ -1488,6 +1499,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+- `std::string` `.type`
 
 ## TextLibrary
 
