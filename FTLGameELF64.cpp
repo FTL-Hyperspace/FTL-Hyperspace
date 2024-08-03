@@ -8855,17 +8855,30 @@ namespace _var687
 namespace _func688
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("InputBox::TextInput", typeid(void (InputBox::*)(int )), "415683fe??415541545589f5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InputBox::OnRender", typeid(void (InputBox::*)()), "534889fb4883ec??807f08??0f84????????488d7c2410", nullptr, 0, 0, &func);
+}
+
+void InputBox::OnRender()
+{
+	typedef void (*custom_arg_funcptr_t)(InputBox *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func688::func;
+	return execfunc(this);
+}
+
+namespace _func689
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("InputBox::TextInput", typeid(void (InputBox::*)(int )), ".415683fe??415541545589f5", nullptr, 0, 0, &func);
 }
 
 void InputBox::TextInput(int ch)
 {
 	typedef void (*custom_arg_funcptr_t)(InputBox *this_arg, int ch_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func688::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func689::func;
 	return execfunc(this, ch);
 }
 
-namespace _func689
+namespace _func690
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("InputBox::TextEvent", typeid(void (InputBox::*)(CEvent::TextEvent )), ".4155415455534889fb4883ec??83fe??0f84????????0f8e????????", nullptr, 0, 0, &func);
@@ -8874,21 +8887,8 @@ namespace _func689
 void InputBox::TextEvent(CEvent::TextEvent event)
 {
 	typedef void (*custom_arg_funcptr_t)(InputBox *this_arg, CEvent::TextEvent event_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func689::func;
-	return execfunc(this, event);
-}
-
-namespace _func690
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("InputBox::OnRender", typeid(void (InputBox::*)()), ".534889fb4883ec??807f08??0f84????????488d7c2410", nullptr, 0, 0, &func);
-}
-
-void InputBox::OnRender()
-{
-	typedef void (*custom_arg_funcptr_t)(InputBox *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func690::func;
-	return execfunc(this);
+	return execfunc(this, event);
 }
 
 namespace _func691
