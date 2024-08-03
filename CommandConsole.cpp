@@ -386,6 +386,13 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     shouldOpenConsole = false;
     super(key, shiftHeld);
     shouldOpenConsole = true;
+
+    if (CommandConsole::GetInstance()->enabled && inputBox.bOpen && key == SDLK_UP)
+    {
+        CommandConsole::GetInstance()->cursorPosition = inputBox.inputText.length();
+        cursorTickCount = 0.f;
+    }
+
 }
 
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
