@@ -2,6 +2,7 @@
 #include "CustomShipSelect.h"
 
 CustomUpgrades CustomUpgrades::instance = CustomUpgrades();
+bool blockShipNameRendering = false;
 
 void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
 {
@@ -61,16 +62,21 @@ void CustomUpgrades::OnRender()
         rightButton->OnRender();
     }
 
+    // Draw the ship name
+    Pointf pos = freetype::easy_printCenter(24, orig->position.x + 310, orig->position.y + 39, renameInput->GetText());
+
     if (allowRename)
     {
-        if (allowButton)
-            renameButton->OnRender();
+        if (allowButton) renameButton->OnRender();
 
-        if (renameInput->GetActive())
+        if (G_->GetCFPS()->NumFrames != 0) cursorTickCount += 1.0/G_->GetCFPS()->NumFrames;
+        hs_log_file("CursorTickCount: %f\n", cursorTickCount);
+        if (renameInput->GetActive() && cursorTickCount < 0.5)
         {
-            float size = freetype::easy_measureWidth(24, renameInput->GetText())/2.f;
-            CSurface::GL_DrawRect(orig->position.x+ 302.f + size, orig->position.y + 47.f, 1.f, 35.f, COLOR_YELLOW);
+            float width = freetype::easy_measureWidth(24, renameInput->GetText().substr(0, renameInput->pos));
+            CSurface::GL_DrawRect(pos.x + width - 2.f, pos.y + 8.5f, 1.f, 35.f, COLOR_YELLOW);
         }
+        if (cursorTickCount >= 1.0) cursorTickCount = 0.0;
     }
 }
 
@@ -175,6 +181,7 @@ void CustomUpgrades::MouseClick(int mX, int mY)
     }
     if (allowRename)
     {
+        cursorTickCount = 0;
         if (((
             !allowButton &&
             mX > orig->position.x + 155 && mX < orig->position.x + 465 && 
@@ -184,8 +191,10 @@ void CustomUpgrades::MouseClick(int mX, int mY)
         {
             renameInput->Start();
         }
-        else 
+        else
+        {
             renameInput->Stop();
+        }
     }
 }
 
@@ -404,9 +413,21 @@ HOOK_METHOD(Upgrades, MouseMove, (int mX, int mY) -> void)
 HOOK_METHOD(Upgrades, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Upgrades::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    blockShipNameRendering = true;
     super();
+    blockShipNameRendering = false;
 
     CustomUpgrades::GetInstance()->OnRender();
+}
+
+// Override the regular ship name rendering
+HOOK_METHOD(freetype, easy_printCenter_DO_NOT_USE_DIRECTLY, (int fontSize, float x, float y, const std::string& text) -> uint64_t)
+{
+    LOG_HOOK("HOOK_METHOD -> freetype::easy_printCenter -> Begin (CustomUpgrades.cpp)\n")
+    if (blockShipNameRendering && text == G_->GetShipManager(0)->myBlueprint.name.data)
+        return *new uint64_t;
+
+    return super(fontSize, x, y, text);
 }
 
 HOOK_METHOD(Upgrades, OnLoop, () -> void)
@@ -459,6 +480,7 @@ HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
             upgrade->renameInput->OnTextInput(charCode);
             G_->GetShipManager(0)->myBlueprint.name.data = upgrade->renameInput->GetText();
             G_->GetScoreKeeper()->currentScore.name = upgrade->renameInput->GetText();
+            upgrade->cursorTickCount = 0;
             return;
         }
     }
@@ -477,6 +499,7 @@ HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
             upgrade->renameInput->OnTextEvent(te);
             G_->GetShipManager(0)->myBlueprint.name.data = upgrade->renameInput->GetText();
             G_->GetScoreKeeper()->currentScore.name = upgrade->renameInput->GetText();
+            upgrade->cursorTickCount = 0;
             return;
         }
     }
