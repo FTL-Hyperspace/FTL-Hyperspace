@@ -484,7 +484,7 @@ HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
         }
     }
 
-	super(charCode);
+    super(charCode);
 }
 
 HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
@@ -503,7 +503,7 @@ HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
         }
     }
 
-	super(te);
+    super(te);
 }
 
 HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
