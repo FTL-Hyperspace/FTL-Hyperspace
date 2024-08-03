@@ -941,8 +941,8 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
 
     if (dmg.iDamage > 0 && random32() % 100 < RM_EX(ship.vRoomList[roomId])->hullDamageResistChance)
     {
-        dmg.iSystemDamage = dmg.iDamage;
-        dmg.iPersDamage = dmg.iDamage;
+        dmg.iSystemDamage += dmg.iDamage;
+        dmg.iPersDamage += dmg.iDamage;
         dmg.iDamage = 0;
         resist = true;
     }
@@ -968,11 +968,10 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
     if (dmg.iDamage > 0 && room1 != room2)
     {
         auto ex = room2 != -1 ? RM_EX(ship.vRoomList[room2]) : RM_EX(ship.vRoomList[room1]);
-
         if (random32() % 100 < ex->hullDamageResistChance)
         {
-            dmg.iSystemDamage = dmg.iDamage;
-            dmg.iPersDamage = dmg.iDamage;
+            dmg.iSystemDamage += dmg.iDamage;
+            dmg.iPersDamage += dmg.iDamage;
             dmg.iDamage = 0;
             
             if (room1 > -1)
