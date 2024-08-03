@@ -1705,9 +1705,6 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     if (type == builder->currentShipId && variant == builder->currentType && !(force))
         return;
 
-
-
-
     ShipManager *oldShip = builder->currentShip;
 
     ShipButtonDefinition &def = shipButtonDefs[type - 100];
@@ -1794,6 +1791,14 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
 
         Point typeCPos(builder->typeCLoc.x + builder->typeCOffset, builder->typeCLoc.y);
         builder->typeC.SetLocation(typeCPos);
+
+        int page = GetShipButtonListFromID(type)->GetPage() + 1;
+
+        if (page != GetCurrentPage() && page != -1)
+        {
+            SwitchPage(page);
+            shipSelect->currentType = variant;
+        }
 
         if (shipSelect && shipSelect->bOpen)
         {
@@ -2072,14 +2077,21 @@ HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> void)
     customSel->MouseMove(x, y);
 }
 
-HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
+HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currType) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSelect::Open -> Begin (CustomShipSelect.cpp)\n")
-    super(currentLayout, currentType);
+    currentType = currType;
+    super(currentLayout, currType);
 
     auto customSel = CustomShipSelect::GetInstance();
     customSel->OnInit(this);
     customSel->Open();
+
+    if (currentLayout >= 100)
+    {
+        int page = customSel->GetShipButtonListFromID(currentLayout)->GetPage() + 1;
+        if (page != customSel->GetCurrentPage() && page != -1) customSel->SwitchPage(page);
+    }
 }
 
 HOOK_METHOD(ShipSelect, OnRender, () -> void)

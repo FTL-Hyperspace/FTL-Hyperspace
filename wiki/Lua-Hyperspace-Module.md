@@ -1516,13 +1516,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 
-- `ImageDesc` `.space`
-- `ImageDesc` `.planet`
-- `std::string` `.spaceImage`
-- `std::string` `.planetImage`
 - `Pointf` `.loc`
+- [`std::vector<Location>`](#Location) `.connectedLocations`
+- `bool` `.beacon`
 - `bool` `.known`
+- `int` `.visited`
+- `bool` `.dangerZone`
+- `bool` `.nebula`
+   - Grant the fleet delay of nebula, no changes to the event itself
+- `bool` `.boss`
+   - Final boss event overrides the beacon, no visual indication.
 - [`LocationEvent`](#LocationEvent) `.event`
+- `ImageDesc` `.planet`
+- `ImageDesc` `.space`
+- `bool` `.fleetChanging`
+- `std::string` `.planetImage`
+- `std::string` `.spaceImage`
 
 ## Sector
 
