@@ -904,6 +904,34 @@ No additional items over base `ShipSystem`
 - `std::string` `.droneImage`
 - `std::string` `.combatIcon`
 
+## Room
+
+### Fields
+- `bool` `.bBlackedOut`
+- `Globals::Rect` `.rect`
+   - **Read-only**
+- `int` `.iRoomId`
+   - **Read-only**
+- [`Room_Extend`](#room_extend) `.extend`
+   - **Read-only**
+
+## Room_Extend
+
+### Fields
+- `float` `.sysDamageResistChance`
+- `float` `.ionDamageResistChance`
+- `float` `.hullDamageResistChance`
+- `int` `.timeDilation`
+
+## RoomDefinition
+
+### Fields
+- `int` `.roomId`
+- `bool` `.sensorBlind`
+- `float` `.sysDamageResistChance`
+- `float` `.ionDamageResistChance`
+- `float` `.hullDamageResistChance`
+
 ## CrewStat
 
 ### Fields
@@ -1335,6 +1363,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## LocationEvent
 
+### Methods
+- [`std::vector<Choice*>`](#Choice) `:GetChoices()`
+
 ### Fields
 - [`TextString`](#TextString) `.text`
 - `int` `.environment`
@@ -1356,6 +1387,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`TextString`](#TextString) `.unlockShipText`
 - `bool` `.secretSector`
 - [`std::vector<Choice>`](#Choice) `.choices`
+   - If you want to modify the current `Choice` values please refer to `:GetChoices()` instead
 
 ## Choice
 
@@ -1364,7 +1396,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`LocationEvent`](#LocationEvent) `.event`
 - [`TextString`](#TextString) `.text`
+- [`ChoiceReq`](#ChoiceReq) `.requirement`
 - `bool` `.hiddenReward`
+
+## ChoiceReq
+
+### Fields
+- `std::string` `.object`
+- `int` `.min_level`
+- `int` `.max_level`
+- `int` `.max_group`
+- `bool` `.blue`
 
 ## FocusWindow
 
@@ -1377,9 +1419,13 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 **Extends [`FocusWindow`](#FocusWindow)**
 
+### Methods
+- [`std::vector<ChoiceText*>`](#ChoiceText) `:GetChoices()`
+
 ### Fields
 - `std::string` `.mainText`
 - [`std::vector<ChoiceText>`](#ChoiceText) `.choices`
+   - If you want to modify the current `ChoiceText` values please refer to `:GetChoices()` instead
 - `int` `.columnSize`
 - [`std::vector<Globals::Rect>`](#Globals) `.choiceBoxes`
 - `int` `.potentialChoice`
@@ -1474,6 +1520,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `ImageDesc` `.planet`
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
+- `Pointf` `.loc`
 - `bool` `.known`
 - [`LocationEvent`](#LocationEvent) `.event`
 
@@ -1488,6 +1535,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+- `std::string` `.type`
 
 ## TextLibrary
 

@@ -4,3 +4,16 @@ cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y);
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
 ".41574989ff41564155415455534881ec68020000":
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
+struct ChoiceBox
+{{
+    std::vector<ChoiceText*> GetChoices()
+    {
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+}};

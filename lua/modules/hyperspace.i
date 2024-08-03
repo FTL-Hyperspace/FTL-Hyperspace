@@ -157,7 +157,9 @@ namespace std {
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
+    %template(vector_p_locationEventChoice) vector<LocationEvent::Choice*>;
     %template(vector_choiceText) vector<ChoiceText>;
+    %template(vector_p_choiceText) vector<ChoiceText*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -494,6 +496,7 @@ playerVariableType playerVariables;
 %rename("%s") SectorDescription;
 %rename("%s") SectorDescription::name;
 %rename("%s") SectorDescription::shortName;
+%rename("%s") SectorDescription::type;
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
@@ -614,10 +617,11 @@ playerVariableType playerVariables;
 
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
+%rename("%s") LocationEvent::GetChoices;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
-//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
+%rename("%s") LocationEvent::Choice::requirement;
 %rename("%s") LocationEvent::Choice::hiddenReward;
 %rename("%s") LocationEvent::text;
 //%rename("%s") LocationEvent::ship; ShipEvent not exposed
@@ -653,7 +657,15 @@ playerVariableType playerVariables;
 %rename("%s") FocusWindow::bFullFocus;
 %rename("%s") FocusWindow::bCloseButtonSelected;
 
+%rename("%s") ChoiceReq; 
+%rename("%s") ChoiceReq::object;
+%rename("%s") ChoiceReq::min_level;
+%rename("%s") ChoiceReq::max_level;
+%rename("%s") ChoiceReq::max_group;
+%rename("%s") ChoiceReq::blue;
+
 %rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::GetChoices;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
 %rename("%s") ChoiceBox::columnSize;
@@ -1029,6 +1041,7 @@ playerVariableType playerVariables;
 %rename("%s") Location::planetImage;
 %rename("%s") Location::known;
 %rename("%s") Location::event;
+%rename("%s") Location::loc;
 
 
 %rename("%s") BoardingEvent;
@@ -1936,6 +1949,7 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend;
 %rename("%s") Room_Extend::sysDamageResistChance;
 %rename("%s") Room_Extend::ionDamageResistChance;
+%rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
 
 %nodefaultctor Door;
@@ -2133,6 +2147,7 @@ playerVariableType playerVariables;
 %rename("%s") RoomDefinition::sensorBlind;
 %rename("%s") RoomDefinition::sysDamageResistChance;
 %rename("%s") RoomDefinition::ionDamageResistChance;
+%rename("%s") RoomDefinition::hullDamageResistChance;
 
 %rename("%s") CrewPlacementDefinition;
 %rename("%s") CrewPlacementDefinition::species;
