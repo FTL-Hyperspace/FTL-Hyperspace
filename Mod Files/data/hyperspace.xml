@@ -310,6 +310,12 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <seeds enabled="true" allowUnlocks="false" allowAchievements="false" allowMetaVars="false"/>
 
+<!-- Allows the renaming of the player ship while in a run -->
+<!-- Set allowButton = false for the renaming to be available when clicking on the ship name in the upgrade menu -->
+<!-- Set allowButton = true for the renaming to be available via an added button in the upgrade menu -->
+
+<renameShipInRun enabled="false" allowButton="false"/>
+
 <!-- Enables command console in game - press \ to use
 
 
@@ -351,7 +357,7 @@ LUA                Run lua code directly for testing       Usage: LUA <code on o
 SQUISHY            Place a message on screen corner        Usage: SQUISHY <some message you'd like to say in support of squishy> Example: SQUISHY Squishy is awesome!
 -->
 
-<console enabled="true"/> 
+<console enabled="true" invertCaps="true"/> 
 
 <!-- Custom Victory Achievements
 
@@ -565,6 +571,7 @@ Syntax ->
 				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
+				<hullDamageResistChance>30</hullDamageResistChance>
 			</room>
 		</rooms>
 		<crew>

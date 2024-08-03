@@ -84,6 +84,57 @@ All calls are under `Hyperspace`
 - `bool` `.bLoadingGame`
    - **Read-only**
 
+## SpaceManager
+
+### Methods
+
+- [`LaserBlast`](#LaserBlast) `:CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`Asteroid`](#Asteroid) `:CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`Missile`](#Missile) `:CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`BombProjectile`](#BombProjectile) `:CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace)`
+- [`BeamWeapon`](#BeamWeapon) `:CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading)`
+- [`LaserBlast`](#LaserBlast) `:CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`PDSFire`](#PDSFire) `:CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke)`
+#
+- `bool :DangerousEnvironment()`
+- [`ImageDesc`](#ImageDesc) `:SwitchBackground(const std::string &name)`
+- [`ImageDesc`](#ImageDesc) `:SwitchPlanet(const std::string &name)`
+- `void :UpdatePlanetImage()`
+- `void :UpdateProjectile(Projectile *proj)`
+	
+### Fields
+
+- [`Projectile*[]`](#Projectile) `.projectiles`
+   - **Read-only**
+- [`GL_Texture`](#GL_Texture) `.currentBack`
+- `bool` `.gamePaused`
+   - **Read-only**
+   # 
+   ### Hazards
+
+   - [`AsteroidGenerator`](#AsteroidGenerator) `.asteroidGenerator`
+      - `.asteroidGenerator.bRunning` will indicate if the current space has an asteroid hazard, similar to the variables below
+      - **Read-only**
+   - `bool` `.sunLevel`
+      - **Read-only**
+   - `bool` `.pulsarLevel`
+      - **Read-only**
+   - `bool` `.bPDS`
+      - **Read-only**
+   - `int` `.envTarget`
+      - Dictate the current target of the PDS (0: player, 1: enemy, 2: both)
+   - `bool` `.bNebula`
+      - **Read-only**
+   - `bool` `.bStorm`
+      - **Read-only**
+
+## AsteroidGenerator
+	
+### Fields
+
+- `bool` `.bRunning`
+   - **Read-only**
+
 ## MouseControl
 
 ### Methods
@@ -600,7 +651,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 ### Fields
 
 - ~~`int` `.selectedState`~~
-- ~~`ShipObject` `._shipObj`~~
+- `ShipObject` `._shipObj`
 - `float` `.fDamage`
 - `Point` `.pLoc`
 - `float` `.fMaxDamage`
@@ -852,6 +903,34 @@ No additional items over base `ShipSystem`
 - `std::string` `.weaponBlueprint`
 - `std::string` `.droneImage`
 - `std::string` `.combatIcon`
+
+## Room
+
+### Fields
+- `bool` `.bBlackedOut`
+- `Globals::Rect` `.rect`
+   - **Read-only**
+- `int` `.iRoomId`
+   - **Read-only**
+- [`Room_Extend`](#room_extend) `.extend`
+   - **Read-only**
+
+## Room_Extend
+
+### Fields
+- `float` `.sysDamageResistChance`
+- `float` `.ionDamageResistChance`
+- `float` `.hullDamageResistChance`
+- `int` `.timeDilation`
+
+## RoomDefinition
+
+### Fields
+- `int` `.roomId`
+- `bool` `.sensorBlind`
+- `float` `.sysDamageResistChance`
+- `float` `.ionDamageResistChance`
+- `float` `.hullDamageResistChance`
 
 ## CrewStat
 
@@ -1317,7 +1396,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`LocationEvent`](#LocationEvent) `.event`
 - [`TextString`](#TextString) `.text`
+- [`ChoiceReq`](#ChoiceReq) `.requirement`
 - `bool` `.hiddenReward`
+
+## ChoiceReq
+
+### Fields
+- `std::string` `.object`
+- `int` `.min_level`
+- `int` `.max_level`
+- `int` `.max_group`
+- `bool` `.blue`
 
 ## FocusWindow
 
@@ -1431,6 +1520,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `ImageDesc` `.planet`
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
+- `Pointf` `.loc`
 - `bool` `.known`
 - [`LocationEvent`](#LocationEvent) `.event`
 
@@ -1445,6 +1535,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`TextString`](#TextString) `.name`
 - [`TextString`](#TextString) `.shortName`
+- `std::string` `.type`
 
 ## TextLibrary
 
