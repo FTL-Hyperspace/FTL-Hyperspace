@@ -357,7 +357,7 @@ LUA                Run lua code directly for testing       Usage: LUA <code on o
 SQUISHY            Place a message on screen corner        Usage: SQUISHY <some message you'd like to say in support of squishy> Example: SQUISHY Squishy is awesome!
 -->
 
-<console enabled="true"/> 
+<console enabled="true" invertCaps="true"/> 
 
 <!-- Custom Victory Achievements
 
@@ -571,6 +571,7 @@ Syntax ->
 				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
+				<hullDamageResistChance>30</hullDamageResistChance>
 			</room>
 		</rooms>
 		<crew>

@@ -570,6 +570,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 CommandConsole::GetInstance()->enabled = EventsParser::ParseBoolean(enabled);
+
+                if (node->first_attribute("invertCaps"))
+                {
+                    auto invertCaps = node->first_attribute("invertCaps")->value();
+                    CommandConsole::GetInstance()->invertCaps = EventsParser::ParseBoolean(invertCaps);
+                }
             }
 
             if (strcmp(node->name(), "infinite") == 0)

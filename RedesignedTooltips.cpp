@@ -172,7 +172,7 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
                     else
                     {
                         std::stringstream maxShotCount;
-                        maxShotCount << bp->boostPower.count - 1;
+                        maxShotCount << std::ceil((bp->cooldown / bp->boostPower.amount));
 
                         currentText = tLib->GetText("max_shots");
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", maxShotCount.str());
