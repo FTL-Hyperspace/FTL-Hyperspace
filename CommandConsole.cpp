@@ -17,7 +17,7 @@ PrintHelper PrintHelper::instance = PrintHelper();
 bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
-static int cursorTickCount = 0;
+static float cursorTickCount = 0.0;
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
@@ -330,7 +330,7 @@ void CommandConsole::InputData(CommandGui *commandGui, int key)
     }
 
     inputBox.inputText.insert(cursorPosition, 1, inputKey);
-    cursorTickCount = 0;
+    cursorTickCount = 0.0;
     cursorPosition++;
 }
 //===============================================
@@ -476,7 +476,7 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
 
-    cursorTickCount = 0;
+    cursorTickCount = 0.0;
     if (event == CEvent::TextEvent::TEXT_BACKSPACE && CommandConsole::GetInstance()->cursorPosition > 0)
     {
         CommandConsole::GetInstance()->cursorPosition--;
@@ -524,6 +524,7 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     Pointf posMain = freetype::easy_printAutoNewlines(8,(float)consolePos->x,(float)consolePos->y,490,mainText);
     freetype::easy_printAutoNewlines(8,(float)consolePos->x, posMain.y + 10.0, 490, inputText);
 
-    if (cursorTickCount++ < 750) CSurface::GL_DrawRect(consolePos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
-    if (cursorTickCount == 1500) cursorTickCount = 0;
+    if (G_->GetCFPS()->NumFrames != 0) cursorTickCount += 1.0/G_->GetCFPS()->NumFrames;
+    if (cursorTickCount < 0.5) CSurface::GL_DrawRect(consolePos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
+    if (cursorTickCount >= 1.0) cursorTickCount = 0.0;
 }
