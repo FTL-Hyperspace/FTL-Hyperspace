@@ -307,7 +307,11 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
 
     super(x, y);
 
-    if (bChoosingNewSector) return;
+    if (bChoosingNewSector)
+    {
+        potentialLoc = (Location *)NULL; 
+        return;
+    }
     
     bool canJump = false;
     for (auto i : locations)
