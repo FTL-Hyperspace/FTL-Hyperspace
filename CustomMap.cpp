@@ -306,6 +306,8 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
     LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (CustomMap.cpp)\n")
 
     super(x, y);
+
+    if (bChoosingNewSector) return;
     
     bool canJump = false;
     for (auto i : locations)
