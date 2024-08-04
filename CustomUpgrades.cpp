@@ -63,6 +63,7 @@ void CustomUpgrades::OnRender()
     }
 
     // Draw the ship name
+    CSurface::GL_SetColor(COLOR_WHITE);
     Pointf pos = freetype::easy_printCenter(24, orig->position.x + 310, orig->position.y + 39, G_->GetShipManager(0)->myBlueprint.name.data);
 
     if (allowRename)
