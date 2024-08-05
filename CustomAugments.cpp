@@ -843,7 +843,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox0 -> Begin (CustomAugments.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), event, context->getLibScript()->types.pLocationEvent, 0);
