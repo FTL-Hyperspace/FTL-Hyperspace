@@ -425,7 +425,7 @@ HOOK_STATIC(freetype, easy_printCenter_DO_NOT_USE_DIRECTLY, (int fontSize, float
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter_DO_NOT_USE_DIRECTLY -> Begin (CustomUpgrades.cpp)\n")
     if (blockShipNameRendering && text == G_->GetShipManager(0)->myBlueprint.name.data)
-        return *new uint64_t;
+        return super(fontSize, x, y, "");
 
     return super(fontSize, x, y, text);
 }
