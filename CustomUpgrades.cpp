@@ -421,9 +421,9 @@ HOOK_METHOD(Upgrades, OnRender, () -> void)
 }
 
 // Override the regular ship name rendering
-HOOK_STATIC(freetype, easy_printCenter_DO_NOT_USE_DIRECTLY, (int fontSize, float x, float y, const std::string& text) -> uint64_t)
+HOOK_STATIC(freetype, easy_printCenter, (int fontSize, float x, float y, const std::string& text) -> Pointf)
 {
-    LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter_DO_NOT_USE_DIRECTLY -> Begin (CustomUpgrades.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter -> Begin (CustomUpgrades.cpp)\n")
     if (blockShipNameRendering && text == G_->GetShipManager(0)->myBlueprint.name.data)
         return super(fontSize, x, y, "");
 

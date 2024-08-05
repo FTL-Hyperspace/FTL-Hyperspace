@@ -75,7 +75,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.3.0 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
 | 1.4.0 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
 | 1.8.0 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain` chain, `int` value | Can be used to alter the dodge factor for the given ship |
-| 1.13.2 | SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain` chain, `int` amount | Can be used to alter the bonus power for the given system |
+| 1.13.0 | SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain` chain, `int` amount | Can be used to alter the bonus power for the given system |
 | 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
 | N/A | ~~ON_INIT~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code on the start of a run (and loading a run), currently handled by `script.on_init` this internal event will potentially replace it~~ |
 | N/A | ~~ON_LOAD~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code after the game is loaded (currently after hyperspace.xml is initialized but might change to on main menu loading so all Lua is ready first), currently handled by `script.on_load` this internal event will potentially replace it~~ |
