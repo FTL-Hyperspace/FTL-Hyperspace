@@ -12,6 +12,7 @@ public:
     bool RunCommand(CommandGui *commandGui, const std::string& command);
     void InputData(CommandGui *commandGui, int key);
     size_t cursorPosition = 0;
+    std::wstring inputTextWide;
 
 
     static CommandConsole *GetInstance() { return &instance; }
