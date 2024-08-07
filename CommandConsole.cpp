@@ -530,6 +530,16 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     }
 }
 
+HOOK_STATIC(CSurface, GL_DrawRect, (float x, float y, float w, float h, GL_Color color) -> bool)
+{
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_DrawRect -> Begin (CommandConsole.cpp)\n")
+        
+    if (printCenterToLeft)
+        return super(x + 2, y, 1.0, h, color);
+
+    return super(x, y, w, h, color);
+}
+
 HOOK_STATIC(freetype, easy_printCenter , (int fontSize, float x, float y, const std::string &text) -> Pointf)
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter -> Begin (CommandConsole.cpp)\n")
