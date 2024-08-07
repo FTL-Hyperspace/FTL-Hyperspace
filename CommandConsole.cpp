@@ -464,13 +464,10 @@ HOOK_METHOD(InputBox, StartInput, () -> void)
     {
         CommandConsole::GetInstance()->textInput = new struct TextInput(480, TextInput::ALLOW_ANY, "");
     }
-    hs_log_file("StartInput\n");
     CommandConsole::GetInstance()->textInput->Start();
     CommandConsole::GetInstance()->textInput->SetText("");
     CommandConsole::GetInstance()->textInput->pos = 0;
-    hs_log_file("StartInput2\n");
     super();
-    hs_log_file("StartInput3\n");
 }
 
 HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
@@ -493,11 +490,9 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
 HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::TextInput -> Begin (CommandConsole.cpp)\n")
-    hs_log_file("TextInput\n");
     cursorTickCount = 0.0;
     if (CommandConsole::GetInstance()->textInput != nullptr)
     {   
-        hs_log_file("TextInput2\n");
         if (CommandConsole::GetInstance()->invertCaps)
         {
             if (ch >= 'a' && ch <= 'z')
@@ -509,12 +504,9 @@ HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
                 ch += 32;
             }
         }
-        hs_log_file("TextInput3\n");
         CommandConsole::GetInstance()->textInput->OnTextInput(ch);
-        hs_log_file("TextInput4\n");
     }
     inputText = CommandConsole::GetInstance()->textInput->GetText();
-    hs_log_file("TextInput5\n");
 }
 
 HOOK_METHOD(InputBox, OnRender, () -> void)
