@@ -527,12 +527,12 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     if (cursorTickCount >= 1.0) cursorTickCount = 0.0;
 }
 
-HOOK_STATIC(CSurface, GL_DrawRect , (int x, int y, int w, int h, GL_Color color) -> bool)
+HOOK_STATIC(CSurface, GL_DrawRect , (float x, float y, float w, float h, GL_Color color) -> bool)
 {
     LOG_HOOK("HOOK_STATIC -> CSurface::GL_DrawRect -> Begin (CommandConsole.cpp)\n")
     if (cursorTickCount > 0.5) return false;
         
-    return super(x, y, w, h, color);
+    return super(printCenterToLeft ? x + 2 : x, y, printCenterToLeft ? 1.0 : w, h, color);
 }
 
 HOOK_STATIC(freetype, easy_printCenter , (int fontSize, float x, float y, const std::string &text) -> Pointf)
