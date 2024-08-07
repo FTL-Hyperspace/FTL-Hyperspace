@@ -190,6 +190,13 @@ void CustomUpgrades::MouseClick(int mX, int mY)
         else
         {
             renameInput->Stop();
+            if (renameInput->GetText().empty())
+            {
+                std::string namelessOne = G_->GetTextLibrary()->GetText("nameless_one");
+                renameInput->SetText(namelessOne);
+                G_->GetShipManager(0)->myBlueprint.name.data = namelessOne;
+                G_->GetScoreKeeper()->currentScore.name = namelessOne;
+            }
         }
     }
 }
@@ -225,7 +232,16 @@ void CustomUpgrades::Close()
     }
 
     if (allowRename)
+    {
         renameInput->Stop();
+        if (renameInput->GetText().empty())
+        {
+            std::string namelessOne = G_->GetTextLibrary()->GetText("nameless_one");
+            renameInput->SetText(namelessOne);
+            G_->GetShipManager(0)->myBlueprint.name.data = namelessOne;
+            G_->GetScoreKeeper()->currentScore.name = namelessOne;
+        }
+    }
 }
 
 void CustomUpgrades::ConfirmUpgrades()
@@ -495,8 +511,14 @@ HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
         if (upgrade->allowRename && upgrade->renameInput && upgrade->renameInput->GetActive())
         {
             upgrade->renameInput->OnTextEvent(te);
-            G_->GetShipManager(0)->myBlueprint.name.data = upgrade->renameInput->GetText();
-            G_->GetScoreKeeper()->currentScore.name = upgrade->renameInput->GetText();
+            std::string currentName = upgrade->renameInput->GetText();
+            if ((te == CEvent::TEXT_CONFIRM || te == CEvent::TEXT_CANCEL) && currentName.empty())
+            {
+                currentName = G_->GetTextLibrary()->GetText("nameless_one");
+                upgrade->renameInput->SetText(currentName);
+            }
+            G_->GetShipManager(0)->myBlueprint.name.data = currentName;
+            G_->GetScoreKeeper()->currentScore.name = currentName;
             return;
         }
     }
