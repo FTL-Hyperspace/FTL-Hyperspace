@@ -522,6 +522,7 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
     CommandConsole *console = CommandConsole::GetInstance();
     if (console->textInput)
     {
+        CSurface::GL_SetColor(COLOR_WHITE);
         printCenterToLeft = true;
         console->textInput->OnRender(8, Point(consolePos->x, consolePos->y + 20));
         printCenterToLeft = false;
