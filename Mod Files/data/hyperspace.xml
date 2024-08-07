@@ -68,9 +68,11 @@ Internal hyperspace scripts & modules are loaded before any of these
 Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but there is no actual restriction on a prefix.
 -->
 
+<!-- Commented out to prevent extranious print calls from executing on startup
 <scripts>
     <script>data/example.lua</script>
 </scripts>
+-->
 
 <!-- Languages
 
