@@ -18,6 +18,9 @@ bool speedEnabled = true;
 static bool squishyTextEnabled = false;
 static std::string squishyText = "";
 static float cursorTickCount = 0.0;
+static bool printCenterToLeft = false;
+static bool stopRenderCursor = false;
+Point *consolePos = new Point(381, 235);
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
@@ -311,28 +314,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
-void CommandConsole::InputData(CommandGui *commandGui, int key)
-{
-    auto& inputBox = commandGui->inputBox;
-    char inputKey = key;
-
-    // Vanilla console inverts the capitalization of the input key, we replicate this behaviour here (ASCII shift of 32 between capital and lowercase letters)
-    if (invertCaps)
-    {
-        if (inputKey >= 'a' && inputKey <= 'z')
-        {
-            inputKey -= 32;
-        }
-        else if (inputKey >= 'A' && inputKey <= 'Z')
-        {
-            inputKey += 32;
-        }
-    }
-
-    inputBox.inputText.insert(cursorPosition, 1, inputKey);
-    cursorTickCount = 0.0;
-    cursorPosition++;
-}
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
@@ -341,10 +322,10 @@ static bool shouldOpenConsole = true;
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::KeyDown -> Begin (CommandConsole.cpp)\n")
+
+    auto commandConsole = CommandConsole::GetInstance();
     if (key == Settings::GetHotkey("speed"))
     {
-        //shouldOpen = !shouldOpen;
-
         speedEnabled = !speedEnabled;
     }
 
@@ -356,7 +337,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 
-    if (CommandConsole::GetInstance()->enabled && key == Settings::GetHotkey("console"))
+    if (commandConsole->enabled && key == Settings::GetHotkey("console"))
     {
         if (!writeErrorDialog.bOpen &&
             !menuBox.bOpen &&
@@ -387,10 +368,10 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     super(key, shiftHeld);
     shouldOpenConsole = true;
 
-    if (CommandConsole::GetInstance()->enabled && inputBox.bOpen && key == SDLK_UP)
+    if (commandConsole->enabled && inputBox.bOpen && key == SDLK_UP)
     {
-        CommandConsole::GetInstance()->cursorPosition = inputBox.inputText.length();
-        cursorTickCount = 0.f;
+        commandConsole->textInput->SetText(inputBox.inputText);
+        commandConsole->textInput->pos = commandConsole->textInput->GetText().length();
     }
 
 }
@@ -472,10 +453,21 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     super();
 }
 
+//===============================================
+
 HOOK_METHOD(InputBox, StartInput, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::StartInput -> Begin (CommandConsole.cpp)\n")
-    CommandConsole::GetInstance()->cursorPosition = 0;
+
+    cursorTickCount = 0.0;
+    if (CommandConsole::GetInstance()->textInput == nullptr)
+    {
+        CommandConsole::GetInstance()->textInput = new struct TextInput(480, TextInput::ALLOW_ANY, "");
+    }
+
+    CommandConsole::GetInstance()->textInput->Start();
+    CommandConsole::GetInstance()->textInput->SetText("");
+    
     super();
 }
 
@@ -484,31 +476,41 @@ HOOK_METHOD(InputBox, TextEvent, (CEvent::TextEvent event) -> void)
     LOG_HOOK("HOOK_METHOD -> InputBox::TextEvent -> Begin (CommandConsole.cpp)\n")
 
     cursorTickCount = 0.0;
-    if (event == CEvent::TextEvent::TEXT_BACKSPACE && CommandConsole::GetInstance()->cursorPosition > 0)
+    if (CommandConsole::GetInstance()->textInput != nullptr)
     {
-        CommandConsole::GetInstance()->cursorPosition--;
-        inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
-        return;
+        CommandConsole::GetInstance()->textInput->OnTextEvent(event);
     }
-    if (event == CEvent::TextEvent::TEXT_DELETE && CommandConsole::GetInstance()->cursorPosition < inputText.length())
-    {
-        inputText.erase(CommandConsole::GetInstance()->cursorPosition, 1);
-        return;
-    }
-    if (event == CEvent::TextEvent::TEXT_LEFT && CommandConsole::GetInstance()->cursorPosition > 0) CommandConsole::GetInstance()->cursorPosition--;
-    if (event == CEvent::TextEvent::TEXT_RIGHT && CommandConsole::GetInstance()->cursorPosition < inputText.length() ) CommandConsole::GetInstance()->cursorPosition++;
+    inputText = CommandConsole::GetInstance()->textInput->GetText();
 
-    super(event);
+    if (event == CEvent::TEXT_CONFIRM || event == CEvent::TEXT_CANCEL)
+    {
+        super(event);
+        CommandConsole::GetInstance()->textInput->Stop();
+    }
 }
 
 HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::TextInput -> Begin (CommandConsole.cpp)\n")
 
-    CommandConsole::GetInstance()->InputData(G_->GetWorld()->commandGui, ch);
+    cursorTickCount = 0.0;
+    if (CommandConsole::GetInstance()->textInput != nullptr)
+    {
+        if (CommandConsole::GetInstance()->invertCaps)
+        {
+            if (ch >= 'a' && ch <= 'z')
+            {
+                ch -= 32;
+            }
+            else if (ch >= 'A' && ch <= 'Z')
+            {
+                ch += 32;
+            }
+        }
+        CommandConsole::GetInstance()->textInput->OnTextInput(ch);
+    }
+    inputText = CommandConsole::GetInstance()->textInput->GetText();
 }
-
-Point *consolePos = new Point(381, 235);
 
 HOOK_METHOD(InputBox, OnRender, () -> void)
 {
@@ -516,22 +518,36 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
         
     if (bOpen == false) return;
 
-    textBox->Draw(consolePos->x - 55, consolePos->y - 25);
-
-    size_t cursorPosition = CommandConsole::GetInstance()->cursorPosition;
-    if (cursorPosition > inputText.length())
-    { 
-        cursorPosition = inputText.length(); 
-        CommandConsole::GetInstance()->cursorPosition = cursorPosition;
-    }
+    textBox->Draw(consolePos->x - 25, consolePos->y - 25);
+    CommandConsole *console = CommandConsole::GetInstance();
 
     std::string commandText = inputText;
-    int inputTextCursorPosition = freetype::easy_measureWidth(8, inputText.substr(0, cursorPosition));
 
-    Pointf posMain = freetype::easy_printAutoNewlines(8,(float)consolePos->x,(float)consolePos->y,490,mainText);
-    freetype::easy_printAutoNewlines(8,(float)consolePos->x, posMain.y + 10.0, 490, inputText);
+    freetype::easy_printAutoNewlines(8,(float)consolePos->x,(float)consolePos->y,490,mainText);
 
     if (G_->GetCFPS()->NumFrames != 0) cursorTickCount += 1.0/G_->GetCFPS()->NumFrames;
-    if (cursorTickCount < 0.5) CSurface::GL_DrawRect(consolePos->x + (inputTextCursorPosition % 490), posMain.y+11.5f + (std::floor(inputTextCursorPosition/490.f)*14.5f), 1.f, 15.f, COLOR_YELLOW);
+    if (cursorTickCount < 0.5) stopRenderCursor = true;
+    printCenterToLeft = true;
+    console->textInput->OnRender(8, Point(consolePos->x, consolePos->y + 10));
+    printCenterToLeft = false;
+    stopRenderCursor = false;
     if (cursorTickCount >= 1.0) cursorTickCount = 0.0;
+}
+
+HOOK_STATIC(CSurface, GL_DrawRect , (int x, int y, int w, int h, GL_Color color) -> bool)
+{
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_DrawRect -> Begin (CommandConsole.cpp)\n")
+    if (stopRenderCursor)
+        return false;
+
+    return super(x, y, w, h, color);
+}
+
+HOOK_STATIC(freetype, easy_printCenter , (int fontSize, float x, float y, const std::string &text) -> Pointf)
+{
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_DrawRect -> Begin (CommandConsole.cpp)\n")
+    if (printCenterToLeft)
+        return freetype::easy_print(fontSize, x, y, text);
+
+    return super(fontSize, x, y, text);
 }
