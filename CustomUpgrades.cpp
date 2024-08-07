@@ -43,7 +43,7 @@ void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
 
         delete renameInput;
 
-        renameInput = new TextInput(16, TextInput::AllowedCharType::ALLOW_ANY, shipName->data);
+        renameInput = new TextInput(16, TextInput::AllowedCharType::ALLOW_ANY, "");
         renameInput->bActive = false;
         renameInput->SetText(shipName->data);
     }
