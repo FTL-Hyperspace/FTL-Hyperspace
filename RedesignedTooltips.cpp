@@ -1134,7 +1134,7 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 static bool g_emptyDroneStatText = false;
 HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
-    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomLocalization.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (RedesignedTooltips.cpp)\n")
 
     if (g_emptyDroneStatText && (name == "required_power" || name == "drone_required"))
     {

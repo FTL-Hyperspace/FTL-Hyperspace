@@ -934,7 +934,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomShips.cpp)\n")
 
     int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
     bool resist = false;
@@ -961,7 +961,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
 
 HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomDamage.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomShips.cpp)\n")
 
     int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
     int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);

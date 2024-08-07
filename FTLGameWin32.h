@@ -6364,41 +6364,6 @@ struct ResourceManager;
 
 struct freetype
 {
-	static Pointf easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string& text)
-	{
-        uint64_t ret = freetype::easy_measurePrintLines_DO_NOT_USE_DIRECTLY(fontSize, x, y, line_length, text);
-        return *((Pointf*) &ret);
-	}
-	
-	static Pointf easy_print(int fontSize, float x, float y, const std::string& text)
-	{
-        uint64_t ret = freetype::easy_print_DO_NOT_USE_DIRECTLY(fontSize, x, y, text);
-        return *((Pointf*) &ret);
-	}
-	
-    static Pointf easy_printRightAlign(int fontSize, float x, float y, const std::string& text)
-    {
-        uint64_t ret = freetype::easy_printRightAlign_DO_NOT_USE_DIRECTLY(fontSize, x, y, text);
-        return *((Pointf*) &ret);
-    }
-    
-    static Pointf easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string& text)
-    {
-        uint64_t ret = freetype::easy_printNewlinesCentered_DO_NOT_USE_DIRECTLY(fontSize, x, y, line_length, text);
-        return *((Pointf*) &ret);
-    }
-    
-    static Pointf easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string& text)
-    {
-        uint64_t ret = freetype::easy_printAutoNewlines_DO_NOT_USE_DIRECTLY(fontSize, x, y, line_length, text);
-        return *((Pointf*) &ret);
-    }
-    
-    static Pointf easy_printCenter(int fontSize, float x, float y, const std::string& text)
-    {
-        uint64_t ret = freetype::easy_printCenter_DO_NOT_USE_DIRECTLY(fontSize, x, y, text);
-        return *((Pointf*) &ret);
-    }
 
 	struct font_data
 	{
@@ -6413,14 +6378,14 @@ struct freetype
 		float lineHeight;
 	};
 	
-	LIBZHL_API static uint64_t __stdcall easy_measurePrintLines_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, int line_length, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text);
 	LIBZHL_API static int __stdcall easy_measureWidth(int fontSize, const std::string &text);
-	LIBZHL_API static uint64_t __stdcall easy_printAutoNewlines_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, int line_length, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_print(int fontSize, float x, float y, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text);
 	LIBZHL_API static void __stdcall easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text);
-	LIBZHL_API static uint64_t __stdcall easy_printCenter_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, const std::string &text);
-	LIBZHL_API static uint64_t __stdcall easy_printNewlinesCentered_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, int line_length, const std::string &text);
-	LIBZHL_API static uint64_t __stdcall easy_printRightAlign_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, const std::string &text);
-	LIBZHL_API static uint64_t __stdcall easy_print_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printCenter(int fontSize, float x, float y, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printRightAlign(int fontSize, float x, float y, const std::string &text);
 	
 };
 

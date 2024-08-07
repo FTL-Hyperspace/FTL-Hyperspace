@@ -1280,7 +1280,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(ShipManager, Wait, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (Misc.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
