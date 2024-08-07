@@ -31,7 +31,6 @@ public:
     Upgrades *orig = nullptr;
     std::vector<std::vector<UpgradeBox*>> systemUpgradeBoxes;
     TextInput *renameInput = nullptr;
-    float cursorTickCount = 0;
     bool allowRename = false;
     bool allowButton = false;
 
