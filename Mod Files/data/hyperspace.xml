@@ -73,6 +73,7 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
     <script>data/example.lua</script>
 </scripts>
 -->
+<scripts/>
 
 <!-- Languages
 
