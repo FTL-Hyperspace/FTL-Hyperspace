@@ -1125,7 +1125,7 @@ function player_crew_health_boost()
 end
 ```
 ## CrewMember
-Accessed via `shipManager`'s `.vCrewList` field or by using the Internal Event `CREW_LOOP`
+Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the Internal Event `CREW_LOOP`
 
 ### Methods
 - `Point :GetPosition()`
@@ -1134,237 +1134,238 @@ Accessed via `shipManager`'s `.vCrewList` field or by using the Internal Event `
 - `bool :ApplyDamage(float damage)`
 - `int :GetPriority`
 - `bool :ValidTarget(int unk)`
-- `bool MultiShots()`
-- `bool ExactTarget()`
-- `bool IsCrew()`
-- `bool IsCloned()`
-- `bool IsDrone()`
-- `void Jump()`
-- `bool GetIntruder()`
-- `void SaveState(int fileHelper)`
-- `void LoadState(int fileHelper)`
-- `void OnLoop()`
-- `void OnRender(bool outlineOnly)`
-- `bool OutOfGame()`
-- `void SetOutOfGame()`
-- `bool Functional()`
-- `bool CountForVictory()`
-- `bool GetControllable()`
-- `bool ReadyToFight()`
-- `bool CanFight()`
-- `bool CanRepair()`
-- `bool CanSabotage()`
-- `bool CanMan()`
-- `bool CanTeleport()`
-- `bool CanHeal()`
-- `bool CanSuffocate()`
-- `bool CanBurn()`
-- `int GetMaxHealth()`
-- `bool IsDead()`
-- `bool PermanentDeath()`
-- `bool ShipDamage(float damage)`
-- `bool FireFightingSoundEffect()`
-- `std::string GetUniqueRepairing()`
-- `bool ProvidesVision()`
-- `float GetMoveSpeedMultiplier()`
-- `float GetRepairSpeed()`
-- `float GetDamageMultiplier()`
-- `bool ProvidesPower()`
-- `std::string GetSpecies()`
-- `float GetFireRepairMultiplier()`
-- `bool IsTelepathic()`
-- `std::pair<float, float> GetPowerCooldown()`
-- `bool PowerReady()`
-- `void ActivatePower()`
-- `bool HasSpecialPower()`
-- `void ResetPower()`
-- `float GetSuffocationMultiplier()`
-- `int BlockRoom()`
-- `Damage GetRoomDamage()`
-- `bool IsAnaerobic()`
-- `void UpdateRepair()`
-- `bool CanStim()`
-- `bool AtFinalGoal()`
-- `bool AtGoal()`
-- `bool BadAtCombat()`
-- `void CheckFighting()`
-- `void CheckForTeleport()`
-- `bool CheckRoomPath(int roomId)`
-- `void CheckSkills()`
-- `void Cleanup()`
-- `void ClearPath()`
-- `void ClearPosition()`
-- `void ClearTask()`
-- `void Clone()`
-- `void CloseDoorBehind(Door *door)`
-- `bool ContainsPoint(int x, int y)`
-- `void CycleColorLayer(int unk)`
-- `bool DirectModifyHealth(float health)`
-- `void EmptySlot()`
-- `Slot FindSlot(int roomId, int slotId, bool closeEnough)`
-- `void ForceMindControl(bool force)`
-- `Point GetFinalGoal()`
-- `int GetIntegerHealth()`
-- `Point GetLocation()`
-- `std::string GetLongName()`
-- `float GetMoveSpeed()`
-- `std::string GetName()`
-- `bool GetNewGoal()`
-- `Point GetNextGoal()`
-- `int GetRepairingId()`
-- `bool GetResisted()`
-- `Slot GetSavedPosition()`
-- `static int __stdcall GetSkillFromSystem(int systemId)`
-- `int GetSkillLevel(int skillId)`
-- `float GetSkillModifier(int skillId)`
-- `std::pair<int, int> GetSkillProgress(int skillId)`
-- ~~`static std::string __stdcall GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`~~
-- `std::string GetTooltip()`
-- `void IncreaseSkill(int skillId)`
-- `void InitializeSkills()`
-- `bool IsBusy()`
-- `bool IsManningArtillery()`
-- `void Kill(bool noClone)`
-- `void MasterSkill(int skillId)`
-- `void ModifyHealth(float health)`
-- `bool MoveToRoom(int roomId, int slotId, bool forceMove)`
-- `bool NeedFrozenLocation()`
-- `bool NeedsSlot()`
-- `bool OnInit()`
-- `void OnRenderHealth()`
-- `void OnRenderPath()`
-- `void RenderSkillUpAnimation(Point pos)`
-- `bool Repairing()`
-- `bool RepairingFire()`
-- `bool RepairingSystem()`
-- `void Restart()`
-- `bool RestorePosition()`
-- `bool Sabotaging()`
-- `void SavePosition()`
-- `Pointf SelectSabotageTarget()`
-- `void SetCloneReady(bool cloneReady)`
-- `void SetCurrentShip(int shipId)`
-- `void SetCurrentSystem(ShipSystem *sys)`
-- `void SetCurrentTarget(CrewTarget *target, bool unk)`
-- `void SetDamageBoost(float damageBoost)`
-- `void SetDeathNumber(int deathNum)`
-- `void SetFrozen(bool frozen)`
-- `void SetFrozenLocation(bool frozenLocation)`
-- `void SetHealthBoost(int healthBoost)`
-- `void SetMedbay(float health)`
-- `void SetMindControl(bool controlled)`
-- `void SetName(TextString *name, bool force)`
-- `bool SetPath(Path *path)`
-- `void SetPosition(Point pos)`
-- `void SetResisted(bool resisted)`
-- `void SetRoom(int roomId)`
-- `void SetRoomPath(int slotId, int roomId)`
-- `void SetSavePosition(Slot position)`
-- `void SetSex(bool male)`
-- `void SetSkillProgress(int skillId, int skillLevel)`
-- `void SetTask(CrewTask task)`
-- `void StartRepair(Repairable *toRepair)`
-- `void StartTeleport()`
-- `void StartTeleportArrive()`
-- `void StopRepairing()`
-- `void UpdateHealth()`
-- `void UpdateMovement()`
-- `bool WithinRect(int x, int y, int w, int h)`
-- ~~`void constructor(CrewBlueprint &blueprint, int shipId, bool intruder, CrewAnimation *animation)`~~
-- ~~`void destructor()`~~
+- `bool :MultiShots()`
+- `bool :ExactTarget()`
+- `bool :IsCrew()`
+- `bool :IsCloned()`
+- `bool :IsDrone()`
+- `void :Jump()`
+- `bool :GetIntruder()`
+- `void :SaveState(int fileHelper)`
+- `void :LoadState(int fileHelper)`
+- `void :OnLoop()`
+- `void :OnRender(bool outlineOnly)`
+- `bool :OutOfGame()`
+- `void :SetOutOfGame()`
+- `bool :Functional()`
+- `bool :CountForVictory()`
+- `bool :GetControllable()`
+- `bool :ReadyToFight()`
+- `bool :CanFight()`
+- `bool :CanRepair()`
+- `bool :CanSabotage()`
+- `bool :CanMan()`
+- `bool :CanTeleport()`
+- `bool :CanHeal()`
+- `bool :CanSuffocate()`
+- `bool :CanBurn()`
+- `int :GetMaxHealth()`
+- `bool :IsDead()`
+- `bool :PermanentDeath()`
+- `bool :ShipDamage(float damage)`
+- `bool :FireFightingSoundEffect()`
+- `std::string :GetUniqueRepairing()`
+- `bool :ProvidesVision()`
+- `float :GetMoveSpeedMultiplier()`
+- `float :GetRepairSpeed()`
+- `float :GetDamageMultiplier()`
+- `bool :ProvidesPower()`
+- `std::string :GetSpecies()`
+- `float :GetFireRepairMultiplier()`
+- `bool :IsTelepathic()`
+- `std::pair<float, float> :GetPowerCooldown()`
+- `bool :PowerReady()`
+- `void :ActivatePower()`
+- `bool :HasSpecialPower()`
+- `void :ResetPower()`
+- `float :GetSuffocationMultiplier()`
+- `int :BlockRoom()`
+- `Damage :GetRoomDamage()`
+- `bool :IsAnaerobic()`
+- `void :UpdateRepair()`
+- `bool :CanStim()`
+- `bool :AtFinalGoal()`
+- `bool :AtGoal()`
+- `bool :BadAtCombat()`
+- `void :CheckFighting()`
+- `void :CheckForTeleport()`
+- `bool :CheckRoomPath(int roomId)`
+- `void :CheckSkills()`
+- `void :Cleanup()`
+- `void :ClearPath()`
+- `void :ClearPosition()`
+- `void :ClearTask()`
+- `void :Clone()`
+- `void :CloseDoorBehind(Door *door)`
+- `bool :ContainsPoint(int x, int y)`
+- `void :CycleColorLayer(int unk)`
+- `bool :DirectModifyHealth(float health)`
+- `void :EmptySlot()`
+- `Slot :FindSlot(int roomId, int slotId, bool closeEnough)`
+- `void :ForceMindControl(bool force)`
+- `Point :GetFinalGoal()`
+- `int :GetIntegerHealth()`
+- `Point :GetLocation()`
+- `std::string :GetLongName()`
+- `float :GetMoveSpeed()`
+- `std::string :GetName()`
+- `bool :GetNewGoal()`
+- `Point :GetNextGoal()`
+- `int :GetRepairingId()`
+- `bool :GetResisted()`
+- `Slot :GetSavedPosition()`
+- `int __stdcall` `.GetSkillFromSystem(int systemId)`
+- `int :GetSkillLevel(int skillId)`
+- `float :GetSkillModifier(int skillId)`
+- `std::pair<int, int> :GetSkillProgress(int skillId)`
+- ~~`std::string __stdcall` `.GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`~~
+- `std::string :GetTooltip()`
+- `void :IncreaseSkill(int skillId)`
+- `void :InitializeSkills()`
+- `bool :IsBusy()`
+- `bool :IsManningArtillery()`
+- `void :Kill(bool noClone)`
+- `void :MasterSkill(int skillId)`
+- `void :ModifyHealth(float health)`
+- `bool :MoveToRoom(int roomId, int slotId, bool forceMove)`
+- `bool :NeedFrozenLocation()`
+- `bool :NeedsSlot()`
+- `bool :OnInit()`
+- `void :OnRenderHealth()`
+- `void :OnRenderPath()`
+- `void :RenderSkillUpAnimation(Point pos)`
+- `bool :Repairing()`
+- `bool :RepairingFire()`
+- `bool :RepairingSystem()`
+- `void :Restart()`
+- `bool :RestorePosition()`
+- `bool :Sabotaging()`
+- `void :SavePosition()`
+- `Pointf :SelectSabotageTarget()`
+- `void :SetCloneReady(bool cloneReady)`
+- `void :SetCurrentShip(int shipId)`
+- `void :SetCurrentSystem(ShipSystem *sys)`
+- `void :SetCurrentTarget(CrewTarget *target, bool unk)`
+- `void :SetDamageBoost(float damageBoost)`
+- `void :SetDeathNumber(int deathNum)`
+- `void :SetFrozen(bool frozen)`
+- `void :SetFrozenLocation(bool frozenLocation)`
+- `void :SetHealthBoost(int healthBoost)`
+- `void :SetMedbay(float health)`
+- `void :SetMindControl(bool controlled)`
+- `void :SetName(TextString *name, bool force)`
+- `bool :SetPath(Path *path)`
+- `void :SetPosition(Point pos)`
+- `void :SetResisted(bool resisted)`
+- `void :SetRoom(int roomId)`
+- `void :SetRoomPath(int slotId, int roomId)`
+- `void :SetSavePosition(Slot position)`
+- `void :SetSex(bool male)`
+- `void :SetSkillProgress(int skillId, int skillLevel)`
+- `void :SetTask(CrewTask task)`
+- `void :StartRepair(Repairable *toRepair)`
+- `void :StartTeleport()`
+- `void :StartTeleportArrive()`
+- `void :StopRepairing()`
+- `void :UpdateHealth()`
+- `void :UpdateMovement()`
+- `bool :WithinRect(int x, int y, int w, int h)`
+- ~~`void :constructor(CrewBlueprint &blueprint, int shipId, bool intruder, CrewAnimation *animation)`~~
+- ~~`void :destructor()`~~
+
 ### Fields
-- `int iShipId`
-- `float x`
-- `float y`
-- `float size`
-- `float scale`
-- `float goal_x`
-- `float goal_y`
-- `int width`
-- `int height`
-- `std::pair<float, float> health`
-- `float speed_x`
-- `float speed_y`
-- `Path path`
-- `bool new_path`
-- `float x_destination`
-- `float y_destination`
-- `Door *last_door`
-- `Repairable *currentRepair`
-- `bool bSuffocating`
-- `int moveGoal`
-- `int selectionState`
-- `int iRoomId`
-- `int iManningId`
-- `int iRepairId`
-- `int iStackId`
-- `Slot currentSlot`
-- `bool intruder`
-- `bool bFighting`
-- `bool bSharedSpot`
-- `CrewAnimation *crewAnim`
-- `GL_Texture *selectionImage`
-- `CachedImage healthBox`
-- `CachedImage healthBoxRed`
-- `CachedRect healthBar`
-- `float fMedbay`
-- `float lastDamageTimer`
-- `float lastHealthChange`
-- `int currentShipId`
-- `AnimationTracker flashHealthTracker`
-- `Pointf currentTarget`
-- `CrewTarget *crewTarget`
-- `BoardingGoal boardingGoal`
-- `bool bFrozen`
-- `bool bFrozenLocation`
-- `CrewTask task`
-- `std::string type`
-- `Ship *ship`
-- `Slot finalGoal`
-- `Door *blockingDoor`
-- `bool bOutOfGame`
-- `std::string species`
-- `bool bDead`
-- ~~`uint8_t gap_ex_1[2]`~~
-- `int iOnFire`
-- `bool bActiveManning`
-- `ShipSystem *currentSystem`
-- `int usingSkill`
-- `CrewBlueprint blueprint`
-- `Animation healing`
-- `Animation stunned`
-- `AnimationTracker levelUp`
-- `int lastLevelUp`
-- `SCrewStats stats`
-- `std::vector<std::vector<bool>> skillsEarned`
-- `bool clone_ready`
-- `bool bMindControlled`
-- `int iDeathNumber`
-- `Animation mindControlled`
-- `Animation stunIcon`
-- `std::vector<std::vector<AnimationTracker>> skillUp`
-- `int healthBoost`
-- `float fMindDamageBoost`
-- `float fCloneDying`
-- `bool bResisted`
-- ~~`uint8_t gap_ex_2[2]`~~
-- `Slot savedPosition`
-- `float fStunTime`
-- `CachedImage movementTarget`
-- `bool bCloned`
+- `int` `.iShipId`
+- `float` `.x`
+- `float` `.y`
+- `float` `.size`
+- `float` `.scale`
+- `float` `.goal_x`
+- `float` `.goal_y`
+- `int` `.width`
+- `int` `.height`
+- `std::pair<float, float>` `.health`
+- `float` `.speed_x`
+- `float` `.speed_y`
+- `Path` `.path`
+- `bool` `.new_path`
+- `float` `.x_destination`
+- `float` `.y_destination`
+- `Door` `.*last_door`
+- `Repairable` `.*currentRepair`
+- `bool` `.bSuffocating`
+- `int` `.moveGoal`
+- `int` `.selectionState`
+- `int` `.iRoomId`
+- `int` `.iManningId`
+- `int` `.iRepairId`
+- `int` `.iStackId`
+- `Slot` `.currentSlot`
+- `bool` `.intruder`
+- `bool` `.bFighting`
+- `bool` `.bSharedSpot`
+- `CrewAnimation` `.*crewAnim`
+- `GL_Texture` `.*selectionImage`
+- `CachedImage` `.healthBox`
+- `CachedImage` `.healthBoxRed`
+- `CachedRect` `.healthBar`
+- `float` `.fMedbay`
+- `float` `.lastDamageTimer`
+- `float` `.lastHealthChange`
+- `int` `.currentShipId`
+- `AnimationTracker` `.flashHealthTracker`
+- `Pointf` `.currentTarget`
+- `CrewTarget` `.*crewTarget`
+- `BoardingGoal` `.boardingGoal`
+- `bool` `.bFrozen`
+- `bool` `.bFrozenLocation`
+- `CrewTask` `.task`
+- `std::string` `.type`
+- `Ship` `.*ship`
+- `Slot` `.finalGoal`
+- `Door` `.*blockingDoor`
+- `bool` `.bOutOfGame`
+- `std::string` `.species`
+- `bool` `.bDead`
+- ~~`uint8_t` `.gap_ex_1[2]`~~
+- `int` `.iOnFire`
+- `bool` `.bActiveManning`
+- `ShipSystem` `.*currentSystem`
+- `int` `.usingSkill`
+- `CrewBlueprint` `.blueprint`
+- `Animation` `.healing`
+- `Animation` `.stunned`
+- `AnimationTracker` `.levelUp`
+- `int` `.lastLevelUp`
+- [`SCrewStats`](#screwstats) `.stats`
+- `std::vector<std::vector<bool>>` `.skillsEarned`
+- `bool` `.clone_ready`
+- `bool` `.bMindControlled`
+- `int` `.iDeathNumber`
+- `Animation` `.mindControlled`
+- `Animation` `.stunIcon`
+- `std::vector<std::vector<AnimationTracker>>` `.skillUp`
+- `int` `.healthBoost`
+- `float` `.fMindDamageBoost`
+- `float` `.fCloneDying`
+- `bool` `.bResisted`
+- ~~`uint8_t` `.gap_ex_2[2]`~~
+- `Slot` `.savedPosition`
+- `float` `.fStunTime`
+- `CachedImage` `.movementTarget`
+- `bool` `.bCloned`
 
 ## SCrewStats
-Accessed via `CrewMember`'s `.stats` field
+Accessed via [`CrewMember`](#CrewMember)'s `.stats` field
 
 ### Fields
 - `std::vector<int>` `.stat`
-   - Has 5 values `[0]` is the number of repairs, `[1]` is the number of crew combat kills, `[2]` is piloted evasions, `[3]` is jumps survived, `[4]` is skills mastered.
+   - Has 5 values. `[0]` is the number of repairs, `[1]` is the number of crew combat kills, `[2]` is piloted evasions, `[3]` is jumps survived, `[4]` is skills mastered.
 - `std::string` `.species`
 - `std::string` `.name`
 - `bool` `.male`
 
 ## CrewMember_Extend
-Accessed via `CrewMember`'s `.extend` field
+Accessed via [`CrewMember`](#CrewMember)'s `.extend` field
 
 ### Methods
 - `float, bool :CalculateStat(CrewStat)`
