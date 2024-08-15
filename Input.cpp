@@ -1,3 +1,8 @@
+#if defined(__linux__)
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_gamecontroller.h>
+#endif
+
 #include "Global.h"
 #include "CustomCommandGui.h"
 #include "CustomCrewManifest.h"
@@ -8,7 +13,7 @@ static void OnScrollWheel(float direction)
 {
     CApp *cApp = G_->GetCApp();
 
-    if (!cApp->langChooser.bOpen)
+    if (!cApp->langChooser.bOpen)%
     {
         if (!cApp->menu.bOpen)
         {
@@ -41,51 +46,53 @@ HOOK_METHOD(CEvent, OnEvent, (const InputEvent* inputEvent) -> void)
             OnScrollWheel(mEvent->scroll);
         }
     }
-    if (inputEvent->type == InputEventType::INPUT_EVENT_JOYSTICK)
-    {
-        JoystickInputEvent *jEvent = (JoystickInputEvent*)(&inputEvent->event);
-
-        if (jEvent->index != 0 || jEvent->index != 1)
-        {
-            hs_log_file("JOYSTICK EVENT:\n Device: %d - Index: %d - x-pos: %d - y-pos: %d \n", 
-                        jEvent->device, jEvent->index, jEvent->x, jEvent->y);
-        }
-    }
-
-    switch (inputEvent->detail)
-    {
-    case INPUT_JOYSTICK_CONNECTED:
-        hs_log_file("\nController Connected \n");
-        break;
-    case INPUT_JOYSTICK_DISCONNECTED:
-        hs_log_file("\nController Disconnected \n");
-        break;
-    case INPUT_JOYSTICK_BUTTON_DOWN:
-        hs_log_file("\nController Button Pressed \n");
-        break;
-    case INPUT_JOYSTICK_BUTTON_UP:
-        hs_log_file("\nController Button Released \n");
-        break;
-    case INPUT_JOYSTICK_DPAD_CHANGE:
-        hs_log_file("\nController DPAD Interacted \n");
-        break;
-    case INPUT_JOYSTICK_STICK_CHANGE:
-        hs_log_file("\nController Joystick Interacted \n");
-        break;
-    default:
-        hs_log_file("\nNon-Controller Event: %d\n", inputEvent->detail);
-        break;
-    }
-
     super(inputEvent);
 }
 
-/*
-struct InputEvent
+HOOK_GLOBAL(input_update, () -> void)
 {
-  InputEventType type;
-  InputEventDetail detail;
-  double timestamp;
-  InputEventUnion event;
-};
-*/
+    LOG_HOOK("HOOK_GLOBAL -> input_update -> Begin (Input.cpp)\n");
+    hs_log_file("Generischer Ausgabetest\n");
+
+    // Initialize first available GameController (Index 0)
+    SDL_GameController* controller = nullptr;
+    if (SDL_IsGameController(0))
+    {
+        controller = SDL_GameControllerOpen(0);
+        if (controller)
+        {
+            hs_log_file("GameController connected\n");
+
+            // Check if a button is pressed
+            if (SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A))
+            {
+                hs_log_file("Button A is pressed\n");
+            }
+
+            SDL_GameControllerClose(controller);
+        }
+        else
+        {
+            hs_log_file("GameController could not be initialized: %s\n", SDL_GetError());
+        }
+    }
+    else
+    {
+        hs_log_file("No GameController connected\n");
+    }
+
+    super();
+}
+
+HOOK_METHOD(CApp, OnExecute, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnExecute -> Begin (Input.cpp)\n");
+
+    if (SDL_Init(SDL_INIT_GAMECONTROLLER) != 0)
+    {
+        hs_log_file("SDL could not initialize: %s\n", SDL_GetError());
+        return;
+    }
+
+    super();
+}

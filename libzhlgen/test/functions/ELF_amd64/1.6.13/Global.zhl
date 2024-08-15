@@ -528,3 +528,6 @@ cleanup __amd64 void sys_graphics_set_window_title(char* title);
 
 "0f57ed4883ec2889fa0f2ee5":
 cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+"803d49703f000075??c3????????????55534883ec??":
+cleanup __amd64 void input_update();
