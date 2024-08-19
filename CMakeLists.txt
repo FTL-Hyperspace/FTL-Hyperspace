@@ -85,6 +85,8 @@ target_sources(
     CommandConsole.cpp
     CommandConsole.h
     Constants.h
+    ControllerManager.cpp
+    ControllerManager.h
     CooldownNumbers.cpp
     CooldownNumbers.h
     Credits.cpp
