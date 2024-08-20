@@ -94,11 +94,17 @@ namespace DINO
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            if (event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERAXISMOTION)
-            {
-                SDL_JoystickID joystickID = event.cbutton.which;
-                int controllerIndex = -1;
+            // Variablen außerhalb des switch-Blocks deklarieren
+            SDL_JoystickID joystickID;
+            int controllerIndex = -1;
 
+            switch (event.type)
+            {
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERAXISMOTION:
+                joystickID = event.cbutton.which;
+
+                // Controller-Index finden
                 for (int i = 0; i < controllers.size(); ++i)
                 {
                     if (SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controllers[i])) == joystickID)
@@ -120,14 +126,16 @@ namespace DINO
                         HandleControllerAxisEvent(controller, event.caxis.axis, event.caxis.value);
                     }
                 }
-            }
-            else if (event.type == SDL_JOYBUTTONDOWN || event.type == SDL_JOYAXISMOTION || event.type == SDL_JOYHATMOTION)
-            {
+                break;
+            case SDL_JOYBUTTONDOWN:
+            case SDL_JOYAXISMOTION:
+            case SDL_JOYHATMOTION:
                 int joystickIndex = event.jbutton.which;
                 if (joystickIndex < joysticks.size())
                 {
                     HandleJoystickEvent(joysticks[joystickIndex], event);
                 }
+                break;
             }
         }
     }
@@ -200,23 +208,20 @@ namespace DINO
     // Handle all joystick stuff at once
     void ControllerManager::HandleJoystickEvent(SDL_Joystick* joystick, SDL_Event& event)
     {
-        // Treat Button inputs
-        if (event.type == SDL_JOYBUTTONDOWN)
+        switch (event.type)
         {
+        case SDL_JOYBUTTONDOWN: // Treat Button inputs
             hs_log_file("%sJoystick *%s* button pressed: %d\n", SDL_ID, SDL_JoystickName(joystick), event.jbutton.button);
-        }
-        // Treat Axis inputs
-        else if (event.type == SDL_JOYAXISMOTION)
-        {
+            break;
+        case SDL_JOYAXISMOTION: // Treat Axis inputs
             // Skip output if within deadzone
             if (event.jaxis.value > -10000 && event.jaxis.value < 10000) return;
 
             hs_log_file("%sJoystick *%s* axis %d moved to %d\n", SDL_ID, SDL_JoystickName(joystick), event.jaxis.axis, event.jaxis.value);
-        }
-        // Treat Hat inputs (usually D-Pads on controllers)
-        else if (event.type == SDL_JOYHATMOTION)
-        {
+            break;
+        case SDL_JOYHATMOTION: // Treat Hat inputs (usually D-Pads on controllers)
             hs_log_file("%sJoystick *%s* Hat %d moved to position %d\n", SDL_ID, SDL_JoystickName(joystick), event.jhat.hat, event.jhat.value);
+            break;
         }
     }
 
