@@ -18,7 +18,6 @@ namespace DINO
         Shutdown();
     }
 
-    // Initialize all connected joysticks
     bool ControllerManager::Init()
     {
         hs_log_file("%sStarting controller/joystick initialization\n", SDL_ID);
@@ -28,83 +27,55 @@ namespace DINO
             return false;
         }
 
-        bool gameControllerInitialized = false;
-        bool joystickInitialized = false;
+        bool forceJoystick = false;
 
         int numJoysticks = SDL_NumJoysticks();
-        // hs_log_file("%s%d joysticks found\n", SDL_ID, numJoysticks);
 
-        // Only allowing either controllers or joysticks to be dual paired - can lead to freezes
+        std::vector<std::string> forceAsJoystickList = 
+        {
+        "Nintendo Switch Joy-Con (R)",
+        "Nintendo Switch Joy-Con (L)"
+        };
+
         for (int i = 0; i < numJoysticks; ++i)
         {
-            if (SDL_IsGameController(i))
+            // If forceJoystick is true, or if the device is not a GameController, treat it as a joystick
+            if (forceJoystick || !SDL_IsGameController(i))
             {
-                if (joystickInitialized)
+                JoystickInit: // goto jump
+                SDL_Joystick* joystick = SDL_JoystickOpen(i);
+                if (joystick)
                 {
-                    hs_log_file("%sCannot initialize GameController %d: Joystick already connected\n", SDL_ID, i);
-                    continue;
-                }
-
-                if (!gameControllerInitialized)
-                {
-                    SDL_GameController* gameController = SDL_GameControllerOpen(i);
-                    if (gameController)
-                    {
-                        hs_log_file("%sFound a valid GameController: %s\n", SDL_ID, SDL_GameControllerName(gameController));
-                        controllers.push_back(gameController);
-                        gameControllerInitialized = true;
-                    }
-                    else
-                    {
-                        hs_log_file("%sFailed to open GameController %d: %s\n", SDL_ID, i, SDL_GetError());
-                    }
+                    hs_log_file("%sJoystick connected: %s\n", SDL_ID, SDL_JoystickName(joystick));
+                    joysticks.push_back(joystick);
                 }
                 else
                 {
-                    hs_log_file("%sSkipping GameController %d: Another GameController already initialized\n", SDL_ID, i);
+                    hs_log_file("%sFailed to open Joystick %d: %s\n", SDL_ID, i, SDL_GetError());
                 }
+                continue;  // Move to the next device
+            }
+
+            // Try to open as GameController
+            SDL_GameController* gameController = SDL_GameControllerOpen(i);
+            std::string cName = SDL_GameControllerName(gameController);
+
+            // Check if controller is banned
+            if (std::find(forceAsJoystickList.begin(), forceAsJoystickList.end(), cName) != forceAsJoystickList.end())
+            {
+                forceJoystick = true;
+                goto JoystickInit;
+            }
+
+            if (gameController)
+            {
+                hs_log_file("%sFound a valid GameController: %s\n", SDL_ID, SDL_GameControllerName(gameController));
+                controllers.push_back(gameController);
             }
             else
             {
-                if (gameControllerInitialized)
-                {
-                    hs_log_file("%sCannot initialize Joystick %d: GameController already connected\n", SDL_ID, i);
-                    continue;
-                }
-
-                if (!joystickInitialized)
-                {
-                    SDL_Joystick* joystick = SDL_JoystickOpen(i);
-                    if (joystick)
-                    {
-                        hs_log_file("%sJoystick connected: %s\n", SDL_ID, SDL_JoystickName(joystick));
-                        joysticks.push_back(joystick);
-                        joystickInitialized = true;
-                    }
-                    else
-                    {
-                        hs_log_file("%sFailed to open Joystick %d: %s\n", SDL_ID, i, SDL_GetError());
-                    }
-                }
-                else
-                {
-                    hs_log_file("%sSkipping Joystick %d: Another Joystick already initialized\n", SDL_ID, i);
-                }
+                hs_log_file("%sFailed to open GameController %d: %s\n", SDL_ID, i, SDL_GetError());
             }
-
-            // force to initialize as joystick by uncommenting this:
-            /*
-            SDL_Joystick* joystick = SDL_JoystickOpen(i);
-            if (joystick)
-            {
-                hs_log_file("%sJoystick connected: %s\n", SDL_ID, SDL_JoystickName(joystick));
-                joysticks.push_back(joystick);
-            }
-            else
-            {
-                hs_log_file("%sFailed to open Joystick %d: %s\n", SDL_ID, i, SDL_GetError());
-            }
-            */
         }
 
         if (controllers.empty() && joysticks.empty())
