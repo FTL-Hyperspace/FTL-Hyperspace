@@ -8,7 +8,7 @@ namespace DINO
     const char* ControllerManager::SDL_ID = "[SDL2]: ";
 
     // Constructor
-    ControllerManager::ControllerManager() : controller(nullptr), joystick(nullptr), inputDevice(-1)
+    ControllerManager::ControllerManager() : controller(nullptr), joystick(nullptr), inputDevice(-1), leftTriggerPressed(false), rightTriggerPressed(false)
     {
     }
 
@@ -18,6 +18,7 @@ namespace DINO
         Shutdown();
     }
 
+    // SDL Controller/Joystick Initialisation
     bool ControllerManager::Init()
     {
         hs_log_file("%sStarting controller/joystick initialization\n", SDL_ID);
@@ -94,17 +95,16 @@ namespace DINO
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            // Variablen außerhalb des switch-Blocks deklarieren
             SDL_JoystickID joystickID;
-            int controllerIndex = -1;
+            int8_t controllerIndex = -1;
+            uint8_t controllerButtonState = 0;
+            uint8_t joystickButtonState = 0;
+            uint8_t joystickIndex = 0;
 
-            switch (event.type)
+            // Determine device index
+            if (event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP || event.type == SDL_CONTROLLERAXISMOTION)
             {
-            case SDL_CONTROLLERBUTTONDOWN:
-            case SDL_CONTROLLERAXISMOTION:
                 joystickID = event.cbutton.which;
-
-                // Controller-Index finden
                 for (int i = 0; i < controllers.size(); ++i)
                 {
                     if (SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controllers[i])) == joystickID)
@@ -113,37 +113,72 @@ namespace DINO
                         break;
                     }
                 }
+            }
 
+            // Treat all kind of controller/joystick inputs
+            switch (event.type)
+            {
+            case SDL_CONTROLLERBUTTONUP:
+                controllerButtonState = 1;
+            case SDL_CONTROLLERBUTTONDOWN:
                 if (controllerIndex != -1)
                 {
                     SDL_GameController* controller = controllers[controllerIndex];
-                    if (event.type == SDL_CONTROLLERBUTTONDOWN)
-                    {
-                        HandleControllerButtonEvent(controller, event.cbutton.button);
-                    }
-                    else if (event.type == SDL_CONTROLLERAXISMOTION)
-                    {
-                        HandleControllerAxisEvent(controller, event.caxis.axis, event.caxis.value);
-                    }
+                    ReadControllerButtonEvent(controller, event.cbutton.button, controllerButtonState);
                 }
                 break;
+            case SDL_CONTROLLERAXISMOTION:
+                if (controllerIndex != -1)
+                {
+                    SDL_GameController* controller = controllers[controllerIndex];
+                    ReadControllerAxisEvent(controller, event.caxis.axis, event.caxis.value);
+                }
+                break;
+            case SDL_JOYBUTTONUP:
+                joystickButtonState = 1;
             case SDL_JOYBUTTONDOWN:
-            case SDL_JOYAXISMOTION:
-            case SDL_JOYHATMOTION:
-                int joystickIndex = event.jbutton.which;
+                joystickIndex = event.jbutton.which;
                 if (joystickIndex < joysticks.size())
                 {
-                    HandleJoystickEvent(joysticks[joystickIndex], event);
+                    SDL_Joystick* joystick = joysticks[joystickIndex];
+                    const char* jName = SDL_JoystickName(joystick);
+                    const char* state = (joystickButtonState == 0) ? "pressed" : "released";
+                    uint16_t button = event.jbutton.button;
+                    hs_log_file("%sJoystick *%s* button %s: %d\n", SDL_ID, jName, state, button);
+                }
+                break;
+            case SDL_JOYAXISMOTION:
+                joystickIndex = event.jaxis.which;
+                if (joystickIndex < joysticks.size())
+                {
+                    SDL_Joystick* joystick = joysticks[joystickIndex];
+                    const char* jName = SDL_JoystickName(joystick);
+                    uint8_t jAxisIndex = event.jaxis.axis;
+                    uint16_t jAxisVal = event.jaxis.value;
+                    if (event.jaxis.value > -10000 && event.jaxis.value < 10000) break; // Skip if within deadzone
+                    hs_log_file("%sJoystick *%s* axis %d moved to %d\n", SDL_ID, jName, jAxisIndex, jAxisVal);
+                }
+                break;
+            case SDL_JOYHATMOTION:
+                joystickIndex = event.jhat.which;
+                if (joystickIndex < joysticks.size())
+                {
+                    SDL_Joystick* joystick = joysticks[joystickIndex];
+                    const char* jName = SDL_JoystickName(joystick);
+                    uint8_t jHatIndex = event.jhat.hat;
+                    uint16_t jHatVal = event.jhat.value;
+                    hs_log_file("%sJoystick *%s* Hat %d moved to position %d\n", SDL_ID, SDL_JoystickName(joystick), jHatIndex, jHatVal);
                 }
                 break;
             }
         }
     }
 
-    // Handle controller buttons
-    void ControllerManager::HandleControllerButtonEvent(SDL_GameController* controller, uint8_t button)
+    // Read controller buttons
+    void ControllerManager::ReadControllerButtonEvent(SDL_GameController* controller, uint8_t button, uint8_t state)
     {
         const char* buttonName = "Unknown";
+        const char* buttonAction = (state == 1) ? "released" : "pressed";
         switch (button)
         {
             case SDL_CONTROLLER_BUTTON_A: buttonName = "A"; break;
@@ -162,14 +197,14 @@ namespace DINO
             case SDL_CONTROLLER_BUTTON_DPAD_LEFT: buttonName = "D-Pad Left"; break;
             case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: buttonName = "D-Pad Right"; break;
         }
-        hs_log_file("%sController *%s* button pressed: %s\n", SDL_ID, SDL_GameControllerName(controller), buttonName);
+        hs_log_file("%sController *%s* button %s: %s\n", SDL_ID, SDL_GameControllerName(controller), buttonAction, buttonName);
     }
 
-    // Handle controller stick & triggers (Tend to be axes on many models)
-    void ControllerManager::HandleControllerAxisEvent(SDL_GameController* controller, uint8_t axis, int16_t value)
+    // Read controller stick & triggers (Triggers are axis inputs on GamePads)
+    void ControllerManager::ReadControllerAxisEvent(SDL_GameController* controller, uint8_t axis, int16_t value)
     {
-        // Skip output if within deadzone
-        if (value > -10000 && value < 10000) return;
+        // Skip output if within deadzone (except for triggers)
+        if ((axis != SDL_CONTROLLER_AXIS_TRIGGERLEFT && axis != SDL_CONTROLLER_AXIS_TRIGGERRIGHT) && (value > -10000 && value < 10000)) return;
 
         switch (axis)
         {
@@ -185,18 +220,28 @@ namespace DINO
             case SDL_CONTROLLER_AXIS_RIGHTY:
                 hs_log_file("%sController *%s* Right Stick Y Axis: %d\n", SDL_ID, SDL_GameControllerName(controller), value);
                 break;
-            case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-                if (value == 32767 || value == -32768) 
+            case SDL_CONTROLLER_AXIS_TRIGGERLEFT: // Faking triggers as button because it makes them easier to work with
+                if (value > 25000 && !leftTriggerPressed) // Button Down
                 {
-                    // hs_log_file("%sLeft Trigger Axis: %d\n", SDL_ID, value);
+                    leftTriggerPressed = true;
                     hs_log_file("%sController *%s* button pressed: %s\n", SDL_ID, SDL_GameControllerName(controller), "Left Trigger");
                 }
-                break;
-            case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-                if (value == 32767 || value == -32768) 
+                else if (value < 10000 && leftTriggerPressed) // Button Up
                 {
-                    // hs_log_file("%sRight Trigger Axis: %d\n", SDL_ID, value);
+                    leftTriggerPressed = false;
+                    hs_log_file("%sController *%s* button released: %s\n", SDL_ID, SDL_GameControllerName(controller), "Left Trigger");
+                }
+                break;
+            case SDL_CONTROLLER_AXIS_TRIGGERRIGHT: // Faking triggers as button because it makes them easier to work with
+                if (value > 25000 && !rightTriggerPressed) // Button Down
+                {
+                    rightTriggerPressed = true;
                     hs_log_file("%sController *%s* button pressed: %s\n", SDL_ID, SDL_GameControllerName(controller), "Right Trigger");
+                }
+                else if (value < 10000 && rightTriggerPressed) // Button Up
+                {
+                    rightTriggerPressed = false;
+                    hs_log_file("%sController *%s* button released: %s\n", SDL_ID, SDL_GameControllerName(controller), "Right Trigger");
                 }
                 break;
             default:
@@ -205,27 +250,8 @@ namespace DINO
         }
     }
 
-    // Handle all joystick stuff at once
-    void ControllerManager::HandleJoystickEvent(SDL_Joystick* joystick, SDL_Event& event)
-    {
-        switch (event.type)
-        {
-        case SDL_JOYBUTTONDOWN: // Treat Button inputs
-            hs_log_file("%sJoystick *%s* button pressed: %d\n", SDL_ID, SDL_JoystickName(joystick), event.jbutton.button);
-            break;
-        case SDL_JOYAXISMOTION: // Treat Axis inputs
-            // Skip output if within deadzone
-            if (event.jaxis.value > -10000 && event.jaxis.value < 10000) return;
-
-            hs_log_file("%sJoystick *%s* axis %d moved to %d\n", SDL_ID, SDL_JoystickName(joystick), event.jaxis.axis, event.jaxis.value);
-            break;
-        case SDL_JOYHATMOTION: // Treat Hat inputs (usually D-Pads on controllers)
-            hs_log_file("%sJoystick *%s* Hat %d moved to position %d\n", SDL_ID, SDL_JoystickName(joystick), event.jhat.hat, event.jhat.value);
-            break;
-        }
-    }
-
-    void ControllerManager::InputTranformer()
+    // 
+    void ControllerManager::InputHandler()
     {
 
     }

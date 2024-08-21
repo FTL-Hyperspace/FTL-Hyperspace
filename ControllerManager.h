@@ -12,10 +12,9 @@ public:
 
     bool Init();
     void Update();
-    void HandleControllerButtonEvent(SDL_GameController* controller, uint8_t button);
-    void HandleControllerAxisEvent(SDL_GameController* controller, uint8_t axis, int16_t value);
-    void HandleJoystickEvent(SDL_Joystick* joystick, SDL_Event& event);
-    void InputTranformer(); // Not yet implemented
+    void ReadControllerButtonEvent(SDL_GameController* controller, uint8_t button, uint8_t state); // State: 0 = button down - 1 button up
+    void ReadControllerAxisEvent(SDL_GameController* controller, uint8_t axis, int16_t value);
+    void InputHandler(); // Not yet implemented
     void Shutdown();
 
     static const char* SDL_ID;
@@ -23,7 +22,9 @@ public:
 private:
     SDL_GameController* controller;
     SDL_Joystick* joystick;
-    int inputDevice;
+    int8_t inputDevice;
+    bool leftTriggerPressed;
+    bool rightTriggerPressed;
     std::vector<SDL_GameController*> controllers;
     std::vector<SDL_Joystick*> joysticks;
 };
