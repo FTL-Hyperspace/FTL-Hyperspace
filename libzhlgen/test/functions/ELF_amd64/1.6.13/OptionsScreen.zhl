@@ -8,7 +8,8 @@ cleanup __amd64 void OptionsScreen::OnLoop(OptionsScreen *this);
 noHook __amd64 void OptionsScreen::DO_NOT_HOOK_1();
 ".41":
 cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
-
+".4155415455534889fb4883ec3880bf280c000000":
+cleanup __amd64 void OptionsScreen::OnRender(OptionsScreen *this);
 
 struct OptionsScreen {{
     struct Steam1613OptionsScreenStructAdditions {

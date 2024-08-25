@@ -3366,8 +3366,12 @@ struct ControlsScreen
 
 struct OptionsScreen;
 
+struct SlideBar;
+
 struct SlideBar
 {
+	LIBZHL_API void OnRender();
+	
 	Globals::Rect box;
 	bool hovering;
 	bool holding;
@@ -3386,6 +3390,7 @@ struct OptionsScreen : ChoiceBox
 
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
 	LIBZHL_API void Open(bool mainMenu);
 	
 	Point position;

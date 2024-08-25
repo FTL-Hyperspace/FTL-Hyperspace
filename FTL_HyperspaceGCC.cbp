@@ -817,11 +817,15 @@
 		<Unit filename="Constants.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
+		<Unit filename="ControllerFunctionRewrites.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="ControllerManager.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="ControllerManager.h">
 			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CooldownNumbers.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>

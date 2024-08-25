@@ -35,7 +35,8 @@ namespace DINO
         std::vector<std::string> forceAsJoystickList = 
         {
         "Nintendo Switch Joy-Con (R)",
-        "Nintendo Switch Joy-Con (L)"
+        "Nintendo Switch Joy-Con (L)",
+        "Google Stadia Controller"
         };
 
         for (int i = 0; i < numJoysticks; ++i)
