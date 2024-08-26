@@ -15,23 +15,23 @@ All calls are under `Hyperspace`
 
 ### Methods
 - `Global .GetInstance()`
-   - Returns the main instance of `Global`. Always use this to access any members and methods belonging to this class.
+   - Returns the main instance of [`Global`](#Global). Always use this to access any members and methods belonging to this class. `Hyperspace.Global.GetInstance()`
 - `ShipManager :GetShipManager(int iShipId)`
-   - Returns the instance of `ShipManager` associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
+   - Returns the instance of [`ShipManager`](#ShipManager) associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
 - `CApp :GetCApp()` 
    - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class, or the shortcut `Hyperspace.App`.
 - `ShipInfo :GetShipInfo(bool enemy)`
    - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
 - `BlueprintManager :GetBlueprints()`
-   - Returns the main instance of `BlueprintManager`. Always use this to access any members and methods belonging to the `BlueprintManager` class, or the shortcut `Hyperspace.Blueprints`.
+   - Returns the main instance of [`BlueprintManager`](#BlueprintManager). Always use this to access any members and methods belonging to the [`BlueprintManager`](#BlueprintManager) class, or the shortcut `Hyperspace.Blueprints`.
 - `SoundControl :GetSoundControl()`
-   - Returns the main instance of `SoundControl`. Always use this to access any members and methods belonging to the `SoundControl` class, or the shortcut `Hyperspace.Sounds`.
+   - Returns the main instance of [`SoundControl`](#SoundControl). Always use this to access any members and methods belonging to the [`SoundControl`](#SoundControl) class, or the shortcut `Hyperspace.Sounds`.
 - `AnimationControl :GetAnimationControl()`
-   - Returns the main instance of `AnimationControl`. Always use this to access any members and methods belonging to the `AnimationControl` class, or the shortcut `Hyperspace.Animations`.
+   - Returns the main instance of [`AnimationControl`](#AnimationControl). Always use this to access any members and methods belonging to the [`AnimationControl`](#AnimationControl) class, or the shortcut `Hyperspace.Animations`.
 - `ScoreKeeper :GetScoreKeeper()`
    - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class, or the shortcut `Hyperspace.Score`.
 - `CrewMemberFactory :GetCrewFactory()`
-   - Returns the main instance of `CrewMemberFactory`. Always use this to access any members and methods belonging to the `CrewMemberFactory` class, or the shortcut `Hyperspace.CrewFactory`.
+   - Returns the main instance of [`CrewMemberFactory`](#CrewMemberFactory). Always use this to access any members and methods belonging to the [`CrewMemberFactory`](#CrewMemberFactory) class, or the shortcut `Hyperspace.CrewFactory`.
 - `MouseControl :GetMouseControl()`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
 - `TextLibrary :GetTextLibrary()`
@@ -227,7 +227,8 @@ The members held by this class determine how the `print` function displays messa
    - Returns a bool indicating whether you have the blue options for the specified equipment.
 
 ## ShipManager
-Extends [ShipObject](#shipobject)
+
+**Extends [ShipObject](#Shipobject)**
 
 As ShipManager extends ShipObject, the methods of ShipObject can be called from ShipManager.
 
@@ -472,7 +473,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `Pointf :GetWorldCenterPoint()`
 - `Pointf :GetRandomTargettingPoint(bool unk)`
 - `std::vector<Pointf> :GetAllTargettingPoints()`
-- `Globals::Ellipse :GetShieldShape()`
+- [`Globals::Ellipse`](#Globals) `:GetShieldShape()`
 - `ShieldPower :GetShieldPower()`
 - `int :GetSpaceId()`
 - `Pointf :GetSpeed()`
@@ -483,7 +484,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool :GetIsDying()`
 - `bool :GetIsJumping()`
 - `bool :ValidTarget()`
-- `Globals::Rect :GetShape()`
+- [`Globals::Rect`](#Globals) `:GetShape()`
 
 ### Fields
 - `int` `.type`
@@ -501,7 +502,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Field is **read-only** but fields under this object may still be mutable.
 
 ## Ship
-Extends ShipObject
+
+**Extends [ShipObject](#Shipobject)**
 
 ### Methods
 
@@ -512,7 +514,7 @@ Extends ShipObject
 -  `bool :FullRoom(int roomId, bool intruder)`
    -  Returns true if the room cannot fit any more crew of the allegiance specifies by the `intruder` arg. If `intruder` is false, counts player crew when on the player ship, and enemy crew when on the enemy ship. If `intruder` is true, counts enemy crew when on the player ship, and player crew when on the enemy ship.
 -  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
--  `Globals::Ellipse GetBaseEllipse()`
+-  [`Globals::Ellipse`](#Globals) `:GetBaseEllipse()`
    -  Return `baseEllipse` member by value.
 - `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
@@ -530,8 +532,8 @@ Extends ShipObject
 -  `int` `.iShipId` 
 -  `std::vector<Room*>` `.vRoomList`
 -  `std::vector<Door*>` `.vDoorList`
--  `std::vector<OuterHull*>` `.vOuterWalls`
--  `std::vector<OuterHull*>` `.vOuterWalls`
+-  [`std::vector<OuterHull*>`](#OuterHull) `.vOuterWalls`
+-  [`std::vector<OuterHull*>`](#OuterHull) `.vOuterWalls`
 -  `std::vector<Door*>` `.vOuterAirlocks`
 -  `std::pair<int, int>` `.hullIntegrity`
 -  `std::vector<WeaponMount>` `.weaponMounts`
@@ -557,7 +559,7 @@ Extends ShipObject
 -  `std::string` `.shipName`
 -  `~~ExplosionAnimation` `.explosion`~~
 -  `bool` `.bDestroyed`
--  `Globals::Ellipse` `.baseEllipse`
+-  [`Globals::Ellipse`](#Globals) `.baseEllipse`
 -  `Animation[2]` `.engineAnim`
 -  `AnimationTracker` `.cloakingTracker`
 -  `bool` `.bCloaked`
@@ -716,7 +718,169 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
   - **Since 1.4.0**
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
+## OxygenSystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Methods
+- `void :EmptyOxygen(int roomId)`
+- `float :GetRefillSpeed()`
+- `void :ModifyRoomOxygen(int roomId, float value)`
+
+### Fields
+- `float` `.max_oxygen`
+- `std::vector<float>` `.oxygenLevels`
+- `float` `.fTotalOxygen`
+- `bool` `.bLeakingO2`
+
+## TeleportSystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Methods
+- `bool :CanReceive()`
+- `bool :CanSend()`
+- `bool :Charged()`
+- `void :ForceReady()`
+- `float :GetChargedPercent()`
+- `void :InitiateTeleport()`
+- `void :SetArmed(int armed)`
+- `void :SetHackingLevel(int hackingLevel)`
+
+### Fields
+- `float` `.chargeLevel`
+- `bool` `.bCanSend`
+- `bool` `.bCanReceive`
+- `int` `.iArmed`
+- `std::vector<bool>` `.crewSlots`
+- `int` `.iPreparedCrew`
+- `int` `.iNumSlots`
+- `bool` `.bSuperShields`
+
+## CloakingSystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Fields
+- `bool` `.bTurnedOn`
+- [`TimerHelper`](#TimerHelper) `.timer`
+- `std::string` `.soundeffect`
+
+## BatterySystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Fields
+- `bool` `.bTurnedOn`
+- [`TimerHelper`](#TimerHelper) `.timer`
+- `std::string` `.soundeffect`
+
+## MindSystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Methods
+- `void :SetArmed(int armed)`
+- `void :SetHackingLevel(int hackingLevel)`
+
+### Fields
+- `std::pair<float, float>` `.controlTimer`
+- `bool` `.bCanUse`
+- `int` `.iArmed`
+- [`std::vector<CrewMember*>`](#CrewMember) `.controlledCrew`
+- `bool` `.bSuperShields`
+- `bool` `.bBlocked`
+- `int` `.iQueuedTarget`
+- `int` `.iQueuedShip`
+- [`std::vector<CrewMember*>`](#CrewMember) `.queuedCrew`
+
+## HackingSystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Methods
+- `void :BlowHackingDrone()`
+
+### Fields
+- `bool` `.bHacking`
+- [`HackingDrone`](#HackingDrone) `.drone`
+- `bool` `.bBlocked`
+- `bool` `.bArmed`
+- [`ShipSystem*`](#ShipSystem) `.currentSystem`
+   - The current system it is targeting
+- `std::pair<float, float>` `.effectTimer`
+- `bool` `.bCanHack`
+- [`ShipSystem*`](#ShipSystem) `.queuedSystem`
+- `int` `.spendDrone`
+
+## Shields
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Methods
+- `void :AddSuperShield(Point pos)`
+- [`CollisionResponse`](#CollisionResponse) `:CollisionReal(float x, float y, Damage damage, bool force)`
+- [`CollisionResponse`](#CollisionResponse) `:CollisionReal(float x, float y, Damage damage)`
+- `void :InstantCharge()`
+- `void :SetBaseEllipse(Globals::Ellipse ellipse)`
+- `void :SetHackingLevel(int hackingLevel)`
+
+### Fields
+- `float` `.ellipseRatio`
+- [`Point`](#Point) `.center`
+- [`Globals::Ellipse`](#Globals) `.baseShield`
+- `int` `.iHighlightedSide`
+- [`Shield`](#Shield) `.shields`
+- `bool` `.shields_shutdown`
+- [`std::vector<ShieldAnimation>`](#ShieldAnimation) `.shieldHits`
+- [`AnimationTracker`](#AnimationTracker) `.shieldsDown`
+- `bool` `.superShieldDown`
+- [`Pointf`](#Pointf) `.shieldsDownPoint`
+- [`AnimationTracker`](#AnimationTracker) `.shieldsUp`
+- [`GL_Texture*`](#GL_Texture) `.shieldImage`
+- [`GL_Primitive*`](#GL_Primitive) `.shieldPrimitive`
+- `std::string` `.shieldImageName`
+- `bool` `.bEnemyPresent`
+- `bool` `.bBarrierMode`
+- `float` `.lastHitTimer`
+- `float` `.chargeTime`
+- `int` `.lastHitShieldLevel`
+- [`AnimationTracker`](#AnimationTracker) `.superShieldUp`
+- [`Point`](#Point) `.superUpLoc`
+- `bool` `.bExcessChargeHack`
+
+## Shields::Shield
+
+**Internal struct of [`Shields`](#Shields)**
+
+### Fields
+- `float` `.charger`
+- [`ShieldPower`](#ShieldPower) `.power`
+- `float` `.superTimer`
+
+## WeaponSystem
+
+**Extends [ShipSystem](#ShipSystem)**
+
+### Methods
+- `void :RemoveWeapon(int slot)`
+- `void :SetBonusPower(int amount, int permanentPower)`
+
+### Fields
+- [`Pointf`](#Pointf) `.target`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- `float` `.shot_timer`
+- `int` `.shot_count`
+- `int` `.missile_count`
+- `int` `.missile_start`
+- `std::vector<bool>` `.userPowered`
+- `int` `.slot_count`
+- `int` `.iStartingBatteryPower`
+- `std::vector<bool>` `.repowerList`
+
 ## ArtillerySystem
+
 **Extends [`ShipSystem`](#shipsystem)**
 
 ### Fields
@@ -725,14 +889,17 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bCloaked`
 
 ## EngineSystem
+
 **Extends [`ShipSystem`](#shipsystem)**
 No additional items over base `ShipSystem`
 
 ## MedbaySystem
+
 **Extends [`ShipSystem`](#shipsystem)**
 No additional items over base `ShipSystem`
 
 ## CloneSystem
+
 **Extends [`ShipSystem`](#shipsystem)**
 
 ### Fields
@@ -746,6 +913,7 @@ No additional items over base `ShipSystem`
 - `int` `.slot`
 
 ## DroneSystem
+
 **Extends [`ShipSystem`](#shipsystem)**
 
 ### Methods
@@ -816,6 +984,7 @@ No additional items over base `ShipSystem`
 - `float` `.hackTime`
 
 ## SpaceDrone
+
 **Extends [`Drone`](#drone)**
 
 ### Methods
@@ -837,7 +1006,7 @@ No additional items over base `ShipSystem`
 - `void SetCurrentLocation(Pointf pos)`
 - `void MouseMove(int mX, int mY)`
 - `Pointf GetRandomTargettingPoint(bool unk)`
-- [`Globals::Ellipse`](#globals) `*GetShieldShape(SpaceDrone *drone)`
+- [`Globals::Ellipse`](#Globals) `*GetShieldShape(SpaceDrone *drone)`
 - `int GetSpaceId()`
 - `Pointf GetSpeed()`
 - `int GetOwnerId()`
@@ -889,6 +1058,7 @@ No additional items over base `ShipSystem`
 - `Animation` `.hackSparks`
 
 ## DroneBlueprint
+
 **Extends [`Blueprint`](#blueprint)**
 
 ### Fields
@@ -908,7 +1078,7 @@ No additional items over base `ShipSystem`
 
 ### Fields
 - `bool` `.bBlackedOut`
-- `Globals::Rect` `.rect`
+- [`Globals::Rect`](#Globals) `.rect`
    - **Read-only**
 - `int` `.iRoomId`
    - **Read-only**
@@ -1249,7 +1419,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 - `Point` `.position`
    - Field is **read-only** but fields under this object may still be mutable.
-- `Globals::Rect` `.hitbox` 
+- [`Globals::Rect`](#Globals) `.hitbox` 
    - Field is **read-only** but fields under this object may still be mutable.
 - `bool` `.allowAnyTouch`
 - `bool` `.touchSelectable`
@@ -1265,9 +1435,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## Button
 
+**Extends [`GenericButton`](#GenericButton)**
+
 ### Methods
 
-**Extends [`GenericButton`](#GenericButton)**
 - `void :OnInit(const std::string &img, Point pos)`
 - `void :OnRender()`
 - `void :SetActiveImage(GL_Texture *texture)`
@@ -1356,7 +1527,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - **Read-only**
 
 ## WeaponControl
-**Extends ~~`ArmamentControl`~~**
+**Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields
 - `bool` `.autoFiring`
    - **Read-only**
@@ -1571,3 +1742,260 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
 
+## CrewDesc
+
+### Fields
+
+- `std::string` `.type`
+- `float` `.prop`
+- `int` `.amount`
+
+## Globals
+
+### Methods
+- `float :AimAhead(Pointf delta, Pointf vr, float muzzleV)`
+- [`Pointf`](#Pointf) `:GetNextPoint(Pointf current, float mag_speed, float heading)`
+- [`Pointf`](#Pointf) `:GetNextPoint(Pointf current, float mag_speed, Pointf dest)`
+- `int :GetNextSpaceId()`
+
+## Globals::Ellipse
+
+**Internal struct of [`Globals`](#Globals)**
+
+### Fields
+- [`Point`](#Point) `.center`
+- `float` `.a`
+- `float` `.b`
+
+## Globals::Rect
+
+**Internal struct of [`Globals`](#Globals)**
+
+### Fields
+- `int` `.x`
+- `int` `.y`
+- `int` `.w`
+- `int` `.h`
+
+## ImageDesc
+
+### Fields
+- [`GL_Texture`](#GL_Texture) `.tex`
+- `float` `.resId`
+- `float` `.w`
+- `float` `.h`
+- `float` `.x`
+- `float` `.y`
+- `float` `.rot`
+
+## ImageDesc
+
+### Fields
+- `std::string` `.type`
+- `int` `.min`
+- `int` `.max`
+- `int` `.amount`
+- `bool` `.breach`
+
+## CustomShipUnlocks
+
+`Hyperspace.CustomShipUnlocks.instance`
+
+### Methods
+- `void :UnlockShip(std::string shipBlueprint, bool silent, bool checkMultiUnlocks=true, bool isEvent=false)`
+- `bool :GetCustomShipUnlocked(std::string name, int variant = 0)`
+   - 0 being ship variant A, 1 is ship variant B and 2 is ship variant C
+
+### Fields
+- `static` [`CustomShipUnlocks`](#CustomShipUnlocks) `.instance`
+
+## Selectable
+
+### Fields
+- `int` `.selectedState`
+
+## Repairable
+
+**Extends [Selectable](#Selectable)**
+
+### Fields
+- [`ShipObject`](#ShipObject) `.shipObj`
+- `float` `.fDamage`
+- [`Point`](#Point) `.pLoc`
+- `float` `.fMaxDamage`
+- `std::string` `.name`
+- `int` `.roomId`
+- `int` `.iRepairCount`
+
+## Spreadable
+
+**Extends [Repairable](#Repairable)**
+
+### Fields
+- `std::string` `.soundName`
+
+## Fire
+
+**Extends [Spreadable](#Spreadable)**
+
+### Methods
+- `void :OnLoop()`
+- `void :UpdateDeathTimer(int connectedFires)`
+- `void :UpdateStartTimer(int doorLevel)`
+
+### Fields
+- `float` `.fDeathTimer`
+- `float` `.fStartTimer`
+- `float` `.fOxygen`
+- [`Animation`](#Animation) `.fireAnimation`
+- [`Animation`](#Animation) `.smokeAnimation`
+- `bool` `.bWasOnFire`
+
+## Spreader_Fire
+
+**Extends [ShipObject](#Shipobject)**
+
+### Fields
+- `int` `.count`
+- `std::vector<int> ` `.roomCount`
+- [`std::vector<std::vector<Fire>>`](#Fire) `.grid`
+
+## OuterHull
+
+**Extends [Repairable](#Repairable)**
+
+### Fields
+- [`Animation`](#Animation) `.breach`
+- [`Animation`](#Animation) `.heal`
+
+## PowerManager
+
+### Methods
+- `int :GetAvailablePower()`
+- `int :GetMaxPower()`
+- `static` [`PowerManager`](#PowerManager) `:GetPowerManager(int iShipId)`
+
+### Fields
+- `std::pair<int, int>` `.currentPower`
+- `int` `.over_powered`
+- `float` `.fFuel`
+- `bool` `.failedPowerup`
+- `int` `.iTempPowerCap`
+- `int` `.iTempPowerLoss`
+- `int` `.iTempDividePower`
+- `int` `.iHacked`
+- `std::pair<int, int>` `.batteryPower`
+
+## ProjectileFactory
+
+**Extends [ShipObject](#ShipObject)**
+
+### Methods
+- `void :Fire(std::vector<Pointf> &points, int target)`
+- `bool :FireNextShot()`
+- `void :ForceCoolup()`
+- [`Projectile*`](#Projectile) `:GetProjectile()`
+- `bool :IsChargedGoal()`
+- `int :NumTargetsRequired()`
+- `void :SetCooldownModifier(float mod)`
+- `void :SetCurrentShip(Targetable *ship)`
+- `void :SetHacked(int hacked)`
+
+### Fields
+- `std::pair<float, float>` `.cooldown`
+- `std::pair<float, float>` `.subCooldown`
+- `float` `.baseCooldown`
+- [`WeaponBlueprint*`](#WeaponBlueprint) `.blueprint`
+- [`Point`](#Point) `.localPosition`
+- [`Animation`](#Animation) `.flight_animation`
+- `bool` `.autoFiring`
+- `bool` `.fireWhenReady`
+- `bool` `.powered`
+- `int` `.requiredPower`
+- [`std::vector<Pointf>`](#Pointf) `.targets`
+- [`std::vector<Pointf>`](#Pointf) `.lastTargets`
+- `int` `.targetId`
+- `int` `.iAmmo`
+- `std::string` `.name`
+- `int` `.numShots`
+- `float` `.currentFiringAngle`
+- `float` `.currentEntryAngle`
+- [`Targetable*`](#Targetable) `.currentShipTarget`
+- [`CloakingSystem*`](#CloakingSystem) `.cloakingSystem`
+- [`WeaponAnimation`](#WeaponAnimation) `.weaponVisual`
+- [`WeaponMount`](#WeaponMount) `.mount`
+- [`std::vector<Projectile*>`](#Projectile) `.queuedProjectiles`
+- `int` `.iBonusPower`
+- `bool` `.bFiredOnce`
+- `int` `.iSpendMissile`
+- `float` `.cooldownModifier`
+- `int` `.shotsFiredAtTarget`
+- `int` `.radius`
+- `int` `.boostLevel`
+- `int` `.lastProjectileId`
+- `int` `.chargeLevel`
+- `int` `.iHackLevel`
+- `int` `.goalChargeLevel`
+- `bool` `.isArtillery`
+
+## WeaponMount
+
+### Fields
+- [`PowerManager`](#PowerManager) `.position`
+- `bool` `.mirror`
+- `bool` `.rotate`
+- `int` `.slide`
+- `int` `.gib`
+
+## AnimationControl
+
+### Methods
+- [`Animation`](#Animation) `:GetAnimation(std::string animName)`
+
+## AnimationDescriptor
+
+### Fields
+- `int` `.numFrames`
+- `int` `.imageWidth`
+- `int` `.imageHeight`
+- `int` `.stripStartY`
+- `int` `.stripStartX`
+- `int` `.frameWidth`
+- `int` `.frameHeight`
+
+## WeaponAnimation
+
+### Methods
+- [`Pointf`](#Pointf) `:GetSlide()`
+- `void :SetFireTime(float time)`
+
+### Fields
+
+- `Animation` `.anim;`
+- `bool` `.bFireShot;`
+- `bool` `.bFiring;`
+- `float` `.fChargeLevel;`
+- `int` `.iChargedFrame;`
+- `int` `.iFireFrame;`
+- `bool` `.bMirrored;`
+- `bool` `.bRotation;`
+- [`Point`](#Point) `.fireLocation;`
+- `bool` `.bPowered;`
+- [`Point`](#Point) `.mountPoint;`
+- [`Point`](#Point) `.renderPoint;`
+- [`Point`](#Point) `.fireMountVector;`
+- [`AnimationTracker`](#AnimationTracker) `.slideTracker;`
+- `int` `.slideDirection;`
+- [`Animation`](#Animation) `.explosionAnim;`
+- [`WeaponMount`](#WeaponMount) `.mount;`
+- `float` `.fDelayChargeTime;`
+- [`Animation`](#Animation) `.boostAnim;`
+- `int` `.boostLevel;`
+- `bool` `.bShowCharge;`
+- `float` `.fActualChargeLevel;`
+- `int` `.iChargeOffset;`
+- `int` `.iChargeLevels;`
+- `int` `.currentOffset;`
+- `int` `.iHackLevel;`
+- [`Animation`](#Animation) `.hackSparks;`
+- `bool` `.playerShip;`
