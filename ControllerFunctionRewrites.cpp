@@ -196,3 +196,90 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
     ChoiceBox::Close();
     // End of orig-code
 }
+
+HOOK_METHOD_PRIORITY(OptionsScreen, KeyDown, 9999, (SDLKey sym) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::KeyDown -> Begin (ControllerFunctionRewrites.cpp)\n")
+
+    // code reverse engineered by Dino
+
+    /*
+    Notes:
+    0x1b corresponds to the escape key on your keyboard
+    I improvised some code here because ghidra showed a mess
+    Inlined some function calls that were literally just changing window visibility bools
+    */
+
+    if (!langChooser.bOpen && !wipeProfileDialog.bOpen) // Check if neither the language chooser nor the wipe profile dialog is open
+    {
+        // Check if the hotkey menu is open
+        if (bCustomizeControls)
+        {
+            if (sym == 0x1b)
+            {
+                int selectedButton = controls.selectedButton;
+
+                // Deselect button if one is selected
+                if (selectedButton != -1)
+                {
+                    controls.buttons[controls.currentPage][selectedButton].state = 0;
+                    controls.selectedButton = -1;
+                    return true;
+                }
+
+                // Close the reset dialog if open
+                if (controls.resetDialog.bOpen)
+                {
+                    controls.resetDialog.Close();
+                    return true;
+                }
+            }
+            else if (sym - 0x12fU < 2) // Unsure what this really does - probably an alternative for the escape key
+            {
+                auto &buttons = controls.buttons[controls.currentPage];
+                for (auto &button : buttons)
+                {
+                    if (button.state == 2)
+                    {
+                        Settings::SetHotkey(button.value, sym);
+                        button.state = 0;
+                    }
+                }
+            }
+
+            // Exit if the Escape key is pressed
+            if (sym == 0x1b)
+            {
+                bCustomizeControls = false;
+                return false;
+            }
+
+            return false;
+        }
+        else
+        {
+            // Close the current window if the Escape key is pressed
+            if (sym == 0x1b)
+            {
+                bOpen = false;
+            }
+            else
+            {
+                // Handling they key further
+                ChoiceBox::KeyDown(sym);
+            }
+            return false;
+        }
+    }
+    else if (langChooser.bOpen && sym == 0x1b) // Close language chooser on Escape key input
+    {
+        langChooser.bOpen = false;
+    }
+    else if (wipeProfileDialog.bOpen) // Close profile dialog if open
+    {
+        wipeProfileDialog.bOpen = false;
+    }
+
+    return false;
+    // End of orig-code
+}

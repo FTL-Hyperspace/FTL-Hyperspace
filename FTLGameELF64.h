@@ -3206,6 +3206,7 @@ struct ChoiceBox : FocusWindow
 
 	LIBZHL_API void Close();
 	LIBZHL_API int GetPotentialChoice();
+	LIBZHL_API void KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
@@ -3393,6 +3394,7 @@ struct OptionsScreen : ChoiceBox
 
 	LIBZHL_API void CheckSelection();
 	LIBZHL_API void Close();
+	LIBZHL_API void KeyDown(SDLKey sym);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
