@@ -103,3 +103,96 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 9999, () -> void)
     }
     // End of orig-code
 }
+
+HOOK_METHOD_PRIORITY(OptionsScreen, CheckSelection, 1000, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::CheckSelection -> Begin (ControllerFunctionRewrites.cpp)\n")
+
+    // code reverse engineered by Dino
+    int choice = GetPotentialChoice();
+
+    if (-1 < choice) // Validate choice to prevent segfault
+    {
+        // Handle choice
+        if (choice == choiceFullscreen) 
+        {
+            Settings::ToggleFullScreen();
+        } 
+        else if (choice == choiceVSync) 
+        {
+            Settings::ToggleVSync();
+        } 
+        else if (choice == choiceFrameLimit) 
+        {
+            G_->GetSettings()->frameLimit ^= 1;
+        } 
+        else if (choice == choiceLowend) 
+        {
+            G_->GetSettings()->lowend ^= 1;
+        } 
+        else if (choice == choiceColorblind) 
+        {
+            G_->GetSettings()->colorblind ^= 1;
+        } 
+        else if (choice == choiceLanguage) 
+        {
+            langChooser.bOpen = true;
+            langChooser.iChoice = -1;
+        } 
+        else if (choice == choiceDialogKeys) 
+        {
+            G_->GetSettings()->dialogKeys = (G_->GetSettings()->dialogKeys + 1) % 3;
+        } 
+        else if (choice == choiceShowPaths) 
+        {
+            G_->GetSettings()->showPaths ^= 1;
+        } 
+        else if (choice == choiceAchievementPopups) 
+        {
+            G_->GetSettings()->achPopups ^= 1;
+        } 
+        else if (choice == choiceAutoPause) 
+        {
+            G_->GetSettings()->altPause ^= 1;
+        } 
+        else if (choice == choiceTouchAutoPause) 
+        {
+            G_->GetSettings()->touchAutoPause ^= 1;
+        } 
+        else if (choice == choiceControls) 
+        {
+            bCustomizeControls = true;
+        }
+        
+        // Updates the states visually in the menu 
+        if (choice != choiceControls) 
+        {
+            Open(showWipeButton);
+        }
+    }
+    // End of orig-code
+}
+
+HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::Close -> Begin (ControllerFunctionRewrites.cpp)\n")
+
+    // code reverse engineered by Dino
+    if (G_->GetSettings()->fullscreen != 1 || CSurface::IsFrameBufferSupported()) 
+    {
+        if (G_->GetSettings()->fullscreen == 3 && G_->GetSettings()->currentFullscreen != 3)
+        {
+            goto CloseWindow;
+        }
+    }
+    else 
+    {
+        G_->GetSettings()->fullscreen = G_->GetSettings()->currentFullscreen;
+    }
+
+    G_->GetSettings()->currentFullscreen = G_->GetSettings()->fullscreen;
+
+    CloseWindow:
+    ChoiceBox::Close();
+    // End of orig-code
+}

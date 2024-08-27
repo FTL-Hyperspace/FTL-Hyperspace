@@ -1822,6 +1822,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
 	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
 	LIBZHL_API static GL_Color __stdcall GetColorTint();
+	LIBZHL_API static bool __stdcall IsFrameBufferSupported();
 	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
 	
 };
@@ -3203,6 +3204,8 @@ struct ChoiceBox : FocusWindow
         return ret;
     }
 
+	LIBZHL_API void Close();
+	LIBZHL_API int GetPotentialChoice();
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
@@ -3388,6 +3391,8 @@ struct OptionsScreen : ChoiceBox
         TextButton syncAchievementsButton;
     };
 
+	LIBZHL_API void CheckSelection();
+	LIBZHL_API void Close();
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
@@ -6653,6 +6658,8 @@ struct Settings
 	LIBZHL_API static void __stdcall ResetHotkeys();
 	LIBZHL_API static void __stdcall SaveSettings();
 	LIBZHL_API static void __stdcall SetHotkey(const std::string &hotkeyName, SDLKey key);
+	LIBZHL_API static void __stdcall ToggleFullScreen();
+	LIBZHL_API static void __stdcall ToggleVSync();
 	
 };
 

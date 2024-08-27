@@ -10,6 +10,10 @@ static cleanup __amd64 void Settings::SetHotkey(const std::string& hotkeyName, S
 static cleanup __amd64 void Settings::SaveSettings();
 "!.0fb605????????c3":
 forceDetour static __amd64 char Settings::GetCommandConsole();
+"!.0fb635????????bf????????31c083f601":
+static __amd64 void Settings::ToggleVSync();
+".8b05????????8d????31c083fa??":
+static __amd64 void Settings::ToggleFullScreen();
 ".415641be????????4155415441bc????????55534883ec30":
 static cleanup __amd64 void Settings::ResetHotkeys();
 ".415741564155415455534881ec58020000":

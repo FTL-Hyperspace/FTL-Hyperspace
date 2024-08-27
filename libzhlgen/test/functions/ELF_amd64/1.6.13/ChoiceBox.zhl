@@ -1,7 +1,11 @@
-"41554189d541544989fcbf":
+"!c6470800c74774????????c3":
+cleanup __amd64 void ChoiceBox::Close(ChoiceBox *this);
+".41554189d541544989fcbf":
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y);
 ".833d????????0274??8b4770":
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
+".8b4770c3":
+cleanup __amd64 int ChoiceBox::GetPotentialChoice(ChoiceBox *this);
 ".41574989ff41564155415455534881ec68020000":
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
 struct ChoiceBox
