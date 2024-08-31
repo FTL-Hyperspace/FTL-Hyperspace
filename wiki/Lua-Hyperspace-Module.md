@@ -1295,12 +1295,242 @@ function player_crew_health_boost()
 end
 ```
 
+## CrewMemberFactory
+
+### Methods
+- `void :GetCloneReadyList(std::vector<CrewMember*> vec, bool player)`
+- `void :GetCloneReadyList(bool player)`
+
+### Fields
+- [`std::vector<CrewMember*>`](#CrewMember) `.crewMembers`
+
+## CrewMember
+
+### Methods
+- `float :PositionShift()`
+- `bool :InsideRoom(int roomId)`
+- `bool :ApplyDamage(float damage)`
+- `void :Jump()`
+- `bool :GetIntruder()`
+- `void :SaveState(int fileHelper)`
+- `void :LoadState(int fileHelper)`
+- `void :OnLoop()`
+- `void :OnRender(bool outlineOnly)`
+- `void :SetOutOfGame()`
+- `bool :Functional()`
+- `bool :CountForVictory()`
+- `bool :GetControllable()`
+- `bool :CanRepair()`
+- `bool :CanSabotage()`
+- `bool :CanMan()`
+- `bool :CanTeleport()`
+- `bool :CanHeal()`
+- [`string`](#string) `:GetUniqueRepairing()`
+- [`Damage`](#Damage) `:GetRoomDamage()`
+- `void :UpdateRepair()`
+- `bool :AtFinalGoal()`
+- `bool :AtGoal()`
+- `bool :BadAtCombat()`
+- `void :CheckFighting()`
+- `void :CheckForTeleport()`
+- `bool :CheckRoomPath(int roomId)`
+- `void :CheckSkills()`
+- `void :Cleanup()`
+- `void :ClearPath()`
+- `void :ClearPosition()`
+- `void :ClearTask()`
+- `void :Clone()`
+- `void :CloseDoorBehind(Door *door)`
+- `bool :ContainsPoint(int x, int y)`
+- `void :CycleColorLayer(int unk)`
+- `bool :DirectModifyHealth(float health)`
+- `void :EmptySlot()`
+- [`Slot`](#Slot) `:FindSlot(int roomId, int slotId, bool closeEnough)`
+- `void :ForceMindControl(bool force)`
+- [`Point`](#Point) `:GetFinalGoal()`
+- `int :GetIntegerHealth()`
+- [`Point`](#Point) `:GetLocation()`
+- [`string`](#string) `:GetLongName()`
+- `float :GetMoveSpeed()`
+- [`string`](#string) `:GetName()`
+- `bool :GetNewGoal()`
+- [`Point`](#Point) `:GetNextGoal()`
+- `int :GetRepairingId()`
+- `bool :GetResisted()`
+- [`Slot`](#Slot) `:GetSavedPosition()`
+- `int :GetSkillFromSystem(int systemId)`
+- `int :GetSkillLevel(int skillId)`
+- `float :GetSkillModifier(int skillId)`
+- [`int>`](#int>) `:GetSkillProgress(int skillId)`
+- [`string`](#string) `:GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
+- [`string`](#string) `:GetTooltip()`
+- `void :IncreaseSkill(int skillId)`
+- `void :InitializeSkills()`
+- `bool :IsBusy()`
+- `bool :IsManningArtillery()`
+- `void :Kill(bool noClone)`
+- `void :MasterSkill(int skillId)`
+- `void :ModifyHealth(float health)`
+- `bool :MoveToRoom(int roomId, int slotId, bool forceMove)`
+- `bool :NeedFrozenLocation()`
+- `bool :NeedsSlot()`
+- `bool :OnInit()`
+- `void :OnRenderHealth()`
+- `void :OnRenderPath()`
+- `void :RenderSkillUpAnimation(Point pos)`
+- `bool :Repairing()`
+- `bool :RepairingFire()`
+- `bool :RepairingSystem()`
+- `void :Restart()`
+- `bool :RestorePosition()`
+- `bool :Sabotaging()`
+- `void :SavePosition()`
+- [`Pointf`](#Pointf) `:SelectSabotageTarget()`
+- `void :SetCloneReady(bool cloneReady)`
+- `void :SetCurrentShip(int shipId)`
+- `void :SetCurrentSystem(ShipSystem *sys)`
+- `void :SetCurrentTarget(CrewTarget *target, bool unk)`
+- `void :SetDamageBoost(float damageBoost)`
+- `void :SetDeathNumber(int deathNum)`
+- `void :SetFrozen(bool frozen)`
+- `void :SetFrozenLocation(bool frozenLocation)`
+- `void :SetHealthBoost(int healthBoost)`
+- `void :SetMedbay(float health)`
+- `void :SetMindControl(bool controlled)`
+- `void :SetName(TextString *name, bool force)`
+- `bool :SetPath(Path *path)`
+- `void :SetPosition(Point pos)`
+- `void :SetResisted(bool resisted)`
+- `void :SetRoom(int roomId)`
+- `void :SetRoomPath(int slotId, int roomId)`
+- `void :SetSavePosition(Slot position)`
+- `void :SetSex(bool male)`
+- `void :SetSkillProgress(int skillId, int skillLevel)`
+- `void :SetTask(CrewTask task)`
+- `void :StartRepair(Repairable *toRepair)`
+- `void :StartTeleport()`
+- `void :StartTeleportArrive()`
+- `void :StopRepairing()`
+- `void :UpdateHealth()`
+- `void :UpdateMovement()`
+- `bool :WithinRect(int x, int y, int w, int h)`
+- `void :constructor(CrewBlueprint &blueprint, int shipId, bool intruder, CrewAnimation *animation)`
+
+### Fields
+- `int` `.iShipId`
+- `float` `.x`
+   - **read-only**
+- `float` `.y`
+   - **read-only**
+- `float` `.size`
+- `float` `.scale`
+- `float` `.goal_x`
+- `float` `.goal_y`
+- `int` `.width`
+- `int` `.height`
+- `pair<float, float> `.health`
+- `float` `.speed_x`
+- `float` `.speed_y`
+- [`Path`](#Path) `.path`
+- `bool` `.new_path`
+- `float` `.x_destination`
+- `float` `.y_destination`
+- [`Door*`](#Door) `.last_door`
+- [`Repairable*`](#Repairable) `.currentRepair`
+- `bool` `.bSuffocating`
+- `int` `.moveGoal`
+- `int` `.selectionState`
+- `int` `.iRoomId`
+- `int` `.iManningId`
+- `int` `.iRepairId`
+- `int` `.iStackId`
+- [`Slot`](#Slot) `.currentSlot`
+- `bool` `.intruder`
+- `bool` `.bFighting`
+- `bool` `.bSharedSpot`
+- [`CrewAnimation*`](#CrewAnimation) `.crewAnim`
+- [`GL_Texture*`](#GL_Texture) `.selectionImage`
+- [`CachedImage`](#CachedImage) `.healthBox`
+- [`CachedImage`](#CachedImage) `.healthBoxRed`
+- [`CachedRect`](#CachedRect) `.healthBar`
+- `float` `.fMedbay`
+- `float` `.lastDamageTimer`
+- `float` `.lastHealthChange`
+- `int` `.currentShipId`
+- [`AnimationTracker`](#AnimationTracker) `.flashHealthTracker`
+- [`Pointf`](#Pointf) `.currentTarget`
+- [`CrewTarget*`](#CrewTarget) `.crewTarget`
+- [`BoardingGoal`](#BoardingGoal) `.boardingGoal`
+- `bool` `.bFrozen`
+- `bool` `.bFrozenLocation`
+- [`CrewTask`](#CrewTask) `.task`
+- `std::string` `.type`
+- [`Ship*`](#Ship) `.ship`
+- [`Slot`](#Slot) `.finalGoal`
+- [`Door*`](#Door) `.blockingDoor`
+- `bool` `.bOutOfGame`
+- `std::string` `.species`
+- `bool` `.bDead`
+- `int` `.iOnFire`
+- `bool` `.bActiveManning`
+- [`ShipSystem*`](#ShipSystem) `.currentSystem`
+- `int` `.usingSkill`
+- [`CrewBlueprint`](#CrewBlueprint) `.blueprint`
+- [`Animation`](#Animation) `.healing`
+- [`Animation`](#Animation) `.stunned`
+- [`AnimationTracker`](#AnimationTracker) `.levelUp`
+- `int` `.lastLevelUp`
+- [`SCrewStats`](#SCrewStats) `.stats`
+- [`std::vector<bool>>`](#vector<bool>>) `.skillsEarned`
+- `bool` `.clone_ready`
+- `bool` `.bMindControlled`
+- `int` `.iDeathNumber`
+- [`Animation`](#Animation) `.mindControlled`
+- [`Animation`](#Animation) `.stunIcon`
+- [`std::vector<std::vector<AnimationTracker>>`](#AnimationTracker) `.skillUp`
+- `int` `.healthBoost`
+- `float` `.fMindDamageBoost`
+- `float` `.fCloneDying`
+- `bool` `.bResisted`
+- [`Slot`](#Slot) `.savedPosition`
+- `float` `.fStunTime`
+- [`CachedImage`](#CachedImage) `.movementTarget`
+- `bool` `.bCloned`
+- [`CrewMember_Extend`](#CrewMember_Extend) `.extend`
+
 ## CrewMember_Extend
+
 Accessed via `CrewMember`'s `.extend` field
 
 ### Methods
-- `float, bool :CalculateStat(CrewStat)`
-    - Returns the current `float` and `bool` value for the given `CrewStat`.
+- `void :InitiateTeleport(int shipId, int roomId=-1, int slotId=-1)`
+- [`CrewDefinition`](#CrewDefinition) `:*GetDefinition()`
+- `float :CalculateStat(CrewStat stat, bool* boolValue=nullptr)`
+   - Returns the current `float` and `bool` value for the given `CrewStat`.
+
+### Fields
+- [`CrewMember*`](#CrewMember) `.orig`
+   - **read-only**
+- `int` `.selfId`
+   - **read-only**
+- `bool` `.canPhaseThroughDoors`
+- `bool` `.isHealing`
+- [`TimerHelper*`](#TimerHelper) `.passiveHealTimer`
+- [`TimerHelper*`](#TimerHelper) `.deathTimer`
+- `int` `.lastRoom`
+- `int` `.lastShipId`
+- `bool` `.exploded`
+- `bool` `.triggerExplosion`
+- [`std::vector<ActivatedPower*>`](#ActivatedPower) `.crewPowers`
+   - **read-only**
+- `bool` `.hasSpecialPower`
+- [`std::vector<ActivatedPowerResource*>`](#ActivatedPowerResource) `.powerResources`
+   - **read-only**
+- [`std::unordered_map<unsigned int,ActivatedPowerResource*>`](#ActivatedPowerResource) `.powerResourceMap`
+   - **read-only**
+- [`std::vector<ActivatedPowerDefinition*>`](#ActivatedPowerDefinition) `.powerChange`
+- [`CustomTeleport`](#CustomTeleport) `.customTele`
+
 ###### Example
 ```lua
 local crew = Hyperspace.ships.player.vCrewList[0]
@@ -1312,6 +1542,72 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `CrewDefinition* :GetDefinition()`
     - Returns the CrewMember's [`CrewDefinition`](#CrewDefinition)
 
+## CustomTeleport
+
+**Internal struct of [CrewMember_Extend](#CrewMember_Extend)**
+
+### Fields
+- `bool` `.teleporting`
+- `int` `.shipId`
+- `int` `.roomId`
+- `int` `.slotId`
+
+## CrewAnimation
+
+### Methods
+
+- `void :OnRender(float scale, int selectedState, bool outlineOnly)`
+- `void :OnRenderProps()`
+- `void :OnUpdateEffects()`
+- `void :UpdateFiring()`
+- `void :UpdateShooting()`
+- `bool :FireShot()`
+- `int :GetFiringFrame()`
+- [`string`](#string) `:GetShootingSound()`
+- [`string`](#string) `:GetDeathSound()`
+- `void :Restart()`
+- `bool :CustomDeath()`
+- `void :OnInit(const std::string &name, Pointf position, bool enemy)`
+- `void :OnUpdate(Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire)`
+- `void :RenderIcon(bool border)`
+- `void :SetupStrips()`
+
+### Fields
+- `int` `.iShipId`
+- [`std::vector<std::vector<Animation>>`](#Animation) `.anims`
+- [`GL_Texture*`](#GL_Texture) `.baseStrip`
+- [`GL_Texture*`](#GL_Texture) `.colorStrip`
+- [`std::vector<GL_Texture*>`](#GL_Texture) `.layerStrips`
+- [`Pointf`](#Pointf) `.lastPosition`
+- `int` `.direction`
+- `int` `.sub_direction`
+- `int` `.status`
+- `int` `.moveDirection`
+- [`ParticleEmitter`](#ParticleEmitter) `.smokeEmitter`
+- `bool` `.bSharedSpot`
+- [`TimerHelper`](#TimerHelper) `.shootTimer`
+- [`TimerHelper`](#TimerHelper) `.punchTimer`
+- [`Pointf`](#Pointf) `.target`
+- `float` `.fDamageDone`
+- `bool` `.bPlayer`
+- `bool` `.bFrozen`
+- `bool` `.bDrone`
+- `bool` `.bGhost`
+- `bool` `.bExactShooting`
+- [`Animation`](#Animation) `.projectile`
+- `bool` `.bTyping`
+- `std::string` `.race`
+- `int` `.currentShip`
+- `bool` `.bMale`
+- `bool` `.colorblind`
+- [`vector<GL_Color>`](#vector<GL_Color>) `.layerColors`
+- `int` `.forcedAnimation`
+- `int` `.forcedDirection`
+- [`GL_Color`](#GL_Color) `.projectileColor`
+- `bool` `.bStunned`
+- `bool` `.bDoorTarget`
+- `bool` `.uniqueBool1`
+- `bool` `.uniqueBool2`
    
 ## CrewDefinition
    
@@ -1873,7 +2169,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Methods
 - `int :GetAvailablePower()`
 - `int :GetMaxPower()`
-- `static` [`PowerManager`](#PowerManager) `:GetPowerManager(int iShipId)`
+- `static` [`PowerManager`](#PowerManager) `.GetPowerManager(int iShipId)`
 
 ### Fields
 - `std::pair<int, int>` `.currentPower`
@@ -1999,3 +2295,597 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.iHackLevel;`
 - [`Animation`](#Animation) `.hackSparks;`
 - `bool` `.playerShip;`
+
+## Animation
+
+### Methods
+- `void :AddSoundQueue(int frame, std::string sound)`
+- `bool :Done()`
+- `void :LoadState(int fd)`
+- `void :OnRender(float opacity, GL_Color color, bool mirror)`
+- `int :RandomStart()`
+- `void :SaveState(int fd)`
+- `void :SetAnimationId(GL_Texture *tex)`
+- `void :SetCurrentFrame(int frame)`
+- [`GL_Texture`](#GL_Texture) `:SetProgress(float progress)`
+- `void :Start(bool reset)`
+- `void :StartReverse(bool reset)`
+- `void :Update()`
+
+### Fields
+- [`GL_Texture*`](#GL_Texture) `.animationStrip`
+- [`AnimationDescriptor`](#AnimationDescriptor) `.info`
+- [`AnimationTracker`](#AnimationTracker) `.tracker`
+- [`Pointf`](#Pointf) `.position`
+- `std::string` `.soundForward`
+- `std::string` `.soundReverse`
+- `bool` `.randomizeFrames`
+- `float` `.fScale`
+- `float` `.fYStretch`
+- `int` `.currentFrame`
+- `bool` `.bAlwaysMirror`
+- `std::vector<std::vector<std::string>>` `.soundQueue`
+- `float` `.fadeOut`
+- `float` `.startFadeOut`
+- `std::string` `.animName`
+- `int` `.mask_x_pos`
+- `int` `.mask_x_size`
+- `int` `.mask_y_pos`
+- `int` `.mask_y_size`
+- [`GL_Primitive*`](#GL_Primitive) `.primitive`
+- [`GL_Primitive*`](#GL_Primitive) `.mirroredPrimitive`
+
+## Door
+
+**Extends [CrewTarget](#CrewTarget)**
+
+### Methods
+- `bool :ApplyDamage(float amount)`
+
+### Fields
+- `int` `.iRoom1`
+- `int` `.iRoom2`
+- `bool` `.bOpen`
+- `int` `.iBlast`
+- `bool` `.bFakeOpen`
+- `int` `.width`
+   - **read-only**
+- `int` `.height`
+   - **read-only**
+- [`GL_Primitive*`](#GL_Primitive) `.outlinePrimitive`
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive`
+- [`Animation`](#Animation) `.doorAnim`
+- [`Animation`](#Animation) `.doorAnimLarge`
+- `int` `.iDoorId`
+   - **read-only**
+- `int` `.baseHealth`
+- `int` `.health`
+- [`AnimationTracker`](#AnimationTracker) `.forcedOpen`
+- [`AnimationTracker`](#AnimationTracker) `.gotHit`
+- `int` `.doorLevel`
+- `bool` `.bIoned`
+- `float` `.fakeOpenTimer`
+- [`AnimationTracker`](#AnimationTracker) `.lockedDown`
+- `float` `.lastbase`
+- `int` `.iHacked`
+- `int` `.x`
+   - **read-only**
+- `int` `.y`
+   - **read-only**
+- `bool` `.bVertical`
+   - **read-only**
+
+## BlueprintManager
+
+### Methods
+- [`AugmentBlueprint`](#AugmentBlueprint) `:*GetAugmentBlueprint(const std::string &name)`
+- [`CrewBlueprint`](#CrewBlueprint) `:GetCrewBlueprint(const std::string &name)`
+- [`DroneBlueprint`](#DroneBlueprint) `:*GetDroneBlueprint(const std::string &name)`
+- [`ShipBlueprint`](#ShipBlueprint) `:*GetShipBlueprint(const std::string &name, int sector)`
+- [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(const std::string &name)`
+- `std::vector<std::string>` `:GetBlueprintList(const std::string &name)`
+
+## WeaponBlueprint
+
+**Extends [Blueprint](#Blueprint)**
+
+### Fields
+- `std::string` `.typeName`
+- [`Damage`](#Damage) `.damage`
+- `int` `.shots`
+- `int` `.missiles`
+- `float` `.cooldown`
+- `int` `.power`
+- `int` `.length`
+- `float` `.speed`
+- `int` `.miniCount`
+- [`EffectsBlueprint`](#EffectsBlueprint) `.effects`
+- `std::string` `.weaponArt`
+- `std::string` `.combatIcon`
+- `std::string` `.explosion`
+- `int` `.radius`
+- [`std::vector<WeaponBlueprint::MiniProjectile>`](#WeaponBlueprint) `.miniProjectiles`
+- [`WeaponBlueprint::BoostPower`](#WeaponBlueprint) `.boostPower`
+- `int` `.drone_targetable`
+- `int` `.spin`
+- `int` `.chargeLevels`
+- [`TextString`](#TextString) `.flavorType`
+- [`GL_Color`](#GL_Color) `.color`
+
+## WeaponBlueprint::BoostPower
+
+**Internal struct of [`WeaponBlueprint`](#WeaponBlueprint)**
+
+### Fields
+
+- `int` `.type`
+- `float` `.amount`
+- `int` `.count`
+
+## WeaponBlueprint::MiniProjectile
+
+**Internal struct of [`WeaponBlueprint`](#WeaponBlueprint)**
+
+### Fields
+
+- `std::string` `.image`
+- `bool` `.fake`
+
+## ShipBlueprint
+
+### Fields
+- [`Description`](#Description) `.desc`
+- `std::string` `.blueprintName`
+- [`TextString`](#TextString) `.name`
+- [`TextString`](#TextString) `.shipClass`
+- `std::string` `.layoutFile`
+- `std::string` `.imgFile`
+- `std::string` `.cloakFile`
+- `std::string` `.shieldFile`
+- `std::string` `.floorFile`
+- [`map<int, SystemTemplate>`](#SystemTemplate) `.systemInfo`
+- `std::vector<int>` `.systems`
+- `int` `.droneCount`
+- `int` `.originalDroneCount`
+- `int` `.droneSlots`
+- `std::string` `.loadDrones`
+- `std::vector<std::string>` `.drones`
+- `std::vector<std::string>` `.augments`
+- `int` `.weaponCount`
+- `int` `.originalWeaponCount`
+- `int` `.weaponSlots`
+- `std::string` `.loadWeapons`
+- `std::vector<std::string>` `.weapons`
+- `int` `.missiles`
+- `int` `.drone_count`
+- `int` `.health`
+- `int` `.originalCrewCount`
+- `std::vector<std::string>` `.defaultCrew`
+- [`std::vector<CrewBlueprint>`](#CrewBlueprint) `.customCrew`
+- `int` `.maxPower`
+- `int` `.boardingAI`
+- `int` `.bp_count`
+- `int` `.maxCrew`
+- `int` `.maxSector`
+- `int` `.minSector`
+- [`TextString`](#TextString) `.unlock`
+
+## ShipBlueprint::SystemTemplate
+
+**Internal struct of [`ShipBlueprint`](#ShipBlueprint)**
+
+### Fields
+
+- `int` `systemId`
+- `int` `powerLevel`
+- `std::vector<int>` `location`
+- `int` `bp`
+- `int` `maxPower`
+- `std::string` `image`
+- `int` `slot`
+- `int` `direction`
+- `std::vector<std::string>` `weapon`
+
+## CustomShipDefinition
+
+### Methods
+
+### Fields
+- `std::string` `.name`
+- `std::map<std::string, int>` `.hiddenAugs`
+- [`std::vector<CrewPlacementDefinition>`](#CrewPlacementDefinition) `.crewList`
+- `bool` `.noJump`
+- `bool` `.noFuelStalemate`
+- `int` `.hpCap`
+- `int` `.startingFuel`
+- `int` `.startingScrap`
+- [`std::unordered_map<int, RoomDefinition*>`](#RoomDefinition) `.roomDefs`
+- `std::vector<std::string>` `.shipIcons`
+- `bool` `.forceAutomated`
+- `int` `.crewLimit`
+- `int` `.systemLimit`
+- `int` `.subsystemLimit`
+- `std::vector<int>` `.reactorPrices`
+- `int` `.reactorPriceIncrement`
+- `int` `.maxReactorLevel`
+- `std::string` `.shipGenerator`
+
+## CrewPlacementDefinition
+
+### Fields
+- `std::string` `.species`
+- `int` `.roomId`
+- `std::string` `.name`
+- `bool` `.isList`
+
+## CrewBlueprint
+
+**Extends [Blueprint](#Blueprint)**
+
+### Methods
+- [`GL_Color`](#GL_Color) `:GetCurrentSkillColor(int skill)`
+- `std::string :GetNameShort()`
+- `void :RandomSkills(int worldLevel)`
+- `void :RenderIcon(float opacity)`
+- `void :RenderSkill(int x, int y, int length, int height, int skill)`
+
+### Fields
+- [`TextString`](#TextString) `.crewNameLong`
+- [`std::vector<TextString>`](#TextString) `.powers`
+- `bool` `.male`
+- `std::vector<std_pair_int_int>` `.skillLevel`
+- `std::vector<GL_Color>>` `.colorLayers`
+- `std::vector<int>` `.colorChoices`
+
+## Blueprint
+
+### Methods
+- `std::string :GetNameLong()`
+- `std::string :GetNameShort()`
+- `int :GetType()`
+
+### Fields
+- `std::string` `.name`
+- [`Description`](#Description) `.desc`
+- `int` `.type`
+
+## ShipGraph
+
+Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
+
+### Methods
+- [`Point`](#Point) `:TranslateFromGrid(int xx, int yy)`
+- [`Point`](#Point) `:TranslateToGrid(int xx, int yy)`
+- [`Point`](#Point) `:GetIntoRoom(int roomId, Point pos)`
+- [`Pointf`](#Pointf) `:GetRoomCenter(int roomId)`
+- `void :ComputeCenter()`
+- `int :ConnectedGridSquares(int x1, int y1, int x2, int y2)`
+- `int :ConnectedGridSquaresPoint(Point p1, Point p2)`
+- [`Door`](#Door) `:*ConnectingDoor(int x1, int y1, int x2, int y2)`
+- [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
+- `bool :ContainsPoint(int x, int y)`
+- `float :ConvertToLocalAngle(float ang)`
+- `float :ConvertToWorldAngle(float ang)`
+- [`Path`](#Path) `:Dijkstra(Point start, Point goal, int shipId)`
+- `int :DoorCount(int roomId)`
+- [`Path`](#Path) `:FindPath(Point p1, Point p2, int shipId)`
+- [`Slot`](#Slot) `:GetClosestSlot(Point pos, int shipId, bool intruder)`
+- [`std::vector<Door*>`](#Door) `:GetDoors(int roomId)`
+- `int :GetNumSlots(int room)`
+- `bool :GetRoomBlackedOut(int room)`
+- `float :GetRoomOxygen(int room)`
+- [`Rect`](#Rect) `:GetRoomShape(int room)`
+- `int :GetSelectedRoom(int x, int y, bool unk)`
+- `static` [`ShipGraph`](#ShipGraph) `.GetShipInfo(int shipId)`
+- [`Point`](#Point) `:GetSlotWorldPosition(int slotId, int roomId)`
+- `bool :IsRoomConnected(int room1, int room2)`
+- `int :PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances)`
+- `int :RoomCount()`
+
+### Fields
+- [`std::vector<Room*>`](#Room) `.rooms`
+- [`std::vector<Door*>`](#Door) `.doors`
+- `std::vector<int>` `.doorCounts`
+- [`Point`](#Point) `.center`
+- [`Pointf`](#Pointf) `.worldPosition`
+- `float` `.worldHeading`
+- [`Pointf`](#Pointf) `.lastWorldPosition`
+- `float` `.lastWorldHeading`
+- [`Globals::Rect`](#Globals) `.shipBox`
+- `std::string` `.shipName`
+
+## ShieldPower
+
+### Fields
+- `int` `.first`
+- `int` `.second`
+- `pair<int, int>` `.super`
+
+## Damage
+
+### Fields
+- `int` `.iDamage`
+- `int` `.iShieldPiercing`
+- `int` `.fireChance`
+- `int` `.breachChance`
+- `int` `.stunChance`
+- `int` `.iIonDamage`
+- `int` `.iSystemDamage`
+- `int` `.iPersDamage`
+- `bool` `.bHullBuster`
+- `int` `.ownerId`
+- `int` `.selfId`
+- `bool` `.bLockdown`
+- `bool` `.crystalShard`
+- `bool` `.bFriendlyFire`
+- `int` `.iStun`
+
+## Collideable
+
+### Methods
+- [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
+- `bool :DamageBeam(Pointf current, Pointf last, Damage damage)`
+- `bool :DamageArea(Pointf location, Damage damage, bool forceHit)`
+- `bool :DamageShield(Pointf location, Damage damage, bool forceHit)`
+- `bool :GetDodged()`
+- [`Pointf`](#Pointf) `:GetSuperShield()`
+- `void :SetTempVision(Pointf location)`
+- `int :GetSpaceId()`
+- `int :GetSelfId()`
+- `int :GetOwnerId()`
+- `bool :ValidTargetLocation(Pointf location)`
+
+## CollisionResponse
+
+### Fields
+- `int` `.collision_type`
+- [`Pointf`](#Pointf) `.point`
+- `int` `.damage`
+- `int` `.superDamage`
+
+## Projectile
+
+**Extends [Collideable](#Collideable)**
+
+### Methods
+- `void :SetWeaponAnimation(WeaponAnimation &animation)`
+- `void :OnRenderSpecific(int spaceId)`
+- `void :CollisionCheck(Collideable *other)`
+- `void :OnUpdate()`
+- [`Pointf`](#Pointf) `:GetWorldCenterPoint()`
+- [`Pointf`](#Pointf) `:GetRandomTargettingPoint(bool valuable)`
+- `void :ComputeHeading()`
+- `void :SetDestinationSpace(int space)`
+- `void :EnterDestinationSpace()`
+- `bool :Dead()`
+- `bool :ValidTarget()`
+- `void :Kill()`
+- [`Pointf`](#Pointf) `:GetSpeed()`
+- `void :SetDamage(Damage damage)`
+- `int :ForceRenderLayer()`
+- `void :SetSpin(float spin)`
+- `void :SaveProjectile(int fd)`
+- `void :LoadProjectile(int fd)`
+- `int :GetType()`
+- `void :SetMovingTarget(Targetable *target)`
+- [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
+- `void :Initialize(const WeaponBlueprint &bp)`
+- `static` [`Pointf`](#Pointf) `:RandomSidePoint(int side)`
+- `void :constructor(Pointf position, int ownerId, int targetId, Pointf target)`
+
+### Fields
+- [`Targetable`](#Targetable) `._targetable`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.last_position`
+- `float` `.speed_magnitude`
+- [`Pointf`](#Pointf) `.target`
+- `float` `.heading`
+- `int` `.ownerId`
+- `int` `.selfId`
+   - **read-only**
+- [`Damage`](#Damage) `.damage`
+- `float` `.lifespan`
+- `int` `.destinationSpace`
+- `int` `.currentSpace`
+- `int` `.targetId`
+- `bool` `.dead`
+- [`Animation`](#Animation) `.death_animation`
+- [`Animation`](#Animation) `.flight_animation`
+- [`Pointf`](#Pointf) `.speed`
+- `bool` `.missed`
+- `bool` `.hitTarget`
+- `std::string` `.hitSolidSound`
+- `std::string` `.hitShieldSound`
+- `std::string` `.missSound`
+- `float` `.entryAngle`
+- `bool` `.startedDeath`
+- `bool` `.passedTarget`
+- `bool` `.bBroadcastTarget`
+- [`AnimationTracker`](#AnimationTracker) `.flashTracker`
+- [`GL_Color`](#GL_Color) `.color`
+- [`Projectile_Extend`](#Projectile_Extend) `.extend`
+   - **read-only**
+
+## Projectile_Extend
+
+Accessed via `Projectile`'s `.extend` field 
+
+### Fields
+- [`Projectile*`](#Projectile) `.orig`
+- `std::string` `.name`
+- [`CustomDamage`](#CustomDamage) `.customDamage`
+- `std::vector<int>` `.missedDrones`
+
+## CustomDamage
+
+### Methods
+- `void :Clear()`
+
+### Fields
+- [`CustomDamageDefinition*`](#CustomDamageDefinition) `.def`
+- `int` `.sourceShipId`
+- `int` `.accuracyMod`
+- `int` `.droneAccuracyMod`
+
+## CustomDamageDefinition
+
+### Methods
+- `void :GiveId()`
+
+### Fields
+- `int` `.idx`
+   - **read-only**
+- `int` `.accuracyMod`
+- `int` `.droneAccuracyMod`
+- `bool` `.noSysDamage`
+- `bool` `.noPersDamage`
+- `bool` `.ionBeamFix`
+- `int` `.statBoostChance`
+- `int` `.roomStatBoostChance`
+- [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
+   - **read-only**
+- [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.roomStatBoosts`
+   - **read-only**
+- `int` `.erosionChance`
+- [`ErosionEffect`](#ErosionEffect) `.erosionEffect`
+- `int` `.crewSpawnChance`
+- [`std::vector<CrewSpawn*>`](#CrewSpawn) `.crewSpawns`
+   - **read-only**
+
+## LaserBlast
+
+**Extends [Collideable](#Collideable)**
+
+### Fields
+- [`Targetable*`](#Targetable) `.movingTarget`
+- `float` `.spinAngle`
+- `float` `.spinSpeed`
+
+## Asteroid
+
+**Extends [Projectile](#Projectile)**
+
+## Methods
+- `static` [`Asteroid*`](#Asteroid) `.Asteroid(Pointf pos, int destinationSpace)`
+
+### Fields
+- [`GL_Texture*`](#GL_Texture) `.imageId`
+- `float` `.angle`
+
+## Missile
+
+**Extends [Projectile](#Projectile)**
+
+## Methods
+- `static` [`Missile*`](#Missile) `.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)`
+
+## BombProjectile
+
+**Extends [Projectile](#Projectile)**
+
+## Methods
+- `static` [`BombProjectile*`](#BombProjectile) `.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)`
+
+### Fields
+- `bool` `.bMissed`
+- [`DamageMessage*`](#DamageMessage) `.missMessage`
+- `float` `.explosiveDelay`
+- `bool` `.bSuperShield`
+- `bool` `.superShieldBypass`
+
+## BeamWeapon
+
+**Extends [Projectile](#Projectile)**
+
+### Methods
+- [`BeamWeapon`](#BeamWeapon) `:BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float _heading = 0.0f)`
+
+### Fields
+- [`Pointf`](#Pointf) `.sub_end`
+- [`Pointf`](#Pointf) `.sub_start`
+- [`Pointf`](#Pointf) `.shield_end`
+- [`Pointf`](#Pointf) `.final_end`
+- [`Pointf`](#Pointf) `.target2`
+- [`Pointf`](#Pointf) `.target1`
+- `float` `.lifespan`
+- `float` `.length`
+- `float` `.dh`
+- [`CollisionResponse`](#CollisionResponse) `.last_collision`
+- `int` `.soundChannel`
+- [`vector<Animation>`](#Animation) `.contactAnimations`
+- `float` `.animationTimer`
+- `int` `.lastDamage`
+- [`Targetable*`](#Targetable) `.movingTarget`
+- `float` `.start_heading`
+- `float` `.timer`
+- [`WeaponAnimation*`](#WeaponAnimation) `.weapAnimation`
+- `bool` `.piercedShield`
+- `bool` `.oneSpace`
+- `bool` `.bDamageSuperShield`
+- `int` `.movingTargetId`
+- `bool` `.checkedCollision`
+- [`vector<Animation>`](Animation) `.smokeAnims`
+- [`Pointf`](#Pointf) `.lastSmokeAnim`
+
+## PDSFire
+
+**Extends [LaserBlast](#LaserBlast)**
+
+### Methods
+- [`PDSFire`](#PDSFire) `:PDSFire(Point pos, int destinationSpace, Pointf destination) : LaserBlast(Pointf(pos.x, pos.y), 0, destinationSpace, destination)`
+
+### Fields
+- [`Pointf`](#Pointf) `.startPoint`
+- `bool` `.passedTarget`
+- `float` `.currentScale`
+- `bool` `.missed`
+- [`Animation`](#Animation) `.explosionAnimation`
+
+## Drone
+
+### Methods
+- `void :OnInit()`
+- `void :OnLoop()`
+- `void :OnDestroy()`
+- `void :SetPowered(bool _powered)`
+- `void :SetInstantPowered()`
+- `bool :GetPowered()`
+- `void :SetCurrentShip(int shipId)`
+- `void :SetDeployed(bool _deployed)`
+- `void :SetDestroyed(bool dead, bool setTimer)`
+- `void :SetHacked(int level)`
+- `bool :GetDeployed()`
+- `bool :NeedsRoom()`
+- `void :SetSlot(int room, int slot)`
+- `bool :Destroyed()`
+- [`Point`](#Point) `:GetWorldLocation()`
+- `void :SetWorldLocation(Point point)`
+- [`Slot`](#Slot) `:*GetDroneSlot(Drone *drone)`
+- `int :GetDroneHealth()`
+- `int :GetRequiredPower()`
+- `void :RenderIcon()`
+- `std::string` `:*GetName(Drone *drone)`
+- `bool :CanBeDeployed()`
+- `bool :RecallOnJump()`
+- `bool :CanBeRecovered()`
+- `void :SaveState(int fh)`
+- `void :LoadState(int fh)`
+- `void :BlowUp(bool silent)`
+- `bool :GetStunned()`
+
+### Fields
+- `int` `.iShipId`
+- `int` `.selfId`
+   - **read-only**
+- `bool` `.powered`
+- `int` `.powerRequired`
+- `bool` `.deployed`
+- `int` `.type`
+- [`DroneBlueprint*`](#DroneBlueprint) `.blueprint`
+   - **read-only**
+- `bool` `.bDead`
+- `int` `.iBonusPower`
+- `bool` `.poweredAtLocation`
+- `float` `.destroyedTimer`
+- `int` `.iHackLevel`
+- `float` `.hackTime`
