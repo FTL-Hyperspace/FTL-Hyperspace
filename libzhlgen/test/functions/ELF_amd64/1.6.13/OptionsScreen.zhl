@@ -1,5 +1,7 @@
 "4883ec??8b05????????83f8??74??83f8??": // 5517264
 cleanup __amd64 void OptionsScreen::Close(OptionsScreen *this);
+".415455534889fb488d": // 5520208
+cleanup __amd64 void OptionsScreen::constructor(OptionsScreen *this);
 ".4157415641554154554889fdbf????????5389f3": // 5526128
 cleanup __amd64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
 ".41574156415549bdb76ddbb66ddbb66d4154554889fd": // 5535168
@@ -9,9 +11,18 @@ cleanup __amd64 void OptionsScreen::CheckSelection(OptionsScreen *this);
 ".415455534889fbbf????????488d": // 5538864
 cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
 ".41574156415541544189f4554889fd53": // 5540944
-cleanup __amd64 void OptionsScreen::KeyDown(OptionsScreen *this, SDLKey sym);
+cleanup __amd64 bool OptionsScreen::KeyDown(OptionsScreen *this, SDLKey sym);
 ".4155415455534889fb4883ec3880bf280c000000": // 5544608
 cleanup __amd64 void OptionsScreen::OnRender(OptionsScreen *this);
+".41554189d541544189f455534889fb4883ec??80": // 5546156
+cleanup __amd64 void OptionsScreen::MouseMove(OptionsScreen *this, int x, int y);
+".415455534889fb4883ec??80bf280c0000??0f85": // 5547568
+cleanup __amd64 void OptionsScreen::MouseClick(OptionsScreen *this, int x, int y);
+/* Not hooked for now because we can't make use of touch yet
+".415741564589ce41554589c541544189cc5589f5": // 5549232
+cleanup __amd64 void OptionsScreen::OnTouch(OptionsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+*/
+
 
 struct OptionsScreen {{
     struct Steam1613OptionsScreenStructAdditions {

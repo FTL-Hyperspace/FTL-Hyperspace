@@ -10,6 +10,10 @@ cleanup __amd64 void ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
 cleanup __amd64 int ChoiceBox::GetPotentialChoice(ChoiceBox *this);
 ".41574989ff41564155415455534881ec68020000":
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
+".415741564989ce41554989f5415455":
+cleanup __amd64 void ChoiceBox::SetChoices(ChoiceBox *this, std::string *mainText, std::vector<ChoiceText> *newChoices, std::vector<ChoiceText> *choicesSecond);
+
+
 struct ChoiceBox
 {{
     std::vector<ChoiceText*> GetChoices()

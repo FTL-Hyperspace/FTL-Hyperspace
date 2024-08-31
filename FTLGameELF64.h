@@ -3210,6 +3210,7 @@ struct ChoiceBox : FocusWindow
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SetChoices(std::string *mainText, std::vector<ChoiceText> *newChoices, std::vector<ChoiceText> *choicesSecond);
 	
 	GL_Texture *textBox;
 	WindowFrame *box;
@@ -3355,6 +3356,7 @@ struct ControlsScreen;
 
 struct ControlsScreen
 {
+	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
@@ -3374,6 +3376,7 @@ struct SlideBar;
 
 struct SlideBar
 {
+	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void OnRender();
 	
 	Globals::Rect box;
@@ -3394,11 +3397,14 @@ struct OptionsScreen : ChoiceBox
 
 	LIBZHL_API void CheckSelection();
 	LIBZHL_API void Close();
-	LIBZHL_API void KeyDown(SDLKey sym);
+	LIBZHL_API bool KeyDown(SDLKey sym);
+	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open(bool mainMenu);
+	LIBZHL_API void constructor();
 	
 	Point position;
 	Point wipeProfilePosition;
