@@ -153,8 +153,8 @@ All calls are under `Hyperspace`
 	
 ### Fields
 
-- `Point` `.position`
-- `Point` `.lastPosition`
+- [`Point`](#Point) `.position`
+- [`Point`](#Point) `.lastPosition`
 - `int` `.aiming_required`
 - `int` `.iTeleporting`
 - `int` `.iMindControlling`
@@ -163,22 +163,22 @@ All calls are under `Hyperspace`
 - `bool` `.newHover`
 - `bool` `.lastValid`
 - `int` `.animateDoor`
-- `GL_Texture*` `.validPointer`
-- `GL_Texture*` `.invalidPointer`
-- `GL_Texture*` `.selling`
+- [`GL_Texture*`](#GL_Texture) `.validPointer`
+- [`GL_Texture*`](#GL_Texture) `.invalidPointer`
+- [`GL_Texture*`](#GL_Texture) `.selling`
 - `Animation` `.openDoor`
 - `std::string` `.tooltip`
 - `float` `.tooltipTimer`
 - `bool` `.bMoving`
 - `bool` `.bHideMouse`
-- `GL_Texture*` `.lastIcon`
-- `GL_Texture*` `.lastAddition`
+- [`GL_Texture*`](#GL_Texture) `.lastIcon`
+- [`GL_Texture*`](#GL_Texture) `.lastAddition`
 - `bool` `.bForceTooltip`
 - `std::string` `.tooltipTitle`
 - `std::string` `.lastTooltipText`
 - `int` `.iHacking`
 - `int` `.overrideTooltipWidth`
-- `Point` `.staticTooltip`
+- [`Point`](#Point) `.staticTooltip`
 
 
 
@@ -473,7 +473,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `Pointf :GetWorldCenterPoint()`
 - `Pointf :GetRandomTargettingPoint(bool unk)`
 - `std::vector<Pointf> :GetAllTargettingPoints()`
-- [`Globals::Ellipse`](#Globals) `:GetShieldShape()`
+- [`Ellipse`](#Ellipse) `:GetShieldShape()`
 - `ShieldPower :GetShieldPower()`
 - `int :GetSpaceId()`
 - `Pointf :GetSpeed()`
@@ -484,7 +484,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool :GetIsDying()`
 - `bool :GetIsJumping()`
 - `bool :ValidTarget()`
-- [`Globals::Rect`](#Globals) `:GetShape()`
+- [`Rect`](#Rect) `:GetShape()`
 
 ### Fields
 - `int` `.type`
@@ -498,7 +498,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - **Read-only**
 - `int ` `.slotId`
    - **Read-only**
-- `Point` `.worldLocation`
+- [`Point`](#Point) `.worldLocation`
    - Field is **read-only** but fields under this object may still be mutable.
 
 ## Ship
@@ -514,7 +514,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 -  `bool :FullRoom(int roomId, bool intruder)`
    -  Returns true if the room cannot fit any more crew of the allegiance specifies by the `intruder` arg. If `intruder` is false, counts player crew when on the player ship, and enemy crew when on the enemy ship. If `intruder` is true, counts enemy crew when on the player ship, and player crew when on the enemy ship.
 -  `int :GetAvailableRoomSlot(int roomId, bool intruder)`
--  [`Globals::Ellipse`](#Globals) `:GetBaseEllipse()`
+-  [`Ellipse`](#Ellipse) `:GetBaseEllipse()`
    -  Return `baseEllipse` member by value.
 - `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
@@ -538,28 +538,28 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 -  `std::pair<int, int>` `.hullIntegrity`
 -  `std::vector<WeaponMount>` `.weaponMounts`
 -  `std::string` `.floorImageName`
--  `ImageDesc ` `.shipFloor`
--  `GL_Primitive*` `.floorPrimitive`
+-  [`ImageDesc`](#ImageDesc) `.shipFloor`
+-  [`GL_Primitive*`](#GL_Primitive) `.floorPrimitive`
 -  `std::string` `.shipImageName`
--  `ImageDesc` `.shipImage`
--  `Point` `.glowOffset`
--  `GL_Primitive*` `.shipImagePrimitive`
+-  [`ImageDesc`](#ImageDesc) `.shipImage`
+-  [`Point`](#Point) `.glowOffset`
+-  [`GL_Primitive*`](#GL_Primitive) `.shipImagePrimitive`
 -  `std::string` `.cloakImageName`
--  `ImageDesc` `.shipImageCloak`
--  `GL_Primitive*` `.cloakPrimitive`
--  `GL_Primitive*` `.gridPrimitive`
--  `GL_Primitive*` `.wallsPrimitive`
--  `GL_Primitive*` `.doorsPrimitive`
+-  [`ImageDesc`](#ImageDesc) `.shipImageCloak`
+-  [`GL_Primitive*`](#GL_Primitive) `.cloakPrimitive`
+-  [`GL_Primitive*`](#GL_Primitive) `.gridPrimitive`
+-  [`GL_Primitive*`](#GL_Primitive) `.wallsPrimitive`
+-  [`GL_Primitive*`](#GL_Primitive) `.doorsPrimitive`
 -  `std::vector<DoorState>` `.doorState`
 -  `bool` `.lastDoorControlMode`
--  `GL_Texture*` `.thrustersImage`
--  `GL_Texture*` `.jumpGlare`
+-  [`GL_Texture*`](#GL_Texture) `.thrustersImage`
+-  [`GL_Texture*`](#GL_Texture) `.jumpGlare`
 -  `int` `.vertical_shift`
 -  `int` `.horizontal_shift`
 -  `std::string` `.shipName`
 -  `~~ExplosionAnimation` `.explosion`~~
 -  `bool` `.bDestroyed`
--  [`Globals::Ellipse`](#Globals) `.baseEllipse`
+-  [`Ellipse`](#Ellipse) `.baseEllipse`
 -  `Animation[2]` `.engineAnim`
 -  `AnimationTracker` `.cloakingTracker`
 -  `bool` `.bCloaked`
@@ -653,9 +653,9 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 ### Fields
 
 - ~~`int` `.selectedState`~~
-- `ShipObject` `._shipObj`
+- [`ShipObject`](#ShipObject) `._shipObj`
 - `float` `.fDamage`
-- `Point` `.pLoc`
+- [`Point`](#Point) `.pLoc`
 - `float` `.fMaxDamage`
 - `string` `.name`
 - `int` `.roomId`
@@ -694,14 +694,14 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bOccupied`
 - `bool` `.bFriendlies`
 - `string` `.interiorImageName`
-- `GL_Primitive*` `.interiorImage`
-- `GL_Primitive*` `.interiorImageOn`
-- `GL_Primitive*` `.interiorImageManned`
-- `GL_Primitive*` `.interiorImageMannedFancy`
+- [`GL_Primitive*`](#GL_Primitive) `.interiorImage`
+- [`GL_Primitive*`](#GL_Primitive) `.interiorImageOn`
+- [`GL_Primitive*`](#GL_Primitive) `.interiorImageManned`
+- [`GL_Primitive*`](#GL_Primitive) `.interiorImageMannedFancy`
 - `int` `.lastUserPower`
 - `int` `.iBonusPower`
 - `int` `.iLastBonusPower`
-- `Pointf` `.location`
+- [`Pointf`](#Pointf) `.location`
 - `int` `.bpCost`
 - [`AnimationTracker`](#animationtracker) `.flashTracker`
 - `int` `.maxLevel`
@@ -712,7 +712,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bTriggerIon`
 - ~~`std::vector<Animation>` `.damagingEffects`~~
 - `int` `.computerLevel`
-- `ShipSystem_Extend` `.extend`
+- [`ShipSystem_Extend`](#ShipSystem_Extend) `.extend`
   - **Since 1.4.0**
 - LUA table `.table`
   - **Since 1.4.0**
@@ -907,9 +907,9 @@ No additional items over base `ShipSystem`
 - [`CrewMember*`](#crewmember) `.clone`
 - `float` `.fTimeGoal`
 - `float` `.fDeathTime`
-- `GL_Texture*` `.bottom`
-- `GL_Texture*` `.top`
-- `GL_Texture*` `.gas`
+- [`GL_Texture*`](#GL_Texture) `.bottom`
+- [`GL_Texture*`](#GL_Texture) `.top`
+- [`GL_Texture*`](#GL_Texture) `.gas`
 - `int` `.slot`
 
 ## DroneSystem
@@ -917,9 +917,9 @@ No additional items over base `ShipSystem`
 **Extends [`ShipSystem`](#shipsystem)**
 
 ### Methods
-- `bool` `:DePowerDrone(Drone* drone, bool unknown)`
-- `void` `:RemoveDrone(int slot)`
-- `void` `:SetBonusPower(int amount, int permanentPower)`
+- `bool :DePowerDrone(Drone* drone, bool unknown)`
+- `void :RemoveDrone(int slot)`
+- `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
 - [`Drone*[]`](#drone) `.drones`
@@ -1006,7 +1006,7 @@ No additional items over base `ShipSystem`
 - `void SetCurrentLocation(Pointf pos)`
 - `void MouseMove(int mX, int mY)`
 - `Pointf GetRandomTargettingPoint(bool unk)`
-- [`Globals::Ellipse`](#Globals) `*GetShieldShape(SpaceDrone *drone)`
+- [`Ellipse`](#Ellipse) `*GetShieldShape(SpaceDrone *drone)`
 - `int GetSpaceId()`
 - `Pointf GetSpeed()`
 - `int GetOwnerId()`
@@ -1023,16 +1023,16 @@ No additional items over base `ShipSystem`
 - `Collideable` `._collideable`
 - `int` `.currentSpace`
 - `int` `.destinationSpace`
-- `Pointf` `.currentLocation`
-- `Pointf` `.lastLocation`
-- `Pointf` `.destinationLocation`
-- `Pointf` `.pointTarget`
+- [`Pointf`](#Pointf) `.currentLocation`
+- [`Pointf`](#Pointf) `.lastLocation`
+- [`Pointf`](#Pointf) `.destinationLocation`
+- [`Pointf`](#Pointf) `.pointTarget`
 - `Animation` `.explosion`
 - [`Targetable`](#targetable) `.*weaponTarget`
-- `Pointf` `.targetLocation`
-- `Pointf` `.targetSpeed`
+- [`Pointf`](#Pointf) `.targetLocation`
+- [`Pointf`](#Pointf) `.targetSpeed`
 - [`Targetable`](#targetable) `.*movementTarget`
-- `Pointf` `.speedVector`
+- [`Pointf`](#Pointf) `.speedVector`
 - `bool` `.poweredLastFrame`
 - `bool` `.deployedLastFrame`
 - `bool` `.bFire`
@@ -1052,10 +1052,102 @@ No additional items over base `ShipSystem`
 - `bool` `.bDisrupted`
 - `float` `.hackAngle`
 - `float` `.ionStun`
-- `Pointf` `.beamCurrentTarget`
-- `Pointf` `.beamFinalTarget`
+- [`Pointf`](#Pointf) `.beamCurrentTarget`
+- [`Pointf`](#Pointf) `.beamFinalTarget`
 - `float` `.beamSpeed`
 - `Animation` `.hackSparks`
+
+## DefenseDrone
+
+**Extends [`SpaceDrone`](#SpaceDrone)**
+
+### Methods
+- `std::string :GetTooltip()`
+- `void :PickTarget()`
+- `void :SetWeaponTarget(Targetable *target)`
+- `bool :ValidTargetObject(Targetable *target)`
+
+### Fields
+- `int` `.currentTargetId`
+- `int` `.shotAtTargetId`
+- `float` `.currentSpeed`
+- [`CachedImage`](#CachedImage) `.drone_image`
+- [`CachedImage`](#CachedImage) `.gun_image_off`
+- [`CachedImage`](#CachedImage) `.gun_image_charging`
+- [`CachedImage`](#CachedImage) `.gun_image_on`
+- [`CachedImage`](#CachedImage) `.engine_image`
+- `int` `.currentTargetType`
+
+## CombatDrone
+
+**Extends [`SpaceDrone`](#SpaceDrone)**
+
+### Methods
+- `void :SetWeaponTarget(Targetable *target)`
+
+### Fields
+- [`Pointf`](#Pointf) `.lastDestination`
+- `float` `.progressToDestination`
+- `float` `.heading`
+- `float` `.oldHeading`
+- [`CachedImage`](#CachedImage) `.drone_image_off`
+- [`CachedImage`](#CachedImage) `.drone_image_charging`
+- [`CachedImage`](#CachedImage) `.drone_image_on`
+- [`CachedImage`](#CachedImage) `.engine_image`
+
+## BoarderPodDrone
+
+**Extends [`SpaceDrone`](#SpaceDrone)**
+
+### Methods
+- `bool :CanBeDeployed()`
+- [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
+- `void :SetDeployed(bool _deployed)`
+- `void :SetMovementTarget(Targetable *target)`
+
+### Fields
+- [`GL_Texture*`](#GL_Texture) `.baseSheet`
+- [`GL_Texture*`](#GL_Texture) `.colorSheet`
+- [`Pointf`](#Pointf) `.startingPosition`
+- [`Animation`](#Animation) `.droneImage`
+- [`CachedImage`](#CachedImage) `.flame`
+- [`BoarderDrone*`](#BoarderDrone) `.boarderDrone`
+- `bool` `.bDeliveredDrone`
+- `bool` `.diedInSpace`
+
+## HackingDrone
+
+**Extends [`SpaceDrone`](#SpaceDrone)**
+
+### Methods
+- [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
+- `void :OnLoop()`
+- `void :SetMovementTarget(Targetable *target)`
+
+### Fields
+- [`Pointf`](#Pointf) `.startingPosition`
+- [`GL_Texture*`](#GL_Texture) `.droneImage_on`
+- [`GL_Texture*`](#GL_Texture) `.droneImage_off`
+- [`GL_Texture*`](#GL_Texture) `.lightImage`
+- [`Pointf`](#Pointf) `.finalDestination`
+- `bool` `.arrived`
+- `bool` `.finishedSetup`
+- [`AnimationTracker`](#AnimationTracker) `.flashTracker`
+- [`Animation`](#Animation) `.flying`
+- [`Animation`](#Animation) `.extending`
+- [`Animation`](#Animation) `.explosion`
+- `int` `.prefRoom`
+
+## SuperShieldDrone
+
+**Extends [`DefenseDrone`](#DefenseDrone)**
+
+### Fields
+- [`Shields*`](#Shields) `.shieldSystem`
+- [`CachedImage`](#CachedImage) `.drone_image_on`
+- [`CachedImage`](#CachedImage) `.drone_image_off`
+- [`CachedImage`](#CachedImage) `.drone_image_glow`
+- `float` `.glowAnimation`
 
 ## DroneBlueprint
 
@@ -1325,7 +1417,7 @@ end
 - `bool :CanMan()`
 - `bool :CanTeleport()`
 - `bool :CanHeal()`
-- [`string`](#string) `:GetUniqueRepairing()`
+- `std::string :GetUniqueRepairing()`
 - [`Damage`](#Damage) `:GetRoomDamage()`
 - `void :UpdateRepair()`
 - `bool :AtFinalGoal()`
@@ -1350,9 +1442,9 @@ end
 - [`Point`](#Point) `:GetFinalGoal()`
 - `int :GetIntegerHealth()`
 - [`Point`](#Point) `:GetLocation()`
-- [`string`](#string) `:GetLongName()`
+- `std::string :GetLongName()`
 - `float :GetMoveSpeed()`
-- [`string`](#string) `:GetName()`
+- `std::string :GetName()`
 - `bool :GetNewGoal()`
 - [`Point`](#Point) `:GetNextGoal()`
 - `int :GetRepairingId()`
@@ -1362,8 +1454,8 @@ end
 - `int :GetSkillLevel(int skillId)`
 - `float :GetSkillModifier(int skillId)`
 - [`int>`](#int>) `:GetSkillProgress(int skillId)`
-- [`string`](#string) `:GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
-- [`string`](#string) `:GetTooltip()`
+- `std::string :GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
+- `std::string :GetTooltip()`
 - `void :IncreaseSkill(int skillId)`
 - `void :InitializeSkills()`
 - `bool :IsBusy()`
@@ -1481,7 +1573,7 @@ end
 - [`AnimationTracker`](#AnimationTracker) `.levelUp`
 - `int` `.lastLevelUp`
 - [`SCrewStats`](#SCrewStats) `.stats`
-- [`std::vector<bool>>`](#vector<bool>>) `.skillsEarned`
+- `std::vector<bool>>` `.skillsEarned`
 - `bool` `.clone_ready`
 - `bool` `.bMindControlled`
 - `int` `.iDeathNumber`
@@ -1563,8 +1655,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `void :UpdateShooting()`
 - `bool :FireShot()`
 - `int :GetFiringFrame()`
-- [`string`](#string) `:GetShootingSound()`
-- [`string`](#string) `:GetDeathSound()`
+- `std::string :GetShootingSound()`
+- `std::string :GetDeathSound()`
 - `void :Restart()`
 - `bool :CustomDeath()`
 - `void :OnInit(const std::string &name, Pointf position, bool enemy)`
@@ -1600,7 +1692,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.currentShip`
 - `bool` `.bMale`
 - `bool` `.colorblind`
-- [`vector<GL_Color>`](#vector<GL_Color>) `.layerColors`
+- [`std::vector<GL_Color>`](#GL_Color) `.layerColors`
 - `int` `.forcedAnimation`
 - `int` `.forcedDirection`
 - [`GL_Color`](#GL_Color) `.projectileColor`
@@ -1695,6 +1787,372 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.changeIfSame`
 - `SkillsDefinition` `.skillsDef`
 
+## ActivatedPower
+
+### Methods
+- [`PowerReadyState`](#PowerReadyState) `:PowerReq(const ActivatedPowerRequirements *req)`
+- [`PowerReadyState`](#PowerReadyState) `:PowerReady()`
+- [`Damage`](#Damage) `:GetPowerDamage()`
+- `void :ActivateTemporaryPower()`
+- `void :TemporaryPowerFinished()`
+- `void :PrepareAnimation()`
+- `void :PrepareTemporaryAnimation()`
+- `void :PreparePower()`
+- `void :ActivatePower()`
+- `void :CancelPower(bool clearAnim)`
+- `void :OnUpdate()`
+- `void :ChangePowerDef(ActivatedPowerDefinition *newDef)`
+- `void :EnablePower()`
+- `void :DisablePower()`
+- `void :EnableInit()`
+- `int :GetCrewBoxResourceWidth(int mode)`
+
+### Fields
+- [`ActivatedPowerDefinition*`](#ActivatedPowerDefinition) `.def`
+   - **read-only**
+- [`CrewMember*`](#CrewMember) `.crew`
+   - **read-only**
+- [`CrewMember_Extend*`](#CrewMember_Extend) `.crew_ex`
+   - **read-only**
+- `bool` `.enabled`
+- `float` `.modifiedPowerCharges`
+- `float` `.modifiedChargesPerJump`
+- `pair<float, float>` `.powerCooldown`
+- `pair<float, float>` `.temporaryPowerDuration`
+- `pair<int, int>` `.powerCharges`
+- [`std::vector<ActivatedPowerResource*>`](#ActivatedPowerResource) `.powerResources`
+- `int` `.powerRoom`
+- `int` `.powerShip`
+- `bool` `.powerActivated`
+- `bool` `.temporaryPowerActive`
+- `bool` `.powerDone`
+- `bool` `.temporaryPowerDone`
+- [`unique_ptr<Animation>`](#Animation) `.effectAnim`
+- [`unique_ptr<Animation>`](#Animation) `.tempEffectAnim`
+- [`unique_ptr<Animation>`](#Animation) `.effectFinishAnim`
+- [`std::vector<Animation>`](#Animation) `.extraAnims`
+- [`Pointf`](#Pointf) `.effectPos`
+- [`Pointf`](#Pointf) `.effectWorldPos`
+
+## ActivatedPowerResource
+
+### Methods
+- `void :GetLinkedPowers()`
+- [`PowerReadyState`](#PowerReadyState) `:PowerReq(const ActivatedPowerRequirements *req)`
+- `void :OnUpdate()`
+- `void :EnablePower()`
+- `void :DisablePower()`
+- `void :EnableInit()`
+- `int :GetCrewBoxResourceWidth(int mode)`
+
+### Fields
+- [`PowerResourceDefinition*`](#PowerResourceDefinition) `.def`
+   - **read-only**
+- [`CrewMember*`](#CrewMember) `.crew`
+   - **read-only**
+- [`CrewMember_Extend*`](#CrewMember_Extend) `.crew_ex`
+   - **read-only**
+- `bool` `.lastEnabled`
+- `float` `.modifiedPowerCharges`
+- `float` `.modifiedChargesPerJump`
+- `pair<float, float>` `.powerCooldown`
+- `pair<int, int>``.powerCharges`
+
+## ActivatedPowerDefinition
+
+### Enums
+
+#### JUMP_COOLDOWN
+- `.JUMP_COOLDOWN_FULL`
+- `.JUMP_COOLDOWN_RESET`
+- `.JUMP_COOLDOWN_CONTINUE`
+
+#### DISABLED_COOLDOWN
+- `.DISABLED_COOLDOWN_FULL`
+- `.DISABLED_COOLDOWN_RESET`
+- `.DISABLED_COOLDOWN_CONTINUE`
+- `.DISABLED_COOLDOWN_PAUSE`
+- `.DISABLED_COOLDOWN_ZERO`
+
+#### ON_DEATH
+- `.ON_DEATH_CONTINUE`
+- `.ON_DEATH_CANCEL`
+- `.ON_DEATH_RESET`
+
+#### HOTKEY_SETTING
+- `.HOTKEY_FIRST`
+- `.HOTKEY_ALWAYS`
+- `.HOTKEY_NEVER`
+
+### Methods
+- `void :AssignIndex()`
+- `void :AssignName(std::string &_name)`
+- `void :AssignActivateGroup(std::string &_name)`
+- `void :AssignReplaceGroup(std::string &_name)`
+- `void :AssignGroup(std::string &_name)`
+- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string &_name)`
+- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string &_name, ActivatedPowerDefinition* copyDef)`
+
+### Fields
+- `std::string` `.name`
+   - **read-only**
+- `int` `.activateGroupIndex`
+   - **read-only**
+- `int` `.replaceGroupIndex`
+   - **read-only**
+- `int` `.sortOrder`
+- [`Damage`](#Damage) `.damage`
+- `float` `.cooldown`
+- `bool` `.shipFriendlyFire`
+- `bool` `.hasSpecialPower`
+- `bool` `.hasTemporaryPower`
+- `int` `.jumpCooldown`
+- `int` `.disabledCooldown`
+- `float` `.initialCooldownFraction`
+- `int` `.onDeath`
+- `int` `.onHotkey`
+- `int` `.powerCharges`
+- `int` `.initialCharges`
+- `int` `.chargesPerJump`
+- `int` `.respawnCharges`
+- `int` `.disabledCharges`
+- `bool` `.hideCooldown`
+- `bool` `.hideCharges`
+- `bool` `.hideButton`
+- [`std::vector<PowerResourceDefinition*>`](#PowerResourceDefinition) `.powerResources`
+- `std::vector<std::string>` `.sounds`
+- `std::vector<std::string>` `.effectSounds`
+- `bool` `.soundsEnemy`
+- `bool` `.effectSoundsEnemy`
+- [`TextString`](#TextString) `.buttonLabel`
+- [`GL_Color`](#GL_Color) `.cooldownColor`
+- [`TextString`](#TextString) `.tooltip`
+- `std::string` `.effectAnim`
+- `std::string` `.effectPostAnim`
+- [`ActivatedPowerRequirements`](#ActivatedPowerRequirements) `.playerReq`
+- [`ActivatedPowerRequirements`](#ActivatedPowerRequirements) `.enemyReq`
+- [`ActivatedPowerRequirements*`](#ActivatedPowerRequirements) `.chargeReq`
+- `bool` `.win`
+- `float` `.crewHealth`
+- `float` `.enemyHealth`
+- `float` `.selfHealth`
+- `int` `.animFrame`
+- `bool` `.followCrew`
+- `bool` `.activateWhenReady`
+- `bool` `.activateReadyEnemies`
+- `std::string` `.transformRace`
+- [`std::vector<CrewSpawn*>`](#CrewSpawn) `.crewSpawns`
+- [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
+- [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.roomStatBoosts`
+- `std::array<std::string,2>` `.event`
+- [`TemporaryPowerDefinition`](#TemporaryPowerDefinition) `.tempPower`
+
+## PowerResourceDefinition
+
+### Enums
+
+#### JUMP_COOLDOWN
+- `.JUMP_COOLDOWN_FULL`
+- `.JUMP_COOLDOWN_RESET`
+- `.JUMP_COOLDOWN_CONTINUE`
+
+#### DISABLED_COOLDOWN
+- `.DISABLED_COOLDOWN_FULL`
+- `.DISABLED_COOLDOWN_RESET`
+- `.DISABLED_COOLDOWN_CONTINUE`
+- `.DISABLED_COOLDOWN_PAUSE`
+- `.DISABLED_COOLDOWN_ZERO`
+
+#### ON_DEATH
+- `.ON_DEATH_CONTINUE`
+- `.ON_DEATH_CANCEL`
+- `.ON_DEATH_RESET`
+
+### Methods
+- `void :AssignIndex()`
+- `void :AssignName(std::string &_name)`
+- `void :AssignGroup(std::string &_name)`
+- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string &_name)`
+- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string &_name, PowerResourceDefinition* copyDef);`
+
+### Fields
+- `std::string` `.name`
+   - **read-only**
+- `int` `.groupIndex`
+   - **read-only**
+- `int` `.sortOrder`
+- `float` `.cooldown`
+- `int` `.jumpCooldown`
+- `int` `.disabledCooldown`
+- `float` `.initialCooldownFraction`
+- `int` `.onDeath`
+- `int` `.powerCharges`
+- `int` `.initialCharges`
+- `int` `.chargesPerJump`
+- `int` `.respawnCharges`
+- `int` `.disabledCharges`
+- `bool` `.hideCooldown`
+- `bool` `.hideCharges`
+- `bool` `.showTemporaryBars`
+- `bool` `.showLinkedCooldowns`
+- `bool` `.showLinkedCharges`
+- [`GL_Color`](#GL_Color) `.cooldownColor`
+- [`ActivatedPowerRequirements*`](#ActivatedPowerRequirements) `.chargeReq`
+
+## ActivatedPowerRequirements
+
+### Enums
+
+#### Type
+- `.PLAYER`
+- `.ENEMY`
+- `.CHARGE`
+- `.UNKNOWN`
+
+### Fields
+- [`Type`](#Type) `.type`
+- `bool` `.playerShip`
+- `bool` `.enemyShip`
+- `bool` `.checkRoomCrew`
+- `bool` `.enemyInRoom`
+- `bool` `.friendlyInRoom`
+- `std::vector<std::string>` `.whiteList`
+- `std::vector<std::string>` `.friendlyWhiteList`
+- `std::vector<std::string>` `.friendlyBlackList`
+- `std::vector<std::string>` `.enemyWhiteList`
+- `std::vector<std::string>` `.enemyBlackList`
+- `bool` `.systemInRoom`
+- `bool` `.systemDamaged`
+- `bool` `.hasClonebay`
+- `bool` `.aiDisabled`
+- `bool` `.outOfCombat`
+- `bool` `.inCombat`
+- `int` `.requiredSystem`
+- `bool` `.requiredSystemFunctional`
+- `ToggleValue<int>` `.minHealth`
+- `ToggleValue<int>` `.maxHealth`
+- `std::vector<std::pair<CrewExtraCondition,bool>>` `.extraConditions`
+- `std::vector<std::pair<CrewExtraCondition,bool>>` `.extraOrConditions`
+- [`TextString`](#TextString) `.extraOrConditionsTooltip`
+
+## PowerReadyState
+
+### Enums
+- `.POWER_NOT_READY_COOLDOWN`
+- `.POWER_READY`
+- `.POWER_NOT_READY_ACTIVATED`
+- `.POWER_NOT_READY_ENEMY_SHIP`
+- `.POWER_NOT_READY_PLAYER_SHIP`
+- `.POWER_NOT_READY_ENEMY_IN_ROOM`
+- `.POWER_NOT_READY_FRIENDLY_IN_ROOM`
+- `.POWER_NOT_READY_WHITELIST`
+- `.POWER_NOT_READY_ENEMY_WHITELIST`
+- `.POWER_NOT_READY_FRIENDLY_WHITELIST`
+- `.POWER_NOT_READY_ENEMY_BLACKLIST`
+- `.POWER_NOT_READY_FRIENDLY_BLACKLIST`
+- `.POWER_NOT_READY_SYSTEM_IN_ROOM`
+- `.POWER_NOT_READY_HAS_CLONEBAY`
+- `.POWER_NOT_READY_AI_DISABLED`
+- `.POWER_NOT_READY_OUT_OF_COMBAT`
+- `.POWER_NOT_READY_IN_COMBAT`
+- `.POWER_NOT_READY_SYSTEM`
+- `.POWER_NOT_READY_SYSTEM_FUNCTIONAL`
+- `.POWER_NOT_READY_MIN_HEALTH`
+- `.POWER_NOT_READY_MAX_HEALTH`
+- `.POWER_NOT_READY_SYSTEM_DAMAGED`
+- `.POWER_NOT_READY_CHARGES`
+- `.POWER_NOT_READY_SILENCED`
+- `.POWER_NOT_READY_EXTRACONDITION_OR`
+- `.POWER_NOT_READY_EXTRACONDITION_TRUE`
+- `.POWER_NOT_READY_EXTRACONDITION_FALSE`
+- `.POWER_NOT_READY_CUSTOM`
+
+## CrewExtraCondition
+
+### Enums
+- `.BURNING`
+- `.SUFFOCATING`
+- `.MIND_CONTROLLED`
+- `.STUNNED`
+- `.REPAIRING`
+- `.REPAIRING_SYSTEM`
+- `.REPAIRING_BREACH`
+- `.FIGHTING`
+- `.SABOTAGING`
+- `.SHOOTING`
+- `.MOVING`
+- `.IDLE`
+- `.MANNING`
+- `.FIREFIGHTING`
+- `.DYING`
+- `.TELEPORTING`
+
+## TemporaryPowerDefinition
+
+### Methods
+
+### Fields
+- `float` `.duration`
+- `std::string` `.effectAnim`
+- `std::string` `.effectFinishAnim`
+- `std::string` `.animSheet`
+- `bool` `.baseVisible`
+- `bool` `.soundsEnemy`
+- `std::vector<std::string>` `.sounds`
+- `ToggleValue<int>` `.maxHealth`
+- `ToggleValue<float>` `.stunMultiplier`
+- `ToggleValue<float>` `.moveSpeedMultiplier`
+- `ToggleValue<float>` `.damageMultiplier`
+- `ToggleValue<float>` `.rangedDamageMultiplier`
+- `ToggleValue<float>` `.doorDamageMultiplier`
+- `ToggleValue<float>` `.repairSpeed`
+- `ToggleValue<float>` `.fireRepairMultiplier`
+- `ToggleValue<bool>` `.controllable`
+- `ToggleValue<bool>` `.canFight`
+- `ToggleValue<bool>` `.canRepair`
+- `ToggleValue<bool>` `.canSabotage`
+- `ToggleValue<bool>` `.canMan`
+- `ToggleValue<bool>` `.canTeleport`
+- `ToggleValue<bool>` `.canSuffocate`
+- `ToggleValue<bool>` `.canBurn`
+- `ToggleValue<float>` `.oxygenChangeSpeed`
+- `ToggleValue<bool>` `.canPhaseThroughDoors`
+- `ToggleValue<float>` `.fireDamageMultiplier`
+- `ToggleValue<bool>` `.isTelepathic`
+- `ToggleValue<bool>` `.resistsMindControl`
+- `ToggleValue<bool>` `.isAnaerobic`
+- `ToggleValue<bool>` `.detectsLifeforms`
+- `ToggleValue<float>` `.damageTakenMultiplier`
+- `ToggleValue<float>` `.cloneSpeedMultiplier`
+- `ToggleValue<float>` `.passiveHealAmount`
+- `ToggleValue<float>` `.truePassiveHealAmount`
+- `ToggleValue<float>` `.healAmount`
+- `ToggleValue<float>` `.trueHealAmount`
+- `ToggleValue<int>` `.passiveHealDelay`
+- `ToggleValue<float>` `.sabotageSpeedMultiplier`
+- `ToggleValue<float>` `.allDamageTakenMultiplier`
+- `ToggleValue<float>` `.healSpeed`
+- `ToggleValue<float>` `.suffocationModifier`
+- `ToggleValue<float>` `.healCrewAmount`
+- `ToggleValue<int>` `.powerDrain`
+- `ToggleValue<bool>` `.powerDrainFriendly`
+- `ToggleValue<int>` `.bonusPower`
+- `ToggleValue<float>` `.damageEnemiesAmount`
+- `ToggleValue<bool>` `.hackDoors`
+- `ToggleValue<float>` `.powerRechargeMultiplier`
+- `ToggleValue<bool>` `.noClone`
+- `ToggleValue<bool>` `.noAI`
+- `ToggleValue<bool>` `.validTarget`
+- `ToggleValue<bool>` `.canMove`
+- `ToggleValue<bool>` `.teleportMove`
+- `ToggleValue<bool>` `.teleportMoveOtherShip`
+- `ToggleValue<bool>` `.silenced`
+- `ToggleValue<float>` `.lowHealthThreshold`
+- [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
+- `bool` `.invulnerable`
+- `int` `.animFrame`
+- [`GL_Color`](#GL_Color) `.cooldownColor`
+
 ## GenericButton
 
 ### Methods
@@ -1713,7 +2171,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 
-- `Point` `.position`
+- [`Point`](#Point) `.position`
    - Field is **read-only** but fields under this object may still be mutable.
 - [`Globals::Rect`](#Globals) `.hitbox` 
    - Field is **read-only** but fields under this object may still be mutable.
@@ -1745,7 +2203,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `GL_Texture*[3]` `.images`
 - `GL_Primitive*[3]` `.primitives`
-- `Point` `.imageSize`
+- [`Point`](#Point) `.imageSize`
 - `bool` `.bMirror`
 
 ## EffectsBlueprint
@@ -1769,8 +2227,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - ~~`StarMap` `.starMap`~~
    - Access via `WorldManager` instead.
 - ~~`ShipComplete` `.shipComplete`~~
-- `Point` `.pauseTextLoc`
-- `Point` `.shipPosition`
+- [`Point`](#Point) `.pauseTextLoc`
+- [`Point`](#Point) `.shipPosition`
 - ~~`string` `.locationText`~~
 - ~~`string` `.loadEvent`~~
 - ~~`int` `.loadSector`~~
@@ -1817,8 +2275,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 - [`WeaponControl`](#WeaponControl) `weapControl`
-- `Point` `.position`
-- `Point` `.targetPosition`
+- [`Point`](#Point) `.position`
+- [`Point`](#Point) `.targetPosition`
 - `bool` `.boss_visual`
    - **Read-only**
 
@@ -1902,7 +2360,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.gap_size`
 - `float` `.openTime`
 - [`GL_Color`](#GL_Color) `.currentTextColor`
-- `Pointf` `.lastChoice`
+- [`Pointf`](#Pointf) `.lastChoice`
 
 ## ChoiceText
 
@@ -1983,7 +2441,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 
-- `Pointf` `.loc`
+- [`Pointf`](#Pointf) `.loc`
 - [`std::vector<Location>`](#Location) `.connectedLocations`
 - `bool` `.beacon`
 - `bool` `.known`
@@ -1994,8 +2452,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.boss`
    - Final boss event overrides the beacon, no visual indication.
 - [`LocationEvent`](#LocationEvent) `.event`
-- `ImageDesc` `.planet`
-- `ImageDesc` `.space`
+- [`ImageDesc`](#ImageDesc) `.planet`
+- [`ImageDesc`](#ImageDesc) `.space`
 - `bool` `.fleetChanging`
 - `std::string` `.planetImage`
 - `std::string` `.spaceImage`
@@ -2054,7 +2512,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`Pointf`](#Pointf) `:GetNextPoint(Pointf current, float mag_speed, Pointf dest)`
 - `int :GetNextSpaceId()`
 
-## Globals::Ellipse
+## Ellipse
 
 **Internal struct of [`Globals`](#Globals)**
 
@@ -2063,7 +2521,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `float` `.a`
 - `float` `.b`
 
-## Globals::Rect
+## Rect
 
 **Internal struct of [`Globals`](#Globals)**
 
@@ -2383,7 +2841,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`DroneBlueprint`](#DroneBlueprint) `:*GetDroneBlueprint(const std::string &name)`
 - [`ShipBlueprint`](#ShipBlueprint) `:*GetShipBlueprint(const std::string &name, int sector)`
 - [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(const std::string &name)`
-- `std::vector<std::string>` `:GetBlueprintList(const std::string &name)`
+- `std::vector<std::string> :GetBlueprintList(const std::string &name)`
 
 ## WeaponBlueprint
 
@@ -2412,7 +2870,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`TextString`](#TextString) `.flavorType`
 - [`GL_Color`](#GL_Color) `.color`
 
-## WeaponBlueprint::BoostPower
+## BoostPower
 
 **Internal struct of [`WeaponBlueprint`](#WeaponBlueprint)**
 
@@ -2422,7 +2880,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `float` `.amount`
 - `int` `.count`
 
-## WeaponBlueprint::MiniProjectile
+## MiniProjectile
 
 **Internal struct of [`WeaponBlueprint`](#WeaponBlueprint)**
 
@@ -2470,7 +2928,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.minSector`
 - [`TextString`](#TextString) `.unlock`
 
-## ShipBlueprint::SystemTemplate
+## SystemTemplate
 
 **Internal struct of [`ShipBlueprint`](#ShipBlueprint)**
 
@@ -2591,7 +3049,7 @@ Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `float` `.worldHeading`
 - [`Pointf`](#Pointf) `.lastWorldPosition`
 - `float` `.lastWorldHeading`
-- [`Globals::Rect`](#Globals) `.shipBox`
+- [`Rect`](#Rect) `.shipBox`
 - `std::string` `.shipName`
 
 ## ShieldPower
@@ -2812,7 +3270,7 @@ Accessed via `Projectile`'s `.extend` field
 - `float` `.dh`
 - [`CollisionResponse`](#CollisionResponse) `.last_collision`
 - `int` `.soundChannel`
-- [`vector<Animation>`](#Animation) `.contactAnimations`
+- [`std::vector<Animation>`](#Animation) `.contactAnimations`
 - `float` `.animationTimer`
 - `int` `.lastDamage`
 - [`Targetable*`](#Targetable) `.movingTarget`
@@ -2824,7 +3282,7 @@ Accessed via `Projectile`'s `.extend` field
 - `bool` `.bDamageSuperShield`
 - `int` `.movingTargetId`
 - `bool` `.checkedCollision`
-- [`vector<Animation>`](Animation) `.smokeAnims`
+- [`std::vector<Animation>`](Animation) `.smokeAnims`
 - [`Pointf`](#Pointf) `.lastSmokeAnim`
 
 ## PDSFire
@@ -2841,51 +3299,136 @@ Accessed via `Projectile`'s `.extend` field
 - `bool` `.missed`
 - [`Animation`](#Animation) `.explosionAnimation`
 
-## Drone
+## ShipGenerator
 
 ### Methods
-- `void :OnInit()`
-- `void :OnLoop()`
-- `void :OnDestroy()`
-- `void :SetPowered(bool _powered)`
-- `void :SetInstantPowered()`
-- `bool :GetPowered()`
-- `void :SetCurrentShip(int shipId)`
-- `void :SetDeployed(bool _deployed)`
-- `void :SetDestroyed(bool dead, bool setTimer)`
-- `void :SetHacked(int level)`
-- `bool :GetDeployed()`
-- `bool :NeedsRoom()`
-- `void :SetSlot(int room, int slot)`
-- `bool :Destroyed()`
-- [`Point`](#Point) `:GetWorldLocation()`
-- `void :SetWorldLocation(Point point)`
-- [`Slot`](#Slot) `:*GetDroneSlot(Drone *drone)`
-- `int :GetDroneHealth()`
-- `int :GetRequiredPower()`
-- `void :RenderIcon()`
-- `std::string` `:*GetName(Drone *drone)`
-- `bool :CanBeDeployed()`
-- `bool :RecallOnJump()`
-- `bool :CanBeRecovered()`
-- `void :SaveState(int fh)`
-- `void :LoadState(int fh)`
-- `void :BlowUp(bool silent)`
-- `bool :GetStunned()`
+- `std::vector<int> :GenerateSystemMaxes(const ShipBlueprint &ship, int level)`
+- [`std::vector<CrewBlueprint>`](#CrewBlueprint) `:GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags)`
+- [`std::vector<DroneBlueprint*>`](#DroneBlueprint) `:GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat)`
+- `std::vector<int> :GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type)`
+- [`std::vector<WeaponBlueprint*>`](#WeaponBlueprint) `:GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags)`
+- `bool :UpgradeSystem(ShipManager *ship, std::vector<int> &systemMaxes, unsigned int sysId)`
+
+## CustomShipGenerator
+
+### Methods
+
+- [`ShipManager`](#ShipManager) `:CreateShip(const ShipBlueprint *shipBlueprint, int sector, ShipEvent& event)`
+
+## AnimationTracker
+
+### Methods
+- `float :GetAlphaLevel(bool reverse)`
+- `float :Progress(float speed)`
+- `void :SetLoop(bool loop, float loopDelay)`
+- `void :SetProgress(float time)`
+- `void :Start(float time)`
+- `void :StartReverse(float time)`
+- `void :Stop(bool resetTime)`
 
 ### Fields
-- `int` `.iShipId`
-- `int` `.selfId`
-   - **read-only**
-- `bool` `.powered`
-- `int` `.powerRequired`
-- `bool` `.deployed`
-- `int` `.type`
-- [`DroneBlueprint*`](#DroneBlueprint) `.blueprint`
-   - **read-only**
-- `bool` `.bDead`
-- `int` `.iBonusPower`
-- `bool` `.poweredAtLocation`
-- `float` `.destroyedTimer`
-- `int` `.iHackLevel`
-- `float` `.hackTime`
+- `float` `.time`
+- `bool` `.loop`
+- `float` `.current_time`
+- `bool` `.running`
+- `bool` `.reverse`
+- `bool` `.done`
+- `float` `.loopDelay`
+- `float` `.currentDelay`
+
+## TimerHelper
+
+### Methods
+- `static` [`TimerHelper`](#TimerHelper) `.TimerHelper(bool isLoop=false)`
+- `void :Start(float goal)`
+- `bool :Done()`
+- `void :ResetMinMax(int min, int max)`
+- `bool :Running()`
+- `void :SetMaxTime(float max)`
+- `void :Start(int goal)`
+- `void :Stop()`
+- `void :Update()`
+
+### Fields
+- `int` `.maxTime`
+- `int` `.minTime`
+- `float` `.currTime`
+- `float` `.currGoal`
+- `bool` `.loop`
+- `bool` `.running`
+
+## SoundControl
+
+### Methods
+- `int :PlaySoundMix(const std::string &soundName, float volume, bool loop)`
+
+## SettingValues
+
+### Fields
+**All fields are read-only**
+- `int` `.fullscreen`
+- `int` `.currentFullscreen`
+- `int` `.lastFullscreen`
+- `int` `.sound`
+- `int` `.music`
+- `int` `.difficulty`
+- `bool` `.commandConsole`
+- `bool` `.altPause`
+- `bool` `.touchAutoPause`
+- `bool` `.lowend`
+- `bool` `.fbError`
+- `std::string` `.language`
+- `bool` `.languageSet`
+- [`Point`](#Point) `.screenResolution`
+- `int` `.dialogKeys`
+- `bool` `.logging`
+- `bool` `.bShowChangelog`
+- `int` `.loadingSaveVersion`
+- `bool` `.achPopups`
+- `bool` `.vsync`
+- `bool` `.frameLimit`
+- `bool` `.manualResolution`
+- `bool` `.manualWindowed`
+- `bool` `.manualStretched`
+- `bool` `.showPaths`
+- `bool` `.swapTextureType`
+- `bool` `.colorblind`
+- [`std::array<std::vector<HotkeyDesc>, 4>`](#HotkeyDesc) `.hotkeys`
+- `bool` `.holdingModifier`
+- `bool` `.bDlcEnabled`
+- `int` `.openedList`
+- `bool` `.beamTutorial`
+
+## ResourceControl
+
+### Methods
+- [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror)`
+- [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
+- [`freetype::font_data`](#font_data) `:GetFontData(int size, bool ignoreLanguage)`
+- [`GL_Texture`](#GL_Texture) `:*GetImageId(const std::string &dir)`
+- `bool :ImageExists(const std::string &name)`
+- `int :RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `int :RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+
+## Point
+
+### Methods
+- `static` [`Point`](#Point) `Point(int x, int y)`
+- `int :Distance(Point other)`
+- `int :RelativeDistance(Point other)`
+
+### Fields
+- `int` `.x`
+- `int` `.y`
+
+## Pointf
+
+### Methods
+- `static` [`Pointf`](#Pointf) `Pointf()`
+- `static` [`Pointf`](#Pointf) `Pointf(int x, int y)`
+- [`Pointf`](#Pointf) `:Normalize()`
+- `float :RelativeDistance(Pointf other)`
+
+### Fields
+- `float` `.x`
+- `float` `.y`
