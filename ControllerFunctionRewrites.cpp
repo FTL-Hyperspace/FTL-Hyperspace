@@ -231,130 +231,44 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseMove, 1000, (int x, int y) -> void)
     super(x, y);
 }
 
-/*
 HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::MouseClick -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    // Check if language chooser is open
-    if (!langChooser.bOpen) 
-    {
-        // Check if wipe profile dialog is open
-        if (!wipeProfileDialog.bOpen)
-        {
-            // Check if restart required dialog is open
-            if (restartRequiredDialog.bOpen)
-            {
-                restartRequiredDialog.MouseClick(x, y);
-                return;
-            }
-
-            // Handle close button click
-            if (closeButton.bActive && closeButton.bHover) 
-            {
-                if (!bCustomizeControls)
-                {
-                    if (G_->GetSettings()->currentFullscreen == 3 && G_->GetSettings()->fullscreen == 3)
-                    {
-                        bOpen = true;
-                    }
-                    else
-                    {
-                        // Handle fullscreen change and open restart required dialog
-                        std::vector<ChoiceText> c1;
-                        std::vector<ChoiceText> c2;
-                        std::string restartDialogText = G_->GetTextLibrary()->GetText("restart_required_dialog", G_->GetTextLibrary()->currentLanguage);
-                        restartRequiredDialog.SetChoices(&restartDialogText, &c1, &c2);
-                        restartRequiredDialog.bOpen = true;
-                    }
-                }
-                else
-                {
-                    bCustomizeControls = false;
-                }
-                return;
-            }
-
-            // Handle customize controls logic
-            if (bCustomizeControls) 
-            {
-                controls.MouseClick(x, y);
-            } 
-            else 
-            {
-                // Handle various buttons and sliders
-               
-                if (wipeProfileButton.bActive && wipeProfileButton.bHover && showWipeButton) 
-                {
-                    wipeProfileDialog.bOpen = true; // wipeProfileDialog.Open();
-                }
-
-                Steam achievement sync would be here but it's obviously not included
-
-                if (syncAchievementsButton.bActive && syncAchievementsButton.bHover && showSyncAchievements) 
-                {
-                    AchievementTracker::SyncAchievements(&AchievementTracker::Tracker);
-                }
-
-                // Volume slider handling
-                soundVolume.MouseClick(x, y);
-                musicVolume.MouseClick(x, y);
-                CheckSelection();
-            }
-        } 
-        else 
-        {
-            // Handle wipe profile dialog click
-            wipeProfileDialog.MouseClick(x, y);
-            if (!wipeProfileDialog.bOpen && wipeProfileDialog.result) 
-            {
-                // ScoreKeeper::WipeProfile(true);
-                // cant get this working
-            }
-        }
-    }
-    else
-    {
-        // Handle language chooser button clicks
-        std::vector<TextButton*> buttons = langChooser.buttons;
-        size_t buttonCount = buttons.size();
-
-        for (size_t i = 0; i < buttonCount; ++i) 
-        {
-            TextButton* button = buttons[i];
-            if (button->bActive && button->bHover) 
-            {
-                langChooser.iChoice = i;
-                return;
-            }
-        }
-    }
-}
-*/
-
-HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
-{
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::MouseClick -> Begin (ControllerFunctionRewrites.cpp)\n")
-
+    // code reverse engineered by Dino
     if (!langChooser.bOpen) 
     {
         if (!wipeProfileDialog.bOpen) 
         {
+            // Restart required window logic
             if (restartRequiredDialog.bOpen) 
             {
                 restartRequiredDialog.MouseClick(x, y);
                 return;
             }
 
+            // Close button handling 
             if (!closeButton.bActive || !closeButton.bHover) 
             {
                 if (!bCustomizeControls) 
                 {
+                    // Handle various buttons and the sound sliders
                     if (wipeProfileButton.bActive && wipeProfileButton.bHover && showWipeButton) 
                     {
                         wipeProfileDialog.Open();
                     }
 
+                    /*
+                    // Steam achievement sync would be here but it can not be included for non steam builds
+                    if (syncAchievementsButton.bActive && syncAchievementsButton.bHover && showSyncAchievements) 
+                    {
+                        ScoreKeeper Keeper = *Global_ScoreKeeper_Keeper;
+                        Keeper.SyncAchievements(true);
+                        AchievementTracker::SyncAchievements(&AchievementTracker::Tracker);
+                    }
+                    */
+                    
+                    // Volume slider handling
                     soundVolume.MouseClick(x, y);
                     musicVolume.MouseClick(x, y);
                     CheckSelection();
@@ -362,11 +276,12 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
                 }
                 else
                 {
-                    controls.MouseClick(x, y);
+                    controls.MouseClick(x, y); // Handle customize controls logic
                 }
             }
             else if (!bCustomizeControls) 
             {
+                // Restart required dialog window and close click handled here
                 if (G_->GetSettings()->currentFullscreen != 3 && G_->GetSettings()->fullscreen == 3)
                 {
                     std::vector<ChoiceText> choices1;
@@ -382,6 +297,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
             }
             else 
             {
+                // Handle option button clicks
                 int8_t selectedButton = controls.selectedButton;
                 if (selectedButton != -1) 
                 {
@@ -393,6 +309,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
         }
         else 
         {
+            // Handle wipe profile confirm window click
             wipeProfileDialog.MouseClick(x, y);
             if (!wipeProfileDialog.bOpen && wipeProfileDialog.result)
             {
@@ -403,6 +320,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
     }
     else 
     {
+        // Handle language chooser button clicks
         std::vector<TextButton*> locButtons = langChooser.buttons;
         for (uint8_t buttonIndex = 0; buttonIndex < locButtons.size(); ++buttonIndex) 
         {
@@ -413,6 +331,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
             }
         }
     }
+    // End of orig-code
 }
 
 HOOK_METHOD_PRIORITY(OptionsScreen, KeyDown, 1000, (SDLKey sym) -> bool)
