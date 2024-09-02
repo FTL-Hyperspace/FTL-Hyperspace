@@ -93,12 +93,12 @@ All calls are under `Hyperspace`
 - [`Missile`](#Missile) `:CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
 - [`BombProjectile`](#BombProjectile) `:CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace)`
 - [`BeamWeapon`](#BeamWeapon) `:CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading)`
-- [`LaserBlast`](#LaserBlast) `:CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
+- [`LaserBlast`](#LaserBlast) `:CreateBurstProjectile(WeaponBlueprint *weapon, std::string image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)`
 - [`PDSFire`](#PDSFire) `:CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke)`
 #
 - `bool :DangerousEnvironment()`
-- [`ImageDesc`](#ImageDesc) `:SwitchBackground(const std::string &name)`
-- [`ImageDesc`](#ImageDesc) `:SwitchPlanet(const std::string &name)`
+- [`ImageDesc`](#ImageDesc) `:SwitchBackground(std::string name)`
+- [`ImageDesc`](#ImageDesc) `:SwitchPlanet(std::string name)`
 - `void :UpdatePlanetImage()`
 - `void :UpdateProjectile(Projectile *proj)`
 	
@@ -148,8 +148,8 @@ All calls are under `Hyperspace`
 - `void :Reset()`
 - `void :ResetArmed()`
 - `void :SetDoor(int state)`
-- `void :SetTooltip(const std::string &tooltip)`
-- `void :SetTooltipTitle(const std::string &tooltip)`
+- `void :SetTooltip(std::string tooltip)`
+- `void :SetTooltipTitle(std::string tooltip)`
 	
 ### Fields
 
@@ -240,7 +240,7 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
 - `std::pair<int, int> :GetAvailablePower()`
    - First element of the pair is the maximum reactor power, the second element is the available reactor power.
 - `CrewMember* :AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
-- `CrewMember* :AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)`
+- `CrewMember* :AddCrewMemberFromString(std::string name, std::string race, bool intruder, int roomId, bool init, bool male)`
 - ~~`:AddDrone`~~
 - ~~`:AddEquipmentFromList`~~
 - ~~`:AddInitialCrew`~~
@@ -257,8 +257,8 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
    - return count of crew on this ship, true for boarders false for regular crewmembers.
 - `int :CountCrewShipId(int roomId, int shipId)`
    - Counts crew in a room. shipId corresponds to which ship owns the crewmembers, 0 being the player and 1 being the enemy.
-- ~~`CrewDrone* :CreateCrewDrone(const DroneBlueprint *bp)`~~ Use Events
-- ~~`SpaceDrone* :CreateSpaceDrone(const DroneBlueprint *bp)`~~ Use Events
+- ~~`CrewDrone* :CreateCrewDrone(DroneBlueprint *bp)`~~ Use Events
+- ~~`SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)`~~ Use Events
 - `bool :DamageArea(Pointf location, DamageParameter dmg, bool force)`
    - I think this causes damage to a area like when a projectile hits but it's not tested yet, could possibly be used for bursts?
    - `force` ignores room resistances.
@@ -279,7 +279,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - `vision` is the sensor level.
 - `bool :DoorsFunction()`
    - Do the doors work or not
-- ~~`CrewMember* :FindCrew(const CrewBlueprint *bp)`~~ Not currently available, might choose never to make available because it might be better to lookup crew by name or something rather than their full CrewBlueprint
+- ~~`CrewMember* :FindCrew(CrewBlueprint *bp)`~~ Not currently available, might choose never to make available because it might be better to lookup crew by name or something rather than their full CrewBlueprint
 - `bool :ForceDecreaseSystemPower(int systemId)`
 - `CrewMember* :GetCrewmember(int slot, bool present)`
 - `int :GetDodgeFactor()`
@@ -499,7 +499,7 @@ Accessed via `ShipManager`'s `.extend` field
 ### Fields
 - `int` `.roomId`
    - **Read-only**
-- `int ` `.slotId`
+- `int` `.slotId`
    - **Read-only**
 - [`Point`](#Point) `.worldLocation`
    - Field is **read-only** but fields under this object may still be mutable.
@@ -560,7 +560,7 @@ Accessed via `ShipManager`'s `.extend` field
 -  `int` `.vertical_shift`
 -  `int` `.horizontal_shift`
 -  `std::string` `.shipName`
--  `~~ExplosionAnimation` `.explosion`~~
+-  ~~`ExplosionAnimation` `.explosion`~~
 -  `bool` `.bDestroyed`
 -  [`Ellipse`](#Ellipse) `.baseEllipse`
 -  `Animation[2]` `.engineAnim`
@@ -584,7 +584,7 @@ Accessed via `ShipManager`'s `.extend` field
 ## ShipSystem
 
 ### Static methods
-These are called either under `Hyperspace.ShipSystem` or an existing object (for example you could call `Hyperspace.ShipSystem.GetLevelDescription(` or `Hyperspace.ships.player.oxygenSystem.GetLevelDescription(` with the same effect (although constructors probably don't make any sense to call in the second manner)
+These are called either under `Hyperspace.ShipSystem` or an existing object (for example you could call `Hyperspace.ShipSystem.GetLevelDescription()` or `Hyperspace.ships.player.oxygenSystem.GetLevelDescription()`) with the same effect (although constructors probably don't make any sense to call in the second manner)
 - `Hyperspace.ShipSystem.ShipSystem()` Default Constructor
 - ~~`Hyperspace.ShipSystem.ShipSystem(int systemId, int roomId, int shipId, int startingPower)` Constructor~~
 - `string .GetLevelDescription(int systemId, int level, bool tooltip)`
@@ -1366,7 +1366,7 @@ Accessed via `Room`'s `.extend` field
 - `int` `.stackId`
 - `int` `.maxStacks`
 - `static` `std::vector<StatBoostDefinition*>` `.statBoostDefs`
-- `static` `std::unordered_map<std::string, StatBoostDefinition*> ` `.savedStatBoostDefs`
+- `static` `std::unordered_map<std::string, StatBoostDefinition*>` `.savedStatBoostDefs`
 
 ## StatBoostManager
 
@@ -1516,7 +1516,7 @@ end
 - `void :UpdateHealth()`
 - `void :UpdateMovement()`
 - `bool :WithinRect(int x, int y, int w, int h)`
-- `void :constructor(CrewBlueprint &blueprint, int shipId, bool intruder, CrewAnimation *animation)`
+- `void :constructor(CrewBlueprint blueprint, int shipId, bool intruder, CrewAnimation *animation)`
 
 ### Fields
 - `int` `.iShipId`
@@ -1669,7 +1669,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::string :GetDeathSound()`
 - `void :Restart()`
 - `bool :CustomDeath()`
-- `void :OnInit(const std::string &name, Pointf position, bool enemy)`
+- `void :OnInit(std::string name, Pointf position, bool enemy)`
 - `void :OnUpdate(Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire)`
 - `void :RenderIcon(bool border)`
 - `void :SetupStrips()`
@@ -1800,7 +1800,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## ActivatedPower
 
 ### Methods
-- [`PowerReadyState`](#PowerReadyState) `:PowerReq(const ActivatedPowerRequirements *req)`
+- [`PowerReadyState`](#PowerReadyState) `:PowerReq(ActivatedPowerRequirements *req)`
 - [`PowerReadyState`](#PowerReadyState) `:PowerReady()`
 - [`Damage`](#Damage) `:GetPowerDamage()`
 - `void :ActivateTemporaryPower()`
@@ -1848,7 +1848,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Methods
 - `void :GetLinkedPowers()`
-- [`PowerReadyState`](#PowerReadyState) `:PowerReq(const ActivatedPowerRequirements *req)`
+- [`PowerReadyState`](#PowerReadyState) `:PowerReq(ActivatedPowerRequirements *req)`
 - `void :OnUpdate()`
 - `void :EnablePower()`
 - `void :DisablePower()`
@@ -1872,12 +1872,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Methods
 - `void :AssignIndex()`
-- `void :AssignName(std::string &_name)`
-- `void :AssignActivateGroup(std::string &_name)`
-- `void :AssignReplaceGroup(std::string &_name)`
-- `void :AssignGroup(std::string &_name)`
-- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string &_name)`
-- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string &_name, ActivatedPowerDefinition* copyDef)`
+- `void :AssignName(std::string name)`
+- `void :AssignActivateGroup(std::string name)`
+- `void :AssignReplaceGroup(std::string name)`
+- `void :AssignGroup(std::string name)`
+- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string name)`
+- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string name, ActivatedPowerDefinition* copyDef)`
 
 ### Fields
 - `std::string` `.name`
@@ -1937,10 +1937,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Methods
 - `void :AssignIndex()`
-- `void :AssignName(std::string &_name)`
-- `void :AssignGroup(std::string &_name)`
-- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string &_name)`
-- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string &_name, PowerResourceDefinition* copyDef);`
+- `void :AssignName(std::string name)`
+- `void :AssignGroup(std::string name)`
+- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string name)`
+- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string name, PowerResourceDefinition* copyDef);`
 
 ### Fields
 - `std::string` `.name`
@@ -2104,12 +2104,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Methods
 
-- `void :OnInit(const std::string &img, Point pos)`
+- `void :OnInit(std::string img, Point pos)`
 - `void :OnRender()`
 - `void :SetActiveImage(GL_Texture *texture)`
-- `void :SetImageBase(const std::string &imageBase)`
+- `void :SetImageBase(std::string imageBase)`
 - `void :SetInactiveImage(GL_Texture *texture)`
-- `void :SetLocation(const Point pos)`
+- `void :SetLocation(Point pos)`
 
 ### Fields
 - `GL_Texture*[3]` `.images`
@@ -2178,7 +2178,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Methods
 - `void :AddAugment(AugmentBlueprint *bp, bool free, bool forceCargo)`
 - `void :AddDrone(DroneBlueprint *bp, bool free, bool forceCargo)`
-- `void :AddToCargo(std::string &name)`
+- `void :AddToCargo(std::string name)`
 - `void :AddWeapon(WeaponBlueprint *bp, bool free, bool forceCargo)`
 - `std::vector<std::string> :GetCargoHold()`
 
@@ -2486,7 +2486,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 - `int` `.count`
-- `std::vector<int> ` `.roomCount`
+- `std::vector<int>` `.roomCount`
 - [`std::vector<std::vector<Fire>>`](#Fire) `.grid`
 
 ## OuterHull
@@ -2520,7 +2520,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 **Extends [ShipObject](#ShipObject)**
 
 ### Methods
-- `void :Fire(std::vector<Pointf> &points, int target)`
+- `void :Fire(std::vector<Pointf> points, int target)`
 - `bool :FireNextShot()`
 - `void :ForceCoolup()`
 - [`Projectile*`](#Projectile) `:GetProjectile()`
@@ -2711,12 +2711,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## BlueprintManager
 
 ### Methods
-- [`AugmentBlueprint`](#AugmentBlueprint) `:*GetAugmentBlueprint(const std::string &name)`
-- [`CrewBlueprint`](#CrewBlueprint) `:GetCrewBlueprint(const std::string &name)`
-- [`DroneBlueprint`](#DroneBlueprint) `:*GetDroneBlueprint(const std::string &name)`
-- [`ShipBlueprint`](#ShipBlueprint) `:*GetShipBlueprint(const std::string &name, int sector)`
-- [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(const std::string &name)`
-- `std::vector<std::string> :GetBlueprintList(const std::string &name)`
+- [`AugmentBlueprint`](#AugmentBlueprint) `:*GetAugmentBlueprint(std::string name)`
+- [`CrewBlueprint`](#CrewBlueprint) `:GetCrewBlueprint(std::string name)`
+- [`DroneBlueprint`](#DroneBlueprint) `:*GetDroneBlueprint(std::string name)`
+- [`ShipBlueprint`](#ShipBlueprint) `:*GetShipBlueprint(std::string name, int sector)`
+- [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(std::string name)`
+- `std::vector<std::string> :GetBlueprintList(std::string name)`
 
 ## WeaponBlueprint
 
@@ -2912,7 +2912,7 @@ Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `static` [`ShipGraph`](#ShipGraph) `.GetShipInfo(int shipId)`
 - [`Point`](#Point) `:GetSlotWorldPosition(int slotId, int roomId)`
 - `bool :IsRoomConnected(int room1, int room2)`
-- `int :PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances)`
+- `int :PopClosestDoor(std::vector<int> doors, std::vector<float> distances)`
 - `int :RoomCount()`
 
 ### Fields
@@ -2981,7 +2981,7 @@ Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 **Extends [Collideable](#Collideable)**
 
 ### Methods
-- `void :SetWeaponAnimation(WeaponAnimation &animation)`
+- `void :SetWeaponAnimation(WeaponAnimation animation)`
 - `void :OnRenderSpecific(int spaceId)`
 - `void :CollisionCheck(Collideable *other)`
 - `void :OnUpdate()`
@@ -3002,8 +3002,8 @@ Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `int :GetType()`
 - `void :SetMovingTarget(Targetable *target)`
 - [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
-- `void :Initialize(const WeaponBlueprint &bp)`
-- `static` [`Pointf`](#Pointf) `:RandomSidePoint(int side)`
+- `void :Initialize(WeaponBlueprint bp)`
+- `static` [`Pointf`](#Pointf) `.RandomSidePoint(int side)`
 - `void :constructor(Pointf position, int ownerId, int targetId, Pointf target)`
 
 ### Fields
@@ -3177,18 +3177,18 @@ Accessed via `Projectile`'s `.extend` field
 ## ShipGenerator
 
 ### Methods
-- `std::vector<int> :GenerateSystemMaxes(const ShipBlueprint &ship, int level)`
-- [`std::vector<CrewBlueprint>`](#CrewBlueprint) `:GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags)`
-- [`std::vector<DroneBlueprint*>`](#DroneBlueprint) `:GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat)`
-- `std::vector<int> :GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type)`
-- [`std::vector<WeaponBlueprint*>`](#WeaponBlueprint) `:GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags)`
-- `bool :UpgradeSystem(ShipManager *ship, std::vector<int> &systemMaxes, unsigned int sysId)`
+- `std::vector<int> :GenerateSystemMaxes(ShipBlueprint ship, int level)`
+- [`std::vector<CrewBlueprint>`](#CrewBlueprint) `:GetPossibleCrewList(ShipManager *ship, std::string crewList, unsigned int flags)`
+- [`std::vector<DroneBlueprint*>`](#DroneBlueprint) `:GetPossibleDroneList(ShipManager *ship, std::string droneList, int scrap, unsigned int flags, bool repeat)`
+- `std::vector<int> :GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> systemMaxes, int scrap, int type)`
+- [`std::vector<WeaponBlueprint*>`](#WeaponBlueprint) `:GetPossibleWeaponList(ShipManager *ship, std::string weaponList, int scrap, unsigned int flags)`
+- `bool :UpgradeSystem(ShipManager *ship, std::vector<int> systemMaxes, unsigned int sysId)`
 
 ## CustomShipGenerator
 
 ### Methods
 
-- [`ShipManager`](#ShipManager) `:CreateShip(const ShipBlueprint *shipBlueprint, int sector, ShipEvent& event)`
+- [`ShipManager`](#ShipManager) `:CreateShip(ShipBlueprint *shipBlueprint, int sector, ShipEvent event)`
 
 ## AnimationTracker
 
@@ -3235,7 +3235,7 @@ Accessed via `Projectile`'s `.extend` field
 ## SoundControl
 
 ### Methods
-- `int :PlaySoundMix(const std::string &soundName, float volume, bool loop)`
+- `int :PlaySoundMix(std::string soundName, float volume, bool loop)`
 
 ## SettingValues
 
@@ -3278,17 +3278,17 @@ Accessed via `Projectile`'s `.extend` field
 
 ### Methods
 - [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror)`
-- [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
+- [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitiveString(std::string tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
 - [`freetype::font_data`](#font_data) `:GetFontData(int size, bool ignoreLanguage)`
-- [`GL_Texture`](#GL_Texture) `:*GetImageId(const std::string &dir)`
-- `bool :ImageExists(const std::string &name)`
+- [`GL_Texture`](#GL_Texture) `:*GetImageId(std::string dir)`
+- `bool :ImageExists(std::string name)`
 - `int :RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
-- `int :RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `int :RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
 
 ## Point
 
 ### Methods
-- `static` [`Point`](#Point) `Point(int x, int y)`
+- `static` [`Point`](#Point) `.Point(int x, int y)`
 - `int :Distance(Point other)`
 - `int :RelativeDistance(Point other)`
 
@@ -3299,8 +3299,8 @@ Accessed via `Projectile`'s `.extend` field
 ## Pointf
 
 ### Methods
-- `static` [`Pointf`](#Pointf) `Pointf()`
-- `static` [`Pointf`](#Pointf) `Pointf(int x, int y)`
+- `static` [`Pointf`](#Pointf) `.Pointf()`
+- `static` [`Pointf`](#Pointf) `.Pointf(int x, int y)`
 - [`Pointf`](#Pointf) `:Normalize()`
 - `float :RelativeDistance(Pointf other)`
 
@@ -3313,9 +3313,9 @@ Accessed via `Projectile`'s `.extend` field
 `Hyperspace.CustomAchievementTracker.instance`
 
 ### Methods
-- `void :UpdateVariableAchievements(const std::string &varName, int varValue, bool inGame=true)`
-- `int :GetAchievementStatus(const std::string &name)`
-- `void :SetAchievement(const std::string &name, bool noPopup)`
+- `void :UpdateVariableAchievements(std::string varName, int varValue, bool inGame=true)`
+- `int :GetAchievementStatus(std::string name)`
+- `void :SetAchievement(std::string name, bool noPopup)`
 
 ### Fields
 - `static` [CustomAchievementTracker*](#CustomAchievementTracker) `.instance`
