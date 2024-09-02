@@ -467,6 +467,9 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - **Since 1.4.0**
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
+## ShipManager_Extend
+Accessed via `ShipManager`'s `.extend` field
+
 ## Targetable
 
 ### Methods
@@ -718,6 +721,12 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
   - **Since 1.4.0**
   - A modifiable table of arbitrary data which exists and long as the object it belongs to
 
+## ShipSystem_Extend
+Accessed via `ShipSystem`'s `.extend` field
+
+### Fields
+- `int` `additionalPowerLoss`
+
 ## OxygenSystem
 
 **Extends [ShipSystem](#ShipSystem)**
@@ -849,7 +858,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - [`Point`](#Point) `.superUpLoc`
 - `bool` `.bExcessChargeHack`
 
-## Shields::Shield
+## Shield
 
 **Internal struct of [`Shields`](#Shields)**
 
@@ -1178,6 +1187,7 @@ No additional items over base `ShipSystem`
    - **Read-only**
 
 ## Room_Extend
+Accessed via `Room`'s `.extend` field
 
 ### Fields
 - `float` `.sysDamageResistChance`
@@ -1860,30 +1870,6 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## ActivatedPowerDefinition
 
-### Enums
-
-#### JUMP_COOLDOWN
-- `.JUMP_COOLDOWN_FULL`
-- `.JUMP_COOLDOWN_RESET`
-- `.JUMP_COOLDOWN_CONTINUE`
-
-#### DISABLED_COOLDOWN
-- `.DISABLED_COOLDOWN_FULL`
-- `.DISABLED_COOLDOWN_RESET`
-- `.DISABLED_COOLDOWN_CONTINUE`
-- `.DISABLED_COOLDOWN_PAUSE`
-- `.DISABLED_COOLDOWN_ZERO`
-
-#### ON_DEATH
-- `.ON_DEATH_CONTINUE`
-- `.ON_DEATH_CANCEL`
-- `.ON_DEATH_RESET`
-
-#### HOTKEY_SETTING
-- `.HOTKEY_FIRST`
-- `.HOTKEY_ALWAYS`
-- `.HOTKEY_NEVER`
-
 ### Methods
 - `void :AssignIndex()`
 - `void :AssignName(std::string &_name)`
@@ -1949,25 +1935,6 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## PowerResourceDefinition
 
-### Enums
-
-#### JUMP_COOLDOWN
-- `.JUMP_COOLDOWN_FULL`
-- `.JUMP_COOLDOWN_RESET`
-- `.JUMP_COOLDOWN_CONTINUE`
-
-#### DISABLED_COOLDOWN
-- `.DISABLED_COOLDOWN_FULL`
-- `.DISABLED_COOLDOWN_RESET`
-- `.DISABLED_COOLDOWN_CONTINUE`
-- `.DISABLED_COOLDOWN_PAUSE`
-- `.DISABLED_COOLDOWN_ZERO`
-
-#### ON_DEATH
-- `.ON_DEATH_CONTINUE`
-- `.ON_DEATH_CANCEL`
-- `.ON_DEATH_RESET`
-
 ### Methods
 - `void :AssignIndex()`
 - `void :AssignName(std::string &_name)`
@@ -2001,16 +1968,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## ActivatedPowerRequirements
 
-### Enums
-
-#### Type
-- `.PLAYER`
-- `.ENEMY`
-- `.CHARGE`
-- `.UNKNOWN`
-
 ### Fields
 - [`Type`](#Type) `.type`
+   - `int` `.PLAYER`
+   - `int` `.ENEMY`
+   - `int` `.CHARGE`
+   - `int` `.UNKNOWN`
 - `bool` `.playerShip`
 - `bool` `.enemyShip`
 - `bool` `.checkRoomCrew`
@@ -2034,58 +1997,6 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::pair<CrewExtraCondition,bool>>` `.extraConditions`
 - `std::vector<std::pair<CrewExtraCondition,bool>>` `.extraOrConditions`
 - [`TextString`](#TextString) `.extraOrConditionsTooltip`
-
-## PowerReadyState
-
-### Enums
-- `.POWER_NOT_READY_COOLDOWN`
-- `.POWER_READY`
-- `.POWER_NOT_READY_ACTIVATED`
-- `.POWER_NOT_READY_ENEMY_SHIP`
-- `.POWER_NOT_READY_PLAYER_SHIP`
-- `.POWER_NOT_READY_ENEMY_IN_ROOM`
-- `.POWER_NOT_READY_FRIENDLY_IN_ROOM`
-- `.POWER_NOT_READY_WHITELIST`
-- `.POWER_NOT_READY_ENEMY_WHITELIST`
-- `.POWER_NOT_READY_FRIENDLY_WHITELIST`
-- `.POWER_NOT_READY_ENEMY_BLACKLIST`
-- `.POWER_NOT_READY_FRIENDLY_BLACKLIST`
-- `.POWER_NOT_READY_SYSTEM_IN_ROOM`
-- `.POWER_NOT_READY_HAS_CLONEBAY`
-- `.POWER_NOT_READY_AI_DISABLED`
-- `.POWER_NOT_READY_OUT_OF_COMBAT`
-- `.POWER_NOT_READY_IN_COMBAT`
-- `.POWER_NOT_READY_SYSTEM`
-- `.POWER_NOT_READY_SYSTEM_FUNCTIONAL`
-- `.POWER_NOT_READY_MIN_HEALTH`
-- `.POWER_NOT_READY_MAX_HEALTH`
-- `.POWER_NOT_READY_SYSTEM_DAMAGED`
-- `.POWER_NOT_READY_CHARGES`
-- `.POWER_NOT_READY_SILENCED`
-- `.POWER_NOT_READY_EXTRACONDITION_OR`
-- `.POWER_NOT_READY_EXTRACONDITION_TRUE`
-- `.POWER_NOT_READY_EXTRACONDITION_FALSE`
-- `.POWER_NOT_READY_CUSTOM`
-
-## CrewExtraCondition
-
-### Enums
-- `.BURNING`
-- `.SUFFOCATING`
-- `.MIND_CONTROLLED`
-- `.STUNNED`
-- `.REPAIRING`
-- `.REPAIRING_SYSTEM`
-- `.REPAIRING_BREACH`
-- `.FIGHTING`
-- `.SABOTAGING`
-- `.SHOOTING`
-- `.MOVING`
-- `.IDLE`
-- `.MANNING`
-- `.FIREFIGHTING`
-- `.DYING`
-- `.TELEPORTING`
 
 ## TemporaryPowerDefinition
 
@@ -2218,12 +2129,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CommandGui
 
 ### Fields
-- `ShipStatus` `.shipStatus`
-- `CrewControl` `.crewControl`
-- `SystemControl` `.sysControl`
-- `CombatControl` `.combatControl`
-- `FTLButton` `.ftlButton`
-- `SpaceStatus` `.spaceStatus`
+- [`ShipStatus`](#ShipStatus) `.shipStatus`
+- [`CrewControl`](#CrewControl) `.crewControl`
+- [`SystemControl`](#SystemControl) `.sysControl`
+- [`CombatControl`](#CombatControl) `.combatControl`
+- [`FTLButton`](#FTLButton) `.ftlButton`
+- [`SpaceStatus`](#SpaceStatus) `.spaceStatus`
 - ~~`StarMap` `.starMap`~~
    - Access via `WorldManager` instead.
 - ~~`ShipComplete` `.shipComplete`~~
@@ -2368,42 +2279,6 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.type`
 - `std::string` `.text`
 
-## CommandGui
-
-### Fields
-- [`ShipStatus`](#ShipStatus) `.shipStatus`
-- [`CrewControl`](#CrewControl) `.crewControl`
-- [`SystemControl`](#SystemControl) `.sysControl`
-- [`CombatControl`](#CombatControl) `.combatControl`
-- [`FTLButton`](#FTLButton) `.ftlButton`
-- [`SpaceStatus`](#SpaceStatus) `.spaceStatus`
-- [`Point`](#Point) `.pauseTextLoc`
-- [`Point`](#Point) `.shipPosition`
-- `bool` `.outOfFuel`
-   - **Read-Only**
-- `bool` `.bPaused`
-   - **Read-Only**
-- `bool` `.bAutoPaused`
-   - **Read-Only**
-- `bool` `.menu_pause`
-   - **Read-Only**
-- `bool` `.event_pause`
-   - **Read-Only**
-- `Button` `.upgradeButton`
-   - **Read-Only**
-- `bool` `.dangerLocation`
-   - **Read-Only**`
-- `bool` `.bHideUI`
-- [`ChoiceBox`](#ChoiceBox) `.choiceBox`
-- `bool` `.jumpComplete`
-   - **Read-Only**
-- `int` `.mapId`
-   - **Read-Only**
-- `bool` `.secretSector`
-   - **Read-Only**
-- `bool` `.choiceBoxOpen`
-   - **Read-Only**
-
 ## ScoreKeeper
 
 ### Fields
@@ -2542,7 +2417,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `float` `.y`
 - `float` `.rot`
 
-## ImageDesc
+## BoardingEvent
 
 ### Fields
 - `std::string` `.type`
@@ -3432,3 +3307,48 @@ Accessed via `Projectile`'s `.extend` field
 ### Fields
 - `float` `.x`
 - `float` `.y`
+
+## CustomAchievementTracker
+
+`Hyperspace.CustomAchievementTracker.instance`
+
+### Methods
+- `void :UpdateVariableAchievements(const std::string &varName, int varValue, bool inGame=true)`
+- `int :GetAchievementStatus(const std::string &name)`
+- `void :SetAchievement(const std::string &name, bool noPopup)`
+
+### Fields
+- `static` [CustomAchievementTracker*](#CustomAchievementTracker) `.instance`
+
+## CustomEventsParser
+
+`Hyperspace.CustomEventsParser.GetInstance()`
+
+### Methods
+
+- `static` [CustomEventsParser*](#CustomEventsParser) `.GetInstance()`
+
+- `void :LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
+- `void :LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
+
+## MainMenu
+
+### Fields
+- `bool` `bOpen`
+   - **read-only**
+- [ShipBuilder](#ShipBuilder) `shipBuilder`
+   - **read-only**
+
+## ShipBuilder
+
+### Fields
+- `bool` `bOpen`
+   - **read-only**
+
+## CustomShipSelect
+
+`Hyperspace.CustomShipSelect.GetInstance()`
+
+### Methods
+- `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
+- [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
