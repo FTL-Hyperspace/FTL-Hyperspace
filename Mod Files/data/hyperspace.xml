@@ -171,7 +171,8 @@ This means that you can't get past defense drones easily anymore
 
 <hackingDroneFix enabled="true"/>
 
-<!--  Disable repair drone collection on jump to avoid free repairs with the drone recovery arm
+<!--  Remove any active repair drone on jump
+Otherwise player can benefit from the repair and get back the drone parts with the recovery arm
 -->
 
 <repairDroneRecoveryFix enabled="true"/>
