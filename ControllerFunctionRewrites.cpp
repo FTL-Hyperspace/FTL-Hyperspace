@@ -313,8 +313,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
             wipeProfileDialog.MouseClick(x, y);
             if (!wipeProfileDialog.bOpen && wipeProfileDialog.result)
             {
-                ScoreKeeper Keeper = *Global_ScoreKeeper_Keeper;
-                Keeper.WipeProfile(true);
+                G_->GetScoreKeeper()->WipeProfile(true);
             }
         }
     }
