@@ -307,7 +307,7 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
 
     super(x, y);
 
-    if (bChoosingNewSector)
+    if (bChoosingNewSector || outOfFuel)
     {
         potentialLoc = (Location *)NULL; 
         return;
