@@ -1558,11 +1558,26 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Methods
 
 - `std::string :GetText()`
+   - If `.isLiteral` is true, this gets the value of `.data`, otherwise it gets the text referring to the text id from the value of `.data`.
 
 ### Fields
 
 - `std::string` `.data`
+   - You can change the text by setting this value.
+   - If `.isLiteral` is true, this stores the text itself, otherwise it stores the text id.
 - `bool` `.isLiteral`
+   - If true, the game will display the value of `.data`, otherwise it will refer to the text id from the value of `.data`.
+###### Example
+- Set the texts of all choices in an event to 'new text'.
+```LUA
+script.on_internal_event(Defines.InternalEvents.PRE_CREATE_CHOICEBOX, function(event)
+   local Choices = event:GetChoices()
+   for choice in vter(Choices) do -- vter from Vertex
+      choice.text.isLiteral = true
+      choice.text.data = 'new text'
+   end
+end)
+```
 
 ## Description
 
