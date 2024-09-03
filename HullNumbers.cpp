@@ -4,6 +4,24 @@
 
 HullNumbers HullNumbers::instance = HullNumbers();
 
+// TODO: 
+// Create a new class for all that
+// xml options, with colour selection for each bar
+// xml options to select the lenght of the bar
+// Another method that limits the bar lenght and make its size percentage based
+// sig for linux CacheImage::SetPartial
+// Failsafe for bar above the number of preset colours
+bool g_overrideHullBar = false;
+CachedImage* hullBar = nullptr;
+GL_Color debugColor[] = {
+    GL_Color(120.f/255.f, 255.f/255.f, 120.f/255.f, 1.f),
+    GL_Color(255.f/255.f, 255.f/255.f, 0.f/255.f, 1.f),
+    GL_Color(255.f/255.f, 180.f/255.f, 0.f/255.f, 1.f),
+    GL_Color(255.f/255.f, 120.f/255.f, 0.f/255.f, 1.f),
+    GL_Color(255.f/255.f, 80.f/255.f, 0.f/255.f, 1.f),
+    GL_Color(255.f/255.f, 40.f/255.f, 0.f/255.f, 1.f),
+    GL_Color(255.f/255.f, 0.f/255.f, 0.f/255.f, 1.f),
+};
 
 HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
 {
@@ -167,7 +185,19 @@ HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (HullNumbers.cpp)\n")
+
+    if(this->GetCurrentTarget()->ship.hullIntegrity.first > 22) g_overrideHullBar = true;
     super();
+    g_overrideHullBar = false;
+
+    if(this->GetCurrentTarget()->ship.hullIntegrity.first > 22)
+    {
+        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / 23);
+        hullBar->SetPartial(0.0,0.0,1.0,1.0);
+        hullBar->OnRender(debugColor[ibar - 1]);
+        hullBar->SetPartial(0.0,0.0,(this->GetCurrentTarget()->ship.hullIntegrity.first % 23) / 22.0,1.0);
+        hullBar->OnRender(debugColor[ibar]);
+    }
 
     HullNumbers *manager = HullNumbers::GetInstance();
 
@@ -230,4 +260,20 @@ HOOK_METHOD(ShipStatus, OnInit, (Point unk, float unk2) -> void)
         hullBox = G_->GetResources()->CreateImagePrimitiveString("statusUI/top_hull_numbers.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
         hullBox_Red = G_->GetResources()->CreateImagePrimitiveString("statusUI/top_hull_numbers_red.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
+}
+
+HOOK_METHOD(CombatControl, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (HullNumbers.cpp)\n")
+    super();
+    hullBar = new CachedImage("combatUI/box_hostiles_hull2.png",889 ,90);
+}
+
+HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size, float y_size) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CachedPrimitive::SetPartial -> Begin (HullNumbers.cpp)\n")
+
+    if (g_overrideHullBar) x_size = 0.0;
+
+    super(x_start, y_start, x_size, y_size);
 }
