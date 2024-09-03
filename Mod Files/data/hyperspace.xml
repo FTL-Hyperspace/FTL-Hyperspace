@@ -171,6 +171,11 @@ This means that you can't get past defense drones easily anymore
 
 <hackingDroneFix enabled="true"/>
 
+<!--  Disable repair drone collection on jump to avoid free repairs with the drone recovery arm
+-->
+
+<repairDroneRecoveryFix enabled="true"/>
+
 <!--  Shows the power list of crew that are moused over
 Primarily useful for mods that add significant amounts of custom crew
 
