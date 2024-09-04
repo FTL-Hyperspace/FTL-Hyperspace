@@ -137,6 +137,69 @@ void HullNumbers::PrintAlignment(int font, int x, int y, std::string str, std::s
     }
 }
 
+void HullBars::ParseHullBarsNode(rapidxml::xml_node<char> *node)
+{
+    try
+    {
+        if (node->first_attribute("type"))
+        {
+            enabledType = boost::lexical_cast<int>(node->first_attribute("type")->value());
+        }
+        if (node->first_attribute("maxHP"))
+        {
+            barWidth = boost::lexical_cast<int>(node->first_attribute("maxHP")->value());
+        }
+
+        auto child = node->first_node("barColor");
+        while (child)
+        {
+            ParseHullBarsColorsNode(child);
+            child = child->next_sibling("barColor");
+        }
+    }
+    catch (rapidxml::parse_error& e)
+    {
+        ErrorMessage(std::string("Error parsing <hullBars> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <hullBars> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <hullBars> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <hullBars> in hyperspace.xml\n");
+    }
+}
+
+void HullBars::ParseHullBarsColorsNode(rapidxml::xml_node<char> *node)
+{
+    float r = 1.f;
+    float g = 1.f;
+    float b = 1.f;
+    float a = 1.f;
+
+    if (node->first_attribute("r"))
+    {
+        r = boost::lexical_cast<float>(node->first_attribute("r")->value()) / 255.f;
+    }
+    if (node->first_attribute("g"))
+    {
+        g = boost::lexical_cast<float>(node->first_attribute("g")->value()) / 255.f;
+    }
+    if (node->first_attribute("b"))
+    {
+        b = boost::lexical_cast<float>(node->first_attribute("b")->value()) / 255.f;
+    }
+    if (node->first_attribute("a"))
+    {
+        a = boost::lexical_cast<float>(node->first_attribute("a")->value()) / 255.f;
+    }
+    barColor.push_back(GL_Color(r, g, b ,a));
+}
 
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {

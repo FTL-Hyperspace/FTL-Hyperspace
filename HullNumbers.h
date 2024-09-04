@@ -44,7 +44,6 @@ public:
 
     void RefreshPosition(bool BossBox)
     {
-        hs_log_file("Boss: %d\n", BossBox);
         if (hullBarImage == nullptr) return;
         if (BossBox)
         {
@@ -59,25 +58,17 @@ public:
     }
     GL_Color GetBarColor(int index)
     {
-        return debugColor[index % debugColor.size()];
+        return barColor[index % barColor.size()];
     }
 
     // 0: disabled
     // 1: stacking hp bars
     // 2: fixed bar width scaling with max hp
-    int enabledType = 1;
-    int barWidth = 12; // 22 Hp is vanilla "max" hp
+    int enabledType = 2;
+    int barWidth = 22; // 22 Hp is vanilla "max" hp
 
     CachedImage* hullBarImage = nullptr;
-    std::vector<GL_Color> debugColor = {
-        GL_Color(120.f/255.f, 255.f/255.f, 120.f/255.f, 1.f),
-        GL_Color(255.f/255.f, 255.f/255.f, 0.f/255.f, 1.f),
-        GL_Color(255.f/255.f, 180.f/255.f, 0.f/255.f, 1.f),
-        GL_Color(255.f/255.f, 120.f/255.f, 0.f/255.f, 1.f),
-        GL_Color(255.f/255.f, 80.f/255.f, 0.f/255.f, 1.f),
-        GL_Color(255.f/255.f, 40.f/255.f, 0.f/255.f, 1.f),
-        GL_Color(255.f/255.f, 0.f/255.f, 0.f/255.f, 1.f),
-    };
+    std::vector<GL_Color> barColor;
 
     static HullBars *GetInstance() { return &instance; }
 private:
