@@ -6,12 +6,9 @@ HullBars HullBars::instance = HullBars();
 bool g_overrideHullBar = false;
 
 // TODO: 
-// Create a new class for all that
 // xml options, with colour selection for each bar
 // xml options to select the lenght of the bar
-// Another method that limits the bar lenght and make its size percentage based
 // sig for linux CacheImage::SetPartial
-// Failsafe for bar above the number of preset colours
 
 HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
 {
@@ -186,15 +183,12 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / hbManager->barWidth);
 
         hbManager->RefreshPosition(boss_visual);
-
         float x1 = hbManager->barWidth / 22.f;
         float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (hbManager->barWidth))/hbManager->barWidth)*(hbManager->barWidth / 22.f);
 
-        hs_log_file("ibar: %d, x1: %f, x2: %f\n", ibar, x1, x2);
         hbManager->hullBarImage->SetPartial(0.0,0.0,x1,1.0);
         hbManager->hullBarImage->OnRender(hbManager->GetBarColor(ibar - 1));
 
-        // I SUCK AT MATH
         hbManager->hullBarImage->SetPartial(0.0,0.0,x2,1.0);
         hbManager->hullBarImage->OnRender(hbManager->GetBarColor(ibar));
     }

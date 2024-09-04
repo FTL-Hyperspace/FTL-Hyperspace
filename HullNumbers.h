@@ -44,11 +44,12 @@ public:
 
     void RefreshPosition(bool BossBox)
     {
+        hs_log_file("Boss: %d\n", BossBox);
         if (hullBarImage == nullptr) return;
         if (BossBox)
-        { // If you see this it means I forgot to put the boss hp coord, do not accept this PR
-            hullBarImage->x = 0;
-            hullBarImage->y = 0;
+        {
+            hullBarImage->x = 764;
+            hullBarImage->y = 47;
         }
         else
         {
@@ -64,7 +65,7 @@ public:
     // 0: disabled
     // 1: stacking hp bars
     // 2: fixed bar width scaling with max hp
-    int enabledType = 2;
+    int enabledType = 1;
     int barWidth = 12; // 22 Hp is vanilla "max" hp
 
     CachedImage* hullBarImage = nullptr;
