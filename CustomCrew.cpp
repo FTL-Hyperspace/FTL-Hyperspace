@@ -6776,10 +6776,12 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
     LOG_HOOK("HOOK_METHOD -> CrewMember::RestorePosition -> Begin (CustomCrew.cpp)\n")
     
     Slot station;
-    if (!bDead && savedPosition.roomId != -1 && (station = FindSlot(savedPosition.roomId, savedPosition.slotId, false), station.roomId > -1) && station.slotId > -1) {
+    if (!bDead && savedPosition.roomId != -1 && (station = FindSlot(savedPosition.roomId, savedPosition.slotId, false), station.roomId > -1) && station.slotId > -1)
+    {
         CrewMember_Extend *ex = CM_EX(this);
         ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
-        if (ex->CanTeleportMove(false)) {
+        if (ex->CanTeleportMove(false))
+        {
             // Handle return for stations for crew that can teleport
             SetCurrentTarget((CrewTarget *)NULL, false);
             EmptySlot();
@@ -6795,9 +6797,11 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
         {
             // Re-implementation of vanilla return to stations code
             Path path = graph->FindPath(Point(x, y), graph->GetSlotWorldPosition(station.slotId, station.roomId), iShipId);
-            if (path.distance != -1.0) {
+            if (path.distance != -1.0)
+            {
                 SetCurrentTarget((CrewTarget *)NULL, false);
-                if (path.doors.empty() || path.doors.front() != blockingDoor) {
+                if (path.doors.empty() || path.doors.front() != blockingDoor)
+                {
                     blockingDoor = (Door *)NULL;
                 }
                 EmptySlot();
@@ -6828,7 +6832,8 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
                             if (slot == 0) slot = backupRoom.second[0];
                         }
                         path = graph->FindPath(Point(x, y), graph->GetSlotWorldPosition(slot, backupRoom.first), iShipId);
-                        if (path.distance != -1.0) {
+                        if (path.distance != -1.0)
+                        {
                             MoveToRoom(backupRoom.first, slot, true);
                             return true;
                         }
