@@ -1,8 +1,9 @@
 #include "HullNumbers.h"
-#include "Global.h"
 #include <boost/lexical_cast.hpp>
 
 HullNumbers HullNumbers::instance = HullNumbers();
+HullBars HullBars::instance = HullBars();
+bool g_overrideHullBar = false;
 
 // TODO: 
 // Create a new class for all that
@@ -11,17 +12,6 @@ HullNumbers HullNumbers::instance = HullNumbers();
 // Another method that limits the bar lenght and make its size percentage based
 // sig for linux CacheImage::SetPartial
 // Failsafe for bar above the number of preset colours
-bool g_overrideHullBar = false;
-CachedImage* hullBar = nullptr;
-GL_Color debugColor[] = {
-    GL_Color(120.f/255.f, 255.f/255.f, 120.f/255.f, 1.f),
-    GL_Color(255.f/255.f, 255.f/255.f, 0.f/255.f, 1.f),
-    GL_Color(255.f/255.f, 180.f/255.f, 0.f/255.f, 1.f),
-    GL_Color(255.f/255.f, 120.f/255.f, 0.f/255.f, 1.f),
-    GL_Color(255.f/255.f, 80.f/255.f, 0.f/255.f, 1.f),
-    GL_Color(255.f/255.f, 40.f/255.f, 0.f/255.f, 1.f),
-    GL_Color(255.f/255.f, 0.f/255.f, 0.f/255.f, 1.f),
-};
 
 HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
 {
@@ -185,22 +175,31 @@ HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (HullNumbers.cpp)\n")
-
-    if(this->GetCurrentTarget()->ship.hullIntegrity.first > 22) g_overrideHullBar = true;
+    
+    g_overrideHullBar = true;
     super();
     g_overrideHullBar = false;
 
-    if(this->GetCurrentTarget()->ship.hullIntegrity.first > 22)
+    HullBars *hbManager = HullBars::GetInstance();
+    if(hbManager->enabledType == 1 && this->GetCurrentTarget()->ship.hullIntegrity.first > hbManager->barWidth)
     {
-        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / 23);
-        hullBar->SetPartial(0.0,0.0,1.0,1.0);
-        hullBar->OnRender(debugColor[ibar - 1]);
-        hullBar->SetPartial(0.0,0.0,(this->GetCurrentTarget()->ship.hullIntegrity.first % 23) / 22.0,1.0);
-        hullBar->OnRender(debugColor[ibar]);
+        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / hbManager->barWidth);
+
+        hbManager->RefreshPosition(boss_visual);
+
+        float x1 = hbManager->barWidth / 22.f;
+        float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (hbManager->barWidth))/hbManager->barWidth)*(hbManager->barWidth / 22.f);
+
+        hs_log_file("ibar: %d, x1: %f, x2: %f\n", ibar, x1, x2);
+        hbManager->hullBarImage->SetPartial(0.0,0.0,x1,1.0);
+        hbManager->hullBarImage->OnRender(hbManager->GetBarColor(ibar - 1));
+
+        // I SUCK AT MATH
+        hbManager->hullBarImage->SetPartial(0.0,0.0,x2,1.0);
+        hbManager->hullBarImage->OnRender(hbManager->GetBarColor(ibar));
     }
 
     HullNumbers *manager = HullNumbers::GetInstance();
-
 
     if (this->GetCurrentTarget() && manager && manager->enabled)
     {
@@ -266,14 +265,30 @@ HOOK_METHOD(CombatControl, constructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (HullNumbers.cpp)\n")
     super();
-    hullBar = new CachedImage("combatUI/box_hostiles_hull2.png",889 ,90);
+    if (HullBars::GetInstance() && HullBars::GetInstance()->enabledType == 1)
+    {
+        HullBars::GetInstance()->hullBarImage = new CachedImage("combatUI/box_hostiles_hull2.png",889 ,90);
+    }
 }
 
 HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size, float y_size) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CachedPrimitive::SetPartial -> Begin (HullNumbers.cpp)\n")
+    
+    if (g_overrideHullBar && y_size == 1.0)
+    {
+        HullBars *hbManager = HullBars::GetInstance();
+        std::pair<int, int> shipHp = G_->GetShipManager(1)->ship.hullIntegrity;
 
-    if (g_overrideHullBar) x_size = 0.0;
+        if (hbManager->enabledType == 1 && shipHp.first > hbManager->barWidth)
+        {
+            x_size = 0.0;
+        }
+        else if (hbManager->enabledType == 2 && shipHp.second > hbManager->barWidth)
+        {
+            x_size = ((float) shipHp.first / (float) shipHp.second) * (hbManager->barWidth / 22.f);
+        }
+    }
 
     super(x_start, y_start, x_size, y_size);
 }
