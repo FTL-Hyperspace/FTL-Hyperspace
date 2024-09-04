@@ -457,6 +457,11 @@ roomAnim render layers:
 3 - draws above crew - can see when room has no vision, but not when you can't actually see the room outline
 4 - draws above everything
 
+<partition> lets you define backup rooms for ships where crew might not always be able to reach their saved stations
+use <rooms> to define the rooms inside the partition, use <backups> to define rooms for saved stations
+you can use <slot> to define specific slots for backup rooms inside <backups>
+define as many partitions as needed
+
 <customReactor> goes inside <customShip>, contains the tags that let you set the prices for upgrading the reactor
 maxLevel attribute sets the maximum level you can upgrade to
 <baseCost> defines the cost of the first 5 levels
@@ -576,6 +581,34 @@ Syntax ->
 				<ionDamageResistChance>10</ionDamageResistChance>
 				<hullDamageResistChance>30</hullDamageResistChance>
 			</room>
+			<partition>
+				<rooms>
+					<room id="1"/>
+					<room id="2"/>
+					<room id="4"/>
+				</rooms>
+				<backups>
+					<room id="3">
+						<slot id="1"/>
+						<slot id="3"/>
+					</room>
+					<room id="5"/>
+				</backups>
+			</partition>
+			<partition>
+				<rooms>
+					<room id="6"/>
+					<room id="8"/>
+					<room id="9"/>
+				</rooms>
+				<backups>
+					<room id="7"/>
+					<room id="10">
+						<slot id="2"/>
+						<slot id="3"/>
+					</room>
+				</backups>
+			</partition>
 		</rooms>
 		<crew>
 			<human room="1" name="Joe"/>
