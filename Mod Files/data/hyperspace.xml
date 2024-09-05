@@ -15,7 +15,7 @@
     <version>^0.9.2</version> A major match, allows minor & patch to be changed (upwards) but not major, in this case 0.10.0 would match as would 0.9.5 but not 1.0.0.
     If you fail to specify a match character and just do <version>0.9.2</version> this will be considered the same as `^` above but will also generate a warning message in FTL_HS.log.
 -->  
-<version>^1.13.4</version>
+<version>^1.13.5</version>
 
 <!-- Hyperspace defaults
 
