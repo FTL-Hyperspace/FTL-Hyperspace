@@ -6,8 +6,6 @@ HullBars HullBars::instance = HullBars();
 bool g_overrideHullBar = false;
 
 // TODO: 
-// xml options, with colour selection for each bar
-// xml options to select the lenght of the bar
 // sig for linux CacheImage::SetPartial
 
 HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
