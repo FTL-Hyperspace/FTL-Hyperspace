@@ -1463,7 +1463,7 @@ end
 - `int :GetSkillFromSystem(int systemId)`
 - `int :GetSkillLevel(int skillId)`
 - `float :GetSkillModifier(int skillId)`
-- [`int>`](#int>) `:GetSkillProgress(int skillId)`
+- `int` `:GetSkillProgress(int skillId)`
 - `std::string :GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
 - `std::string :GetTooltip()`
 - `void :IncreaseSkill(int skillId)`
@@ -1530,7 +1530,7 @@ end
 - `float` `.goal_y`
 - `int` `.width`
 - `int` `.height`
-- `pair<float, float> `.health`
+- `std::pair<float, float> `.health`
 - `float` `.speed_x`
 - `float` `.speed_y`
 - [`Path`](#Path) `.path`
@@ -1827,9 +1827,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.enabled`
 - `float` `.modifiedPowerCharges`
 - `float` `.modifiedChargesPerJump`
-- `pair<float, float>` `.powerCooldown`
-- `pair<float, float>` `.temporaryPowerDuration`
-- `pair<int, int>` `.powerCharges`
+- `std::pair<float, float>` `.powerCooldown`
+- `std::pair<float, float>` `.temporaryPowerDuration`
+- `std::pair<int, int>` `.powerCharges`
 - [`std::vector<ActivatedPowerResource*>`](#ActivatedPowerResource) `.powerResources`
 - `int` `.powerRoom`
 - `int` `.powerShip`
@@ -1865,8 +1865,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.lastEnabled`
 - `float` `.modifiedPowerCharges`
 - `float` `.modifiedChargesPerJump`
-- `pair<float, float>` `.powerCooldown`
-- `pair<int, int>``.powerCharges`
+- `std::pair<float, float>` `.powerCooldown`
+- `std::pair<int, int>``.powerCharges`
 
 ## ActivatedPowerDefinition
 
@@ -1930,7 +1930,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`std::vector<CrewSpawn*>`](#CrewSpawn) `.crewSpawns`
 - [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
 - [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.roomStatBoosts`
-- `std::array<std::string,2>` `.event`
+- `std::array<std::string, 2>` `.event`
 - [`TemporaryPowerDefinition`](#TemporaryPowerDefinition) `.tempPower`
 
 ## PowerResourceDefinition
@@ -2428,7 +2428,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## CustomShipUnlocks
 
-`Hyperspace.CustomShipUnlocks.instance`
+Accessed via `Hyperspace.CustomShipUnlocks.instance`
 
 ### Methods
 - `void :UnlockShip(std::string shipBlueprint, bool silent, bool checkMultiUnlocks=true, bool isEvent=false)`
@@ -2884,7 +2884,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## ShipGraph
 
-Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
+Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 
 ### Methods
 - [`Point`](#Point) `:TranslateFromGrid(int xx, int yy)`
@@ -2932,7 +2932,7 @@ Acquired via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 ### Fields
 - `int` `.first`
 - `int` `.second`
-- `pair<int, int>` `.super`
+- `std::pair<int, int>` `.super`
 
 ## Damage
 
@@ -3310,7 +3310,7 @@ Accessed via `Projectile`'s `.extend` field
 
 ## CustomAchievementTracker
 
-`Hyperspace.CustomAchievementTracker.instance`
+Accessed via `Hyperspace.CustomAchievementTracker.instance`
 
 ### Methods
 - `void :UpdateVariableAchievements(std::string varName, int varValue, bool inGame=true)`
@@ -3322,7 +3322,7 @@ Accessed via `Projectile`'s `.extend` field
 
 ## CustomEventsParser
 
-`Hyperspace.CustomEventsParser.GetInstance()`
+Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 ### Methods
 
@@ -3347,7 +3347,7 @@ Accessed via `Projectile`'s `.extend` field
 
 ## CustomShipSelect
 
-`Hyperspace.CustomShipSelect.GetInstance()`
+Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 
 ### Methods
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
