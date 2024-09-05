@@ -72,16 +72,21 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 1000, () -> void)
         soundVolume.OnRender();
         musicVolume.OnRender();
 
-        if (showWipeButton) 
+        // wipe profile
+        if (showWipeButton)
         {
             wipeProfileButton.OnRender();
         }
-        // steam achievement stuff - can't include in build
+
+        // Steam achievement sync
         /*
-        if (showSyncAchievements) 
+        #ifdef STEAM_1_6_13_BUILD
+        Steam1613OptionsScreenStructAdditions steam;
+        if (steam.showSyncAchievements) 
         {
-            syncAchievementsButton.OnRender();
+            steam.syncAchievementsButton.OnRender();
         }
+        #endif
         */
     } 
     else 
@@ -257,17 +262,18 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseClick, 1000, (int x, int y) -> void)
                     {
                         wipeProfileDialog.Open();
                     }
-
-                    /*
-                    // Steam achievement sync would be here but it can not be included for non steam builds
-                    if (syncAchievementsButton.bActive && syncAchievementsButton.bHover && showSyncAchievements) 
-                    {
-                        ScoreKeeper Keeper = *Global_ScoreKeeper_Keeper;
-                        Keeper.SyncAchievements(true);
-                        AchievementTracker::SyncAchievements(&AchievementTracker::Tracker);
-                    }
-                    */
                     
+                    // Handle Steam achievement sync button
+                    /*
+                    #ifdef STEAM_1_6_13_BUILD
+                    Steam1613OptionsScreenStructAdditions steam;
+                    if (steam.syncAchievementsButton.bActive && steam.syncAchievementsButton.bHover && steam.showSyncAchievements) 
+                    {
+                        G_->GetAchievementTracker()->SyncAchievements();
+                    }
+                    #endif
+                    */
+
                     // Volume slider handling
                     soundVolume.MouseClick(x, y);
                     musicVolume.MouseClick(x, y);
