@@ -145,9 +145,9 @@ void HullBars::ParseHullBarsNode(rapidxml::xml_node<char> *node)
         {
             enabledType = boost::lexical_cast<int>(node->first_attribute("type")->value());
         }
-        if (node->first_attribute("maxHP"))
+        if (node->first_attribute("maxHull"))
         {
-            barWidth = boost::lexical_cast<int>(node->first_attribute("maxHP")->value());
+            barWidth = boost::lexical_cast<int>(node->first_attribute("maxHull")->value());
         }
 
         auto child = node->first_node("barColor");
@@ -206,12 +206,12 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (HullNumbers.cpp)\n")
     super(renderText);
 
-    HullNumbers *manager = HullNumbers::GetInstance();
-    if (manager && manager->enabled)
+    HullNumbers *HNManager = HullNumbers::GetInstance();
+    if (HNManager && HNManager->enabled)
     {
         char buffer[64];
         sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
-        auto textInfo = manager->playerIndicator;
+        auto textInfo = HNManager->playerIndicator;
         HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
     }
 }
@@ -240,25 +240,25 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     super();
     g_overrideHullBar = false;
 
-    HullBars *hbManager = HullBars::GetInstance();
-    if(hbManager->enabledType == 1 && this->GetCurrentTarget()->ship.hullIntegrity.first > hbManager->barWidth)
+    HullBars *HBManager = HullBars::GetInstance();
+    if(HBManager->enabledType == 1 && this->GetCurrentTarget()->ship.hullIntegrity.first > HBManager->barWidth)
     {
-        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / hbManager->barWidth);
+        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / HBManager->barWidth);
 
-        hbManager->RefreshPosition(boss_visual);
-        float x1 = hbManager->barWidth / 22.f;
-        float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (hbManager->barWidth))/hbManager->barWidth)*(hbManager->barWidth / 22.f);
+        HBManager->RefreshPosition(boss_visual);
+        float x1 = HBManager->barWidth / 22.f;
+        float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (HBManager->barWidth))/HBManager->barWidth)*(HBManager->barWidth / 22.f);
 
-        hbManager->hullBarImage->SetPartial(0.0,0.0,x1,1.0);
-        hbManager->hullBarImage->OnRender(hbManager->GetBarColor(ibar - 1));
+        HBManager->hullBarImage->SetPartial(0.0,0.0,x1,1.0);
+        HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar - 1));
 
-        hbManager->hullBarImage->SetPartial(0.0,0.0,x2,1.0);
-        hbManager->hullBarImage->OnRender(hbManager->GetBarColor(ibar));
+        HBManager->hullBarImage->SetPartial(0.0,0.0,x2,1.0);
+        HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar));
     }
 
-    HullNumbers *manager = HullNumbers::GetInstance();
+    HullNumbers *HNManager = HullNumbers::GetInstance();
 
-    if (this->GetCurrentTarget() && manager && manager->enabled)
+    if (this->GetCurrentTarget() && HNManager && HNManager->enabled)
     {
         bool hostile = this->GetCurrentTarget()->_targetable.hostile;
         if (hostile)
@@ -279,26 +279,26 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         HullNumbers::IndicatorInfo textInfo;
         if (boss_visual)
         {
-            auto it = manager->bossIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
-            if (it != std::end(manager->bossIndicatorLoc))
+            auto it = HNManager->bossIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
+            if (it != std::end(HNManager->bossIndicatorLoc))
             {
                 textInfo = it->second;
             }
             else
             {
-                textInfo = manager->bossIndicator;
+                textInfo = HNManager->bossIndicator;
             }
         }
         else
         {
-            auto it = manager->enemyIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
-            if (it != std::end(manager->enemyIndicatorLoc))
+            auto it = HNManager->enemyIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
+            if (it != std::end(HNManager->enemyIndicatorLoc))
             {
                 textInfo = it->second;
             }
             else
             {
-                textInfo = manager->enemyIndicator;
+                textInfo = HNManager->enemyIndicator;
             }
         }
 
@@ -334,16 +334,16 @@ HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size
     
     if (g_overrideHullBar && y_size == 1.0)
     {
-        HullBars *hbManager = HullBars::GetInstance();
+        HullBars *HBManager = HullBars::GetInstance();
         std::pair<int, int> shipHp = G_->GetShipManager(1)->ship.hullIntegrity;
 
-        if (hbManager->enabledType == 1 && shipHp.first > hbManager->barWidth)
+        if (HBManager->enabledType == 1 && shipHp.first > HBManager->barWidth)
         {
             x_size = 0.0;
         }
-        else if (hbManager->enabledType == 2 && shipHp.second > hbManager->barWidth)
+        else if (HBManager->enabledType == 2 && shipHp.second > HBManager->barWidth)
         {
-            x_size = ((float) shipHp.first / (float) shipHp.second) * (hbManager->barWidth / 22.f);
+            x_size = ((float) shipHp.first / (float) shipHp.second) * (HBManager->barWidth / 22.f);
         }
     }
 

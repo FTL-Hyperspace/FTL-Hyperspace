@@ -170,14 +170,14 @@ Displays the amount of hull points left for the player or enemy
 
 type = 0: Vanilla
 type = 1: Stacking HP bars
-type = 2: HP bars width capped at maxHP, will shrink accordingly to lost HP (default)
+type = 2: HP bars width capped at maxHull, will shrink accordingly to lost HP (default)
 
-maxHP: maximum amount of hull points visually shown (Vanilla default is 22)
+maxHull: maximum amount of hull points visually shown (Vanilla default is 22)
 
 barColor: colour of the stacked HP bars (type 2), will loop around if there are more bars than colours
 -->
 
-<hullBars type="2" maxHP="22">
+<hullBars type="2" maxHull="22">
 	<barColor r="120" g="255" b="120" a="255"/> <!-- Vanilla green colour-->
 	<barColor r="255" g="255" b="0" a="255"/>
 	<barColor r="255" g="180" b="0" a="255"/>
