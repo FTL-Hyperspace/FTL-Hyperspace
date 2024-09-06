@@ -7738,6 +7738,20 @@ namespace _func557
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("DroneSystem::Jump", typeid(void (DroneSystem::*)()), ".554889e54156534989fe", argdata, 1, 6, &func);
+}
+
+void DroneSystem::Jump()
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(DroneSystem *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func557::func;
+	return execfunc(this);
+}
+
+namespace _func558
+{
+    static void *func = 0;
+	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("DroneSystem::UpdateBonusPower", typeid(void (DroneSystem::*)()), "555731ff565383ec2c8b6c24408b85480100008b959c010000", argdata, 1, 6, &func);
 }
 

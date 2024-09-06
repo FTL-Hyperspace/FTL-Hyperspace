@@ -7779,6 +7779,20 @@ bool DroneSystem::DePowerDrone(Drone *drone, bool unk)
 namespace _func557
 {
     static void *func = 0;
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("DroneSystem::Jump", typeid(void (DroneSystem::*)()), "8b91c00100008b81c401000029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389cf", argdata, 1, 5, &func);
+}
+
+void DroneSystem::Jump()
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(DroneSystem *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func556::func;
+	return execfunc(this);
+}
+
+namespace _func557
+{
+    static void *func = 0;
 	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("DroneSystem::StringToDrone", typeid(int (*)(std::string &)), "8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c0750a8d65f8595b5d8d61fcc3c70424????????89d9e8????????89c283ec04b80100000085d274da", argdata, 1, 2, &func);
 }
