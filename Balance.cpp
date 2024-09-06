@@ -26,12 +26,16 @@ HOOK_METHOD(DroneSystem, Jump, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> DroneSystem::Jump -> Begin (Balance.cpp)\n")
 
-    for (auto drone : drones)
+    if (g_repairDroneRecoveryFix)
     {
-        // type == 5 are SHIP_REPAIR
-        if (g_repairDroneRecoveryFix && drone->deployed && drone->type == 5){
-            drone->SetDestroyed(true, false);
-            drone->deployed = false;
+        for (auto drone : drones)
+        {
+            // type == 5 are SHIP_REPAIR
+            if (drone->deployed && drone->type == 5)
+            {
+                drone->SetDestroyed(true, false);
+                drone->deployed = false;
+            }
         }
     }
     super();
