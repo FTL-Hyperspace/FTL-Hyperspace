@@ -322,6 +322,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_repairDroneRecoveryFix = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();

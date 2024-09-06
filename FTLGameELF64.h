@@ -5222,6 +5222,7 @@ struct DroneStoreBox : StoreBox
 struct DroneSystem : ShipSystem
 {
 	LIBZHL_API bool DePowerDrone(Drone *drone, bool unk);
+	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RemoveDrone(int slot);
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
