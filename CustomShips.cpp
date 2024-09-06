@@ -1515,27 +1515,23 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
         (g_artilleryGibMountFix || CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).artilleryGibMountFix);
     if (doArtyGibFix)
     {
-        for (int i = 0; i < pieces.size(); ++i)
+        for (ArtillerySystem *artillery : ship->artillerySystems)
         {
-            float rectW = shipRect->w/2;
-            float rectH = shipRect->h/2;
-            CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(position[i].x, position[i].y, 0.0);
-            CSurface::GL_Translate(rectW, rectH, 0.0);
-            CSurface::GL_Rotate(rotation[i], 0.0, 0.0, 1.0);
-            CSurface::GL_Translate(-rectW, -rectH, 0.0);
-            CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.0);
-            for (ArtillerySystem *artillery : ship->artillerySystems)
+            int gib;
+            if (artillery != nullptr && (gib = artillery->projectileFactory->mount.gib - 1, gib >= 0) && gib < pieces.size())
             {
-                if (artillery != nullptr && artillery->projectileFactory->mount.gib - 1 == i)
-                {
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Translate(-startingPosition[i].x, -startingPosition[i].y, 0.0);
-                    artillery->projectileFactory->weaponVisual.OnRender(1.0);
-                    CSurface::GL_PopMatrix();
-                }
+                float rectW = shipRect->w/2;
+                float rectH = shipRect->h/2;
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(position[gib].x, position[gib].y, 0.0);
+                CSurface::GL_Translate(rectW, rectH, 0.0);
+                CSurface::GL_Rotate(rotation[gib], 0.0, 0.0, 1.0);
+                CSurface::GL_Translate(-rectW, -rectH, 0.0);
+                CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.0);
+                CSurface::GL_Translate(-startingPosition[gib].x, -startingPosition[gib].y, 0.0);
+                artillery->projectileFactory->weaponVisual.OnRender(1.0);
+                CSurface::GL_PopMatrix();
             }
-            CSurface::GL_PopMatrix();
         }
     }
 
