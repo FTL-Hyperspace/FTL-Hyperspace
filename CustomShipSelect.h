@@ -86,6 +86,7 @@ struct CustomShipDefinition
     int startingScrap = -1;
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
+    std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> roomStationBackups;
     std::vector<std::string> shipIcons;
     ToggleValue<bool> forceAutomated;
 

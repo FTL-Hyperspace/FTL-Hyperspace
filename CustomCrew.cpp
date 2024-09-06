@@ -6770,3 +6770,78 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
     }
     return ret;
 }
+
+HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::RestorePosition -> Begin (CustomCrew.cpp)\n")
+    
+    Slot station;
+    if (!bDead && savedPosition.roomId != -1 && (station = FindSlot(savedPosition.roomId, savedPosition.slotId, false), station.roomId > -1) && station.slotId > -1)
+    {
+        CrewMember_Extend *ex = CM_EX(this);
+        ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
+        if (ex->CanTeleportMove(false))
+        {
+            // Handle return for stations for crew that can teleport
+            SetCurrentTarget((CrewTarget *)NULL, false);
+            EmptySlot();
+            SetRoomPath(station.slotId, station.roomId);
+            if (graph->GetClosestSlot(Point(x, y), currentShipId, false).roomId != station.roomId)
+            {
+                ex->InitiateTeleport(iShipId, station.roomId, station.slotId);
+                G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+            }
+            return true;
+        }
+        else
+        {
+            // Re-implementation of vanilla return to stations code
+            Path path = graph->FindPath(Point(x, y), graph->GetSlotWorldPosition(station.slotId, station.roomId), iShipId);
+            if (path.distance != -1.0)
+            {
+                SetCurrentTarget((CrewTarget *)NULL, false);
+                if (path.doors.empty() || path.doors.front() != blockingDoor)
+                {
+                    blockingDoor = (Door *)NULL;
+                }
+                EmptySlot();
+                SetRoomPath(station.slotId, station.roomId);
+                return true;
+            }
+            else
+            {
+                // Use a backup station if a suitable one exists
+                ShipManager *shipManager = G_->GetShipManager(iShipId);
+                std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> stationBackups;
+                if (shipManager && (stationBackups = CustomShipSelect::GetInstance()->GetDefinition(shipManager->myBlueprint.blueprintName).roomStationBackups, stationBackups.find(station.roomId) != stationBackups.end()))
+                {
+                    for (auto backupRoom : *stationBackups.at(station.roomId))
+                    {
+                        int slot = 0;
+                        if (!backupRoom.second.empty())
+                        {
+                            std::vector<int> destRoomFilledSlots = shipManager->ship.vRoomList[backupRoom.first]->filledSlots;
+                            for (int backupSlot : backupRoom.second)
+                            {
+                                if (std::find(destRoomFilledSlots.begin(), destRoomFilledSlots.end(), backupSlot) == destRoomFilledSlots.end())
+                                {
+                                    slot = backupSlot;
+                                    break;
+                                }
+                            }
+                            if (slot == 0) slot = backupRoom.second[0];
+                        }
+                        path = graph->FindPath(Point(x, y), graph->GetSlotWorldPosition(slot, backupRoom.first), iShipId);
+                        if (path.distance != -1.0)
+                        {
+                            MoveToRoom(backupRoom.first, slot, true);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return false;
+}
