@@ -66,6 +66,7 @@ public:
     // 2: fixed bar width scaling with max hp
     int enabledType = 0;
     int barWidth = 22; // 22 Hp is vanilla "max" hp
+    int barWidthBoss = 22;
 
     CachedImage* hullBarImage = nullptr;
     std::vector<GL_Color> barColor = { GL_Color(0.47f, 1.f, 0.47f, 1.f) }; // Unless we offer customization of the base HP bar color in the future, this is fine

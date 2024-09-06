@@ -147,6 +147,10 @@ void HullBars::ParseHullBarsNode(rapidxml::xml_node<char> *node)
         {
             barWidth = boost::lexical_cast<int>(node->first_attribute("maxHull")->value());
         }
+        if (node->first_attribute("maxHullBoss"))
+        {
+            barWidthBoss = boost::lexical_cast<int>(node->first_attribute("maxHullBoss")->value());
+        }
 
         for (auto child = node->first_node("barColor"); child; child = child->next_sibling("barColor"))
         {
@@ -237,13 +241,14 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     g_overrideHullBar = false;
 
     HullBars *HBManager = HullBars::GetInstance();
-    if(HBManager->enabledType == 1 && this->GetCurrentTarget()->ship.hullIntegrity.first > HBManager->barWidth)
+    int barWidth = boss_visual ? HBManager->barWidthBoss : HBManager->barWidth;
+    if(HBManager->enabledType == 1 && this->GetCurrentTarget()->ship.hullIntegrity.first > barWidth)
     {
-        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / HBManager->barWidth);
+        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / barWidth);
 
         HBManager->RefreshPosition(boss_visual);
-        float x1 = HBManager->barWidth / 22.f;
-        float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (HBManager->barWidth))/HBManager->barWidth)*(HBManager->barWidth / 22.f);
+        float x1 = barWidth / 22.f;
+        float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (barWidth))/barWidth)*(barWidth / 22.f);
 
         HBManager->hullBarImage->SetPartial(0.0, 0.0, x1, 1.0);
         HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar - 1));
@@ -328,18 +333,20 @@ HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size
 {
     LOG_HOOK("HOOK_METHOD -> CachedPrimitive::SetPartial -> Begin (HullNumbers.cpp)\n")
     
-    if (g_overrideHullBar && y_size == 1.0)
+    ShipManager *enemyShip;
+    if (g_overrideHullBar && y_size == 1.0 && (enemyShip = G_->GetShipManager(1)))
     {
         HullBars *HBManager = HullBars::GetInstance();
-        std::pair<int, int> shipHp = G_->GetShipManager(1)->ship.hullIntegrity;
+        std::pair<int, int> shipHp = enemyShip->ship.hullIntegrity;
+        int barWidth = G_->GetCApp()->gui->combatControl.boss_visual ? HBManager->barWidthBoss : HBManager->barWidth;
 
-        if (HBManager->enabledType == 1 && shipHp.first > HBManager->barWidth)
+        if (HBManager->enabledType == 2)
+        {
+            x_size = ((float) shipHp.first / (float) shipHp.second) * (barWidth / 22.f);
+        }
+        else if (HBManager->enabledType == 1 && shipHp.first > barWidth)
         {
             x_size = 0.0;
-        }
-        else if (HBManager->enabledType == 2 && shipHp.second > HBManager->barWidth)
-        {
-            x_size = ((float) shipHp.first / (float) shipHp.second) * (HBManager->barWidth / 22.f);
         }
     }
 
