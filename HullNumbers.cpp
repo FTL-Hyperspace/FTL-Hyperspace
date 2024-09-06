@@ -3,29 +3,29 @@
 
 HullNumbers HullNumbers::instance = HullNumbers();
 HullBars HullBars::instance = HullBars();
-bool g_overrideHullBar = false;
+static bool g_overrideHullBar = false;
 
 // TODO: 
 // sig for linux CacheImage::SetPartial
 
 HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
 {
-            if (node->first_attribute("x"))
-            {
-                indicatorInfo.x = boost::lexical_cast<int>(node->first_attribute("x")->value());
-            }
-            if (node->first_attribute("y"))
-            {
-                indicatorInfo.y = boost::lexical_cast<int>(node->first_attribute("y")->value());
-            }
-            if (node->first_attribute("type"))
-            {
-                indicatorInfo.type = boost::lexical_cast<int>(node->first_attribute("type")->value());
-            }
-            if (node->first_attribute("align"))
-            {
-                indicatorInfo.align = node->first_attribute("align")->value();
-            }
+    if (node->first_attribute("x"))
+    {
+        indicatorInfo.x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+    }
+    if (node->first_attribute("y"))
+    {
+        indicatorInfo.y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+    }
+    if (node->first_attribute("type"))
+    {
+        indicatorInfo.type = boost::lexical_cast<int>(node->first_attribute("type")->value());
+    }
+    if (node->first_attribute("align"))
+    {
+        indicatorInfo.align = node->first_attribute("align")->value();
+    }
 
     return indicatorInfo;
 }
@@ -148,11 +148,9 @@ void HullBars::ParseHullBarsNode(rapidxml::xml_node<char> *node)
             barWidth = boost::lexical_cast<int>(node->first_attribute("maxHull")->value());
         }
 
-        auto child = node->first_node("barColor");
-        while (child)
+        for (auto child = node->first_node("barColor"); child; child = child->next_sibling("barColor"))
         {
             ParseHullBarsColorsNode(child);
-            child = child->next_sibling("barColor");
         }
     }
     catch (rapidxml::parse_error& e)
@@ -247,10 +245,10 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         float x1 = HBManager->barWidth / 22.f;
         float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (HBManager->barWidth))/HBManager->barWidth)*(HBManager->barWidth / 22.f);
 
-        HBManager->hullBarImage->SetPartial(0.0,0.0,x1,1.0);
+        HBManager->hullBarImage->SetPartial(0.0, 0.0, x1, 1.0);
         HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar - 1));
 
-        HBManager->hullBarImage->SetPartial(0.0,0.0,x2,1.0);
+        HBManager->hullBarImage->SetPartial(0.0, 0.0, x2, 1.0);
         HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar));
     }
 

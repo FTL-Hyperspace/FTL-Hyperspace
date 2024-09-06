@@ -177,7 +177,7 @@ maxHull: maximum amount of hull points visually shown (Vanilla default is 22)
 barColor: colour of the stacked HP bars (type 2), will loop around if there are more bars than colours
 -->
 
-<hullBars type="2" maxHull="22">
+<hullBars type="0" maxHull="22">
 	<barColor r="255" g="255" b="0" a="255"/>
 	<barColor r="255" g="180" b="0" a="255"/>
 	<barColor r="255" g="120" b="0" a="255"/>
