@@ -248,7 +248,7 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 <!--  Prevents artillery with linked gibs from vanishing when a ship explodes.
 -->
 
-<artilleryGibMountFix enabled="false">
+<artilleryGibMountFix enabled="false"/>
 
 <!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
 -->
