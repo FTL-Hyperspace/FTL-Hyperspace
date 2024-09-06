@@ -81,6 +81,7 @@ struct CustomShipDefinition
     std::vector<CrewPlacementDefinition> crewList = std::vector<CrewPlacementDefinition>();
     bool noJump = false;
     bool noFuelStalemate = false;
+    bool artilleryGibMountFix = false;
     int hpCap = 20;
     int startingFuel = -1;
     int startingScrap = -1;
