@@ -168,9 +168,9 @@ align can be left, center or right
 <!-- Hull bar indicator
 Displays the amount of hull points left for the player or enemy
 
-type = 0: Vanilla
+type = 0: Vanilla (default)
 type = 1: Stacking HP bars
-type = 2: HP bars width capped at maxHull, will shrink accordingly to lost HP (default)
+type = 2: HP bars width capped at maxHull, will shrink accordingly to lost HP
 
 maxHull: maximum amount of hull points visually shown (Vanilla default is 22)
 
