@@ -780,6 +780,7 @@ struct WeaponMount
 struct WeaponAnimation
 {
 	LIBZHL_API Pointf GetSlide();
+	LIBZHL_API void OnRender(float alpha);
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -5705,25 +5706,25 @@ struct EventsParser
 
 struct ExplosionAnimation;
 
-struct GL_Texture
+struct ImageDesc
 {
-	int id_;
-	int width_;
-	int height_;
-	bool isLogical_;
-	float u_base_;
-	float v_base_;
-	float u_size_;
-	float v_size_;
+	GL_Texture *tex;
+	int resId;
+	int w;
+	int h;
+	int x;
+	int y;
+	int rot;
 };
 
 struct ExplosionAnimation : AnimationTracker
 {
 	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
+	LIBZHL_API void OnRender(Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
 	
 	ShipObject shipObj;
 	std::vector<Animation> explosions;
-	std::vector<GL_Texture> pieces;
+	std::vector<GL_Texture*> pieces;
 	std::vector<std::string> pieceNames;
 	std::vector<float> rotationSpeed;
 	std::vector<float> rotation;
@@ -5735,7 +5736,7 @@ struct ExplosionAnimation : AnimationTracker
 	float soundTimer;
 	bool bFinalBoom;
 	bool bJumpOut;
-	std::vector<WeaponAnimation> weaponAnims;
+	std::vector<WeaponAnimation*> weaponAnims;
 	Point pos;
 };
 
@@ -5822,6 +5823,18 @@ struct GL_Primitive
 	int id;
 };
 
+struct GL_Texture
+{
+	int id_;
+	int width_;
+	int height_;
+	bool isLogical_;
+	float u_base_;
+	float v_base_;
+	float u_size_;
+	float v_size_;
+};
+
 struct Ghost
 {
 };
@@ -5894,17 +5907,6 @@ struct HotkeyDesc
 {
 	std::string name;
 	int key;
-};
-
-struct ImageDesc
-{
-	GL_Texture *tex;
-	int resId;
-	int w;
-	int h;
-	int x;
-	int y;
-	int rot;
 };
 
 struct InputEventUnion
