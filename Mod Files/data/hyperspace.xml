@@ -270,6 +270,11 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 	<ellipseRange>50</ellipseRange> <!-- default range around the shield ellipse, can set separate values for player/enemy using player and enemy attributes -->
 </defenseDroneFix>
 
+<!--  Prevents artillery with linked gibs from vanishing when a ship explodes.
+-->
+
+<artilleryGibMountFix enabled="false"/>
+
 <!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
 -->
 
@@ -492,6 +497,7 @@ maxLevel attribute sets the maximum level you can upgrade to
 <baseCost> defines the cost of the first 5 levels
 <increment> sets how much more expensive each coloumn gets
 <overrideCost> sets the price of an individual coloumn specified in the attribute, every other coloumn will follow default scaling
+<artilleryGibMountFix> applies the fix to this ship if not already enabled globally
 
 
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
@@ -649,6 +655,7 @@ Syntax ->
 			<overrideCost coloumn="1">40</overrideCost>
 			<overrideCost coloumn="3">45</overrideCost>
 		</customReactor>
+		<artilleryGibMountFix/>
 	</customShip>
 	
 	<customShip name="ENEMY_SHIP">

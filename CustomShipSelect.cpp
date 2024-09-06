@@ -676,6 +676,11 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
             isCustom = true;
             def.shipGenerator = val;
         }
+        if (name == "artilleryGibMountFix")
+        {
+            isCustom = true;
+            def.artilleryGibMountFix = true;
+        }
 
     }
 

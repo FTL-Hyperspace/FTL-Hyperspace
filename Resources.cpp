@@ -389,6 +389,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "artilleryGibMountFix") == 0) // fixes artillery disappearing during ship explosions
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

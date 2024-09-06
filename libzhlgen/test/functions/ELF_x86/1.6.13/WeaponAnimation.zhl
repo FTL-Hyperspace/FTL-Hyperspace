@@ -6,3 +6,5 @@ cleanup __cdecl void WeaponAnimation::SetFireTime(WeaponAnimation *this, float t
 cleanup __cdecl Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
 "5557565383ec2c8b5c24408b7b5880bb9100000000":
 cleanup __cdecl void WeaponAnimation::Update(WeaponAnimation *this);
+"5589e557565383ec7c8b????e8????????":
+cleanup __cdecl void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
