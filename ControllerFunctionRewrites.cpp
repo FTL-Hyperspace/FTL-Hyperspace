@@ -28,9 +28,9 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 1000, () -> void)
     // code reverse engineered by Dino
     Point newLocation;
     std::string localizedText;
-    int closeButtonX, closeButtonY;
-    int baseX = position.x;
-    int baseY = position.y;
+    int16_t closeButtonX, closeButtonY;
+    int16_t baseX = position.x;
+    int16_t baseY = position.y;
 
     // set colortint when some stuff is open
     if (langChooser.bOpen || wipeProfileDialog.bOpen || restartRequiredDialog.bOpen) 
@@ -134,7 +134,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, CheckSelection, 1000, () -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::CheckSelection -> Begin (ControllerFunctionRewrites.cpp)\n")
 
     // code reverse engineered by Dino
-    int choice = GetPotentialChoice();
+    int8_t choice = GetPotentialChoice();
 
     if (-1 < choice) // Validate choice to prevent segfault
     {
