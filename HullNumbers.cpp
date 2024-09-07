@@ -325,7 +325,7 @@ HOOK_METHOD(CombatControl, constructor, () -> void)
     super();
     if (HullBars::GetInstance() && HullBars::GetInstance()->enabledType == 1)
     {
-        HullBars::GetInstance()->hullBarImage = new CachedImage("combatUI/box_hostiles_hull2.png",889 ,90);
+        HullBars::GetInstance()->hullBarImage = new CachedImage("combatUI/box_hostiles_hull2.png", 889, 90);
     }
 }
 
@@ -340,7 +340,7 @@ HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size
         std::pair<int, int> shipHp = enemyShip->ship.hullIntegrity;
         int barWidth = G_->GetCApp()->gui->combatControl.boss_visual ? HBManager->barWidthBoss : HBManager->barWidth;
 
-        if (HBManager->enabledType == 2)
+        if (HBManager->enabledType == 2 && shipHp.second > barWidth)
         {
             x_size = ((float) shipHp.first / (float) shipHp.second) * (barWidth / 22.f);
         }

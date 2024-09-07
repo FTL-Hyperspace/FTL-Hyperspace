@@ -62,8 +62,8 @@ public:
     }
 
     // 0: disabled
-    // 1: stacking hp bars
-    // 2: fixed bar width scaling with max hp
+    // 1: layered hp bars
+    // 2: fixed bar width, scaling with max hp
     int enabledType = 0;
     int barWidth = 22; // 22 Hp is vanilla "max" hp
     int barWidthBoss = 22;
