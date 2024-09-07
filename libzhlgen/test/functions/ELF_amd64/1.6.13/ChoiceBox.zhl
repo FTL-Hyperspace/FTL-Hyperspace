@@ -6,6 +6,8 @@ cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y);
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
 ".8b150edf550031c083fa":
 cleanup __amd64 void ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
+".8b477483":
+cleanup __amd64 int ChoiceBox::GetChoice(ChoiceBox *this);
 ".8b4770c3":
 cleanup __amd64 int ChoiceBox::GetPotentialChoice(ChoiceBox *this);
 ".41574989ff41564155415455534881ec68020000":

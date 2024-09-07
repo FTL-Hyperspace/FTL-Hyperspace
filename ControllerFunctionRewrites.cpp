@@ -18,7 +18,58 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnLoop, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::OnLoop -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    super();
+    /*
+    // Handle steam achievement sync button visibility
+    #ifdef STEAM_1_6_13_BUILD
+    Steam1613OptionsScreenStructAdditions steam;
+    steam.showSyncAchievements = G_->GetAchievementTracker()->IsReadyToSync();
+    #endif
+    */
+
+    // Handle sound/music volume 
+    float soundVolumeRatio = static_cast<float>(this->soundVolume.marker.x - this->soundVolume.minMax.first) / static_cast<float>(this->soundVolume.minMax.second - this->soundVolume.minMax.first);
+    G_->GetSoundControl()->SetSoundVolume(soundVolumeRatio);
+    float musicVolumeRatio = static_cast<float>(this->musicVolume.marker.x - this->musicVolume.minMax.first) / static_cast<float>(this->musicVolume.minMax.second - this->musicVolume.minMax.first);
+    G_->GetSoundControl()->SetMusicVolume(musicVolumeRatio);
+
+    // Handle Hotkey Menu stuff
+    std::vector<ControlButton> &hotkeyButtons = controls.buttons[controls.currentPage];
+    for (ControlButton &button : hotkeyButtons)
+    {
+        SDLKey currentHotkey = Settings::GetHotkey(button.value);
+
+        std::string hotkeyDisplay = (currentHotkey == 0) ? "----" : Settings::GetHotkeyName(button.value);
+        button.key = hotkeyDisplay;
+    }
+
+    // Update option screen if fullscreen changed 
+    if (!bCustomizeControls && lastFullScreen != G_->GetSettings()->fullscreen)
+    {
+        Open(showWipeButton);
+    }
+
+    // Handle language menu stuff
+    if (langChooser.bOpen)
+    {
+        langChooser.OnLoop();
+
+        if (!langChooser.bOpen)
+        {
+            Open(showWipeButton);
+        }
+    }
+
+    // Handle restart required window
+    if (restartRequiredDialog.bOpen)
+    {
+        int8_t choice = restartRequiredDialog.GetChoice();
+
+        if (choice != -1)
+        {
+            bOpen = false;
+            return;
+        }
+    }
 }
 
 HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 1000, () -> void)

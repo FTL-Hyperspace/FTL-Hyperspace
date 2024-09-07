@@ -3140,6 +3140,7 @@ struct TextButton;
 
 struct LanguageChooser : FocusWindow
 {
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	
 	std::vector<TextButton*> buttons;
@@ -3205,6 +3206,7 @@ struct ChoiceBox : FocusWindow
     }
 
 	LIBZHL_API void Close();
+	LIBZHL_API int GetChoice();
 	LIBZHL_API int GetPotentialChoice();
 	LIBZHL_API void KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY);
@@ -7108,6 +7110,8 @@ struct SoundControl;
 struct SoundControl
 {
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
+	LIBZHL_API void SetMusicVolume(float val);
+	LIBZHL_API void SetSoundVolume(float val);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	LIBZHL_API void StopPlaylist(int fadeOut);
 	LIBZHL_API void UpdateSoundLoop(const std::string &loopId, float count);
