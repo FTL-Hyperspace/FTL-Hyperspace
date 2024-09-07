@@ -479,9 +479,9 @@ HOOK_METHOD_PRIORITY(OptionsScreen, KeyDown, 1000, (SDLKey sym) -> bool)
         {
             if (sym == 0x1b)
             {
-                int selectedButton = controls.selectedButton;
+                int16_t selectedButton = controls.selectedButton;
 
-                // Deselect button if one is selected
+                // Deselect the hotkey and set it to its previous key
                 if (selectedButton != -1)
                 {
                     controls.buttons[controls.currentPage][selectedButton].state = 0;
@@ -496,10 +496,10 @@ HOOK_METHOD_PRIORITY(OptionsScreen, KeyDown, 1000, (SDLKey sym) -> bool)
                     return true;
                 }
             }
-            else if (sym - 0x12fU < 2) // Unsure what this really does - probably an alternative for the escape key
+            else if (sym != 0x1b) // Bind the the pressed key to the selected hotkey if wasn't the escape key
             {
-                auto &buttons = controls.buttons[controls.currentPage];
-                for (auto &button : buttons)
+                std::vector<ControlButton> &hotkeyButtons = controls.buttons[controls.currentPage];
+                for (ControlButton &button : hotkeyButtons)
                 {
                     if (button.state == 2)
                     {
