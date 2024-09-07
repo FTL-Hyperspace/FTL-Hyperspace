@@ -3357,6 +3357,7 @@ struct ControlsScreen;
 struct ControlsScreen
 {
 	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();

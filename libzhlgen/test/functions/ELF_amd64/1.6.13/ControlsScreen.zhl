@@ -4,5 +4,7 @@ cleanup __amd64 void ControlsScreen::OnLoop(ControlsScreen *this);
 cleanup __amd64 void ControlsScreen::OnInit(ControlsScreen *this);
 ".415741564155415455534889fb4881ec1802000080bf7001000000":
 cleanup __amd64 void ControlsScreen::OnRender(ControlsScreen *this);
+".415641be????????41554c8d":
+cleanup __amd64 void ControlsScreen::MouseMove(ControlsScreen *this, int x, int y);
 ".4154555380bf70010000004889fb":
 cleanup __amd64 void ControlsScreen::MouseClick(ControlsScreen *this, int x, int y);
