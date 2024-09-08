@@ -1,6 +1,6 @@
 "55534889fb4883ec??4863773883fe":
 cleanup __amd64 void LanguageChooser::OnLoop(LanguageChooser *this);
-".!4889ee480335(???????\?)":
+"!4889ee480335(???????\?)":
 offsetVariable std::vector<std::string>* Global_OptionsScreen_languageList;
 ".4157bef001000041564155":
 cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);

@@ -253,7 +253,146 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::Open -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    super(mainMenu);
+    // Set up static links
+    hs_log_file("Set up static links\n");
+    auto settings = G_->GetSettings();
+    auto textLibrary = G_->GetTextLibrary();
+    auto currentLanguage = textLibrary->currentLanguage;
+    /*
+    #ifdef STEAM_1_6_13_BUILD
+        Steam1613OptionsScreenStructAdditions steam;
+    #endif
+    */
+
+    // Set initial values
+    hs_log_file("Set initial values\n");
+    showWipeButton = mainMenu;
+    bCustomizeControls = false;
+    /*
+    #ifdef STEAM_1_6_13_BUILD
+        steam.showSyncAchievements = G_->GetAchievementTracker()->IsReadyToSync();
+    #endif
+    */
+
+    choiceTouchAutoPause = -1;
+
+    // Holder Variables:
+    std::string optionText;
+    std::string optionStatus;
+    std::string formattedText;
+    std::vector<ChoiceText> firstColumn;
+    std::vector<ChoiceText> secondColumn;
+
+    auto getOnOffText = [&](bool condition) -> std::string
+    {
+        return textLibrary->GetText(condition ? "on" : "off");
+    };
+
+    auto getDisabledEnabledText = [&](bool condition) -> std::string
+    {
+        return textLibrary->GetText(condition ? "disabled" : "enabled");
+    };
+
+    auto insertFormattedText = [&](const std::string& key, const std::string& status) -> std::string
+    {
+        return textLibrary->InsertText(textLibrary->GetText(key), status);
+    };
+
+    // Construct fullscreen option
+    choiceFullscreen = 0;
+    optionStatus = textLibrary->GetText("fullscreen_" + std::to_string(settings->fullscreen));
+    formattedText = insertFormattedText("fullscreen", optionStatus);
+    firstColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct VSync option
+    choiceVSync = 1;
+    formattedText = insertFormattedText("v_sync", getOnOffText(settings->vsync));
+    firstColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct frame-limit option
+    choiceFrameLimit = 2;
+    formattedText = insertFormattedText("frame_limit", getOnOffText(settings->frameLimit));
+    firstColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct dynamic-background option
+    choiceLowend = 3;
+    formattedText = insertFormattedText("dynamic_back", getOnOffText(settings->lowend));
+    firstColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct colorblind option
+    choiceColorblind = 4;
+    formattedText = insertFormattedText("colorblind", getDisabledEnabledText(settings->colorblind));
+    firstColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct language option
+    choiceLanguage = 5;
+    optionText = textLibrary->GetText("change_language");
+    firstColumn.emplace_back(0, optionText, ResourceEvent());
+    
+    //               //
+    // SECOND COLUMN //
+    //               //
+
+    // Construct event-choice-input-delay option
+    choiceDialogKeys = 6;
+    switch (settings->dialogKeys)
+    {
+        case 0:
+            optionStatus = textLibrary->GetText("event_choice_disable_hotkeys");
+            break;
+        case 1:
+            optionStatus = textLibrary->GetText("event_choice_brief_delay");
+            break;
+        case 2:
+            optionStatus = textLibrary->GetText("event_choice_no_delay");
+            break;
+    }
+    formattedText = insertFormattedText("event_choice", optionStatus);
+    secondColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct show-map-paths option
+    choiceShowPaths = 7;
+    formattedText = insertFormattedText("show_paths", getDisabledEnabledText(settings->showPaths));
+    secondColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct achievement-popup option
+    choiceAchievementPopups = 8;
+    formattedText = insertFormattedText("achievement_popup", getDisabledEnabledText(settings->achPopups));
+    secondColumn.emplace_back(0, formattedText, ResourceEvent());
+
+    // Construct window-focus-auto-pause option
+    if (settings->fullscreen == 0)
+    {
+        choiceAutoPause = 9;
+        choiceControls = 10;
+        formattedText = insertFormattedText("window_focus", getOnOffText(settings->showPaths));
+        secondColumn.emplace_back(0, formattedText, ResourceEvent());
+    }
+    else
+    {
+        choiceControls = 9;
+    }
+
+    // Construct keybind-menu option
+    optionText = textLibrary->GetText("configure_controls");
+    secondColumn.emplace_back(0, optionText, ResourceEvent());
+
+    // Initialize option screen
+    std::string empty = "";
+    ChoiceBox::SetChoices(&empty, &firstColumn, &secondColumn);
+    firstColumn.clear();
+    secondColumn.clear();
+
+    // Update sound volume based on current settings
+    if (!bOpen)
+    {
+        float soundVolume = G_->GetSoundControl()->GetSoundVolume();
+        float musicVolume = G_->GetSoundControl()->GetMusicVolume();
+        this->soundVolume.marker.x = static_cast<int>(this->soundVolume.minMax.first + soundVolume * (this->soundVolume.minMax.second - this->soundVolume.minMax.first));
+        this->musicVolume.marker.x = static_cast<int>(this->musicVolume.minMax.first + musicVolume * (this->musicVolume.minMax.second - this->musicVolume.minMax.first));
+    }
+
+    bOpen = true; // This basically opens the options window
 }
 
 HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
@@ -358,7 +497,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, MouseMove, 1000, (int x, int y) -> void)
                     soundVolume.marker.x = newMarkerX;
                 }
 
-                // Handles the msuic volume slider stuff
+                // Handles the music volume slider stuff
                 if (!musicVolume.holding)
                 {
                     // Checks if the slider is hovered

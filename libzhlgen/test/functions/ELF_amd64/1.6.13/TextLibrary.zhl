@@ -9,7 +9,23 @@ struct TextLibrary
 		return TextLibrary::GetText(name, currentLanguage);
 	}
 
-	void SetLanguage(const std::string &language)
+	std::string InsertText(const std::string& inserter, const std::string& original, const std::string& replacement)
+    {
+        std::string result = original;
+        size_t pos = result.find(inserter);
+        if (pos != std::string::npos)
+        {
+            result.replace(pos, inserter.length(), replacement);
+        }
+        return result;
+    }
+
+    std::string InsertText(const std::string& original, const std::string& replacement)
+    {
+    	return TextLibrary::InsertText("\\1", original, replacement);
+    }
+
+	void SetLanguage(const std::string& language)
 	{
 		currentLanguage = language;
 	}

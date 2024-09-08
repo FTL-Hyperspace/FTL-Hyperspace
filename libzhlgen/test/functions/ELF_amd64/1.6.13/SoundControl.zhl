@@ -1,5 +1,9 @@
 "f30f5905????????534889fb":
 cleanup __amd64 void SoundControl::SetMusicVolume(SoundControl *this, float val);
+".f30f2a????f30f5e05????????c3":
+cleanup __amd64 float SoundControl::GetMusicVolume(SoundControl *this);
+".f30f2a????f30f5e05????????c3":
+cleanup __amd64 float SoundControl::GetSoundVolume(SoundControl *this);
 ".415541544989fc55534883ec38803f000f84c8000000":
 cleanup __amd64 void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
 ".f30f5905????????803f00f30f2cc0":

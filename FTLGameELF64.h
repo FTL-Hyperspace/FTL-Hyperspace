@@ -167,7 +167,23 @@ struct TextLibrary
 		return TextLibrary::GetText(name, currentLanguage);
 	}
 
-	void SetLanguage(const std::string &language)
+	std::string InsertText(const std::string& inserter, const std::string& original, const std::string& replacement)
+    {
+        std::string result = original;
+        size_t pos = result.find(inserter);
+        if (pos != std::string::npos)
+        {
+            result.replace(pos, inserter.length(), replacement);
+        }
+        return result;
+    }
+
+    std::string InsertText(const std::string& original, const std::string& replacement)
+    {
+    	return TextLibrary::InsertText("\\1", original, replacement);
+    }
+
+	void SetLanguage(const std::string& language)
 	{
 		currentLanguage = language;
 	}
@@ -7109,6 +7125,8 @@ struct SoundControl;
 
 struct SoundControl
 {
+	LIBZHL_API float GetMusicVolume();
+	LIBZHL_API float GetSoundVolume();
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void SetMusicVolume(float val);
 	LIBZHL_API void SetSoundVolume(float val);
