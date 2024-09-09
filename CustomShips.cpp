@@ -443,18 +443,21 @@ void RoomAnim::SaveState(int fd)
     FileHelper::writeInt(fd, anim.get() != nullptr);
     if (anim)
     {
+        FileHelper::writeString(fd, anim->animName);
         anim->SaveState(fd);
     }
 
     FileHelper::writeInt(fd, tileAnims.size());
     for (Animation &tileAnim : tileAnims)
     {
+        FileHelper::writeString(fd, tileAnim.animName);
         tileAnim.SaveState(fd);
     }
 
     FileHelper::writeInt(fd, wallAnim.get() != nullptr);
     if (wallAnim)
     {
+        FileHelper::writeString(fd, wallAnim->animName);
         wallAnim->SaveState(fd);
     }
 }
@@ -474,21 +477,20 @@ void RoomAnim::LoadState(int fd, Room *room)
 
     if (FileHelper::readInteger(fd))
     {
-        anim.reset(new Animation);
+        anim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd))));
         anim->LoadState(fd);
     }
 
     int n = FileHelper::readInteger(fd);
     for (int i=0; i<n; ++i)
     {
-        tileAnims.emplace_back();
-        Animation &tileAnim = tileAnims.back();
-        tileAnim.LoadState(fd);
+        tileAnims.emplace_back(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd)));
+        tileAnims.back().LoadState(fd);
     }
 
     if (FileHelper::readInteger(fd))
     {
-        wallAnim.reset(new Animation);
+        wallAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd))));
         wallAnim->LoadState(fd);
     }
 }
