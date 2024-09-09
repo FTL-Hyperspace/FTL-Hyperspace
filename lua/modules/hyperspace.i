@@ -3185,7 +3185,6 @@ playerVariableType playerVariables;
 %rename("%s") ActivatedPowerDefinition::hideCharges;
 %rename("%s") ActivatedPowerDefinition::hideButton;
 %rename("%s") ActivatedPowerDefinition::powerResources;
-%rename("%s") ActivatedPowerDefinition::respawnCharges;
 %rename("%s") ActivatedPowerDefinition::sounds;
 %rename("%s") ActivatedPowerDefinition::effectSounds;
 %rename("%s") ActivatedPowerDefinition::soundsEnemy;
