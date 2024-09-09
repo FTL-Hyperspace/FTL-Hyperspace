@@ -18,6 +18,8 @@ __thiscall void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
 __thiscall void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b712085f6":
 __thiscall void CachedImage::CreatePrimitive(CachedImage *this);
+"5589e55383e4f083ec10f30f1045080f2e4134":
+__thiscall void CachedImage::SetPartial(CachedImage *this, float x_start, float y_start, float x_size, float y_size);
 
 
 struct CachedImage

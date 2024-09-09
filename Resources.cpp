@@ -316,6 +316,11 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "hullBars") == 0)
+            {
+                HullBars::GetInstance()->ParseHullBarsNode(node);
+            }
+
             if (strcmp(node->name(), "hackingDroneFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

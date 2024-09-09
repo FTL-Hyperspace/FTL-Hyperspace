@@ -1,7 +1,9 @@
 #pragma once
 #include "rapidxml.hpp"
+#include "Global.h"
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 class HullNumbers
 {
@@ -33,3 +35,43 @@ private:
     static HullNumbers instance;
 };
 
+class HullBars
+{
+public:
+
+    void ParseHullBarsNode(rapidxml::xml_node<char> *node);
+    void ParseHullBarsColorsNode(rapidxml::xml_node<char> *node);
+
+    void RefreshPosition(bool BossBox)
+    {
+        if (hullBarImage == nullptr) return;
+        if (BossBox)
+        {
+            hullBarImage->x = 764;
+            hullBarImage->y = 47;
+        }
+        else
+        {
+            hullBarImage->x = 889;
+            hullBarImage->y = 90;
+        }
+    }
+    GL_Color GetBarColor(int index)
+    {
+        return barColor[index % barColor.size()];
+    }
+
+    // 0: disabled
+    // 1: layered hp bars
+    // 2: fixed bar width, scaling with max hp
+    int enabledType = 0;
+    int barWidth = 22; // 22 Hp is vanilla "max" hp
+    int barWidthBoss = 22;
+
+    CachedImage* hullBarImage = nullptr;
+    std::vector<GL_Color> barColor = { GL_Color(0.47f, 1.f, 0.47f, 1.f) }; // Unless we offer customization of the base HP bar color in the future, this is fine
+
+    static HullBars *GetInstance() { return &instance; }
+private:
+    static HullBars instance;
+};

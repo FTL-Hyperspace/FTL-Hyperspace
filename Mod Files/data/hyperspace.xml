@@ -165,6 +165,26 @@ align can be left, center or right
 	<bossText x="878" y="16" language="ja" type="0" align="center" />
 </hullNumbers>
 
+<!-- Hull bar indicator
+Displays the amount of hull points left for the player or enemy
+
+type = 0: Vanilla (default)
+type = 1: Stacking HP bars
+type = 2: HP bars width capped at maxHull, will shrink proportionally with lost HP
+
+maxHull: maximum amount of hull points visually shown (Vanilla default is 22)
+maxHullBoss: same as maxHull but applies for ships with a boss box
+
+barColor: colour of the stacked HP bars (type 2), will loop around if there are more bars than colours
+-->
+
+<hullBars type="0" maxHull="22" maxHullBoss="22">
+	<barColor r="255" g="255" b="0" a="255"/>
+	<barColor r="255" g="180" b="0" a="255"/>
+	<barColor r="255" g="120" b="0" a="255"/>
+	<barColor r="255" g="20" b="0" a="255"/>
+</hullBars>
+
 <!--  Blows up hacking drone if hacking is depowered
 This means that you can't get past defense drones easily anymore
 -->
