@@ -253,27 +253,39 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::Open -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    // Set up static links
-    hs_log_file("Set up static links\n");
-    auto settings = G_->GetSettings();
-    auto textLibrary = G_->GetTextLibrary();
-    auto currentLanguage = textLibrary->currentLanguage;
+    // code reverse engineered by Dino
+
+    /*
+    Notes:
+    - Heavily changed the way strings are constructed for the option
+      screen window by creating lambdas and writing a new function for
+      the text library class to optimize the code and shorten it't length.
+    - Original code sets the OptionsScreen::CheckSelection identifier
+      vars several times which I did not do here either (optimisation).
+    - I <3 optimisation!
+    */
+
+    // Static links
+    SettingValues *settings = G_->GetSettings();
+    TextLibrary *textLibrary = G_->GetTextLibrary();
+    std::string currentLanguage = textLibrary->currentLanguage;
     /*
     #ifdef STEAM_1_6_13_BUILD
         Steam1613OptionsScreenStructAdditions steam;
     #endif
     */
 
-    // Set initial values
-    hs_log_file("Set initial values\n");
+    // Set some very relevant class values
     showWipeButton = mainMenu;
     bCustomizeControls = false;
+    lastFullScreen = settings->fullscreen;
     /*
     #ifdef STEAM_1_6_13_BUILD
         steam.showSyncAchievements = G_->GetAchievementTracker()->IsReadyToSync();
     #endif
     */
 
+    // Set identifier for OptionsScreen::CheckSelection
     choiceTouchAutoPause = -1;
 
     // Holder Variables:
@@ -283,17 +295,18 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
     std::vector<ChoiceText> firstColumn;
     std::vector<ChoiceText> secondColumn;
 
-    auto getOnOffText = [&](bool condition) -> std::string
+    // String constructor Lambdas
+    std::function<std::string(bool)> getOnOffText = [&](bool condition) -> std::string
     {
         return textLibrary->GetText(condition ? "on" : "off");
     };
 
-    auto getDisabledEnabledText = [&](bool condition) -> std::string
+    std::function<std::string(bool)> getDisabledEnabledText = [&](bool condition) -> std::string
     {
         return textLibrary->GetText(condition ? "disabled" : "enabled");
     };
 
-    auto insertFormattedText = [&](const std::string& key, const std::string& status) -> std::string
+    std::function<std::string(const std::string&, const std::string&)> insertFormattedText = [&](const std::string& key, const std::string& status) -> std::string
     {
         return textLibrary->InsertText(textLibrary->GetText(key), status);
     };
@@ -328,7 +341,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
     choiceLanguage = 5;
     optionText = textLibrary->GetText("change_language");
     firstColumn.emplace_back(0, optionText, ResourceEvent());
-    
+
     //               //
     // SECOND COLUMN //
     //               //
@@ -380,6 +393,8 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
     // Initialize option screen
     std::string empty = "";
     ChoiceBox::SetChoices(&empty, &firstColumn, &secondColumn);
+
+    // Vector clea-up
     firstColumn.clear();
     secondColumn.clear();
 
@@ -393,10 +408,10 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
     }
 
     bOpen = true; // This basically opens the options window
-}
+    }
 
-HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
-{
+    HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
+    {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::Close -> Begin (ControllerFunctionRewrites.cpp)\n")
 
     // code reverse engineered by Dino
