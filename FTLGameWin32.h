@@ -5929,6 +5929,7 @@ struct IonDrone;
 struct IonDrone : BoarderDrone
 {
 	LIBZHL_API Damage GetRoomDamage();
+	LIBZHL_API void constructor(int iShipId, DroneBlueprint *blueprint);
 	
 	int lastRoom;
 };

@@ -186,6 +186,7 @@ public:
     bool isMantisAnimation = false;
     bool isIonDrone = false;
     bool isAbilityDrone = false;
+    TimerHelper ionTimer;
 
     ToggleValue<bool> canPunch;
 

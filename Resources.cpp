@@ -333,6 +333,16 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_repairDroneRecoveryFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "controllableIonDroneFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_controllableIonDroneFix = EventsParser::ParseBoolean(enabled);
+                if (g_controllableIonDroneFix)
+                {
+                    g_controllableIonDroneFix_Delay = boost::lexical_cast<float>(node->first_attribute("ionDelay")->value());
+                }
+            }
+
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();
