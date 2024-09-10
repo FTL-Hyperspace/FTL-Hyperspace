@@ -2414,11 +2414,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.isLiteral`
    - If true, the game will display the value of `.data`, otherwise it will refer to the text id from the value of `.data`.
 ###### Example
-- Set the texts of all choices in an event to 'new text'.
-```LUA
+```lua
+-- Set the texts of all choices in an event to 'new text'
 script.on_internal_event(Defines.InternalEvents.PRE_CREATE_CHOICEBOX, function(event)
-   local Choices = event:GetChoices()
-   for choice in vter(Choices) do -- vter from Vertex
+   local choices = event:GetChoices()
+   for i = 0, choices:size() - 1 do
+      local choice = choices[i]
       choice.text.isLiteral = true
       choice.text.data = 'new text'
    end
