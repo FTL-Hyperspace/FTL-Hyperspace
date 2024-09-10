@@ -41,6 +41,14 @@ HOOK_METHOD(DroneSystem, Jump, () -> void)
     super();
 }
 
+HOOK_METHOD(IonDroneAnimation, UpdateShooting, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> IonDroneAnimation::UpdateShooting -> Begin (Balance.cpp)\n")
+
+    super();
+    if (bDoorTarget) ionAnimation.tracker.running = false;
+}
+
 /*
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
