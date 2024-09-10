@@ -3156,6 +3156,7 @@ struct TextButton;
 
 struct LanguageChooser : FocusWindow
 {
+	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	
@@ -3420,6 +3421,7 @@ struct OptionsScreen : ChoiceBox
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnInit();
+	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open(bool mainMenu);

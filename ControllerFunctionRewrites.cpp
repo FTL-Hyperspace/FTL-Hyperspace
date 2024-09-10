@@ -7,16 +7,83 @@ HOOK_METHOD_PRIORITY(OptionsScreen, constructor, 1000, () -> void)
     super();
 }
 
+HOOK_METHOD(OptionsScreen, OnLanguageChange, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> OptionsScreen::OnLanguageChange -> Begin (ControllerFunctionRewrites.cpp)\n")
+
+    super();
+
+    OnInit(); // Reconstruct buttons with new language
+}
+
 HOOK_METHOD_PRIORITY(OptionsScreen, OnInit, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::OnInit -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    super();
+    // code reverse engineered by Dino
+
+    // Set sound volume
+    float soundVolume = G_->GetSoundControl()->GetSoundVolume();
+    float musicVolume = G_->GetSoundControl()->GetMusicVolume();
+    this->soundVolume.marker.x = static_cast<int>(this->soundVolume.minMax.first + soundVolume * (this->soundVolume.minMax.second - this->soundVolume.minMax.first));
+    this->musicVolume.marker.x = static_cast<int>(this->musicVolume.minMax.first + musicVolume * (this->musicVolume.minMax.second - this->musicVolume.minMax.first));
+
+    // Holder variables
+    TextString empty = TextString();
+    TextString label = TextString();
+
+    // Static link to text library
+    TextLibrary *textLibrary = G_->GetTextLibrary();
+
+    // Initialize controls
+    controls.OnInit();
+
+    // Initialize restart required dialog
+    restartRequiredDialog.bOpen = false;
+    restartRequiredDialog.selectedChoice = -1;
+
+    // Initialize language chooser
+    langChooser.bOpen = false;
+    langChooser.OnInit();
+
+    // Initialize close button
+    label.data = textLibrary->GetText("button_close", textLibrary->currentLanguage);
+    closeButton.OnInit(Point(30, 148), Point(103, 32), 4, &label, 63);
+    closeButton.SetBaseImage("storeUI/store_close_base.png", Point(-23, -7), 103);
+    closeButton.SetAutoWidth(true, false, 3, 0);
+
+    // Initialize wipe profile button
+    label.data = textLibrary->GetText("button_delete_profile", textLibrary->currentLanguage);
+    wipeProfileButton.OnInit(Point(251, 474), Point(131, 60), 8, &label, 63);
+    wipeProfileButton.lineHeight = (textLibrary->currentLanguage == "ja") ? 28 : 26;
+    wipeProfileButton.textYOffset = -2;
+    wipeProfileButton.SetBaseImage("optionsUI/button_deleteprofile_base.png", Point(-15, -15), 131);
+    wipeProfileButton.SetAutoWidth(true, true, 4, 0);
+
+    // Initialize the "Sync Achievements" button - (removed steam feature)
+    #ifdef STEAM_1_6_13_BUILD
+    label.data = textLibrary->GetText("button_sync_achievements", textLibrary->currentLanguage);
+    Steam1613OptionsScreenStructAdditions steam;
+    steam.syncAchievementsButton.OnInit(Point(-46, 186), Point(131, 60), 8, &label, 63);
+    steam.syncAchievementsButton.lineHeight = (G_->GetTextLibrary()->currentLanguage == "ja") ? 28 : 26;
+    steam.syncAchievementsButton.textYOffset = -2;
+    steam.syncAchievementsButton.SetBaseImage("optionsUI/button_deleteprofile_base.png", Point(-15, -15), 131);
+    steam.syncAchievementsButton.SetAutoWidth(true, true, 4, 0);
+    #endif
+
+    // Configure confirm wipe profile dialog
+    label.data = textLibrary->GetText("confirm_wipe_profile", textLibrary->currentLanguage);
+    empty.data = "";
+    wipeProfileDialog.Close();
+    wipeProfileDialog.SetText(label, 240, true, empty, empty);
+    // End of orig-code
 }
 
 HOOK_METHOD_PRIORITY(OptionsScreen, OnLoop, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::OnLoop -> Begin (ControllerFunctionRewrites.cpp)\n")
+
+    // code reverse engineered by Dino
 
     /*
     // Handle steam achievement sync button visibility
@@ -70,6 +137,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnLoop, 1000, () -> void)
             return;
         }
     }
+    // End of orig-code
 }
 
 HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 1000, () -> void)
@@ -77,6 +145,11 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 1000, () -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::OnRender -> Begin (ControllerFunctionRewrites.cpp)\n")
 
     // code reverse engineered by Dino
+    
+    // Satic link to text library
+    TextLibrary *textLibrary = G_->GetTextLibrary();
+
+    // Internal Vars
     Point newLocation;
     std::string localizedText;
     int16_t closeButtonX, closeButtonY;
@@ -106,17 +179,17 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnRender, 1000, () -> void)
         if ((G_->GetSettings()->currentFullscreen == 3) != (G_->GetSettings()->fullscreen == 3))
         {
             CSurface::GL_SetColor(COLOR_YELLOW);
-            localizedText = G_->GetTextLibrary()->GetText("restart_required", G_->GetTextLibrary()->currentLanguage);
+            localizedText = textLibrary->GetText("restart_required", textLibrary->currentLanguage);
             freetype::easy_print(13, baseX + 145, baseY + 20, localizedText);
         }
 
         CSurface::GL_SetColor(COLOR_WHITE);
         
         // render volume texts
-        localizedText = G_->GetTextLibrary()->GetText("sound_volume", G_->GetTextLibrary()->currentLanguage);
+        localizedText = textLibrary->GetText("sound_volume", textLibrary->currentLanguage);
         freetype::easy_printCenter(13, baseX + 156, baseY + 344, localizedText);
 
-        localizedText = G_->GetTextLibrary()->GetText("music_volume", G_->GetTextLibrary()->currentLanguage);
+        localizedText = textLibrary->GetText("music_volume", textLibrary->currentLanguage);
         freetype::easy_printCenter(13, baseX + 156, baseY + 394, localizedText);
 
         // render volume sliders
@@ -185,6 +258,9 @@ HOOK_METHOD_PRIORITY(OptionsScreen, CheckSelection, 1000, () -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::CheckSelection -> Begin (ControllerFunctionRewrites.cpp)\n")
 
     // code reverse engineered by Dino
+
+    SettingValues *settings = G_->GetSettings();
+
     int8_t choice = GetPotentialChoice();
 
     if (-1 < choice) // Validate choice to prevent segfault
@@ -200,15 +276,15 @@ HOOK_METHOD_PRIORITY(OptionsScreen, CheckSelection, 1000, () -> void)
         } 
         else if (choice == choiceFrameLimit) 
         {
-            G_->GetSettings()->frameLimit ^= 1;
+            settings->frameLimit ^= 1;
         } 
         else if (choice == choiceLowend) 
         {
-            G_->GetSettings()->lowend ^= 1;
+            settings->lowend ^= 1;
         } 
         else if (choice == choiceColorblind) 
         {
-            G_->GetSettings()->colorblind ^= 1;
+            settings->colorblind ^= 1;
         } 
         else if (choice == choiceLanguage) 
         {
@@ -217,23 +293,23 @@ HOOK_METHOD_PRIORITY(OptionsScreen, CheckSelection, 1000, () -> void)
         } 
         else if (choice == choiceDialogKeys) 
         {
-            G_->GetSettings()->dialogKeys = (G_->GetSettings()->dialogKeys + 1) % 3;
+            settings->dialogKeys = (settings->dialogKeys + 1) % 3;
         } 
         else if (choice == choiceShowPaths) 
         {
-            G_->GetSettings()->showPaths ^= 1;
+            settings->showPaths ^= 1;
         } 
         else if (choice == choiceAchievementPopups) 
         {
-            G_->GetSettings()->achPopups ^= 1;
+            settings->achPopups ^= 1;
         } 
         else if (choice == choiceAutoPause) 
         {
-            G_->GetSettings()->altPause ^= 1;
+            settings->altPause ^= 1;
         } 
         else if (choice == choiceTouchAutoPause) 
         {
-            G_->GetSettings()->touchAutoPause ^= 1;
+            settings->touchAutoPause ^= 1;
         } 
         else if (choice == choiceControls) 
         {
@@ -329,12 +405,12 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
 
     // Construct dynamic-background option
     choiceLowend = 3;
-    formattedText = insertFormattedText("dynamic_back", getOnOffText(settings->lowend));
+    formattedText = insertFormattedText("dynamic_back", getOnOffText(!settings->lowend));
     firstColumn.emplace_back(0, formattedText, ResourceEvent());
 
     // Construct colorblind option
     choiceColorblind = 4;
-    formattedText = insertFormattedText("colorblind", getDisabledEnabledText(settings->colorblind));
+    formattedText = insertFormattedText("colorblind", getDisabledEnabledText(!settings->colorblind));
     firstColumn.emplace_back(0, formattedText, ResourceEvent());
 
     // Construct language option
@@ -365,12 +441,12 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
 
     // Construct show-map-paths option
     choiceShowPaths = 7;
-    formattedText = insertFormattedText("show_paths", getDisabledEnabledText(settings->showPaths));
+    formattedText = insertFormattedText("show_paths", getDisabledEnabledText(!settings->showPaths));
     secondColumn.emplace_back(0, formattedText, ResourceEvent());
 
     // Construct achievement-popup option
     choiceAchievementPopups = 8;
-    formattedText = insertFormattedText("achievement_popup", getDisabledEnabledText(settings->achPopups));
+    formattedText = insertFormattedText("achievement_popup", getDisabledEnabledText(!settings->achPopups));
     secondColumn.emplace_back(0, formattedText, ResourceEvent());
 
     // Construct window-focus-auto-pause option
@@ -378,7 +454,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
     {
         choiceAutoPause = 9;
         choiceControls = 10;
-        formattedText = insertFormattedText("window_focus", getOnOffText(settings->showPaths));
+        formattedText = insertFormattedText("window_focus", getOnOffText(settings->altPause));
         secondColumn.emplace_back(0, formattedText, ResourceEvent());
     }
     else
@@ -408,26 +484,28 @@ HOOK_METHOD_PRIORITY(OptionsScreen, Open, 1000, (bool mainMenu) -> void)
     }
 
     bOpen = true; // This basically opens the options window
-    }
+    // End of orig-code
+}
 
-    HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
-    {
+HOOK_METHOD_PRIORITY(OptionsScreen, Close, 1000, () -> void)
+{
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::Close -> Begin (ControllerFunctionRewrites.cpp)\n")
 
     // code reverse engineered by Dino
-    if (G_->GetSettings()->fullscreen != 1 || CSurface::IsFrameBufferSupported()) 
+    SettingValues *settings = G_->GetSettings();
+    if (settings->fullscreen != 1 || CSurface::IsFrameBufferSupported()) 
     {
-        if (G_->GetSettings()->fullscreen == 3 && G_->GetSettings()->currentFullscreen != 3)
+        if (settings->fullscreen == 3 && settings->currentFullscreen != 3)
         {
             goto CloseWindow;
         }
     }
     else 
     {
-        G_->GetSettings()->fullscreen = G_->GetSettings()->currentFullscreen;
+        settings->fullscreen = settings->currentFullscreen;
     }
 
-    G_->GetSettings()->currentFullscreen = G_->GetSettings()->fullscreen;
+    settings->currentFullscreen = settings->fullscreen;
 
     CloseWindow:
     ChoiceBox::Close();

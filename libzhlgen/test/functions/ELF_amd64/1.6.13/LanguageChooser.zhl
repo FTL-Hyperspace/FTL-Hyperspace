@@ -4,3 +4,5 @@ cleanup __amd64 void LanguageChooser::OnLoop(LanguageChooser *this);
 offsetVariable std::vector<std::string>* Global_OptionsScreen_languageList;
 ".4157bef001000041564155":
 cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);
+".41564155415455534889fb4883ec??488b????4839":
+cleanup __amd64 void LanguageChooser::OnInit(LanguageChooser *this);
