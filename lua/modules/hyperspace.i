@@ -2177,6 +2177,12 @@ playerVariableType playerVariables;
 %rename("%s") CrewBlueprint::colorLayers;
 %rename("%s") CrewBlueprint::colorChoices;
 
+%rename("%s") SCrewStats;
+%rename("%s") SCrewStats::stat;
+%rename("%s") SCrewStats::species;
+%rename("%s") SCrewStats::name;
+%rename("%s") SCrewStats::male;
+
 //%nodefaultctor Blueprint;
 //%nodefaultdtor Blueprint;
 %rename("%s") Blueprint;

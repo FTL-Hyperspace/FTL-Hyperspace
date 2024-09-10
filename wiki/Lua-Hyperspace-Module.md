@@ -1407,29 +1407,65 @@ end
 - [`std::vector<CrewMember*>`](#CrewMember) `.crewMembers`
 
 ## CrewMember
+Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the Internal Event `CREW_LOOP`
 
 ### Methods
+- `Point :GetPosition()`
 - `float :PositionShift()`
 - `bool :InsideRoom(int roomId)`
 - `bool :ApplyDamage(float damage)`
+- `int :GetPriority`
+- `bool :ValidTarget(int unk)`
+- `bool :MultiShots()`
+- `bool :ExactTarget()`
+- `bool :IsCrew()`
+- `bool :IsCloned()`
+- `bool :IsDrone()`
 - `void :Jump()`
 - `bool :GetIntruder()`
 - `void :SaveState(int fileHelper)`
 - `void :LoadState(int fileHelper)`
 - `void :OnLoop()`
 - `void :OnRender(bool outlineOnly)`
+- `bool :OutOfGame()`
 - `void :SetOutOfGame()`
 - `bool :Functional()`
 - `bool :CountForVictory()`
 - `bool :GetControllable()`
+- `bool :ReadyToFight()`
+- `bool :CanFight()`
 - `bool :CanRepair()`
 - `bool :CanSabotage()`
 - `bool :CanMan()`
 - `bool :CanTeleport()`
 - `bool :CanHeal()`
+- `bool :CanSuffocate()`
+- `bool :CanBurn()`
+- `int :GetMaxHealth()`
+- `bool :IsDead()`
+- `bool :PermanentDeath()`
+- `bool :ShipDamage(float damage)`
+- `bool :FireFightingSoundEffect()`
 - `std::string :GetUniqueRepairing()`
+- `bool :ProvidesVision()`
+- `float :GetMoveSpeedMultiplier()`
+- `float :GetRepairSpeed()`
+- `float :GetDamageMultiplier()`
+- `bool :ProvidesPower()`
+- `std::string :GetSpecies()`
+- `float :GetFireRepairMultiplier()`
+- `bool :IsTelepathic()`
+- `std::pair<float, float> :GetPowerCooldown()`
+- `bool :PowerReady()`
+- `void :ActivatePower()`
+- `bool :HasSpecialPower()`
+- `void :ResetPower()`
+- `float :GetSuffocationMultiplier()`
+- `int :BlockRoom()`
 - [`Damage`](#Damage) `:GetRoomDamage()`
+- `bool :IsAnaerobic()`
 - `void :UpdateRepair()`
+- `bool :CanStim()`
 - `bool :AtFinalGoal()`
 - `bool :AtGoal()`
 - `bool :BadAtCombat()`
@@ -1600,9 +1636,18 @@ end
 - `bool` `.bCloned`
 - [`CrewMember_Extend`](#CrewMember_Extend) `.extend`
 
-## CrewMember_Extend
+## SCrewStats
+Accessed via [`CrewMember`](#CrewMember)'s `.stats` field
 
-Accessed via `CrewMember`'s `.extend` field
+### Fields
+- `std::vector<int>` `.stat`
+   - Has 5 values. `[0]` is the number of repairs, `[1]` is the number of crew combat kills, `[2]` is piloted evasions, `[3]` is jumps survived, `[4]` is skills mastered.
+- `std::string` `.species`
+- `std::string` `.name`
+- `bool` `.male`
+
+## CrewMember_Extend
+Accessed via [`CrewMember`](#CrewMember)'s `.extend` field
 
 ### Methods
 - `void :InitiateTeleport(int shipId, int roomId=-1, int slotId=-1)`
