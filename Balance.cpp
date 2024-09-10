@@ -2,6 +2,7 @@
 #include <limits>
 
 bool g_hackingDroneFix = true;
+bool g_repairDroneRecoveryFix = true;
 
 // hacking drone explodes on depower -- makes you unable to get past defense drones by powering + depowering
 
@@ -17,6 +18,27 @@ HOOK_METHOD(HackingSystem, OnLoop, () -> void)
             this->BlowHackingDrone();
         }
     }
+}
+
+// Jumping away while a repair drone is active with a repair arm will collect the drone part -- this removes it before the collection
+
+HOOK_METHOD(DroneSystem, Jump, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> DroneSystem::Jump -> Begin (Balance.cpp)\n")
+
+    if (g_repairDroneRecoveryFix)
+    {
+        for (auto drone : drones)
+        {
+            // type == 5 are SHIP_REPAIR
+            if (drone->deployed && drone->type == 5)
+            {
+                drone->SetDestroyed(true, false);
+                drone->deployed = false;
+            }
+        }
+    }
+    super();
 }
 
 /*

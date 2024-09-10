@@ -443,18 +443,21 @@ void RoomAnim::SaveState(int fd)
     FileHelper::writeInt(fd, anim.get() != nullptr);
     if (anim)
     {
+        FileHelper::writeString(fd, anim->animName);
         anim->SaveState(fd);
     }
 
     FileHelper::writeInt(fd, tileAnims.size());
     for (Animation &tileAnim : tileAnims)
     {
+        FileHelper::writeString(fd, tileAnim.animName);
         tileAnim.SaveState(fd);
     }
 
     FileHelper::writeInt(fd, wallAnim.get() != nullptr);
     if (wallAnim)
     {
+        FileHelper::writeString(fd, wallAnim->animName);
         wallAnim->SaveState(fd);
     }
 }
@@ -474,21 +477,20 @@ void RoomAnim::LoadState(int fd, Room *room)
 
     if (FileHelper::readInteger(fd))
     {
-        anim.reset(new Animation);
+        anim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd))));
         anim->LoadState(fd);
     }
 
     int n = FileHelper::readInteger(fd);
     for (int i=0; i<n; ++i)
     {
-        tileAnims.emplace_back();
-        Animation &tileAnim = tileAnims.back();
-        tileAnim.LoadState(fd);
+        tileAnims.emplace_back(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd)));
+        tileAnims.back().LoadState(fd);
     }
 
     if (FileHelper::readInteger(fd))
     {
-        wallAnim.reset(new Animation);
+        wallAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd))));
         wallAnim->LoadState(fd);
     }
 }
@@ -1498,4 +1500,42 @@ HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
             ex->erosion.anim->LoadState(fd, room);
         }
     }
+}
+
+bool g_artilleryGibMountFix = false;
+
+HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ExplosionAnimation::OnRender -> Begin (CustomShips.cpp)\n")
+
+    ShipManager *ship;
+    bool doArtyGibFix =
+        running &&
+        !pieces.empty() &&
+        (ship = G_->GetShipManager(shipObj.iShipId)) &&
+        !ship->artillerySystems.empty() &&
+        (g_artilleryGibMountFix || CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).artilleryGibMountFix);
+    if (doArtyGibFix)
+    {
+        for (ArtillerySystem *artillery : ship->artillerySystems)
+        {
+            int gib;
+            if (artillery != nullptr && (gib = artillery->projectileFactory->mount.gib - 1, gib >= 0) && gib < pieces.size())
+            {
+                float rectW = shipRect->w/2;
+                float rectH = shipRect->h/2;
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(position[gib].x, position[gib].y, 0.0);
+                CSurface::GL_Translate(rectW, rectH, 0.0);
+                CSurface::GL_Rotate(rotation[gib], 0.0, 0.0, 1.0);
+                CSurface::GL_Translate(-rectW, -rectH, 0.0);
+                CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.0);
+                CSurface::GL_Translate(-startingPosition[gib].x, -startingPosition[gib].y, 0.0);
+                artillery->projectileFactory->weaponVisual.OnRender(1.0);
+                CSurface::GL_PopMatrix();
+            }
+        }
+    }
+
+    super(shipRect, shipImage, shipImagePrimitive);
 }

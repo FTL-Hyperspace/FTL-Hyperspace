@@ -6,3 +6,5 @@ cleanup __amd64 void WeaponAnimation::SetFireTime(WeaponAnimation *this, float t
 cleanup __amd64 Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
 "415455534889fb4883ec1080bfc100000000":
 cleanup __amd64 void WeaponAnimation::Update(WeaponAnimation *this);
+".??57??56??55??545553??89fb??83ec38":
+cleanup __amd64 void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);

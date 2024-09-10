@@ -564,6 +564,24 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
 
                     def.roomDefs[roomId] = roomDef;
                 }
+                else if (strcmp(roomNode->name(), "partition") == 0 && roomNode->first_node("rooms") && roomNode->first_node("backups"))
+                {
+                    std::vector<std::pair<int, std::vector<int>>>* backupList = new std::vector<std::pair<int, std::vector<int>>>;
+                    for (auto backupNode = roomNode->first_node("backups")->first_node(); backupNode; backupNode = backupNode->next_sibling())
+                    {
+                        int room = boost::lexical_cast<int>(backupNode->first_attribute("id")->value());
+                        std::vector<int> slots;
+                        for (auto slotNode = backupNode->first_node("slot"); slotNode; slotNode = slotNode->next_sibling())
+                        {
+                            slots.push_back(boost::lexical_cast<int>(slotNode->first_attribute("id")->value()));
+                        }
+                        backupList->push_back(std::make_pair(room, slots));
+                    }
+                    for (auto partitionNode = roomNode->first_node("rooms")->first_node(); partitionNode; partitionNode = partitionNode->next_sibling())
+                    {
+                        def.roomStationBackups[boost::lexical_cast<int>(partitionNode->first_attribute("id")->value())] = backupList;
+                    }
+                }
             }
         }
         if (name == "crew")
@@ -657,6 +675,11 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
         {
             isCustom = true;
             def.shipGenerator = val;
+        }
+        if (name == "artilleryGibMountFix")
+        {
+            isCustom = true;
+            def.artilleryGibMountFix = true;
         }
 
     }
