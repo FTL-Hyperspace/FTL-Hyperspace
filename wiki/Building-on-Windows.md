@@ -58,7 +58,7 @@ Once the repo is cloned, you can `cd` into `FTL-Hyperspace/buildscripts/windows/
 
 [[/img/building-tutorial/reachsh.png]]
 
-Inside the folder, run `sudo chmod 777 *` to ensure that your system will authorize the execution of those file when building Hyperspace.
+Inside the folder, run `sudo chmod 777 *` to ensure that your system will authorize the execution of those files when building Hyperspace.
 
 ### Building Hyperspace
 
