@@ -22,7 +22,7 @@ Once downloaded, run the installer. It takes some time, so you can continue to t
 
 The build process runs on Ubuntu, meaning you have to virtualise a UNIX environment. Windows Subsystem for Linux will provide this environment.
 
-Open the command prompt (Win+R, type "cmd" then press enter). Inside the command prompt type `wsl --install Ubuntu`. This should start the installation process. You will be asked to enter a username and a password.
+Open the command prompt (Win+R, type "cmd" then press enter). Inside the command prompt type `wsl --install -d Ubuntu`. This should start the installation process. You will be asked to enter a username and a password.
 
 [[/img/building-tutorial/wslUbuntu.png]]
 
