@@ -3139,8 +3139,20 @@ struct FocusWindow;
 
 struct FocusWindow
 {
+	FocusWindow()
+	{
+		this->constructor();
+	}
+
+	~FocusWindow()
+	{
+		this->destructor();
+	}
+
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void constructor();
+	LIBZHL_API void destructor();
 	
 	void *vptr;
 	bool bOpen;
@@ -3156,9 +3168,20 @@ struct TextButton;
 
 struct LanguageChooser : FocusWindow
 {
+	LanguageChooser()
+	{
+		// this->constructor();
+	}
+	
+	~LanguageChooser()
+	{
+		this->destructor();
+	}
+
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void destructor();
 	
 	std::vector<TextButton*> buttons;
 	int iChoice;
@@ -3222,14 +3245,21 @@ struct ChoiceBox : FocusWindow
         return ret;
     }
 
+    ~ChoiceBox()
+    {
+        this->destructor();
+    }
+
 	LIBZHL_API void Close();
 	LIBZHL_API int GetChoice();
 	LIBZHL_API int GetPotentialChoice();
+	LIBZHL_API void IncreaseFont();
 	LIBZHL_API void KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SetChoices(std::string *mainText, std::vector<ChoiceText> *newChoices, std::vector<ChoiceText> *choicesSecond);
+	LIBZHL_API void destructor();
 	
 	GL_Texture *textBox;
 	WindowFrame *box;
@@ -3309,6 +3339,11 @@ struct ConfirmWindow : FocusWindow
 		this->constructor();
 	}
 
+	~ConfirmWindow()
+	{
+		this->destructor();
+	}
+
 	LIBZHL_API void Close();
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
@@ -3317,6 +3352,7 @@ struct ConfirmWindow : FocusWindow
 	LIBZHL_API void SetPosition(Point pos);
 	LIBZHL_API void SetText(const TextString &text_, int minWidth, bool autoCenter, const TextString &yesText_, const TextString &noText_);
 	LIBZHL_API void constructor();
+	LIBZHL_API void destructor();
 	
 	TextString text;
 	int textHeight;
@@ -3361,7 +3397,13 @@ struct ControlButton;
 
 struct ControlButton
 {
+	ControlButton()
+	{
+		this->constructor();
+	}
+
 	LIBZHL_API void OnRender();
+	LIBZHL_API void constructor();
 	
 	Globals::Rect rect;
 	std::string value;
@@ -3410,10 +3452,21 @@ struct SlideBar
 
 struct OptionsScreen : ChoiceBox
 {
-    struct Steam1613OptionsScreenStructAdditions {
+    struct Steam1613OptionsScreenStructAdditions
+    {
         bool showSyncAchievements;
         TextButton syncAchievementsButton;
     };
+
+    OptionsScreen()
+    {
+        this->constructor();
+    }
+    
+    ~OptionsScreen()
+    {
+        this->destructor();
+    }
 
 	LIBZHL_API void CheckSelection();
 	LIBZHL_API void Close();
@@ -3426,6 +3479,7 @@ struct OptionsScreen : ChoiceBox
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open(bool mainMenu);
 	LIBZHL_API void constructor();
+	LIBZHL_API void destructor();
 	
 	Point position;
 	Point wipeProfilePosition;

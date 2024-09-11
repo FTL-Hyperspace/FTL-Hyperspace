@@ -1,8 +1,26 @@
-"55534889fb4883ec??4863773883fe":
+"!554889fd534883ec??48c7??????????488b":
+cleanup __amd64 void LanguageChooser::destructor(LanguageChooser *this);
+".55534889fb4883ec??4863773883fe":
 cleanup __amd64 void LanguageChooser::OnLoop(LanguageChooser *this);
+
 "!4889ee480335(???????\?)":
 offsetVariable std::vector<std::string>* Global_OptionsScreen_languageList;
+
 ".4157bef001000041564155":
 cleanup __amd64 void LanguageChooser::OnRender(LanguageChooser *this);
 ".41564155415455534889fb4883ec??488b????4839":
 cleanup __amd64 void LanguageChooser::OnInit(LanguageChooser *this);
+
+
+struct LanguageChooser depends (CSurface)
+{{
+	LanguageChooser()
+	{
+		// this->constructor();
+	}
+	
+	~LanguageChooser()
+	{
+		this->destructor();
+	}
+}};

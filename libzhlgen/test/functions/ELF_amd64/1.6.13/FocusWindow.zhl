@@ -2,3 +2,21 @@
 cleanup __amd64 void FocusWindow::MouseClick(FocusWindow *this, int x, int y);
 ".8b470c83f8ff7438":
 cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int x, int y);
+"!.53baffffffff4889fb48c7":
+cleanup __amd64 void FocusWindow::constructor(FocusWindow *this);
+"!.48c707????????c3":
+cleanup __amd64 void FocusWindow::destructor(FocusWindow *this);
+
+
+struct FocusWindow
+{{
+	FocusWindow()
+	{
+		this->constructor();
+	}
+
+	~FocusWindow()
+	{
+		this->destructor();
+	}
+}};

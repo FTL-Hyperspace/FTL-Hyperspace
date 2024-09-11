@@ -26,11 +26,25 @@ cleanup __amd64 void OptionsScreen::MouseClick(OptionsScreen *this, int x, int y
 ".415741564589ce41554589c541544189cc5589f5":
 cleanup __amd64 void OptionsScreen::OnTouch(OptionsScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 */
+"!.554889fd488d??????????534883ec":
+cleanup __amd64 void OptionsScreen::destructor(OptionsScreen *this);
 
 
-struct OptionsScreen {{
-    struct Steam1613OptionsScreenStructAdditions {
+struct OptionsScreen
+{{
+    struct Steam1613OptionsScreenStructAdditions
+    {
         bool showSyncAchievements;
         TextButton syncAchievementsButton;
     };
+
+    OptionsScreen()
+    {
+        this->constructor();
+    }
+    
+    ~OptionsScreen()
+    {
+        this->destructor();
+    }
 }};

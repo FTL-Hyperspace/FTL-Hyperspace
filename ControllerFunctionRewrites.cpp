@@ -4,7 +4,155 @@ HOOK_METHOD_PRIORITY(OptionsScreen, constructor, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::constructor -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    super();
+    /*
+    // Initialize FocusWindow
+    FocusWindow::FocusWindow(); // Ensure base class constructor is called
+
+    // Initialize class variables
+    textBox = nullptr;
+    box = nullptr;
+    columnSize = 100;
+    potentialChoice = -1;
+    selectedChoice = -1;
+    fontSize = 12;
+    centered = true;
+    gap_size = 30;
+    mainText = ""; // Initialize with an empty string
+    currentTextColor = COLOR_WHITE;
+    lastChoice = Pointf(0.0f, 0.0f);
+    position = Point(327, 140);
+    wipeProfilePosition = Point(251, 474);
+
+    #ifdef STEAM_1_6_13_BUILD
+    Steam1613OptionsScreenStructAdditions steam;
+    steam.showSyncAchievements = true;
+    #endif
+
+    hs_log_file("Step 2 success!");
+
+    // Initialize rewards
+    rewards.missiles = 0;
+    rewards.fuel = 0;
+    rewards.drones = 0;
+    rewards.scrap = 0;
+    rewards.crew = 0;
+    rewards.cloneable = false;
+    rewards.weapon = nullptr;
+    rewards.drone = nullptr;
+    rewards.augment = nullptr;
+    rewards.systemId = -1;
+    rewards.weaponCount = 0;
+    rewards.droneCount = 0;
+    rewards.steal = false;
+    rewards.intruders = false;
+    rewards.fleetDelay = 0;
+    rewards.hullDamage = 0;
+    rewards.upgradeAmount = 0;
+    rewards.upgradeId = 0;
+    rewards.upgradeSuccessFlag = 0;
+    rewards.cloneText = TextString(); // Initialize with default TextString
+    rewards.cloneText.isLiteral = true;
+    rewards.crewType = ' ';
+    rewards.removeItem = ' ';
+
+    hs_log_file("Step 3 success!");
+
+    // Initialize volume controls
+    Point soundVolumePos = Point(position.x + 230, position.y + 341);
+    soundVolume = SlideBar(soundVolumePos, 200, 20);
+
+    Point musicVolumePos = Point(position.x + 230, position.y + 391);
+    musicVolume = SlideBar(musicVolumePos, 200, 20);
+
+    hs_log_file("Step 4 success!");
+
+    // Initialize control buttons
+    bCustomizeControls = false;
+    controls.buttons.resize(10); // Ensure the vector is properly resized
+    for (auto &button : controls.buttons)
+    {
+        button = ControlButton(); // Initialize each ControlButton
+    }
+    controls.selectedButton = -1;
+    controls.defaultButton = TextButton();
+    controls.resetDialog = ConfirmWindow();
+
+    hs_log_file("Step 5 success!");
+
+    // Initialize UI buttons
+    closeButton = TextButton();
+    wipeProfileButton = TextButton();
+
+    #ifdef STEAM_1_6_13_BUILD
+    steam.syncAchievementsButton = TextButton();
+    #endif
+
+    // Initialize language chooser
+    langChooser = LanguageChooser(); // Correct initialization
+
+    hs_log_file("Step 6 success!");
+
+    // Initialize dialogs
+    wipeProfileDialog = ConfirmWindow();
+    restartRequiredDialog = ChoiceBox();
+
+    hs_log_file("Step 7 success!");
+
+    // Initialize restartRequiredDialog rewards
+    auto &restartRewards = restartRequiredDialog.rewards;
+    restartRewards.missiles = 0;
+    restartRewards.fuel = 0;
+    restartRewards.drones = 0;
+    restartRewards.scrap = 0;
+    restartRewards.crew = 0;
+    restartRewards.cloneable = false;
+    restartRewards.cloneText = TextString(); // Initialize with default TextString
+    restartRewards.cloneText.isLiteral = true;
+    restartRewards.crewType = ' ';
+    restartRewards.weapon = nullptr;
+    restartRewards.drone = nullptr;
+    restartRewards.augment = nullptr;
+    restartRewards.systemId = -1;
+    restartRewards.weaponCount = 0;
+    restartRewards.droneCount = 0;
+    restartRewards.steal = false;
+    restartRewards.intruders = false;
+    restartRewards.fleetDelay = 0;
+    restartRewards.hullDamage = 0;
+    restartRewards.upgradeAmount = 0;
+    restartRewards.upgradeId = 0;
+    restartRewards.upgradeSuccessFlag = 0;
+    restartRewards.removeItem = ' ';
+
+    hs_log_file("Step 8 success!");
+
+    // Initialize restartRequiredDialog
+    restartRequiredDialog.textBox = nullptr;
+    restartRequiredDialog.box = nullptr;
+    restartRequiredDialog.mainText = ""; // Initialize with an empty string
+    restartRequiredDialog.columnSize = 100;
+    restartRequiredDialog.potentialChoice = -1;
+    restartRequiredDialog.selectedChoice = -1;
+    restartRequiredDialog.fontSize = 12;
+    restartRequiredDialog.centered = true;
+    restartRequiredDialog.gap_size = 30;
+    restartRequiredDialog.currentTextColor = COLOR_WHITE;
+    restartRequiredDialog.lastChoice = Pointf(0.0f, 0.0f);
+
+    hs_log_file("Step 9 success!");
+
+    // Initialize and adjust ChoiceBox
+    OnInit();
+    gap_size = 10;
+    IncreaseFont();
+    IncreaseFont();
+
+    hs_log_file("constructor rewrite ran!");
+    */
+
+   // BROKEN RN
+
+   super();
 }
 
 HOOK_METHOD(OptionsScreen, OnLanguageChange, () -> void)
@@ -61,6 +209,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnInit, 1000, () -> void)
     wipeProfileButton.SetAutoWidth(true, true, 4, 0);
 
     // Initialize the "Sync Achievements" button - (removed steam feature)
+    /*
     #ifdef STEAM_1_6_13_BUILD
     label.data = textLibrary->GetText("button_sync_achievements", textLibrary->currentLanguage);
     Steam1613OptionsScreenStructAdditions steam;
@@ -70,6 +219,7 @@ HOOK_METHOD_PRIORITY(OptionsScreen, OnInit, 1000, () -> void)
     steam.syncAchievementsButton.SetBaseImage("optionsUI/button_deleteprofile_base.png", Point(-15, -15), 131);
     steam.syncAchievementsButton.SetAutoWidth(true, true, 4, 0);
     #endif
+    */
 
     // Configure confirm wipe profile dialog
     label.data = textLibrary->GetText("confirm_wipe_profile", textLibrary->currentLanguage);
@@ -829,19 +979,31 @@ HOOK_METHOD_PRIORITY(OptionsScreen, KeyDown, 1000, (SDLKey sym) -> bool)
     // End of orig-code
 }
 
-/*  
-// Not hooking these for now because they seem to be unused in the code
-HOOK_METHOD_PRIORITY(OptionsScreen, destructor1, 1000, () -> void)
+HOOK_METHOD_PRIORITY(OptionsScreen, destructor, 1000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::destructor1 -> Begin (ControllerFunctionRewrites.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::destructor -> Begin (ControllerFunctionRewrites.cpp)\n")
 
-    super();
+    // Call destructors for base classes and members
+    restartRequiredDialog.~ChoiceBox();
+    wipeProfileDialog.~ConfirmWindow();
+    OptionsScreen::~OptionsScreen();
+    // Clean up and destruct langChooser
+    for (TextButton *button : langChooser.buttons)
+    {
+        if (button != nullptr)
+        {
+            button->~TextButton(); // Explicitly call the destructor for each button
+            delete button;         // Free the allocated memory
+        }
+    }
+    langChooser.buttons.clear();   // Clear the vector after deleting
+    langChooser.~LanguageChooser();
+    // Call destructors for UI buttons
+    // syncAchievementsButton.~TextButton();
+    wipeProfileButton.~TextButton();
+    closeButton.~TextButton();
+    // Clean up the ControlsScreen
+    controls.ControlsScreen::~ControlsScreen();
+    // Call the destructor for the base class
+    ChoiceBox::~ChoiceBox();
 }
-
-HOOK_METHOD_PRIORITY(OptionsScreen, destructor2, 1000, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> OptionsScreen::destructor2 -> Begin (ControllerFunctionRewrites.cpp)\n")
-
-    super();
-} 
-*/

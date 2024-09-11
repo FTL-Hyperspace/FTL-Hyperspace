@@ -8,6 +8,8 @@ cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this);
 cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text_, int minWidth, bool autoCenter, const TextString& yesText_, const TextString& noText_);
 ".41564155415455534889fb4883ec10":
 cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow *this, Point pos);
+"!.534889fb4883ec??48c7??????????488b????e8????????488d":
+cleanup __amd64 void ConfirmWindow::destructor(ConfirmWindow *this);
 ".415741564155415455534889fb4883ec28":
 cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow *this);
 ".41574156415541544989fc55534881ec98000000488b7f70":
@@ -21,5 +23,10 @@ struct ConfirmWindow
 	ConfirmWindow()
 	{
 		this->constructor();
+	}
+
+	~ConfirmWindow()
+	{
+		this->destructor();
 	}
 }};

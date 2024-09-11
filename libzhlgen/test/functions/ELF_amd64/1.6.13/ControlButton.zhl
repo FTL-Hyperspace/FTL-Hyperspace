@@ -1,2 +1,13 @@
-"415455534889fb4883ec608b4730":
+"534889f04889fb48c1f8":
+cleanup __amd64 void ControlButton::constructor(ControlButton *this);
+".415455534889fb4883ec608b4730":
 cleanup __amd64 void ControlButton::OnRender(ControlButton *this);
+
+
+struct ControlButton
+{{
+	ControlButton()
+	{
+		this->constructor();
+	}
+}};
