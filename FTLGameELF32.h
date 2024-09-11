@@ -5927,6 +5927,7 @@ struct IonDroneAnimation : CrewAnimation
 		this->constructor(_shipId, _position, _hostile);
 	}
 
+	LIBZHL_API void UpdateShooting();
 	LIBZHL_API void constructor(int iShipId, Pointf position, bool enemy);
 	
 	Animation ionExplosion;

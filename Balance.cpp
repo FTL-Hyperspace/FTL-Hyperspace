@@ -44,6 +44,9 @@ HOOK_METHOD(DroneSystem, Jump, () -> void)
     super();
 }
 
+// Attacking a door with the ion boarder would cause it to instantly charge its next ion burst, 
+// which is problematic with the added possibility to control boarder drone -- the timer is now internally managed and it will now respect its delay
+
 HOOK_METHOD(IonDrone, constructor, (int iShipId, DroneBlueprint *blueprint) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> IonDrone::constructor -> Begin (Balance.cpp)\n")
