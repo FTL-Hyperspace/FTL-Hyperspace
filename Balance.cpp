@@ -5,6 +5,7 @@ bool g_hackingDroneFix = true;
 bool g_repairDroneRecoveryFix = true;
 bool g_controllableIonDroneFix = false;
 float g_controllableIonDroneFix_Delay = 6.0;
+float g_controllableIonDroneFix_DelayInitial = 6.0;
 
 // hacking drone explodes on depower -- makes you unable to get past defense drones by powering + depowering
 
@@ -50,11 +51,24 @@ HOOK_METHOD(IonDrone, constructor, (int iShipId, DroneBlueprint *blueprint) -> v
     
     if (g_controllableIonDroneFix && iShipId == 0)
     {
+        int delay = g_controllableIonDroneFix_Delay*1000;
         auto ex = CMA_EX(crewAnim);
         ex->ionTimer = TimerHelper(true);
-        ex->ionTimer.ResetMinMax(g_controllableIonDroneFix_Delay*1000, g_controllableIonDroneFix_Delay*1000);
+        ex->ionTimer.ResetMinMax(delay, delay);
         ex->ionTimer.loop = true;
         ex->ionTimer.Start(-1);
+    }
+}
+
+HOOK_METHOD(BoarderPodDrone, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BoarderPodDrone::OnLoop -> Begin (Balance.cpp)\n")
+    super();
+    
+    CrewAnimation_Extend* ex;
+    if (g_controllableIonDroneFix && !bDeliveredDrone && boarderDrone && boarderDrone->iShipId == 0 && (ex = CMA_EX(boarderDrone->crewAnim), ex->isIonDrone))
+    {   // Initialize timer if the drone hasn't yet reached the ship
+        ex->ionTimer.currTime = std::max(0.f, g_controllableIonDroneFix_Delay - g_controllableIonDroneFix_DelayInitial);
     }
 }
 
@@ -63,26 +77,23 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> CrewDrone::OnLoop -> Begin (Balance.cpp)\n")
     super();
 
-    if (g_controllableIonDroneFix && iShipId == 0)
+    CrewAnimation_Extend* ex;
+    if (g_controllableIonDroneFix && iShipId == 0 && (ex = CMA_EX(crewAnim), ex->isIonDrone))
     {
-        auto ex = CMA_EX(crewAnim);
-        if (ex->isIonDrone)
-        {
-            IonDroneAnimation* ionAnim = (IonDroneAnimation*)crewAnim;
-            if (!ionAnim->ionAnimation.tracker.running)
-            {   // Increment timer while not triggering
-                ex->ionTimer.Update();
-            }
-            if (std::abs(x - goal_x) > 0.01 || std::abs(y - goal_y) > 0.01)
-            {   // Reset glow progress if ordered to move
-                ionAnim->ionEffect = 0.0;
-            }
-            if (!Functional())
-            {   // Reset timer fully if turned off
-                ex->ionTimer.currTime = 0;
-                ionAnim->ionAnimation.tracker.running = false;
-                ionAnim->ionEffect = 0.0;
-            }
+        IonDroneAnimation* ionAnim = (IonDroneAnimation*)crewAnim;
+        if (!ionAnim->ionAnimation.tracker.running)
+        {   // Increment timer while not triggering
+            ex->ionTimer.Update();
+        }
+        if (std::abs(x - goal_x) > 0.01 || std::abs(y - goal_y) > 0.01)
+        {   // Reset glow progress if ordered to move
+            ionAnim->ionEffect = 0.f;
+        }
+        if (!Functional())
+        {   // Reset timer fully if turned off
+            ex->ionTimer.currTime = 0.f;
+            ionAnim->ionAnimation.tracker.running = false;
+            ionAnim->ionEffect = 0.f;
         }
     }
 }
@@ -97,7 +108,7 @@ HOOK_METHOD(IonDroneAnimation, UpdateShooting, () -> void)
         if (!bDoorTarget && ex->ionTimer.Done())
         {
             ionAnimation.Start(true);
-            ionEffect = 0.0;
+            ionEffect = 0.f;
             G_->GetSoundControl()->PlaySoundMix("ionBoarderCharge", -1.f, false);
         }
 

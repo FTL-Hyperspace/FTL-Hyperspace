@@ -337,9 +337,15 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_controllableIonDroneFix = EventsParser::ParseBoolean(enabled);
-                if (g_controllableIonDroneFix)
+                if (g_controllableIonDroneFix && node->first_attribute("ionDelay"))
                 {
-                    g_controllableIonDroneFix_Delay = boost::lexical_cast<float>(node->first_attribute("ionDelay")->value());
+                    float delay = boost::lexical_cast<float>(node->first_attribute("ionDelay")->value());
+                    g_controllableIonDroneFix_Delay = delay;
+                    g_controllableIonDroneFix_DelayInitial = delay;
+                }
+                if (g_controllableIonDroneFix && node->first_attribute("ionDelayInitial"))
+                {
+                    g_controllableIonDroneFix_DelayInitial = boost::lexical_cast<float>(node->first_attribute("ionDelayInitial")->value());
                 }
             }
 

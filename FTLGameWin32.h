@@ -2874,6 +2874,7 @@ struct BoarderPodDrone : SpaceDrone
 
 	LIBZHL_API bool CanBeDeployed();
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void SetDeployed(bool _deployed);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
