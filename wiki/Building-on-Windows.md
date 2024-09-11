@@ -48,7 +48,7 @@ You will need to set WSL Ubuntu as the default. Type `wslconfig /s Ubuntu`. The 
 
 ### Cloning the Repository
 
-In the command prompt, type `wsl`, navigate to the folder you want to clone the Hyperspace repository to using the `cd` command to change directories, then run `git clone https://github.com/FTL-Hyperspace/FTL-Hyperspace.git`.
+In the command prompt, type `wsl`, navigate to the folder you want to clone the Hyperspace repository to using the `cd` command to change directories, then run `git clone https://github.com/FTL-Hyperspace/FTL-Hyperspace.git`. Make sure you clone in a directory that has no spaces in any of the folder names or else the build scripts won't be able to run properly.
 
 [[/img/building-tutorial/clonehs.png]]
 
