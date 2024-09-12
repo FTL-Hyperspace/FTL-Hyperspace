@@ -2021,6 +2021,12 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 %rename("%s") BlueprintManager::GetBlueprintList;
 
+%nodefaultctor AugmentBlueprint;
+%nodefaultdtor AugmentBlueprint;
+%rename("%s") AugmentBlueprint;
+%rename("%s") AugmentBlueprint::value;
+%rename("%s") AugmentBlueprint::stacking;
+
 %nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
