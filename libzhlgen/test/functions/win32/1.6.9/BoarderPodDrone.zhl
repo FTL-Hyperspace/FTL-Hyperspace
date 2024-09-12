@@ -8,6 +8,8 @@ __thiscall bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 __thiscall void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470c8b571080be6c04000000":
 __thiscall CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+"578d????0883e4f0ff????5589e557565389cb81ecbc000000e8????????":
+__thiscall void BoarderPodDrone::OnLoop(BoarderPodDrone *this);
 
 
 struct BoarderPodDrone

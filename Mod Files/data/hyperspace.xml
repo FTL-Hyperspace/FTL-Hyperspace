@@ -197,6 +197,13 @@ Otherwise player can benefit from the repair and get back the drone parts with t
 
 <repairDroneRecoveryFix enabled="true"/>
 
+<!--  Prevent controllable ion drones from triggering immediately when ordered to move
+ionDelay: deterines how long the drone takes to trigger an ion blast when owned by the player
+ionDelayInitial: if defined, determines how long the drone takes to trigger the first time (must be equal to or less than ionDelay)
+-->
+
+<controllableIonDroneFix enabled="false" ionDelay="6" ionDelayInitial="6"/>
+
 <!--  Shows the power list of crew that are moused over
 Primarily useful for mods that add significant amounts of custom crew
 
