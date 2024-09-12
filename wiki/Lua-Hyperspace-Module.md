@@ -2780,6 +2780,14 @@ Accessed via `Hyperspace.CustomShipUnlocks.instance`
 - [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(std::string name)`
 - `std::vector<std::string> :GetBlueprintList(std::string name)`
 
+## AugmentBlueprint
+
+**Extends [Blueprint](#Blueprint)**
+
+### Fields
+- `float` `.value`
+- `bool` `.stacking`
+
 ## WeaponBlueprint
 
 **Extends [Blueprint](#Blueprint)**
