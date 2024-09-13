@@ -1296,8 +1296,9 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 
     auto context = G_->getLuaContext();
     lua_pushstring(context->GetLua(), ret.c_str());
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPONBOX_TOOLTIP, 1);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPONBOX_TOOLTIP, 1, 1);
     if (lua_isstring(context->GetLua(), -1)) ret = lua_tostring(context->GetLua(), -1);
+
     lua_pop(context->GetLua(), 1);
 
     return ret;
