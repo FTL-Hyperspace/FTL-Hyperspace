@@ -78,8 +78,8 @@ struct InternalEvents
         WEAPON_DESCBOX,
         // function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine
         WEAPON_RENDERBOX,
-        // function ArmamentBox::GenerateTooltip(std::string tooltip) return tooltip
-        ARMAMENT_TOOLTIP,
+        // function WeaponBox::GenerateTooltip(std::string tooltip) return tooltip
+        WEAPONBOX_TOOLTIP,
 
         //function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain
         DRONE_FIRE,
