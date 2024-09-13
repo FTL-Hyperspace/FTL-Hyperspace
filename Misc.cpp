@@ -1290,16 +1290,17 @@ HOOK_METHOD(ShipManager, Wait, () -> void)
 
 HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WeaponBox::GenerateTooltip -> Begin (Misc.cpp)\n")
     
     std::string ret = super();
 
     auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), pWeapon, context->getLibScript()->types.pProjectileFactory, 0);
     lua_pushstring(context->GetLua(), ret.c_str());
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPONBOX_TOOLTIP, 1, 1);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::WEAPONBOX_TOOLTIP, 2, 1);
     if (lua_isstring(context->GetLua(), -1)) ret = lua_tostring(context->GetLua(), -1);
 
-    lua_pop(context->GetLua(), 1);
+    lua_pop(context->GetLua(), 2);
 
     return ret;
 }
