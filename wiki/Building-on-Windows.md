@@ -22,7 +22,7 @@ Once downloaded, run the installer. It takes some time, so you can continue to t
 
 The build process runs on Ubuntu, meaning you have to virtualise a UNIX environment. Windows Subsystem for Linux will provide this environment.
 
-Open the command prompt (Win+R, type "cmd" then press enter). Inside the command prompt type `wsl --install Ubuntu`. This should start the installation process. You will be asked to enter a username and a password.
+Open the command prompt (Win+R, type "cmd" then press enter). Inside the command prompt type `wsl --install -d Ubuntu`. This should start the installation process. You will be asked to enter a username and a password.
 
 [[/img/building-tutorial/wslUbuntu.png]]
 
@@ -48,7 +48,7 @@ You will need to set WSL Ubuntu as the default. Type `wslconfig /s Ubuntu`. The 
 
 ### Cloning the Repository
 
-In the command prompt, type `wsl`, navigate to the folder you want to clone the Hyperspace repository to using the `cd` command to change directories, then run `git clone https://github.com/FTL-Hyperspace/FTL-Hyperspace.git`.
+In the command prompt, type `wsl`, navigate to the folder you want to clone the Hyperspace repository to using the `cd` command to change directories, then run `git clone https://github.com/FTL-Hyperspace/FTL-Hyperspace.git`. Make sure you clone in a directory that has no spaces in any of the folder names or else the build scripts won't be able to run properly.
 
 [[/img/building-tutorial/clonehs.png]]
 
@@ -58,7 +58,7 @@ Once the repo is cloned, you can `cd` into `FTL-Hyperspace/buildscripts/windows/
 
 [[/img/building-tutorial/reachsh.png]]
 
-Inside the folder, run `sudo chmod 777 *` to ensure that your system will authorize the execution of those file when building Hyperspace.
+Inside the folder, run `sudo chmod 777 *` to ensure that your system will authorize the execution of those files when building Hyperspace.
 
 ### Building Hyperspace
 
