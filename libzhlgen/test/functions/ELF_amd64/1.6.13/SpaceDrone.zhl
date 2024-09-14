@@ -1,14 +1,20 @@
 "554889f5534889fb4883ec084885f6744f488b06":
-virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target);
+virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target); // 00461050
 ".5589f5534889fb4883ec08488b07ff506084c0743b":
-virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed); // 0046188f
 ".41554154554889f5534889fb488d7f044883ec18":
-cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 00462610
+"!.554889fd5389f34883ec08e8????????8b7558":
+cleanup __amd64 void SpaceDrone::SaveState(SpaceDrone *this, int fd); // 0046277f
+"!.554889fd5389f34883ec08e8????????89dfe8????????89df":
+cleanup __amd64 void SpaceDrone::LoadState(SpaceDrone *this, int fd); // 00462a8f
+".4883ec28807f100074":
+cleanup __amd64 Pointf SpaceDrone::GetSpeed(SpaceDrone *this); // 00462e50
+".4157415641554154554889fd488dbf80":
+cleanup __amd64 void SpaceDrone::destructor(SpaceDrone* this, int __in_chrg); // 00464630
+".41570f57d24989ff":
+cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint); // 00464ea0
 ".530f28e14889fb4883ec30660fd60424":
-cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired); // 00466100
 ".415741564155415455534889fb4883ec68488b07":
-virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
-"41570f57d24989ff":
-cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint);
-"4157415641554154554889fd488dbf80":
-cleanup __amd64 void SpaceDrone::destructor(SpaceDrone* this, int __in_chrg); //no idea why this was in the generated sig json
+virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this); // 00468e6f

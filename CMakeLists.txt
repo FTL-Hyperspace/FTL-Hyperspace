@@ -211,6 +211,7 @@ target_sources(
     Room_Extend.h
     SaveFile.cpp
     SaveFile.h
+    SavingRewrite.cpp
     ScrollingChoiceBox.cpp
     ScrollingChoiceBox.h
     Seeds.cpp

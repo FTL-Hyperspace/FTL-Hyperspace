@@ -1,0 +1,4 @@
+/*
+"0fb64710c3":
+cleanup __amd64 bool Drone::GetPowered(Drone *this)
+*/
