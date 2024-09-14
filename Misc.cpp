@@ -1430,8 +1430,20 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     lua_pop(context->GetLua(), 2);
 }
 
+HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRender -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
 
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+    lua_pushboolean(context->GetLua(), outlineOnly);
 
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::CREW_MEMBER_RENDER, 2);
+    if (idx >= 0) super(outlineOnly);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::CREW_MEMBER_RENDER, std::abs(idx), 2);
+
+    lua_pop(context->GetLua(), 2);
+}
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
