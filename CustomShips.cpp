@@ -1304,8 +1304,8 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
 
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
-    float xPos = (float)(shipGraph->shipBox).x;
-    float yPos = (float)(shipGraph->shipBox).y;
+    float xPos = (shipGraph->shipBox).x;
+    float yPos = (shipGraph->shipBox).y;
 
     // Calculate cloak alpha for each sprite
     float alphaCloak = 0.f;
@@ -1413,14 +1413,14 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     }
     if (iShipId == 0)
     {
-        sparkY = (float)(shipGraph->shipBox.h/2) - sparkX;
-        sparkX = -sparkScale*0.5 + (float)shipGraph->shipBox.w*sparkProgress;
+        sparkY = (shipGraph->shipBox.h/2) - sparkX;
+        sparkX = -sparkScale*0.5 + shipGraph->shipBox.w*sparkProgress;
     }
     else
     {
-        sparkY = (float)shipGraph->shipBox.h;
+        sparkY = shipGraph->shipBox.h;
         sparkY = (sparkY - sparkX) - sparkY*sparkProgress;
-        sparkX = (float)(shipGraph->shipBox.w/2) - sparkX;
+        sparkX = (shipGraph->shipBox.w/2) - sparkX;
     }
 
     // Render thrusters
@@ -1537,5 +1537,60 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
         }
     }
 
-    super(shipRect, shipImage, shipImagePrimitive);
+    // super(shipRect, shipImage, shipImagePrimitive);
+
+    // Reverse engineered vanilla code 
+    if (!running) return;
+
+    LoadGibs();
+
+    int8_t pieceCount = pieces.size() - 1;
+
+    for (int8_t i = pieceCount; i >= 0; --i) {
+        CSurface::GL_PushMatrix();
+
+        // Gib positioning stuff
+        CSurface::GL_Translate(position[i].x, position[i].y, 0.0f);
+        CSurface::GL_Translate(shipRect->w / 2, shipRect->h / 2, 0.0f);
+        CSurface::GL_Rotate(rotation[i], 0.0f, 0.0f, 1.0f);
+        CSurface::GL_Translate(-shipRect->w / 2, -shipRect->h / 2, 0.0f);
+        CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.0f);
+
+        // Render attached weapons
+        for (WeaponAnimation *weaponAnim : weaponAnims)
+        {
+            if (weaponAnim->mount.gib == i + 1)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(-startingPosition[i].x, -startingPosition[i].y, 0.0f);
+                weaponAnim->OnRender(1.0f);
+                CSurface::GL_PopMatrix();
+            }
+        }
+
+        // Render the gibs
+        G_->GetResources()->RenderImage(pieces[i], 0, 0, 0, COLOR_WHITE, 1.f, false);
+        CSurface::GL_PopMatrix();
+
+        // Some stop thing for the animations I think?
+        if (Progress(-1.0f) > 0.75f && bJumpOut) break;
+    }
+
+    // Last explosion before breaking apart maybe?
+    if (!bFinalBoom)
+    {
+        CSurface::GL_Translate(shipRect->x, shipRect->y, 0.0f);
+        CSurface::GL_RenderPrimitive(shipImagePrimitive);
+        CSurface::GL_Translate(-shipRect->x, -shipRect->y, 0.0f);
+    }
+
+    // Render explosions at some given point of time
+    if (current_time <= 3.0f)
+    {
+        for (int8_t i = 0; i < explosions.size(); ++i)
+        {
+            explosions[i].OnRender(1.0f, COLOR_WHITE, false);
+        }
+    }
+    // End of orig code
 }
