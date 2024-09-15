@@ -1,4 +1,4 @@
-"41544084f65589f5":
+"41544084f65589f5534889fb":
 cleanup __amd64 void CrewDrone::SetPowered(CrewDrone *this, bool powered); // 00434e80
 ".41564155415455488daf48070000534889fb4889ef":
 virtual cleanup __amd64 void CrewDrone::OnLoop(CrewDrone *this); // 00435000

@@ -4821,7 +4821,7 @@ void CrewCustomizeBox::CheckContents()
 namespace _func372
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CrewDrone::SetPowered", typeid(void (CrewDrone::*)(bool )), "41544084f65589f5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewDrone::SetPowered", typeid(void (CrewDrone::*)(bool )), "41544084f65589f5534889fb", nullptr, 0, 0, &func);
 }
 
 void CrewDrone::SetPowered(bool powered)
