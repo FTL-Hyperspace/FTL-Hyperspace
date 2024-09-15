@@ -65,7 +65,7 @@ HOOK_METHOD_PRIORITY(BoarderPodDrone, LoadState, 9999, (int fd) -> void)
     if (bDeliveredDrone)
     {
         BoarderDrone *drone = boarderDrone;
-        // drone->droneRoom = roomId; vanilla code asigns fake value, enter drones are never on own ship - I skip this entirely
+        drone->droneRoom = roomId;
         drone->SetRoom(roomId);
         drone->SetPosition(Point(posX, posY));
         drone->MoveToRoom(roomId, slotId, true);
