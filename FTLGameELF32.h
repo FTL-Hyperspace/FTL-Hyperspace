@@ -5698,6 +5698,7 @@ struct ImageDesc
 
 struct ExplosionAnimation : AnimationTracker
 {
+	LIBZHL_API void LoadGibs();
 	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
 	LIBZHL_API void OnRender(Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
 	

@@ -1508,34 +1508,87 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 {
     LOG_HOOK("HOOK_METHOD -> ExplosionAnimation::OnRender -> Begin (CustomShips.cpp)\n")
 
-    ShipManager *ship;
-    bool doArtyGibFix =
-        running &&
-        !pieces.empty() &&
-        (ship = G_->GetShipManager(shipObj.iShipId)) &&
-        !ship->artillerySystems.empty() &&
-        (g_artilleryGibMountFix || CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).artilleryGibMountFix);
-    if (doArtyGibFix)
+    if (!running) return;
+
+    // Setup
+    LoadGibs();
+    int gib = pieces.size() - 1;
+    ShipManager *currentShip = G_->GetShipManager(shipObj.iShipId);
+
+    if (gib > -1)
     {
-        for (ArtillerySystem *artillery : ship->artillerySystems)
+        // Progress animation
+        // Decrement of gib index is to maintain parity with vanilla,
+        // though I have no idea what its purpose is
+        // if (Progress(-1.f) > 0.75 && bJumpOut) --gib;
+        // Just do it normally instead
+        Progress(-1.f);
+
+        // Check if artillery weapons should be rendered
+        bool doArtyGibFix =
+            currentShip &&
+            !currentShip->artillerySystems.empty() &&
+            (g_artilleryGibMountFix || CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).artilleryGibMountFix);
+
+        // Iterate through all gibs
+        for (; gib >= 0; --gib)
         {
-            int gib;
-            if (artillery != nullptr && (gib = artillery->projectileFactory->mount.gib - 1, gib >= 0) && gib < pieces.size())
+            float rectW = shipRect->w/2;
+            float rectH = shipRect->h/2;
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(position[gib].x, position[gib].y, 0.f);
+            CSurface::GL_Translate(rectW, rectH, 0.f);
+            CSurface::GL_Rotate(rotation[gib], 0.f, 0.f, 1.f);
+            CSurface::GL_Translate(-rectW, -rectH, 0.f);
+            CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.f);
+
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(-startingPosition[gib].x, -startingPosition[gib].y, 0.f);
+
+            // Render the weapons mounted to the gib
+            for (WeaponAnimation* weaponAnim : weaponAnims)
             {
-                float rectW = shipRect->w/2;
-                float rectH = shipRect->h/2;
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(position[gib].x, position[gib].y, 0.0);
-                CSurface::GL_Translate(rectW, rectH, 0.0);
-                CSurface::GL_Rotate(rotation[gib], 0.0, 0.0, 1.0);
-                CSurface::GL_Translate(-rectW, -rectH, 0.0);
-                CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.0);
-                CSurface::GL_Translate(-startingPosition[gib].x, -startingPosition[gib].y, 0.0);
-                artillery->projectileFactory->weaponVisual.OnRender(1.0);
-                CSurface::GL_PopMatrix();
+                if (weaponAnim && weaponAnim->mount.gib == gib + 1)
+                {
+                    weaponAnim->OnRender(1.f);
+                }
             }
+
+            // Render the artillery mounted to the gib
+            if (doArtyGibFix)
+            {
+                for (ArtillerySystem *artillery : currentShip->artillerySystems)
+                {
+                    if (artillery && artillery->projectileFactory->mount.gib == gib + 1)
+                    {
+                        artillery->projectileFactory->weaponVisual.OnRender(1.f);
+                    }
+                }
+            }
+
+            CSurface::GL_PopMatrix();
+
+            // Render the gib itself
+            G_->GetResources()->RenderImage(pieces[gib], 0, 0, 0, COLOR_WHITE, 1.f, false);
+            CSurface::GL_PopMatrix();
         }
     }
 
-    super(shipRect, shipImage, shipImagePrimitive);
+    // Render the ship hull while the gibs aren't moving
+    // For some reason using the shipImagePrimitive arg passed into this function
+    // doesn't work, so just get it directly from the Ship struct
+    if (!bFinalBoom && currentShip && currentShip->ship.shipImagePrimitive) {
+        CSurface::GL_Translate(shipRect->x, shipRect->y, 0.f);
+        CSurface::GL_RenderPrimitive(currentShip->ship.shipImagePrimitive);
+        CSurface::GL_Translate(-shipRect->x, -shipRect->y, 0.f);
+    }
+
+    // Render the large explosion animations present before the gibs break apart
+    if (current_time < 3.f)
+    {
+        for (Animation explosion : explosions)
+        {
+            explosion.OnRender(1.f, COLOR_WHITE, false);
+        }
+    }
 }

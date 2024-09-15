@@ -2,3 +2,5 @@
 cleanup __cdecl void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
 "5557565383ec5c8b7c????8b74????":
 cleanup __cdecl void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
+"8b51308b4134":
+cleanup __cdecl void ExplosionAnimation::LoadGibs(ExplosionAnimation *this);
