@@ -1205,6 +1205,9 @@
 		<Unit filename="SaveFile.h">
 			<Option virtualFolder="Core/SaveFile/" />
 		</Unit>
+		<Unit filename="SavingRewrite.cpp">
+			<Option virtualFolder="Core/SaveFile/" />
+		</Unit>
 		<Unit filename="ScrollingChoiceBox.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>

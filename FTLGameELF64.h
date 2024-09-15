@@ -2551,6 +2551,7 @@ struct CrewDrone : CrewMember
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual bool ProvidesVision();
 	LIBZHL_API void SetCurrentShip(int shipId);
+	LIBZHL_API void SetPowered(bool powered);
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
@@ -2785,6 +2786,8 @@ struct BlueprintManager
 	std::vector<std::string> currentNames;
 };
 
+struct BoarderDrone;
+
 struct BoarderDrone : CrewDrone
 {
 	BoarderDrone() 
@@ -2796,9 +2799,10 @@ struct BoarderDrone : CrewDrone
 		this->constructor(_type, _name, _shipId, _blueprint, _anim);
 	}
 
+	LIBZHL_API bool GetPowered();
+	
 };
 
-struct BoarderDrone;
 struct BoarderPodDrone;
 
 struct DamageMessage;
@@ -2827,13 +2831,15 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual Pointf GetRandomTargettingPoint(bool unk) LIBZHL_PLACEHOLDER
 	virtual Globals::Ellipse *GetShieldShape(SpaceDrone *drone) LIBZHL_PLACEHOLDER
 	virtual int GetSpaceId() LIBZHL_PLACEHOLDER
-	virtual Pointf GetSpeed() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual Pointf GetSpeed();
 	virtual int GetOwnerId() LIBZHL_PLACEHOLDER
 	virtual int GetSelfId() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	virtual bool DamageBeam(Pointf pos1, Pointf pos2, Damage damage) LIBZHL_PLACEHOLDER
 	virtual bool DamageArea(Pointf pos, Damage damage, bool unk) LIBZHL_PLACEHOLDER
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
+	LIBZHL_API void LoadState(int fd);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
@@ -2886,7 +2892,9 @@ struct BoarderPodDrone : SpaceDrone
 
 	LIBZHL_API bool CanBeDeployed();
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetDeployed(bool _deployed);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);

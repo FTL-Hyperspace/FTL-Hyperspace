@@ -4,6 +4,10 @@ cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
 ".5589f5534889fb4883ec08807f1800742f":
 cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
+".554889fd5389f34883ec??e8a0fdffff0fb6b5????????89dfe8????????0fb6":
+cleanup __amd64 void BoarderPodDrone::SaveState(BoarderPodDrone *this, int fd);
+".41574156415541545589f5534889fb4883ec":
+cleanup __amd64 void BoarderPodDrone::LoadState(BoarderPodDrone *this, int fd);
 ".41554154554889f5534889fb4883ec2880be6804000000":
 cleanup __amd64 CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 ".415455534889fb4881ecc0000000":

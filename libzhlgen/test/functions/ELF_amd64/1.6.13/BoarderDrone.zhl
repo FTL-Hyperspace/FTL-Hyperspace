@@ -1,3 +1,6 @@
+"0fb64710c3":
+cleanup __amd64 bool BoarderDrone::GetPowered(BoarderDrone *this);
+
 struct BoarderDrone
 {{
 	BoarderDrone() 
