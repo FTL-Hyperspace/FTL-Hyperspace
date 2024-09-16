@@ -108,7 +108,7 @@ struct StoreDefinition
     int storeNum; // for when multiple stores are created at once
 };
 
-class CustomStoreBox
+class CustomStoreBox // replace only regular BUY page, not regular SELL page
 {
 public:
     void OnRender();

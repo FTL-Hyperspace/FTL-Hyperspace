@@ -1116,7 +1116,7 @@ void StoreComplete::OnRender()
 
         std::string txt = std::to_string(itemPurchaseLimit - itemsPurchased);
 
-        freetype::easy_printCenter(0, orig->position.x - 16, orig->position.y + 60, txt);
+        freetype::easy_printCenter(0, orig->position.x - 16, orig->position.y + 106, txt);
     }
 
     if (orig->confirmBuy)
@@ -1296,6 +1296,13 @@ void StoreComplete::MouseMove(int x, int y)
     }
 
     orig->infoBox.Clear();
+
+    // show tooltip when the mouse is hovering the purchase limit indicator
+    if (itemPurchaseLimit != -1 && orig->position.x + 10 - limitIndicator->width_ < x && x < orig->position.x + 7 &&  orig->position.y + 38 < y && y <  orig->position.y + 12 + limitIndicator->height_) {
+        std::string tooltip = G_->GetTextLibrary()->GetText("tooltip_purchase_limit", G_->GetTextLibrary()->currentLanguage);
+        G_->GetMouseControl()->SetTooltip(tooltip);
+        G_->GetMouseControl()->InstantTooltip();
+    }
 
     for (auto i : resourceBoxes)
     {
