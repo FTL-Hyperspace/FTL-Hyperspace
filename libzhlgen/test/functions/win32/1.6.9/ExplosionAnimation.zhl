@@ -2,3 +2,5 @@
 __thiscall void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
 "578d????0883e4f0ff????5589f889e557565389cb83ec6c8b????8b5130":
 __thiscall void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
+"8b51308b413429d0c1f802":
+__thiscall void ExplosionAnimation::LoadGibs(ExplosionAnimation *this);
