@@ -82,7 +82,64 @@ CustomMindSystem::MindLevel& CustomMindSystem::GetLevel(MindSystem* sys)
     return power < levels.size() ? levels[power] : defaultLevel;
 }
 
+// TODO, get the real value for those
+static int JUMP_HP[4] = {10, 20, 30, 40};
+static int JUMP_HP_PERCENT[4] = {0, 0, 0, 0};
+static int CLONE_HP_PERCENT[4] = {100, 100, 100, 100};
+static int SKILL_LOSS[4] = {4, 4, 4, 4};
+static float CLONE_SPEED[4] = {10.0, 10.0, 10.0, 10.0};
+static float CLONE_DEATH_SPEED[4] = {5.0, 5.0, 5.0, 5.0};
+static int CLONE_AMOUNT[4] = {1, 1, 1, 1};
 
+//Automatically initialize vector with 4 CloneLevels using the game's native arrays
+std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
+    {JUMP_HP[0], JUMP_HP_PERCENT[0], CLONE_HP_PERCENT[0], SKILL_LOSS[0], CLONE_SPEED[0], CLONE_DEATH_SPEED[0], CLONE_AMOUNT[0]},
+    {JUMP_HP[1], JUMP_HP_PERCENT[1], CLONE_HP_PERCENT[1], SKILL_LOSS[1], CLONE_SPEED[1], CLONE_DEATH_SPEED[1], CLONE_AMOUNT[1]},
+    {JUMP_HP[2], JUMP_HP_PERCENT[2], CLONE_HP_PERCENT[2], SKILL_LOSS[2], CLONE_SPEED[2], CLONE_DEATH_SPEED[2], CLONE_AMOUNT[2]},
+    {JUMP_HP[3], JUMP_HP_PERCENT[3], CLONE_HP_PERCENT[3], SKILL_LOSS[3], CLONE_SPEED[3], CLONE_DEATH_SPEED[3], CLONE_AMOUNT[3]}
+}; 
+//Define default CloneLevel values
+CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 5, 5.f, 3.f, 1};
+void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
+{
+    unsigned int level = 1;
+    for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
+    {
+        //Modify vanilla levels, keeping unspecified attributes as their default values
+        if (level < 4) 
+        {
+            CustomCloneSystem::CloneLevel& mindLevel = levels[level];
+            if (levelNode->first_attribute("jumpHP")) mindLevel.jumpHP = boost::lexical_cast<int>(levelNode->first_attribute("jumpHP")->value());
+            if (levelNode->first_attribute("jumpHPPercent")) mindLevel.jumpHPPercent = boost::lexical_cast<int>(levelNode->first_attribute("jumpHPPercent")->value());
+            if (levelNode->first_attribute("cloneHPPercent")) mindLevel.cloneHPPercent = boost::lexical_cast<int>(levelNode->first_attribute("cloneHPPercent")->value());
+            if (levelNode->first_attribute("skillLoss")) mindLevel.skillLoss = boost::lexical_cast<int>(levelNode->first_attribute("skillLoss")->value());
+            if (levelNode->first_attribute("cloneSpeed")) mindLevel.cloneSpeed = boost::lexical_cast<float>(levelNode->first_attribute("cloneSpeed")->value());
+            if (levelNode->first_attribute("deathSpeed")) mindLevel.deathSpeed = boost::lexical_cast<float>(levelNode->first_attribute("deathSpeed")->value());
+            if (levelNode->first_attribute("count")) mindLevel.count = boost::lexical_cast<int>(levelNode->first_attribute("count")->value());
+        }
+        else //Construct new levels, using DefaultLevel to substitute unspecified values
+        {
+            CustomCloneSystem::CloneLevel mindLevel {
+                levelNode->first_attribute("jumpHP") ? boost::lexical_cast<int>(levelNode->first_attribute("jumpHP")->value()) : defaultLevel.jumpHP,
+                levelNode->first_attribute("jumpHPPercent") ? boost::lexical_cast<int>(levelNode->first_attribute("jumpHPPercent")->value()) : defaultLevel.jumpHPPercent,
+                levelNode->first_attribute("cloneHPPercent") ? boost::lexical_cast<int>(levelNode->first_attribute("cloneHPPercent")->value()) : defaultLevel.cloneHPPercent,
+                levelNode->first_attribute("skillLoss") ? boost::lexical_cast<int>(levelNode->first_attribute("skillLoss")->value()) : defaultLevel.skillLoss,
+                levelNode->first_attribute("cloneSpeed") ? boost::lexical_cast<float>(levelNode->first_attribute("cloneSpeed")->value()) : defaultLevel.cloneSpeed,
+                levelNode->first_attribute("deathSpeed") ? boost::lexical_cast<float>(levelNode->first_attribute("deathSpeed")->value()) : defaultLevel.deathSpeed,
+                levelNode->first_attribute("count") ? boost::lexical_cast<int>(levelNode->first_attribute("count")->value()) : defaultLevel.count
+            };
+            levels.push_back(mindLevel);
+        }
+        level++;
+    }
+}
+
+CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys)
+{
+    bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
+    int power = hacked ? sys->healthState.first : sys->GetEffectivePower();
+    return power < levels.size() ? levels[power] : defaultLevel;
+}
 
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
@@ -1132,3 +1189,18 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
     }
     queuedCrew.clear();
 }
+
+// Custom clonebay rewrites
+
+//Planned feature
+//allow xml control for heal per jump (hp and hp%)
+////hook CloneSystem::GetJumpHealth and ShipManager::CloneHealing
+//allow xml control for health when cloned
+//allow xml control for skill loss when cloned
+////hook CloneSystem::CloneCrew
+//allow xml control for clone death speed
+////hook CloneSystem::GetDeathProgress
+//allow xml control for clone speed
+////hook CloneSystem::GetProgress or loop
+//allow those value to be affected by augments
+//
