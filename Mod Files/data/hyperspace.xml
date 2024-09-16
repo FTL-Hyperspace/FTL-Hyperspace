@@ -2927,4 +2927,6 @@ Example in form of the Vanilla credits rewritten in XML:
 	</freeDrones>
 </store>
 
+<purchaseLimitNumber fontSize="0" x="-16" y="106"/>
+
 </FTL>

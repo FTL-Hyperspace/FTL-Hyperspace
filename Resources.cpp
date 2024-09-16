@@ -1,3 +1,4 @@
+#include "Store_Extend.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
@@ -719,6 +720,12 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "store") == 0)
             {
                 CustomStore::instance->ParseStoreNode(node);
+            }
+            if (strcmp(node->name(), "purchaseLimitNumber") == 0)
+            {
+                PurchaseLimitIndicatorInfo::fontSize = boost::lexical_cast<int>(node->first_attribute("fontSize")->value());
+                PurchaseLimitIndicatorInfo::x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+                PurchaseLimitIndicatorInfo::y = boost::lexical_cast<int>(node->first_attribute("y")->value());
             }
             if (strcmp(node->name(), "drones") == 0)
             {
