@@ -26,7 +26,7 @@ private:
 ////hook CloneSystem::GetJumpHealth and ShipManager::CloneHealing
 //allow xml control for health when cloned
 //allow xml control for skill loss when cloned
-////hook CloneSystem::CloneCrew
+////hook CrewMember::Clone
 //allow xml control for clone death speed
 ////hook CloneSystem::GetDeathProgress
 //allow xml control for clone speed
