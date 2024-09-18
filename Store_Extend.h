@@ -108,7 +108,7 @@ struct StoreDefinition
     int storeNum; // for when multiple stores are created at once
 };
 
-class CustomStoreBox // replace only regular BUY page, not regular SELL page
+class CustomStoreBox
 {
 public:
     void OnRender();
@@ -145,7 +145,7 @@ extern int g_purchaseLimitNumber_fontSize;
 extern int g_purchaseLimitNumber_x;
 extern int g_purchaseLimitNumber_y;
 
-class StoreComplete
+class StoreComplete // replace only regular BUY page, not regular SELL page
 {
     Store *orig = nullptr;
     StoreDefinition def;
