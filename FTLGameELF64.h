@@ -3956,6 +3956,7 @@ struct CombatControl
 	LIBZHL_API ShipManager *GetCurrentTarget();
 	LIBZHL_API std::pair<int, int> GetTeleportationCommand();
 	LIBZHL_API void KeyDown(SDLKey key);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
 	LIBZHL_API bool MouseMove(int mX, int mY);
 	LIBZHL_API bool MouseRClick(int x, int y);
@@ -3965,6 +3966,7 @@ struct CombatControl
 	LIBZHL_API void OnRenderSelfAiming();
 	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	LIBZHL_API void RenderTarget();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API bool SelectTarget();
 	LIBZHL_API void SetMouseCursor();
 	LIBZHL_API void UpdateAiming();

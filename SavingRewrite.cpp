@@ -98,3 +98,22 @@ HOOK_METHOD_PRIORITY(BoarderPodDrone, SaveState, 9999, (int fd) -> void)
     FileHelper::writeInt(fd, boarderDrone->currentSlot.slotId);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(CombatControl, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatControl::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeInt(fd, weapControl.autoFiring);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(CombatControl, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatControl::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    if (G_->GetSettings()->loadingSaveVersion < 7) return;
+    weapControl.SetAutofiring(FileHelper::readInteger(fd) != 0, true);
+    // End of orig code
+}
