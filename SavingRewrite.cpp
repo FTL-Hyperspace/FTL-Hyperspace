@@ -117,3 +117,31 @@ HOOK_METHOD_PRIORITY(CombatControl, LoadState, 9999, (int fd) -> void)
     weapControl.SetAutofiring(FileHelper::readInteger(fd) != 0, true);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(CombatDrone, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatDrone::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    SpaceDrone::SaveState(fd);
+    FileHelper::writeFloat(fd, lastDestination.x);
+    FileHelper::writeFloat(fd, lastDestination.y);
+    FileHelper::writeFloat(fd, progressToDestination);
+    FileHelper::writeFloat(fd, heading);
+    FileHelper::writeFloat(fd, oldHeading);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(CombatDrone, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatDrone::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    SpaceDrone::LoadState(fd);
+    lastDestination.x = FileHelper::readFloat(fd);
+    lastDestination.y = FileHelper::readFloat(fd);
+    progressToDestination = FileHelper::readFloat(fd);
+    heading = FileHelper::readFloat(fd);
+    oldHeading = FileHelper::readFloat(fd);
+    // End of orig code
+}
