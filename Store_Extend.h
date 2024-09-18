@@ -141,6 +141,10 @@ public:
     std::vector<StoreSection> sections;
 };
 
+extern int g_purchaseLimitNumber_fontSize;
+extern int g_purchaseLimitNumber_x;
+extern int g_purchaseLimitNumber_y;
+
 class StoreComplete
 {
     Store *orig = nullptr;

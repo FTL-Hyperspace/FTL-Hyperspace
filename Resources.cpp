@@ -720,6 +720,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 CustomStore::instance->ParseStoreNode(node);
             }
+            if (strcmp(node->name(), "purchaseLimitNumber") == 0)
+            {
+                g_purchaseLimitNumber_fontSize = boost::lexical_cast<int>(node->first_attribute("fontSize")->value());
+                g_purchaseLimitNumber_x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+                g_purchaseLimitNumber_y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+            }
             if (strcmp(node->name(), "drones") == 0)
             {
                 CustomDroneManager::GetInstance()->ParseDroneNode(node);
