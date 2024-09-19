@@ -172,3 +172,6 @@ HOOK_METHOD_PRIORITY(CompleteShip, LoadState, 9999, (int fd) -> void)
     }
     // End of orig code
 }
+
+// CrewDrone class has saving functions which simply return thus not actually doing anything.
+
