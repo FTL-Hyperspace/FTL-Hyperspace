@@ -141,9 +141,12 @@ public:
     std::vector<StoreSection> sections;
 };
 
-extern int g_purchaseLimitNumber_fontSize;
-extern int g_purchaseLimitNumber_x;
-extern int g_purchaseLimitNumber_y;
+struct PurchaseLimitIndicatorInfo
+{
+    static int fontSize;
+    static int x;
+    static int y;
+};
 
 class StoreComplete // replace only regular BUY page, not regular SELL page
 {

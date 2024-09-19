@@ -8,9 +8,9 @@
 CustomStore* CustomStore::instance = new CustomStore();
 
 // default property of the purchase limit number. these value should be overwritten by tag <purchaseLimitNumber> in hyperspace.xml
-int g_purchaseLimitNumber_fontSize = 0;
-int g_purchaseLimitNumber_x = -16;
-int g_purchaseLimitNumber_y = 60;
+int PurchaseLimitIndicatorInfo::fontSize = 0;
+int PurchaseLimitIndicatorInfo::x = -16;
+int PurchaseLimitIndicatorInfo::y = 60;
 
 static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
 {
@@ -1121,7 +1121,7 @@ void StoreComplete::OnRender()
 
         std::string txt = std::to_string(itemPurchaseLimit - itemsPurchased);
 
-        freetype::easy_printCenter(g_purchaseLimitNumber_fontSize, orig->position.x + g_purchaseLimitNumber_x, orig->position.y + g_purchaseLimitNumber_y, txt);
+        freetype::easy_printCenter(PurchaseLimitIndicatorInfo::fontSize, orig->position.x + PurchaseLimitIndicatorInfo::x, orig->position.y + PurchaseLimitIndicatorInfo::y, txt);
     }
 
     if (orig->confirmBuy)
