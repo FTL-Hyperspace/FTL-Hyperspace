@@ -233,3 +233,11 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
     nameInput.SetText(currentShip->myBlueprint.blueprintName);
 }
 */
+
+// Allow ship rename input to receive Japanese letters
+HOOK_METHOD(ShipBuilder, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::constructor -> Begin (ShipEditor.cpp)\n")
+    super();
+    nameInput.allowedChars = TextInput::ALLOW_ANY;
+}
