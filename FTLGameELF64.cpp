@@ -3680,11 +3680,11 @@ namespace _func284
 	static FunctionDefinition funcObj("CompleteShip::constructor", typeid(void (CompleteShip::*)(SpaceManager *, bool , int )), ".534889fb48897718", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::constructor(SpaceManager *space, bool unk, int unk2)
+void CompleteShip::constructor(SpaceManager *space, bool bPlayerShip, int iShipId)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, SpaceManager *space_arg, bool unk_arg, int unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, SpaceManager *space_arg, bool bPlayerShip_arg, int iShipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func284::func;
-	return execfunc(this, space, unk, unk2);
+	return execfunc(this, space, bPlayerShip, iShipId);
 }
 
 namespace _func285
@@ -3706,11 +3706,11 @@ namespace _func286
 	static FunctionDefinition funcObj("CompleteShip::OnInit", typeid(void (CompleteShip::*)(const ShipBlueprint *, int )), "!.41554189d541544989f455534889fbbf580a0000", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::OnInit(const ShipBlueprint *blueprint, int unk)
+void CompleteShip::OnInit(const ShipBlueprint *blueprint, int level)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, const ShipBlueprint *blueprint_arg, int unk_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, const ShipBlueprint *blueprint_arg, int level_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func286::func;
-	return execfunc(this, blueprint, unk);
+	return execfunc(this, blueprint, level);
 }
 
 namespace _func287
@@ -3719,11 +3719,11 @@ namespace _func287
 	static FunctionDefinition funcObj("CompleteShip::AddBoarders", typeid(void (CompleteShip::*)(int , const std::string &, bool )), ".415741564189ce415541544189f4be02000000554889fd534881ec88000000", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::AddBoarders(int amount, const std::string &race, bool unk2)
+void CompleteShip::AddBoarders(int amount, const std::string &race, bool breach)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, int amount_arg, const std::string &race_arg, bool unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, int amount_arg, const std::string &race_arg, bool breach_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func287::func;
-	return execfunc(this, amount, race, unk2);
+	return execfunc(this, amount, race, breach);
 }
 
 namespace _func288
@@ -3758,11 +3758,11 @@ namespace _func290
 	static FunctionDefinition funcObj("CompleteShip::AddDrone", typeid(Drone *(CompleteShip::*)(const DroneBlueprint *, int )), "!.488b7f10e9????????90660f1f440000", nullptr, 0, 0, &func);
 }
 
-Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int unk)
+Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int slot)
 {
-	typedef Drone *(*custom_arg_funcptr_t)(CompleteShip *this_arg, const DroneBlueprint *blueprint_arg, int unk_arg);
+	typedef Drone *(*custom_arg_funcptr_t)(CompleteShip *this_arg, const DroneBlueprint *blueprint_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func290::func;
-	return execfunc(this, blueprint, unk);
+	return execfunc(this, blueprint, slot);
 }
 
 namespace _func291
@@ -3771,37 +3771,37 @@ namespace _func291
 	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(CrewMember *(CompleteShip::*)(CrewMember *, int )), ".41544885f655534889f3", nullptr, 0, 0, &func);
 }
 
-CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
+CrewMember *CompleteShip::AddCrewMember2(CrewMember *crew, int roomId)
 {
-	typedef CrewMember *(*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
+	typedef CrewMember *(*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *crew_arg, int roomId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func291::func;
-	return execfunc(this, member, unk);
+	return execfunc(this, crew, roomId);
 }
 
 namespace _func292
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CompleteShip::SaveState", typeid(void (CompleteShip::*)(int )), "!.89f08bb71002000089c7", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CompleteShip::SaveState", typeid(void (CompleteShip::*)(int )), "!.89f08b", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::SaveState(int unk)
+void CompleteShip::SaveState(int fd)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, int unk_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, int fd_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func292::func;
-	return execfunc(this, unk);
+	return execfunc(this, fd);
 }
 
 namespace _func293
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CompleteShip::LoadState", typeid(void (CompleteShip::*)(int )), ".534889fb89f74883ec20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CompleteShip::LoadState", typeid(void (CompleteShip::*)(int )), "!.534889fb", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::LoadState(int unk)
+void CompleteShip::LoadState(int fd)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, int unk_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, int fd_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func293::func;
-	return execfunc(this, unk);
+	return execfunc(this, fd);
 }
 
 namespace _func294
@@ -3953,11 +3953,11 @@ namespace _func305
 	static FunctionDefinition funcObj("CompleteShip::OnRenderShip", typeid(void (CompleteShip::*)(bool , bool )), "!.41544189d4ba020000005589f5534889fb8b7708488b7f18", nullptr, 0, 0, &func);
 }
 
-void CompleteShip::OnRenderShip(bool unk1, bool unk2)
+void CompleteShip::OnRenderShip(bool showInterior, bool doorControlMode)
 {
-	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, bool unk1_arg, bool unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(CompleteShip *this_arg, bool showInterior_arg, bool doorControlMode_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func305::func;
-	return execfunc(this, unk1, unk2);
+	return execfunc(this, showInterior, doorControlMode);
 }
 
 namespace _func306

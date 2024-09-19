@@ -145,3 +145,30 @@ HOOK_METHOD_PRIORITY(CombatDrone, LoadState, 9999, (int fd) -> void)
     oldHeading = FileHelper::readFloat(fd);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(CompleteShip, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CompleteShip::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeInt(fd, teleTargetRoom);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(CompleteShip, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CompleteShip::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    teleTargetRoom = FileHelper::readInteger(fd);
+
+    shipManager->GetLeavingCrew(false);
+    if (!leavingParty.empty()) leavingParty.clear();
+
+    if (enemyShip != nullptr)
+    {
+        enemyShip->shipManager->GetLeavingCrew(true);
+        if (!arrivingParty.empty()) arrivingParty.clear();
+    }
+    // End of orig code
+}

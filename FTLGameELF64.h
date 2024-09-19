@@ -3045,27 +3045,27 @@ struct LIBZHL_INTERFACE CompleteShip
 	virtual bool IsBoss() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void Restart();
 	virtual bool IncomingFire() LIBZHL_PLACEHOLDER
-	LIBZHL_API void AddBoarders(int amount, const std::string &race, bool unk2);
+	LIBZHL_API void AddBoarders(int amount, const std::string &race, bool breach);
 	LIBZHL_API CrewMember *AddCrewMember(const CrewBlueprint *blueprint, bool hostile);
 	LIBZHL_API CrewMember *AddCrewMember1(const std::string &race, const std::string &name, bool hostile);
-	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
-	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
+	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *crew, int roomId);
+	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int slot);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API bool DeadCrew();
 	LIBZHL_API std::vector<CrewMember*> GetTeleportingParty();
 	LIBZHL_API void InitiateTeleport(int targetRoom, int command);
 	LIBZHL_API void Jump();
 	LIBZHL_API void KillRandomCrew();
-	LIBZHL_API void LoadState(int unk);
-	LIBZHL_API void OnInit(const ShipBlueprint *blueprint, int unk);
+	LIBZHL_API void LoadState(int fd);
+	LIBZHL_API void OnInit(const ShipBlueprint *blueprint, int level);
 	LIBZHL_API void OnRender();
-	LIBZHL_API void OnRenderShip(bool unk1, bool unk2);
+	LIBZHL_API void OnRenderShip(bool showInterior, bool doorControlMode);
 	LIBZHL_API void OnRenderSpace();
-	LIBZHL_API void SaveState(int unk);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetEnemyShip(CompleteShip *other);
 	LIBZHL_API void SetShip(ShipManager *ship);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
-	LIBZHL_API void constructor(SpaceManager *space, bool unk, int unk2);
+	LIBZHL_API void constructor(SpaceManager *space, bool bPlayerShip, int iShipId);
 	
 	int iShipId;
 	ShipManager *shipManager;
