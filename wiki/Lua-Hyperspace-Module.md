@@ -368,7 +368,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Field is **read-only** but fields under this object may still be mutable.
 - [`HackingSystem*`](#hackingsystem) `.hackingSystem`
    - Field is **read-only** but fields under this object may still be mutable.
-- [`Shields*`](#shieldsystem) `.shieldSystem`
+- [`Shields*`](#shields) `.shieldSystem`
    - Field is **read-only** but fields under this object may still be mutable.
 - [`WeaponSystem*`](#weaponsystem) `.weaponSystem`
    - Field is **read-only** but fields under this object may still be mutable.
