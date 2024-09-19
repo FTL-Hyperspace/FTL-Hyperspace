@@ -2203,8 +2203,6 @@ playerVariableType playerVariables;
 %nodefaultctor ShipGraph;
 %nodefaultdtor ShipGraph;
 
-%rename("%s") ShipGraph::ConvertToWorldPosition;
-%rename("%s") ShipGraph::ConvertToLocalPosition;
 %rename("%s") ShipGraph::GetSlotRenderPosition;
 %rename("%s") ShipGraph::TranslateFromGrid;
 %rename("%s") ShipGraph::TranslateToGrid;
@@ -2218,7 +2216,9 @@ playerVariableType playerVariables;
 %rename("%s") ShipGraph::ConnectingDoor;
 %rename("%s") ShipGraph::ContainsPoint;
 %rename("%s") ShipGraph::ConvertToLocalAngle;
+%rename("%s") ShipGraph::ConvertToLocalPosition;
 %rename("%s") ShipGraph::ConvertToWorldAngle;
+%rename("%s") ShipGraph::ConvertToWorldPosition;
 %rename("%s") ShipGraph::Dijkstra;
 %rename("%s") ShipGraph::DoorCount;
 %rename("%s") ShipGraph::FindPath;

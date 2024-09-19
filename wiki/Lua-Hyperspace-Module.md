@@ -2968,7 +2968,9 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
+- [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
 - `float :ConvertToWorldAngle(float ang)`
+- [`Pointf`](#Pointf) `:ConvertToWorldPosition(Pointf local)`
 - [`Path`](#Path) `:Dijkstra(Point start, Point goal, int shipId)`
 - `int :DoorCount(int roomId)`
 - [`Path`](#Path) `:FindPath(Point p1, Point p2, int shipId)`
