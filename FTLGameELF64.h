@@ -2066,9 +2066,11 @@ struct LIBZHL_INTERFACE CrewAnimation
 	LIBZHL_API virtual std::string GetDeathSound();
 	virtual void Restart() LIBZHL_PLACEHOLDER
 	virtual bool CustomDeath() LIBZHL_PLACEHOLDER
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnInit(const std::string &name, Pointf position, bool enemy);
 	LIBZHL_API void OnUpdate(Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
 	LIBZHL_API void RenderIcon(bool border);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetupStrips();
 	LIBZHL_API void constructor(int shipId, const std::string &race, Pointf unk, bool hostile);
 	LIBZHL_API void destructor();
@@ -7851,6 +7853,7 @@ extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
 extern LIBZHL_API BlueprintManager *Global_BlueprintManager_Blueprints;
 extern LIBZHL_API CFPS *Global_CFPS_FPSControl;
+extern LIBZHL_API int iDeathCount;
 extern LIBZHL_API CrewMemberFactory *Global_CrewMemberFactory_Factory;
 extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;

@@ -3,11 +3,15 @@ cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this);
 ".8b475c83f8ff":
 cleanup __amd64 int CrewAnimation::GetFiringFrame(CrewAnimation *this);
 "!.41554531ed415449bc000000000000803f55":
-cleanup __amd64 void CrewAnimation::OnRenderProps(CrewAnimation *this);
+cleanup __amd64 void CrewAnimation::OnRenderProps(CrewAnimation *this); // 004802d0
 ".41544189f45589d5534889fb4883ec50":
 cleanup __amd64 void CrewAnimation::OnRender(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
 "!.53488d9fd80800004889df":
-cleanup __amd64 bool CrewAnimation::FireShot(CrewAnimation *this);
+cleanup __amd64 bool CrewAnimation::FireShot(CrewAnimation *this); // 00480fff
+"!.554889fd5389f331f6":
+cleanup __amd64 void CrewAnimation::SaveState(CrewAnimation *this, int fd); // 00481a5f
+"!.554889fd89f7":
+cleanup __amd64 void CrewAnimation::LoadState(CrewAnimation *this, int fd); // 00481ab0
 ".4155415455534889fb4881ecf80000004084f6":
 cleanup __amd64 void CrewAnimation::RenderIcon(CrewAnimation *this, bool border);
 ".415455534889fb4883ec308b4760":

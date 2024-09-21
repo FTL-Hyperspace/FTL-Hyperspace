@@ -175,3 +175,74 @@ HOOK_METHOD_PRIORITY(CompleteShip, LoadState, 9999, (int fd) -> void)
 
 // CrewDrone class has saving functions which simply return thus not actually doing anything.
 
+HOOK_METHOD_PRIORITY(CrewMember, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Save basic state variables
+    FileHelper::writeFloat(fd, fStunTime);
+    FileHelper::writeInt(fd, healthBoost);
+    FileHelper::writeInt(fd, iDeathNumber);
+    FileHelper::writeFloat(fd, fMindDamageBoost);
+    FileHelper::writeInt(fd, static_cast<int>(fCloneDying));
+    FileHelper::writeInt(fd, iDeathCount);
+
+    // There are 6 skills, each having two bits storing level 1 & 2
+    for (int8_t skillIndex = 0; skillIndex < 6; ++skillIndex)
+    {
+        // Make sure the vector has at least 6 elements
+        if (skillIndex < skillsEarned.size())
+        {
+            // Save level 1
+            FileHelper::writeInt(fd, static_cast<int>(skillsEarned[skillIndex][0]));
+            // Save level 2
+            FileHelper::writeInt(fd, static_cast<int>(skillsEarned[skillIndex][1]));
+        }
+        else
+        {
+            // If the skill doesn't exist, default to false
+            FileHelper::writeInt(fd, 0);
+            FileHelper::writeInt(fd, 0);
+        }
+    }
+
+    crewAnim->SaveState(fd);
+
+    // End of save logic
+}
+
+HOOK_METHOD_PRIORITY(CrewMember, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+
+    // Load basic state variables
+    fStunTime = FileHelper::readFloat(fd);
+    healthBoost = FileHelper::readInteger(fd);
+    iDeathNumber = FileHelper::readInteger(fd);
+    fMindDamageBoost = FileHelper::readFloat(fd);
+    fCloneDying = static_cast<float>(FileHelper::readInteger(fd));
+    iDeathCount = FileHelper::readInteger(fd);
+
+    // Check the save to know if the skill level should be loaded (loading legacy saves)
+    if (G_->GetSettings()->loadingSaveVersion > 7)
+    {
+        // There are 6 skills, each having two bits storing level 1 & 2
+        for (int8_t skillIndex = 0; skillIndex < 6; ++skillIndex)
+        {
+            // Prepare skill vector for use
+            if (skillIndex >= skillsEarned.size()) skillsEarned.emplace_back(std::vector<bool>(2, false));
+
+            // Load the first chunk (level 1)
+            skillsEarned[skillIndex][0] = (FileHelper::readInteger(fd) != 0);
+            // Load the second chunk (level 2)
+            skillsEarned[skillIndex][1] = (FileHelper::readInteger(fd) != 0);
+        }
+    }
+
+    // Load crew animation state if the save version is above 4 (loading legacy saves)
+    if (G_->GetSettings()->loadingSaveVersion > 4) crewAnim->LoadState(fd);
+
+    // End of orig code
+}

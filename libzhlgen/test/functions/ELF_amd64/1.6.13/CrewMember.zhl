@@ -24,8 +24,10 @@ cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
 cleanup __amd64 void CrewMember::destructor(CrewMember *this);
 "!.534889fb":
 cleanup __amd64 void CrewMember::Cleanup(CrewMember *this);
-".41544989fc89f75589f553":
+".!41544989fc89f75589f553":
 cleanup __amd64 void CrewMember::LoadState(CrewMember *this, int fileHelper);
+"!.89eff3410f1184??????????e8????????8905(???????\?)":
+offsetVariable int iDeathCount;
 ".554889f5534889fb4883ec08488b07c6872802000000":
 cleanup __amd64 void CrewMember::SetCurrentSystem(CrewMember *this, ShipSystem *sys);
 ".83bfa00000000b0f94c0":
