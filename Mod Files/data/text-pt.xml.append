@@ -247,6 +247,7 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="tooltip_temporal_enemy" language="pt">Manipulador Temporal: O inimigo pode usar isso para mudar a velocidade do tempo em uma sala.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="pt">A bateria antinave da frota está atacando todos os navios na área.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="pt">A bateria antinave da frota está atacando seus inimigos.</text>
+<text name="tooltip_purchase_limit" language="pt">Número de compras restantes, excluindo itens e consertos.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="pt">Parece que essa é a primeira vez que você está jogando esse mod, ou você ainda não vez um novo save! Você gostaria de transferir o seu progresso da versão vanilla, ou jogar com um save novo? Isso NÃO VAI influenciar o seu progresso vanilla em qualquer forma.</text>
 <!--Neutral ASB text-->

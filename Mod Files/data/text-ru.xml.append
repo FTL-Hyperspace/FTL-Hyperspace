@@ -247,6 +247,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="tooltip_temporal_enemy" language="ru">Временной манипулятор: Противник может использовать его, чтобы изменить ход времени в одном отсеке.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="ru">Противокорабельные батареи флота ведут огонь по всем кораблям в этом районе.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="ru">Противокорабельные батареи флота ведут огонь по вашим врагам.</text>
+<text name="tooltip_purchase_limit" language="ru">Количество оставшихся покупок, не считая предметов и ремонта.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="ru">Похоже, вы либо впервые играете в этот мод, либо еще не установили новый файл сохранения! Вы хотите перенести ванильный прогресс или сыграть с новым сохранением? Это никак НЕ повлияет на ваш ванильный прогресс.</text>
 <!--Neutral ASB text-->
