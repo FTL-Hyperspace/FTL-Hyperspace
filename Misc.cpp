@@ -1440,3 +1440,19 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::MOUSE_CONTROL, std::abs(idx), 0);
 }
+
+// Allow ship rename input to receive Japanese letters
+HOOK_METHOD(ShipBuilder, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::constructor -> Begin (ShipEditor.cpp)\n")
+    super();
+    nameInput.allowedChars = TextInput::ALLOW_ANY;
+}
+
+// Allow crew rename input to receive Japanese letters
+HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::constructor -> Begin (CustomCrewManifest.cpp)\n")
+    super(pos, ship, slot);
+    nameInput.allowedChars = TextInput::ALLOW_ANY;
+}

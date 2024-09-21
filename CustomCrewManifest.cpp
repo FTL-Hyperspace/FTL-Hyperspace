@@ -806,11 +806,3 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slo
 
     return ret;
 }
-
-// Allow crew rename input to receive Japanese letters
-HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::constructor -> Begin (CustomCrewManifest.cpp)\n")
-    super(pos, ship, slot);
-    nameInput.allowedChars = TextInput::ALLOW_ANY;
-}
