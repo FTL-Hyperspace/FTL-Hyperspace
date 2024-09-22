@@ -4844,8 +4844,13 @@ struct LIBZHL_INTERFACE CrewTarget
 	int iShipId;
 };
 
+struct CrystalAlien;
+
 struct CrystalAlien : CrewMember
 {
+	LIBZHL_API void LoadState(int fd);
+	LIBZHL_API void SaveState(int fd);
+	
 	std::pair<float, float> powerCooldown;
 };
 

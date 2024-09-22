@@ -291,3 +291,30 @@ HOOK_METHOD_PRIORITY(CrewAnimation, LoadState, 9999, (int fd) -> void)
     }
     // End of orig code
 }
+
+// CrystalAlien Save/Load actually never runs (tested)
+// Thus both functions won't need any lua support
+HOOK_METHOD_PRIORITY(CrystalAlien, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    CrewMember::SaveState(fd);
+    FileHelper::writeFloat(fd, powerCooldown.first);
+    FileHelper::writeFloat(fd, powerCooldown.second);
+    FileHelper::writeInt(fd, static_cast<int>(bCloned));
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(CrystalAlien, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    CrewMember::LoadState(fd);
+    powerCooldown.first = FileHelper::readFloat(fd);
+    powerCooldown.second = FileHelper::readFloat(fd);
+    bCloned = FileHelper::readInteger(fd) != 0;
+    // End of orig code
+}
+

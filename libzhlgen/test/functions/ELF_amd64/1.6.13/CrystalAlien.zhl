@@ -1,0 +1,4 @@
+"!554889fd5389f34883ec08e8????????f30f108544070000":
+cleanup __amd64 void CrystalAlien::SaveState(CrystalAlien *this, int fd);
+".5589f5534889fb4883ec08e8????????89efe8????????f30f118344070000":
+cleanup __amd64 void CrystalAlien::LoadState(CrystalAlien *this, int fd);
