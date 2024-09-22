@@ -246,3 +246,48 @@ HOOK_METHOD_PRIORITY(CrewMember, LoadState, 9999, (int fd) -> void)
 
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(CrewAnimation, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+
+    // Write the weird bool I don't understand the use of
+    FileHelper::writeInt(fd, static_cast<int>(status == 6));
+
+    // Save the state of the actual animation
+    anims[0][6].SaveState(fd);
+
+    // Save whether the animation is running in reverse
+    FileHelper::writeInt(fd, static_cast<int>(anims[0][6].tracker.reverse));
+
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(CrewAnimation, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+
+    // Checks some weird bool that was written if status == 6
+    if (FileHelper::readInteger(fd) != 0)
+    {
+        status = 6;
+        direction = 0;
+
+        anims[0][6].tracker.SetLoop(false, 0.0f);
+        anims[0][6].Start(true);
+    }
+    
+    // Load the animation itself
+    anims[0][6].LoadState(fd);
+
+    // Check if animation should be running in reverse (didn't even know FTL has this option?)
+    if (FileHelper::readInteger(fd) != 0 && status == 6)
+    {
+        anims[0][6].StartReverse(false);
+    }
+    // End of orig code
+}
