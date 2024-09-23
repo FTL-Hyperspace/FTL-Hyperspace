@@ -318,3 +318,46 @@ HOOK_METHOD_PRIORITY(CrystalAlien, LoadState, 9999, (int fd) -> void)
     // End of orig code
 }
 
+HOOK_METHOD_PRIORITY(Door, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeInt(fd, baseHealth);
+    FileHelper::writeInt(fd, health);
+    FileHelper::writeInt(fd, static_cast<int>(lastbase));
+    FileHelper::writeInt(fd, static_cast<int>(bOpen));
+    FileHelper::writeInt(fd, static_cast<int>(bFakeOpen));
+    FileHelper::writeInt(fd, iBlast);
+    FileHelper::writeInt(fd, iHacked);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(Door, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    baseHealth = FileHelper::readInteger(fd);
+    health = FileHelper::readInteger(fd);
+    lastbase = static_cast<float>(FileHelper::readInteger(fd));
+    bOpen = FileHelper::readInteger(fd) != 0;
+    bFakeOpen = FileHelper::readInteger(fd) != 0;
+
+    if (G_->GetSettings()->loadingSaveVersion > 4)
+    {
+        iBlast = FileHelper::readInteger(fd);
+        iHacked = FileHelper::readInteger(fd);
+    }
+
+    if (!bOpen && !bFakeOpen)
+    {
+        doorAnim.SetCurrentFrame(0);
+        doorAnimLarge.SetCurrentFrame(0);
+        return;
+    }
+
+    doorAnim.SetCurrentFrame(4);
+    doorAnimLarge.SetCurrentFrame(4);
+    // End of orig code
+}

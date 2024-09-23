@@ -1,7 +1,11 @@
 "4883ec188b97540200008bb7500200004889e7e8????????8b442404":
 cleanup __amd64 Point Door::GetPosition(Door *this);
 ".5380bfec01000000":
-cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
+cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount); // 0049692f
+"!.554889fd5389f34883ec088b":
+cleanup __amd64 void Door::SaveState(Door *this, int fd); // 00498290
+"!.5589f5534889fb89f74883ec08e8????????89ef":
+cleanup __amd64 void Door::LoadState(Door *this, int fd); // 00498300
 ".55534889fb4883ec0883bfb400000004c6472c01":
 cleanup __amd64 void Door::FakeOpen(Door *this);
 ".55534889fb4883ec080fb64724c6472c00":
