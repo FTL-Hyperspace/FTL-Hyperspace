@@ -101,7 +101,7 @@ static bool g_renderDummyEquBoxesUnderNoEquText = false;
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
-    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomEquipment.cpp)\n")
 
     if (g_renderDummyEquBoxesUnderNoEquText && name == "equipment_no_system" && !EquipmentInfo::dummyEquBoxesRenderingCompleted)
     {
@@ -138,7 +138,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
 
 HOOK_METHOD(Equipment, OnRender, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Equipment::OnRender -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnRender -> Begin (CustomEquipment.cpp)\n")
 
     if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue || (shipManager->HasSystem(3) && shipManager->HasSystem(4)))
     {
