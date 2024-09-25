@@ -8,6 +8,8 @@ cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);
 cleanup __amd64 void Equipment::OnLoop(Equipment *this);
 ".534889fb4883ec7080bf2402000000":
 cleanup __amd64 void Equipment::MouseUp(Equipment *this, int mX, int mY);
+".41564155415455534889fb4883ec60":
+cleanup __amd64 void Equipment::OnRender(Equipment *this);
 ".41554154554889f5534889fb4883ec4884c9":
 cleanup __amd64 void Equipment::AddDrone(Equipment *this, DroneBlueprint *bp, bool free, bool forceCargo);
 ".4154554889f5488d7608534889fb4883ec60":

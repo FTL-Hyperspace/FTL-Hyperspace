@@ -500,6 +500,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showCrewLimit.currentValue = EventsParser::ParseBoolean(showCrewLimit);
             }
 
+            if (strcmp(node->name(), "showDummyEquipmentSlots") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showDummyEquipmentSlots.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showDummyEquipmentSlots.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "showAllConnections") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
