@@ -105,6 +105,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
 
     if (g_renderDummyEquBoxesUnderNoEquText && name == "equipment_no_system" && !EquipmentInfo::dummyEquBoxesRenderingCompleted)
     {
+        GL_Color originalColor = CSurface::GL_GetColor();
         if (!EquipmentInfo::has_weapon)
         {
             int max_slots = EquipmentInfo::weapon_max_slots;
@@ -129,7 +130,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
             }
         }
         
-        CSurface::GL_SetColor(COLOR_WHITE);
+        CSurface::GL_SetColor(originalColor);
         EquipmentInfo::dummyEquBoxesRenderingCompleted = true;
     }
     return super(name, lang);
