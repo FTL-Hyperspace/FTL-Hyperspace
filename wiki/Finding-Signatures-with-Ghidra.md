@@ -199,9 +199,84 @@ cleanup __cdecl void AchievementTracker::LoadAchievementDescriptions(Achievement
 - Because this is Linux 32-bit there's a few possible calling styles but all `__thiscall` and `__cdecl` are simply `cdecl` style under Linux x86 32-bit. We do have to look to make sure the first arguments were not on a register (if they were it might be regparm style) but *most* of the Linux x86 32-bit calls are just cdecl. More info on the calling styles are available in `Global.zhl` and will be probably mentioned in a different Wiki article because it's more involved.
 - `cleanup` is required because it's required on all Linux & Mac calls, 32-bit and 64-bit, it's really only not defined on some Windows calls where there is some cases where the caller must do cleanup.
 
+# Further detailed ZHL documentation:
+
+### Hooking functions without a unique match - Function and usage of `.`
+Sometimes you'll come across very short functions that don't offer many bytes. After that, you'll wildcard the memory addresses and realize it results in hundreds of matches. This happens more frequently on the Windows build, but there are cases of that on every platform. Here's an example of a non-unique function from the Windows build.
+
+[[/img/sig-tutorial/Non-unique-function-example.png]]
+
+As I mentioned, searching for `Instruction Patterns` won't give you a unique result.
+
+[[/img/sig-tutorial/No-Unique-Match.png]]
+
+So, how do we get hook these then? The answer can vary, actually. Either way, you'll need to understand how the `.` operator and how our hooking library (ZHL) works.
+To keep it simple, ZHL scans through the FTL executeable when it's launched and compares the bytestrings we provided until it finds a match. This process starts from top to bottom and does that for each function, kind of like searching for a word in a text file. If you have multiple matches and your function is the first one to pop up in the "Instruction Patterns" search window, you can hook it like any other function without having to worry or using the `.` operator. However, this is rarely the case, so we have two options:
+1. Use a "noHook"
+2. Optimizing the loading order of hooks is our preferred approach. **(Prefered)**
+
+Both of these options require us to find a function above to use as an anchor. You can either scroll up in the main window showing the ASM code or click through the function in a class and compare their memory address values. The one with a lower value is placed higher than the one with a greater value. 
+This example function is above the one we're targeting:
+
+[[/img/sig-tutorial/noHook-function-example.png]]
+
+
+### The two options:
+
+#### 1. Utilizing a `noHook`
+
+NoHooks can be viewed as anchors. The first step is to identify a function that is above the one you are attempting to hook. In the provided example, the function is `Equipment::Open`. The process of creating a `noHook` is identical to that of adding a normal hook with regard to the bytestring.
+Example:
+```c++
+"5589e583e4??e8????????c9c3":
+noHook void Equipment::DO_NOT_HOOK_1();
+```
+The only difference is the addition of the `noHook` designation at the beginning.
+As you can see, the only difference is the "noHook" parameter at the start of the line.
+*Note: NoHooks can be hooked as any function type. Therefore, simply use void. Additionally, parameters and passed variables do not need to be included in the brackets, as noHooks should NEVER be run.*
+
+Once the `noHook` has been added, the normal function hook should be placed immediately afterwards, with a `.` at the beginning of the bytestring. The final result should be as follows:
+```c++
+"5589e583e4??e8????????c9c3":
+noHook void Equipment::DO_NOT_HOOK_1();
+".5589e5565389ce83e4??e8":
+__thiscall void Equipment::Close(Equipment *this);
+```
+This will prompt the library to initially search for "Do_NOT_HOOK_1," and then the `.` instructs to continue searching from that point until it encounters "Close."
+
+<br/> 
+
+#### 2. Optimized loading pattern.
+
+As an alternative to using a noHook as an anchor, you may opt to hook the function from above normally or verify if it is already present in the current ZHL file, which will then serve as an anchor. The rules remain consistent across both scenarios, and the final result should look something like this example:
+```c++
+"5589e583e4??e8????????c9c3":
+__thiscall void Equipment::Open(Equipment *this);
+".5589e5565389ce83e4??e8":
+__thiscall void Equipment::Close(Equipment *this);
+```
+It is also possible to do this with multiple signatures chained together, which is preferred as it significantly improves loading times.
+Please refer to the following Linux ZHL example:
+```c++
+"4883ec188b97540200008bb7500200004889e7e8????????8b442404":
+cleanup __amd64 Point Door::GetPosition(Door *this);
+".5380bfec01000000":
+cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
+"!.554889fd5389f34883ec088b":
+cleanup __amd64 void Door::SaveState(Door *this, int fd);
+"!.5589f5534889fb89f74883ec08e8????????89ef":
+cleanup __amd64 void Door::LoadState(Door *this, int fd);
+".55534889fb4883ec0883bfb400000004c6472c01":
+cleanup __amd64 void Door::FakeOpen(Door *this);
+".55534889fb4883ec080fb64724c6472c00":
+cleanup __amd64 void Door::FakeClose(Door *this);
+```
+
+<br/> 
+<br/> 
 
 # TODO
 
 TODO/WIP: Info about how to choose arguments & calling styles, talk about Windows binaries gotcha with ECX argument not being detected by default by Ghidra.
 
-TODO/WIP: Info about special ZHL matching capabilities like `.` `!` & generation capabilities like `noHook`, global variables and other features.
+TODO/WIP: Info about the `!` operator and its usecases & generation capabilities similar to the `noHook`, global variables and other features.
