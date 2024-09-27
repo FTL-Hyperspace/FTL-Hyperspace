@@ -201,7 +201,9 @@ cleanup __cdecl void AchievementTracker::LoadAchievementDescriptions(Achievement
 
 # Further detailed ZHL documentation:
 
-### Hooking functions without a unique match - When is `.` used & what is it used for
+## Byte String additions e.g. `.` & `!`
+
+### What is `.` & when is it used - Hooking functions without a unique match
 Sometimes you'll come across very short functions that don't offer many bytes. After that, you'll wildcard the memory addresses and realize it results in hundreds of matches. This happens more frequently on the Windows build, but there are cases of that on every platform. Here's an example of a non-unique function from the Windows build.
 
 [[/img/sig-tutorial/Non-unique-function-example.png]]
@@ -272,8 +274,8 @@ cleanup __amd64 void Door::FakeClose(Door *this);
 
 <br/> 
 
-### Function & usage of `.`
-Sometimes you'll come across very short functions that don't offer many bytes. After that, you'll wildcard the memory addresses and realize it results in hundreds of matches. This happens more frequently on the Windows build, but there are cases of that on every platform. Here's an example of a non-unique function from the Windows build.
+### What is `!` & when is it used - Function cannot be hooked for no obvious reason.
+
 
 # TODO
 
