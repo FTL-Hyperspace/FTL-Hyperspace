@@ -244,8 +244,6 @@ __thiscall void Equipment::Close(Equipment *this);
 ```
 This will prompt the library to initially search for "Do_NOT_HOOK_1," and then the `.` instructs to continue searching from that point until it encounters "Close."
 
-<br/> 
-
 #### 2. Optimized loading pattern.
 
 As an alternative to using a noHook as an anchor, you may opt to hook the function from above normally or verify if it is already present in the current ZHL file, which will then serve as an anchor. The rules remain consistent across both scenarios, and the final result should look something like this example:
@@ -262,9 +260,9 @@ Please refer to the following Linux ZHL example:
 cleanup __amd64 Point Door::GetPosition(Door *this);
 ".5380bfec01000000":
 cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
-"!.554889fd5389f34883ec088b":
+".!554889fd5389f34883ec088b":
 cleanup __amd64 void Door::SaveState(Door *this, int fd);
-"!.5589f5534889fb89f74883ec08e8????????89ef":
+".!5589f5534889fb89f74883ec08e8????????89ef":
 cleanup __amd64 void Door::LoadState(Door *this, int fd);
 ".55534889fb4883ec0883bfb400000004c6472c01":
 cleanup __amd64 void Door::FakeOpen(Door *this);
@@ -272,7 +270,6 @@ cleanup __amd64 void Door::FakeOpen(Door *this);
 cleanup __amd64 void Door::FakeClose(Door *this);
 ```
 
-<br/> 
 <br/> 
 
 # TODO
