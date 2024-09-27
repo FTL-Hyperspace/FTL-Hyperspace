@@ -13,7 +13,7 @@ cleanup __cdecl void EventsParser::AddEvents(EventsParser *this, EventGenerator&
 "55ba????????89e557565383ec2c8b4508c70000000000c7400400000000c74008000000008b451083c018e8????????85c089c60f84????????8db6000000008b4514":
 cleanup __cdecl std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
 "5589e557565383ec7c8d":
-cleanup __cdecl void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,xml_node<char> *node,string *eventName);
+cleanup __cdecl void EventsParser::ProcessChoice(EventsParser *this, EventTemplate *event, rapidxml::xml_node<char> *node, std::string& eventName);
 "5589e557bf????????565381ecdc0000008b450c":
 cleanup __cdecl void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
 

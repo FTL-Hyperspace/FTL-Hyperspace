@@ -7786,12 +7786,12 @@ std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml_node<char>
 namespace _func602
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, xml_node<char> *, string *)), ".41574989d7415641554989cd415449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), ".41574989d7415641554989cd415449", nullptr, 0, 0, &func);
 }
 
-void EventsParser::ProcessChoice(EventTemplate *event, xml_node<char> *node, string *eventName)
+void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName)
 {
-	typedef void (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, xml_node<char> *node_arg, string *eventName_arg);
+	typedef void (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, std::string &eventName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func602::func;
 	return execfunc(this, event, node, eventName);
 }

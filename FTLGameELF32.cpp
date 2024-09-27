@@ -8480,12 +8480,12 @@ namespace _func611
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, xml_node<char> *, string *)), "5589e557565383ec7c8d", argdata, 4, 6, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), "5589e557565383ec7c8d", argdata, 4, 6, &func);
 }
 
-void EventsParser::ProcessChoice(EventTemplate *event, xml_node<char> *node, string *eventName)
+void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, xml_node<char> *node_arg, string *eventName_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, std::string &eventName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func611::func;
 	return execfunc(this, event, node, eventName);
 }
