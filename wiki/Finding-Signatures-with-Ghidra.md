@@ -201,7 +201,7 @@ cleanup __cdecl void AchievementTracker::LoadAchievementDescriptions(Achievement
 
 # Further detailed ZHL documentation:
 
-## Byte String additions e.g. `.` & `!`
+## Byte String additions
 
 ### What is `.` & when is it used - Hooking functions without a unique match
 Sometimes you'll come across very short functions that don't offer many bytes. After that, you'll wildcard the memory addresses and realize it results in hundreds of matches. This happens more frequently on the Windows build, but there are cases of that on every platform. Here's an example of a non-unique function from the Windows build.
@@ -235,7 +235,8 @@ noHook void Equipment::DO_NOT_HOOK_1();
 ```
 The only difference is the addition of the `noHook` designation at the beginning.
 As you can see, the only difference is the "noHook" parameter at the start of the line.
-*Note: NoHooks can be hooked as any function type. Therefore, simply use void. Additionally, parameters and passed variables do not need to be included in the brackets, as noHooks should NEVER be run.*
+
+**Note:** NoHooks can be hooked as any function type. Therefore, simply use void. Additionally, parameters and passed variables do not need to be included in the brackets, as noHooks should NEVER be run.
 
 Once the `noHook` has been added, the normal function hook should be placed immediately afterwards, with a `.` at the beginning of the bytestring. The final result should be as follows:
 ```c++
@@ -272,13 +273,41 @@ cleanup __amd64 void Door::FakeOpen(Door *this);
 cleanup __amd64 void Door::FakeClose(Door *this);
 ```
 
+#### Short Recap
+The `.` is typically used when you want to improve the loading order & speed of the ZHL. This logic also applies to any other stuff you try to hook like an `offsetVariable`.
+It also makes loading more robust and less likely to hook stuff you don't want, even if the given bytestring was too short by accident.
+
 <br/> 
 
-### What is `!` & when is it used - Function cannot be hooked for no obvious reason.
+### What is `!` & when is it used - Function can't be hooked for no obvious reason
+Sometimes, you'll encounter functions that inexplicably fail to get hooked. When checking the zhl log, you see the hooking process fail at a certain function. Verifying the bytestring doesn't yield any further explanation. What could cause this? In most cases, you've come across one of the rare functions that don't end in a `RET` instruction. Here's an example from the Linux 1.6.13 FTL executable:
 
+[[/img/sig-tutorial/Non-RET-function-example.png]]
+
+If a return statement of a function ends in anything other than `RET`, e.g. `JMP` or `CALL`, zhl "derails" and fails to hook the function. Add a `!` in front of your bytestring to fix this, it ensures that ZHL stops running through the code once it has found a match. The hook for this function should look like this:
+```c++
+"!5589f5534889fb4883ec08e8a0f1ffff89ef"
+cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd);
+```
+You can also use both `.` and `!` together in any order without an issue.
+```c++
+"534889fb4883ec1080bfc400000000745f":
+cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
+".!5589f5534889fb4883ec08e8a0f1ffff89ef"
+cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd);
+".5589f5534889fb4883ec08e8a0f1ffff89ef"
+cleanup __amd64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd);
+".538b477c4889fb394778c7474001000000":
+cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+```
+
+#### Short Recap
+The `!` is typically used when you want to prevent ZHL from searching beyond a given bytestring. This should also be used for `offsetVariables`, `vtables`, and any other elements you're trying to hook. Sometimes a function also doesn't operate as expected or executes random code in memory, which can be fixed by its usage.
+
+<br/>
 
 # TODO
 
 TODO/WIP: Info about how to choose arguments & calling styles, talk about Windows binaries gotcha with ECX argument not being detected by default by Ghidra.
 
-TODO/WIP: Info about the `!` operator and its usecases & generation capabilities similar to the `noHook`, global variables and other features.
+TODO/WIP: Info about generation capabilities similar to the `noHook`, global variables and other features.
