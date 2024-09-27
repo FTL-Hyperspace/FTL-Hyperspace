@@ -71,6 +71,8 @@ public:
 
     Setting<bool> altCreditSystem;
 
+    Setting<bool> enableCustomChoiceColors;
+
     Setting<std::string> dismissSound;
 
     Defaults defaults;
