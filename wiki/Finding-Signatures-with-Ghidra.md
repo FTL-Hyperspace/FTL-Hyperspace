@@ -286,16 +286,16 @@ Sometimes, you'll encounter functions that inexplicably fail to get hooked. When
 
 If a return statement of a function ends in anything other than `RET`, e.g. `JMP` or `CALL`, zhl "derails" and fails to hook the function. Add a `!` in front of your bytestring to fix this, it ensures that ZHL stops running through the code once it has found a match. The hook for this function should look like this:
 ```c++
-"!5589f5534889fb4883ec08e8a0f1ffff89ef"
+"!554889fd5389f34883ec08e8":
 cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd);
 ```
 You can also use both `.` and `!` together in any order without an issue.
 ```c++
 "534889fb4883ec1080bfc400000000745f":
 cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
-".!5589f5534889fb4883ec08e8a0f1ffff89ef"
+"!.554889fd5389f34883ec08e8":
 cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd);
-".5589f5534889fb4883ec08e8a0f1ffff89ef"
+".5589f5534889fb4883ec08e8":
 cleanup __amd64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd);
 ".538b477c4889fb394778c7474001000000":
 cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
