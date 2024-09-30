@@ -379,3 +379,33 @@ HOOK_METHOD_PRIORITY(Drone, LoadState, 9999, (int fd) -> void)
     destroyedTimer = FileHelper::readFloat(fd);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(HackingDrone, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingDrone::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    SpaceDrone::SaveState(fd);
+    FileHelper::writeFloat(fd, finalDestination.x);
+    FileHelper::writeFloat(fd, finalDestination.y);
+    FileHelper::writeInt(fd, static_cast<int>(arrived));
+    FileHelper::writeInt(fd, static_cast<int>(finishedSetup));
+    flying.SaveState(fd);
+    extending.SaveState(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(HackingDrone, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingDrone::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    SpaceDrone::LoadState(fd);
+    finalDestination.x = FileHelper::readFloat(fd);
+    finalDestination.y = FileHelper::readFloat(fd);
+    arrived = FileHelper::readInteger(fd) != 0;
+    finishedSetup = FileHelper::readInteger(fd) != 0;
+    flying.LoadState(fd);
+    extending.LoadState(fd);
+    // End of orig code
+}
