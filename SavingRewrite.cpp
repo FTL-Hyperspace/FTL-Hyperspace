@@ -465,3 +465,79 @@ HOOK_METHOD_PRIORITY(ShipSystem, LoadState, 9999, (int fd) -> void)
     iTempDividePower = FileHelper::readInteger(fd);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(SpaceDrone, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Drone::SaveState(fd);
+    FileHelper::writeInt(fd, currentSpace);
+    FileHelper::writeInt(fd, destinationSpace);
+    FileHelper::writeFloat(fd, currentLocation.x);
+    FileHelper::writeFloat(fd, currentLocation.y);
+    FileHelper::writeFloat(fd, lastLocation.x);
+    FileHelper::writeFloat(fd, lastLocation.y);
+    FileHelper::writeFloat(fd, destinationLocation.x);
+    FileHelper::writeFloat(fd, destinationLocation.y);
+    FileHelper::writeFloat(fd, pointTarget.x);
+    FileHelper::writeFloat(fd, pointTarget.y);
+    FileHelper::writeFloat(fd, targetLocation.x);
+    FileHelper::writeFloat(fd, targetLocation.y);
+    FileHelper::writeFloat(fd, targetSpeed.x);
+    FileHelper::writeFloat(fd, targetSpeed.y);
+    FileHelper::writeFloat(fd, pause);
+    FileHelper::writeFloat(fd, additionalPause);
+    FileHelper::writeFloat(fd, weaponCooldown);
+    FileHelper::writeFloat(fd, current_angle);
+    FileHelper::writeFloat(fd, aimingAngle);
+    FileHelper::writeFloat(fd, lastAimingAngle);
+    FileHelper::writeInt(fd, lifespan);
+    FileHelper::writeInt(fd, static_cast<int>(bDisrupted));
+    FileHelper::writeInt(fd, static_cast<int>(poweredLastFrame));
+    FileHelper::writeFloat(fd, ionStun);
+    FileHelper::writeFloat(fd, desiredAimingAngle);
+    FileHelper::writeInt(fd, static_cast<int>(deployedLastFrame));
+    FileHelper::writeFloat(fd, speedVector.x);
+    FileHelper::writeFloat(fd, speedVector.y);
+    explosion.SaveState(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(SpaceDrone, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Drone::LoadState(fd);
+    currentSpace = FileHelper::readInteger(fd);
+    destinationSpace = FileHelper::readInteger(fd);
+    currentLocation.x = FileHelper::readFloat(fd);
+    currentLocation.y = FileHelper::readFloat(fd);
+    lastLocation.x = FileHelper::readFloat(fd);
+    lastLocation.y = FileHelper::readFloat(fd);
+    destinationLocation.x = FileHelper::readFloat(fd);
+    destinationLocation.y = FileHelper::readFloat(fd);
+    pointTarget.x = FileHelper::readFloat(fd);
+    pointTarget.y = FileHelper::readFloat(fd);
+    targetLocation.x = FileHelper::readFloat(fd);
+    targetLocation.y = FileHelper::readFloat(fd);
+    targetSpeed.x = FileHelper::readFloat(fd);
+    targetSpeed.y = FileHelper::readFloat(fd);
+    pause = FileHelper::readFloat(fd);
+    additionalPause = FileHelper::readFloat(fd);
+    weaponCooldown = FileHelper::readFloat(fd);
+    current_angle = FileHelper::readFloat(fd);
+    aimingAngle = FileHelper::readFloat(fd);
+    lastAimingAngle = FileHelper::readFloat(fd);
+    lifespan = FileHelper::readInteger(fd);
+    bDisrupted = FileHelper::readInteger(fd) != 0;
+    poweredLastFrame = FileHelper::readInteger(fd) != 0;
+    ionStun = FileHelper::readFloat(fd);
+    desiredAimingAngle = FileHelper::readFloat(fd);
+    deployedLastFrame = FileHelper::readInteger(fd) != 0;
+    speedVector.x = FileHelper::readFloat(fd);
+    speedVector.y = FileHelper::readFloat(fd);
+    explosion.LoadState(fd);
+    // End of orig code
+}
