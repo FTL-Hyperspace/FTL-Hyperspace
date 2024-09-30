@@ -7526,7 +7526,9 @@ struct SuperShieldDrone : DefenseDrone
 		this->constructor(iShipId, selfId, blueprint);
 	}
 
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
 	
 	Shields *shieldSystem;
