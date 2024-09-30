@@ -1,10 +1,13 @@
 "534889fb4883ec1080bfc400000000745f":
-cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
-"538b477c4889fb394778c7474001000000":
-cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this); // 00446380
+".!554889fd5389f34883ec08e8":
+cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd); // 00446cd0
+".5589f5534889fb4883ec08e8":
+cleanup __amd64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd); // 004485c0
+".538b477c4889fb394778c7474001000000":
+cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this); // 0044c080
 
-
-"!b8b7600bb64589e84c89e741f7ed4489e849c70424(???????\?)c1f81f49c7442408(???????\?)":
+".!b8b7600bb64589e84c89e741f7ed4489e849c70424(???????\?)c1f81f49c7442408(???????\?)": // 004be5f6
 void** VTable_LaserBlast;
 void** VTable_Targetable_LaserBlast;
 

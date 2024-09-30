@@ -296,7 +296,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, LoadState, 9999, (int fd) -> void)
 // Thus both functions won't need any lua support
 HOOK_METHOD_PRIORITY(CrystalAlien, SaveState, 9999, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::SaveState -> Begin (SavingRewrite.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrystalAlien::SaveState -> Begin (SavingRewrite.cpp)\n")
 
     // Reverse engineered Vanilla code by Dino
     CrewMember::SaveState(fd);
@@ -308,7 +308,7 @@ HOOK_METHOD_PRIORITY(CrystalAlien, SaveState, 9999, (int fd) -> void)
 
 HOOK_METHOD_PRIORITY(CrystalAlien, LoadState, 9999, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::LoadState -> Begin (SavingRewrite.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrystalAlien::LoadState -> Begin (SavingRewrite.cpp)\n")
 
     // Reverse engineered Vanilla code by Dino
     CrewMember::LoadState(fd);
@@ -320,7 +320,7 @@ HOOK_METHOD_PRIORITY(CrystalAlien, LoadState, 9999, (int fd) -> void)
 
 HOOK_METHOD_PRIORITY(Door, SaveState, 9999, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::SaveState -> Begin (SavingRewrite.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Door::SaveState -> Begin (SavingRewrite.cpp)\n")
 
     // Reverse engineered Vanilla code by Dino
     FileHelper::writeInt(fd, baseHealth);
@@ -335,7 +335,7 @@ HOOK_METHOD_PRIORITY(Door, SaveState, 9999, (int fd) -> void)
 
 HOOK_METHOD_PRIORITY(Door, LoadState, 9999, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::LoadState -> Begin (SavingRewrite.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Door::LoadState -> Begin (SavingRewrite.cpp)\n")
 
     // Reverse engineered Vanilla code by Dino
     baseHealth = FileHelper::readInteger(fd);
@@ -359,5 +359,23 @@ HOOK_METHOD_PRIORITY(Door, LoadState, 9999, (int fd) -> void)
 
     doorAnim.SetCurrentFrame(4);
     doorAnimLarge.SetCurrentFrame(4);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(Drone, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Drone::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeFloat(fd, destroyedTimer);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(Drone, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Drone::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    destroyedTimer = FileHelper::readFloat(fd);
     // End of orig code
 }

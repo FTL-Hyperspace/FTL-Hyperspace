@@ -1,4 +1,4 @@
-/*
-"0fb64710c3":
-cleanup __amd64 bool Drone::GetPowered(Drone *this)
-*/
+"!f30f10473489f7e9????????":
+cleanup __amd64 void Drone::SaveState(Drone *this, int fd); // 00441030
+".!534889fb89f7e8????????f30f11":
+cleanup __amd64 void Drone::LoadState(Drone *this, int fd); // 00441040

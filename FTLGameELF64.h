@@ -2477,10 +2477,11 @@ struct LIBZHL_INTERFACE Drone
 	virtual bool CanBeDeployed() LIBZHL_PLACEHOLDER
 	virtual bool RecallOnJump() LIBZHL_PLACEHOLDER
 	virtual bool CanBeRecovered() LIBZHL_PLACEHOLDER
-	virtual void SaveState(int fh) LIBZHL_PLACEHOLDER
-	virtual void LoadState(int fh) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SaveState(int fd);
+	LIBZHL_API virtual void LoadState(int fd);
 	virtual void BlowUp(bool silent) LIBZHL_PLACEHOLDER
 	virtual bool GetStunned() LIBZHL_PLACEHOLDER
+	
 	int iShipId;
 	int selfId;
 	bool powered;
@@ -6020,8 +6021,10 @@ struct LaserBlast : Projectile
 {
 	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
 
+	LIBZHL_API void LoadProjectile(int fd);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnUpdate();
+	LIBZHL_API void SaveProjectile(int fd);
 	
 	Targetable *movingTarget;
 	float spinAngle;
