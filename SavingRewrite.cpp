@@ -439,3 +439,29 @@ HOOK_METHOD_PRIORITY(HackingSystem, LoadState, 9999, (int fd) -> void)
     drone.LoadState(fd);
     // End of orig code
 }
+
+// ProjectileFactory Saving *here*
+
+// Ship Saving *here*
+
+HOOK_METHOD_PRIORITY(ShipSystem, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeInt(fd, iTempPowerCap);
+    FileHelper::writeInt(fd, iTempPowerLoss);
+    FileHelper::writeInt(fd, iTempDividePower);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(ShipSystem, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    iTempPowerCap = FileHelper::readInteger(fd);
+    iTempPowerLoss = FileHelper::readInteger(fd);
+    iTempDividePower = FileHelper::readInteger(fd);
+    // End of orig code
+}
