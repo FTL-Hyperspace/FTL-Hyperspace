@@ -5924,7 +5924,9 @@ struct HackingDrone : SpaceDrone
 struct HackingSystem : ShipSystem
 {
 	LIBZHL_API void BlowHackingDrone();
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API bool SoundLoop();
 	
 	bool bHacking;

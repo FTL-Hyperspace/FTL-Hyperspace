@@ -409,3 +409,33 @@ HOOK_METHOD_PRIORITY(HackingDrone, LoadState, 9999, (int fd) -> void)
     extending.LoadState(fd);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(HackingSystem, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingSystem::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeInt(fd, static_cast<int>(drone.powered));
+    FileHelper::writeInt(fd, static_cast<int>(drone.deployed));
+    FileHelper::writeInt(fd, static_cast<int>(bHacking));
+    FileHelper::writeFloat(fd, effectTimer.first);
+    FileHelper::writeFloat(fd, effectTimer.second);
+    FileHelper::writeInt(fd, static_cast<int>(iLockCount == -1)); // Inlines function call GetLockCount()
+    drone.SaveState(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(HackingSystem, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingSystem::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    drone.powered = FileHelper::readInteger(fd) != 0;
+    drone.SetDeployed(FileHelper::readInteger(fd) != 0);
+    bHacking = FileHelper::readInteger(fd) != 0;
+    effectTimer.first = FileHelper::readFloat(fd);
+    effectTimer.second = FileHelper::readFloat(fd);
+    if (FileHelper::readInteger(fd) != 0) ShipSystem::LockSystem(-1);
+    drone.LoadState(fd);
+    // End of orig code
+}
