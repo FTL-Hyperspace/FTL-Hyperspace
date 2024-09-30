@@ -541,3 +541,52 @@ HOOK_METHOD_PRIORITY(SpaceDrone, LoadState, 9999, (int fd) -> void)
     explosion.LoadState(fd);
     // End of orig code
 }
+
+HOOK_METHOD_PRIORITY(SuperShieldDrone, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SuperShieldDrone::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    SpaceDrone::SaveState(fd);
+    FileHelper::writeFloat(fd, glowAnimation);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(SuperShieldDrone, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SuperShieldDrone::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    SpaceDrone::LoadState(fd);
+    glowAnimation = FileHelper::readFloat(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(WeaponAnimation, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponAnimation::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    anim.SaveState(fd);
+    FileHelper::writeFloat(fd, slideTracker.Progress(-1.0));
+    FileHelper::writeInt(fd, static_cast<int>(bFiring));
+    FileHelper::writeInt(fd, static_cast<int>(bFireShot));
+    FileHelper::writeInt(fd, boostLevel);
+    boostAnim.SaveState(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(WeaponAnimation, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponAnimation::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    anim.LoadState(fd);
+    slideTracker.SetProgress(FileHelper::readFloat(fd));
+    bFiring = FileHelper::readInteger(fd) != 0;
+    bFireShot = FileHelper::readInteger(fd) != 0;
+    if (G_->GetSettings()->loadingSaveVersion < 9) return;
+    boostLevel = FileHelper::readInteger(fd);
+    boostAnim.LoadState(fd);
+    // End of orig code
+}
