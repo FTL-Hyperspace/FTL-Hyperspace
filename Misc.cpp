@@ -1288,6 +1288,28 @@ HOOK_METHOD(ShipManager, Wait, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+// Allow ship rename input to receive Japanese letters
+HOOK_METHOD(ShipBuilder, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (Misc.cpp)\n")
+    super();
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}
+
+// Allow crew rename input to receive Japanese letters
+HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::constructor -> Begin (Misc.cpp)\n")
+    super(pos, ship, slot);
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}
+
 //////////////////////////////////////////////////
 //////////////// RenderEvents.cpp ////////////////
 //////////////////////////////////////////////////

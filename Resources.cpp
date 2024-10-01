@@ -535,6 +535,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "allowRenameInputSpecialCharacters") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->allowRenameInputSpecialCharacters.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

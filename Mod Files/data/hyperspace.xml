@@ -357,6 +357,10 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <renameShipInRun enabled="false" allowButton="false"/>
 
+<!-- Allows the crew/ship rename input to receive special characters, including Japanese letters or others -->
+
+<allowRenameInputSpecialCharacters enabled="false"/>
+
 <!-- Enables command console in game - press \ to use
 
 
