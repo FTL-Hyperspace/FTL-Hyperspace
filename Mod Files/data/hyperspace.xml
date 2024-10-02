@@ -2964,11 +2964,13 @@ It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
 		<disabled r="50" g="50" b="50"/>
 		<blue_option r="0" g="100" b="255"/>
 	</choiceColor>
+	<choiceColor name="gray">
+		<normal r="200" g="200" b="200" a="100"/>
+	</choiceColor>
 </customChoiceColors>
 
 
-In the event definition, you can add attribute "color={name}" to <text> tag under <choice> tag.
-NOTE: You cannot apply custom colors to <text> that uses the "id" attribute to refer to its text.
+In an event definition and under <choice> tag, you can add attribute "color={name}" to <text>.
 
 -- Event example that uses custom colors --
 
@@ -2984,6 +2986,10 @@ NOTE: You cannot apply custom colors to <text> that uses the "id" attribute to r
 	</choice>
 	<choice>
 		<text color="blue">Blue</text>
+		<event/>
+	</choice>
+	<choice>
+		<text color="gray" id="continue"/>
 		<event/>
 	</choice>
 </event>

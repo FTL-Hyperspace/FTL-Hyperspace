@@ -422,7 +422,18 @@ GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
 
 HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
 {
-    if (CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue && node->first_node("text")->first_attribute("color") != nullptr)
+    LOG_HOOK("HOOK_METHOD -> EventsParser::ProcessChoice -> Begin (CustomColors.cpp)\n")
+    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || node->first_node("text")->first_attribute("color") == nullptr)
+    {
+        super(event, node, eventName);
+        return;
+    }
+
+    if (node->first_node("text")->first_attribute("id") != nullptr)
+    {
+        node->first_node("text")->first_attribute("id")->value(std::strcat(node->first_node("text")->first_attribute("id")->value(), EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value()).c_str()));
+    }
+    else
     {
         node->first_node("text")->value(std::strcat(node->first_node("text")->value(), EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value()).c_str()));
     }
@@ -432,6 +443,7 @@ HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_no
 
 HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
+    LOG_HOOK("HOOK_METHOD -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:(.*)\\]\\]$");
@@ -450,6 +462,7 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
 
 HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
+    LOG_HOOK("HOOK_METHOD -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:.*\\]\\]$");
@@ -460,4 +473,19 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
         new_text = match[1];
     }
     return super(fontSize, x, y, line_length, new_text);
+}
+
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomColors.cpp)\n")
+    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(name, lang);
+
+    std::regex re("^(.*)(\\[\\[#C\\:.*\\]\\])$");
+    std::smatch match;
+    std::string new_text = name;
+    if (std::regex_match(new_text, match, re))
+    {
+        return super(match[1], lang) + std::string(match[2]);
+    }
+    return super(name, lang);
 }
