@@ -391,7 +391,7 @@ GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
         ret.r = choiceColor->normal.r;
         ret.g = choiceColor->normal.g;
         ret.b = choiceColor->normal.b;
-        if (choiceColor->normal.a != NULL) ret.a = choiceColor->normal.a;
+        ret.a = choiceColor->normal.a;
     }
     else if (currentColor.r == 0.9529412f && currentColor.g == 1.f && currentColor.b == 0.3137255f && currentColor.a == 1.f)
     {
@@ -399,7 +399,7 @@ GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
         ret.r = choiceColor->hover.r;
         ret.g = choiceColor->hover.g;
         ret.b = choiceColor->hover.b;
-        if (choiceColor->hover.a != NULL) ret.a = choiceColor->hover.a;
+        ret.a = choiceColor->hover.a;
     }
     else if (currentColor.r == 0.5882353f && currentColor.g == 0.5882353f && currentColor.b == 0.5882353f && currentColor.a == 1.f)
     {
@@ -407,7 +407,7 @@ GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
         ret.r = choiceColor->disabled.r;
         ret.g = choiceColor->disabled.g;
         ret.b = choiceColor->disabled.b;
-        if (choiceColor->disabled.a != NULL) ret.a = choiceColor->disabled.a;
+        ret.a = choiceColor->disabled.a;
     }
     else if (currentColor.r == 0.f && currentColor.g == 0.7647059f && currentColor.b == 1.f && currentColor.a == 1.f)
     {
@@ -415,7 +415,7 @@ GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
         ret.r = choiceColor->blue_option.r;
         ret.g = choiceColor->blue_option.g;
         ret.b = choiceColor->blue_option.b;
-        if (choiceColor->blue_option.a != NULL) ret.a = choiceColor->blue_option.a;
+        ret.a = choiceColor->blue_option.a;
     }
     return ret;
 }
