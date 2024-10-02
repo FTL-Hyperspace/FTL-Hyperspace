@@ -1,2 +1,6 @@
-"534889fbbf????????e8????????f30f5905????????f30f5883d8000000":
-cleanup __amd64 void LockdownShard::Update(LockdownShard *this);
+"!554889fd5389f34883ec08f30f1087????????89f7e8":
+cleanup __amd64 void LockdownShard::SaveState(LockdownShard *this, int fd); // 004a18c0
+".534889fbbf????????e8????????f30f5905????????f30f5883d8000000":
+cleanup __amd64 void LockdownShard::Update(LockdownShard *this); // 004a1990
+".41574156415541544989fc488d7f48555389f34881ec":
+cleanup __amd64 void LockdownShard::LoadState(LockdownShard *this, int fd); // 004ab150

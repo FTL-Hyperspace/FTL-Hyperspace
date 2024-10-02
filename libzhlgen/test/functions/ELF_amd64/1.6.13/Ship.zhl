@@ -17,9 +17,11 @@ cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 ".41564989fe4155415455534883ec30":
 cleanup __amd64 void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "!.41544189cc5589d5538b7f08":
-cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
+cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls); // 004a48d0
+".415531c941544531e45589f5534889fb":
+cleanup __amd64 void Ship::SaveState(Ship *this, int fd); // 004a4ae0
 ".415431c94189f4554889fd53488b5710":
-cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
+cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId); // 004a5100
 "!.4863c60fb6f2":
 cleanup __amd64 void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
 "!.4863c60fb6f2":
@@ -40,6 +42,8 @@ cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
 cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 ".41574989ff4156415541545589f5534881ec38010000":
 cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
+".4156415541545589f5534889fb4881ec????????833d":
+cleanup __amd64 void Ship::LoadState(Ship *this, int fd); // 004ab7a0
 "!.41574989ff41564155415455534889f34881ec28030100":
 cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
 "!.39c17d03(c60201)":

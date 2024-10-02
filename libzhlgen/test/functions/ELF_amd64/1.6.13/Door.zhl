@@ -6,14 +6,20 @@ cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount); // 0049692f
 cleanup __amd64 void Door::SaveState(Door *this, int fd); // 00498290
 "!.5589f5534889fb89f74883ec08e8????????89ef":
 cleanup __amd64 void Door::LoadState(Door *this, int fd); // 00498300
-".55534889fb4883ec0883bfb400000004c6472c01":
-cleanup __amd64 void Door::FakeOpen(Door *this);
+"!.534889fb488d7f48807b2400":
+cleanup __amd64 void Door::AccelerateAnimation(Door *this); // 00498420
+".55534889fb4883ec0883bfb400000004":
+cleanup __amd64 void Door::FakeOpen(Door *this); // 00498470
 ".55534889fb4883ec080fb64724c6472c00":
-cleanup __amd64 void Door::FakeClose(Door *this);
+cleanup __amd64 void Door::FakeClose(Door *this); // 00498530
 ".8b8f4c0200008b570885c9":
-cleanup __amd64 bool Door::IsSealed(Door *this, int shipId);
+cleanup __amd64 bool Door::IsSealed(Door *this, int shipId); // 00498740
+".55534889fb4883ec08807f2c00":
+cleanup __amd64 void Door::Close(Door *this); // 00498bb0
+".55534889fb4883ec0883bfb400000004":
+cleanup __amd64 void Door::Open(Door *this); // 00498c70
 "!.55534889fb4883ec188b874c02000085c0":
-cleanup __amd64 void Door::OnLoop(Door *this);
+cleanup __amd64 void Door::OnLoop(Door *this); // 00499180
 
 
 struct Door depends (Point, ShipGraph)

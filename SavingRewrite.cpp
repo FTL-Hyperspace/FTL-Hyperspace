@@ -440,9 +440,109 @@ HOOK_METHOD_PRIORITY(HackingSystem, LoadState, 9999, (int fd) -> void)
     // End of orig code
 }
 
+// LockdownShard Saving *here*
+
 // ProjectileFactory Saving *here*
 
-// Ship Saving *here*
+HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    for (Door* door : vDoorList)
+    {
+        door->SaveState(fd);
+    }
+    for (Door* airlock : vOuterAirlocks)
+    {
+        airlock->SaveState(fd);
+    }
+    FileHelper::writeFloat(fd, cloakingTracker.current_time);
+    FileHelper::writeInt(fd, lockdowns.size());
+    for (LockdownShard& shard : lockdowns)
+    {
+        shard.SaveState(fd);
+    }
+}
+
+HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    if (G_->GetSettings()->loadingSaveVersion < 3)
+    {
+        // Legacy loading doors from older saves
+        for (size_t i = 0; i < vDoorList.size(); ++i)
+        {
+            if (FileHelper::readInteger(fd) == 1)
+            {
+                vDoorList[i]->Open();
+            }
+
+            if (FileHelper::readInteger(fd) == 1)
+            {
+                vDoorList[i]->FakeOpen();
+            }
+
+            vDoorList[i]->AccelerateAnimation();
+        }
+        for (size_t i = 0; i < vOuterAirlocks.size(); ++i)
+        {
+            if (FileHelper::readInteger(fd) == 1)
+            {
+                vOuterAirlocks[i]->Open();
+            }
+
+            if (FileHelper::readInteger(fd) == 1)
+            {
+                vOuterAirlocks[i]->FakeOpen();
+            }
+
+            vOuterAirlocks[i]->AccelerateAnimation();
+        }
+    }
+    else
+    {
+        // Current way of loading doors
+        for (Door* door : vDoorList)
+        {
+            door->LoadState(fd);
+        }
+        for (Door* airlock : vOuterAirlocks)
+        {
+            airlock->LoadState(fd);
+        }
+    }
+
+    if (G_->GetSettings()->loadingSaveVersion > 4)
+    {
+        // Loading Cloak Time
+        float cloakTime = FileHelper::readFloat(fd);
+        if (cloakTime < 0.0f) 
+        {
+            cloakTime = 0.0f;
+        }
+        if (cloakTime > cloakingTracker.time) 
+        {
+            cloakTime = cloakingTracker.time;
+        }
+        cloakingTracker.current_time = cloakTime;
+
+        // Load lockdown shards (crystal bomb/crew)
+        if (G_->GetSettings()->loadingSaveVersion > 7) 
+        {
+            int lockdownCount = FileHelper::readInteger(fd);
+            if (lockdownCount > 0) 
+            {
+                for (int i = 0; i < lockdownCount; ++i)
+                {
+                    LockdownShard shard;
+                    shard.LoadState(fd);
+                    lockdowns.push_back(shard);
+                }
+            }
+        }
+    }
+}
 
 HOOK_METHOD_PRIORITY(ShipSystem, SaveState, 9999, (int fd) -> void)
 {
