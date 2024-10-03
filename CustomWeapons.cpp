@@ -826,3 +826,32 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
         }
     }
 }
+
+// Prevent enemy charge bar (sensor lvl 3+ ability) from framing off the right side of the screen.
+bool g_enemyChargeBoxPositionFix = false;
+HOOK_METHOD(WeaponAnimation, RenderChargeBar, (float alpha) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponAnimation::RenderChargeBar -> Begin (CustomWeapons.cpp)\n")
+    if (!g_enemyChargeBoxPositionFix)
+    {
+        super(alpha);
+        return;
+    }
+
+    float offset = -18.f;
+    if (!bMirrored)
+    {
+        offset = (float)((int)((float)anim.info.frameWidth * anim.fScale) + 10);
+    }
+    
+    if (renderPoint.x + offset <= 390.f)
+    {
+        super(alpha);
+        return;
+    }
+
+    float translate_x = 390.f - renderPoint.x - offset;
+    CSurface::GL_Translate(translate_x, -50.f);
+    super(alpha);
+    CSurface::GL_Translate(-translate_x, 50.f);
+}
