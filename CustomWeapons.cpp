@@ -843,14 +843,14 @@ HOOK_METHOD(WeaponAnimation, RenderChargeBar, (float alpha) -> void)
     {
         offset = (float)((int)((float)anim.info.frameWidth * anim.fScale) + 10);
     }
-    
-    if (renderPoint.x + offset <= 390.f)
+
+    if (renderPoint.x + offset <= 375.f)
     {
         super(alpha);
         return;
     }
 
-    float translate_x = 390.f - renderPoint.x - offset;
+    float translate_x = 375.f - renderPoint.x - offset;
     CSurface::GL_Translate(translate_x, -50.f);
     super(alpha);
     CSurface::GL_Translate(-translate_x, 50.f);
