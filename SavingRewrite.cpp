@@ -442,12 +442,119 @@ HOOK_METHOD_PRIORITY(HackingSystem, LoadState, 9999, (int fd) -> void)
 
 // LockdownShard Saving *here*
 
+/*
+HOOK_METHOD_PRIORITY(LockdownShard, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // WIP REWRITE
+
+    // Initialize the shard's animation properties
+    shard.animationStrip = nullptr; // GL_Primitive is asigned here
+    shard.info.numFrames = 0;
+    shard.info.imageWidth = 0;
+    shard.tracker.currentDelay = -1.0f;
+    shard.info.imageHeight = 0;
+    shard.info.stripStartY = 0;
+    shard.info.stripStartX = 0;
+    shard.info.frameWidth = 0;
+    shard.info.frameHeight = 0;
+    shard.tracker._vptr = &AnimationTracker_vtable;  // not too sue how this is done
+    shard.tracker.time = 0.0f;
+    shard.tracker.loop = false;
+    shard.tracker.current_time = 0.0f;
+    shard.tracker.running = false;
+    shard.tracker.reverse = false;
+    shard.tracker.done = true;
+    shard.tracker.loopDelay = 0.0f;
+    shard.position = Pointf(-1.0f, -1.0f);
+    shard.soundForward = "";
+    shard.soundReverse = "";
+    shard.randomizeFrames = false;
+    shard.fScale = 1.0f;
+    shard.fYStretch = 0.0f;
+    shard.currentFrame = 0;
+    shard.bAlwaysMirror = false;
+    shard.soundQueue.clear();
+    shard.fadeOut = 0.0f;
+    shard.startFadeOut = 0.0f;
+    shard.animName = "";
+    shard.mask_x_pos = 0;
+    shard.mask_x_size = 0;
+    shard.mask_y_pos = 0;
+    shard.mask_y_size = 0;
+    shard.primitive = nullptr; // GL_Primitive is asigned here
+    shard.mirroredPrimitive = nullptr; // GL_Primitive is asigned here
+
+    // Generate random animation state - but why, anim is unused?
+    int anim = 1;
+    if (!superFreeze) 
+    {
+        bool random;
+        if (Globals_RNG) 
+        {
+            random = rand();
+        }
+        else
+        {
+            random = random32();
+        }
+        anim = random % 2 + 1;
+    }
+
+    // Read the shard's position and goal
+    position = Pointf(FileHelper::readFloat(fd), FileHelper::readFloat(fd));
+    goal = Pointf(FileHelper::readFloat(fd), FileHelper::readFloat(fd));
+    speed = FileHelper::readFloat(fd);
+    bArrived = FileHelper::readInteger(fd) != 0;
+    bDone = FileHelper::readInteger(fd) != 0;
+    lifeTime = FileHelper::readFloat(fd);
+    superFreeze = FileHelper::readInteger(fd) != 0;
+    lockingRoom = FileHelper::readInteger(fd);
+
+    // Handle shard animation based on read data
+    if (FileHelper::readInteger(fd) == 0) 
+    {
+        shard.Start(true);
+    } 
+    else 
+    {
+        shard.tracker.time = 12.0f - lifeTime;
+        shard.StartReverse(true);
+    }
+
+    // Set shard animation progress
+    shard.SetProgress(FileHelper::readFloat(fd));
+}
+*/
+
+HOOK_METHOD_PRIORITY(LockdownShard, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    FileHelper::writeFloat(fd, position.x);
+    FileHelper::writeFloat(fd, position.y);
+    FileHelper::writeFloat(fd, goal.x);
+    FileHelper::writeFloat(fd, goal.y);
+    FileHelper::writeFloat(fd, speed);
+    FileHelper::writeInt(fd, static_cast<int>(bArrived));
+    FileHelper::writeInt(fd, static_cast<int>(bDone));
+    FileHelper::writeFloat(fd, lifeTime);
+    FileHelper::writeInt(fd, static_cast<int>(superFreeze));
+    FileHelper::writeInt(fd, lockingRoom);
+    FileHelper::writeInt(fd, static_cast<int>(shard.tracker.reverse));
+    FileHelper::writeFloat(fd, shard.tracker.Progress(-1.0));
+    // End of orig code
+}
+
 // ProjectileFactory Saving *here*
 
 HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LoadState -> Begin (SavingRewrite.cpp)\n")
 
+    // Reverse engineered Vanilla code by Dino
     for (Door* door : vDoorList)
     {
         door->SaveState(fd);
@@ -462,12 +569,14 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
     {
         shard.SaveState(fd);
     }
+    // End of orig code
 }
 
 HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LoadState -> Begin (SavingRewrite.cpp)\n")
 
+    // Reverse engineered Vanilla code by Dino
     if (G_->GetSettings()->loadingSaveVersion < 3)
     {
         // Legacy loading doors from older saves
@@ -542,6 +651,7 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
             }
         }
     }
+    // End of orig code
 }
 
 HOOK_METHOD_PRIORITY(ShipSystem, SaveState, 9999, (int fd) -> void)
