@@ -199,7 +199,7 @@ cleanup __cdecl void AchievementTracker::LoadAchievementDescriptions(Achievement
 - Because this is Linux 32-bit there's a few possible calling styles but all `__thiscall` and `__cdecl` are simply `cdecl` style under Linux x86 32-bit. We do have to look to make sure the first arguments were not on a register (if they were it might be regparm style) but *most* of the Linux x86 32-bit calls are just cdecl. More info on the calling styles are available in `Global.zhl` and will be probably mentioned in a different Wiki article because it's more involved.
 - `cleanup` is required because it's required on all Linux & Mac calls, 32-bit and 64-bit, it's really only not defined on some Windows calls where there is some cases where the caller must do cleanup.
 
-# Further detailed ZHL documentation:
+# Advanced ZHL methods & usage:
 
 ## Byte String additions
 
