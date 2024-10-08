@@ -10,6 +10,8 @@ cleanup __cdecl void Equipment::OnLoop(Equipment *this);
 cleanup __cdecl void Equipment::MouseClick(Equipment *this, int mX, int mY);
 "565383ec548b5c246080bb3c01000000":
 cleanup __cdecl void Equipment::MouseUp(Equipment *this, int mX, int mY);
+"5589e557565381ec9c0000008b5d08e8":
+cleanup __cdecl void Equipment::OnRender(Equipment *this);
 "5557565383ec4c8b44246c8b5c2460":
 cleanup __cdecl void Equipment::AddWeapon(Equipment *this, WeaponBlueprint *bp, bool free, bool forceCargo);
 "57565383ec30807c244c00":

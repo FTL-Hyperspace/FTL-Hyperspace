@@ -2623,10 +2623,34 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     if (!currentShip->HasSystem(3))
     {
+        if (CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue)
+        {
+            GL_Texture *weaponBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_weapons_off.png");
+            int max_slots = currentShip->myBlueprint.weaponSlots;
+            int start_x = (4 - max_slots) * 58 + 435;
+            for (int i = 0; i < max_slots; i++)
+            {
+                GL_Primitive *weaponBoxOffPrimitive = CSurface::GL_CreateImagePrimitive(weaponBoxOffTexture, start_x + (i * 117), 514, weaponBoxOffTexture->width_, weaponBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f));
+                CSurface::GL_RenderPrimitive(weaponBoxOffPrimitive);
+            }
+            CSurface::GL_SetColor(COLOR_WHITE);
+        }
         freetype::easy_printCenter(63, 662, 539, lib->GetText("equipment_no_system"));
     }
     if (!currentShip->HasSystem(4))
     {
+        if (CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue)
+        {
+            GL_Texture *droneBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_drones_off.png");
+            int max_slots = currentShip->myBlueprint.droneSlots;
+            int start_x = (4 - max_slots) * 58 + 435;
+            for (int i = 0; i < max_slots; i++)
+            {
+                GL_Primitive *droneBoxOffPrimitive = CSurface::GL_CreateImagePrimitive(droneBoxOffTexture, start_x + (i * 117), 624, droneBoxOffTexture->width_, droneBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f));
+                CSurface::GL_RenderPrimitive(droneBoxOffPrimitive);
+            }
+            CSurface::GL_SetColor(COLOR_WHITE);
+        }
         freetype::easy_printCenter(63, 662, 649, lib->GetText("equipment_no_system"));
     }
 
