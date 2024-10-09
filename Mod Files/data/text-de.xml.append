@@ -237,6 +237,8 @@ Taste: \1</text>
 <text name="warning_pds_all">NEUTRAL!</text>
 <text name="tooltip_PDS_FLEET_ALL" language="de">Die Anti-Schiff Batterien der Flotte feuern auf alle Schiffe im Signalpunkt.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="de">Die Anti-Schiff Batterien der Flotte feuern auf deine Gegner.</text>
+
+<text name="tooltip_purchase_limit" language="de">Anzahl der verbleibenden Käufe, Objekte und Reparaturen ausgeschlossen.</text>
 <!--Credits-->
 <text name="crewlist_more" language="it"> und mehr</text>
 <text name="thank_ai">Gesteuert durch die präzise verbaute KI</text>

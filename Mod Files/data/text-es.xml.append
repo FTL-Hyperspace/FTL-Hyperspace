@@ -247,6 +247,7 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="tooltip_temporal_enemy" language="es">Manipulador Temporal: El enemigo puede usar esto para cambiar el flujo del tiempo en una habitación.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="es">Las Baterias Antiaéreas de La Flota están disparando a todas las naves en el área.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="es">Las Baterias Antiaéreas de La Flota están apuntando a tus enemigos.</text>
+<text name="tooltip_purchase_limit" language="es">Número de compras restantes, excluyendo objetos y reparaciones.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="es">Parece ser que esta es tu primera vez jugando este mod, o aún no has configurado un nuevo archivo de guardado! Quisieras transferir tu progreso del juego base, o jugar con un archivo nuevo de guardado? Esto NO influenciará tu progreso en el juego base de ninguna manera.</text>
 <!--Neutral ASB text-->
