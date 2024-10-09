@@ -123,6 +123,11 @@ HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
 		if (SeedInputBox::seedInput->bActive)
 		{
 			SeedInputBox::seedInput->OnTextEvent(te);
+            if (!SeedInputBox::seedInput->bActive && SeedInputBox::seedInput->GetText().empty())
+            {
+                SeedInputBox::seedInput->prompt = std::string(SeedInputBox::prompt);
+                SeedInputBox::firstClick = true;
+            }
 			return;
 		}
 	}
@@ -184,6 +189,12 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
     if (SeedInputBox::seedInput->GetActive())
         return;
+
+    if (SeedInputBox::seedInput->GetText().empty())
+    {
+        SeedInputBox::seedInput->prompt = std::string(SeedInputBox::prompt);
+        SeedInputBox::firstClick = true;
+    }
 
 	super(x, y);
 }
