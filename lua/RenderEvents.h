@@ -43,7 +43,7 @@ struct RenderEvents
         //SELF_AIMING, // CombatControl::OnRenderSelfAiming
         //////LAYER_PLAYERFRONT, // CommandGui::RenderPlayerShip (after) (You can just use the after method of LAYER_PLAYER for now)
         LAYER_FRONT, // SpaceManager::OnRenderAsteroids with Layer 1 (after player ship is rendered)
-        ////FTL_BUTTON, // FTLButton::OnRender
+        FTL_BUTTON, // FTLButton::OnRender
         ////BUTTON, // Button::OnRender
         ////WARNING_MESSAGE, // WarningMessage::OnRender
         ////TEXT_BUTTON, // TextButton::OnRender
