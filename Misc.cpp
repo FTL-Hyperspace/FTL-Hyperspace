@@ -1430,8 +1430,13 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     lua_pop(context->GetLua(), 2);
 }
 
-
-
+HOOK_METHOD(FTLButton, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (Misc.cpp)\n")
+    int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::FTL_BUTTON, 0);
+    if (idx >= 0) super();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::FTL_BUTTON, std::abs(idx), 0);
+}
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
