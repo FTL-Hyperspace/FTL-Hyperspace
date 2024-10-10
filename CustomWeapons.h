@@ -73,3 +73,5 @@ public:
 
 private:
 };
+
+extern bool g_enemyChargeBoxPositionFix;

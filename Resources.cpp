@@ -1,3 +1,4 @@
+#include "CustomWeapons.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
@@ -409,6 +410,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "enemyChargeBoxPositionFix") == 0) // prevent enemy charge bar (sensor lvl 3+ ability) from framing off the right side of the screen.
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_enemyChargeBoxPositionFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "resistsMindControlStat") == 0)

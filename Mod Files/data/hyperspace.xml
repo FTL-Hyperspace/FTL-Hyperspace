@@ -283,6 +283,11 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 
 <artilleryGibMountFix enabled="false"/>
 
+<!-- Prevent enemy charge bar (sensor lvl 3+ ability) from framing off the right side of the screen.
+ -->
+
+<enemyChargeBoxPositionFix enabled="false"/>
+
 <!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
 -->
 
