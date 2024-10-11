@@ -1177,7 +1177,7 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
     if (lua_isnumber(context->GetLua(), -1))
     {
         armamentSlot = static_cast<unsigned int>(lua_tonumber(context->GetLua(), -1));
-        if (armamentSlot >= boxes.size() || boxes[armamentSlot]->Empty()) preempt = true;
+        if (armamentSlot >= boxes.size() || armamentSlot < 0 || boxes[armamentSlot]->Empty()) preempt = true;
     }
     lua_pop(context->GetLua(), 1);
 
