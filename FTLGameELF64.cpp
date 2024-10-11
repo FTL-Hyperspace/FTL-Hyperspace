@@ -18157,12 +18157,12 @@ TextString WeaponControl::HolderLabel()
 namespace _func1427
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponControl::SelectArmament", typeid(void (WeaponControl::*)(int )), ".415641554154554863ee4189ec53", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponControl::SelectArmament", typeid(void (WeaponControl::*)(unsigned int )), ".415641554154554863ee4189ec53", nullptr, 0, 0, &func);
 }
 
-void WeaponControl::SelectArmament(int armamentSlot)
+void WeaponControl::SelectArmament(unsigned int armamentSlot)
 {
-	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, int armamentSlot_arg);
+	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, unsigned int armamentSlot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1427::func;
 	return execfunc(this, armamentSlot);
 }

@@ -3,7 +3,7 @@ noHook __amd64 void WeaponControl::DO_NOT_HOOK();
 ".534889fbbe":
 cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
 ".415641554154554863ee4189ec53":
-cleanup __amd64 void WeaponControl::SelectArmament(WeaponControl *this, int armamentSlot);
+cleanup __amd64 void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
 ".4157be03000000415641554989fd415455498dad3802000053498d9d180300004881ec58030000":
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
 ".41545589fd534883ec40":

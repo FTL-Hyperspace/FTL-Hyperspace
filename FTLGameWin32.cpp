@@ -19863,12 +19863,12 @@ namespace _func1440
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("WeaponControl::SelectArmament", typeid(void (WeaponControl::*)(int )), "578d????0883e4f0ff????5589e557565389ce81ecdc000000", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("WeaponControl::SelectArmament", typeid(void (WeaponControl::*)(unsigned int )), "578d????0883e4f0ff????5589e557565389ce81ecdc000000", argdata, 2, 5, &func);
 }
 
-void WeaponControl::SelectArmament(int armamentSlot)
+void WeaponControl::SelectArmament(unsigned int armamentSlot)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponControl *this_arg, int armamentSlot_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponControl *this_arg, unsigned int armamentSlot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1440::func;
 	return execfunc(this, armamentSlot);
 }
