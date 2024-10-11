@@ -1173,10 +1173,11 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
     auto context = Global::GetInstance()->getLuaContext();
 
     lua_pushinteger(context->GetLua(), armamentSlot);
-    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_PRE, 1, 0);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_PRE, 1, 1);
     if (lua_isnumber(context->GetLua(), -1))
     {
-        armamentSlot = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+        armamentSlot = static_cast<unsigned int>(lua_tonumber(context->GetLua(), -1));
+        if (armamentSlot >= boxes.size() || boxes[armamentSlot]->Empty()) preempt = true;
     }
     lua_pop(context->GetLua(), 1);
 
@@ -1184,7 +1185,7 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
         super(armamentSlot);
 
         lua_pushinteger(context->GetLua(), armamentSlot);
-        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_POST, 1, 0);
+        context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::SELECT_ARMAMENT_POST, 1, 0);
         lua_pop(context->GetLua(), 1);
     }
 }

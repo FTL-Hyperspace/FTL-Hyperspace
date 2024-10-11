@@ -61,7 +61,7 @@ struct InternalEvents
 
         // function set_armament_pre(uint armamentSlot) return Chain, armamentSlot
         SELECT_ARMAMENT_PRE,
-        // function set_armament_post(uint armamentSlot) return Chain
+        // function set_armament_post(uint armamentSlot)
         SELECT_ARMAMENT_POST,
 
         // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
