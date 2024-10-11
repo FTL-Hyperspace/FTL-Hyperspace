@@ -18,6 +18,8 @@ __thiscall bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
 __thiscall void WeaponControl::RenderAiming(WeaponControl *this);
 "5589e557565383e4f083ec308b41148b71108944242429f0c1f80285c0":
 __thiscall void WeaponControl::RenderSelfAiming(WeaponControl *this);
+"578d????0883e4f0ff????5589e557565389ce81ecdc000000":
+__thiscall void WeaponControl::SelectArmament(WeaponControl *this, int armamentSlot);
 "578d7c240883e4f0ff77fc5589e557565389cf8d75b48d5dd481ecac0000008b8188010000890424":
 __thiscall void WeaponControl::OnLanguageChange(WeaponControl *this);
 "8d4c240483e4f0ff71fc5589e55756535189cb81ec880000008b018b7910f30f10410c":
