@@ -536,3 +536,69 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
     }
     super(key);
 }
+
+// Separate the upgrade power bars into two columns if the max value is above 8.
+
+bool g_upgradeBarSecondColumn = false;
+
+HOOK_METHOD(Upgrades, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    g_upgradeBarSecondColumn = true;
+    super();
+    g_upgradeBarSecondColumn = false;
+}
+
+// exclude InfoBox's power bars
+HOOK_METHOD(InfoBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    bool current = g_upgradeBarSecondColumn;
+    g_upgradeBarSecondColumn = false;
+    super();
+    g_upgradeBarSecondColumn = current;
+}
+
+bool g_startTranslatePowerBar = false;
+int barIndex = 0;
+int barRightColumn = 0;
+
+HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int height, int gap, int current, int temp, int max) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxesPlain -> Begin (CustomUpgrades.cpp)\n")
+    if (!g_upgradeBarSecondColumn || max < 9) return super(x, y, width, height, gap, current, temp, max);
+
+    barIndex = 0;
+    barRightColumn = ((current + temp) / 8) ? ((current + temp) / 8) - 1 : 0;
+    if ((current + temp) % 8 == 0 && current + temp == max && barRightColumn > 0) barRightColumn--;
+    if (barRightColumn > 0)
+    {
+        freetype::easy_printCenter(5, (float)(x + 21), (float)(y - 62), std::to_string((barRightColumn + 1) * 8));
+        freetype::easy_printCenter(5, (float)(x + 42), (float)(y - 62), std::to_string((barRightColumn + 2) * 8));
+    }
+    g_startTranslatePowerBar = true;
+    int ret = super(x, y, width, height, gap, current, temp, max);
+    g_startTranslatePowerBar = false;
+    return ret;
+}
+
+HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CSurface::GL_RenderPrimitiveWithColor -> Begin (CustomUpgrades.cpp)\n")
+    if(!g_startTranslatePowerBar) return super(primitive, color);
+    
+    int currentColumn = barIndex / 8;
+    if (currentColumn == barRightColumn)
+    {
+        CSurface::GL_Translate(-10.f, (float)currentColumn * 64.f);
+        super(primitive, color);
+        CSurface::GL_Translate(10.f, (float)currentColumn * -64.f);
+    }
+    else if(currentColumn == barRightColumn + 1)
+    {
+        CSurface::GL_Translate(11.f, (float)currentColumn * 64.f);
+        super(primitive, color);
+        CSurface::GL_Translate(-11.f, (float)currentColumn * -64.f);
+    }
+    barIndex++;
+}
