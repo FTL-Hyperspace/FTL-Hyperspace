@@ -6,6 +6,8 @@ __thiscall void Equipment::OnLoop(Equipment *this);
 __thiscall void Equipment::MouseClick(Equipment *this, int mX, int mY);
 "80b968020000000f84????????578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b934020000000f85????????8b815c02000083f8ff0f84????????8b916002000039d0":
 __thiscall void Equipment::MouseUp(Equipment *this, int mX, int mY);
+"578d7c240883e4f0ff77fc5589e557565389cb81ecbc000000e8e2b5060080bb????????000f85":
+__thiscall void Equipment::OnRender(Equipment *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b47088b378b893802000084c089c7":
 __thiscall void Equipment::AddWeapon(Equipment *this, WeaponBlueprint *bp, bool free, bool forceCargo);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f08008b378b8938020000":
