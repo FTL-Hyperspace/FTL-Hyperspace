@@ -1398,6 +1398,20 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRenderHealth -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::CREW_MEMBER_HEALTH, 1);
+    if (idx >= 0) super();
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::CREW_MEMBER_HEALTH, std::abs(idx), 1);
+
+    lua_pop(context->GetLua(), 1);
+}
+
 //Room anim layers 3 and 4
 HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
 {

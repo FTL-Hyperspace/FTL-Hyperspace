@@ -35,6 +35,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.4.0 | SHIP_FLOOR | Equivalent to `roomAnim` layer 0 |
 | 1.4.0 | SHIP_BREACHES | Equivalent to `roomAnim` layer 1 |
 | 1.3.0 | SHIP_SPARKS | Equivalent to `roomAnim` layer 2 |
+| 1.15.0 | CREW_MEMBER_HEALTH | Runs for each `CrewMember` regardless of whether their health bar is visible |
 | 1.10.0 | SHIP_ENGINES | Thruster animations |
 | N/A | ~~SHIP_EXPLOSION~~ | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
 | 1.2.0 | LAYER_FRONT | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
