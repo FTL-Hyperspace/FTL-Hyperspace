@@ -36,8 +36,9 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.4.0 | SHIP_BREACHES | Equivalent to `roomAnim` layer 1 |
 | 1.3.0 | SHIP_SPARKS | Equivalent to `roomAnim` layer 2 |
 | 1.10.0 | SHIP_ENGINES | Thruster animations |
-| N/A | ~~SHIP_EXPLOSION~~ | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
+| N/A | ~~SHIP_EXPLOSION~~ | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |
 | 1.2.0 | LAYER_FRONT | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
+| 1.15.0 | FTL_BUTTON | Same layer as the FTL jump button and most of the player UI |
 | N/A | ~~PAUSE~~ | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | On rendering hazard environment icons |
 | N/A | ~~CHOICE~~ | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
