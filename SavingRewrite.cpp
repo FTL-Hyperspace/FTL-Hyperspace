@@ -550,9 +550,9 @@ HOOK_METHOD_PRIORITY(LockdownShard, SaveState, 9999, (int fd) -> void)
 
 // ProjectileFactory Saving *here*
 
-HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
+HOOK_METHOD_PRIORITY(Ship, SaveState, 9999, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LoadState -> Begin (SavingRewrite.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::SaveState -> Begin (SavingRewrite.cpp)\n")
 
     // Reverse engineered Vanilla code by Dino
     for (Door* door : vDoorList)
