@@ -325,7 +325,10 @@ HOOK_METHOD_PRIORITY(FTLButton, OnRender, 5000, () -> void)
 
 
 // ---Custom Choice Colors---
-// NOTE: this feature should be re-coded once ChoiceBox re-written.
+
+GL_Color COLOR_CHOICE_YELLOW = GL_Color(0.9529412f, 1.f, 0.3137255f, 1.f);
+GL_Color COLOR_CHOICE_GRAY = GL_Color(0.5882353f, 0.5882353f, 0.5882353f, 1.f);
+GL_Color COLOR_CHOICE_CYAN = GL_Color(0.f, 0.7647059f, 1.f, 1.f);
 
 std::unordered_map<std::string, ChoiceColor*> ChoiceColorMap;
 
@@ -431,11 +434,11 @@ HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_no
 
     if (node->first_node("text")->first_attribute("id") != nullptr)
     {
-        node->first_node("text")->first_attribute("id")->value(std::strcat(node->first_node("text")->first_attribute("id")->value(), EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value()).c_str()));
+        node->first_node("text")->first_attribute("id")->value((std::string(node->first_node("text")->first_attribute("id")->value()) + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value())).c_str());
     }
     else
     {
-        node->first_node("text")->value(std::strcat(node->first_node("text")->value(), EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value()).c_str()));
+        node->first_node("text")->value((std::string(node->first_node("text")->value()) + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value())).c_str());
     }
     super(event, node, eventName);
 }
@@ -443,7 +446,7 @@ HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_no
 
 HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
-    LOG_HOOK("HOOK_METHOD -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:(.*)\\]\\]$");
@@ -462,7 +465,7 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
 
 HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
-    LOG_HOOK("HOOK_METHOD -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:.*\\]\\]$");

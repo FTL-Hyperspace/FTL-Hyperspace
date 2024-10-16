@@ -7,6 +7,10 @@ extern GL_Color g_jumpButtonColors[8];
 
 void ParseCustomColorsNode(rapidxml::xml_node<char>* node);
 
+extern GL_Color COLOR_CHOICE_YELLOW;
+extern GL_Color COLOR_CHOICE_GRAY;
+extern GL_Color COLOR_CHOICE_CYAN;
+
 struct ChoiceColor
 {
     ChoiceColor()
