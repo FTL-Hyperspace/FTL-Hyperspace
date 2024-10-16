@@ -12,8 +12,8 @@ HOOK_METHOD_PRIORITY(Animation, LoadState, 9999, (int fd) -> void)
     if (FileHelper::readInteger(fd) != 0)
     {
         tracker.loop = true;
-        tracker.loopDelay = 0.0;
-        tracker.currentDelay = 0.0;
+        tracker.loopDelay = 0.f;
+        tracker.currentDelay = 0.f;
     }
     currentFrame = FileHelper::readInteger(fd);
     tracker.current_time = FileHelper::readFloat(fd) * tracker.time;
@@ -31,10 +31,10 @@ HOOK_METHOD_PRIORITY(Animation, SaveState, 9999, (int fd) -> void)
     FileHelper::writeInt(fd, tracker.running);
     FileHelper::writeInt(fd, tracker.loop);
     FileHelper::writeInt(fd, currentFrame);
-    float val = 0.0;
-    if ((tracker.running) && (val = tracker.current_time / tracker.time, val <= 0.0))
+    float val = 0.f;
+    if ((tracker.running) && (val = tracker.current_time / tracker.time, val <= 0.f))
     {
-        val = 0.0;
+        val = 0.f;
     }
     FileHelper::writeFloat(fd, val);
     FileHelper::writeFloat(fd, fScale);
@@ -277,7 +277,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, LoadState, 9999, (int fd) -> void)
         status = 6;
         direction = 0;
 
-        anims[0][6].tracker.SetLoop(false, 0.0f);
+        anims[0][6].tracker.SetLoop(false, 0.f);
         anims[0][6].Start(true);
     }
     
@@ -453,31 +453,31 @@ HOOK_METHOD_PRIORITY(LockdownShard, LoadState, 9999, (int fd) -> void)
     shard.animationStrip = nullptr; // GL_Primitive is asigned here
     shard.info.numFrames = 0;
     shard.info.imageWidth = 0;
-    shard.tracker.currentDelay = -1.0f;
+    shard.tracker.currentDelay = -1.f;
     shard.info.imageHeight = 0;
     shard.info.stripStartY = 0;
     shard.info.stripStartX = 0;
     shard.info.frameWidth = 0;
     shard.info.frameHeight = 0;
     shard.tracker._vptr = &AnimationTracker_vtable;  // not too sue how this is done
-    shard.tracker.time = 0.0f;
+    shard.tracker.time = 0.f;
     shard.tracker.loop = false;
-    shard.tracker.current_time = 0.0f;
+    shard.tracker.current_time = 0.f;
     shard.tracker.running = false;
     shard.tracker.reverse = false;
     shard.tracker.done = true;
-    shard.tracker.loopDelay = 0.0f;
-    shard.position = Pointf(-1.0f, -1.0f);
+    shard.tracker.loopDelay = 0.f;
+    shard.position = Pointf(-1.f, -1.f);
     shard.soundForward = "";
     shard.soundReverse = "";
     shard.randomizeFrames = false;
-    shard.fScale = 1.0f;
-    shard.fYStretch = 0.0f;
+    shard.fScale = 1.f;
+    shard.fYStretch = 0.f;
     shard.currentFrame = 0;
     shard.bAlwaysMirror = false;
     shard.soundQueue.clear();
-    shard.fadeOut = 0.0f;
-    shard.startFadeOut = 0.0f;
+    shard.fadeOut = 0.f;
+    shard.startFadeOut = 0.f;
     shard.animName = "";
     shard.mask_x_pos = 0;
     shard.mask_x_size = 0;
@@ -519,7 +519,7 @@ HOOK_METHOD_PRIORITY(LockdownShard, LoadState, 9999, (int fd) -> void)
     } 
     else 
     {
-        shard.tracker.time = 12.0f - lifeTime;
+        shard.tracker.time = 12.f - lifeTime;
         shard.StartReverse(true);
     }
 
@@ -626,9 +626,9 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
     {
         // Loading Cloak Time
         float cloakTime = FileHelper::readFloat(fd);
-        if (cloakTime < 0.0f) 
+        if (cloakTime < 0.f) 
         {
-            cloakTime = 0.0f;
+            cloakTime = 0.f;
         }
         if (cloakTime > cloakingTracker.time) 
         {
