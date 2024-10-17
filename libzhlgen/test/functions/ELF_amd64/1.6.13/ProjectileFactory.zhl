@@ -34,8 +34,12 @@ cleanup __amd64 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *thi
 static cleanup __amd64 void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
 ".5589fd534883ec58":
 static cleanup __amd64 Projectile* ProjectileFactory::LoadProjectile(int fd);
+".415541544531e45589f5534889fb4883ec":
+cleanup __amd64 void ProjectileFactory::SaveState(int fd); // 00451550
 ".41544189d4554889f553488b87000100004889fb482b87f800000048c1f80385c0":
 cleanup __amd64 void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
+".41574156415541545589f5534889fb89f74883ec":
+cleanup __amd64 void ProjectileFactory::LoadState(int fd); // 00451900
 ".4157415641554989fd415455534881ec88010000":
 cleanup __amd64 void ProjectileFactory::Update(ProjectileFactory *this);
 ".415641554154554889fd534883ec1048c70770??":

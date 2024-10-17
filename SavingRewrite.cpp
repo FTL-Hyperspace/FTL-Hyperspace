@@ -543,7 +543,152 @@ HOOK_METHOD_PRIORITY(LockdownShard, SaveState, 9999, (int fd) -> void)
     // End of orig code
 }
 
-// ProjectileFactory Saving *here*
+HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::SaveState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    
+    // Saving cooldown and subCooldown
+    FileHelper::writeFloat(fd, cooldown.first);
+    FileHelper::writeFloat(fd, cooldown.second);
+    FileHelper::writeFloat(fd, subCooldown.first);
+    FileHelper::writeFloat(fd, subCooldown.second);
+
+    // Save boost and charge levels
+    FileHelper::writeInt(fd, boostLevel);
+    FileHelper::writeInt(fd, chargeLevel);
+
+    // Save targets
+    int8_t numTargets = (targets.end() - targets.begin());
+    FileHelper::writeInt(fd, numTargets);
+    for (Pointf target : targets)
+    {
+        FileHelper::writeInt(fd, static_cast<int>(target.x));
+        FileHelper::writeInt(fd, static_cast<int>(target.y));
+    }
+
+    // Save lastTargets
+    int8_t numLastTargets = (lastTargets.end() - lastTargets.begin());
+    FileHelper::writeInt(fd, numLastTargets);
+    for (Pointf lastTarget : lastTargets)
+    {
+        FileHelper::writeInt(fd, static_cast<int>(lastTarget.x));
+        FileHelper::writeInt(fd, static_cast<int>(lastTarget.y));
+    }
+
+    FileHelper::writeInt(fd, static_cast<int>(autoFiring));
+    FileHelper::writeInt(fd, static_cast<int>(fireWhenReady));
+    FileHelper::writeInt(fd, targetId);
+    weaponVisual.SaveState(fd);
+    FileHelper::writeInt(fd, lastProjectileId);
+
+    // Write queued projectile amount
+    int8_t numQueuedProjectiles = (queuedProjectiles.end() - queuedProjectiles.begin());
+    FileHelper::writeInt(fd, numQueuedProjectiles);
+    for (Projectile* projectile : queuedProjectiles)
+    {
+        /*
+        Original code does this:
+
+        int8_t projectileType = projectile->GetType();
+        FileHelper::writeInt(fd, projectileType);
+
+        if (projectileType != 0)
+        {
+            projectile->SaveProjectile(fd); 
+        }
+        
+        I believe my implementation is simply better as it saves cpu cycles by cutting useless call instructions etc. and achieves the same outcome
+        */
+
+        if (projectile != nullptr)
+        {
+            int8_t projectileType = 1; 
+            FileHelper::writeInt(fd, projectileType);
+            projectile->SaveProjectile(fd); 
+        }
+    }
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(ProjectileFactory, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::LoadState -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+
+    // Read cooldown and subCooldown
+    cooldown.first = FileHelper::readFloat(fd);
+    cooldown.second = FileHelper::readFloat(fd);
+    subCooldown.first = FileHelper::readFloat(fd);
+    subCooldown.second = FileHelper::readFloat(fd);
+
+    // Read boost and charge levels
+    boostLevel = FileHelper::readInteger(fd);
+    chargeLevel = FileHelper::readInteger(fd);
+
+    // Read and process targets
+    int8_t targetCount = FileHelper::readInteger(fd);
+    for (int8_t i = 0; i < targetCount; ++i)
+    {
+        float x = static_cast<float>(FileHelper::readInteger(fd));
+        float y = static_cast<float>(FileHelper::readInteger(fd));
+        Pointf target = Pointf(x, y);
+
+        // Add the target to the vector
+        targets.emplace_back(target);
+    }
+
+    // Read and process last targets
+    int8_t lastTargetCount = FileHelper::readInteger(fd);
+    for (int8_t i = 0; i < lastTargetCount; ++i)
+    {
+        float x = static_cast<float>(FileHelper::readInteger(fd));
+        float y = static_cast<float>(FileHelper::readInteger(fd));
+        Pointf lastTarget = Pointf(x, y);
+
+        // Add the last target to the vector
+        lastTargets.emplace_back(lastTarget);
+    }
+
+    // Read autofiring and firing readiness states
+    autoFiring = FileHelper::readInteger(fd) != 0;
+    fireWhenReady = FileHelper::readInteger(fd) != 0;
+
+    // Read target ID and load the weapon animation state
+    targetId = FileHelper::readInteger(fd);
+    weaponVisual.LoadState(fd);
+
+    // Read last projectile ID
+    lastProjectileId = FileHelper::readInteger(fd);
+
+    // Load queued projectiles
+    int8_t projectileCount = FileHelper::readInteger(fd);
+    for (int8_t i = 0; i < projectileCount; ++i)
+    {
+        Projectile* projectile = LoadProjectile(fd);
+        if (projectile != nullptr)
+        {
+            // Add the projectile to the queued projectiles vector
+            queuedProjectiles.emplace_back(projectile);
+            
+            /*
+            // Bunch of Junk-Code calling empty functions, probably leftovers of development time
+
+            // Set weapon animation for the projectile
+            projectile->SetWeaponAnimation(weaponVisual);
+
+            // If there's a current ship target, set the moving target
+            if (currentShipTarget != nullptr)
+            {
+                projectile->SetMovingTarget(currentShipTarget);
+            }
+            */
+        }
+    }
+    // End of orig code
+}
 
 HOOK_METHOD_PRIORITY(Ship, SaveState, 9999, (int fd) -> void)
 {
