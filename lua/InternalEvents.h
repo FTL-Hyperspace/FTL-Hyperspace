@@ -59,6 +59,11 @@ struct InternalEvents
         // function set_bonus_power(ShipSystem& system, int amount) return Chain, amount
         SET_BONUS_POWER,
 
+        // function set_armament_pre(uint armamentSlot) return Chain, armamentSlot
+        SELECT_ARMAMENT_PRE,
+        // function set_armament_post(uint armamentSlot)
+        SELECT_ARMAMENT_POST,
+
         // function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)
         PROJECTILE_INITIALIZE,
         // function projectile_fire(Projectile& projectile, ProjectileFactory &weapon)

@@ -1166,6 +1166,30 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    lua_pushinteger(context->GetLua(), armamentSlot);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_PRE, 1, 1);
+    if (lua_isnumber(context->GetLua(), -1))
+    {
+        armamentSlot = static_cast<unsigned int>(lua_tonumber(context->GetLua(), -1));
+        if (armamentSlot >= boxes.size() || armamentSlot < 0 || boxes[armamentSlot]->Empty()) preempt = true;
+    }
+    lua_pop(context->GetLua(), 1);
+
+    if (!preempt) {
+        super(armamentSlot);
+
+        lua_pushinteger(context->GetLua(), armamentSlot);
+        context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::SELECT_ARMAMENT_POST, 1, 0);
+        lua_pop(context->GetLua(), 1);
+    }
+}
+
 //Priority to run after callback in CustomDrones.cpp
 HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 {

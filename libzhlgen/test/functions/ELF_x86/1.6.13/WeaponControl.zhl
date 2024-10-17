@@ -4,6 +4,8 @@ noHook __cdecl void WeaponControl::DO_NOT_HOOK();
 cleanup __cdecl TextString WeaponControl::HolderLabel(WeaponControl *this);
 ".5557565381ec0c0100008d7424748934248d7c2448":
 cleanup __cdecl SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
+".5589e557565383ec4c8b????8b????":
+cleanup __cdecl void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
 ".5557565381ecfc0100008b9c2410020000c744240403000000":
 cleanup __cdecl void WeaponControl::constructor(WeaponControl *this);
 ".5557565383ec6c8bb42480000000":
