@@ -411,6 +411,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hideHullDuringExplosion = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
