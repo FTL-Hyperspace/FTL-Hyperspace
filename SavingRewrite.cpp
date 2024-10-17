@@ -440,71 +440,67 @@ HOOK_METHOD_PRIORITY(HackingSystem, LoadState, 9999, (int fd) -> void)
     // End of orig code
 }
 
-// LockdownShard Saving *here*
-
-/*
 HOOK_METHOD_PRIORITY(LockdownShard, LoadState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::SaveState -> Begin (SavingRewrite.cpp)\n")
 
-    // WIP REWRITE
-
-    // Initialize the shard's animation properties
-    shard.animationStrip = nullptr; // GL_Primitive is asigned here
+    // Initialize the shard's animation
+    shard.animationStrip = nullptr;
     shard.info.numFrames = 0;
     shard.info.imageWidth = 0;
-    shard.tracker.currentDelay = -1.f;
     shard.info.imageHeight = 0;
     shard.info.stripStartY = 0;
     shard.info.stripStartX = 0;
     shard.info.frameWidth = 0;
     shard.info.frameHeight = 0;
-    shard.tracker._vptr = &AnimationTracker_vtable;  // not too sue how this is done
-    shard.tracker.time = 0.f;
+    // Initialize the animation tracker
+    shard.tracker.currentDelay = -1.0f;
+    shard.tracker.time = 0.0f;
     shard.tracker.loop = false;
-    shard.tracker.current_time = 0.f;
+    shard.tracker.current_time = 0.0f;
     shard.tracker.running = false;
     shard.tracker.reverse = false;
     shard.tracker.done = true;
-    shard.tracker.loopDelay = 0.f;
-    shard.position = Pointf(-1.f, -1.f);
-    shard.soundForward = "";
-    shard.soundReverse = "";
+    shard.tracker.loopDelay = 0.0f;
+    // Set the shard position
+    shard.position = Pointf(-1.0f, -1.0f);
+    // Initialize sound-related strings
+    shard.soundForward.clear(); // previously shard.soundForward = "";
+    shard.soundReverse.clear(); // previously shard.soundReverse = "";
+    // Other initializations
     shard.randomizeFrames = false;
-    shard.fScale = 1.f;
-    shard.fYStretch = 0.f;
+    shard.fScale = 1.0f;
+    shard.fYStretch = 0.0f;
     shard.currentFrame = 0;
     shard.bAlwaysMirror = false;
     shard.soundQueue.clear();
-    shard.fadeOut = 0.f;
-    shard.startFadeOut = 0.f;
-    shard.animName = "";
+    shard.fadeOut = 0.0f;
+    shard.startFadeOut = 0.0f;
+    shard.animName.clear(); // previously shard.animName = "";
+    // Mask initializations
     shard.mask_x_pos = 0;
     shard.mask_x_size = 0;
     shard.mask_y_pos = 0;
     shard.mask_y_size = 0;
-    shard.primitive = nullptr; // GL_Primitive is asigned here
-    shard.mirroredPrimitive = nullptr; // GL_Primitive is asigned here
+    // Initialize Primitives empty
+    shard.primitive = nullptr;
+    shard.mirroredPrimitive = nullptr;
+    // Initialize LockdownShard members
+    position = Pointf(); // Default constructor initializes to (0,0)
+    goal = Pointf(); // Default constructor initializes to (0,0)
 
-    // Generate random animation state - but why, anim is unused?
-    int anim = 1;
-    if (!superFreeze) 
-    {
-        bool random;
-        if (Globals_RNG) 
-        {
-            random = rand();
-        }
-        else
-        {
-            random = random32();
-        }
-        anim = random % 2 + 1;
-    }
+    // Generate a random animation number based on FTL's RNG
+    uint8_t animNumber = (superFreeze) ? 1 : ((Globals_RNG ? rand() : random32()) % 2 + 1);
+    // Build the animation name directly
+    std::string animName = "crystal_" + std::to_string(animNumber);
+    // Retrieve the animation and assign it to the shard
+    shard = G_->GetAnimationControl()->GetAnimation(animName);
 
-    // Read the shard's position and goal
-    position = Pointf(FileHelper::readFloat(fd), FileHelper::readFloat(fd));
-    goal = Pointf(FileHelper::readFloat(fd), FileHelper::readFloat(fd));
+    // Read the shard's state from the file
+    position.x = FileHelper::readFloat(fd);
+    position.y = FileHelper::readFloat(fd);
+    goal.x = FileHelper::readFloat(fd);
+    goal.y = FileHelper::readFloat(fd);
     speed = FileHelper::readFloat(fd);
     bArrived = FileHelper::readInteger(fd) != 0;
     bDone = FileHelper::readInteger(fd) != 0;
@@ -512,21 +508,20 @@ HOOK_METHOD_PRIORITY(LockdownShard, LoadState, 9999, (int fd) -> void)
     superFreeze = FileHelper::readInteger(fd) != 0;
     lockingRoom = FileHelper::readInteger(fd);
 
-    // Handle shard animation based on read data
-    if (FileHelper::readInteger(fd) == 0) 
+    // Handle the animation state
+    if (FileHelper::readInteger(fd) == 0)
     {
-        shard.Start(true);
-    } 
-    else 
+        shard.Start(true);  // Start normally
+    }
+    else
     {
-        shard.tracker.time = 12.f - lifeTime;
-        shard.StartReverse(true);
+        shard.tracker.time = 12.0f - lifeTime;
+        shard.StartReverse(true);  // Start in reverse
     }
 
-    // Set shard animation progress
+    // Set the animation progress
     shard.SetProgress(FileHelper::readFloat(fd));
 }
-*/
 
 HOOK_METHOD_PRIORITY(LockdownShard, SaveState, 9999, (int fd) -> void)
 {
