@@ -689,9 +689,16 @@ playerVariableType playerVariables;
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
 %rename("%s") CombatControl;
+%rename("%s") CombatControl::playerShipPosition;
 %rename("%s") CombatControl::weapControl;
 %rename("%s") CombatControl::position;
+%rename("%s") CombatControl::selectedRoom;
+%rename("%s") CombatControl::selectedSelfRoom;
 %rename("%s") CombatControl::targetPosition;
+%rename("%s") CombatControl::open;
+%rename("%s") CombatControl::potentialAiming;
+%rename("%s") CombatControl::mouseDown;
+%rename("%s") CombatControl::isAimingTouch;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
