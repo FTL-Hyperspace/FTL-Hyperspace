@@ -464,7 +464,7 @@ Omit score_main_right_2b when you don't care about matching a pattern outside an
 	<achievement name="ACH_ID">
 		<name id="text_id">text</name>
 		<description id="text_id">text</name>
-		<header id="text_id">text</name>
+		<header id="text_id">text</name> (if set, will play the ship unlock sound unless <sound> is specified)
 		<secretName id="text_id">text</name>
 		<secretDescription id="text_id">text</name>
 		<icon>image_name</icon> (name of image file in achievements folder, without extension)
@@ -472,6 +472,7 @@ Omit score_main_right_2b when you don't care about matching a pattern outside an
 		<variable name="varname" amount="100"/> (name of variable or meta-variable to track, optional)
 		<hidden/> (don't show achievement on stats if locked)
 		<multiDifficulty>true</multiDifficulty> (if true display the achieved difficulty, if false then don't)
+		<sound>sound_id</sound> (replace the achievement sound with a custom sound)
 	</achievement>
 	<page>
 		<section id="text_id" text="text" secretId="text_id" secretText="text" hidden="false">

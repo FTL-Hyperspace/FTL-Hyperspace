@@ -12,6 +12,8 @@ struct CustomAchievement
 	TextString secretName;
 	TextString secretDescription;
 
+    std::string sound;
+
 	bool hidden = false;
 
 	void ParseAchievement(rapidxml::xml_node<char> *node, std::string *varName=nullptr);
