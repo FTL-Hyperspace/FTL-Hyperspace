@@ -1,10 +1,15 @@
-"55488daf48010000534889fb4889ef4883ec08":
-cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this);
+"!554889fd5389f34883ec08e8f0340100":
+cleanup __amd64 void BombProjectile::SaveProjectile(BombProjectile *this, int fd); // 004334e0
+".55488daf48010000534889fb4889ef4883ec08":
+cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this); // 00433540
 ".41554154554889f5534889fb4889f74883ec78":
-cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
+cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other); // 004335e0
+".!554889fd5389f34883ec08e8c03a0100":
+cleanup __amd64 void BombProjectile::LoadProjectile(BombProjectile *this, int fd); // 00433ba0
 ".41574989ff41564155415455534881ece8000000":
-cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
-
+cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target); // 004346cf
+".!b804000000c3":
+cleanup __amd64 int BombProjectile::GetType(BombProjectile *this); // 00434cb0
 
 struct BombProjectile
 {{

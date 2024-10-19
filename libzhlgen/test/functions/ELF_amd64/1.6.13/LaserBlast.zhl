@@ -6,6 +6,8 @@ cleanup __amd64 void LaserBlast::SaveProjectile(LaserBlast *this, int fd); // 00
 cleanup __amd64 void LaserBlast::LoadProjectile(LaserBlast *this, int fd); // 004485c0
 ".538b477c4889fb394778c7474001000000":
 cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this); // 0044c080
+"!.b801000000c3":
+cleanup __amd64 int LaserBlast::GetType(LaserBlast *this); // 0044c160
 
 ".!b8b7600bb64589e84c89e741f7ed4489e849c70424(???????\?)c1f81f49c7442408(???????\?)": // 004be5f6
 void** VTable_LaserBlast;

@@ -1483,10 +1483,21 @@ struct LIBZHL_INTERFACE Targetable
 
 struct LIBZHL_INTERFACE Projectile : Collideable
 {
+	/*
+	Projectile(Pointf position, int ownerId, int targetId, Pointf target)
+	{
+		this->constructor(position, ownerId, targetId, target);
+	}
+	~Projectile()
+	{
+		this->destructor();
+	}
+	*/
+
 	void HS_OnUpdate();
 	void HS_CollisionCheck(Collideable *other);
 
-	virtual void SetWeaponAnimation(WeaponAnimation &animation) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetWeaponAnimation(WeaponAnimation &animation);
 	virtual void OnRenderSpecific(int spaceId) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void CollisionCheck(Collideable *other);
 	LIBZHL_API virtual void OnUpdate();
@@ -1502,10 +1513,10 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	virtual void SetDamage(Damage damage) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual int ForceRenderLayer();
 	virtual void SetSpin(float spin) LIBZHL_PLACEHOLDER
-	virtual void SaveProjectile(int fd) LIBZHL_PLACEHOLDER
-	virtual void LoadProjectile(int fd) LIBZHL_PLACEHOLDER
-	virtual int GetType() LIBZHL_PLACEHOLDER
-	virtual void SetMovingTarget(Targetable *target) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SaveProjectile(int fd);
+	LIBZHL_API virtual void LoadProjectile(int fd);
+	LIBZHL_API virtual int GetType();
+	LIBZHL_API virtual void SetMovingTarget(Targetable *target);
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
 	LIBZHL_API static Pointf __stdcall RandomSidePoint(int side);
@@ -1551,6 +1562,7 @@ struct Asteroid : Projectile
 		this->constructor(pos, destinationSpace);
 	}
 
+	LIBZHL_API int GetType();
 	LIBZHL_API void OnUpdate();
 	LIBZHL_API void constructor(Pointf pos, int destinationSpace);
 	
@@ -2576,15 +2588,20 @@ struct BeamWeapon;
 
 struct BeamWeapon : Projectile
 {
-	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float _heading = 0.0f)
+	BeamWeapon(Pointf position, int ownerId, int targetId, Pointf target, Pointf target2, int length, Targetable *targetable, float heading = 0.0f)
 	{
-		this->constructor(_position, _ownerId, _targetId, _target, _target2, _length, _targetable, _heading);
+		this->constructor(position, ownerId, targetId, target, target2, length, targetable, heading);
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API int GetType();
+	LIBZHL_API void LoadProjectile(int fd);
 	LIBZHL_API void OnRenderSpecific(int spaceId);
 	LIBZHL_API void OnUpdate();
-	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
+	LIBZHL_API void SaveProjectile(int fd);
+	LIBZHL_API void SetMovingTarget(Targetable *target);
+	LIBZHL_API void SetWeaponAnimation(WeaponAnimation *animation);
+	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target, Pointf target2, int length, Targetable *targetable, float heading);
 	
 	Pointf sub_end;
 	Pointf sub_start;
@@ -2933,7 +2950,10 @@ struct BombProjectile : Projectile
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API int GetType();
+	LIBZHL_API void LoadProjectile(int fd);
 	LIBZHL_API void OnUpdate();
+	LIBZHL_API void SaveProjectile(int fd);
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target);
 	
 	bool bMissed;
@@ -6030,6 +6050,7 @@ struct LaserBlast : Projectile
 {
 	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
 
+	LIBZHL_API int GetType();
 	LIBZHL_API void LoadProjectile(int fd);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnUpdate();
@@ -6154,6 +6175,7 @@ struct Missile : Projectile
 		this->constructor(_position, _ownerId, _targetId, _target, _heading);
 	}
 
+	LIBZHL_API int GetType();
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
 	
 };
@@ -6263,7 +6285,10 @@ struct PDSFire : LaserBlast
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API int GetType();
+	LIBZHL_API void LoadProjectile(int fd);
 	LIBZHL_API void OnUpdate();
+	LIBZHL_API void SaveProjectile(int fd);
 	LIBZHL_API void constructor(Point pos, int destinationSpace, Pointf destination);
 	
 	Pointf startPoint;

@@ -588,24 +588,12 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
     FileHelper::writeInt(fd, numQueuedProjectiles);
     for (Projectile* projectile : queuedProjectiles)
     {
-        /*
-        Original code does this:
-
         int8_t projectileType = projectile->GetType();
         FileHelper::writeInt(fd, projectileType);
+        hs_log_file("Projectile Type: %d\n", projectileType);
 
         if (projectileType != 0)
         {
-            projectile->SaveProjectile(fd); 
-        }
-        
-        I believe my implementation is simply better as it saves cpu cycles by cutting useless call instructions etc. and achieves the same outcome
-        */
-
-        if (projectile != nullptr)
-        {
-            int8_t projectileType = 1; 
-            FileHelper::writeInt(fd, projectileType);
             projectile->SaveProjectile(fd); 
         }
     }
@@ -672,9 +660,6 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, LoadState, 9999, (int fd) -> void)
         {
             // Add the projectile to the queued projectiles vector
             queuedProjectiles.emplace_back(projectile);
-            
-            /*
-            // Bunch of Junk-Code calling empty functions, probably leftovers of development time
 
             // Set weapon animation for the projectile
             projectile->SetWeaponAnimation(weaponVisual);
@@ -684,7 +669,6 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, LoadState, 9999, (int fd) -> void)
             {
                 projectile->SetMovingTarget(currentShipTarget);
             }
-            */
         }
     }
     // End of orig code

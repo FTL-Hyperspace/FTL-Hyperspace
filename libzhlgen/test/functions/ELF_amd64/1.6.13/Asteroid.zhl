@@ -2,6 +2,8 @@
 cleanup __amd64 void Asteroid::OnUpdate(Asteroid *this);
 ".4157baffffffff4156415541545589f589d6534889fb4881ecc8010000":
 cleanup __amd64 void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace);
+"!.b802000000c3":
+cleanup __amd64 int Asteroid::GetType(Asteroid *this);
 
 
 struct Asteroid

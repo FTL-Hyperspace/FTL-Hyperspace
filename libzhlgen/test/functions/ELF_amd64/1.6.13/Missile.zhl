@@ -1,5 +1,7 @@
 "41574989ff4156415541545589f55389d34881ecf8000000f30f11542404":
 cleanup __amd64 void Missile::constructor(Missile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
+"!.b803000000c3":
+cleanup __amd64 int Missile::GetType(Missile *this);
 
 
 struct Missile
