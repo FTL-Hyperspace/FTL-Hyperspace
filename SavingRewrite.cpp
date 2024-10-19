@@ -590,7 +590,6 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
     {
         int8_t projectileType = projectile->GetType();
         FileHelper::writeInt(fd, projectileType);
-        hs_log_file("Projectile Type: %d\n", projectileType);
 
         if (projectileType != 0)
         {
