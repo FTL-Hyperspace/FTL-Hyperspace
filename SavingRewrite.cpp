@@ -673,6 +673,81 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, LoadState, 9999, (int fd) -> void)
     // End of orig code
 }
 
+HOOK_STATIC_PRIORITY(ProjectileFactory, SaveProjectile, 9999, (Projectile *projectile, int fd) -> void)
+{
+    LOG_HOOK("HOOK_STATIC_PRIORITY -> ProjectileFactory::SaveProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    int8_t projectileType = projectile->GetType();
+    FileHelper::writeInt(fd, projectileType);
+
+    if (projectileType != 0)
+    {
+        projectile->SaveProjectile(fd); 
+    }
+    // End of orig code
+}
+
+HOOK_STATIC_PRIORITY(ProjectileFactory, LoadProjectile, 9999, (int fd) -> Projectile*)
+{
+    LOG_HOOK("HOOK_STATIC_PRIORITY -> ProjectileFactory::LoadProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    Projectile* projectile = nullptr;
+    int8_t projectileType = FileHelper::readInteger(fd);
+    switch (projectileType)
+    {
+        case 1: // LaserBlast
+        {
+            LaserBlast* laserBlast = new LaserBlast(Pointf(), 0, 1, Pointf());
+            laserBlast->movingTarget = nullptr;
+            laserBlast->spinAngle = 0.f;
+            laserBlast->spinSpeed = 0.f;
+            laserBlast->heading = -1.f;
+            laserBlast->OnInit();
+            laserBlast->LoadProjectile(fd);
+            projectile = laserBlast;
+            break;
+        }
+        case 2: // Asteroid
+        {
+            Asteroid* asteroid = new Asteroid(Pointf(), 1);
+            asteroid->LoadProjectile(fd);
+            projectile = asteroid;
+            break;
+        }
+        case 3: // Missile
+        {
+            Missile* missile = new Missile(Pointf(), 0, 1, Pointf(), 0.f);
+            missile->LoadProjectile(fd);
+            projectile = missile;
+            break;
+        }
+        case 4: // BombProjectile
+        {
+            BombProjectile* bombProjectile = new BombProjectile(Pointf(), 0, 1, Pointf());
+            bombProjectile->LoadProjectile(fd);
+            projectile = bombProjectile;
+            break;
+        }
+        case 5: // BeamWeapon
+        {
+            BeamWeapon* beamWeapon = new BeamWeapon(Pointf(), 0, 1, Pointf(), Pointf(), 10, nullptr, 0.f);
+            beamWeapon->LoadProjectile(fd);
+            projectile = beamWeapon;
+            break;
+        }
+        case 6: // PDSFire
+        {
+            projectile->RandomSidePoint(0);
+            PDSFire* pdsFire = new PDSFire(Point(), 0, Pointf());
+            pdsFire->LoadProjectile(fd);
+            projectile = pdsFire;
+            break;
+        }
+    }
+    return projectile;
+}
+
 HOOK_METHOD_PRIORITY(Ship, SaveState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::SaveState -> Begin (SavingRewrite.cpp)\n")
