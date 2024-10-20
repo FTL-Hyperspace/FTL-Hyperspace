@@ -1,6 +1,8 @@
 #include "CustomColors.h"
 #include "Resources.h"
 #include "PALMemoryProtection.h"
+#include <regex>
+#include <codecvt>
 
 GL_Color g_defaultTextButtonColors[4] =
 {
@@ -317,4 +319,401 @@ HOOK_METHOD_PRIORITY(FTLButton, OnRender, 5000, () -> void)
     super();
 
     g_isFTLButton = false;
+}
+
+// custom color
+
+static std::wstring ConvertUTF8ToWstring(const std::string& src)
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	return converter.from_bytes(src);
+}
+
+static std::string ConvertWstringToUTF8(const std::wstring& src)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	return converter.to_bytes(src);
+}
+
+bool g_colorEventText = false;
+bool g_isMainText = false;
+int g_currentFontSize;
+int g_currentLineLength;
+
+HOOK_METHOD(ChoiceBox, OnRender, () -> void)
+{
+    g_isMainText = true;
+    g_colorEventText = true;
+    super();
+    g_colorEventText = false;
+}
+
+std::string repeat(int n)
+{
+    std::string ret;
+    for (int i = 0; i < n; i++)
+    {
+        ret += "§"; //TODO: make dummy characters settable in hyperspace.xml
+    }
+    return ret;
+}
+
+std::string adjustTooLongWord(const std::string& word) // WIP. Didnt test yet.
+{
+    std::wstring w_word = ConvertUTF8ToWstring(word);
+    size_t start = 0;
+    
+    std::string ret = "\n";
+    for (size_t i = 0; i < w_word.length(); i++)
+    {
+        if (freetype::easy_measureWidth(g_currentFontSize, ConvertWstringToUTF8(w_word.substr(start, i - start))) > g_currentLineLength)
+        {
+            ret += "\n" + ConvertWstringToUTF8(std::wstring(1, w_word[i]));
+            start = i;
+        }
+        else
+        {
+            ret += repeat(freetype::easy_measureWidth(g_currentFontSize, ConvertWstringToUTF8(std::wstring(1, w_word[i]))));
+        }
+    }
+    return ret;
+}
+
+std::string replaceWithDummyCharacters(const std::string& text, bool begin, bool end)
+{
+    std::regex re("(\\S+)|(\\s+)");
+    std::sregex_iterator it(std::begin(text), std::end(text), re), iter_end;
+    if (it == iter_end) return text;
+
+    std::string ret;
+    std::string word;
+    std::string spaces;
+    bool first = true;
+    while (true)
+    {
+        auto&& m = *it;
+
+        word = m.str(1);
+        spaces = m.str(2);
+
+        ++it;
+
+        if (it == iter_end)
+        {
+            if (first)
+            {
+                if(!word.empty())
+                {
+                    if (begin && end) ret += repeat(freetype::easy_measureWidth(g_currentFontSize, word));
+                    else if (begin && !end) ret += repeat(freetype::easy_measureWidth(g_currentFontSize, word + "§") - 1);
+                    else if (!begin && end) ret += repeat(freetype::easy_measureWidth(g_currentFontSize, "§" + word) - 1);
+                    else ret += repeat(freetype::easy_measureWidth(g_currentFontSize, "§" + word + "§") - 2);
+                }
+                else if(!spaces.empty()) ret += spaces;
+            }
+            else
+            {
+                if(!word.empty())
+                {
+                    if (end) ret += repeat(freetype::easy_measureWidth(g_currentFontSize, "§" + word) - 1);
+                    else ret += repeat(freetype::easy_measureWidth(g_currentFontSize, "§" + word + "§") - 2);
+                }
+                else if(!spaces.empty()) ret += spaces;
+            }
+            break;
+        }
+        else
+        {
+            if (first)
+            {
+                if(!word.empty())
+                {
+                    if (begin) ret += repeat(freetype::easy_measureWidth(g_currentFontSize, word + "§") - 1);
+                    else ret += repeat(freetype::easy_measureWidth(g_currentFontSize, "§" + word + "§") - 2);
+                }
+                else if(!spaces.empty()) ret += spaces;
+            }
+            else
+            {
+                if(!word.empty())
+                {
+                    ret += repeat(freetype::easy_measureWidth(g_currentFontSize, "§" + word + "§") - 2);
+                }
+                else if(!spaces.empty()) ret += spaces;
+            }
+        }
+        first = false;
+    }
+    return  ret;
+}
+
+std::string adjustColorHex(std::string hex)// WIP. 1. convert lower to higher: abcdef -> ABCDEF. 2. if a(opacity) is omitted, add FF(255).
+{
+    return hex;
+}
+
+int hexCharToInt(char ch)
+{
+    if (65 <= ch && ch <= 70) // ABCDEF
+    {
+        return ch - 55;
+    }
+    else if (48 <= ch && ch <= 57) // 0123456789
+    {
+        return ch - 48;
+    }
+    else return 15; // undefined
+}
+
+GL_Color getColorFromHex(const std::string& hex)
+{
+    float r = (hexCharToInt(hex[0]) * 16 + hexCharToInt(hex[1])) / 255.f;
+    float g = (hexCharToInt(hex[2]) * 16 + hexCharToInt(hex[3])) / 255.f;
+    float b = (hexCharToInt(hex[4]) * 16 + hexCharToInt(hex[5])) / 255.f;
+    float a = (hexCharToInt(hex[6]) * 16 + hexCharToInt(hex[7])) / 255.f;
+    return GL_Color(r, g, b, a);
+}
+
+bool cmpColors(std::string first, std::string second)
+{
+    return first == second;
+}
+
+struct ColorTextCache;
+struct ColorTextCache
+{
+    ColorTextCache(std::string base, std::unordered_map<std::string, std::string> map)
+    {
+        base_text = base;
+        colorMap = map;
+    }
+    std::string base_text;
+    std::unordered_map<std::string, std::string> colorMap;
+};
+
+std::unordered_map<std::string, ColorTextCache*> ColorTextCacheMap;
+
+HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
+{
+    if (!g_colorEventText || !g_isMainText) return super(fontSize, x, y, line_length, text);
+
+    if (ColorTextCacheMap[text] != nullptr)
+    {
+        ColorTextCache *cache = ColorTextCacheMap[text];
+        GL_Color originalColor = CSurface::GL_GetColor();
+        Pointf ret = super(fontSize, x, y, line_length, cache->base_text);
+        for (auto item : cache->colorMap)
+        {
+            CSurface::GL_SetColor(getColorFromHex(item.first));
+            super(fontSize, x, y, line_length, item.second);
+        }
+        CSurface::GL_SetColor(originalColor);
+
+        return ret;
+    }
+    
+    std::regex re("\\[color\\:(.*?)\\](.*?)\\[/color\\]");
+    std::sregex_iterator it(std::begin(text), std::end(text), re), end;
+
+    if (it == end) return super(fontSize, x, y, line_length, text);
+
+    g_currentFontSize = fontSize;
+    g_currentLineLength = line_length;
+    std::unordered_map<std::string, std::string> colorTextMap;
+    std::string base_text;
+    std::string dummy_text;
+    std::string content;
+    size_t pos;
+    size_t tmp_last_pos;
+    size_t last_pos = 0;
+    size_t origi_length = text.length();
+    bool first = true;
+
+    while (true)
+    {
+        auto&& m = *it;
+
+        std::string color = adjustColorHex(m.str(1));
+        content = m.str(2);
+        pos = m.position();
+        tmp_last_pos = pos + m.length();
+
+        ++it;
+
+        if (colorTextMap.count(color) == 0)
+        {
+            colorTextMap[color] = dummy_text;
+        }
+
+        if (it == end)
+        {
+            if (first)
+            {
+                if (pos == 0)
+                {
+                    if (tmp_last_pos == origi_length)
+                    {
+                        base_text += replaceWithDummyCharacters(content, true, true);
+                        colorTextMap[color] += content;
+                    }
+                    else
+                    {
+                        base_text += replaceWithDummyCharacters(content, true, false) + text.substr(tmp_last_pos);
+                        colorTextMap[color] += content + replaceWithDummyCharacters(text.substr(tmp_last_pos), false, true);
+                    }
+                }
+                else
+                {
+                    if (tmp_last_pos == origi_length)
+                    {
+                        base_text += text.substr(0, pos) + replaceWithDummyCharacters(content, false, true);
+                        colorTextMap[color] += replaceWithDummyCharacters(text.substr(0, pos), true, false) + content;
+                    }
+                    else
+                    {
+                        base_text += text.substr(0, pos) + replaceWithDummyCharacters(content, false, false) + text.substr(tmp_last_pos);
+                        colorTextMap[color] += replaceWithDummyCharacters(text.substr(0, pos), true, false) + content + replaceWithDummyCharacters(text.substr(tmp_last_pos), false, true);
+                    }
+                }
+            }
+            else
+            {
+                if (pos == last_pos)
+                {
+                    if (tmp_last_pos == origi_length)
+                    {
+                        for (auto item : colorTextMap)
+                        {
+                            if (cmpColors(color, item.first))
+                            {
+                                colorTextMap[item.first] += content;
+                            }
+                            else
+                            {
+                                colorTextMap[item.first] += replaceWithDummyCharacters(content, false, true);
+                            }
+                        }
+                        base_text += replaceWithDummyCharacters(content, false, true);
+                    }
+                    else
+                    {
+                        for (auto item : colorTextMap)
+                        {
+                            if (cmpColors(color, item.first))
+                            {
+                                colorTextMap[item.first] += content + replaceWithDummyCharacters(text.substr(tmp_last_pos), false, true);
+                            }
+                            else
+                            {
+                                colorTextMap[item.first] += replaceWithDummyCharacters(content + text.substr(tmp_last_pos), false, true);
+                            }
+                        }
+                        base_text += replaceWithDummyCharacters(content, false, false) + text.substr(tmp_last_pos);
+                    }
+                }
+                else
+                {
+                    if (tmp_last_pos == origi_length)
+                    {
+                        for (auto item : colorTextMap)
+                        {
+                            if (cmpColors(color, item.first))
+                            {
+                                colorTextMap[item.first] += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos), false, false) + content;
+                            }
+                            else
+                            {
+                                colorTextMap[item.first] += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos) + content, false, true);
+                            }
+                        }
+                        base_text += text.substr(last_pos, pos - last_pos) + replaceWithDummyCharacters(content, false, true);
+                    }
+                    else
+                    {
+                        for (auto item : colorTextMap)
+                        {
+                            if (cmpColors(color, item.first))
+                            {
+                                colorTextMap[item.first] += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos), false, false) + content + replaceWithDummyCharacters(text.substr(tmp_last_pos), false, true);
+                            }
+                            else
+                            {
+                                colorTextMap[item.first] += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos) + content + text.substr(tmp_last_pos), false, true);
+                            }
+                        }
+                        base_text += text.substr(last_pos, pos - last_pos) + replaceWithDummyCharacters(content, false, false) + text.substr(tmp_last_pos);
+                    }
+                }
+            }
+            break;
+        }
+        else
+        {
+            if (first)
+            {
+                if (pos == 0)
+                {
+                    base_text += replaceWithDummyCharacters(content, true, false);
+                    colorTextMap[color] += content;
+                    dummy_text += replaceWithDummyCharacters(content, true, false);
+                }
+                else
+                {
+                    base_text += text.substr(0, pos) + replaceWithDummyCharacters(content, false, false);
+                    colorTextMap[color] += replaceWithDummyCharacters(text.substr(0, pos), true, false) + content;
+                    dummy_text += replaceWithDummyCharacters(text.substr(0, pos) + content, true, false);
+                }
+            }
+            else
+            {
+                if (pos == last_pos)
+                {
+                    for (auto item : colorTextMap)
+                    {
+                        if (cmpColors(color, item.first))
+                        {
+                            colorTextMap[item.first] += content;
+                        }
+                        else
+                        {
+                            colorTextMap[item.first] += replaceWithDummyCharacters(content, false, false);
+                        }
+                    }
+                    base_text += replaceWithDummyCharacters(content, false, false);
+                    dummy_text += replaceWithDummyCharacters(content, false, false);
+                }
+                else
+                {
+                    for (auto item : colorTextMap)
+                    {
+                        if (cmpColors(color, item.first))
+                        {
+                            colorTextMap[item.first] += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos), false, false) + content;
+                        }
+                        else
+                        {
+                            colorTextMap[item.first] += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos) + content, false, false);
+                        }
+                    }
+                    base_text += text.substr(last_pos, pos - last_pos) + replaceWithDummyCharacters(content, false, false);
+                    dummy_text += replaceWithDummyCharacters(text.substr(last_pos, pos - last_pos) + content, false, false);
+                }
+            }
+        }
+        first = false;
+        last_pos = tmp_last_pos;
+    }
+
+    ColorTextCacheMap[text] = new ColorTextCache(base_text, colorTextMap);
+
+    GL_Color originalColor = CSurface::GL_GetColor();
+    Pointf ret = super(fontSize, x, y, line_length, base_text);
+    for (auto item : colorTextMap)
+    {
+        CSurface::GL_SetColor(getColorFromHex(item.first));
+        super(fontSize, x, y, line_length, item.second);
+    }
+    CSurface::GL_SetColor(originalColor);
+
+    return ret;
 }
