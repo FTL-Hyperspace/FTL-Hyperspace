@@ -1298,8 +1298,8 @@ struct LIBZHL_INTERFACE ShipSystem : ShipObject
 	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
 	LIBZHL_API void destructor();
 	
+	int selectedState;
 	uint8_t gap_ex_2[4];
-	ShipObject _shipObj;
 	float fDamage;
 	Point pLoc;
 	float fMaxDamage;
@@ -4950,7 +4950,7 @@ struct Room : Selectable, ShipObject
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
 	LIBZHL_API void destructor();
 	
-	ShipObject _shipObject;
+	uint8_t garbage[4];
 	Globals::Rect rect;
 	int iRoomId;
 	bool bBlackedOut;
@@ -5097,7 +5097,7 @@ struct ShipGraph
 	std::string shipName;
 };
 
-struct Door : CrewTarget
+struct Door : CrewTarget, Selectable
 {
 public:
 	Point GetCenterPoint()
@@ -5141,7 +5141,6 @@ public:
 	LIBZHL_API void OnLoop();
 	
 	uint8_t garbage[4];
-	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;

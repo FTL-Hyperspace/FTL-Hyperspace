@@ -1297,7 +1297,7 @@ struct LIBZHL_INTERFACE ShipSystem : ShipObject
 	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
 	LIBZHL_API void destructor();
 	
-	ShipObject _shipObj;
+	int selectedState;
 	float fDamage;
 	Point pLoc;
 	float fMaxDamage;
@@ -5075,7 +5075,7 @@ struct ShipGraph
 	std::string shipName;
 };
 
-struct Door : CrewTarget
+struct Door : CrewTarget, Selectable
 {
 public:
 	Point GetCenterPoint()
@@ -5118,7 +5118,6 @@ public:
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void OnLoop();
 	
-	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
