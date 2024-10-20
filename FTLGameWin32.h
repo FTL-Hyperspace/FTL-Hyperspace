@@ -1207,7 +1207,7 @@ struct TimerHelper
 
 struct WeaponBlueprint;
 
-struct LIBZHL_INTERFACE ShipSystem : ShipObject
+struct LIBZHL_INTERFACE ShipSystem
 {
 	ShipSystem() { }
 	
@@ -1291,6 +1291,7 @@ struct LIBZHL_INTERFACE ShipSystem : ShipObject
 	LIBZHL_API void destructor();
 	
 	int selectedState;
+	ShipObject _shipObj;
 	float fDamage;
 	Point pLoc;
 	float fMaxDamage;
@@ -1462,7 +1463,7 @@ struct LIBZHL_INTERFACE Targetable
 	bool targeted;
 };
 
-struct LIBZHL_INTERFACE Projectile : Collideable, Targetable
+struct LIBZHL_INTERFACE Projectile : Collideable
 {
 	void HS_OnUpdate();
 	void HS_CollisionCheck(Collideable *other);
@@ -1493,6 +1494,7 @@ struct LIBZHL_INTERFACE Projectile : Collideable, Targetable
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
 	
+	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
 	float speed_magnitude;
@@ -2496,7 +2498,7 @@ struct DroneBlueprint : Blueprint
 	std::string combatIcon;
 };
 
-struct CrewDrone : CrewMember, Drone
+struct CrewDrone : CrewMember
 {
 	virtual ~CrewDrone()
 	{
@@ -2540,6 +2542,7 @@ struct CrewDrone : CrewMember, Drone
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
+	Drone _drone;
 	int droneRoom;
 	Animation powerUp;
 	Animation powerDown;
@@ -2790,7 +2793,7 @@ struct DamageMessage;
 
 struct SpaceDrone;
 
-struct LIBZHL_INTERFACE SpaceDrone : Drone, Targetable, Collideable
+struct LIBZHL_INTERFACE SpaceDrone : Drone
 {
 	virtual void PickDestination() LIBZHL_PLACEHOLDER
 	virtual void PickTarget() LIBZHL_PLACEHOLDER
@@ -2824,6 +2827,8 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone, Targetable, Collideable
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
 	LIBZHL_API void destructor();
 	
+	Targetable _targetable;
+	Collideable _collideable;
 	int currentSpace;
 	int destinationSpace;
 	Pointf currentLocation;
@@ -4900,7 +4905,7 @@ struct Selectable
 
 struct Room;
 
-struct Room : Selectable, ShipObject
+struct Room : Selectable
 {
 	Point GetIntoRoom(Point pos)
 	{
@@ -4948,6 +4953,7 @@ struct Room : Selectable, ShipObject
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
 	LIBZHL_API void destructor();
 	
+	ShipObject _shipObject;
 	Globals::Rect rect;
 	int iRoomId;
 	bool bBlackedOut;
@@ -5097,7 +5103,7 @@ struct ShipGraph
 	std::string shipName;
 };
 
-struct Door : CrewTarget, Selectable
+struct Door : CrewTarget
 {
 public:
 	Point GetCenterPoint()
@@ -5140,6 +5146,7 @@ public:
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void OnLoop();
 	
+	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
@@ -6874,7 +6881,7 @@ struct Spreader_Fire : ShipObject
 
 struct TeleportSystem;
 
-struct ShipManager : ShipObject, Targetable, Collideable
+struct ShipManager : ShipObject
 {
 	ShipManager(int shipId) 
 	{
@@ -7001,6 +7008,8 @@ struct ShipManager : ShipObject, Targetable, Collideable
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor2();
 	
+	Targetable _targetable;
+	Collideable _collideable;
 	std::vector<ShipSystem*> vSystemList;
 	OxygenSystem *oxygenSystem;
 	TeleportSystem *teleportSystem;
