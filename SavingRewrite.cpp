@@ -692,6 +692,7 @@ HOOK_STATIC_PRIORITY(ProjectileFactory, LoadProjectile, 9999, (int fd) -> Projec
 {
     LOG_HOOK("HOOK_STATIC_PRIORITY -> ProjectileFactory::LoadProjectile -> Begin (SavingRewrite.cpp)\n")
 
+    // Reverse engineered Vanilla code by Dino
     Projectile* projectile = nullptr;
     int8_t projectileType = FileHelper::readInteger(fd);
     switch (projectileType)
@@ -746,6 +747,7 @@ HOOK_STATIC_PRIORITY(ProjectileFactory, LoadProjectile, 9999, (int fd) -> Projec
         }
     }
     return projectile;
+    // End of orig code
 }
 
 HOOK_METHOD_PRIORITY(Ship, SaveState, 9999, (int fd) -> void)
@@ -996,5 +998,160 @@ HOOK_METHOD_PRIORITY(WeaponAnimation, LoadState, 9999, (int fd) -> void)
     if (G_->GetSettings()->loadingSaveVersion < 9) return;
     boostLevel = FileHelper::readInteger(fd);
     boostAnim.LoadState(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(BeamWeapon, SaveProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> BeamWeapon::SaveProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::SaveProjectile(fd);
+    FileHelper::writeFloat(fd, sub_end.x);
+    FileHelper::writeFloat(fd, sub_end.y);
+    FileHelper::writeFloat(fd, sub_start.x);
+    FileHelper::writeFloat(fd, sub_start.y);
+    FileHelper::writeFloat(fd, shield_end.x);
+    FileHelper::writeFloat(fd, shield_end.y);
+    FileHelper::writeFloat(fd, final_end.x);
+    FileHelper::writeFloat(fd, final_end.y);
+    FileHelper::writeFloat(fd, target2.x);
+    FileHelper::writeFloat(fd, target2.y);
+    FileHelper::writeFloat(fd, target1.x);
+    FileHelper::writeFloat(fd, target1.y);
+    FileHelper::writeFloat(fd, lifespan);
+    FileHelper::writeFloat(fd, length);
+    FileHelper::writeFloat(fd, dh);
+    FileHelper::writeFloat(fd, last_collision.point.x);
+    FileHelper::writeFloat(fd, last_collision.point.y);
+    FileHelper::writeFloat(fd, animationTimer);
+    FileHelper::writeInt(fd, lastDamage);
+    FileHelper::writeFloat(fd, start_heading);
+    FileHelper::writeFloat(fd, timer);
+    FileHelper::writeInt(fd, static_cast<int>(piercedShield));
+    FileHelper::writeInt(fd, static_cast<int>(oneSpace));
+    FileHelper::writeInt(fd, static_cast<int>(bDamageSuperShield));
+    FileHelper::writeInt(fd, movingTargetId);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(BeamWeapon, LoadProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> BeamWeapon::LoadProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::LoadProjectile(fd);
+    sub_end.x = FileHelper::readFloat(fd);
+    sub_end.y = FileHelper::readFloat(fd);
+    sub_start.x = FileHelper::readFloat(fd);
+    sub_start.y = FileHelper::readFloat(fd);
+    shield_end.x = FileHelper::readFloat(fd);
+    shield_end.y = FileHelper::readFloat(fd);
+    final_end.x = FileHelper::readFloat(fd);
+    final_end.y = FileHelper::readFloat(fd);
+    target2.x = FileHelper::readFloat(fd);
+    target2.y = FileHelper::readFloat(fd);
+    target1.x = FileHelper::readFloat(fd);
+    target1.y = FileHelper::readFloat(fd);
+    lifespan = FileHelper::readFloat(fd);
+    length = FileHelper::readFloat(fd);
+    dh = FileHelper::readFloat(fd);
+    last_collision.point.x = FileHelper::readFloat(fd);
+    last_collision.point.y = FileHelper::readFloat(fd);
+    animationTimer = FileHelper::readFloat(fd);
+    lastDamage = FileHelper::readInteger(fd);
+    start_heading = FileHelper::readFloat(fd);
+    timer = FileHelper::readFloat(fd);
+    piercedShield = FileHelper::readInteger(fd) != 0;
+    oneSpace = FileHelper::readInteger(fd) != 0;
+    bDamageSuperShield = FileHelper::readInteger(fd) != 0;
+    movingTargetId = FileHelper::readInteger(fd);
+    checkedCollision = true;
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(BombProjectile, SaveProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> BombProjectile::SaveProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::SaveProjectile(fd);
+    FileHelper::writeInt(fd, static_cast<int>(bMissed));
+    FileHelper::writeFloat(fd, explosiveDelay);
+    FileHelper::writeInt(fd, static_cast<int>(bSuperShield));
+    FileHelper::writeInt(fd, static_cast<int>(superShieldBypass));
+    FileHelper::writeInt(fd, static_cast<int>(flight_animation.tracker.reverse));
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(BombProjectile, LoadProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> BombProjectile::LoadProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::LoadProjectile(fd);
+    bMissed = FileHelper::readInteger(fd) != 0;
+    explosiveDelay = FileHelper::readFloat(fd);
+    bSuperShield = FileHelper::readInteger(fd) != 0;
+    superShieldBypass = FileHelper::readInteger(fd) != 0;
+    if (G_->GetSettings()->loadingSaveVersion > 4)
+    {
+        if (FileHelper::readInteger(fd) != 0)
+        {
+            flight_animation.StartReverse(false);
+        }
+    }
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(LaserBlast, SaveProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LaserBlast::SaveProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::SaveProjectile(fd);
+    FileHelper::writeFloat(fd, spinAngle);
+    FileHelper::writeFloat(fd, spinSpeed);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(LaserBlast, LoadProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LaserBlast::LoadProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::LoadProjectile(fd);
+    spinAngle = FileHelper::readFloat(fd);
+    spinSpeed = FileHelper::readFloat(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(PDSFire, SaveProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> PDSFire::SaveProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::SaveProjectile(fd);
+    FileHelper::writeFloat(fd, startPoint.x);
+    FileHelper::writeFloat(fd, startPoint.y);
+    FileHelper::writeInt(fd, static_cast<int>(passedTarget));
+    FileHelper::writeFloat(fd, currentScale);
+    FileHelper::writeInt(fd, static_cast<int>(missed));
+    explosionAnimation.SaveState(fd);
+    // End of orig code
+}
+
+HOOK_METHOD_PRIORITY(PDSFire, LoadProjectile, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> PDSFire::LoadProjectile -> Begin (SavingRewrite.cpp)\n")
+
+    // Reverse engineered Vanilla code by Dino
+    Projectile::LoadProjectile(fd);
+    startPoint.x = FileHelper::readFloat(fd);
+    startPoint.y = FileHelper::readFloat(fd);
+    passedTarget = FileHelper::readInteger(fd) != 0;
+    currentScale = FileHelper::readFloat(fd);
+    missed = FileHelper::readInteger(fd) != 0;
+    explosionAnimation.LoadState(fd);
     // End of orig code
 }
