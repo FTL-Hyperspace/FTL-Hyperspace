@@ -420,7 +420,7 @@ for _,v in pairs(structs) do
     
     for k,f in pairs(v.fields) do
         local cname = f:cname()
-        if not f:isPointer() and structs[cname] and (f.name == "_entity" or f.name == "_base") then
+        if not f:isPointer() and structs[cname] and (f.name == "_entity" or f.name == "_base" or f.name == "_targetable" or f.name == "_collideable" or f.name == "_drone" or f.name == "_shipObj") then
             -- inheritance
             if v.inherits == nil then
                 v.inherits = {}
