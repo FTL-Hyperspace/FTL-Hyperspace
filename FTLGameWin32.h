@@ -4905,7 +4905,7 @@ struct Selectable
 
 struct Room;
 
-struct Room : Selectable
+struct Room : Selectable, ShipObject
 {
 	Point GetIntoRoom(Point pos)
 	{
@@ -4953,7 +4953,6 @@ struct Room : Selectable
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
 	LIBZHL_API void destructor();
 	
-	ShipObject _shipObject;
 	Globals::Rect rect;
 	int iRoomId;
 	bool bBlackedOut;
@@ -5103,7 +5102,7 @@ struct ShipGraph
 	std::string shipName;
 };
 
-struct Door : CrewTarget
+struct Door : CrewTarget, Selectable
 {
 public:
 	Point GetCenterPoint()
@@ -5146,7 +5145,6 @@ public:
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void OnLoop();
 	
-	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
