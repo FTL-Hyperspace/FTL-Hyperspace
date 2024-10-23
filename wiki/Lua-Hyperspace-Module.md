@@ -3422,3 +3422,13 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Methods
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+
+## TextButton0
+
+## FTLButton
+
+**Extends [TextButton0](#TextButton0)**
+
+### Fields
+- `bool` `ready`
+   - **read-only**
