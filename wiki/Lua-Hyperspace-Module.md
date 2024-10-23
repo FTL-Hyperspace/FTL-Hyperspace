@@ -3425,10 +3425,9 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 
 ## TextButton0
 
+**Extends [GenericButton](#GenericButton)**
+
 ## FTLButton
 
 **Extends [TextButton0](#TextButton0)**
 
-### Fields
-- `bool` `ready`
-   - **read-only**

@@ -752,8 +752,6 @@ playerVariableType playerVariables;
 %nodefaultctor FTLButton;
 %nodefaultdtor FTLButton;
 %rename("%s") FTLButton;
-%rename("%s") FTLButton::ready;
-%immutable FTLButton::ready;
 
 %nodefaultctor MouseControl;
 %nodefaultdtor MouseControl;
