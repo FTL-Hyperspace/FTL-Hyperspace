@@ -375,17 +375,14 @@ void ParseChoiceColorNode(rapidxml::xml_node<char>* node)
 
 std::string EncodeChoicecColorName(char* name)
 {
-    std::string info = "[[#C:" + std::string(name) + "]]";
-    return info;
+    return "[[#C:" + std::string(name) + "]]";
 }
 
 GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
 {
+    if (ChoiceColorMap.count(text) == 0) return currentColor;
+
     ChoiceColor* choiceColor = ChoiceColorMap[text];
-    if (choiceColor == nullptr)
-    {
-        return currentColor;
-    }
 
     GL_Color ret(currentColor.r, currentColor.g, currentColor.b, currentColor.a);
     if (currentColor.r == 1.f && currentColor.g == 1.f && currentColor.b == 1.f && currentColor.a == 1.f)
