@@ -82,6 +82,7 @@ struct CustomShipDefinition
     bool noJump = false;
     bool noFuelStalemate = false;
     bool artilleryGibMountFix = false;
+    bool hideHullDuringExplosion = false;
     int hpCap = 20;
     int startingFuel = -1;
     int startingScrap = -1;
