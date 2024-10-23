@@ -446,7 +446,7 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
 
-    std::regex re("^(.*)\\[\\[#C\\:(.*)\\]\\]$");
+    std::regex re("^(.*)\\[\\[#C\\:(.*?)\\]\\]$");
     std::smatch match;
     std::string new_text = text;
     GL_Color currentColor = CSurface::GL_GetColor();
@@ -465,7 +465,7 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
     LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
 
-    std::regex re("^(.*)\\[\\[#C\\:.*\\]\\]$");
+    std::regex re("^(.*)\\[\\[#C\\:.*?\\]\\]$");
     std::smatch match;
     std::string new_text = text;
     if (std::regex_match(new_text, match, re))
@@ -480,7 +480,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomColors.cpp)\n")
     if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(name, lang);
 
-    std::regex re("^(.*)(\\[\\[#C\\:.*\\]\\])$");
+    std::regex re("^(.*)(\\[\\[#C\\:.*?\\]\\])$");
     std::smatch match;
     std::string new_text = name;
     if (std::regex_match(new_text, match, re))
