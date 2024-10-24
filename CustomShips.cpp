@@ -1534,6 +1534,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
 }
 
 bool g_artilleryGibMountFix = false;
+bool g_hideHullDuringExplosion = false;
 
 HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive) -> void)
 {
@@ -1545,6 +1546,7 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
     LoadGibs();
     int gib = pieces.size() - 1;
     ShipManager *currentShip = G_->GetShipManager(shipObj.iShipId);
+    CustomShipDefinition &shipDef = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
 
     // Progress animation
     // Skip the final gib if doing the partial explosion for
@@ -1557,7 +1559,7 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
         bool doArtyGibFix =
             currentShip &&
             !currentShip->artillerySystems.empty() &&
-            (g_artilleryGibMountFix || CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).artilleryGibMountFix);
+            (g_artilleryGibMountFix || shipDef.artilleryGibMountFix);
 
         // Iterate through all gibs
         for (; gib >= 0; --gib)
@@ -1606,7 +1608,7 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
     // Render the ship hull while the gibs aren't moving
     // For some reason using the shipImagePrimitive arg passed into this function
     // doesn't work, so just get it directly from the Ship struct
-    if (!bFinalBoom && currentShip && currentShip->ship.shipImagePrimitive) {
+    if (!bFinalBoom && currentShip && currentShip->ship.shipImagePrimitive && !(g_hideHullDuringExplosion || shipDef.hideHullDuringExplosion)) {
         CSurface::GL_Translate(shipRect->x, shipRect->y, 0.f);
         CSurface::GL_RenderPrimitive(currentShip->ship.shipImagePrimitive);
         CSurface::GL_Translate(-shipRect->x, -shipRect->y, 0.f);
