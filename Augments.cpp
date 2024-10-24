@@ -92,6 +92,11 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
             fuelReq = std::floor(shipManager->GetAugmentationValue("FTL_JUMPER_GOOD"));
         }
 
+        if (hoverLoc && hoverLoc->visited > 0 && shipManager->HasAugmentation("FTL_JUMPER"))
+        {
+            fuelReq = 1;
+        }
+
         if (shipManager->fuel_count >= fuelReq && hoverLoc != currentLoc)
         {
             potentialLoc = hoverLoc;
