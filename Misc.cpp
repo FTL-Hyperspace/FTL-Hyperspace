@@ -1185,7 +1185,7 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
         super(armamentSlot);
 
         lua_pushinteger(context->GetLua(), armamentSlot);
-        context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::SELECT_ARMAMENT_POST, 1, 0);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_POST, 1, 0);
         lua_pop(context->GetLua(), 1);
     }
 }
