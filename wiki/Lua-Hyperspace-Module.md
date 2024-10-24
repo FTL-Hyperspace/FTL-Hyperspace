@@ -1204,6 +1204,12 @@ Accessed via `Room`'s `.extend` field
 - `float` `.ionDamageResistChance`
 - `float` `.hullDamageResistChance`
 
+## TemporalSystemParser
+
+### Methods
+- `float .GetDilationStrength(int effectStrength)`
+   - Gets the temporal modifier for a given time dilation value.
+
 ## CrewStat
 
 ### Fields
