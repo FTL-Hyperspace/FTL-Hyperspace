@@ -140,6 +140,34 @@ All below methods are static, so they are to be called with the `.` operator.
   - Renders a portion of an image texture
   - `float x, float y` -- starting point (top-left corner)
   - `float x2, float y2` -- width and length
+  - `float start_x, float end_x, float start_y, float end_y` -- normalized coordinates of the portion of the texture to render
+  - Example:
+  ```lua
+  -- Load a sprite with 35x35 pixel cells
+  local tex = Hyperspace.Resources:GetImageId("my_35x35_cell_sprite.png")
+  local cellWidth = 35
+  local cellHeight = 35
+
+  -- Pick a random cell
+  local cellCount = (tex.width/cellWidth)*(tex.height/cellHeight)
+  local cell = math.random(cellCount) - 1
+
+  -- Calculte coordinates of the given cell
+  local cellX = cell*cellWidth % tex.width
+  local cellY = math.floor(cell/(tex.width/cellWidth))*cellHeight
+
+  -- Normalize cell coordinates
+  local normalX1 = cellX/tex.width
+  local normalX2 = (cellX + cellWidth)/tex.width
+  local normalY1 = cellY/tex.height
+  local normalY2 = (cellY + cellHeight)/tex.height
+
+  -- Render cell
+  local posX = 100
+  local posY = 100
+  local white = Graphics.GL_Color(1, 1, 1, 1)
+  Graphics.CSurface.GL_BlitImagePartial(tex, posX, posY, cellWidth, cellHeight, normalX1, normalX2, normalY1, normalY2, 1, white, false)
+  ```
 
 - `void GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias)`
 

@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "TemporalSystem.h"
 #include "Misc.h"
 %}
 
@@ -1968,6 +1969,11 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
 
+%nodefaultctor TemporalSystemParser;
+%nodefaultdtor TemporalSystemParser;
+%rename("%s") TemporalSystemParser;
+%rename("%s") TemporalSystemParser::GetDilationStrength;
+
 %nodefaultctor Door;
 %nodefaultdtor Door;
 %rename("%s") Door;
@@ -2211,8 +2217,6 @@ playerVariableType playerVariables;
 %nodefaultctor ShipGraph;
 %nodefaultdtor ShipGraph;
 
-%rename("%s") ShipGraph::ConvertToWorldPosition;
-%rename("%s") ShipGraph::ConvertToLocalPosition;
 %rename("%s") ShipGraph::GetSlotRenderPosition;
 %rename("%s") ShipGraph::TranslateFromGrid;
 %rename("%s") ShipGraph::TranslateToGrid;
@@ -2226,7 +2230,9 @@ playerVariableType playerVariables;
 %rename("%s") ShipGraph::ConnectingDoor;
 %rename("%s") ShipGraph::ContainsPoint;
 %rename("%s") ShipGraph::ConvertToLocalAngle;
+%rename("%s") ShipGraph::ConvertToLocalPosition;
 %rename("%s") ShipGraph::ConvertToWorldAngle;
+%rename("%s") ShipGraph::ConvertToWorldPosition;
 %rename("%s") ShipGraph::Dijkstra;
 %rename("%s") ShipGraph::DoorCount;
 %rename("%s") ShipGraph::FindPath;
@@ -3792,4 +3798,5 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "TemporalSystem.h"
 %include "Misc.h"
