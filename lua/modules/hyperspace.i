@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "TemporalSystem.h"
 #include "Misc.h"
 %}
 
@@ -1960,6 +1961,11 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
 
+%nodefaultctor TemporalSystemParser;
+%nodefaultdtor TemporalSystemParser;
+%rename("%s") TemporalSystemParser;
+%rename("%s") TemporalSystemParser::GetDilationStrength;
+
 %nodefaultctor Door;
 %nodefaultdtor Door;
 %rename("%s") Door;
@@ -3784,4 +3790,5 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "TemporalSystem.h"
 %include "Misc.h"

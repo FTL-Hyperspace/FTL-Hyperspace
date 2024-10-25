@@ -283,6 +283,11 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 
 <artilleryGibMountFix enabled="false"/>
 
+<!--  Prevents hull image from being drawn over gibs during a ship explosion.
+-->
+
+<hideHullDuringExplosion enabled="false"/>
+
 <!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
 -->
 
@@ -510,6 +515,7 @@ maxLevel attribute sets the maximum level you can upgrade to
 <increment> sets how much more expensive each coloumn gets
 <overrideCost> sets the price of an individual coloumn specified in the attribute, every other coloumn will follow default scaling
 <artilleryGibMountFix> applies the fix to this ship if not already enabled globally
+<hideHullDuringExplosion> hides the hull of this ship if not already enabled globally
 
 
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
@@ -556,7 +562,7 @@ splitUnlockQuestAchievement and splitVictoryAchievement will cause the quest and
 If showShipAchievements is set to false, ship achievements will never be visible when that ship is selected (true by default).
 Syntax -> 
 
-<ships removeFirstShipPage="false">
+<ships hideFirstShipPage="false">
 	<hangarAnims>
 		<anim x="100" y="100">custom_anim</anim>
 	</hangarAnims>
@@ -668,6 +674,7 @@ Syntax ->
 			<overrideCost coloumn="3">45</overrideCost>
 		</customReactor>
 		<artilleryGibMountFix/>
+		<hideHullDuringExplosion/>
 	</customShip>
 	
 	<customShip name="ENEMY_SHIP">
