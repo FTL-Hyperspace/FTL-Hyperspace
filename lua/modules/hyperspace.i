@@ -580,9 +580,8 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::outOfFuel;
 %immutable CommandGui::outOfFuel;
 %rename("%s") CommandGui::bPaused;
-%immutable CommandGui::bPaused;
 %rename("%s") CommandGui::bAutoPaused;
-%immutable CommandGui::bAutoPaused;
+%immutable CommandGui::bAutoPaused; // potentially find a way to try ESC pausing, currently does nothing
 %rename("%s") CommandGui::menu_pause;
 %immutable CommandGui::menu_pause;
 %rename("%s") CommandGui::event_pause;
@@ -745,6 +744,14 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bActivated;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
+
+%nodefaultctor TextButton0;
+%nodefaultdtor TextButton0;
+%rename("%s") TextButton0;
+
+%nodefaultctor FTLButton;
+%nodefaultdtor FTLButton;
+%rename("%s") FTLButton;
 
 %nodefaultctor MouseControl;
 %nodefaultdtor MouseControl;
