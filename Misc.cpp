@@ -1312,6 +1312,28 @@ HOOK_METHOD(ShipManager, Wait, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+// Allow ship rename input to receive Japanese letters
+HOOK_METHOD(ShipBuilder, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (Misc.cpp)\n")
+    super();
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}
+
+// Allow crew rename input to receive Japanese letters
+HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::constructor -> Begin (Misc.cpp)\n")
+    super(pos, ship, slot);
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}
+
 //////////////////////////////////////////////////
 //////////////// RenderEvents.cpp ////////////////
 //////////////////////////////////////////////////
@@ -1466,14 +1488,6 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_JUMP, std::abs(idx), 2);
 
     lua_pop(context->GetLua(), 2);
-}
-
-HOOK_METHOD(FTLButton, OnRender, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (Misc.cpp)\n")
-    int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::FTL_BUTTON, 0);
-    if (idx >= 0) super();
-    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::FTL_BUTTON, std::abs(idx), 0);
 }
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
