@@ -368,7 +368,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Field is **read-only** but fields under this object may still be mutable.
 - [`HackingSystem*`](#hackingsystem) `.hackingSystem`
    - Field is **read-only** but fields under this object may still be mutable.
-- [`Shields*`](#shieldsystem) `.shieldSystem`
+- [`Shields*`](#shields) `.shieldSystem`
    - Field is **read-only** but fields under this object may still be mutable.
 - [`WeaponSystem*`](#weaponsystem) `.weaponSystem`
    - Field is **read-only** but fields under this object may still be mutable.
@@ -1203,6 +1203,12 @@ Accessed via `Room`'s `.extend` field
 - `float` `.sysDamageResistChance`
 - `float` `.ionDamageResistChance`
 - `float` `.hullDamageResistChance`
+
+## TemporalSystemParser
+
+### Methods
+- `float .GetDilationStrength(int effectStrength)`
+   - Gets the temporal modifier for a given time dilation value.
 
 ## CrewStat
 
@@ -2968,7 +2974,9 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
+- [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
 - `float :ConvertToWorldAngle(float ang)`
+- [`Pointf`](#Pointf) `:ConvertToWorldPosition(Pointf local)`
 - [`Path`](#Path) `:Dijkstra(Point start, Point goal, int shipId)`
 - `int :DoorCount(int roomId)`
 - [`Path`](#Path) `:FindPath(Point p1, Point p2, int shipId)`
