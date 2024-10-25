@@ -1452,9 +1452,6 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     lua_pop(context->GetLua(), 2);
 }
 
-
-
-
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Misc.cpp)\n")
