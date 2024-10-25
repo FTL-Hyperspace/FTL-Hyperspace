@@ -2198,8 +2198,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.outOfFuel`
    - **Read-only**
 - `bool` `.bPaused`
-   - **Read-only**
    - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+   - Modifying this variable during event pauses and ESC menu pauses does not unfreeze the game; it will only change whether or not the game remains paused when the event or ESC menu closes.
 - `bool` `.bAutoPaused`
    - **Read-only**
    - Maybe true for event pauses and ESC menu pauses? Not sure.
