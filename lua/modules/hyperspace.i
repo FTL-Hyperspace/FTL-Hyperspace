@@ -580,9 +580,8 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::outOfFuel;
 %immutable CommandGui::outOfFuel;
 %rename("%s") CommandGui::bPaused;
-%immutable CommandGui::bPaused;
 %rename("%s") CommandGui::bAutoPaused;
-%immutable CommandGui::bAutoPaused;
+%immutable CommandGui::bAutoPaused; // potentially find a way to try ESC pausing, currently does nothing
 %rename("%s") CommandGui::menu_pause;
 %immutable CommandGui::menu_pause;
 %rename("%s") CommandGui::event_pause;
