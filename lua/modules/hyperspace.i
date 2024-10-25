@@ -746,6 +746,14 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
 
+%nodefaultctor TextButton0;
+%nodefaultdtor TextButton0;
+%rename("%s") TextButton0;
+
+%nodefaultctor FTLButton;
+%nodefaultdtor FTLButton;
+%rename("%s") FTLButton;
+
 %nodefaultctor MouseControl;
 %nodefaultdtor MouseControl;
 %rename("%s") MouseControl;
