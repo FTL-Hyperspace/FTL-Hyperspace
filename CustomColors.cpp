@@ -378,7 +378,7 @@ std::string EncodeChoicecColorName(char* name)
     return "[[#C:" + std::string(name) + "]]";
 }
 
-GL_Color DecodeChoiceColorName(std::string text, GL_Color currentColor)
+GL_Color DecodeChoiceColorName(const std::string &text, const GL_Color &currentColor)
 {
     if (ChoiceColorMap.count(text) == 0) return currentColor;
 
