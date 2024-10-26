@@ -7,14 +7,16 @@ struct CustomAchievement
     CAchievement ach;
 
     TextString name;
-	TextString description;
+    TextString description;
 
-	TextString secretName;
-	TextString secretDescription;
+    TextString secretName;
+    TextString secretDescription;
 
-	bool hidden = false;
+    std::string sound;
 
-	void ParseAchievement(rapidxml::xml_node<char> *node, std::string *varName=nullptr);
+    bool hidden = false;
+
+    void ParseAchievement(rapidxml::xml_node<char> *node, std::string *varName=nullptr);
 };
 
 class CustomAchievementSection
