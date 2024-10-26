@@ -563,6 +563,7 @@ struct AchievementTracker
 	LIBZHL_API void LoadAchievementDescriptions();
 	LIBZHL_API void LoadProfile(int file, int version);
 	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void ResetFlags();
 	LIBZHL_API void SaveProfile(int file);
 	LIBZHL_API void SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer);
@@ -3919,6 +3920,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void RenderAiming();
 	LIBZHL_API static void __stdcall RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
 	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void SelectArmament(unsigned int armamentSlot);
 	LIBZHL_API void SetAutofiring(bool on, bool simple);
 	LIBZHL_API void constructor();
 	

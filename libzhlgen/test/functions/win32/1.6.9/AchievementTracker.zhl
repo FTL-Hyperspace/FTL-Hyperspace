@@ -28,6 +28,8 @@ __thiscall void AchievementTracker::OnLanguageChange(AchievementTracker *this);
 __thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 "578d41248d7c240883e4f0ff77fc5589e557565389cf83ec2c8b712c8945e485f6":
 __thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
+"578d7c????83e4f0ff????5589e557565389cb83ec4c8b013b":
+__thiscall void AchievementTracker::OnLoop(AchievementTracker *this);
 
 
 "!b9(???????\?)e8????????c744240c00000000":

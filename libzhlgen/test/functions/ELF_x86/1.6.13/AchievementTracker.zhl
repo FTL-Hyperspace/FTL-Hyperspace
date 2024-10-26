@@ -28,6 +28,8 @@ cleanup __cdecl void AchievementTracker::OnLanguageChange(AchievementTracker *th
 cleanup __cdecl void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 "565383ec148b7424208b462c894424048d4624890424":
 cleanup __cdecl void AchievementTracker::ResetFlags(AchievementTracker *this);
+"554889e5415741564154534883ec204989fc":
+cleanup __cdecl void AchievementTracker::OnLoop(AchievementTracker *this);
 
 
 "!e8????????89742404c70424(???????\?)e8????????8b44242c8d50f4":
