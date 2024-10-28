@@ -340,33 +340,33 @@ void ParseChoiceColorNode(rapidxml::xml_node<char>* node)
     if (ChoiceColorMap[name] != nullptr) return;
 
     ChoiceColor* choiceColor = new ChoiceColor;
-    if(node->first_node("normal") != nullptr)
+    if (node->first_node("normal"))
     {
         choiceColor->normal.r = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("r")->value()) / 255.f;
         choiceColor->normal.g = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("g")->value()) / 255.f;
         choiceColor->normal.b = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("b")->value()) / 255.f;
-        if (node->first_node("normal")->first_attribute("a") != nullptr) choiceColor->normal.a = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("a")->value()) / 255.f;
+        if (node->first_node("normal")->first_attribute("a")) choiceColor->normal.a = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("a")->value()) / 255.f;
     }
-    if(node->first_node("hover") != nullptr)
+    if (node->first_node("hover"))
     {
         choiceColor->hover.r = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("r")->value()) / 255.f;
         choiceColor->hover.g = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("g")->value()) / 255.f;
         choiceColor->hover.b = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("b")->value()) / 255.f;
-        if (node->first_node("hover")->first_attribute("a") != nullptr) choiceColor->hover.a = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("a")->value()) / 255.f;
+        if (node->first_node("hover")->first_attribute("a")) choiceColor->hover.a = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("a")->value()) / 255.f;
     }
-    if(node->first_node("disabled") != nullptr)
+    if (node->first_node("disabled"))
     {
         choiceColor->disabled.r = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("r")->value()) / 255.f;
         choiceColor->disabled.g = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("g")->value()) / 255.f;
         choiceColor->disabled.b = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("b")->value()) / 255.f;
-        if (node->first_node("disabled")->first_attribute("a") != nullptr) choiceColor->disabled.a = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("a")->value()) / 255.f;
+        if (node->first_node("disabled")->first_attribute("a")) choiceColor->disabled.a = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("a")->value()) / 255.f;
     }
-    if(node->first_node("blue_option") != nullptr)
+    if (node->first_node("blue_option"))
     {
         choiceColor->blue_option.r = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("r")->value()) / 255.f;
         choiceColor->blue_option.g = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("g")->value()) / 255.f;
         choiceColor->blue_option.b = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("b")->value()) / 255.f;
-        if (node->first_node("blue_option")->first_attribute("a") != nullptr) choiceColor->blue_option.a = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("a")->value()) / 255.f;
+        if (node->first_node("blue_option")->first_attribute("a")) choiceColor->blue_option.a = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("a")->value()) / 255.f;
     }
     
     ChoiceColorMap[name] = choiceColor;
@@ -429,7 +429,7 @@ HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_no
         return;
     }
 
-    if (node->first_node("text")->first_attribute("id") != nullptr)
+    if (node->first_node("text")->first_attribute("id"))
     {
         node->first_node("text")->first_attribute("id")->value((std::string(node->first_node("text")->first_attribute("id")->value()) + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value())).c_str());
     }
@@ -440,11 +440,20 @@ HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_no
     super(event, node, eventName);
 }
 
+bool g_startRenderColorChoices = false;
+
+HOOK_METHOD(ChoiceBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (CustomColors.cpp)\n")
+    g_startRenderColorChoices = true;
+    super();
+    g_startRenderColorChoices = false;
+}
 
 HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
+    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || !g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:(.*?)\\]\\]$");
     std::smatch match;
@@ -463,7 +472,7 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
 HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(fontSize, x, y, line_length, text);
+    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || !g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:.*?\\]\\]$");
     std::smatch match;
@@ -478,7 +487,7 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
 HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomColors.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue) return super(name, lang);
+    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || !g_startRenderColorChoices) return super(name, lang);
 
     std::regex re("^(.*)(\\[\\[#C\\:.*?\\]\\])$");
     std::smatch match;
