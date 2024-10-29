@@ -559,16 +559,14 @@ std::vector<int> upgradeCosts;
 HOOK_METHOD(InfoBox, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::OnRender -> Begin (CustomUpgrades.cpp)\n")
-    bool currentValue = g_upgradeBarsSecondColumn;
-    g_infoBoxRenderFix = maxPower > 8;
+    g_infoBoxRenderFix = maxPower > 8 && blueprint;
     if (g_infoBoxRenderFix)
     {
-        infoBoxUpgradeCostPos = Pointf((float)(location.x + 105), (float)(location.y + yShift + 224));
-        if (blueprint != nullptr) upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
+        infoBoxUpgradeCostPos.x = (float)(location.x + 105);
+        infoBoxUpgradeCostPos.y = (float)(location.y + yShift + 224);
+        upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
     }
-    g_upgradeBarsSecondColumn = false;
     super();
-    g_upgradeBarsSecondColumn = currentValue;
     g_infoBoxRenderFix = false;
 }
 
@@ -583,24 +581,7 @@ int barIncrement = 0;
 HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int height, int gap, int current, int temp, int max) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::RenderPowerBoxesPlain -> Begin (CustomUpgrades.cpp)\n")
-    if (g_upgradeBarsSecondColumn && max > 8)
-    {
-        barIndex = 0;
-        barLeftColumnIndex = ((current + temp) / 8) ? ((current + temp) / 8) - 1 : 0;
-        if ((current + temp) % 8 == 0 && current + temp == max && barLeftColumnIndex > 0) barLeftColumnIndex--;
-        if (barLeftColumnIndex > 0)
-        {
-            freetype::easy_printCenter(5, (float)(x + 21), (float)(y - 62), std::to_string((barLeftColumnIndex + 1) * 8));
-            freetype::easy_printCenter(5, (float)(x + 42), (float)(y - 62), std::to_string((barLeftColumnIndex + 2) * 8));
-        }
-
-        g_startTranslatePowerBars = true;
-        int ret = super(x, y, width, height, gap, current, temp, max);
-        g_startTranslatePowerBars = false;
-
-        return ret;
-    }
-    else if (g_infoBoxRenderFix && max > 8)
+    if (g_infoBoxRenderFix && max > 8)
     {
         barIndex = 0;
         barIncrement = current + temp - 4;
@@ -626,9 +607,27 @@ HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int hei
 
         return ret;
     }
+    else if (g_upgradeBarsSecondColumn && max > 8)
+    {
+        barIndex = 0;
+        barLeftColumnIndex = ((current + temp) / 8) > 0 ? ((current + temp) / 8) - 1 : 0;
+        if ((current + temp) % 8 == 0 && current + temp == max && barLeftColumnIndex > 0) barLeftColumnIndex--;
+        if (barLeftColumnIndex > 0)
+        {
+            freetype::easy_printCenter(5, (float)(x + 21), (float)(y - 62), std::to_string((barLeftColumnIndex + 1) * 8));
+            freetype::easy_printCenter(5, (float)(x + 42), (float)(y - 62), std::to_string((barLeftColumnIndex + 2) * 8));
+        }
+
+        g_startTranslatePowerBars = true;
+        int ret = super(x, y, width, height, gap, current, temp, max);
+        g_startTranslatePowerBars = false;
+
+        return ret;
+    }
     else return super(x, y, width, height, gap, current, temp, max);
 }
 
+// this function is called inside ShipSystem::RenderPowerBoxesPlain, where it is called inside the for statement, so you can keep track of the index.
 HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
 {
     LOG_HOOK("HOOK_STATIC -> CSurface::GL_RenderPrimitiveWithColor -> Begin (CustomUpgrades.cpp)\n")
