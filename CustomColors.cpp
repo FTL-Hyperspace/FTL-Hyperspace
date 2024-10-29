@@ -445,7 +445,7 @@ bool g_startRenderColorChoices = false;
 HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (CustomColors.cpp)\n")
-    g_startRenderColorChoices = true;
+    g_startRenderColorChoices = CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue;
     super();
     g_startRenderColorChoices = false;
 }
@@ -453,7 +453,7 @@ HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || !g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
+    if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:(.*?)\\]\\]$");
     std::smatch match;
@@ -472,7 +472,7 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
 HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || !g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
+    if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
     std::regex re("^(.*)\\[\\[#C\\:.*?\\]\\]$");
     std::smatch match;
@@ -487,7 +487,7 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
 HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomColors.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || !g_startRenderColorChoices) return super(name, lang);
+    if (!g_startRenderColorChoices) return super(name, lang);
 
     std::regex re("^(.*)(\\[\\[#C\\:.*?\\]\\])$");
     std::smatch match;

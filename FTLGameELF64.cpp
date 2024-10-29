@@ -7799,7 +7799,7 @@ std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml_node<char>
 namespace _func603
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), ".41574989d7415641554989cd415449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), ".41574989d7415641554989cd41544989f4", nullptr, 0, 0, &func);
 }
 
 void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName)
