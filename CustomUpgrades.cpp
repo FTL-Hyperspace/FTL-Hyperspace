@@ -564,7 +564,7 @@ HOOK_METHOD(InfoBox, OnRender, () -> void)
     if (g_infoBoxRenderFix)
     {
         infoBoxUpgradeCostPos = Pointf((float)(location.x + 105), (float)(location.y + yShift + 224));
-        if(blueprint != nullptr) upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
+        if (blueprint != nullptr) upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
     }
     g_upgradeBarsSecondColumn = false;
     super();
@@ -632,7 +632,7 @@ HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int hei
 HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
 {
     LOG_HOOK("HOOK_STATIC -> CSurface::GL_RenderPrimitiveWithColor -> Begin (CustomUpgrades.cpp)\n")
-    if(g_startTranslatePowerBars)
+    if (g_startTranslatePowerBars)
     {
         int currentColumn = barIndex / 8;
         if (currentColumn == barLeftColumnIndex)
@@ -641,7 +641,7 @@ HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_
             super(primitive, color);
             CSurface::GL_Translate(10.f, (float)currentColumn * -64.f);
         }
-        else if(currentColumn == barLeftColumnIndex + 1)
+        else if (currentColumn == barLeftColumnIndex + 1)
         {
             CSurface::GL_Translate(11.f, (float)currentColumn * 64.f);
             super(primitive, color);
