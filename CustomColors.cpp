@@ -3,7 +3,6 @@
 #include "Resources.h"
 #include "PALMemoryProtection.h"
 #include "CustomOptions.h"
-#include <regex>
 #include <boost/lexical_cast.hpp>
 
 GL_Color g_defaultTextButtonColors[4] =
@@ -375,7 +374,7 @@ void ParseChoiceColorNode(rapidxml::xml_node<char>* node)
 
 std::string EncodeChoicecColorName(char* name)
 {
-    return "[[#C:" + std::string(name) + "]]";
+    return "[[" + std::string(name) + "@C]]";
 }
 
 GL_Color DecodeChoiceColorName(const std::string &text, const GL_Color &currentColor)
@@ -420,6 +419,20 @@ GL_Color DecodeChoiceColorName(const std::string &text, const GL_Color &currentC
     return ret;
 }
 
+int FindColorFlag(const std::string &text)
+{
+    int len = text.length();
+    if (text[len - 1] != ']' || text[len - 2] != ']' || text[len - 3] != 'C' || text[len - 4] != '@') return -1;
+    for (int i = len - 5; i > -1; i--)
+    {
+        if (text[i] == '[' && text[i + 1] == '[')
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
 HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> EventsParser::ProcessChoice -> Begin (CustomColors.cpp)\n")
@@ -455,17 +468,12 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
     if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
-    std::regex re("^(.*)\\[\\[#C\\:(.*?)\\]\\]$");
-    std::smatch match;
-    std::string new_text = text;
-    GL_Color currentColor = CSurface::GL_GetColor();
-    if (std::regex_match(new_text, match, re))
-    {
-        new_text = match[1];
-        CSurface::GL_SetColor(DecodeChoiceColorName(match[2], currentColor));
-    }
+    int pos = FindColorFlag(text);
+    if (pos == -1 || pos >= text.length() - 1) return super(fontSize, x, y, line_length, text);
 
-    return super(fontSize, x, y, line_length, new_text);
+    GL_Color currentColor = CSurface::GL_GetColor();
+    CSurface::GL_SetColor(DecodeChoiceColorName(text.substr(pos + 2, text.length() - pos - 6), currentColor));
+    return super(fontSize, x, y, line_length, text.substr(0, pos));
     CSurface::GL_SetColor(currentColor);
 }
 
@@ -474,27 +482,27 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
     LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
     if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
-    std::regex re("^(.*)\\[\\[#C\\:.*?\\]\\]$");
-    std::smatch match;
-    std::string new_text = text;
-    if (std::regex_match(new_text, match, re))
-    {
-        new_text = match[1];
-    }
-    return super(fontSize, x, y, line_length, new_text);
+    int pos = FindColorFlag(text);
+    if (pos == -1 || pos >= text.length() - 1) return super(fontSize, x, y, line_length, text);
+    return super(fontSize, x, y, line_length, text.substr(0, pos));
+}
+
+bool g_transferColorChoiceFlag_from_ID_to_realText = false;
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomColors.cpp)\n")
+    g_transferColorChoiceFlag_from_ID_to_realText = CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue;;
+    super(event);
+    g_transferColorChoiceFlag_from_ID_to_realText = false;
 }
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomColors.cpp)\n")
-    if (!g_startRenderColorChoices) return super(name, lang);
+    if (!g_transferColorChoiceFlag_from_ID_to_realText) return super(name, lang);
 
-    std::regex re("^(.*)(\\[\\[#C\\:.*?\\]\\])$");
-    std::smatch match;
-    std::string new_text = name;
-    if (std::regex_match(new_text, match, re))
-    {
-        return super(match[1], lang) + std::string(match[2]);
-    }
-    return super(name, lang);
+    int pos = FindColorFlag(name);
+    if (pos == -1 || pos >= name.length() - 1) return super(name, lang);
+    return super(name.substr(0, pos), lang) + name.substr(pos);
 }
