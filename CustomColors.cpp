@@ -469,7 +469,7 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
     if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
     int pos = FindColorFlag(text);
-    if (pos == -1 || pos >= text.length() - 1) return super(fontSize, x, y, line_length, text);
+    if (pos == -1 || pos + 2 > text.length()) return super(fontSize, x, y, line_length, text);
 
     GL_Color currentColor = CSurface::GL_GetColor();
     CSurface::GL_SetColor(DecodeChoiceColorName(text.substr(pos + 2, text.length() - pos - 6), currentColor));
@@ -483,7 +483,7 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
     if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
 
     int pos = FindColorFlag(text);
-    if (pos == -1 || pos >= text.length() - 1) return super(fontSize, x, y, line_length, text);
+    if (pos == -1) return super(fontSize, x, y, line_length, text);
     return super(fontSize, x, y, line_length, text.substr(0, pos));
 }
 
@@ -503,6 +503,6 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
     if (!g_transferColorChoiceFlag_from_ID_to_realText) return super(name, lang);
 
     int pos = FindColorFlag(name);
-    if (pos == -1 || pos >= name.length() - 1) return super(name, lang);
+    if (pos == -1 || pos > name.length()) return super(name, lang);
     return super(name.substr(0, pos), lang) + name.substr(pos);
 }
