@@ -1204,6 +1204,12 @@ Accessed via `Room`'s `.extend` field
 - `float` `.ionDamageResistChance`
 - `float` `.hullDamageResistChance`
 
+## TemporalSystemParser
+
+### Methods
+- `float .GetDilationStrength(int effectStrength)`
+   - Gets the temporal modifier for a given time dilation value.
+
 ## CrewStat
 
 ### Fields
@@ -2192,8 +2198,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.outOfFuel`
    - **Read-only**
 - `bool` `.bPaused`
-   - **Read-only**
    - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+   - Modifying this variable during event pauses and ESC menu pauses does not unfreeze the game; it will only change whether or not the game remains paused when the event or ESC menu closes.
 - `bool` `.bAutoPaused`
    - **Read-only**
    - Maybe true for event pauses and ESC menu pauses? Not sure.
@@ -3431,3 +3437,12 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Methods
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+
+## TextButton0
+
+**Extends [GenericButton](#GenericButton)**
+
+## FTLButton
+
+**Extends [TextButton0](#TextButton0)**
+

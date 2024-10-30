@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "TemporalSystem.h"
 #include "Misc.h"
 %}
 
@@ -579,9 +580,8 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::outOfFuel;
 %immutable CommandGui::outOfFuel;
 %rename("%s") CommandGui::bPaused;
-%immutable CommandGui::bPaused;
 %rename("%s") CommandGui::bAutoPaused;
-%immutable CommandGui::bAutoPaused;
+%immutable CommandGui::bAutoPaused; // potentially find a way to try ESC pausing, currently does nothing
 %rename("%s") CommandGui::menu_pause;
 %immutable CommandGui::menu_pause;
 %rename("%s") CommandGui::event_pause;
@@ -751,6 +751,14 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bActivated;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
+
+%nodefaultctor TextButton0;
+%nodefaultdtor TextButton0;
+%rename("%s") TextButton0;
+
+%nodefaultctor FTLButton;
+%nodefaultdtor FTLButton;
+%rename("%s") FTLButton;
 
 %nodefaultctor MouseControl;
 %nodefaultdtor MouseControl;
@@ -1966,6 +1974,11 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend::ionDamageResistChance;
 %rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
+
+%nodefaultctor TemporalSystemParser;
+%nodefaultdtor TemporalSystemParser;
+%rename("%s") TemporalSystemParser;
+%rename("%s") TemporalSystemParser::GetDilationStrength;
 
 %nodefaultctor Door;
 %nodefaultdtor Door;
@@ -3791,4 +3804,5 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "TemporalSystem.h"
 %include "Misc.h"
