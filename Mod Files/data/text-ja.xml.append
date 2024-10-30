@@ -36,6 +36,9 @@
 <mod:findName type="text" name="stun_chance" language="ja">
   <mod:setValue>スタン発生率：\1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
 </mod:findName>
+<mod:findName type="text" name="nameless_one" language="ja">
+  <mod:setValue>名無し</mod:setValue> <!-- Vanilla text "名もなきクルー" does not fit as a ship name. "名無し" is at least suitable for both ship and crew names. -->
+</mod:findName>
 
 <text name="free_missile_chance" language="ja">ミサイルを消費しない確率：\1%</text>  
 <text name="erosion_chance" language="ja">発症率：\1%</text>  

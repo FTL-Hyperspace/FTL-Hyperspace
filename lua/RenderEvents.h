@@ -35,7 +35,7 @@ struct RenderEvents
         ////SHIP_HIGHLIGHT, // Ship::OnRenderHighlight
         ////SHIP_WALLS, // Ship::OnRenderWalls
         SHIP_SPARKS, // Ship::OnRenderSparks
-        ////CREW_MEMBER_HEALTH, // CrewMember::OnRenderHealth
+        CREW_MEMBER_HEALTH, // CrewMember::OnRenderHealth
         ////ANIMATION, // Animation::OnRender, we'll definetly have to pass something or make completely different events for this one to allow hooking animations where important, maybe we don't allow this one at all?
         ////DAMAGE_MESSAGE, // DamageMessage::OnRender
         ////SHIELDS_DAMAGE_MESSAGES, // Shields::OnRenderDamageMessages
@@ -43,7 +43,7 @@ struct RenderEvents
         //SELF_AIMING, // CombatControl::OnRenderSelfAiming
         //////LAYER_PLAYERFRONT, // CommandGui::RenderPlayerShip (after) (You can just use the after method of LAYER_PLAYER for now)
         LAYER_FRONT, // SpaceManager::OnRenderAsteroids with Layer 1 (after player ship is rendered)
-        ////FTL_BUTTON, // FTLButton::OnRender
+        FTL_BUTTON, // FTLButton::OnRender
         ////BUTTON, // Button::OnRender
         ////WARNING_MESSAGE, // WarningMessage::OnRender
         ////TEXT_BUTTON, // TextButton::OnRender

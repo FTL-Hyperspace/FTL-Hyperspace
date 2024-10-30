@@ -412,6 +412,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hideHullDuringExplosion = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -534,6 +540,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "allowRenameInputSpecialCharacters") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->allowRenameInputSpecialCharacters.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)

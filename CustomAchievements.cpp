@@ -329,6 +329,10 @@ void CustomAchievement::ParseAchievement(rapidxml::xml_node<char> *node, std::st
         {
             hidden = true;
         }
+        if (nodeName == "sound")
+        {
+            sound = nodeValue;
+        }
     }
 }
 
@@ -816,4 +820,41 @@ std::vector<CAchievement*> CustomAchievementTracker::GetShipAchievementsCustom(i
     }
 
     return ret;
+}
+
+// Custom achievements sounds
+static std::string g_customAchSounds = "";
+
+HOOK_METHOD(AchievementTracker, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::OnLoop -> Begin (CustomAchievements.cpp)\n")
+
+    if (recentlyUnlocked.size() > 0)
+    {
+        CAchievement *ach = recentlyUnlocked.front();
+        if (ach)
+        {
+            CustomAchievementTracker *customTracker = CustomAchievementTracker::instance;
+            CustomAchievement &customAch = customTracker->GetAchievement(ach->name_id);
+
+            if (customAch.sound != "")
+            {
+                g_customAchSounds = customAch.sound;
+            }
+        }
+    }
+
+    super();
+    g_customAchSounds = "";
+}
+
+HOOK_METHOD(SoundControl, PlaySoundMix, (const std::string &soundName, float volume, bool loop) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> SoundControl::PlaySoundMix -> Begin (CustomAchievements.cpp)\n")
+
+    if (g_customAchSounds != "")
+    {
+        return super(g_customAchSounds, volume, loop);
+    }
+    return super(soundName, volume, loop);
 }
