@@ -2942,4 +2942,77 @@ Example in form of the Vanilla credits rewritten in XML:
 <!-- For compatibility with the old display image (no shopping cart icon), if this tag is missing, the purchase limit number remains in the conventional position, which is incompatible with the current image due to overlapping. -->
 <purchaseLimitNumber fontSize="0" x="-16" y="106"/>
 
+<!-- Custom Choice Text Color
+To enable this feature, set enabled="true". You can register as many choice text color themes as you like.
+
+About <choiceColor/>:
+It needs attribute "name" to be identified.
+It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
+
+	<normal/> : replace the vanilla normal text color(white).
+	<hover/> : replace the vanilla yellow color when the cursor is over the text.
+	<disabled/> : replace the vanilla gray color when the choice is disabled.
+	<blue_option/> replace the vanilla blue option text color(cyan).
+
+	Missing any tag means not replacing that color.
+
+	Each tags takes 4 attribute: r, g, b, a. Each value is ranged 0 to 255.
+	You need to specify r(red), g(green) and b(blue). a(opacity) is optional, if missing it defaults to 255. 
+
+
+<customChoiceColors enabled="true">
+	<choiceColor name="red">
+		<normal r="255" g="0" b="0"/>
+		<hover r="100" g="0" b="0"/>
+		<disabled r="50" g="50" b="50"/>
+		<blue_option r="255" g="0" b="100"/>
+	</choiceColor>
+	<choiceColor name="green">
+		<normal r="0" g="255" b="0"/>
+		<hover r="0" g="100" b="0"/>
+		<disabled r="50" g="50" b="50"/>
+		<blue_option r="100" g="255" b="0"/>
+	</choiceColor>
+	<choiceColor name="blue">
+		<normal r="0" g="0" b="255"/>
+		<hover r="0" g="0" b="100"/>
+		<disabled r="50" g="50" b="50"/>
+		<blue_option r="0" g="100" b="255"/>
+	</choiceColor>
+	<choiceColor name="gray">
+		<normal r="200" g="200" b="200" a="100"/>
+	</choiceColor>
+</customChoiceColors>
+
+
+In an event definition and under <choice> tag, you can add attribute "color={name}" to <text>.
+
+-- Event example that uses custom colors --
+
+<event>
+	<text>Colorful choices!!</text>
+	<choice>
+		<text color="red">Red</text>
+		<event/>
+	</choice>
+	<choice>
+		<text color="green">Green</text>
+		<event/>
+	</choice>
+	<choice>
+		<text color="blue">Blue</text>
+		<event/>
+	</choice>
+	<choice>
+		<text color="gray" id="continue"/>
+		<event/>
+	</choice>
+</event>
+
+-->
+
+<customChoiceColors enabled="false">
+
+</customChoiceColors>
+
 </FTL>
