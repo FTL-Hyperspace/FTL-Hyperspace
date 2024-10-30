@@ -8,3 +8,5 @@
 
 <text name="tooltip_PDS_FLEET_ALL">The Fleet's Anti-Ship Batteries are firing on all ships in the area.</text>
 <text name="tooltip_PDS_FLEET_ENEMY">The Fleet's Anti-Ship Batteries are targeting your enemies.</text>
+
+<text name="tooltip_purchase_limit">Number of purchases remaining, excluding items and repairs.</text>

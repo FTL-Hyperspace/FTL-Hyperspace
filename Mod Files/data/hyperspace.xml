@@ -2939,4 +2939,7 @@ Example in form of the Vanilla credits rewritten in XML:
 	</freeDrones>
 </store>
 
+<!-- For compatibility with the old display image (no shopping cart icon), if this tag is missing, the purchase limit number remains in the conventional position, which is incompatible with the current image due to overlapping. -->
+<purchaseLimitNumber fontSize="0" x="-16" y="106"/>
+
 </FTL>
