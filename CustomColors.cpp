@@ -493,7 +493,7 @@ bool g_transferColorChoiceFlag_from_ID_to_realText = false;
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomColors.cpp)\n")
-    g_transferColorChoiceFlag_from_ID_to_realText = CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue;;
+    g_transferColorChoiceFlag_from_ID_to_realText = CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue;
     super(event);
     g_transferColorChoiceFlag_from_ID_to_realText = false;
 }
