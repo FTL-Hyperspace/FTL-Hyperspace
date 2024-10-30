@@ -422,6 +422,7 @@ GL_Color DecodeChoiceColorName(const std::string &text, const GL_Color &currentC
 int FindColorFlag(const std::string &text)
 {
     int len = text.length();
+    if (len < 8) return -1; // text must contain [[@C]] plus 1+ length letter
     if (text[len - 1] != ']' || text[len - 2] != ']' || text[len - 3] != 'C' || text[len - 4] != '@') return -1;
     for (int i = len - 5; i > -1; i--)
     {
