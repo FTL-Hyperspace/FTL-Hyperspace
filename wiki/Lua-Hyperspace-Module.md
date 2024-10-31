@@ -2237,9 +2237,16 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CombatControl
 
 ### Fields
+- [`Point`](#Point) `.playerShipPosition`
 - [`WeaponControl`](#WeaponControl) `weapControl`
 - [`Point`](#Point) `.position`
+- `int` `.selectedRoom`
+- `int` `.selectedSelfRoom`
 - [`Point`](#Point) `.targetPosition`
+- `bool` `.open`
+- [`Pointf`](#Pointf) `.potentialAiming`
+- `bool` `.mouseDown`
+- `bool` `.isAimingTouch`
 - `bool` `.boss_visual`
    - **Read-only**
 

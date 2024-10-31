@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ko">
-  <mod:setValue>\1 (Hyperspace 1.14.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ko">
   <mod:setValue>화재 발생 확률: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -247,6 +247,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="tooltip_temporal_enemy" language="ko">시간 조율기: 적이 이 시스템을 사용해서 한 선실의 시간의 흐름을 바꿀 수 있습니다.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="ko">대함포대가 모든 함선을 향해 발포하고 있습니다.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="ko">대함포대가 당신의 적을 향해 발포하고 있습니다.</text>
+<text name="tooltip_purchase_limit" language="ko">아이템과 수리를 제외하고 남은 구매 횟수입니다.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="ko">이 모드를 처음 플레이하거나 아직 새 세이브 파일을 생성하지 않은 것 같습니다! 바닐라 진행도를 연동하고 싶으신가요, 새로운 세이브로 플레이하고 싶으신가요? 어떤 결정을 해도 바닐라 세이브에는 영향을 주지 않습니다.</text>
 <!--Neutral ASB text-->

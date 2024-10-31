@@ -1,3 +1,4 @@
+#include "Store_Extend.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
@@ -195,6 +196,21 @@ void Global::PreInitializeResources(ResourceControl *resources)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
                 customEventParser->EarlyParseCustomEventNode(node);
+            }
+
+            // Perform custom text color registration before event parsing.
+            if (strcmp(node->name(), "customChoiceColors") == 0)
+            {
+                auto enableCustomChoiceColors = node->first_attribute("enabled")->value();
+                customOptions->enableCustomChoiceColors.defaultValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
+                customOptions->enableCustomChoiceColors.currentValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "choiceColor") == 0)
+                    {
+                        ParseChoiceColorNode(child);
+                    }
+                }
             }
         }
 
@@ -732,6 +748,12 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "store") == 0)
             {
                 CustomStore::instance->ParseStoreNode(node);
+            }
+            if (strcmp(node->name(), "purchaseLimitNumber") == 0)
+            {
+                PurchaseLimitIndicatorInfo::fontSize = boost::lexical_cast<int>(node->first_attribute("fontSize")->value());
+                PurchaseLimitIndicatorInfo::x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+                PurchaseLimitIndicatorInfo::y = boost::lexical_cast<int>(node->first_attribute("y")->value());
             }
             if (strcmp(node->name(), "drones") == 0)
             {
