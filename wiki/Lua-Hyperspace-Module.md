@@ -568,7 +568,25 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bCloaked`
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
--  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+-  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+
+## LockdownShard
+
+### Methods
+
+- `void` `.Update`
+
+### Fields
+- [`Animation`](#Animation) `.shard`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.goal`
+- `float` `.speed`
+- `bool` `.bArrived`
+- `bool` `.bDone`
+- `float` `.lifeTime`
+- `bool` `.superFreeze`
+- `int` `.lockingRoom`
+
 ### Hyperspace Fields
 -  `std::vector<std::pair<Animation, int8_t>>` 
 `extraEngineAnim`
