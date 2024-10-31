@@ -3246,29 +3246,31 @@ playerVariableType playerVariables;
 %rename("%s") ActivatedPowerDefinition::event;
 %rename("%s") ActivatedPowerDefinition::tempPower;
 
-%rename("%s") ActivatedPowerDefinition::JUMP_COOLDOWN;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::JUMP_COOLDOWN::.*";
-%rename("%s") ActivatedPowerDefinition::DISABLED_COOLDOWN;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::DISABLED_COOLDOWN::.*";
-%rename("%s") ActivatedPowerDefinition::ON_DEATH;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::ON_DEATH::.*";
-%rename("%s") ActivatedPowerDefinition::HOTKEY_SETTING;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::HOTKEY_SETTING::.*";
-
-%luacode {
-    --Create ActivatedPowerDefinition enum tables
-    Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN = {}
-    Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN = {}
-    Hyperspace.ActivatedPowerDefinition.ON_DEATH = {}
-    Hyperspace.ActivatedPowerDefinition.HOTKEY_SETTING = {}
-
-    for key, value in pairs(Hyperspace.ActivatedPowerDefinition) do
-        CreateEnumTable("Jump_Cooldown_", Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN, key, value)
-        CreateEnumTable("Disabled_Cooldown_", Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN, key, value)
-        CreateEnumTable("On_death_", Hyperspace.ActivatedPowerDefinition.ON_DEATH, key, value)
-        CreateEnumTable("Hotkey_Setting_", Hyperspace.ActivatedPowerDefinition.HOTKEY_SETTING, key, value)
-    end
-}
+// Require the .h definition of those enums to be `enum class`, but this breaks a lot of established code that would need to be fixed
+// So unless someones need to use those this should be a low priority issue
+//%rename("%s") ActivatedPowerDefinition::JUMP_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::JUMP_COOLDOWN::.*";
+//%rename("%s") ActivatedPowerDefinition::DISABLED_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::DISABLED_COOLDOWN::.*";
+//%rename("%s") ActivatedPowerDefinition::ON_DEATH;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::ON_DEATH::.*";
+//%rename("%s") ActivatedPowerDefinition::HOTKEY_SETTING;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::HOTKEY_SETTING::.*";
+//
+//%luacode { 
+//    --Create ActivatedPowerDefinition enum tables
+//    Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN = {}
+//    Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN = {}
+//    Hyperspace.ActivatedPowerDefinition.ON_DEATH = {}
+//    Hyperspace.ActivatedPowerDefinition.HOTKEY_SETTING = {}
+//
+//    for key, value in pairs(Hyperspace.ActivatedPowerDefinition) do
+//        CreateEnumTable("Jump_Cooldown_", Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN, key, value)
+//        CreateEnumTable("Disabled_Cooldown_", Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN, key, value)
+//        CreateEnumTable("On_death_", Hyperspace.ActivatedPowerDefinition.ON_DEATH, key, value)
+//        CreateEnumTable("Hotkey_Setting_", Hyperspace.ActivatedPowerDefinition.HOTKEY_SETTING, key, value)
+//    end
+//}
 
 %rename("%s") ActivatedPowerDefinition::AssignIndex; // beware, do not create new definitions/indices on the fly, only in a predetermined order on load
 %rename("%s") ActivatedPowerDefinition::AssignName;
@@ -3305,25 +3307,27 @@ playerVariableType playerVariables;
 %rename("%s") PowerResourceDefinition::cooldownColor; 
 %rename("%s") PowerResourceDefinition::chargeReq;
 
-%rename("%s") PowerResourceDefinition::JUMP_COOLDOWN;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::JUMP_COOLDOWN::.*";
-%rename("%s") PowerResourceDefinition::DISABLED_COOLDOWN;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::DISABLED_COOLDOWN::.*";
-%rename("%s") PowerResourceDefinition::ON_DEATH;
-%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::ON_DEATH::.*";
-
-%luacode {
-    --Create PowerResourceDefinition enum tables
-    Hyperspace.PowerResourceDefinition.JUMP_COOLDOWN = {}
-    Hyperspace.PowerResourceDefinition.DISABLED_COOLDOWN = {}
-    Hyperspace.PowerResourceDefinition.ON_DEATH = {}
-
-    for key, value in pairs(Hyperspace.PowerResourceDefinition) do
-        CreateEnumTable("Jump_Cooldown_", Hyperspace.PowerResourceDefinition.JUMP_COOLDOWN, key, value)
-        CreateEnumTable("Disabled_Cooldown_", Hyperspace.PowerResourceDefinition.DISABLED_COOLDOWN, key, value)
-        CreateEnumTable("On_death_", Hyperspace.PowerResourceDefinition.ON_DEATH, key, value)
-    end
-}
+// Require the .h definition of those enums to be `enum class`, but this breaks a lot of established code that would need to be fixed
+// So unless someones need to use those this should be a low priority issue
+//%rename("%s") PowerResourceDefinition::JUMP_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::JUMP_COOLDOWN::.*";
+//%rename("%s") PowerResourceDefinition::DISABLED_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::DISABLED_COOLDOWN::.*";
+//%rename("%s") PowerResourceDefinition::ON_DEATH;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::ON_DEATH::.*";
+//
+//%luacode {
+//    --Create PowerResourceDefinition enum tables
+//    Hyperspace.PowerResourceDefinition.JUMP_COOLDOWN = {}
+//    Hyperspace.PowerResourceDefinition.DISABLED_COOLDOWN = {}
+//    Hyperspace.PowerResourceDefinition.ON_DEATH = {}
+//
+//    for key, value in pairs(Hyperspace.PowerResourceDefinition) do
+//        CreateEnumTable("Jump_Cooldown_", Hyperspace.PowerResourceDefinition.JUMP_COOLDOWN, key, value)
+//        CreateEnumTable("Disabled_Cooldown_", Hyperspace.PowerResourceDefinition.DISABLED_COOLDOWN, key, value)
+//        CreateEnumTable("On_death_", Hyperspace.PowerResourceDefinition.ON_DEATH, key, value)
+//    end
+//}
 
 %rename("%s") PowerResourceDefinition::AssignIndex; // beware, do not create new definitions/indices on the fly, only in a predetermined order on load
 %rename("%s") PowerResourceDefinition::AssignName;
@@ -3342,7 +3346,7 @@ playerVariableType playerVariables;
     --Create ActivatedPowerRequirements enum table
     Hyperspace.ActivatedPowerRequirements.Type = {}
     for key, value in pairs(Hyperspace) do
-        CreateEnumTable("Type_", Hyperspace.ActivatedPowerRequirements.Type, key, value)
+        CreateEnumTable("PowerType_", Hyperspace.ActivatedPowerRequirements.Type, key, value)
     end
 }
 
