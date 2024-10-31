@@ -271,7 +271,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="zh-Hans">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="zh-Hans">超空间(Hyperspace)项目</text>
 <text name="credits_hyperspace_developed_by" language="zh-Hans">开发者：</text>
-<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex</text>
+<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex, Pepson</text>
 <text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
 <text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>
