@@ -2022,10 +2022,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - [`Type`](#Type) `.Type`
     - Valid values:
-        - `Hyperspace.ActivatedPowerRequirements.PowerType_PLAYER`
-        - `Hyperspace.ActivatedPowerRequirements.PowerType_ENEMY`
-        - `Hyperspace.ActivatedPowerRequirements.PowerType_CHARGE`
-        - `Hyperspace.ActivatedPowerRequirements.PowerType_UNKNOWN`
+        - `Hyperspace.ActivatedPowerRequirements.Type_PLAYER`
+        - `Hyperspace.ActivatedPowerRequirements.Type_ENEMY`
+        - `Hyperspace.ActivatedPowerRequirements.Type_CHARGE`
+        - `Hyperspace.ActivatedPowerRequirements.Type_UNKNOWN`
 - `bool` `.playerShip`
 - `bool` `.enemyShip`
 - `bool` `.checkRoomCrew`
