@@ -25,19 +25,21 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.2.0 | LAYER_FOREGROUND | `None` | The space foreground layer, includes the planet/solar flare/ion storm/nebula but not asteroids |
 | 1.2.0 | LAYER_ASTEROIDS | `None` | The space asteroids layer, in front of the the space foreground |
 | 1.2.0 | LAYER_PLAYER | `None` | The player ship, you can render things on top the player ship by using the after method of the callbacks |
-| 1.4.0 | SHIP | `Ship s` | Any active ship, you can render things on top the ship by using the after method of the callbacks |
+| 1.4.0 | SHIP | `ShipManager ship` | Any active ship, you can render things on top the ship by using the after method of the callbacks |
 | N/A | ~~LAYER_ENEMY~~ | --- | ~~The enemy ship~~ |
 | 1.4.0 | SHIP_MANAGER | `ShipManager ship` | `before_function` is equivalent to `roomAnim` layer 3, `after_function` is equivalent to `roomAnim` layer 4 |
-| 1.4.0 | SHIP_JUMP | `Ship s` | Any active ship that is jumping, you can render things on top the ship by using the after method of the callbacks |
+| 1.4.0 | SHIP_JUMP | `ShipManager ship` `float animationProgress` | Any active ship that is jumping, you can render things on top the ship by using the after method of the callbacks |
 | N/A | ~~PROJECTILE~~ | --- | ~~Projectile rendering, not a layer but per each individual projectile~~ |
 | N/A | ~~SHIELDS_BASE~~ | --- | ~~Shield base rendering (not sure if player & enemy yet)~~ |
-| 1.4.0 | SHIP_HULL | `Ship s` | On rendering the ship hull, cloak and thruster animations |
-| 1.4.0 | SHIP_FLOOR | `Ship s` | Equivalent to `roomAnim` layer 0 |
-| 1.4.0 | SHIP_BREACHES | `Ship s` | Equivalent to `roomAnim` layer 1 |
-| 1.3.0 | SHIP_SPARKS | `Ship s` | Equivalent to `roomAnim` layer 2 |
-| 1.10.0 | SHIP_ENGINES | `Ship s` | Thruster animations |
+| 1.4.0 | SHIP_HULL | `ShipManager ship` `float alphaCloak` | On rendering the ship hull, cloak and thruster animations |
+| 1.4.0 | SHIP_FLOOR | `ShipManager ship` `bool experimental` | Equivalent to `roomAnim` layer 0 |
+| 1.4.0 | SHIP_BREACHES | `ShipManager ship` | Equivalent to `roomAnim` layer 1 |
+| 1.3.0 | SHIP_SPARKS | `ShipManager ship` | Equivalent to `roomAnim` layer 2 |
+| 1.15.0 | CREW_MEMBER_HEALTH | `CrewMember crew` | Runs for each `CrewMember` regardless of whether their health bar is visible |
+| 1.10.0 | SHIP_ENGINES | `ShipManager ship` `bool showEngines` `float alpha` | Thruster animations |
 | N/A | ~~SHIP_EXPLOSION~~ | --- | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
 | 1.2.0 | LAYER_FRONT | `None` | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
+| 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
 | N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
