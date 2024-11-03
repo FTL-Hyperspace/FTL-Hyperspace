@@ -42,7 +42,7 @@ public:
         int jumpHP;
         int jumpHPPercent;
         int cloneHPPercent;
-        int skillLoss;
+        int skillLossPercent;
         float cloneSpeed;
         float deathSpeed;
         int count;

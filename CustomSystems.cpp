@@ -1,4 +1,5 @@
 #include "CustomSystems.h"
+#include "FTLGameWin32.h"
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
@@ -86,9 +87,9 @@ CustomMindSystem::MindLevel& CustomMindSystem::GetLevel(MindSystem* sys)
 static int JUMP_HP[4] = {10, 20, 30, 40};
 static int JUMP_HP_PERCENT[4] = {0, 0, 0, 0};
 static int CLONE_HP_PERCENT[4] = {100, 100, 100, 100};
-static int SKILL_LOSS[4] = {4, 4, 4, 4};
+static int SKILL_LOSS[4] = {10, 10, 10, 10};
 static float CLONE_SPEED[4] = {10.0, 10.0, 10.0, 10.0};
-static float CLONE_DEATH_SPEED[4] = {5.0, 5.0, 5.0, 5.0};
+static float CLONE_DEATH_SPEED[4] = {3.0, 3.0, 3.0, 3.0};
 static int CLONE_AMOUNT[4] = {1, 1, 1, 1};
 
 //Automatically initialize vector with 4 CloneLevels using the game's native arrays
@@ -99,7 +100,7 @@ std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
     {JUMP_HP[3], JUMP_HP_PERCENT[3], CLONE_HP_PERCENT[3], SKILL_LOSS[3], CLONE_SPEED[3], CLONE_DEATH_SPEED[3], CLONE_AMOUNT[3]}
 }; 
 //Define default CloneLevel values
-CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 5, 5.f, 3.f, 1};
+CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 10, 5.f, 3.f, 1};
 void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
     unsigned int level = 1;
@@ -112,7 +113,7 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
             if (levelNode->first_attribute("jumpHP")) mindLevel.jumpHP = boost::lexical_cast<int>(levelNode->first_attribute("jumpHP")->value());
             if (levelNode->first_attribute("jumpHPPercent")) mindLevel.jumpHPPercent = boost::lexical_cast<int>(levelNode->first_attribute("jumpHPPercent")->value());
             if (levelNode->first_attribute("cloneHPPercent")) mindLevel.cloneHPPercent = boost::lexical_cast<int>(levelNode->first_attribute("cloneHPPercent")->value());
-            if (levelNode->first_attribute("skillLoss")) mindLevel.skillLoss = boost::lexical_cast<int>(levelNode->first_attribute("skillLoss")->value());
+            if (levelNode->first_attribute("skillLossPercent")) mindLevel.skillLossPercent = boost::lexical_cast<int>(levelNode->first_attribute("skillLossPercent")->value());
             if (levelNode->first_attribute("cloneSpeed")) mindLevel.cloneSpeed = boost::lexical_cast<float>(levelNode->first_attribute("cloneSpeed")->value());
             if (levelNode->first_attribute("deathSpeed")) mindLevel.deathSpeed = boost::lexical_cast<float>(levelNode->first_attribute("deathSpeed")->value());
             if (levelNode->first_attribute("count")) mindLevel.count = boost::lexical_cast<int>(levelNode->first_attribute("count")->value());
@@ -123,7 +124,7 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
                 levelNode->first_attribute("jumpHP") ? boost::lexical_cast<int>(levelNode->first_attribute("jumpHP")->value()) : defaultLevel.jumpHP,
                 levelNode->first_attribute("jumpHPPercent") ? boost::lexical_cast<int>(levelNode->first_attribute("jumpHPPercent")->value()) : defaultLevel.jumpHPPercent,
                 levelNode->first_attribute("cloneHPPercent") ? boost::lexical_cast<int>(levelNode->first_attribute("cloneHPPercent")->value()) : defaultLevel.cloneHPPercent,
-                levelNode->first_attribute("skillLoss") ? boost::lexical_cast<int>(levelNode->first_attribute("skillLoss")->value()) : defaultLevel.skillLoss,
+                levelNode->first_attribute("skillLossPercent") ? boost::lexical_cast<int>(levelNode->first_attribute("skillLossPercent")->value()) : defaultLevel.skillLossPercent,
                 levelNode->first_attribute("cloneSpeed") ? boost::lexical_cast<float>(levelNode->first_attribute("cloneSpeed")->value()) : defaultLevel.cloneSpeed,
                 levelNode->first_attribute("deathSpeed") ? boost::lexical_cast<float>(levelNode->first_attribute("deathSpeed")->value()) : defaultLevel.deathSpeed,
                 levelNode->first_attribute("count") ? boost::lexical_cast<int>(levelNode->first_attribute("count")->value()) : defaultLevel.count
@@ -1192,15 +1193,94 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
 // Custom clonebay rewrites
 
+static bool g_jumpClone = false;
+
 //Planned feature
 //allow xml control for heal per jump (hp and hp%)
-////hook CloneSystem::GetJumpHealth and ShipManager::CloneHealing
+////hook CloneSystem::GetJumpHealth and CrewMember::DirectModifyHealth
+HOOK_METHOD(CloneSystem, GetJumpHealth, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
+    g_jumpClone = true;
+    return super();
+}
+
+HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::DirectModifyHealth -> Begin (CustomSystems.cpp)\n")
+    if (g_jumpClone)
+    {
+        g_jumpClone = false;
+        CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
+        if (sys != nullptr)
+        {
+            CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys);
+            if (level.jumpHPPercent > 0){
+                heal += level.jumpHPPercent * health.second;
+            }
+            if (level.jumpHP > 0)
+            {
+                heal += level.jumpHP;
+            }
+        }
+    }
+    
+    return super(heal);
+}
+
 //allow xml control for health when cloned
 //allow xml control for skill loss when cloned
-////hook CloneSystem::CloneCrew
+////hook CrewMember::Clone
+HOOK_METHOD(CrewMember, Clone, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomSystems.cpp)\n")
+    super();
+    CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
+    if (sys != nullptr)
+    {
+        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys);
+        if (level.cloneHPPercent > 0)
+        {
+            health.first = level.cloneHPPercent * health.second;
+        }
+        if (level.skillLossPercent > 0)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                SetSkillProgress(i, GetSkillLevel(i) - (GetSkillLevel(i) * level.skillLossPercent)); // TODO: handle the base loss
+            }
+        }
+    }
+}
+
 //allow xml control for clone death speed
 ////hook CloneSystem::GetDeathProgress
+HOOK_METHOD(CloneSystem, GetDeathProgress, () -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetDeathProgress -> Begin (CustomSystems.cpp)\n")
+
+    CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(this);
+
+    float fDeathTimeSecond = 3;
+    if (level.deathSpeed > 0) fDeathTimeSecond = level.deathSpeed;
+
+    if (0.0 <= fDeathTime) {
+        return fDeathTime / fDeathTimeSecond;
+    }
+    return 0.0;
+}
+
 //allow xml control for clone speed
 ////hook CloneSystem::GetProgress or loop
+HOOK_METHOD(CloneSystem, GetProgress, () -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetProgress -> Begin (CustomSystems.cpp)\n")
+
+    CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(this);
+
+    if (level.cloneSpeed > 0) fTimeGoal = level.cloneSpeed;
+
+    return super();
+}
+
 //allow those value to be affected by augments
-//

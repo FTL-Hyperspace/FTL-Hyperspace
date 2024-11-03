@@ -3195,12 +3195,12 @@ namespace _func229
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CloneSystem::GetProgress", typeid(void (CloneSystem::*)()), "5589e55389cb83e4f083ec10e8????????85", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("CloneSystem::GetProgress", typeid(float (CloneSystem::*)()), "5589e55389cb83e4f083ec10e8????????85", argdata, 1, 1, &func);
 }
 
-void CloneSystem::GetProgress()
+float CloneSystem::GetProgress()
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
+	typedef float __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func229::func;
 	return execfunc(this);
 }
@@ -3209,12 +3209,12 @@ namespace _func230
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CloneSystem::GetDeathProgress", typeid(void (CloneSystem::*)()), "660fefc983ec04f30f10??????????0f2ec877", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("CloneSystem::GetDeathProgress", typeid(float (CloneSystem::*)()), "660fefc983ec04f30f10??????????0f2ec877", argdata, 1, 1, &func);
 }
 
-void CloneSystem::GetDeathProgress()
+float CloneSystem::GetDeathProgress()
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
+	typedef float __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func230::func;
 	return execfunc(this);
 }
@@ -3223,12 +3223,12 @@ namespace _func231
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CloneSystem::GetJumpHealth", typeid(void (CloneSystem::*)()), "8b44????8b04??????????c3", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("CloneSystem::GetJumpHealth", typeid(int (CloneSystem::*)()), "8b44????8b04??????????c3", argdata, 1, 1, &func);
 }
 
-void CloneSystem::GetJumpHealth()
+int CloneSystem::GetJumpHealth()
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func231::func;
 	return execfunc(this);
 }
@@ -3236,13 +3236,13 @@ void CloneSystem::GetJumpHealth()
 namespace _func232
 {
     static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CloneSystem::CloneReady", typeid(void (CloneSystem::*)()), "5589e5538b??????????c7??????????00000000", argdata, 1, 5, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("CloneSystem::CloneReady", typeid(CrewMember (CloneSystem::*)()), "5589e5538b??????????c7??????????00000000", argdata, 2, 1, &func);
 }
 
-void CloneSystem::CloneReady()
+CrewMember CloneSystem::CloneReady()
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
+	typedef CrewMember __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func232::func;
 	return execfunc(this);
 }

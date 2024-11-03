@@ -1,10 +1,10 @@
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????898dd4feffffe8????????8b7e0c31c0b9????????":
 __thiscall void CloneSystem::OnLoop(CloneSystem *this);
 "5589e55389cb83e4f083ec10e8????????85":
-__thiscall void CloneSystem::GetProgress(CloneSystem *this);
+__thiscall float CloneSystem::GetProgress(CloneSystem *this);
 "660fefc983ec04f30f10??????????0f2ec877":
-__thiscall void CloneSystem::GetDeathProgress(CloneSystem *this);
+__thiscall float CloneSystem::GetDeathProgress(CloneSystem *this);
 "8b44????8b04??????????c3":
-__thiscall void CloneSystem::GetJumpHealth(CloneSystem *this);
+__thiscall int CloneSystem::GetJumpHealth(CloneSystem *this);
 "5589e5538b??????????c7??????????00000000":
-__thiscall void CloneSystem::CloneReady(CloneSystem *this);
+__thiscall CrewMember CloneSystem::CloneReady(CloneSystem *this);
