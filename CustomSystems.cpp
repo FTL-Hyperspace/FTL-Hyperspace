@@ -26,6 +26,10 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
             {
                 CustomMindSystem::ParseSystemNode(child);
             }
+            else if (sysName == "clone")
+            {
+                CustomCloneSystem::ParseSystemNode(child);
+            }
         }
     }
 }
@@ -1247,7 +1251,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         {
             for (int i = 0; i < 6; i++)
             {
-                SetSkillProgress(i, GetSkillLevel(i) - (GetSkillLevel(i) * level.skillLossPercent)); // TODO: handle the base loss
+                SetSkillProgress(i, GetSkillLevel(i) - (GetSkillLevel(i) * level.skillLossPercent/100)); // TODO: handle the base loss
             }
         }
     }
