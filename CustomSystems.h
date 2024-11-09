@@ -48,7 +48,7 @@ public:
         int count;
     };
     static void ParseSystemNode(rapidxml::xml_node<char>* node);
-    static CloneLevel& GetLevel(CloneSystem* system);
+    static CloneLevel& GetLevel(CloneSystem* system, bool passive);
     
 private:
     static CloneLevel defaultLevel;

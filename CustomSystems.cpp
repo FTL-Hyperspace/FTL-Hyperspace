@@ -88,11 +88,11 @@ CustomMindSystem::MindLevel& CustomMindSystem::GetLevel(MindSystem* sys)
 }
 
 // TODO, get the real value for those
-static int JUMP_HP[4] = {10, 20, 30, 40};
+static int JUMP_HP[4] = {8, 16, 25, 36};
 static int JUMP_HP_PERCENT[4] = {0, 0, 0, 0};
 static int CLONE_HP_PERCENT[4] = {100, 100, 100, 100};
 static int SKILL_LOSS[4] = {10, 10, 10, 10};
-static float CLONE_SPEED[4] = {10.0, 10.0, 10.0, 10.0};
+static float CLONE_SPEED[4] = {12.0, 9.0, 7.0, 0.0};
 static float CLONE_DEATH_SPEED[4] = {3.0, 3.0, 3.0, 3.0};
 static int CLONE_AMOUNT[4] = {1, 1, 1, 1};
 
@@ -139,10 +139,18 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
     }
 }
 
-CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys)
+CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, bool passive)
 {
-    bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
-    int power = hacked ? sys->healthState.first : sys->GetEffectivePower();
+    int power;
+    if (passive) // Some clonebay effect do not require power
+    {
+        power = sys->healthState.second;
+    }
+    else
+    {
+        bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
+        power = hacked ? sys->healthState.first : sys->GetEffectivePower();
+    }
     return power < levels.size() ? levels[power] : defaultLevel;
 }
 
@@ -1198,19 +1206,18 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 // Custom clonebay rewrites
 
 bool g_jumpClone = false;
+int g_checkCloneSpeed = 2;
+CloneSystem* g_cloneSystem = nullptr;
+std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
 
-//Planned feature
-//allow xml control for heal per jump (hp and hp%)
-////hook CloneSystem::GetJumpHealth and CrewMember::DirectModifyHealth
+
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
-    hs_log_file("CloneSystem::GetJumpHealth\n");
     
     g_jumpClone = true;
     super();      
     g_jumpClone = false;
-    hs_log_file("CloneSystem::GetJumpHealth\n");
 }
 
 HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
@@ -1219,87 +1226,92 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
     
     if (g_jumpClone)
     {
-        hs_log_file("CrewMember::DirectModifyHealth\n");
         CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
         if (sys != nullptr)
         {
-            CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys);
+            CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
             heal = 0;
-            if (level.jumpHPPercent > 0){
-                heal = level.jumpHPPercent/100 * health.second;
+            if (pLevel.jumpHPPercent > 0){
+                heal += static_cast<float>(pLevel.jumpHPPercent)/100 * health.second;
             }
-            if (level.jumpHP > 0)
+            if (pLevel.jumpHP > 0)
             {
-                heal += level.jumpHP;
+                heal += pLevel.jumpHP;
             }
             if (heal > health.second) heal = health.second;
             if (heal <= 0) heal = 1;
         }
-        hs_log_file("CrewMember::DirectModifyHealth\n");
     }
     
     return super(heal);
 }
 
-//allow xml control for health when cloned
-//allow xml control for skill loss when cloned
-////hook CrewMember::Clone
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomSystems.cpp)\n")
-    hs_log_file("CrewMember::Clone\n");
+
+    std::vector<int> saveSkills;
+    for (int i = 0; i < 6; i++) saveSkills.push_back(GetSkillProgress(i).first);
+
     super();
+
     CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
     if (sys != nullptr)
     {
-        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys);
+        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys, false);
+        CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
         if (level.cloneHPPercent > 0)
         {
-            health.first = level.cloneHPPercent/100 * health.second;
+            health.first = static_cast<float>(level.cloneHPPercent)/100.0 * health.second;
+            if (health.first < 1) health.first = 1; // Small safety for beloved crew
         }
-        if (level.skillLossPercent > 0)
+        if (pLevel.skillLossPercent > 0)
         {
             for (int i = 0; i < 6; i++)
             {
-                SetSkillProgress(i, GetSkillLevel(i) - (GetSkillLevel(i) * level.skillLossPercent/100)); // TODO: handle the base loss
+                int newSkillProgress = saveSkills[i] - (saveSkills[i] * static_cast<float>(pLevel.skillLossPercent)/100.0);
+                if (newSkillProgress < 0) newSkillProgress = 0;
+                SetSkillProgress(i, newSkillProgress);
             }
         }
     }
-    hs_log_file("CrewMember::Clone\n");
+    saveSkills.clear();
 }
 
-//allow xml control for clone death speed
-////hook CloneSystem::GetDeathProgress
-HOOK_METHOD(CloneSystem, GetDeathProgress, () -> float)
+HOOK_METHOD(CloneSystem, OnLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetDeathProgress -> Begin (CustomSystems.cpp)\n")
-    hs_log_file("CloneSystem::GetDeathProgress\n");
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (CustomSystems.cpp)\n")
 
-    CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(this);
-
-    float fDeathTimeSecond = 3.0;
-    if (level.deathSpeed > 0) fDeathTimeSecond = level.deathSpeed;
-
-    if (0.0 <= fDeathTime) {
-        return fDeathTime / fDeathTimeSecond;
-    }
-    return 0.0;
-    hs_log_file("CloneSystem::GetDeathProgress\n");
+    g_checkCloneSpeed = 0;
+    g_cloneSystem = this;
+    super();
+    g_checkCloneSpeed = 2;
 }
 
-//allow xml control for clone speed
-////hook CloneSystem::GetProgress or loop
-HOOK_METHOD(CloneSystem, GetProgress, () -> float)
+HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetProgress -> Begin (CustomSystems.cpp)\n")
-    hs_log_file("CloneSystem::GetProgress\n");
+    LOG_HOOK("HOOK_METHOD -> CFPS::GetSpeedFactor -> Begin (CustomSystems.cpp)\n")
+    float speedFactor = super();
 
-    CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(this);
+    if (g_checkCloneSpeed < 2 && g_cloneSystem != nullptr)
+    {
+        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(g_cloneSystem, false);
+        CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
 
-    if (level.cloneSpeed > 0) fTimeGoal = level.cloneSpeed;
+        if (g_checkCloneSpeed == 0 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
+        {
+            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / level.cloneSpeed;
+        }
+        else // For the clone death
+        {
+           speedFactor = speedFactor * 3.0 / pLevel.deathSpeed;
+        }
 
-    return super();
-    hs_log_file("CloneSystem::GetProgress\n");
+        g_checkCloneSpeed++;
+    }   
+
+    return speedFactor;
 }
 
-//allow those value to be affected by augments
+// TODO, update tooltips
+// allow those value to be affected by augments
