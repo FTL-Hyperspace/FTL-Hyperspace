@@ -139,6 +139,11 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
     }
 }
 
+CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(int power)
+{
+    return power < levels.size() ? levels[power] : defaultLevel;
+}
+
 CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, bool passive)
 {
     int power;
@@ -153,7 +158,6 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
     }
     return power < levels.size() ? levels[power] : defaultLevel;
 }
-
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
@@ -1263,7 +1267,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         if (level.cloneHPPercent > 0)
         {
             health.first = static_cast<float>(level.cloneHPPercent)/100.0 * health.second;
-            if (health.first < 1) health.first = 1; // Small safety for beloved crew
+            if (health.first < 1) health.first = 1; // Small safety for our beloved crew
         }
         if (pLevel.skillLossPercent > 0)
         {
@@ -1276,6 +1280,13 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         }
     }
     saveSkills.clear();
+
+    // lua callback
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_CLONE, 1);
+    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(CloneSystem, OnLoop, () -> void)
@@ -1313,5 +1324,20 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
     return speedFactor;
 }
 
-// TODO, update tooltips
-// allow those value to be affected by augments
+// For tooltips
+HOOK_METHOD(CloneSystem, GetCloneTime, (int level) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetCloneTime -> Begin (CustomSystems.cpp)\n")
+
+    CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
+    return static_cast<int>(glevel.cloneSpeed);
+}
+
+HOOK_METHOD(CloneSystem, GetJumpHealth, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
+
+    CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(this, true);
+    return level.jumpHP;
+}
+// skills affecting those that are immune

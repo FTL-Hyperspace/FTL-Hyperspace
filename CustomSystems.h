@@ -50,6 +50,7 @@ public:
     static void ParseSystemNode(rapidxml::xml_node<char>* node);
     static CloneLevel& GetLevel(CloneSystem* system, bool passive);
     
+    static CloneLevel& GetLevel(int power);
 private:
     static CloneLevel defaultLevel;
     static std::vector<CloneLevel> levels;

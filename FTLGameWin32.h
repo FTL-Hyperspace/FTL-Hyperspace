@@ -3857,6 +3857,7 @@ struct CloneBox : CooldownSystemBox
 struct CloneSystem : ShipSystem
 {
 	LIBZHL_API CrewMember CloneReady();
+	LIBZHL_API int GetCloneTime(int level);
 	LIBZHL_API float GetDeathProgress();
 	LIBZHL_API int GetJumpHealth();
 	LIBZHL_API float GetProgress();
