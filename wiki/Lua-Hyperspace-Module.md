@@ -368,7 +368,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Field is **read-only** but fields under this object may still be mutable.
 - [`HackingSystem*`](#hackingsystem) `.hackingSystem`
    - Field is **read-only** but fields under this object may still be mutable.
-- [`Shields*`](#shieldsystem) `.shieldSystem`
+- [`Shields*`](#shields) `.shieldSystem`
    - Field is **read-only** but fields under this object may still be mutable.
 - [`WeaponSystem*`](#weaponsystem) `.weaponSystem`
    - Field is **read-only** but fields under this object may still be mutable.
@@ -1204,6 +1204,12 @@ Accessed via `Room`'s `.extend` field
 - `float` `.ionDamageResistChance`
 - `float` `.hullDamageResistChance`
 
+## TemporalSystemParser
+
+### Methods
+- `float .GetDilationStrength(int effectStrength)`
+   - Gets the temporal modifier for a given time dilation value.
+
 ## CrewStat
 
 ### Fields
@@ -2014,12 +2020,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## ActivatedPowerRequirements
 
 ### Fields
-- [`Type`](#Type) `.type`
-    - Valid values (currently not accessible):
-        - `Hyperspace.ActivatedPowerRequirements.Type.PLAYER`
-        - `Hyperspace.ActivatedPowerRequirements.Type.ENEMY`
-        - `Hyperspace.ActivatedPowerRequirements.Type.CHARGE`
-        - `Hyperspace.ActivatedPowerRequirements.Type.UNKNOWN`
+- [`Type`](#Type) `.Type`
+    - Valid values:
+        - `Hyperspace.ActivatedPowerRequirements.Type_PLAYER`
+        - `Hyperspace.ActivatedPowerRequirements.Type_ENEMY`
+        - `Hyperspace.ActivatedPowerRequirements.Type_CHARGE`
+        - `Hyperspace.ActivatedPowerRequirements.Type_UNKNOWN`
 - `bool` `.playerShip`
 - `bool` `.enemyShip`
 - `bool` `.checkRoomCrew`
@@ -2192,8 +2198,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.outOfFuel`
    - **Read-only**
 - `bool` `.bPaused`
-   - **Read-only**
    - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+   - Modifying this variable during event pauses and ESC menu pauses does not unfreeze the game; it will only change whether or not the game remains paused when the event or ESC menu closes.
 - `bool` `.bAutoPaused`
    - **Read-only**
    - Maybe true for event pauses and ESC menu pauses? Not sure.
@@ -2231,9 +2237,16 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CombatControl
 
 ### Fields
+- [`Point`](#Point) `.playerShipPosition`
 - [`WeaponControl`](#WeaponControl) `weapControl`
 - [`Point`](#Point) `.position`
+- `int` `.selectedRoom`
+- `int` `.selectedSelfRoom`
 - [`Point`](#Point) `.targetPosition`
+- `bool` `.open`
+- [`Pointf`](#Pointf) `.potentialAiming`
+- `bool` `.mouseDown`
+- `bool` `.isAimingTouch`
 - `bool` `.boss_visual`
    - **Read-only**
 
@@ -2968,7 +2981,9 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
+- [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
 - `float :ConvertToWorldAngle(float ang)`
+- [`Pointf`](#Pointf) `:ConvertToWorldPosition(Pointf local)`
 - [`Path`](#Path) `:Dijkstra(Point start, Point goal, int shipId)`
 - `int :DoorCount(int roomId)`
 - [`Path`](#Path) `:FindPath(Point p1, Point p2, int shipId)`
@@ -3422,3 +3437,12 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Methods
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+
+## TextButton0
+
+**Extends [GenericButton](#GenericButton)**
+
+## FTLButton
+
+**Extends [TextButton0](#TextButton0)**
+

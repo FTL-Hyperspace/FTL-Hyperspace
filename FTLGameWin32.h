@@ -556,6 +556,7 @@ struct AchievementTracker
 	LIBZHL_API void LoadAchievementDescriptions();
 	LIBZHL_API void LoadProfile(int file, int version);
 	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void ResetFlags();
 	LIBZHL_API void SaveProfile(int file);
 	LIBZHL_API void SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer);
@@ -3919,6 +3920,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void RenderAiming();
 	LIBZHL_API static void __stdcall RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
 	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void SelectArmament(unsigned int armamentSlot);
 	LIBZHL_API void SetAutofiring(bool on, bool simple);
 	LIBZHL_API void constructor();
 	
@@ -5701,6 +5703,7 @@ struct EventsParser
 	LIBZHL_API void AddAllEvents();
 	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
 	LIBZHL_API void ProcessBaseNode(rapidxml::xml_node<char> *node, EventGenerator &generator);
+	LIBZHL_API void ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::string ProcessEvent(rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::vector<std::string> ProcessEventList(rapidxml::xml_node<char> *node, const std::string &listName);
 	LIBZHL_API ResourcesTemplate ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
