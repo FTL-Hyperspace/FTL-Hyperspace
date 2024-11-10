@@ -1214,7 +1214,6 @@ int g_checkCloneSpeed = 2;
 CloneSystem* g_cloneSystem = nullptr;
 std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
 
-
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
@@ -1262,13 +1261,16 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
     if (sys != nullptr)
     {
-        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys, false);
+        
         CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
+        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys, false);
+
         if (level.cloneHPPercent > 0)
         {
             health.first = static_cast<float>(level.cloneHPPercent)/100.0 * health.second;
             if (health.first < 1) health.first = 1; // Small safety for our beloved crew
         }
+
         if (pLevel.skillLossPercent > 0)
         {
             for (int i = 0; i < 6; i++)
@@ -1280,13 +1282,6 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         }
     }
     saveSkills.clear();
-
-    // lua callback
-    auto context = Global::GetInstance()->getLuaContext();
-
-    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_CLONE, 1);
-    lua_pop(context->GetLua(), 1);
 }
 
 HOOK_METHOD(CloneSystem, OnLoop, () -> void)
@@ -1333,11 +1328,10 @@ HOOK_METHOD(CloneSystem, GetCloneTime, (int level) -> int)
     return static_cast<int>(glevel.cloneSpeed);
 }
 
-HOOK_METHOD(CloneSystem, GetJumpHealth, () -> int)
+HOOK_METHOD(CloneSystem, GetJumpHealth, (int level) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
 
-    CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(this, true);
-    return level.jumpHP;
+    CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
+    return glevel.jumpHP;
 }
-// skills affecting those that are immune
