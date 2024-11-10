@@ -8,6 +8,7 @@
 #include "CustomDamage.h"
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
+#include "CustomSystems.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -5270,7 +5271,7 @@ HOOK_METHOD_PRIORITY(CrewMember, Clone, 9999, () -> void)
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_CLONE, 1);
     lua_pop(context->GetLua(), 1);
-    
+
     bool cloneLoseSkills = false;
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
