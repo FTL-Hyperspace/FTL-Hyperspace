@@ -3015,4 +3015,22 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 
 </customChoiceColors>
 
+
+<!--Custom Text Style
+You can apply custom text style in the particular part of a text.
+
+Notation: Surround the part you want to appy custom style in a text with start flag ([style[EXPRESSIONS]]) and close flag ([[/style]])
+
+Expressions:
+
+* --------------Custom Colors--------------*
+notation: "color:RRGGBB" or "color:RRGGBBAA" with hexadecimal (00 to FF). If AA (opacity) is ommitted, it defaults to 0xFF (255).
+example: <text>This text is painted, like [style[color:FF0000]]Red[[/style]], [style[color:00FF00]]Green[[/style]] and [style[color:0000FF]]Blue[[/style]]!</text>
+--------------------------------------------
+
+for now there is only custom color feature, sorry :(
+
+-->
+<customTextStyle enabled="false"/>
+
 </FTL>

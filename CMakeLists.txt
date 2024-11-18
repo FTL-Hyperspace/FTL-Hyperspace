@@ -154,6 +154,8 @@ target_sources(
     CustomSuperShield.cpp
     CustomSystems.cpp
     CustomSystems.h
+    CustomTextStyle.cpp
+    CustomTextStyle.h
     CustomUpgrades.cpp
     CustomUpgrades.h
     CustomWeapons.cpp
