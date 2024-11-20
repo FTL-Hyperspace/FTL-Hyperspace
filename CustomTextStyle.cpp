@@ -522,12 +522,14 @@ void CustomTextStyleManager::ClearCache()
 
 HOOK_METHOD(CApp, OnLanguageChange, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLanguageChange -> Begin (CustomTextStyle.cpp)\n")
     if (CustomTextStyleManager::GetInstance()->enabled) CustomTextStyleManager::GetInstance()->ClearCache();
     return super();
 }
 
 HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomTextStyle.cpp)\n")
     if(!CustomTextStyleManager::GetInstance()->enabled ||
      TextMultiLineCalculator::measureLines_is_busy ||
      !CustomTextStyleManager::IsFlagExist(text)) return super(fontSize, x, y, line_length, text);
@@ -537,6 +539,7 @@ HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, i
 
 HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomTextStyle.cpp)\n")
     if (!CustomTextStyleManager::GetInstance()->enabled) return super(fontSize, x, y, line_length, text);
     CustomTextStyleManager::GetInstance()->AgeCache();
     if (!CustomTextStyleManager::IsFlagExist(text)) return super(fontSize, x, y, line_length, text);
