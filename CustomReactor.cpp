@@ -72,7 +72,7 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
     }
 }
 
-HOOK_METHOD(ReactorButton, OnRender, ()->void)
+HOOK_METHOD_PRIORITY(ReactorButton, OnRender, 9999, ()->void)
 {
     LOG_HOOK("HOOK_METHOD -> ReactorButton::OnRender -> Begin (CustomReactor.cpp)\n")
     const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
@@ -121,6 +121,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     while(displayMaxLevel > 25){
         displayMaxLevel -= 5;
     }
+    int displayMaxCol = (displayMaxLevel > 20) ? 5 : ceil(displayMaxLevel / 5);
 
     //reactor upgrade boxes rendering
     GL_Color currentColour = (bActive && bHover) ? hoverColour : dirtyWhite;
@@ -130,7 +131,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
             GL_Color colour;
             if(currentBar <= displayReactorLevel) colour = fullColour;
             else if (currentBar <= displayTempLevel) colour = COLOR_YELLOW;
-            else if((tempLevel > (maxLevel - 4)) && (currentBar > displayMaxLevel)) continue;
+            else if (currentBar > displayMaxLevel) continue;
             else colour = emptyColour;
             CSurface::GL_DrawRect(baseX + 30 + col * 44, baseY + 74 - row * 13, 32, -8, colour);
         }
@@ -143,7 +144,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
         }
 
         //prices over the coloumns
-        std::string price = std::to_string(currentCost);
+        std::string price = col >= displayMaxCol ? "--" : std::to_string(currentCost);
         CSurface::GL_SetColor(currentColour);
         freetype::easy_printRightAlign(5, baseX + 47 + col * 44, baseY + 2, price);
     }
