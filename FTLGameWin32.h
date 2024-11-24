@@ -3863,6 +3863,7 @@ struct CloneSystem : ShipSystem
 	LIBZHL_API int GetJumpHealth(int level);
 	LIBZHL_API float GetProgress();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRenderFloor();
 	
 	float fTimeToClone;
 	CrewMember *clone;
