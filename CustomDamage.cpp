@@ -452,7 +452,7 @@ HOOK_STATIC(ProjectileFactory, SaveProjectile, (Projectile *p, int fh) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
+HOOK_METHOD(ProjectileFactory, SaveState, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SaveState -> Begin (CustomDamage.cpp)\n")
 
