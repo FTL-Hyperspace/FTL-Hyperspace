@@ -72,7 +72,7 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
     }
 }
 
-HOOK_METHOD_PRIORITY(ReactorButton, OnRender, 9999, ()->void)
+HOOK_METHOD(ReactorButton, OnRender, ()->void)
 {
     LOG_HOOK("HOOK_METHOD -> ReactorButton::OnRender -> Begin (CustomReactor.cpp)\n")
     const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
