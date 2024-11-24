@@ -12,3 +12,5 @@ __thiscall float CloneSystem::GetDeathProgress(CloneSystem *this);
 __thiscall int CloneSystem::GetJumpHealth(CloneSystem *this, int level);
 "5589e5538b??????????c7??????????00000000":
 __thiscall CrewMember CloneSystem::CloneReady(CloneSystem *this);
+"578d????0883e4f0ff????5589e557565383ec5c8bb1dc010000"
+__thiscall void CloneSystem::OnRenderFloor(CloneSystem *this);

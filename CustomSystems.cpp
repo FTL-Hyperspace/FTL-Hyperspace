@@ -1335,3 +1335,32 @@ HOOK_METHOD(CloneSystem, GetJumpHealth, (int level) -> int)
     CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
     return glevel.jumpHP;
 }
+
+// Add the rendering of crew layer when cloning
+
+HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnRenderFloor -> Begin (CustomSystems.cpp)\n")
+
+    if (slot != -1) {
+        Point pos = ShipGraph::GetShipInfo(_shipObj.iShipId)->GetSlotWorldPosition(slot, GetRoomId());
+
+        G_->GetResources()->RenderImage(bottom, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+
+        if (currentCloneAnimation && currentCloneAnimation->tracker.running ) {
+            currentCloneAnimation->OnRender(1.0, GL_Color(1.f, 1.f, 1.f, 1.f), false);
+
+            for (int layer = 0; layer < clone->crewAnim->layerStrips.size(); layer++) {
+                GL_Color color = clone->crewAnim->layerColors[layer];
+                GL_Texture* image = clone->crewAnim->layerStrips[layer];
+
+                GL_Primitive *primitive = CSurface::GL_CreateImagePrimitive(image, currentCloneAnimation->mask_x_pos, currentCloneAnimation->mask_y_pos, currentCloneAnimation->mask_x_size, currentCloneAnimation->mask_y_size, 0.0, color);
+                CSurface::GL_RenderPrimitive(primitive);
+                delete primitive;
+            }
+
+            G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+        }
+        G_->GetResources()->RenderImage(top, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+    }
+}
