@@ -1,5 +1,5 @@
 #include "CustomSystems.h"
-#include "FTLGameWin32.h"
+#include "FTLGame.h"
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
@@ -1349,17 +1349,27 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
 
         if (currentCloneAnimation && currentCloneAnimation->tracker.running ) {
             currentCloneAnimation->OnRender(1.0, GL_Color(1.f, 1.f, 1.f, 1.f), false);
+            std::vector<CrewMember*> crewList;
+            G_->GetCrewFactory()->GetCloneReadyList(crewList,(_shipObj.iShipId==0));
 
-            for (int layer = 0; layer < clone->crewAnim->layerStrips.size(); layer++) {
-                GL_Color color = clone->crewAnim->layerColors[layer];
-                GL_Texture* image = clone->crewAnim->layerStrips[layer];
+            if (!crewList.empty())
+            {
+                CrewMember *cloningCrew = crewList[0];
+                if (!cloningCrew->crewAnim->layerStrips.empty()) {
+                    for (int layer = 0; layer < cloningCrew->crewAnim->layerStrips.size(); layer++) {
+                        GL_Color color = cloningCrew->crewAnim->layerColors[layer];
+                        GL_Texture* image = cloningCrew->crewAnim->layerStrips[layer];
 
-                GL_Primitive *primitive = CSurface::GL_CreateImagePrimitive(image, currentCloneAnimation->mask_x_pos, currentCloneAnimation->mask_y_pos, currentCloneAnimation->mask_x_size, currentCloneAnimation->mask_y_size, 0.0, color);
-                CSurface::GL_RenderPrimitive(primitive);
-                delete primitive;
+                        GL_Primitive *primitive = CSurface::GL_CreateImagePrimitive(image, currentCloneAnimation->mask_x_pos, currentCloneAnimation->mask_y_pos, currentCloneAnimation->mask_x_size, currentCloneAnimation->mask_y_size, 0.0, color);
+                        CSurface::GL_PushMatrix();
+                        CSurface::GL_Translate(pos.x - 17.0, pos.y - 17.0);
+                        CSurface::GL_RenderPrimitive(primitive);
+                        CSurface::GL_PopMatrix();
+                        delete primitive;
+                    }
+                }
             }
-
-            G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+            //G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
         }
         G_->GetResources()->RenderImage(top, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
     }
