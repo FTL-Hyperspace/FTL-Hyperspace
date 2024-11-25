@@ -5486,6 +5486,31 @@ struct LocationEvent
         return ret;
     }
 
+    void AddChoice(LocationEvent* newEvent, const std::string& text, ChoiceReq requirement, bool hiddenReward)
+    {
+        if (newEvent != nullptr) {
+            Choice newChoice;
+            newChoice.event = newEvent;
+            newChoice.text.data = text;
+            newChoice.text.isLiteral = true;
+            newChoice.requirement = requirement;
+            newChoice.hiddenReward = hiddenReward;
+ 
+            this->choices.push_back(newChoice);
+        }
+    }
+ 
+    bool RemoveChoice(int index)
+    {
+        if (index >= 0 && index < this->choices.size())
+        {
+            delete this->choices[index].event;
+            this->choices.erase(this->choices.begin() + index);
+            return true;
+        }
+        return false;
+    }
+
 	LIBZHL_API void ClearEvent(bool force);
 	LIBZHL_API void constructor();
 	

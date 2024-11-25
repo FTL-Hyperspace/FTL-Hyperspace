@@ -36,6 +36,8 @@ All calls are under `Hyperspace`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
 - `TextLibrary :GetTextLibrary()`
    - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class, or the shortcut `Hyperspace.Text`.
+- `EventGenerator GetEventGenerator()`
+   - Returns the main instance of [`EventGenerator`](#EventGenerator). Always use this to access any members and methods belonging to the [`EventGenerator`](#EventGenerator) class, or the shortcut `Hyperspace.Event`.
 
 ### Fields
 - `int` `.currentSeed`
@@ -57,6 +59,13 @@ All calls are under `Hyperspace`
 - [`WorldManager`](#WorldManager) `.world`
 - `MainMenu` `.menu`
    - **Read-only**
+
+## EventGenerator
+
+### Methods
+
+- [`LocationEvent`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
+- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed)`
 
 ## ShipInfo
 
@@ -2260,6 +2269,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Methods
 - [`std::vector<Choice*>`](#Choice) `:GetChoices()`
+- `void :AddChoice(LocationEvent *event, std::string text, ChoiceReq req, bool hiddenReward)`
+- `bool :RemoveChoice(int index)`
 
 ### Fields
 - [`TextString`](#TextString) `.text`
@@ -2283,6 +2294,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.secretSector`
 - [`std::vector<Choice>`](#Choice) `.choices`
    - If you want to modify the current `Choice` values please refer to `:GetChoices()` instead
+
+###### Example
+```lua
+-- Adds to every event choice a new choice with the text "new text" leading to the event "FUEL_FLEET_DELAY"
+script.on_internal_event(Defines.InternalEvents.PRE_CREATE_CHOICEBOX, function(event)
+   local locEvent = Hyperspace.Event:GetBaseEvent("FUEL_FLEET_DELAY", Hyperspace.App.world.starMap.worldLevel, 1, Hyperspace.Global.currentSeed);
+   local req = Hyperspace.ChoiceReq()
+   req.object = ""
+   req.min_level = 0
+   req.max_level = 0
+   req.max_group = 0
+   req.blue = true
+
+   event:AddChoice(locEvent, "choice text", req, false)
+end)
+```
 
 ## Choice
 
