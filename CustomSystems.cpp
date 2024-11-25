@@ -1365,7 +1365,7 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
                         CSurface::GL_Translate(pos.x - 17.0, pos.y - 17.0);
                         CSurface::GL_RenderPrimitive(primitive);
                         CSurface::GL_PopMatrix();
-                        delete primitive;
+                        CSurface::GL_DestroyPrimitive(primitive);
                     }
                 }
             }
