@@ -1,6 +1,5 @@
 #include "CustomSystems.h"
 #include "FTLGame.h"
-#include "FTLGameWin32.h"
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
