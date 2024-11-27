@@ -1,5 +1,6 @@
 #include "CustomSystems.h"
 #include "FTLGame.h"
+#include "FTLGameWin32.h"
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
@@ -1358,18 +1359,26 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
                 if (!cloningCrew->crewAnim->layerStrips.empty()) {
                     for (int layer = 0; layer < cloningCrew->crewAnim->layerStrips.size(); layer++) {
                         GL_Color color = cloningCrew->crewAnim->layerColors[layer];
-                        GL_Texture* image = cloningCrew->crewAnim->layerStrips[layer];
+                        GL_Texture* tex = cloningCrew->crewAnim->layerStrips[layer];
+                        AnimationDescriptor info = currentCloneAnimation->info;
 
-                        GL_Primitive *primitive = CSurface::GL_CreateImagePrimitive(image, currentCloneAnimation->mask_x_pos, currentCloneAnimation->mask_y_pos, currentCloneAnimation->mask_x_size, currentCloneAnimation->mask_y_size, 0.0, color);
-                        CSurface::GL_PushMatrix();
-                        CSurface::GL_Translate(pos.x - 17.0, pos.y - 17.0);
-                        CSurface::GL_RenderPrimitive(primitive);
-                        CSurface::GL_PopMatrix();
-                        CSurface::GL_DestroyPrimitive(primitive);
+                        int size_x = tex->width_;
+                        int size_y = tex->height_;
+                        int stripStartX = info.stripStartX + info.frameWidth * currentCloneAnimation->currentFrame;
+                        int stripStartY = info.imageHeight - info.stripStartY - info.frameHeight;
+                        
+                        CSurface::GL_BlitImagePartial(tex, pos.x - 17.0, pos.y - 17.0, 
+                            (float)info.frameWidth, 
+                            (float)info.frameHeight, 
+                            (float)stripStartX/size_x, 
+                            (float)(stripStartX + info.frameWidth)/size_x, 
+                            (float)stripStartY/size_y, 
+                            (float)(stripStartY + info.frameHeight)/size_y, 
+                            1.f, color, false);
                     }
                 }
             }
-            //G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+            G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
         }
         G_->GetResources()->RenderImage(top, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
     }
