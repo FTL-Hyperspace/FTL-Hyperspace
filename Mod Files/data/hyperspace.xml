@@ -3015,4 +3015,8 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 
 </customChoiceColors>
 
+<!-- Define an upper limit for system upgrade costs. Threshold or bigger value will be replaced with the string specified by replace. Note that this is visual fix; player can still purchase the system if they have enough scrap. -->
+
+<systemNoPurchaseThreshold enabled="false" threshold="9999" replace="--"/>
+
 </FTL>
