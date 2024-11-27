@@ -196,6 +196,21 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 auto customEventParser = CustomEventsParser::GetInstance();
                 customEventParser->EarlyParseCustomEventNode(node);
             }
+
+            // Perform custom text color registration before event parsing.
+            if (strcmp(node->name(), "customChoiceColors") == 0)
+            {
+                auto enableCustomChoiceColors = node->first_attribute("enabled")->value();
+                customOptions->enableCustomChoiceColors.defaultValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
+                customOptions->enableCustomChoiceColors.currentValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "choiceColor") == 0)
+                    {
+                        ParseChoiceColorNode(child);
+                    }
+                }
+            }
         }
 
         // Read the custom events.
@@ -411,6 +426,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hideHullDuringExplosion = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -533,6 +554,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "allowRenameInputSpecialCharacters") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->allowRenameInputSpecialCharacters.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
@@ -719,6 +747,12 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "store") == 0)
             {
                 CustomStore::instance->ParseStoreNode(node);
+            }
+            if (strcmp(node->name(), "purchaseLimitNumber") == 0)
+            {
+                PurchaseLimitIndicatorInfo::fontSize = boost::lexical_cast<int>(node->first_attribute("fontSize")->value());
+                PurchaseLimitIndicatorInfo::x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+                PurchaseLimitIndicatorInfo::y = boost::lexical_cast<int>(node->first_attribute("y")->value());
             }
             if (strcmp(node->name(), "drones") == 0)
             {
