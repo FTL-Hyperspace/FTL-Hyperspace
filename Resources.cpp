@@ -1,4 +1,3 @@
-#include "Store_Extend.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
