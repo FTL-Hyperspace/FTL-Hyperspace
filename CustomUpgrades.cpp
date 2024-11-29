@@ -2,6 +2,7 @@
 #include "CustomShipSelect.h"
 
 CustomUpgrades CustomUpgrades::instance = CustomUpgrades();
+bool blockShipNameRendering = false;
 
 void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
 {
@@ -22,6 +23,30 @@ void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
 
     systemUpgradeBoxes.clear();
     systemUpgradeBoxes.push_back(std::vector<UpgradeBox*>());
+
+    if (allowRename)
+    {
+        if (allowButton)
+        {
+            delete renameButton;
+
+            renameButton = new Button();
+            renameButton->OnInit("upgradeUI/buttons_system_rename", Point(upgrades->position.x + 477, upgrades->position.y + 46));
+        }
+
+        TextString *shipName = &G_->GetShipManager(0)->myBlueprint.name;
+        if (shipName->isLiteral == false)
+        {
+            shipName->data = shipName->GetText();
+            shipName->isLiteral = true;
+        }
+
+        delete renameInput;
+
+        renameInput = new TextInput(16, TextInput::AllowedCharType::ALLOW_ANY, "");
+        renameInput->bActive = false;
+        renameInput->SetText(shipName->data);
+    }
 }
 
 void CustomUpgrades::OnRender()
@@ -35,6 +60,20 @@ void CustomUpgrades::OnRender()
     {
         leftButton->OnRender();
         rightButton->OnRender();
+    }
+
+    // Draw the ship name
+    Point pos = Point(orig->position.x + 310, orig->position.y + 39);
+    CSurface::GL_SetColor(COLOR_WHITE);
+    if (allowRename) 
+    {
+        if (allowButton) renameButton->OnRender();
+        renameInput->OnRender(24, pos);
+        renameInput->OnLoop();
+    }
+    else
+    {
+        freetype::easy_printCenter(24, pos.x, pos.y, G_->GetShipManager(0)->myBlueprint.name.data);
     }
 }
 
@@ -50,6 +89,9 @@ void CustomUpgrades::MouseMove(int mX, int mY)
         leftButton->MouseMove(mX, mY, false);
         rightButton->MouseMove(mX, mY, false);
     }
+
+    if (allowRename && allowButton)
+        renameButton->MouseMove(mX, mY, false);
 }
 
 void CustomUpgrades::OnLoop()
@@ -91,6 +133,8 @@ void CustomUpgrades::OnLoop()
     }
 
     orig->undoButton.SetActive(undoActive);
+    if (allowRename)
+        G_->GetMouseControl()->bHideMouse = renameInput->GetActive();
 }
 
 void CustomUpgrades::MouseClick(int mX, int mY)
@@ -132,6 +176,29 @@ void CustomUpgrades::MouseClick(int mX, int mY)
             }
         }
     }
+    if (allowRename)
+    {
+        if (((
+            !allowButton &&
+            mX > orig->position.x + 155 && mX < orig->position.x + 465 && 
+            mY > orig->position.y + 46 && mY < orig->position.y + 86) ||
+            (allowButton && renameButton->bHover)) &&
+            !renameInput->GetActive())
+        {
+            renameInput->Start();
+        }
+        else
+        {
+            renameInput->Stop();
+            if (renameInput->GetText().empty())
+            {
+                std::string namelessOne = G_->GetTextLibrary()->GetText("nameless_one");
+                renameInput->SetText(namelessOne);
+                G_->GetShipManager(0)->myBlueprint.name.data = namelessOne;
+                G_->GetScoreKeeper()->currentScore.name = namelessOne;
+            }
+        }
+    }
 }
 
 void CustomUpgrades::MouseRightClick(int mX, int mY)
@@ -163,6 +230,18 @@ void CustomUpgrades::Close()
         orig->bOpen = false;
         G_->GetEventSystem()->AddEvent(13);
     }
+
+    if (allowRename)
+    {
+        renameInput->Stop();
+        if (renameInput->GetText().empty())
+        {
+            std::string namelessOne = G_->GetTextLibrary()->GetText("nameless_one");
+            renameInput->SetText(namelessOne);
+            G_->GetShipManager(0)->myBlueprint.name.data = namelessOne;
+            G_->GetScoreKeeper()->currentScore.name = namelessOne;
+        }
+    }
 }
 
 void CustomUpgrades::ConfirmUpgrades()
@@ -185,13 +264,6 @@ void CustomUpgrades::AddSystemBox(UpgradeBox* box)
 
     systemUpgradeBoxes[systemUpgradeBoxes.size() - 1].push_back(box);
 }
-
-/*
-WHY is this crashing I don't understand it's literally doing the same thing the game does
-but no it has to crash on a function unrelated to it for some bizarre reason
-
-Fixed
-*/
 
 void AddUpgradeBox(Upgrades *upgrades, ShipSystem *sys, int& systemXPos, int& subsystemXPos, int& numSystems, int& numSubsystems)
 {
@@ -342,6 +414,9 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 HOOK_METHOD(Upgrades, MouseMove, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Upgrades::MouseMove -> Begin (CustomUpgrades.cpp)\n")
+    if (CustomUpgrades::GetInstance()->allowRename && CustomUpgrades::GetInstance()->renameInput->GetActive())
+        return;
+
     super(mX, mY);
 
     CustomUpgrades::GetInstance()->MouseMove(mX, mY);
@@ -350,9 +425,24 @@ HOOK_METHOD(Upgrades, MouseMove, (int mX, int mY) -> void)
 HOOK_METHOD(Upgrades, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Upgrades::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    blockShipNameRendering = true;
     super();
+    blockShipNameRendering = false;
 
     CustomUpgrades::GetInstance()->OnRender();
+}
+
+// Override the regular ship name rendering
+HOOK_STATIC(freetype, easy_printCenter, (int fontSize, float x, float y, const std::string& text) -> Pointf)
+{
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter -> Begin (CustomUpgrades.cpp)\n")
+    if (blockShipNameRendering)
+    {
+        blockShipNameRendering = false;
+        return super(fontSize, x, y, "");
+    }
+
+    return super(fontSize, x, y, text);
 }
 
 HOOK_METHOD(Upgrades, OnLoop, () -> void)
@@ -393,3 +483,56 @@ HOOK_METHOD(Upgrades, ConfirmUpgrades, () -> void)
     CustomUpgrades::GetInstance()->ConfirmUpgrades();
 }
 
+HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnTextInput -> Begin (CustomUpgrades.cpp)\n")
+    
+    if (G_->GetWorld()->commandGui->upgradeScreen.bOpen)
+    {
+        CustomUpgrades *upgrade = CustomUpgrades::GetInstance();
+        if (upgrade->allowRename && upgrade->renameInput && upgrade->renameInput->GetActive())
+        {
+            upgrade->renameInput->OnTextInput(charCode);
+            G_->GetShipManager(0)->myBlueprint.name.data = upgrade->renameInput->GetText();
+            G_->GetScoreKeeper()->currentScore.name = upgrade->renameInput->GetText();
+            return;
+        }
+    }
+
+    super(charCode);
+}
+
+HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnTextEvent -> Begin (CustomUpgrades.cpp)\n")
+    if (G_->GetWorld()->commandGui->upgradeScreen.bOpen)
+    {
+        CustomUpgrades *upgrade = CustomUpgrades::GetInstance();
+        if (upgrade->allowRename && upgrade->renameInput && upgrade->renameInput->GetActive())
+        {
+            upgrade->renameInput->OnTextEvent(te);
+            std::string currentName = upgrade->renameInput->GetText();
+            if ((te == CEvent::TEXT_CONFIRM || te == CEvent::TEXT_CANCEL) && currentName.empty())
+            {
+                currentName = G_->GetTextLibrary()->GetText("nameless_one");
+                upgrade->renameInput->SetText(currentName);
+            }
+            G_->GetShipManager(0)->myBlueprint.name.data = currentName;
+            G_->GetScoreKeeper()->currentScore.name = currentName;
+            return;
+        }
+    }
+
+    super(te);
+}
+
+HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (CustomUpgrades.cpp)\n")
+    if (G_->GetWorld()->commandGui->upgradeScreen.bOpen)
+    {
+        CustomUpgrades *upgrade = CustomUpgrades::GetInstance();
+        if (upgrade->allowRename && upgrade->renameInput && upgrade->renameInput->GetActive()) return;
+    }
+    super(key);
+}

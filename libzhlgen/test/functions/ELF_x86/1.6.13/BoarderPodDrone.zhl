@@ -1,4 +1,6 @@
-"5589e557565381ecdc0000008b45148b4d088dbd58ffffff":
+"5589e557565381ecdc0000008b????":
+cleanup __cdecl void BoarderPodDrone::OnLoop(BoarderPodDrone *this);
+".5589e557565381ecdc0000008b45148b4d088dbd58ffffff":
 cleanup __cdecl void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
 "5383ec288b4424348b5c243085c0":
 cleanup __cdecl void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);

@@ -42,7 +42,7 @@ function tidePod_renderEffects_before()
             Graphics.CSurface.GL_PushMatrix()
             Graphics.CSurface.GL_Scale(1.1, 1.1, 1.0)
         end
-    else
+    end
 end
 function tidePod_renderEffects_after()
     if mods.hsFun.tideMode then

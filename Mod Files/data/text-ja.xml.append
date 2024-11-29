@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.12.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -35,6 +35,9 @@
 </mod:findName>
 <mod:findName type="text" name="stun_chance" language="ja">
   <mod:setValue>スタン発生率：\1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
+</mod:findName>
+<mod:findName type="text" name="nameless_one" language="ja">
+  <mod:setValue>名無し</mod:setValue> <!-- Vanilla text "名もなきクルー" does not fit as a ship name. "名無し" is at least suitable for both ship and crew names. -->
 </mod:findName>
 
 <text name="free_missile_chance" language="ja">ミサイルを消費しない確率：\1%</text>  
@@ -236,6 +239,7 @@
 <text name="tooltip_temporal_enemy" language="ja">時間操作機：敵はこれを使って、1つの区画の時間の経過速度を変えることができます。</text>
 <text name="tooltip_PDS_FLEET_ALL" language="ja">艦隊の対艦砲がこの宙域の全艦に発砲している。</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="ja">艦隊の対艦砲が敵に照準を合わせている。</text>
+<text name="tooltip_purchase_limit" language="ja">アイテムと修理を除いた、残り購入可能個数。</text>
 
 <text name="transfer_save_dialog" language="ja">このMODをプレイするのが初めてか、まだ新しいセーブファイルを設定していないようですね！バニラの進行状況を引き継ぐか、新しいセーブファイルでプレイしますか？バニラの進行状況には一切影響しません。</text>
 
@@ -250,7 +254,7 @@
 <text name="credits_loc_ko_names" language="ja">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
 <text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
-<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
 <text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>

@@ -51,6 +51,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             rex->sensorBlind = i.second->sensorBlind;
             rex->sysDamageResistChance = i.second->sysDamageResistChance;
             rex->ionDamageResistChance = i.second->ionDamageResistChance;
+            rex->hullDamageResistChance = i.second->hullDamageResistChance;
         }
     }
 
@@ -442,18 +443,21 @@ void RoomAnim::SaveState(int fd)
     FileHelper::writeInt(fd, anim.get() != nullptr);
     if (anim)
     {
+        FileHelper::writeString(fd, anim->animName);
         anim->SaveState(fd);
     }
 
     FileHelper::writeInt(fd, tileAnims.size());
     for (Animation &tileAnim : tileAnims)
     {
+        FileHelper::writeString(fd, tileAnim.animName);
         tileAnim.SaveState(fd);
     }
 
     FileHelper::writeInt(fd, wallAnim.get() != nullptr);
     if (wallAnim)
     {
+        FileHelper::writeString(fd, wallAnim->animName);
         wallAnim->SaveState(fd);
     }
 }
@@ -473,21 +477,20 @@ void RoomAnim::LoadState(int fd, Room *room)
 
     if (FileHelper::readInteger(fd))
     {
-        anim.reset(new Animation);
+        anim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd))));
         anim->LoadState(fd);
     }
 
     int n = FileHelper::readInteger(fd);
     for (int i=0; i<n; ++i)
     {
-        tileAnims.emplace_back();
-        Animation &tileAnim = tileAnims.back();
-        tileAnim.LoadState(fd);
+        tileAnims.emplace_back(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd)));
+        tileAnims.back().LoadState(fd);
     }
 
     if (FileHelper::readInteger(fd))
     {
-        wallAnim.reset(new Animation);
+        wallAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd))));
         wallAnim->LoadState(fd);
     }
 }
@@ -931,6 +934,61 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
     super(roomId, dmg);
 }
 
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomShips.cpp)\n")
+
+    int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
+    bool resist = false;
+
+    if (roomId > -1 && dmg.iDamage > 0 && random32() % 100 < RM_EX(ship.vRoomList[roomId])->hullDamageResistChance)
+    {
+        dmg.iSystemDamage += dmg.iDamage;
+        dmg.iPersDamage += dmg.iDamage;
+        dmg.iDamage = 0;
+        resist = true;
+    }
+
+    bool ret = super(location, dmg, forceHit);
+
+    if (resist && ret)
+    {
+        auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
+        msg->color.a = 1.f;
+        damMessages.push_back(msg);
+    }
+    
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomShips.cpp)\n")
+
+    int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
+    int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
+    if (dmg.iDamage > 0 && room1 != room2 && (room1 > -1 || room2 > -1))
+    {
+        auto ex = room2 != -1 ? RM_EX(ship.vRoomList[room2]) : RM_EX(ship.vRoomList[room1]);
+        if (random32() % 100 < ex->hullDamageResistChance)
+        {
+            dmg.iSystemDamage += dmg.iDamage;
+            dmg.iPersDamage += dmg.iDamage;
+            dmg.iDamage = 0;
+            
+            if (room1 > -1)
+            {
+                auto msg1 = new DamageMessage(1.f, ship.GetRoomCenter(room1), DamageMessage::MessageType::RESIST);
+                msg1->color.a = 1.f;
+                damMessages.push_back(msg1);
+            }
+            
+        }
+    }
+
+    super(location1, location2, dmg);
+}
+
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipAI::SetStalemate -> Begin (CustomShips.cpp)\n")
@@ -1323,12 +1381,43 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     float sparkX = 0.0;
     float sparkY = 0.0;
 
-    // Render hull image
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(shipGraph->shipBox.x, shipGraph->shipBox.y, 0.0);
+
+    // Do artillery gib fix for boss while jumping
+    ShipManager *shipManager;
+    bool doArtyGibFix =
+        iShipId == 1 &&
+        (shipManager = G_->GetShipManager(iShipId)) &&
+        !shipManager->artillerySystems.empty() &&
+        !explosion.pieces.empty() &&
+        (g_artilleryGibMountFix || CustomShipSelect::GetInstance()->GetDefinition(shipManager->myBlueprint.blueprintName).artilleryGibMountFix) &&
+        G_->GetWorld()->commandGui->combatControl.currentTarget == (CompleteShip*)G_->GetWorld()->bossShip &&
+        (G_->GetWorld()->bossShip->currentStage == 1 || G_->GetWorld()->bossShip->currentStage == 2);
+    if (doArtyGibFix)
+    {
+        Pointf gibPos = explosion.position[explosion.pieces.size() - 1];
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(shipImage.x - gibPos.x, shipImage.y - gibPos.y, 0.0);
+        CSurface::GL_SetColorTint(GL_Color(255.f, 255.f, 255.f, 1.f - progress));
+        for (ArtillerySystem *artillery : shipManager->artillerySystems)
+        {
+            // Only render artillery mounted to the final gib, which should
+            // be the one rendered in this function as shipImagePrimitive
+            if (artillery && artillery->projectileFactory->mount.gib == explosion.pieces.size())
+            {
+                artillery->projectileFactory->OnRender(1.f, shipManager->iCustomizeMode == 2);
+            }
+        }
+        CSurface::GL_RemoveColorTint();
+        CSurface::GL_PopMatrix();
+    }
+
+    // Render hull image
     shipImagePrimitive->textureAntialias = iShipId == 0;
     CSurface::GL_RenderPrimitiveWithAlpha(shipImagePrimitive, 1.0 - progress);
     shipImagePrimitive->textureAntialias = false;
+
     CSurface::GL_PopMatrix();
 
     // Calculate values
@@ -1440,6 +1529,97 @@ HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
         {
             ex->erosion.anim = new RoomAnim();
             ex->erosion.anim->LoadState(fd, room);
+        }
+    }
+}
+
+bool g_artilleryGibMountFix = false;
+bool g_hideHullDuringExplosion = false;
+
+HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ExplosionAnimation::OnRender -> Begin (CustomShips.cpp)\n")
+
+    if (!running) return;
+
+    // Setup
+    LoadGibs();
+    int gib = pieces.size() - 1;
+    ShipManager *currentShip = G_->GetShipManager(shipObj.iShipId);
+    CustomShipDefinition &shipDef = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
+
+    // Progress animation
+    // Skip the final gib if doing the partial explosion for
+    // the final boss so it can reduce opacity as it jumps out
+    if (gib > -1 && Progress(-1.f) > 0.75 && bJumpOut) --gib;
+
+    if (gib > -1)
+    {
+        // Check if artillery weapons should be rendered
+        bool doArtyGibFix =
+            currentShip &&
+            !currentShip->artillerySystems.empty() &&
+            (g_artilleryGibMountFix || shipDef.artilleryGibMountFix);
+
+        // Iterate through all gibs
+        for (; gib >= 0; --gib)
+        {
+            float rectW = shipRect->w/2;
+            float rectH = shipRect->h/2;
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(position[gib].x, position[gib].y, 0.f);
+            CSurface::GL_Translate(rectW, rectH, 0.f);
+            CSurface::GL_Rotate(rotation[gib], 0.f, 0.f, 1.f);
+            CSurface::GL_Translate(-rectW, -rectH, 0.f);
+            CSurface::GL_Translate(shipRect->x + pos.x, shipRect->y + pos.y, 0.f);
+
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(-startingPosition[gib].x, -startingPosition[gib].y, 0.f);
+
+            // Render the weapons mounted to the gib
+            for (WeaponAnimation* weaponAnim : weaponAnims)
+            {
+                if (weaponAnim && weaponAnim->mount.gib == gib + 1)
+                {
+                    weaponAnim->OnRender(1.f);
+                }
+            }
+
+            // Render the artillery mounted to the gib
+            if (doArtyGibFix)
+            {
+                for (ArtillerySystem *artillery : currentShip->artillerySystems)
+                {
+                    if (artillery && artillery->projectileFactory->mount.gib == gib + 1)
+                    {
+                        artillery->projectileFactory->weaponVisual.OnRender(1.f);
+                    }
+                }
+            }
+
+            CSurface::GL_PopMatrix();
+
+            // Render the gib itself
+            G_->GetResources()->RenderImage(pieces[gib], 0, 0, 0, COLOR_WHITE, 1.f, false);
+            CSurface::GL_PopMatrix();
+        }
+    }
+
+    // Render the ship hull while the gibs aren't moving
+    // For some reason using the shipImagePrimitive arg passed into this function
+    // doesn't work, so just get it directly from the Ship struct
+    if (!bFinalBoom && currentShip && currentShip->ship.shipImagePrimitive && !(g_hideHullDuringExplosion || shipDef.hideHullDuringExplosion)) {
+        CSurface::GL_Translate(shipRect->x, shipRect->y, 0.f);
+        CSurface::GL_RenderPrimitive(currentShip->ship.shipImagePrimitive);
+        CSurface::GL_Translate(-shipRect->x, -shipRect->y, 0.f);
+    }
+
+    // Render the large explosion animations present before the gibs break apart
+    if (current_time < 3.f)
+    {
+        for (Animation explosion : explosions)
+        {
+            explosion.OnRender(1.f, COLOR_WHITE, false);
         }
     }
 }

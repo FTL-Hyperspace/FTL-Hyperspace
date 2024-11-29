@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="pl">
-  <mod:setValue>\1 (Hyperspace 1.12.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="pl">
   <mod:setValue>Szansa na wzniecenie po?aru: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -247,6 +247,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="tooltip_temporal_enemy" language="pl">Manipulator Czasu: Wróg może użyć go do zmiany upływu czasu w jednym pomieszczeniu.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="pl">Ciężka artyleria floty celuje we wszystkie statki w okolicy</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="pl">Ciężka artyleria floty celuje we wszystkie wrogie statki w okolicy</text>
+<text name="tooltip_purchase_limit" language="pl">Liczba pozostałych zakupów, z wyjątkiem przedmiotów i napraw.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="pl">Wygląda na to, że albo grasz w ten mod po raz pierwszy, albo nie utworzyłeś jeszcze nowego pliku zapisu! Czy chciałbyś przenieść postęp z niezmodyfikowanej gry, czy zacząć od nowa? NIE będzie to miało żadengo wpływu na twoje postępy w niezmodyfikowanej grze.</text>
 <!--Neutral ASB text-->
@@ -261,7 +262,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="pl">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pl">Projekt Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pl">Stworzony przez:</text>
-<text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
 <text name="credits_hyperspace_art" language="pl">Dodatkowa grafika:</text>
 <text name="credits_hyperspace_art_names" language="pl">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="pl">Dodatkowa pomoc:</text>

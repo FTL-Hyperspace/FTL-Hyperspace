@@ -1,2 +1,4 @@
 "554889f5534889fb4883ec08c70700000000":
 cleanup __amd64 Damage IonDrone::GetRoomDamage(IonDrone *this);
+".41570f57c941560f28c1":
+cleanup __amd64 void IonDrone::constructor(IonDrone *this, int iShipId, DroneBlueprint *blueprint);

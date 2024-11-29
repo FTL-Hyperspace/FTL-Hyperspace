@@ -3,11 +3,29 @@ __thiscall void LocationEvent::ClearEvent(LocationEvent *this, bool force);
 "558d410889e55389018d4128c7410400000000c6410800c6411801c6411c0089cb8941208d4140c7412400000000c6412800c7413c00000000":
 __thiscall void LocationEvent::constructor(LocationEvent *this);
 
-
-struct LocationEvent
+struct LocationEvent depends (LocationEvent::Choice)
 {{
-	LocationEvent()
-	{
-		this->constructor();
-	}
+    struct Choice
+    {
+        LocationEvent *event;
+        TextString text;
+        ChoiceReq requirement;
+        bool hiddenReward;
+    };
+
+    LocationEvent()
+    {
+        this->constructor();
+    }
+
+    std::vector<Choice*> GetChoices()
+    {
+        std::vector<Choice*> ret = std::vector<Choice*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
 }};

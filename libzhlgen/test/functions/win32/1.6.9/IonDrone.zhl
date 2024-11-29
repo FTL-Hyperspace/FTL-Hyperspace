@@ -1,2 +1,4 @@
 "5589e556538b7508c701????????89cbc7410400000000c741080000000083e4f0c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000c74124ffffffffc74128ffffffffc6412c00c6412d00c6412e01":
 __thiscall Damage IonDrone::GetRoomDamage(IonDrone *this);
+"578d????0883e4f0ff????5589f889e557565389cf8d??e4feffff":
+__thiscall void IonDrone::constructor(IonDrone *this, int iShipId, DroneBlueprint *blueprint);

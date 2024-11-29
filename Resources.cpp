@@ -34,6 +34,7 @@
 #include "ShipUnlocks.h"
 #include "CustomAchievements.h"
 #include "HSVersion.h"
+#include "CustomUpgrades.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -195,6 +196,21 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 auto customEventParser = CustomEventsParser::GetInstance();
                 customEventParser->EarlyParseCustomEventNode(node);
             }
+
+            // Perform custom text color registration before event parsing.
+            if (strcmp(node->name(), "customChoiceColors") == 0)
+            {
+                auto enableCustomChoiceColors = node->first_attribute("enabled")->value();
+                customOptions->enableCustomChoiceColors.defaultValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
+                customOptions->enableCustomChoiceColors.currentValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "choiceColor") == 0)
+                    {
+                        ParseChoiceColorNode(child);
+                    }
+                }
+            }
         }
 
         // Read the custom events.
@@ -315,10 +331,37 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "hullBars") == 0)
+            {
+                HullBars::GetInstance()->ParseHullBarsNode(node);
+            }
+
             if (strcmp(node->name(), "hackingDroneFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_repairDroneRecoveryFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "controllableIonDroneFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_controllableIonDroneFix = EventsParser::ParseBoolean(enabled);
+                if (g_controllableIonDroneFix && node->first_attribute("ionDelay"))
+                {
+                    float delay = boost::lexical_cast<float>(node->first_attribute("ionDelay")->value());
+                    g_controllableIonDroneFix_Delay = delay;
+                    g_controllableIonDroneFix_DelayInitial = delay;
+                }
+                if (g_controllableIonDroneFix && node->first_attribute("ionDelayInitial"))
+                {
+                    g_controllableIonDroneFix_DelayInitial = boost::lexical_cast<float>(node->first_attribute("ionDelayInitial")->value());
+                }
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
@@ -375,6 +418,18 @@ void Global::InitializeResources(ResourceControl *resources)
                         }
                     }
                 }
+            }
+
+            if (strcmp(node->name(), "artilleryGibMountFix") == 0) // fixes artillery disappearing during ship explosions
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hideHullDuringExplosion = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
@@ -501,6 +556,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "allowRenameInputSpecialCharacters") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->allowRenameInputSpecialCharacters.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -569,6 +631,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 CommandConsole::GetInstance()->enabled = EventsParser::ParseBoolean(enabled);
+
+                if (node->first_attribute("invertCaps"))
+                {
+                    auto invertCaps = node->first_attribute("invertCaps")->value();
+                    CommandConsole::GetInstance()->invertCaps = EventsParser::ParseBoolean(invertCaps);
+                }
             }
 
             if (strcmp(node->name(), "infinite") == 0)
@@ -680,6 +748,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 CustomStore::instance->ParseStoreNode(node);
             }
+            if (strcmp(node->name(), "purchaseLimitNumber") == 0)
+            {
+                PurchaseLimitIndicatorInfo::fontSize = boost::lexical_cast<int>(node->first_attribute("fontSize")->value());
+                PurchaseLimitIndicatorInfo::x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+                PurchaseLimitIndicatorInfo::y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+            }
             if (strcmp(node->name(), "drones") == 0)
             {
                 CustomDroneManager::GetInstance()->ParseDroneNode(node);
@@ -701,6 +775,17 @@ void Global::InitializeResources(ResourceControl *resources)
                 if (node->first_attribute("allowMetaVars"))
                 {
                     SeedInputBox::seedsAllowMetaVars = EventsParser::ParseBoolean(node->first_attribute("allowMetaVars")->value());
+                }
+            }
+            if (strcmp(node->name(), "renameShipInRun") == 0)
+            {
+                if (node->first_attribute("enabled"))
+                {
+                    CustomUpgrades::GetInstance()->allowRename = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("allowButton"))
+                {
+                    CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
             }
             if (strcmp(node->name(), "customSystems") == 0)

@@ -26,7 +26,7 @@
   <mod:setValue>超越光速：超空间</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="zh-Hans">
-  <mod:setValue>\1 (超空间 1.12.0)</mod:setValue>
+  <mod:setValue>\1 (超空间 1.15.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="zh-Hans">
   <mod:setValue>起火率：\1 %</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -257,6 +257,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="tooltip_temporal_enemy" language="zh-Hans">时流：敌人可以用此来改变一间舱室内的时间流速。</text>
 <text name="tooltip_PDS_FLEET_ALL" language="zh-Hans">舰队的反舰炮台正在对此处双方都进行攻击。</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="zh-Hans">舰队的反舰炮台正在攻击敌舰</text>
+<text name="tooltip_purchase_limit" language="zh-Hans">剩余购买次数，不包括物品与修理。</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="zh-Hans">
 看样子这是你第一次玩本Mod，或者没有创建过一个新的存档！你想导入原版进度，还是创建一个新存档？不用担心，该操作不会对你的原版游戏的存档与进度有任何影响。</text>
@@ -270,7 +271,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="zh-Hans">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="zh-Hans">超空间(Hyperspace)项目</text>
 <text name="credits_hyperspace_developed_by" language="zh-Hans">开发者：</text>
-<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex</text>
+<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex, Pepson</text>
 <text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
 <text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>

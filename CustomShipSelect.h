@@ -61,6 +61,7 @@ struct RoomDefinition
     std::vector<RoomAnimDef> roomAnims;
     bool sensorBlind = false;
 
+    float hullDamageResistChance = 0.f;
     float sysDamageResistChance = 0.f;
     float ionDamageResistChance = 0.f;
 };
@@ -80,11 +81,14 @@ struct CustomShipDefinition
     std::vector<CrewPlacementDefinition> crewList = std::vector<CrewPlacementDefinition>();
     bool noJump = false;
     bool noFuelStalemate = false;
+    bool artilleryGibMountFix = false;
+    bool hideHullDuringExplosion = false;
     int hpCap = 20;
     int startingFuel = -1;
     int startingScrap = -1;
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
+    std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> roomStationBackups;
     std::vector<std::string> shipIcons;
     ToggleValue<bool> forceAutomated;
 
@@ -275,6 +279,18 @@ public:
                 return -1;
             }
         }
+    }
+
+    ShipButtonList* GetShipButtonListFromID(int id)
+    {
+        for (auto& def : shipButtons)
+        {
+            if (def->GetId() == id) 
+            {
+                return def;
+            }
+        }
+        return nullptr;
     }
 
     std::pair<int,int> GetShipIdAndVariantFromName(const std::string& name)

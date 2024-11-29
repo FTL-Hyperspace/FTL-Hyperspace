@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ru">
-  <mod:setValue>\1 (Hyperspace 1.12.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ru">
   <mod:setValue>Вероятность возгорания: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -247,6 +247,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="tooltip_temporal_enemy" language="ru">Временной манипулятор: Противник может использовать его, чтобы изменить ход времени в одном отсеке.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="ru">Противокорабельные батареи флота ведут огонь по всем кораблям в этом районе.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="ru">Противокорабельные батареи флота ведут огонь по вашим врагам.</text>
+<text name="tooltip_purchase_limit" language="ru">Количество оставшихся покупок, не считая предметов и ремонта.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="ru">Похоже, вы либо впервые играете в этот мод, либо еще не установили новый файл сохранения! Вы хотите перенести ванильный прогресс или сыграть с новым сохранением? Это никак НЕ повлияет на ваш ванильный прогресс.</text>
 <!--Neutral ASB text-->
@@ -261,7 +262,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="ru">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ru">Проект Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="ru">Разработчики:</text>
-<text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
 <text name="credits_hyperspace_art" language="ru">Дополнительная графика:</text>
 <text name="credits_hyperspace_art_names" language="ru">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ru">Дополнительная помощь:</text>

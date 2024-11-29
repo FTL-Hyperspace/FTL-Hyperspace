@@ -4,6 +4,10 @@
 
 extern bool g_enemyPreigniterFix;
 
+extern bool g_artilleryGibMountFix;
+
+extern bool g_hideHullDuringExplosion;
+
 extern bool revisitingShip;
 
 extern bool bNoJump;

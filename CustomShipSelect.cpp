@@ -548,6 +548,10 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
                         {
                             roomDef->sensorBlind = EventsParser::ParseBoolean(roomValue);
                         }
+                        if (roomName == "hullDamageResistChance")
+                        {
+                            roomDef->hullDamageResistChance = boost::lexical_cast<float>(roomValue);
+                        }
                         if (roomName == "sysDamageResistChance")
                         {
                             roomDef->sysDamageResistChance = boost::lexical_cast<float>(roomValue);
@@ -559,6 +563,24 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
                     }
 
                     def.roomDefs[roomId] = roomDef;
+                }
+                else if (strcmp(roomNode->name(), "partition") == 0 && roomNode->first_node("rooms") && roomNode->first_node("backups"))
+                {
+                    std::vector<std::pair<int, std::vector<int>>>* backupList = new std::vector<std::pair<int, std::vector<int>>>;
+                    for (auto backupNode = roomNode->first_node("backups")->first_node(); backupNode; backupNode = backupNode->next_sibling())
+                    {
+                        int room = boost::lexical_cast<int>(backupNode->first_attribute("id")->value());
+                        std::vector<int> slots;
+                        for (auto slotNode = backupNode->first_node("slot"); slotNode; slotNode = slotNode->next_sibling())
+                        {
+                            slots.push_back(boost::lexical_cast<int>(slotNode->first_attribute("id")->value()));
+                        }
+                        backupList->push_back(std::make_pair(room, slots));
+                    }
+                    for (auto partitionNode = roomNode->first_node("rooms")->first_node(); partitionNode; partitionNode = partitionNode->next_sibling())
+                    {
+                        def.roomStationBackups[boost::lexical_cast<int>(partitionNode->first_attribute("id")->value())] = backupList;
+                    }
                 }
             }
         }
@@ -653,6 +675,16 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
         {
             isCustom = true;
             def.shipGenerator = val;
+        }
+        if (name == "artilleryGibMountFix")
+        {
+            isCustom = true;
+            def.artilleryGibMountFix = true;
+        }
+        if (name == "hideHullDuringExplosion")
+        {
+            isCustom = true;
+            def.hideHullDuringExplosion = true;
         }
 
     }
@@ -1701,9 +1733,6 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     if (type == builder->currentShipId && variant == builder->currentType && !(force))
         return;
 
-
-
-
     ShipManager *oldShip = builder->currentShip;
 
     ShipButtonDefinition &def = shipButtonDefs[type - 100];
@@ -1790,6 +1819,14 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
 
         Point typeCPos(builder->typeCLoc.x + builder->typeCOffset, builder->typeCLoc.y);
         builder->typeC.SetLocation(typeCPos);
+
+        int page = GetShipButtonListFromID(type)->GetPage() + 1;
+
+        if (page != GetCurrentPage() && page != -1)
+        {
+            SwitchPage(page);
+            shipSelect->currentType = variant;
+        }
 
         if (shipSelect && shipSelect->bOpen)
         {
@@ -2068,14 +2105,21 @@ HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> void)
     customSel->MouseMove(x, y);
 }
 
-HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
+HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currType) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSelect::Open -> Begin (CustomShipSelect.cpp)\n")
-    super(currentLayout, currentType);
+    currentType = currType;
+    super(currentLayout, currType);
 
     auto customSel = CustomShipSelect::GetInstance();
     customSel->OnInit(this);
     customSel->Open();
+
+    if (currentLayout >= 100)
+    {
+        int page = customSel->GetShipButtonListFromID(currentLayout)->GetPage() + 1;
+        if (page != customSel->GetCurrentPage() && page != -1) customSel->SwitchPage(page);
+    }
 }
 
 HOOK_METHOD(ShipSelect, OnRender, () -> void)
