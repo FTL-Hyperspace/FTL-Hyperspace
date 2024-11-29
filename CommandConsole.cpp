@@ -3,6 +3,7 @@
 #include "CustomStore.h"
 #include "CustomOptions.h"
 #include "CustomEvents.h"
+#include "CustomShipGenerator.h"
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
 #include <boost/algorithm/string.hpp>
@@ -307,11 +308,56 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "SWITCH")
+    {
+        if (command.length() > 7)
+        {
+            std::string shipName = boost::trim_copy(command.substr(7));
+            hs_log_file("Loading new ship %s\n", shipName.c_str());
 
+            ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+            if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
+            {
+                SwitchShip(bp);
+            }
+            bp->destructor();
+        }
+
+        return true;
+    }
 
     return false;
 }
 
+void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
+{
+    WorldManager *world = G_->GetWorld();
+    CommandGui *gui = world->commandGui;
+    ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
+
+    world->ClearLocation();
+
+    ShipManager *oldShip = world->playerShip->shipManager;
+    for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
+
+    ShipManager* ship = new ShipManager(0);
+
+    // Will crash here if you reload a ship you already switched from, step to reproduce: 
+    // SWITCH PLAYER_SHIP_MANTIS 
+    // SWITCH [YOUR STARTING SHIP] 
+    // SWITCH PLAYER_SHIP_MANTIS
+    ship->OnInit(shipBlueprint, 0);
+    // OnInit is the responsible
+
+    ship->SaveToBlueprint(true);
+    delete shipBlueprint;
+
+    world->playerShip->SetShip(ship);
+    world->starMap.shipManager = ship;
+    scoreKeeper->currentScore.blueprint = shipBlueprint->blueprintName;
+    gui->LinkShip(world->playerShip);
+    oldShip->destructor2();
+}
 //===============================================
 
 static AnimationTracker *g_consoleMessage;

@@ -10,6 +10,7 @@ public:
     bool invertCaps = true;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
+    void SwitchShip(ShipBlueprint* shipBlueprint);
 
     TextInput *textInput = nullptr;
 
