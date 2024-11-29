@@ -1,6 +1,9 @@
+#pragma once
 #include "CustomColors.h"
 #include "Resources.h"
 #include "PALMemoryProtection.h"
+#include "CustomOptions.h"
+#include <boost/lexical_cast.hpp>
 
 GL_Color g_defaultTextButtonColors[4] =
 {
@@ -317,4 +320,194 @@ HOOK_METHOD_PRIORITY(FTLButton, OnRender, 5000, () -> void)
     super();
 
     g_isFTLButton = false;
+}
+
+
+// ---Custom Choice Colors---
+
+GL_Color COLOR_CHOICE_YELLOW = GL_Color(0.9529412f, 1.f, 0.3137255f, 1.f);
+GL_Color COLOR_CHOICE_GRAY = GL_Color(0.5882353f, 0.5882353f, 0.5882353f, 1.f);
+GL_Color COLOR_CHOICE_CYAN = GL_Color(0.f, 0.7647059f, 1.f, 1.f);
+
+std::unordered_map<std::string, ChoiceColor*> ChoiceColorMap;
+
+void ParseChoiceColorNode(rapidxml::xml_node<char>* node)
+{
+    if (node->first_attribute("name") == nullptr) return;
+
+    std::string name = std::string(node->first_attribute("name")->value());
+    if (ChoiceColorMap[name] != nullptr) return;
+
+    ChoiceColor* choiceColor = new ChoiceColor;
+    if (node->first_node("normal"))
+    {
+        choiceColor->normal.r = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("r")->value()) / 255.f;
+        choiceColor->normal.g = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("g")->value()) / 255.f;
+        choiceColor->normal.b = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("b")->value()) / 255.f;
+        if (node->first_node("normal")->first_attribute("a")) choiceColor->normal.a = boost::lexical_cast<float>(node->first_node("normal")->first_attribute("a")->value()) / 255.f;
+    }
+    if (node->first_node("hover"))
+    {
+        choiceColor->hover.r = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("r")->value()) / 255.f;
+        choiceColor->hover.g = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("g")->value()) / 255.f;
+        choiceColor->hover.b = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("b")->value()) / 255.f;
+        if (node->first_node("hover")->first_attribute("a")) choiceColor->hover.a = boost::lexical_cast<float>(node->first_node("hover")->first_attribute("a")->value()) / 255.f;
+    }
+    if (node->first_node("disabled"))
+    {
+        choiceColor->disabled.r = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("r")->value()) / 255.f;
+        choiceColor->disabled.g = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("g")->value()) / 255.f;
+        choiceColor->disabled.b = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("b")->value()) / 255.f;
+        if (node->first_node("disabled")->first_attribute("a")) choiceColor->disabled.a = boost::lexical_cast<float>(node->first_node("disabled")->first_attribute("a")->value()) / 255.f;
+    }
+    if (node->first_node("blue_option"))
+    {
+        choiceColor->blue_option.r = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("r")->value()) / 255.f;
+        choiceColor->blue_option.g = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("g")->value()) / 255.f;
+        choiceColor->blue_option.b = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("b")->value()) / 255.f;
+        if (node->first_node("blue_option")->first_attribute("a")) choiceColor->blue_option.a = boost::lexical_cast<float>(node->first_node("blue_option")->first_attribute("a")->value()) / 255.f;
+    }
+    
+    ChoiceColorMap[name] = choiceColor;
+}
+
+
+std::string EncodeChoicecColorName(const char* name)
+{
+    return "[[" + std::string(name) + "@C]]";
+}
+
+GL_Color DecodeChoiceColorName(const std::string &text, const GL_Color &currentColor)
+{
+    if (ChoiceColorMap.count(text) == 0) return currentColor;
+
+    ChoiceColor* choiceColor = ChoiceColorMap[text];
+
+    GL_Color ret(currentColor.r, currentColor.g, currentColor.b, currentColor.a);
+    if (currentColor.r == 1.f && currentColor.g == 1.f && currentColor.b == 1.f && currentColor.a == 1.f)
+    {
+        // normal; white
+        ret.r = choiceColor->normal.r;
+        ret.g = choiceColor->normal.g;
+        ret.b = choiceColor->normal.b;
+        ret.a = choiceColor->normal.a;
+    }
+    else if (currentColor.r == 0.9529412f && currentColor.g == 1.f && currentColor.b == 0.3137255f && currentColor.a == 1.f)
+    {
+        // hover; yellow
+        ret.r = choiceColor->hover.r;
+        ret.g = choiceColor->hover.g;
+        ret.b = choiceColor->hover.b;
+        ret.a = choiceColor->hover.a;
+    }
+    else if (currentColor.r == 0.5882353f && currentColor.g == 0.5882353f && currentColor.b == 0.5882353f && currentColor.a == 1.f)
+    {
+        // disabled; gray
+        ret.r = choiceColor->disabled.r;
+        ret.g = choiceColor->disabled.g;
+        ret.b = choiceColor->disabled.b;
+        ret.a = choiceColor->disabled.a;
+    }
+    else if (currentColor.r == 0.f && currentColor.g == 0.7647059f && currentColor.b == 1.f && currentColor.a == 1.f)
+    {
+        // blue_option; cyan
+        ret.r = choiceColor->blue_option.r;
+        ret.g = choiceColor->blue_option.g;
+        ret.b = choiceColor->blue_option.b;
+        ret.a = choiceColor->blue_option.a;
+    }
+    return ret;
+}
+
+int FindColorFlag(const std::string &text)
+{
+    int len = text.length();
+    if (len < 7) return -1; // text must contain [[@C]] plus 1+ length letter
+    if (text[len - 1] != ']' || text[len - 2] != ']' || text[len - 3] != 'C' || text[len - 4] != '@') return -1;
+    for (int i = len - 5; i > -1; i--)
+    {
+        if (text[i] == '[' && text[i + 1] == '[')
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> EventsParser::ProcessChoice -> Begin (CustomColors.cpp)\n")
+    if (!CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue || node->first_node("text")->first_attribute("color") == nullptr)
+    {
+        super(event, node, eventName);
+        return;
+    }
+
+    if (node->first_node("text")->first_attribute("id"))
+    {
+        std::string t = std::string(node->first_node("text")->first_attribute("id")->value());
+        t = t + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value());
+        node->first_node("text")->first_attribute("id")->value(t.c_str());
+    }
+    else
+    {
+        std::string t = std::string(node->first_node("text")->value());
+        t = t + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value());
+        node->first_node("text")->value(t.c_str());
+    }
+    super(event, node, eventName);
+}
+
+bool g_startRenderColorChoices = false;
+
+HOOK_METHOD(ChoiceBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (CustomColors.cpp)\n")
+    g_startRenderColorChoices = CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue;
+    super();
+    g_startRenderColorChoices = false;
+}
+
+HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
+{
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
+    if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
+
+    int pos = FindColorFlag(text);
+    if (pos == -1 || pos + 2 > text.length()) return super(fontSize, x, y, line_length, text);
+
+    GL_Color currentColor = CSurface::GL_GetColor();
+    CSurface::GL_SetColor(DecodeChoiceColorName(text.substr(pos + 2, text.length() - pos - 6), currentColor));
+    return super(fontSize, x, y, line_length, text.substr(0, pos));
+    CSurface::GL_SetColor(currentColor);
+}
+
+HOOK_STATIC(freetype, easy_measurePrintLines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
+{
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_measurePrintLines -> Begin (CustomColors.cpp)\n")
+    if (!g_startRenderColorChoices) return super(fontSize, x, y, line_length, text);
+
+    int pos = FindColorFlag(text);
+    if (pos == -1) return super(fontSize, x, y, line_length, text);
+    return super(fontSize, x, y, line_length, text.substr(0, pos));
+}
+
+bool g_transferColorChoiceFlag_from_ID_to_realText = false;
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomColors.cpp)\n")
+    g_transferColorChoiceFlag_from_ID_to_realText = CustomOptionsManager::GetInstance()->enableCustomChoiceColors.currentValue;
+    super(event);
+    g_transferColorChoiceFlag_from_ID_to_realText = false;
+}
+
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomColors.cpp)\n")
+    if (!g_transferColorChoiceFlag_from_ID_to_realText) return super(name, lang);
+
+    int pos = FindColorFlag(name);
+    if (pos == -1 || pos > name.length()) return super(name, lang);
+    return super(name.substr(0, pos), lang) + name.substr(pos);
 }
