@@ -827,31 +827,34 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
     }
 }
 
-// Prevent enemy charge bar (sensor lvl 3+ ability) from framing off the right side of the screen.
-bool g_enemyChargeBoxPositionFix = false;
+
+// Prevent enemy charge bar (sensor lvl 3+ ability) from framing off the right, top and bottom side of the screen.
+Point g_enemyShipCorner;
+
 HOOK_METHOD(WeaponAnimation, RenderChargeBar, (float alpha) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponAnimation::RenderChargeBar -> Begin (CustomWeapons.cpp)\n")
-    if (!g_enemyChargeBoxPositionFix)
-    {
-        super(alpha);
-        return;
-    }
+    int bar_x = bMirrored ? g_enemyShipCorner.x + renderPoint.x + mountPoint.x - (int)(anim.info.frameWidth * anim.fScale) - 18
+                            : g_enemyShipCorner.x + renderPoint.x - mountPoint.x + (int)(anim.info.frameWidth * anim.fScale) + 10;
+    int bar_y = g_enemyShipCorner.y + renderPoint.y - mountPoint.y;
 
-    float offset = -18.f;
-    if (!bMirrored)
-    {
-        offset = (float)((int)((float)anim.info.frameWidth * anim.fScale) + 10);
-    }
+    // charge box size is 8 x 35
+    if (bar_x < 1274 && -1 < bar_y && bar_y < 687) return super(alpha);
 
-    if (renderPoint.x + offset <= 375.f)
-    {
-        super(alpha);
-        return;
-    }
+    int x = 1273 < bar_x ? 1273 - bar_x : 0;
+    int y = 0;
+    if (bar_y < 0) y = -bar_y;
+    else if (686 < bar_y) y = 686 - bar_y;
 
-    float translate_x = 375.f - renderPoint.x - offset;
-    CSurface::GL_Translate(translate_x, -50.f);
+    CSurface::GL_Translate(x, y);
     super(alpha);
-    CSurface::GL_Translate(-translate_x, 50.f);
+    CSurface::GL_Translate(-x, -y);
 }
+
+HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RenderChargeBars -> Begin (CustomWeapons.cpp)\n")
+    g_enemyShipCorner = G_->GetCApp()->gui->combatControl.position + G_->GetCApp()->gui->combatControl.targetPosition + ship.GetShipCorner();
+    super();
+}
+
