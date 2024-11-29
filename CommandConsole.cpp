@@ -331,9 +331,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
 void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
 {
-    if (switching) return;
-
-    switching = true;
     WorldManager *world = G_->GetWorld();
     CommandGui *gui = world->commandGui;
     ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
@@ -342,22 +339,24 @@ void CommandConsole::SwitchShip(ShipBlueprint* shipBlueprint)
 
     ShipManager *oldShip = world->playerShip->shipManager;
     for (auto i : oldShip->GetWeaponList()) oldShip->RemoveItem(i->blueprint->name);
-    
-    auto *ship = static_cast<ShipManager*>(::operator new(sizeof(ShipManager)));
-    ship->constructor(0);
+
+    ShipManager* ship = new ShipManager(0);
+
+    // Will crash here if you reload a ship you already switched from, step to reproduce: 
+    // SWITCH PLAYER_SHIP_MANTIS 
+    // SWITCH [YOUR STARTING SHIP] 
+    // SWITCH PLAYER_SHIP_MANTIS
     ship->OnInit(shipBlueprint, 0);
-    
+    // OnInit is the responsible
+
+    ship->SaveToBlueprint(true);
+    delete shipBlueprint;
+
     world->playerShip->SetShip(ship);
     world->starMap.shipManager = ship;
-
-    // Equivalent to ScoreKeeper::SetShipBlueprint, not exposed because the linux sig sucks
     scoreKeeper->currentScore.blueprint = shipBlueprint->blueprintName;
-
     gui->LinkShip(world->playerShip);
     oldShip->destructor2();
-
-    
-    switching = false;
 }
 //===============================================
 

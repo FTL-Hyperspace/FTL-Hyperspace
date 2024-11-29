@@ -17,7 +17,6 @@ public:
     static CommandConsole *GetInstance() { return &instance; }
 private:
     static CommandConsole instance;
-    bool switching = false;
 };
 
 class PrintHelper
