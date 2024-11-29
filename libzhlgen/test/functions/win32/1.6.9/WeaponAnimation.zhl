@@ -9,4 +9,4 @@ __thiscall void WeaponAnimation::Update(WeaponAnimation *this);
 "578d????0883e4f0ff????5589e557565389cb83ec5cf30f10??":
 __thiscall void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3ce8????????80":
-__thiscall void WeaponAnimation::RenderChargeBar(WeaponAnimation *this,float alpha);
+__thiscall void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);
