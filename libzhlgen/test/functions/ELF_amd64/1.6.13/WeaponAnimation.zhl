@@ -8,3 +8,5 @@ cleanup __amd64 Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
 cleanup __amd64 void WeaponAnimation::Update(WeaponAnimation *this);
 ".??57??56??55??545553??89fb??83ec38":
 cleanup __amd64 void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
+".41564155415455534889fb4883ec20e8":
+cleanup __amd64 void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);
