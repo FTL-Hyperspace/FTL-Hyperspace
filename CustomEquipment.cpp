@@ -78,60 +78,86 @@ HOOK_METHOD_PRIORITY(Equipment, AddToCargo, 9999, (const std::string& name) -> v
     }
 }
 
-struct EquipmentInfo
-{
-    static bool has_weapon;
-    static bool has_drone;
-    static int weapon_max_slots;
-    static int drone_max_slots;
-    static int pos_x;
-    static int pos_y;
-    static bool dummyEquBoxesRenderingCompleted;
-};
+static GL_Texture* weaponBoxOffTexture = nullptr;
+static GL_Texture* droneBoxOffTexture = nullptr;
+static std::vector<GL_Primitive*> dummyWeaponSlots;
+static std::vector<GL_Primitive*> dummyDroneSlots;
 
-bool EquipmentInfo::has_weapon = false;
-bool EquipmentInfo::has_drone = false;
-int EquipmentInfo::weapon_max_slots = 0;
-int EquipmentInfo::drone_max_slots = 0;
-int EquipmentInfo::pos_x = 0;
-int EquipmentInfo::pos_y = 0;
-bool EquipmentInfo::dummyEquBoxesRenderingCompleted = true;
+static bool g_hasWeapon;
+static bool g_hasDrone;
+static int g_weaponMaxSlots;
+static int g_droneMaxSlots;
+static int g_equipmentPos_x;
+static int g_equipmentPos_y;
+static bool g_dummyEquBoxesRenderingCompleted;
 
 static bool g_renderDummyEquBoxesUnderNoEquText = false;
+
+HOOK_METHOD(Equipment, OnInit, (ShipManager *ship) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnInit -> Begin (CustomEquipment.cpp)\n")
+
+    if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue) return super(ship);
+
+    if (!weaponBoxOffTexture) weaponBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_weapons_off.png");
+    if (!droneBoxOffTexture) droneBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_drones_off.png");
+
+    for (auto primitive : dummyWeaponSlots)
+    {
+        CSurface::GL_DestroyPrimitive(primitive);
+    }
+    dummyWeaponSlots.clear();
+    for (auto primitive : dummyDroneSlots)
+    {
+        CSurface::GL_DestroyPrimitive(primitive);
+    }
+    dummyDroneSlots.clear();
+
+    if (!ship->HasSystem(3))
+    {
+        int max_slots = ship->myBlueprint.weaponSlots;
+        int start_x = (4 - max_slots) * 58 + position.x + 64;
+        for (int i = 0; i < max_slots; i++)
+        {
+            dummyWeaponSlots.push_back(CSurface::GL_CreateImagePrimitive(weaponBoxOffTexture, start_x + (i * 117), position.y + 70, weaponBoxOffTexture->width_, weaponBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f)));
+        }
+    }
+    if (!ship->HasSystem(4))
+    {
+        int max_slots = ship->myBlueprint.droneSlots;
+        int start_x = (4 - max_slots) * 58 + position.x + 64;
+        for (int i = 0; i < max_slots; i++)
+        {
+            dummyDroneSlots.push_back(CSurface::GL_CreateImagePrimitive(droneBoxOffTexture, start_x + (i * 117), position.y + 180, droneBoxOffTexture->width_, droneBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f)));
+        }
+    }
+
+    super(ship);
+}
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomEquipment.cpp)\n")
 
-    if (g_renderDummyEquBoxesUnderNoEquText && name == "equipment_no_system" && !EquipmentInfo::dummyEquBoxesRenderingCompleted)
+    if (g_renderDummyEquBoxesUnderNoEquText && name == "equipment_no_system" && !g_dummyEquBoxesRenderingCompleted)
     {
         GL_Color originalColor = CSurface::GL_GetColor();
-        if (!EquipmentInfo::has_weapon)
+        if (!g_hasWeapon)
         {
-            int max_slots = EquipmentInfo::weapon_max_slots;
-            int start_x = (4 - max_slots) * 58 + EquipmentInfo::pos_x + 64;
-            GL_Texture *weaponBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_weapons_off.png");
-            for (int i = 0; i < max_slots; i++)
+            for (auto primitive : dummyWeaponSlots)
             {
-                GL_Primitive *weaponBoxOffPrimitive = CSurface::GL_CreateImagePrimitive(weaponBoxOffTexture, start_x + (i * 117), EquipmentInfo::pos_y + 70, weaponBoxOffTexture->width_, weaponBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f));
-                CSurface::GL_RenderPrimitive(weaponBoxOffPrimitive);
+                CSurface::GL_RenderPrimitive(primitive);
             }
         }
-
-        if (!EquipmentInfo::has_drone)
+        if (!g_hasDrone)
         {
-            int max_slots = EquipmentInfo::drone_max_slots;
-            int start_x = (4 - max_slots) * 58 + EquipmentInfo::pos_x + 64;
-            GL_Texture *droneBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_drones_off.png");
-            for (int i = 0; i < max_slots; i++)
+            for (auto primitive : dummyDroneSlots)
             {
-                GL_Primitive *droneBoxOffPrimitive = CSurface::GL_CreateImagePrimitive(droneBoxOffTexture, start_x + (i * 117), EquipmentInfo::pos_y + 180, droneBoxOffTexture->width_, droneBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f));
-                CSurface::GL_RenderPrimitive(droneBoxOffPrimitive);
+                CSurface::GL_RenderPrimitive(primitive);
             }
         }
-        
         CSurface::GL_SetColor(originalColor);
-        EquipmentInfo::dummyEquBoxesRenderingCompleted = true;
+        g_dummyEquBoxesRenderingCompleted = true;
     }
     return super(name, lang);
 }
@@ -140,19 +166,15 @@ HOOK_METHOD(Equipment, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Equipment::OnRender -> Begin (CustomEquipment.cpp)\n")
 
-    if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue || (shipManager->HasSystem(3) && shipManager->HasSystem(4)))
-    {
-        super();
-        return;
-    }
+    if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue || (shipManager->HasSystem(3) && shipManager->HasSystem(4))) return super();
 
-    EquipmentInfo::has_weapon = shipManager->HasSystem(3);
-    EquipmentInfo::has_drone = shipManager->HasSystem(4);
-    EquipmentInfo::weapon_max_slots = shipManager->myBlueprint.weaponSlots;
-    EquipmentInfo::drone_max_slots = shipManager->myBlueprint.droneSlots;
-    EquipmentInfo::pos_x = position.x;
-    EquipmentInfo::pos_y = position.y;
-    EquipmentInfo::dummyEquBoxesRenderingCompleted = false;
+    g_hasWeapon = shipManager->HasSystem(3);
+    g_hasDrone = shipManager->HasSystem(4);
+    g_weaponMaxSlots = shipManager->myBlueprint.weaponSlots;
+    g_droneMaxSlots = shipManager->myBlueprint.droneSlots;
+    g_equipmentPos_x = position.x;
+    g_equipmentPos_y = position.y;
+    g_dummyEquBoxesRenderingCompleted = false;
 
     g_renderDummyEquBoxesUnderNoEquText = true;
     super();
