@@ -30,6 +30,8 @@ cleanup __amd64 void AchievementTracker::OnLanguageChange(AchievementTracker *th
 cleanup __amd64 void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 "53488b77584889fb488d7f48":
 cleanup __amd64 void AchievementTracker::ResetFlags(AchievementTracker *this);
+"415455534889fb4883ec20488b":
+cleanup __amd64 void AchievementTracker::OnLoop(AchievementTracker *this);
 
 
 "!488d742420bf(???????\?)e8????????488b5424208b44240c":

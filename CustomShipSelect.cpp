@@ -681,6 +681,11 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
             isCustom = true;
             def.artilleryGibMountFix = true;
         }
+        if (name == "hideHullDuringExplosion")
+        {
+            isCustom = true;
+            def.hideHullDuringExplosion = true;
+        }
 
     }
 

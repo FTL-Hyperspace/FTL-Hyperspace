@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="it">
-  <mod:setValue>\1 (Hyperspace 1.14.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="it">
   <mod:setValue>Possibilità di Incendio: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -247,6 +247,7 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="tooltip_temporal_enemy" language="it">Manipolatore temporale: Il nemico può usarlo per cambiare la velocità del tempo in una stanza.</text>
 <text name="tooltip_PDS_FLEET_ALL" language="it">Le batterie anti-astronave della flotta stanno sparando su tutte le astronavi nell'area.</text>
 <text name="tooltip_PDS_FLEET_ENEMY" language="it">Le batterie anti-astronave della flotta stanno stanno prendendo di mira i tuoi nemici.</text>
+<text name="tooltip_purchase_limit" language="it">Numero di acquisti rimanenti, esclusi oggetti e riparazioni.</text>
 <!-- New save file -->
 <text name="transfer_save_dialog" language="it">Sembra che questa sia la prima volta che giochi a questa mod, o non hai ancora impostato un nuovo file di salvataggio! Desideri trasferire i progressi di Vanilla, o gioca con un nuovo salvataggio? Ciò NON influenzerà in alcun modo i tuoi progressi nel Vanilla.</text>
 <!--Neutral ASB text-->
@@ -261,7 +262,7 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="it">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="it">Progetto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="it">Sviluppato da:</text>
-<text name="credits_hyperspace_developed_names" language="it">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex</text>
+<text name="credits_hyperspace_developed_names" language="it">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
 <text name="credits_hyperspace_art" language="it">Ulteriore art:</text>
 <text name="credits_hyperspace_art_names" language="it">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="it">Contributi Aggiuntivi:</text>
