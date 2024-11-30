@@ -78,17 +78,14 @@ HOOK_METHOD_PRIORITY(Equipment, AddToCargo, 9999, (const std::string& name) -> v
     }
 }
 
+
+// displays transparent weapon/drone slots for not installed weapon/drone system
+
 static GL_Texture* weaponBoxOffTexture = nullptr;
 static GL_Texture* droneBoxOffTexture = nullptr;
 static std::vector<GL_Primitive*> dummyWeaponSlots;
 static std::vector<GL_Primitive*> dummyDroneSlots;
 
-static bool g_hasWeapon;
-static bool g_hasDrone;
-static int g_weaponMaxSlots;
-static int g_droneMaxSlots;
-static int g_equipmentPos_x;
-static int g_equipmentPos_y;
 static bool g_dummyEquBoxesRenderingCompleted;
 
 static bool g_renderDummyEquBoxesUnderNoEquText = false;
@@ -142,22 +139,16 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
     if (g_renderDummyEquBoxesUnderNoEquText && name == "equipment_no_system" && !g_dummyEquBoxesRenderingCompleted)
     {
         GL_Color originalColor = CSurface::GL_GetColor();
-        if (!g_hasWeapon)
+        for (auto primitive : dummyWeaponSlots)
         {
-            for (auto primitive : dummyWeaponSlots)
-            {
-                CSurface::GL_RenderPrimitive(primitive);
-            }
+            CSurface::GL_RenderPrimitive(primitive);
         }
-        if (!g_hasDrone)
+        for (auto primitive : dummyDroneSlots)
         {
-            for (auto primitive : dummyDroneSlots)
-            {
-                CSurface::GL_RenderPrimitive(primitive);
-            }
+            CSurface::GL_RenderPrimitive(primitive);
         }
         CSurface::GL_SetColor(originalColor);
-        g_dummyEquBoxesRenderingCompleted = true;
+        g_dummyEquBoxesRenderingCompleted = true; // prevent from calling twice; when both weapon and drone are not installed
     }
     return super(name, lang);
 }
@@ -168,14 +159,7 @@ HOOK_METHOD(Equipment, OnRender, () -> void)
 
     if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue || (shipManager->HasSystem(3) && shipManager->HasSystem(4))) return super();
 
-    g_hasWeapon = shipManager->HasSystem(3);
-    g_hasDrone = shipManager->HasSystem(4);
-    g_weaponMaxSlots = shipManager->myBlueprint.weaponSlots;
-    g_droneMaxSlots = shipManager->myBlueprint.droneSlots;
-    g_equipmentPos_x = position.x;
-    g_equipmentPos_y = position.y;
     g_dummyEquBoxesRenderingCompleted = false;
-
     g_renderDummyEquBoxesUnderNoEquText = true;
     super();
     g_renderDummyEquBoxesUnderNoEquText = false;
