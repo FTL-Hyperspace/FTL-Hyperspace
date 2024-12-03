@@ -459,6 +459,7 @@ playerVariableType playerVariables;
 %rename("%s") CustomEventsParser;
 %rename("%s") CustomEventsParser::GetInstance;
 %rename("%s") CustomEventsParser::LoadEvent;
+%rename("%s") CustomEventsParser::GetCustomEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
@@ -651,6 +652,11 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::unlockShip;
 %rename("%s") LocationEvent::unlockShipText;
 %rename("%s") LocationEvent::secretSector;
+
+%nodefaultctor CustomEvent;
+%nodefaultdtor CustomEvent;
+%rename("%s") CustomEvent;
+%rename("%s") CustomEvent::unlockShip;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;
