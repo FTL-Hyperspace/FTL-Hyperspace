@@ -6781,10 +6781,10 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
         CrewMember_Extend *ex = CM_EX(this);
         ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
         Room* stationRoom = graph->rooms[station.roomId];
-        if (stationRoom->Full(false)) return false; // Handle the the case were a stationless crew/drone is filling the room of the saved station
+        if (stationRoom->Full(false)) return false; // Handle the the case where a stationless crew/drone is filling the room of the saved station
         if (ex->CanTeleportMove(false))
         {
-            // Handle return for stations for crew that can teleport
+            // Handle return to stations for crew that can teleport
             SetCurrentTarget((CrewTarget *)NULL, false);
             EmptySlot();
             SetRoomPath(station.slotId, station.roomId);
@@ -6895,7 +6895,7 @@ HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
 
 HOOK_METHOD(CrewMember, SetRoomPath, (int slotId, int roomId) -> void)
 {
-    if (g_checkForPartitionPath &&  g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
+    if (g_checkForPartitionPath && g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
     {
         slotId = g_partitionDestSlotId;
         roomId = g_partitionDestRoomId;
