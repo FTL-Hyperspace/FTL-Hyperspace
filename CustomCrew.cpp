@@ -6780,8 +6780,6 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
     {
         CrewMember_Extend *ex = CM_EX(this);
         ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
-        Room* stationRoom = graph->rooms[station.roomId];
-        if (stationRoom->Full(false)) return false; // Handle the case where a stationless crew/drone is filling the room of the saved station
         if (ex->CanTeleportMove(false))
         {
             // Handle return to stations for crew that can teleport
