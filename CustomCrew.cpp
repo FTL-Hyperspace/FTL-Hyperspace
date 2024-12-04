@@ -5261,7 +5261,7 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
     return super(crew, roomId, target);
 }
 
-HOOK_METHOD_PRIORITY(CrewMember, Clone, 9999, () -> void)
+HOOK_METHOD_PRIORITY(CrewMember, Clone, -9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
 

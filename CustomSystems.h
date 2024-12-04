@@ -21,19 +21,6 @@ private:
     static std::vector<MindLevel> levels;
 };
 
-//Planned feature
-//allow xml control for heal per jump (hp and hp%)
-////hook CloneSystem::GetJumpHealth and ShipManager::CloneHealing
-//allow xml control for health when cloned
-//allow xml control for skill loss when cloned
-////hook CrewMember::Clone
-//allow xml control for clone death speed
-////hook CloneSystem::GetDeathProgress
-//allow xml control for clone speed
-////hook CloneSystem::GetProgress or loop
-//allow those value to be affected by augments
-//TBD if we can allow for multiple clones at the same time
-
 class CustomCloneSystem
 {
 public:
@@ -45,7 +32,7 @@ public:
         int skillLossPercent;
         float cloneSpeed;
         float deathSpeed;
-        int count;
+        int count; // Number of clones, unused for now, still here with the xml implementation for a later use
     };
     static void ParseSystemNode(rapidxml::xml_node<char>* node);
     static CloneLevel& GetLevel(CloneSystem* system, bool passive);
