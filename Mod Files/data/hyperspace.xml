@@ -283,6 +283,11 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 
 <artilleryGibMountFix enabled="false"/>
 
+<!--  Moves red flashing lights (which appear when there is fire or breach in the room) to an appropriate position so that they no longer stick to doors or leave from walls.
+-->
+
+<warningLightPositionFix enabled="false"/>
+
 <!--  Prevents hull image from being drawn over gibs during a ship explosion.
 -->
 
