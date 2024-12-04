@@ -58,6 +58,8 @@ public:
     Setting<bool> showMissileCount;
     Setting<bool> showDroneCount;
     Setting<bool> showCrewLimit;
+    
+    Setting<bool> showDummyEquipmentSlots;
 
     Setting<bool> showAllConnections;
 

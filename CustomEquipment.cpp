@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "CustomOptions.h"
 
 HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift) -> void)
 {
@@ -75,4 +76,101 @@ HOOK_METHOD_PRIORITY(Equipment, AddToCargo, 9999, (const std::string& name) -> v
         AddAugment(aug,true,true);
         return;
     }
+}
+
+
+// displays transparent weapon/drone slots for not installed weapon/drone system
+
+static GL_Texture* weaponBoxOffTexture = nullptr;
+static GL_Texture* droneBoxOffTexture = nullptr;
+static std::vector<GL_Primitive*> dummyWeaponSlots;
+static std::vector<GL_Primitive*> dummyDroneSlots;
+
+static bool g_hasWeapon;
+static bool g_hasDrone;
+static bool g_dummyEquBoxesRenderingCompleted;
+
+static bool g_renderDummyEquBoxesUnderNoEquText = false;
+
+HOOK_METHOD(Equipment, OnInit, (ShipManager *ship) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnInit -> Begin (CustomEquipment.cpp)\n")
+
+    if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue) return super(ship);
+
+    if (!weaponBoxOffTexture) weaponBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_weapons_off.png");
+    if (!droneBoxOffTexture) droneBoxOffTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/box_drones_off.png");
+
+    for (auto primitive : dummyWeaponSlots)
+    {
+        CSurface::GL_DestroyPrimitive(primitive);
+    }
+    dummyWeaponSlots.clear();
+    for (auto primitive : dummyDroneSlots)
+    {
+        CSurface::GL_DestroyPrimitive(primitive);
+    }
+    dummyDroneSlots.clear();
+
+    if (!ship->HasSystem(3))
+    {
+        int max_slots = ship->myBlueprint.weaponSlots;
+        int start_x = (4 - max_slots) * 58 + position.x + 64;
+        for (int i = 0; i < max_slots; i++)
+        {
+            dummyWeaponSlots.push_back(CSurface::GL_CreateImagePrimitive(weaponBoxOffTexture, start_x + (i * 117), position.y + 70, weaponBoxOffTexture->width_, weaponBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f)));
+        }
+    }
+    if (!ship->HasSystem(4))
+    {
+        int max_slots = ship->myBlueprint.droneSlots;
+        int start_x = (4 - max_slots) * 58 + position.x + 64;
+        for (int i = 0; i < max_slots; i++)
+        {
+            dummyDroneSlots.push_back(CSurface::GL_CreateImagePrimitive(droneBoxOffTexture, start_x + (i * 117), position.y + 180, droneBoxOffTexture->width_, droneBoxOffTexture->height_, 0.f, GL_Color(1.f, 1.f, 1.f, 0.2f)));
+        }
+    }
+
+    super(ship);
+}
+
+HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomEquipment.cpp)\n")
+
+    if (g_renderDummyEquBoxesUnderNoEquText && name == "equipment_no_system" && !g_dummyEquBoxesRenderingCompleted)
+    {
+        GL_Color originalColor = CSurface::GL_GetColor();
+        if (!g_hasWeapon)
+        {
+            for (auto primitive : dummyWeaponSlots)
+            {
+                CSurface::GL_RenderPrimitive(primitive);
+            }
+        }
+        if (!g_hasDrone)
+        {
+            for (auto primitive : dummyDroneSlots)
+            {
+                CSurface::GL_RenderPrimitive(primitive);
+            }
+        }
+        CSurface::GL_SetColor(originalColor);
+        g_dummyEquBoxesRenderingCompleted = true; // prevent from calling twice; when both weapon and drone are not installed
+    }
+    return super(name, lang);
+}
+
+HOOK_METHOD(Equipment, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnRender -> Begin (CustomEquipment.cpp)\n")
+
+    if (!CustomOptionsManager::GetInstance()->showDummyEquipmentSlots.currentValue || (shipManager->HasSystem(3) && shipManager->HasSystem(4))) return super();
+
+    g_hasWeapon = shipManager->HasSystem(3);
+    g_hasDrone = shipManager->HasSystem(4);
+    g_dummyEquBoxesRenderingCompleted = false;
+    g_renderDummyEquBoxesUnderNoEquText = true;
+    super();
+    g_renderDummyEquBoxesUnderNoEquText = false;
 }

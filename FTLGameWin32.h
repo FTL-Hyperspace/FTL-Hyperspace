@@ -4151,6 +4151,7 @@ struct Equipment : FocusWindow
 	LIBZHL_API void MouseUp(int mX, int mY);
 	LIBZHL_API void OnInit(ShipManager *ship);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
 	
 	GL_Texture *box;
