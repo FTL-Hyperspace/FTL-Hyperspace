@@ -1369,6 +1369,10 @@ HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) ->
     }
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, -scrollAmount);
     if (!tooltipTitle.empty()) freetype::easy_printAutoNewlines(13, text_x, tooltipPoint.y + 13, width, tooltipTitle);
+#ifdef _WIN32
     freetype::easy_printAutoNewlines(tooltipFont, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
+#else
+    freetype::easy_printAutoNewlines(G_->GetTextLibrary()->currentLanguage == "ja" ? 12 : 10, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
+#endif // _WIN32
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, scrollAmount);
 }
