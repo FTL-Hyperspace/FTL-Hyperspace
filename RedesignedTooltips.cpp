@@ -1303,6 +1303,8 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
 // scrolling tooltip
 
+GL_Primitive *ScrollingTooltip::scrollUpArrow = nullptr;
+GL_Primitive *ScrollingTooltip::scrollDownArrow = nullptr;
 std::string ScrollingTooltip::tooltip = "";
 float ScrollingTooltip::scrollAmount = 0.f;
 float ScrollingTooltip::maxScroll = 0.f;
@@ -1338,23 +1340,24 @@ HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) ->
             tooltipPoint.y -= position.y + rect_h - 670.f;
             if (position.y < tooltipPoint.y + rect_h)
             {
-                tooltipPoint.y = std::max(0.f, position.y - rect_h - 10.f); // prevent the top of tooltip from being outside the screen
+                tooltipPoint.y = std::max(50.f, position.y - rect_h - 10.f); // prevent the top of tooltip from being outside the screen
             }
         }
-        float rect_max_x = position.x + rect_w;
-        if (1260.f < rect_max_x)
+        if (1260.f < position.x + rect_w)
         {
-            tooltipPoint.x -= rect_max_x - 1240.f;
+            tooltipPoint.x -= position.x + rect_w - 1240.f;
         }
     }
-    float rect_visual_y = tooltipPoint.y + rect_h > 720.f ? 720.f - tooltipPoint.y : rect_h;
-    CSurface::GL_DrawRect(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_y, GL_Color(0.f, 0.f, 0.f, 0.95f));
-    CSurface::GL_DrawRectOutline(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_y, COLOR_WHITE, 2.f);
+
+    bool scrolling = rect_h > 620.f;
+    float rect_visual_h = scrolling ? 670.f - tooltipPoint.y : rect_h;
+    CSurface::GL_DrawRect(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_h, GL_Color(0.f, 0.f, 0.f, 0.95f));
+    CSurface::GL_DrawRectOutline(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_h, COLOR_WHITE, 2.f);
     CSurface::GL_SetColor(COLOR_WHITE);
     float text_x = tooltipPoint.x + 15.f;
     float mainText_yOffset = tooltipTitle.empty() ? 0 : freetype::easy_measurePrintLines(13, text_x, tooltipPoint.y + 13, width, tooltipTitle).y + 5.f;
     float scrollAmount = 0.f;
-    if (rect_h > 720.f)
+    if (scrolling)
     {
         if (tooltip == ScrollingTooltip::tooltip)
         {
@@ -1364,8 +1367,13 @@ HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) ->
         {
             ScrollingTooltip::tooltip = tooltip;
             ScrollingTooltip::scrollAmount = 0.f;
-            ScrollingTooltip::maxScroll = rect_h - 720.f;
+            ScrollingTooltip::maxScroll = rect_h - 580.f;
         }
+        
+        tooltipPoint.y += 20;
+        CSurface::GL_SetStencilMode(STENCIL_SET, 100, 100);
+        CSurface::GL_DrawRect(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_h - 40, COLOR_WHITE);
+        CSurface::GL_SetStencilMode(STENCIL_USE, 100, 100);
     }
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, -scrollAmount);
     if (!tooltipTitle.empty()) freetype::easy_printAutoNewlines(13, text_x, tooltipPoint.y + 13, width, tooltipTitle);
@@ -1375,4 +1383,30 @@ HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) ->
     freetype::easy_printAutoNewlines(G_->GetTextLibrary()->currentLanguage == "ja" ? 12 : 10, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #endif // _WIN32
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, scrollAmount);
+    if (scrolling)
+    {
+        CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
+
+        if (!ScrollingTooltip::scrollUpArrow)
+        {
+            auto tex = G_->GetResources()->GetImageId("statusUI/button_crew_up_on.png");
+            ScrollingTooltip::scrollUpArrow = CSurface::GL_CreateImagePrimitive(tex, 0.f, 54.f, tex->width_, tex->height_, 0.f, COLOR_WHITE);
+        }
+        if (!ScrollingTooltip::scrollDownArrow)
+        {
+            auto tex = G_->GetResources()->GetImageId("statusUI/button_crew_down_on.png");
+            ScrollingTooltip::scrollDownArrow = CSurface::GL_CreateImagePrimitive(tex, 0.f, 652.f, tex->width_, tex->height_, 0.f, COLOR_WHITE);
+        }
+
+        CSurface::GL_Translate(tooltipPoint.x + rect_w / 2.f - 6.f, 0.f);
+        if (scrollAmount != 0.f)
+        {
+            CSurface::GL_RenderPrimitive(ScrollingTooltip::scrollUpArrow);
+        }
+        if (scrollAmount != ScrollingTooltip::maxScroll)
+        {
+            CSurface::GL_RenderPrimitive(ScrollingTooltip::scrollDownArrow);
+        }
+        CSurface::GL_Translate(-(tooltipPoint.x + rect_w / 2.f - 6.f), 0.f);
+    }
 }
