@@ -6782,7 +6782,7 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
         ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
         if (ex->CanTeleportMove(false))
         {
-            // Handle return for stations for crew that can teleport
+            // Handle return to stations for crew that can teleport
             SetCurrentTarget((CrewTarget *)NULL, false);
             EmptySlot();
             SetRoomPath(station.slotId, station.roomId);
@@ -6844,4 +6844,60 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
     }
     
     return false;
+}
+
+static bool g_checkForPartitionPath = false;
+static int g_partitionDestRoomId = -1;
+static int g_partitionDestSlotId = -1;
+
+HOOK_METHOD(CrewMember, MoveToRoom, (int roomId,int slotId,bool bForceMove) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::MoveToRoom -> Begin (CustomCrew.cpp)\n")
+
+    g_checkForPartitionPath = true;
+    bool ret = super(roomId, slotId, bForceMove);
+    g_checkForPartitionPath = false;
+    g_partitionDestRoomId = -1;
+    g_partitionDestSlotId = -1;
+
+    return ret;
+}
+
+HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipGraph::FindPath -> Begin (CustomCrew.cpp)\n")
+
+    Path ret = super(p1, p2, shipId);
+    if (g_checkForPartitionPath && ret.distance == -1.0)
+    {
+        ShipManager *shipManager = G_->GetShipManager(shipId);
+        std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> stationBackups;
+        if (shipManager && (stationBackups = CustomShipSelect::GetInstance()->GetDefinition(shipManager->myBlueprint.blueprintName).roomStationBackups, stationBackups.find(GetSelectedRoom(p2.x, p2.y, true)) != stationBackups.end()))
+        {
+            for (auto backupRoom : *stationBackups.at(GetSelectedRoom(p2.x, p2.y, true)))
+            {
+                int slot = shipManager->ship.vRoomList[backupRoom.first]->GetEmptySlot(false);
+                ret = super(p1, GetSlotWorldPosition(slot, backupRoom.first), shipId);
+                if (ret.distance != -1.0) 
+                {
+                    g_partitionDestRoomId = backupRoom.first;
+                    g_partitionDestSlotId = slot;
+                    break;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, SetRoomPath, (int slotId, int roomId) -> void)
+{
+    if (g_checkForPartitionPath && g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
+    {
+        slotId = g_partitionDestSlotId;
+        roomId = g_partitionDestRoomId;
+    }
+
+    super(slotId, roomId);
 }
