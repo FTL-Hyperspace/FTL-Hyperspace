@@ -1,3 +1,4 @@
+#include "RedesignedTooltips.h"
 #include "CustomOptions.h"
 #include "CustomWeapons.h"
 #include "CustomAugments.h"
@@ -1297,4 +1298,77 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
         descBoxSize.y = boxSize.y + 14.f;
     }
+}
+
+
+// scrolling tooltip
+
+std::string ScrollingTooltip::tooltip = "";
+float ScrollingTooltip::scrollAmount = 0.f;
+float ScrollingTooltip::maxScroll = 0.f;
+
+bool ScrollingTooltip::OnScrollWheel(float direction)
+{
+    std::string last_tooltip = G_->GetMouseControl()->lastTooltipText;
+    if (last_tooltip.empty() || last_tooltip != tooltip) return false;
+
+    scrollAmount += 50.f * direction;
+    scrollAmount = std::max(0.f, std::min(scrollAmount, maxScroll));
+    return true;
+}
+
+HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
+
+    // rewrite vanilla code + add some fix + scrolling tooltip
+    int width = overrideTooltipWidth < 1 ? (tooltipTitle.empty() ? 275 : 350) : overrideTooltipWidth;
+    Point tooltipSize = MeasureTooltip(width);
+    float rect_w = tooltipSize.x + 27.f;
+    float rect_h = tooltipSize.y + (tooltipTitle.empty() ? 18.f : 23.f);
+    if (!staticPos)
+    {
+        if (iHacking != 0 || iMindControlling != 0)
+        {
+            tooltipPoint.y += 10;
+        }
+        if (position.y + rect_h > 670.f)
+        {
+            tooltipPoint.x += 16;
+            tooltipPoint.y -= position.y + rect_h - 670.f;
+            if (position.y < tooltipPoint.y + rect_h)
+            {
+                tooltipPoint.y = std::max(0.f, position.y - rect_h - 10.f); // prevent the top of tooltip from being outside the screen
+            }
+        }
+        float rect_max_x = position.x + rect_w;
+        if (1260.f < rect_max_x)
+        {
+            tooltipPoint.x -= rect_max_x - 1240.f;
+        }
+    }
+    float rect_visual_y = tooltipPoint.y + rect_h > 720.f ? 720.f - tooltipPoint.y : rect_h;
+    CSurface::GL_DrawRect(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_y, GL_Color(0.f, 0.f, 0.f, 0.95f));
+    CSurface::GL_DrawRectOutline(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_y, COLOR_WHITE, 2.f);
+    CSurface::GL_SetColor(COLOR_WHITE);
+    float text_x = tooltipPoint.x + 15.f;
+    float mainText_yOffset = tooltipTitle.empty() ? 0 : freetype::easy_measurePrintLines(13, text_x, tooltipPoint.y + 13, width, tooltipTitle).y + 5.f;
+    float scrollAmount = 0.f;
+    if (rect_h > 720.f)
+    {
+        if (tooltip == ScrollingTooltip::tooltip)
+        {
+            scrollAmount = ScrollingTooltip::scrollAmount;
+        }
+        else
+        {
+            ScrollingTooltip::tooltip = tooltip;
+            ScrollingTooltip::scrollAmount = 0.f;
+            ScrollingTooltip::maxScroll = rect_h - 720.f;
+        }
+    }
+    if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, -scrollAmount);
+    if (!tooltipTitle.empty()) freetype::easy_printAutoNewlines(13, text_x, tooltipPoint.y + 13, width, tooltipTitle);
+    freetype::easy_printAutoNewlines(tooltipFont, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
+    if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, scrollAmount);
 }
