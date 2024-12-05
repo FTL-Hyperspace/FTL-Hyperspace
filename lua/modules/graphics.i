@@ -567,6 +567,16 @@ struct CSurface
     */
     static bool GL_DisableBlend();
     /***
+    @function CSurface_GL_DrawCircle
+    @tparam float x
+    @tparam float y
+    @tparam float radius
+    @tparam GL_Color color
+    @treturn bool
+    @within functions
+    */
+    static bool GL_DrawCircle(float x, float y, float radius, GL_Color color);
+    /***
     @function CSurface_GL_DrawLine
     @tparam float x1
     @tparam float y1
