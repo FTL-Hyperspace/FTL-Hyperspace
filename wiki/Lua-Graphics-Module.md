@@ -201,6 +201,12 @@ All below methods are static, so they are to be called with the `.` operator.
 
 - `bool GL_DisableBlend()`
 
+- `bool GL_DrawCircle(float x, float y, float radius, GL_Color color)`
+
+  - Renders a full circle
+  - `float x, float y` -- center point
+  - `radius` -- the radius of the circle
+
 - `bool GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color)`
 
   - Renders a line

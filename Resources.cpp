@@ -1,4 +1,3 @@
-#include "Store_Extend.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
@@ -425,6 +424,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "warningLightPositionFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_warningLightPositionFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
