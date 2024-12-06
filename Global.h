@@ -91,16 +91,6 @@ private:
 
 void hs_log_file(const char *str...);
 void hs_log_file(const std::string &str);
-void hs_log_file(bool val);
-void hs_log_file(int val);
-void hs_log_file(unsigned int val);
-void hs_log_file(long val);
-void hs_log_file(unsigned long val);
-void hs_log_file(long long val);
-void hs_log_file(unsigned long long val);
-void hs_log_file(float val);
-void hs_log_file(double val);
-void hs_log_file(long double val);
 void ftl_log(const char *str...);
 void ErrorMessage(const std::string &msg);
 void ErrorMessage(const char *msg);

@@ -56,21 +56,7 @@ void hs_log_file(const std::string &str)
     }
 }
 
-void hs_log_file(bool val)
-{
-    if (val) hs_log_file("true");
-    else hs_log_file("false");
-}
 
-void hs_log_file(int val) {hs_log_file(std::to_string(val));}
-void hs_log_file(unsigned int val) {hs_log_file(std::to_string(val));}
-void hs_log_file(long val) {hs_log_file(std::to_string(val));}
-void hs_log_file(unsigned long val) {hs_log_file(std::to_string(val));}
-void hs_log_file(long long val) {hs_log_file(std::to_string(val));}
-void hs_log_file(unsigned long long val) {hs_log_file(std::to_string(val));}
-void hs_log_file(float val) {hs_log_file(std::to_string(val));}
-void hs_log_file(double val) {hs_log_file(std::to_string(val));}
-void hs_log_file(long double val) {hs_log_file(std::to_string(val));}
 
 void ftl_log(const char *str...)
 {
