@@ -65,7 +65,7 @@ All calls are under `Hyperspace`
 ### Methods
 
 - [`LocationEvent`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
-- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed)`
+- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
 
 ## ShipInfo
 
@@ -2299,7 +2299,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ```lua
 -- Adds to every event choice a new choice with the text "new text" leading to the event "FUEL_FLEET_DELAY"
 script.on_internal_event(Defines.InternalEvents.PRE_CREATE_CHOICEBOX, function(event)
-   local locEvent = Hyperspace.Event:GetBaseEvent("FUEL_FLEET_DELAY", Hyperspace.App.world.starMap.worldLevel, 1, Hyperspace.Global.currentSeed);
+   local locEvent = Hyperspace.Event:GetBaseEvent("FUEL_FLEET_DELAY", Hyperspace.App.world.starMap.worldLevel, false, Hyperspace.Global.currentSeed);
    local req = Hyperspace.ChoiceReq()
    req.object = ""
    req.min_level = 0

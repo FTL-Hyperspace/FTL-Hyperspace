@@ -5599,7 +5599,7 @@ struct EventGenerator
 	}
 
 	LIBZHL_API LocationEvent *CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique);
-	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
+	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed);
 	LIBZHL_API std::string GetImageFromList(const std::string &listName);
 	LIBZHL_API SectorDescription GetSectorDescription(const std::string &type, int level);
 	LIBZHL_API ShipEvent GetShipEvent(const std::string &event);
