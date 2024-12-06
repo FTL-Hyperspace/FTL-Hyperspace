@@ -56,8 +56,6 @@ void hs_log_file(const std::string &str)
     }
 }
 
-
-
 void ftl_log(const char *str...)
 {
     va_list va;
