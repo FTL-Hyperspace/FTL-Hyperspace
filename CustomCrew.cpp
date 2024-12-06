@@ -5260,16 +5260,33 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
     return super(crew, roomId, target);
 }
 
+static bool g_ignorePlaySoundMix = false;
+
+HOOK_METHOD(SoundControl, PlaySoundMix, (const std::string &soundName, float volume, bool loop) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> SoundControl::PlaySoundMix -> Begin (CustomCrew.cpp)\n")
+    if (g_ignorePlaySoundMix) return 0;
+    return super(soundName, volume, loop);
+}
+
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
+    ShipManager *ship = G_->GetShipManager(iShipId);
+    g_ignorePlaySoundMix = !ship || ship->bDestroyed;
+
     bool cloneLoseSkills = false;
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
 
     auto ex = CM_EX(this);
     ex->CalculateStat(CrewStat::CLONE_LOSE_SKILLS, def, &cloneLoseSkills);
-    if (!CustomCrewManager::GetInstance()->IsRace(species) || cloneLoseSkills) return super();
+    if (!CustomCrewManager::GetInstance()->IsRace(species) || cloneLoseSkills)
+    {
+        super();
+        g_ignorePlaySoundMix = false;
+        return;
+    }
 
     bOutOfGame = false;
     bDead = false;
@@ -5281,12 +5298,8 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     crewAnim->anims[0][6].tracker.SetLoop(false, 0.f);
     crewAnim->anims[0][6].Start(true);
     crewAnim->anims[0][6].StartReverse(true);
-
-    ShipManager *ship = G_->GetShipManager(iShipId);
-    if (ship && !ship->bDestroyed)
-    {
-        G_->GetSoundControl()->PlaySoundMix("cloneArrive", -1.f, false);
-    }
+    G_->GetSoundControl()->PlaySoundMix("cloneArrive", -1.f, false);
+    g_ignorePlaySoundMix = false;
 }
 
 static bool needsIntruderControllable = false;
