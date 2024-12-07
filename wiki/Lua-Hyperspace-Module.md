@@ -3434,6 +3434,13 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 - `void :LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
 - `void :LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string eventName)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(Location *loc)`
+
+## CustomEvent
+
+### Fields
+- `std::string` `unlockShip`
 
 ## MainMenu
 

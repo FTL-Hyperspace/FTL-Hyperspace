@@ -791,6 +791,7 @@ struct WeaponAnimation
 {
 	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void OnRender(float alpha);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -6303,6 +6304,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API void OnRender(float alpha, bool forceVisual);
 	LIBZHL_API void RenderChargeBar(float unk);
 	LIBZHL_API static void __stdcall SaveProjectile(Projectile *p, int fd);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SelectChargeGoal();
 	LIBZHL_API void SetCooldownModifier(float mod);
 	LIBZHL_API void SetCurrentShip(Targetable *ship);
