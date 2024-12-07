@@ -11423,12 +11423,12 @@ void Ship::OnRenderBreaches()
 namespace _func895
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Ship::BreachSpecificHull", typeid(void (Ship::*)(int , int )), ".41564989fe4155415455534883ec30", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Ship::BreachSpecificHull", typeid(bool (Ship::*)(int , int )), ".41564989fe4155415455534883ec30", nullptr, 0, 0, &func);
 }
 
-void Ship::BreachSpecificHull(int grid_x, int grid_y)
+bool Ship::BreachSpecificHull(int grid_x, int grid_y)
 {
-	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, int grid_x_arg, int grid_y_arg);
+	typedef bool (*custom_arg_funcptr_t)(Ship *this_arg, int grid_x_arg, int grid_y_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func895::func;
 	return execfunc(this, grid_x, grid_y);
 }

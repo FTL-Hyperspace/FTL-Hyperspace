@@ -12526,12 +12526,12 @@ namespace _func913
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Ship::BreachSpecificHull", typeid(void (Ship::*)(int , int )), "5589e557565383ec4c8b450c8b7d10", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("Ship::BreachSpecificHull", typeid(bool (Ship::*)(int , int )), "5589e557565383ec4c8b450c8b7d10", argdata, 3, 2, &func);
 }
 
-void Ship::BreachSpecificHull(int grid_x, int grid_y)
+bool Ship::BreachSpecificHull(int grid_x, int grid_y)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Ship *this_arg, int grid_x_arg, int grid_y_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(Ship *this_arg, int grid_x_arg, int grid_y_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func913::func;
 	return execfunc(this, grid_x, grid_y);
 }
