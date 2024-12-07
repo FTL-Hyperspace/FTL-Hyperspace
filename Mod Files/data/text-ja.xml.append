@@ -280,3 +280,8 @@
 <text name="credits_hyperspace_loc_ja_names" language="ja">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="ja">韓国語</text>
 <text name="credits_hyperspace_loc_kor_names" language="ja">nedsociety</text>
+
+<text name="shields_4" language="ja">5層シールド</text>
+<text name="shields_5" language="ja">6層シールド</text>
+<text name="shields_6" language="ja">7層シールド</text>
+<text name="shields_7" language="ja">8層シールド</text>

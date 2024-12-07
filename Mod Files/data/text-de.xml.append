@@ -275,3 +275,8 @@ Taste: \1</text>
 <text name="credits_hyperspace_loc_ja_names" language="de">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="de">Koreanisch</text>
 <text name="credits_hyperspace_loc_kor_names" language="de">nedsociety</text>
+
+<text name="shields_4" language="de">Fünf Schildbarrieren</text>
+<text name="shields_5" language="de">Sechs Schildbarrieren</text>
+<text name="shields_6" language="de">Sieben Schildbarrieren</text>
+<text name="shields_7" language="de">Acht Schildbarrieren</text>

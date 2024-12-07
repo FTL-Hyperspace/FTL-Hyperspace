@@ -288,3 +288,8 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names" language="it">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="it">Coreano</text>
 <text name="credits_hyperspace_loc_kor_names" language="it">nedsociety</text>
+
+<text name="shields_4" language="it">Cinque barriere di scudi</text>
+<text name="shields_5" language="it">Sei barriere di scudi</text>
+<text name="shields_6" language="it">Sette barriere di scudi</text>
+<text name="shields_7" language="it">Otto barriere di scudi</text>

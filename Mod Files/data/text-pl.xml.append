@@ -288,3 +288,8 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names" language="pl">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="pl">Koreański</text>
 <text name="credits_hyperspace_loc_kor_names" language="pl">nedsociety</text>
+
+<text name="shields_4" language="pl">Pięć warstwy osłony</text>
+<text name="shields_5" language="pl">Sześć warstwy osłony</text>
+<text name="shields_6" language="pl">Siedem warstwy osłony</text>
+<text name="shields_7" language="pl">Osiem warstwy osłony</text>

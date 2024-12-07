@@ -288,3 +288,8 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names" language="es">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="es">Coreano</text>
 <text name="credits_hyperspace_loc_kor_names" language="es">nedsociety</text>
+
+<text name="shields_4" language="es">Cinco escudos</text>
+<text name="shields_5" language="es">Seis escudos</text>
+<text name="shields_6" language="es">Siete escudos</text>
+<text name="shields_7" language="es">Ocho escudos</text>
