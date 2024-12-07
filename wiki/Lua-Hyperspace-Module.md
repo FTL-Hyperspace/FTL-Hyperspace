@@ -509,7 +509,6 @@ Accessed via `ShipManager`'s `.extend` field
 **Extends [ShipObject](#Shipobject)**
 
 ### Methods
-
 -  `bool :BreachRandomHull(int roomId)`
    -  Breaches a random tile in the room with `roomId` as its id. This can select an already breached tile, in which case nothing will happen.
 -  `int :EmptySlots(int roomId)`
@@ -569,11 +568,11 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
 -  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+   - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected.
 
-## LockdownShard (Currently cannot set value to any of the fields)
+## LockdownShard
 
 ### Methods
-
 - `void` `:Update()`
 
 ### Fields
