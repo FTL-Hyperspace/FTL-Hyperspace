@@ -37,7 +37,7 @@ __thiscall void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b51208b41248b3fc745c400000000c745c800000000c745cc0000000029d0":
 __thiscall void Ship::BreachRandomHull(Ship *this, int roomId);
 "578d7c240883e4f0ff77fc5589e557565331db89ce83ec4c8b078b51208945c48b47048945c08b4124":
-__thiscall void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
+__thiscall bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b0789c68945c08b470483feff8845b8":
 __thiscall int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 "5589e557565383e4f083ec300fb6450c8b7d08c70100000000c7410400000000c7410800000000894c242c":
