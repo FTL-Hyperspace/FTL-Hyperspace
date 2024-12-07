@@ -570,7 +570,7 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bShowEngines`
 -  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
 
-## LockdownShard
+## LockdownShard (Currently cannot set value to any of the fields)
 
 ### Methods
 
