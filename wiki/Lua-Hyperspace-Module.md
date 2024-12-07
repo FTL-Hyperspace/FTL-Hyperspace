@@ -570,6 +570,19 @@ Accessed via `ShipManager`'s `.extend` field
 -  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
    - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected.
 
+### Hyperspace Fields
+-  `std::vector<std::pair<Animation, int8_t>>` 
+`extraEngineAnim`
+   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
+   
+   |Value | Rotation                     |
+   | ---: | :--------------------------- |
+   | -1   | 90 Degrees Clockwise         |
+   |  0   | No Rotation                  |
+   |  1   | 90 Degrees Counterclockwise  |
+
+   Note: Pairs are returned by value, and not by reference.
+
 ## LockdownShard
 
 ### Methods
@@ -586,18 +599,6 @@ Accessed via `ShipManager`'s `.extend` field
 - `bool` `.superFreeze`
 - `int` `.lockingRoom`
 
-### Hyperspace Fields
--  `std::vector<std::pair<Animation, int8_t>>` 
-`extraEngineAnim`
-   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
-   
-   |Value | Rotation                     |
-   | ---: | :--------------------------- |
-   | -1   | 90 Degrees Clockwise         |
-   |  0   | No Rotation                  |
-   |  1   | 90 Degrees Counterclockwise  |
-
-   Note: Pairs are returned by value, and not by reference.
 ## ShipSystem
 
 ### Static methods
