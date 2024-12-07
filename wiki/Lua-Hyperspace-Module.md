@@ -509,7 +509,7 @@ Accessed via `ShipManager`'s `.extend` field
 **Extends [ShipObject](#Shipobject)**
 
 ### Methods
-
+-  [`std::vector<LockdownShard*>`](#LockdownShard) `:GetShards()`
 -  `bool :BreachRandomHull(int roomId)`
    -  Breaches a random tile in the room with `roomId` as its id. This can select an already breached tile, in which case nothing will happen.
 -  `int :EmptySlots(int roomId)`
@@ -568,7 +568,9 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bCloaked`
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
--  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+-  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+   - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
+
 ### Hyperspace Fields
 -  `std::vector<std::pair<Animation, int8_t>>` 
 `extraEngineAnim`
@@ -581,6 +583,23 @@ Accessed via `ShipManager`'s `.extend` field
    |  1   | 90 Degrees Counterclockwise  |
 
    Note: Pairs are returned by value, and not by reference.
+
+## LockdownShard
+
+### Methods
+- `void` `:Update()`
+
+### Fields
+- [`Animation`](#Animation) `.shard`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.goal`
+- `float` `.speed`
+- `bool` `.bArrived`
+- `bool` `.bDone`
+- `float` `.lifeTime`
+- `bool` `.superFreeze`
+- `int` `.lockingRoom`
+
 ## ShipSystem
 
 ### Static methods
