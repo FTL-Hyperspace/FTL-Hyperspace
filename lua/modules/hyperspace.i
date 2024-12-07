@@ -162,6 +162,7 @@ namespace std {
     %template(vector_choiceText) vector<ChoiceText>;
     %template(vector_p_choiceText) vector<ChoiceText*>;
     %template(vector_LockdownShard) vector<LockdownShard>;
+    %template(vector_p_LockdownShard) vector<LockdownShard*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -1870,6 +1871,7 @@ playerVariableType playerVariables;
 %nodefaultctor Ship;
 %nodefaultdtor Ship;
 %rename("%s") Ship;
+%rename("%s") Ship::GetShards;
 %rename("%s") Ship::DoorStateType;
 %rename("%s") Ship::GetRoomCenter;
 /*

@@ -6717,6 +6717,17 @@ struct Ship : ShipObject
 		return graph->GetRoomCenter(room);
 	}
 
+	std::vector<LockdownShard*> GetShards()
+    {
+        std::vector<LockdownShard*> ret = std::vector<LockdownShard*>();
+        for (int i=0; i < (int)this->lockdowns.size(); ++i)
+        {
+            ret.push_back(&this->lockdowns[i]);
+        }
+
+        return ret;
+    }
+
 	void RenderEngineAnimation(bool showEngines, float alpha);
 	
 	enum DoorStateType
