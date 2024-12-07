@@ -2245,16 +2245,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`Point`](#Point) `.targetPosition`
 - `bool` `.open`
 - [`Pointf`](#Pointf) `.potentialAiming`
+- [`std::vector<PointF*>`](#PointF) `.aimingPoints`
 - `bool` `.mouseDown`
 - `bool` `.isAimingTouch`
+- `bool` `.movingBeam`
+- [`Point`](#Point) `.beamMoveLast`
+- `bool` `.invalidBeamTouch`
 - `bool` `.boss_visual`
    - **Read-only**
 
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields
+- [`ProjectileFactory`](#ProjectileFactory) `.armedWeapon`
 - `bool` `.autoFiring`
    - **Read-only**
+- `int` `.armedSlot`
 
 ## LocationEvent
 
