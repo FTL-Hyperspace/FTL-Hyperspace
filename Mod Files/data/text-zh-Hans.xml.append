@@ -297,3 +297,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_ja_names" language="zh-Hans">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="zh-Hans">韩语：</text>
 <text name="credits_hyperspace_loc_kor_names" language="zh-Hans">nedsociety</text>
+
+<text name="shields_4" language="zh-Hans">五层护盾屏障</text>
+<text name="shields_5" language="zh-Hans">六层护盾屏障</text>
+<text name="shields_6" language="zh-Hans">七层护盾屏障</text>
+<text name="shields_7" language="zh-Hans">八层护盾屏障</text>
