@@ -574,7 +574,7 @@ Accessed via `ShipManager`'s `.extend` field
 
 ### Methods
 
-- `void` `.Update`
+- `void` `:Update()`
 
 ### Fields
 - [`Animation`](#Animation) `.shard`
