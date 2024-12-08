@@ -1235,7 +1235,7 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
             CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
             heal = 0;
             if (pLevel.jumpHPPercent > 0){
-                heal += static_cast<float>(pLevel.jumpHPPercent)/100 * health.second;
+                heal += (float)pLevel.jumpHPPercent/100 * health.second;
             }
             if (pLevel.jumpHP > 0)
             {
@@ -1267,7 +1267,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
 
         if (level.cloneHPPercent > 0)
         {
-            health.first = static_cast<float>(level.cloneHPPercent)/100.0 * health.second;
+            health.first = (float)level.cloneHPPercent/100.0 * health.second;
             if (health.first < 1) health.first = 1; // Small safety for our beloved crew
         }
 
@@ -1275,7 +1275,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         {
             for (int i = 0; i < 6; i++)
             {
-                int newSkillProgress = saveSkills[i] - (saveSkills[i] * static_cast<float>(pLevel.skillLossPercent)/100.0);
+                int newSkillProgress = saveSkills[i] - (saveSkills[i] * (float)pLevel.skillLossPercent/100.0);
                 if (newSkillProgress < 0) newSkillProgress = 0;
                 SetSkillProgress(i, newSkillProgress);
             }
@@ -1320,12 +1320,12 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 }
 
 // For tooltips
-HOOK_METHOD(CloneSystem, GetCloneTime, (int level) -> int)
+HOOK_STATIC(CloneSystem, GetCloneTime, (int level) -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetCloneTime -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> CloneSystem::GetCloneTime -> Begin (CustomSystems.cpp)\n")
 
     CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
-    return static_cast<int>(glevel.cloneSpeed);
+    return (int)glevel.cloneSpeed;
 }
 
 HOOK_METHOD(CloneSystem, GetJumpHealth, (int level) -> int)

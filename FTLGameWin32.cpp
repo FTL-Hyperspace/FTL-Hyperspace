@@ -3201,15 +3201,15 @@ namespace _func229
 namespace _func230
 {
     static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CloneSystem::GetCloneTime", typeid(int (CloneSystem::*)(int )), ".8b44????f30f2c04??????????", argdata, 2, 1, &func);
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CloneSystem::GetCloneTime", typeid(int (*)(int )), ".8b44????f30f2c04??????????", argdata, 1, 2, &func);
 }
 
 int CloneSystem::GetCloneTime(int level)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg, int level_arg);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(int level_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func230::func;
-	return execfunc(this, level);
+	return execfunc(level);
 }
 
 namespace _func231
@@ -3271,13 +3271,13 @@ int CloneSystem::GetJumpHealth(int level)
 namespace _func235
 {
     static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CloneSystem::CloneReady", typeid(CrewMember (CloneSystem::*)()), "5589e5538b??????????c7??????????00000000", argdata, 2, 1, &func);
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("CloneSystem::CloneReady", typeid(CrewMember *(CloneSystem::*)()), "5589e5538b??????????c7??????????00000000", argdata, 1, 1, &func);
 }
 
-CrewMember CloneSystem::CloneReady()
+CrewMember *CloneSystem::CloneReady()
 {
-	typedef CrewMember __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
+	typedef CrewMember *__attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func235::func;
 	return execfunc(this);
 }
