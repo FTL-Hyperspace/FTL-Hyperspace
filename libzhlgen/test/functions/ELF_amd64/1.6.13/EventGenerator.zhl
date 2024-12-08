@@ -9,7 +9,7 @@ cleanup __amd64 SectorDescription EventGenerator::GetSpecificSector(EventGenerat
 ".415741564155415455488d6f78534889f34881ec88020000":
 cleanup __amd64 LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
 ".5589cd534889fb4883ec184183f8ff":
-cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
+cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
 
 "!.418b97e8090000458b87fc1400004d8da77814000031c9bf(???????\?)":
 EventGenerator* Global_EventGenerator_Generator;

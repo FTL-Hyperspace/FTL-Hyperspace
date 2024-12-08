@@ -1,5 +1,5 @@
 "5557565383ec1c8b4424408b5c24308b7424348b7c2438":
-cleanup __cdecl LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
+cleanup __cdecl LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
 "5589e557565381ecdc0100008b45148b5d0c":
 cleanup __cdecl LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
 "5589e557565381ecac0000008b75108b450c":
