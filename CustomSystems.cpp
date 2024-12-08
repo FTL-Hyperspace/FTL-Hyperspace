@@ -1328,9 +1328,9 @@ HOOK_STATIC(CloneSystem, GetCloneTime, (int level) -> int)
     return (int)glevel.cloneSpeed;
 }
 
-HOOK_METHOD(CloneSystem, GetJumpHealth, (int level) -> int)
+HOOK_STATIC(CloneSystem, GetJumpHealth, (int level) -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
 
     CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
     return glevel.jumpHP;

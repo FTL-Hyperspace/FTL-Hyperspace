@@ -3257,15 +3257,15 @@ float CloneSystem::GetDeathProgress()
 namespace _func234
 {
     static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CloneSystem::GetJumpHealth", typeid(int (CloneSystem::*)(int )), "8b44????8b04??????????c3", argdata, 2, 1, &func);
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CloneSystem::GetJumpHealth", typeid(int (*)(int )), "8b44????8b04??????????c3", argdata, 1, 2, &func);
 }
 
 int CloneSystem::GetJumpHealth(int level)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloneSystem *this_arg, int level_arg);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(int level_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func234::func;
-	return execfunc(this, level);
+	return execfunc(level);
 }
 
 namespace _func235
