@@ -1262,7 +1262,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     if (sys != nullptr)
     {
         
-        CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
+        CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
         CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys, false);
 
         if (level.cloneHPPercent > 0)
