@@ -161,6 +161,8 @@ namespace std {
     %template(vector_p_locationEventChoice) vector<LocationEvent::Choice*>;
     %template(vector_choiceText) vector<ChoiceText>;
     %template(vector_p_choiceText) vector<ChoiceText*>;
+    %template(vector_LockdownShard) vector<LockdownShard>;
+    %template(vector_p_LockdownShard) vector<LockdownShard*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -462,6 +464,7 @@ playerVariableType playerVariables;
 %rename("%s") CustomEventsParser;
 %rename("%s") CustomEventsParser::GetInstance;
 %rename("%s") CustomEventsParser::LoadEvent;
+%rename("%s") CustomEventsParser::GetCustomEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
@@ -656,6 +659,11 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::unlockShip;
 %rename("%s") LocationEvent::unlockShipText;
 %rename("%s") LocationEvent::secretSector;
+
+%nodefaultctor CustomEvent;
+%nodefaultdtor CustomEvent;
+%rename("%s") CustomEvent;
+%rename("%s") CustomEvent::unlockShip;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;
@@ -1878,6 +1886,7 @@ playerVariableType playerVariables;
 %nodefaultctor Ship;
 %nodefaultdtor Ship;
 %rename("%s") Ship;
+%rename("%s") Ship::GetShards;
 %rename("%s") Ship::DoorStateType;
 %rename("%s") Ship::GetRoomCenter;
 /*
@@ -1934,7 +1943,21 @@ playerVariableType playerVariables;
 %rename("%s") Ship::bCloaked;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
-//%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+%rename("%s") Ship::lockdowns;
+
+%nodefaultctor LockdownShard;
+
+%rename("%s") LockdownShard;
+%rename("%s") LockdownShard::Update;
+%rename("%s") LockdownShard::shard;
+%rename("%s") LockdownShard::position;
+%rename("%s") LockdownShard::goal;
+%rename("%s") LockdownShard::speed;
+%rename("%s") LockdownShard::bArrived;
+%rename("%s") LockdownShard::bDone;
+%rename("%s") LockdownShard::lifeTime;
+%rename("%s") LockdownShard::superFreeze;
+%rename("%s") LockdownShard::lockingRoom;
 
 
 //Expose Hyperspace engine anims as a member variable
