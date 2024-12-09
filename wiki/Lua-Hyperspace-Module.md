@@ -2245,7 +2245,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`Point`](#Point) `.targetPosition`
 - `bool` `.open`
 - [`Pointf`](#Pointf) `.potentialAiming`
-- [`std::vector<PointF*>`](#PointF) `.aimingPoints`
+- [`std::vector<Pointf*>`](#Pointf) `.aimingPoints`
 - `bool` `.mouseDown`
 - `bool` `.isAimingTouch`
 - `bool` `.movingBeam`
