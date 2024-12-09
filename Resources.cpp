@@ -426,6 +426,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "warningLightPositionFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_warningLightPositionFix = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
