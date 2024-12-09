@@ -226,6 +226,7 @@ namespace std {
 %rename("Settings") Global_Settings_Settings;
 %rename("Mouse") Global_MouseControl_Mouse;
 %rename("Text") Global_Globals_Library;
+%rename("Event") Global_EventGenerator_Generator;
 
 %immutable Global_CApp;
 %immutable Global_BlueprintManager_Blueprints;
@@ -238,6 +239,7 @@ namespace std {
 %immutable Global_Settings_Settings;
 %immutable Global_MouseControl_Mouse;
 %immutable Global_Globals_Library;
+%immutable Global_EventGenerator_Generator;
 
 %rename("setRandomSeed") srandom32;
 
@@ -281,6 +283,7 @@ public:
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
+    EventGenerator *GetEventGenerator();
 
     static bool IsSeededRun();
     %immutable;
@@ -621,6 +624,8 @@ playerVariableType playerVariables;
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
 %rename("%s") LocationEvent::GetChoices;
+%rename("%s") LocationEvent::AddChoice;
+%rename("%s") LocationEvent::RemoveChoice;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
@@ -991,6 +996,10 @@ playerVariableType playerVariables;
 %rename("%s") ShipEvent::droneOverCount;
 %rename("%s") ShipEvent::shipSeed;
 */
+
+%rename("%s") EventGenerator;
+%rename("%s") EventGenerator::CreateEvent;
+%rename("%s") EventGenerator::GetBaseEvent;
 
 %rename("%s") CrewDesc;
 %rename("%s") CrewDesc::type;
