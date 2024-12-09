@@ -1898,6 +1898,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::DoorState::level;
 */
 %rename("%s") Ship::BreachRandomHull;
+%rename("%s") Ship::BreachSpecificHull;
 %rename("%s") Ship::EmptySlots;
 %rename("%s") Ship::FullRoom;
 %rename("%s") Ship::GetAvailableRoomSlot;

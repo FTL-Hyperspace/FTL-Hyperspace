@@ -6798,7 +6798,7 @@ struct Ship : ShipObject
 	};
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
-	LIBZHL_API void BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API bool BreachSpecificHull(int grid_x, int grid_y);
 	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
