@@ -710,16 +710,22 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl::targetPosition;
 %rename("%s") CombatControl::open;
 %rename("%s") CombatControl::potentialAiming;
+%rename("%s") CombatControl::aimingPoints;
 %rename("%s") CombatControl::mouseDown;
 %rename("%s") CombatControl::isAimingTouch;
+%rename("%s") CombatControl::movingBeam;
+%rename("%s") CombatControl::beamMoveLast;
+%rename("%s") CombatControl::invalidBeamTouch;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
+%rename("%s") WeaponControl::armedWeapon;
 %rename("%s") WeaponControl::autoFiring;
 %immutable WeaponControl::autoFiring;
+%rename("%s") WeaponControl::armedSlot;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
