@@ -1,5 +1,6 @@
 #include "CustomUpgrades.h"
 #include "CustomShipSelect.h"
+#include <boost/lexical_cast.hpp>
 
 CustomUpgrades CustomUpgrades::instance = CustomUpgrades();
 bool blockShipNameRendering = false;
@@ -535,4 +536,165 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
         if (upgrade->allowRename && upgrade->renameInput && upgrade->renameInput->GetActive()) return;
     }
     super(key);
+}
+
+
+bool SystemNoPurchaseThreshold::enabled = false;
+int SystemNoPurchaseThreshold::threshold;
+std::string SystemNoPurchaseThreshold::replace;
+
+// Separate the upgrade power bars into two columns if the max value is above 8.
+
+bool g_upgradeBarsSecondColumn = false;
+
+HOOK_METHOD(Upgrades, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    g_upgradeBarsSecondColumn = true;
+    super();
+    g_upgradeBarsSecondColumn = false;
+}
+
+// scrolling info box and system upgrade cost upper limit visual fix
+
+bool g_infoBoxRenderFix = false;
+bool g_upgradeCostThresholdRewrite = false;
+bool g_force_easy_print = false;
+Pointf infoBoxUpgradeCostPos;
+std::vector<int> upgradeCosts;
+
+HOOK_METHOD(InfoBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    g_infoBoxRenderFix = maxPower > 8 && blueprint;
+    if (g_infoBoxRenderFix)
+    {
+        infoBoxUpgradeCostPos.x = (float)(location.x + 105);
+        infoBoxUpgradeCostPos.y = (float)(location.y + yShift + 224);
+        upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
+    }
+    g_upgradeCostThresholdRewrite = SystemNoPurchaseThreshold::enabled;
+    // if g_infoBoxRenderFix is true, upgrade costs rendering is prevented in this method. Instead they are rendered within ShipSystem::RenderPowerBoxesPlain hook, taking scrolling into account
+    super();
+    g_infoBoxRenderFix = false;
+    g_upgradeCostThresholdRewrite = false;
+}
+
+HOOK_METHOD(UpgradeBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> UpgradeBox::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    g_upgradeCostThresholdRewrite = SystemNoPurchaseThreshold::enabled;
+    super();
+    g_upgradeCostThresholdRewrite = false;
+}
+
+int barIndex = 0;
+
+bool g_startTranslatePowerBars = false;
+int barLeftColumnIndex = 0;
+
+bool g_startScrollInfoBox = false;
+int barIncrement = 0;
+
+// called within InfoBox::OnRender
+// called within Upgrades::OnRender
+HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int height, int gap, int current, int temp, int max) -> int)
+{
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::RenderPowerBoxesPlain -> Begin (CustomUpgrades.cpp)\n")
+    if (g_infoBoxRenderFix && max > 8) // from InfoBox::OnRender hook
+    {
+        barIndex = 0;
+        barIncrement = current + temp - 4;
+        if (max - current - temp < 4) barIncrement -= 4 - (max - current - temp);
+        if (barIncrement < 0) barIncrement = 0;
+
+        g_startScrollInfoBox = true;
+        int ret = super(x, y, width, height, gap, current, temp, max);
+        g_startScrollInfoBox = false;
+
+        // rewrite upgrade costs rendering
+        g_force_easy_print = true;
+        GL_Color originalColor = CSurface::GL_GetColor();
+        CSurface::GL_SetColor(COLOR_WHITE);
+        for (int i = 0; i < 8; i++)
+        {
+            if (current - barIncrement < 8 - i)
+            {
+                freetype::easy_print(0, infoBoxUpgradeCostPos.x, infoBoxUpgradeCostPos.y + (float)(i * 26), SystemNoPurchaseThreshold::to_string(upgradeCosts[6 - i + barIncrement]));
+            }
+        }
+        CSurface::GL_SetColor(originalColor);
+        g_force_easy_print = false;
+
+        return ret;
+    }
+    else if (g_upgradeBarsSecondColumn && max > 8) // from Upgrades::OnRender hook
+    {
+        barIndex = 0;
+        barLeftColumnIndex = ((current + temp) / 8) > 0 ? ((current + temp) / 8) - 1 : 0;
+        if ((current + temp) % 8 == 0 && current + temp == max && barLeftColumnIndex > 0) barLeftColumnIndex--;
+        if (barLeftColumnIndex > 0)
+        {
+            freetype::easy_printCenter(5, (float)(x + 21), (float)(y - 62), std::to_string((barLeftColumnIndex + 1) * 8));
+            freetype::easy_printCenter(5, (float)(x + 42), (float)(y - 62), std::to_string((barLeftColumnIndex + 2) * 8));
+        }
+
+        g_startTranslatePowerBars = true;
+        int ret = super(x, y, width, height, gap, current, temp, max);
+        g_startTranslatePowerBars = false;
+
+        return ret;
+    }
+    else return super(x, y, width, height, gap, current, temp, max);
+}
+
+// called within ShipSystem::RenderPowerBoxesPlain
+// this function is called inside ShipSystem::RenderPowerBoxesPlain within the for statement, so you can keep track of the bar index.
+HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_RenderPrimitiveWithColor -> Begin (CustomUpgrades.cpp)\n")
+    if (g_startTranslatePowerBars) // upgrade bar second column
+    {
+        int currentColumn = barIndex / 8;
+        if (currentColumn == barLeftColumnIndex)
+        {
+            CSurface::GL_Translate(-10.f, (float)currentColumn * 64.f);
+            super(primitive, color);
+            CSurface::GL_Translate(10.f, (float)currentColumn * -64.f);
+        }
+        else if (currentColumn == barLeftColumnIndex + 1)
+        {
+            CSurface::GL_Translate(11.f, (float)currentColumn * 64.f);
+            super(primitive, color);
+            CSurface::GL_Translate(-11.f, (float)currentColumn * -64.f);
+        }
+        barIndex++;
+    }
+    else if (g_startScrollInfoBox) // info box render fix
+    {
+        if (barIndex - barIncrement < 8 && -1 < barIndex - barIncrement)
+        {
+            CSurface::GL_Translate(0.f, (float)barIncrement * 26.f);
+            super(primitive, color);
+            CSurface::GL_Translate(0.f, (float)barIncrement * -26.f);
+        }
+        barIndex++;
+    }
+    else return super(primitive, color);
+}
+
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
+{
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomUpgrades.cpp)\n")
+    if (!g_infoBoxRenderFix) return super(systemId, level, tooltip);
+    return super(systemId, level + barIncrement, tooltip);
+}
+
+HOOK_STATIC(freetype, easy_print, (int fontSize, float x, float y, const std::string &text) -> Pointf)
+{
+    LOG_HOOK("HOOK_STATIC -> freetype::easy_print -> Begin (CustomUpgrades.cpp)\n")
+    if (g_force_easy_print) return super(fontSize, x, y, text);
+    else if (g_infoBoxRenderFix && fontSize == 0) return  super(fontSize, x, y, "");
+    else if (g_upgradeCostThresholdRewrite && fontSize == 0 && text != " -") return super(fontSize, x, y, SystemNoPurchaseThreshold::to_string(boost::lexical_cast<int>(text)));
+    else return super(fontSize, x, y, text);
 }

@@ -288,3 +288,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_ja_names" language="ko">ranhai</text>
 <text name="credits_hyperspace_loc_ko" language="ko">한국어</text>
 <text name="credits_hyperspace_loc_ko_names" language="ko">nedsociety, H2O</text>
+
+<text name="shields_4" language="ko">방어막 다섯 장</text>
+<text name="shields_5" language="ko">방어막 여섯 장</text>
+<text name="shields_6" language="ko">방어막 일곱 장</text>
+<text name="shields_7" language="ko">방어막 여덟 장</text>

@@ -843,6 +843,16 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
             }
+            if (strcmp(node->name(), "systemNoPurchaseThreshold") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                SystemNoPurchaseThreshold::enabled = EventsParser::ParseBoolean(enabled);
+                if (SystemNoPurchaseThreshold::enabled)
+                {
+                    SystemNoPurchaseThreshold::threshold = boost::lexical_cast<int>(node->first_attribute("threshold")->value());
+                    SystemNoPurchaseThreshold::replace = node->first_attribute("replace")->value();
+                }
+            }
         }
 
         // Post-processing (might not be needed anymore)
