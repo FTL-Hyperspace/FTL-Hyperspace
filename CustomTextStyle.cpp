@@ -1,11 +1,13 @@
-# include "CustomTextStyle.h"
+#include "CustomTextStyle.h"
+#include <sstream>
+#include <boost/algorithm/string.hpp>
 
 bool TextMultiLineCalculator::measureLines_is_busy = false;
 
 // calculate where line breaks will occur when passing a text to freetype::easy_printAutoNewlines
 TextMultiLineCalculator::TextMultiLineCalculator(const std::string &_text, int _fontSize, int _line_length) : text(_text), fontSize(_fontSize), line_length(_line_length)
 {
-    line_height = Global_ResourceControl_GlobalResources->GetFontData(fontSize, false).lineHeight;
+    line_height = G_->GetResources()->GetFontData(fontSize, false).lineHeight;
     ParseText();
 
     // hs_log_file("\nline positions: ");
@@ -31,13 +33,13 @@ TextMultiLineCalculator::TextMultiLineCalculator(const std::string &_text, int _
 int TextMultiLineCalculator::MeasureLines(const std::string &text)
 {
     TextMultiLineCalculator::measureLines_is_busy = true;
-    int ret = (int)(freetype::easy_measurePrintLines(fontSize, 0, 0, line_length, text).y) / line_height;
+    int ret = static_cast<int>(freetype::easy_measurePrintLines(fontSize, 0, 0, line_length, text).y) / line_height;
     TextMultiLineCalculator::measureLines_is_busy = false;
     return ret;
 }
 
-/* why freetype::easy_print?
-You need to understand what each return value of freetype::easy_ functions means first.
+/* why freetype::easy_print instead of measure method?
+You need to understand what each return value of freetype::easy_ functions means.
 
 easy_measurePrintLines -> Pointf : vertical and horizontal length of the imaginary rectangle surrounding a text.
 easy_measureWidth -> int : horizontal length of the imaginary rectangle surrounding a text.
@@ -51,7 +53,7 @@ The condition for line break is "the pixel length from the start x to the x of t
 */
 int TextMultiLineCalculator::MeasureWidth(const std::string &text)
 {
-    return (int)(freetype::easy_print(fontSize, 0, 0, text).x);
+    return static_cast<int>(freetype::easy_print(fontSize, 0, 0, text).x);
 }
 
 // long word means a word potentially divided by line breaks
@@ -173,6 +175,12 @@ void TextMultiLineCalculator::ParseText()
 
 // Custom Text Style Cell Primitive
 
+CustomTextStyleCellPrimitive::CustomTextStyleCellPrimitive(const std::string &_flagContent, int _begin_pos, int _end_pos, int _fontSize) : flagContent(_flagContent), begin_pos(_begin_pos), end_pos(_end_pos), fontSize(_fontSize)
+{
+    boost::algorithm::replace_all(flagContent, " ", "");
+    ParseFlag();
+}
+
 char hexCharToInt(char ch)
 {
     if ('A' <= ch && ch <= 'F') // ABCDEF
@@ -187,7 +195,7 @@ char hexCharToInt(char ch)
     {
         return ch - 48;
     }
-    else return 15; // undefined -> return 0xF
+    else return 15; // undefined
 }
 
 void CustomTextStyleCellPrimitive::ParseFlag()
@@ -269,7 +277,7 @@ void CustomTextStyleCellPrimitive::SetText(const std::string &fullText)
 {
     text = fullText.substr(begin_pos, end_pos - begin_pos + 1);
     // remove newlines; the first letter of text could be \n, which is unnecessary
-    text.erase(std::remove_if(text.begin(), text.end(), [](char c){return c == '\n';}), text.end());
+    boost::algorithm::replace_all(text, "\n", "");
 }
 
 // Custom Text Style Cache
@@ -311,17 +319,23 @@ CustomTextStyleManager CustomTextStyleManager::instance = CustomTextStyleManager
 
 bool CustomTextStyleManager::IsFlagExist(const std::string &text)
 {
-    if (text.length() < 31) return false; // the shortest text containing a flag is (for now): [style[color:XXXXXX]][[/style]]
+    if (text.length() < 31) return false; // the shortest text containing flag: [style[color:XXXXXX]][[/style]]
     return text.find("[style[") != std::string::npos;
+}
+
+std::string CustomTextStyleManager::GetKey(const std::string &text, int fontSize, int line_length)
+{
+    std::stringstream stream;
+    stream << text << ";" << fontSize << ";" << line_length;
+    return stream.str();
 }
 
 void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int line_length, const std::string &originalText)
 {
-    // make prints invisiblel because this function uses freetype::easy_print things during creating process.
     const GL_Color originalColor = CSurface::GL_GetColor();
     CSurface::GL_SetColor(GL_Color(0.f, 0.f, 0.f, 0.f));
 
-    // step1: find flags and divide texts into cells with a flag
+    // step 1: find flags and divide texts into cells with a flag
     std::string sanitizedText;
     std::vector<CustomTextStyleCellPrimitive> primitiveCells;
 
@@ -393,7 +407,7 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
     //     hs_log_file("\nend: %d", cell.end_pos);
     // }
 
-    // step2: adjust cells; some cells may span multiple lines. this step makes sure each cell fits in one line.
+    // step 2: adjust cells; some cells may span multiple lines. this step divide such cells and makes sure each cell fits within one line.
     std::vector<CustomTextStyleCellPrimitive> dividedPrimitiveCells;
     TextMultiLineCalculator calculator(sanitizedText, fontSize, line_length);
     for (auto &cell : primitiveCells)
@@ -401,7 +415,7 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
         cell.DivideSelfByLineBreaks(calculator.GetLinePositions(), dividedPrimitiveCells);
     }
 
-    // step3: set text, x and y
+    // step 3: set text and position
     int height = calculator.GetLineHeight();
     float next_x = 0.f;
     float next_y = -height;
@@ -437,15 +451,15 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
     //     hs_log_file("\ny: %f", cell.y);
     // }
 
-    // step4: sort cells by color so that it can reduce the number of color switching
+    // step 4: sort cells by color for reducing color switching
     std::sort(dividedPrimitiveCells.begin(), dividedPrimitiveCells.end(), [](const CustomTextStyleCellPrimitive &a, const CustomTextStyleCellPrimitive &b){
         if (!(a.colored) && !(b.colored)) return false;
-        else if (a.colored && !(b.colored)) return true;
-        else if (!(a.colored && b.colored)) return false;
+        else if (a.colored && !(b.colored)) return false;
+        else if (!(a.colored) && b.colored) return true;
         else return a.colorKey < b.colorKey;
     });
 
-    // step5: transfer info from primitives to actual cells
+    // step 5: transfer info from primitives into cells
     std::vector<CustomTextStyleCell> cacheCells;
     for (auto &cell: dividedPrimitiveCells)
     {
@@ -463,8 +477,8 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
     //     hs_log_file("\ncolored: %s", (cell.colored ? "true" : "false"));
     // }
 
-    // step6: store cache
-    std::string key = originalText + ';' + std::to_string(fontSize) + ';' + std::to_string(line_length);
+    // step 6: store cache
+    std::string key = GetKey(originalText, fontSize, line_length);
     cache[key] = CustomTextStyleCache(cacheCells, next_x, next_y + height, last_measured_x);
 
     CSurface::GL_SetColor(originalColor);
@@ -473,7 +487,7 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
 // for freetype::easy_measurePrintLines
 Pointf CustomTextStyleManager::Measure(int fontSize, int line_length, const std::string &text)
 {
-    std::string key = text + ';' + std::to_string(fontSize) + ';' + std::to_string(line_length);
+    std::string key = GetKey(text, fontSize, line_length);
     if (cache.count(key) == 0)
     {
         CreateCustomTextStyle(fontSize, line_length, text);
@@ -484,7 +498,7 @@ Pointf CustomTextStyleManager::Measure(int fontSize, int line_length, const std:
 // for freetype::easy_printAutoNewlines
 Pointf CustomTextStyleManager::Print(int fontSize, float x, float y, int line_length, const std::string &text)
 {
-    std::string key = text + ';' + std::to_string(fontSize) + ';' + std::to_string(line_length);
+    std::string key = GetKey(text, fontSize, line_length);
     if (cache.count(key) == 0)
     {
         CreateCustomTextStyle(fontSize, line_length, text);
@@ -519,7 +533,6 @@ void CustomTextStyleManager::ClearCache()
 }
 
 
-
 HOOK_METHOD(CApp, OnLanguageChange, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnLanguageChange -> Begin (CustomTextStyle.cpp)\n")
@@ -541,8 +554,9 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomTextStyle.cpp)\n")
     if (!CustomTextStyleManager::GetInstance()->enabled) return super(fontSize, x, y, line_length, text);
+
     CustomTextStyleManager::GetInstance()->AgeCache();
     if (!CustomTextStyleManager::IsFlagExist(text)) return super(fontSize, x, y, line_length, text);
-    // hs_log_file("\n\ntext: \"%s\"", text.c_str());
+
     return CustomTextStyleManager::GetInstance()->Print(fontSize, x, y, line_length, text);
 }

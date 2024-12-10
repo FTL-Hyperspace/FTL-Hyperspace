@@ -37,11 +37,7 @@ private:
 
 struct CustomTextStyleCellPrimitive
 {
-    CustomTextStyleCellPrimitive(const std::string &_flagContent, int _begin_pos, int _end_pos, int _fontSize) : flagContent(_flagContent), begin_pos(_begin_pos), end_pos(_end_pos), fontSize(_fontSize)
-    {
-        flagContent.erase(std::remove_if(flagContent.begin(), flagContent.end(), [](char c){return c == ' ';}), flagContent.end());
-        ParseFlag();
-    }
+    CustomTextStyleCellPrimitive(const std::string &_flagContent, int _begin_pos, int _end_pos, int _fontSize);
 
     void ParseFlag();
     void DivideSelfByLineBreaks(const std::vector<int> &linePositions, std::vector<CustomTextStyleCellPrimitive> &distContainer);
@@ -93,6 +89,7 @@ class CustomTextStyleManager
 {
 public:
     static bool IsFlagExist(const std::string &text);
+    static std::string GetKey(const std::string &text, int fontSize, int line_length);
 
     Pointf Measure(int fontSize, int line_length, const std::string &text);
     Pointf Print(int fontSize, float x, float y, int line_length, const std::string &text);
