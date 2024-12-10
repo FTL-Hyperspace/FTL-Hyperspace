@@ -371,6 +371,20 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
+<!-- Allows for the existence of additional tabs in the upgrade menu, be wary that they are to be used with lua to have any real utility 
+name: name of the tab
+buttonPath: path the the button picture appearing above when in the upgrade menu, do not give a path ending in .png
+windowPath: path for the background of the new tab, do not give a path ending in .png
+
+You can use the RenderEvent TABBED_WINDOW for your lua rendering
+The internal event TABBED_WINDOW_CONFIRM dictate when a tab is switched or the confirm button has been pressed
+
+-->
+<customTabs enabled="false">
+	<tab name="newTab" buttonPath="path/to/image" windowPath="path/to/image"/>
+    <tab name="newTab2" buttonPath="path/to/image" windowPath="path/to/image"/>
+</customTabs>
+
 <!-- Enables command console in game - press \ to use
 
 

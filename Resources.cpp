@@ -590,6 +590,15 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "customTabs") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                if (EventsParser::ParseBoolean(enabled))
+                {
+                    CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
+                }
+            }
+
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

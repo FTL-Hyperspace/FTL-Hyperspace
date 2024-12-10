@@ -1,2 +1,4 @@
 "5589e5538b51408b412889cb83e4f08b0c908b01ff501089d9e8????????8b5dfcc9c3":
 __thiscall void TabbedWindow::Close(TabbedWindow *this);
+"578d????0883e4f0ff????5589e557565389cb83ec3c8b????8b??85c974??8b01":
+__thiscall void TabbedWindow::AddWindow(TabbedWindow *this,string *name,Button *button,FocusWindow *window);
