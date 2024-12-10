@@ -2,3 +2,7 @@
 __thiscall void TabbedWindow::Close(TabbedWindow *this);
 "578d????0883e4f0ff????5589e557565389cb83ec3c8b????8b??85c974??8b01":
 __thiscall void TabbedWindow::AddWindow(TabbedWindow *this,string *name,Button *button,FocusWindow *window);
+"578d????0883e4f0ff????5589f889e557565389cf81ecac0000008b??8b":
+__thiscall void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab);
+"5589e557565389ce83e4f083ec20e8":
+__thiscall void TabbedWindow::OnRender(TabbedWindow *this);
