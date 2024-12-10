@@ -35,6 +35,7 @@
 #include "CustomAchievements.h"
 #include "HSVersion.h"
 #include "CustomUpgrades.h"
+#include "CustomTabbedWindow.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>

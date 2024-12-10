@@ -3117,7 +3117,6 @@ struct FocusWindow
 {
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
-	LIBZHL_API void constructor();
 	
 	void *vptr;
 	bool bOpen;
@@ -4464,7 +4463,7 @@ struct TabbedWindow;
 
 struct TabbedWindow : FocusWindow
 {
-	LIBZHL_API void AddWindow(string *name, Button *button, FocusWindow *window);
+	LIBZHL_API void AddWindow(const std::string &name, Button *button, FocusWindow *window);
 	LIBZHL_API void Close();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SetTab(unsigned int tab);

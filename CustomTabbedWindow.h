@@ -9,7 +9,7 @@ public:
         FocusWindow* window;
         Button* button;
         GL_Texture* background;
-        const &std::string name;
+        std::string name;
     };
 
     static CustomTabbedWindow* GetInstance()
@@ -19,7 +19,7 @@ public:
 
     Tab GetTab(int index)
     {
-        return tabs[index - 2]
+        return tabs[index - 2];
     }
 
     void populateWindow(TabbedWindow* window);
