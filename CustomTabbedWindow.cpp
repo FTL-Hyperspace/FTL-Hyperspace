@@ -88,23 +88,11 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
-HOOK_METHOD(TabbedWindow, Close, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> TabbedWindow::Close -> Begin (CustomTabbedWindow.cpp)\n")
-
-    auto context = Global::GetInstance()->getLuaContext();
-    lua_pushinteger(context->GetLua(), currentTab);
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
-    lua_pop(context->GetLua(), 1);
-
-    super();
-}
-
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (CustomTabbedWindow.cpp)\n")
 
-    if (shipScreens && shipScreens.doneButton.bActive && shipScreens.doneButton.bHover)
+    if (shipScreens.doneButton.bActive && shipScreens.doneButton.bHover)
     {
         auto context = Global::GetInstance()->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);
