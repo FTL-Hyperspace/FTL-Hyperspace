@@ -3115,8 +3115,14 @@ struct FocusWindow;
 
 struct FocusWindow
 {
+	FocusWindow() 
+	{
+		this->constructor();
+	}
+
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void constructor();
 	
 	void *vptr;
 	bool bOpen;

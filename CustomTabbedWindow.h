@@ -19,7 +19,7 @@ public:
 
     Tab GetTab(int index)
     {
-        return tabs[index - 2];
+        return tabs[index - 3];
     }
 
     void populateWindow(TabbedWindow* window);

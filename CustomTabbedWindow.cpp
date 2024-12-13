@@ -37,37 +37,53 @@ void CustomTabbedWindow::populateWindow(TabbedWindow* window)
 {
     for (auto tab : tabs)
     {
+        bool skip = false;
+        for (auto name : window->names)
+        {
+            if (tab.name == name)
+            {
+                skip = true;
+            }
+        }
+        if (skip)
+            continue;
         window->AddWindow(tab.name, tab.button, tab.window);
     }
 }
 
-HOOK_METHOD(CommandGui, constructor, () -> void)
+HOOK_METHOD(CommandGui, OnLoop, () -> void) // should be linksip when chrono finally find the right sig
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::constructor -> Begin (CustomTabbedWindow.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CommandGui::LinkShip -> Begin (CustomTabbedWindow.cpp)\n")
+
     super();
-    hs_log_file("CommandGui constructor\n");
     CustomTabbedWindow::GetInstance()->populateWindow(&(this->shipScreens));
-    hs_log_file("CommandGui constructor\n");
 }
 
 HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::OnRender -> Begin (CustomTabbedWindow.cpp)\n")
+
     auto context = Global::GetInstance()->getLuaContext();
 
     lua_pushinteger(context->GetLua(), currentTab);
+
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(position.x, 78);
 
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::TABBED_WINDOW, 1);
     
     if (idx >= 0)
     {
+        CSurface::GL_Translate(-position.x, -78);
         super();
-
+        CSurface::GL_Translate(position.x, 78);
         if (currentTab > 2)
             G_->GetResources()->RenderImage(CustomTabbedWindow::GetInstance()->GetTab(currentTab).background, 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
 
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::TABBED_WINDOW, std::abs(idx), 1);
+
+    CSurface::GL_PopMatrix();
 
     lua_pop(context->GetLua(), 1);
 }
@@ -86,9 +102,9 @@ HOOK_METHOD(TabbedWindow, Close, () -> void)
 
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> TabbedWindow::LButtonDown -> Begin (CustomTabbedWindow.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (CustomTabbedWindow.cpp)\n")
 
-    if (shipScreens.doneButton.bActive && shipScreens.doneButton.bHover)
+    if (shipScreens && shipScreens.doneButton.bActive && shipScreens.doneButton.bHover)
     {
         auto context = Global::GetInstance()->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);
@@ -99,6 +115,14 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
     super(mX, mY, shiftHeld);
 }
 
-// handle TABBED_WINDOW_CONFIRM when switching tab as well
-// still some missing sigs that I need to implement
-// apart from that, it is theorically implemented, just need to test those when I can
+HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+    lua_pushinteger(context->GetLua(), currentTab);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
+    lua_pop(context->GetLua(), 1);
+
+    super(tab);
+}
