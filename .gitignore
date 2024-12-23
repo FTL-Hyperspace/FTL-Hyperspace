@@ -22,6 +22,10 @@ lua/swigluarun.h
 # KDE Dolphin
 *.directory
 
+# CLion config directory
+/.idea
+/cmake-build-debug
+
 # Doxygen
 docs/*
 
