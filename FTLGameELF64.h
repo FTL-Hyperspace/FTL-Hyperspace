@@ -13,7 +13,7 @@
     #define LIBZHL_INTERFACE __declspec(novtable)
     __declspec(noreturn) inline void __cdecl __NOP() {}
     #define LIBZHL_PLACEHOLDER {__NOP();}
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
     #define LIBZHL_INTERFACE
     #define LIBZHL_PLACEHOLDER {\
         _Pragma("GCC diagnostic push") \

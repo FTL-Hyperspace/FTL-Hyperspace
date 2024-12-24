@@ -1,4 +1,7 @@
 #pragma once
+
+#if defined(__WIN32) && !defined(SKIPDISCORD)
+
 #include "Global.h"
 #include "discord_rpc.h"
 #include <rapidxml.hpp>
@@ -70,3 +73,4 @@ private:
 
 
 };
+#endif

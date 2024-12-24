@@ -13,7 +13,7 @@
     #define LIBZHL_INTERFACE __declspec(novtable)
     __declspec(noreturn) inline void __cdecl __NOP() {}
     #define LIBZHL_PLACEHOLDER {__NOP();}
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
     #define LIBZHL_INTERFACE
     #define LIBZHL_PLACEHOLDER {\
         _Pragma("GCC diagnostic push") \
@@ -2692,7 +2692,7 @@ struct WeaponBlueprint : Blueprint
 {
 	WeaponBlueprint()
 	{
-		this->constructor();
+		// this->constructor();
 	}
 
 	struct BoostPower
@@ -5022,6 +5022,7 @@ struct ShipGraph
 	}
 	
 	// This function is messed up in Linux so just redefine it manually
+    /*
 	Globals::Rect GetRoomShape(int roomId) 
 	{
 		auto rooms = this->rooms;
@@ -5036,7 +5037,7 @@ struct ShipGraph
 		
 		return {-1, -1, 0, 0};
 	}
-	
+	*/
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
@@ -6689,6 +6690,28 @@ struct Ship : ShipObject
 	{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
+	}
+
+	Globals::Ellipse GetBaseEllipse()
+	{
+		Globals::Ellipse ret;
+		
+		ret.center.x = this->baseEllipse.center.x;
+		ret.center.y = this->baseEllipse.center.y;
+		ret.a = this->baseEllipse.a;
+		ret.b = this->baseEllipse.b;
+
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		Point newEllipse = Point(graph->center.x + this->baseEllipse.center.x, graph->center.y + this->baseEllipse.center.y);
+
+		ret.center.x = newEllipse.x;
+		ret.center.y = newEllipse.y;
+
+		if (iShipId == 0)
+		{
+			ret.center.y + 110;
+		}
+		return ret;
 	}
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
