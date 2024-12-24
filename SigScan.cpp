@@ -17,6 +17,14 @@
     #else
         #error "Unknown processor architecture not supported."
     #endif // Architecture
+#elif defined(__APPLE__)
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <inttypes.h>
+    #include <mach-o/dyld.h>
+    
+    #define PTR_PRINT_F "0x%016" PRIxPTR
+
 #else
     #error "Unsupported OS"
 #endif
@@ -281,5 +289,20 @@ void SigScan::Init()
     s_iBaseLen = segmentLength;
 	s_pLastAddress = s_pBase;
 }
+
+#elif defined(__APPLE__)
+
+void SigScan::Init()
+{
+    uint64_t programBaseAddress = 0;
+    uint64_t segmentLength = 0;
+
+    _dyld_get_image_vmaddr_slide(0);
+
+    s_pBase = (unsigned char *) programBaseAddress;
+    s_iBaseLen = segmentLength;
+    s_pLastAddress = s_pBase;
+}
+
 #endif
 

@@ -2,6 +2,10 @@
 noHook __amd64 void GenericButton::DO_NOT_HOOK_1();
 ".554889e54889f048c1e8??8b":
 virtual cleanup __amd64 void GenericButton::SetLocation(GenericButton *this, Point pos);
+".554889e540887748":
+virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
+".554889e58b471039":
+virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
 ".554889e55dc3":
 virtual cleanup __amd64 void GenericButton::OnClick(GenericButton *this);
 ".554889e55dc3":
@@ -10,7 +14,3 @@ virtual cleanup __amd64 void GenericButton::OnRightClick(GenericButton *this);
 noHook __amd64 void GenericButton::DO_NOT_HOOK_2();
 ".554889e55dc3":
 virtual cleanup __amd64 void GenericButton::ResetPrimitives(GenericButton *this);
-"554889e540887748":
-virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
-"554889e58b471039":
-virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);

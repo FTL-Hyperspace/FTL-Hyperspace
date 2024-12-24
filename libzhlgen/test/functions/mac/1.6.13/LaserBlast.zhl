@@ -1,6 +1,6 @@
 "554889e553504889fbe8b2f9":
 cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
-"554889e553504889fbc74340":
+".554889e553504889fbc74340":
 cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
 
 
