@@ -1,7 +1,3 @@
-/* TODO: Unused, remove from windows and linux
-"NOT LISTED IN GHIDRA":
-cleanup __amd64 void WeaponBlueprint::constructor(WeaponBlueprint *this);
-*/
 "554889e54157415653504989fe488d05????????49890641f68638020000":
 cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
 ".554889e54157415641554154534881ec68010000899544ff":
@@ -12,8 +8,4 @@ cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float sc
 
 struct WeaponBlueprint
 {{
-	WeaponBlueprint()
-	{
-		this->constructor();
-	}
 }};

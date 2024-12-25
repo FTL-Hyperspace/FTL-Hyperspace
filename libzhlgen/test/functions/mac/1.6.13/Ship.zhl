@@ -1,7 +1,3 @@
-/* has been rewritten
-"NOT LISTED IN GHIDRA":
-cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this);
-*/
 "554889e54157415641554154534881ec88030100":
 cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
 ".4983fc177319(4489e0)":
@@ -55,7 +51,31 @@ cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 ".554889e54157415641554154534883ec2889d341":
 cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 
-struct Ship depends (ShipGraph, Globals::Ellipse) {{
+struct Ship depends (ShipGraph, Globals::Ellipse)
+{{
+	// Function is inlined thus we need this reversed code
+	Globals::Ellipse GetBaseEllipse()
+	{
+		Globals::Ellipse ret;
+		
+		ret.center.x = this->baseEllipse.center.x;
+		ret.center.y = this->baseEllipse.center.y;
+		ret.a = this->baseEllipse.a;
+		ret.b = this->baseEllipse.b;
+
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		Point newEllipse = Point(graph->center.x + this->baseEllipse.center.x, graph->center.y + this->baseEllipse.center.y);
+
+		ret.center.x = newEllipse.x;
+		ret.center.y = newEllipse.y;
+
+		if (iShipId == 0)
+		{
+			ret.center.y + 110;
+		}
+		return ret;
+	}
+
 	Pointf GetRoomCenter(int room)
 	{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);

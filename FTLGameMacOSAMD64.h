@@ -2690,10 +2690,6 @@ struct SystemBlueprint : Blueprint
 
 struct WeaponBlueprint : Blueprint
 {
-	WeaponBlueprint()
-	{
-		// this->constructor();
-	}
 
 	struct BoostPower
 	{
@@ -5022,7 +5018,6 @@ struct ShipGraph
 	}
 	
 	// This function is messed up in Linux so just redefine it manually
-    /*
 	Globals::Rect GetRoomShape(int roomId) 
 	{
 		auto rooms = this->rooms;
@@ -5037,7 +5032,7 @@ struct ShipGraph
 		
 		return {-1, -1, 0, 0};
 	}
-	*/
+	
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
@@ -6686,12 +6681,7 @@ struct OuterHull;
 
 struct Ship : ShipObject
 {
-	Pointf GetRoomCenter(int room)
-	{
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		return graph->GetRoomCenter(room);
-	}
-
+	// Function is inlined thus we need this reversed code
 	Globals::Ellipse GetBaseEllipse()
 	{
 		Globals::Ellipse ret;
@@ -6712,6 +6702,12 @@ struct Ship : ShipObject
 			ret.center.y + 110;
 		}
 		return ret;
+	}
+
+	Pointf GetRoomCenter(int room)
+	{
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		return graph->GetRoomCenter(room);
 	}
 
 	void RenderEngineAnimation(bool showEngines, float alpha);

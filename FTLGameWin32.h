@@ -2684,10 +2684,6 @@ struct SystemBlueprint : Blueprint
 
 struct WeaponBlueprint : Blueprint
 {
-	WeaponBlueprint()
-	{
-		this->constructor();
-	}
 
 	struct BoostPower
 	{
@@ -2704,7 +2700,6 @@ struct WeaponBlueprint : Blueprint
 	
 	LIBZHL_API std::string GetDescription(bool tooltip);
 	LIBZHL_API void RenderIcon(float scale);
-	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
 	
 	std::string typeName;
