@@ -22,9 +22,12 @@
     #include <stdlib.h>
     #include <inttypes.h>
     #include <mach-o/dyld.h>
-    
-    #define PTR_PRINT_F "0x%016" PRIxPTR
 
+	#ifdef __amd64__
+		#define PTR_PRINT_F "0x%016" PRIxPTR
+	#else
+		#error "Specified processor architecture not supported for darwin. Only amd64!"
+	#endif // Architecture
 #else
     #error "Unsupported OS"
 #endif
