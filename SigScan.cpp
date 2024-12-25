@@ -22,6 +22,9 @@
     #include <stdlib.h>
     #include <inttypes.h>
     #include <mach-o/dyld.h>
+	#include <mach-o/loader.h>
+	#include <mach/mach.h>
+	
 
 	#ifdef __amd64__
 		#define PTR_PRINT_F "0x%016" PRIxPTR
@@ -295,16 +298,95 @@ void SigScan::Init()
 
 #elif defined(__APPLE__)
 
+/*
 void SigScan::Init()
 {
-    uint64_t programBaseAddress = 0;
-    uint64_t segmentLength = 0;
+    // Get the number of loaded images
+    int imageCount = _dyld_image_count();
 
-    _dyld_get_image_vmaddr_slide(0);
+    // Loop through all loaded images to find the main executable
+    for (int i = 0; i < imageCount; i++)
+	{
+        const struct mach_header *header = _dyld_get_image_header(i);
+        intptr_t slide = _dyld_get_image_vmaddr_slide(i);
 
-    s_pBase = (unsigned char *) programBaseAddress;
-    s_iBaseLen = segmentLength;
-    s_pLastAddress = s_pBase;
+        // Check if this is the main executable
+        if (header->filetype == MH_EXECUTE)
+		{
+            const struct segment_command_64 *segCmd = nullptr;
+
+            // Traverse load commands
+            const char *cmds = (const char *)header + sizeof(struct mach_header_64);
+            for (int j = 0; j < header->ncmds; j++)
+			{
+                const struct load_command *loadCmd = (const struct load_command *)cmds;
+
+                // Check for the __TEXT segment (contains executable code)
+                if (loadCmd->cmd == LC_SEGMENT_64)
+				{
+                    segCmd = (const struct segment_command_64 *)loadCmd;
+
+                    if (strcmp(segCmd->segname, "__TEXT") == 0)
+					{
+                        s_pBase = (unsigned char *)(segCmd->vmaddr + slide); // Base address
+                        s_iBaseLen = segCmd->vmsize; // Size of the segment
+                        s_pLastAddress = s_pBase;
+
+                        return;
+                    }
+                }
+
+                cmds += loadCmd->cmdsize;
+            }
+        }
+    }
+}
+*/
+
+#include <iostream>
+
+void SigScan::Init() {
+    int imageCount = _dyld_image_count();
+    std::cout << "Number of loaded images: " << imageCount << std::endl;
+
+    for (int i = 0; i < imageCount; i++) {
+        const struct mach_header *header = _dyld_get_image_header(i);
+        intptr_t slide = _dyld_get_image_vmaddr_slide(i);
+
+        if (header->filetype == MH_EXECUTE) {
+            std::cout << "Found main executable image at index " << i << std::endl;
+            std::cout << "Slide: 0x" << std::hex << slide << std::endl;
+
+            const struct segment_command_64 *segCmd = nullptr;
+            const char *cmds = (const char *)header + sizeof(struct mach_header_64);
+
+            for (int j = 0; j < header->ncmds; j++) {
+                const struct load_command *loadCmd = (const struct load_command *)cmds;
+
+                if (loadCmd->cmd == LC_SEGMENT_64) {
+                    segCmd = (const struct segment_command_64 *)loadCmd;
+
+                    if (strcmp(segCmd->segname, "__TEXT") == 0) {
+                        s_pBase = (unsigned char *)(segCmd->vmaddr + slide);
+                        s_iBaseLen = segCmd->vmsize;
+                        s_pLastAddress = s_pBase;
+
+                        std::cout << "Found __TEXT segment:" << std::endl;
+                        std::cout << "Base Address: 0x" << std::hex << (uintptr_t)s_pBase << std::endl;
+                        std::cout << "Segment Length: 0x" << std::hex << s_iBaseLen << std::endl;
+
+                        return;
+                    }
+                }
+
+                cmds += loadCmd->cmdsize;
+            }
+        }
+    }
+
+    s_pBase = nullptr;
+    s_iBaseLen = 0;
+    std::cerr << "Failed to find __TEXT segment in main executable." << std::endl;
 }
 
 #endif
