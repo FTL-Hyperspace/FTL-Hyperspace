@@ -5052,7 +5052,6 @@ struct ShipGraph
 	LIBZHL_API int GetNumSlots(int room);
 	LIBZHL_API bool GetRoomBlackedOut(int room);
 	LIBZHL_API float GetRoomOxygen(int room);
-	LIBZHL_API Globals::Rect GetRoomShape(int room);
 	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API Point GetSlotRenderPosition(int slotId, int roomId, bool intruder);

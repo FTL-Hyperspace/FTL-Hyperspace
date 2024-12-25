@@ -30,8 +30,10 @@ cleanup __amd64 Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, in
 cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
 ".554889e5415741564155415453504889d04989f6":
 cleanup __amd64 int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
+/* Redefinition exists so we can comment this out (also ends up being more performant)
 ".554889e553504889fb488b06":
 cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int room);
+*/
 ".554889e58b476839":
 cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 ".554889e5488b4708482b0748":
