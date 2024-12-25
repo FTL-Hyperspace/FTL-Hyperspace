@@ -18581,3 +18581,10 @@ float __stdcall font_baseline(int font_id, float size)
 	return execfunc(font_id, size);
 }
 
+float *Global_freetype_sil_freetype_outline;
+
+namespace _var1462
+{
+	static VariableDefinition varObj("Global_freetype_sil_freetype_outline", ".!488b7b18f30f1005(???????\?)", &Global_freetype_sil_freetype_outline);
+}
+

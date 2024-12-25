@@ -14,15 +14,14 @@ public:
         struct OutlineScope
         {
             float oldOutline;
-            // TODO: FIX OUTLINE STUFF MAC
             OutlineScope(float outline)
             {
-                // oldOutline = *Global_freetype_sil_freetype_outline;
-                // *Global_freetype_sil_freetype_outline = outline;
+                oldOutline = *Global_freetype_sil_freetype_outline;
+                *Global_freetype_sil_freetype_outline = outline;
             }
             ~OutlineScope()
             {
-                // *Global_freetype_sil_freetype_outline = oldOutline;
+                *Global_freetype_sil_freetype_outline = oldOutline;
             }
         } outlineScope{outline};
         fontData->init(buffer, bufferSize, hDefault, glow);

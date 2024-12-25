@@ -25,6 +25,9 @@ cleanup __amd64 float font_height(int font_id, float size);
 ".554889e5535085ff":
 cleanup __amd64 float font_baseline(int font_id, float size);
 
+".!488b7b18f30f1005(???????\?)":
+float *Global_freetype_sil_freetype_outline;
+
 struct freetype
 {{
 }};

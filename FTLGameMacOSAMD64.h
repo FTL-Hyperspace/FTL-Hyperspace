@@ -7846,5 +7846,6 @@ extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;
 extern LIBZHL_API Point *Global_SystemControl_drone_position;
 extern LIBZHL_API TutorialManager *Global_TutorialManager_Tutorial;
+extern LIBZHL_API float *Global_freetype_sil_freetype_outline;
 
 
