@@ -18,12 +18,12 @@
         #error "Unknown processor architecture not supported."
     #endif // Architecture
 #elif defined(__APPLE__)
+	#include <mach-o/dyld.h>
+	#include <mach-o/loader.h>
+	#include <mach-o/getsect.h>
     #include <stdio.h>
     #include <stdlib.h>
-    #include <inttypes.h>
-    #include <mach-o/dyld.h>
-	#include <mach-o/loader.h>
-	#include <mach/mach.h>
+	#include <string.h>
 	
 
 	#ifdef __amd64__
@@ -298,95 +298,70 @@ void SigScan::Init()
 
 #elif defined(__APPLE__)
 
-/*
+//
+// TODO:
+// Calculate end of the __text segment for the scanner to stop and
+// not segfault. (Will add s SDL2 window)
+// 
+
 void SigScan::Init()
 {
-    // Get the number of loaded images
-    int imageCount = _dyld_image_count();
-
-    // Loop through all loaded images to find the main executable
-    for (int i = 0; i < imageCount; i++)
+    // Obtain Mach-O header information
+    const struct mach_header_64 *header = (const struct mach_header_64 *)_dyld_get_image_header(0);
+    if (!header || header->magic != MH_MAGIC_64)
 	{
-        const struct mach_header *header = _dyld_get_image_header(i);
-        intptr_t slide = _dyld_get_image_vmaddr_slide(i);
+        fprintf(stderr, "ERROR: Mach-O-Header not found or invalid!\n");
+        return;
+    }
 
-        // Check if this is the main executable
-        if (header->filetype == MH_EXECUTE)
+    // ASLR slide offset
+    uintptr_t slide = _dyld_get_image_vmaddr_slide(0);
+
+    // Itterate through the "load_command" Structure, to find the __text subcategory in __TEXT
+    const struct load_command *lc = (const struct load_command *)((uintptr_t)header + sizeof(struct mach_header_64));
+    const struct segment_command_64 *textSegment = NULL;
+    const struct section_64 *textSection = NULL;
+
+    for (uint32_t i = 0; i < header->ncmds; ++i)
+	{
+        if (lc->cmd == LC_SEGMENT_64)
 		{
-            const struct segment_command_64 *segCmd = nullptr;
-
-            // Traverse load commands
-            const char *cmds = (const char *)header + sizeof(struct mach_header_64);
-            for (int j = 0; j < header->ncmds; j++)
+            const struct segment_command_64 *segment = (const struct segment_command_64 *)lc;
+            if (strcmp(segment->segname, "__TEXT") == 0)
 			{
-                const struct load_command *loadCmd = (const struct load_command *)cmds;
-
-                // Check for the __TEXT segment (contains executable code)
-                if (loadCmd->cmd == LC_SEGMENT_64)
+                textSegment = segment;
+                const struct section_64 *section = (const struct section_64 *)((uintptr_t)segment + sizeof(struct segment_command_64));
+                for (uint32_t j = 0; j < segment->nsects; ++j)
 				{
-                    segCmd = (const struct segment_command_64 *)loadCmd;
-
-                    if (strcmp(segCmd->segname, "__TEXT") == 0)
+                    if (strcmp(section->sectname, "__text") == 0)
 					{
-                        s_pBase = (unsigned char *)(segCmd->vmaddr + slide); // Base address
-                        s_iBaseLen = segCmd->vmsize; // Size of the segment
-                        s_pLastAddress = s_pBase;
-
-                        return;
+                        textSection = section;
+                        break;
                     }
+                    section++;
                 }
-
-                cmds += loadCmd->cmdsize;
+                if (textSection) break;
             }
         }
-    }
-}
-*/
-
-#include <iostream>
-
-void SigScan::Init() {
-    int imageCount = _dyld_image_count();
-    std::cout << "Number of loaded images: " << imageCount << std::endl;
-
-    for (int i = 0; i < imageCount; i++) {
-        const struct mach_header *header = _dyld_get_image_header(i);
-        intptr_t slide = _dyld_get_image_vmaddr_slide(i);
-
-        if (header->filetype == MH_EXECUTE) {
-            std::cout << "Found main executable image at index " << i << std::endl;
-            std::cout << "Slide: 0x" << std::hex << slide << std::endl;
-
-            const struct segment_command_64 *segCmd = nullptr;
-            const char *cmds = (const char *)header + sizeof(struct mach_header_64);
-
-            for (int j = 0; j < header->ncmds; j++) {
-                const struct load_command *loadCmd = (const struct load_command *)cmds;
-
-                if (loadCmd->cmd == LC_SEGMENT_64) {
-                    segCmd = (const struct segment_command_64 *)loadCmd;
-
-                    if (strcmp(segCmd->segname, "__TEXT") == 0) {
-                        s_pBase = (unsigned char *)(segCmd->vmaddr + slide);
-                        s_iBaseLen = segCmd->vmsize;
-                        s_pLastAddress = s_pBase;
-
-                        std::cout << "Found __TEXT segment:" << std::endl;
-                        std::cout << "Base Address: 0x" << std::hex << (uintptr_t)s_pBase << std::endl;
-                        std::cout << "Segment Length: 0x" << std::hex << s_iBaseLen << std::endl;
-
-                        return;
-                    }
-                }
-
-                cmds += loadCmd->cmdsize;
-            }
-        }
+        lc = (const struct load_command *)((uintptr_t)lc + lc->cmdsize);
     }
 
-    s_pBase = nullptr;
-    s_iBaseLen = 0;
-    std::cerr << "Failed to find __TEXT segment in main executable." << std::endl;
+	// DEBUG: throw error if __text section is not found correctly
+    if (!textSegment || !textSection)
+	{
+        fprintf(stderr, "Fatel error: Segment __TEXT.__text not found!\n");
+        return;
+    }
+
+    // Write the calculated baseadress and size of binary
+    s_pBase = (unsigned char *)(textSection->addr + slide);
+    s_iBaseLen = textSection->size;
+	s_pLastAddress = s_pBase;
+
+    printf("ASLR slide offset: 0x%lx\n", slide);
+    printf("__TEXT.__text start-adress: %p\n", s_pBase);
+    printf("__TEXT.__text lenght: 0x%lx\n", s_iBaseLen);
+    printf("__TEXT.__text end-adress: 0x%p\n", s_pLastAddress);
 }
 
 #endif

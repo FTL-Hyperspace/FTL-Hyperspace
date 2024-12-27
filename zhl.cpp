@@ -47,7 +47,7 @@ void ZHL::Init()
 #ifdef _WIN32
 		MessageBox(0, FunctionDefinition::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
         fprintf(stderr, "Fatal Error %s:", FunctionDefinition::GetLastError());
         exit(1);
 #endif
@@ -58,7 +58,7 @@ void ZHL::Init()
 #ifdef _WIN32
 		MessageBox(0, FunctionHook_private::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
         fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
         exit(1);
 #endif
