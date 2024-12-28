@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -261,6 +261,13 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="discord_victory">Victory</text>
 <text name="discord_dead">Dead</text>
 <text name="discord_mod"></text>
+
+<!-- Shield system -->
+
+<text name="shields_4">Five Shield Barriers</text>
+<text name="shields_5">Six Shield Barriers</text>
+<text name="shields_6">Seven Shield Barriers</text>
+<text name="shields_7">Eight Shield Barriers</text>
 
 <!-- New save file -->
 

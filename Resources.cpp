@@ -1,4 +1,3 @@
-#include "Store_Extend.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
@@ -427,6 +426,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "warningLightPositionFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_warningLightPositionFix = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -837,6 +842,16 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "saveFile") == 0)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
+            }
+            if (strcmp(node->name(), "systemNoPurchaseThreshold") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                SystemNoPurchaseThreshold::enabled = EventsParser::ParseBoolean(enabled);
+                if (SystemNoPurchaseThreshold::enabled)
+                {
+                    SystemNoPurchaseThreshold::threshold = boost::lexical_cast<int>(node->first_attribute("threshold")->value());
+                    SystemNoPurchaseThreshold::replace = node->first_attribute("replace")->value();
+                }
             }
         }
 

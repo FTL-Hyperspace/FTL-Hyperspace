@@ -15,7 +15,7 @@ cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
 ".41544531e45531ed53488b57404889fb":
 cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 ".41564989fe4155415455534883ec30":
-cleanup __amd64 void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
+cleanup __amd64 bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "!.41544189cc5589d5538b7f08":
 cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 ".415431c94189f4554889fd53488b5710":
@@ -62,6 +62,17 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+
+	std::vector<LockdownShard*> GetShards()
+    {
+        std::vector<LockdownShard*> ret = std::vector<LockdownShard*>();
+        for (int i=0; i < (int)this->lockdowns.size(); ++i)
+        {
+            ret.push_back(&this->lockdowns[i]);
+        }
+
+        return ret;
+    }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
 	

@@ -46,6 +46,16 @@ void hs_log_file(const char *str...)
     va_end(va);
 }
 
+void hs_log_file(const std::string &str)
+{
+    FILE* log = G_->logFile;
+    if (log != nullptr)
+    {
+        fputs(str.c_str(), log);
+        fflush(G_->logFile);
+    }
+}
+
 void ftl_log(const char *str...)
 {
     va_list va;

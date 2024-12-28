@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace (FTL: Hyperspace)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="es">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="es">
   <mod:setValue>Probabilidad de Fuego: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -288,3 +288,8 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names" language="es">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="es">Coreano</text>
 <text name="credits_hyperspace_loc_kor_names" language="es">nedsociety</text>
+
+<text name="shields_4" language="es">Cinco escudos</text>
+<text name="shields_5" language="es">Seis escudos</text>
+<text name="shields_6" language="es">Siete escudos</text>
+<text name="shields_7" language="es">Ocho escudos</text>

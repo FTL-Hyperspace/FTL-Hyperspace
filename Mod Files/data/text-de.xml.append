@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -275,3 +275,8 @@ Taste: \1</text>
 <text name="credits_hyperspace_loc_ja_names" language="de">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="de">Koreanisch</text>
 <text name="credits_hyperspace_loc_kor_names" language="de">nedsociety</text>
+
+<text name="shields_4" language="de">Fünf Schildbarrieren</text>
+<text name="shields_5" language="de">Sechs Schildbarrieren</text>
+<text name="shields_6" language="de">Sieben Schildbarrieren</text>
+<text name="shields_7" language="de">Acht Schildbarrieren</text>

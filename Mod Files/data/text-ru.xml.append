@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ru">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ru">
   <mod:setValue>Вероятность возгорания: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -288,3 +288,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_ja_names" language="ru">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="ru">Корейский</text>
 <text name="credits_hyperspace_loc_kor_names" language="ru">nedsociety</text>
+
+<text name="shields_4" language="ru">Пять уровень щита</text>
+<text name="shields_5" language="ru">Шесть уровень щита</text>
+<text name="shields_6" language="ru">Семь уровень щита</text>
+<text name="shields_7" language="ru">Восемь уровень щита</text>
