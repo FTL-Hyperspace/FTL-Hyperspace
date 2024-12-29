@@ -267,7 +267,7 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
 - `int :CountCrewShipId(int roomId, int shipId)`
    - Counts crew in a room. shipId corresponds to which ship owns the crewmembers, 0 being the player and 1 being the enemy.
 - ~~`CrewDrone* :CreateCrewDrone(DroneBlueprint *bp)`~~ Use Events
-- ~~`SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)`~~ Use Events
+- `SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)` Use Events
 - `bool :DamageArea(Pointf location, DamageParameter dmg, bool force)`
    - I think this causes damage to a area like when a projectile hits but it's not tested yet, could possibly be used for bursts?
    - `force` ignores room resistances.
