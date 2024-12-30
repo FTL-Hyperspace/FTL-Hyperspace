@@ -375,14 +375,15 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 name: name of the tab
 buttonPath: path the the button picture appearing above when in the upgrade menu, do not give a path ending in .png
 windowPath: path for the background of the new tab, do not give a path ending in .png
+hasUndo: whether the tab has an undo button or not, this button will call the event TABBED_WINDOW_UNDO when pressed
 
 You can use the RenderEvent TABBED_WINDOW for your lua rendering
 The internal event TABBED_WINDOW_CONFIRM dictate when a tab is switched or the confirm button has been pressed
 
 -->
 <customTabs enabled="false">
-	<tab name="newTab" buttonPath="path/to/image" windowPath="path/to/image"/>
-    <tab name="newTab2" buttonPath="path/to/image" windowPath="path/to/image"/>
+	<tab name="newTab" buttonPath="path/to/image" windowPath="path/to/image" hasUndo="true"/>
+    <tab name="newTab2" buttonPath="path/to/image" windowPath="path/to/image" hasUndo="true"/>
 </customTabs>
 
 <!-- Enables command console in game - press \ to use

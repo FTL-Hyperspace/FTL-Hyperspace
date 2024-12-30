@@ -10,7 +10,10 @@ public:
         Button* button;
         GL_Texture* background;
         std::string name;
+        bool hasUndo = false;
     };
+
+    static TextButton undoButton;
 
     static CustomTabbedWindow* GetInstance()
     {

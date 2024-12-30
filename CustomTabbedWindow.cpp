@@ -1,6 +1,8 @@
 #include "CustomTabbedWindow.h"
 
 CustomTabbedWindow CustomTabbedWindow::instance = CustomTabbedWindow();
+TextButton CustomTabbedWindow::undoButton = *new TextButton();
+TextString undoText = TextString();
 
 void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
 {
@@ -8,7 +10,6 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
     {
         Tab newTab;
         
-        rapidxml::xml_attribute<char>* nameAttr = tabNode->first_attribute("name");
         if(tabNode->first_attribute("name")){
             newTab.name = tabNode->first_attribute("name")->value();
         }
@@ -21,12 +22,15 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
             rect.y = 0;
             rect.w = 100;
             rect.h = 38;
-            newTab.button->hitbox = rect; // might make it an xml parameter instead, there are slight shift in value in the decomp
+            newTab.button->hitbox = rect; // might make it an xml parameter instead, there are slight shift in values in the decomp
             xPos += 100;
         }
         if (tabNode->first_attribute("windowPath")) {
             std::string windowPath = tabNode->first_attribute("windowPath")->value();
             newTab.background = G_->GetResources()->GetImageId(windowPath + ".png");
+        }
+        if (tabNode->first_attribute("hasUndo")) {
+            newTab.hasUndo = tabNode->first_attribute("hasUndo")->value();
         }
         newTab.window = new FocusWindow();
         tabs.push_back(newTab);
@@ -49,13 +53,18 @@ void CustomTabbedWindow::populateWindow(TabbedWindow* window)
             continue;
         window->AddWindow(tab.name, tab.button, tab.window);
     }
+
+    undoText.isLiteral = false;
+    undoText.data = "button_undo";
+    CustomTabbedWindow::undoButton.OnInit(Point(340 + 33, 78 + 471), Point(97, 32), 4, &undoText, 63);
+    CustomTabbedWindow::undoButton.SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
 }
 
-HOOK_METHOD(CommandGui, OnLoop, () -> void) // should be linksip when chrono finally find the right sig
+HOOK_METHOD(CommandGui, LinkShip, (CompleteShip *ship) -> void) // should be linksip when chrono finally find the right sig
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::LinkShip -> Begin (CustomTabbedWindow.cpp)\n")
 
-    super();
+    super(ship);
     CustomTabbedWindow::GetInstance()->populateWindow(&(this->shipScreens));
 }
 
@@ -69,6 +78,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(position.x, 78);
+    hs_log_file("posx: %d\n", position.x);
 
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::TABBED_WINDOW, 1);
     
@@ -85,6 +95,11 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 
     CSurface::GL_PopMatrix();
 
+    if (currentTab > 2)
+    {
+        CustomTabbedWindow::undoButton.OnRender();
+    }
+
     lua_pop(context->GetLua(), 1);
 }
 
@@ -97,6 +112,14 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
         auto context = Global::GetInstance()->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);
         context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
+        lua_pop(context->GetLua(), 1);
+    }
+
+    if (CustomTabbedWindow::undoButton.bActive && CustomTabbedWindow::undoButton.bHover)
+    {
+        auto context = Global::GetInstance()->getLuaContext();
+        lua_pushinteger(context->GetLua(), shipScreens.currentTab);
+        context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_UNDO, 1);
         lua_pop(context->GetLua(), 1);
     }
 
