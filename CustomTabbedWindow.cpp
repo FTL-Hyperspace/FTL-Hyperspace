@@ -1,8 +1,6 @@
 #include "CustomTabbedWindow.h"
 
 CustomTabbedWindow CustomTabbedWindow::instance = CustomTabbedWindow();
-TextButton CustomTabbedWindow::undoButton = *new TextButton();
-TextString undoText = TextString();
 
 void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
 {
@@ -54,10 +52,14 @@ void CustomTabbedWindow::populateWindow(TabbedWindow* window)
         window->AddWindow(tab.name, tab.button, tab.window);
     }
 
+    if (undoButton == nullptr) undoButton = new TextButton();
+
+    TextString undoText = TextString();
+
     undoText.isLiteral = false;
     undoText.data = "button_undo";
-    CustomTabbedWindow::undoButton.OnInit(Point(340 + 33, 78 + 471), Point(97, 32), 4, &undoText, 63);
-    CustomTabbedWindow::undoButton.SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
+    undoButton->OnInit(Point(335 + 33, 84 + 471), Point(97, 32), 4, &undoText, 63);
+    undoButton->SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
 }
 
 HOOK_METHOD(CommandGui, LinkShip, (CompleteShip *ship) -> void) // should be linksip when chrono finally find the right sig
@@ -97,7 +99,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 
     if (currentTab > 2)
     {
-        CustomTabbedWindow::undoButton.OnRender();
+        CustomTabbedWindow::GetInstance()->undoButton->OnRender();
     }
 
     lua_pop(context->GetLua(), 1);
@@ -115,7 +117,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
         lua_pop(context->GetLua(), 1);
     }
 
-    if (CustomTabbedWindow::undoButton.bActive && CustomTabbedWindow::undoButton.bHover)
+    if (CustomTabbedWindow::GetInstance()->undoButton->bActive && CustomTabbedWindow::GetInstance()->undoButton->bHover)
     {
         auto context = Global::GetInstance()->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);

@@ -13,7 +13,7 @@ public:
         bool hasUndo = false;
     };
 
-    static TextButton undoButton;
+    
 
     static CustomTabbedWindow* GetInstance()
     {
@@ -28,6 +28,7 @@ public:
     void populateWindow(TabbedWindow* window);
     void ParseWindowNode(rapidxml::xml_node<char>* node);
 
+    TextButton* undoButton = nullptr;
     int xPos = 282;
 
 private:
