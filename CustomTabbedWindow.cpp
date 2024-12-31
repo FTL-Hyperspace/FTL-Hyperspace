@@ -14,13 +14,8 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
         if (tabNode->first_attribute("buttonPath")) {
             std::string buttonPath = tabNode->first_attribute("buttonPath")->value();
             newTab.button = new Button();
-            newTab.button->OnInit(buttonPath, Point(xPos, -7));
-            Globals::Rect rect = Globals::Rect();
-            rect.x = xPos + 15;
-            rect.y = 0;
-            rect.w = 100;
-            rect.h = 38;
-            newTab.button->hitbox = rect; // might make it an xml parameter instead, there are slight shift in values in the decomp
+            newTab.butPos = Point(xPos, -7);
+            newTab.butPicture = buttonPath;
             xPos += 100;
         }
         if (tabNode->first_attribute("windowPath")) {
@@ -35,7 +30,18 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
     }
 }
 
-void CustomTabbedWindow::populateWindow(TabbedWindow* window)
+void CustomTabbedWindow::InitialiseButton(CustomTabbedWindow::Tab tab) // This may seem uneccessary but restarting the game increment the position of every tab button, so this is to avoid that
+{
+    tab.button->OnInit(tab.butPicture, tab.butPos);
+    Globals::Rect rect = Globals::Rect();
+    rect.x = tab.butPos.x + 15;
+    rect.y = 0;
+    rect.w = 100;
+    rect.h = 38;
+    tab.button->hitbox = rect;
+}
+
+void CustomTabbedWindow::PopulateWindow(TabbedWindow* window)
 {
     for (auto tab : tabs)
     {
@@ -49,6 +55,7 @@ void CustomTabbedWindow::populateWindow(TabbedWindow* window)
         }
         if (skip)
             continue;
+        InitialiseButton(tab);
         window->AddWindow(tab.name, tab.button, tab.window);
     }
 
@@ -67,7 +74,7 @@ HOOK_METHOD(CommandGui, LinkShip, (CompleteShip *ship) -> void) // should be lin
     LOG_HOOK("HOOK_METHOD -> CommandGui::LinkShip -> Begin (CustomTabbedWindow.cpp)\n")
 
     super(ship);
-    CustomTabbedWindow::GetInstance()->populateWindow(&(this->shipScreens));
+    CustomTabbedWindow::GetInstance()->PopulateWindow(&(this->shipScreens));
 }
 
 HOOK_METHOD(TabbedWindow, OnRender, () -> void)
@@ -147,3 +154,17 @@ HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
 
     super(tab);
 }
+
+//HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
+//{
+//    windows[currentTab]->Close() // need expose the function
+//    windows[tab]->Open() // need expose the function
+//    for (int i = 0; i < buttons.size(); ++i)
+//    {
+//        if (i == tab) continue;
+//
+//        std::string imageBase = "upgradeUI/Equipment/tabButtons/" + names[tab] + "_" + names[i];
+//        buttons[i]->SetImageBase(imageBase);
+//    }
+//    currentTab = tab;
+//}

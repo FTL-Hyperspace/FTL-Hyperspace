@@ -8,6 +8,9 @@ public:
     {
         FocusWindow* window;
         Button* button;
+        Point butPos;
+        std::string butPicture;
+
         GL_Texture* background;
         std::string name;
         bool hasUndo = false;
@@ -23,8 +26,9 @@ public:
         return tabs[index - 3];
     }
 
-    void populateWindow(TabbedWindow* window);
+    void PopulateWindow(TabbedWindow* window);
     void ParseWindowNode(rapidxml::xml_node<char>* node);
+    void InitialiseButton(CustomTabbedWindow::Tab tab);
 
     TextButton* undoButton = nullptr;
     int xPos = 282;
