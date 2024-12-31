@@ -88,6 +88,9 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
     {
         CSurface::GL_Translate(-position.x, -78);
         super();
+        if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
+            CustomTabbedWindow::GetInstance()->undoButton->OnRender();
+            
         CSurface::GL_Translate(position.x, 78);
         if (currentTab > 2)
             G_->GetResources()->RenderImage(CustomTabbedWindow::GetInstance()->GetTab(currentTab).background, 0, 0, 0, COLOR_WHITE, 1.f, false);
@@ -97,12 +100,18 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 
     CSurface::GL_PopMatrix();
 
-    if (currentTab > 2)
-    {
-        CustomTabbedWindow::GetInstance()->undoButton->OnRender();
-    }
-
     lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(TabbedWindow, MouseMove, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> TabbedWindow::MouseMove -> Begin (CustomTabbedWindow.cpp)\n")
+
+    super(x, y);
+    if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
+    {
+        CustomTabbedWindow::GetInstance()->undoButton->MouseMove(x, y, false);
+    }
 }
 
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)

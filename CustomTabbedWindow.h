@@ -13,8 +13,6 @@ public:
         bool hasUndo = false;
     };
 
-    
-
     static CustomTabbedWindow* GetInstance()
     {
         return &instance;

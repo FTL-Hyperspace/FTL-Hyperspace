@@ -4471,6 +4471,7 @@ struct TabbedWindow : FocusWindow
 {
 	LIBZHL_API void AddWindow(const std::string &name, Button *button, FocusWindow *window);
 	LIBZHL_API void Close();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SetTab(unsigned int tab);
 	
