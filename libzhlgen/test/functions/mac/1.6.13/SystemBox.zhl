@@ -1,4 +1,5 @@
-"554889e54157415641554154534881ec????????4189cf4889fb":
+// Continue from SuperShieldDrone::OnLoop (hyper efficiency™)
+"!.554889e54157415641554154534881ec????????4189cf4889fb":
 cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
 ".554889e54157415641554154534883ec184189d64189f748":
 cleanup __amd64 void SystemBox::MouseMove(SystemBox *this, int x, int y);

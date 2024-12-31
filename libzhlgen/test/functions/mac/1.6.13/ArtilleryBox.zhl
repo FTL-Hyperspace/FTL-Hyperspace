@@ -1,4 +1,8 @@
-"55b9010000004889d5534889fb4883ec08":
+
+// Continue from ArmamentControl::SetPosition (hyper efficiency™)
+"!.554889e54156534989d64889fb":
+noHook __amd64 void ArtilleryBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+"!.554889e54156534989d64889fb":
 cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
 ".554889e541574156534883ec784989ff400fb6f6":
 cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);

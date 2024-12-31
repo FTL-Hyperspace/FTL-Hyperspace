@@ -1,4 +1,5 @@
-"554889e54157415641554154534881ec????????4989fc488d1d":
+// Continue from MouseControl::SetTooltipTitle (hyper efficiency™)
+".554889e54157415641554154534881ec????????4989fc488d1d":
 cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
 ".554889e54157415641554154534881ecf8070000":
 cleanup __amd64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
@@ -6,8 +7,10 @@ cleanup __amd64 void OptionsScreen::Open(OptionsScreen *this, bool mainMenu);
 cleanup __amd64 void OptionsScreen::OnLoop(OptionsScreen *this);
 
 
-struct OptionsScreen {{
-    struct Steam1613OptionsScreenStructAdditions {
+struct OptionsScreen
+{{
+    struct Steam1613OptionsScreenStructAdditions
+    {
         bool showSyncAchievements;
         TextButton syncAchievementsButton;
     };

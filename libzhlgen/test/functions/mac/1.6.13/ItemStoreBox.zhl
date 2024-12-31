@@ -1,4 +1,5 @@
-"554889e5415741564154534883ec??4989d64989f74889fb488d35":
+// Continue from IonDroneAnimation::constructor (hyper efficiency™)
+".554889e5415741564154534883ec??4989d64989f74889fb488d35":
 cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager *ship, const std::string& resourceName);
 
 

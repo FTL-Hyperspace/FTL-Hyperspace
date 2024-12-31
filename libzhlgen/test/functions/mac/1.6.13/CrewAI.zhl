@@ -1,10 +1,11 @@
-"554889e54157415641554154534883ec584989fd498b7500":
+// Continue from CreditScreen::OnRender (hyper efficiency™)
+"!.554889e54157415641554154534883ec584989fd498b7500":
 cleanup __amd64 void CrewAI::OnLoop(CrewAI *this);
-".554889e54157415641554154534883ec684989ff41c6470c":
+"!.554889e54157415641554154534883ec684989ff41c6470c":
 cleanup __amd64 void CrewAI::CheckForProblems(CrewAI *this);
-".554889e54157415641554154534883ec384863c6":
+"!.554889e54157415641554154534883ec384863c6":
 cleanup __amd64 void CrewAI::UpdateCrewMember(CrewAI *this, int crewId);
-".554889e54157415641554154534883ec584989fe498b4610":
+"!.554889e54157415641554154534883ec584989fe498b4610":
 cleanup __amd64 void CrewAI::UpdateDrones(CrewAI *this);
 ".554889e5415741564154534989fe498b46584939":
 cleanup __amd64 void CrewAI::AssignCrewmembers(CrewAI *this);

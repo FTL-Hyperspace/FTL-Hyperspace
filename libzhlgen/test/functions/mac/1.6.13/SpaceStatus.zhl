@@ -1,4 +1,5 @@
-"554889e5415741564154534883ec504889fb48899390000000":
+// Continue from SpaceManager::AddShip (hyper efficiency™)
+".554889e5415741564154534883ec504889fb48899390000000":
 cleanup __amd64 void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager *space, Point pos);
 ".554889e541574156534881ec9800000089f3":
 cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);

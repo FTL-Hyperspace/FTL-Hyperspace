@@ -1,4 +1,5 @@
-"554889e553504889fbc64311":
+// Continue from TextLibrary::GetText (hyper efficiency™)
+".554889e553504889fbc64311":
 cleanup __amd64 void TimerHelper::Start(TimerHelper *this, int goal);
 ".554889e58a47115d":
 cleanup __amd64 bool TimerHelper::Running(TimerHelper *this);

@@ -30,8 +30,6 @@ __thiscall void CApp::OnKeyUp(CApp *this, SDLKey key);
 __thiscall void CApp::OnKeyDown(CApp *this, SDLKey key);
 ".5589e55389cb83e4f0e8":
 __thiscall void CApp::constructor(CApp *this);
-".555789cd565383ec04c68541350000008b5424188b4c241c83fa017e??":
-__thiscall void CApp::ParseArgs(CApp *this, int argc, const char** argv);
 ".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec4ce8????????":
 __thiscall void CApp::OnLoop(CApp *this);
 ".5589e55389cb83e4f0":

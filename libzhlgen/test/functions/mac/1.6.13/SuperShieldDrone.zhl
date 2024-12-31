@@ -1,6 +1,6 @@
 "554889e54157415641554154534883ec??4889fbe8????????488d05":
-cleanup __amd64 void SuperShieldDrone::constructor(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint);
-".554889e54156534883ec304889fbe8????????":
+cleanup __amd64 void SuperShieldDrone::constructor(SuperShieldDrone *this, int _iShipId, int _selfId, DroneBlueprint *_blueprint);
+".554889e54156534883ec304889fbe8":
 cleanup __amd64 void SuperShieldDrone::OnLoop(SuperShieldDrone *this);
 
 

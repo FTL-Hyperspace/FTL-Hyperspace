@@ -1552,9 +1552,9 @@ struct AsteroidGenerator
 	LIBZHL_API Projectile *GetNextAsteroid();
 	LIBZHL_API void GetNextState();
 	LIBZHL_API float Initialize(int numberOfShips, int shieldCount, bool defense);
-	LIBZHL_API void LoadAsteroids(void *file);
+	LIBZHL_API void LoadAsteroids(int fd);
 	LIBZHL_API void OnLoop();
-	LIBZHL_API bool SaveAsteroids(void *file);
+	LIBZHL_API void SaveAsteroids(int fd);
 	LIBZHL_API void SetNumShips(int ships);
 	LIBZHL_API void UpdateState();
 	LIBZHL_API void constructor();
@@ -3490,8 +3490,6 @@ struct ShipSelect
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open(int currentId, int currentType);
-	LIBZHL_API void PreSelectShip(int shipType);
-	LIBZHL_API void SelectShip(int shipType);
 	LIBZHL_API void constructor();
 	
 	Point position;
@@ -3714,7 +3712,6 @@ struct CApp : CEvent
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
 	LIBZHL_API void OnTextInput(int ch);
-	LIBZHL_API void ParseArgs(int argc, const char **argv);
 	LIBZHL_API int SetupWindow();
 	LIBZHL_API Point TranslateMouse(int x, int y);
 	LIBZHL_API void UpdateFullScreen();
@@ -6787,9 +6784,9 @@ struct ShipInfo;
 
 struct ShipInfo
 {
-	LIBZHL_API char AddAugmentation(const std::string &augment);
-	LIBZHL_API float GetAugmentationValue(const std::string &augment);
-	LIBZHL_API bool HasAugmentation(const std::string &augment);
+	LIBZHL_API bool AddAugmentation(const std::string &augId);
+	LIBZHL_API float GetAugmentationValue(const std::string &augId);
+	LIBZHL_API bool HasAugmentation(const std::string &augId);
 	
 	std::map<std::string, int> augList;
 	std::map<std::string, int> equipList;
@@ -6831,7 +6828,7 @@ struct ShipManager : ShipObject
 	
 	~ShipManager()
 	{
-		this->destructor2();
+		this->destructor();
 	}
 	
 	std::pair<int, int> GetAvailablePower()
@@ -6934,7 +6931,6 @@ struct ShipManager : ShipObject
 	LIBZHL_API void Wait();
 	LIBZHL_API int constructor(int shipId);
 	LIBZHL_API void destructor();
-	LIBZHL_API void destructor2();
 	
 	Targetable _targetable;
 	Collideable _collideable;

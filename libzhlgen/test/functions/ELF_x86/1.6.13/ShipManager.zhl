@@ -94,8 +94,6 @@ cleanup __cdecl bool ShipManager::DoorsFunction(ShipManager *this);
 cleanup __cdecl void ShipManager::ExportShip(ShipManager *this, int file);
 ".5557565383ec1c8b7c2430":
 cleanup __cdecl void ShipManager::destructor(ShipManager *this);
-".5383ec188b5c2420891c24":
-cleanup __cdecl void ShipManager::destructor2(ShipManager *this);
 "5589e557565381ec7c0200008b7d0c8d8588feffff":
 cleanup __cdecl void ShipManager::ImportShip(ShipManager *this, int file);
 "5557565383ec4c8b7c24608b870004000083781cff":
@@ -209,7 +207,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	
 	~ShipManager()
 	{
-		this->destructor2();
+		this->destructor();
 	}
 	
 	std::pair<int, int> GetAvailablePower()

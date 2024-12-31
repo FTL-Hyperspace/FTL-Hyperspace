@@ -1,4 +1,5 @@
-"554889e54157415641554154534883ec184989d74889f349":
+// Continue from TextInput::Start (hyper efficiency™)
+".554889e54157415641554154534883ec184989d74889f349":
 cleanup __amd64 std::string TextLibrary::GetText(TextLibrary *this, const std::string& name, const std::string& lang);
 
 

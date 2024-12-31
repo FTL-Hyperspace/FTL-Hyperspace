@@ -90,10 +90,8 @@ __thiscall int ShipManager::CountCrewShipId(ShipManager *this, int roomId, int s
 __thiscall ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
 "5789c805????????8d7c240883e4f0ff77fc5589e557565381ec????????8b3789cf89442404898d90feffff893424e8????????80bf68060000008d85c0feffff89c1898594feffff":
 __thiscall void ShipManager::ExportShip(ShipManager *this, int file);
-".578d7c240883e4f0ff77fc5589e557565389ce":
+"578d7c240883e4f0ff77fc5589e557565389ce83ec3cc701":
 __thiscall void ShipManager::destructor(ShipManager *this);
-".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfc":
-__thiscall void ShipManager::destructor2(ShipManager *this);
 "578d7c240883e4f0ff77fc5589e55756538d85dcfcffff89ce8d9de4fcffff81ec????????8b3f898d4cfbffff890424897c2404e8????????":
 __thiscall void ShipManager::ImportShip(ShipManager *this, int file);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b81c8040000c645b7008b701c83feff74??":
@@ -206,7 +204,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	
 	~ShipManager()
 	{
-		this->destructor2();
+		this->destructor();
 	}
 	
 	std::pair<int, int> GetAvailablePower()

@@ -1,8 +1,11 @@
-"554889e553504889fb80bb4c01000000":
+"!4c8b75??49895e18488d3d(???????\?)e8????????488d3d":
+offsetVariable MouseControl* Global_MouseControl_Mouse;
+
+".554889e553504889fb80bb4c01000000":
 cleanup __amd64 void MouseControl::OnLoop(MouseControl *this);
 ".554889e5c6876001":
 cleanup __amd64 void MouseControl::InstantTooltip(MouseControl *this);
-".554889e54157415641554154534883ec784989fd488b05??":
+"!.554889e54157415641554154534883ec784989fd488b05??":
 cleanup __amd64 void MouseControl::OnRender(MouseControl *this);
 ".554889e54157415641554154534883ec684989f64989fc41":
 cleanup __amd64 void MouseControl::RenderTooltip(MouseControl *this, Point tooltipPoint, bool staticPos);
@@ -22,5 +25,3 @@ cleanup __amd64 void MouseControl::LoadTooltip(MouseControl *this, const std::st
 cleanup __amd64 void MouseControl::SetTooltip(MouseControl *this, const std::string& tooltip);
 ".0fb68768":
 cleanup __amd64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
-"!4c8b75??49895e18488d3d(???????\?)e8????????488d3d????????":
-offsetVariable MouseControl* Global_MouseControl_Mouse;

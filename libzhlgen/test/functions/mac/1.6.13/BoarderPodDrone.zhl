@@ -2,11 +2,9 @@
 cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
 ".554889e553504889fb4885f6":
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
-".554889e5534883ec384889fb80be3805":
+".554889e5534883ec384889fb80be3805000000":
 cleanup __amd64 CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".554889e5415653488d05????????488947b0":
-noHook __amd64 void BoarderPodDrone::DO_NOT_HOOK_1();
-".554889e553504889fb488bbb88010000":
+".554889e553504889fb488bbb880100004885ff":
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 ".554889e54156534189f64889fb807b18":
 cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);

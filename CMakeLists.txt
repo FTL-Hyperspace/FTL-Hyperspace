@@ -246,6 +246,7 @@ target_sources(
     TemporalSystem.cpp
     TemporalSystem.h
     TemporalSystemVTable.cpp
+    TextString.cpp
     TileBasedCrewMovement.cpp
     TileBasedCrewMovement.h
     TimerHelper.cpp

@@ -12,10 +12,12 @@ cleanup __amd64 void ShipSelect::MouseClick(ShipSelect *this);
 cleanup __amd64 void ShipSelect::Close(ShipSelect *this);
 "!.8b475cc3":
 cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this);
+/* PreSelect is inlined on Mac, luckily both unused - commented out for now
 ".415789f241564989fe4155415455534881eca8020000":
 cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int shipType);
 "!.85f6534889fb":
 cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect *this, int shipType);
+*/
 ".41574189f74156415541544189d4554889fd534881ec18010000":
 cleanup __amd64 void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
 ".41574989ff41564155415455534881ecc8010000":

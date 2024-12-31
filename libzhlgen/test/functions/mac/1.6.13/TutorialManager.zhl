@@ -1,4 +1,6 @@
-"554889e54156534889fbc603":
+"!554889e54156534889fbc60300488d7b08e8":
+noHook __amd64 void TutorialManager::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+"!.554889e54156534889fbc60300488d7b08e8":
 cleanup __amd64 void TutorialManager::constructor(TutorialManager *this);
 ".554889e58a075d":
 cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);

@@ -13,6 +13,6 @@ cleanup __cdecl void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
 ".5383ec18c70424????????8b5c2420e8????????f30f108380000000":
 cleanup __cdecl void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
 ".565383ec148b742420f30f1005????????8b5c2424f30f598680000000891c24f30f2cc0":
-cleanup __cdecl bool AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, void* file);
+cleanup __cdecl void AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, int fd);
 ".565383ec148b7424248b5c2420893424":
-cleanup __cdecl void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, void* file);
+cleanup __cdecl void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, int fd);

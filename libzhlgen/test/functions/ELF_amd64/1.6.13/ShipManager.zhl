@@ -184,8 +184,6 @@ cleanup __amd64 void ShipManager::ImportShip(ShipManager *this, int file);
 cleanup __amd64 int ShipManager::constructor(ShipManager *this, int shipId);
 ".415641554989fd4154555348c707":
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
-"!.534889fb":
-cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
@@ -209,7 +207,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	
 	~ShipManager()
 	{
-		this->destructor2();
+		this->destructor();
 	}
 	
 	std::pair<int, int> GetAvailablePower()

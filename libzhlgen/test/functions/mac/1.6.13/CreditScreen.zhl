@@ -1,5 +1,5 @@
 "554889e5c7473800000000":
-noHook __amd64 void CreditScreen::DO_NOT_HOOK_1();
+noHook __amd64 void CreditScreen::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e5c7473800000000":
 cleanup __amd64 void CreditScreen::constructor(CreditScreen *this);
 ".554889e54157415641554154534881ec980100004989d648":
