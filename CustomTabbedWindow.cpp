@@ -58,7 +58,7 @@ void CustomTabbedWindow::populateWindow(TabbedWindow* window)
 
     undoText.isLiteral = false;
     undoText.data = "button_undo";
-    undoButton->OnInit(Point(335 + 33, 84 + 471), Point(97, 32), 4, &undoText, 63);
+    undoButton->OnInit(Point(335 + 33, 85 + 471), Point(97, 32), 4, &undoText, 63);
     undoButton->SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
 }
 
