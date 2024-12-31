@@ -702,6 +702,9 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipObject::AddAugmentation -> Begin (CustomAugments.cpp)\n")
+    if (boost::algorithm::starts_with(name, "HIDDEN ")){
+        G_->GetShipInfo(iShipId)->augCount--;
+    }
     auto ret = super(name);
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
     return ret;

@@ -80,7 +80,6 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(position.x, 78);
-    hs_log_file("posx: %d\n", position.x);
 
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::TABBED_WINDOW, 1);
     
