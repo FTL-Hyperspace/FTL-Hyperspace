@@ -1,9 +1,9 @@
 "!57565383ec2c8b7c24408d74241fc707":
-cleanup __cdecl void WeaponBlueprint::destructor(WeaponBlueprint *this);
+cleanup __cdecl void WeaponBlueprint::destructor(WeaponBlueprint* this);
 "5589e557565381ecac0000008b4510898564ffffff":
-cleanup __cdecl std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
+cleanup __cdecl std::string WeaponBlueprint::GetDescription(WeaponBlueprint* this, bool tooltip);
 "8b442404c7442404????????05cc00000089442408":
-cleanup __cdecl void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
+cleanup __cdecl void WeaponBlueprint::RenderIcon(WeaponBlueprint* this, float scale);
 
 
 struct WeaponBlueprint

@@ -2,6 +2,6 @@
 offsetVariable EventSystem* Global_EventSystem_EventManager;
 
 ".554889e531c085f67818488b":
-cleanup __amd64 bool EventSystem::PollEvent(EventSystem *this, int id);
+cleanup __amd64 bool EventSystem::PollEvent(EventSystem* this, int id);
 ".554889e585f67819":
-cleanup __amd64 void EventSystem::AddEvent(EventSystem *this, int id);
+cleanup __amd64 void EventSystem::AddEvent(EventSystem* this, int id);

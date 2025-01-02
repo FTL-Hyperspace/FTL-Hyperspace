@@ -2,14 +2,14 @@
 "!.554889e54156534883ec204989d64889f04889fb":
 noHook __amd64 void AugmentStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e54156534883ec204989d64889f04889fb":
-cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp);
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *_ship, const AugmentBlueprint *_augment);
 
 
 struct AugmentStoreBox
 {{
-	AugmentStoreBox(ShipManager *_ship, const AugmentBlueprint* _bp)
+	AugmentStoreBox(ShipManager *ship, const AugmentBlueprint *augment)
 	{
-		this->constructor(_ship, _bp);
+		this->constructor(ship, augment);
 	}
 	
 	AugmentStoreBox()

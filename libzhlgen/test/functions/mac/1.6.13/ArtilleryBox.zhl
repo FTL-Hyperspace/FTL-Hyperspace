@@ -3,15 +3,15 @@
 "!.554889e54156534989d64889fb":
 noHook __amd64 void ArtilleryBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e54156534989d64889fb":
-cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
+cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point _position, ArtillerySystem* _system);
 ".554889e541574156534883ec784989ff400fb6f6":
 cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
 
 
 struct ArtilleryBox
 {{
-	ArtilleryBox(Point pos, ArtillerySystem* sys)
+	ArtilleryBox(Point position, ArtillerySystem* system)
 	{
-		this->constructor(pos, sys);
+		this->constructor(position, system);
 	}
 }};

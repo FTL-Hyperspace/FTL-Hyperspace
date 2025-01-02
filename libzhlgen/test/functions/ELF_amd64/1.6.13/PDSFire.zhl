@@ -1,9 +1,9 @@
 "55534889fb4883ec1880bfc400000000":
-cleanup __amd64 void PDSFire::OnUpdate(PDSFire *this);
+cleanup __amd64 void PDSFire::OnUpdate(PDSFire* this);
 ".554889f5534889fb4889f74883ec58488b06":
-cleanup __amd64 void PDSFire::CollisionCheck(PDSFire *this, Collideable *other);
+cleanup __amd64 void PDSFire::CollisionCheck(PDSFire* this, Collideable* other);
 ".415741564989fe415541544989f449c1fc205589d5534889f34881ec08010000":
-cleanup __amd64 void PDSFire::constructor(PDSFire *this, Point pos, int destinationSpace, Pointf destination);
+cleanup __amd64 void PDSFire::constructor(PDSFire* this, Point pos, int destinationSpace, Pointf destination);
 
 
 struct PDSFire

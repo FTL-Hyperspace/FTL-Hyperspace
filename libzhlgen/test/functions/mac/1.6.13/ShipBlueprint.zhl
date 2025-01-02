@@ -1,5 +1,5 @@
 "!554889e54157415653504989fe488d05????????49890641f686":
-cleanup __amd64 void ShipBlueprint::destructor(ShipBlueprint *this);
+cleanup __amd64 void ShipBlueprint::destructor(ShipBlueprint* this);
 
 
 struct ShipBlueprint

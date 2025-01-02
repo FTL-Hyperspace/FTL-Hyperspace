@@ -1,9 +1,9 @@
 "554889e5415741564154534883ec404989ce4889fb":
-cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
+cleanup __amd64 void CombatDrone::constructor(CombatDrone* this, int iShipId, int selfId, const DroneBlueprint* bp);
 ".554889e54156534989f64889fb4d85f6750b48c7":
-cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable *target);
+cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone* this, Targetable* target);
 ".554889e553504889fb488b03ff900001":
-cleanup __amd64 void CombatDrone::PickTarget(CombatDrone *this);
+cleanup __amd64 void CombatDrone::PickTarget(CombatDrone* this);
 
 
 struct CombatDrone depends (DroneBlueprint)

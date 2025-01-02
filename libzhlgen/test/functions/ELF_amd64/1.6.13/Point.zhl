@@ -1,7 +1,7 @@
 "8b178b470429f248c1fe2029f00fafd20fafc001d0":
-cleanup __amd64 int Point::RelativeDistance(Point *this, Point other);
+cleanup __amd64 int Point::RelativeDistance(Point* this, Point other);
 ".8b178b470429f248c1fe2029f00fafd20fafc001d0":
-cleanup __amd64 int Point::Distance(Point *this, Point other);
+cleanup __amd64 int Point::Distance(Point* this, Point other);
 
 
 struct Point 

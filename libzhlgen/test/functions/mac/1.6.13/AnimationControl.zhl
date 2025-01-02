@@ -2,4 +2,4 @@
 offsetVariable AnimationControl* Global_AnimationControl_Animations;
 
 "!.554889e54157415641554154534883ec384989d6":
-cleanup __amd64 Animation AnimationControl::GetAnimation(AnimationControl *this, const std::string& animName);
+cleanup __amd64 Animation AnimationControl::GetAnimation(AnimationControl* this, const std::string& animName);

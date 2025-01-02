@@ -1,10 +1,10 @@
 "!554889e54156534889fb488d05????????4889034c8bb3????????4d85f6":
-cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point _position, ShipSystem* _system, WeaponControl *_weapCtrl);
+cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox* this, Point _position, ShipSystem* _system, WeaponControl* _weapCtrl);
 
 
 struct WeaponSystemBox
 {{
-	WeaponSystemBox(Point pos, ShipSystem* sys, WeaponControl *weapCtrl)
+	WeaponSystemBox(Point pos, ShipSystem* sys, WeaponControl* weapCtrl)
 	{
 		this->constructor(pos, sys, weapCtrl);
 	}

@@ -1,14 +1,14 @@
 "554889e54157415641554154534881ec580100004989ce????????7308":
-cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint *blueprint);
+cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint* blueprint);
 "!.554889e553504889fb488d05????????488903488d05????????48894340":
 cleanup __amd64 void SpaceDrone::destructor(SpaceDrone* this);
 "!.554889e54157415653504189f64889fb488b03ff50604589f74180f7??75??84c075":
-virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone* this, bool deployed);
 ".554889e54156534989f64889fb4d85f674??498b06":
-virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target);
+virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone* this, Targetable* target);
 ".554889e54156534883ec300f28e10f28":
-cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone* this, Pointf location, float percentage, float forceDesired);
 ".554889e5415741564154534883ec??4889fb488b03":
-virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);
+virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone* this);
 ".554889e54157415653504989f64889fb0f134de0":
-cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone* this, Pointf start, Pointf finish, Damage damage, bool raytrace);

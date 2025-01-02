@@ -1,9 +1,9 @@
 "5557565381ec9c0000008b9c24b00000008dbc2480000000":
-cleanup __cdecl void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+cleanup __cdecl void HackBox::constructor(HackBox* this, Point pos, HackingSystem* sys, ShipManager* ship);
 
 struct HackBox
 {{
-	HackBox(Point pos, HackingSystem* sys, ShipManager *ship)
+	HackBox(Point pos, HackingSystem* sys, ShipManager* ship)
 	{
 		this->constructor(pos, sys, ship);
 	}

@@ -1,7 +1,7 @@
 "565383ec748b8c24900000008b9c24800000008b8424880000008b94248c000000":
-cleanup __cdecl void DamageMessage::constructor(DamageMessage *this, float length, Pointf pos, DamageMessage::MessageType type);
+cleanup __cdecl void DamageMessage::constructor(DamageMessage* this, float _length, Pointf _pos, DamageMessage::MessageType _type);
 "5557565381ecec0100008b8c24140200008bac24000200008b84240c0200008b942410020000f30f10842404020000":
-cleanup __cdecl void DamageMessage::constructor2(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
+cleanup __cdecl void DamageMessage::constructor2(DamageMessage* this, float _length, int _amount, Pointf _pos, bool _symbol);
 
 struct DamageMessage 
 {{
@@ -17,8 +17,8 @@ struct DamageMessage
 		constructor(length, pos, type);
 	}
 	
-	DamageMessage(float length, int amount, Pointf pos, bool unk)
+	DamageMessage(float length, int amount, Pointf pos, bool symbol)
 	{
-		constructor2(length, amount, pos, unk);
+		constructor2(length, amount, pos, symbol);
 	}
 }};

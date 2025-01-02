@@ -1,7 +1,7 @@
 "8b4424048b108b40042b5424082b44240c":
-cleanup __cdecl int Point::RelativeDistance(Point *this, Point other);
+cleanup __cdecl int Point::RelativeDistance(Point* this, Point other);
 "83ec1c8b4424208b108b40042b5424242b442428":
-cleanup __cdecl int Point::Distance(Point *this, Point other);
+cleanup __cdecl int Point::Distance(Point* this, Point other);
 
 struct Point 
 {{

@@ -7,8 +7,8 @@ __thiscall void BombProjectile::OnUpdate(BombProjectile *this);
 
 struct BombProjectile
 {{
-	BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)
+	BombProjectile(Pointf position, int ownerId, int targetId, Pointf target)
 	{
-		this->constructor(_position, _ownerId, _targetId, _target);
+		this->constructor(position, ownerId, targetId, target);
 	}
 }};

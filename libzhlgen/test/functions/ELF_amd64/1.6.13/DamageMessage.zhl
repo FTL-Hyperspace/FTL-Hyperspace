@@ -1,7 +1,7 @@
 "534889fb4883ec5085f648c707":
-cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, Pointf pos, DamageMessage::MessageType type);
+cleanup __amd64 void DamageMessage::constructor(DamageMessage* this, float _length, Pointf _pos, DamageMessage::MessageType _type);
 "415741564155415455534889fb4881ec3803000084d2":
-cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
+cleanup __amd64 void DamageMessage::constructor2(DamageMessage* this, float _length, int _amount, Pointf _pos, bool _symbol);
 
 
 struct DamageMessage 
@@ -18,8 +18,8 @@ struct DamageMessage
 		constructor(length, pos, type);
 	}
 	
-	DamageMessage(float length, int amount, Pointf pos, bool unk)
+	DamageMessage(float length, int amount, Pointf pos, bool symbol)
 	{
-		constructor2(length, amount, pos, unk);
+		constructor2(length, amount, pos, symbol);
 	}
 }};
