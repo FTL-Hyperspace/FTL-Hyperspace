@@ -30,8 +30,6 @@ cleanup __cdecl void CApp::OnLanguageChange(CApp *this);
 cleanup __cdecl void CApp::OnKeyDown(CApp *this, SDLKey key);
 "5383ec188b5c2420891c24e8????????8d4310":
 cleanup __cdecl void CApp::constructor(CApp *this);
-".f3c38db426000000008dbc2700000000":
-cleanup __cdecl void CApp::ParseArgs(CApp *this, int argc, const char** argv);
 "5589e557565383ec2c8b5d08c70424????????e8????????e8????????884305c70424????????":
 cleanup __cdecl void CApp::OnLoop(CApp *this);
 "5383ec38c7442404010000008b5c2440":

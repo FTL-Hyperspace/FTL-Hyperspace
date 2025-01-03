@@ -13,6 +13,6 @@ __thiscall void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
 ".5589e55389cbb9????????83e4f083ec10e8????????d95c240c":
 __thiscall void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
 ".5589e5565389ce83e4f083ec108b5d08":
-__thiscall bool AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, void* file);
+__thiscall void AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, int fd);
 ".5589e5565389cb83e4f083ec108b7508":
-__thiscall void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, void* file);
+__thiscall void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, int fd);
