@@ -1,6 +1,6 @@
 // Continue from Upgrades::OnRender (hyper efficiency™)
 "!.554889e54157415653504889fb488d05????????66480f6ec0":
-cleanup __amd64 void WarningMessage::DO_NOT_HOOK_FALSE_CONSTRUCTOR(WarningMessage* this);
+noHook __amd64 void WarningMessage::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e54157415653504889fb488d05????????66480f6ec0":
 cleanup __amd64 void WarningMessage::constructor(WarningMessage* this);
 ".554889e54157415641554154534883ec18894dd0":

@@ -38,10 +38,14 @@ cleanup __amd64 void Store::OnRender(Store* this);
 cleanup __amd64 void Store::destructor(Store* this);
 
 
-struct Store
 {{
 	Store()
 	{
 		this->constructor();
+	}
+
+	~Store()
+	{
+		this->destructor();
 	}
 }};

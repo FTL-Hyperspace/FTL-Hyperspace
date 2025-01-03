@@ -9,4 +9,8 @@ cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint* this);
 
 struct WeaponBlueprint
 {{
+	~WeaponBlueprint()
+	{
+		this->destructor();
+	}
 }};

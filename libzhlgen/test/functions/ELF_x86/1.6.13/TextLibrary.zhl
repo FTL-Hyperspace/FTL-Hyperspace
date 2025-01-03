@@ -9,7 +9,7 @@ struct TextLibrary
 		return TextLibrary::GetText(name, currentLanguage);
 	}
 
-	void SetLanguage(const std::string &language)
+	void SetLanguage(const std::string& language)
 	{
 		currentLanguage = language;
 	}

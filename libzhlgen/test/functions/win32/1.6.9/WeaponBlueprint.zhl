@@ -8,4 +8,8 @@ __thiscall void WeaponBlueprint::RenderIcon(WeaponBlueprint* this, float scale);
 
 struct WeaponBlueprint
 {{
+	~WeaponBlueprint()
+	{
+		this->destructor();
+	}
 }};

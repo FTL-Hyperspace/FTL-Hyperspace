@@ -5,7 +5,7 @@ cleanup __amd64 void TeleportSystem::SetHackingLevel(TeleportSystem* this, int h
 ".415741564155415455534889fb4883ec38":
 cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem* this);
 ".5589d5534889fb4883ec08":
-cleanup __amd64 void TeleportSystem::constructor(TeleportSystem* this, int systemId, int roomId, int shipId, int startingPower);
+cleanup __amd64 void TeleportSystem::constructor(TeleportSystem* this, int _systemId, int _roomId, int _shipId, int _startingPower);
 ".f30f108744020000":
 cleanup __amd64 float TeleportSystem::GetChargedPercent(TeleportSystem* this);
 ".534889fb":
@@ -26,3 +26,12 @@ cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem* this);
 cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem* this);
 ".534889fb4883ec20":
 cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem* this);
+
+
+struct TeleportSystem
+{{
+    TeleportSystem(int systemId, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(systemId, roomId, shipId, startingPower);
+    }
+}};

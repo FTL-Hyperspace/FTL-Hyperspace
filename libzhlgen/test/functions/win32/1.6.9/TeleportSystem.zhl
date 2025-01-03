@@ -3,7 +3,7 @@ __thiscall void TeleportSystem::SetHackingLevel(TeleportSystem* this, int hackin
 "578d7c240883e4f0ff77fc5589e557565389cf83ec7c803d??????????0f84????????803d??????????0f84????????":
 __thiscall void TeleportSystem::OnRenderFloor(TeleportSystem* this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b77048b57088b078b4f0c8954240889742404894c240c890424":
-__thiscall void TeleportSystem::constructor(TeleportSystem* this, int systemId, int roomId, int shipId, int startingPower);
+__thiscall void TeleportSystem::constructor(TeleportSystem* this, int _systemId, int _roomId, int _shipId, int _startingPower);
 ".83ec04f30f1081c0010000f30f5e05????????f30f110424d9042483c404":
 __thiscall float TeleportSystem::GetChargedPercent(TeleportSystem* this);
 ".5589e55389cb83e4f0e8????????31d284c075??8b03":
@@ -26,3 +26,12 @@ __thiscall void TeleportSystem::InitiateTeleport(TeleportSystem* this);
 __thiscall void TeleportSystem::OnLoop(TeleportSystem* this);
 ".5589e55389cb83e4f0e8????????c783c0010000000000008b5dfc":
 __thiscall void TeleportSystem::Jump(TeleportSystem* this);
+
+
+struct TeleportSystem
+{{
+    TeleportSystem(int systemId, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(systemId, roomId, shipId, startingPower);
+    }
+}};

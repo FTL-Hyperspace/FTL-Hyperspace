@@ -225,11 +225,10 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 
 	}
 
-	CrewMember(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation* animation)
+	CrewMember(CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation* animation)
 	{
-
-		this->constructor(bp, shipId, enemy, animation);
-	}
+		this->constructor(blueprint, shipId, intruder, animation);
+	}	
 	
 	ShipObject* GetShipObject()
 	{

@@ -10,7 +10,7 @@ cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::str
 "!.554889e54156534989f64889fb48c74308":
 noHook __amd64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_3();
 "!.554889e54156534989f64889fb48c74308":
-cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage &_source);
+cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage& _source);
 ".554889e5415741564154534883ec504989fe4d8b":
 cleanup __amd64 void CachedImage::CreatePrimitive(CachedImage *this);
 ".554889e54156534889fb488d3d????????e8????????4989c6":
@@ -49,7 +49,7 @@ struct CachedImage
 		
 	}
 	
-	CachedImage(const CachedImage &source)
+	CachedImage(const CachedImage& source)
 	{
 		constructor_copy(source);
 	}

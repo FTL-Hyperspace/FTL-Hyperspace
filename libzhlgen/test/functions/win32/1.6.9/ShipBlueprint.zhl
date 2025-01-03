@@ -4,5 +4,8 @@ __thiscall void ShipBlueprint::destructor(ShipBlueprint* this);
 
 struct ShipBlueprint
 {{
-	
+    ~ShipBlueprint()
+    {
+        this->destructor();
+    }
 }};

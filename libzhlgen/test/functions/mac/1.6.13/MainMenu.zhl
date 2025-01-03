@@ -11,3 +11,12 @@ cleanup __amd64 void MainMenu::OnLoop(MainMenu* this);
 cleanup __amd64 void MainMenu::MouseMove(MainMenu* this, int x, int y);
 "!.554889e541574156534883ec584889fb80bb????":
 cleanup __amd64 void MainMenu::MouseClick(MainMenu* this, int x, int y);
+
+
+struct MainMenu
+{{
+    MainMenu()
+    {
+        this->constructor();
+    }
+}};

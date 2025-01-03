@@ -2,7 +2,7 @@
 "!.554889e54157415653504189d74189f64889fb4889cee8":
 noHook __amd64 void TextInput::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e54157415653504189d74189f64889fb4889cee8":
-cleanup __amd64 void TextInput::constructor(TextInput* this, int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt);
+cleanup __amd64 void TextInput::constructor(TextInput* this, int _maxChars, TextInput::AllowedCharType _allowedCharType, const std::string& _prompt);
 "!.554889e54157415641554154534881ec980000004889d341":
 cleanup __amd64 void TextInput::OnRender(TextInput* this, int font, Point pos);
 "!.554889e553504889fb8b4348":
@@ -34,6 +34,7 @@ struct TextInput depends (CEvent)
 	
 	TextInput()
 	{
+		
 	}
 
 	TextInput(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt)

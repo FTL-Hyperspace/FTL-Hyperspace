@@ -14,3 +14,12 @@ cleanup __amd64 void OxygenSystem::ComputeAirLoss(OxygenSystem* this, int roomId
 cleanup __amd64 void OxygenSystem::UpdateAirlock(OxygenSystem* this, int roomId, int count);
 ".554889e54863c6488b8f68020000c704":
 cleanup __amd64 void OxygenSystem::EmptyOxygen(OxygenSystem* this, int roomId);
+
+
+struct OxygenSystem
+{{
+    OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(numRooms, roomId, shipId, startingPower);
+    }
+}};

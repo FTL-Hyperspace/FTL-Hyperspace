@@ -12,3 +12,12 @@ cleanup __cdecl void OxygenSystem::ComputeAirLoss(OxygenSystem* this, int roomId
 cleanup __cdecl float OxygenSystem::GetRefillSpeed(OxygenSystem* this);
 "5557565383ec2c8b4424508b5c24408b742444":
 cleanup __cdecl void OxygenSystem::constructor(OxygenSystem* this, int _numRooms, int _roomId, int _shipId, int _startingPower);
+
+
+struct OxygenSystem
+{{
+    OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(numRooms, roomId, shipId, startingPower);
+    }
+}};

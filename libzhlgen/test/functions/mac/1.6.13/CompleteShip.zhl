@@ -1,7 +1,7 @@
 "!554889e553504889fb488d05????????488903894b08":
 noHook __amd64 void CompleteShip::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e553504889fb488d05????????488903894b08":
-cleanup __amd64 void CompleteShip::constructor(CompleteShip* this, SpaceManager* space, bool playership, int iShipId);
+cleanup __amd64 void CompleteShip::constructor(CompleteShip* this, SpaceManager* _space, bool _bPlayerShip, int _iShipId);
 "!.554889e548897710":
 cleanup __amd64 void CompleteShip::SetShip(CompleteShip* this, ShipManager* ship);
 "!.554889e5415741564154534189d64989f74889fb":

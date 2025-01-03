@@ -21,7 +21,7 @@ virtual cleanup __amd64 void EquipmentBox::UpdateBoxImage(EquipmentBox* this, bo
 ".5589f5":
 virtual cleanup __amd64 void EquipmentBox::RenderLabels(EquipmentBox* this, bool dragging);
 ".554889f048c1f820534889fb4883ec38":
-cleanup __amd64 void EquipmentBox::constructor(EquipmentBox* this, Point pos, int slot);
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox* this, Point _position, int _slot);
 ".488b47704885c0740f":
 cleanup __amd64 int EquipmentBox::GetItemValue(EquipmentBox* this);
 ".5531c04889f5534889fb4883ec18":

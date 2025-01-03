@@ -9,7 +9,7 @@ cleanup __cdecl void CachedImage::constructor1(CachedImage *this, const std::str
 "5383ec??8b5c????8b44????c7430400000000c703????????c74308????????8944????":
 cleanup __cdecl void CachedImage::constructor2(CachedImage *this, const std::string& _path, CachedImage::Centered _centered);
 "565383ec148b7424248b5c24208d4608":
-cleanup __cdecl void CachedImage::constructor_copy(CachedImage *this, const CachedImage &_source);
+cleanup __cdecl void CachedImage::constructor_copy(CachedImage *this, const CachedImage& _source);
 "5383ec188b5c2420f30f104424240f2e4330":
 cleanup __cdecl void CachedImage::SetRotation(CachedImage *this, float rotation);
 "565383ec148b5c24208b74242489f0":
@@ -42,7 +42,7 @@ struct CachedImage
 		
 	}
 	
-	CachedImage(const CachedImage &source)
+	CachedImage(const CachedImage& source)
 	{
 		constructor_copy(source);
 	}

@@ -44,4 +44,9 @@ struct Store
 	{
 		this->constructor();
 	}
+
+	~Store()
+	{
+		this->destructor();
+	}
 }};

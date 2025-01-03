@@ -34,11 +34,6 @@ GL_Color* Global_InfoBox_detailsBarOff;
 
 struct InfoBox 
 {{
-	InfoBox()
-	{
-		this->constructor();
-	}
-
 	enum ExpandDir
 	{
 	  EXPAND_UP = -1,
@@ -46,4 +41,8 @@ struct InfoBox
 	  EXPAND_DOWN = 1,
 	};
 
+	InfoBox()
+	{
+		this->constructor();
+	}
 }};

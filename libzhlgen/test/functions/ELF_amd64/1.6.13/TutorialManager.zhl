@@ -7,3 +7,12 @@ cleanup __amd64 void TutorialManager::OnInit(TutorialManager* this, ShipManager*
 
 "!498b07488b7810488b07ff908000000084c00f84????????bf(???????\?)":
 TutorialManager* Global_TutorialManager_Tutorial;
+
+
+struct TutorialManager
+{{
+    TutorialManager()
+    {
+        this->constructor();
+    }
+}};

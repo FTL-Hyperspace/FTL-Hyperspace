@@ -7,3 +7,12 @@ __thiscall void TutorialManager::OnInit(TutorialManager* this, ShipManager* ship
 
 "!b9(???????\?)e8????????84c075??8b4b08":
 TutorialManager* Global_TutorialManager_Tutorial;
+
+
+struct TutorialManager
+{{
+    TutorialManager()
+    {
+        this->constructor();
+    }
+}};

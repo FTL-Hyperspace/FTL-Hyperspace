@@ -57,19 +57,19 @@ struct ShipGraph depends (Point, Pointf, Room)
 	Pointf ConvertToWorldPosition(Pointf local)
 	{
         __int64 ret = ConvertToWorldPosition_DO_NOT_USE_DIRECTLY(local);
-        return* ((Pointf*) &ret);
+        return* ((Pointf*)& ret);
 	}
 	
 	Pointf ConvertToLocalPosition(Pointf world, bool past)
 	{
         __int64 ret = ConvertToLocalPosition_DO_NOT_USE_DIRECTLY(world, past);
-        return* ((Pointf*) &ret);
+        return* ((Pointf*)& ret);
 	}
 	
     Point GetSlotRenderPosition(int slotId, int roomId, bool intruder)
     {
         __int64 ret = GetSlotRenderPosition_DO_NOT_USE_DIRECTLY(slotId, roomId, intruder);
-        return* ((Point*) &ret);
+        return* ((Point*)& ret);
     }
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition

@@ -3,7 +3,7 @@ cleanup __amd64 bool Projectile::ValidTarget(Projectile* this);
 ".554889e5b8ffffffff5d":
 cleanup __amd64 int Projectile::ForceRenderLayer(Projectile* this);
 ".554889e54157415641554154534881ec????????4889fbc74310????????66c74314":
-cleanup __amd64 void Projectile::constructor(Projectile* this, Pointf position, int ownerId, int targetId, Pointf target);
+cleanup __amd64 void Projectile::constructor(Projectile* this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
 ".554889e54157415641554154534881ecc80000004989f549":
 cleanup __amd64 void Projectile::CollisionCheck(Projectile* this, Collideable* other);
 ".554889e5415741564154534881ec700100004989f6":

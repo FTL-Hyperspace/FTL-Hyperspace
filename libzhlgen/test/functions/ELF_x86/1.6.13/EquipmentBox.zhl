@@ -21,7 +21,7 @@ virtual cleanup __cdecl void EquipmentBox::UpdateBoxImage(EquipmentBox* this, bo
 "5589e557565383ec5c8b5d088b450c8d7dd8":
 virtual cleanup __cdecl void EquipmentBox::RenderLabels(EquipmentBox* this, bool dragging);
 "565383ec548b0d????????8b5c24608d74243c8b4424688b542464894b088b0d????????8943388943408b44246c":
-cleanup __cdecl void EquipmentBox::constructor(EquipmentBox* this, Point pos, int slot);
+cleanup __cdecl void EquipmentBox::constructor(EquipmentBox* this, Point _position, int _slot);
 "8b5424048b424c85c074??8b401c":
 cleanup __cdecl int EquipmentBox::GetItemValue(EquipmentBox* this);
 "5731c0565383ec208b5c24308b7424348b7c2438":

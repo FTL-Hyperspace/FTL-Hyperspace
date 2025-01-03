@@ -1,5 +1,5 @@
 "57565383ec108b5c24208b44242c8b7424248b7c2428":
-cleanup __cdecl void TextInput::constructor(TextInput* this, int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt);
+cleanup __cdecl void TextInput::constructor(TextInput* this, int _maxChars, TextInput::AllowedCharType _allowedCharType, const std::string& _prompt);
 ".5589e557565383ec7c8b5d088b45108d75d0":
 cleanup __cdecl void TextInput::OnRender(TextInput* this, int font, Point pos);
 ".!5383ec188b4424208b501c395020":
@@ -31,6 +31,7 @@ struct TextInput depends (CEvent)
 	
 	TextInput()
 	{
+		
 	}
 
 	TextInput(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt)

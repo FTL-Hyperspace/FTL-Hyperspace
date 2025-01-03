@@ -36,8 +36,21 @@ __thiscall void ProjectileFactory::ClearAiming(ProjectileFactory* this);
 __thiscall void ProjectileFactory::ClearProjectiles(ProjectileFactory* this);
 "5589e557565389cf83e4f083ec208b8100060000":
 __thiscall void ProjectileFactory::destructor(ProjectileFactory* this);
-
 "8d4c240483e4f0ff71fc5589e556535183ec6c8b19891c24":
 static cleanup __cdecl Projectile* ProjectileFactory::LoadProjectile(int fd);
 "8d4c240483e4f0ff71fc5589e556535183ec1c8b198b71048b0389d9ff507c89342489442404":
 static cleanup __cdecl void ProjectileFactory::SaveProjectile(Projectile* p, int fd);
+
+
+struct ProjectileFactory
+{{
+    ProjectileFactory(const WeaponBlueprint* blueprint, int ownerId)
+    {
+        this->constructor(blueprint, ownerId);
+    }
+
+    ~ProjectileFactory()
+    {
+        this->destructor();
+    }
+}};

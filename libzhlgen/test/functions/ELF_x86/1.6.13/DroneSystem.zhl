@@ -9,4 +9,4 @@ cleanup __cdecl void DroneSystem::OnLoop(DroneSystem* this);
 "55575689d65389c383ec1c84c9":
 cleanup __regparm3 bool DroneSystem::DePowerDrone(DroneSystem* this, Drone* drone, bool userDriven);
 ".5383ec188b5c2420c7442404":
-static cleanup __cdecl int DroneSystem::StringToDrone(std::string &name);
+static cleanup __cdecl int DroneSystem::StringToDrone(std::string& name);

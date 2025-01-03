@@ -38,10 +38,14 @@ __thiscall void Store::SetPosition(Store* this, Point pos);
 __thiscall void Store::destructor(Store* this);
 
 
-struct Store
 {{
 	Store()
 	{
 		this->constructor();
+	}
+
+	~Store()
+	{
+		this->destructor();
 	}
 }};

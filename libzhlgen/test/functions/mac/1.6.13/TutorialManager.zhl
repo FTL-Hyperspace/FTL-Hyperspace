@@ -9,3 +9,12 @@ cleanup __amd64 void TutorialManager::OnInit(TutorialManager* this, ShipManager*
 
 "!41807e200075??488d3d(???????\?)e8????????84c0":
 offsetVariable TutorialManager* Global_TutorialManager_Tutorial;
+
+
+struct TutorialManager
+{{
+    TutorialManager()
+    {
+        this->constructor();
+    }
+}};

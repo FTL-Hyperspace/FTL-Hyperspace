@@ -8,8 +8,8 @@ cleanup __cdecl void WeaponBlueprint::RenderIcon(WeaponBlueprint* this, float sc
 
 struct WeaponBlueprint
 {{
-	WeaponBlueprint()
+	~WeaponBlueprint()
 	{
-		this->constructor();
+		this->destructor();
 	}
 }};

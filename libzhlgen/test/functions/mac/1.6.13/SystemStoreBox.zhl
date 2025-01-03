@@ -1,5 +1,5 @@
 "554889e54157415641554154534881eca80000004189ce4889fb418d46fa":
-cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox* this, ShipManager* shopper, Equipment* equip, int sys);
+cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox* this, ShipManager* _ship, Equipment* _equip, int _system);
 ".554889e541574156534883ec184889fb89b3e001":
 cleanup __amd64 void SystemStoreBox::SetExtraData(SystemStoreBox* this, int droneChoice);
 "!.554889e553504889fb4883bb78010000":
@@ -14,8 +14,8 @@ cleanup __amd64 void SystemStoreBox::Purchase(SystemStoreBox* this);
 
 struct SystemStoreBox
 {{
-	SystemStoreBox(ShipManager* _shopper, Equipment* _equip, int _sys)
+	SystemStoreBox(ShipManager* ship, Equipment* equip, int system)
 	{
-		this->constructor(_shopper, _equip, _sys);
+		this->constructor(ship, equip, system);
 	}
 }};

@@ -9,7 +9,7 @@ cleanup __cdecl void Projectile::OnUpdate(Projectile* this);
 ".5589e557565381ec8c0000008b750c8b5d088b06":
 cleanup __cdecl void Projectile::CollisionCheck(Projectile* this, Collideable* other);
 ".5589e557565381ecec0000008b7d088b450c":
-cleanup __cdecl void Projectile::constructor(Projectile* this, Pointf position, int ownerId, int targetId, Pointf target);
+cleanup __cdecl void Projectile::constructor(Projectile* this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
 ".5589e557565381ecdc0000008b450cc78538ffffff00000000":
 cleanup __cdecl void Projectile::Initialize(Projectile* this, const WeaponBlueprint& bp);
 ".565383ec248b7424348d442410":

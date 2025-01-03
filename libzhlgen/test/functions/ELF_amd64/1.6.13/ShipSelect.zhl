@@ -19,8 +19,17 @@ cleanup __amd64 void ShipSelect::SelectShip(ShipSelect* this, int shipType);
 cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect* this, int shipType);
 */
 ".41574189f74156415541544189d4554889fd534881ec18010000":
-cleanup __amd64 void ShipSelect::MouseMove(ShipSelect* this, int x, int y);
+cleanup __amd64 void ShipSelect::MouseMove(ShipSelect* this, int mX, int mY);
 ".41574989ff41564155415455534881ecc8010000":
 cleanup __amd64 void ShipSelect::Open(ShipSelect* this, int currentId, int currentType);
 ".41564155415455534889fb4883ec5080bf5005000000":
 cleanup __amd64 void ShipSelect::OnRender(ShipSelect* this);
+
+
+struct ShipSelect
+{{
+    ShipSelect()
+    {
+        this->constructor();
+    }
+}};

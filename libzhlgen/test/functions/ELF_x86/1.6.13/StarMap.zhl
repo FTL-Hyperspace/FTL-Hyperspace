@@ -146,5 +146,4 @@ cleanup __regparm1 void StarMap::UpdateBoss(StarMap* this);
 
 struct StarMap
 {{
-	
 }};

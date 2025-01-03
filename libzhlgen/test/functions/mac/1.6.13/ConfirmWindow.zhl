@@ -4,9 +4,9 @@ noHook __amd64 void ConfirmWindow::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e553504889fbe8????????488d05????????48890348c7432000000000":
 cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow* this);
 ".554889e54157415641554154534883ec584c894d":
-cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow* this, const TextString& text_, int minWidth, bool autoCenter, const TextString& yesText_, const TextString& noText_);
+cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow* this, const TextString& text, int minWidth, bool autoCenter, const TextString& yesText, const TextString& noText);
 ".554889e54157415641554154534883ec184989fde8b79401":
-cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow* this, Point pos);
+cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow* this, Point position);
 ".554889e54157415641554154534883ec284989fde827fdff":
 cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow* this);
 "!.554889e553504889fb488bbba0000000":

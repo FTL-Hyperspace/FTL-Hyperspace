@@ -4,8 +4,8 @@ __thiscall void Missile::constructor(Missile* this, Pointf _position, int _owner
 
 struct Missile
 {{
-	Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)
+	Missile(Pointf position, int ownerId, int targetId, Pointf target, float heading)
 	{
-		this->constructor(_position, _ownerId, _targetId, _target, _heading);
+		this->constructor(position, ownerId, targetId, target, heading);
 	}
 }};

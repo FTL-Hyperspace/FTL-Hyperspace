@@ -99,14 +99,18 @@ static cleanup __amd64 std::string ShipSystem::SystemIdToName(int systemId);
 ".4156415541544189d455534889fb4881ec10020000":
 static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 ".41574989ff41564189f641554589c54154555389d389ca4881ecd8010000":
-cleanup __amd64 void ShipSystem::constructor(ShipSystem* this, int systemId, int roomId, int shipId, int startingPower);
+cleanup __amd64 void ShipSystem::constructor(ShipSystem* this, int _systemId, int _roomId, int _shipId, int _startingPower);
 
 "55534889fbbf????????4883ec18f30f1144240c":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem* this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
 
+
 struct ShipSystem
 {{
-	ShipSystem() { }
+	ShipSystem()
+	{
+		
+	}
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{

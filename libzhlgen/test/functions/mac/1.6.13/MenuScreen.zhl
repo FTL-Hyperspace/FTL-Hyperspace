@@ -7,3 +7,12 @@ cleanup __amd64 void MenuScreen::OnLanguageChange(MenuScreen* this);
 cleanup __amd64 void MenuScreen::OnRender(MenuScreen* this);
 "!.554889e54157415641554154534883ec684889fbc6430801":
 cleanup __amd64 void MenuScreen::Open(MenuScreen* this);
+
+
+struct MenuScreen
+{{
+    MenuScreen()
+    {
+        this->constructor();
+    }
+}};

@@ -7,3 +7,12 @@ cleanup __cdecl void TutorialManager::OnInit(TutorialManager* this, ShipManager*
 
 "!c70424(???????\?)e8????????84c075??8383c800000001":
 TutorialManager* Global_TutorialManager_Tutorial;
+
+
+struct TutorialManager
+{{
+    TutorialManager()
+    {
+        this->constructor();
+    }
+}};

@@ -3,7 +3,7 @@ cleanup __cdecl void TeleportSystem::SetHackingLevel(TeleportSystem* this, int h
 ".5557565383ec6c":
 cleanup __cdecl void TeleportSystem::OnRenderFloor(TeleportSystem* this);
 "565383ec248b4424408b5c24308b74243889442410":
-cleanup __cdecl void TeleportSystem::constructor(TeleportSystem* this, int systemId, int roomId, int shipId, int startingPower);
+cleanup __cdecl void TeleportSystem::constructor(TeleportSystem* this, int _systemId, int _roomId, int _shipId, int _startingPower);
 "83ec048b442408f30f108098010000":
 cleanup __cdecl float TeleportSystem::GetChargedPercent(TeleportSystem* this);
 ".5383ec188b5c2420891c24e8????????84c0":
@@ -26,3 +26,12 @@ cleanup __cdecl void TeleportSystem::InitiateTeleport(TeleportSystem* this);
 cleanup __cdecl void TeleportSystem::OnLoop(TeleportSystem* this);
 "5383ec188b5c2420891c24e8????????c7839801000000000000":
 cleanup __cdecl void TeleportSystem::Jump(TeleportSystem* this);
+
+
+struct TeleportSystem
+{{
+    TeleportSystem(int systemId, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(systemId, roomId, shipId, startingPower);
+    }
+}};

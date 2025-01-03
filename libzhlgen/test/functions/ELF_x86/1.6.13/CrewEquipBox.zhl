@@ -1,7 +1,7 @@
 "5383ec188b5c24208b435485c0":
 cleanup __cdecl void CrewEquipBox::RemoveItem(CrewEquipBox* this);
 "5557565383ec7c8b8424980000008d742448":
-cleanup __cdecl void CrewEquipBox::constructor(CrewEquipBox* this, Point pos, ShipManager* ship, int slot);
+cleanup __cdecl void CrewEquipBox::constructor(CrewEquipBox* this, Point _position, ShipManager* _shipManager, int _slot);
 "8b5424040fb68280020000c6828002000000":
 cleanup __cdecl bool CrewEquipBox::GetConfirmDelete(CrewEquipBox* this);
 "5589e557565381ecac0000008b5d088b4d0c8b75108b434c":
@@ -19,8 +19,8 @@ cleanup __cdecl void CrewEquipBox::CloseRename(CrewEquipBox* this);
 
 struct CrewEquipBox depends (TextInput)
 {{
-	CrewEquipBox(Point pos, ShipManager* ship, int slot)
+	CrewEquipBox(Point position, ShipManager* shipManager, int slot)
 	{
-		this->constructor(pos, ship, slot);
+		this->constructor(position, shipManager, slot);
 	}
 }};

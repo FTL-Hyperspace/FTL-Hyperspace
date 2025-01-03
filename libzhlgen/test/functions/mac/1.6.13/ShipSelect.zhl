@@ -4,7 +4,7 @@ cleanup __amd64 void ShipSelect::constructor(ShipSelect* this);
 ".554889e54156534989fe498b4628":
 cleanup __amd64 void ShipSelect::ClearShipButtons(ShipSelect* this);
 "!.554889e54157415641554154534881ec980000004189f548":
-cleanup __amd64 void ShipSelect::MouseMove(ShipSelect* this, int x, int y);
+cleanup __amd64 void ShipSelect::MouseMove(ShipSelect* this, int mX, int mY);
 /* Inlined into SelectShip - luckily both unused
 "NULL":
 cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect* this, int shipType);
@@ -25,3 +25,12 @@ cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect* this);
 cleanup __amd64 void ShipSelect::OnRender(ShipSelect* this);
 "!.554889e54157415641554154534881ec280200004989fe41":
 cleanup __amd64 void ShipSelect::Open(ShipSelect* this, int currentId, int currentType);
+
+
+struct ShipSelect
+{{
+    ShipSelect()
+    {
+        this->constructor();
+    }
+}};

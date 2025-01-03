@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b496885c974??80bb6e0200000075??c70424????????e8????????":
 __thiscall void CrewEquipBox::RemoveItem(CrewEquipBox* this);
 "578d7c240883e4f0ff77fc5589e557565389cb8d4d9881ec????????8b77088b07":
-__thiscall void CrewEquipBox::constructor(CrewEquipBox* this, Point pos, ShipManager* ship, int slot);
+__thiscall void CrewEquipBox::constructor(CrewEquipBox* this, Point _position, ShipManager* _shipManager, int _slot);
 "0fb681d0020000c681d002000000":
 __thiscall bool CrewEquipBox::GetConfirmDelete(CrewEquipBox* this);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b51608b078b770485d20f84????????0fb68b6c02000083f10109c889f138c10f87????????f30f102d????????":
@@ -20,8 +20,8 @@ __thiscall void CrewEquipBox::CloseRename(CrewEquipBox* this);
 
 struct CrewEquipBox depends (TextInput)
 {{
-	CrewEquipBox(Point pos, ShipManager* ship, int slot)
+	CrewEquipBox(Point position, ShipManager* shipManager, int slot)
 	{
-		this->constructor(pos, ship, slot);
+		this->constructor(position, shipManager, slot);
 	}
 }};

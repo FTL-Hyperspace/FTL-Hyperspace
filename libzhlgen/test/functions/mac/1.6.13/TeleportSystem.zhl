@@ -2,7 +2,7 @@
 ".554889e54156534189d64889fbe8":
 noHook __amd64 void TeleportSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e54156534189d64889fbe8":
-cleanup __amd64 void TeleportSystem::constructor(TeleportSystem* this, int systemId, int roomId, int shipId, int startingPower);
+cleanup __amd64 void TeleportSystem::constructor(TeleportSystem* this, int _systemId, int _roomId, int _shipId, int _startingPower);
 ".554889e54156534883ec204889fbe84dd0ffff48":
 cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem* this);
 ".554889e54156534889fb4531f683fe02":
@@ -29,3 +29,12 @@ cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem* this);
 cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem* this);
 ".554889e5534883ec184889fbe8bfaeff":
 cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem* this);
+
+
+struct TeleportSystem
+{{
+    TeleportSystem(int systemId, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(systemId, roomId, shipId, startingPower);
+    }
+}};

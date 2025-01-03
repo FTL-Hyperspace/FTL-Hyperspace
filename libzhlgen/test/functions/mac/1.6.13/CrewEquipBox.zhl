@@ -1,6 +1,6 @@
 // Continue from CrewDrone::SetCurrentShip (hyper efficiency™)
 ".554889e54157415641554154534881ec880000004189ce4989d7":
-cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox* this, Point _pos, ShipManager* _ship, int _slot);
+cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox* this, Point _position, ShipManager* _shipManager, int _slot);
 ".554889e553504889fb488bbb900000004885ff74":
 cleanup __amd64 void CrewEquipBox::RemoveItem(CrewEquipBox* this);
 ".554889e58a877003":
@@ -21,8 +21,8 @@ cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox* this, CEvent::TextE
 
 struct CrewEquipBox depends (TextInput)
 {{
-	CrewEquipBox(Point pos, ShipManager* ship, int slot)
+	CrewEquipBox(Point position, ShipManager* shipManager, int slot)
 	{
-		this->constructor(pos, ship, slot);
+		this->constructor(position, shipManager, slot);
 	}
 }};

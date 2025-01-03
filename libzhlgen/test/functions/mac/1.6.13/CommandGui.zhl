@@ -26,7 +26,7 @@ cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui* this, CompleteShip* sh
 ".554889e54157415641554154534883ec384989fc803d6d??":
 cleanup __amd64 void CommandGui::RenderStatic(CommandGui* this);
 ".554889e541574156534883ec18f30f1145dc4889":
-cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui* this, Point &shipCenter, float jumpScale);
+cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui* this, Point& shipCenter, float jumpScale);
 ".554889e5415741564154534883ec104189d74989f44989fe":
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui* this, Point point, bool fromTarget);
 "!.554889e54157415641554154534883ec284189cd":

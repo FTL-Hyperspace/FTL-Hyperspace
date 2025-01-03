@@ -146,5 +146,4 @@ __thiscall void StarMap::UpdateBoss(StarMap* this);
 
 struct StarMap
 {{
-	
 }};

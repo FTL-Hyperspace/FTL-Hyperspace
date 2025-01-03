@@ -413,7 +413,7 @@ Vector GetRenderPosition<esi>(int a, int b);
 // meaning that the two declarations below are internally the same function but one of them is much easier to use than the other
 
 void Msg(std::string *txt);
-void Msg(const std::string &txt);
+void Msg(const std::string& txt);
 
 
 // You can also scan for global variables, not just functions!
@@ -473,12 +473,12 @@ noop void* Global__Ship_OnInit;
 // The Lua code has been tweaked to pass the following values through as a "Calling convention", doing so
 // skips any assembly generation and will ignore any registers specified for arguments.
 // When using these calling convention declaration styles it is *of extreme importance* that all types
-// used for return values & argument values be exactly correct with their original declaration and that your
+// used for return values&  argument values be exactly correct with their original declaration and that your
 // compiler matches the original compiler. As no exceptions are currently made to correct to for example:
 // MSVC "__thiscall" style when compiling with GCC under mingw it will use GCC's MinGW thiscall style not MSVC.
-// Although the Lua & C++ code could theoretically be tweaked to permit a mismatch of compilers if you added even more calling conventions like a "__msvc_thiscall" or something and did the assembly code to rearrange it.
+// Although the Lua&  C++ code could theoretically be tweaked to permit a mismatch of compilers if you added even more calling conventions like a "__msvc_thiscall" or something and did the assembly code to rearrange it.
 // As it is right now, these will be used for non-assembly code generation so that the compiler is directly aware of the calling convention and no assembly is needed.
-// For x86_64 architecture, use __amd64 (since there is no special name for the calling convention, this will trigger skipping the register & assembly generation code) and the default amd64 calling convention for Windows or Linux will be used depending on target
+// For x86_64 architecture, use __amd64 (since there is no special name for the calling convention, this will trigger skipping the register&  assembly generation code) and the default amd64 calling convention for Windows or Linux will be used depending on target
 
 // Windows only
 __stdcall void someFunction();
@@ -494,7 +494,7 @@ __regparm1
 // Windows MSVC x86, Windows MSVC/Clang/ICC x86_64
 __vectorcall
 
-// All x86_64 OSes (just informs parser & C++ code to skip assembly style generation)
+// All x86_64 OSes (just informs parser&  C++ code to skip assembly style generation)
 __amd64 // Will be considered a thiscall automatically if this is the first parameter
 
 // There is also a noHook support (place before everything, even static or virtual) to define a signature and generic function name that will be used
@@ -510,10 +510,10 @@ noHook __amd64 void DO_NOT_HOOK();
 cleanup __amd64 float getSkillBonus(int skill, int level);
 
 ".554889e5415741564154534883ec104189cc": // 1001bc720
-cleanup __amd64 void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
+cleanup __amd64 void GetValue(ResourceEvent& ref, const std::string& type, int level, int worldLevel);
 
 ".554889e54157415641554154534881ecb8040000": // 1001bca10
-cleanup __amd64 void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
+cleanup __amd64 void GenerateReward(ResourceEvent& ref, RewardDesc& reward, int worldLevel);
 
 ".0f28c885ff0f57c07e??393d????????": // 100200cc0
 cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);

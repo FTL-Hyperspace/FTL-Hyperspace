@@ -24,5 +24,10 @@ __thiscall void CrewManifest::MouseMove(CrewManifest* this, int mX, int mY);
 
 struct CrewManifest
 {{
+	CrewManifest()
+	{
+		this->constructor();
+	}
+	
 	void _HS_MouseUp(int mX, int mY);
 }};

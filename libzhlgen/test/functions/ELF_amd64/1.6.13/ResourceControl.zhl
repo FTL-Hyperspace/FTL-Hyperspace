@@ -9,7 +9,7 @@ cleanup __amd64 void ResourceControl::OnInit(ResourceControl* this, int imageSwa
 ".415541544531e4554889f5":
 cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl* this, const std::string& fileName);
 ".4156b91000000041554531ed415455":
-cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl* this, const std::string &fileName, std::size_t &fileSize, const std::string* unused_resourceFile);
+cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl* this, const std::string& fileName, std::size_t& fileSize, const std::string* unused_resourceFile);
 ".534889d04989d14889fb488d7e604883ec10":
 cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl* this, GL_Texture* tex);
 ".554889f5534889fb4883ec38":
@@ -23,7 +23,7 @@ cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(Resour
 ".415455534889fb4883ec604883bf5001000000":
 cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl* this, float initialProgress, float finalProgress);
 ".41548d46fa55534889fb4883ec3083f802":
-cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceControl* this, int size, bool ignoreLanguage);
+cleanup __amd64 freetype::font_data& ResourceControl::GetFontData(ResourceControl* this, int size, bool ignoreLanguage);
 ".415741564155415455534889fb4881ec88000000408874241f":
 cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl* this, bool preloadPlayerShips);
 
@@ -39,4 +39,9 @@ struct ResourceControl depends (freetype)
 	  SWAP_SHIP_SETS = 0x1,
 	  SWAP_DYNAMIC_SHIPS = 0x2,
 	};
+
+	ResourceControl()
+	{
+		this->constructor();
+	}
 }};

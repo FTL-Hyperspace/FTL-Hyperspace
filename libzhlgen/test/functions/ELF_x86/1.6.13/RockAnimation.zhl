@@ -1,5 +1,5 @@
 "5589e557565383ec4c8b450c8b751c8d5de4891c248b7d0889442404":
-cleanup __cdecl void RockAnimation::constructor(RockAnimation* this, const std::string& subRace, int iShipId, Pointf position, bool enemy);
+cleanup __cdecl void RockAnimation::constructor(RockAnimation* this, const std::string& _subRace, int _iShipId, Pointf _position, bool _enemy);
 "5557565381ec0c010000803d????????000f85????????e8????????89c7":
 noHook void RockAnimation::__DO_NOT_HOOK();
 ".5557565381ec0c010000803d????????000f85????????e8????????89c7":

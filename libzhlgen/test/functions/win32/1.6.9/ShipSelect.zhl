@@ -9,7 +9,7 @@ __thiscall void ShipSelect::constructor(ShipSelect* this);
 ".5589e55756538b792089ce8b511c83e4f089f829d083f8037e??31db":
 __thiscall void ShipSelect::ClearShipButtons(ShipSelect* this);
 ".578d7c240883e4f0ff77fc5589e557565381ec????????8b1780b94805000000":
-__thiscall void ShipSelect::MouseMove(ShipSelect* this, int x, int y);
+__thiscall void ShipSelect::MouseMove(ShipSelect* this, int mX, int mY);
 ".80b9480500000075??f3c3908d742600578d7c240883e4f0ff77fc5589e557568db144050000":
 __thiscall void ShipSelect::OnLoop(ShipSelect* this);
 ".5781c1????????8d7c240883e4f0ff77fc5589e55783ec148b07":
@@ -24,3 +24,12 @@ __thiscall int ShipSelect::GetSelectedShip(ShipSelect* this);
 __thiscall void ShipSelect::Open(ShipSelect* this, int currentId, int currentType);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6c80b948050000000f85????????807b34000f84????????8b7b148b731039f774??89f68dbc27000000008b06":
 __thiscall void ShipSelect::OnRender(ShipSelect* this);
+
+
+struct ShipSelect
+{{
+    ShipSelect()
+    {
+        this->constructor();
+    }
+}};

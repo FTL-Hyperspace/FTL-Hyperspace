@@ -9,7 +9,20 @@ cleanup __cdecl CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone* this, 
 "5589e557565383ec7c8b5d088b03891c24":
 virtual cleanup __cdecl Projectile* SpaceDrone::GetNextProjectile(SpaceDrone* this);
 "5589e557565381ecdc0000008b7d088b75148b55":
-cleanup __cdecl void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint* blueprint);
+cleanup __cdecl void SpaceDrone::constructor(SpaceDrone* this, int _iShipId, int _selfId, DroneBlueprint* _blueprint);
 "5557565383ec2c8b7424408d86fc0100":
 cleanup __cdecl void SpaceDrone::destructor(SpaceDrone* this);
 
+
+struct SpaceDrone
+{{
+    SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
+    {
+        this->constructor(iShipId, selfId, blueprint);
+    }
+
+    ~SpaceDrone()
+    {
+        this->destructor();
+    }
+}}

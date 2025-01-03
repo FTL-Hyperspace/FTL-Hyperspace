@@ -10,7 +10,7 @@ cleanup __amd64 void StoreBox::OnLoop(StoreBox* this);
 ".554889e541574156534883ec284989ff418a9f90":
 cleanup __amd64 void StoreBox::OnRender(StoreBox* this);
 ".554889e5807f7000":
-cleanup __amd64 void StoreBox::MouseClick(StoreBox* this, int x, int y);
+cleanup __amd64 void StoreBox::MouseClick(StoreBox* this, int mX, int mY);
 "!.488b8778":
 cleanup __amd64 void StoreBox::Activate(StoreBox* this);
 ".554889e5534883ec384889fb0f57c00f":
@@ -23,9 +23,9 @@ struct StoreBox
 	{
 	}
 	
-	StoreBox(const std::string& buttonImage, ShipManager* shopper, Equipment* ship)
+	StoreBox(const std::string& buttonImage, ShipManager* ship, Equipment* equip)
 	{
-		this->constructor(buttonImage, shopper, ship);
+		this->constructor(buttonImage, ship, equip);
 	}
 	
 	void SetPosition(int x, int y)

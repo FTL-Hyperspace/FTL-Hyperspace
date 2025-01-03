@@ -181,15 +181,21 @@ cleanup __amd64 int ShipManager::OnInit(ShipManager* this, ShipBlueprint* bp, in
 ".415741564189f64155415455534889fb4c8dab800600004c8dbb880700004881ec18040000":
 cleanup __amd64 void ShipManager::ImportShip(ShipManager* this, int file);
 ".415741564989fe488dbfd800000041554154555389f34881ec98000000":
-cleanup __amd64 int ShipManager::constructor(ShipManager* this, int shipId);
+cleanup __amd64 int ShipManager::constructor(ShipManager* this, int _shipId);
 ".415641554989fd4154555348c707":
 cleanup __amd64 void ShipManager::destructor(ShipManager* this);
+
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId) 
 	{
 		this->constructor(shipId);
+	}
+	
+	~ShipManager()
+	{
+		this->destructor();
 	}
 	
 	Pointf GetRandomRoomCenter()
@@ -205,16 +211,10 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return ship.GetRoomCenter(roomId);
 	}
 	
-	~ShipManager()
-	{
-		this->destructor();
-	}
-	
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager* powerMan = PowerManager::GetPowerManager(iShipId);
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-
 }};

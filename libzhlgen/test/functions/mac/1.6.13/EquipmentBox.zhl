@@ -1,5 +1,5 @@
 "554889e5534883ec184889fb4889f048c1e820488d0d":
-cleanup __amd64 void EquipmentBox::constructor(EquipmentBox* this, Point pos, int slot);
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox* this, Point _position, int _slot);
 "!.554889e553504889fb488d05????????488903488b7b38":
 virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox* this);
 ".554889e54889f048c1e82089":

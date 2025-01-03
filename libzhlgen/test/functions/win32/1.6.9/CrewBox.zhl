@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b70088b088b50048b580c":
-__thiscall void CrewBox::constructor(CrewBox* this, Point pos, CrewMember* crew, int number);
+__thiscall void CrewBox::constructor(CrewBox* this, Point _position, CrewMember* _crew, int _number);
 "578d7c240883e4f0ff77fc5589e557565389cb81c1????????83ec6ce8????????8d8b74020000e8????????":
 __thiscall void CrewBox::OnRender(CrewBox* this);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004c744240c00000000":
@@ -22,9 +22,9 @@ __thiscall void CrewBox::RenderCloneDying(CrewBox* this);
 
 struct CrewBox
 {{
-	CrewBox(Point pos_, CrewMember* crew_, int number_)
+	CrewBox(Point position, CrewMember* crew, int number)
 	{
-		this->constructor(pos_, crew_, number_);
+		this->constructor(position, crew, number);
 	}
 	
 	void DestroyCustom();

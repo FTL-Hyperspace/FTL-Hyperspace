@@ -15,7 +15,7 @@ __thiscall bool ShipSystem::Ioned(ShipSystem* this, int num);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b200100003d????????0f85????????":
 __thiscall int ShipSystem::SetPowerLoss(ShipSystem* this, int power);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f048b770c898d24feffff898504feffff8b4708":
-__thiscall void ShipSystem::constructor(ShipSystem* this, int systemId, int roomId, int shipId, int startingPower);
+__thiscall void ShipSystem::constructor(ShipSystem* this, int _systemId, int _roomId, int _shipId, int _startingPower);
 "8b811c01000083f8077f??85c0ba????????0f48c2c38d76008dbc27000000008b415485c0":
 __thiscall int ShipSystem::GetPowerCap(ShipSystem* this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b1c010000":
@@ -105,9 +105,13 @@ GL_Primitive** ShipSystem__sabotageImage;
 "a1(???????\?)890424e8????????c744240800000000c74424040000b0c1c7042400000000e8????????f30f105dd4":
 GL_Primitive** ShipSystem__fireImage;
 
+
 struct ShipSystem
 {{
-	ShipSystem() { }
+	ShipSystem()
+	{
+		
+	}
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{

@@ -1,6 +1,6 @@
 // Continue from SuperShieldDrone::OnLoop (hyper efficiency™)
 "!.554889e54157415641554154534881ec????????4189cf4889fb":
-cleanup __amd64 void SystemBox::constructor(SystemBox* this, Point pos, ShipSystem* sys, bool playerUI);
+cleanup __amd64 void SystemBox::constructor(SystemBox* this, Point _position, ShipSystem* _system, bool _playerUI);
 ".554889e54157415641554154534883ec184189d64189f748":
 cleanup __amd64 void SystemBox::MouseMove(SystemBox* this, int x, int y);
 ".554889e54156534883ec2089f34989fe":
@@ -13,10 +13,13 @@ cleanup __amd64 void SystemBox::OnRender(SystemBox* this, bool ignoreStatus);
 
 struct SystemBox
 {{
-	SystemBox() { }
+	SystemBox()
+	{ 
+		
+	}
 	
-	SystemBox(Point pos, ShipSystem* sys, bool playerUI)
+	SystemBox(Point position, ShipSystem* system, bool playerUI)
 	{
-		this->constructor(pos, sys, playerUI);
+		this->constructor(position, system, playerUI);
 	}
 }};

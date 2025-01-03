@@ -6,3 +6,12 @@ cleanup __amd64 void ShipAI::SetStalemate(ShipAI* this, bool stalemate);
 cleanup __amd64 void ShipAI::OnLoop(ShipAI* this, bool hostile);
 "5348837f08004889fb":
 cleanup __amd64 std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI* this);
+
+
+struct ShipAI
+{{
+    ShipAI(bool player)
+    {
+        this->constructor(player);
+    }
+}};

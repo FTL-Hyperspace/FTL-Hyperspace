@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83c17083ec6c8b1fc7419c00000000":
-__thiscall int ShipManager::constructor(ShipManager* this, int shipId);
+__thiscall int ShipManager::constructor(ShipManager* this, int _shipId);
 "578d7c240883e4f0ff77fc5589f889e557565389cf8d8d90feffff81ec????????":
 __thiscall void ShipManager::AddInitialCrew(ShipManager* this, std::vector<CrewBlueprint>& blueprints);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8bb1c8040000837e04ff74??c70424????????89cb":
@@ -182,11 +182,18 @@ __thiscall void ShipManager::UpgradeSystem(ShipManager* this, int id, int amount
 __thiscall int ShipManager::CountPlayerCrew(ShipManager* this);
 "578d????0883e4f0ff????5589e557565389cb83ec1c8b81c8040000":
 __thiscall void ShipManager::Wait(ShipManager* this);
+
+
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId) 
 	{
 		this->constructor(shipId);
+	}
+	
+	~ShipManager()
+	{
+		this->destructor();
 	}
 	
 	Pointf GetRandomRoomCenter()
@@ -202,16 +209,10 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return ship.GetRoomCenter(roomId);
 	}
 	
-	~ShipManager()
-	{
-		this->destructor();
-	}
-	
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager* powerMan = PowerManager::GetPowerManager(iShipId);
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-
 }};

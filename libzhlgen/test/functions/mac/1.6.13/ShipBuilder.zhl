@@ -16,9 +16,9 @@ cleanup __amd64 void ShipBuilder::CreateSystemBoxes(ShipBuilder* this);
 "!.554889e54157415641554154534883ec684889fb488b8308":
 cleanup __amd64 void ShipBuilder::SetupShipAchievements(ShipBuilder* this);
 ".554889e54157415641554154534881ec98040000":
-cleanup __amd64 void ShipBuilder::MouseMove(ShipBuilder* this, int x, int y);
+cleanup __amd64 void ShipBuilder::MouseMove(ShipBuilder* this, int mX, int mY);
 "!.554889e54157415641554154534883ec384989fd4180bdb0":
-cleanup __amd64 void ShipBuilder::MouseClick(ShipBuilder* this, int x, int y);
+cleanup __amd64 void ShipBuilder::MouseClick(ShipBuilder* this, int mX, int mY);
 ".554889e5415741564154534883ec204189d44189":
 cleanup __amd64 void ShipBuilder::SwitchShip(ShipBuilder* this, int shipType, int shipVariant);
 "!.554889e553504889fb488b3b4885ff7406488b07ff50084889dfe811":
@@ -31,3 +31,12 @@ cleanup __amd64 void ShipBuilder::SwapType(ShipBuilder* this, int variant);
 cleanup __amd64 void ShipBuilder::OnKeyDown(ShipBuilder* this, SDLKey key);
 ".554889e5488b870822000048":
 cleanup __amd64 void ShipBuilder::ClearShipAchievements(ShipBuilder* this);
+
+
+struct ShipBuilder
+{{
+    ShipBuilder()
+    {
+        this->constructor();
+    }
+}};

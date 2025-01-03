@@ -4,3 +4,12 @@ cleanup __cdecl void MenuScreen::OnRender(MenuScreen* this);
 cleanup __cdecl void MenuScreen::Open(MenuScreen* this);
 "5557565381ec0c0100008b9c24200100008db424a8000000":
 cleanup __cdecl void MenuScreen::constructor(MenuScreen* this);
+
+
+struct MenuScreen
+{{
+    MenuScreen()
+    {
+        this->constructor();
+    }
+}};

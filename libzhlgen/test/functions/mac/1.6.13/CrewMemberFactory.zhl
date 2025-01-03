@@ -44,6 +44,11 @@ offsetVariable CrewMemberFactory* Global_CrewMemberFactory_Factory;
 
 struct CrewMemberFactory
 {{
+	~CrewMemberFactory()
+	{
+		this->destructor();
+	}
+
 	void SwapCrewMembers(CrewMember* _first, CrewMember* _second);
 	void MoveCrewMemberToEnd(CrewMember* crew);
 	void MoveCrewMemberBefore(CrewMember* crew, CrewMember* other);

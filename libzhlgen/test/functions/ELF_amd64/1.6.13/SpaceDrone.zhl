@@ -9,6 +9,20 @@ cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone* this, Pointf loc
 ".415741564155415455534889fb4883ec68488b07":
 virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone* this);
 "41570f57d24989ff":
-cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int iShipId, int selfId, DroneBlueprint* blueprint);
+cleanup __amd64 void SpaceDrone::constructor(SpaceDrone* this, int _iShipId, int _selfId, DroneBlueprint* _blueprint);
 "4157415641554154554889fd488dbf80":
 cleanup __amd64 void SpaceDrone::destructor(SpaceDrone* this, int __in_chrg); //no idea why this was in the generated sig json
+
+
+struct SpaceDrone
+{{
+    SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
+    {
+        this->constructor(iShipId, selfId, blueprint);
+    }
+
+    ~SpaceDrone()
+    {
+        this->destructor(0); // 0 = __in_chrg pseudo param 
+    }
+}}
