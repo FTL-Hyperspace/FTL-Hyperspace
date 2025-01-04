@@ -6014,7 +6014,7 @@ struct LaserBlast;
 
 struct LaserBlast : Projectile
 {
-	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
+	LaserBlast(Pointf position, int ownerId, int targetId, Pointf target);
 
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnUpdate();

@@ -36,7 +36,7 @@ cleanup __amd64 int ProjectileFactory::SpendMissiles(ProjectileFactory* this);
 cleanup __amd64 void ProjectileFactory::Update(ProjectileFactory* this);
 ".554889e54156534189f64889fb488b03ff90f800":
 static cleanup __amd64 void ProjectileFactory::SaveProjectile(Projectile* p, int fd);
-".554889e54156534883ec604189fee8??":
+".554889e54156534883ec604189fee8":
 static cleanup __amd64 Projectile* ProjectileFactory::LoadProjectile(int fd);
 "!.554889e553504889fb488d05????310048890348": 
 noHook __amd64 void ProjectileFactory::DO_NOT_HOOK_FALSE_DESTRUCTOR();

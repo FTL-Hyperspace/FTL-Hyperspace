@@ -10,7 +10,7 @@ cleanup __amd64 void AchievementTracker::SaveProfile(AchievementTracker* this, i
 cleanup __amd64 void AchievementTracker::LoadProfile(AchievementTracker* this, int file, int version);
 ".554889e5415741564154534881ec??0100004989ff0f57c0":
 cleanup __amd64 void AchievementTracker::SetSectorEight(AchievementTracker* this);
-".554889e54157415641554154534881ec88000000894db4":
+".554889e541574156415541545348":
 cleanup __amd64 void AchievementTracker::SetAchievement(AchievementTracker* this, const std::string& achievement, bool noPopup, bool sendToServer);
 ".554889e5415741564155415453504989f4":
 cleanup __amd64 bool AchievementTracker::GetFlag(AchievementTracker* this, const std::string& flagName);

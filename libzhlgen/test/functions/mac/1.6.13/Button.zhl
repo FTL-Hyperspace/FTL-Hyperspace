@@ -5,7 +5,7 @@ noHook __amd64 void Button::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 cleanup __amd64 void Button::constructor(Button *this);
 ".554889e54157415641554154534883ec184989d64989f74889fb488d15":
 cleanup __amd64 void Button::OnInit(Button *this, const std::string& img, Point pos);
-".554889e541574156534883ec184989f64889fb488d15????":
+".554889e541574156534883ec184989f64889fb488d15":
 cleanup __amd64 void Button::SetImageBase(Button *this, const std::string& imageBase);
 ".554889e548397750":
 cleanup __amd64 void Button::SetInactiveImage(Button *this, GL_Texture *texture);

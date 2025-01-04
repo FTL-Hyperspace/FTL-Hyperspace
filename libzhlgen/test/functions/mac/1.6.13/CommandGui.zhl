@@ -11,7 +11,7 @@ cleanup __amd64 void CommandGui::RunCommand(CommandGui* this, std::string& comma
 cleanup __amd64 void CommandGui::Victory(CommandGui* this);
 ".554889e541574156534881ecb80000004989ff41":
 cleanup __amd64 void CommandGui::CheckGameover(CommandGui* this);
-".554889e54156534989fe488d052f????":
+".554889e54156534989fe488d052f":
 cleanup __amd64 bool CommandGui::IsGameOver(CommandGui* this);
 ".554889e54157415641554154534881ecc80100004189d741":
 cleanup __amd64 void CommandGui::KeyDown(CommandGui* this, SDLKey key, bool shiftHeld);
@@ -23,7 +23,7 @@ cleanup __amd64 void CommandGui::MouseMove(CommandGui* this, int mX, int mY);
 cleanup __amd64 void CommandGui::OnInit(CommandGui* this);
 ".554889e541574156534883ec384989f64889fb48":
 cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui* this, CompleteShip* ship);
-".554889e54157415641554154534883ec384989fc803d6d??":
+".554889e54157415641554154534883ec384989fc803d6d":
 cleanup __amd64 void CommandGui::RenderStatic(CommandGui* this);
 ".554889e541574156534883ec18f30f1145dc4889":
 cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui* this, Point& shipCenter, float jumpScale);

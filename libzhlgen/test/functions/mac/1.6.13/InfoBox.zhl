@@ -1,4 +1,6 @@
-"554889e553504889fb31f631d2e8ae750700":
+"554889e553504889fb31f631d2e8":
+noHook __amd64 void InfoBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+".554889e553504889fb31f631d2e8":
 cleanup __amd64 void InfoBox::constructor(InfoBox* this);
 ".554889e54157415641554154534883ec284589c5":
 cleanup __amd64 void InfoBox::SetSystem(InfoBox* this, ShipSystem* system, int upgrade, int yShift, int forceSystemWidth);
@@ -14,7 +16,7 @@ cleanup __amd64 void InfoBox::SetBlueprintDrone(InfoBox* this, const DroneBluepr
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox* this, const ItemBlueprint* bp);
 ".554889e54157415641554154534881ec????????4189cf4889f3":
 cleanup __amd64 void InfoBox::SetBlueprintCrew(InfoBox* this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
-".554889e54157415653504889f34989fe498d????488d????e83d101d00":
+".554889e54157415653504889f3":
 cleanup __amd64 void InfoBox::SetBlueprintAugment(InfoBox* this, const AugmentBlueprint* bp);
 ".554889e5415741564155415453504589c74189cc4189d648":
 cleanup __amd64 void InfoBox::SetDescription(InfoBox* this, Description* desc, int width, int height, InfoBox::ExpandDir dir);

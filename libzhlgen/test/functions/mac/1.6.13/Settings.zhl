@@ -1,4 +1,4 @@
-"803d8a5e1e00": 
+"803d??????0000741455":
 static __amd64 bool Settings::GetDlcEnabled();
 ".554889e54156534881ec8009":
 static cleanup __amd64 void Settings::ResetHotkeys();
@@ -12,5 +12,5 @@ static cleanup __amd64 void Settings::SetHotkey(const std::string& hotkeyName, S
 static cleanup __amd64 void Settings::SaveSettings();
 ".554889e58a05????????5d":
 static __amd64 char Settings::GetCommandConsole();
-"!.554889e54157415641554154534881ec18020000488b05??":
+"!.554889e54157415641554154534881ec18020000488b05":
 static cleanup __amd64 void Settings::LoadSettings();

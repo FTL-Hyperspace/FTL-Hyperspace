@@ -10,7 +10,7 @@ cleanup __amd64 void Upgrades::ConfirmUpgrades(Upgrades* this);
 cleanup __amd64 void Upgrades::MouseMove(Upgrades* this, int mX, int mY);
 ".554889e54157415641554154534881ec980000004989ff41":
 cleanup __amd64 void Upgrades::OnLoop(Upgrades* this);
-".554889e5415741564154534883ec204989fee8??":
+".554889e5415741564154534883ec204989fee8":
 cleanup __amd64 void Upgrades::MouseClick(Upgrades* this, int mX, int mY);
 "!.554889e54156534989fe498b462849394630742dbb0100000031c90f1f440000488b3cc8e857f2ff":
 cleanup __amd64 void Upgrades::MouseRightClick(Upgrades* this, int mX, int mY);

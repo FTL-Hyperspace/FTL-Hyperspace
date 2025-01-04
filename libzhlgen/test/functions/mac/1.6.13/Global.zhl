@@ -371,7 +371,7 @@ void PopRenderTarget();
 
 // This will rewind the sigscanner to the beginning and then seek the first instance of this pattern, then assign the result to Random()
 
-"a1????????3d????????0f8c????????3d????????75??b8????????e8????????33c9eb??":
+"a1????????3d????????0f8c????????3d????????75??b8????????e8????????33c9eb":
 unsigned int Random();
 
 // If you don't want the sigscanner to rewind, and want to continue from its current position instead, add a '.' at the beginning of the pattern
@@ -506,7 +506,7 @@ noHook __amd64 void DO_NOT_HOOK();
 */
 
 // Continue from GenericButton::MouseMove (hyper efficiency™)
-"554889e583ff0577??89f8488d0d????????": // 100196660
+"554889e583ff0577??89f8488d0d": // 100196660
 cleanup __amd64 float getSkillBonus(int skill, int level);
 
 ".554889e5415741564154534883ec104189cc": // 1001bc720
@@ -515,7 +515,7 @@ cleanup __amd64 void GetValue(ResourceEvent& ref, const std::string& type, int l
 ".554889e54157415641554154534881ecb8040000": // 1001bca10
 cleanup __amd64 void GenerateReward(ResourceEvent& ref, RewardDesc& reward, int worldLevel);
 
-".0f28c885ff0f57c07e??393d????????": // 100200cc0
+".0f28c885ff0f57c07e??393d": // 100200cc0
 cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
 ".554889e54883ec2089f8": // 1002030f0
@@ -524,8 +524,8 @@ cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float de
 ".554889e548b82d7f954c2df45158": // 10020a7e0
 __amd64 int random32();
 
-".554889e589f8488905????????": // 10020aa00
+".554889e589f8488905": // 10020aa00
 cleanup __amd64 void srandom32(unsigned int seed);
 
-"!.554889e553504889fb488b3d????????": // 10023acb0
+"!.554889e553504889fb488b3d": // 10023acb0
 cleanup __amd64 void sys_graphics_set_window_title(char* title);

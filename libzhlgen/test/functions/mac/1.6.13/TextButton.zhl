@@ -1,7 +1,7 @@
-"554889e54156534889fb488d05????????488903488d7b08e8????????0f28055ccc2000":
-cleanup __amd64 void TextButton::constructor(TextButton* this); // 2 instances in binary&  both called - must rewrite if we want to modify it
-"1.554889e553504889fb488d05????????488903488b7b50":
-cleanup __amd64 void TextButton::destructor(TextButton* this); // 3 instances in binary&  2 are called - must rewrite if we want to modify it
+"554889e54156534889fb488d055f??2800488903488d7b08e8????0a000f28??????20000f114310":
+cleanup __amd64 void TextButton::constructor(TextButton* this); // 2 instances in binary & both called - must rewrite if we want to modify it
+"!.554889e553504889fb488d05":
+cleanup __amd64 void TextButton::destructor(TextButton* this); // 3 instances in binary & 2 are called - must rewrite if we want to modify it
 "!.554889e580bf800000000075??c6878000000001488b05":
 cleanup __amd64 void TextButton::SetInactiveColor(TextButton* this, GL_Color color);
 "!.554889e580bf800000000075??c6878000000001488b05":
@@ -10,7 +10,7 @@ cleanup __amd64 void TextButton::SetActiveColor(TextButton* this, GL_Color color
 cleanup __amd64 void TextButton::SetSelectedColor(TextButton* this, GL_Color color);
 ".554889e580bf800000000074":
 cleanup __amd64 void TextButton::SetTextColor(TextButton* this, GL_Color color);
-".554889e553504889fb488b7b50e8????":
+".554889e553504889fb488b7b50e8":
 cleanup __amd64 void TextButton::ResetPrimitives(TextButton* this);
 "!.554889e54157415641554154534881ec8800000080bf8000":
 cleanup __amd64 void TextButton::InitPrimitives(TextButton* this);

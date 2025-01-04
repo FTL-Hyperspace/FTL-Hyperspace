@@ -3,11 +3,11 @@
 static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
 "!.554889e54157415641554154534883ec??4989ffe8????????4989c6":
 static cleanup __amd64 std::string FileHelper::getResourceFile();
-"!.554889e5415741564155415453504989ffe8????":
+"!.554889e5415741564155415453504989ffe8":
 static cleanup __amd64 std::string FileHelper::getUserFolder();
 "!.554889e54157415641554154534883ec184989ffe8????0c":
 static cleanup __amd64 std::string FileHelper::getSaveFile();
-"!.554889e54157415641554154534883ec18e8????":
+"!.554889e54157415641554154534883ec18e8":
 static cleanup __amd64 void FileHelper::initFileHelper();
 ".554889e5488d4701f60701480f45471031f64889":
 static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
@@ -51,7 +51,7 @@ static cleanup __amd64 int FileHelper::readInteger(int file);
 static cleanup __amd64 void FileHelper::readData(int file, void* data, int len);
 ".554889e5415741564154534883ec10":
 static cleanup __amd64 float FileHelper::readFloat(int file);
-".554889e58935????":
+".554889e58935":
 static cleanup __amd64 bool FileHelper::seekPosition(int file, int pos);
 ".554889e54157415641554154534883ec1889d341":
 static cleanup __amd64 char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
