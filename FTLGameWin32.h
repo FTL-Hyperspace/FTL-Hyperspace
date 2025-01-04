@@ -3120,8 +3120,11 @@ struct FocusWindow
 		this->constructor();
 	}
 
+	LIBZHL_API void Close();
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void Open();
+	LIBZHL_API void SetPosition(Point p);
 	LIBZHL_API void constructor();
 	
 	void *vptr;
@@ -4134,6 +4137,7 @@ struct CrewManifest : FocusWindow
 	LIBZHL_API void OnRender();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
 	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void Open();
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor();
 	
@@ -4515,6 +4519,7 @@ struct Upgrades : FocusWindow
 	LIBZHL_API void OnInit(ShipManager *ship);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void Open();
 	
 	GL_Texture *box;
 	std::vector<UpgradeBox*> vUpgradeBoxes;

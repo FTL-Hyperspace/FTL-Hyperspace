@@ -94,6 +94,13 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
     {
         CSurface::GL_Translate(-position.x, -78);
         super();
+        for (int i = 0; i < buttons.size(); ++i)
+        {   
+            if (i == currentTab) continue;
+            std::string buttonIcon = "upgradeUI/Equipment/tabButtons/icon_"+names[i]+".png";
+            G_->GetResources()->RenderImageString(buttonIcon, buttons[i]->position.x, buttons[i]->position.y, 0, COLOR_WHITE, 1.f, false);
+        }
+
         if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
             CustomTabbedWindow::GetInstance()->undoButton->OnRender();
             
@@ -155,16 +162,32 @@ HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
     super(tab);
 }
 
-//HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
-//{
-//    windows[currentTab]->Close() // need expose the function
-//    windows[tab]->Open() // need expose the function
-//    for (int i = 0; i < buttons.size(); ++i)
-//    {
-//        if (i == tab) continue;
-//
-//        std::string imageBase = "upgradeUI/Equipment/tabButtons/" + names[tab] + "_" + names[i];
-//        buttons[i]->SetImageBase(imageBase);
-//    }
-//    currentTab = tab;
-//}
+HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
+{
+    windows[currentTab]->Close();
+    windows[tab]->Open();
+    for (int i = 0; i < buttons.size(); ++i)
+    {
+        if (i == tab) continue;
+
+        std::string imageBase = "upgradeUI/Equipment/tabButtons/";
+        if (i == 0){
+            imageBase += "left_start";
+        }
+        else if (i < tab)
+        {
+            imageBase += "left";
+        }
+        else if (i == buttons.size() - 1)
+        {
+            imageBase += "right_end";
+        }
+        else if (i > tab)
+        {
+            imageBase += "right";
+        }
+
+        buttons[i]->SetImageBase(imageBase);
+    }
+    currentTab = tab;
+}
