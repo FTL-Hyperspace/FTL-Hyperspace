@@ -9,7 +9,6 @@ public:
         FocusWindow* window;
         Button* button;
         Point butPos;
-        std::string butPicture;
 
         GL_Texture* background;
         std::string name;
@@ -31,7 +30,7 @@ public:
     void InitialiseButton(CustomTabbedWindow::Tab tab);
 
     TextButton* undoButton = nullptr;
-    int xPos = 277;
+    int xPos = 278;
 
 private:
     std::vector<Tab> tabs;

@@ -7,16 +7,13 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
     for (rapidxml::xml_node<char>* tabNode = node->first_node("tab"); tabNode; tabNode = tabNode->next_sibling("tab")) 
     {
         Tab newTab;
+
+        newTab.button = new Button();
+        newTab.butPos = Point(xPos, -7);
+        xPos += 95;
         
         if(tabNode->first_attribute("name")){
             newTab.name = tabNode->first_attribute("name")->value();
-        }
-        if (tabNode->first_attribute("buttonPath")) {
-            std::string buttonPath = tabNode->first_attribute("buttonPath")->value();
-            newTab.button = new Button();
-            newTab.butPos = Point(xPos, -7);
-            newTab.butPicture = buttonPath;
-            xPos += 100;
         }
         if (tabNode->first_attribute("windowPath")) {
             std::string windowPath = tabNode->first_attribute("windowPath")->value();
@@ -32,7 +29,7 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
 
 void CustomTabbedWindow::InitialiseButton(CustomTabbedWindow::Tab tab) // This may seem uneccessary but restarting the game increment the position of every tab button, so this is to avoid that
 {
-    tab.button->OnInit(tab.butPicture, tab.butPos);
+    tab.button->OnInit("upgradeUI/Equipment/tabButtons/right_end", tab.butPos);
     Globals::Rect rect = Globals::Rect();
     rect.x = tab.butPos.x + 15;
     rect.y = 0;
@@ -159,11 +156,6 @@ HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
 
-    super(tab);
-}
-
-HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
-{
     windows[currentTab]->Close();
     windows[tab]->Open();
     for (int i = 0; i < buttons.size(); ++i)
@@ -171,22 +163,31 @@ HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
         if (i == tab) continue;
 
         std::string imageBase = "upgradeUI/Equipment/tabButtons/";
-        if (i == 0){
+        if (i == 0)
+        {
             imageBase += "left_start";
         }
-        else if (i < tab)
+        else if (i == 1 && tab < 3)
         {
-            imageBase += "left";
-        }
-        else if (i == buttons.size() - 1)
-        {
-            imageBase += "right_end";
+            if (i < tab)
+            {
+                imageBase += "left";
+            }
+            else
+            {
+                imageBase += "right";
+            }
         }
         else if (i > tab)
         {
-            imageBase += "right";
+            imageBase += "right_end";
         }
-
+        else if (i < tab)
+        {
+            imageBase += "left_end";
+        }
+        
+        
         buttons[i]->SetImageBase(imageBase);
     }
     currentTab = tab;
