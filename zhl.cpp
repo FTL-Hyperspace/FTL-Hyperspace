@@ -50,8 +50,8 @@ void ZHL::Init()
 		MessageBox(0, FunctionDefinition::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
 #elif defined(__linux__) || defined(__APPLE__)
-        fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", FunctionHook_private::GetLastError(), NULL);
+        fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
         exit(1);
 #endif
 	}
@@ -62,8 +62,8 @@ void ZHL::Init()
 		MessageBox(0, FunctionHook_private::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
 #elif defined(__linux__) || defined(__APPLE__)
-        fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", FunctionHook_private::GetLastError(), NULL);
+        fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
         exit(1);
 #endif
 	}
