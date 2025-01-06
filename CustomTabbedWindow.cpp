@@ -1,6 +1,7 @@
 #include "CustomTabbedWindow.h"
 
 CustomTabbedWindow CustomTabbedWindow::instance = CustomTabbedWindow();
+GL_Texture* altEquipmentBox = nullptr;
 
 void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
 {
@@ -10,7 +11,7 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
 
         newTab.button = new Button();
         newTab.butPos = Point(xPos, -7);
-        xPos += 95;
+        xPos += hitboxWidth;
         
         if(tabNode->first_attribute("name")){
             newTab.name = tabNode->first_attribute("name")->value();
@@ -25,6 +26,7 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
         newTab.window = new FocusWindow();
         tabs.push_back(newTab);
     }
+    altEquipmentBox = G_->GetResources()->GetImageId("upgradeUI/Equipment/equipment_main_2.png");
 }
 
 void CustomTabbedWindow::InitialiseButton(CustomTabbedWindow::Tab tab) // This may seem uneccessary but restarting the game increment the position of every tab button, so this is to avoid that
@@ -33,7 +35,7 @@ void CustomTabbedWindow::InitialiseButton(CustomTabbedWindow::Tab tab) // This m
     Globals::Rect rect = Globals::Rect();
     rect.x = tab.butPos.x + 15;
     rect.y = 0;
-    rect.w = 100;
+    rect.w = 95;
     rect.h = 38;
     tab.button->hitbox = rect;
 }
@@ -83,13 +85,13 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
     lua_pushinteger(context->GetLua(), currentTab);
 
     CSurface::GL_PushMatrix();
-    CSurface::GL_Translate(position.x, 78);
+    CSurface::GL_Translate(335, 78);
 
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::TABBED_WINDOW, 1);
     
     if (idx >= 0)
     {
-        CSurface::GL_Translate(-position.x, -78);
+        CSurface::GL_Translate(-335, -78);
         super();
         for (int i = 0; i < buttons.size(); ++i)
         {   
@@ -101,7 +103,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
         if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
             CustomTabbedWindow::GetInstance()->undoButton->OnRender();
             
-        CSurface::GL_Translate(position.x, 78);
+        CSurface::GL_Translate(335, 78);
         if (currentTab > 2)
             G_->GetResources()->RenderImage(CustomTabbedWindow::GetInstance()->GetTab(currentTab).background, 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
@@ -167,28 +169,28 @@ HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
         {
             imageBase += "left_start";
         }
-        else if (i == 1 && tab < 3)
-        {
-            if (i < tab)
-            {
-                imageBase += "left";
-            }
-            else
-            {
-                imageBase += "right";
-            }
-        }
-        else if (i > tab)
+        else if (i == buttons.size() - 1)
         {
             imageBase += "right_end";
         }
+        else if (i > tab)
+        {
+            imageBase += "right";
+        }
         else if (i < tab)
         {
-            imageBase += "left_end";
+            imageBase += "left";
         }
         
-        
         buttons[i]->SetImageBase(imageBase);
+
+        if (buttons.size() > 2 && i == 2)
+        {
+            buttons[i]->position.x = 335 + 182 - 19; // 182
+            buttons[i]->hitbox.x = 335 + 197 - 10; // 197
+            buttons[i]->hitbox.w = 90;
+            G_->GetWorld()->commandGui->equipScreen.box = altEquipmentBox;
+        }
     }
     currentTab = tab;
 }

@@ -30,7 +30,8 @@ public:
     void InitialiseButton(CustomTabbedWindow::Tab tab);
 
     TextButton* undoButton = nullptr;
-    int xPos = 278;
+    int xPos = 240;
+    int hitboxWidth = 97;
 
 private:
     std::vector<Tab> tabs;
