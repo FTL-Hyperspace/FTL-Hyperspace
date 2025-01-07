@@ -1,10 +1,10 @@
-"554889e5415741564154534883ec404889d34989ff31c9e8????????488d05":
-cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point position, BatterySystem *_system);
+"554889e5415741564154534883ec404889d3":
+cleanup __amd64 void BatteryBox::constructor(BatteryBox* this, Point position, BatterySystem* _system);
 
 
 struct BatteryBox
 {{
-	BatteryBox(Point position, BatterySystem *system)
+	BatteryBox(Point position, BatterySystem* system)
 	{
 		this->constructor(position, system);
 	}

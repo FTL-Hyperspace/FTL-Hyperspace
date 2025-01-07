@@ -529,7 +529,7 @@ enum GraphicsComparisonType
   GRAPHICS_COMPARISON_GREATER = 0x7,
 };
 
-typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 
 static void* GetBaseAddress()
 {
@@ -1962,7 +1962,7 @@ struct LIBZHL_INTERFACE StoreBox
 
 struct AugmentStoreBox : StoreBox
 {
-	AugmentStoreBox(ShipManager *ship, const AugmentBlueprint *augment)
+	AugmentStoreBox(ShipManager* ship, const AugmentBlueprint* augment)
 	{
 		this->constructor(ship, augment);
 	}
@@ -1982,7 +1982,7 @@ struct BatterySystem;
 
 struct BatteryBox : CooldownSystemBox
 {
-	BatteryBox(Point position, BatterySystem *system)
+	BatteryBox(Point position, BatterySystem* system)
 	{
 		this->constructor(position, system);
 	}
@@ -2573,7 +2573,7 @@ struct BeamWeapon;
 
 struct BeamWeapon : Projectile
 {
-	BeamWeapon(Pointf position, int ownerId, int targetId, Pointf target, Pointf target2, int length, Targetable *targetable, float heading = 0.0f)
+	BeamWeapon(Pointf position, int ownerId, int targetId, Pointf target, Pointf target2, int length, Targetable* targetable, float heading = 0.0f)
 	{
 		this->constructor(position, ownerId, targetId, target, target2, length, targetable, heading);
 	}
@@ -2795,7 +2795,7 @@ struct BoarderDrone : CrewDrone
 	{
 	}
 
-	BoarderDrone(const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim)
+	BoarderDrone(const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation* anim)
 	{
 		this->constructor(type, name, shipId, blueprint, anim);
 	}
@@ -3825,7 +3825,7 @@ struct CloakingSystem;
 
 struct CloakingBox : CooldownSystemBox
 {
-	CloakingBox(Point position, CloakingSystem *system)
+	CloakingBox(Point position, CloakingSystem* system)
 	{
 		this->constructor(position, system);
 	}
@@ -3855,7 +3855,7 @@ struct CloneSystem;
 
 struct CloneBox : CooldownSystemBox
 {
-	CloneBox(Point position, CloneSystem *cloneSystem)
+	CloneBox(Point position, CloneSystem* cloneSystem)
 	{
 		this->constructor(position, cloneSystem);
 	}
