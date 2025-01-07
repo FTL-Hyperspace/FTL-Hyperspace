@@ -145,11 +145,26 @@ struct CachedImage : CachedPrimitive
 
 struct Point
 {
-	Point(int xx, int yy) : x(xx), y(yy)  { }
-	Point() { }
+	Point()
+	{
+		
+	}
+
+	Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
 	
-	friend bool operator==(const Point& a, const Point& b) {return a.x==b.x && a.y==b.y;}
-	friend bool operator!=(const Point& a, const Point& b) {return a.x!=b.x || a.y!=b.y;}
+	friend bool operator==(const Point& a, const Point& b)
+	{
+		return a.x==b.x && a.y==b.y;
+	}
+
+	friend bool operator!=(const Point& a, const Point& b)
+	{
+		return a.x!=b.x || a.y!=b.y;
+	}
 
 	LIBZHL_API int Distance(Point other);
 	LIBZHL_API int RelativeDistance(Point other);

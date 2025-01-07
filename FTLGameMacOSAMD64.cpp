@@ -407,7 +407,7 @@ AnimationControl *Global_AnimationControl_Animations;
 
 namespace _var31
 {
-	static VariableDefinition varObj("Global_AnimationControl_Animations", "!69488945??c745??786d6c00488d3d(???????\?)488d", &Global_AnimationControl_Animations, true, true);
+	static VariableDefinition varObj("Global_AnimationControl_Animations", "69488945??c745??786d6c00488d3d(???????\?)488d", &Global_AnimationControl_Animations, true, true);
 }
 
 namespace _func32
@@ -426,7 +426,7 @@ Animation AnimationControl::GetAnimation(const std::string &animName)
 namespace _func33
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("AnimationTracker::Progress", typeid(float (AnimationTracker::*)(float )), "554889e50f28c881", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("AnimationTracker::Progress", typeid(float (AnimationTracker::*)(float )), "554889e50f28c8807f1400", nullptr, 0, 0, &func);
 }
 
 float AnimationTracker::Progress(float speed)
@@ -439,7 +439,7 @@ float AnimationTracker::Progress(float speed)
 namespace _func34
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("AnimationTracker::SetLoop", typeid(void (AnimationTracker::*)(bool , float )), ".554889e54088770c", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("AnimationTracker::SetLoop", typeid(void (AnimationTracker::*)(bool , float )), ".554889e54088770cf30f114718", nullptr, 0, 0, &func);
 }
 
 void AnimationTracker::SetLoop(bool loop, float loopDelay)
@@ -452,7 +452,7 @@ void AnimationTracker::SetLoop(bool loop, float loopDelay)
 namespace _func35
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("AnimationTracker::SetProgress", typeid(void (AnimationTracker::*)(float )), ".554889e5f30f5947", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("AnimationTracker::SetProgress", typeid(void (AnimationTracker::*)(float )), ".554889e5f30f594708f30f114710", nullptr, 0, 0, &func);
 }
 
 void AnimationTracker::SetProgress(float time)
@@ -530,7 +530,7 @@ float AnimationTracker::GetAlphaLevel(bool reverse)
 namespace _func41
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ArmamentControl::CreateHolderTab", typeid(void (ArmamentControl::*)()), "554889e5415741564154534883ec604989ffbf20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ArmamentControl::CreateHolderTab", typeid(void (ArmamentControl::*)()), "554889e5415741564154534883ec604989ffbf", nullptr, 0, 0, &func);
 }
 
 void ArmamentControl::CreateHolderTab()
@@ -543,7 +543,7 @@ void ArmamentControl::CreateHolderTab()
 namespace _func42
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ArmamentControl::Dragging", typeid(bool (ArmamentControl::*)()), ".554889e553504889fb83bbb0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ArmamentControl::Dragging", typeid(bool (ArmamentControl::*)()), ".554889e553504889fb83bbb0000000ff", nullptr, 0, 0, &func);
 }
 
 bool ArmamentControl::Dragging()
@@ -569,7 +569,7 @@ bool ArmamentControl::KeyDown(SDLKey key)
 namespace _func44
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ArmamentControl::LinkShip", typeid(void (ArmamentControl::*)(ShipManager *)), "!.554889e54157415641554154534883ec484989fd49897518", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ArmamentControl::LinkShip", typeid(void (ArmamentControl::*)(ShipManager *)), ".554889e54157415641554154534883ec484989fd49897518", nullptr, 0, 0, &func);
 }
 
 void ArmamentControl::LinkShip(ShipManager *ship)
@@ -582,7 +582,7 @@ void ArmamentControl::LinkShip(ShipManager *ship)
 namespace _func45
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ArmamentControl::SetPosition", typeid(void (ArmamentControl::*)(Point )), ".554889e54156534989fe4139", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ArmamentControl::SetPosition", typeid(void (ArmamentControl::*)(Point )), ".554889e54156534989fe41397638", nullptr, 0, 0, &func);
 }
 
 void ArmamentControl::SetPosition(Point loc)
@@ -595,7 +595,7 @@ void ArmamentControl::SetPosition(Point loc)
 namespace _func46
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ArtilleryBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (ArtilleryBox::*)()), "!.554889e54156534989d64889fb", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ArtilleryBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (ArtilleryBox::*)()), "!.554889e54156534989d64559fb", nullptr, 0, 0, &func);
 }
 
 namespace _func47
