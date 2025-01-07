@@ -25,7 +25,7 @@
 #ifdef __i386__
     #define PTR_PRINT_F "0x%08" PRIxPTR
     #define POINTER_BYTES 4
-#elif defined(__amd64__) || defined(__APPLE__)
+#elif defined(__amd64__)
     #define PTR_PRINT_F "0x%016" PRIxPTR
     #define POINTER_BYTES 8
 #else
