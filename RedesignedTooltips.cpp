@@ -1322,8 +1322,8 @@ bool ScrollingTooltip::OnScrollWheel(float direction)
 HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
+    // Rewrite vanilla code + add some fix + scrolling tooltip
 
-    // rewrite vanilla code + add some fix + scrolling tooltip
     int width = overrideTooltipWidth < 1 ? (tooltipTitle.empty() ? 275 : 350) : overrideTooltipWidth;
     Point tooltipSize = MeasureTooltip(width);
     float rect_w = tooltipSize.x + 27.f;
@@ -1371,9 +1371,9 @@ HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) ->
         }
         
         tooltipPoint.y += 20;
-        CSurface::GL_SetStencilMode(STENCIL_SET, 100, 100);
+        CSurface::GL_SetStencilMode(STENCIL_SET, 0x80, 0x80);
         CSurface::GL_DrawRect(tooltipPoint.x, tooltipPoint.y, rect_w, rect_visual_h - 40, COLOR_WHITE);
-        CSurface::GL_SetStencilMode(STENCIL_USE, 100, 100);
+        CSurface::GL_SetStencilMode(STENCIL_USE, 0x80, 0x80);
     }
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, -scrollAmount);
     if (!tooltipTitle.empty()) freetype::easy_printAutoNewlines(13, text_x, tooltipPoint.y + 13, width, tooltipTitle);
