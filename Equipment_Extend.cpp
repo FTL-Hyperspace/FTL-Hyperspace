@@ -1,4 +1,4 @@
-#include "Equipment_extend.h"
+#include "Equipment_Extend.h"
 
 
 HOOK_METHOD_PRIORITY(Equipment, constructor, 900, () -> void)
