@@ -2263,6 +2263,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 - [`TextString`](#TextString) `.text`
+- [`ResourceEvent`](#ResourceEvent) `.stuff`
 - `int` `.environment`
 - `int` `.environmentTarget`
 - `bool` `.store`
@@ -2277,6 +2278,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
 - `std::string` `.eventName`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
 - [`BoardingEvent`](#BoardingEvent) `.boarders`
 - `int` `.unlockShip`
 - [`TextString`](#TextString) `.unlockShipText`
@@ -2329,6 +2331,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.centered`
 - `int` `.gap_size`
 - `float` `.openTime`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
 - [`GL_Color`](#GL_Color) `.currentTextColor`
 - [`Pointf`](#Pointf) `.lastChoice`
 
@@ -2337,6 +2340,35 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `int` `.type`
 - `std::string` `.text`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
+
+## ResourceEvent
+
+### Fields
+- `int` `.missiles`
+- `int` `.fuel`
+- `int` `.drones`
+- `int` `.scrap`
+- `int` `.crew`
+- `bool` `.traitor`
+- `bool` `.cloneable`
+-[ `TextString`](#textstring) `.cloneText`
+- `std::string` `.crewType`
+- [`WeaponBlueprint`](#weaponblueprint) `.*weapon`
+- [`DroneBlueprint`](#droneblueprint) `.*drone`
+- [`AugmentBlueprint`](#droneblueprint) `.*augment`
+- [`CrewBlueprint`](#crewblueprint) `.crewBlue`
+- `int` `.systemId`
+- `int` `.weaponCount`
+- `int` `.droneCount`
+- `bool` `.steal`
+- `bool` `.intruders`
+- `int` `.fleetDelay`
+- `int` `.hullDamage`
+- `int` `.upgradeAmount`
+- `int` `.upgradeId`
+- `int` `.upgradeSuccessFlag`
+- `std::string` `.removeItem`
 
 ## ScoreKeeper
 
@@ -2362,7 +2394,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<Location>` `.locations`
    - **Read-only**
 - [`Location`](#Location) `.currentLoc`
+- [`std::vector<Sector*>`](#sector) `.sectors`
 - [`Sector`](#Sector) `.currentSector`
+- `bool` `.bChoosingNewSector`
+- `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
 - `GL_Primitive` `.ship`
    - The map icon that rotates around the current location representing the player ship.
@@ -2395,6 +2430,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## Sector
 
 ### Fields
+- `bool` `.visited`
+- `int` `.level`
 - [`SectorDescription`](#SectorDescription) `.description`
    - Field is **read-only** but fields under this object may still be mutable.
 
