@@ -914,7 +914,7 @@ std::string Blueprint::GetNameShort()
 namespace _func70
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("Blueprint::destructor", typeid(void (Blueprint::*)()), "!.554889e553504889fb488d05????????488903f683b800000001", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Blueprint::destructor", typeid(void (Blueprint::*)()), "!.554889e553504889fb488d05????33", nullptr, 0, 0, &func);
 }
 
 void Blueprint::destructor()
@@ -928,13 +928,13 @@ BlueprintManager *Global_BlueprintManager_Blueprints;
 
 namespace _var71
 {
-	static VariableDefinition varObj("Global_BlueprintManager_Blueprints", "!e8????????41833f030f9583680b0000488d3d(???????\?)488d7598baffffffffe8????????31d2", &Global_BlueprintManager_Blueprints, true, true);
+	static VariableDefinition varObj("Global_BlueprintManager_Blueprints", "!0b0000488d3d(???????\?)", &Global_BlueprintManager_Blueprints, true, true);
 }
 
 namespace _func72
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetSkillIcon", typeid(GL_Texture *(*)(int , bool )), "!.554889e5415741564154534883ec7048", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetSkillIcon", typeid(GL_Texture *(*)(int , bool )), ".554889e5415741564154534883ec7048", nullptr, 0, 0, &func);
 }
 
 GL_Texture *BlueprintManager::GetSkillIcon(int skill, bool outline)
@@ -947,7 +947,7 @@ GL_Texture *BlueprintManager::GetSkillIcon(int skill, bool outline)
 namespace _func73
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::ProcessWeaponBlueprint", typeid(WeaponBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "!.554889e54157415641554154534881ec680100004989d749", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessWeaponBlueprint", typeid(WeaponBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), ".554889e54157415641554154534881ec680100004989d7", nullptr, 0, 0, &func);
 }
 
 WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xml_node<char> *node)
@@ -960,7 +960,7 @@ WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xml_node<char
 namespace _func74
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::ProcessShipBlueprint", typeid(ShipBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "!.554889e54157415641554154534881ec780100004989d449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessShipBlueprint", typeid(ShipBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), ".554889e54157415641554154534881ec780100004989d4", nullptr, 0, 0, &func);
 }
 
 ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_node<char> *node)
@@ -973,7 +973,7 @@ ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_node<char> *n
 namespace _func75
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::ProcessDroneBlueprint", typeid(DroneBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "!.554889e54157415641554154534881ec180100004989fc49", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessDroneBlueprint", typeid(DroneBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), ".554889e54157415641554154534881ec180100004989fc", nullptr, 0, 0, &func);
 }
 
 DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_node<char> *node)
@@ -986,7 +986,7 @@ DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_node<char> 
 namespace _func76
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetBlueprintList", typeid(std::vector<std::string> (BlueprintManager::*)(const std::string &)), "!.554889e54157415641554154534883ec484889d34989f449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetBlueprintList", typeid(std::vector<std::string> (BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484889d349", nullptr, 0, 0, &func);
 }
 
 std::vector<std::string> BlueprintManager::GetBlueprintList(const std::string &name)
@@ -999,7 +999,7 @@ std::vector<std::string> BlueprintManager::GetBlueprintList(const std::string &n
 namespace _func77
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(std::string (BlueprintManager::*)(bool *)), ".554889e5415741564154534883ec204989d64889", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(std::string (BlueprintManager::*)(bool *)), ".554889e5415741564154534883ec204989d648", nullptr, 0, 0, &func);
 }
 
 std::string BlueprintManager::GetCrewName(bool *isMale_ret)
@@ -1012,7 +1012,7 @@ std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 namespace _func78
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::ProcessDescription", typeid(Description (BlueprintManager::*)(rapidxml::xml_node<char> *)), "!.554889e54157415641554154534881eca80000004989fe49", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessDescription", typeid(Description (BlueprintManager::*)(rapidxml::xml_node<char> *)), ".554889e54157415641554154534881eca80000004989fe49", nullptr, 0, 0, &func);
 }
 
 Description BlueprintManager::ProcessDescription(rapidxml::xml_node<char> *node)
@@ -1025,7 +1025,7 @@ Description BlueprintManager::ProcessDescription(rapidxml::xml_node<char> *node)
 namespace _func79
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::ProcessEffectsBlueprint", typeid(EffectsBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "!.554889e54157415641554154534883ec684889fb48c74360", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessEffectsBlueprint", typeid(EffectsBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), ".554889e54157415641554154534883ec684889fb48c7", nullptr, 0, 0, &func);
 }
 
 EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::xml_node<char> *node)
@@ -1038,7 +1038,7 @@ EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::xml_node<ch
 namespace _func80
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetShipBlueprint", typeid(ShipBlueprint *(BlueprintManager::*)(const std::string &, int )), "!.554889e54157415641554154534881ec980000004189d44989f64989", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetShipBlueprint", typeid(ShipBlueprint *(BlueprintManager::*)(const std::string &, int )), ".554889e54157415641554154534881ec980000004189d44989f6", nullptr, 0, 0, &func);
 }
 
 ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &name, int sector)
@@ -1051,7 +1051,7 @@ ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &name, int s
 namespace _func81
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetDroneBlueprint", typeid(DroneBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989f54989fe4d8da6f80000000f57c00f2945a048c745b0000000004c89e7e84bab00", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetDroneBlueprint", typeid(DroneBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989f54989fe4d8da6f80000000f57c00f2945a048c745b0000000004c89e7e84bab", nullptr, 0, 0, &func);
 }
 
 DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string &name)
@@ -1064,7 +1064,7 @@ DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string &name)
 namespace _func82
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetWeaponBlueprint", typeid(WeaponBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989f54989fe4d8da6f80000000f57c00f2945a048c745b0000000004c89e7e86ba600", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetWeaponBlueprint", typeid(WeaponBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989f54989fe4d8da6f80000000f57c00f2945a048c745b0000000004c89e7e86b", nullptr, 0, 0, &func);
 }
 
 WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::string &name)
@@ -1077,7 +1077,7 @@ WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::string &name)
 namespace _func83
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewBlueprint", typeid(CrewBlueprint (BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989d44989f548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewBlueprint", typeid(CrewBlueprint (BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989d44989f5", nullptr, 0, 0, &func);
 }
 
 CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &name)
@@ -1103,7 +1103,7 @@ std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 namespace _func85
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetAugmentValue", typeid(float (BlueprintManager::*)(const std::string &)), ".554889e541574156534883ec184989f74889fb4c8d73504c", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetAugmentValue", typeid(float (BlueprintManager::*)(const std::string &)), ".554889e541574156534883ec184989f74889fb4c8d73", nullptr, 0, 0, &func);
 }
 
 float BlueprintManager::GetAugmentValue(const std::string &name)
@@ -1116,7 +1116,7 @@ float BlueprintManager::GetAugmentValue(const std::string &name)
 namespace _func86
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetAugmentBlueprint", typeid(AugmentBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989f54989fe4d8da6f80000000f57c00f2945a048c745b0000000004c89e7e84b9300", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetAugmentBlueprint", typeid(AugmentBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e54157415641554154534883ec484989f54989fe4d8da6f80000000f57c00f2945a048c745b0000000004c89e7e84b93", nullptr, 0, 0, &func);
 }
 
 AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::string &name)
@@ -1129,7 +1129,7 @@ AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::string &name)
 namespace _func87
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetItemBlueprint", typeid(ItemBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e541574156534883ec184989f74889fb4c8db3c800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetItemBlueprint", typeid(ItemBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e541574156534883ec184989f74889fb4c8db3c8", nullptr, 0, 0, &func);
 }
 
 ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &name)
@@ -1142,7 +1142,7 @@ ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &name)
 namespace _func88
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(std::vector<WeaponBlueprint*> (BlueprintManager::*)(int , bool )), ".554889e5535089d04889fb440fb6c1488d562089", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(std::vector<WeaponBlueprint*> (BlueprintManager::*)(int , bool )), ".554889e5535089d04889fb440fb6c1488d5620", nullptr, 0, 0, &func);
 }
 
 std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int count, bool demo_lock)
@@ -1155,7 +1155,7 @@ std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int count, bool 
 namespace _func89
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(std::vector<AugmentBlueprint*> (BlueprintManager::*)(int , bool )), ".554889e5535089d04889fb440fb6c1488d565089", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(std::vector<AugmentBlueprint*> (BlueprintManager::*)(int , bool )), ".554889e5535089d04889fb440fb6c1488d5650", nullptr, 0, 0, &func);
 }
 
 std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int count, bool demo_lock)
@@ -1168,7 +1168,7 @@ std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int count, boo
 namespace _func90
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(std::vector<DroneBlueprint*> (BlueprintManager::*)(int , bool )), ".554889e5535089d04889fb440fb6c1488d563889", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(std::vector<DroneBlueprint*> (BlueprintManager::*)(int , bool )), ".554889e5535089d04889fb440fb6c1488d5638", nullptr, 0, 0, &func);
 }
 
 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int count, bool demo_lock)
@@ -1181,7 +1181,7 @@ std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int count, bool de
 namespace _func91
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::GetSystemBlueprint", typeid(SystemBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e541574156534883ec184989f74889fb4c8db3e000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetSystemBlueprint", typeid(SystemBlueprint *(BlueprintManager::*)(const std::string &)), ".554889e541574156534883ec184989f74889fb4c8db3e0", nullptr, 0, 0, &func);
 }
 
 SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::string &name)
@@ -1194,7 +1194,7 @@ SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::string &name)
 namespace _func92
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BoarderPodDrone::constructor", typeid(void (BoarderPodDrone::*)(int , int , const DroneBlueprint &)), "554889e54157415641554154534881ec????????4989ce4889fb", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BoarderPodDrone::constructor", typeid(void (BoarderPodDrone::*)(int , int , const DroneBlueprint &)), "554889e54157415641554154534881ec680100004989ce", nullptr, 0, 0, &func);
 }
 
 void BoarderPodDrone::constructor(int _iShipId, int _selfId, const DroneBlueprint &_blueprint)
@@ -1220,7 +1220,7 @@ void BoarderPodDrone::SetMovementTarget(Targetable *target)
 namespace _func94
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BoarderPodDrone::CollisionMoving", typeid(CollisionResponse (BoarderPodDrone::*)(Pointf , Pointf , Damage , bool )), ".554889e5534883ec384889fb80be3805000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BoarderPodDrone::CollisionMoving", typeid(CollisionResponse (BoarderPodDrone::*)(Pointf , Pointf , Damage , bool )), ".554889e5534883ec384889fb80be", nullptr, 0, 0, &func);
 }
 
 CollisionResponse BoarderPodDrone::CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)
@@ -1233,7 +1233,7 @@ CollisionResponse BoarderPodDrone::CollisionMoving(Pointf start, Pointf finish, 
 namespace _func95
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BoarderPodDrone::CanBeDeployed", typeid(bool (BoarderPodDrone::*)()), ".554889e553504889fb488bbb880100004885ff", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BoarderPodDrone::CanBeDeployed", typeid(bool (BoarderPodDrone::*)()), ".554889e553504889fb488bbb88010", nullptr, 0, 0, &func);
 }
 
 bool BoarderPodDrone::CanBeDeployed()
@@ -1259,7 +1259,7 @@ void BoarderPodDrone::SetDeployed(bool deployed)
 namespace _func97
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("BombProjectile::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (BombProjectile::*)()), "554889e54156534881ec100100004889", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BombProjectile::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (BombProjectile::*)()), "554889e54156534881ec10010000488900000000", nullptr, 0, 0, &func);
 }
 
 namespace _func98

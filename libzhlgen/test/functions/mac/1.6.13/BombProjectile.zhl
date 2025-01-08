@@ -1,4 +1,4 @@
-"554889e54156534881ec100100004889":
+"554889e54156534881ec10010000488900000000":
 noHook __amd64 void BombProjectile::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e54156534881ec100100004889":
 cleanup __amd64 void BombProjectile::constructor(BombProjectile* this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
