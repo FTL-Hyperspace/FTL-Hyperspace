@@ -84,7 +84,7 @@ CustomMindSystem::MindLevel& CustomMindSystem::GetLevel(MindSystem* sys)
 {
     bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
     int power = hacked ? sys->healthState.first : sys->GetEffectivePower();
-    return power < levels.size() ? levels[power] : defaultLevel;
+    return (power > 0 && power < levels.size()) ? levels[power - 1] : defaultLevel;
 }
 
 // TODO, get the real value for those
@@ -141,7 +141,7 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 
 CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(int power)
 {
-    return power < levels.size() ? levels[power] : defaultLevel;
+    return (power > 0 && power < levels.size()) ? levels[power - 1] : defaultLevel;
 }
 
 CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, bool passive)
@@ -156,7 +156,7 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
         bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
         power = hacked ? sys->healthState.first : sys->GetEffectivePower();
     }
-    return power < levels.size() ? levels[power] : defaultLevel;
+    return (power > 0 && power < levels.size()) ? levels[power - 1] : defaultLevel;
 }
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
