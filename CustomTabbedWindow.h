@@ -31,7 +31,7 @@ public:
 
     TextButton* undoButton = nullptr;
     int xPos = 240;
-    int hitboxWidth = 97;
+    int hitboxWidth = 77; // 97
 
 private:
     std::vector<Tab> tabs;
