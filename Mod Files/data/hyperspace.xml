@@ -1388,7 +1388,7 @@ Syntax ->
 		jumpHPPercent: % of health gained on jump, calculated before jumpHP, 0-100.
 		cloneHPPercent: % of health of newly created clone, 0-100.
 		skillLossPercent: % of skill lost on cloning, 0-100.
-		cloneSpeed: The time it takes to clone a new crew, in seconds.
+		cloneSpeed: The time it takes to clone a new crew, in seconds. Cannot be above 0 for levels 4 and above.
 		deathSpeed: The time it takes to kill a crew clone when the system is unpowered, in seconds.
 	-->
 	<system id="clone">

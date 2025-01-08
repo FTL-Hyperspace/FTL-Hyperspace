@@ -1234,7 +1234,8 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
         {
             CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
             heal = 0;
-            if (pLevel.jumpHPPercent > 0){
+            if (pLevel.jumpHPPercent > 0)
+            {
                 heal += (float)pLevel.jumpHPPercent/100 * health.second;
             }
             if (pLevel.jumpHP > 0)
