@@ -234,7 +234,7 @@ HOOK_METHOD(Equipment, IsCompletelyFull, (int type) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> Equipment::IsCompletelyFull -> Begin (CustomEquipment.cpp)\n")
     // Equipment::AddWeapon, Equipment::AddDrone and Equipment::AddAugment aren't called if Equipment::IsCompletelyFull returns true.
-    // To allow adding items to multiple overcapacityBoxes, this metod must return false.
+    // To allow adding items to multiple overcapacityBoxes, this method must return false.
 
     if (!g_multipleOverCapacity) return super(type);
 
@@ -574,23 +574,21 @@ void CustomEquipment::SetPosition(Point p)
 void CustomEquipment::OnRender()
 {
     CSurface::GL_PushMatrix();
-
-    // Adjust sellBox position. sellBox is completely overlapped by over capacity box in vanilla.
-    if (orig->bStoreMode && orig->bOverCapacity)
-    {
-        orig->sellBox.position = Point(orig->position.x - 275, orig->position.y + orig->overBox.position.y + orig->overBox.GetHeight() - 5);
-    }
-    else if (orig->bStoreMode && orig->bOverAugCapacity)
-    {
-        orig->sellBox.position = Point(orig->position.x - 275, orig->position.y + orig->overAugImage.position.y + orig->overAugImage.GetHeight() - 5);
-    }
-    else
-    {
-        orig->sellBox.position = Point(orig->position.x - 275, orig->position.y + 100);
-    }
-
     if (orig->bStoreMode)
     {
+        // Adjust sellBox position. sellBox is completely overlapped by over capacity box in vanilla.
+        if (orig->bStoreMode && orig->bOverCapacity)
+        {
+            orig->sellBox.position = Point(orig->position.x - 275, orig->position.y + orig->overBox.position.y + orig->overBox.GetHeight() - 5);
+        }
+        else if (orig->bStoreMode && orig->bOverAugCapacity)
+        {
+            orig->sellBox.position = Point(orig->position.x - 275, orig->position.y + orig->overAugImage.position.y + orig->overAugImage.GetHeight() - 5);
+        }
+        else
+        {
+            orig->sellBox.position = Point(orig->position.x - 275, orig->position.y + 100);
+        }
         orig->sellBox.sellCostText = orig->sellCostText;
         orig->sellBox.OnRender();
     }
@@ -833,7 +831,7 @@ void CustomEquipment::MouseMove(int mX, int mY)
     }
     
     orig->sellCostText = std::to_string(orig->vEquipmentBoxes[orig->bDragging ? orig->draggingEquipBox : orig->selectedEquipBox]->GetItemValue() / 2);
-    orig->bSellingItem = (orig->bDragging && orig->bStoreMode && orig->sellBox.Contains(mX, mY));
+    orig->bSellingItem = orig->bDragging && orig->bStoreMode && orig->sellBox.Contains(mX, mY);
     orig->sellBox.selectedImage = static_cast<int>(orig->bSellingItem);
 }
 
