@@ -1351,7 +1351,7 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
         if (currentCloneAnimation && currentCloneAnimation->tracker.running ) {
             currentCloneAnimation->OnRender(1.0, GL_Color(1.f, 1.f, 1.f, 1.f), false);
             std::vector<CrewMember*> crewList;
-            G_->GetCrewFactory()->GetCloneReadyList(crewList,(_shipObj.iShipId==0));
+            G_->GetCrewFactory()->GetCloneReadyList(crewList, _shipObj.iShipId == 0);
 
             if (!crewList.empty())
             {
@@ -1367,14 +1367,14 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
                         int stripStartX = info.stripStartX + info.frameWidth * currentCloneAnimation->currentFrame;
                         int stripStartY = info.imageHeight - info.stripStartY - info.frameHeight;
                         
-                        CSurface::GL_BlitImagePartial(tex, pos.x - 17.0, pos.y - 17.0, 
+                        CSurface::GL_BlitImagePartial(tex, pos.x - 17.0, pos.y - 9.0, 
                             (float)info.frameWidth, 
                             (float)info.frameHeight, 
                             (float)stripStartX/size_x, 
                             (float)(stripStartX + info.frameWidth)/size_x, 
                             (float)stripStartY/size_y, 
                             (float)(stripStartY + info.frameHeight)/size_y, 
-                            1.f, color, false);
+                            color.a, color, false);
                     }
                 }
             }
