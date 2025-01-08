@@ -97,7 +97,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
         {   
             if (i == currentTab) continue;
             std::string buttonIcon = "upgradeUI/Equipment/tabButtons/icon_"+names[i]+".png";
-            G_->GetResources()->RenderImageString(buttonIcon, buttons[i]->position.x, buttons[i]->position.y, 0, COLOR_WHITE, 1.f, false);
+            G_->GetResources()->RenderImageString(buttonIcon, i == buttons.size() -1 ? buttons[i]->position.x - 15 : buttons[i]->position.x , buttons[i]->position.y, 0, COLOR_WHITE, 1.f, false);
         }
 
         if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
@@ -184,7 +184,7 @@ HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
         
         buttons[i]->SetImageBase(imageBase);
 
-        if (buttons.size() > 2 && i == 2)
+        if (buttons.size() > 3 && i == 2)
         {
             buttons[i]->position.x = 335 + 182 - 19; // 182
             buttons[i]->hitbox.x = 335 + 197 - 10; // 197
