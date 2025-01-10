@@ -52,7 +52,7 @@ std::vector<CustomMindSystem::MindLevel> CustomMindSystem::levels = {
 CustomMindSystem::MindLevel CustomMindSystem::defaultLevel{3.f, 50.f, 30.f, 4, 1};
 void CustomMindSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
-    unsigned int level = 1;
+    unsigned int level = 0;
     for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
     {
         //Modify vanilla levels, keeping unspecified attributes as their default values
@@ -107,7 +107,7 @@ std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
 CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 10, 5.f, 3.f, 1};
 void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
-    unsigned int level = 1;
+    unsigned int level = 0;
     for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
     {
         //Modify vanilla levels, keeping unspecified attributes as their default values
@@ -1255,7 +1255,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomSystems.cpp)\n")
 
     std::vector<int> saveSkills;
-    for (int i = 0; i < 6; i++) saveSkills.push_back(GetSkillProgress(i).first);
+    for (int i = 0; i < 6; i++) saveSkills.push_back(blueprint.skillLevel[i].first);
 
     super();
 
@@ -1276,7 +1276,8 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         {
             for (int i = 0; i < 6; i++)
             {
-                int newSkillProgress = saveSkills[i] - (saveSkills[i] * (float)pLevel.skillLossPercent/100.0);
+                int newSkillProgress = std::ceil(saveSkills[i] - (saveSkills[i] * (float)pLevel.skillLossPercent/100.0));
+                if (pLevel.skillLossPercent > 0 && newSkillProgress == saveSkills[i]) newSkillProgress--;
                 if (newSkillProgress < 0) newSkillProgress = 0;
                 SetSkillProgress(i, newSkillProgress);
             }
