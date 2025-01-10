@@ -284,11 +284,11 @@ void CustomAugmentManager::UpdateAugments(int iShipId)
     {
         if (boost::algorithm::starts_with(i.first, "HIDDEN "))
         {
-            hiddenList[i.first.substr(7)] = i.second;
+            if (i.second > 0) hiddenList[i.first.substr(7)] = i.second;
         }
         else
         {
-            hiddenList[i.first] = i.second;
+            if (i.second > 0) hiddenList[i.first] = i.second;
             notHiddenList.push_back(i.first);
         }
     }
