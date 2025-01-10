@@ -150,6 +150,16 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
     super(mX, mY, shiftHeld);
 }
 
+HOOK_METHOD(TabbedWindow, Close, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> TabbedWindow::Close -> Begin (CustomTabbedWindow.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+    lua_pushinteger(context->GetLua(), currentTab);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
+    lua_pop(context->GetLua(), 1);
+    super();
+}
+
 HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
