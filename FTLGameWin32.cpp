@@ -1721,11 +1721,11 @@ namespace _func123
 	static FunctionDefinition funcObj("CApp::OnMButtonDown", typeid(void (CApp::*)(int , int )), ".80b9bc3400000074??c208008d74260080791000", argdata, 3, 5, &func);
 }
 
-void CApp::OnMButtonDown(int x, int y)
+void CApp::OnMButtonDown(int mX, int mY)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func123::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func124
@@ -1777,11 +1777,11 @@ namespace _func127
 	static FunctionDefinition funcObj("CApp::OnMouseMove", typeid(void (CApp::*)(int , int , int , int , bool , bool , bool )), ".57660fefc08d7c240883e4f0ff77fc5589e557565389cb83ec2c8b072b81103500008b5704", argdata, 8, 5, &func);
 }
 
-void CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB)
+void CApp::OnMouseMove(int mX, int mY, int relX, int relY, bool holdingLeft, bool holdingRight, bool holdingMiddle)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg, int xdiff_arg, int ydiff_arg, bool holdingLMB_arg, bool holdingRMB_arg, bool holdingMMB_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg, int relX_arg, int relY_arg, bool holdingLeft_arg, bool holdingRight_arg, bool holdingMiddle_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func127::func;
-	return execfunc(this, x, y, xdiff, ydiff, holdingLMB, holdingRMB, holdingMMB);
+	return execfunc(this, mX, mY, relX, relY, holdingLeft, holdingRight, holdingMiddle);
 }
 
 namespace _func128
@@ -1791,11 +1791,11 @@ namespace _func128
 	static FunctionDefinition funcObj("CApp::OnRButtonUp", typeid(void (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e5575389cb83ec208b072b81103500008b5704", argdata, 3, 5, &func);
 }
 
-void CApp::OnRButtonUp(int x, int y)
+void CApp::OnRButtonUp(int mX, int mY)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func128::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func129
@@ -1805,11 +1805,11 @@ namespace _func129
 	static FunctionDefinition funcObj("CApp::OnLButtonUp", typeid(void (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e557", argdata, 3, 5, &func);
 }
 
-void CApp::OnLButtonUp(int x, int y)
+void CApp::OnLButtonUp(int mX, int mY)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func129::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func130
@@ -1819,11 +1819,11 @@ namespace _func130
 	static FunctionDefinition funcObj("CApp::OnRButtonDown", typeid(void (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e55753", argdata, 3, 5, &func);
 }
 
-void CApp::OnRButtonDown(int x, int y)
+void CApp::OnRButtonDown(int mX, int mY)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func130::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func131
@@ -1833,11 +1833,11 @@ namespace _func131
 	static FunctionDefinition funcObj("CApp::OnLButtonDown", typeid(void (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e5", argdata, 3, 5, &func);
 }
 
-void CApp::OnLButtonDown(int x, int y)
+void CApp::OnLButtonDown(int mX, int mY)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func131::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func132
@@ -1861,11 +1861,11 @@ namespace _func133
 	static FunctionDefinition funcObj("CApp::OnKeyUp", typeid(void (CApp::*)(SDLKey )), ".578d7c240883e4f0ff77fc5589e557565383ec4c", argdata, 2, 5, &func);
 }
 
-void CApp::OnKeyUp(SDLKey key)
+void CApp::OnKeyUp(SDLKey sym)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func133::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func134
@@ -1875,11 +1875,11 @@ namespace _func134
 	static FunctionDefinition funcObj("CApp::OnKeyDown", typeid(void (CApp::*)(SDLKey )), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 2, 5, &func);
 }
 
-void CApp::OnKeyDown(SDLKey key)
+void CApp::OnKeyDown(SDLKey sym)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func134::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func135
@@ -1987,11 +1987,11 @@ namespace _func142
 	static FunctionDefinition funcObj("CApp::TranslateMouse", typeid(Point (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e55783ec248b072b8110350000", argdata, 3, 9, &func);
 }
 
-Point CApp::TranslateMouse(int x, int y)
+Point CApp::TranslateMouse(int mX, int mY)
 {
-	typedef Point __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef Point __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func142::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func143

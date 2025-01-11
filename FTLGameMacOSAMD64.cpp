@@ -1538,7 +1538,7 @@ void Button::SetLocation(const Point pos)
 namespace _func119
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CAchievement::constructor", typeid(void (CAchievement::*)()), "554889e5415741564154534883ec204889fb48c7433800000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CAchievement::constructor", typeid(void (CAchievement::*)()), "554889e5415741564154534883ec204889fb48c7", nullptr, 0, 0, &func);
 }
 
 void CAchievement::constructor()
@@ -1551,7 +1551,7 @@ void CAchievement::constructor()
 namespace _func120
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CAchievement::OnRender", typeid(void (CAchievement::*)(Point , int , bool )), ".554889e54157415641554154534883ec584189cf4189d449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CAchievement::OnRender", typeid(void (CAchievement::*)(Point , int , bool )), ".554889e54157415641554154534883ec584189cf41", nullptr, 0, 0, &func);
 }
 
 void CAchievement::OnRender(Point pos, int selected, bool showNew)
@@ -1564,13 +1564,13 @@ void CAchievement::OnRender(Point pos, int selected, bool showNew)
 namespace _func121
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (CApp::*)()), "!554889e553504889fbe8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (CApp::*)()), "554889e553504889fbe8??????00488d05????32", nullptr, 0, 0, &func);
 }
 
 namespace _func122
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::constructor", typeid(void (CApp::*)()), "!.554889e553504889fbe8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::constructor", typeid(void (CApp::*)()), ".554889e553504889fbe8??????00488d05????32", nullptr, 0, 0, &func);
 }
 
 void CApp::constructor()
@@ -1583,7 +1583,7 @@ void CApp::constructor()
 namespace _func123
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnInputFocus", typeid(void (CApp::*)()), ".554889e553504889fb80bb????000000752e488d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnInputFocus", typeid(void (CApp::*)()), ".554889e553504889fb80bb????000000752e", nullptr, 0, 0, &func);
 }
 
 void CApp::OnInputFocus()
@@ -1596,7 +1596,7 @@ void CApp::OnInputFocus()
 namespace _func124
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnInputBlur", typeid(void (CApp::*)()), ".554889e54156534889fbc683????000000488b7b", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnInputBlur", typeid(void (CApp::*)()), ".554889e54156534889fbc683????00000048", nullptr, 0, 0, &func);
 }
 
 void CApp::OnInputBlur()
@@ -1622,7 +1622,7 @@ int CApp::OnExecute()
 namespace _func126
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnInit", typeid(int (CApp::*)()), ".554889e541574156534883ec384989fe31ffe8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnInit", typeid(int (CApp::*)()), ".554889e541574156534883ec384989fe31", nullptr, 0, 0, &func);
 }
 
 int CApp::OnInit()
@@ -1635,7 +1635,7 @@ int CApp::OnInit()
 namespace _func127
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::GenInputEvents", typeid(void (CApp::*)()), ".554889e54156534989fee8????1f0031", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::GenInputEvents", typeid(void (CApp::*)()), ".554889e54156534989fee8????1f", nullptr, 0, 0, &func);
 }
 
 void CApp::GenInputEvents()
@@ -1648,7 +1648,7 @@ void CApp::GenInputEvents()
 namespace _func128
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnLoop", typeid(void (CApp::*)()), "!.554889e5415741564154534883ec304989fc488d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnLoop", typeid(void (CApp::*)()), "!.554889e5415741564154534883ec304989fc48", nullptr, 0, 0, &func);
 }
 
 void CApp::OnLoop()
@@ -1674,7 +1674,7 @@ void CApp::OnRender()
 namespace _func130
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::UpdateFullScreen", typeid(void (CApp::*)()), "!.554889e5415741564155415453504989fe488d1d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::UpdateFullScreen", typeid(void (CApp::*)()), ".554889e5415741564155415453504989fe488d1d", nullptr, 0, 0, &func);
 }
 
 void CApp::UpdateFullScreen()
@@ -1713,7 +1713,7 @@ int CApp::SetupWindow()
 namespace _func133
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnCleanup", typeid(void (CApp::*)()), "!.554889e54156534889fb488b7b18e8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnCleanup", typeid(void (CApp::*)()), "!.554889e54156534889fb488b7b18", nullptr, 0, 0, &func);
 }
 
 void CApp::OnCleanup()
@@ -1726,7 +1726,7 @@ void CApp::OnCleanup()
 namespace _func134
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnSuspend", typeid(void (CApp::*)()), "!.554889e553504889fbe8????????488b7b10", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnSuspend", typeid(void (CApp::*)()), "!.554889e553504889fbe8????1600488b7b10", nullptr, 0, 0, &func);
 }
 
 void CApp::OnSuspend()
@@ -1739,7 +1739,7 @@ void CApp::OnSuspend()
 namespace _func135
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnResume", typeid(void (CApp::*)()), "!.554889e553504889fb80bb????0000007513807b", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnResume", typeid(void (CApp::*)()), "!.554889e553504889fb80bb????0000007513", nullptr, 0, 0, &func);
 }
 
 void CApp::OnResume()
@@ -1752,7 +1752,7 @@ void CApp::OnResume()
 namespace _func136
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnRequestExit", typeid(void (CApp::*)()), "!.554889e553504889fb488b7b104885ff74504883", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnRequestExit", typeid(void (CApp::*)()), "!.554889e553504889fb488b7b104885ff7450", nullptr, 0, 0, &func);
 }
 
 void CApp::OnRequestExit()
@@ -1778,92 +1778,92 @@ void CApp::OnExit()
 namespace _func138
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::TranslateMouse", typeid(Point (CApp::*)(int , int )), ".554889e54883ec102bb7", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::TranslateMouse", typeid(Point (CApp::*)(int , int )), ".554889e54883ec102b", nullptr, 0, 0, &func);
 }
 
-Point CApp::TranslateMouse(int x, int y)
+Point CApp::TranslateMouse(int mX, int mY)
 {
-	typedef Point (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef Point (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func138::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func139
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnMButtonDown", typeid(void (CApp::*)(int , int )), "!.554889e580bf????0000007506807f20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnMButtonDown", typeid(void (CApp::*)(int , int )), "!.554889e580bf????0000007506", nullptr, 0, 0, &func);
 }
 
-void CApp::OnMButtonDown(int x, int y)
+void CApp::OnMButtonDown(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func139::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func140
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnLButtonUp", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2bb3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnLButtonUp", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2b", nullptr, 0, 0, &func);
 }
 
-void CApp::OnLButtonUp(int x, int y)
+void CApp::OnLButtonUp(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func140::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func141
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnLButtonDown", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2bb3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnLButtonDown", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2b", nullptr, 0, 0, &func);
 }
 
-void CApp::OnLButtonDown(int x, int y)
+void CApp::OnLButtonDown(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func141::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func142
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnMouseMove", typeid(void (CApp::*)(int , int , int , int , bool , bool , bool )), ".554889e54157415653504889fb2bb3b", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnMouseMove", typeid(void (CApp::*)(int , int , int , int , bool , bool , bool )), ".554889e54157415653504889fb2b", nullptr, 0, 0, &func);
 }
 
-void CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB)
+void CApp::OnMouseMove(int mX, int mY, int relX, int relY, bool holdingLeft, bool holdingRight, bool holdingMiddle)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg, int xdiff_arg, int ydiff_arg, bool holdingLMB_arg, bool holdingRMB_arg, bool holdingMMB_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg, int relX_arg, int relY_arg, bool holdingLeft_arg, bool holdingRight_arg, bool holdingMiddle_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func142::func;
-	return execfunc(this, x, y, xdiff, ydiff, holdingLMB, holdingRMB, holdingMMB);
+	return execfunc(this, mX, mY, relX, relY, holdingLeft, holdingRight, holdingMiddle);
 }
 
 namespace _func143
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnRButtonDown", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2bb3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnRButtonDown", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2b", nullptr, 0, 0, &func);
 }
 
-void CApp::OnRButtonDown(int x, int y)
+void CApp::OnRButtonDown(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func143::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func144
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnRButtonUp", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2bb3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnRButtonUp", typeid(void (CApp::*)(int , int )), ".554889e553504889fb2b", nullptr, 0, 0, &func);
 }
 
-void CApp::OnRButtonUp(int x, int y)
+void CApp::OnRButtonUp(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int x_arg, int y_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func144::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func145
@@ -1872,11 +1872,11 @@ namespace _func145
 	static FunctionDefinition funcObj("CApp::OnKeyUp", typeid(void (CApp::*)(SDLKey )), ".554889e541574156534883ec384189f7", nullptr, 0, 0, &func);
 }
 
-void CApp::OnKeyUp(SDLKey key)
+void CApp::OnKeyUp(SDLKey sym)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func145::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func146
@@ -1885,17 +1885,17 @@ namespace _func146
 	static FunctionDefinition funcObj("CApp::OnKeyDown", typeid(void (CApp::*)(SDLKey )), ".554889e541574156534883ec584189f7", nullptr, 0, 0, &func);
 }
 
-void CApp::OnKeyDown(SDLKey key)
+void CApp::OnKeyDown(SDLKey sym)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func146::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func147
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(int )), "!.554889e5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(int )), "!.554889e580bf????00000074025dc3807f", nullptr, 0, 0, &func);
 }
 
 void CApp::OnTextInput(int ch)
@@ -1908,7 +1908,7 @@ void CApp::OnTextInput(int ch)
 namespace _func148
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnTextEvent", typeid(void (CApp::*)(CEvent::TextEvent )), "!.554889e5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnTextEvent", typeid(void (CApp::*)(CEvent::TextEvent )), "!.554889e580bf????00000074025dc3807f", nullptr, 0, 0, &func);
 }
 
 void CApp::OnTextEvent(CEvent::TextEvent textEvent)
@@ -1921,7 +1921,7 @@ void CApp::OnTextEvent(CEvent::TextEvent textEvent)
 namespace _func149
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnLanguageChange", typeid(void (CApp::*)()), ".554889e5415741564154534883ec304989fc4c8d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnLanguageChange", typeid(void (CApp::*)()), ".554889e5415741564154534883ec304989fc4c", nullptr, 0, 0, &func);
 }
 
 void CApp::OnLanguageChange()
@@ -1934,7 +1934,7 @@ void CApp::OnLanguageChange()
 namespace _func150
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CEvent::OnEvent", typeid(void (CEvent::*)(const InputEvent *)), "!.554889e54157415641554154534883ec284889f34989fe488b430848", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CEvent::OnEvent", typeid(void (CEvent::*)(const InputEvent *)), "!.554889e54157415641554154534883ec284889f34989fe488b43084800000000", nullptr, 0, 0, &func);
 }
 
 void CEvent::OnEvent(const InputEvent *event)
@@ -2752,7 +2752,7 @@ void CachedImage::destructor()
 namespace _func215
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CachedPrimitive::destructor", typeid(void (CachedPrimitive::*)()), "!.554889e553504889fb488d05????????488903488b7b0800000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CachedPrimitive::destructor", typeid(void (CachedPrimitive::*)()), "!.554889e5488d05????1e00488907488b7f085de918", nullptr, 0, 0, &func);
 }
 
 void CachedPrimitive::destructor()
@@ -2778,7 +2778,7 @@ void CachedPrimitive::OnRender(const GL_Color &color)
 namespace _func217
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CachedRect::SetPosition", typeid(void (CachedRect::*)(int , int )), "!.554889e54157415653504189d64189f74889fb44397b10", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CachedRect::SetPosition", typeid(void (CachedRect::*)(int , int )), "!.554889e54157415653504189d64189f74889fb44397b107506443973147419488b7b08e8c8", nullptr, 0, 0, &func);
 }
 
 void CachedRect::SetPosition(int x, int y)
@@ -2791,7 +2791,7 @@ void CachedRect::SetPosition(int x, int y)
 namespace _func218
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CachedRect::SetSize", typeid(void (CachedRect::*)(int , int )), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CachedRect::SetSize", typeid(void (CachedRect::*)(int , int )), "!.554889e54157415653504189d64189f74889fb44397b1875064439731c7419488b7b08e878", nullptr, 0, 0, &func);
 }
 
 void CachedRect::SetSize(int w, int h)
