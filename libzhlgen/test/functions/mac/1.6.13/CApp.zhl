@@ -6,8 +6,10 @@ cleanup __amd64 void CApp::constructor(CApp* this);
 cleanup __amd64 void CApp::OnInputFocus(CApp* this);
 ".554889e54156534889fbc683????00000048":
 cleanup __amd64 void CApp::OnInputBlur(CApp* this);
-".554889e54157415641554154534881ecb80000004889fb488d3d":
+"!.554889e54157415641554154534881ecb80000004889fb488d3d": // Placed ! to prevent scaning RET making it possible to hook the offsetVar
 cleanup __amd64 int CApp::OnExecute(CApp* this);
+"!.304c8d2d(???????\?)":
+offsetVariable CFPS* Global_CFPS_FPSControl;
 ".554889e541574156534883ec384989fe31":
 cleanup __amd64 int CApp::OnInit(CApp* this);
 ".554889e54156534989fee8????1f":

@@ -2783,11 +2783,11 @@ namespace _func215
 	static FunctionDefinition funcObj("ChoiceBox::MouseMove", typeid(void (ChoiceBox::*)(int , int )), "41554189d541544989fcbf", nullptr, 0, 0, &func);
 }
 
-void ChoiceBox::MouseMove(int x, int y)
+void ChoiceBox::MouseMove(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(ChoiceBox *this_arg, int x_arg, int y_arg);
+	typedef void (*custom_arg_funcptr_t)(ChoiceBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func215::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func216

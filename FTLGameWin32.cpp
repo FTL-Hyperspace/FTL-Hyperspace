@@ -3044,11 +3044,11 @@ namespace _func218
 	static FunctionDefinition funcObj("ChoiceBox::MouseMove", typeid(void (ChoiceBox::*)(int , int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704894de0b9????????8b1f8945e4e8????????8b7e508b464c", argdata, 3, 5, &func);
 }
 
-void ChoiceBox::MouseMove(int x, int y)
+void ChoiceBox::MouseMove(int mX, int mY)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ChoiceBox *this_arg, int x_arg, int y_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ChoiceBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func218::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func219
