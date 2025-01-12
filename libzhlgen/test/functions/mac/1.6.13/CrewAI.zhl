@@ -1,15 +1,15 @@
 // Continue from CreditScreen::OnRender (hyper efficiency™)
-"!.554889e54157415641554154534883ec584989fd498b7500":
+".554889e54157415641554154534883ec584989fd49":
 cleanup __amd64 void CrewAI::OnLoop(CrewAI* this);
-"!.554889e54157415641554154534883ec684989ff41c6470c":
+".554889e54157415641554154534883ec684989ff41":
 cleanup __amd64 void CrewAI::CheckForProblems(CrewAI* this);
-"!.554889e54157415641554154534883ec384863c6":
+"!.554889e54157415641554154534883ec384863":
 cleanup __amd64 void CrewAI::UpdateCrewMember(CrewAI* this, int crewId);
-"!.554889e54157415641554154534883ec584989fe498b4610":
+".554889e54157415641554154534883ec584989fe498b46":
 cleanup __amd64 void CrewAI::UpdateDrones(CrewAI* this);
-".554889e5415741564154534989fe498b46584939":
+".554889e5415741564154534989fe498b46":
 cleanup __amd64 void CrewAI::AssignCrewmembers(CrewAI* this);
-".554889e5415741564155415453504989fd41c645":
+".554889e5415741564155415453504989fd41":
 cleanup __amd64 void CrewAI::CheckForHealing(CrewAI* this);
 ".554889e5415741564155415453504989ff498b47":
 cleanup __amd64 void CrewAI::UpdateIntruders(CrewAI* this);

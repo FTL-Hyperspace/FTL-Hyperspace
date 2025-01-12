@@ -1,4 +1,4 @@
-"!554889e5415741564154534881ec????????4889fbe8":
+"!554889e5415741564154534881ec????????4889fbe899999999":
 cleanup __amd64 void CrewManifest::constructor(CrewManifest* this);
 "!.554889e54157415641554154534883ec484989f4":
 cleanup __amd64 void CrewManifest::OnInit(CrewManifest* this, ShipManager* ship);

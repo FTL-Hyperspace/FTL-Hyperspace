@@ -5,7 +5,7 @@ cleanup __amd64 void CApp::OnExit(CApp* this);
 ".80bf????000000":
 cleanup __amd64 void CApp::OnMButtonDown(CApp* this, int mX, int mY);
 ".80bf????000000":
-cleanup __amd64 void CApp::OnTextInput(CApp* this, int ch);
+cleanup __amd64 void CApp::OnTextInput(CApp* this, SDLKey sym);
 ".80bf????000000":
 cleanup __amd64 void CApp::OnTextEvent(CApp* this, CEvent::TextEvent textEvent);
 ".5380bf????000000":

@@ -13,7 +13,7 @@ cleanup __cdecl void CrewControl::LButton(CrewControl* this, int mX, int mY, int
 "5557565331db83ec1c8b7424348b56048b0e":
 cleanup __cdecl void CrewControl::ClearDeadCrew(CrewControl* this, std::vector<CrewMember*>* crew);
 "57565383ec108b7c24208b4f408b573c":
-cleanup __cdecl void CrewControl::ClearCrewBoxes(CrewControl* this);
+cleanup __cdecl void CrewControl::ClearCrewBoxes(CrewControl* this); // this is actually half of the destructors code, could maybe be used to implement a custom one.
 "57565383ec108b4424248b5c24208b742428":
 cleanup __cdecl void CrewControl::SelectPotentialCrew(CrewControl* this, CrewMember* crew, bool allowTeleportLeaving);
 "5557565381ec0c0100008d442430":

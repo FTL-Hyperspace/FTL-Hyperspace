@@ -1,22 +1,22 @@
-"554889e54157415641554154534881ec????????4189cf4989d6":
+"554889e54157415641554154534881ec980000004189cf":
 cleanup __amd64 void CrewBox::constructor(CrewBox* this, Point _position, CrewMember* _crew, int _number);
-"!.554889e54156534889fb":
+"!.554889e54156534889fb488bbb":
 cleanup __amd64 void CrewBox::destructor(CrewBox* this);
-"!.554889e54156534189f64889fb488b7b20488b07":
+"!.554889e54156534189f64889fb488b7b20":
 cleanup __amd64 void CrewBox::OnLoop(CrewBox* this, bool selected);
-".807f7800":
+".807f780074":
 cleanup __amd64 bool CrewBox::MouseClick(CrewBox* this);
-".554889e54157415641554154534881ec????????4189d74189f5":
-cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox* this, int mouseX, int mouseY);
-".554889e54156534883ec204889fb80bb5c010000":
+".554889e54157415641554154534881ec180100004189d7":
+cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox* this, int mX, int mY);
+".554889e54156534883ec204889fb80bb5c":
 cleanup __amd64 void CrewBox::OnRenderSkillLevel(CrewBox* this);
-".554889e54157415641554154534883ec584989ff498dbf00":
+".554889e54157415641554154534883ec584989ff49":
 cleanup __amd64 void CrewBox::OnRender(CrewBox* this);
-"!.554889e54156534889fb488b7b20488b":
+"!.554889e54156534889fb488b7b20":
 cleanup __amd64 void CrewBox::RenderIcon(CrewBox* this);
-".554889e54156534883ec204889fb488b7320488d":
+".554889e54156534883ec204889fb488b73":
 cleanup __amd64 void CrewBox::RenderLabels(CrewBox* this);
-".80bf4401":
+".80bf4401000000754f":
 cleanup __amd64 void CrewBox::RenderCloneDying(CrewBox* this);
 
 

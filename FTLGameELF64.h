@@ -3767,7 +3767,7 @@ struct CApp : CEvent
 	LIBZHL_API void OnResume();
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
-	LIBZHL_API void OnTextInput(int ch);
+	LIBZHL_API void OnTextInput(SDLKey sym);
 	LIBZHL_API int SetupWindow();
 	LIBZHL_API Point TranslateMouse(int mX, int mY);
 	LIBZHL_API void UpdateFullScreen();
@@ -4677,7 +4677,7 @@ struct CrewBox
 		CSurface::GL_DestroyPrimitive(healthBar);
 	}
 
-	LIBZHL_API CrewMember *GetSelected(int mouseX, int mouseY);
+	LIBZHL_API CrewMember *GetSelected(int mX, int mY);
 	LIBZHL_API bool MouseClick();
 	LIBZHL_API void OnLoop(bool selected);
 	LIBZHL_API void OnRender();
@@ -4725,7 +4725,7 @@ struct CrewEquipBox : EquipmentBox
 	LIBZHL_API void MouseClick();
 	LIBZHL_API void OnRender(bool dragging);
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
-	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTextInput(SDLKey sym);
 	LIBZHL_API void RemoveItem();
 	LIBZHL_API void RenderLabels(bool dragging, bool isNew);
 	LIBZHL_API void constructor(Point _position, ShipManager *_shipManager, int _slot);

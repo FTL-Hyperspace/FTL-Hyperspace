@@ -9,7 +9,7 @@ __thiscall void CApp::OnMButtonDown(CApp* this, int mX, int mY);
 ".578d7c240883e4f0ff77fc55":
 __thiscall void CApp::OnTextEvent(CApp* this, CEvent::TextEvent textEvent);
 ".578d7c240883e4f0ff77fc5589e55783ec1480b9bc34000000":
-__thiscall void CApp::OnTextInput(CApp* this, int ch);
+__thiscall void CApp::OnTextInput(CApp* this, SDLKey sym);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490885c974??8b430c":
 __thiscall void CApp::OnRequestExit(CApp* this);
 ".57660fefc08d7c240883e4f0ff77fc5589e557565389cb83ec2c8b072b81103500008b5704":

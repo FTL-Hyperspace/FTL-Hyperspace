@@ -1746,14 +1746,14 @@ namespace _func125
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(int )), ".578d7c240883e4f0ff77fc5589e55783ec1480b9bc34000000", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(SDLKey )), ".578d7c240883e4f0ff77fc5589e55783ec1480b9bc34000000", argdata, 2, 5, &func);
 }
 
-void CApp::OnTextInput(int ch)
+void CApp::OnTextInput(SDLKey sym)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, int ch_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func125::func;
-	return execfunc(this, ch);
+	return execfunc(this, sym);
 }
 
 namespace _func126
@@ -4836,11 +4836,11 @@ namespace _func346
 	static FunctionDefinition funcObj("CrewBox::GetSelected", typeid(CrewMember *(CrewBox::*)(int , int )), "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004c744240c00000000", argdata, 3, 1, &func);
 }
 
-CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
+CrewMember *CrewBox::GetSelected(int mX, int mY)
 {
-	typedef CrewMember *__attribute__((thiscall)) (*custom_arg_funcptr_t)(CrewBox *this_arg, int mouseX_arg, int mouseY_arg);
+	typedef CrewMember *__attribute__((thiscall)) (*custom_arg_funcptr_t)(CrewBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func346::func;
-	return execfunc(this, mouseX, mouseY);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func347
@@ -5270,11 +5270,11 @@ namespace _func377
 	static FunctionDefinition funcObj("CrewEquipBox::OnTextInput", typeid(void (CrewEquipBox::*)(SDLKey )), "578d7c240883e4f0ff77fc5589e55756538d997002000083ec1c89d98b37e8????????84c074??893424", argdata, 2, 5, &func);
 }
 
-void CrewEquipBox::OnTextInput(SDLKey key)
+void CrewEquipBox::OnTextInput(SDLKey sym)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CrewEquipBox *this_arg, SDLKey key_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CrewEquipBox *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func377::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func378

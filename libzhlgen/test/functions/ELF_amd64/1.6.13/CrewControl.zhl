@@ -1,5 +1,5 @@
 "41544989fc5553488b4f68488b57604889c84829d048c1f80385c0":
-cleanup __amd64 void CrewControl::ClearCrewBoxes(CrewControl* this);
+cleanup __amd64 void CrewControl::ClearCrewBoxes(CrewControl* this); // this is actually half of the destructors code, could maybe be used to implement a custom one.
 ".41574589c741564189ce41554189d541544189f455534889fb4883ec38":
 cleanup __amd64 void CrewControl::LButton(CrewControl* this, int mX, int mY, int wX, int wY, bool shiftHeld);
 ".41545553807f54004889fb":

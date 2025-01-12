@@ -1,7 +1,7 @@
 // Continue from ControlsScreen::OnRender (hyper efficiency™)
-".554889e54157415641554154534883ec??4189cf4989f4":
+".554889e54157415641554154534883ec584189cf49":
 cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox* this, Point _position, ShipSystem* _system, bool _roundDown);
-".554889e541574156534883ec384989fe400fb6f6":
+".554889e541574156534883ec384989fe40":
 cleanup __amd64 void CooldownSystemBox::OnRender(CooldownSystemBox* this, bool ignoreStatus);
 
 

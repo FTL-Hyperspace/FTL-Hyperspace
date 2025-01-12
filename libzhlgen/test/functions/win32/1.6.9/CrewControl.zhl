@@ -13,7 +13,7 @@ __thiscall void CrewControl::LButton(CrewControl* this, int mX, int mY, int wX, 
 "5589e557565383e4f083ec208b45088b50048b3089d029f0c1f80285c00f84????????31db":
 __thiscall void CrewControl::ClearDeadCrew(CrewControl* this, std::vector<CrewMember*>* crew);
 "5589e557565389ce83e4f083ec108b513c8b494089c829d083f8037e??31db908b3c9a85ff":
-__thiscall void CrewControl::ClearCrewBoxes(CrewControl* this);
+__thiscall void CrewControl::ClearCrewBoxes(CrewControl* this); // this is actually half of the destructors code, could maybe be used to implement a custom one.
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b1f8b570485db74??89ce8b0b":
 __thiscall void CrewControl::SelectPotentialCrew(CrewControl* this, CrewMember* crew, bool allowTeleportLeaving);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07c78520ffffff6c6f636bc78524ffffff646f776ec7851cffffff08000000c68528ffffff008985bcfeffff8d8520ffffff898518ffffff8d8518ffffff890424":

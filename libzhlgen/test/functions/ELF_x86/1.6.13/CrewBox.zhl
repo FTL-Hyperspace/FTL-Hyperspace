@@ -3,7 +3,7 @@ cleanup __cdecl void CrewBox::constructor(CrewBox* this, Point _position, CrewMe
 "5589e557565383ec6c8b5d088d8380010000":
 cleanup __cdecl void CrewBox::OnRender(CrewBox* this);
 "5589e557565381ecdc0200008b4508":
-cleanup __cdecl CrewMember* CrewBox::GetSelected(CrewBox* this, int mouseX, int mouseY);
+cleanup __cdecl CrewMember* CrewBox::GetSelected(CrewBox* this, int mX, int mY);
 "565383ec148b5c24208b7424248b4320":
 cleanup __cdecl void CrewBox::OnLoop(CrewBox* this, bool selected);
 "5383ec288b5c243080bb1c01000000":

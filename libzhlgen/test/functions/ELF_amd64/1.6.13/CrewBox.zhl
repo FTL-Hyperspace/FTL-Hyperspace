@@ -15,7 +15,7 @@ cleanup __amd64 void CrewBox::destructor(CrewBox* this);
 "!.5589f5534889fb4883ec08488b7f20488b07":
 cleanup __amd64 void CrewBox::OnLoop(CrewBox* this, bool selected);
 ".4157415641554c8daf6803000041544189d431d25589f5":
-cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox* this, int mouseX, int mouseY);
+cleanup __amd64 CrewMember* CrewBox::GetSelected(CrewBox* this, int mX, int mY);
 ".415741564155415455534889fb488dbfe0010000":
 cleanup __amd64 void CrewBox::OnRender(CrewBox* this);
 

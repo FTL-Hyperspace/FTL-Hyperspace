@@ -53,7 +53,7 @@ cleanup __amd64 void CApp::OnKeyUp(CApp* this, SDLKey sym);
 ".554889e541574156534883ec584189f7":
 cleanup __amd64 void CApp::OnKeyDown(CApp* this, SDLKey sym);
 "!.554889e580bf????00000074025dc3807f":
-cleanup __amd64 void CApp::OnTextInput(CApp* this, int ch);
+cleanup __amd64 void CApp::OnTextInput(CApp* this, SDLKey sym);
 "!.554889e580bf????00000074025dc3807f":
 cleanup __amd64 void CApp::OnTextEvent(CApp* this, CEvent::TextEvent textEvent);
 ".554889e5415741564154534883ec304989fc4c":

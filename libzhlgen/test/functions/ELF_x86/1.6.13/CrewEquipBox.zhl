@@ -9,7 +9,7 @@ cleanup __cdecl void CrewEquipBox::RenderLabels(CrewEquipBox* this, bool draggin
 "5589e557565383ec2c8b5d08c70424????????8b750c":
 cleanup __cdecl void CrewEquipBox::OnRender(CrewEquipBox* this, bool dragging);
 "565383ec148b4424208b7424248d9834020000891c24":
-cleanup __cdecl void CrewEquipBox::OnTextInput(CrewEquipBox* this, SDLKey key);
+cleanup __cdecl void CrewEquipBox::OnTextInput(CrewEquipBox* this, SDLKey sym);
 ".565383ec148b4424208b7424248d9834020000891c24":
 cleanup __cdecl void CrewEquipBox::OnTextEvent(CrewEquipBox* this, CEvent::TextEvent event);
 "5589e557565383ec2c8b5d088b734c85f6":

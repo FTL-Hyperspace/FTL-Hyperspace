@@ -1603,14 +1603,14 @@ void CApp::OnMButtonDown(int mX, int mY)
 namespace _func124
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(int )), ".80bf????000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(SDLKey )), ".80bf????000000", nullptr, 0, 0, &func);
 }
 
-void CApp::OnTextInput(int ch)
+void CApp::OnTextInput(SDLKey sym)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int ch_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func124::func;
-	return execfunc(this, ch);
+	return execfunc(this, sym);
 }
 
 namespace _func125
@@ -4538,11 +4538,11 @@ namespace _func350
 	static FunctionDefinition funcObj("CrewBox::GetSelected", typeid(CrewMember *(CrewBox::*)(int , int )), ".4157415641554c8daf6803000041544189d431d25589f5", nullptr, 0, 0, &func);
 }
 
-CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
+CrewMember *CrewBox::GetSelected(int mX, int mY)
 {
-	typedef CrewMember *(*custom_arg_funcptr_t)(CrewBox *this_arg, int mouseX_arg, int mouseY_arg);
+	typedef CrewMember *(*custom_arg_funcptr_t)(CrewBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func350::func;
-	return execfunc(this, mouseX, mouseY);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func351
@@ -4863,11 +4863,11 @@ namespace _func375
 	static FunctionDefinition funcObj("CrewEquipBox::OnTextInput", typeid(void (CrewEquipBox::*)(SDLKey )), ".5589f553488d9fc00200004883ec084889df", nullptr, 0, 0, &func);
 }
 
-void CrewEquipBox::OnTextInput(SDLKey key)
+void CrewEquipBox::OnTextInput(SDLKey sym)
 {
-	typedef void (*custom_arg_funcptr_t)(CrewEquipBox *this_arg, SDLKey key_arg);
+	typedef void (*custom_arg_funcptr_t)(CrewEquipBox *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func375::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func376
