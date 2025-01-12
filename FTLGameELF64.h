@@ -3966,25 +3966,25 @@ struct WeaponControl : ArmamentControl
 
 struct CombatControl
 {
-	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
+	LIBZHL_API void AddEnemyShip(CompleteShip *enemy);
 	LIBZHL_API char CanTargetSelf();
 	LIBZHL_API void Clear();
 	LIBZHL_API char CurrentTargetIsBoss();
 	LIBZHL_API void DisarmAll();
 	LIBZHL_API void DisarmTeleporter();
 	LIBZHL_API void DrawHostileBox(GL_Color color, int stencilBit);
-	LIBZHL_API std::string GetCrewTooltip(int x, int y);
+	LIBZHL_API std::string GetCrewTooltip(int mX, int mY);
 	LIBZHL_API ShipManager *GetCurrentTarget();
 	LIBZHL_API std::pair<int, int> GetTeleportationCommand();
-	LIBZHL_API void KeyDown(SDLKey key);
+	LIBZHL_API void KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
 	LIBZHL_API bool MouseMove(int mX, int mY);
-	LIBZHL_API bool MouseRClick(int x, int y);
-	LIBZHL_API void OnInit(Point pos);
+	LIBZHL_API bool MouseRClick(int mX, int mY);
+	LIBZHL_API void OnInit(Point position);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderCombat();
 	LIBZHL_API void OnRenderSelfAiming();
-	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
+	LIBZHL_API void RenderShipStatus(Pointf position, GL_Color boxColor);
 	LIBZHL_API void RenderTarget();
 	LIBZHL_API bool SelectTarget();
 	LIBZHL_API void SetMouseCursor();

@@ -2978,11 +2978,11 @@ namespace _func230
 	static FunctionDefinition funcObj("CombatControl::AddEnemyShip", typeid(void (CombatControl::*)(CompleteShip *)), "4155415455534889fb4883ec284883bfc007000000", nullptr, 0, 0, &func);
 }
 
-void CombatControl::AddEnemyShip(CompleteShip *ship)
+void CombatControl::AddEnemyShip(CompleteShip *enemy)
 {
-	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, CompleteShip *ship_arg);
+	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, CompleteShip *enemy_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func230::func;
-	return execfunc(this, ship);
+	return execfunc(this, enemy);
 }
 
 namespace _func231
@@ -3030,11 +3030,11 @@ namespace _func234
 	static FunctionDefinition funcObj("CombatControl::OnInit", typeid(void (CombatControl::*)(Point )), "55534889fb4883ec184883bf7011000000", nullptr, 0, 0, &func);
 }
 
-void CombatControl::OnInit(Point pos)
+void CombatControl::OnInit(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func234::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func235
@@ -3108,11 +3108,11 @@ namespace _func240
 	static FunctionDefinition funcObj("CombatControl::MouseRClick", typeid(bool (CombatControl::*)(int , int )), "415541544189d45589f5534889fb4883ec08", nullptr, 0, 0, &func);
 }
 
-bool CombatControl::MouseRClick(int x, int y)
+bool CombatControl::MouseRClick(int mX, int mY)
 {
-	typedef bool (*custom_arg_funcptr_t)(CombatControl *this_arg, int x_arg, int y_arg);
+	typedef bool (*custom_arg_funcptr_t)(CombatControl *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func240::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func241
@@ -3134,11 +3134,11 @@ namespace _func242
 	static FunctionDefinition funcObj("CombatControl::KeyDown", typeid(void (CombatControl::*)(SDLKey )), "5589f5534889fb488d7f204883ec08", nullptr, 0, 0, &func);
 }
 
-void CombatControl::KeyDown(SDLKey key)
+void CombatControl::KeyDown(SDLKey sym)
 {
-	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, SDLKey key_arg);
+	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, SDLKey sym_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func242::func;
-	return execfunc(this, key);
+	return execfunc(this, sym);
 }
 
 namespace _func243
@@ -3186,11 +3186,11 @@ namespace _func246
 	static FunctionDefinition funcObj("CombatControl::RenderShipStatus", typeid(void (CombatControl::*)(Pointf , GL_Color )), "41574156415541544989fc55534881ecb8000000660fd60424", nullptr, 0, 0, &func);
 }
 
-void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
+void CombatControl::RenderShipStatus(Pointf position, GL_Color boxColor)
 {
-	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, Pointf pos_arg, GL_Color color_arg);
+	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, Pointf position_arg, GL_Color boxColor_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func246::func;
-	return execfunc(this, pos, color);
+	return execfunc(this, position, boxColor);
 }
 
 namespace _func247
@@ -3199,11 +3199,11 @@ namespace _func247
 	static FunctionDefinition funcObj("CombatControl::GetCrewTooltip", typeid(std::string (CombatControl::*)(int , int )), "534889fb4883ec10488b86c00700004885c0", nullptr, 0, 0, &func);
 }
 
-std::string CombatControl::GetCrewTooltip(int x, int y)
+std::string CombatControl::GetCrewTooltip(int mX, int mY)
 {
-	typedef std::string (*custom_arg_funcptr_t)(CombatControl *this_arg, int x_arg, int y_arg);
+	typedef std::string (*custom_arg_funcptr_t)(CombatControl *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func247::func;
-	return execfunc(this, x, y);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func248
