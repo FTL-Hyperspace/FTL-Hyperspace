@@ -3139,14 +3139,14 @@ namespace _func225
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x4ff, 0x1ff};
-	static FunctionDefinition funcObj("ChoiceBox::PrintResourceBox", typeid(ResourceBoxDesc *(ChoiceBox::*)(ChoiceBox *, ResourceEvent *, int , int , GL_Color , bool )), "578d7c240883e4f0ff77fc5589e557565381ec4c020000", argdata, 7, 1, &func);
+	static FunctionDefinition funcObj("ChoiceBox::PrintResourceBox", typeid(ResourceBoxDesc (ChoiceBox::*)(ResourceEvent *, int , int , GL_Color , bool )), "578d7c240883e4f0ff77fc5589e557565381ec4c020000", argdata, 7, 1, &func);
 }
 
-ResourceBoxDesc *ChoiceBox::PrintResourceBox(ChoiceBox *_this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice)
+ResourceBoxDesc ChoiceBox::PrintResourceBox(ResourceEvent *resources, int x, int y, GL_Color border, bool choice)
 {
-	typedef ResourceBoxDesc *__attribute__((thiscall)) (*custom_arg_funcptr_t)(ChoiceBox *this_arg, ChoiceBox *_this_arg, ResourceEvent *resources_arg, int x_arg, int y_arg, GL_Color border_arg, bool choice_arg);
+	typedef ResourceBoxDesc __attribute__((thiscall)) (*custom_arg_funcptr_t)(ChoiceBox *this_arg, ResourceEvent *resources_arg, int x_arg, int y_arg, GL_Color border_arg, bool choice_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func225::func;
-	return execfunc(this, _this, resources, x, y, border, choice);
+	return execfunc(this, resources, x, y, border, choice);
 }
 
 namespace _func226

@@ -3181,7 +3181,13 @@ struct ChoiceText
 	ResourceEvent rewards;
 };
 
-struct ResourceBoxDesc;
+struct ResourceBoxDesc
+{
+	int w;
+	int h;
+	Point row1;
+	Point row2;
+};
 
 struct WindowFrame;
 
@@ -3201,7 +3207,7 @@ struct ChoiceBox : FocusWindow
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
-	LIBZHL_API ResourceBoxDesc *PrintResourceBox(ChoiceBox *_this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
+	LIBZHL_API ResourceBoxDesc PrintResourceBox(ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
 	
 	GL_Texture *textBox;
 	WindowFrame *box;
@@ -6397,14 +6403,6 @@ struct RepairStoreBox : StoreBox
 	bool repairAll;
 	int repairCost;
 	TextString buttonText;
-};
-
-struct ResourceBoxDesc
-{
-	int w;
-	int h;
-	Point row1;
-	Point row2;
 };
 
 struct ResourceControl;
