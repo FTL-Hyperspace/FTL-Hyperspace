@@ -468,6 +468,9 @@ HOOK_METHOD(ChoiceBox, OnRender, () -> void)
     g_startRenderColorChoices = false;
 }
 
+GL_Color g_currentChoiceColor;
+bool g_currentChoiceIsCostumColored = false;
+
 HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, int line_length, const std::string &text) -> Pointf)
 {
     LOG_HOOK("HOOK_STATIC -> freetype::easy_printAutoNewlines -> Begin (CustomColors.cpp)\n")
@@ -477,7 +480,10 @@ HOOK_STATIC(freetype, easy_printAutoNewlines, (int fontSize, float x, float y, i
     if (pos == -1 || pos + 2 > text.length()) return super(fontSize, x, y, line_length, text);
 
     GL_Color currentColor = CSurface::GL_GetColor();
-    CSurface::GL_SetColor(DecodeChoiceColorName(text.substr(pos + 2, text.length() - pos - 6), currentColor));
+    GL_Color customColor = DecodeChoiceColorName(text.substr(pos + 2, text.length() - pos - 6), currentColor);
+    g_currentChoiceColor = customColor;
+    g_currentChoiceIsCostumColored = true;
+    CSurface::GL_SetColor(customColor);
     return super(fontSize, x, y, line_length, text.substr(0, pos));
     CSurface::GL_SetColor(currentColor);
 }
@@ -510,4 +516,13 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
     int pos = FindColorFlag(name);
     if (pos == -1 || pos > name.length()) return super(name, lang);
     return super(name.substr(0, pos), lang) + name.substr(pos);
+}
+
+HOOK_METHOD(ChoiceBox, PrintResourceBox, (ChoiceBox *_this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice) -> ResourceBoxDesc*)
+{
+    if (!g_startRenderColorChoices || !g_currentChoiceIsCostumColored || !choice) return super(_this, resources, x, y, border, choice);
+
+    g_currentChoiceIsCostumColored = false;
+    _this->currentTextColor = g_currentChoiceColor;
+    return super(_this, resources, x, y, g_currentChoiceColor, choice);
 }
