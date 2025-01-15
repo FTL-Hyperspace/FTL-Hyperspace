@@ -14,6 +14,8 @@
 #include "EnumClassHash.h"
 #include "TemporalSystem.h"
 
+#include <boost/format.hpp>
+
 // Set the global CApp variable for Lua
 
 CApp *Global_CApp = nullptr;
@@ -803,7 +805,6 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     }
     
     
-    // TODO: Check that the number of arguments needed matches those for the internal event
     //* NOTE! This may break previously valid constructs, such as script.on_internal_event(Defines.InternalEvents.SOME_EVENT_THAT_TAKES_ARGS, function() print("This function ignores its arguments!") end)
     lua_Debug ar;
     lua_rawgeti(lua, LUA_REGISTRYINDEX, callbackReference);
@@ -813,20 +814,25 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     InternalEvents::EventInfo info = InternalEvents::GetEventInfo(id);
     const char* eventName = InternalEvents::GetName(id);
     if (ar.nparams != info.argCount)
-    {
-        hs_log_file("Error: Callback function for InternalEvent %s has the wrong number of arguments! Expected %u, got %u\n", eventName, info.argCount, ar.nparams);
-        hs_log_file("Expected function of the form: %s\n", info.functionSignatureDescription);
+    {  
+        std::string error = (boost::format("Error: Callback function for InternalEvent %s has the wrong number of arguments! Expected %u, got %u\nExpected function of the form: %s\n")
+                        % eventName
+                        % info.argCount
+                        % static_cast<unsigned int>(ar.nparams)
+                        % info.functionSignatureDescription).str();
+        hs_log_file(error);
+        luaL_error(lua, error.c_str()); 
         return 0;
     }
     else if (ar.isvararg != info.isVariableArgs)
     {
-        hs_log_file("Error: Provided function for InternalEvent %s %s!\n", eventName, info.isVariableArgs ? "Should be a variable argument function" : "Should not be a variable argument function");
-        hs_log_file("Expected function of the form: %s\n", info.functionSignatureDescription);
+        std::string error = (boost::format("Error: Provided function for InternalEvent %s %s!\nExpected function of the form: %s\n")
+                        % eventName
+                        % (info.isVariableArgs ? "Should be a variable argument function" : "Should not be a variable argument function")
+                        % info.functionSignatureDescription).str();
+        hs_log_file(error);
+        luaL_error(lua, error.c_str());
         return 0;
-    }
-    else
-    {
-        hs_log_file("Registered Lua Function: that accepts '%u' arguments and is variable arguments: %s for InternalEvent %s\n", ar.nparams, ar.isvararg ? "TRUE" : "FALSE", InternalEvents::GetName(id));
     }
     //*/
 
