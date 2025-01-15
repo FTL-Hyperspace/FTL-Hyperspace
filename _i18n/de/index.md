@@ -46,6 +46,7 @@ Development:
 - Mr. Doom/Nasa62
 - ChronoVortex
 - Pepson
+- ranhai
 
 Art:
 - SaltyFriedRice
