@@ -7,6 +7,8 @@
 #include "Global.h"
 %}
 
+void DrawTextWithGlow(const std::string& text, Point p, bool centered, GL_Color color, float alpha);
+
 /*** Constants
 @section constants
 */

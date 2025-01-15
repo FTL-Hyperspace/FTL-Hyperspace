@@ -7843,6 +7843,7 @@ struct WorldManager
 
 struct RewardDesc;
 
+LIBZHL_API void __stdcall DrawTextWithGlow(const std::string &text, Point p, bool centered, GL_Color color, float alpha);
 LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
 LIBZHL_API float __stdcall font_baseline(int font_id, float size);

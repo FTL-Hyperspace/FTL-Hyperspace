@@ -514,6 +514,9 @@ __amd64 int random32();
 ".89f8488905":
 cleanup __amd64 void srandom32(unsigned int seed);
 
+".4157415641554189d54154554889fd":
+cleanup __amd64 void DrawTextWithGlow(const std::string& text, Point p, bool centered, GL_Color color, float alpha);
+
 "83ff05772d89ff":
 cleanup __amd64 float getSkillBonus(int skill, int level);
 
