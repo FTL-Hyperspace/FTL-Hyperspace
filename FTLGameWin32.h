@@ -3753,8 +3753,8 @@ struct CApp : CEvent
 	LIBZHL_API int OnInit();
 	LIBZHL_API void OnInputBlur();
 	LIBZHL_API void OnInputFocus();
-	LIBZHL_API void OnKeyDown(SDLKey sym);
-	LIBZHL_API void OnKeyUp(SDLKey sym);
+	LIBZHL_API void OnKeyDown(SDLKey key);
+	LIBZHL_API void OnKeyUp(SDLKey key);
 	LIBZHL_API void OnLButtonDown(int mX, int mY);
 	LIBZHL_API void OnLButtonUp(int mX, int mY);
 	LIBZHL_API void OnLanguageChange();
@@ -3768,7 +3768,7 @@ struct CApp : CEvent
 	LIBZHL_API void OnResume();
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
-	LIBZHL_API void OnTextInput(SDLKey sym);
+	LIBZHL_API void OnTextInput(SDLKey key);
 	LIBZHL_API int SetupWindow();
 	LIBZHL_API Point TranslateMouse(int mX, int mY);
 	LIBZHL_API void UpdateFullScreen();
@@ -3979,7 +3979,7 @@ struct CombatControl
 	LIBZHL_API std::string GetCrewTooltip(int mX, int mY);
 	LIBZHL_API ShipManager *GetCurrentTarget();
 	LIBZHL_API std::pair<int, int> GetTeleportationCommand();
-	LIBZHL_API void KeyDown(SDLKey sym);
+	LIBZHL_API void KeyDown(SDLKey key);
 	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
 	LIBZHL_API bool MouseMove(int mX, int mY);
 	LIBZHL_API bool MouseRClick(int mX, int mY);
@@ -4729,7 +4729,7 @@ struct CrewEquipBox : EquipmentBox
 	LIBZHL_API void MouseClick();
 	LIBZHL_API void OnRender(bool dragging);
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
-	LIBZHL_API void OnTextInput(SDLKey sym);
+	LIBZHL_API void OnTextInput(SDLKey key);
 	LIBZHL_API void RemoveItem();
 	LIBZHL_API void RenderLabels(bool dragging, bool isNew);
 	LIBZHL_API void constructor(Point _position, ShipManager *_shipManager, int _slot);
@@ -7359,7 +7359,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void InitMapTitle();
 	LIBZHL_API void InitNoFuelText();
 	LIBZHL_API void InitStatistics();
-	LIBZHL_API void KeyDown(SDLKey sym);
+	LIBZHL_API void KeyDown(SDLKey key);
 	LIBZHL_API Location *LoadGame(int fileHelper);
 	LIBZHL_API void LocationHasBoss(Location *location);
 	LIBZHL_API void LocationHasShip(Location *location);

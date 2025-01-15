@@ -1879,11 +1879,11 @@ namespace _func146
 	static FunctionDefinition funcObj("CApp::OnKeyUp", typeid(void (CApp::*)(SDLKey )), ".554889e541574156534883ec384189f7", nullptr, 0, 0, &func);
 }
 
-void CApp::OnKeyUp(SDLKey sym)
+void CApp::OnKeyUp(SDLKey key)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func146::func;
-	return execfunc(this, sym);
+	return execfunc(this, key);
 }
 
 namespace _func147
@@ -1892,11 +1892,11 @@ namespace _func147
 	static FunctionDefinition funcObj("CApp::OnKeyDown", typeid(void (CApp::*)(SDLKey )), ".554889e541574156534883ec584189f7", nullptr, 0, 0, &func);
 }
 
-void CApp::OnKeyDown(SDLKey sym)
+void CApp::OnKeyDown(SDLKey key)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func147::func;
-	return execfunc(this, sym);
+	return execfunc(this, key);
 }
 
 namespace _func148
@@ -1905,11 +1905,11 @@ namespace _func148
 	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(SDLKey )), "!.554889e580bf????00000074025dc3807f", nullptr, 0, 0, &func);
 }
 
-void CApp::OnTextInput(SDLKey sym)
+void CApp::OnTextInput(SDLKey key)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey sym_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func148::func;
-	return execfunc(this, sym);
+	return execfunc(this, key);
 }
 
 namespace _func149
@@ -3249,11 +3249,11 @@ namespace _func253
 	static FunctionDefinition funcObj("CombatControl::KeyDown", typeid(void (CombatControl::*)(SDLKey )), "!.554889e54156534189f64889fb488d7b", nullptr, 0, 0, &func);
 }
 
-void CombatControl::KeyDown(SDLKey sym)
+void CombatControl::KeyDown(SDLKey key)
 {
-	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, SDLKey sym_arg);
+	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg, SDLKey key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func253::func;
-	return execfunc(this, sym);
+	return execfunc(this, key);
 }
 
 namespace _func254
@@ -4938,11 +4938,11 @@ namespace _func384
 	static FunctionDefinition funcObj("CrewEquipBox::OnTextInput", typeid(void (CrewEquipBox::*)(SDLKey )), "!.554889e54156534189f64889fb4881", nullptr, 0, 0, &func);
 }
 
-void CrewEquipBox::OnTextInput(SDLKey sym)
+void CrewEquipBox::OnTextInput(SDLKey key)
 {
-	typedef void (*custom_arg_funcptr_t)(CrewEquipBox *this_arg, SDLKey sym_arg);
+	typedef void (*custom_arg_funcptr_t)(CrewEquipBox *this_arg, SDLKey key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func384::func;
-	return execfunc(this, sym);
+	return execfunc(this, key);
 }
 
 namespace _func385
@@ -15112,11 +15112,11 @@ namespace _func1191
 	static FunctionDefinition funcObj("StarMap::KeyDown", typeid(void (StarMap::*)(SDLKey )), ".554889e580bf1009000000747183fe32", nullptr, 0, 0, &func);
 }
 
-void StarMap::KeyDown(SDLKey sym)
+void StarMap::KeyDown(SDLKey key)
 {
-	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, SDLKey sym_arg);
+	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, SDLKey key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1191::func;
-	return execfunc(this, sym);
+	return execfunc(this, key);
 }
 
 namespace _func1192

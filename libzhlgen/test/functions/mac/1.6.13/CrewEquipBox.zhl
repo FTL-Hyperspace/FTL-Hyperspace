@@ -14,7 +14,7 @@ cleanup __amd64 void CrewEquipBox::RenderLabels(CrewEquipBox* this, bool draggin
 "!.554889e541574156534883ec384889fb4883":
 cleanup __amd64 void CrewEquipBox::MouseClick(CrewEquipBox* this);
 "!.554889e54156534189f64889fb4881":
-cleanup __amd64 void CrewEquipBox::OnTextInput(CrewEquipBox* this, SDLKey sym);
+cleanup __amd64 void CrewEquipBox::OnTextInput(CrewEquipBox* this, SDLKey key);
 "!.554889e54156534189f64889fb4881":
 cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox* this, CEvent::TextEvent event);
 

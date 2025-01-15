@@ -34,7 +34,7 @@ cleanup __amd64 void StarMap::ReachSector(StarMap* this, Sector* sector);
 "!.554889e54157415641554154534881ecb80000000f298d30":
 cleanup __amd64 void StarMap::RenderSectorName(StarMap* this, Sector* sector, GL_Color color);
 ".554889e580bf1009000000747183fe32":
-cleanup __amd64 void StarMap::KeyDown(StarMap* this, SDLKey sym);
+cleanup __amd64 void StarMap::KeyDown(StarMap* this, SDLKey key);
 "!.554889e54157415641554154534883ec684189d44989f648":
 cleanup __amd64 bool StarMap::AddQuest(StarMap* this, const std::string& questEvent, bool force);
 "!.554889e54157415641554154534881eca8000000448945a0":

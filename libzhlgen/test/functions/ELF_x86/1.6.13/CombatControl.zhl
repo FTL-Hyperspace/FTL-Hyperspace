@@ -33,7 +33,7 @@ cleanup __cdecl bool CombatControl::MouseRClick(CombatControl* this, int mX, int
 "5383ec188b5c2420c7442404090000008b4304890424e8????????84c075??8b83a4000000":
 cleanup __cdecl bool CombatControl::WeaponsArmed(CombatControl* this);
 "565383ec148b5c24208b7424248d4314":
-cleanup __cdecl void CombatControl::KeyDown(CombatControl* this, SDLKey sym);
+cleanup __cdecl void CombatControl::KeyDown(CombatControl* this, SDLKey key);
 "5631f65383ec148b5c2420c744240409000000":
 cleanup __cdecl void CombatControl::DisarmTeleporter(CombatControl* this);
 "5557565381ecbc0000008bb424d0000000":

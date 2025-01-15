@@ -5,7 +5,7 @@ cleanup __amd64 void StarMap::SetOpen(StarMap* this, bool open);
 ".8b8f0805000085c9":
 cleanup __amd64 int StarMap::GetNextDangerMove(StarMap* this);
 ".80bfb808000000":
-cleanup __amd64 void StarMap::KeyDown(StarMap* this, SDLKey sym);
+cleanup __amd64 void StarMap::KeyDown(StarMap* this, SDLKey key);
 ".534889fb4883ec2080bf3c08000000":
 cleanup __amd64 void StarMap::Close(StarMap* this);
 ".53807f08004889fb":

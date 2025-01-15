@@ -5,7 +5,7 @@ cleanup __amd64 void CApp::OnExit(CApp* this);
 ".80bf????000000":
 cleanup __amd64 void CApp::OnMButtonDown(CApp* this, int mX, int mY);
 ".80bf????000000":
-cleanup __amd64 void CApp::OnTextInput(CApp* this, SDLKey sym);
+cleanup __amd64 void CApp::OnTextInput(CApp* this, SDLKey key);
 ".80bf????000000":
 cleanup __amd64 void CApp::OnTextEvent(CApp* this, CEvent::TextEvent textEvent);
 ".5380bf????000000":
@@ -23,11 +23,11 @@ cleanup __amd64 void CApp::OnLButtonDown(CApp* this, int mX, int mY);
 ".415455534889fb4883ec102bb7????0000":
 cleanup __amd64 void CApp::OnMouseMove(CApp* this, int mX, int mY, int relX, int relY, bool holdingLeft, bool holdingRight, bool holdingMiddle);
 ".555389f34883ec3885f6":
-cleanup __amd64 void CApp::OnKeyUp(CApp* this, SDLKey sym);
+cleanup __amd64 void CApp::OnKeyUp(CApp* this, SDLKey key);
 ".55be????????534889fb4883ec38":
 cleanup __amd64 void CApp::OnLanguageChange(CApp* this);
 ".555389f34883ec4885f6":
-cleanup __amd64 void CApp::OnKeyDown(CApp* this, SDLKey sym);
+cleanup __amd64 void CApp::OnKeyDown(CApp* this, SDLKey key);
 ".534889fbe8????????488d7b20":
 cleanup __amd64 void CApp::constructor(CApp* this);
 ".55534889fb":

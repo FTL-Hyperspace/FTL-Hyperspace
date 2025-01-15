@@ -9,7 +9,7 @@ __thiscall void CrewEquipBox::RenderLabels(CrewEquipBox* this, bool dragging, bo
 "578d7c240883e4f0ff77fc5589e557565389ceb9????????83ec6c8b1fe8????????83f8018d968c0000000f9fc00fb6c089d1":
 __thiscall void CrewEquipBox::OnRender(CrewEquipBox* this, bool dragging);
 "578d7c240883e4f0ff77fc5589e55756538d997002000083ec1c89d98b37e8????????84c074??893424":
-__thiscall void CrewEquipBox::OnTextInput(CrewEquipBox* this, SDLKey sym);
+__thiscall void CrewEquipBox::OnTextInput(CrewEquipBox* this, SDLKey key);
 ".578d7c240883e4f0ff77fc5589e55756538d997002000083ec1c89d98b37e8????????84c074??893424":
 __thiscall void CrewEquipBox::OnTextEvent(CrewEquipBox* this, CEvent::TextEvent event);
 "578d7c240883e4f0ff77fc5589e557565383ec6c8b716085f60f84????????80b96c0200000089cb74??80bbcc0000000074??":

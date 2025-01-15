@@ -1,7 +1,7 @@
 "8b4c24048b4424088b54240c89415c":
 cleanup __cdecl void StarMap::SetPosition(StarMap* this, Point position);
 "56538b74240c80be8406000000":
-cleanup __cdecl void StarMap::KeyDown(StarMap* this, SDLKey sym);
+cleanup __cdecl void StarMap::KeyDown(StarMap* this, SDLKey key);
 "5631c0538b54240c83ba800000003b":
 cleanup __cdecl int StarMap::GetNextDangerMove(StarMap* this);
 "5383ec188b5c2420807b040074??83c418":
