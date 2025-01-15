@@ -8514,7 +8514,7 @@ void __stdcall srandom32(unsigned int seed)
 namespace _func659
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DrawTextWithGlow", typeid(void (*)(const std::string &, Point , bool , GL_Color , float )), ".4157415641554189d54154554889fd", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DrawTextWithGlow", typeid(void (*)(const std::string &, Point , bool , GL_Color , float )), "4157415641554189d54154554889fd", nullptr, 0, 0, &func);
 }
 
 void __stdcall DrawTextWithGlow(const std::string &text, Point p, bool centered, GL_Color color, float alpha)
