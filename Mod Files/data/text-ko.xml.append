@@ -262,11 +262,11 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="ko">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ko">하이퍼스페이스 프로잭트</text>
 <text name="credits_hyperspace_developed_by" language="ko">개발:</text>
-<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art" language="ko">추가 아트웍:</text>
 <text name="credits_hyperspace_art_names" language="ko">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ko">추가 기여:</text>
-<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="ko">하이퍼스페이스 번역:</text>
 <text name="credits_hyperspace_loc_fr" language="ko">프랑스어</text>
 <text name="credits_hyperspace_loc_fr_names" language="ko">Pepson</text>
