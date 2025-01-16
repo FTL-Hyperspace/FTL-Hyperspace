@@ -1118,6 +1118,15 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
         controlledCrew.pop_back();
         G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
     }
+    if (GetEffectivePower() == 0)
+    {
+        while (!controlledCrew.empty())
+        {
+            controlledCrew.back()->SetMindControl(false);
+            controlledCrew.pop_back();
+            G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
+        }
+    }
     controlledCrew.erase(std::remove_if(controlledCrew.begin(),
                                         controlledCrew.end(),
                                         [](CrewMember* crew) { 
@@ -1132,7 +1141,7 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
         crew->SetHealthBoost(level.healthBoost);
         crew->SetDamageBoost(level.damageBoost);
     }
-    if (GetEffectivePower() == 0 || (controlledCrew.empty() && controlTimer.first != controlTimer.second)) ReleaseCrew();
+    if (controlledCrew.empty() && controlTimer.first != controlTimer.second) ReleaseCrew();
     if (level.duration != controlTimer.second)
     {
         if (controlTimer.first == controlTimer.second)
