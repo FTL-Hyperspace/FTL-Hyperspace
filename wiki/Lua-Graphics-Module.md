@@ -4,6 +4,16 @@ All calls are under `Graphics`
 
 ---
 
+## Classless Methods
+
+`void DrawTextWithGlow(const std::string &text, Point p, bool centered, GL_Color color, float alpha)`
+
+- `const std::string &text` -- Text to draw
+- `Point p` -- Position to draw the text at
+- `bool centered` -- Whether to horizontally center the text
+- `GL_Color color` -- Color of the text (must be exactly (253, 84, 70) for a red glow)
+- `float alpha` -- Opacity of the text
+
 ## GL_Primitive
 
 type `GL_Primitive`
