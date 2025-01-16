@@ -1211,6 +1211,8 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
 bool g_jumpClone = false;
 int g_checkCloneSpeed = 2;
+int g_clonePercentTooltip = 0;
+int g_clonePercentTooltipLevel = 0;
 CloneSystem* g_cloneSystem = nullptr;
 std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
 
@@ -1333,6 +1335,17 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 }
 
 // For tooltips
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId,int level,bool tooltip) -> std::string)
+{
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomSystems.cpp)\n")
+    
+    g_clonePercentTooltip = 1;
+    g_clonePercentTooltipLevel = level + 1;
+    std::string ret = super(systemId, level, tooltip);
+    g_clonePercentTooltip = 0;
+    return ret;
+}
+
 HOOK_STATIC(CloneSystem, GetCloneTime, (int level) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> CloneSystem::GetCloneTime -> Begin (CustomSystems.cpp)\n")
@@ -1345,8 +1358,37 @@ HOOK_STATIC(CloneSystem, GetJumpHealth, (int level) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
 
+    if (g_clonePercentTooltip == 1) g_clonePercentTooltip = 2;
+
     CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
     return glevel.jumpHP;
+}
+
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_STATIC -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
+
+    std::string ret = super(name, lang);
+
+    if (g_clonePercentTooltip == 2)
+    {
+        // this is what we have '\1 sec clone + \2 hp/jump'
+        CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(g_clonePercentTooltipLevel);
+        if (glevel.jumpHPPercent > 0)
+        {
+            size_t pos = ret.find("\\2");
+            std::string replaceHP = "";
+            if (glevel.jumpHP > 0) replaceHP = "\\2 + ";
+
+            if (pos != std::string::npos)
+            {
+                ret.replace(pos, 2, replaceHP + std::to_string(glevel.jumpHPPercent) + "%");
+            }
+        }
+        g_clonePercentTooltip = 0;
+    }
+
+    return ret;
 }
 
 // Add the rendering of crew layer when cloning
