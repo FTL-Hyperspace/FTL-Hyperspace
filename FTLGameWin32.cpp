@@ -9214,13 +9214,13 @@ int __stdcall random32()
 namespace _func661
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff, 0x2ff, 0x1ff, 0x4ff, 0x1ff};
+	static short argdata[] = {0x100, 0x202, 0x101, 0x4ff, 0x1ff};
 	static FunctionDefinition funcObj("DrawTextWithGlow", typeid(void (*)(const std::string &, Point , bool , GL_Color , float )), "578d????0883e4f0ff????5589e557565389ce81ecbc00000089????", argdata, 5, 6, &func);
 }
 
 void __stdcall DrawTextWithGlow(const std::string &text, Point p, bool centered, GL_Color color, float alpha)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(const std::string &text_arg, Point p_arg, bool centered_arg, GL_Color color_arg, float alpha_arg);
+	typedef void __attribute__((regparm(3))) (*custom_arg_funcptr_t)(const std::string &text_arg, Point p_arg, bool centered_arg, GL_Color color_arg, float alpha_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func661::func;
 	return execfunc(text, p, centered, color, alpha);
 }

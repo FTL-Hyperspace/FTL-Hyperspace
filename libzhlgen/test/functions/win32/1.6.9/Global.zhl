@@ -503,7 +503,7 @@ cleanup __cdecl float font_text_width(freetype::font_data& fontData, const char*
 __cdecl int random32();
 
 "578d????0883e4f0ff????5589e557565389ce81ecbc00000089????":
-cleanup __cdecl void DrawTextWithGlow(const std::string& text, Point p, bool centered, GL_Color color, float alpha);
+cleanup __regparm3 void DrawTextWithGlow(const std::string& text, Point p, bool centered, GL_Color color, float alpha);
 
 "55c705????????????????89e583e4f88b4508a3????????":
 cleanup __cdecl void srandom32(unsigned int seed);
