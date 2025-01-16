@@ -1132,7 +1132,7 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
         crew->SetHealthBoost(level.healthBoost);
         crew->SetDamageBoost(level.damageBoost);
     }
-    if (controlledCrew.empty() && controlTimer.first != controlTimer.second) ReleaseCrew();
+    if (GetEffectivePower() == 0 || (controlledCrew.empty() && controlTimer.first != controlTimer.second)) ReleaseCrew();
     if (level.duration != controlTimer.second)
     {
         if (controlTimer.first == controlTimer.second)
