@@ -19,6 +19,9 @@ struct InternalEvents
         // function main_menu()
         MAIN_MENU, // We'll use MainMenu::Open for this
 
+        // function get_hazard_flash(float alpha) return red, green, blue, alpha
+        GET_HAZARD_FLASH,
+
         // function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed
         GET_RUN_SEED,
         
