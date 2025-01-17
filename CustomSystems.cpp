@@ -1220,7 +1220,6 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
 bool g_jumpClone = false;
 int g_checkCloneSpeed = 2;
-int g_clonePercentTooltip = 0;
 int g_clonePercentTooltipLevel = 0;
 CloneSystem* g_cloneSystem = nullptr;
 std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
@@ -1444,5 +1443,23 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
             G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
         }
         G_->GetResources()->RenderImage(top, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+    }
+}
+
+// fix vanilla bug were replacing the clone bay by a medical one would keep the crew in the cloning process perpetually
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnRenderFloor -> Begin (CustomSystems.cpp)\n")
+
+    super();
+    if (cloneSystem == nullptr)
+    {
+        std::vector<CrewMember*> crewList;
+        G_->GetCrewFactory()->GetCloneReadyList(crewList,(iShipId==0));
+
+        if (!crewList.empty())
+        {
+            crewList.front()->SetCloneReady(false);
+        }
     }
 }
