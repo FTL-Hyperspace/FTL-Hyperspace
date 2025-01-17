@@ -104,7 +104,7 @@ std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
     {JUMP_HP[3], JUMP_HP_PERCENT[3], CLONE_HP_PERCENT[3], SKILL_LOSS[3], CLONE_SPEED[3], CLONE_DEATH_SPEED[3], CLONE_AMOUNT[3]}
 }; 
 //Define default CloneLevel values
-CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 10, 5.f, 3.f, 1};
+CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{0, 0, 100, 10, 5.f, 3.f, 1};
 void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
     unsigned int level = 0;
