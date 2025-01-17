@@ -1348,10 +1348,8 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId,int level,bool toolti
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomSystems.cpp)\n")
     
-    g_clonePercentTooltip = 1;
     g_clonePercentTooltipLevel = level + 1;
     std::string ret = super(systemId, level, tooltip);
-    g_clonePercentTooltip = 0;
     return ret;
 }
 
@@ -1367,8 +1365,6 @@ HOOK_STATIC(CloneSystem, GetJumpHealth, (int level) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
 
-    if (g_clonePercentTooltip == 1) g_clonePercentTooltip = 2;
-
     CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
     return glevel.jumpHP;
 }
@@ -1379,22 +1375,26 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
 
     std::string ret = super(name, lang);
 
-    if (g_clonePercentTooltip == 2)
+    if (name == "clone_full")
     {
-        // this is what we have '\1 sec clone + \2 hp/jump'
         CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(g_clonePercentTooltipLevel);
         if (glevel.jumpHPPercent > 0)
         {
             size_t pos = ret.find("\\2");
-            std::string replaceHP = "";
-            if (glevel.jumpHP > 0) replaceHP = "\\2 + ";
 
-            if (pos != std::string::npos)
-            {
-                ret.replace(pos, 2, replaceHP + std::to_string(glevel.jumpHPPercent) + "%");
-            }
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
         }
-        g_clonePercentTooltip = 0;
+    }
+    if (name == "clonebay_health" || name == "clonebay_damaged")
+    {
+        CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(g_clonePercentTooltipLevel);
+        if (glevel.jumpHPPercent > 0)
+        {
+            size_t pos = ret.find("\\1");
+
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\1 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
+
+        }
     }
 
     return ret;
