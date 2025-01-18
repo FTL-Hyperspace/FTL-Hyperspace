@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
 __thiscall int Ship::GetSelectedRoomId(Ship* this, int x, int y, bool bIncludeWalls);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
-__thiscall void Ship::LockdownRoom(Ship* this, int roomId, Pointf pos);
+__thiscall void Ship::LockdownRoom(Ship* this, int roomId, Pointf position);
 "538b81bc0300008b89c00300008b5c240829c1c1f90469c9????????85c974??3b98ec00000074??05????????31d2eb??05????????3b9810ffffff":
 __thiscall bool Ship::RoomLocked(Ship* this, int roomId);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b59088b410c8b178b770429d8":

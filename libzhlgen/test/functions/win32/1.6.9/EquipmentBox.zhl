@@ -28,7 +28,7 @@ virtual __thiscall void EquipmentBox::AddItem(EquipmentBox* this, EquipmentBoxIt
 ".660fefc05589e50f1141605d":
 virtual __thiscall void EquipmentBox::Restart(EquipmentBox* this);
 "5589e58b55088b450c5d89514889414c895150894154":
-virtual __thiscall void EquipmentBox::SetPosition(EquipmentBox* this, Point pos);
+virtual __thiscall void EquipmentBox::SetPosition(EquipmentBox* this, Point position);
 "8b416085c074??8b401c8b4070c366908b416485c075??8b416c85c074??8b500885d2":
 __thiscall int EquipmentBox::GetItemValue(EquipmentBox* this);
 

@@ -1,5 +1,5 @@
 "55575631f65383ec7c8b9c24????????":
-cleanup __cdecl void SpaceStatus::OnInit(SpaceStatus* this, SpaceManager* space, Point pos);
+cleanup __cdecl void SpaceStatus::OnInit(SpaceStatus* this, SpaceManager* space, Point position);
 "5589e557565381ec9c0000008b55088b":
 cleanup __cdecl void SpaceStatus::RenderWarningText(SpaceStatus* this, int effect, int textOffset);
 "57565383ec208b5c24308b432c890424":

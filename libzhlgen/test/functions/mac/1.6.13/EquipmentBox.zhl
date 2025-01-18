@@ -3,7 +3,7 @@ cleanup __amd64 void EquipmentBox::constructor(EquipmentBox* this, Point _positi
 "!.554889e553504889fb488d05????????488903488b7b38":
 virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox* this);
 ".554889e54889f048c1e82089":
-virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox* this, Point pos);
+virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox* this, Point position);
 "!.554889e541574156534883ec284189f64889fbe8":
 virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox* this, bool isEmpty);
 ".554889e54156534883ec504989fe0f57":

@@ -121,7 +121,7 @@ cleanup __amd64 CrewMember* ShipManager::AddCrewMemberFromBlueprint(ShipManager*
 ".41574989ff4156415541545589f5534883ec48":
 cleanup __amd64 void ShipManager::DamageSystem(ShipManager* this, int systemId, Damage damage);
 ".4157be????????4156415541544989fc55534883ec68":
-cleanup __amd64 void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf pos);
+cleanup __amd64 void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf position);
 ".415741564155415455534889fb4881ec980000004883bf0006000000":
 cleanup __amd64 void ShipManager::PrepareSuperBarrage(ShipManager* this);
 ".415531d2bf????????415455534883ec684889e6":

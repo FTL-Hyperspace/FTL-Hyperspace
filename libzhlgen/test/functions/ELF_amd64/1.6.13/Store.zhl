@@ -15,7 +15,7 @@ cleanup __amd64 bool Store::HasType(Store* this, int type);
 ".554889fd534883ec08488bb780040000":
 cleanup __amd64 void Store::Clear(Store* this);
 ".554863ee":
-cleanup __amd64 void Store::InitHeading(Store* this, int index, Point pos);
+cleanup __amd64 void Store::InitHeading(Store* this, int index, Point position);
 ".55be????????534883ec58488d54241f488d7c2440":
 static cleanup __amd64 void Store::DrawBuySellTabText();
 ".4157ba2a000000bec60000004156415541545531ed534889fb4883ec78":
@@ -23,7 +23,7 @@ cleanup __amd64 void Store::SetPositions(Store* this);
 ".4157415641554189f5415455534889fb4883ec68":
 cleanup __amd64 void Store::LoadStore(Store* this, int file, int worldLevel);
 "!.534889fb":
-cleanup __amd64 void Store::SetPosition(Store* this, Point pos);
+cleanup __amd64 void Store::SetPosition(Store* this, Point position);
 ".4157415641554189f541544989fc55534881ec88000000":
 cleanup __amd64 void Store::CreateStoreBoxes(Store* this, int type, Equipment* equip);
 "!.415641554989d541544189cc554889f553":

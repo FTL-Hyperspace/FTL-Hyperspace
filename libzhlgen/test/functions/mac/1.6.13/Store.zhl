@@ -17,9 +17,9 @@ cleanup __amd64 void Store::OnInit(Store* this, ShipManager* shopper, Equipment*
 "!.554889e54157415641554154534881ece80000004989d489":
 cleanup __amd64 void Store::CreateStoreBoxes(Store* this, int type, Equipment* equip);
 "!.554889e553504889fbe8":
-cleanup __amd64 void Store::SetPosition(Store* this, Point pos);
+cleanup __amd64 void Store::SetPosition(Store* this, Point position);
 ".554889e541574156534883ec584989fe4c63fe0f":
-cleanup __amd64 void Store::InitHeading(Store* this, int index, Point pos);
+cleanup __amd64 void Store::InitHeading(Store* this, int index, Point position);
 "!.554889e553504889fbc64308":
 cleanup __amd64 void Store::Close(Store* this);
 ".554889e54156534889fb83bbac070000":

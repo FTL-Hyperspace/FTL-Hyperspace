@@ -2,7 +2,7 @@
 ".554889e54157415641554154534883ec??48894da8":
 cleanup __amd64 void StoreBox::constructor(StoreBox* this, const std::string& _buttonImage, ShipManager* _shopper, Equipment* _equip);
 ".554889e54156534883ec104889fb4889f248c1ea20488b43":
-cleanup __amd64 void StoreBox::SetPosition(StoreBox* this, Point pos);
+cleanup __amd64 void StoreBox::SetPosition(StoreBox* this, Point position);
 ".554889e541574156534883ec184989f64889fb41":
 cleanup __amd64 void StoreBox::InitBlueprint(StoreBox* this, Blueprint* bp);
 "!.554889e55350488d5f2883bf":

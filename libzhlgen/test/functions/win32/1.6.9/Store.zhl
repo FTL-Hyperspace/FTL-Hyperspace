@@ -21,7 +21,7 @@ __thiscall bool Store::HasType(Store* this, int type);
 "5589e55756538bb99004000089ce8b918c04000083e4f089f829d0c1f80285c074??31db8b0c9a85c9":
 __thiscall void Store::Clear(Store* this);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec7c8b1f8d7da4c745a000000000c645a400897d9c":
-__thiscall void Store::InitHeading(Store* this, int index, Point pos);
+__thiscall void Store::InitHeading(Store* this, int index, Point position);
 "8d4c240483e4f0ff71fc5589e5575653518d45d08d75a08d5dd881ec????????c745d873746f72c745dc655f746189442404":
 static __cdecl void Store::DrawBuySellTabText();
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b7f04890424897c2404894584e8????????8b837c06000083ec08":
@@ -33,7 +33,7 @@ __thiscall void Store::SetPositions(Store* this);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b918c040000898550ffffff8b47048bb990040000898538ffffff89f8":
 __thiscall void Store::LoadStore(Store* this, int file, int worldLevel);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570489042489542404e8????????":
-__thiscall void Store::SetPosition(Store* this, Point pos);
+__thiscall void Store::SetPosition(Store* this, Point position);
 "5589e557565331db89ce83e4f083ec108bb9900400008b918c040000c701????????89f829d0c1f80285c074??":
 __thiscall void Store::destructor(Store* this);
 

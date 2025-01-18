@@ -1,7 +1,7 @@
 "!41544189d45589f54889ce534889fb":
 cleanup __amd64 void TextInput::constructor(TextInput* this, int _maxChars, TextInput::AllowedCharType _allowedCharType, const std::string& _prompt);
 ".4156b9ffffffff41554189f54889fe41544989d431d255534889fb4883ec70":
-cleanup __amd64 void TextInput::OnRender(TextInput* this, int font, Point pos);
+cleanup __amd64 void TextInput::OnRender(TextInput* this, int font, Point position);
 ".!538b473839473c":
 cleanup __amd64 void TextInput::OnLoop(TextInput* this);
 ".53807f40004889fb":

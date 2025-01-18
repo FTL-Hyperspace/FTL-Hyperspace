@@ -16,7 +16,7 @@ cleanup __amd64 void MouseControl::SetDoor(MouseControl* this, int state);
 ".554889e541574156534883ec384189f64989ff48":
 cleanup __amd64 Point MouseControl::MeasureTooltip(MouseControl* this, int width);
 ".554889e54889b7a00100005d":
-cleanup __amd64 void MouseControl::QueueStaticTooltip(MouseControl* this, Point pos);
+cleanup __amd64 void MouseControl::QueueStaticTooltip(MouseControl* this, Point position);
 ".554889e54156534883ec104889fb66c7":
 cleanup __amd64 void MouseControl::Reset(MouseControl* this);
 ".554889e5415741564154534883ec304889f04989ff":

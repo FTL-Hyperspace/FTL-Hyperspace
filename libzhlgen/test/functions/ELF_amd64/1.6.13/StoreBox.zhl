@@ -3,7 +3,7 @@ cleanup __amd64 void StoreBox::MouseClick(StoreBox* this, int mX, int mY);
 ".4883ec28488b8718010000":
 cleanup __amd64 void StoreBox::Activate(StoreBox* this);
 ".554889f248c1fa2053488d5f184883ec18":
-cleanup __amd64 void StoreBox::SetPosition(StoreBox* this, Point pos);
+cleanup __amd64 void StoreBox::SetPosition(StoreBox* this, Point position);
 ".554889f5488d7610534889fb488dbfb0000000":
 cleanup __amd64 void StoreBox::InitBlueprint(StoreBox* this, Blueprint* bp);
 ".41574989d7415641554989f5415455534889fb":

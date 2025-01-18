@@ -21,29 +21,29 @@ public:
 	}
 	Point GetEntryWay(int room)
 	{
-		Point pos1 = Point(this->x, this->y);
-		Point pos2;
+		Point position1 = Point(this->x, this->y);
+		Point position2;
 
 		if (this->bVertical)
 		{
-			pos2 = Point(pos1.x + 17, pos1.y);
-			pos1 = Point(this->x - 17, pos1.y);
+			position2 = Point(position1.x + 17, position1.y);
+			position1 = Point(this->x - 17, position1.y);
 		}
 		else
 		{
-			pos2 = Point(this->x, pos1.y + 17);
-			pos1 = Point(this->x, this->y - 18);
+			position2 = Point(this->x, position1.y + 17);
+			position1 = Point(this->x, this->y - 18);
 		}
 
 		auto shipInfo = ShipGraph::GetShipInfo(this->iShipId);
 
-		if (room == shipInfo->GetSelectedRoom(pos2.x, pos2.y, false))
+		if (room == shipInfo->GetSelectedRoom(position2.x, position2.y, false))
 		{
-			return pos2;
+			return position2;
 		}
 		else
 		{
-			return pos1;
+			return position1;
 		}
 	}
 }};

@@ -7,7 +7,7 @@ cleanup __amd64 void MouseControl::ResetArmed(MouseControl* this);
 ".41550f57c941544189f40f28c155534889fb4883ec48":
 cleanup __amd64 Point MouseControl::MeasureTooltip(MouseControl* this, int width);
 "!.4889b740010000c3":
-cleanup __amd64 void MouseControl::QueueStaticTooltip(MouseControl* this, Point pos);
+cleanup __amd64 void MouseControl::QueueStaticTooltip(MouseControl* this, Point position);
 ".41574989f749c1ff2041564989f641554189f5":
 cleanup __amd64 void MouseControl::RenderTooltip(MouseControl* this, Point tooltipPoint, bool staticPos);
 ".41574989ff41564155415455534881ecc801000080bf0d01000000":

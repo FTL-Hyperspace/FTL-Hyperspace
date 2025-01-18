@@ -153,7 +153,7 @@ __thiscall int ShipManager::CanUpgrade(ShipManager* this, int systemId, int amou
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
 __thiscall ShipBlueprint ShipManager::SaveToBlueprint(ShipManager* this, bool overwrite);
 "578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
-__thiscall void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf pos);
+__thiscall void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf position);
 "578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104":
 __thiscall CollisionResponse ShipManager::CollisionMoving(ShipManager* this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "8b81c80400008b5424048b049083f8ff740e8b51188b04828b4054c20400":

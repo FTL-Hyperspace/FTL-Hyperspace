@@ -2,7 +2,7 @@
 ".554889e5415741564154534883ec??4d89c6":
 cleanup __amd64 void Shields::constructor(Shields* this, int _roomId, int _shipId, int _startingPower, const std::string& _shieldFile);
 ".554889e54157415653504989f64889fb8b839802":
-cleanup __amd64 void Shields::AddSuperShield(Shields* this, Point pos);
+cleanup __amd64 void Shields::AddSuperShield(Shields* this, Point position);
 ".554889e54156534883ec204889fbe83d":
 cleanup __amd64 void Shields::Jump(Shields* this);
 ".554889e5f30f118778020000":

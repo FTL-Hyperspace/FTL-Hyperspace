@@ -5,7 +5,7 @@ cleanup __cdecl void MouseControl::SetTooltipTitle(MouseControl* this, const std
 "5589e557565383ec5c8b7d0c8d45d8890424c744240800000000":
 cleanup __cdecl Point MouseControl::MeasureTooltip(MouseControl* this, int width);
 "8b4c24048b4424088b54240c8981e8000000":
-cleanup __cdecl void MouseControl::QueueStaticTooltip(MouseControl* this, Point pos);
+cleanup __cdecl void MouseControl::QueueStaticTooltip(MouseControl* this, Point position);
 "5589e557565383ec7c8b5d088b4d0c8b55108b83d8000000":
 cleanup __cdecl void MouseControl::RenderTooltip(MouseControl* this, Point tooltipPoint, bool staticPos);
 "5383ec188b5c242080bbc800000000":

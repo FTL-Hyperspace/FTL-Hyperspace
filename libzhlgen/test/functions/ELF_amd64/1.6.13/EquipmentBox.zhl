@@ -1,5 +1,5 @@
 "48897758897760":
-virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox* this, Point pos);
+virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox* this, Point position);
 ".8b476031c939c6":
 virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox* this, int x, int y);
 ".48c747700000000048c7477800000000":

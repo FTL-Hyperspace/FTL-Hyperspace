@@ -1560,11 +1560,11 @@ namespace _func112
 	static FunctionDefinition funcObj("Button::SetLocation", typeid(void (Button::*)(const Point )), "5756538b4424108b5424148b4c24188b58048b700839d3", argdata, 2, 6, &func);
 }
 
-void Button::SetLocation(const Point pos)
+void Button::SetLocation(const Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Button *this_arg, const Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Button *this_arg, const Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func112::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func113
@@ -1574,11 +1574,11 @@ namespace _func113
 	static FunctionDefinition funcObj("Button::OnInit", typeid(void (Button::*)(const std::string &, Point )), "5557565383ec4c8b6c2464", argdata, 3, 6, &func);
 }
 
-void Button::OnInit(const std::string &img, Point pos)
+void Button::OnInit(const std::string &img, Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Button *this_arg, const std::string &img_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Button *this_arg, const std::string &img_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func113::func;
-	return execfunc(this, img, pos);
+	return execfunc(this, img, position);
 }
 
 namespace _func114
@@ -1658,11 +1658,11 @@ namespace _func119
 	static FunctionDefinition funcObj("CAchievement::OnRender", typeid(void (CAchievement::*)(Point , int , bool )), "5589e557565381ec9c0000008b45188b7d108b750c8b5d0889458c", argdata, 4, 6, &func);
 }
 
-void CAchievement::OnRender(Point pos, int selected, bool showNew)
+void CAchievement::OnRender(Point position, int selected, bool showNew)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CAchievement *this_arg, Point pos_arg, int selected_arg, bool showNew_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CAchievement *this_arg, Point position_arg, int selected_arg, bool showNew_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func119::func;
-	return execfunc(this, pos, selected, showNew);
+	return execfunc(this, position, selected, showNew);
 }
 
 namespace _func120
@@ -6159,11 +6159,11 @@ namespace _func442
 	static FunctionDefinition funcObj("CrewMember::SetPosition", typeid(void (CrewMember::*)(Point )), "565383ec248b4424348b5424388b5c2430", argdata, 2, 6, &func);
 }
 
-void CrewMember::SetPosition(Point pos)
+void CrewMember::SetPosition(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CrewMember *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CrewMember *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func442::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func443
@@ -6467,11 +6467,11 @@ namespace _func464
 	static FunctionDefinition funcObj("CrewMember::RenderSkillUpAnimation", typeid(void (CrewMember::*)(Point )), "5557565383ec6c8b842484000000c744242c0000000089442434", argdata, 2, 6, &func);
 }
 
-void CrewMember::RenderSkillUpAnimation(Point pos)
+void CrewMember::RenderSkillUpAnimation(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CrewMember *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CrewMember *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func464::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func465
@@ -7783,11 +7783,11 @@ namespace _func559
 	static FunctionDefinition funcObj("EquipmentBox::SetPosition", typeid(void (EquipmentBox::*)(Point )), "8b4424048b4c24088b54240c894834", argdata, 2, 6, &func);
 }
 
-void EquipmentBox::SetPosition(Point pos)
+void EquipmentBox::SetPosition(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(EquipmentBox *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(EquipmentBox *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func559::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func560
@@ -8630,11 +8630,11 @@ namespace _func621
 	static FunctionDefinition funcObj("FileHelper::seekPosition", typeid(bool (*)(int , int )), "83ec1c8b442424c74424080000000089442404a3????????", argdata, 2, 2, &func);
 }
 
-bool FileHelper::seekPosition(int file, int pos)
+bool FileHelper::seekPosition(int file, int position)
 {
-	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(int file_arg, int pos_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(int file_arg, int position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func621::func;
-	return execfunc(file, pos);
+	return execfunc(file, position);
 }
 
 namespace _func622
@@ -8784,11 +8784,11 @@ namespace _func632
 	static FunctionDefinition funcObj("GenericButton::SetLocation", typeid(void (GenericButton::*)(Point )), "5756538b4424108b5424148b4c24188b58048b700839da", argdata, 2, 6, &func);
 }
 
-void GenericButton::SetLocation(Point pos)
+void GenericButton::SetLocation(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(GenericButton *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(GenericButton *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func632::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func633
@@ -9855,11 +9855,11 @@ namespace _func715
 	static FunctionDefinition funcObj("MouseControl::QueueStaticTooltip", typeid(void (MouseControl::*)(Point )), "8b4c24048b4424088b54240c8981e8000000", argdata, 2, 6, &func);
 }
 
-void MouseControl::QueueStaticTooltip(Point pos)
+void MouseControl::QueueStaticTooltip(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(MouseControl *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(MouseControl *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func715::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func716
@@ -11731,11 +11731,11 @@ namespace _func854
 	static FunctionDefinition funcObj("Shields::AddSuperShield", typeid(void (Shields::*)(Point )), "57ba05000000565383ec108b5c24208b7424248b7c2428", argdata, 2, 6, &func);
 }
 
-void Shields::AddSuperShield(Point pos)
+void Shields::AddSuperShield(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Shields *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Shields *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func854::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func855
@@ -11794,11 +11794,11 @@ namespace _func859
 	static FunctionDefinition funcObj("Ship::LockdownRoom", typeid(void (Ship::*)(int , Pointf )), "5589e557565381ec2c0100008b45088b4004890424", argdata, 3, 6, &func);
 }
 
-void Ship::LockdownRoom(int roomId, Pointf pos)
+void Ship::LockdownRoom(int roomId, Pointf position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg, Pointf pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg, Pointf position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func859::func;
-	return execfunc(this, roomId, pos);
+	return execfunc(this, roomId, position);
 }
 
 namespace _func860
@@ -12412,11 +12412,11 @@ namespace _func907
 	static FunctionDefinition funcObj("ShipButton::OnInit", typeid(void (ShipButton::*)(const std::string &, Point )), "5383ec188b5c24208b5424288b44242c807b7000", argdata, 3, 6, &func);
 }
 
-void ShipButton::OnInit(const std::string &imgName, Point pos)
+void ShipButton::OnInit(const std::string &imgName, Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipButton *this_arg, const std::string &imgName_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipButton *this_arg, const std::string &imgName_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func907::func;
-	return execfunc(this, imgName, pos);
+	return execfunc(this, imgName, position);
 }
 
 namespace _func908
@@ -12916,11 +12916,11 @@ namespace _func943
 	static FunctionDefinition funcObj("ShipGraph::GetClosestSlot", typeid(Slot (ShipGraph::*)(Point , int , bool )), "5589e5575631f65389f381ecac0000008b45108b7d0c", argdata, 5, 18, &func);
 }
 
-Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
+Slot ShipGraph::GetClosestSlot(Point position, int shipId, bool intruder)
 {
-	typedef Slot __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipGraph *this_arg, Point pos_arg, int shipId_arg, bool intruder_arg);
+	typedef Slot __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipGraph *this_arg, Point position_arg, int shipId_arg, bool intruder_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func943::func;
-	return execfunc(this, pos, shipId, intruder);
+	return execfunc(this, position, shipId, intruder);
 }
 
 namespace _func944
@@ -14057,11 +14057,11 @@ namespace _func1025
 	static FunctionDefinition funcObj("ShipManager::CheckCrystalAugment", typeid(void (ShipManager::*)(Pointf )), "5589e557565331db83ec7c8d45c88d75d8", argdata, 2, 6, &func);
 }
 
-void ShipManager::CheckCrystalAugment(Pointf pos)
+void ShipManager::CheckCrystalAugment(Pointf position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1025::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func1026
@@ -15926,11 +15926,11 @@ namespace _func1167
 	static FunctionDefinition funcObj("SpaceStatus::OnInit", typeid(void (SpaceStatus::*)(SpaceManager *, Point )), "55575631f65383ec7c8b9c24????????", argdata, 3, 6, &func);
 }
 
-void SpaceStatus::OnInit(SpaceManager *space, Point pos)
+void SpaceStatus::OnInit(SpaceManager *space, Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SpaceStatus *this_arg, SpaceManager *space_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SpaceStatus *this_arg, SpaceManager *space_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1167::func;
-	return execfunc(this, space, pos);
+	return execfunc(this, space, position);
 }
 
 namespace _func1168
@@ -17158,11 +17158,11 @@ namespace _func1255
 	static FunctionDefinition funcObj("Store::InitHeading", typeid(void (Store::*)(int , Point )), "5557565383ec4c8d5c24388b742460", argdata, 3, 6, &func);
 }
 
-void Store::InitHeading(int index, Point pos)
+void Store::InitHeading(int index, Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Store *this_arg, int index_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Store *this_arg, int index_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1255::func;
-	return execfunc(this, index, pos);
+	return execfunc(this, index, position);
 }
 
 namespace _func1256
@@ -17242,11 +17242,11 @@ namespace _func1261
 	static FunctionDefinition funcObj("Store::SetPosition", typeid(void (Store::*)(Point )), "5383ec188b5c24208b4424248b542428891c24", argdata, 2, 6, &func);
 }
 
-void Store::SetPosition(Point pos)
+void Store::SetPosition(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Store *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Store *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1261::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func1262
@@ -17326,11 +17326,11 @@ namespace _func1267
 	static FunctionDefinition funcObj("StoreBox::SetPosition", typeid(void (StoreBox::*)(Point )), "565383ec248b4424308d70108b40108b580c8b442438", argdata, 2, 6, &func);
 }
 
-void StoreBox::SetPosition(Point pos)
+void StoreBox::SetPosition(Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(StoreBox *this_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(StoreBox *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1267::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func1268
@@ -17900,11 +17900,11 @@ namespace _func1309
 	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(Point , Point , int , TextString *, int )), "5589e557565383ec6c8b450c8b5d088b7520", argdata, 6, 6, &func);
 }
 
-void TextButton::OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)
+void TextButton::OnInit(Point position, Point size, int cornerInset, TextString *buttonLabel, int font)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(TextButton *this_arg, Point pos_arg, Point size_arg, int cornerInset_arg, TextString *buttonLabel_arg, int font_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(TextButton *this_arg, Point position_arg, Point size_arg, int cornerInset_arg, TextString *buttonLabel_arg, int font_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1309::func;
-	return execfunc(this, pos, size, cornerInset, buttonLabel, font);
+	return execfunc(this, position, size, cornerInset, buttonLabel, font);
 }
 
 namespace _func1310
@@ -17970,11 +17970,11 @@ namespace _func1314
 	static FunctionDefinition funcObj("TextButton::SetBaseImage", typeid(void (TextButton::*)(const std::string &, Point , int )), "5557565383ec1c8b4424348b5c24308b742438", argdata, 4, 6, &func);
 }
 
-void TextButton::SetBaseImage(const std::string &name, Point pos, int autoWidthMin)
+void TextButton::SetBaseImage(const std::string &name, Point position, int autoWidthMin)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(TextButton *this_arg, const std::string &name_arg, Point pos_arg, int autoWidthMin_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(TextButton *this_arg, const std::string &name_arg, Point position_arg, int autoWidthMin_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1314::func;
-	return execfunc(this, name, pos, autoWidthMin);
+	return execfunc(this, name, position, autoWidthMin);
 }
 
 namespace _func1315
@@ -18110,11 +18110,11 @@ namespace _func1324
 	static FunctionDefinition funcObj("TextInput::OnRender", typeid(void (TextInput::*)(int , Point )), ".5589e557565383ec7c8b5d088b45108d75d0", argdata, 3, 6, &func);
 }
 
-void TextInput::OnRender(int font, Point pos)
+void TextInput::OnRender(int font, Point position)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(TextInput *this_arg, int font_arg, Point pos_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(TextInput *this_arg, int font_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1324::func;
-	return execfunc(this, font, pos);
+	return execfunc(this, font, position);
 }
 
 namespace _func1325

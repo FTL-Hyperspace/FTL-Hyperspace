@@ -97,7 +97,7 @@ __thiscall Slot CrewMember::FindSlot(CrewMember* this, int roomId, int slotId, b
 ".578d7c240883e4f0ff77fc5589e55756":
 __thiscall bool CrewMember::CheckRoomPath(CrewMember* this, int roomId);
 ".57660fefc9660fefc08d7c240883e4f0ff77fc5589e5":
-__thiscall void CrewMember::SetPosition(CrewMember* this, Point pos);
+__thiscall void CrewMember::SetPosition(CrewMember* this, Point position);
 ".8b4178c781ac010000ffffffffc781a401000004000000":
 __thiscall void CrewMember::ClearTask(CrewMember* this);
 ".578d7c240883e4f0ff77fc5589e5575653":
@@ -139,7 +139,7 @@ __thiscall void CrewMember::SetDeathNumber(CrewMember* this, int deathNum);
 ".8b44240488813d050000":
 __thiscall void CrewMember::ForceMindControl(CrewMember* this, bool force);
 ".578d7c240883e4f0ff77fc5589e557565383ec7c8b17":
-__thiscall void CrewMember::RenderSkillUpAnimation(CrewMember* this, Point pos);
+__thiscall void CrewMember::RenderSkillUpAnimation(CrewMember* this, Point position);
 ".578d7c240883e4f0ff77fc5589e5":
 __thiscall void CrewMember::Clone(CrewMember* this);
 ".578d7c240883e4f0ff77fc55":

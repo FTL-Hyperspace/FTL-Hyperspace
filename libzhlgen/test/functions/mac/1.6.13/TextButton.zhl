@@ -15,7 +15,7 @@ cleanup __amd64 void TextButton::ResetPrimitives(TextButton* this);
 "!.554889e54157415641554154534881ec8800000080bf8000":
 cleanup __amd64 void TextButton::InitPrimitives(TextButton* this);
 ".554889e54157415641554154534883ec??44894dd44d89c4":
-cleanup __amd64 void TextButton::OnInit(TextButton* this, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
+cleanup __amd64 void TextButton::OnInit(TextButton* this, Point position, Point size, int cornerInset, TextString* buttonLabel, int font);
 ".554889e54157415641554154534883ec??448945d04989cf":
 cleanup __amd64 void TextButton::OnInitRect(TextButton* this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 ".554889e54088b7d0":
@@ -27,7 +27,7 @@ cleanup __amd64 int TextButton::GetIdealButtonWidth(TextButton* this);
 ".554889e553504889fbe8b2feffff488b":
 cleanup __amd64 Point TextButton::GetSize(TextButton* this);
 "!.554889e54157415653504189ce4989d7":
-cleanup __amd64 void TextButton::SetBaseImage(TextButton* this, const std::string& name, Point pos, int autoWidthMin);
+cleanup __amd64 void TextButton::SetBaseImage(TextButton* this, const std::string& name, Point position, int autoWidthMin);
 ".554889e54157415641554154534883ec484989fde8c7fdff":
 cleanup __amd64 void TextButton::OnRender(TextButton* this);
 

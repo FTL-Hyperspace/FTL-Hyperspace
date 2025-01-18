@@ -19,7 +19,7 @@ cleanup __amd64 int ShipGraph::DoorCount(ShipGraph* this, int roomId);
 ".554889e54863c6488b0f488b":
 cleanup __amd64 int ShipGraph::GetNumSlots(ShipGraph* this, int room);
 ".554889e54157415641554154534881ec880000004189cc89":
-cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph* this, Point pos, int shipId, bool intruder);
+cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph* this, Point position, int shipId, bool intruder);
 ".554889e54157415641554154534883ec584589c4":
 cleanup __amd64 Path ShipGraph::FindPath(ShipGraph* this, Point p1, Point p2, int shipId);
 "!.554889e54157415641554154534881ec38010000448945b0":
@@ -61,13 +61,13 @@ struct ShipGraph depends (Point, Pointf, Room)
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetIntoRoom(int roomId, Point pos)
+	Point GetIntoRoom(int roomId, Point position)
 	{
 		Point ret;
 		if (roomId >= 0 && roomId < this->rooms.size())
 		{
 			auto room = this->rooms[roomId];
-			ret = room->GetIntoRoom(pos);
+			ret = room->GetIntoRoom(position);
 		}
 		else
 		{

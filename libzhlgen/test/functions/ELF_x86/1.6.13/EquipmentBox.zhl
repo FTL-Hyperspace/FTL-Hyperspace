@@ -1,5 +1,5 @@
 "8b4424048b4c24088b54240c894834":
-virtual cleanup __cdecl void EquipmentBox::SetPosition(EquipmentBox* this, Point pos);
+virtual cleanup __cdecl void EquipmentBox::SetPosition(EquipmentBox* this, Point position);
 "538b44240831db8b54240c8b483c":
 virtual cleanup __cdecl void EquipmentBox::MouseMove(EquipmentBox* this, int x, int y);
 ".8b442404660fefc0f30f7f404c":

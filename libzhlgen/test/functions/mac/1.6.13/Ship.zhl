@@ -23,7 +23,7 @@ cleanup __amd64 int Ship::GetSelectedRoomId(Ship* this, int x, int y, bool bIncl
 ".554889e5488b871805000048":
 cleanup __amd64 bool Ship::RoomLocked(Ship* this, int roomId);
 ".554889e54157415641554154534881ec980100000f294580":
-cleanup __amd64 void Ship::LockdownRoom(Ship* this, int roomId, Pointf pos);
+cleanup __amd64 void Ship::LockdownRoom(Ship* this, int roomId, Pointf position);
 "!.554889e541574156534883ec18f30f1145e44889":
 cleanup __amd64 void Ship::OnRenderJump(Ship* this, float progress);
 "!.554889e5415741564155415453504189f64889fb":
@@ -39,7 +39,7 @@ cleanup __amd64 void Ship::OnRenderWalls(Ship* this, bool forceView, bool doorCo
 ".554889e54157415641554154534883ec284189d74189f44889fb":
 cleanup __amd64 void Ship::BreachSpecificHull(Ship* this, int grid_x, int grid_y);
 "!.554889e54157415653504189d64989f74c89fb48c1eb208b7f08": // Use this instead because the other causes issues when trying to hook it
-cleanup __amd64 int Ship::_GetSelectedRoomId_DO_NOT_CALL(Ship* this, Point _pos, bool _bIncludeWalls);
+cleanup __amd64 int Ship::_GetSelectedRoomId_DO_NOT_CALL(Ship* this, Point _position, bool _bIncludeWalls);
 "!.554889e54157415641554154534883ec688975cc":
 cleanup __amd64 void Ship::BreachRandomHull(Ship* this, int roomId);
 "!.554889e54157415641554154534883ec184989f74989fd49":

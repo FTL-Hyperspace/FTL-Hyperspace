@@ -109,7 +109,7 @@ cleanup __amd64 bool ShipManager::DamageCrew(ShipManager* this, CrewMember* crew
 ".554889e5415741564155415453504189f74989fc498b442428":
 cleanup __amd64 ShipSystem* ShipManager::GetSystemInRoom(ShipManager* this, int roomId);
 "!.554889e54157415641554154534881ec980000000f298560":
-cleanup __amd64 void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf pos);
+cleanup __amd64 void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf position);
 "!.554889e54881c7d8000000ba":
 cleanup __amd64 void ShipManager::StartFire(ShipManager* this, int roomId);
 "!.554889e54157415641554154534881ec580100004889fb80":

@@ -5,7 +5,7 @@ cleanup __amd64 void Shields::OnLoop(Shields* this);
 ".4154554c89c54189c889d189f231f6534889fb4883ec40":
 cleanup __amd64 void Shields::constructor(Shields* this, int _roomId, int _shipId, int _startingPower, const std::string& _shieldFile);
 ".55ba050000004889f5534889fb4883ec08":
-cleanup __amd64 void Shields::AddSuperShield(Shields* this, Point pos);
+cleanup __amd64 void Shields::AddSuperShield(Shields* this, Point position);
 ".660fd64424f8488b4424f84889b750020000":
 cleanup __amd64 void Shields::SetBaseEllipse(Shields* this, Globals::Ellipse ellipse);
 ".55534889fb488dabd00200004883ec38":

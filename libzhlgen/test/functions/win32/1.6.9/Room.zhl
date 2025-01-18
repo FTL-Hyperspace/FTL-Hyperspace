@@ -30,10 +30,10 @@ struct Room depends (Globals, Point)
 		this->destructor();
 	}
 
-	Point GetIntoRoom(Point pos)
+	Point GetIntoRoom(Point position)
 	{
-		int posX = pos.x;
-		int posY = pos.y;
+		int posX = position.x;
+		int posY = position.y;
 		
 		int rectY = this->rect.y;
 		int rectH = this->rect.h;

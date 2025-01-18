@@ -1463,11 +1463,11 @@ namespace _func113
 	static FunctionDefinition funcObj("Button::OnInit", typeid(void (Button::*)(const std::string &, Point )), ".554889e54157415641554154534883ec184989d64989f74889fb488d", nullptr, 0, 0, &func);
 }
 
-void Button::OnInit(const std::string &img, Point pos)
+void Button::OnInit(const std::string &img, Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(Button *this_arg, const std::string &img_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(Button *this_arg, const std::string &img_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func113::func;
-	return execfunc(this, img, pos);
+	return execfunc(this, img, position);
 }
 
 namespace _func114
@@ -1528,11 +1528,11 @@ namespace _func118
 	static FunctionDefinition funcObj("Button::SetLocation", typeid(void (Button::*)(const Point )), "!.554889e54889f048c1e8208b57", nullptr, 0, 0, &func);
 }
 
-void Button::SetLocation(const Point pos)
+void Button::SetLocation(const Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(Button *this_arg, const Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(Button *this_arg, const Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func118::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func119
@@ -1554,11 +1554,11 @@ namespace _func120
 	static FunctionDefinition funcObj("CAchievement::OnRender", typeid(void (CAchievement::*)(Point , int , bool )), ".554889e54157415641554154534883ec584189cf41", nullptr, 0, 0, &func);
 }
 
-void CAchievement::OnRender(Point pos, int selected, bool showNew)
+void CAchievement::OnRender(Point position, int selected, bool showNew)
 {
-	typedef void (*custom_arg_funcptr_t)(CAchievement *this_arg, Point pos_arg, int selected_arg, bool showNew_arg);
+	typedef void (*custom_arg_funcptr_t)(CAchievement *this_arg, Point position_arg, int selected_arg, bool showNew_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func120::func;
-	return execfunc(this, pos, selected, showNew);
+	return execfunc(this, position, selected, showNew);
 }
 
 namespace _func121
@@ -4961,7 +4961,7 @@ void CrewEquipBox::OnTextEvent(CEvent::TextEvent event)
 namespace _func386
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::constructor", typeid(void (CrewManifest::*)()), "!554889e5415741564154534881ec????????4889fbe899999999", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::constructor", typeid(void (CrewManifest::*)()), "!554889e5415741564154534881ecb000000048", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::constructor()
@@ -4974,7 +4974,7 @@ void CrewManifest::constructor()
 namespace _func387
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::OnInit", typeid(void (CrewManifest::*)(ShipManager *)), "!.554889e54157415641554154534883ec484989f4", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::OnInit", typeid(void (CrewManifest::*)(ShipManager *)), ".554889e54157415641554154534883ec484989f4", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::OnInit(ShipManager *ship)
@@ -4987,7 +4987,7 @@ void CrewManifest::OnInit(ShipManager *ship)
 namespace _func388
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::Close", typeid(void (CrewManifest::*)()), "!.554889e54157415653504989fe498b8608010000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::Close", typeid(void (CrewManifest::*)()), "!.554889e54157415653504989fe498b8608", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::Close()
@@ -5000,7 +5000,7 @@ void CrewManifest::Close()
 namespace _func389
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::MouseClick", typeid(void (CrewManifest::*)(int , int )), "!.554889e54156534989fe4183be880200", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::MouseClick", typeid(void (CrewManifest::*)(int , int )), "!.554889e54156534989fe4183be88", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::MouseClick(int mX, int mY)
@@ -5013,7 +5013,7 @@ void CrewManifest::MouseClick(int mX, int mY)
 namespace _func390
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::Update", typeid(void (CrewManifest::*)()), ".554889e541574156534883ec584989fe0f57c00f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::Update", typeid(void (CrewManifest::*)()), ".554889e541574156534883ec584989fe0f", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::Update()
@@ -5026,7 +5026,7 @@ void CrewManifest::Update()
 namespace _func391
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::OnKeyDown", typeid(void (CrewManifest::*)(SDLKey )), ".554889e5415741564154534189f64989ff498b87", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::OnKeyDown", typeid(void (CrewManifest::*)(SDLKey )), ".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e87789", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::OnKeyDown(SDLKey key)
@@ -5039,7 +5039,7 @@ void CrewManifest::OnKeyDown(SDLKey key)
 namespace _func392
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::OnKeyUp", typeid(void (CrewManifest::*)(SDLKey )), ".554889e5415741564154534189f64989ff498b87", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::OnKeyUp", typeid(void (CrewManifest::*)(SDLKey )), ".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e8f788", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::OnKeyUp(SDLKey key)
@@ -5052,7 +5052,7 @@ void CrewManifest::OnKeyUp(SDLKey key)
 namespace _func393
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::OnTextInput", typeid(void (CrewManifest::*)(SDLKey )), ".554889e5415741564154534189f64989ff498b87", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::OnTextInput", typeid(void (CrewManifest::*)(SDLKey )), ".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e87788", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::OnTextInput(SDLKey key)
@@ -5065,7 +5065,7 @@ void CrewManifest::OnTextInput(SDLKey key)
 namespace _func394
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::OnTextEvent", typeid(void (CrewManifest::*)(CEvent::TextEvent )), ".554889e5415741564154534189f64989ff498b87", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::OnTextEvent", typeid(void (CrewManifest::*)(CEvent::TextEvent )), ".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e8f787", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::OnTextEvent(CEvent::TextEvent event)
@@ -5078,7 +5078,7 @@ void CrewManifest::OnTextEvent(CEvent::TextEvent event)
 namespace _func395
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::OnRender", typeid(void (CrewManifest::*)()), "!.554889e54157415641554154534881ec980000004989ffe8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::OnRender", typeid(void (CrewManifest::*)()), ".554889e54157415641554154534881ec980000004989ffe8", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::OnRender()
@@ -5091,7 +5091,7 @@ void CrewManifest::OnRender()
 namespace _func396
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::MouseMove", typeid(void (CrewManifest::*)(int , int )), "!.554889e5415741564155415453504189d64189f74989fd49", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::MouseMove", typeid(void (CrewManifest::*)(int , int )), ".554889e5415741564155415453504189d64189f74989fd", nullptr, 0, 0, &func);
 }
 
 void CrewManifest::MouseMove(int mX, int mY)
@@ -5104,7 +5104,7 @@ void CrewManifest::MouseMove(int mX, int mY)
 namespace _func397
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::InsideRoom", typeid(bool (CrewMember::*)(int )), "554889e539b79c00", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::InsideRoom", typeid(bool (CrewMember::*)(int )), "554889e539b79c", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::InsideRoom(int roomId)
@@ -5130,7 +5130,7 @@ std::string CrewMember::GetUniqueRepairing()
 namespace _func399
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetRoomDamage", typeid(Damage (CrewMember::*)()), ".554889e5c647200048c74718", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetRoomDamage", typeid(Damage (CrewMember::*)()), ".554889e5c647200048", nullptr, 0, 0, &func);
 }
 
 Damage CrewMember::GetRoomDamage()
@@ -5143,7 +5143,7 @@ Damage CrewMember::GetRoomDamage()
 namespace _func400
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::constructor", typeid(void (CrewMember::*)(CrewBlueprint &, int , bool , CrewAnimation *)), "!.554889e54157415641554154534881ec????????4d89c64189cf4889", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::constructor", typeid(void (CrewMember::*)(CrewBlueprint &, int , bool , CrewAnimation *)), ".554889e54157415641554154534881ec280100004d89c6", nullptr, 0, 0, &func);
 }
 
 void CrewMember::constructor(CrewBlueprint &_blueprint, int _shipId, bool _intruder, CrewAnimation *_animation)
@@ -5169,7 +5169,7 @@ void CrewMember::SetName(TextString *name, bool force)
 namespace _func402
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetSex", typeid(void (CrewMember::*)(bool )), ".554889e54156534189f64889fb488bbbc0000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetSex", typeid(void (CrewMember::*)(bool )), ".554889e54156534189f64889fb488bbbc0", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetSex(bool male)
@@ -5182,7 +5182,7 @@ void CrewMember::SetSex(bool male)
 namespace _func403
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::ClearTask", typeid(void (CrewMember::*)()), ".554889e58b879c00", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::ClearTask", typeid(void (CrewMember::*)()), ".554889e58b879c", nullptr, 0, 0, &func);
 }
 
 void CrewMember::ClearTask()
@@ -5208,7 +5208,7 @@ bool CrewMember::OnInit()
 namespace _func405
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SaveState", typeid(void (CrewMember::*)(int )), "!.554889e541565389f34989fef3410f10", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SaveState", typeid(void (CrewMember::*)(int )), "!.554889e541565389f34989fef3", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SaveState(int fileHelper)
@@ -5221,7 +5221,7 @@ void CrewMember::SaveState(int fileHelper)
 namespace _func406
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::LoadState", typeid(void (CrewMember::*)(int )), "!.554889e541574156535089f34989fe89dfe8????0f00f341", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::LoadState", typeid(void (CrewMember::*)(int )), ".554889e541574156535089f34989fe89dfe8????0f", nullptr, 0, 0, &func);
 }
 
 void CrewMember::LoadState(int fileHelper)
@@ -5234,7 +5234,7 @@ void CrewMember::LoadState(int fileHelper)
 namespace _func407
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CycleColorLayer", typeid(void (CrewMember::*)(int )), "!.554889e54157415641554154534883ec484189f64989fc0f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CycleColorLayer", typeid(void (CrewMember::*)(int )), ".554889e54157415641554154534883ec484189f64989fc0f", nullptr, 0, 0, &func);
 }
 
 void CrewMember::CycleColorLayer(int dir)
@@ -5247,7 +5247,7 @@ void CrewMember::CycleColorLayer(int dir)
 namespace _func408
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CanTeleport", typeid(bool (CrewMember::*)()), ".554889e553504889fb488b83c0000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CanTeleport", typeid(bool (CrewMember::*)()), ".554889e553504889fb488b83c0", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::CanTeleport()
@@ -5260,7 +5260,7 @@ bool CrewMember::CanTeleport()
 namespace _func409
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::AtFinalGoal", typeid(bool (CrewMember::*)()), ".554889e5f30f10470cf30f2a8fb4000000f30f5cc10f5405????2600", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::AtFinalGoal", typeid(bool (CrewMember::*)()), ".554889e5f30f10470cf30f2a8fb4000000f30f5cc10f5405????26", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::AtFinalGoal()
@@ -5273,7 +5273,7 @@ bool CrewMember::AtFinalGoal()
 namespace _func410
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetSkillTooltip", typeid(std::string (*)(int , int , std::pair<int, int> , bool )), "!.554889e54157415641554154534881ec680100004589c749", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillTooltip", typeid(std::string (*)(int , int , std::pair<int, int> , bool )), ".554889e54157415641554154534881ec6801000045", nullptr, 0, 0, &func);
 }
 
 std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)
@@ -5286,7 +5286,7 @@ std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<i
 namespace _func411
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetCurrentSystem", typeid(void (CrewMember::*)(ShipSystem *)), "!.554889e54157415653504889f34989ff41c68768", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetCurrentSystem", typeid(void (CrewMember::*)(ShipSystem *)), ".554889e54157415653504889f34989ff41c6", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetCurrentSystem(ShipSystem *sys)
@@ -5299,7 +5299,7 @@ void CrewMember::SetCurrentSystem(ShipSystem *sys)
 namespace _func412
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::IsBusy", typeid(bool (CrewMember::*)()), ".554889e5b0014883", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::IsBusy", typeid(bool (CrewMember::*)()), ".554889e5b00148", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::IsBusy()
@@ -5312,7 +5312,7 @@ bool CrewMember::IsBusy()
 namespace _func413
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetSkillLevel", typeid(int (CrewMember::*)(int )), ".554889e5b80100000083fe0577??4863c6488b97b8030000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillLevel", typeid(int (CrewMember::*)(int )), ".554889e5b80100000083", nullptr, 0, 0, &func);
 }
 
 int CrewMember::GetSkillLevel(int skillId)
@@ -5325,7 +5325,7 @@ int CrewMember::GetSkillLevel(int skillId)
 namespace _func414
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetSkillFromSystem", typeid(int (*)(int )), ".554889e583ff0677", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillFromSystem", typeid(int (*)(int )), ".554889e583ff06", nullptr, 0, 0, &func);
 }
 
 int CrewMember::GetSkillFromSystem(int systemId)
@@ -5351,7 +5351,7 @@ bool CrewMember::IsManningArtillery()
 namespace _func416
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CheckSkills", typeid(void (CrewMember::*)()), "!.554889e54156534989fe498bbe700200", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CheckSkills", typeid(void (CrewMember::*)()), ".554889e54156534989fe498bbe", nullptr, 0, 0, &func);
 }
 
 void CrewMember::CheckSkills()
@@ -5364,7 +5364,7 @@ void CrewMember::CheckSkills()
 namespace _func417
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Repairing", typeid(bool (CrewMember::*)()), ".554889e54883bf88000000000f95c05d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Repairing", typeid(bool (CrewMember::*)()), ".554889e54883bf88000000000f", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::Repairing()
@@ -5377,7 +5377,7 @@ bool CrewMember::Repairing()
 namespace _func418
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::IncreaseSkill", typeid(void (CrewMember::*)(int )), ".554889e5415741564154534883ec204189f64889", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::IncreaseSkill", typeid(void (CrewMember::*)(int )), ".554889e5415741564154534883ec204189f64889fb", nullptr, 0, 0, &func);
 }
 
 void CrewMember::IncreaseSkill(int skillId)
@@ -5390,7 +5390,7 @@ void CrewMember::IncreaseSkill(int skillId)
 namespace _func419
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::MasterSkill", typeid(void (CrewMember::*)(int )), ".554889e54863c6488b8fb80300008b54", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::MasterSkill", typeid(void (CrewMember::*)(int )), ".554889e54863c6488b8fb80300008b", nullptr, 0, 0, &func);
 }
 
 void CrewMember::MasterSkill(int skillId)
@@ -5416,7 +5416,7 @@ void CrewMember::SetResisted(bool resisted)
 namespace _func421
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetResisted", typeid(bool (CrewMember::*)()), ".554889e58a877c08", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetResisted", typeid(bool (CrewMember::*)()), ".554889e58a877c", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::GetResisted()
@@ -5429,7 +5429,7 @@ bool CrewMember::GetResisted()
 namespace _func422
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetSkillProgress", typeid(void (CrewMember::*)(int , int )), ".554889e54863c6488b8fb80300008914", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetSkillProgress", typeid(void (CrewMember::*)(int , int )), ".554889e54863c6488b8fb803000089", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetSkillProgress(int skillId, int skillLevel)
@@ -5442,7 +5442,7 @@ void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 namespace _func423
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetSkillProgress", typeid(std::pair<int, int> (CrewMember::*)(int )), ".554889e54863ce488b??????????8b04??8b4c????89ca", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillProgress", typeid(std::pair<int, int> (CrewMember::*)(int )), ".554889e54863ce48", nullptr, 0, 0, &func);
 }
 
 std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
@@ -5455,7 +5455,7 @@ std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 namespace _func424
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetSkillModifier", typeid(float (CrewMember::*)(int )), "!.554889e5b80100000083fe0577??4863c6488b97b8030000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillModifier", typeid(float (CrewMember::*)(int )), "!.554889e5b80100000083", nullptr, 0, 0, &func);
 }
 
 float CrewMember::GetSkillModifier(int skillId)
@@ -5468,7 +5468,7 @@ float CrewMember::GetSkillModifier(int skillId)
 namespace _func425
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::BadAtCombat", typeid(bool (CrewMember::*)()), ".554889e553504889fb488b03ff905001", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::BadAtCombat", typeid(bool (CrewMember::*)()), ".554889e553504889fb488b03ff9050", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::BadAtCombat()
@@ -5481,7 +5481,7 @@ bool CrewMember::BadAtCombat()
 namespace _func426
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::destructor", typeid(void (CrewMember::*)()), "!.554889e54157415641554154534883ec??4989ff488d05", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::destructor", typeid(void (CrewMember::*)()), ".554889e54157415641554154534883ec184989ff488d05", nullptr, 0, 0, &func);
 }
 
 void CrewMember::destructor()
@@ -5494,7 +5494,7 @@ void CrewMember::destructor()
 namespace _func427
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Cleanup", typeid(void (CrewMember::*)()), "!.554889e55de9", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Cleanup", typeid(void (CrewMember::*)()), "!.554889e553504889fbe812fd", nullptr, 0, 0, &func);
 }
 
 void CrewMember::Cleanup()
@@ -5507,7 +5507,7 @@ void CrewMember::Cleanup()
 namespace _func428
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::EmptySlot", typeid(void (CrewMember::*)()), ".8b97ac00", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::EmptySlot", typeid(void (CrewMember::*)()), ".8b97ac00000085d27878", nullptr, 0, 0, &func);
 }
 
 void CrewMember::EmptySlot()
@@ -5520,7 +5520,7 @@ void CrewMember::EmptySlot()
 namespace _func429
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::NeedsSlot", typeid(bool (CrewMember::*)()), "!.554889e580bf60020000??75", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::NeedsSlot", typeid(bool (CrewMember::*)()), "!.554889e580bf600200000075", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::NeedsSlot()
@@ -5533,7 +5533,7 @@ bool CrewMember::NeedsSlot()
 namespace _func430
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::UpdateRepair", typeid(void (CrewMember::*)()), ".554889e54156534883ec304889fb488bbb880000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::UpdateRepair", typeid(void (CrewMember::*)()), ".554889e54156534883ec304889fb488bbb88", nullptr, 0, 0, &func);
 }
 
 void CrewMember::UpdateRepair()
@@ -5546,7 +5546,7 @@ void CrewMember::UpdateRepair()
 namespace _func431
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Sabotaging", typeid(bool (CrewMember::*)()), "!.554889e553504889fb488bbb88000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Sabotaging", typeid(bool (CrewMember::*)()), ".554889e553504889fb488bbb8800", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::Sabotaging()
@@ -5572,7 +5572,7 @@ Pointf CrewMember::SelectSabotageTarget()
 namespace _func433
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::RepairingFire", typeid(bool (CrewMember::*)()), ".554889e54883bf8800000000741683bf", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::RepairingFire", typeid(bool (CrewMember::*)()), ".554889e54883bf880000000074", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::RepairingFire()
@@ -5598,7 +5598,7 @@ void CrewMember::StopRepairing()
 namespace _func435
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Jump", typeid(void (CrewMember::*)()), "!.554889e5488b8708060000ff", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Jump", typeid(void (CrewMember::*)()), "!.554889e5488b870806", nullptr, 0, 0, &func);
 }
 
 void CrewMember::Jump()
@@ -5611,7 +5611,7 @@ void CrewMember::Jump()
 namespace _func436
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::ModifyHealth", typeid(void (CrewMember::*)(float )), "!.554889e55350f30f1145f44889fb488d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::ModifyHealth", typeid(void (CrewMember::*)(float )), "!.554889e55350f30f1145f44889fb48", nullptr, 0, 0, &func);
 }
 
 void CrewMember::ModifyHealth(float health)
@@ -5624,7 +5624,7 @@ void CrewMember::ModifyHealth(float health)
 namespace _func437
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::DirectModifyHealth", typeid(bool (CrewMember::*)(float )), ".554889e541574156534883ec384889fbf30f104b2c660fefd2", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::DirectModifyHealth", typeid(bool (CrewMember::*)(float )), ".554889e541574156534883ec384889fbf3", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::DirectModifyHealth(float health)
@@ -5663,7 +5663,7 @@ void CrewMember::StartRepair(Repairable *toRepair)
 namespace _func440
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SavePosition", typeid(void (CrewMember::*)()), ".554889e5488b87ac000000488b8fb400", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SavePosition", typeid(void (CrewMember::*)()), ".554889e5488b87ac000000488b8f", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SavePosition()
@@ -5689,7 +5689,7 @@ void CrewMember::ClearPosition()
 namespace _func442
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetSavedPosition", typeid(Slot (CrewMember::*)()), ".554889e5488b878008000048", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSavedPosition", typeid(Slot (CrewMember::*)()), ".554889e5488b878008", nullptr, 0, 0, &func);
 }
 
 Slot CrewMember::GetSavedPosition()
@@ -5702,7 +5702,7 @@ Slot CrewMember::GetSavedPosition()
 namespace _func443
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::RestorePosition", typeid(bool (CrewMember::*)()), "!.554889e58bb78008", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::RestorePosition", typeid(bool (CrewMember::*)()), "!.554889e58bb7", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::RestorePosition()
@@ -5728,7 +5728,7 @@ bool CrewMember::MoveToRoom(int roomId, int slotId, bool forceMove)
 namespace _func445
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetSavePosition", typeid(void (CrewMember::*)(Slot )), ".554889e54889b78008000048", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetSavePosition", typeid(void (CrewMember::*)(Slot )), ".554889e54889b78008", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetSavePosition(Slot position)
@@ -5780,7 +5780,7 @@ void CrewMember::SetTask(CrewTask task)
 namespace _func449
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::FindSlot", typeid(Slot (CrewMember::*)(int , int , bool )), ".554889e5415741564154534883ec204189cc4189", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::FindSlot", typeid(Slot (CrewMember::*)(int , int , bool )), ".554889e5415741564154534883ec204189cc", nullptr, 0, 0, &func);
 }
 
 Slot CrewMember::FindSlot(int roomId, int slotId, bool closeEnough)
@@ -5806,7 +5806,7 @@ bool CrewMember::CheckRoomPath(int roomId)
 namespace _func451
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetCurrentTarget", typeid(void (CrewMember::*)(CrewTarget *, bool )), ".554889e54157415653504189d74989f64889fb488b03ff90", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetCurrentTarget", typeid(void (CrewMember::*)(CrewTarget *, bool )), ".554889e54157415653504189d74989f64889fb488b", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetCurrentTarget(CrewTarget *target, bool force)
@@ -5832,7 +5832,7 @@ void CrewMember::SetRoomPath(int slotId, int roomId)
 namespace _func453
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetIntruder", typeid(bool (CrewMember::*)()), ".554889e58b??????????3b47080f94c10f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetIntruder", typeid(bool (CrewMember::*)()), ".554889e58b87ac0100003b", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::GetIntruder()
@@ -5845,20 +5845,20 @@ bool CrewMember::GetIntruder()
 namespace _func454
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetPosition", typeid(void (CrewMember::*)(Point )), ".554889e54156534883ec104889fb4889f248c1ea20f30f2a", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetPosition", typeid(void (CrewMember::*)(Point )), ".554889e54156534883ec104889fb4889f248c1ea20f3", nullptr, 0, 0, &func);
 }
 
-void CrewMember::SetPosition(Point pos)
+void CrewMember::SetPosition(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(CrewMember *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(CrewMember *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func454::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func455
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetPath", typeid(bool (CrewMember::*)(Path *)), ".554889e5415741564154534883ec104889f34989", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetPath", typeid(bool (CrewMember::*)(Path *)), ".554889e5415741564154534883ec104889f3", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::SetPath(Path *path)
@@ -5871,7 +5871,7 @@ bool CrewMember::SetPath(Path *path)
 namespace _func456
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetRoom", typeid(void (CrewMember::*)(int )), ".554889e54157415641554154534883ec384189f64889fb48", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetRoom", typeid(void (CrewMember::*)(int )), ".554889e54157415641554154534883ec384189f648", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetRoom(int roomId)
@@ -5884,7 +5884,7 @@ void CrewMember::SetRoom(int roomId)
 namespace _func457
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::ClearPath", typeid(void (CrewMember::*)()), ".554889e541574156534883ec384889fb8bbbac01", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::ClearPath", typeid(void (CrewMember::*)()), ".554889e541574156534883ec384889fb8b", nullptr, 0, 0, &func);
 }
 
 void CrewMember::ClearPath()
@@ -5897,7 +5897,7 @@ void CrewMember::ClearPath()
 namespace _func458
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetFinalGoal", typeid(Point (CrewMember::*)()), ".554889e54883ec10f30f1005", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetFinalGoal", typeid(Point (CrewMember::*)()), ".554889e54883ec10f30f10", nullptr, 0, 0, &func);
 }
 
 Point CrewMember::GetFinalGoal()
@@ -5910,7 +5910,7 @@ Point CrewMember::GetFinalGoal()
 namespace _func459
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetNextGoal", typeid(Point (CrewMember::*)()), ".554889e5534883ec18f30f10471cf30f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetNextGoal", typeid(Point (CrewMember::*)()), ".554889e5534883ec18f30f10471c", nullptr, 0, 0, &func);
 }
 
 Point CrewMember::GetNextGoal()
@@ -5923,7 +5923,7 @@ Point CrewMember::GetNextGoal()
 namespace _func460
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CloseDoorBehind", typeid(void (CrewMember::*)(Door *)), ".554889e54889b7800000005d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CloseDoorBehind", typeid(void (CrewMember::*)(Door *)), ".554889e54889b78000", nullptr, 0, 0, &func);
 }
 
 void CrewMember::CloseDoorBehind(Door *door)
@@ -5936,7 +5936,7 @@ void CrewMember::CloseDoorBehind(Door *door)
 namespace _func461
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetMoveSpeed", typeid(float (CrewMember::*)()), "!.554889e541574156534881ec????????4889fb0f57c0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetMoveSpeed", typeid(float (CrewMember::*)()), ".554889e541574156534881ec880000004889fb0f", nullptr, 0, 0, &func);
 }
 
 float CrewMember::GetMoveSpeed()
@@ -5949,7 +5949,7 @@ float CrewMember::GetMoveSpeed()
 namespace _func462
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetNewGoal", typeid(bool (CrewMember::*)()), "!.554889e54157415641554154534883ec184889fb488bbb80", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetNewGoal", typeid(bool (CrewMember::*)()), ".554889e54157415641554154534883ec184889fb488bbb", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::GetNewGoal()
@@ -5975,7 +5975,7 @@ bool CrewMember::AtGoal()
 namespace _func464
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::UpdateMovement", typeid(void (CrewMember::*)()), "!.554889e54156534883ec304889fb488b83c00000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::UpdateMovement", typeid(void (CrewMember::*)()), ".554889e54156534883ec304889fb488b83", nullptr, 0, 0, &func);
 }
 
 void CrewMember::UpdateMovement()
@@ -5988,7 +5988,7 @@ void CrewMember::UpdateMovement()
 namespace _func465
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Restart", typeid(void (CrewMember::*)()), ".554889e5415741564154534883ec104989fe498b06ff9008", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Restart", typeid(void (CrewMember::*)()), ".554889e5415741564154534883ec104989fe498b06", nullptr, 0, 0, &func);
 }
 
 void CrewMember::Restart()
@@ -6001,7 +6001,7 @@ void CrewMember::Restart()
 namespace _func466
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetDamageBoost", typeid(void (CrewMember::*)(float )), ".554889e5f30f118774080000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetDamageBoost", typeid(void (CrewMember::*)(float )), ".554889e5f30f118774", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetDamageBoost(float damageBoost)
@@ -6014,7 +6014,7 @@ void CrewMember::SetDamageBoost(float damageBoost)
 namespace _func467
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetHealthBoost", typeid(void (CrewMember::*)(int )), "!.554889e553504889fb8b8370", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetHealthBoost", typeid(void (CrewMember::*)(int )), ".554889e553504889fb8b8370", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetHealthBoost(int healthBoost)
@@ -6040,7 +6040,7 @@ void CrewMember::InitializeSkills()
 namespace _func469
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetCloneReady", typeid(void (CrewMember::*)(bool )), ".554889e54156534883ec204889fb4088", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetCloneReady", typeid(void (CrewMember::*)(bool )), ".554889e54156534883ec204889fb40", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetCloneReady(bool cloneReady)
@@ -6066,7 +6066,7 @@ void CrewMember::Kill(bool noClone)
 namespace _func471
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::NeedFrozenLocation", typeid(bool (CrewMember::*)()), ".554889e580bff401", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::NeedFrozenLocation", typeid(bool (CrewMember::*)()), ".554889e580bff4", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::NeedFrozenLocation()
@@ -6079,7 +6079,7 @@ bool CrewMember::NeedFrozenLocation()
 namespace _func472
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CheckForTeleport", typeid(void (CrewMember::*)()), ".554889e541574156534883ec184989ff498b9fc0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CheckForTeleport", typeid(void (CrewMember::*)()), ".554889e541574156534883ec184989ff498b9f", nullptr, 0, 0, &func);
 }
 
 void CrewMember::CheckForTeleport()
@@ -6092,7 +6092,7 @@ void CrewMember::CheckForTeleport()
 namespace _func473
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::OnLoop", typeid(void (CrewMember::*)()), "!.554889e54157415641554154534881ec280100004989fc41", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::OnLoop", typeid(void (CrewMember::*)()), ".554889e54157415641554154534881ec280100004989fc", nullptr, 0, 0, &func);
 }
 
 void CrewMember::OnLoop()
@@ -6105,7 +6105,7 @@ void CrewMember::OnLoop()
 namespace _func474
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::UpdateHealth", typeid(void (CrewMember::*)()), ".554889e54156534883ec604889fb83bb", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::UpdateHealth", typeid(void (CrewMember::*)()), ".554889e54156534883ec604889fb83", nullptr, 0, 0, &func);
 }
 
 void CrewMember::UpdateHealth()
@@ -6131,7 +6131,7 @@ std::string CrewMember::GetLongName()
 namespace _func476
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetCurrentShip", typeid(void (CrewMember::*)(int )), "554889e589b7????????488b87", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetCurrentShip", typeid(void (CrewMember::*)(int )), ".554889e589b7ac010000", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetCurrentShip(int shipId)
@@ -6157,7 +6157,7 @@ void CrewMember::CheckFighting()
 namespace _func478
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::ApplyDamage", typeid(bool (CrewMember::*)(float )), ".554889e553504889fbf30f104b2cf30f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::ApplyDamage", typeid(bool (CrewMember::*)(float )), ".554889e553504889fbf30f104b", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::ApplyDamage(float damage)
@@ -6170,7 +6170,7 @@ bool CrewMember::ApplyDamage(float damage)
 namespace _func479
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetOutOfGame", typeid(void (CrewMember::*)()), ".554889e5c6874002", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetOutOfGame", typeid(void (CrewMember::*)()), ".554889e5c68740", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetOutOfGame()
@@ -6183,7 +6183,7 @@ void CrewMember::SetOutOfGame()
 namespace _func480
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetDeathNumber", typeid(void (CrewMember::*)(int )), ".554889e589b77406", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetDeathNumber", typeid(void (CrewMember::*)(int )), ".554889e589b774", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetDeathNumber(int deathNum)
@@ -6222,20 +6222,20 @@ void CrewMember::ForceMindControl(bool force)
 namespace _func483
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::RenderSkillUpAnimation", typeid(void (CrewMember::*)(Point )), ".554889e54157415641554154534883ec484989ff498b8758", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::RenderSkillUpAnimation", typeid(void (CrewMember::*)(Point )), ".554889e54157415641554154534883ec484989ff49", nullptr, 0, 0, &func);
 }
 
-void CrewMember::RenderSkillUpAnimation(Point pos)
+void CrewMember::RenderSkillUpAnimation(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(CrewMember *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(CrewMember *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func483::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func484
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Clone", typeid(void (CrewMember::*)()), ".554889e541574156534883ec184989fe41c68640", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Clone", typeid(void (CrewMember::*)()), ".554889e541574156534883ec184989fe41", nullptr, 0, 0, &func);
 }
 
 void CrewMember::Clone()
@@ -6248,7 +6248,7 @@ void CrewMember::Clone()
 namespace _func485
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::StartTeleportArrive", typeid(void (CrewMember::*)()), "!.554889e54156534c8bb7c000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::StartTeleportArrive", typeid(void (CrewMember::*)()), "!.554889e54156534c8bb7", nullptr, 0, 0, &func);
 }
 
 void CrewMember::StartTeleportArrive()
@@ -6261,7 +6261,7 @@ void CrewMember::StartTeleportArrive()
 namespace _func486
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::OnRenderPath", typeid(void (CrewMember::*)()), ".554889e5534883ec184889fb837b0800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::OnRenderPath", typeid(void (CrewMember::*)()), ".554889e5534883ec184889fb837b", nullptr, 0, 0, &func);
 }
 
 void CrewMember::OnRenderPath()
@@ -6274,7 +6274,7 @@ void CrewMember::OnRenderPath()
 namespace _func487
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetLocation", typeid(Point (CrewMember::*)()), ".554889e5534883ec18f30f10470cf30f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetLocation", typeid(Point (CrewMember::*)()), ".554889e5534883ec18f30f10470c", nullptr, 0, 0, &func);
 }
 
 Point CrewMember::GetLocation()
@@ -6287,7 +6287,7 @@ Point CrewMember::GetLocation()
 namespace _func488
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::PositionShift", typeid(float (CrewMember::*)()), ".554889e5f30f104f0cf30f2a", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::PositionShift", typeid(float (CrewMember::*)()), ".554889e5f30f104f0cf30f2a87", nullptr, 0, 0, &func);
 }
 
 float CrewMember::PositionShift()
@@ -6300,7 +6300,7 @@ float CrewMember::PositionShift()
 namespace _func489
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::OnRender", typeid(void (CrewMember::*)(bool )), ".554889e54156534883ec104189f64889fb80bb60", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::OnRender", typeid(void (CrewMember::*)(bool )), ".554889e54156534883ec104189f64889fb80", nullptr, 0, 0, &func);
 }
 
 void CrewMember::OnRender(bool outlineOnly)
@@ -6313,7 +6313,7 @@ void CrewMember::OnRender(bool outlineOnly)
 namespace _func490
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::OnRenderHealth", typeid(void (CrewMember::*)()), ".554889e54157415641554154534881ec980000004989fc41", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::OnRenderHealth", typeid(void (CrewMember::*)()), ".554889e54157415641554154534881ec980000004989fc", nullptr, 0, 0, &func);
 }
 
 void CrewMember::OnRenderHealth()
@@ -6326,7 +6326,7 @@ void CrewMember::OnRenderHealth()
 namespace _func491
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::GetIntegerHealth", typeid(int (CrewMember::*)()), ".554889e531c080bf60020000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetIntegerHealth", typeid(int (CrewMember::*)()), ".554889e531c080bf60", nullptr, 0, 0, &func);
 }
 
 int CrewMember::GetIntegerHealth()
@@ -6365,7 +6365,7 @@ int CrewMember::GetRepairingId()
 namespace _func494
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::WithinRect", typeid(bool (CrewMember::*)(int , int , int , int )), ".554889e54589c141", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::WithinRect", typeid(bool (CrewMember::*)(int , int , int , int )), ".554889e54589", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::WithinRect(int x, int y, int w, int h)
@@ -6391,7 +6391,7 @@ std::string CrewMember::GetName()
 namespace _func496
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CanHeal", typeid(bool (CrewMember::*)()), ".554889e54156534889fbf30f10432c41", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CanHeal", typeid(bool (CrewMember::*)()), ".554889e54156534889fbf30f1043", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::CanHeal()
@@ -6417,7 +6417,7 @@ bool CrewMember::ContainsPoint(int x, int y)
 namespace _func498
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::SetMedbay", typeid(void (CrewMember::*)(float )), ".554889e5534883ec180f2945", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::SetMedbay", typeid(void (CrewMember::*)(float )), ".554889e5534883ec180f29", nullptr, 0, 0, &func);
 }
 
 void CrewMember::SetMedbay(float health)
@@ -6430,7 +6430,7 @@ void CrewMember::SetMedbay(float health)
 namespace _func499
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::StartTeleport", typeid(void (CrewMember::*)()), "!.554889e55350488b9fc00000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::StartTeleport", typeid(void (CrewMember::*)()), "!.554889e55350488b9fc0", nullptr, 0, 0, &func);
 }
 
 void CrewMember::StartTeleport()
@@ -6443,7 +6443,7 @@ void CrewMember::StartTeleport()
 namespace _func500
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Functional", typeid(bool (CrewMember::*)()), ".554889e5488b07ff90100100", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Functional", typeid(bool (CrewMember::*)()), ".554889e5488b07ff9010", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::Functional()
@@ -6456,7 +6456,7 @@ bool CrewMember::Functional()
 namespace _func501
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CountForVictory", typeid(bool (CrewMember::*)()), ".554889e553504889fb488b03ff901001", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CountForVictory", typeid(bool (CrewMember::*)()), ".554889e553504889fb488b03ff9010", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::CountForVictory()
@@ -6495,7 +6495,7 @@ bool CrewMember::CanRepair()
 namespace _func504
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::CanSabotage", typeid(bool (CrewMember::*)()), ".554889e58a87bc000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::CanSabotage", typeid(bool (CrewMember::*)()), ".554889e58a87bc", nullptr, 0, 0, &func);
 }
 
 bool CrewMember::CanSabotage()
@@ -6521,7 +6521,7 @@ bool CrewMember::CanMan()
 namespace _func506
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMemberFactory::destructor", typeid(void (CrewMemberFactory::*)()), "!.554889e54156534989fe498b7e10498b4e184839f975054889ca", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMemberFactory::destructor", typeid(void (CrewMemberFactory::*)()), "!.554889e54156534989fe498b7e10498b4e184839f975054889ca99999999", nullptr, 0, 0, &func);
 }
 
 void CrewMemberFactory::destructor()
@@ -7382,11 +7382,11 @@ namespace _func573
 	static FunctionDefinition funcObj("EquipmentBox::SetPosition", typeid(void (EquipmentBox::*)(Point )), ".554889e54889f048c1e82089", nullptr, 0, 0, &func);
 }
 
-void EquipmentBox::SetPosition(Point pos)
+void EquipmentBox::SetPosition(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(EquipmentBox *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(EquipmentBox *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func573::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func574
@@ -8157,11 +8157,11 @@ namespace _func634
 	static FunctionDefinition funcObj("FileHelper::seekPosition", typeid(bool (*)(int , int )), ".554889e58935", nullptr, 0, 0, &func);
 }
 
-bool FileHelper::seekPosition(int file, int pos)
+bool FileHelper::seekPosition(int file, int position)
 {
-	typedef bool (*custom_arg_funcptr_t)(int file_arg, int pos_arg);
+	typedef bool (*custom_arg_funcptr_t)(int file_arg, int position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func634::func;
-	return execfunc(file, pos);
+	return execfunc(file, position);
 }
 
 namespace _func635
@@ -8287,11 +8287,11 @@ namespace _func644
 	static FunctionDefinition funcObj("GenericButton::SetLocation", typeid(void (GenericButton::*)(Point )), "!554889e54889f048c1e8208b5708", nullptr, 0, 0, &func);
 }
 
-void GenericButton::SetLocation(Point pos)
+void GenericButton::SetLocation(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(GenericButton *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(GenericButton *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func644::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func645
@@ -9311,11 +9311,11 @@ namespace _func729
 	static FunctionDefinition funcObj("MouseControl::QueueStaticTooltip", typeid(void (MouseControl::*)(Point )), ".554889e54889b7a00100005d", nullptr, 0, 0, &func);
 }
 
-void MouseControl::QueueStaticTooltip(Point pos)
+void MouseControl::QueueStaticTooltip(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(MouseControl *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func729::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func730
@@ -10936,11 +10936,11 @@ namespace _func859
 	static FunctionDefinition funcObj("Shields::AddSuperShield", typeid(void (Shields::*)(Point )), ".554889e54157415653504989f64889fb8b839802", nullptr, 0, 0, &func);
 }
 
-void Shields::AddSuperShield(Point pos)
+void Shields::AddSuperShield(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(Shields *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(Shields *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func859::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func860
@@ -11094,11 +11094,11 @@ namespace _func873
 	static FunctionDefinition funcObj("Ship::LockdownRoom", typeid(void (Ship::*)(int , Pointf )), ".554889e54157415641554154534881ec980100000f294580", nullptr, 0, 0, &func);
 }
 
-void Ship::LockdownRoom(int roomId, Pointf pos)
+void Ship::LockdownRoom(int roomId, Pointf position)
 {
-	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg, Pointf pos_arg);
+	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg, Pointf position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func873::func;
-	return execfunc(this, roomId, pos);
+	return execfunc(this, roomId, position);
 }
 
 namespace _func874
@@ -11198,11 +11198,11 @@ namespace _func881
 	static FunctionDefinition funcObj("Ship::_GetSelectedRoomId_DO_NOT_CALL", typeid(int (Ship::*)(Point , bool )), "!.554889e54157415653504189d64989f74c89fb48c1eb208b7f08", nullptr, 0, 0, &func);
 }
 
-int Ship::_GetSelectedRoomId_DO_NOT_CALL(Point _pos, bool _bIncludeWalls)
+int Ship::_GetSelectedRoomId_DO_NOT_CALL(Point _position, bool _bIncludeWalls)
 {
-	typedef int (*custom_arg_funcptr_t)(Ship *this_arg, Point _pos_arg, bool _bIncludeWalls_arg);
+	typedef int (*custom_arg_funcptr_t)(Ship *this_arg, Point _position_arg, bool _bIncludeWalls_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func881::func;
-	return execfunc(this, _pos, _bIncludeWalls);
+	return execfunc(this, _position, _bIncludeWalls);
 }
 
 namespace _func882
@@ -11601,11 +11601,11 @@ namespace _func912
 	static FunctionDefinition funcObj("ShipButton::OnInit", typeid(void (ShipButton::*)(const std::string &, Point )), ".554889e553504889fb4889d0", nullptr, 0, 0, &func);
 }
 
-void ShipButton::OnInit(const std::string &imgName, Point pos)
+void ShipButton::OnInit(const std::string &imgName, Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(ShipButton *this_arg, const std::string &imgName_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipButton *this_arg, const std::string &imgName_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func912::func;
-	return execfunc(this, imgName, pos);
+	return execfunc(this, imgName, position);
 }
 
 namespace _func913
@@ -11874,11 +11874,11 @@ namespace _func933
 	static FunctionDefinition funcObj("ShipGraph::GetClosestSlot", typeid(Slot (ShipGraph::*)(Point , int , bool )), ".554889e54157415641554154534881ec880000004189cc89", nullptr, 0, 0, &func);
 }
 
-Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
+Slot ShipGraph::GetClosestSlot(Point position, int shipId, bool intruder)
 {
-	typedef Slot (*custom_arg_funcptr_t)(ShipGraph *this_arg, Point pos_arg, int shipId_arg, bool intruder_arg);
+	typedef Slot (*custom_arg_funcptr_t)(ShipGraph *this_arg, Point position_arg, int shipId_arg, bool intruder_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func933::func;
-	return execfunc(this, pos, shipId, intruder);
+	return execfunc(this, position, shipId, intruder);
 }
 
 namespace _func934
@@ -12797,11 +12797,11 @@ namespace _func1004
 	static FunctionDefinition funcObj("ShipManager::CheckCrystalAugment", typeid(void (ShipManager::*)(Pointf )), "!.554889e54157415641554154534881ec980000000f298560", nullptr, 0, 0, &func);
 }
 
-void ShipManager::CheckCrystalAugment(Pointf pos)
+void ShipManager::CheckCrystalAugment(Pointf position)
 {
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf pos_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1004::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func1005
@@ -14839,11 +14839,11 @@ namespace _func1170
 	static FunctionDefinition funcObj("SpaceStatus::OnInit", typeid(void (SpaceStatus::*)(SpaceManager *, Point )), ".554889e5415741564154534883ec504889fb48899390000000", nullptr, 0, 0, &func);
 }
 
-void SpaceStatus::OnInit(SpaceManager *space, Point pos)
+void SpaceStatus::OnInit(SpaceManager *space, Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(SpaceStatus *this_arg, SpaceManager *space_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(SpaceStatus *this_arg, SpaceManager *space_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1170::func;
-	return execfunc(this, space, pos);
+	return execfunc(this, space, position);
 }
 
 namespace _func1171
@@ -15911,11 +15911,11 @@ namespace _func1253
 	static FunctionDefinition funcObj("Store::SetPosition", typeid(void (Store::*)(Point )), "!.554889e553504889fbe8", nullptr, 0, 0, &func);
 }
 
-void Store::SetPosition(Point pos)
+void Store::SetPosition(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(Store *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(Store *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1253::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func1254
@@ -15924,11 +15924,11 @@ namespace _func1254
 	static FunctionDefinition funcObj("Store::InitHeading", typeid(void (Store::*)(int , Point )), ".554889e541574156534883ec584989fe4c63fe0f", nullptr, 0, 0, &func);
 }
 
-void Store::InitHeading(int index, Point pos)
+void Store::InitHeading(int index, Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(Store *this_arg, int index_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(Store *this_arg, int index_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1254::func;
-	return execfunc(this, index, pos);
+	return execfunc(this, index, position);
 }
 
 namespace _func1255
@@ -16054,11 +16054,11 @@ namespace _func1264
 	static FunctionDefinition funcObj("StoreBox::SetPosition", typeid(void (StoreBox::*)(Point )), ".554889e54156534883ec104889fb4889f248c1ea20488b43", nullptr, 0, 0, &func);
 }
 
-void StoreBox::SetPosition(Point pos)
+void StoreBox::SetPosition(Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(StoreBox *this_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(StoreBox *this_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1264::func;
-	return execfunc(this, pos);
+	return execfunc(this, position);
 }
 
 namespace _func1265
@@ -16711,11 +16711,11 @@ namespace _func1316
 	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(Point , Point , int , TextString *, int )), ".554889e54157415641554154534883ec??44894dd44d89c4", nullptr, 0, 0, &func);
 }
 
-void TextButton::OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)
+void TextButton::OnInit(Point position, Point size, int cornerInset, TextString *buttonLabel, int font)
 {
-	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, Point pos_arg, Point size_arg, int cornerInset_arg, TextString *buttonLabel_arg, int font_arg);
+	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, Point position_arg, Point size_arg, int cornerInset_arg, TextString *buttonLabel_arg, int font_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1316::func;
-	return execfunc(this, pos, size, cornerInset, buttonLabel, font);
+	return execfunc(this, position, size, cornerInset, buttonLabel, font);
 }
 
 namespace _func1317
@@ -16789,11 +16789,11 @@ namespace _func1322
 	static FunctionDefinition funcObj("TextButton::SetBaseImage", typeid(void (TextButton::*)(const std::string &, Point , int )), "!.554889e54157415653504189ce4989d7", nullptr, 0, 0, &func);
 }
 
-void TextButton::SetBaseImage(const std::string &name, Point pos, int autoWidthMin)
+void TextButton::SetBaseImage(const std::string &name, Point position, int autoWidthMin)
 {
-	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, const std::string &name_arg, Point pos_arg, int autoWidthMin_arg);
+	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, const std::string &name_arg, Point position_arg, int autoWidthMin_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1322::func;
-	return execfunc(this, name, pos, autoWidthMin);
+	return execfunc(this, name, position, autoWidthMin);
 }
 
 namespace _func1323
@@ -16834,11 +16834,11 @@ namespace _func1326
 	static FunctionDefinition funcObj("TextInput::OnRender", typeid(void (TextInput::*)(int , Point )), "!.554889e54157415641554154534881ec980000004889d341", nullptr, 0, 0, &func);
 }
 
-void TextInput::OnRender(int font, Point pos)
+void TextInput::OnRender(int font, Point position)
 {
-	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg, int font_arg, Point pos_arg);
+	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg, int font_arg, Point position_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1326::func;
-	return execfunc(this, font, pos);
+	return execfunc(this, font, position);
 }
 
 namespace _func1327

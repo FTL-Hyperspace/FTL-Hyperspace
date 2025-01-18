@@ -93,7 +93,7 @@ cleanup __amd64 Slot CrewMember::FindSlot(CrewMember* this, int roomId, int slot
 ".415531c9baffffffff41544531e4554889fd5389f34883ec38":
 cleanup __amd64 bool CrewMember::CheckRoomPath(CrewMember* this, int roomId);
 ".f30f2ace4889f248c1fa2055f30f2ac2534889fb4883ec18":
-cleanup __amd64 void CrewMember::SetPosition(CrewMember* this, Point pos);
+cleanup __amd64 void CrewMember::SetPosition(CrewMember* this, Point position);
 ".8b879c000000c787e0010000ffffffff":
 cleanup __amd64 void CrewMember::ClearTask(CrewMember* this);
 ".55534889fb4883ec38488b07":
@@ -137,7 +137,7 @@ cleanup __amd64 void CrewMember::SetDeathNumber(CrewMember* this, int deathNum);
 ".4088b731050000":
 cleanup __amd64 void CrewMember::ForceMindControl(CrewMember* this, bool force);
 ".41574989ff415641554531ed41544989f449c1fc20554889f5534883ec38":
-cleanup __amd64 void CrewMember::RenderSkillUpAnimation(CrewMember* this, Point pos);
+cleanup __amd64 void CrewMember::RenderSkillUpAnimation(CrewMember* this, Point position);
 ".55534889fb4883ec28c6871002000000":
 cleanup __amd64 void CrewMember::Clone(CrewMember* this);
 ".55534889fb4883ec488b872402000085c0":

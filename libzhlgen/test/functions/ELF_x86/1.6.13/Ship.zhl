@@ -1,7 +1,7 @@
 "57565383ec108b4424208b7424248b7c24288b5c242c8b40040fb6db890424e8????????895c242c897c2428897424248944242083c4105b5e5fe9????????9057":
 cleanup __cdecl int Ship::GetSelectedRoomId(Ship* this, int x, int y, bool bIncludeWalls);
 "5589e557565381ec2c0100008b45088b4004890424":
-cleanup __cdecl void Ship::LockdownRoom(Ship* this, int roomId, Pointf pos);
+cleanup __cdecl void Ship::LockdownRoom(Ship* this, int roomId, Pointf position);
 "538b4424088b5c240c8b90f40200008b88f8020000":
 cleanup __cdecl bool Ship::RoomLocked(Ship* this, int roomId);
 "538b4424088b54240c8b5c24108b48088b400c":

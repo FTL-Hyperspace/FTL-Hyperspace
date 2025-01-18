@@ -9,7 +9,7 @@ __thiscall void StoreBox::constructor(StoreBox* this, const std::string& _button
 "5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b913001000085d27e??80b9f80000000074??":
 __thiscall void StoreBox::OnLoop(StoreBox* this);
 "578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec208b078b570489042489542404e8????????8b45f08b55f483ec08":
-__thiscall void StoreBox::SetPosition(StoreBox* this, Point pos);
+__thiscall void StoreBox::SetPosition(StoreBox* this, Point position);
 "578d7c240883e4f0ff77fc5589e557565389cf8d492481ec????????80b920010000000f84????????e8????????":
 __thiscall void StoreBox::OnRender(StoreBox* this);
 "57ba????????8d7c240883e4f0ff77fc5589e55756538d7dd08d75d889cbb9????????83ec3c8975d0":

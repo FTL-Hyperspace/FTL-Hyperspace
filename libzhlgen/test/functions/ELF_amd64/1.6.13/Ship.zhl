@@ -37,7 +37,7 @@ cleanup __amd64 void Ship::BreachRandomHull(Ship* this, int roomId);
 ".41554154554889f5534889fb4883ec18":
 cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship* this, bool onlyDamaged);
 ".41574989ff4156415541545589f5534881ec38010000":
-cleanup __amd64 void Ship::LockdownRoom(Ship* this, int roomId, Pointf pos);
+cleanup __amd64 void Ship::LockdownRoom(Ship* this, int roomId, Pointf position);
 "!.41574989ff41564155415455534889f34881ec28030100":
 cleanup __amd64 void Ship::OnInit(Ship* this, ShipBlueprint* bp);
 "!.39c17d03(c60201)":

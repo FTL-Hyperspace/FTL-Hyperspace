@@ -155,7 +155,7 @@ cleanup __cdecl int ShipManager::CanUpgrade(ShipManager* this, int systemId, int
 "5589e557565383ec5c8b45108b5d08":
 cleanup __cdecl ShipBlueprint ShipManager::SaveToBlueprint(ShipManager* this, bool overwrite);
 "5589e557565331db83ec7c8d45c88d75d8":
-cleanup __cdecl void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf pos);
+cleanup __cdecl void ShipManager::CheckCrystalAugment(ShipManager* this, Pointf position);
 "5589e557565381ec1c0100008b7d548b75188b5d1c":
 cleanup __cdecl CollisionResponse ShipManager::CollisionMoving(ShipManager* this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "8b5424048b4c24088b82000400008b048883f8ff74??8b52188b04828b4040":

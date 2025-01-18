@@ -11,7 +11,7 @@ __thiscall void Shields::Jump(Shields* this);
 "578d7c240883e4f0ff77fc5589e557565389ce8d7dd083ec4ce8????????8d45d8893c24c745d8454e4552c745dc47595f53c745e04849454c8945d0":
 __thiscall void Shields::OnLoop(Shields* this);
 "57ba????????8d7c240883e4f0ff77fc5589e557565383ec1c8b81f40100008b378b7f0483c001":
-__thiscall void Shields::AddSuperShield(Shields* this, Point pos);
+__thiscall void Shields::AddSuperShield(Shields* this, Point position);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b81ec010000f30f103ff30f117dc485c0f30f105f040f85????????8b410c":
 __thiscall void Shields::RenderBase(Shields* this, float alpha, float superShieldOverwrite);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec2c8b37c741fc00000000f30f106704":

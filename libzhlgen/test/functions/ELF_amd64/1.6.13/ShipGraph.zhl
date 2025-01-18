@@ -47,7 +47,7 @@ cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph* this, Point start, Point goa
 ".415741564989f641554154554889d548c1ed20534889fb4883ec58":
 cleanup __amd64 Path ShipGraph::FindPath(ShipGraph* this, Point p1, Point p2, int shipId);
 ".41574889f04531ff48c1e820415641554189f54154440fb6e1554889fd534889c34881eca8000000":
-cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph* this, Point pos, int shipId, bool intruder);
+cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph* this, Point position, int shipId, bool intruder);
 
 
 struct ShipGraph depends (Point, Pointf, Room) 
@@ -65,13 +65,13 @@ struct ShipGraph depends (Point, Pointf, Room)
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetIntoRoom(int roomId, Point pos)
+	Point GetIntoRoom(int roomId, Point position)
 	{
 		Point ret;
 		if (roomId >= 0 && roomId < this->rooms.size())
 		{
 			auto room = this->rooms[roomId];
-			ret = room->GetIntoRoom(pos);
+			ret = room->GetIntoRoom(position);
 		}
 		else
 		{

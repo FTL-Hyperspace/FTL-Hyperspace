@@ -119,7 +119,7 @@ cleanup __cdecl Slot CrewMember::FindSlot(CrewMember* this, int roomId, int slot
 "5589e557565383ec6c8b750c8b5d088d45b8":
 cleanup __cdecl bool CrewMember::CheckRoomPath(CrewMember* this, int roomId);
 "565383ec248b4424348b5424388b5c2430":
-cleanup __cdecl void CrewMember::SetPosition(CrewMember* this, Point pos);
+cleanup __cdecl void CrewMember::SetPosition(CrewMember* this, Point position);
 "8b4424048b5078c78084010000ffffffff":
 cleanup __cdecl void CrewMember::ClearTask(CrewMember* this);
 "5589e557565383ec5c8b5d088d55c0":
@@ -163,7 +163,7 @@ cleanup __cdecl void CrewMember::SetDeathNumber(CrewMember* this, int deathNum);
 "8b4424088b5424048882ad030000":
 cleanup __cdecl void CrewMember::ForceMindControl(CrewMember* this, bool force);
 "5557565383ec6c8b842484000000c744242c0000000089442434":
-cleanup __cdecl void CrewMember::RenderSkillUpAnimation(CrewMember* this, Point pos);
+cleanup __cdecl void CrewMember::RenderSkillUpAnimation(CrewMember* this, Point position);
 "57565383ec208b5c2430c683a401000000c683ac01000000c7830005000000000000":
 cleanup __cdecl void CrewMember::Clone(CrewMember* this);
 "565383ec448b5c24508b83b0010000":

@@ -52,7 +52,7 @@ static cleanup __amd64 void FileHelper::readData(int file, void* data, int len);
 ".554889e5415741564154534883ec10":
 static cleanup __amd64 float FileHelper::readFloat(int file);
 ".554889e58935":
-static cleanup __amd64 bool FileHelper::seekPosition(int file, int pos);
+static cleanup __amd64 bool FileHelper::seekPosition(int file, int position);
 ".554889e54157415641554154534883ec1889d341":
 static cleanup __amd64 char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
 
