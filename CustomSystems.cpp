@@ -1253,7 +1253,6 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
                 heal += pLevel.jumpHP;
             }
             if (heal > health.second) heal = health.second;
-            if (heal <= 0) heal = 1;
         }
     }
     
