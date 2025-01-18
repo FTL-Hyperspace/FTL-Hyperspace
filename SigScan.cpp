@@ -20,16 +20,13 @@
 #elif defined(__APPLE__)
 	#include <mach-o/dyld.h>
 	#include <mach-o/loader.h>
-	#include <mach-o/getsect.h>
-    #include <stdio.h>
-    #include <stdlib.h>
+	#include <stdio.h>
 	#include <string.h>
-	
 
 	#ifdef __amd64__
 		#define PTR_PRINT_F "0x%016" PRIxPTR
 	#else
-		#error "Specified processor architecture not supported for darwin. Only amd64!"
+		#error "Processor architecture not supported. Only amd64!"
 	#endif // Architecture
 #else
     #error "Unsupported OS"
@@ -298,70 +295,62 @@ void SigScan::Init()
 
 #elif defined(__APPLE__)
 
-//
-// TODO:
-// Calculate end of the __text segment for the scanner to stop and
-// not segfault. (Will add s SDL2 window)
-// 
-
 void SigScan::Init()
 {
     // Obtain Mach-O header information
-    const struct mach_header_64 *header = (const struct mach_header_64 *)_dyld_get_image_header(0);
+    const struct mach_header_64* header = reinterpret_cast<const struct mach_header_64*>(_dyld_get_image_header(0));
     if (!header || header->magic != MH_MAGIC_64)
-	{
-        fprintf(stderr, "ERROR: Mach-O-Header not found or invalid!\n");
+    {
+        fprintf(stderr, "ERROR: Mach-O header not found or invalid!\n");
         return;
     }
 
-    // ASLR slide offset
+    // Pull ASLR slide amount
     uintptr_t slide = _dyld_get_image_vmaddr_slide(0);
 
-    // Itterate through the "load_command" Structure, to find the __text subcategory in __TEXT
-    const struct load_command *lc = (const struct load_command *)((uintptr_t)header + sizeof(struct mach_header_64));
-    const struct segment_command_64 *textSegment = NULL;
-    const struct section_64 *textSection = NULL;
+    // Iterate through load commands to locate __TEXT.__text section
+    const struct load_command* lc = reinterpret_cast<const struct load_command*>(reinterpret_cast<uintptr_t>(header) + sizeof(struct mach_header_64));
 
-    for (uint32_t i = 0; i < header->ncmds; ++i)
-	{
+    const struct section_64* textSection = nullptr;
+    for (uint32_t i = 0; i < header->ncmds && !textSection; ++i)
+    {
         if (lc->cmd == LC_SEGMENT_64)
-		{
-            const struct segment_command_64 *segment = (const struct segment_command_64 *)lc;
+        {
+            const struct segment_command_64* segment = reinterpret_cast<const struct segment_command_64*>(lc);
             if (strcmp(segment->segname, "__TEXT") == 0)
-			{
-                textSegment = segment;
-                const struct section_64 *section = (const struct section_64 *)((uintptr_t)segment + sizeof(struct segment_command_64));
-                for (uint32_t j = 0; j < segment->nsects; ++j)
-				{
+            {
+                // Search within the __TEXT segment for the __text section
+                const struct section_64* section = reinterpret_cast<const struct section_64*>(reinterpret_cast<uintptr_t>(segment) + sizeof(struct segment_command_64));
+                for (uint32_t i = 0; i < segment->nsects; ++i, ++section)
+                {
                     if (strcmp(section->sectname, "__text") == 0)
-					{
+                    {
                         textSection = section;
                         break;
                     }
-                    section++;
                 }
-                if (textSection) break;
             }
         }
-        lc = (const struct load_command *)((uintptr_t)lc + lc->cmdsize);
+        lc = reinterpret_cast<const struct load_command*>(reinterpret_cast<uintptr_t>(lc) + lc->cmdsize);
     }
 
-	// DEBUG: throw error if __text section is not found correctly
-    if (!textSegment || !textSection)
-	{
-        fprintf(stderr, "Fatel error: Segment __TEXT.__text not found!\n");
+    // Handle error if __TEXT.__text section is not found
+    if (!textSection)
+    {
+        fprintf(stderr, "FATAL ERROR: Segment __TEXT.__text not found!\n");
         return;
     }
 
-    // Write the calculated baseadress and size of binary
-    s_pBase = (unsigned char *)(textSection->addr + slide);
+    // Calculate the base address and size of the binary
+    s_pBase = reinterpret_cast<unsigned char*>(textSection->addr + slide);
     s_iBaseLen = textSection->size;
-	s_pLastAddress = s_pBase;
+    s_pLastAddress = s_pBase;
 
-    printf("ASLR slide offset: 0x%lx\n", slide);
-    printf("__TEXT.__text start-adress: %p\n", s_pBase);
-    printf("__TEXT.__text lenght: 0x%lx\n", s_iBaseLen);
-    printf("__TEXT.__text end-adress: 0x%p\n", s_pLastAddress);
+    // Debug output
+    printf("ASLR slide amount: 0x%lx\n", slide);
+    printf("__TEXT.__text base address: %p\n", s_pBase);
+    printf("__TEXT.__text length: 0x%lx\n", s_iBaseLen);
+    printf("__TEXT.__text continue address: %p\n", s_pLastAddress);
 }
 
 #endif
