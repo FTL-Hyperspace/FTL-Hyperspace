@@ -1118,14 +1118,14 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
         controlledCrew.pop_back();
         G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
     }
-    if (GetEffectivePower() == 0)
+    if (GetEffectivePower() == 0 && !controlledCrew.empty())
     {
         while (!controlledCrew.empty())
         {
             controlledCrew.back()->SetMindControl(false);
             controlledCrew.pop_back();
-            G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
         }
+        G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
     }
     controlledCrew.erase(std::remove_if(controlledCrew.begin(),
                                         controlledCrew.end(),
