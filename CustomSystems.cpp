@@ -104,7 +104,7 @@ std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
     {JUMP_HP[3], JUMP_HP_PERCENT[3], CLONE_HP_PERCENT[3], SKILL_LOSS[3], CLONE_SPEED[3], CLONE_DEATH_SPEED[3], CLONE_AMOUNT[3]}
 }; 
 //Define default CloneLevel values
-CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 10, 5.f, 3.f, 1};
+CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{0, 0, 100, 10, 5.f, 3.f, 1};
 void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
     unsigned int level = 0;
@@ -1242,7 +1242,7 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
         CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
         if (sys != nullptr)
         {
-            CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
+            CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys->healthState.first);
             heal = 0;
             if (pLevel.jumpHPPercent > 0)
             {
@@ -1384,9 +1384,9 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
             if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
         }
     }
-    if (name == "clonebay_health" || name == "clonebay_damaged")
+    if ((name == "clonebay_health" || name == "clonebay_damaged") && G_->GetShipManager(0)->cloneSystem != nullptr)
     {
-        CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(g_clonePercentTooltipLevel);
+        CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(G_->GetShipManager(0)->cloneSystem->healthState.first);
         if (glevel.jumpHPPercent > 0)
         {
             size_t pos = ret.find("\\1");
