@@ -2808,8 +2808,6 @@ struct BlueprintManager
 	std::vector<std::string> currentNames;
 };
 
-struct BoarderDrone;
-
 struct BoarderDrone : CrewDrone
 {
 	BoarderDrone() 
@@ -2821,10 +2819,9 @@ struct BoarderDrone : CrewDrone
 		this->constructor(_type, _name, _shipId, _blueprint, _anim);
 	}
 
-	LIBZHL_API bool GetPowered();
-	
 };
 
+struct BoarderDrone;
 struct BoarderPodDrone;
 
 struct DamageMessage;
@@ -2917,7 +2914,6 @@ struct BoarderPodDrone : SpaceDrone
 	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void SaveState(int fd);
-	LIBZHL_API void SetDeployed(bool _deployed);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
 	
