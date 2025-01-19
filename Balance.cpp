@@ -6,6 +6,7 @@ bool g_repairDroneRecoveryFix = true;
 bool g_controllableIonDroneFix = false;
 float g_controllableIonDroneFix_Delay = 6.0;
 float g_controllableIonDroneFix_DelayInitial = 6.0;
+bool g_hackingIonFix = false;
 
 // hacking drone explodes on depower -- makes you unable to get past defense drones by powering + depowering
 
@@ -132,6 +133,20 @@ HOOK_METHOD(IonDroneAnimation, UpdateShooting, () -> void)
     }
 
     super();
+}
+
+// Ionising the hacking system before the end of the hack will cause it to have a shorter cooldown disregarding the regular cooldown duration, this will add to the cooldown
+HOOK_METHOD(ShipSystem, IonDamage, (int amount) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::IonDamage -> Begin (Balance.cpp)\n")
+
+    if (GetId() == 15 && g_hackingIonFix && amount > 0)
+    {
+        HackingSystem* hacking = G_->GetShipManager(_shipObj.iShipId)->hackingSystem;
+        if (hacking->bHacking) hacking->LockSystem(4);
+    }
+
+    super(amount);
 }
 
 /*
