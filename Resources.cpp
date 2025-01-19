@@ -615,6 +615,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            // Funny roamer business!
+            if (strcmp(node->name(), "roamingship") == 0)
+            {
+                auto roamingManager = RoamingShipManager::GetInstance();
+                roamingManager->ParseShipsNode(node);
+            }
+
             if (strcmp(node->name(), "dismissSound") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
