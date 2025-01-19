@@ -1193,6 +1193,12 @@
 		<Unit filename="ReturnHacks.cpp">
 			<Option virtualFolder="Core/" />
 		</Unit>
+				<Unit filename="RoamingShip.cpp">
+			<Option virtualFolder="Core/StarMap/" />
+		</Unit>
+				<Unit filename="RoamingShip.h">
+			<Option virtualFolder="Core/StarMap/" />
+		</Unit>
 		<Unit filename="Room_Extend.cpp">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>

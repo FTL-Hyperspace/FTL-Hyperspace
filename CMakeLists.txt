@@ -207,6 +207,8 @@ target_sources(
     Resources.cpp
     Resources.h
     ReturnHacks.cpp
+    RoamingShip.cpp
+    RoamingShip.h
     Room_Extend.cpp
     Room_Extend.h
     SaveFile.cpp

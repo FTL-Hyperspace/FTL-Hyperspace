@@ -1,7 +1,6 @@
 #include "Global.h"
 #include "RoamingShip.h"
-#include "rapidxml.hpp"
-#include "FileHelper.h"
+#include <math.h>
 
 /*
 <roamingShips>
@@ -23,9 +22,9 @@
 </roamingShips>
 */
 
-RoamingShipsManager* RoamingShipsManager::instance = RoamingShipsManager();
+RoamingShipsManager *RoamingShipsManager::instance = new RoamingShipsManager();
 
-void RoamingShipManager::ParseShipsNode(rapidxml::xml_node<char>* node)
+void RoamingShipsManager::ParseShipsNode(rapidxml::xml_node<char>* node)
 {
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
@@ -61,7 +60,7 @@ void RoamingShipManager::ParseShipsNode(rapidxml::xml_node<char>* node)
     }
 }
 
-void RoamingShipManager::AddRoamingShip(std::string ship, Location* beacon)
+void RoamingShipsManager::AddRoamingShip(std::string ship, Location* beacon)
 {
     // Add the shipId into activeRoamingShips
     activeRoamingShips.push_back(ship);
@@ -71,39 +70,69 @@ void RoamingShipManager::AddRoamingShip(std::string ship, Location* beacon)
 
     // Set all other values to default
     roamingShips[ship]->targetLocation = nullptr;
-    roamingShips[ship]->beaconDegree = rand() % 361; // Random value between 0 and 360
+    roamingShips[ship]->beaconDegree = (float)(rand() % 361); // Random value between 0 and 360
     roamingShips[ship]->currentMoveTime = 0;
     roamingShips[ship]->timeToMove = 0;
 }
 
-void RoamingShipManager::RemoveRoamingShip(std::string ship)
+void RoamingShipsManager::RemoveRoamingShip(std::string ship)
 {
     // Remove the shipId from activeRoamingShips
     activeRoamingShips.erase(std::remove(activeRoamingShips.begin(), activeRoamingShips.end(), ship), activeRoamingShips.end());
 }
 
-void RoamingShipManager::RenderShips()
+void RoamingShipsManager::RenderShips()
 {
     for (const auto& shipId : activeRoamingShips)
     {
         RoamingShip* ship = roamingShips[shipId];
         // Render the ship mapIcon rotating around the beacon, increment the rotation
-        ship->beaconDegree = (ship->beaconDegree + 1) % 360;
+        Pointf locationPos = ship->currentLocation->loc;
 
         // If timeToMove == currentMoveTime && targetLocation exists, render the movement direction thing
         if (ship->timeToMove == ship->currentMoveTime && ship->targetLocation)
         {
-            // Render movement direction
+            Pointf targetPos = ship->targetLocation->loc;
+            G_->GetResources()->RenderImage(ship->mapIcon, locationPos.x, locationPos.y, 0, GL_Color(1.0,1.0,1.0,1.0), 1.0, false);
+
+        }else
+        {
+            ship->beaconDegree = (ship->beaconDegree + 0.5);
+            if (ship->beaconDegree > 360) ship->beaconDegree = 0;
+            // Render the ship mapIcon rotating around the beacon, increment the rotation
+            float radian = ship->beaconDegree * (M_PI / 180.f);
+            int newX = locationPos.x + 20 * cos(radian);
+            int newY = locationPos.y + 20 * sin(radian);
+            G_->GetResources()->RenderImage(ship->mapIcon, newX, newY, ((int)ship->beaconDegree + 90) % 360, GL_Color(1.0,1.0,1.0,1.0), 1.0, false);
         }
     }
 }
 
-void RoamingShipManager::MoveShips()
+void RoamingShipsManager::MoveShips()
 {
     std::set<Location*> occupiedLocations;
     for (const auto& shipId : activeRoamingShips)
     {
         RoamingShip* ship = roamingShips[shipId];
+        int behavior = ship->behavior;
+        Location* targetLocation = nullptr;
+
+        switch(behavior):
+        {
+        case 0:
+            {
+                // Do nothing
+                break;
+            }
+            
+        case 1:
+            // Hunt
+            break;
+        default:
+            // Roam
+            break;
+        }
+
         if (ship->timeToMove == ship->currentMoveTime)
         {
             // Calculate using Dijkstra and the behavior defined the targetLocation
@@ -119,392 +148,162 @@ void RoamingShipManager::MoveShips()
             // Move the ship and reset the currentMoveTime
             ship->currentLocation = ship->targetLocation;
             ship->currentMoveTime = 0;
+            ship->targetLocation = nullptr;
         }
     }
 }
 
-void RoamingShipManager::LoadShips(int fd)
+void RoamingShipsManager::SaveShips(int fd)
 {
-    // Load the number of roaming ships existing
-    int numShips = FileHelper::readInteger(fd);
+    // Save the number of roaming ships existing
+    int numShips = activeRoamingShips.size();
+    FileHelper::writeInt(fd, numShips);
     
     // Loop through that number
+    for (std::string shipId : activeRoamingShips)
+    {
+        RoamingShip* ship = roamingShips[shipId];
+        // Save ship details
+        FileHelper::writeString(fd, shipId);
+
+        for (int i = 0; i < G_->GetWorld()->starMap.locations.size(); ++i)
+        {
+            if (ship->currentLocation == G_->GetWorld()->starMap.locations[i])
+            {
+                FileHelper::writeInt(fd, i);
+                break;
+            }
+        }
+
+        if (ship->targetLocation != nullptr)
+        {
+            for (int i = 0; i < G_->GetWorld()->starMap.locations.size(); ++i)
+            {
+                if (ship->targetLocation == G_->GetWorld()->starMap.locations[i])
+                {
+                    FileHelper::writeInt(fd, i);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            FileHelper::writeInt(fd, -1);
+        }
+        
+        FileHelper::writeInt(fd, ship->currentMoveTime);
+        FileHelper::writeInt(fd, ship->missingHP);
+        FileHelper::writeInt(fd, ship->missingCrew);
+        FileHelper::writeInt(fd, ship->behavior);
+        FileHelper::writeInt(fd, ship->eventIndex);
+    }
+}
+
+void RoamingShipsManager::LoadShips(int fd)
+{
+    int numShips = FileHelper::readInteger(fd);
+
     for (int i = 0; i < numShips; ++i)
     {
         std::string shipId = FileHelper::readString(fd);
         
-        RoamingShip* ship = new RoamingShip();
-        // Load currentLocation
-        ship->currentLocation = FindLocationById(FileHelper::readInteger(fd));
-        // Load targetLocation
-        ship->targetLocation = FindLocationById(FileHelper::readInteger(fd));
-        // Load currentMoveTime
+        RoamingShip* ship = roamingShips[shipId];
+        ship->currentLocation = G_->GetWorld()->starMap.locations[FileHelper::readInteger(fd)];
+        int targetIndex = FileHelper::readInteger(fd);
+        if (targetIndex != -1)
+        {
+            ship->targetLocation = G_->GetWorld()->starMap.locations[targetIndex];
+        }
+        else
+        {
+            ship->targetLocation = nullptr;
+        }
         ship->currentMoveTime = FileHelper::readInteger(fd);
-        // Load missingHP/crew
         ship->missingHP = FileHelper::readInteger(fd);
         ship->missingCrew = FileHelper::readInteger(fd);
-        // Load behavior
         ship->behavior = FileHelper::readInteger(fd);
-        // Load eventIndex
         ship->eventIndex = FileHelper::readInteger(fd);
-        
-        roamingShips[shipId] = ship;
+
+        if ((activeRoamingShips.end() == std::find(activeRoamingShips.begin(), activeRoamingShips.end(), shipId)))
+        {
+            activeRoamingShips.push_back(shipId);
+        }
     }
 }
 
-void RoamingShipManager::SaveShips(int fd)
+//Location* RoamingShipsManager::CalculateNewTargetLocation(RoamingShip* ship)
+//{
+//    // Use Dijkstra's algorithm to calculate the new target location based on ship behavior
+//    Point start = ship->currentLocation->GetPoint();
+//    Point goal = DetermineGoalPoint(ship); // Implement this function based on ship behavior
+//    Path path = G_->GetWorld()->GetShipGraph()->Dijkstra(start, goal, ship->id);
+//    
+//    if (!path.empty())
+//    {
+//        return FindLocationByPoint(path.back());
+//    }
+//    return nullptr;
+//}
+//
+//Point RoamingShipsManager::DetermineGoalPoint(RoamingShip* ship)
+//{
+//    // Implement logic to determine the goal point based on ship behavior and event IDs
+//    if (ship->behavior == RoamingShip::Behavior::Hunting && !ship->eventsList.empty())
+//    {
+//        // Use the event ID to find the goal location
+//        std::string eventId = ship->eventsList[ship->eventIndex];
+//        for (auto& sector : G_->GetWorld()->sectors)
+//        {
+//            for (auto& location : sector->locations)
+//            {
+//                if (location->event->eventId == eventId)
+//                {
+//                    return location->GetPoint();
+//                }
+//            }
+//        }
+//    }
+//    // Default to a random point if no specific behavior is defined
+//    return Point(rand() % 100, rand() % 100); // Replace with actual logic
+//}
+//
+//Location* RoamingShipsManager::FindLocationByPoint(Point point)
+//{
+//    for (auto& sector : G_->GetWorld()->sectors)
+//    {
+//        for (auto& location : sector->locations)
+//        {
+//            if (location->GetPoint() == point)
+//            {
+//                return location;
+//            }
+//        }
+//    }
+//    return nullptr;
+//}
+
+HOOK_METHOD(StarMap, OnRender, () -> void)
 {
-    // Save the number of roaming ships existing
-    int numShips = roamingShips.size();
-    FileHelper::writeInteger(fd, numShips);
-    
-    // Loop through that number
-    for (const auto& pair : roamingShips)
-    {
-        const std::string& shipId = pair.first;
-        RoamingShip* ship = pair.second;
-        // Save ship details
-        FileHelper::writeString(fd, shipId);
-        FileHelper::writeInteger(fd, ship->currentLocation->id);
-        FileHelper::writeInteger(fd, ship->targetLocation->id);
-        FileHelper::writeInteger(fd, ship->currentMoveTime);
-        FileHelper::writeInteger(fd, ship->missingHP);
-        FileHelper::writeInteger(fd, ship->missingCrew);
-        FileHelper::writeInteger(fd, ship->behavior);
-        FileHelper::writeInteger(fd, ship->eventIndex);
-    }
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (RoamingShip.h)\n")
+    super();
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(position.x + 42, position.y+ 33);
+    RoamingShipsManager::GetInstance()->RenderShips();
+    CSurface::GL_PopMatrix();
 }
 
-Location* RoamingShipManager::FindLocationById(int id)
+HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
-    for (auto& sector : G_->GetWorld()->sectors)
-    {
-        for (auto& location : sector->locations)
-        {
-            if (location->id == id)
-            {
-                return location;
-            }
-        }
-    }
-    return nullptr;
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (RoamingShip.h)\n")
+    super(file);
+    RoamingShipsManager::GetInstance()->SaveShips(file);
 }
 
-Location* RoamingShipManager::CalculateNewTargetLocation(RoamingShip* ship)
+HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
 {
-    // Use Dijkstra's algorithm to calculate the new target location based on ship behavior
-    Point start = ship->currentLocation->GetPoint();
-    Point goal = DetermineGoalPoint(ship); // Implement this function based on ship behavior
-    Path path = G_->GetWorld()->GetShipGraph()->Dijkstra(start, goal, ship->id);
-    
-    if (!path.empty())
-    {
-        return FindLocationByPoint(path.back());
-    }
-    return nullptr;
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (RoamingShip.h)\n")
+    Location* ret = super(file);
+    RoamingShipsManager::GetInstance()->LoadShips(file);
+    return ret;
 }
 
-Point RoamingShipManager::DetermineGoalPoint(RoamingShip* ship)
-{
-    // Implement logic to determine the goal point based on ship behavior and event IDs
-    if (ship->behavior == RoamingShip::Behavior::Hunting && !ship->eventsList.empty())
-    {
-        // Use the event ID to find the goal location
-        std::string eventId = ship->eventsList[ship->eventIndex];
-        for (auto& sector : G_->GetWorld()->sectors)
-        {
-            for (auto& location : sector->locations)
-            {
-                if (location->event->eventId == eventId)
-                {
-                    return location->GetPoint();
-                }
-            }
-        }
-    }
-    // Default to a random point if no specific behavior is defined
-    return Point(rand() % 100, rand() % 100); // Replace with actual logic
-}
-
-Location* RoamingShipManager::FindLocationByPoint(Point point)
-{
-    for (auto& sector : G_->GetWorld()->sectors)
-    {
-        for (auto& location : sector->locations)
-        {
-            if (location->GetPoint() == point)
-            {
-                return location;
-            }
-        }
-    }
-    return nullptr;
-}
-
-
-
-/*HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
-{
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (StarMap.cpp)\n")
-    this->sectorMapSeed = FileHelper::readInteger(fd);
-    this->currentSectorSeed = FileHelper::readInteger(fd);
-
-    int _dangerZoneX = FileHelper::readInteger(fd);
-    int _dangerZoneY = FileHelper::readInteger(fd);
-    int _pursuitDelay = FileHelper::readInteger(fd);
-
-    this->fuelEventSeed = -1;
-    std::string fuelEventName = "";
-    bool bNoFuel = false;
-
-    int iCurrentLoc = 0;
-
-    if (Global_Settings_Settings->loadingSaveVersion > 2)
-    {
-        iCurrentLoc = FileHelper::readInteger(fd);
-        bNoFuel = FileHelper::readInteger(fd);
-        this->fuelEventSeed = FileHelper::readInteger(fd);
-        fuelEventName = FileHelper::readString(fd);
-    }
-
-    bool _bMapRevealed = FileHelper::readInteger(fd);
-    bool _bossLevel = FileHelper::readInteger(fd);
-    int _bossLoc = FileHelper::readInteger(fd);
-    bool _bossJumping = FileHelper::readInteger(fd);
-    bool _reverseBossPath = false;
-    bool _arrivedAtBase = false;
-
-    this->reversedPath = false; // vanilla bugfix
-
-    if (Global_Settings_Settings->loadingSaveVersion > 2)
-    {
-        _reverseBossPath = FileHelper::readInteger(fd);
-        if (Global_Settings_Settings->loadingSaveVersion > 3)
-        {
-            _arrivedAtBase = FileHelper::readInteger(fd);
-        }
-    }
-
-    int nSectors = FileHelper::readInteger(fd);
-
-    this->worldLevel = 0;
-    this->bInfiniteMode = false;
-    this->delayedQuests.clear();
-
-    if (Globals_RNG)
-    {
-        srand(this->sectorMapSeed);
-    }
-    else
-    {
-        srandom32(this->sectorMapSeed);
-    }
-    GenerateSectorMap();
-
-    if (nSectors != sectors.size())
-    {
-        ftl_log("Something went horribly wrong.. sector count doesn't match\n");
-    }
-    if (nSectors > 0)
-    {
-        for (int i=0; i<nSectors; ++i)
-        {
-            if (i < sectors.size())
-            {
-                sectors[i]->visited = FileHelper::readInteger(fd);
-                if (sectors[i]->visited && worldLevel < sectors[i]->level)
-                {
-                    worldLevel = sectors[i]->level;
-                    G_->GetScoreKeeper()->SetSector(sectors[i]->level + 1);
-                    currentSector = sectors[i];
-                    if (worldLevel > 7)
-                    {
-                        bInfiniteMode = true;
-                    }
-                }
-            }
-            else
-            {
-                FileHelper::readInteger(fd);
-            }
-        }
-    }
-
-    if (Global_Settings_Settings->loadingSaveVersion > 1)
-    {
-        this->worldLevel = FileHelper::readInteger(fd);
-        this->bSecretSector = FileHelper::readInteger(fd);
-        if (bSecretSector)
-        {
-            secretSector->level = worldLevel;
-            currentSector = secretSector;
-        }
-    }
-
-    GenerateMap(false,true);
-
-    int nLocations = FileHelper::readInteger(fd);
-    if (nLocations != locations.size())
-    {
-        ftl_log("Something went horribly wrong.. location count doesn't match\n");
-    }
-
-    if (_bossLevel)
-    {
-        this->bossLevel = true;
-
-        if (_reverseBossPath)
-        {
-            ReverseBossPath();
-        }
-
-        boss_path[bossLoc]->boss = false;
-        this->arrivedAtBase = _arrivedAtBase;
-
-        if (_bossLoc >= boss_path.size())
-        {
-            _bossLoc = boss_path.size() - 3;
-        }
-        this->bossLoc = _bossLoc;
-        bossPosition = boss_path[_bossLoc]->loc;
-        boss_path[_bossLoc]->boss = true;
-    }
-
-    for (int i=0; i<nLocations; ++i)
-    {
-        Location* loc;
-        LocationEvent *dummyEvent;
-        if (i < locations.size())
-        {
-            loc = locations[i];
-        }
-        else
-        {
-            // we should really hook the constructors but these are dummy objects anyways
-            loc = new Location();
-            dummyEvent = new LocationEvent();
-            loc->event = dummyEvent;
-        }
-        loc->visited = FileHelper::readInteger(fd);
-        if (loc->visited)
-        {
-            loc->spaceImage = FileHelper::readString(fd);
-            loc->planetImage = FileHelper::readString(fd);
-            if (loc->spaceImage == "NONE")
-            {
-                loc->space.tex = nullptr;
-            }
-            else
-            {
-                loc->space = Global::GetInstance()->GetWorld()->space.SwitchBackground(loc->spaceImage);
-            }
-            if (loc->planetImage == "NONE")
-            {
-                loc->planet.tex = nullptr;
-            }
-            else
-            {
-                loc->planet.tex = G_->GetResources()->GetImageId(loc->planetImage);
-            }
-            loc->planet.x = FileHelper::readInteger(fd);
-            loc->planet.y = FileHelper::readInteger(fd);
-            loc->planet.rot = FileHelper::readInteger(fd);
-        }
-        loc->known = FileHelper::readInteger(fd);
-        bool hasShip = FileHelper::readInteger(fd);
-        if (!hasShip)
-        {
-            if (loc->visited)
-            {
-                loc->event->ship.hostile = false;
-                loc->event->ship.present = false;
-            }
-        }
-        else
-        {
-            ShipEvent shipEvent = G_->GetEventGenerator()->GetShipEvent(FileHelper::readString(fd));
-            shipEvent.auto_blueprint = FileHelper::readString(fd);
-            shipEvent.shipSeed = FileHelper::readInteger(fd);
-            shipEvent.hostile = true;
-            if (!shipEvent.name.empty())
-            {
-                loc->event->ship = shipEvent;
-            }
-        }
-        int _fleetPosition = FileHelper::readInteger(fd);
-        if (_fleetPosition == 1)
-        {
-            TurnIntoFleetLocation(loc);
-        }
-        loc->event->fleetPosition = _fleetPosition;
-        loc->fleetChanging = FileHelper::readInteger(fd);
-        bool isStore = FileHelper::readInteger(fd);
-        if (loc->visited && (loc->visited > 1 || i != iCurrentLoc))
-        {
-            loc->event->ClearEvent(false);
-        }
-        if (isStore)
-        {
-            loc->event->pStore = new Store();
-            storeTrash.push_back(loc->event->pStore);
-            loc->event->pStore->LoadStore(fd, worldLevel);
-        }
-        if (i >= locations.size())
-        {
-            // Fixes a potential memory leak by destroying the dummy objects
-            delete dummyEvent;
-            delete loc;
-        }
-    }
-
-    int nQuests = FileHelper::readInteger(fd);
-    if (nQuests > 0)
-    {
-        for (int i=0; i<nQuests; ++i)
-        {
-            std::string questName = FileHelper::readString(fd);
-            int questLoc = FileHelper::readInteger(fd);
-            if (questLoc < locations.size()) // Added a bounds check
-            {
-                if (locations[questLoc]->visited == 0 || questLoc == iCurrentLoc)
-                {
-                    locations[questLoc]->questLoc = true;
-                    locations[questLoc]->event = G_->GetEventGenerator()->GetBaseEvent(questName, worldLevel, false, -1);
-                }
-            }
-            addedQuests.push_back({questName,questLoc});
-        }
-    }
-
-    nQuests = FileHelper::readInteger(fd);
-    if (nQuests > 0)
-    {
-        for (int i=0; i<nQuests; ++i)
-        {
-            delayedQuests.push_back(FileHelper::readString(fd));
-        }
-    }
-
-    this->dangerZone.x = _dangerZoneX;
-    if (Global_Settings_Settings->loadingSaveVersion < 3)
-    {
-        this->dangerZone.x -= 209;
-        iCurrentLoc = FileHelper::readInteger(fd);
-    }
-    this->dangerZone.y = _dangerZoneY;
-    this->bMapRevealed = _bMapRevealed;
-    this->pursuitDelay = _pursuitDelay;
-    this->bossJumping = _bossJumping;
-
-    if (iCurrentLoc >= locations.size()) iCurrentLoc = locations.size()-1;
-    this->currentLoc = locations[iCurrentLoc];
-    if (bNoFuel)
-    {
-        if (fuelEventName.empty()) fuelEventName = "NONE";
-        SetupNoFuel(fuelEventSeed,fuelEventName);
-    }
-
-    return currentLoc;
-}
-
-*/
