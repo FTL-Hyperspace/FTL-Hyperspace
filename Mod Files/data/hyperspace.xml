@@ -107,6 +107,8 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 <dismissSound enabled="true" sound="airLoss"/>
 
+<oxygenWithoutSystem enabled="false"/> <!-- If enabled, the game will allow oxygen to function without a system -->
+
 <!-- Discord rich presence integration -->
 
 <discord enabled="true">

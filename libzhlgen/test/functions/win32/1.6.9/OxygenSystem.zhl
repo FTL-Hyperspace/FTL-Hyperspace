@@ -12,3 +12,11 @@ __thiscall void OxygenSystem::ComputeAirLoss(OxygenSystem *this, int roomId, flo
 __thiscall float OxygenSystem::GetRefillSpeed(OxygenSystem *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4f0c8b47048b57088b37c70424????????894c240c8944240489d989542408e8????????":
 __thiscall void OxygenSystem::constructor(OxygenSystem *this, int numRooms, int roomId, int shipId, int startingPower);
+
+struct OxygenSystem
+{{
+	OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
+	{
+		this->constructor(numRooms, roomId, shipId, startingPower);
+	}
+}};

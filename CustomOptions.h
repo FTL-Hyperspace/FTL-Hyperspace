@@ -77,6 +77,8 @@ public:
 
     Setting<std::string> dismissSound;
 
+    Setting<bool> oxygenWithoutSystem;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;
