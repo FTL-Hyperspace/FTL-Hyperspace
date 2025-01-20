@@ -28,6 +28,24 @@
 %}
 
 %feature("flatnested");
+//New method of dealing with polymorphic/dynamic types using SWIG's inheritence system and typemaps
+//For example, the std::vector<SpaceDrone*> indexing method returns a SpaceDrone*, which may be a pointer to a subclass of SpaceDrone
+//Lua users do not have the ability to downcast, so we must provide them with the most derived class possible
+//The typemaps for this purpose are detailed here: https://github.com/swig/swig/blob/8fd4df01bd4111e5f7322fe4f9d4817ffd6f0c6d/Lib/lua/luatypemaps.swg#L173
+%apply SWIGTYPE *DYNAMIC {SpaceDrone*};
+//Typecasting functions and their implementations are detailed here: https://github.com/swig/swig/blob/8fd4df01bd4111e5f7322fe4f9d4817ffd6f0c6d/CHANGES#L23922
+%{
+    static swig_type_info* SpaceDrone_dynamic_cast(SpaceDrone** ppSpaceDrone) 
+    {     
+        //Normally we would be expected to adjust the SpaceDrone* pointed to by ppSpaceDrone using something like
+        //*ppSpaceDrone = dynamic_cast<DerivedType*>(*ppSpaceDrone);
+        //Hyperspace currently only uses a single inheritence model for FTLGame classes
+        //So the SpaceDrone instance should always be at the beginning of the derived instance
+        return Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[(*ppSpaceDrone)->type];
+    }
+%}
+//Register dynamic cast function
+DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 
 namespace std {
     // shamelessly copied from the SWIG library and modified (the SWIG library code is unrestricted)
@@ -164,7 +182,8 @@ namespace std {
     %template(vector_LockdownShard) vector<LockdownShard>;
     %template(vector_p_LockdownShard) vector<LockdownShard*>;
 }
-
+/*
+OBSOLETE METHOD FOR DOWNCASTING:
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
 %native(Get_Drone_Subclass)  static int Get_Drone_Subclass(lua_State* L);
 %{
@@ -201,7 +220,14 @@ namespace std {
         return Hyperspace.Get_Drone_Subclass(ret)
     end
 }
-
+*/
+//Backwards compatibility for Get_Drone_Subclass (Casting should be performed automatically via SpaceDrone* typemaps so this only really needs to stay so nobody tries to call a nil function)
+%luacode
+{
+    function Hyperspace.Get_Drone_Subclass(x)
+        return x
+    end
+}
 %include "ToggleValue.h"
 %template(ToggleValue_int) ToggleValue<int>;
 %template(ToggleValue_float) ToggleValue<float>;
