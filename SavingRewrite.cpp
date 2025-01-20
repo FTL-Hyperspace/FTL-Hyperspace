@@ -43,6 +43,7 @@ HOOK_METHOD_PRIORITY(Animation, SaveState, 9999, (int fd) -> void)
     // End of orig code
 }
 
+
 HOOK_METHOD_PRIORITY(BoarderPodDrone, LoadState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> BoarderPodDrone::LoadState -> Begin (SavingRewrite.cpp)\n")
@@ -65,20 +66,21 @@ HOOK_METHOD_PRIORITY(BoarderPodDrone, LoadState, 9999, (int fd) -> void)
     if (bDeliveredDrone)
     {
         boarderDrone->droneRoom = roomId;
-        boarderDrone->_drone.SetDeployed(true);
+        boarderDrone->SetDeployed(true);
         boarderDrone->SetRoom(roomId);
         boarderDrone->SetPosition(Point(posX, posY));
         boarderDrone->MoveToRoom(roomId, slotId, true);
         boarderDrone->health.first = droneHealth;
-        boarderDrone->SetPowered(boarderDrone->_drone.GetPowered());
+        boarderDrone->SetPowered(powered);
 
-        if (boarderDrone->_drone.GetPowered())
+        if (powered)
         {
-            SetInstantPowered();
+            boarderDrone->SetInstantPowered();
         }
     }
     // End of orig code
 }
+
 
 HOOK_METHOD_PRIORITY(BoarderPodDrone, SaveState, 9999, (int fd) -> void)
 {

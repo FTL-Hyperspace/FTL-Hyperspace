@@ -2568,6 +2568,8 @@ struct CrewDrone : CrewMember
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual bool ProvidesVision();
 	LIBZHL_API void SetCurrentShip(int shipId);
+	LIBZHL_API void SetDeployed(bool deploy);
+	LIBZHL_API void SetInstantPowered();
 	LIBZHL_API void SetPowered(bool powered);
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
