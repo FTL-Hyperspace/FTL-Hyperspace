@@ -9,16 +9,6 @@
         <event>EVENT_FIGHT_2</event>
         <event>EVENT_FIGHT_3</event>
     </add>
-    <add id="ship_zoltan" icon="path/to/icon" behaviour="3" timeToMove="2">
-        <event>EVENT_FIGHT_1</event>
-        <event>EVENT_FIGHT_2</event>
-        <event>EVENT_FIGHT_3</event>
-    </add>
-    <add id="ship_idk" icon="path/to/icon" behaviour="2" timeToMove="1">
-        <event>EVENT_FIGHT_1</event>
-        <event>EVENT_FIGHT_2</event>
-        <event>EVENT_FIGHT_3</event>
-    </add>
 </roamingShips>
 */
 
@@ -110,46 +100,42 @@ void RoamingShipsManager::RenderShips()
 
 void RoamingShipsManager::MoveShips()
 {
-    std::set<Location*> occupiedLocations;
     for (const auto& shipId : activeRoamingShips)
     {
         RoamingShip* ship = roamingShips[shipId];
-        int behavior = ship->behavior;
-        Location* targetLocation = nullptr;
-
-        switch(behavior):
-        {
-        case 0:
-            {
-                // Do nothing
-                break;
-            }
-            
-        case 1:
-            // Hunt
-            break;
-        default:
-            // Roam
-            break;
-        }
-
+        
         if (ship->timeToMove == ship->currentMoveTime)
         {
-            // Calculate using Dijkstra and the behavior defined the targetLocation
-            Location* newTargetLocation = CalculateNewTargetLocation(ship);
-            if (newTargetLocation && occupiedLocations.find(newTargetLocation) == occupiedLocations.end())
+            Location* nextLocation = nullptr;
+
+            switch (ship->behavior)
             {
-                ship->targetLocation = newTargetLocation;
-                occupiedLocations.insert(newTargetLocation);
+            case 0:
+                // nullptr means you do not move
+                break;
+
+            case 1:
+                nextLocation = ship->currentLocation->connectedLocations[random32() % ship->currentLocation->connectedLocations.size()];
+                break;
+
+            case 2:
+
+                break;
+            
+            default:
+                break;
             }
+
+            ship->targetLocation = nextLocation;
         }
-        else if (ship->timeToMove < ship->currentMoveTime)
+        else if (ship->timeToMove < ship->currentMoveTime && ship->targetLocation != nullptr)
         {
             // Move the ship and reset the currentMoveTime
             ship->currentLocation = ship->targetLocation;
-            ship->currentMoveTime = 0;
+            ship->currentMoveTime = -1;
             ship->targetLocation = nullptr;
         }
+        ship->currentMoveTime += 1;
     }
 }
 
@@ -231,56 +217,13 @@ void RoamingShipsManager::LoadShips(int fd)
     }
 }
 
-//Location* RoamingShipsManager::CalculateNewTargetLocation(RoamingShip* ship)
-//{
-//    // Use Dijkstra's algorithm to calculate the new target location based on ship behavior
-//    Point start = ship->currentLocation->GetPoint();
-//    Point goal = DetermineGoalPoint(ship); // Implement this function based on ship behavior
-//    Path path = G_->GetWorld()->GetShipGraph()->Dijkstra(start, goal, ship->id);
-//    
-//    if (!path.empty())
-//    {
-//        return FindLocationByPoint(path.back());
-//    }
-//    return nullptr;
-//}
-//
-//Point RoamingShipsManager::DetermineGoalPoint(RoamingShip* ship)
-//{
-//    // Implement logic to determine the goal point based on ship behavior and event IDs
-//    if (ship->behavior == RoamingShip::Behavior::Hunting && !ship->eventsList.empty())
-//    {
-//        // Use the event ID to find the goal location
-//        std::string eventId = ship->eventsList[ship->eventIndex];
-//        for (auto& sector : G_->GetWorld()->sectors)
-//        {
-//            for (auto& location : sector->locations)
-//            {
-//                if (location->event->eventId == eventId)
-//                {
-//                    return location->GetPoint();
-//                }
-//            }
-//        }
-//    }
-//    // Default to a random point if no specific behavior is defined
-//    return Point(rand() % 100, rand() % 100); // Replace with actual logic
-//}
-//
-//Location* RoamingShipsManager::FindLocationByPoint(Point point)
-//{
-//    for (auto& sector : G_->GetWorld()->sectors)
-//    {
-//        for (auto& location : sector->locations)
-//        {
-//            if (location->GetPoint() == point)
-//            {
-//                return location;
-//            }
-//        }
-//    }
-//    return nullptr;
-//}
+HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (RoamingShip.h)\n")
+    super(loc);
+    RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+    roamingManager->MoveShips();
+}
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {

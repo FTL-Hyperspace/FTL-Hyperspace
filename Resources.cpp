@@ -35,6 +35,7 @@
 #include "CustomAchievements.h"
 #include "HSVersion.h"
 #include "CustomUpgrades.h"
+#include "RoamingShip.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -615,10 +616,9 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
-            // Funny roamer business!
-            if (strcmp(node->name(), "roamingship") == 0)
+            if (strcmp(node->name(), "roamingShips") == 0)
             {
-                auto roamingManager = RoamingShipManager::GetInstance();
+                auto roamingManager = RoamingShipsManager::GetInstance();
                 roamingManager->ParseShipsNode(node);
             }
 

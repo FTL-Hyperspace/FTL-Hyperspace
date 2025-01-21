@@ -24,6 +24,7 @@
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
 #include "TemporalSystem.h"
+#include "RoamingShip.h"
 #include "Misc.h"
 %}
 
@@ -976,6 +977,12 @@ playerVariableType playerVariables;
 %immutable StarMap::fuelEventSeed;
 */
 ////%rename("%s") StarMap::foundMap; // Not sure what this map of location/bool does but maybe this is for marking what nodes have information, like if you find the sector map & scan???
+
+%rename("%s") RoamingShipsManager;
+%rename("%s") RoamingShipsManager::instance;
+%rename("%s") RoamingShipsManager::GetInstance;
+%rename("%s") RoamingShipsManager::AddRoamingShip;
+%rename("%s") RoamingShipsManager::RemoveRoamingShip;
 
 /*
 %nodefaultctor ShipEvent;
@@ -3900,4 +3907,5 @@ playerVariableType playerVariables;
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
 %include "TemporalSystem.h"
+%include "RoamingShip.h"
 %include "Misc.h"

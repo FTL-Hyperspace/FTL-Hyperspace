@@ -44,15 +44,9 @@ public:
     std::map<std::string, RoamingShip*> roamingShips; // it's your library of ships, you pull them from here
     std::vector<std::string> activeRoamingShips; // which ships are currently in the sector
 
-    void AddRoamingShip(std::string ship, Location* beacon); // Adds in the roaming ship to the sector (i think)
-    // add the shipId into activeRoamingShips
-    // set the ship's currentLocation to beacon
-    // set all other value to default
-    // set targetLocation to nullptr
-    // set beaconDegree to a random value 0-360
+    void AddRoamingShip(std::string ship, Location* beacon);
 
-    void RemoveRoamingShip(std::string ship); // Removes it for whatever reason necessary
-    // remove the shipId from activeRoamingShips
+    void RemoveRoamingShip(std::string ship);
 
     void RenderShips(); // Renders the map icon and movement direction thing
     // loop through activeRoamingShips
@@ -66,17 +60,8 @@ public:
     // add the security where two ship won't go tp the same beacon
     // timeToMove < currentMoveTime, move the ship and reset the currentMoveTime
 
-    void LoadShips(int fd); // Cursed artifact
-    void SaveShips(int fd); // god forbid.*
-    // number of roaming ship extisting
-    // loop through that number
-    // id of the ship
-    // save currentlocation
-    // save targetLocation
-    // currentMoveTime
-    // missingHP/crew
-    // behaviour
-    // eventIndex
+    void LoadShips(int fd);
+    void SaveShips(int fd); 
 
     void ParseShipsNode(rapidxml::xml_node<char> *node); // probably keeping track of each Roaming Ship
     static RoamingShipsManager *instance;
