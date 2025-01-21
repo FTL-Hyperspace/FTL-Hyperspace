@@ -2509,7 +2509,7 @@ struct DroneBlueprint : Blueprint
 	std::string combatIcon;
 };
 
-struct CrewDrone : CrewMember
+struct CrewDrone : CrewMember, Drone
 {
 	virtual ~CrewDrone()
 	{
@@ -2553,7 +2553,6 @@ struct CrewDrone : CrewMember
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
-	Drone _drone;
 	int droneRoom;
 	Animation powerUp;
 	Animation powerDown;

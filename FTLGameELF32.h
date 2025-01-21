@@ -1470,7 +1470,7 @@ struct LIBZHL_INTERFACE Targetable
 	bool targeted;
 };
 
-struct LIBZHL_INTERFACE Projectile : Collideable
+struct LIBZHL_INTERFACE Projectile : Collideable, Targetable
 {
 	void HS_OnUpdate();
 	void HS_CollisionCheck(Collideable *other);
@@ -1501,7 +1501,6 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
 	
-	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
 	float speed_magnitude;
@@ -2504,7 +2503,7 @@ struct DroneBlueprint : Blueprint
 	std::string combatIcon;
 };
 
-struct CrewDrone : CrewMember
+struct CrewDrone : CrewMember, Drone
 {
 	virtual ~CrewDrone()
 	{
@@ -2548,7 +2547,6 @@ struct CrewDrone : CrewMember
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
-	Drone _drone;
 	int droneRoom;
 	Animation powerUp;
 	Animation powerDown;

@@ -674,14 +674,14 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> DroneSystem::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (!loadingGame)
     {
-        for (Drone* _drone : drones)
+        for (Drone* iDrone : drones)
         {
-            if (_drone->type == 4) // check that this is a boarding drone
+            if (iDrone->type == 4) // check that this is a boarding drone
             {
-                BoarderPodDrone* drone = (BoarderPodDrone*) _drone;
+                BoarderPodDrone* drone = (BoarderPodDrone*) iDrone;
                 if (drone->movementTarget == nullptr && drone->deployed)
                 {
-                    if (!drone->bDead && (!drone->bDeliveredDrone || !drone->boarderDrone->bDead))
+                    if (!drone->bDead && (!drone->bDeliveredDrone || !drone->boarderDrone->CrewDrone::CrewMember::bDead))
                     {
                         if (_shipObj.HasAugmentation("BOARDER_RECOVERY"))
                         {
@@ -1069,13 +1069,13 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> CrewDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species)->droneMoveFromManningSlot)
     {
-        SetFrozen(_drone.deployed && !_drone.powered);
+        SetFrozen(Drone::deployed && !Drone::powered);
 
         ShipGraph *shipGraph = ShipGraph::GetShipInfo(currentShipId);
 
         if (currentSlot.slotId != -1 && currentSlot.roomId != -1 && !intruder)
         {
-            if (_drone.deployed && !_drone.powered && shipGraph->rooms[currentSlot.roomId]->primarySlot == currentSlot.slotId)
+            if (Drone::deployed && !Drone::powered && shipGraph->rooms[currentSlot.roomId]->primarySlot == currentSlot.slotId)
             {
                 bFrozenLocation = false;
             }
