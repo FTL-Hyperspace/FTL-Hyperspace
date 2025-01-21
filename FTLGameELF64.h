@@ -1479,7 +1479,7 @@ struct LIBZHL_INTERFACE Targetable
 	bool targeted;
 };
 
-struct LIBZHL_INTERFACE Projectile : Collideable
+struct LIBZHL_INTERFACE Projectile : Collideable, Targetable
 {
 	void HS_OnUpdate();
 	void HS_CollisionCheck(Collideable *other);
@@ -1510,7 +1510,6 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
 	
-	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
 	float speed_magnitude;
