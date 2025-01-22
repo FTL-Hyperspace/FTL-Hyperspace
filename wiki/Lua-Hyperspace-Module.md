@@ -1028,8 +1028,8 @@ No additional items over base `ShipSystem`
 - `float UpdateAimingAngle(Pointf location, float percentage, float forceDesired)`
 
 ### Fields
-- [`Targetable`](#targetable) `._targetable`
-- `Collideable` `._collideable`
+- ~~[`Targetable`](#targetable) `._targetable`~~
+- ~~`Collideable` `._collideable`~~
 - `int` `.currentSpace`
 - `int` `.destinationSpace`
 - [`Pointf`](#Pointf) `.currentLocation`

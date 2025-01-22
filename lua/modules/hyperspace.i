@@ -178,7 +178,7 @@ namespace std {
         }
         
 
-        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->type], 0); SWIG_arg++; 
+        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->Drone::type], 0); SWIG_arg++; 
         return SWIG_arg;
         
         if(0) SWIG_fail;
@@ -2956,8 +2956,9 @@ playerVariableType playerVariables;
 %rename("%s") SpaceDrone::SetDeployed;
 %rename("%s") SpaceDrone::UpdateAimingAngle;
 
-%rename("%s") SpaceDrone::_targetable;
-%rename("%s") SpaceDrone::_collideable;
+// Those two became parents <3
+// %rename("%s") SpaceDrone::_targetable;
+// %rename("%s") SpaceDrone::_collideable;
 %rename("%s") SpaceDrone::currentSpace;
 %rename("%s") SpaceDrone::destinationSpace;
 %rename("%s") SpaceDrone::currentLocation;

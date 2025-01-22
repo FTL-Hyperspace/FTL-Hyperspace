@@ -2791,7 +2791,7 @@ struct DamageMessage;
 
 struct SpaceDrone;
 
-struct LIBZHL_INTERFACE SpaceDrone : Drone
+struct LIBZHL_INTERFACE SpaceDrone : Drone, Targetable, Collideable
 {
 	virtual void PickDestination() LIBZHL_PLACEHOLDER
 	virtual void PickTarget() LIBZHL_PLACEHOLDER
@@ -2825,8 +2825,6 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
 	LIBZHL_API void destructor();
 	
-	Targetable _targetable;
-	Collideable _collideable;
 	int currentSpace;
 	int destinationSpace;
 	Pointf currentLocation;
