@@ -406,7 +406,7 @@ for _,v in pairs(structs) do
     v.dependencies = {}
 end
 
-for _, v in pairs(structs) do
+for _,v in pairs(structs) do
     -- nested classes
     if v.parent then
         local ps = structs[v.parent:cname()]
@@ -417,22 +417,22 @@ for _, v in pairs(structs) do
             error(string.format("namespaces not supported yet (%s)", v.parent:cname()))
         end
     end
-
+    
     -- track indices of fields to remove
     local removeIndices = {}
 
-    -- temporary storage for inheritance fields
-    local inheritanceFields = {}
+    for k,f in pairs(v.fields) do
 
-    for k, f in pairs(v.fields) do
+
+
         local cname = f:cname()
         if not f:isPointer() and structs[cname] and 
-           (f.name == "_entity" or f.name == "_base" or f.name == "_collideable" or f.name == "_drone" or f.name == "_selectable" --[[ or f.name == "_shipObj" --]] or f.name == "_shipObject" or f.name == "_targetable") then 
+        (f.name == "_entity" or f.name == "_base" or f.name == "_collideable" or f.name == "_drone" or f.name == "_selectable" --[[ or f.name == "_shipObj" --]] or f.name == "_shipObject" or f.name == "_targetable") then 
             -- inheritance
             if v.inherits == nil then
                 v.inherits = {}
             end
-            table.insert(inheritanceFields, f)
+            table.insert(v.inherits, f)
             addDependency(v, cname, false)
             hasFuncDef[cname] = true
 
@@ -441,30 +441,19 @@ for _, v in pairs(structs) do
         end
         processField(f, v)
     end
-
+    
     if v.vtable then
-        for _, f in ipairs(v.vtable.fields) do
+        for _,f in ipairs(v.vtable.fields) do
             processField(f, v)
         end
     end
-
-    -- Sort indices in descending order before removing, so we don't mess up the positions
+    
+    -- sort indices in descending order before removing, so we don't mess up the positions
     table.sort(removeIndices, function(a, b) return a > b end)
 
-    -- Remove fields at the specific indices
+    -- remove fields at the specific indices
     for _, index in ipairs(removeIndices) do
         table.remove(v.fields, index)
-    end
-
-    -- Adjust the inheritanceFields order if needed: https://stackoverflow.com/questions/17328921/what-effect-does-the-order-of-inheritance-have-for-multiple-base-classes
-    if #inheritanceFields >= 3 then
-        -- Swap the second and third entries
-        inheritanceFields[2], inheritanceFields[3] = inheritanceFields[3], inheritanceFields[2]
-    end
-
-    -- Add adjusted inheritanceFields to v.inherits
-    for _, f in ipairs(inheritanceFields) do
-        table.insert(v.inherits, f)
     end
 end
 
