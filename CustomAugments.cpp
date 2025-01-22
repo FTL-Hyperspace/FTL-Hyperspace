@@ -748,18 +748,18 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     super();
 
     // Dynamic defense scrambler
-    if (this->current_target != nullptr)
+    if (current_target != nullptr)
     {
         bool has_defense = false;
         bool scrambled = false;
-        for (SpaceDrone* drone : this->spaceDrones)
+        for (auto drone : spaceDrones)
         {
-            if (drone->Drone::type == 0)
+            if (drone->type == 0)
             {
                 if (!has_defense)
                 {
                     has_defense = true;
-                    scrambled = this->current_target->HasEquipment("DEFENSE_SCRAMBLER");
+                    scrambled = current_target->HasEquipment("DEFENSE_SCRAMBLER");
                 }
                 drone->bDisrupted = scrambled;
             }

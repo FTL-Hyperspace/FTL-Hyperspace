@@ -178,7 +178,7 @@ namespace std {
         }
         
 
-        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->Drone::type], 0); SWIG_arg++; 
+        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->type], 0); SWIG_arg++; 
         return SWIG_arg;
         
         if(0) SWIG_fail;
