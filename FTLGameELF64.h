@@ -7000,6 +7000,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor2();
 	
+	Targetable _targetable;
 	Collideable _collideable;
 	std::vector<ShipSystem*> vSystemList;
 	OxygenSystem *oxygenSystem;
