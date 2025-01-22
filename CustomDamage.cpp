@@ -452,6 +452,55 @@ HOOK_STATIC(ProjectileFactory, SaveProjectile, (Projectile *p, int fh) -> void)
     }
 }
 
+HOOK_METHOD(ProjectileFactory, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SaveState -> Begin (CustomDamage.cpp)\n")
+
+    // Reverse engineered Vanilla code
+    FileHelper::writeFloat(fd, cooldown.first);
+    FileHelper::writeFloat(fd, cooldown.second);
+    FileHelper::writeFloat(fd, subCooldown.first);
+    FileHelper::writeFloat(fd, subCooldown.second);
+    FileHelper::writeInt(fd, boostLevel);
+    FileHelper::writeInt(fd, chargeLevel);
+    FileHelper::writeInt(fd, targets.size());
+    for (auto pointf : targets)
+    {
+        FileHelper::writeInt(fd, (int)(pointf.x));
+        FileHelper::writeInt(fd, (int)(pointf.y));
+    }
+    FileHelper::writeInt(fd, lastTargets.size());
+    for (auto pointf : lastTargets)
+    {
+        FileHelper::writeInt(fd, (int)(pointf.x));
+        FileHelper::writeInt(fd, (int)(pointf.y));
+    }
+    FileHelper::writeInt(fd, (unsigned int)autoFiring);
+    FileHelper::writeInt(fd, (unsigned int)fireWhenReady);
+    FileHelper::writeInt(fd, targetId);
+    weaponVisual.SaveState(fd);
+    FileHelper::writeInt(fd, lastProjectileId);
+    FileHelper::writeInt(fd, queuedProjectiles.size());
+    for (auto *projectile : queuedProjectiles)
+    {
+        /* what the vanilla code does here is exactly what ProjectileFactory::SaveProjectile does
+
+        vanilla code start
+
+        // int8_t projectileType = projectile->GetType();
+        // FileHelper::writeInt(fd, projectileType);
+        // if (projectileType != 0)
+        // {
+        //     projectile->SaveProjectile(fd);
+        // }
+
+        vanilla code end
+
+        */
+        ProjectileFactory::SaveProjectile(projectile, fd);
+    }
+}
+
 HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Projectile::Initialize -> Begin (CustomDamage.cpp)\n")

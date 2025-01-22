@@ -556,6 +556,7 @@ struct AchievementTracker
 	LIBZHL_API void LoadAchievementDescriptions();
 	LIBZHL_API void LoadProfile(int file, int version);
 	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void ResetFlags();
 	LIBZHL_API void SaveProfile(int file);
 	LIBZHL_API void SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer);
@@ -782,6 +783,7 @@ struct WeaponAnimation
 {
 	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void OnRender(float alpha);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -3852,7 +3854,13 @@ struct CloneBox : CooldownSystemBox
 
 struct CloneSystem : ShipSystem
 {
+	LIBZHL_API CrewMember *CloneReady();
+	LIBZHL_API static int __stdcall GetCloneTime(int level);
+	LIBZHL_API float GetDeathProgress();
+	LIBZHL_API static int __stdcall GetJumpHealth(int level);
+	LIBZHL_API float GetProgress();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRenderFloor();
 	
 	float fTimeToClone;
 	CrewMember *clone;
@@ -3910,6 +3918,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void RenderAiming();
 	LIBZHL_API static void __stdcall RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
 	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void SelectArmament(unsigned int armamentSlot);
 	LIBZHL_API void SetAutofiring(bool on, bool simple);
 	LIBZHL_API void constructor();
 	
@@ -5479,6 +5488,31 @@ struct LocationEvent
         return ret;
     }
 
+    void AddChoice(LocationEvent* newEvent, const std::string& text, ChoiceReq requirement, bool hiddenReward)
+    {
+        if (newEvent != nullptr) {
+            Choice newChoice;
+            newChoice.event = newEvent;
+            newChoice.text.data = text;
+            newChoice.text.isLiteral = true;
+            newChoice.requirement = requirement;
+            newChoice.hiddenReward = hiddenReward;
+ 
+            this->choices.push_back(newChoice);
+        }
+    }
+ 
+    bool RemoveChoice(int index)
+    {
+        if (index >= 0 && index < this->choices.size())
+        {
+            delete this->choices[index].event;
+            this->choices.erase(this->choices.begin() + index);
+            return true;
+        }
+        return false;
+    }
+
 	LIBZHL_API void ClearEvent(bool force);
 	LIBZHL_API void constructor();
 	
@@ -5567,7 +5601,7 @@ struct EventGenerator
 	}
 
 	LIBZHL_API LocationEvent *CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique);
-	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
+	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed);
 	LIBZHL_API std::string GetImageFromList(const std::string &listName);
 	LIBZHL_API SectorDescription GetSectorDescription(const std::string &type, int level);
 	LIBZHL_API ShipEvent GetShipEvent(const std::string &event);
@@ -5690,6 +5724,7 @@ struct EventsParser
 	LIBZHL_API void AddAllEvents();
 	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
 	LIBZHL_API void ProcessBaseNode(rapidxml::xml_node<char> *node, EventGenerator &generator);
+	LIBZHL_API void ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::string ProcessEvent(rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::vector<std::string> ProcessEventList(rapidxml::xml_node<char> *node, const std::string &listName);
 	LIBZHL_API ResourcesTemplate ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
@@ -6287,6 +6322,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API void OnRender(float alpha, bool forceVisual);
 	LIBZHL_API void RenderChargeBar(float unk);
 	LIBZHL_API static void __stdcall SaveProjectile(Projectile *p, int fd);
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SelectChargeGoal();
 	LIBZHL_API void SetCooldownModifier(float mod);
 	LIBZHL_API void SetCurrentShip(Targetable *ship);
@@ -6734,6 +6770,17 @@ struct Ship : ShipObject
 		return graph->GetRoomCenter(room);
 	}
 
+	std::vector<LockdownShard*> GetShards()
+    {
+        std::vector<LockdownShard*> ret = std::vector<LockdownShard*>();
+        for (int i=0; i < (int)this->lockdowns.size(); ++i)
+        {
+            ret.push_back(&this->lockdowns[i]);
+        }
+
+        return ret;
+    }
+
 	void RenderEngineAnimation(bool showEngines, float alpha);
 	
 	enum DoorStateType
@@ -6754,7 +6801,7 @@ struct Ship : ShipObject
 	};
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
-	LIBZHL_API void BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API bool BreachSpecificHull(int grid_x, int grid_y);
 	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
@@ -6924,6 +6971,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void CheckVision();
 	LIBZHL_API void ClearStatusAll();
 	LIBZHL_API void ClearStatusSystem(int system);
+	LIBZHL_API void CloneHealing();
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API CollisionResponse CollisionShield(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);

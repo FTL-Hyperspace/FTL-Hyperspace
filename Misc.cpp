@@ -1027,6 +1027,68 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::MAIN_MENU);
 }
 
+HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::DangerousEnvironment -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool res = super();
+
+    lua_pushboolean(context->GetLua(), res);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::DANGEROUS_ENVIRONMENT, 1, 1) == 1)
+    {
+        res = lua_toboolean(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 2);
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 1);
+    }
+
+    return res;
+}
+
+static GL_Color g_flashColor = GL_Color(0.f, 0.f, 0.f, 0.f);
+HOOK_METHOD(SpaceManager, GetFlashOpacity, () -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::GetFlashOpacity -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    float opacity = super();
+    lua_pushnumber(context->GetLua(), opacity);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_HAZARD_FLASH, 1, 4) == 4)
+    {
+        g_flashColor.r = lua_tonumber(context->GetLua(), -4);
+        g_flashColor.g = lua_tonumber(context->GetLua(), -3);
+        g_flashColor.b = lua_tonumber(context->GetLua(), -2);
+        g_flashColor.a = lua_tonumber(context->GetLua(), -1);
+        opacity = g_flashColor.a;
+        lua_pop(context->GetLua(), 5);
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 1);
+    }
+
+    return opacity;
+}
+HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_RenderPrimitiveWithColor -> Begin (Misc.cpp)\n")
+
+    if (g_flashColor.a > 0.f)
+    {
+        g_flashColor.a = color.a;
+        super(primitive, g_flashColor);
+        g_flashColor.a = 0.f;
+    }
+    else
+    {
+        super(primitive, color);
+    }
+}
+
 HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (Misc.cpp)\n")
@@ -1166,6 +1228,30 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    lua_pushinteger(context->GetLua(), armamentSlot);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_PRE, 1, 1);
+    if (lua_isnumber(context->GetLua(), -1))
+    {
+        armamentSlot = static_cast<unsigned int>(lua_tonumber(context->GetLua(), -1));
+        if (armamentSlot >= boxes.size() || armamentSlot < 0 || boxes[armamentSlot]->Empty()) preempt = true;
+    }
+    lua_pop(context->GetLua(), 1);
+
+    if (!preempt) {
+        super(armamentSlot);
+
+        lua_pushinteger(context->GetLua(), armamentSlot);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SELECT_ARMAMENT_POST, 1, 0);
+        lua_pop(context->GetLua(), 1);
+    }
+}
+
 //Priority to run after callback in CustomDrones.cpp
 HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 {
@@ -1288,6 +1374,28 @@ HOOK_METHOD(ShipManager, Wait, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+// Allow ship rename input to receive Japanese letters
+HOOK_METHOD(ShipBuilder, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (Misc.cpp)\n")
+    super();
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}
+
+// Allow crew rename input to receive Japanese letters
+HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewEquipBox::constructor -> Begin (Misc.cpp)\n")
+    super(pos, ship, slot);
+    if (CustomOptionsManager::GetInstance()->allowRenameInputSpecialCharacters.currentValue)
+    {
+        nameInput.allowedChars = TextInput::ALLOW_ANY;
+    }
+}
+
 //////////////////////////////////////////////////
 //////////////// RenderEvents.cpp ////////////////
 //////////////////////////////////////////////////
@@ -1398,6 +1506,20 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
+HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRenderHealth -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::CREW_MEMBER_HEALTH, 1);
+    if (idx >= 0) super();
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::CREW_MEMBER_HEALTH, std::abs(idx), 1);
+
+    lua_pop(context->GetLua(), 1);
+}
+
 //Room anim layers 3 and 4
 HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
 {
@@ -1430,8 +1552,13 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
     lua_pop(context->GetLua(), 2);
 }
 
-
-
+HOOK_METHOD(FTLButton, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (Misc.cpp)\n")
+    int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::FTL_BUTTON, 0);
+    if (idx >= 0) super();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::FTL_BUTTON, std::abs(idx), 0);
+}
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {

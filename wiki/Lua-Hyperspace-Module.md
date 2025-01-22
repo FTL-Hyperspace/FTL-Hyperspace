@@ -36,6 +36,8 @@ All calls are under `Hyperspace`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
 - `TextLibrary :GetTextLibrary()`
    - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class, or the shortcut `Hyperspace.Text`.
+- `EventGenerator :GetEventGenerator()`
+   - Returns the main instance of [`EventGenerator`](#EventGenerator). Always use this to access any members and methods belonging to the [`EventGenerator`](#EventGenerator) class, or the shortcut `Hyperspace.Event`.
 
 ### Fields
 - `int` `.currentSeed`
@@ -57,6 +59,13 @@ All calls are under `Hyperspace`
 - [`WorldManager`](#WorldManager) `.world`
 - `MainMenu` `.menu`
    - **Read-only**
+
+## EventGenerator
+
+### Methods
+
+- [`LocationEvent`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
+- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
 
 ## ShipInfo
 
@@ -258,7 +267,7 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
 - `int :CountCrewShipId(int roomId, int shipId)`
    - Counts crew in a room. shipId corresponds to which ship owns the crewmembers, 0 being the player and 1 being the enemy.
 - ~~`CrewDrone* :CreateCrewDrone(DroneBlueprint *bp)`~~ Use Events
-- ~~`SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)`~~ Use Events
+- `SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)`
 - `bool :DamageArea(Pointf location, DamageParameter dmg, bool force)`
    - I think this causes damage to a area like when a projectile hits but it's not tested yet, could possibly be used for bursts?
    - `force` ignores room resistances.
@@ -509,9 +518,11 @@ Accessed via `ShipManager`'s `.extend` field
 **Extends [ShipObject](#Shipobject)**
 
 ### Methods
-
+-  [`std::vector<LockdownShard*>`](#LockdownShard) `:GetShards()`
 -  `bool :BreachRandomHull(int roomId)`
    -  Breaches a random tile in the room with `roomId` as its id. This can select an already breached tile, in which case nothing will happen.
+-  `bool :BreachSpecificHull(int grid_x, int grid_y)`
+   -  Breaches a tile at the specified grid coordinates.
 -  `int :EmptySlots(int roomId)`
    -  Returns the number of tiles within the room (Equivalent to the area of the room). I think this marks all tiles in the room as empty, so you can use this to fit more crew than you should in a given room.
 -  `bool :FullRoom(int roomId, bool intruder)`
@@ -568,7 +579,9 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bCloaked`
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
--  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+-  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+   - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
+
 ### Hyperspace Fields
 -  `std::vector<std::pair<Animation, int8_t>>` 
 `extraEngineAnim`
@@ -581,6 +594,23 @@ Accessed via `ShipManager`'s `.extend` field
    |  1   | 90 Degrees Counterclockwise  |
 
    Note: Pairs are returned by value, and not by reference.
+
+## LockdownShard
+
+### Methods
+- `void` `:Update()`
+
+### Fields
+- [`Animation`](#Animation) `.shard`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.goal`
+- `float` `.speed`
+- `bool` `.bArrived`
+- `bool` `.bDone`
+- `float` `.lifeTime`
+- `bool` `.superFreeze`
+- `int` `.lockingRoom`
+
 ## ShipSystem
 
 ### Static methods
@@ -1203,6 +1233,12 @@ Accessed via `Room`'s `.extend` field
 - `float` `.sysDamageResistChance`
 - `float` `.ionDamageResistChance`
 - `float` `.hullDamageResistChance`
+
+## TemporalSystemParser
+
+### Methods
+- `float .GetDilationStrength(int effectStrength)`
+   - Gets the temporal modifier for a given time dilation value.
 
 ## CrewStat
 
@@ -2014,12 +2050,12 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## ActivatedPowerRequirements
 
 ### Fields
-- [`Type`](#Type) `.type`
-    - Valid values (currently not accessible):
-        - `Hyperspace.ActivatedPowerRequirements.Type.PLAYER`
-        - `Hyperspace.ActivatedPowerRequirements.Type.ENEMY`
-        - `Hyperspace.ActivatedPowerRequirements.Type.CHARGE`
-        - `Hyperspace.ActivatedPowerRequirements.Type.UNKNOWN`
+- [`Type`](#Type) `.Type`
+    - Valid values:
+        - `Hyperspace.ActivatedPowerRequirements.Type_PLAYER`
+        - `Hyperspace.ActivatedPowerRequirements.Type_ENEMY`
+        - `Hyperspace.ActivatedPowerRequirements.Type_CHARGE`
+        - `Hyperspace.ActivatedPowerRequirements.Type_UNKNOWN`
 - `bool` `.playerShip`
 - `bool` `.enemyShip`
 - `bool` `.checkRoomCrew`
@@ -2192,8 +2228,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.outOfFuel`
    - **Read-only**
 - `bool` `.bPaused`
-   - **Read-only**
    - Only true for spacebar pauses, NOT event pauses or ESC menu pauses.
+   - Modifying this variable during event pauses and ESC menu pauses does not unfreeze the game; it will only change whether or not the game remains paused when the event or ESC menu closes.
 - `bool` `.bAutoPaused`
    - **Read-only**
    - Maybe true for event pauses and ESC menu pauses? Not sure.
@@ -2231,22 +2267,37 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## CombatControl
 
 ### Fields
+- [`Point`](#Point) `.playerShipPosition`
 - [`WeaponControl`](#WeaponControl) `weapControl`
 - [`Point`](#Point) `.position`
+- `int` `.selectedRoom`
+- `int` `.selectedSelfRoom`
 - [`Point`](#Point) `.targetPosition`
+- `bool` `.open`
+- [`Pointf`](#Pointf) `.potentialAiming`
+- [`std::vector<Pointf*>`](#Pointf) `.aimingPoints`
+- `bool` `.mouseDown`
+- `bool` `.isAimingTouch`
+- `bool` `.movingBeam`
+- [`Point`](#Point) `.beamMoveLast`
+- `bool` `.invalidBeamTouch`
 - `bool` `.boss_visual`
    - **Read-only**
 
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields
+- [`ProjectileFactory`](#ProjectileFactory) `.armedWeapon`
 - `bool` `.autoFiring`
    - **Read-only**
+- `int` `.armedSlot`
 
 ## LocationEvent
 
 ### Methods
 - [`std::vector<Choice*>`](#Choice) `:GetChoices()`
+- `void :AddChoice(LocationEvent *event, std::string text, ChoiceReq req, bool hiddenReward)`
+- `bool :RemoveChoice(int index)`
 
 ### Fields
 - [`TextString`](#TextString) `.text`
@@ -2270,6 +2321,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.secretSector`
 - [`std::vector<Choice>`](#Choice) `.choices`
    - If you want to modify the current `Choice` values please refer to `:GetChoices()` instead
+
+###### Example
+```lua
+-- Adds to every event choice a new choice with the text "new text" leading to the event "FUEL_FLEET_DELAY"
+script.on_internal_event(Defines.InternalEvents.PRE_CREATE_CHOICEBOX, function(event)
+   local locEvent = Hyperspace.Event:GetBaseEvent("FUEL_FLEET_DELAY", Hyperspace.App.world.starMap.worldLevel, false, Hyperspace.Global.currentSeed);
+   local req = Hyperspace.ChoiceReq()
+   req.object = ""
+   req.min_level = 0
+   req.max_level = 0
+   req.max_group = 0
+   req.blue = true
+
+   event:AddChoice(locEvent, "choice text", req, false)
+end)
+```
 
 ## Choice
 
@@ -3402,6 +3469,13 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 - `void :LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
 - `void :LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string eventName)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(Location *loc)`
+
+## CustomEvent
+
+### Fields
+- `std::string` `unlockShip`
 
 ## MainMenu
 
@@ -3424,3 +3498,12 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Methods
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+
+## TextButton0
+
+**Extends [GenericButton](#GenericButton)**
+
+## FTLButton
+
+**Extends [TextButton0](#TextButton0)**
+

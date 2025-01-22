@@ -9,6 +9,8 @@ cleanup __amd64 ShipTemplate EventsParser::ProcessShipEvent(EventsParser *this, 
 cleanup __amd64 std::string EventsParser::ProcessEvent(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
 ".41554989cd41544989f4":
 cleanup __amd64 std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
+".41574989d7415641554989cd41544989f4":
+cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,std::string& eventName);
 ".415741564989fe41554989d54154554889f54c8d7d4053":
 cleanup __amd64 void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
 ".41574989d741564155415455534881ecc8000100":

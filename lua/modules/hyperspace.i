@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "TemporalSystem.h"
 #include "Misc.h"
 %}
 
@@ -160,6 +161,8 @@ namespace std {
     %template(vector_p_locationEventChoice) vector<LocationEvent::Choice*>;
     %template(vector_choiceText) vector<ChoiceText>;
     %template(vector_p_choiceText) vector<ChoiceText*>;
+    %template(vector_LockdownShard) vector<LockdownShard>;
+    %template(vector_p_LockdownShard) vector<LockdownShard*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -223,6 +226,7 @@ namespace std {
 %rename("Settings") Global_Settings_Settings;
 %rename("Mouse") Global_MouseControl_Mouse;
 %rename("Text") Global_Globals_Library;
+%rename("Event") Global_EventGenerator_Generator;
 
 %immutable Global_CApp;
 %immutable Global_BlueprintManager_Blueprints;
@@ -235,6 +239,7 @@ namespace std {
 %immutable Global_Settings_Settings;
 %immutable Global_MouseControl_Mouse;
 %immutable Global_Globals_Library;
+%immutable Global_EventGenerator_Generator;
 
 %rename("setRandomSeed") srandom32;
 
@@ -278,6 +283,7 @@ public:
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
+    EventGenerator *GetEventGenerator();
 
     static bool IsSeededRun();
     %immutable;
@@ -458,6 +464,7 @@ playerVariableType playerVariables;
 %rename("%s") CustomEventsParser;
 %rename("%s") CustomEventsParser::GetInstance;
 %rename("%s") CustomEventsParser::LoadEvent;
+%rename("%s") CustomEventsParser::GetCustomEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
@@ -579,9 +586,8 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::outOfFuel;
 %immutable CommandGui::outOfFuel;
 %rename("%s") CommandGui::bPaused;
-%immutable CommandGui::bPaused;
 %rename("%s") CommandGui::bAutoPaused;
-%immutable CommandGui::bAutoPaused;
+%immutable CommandGui::bAutoPaused; // potentially find a way to try ESC pausing, currently does nothing
 %rename("%s") CommandGui::menu_pause;
 %immutable CommandGui::menu_pause;
 %rename("%s") CommandGui::event_pause;
@@ -618,6 +624,8 @@ playerVariableType playerVariables;
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
 %rename("%s") LocationEvent::GetChoices;
+%rename("%s") LocationEvent::AddChoice;
+%rename("%s") LocationEvent::RemoveChoice;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
@@ -651,6 +659,11 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::unlockShip;
 %rename("%s") LocationEvent::unlockShipText;
 %rename("%s") LocationEvent::secretSector;
+
+%nodefaultctor CustomEvent;
+%nodefaultdtor CustomEvent;
+%rename("%s") CustomEvent;
+%rename("%s") CustomEvent::unlockShip;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;
@@ -689,17 +702,30 @@ playerVariableType playerVariables;
 %nodefaultctor CombatControl;
 %nodefaultdtor CombatControl;
 %rename("%s") CombatControl;
+%rename("%s") CombatControl::playerShipPosition;
 %rename("%s") CombatControl::weapControl;
 %rename("%s") CombatControl::position;
+%rename("%s") CombatControl::selectedRoom;
+%rename("%s") CombatControl::selectedSelfRoom;
 %rename("%s") CombatControl::targetPosition;
+%rename("%s") CombatControl::open;
+%rename("%s") CombatControl::potentialAiming;
+%rename("%s") CombatControl::aimingPoints;
+%rename("%s") CombatControl::mouseDown;
+%rename("%s") CombatControl::isAimingTouch;
+%rename("%s") CombatControl::movingBeam;
+%rename("%s") CombatControl::beamMoveLast;
+%rename("%s") CombatControl::invalidBeamTouch;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
+%rename("%s") WeaponControl::armedWeapon;
 %rename("%s") WeaponControl::autoFiring;
 %immutable WeaponControl::autoFiring;
+%rename("%s") WeaponControl::armedSlot;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
@@ -744,6 +770,14 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bActivated;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
+
+%nodefaultctor TextButton0;
+%nodefaultdtor TextButton0;
+%rename("%s") TextButton0;
+
+%nodefaultctor FTLButton;
+%nodefaultdtor FTLButton;
+%rename("%s") FTLButton;
 
 %nodefaultctor MouseControl;
 %nodefaultdtor MouseControl;
@@ -968,6 +1002,10 @@ playerVariableType playerVariables;
 %rename("%s") ShipEvent::droneOverCount;
 %rename("%s") ShipEvent::shipSeed;
 */
+
+%rename("%s") EventGenerator;
+%rename("%s") EventGenerator::CreateEvent;
+%rename("%s") EventGenerator::GetBaseEvent;
 
 %rename("%s") CrewDesc;
 %rename("%s") CrewDesc::type;
@@ -1854,6 +1892,7 @@ playerVariableType playerVariables;
 %nodefaultctor Ship;
 %nodefaultdtor Ship;
 %rename("%s") Ship;
+%rename("%s") Ship::GetShards;
 %rename("%s") Ship::DoorStateType;
 %rename("%s") Ship::GetRoomCenter;
 /*
@@ -1865,6 +1904,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::DoorState::level;
 */
 %rename("%s") Ship::BreachRandomHull;
+%rename("%s") Ship::BreachSpecificHull;
 %rename("%s") Ship::EmptySlots;
 %rename("%s") Ship::FullRoom;
 %rename("%s") Ship::GetAvailableRoomSlot;
@@ -1910,7 +1950,21 @@ playerVariableType playerVariables;
 %rename("%s") Ship::bCloaked;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
-//%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+%rename("%s") Ship::lockdowns;
+
+%nodefaultctor LockdownShard;
+
+%rename("%s") LockdownShard;
+%rename("%s") LockdownShard::Update;
+%rename("%s") LockdownShard::shard;
+%rename("%s") LockdownShard::position;
+%rename("%s") LockdownShard::goal;
+%rename("%s") LockdownShard::speed;
+%rename("%s") LockdownShard::bArrived;
+%rename("%s") LockdownShard::bDone;
+%rename("%s") LockdownShard::lifeTime;
+%rename("%s") LockdownShard::superFreeze;
+%rename("%s") LockdownShard::lockingRoom;
 
 
 //Expose Hyperspace engine anims as a member variable
@@ -1959,6 +2013,11 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend::ionDamageResistChance;
 %rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
+
+%nodefaultctor TemporalSystemParser;
+%nodefaultdtor TemporalSystemParser;
+%rename("%s") TemporalSystemParser;
+%rename("%s") TemporalSystemParser::GetDilationStrength;
 
 %nodefaultctor Door;
 %nodefaultdtor Door;
@@ -3094,6 +3153,15 @@ playerVariableType playerVariables;
 %immutable DroneBlueprint::combatIcon;
 %rename("%s") DroneBlueprint::combatIcon;
 
+%luacode { 
+    --function to strip prefixes before adding enum to table
+    local function CreateEnumTable(prefix, table, key, value)
+        if key:find(prefix) then
+            key = key:gsub(prefix, "")
+            table[key] = value
+        end
+    end
+}
 
 %nodefaultctor ActivatedPower;
 %nodefaultdtor ActivatedPower;
@@ -3225,10 +3293,31 @@ playerVariableType playerVariables;
 %rename("%s") ActivatedPowerDefinition::event;
 %rename("%s") ActivatedPowerDefinition::tempPower;
 
-%rename("%s") ActivatedPowerDefinition::JUMP_COOLDOWN;
-%rename("%s") ActivatedPowerDefinition::DISABLED_COOLDOWN;
-%rename("%s") ActivatedPowerDefinition::ON_DEATH;
-%rename("%s") ActivatedPowerDefinition::HOTKEY_SETTING;
+// Require the .h definition of those enums to be `enum class`, but this breaks a lot of established code that would need to be fixed
+// So unless someones need to use those this should be a low priority issue
+//%rename("%s") ActivatedPowerDefinition::JUMP_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::JUMP_COOLDOWN::.*";
+//%rename("%s") ActivatedPowerDefinition::DISABLED_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::DISABLED_COOLDOWN::.*";
+//%rename("%s") ActivatedPowerDefinition::ON_DEATH;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::ON_DEATH::.*";
+//%rename("%s") ActivatedPowerDefinition::HOTKEY_SETTING;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::HOTKEY_SETTING::.*";
+//
+//%luacode { 
+//    --Create ActivatedPowerDefinition enum tables
+//    Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN = {}
+//    Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN = {}
+//    Hyperspace.ActivatedPowerDefinition.ON_DEATH = {}
+//    Hyperspace.ActivatedPowerDefinition.HOTKEY_SETTING = {}
+//
+//    for key, value in pairs(Hyperspace.ActivatedPowerDefinition) do
+//        CreateEnumTable("Jump_Cooldown_", Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN, key, value)
+//        CreateEnumTable("Disabled_Cooldown_", Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN, key, value)
+//        CreateEnumTable("On_death_", Hyperspace.ActivatedPowerDefinition.ON_DEATH, key, value)
+//        CreateEnumTable("Hotkey_Setting_", Hyperspace.ActivatedPowerDefinition.HOTKEY_SETTING, key, value)
+//    end
+//}
 
 %rename("%s") ActivatedPowerDefinition::AssignIndex; // beware, do not create new definitions/indices on the fly, only in a predetermined order on load
 %rename("%s") ActivatedPowerDefinition::AssignName;
@@ -3265,9 +3354,27 @@ playerVariableType playerVariables;
 %rename("%s") PowerResourceDefinition::cooldownColor; 
 %rename("%s") PowerResourceDefinition::chargeReq;
 
-%rename("%s") PowerResourceDefinition::JUMP_COOLDOWN;
-%rename("%s") PowerResourceDefinition::DISABLED_COOLDOWN;
-%rename("%s") PowerResourceDefinition::ON_DEATH;
+// Require the .h definition of those enums to be `enum class`, but this breaks a lot of established code that would need to be fixed
+// So unless someones need to use those this should be a low priority issue
+//%rename("%s") PowerResourceDefinition::JUMP_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::JUMP_COOLDOWN::.*";
+//%rename("%s") PowerResourceDefinition::DISABLED_COOLDOWN;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::DISABLED_COOLDOWN::.*";
+//%rename("%s") PowerResourceDefinition::ON_DEATH;
+//%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "PowerResourceDefinition::ON_DEATH::.*";
+//
+//%luacode {
+//    --Create PowerResourceDefinition enum tables
+//    Hyperspace.PowerResourceDefinition.JUMP_COOLDOWN = {}
+//    Hyperspace.PowerResourceDefinition.DISABLED_COOLDOWN = {}
+//    Hyperspace.PowerResourceDefinition.ON_DEATH = {}
+//
+//    for key, value in pairs(Hyperspace.PowerResourceDefinition) do
+//        CreateEnumTable("Jump_Cooldown_", Hyperspace.PowerResourceDefinition.JUMP_COOLDOWN, key, value)
+//        CreateEnumTable("Disabled_Cooldown_", Hyperspace.PowerResourceDefinition.DISABLED_COOLDOWN, key, value)
+//        CreateEnumTable("On_death_", Hyperspace.PowerResourceDefinition.ON_DEATH, key, value)
+//    end
+//}
 
 %rename("%s") PowerResourceDefinition::AssignIndex; // beware, do not create new definitions/indices on the fly, only in a predetermined order on load
 %rename("%s") PowerResourceDefinition::AssignName;
@@ -3280,6 +3387,16 @@ playerVariableType playerVariables;
 %nodefaultdtor ActivatedPowerRequirements;
 %rename("%s") ActivatedPowerRequirements;
 %rename("%s") ActivatedPowerRequirements::Type;
+%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerRequirements::Type::.*";
+
+%luacode {
+    --Create ActivatedPowerRequirements enum table
+    Hyperspace.ActivatedPowerRequirements.Type = {}
+    for key, value in pairs(Hyperspace) do
+        CreateEnumTable("PowerType_", Hyperspace.ActivatedPowerRequirements.Type, key, value)
+    end
+}
+
 %rename("%s") ActivatedPowerRequirements::type;
 %rename("%s") ActivatedPowerRequirements::playerShip;
 %rename("%s") ActivatedPowerRequirements::enemyShip;
@@ -3309,6 +3426,15 @@ playerVariableType playerVariables;
 %rename("%s") GetNextPowerReadyState;
 
 %rename("%s") CrewExtraCondition;
+%rename("%(regex:/^(w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "CrewExtraCondition::.*";
+
+%luacode {
+    --Create CrewExtraCondition enum table
+    Hyperspace.CrewExtraCondition = {}
+    for key, value in pairs(Hyperspace) do
+        CreateEnumTable("CrewExtraCondition_", Hyperspace.CrewExtraCondition, key, value)
+    end
+}
 
 %nodefaultctor TemporaryPowerDefinition;
 %nodefaultdtor TemporaryPowerDefinition;
@@ -3373,17 +3499,6 @@ playerVariableType playerVariables;
 %rename("%s") TemporaryPowerDefinition::invulnerable;
 %rename("%s") TemporaryPowerDefinition::animFrame;
 %rename("%s") TemporaryPowerDefinition::cooldownColor;
-
-%luacode { 
-    --function to strip prefixes before adding enum to table
-    local function CreateEnumTable(prefix, table, key, value)
-        if key:find(prefix) then
-            key = key:gsub(prefix, "")
-            table[key] = value
-        end
-    end
-}
-
 
 %rename("%s") CrewStat;
 %rename("%(regex:/^(w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "CrewStat::.*";
@@ -3785,4 +3900,5 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "TemporalSystem.h"
 %include "Misc.h"
