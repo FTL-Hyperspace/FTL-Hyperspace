@@ -550,7 +550,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
     {
         if (current_target)
         {
-            if (ret->type == 1)
+            if (ret->Drone::type == 1)
             {
                 // combat
 
@@ -558,7 +558,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
                 ((CombatDrone*)ret)->SetWeaponTarget(&current_target->_targetable);
 
             }
-            else if (ret->type == 4)
+            else if (ret->Drone::type == 4)
             {
                 // boarder
 
@@ -642,7 +642,7 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
                     }
                     else
                     {
-                        projectile->bBroadcastTarget = type == 1 && iShipId == 0;
+                        projectile->bBroadcastTarget = Drone::type == 1 && iShipId == 0;
                     }
 
                     CustomWeaponManager::ProcessMiniProjectile(projectile, weaponBlueprint);
