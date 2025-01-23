@@ -159,7 +159,14 @@ struct InternalEvents
         JUMP_LEAVE,
         // function on_wait(ShipManager& ship)
         ON_WAIT,
-
+        // function system_box_mouse_move(SystemBox& systemBox, int x, int y) return Chain
+        SYSTEM_BOX_MOUSE_MOVE,
+        // function system_box_mouse_click(SystemBox& systemBox, bool shift) return Chain
+        SYSTEM_BOX_MOUSE_CLICK,
+        // function system_box_key_down(SystemBox& systemBox, SDLKey key, bool shift) return Chain
+        SYSTEM_BOX_KEY_DOWN,
+        // function get_level_description(int systemId, int level, bool tooltip) return description_string
+        GET_LEVEL_DESCRIPTION,
 
         //Constructor Events
 
@@ -177,6 +184,8 @@ struct InternalEvents
         CONSTRUCT_SHIP_MANAGER,
         //function construct_ship_system(ShipSystem& system)
         CONSTRUCT_SHIP_SYSTEM,
+        //function construct_system_box(SystemBox& systemBox)
+        CONSTRUCT_SYSTEM_BOX,
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };

@@ -158,6 +158,8 @@ class LuaLibScript
             swig_type_info *pShipSystemTypes[21];
             swig_type_info *pSpaceDrone;
             swig_type_info *pSpaceDroneTypes[8];
+            
+            swig_type_info *pSystemBox;
         };
 
         TypeInfo types;
