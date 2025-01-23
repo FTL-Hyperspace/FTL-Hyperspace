@@ -3566,3 +3566,9 @@ Adds `elem` to the vector and increases its size by 1.
 - `unsigned int :size()`
 
 The size of the vector.
+
+- `T& operator[](unsigned int index)`
+
+Access the element at position `index`.
+
+NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
