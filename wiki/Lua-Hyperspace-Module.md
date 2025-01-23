@@ -3507,3 +3507,62 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 
 **Extends [TextButton0](#TextButton0)**
 
+# Templates
+Templates cannot be instantiated from the lua side. Specific instantiations of templates are treated as individual classes with similar usage, and are defined in [hyperspace.i](../lua/modules/hyperspace.i#L114) in the form `%template(template_name) template<parameters>`. Static methods of a template are accessed via `Hyperspace.template_name`
+
+## std::vector\<T\>
+
+### Methods
+#### Constructor overloads
+To construct a vector named `template_name`:
+```lua
+local instance = Hyperspace.template_name(args)
+```
+- `std::vector<T>` `constructor()`
+
+Constructs a `std::vector<T>` of size 0.
+- `std::vector<T>` `constructor(unsigned int size)`
+
+Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
+- `std::vector<T>` `constructor(std::vector<T> other)`
+
+Makes a copy of `other`.
+
+- `std::vector<T>` `constructor(unsigned int size, T value)`
+
+Constructs a vector of size `size` where each element is equal to `value`.
+
+#### Member methods
+- `T :back()`
+
+Accesses the last element of the vector. 
+
+WARNING: Undefined behavior (crash) if used on an empty vector!
+- `void :clear()`
+
+Empties the vector and sets its size to 0.
+
+- `bool :empty()` 
+
+Returns a boolean indicating if the vector is empty.
+
+- `T :front()`
+
+Accesses the first element of the vector. 
+
+WARNING: Undefined behavior (crash) if used on an empty vector!
+
+- `unsigned int :max_size()`
+
+The maximum size of the vector.
+- `void :pop_back()`
+
+Removes an element from the end and decreases the vector's size by 1.
+
+- `void :push_back(T elem)`
+
+Adds `elem` to the vector and increases its size by 1.
+
+- `unsigned int :size()`
+
+The size of the vector.
