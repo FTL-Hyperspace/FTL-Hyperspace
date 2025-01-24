@@ -804,8 +804,6 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
         priority = lua_tointeger(lua, 3);
     }
     
-    
-    //* NOTE! This may break previously valid constructs, such as script.on_internal_event(Defines.InternalEvents.SOME_EVENT_THAT_TAKES_ARGS, function() print("This function ignores its arguments!") end)
     lua_Debug ar;
     lua_rawgeti(lua, LUA_REGISTRYINDEX, callbackReference);
     lua_getinfo(lua, ">u", &ar);
@@ -813,7 +811,7 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     InternalEvents::Identifiers id = static_cast<InternalEvents::Identifiers>(callbackHookId);
     InternalEvents::EventInfo info = InternalEvents::GetEventInfo(id);
     const char* eventName = InternalEvents::GetName(id);
-    if (ar.nparams != info.argCount)
+    if (ar.nparams > info.argCount) // Only report if the function has more arguments than expected, too many mod use callbacks by only using the first few arguments
     {  
         std::string error = (boost::format("Error: Callback function for InternalEvent %s has the wrong number of arguments! Expected %u, got %u\nExpected function of the form: %s\n")
                         % eventName
@@ -834,7 +832,6 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
         luaL_error(lua, error.c_str());
         return 0;
     }
-    //*/
 
     std::vector<std::pair<LuaFunctionRef, int>> &vec = m_on_internal_event_callbacks[id];
     vec.emplace_back(callbackReference, priority);
