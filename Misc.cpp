@@ -1048,6 +1048,68 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_internal_event_callbacks(InternalEvents::MAIN_MENU);
 }
 
+HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::DangerousEnvironment -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool res = super();
+
+    lua_pushboolean(context->GetLua(), res);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::DANGEROUS_ENVIRONMENT, 1, 1) == 1)
+    {
+        res = lua_toboolean(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 2);
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 1);
+    }
+
+    return res;
+}
+
+static GL_Color g_flashColor = GL_Color(0.f, 0.f, 0.f, 0.f);
+HOOK_METHOD(SpaceManager, GetFlashOpacity, () -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::GetFlashOpacity -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    float opacity = super();
+    lua_pushnumber(context->GetLua(), opacity);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_HAZARD_FLASH, 1, 4) == 4)
+    {
+        g_flashColor.r = lua_tonumber(context->GetLua(), -4);
+        g_flashColor.g = lua_tonumber(context->GetLua(), -3);
+        g_flashColor.b = lua_tonumber(context->GetLua(), -2);
+        g_flashColor.a = lua_tonumber(context->GetLua(), -1);
+        opacity = g_flashColor.a;
+        lua_pop(context->GetLua(), 5);
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 1);
+    }
+
+    return opacity;
+}
+HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_RenderPrimitiveWithColor -> Begin (Misc.cpp)\n")
+
+    if (g_flashColor.a > 0.f)
+    {
+        g_flashColor.a = color.a;
+        super(primitive, g_flashColor);
+        g_flashColor.a = 0.f;
+    }
+    else
+    {
+        super(primitive, color);
+    }
+}
+
 HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnKeyDown -> Begin (Misc.cpp)\n")

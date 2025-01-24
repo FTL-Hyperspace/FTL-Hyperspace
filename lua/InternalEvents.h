@@ -16,6 +16,8 @@ struct InternalEvents
         UNKNOWN,
         ON_TICK,
         MAIN_MENU,
+        DANGEROUS_ENVIRONMENT,
+        GET_HAZARD_FLASH,
         GET_RUN_SEED,
         ON_KEY_DOWN,
         ON_KEY_UP,
@@ -27,6 +29,7 @@ struct InternalEvents
         ON_MOUSE_M_BUTTON_DOWN,
         GUI_MOUSE_MOVE,
         CREW_LOOP,
+        CREW_CLONE,
         SHIP_LOOP,
         HAS_EQUIPMENT,
         HAS_AUGMENTATION,
@@ -90,9 +93,12 @@ struct InternalEvents
     {
         static EventInfo eventInfo[Identifiers::UNKNOWN_MAX + 1] = 
         {
+            // {description of the function, number of argument of the function, whether it is a variable argument function}
             {"n/a", 0, false}, //Must always be first, used to check for bounds of enum input value
             {"function on_tick()", 0, false}, 
             {"function main_menu()", 0, false}, 
+            {"function dangerous_environment(bool danger) return danger", 1, false}, 
+            {"function get_hazard_flash(float alpha) return red, green, blue, alpha", 1, false}, 
             {"function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed", 2, false}, 
             {"function on_key_down(SDLKey key) return Chain", 1, false}, 
             {"function on_key_up(SDLKey key) return Chain", 1, false}, 
