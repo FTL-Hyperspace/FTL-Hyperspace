@@ -5202,8 +5202,9 @@ struct DoorBox : SystemBox
 	Point buttonOffset;
 };
 
-struct DroneBox
+struct DroneBox : ArmamentBox
 {
+	Drone *pDrone;
 };
 
 struct DroneEquipBox : EquipmentBox

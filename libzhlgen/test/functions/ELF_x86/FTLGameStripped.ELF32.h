@@ -5340,7 +5340,11 @@ struct WeaponEquipBox
 struct ShipRepair;
 
 /* 240 */
-struct DroneBox;
+struct DroneBox
+{
+    ArmamentBox _base;
+    Drone* pDrone;
+};
 
 /* 254 */
 struct freetype;

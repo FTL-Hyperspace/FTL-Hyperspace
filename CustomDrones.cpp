@@ -1,5 +1,6 @@
 #include "CustomDrones.h"
 #include "CustomCrew.h"
+#include "CustomOptions.h"
 #include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -1234,4 +1235,64 @@ HOOK_METHOD(SpaceDrone, destructor, () -> void)
     LOG_HOOK("HOOK_METHOD -> SpaceDrone::destructor -> Begin (CustomDrones.cpp)\n")
     HS_BREAK_TABLE(this)
     super();   
+}
+
+//Select crewdrones with drone selection hotkeys if setting is enabled.
+HOOK_METHOD(DroneControl, SelectArmament, (unsigned int i) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> DroneControl::SelectArmament -> Begin (CustomDrones.cpp)\n")
+    super(i);
+    if (CustomOptionsManager::GetInstance()->droneSelectHotkeys.currentValue)
+    {
+        DroneBox* box = static_cast<DroneBox*>(boxes[i]);
+        Drone* drone = box->pDrone;
+        bool isCrewDrone = drone->type == 2 || drone->type == 3 || drone->type == 4;
+        if (box->Powered() && isCrewDrone)
+        {
+            //Simple casting methods don't work as CrewDrone and Drone are not related by inheritence
+            //TODO: Correct casting when multiple inheritence is properly represented in FTLGame headers
+            ptrdiff_t droneBaseOffset = offsetof(CrewDrone, _drone);
+            uintptr_t droneAddr = reinterpret_cast<uintptr_t>(drone);
+            uintptr_t crewDroneAddr = droneAddr - droneBaseOffset;
+            CrewDrone* crewDrone = reinterpret_cast<CrewDrone*>(crewDroneAddr);
+        
+            G_->GetCApp()->gui->crewControl.SelectPotentialCrew(crewDrone, false); 
+            G_->GetCApp()->gui->crewControl.SelectCrew(true);
+        }
+    }   
+}
+
+//Add drones to return of GetCrewPortraitList call within functions handling saved positions if setting is enabled.
+static bool forceIncludeDrones = false;
+HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RestoreCrewPositions -> Begin (CustomDrones.cpp)\n")
+    forceIncludeDrones = true;
+    bool ret = super();
+    forceIncludeDrones = false;
+    return ret;
+}
+HOOK_METHOD(ShipManager, SaveCrewPositions, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SaveCrewPositions -> Begin (CustomDrones.cpp)\n")
+    forceIncludeDrones = true;
+    super();
+    forceIncludeDrones = false;
+}
+HOOK_METHOD(CrewMemberFactory, GetCrewPortraitList, (std::vector<CrewMember*>* vec, int teamId) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetCrewPortraitList -> Begin (CustomDrones.cpp)\n")
+    super(vec, teamId);
+    if (forceIncludeDrones && CustomOptionsManager::GetInstance()->droneSaveStations.currentValue)
+    {
+        std::vector<CrewMember*> crewList;
+        GetCrewList(&crewList, teamId, true);
+        for (auto crew : crewList)
+        {
+            if (crew->IsDrone() && crew->currentShipId == teamId)
+            {
+                vec->push_back(crew);
+            }
+        }
+    }
 }
