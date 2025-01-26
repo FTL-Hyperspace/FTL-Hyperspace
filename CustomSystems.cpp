@@ -149,7 +149,7 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
     int power;
     if (passive) // Some clonebay effect do not require power
     {
-        power = sys->healthState.second;
+        power = sys->healthState.first;
     }
     else
     {
@@ -1285,7 +1285,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         {
             for (int i = 0; i < 6; i++)
             {
-                int newSkillProgress = std::ceil(saveSkills[i] - (saveSkills[i] * (float)pLevel.skillLossPercent/100.0));
+                int newSkillProgress = std::ceil(saveSkills[i] - (blueprint.skillLevel[i].second * (float)pLevel.skillLossPercent/100.0));
                 if (pLevel.skillLossPercent > 0 && newSkillProgress == saveSkills[i]) newSkillProgress--;
                 if (newSkillProgress < 0) newSkillProgress = 0;
                 SetSkillProgress(i, newSkillProgress);
