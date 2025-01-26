@@ -110,6 +110,7 @@ struct InternalEvents
             {"function on_mouse_m_button_down(int x, int y) return Chain", 2, false},
             {"function gui_move_move(int x, int y) return Chain", 2, false},
             {"function crew_loop(CrewMember& crew)", 1, false},
+            {"function crew_clone(CrewMember& crew)", 1, false},
             {"function ship_loop(ShipManager& ship)", 1, false},
             {"function has_equipment(ShipManager& ship, char* equipment, int value) return Chain, value", 3, false},
             {"function has_augmentation(ShipManager& ship, char* augment, int value) return Chain, value", 3, false},
