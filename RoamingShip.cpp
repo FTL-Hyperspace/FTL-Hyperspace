@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "RoamingShip.h"
 #include <math.h>
+#define MAP G_->GetWorld()->starMap
 
 /*
 <roamingShips>
@@ -27,7 +28,14 @@ void RoamingShipsManager::ParseShipsNode(rapidxml::xml_node<char>* node)
 
             if (child->first_attribute("icon"))
             {
-                ship->mapIcon = G_->GetResources()->GetImageId(child->first_attribute("icon")->value());
+                // Load the icon as a texture
+                GL_Texture* texture = G_->GetResources()->GetImageId(child->first_attribute("icon")->value());
+
+                // Create a primitive using the loaded texture
+                ship->mapIcon = CSurface::GL_CreateImagePrimitive(texture, 0.0f, 0.0f, texture->width_, texture->height_, 0.0f, GL_Color(1.0, 1.0, 1.0, 1.0));
+
+                // Set the texture as antialiased
+                ship->mapIcon->textureAntialias = true;
             }
 
             if (child->first_attribute("behaviour"))
@@ -45,12 +53,17 @@ void RoamingShipsManager::ParseShipsNode(rapidxml::xml_node<char>* node)
                 ship->eventsList.push_back(event->value());
             }
 
+            if (child->first_attribute("targetEvent"))
+            {
+                ship->targetEvent = child->first_attribute("targetEvent")->value();
+            }
+
             RoamingShipsManager::GetInstance()->roamingShips[ship->id] = ship;
         }
     }
 }
 
-void RoamingShipsManager::AddRoamingShip(std::string ship, Location* beacon)
+void RoamingShipsManager::AddRoamingShip(const std::string ship, Location* beacon)
 {
     // Add the shipId into activeRoamingShips
     activeRoamingShips.push_back(ship);
@@ -63,9 +76,22 @@ void RoamingShipsManager::AddRoamingShip(std::string ship, Location* beacon)
     roamingShips[ship]->beaconDegree = (float)(rand() % 361); // Random value between 0 and 360
     roamingShips[ship]->currentMoveTime = 0;
     roamingShips[ship]->timeToMove = 0;
+
+    // figure out the event its looking for
+    roamingShips[ship]->eventTargetLocation = nullptr;
+
+    for (auto location : G_->GetWorld()->starMap.locations)
+    {
+        if (location->event->eventName == roamingShips[ship]->targetEvent)
+        {
+            roamingShips[ship]->eventTargetLocation = location;
+
+            break;
+        }
+    }
 }
 
-void RoamingShipsManager::RemoveRoamingShip(std::string ship)
+void RoamingShipsManager::RemoveRoamingShip(const std::string ship)
 {
     // Remove the shipId from activeRoamingShips
     activeRoamingShips.erase(std::remove(activeRoamingShips.begin(), activeRoamingShips.end(), ship), activeRoamingShips.end());
@@ -75,29 +101,43 @@ void RoamingShipsManager::RenderShips()
 {
     for (const auto& shipId : activeRoamingShips)
     {
-        RoamingShip* ship = roamingShips[shipId];
-        // Render the ship mapIcon rotating around the beacon, increment the rotation
-        Pointf locationPos = ship->currentLocation->loc;
+        RoamingShip* ship = roamingShips[shipId]; // finds the specific ship in the RoamingShips collection
+        Pointf locationPos = ship->currentLocation->loc; // find the location of the ship
 
-        // If timeToMove == currentMoveTime && targetLocation exists, render the movement direction thing
-        if (ship->timeToMove == ship->currentMoveTime && ship->targetLocation)
+        if (ship->timeToMove == ship->currentMoveTime && ship->targetLocation != nullptr) // checks if its time to move and if the ship has a target location to move to 
         {
             Pointf targetPos = ship->targetLocation->loc;
-            G_->GetResources()->RenderImage(ship->mapIcon, locationPos.x, locationPos.y, 0, GL_Color(1.0,1.0,1.0,1.0), 1.0, false);
+            hs_log_file("hahaha i'm a line!!!");
+            // Render the line between current location and target location using GL_DrawRect
+            float lineWidth = 2.0f; // Set the line width
+            float dx = targetPos.x - locationPos.x;
+            float dy = targetPos.y - locationPos.y;
+            float length = sqrt(dx * dx + dy * dy);
+            float angle = atan2(dy, dx) * (180.0f / M_PI);
 
-        }else
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(locationPos.x, locationPos.y);
+            CSurface::GL_Rotate(angle, 0.0f, 0.0f, 1.0f);
+            CSurface::GL_DrawRect(0, -lineWidth / 2, length, lineWidth, GL_Color(1.0f, 1.0f, 1.0f, 1.0f));
+            CSurface::GL_PopMatrix();
+        }
+        else
         {
-            ship->beaconDegree = (ship->beaconDegree + 0.5);
-            if (ship->beaconDegree > 360) ship->beaconDegree = 0;
+            ship->beaconDegree = (ship->beaconDegree + 0.5); // increments the rotation by 0.5
+            if (ship->beaconDegree > 360) ship->beaconDegree = 0; // if the rotation is greater than 360, reset it to 0
             // Render the ship mapIcon rotating around the beacon, increment the rotation
-            float radian = ship->beaconDegree * (M_PI / 180.f);
-            int newX = locationPos.x + 20 * cos(radian);
-            int newY = locationPos.y + 20 * sin(radian);
-            G_->GetResources()->RenderImage(ship->mapIcon, newX, newY, ((int)ship->beaconDegree + 90) % 360, GL_Color(1.0,1.0,1.0,1.0), 1.0, false);
+            float radian = ship->beaconDegree * (M_PI / 180.f); // trying to get the ship to go in a circle
+            int newX = locationPos.x + 20 * cos(radian); // figures out where the x position is
+            int newY = locationPos.y + 20 * sin(radian); // figures out where the y position is
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(newX, newY);
+            CSurface::GL_Rotate(((int)ship->beaconDegree + 180) % 360, 0, 0);
+            CSurface::GL_RenderPrimitive(ship->mapIcon);
+            CSurface::GL_PopMatrix();
         }
     }
 }
-
+// okay no testing yet i need to figure out a moving thing
 void RoamingShipsManager::MoveShips()
 {
     for (const auto& shipId : activeRoamingShips)
@@ -107,6 +147,8 @@ void RoamingShipsManager::MoveShips()
         if (ship->timeToMove == ship->currentMoveTime)
         {
             Location* nextLocation = nullptr;
+
+
 
             switch (ship->behavior)
             {
@@ -119,7 +161,22 @@ void RoamingShipsManager::MoveShips()
                 break;
 
             case 2:
+                if (ship->eventTargetLocation != nullptr) { // this one is for hunting down the target event
+                    // Use Dijkstra to get the path and select the next location
+                    std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, ship->eventTargetLocation, true);
+                    if (!path.empty() && path.size() > 1) {
+                        nextLocation = path[1];
+                    }
+                }
+                break;
 
+            case 3:
+                { // this one is hunting the player
+                    std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, MAP.currentLoc, true);
+                    if (!path.empty() && path.size() > 1) {
+                        nextLocation = path[1];
+                    }
+                }
                 break;
             
             default:
@@ -176,6 +233,22 @@ void RoamingShipsManager::SaveShips(int fd)
         {
             FileHelper::writeInt(fd, -1);
         }
+
+        if (ship->eventTargetLocation != nullptr)
+        {
+            for (int i = 0; i < G_->GetWorld()->starMap.locations.size(); ++i)
+            {
+                if (ship->eventTargetLocation == G_->GetWorld()->starMap.locations[i])
+                {
+                    FileHelper::writeInt(fd, i);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            FileHelper::writeInt(fd, -1);
+        }
         
         FileHelper::writeInt(fd, ship->currentMoveTime);
         FileHelper::writeInt(fd, ship->missingHP);
@@ -204,6 +277,15 @@ void RoamingShipsManager::LoadShips(int fd)
         {
             ship->targetLocation = nullptr;
         }
+        targetIndex = FileHelper::readInteger(fd);
+        if (targetIndex != -1)
+        {
+            ship->eventTargetLocation = G_->GetWorld()->starMap.locations[targetIndex];
+        }
+        else
+        {
+            ship->eventTargetLocation = nullptr;
+        }
         ship->currentMoveTime = FileHelper::readInteger(fd);
         ship->missingHP = FileHelper::readInteger(fd);
         ship->missingCrew = FileHelper::readInteger(fd);
@@ -230,7 +312,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (RoamingShip.h)\n")
     super();
     CSurface::GL_PushMatrix();
-    CSurface::GL_Translate(position.x + 42, position.y+ 33);
+    CSurface::GL_Translate(position.x + 42, position.y+ 33); // <- i will assume this is pointless with what primitives do now
     RoamingShipsManager::GetInstance()->RenderShips();
     CSurface::GL_PopMatrix();
 }

@@ -17,8 +17,9 @@ struct RoamingShip
     };
 
     std::string id;
-    GL_Texture* mapIcon;
+    GL_Primitive* mapIcon;
     std::vector<std::string> eventsList;
+    std::string targetEvent;
     int eventIndex = 0;
     int behavior = 0;
 
@@ -28,6 +29,7 @@ struct RoamingShip
 
     Location* targetLocation = nullptr; // since we need to save those we might make them int, it'll all depend if map generation index are stable on reload
     Location* currentLocation = nullptr;
+    Location* eventTargetLocation = nullptr;
 
     int missingHP = 0;
     int missingCrew = 0; // we'll need a more precise way to handle crew
@@ -44,9 +46,9 @@ public:
     std::map<std::string, RoamingShip*> roamingShips; // it's your library of ships, you pull them from here
     std::vector<std::string> activeRoamingShips; // which ships are currently in the sector
 
-    void AddRoamingShip(std::string ship, Location* beacon);
+    void AddRoamingShip(const std::string ship, Location* beacon);
 
-    void RemoveRoamingShip(std::string ship);
+    void RemoveRoamingShip(const std::string ship);
 
     void RenderShips(); // Renders the map icon and movement direction thing
     // loop through activeRoamingShips
