@@ -18,6 +18,8 @@ struct RoamingShip
 
     std::string id;
     GL_Primitive* mapIcon;
+    float fadeTimer = 0;
+    float progress = 0;
     std::vector<std::string> eventsList;
     std::string targetEvent;
     int eventIndex = 0;

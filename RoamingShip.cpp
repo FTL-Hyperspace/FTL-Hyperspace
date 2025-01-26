@@ -104,12 +104,12 @@ void RoamingShipsManager::RenderShips()
         RoamingShip* ship = roamingShips[shipId]; // finds the specific ship in the RoamingShips collection
         Pointf locationPos = ship->currentLocation->loc; // find the location of the ship
 
-        if (ship->timeToMove == ship->currentMoveTime && ship->targetLocation != nullptr) // checks if its time to move and if the ship has a target location to move to 
+        if (ship->timeToMove < ship->currentMoveTime && ship->targetLocation != nullptr) // checks if its time to move and if the ship has a target location to move to 
         {
             Pointf targetPos = ship->targetLocation->loc;
             hs_log_file("hahaha i'm a line!!!");
             // Render the line between current location and target location using GL_DrawRect
-            float lineWidth = 2.0f; // Set the line width
+            float lineWidth = 8.0f; // Set the line width
             float dx = targetPos.x - locationPos.x;
             float dy = targetPos.y - locationPos.y;
             float length = sqrt(dx * dx + dy * dy);
@@ -118,7 +118,31 @@ void RoamingShipsManager::RenderShips()
             CSurface::GL_PushMatrix();
             CSurface::GL_Translate(locationPos.x, locationPos.y);
             CSurface::GL_Rotate(angle, 0.0f, 0.0f, 1.0f);
-            CSurface::GL_DrawRect(0, -lineWidth / 2, length, lineWidth, GL_Color(1.0f, 1.0f, 1.0f, 1.0f));
+            CSurface::GL_DrawRect(0, -lineWidth / 2, length, lineWidth, GL_Color(1.0f, 0.0f, 0.0f, 0.5f));
+            CSurface::GL_PopMatrix();
+
+            // Update progress and fade timer
+            ship->progress += 0.01f; // Adjust the speed as needed
+            if (ship->progress >= 0.25f)
+            {
+                ship->progress = 0.0f;
+                ship->fadeTimer = 1.0f;
+            }
+            ship->fadeTimer -= 0.05f; // Adjust the fade speed as needed
+            if (ship->fadeTimer < 0.0f)
+            {
+                ship->fadeTimer = 0.0f;
+            }
+
+            // Calculate the position of the icon along the line
+            float iconX = locationPos.x + dx * ship->progress;
+            float iconY = locationPos.y + dy * ship->progress;
+
+            // Render the icon with fading effect
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(iconX, iconY);
+            CSurface::GL_Rotate(angle, 0.0f, 0.0f, 1.0f);
+            CSurface::GL_RenderPrimitiveWithAlpha(ship->mapIcon, ship->fadeTimer);
             CSurface::GL_PopMatrix();
         }
         else
@@ -184,6 +208,7 @@ void RoamingShipsManager::MoveShips()
             }
 
             ship->targetLocation = nextLocation;
+
         }
         else if (ship->timeToMove < ship->currentMoveTime && ship->targetLocation != nullptr)
         {
@@ -299,6 +324,25 @@ void RoamingShipsManager::LoadShips(int fd)
     }
 }
 
+/*            for (const auto& event : ship->eventsList)
+            {
+                if (ship->currentLocation->event && ship->currentLocation->event->eventName == event)
+                {
+                    G_->GetWorld()->UpdateLocation(ship->currentLocation->event);
+                    break;
+                }
+            } // new location for the thing :O
+            
+                for (const auto& shipId : roamingShipsManager->activeRoamingShips)
+    {
+         RoamingShip* ship = roamingShipsManager->roamingShips[shipId];
+          if (ship->currentLocation == loc)
+          {
+                ship->currentLocation = loc;
+          }    
+    }
+            */
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (RoamingShip.h)\n")
@@ -332,3 +376,34 @@ HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
     return ret;
 }
 
+HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (RoamingShip.h)\n")
+    RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+    LocationEvent* eventOverride = nullptr;
+    LocationEvent* eventSave = nullptr;
+    for (const auto& shipId : roamingManager->activeRoamingShips)
+    { 
+        RoamingShip* ship = roamingManager->roamingShips[shipId];
+        if (ship->currentLocation != nullptr && (ship->currentLocation == starMap.currentLoc || ship->targetLocation == starMap.currentLoc))
+        {
+            std::string eventName = ship->eventsList[ship->eventIndex];
+            LocationEvent *eventCheck = G_->GetEventGenerator()->CreateEvent(eventName , starMap.worldLevel, false);
+            if (eventCheck != nullptr)
+            {
+                eventOverride = eventCheck;
+                break;
+            }
+        } 
+    }
+    if (eventOverride != nullptr)
+    {
+        eventSave = loc->event;
+        loc->event = eventOverride;
+    }
+    super(loc);
+    if (eventOverride != nullptr)
+    {
+        loc->event = eventSave;
+    }
+}
