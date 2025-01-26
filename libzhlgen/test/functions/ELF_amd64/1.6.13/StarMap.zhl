@@ -21,7 +21,7 @@ cleanup __amd64 void StarMap::OnLanguageChange(StarMap *this);
 ".4883ec08803d????????00753b":
 cleanup __amd64 int StarMap::GetRandomSectorChoice(StarMap *this);
 ".31c085f67867":
-cleanup __amd64 void StarMap::NeighboringSector(StarMap *this, int unk0);
+cleanup __amd64 bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
 ".41554989fd415441bcffffffff5589cd534883ec18":
 cleanup __amd64 void StarMap::GetSelectedSector(StarMap *this, int unk0, int unk1, int unk2);
 ".4883ec28488b87b0080000c687b908000001":

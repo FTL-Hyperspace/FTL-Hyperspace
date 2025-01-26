@@ -132,6 +132,7 @@ target_sources(
     CustomLocalization.cpp
     CustomLocalization.h
     CustomMap.cpp
+    CustomMap.h
     CustomOptions.cpp
     CustomOptions.h
     CustomReactor.cpp

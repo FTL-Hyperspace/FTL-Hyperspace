@@ -21,7 +21,7 @@ __thiscall void StarMap::OnLanguageChange(StarMap *this);
 ".5589e583e4f0803d????????007435e8a46e1500":
 __thiscall int StarMap::GetRandomSectorChoice(StarMap *this);
 ".565331c08b5c240c85db78438bb1fc0600008b91":
-__thiscall void StarMap::NeighboringSector(StarMap *this, int unk0);
+__thiscall bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
 ".578d7c240883e4f0ff77fc5589fa89e557565389":
 __thiscall void StarMap::GetSelectedSector(StarMap *this, int unk0, int unk1, int unk2);
 ".578d7c240883e4f0ff77fc5589e55756538d75d0":

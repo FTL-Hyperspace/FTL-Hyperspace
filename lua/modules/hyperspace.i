@@ -10,6 +10,7 @@
 #include "CustomAugments.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
+#include "CustomMap.h"
 #include "CustomScoreKeeper.h"
 #include "CustomShipGenerator.h"
 #include "CustomShipSelect.h"
@@ -976,7 +977,25 @@ playerVariableType playerVariables;
 %immutable StarMap::fuelEventSeed;
 */
 ////%rename("%s") StarMap::foundMap; // Not sure what this map of location/bool does but maybe this is for marking what nodes have information, like if you find the sector map & scan???
-
+%rename("%s") StarMap::ForceWaitMessage;
+%extend StarMap {
+    //TODO: Figure out best ownership approach for this
+    //Could use %delobject or %native functions with manual reference counting if this is an issue
+    void ForceWaitMessage(GL_Primitive* waitMessage = nullptr)
+    {
+        static GL_Primitive* defaultWaitMessage = $self->fuelMessage;
+        if (waitMessage != nullptr)
+        {
+            $self->fuelMessage = waitMessage;
+            forceWait = true;
+        }
+        else
+        {
+            $self->fuelMessage = defaultWaitMessage;
+            forceWait = false;
+        }
+    }
+}
 /*
 %nodefaultctor ShipEvent;
 %rename("%s") ShipEvent;
