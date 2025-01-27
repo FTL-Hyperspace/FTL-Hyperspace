@@ -888,7 +888,7 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
     super();
 
     shotLimitMessage = new WarningMessage();
-    shotLimitMessage->InitText(TextString("warning_shot_limit", false), Point(203, -25), 2.0, COLOR_WHITE, true, false);
+    shotLimitMessage->InitText(TextString("warning_shot_limit", false), Point(203, -25), 2.0, COLOR_BUTTON_ON, true, false);
 }
 
 HOOK_METHOD(WeaponControl, RenderWarnings, () -> void)
@@ -912,4 +912,18 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
         missileMessage.Stop();
         systemMessage.Stop();
     }
+}
+
+//Vanilla doesn't save shotsFiredAtTarget so we handle this here
+HOOK_METHOD(ProjectileFactory, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SaveState -> Begin (CustomWeapons.cpp)\n")
+    super(fd);
+    FileHelper::writeInt(fd, shotsFiredAtTarget);
+}
+HOOK_METHOD(ProjectileFactory, LoadState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::LoadState -> Begin (CustomWeapons.cpp)\n")
+    super(fd);
+    shotsFiredAtTarget = FileHelper::readInteger(fd);
 }

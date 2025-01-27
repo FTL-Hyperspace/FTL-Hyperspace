@@ -6337,6 +6337,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API Projectile *GetProjectile();
 	LIBZHL_API bool IsChargedGoal();
 	LIBZHL_API static Projectile *__stdcall LoadProjectile(int fd);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API int NumTargetsRequired();
 	LIBZHL_API void OnRender(float alpha, bool forceVisual);
 	LIBZHL_API bool QueuedShots();

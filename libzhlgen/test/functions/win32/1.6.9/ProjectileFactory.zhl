@@ -18,6 +18,8 @@ __thiscall void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, floa
 static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& str);
 ".8b8100060000398104060000":
 __thiscall bool ProjectileFactory::QueuedShots(ProjectileFactory *this);
+".578d????0883e4f0ff????5589e557565389cb83ec3c8b??8dbbfc000000":
+__thiscall void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b47048b1f8945e4":
 __thiscall void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
 "8b912c06000031c085d27e??0fb681f600000084c074??8b411c8b911801000039900c0100007e??31c0c3908d74260080b9f50000000075??":

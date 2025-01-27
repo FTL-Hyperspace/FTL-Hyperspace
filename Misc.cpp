@@ -1251,7 +1251,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
 
 HOOK_METHOD_PRIORITY(WeaponControl, SelectArmament, -100, (unsigned int armamentSlot) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
