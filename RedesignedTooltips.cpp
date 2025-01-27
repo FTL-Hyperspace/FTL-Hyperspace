@@ -947,6 +947,11 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
             currentText = tLib->GetText("accuracy_modifier");
             descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage->accuracyMod)) + "\n";
         }
+        if (weaponDef->shotLimit >= 0)
+        {
+            currentText = tLib->GetText("shot_limit");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->shotLimit)) + "\n";
+        }
         ret.assign(descText);
     }
 

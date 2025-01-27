@@ -1249,7 +1249,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
-HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
+HOOK_METHOD_PRIORITY(WeaponControl, SelectArmament, -100, (unsigned int armamentSlot) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
 

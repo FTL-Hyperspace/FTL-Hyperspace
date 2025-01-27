@@ -28,7 +28,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     {
         std::string name = child->name();
         std::string val = child->value();
-
+        if (name == "shotLimit")
+        {
+            weaponDef.shotLimit = boost::lexical_cast<int>(val);
+        }
         if (name == "freeMissileChance")
         {
             weaponDef.freeMissileChance = boost::lexical_cast<int>(val);
@@ -824,5 +827,89 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
                 }
             }
         }
+    }
+}
+bool ProjectileFactory::HitShotLimit()
+{
+    auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
+    return def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget && !QueuedShots();
+}
+//Shot limit is implemented in the same context as checks on WeaponBlueprint::missiles as a way of implementing a requirement on weapon usage
+//TODO: Possibly add callback for arbitrary requirements on weapon usage
+
+//Handle powering/depowering of weapons
+
+//Rewrite to reverse inlining of PowerWeapon(userDriven=false, force=false) so hook is run
+HOOK_METHOD_PRIORITY(WeaponSystem, ForceIncreasePower, 9999, (int power) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponSystem::ForceIncreasePower -> Begin (CustomWeapons.cpp)\n")
+    for (auto weapon : weapons)
+    {
+        if (!weapon->powered && PowerWeapon(weapon, false, false)) return true;
+    }
+    return false;
+}
+HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponSystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
+    super();
+    for (auto weapon : weapons)
+    {
+        if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+    }
+}
+HOOK_METHOD(WeaponSystem, PowerWeapon, (ProjectileFactory* weapon, bool userDriven, bool force) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponSystem::PowerWeapon -> Begin (CustomWeapons.cpp)\n")
+    if (weapon->HitShotLimit()) return false;
+    return super(weapon, userDriven, force);
+
+}
+HOOK_METHOD(ProjectileFactory, FireNextShot, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::FireNextShot -> Begin (CustomWeapons.cpp)\n")
+    if (HitShotLimit()) return false;
+    return super();
+}
+HOOK_METHOD(ProjectileFactory, ReadyToFire, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::ReadyToFire -> Begin (CustomWeapons.cpp)\n")
+    if (HitShotLimit()) return false;
+    return super();
+}
+//Other places with references to missile variables: WeaponBlueprint:GetDescription, WeaponBox::RenderBox, ProjectileFactory::Update
+
+//Handle WarningMessage for power attempts
+static WarningMessage* shotLimitMessage = nullptr;
+
+HOOK_METHOD(WeaponControl, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::constructor -> Begin (CustomWeapons.cpp)\n")
+    super();
+
+    shotLimitMessage = new WarningMessage();
+    shotLimitMessage->InitText(TextString("warning_shot_limit", false), Point(203, -25), 2.0, COLOR_WHITE, true, false);
+}
+
+HOOK_METHOD(WeaponControl, RenderWarnings, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::RenderWarnings -> Begin (CustomWeapons.cpp)\n")
+    super();
+    CSurface::GL_Translate(location.x, location.y);
+    shotLimitMessage->OnRender();
+    CSurface::GL_Translate(-location.x, -location.y);
+}
+
+HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (CustomWeapons.cpp)\n")
+    shotLimitMessage->Stop();
+    super(armamentSlot);
+    WeaponBox* box = static_cast<WeaponBox*>(boxes[armamentSlot]);
+    if (box->pWeapon->HitShotLimit())
+    {
+        shotLimitMessage->Start();
+        missileMessage.Stop();
+        systemMessage.Stop();
     }
 }

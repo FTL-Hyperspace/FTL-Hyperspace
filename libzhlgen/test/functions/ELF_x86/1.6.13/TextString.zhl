@@ -4,8 +4,13 @@ cleanup __cdecl std::string TextString::GetText(TextString *this);
 
 struct TextString depends (TextLibrary)
 {{
-	TextString()
+	TextString() : TextString("", true)
 	{
-		isLiteral = true;
+
+	}
+
+	TextString(const std::string& str, bool literal) : data(str), isLiteral(literal)
+	{
+
 	}
 }};

@@ -184,9 +184,14 @@ struct TextString;
 
 struct TextString
 {
-	TextString()
+	TextString() : TextString("", true)
 	{
-		isLiteral = true;
+
+	}
+
+	TextString(const std::string& str, bool literal) : data(str), isLiteral(literal)
+	{
+
 	}
 
 	LIBZHL_API std::string GetText();
@@ -1010,6 +1015,11 @@ struct WarningMessage
 	WarningMessage()
 	{
 		this->constructor();
+	}
+
+	inline void Stop()
+	{
+		tracker.Stop(false);
 	}
 
 	LIBZHL_API void InitImage(const std::string &imageName, Point position, float time, bool flash);
@@ -6300,6 +6310,8 @@ struct PowerManager
 
 struct ProjectileFactory : ShipObject
 {
+    bool HitShotLimit();
+
 	LIBZHL_API void ClearAiming();
 	LIBZHL_API void ClearProjectiles();
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target);
