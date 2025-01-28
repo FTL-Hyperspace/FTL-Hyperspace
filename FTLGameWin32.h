@@ -3928,6 +3928,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(bool unk);
 	LIBZHL_API void RenderAiming();
 	LIBZHL_API static void __stdcall RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);

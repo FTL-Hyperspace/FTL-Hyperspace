@@ -888,7 +888,12 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
     super();
 
     shotLimitMessage = new WarningMessage();
-    shotLimitMessage->InitText(TextString("warning_shot_limit", false), Point(203, -25), 2.0, COLOR_BUTTON_ON, true, false);
+    GL_Color warningColor = COLOR_BUTTON_ON;
+    //Not sure why this adjustment is necessary
+    warningColor.r *= 255.f;
+    warningColor.g *= 255.f;
+    warningColor.b *= 255.f;
+    shotLimitMessage->InitText(TextString("warning_shot_limit", false), Point(203, -25), 2.0, warningColor, true, false);
 }
 
 HOOK_METHOD(WeaponControl, RenderWarnings, () -> void)
@@ -898,6 +903,12 @@ HOOK_METHOD(WeaponControl, RenderWarnings, () -> void)
     CSurface::GL_Translate(location.x, location.y);
     shotLimitMessage->OnRender();
     CSurface::GL_Translate(-location.x, -location.y);
+}
+HOOK_METHOD(WeaponControl, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::OnLoop -> Begin (CustomWeapons.cpp)\n")
+    super();
+    shotLimitMessage->OnLoop();
 }
 
 HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
