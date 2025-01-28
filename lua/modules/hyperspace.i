@@ -3695,6 +3695,7 @@ playerVariableType playerVariables;
 %nodefaultctor SoundControl;
 %nodefaultdtor SoundControl;
 %rename("%s") SoundControl;
+%rename("%s") SoundControl::StopChannel;
 %rename("%s") SoundControl::PlaySoundMix;
 
 %nodefaultctor SettingValues;

@@ -3442,6 +3442,9 @@ Accessed via `Projectile`'s `.extend` field
 
 ### Methods
 - `int :PlaySoundMix(std::string soundName, float volume, bool loop)`
+- `void :StopChannel(int channel, float fade)`
+   - The channel value is given by `PlaySoundMix`
+   - `fade` is counted in milliseconds
 
 ## SettingValues
 
