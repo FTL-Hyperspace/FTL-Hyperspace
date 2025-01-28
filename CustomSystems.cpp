@@ -104,7 +104,7 @@ std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
     {JUMP_HP[3], JUMP_HP_PERCENT[3], CLONE_HP_PERCENT[3], SKILL_LOSS[3], CLONE_SPEED[3], CLONE_DEATH_SPEED[3], CLONE_AMOUNT[3]}
 }; 
 //Define default CloneLevel values
-CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{10, 0, 100, 10, 5.f, 3.f, 1};
+CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{0, 0, 100, 10, 5.f, 3.f, 1};
 void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
     unsigned int level = 0;
@@ -1118,6 +1118,15 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
         controlledCrew.pop_back();
         G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
     }
+    if (GetEffectivePower() == 0 && !controlledCrew.empty())
+    {
+        while (!controlledCrew.empty())
+        {
+            controlledCrew.back()->SetMindControl(false);
+            controlledCrew.pop_back();
+        }
+        G_->GetSoundControl()->PlaySoundMix("mindControlEnd", -1.0, false);
+    }
     controlledCrew.erase(std::remove_if(controlledCrew.begin(),
                                         controlledCrew.end(),
                                         [](CrewMember* crew) { 
@@ -1132,7 +1141,7 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
         crew->SetHealthBoost(level.healthBoost);
         crew->SetDamageBoost(level.damageBoost);
     }
-    if (GetEffectivePower() == 0 || (controlledCrew.empty() && controlTimer.first != controlTimer.second)) ReleaseCrew();
+    if (controlledCrew.empty() && controlTimer.first != controlTimer.second) ReleaseCrew();
     if (level.duration != controlTimer.second)
     {
         if (controlTimer.first == controlTimer.second)
@@ -1211,7 +1220,6 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
 bool g_jumpClone = false;
 int g_checkCloneSpeed = 2;
-int g_clonePercentTooltip = 0;
 int g_clonePercentTooltipLevel = 0;
 CloneSystem* g_cloneSystem = nullptr;
 std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
@@ -1234,7 +1242,7 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
         CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
         if (sys != nullptr)
         {
-            CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
+            CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys->healthState.first);
             heal = 0;
             if (pLevel.jumpHPPercent > 0)
             {
@@ -1245,7 +1253,6 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
                 heal += pLevel.jumpHP;
             }
             if (heal > health.second) heal = health.second;
-            if (heal <= 0) heal = 1;
         }
     }
     
@@ -1339,10 +1346,8 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId,int level,bool toolti
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomSystems.cpp)\n")
     
-    g_clonePercentTooltip = 1;
     g_clonePercentTooltipLevel = level + 1;
     std::string ret = super(systemId, level, tooltip);
-    g_clonePercentTooltip = 0;
     return ret;
 }
 
@@ -1358,8 +1363,6 @@ HOOK_STATIC(CloneSystem, GetJumpHealth, (int level) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
 
-    if (g_clonePercentTooltip == 1) g_clonePercentTooltip = 2;
-
     CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(level);
     return glevel.jumpHP;
 }
@@ -1370,22 +1373,26 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
 
     std::string ret = super(name, lang);
 
-    if (g_clonePercentTooltip == 2)
+    if (name == "clone_full")
     {
-        // this is what we have '\1 sec clone + \2 hp/jump'
         CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(g_clonePercentTooltipLevel);
         if (glevel.jumpHPPercent > 0)
         {
             size_t pos = ret.find("\\2");
-            std::string replaceHP = "";
-            if (glevel.jumpHP > 0) replaceHP = "\\2 + ";
 
-            if (pos != std::string::npos)
-            {
-                ret.replace(pos, 2, replaceHP + std::to_string(glevel.jumpHPPercent) + "%");
-            }
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
         }
-        g_clonePercentTooltip = 0;
+    }
+    if ((name == "clonebay_health" || name == "clonebay_damaged") && G_->GetShipManager(0)->cloneSystem != nullptr)
+    {
+        CustomCloneSystem::CloneLevel& glevel = CustomCloneSystem::GetLevel(G_->GetShipManager(0)->cloneSystem->healthState.first);
+        if (glevel.jumpHPPercent > 0)
+        {
+            size_t pos = ret.find("\\1");
+
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\1 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
+
+        }
     }
 
     return ret;
@@ -1435,5 +1442,23 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
             G_->GetResources()->RenderImage(gas, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
         }
         G_->GetResources()->RenderImage(top, pos.x - 17.0, pos.y - 17.0, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.0, false);
+    }
+}
+
+// fix vanilla bug were replacing the clone bay by a medical one would keep the crew in the cloning process perpetually
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnRenderFloor -> Begin (CustomSystems.cpp)\n")
+
+    super();
+    if (cloneSystem == nullptr)
+    {
+        std::vector<CrewMember*> crewList;
+        G_->GetCrewFactory()->GetCloneReadyList(crewList,(iShipId==0));
+
+        if (!crewList.empty())
+        {
+            crewList.front()->SetCloneReady(false);
+        }
     }
 }
