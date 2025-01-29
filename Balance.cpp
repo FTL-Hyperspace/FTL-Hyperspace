@@ -140,10 +140,10 @@ HOOK_METHOD(ShipSystem, IonDamage, (int amount) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSystem::IonDamage -> Begin (Balance.cpp)\n")
 
-    if (GetId() == SYS_HACKING && g_hackingIonFix && amount > 0)
+    if (GetId() == SYS_HACKING && g_hackingIonFix && amount > 0 && amount < 4)
     {
         HackingSystem* hacking = G_->GetShipManager(_shipObj.iShipId)->hackingSystem;
-        if (hacking->bHacking) hacking->LockSystem(4);
+        if (hacking->bHacking) hacking->LockSystem(4 - amount);
     }
 
     super(amount);
