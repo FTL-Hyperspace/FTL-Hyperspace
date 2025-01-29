@@ -561,7 +561,7 @@ bool g_infoBoxRenderFix = false;
 bool g_upgradeCostThresholdRewrite = false;
 bool g_force_easy_print = false;
 Pointf infoBoxUpgradeCostPos;
-std::vector<int> upgradeCosts;
+const std::vector<int> *upgradeCosts;
 
 HOOK_METHOD(InfoBox, OnRender, () -> void)
 {
@@ -571,7 +571,7 @@ HOOK_METHOD(InfoBox, OnRender, () -> void)
     {
         infoBoxUpgradeCostPos.x = (float)(location.x + 105);
         infoBoxUpgradeCostPos.y = (float)(location.y + yShift + 224);
-        upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
+        upgradeCosts = &(blueprint->upgradeCosts);
     }
     g_upgradeCostThresholdRewrite = SystemNoPurchaseThreshold::enabled;
     // if g_infoBoxRenderFix is true, upgrade costs rendering is prevented in this method. Instead they are rendered within ShipSystem::RenderPowerBoxesPlain hook, taking scrolling into account
@@ -620,7 +620,7 @@ HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int hei
         {
             if (current - barIncrement < 8 - i)
             {
-                freetype::easy_print(0, infoBoxUpgradeCostPos.x, infoBoxUpgradeCostPos.y + (float)(i * 26), SystemNoPurchaseThreshold::to_string(upgradeCosts[6 - i + barIncrement]));
+                freetype::easy_print(0, infoBoxUpgradeCostPos.x, infoBoxUpgradeCostPos.y + (float)(i * 26), SystemNoPurchaseThreshold::to_string((*upgradeCosts)[6 - i + barIncrement]));
             }
         }
         CSurface::GL_SetColor(originalColor);
