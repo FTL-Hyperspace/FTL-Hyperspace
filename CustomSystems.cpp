@@ -1222,7 +1222,7 @@ bool g_jumpClone = false;
 int g_checkCloneSpeed = 2;
 int g_clonePercentTooltipLevel = 0;
 CloneSystem* g_cloneSystem = nullptr;
-std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
+std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0};
 
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
@@ -1315,12 +1315,12 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(g_cloneSystem, false);
         CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
 
-        int cloneTime = vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1]
+        int cloneTime = (g_cloneSystem->GetEffectivePower() - 1) < vanillaCloneTime.size() ? vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] : level.cloneSpeed;
 
         #ifdef WIN32 // OnLoop GetSpeedFactor order is inverted between windows and linux
         if (g_checkCloneSpeed == 0 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * (cloneTime == 0 ? 1 : cloneTime) / level.cloneSpeed;
+            speedFactor = speedFactor * cloneTime / level.cloneSpeed;
         }
         else // For the clone death
         {
@@ -1329,7 +1329,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         #else
         if (g_checkCloneSpeed == 1 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * (cloneTime == 0 ? 1 : cloneTime) / level.cloneSpeed;
+            speedFactor = speedFactor * cloneTime / level.cloneSpeed;
         }
         else // For the clone death
         {
