@@ -32,6 +32,7 @@ struct RoamingShip
     Location* targetLocation = nullptr; // since we need to save those we might make them int, it'll all depend if map generation index are stable on reload
     Location* currentLocation = nullptr;
     Location* eventTargetLocation = nullptr;
+    Location* previousHoverLoc = nullptr;
 
     int missingHP = 0;
     int missingCrew = 0; // we'll need a more precise way to handle crew

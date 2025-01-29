@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "zhl.h"
 #include "RoamingShip.h"
 #include <math.h>
 #define MAP G_->GetWorld()->starMap
@@ -202,6 +203,25 @@ void RoamingShipsManager::MoveShips()
                     }
                 }
                 break;
+
+            case 4:
+                { // this one targets the beacon the player is hovering over
+                    Location* hoverLocation = G_->GetWorld()->starMap.hoverLoc;
+                    if (hoverLocation != nullptr)
+                    {
+                        // Re-check the path if hoverLoc is updated
+                        if (hoverLocation != ship->previousHoverLoc)
+                        {
+                            std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, hoverLocation, true);
+                            if (!path.empty() && path.size() > 1)
+                            {
+                                nextLocation = path[1];
+                            }
+                            ship->previousHoverLoc = hoverLocation; // Update the previous hover location
+                        }
+                    }
+                }
+                break;
             
             default:
                 break;
@@ -376,7 +396,8 @@ HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
     return ret;
 }
 
-HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
+/*
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -9999, (Location *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (RoamingShip.h)\n")
     RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
@@ -385,7 +406,17 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
     for (const auto& shipId : roamingManager->activeRoamingShips)
     { 
         RoamingShip* ship = roamingManager->roamingShips[shipId];
-        if (ship->currentLocation != nullptr && (ship->currentLocation == starMap.currentLoc || ship->targetLocation == starMap.currentLoc))
+        if (ship->currentLocation != nullptr && ship->currentLocation == starMap.currentLoc)
+        {
+            std::string eventName = ship->eventsList[ship->eventIndex];
+            LocationEvent *eventCheck = G_->GetEventGenerator()->CreateEvent(eventName , starMap.worldLevel, false);
+            if (eventCheck != nullptr)
+            {
+                eventOverride = eventCheck;
+                break;
+            }
+        }
+        if (ship->currentLocation != nullptr && ship->targetLocation == starMap.currentLoc)
         {
             std::string eventName = ship->eventsList[ship->eventIndex];
             LocationEvent *eventCheck = G_->GetEventGenerator()->CreateEvent(eventName , starMap.worldLevel, false);
@@ -396,6 +427,60 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
             }
         } 
     }
+    if (eventOverride != nullptr)
+    {
+        eventSave = loc->event;
+        loc->event = eventOverride;
+    }
+    super(loc);
+    if (eventOverride != nullptr)
+    {
+        loc->event = eventSave;
+    }
+}
+*/
+
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -9999, (Location *loc) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (RoamingShip.h)\n")
+    RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+    LocationEvent* eventOverride = nullptr;
+    LocationEvent* eventSave = nullptr;
+
+    for (const auto& shipId : roamingManager->activeRoamingShips)
+    { 
+        RoamingShip* ship = roamingManager->roamingShips[shipId];
+
+        if (ship->timeToMove < ship->currentMoveTime)
+        {
+            // Ship is moving, check target location
+            if (ship->targetLocation != nullptr && ship->targetLocation == starMap.currentLoc)
+            {
+                std::string eventName = ship->eventsList[ship->eventIndex];
+                LocationEvent *eventCheck = G_->GetEventGenerator()->CreateEvent(eventName, starMap.worldLevel, false);
+                if (eventCheck != nullptr)
+                {
+                    eventOverride = eventCheck;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // Ship is not moving, check current location
+            if (ship->currentLocation != nullptr && ship->currentLocation == starMap.currentLoc)
+            {
+                std::string eventName = ship->eventsList[ship->eventIndex];
+                LocationEvent *eventCheck = G_->GetEventGenerator()->CreateEvent(eventName, starMap.worldLevel, false);
+                if (eventCheck != nullptr)
+                {
+                    eventOverride = eventCheck;
+                    break;
+                }
+            }
+        }
+    }
+
     if (eventOverride != nullptr)
     {
         eventSave = loc->event;
