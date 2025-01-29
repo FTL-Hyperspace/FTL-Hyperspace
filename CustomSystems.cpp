@@ -1181,7 +1181,7 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
     CustomMindSystem::MindLevel& level = CustomMindSystem::GetLevel(this);
     unsigned int count = 0;
-    while (count < level.count && !queuedCrew.empty())
+    while (count < level.count && !queuedCrew.empty() && GetEffectivePower() > 0)
     {
         unsigned int index = random32() % queuedCrew.size();
         CrewMember* crew = queuedCrew[index];
