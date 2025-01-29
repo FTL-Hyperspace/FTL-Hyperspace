@@ -1315,12 +1315,13 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(g_cloneSystem, false);
         CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
 
-        int cloneTime = (g_cloneSystem->GetEffectivePower()) < vanillaCloneTime.size() ? vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] : level.cloneSpeed;
+        int cloneTime = 999;
+        if (level.cloneSpeed > 0) cloneTime = (g_cloneSystem->GetEffectivePower() - 1) < vanillaCloneTime.size() ? vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / level.cloneSpeed : 1;
 
         #ifdef WIN32 // OnLoop GetSpeedFactor order is inverted between windows and linux
         if (g_checkCloneSpeed == 0 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * cloneTime / level.cloneSpeed;
+            speedFactor = speedFactor * cloneTime;
         }
         else // For the clone death
         {
@@ -1329,7 +1330,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         #else
         if (g_checkCloneSpeed == 1 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * cloneTime / level.cloneSpeed;
+            speedFactor = speedFactor * cloneTime;
         }
         else // For the clone death
         {
