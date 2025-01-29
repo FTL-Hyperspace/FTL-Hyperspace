@@ -9,6 +9,8 @@
 <text name="aug_BOARDER_RECOVERY_desc">Non-destroyed boarding drones will be retrieved at the end of combat.</text>
 <text name="aug_MIND_ORDER_title">Neural Reins</text>
 <text name="aug_MIND_ORDER_desc">Allows direct control of mind controlled enemy crew. Also takes ownership of any effects being applied by that crew.</text>
+<text name="aug_ARTILLERY_ORDER_title">Advanced Targeting</text>
+<text name="aug_ARTILLERY_ORDER_desc">Allows manual targeting of artillery systems.</text>
 
 <text name="crew_ghost_desc">Ghosts of the past crew.</text>
 <text name="crew_ghost_title">Ghost</text>

@@ -64,7 +64,8 @@ void WeaponControl::RenderAimingNew(bool player)
         ProjectileFactory *weapon = ((WeaponBox*)(boxes[i]))->pWeapon;
         RenderAimingWeapon(weapon, player, i);
     }
-    if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue)
+
+    if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || shipManager->HasAugmentation("ARTILLERY_ORDER"))
     {
         for (ArtillerySystem* artillerySystem : shipManager->artillerySystems)
         {

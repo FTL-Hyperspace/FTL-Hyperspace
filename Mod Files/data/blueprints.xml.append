@@ -51,6 +51,15 @@
 	<stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="ARTILLERY_ORDER">
+	<title id="aug_ARTILLERY_ORDER_title"/>
+	<desc id="aug_ARTILLERY_ORDER_desc"/>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
 <crewBlueprint name="ghost">
 	<desc id="crew_ghost_desc"/>
 	<cost>50</cost>
