@@ -6290,6 +6290,8 @@ HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden)
 
     if (ret && event)
     {
+        // fix a vanilla bug that player can select a choice that requires more resources than they have when two costing events are back to back
+        // this is because requirements check is done before the cost of the previous event is applied to the resources balance
         int fuel_cost = event->stuff.fuel + lastLocationEvent->stuff.fuel;
         if (fuel_cost < 0 && playerShip->shipManager->fuel_count < fuel_cost * -1)
             return false;
