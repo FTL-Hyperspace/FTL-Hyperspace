@@ -205,20 +205,10 @@ void RoamingShipsManager::MoveShips()
                 break;
 
             case 4:
-                { // this one targets the beacon the player is hovering over
-                    Location* hoverLocation = G_->GetWorld()->starMap.hoverLoc;
-                    if (hoverLocation != nullptr)
-                    {
-                        // Re-check the path if hoverLoc is updated
-                        if (hoverLocation != ship->previousHoverLoc)
-                        {
-                            std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, hoverLocation, true);
-                            if (!path.empty() && path.size() > 1)
-                            {
-                                nextLocation = path[1];
-                            }
-                            ship->previousHoverLoc = hoverLocation; // Update the previous hover location
-                        }
+                { // this one is hunting the player mostly just filler to let the real logic run in StarMap::OnLoop
+                    std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, MAP.currentLoc, true);
+                    if (!path.empty() && path.size() > 1) {
+                        nextLocation = path[1];
                     }
                 }
                 break;
@@ -369,6 +359,28 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
     super(loc);
     RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
     roamingManager->MoveShips();
+}
+
+Location* previousHoverLoc = nullptr;
+
+HOOK_METHOD(StarMap, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnLoop -> Begin (RoamingShip.h)\n")
+    super();
+    RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+    for (const auto& shipId : activeRoamingShips)
+    {
+        RoamingShip* ship = roamingShips[shipId];
+
+        if (ship->behavior == 4 && hoverLoc != nullptr && hoverLoc != previousHoverLoc) // To save resources, only calculate path when hoverLoc changes
+        {
+            std::vector<Location*> path = Dijkstra(ship->currentLocation, hoverLoc, true);
+            if (!path.empty() && path.size() > 1) {
+                ship->targetLocation = path[1];
+                previousHoverLoc = hoverLoc;
+            }
+        }
+    }
 }
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
