@@ -1383,7 +1383,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
         {
             size_t pos = ret.find("\\2");
 
-            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + "+ std::to_string(glevel.jumpHPPercent) + "%" : "" + std::to_string(glevel.jumpHPPercent) + "%");
         }
     }
     if ((name == "clonebay_health" || name == "clonebay_damaged") && G_->GetShipManager(0)->cloneSystem != nullptr)
@@ -1393,7 +1393,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
         {
             size_t pos = ret.find("\\1");
 
-            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\1 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\1 + "+ std::to_string(glevel.jumpHPPercent) + "%" : "" + std::to_string(glevel.jumpHPPercent) + "%");
 
         }
     }
