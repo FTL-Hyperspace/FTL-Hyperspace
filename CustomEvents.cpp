@@ -6288,7 +6288,7 @@ HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden)
     LOG_HOOK("HOOK_METHOD -> WorldManager::CheckRequirements -> Begin (CustomEvents.cpp)\n")
     bool ret = super(event, hidden);
 
-    if (ret && event)
+    if (ret && event && !event->stuff.steal && !lastLocationEvent->stuff.steal)
     {
         // fix a vanilla bug that player can select a choice that requires more resources than they have when two costing events are back to back
         // this is because requirements check is done before the cost of the previous event is applied to the resources balance
