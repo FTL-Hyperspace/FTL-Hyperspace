@@ -191,6 +191,12 @@ This means that you can't get past defense drones easily anymore
 
 <hackingDroneFix enabled="true"/>
 
+<!--  Add the regular 20 second system lock when the system gets ionised while hacking
+Otherwise player can exploit 5 second self-ionisation to get the hacking system back sooner
+-->
+
+<hackingIonFix enabled="false"/>
+
 <!--  Remove any active repair drone on jump
 Otherwise player can benefit from the repair and get back the drone parts with the recovery arm
 -->
@@ -383,6 +389,7 @@ SECTOR             Go to sector type.                      Usage: SECTOR <sector
 SCRAP              Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
 WEAPON             Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
 SHIP               Unlock a ship.                          Usage: SHIP <ship_id>          Example: SHIP PLAYER_SHIP_MANTIS
+SHIP ALL           Unlock all ships                        Usage: SHIP ALL
 DRONES             Add drone parts.                        Usage: DRONES <num_to_add>     Example: DRONES 50
 DRONE              Add a drone blueprint.                  Usage: DRONE <drone_id>        Example: DRONE COMBAT_2
 FUEL               Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
