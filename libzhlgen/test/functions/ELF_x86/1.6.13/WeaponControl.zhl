@@ -34,5 +34,6 @@ cleanup __cdecl bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
 	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
 }};

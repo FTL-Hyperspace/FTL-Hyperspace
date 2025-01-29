@@ -34,5 +34,6 @@ cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager *s
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
 	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
 }};

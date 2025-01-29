@@ -1,3 +1,4 @@
+#include "CustomOptions.h"
 #include "Global.h"
 
 #include "TemporalSystem.h"
@@ -17,47 +18,58 @@ GL_Primitive *WeaponControl::GetAimingPrimitive(ProjectileFactory *weapon, int i
     }
     return nullptr;
 }
+void WeaponControl::RenderAimingWeapon(ProjectileFactory* weapon, bool player, int i)
+{
+    if (weapon && !weapon->targets.empty() && !((weapon->targetId == 0) ^ player))
+    {
+        if (weapon->blueprint->type == 2) // beam
+        {
+            if (weapon->targets.size() >= 2 && weapon->blueprint->length > 1) // real beam
+            {
+                RenderBeamAiming(weapon->targets[1], weapon->targets[0], weapon->autoFiring);
+            }
+            else if (weapon->targets.size() >= 1 && weapon->blueprint->length == 1) // pinpoint beam
+            {
+                GL_Primitive *prim = GetAimingPrimitive(weapon, i);
+                if (prim)
+                {
+                    Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
+                    CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
+                    CSurface::GL_RenderPrimitive(prim);
+                    CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
+                }
+            }
+        }
+        else // not a beam
+        {
+            if (weapon->radius != 0) // flak radius
+            {
+                CSurface::GL_DrawCircle(weapon->targets[0].x, weapon->targets[0].y, weapon->radius, GL_Color(1.f, 0.f, 0.f, 0.25f));
+            }
 
+            GL_Primitive *prim = GetAimingPrimitive(weapon, i);
+            if (prim)
+            {
+                CSurface::GL_Translate(weapon->targets[0].x, weapon->targets[0].y, 0.f);
+                CSurface::GL_RenderPrimitive(prim);
+                CSurface::GL_Translate(-weapon->targets[0].x, -weapon->targets[0].y, 0.f);
+            }
+        }
+    }
+}
 void WeaponControl::RenderAimingNew(bool player)
 {
     for (int i=0; i<boxes.size(); ++i)
     {
         ProjectileFactory *weapon = ((WeaponBox*)(boxes[i]))->pWeapon;
-        if (weapon && !weapon->targets.empty() && !((weapon->targetId == 0) ^ player))
+        RenderAimingWeapon(weapon, player, i);
+    }
+    if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue)
+    {
+        for (ArtillerySystem* artillerySystem : shipManager->artillerySystems)
         {
-            if (weapon->blueprint->type == 2) // beam
-            {
-                if (weapon->targets.size() >= 2 && weapon->blueprint->length > 1) // real beam
-                {
-                    RenderBeamAiming(weapon->targets[1], weapon->targets[0], weapon->autoFiring);
-                }
-                else if (weapon->targets.size() >= 1 && weapon->blueprint->length == 1) // pinpoint beam
-                {
-                    GL_Primitive *prim = GetAimingPrimitive(weapon, i);
-                    if (prim)
-                    {
-                        Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
-                        CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
-                        CSurface::GL_RenderPrimitive(prim);
-                        CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
-                    }
-                }
-            }
-            else // not a beam
-            {
-                if (weapon->radius != 0) // flak radius
-                {
-                    CSurface::GL_DrawCircle(weapon->targets[0].x, weapon->targets[0].y, weapon->radius, GL_Color(1.f, 0.f, 0.f, 0.25f));
-                }
-
-                GL_Primitive *prim = GetAimingPrimitive(weapon, i);
-                if (prim)
-                {
-                    CSurface::GL_Translate(weapon->targets[0].x, weapon->targets[0].y, 0.f);
-                    CSurface::GL_RenderPrimitive(prim);
-                    CSurface::GL_Translate(-weapon->targets[0].x, -weapon->targets[0].y, 0.f);
-                }
-            }
+            //TODO: Add icons unique to artillery?
+            RenderAimingWeapon(artillerySystem->projectileFactory, player, 0);
         }
     }
 }

@@ -77,6 +77,8 @@ public:
 
     Setting<std::string> dismissSound;
 
+    Setting<bool> targetableArtillery;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;

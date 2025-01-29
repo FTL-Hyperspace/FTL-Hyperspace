@@ -33,5 +33,6 @@ __thiscall SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned in
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
 	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
 }};
