@@ -1318,7 +1318,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         #ifdef WIN32 // OnLoop GetSpeedFactor order is inverted between windows and linux
         if (g_checkCloneSpeed == 0 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / level.cloneSpeed;
+            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / (level.cloneSpeed > 0 ? level.cloneSpeed : vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1]);
         }
         else // For the clone death
         {
@@ -1327,7 +1327,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         #else
         if (g_checkCloneSpeed == 1 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / level.cloneSpeed;
+            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / (level.cloneSpeed > 0 ? level.cloneSpeed : vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1]);
         }
         else // For the clone death
         {
