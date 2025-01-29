@@ -1,3 +1,4 @@
+#include "FTLGameWin32.h"
 #include "Global.h"
 #include "zhl.h"
 #include "RoamingShip.h"
@@ -213,6 +214,7 @@ void RoamingShipsManager::MoveShips()
                 }
                 break;
             
+            /*case 5:*/
             default:
                 break;
             }
@@ -368,13 +370,27 @@ HOOK_METHOD(StarMap, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> StarMap::OnLoop -> Begin (RoamingShip.h)\n")
     super();
     RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+<<<<<<< HEAD
+    for (const auto& shipId : roamingManager->activeRoamingShips)
+    {
+        RoamingShip* ship = roamingManager->roamingShips[shipId];
+=======
     for (const auto& shipId : activeRoamingShips)
     {
         RoamingShip* ship = roamingShips[shipId];
+>>>>>>> 0f6e1ad837b4fd56d7c11241c1f2a492c27dc392
 
         if (ship->behavior == 4 && hoverLoc != nullptr && hoverLoc != previousHoverLoc) // To save resources, only calculate path when hoverLoc changes
         {
             std::vector<Location*> path = Dijkstra(ship->currentLocation, hoverLoc, true);
+<<<<<<< HEAD
+            if (hoverLoc == ship->currentLocation)
+            {
+                ship->targetLocation = nullptr;
+                previousHoverLoc = hoverLoc;                
+            }
+=======
+>>>>>>> 0f6e1ad837b4fd56d7c11241c1f2a492c27dc392
             if (!path.empty() && path.size() > 1) {
                 ship->targetLocation = path[1];
                 previousHoverLoc = hoverLoc;
