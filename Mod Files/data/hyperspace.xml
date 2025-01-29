@@ -383,6 +383,7 @@ SECTOR             Go to sector type.                      Usage: SECTOR <sector
 SCRAP              Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
 WEAPON             Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
 SHIP               Unlock a ship.                          Usage: SHIP <ship_id>          Example: SHIP PLAYER_SHIP_MANTIS
+SHIP ALL           Unlock all ships                        Usage: SHIP ALL
 DRONES             Add drone parts.                        Usage: DRONES <num_to_add>     Example: DRONES 50
 DRONE              Add a drone blueprint.                  Usage: DRONE <drone_id>        Example: DRONE COMBAT_2
 FUEL               Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
