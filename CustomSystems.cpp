@@ -84,7 +84,7 @@ CustomMindSystem::MindLevel& CustomMindSystem::GetLevel(MindSystem* sys)
 {
     bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
     int power = hacked ? sys->healthState.first : sys->GetEffectivePower();
-    return (power > 0 && power < levels.size()) ? levels[power - 1] : defaultLevel;
+    return (power > 0 && power - 1 < levels.size()) ? levels[power - 1] : defaultLevel;
 }
 
 // TODO, get the real value for those
@@ -141,7 +141,7 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
 
 CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(int power)
 {
-    return (power > 0 && power < levels.size()) ? levels[power - 1] : defaultLevel;
+    return (power > 0 && power - 1 < levels.size()) ? levels[power - 1] : defaultLevel;
 }
 
 CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, bool passive)
@@ -149,14 +149,14 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
     int power;
     if (passive) // Some clonebay effect do not require power
     {
-        power = sys->healthState.second;
+        power = sys->healthState.first;
     }
     else
     {
         bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
         power = hacked ? sys->healthState.first : sys->GetEffectivePower();
     }
-    return (power > 0 && power < levels.size()) ? levels[power - 1] : defaultLevel;
+    return (power > 0 && power - 1 < levels.size()) ? levels[power - 1] : defaultLevel;
 }
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
@@ -1222,7 +1222,7 @@ bool g_jumpClone = false;
 int g_checkCloneSpeed = 2;
 int g_clonePercentTooltipLevel = 0;
 CloneSystem* g_cloneSystem = nullptr;
-std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0, 0.0};
+std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0};
 
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
@@ -1285,7 +1285,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
         {
             for (int i = 0; i < 6; i++)
             {
-                int newSkillProgress = std::ceil(saveSkills[i] - (saveSkills[i] * (float)pLevel.skillLossPercent/100.0));
+                int newSkillProgress = std::ceil(saveSkills[i] - (blueprint.skillLevel[i].second * (float)pLevel.skillLossPercent/100.0));
                 if (pLevel.skillLossPercent > 0 && newSkillProgress == saveSkills[i]) newSkillProgress--;
                 if (newSkillProgress < 0) newSkillProgress = 0;
                 SetSkillProgress(i, newSkillProgress);
@@ -1315,10 +1315,13 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(g_cloneSystem, false);
         CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(g_cloneSystem, true);
 
+        float cloneTimeMultiplier = 999.f;
+        if (level.cloneSpeed > 0) cloneTimeMultiplier = (g_cloneSystem->GetEffectivePower() - 1) < vanillaCloneTime.size() ? (float)vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / (float)level.cloneSpeed : 1.f;
+
         #ifdef WIN32 // OnLoop GetSpeedFactor order is inverted between windows and linux
         if (g_checkCloneSpeed == 0 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / level.cloneSpeed;
+            speedFactor = speedFactor * cloneTimeMultiplier;
         }
         else // For the clone death
         {
@@ -1327,7 +1330,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         #else
         if (g_checkCloneSpeed == 1 && g_cloneSystem->GetEffectivePower() > 0) // For the cloning progress
         {
-            speedFactor = speedFactor * vanillaCloneTime[g_cloneSystem->GetEffectivePower() - 1] / level.cloneSpeed;
+            speedFactor = speedFactor * cloneTimeMultiplier;
         }
         else // For the clone death
         {
