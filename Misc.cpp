@@ -14,6 +14,8 @@
 #include "EnumClassHash.h"
 #include "TemporalSystem.h"
 
+#include <boost/format.hpp>
+
 // Set the global CApp variable for Lua
 
 CApp *Global_CApp = nullptr;
@@ -737,7 +739,7 @@ int LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers i
             lua_pushvalue(this->m_Lua, -1-nArg);
         }
         if(lua_pcall(this->m_Lua, nArg, 1, 0) != 0) {
-            hs_log_file("Failed to call the before callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Maybe map RenderEvents to a readable string also?
+            hs_log_file("Failed to call the before callback for RenderEvent %s!\n %s\n", RenderEvents::GetName(id), lua_tostring(this->m_Lua, -1));
             lua_pop(this->m_Lua, 1);
             continue;
         }
@@ -780,7 +782,7 @@ void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers
             lua_pushvalue(this->m_Lua, -1-nArg);
         }
         if(lua_pcall(this->m_Lua, nArg, 0, 0) != 0) {
-            hs_log_file("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Maybe map RenderEvents to a readable string also?
+            hs_log_file("Failed to call the after callback for RenderEvent %s!\n %s\n", RenderEvents::GetName(id), lua_tostring(this->m_Lua, -1));
             lua_pop(this->m_Lua, 1);
             continue;
         }
@@ -803,16 +805,35 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
         luaL_argcheck(lua, lua_isinteger(lua, 3), 3, "integer expected!");
         priority = lua_tointeger(lua, 3);
     }
-
-    /*
-    // TODO: Check that the number of arguments needed matches those for the internal event
+    
     lua_Debug ar;
     lua_rawgeti(lua, LUA_REGISTRYINDEX, callbackReference);
     lua_getinfo(lua, ">u", &ar);
-    printf("Registered Lua Function: that accepts '%u' arguments and is variable arguments: %s\n", ar.nparams, ar.isvararg ? "TRUE" : "FALSE");
-    */
-
+    
     InternalEvents::Identifiers id = static_cast<InternalEvents::Identifiers>(callbackHookId);
+    InternalEvents::EventInfo info = InternalEvents::GetEventInfo(id);
+    const char* eventName = InternalEvents::GetName(id);
+    if (ar.nparams > info.argCount) // Only report if the function has more arguments than expected, too many mod use callbacks by only using the first few arguments
+    {  
+        std::string error = (boost::format("Error: Callback function for InternalEvent %s has the wrong number of arguments! Expected %u, got %u\nExpected function of the form: %s\n")
+                        % eventName
+                        % info.argCount
+                        % static_cast<unsigned int>(ar.nparams)
+                        % info.functionSignatureDescription).str();
+        hs_log_file(error);
+        luaL_error(lua, error.c_str()); 
+        return 0;
+    }
+    else if (ar.isvararg != info.isVariableArgs)
+    {
+        std::string error = (boost::format("Error: Provided function for InternalEvent %s %s!\nExpected function of the form: %s\n")
+                        % eventName
+                        % (info.isVariableArgs ? "Should be a variable argument function" : "Should not be a variable argument function")
+                        % info.functionSignatureDescription).str();
+        hs_log_file(error);
+        luaL_error(lua, error.c_str());
+        return 0;
+    }
 
     std::vector<std::pair<LuaFunctionRef, int>> &vec = m_on_internal_event_callbacks[id];
     vec.emplace_back(callbackReference, priority);
@@ -846,7 +867,7 @@ int LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers i
             lua_pushvalue(this->m_Lua, -1-nArg);
         }
         if(lua_pcall(this->m_Lua, nArg, nRet, 0) != 0) {
-            hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
+            hs_log_file("Failed to call the callback for InternalEvent %s!\n %s\n", InternalEvents::GetName(id), lua_tostring(this->m_Lua, -1));
             lua_pop(this->m_Lua, 1);
             continue;
         }
@@ -891,7 +912,7 @@ bool LuaLibScript::call_on_internal_chain_event_callbacks(InternalEvents::Identi
         }
         if(lua_pcall(this->m_Lua, nArg, nRet+1, 0) != 0) {
             // if the pcall fails then we just continue
-            hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
+            hs_log_file("Failed to call the callback for InternalEvent %s!\n %s\n", InternalEvents::GetName(id), lua_tostring(this->m_Lua, -1));
             lua_pop(this->m_Lua, 1);
             continue;
         }
