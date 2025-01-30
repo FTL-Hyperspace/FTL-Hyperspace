@@ -6283,6 +6283,13 @@ std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref
     return eligibleCrewList;
 }
 
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
+    G_->GetWorld()->lastLocationEvent = nullptr;
+    return super(tutorial, seed);
+}
+
 HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CheckRequirements -> Begin (CustomEvents.cpp)\n")
