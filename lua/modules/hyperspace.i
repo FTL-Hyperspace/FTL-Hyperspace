@@ -47,6 +47,16 @@
 //Register dynamic cast function
 DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 
+%apply SWIGTYPE *DYNAMIC {Projectile*};
+
+%{
+    static swig_type_info* Projectile_dynamic_cast(Projectile** ppProjectile) 
+    {     
+        return Global::GetInstance()->getLuaContext()->getLibScript()->types.pProjectile[(*ppProjectile)->GetType()];
+    }
+%}
+DYNAMIC_CAST(SWIGTYPE_p_Projectile, Projectile_dynamic_cast);
+
 namespace std {
     // shamelessly copied from the SWIG library and modified (the SWIG library code is unrestricted)
     template<class K, class T, class H = std::hash<K>, class E = std::equal_to<K> > class unordered_map {
