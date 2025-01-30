@@ -1,3 +1,4 @@
+#include "CustomSystems.h"
 #include "CustomUpgrades.h"
 #include "CustomShipSelect.h"
 #include <boost/lexical_cast.hpp>
@@ -399,6 +400,17 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
             {
                 AddUpgradeBox(this, sys, systemXPos, subsystemXPos, numSystems, numSubsystems);
             }
+        }
+    }
+
+    //Custom systems
+    //TODO: Allow full user control over systemBox ordering?
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        auto sys = ship->GetSystem(systemId);
+        if (sys)
+        {
+            AddUpgradeBox(this, sys, systemXPos, subsystemXPos, numSystems, numSubsystems);
         }
     }
 
