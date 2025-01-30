@@ -7,6 +7,7 @@
 #include "EnemyShipIcons.h"
 #include "Resources.h"
 #include "CustomColors.h"
+#include "CustomEquipment.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -2718,7 +2719,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
                 box->RenderLabels(false);
             }
         }
-
+        else if (g_showDummyEquipmentSlots && i < storeIds[2])
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(box->location.x, box->location.y);
+            box->UpdateBoxImage(false);
+            CSurface::GL_RenderPrimitiveWithColor(box->empty, GL_Color(1.f, 1.f, 1.f, 0.2f));
+            CSurface::GL_PopMatrix();
+        }
     }
 
     if (g_maxAugPage > 0)

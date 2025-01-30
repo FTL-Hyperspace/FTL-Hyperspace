@@ -248,6 +248,10 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <extraShipInfo missileCount="false" droneCount="false" crewLimit="false"/>
 
+<!-- Shows transparent equipment slots under the text "SYSTEM NOT INSTALLED" when a weapon or drone system is not installed so that player can see how many slots the system has before installing it. -->
+
+<showDummyEquipmentSlots enabled="false"/>
+
 <!-- Shows all beacon connections in the beacon map -->
 
 <showAllConnections enabled="false"/>

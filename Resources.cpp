@@ -859,6 +859,11 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 g_multipleOverCapacity = EventsParser::ParseBoolean(enabled);
             }
+            if (strcmp(node->name(), "showDummyEquipmentSlots") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
+            }
         }
 
         // Post-processing (might not be needed anymore)
