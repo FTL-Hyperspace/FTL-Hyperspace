@@ -1523,12 +1523,28 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     lua_pop(context->GetLua(), 2);
 
     // Render floor
-    if (iShipId == 0)
+    bool noCrew = G_->GetShipManager(iShipId)->CountCrew(false) == 0;
+    bool sensorFunction = G_->GetShipManager(iShipId)->DoSensorsProvide(1);
+    bool hideFloor = bCloaked && noCrew && !sensorFunction; //Hide floor image when cloaking with no crew onboard and no sensors
+    if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
+    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
+    if (ship.bCloaked && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0)
+    {
+        //Bypass check for hiding room images
+        bContainsPlayerCrew = true;
+    }
+    super(showInterior, doorControlMode);
+    bContainsPlayerCrew = old_bContainsPlayerCrew;
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
