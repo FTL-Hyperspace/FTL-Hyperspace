@@ -2,10 +2,11 @@
 #include "Global.h"
 
 #include "TemporalSystem.h"
-
+const int ARTILLERY_ARMED = 2147483647;
 static GL_Primitive *moreTargetIcon[6];
 static GL_Primitive *moreTargetIconYellow[6];
-
+static GL_Primitive *fallbackTargetIcon;
+static GL_Primitive *fallbackTargetIconYellow;
 GL_Primitive *WeaponControl::GetAimingPrimitive(ProjectileFactory *weapon, int i)
 {
     if (i<4)
@@ -16,7 +17,7 @@ GL_Primitive *WeaponControl::GetAimingPrimitive(ProjectileFactory *weapon, int i
     {
         return weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
     }
-    return nullptr;
+    return weapon->autoFiring ? fallbackTargetIconYellow : fallbackTargetIcon;
 }
 void WeaponControl::RenderAimingWeapon(ProjectileFactory* weapon, bool player, int i)
 {
@@ -69,8 +70,7 @@ void WeaponControl::RenderAimingNew(bool player)
     {
         for (ArtillerySystem* artillerySystem : shipManager->artillerySystems)
         {
-            //TODO: Add icons unique to artillery?
-            RenderAimingWeapon(artillerySystem->projectileFactory, player, 0);
+            RenderAimingWeapon(artillerySystem->projectileFactory, player, 100);
         }
     }
 }
@@ -85,6 +85,8 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
         moreTargetIcon[i] = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed" + std::to_string(i+5) + ".png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
         moreTargetIconYellow[i] = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed" + std::to_string(i+5) + "_yellow.png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
     }
+    fallbackTargetIcon = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed_fallback.png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
+    fallbackTargetIconYellow = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed_fallback_yellow.png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
 }
 
 HOOK_METHOD_PRIORITY(WeaponControl, RenderAiming, 9999, () -> void)
@@ -106,9 +108,10 @@ HOOK_METHOD(CombatControl, SetMouseCursor, () -> void)
 
     MouseControl *mouse = G_->GetMouseControl();
 
-    if (mouse->aiming_required != 0)
+    if (mouse->aiming_required != 0 || weapControl.armedSlot == -1)
     {
-        mouse->aiming_required = (weapControl.armedSlot + 1);
+        bool artilleryArmed = weapControl.armedSlot == -1 && weapControl.armedWeapon != nullptr;
+        mouse->aiming_required = artilleryArmed ? ARTILLERY_ARMED : (weapControl.armedSlot + 1);
 
         if (weapControl.autoFiring != G_->GetSettings()->holdingModifier)
         {
@@ -124,9 +127,10 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 
     MouseControl *mouse = G_->GetMouseControl();
 
-    if (mouse->aiming_required != 0)
+    if (mouse->aiming_required != 0 || weapControl.armedSlot == -1)
     {
-        mouse->aiming_required = (weapControl.armedSlot + 1);
+        bool artilleryArmed = weapControl.armedSlot == -1 && weapControl.armedWeapon != nullptr;
+        mouse->aiming_required = artilleryArmed ? ARTILLERY_ARMED : (weapControl.armedSlot + 1);
 
         if (weapControl.autoFiring != G_->GetSettings()->holdingModifier)
         {
@@ -196,8 +200,18 @@ HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
         tex = selling;
     }
     else if (aiming_required != 0)
-    {
-        if (aiming_required < 0)
+    {   
+        if (aiming_required == ARTILLERY_ARMED)
+        {
+            s = "mouse/mouse_crosshairs2_fallback.png";
+            tex2 = G_->GetResources()->GetImageId(valid ? "mouse/mouse_crosshairs.png" : "mouse/mouse_crosshairs_valid.png");
+        }
+        else if (aiming_required == -ARTILLERY_ARMED)
+        {
+            s = "mouse/mouse_crosshairs3_fallback.png";
+            tex2 = G_->GetResources()->GetImageId(valid ? "mouse/mouse_crosshairs.png" : "mouse/mouse_crosshairs_valid2.png");
+        }
+        else if (aiming_required < 0)
         {
             s = "mouse/mouse_crosshairs3_" + std::to_string(-aiming_required) + ".png";
             tex2 = G_->GetResources()->GetImageId(valid ? "mouse/mouse_crosshairs.png" : "mouse/mouse_crosshairs_valid2.png");
