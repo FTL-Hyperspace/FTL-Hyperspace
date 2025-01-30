@@ -46,6 +46,8 @@ cleanup __cdecl void ShipSystem::ClearStatus(ShipSystem *this);
 static cleanup __cdecl std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 "538b5424088b4c240c8b8214010000":
 cleanup __cdecl void ShipSystem::AddLock(ShipSystem *this, int lock);
+".565383ec148b74????":
+cleanup __cdecl void ShipSystem::IonDamage(ShipSystem *this, int amount);
 "8b4424048b901401000083faff":
 cleanup __cdecl bool ShipSystem::GetLocked(ShipSystem *this);
 ".83ec1c8b4424208b10c6808401000000":

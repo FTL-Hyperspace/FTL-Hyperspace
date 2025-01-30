@@ -26,7 +26,7 @@
   <mod:setValue>超越光速：超空间</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="zh-Hans">
-  <mod:setValue>\1 (超空间 1.15.1)</mod:setValue>
+  <mod:setValue>\1 (超空间 1.16.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="zh-Hans">
   <mod:setValue>起火率：\1 %</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -271,11 +271,11 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="zh-Hans">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="zh-Hans">超空间(Hyperspace)项目</text>
 <text name="credits_hyperspace_developed_by" language="zh-Hans">开发者：</text>
-<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger， Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)， Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger，Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)，Chrono Vortex，Pepson，ranhai</text>
 <text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
 <text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>
-<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc，bamalf， BlizzArchonJ，Choosechee，codyfun，_Kilburn，Kix，Masala，nedsociety，Paradigm，PDTM， Pepson，slowriderxcorps，The Dumb Dino，Vertaalfout，多元宇宙制作组</text>
+<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc，bamalf，BlizzArchonJ，Choosechee，codyfun，_Kilburn，Kix，Masala，nedsociety，Paradigm，PDTM，slowriderxcorps，The Dumb Dino，Vertaalfout，多元宇宙制作组</text>
 <text name="credits_hyperspace_loc" language="zh-Hans">超空间本地化人员：</text>
 <text name="credits_hyperspace_loc_fr" language="zh-Hans">法语：</text>
 <text name="credits_hyperspace_loc_fr_names" language="zh-Hans">Pepson</text>
@@ -297,3 +297,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_ja_names" language="zh-Hans">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="zh-Hans">韩语：</text>
 <text name="credits_hyperspace_loc_kor_names" language="zh-Hans">nedsociety</text>
+
+<text name="shields_4" language="zh-Hans">五层护盾屏障</text>
+<text name="shields_5" language="zh-Hans">六层护盾屏障</text>
+<text name="shields_6" language="zh-Hans">七层护盾屏障</text>
+<text name="shields_7" language="zh-Hans">八层护盾屏障</text>
