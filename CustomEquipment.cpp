@@ -113,121 +113,43 @@ HOOK_METHOD_PRIORITY(Equipment, AddToCargo, 9999, (const std::string& name) -> v
 
 // multiple over capacity
 
-HOOK_METHOD_PRIORITY(Equipment, AddWeapon, 1000, (WeaponBlueprint *bp, bool free, bool forceCargo) -> void)
+HOOK_METHOD(Equipment, AddWeapon, (WeaponBlueprint *bp, bool free, bool forceCargo) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddWeapon -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
-    if (!forceCargo && shipManager->HasSystem(3) && shipManager->weaponSystem->weapons.size() < shipManager->myBlueprint.weaponSlots)
-    {
-        shipManager->AddWeapon(bp, -1);
-        auto weaponSys = shipManager->weaponSystem;
-        auto droneSys = shipManager->droneSystem;
-        for (auto box : vEquipmentBoxes)
-        {
-            box->weaponSys = weaponSys;
-            box->droneSys = droneSys;
-            box->CheckContents();
-        }
-        return;
-    }
+    super(bp, free, forceCargo);
 
-    forceCargo = shipManager->weaponSystem->weapons.size() == shipManager->myBlueprint.weaponSlots;
-    ProjectileFactory *pf = new ProjectileFactory(bp, shipManager->iShipId);
-    weaponsTrashList.push_back(pf);
-    EquipmentBoxItem item;
-    item.pDrone = nullptr;
-    item.pCrew = nullptr;
-    item.augment = nullptr;
-    item.pWeapon = pf;
-    
-    for (unsigned int i = forceCargo ? cargoId : 0; i < vEquipmentBoxes.size(); ++i)
+    if (bOverCapacity)
     {
-        auto box = vEquipmentBoxes[i];
-        if (box->IsEmpty() && box->CanHoldWeapon() && box != overcapacityBox)
-        {
-            box->AddItem(item);
-            return;
-        }
+        EQ_EX(this)->customEquipment->AddOverCapacityItem(overcapacityBox->item);
     }
-    Open();
-    // overcapacityBox->AddItem(item);
-    // bOverCapacity = true;
-
-    EQ_EX(this)->customEquipment->AddOverCapacityItem(item);
 }
 
-HOOK_METHOD_PRIORITY(Equipment, AddDrone, 1000, (DroneBlueprint *bp, bool free, bool forceCargo) -> void)
+HOOK_METHOD(Equipment, AddDrone, (DroneBlueprint *bp, bool free, bool forceCargo) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddDrone -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
-    if (!forceCargo && shipManager->HasSystem(4) && shipManager->droneSystem->drones.size() < shipManager->myBlueprint.droneSlots)
+    super(bp, free, forceCargo);
+
+    if (bOverCapacity)
     {
-        shipManager->AddDrone(bp, -1);
-        auto weaponSys = shipManager->weaponSystem;
-        auto droneSys = shipManager->droneSystem;
-        for (auto box : vEquipmentBoxes)
-        {
-            box->weaponSys = weaponSys;
-            box->droneSys = droneSys;
-            box->CheckContents();
-        }
-        return;
+        EQ_EX(this)->customEquipment->AddOverCapacityItem(overcapacityBox->item);
     }
-
-    EquipmentBoxItem item;
-    item.pDrone = shipManager->CreateDrone(bp);
-    item.pCrew = nullptr;
-    item.augment = nullptr;
-    item.pWeapon = nullptr;
-
-    for (unsigned int i = forceCargo ? cargoId : 0; i < vEquipmentBoxes.size(); ++i)
-    {
-        auto box = vEquipmentBoxes[i];
-        if (box->IsEmpty() && box->CanHoldDrone() && box != overcapacityBox)
-        {
-            box->AddItem(item);
-            return;
-        }
-    }
-
-    Open();
-    // overcapacityBox->AddItem(item);
-    // bOverCapacity = true;
-
-    EQ_EX(this)->customEquipment->AddOverCapacityItem(item);
 }
 
-HOOK_METHOD_PRIORITY(Equipment, AddAugment, 1000, (AugmentBlueprint *bp, bool free, bool forceCargo) -> void)
+HOOK_METHOD(Equipment, AddAugment, (AugmentBlueprint *bp, bool free, bool forceCargo) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddAugment -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
-    bool success = shipManager->AddAugmentation(bp->name);
-    if (success)
+    super(bp, free, forceCargo);
+
+    if (bOverAugCapacity)
     {
-        auto weaponSys = shipManager->weaponSystem;
-        auto droneSys = shipManager->droneSystem;
-        for (auto box : vEquipmentBoxes)
-        {
-            box->weaponSys = weaponSys;
-            box->droneSys = droneSys;
-            box->CheckContents();
-        }
-        return;
+        EQ_EX(this)->customEquipment->AddOverCapacityItem(overAugBox->item);
     }
-
-    EquipmentBoxItem item;
-    item.pDrone = nullptr;
-    item.pCrew = nullptr;
-    item.augment = bp;
-    item.pWeapon = nullptr;
-    Open();
-    // overAugBox->AddItem(item);
-    // bOverAugCapacity = true;
-
-    EQ_EX(this)->customEquipment->AddOverCapacityItem(item);
 }
 
 HOOK_METHOD(Equipment, IsCompletelyFull, (int type) -> bool)
