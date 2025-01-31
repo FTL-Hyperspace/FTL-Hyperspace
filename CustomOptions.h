@@ -77,6 +77,8 @@ public:
 
     Setting<std::string> dismissSound;
 
+    Setting<bool> cloakRenderFix;
+    
     Defaults defaults;
 
 //    Setting hackingDroneFix;

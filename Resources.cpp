@@ -581,6 +581,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "cloakRenderFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
