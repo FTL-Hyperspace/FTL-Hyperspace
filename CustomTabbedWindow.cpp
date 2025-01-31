@@ -22,7 +22,7 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
             newTab.background = G_->GetResources()->GetImageId(windowPath + ".png");
         }
         if (tabNode->first_attribute("hasUndo")) {
-            newTab.hasUndo = tabNode->first_attribute("hasUndo")->value();
+            newTab.hasUndo = EventsParser::ParseBoolean(tabNode->first_attribute("hasUndo")->value());
         }
         newTab.window = new FocusWindow();
         tabs.push_back(newTab);
@@ -81,7 +81,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::OnRender -> Begin (CustomTabbedWindow.cpp)\n")
 
-    auto context = Global::GetInstance()->getLuaContext();
+    auto context = G_->getLuaContext();
 
     lua_pushinteger(context->GetLua(), currentTab);
 
@@ -133,7 +133,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 
     if (shipScreens.doneButton.bActive && shipScreens.doneButton.bHover)
     {
-        auto context = Global::GetInstance()->getLuaContext();
+        auto context = G_->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);
         context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
         lua_pop(context->GetLua(), 1);
@@ -141,7 +141,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 
     if (CustomTabbedWindow::GetInstance()->undoButton->bActive && CustomTabbedWindow::GetInstance()->undoButton->bHover)
     {
-        auto context = Global::GetInstance()->getLuaContext();
+        auto context = G_->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);
         context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_UNDO, 1);
         lua_pop(context->GetLua(), 1);
@@ -153,18 +153,18 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 HOOK_METHOD(TabbedWindow, Close, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::Close -> Begin (CustomTabbedWindow.cpp)\n")
-    auto context = Global::GetInstance()->getLuaContext();
+    auto context = G_->getLuaContext();
     lua_pushinteger(context->GetLua(), currentTab);
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
     super();
 }
 
-HOOK_METHOD(TabbedWindow, SetTab, (unsigned int tab) -> void)
+HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 9999, (unsigned int tab) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
 
-    auto context = Global::GetInstance()->getLuaContext();
+    auto context = G_->getLuaContext();
     lua_pushinteger(context->GetLua(), currentTab);
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
