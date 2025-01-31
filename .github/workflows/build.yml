@@ -16,7 +16,7 @@ jobs:
         run: buildscripts/buildall-from-docker.sh
 
       - name: Store output
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: hyperspace-binary
           path: |
