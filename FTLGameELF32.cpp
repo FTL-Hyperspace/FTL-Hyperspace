@@ -16826,14 +16826,14 @@ namespace _func1233
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("StarMap::NeighboringSector", typeid(void (StarMap::*)(int )), "5631c0538b5c24108b4c240c85db", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("StarMap::NeighboringSector", typeid(bool (StarMap::*)(int )), "5631c0538b5c24108b4c240c85db", argdata, 2, 2, &func);
 }
 
-void StarMap::NeighboringSector(int unk0)
+bool StarMap::NeighboringSector(int potentialSector)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(StarMap *this_arg, int unk0_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(StarMap *this_arg, int potentialSector_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1233::func;
-	return execfunc(this, unk0);
+	return execfunc(this, potentialSector);
 }
 
 namespace _func1234

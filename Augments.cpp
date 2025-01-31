@@ -103,3 +103,35 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
         }
     }
 }
+
+//SECTOR_SCANNER Augment
+static bool SectorReachable(Sector* start, Sector* destination, int range)
+{
+    if (range < 0) return false;
+    if (start == destination) return true;
+    for (Sector* neighbor : start->neighbors)
+    {
+        if (SectorReachable(neighbor, destination, range - 1))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GetPotentialSectorChoiceName -> Begin (Augments.cpp)\n")
+    if (potentialSectorChoice != -1 && shipManager->HasAugmentation("SECTOR_SCANNER"))
+    {
+        int range = shipManager->GetAugmentationValue("SECTOR_SCANNER"); 
+        Sector* destination  = sectors[potentialSectorChoice];
+        if (SectorReachable(currentSector, destination, range))
+        {
+            return destination->description.name.GetText();
+        }
+    }
+    return super();
+}
+
+

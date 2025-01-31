@@ -15569,14 +15569,14 @@ int StarMap::GetRandomSectorChoice()
 namespace _func1226
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("StarMap::NeighboringSector", typeid(void (StarMap::*)(int )), ".31c085f67867", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("StarMap::NeighboringSector", typeid(bool (StarMap::*)(int )), ".31c085f67867", nullptr, 0, 0, &func);
 }
 
-void StarMap::NeighboringSector(int unk0)
+bool StarMap::NeighboringSector(int potentialSector)
 {
-	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, int unk0_arg);
+	typedef bool (*custom_arg_funcptr_t)(StarMap *this_arg, int potentialSector_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1226::func;
-	return execfunc(this, unk0);
+	return execfunc(this, potentialSector);
 }
 
 namespace _func1227

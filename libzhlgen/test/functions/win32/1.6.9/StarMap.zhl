@@ -21,7 +21,7 @@ __thiscall void StarMap::OnLanguageChange(StarMap *this);
 ".5589e583e4f0803d????????007435e8a46e1500":
 __thiscall int StarMap::GetRandomSectorChoice(StarMap *this);
 ".565331c08b5c240c85db78438bb1fc0600008b91":
-__thiscall void StarMap::NeighboringSector(StarMap *this, int unk0);
+__thiscall bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
 ".578d7c240883e4f0ff77fc5589fa89e557565389":
 __thiscall void StarMap::GetSelectedSector(StarMap *this, int unk0, int unk1, int unk2);
 ".578d7c240883e4f0ff77fc5589e55756538d75d0":
@@ -74,6 +74,8 @@ __thiscall void StarMap::ClearBoss(StarMap *this);
 __thiscall void StarMap::SetBossStage(StarMap *this, int stage);
 ".31c083b96c080000047405f3c38d76008b817408":
 __thiscall void StarMap::CheckGameOver(StarMap *this);
+".578d????0883e4f0ff????5589e557565389ce83ec5c8b??8b832c0a0000":
+__thiscall std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
 ".578d7c240883e4f0ff77fc5589e557565389cf81":
 __thiscall void StarMap::RenderLabels(StarMap *this);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b81d80900008b99dc09000039d8":

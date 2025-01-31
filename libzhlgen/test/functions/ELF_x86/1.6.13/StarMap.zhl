@@ -21,7 +21,7 @@ cleanup __cdecl void StarMap::OnLanguageChange(StarMap *this);
 "83ec0c803d????????0075??e8????????89c1":
 cleanup __cdecl int StarMap::GetRandomSectorChoice(StarMap *this);
 "5631c0538b5c24108b4c240c85db":
-cleanup __cdecl void StarMap::NeighboringSector(StarMap *this, int unk0);
+cleanup __cdecl bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
 "5557565383ec2c8b6c24408b5424488b4424448b5c244c":
 cleanup __cdecl void StarMap::GetSelectedSector(StarMap *this, int unk0, int unk1, int unk2);
 "5383ec288b4424308d5c241c8b9080060000":
