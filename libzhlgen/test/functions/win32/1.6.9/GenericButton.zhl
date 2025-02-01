@@ -10,3 +10,8 @@ virtual __thiscall void GenericButton::OnRightClick(GenericButton *this);
 virtual __thiscall void GenericButton::ResetPrimitives(GenericButton *this);
 ".f3c39090909090909090909090909090":
 virtual __thiscall void GenericButton::OnClick(GenericButton *this);
+
+struct GenericButton
+{{
+    inline bool Hovering() {return bActive && bHover;}
+}};

@@ -13,3 +13,7 @@ virtual cleanup __cdecl void GenericButton::OnRightClick(GenericButton *this);
 ".f3c36690669066906690669066906690":
 virtual cleanup __cdecl void GenericButton::ResetPrimitives(GenericButton *this);
 
+struct GenericButton
+{{
+    inline bool Hovering() {return bActive && bHover;}
+}};

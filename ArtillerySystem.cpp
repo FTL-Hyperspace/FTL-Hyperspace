@@ -39,8 +39,7 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         CSurface::GL_Translate(extend->offset.x, extend->offset.y);
         extend->artilleryButton.OnRender();
         CSurface::GL_Translate(-extend->offset.x, -extend->offset.y);
-        //TODO: Use inlined GenericButton::Hovering here
-        if (extend->artilleryButton.bHover && extend->artilleryButton.bActive)
+        if (extend->artilleryButton.Hovering())
         {
             //TODO: Use GetOverrideTooltip (Not working)
             TextString tooltip = artSystem->projectileFactory->blueprint->desc.tooltip; 
@@ -68,8 +67,7 @@ HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
 
     bool targetableArtillery = CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER");
     SystemBox_Extend* extend = SB_EX(this);
-    //TODO: Use inlined GenericButton::Hovering here
-    if (extend->isArtillery && targetableArtillery && extend->artilleryButton.bHover && extend->artilleryButton.bActive)
+    if (extend->isArtillery && targetableArtillery && extend->artilleryButton.Hovering())
     {  
         auto& weaponControl = G_->GetCApp()->gui->combatControl.weapControl;
         ProjectileFactory* artilleryWeapon = static_cast<ArtillerySystem*>(pSystem)->projectileFactory;

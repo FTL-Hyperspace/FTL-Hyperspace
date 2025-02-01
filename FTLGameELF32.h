@@ -1829,6 +1829,8 @@ struct CSurface
 
 struct LIBZHL_INTERFACE GenericButton
 {
+    inline bool Hovering() {return bActive && bHover;}
+
 	virtual ~GenericButton() {}
 	virtual void Reset() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetLocation(Point pos);

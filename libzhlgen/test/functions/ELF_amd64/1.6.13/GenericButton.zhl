@@ -12,3 +12,8 @@ virtual cleanup __amd64 void GenericButton::OnClick(GenericButton *this);
 virtual cleanup __amd64 void GenericButton::OnRightClick(GenericButton *this);
 "!.f3c3662e0f1f8400000000000f1f4000":
 virtual cleanup __amd64 void GenericButton::ResetPrimitives(GenericButton *this);
+
+struct GenericButton
+{{
+    inline bool Hovering() {return bActive && bHover;}
+}};
