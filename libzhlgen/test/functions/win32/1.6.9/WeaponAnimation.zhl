@@ -1,3 +1,5 @@
+"578d????0883e4f0ff????5589e557565389cb83ec2c8b??8934??e8????????8d":
+__thiscall void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
 "0fb681cd00000084c0756580b9cc000000007401c3578d7c240883e4f0ff77fc5589e5575389cb83ec10c7042401000000":
 __thiscall bool WeaponAnimation::StartFire(WeaponAnimation *this);
 "8b5104660fefc0660fefc989d02b81d4000000f30f2acaf30f2ac0f30f5ec1f30f104c2404f30f5ec8f30f114924":

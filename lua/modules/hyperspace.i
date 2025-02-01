@@ -161,6 +161,8 @@ namespace std {
     %template(vector_p_locationEventChoice) vector<LocationEvent::Choice*>;
     %template(vector_choiceText) vector<ChoiceText>;
     %template(vector_p_choiceText) vector<ChoiceText*>;
+    %template(vector_LockdownShard) vector<LockdownShard>;
+    %template(vector_p_LockdownShard) vector<LockdownShard*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -224,6 +226,7 @@ namespace std {
 %rename("Settings") Global_Settings_Settings;
 %rename("Mouse") Global_MouseControl_Mouse;
 %rename("Text") Global_Globals_Library;
+%rename("Event") Global_EventGenerator_Generator;
 
 %immutable Global_CApp;
 %immutable Global_BlueprintManager_Blueprints;
@@ -236,6 +239,7 @@ namespace std {
 %immutable Global_Settings_Settings;
 %immutable Global_MouseControl_Mouse;
 %immutable Global_Globals_Library;
+%immutable Global_EventGenerator_Generator;
 
 %rename("setRandomSeed") srandom32;
 
@@ -279,6 +283,7 @@ public:
     CrewMemberFactory *GetCrewFactory();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
+    EventGenerator *GetEventGenerator();
 
     static bool IsSeededRun();
     %immutable;
@@ -459,6 +464,7 @@ playerVariableType playerVariables;
 %rename("%s") CustomEventsParser;
 %rename("%s") CustomEventsParser::GetInstance;
 %rename("%s") CustomEventsParser::LoadEvent;
+%rename("%s") CustomEventsParser::GetCustomEvent;
 %luacode {
     print "Hyperspace SWIG Lua loaded"
     _G["mods"] = {}
@@ -618,6 +624,8 @@ playerVariableType playerVariables;
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
 %rename("%s") LocationEvent::GetChoices;
+%rename("%s") LocationEvent::AddChoice;
+%rename("%s") LocationEvent::RemoveChoice;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
@@ -651,6 +659,11 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::unlockShip;
 %rename("%s") LocationEvent::unlockShipText;
 %rename("%s") LocationEvent::secretSector;
+
+%nodefaultctor CustomEvent;
+%nodefaultdtor CustomEvent;
+%rename("%s") CustomEvent;
+%rename("%s") CustomEvent::unlockShip;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;
@@ -697,16 +710,22 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl::targetPosition;
 %rename("%s") CombatControl::open;
 %rename("%s") CombatControl::potentialAiming;
+%rename("%s") CombatControl::aimingPoints;
 %rename("%s") CombatControl::mouseDown;
 %rename("%s") CombatControl::isAimingTouch;
+%rename("%s") CombatControl::movingBeam;
+%rename("%s") CombatControl::beamMoveLast;
+%rename("%s") CombatControl::invalidBeamTouch;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
+%rename("%s") WeaponControl::armedWeapon;
 %rename("%s") WeaponControl::autoFiring;
 %immutable WeaponControl::autoFiring;
+%rename("%s") WeaponControl::armedSlot;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
@@ -983,6 +1002,10 @@ playerVariableType playerVariables;
 %rename("%s") ShipEvent::droneOverCount;
 %rename("%s") ShipEvent::shipSeed;
 */
+
+%rename("%s") EventGenerator;
+%rename("%s") EventGenerator::CreateEvent;
+%rename("%s") EventGenerator::GetBaseEvent;
 
 %rename("%s") CrewDesc;
 %rename("%s") CrewDesc::type;
@@ -1869,6 +1892,7 @@ playerVariableType playerVariables;
 %nodefaultctor Ship;
 %nodefaultdtor Ship;
 %rename("%s") Ship;
+%rename("%s") Ship::GetShards;
 %rename("%s") Ship::DoorStateType;
 %rename("%s") Ship::GetRoomCenter;
 /*
@@ -1880,6 +1904,7 @@ playerVariableType playerVariables;
 %rename("%s") Ship::DoorState::level;
 */
 %rename("%s") Ship::BreachRandomHull;
+%rename("%s") Ship::BreachSpecificHull;
 %rename("%s") Ship::EmptySlots;
 %rename("%s") Ship::FullRoom;
 %rename("%s") Ship::GetAvailableRoomSlot;
@@ -1925,7 +1950,21 @@ playerVariableType playerVariables;
 %rename("%s") Ship::bCloaked;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
-//%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+%rename("%s") Ship::lockdowns;
+
+%nodefaultctor LockdownShard;
+
+%rename("%s") LockdownShard;
+%rename("%s") LockdownShard::Update;
+%rename("%s") LockdownShard::shard;
+%rename("%s") LockdownShard::position;
+%rename("%s") LockdownShard::goal;
+%rename("%s") LockdownShard::speed;
+%rename("%s") LockdownShard::bArrived;
+%rename("%s") LockdownShard::bDone;
+%rename("%s") LockdownShard::lifeTime;
+%rename("%s") LockdownShard::superFreeze;
+%rename("%s") LockdownShard::lockingRoom;
 
 
 //Expose Hyperspace engine anims as a member variable

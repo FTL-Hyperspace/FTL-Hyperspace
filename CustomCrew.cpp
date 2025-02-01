@@ -8,6 +8,7 @@
 #include "CustomDamage.h"
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
+#include "CustomSystems.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -5260,9 +5261,17 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
     return super(crew, roomId, target);
 }
 
-HOOK_METHOD(CrewMember, Clone, () -> void)
+HOOK_METHOD_PRIORITY(CrewMember, Clone, -9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
+
+    // lua callback
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_CLONE, 1);
+    lua_pop(context->GetLua(), 1);
+
     bool cloneLoseSkills = false;
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
@@ -5275,6 +5284,18 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     bDead = false;
     fStunTime = 0.f;
     Restart();
+
+    CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
+    if (sys != nullptr)
+    {
+        CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys, false);
+
+        if (level.cloneHPPercent > 0)
+        {
+            health.first = static_cast<float>(level.cloneHPPercent)/100.0 * health.second;
+            if (health.first < 1) health.first = 1; // Small safety for our beloved crew
+        }
+    }
 
     crewAnim->status = 6;
     crewAnim->direction = 0;
@@ -6782,7 +6803,7 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
         ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
         if (ex->CanTeleportMove(false))
         {
-            // Handle return for stations for crew that can teleport
+            // Handle return to stations for crew that can teleport
             SetCurrentTarget((CrewTarget *)NULL, false);
             EmptySlot();
             SetRoomPath(station.slotId, station.roomId);
@@ -6844,4 +6865,60 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
     }
     
     return false;
+}
+
+static bool g_checkForPartitionPath = false;
+static int g_partitionDestRoomId = -1;
+static int g_partitionDestSlotId = -1;
+
+HOOK_METHOD(CrewMember, MoveToRoom, (int roomId,int slotId,bool bForceMove) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::MoveToRoom -> Begin (CustomCrew.cpp)\n")
+
+    g_checkForPartitionPath = true;
+    bool ret = super(roomId, slotId, bForceMove);
+    g_checkForPartitionPath = false;
+    g_partitionDestRoomId = -1;
+    g_partitionDestSlotId = -1;
+
+    return ret;
+}
+
+HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipGraph::FindPath -> Begin (CustomCrew.cpp)\n")
+
+    Path ret = super(p1, p2, shipId);
+    if (g_checkForPartitionPath && ret.distance == -1.0)
+    {
+        ShipManager *shipManager = G_->GetShipManager(shipId);
+        std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> stationBackups;
+        if (shipManager && (stationBackups = CustomShipSelect::GetInstance()->GetDefinition(shipManager->myBlueprint.blueprintName).roomStationBackups, stationBackups.find(GetSelectedRoom(p2.x, p2.y, true)) != stationBackups.end()))
+        {
+            for (auto backupRoom : *stationBackups.at(GetSelectedRoom(p2.x, p2.y, true)))
+            {
+                int slot = shipManager->ship.vRoomList[backupRoom.first]->GetEmptySlot(false);
+                ret = super(p1, GetSlotWorldPosition(slot, backupRoom.first), shipId);
+                if (ret.distance != -1.0) 
+                {
+                    g_partitionDestRoomId = backupRoom.first;
+                    g_partitionDestSlotId = slot;
+                    break;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, SetRoomPath, (int slotId, int roomId) -> void)
+{
+    if (g_checkForPartitionPath && g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
+    {
+        slotId = g_partitionDestSlotId;
+        roomId = g_partitionDestRoomId;
+    }
+
+    super(slotId, roomId);
 }

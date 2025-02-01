@@ -1,3 +1,5 @@
+"554889fd5389f34883ec08e8??????????8d":
+cleanup __amd64 void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
 "530fb687c10000004889fb84c0":
 cleanup __amd64 bool WeaponAnimation::StartFire(WeaponAnimation *this);
 "8b470889c22b97c8000000":

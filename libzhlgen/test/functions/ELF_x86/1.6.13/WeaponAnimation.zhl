@@ -1,3 +1,5 @@
+"565383ec148b74????8b5c????8974????891c????????????8d":
+cleanup __cdecl void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
 "5383ec188b5c24200fb68391000000":
 cleanup __cdecl bool WeaponAnimation::StartFire(WeaponAnimation *this);
 "8b442404f30f104424088b5004":
