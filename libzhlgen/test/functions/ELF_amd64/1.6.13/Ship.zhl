@@ -6,6 +6,8 @@ cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
 ".41564155415455534889fb4883ec208b7f08":
 cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress);
+".534889fb4883ec108b7f08e8":
+cleanup __amd64 Point Ship::GetShipCorner(Ship *this);
 ".41554189f5415455534889fb4883ec288b7f08":
 cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool unk);
 ".5589f5534889fb4883ec1880bf7004000000":

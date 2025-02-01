@@ -14,5 +14,7 @@ cleanup __amd64 void Upgrades::MouseClick(Upgrades *this, int mX, int mY);
 cleanup __amd64 void Upgrades::ClearUpgradeBoxes(Upgrades *this);
 ".41574989ff41564155415455534881ecb8000000":
 cleanup __amd64 void Upgrades::OnInit(Upgrades *this, ShipManager *ship);
+"!.534889fbe8????????488b":
+cleanup __amd64 void  Upgrades::Open(Upgrades *this);
 ".415455534889fb4883ec50488b7f20":
 cleanup __amd64 void Upgrades::OnRender(Upgrades *this);
