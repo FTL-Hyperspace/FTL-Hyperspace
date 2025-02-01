@@ -65,7 +65,7 @@ void CustomTabbedWindow::PopulateWindow(TabbedWindow* window)
 
     undoText.isLiteral = false;
     undoText.data = "button_undo";
-    undoButton->OnInit(Point(335 + 33, 85 + 471), Point(97, 32), 4, &undoText, 63);
+    undoButton->OnInit(Point(window->position.x + 33, window->position.y + 471), Point(97, 32), 4, &undoText, 63);
     undoButton->SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
 }
 
@@ -86,13 +86,13 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
     lua_pushinteger(context->GetLua(), currentTab);
 
     CSurface::GL_PushMatrix();
-    CSurface::GL_Translate(335, 78);
+    CSurface::GL_Translate(position.x, position.y - 7);
 
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::TABBED_WINDOW, 1);
     
     if (idx >= 0)
     {
-        CSurface::GL_Translate(-335, -78);
+        CSurface::GL_Translate(-position.x, -(position.y - 7));
         super();
         for (int i = 0; i < buttons.size(); ++i)
         {   
@@ -104,7 +104,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
         if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
             CustomTabbedWindow::GetInstance()->undoButton->OnRender();
             
-        CSurface::GL_Translate(335, 78);
+        CSurface::GL_Translate(position.x, position.y - 7);
         if (currentTab > 2)
             G_->GetResources()->RenderImage(CustomTabbedWindow::GetInstance()->GetTab(currentTab).background, 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
@@ -202,14 +202,14 @@ HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 9999, (unsigned int tab) -> void)
         {
             if (i == 2)
             {
-                buttons[i]->position.x = 335 + 182 - 19; // 182
-                buttons[i]->hitbox.x = 335 + 197 - 5; // 197
+                buttons[i]->position.x = position.x + 182 - 19; // 182
+                buttons[i]->hitbox.x = position.x + 197 - 5; // 197
                 buttons[i]->hitbox.w = 70;
                 G_->GetWorld()->commandGui->equipScreen.box = altEquipmentBox;
             }else if (i == buttons.size() - 1)
             {
-                buttons[i]->position.x = 335 + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 8;
-                buttons[i]->hitbox.x = 335 + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 10 + 15;
+                buttons[i]->position.x = position.x + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 8;
+                buttons[i]->hitbox.x = position.x + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 10 + 15;
             }
         }
     }
