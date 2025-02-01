@@ -7,6 +7,26 @@ struct Point
 {{
 	Point(int xx, int yy) : x(xx), y(yy)  { }
 	Point() { }
+
+	Point operator+(const Point& other)
+	{
+		return Point(x + other.x, y + other.y);
+	}
+
+	Point operator-(const Point& other)
+	{		
+		return Point(x - other.x, y - other.y);
+	}
+
+	Point operator/(int amount)
+	{		
+		return Point(x / amount, y / amount);
+	}
+
+	Point operator*(int amount)
+	{		
+		return Point(x * amount, y * amount);
+	}
 	
 	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}

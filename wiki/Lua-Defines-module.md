@@ -43,6 +43,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | ?? | SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
+| 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
 | N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
@@ -97,6 +98,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | ?? | SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
 | ?? | SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
 | ?? | GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` |Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
+| 1.17.0 | TABBED_WINDOW_CONFIRM | `int currentTab` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| 1.17.0 | TABBED_WINDOW_UNDO | `int currentTab` | `None` | Called when the UNDO button is activated in the upgrade menu |
 
 ## Other predefined values
 
