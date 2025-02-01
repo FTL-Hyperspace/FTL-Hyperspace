@@ -7,6 +7,15 @@ def update_version(major, minor, patch):
     hs_version_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "HSVersion.h")
     hyperspace_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "hyperspace.xml")
     text_de_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-de.xml.append")
+    text_es_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-es.xml.append")
+    text_fr_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-fr.xml.append")
+    text_it_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-it.xml.append")
+    text_ja_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-ja.xml.append")
+    text_ko_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-ko.xml.append")
+    text_pl_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-pl.xml.append")
+    text_pt_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-pt.xml.append")
+    text_ru_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-ru.xml.append")
+    text_zh_Hans_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text-zh-Hans.xml.append")
     text_misc_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "data", "text_misc.xml.append")
     metadata_xml_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Mod Files", "mod-appendix", "metadata.xml")
 
@@ -34,6 +43,69 @@ def update_version(major, minor, patch):
         content = file.read()
     content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
     with open(text_de_xml_file, "w") as file:
+        file.write(content)
+
+    # Update text-es.xml.append
+    with open(text_es_xml_file, "r") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_es_xml_file, "w") as file:
+        file.write(content)
+
+    # Update text-fr.xml.append
+    with open(text_fr_xml_file, "r") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_fr_xml_file, "w") as file:
+        file.write(content)
+
+    # Update text-it.xml.append
+    with open(text_it_xml_file, "r") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_it_xml_file, "w") as file:
+        file.write(content)
+
+    # Update text-ja.xml.append
+    with open(text_ja_xml_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_ja_xml_file, "w", encoding="utf-8") as file:
+        file.write(content)
+
+    # Update text-ko.xml.append
+    with open(text_ko_xml_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_ko_xml_file, "w", encoding="utf-8") as file:
+        file.write(content)
+
+    # Update text-pl.xml.append
+    with open(text_pl_xml_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_pl_xml_file, "w", encoding="utf-8") as file:
+        file.write(content)
+
+    # Update text-pt.xml.append
+    with open(text_pt_xml_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_pt_xml_file, "w", encoding="utf-8") as file:
+        file.write(content)
+
+    # Update text-ru.xml.append
+    with open(text_ru_xml_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_ru_xml_file, "w", encoding="utf-8") as file:
+        file.write(content)
+
+    # Update text-zh_Hans.xml.append
+    with open(text_zh_Hans_xml_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    content = re.sub(r'Hyperspace \d+\.\d+\.\d+', f'Hyperspace {major}.{minor}.{patch}', content)
+    with open(text_zh_Hans_xml_file, "w", encoding="utf-8") as file:
         file.write(content)
 
     # Update text_misc.xml.append
