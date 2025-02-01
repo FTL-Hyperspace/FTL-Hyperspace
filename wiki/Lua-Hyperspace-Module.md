@@ -204,6 +204,24 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
    - `bool` `.bStorm`
       - **Read-only**
 
+## WindowFrame
+
+### Static methods
+
+- `Hyperspace.WindowFrame(int x, int y, int w, int h)` Constructor
+
+### Methods
+
+- `void` `:Draw(int x, int y)`
+- `void` `:DrawMask(int stencilBits)`
+
+### Fields
+
+- [`Globals::Rect`](#Globals) `.rect`
+- [`GL_Primitive*`](#GL_Primitive) `.outline`
+- [`GL_Primitive*`](#GL_Primitive) `.mask`
+- [`GL_Primitive*`](#GL_Primitive) `.pattern`
+
 ## AsteroidGenerator
 	
 ### Fields
@@ -285,7 +303,7 @@ The members held by this class determine how the `print` function displays messa
 
 ### Methods
 - `void :AddAugmentation(string augmentName)`
-   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+   - Adds the specified augment to the ship. Works properly with hidden augments.
 - `void :RemoveAugmentation(string augmentName)`
    - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
 - `void :ClearShipInfo()`
@@ -3479,6 +3497,9 @@ Accessed via `Projectile`'s `.extend` field
 
 ### Methods
 - `int :PlaySoundMix(std::string soundName, float volume, bool loop)`
+- `void :StopChannel(int channel, float fade)`
+   - The channel value is given by `PlaySoundMix`
+   - `fade` is counted in milliseconds
 
 ## SettingValues
 
