@@ -285,7 +285,7 @@ The members held by this class determine how the `print` function displays messa
 
 ### Methods
 - `void :AddAugmentation(string augmentName)`
-   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+   - Adds the specified augment to the ship. Works properly with hidden augments.
 - `void :RemoveAugmentation(string augmentName)`
    - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
 - `void :ClearShipInfo()`
