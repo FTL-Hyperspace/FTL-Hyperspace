@@ -180,7 +180,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (command == "SHIP ALL")
     {
         CustomShipUnlocks::instance->UnlockAllShips();
-        return true;
+        return false; //Run native game ship unlocks as well
     }
     if (cmdName == "SHIP_CUSTOM")
     {

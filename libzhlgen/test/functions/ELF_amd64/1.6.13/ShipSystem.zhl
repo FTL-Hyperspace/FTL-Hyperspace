@@ -92,6 +92,8 @@ cleanup __amd64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
 cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
 ".8b879c01000083f8ff":
 cleanup __amd64 void ShipSystem::AddLock(ShipSystem *this, int lock);
+".5589f553??83ec08":
+cleanup __amd64 void ShipSystem::IonDamage(ShipSystem *this, int amount);
 ".415455538b879c0100004889fb85c0":
 cleanup __amd64 void ShipSystem::OnLoop(ShipSystem *this);
 ".53be????????4889fb":
