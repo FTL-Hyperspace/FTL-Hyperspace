@@ -1292,6 +1292,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API int GetMaxPower();
 	LIBZHL_API int GetPowerCap();
 	LIBZHL_API bool IncreasePower(int amount, bool force);
+	LIBZHL_API void IonDamage(int amount);
 	LIBZHL_API bool Ioned(int num);
 	LIBZHL_API int IsMannedBoost();
 	LIBZHL_API static bool __stdcall IsSubsystem(int systemType);
