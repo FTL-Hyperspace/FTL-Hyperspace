@@ -69,11 +69,12 @@ HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
     SystemBox_Extend* extend = SB_EX(this);
     if (extend->isArtillery && targetableArtillery && extend->artilleryButton.Hovering())
     {  
-        auto& weaponControl = G_->GetCApp()->gui->combatControl.weapControl;
+        auto& combatControl = G_->GetCApp()->gui->combatControl;
         ProjectileFactory* artilleryWeapon = static_cast<ArtillerySystem*>(pSystem)->projectileFactory;
+        combatControl.UpdateAiming();
         artilleryWeapon->ClearAiming();
-        weaponControl.armedWeapon = artilleryWeapon;
-        weaponControl.armedSlot = -1;
+        combatControl.weapControl.armedWeapon = artilleryWeapon;
+        combatControl.weapControl.armedSlot = -1;
     }
     return ret;
 }
