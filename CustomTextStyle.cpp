@@ -9,25 +9,6 @@ TextMultiLineCalculator::TextMultiLineCalculator(const std::string &_text, int _
 {
     line_height = G_->GetResources()->GetFontData(fontSize, false).lineHeight;
     ParseText();
-
-    // hs_log_file("\nline positions: ");
-    // for (auto i : linePositions)
-    // {
-    //     hs_log_file("%d, ", i);
-    // }
-    // hs_log_file("\n\ntext:");
-    // for (int i = 0; i < linePositions.size(); i++)
-    // {
-    //     hs_log_file("\n");
-    //     if (i == linePositions.size() - 1)
-    //     {
-    //         hs_log_file(_text.substr(linePositions[i]).c_str());
-    //     }
-    //     else
-    //     {
-    //         hs_log_file(_text.substr(linePositions[i], linePositions[i + 1] - linePositions[i]).c_str());
-    //     }
-    // }
 }
 
 int TextMultiLineCalculator::MeasureLines(const std::string &text)
@@ -398,15 +379,6 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
         primitiveCells.emplace_back("", primitiveCells[primitiveCells.size() - 1].end_pos + 1, sanitizedText.length() - 1, fontSize);
     }
 
-    // hs_log_file("\n\nprimitive cells: ");
-    // for (auto cell : primitiveCells)
-    // {
-    //     hs_log_file("\n\n-------------");
-    //     hs_log_file("\nflag: %s", cell.flagContent.c_str());
-    //     hs_log_file("\nstart: %d", cell.begin_pos);
-    //     hs_log_file("\nend: %d", cell.end_pos);
-    // }
-
     // step 2: adjust cells; some cells may span multiple lines. this step divide such cells and makes sure each cell fits within one line.
     std::vector<CustomTextStyleCellPrimitive> dividedPrimitiveCells;
     TextMultiLineCalculator calculator(sanitizedText, fontSize, line_length);
@@ -438,19 +410,6 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
         next_x += freetype::easy_print(fontSize, 0.f, 0.f, cell.text).x;
     }
 
-    // hs_log_file("\n\nadjusted primitive cells---------------------: ");
-    // for (auto cell : dividedPrimitiveCells)
-    // {
-    //     hs_log_file("\n\n-------------");
-    //     hs_log_file("\nflag: %s", cell.flagContent.c_str());
-    //     hs_log_file("\ntext: %s", cell.text.c_str());
-    //     hs_log_file("\nstart: %d", cell.begin_pos);
-    //     hs_log_file("\nend: %d", cell.end_pos);
-    //     hs_log_file("\nfirst: %s", (cell.firstCell_of_thisLine ? "true" : "false"));
-    //     hs_log_file("\nx: %f", cell.x);
-    //     hs_log_file("\ny: %f", cell.y);
-    // }
-
     // step 4: sort cells by color for reducing color switching
     std::sort(dividedPrimitiveCells.begin(), dividedPrimitiveCells.end(), [](const CustomTextStyleCellPrimitive &a, const CustomTextStyleCellPrimitive &b){
         if (!(a.colored) && !(b.colored)) return false;
@@ -465,17 +424,6 @@ void CustomTextStyleManager::CreateCustomTextStyle(const int fontSize, const int
     {
         cacheCells.emplace_back(cell);
     }
-
-    // hs_log_file("\n\n cached cells---------------------: ");
-    // for (auto &cell : cacheCells)
-    // {
-    //     hs_log_file("\n\n--------------");
-    //     hs_log_file("\ntext: %s", cell.text.c_str());
-    //     hs_log_file("\nfontSize: %d", cell.fontSize);
-    //     hs_log_file("\nx: %d", cell.x);
-    //     hs_log_file("\ny: %d", cell.y);
-    //     hs_log_file("\ncolored: %s", (cell.colored ? "true" : "false"));
-    // }
 
     // step 6: store cache
     std::string key = GetKey(originalText, fontSize, line_length);
