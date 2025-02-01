@@ -41,3 +41,5 @@ __thiscall void ProjectileFactory::destructor(ProjectileFactory *this);
 static cleanup __cdecl Projectile *ProjectileFactory::LoadProjectile(int fd);
 "8d4c240483e4f0ff71fc5589e556535183ec1c8b198b71048b0389d9ff507c89342489442404":
 static cleanup __cdecl void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
+".578d????0883e4f0ff????5589e557565389cb83ec2c8b??31":
+__thiscall void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);

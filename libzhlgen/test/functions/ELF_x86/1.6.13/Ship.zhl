@@ -28,6 +28,8 @@ cleanup __cdecl void Ship::OnRenderBase(Ship *this, bool unk);
 cleanup __cdecl void Ship::OnRenderFloor(Ship *this, bool unk);
 "5557565383ec5c8b5c24708b4304890424":
 cleanup __cdecl void Ship::OnRenderJump(Ship *this, float progress);
+".565383ec148b5c????8b74????8b4304":
+cleanup __cdecl Point Ship::GetShipCorner(Ship *this);
 "565383ec248b7424348b5c24308b86a4010000":
 cleanup __cdecl Globals::Ellipse Ship::GetBaseEllipse(Ship *this);
 "57565331db83ec108b7c24208b7424248b57088b470c":
@@ -39,7 +41,7 @@ cleanup __cdecl void Ship::BreachRandomHull(Ship *this, int roomId);
 "5589e557565383ec5c8b5510":
 cleanup __cdecl int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 "5589e557565383ec4c8b450c8b7d10":
-cleanup __cdecl void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
+cleanup __cdecl bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "57565383ec208b7c24348b5c24308b4c2438":
 cleanup __cdecl std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 
@@ -63,6 +65,17 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+
+	std::vector<LockdownShard*> GetShards()
+    {
+        std::vector<LockdownShard*> ret = std::vector<LockdownShard*>();
+        for (int i=0; i < (int)this->lockdowns.size(); ++i)
+        {
+            ret.push_back(&this->lockdowns[i]);
+        }
+
+        return ret;
+    }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
 	

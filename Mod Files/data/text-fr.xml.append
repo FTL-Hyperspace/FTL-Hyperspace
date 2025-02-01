@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="fr">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="fr">
   <mod:setValue>Chance d'Incendie : \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -264,11 +264,11 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="fr">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="fr">Projet Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="fr">Developpé par :</text>
-<text name="credits_hyperspace_developed_names" language="fr">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="fr">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art" language="fr">Art Additionel :</text>
 <text name="credits_hyperspace_art_names" language="fr">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="fr">Contributions Additionnel :</text>
-<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, L'équipe FTL: Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, L'équipe FTL: Multiverse</text>
 <text name="credits_hyperspace_loc" language="fr">Traducteurs Hyperspace :</text>
 <text name="credits_hyperspace_loc_fr" language="fr">Français</text>
 <text name="credits_hyperspace_loc_fr_names" language="fr">Pepson</text>
@@ -290,3 +290,8 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names" language="fr">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="fr">Coréen</text>
 <text name="credits_hyperspace_loc_kor_names" language="fr">nedsociety</text>
+
+<text name="shields_4" language="fr">Cinq barrières de boucliers</text>
+<text name="shields_5" language="fr">Six barrières de boucliers</text>
+<text name="shields_6" language="fr">Sept barrières de boucliers</text>
+<text name="shields_7" language="fr">Huit barrières de boucliers</text>

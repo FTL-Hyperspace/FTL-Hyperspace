@@ -15,7 +15,7 @@
     <version>^0.9.2</version> A major match, allows minor & patch to be changed (upwards) but not major, in this case 0.10.0 would match as would 0.9.5 but not 1.0.0.
     If you fail to specify a match character and just do <version>0.9.2</version> this will be considered the same as `^` above but will also generate a warning message in FTL_HS.log.
 -->  
-<version>^1.15.0</version>
+<version>^1.16.2</version>
 
 <!-- Hyperspace defaults
 
@@ -191,6 +191,12 @@ This means that you can't get past defense drones easily anymore
 
 <hackingDroneFix enabled="true"/>
 
+<!--  Add the regular 20 second system lock when the system gets ionised while hacking
+Otherwise player can exploit 5 second self-ionisation to get the hacking system back sooner
+-->
+
+<hackingIonFix enabled="false"/>
+
 <!--  Remove any active repair drone on jump
 Otherwise player can benefit from the repair and get back the drone parts with the recovery arm
 -->
@@ -282,6 +288,11 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 -->
 
 <artilleryGibMountFix enabled="false"/>
+
+<!--  Moves red flashing lights (which appear when there is fire or breach in the room) to an appropriate position so that they no longer stick to doors or leave from walls.
+-->
+
+<warningLightPositionFix enabled="false"/>
 
 <!--  Prevents hull image from being drawn over gibs during a ship explosion.
 -->
@@ -382,6 +393,7 @@ SECTOR             Go to sector type.                      Usage: SECTOR <sector
 SCRAP              Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
 WEAPON             Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
 SHIP               Unlock a ship.                          Usage: SHIP <ship_id>          Example: SHIP PLAYER_SHIP_MANTIS
+SHIP ALL           Unlock all ships                        Usage: SHIP ALL
 DRONES             Add drone parts.                        Usage: DRONES <num_to_add>     Example: DRONES 50
 DRONE              Add a drone blueprint.                  Usage: DRONE <drone_id>        Example: DRONE COMBAT_2
 FUEL               Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
@@ -1380,6 +1392,21 @@ Syntax ->
 		<level damageBoost="1.0" healthBoost="0.0" duration="14.0" lock="4" count="1"/>
 		<level damageBoost="1.25" healthBoost="15.0" duration="20.0" lock="4" count="1"/>
 		<level damageBoost="2.0" healthBoost="30.0" duration="28.0" lock="4" count="1"/>  
+	</system>
+
+	<!--
+		jumpHP: Flat health gained on jump.
+		jumpHPPercent: % of health gained on jump, calculated before jumpHP, 0-100.
+		cloneHPPercent: % of health of newly created clone, 0-100.
+		skillLossPercent: % of skill lost on cloning, 0-100.
+		cloneSpeed: The time it takes to clone a new crew, in seconds. Cannot be above 0 for levels 4 and above.
+		deathSpeed: The time it takes to kill a crew clone when the system is unpowered, in seconds.
+	-->
+	<system id="clone">
+		<level jumpHP="8" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="12" deathSpeed="3"/>
+		<level jumpHP="16" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="9" deathSpeed="3"/>
+		<level jumpHP="25" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="7" deathSpeed="3"/>
+		<level jumpHP="36" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="0" deathSpeed="3"/>
 	</system>
 </customSystems>
 
@@ -3018,5 +3045,9 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 <customChoiceColors enabled="false">
 
 </customChoiceColors>
+
+<!-- Define an upper limit for system upgrade costs. "threshold" or bigger value will be replaced with the string specified by "replace". Note that this is just a visual fix; player can still purchase the system if they have enough scrap. -->
+
+<systemNoPurchaseThreshold enabled="false" threshold="9999" replace="--"/>
 
 </FTL>
