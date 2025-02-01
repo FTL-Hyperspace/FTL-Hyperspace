@@ -10,10 +10,10 @@ struct RoamingShip
         Hunting, // 2: Runs toward target
         Player, // 3: Runs towards Player
         Aggressive, // 4: Smart targetting toward the player.
-        FleetRandom, // 5: Capable of only jumping between fleet beacons
-        FleetPlayer, // 6: Targets the Player when in the fleet
-        FleetAggressive, // 7: Smart targetting toward the player when in the fleet
-        Escape // 8: Flees toward the Exit beacon
+        Escape // 5: Flees toward the Exit beacon
+        /*FleetRandom, // 6: Capable of only jumping between fleet beacons
+        FleetPlayer, // 7: Targets the Player when in the fleet
+        FleetAggressive,*/ // 8: Smart targetting toward the player when in the fleet
     };
 
     std::string id;

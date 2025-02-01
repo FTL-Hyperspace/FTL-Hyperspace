@@ -109,7 +109,6 @@ void RoamingShipsManager::RenderShips()
         if (ship->timeToMove < ship->currentMoveTime && ship->targetLocation != nullptr) // checks if its time to move and if the ship has a target location to move to 
         {
             Pointf targetPos = ship->targetLocation->loc;
-            hs_log_file("hahaha i'm a line!!!");
             // Render the line between current location and target location using GL_DrawRect
             float lineWidth = 8.0f; // Set the line width
             float dx = targetPos.x - locationPos.x;
@@ -124,8 +123,8 @@ void RoamingShipsManager::RenderShips()
             CSurface::GL_PopMatrix();
 
             // Update progress and fade timer
-            ship->progress += 0.01f; // Adjust the speed as needed
-            if (ship->progress >= 0.25f)
+            ship->progress += 0.005f; // Adjust the speed as needed
+            if (ship->progress >= 0.20f)
             {
                 ship->progress = 0.0f;
                 ship->fadeTimer = 1.0f;
@@ -140,10 +139,13 @@ void RoamingShipsManager::RenderShips()
             float iconX = locationPos.x + dx * ship->progress;
             float iconY = locationPos.y + dy * ship->progress;
 
+            // Assuming ship->mapIcon is a pointer to a GL_Primitive object with an associated GL_Texture
+            GL_Texture* iconTexture = ship->mapIcon->texture;
+
             // Render the icon with fading effect
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(iconX, iconY);
-            CSurface::GL_Rotate(angle, 0.0f, 0.0f, 1.0f);
+            CSurface::GL_Translate(iconX - iconTexture->width_ / 2, iconY - iconTexture->height_ / 2); // Translate to the center of the icon
+            CSurface::GL_Rotate(angle + 90.0f, 0.0f, 0.0f, 1.0f); // Rotate the icon 90 degrees to align with the line
             CSurface::GL_RenderPrimitiveWithAlpha(ship->mapIcon, ship->fadeTimer);
             CSurface::GL_PopMatrix();
         }
@@ -156,8 +158,8 @@ void RoamingShipsManager::RenderShips()
             int newX = locationPos.x + 20 * cos(radian); // figures out where the x position is
             int newY = locationPos.y + 20 * sin(radian); // figures out where the y position is
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(newX, newY);
-            CSurface::GL_Rotate(((int)ship->beaconDegree + 180) % 360, 0, 0);
+            CSurface::GL_Translate(newX - ship->mapIcon->texture->width_ / 2, newY - ship->mapIcon->texture->height_ / 2); // Translate to the center of the icon
+            CSurface::GL_Rotate(ship->beaconDegree, 0.0f, 0.0f, 1.0f); // Rotate around the center
             CSurface::GL_RenderPrimitive(ship->mapIcon);
             CSurface::GL_PopMatrix();
         }
@@ -169,12 +171,10 @@ void RoamingShipsManager::MoveShips()
     for (const auto& shipId : activeRoamingShips)
     {
         RoamingShip* ship = roamingShips[shipId];
-        
+
         if (ship->timeToMove == ship->currentMoveTime)
         {
             Location* nextLocation = nullptr;
-
-
 
             switch (ship->behavior)
             {
@@ -213,8 +213,33 @@ void RoamingShipsManager::MoveShips()
                     }
                 }
                 break;
-            
-            /*case 5:*/
+
+            case 5:
+                { // Roamer looking for the exit beacon
+                    // Find the path to the exit beacon
+                    Location* exitBeacon = nullptr;
+                    for (auto& location : G_->GetWorld()->starMap.locations)
+                    {
+                        if (location->newSector == true)
+                        {
+                            hs_log_file("HEYYY I FOUND THE FUCKING EXIT BEACON");
+                            exitBeacon = location;
+                            break;
+                        }
+                    }
+
+                    if (exitBeacon != nullptr)
+                    {
+                        // Use Dijkstra to get the path and select the next location
+                        std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, exitBeacon, true);
+                        hs_log_file("I AM MOVING TOWARDS IT");
+                        if (!path.empty() && path.size() > 1) {
+                            nextLocation = path[1];
+                        }
+                    }
+                }
+                break;
+
             default:
                 break;
             }
@@ -370,27 +395,18 @@ HOOK_METHOD(StarMap, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> StarMap::OnLoop -> Begin (RoamingShip.h)\n")
     super();
     RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
-<<<<<<< HEAD
     for (const auto& shipId : roamingManager->activeRoamingShips)
     {
         RoamingShip* ship = roamingManager->roamingShips[shipId];
-=======
-    for (const auto& shipId : activeRoamingShips)
-    {
-        RoamingShip* ship = roamingShips[shipId];
->>>>>>> 0f6e1ad837b4fd56d7c11241c1f2a492c27dc392
 
         if (ship->behavior == 4 && hoverLoc != nullptr && hoverLoc != previousHoverLoc) // To save resources, only calculate path when hoverLoc changes
         {
             std::vector<Location*> path = Dijkstra(ship->currentLocation, hoverLoc, true);
-<<<<<<< HEAD
             if (hoverLoc == ship->currentLocation)
             {
                 ship->targetLocation = nullptr;
                 previousHoverLoc = hoverLoc;                
             }
-=======
->>>>>>> 0f6e1ad837b4fd56d7c11241c1f2a492c27dc392
             if (!path.empty() && path.size() > 1) {
                 ship->targetLocation = path[1];
                 previousHoverLoc = hoverLoc;
