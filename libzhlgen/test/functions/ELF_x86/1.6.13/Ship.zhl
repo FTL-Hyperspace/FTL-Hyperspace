@@ -28,6 +28,8 @@ cleanup __cdecl void Ship::OnRenderBase(Ship *this, bool unk);
 cleanup __cdecl void Ship::OnRenderFloor(Ship *this, bool unk);
 "5557565383ec5c8b5c24708b4304890424":
 cleanup __cdecl void Ship::OnRenderJump(Ship *this, float progress);
+".565383ec148b5c????8b74????8b4304":
+cleanup __cdecl Point Ship::GetShipCorner(Ship *this);
 "565383ec248b7424348b5c24308b86a4010000":
 cleanup __cdecl Globals::Ellipse Ship::GetBaseEllipse(Ship *this);
 "57565331db83ec108b7c24208b7424248b57088b470c":
