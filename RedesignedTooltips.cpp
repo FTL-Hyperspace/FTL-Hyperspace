@@ -1319,7 +1319,7 @@ bool ScrollingTooltip::OnScrollWheel(float direction)
     return true;
 }
 
-HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) -> void)
+HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, bool staticPos) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
@@ -1380,7 +1380,7 @@ HOOK_METHOD(MouseControl, RenderTooltip, (Point tooltipPoint, bool staticPos) ->
 #ifdef _WIN32
     freetype::easy_printAutoNewlines(tooltipFont, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #else
-    freetype::easy_printAutoNewlines(G_->GetTextLibrary()->currentLanguage == "ja" ? 12 : 10, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
+    freetype::easy_printAutoNewlines(G_->GetTextLibrary()->currentLanguage == "ja" ? 10 : 12, text_x, tooltipPoint.y + 11.f + mainText_yOffset, width, tooltip);
 #endif // _WIN32
     if (scrollAmount != 0.f) CSurface::GL_Translate(0.f, scrollAmount);
     if (scrolling)

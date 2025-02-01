@@ -5567,10 +5567,9 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
 }
 
 // insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating
-HOOK_METHOD(ShipManager, GetTooltip, (int x, int y) -> std::string)
+HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetTooltip -> Begin (CustomCrew.cpp)\n")
-    if (!CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue) return super(x, y);
 
     // rewrite vanilla code
     std::string tooltip = "";
@@ -5585,8 +5584,15 @@ HOOK_METHOD(ShipManager, GetTooltip, (int x, int y) -> std::string)
         }
         else
         {
-            // \n -> \n\n; insert newline between each crew desc.
-            tooltip += " \n\n" + crew->GetTooltip();
+            if (!CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
+            {
+                // \n -> \n\n; insert newline between each crew desc.
+                tooltip += " \n\n" + crew->GetTooltip();
+            }
+            else
+            {
+                tooltip += " \n" + crew->GetTooltip();
+            }
         }
         if (!tooltip.empty() && crew->bMindControlled)
         {
