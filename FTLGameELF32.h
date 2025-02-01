@@ -696,6 +696,16 @@ struct GL_Color
 	
 	GL_Color() {}
 
+	bool operator==(const GL_Color &color2)
+	{
+		return r == color2.r && g == color2.g && b == color2.b && a == color2.a;
+	}
+
+	bool operator!=(const GL_Color &color2)
+	{
+		return !(r == color2.r && g == color2.g && b == color2.b && a == color2.a);
+	}
+
 	float r;
 	float g;
 	float b;
@@ -7160,6 +7170,7 @@ struct SoundControl
 {
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
+	LIBZHL_API void StopChannel(int channel, float fade);
 	LIBZHL_API void StopPlaylist(int fadeOut);
 	LIBZHL_API void UpdateSoundLoop(const std::string &loopId, float count);
 	

@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomTextStyle.h"
 #include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
@@ -315,6 +316,7 @@ void Global::InitializeResources(ResourceControl *resources)
     char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
 
     auto customOptions = CustomOptionsManager::GetInstance();
+
 
     try
     {
@@ -827,6 +829,10 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
+            }
+            if (strcmp(node->name(), "customTextStyle") == 0)
+            {
+                CustomTextStyleManager::GetInstance()->enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {
