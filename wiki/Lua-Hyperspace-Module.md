@@ -204,6 +204,24 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
    - `bool` `.bStorm`
       - **Read-only**
 
+## WindowFrame
+
+### Static methods
+
+- `Hyperspace.WindowFrame(int x, int y, int w, int h)` Constructor
+
+### Methods
+
+- `void` `:Draw(int x, int y)`
+- `void` `:DrawMask(int stencilBits)`
+
+### Fields
+
+- [`Globals::Rect`](#Globals) `.rect`
+- [`GL_Primitive*`](#GL_Primitive) `.outline`
+- [`GL_Primitive*`](#GL_Primitive) `.mask`
+- [`GL_Primitive*`](#GL_Primitive) `.pattern`
+
 ## AsteroidGenerator
 	
 ### Fields

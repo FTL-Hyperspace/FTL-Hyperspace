@@ -95,7 +95,13 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
         CSurface::GL_Translate(-position.x, -(position.y - 7));
         super();
         for (int i = 0; i < buttons.size(); ++i)
-        {   
+        {
+            for (int j = 0; j < 3; ++j)
+            {
+                if (buttons[i]->primitives[j])
+                    buttons[i]->primitives[j]->textureAntialias = true;
+            }
+
             if (i == currentTab) continue;
             std::string buttonIcon = "upgradeUI/Equipment/tabButtons/icon_"+names[i]+".png";
             G_->GetResources()->RenderImageString(buttonIcon, i == buttons.size() -1 ? buttons[i]->position.x - 10 : buttons[i]->position.x , buttons[i]->position.y, 0, COLOR_WHITE, 1.f, false);
