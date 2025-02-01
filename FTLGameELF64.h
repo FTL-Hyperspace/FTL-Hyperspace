@@ -3149,8 +3149,17 @@ struct FocusWindow;
 
 struct FocusWindow
 {
+	FocusWindow() 
+	{
+		this->constructor();
+	}
+
+	LIBZHL_API void Close();
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void Open();
+	LIBZHL_API void SetPosition(Point p);
+	LIBZHL_API void constructor();
 	
 	void *vptr;
 	bool bOpen;
@@ -4159,6 +4168,7 @@ struct CrewManifest : FocusWindow
 	LIBZHL_API void OnRender();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
 	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void Open();
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor();
 	
@@ -4495,7 +4505,11 @@ struct TabbedWindow;
 
 struct TabbedWindow : FocusWindow
 {
+	LIBZHL_API void AddWindow(const std::string &name, Button *button, FocusWindow *window);
 	LIBZHL_API void Close();
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void SetTab(unsigned int tab);
 	
 	std::vector<Button*> buttons;
 	std::vector<FocusWindow*> windows;
@@ -4537,6 +4551,7 @@ struct Upgrades : FocusWindow
 	LIBZHL_API void OnInit(ShipManager *ship);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void Open();
 	
 	GL_Texture *box;
 	std::vector<UpgradeBox*> vUpgradeBoxes;
@@ -4559,6 +4574,7 @@ struct CommandGui
 	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
 	LIBZHL_API void LButtonDown(int mX, int mY, bool shiftHeld);
 	LIBZHL_API void LButtonUp(int mX, int mY, bool shiftHeld);
+	LIBZHL_API void LinkShip(CompleteShip *ship);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents);
 	LIBZHL_API void OnInit();
