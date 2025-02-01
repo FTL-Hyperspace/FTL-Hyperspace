@@ -729,6 +729,16 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 }
 
 
+bool g_warningLightPositionFix = false;
+
+void RelocateWarningLight(Room *room, int x, int y, int rotation)
+{
+    CSurface::GL_DestroyPrimitive(room->lightPrimitive);
+    room->lightPrimitive = G_->GetResources()->CreateImagePrimitiveString("effects/light_base.png", x, y, rotation, COLOR_WHITE, 1.f, false);
+    CSurface::GL_DestroyPrimitive(room->lightGlowPrimitive);
+    room->lightGlowPrimitive = G_->GetResources()->CreateImagePrimitiveString("effects/light_glow.png", x, y, rotation, COLOR_WHITE, 1.f, false);
+}
+
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
@@ -867,6 +877,156 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     }
 
     wallsPrimitive = CSurface::GL_CreateMultiLinePrimitive(walls, GL_Color(0.f, 0.f, 0.f, 1.f), 2.f);
+
+
+    // warning light relocation
+    if (!g_warningLightPositionFix) return;
+
+    for (auto i : vRoomList)
+    {
+        int columns = i->rect.w / 35;
+        int rows = i->rect.h / 35;
+
+        if (columns % 2 == 0) // columns is even number -> set the light to the bottom center
+        {
+            RelocateWarningLight(i, i->rect.x + (columns / 2 - 1) * 35, i->rect.y + i->rect.h - 37, 0);
+            continue;
+        }
+        else if (rows % 2 == 0) // rows is even number -> set the light to the left center
+        {
+            RelocateWarningLight(i, i->rect.x - 15, i->rect.y + (rows / 2 - 1) * 35 + 17, 90);
+            continue;
+        }
+
+        // handle odd x odd shape
+
+        int horizontal_center = columns / 2;
+        int vertical_center = rows / 2;
+        int candidate_diff_from_center = 9999;
+        int candidate_dimention = -1; // 0: bottom, 1: top, 2: left, 3: right
+        int candidate_index;
+
+        // find the empty wall closest to the center
+        for (int j = 0; j < columns && candidate_diff_from_center > 0; j++)
+        {
+            // bottom
+
+            bool hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + 9 + j * 35 && gap.start.y == i->rect.y + i->rect.h)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - horizontal_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - horizontal_center);
+                candidate_dimention = 0;
+                candidate_index = j;
+                continue;
+            }
+
+            // top
+
+            hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + 9 + j * 35 && gap.start.y == i->rect.y)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - horizontal_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - horizontal_center);
+                candidate_dimention = 1;
+                candidate_index = j;
+            }
+        }
+
+        for (int j = 0; j < rows && candidate_diff_from_center > 0; j++)
+        {
+            // left
+
+            bool hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x && gap.start.y == i->rect.y + 9 + j * 35)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - vertical_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - vertical_center);
+                candidate_dimention = 2;
+                candidate_index = j;
+                continue;
+            }
+
+            // right
+
+            hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + i->rect.w && gap.start.y == i->rect.y + 9 + j * 35)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - vertical_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - vertical_center);
+                candidate_dimention = 3;
+                candidate_index = j;
+            }
+        }
+
+        switch (candidate_dimention)
+        {
+            case 0: // bottom
+                RelocateWarningLight(i, i->rect.x + candidate_index * 35 - 17, i->rect.y + i->rect.h - 37, 0);
+                continue;
+            case 1: // top
+                RelocateWarningLight(i, i->rect.x + candidate_index * 35 - 17, i->rect.y + 2, 180);
+                continue;
+            case 2: // left
+                RelocateWarningLight(i, i->rect.x - 15, i->rect.y + candidate_index * 35, 90);
+                continue;
+            case 3: //right
+                // note: the light image shrinks at the bottom by 1 pixel when rotating 270 degrees
+                RelocateWarningLight(i, i->rect.x + i->rect.w - 54, i->rect.y + candidate_index * 35, 270);
+                continue;
+        }
+
+        // handle the case where every wall has a door
+
+        if (columns > 1)
+        {
+            RelocateWarningLight(i, i->rect.x + (horizontal_center - 1) * 35, i->rect.y + i->rect.h - 37, 0);
+        }
+        else if (rows > 1)
+        {
+            RelocateWarningLight(i, i->rect.x - 15, i->rect.y + (vertical_center - 1) * 35 + 17, 90);
+        }
+        else // where 1x1 room has 4 doors -> move the light to the bottom left corner
+        {
+            RelocateWarningLight(i, i->rect.x - 30, i->rect.y + i->rect.h - 37, 0);
+        }
+    }
 }
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)

@@ -372,7 +372,7 @@ void ParseChoiceColorNode(rapidxml::xml_node<char>* node)
 }
 
 
-std::string EncodeChoicecColorName(char* name)
+std::string EncodeChoicecColorName(const char* name)
 {
     return "[[" + std::string(name) + "@C]]";
 }
@@ -445,11 +445,15 @@ HOOK_METHOD(EventsParser, ProcessChoice, (EventTemplate *event, rapidxml::xml_no
 
     if (node->first_node("text")->first_attribute("id"))
     {
-        node->first_node("text")->first_attribute("id")->value((std::string(node->first_node("text")->first_attribute("id")->value()) + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value())).c_str());
+        std::string t = std::string(node->first_node("text")->first_attribute("id")->value());
+        t = t + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value());
+        node->first_node("text")->first_attribute("id")->value(t.c_str());
     }
     else
     {
-        node->first_node("text")->value((std::string(node->first_node("text")->value()) + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value())).c_str());
+        std::string t = std::string(node->first_node("text")->value());
+        t = t + EncodeChoicecColorName(node->first_node("text")->first_attribute("color")->value());
+        node->first_node("text")->value(t.c_str());
     }
     super(event, node, eventName);
 }
