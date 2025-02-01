@@ -71,10 +71,10 @@ HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
     {  
         auto& combatControl = G_->GetCApp()->gui->combatControl;
         ProjectileFactory* artilleryWeapon = static_cast<ArtillerySystem*>(pSystem)->projectileFactory;
-        combatControl.UpdateAiming();
         artilleryWeapon->ClearAiming();
         combatControl.weapControl.armedWeapon = artilleryWeapon;
         combatControl.weapControl.armedSlot = -1;
+        combatControl.UpdateAiming();
     }
     return ret;
 }
