@@ -111,6 +111,8 @@ target_sources(
     CustomColors.h
     CustomCommandGui.cpp
     CustomCommandGui.h
+    CustomTabbedWindow.cpp
+    CustomTabbedWindow.h
     CustomCrew.cpp
     CustomCrew.h
     CustomCrewCommon.h
@@ -154,6 +156,8 @@ target_sources(
     CustomSuperShield.cpp
     CustomSystems.cpp
     CustomSystems.h
+    CustomTextStyle.cpp
+    CustomTextStyle.h
     CustomUpgrades.cpp
     CustomUpgrades.h
     CustomWeapons.cpp
@@ -259,6 +263,7 @@ target_sources(
     zhl_internal.h
     zhl_private.h
     lua/InternalEvents.h
+    lua/EventEnums.h
     lua/LuaLibScript.h
     lua/LuaScriptInit.cpp
     lua/LuaScriptInit.h

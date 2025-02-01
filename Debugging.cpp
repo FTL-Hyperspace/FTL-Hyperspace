@@ -134,6 +134,7 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Debugging.cpp)\n")
     if(CustomOptionsManager::GetInstance()->altMode)
     {
+        CSurface::GL_SetColor(COLOR_WHITE);
         freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
     }
     super();
