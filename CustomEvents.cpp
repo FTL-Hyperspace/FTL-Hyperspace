@@ -6283,31 +6283,41 @@ std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref
     return eligibleCrewList;
 }
 
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
+    G_->GetWorld()->lastLocationEvent = nullptr;
+    return super(tutorial, seed);
+}
+
 HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CheckRequirements -> Begin (CustomEvents.cpp)\n")
     bool ret = super(event, hidden);
 
-    if (ret && event && !event->stuff.steal && !lastLocationEvent->stuff.steal)
+    if (ret && event)
     {
-        // fix a vanilla bug that player can select a choice that requires more resources than they have when two costing events are back to back
-        // this is because requirements check is done before the cost of the previous event is applied to the resources balance
-        int fuel_cost = event->stuff.fuel + lastLocationEvent->stuff.fuel;
-        if (fuel_cost < 0 && playerShip->shipManager->fuel_count < fuel_cost * -1)
-            return false;
+        if (lastLocationEvent && !event->stuff.steal && !lastLocationEvent->stuff.steal)
+        {
+            // fix a vanilla bug that player can select a choice that requires more resources than they have when two costing events are back to back
+            // this is because requirements check is done before the cost of the previous event is applied to the resources balance
+            int fuel_cost = event->stuff.fuel + lastLocationEvent->stuff.fuel;
+            if (fuel_cost < 0 && playerShip->shipManager->fuel_count < fuel_cost * -1)
+                return false;
 
-        int missiles_cost = event->stuff.missiles + lastLocationEvent->stuff.missiles;
-        if (missiles_cost < 0 && playerShip->shipManager->GetMissileCount() < missiles_cost * -1)
-            return false;
+            int missiles_cost = event->stuff.missiles + lastLocationEvent->stuff.missiles;
+            if (missiles_cost < 0 && playerShip->shipManager->GetMissileCount() < missiles_cost * -1)
+                return false;
 
-        int drones_cost = event->stuff.drones + lastLocationEvent->stuff.drones;
-        if (drones_cost < 0 && playerShip->shipManager->GetDroneCount() < drones_cost * -1)
-            return false;
+            int drones_cost = event->stuff.drones + lastLocationEvent->stuff.drones;
+            if (drones_cost < 0 && playerShip->shipManager->GetDroneCount() < drones_cost * -1)
+                return false;
 
-        int scrap_cost = event->stuff.scrap + lastLocationEvent->stuff.scrap;
-        if (scrap_cost < 0 && playerShip->shipManager->currentScrap < scrap_cost * -1)
-            return false;
-
+            int scrap_cost = event->stuff.scrap + lastLocationEvent->stuff.scrap;
+            if (scrap_cost < 0 && playerShip->shipManager->currentScrap < scrap_cost * -1)
+                return false;
+        }
+        
         CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
         if (customEvent)

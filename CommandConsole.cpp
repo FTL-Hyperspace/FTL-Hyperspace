@@ -421,6 +421,7 @@ void PrintHelper::Render()
                 screenMessage += message;
                 screenMessage += "\n";
             }
+            CSurface::GL_SetColor(COLOR_WHITE);
             freetype::easy_printAutoNewlines(font, x, y, lineLength, screenMessage);
             float increment = useSpeed ? G_->GetCFPS()->GetSpeedFactor() * 0.0625 : 1.0 / G_->GetCFPS()->NumFrames;
             timer += increment;
