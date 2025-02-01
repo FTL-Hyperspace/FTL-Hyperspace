@@ -689,6 +689,16 @@ struct GL_Color
 	
 	GL_Color() {}
 
+	bool operator==(const GL_Color &color2)
+	{
+		return r == color2.r && g == color2.g && b == color2.b && a == color2.a;
+	}
+
+	bool operator!=(const GL_Color &color2)
+	{
+		return !(r == color2.r && g == color2.g && b == color2.b && a == color2.a);
+	}
+
 	float r;
 	float g;
 	float b;
