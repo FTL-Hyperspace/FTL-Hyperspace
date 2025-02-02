@@ -1,4 +1,4 @@
-Available calls
+## Available calls
 
 All calls are under `Hyperspace`
 
@@ -10,6 +10,73 @@ All calls are under `Hyperspace`
 - `.ships.player` (See [`ShipManager`](#shipmanager) below)
 - `.ships.enemy` (See [`ShipManager`](#shipmanager) below)
 
+## Templates
+Templates cannot be instantiated from the lua side. Specific instantiations of templates are treated as individual classes with similar usage, and are defined in [hyperspace.i](../lua/modules/hyperspace.i#L114) in the form `%template(template_name) template<parameters>`. Static methods of a template are accessed via `Hyperspace.template_name`
+
+---
+
+### std::vector\<T\>
+
+### Methods
+#### Constructor overloads
+To construct a vector named `template_name`:
+```lua
+local instance = Hyperspace.template_name(args)
+```
+- `std::vector<T>` `constructor()`
+
+Constructs a `std::vector<T>` of size 0.
+- `std::vector<T>` `constructor(unsigned int size)`
+
+Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
+- `std::vector<T>` `constructor(std::vector<T> other)`
+
+Makes a copy of `other`.
+
+- `std::vector<T>` `constructor(unsigned int size, T value)`
+
+Constructs a vector of size `size` where each element is equal to `value`.
+
+#### Member methods
+- `T :back()`
+
+Accesses the last element of the vector. 
+
+WARNING: Undefined behavior (crash) if used on an empty vector!
+- `void :clear()`
+
+Empties the vector and sets its size to 0.
+
+- `bool :empty()` 
+
+Returns a boolean indicating if the vector is empty.
+
+- `T :front()`
+
+Accesses the first element of the vector. 
+
+WARNING: Undefined behavior (crash) if used on an empty vector!
+
+- `unsigned int :max_size()`
+
+The maximum size of the vector.
+- `void :pop_back()`
+
+Removes an element from the end and decreases the vector's size by 1.
+
+- `void :push_back(T elem)`
+
+Adds `elem` to the vector and increases its size by 1.
+
+- `unsigned int :size()`
+
+The size of the vector.
+
+- `T& operator[](unsigned int index)`
+
+Access the element at position `index`.
+
+NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ## Global
 
@@ -137,6 +204,24 @@ All calls are under `Hyperspace`
    - `bool` `.bStorm`
       - **Read-only**
 
+## WindowFrame
+
+### Static methods
+
+- `Hyperspace.WindowFrame(int x, int y, int w, int h)` Constructor
+
+### Methods
+
+- `void` `:Draw(int x, int y)`
+- `void` `:DrawMask(int stencilBits)`
+
+### Fields
+
+- [`Globals::Rect`](#Globals) `.rect`
+- [`GL_Primitive*`](#GL_Primitive) `.outline`
+- [`GL_Primitive*`](#GL_Primitive) `.mask`
+- [`GL_Primitive*`](#GL_Primitive) `.pattern`
+
 ## AsteroidGenerator
 	
 ### Fields
@@ -218,7 +303,7 @@ The members held by this class determine how the `print` function displays messa
 
 ### Methods
 - `void :AddAugmentation(string augmentName)`
-   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+   - Adds the specified augment to the ship. Works properly with hidden augments.
 - `void :RemoveAugmentation(string augmentName)`
    - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
 - `void :ClearShipInfo()`
@@ -2301,6 +2386,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Fields
 - [`TextString`](#TextString) `.text`
+- [`ResourceEvent`](#ResourceEvent) `.stuff`
 - `int` `.environment`
 - `int` `.environmentTarget`
 - `bool` `.store`
@@ -2315,6 +2401,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
 - `std::string` `.eventName`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
 - [`BoardingEvent`](#BoardingEvent) `.boarders`
 - `int` `.unlockShip`
 - [`TextString`](#TextString) `.unlockShipText`
@@ -2383,6 +2470,7 @@ end)
 - `bool` `.centered`
 - `int` `.gap_size`
 - `float` `.openTime`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
 - [`GL_Color`](#GL_Color) `.currentTextColor`
 - [`Pointf`](#Pointf) `.lastChoice`
 
@@ -2391,6 +2479,35 @@ end)
 ### Fields
 - `int` `.type`
 - `std::string` `.text`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
+
+## ResourceEvent
+
+### Fields
+- `int` `.missiles`
+- `int` `.fuel`
+- `int` `.drones`
+- `int` `.scrap`
+- `int` `.crew`
+- `bool` `.traitor`
+- `bool` `.cloneable`
+-[ `TextString`](#textstring) `.cloneText`
+- `std::string` `.crewType`
+- [`WeaponBlueprint`](#weaponblueprint) `.*weapon`
+- [`DroneBlueprint`](#droneblueprint) `.*drone`
+- [`AugmentBlueprint`](#droneblueprint) `.*augment`
+- [`CrewBlueprint`](#crewblueprint) `.crewBlue`
+- `int` `.systemId`
+- `int` `.weaponCount`
+- `int` `.droneCount`
+- `bool` `.steal`
+- `bool` `.intruders`
+- `int` `.fleetDelay`
+- `int` `.hullDamage`
+- `int` `.upgradeAmount`
+- `int` `.upgradeId`
+- `int` `.upgradeSuccessFlag`
+- `std::string` `.removeItem`
 
 ## ScoreKeeper
 
@@ -2416,7 +2533,10 @@ end)
 - `std::vector<Location>` `.locations`
    - **Read-only**
 - [`Location`](#Location) `.currentLoc`
+- [`std::vector<Sector*>`](#sector) `.sectors`
 - [`Sector`](#Sector) `.currentSector`
+- `bool` `.bChoosingNewSector`
+- `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
 - `GL_Primitive` `.ship`
    - The map icon that rotates around the current location representing the player ship.
@@ -2449,6 +2569,8 @@ end)
 ## Sector
 
 ### Fields
+- `bool` `.visited`
+- `int` `.level`
 - [`SectorDescription`](#SectorDescription) `.description`
    - Field is **read-only** but fields under this object may still be mutable.
 
@@ -3506,4 +3628,3 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ## FTLButton
 
 **Extends [TextButton0](#TextButton0)**
-
