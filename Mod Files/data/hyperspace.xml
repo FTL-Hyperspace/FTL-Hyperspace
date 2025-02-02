@@ -381,6 +381,11 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
+
+<!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating -->
+  
+<insertNewlineForMultipleCrewTooltips enabled="false"/>
+
 <!-- Allows for the existence of additional tabs in the upgrade menu, be wary that they are to be used with lua to have any utility 
 name: name of the tab, will be used to find the icon_[name] for the tab in the img\upgradeUI\Equipment\tabButtons folder
 windowPath: path for the background of the new tab, do not include the extension
@@ -2990,15 +2995,18 @@ Example in form of the Vanilla credits rewritten in XML:
 </store>
 
 <!-- For compatibility with the old display image (no shopping cart icon), if this tag is missing, the purchase limit number remains in the conventional position, which is incompatible with the current image due to overlapping. -->
+
 <purchaseLimitNumber fontSize="0" x="-16" y="106"/>
   
   
 <!-- Define an upper limit for system upgrade costs. "threshold" or bigger value will be replaced with the string specified by "replace". Note that this is just a visual fix; player can still purchase the system if they have enough scrap. -->
+
 <systemNoPurchaseThreshold enabled="false" threshold="9999" replace="--"/>
 
 
 <!-- Custom Choice Text Color
 To enable this feature, set enabled="true". You can register as many choice text color themes as you like.
+syncResourceBoxColor: if true, the outline of the resource box and the text within it will be synchronized to the current choice color.
 
 About <choiceColor/>:
 It needs attribute "name" to be identified.
@@ -3016,6 +3024,7 @@ It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
 
 
 <customChoiceColors enabled="true">
+	<syncResourceBoxColor>true</syncResourceBoxColor>
 	<choiceColor name="red">
 		<normal r="255" g="0" b="0"/>
 		<hover r="100" g="0" b="0"/>
@@ -3067,6 +3076,7 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 -->
 
 <customChoiceColors enabled="false">
+	<syncResourceBoxColor>false</syncResourceBoxColor>
 
 </customChoiceColors>
 

@@ -257,16 +257,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
             // Perform custom text color registration before event parsing.
             if (strcmp(node->name(), "customChoiceColors") == 0)
             {
-                auto enableCustomChoiceColors = node->first_attribute("enabled")->value();
-                customOptions->enableCustomChoiceColors.defaultValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
-                customOptions->enableCustomChoiceColors.currentValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (strcmp(child->name(), "choiceColor") == 0)
-                    {
-                        ParseChoiceColorNode(child);
-                    }
-                }
+                ParseChoiceColorsNode(node);
             }
         }
 
@@ -586,6 +577,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -612,6 +610,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 if (EventsParser::ParseBoolean(enabled))
                 {
+                    CustomTabbedWindow::GetInstance()->enabled = true;
                     CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
                 }
             }

@@ -3261,6 +3261,14 @@ struct ChoiceText
 	ResourceEvent rewards;
 };
 
+struct ResourceBoxDesc
+{
+	int w;
+	int h;
+	Point row1;
+	Point row2;
+};
+
 struct WindowFrame;
 
 struct ChoiceBox : FocusWindow
@@ -3279,6 +3287,7 @@ struct ChoiceBox : FocusWindow
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
+	LIBZHL_API ResourceBoxDesc PrintResourceBox(ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
 	
 	GL_Texture *textBox;
 	WindowFrame *box;
@@ -7257,6 +7266,7 @@ struct SoundControl
 {
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
+	LIBZHL_API void StopChannel(int channel, float fade);
 	LIBZHL_API void StopPlaylist(int fadeOut);
 	LIBZHL_API void UpdateSoundLoop(const std::string &loopId, float count);
 	
