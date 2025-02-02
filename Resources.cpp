@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomTextStyle.h"
 #include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
@@ -304,6 +305,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
     auto customOptions = CustomOptionsManager::GetInstance();
 
+
     try
     {
         if (!hyperspacetext)
@@ -582,6 +584,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -829,6 +838,10 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
+            }
+            if (strcmp(node->name(), "customTextStyle") == 0)
+            {
+                CustomTextStyleManager::GetInstance()->enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {
