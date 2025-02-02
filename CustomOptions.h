@@ -71,8 +71,6 @@ public:
 
     Setting<bool> altCreditSystem;
 
-    Setting<bool> enableCustomChoiceColors;
-
     Setting<bool> allowRenameInputSpecialCharacters;
 
     Setting<bool> insertNewlineForMultipleCrewTooltips;
