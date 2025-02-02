@@ -3051,10 +3051,8 @@ It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
 	</choiceColor>
 </customChoiceColors>
 
-
 In an event definition and under <choice> tag, you can add attribute "color={name}" to <text>.
-
--- Event example that uses custom colors --
+Event example that uses custom colors
 
 <event>
 	<text>Colorful choices!!</text>
@@ -3075,12 +3073,10 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 		<event/>
 	</choice>
 </event>
-
 -->
 
 <customChoiceColors enabled="false">
 	<syncResourceBoxColor>false</syncResourceBoxColor>
-
 </customChoiceColors>
 
 <!--Custom Text Style
@@ -3090,10 +3086,8 @@ Notation: Surround the part you want to appy custom style in a text with start f
 
 Expressions:
 
-* --------------Custom Colors--------------*
 notation: "color:RRGGBB" or "color:RRGGBBAA" with hexadecimal (00 to FF). If AA (opacity) is ommitted, it defaults to 0xFF (255).
 example: <text>This text is painted, like [style[color:FF0000]]Red[[/style]], [style[color:00FF00]]Green[[/style]] and [style[color:0000FF]]Blue[[/style]]!</text>
---------------------------------------------
 
 -->
 <customTextStyle enabled="false"/>
