@@ -10,11 +10,10 @@ HOOK_METHOD_PRIORITY(SystemBox, constructor, 900, (Point pos, ShipSystem *sys, b
     uintptr_t dEx = (uintptr_t)ex;
 
 #ifdef __amd64__
-    //TODO: Add padding bytes to linux structs
-    //?? = (dEx >> 56) & 0xFF;
-    //?? = (dEx >> 48) & 0xFF;
-    //?? = (dEx >> 40) & 0xFF;
-    //?? = (dEx >> 32) & 0xFF;
+    this->gap_ex_1[2] = (dEx >> 56) & 0xFF;
+    this->gap_ex_1[3] = (dEx >> 48) & 0xFF;
+    this->gap_ex_2[2] = (dEx >> 40) & 0xFF;
+    this->gap_ex_2[3] = (dEx >> 32) & 0xFF;
 #endif // __amd64__
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
@@ -44,15 +43,14 @@ SystemBox_Extend* Get_SystemBox_Extend(SystemBox* c)
 {
     uintptr_t dEx = 0;
 #ifdef __amd64__
-    //TODO: Add padding bytes to linux structs
-    //dEx <<= 8;
-    //dEx |= ??;
-    //dEx <<= 8;
-    //dEx |= ??;
-    //dEx <<= 8;
-    //dEx |= ??;
-    //dEx <<= 8;
-    //dEx |= ??;
+    dEx <<= 8;
+    dEx |= c->gap_ex_1[2];
+    dEx <<= 8;
+    dEx |= c->gap_ex_1[3];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[2];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[3];
 #endif // __amd64__
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];

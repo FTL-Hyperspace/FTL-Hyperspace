@@ -3093,6 +3093,7 @@ struct SystemBox
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
   int lastTimerStencilCount;
+  uint8_t gap_ex_1[4];
   GL_Primitive *brokenIcon;
   GL_Primitive *lockIcon;
   GL_Primitive *hackIcon;
@@ -3118,6 +3119,7 @@ struct SystemBox
   bool bPlayerUI;
   bool useLargeTapIcon;
   Point largeTapIconOffset;
+  uint8_t gap_ex_2[4];
   std__vector_3int tapButtonHeights;
   int tapButtonOffsetY;
   int cooldownOffsetY;
