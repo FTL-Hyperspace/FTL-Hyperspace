@@ -74,7 +74,7 @@ HOOK_METHOD(CommandGui, LinkShip, (CompleteShip *ship) -> void) // should be lin
     LOG_HOOK("HOOK_METHOD -> CommandGui::LinkShip -> Begin (CustomTabbedWindow.cpp)\n")
 
     super(ship);
-    CustomTabbedWindow::GetInstance()->PopulateWindow(&(this->shipScreens));
+    if (CustomTabbedWindow::GetInstance()->enabled) CustomTabbedWindow::GetInstance()->PopulateWindow(&(this->shipScreens));
 }
 
 HOOK_METHOD(TabbedWindow, OnRender, () -> void)
@@ -92,27 +92,31 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
     
     if (idx >= 0)
     {
+        
         CSurface::GL_Translate(-position.x, -(position.y - 7));
         super();
-        for (int i = 0; i < buttons.size(); ++i)
+        if (CustomTabbedWindow::GetInstance()->enabled && G_->GetWorld()->commandGui->shipScreens.bOpen)
         {
-            for (int j = 0; j < 3; ++j)
+            for (int i = 0; i < buttons.size(); ++i)
             {
-                if (buttons[i]->primitives[j])
-                    buttons[i]->primitives[j]->textureAntialias = true;
+                for (int j = 0; j < 3; ++j)
+                {
+                    if (buttons[i]->primitives[j])
+                        buttons[i]->primitives[j]->textureAntialias = true;
+                }
+
+                if (i == currentTab) continue;
+                std::string buttonIcon = "upgradeUI/Equipment/tabButtons/icon_"+names[i]+".png";
+                G_->GetResources()->RenderImageString(buttonIcon, i == buttons.size() -1 ? buttons[i]->position.x - 10 : buttons[i]->position.x , buttons[i]->position.y, 0, COLOR_WHITE, 1.f, false);
             }
 
-            if (i == currentTab) continue;
-            std::string buttonIcon = "upgradeUI/Equipment/tabButtons/icon_"+names[i]+".png";
-            G_->GetResources()->RenderImageString(buttonIcon, i == buttons.size() -1 ? buttons[i]->position.x - 10 : buttons[i]->position.x , buttons[i]->position.y, 0, COLOR_WHITE, 1.f, false);
+            if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
+                CustomTabbedWindow::GetInstance()->undoButton->OnRender();
         }
-
-        if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
-            CustomTabbedWindow::GetInstance()->undoButton->OnRender();
-            
         CSurface::GL_Translate(position.x, position.y - 7);
-        if (currentTab > 2)
+        if (currentTab > 2) // should never be true outside of CustomTabbedWindow being enabled
             G_->GetResources()->RenderImage(CustomTabbedWindow::GetInstance()->GetTab(currentTab).background, 0, 0, 0, COLOR_WHITE, 1.f, false);
+    
     }
 
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::TABBED_WINDOW, std::abs(idx), 1);
@@ -127,7 +131,7 @@ HOOK_METHOD(TabbedWindow, MouseMove, (int x, int y) -> void)
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::MouseMove -> Begin (CustomTabbedWindow.cpp)\n")
 
     super(x, y);
-    if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo)
+    if (currentTab > 2 && CustomTabbedWindow::GetInstance()->GetTab(currentTab).hasUndo) // should never be true outside of CustomTabbedWindow being enabled
     {
         CustomTabbedWindow::GetInstance()->undoButton->MouseMove(x, y, false);
     }
@@ -145,7 +149,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
         lua_pop(context->GetLua(), 1);
     }
 
-    if (CustomTabbedWindow::GetInstance()->undoButton->bActive && CustomTabbedWindow::GetInstance()->undoButton->bHover)
+    if (CustomTabbedWindow::GetInstance()->enabled && CustomTabbedWindow::GetInstance()->undoButton->bActive && CustomTabbedWindow::GetInstance()->undoButton->bHover)
     {
         auto context = G_->getLuaContext();
         lua_pushinteger(context->GetLua(), shipScreens.currentTab);
@@ -166,7 +170,7 @@ HOOK_METHOD(TabbedWindow, Close, () -> void)
     super();
 }
 
-HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 9999, (unsigned int tab) -> void)
+HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 1000, (unsigned int tab) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
 
@@ -175,49 +179,56 @@ HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 9999, (unsigned int tab) -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
 
-    windows[currentTab]->Close();
-    windows[tab]->Open();
-    if (tab == 1)
-        CustomCrewManifest::GetInstance()->Update();
-    
-    for (int i = 0; i < buttons.size(); ++i)
+    if (CustomTabbedWindow::GetInstance()->enabled && G_->GetWorld()->commandGui->shipScreens.bOpen)
     {
-        if (i == tab) continue;
-
-        std::string imageBase = "upgradeUI/Equipment/tabButtons/";
-        if (i == 0)
-        {
-            imageBase += "left_start";
-        }
-        else if (i == buttons.size() - 1)
-        {
-            imageBase += "right_end";
-        }
-        else if (i > tab)
-        {
-            imageBase += "right";
-        }
-        else if (i < tab)
-        {
-            imageBase += "left";
-        }
+        windows[currentTab]->Close();
+        windows[tab]->Open();
+        if (tab == 1)
+            CustomCrewManifest::GetInstance()->Update();
         
-        buttons[i]->SetImageBase(imageBase);
-
-        if (buttons.size() > 3)
+        for (int i = 0; i < buttons.size(); ++i)
         {
-            if (i == 2)
+            if (i == tab) continue;
+
+            std::string imageBase = "upgradeUI/Equipment/tabButtons/";
+            if (i == 0)
             {
-                buttons[i]->position.x = position.x + 182 - 19; // 182
-                buttons[i]->hitbox.x = position.x + 197 - 5; // 197
-                buttons[i]->hitbox.w = 70;
-                G_->GetWorld()->commandGui->equipScreen.box = altEquipmentBox;
-            }else if (i == buttons.size() - 1)
+                imageBase += "left_start";
+            }
+            else if (i == buttons.size() - 1)
             {
-                buttons[i]->position.x = position.x + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 8;
-                buttons[i]->hitbox.x = position.x + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 10 + 15;
+                imageBase += "right_end";
+            }
+            else if (i > tab)
+            {
+                imageBase += "right";
+            }
+            else if (i < tab)
+            {
+                imageBase += "left";
+            }
+            
+            buttons[i]->SetImageBase(imageBase);
+
+            if (buttons.size() > 3)
+            {
+                if (i == 2)
+                {
+                    buttons[i]->position.x = position.x + 182 - 19; // 182
+                    buttons[i]->hitbox.x = position.x + 197 - 5; // 197
+                    buttons[i]->hitbox.w = 70;
+                    G_->GetWorld()->commandGui->equipScreen.box = altEquipmentBox;
+                }else if (i == buttons.size() - 1)
+                {
+                    buttons[i]->position.x = position.x + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 8;
+                    buttons[i]->hitbox.x = position.x + (buttons.size() - 1) * CustomTabbedWindow::GetInstance()->hitboxWidth + 20 + 10 + 15;
+                }
             }
         }
+        currentTab = tab;
     }
-    currentTab = tab;
+    else
+    {
+        super(tab);
+    }
 }
