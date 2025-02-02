@@ -2871,27 +2871,27 @@ void ChoiceBox::MouseClick(int mX, int mY)
 namespace _func222
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ChoiceBox::OnRender", typeid(void (ChoiceBox::*)()), ".41574989ff41564155415455534881ec68020000", nullptr, 0, 0, &func);
-}
-
-void ChoiceBox::OnRender()
-{
-	typedef void (*custom_arg_funcptr_t)(ChoiceBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func222::func;
-	return execfunc(this);
-}
-
-namespace _func223
-{
-    static void *func = 0;
 	static FunctionDefinition funcObj("ChoiceBox::PrintResourceBox", typeid(ResourceBoxDesc (ChoiceBox::*)(ResourceEvent *, int , int , GL_Color , bool )), ".4157410fb6c1", nullptr, 0, 0, &func);
 }
 
 ResourceBoxDesc ChoiceBox::PrintResourceBox(ResourceEvent *resources, int x, int y, GL_Color border, bool choice)
 {
 	typedef ResourceBoxDesc (*custom_arg_funcptr_t)(ChoiceBox *this_arg, ResourceEvent *resources_arg, int x_arg, int y_arg, GL_Color border_arg, bool choice_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func223::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func222::func;
 	return execfunc(this, resources, x, y, border, choice);
+}
+
+namespace _func223
+{
+    static void *func = 0;
+	static FunctionDefinition funcObj("ChoiceBox::OnRender", typeid(void (ChoiceBox::*)()), ".41574989ff41564155415455534881ec68020000", nullptr, 0, 0, &func);
+}
+
+void ChoiceBox::OnRender()
+{
+	typedef void (*custom_arg_funcptr_t)(ChoiceBox *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func223::func;
+	return execfunc(this);
 }
 
 namespace _func224
