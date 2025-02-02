@@ -42,6 +42,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
+| 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
 | N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
@@ -65,6 +66,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.2.0 | ON_TICK | `None` | `None` | Run code every in-game tick (frame), use in combination with other events to turn logic on and off in your code that runs every tick |
 | 1.2.0 | MAIN_MENU | `None` | `None` | Run code when the main menu opens |
 | 1.10.0 | GET_RUN_SEED | `bool isCustomSeed`, `int seed` | `bool isCustomSeed`, `int seed` | Run code when the seed for the run is set |
+| 1.16.0 | DANGEROUS_ENVIRONMENT | `bool danger` | `bool danger` | Can be used to change the state of the environment, affecting music and ability to upgrade |
+| 1.16.0 | GET_HAZARD_FLASH | `float alpha` | `float red`, `float green`, `float blue`, `float alpha` | Can be used to alter the opacity and color of the flash used for suns and pulsars |
 | 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is pressed |
 | 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is unpressed |
 | 1.4.0 | ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `None` | Detect mouse movement |
@@ -89,6 +92,9 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine` | `string firstLine`, `string secondLine` | Change the text displayed for the player weapon cooldown timers |
 | 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.11.0 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
+| 1.16.0 | CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
+| 1.17.0 | TABBED_WINDOW_CONFIRM | `int currentTab` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| 1.17.0 | TABBED_WINDOW_UNDO | `int currentTab` | `None` | Called when the UNDO button is activated in the upgrade menu |
 
 ## Other predefined values
 

@@ -1,4 +1,20 @@
+"48897718c3":
+cleanup __amd64 void FocusWindow::SetPosition(FocusWindow *this, Point p); // 00521ec0
+".c6470800c3":
+cleanup __amd64 void FocusWindow::Close(FocusWindow *this); // 00521ed0
+".c6470801c3":
+cleanup __amd64 void FocusWindow::Open(FocusWindow *this); // 00521ef0
 "807f1400750af3c3":
-cleanup __amd64 void FocusWindow::MouseClick(FocusWindow *this, int x, int y);
+cleanup __amd64 void FocusWindow::MouseClick(FocusWindow *this, int x, int y); // 00521f00
 ".8b470c83f8ff7438":
-cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int x, int y);
+cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int x, int y); // 00521fa0
+"!.53baffffffff4889fb48c7":
+cleanup __amd64 void FocusWindow::constructor(FocusWindow *this); // 00521ff0
+
+struct FocusWindow
+{{
+	FocusWindow() 
+	{
+		this->constructor();
+	}
+}};
