@@ -379,6 +379,11 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
+
+<!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating -->
+  
+<insertNewlineForMultipleCrewTooltips enabled="false"/>
+
 <!-- Allows for the existence of additional tabs in the upgrade menu, be wary that they are to be used with lua to have any utility 
 name: name of the tab, will be used to find the icon_[name] for the tab in the img\upgradeUI\Equipment\tabButtons folder
 windowPath: path for the background of the new tab, do not include the extension
@@ -2984,7 +2989,14 @@ Example in form of the Vanilla credits rewritten in XML:
 </store>
 
 <!-- For compatibility with the old display image (no shopping cart icon), if this tag is missing, the purchase limit number remains in the conventional position, which is incompatible with the current image due to overlapping. -->
+
 <purchaseLimitNumber fontSize="0" x="-16" y="106"/>
+  
+  
+<!-- Define an upper limit for system upgrade costs. "threshold" or bigger value will be replaced with the string specified by "replace". Note that this is just a visual fix; player can still purchase the system if they have enough scrap. -->
+
+<systemNoPurchaseThreshold enabled="false" threshold="9999" replace="--"/>
+
 
 <!-- Custom Choice Text Color
 To enable this feature, set enabled="true". You can register as many choice text color themes as you like.
@@ -3059,8 +3071,19 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 
 </customChoiceColors>
 
-<!-- Define an upper limit for system upgrade costs. "threshold" or bigger value will be replaced with the string specified by "replace". Note that this is just a visual fix; player can still purchase the system if they have enough scrap. -->
+<!--Custom Text Style
+You can apply custom text style in the particular part of a text.
 
-<systemNoPurchaseThreshold enabled="false" threshold="9999" replace="--"/>
+Notation: Surround the part you want to appy custom style in a text with start flag ([style[EXPRESSIONS]]) and close flag ([[/style]])
+
+Expressions:
+
+* --------------Custom Colors--------------*
+notation: "color:RRGGBB" or "color:RRGGBBAA" with hexadecimal (00 to FF). If AA (opacity) is ommitted, it defaults to 0xFF (255).
+example: <text>This text is painted, like [style[color:FF0000]]Red[[/style]], [style[color:00FF00]]Green[[/style]] and [style[color:0000FF]]Blue[[/style]]!</text>
+--------------------------------------------
+
+-->
+<customTextStyle enabled="false"/>
 
 </FTL>
