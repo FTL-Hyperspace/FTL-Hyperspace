@@ -71,7 +71,6 @@ void ShipManager_Extend::Initialize(bool restarting)
     {
         for (auto &i : def.crewList)
         {
-            //species variable isn't used so it seems like the following code is dead and isList does nothing?
             auto species = i.species;
 
             if (i.isList)
@@ -87,8 +86,7 @@ void ShipManager_Extend::Initialize(bool restarting)
                     species = "human";
                 }
             }
-
-            orig->AddCrewMemberFromString(i.name, i.species, false, i.roomId, false, random32() % 2);
+            orig->AddCrewMemberFromString(i.name, species, false, i.roomId, false, random32() % 2);
 
             orig->bAutomated = false;
         }
@@ -204,6 +202,7 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
     int hyperspaceCrewCount = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName).crewList.size();
     std::vector<CrewBlueprint>& customCrew = myBlueprint.customCrew;
     std::vector<CrewBlueprint> removedCrew(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+    customCrew.erase(customCrew.end() - hyperspaceCrewCount, customCrew.end());
     super();
     customCrew.insert(customCrew.end(), removedCrew.begin(), removedCrew.end());
     SM_EX(this)->Initialize(true);
