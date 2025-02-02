@@ -1113,7 +1113,6 @@ struct LIBZHL_INTERFACE SystemBox
 	Point touchInitialOffset;
 	bool tapped;
 	bool draggingPower;
-	uint8_t padding1[2];
 	int dragInitialPower;
 	float lastDragSpeed;
 	int lastDragY;
@@ -1123,12 +1122,10 @@ struct LIBZHL_INTERFACE SystemBox
 	Globals::Rect hitBox;
 	int hitBoxTop;
 	bool hitBoxTopWasSet;
-	uint8_t padding2[3];
 	GL_Texture *wireImage;
 	bool bSimplePower;
 	bool bPlayerUI;
 	bool useLargeTapIcon;
-	uint8_t padding3[1];
 	Point largeTapIconOffset;
 	std::vector<int> tapButtonHeights;
 	int tapButtonOffsetY;
@@ -1137,7 +1134,6 @@ struct LIBZHL_INTERFACE SystemBox
 	TouchTooltip *touchTooltip;
 	TapBoxFrame tapBoxFrame;
 	bool lockedOpen;
-	uint8_t padding4[3];
 };
 
 struct CooldownSystemBox : SystemBox
