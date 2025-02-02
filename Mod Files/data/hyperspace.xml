@@ -381,6 +381,9 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
+<!--Fixes the rendering of cloaked player ships when no crew are onboard.-->
+
+<cloakRenderFix enabled="false"/>
 
 <!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating -->
   

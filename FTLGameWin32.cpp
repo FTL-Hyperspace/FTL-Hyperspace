@@ -3209,10 +3209,10 @@ namespace _func230
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CloakingSystem::OnLoop", typeid(void (CloakingSystem::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8d8bf0010000e8????????83bba8010000017e??80bbac0100000074??c70424????????", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("CloakingSystem::FiredWeapon", typeid(void (CloakingSystem::*)()), "57ba524500008d7c240883e4f0ff77fc5589e55756538d45d08d75d889cb83c10883ec3c668955e08975d0890424c745d8434c4f41c745dc4b5f4649c745d40a000000c645e200", argdata, 1, 5, &func);
 }
 
-void CloakingSystem::OnLoop()
+void CloakingSystem::FiredWeapon()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloakingSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func230::func;
@@ -3223,10 +3223,10 @@ namespace _func231
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CloakingSystem::FiredWeapon", typeid(void (CloakingSystem::*)()), "57ba524500008d7c240883e4f0ff77fc5589e55756538d45d08d75d889cb83c10883ec3c668955e08975d0890424c745d8434c4f41c745dc4b5f4649c745d40a000000c645e200", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("CloakingSystem::OnLoop", typeid(void (CloakingSystem::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????8d8bf0010000e8????????83bba8010000017e??80bbac0100000074??c70424????????", argdata, 1, 5, &func);
 }
 
-void CloakingSystem::FiredWeapon()
+void CloakingSystem::OnLoop()
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(CloakingSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func231::func;

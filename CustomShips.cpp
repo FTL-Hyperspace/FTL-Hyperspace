@@ -1,4 +1,5 @@
 #include "CustomAugments.h"
+#include "CustomOptions.h"
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
@@ -1529,12 +1530,30 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     lua_pop(context->GetLua(), 2);
 
     // Render floor
-    if (iShipId == 0)
+    ShipManager* shipManager = G_->GetShipManager(iShipId);
+    bool noCrew = shipManager->CountCrew(false) == 0;
+    bool sensorFunction = shipManager->DoSensorsProvide(1);
+    //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
+    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+    if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
+    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
+    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    {
+        //Bypass check for hiding room images
+        bContainsPlayerCrew = true;
+    }
+    super(showInterior, doorControlMode);
+    bContainsPlayerCrew = old_bContainsPlayerCrew;
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
