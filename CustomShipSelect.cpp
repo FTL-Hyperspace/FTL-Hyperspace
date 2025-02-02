@@ -2510,6 +2510,24 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
     }
 }
 
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_STATIC -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
+
+    std::string ret = super(name, lang);
+
+    if (name == "max_augments")
+    {
+        int augSlots = CustomShipSelect::GetInstance()->GetDefinition(G_->GetShipManager(0)->myBlueprint.blueprintName).augSlots;
+        if (augSlots != 3)
+        {
+            size_t pos = ret.find("3");
+            if (pos != std::string::npos) ret.replace(pos, 1, std::to_string(augSlots));
+        }
+    }
+
+    return ret;
+}
 
 static Button* reactorInfoButton = nullptr;
 static Point reactorInfoPos = {335, 380};
