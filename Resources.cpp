@@ -608,6 +608,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 if (EventsParser::ParseBoolean(enabled))
                 {
+                    CustomTabbedWindow::GetInstance()->enabled = true;
                     CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
                 }
             }
