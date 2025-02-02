@@ -36,7 +36,9 @@
 #include "CustomAchievements.h"
 #include "HSVersion.h"
 #include "CustomUpgrades.h"
+#include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
+
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -615,6 +617,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 if (EventsParser::ParseBoolean(enabled))
                 {
+                    CustomTabbedWindow::GetInstance()->enabled = true;
                     CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
                 }
             }
@@ -885,6 +888,16 @@ void Global::InitializeResources(ResourceControl *resources)
                     SystemNoPurchaseThreshold::threshold = boost::lexical_cast<int>(node->first_attribute("threshold")->value());
                     SystemNoPurchaseThreshold::replace = node->first_attribute("replace")->value();
                 }
+            }
+            if (strcmp(node->name(), "multipleOverCapacity") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_multipleOverCapacity = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "showDummyEquipmentSlots") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
             }
         }
 
