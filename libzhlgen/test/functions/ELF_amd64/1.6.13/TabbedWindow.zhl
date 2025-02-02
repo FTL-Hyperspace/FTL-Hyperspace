@@ -1,2 +1,10 @@
-"538b57684889fb488b4738":
-cleanup __amd64 void TabbedWindow::Close(TabbedWindow *this);
+"!538b57684889fb488b4738":
+cleanup __amd64 void TabbedWindow::Close(TabbedWindow *this); // 005854a0
+".41554189f541544989fc5531ed534883":
+cleanup __amd64 void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab); // 00585be0
+".4154554889f5534889fb4889cf":
+cleanup __amd64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button *button, FocusWindow *window); // 00585fd0
+"!.554889fd534883ec18e8????????f30f2a":
+cleanup __amd64 void TabbedWindow::OnRender(TabbedWindow *this); // 005864f0
+".41554189d541544189f4554889fd534883":
+cleanup __amd64 void TabbedWindow::MouseMove(TabbedWindow *this, int mX, int mY); // 00586680
