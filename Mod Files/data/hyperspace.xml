@@ -254,6 +254,10 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <extraShipInfo missileCount="false" droneCount="false" crewLimit="false"/>
 
+<!-- Shows transparent equipment slots under the text "SYSTEM NOT INSTALLED" when a weapon or drone system is not installed so that player can see how many slots the system has before installing it. -->
+
+<showDummyEquipmentSlots enabled="false"/>
+
 <!-- Shows all beacon connections in the beacon map -->
 
 <showAllConnections enabled="false"/>
@@ -377,6 +381,9 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
+<!--Fixes the rendering of cloaked player ships when no crew are onboard.-->
+
+<cloakRenderFix enabled="false"/>
 
 <!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating -->
   
@@ -549,6 +556,8 @@ maxLevel attribute sets the maximum level you can upgrade to
 <overrideCost> sets the price of an individual coloumn specified in the attribute, every other coloumn will follow default scaling
 <artilleryGibMountFix> applies the fix to this ship if not already enabled globally
 <hideHullDuringExplosion> hides the hull of this ship if not already enabled globally
+<augSlots> sets the number of augment slots for custom ship
+<cargoSlots> sets the number of cargo slots for custom ship
 
 
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
@@ -708,6 +717,8 @@ Syntax ->
 		</customReactor>
 		<artilleryGibMountFix/>
 		<hideHullDuringExplosion/>
+		<augSlots>5</augSlots>
+		<cargoSlots>8</cargoSlots>
 	</customShip>
 	
 	<customShip name="ENEMY_SHIP">
@@ -2998,6 +3009,7 @@ Example in form of the Vanilla credits rewritten in XML:
 
 <!-- Custom Choice Text Color
 To enable this feature, set enabled="true". You can register as many choice text color themes as you like.
+syncResourceBoxColor: if true, the outline of the resource box and the text within it will be synchronized to the current choice color.
 
 About <choiceColor/>:
 It needs attribute "name" to be identified.
@@ -3015,6 +3027,7 @@ It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
 
 
 <customChoiceColors enabled="true">
+	<syncResourceBoxColor>true</syncResourceBoxColor>
 	<choiceColor name="red">
 		<normal r="255" g="0" b="0"/>
 		<hover r="100" g="0" b="0"/>
@@ -3038,10 +3051,8 @@ It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
 	</choiceColor>
 </customChoiceColors>
 
-
 In an event definition and under <choice> tag, you can add attribute "color={name}" to <text>.
-
--- Event example that uses custom colors --
+Event example that uses custom colors
 
 <event>
 	<text>Colorful choices!!</text>
@@ -3062,11 +3073,10 @@ In an event definition and under <choice> tag, you can add attribute "color={nam
 		<event/>
 	</choice>
 </event>
-
 -->
 
 <customChoiceColors enabled="false">
-
+	<syncResourceBoxColor>false</syncResourceBoxColor>
 </customChoiceColors>
 
 <!--Custom Text Style
@@ -3076,12 +3086,14 @@ Notation: Surround the part you want to appy custom style in a text with start f
 
 Expressions:
 
-* --------------Custom Colors--------------*
 notation: "color:RRGGBB" or "color:RRGGBBAA" with hexadecimal (00 to FF). If AA (opacity) is ommitted, it defaults to 0xFF (255).
 example: <text>This text is painted, like [style[color:FF0000]]Red[[/style]], [style[color:00FF00]]Green[[/style]] and [style[color:0000FF]]Blue[[/style]]!</text>
---------------------------------------------
 
 -->
 <customTextStyle enabled="false"/>
+
+<!-- Allow over capacity box to hold multiple items. Player can select which item they take with them. -->
+
+<multipleOverCapacity enabled="false"/>
 
 </FTL>
