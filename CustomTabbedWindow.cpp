@@ -170,7 +170,7 @@ HOOK_METHOD(TabbedWindow, Close, () -> void)
     super();
 }
 
-HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 9999, (unsigned int tab) -> void)
+HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 1000, (unsigned int tab) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
 
@@ -179,7 +179,8 @@ HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 9999, (unsigned int tab) -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
 
-    if (CustomTabbedWindow::GetInstance()->enabled && G_->GetWorld()->commandGui->shipScreens.bOpen){
+    if (CustomTabbedWindow::GetInstance()->enabled && G_->GetWorld()->commandGui->shipScreens.bOpen)
+    {
         windows[currentTab]->Close();
         windows[tab]->Open();
         if (tab == 1)
