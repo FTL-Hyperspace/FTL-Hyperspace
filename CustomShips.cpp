@@ -1548,6 +1548,16 @@ HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorC
     super(showInterior, doorControlMode);
     bContainsPlayerCrew = old_bContainsPlayerCrew;
 }
+//Fix bug for render conditions on cloaking during pause
+HOOK_METHOD(CloakingSystem, SetTurnedOn, (bool val) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CloakingSystem::SetTurnedOn -> Begin (CustomShips.cpp)\n")
+    super(val);
+    if (CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    {
+        G_->GetShipManager(_shipObj.iShipId)->ship.bCloaked = bTurnedOn;
+    }
+}
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
 {
