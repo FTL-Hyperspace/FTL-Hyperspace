@@ -16,6 +16,8 @@ cleanup __cdecl void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
 cleanup __cdecl void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
 "565331db83ec148b7424208b56708b4674":
 cleanup __cdecl void CrewManifest::Close(CrewManifest *this);
+"!.5383ec188b5c2420891c24e8????????8d437c":
+cleanup __cdecl void CrewManifest::Open(CrewManifest *this);
 "565383ec148b7424208b4424248b5424288b8e0401000085c9":
 cleanup __cdecl void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
 "5557565383ec2c8b5c24408b7424448b7c24488d437c":
