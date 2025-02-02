@@ -3876,7 +3876,6 @@ struct CloakingSystem : ShipSystem
 {
 	LIBZHL_API void FiredWeapon();
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void SetTurnedOn(bool val);
 	
 	bool bTurnedOn;
 	TimerHelper timer;

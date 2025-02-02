@@ -1530,10 +1530,11 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     lua_pop(context->GetLua(), 2);
 
     // Render floor
-    bool noCrew = G_->GetShipManager(iShipId)->CountCrew(false) == 0;
-    bool sensorFunction = G_->GetShipManager(iShipId)->DoSensorsProvide(1);
+    ShipManager* shipManager = G_->GetShipManager(iShipId);
+    bool noCrew = shipManager->CountCrew(false) == 0;
+    bool sensorFunction = shipManager->DoSensorsProvide(1);
     //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
-    bool hideFloor = bCloaked && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
     if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
@@ -1546,23 +1547,13 @@ HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorC
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
     bool old_bContainsPlayerCrew = bContainsPlayerCrew;
-    if (ship.bCloaked && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
     {
         //Bypass check for hiding room images
         bContainsPlayerCrew = true;
     }
     super(showInterior, doorControlMode);
     bContainsPlayerCrew = old_bContainsPlayerCrew;
-}
-//Fix bug for render conditions on cloaking during pause
-HOOK_METHOD(CloakingSystem, SetTurnedOn, (bool val) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> CloakingSystem::SetTurnedOn -> Begin (CustomShips.cpp)\n")
-    super(val);
-    if (CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
-    {
-        G_->GetShipManager(_shipObj.iShipId)->ship.bCloaked = bTurnedOn;
-    }
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
