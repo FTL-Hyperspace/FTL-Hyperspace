@@ -122,7 +122,7 @@ static bool SectorReachable(Sector* start, Sector* destination, int range)
 HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GetPotentialSectorChoiceName -> Begin (Augments.cpp)\n")
-    if (potentialSectorChoice != -1 && shipManager->HasAugmentation("SECTOR_SCANNER"))
+    if (potentialSectorChoice != -1 && shipManager->HasAugmentation("SECTOR_SCANNER") && sectors[potentialSectorChoice]->level - currentSector->level > 1)
     {
         int range = shipManager->GetAugmentationValue("SECTOR_SCANNER"); 
         Sector* destination  = sectors[potentialSectorChoice];
