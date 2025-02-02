@@ -16175,6 +16175,20 @@ void SoundControl::UpdateSoundLoop(const std::string &loopId, float count)
 	return execfunc(this, loopId, count);
 }
 
+namespace _func1174
+{
+    static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("SoundControl::StopChannel", typeid(void (SoundControl::*)(int , float )), "578d7c240883e4f0ff77fc5589e55783ec148039008b07f30f10470474??660fef", argdata, 3, 5, &func);
+}
+
+void SoundControl::StopChannel(int channel, float fade)
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(SoundControl *this_arg, int channel_arg, float fade_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1174::func;
+	return execfunc(this, channel, fade);
+}
+
 SoundControl *Global_SoundControl_Sounds;
 
 namespace _var1175

@@ -14847,6 +14847,19 @@ void SoundControl::StopPlaylist(int fadeOut)
 namespace _func1170
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("SoundControl::StopChannel", typeid(void (SoundControl::*)(int , float )), ".4156415541544989fc55534883ec10803f000f84", nullptr, 0, 0, &func);
+}
+
+void SoundControl::StopChannel(int channel, float fade)
+{
+	typedef void (*custom_arg_funcptr_t)(SoundControl *this_arg, int channel_arg, float fade_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1169::func;
+	return execfunc(this, channel, fade);
+}
+
+namespace _func1170
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("SoundControl::StartPlaylist", typeid(void (SoundControl::*)(std::vector<std::string> &)), ".41574156415541544989fc55534883ec58803f004889742420", nullptr, 0, 0, &func);
 }
 
