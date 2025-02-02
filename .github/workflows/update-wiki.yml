@@ -1,11 +1,8 @@
 name: Update Wiki
 
 on:
-  push:
-    paths:
-      - 'wiki/**'
-    branches:
-      - master
+  release:
+    types: [published]
 
 jobs:
   update-wiki:

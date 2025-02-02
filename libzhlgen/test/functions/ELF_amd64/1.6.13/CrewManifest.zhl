@@ -14,6 +14,8 @@ cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
 cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager *ship);
 "!.41544989fc5531ed53488b97b8000000":
 cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
+"!.534889fbe8????????488dbbd0000000":
+cleanup __amd64 void CrewManifest::Open(CrewManifest *this);
 "!.55534889fb4883ec088b87a8010000":
 cleanup __amd64 void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
 ".4155415455534889fb4883ec68":
