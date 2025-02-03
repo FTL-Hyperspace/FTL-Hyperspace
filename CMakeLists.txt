@@ -80,6 +80,8 @@ target_sources(
     BeamFixes.cpp
     Blueprint_Extend.cpp
     Blueprint_Extend.h
+    Button_Extend.cpp
+    Button_Extend.h
     Colors.cpp
     Colors.h
     CommandConsole.cpp
