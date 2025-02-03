@@ -3003,7 +3003,9 @@ struct CombatAI;
 struct CombatAI
 {
 	LIBZHL_API void OnLoop();
+	LIBZHL_API int PrioritizeSystem(int weaponType);
 	LIBZHL_API void UpdateMindControl(bool unk);
+	LIBZHL_API void UpdateWeapons();
 	
 	ShipManager *target;
 	std::vector<ProjectileFactory*> weapons;
@@ -6455,6 +6457,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API static Projectile *__stdcall LoadProjectile(int fd);
 	LIBZHL_API int NumTargetsRequired();
 	LIBZHL_API void OnRender(float alpha, bool forceVisual);
+	LIBZHL_API bool ReadyToFire();
 	LIBZHL_API void RenderChargeBar(float unk);
 	LIBZHL_API static void __stdcall SaveProjectile(Projectile *p, int fd);
 	LIBZHL_API void SaveState(int fd);
