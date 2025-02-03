@@ -2374,10 +2374,9 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     }
 
     shipBuilder_augLeftButton = new Button();
-    shipBuilder_augLeftButton->OnInit("upgradeUI/buttons_system_arrow", Point(965, 605));
+    shipBuilder_augLeftButton->OnInit("statusUI/button_crew_up", Point(1238, 575));
     shipBuilder_augRightButton = new Button();
-    shipBuilder_augRightButton->OnInit("upgradeUI/buttons_system_arrow", Point(1232, 605));
-    shipBuilder_augRightButton->bMirror = true;
+    shipBuilder_augRightButton->OnInit("statusUI/button_crew_down", Point(1238, 629));
 }
 
 // custom augment slots number
