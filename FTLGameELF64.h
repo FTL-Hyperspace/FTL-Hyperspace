@@ -743,6 +743,9 @@ struct Pointf
 		return Pointf(x * amount, y * amount);
 	}
 
+	friend bool operator==(const Pointf &a, const Pointf &b) {return a.x==b.x && a.y==b.y;}
+	friend bool operator!=(const Pointf &a, const Pointf &b) {return a.x!=b.x || a.y!=b.y;}
+
 
 	LIBZHL_API Pointf Normalize();
 	LIBZHL_API float RelativeDistance(Pointf other);

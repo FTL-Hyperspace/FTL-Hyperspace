@@ -20,6 +20,8 @@ static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& 
 __thiscall void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
 "8b912c06000031c085d27e??0fb681f600000084c074??8b411c8b911801000039900c0100007e??31c0c3908d74260080b9f50000000075??":
 __thiscall bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
+".8b812c06000085c07e??0fb681f6000000":
+__thiscall bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
 "8b811406000085c00f8e????????578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc14000000c744240400000000":
 __thiscall int ProjectileFactory::SpendMissiles(ProjectileFactory *this);
 "578d7c240883e4f0ff77fc5589e557538d994801000083ec20807f0400f30f100774??8d9948010000c70424????????f30f1145f489d9":
