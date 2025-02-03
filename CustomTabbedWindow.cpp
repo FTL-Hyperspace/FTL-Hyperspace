@@ -181,10 +181,45 @@ HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 1000, (unsigned int tab) -> void)
 
     if (CustomTabbedWindow::GetInstance()->enabled && G_->GetWorld()->commandGui->shipScreens.bOpen)
     {
-        windows[currentTab]->Close();
-        windows[tab]->Open();
-        if (tab == 1)
-            CustomCrewManifest::GetInstance()->Update();
+        switch (currentTab)
+        {
+        case 0:
+            G_->GetWorld()->commandGui->upgradeScreen.Close();
+            break;
+        
+        case 1:
+            //CustomCrewManifest::GetInstance()->Update();
+            G_->GetWorld()->commandGui->crewScreen.Close();
+            break;
+        
+        case 2:
+            G_->GetWorld()->commandGui->equipScreen.Close();
+            break;
+        
+        default:
+            windows[currentTab]->Close();
+            break;
+        }
+
+        switch (tab)
+        {
+        case 0:
+            G_->GetWorld()->commandGui->upgradeScreen.Open();
+            break;
+        
+        case 1:
+            G_->GetWorld()->commandGui->crewScreen.Open();
+            //CustomCrewManifest::GetInstance()->Update();
+            break;
+        
+        case 2:
+            G_->GetWorld()->commandGui->equipScreen.Open();
+            break;
+        
+        default:
+            windows[tab]->Open();
+            break;
+        }
         
         for (int i = 0; i < buttons.size(); ++i)
         {
@@ -225,10 +260,10 @@ HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 1000, (unsigned int tab) -> void)
                 }
             }
         }
-        currentTab = tab;
     }
     else
     {
         super(tab);
     }
+    currentTab = tab;
 }
