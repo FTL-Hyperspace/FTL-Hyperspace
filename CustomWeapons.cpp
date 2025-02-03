@@ -297,28 +297,20 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
         weapons = self->GetWeaponList();
         for (ProjectileFactory* weapon : weapons)
         {
-            std::vector<Pointf> targets;
             if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked()) 
             {
                 int chargeLevels = weapon->blueprint->chargeLevels;
-                bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0; //TODO: Make sure this check is fine
+                bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0;
                 if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire) 
                 {
+                    std::vector<Pointf> targets;
                     while (targets.size() < weapon->NumTargetsRequired())
                     {
                         Pointf temp_target(0, 0);
-                        //if (target != nullptr) //Possibly unnecessary?
-                        {
-                            int systemTarget = PrioritizeSystem(weapon->blueprint->type);
-                            if (systemTarget == -1)
-                            {
-                                temp_target = target->GetRandomRoomCenter();
-                            }
-                            else
-                            {
-                                temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
-                            }
-                        }
+                        int systemTarget = PrioritizeSystem(weapon->blueprint->type);
+                        if (systemTarget == -1) temp_target = target->GetRandomRoomCenter();
+                        else temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
+    
                         //Only remove repeated targets if it is possible to add a non-repeated one
                         if (ShipGraph::GetShipInfo(target->iShipId)->RoomCount() > targets.size())
                         {
@@ -327,9 +319,9 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
 
                         targets.push_back(temp_target);
                     }
-                }
-                weapon->Fire(targets, target->iShipId);
-                weapon->SelectChargeGoal();
+                    weapon->Fire(targets, target->iShipId);
+                    weapon->SelectChargeGoal();
+                }  
             }
         }
     }
