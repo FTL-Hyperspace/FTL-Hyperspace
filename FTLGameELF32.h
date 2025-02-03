@@ -1100,6 +1100,7 @@ struct LIBZHL_INTERFACE SystemBox
 	virtual void CloseTouchTooltip(bool unk) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void KeyDown(SDLKey key, bool shift);
 	LIBZHL_API void constructor(Point pos, ShipSystem *sys, bool playerUI);
+	LIBZHL_API void destructor();
 	
 	Point location;
 	GL_Primitive *timerCircle[10];
