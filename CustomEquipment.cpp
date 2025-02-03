@@ -353,13 +353,12 @@ void CustomEquipment::OnInit(ShipManager *ship)
     if (!augLeftButton)
     {
         augLeftButton = new Button();
-        augLeftButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 307, orig->position.y + 369));
+        augLeftButton->OnInit("statusUI/button_crew_up", Point(orig->position.x + 571, orig->position.y + 339));
     }
     if (!augRightButton)
     {
         augRightButton = new Button();
-        augRightButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 574, orig->position.y + 369));
-        augRightButton->bMirror = true;
+        augRightButton->OnInit("statusUI/button_crew_down", Point(orig->position.x + 571, orig->position.y + 394));
     }
 
     currentAugPage = 0;
@@ -394,13 +393,12 @@ void CustomEquipment::OnInit(ShipManager *ship)
     if (!cargoLeftButton)
     {
         cargoLeftButton = new Button();
-        cargoLeftButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 16, orig->position.y + 369));
+        cargoLeftButton->OnInit("statusUI/button_crew_up", Point(orig->position.x + 278, orig->position.y + 339));
     }
     if (!cargoRightButton)
     {
         cargoRightButton = new Button();
-        cargoRightButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 278, orig->position.y + 369));
-        cargoRightButton->bMirror = true;
+        cargoRightButton->OnInit("statusUI/button_crew_down", Point(orig->position.x + 278, orig->position.y + 394));
     }
 
     if (!overCapacityLeftButton)
@@ -487,11 +485,11 @@ void CustomEquipment::SetPosition(Point p)
     Globals::Rect overAugBoxRect = Globals::Rect(orig->position.x + orig->overAugImage.position.x, orig->position.y + orig->overAugImage.position.y, 272, orig->overAugImage.GetHeight());
     orig->overAugBox->ForceHitBox(&overAugBoxRect);
 
-    if (augLeftButton) augLeftButton->SetLocation(Point(orig->position.x + 307, orig->position.y + 369));
-    if (augRightButton) augRightButton->SetLocation(Point(orig->position.x + 574, orig->position.y + 369));
+    if (augLeftButton) augLeftButton->SetLocation(Point(orig->position.x + 571, orig->position.y + 339));
+    if (augRightButton) augRightButton->SetLocation(Point(orig->position.x + 571, orig->position.y + 394));
 
-    if (cargoLeftButton) cargoLeftButton->SetLocation(Point(orig->position.x + 16, orig->position.y + 369));
-    if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 369));
+    if (cargoLeftButton) cargoLeftButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 339));
+    if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 394));
 }
 
 void CustomEquipment::OnRender()
