@@ -13,7 +13,7 @@ virtual __thiscall bool EquipmentBox::CanHoldWeapon(EquipmentBox *this); // 0052
 ".8b416085c08b416474??85c0":
 virtual __thiscall bool EquipmentBox::CanHoldDrone(EquipmentBox *this); // 0052b130
 ".8b51608b44240485d274??3c01":
-virtual __thiscall int EquipmentBox::GetType(EquipmentBox *this);  // 0052b160
+virtual __thiscall int EquipmentBox::GetType(EquipmentBox *this, bool forcedEmpty);  // 0052b160
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b37e8????????660fefc0c74424080000000089f7":
 virtual __thiscall void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty); // 0052b3d0
 ".578d7c240883e4f0ff77fc5589e55756538db560ffffff89cb81ec????????8b07":

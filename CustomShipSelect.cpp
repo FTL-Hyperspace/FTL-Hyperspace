@@ -2465,16 +2465,33 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
     g_maxAugPage = std::max((augSlots - 1) / 3, 0);
 }
 
+bool g_shipBuilder_MouseMoving = false;
+
 HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseMove -> Begin (CustomEquipment.cpp)\n")
+
+    g_shipBuilder_MouseMoving = true;
     super(x, y);
+    g_shipBuilder_MouseMoving = false;
 
     if (g_maxAugPage > 0 && !shipSelect.bOpen)
     {
         shipBuilder_augLeftButton->MouseMove(x, y, false);
         shipBuilder_augRightButton->MouseMove(x, y, false);
     }
+}
+
+HOOK_METHOD(EquipmentBox, MouseMove, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> EquipmentBox::MouseMove -> Begin (CustomEquipment.cpp)\n")
+    // fix a bug that a hovering info of an augment in the wrong page is shown
+
+    if (g_shipBuilder_MouseMoving && GetType(true) == 3 && !(g_currentAugPage * 3 <= slot && slot < (g_currentAugPage + 1) * 3))
+    {
+        return;
+    }
+    return super(mX, mY);
 }
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
