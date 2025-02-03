@@ -1724,14 +1724,13 @@ struct LIBZHL_INTERFACE EquipmentBox
 	LIBZHL_API virtual bool CanHoldDrone();
 	virtual char CanHoldAugment() LIBZHL_PLACEHOLDER
 	virtual void CheckContents() LIBZHL_PLACEHOLDER
-	virtual int GetType(bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual int GetType(bool forcedEmpty);
 	virtual char IsCargoBox() LIBZHL_PLACEHOLDER
 	virtual char CanHoldCrew() LIBZHL_PLACEHOLDER
 	virtual char CanDoJob() LIBZHL_PLACEHOLDER
 	LIBZHL_API void ForceHitBox(Globals::Rect *newBox);
 	LIBZHL_API Blueprint *GetBlueprint();
 	LIBZHL_API int GetItemValue();
-	LIBZHL_API virtual int GetType();
 	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool detailedBox);
 	LIBZHL_API void constructor(Point pos, int slot);
 	LIBZHL_API virtual void destructor();
@@ -1764,6 +1763,8 @@ struct AugmentEquipBox : EquipmentBox
 	{
 		this->constructor(loc, shipManager, slot);
 	}
+
+	int GetType(bool forcedEmpty) { return 3;}
 
 	LIBZHL_API void CheckContents();
 	LIBZHL_API void RemoveItem();
@@ -4797,6 +4798,8 @@ struct CrewEquipBox : EquipmentBox
 		this->constructor(pos_, ship_, slot_);
 	}
 
+	int GetType(bool forcedEmpty) { return 2;}
+
 	LIBZHL_API void CloseRename();
 	LIBZHL_API bool GetConfirmDelete();
 	LIBZHL_API void MouseClick();
@@ -5324,6 +5327,8 @@ struct DroneEquipBox : EquipmentBox
 	{
 		this->constructor(location, sys, slot);
 	}
+
+	int GetType(bool forcedEmpty) { return 1;}
 
 	LIBZHL_API void constructor(Point location, DroneSystem *sys, int slot);
 	
@@ -7887,6 +7892,8 @@ struct WeaponEquipBox : EquipmentBox
 	{
 		this->constructor(location, sys, slot);
 	}
+
+	int GetType(bool forcedEmpty) { return 0;}
 
 	LIBZHL_API void constructor(Point location, WeaponSystem *sys, int slot);
 	

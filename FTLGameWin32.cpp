@@ -8486,15 +8486,15 @@ bool EquipmentBox::CanHoldDrone()
 namespace _func608
 {
     static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("EquipmentBox::GetType", typeid(int (EquipmentBox::*)()), ".8b51608b44240485d274??3c01", argdata, 1, 1, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("EquipmentBox::GetType", typeid(int (EquipmentBox::*)(bool )), ".8b51608b44240485d274??3c01", argdata, 2, 1, &func);
 }
 
-int EquipmentBox::GetType()
+int EquipmentBox::GetType(bool forcedEmpty)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(EquipmentBox *this_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(EquipmentBox *this_arg, bool forcedEmpty_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func608::func;
-	return execfunc(this);
+	return execfunc(this, forcedEmpty);
 }
 
 namespace _func609
