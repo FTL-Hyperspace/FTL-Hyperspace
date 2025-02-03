@@ -4,5 +4,7 @@ noHook __cdecl void DroneControl::DO_NOT_HOOK();
 cleanup __cdecl TextString DroneControl::HolderLabel(DroneControl *this);
 ".5557565381ec0c0100008d7424748934248d7c2448":
 cleanup __cdecl SDLKey DroneControl::ArmamentHotkey(DroneControl *this, unsigned int i);
+".5589e557565383ec4c8b????8b5310":
+cleanup __cdecl void DroneControl::SelectArmament(DroneControl *this, unsigned int i);
 ".5589e557565383ec2c8b5d08c744240404000000":
 cleanup __cdecl void DroneControl::OnLoop(DroneControl *this);
