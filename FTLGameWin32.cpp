@@ -20213,12 +20213,12 @@ namespace _func1466
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("WeaponSystem::RemoveWeapon", typeid(void (WeaponSystem::*)(int )), ".578d7c240883e4f0ff77fc5589e557565383ec4c8b3f85ff78??", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("WeaponSystem::RemoveWeapon", typeid(ProjectileFactory *(WeaponSystem::*)(int )), ".578d7c240883e4f0ff77fc5589e557565383ec4c8b3f85ff78??", argdata, 2, 1, &func);
 }
 
-void WeaponSystem::RemoveWeapon(int slot)
+ProjectileFactory *WeaponSystem::RemoveWeapon(int slot)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponSystem *this_arg, int slot_arg);
+	typedef ProjectileFactory *__attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponSystem *this_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1466::func;
 	return execfunc(this, slot);
 }

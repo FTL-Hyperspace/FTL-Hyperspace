@@ -7801,7 +7801,7 @@ struct WeaponSystem : ShipSystem
 	LIBZHL_API bool ForceIncreasePower(int amount);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API bool PowerWeapon(ProjectileFactory *weapon, bool userDriven, bool force);
-	LIBZHL_API void RemoveWeapon(int slot);
+	LIBZHL_API ProjectileFactory *RemoveWeapon(int slot);
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	
 	Pointf target;

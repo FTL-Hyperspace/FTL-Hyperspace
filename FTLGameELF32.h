@@ -3928,10 +3928,12 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(bool unk);
 	LIBZHL_API void RenderAiming();
 	LIBZHL_API static void __stdcall RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
 	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void RenderWarnings();
 	LIBZHL_API void SelectArmament(unsigned int armamentSlot);
 	LIBZHL_API void SetAutofiring(bool on, bool simple);
 	LIBZHL_API void constructor();
@@ -6321,6 +6323,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API Projectile *GetProjectile();
 	LIBZHL_API bool IsChargedGoal();
 	LIBZHL_API static Projectile *__stdcall LoadProjectile(int fd);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API int NumTargetsRequired();
 	LIBZHL_API void OnRender(float alpha, bool forceVisual);
 	LIBZHL_API void RenderChargeBar(float unk);
@@ -7766,8 +7769,11 @@ struct WeaponStoreBox : StoreBox
 
 struct WeaponSystem : ShipSystem
 {
+	LIBZHL_API bool DePowerWeapon(ProjectileFactory *weapon, bool userDriven);
+	LIBZHL_API bool ForceIncreasePower(int amount);
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void RemoveWeapon(int slot);
+	LIBZHL_API bool PowerWeapon(ProjectileFactory *weapon, bool userDriven, bool force);
+	LIBZHL_API ProjectileFactory *RemoveWeapon(int slot);
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	
 	Pointf target;
