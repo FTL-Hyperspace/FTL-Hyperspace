@@ -2621,6 +2621,14 @@ end)
 
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
+- [`TextString`](#TextString) `.description`
+- `int` `.cost`
+- `int` `.rarity`
+- `int` `.baseRarity`
+- `int` `.bp`
+- `bool` `.locked`
+- [`TextString`](#TextString) `.tooltip`
+- `std::string` `.tip`
 
 ## CrewDesc
 

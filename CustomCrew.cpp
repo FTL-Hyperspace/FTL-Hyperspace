@@ -5584,7 +5584,7 @@ HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::strin
         }
         else
         {
-            if (!CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
+            if (CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
             {
                 // \n -> \n\n; insert newline between each crew desc.
                 tooltip += " \n\n" + crew->GetTooltip();
