@@ -13,4 +13,6 @@ struct AugmentEquipBox
 	{
 		this->constructor(loc, shipManager, slot);
 	}
+
+	int GetType(bool forcedEmpty) { return 3;}
 }};
