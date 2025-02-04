@@ -1246,18 +1246,32 @@ HOOK_METHOD(DroneControl, SelectArmament, (unsigned int i) -> void)
     {
         DroneBox* box = static_cast<DroneBox*>(boxes[i]);
         Drone* drone = box->pDrone;
-        bool isCrewDrone = drone->type == 2 || drone->type == 3 || drone->type == 4;
-        if (box->Powered() && isCrewDrone)
+        bool isCrewDrone = drone->type == 2 || drone->type == 3;
+        bool isBoarderPodDrone = drone->type == 4;
+
+        if (box->Powered())
         {
-            //Simple casting methods don't work as CrewDrone and Drone are not related by inheritence
-            //TODO: Correct casting when multiple inheritence is properly represented in FTLGame headers
-            ptrdiff_t droneBaseOffset = offsetof(CrewDrone, _drone);
-            uintptr_t droneAddr = reinterpret_cast<uintptr_t>(drone);
-            uintptr_t crewDroneAddr = droneAddr - droneBaseOffset;
-            CrewDrone* crewDrone = reinterpret_cast<CrewDrone*>(crewDroneAddr);
-        
-            G_->GetCApp()->gui->crewControl.SelectPotentialCrew(crewDrone, false); 
-            G_->GetCApp()->gui->crewControl.SelectCrew(true);
+            CrewDrone* crewDrone = nullptr;
+            if (drone->type == 2 || drone->type == 3) //If drone is a CrewDrone*
+            {
+                //Simple casting methods don't work as CrewDrone and Drone are not related by inheritence
+                //TODO: Correct casting when multiple inheritence is properly represented in FTLGame headers
+                ptrdiff_t droneBaseOffset = offsetof(CrewDrone, _drone);
+                uintptr_t droneAddr = reinterpret_cast<uintptr_t>(drone);
+                uintptr_t crewDroneAddr = droneAddr - droneBaseOffset;
+                CrewDrone* crewDrone = reinterpret_cast<CrewDrone*>(crewDroneAddr);
+            }
+            else if (drone->type == 4) //If drone is a BoarderPodDrone*
+            {
+                BoarderPodDrone* boarderPod = static_cast<BoarderPodDrone*>(drone);
+                crewDrone = boarderPod->boarderDrone;
+            }
+
+            if (crewDrone != nullptr)
+            {
+                G_->GetCApp()->gui->crewControl.SelectPotentialCrew(crewDrone, false); 
+                G_->GetCApp()->gui->crewControl.SelectCrew(true);
+            }   
         }
     }   
 }
