@@ -489,8 +489,8 @@ void CustomEquipment::SetPosition(Point p)
     if (augLeftButton) augLeftButton->SetLocation(Point(orig->position.x + 571, orig->position.y + 339));
     if (augRightButton) augRightButton->SetLocation(Point(orig->position.x + 571, orig->position.y + 394));
 
-    if (cargoLeftButton) cargoLeftButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 339));
-    if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 394));
+    if (cargoLeftButton) cargoLeftButton->SetLocation(Point(orig->position.x + 16, orig->position.y + 369));
+    if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 369));
 }
 
 void CustomEquipment::OnRender()
