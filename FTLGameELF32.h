@@ -1544,6 +1544,7 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	virtual void SetMovingTarget(Targetable *target) LIBZHL_PLACEHOLDER
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
+	LIBZHL_API bool QueuedShots();
 	LIBZHL_API static Pointf __stdcall RandomSidePoint(int side);
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();

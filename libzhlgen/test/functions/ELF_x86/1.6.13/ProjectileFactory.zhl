@@ -16,6 +16,8 @@ cleanup __cdecl void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
 cleanup __cdecl void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
 ".5383ec188b5c2420c7442404????????891c24":
 static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& str);
+".8b44????8b90840400003990880400000f95??":
+cleanup __cdecl bool Projectile::QueuedShots(ProjectileFactory * this);
 "57565383ec108b7424208b7c24248b86c40000002b86c0000000":
 cleanup __cdecl void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
 ".!5531ed57565383ec4c8b74????8d????208b5c????":

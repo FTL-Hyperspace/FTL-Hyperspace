@@ -26,6 +26,8 @@ cleanup __amd64 bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
 cleanup __amd64 bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
 ".53be????????4889fbe8????????85c0":
 static cleanup __amd64 int ProjectileFactory::StringToWeapon(const std::string& str);
+".??8b87e8050000??3987f00500000f95??":
+cleanup __amd64 bool ProjectileFactory::QueuedShots(ProjectileFactory *this);
 ".4157415641554154554889fd488dbf58010000534883ec58":
 cleanup __amd64 Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);
 ".55534889fb4883ec288b8708060000":
