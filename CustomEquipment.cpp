@@ -393,12 +393,13 @@ void CustomEquipment::OnInit(ShipManager *ship)
     if (!cargoLeftButton)
     {
         cargoLeftButton = new Button();
-        cargoLeftButton->OnInit("statusUI/button_crew_up", Point(orig->position.x + 278, orig->position.y + 339));
+        cargoLeftButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 16, orig->position.y + 369));
     }
     if (!cargoRightButton)
     {
         cargoRightButton = new Button();
-        cargoRightButton->OnInit("statusUI/button_crew_down", Point(orig->position.x + 278, orig->position.y + 394));
+        cargoRightButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 278, orig->position.y + 369));
+        cargoRightButton->bMirror = true;
     }
 
     if (!overCapacityLeftButton)
