@@ -74,6 +74,8 @@ cleanup __cdecl void StarMap::ClearBoss(StarMap *this);
 cleanup __cdecl void StarMap::SetBossStage(StarMap *this, int stage);
 "8b54240431c083bab807000004":
 cleanup __cdecl void StarMap::CheckGameOver(StarMap *this);
+".5589e557565383ec3c8b????8b????8b8628090000":
+cleanup __cdecl std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
 "5589e557565381eccc0000008b7508e8????????":
 cleanup __cdecl void StarMap::RenderLabels(StarMap *this);
 "5557565383ec2c8b7424408bbee8080000":

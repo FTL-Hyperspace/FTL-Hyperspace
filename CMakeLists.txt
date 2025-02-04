@@ -125,6 +125,7 @@ target_sources(
     CustomDrones.cpp
     CustomDrones.h
     CustomEquipment.cpp
+    CustomEquipment.h
     CustomEvents.cpp
     CustomEvents.h
     CustomFleetShips.cpp
@@ -157,6 +158,8 @@ target_sources(
     CustomSuperShield.cpp
     CustomSystems.cpp
     CustomSystems.h
+    CustomTextStyle.cpp
+    CustomTextStyle.h
     CustomUpgrades.cpp
     CustomUpgrades.h
     CustomWeapons.cpp
@@ -166,6 +169,8 @@ target_sources(
     EnemyShipIcons.cpp
     EnemyShipIcons.h
     EnumClassHash.h
+    Equipment_Extend.cpp
+    Equipment_Extend.h
     ErosionEffect.cpp
     EventButtons.cpp
     EventButtons.h

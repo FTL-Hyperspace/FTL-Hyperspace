@@ -987,13 +987,13 @@ Accessed via `ShipSystem`'s `.extend` field
 **Extends [ShipSystem](#ShipSystem)**
 
 ### Methods
-- `void :RemoveWeapon(int slot)`
+- `ProjectileFactory* :RemoveWeapon(int slot)`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
 - [`Pointf`](#Pointf) `.target`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weapons`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weaponsTrashList`
 - `float` `.shot_timer`
 - `int` `.shot_count`
 - `int` `.missile_count`
@@ -2631,6 +2631,14 @@ end)
 
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
+- [`TextString`](#TextString) `.description`
+- `int` `.cost`
+- `int` `.rarity`
+- `int` `.baseRarity`
+- `int` `.bp`
+- `bool` `.locked`
+- [`TextString`](#TextString) `.tooltip`
+- `std::string` `.tip`
 
 ## CrewDesc
 
@@ -3507,6 +3515,9 @@ Accessed via `Projectile`'s `.extend` field
 
 ### Methods
 - `int :PlaySoundMix(std::string soundName, float volume, bool loop)`
+- `void :StopChannel(int channel, float fade)`
+   - The channel value is given by `PlaySoundMix`
+   - `fade` is counted in milliseconds
 
 ## SettingValues
 

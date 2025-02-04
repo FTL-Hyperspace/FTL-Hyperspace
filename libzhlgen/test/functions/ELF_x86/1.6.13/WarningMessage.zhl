@@ -32,4 +32,9 @@ struct WarningMessage
 	{
 		this->constructor();
 	}
+
+	inline void Stop()
+	{
+		tracker.Stop(false);
+	}
 }};

@@ -5566,6 +5566,43 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
     }
 }
 
+// insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating
+HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetTooltip -> Begin (CustomCrew.cpp)\n")
+
+    // rewrite vanilla code
+    std::string tooltip = "";
+    for (auto crew : vCrewList)
+    {
+        if (!crew->ContainsPoint(x, y) || crew->bDead) continue;
+        ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
+        if (shipGraph->GetRoomBlackedOut(crew->iRoomId)) continue;
+        if (tooltip.empty())
+        {
+            tooltip = crew->GetTooltip();
+        }
+        else
+        {
+            if (CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
+            {
+                // \n -> \n\n; insert newline between each crew desc.
+                tooltip += " \n\n" + crew->GetTooltip();
+            }
+            else
+            {
+                tooltip += " \n" + crew->GetTooltip();
+            }
+        }
+        if (!tooltip.empty() && crew->bMindControlled)
+        {
+            tooltip += " \n" + G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
+        }
+    }
+    return tooltip;
+}
+
+
 HOOK_METHOD(CrewAnimation, FireShot, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAnimation::FireShot -> Begin (CustomCrew.cpp)\n")
