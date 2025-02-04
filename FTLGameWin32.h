@@ -207,12 +207,6 @@ struct TextString
 
 	}
 
-	TextString(const std::string &text, bool _isLiteral = true)
-	{
-		data = text;
-		isLiteral = _isLiteral;
-	}
-
 	LIBZHL_API std::string GetText();
 	
 	std::string data;
