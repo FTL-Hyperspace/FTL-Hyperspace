@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.16.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -285,3 +285,5 @@
 <text name="shields_5" language="ja">6層シールド</text>
 <text name="shields_6" language="ja">7層シールド</text>
 <text name="shields_7" language="ja">8層シールド</text>
+
+<text name="max_augments" language="ja">拡張パーツは\1個までしか持てない！</text>

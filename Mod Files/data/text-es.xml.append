@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace (FTL: Hyperspace)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="es">
-  <mod:setValue>\1 (Hyperspace 1.16.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="es">
   <mod:setValue>Probabilidad de Fuego: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -293,3 +293,5 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="shields_5" language="es">Seis escudos</text>
 <text name="shields_6" language="es">Siete escudos</text>
 <text name="shields_7" language="es">Ocho escudos</text>
+
+<text name="max_augments" language="es">Tu nave solo puede tener instalados \1 aumentos.</text>

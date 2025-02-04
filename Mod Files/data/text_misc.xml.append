@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.16.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -175,6 +175,8 @@
 
 <text name="teleporter_instant">No cooldown</text>
 <text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
+
+<text name="max_augments">Your ship can only hold \1 augmentations.</text>
 
 <!-- Tooltips when hovering over deployed drones -->
 

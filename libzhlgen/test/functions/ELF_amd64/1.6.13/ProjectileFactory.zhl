@@ -50,4 +50,8 @@ cleanup __amd64 void ProjectileFactory::destructor(ProjectileFactory *this);
 struct ProjectileFactory 
 {{
     bool HitShotLimit();
+	ProjectileFactory(const WeaponBlueprint *bp, int shipId)
+	{
+		this->constructor(bp, shipId);
+	}
 }};

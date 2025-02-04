@@ -52,5 +52,9 @@ __thiscall void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);
 
 struct ProjectileFactory 
 {{
-    bool HitShotLimit();
+	bool HitShotLimit();
+	ProjectileFactory(const WeaponBlueprint *bp, int shipId)
+	{
+		this->constructor(bp, shipId);
+	}
 }};

@@ -1299,7 +1299,7 @@ HOOK_METHOD(CloneSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (CustomSystems.cpp)\n")
 
-    g_checkCloneSpeed = 0;
+    g_checkCloneSpeed = iLockCount > 0 ? -1 : 0;
     g_cloneSystem = this;
     super();
     g_checkCloneSpeed = 2;
@@ -1323,7 +1323,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         {
             speedFactor = speedFactor * cloneTimeMultiplier;
         }
-        else // For the clone death
+        else if (g_checkCloneSpeed == 1) // For the clone death
         {
             speedFactor = speedFactor * 3.0 / pLevel.deathSpeed;
         }
@@ -1332,7 +1332,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         {
             speedFactor = speedFactor * cloneTimeMultiplier;
         }
-        else // For the clone death
+        else if (g_checkCloneSpeed == 1) // For the clone death
         {
             speedFactor = speedFactor * 3.0 / pLevel.deathSpeed;
         }
@@ -1383,7 +1383,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
         {
             size_t pos = ret.find("\\2");
 
-            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\2 + "+ std::to_string(glevel.jumpHPPercent) + "%" : "" + std::to_string(glevel.jumpHPPercent) + "%");
         }
     }
     if ((name == "clonebay_health" || name == "clonebay_damaged") && G_->GetShipManager(0)->cloneSystem != nullptr)
@@ -1393,7 +1393,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
         {
             size_t pos = ret.find("\\1");
 
-            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\1 + " : "" + std::to_string(glevel.jumpHPPercent) + "%");
+            if (pos != std::string::npos) ret.replace(pos, 2, glevel.jumpHP > 0 ? "\\1 + "+ std::to_string(glevel.jumpHPPercent) + "%" : "" + std::to_string(glevel.jumpHPPercent) + "%");
 
         }
     }

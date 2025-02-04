@@ -42,6 +42,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
+| 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
 | N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
@@ -92,7 +93,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.11.0 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.16.0 | CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
-
+| 1.17.0 | TABBED_WINDOW_CONFIRM | `int currentTab` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| 1.17.0 | TABBED_WINDOW_UNDO | `int currentTab` | `None` | Called when the UNDO button is activated in the upgrade menu |
 
 ## Other predefined values
 

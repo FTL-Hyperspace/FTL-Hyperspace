@@ -51,4 +51,8 @@ cleanup __cdecl void ProjectileFactory::SaveState(ProjectileFactory *this, int f
 struct ProjectileFactory 
 {{
     bool HitShotLimit();
+	ProjectileFactory(const WeaponBlueprint *bp, int shipId)
+	{
+		this->constructor(bp, shipId);
+	}
 }};

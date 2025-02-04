@@ -6,6 +6,8 @@ cleanup __cdecl void SoundControl::StopPlaylist(SoundControl *this, int fadeOut)
 cleanup __cdecl void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string> &playlist);
 "5589e557565383ec??8b????8038??74??8b????8b008b78f4":
 cleanup __cdecl void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);
+"5589e5565383ec408b5d08f30f104510803b000f84":
+cleanup __cdecl void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
 
 "!e8????????897c240889742404c70424(???????\?)e8":
 SoundControl* Global_SoundControl_Sounds;
