@@ -992,8 +992,8 @@ Accessed via `ShipSystem`'s `.extend` field
 
 ### Fields
 - [`Pointf`](#Pointf) `.target`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weapons`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weaponsTrashList`
 - `float` `.shot_timer`
 - `int` `.shot_count`
 - `int` `.missile_count`
