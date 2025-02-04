@@ -11,7 +11,7 @@ virtual cleanup __cdecl bool EquipmentBox::CanHoldWeapon(EquipmentBox *this);
 "8b4424048b504c85d28b5050":
 virtual cleanup __cdecl bool EquipmentBox::CanHoldDrone(EquipmentBox *this);
 "8b5424048b4c24088b424c85c0":
-virtual cleanup __cdecl int EquipmentBox::GetType(EquipmentBox *this);
+virtual cleanup __cdecl int EquipmentBox::GetType(EquipmentBox *this, bool forcedEmpty);
 "57565383ec408b5c24508b742454":
 virtual cleanup __cdecl void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
 ".565383ec248b5c24308b431c":
