@@ -2269,6 +2269,14 @@ playerVariableType playerVariables;
 %rename("%s") Description;
 %rename("%s") Description::title;
 %rename("%s") Description::shortTitle;
+%rename("%s") Description::description;
+%rename("%s") Description::cost;
+%rename("%s") Description::rarity;
+%rename("%s") Description::baseRarity;
+%rename("%s") Description::bp;
+%rename("%s") Description::locked;
+%rename("%s") Description::tooltip;
+%rename("%s") Description::tip;
 
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;

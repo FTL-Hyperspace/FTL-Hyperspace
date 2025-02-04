@@ -1,4 +1,5 @@
 #include "CustomAugments.h"
+#include "CustomOptions.h"
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
@@ -67,7 +68,7 @@ void ShipManager_Extend::Initialize(bool restarting)
         }
     }
 
-    if (!restarting && !revisitingShip)
+    if (!revisitingShip)
     {
         for (auto &i : def.crewList)
         {
@@ -86,8 +87,7 @@ void ShipManager_Extend::Initialize(bool restarting)
                     species = "human";
                 }
             }
-
-            orig->AddCrewMemberFromString(i.name, i.species, false, i.roomId, false, random32() % 2);
+            orig->AddCrewMemberFromString(i.name, species, false, i.roomId, false, random32() % 2);
 
             orig->bAutomated = false;
         }
@@ -194,11 +194,18 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
     return ret;
 }
 
+//AddInitialCrew adds all crew from ShipManager::myBlueprint::customCrew
+//So the crew added by Hyperspace are temporarily removed from customCrew so crew aren't added twice on restart
 HOOK_METHOD(ShipManager, Restart, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::Restart -> Begin (CustomShips.cpp)\n")
-    super();
 
+    int hyperspaceCrewCount = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName).crewList.size();
+    std::vector<CrewBlueprint>& customCrew = myBlueprint.customCrew;
+    std::vector<CrewBlueprint> removedCrew(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+    customCrew.erase(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+    super();
+    customCrew.insert(customCrew.end(), removedCrew.begin(), removedCrew.end());
     SM_EX(this)->Initialize(true);
 }
 
@@ -1523,12 +1530,30 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     lua_pop(context->GetLua(), 2);
 
     // Render floor
-    if (iShipId == 0)
+    ShipManager* shipManager = G_->GetShipManager(iShipId);
+    bool noCrew = shipManager->CountCrew(false) == 0;
+    bool sensorFunction = shipManager->DoSensorsProvide(1);
+    //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
+    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+    if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
+    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
+    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    {
+        //Bypass check for hiding room images
+        bContainsPlayerCrew = true;
+    }
+    super(showInterior, doorControlMode);
+    bContainsPlayerCrew = old_bContainsPlayerCrew;
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)

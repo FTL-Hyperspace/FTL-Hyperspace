@@ -33,6 +33,16 @@
     <stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="SECTOR_SCANNER">
+	<title id="aug_SECTOR_SCANNER_title"/>
+	<desc id="aug_SECTOR_SCANNER_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>7</value> <!--The range of the scanner-->
+    <stackable>false</stackable>
+</augBlueprint>
+
 <augBlueprint name="BOARDER_RECOVERY">
 	<title id="aug_BOARDER_RECOVERY_title"/>
 	<desc id="aug_BOARDER_RECOVERY_desc"/>
@@ -108,7 +118,7 @@
 	<invisibleBeam>false</invisibleBeam>             If true, prevents beams from being rendered.
 	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
 	<fireTime>0.0</fireTime>                         Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
-	
+	<shotLimit>-1</shotLimit>                        The amount of times this weapon can be fired per combat encounter. Negative values indicate no limit.
 	<erosionChance>0</erosionChance>                          Chance to apply erosion (0-10)
 	<erosion>                                                 Leave out any child tags to use the defaults
 		<speed>0.63</speed>                                   How quickly to erode the system, equivalent to sabotage multiplier
