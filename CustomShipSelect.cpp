@@ -697,6 +697,16 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
             isCustom = true;
             def.cargoSlots = boost::lexical_cast<int>(val);
         }
+        if (name == "systemList")
+        {
+            for (auto artilleryNode = shipNode->first_node(); artilleryNode; artilleryNode = artilleryNode->next_sibling("artillery"))
+            {
+                auto imgAttribute = artilleryNode->first_attribute("img");
+                const char* imgName = imgAttribute ? imgAttribute->value() : "";
+                def.artilleryRoomImages.emplace_back(imgName);
+            }
+            if (def.artilleryRoomImages.size() > 1) isCustom = true; //Only qualify for a custom definition if multiple artillery systems are present
+        }
 
     }
 
