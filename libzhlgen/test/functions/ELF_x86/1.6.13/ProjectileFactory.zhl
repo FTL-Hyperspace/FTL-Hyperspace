@@ -16,10 +16,16 @@ cleanup __cdecl void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
 cleanup __cdecl void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
 ".5383ec188b5c2420c7442404????????891c24":
 static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& str);
+".8b44????8b90840400003990880400000f95??":
+cleanup __cdecl bool Projectile::QueuedShots(ProjectileFactory * this);
 "57565383ec108b7424208b7c24248b86c40000002b86c0000000":
 cleanup __cdecl void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
+".!5531ed57565383ec4c8b74????8d????208b5c????":
+cleanup __cdecl void ProjectileFactory::LoadState(ProjectileFactory *this,int fd);
 "538b54240831c08b8ab004000085c9":
 cleanup __cdecl bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
+".8b54????31c08b8ab004000085c97e??80baba0000000074??8b421c":
+cleanup __cdecl bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
 "57565383ec308b5c24408b839804000085c0":
 cleanup __cdecl int ProjectileFactory::SpendMissiles(ProjectileFactory *this);
 "!5383ec18807c2428008b5c2420f30f10442424":
@@ -46,6 +52,7 @@ cleanup __cdecl void ProjectileFactory::SaveState(ProjectileFactory *this, int f
 
 struct ProjectileFactory 
 {{
+    bool HitShotLimit();
 	ProjectileFactory(const WeaponBlueprint *bp, int shipId)
 	{
 		this->constructor(bp, shipId);

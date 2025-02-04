@@ -1,6 +1,15 @@
-"31c085f60f88d800000041564155415455534889fb4883ec20":
-cleanup __amd64 void WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
-"!.5589f5534889fb4883ec08e8????????39e8":
+//"??54??89d455??89fd53??89f3e8????????": //00652600 (Duplicate?)
+//WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
+
+".??5531c9??54??89fc555331db??83ec08??8bb758020000": //00653070
+cleanup __amd64 bool WeaponSystem::ForceIncreasePower(WeaponSystem *this, int amount);
+"31c085f60f88d800000041564155415455534889fb4883ec20": //006534d0
+cleanup __amd64 ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
+"!.5589f5534889fb4883ec08e8????????39e8": //00653980
 virtual cleanup __amd64 void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
-".415741564155415455534889fb4883ec38e8????????488b9350020000":
+".415741564155415455534889fb4883ec38e8????????488b9350020000": //006539b0
 cleanup __amd64 void WeaponSystem::OnLoop(WeaponSystem *this);
+".??55??89d5??54??89cc55??89fd53??89f3??83ec08e8????????": //00653dc0 (Duplicate?)
+cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
+".??55??54??89f45553??83ec08??0fb6aef2000000": //00653f20
+cleanup __amd64 bool WeaponSystem::DePowerWeapon(WeaponSystem *this,ProjectileFactory *weapon, bool userDriven);
