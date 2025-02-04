@@ -6695,6 +6695,7 @@ struct TopScore
 
 struct ScoreKeeper
 {
+    int CountUnlockedShips(int variant);
 
 	LIBZHL_API void AddScrapCollected(int scrap);
 	LIBZHL_API int AddTopScoreList(TopScore &score, std::vector<TopScore> &topScoreList);

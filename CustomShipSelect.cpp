@@ -1987,6 +1987,29 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
 
     return counter;
 }
+int ScoreKeeper::CountUnlockedShips(int variant=-1)
+{
+    int counter = 0;
+    //Under some circumstances (running SHIP_ALL) unlocked may not reflect the unlocked ships accurately
+    if (forceUnlockAll)
+    {
+        if (variant == -1) return 28;
+        else if (variant < 2) return 10;
+        else return 8;
+    }
+    else if (variant == -1)
+    {
+        for (const auto& vec : unlocked)
+        {
+            counter += std::count_if(vec.begin(), vec.end(), [](bool i) { return i; });
+        }
+    }
+    else
+    {
+        counter = std::count_if(unlocked.begin(), unlocked.end(), [&](const std::vector<bool>& shipUnlocks) -> bool { return shipUnlocks[variant]; });
+    }
+    return counter;
+}
 
 //==========================
 
@@ -2255,8 +2278,21 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
     if (randomButton.bActive && randomButton.bHover)
     {
         auto customSel = CustomShipSelect::GetInstance();
+        bool shouldChooseCustomShip = false;
+        if (!customSel->Initialized())
+        {
+            shouldChooseCustomShip = false;
+        }
+        else
+        {
+            //Chance to pick a custom ship is proportional to how many unlocked ships are custom
+            int numVanillaShipsUnlocked = G_->GetScoreKeeper()->CountUnlockedShips();
+            int numCustomShipsUnlocked = customSel->CountUnlockedShips();
+            int numTotalShipsUnlocked = numVanillaShipsUnlocked + numCustomShipsUnlocked;
+            shouldChooseCustomShip = (random32() % numTotalShipsUnlocked) < numCustomShipsUnlocked || customSel->hideFirstPage;
+        }
 
-        if (currentShipId >= 100 && customSel->Initialized())
+        if (shouldChooseCustomShip)
         {
             std::vector<std::pair<int, int>> unlocked = std::vector<std::pair<int, int>>();
 
@@ -2293,6 +2329,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
         }
         else
         {
+            customSel->SwitchPage(0);
             super(x, y);
         }
     }
@@ -2311,26 +2348,23 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
     }
 
     super();
-
+    auto customSel = CustomShipSelect::GetInstance();
     if (currentShipId >= 100)
     {
-        auto customSel = CustomShipSelect::GetInstance();
-
         ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
-
-        bool buttonsActive = false;
-
-        buttonsActive = customSel->CountUnlockedShips(currentType) > 1;
-
-        leftButton.SetActive(buttonsActive);
-        rightButton.SetActive(buttonsActive);
-        randomButton.SetActive(customSel->CountUnlockedShips(-1) > 1);
         startButton.SetActive(Settings::GetDlcEnabled() || !def->VariantNeedsDlc(currentType));
     }
     else
     {
         startButton.SetActive(Settings::GetDlcEnabled() || (currentShipId != 9 && currentType != 2));
     }
+
+    bool buttonsActive = false;
+    buttonsActive = customSel->CountUnlockedShips(currentType) + G_->GetScoreKeeper()->CountUnlockedShips(currentType) > 1;
+
+    leftButton.SetActive(buttonsActive);
+    rightButton.SetActive(buttonsActive);
+    randomButton.SetActive(customSel->CountUnlockedShips(-1) + G_->GetScoreKeeper()->CountUnlockedShips(-1) > 1);
 
     for (auto i : CustomShipSelect::GetInstance()->customAnims)
     {
