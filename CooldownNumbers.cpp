@@ -89,18 +89,21 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         lua_pop(context->GetLua(), 6);
 
         if (!preempt)
-        {
+        {   
+            int offset = 34;
             if (streamStr.length() > 0)
             {
-                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, streamStr);
+                offset += 10;
             }
             if (stream2Str.length() > 0)
             {
-                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2Str);
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, stream2Str);
+                offset += 10;
             }
             if (shotLimitString.length() > 0)
             {
-                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 54, shotLimitString);
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, shotLimitString);
             }
         }
     }
