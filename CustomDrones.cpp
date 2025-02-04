@@ -2,6 +2,7 @@
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "CustomWeapons.h"
+#include "Drones.h"
 #include <boost/lexical_cast.hpp>
 #include <cmath>
 #include <cfloat>
@@ -1246,22 +1247,20 @@ HOOK_METHOD(DroneControl, SelectArmament, (unsigned int i) -> void)
     {
         DroneBox* box = static_cast<DroneBox*>(boxes[i]);
         Drone* drone = box->pDrone;
-        bool isCrewDrone = drone->type == 2 || drone->type == 3;
-        bool isBoarderPodDrone = drone->type == 4;
-
+       
         if (box->Powered())
         {
             CrewDrone* crewDrone = nullptr;
-            if (drone->type == 2 || drone->type == 3) //If drone is a CrewDrone*
+            if (drone->type == DRONE_REPAIR || drone->type == DRONE_BATTLE) //If drone is a CrewDrone*
             {
                 //Simple casting methods don't work as CrewDrone and Drone are not related by inheritence
                 //TODO: Correct casting when multiple inheritence is properly represented in FTLGame headers
                 ptrdiff_t droneBaseOffset = offsetof(CrewDrone, _drone);
                 uintptr_t droneAddr = reinterpret_cast<uintptr_t>(drone);
                 uintptr_t crewDroneAddr = droneAddr - droneBaseOffset;
-                CrewDrone* crewDrone = reinterpret_cast<CrewDrone*>(crewDroneAddr);
+                crewDrone = reinterpret_cast<CrewDrone*>(crewDroneAddr);
             }
-            else if (drone->type == 4) //If drone is a BoarderPodDrone*
+            else if (drone->type == DRONE_BOARDER) //If drone is a BoarderPodDrone*
             {
                 BoarderPodDrone* boarderPod = static_cast<BoarderPodDrone*>(drone);
                 crewDrone = boarderPod->boarderDrone;

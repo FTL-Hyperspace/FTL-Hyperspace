@@ -1060,6 +1060,9 @@
 		<Unit filename="DiscordIntegration.h">
 			<Option virtualFolder="Content/Discord/" />
 		</Unit>
+		<Unit filename="Drones.h">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
