@@ -7453,6 +7453,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API std::string GetLocationText(const Location *loc);
 	LIBZHL_API Location *GetNewLocation();
 	LIBZHL_API int GetNextDangerMove();
+	LIBZHL_API std::string GetPotentialSectorChoiceName();
 	LIBZHL_API int GetRandomSectorChoice();
 	LIBZHL_API void GetSelectedSector(int unk0, int unk1, int unk2);
 	LIBZHL_API void GetWaitLocation();
@@ -7470,7 +7471,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void ModifyPursuit(int unk0);
 	LIBZHL_API void MouseClick(int unk0, int unk1);
 	LIBZHL_API void MouseMove(int x, int y);
-	LIBZHL_API void NeighboringSector(int unk0);
+	LIBZHL_API bool NeighboringSector(int potentialSector);
 	LIBZHL_API Location *NewGame(bool unk0);
 	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnLoop();

@@ -33,6 +33,16 @@
     <stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="SECTOR_SCANNER">
+	<title id="aug_SECTOR_SCANNER_title"/>
+	<desc id="aug_SECTOR_SCANNER_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>7</value> <!--The range of the scanner-->
+    <stackable>false</stackable>
+</augBlueprint>
+
 <augBlueprint name="BOARDER_RECOVERY">
 	<title id="aug_BOARDER_RECOVERY_title"/>
 	<desc id="aug_BOARDER_RECOVERY_desc"/>
