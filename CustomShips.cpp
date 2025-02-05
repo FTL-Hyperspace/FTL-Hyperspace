@@ -1825,6 +1825,7 @@ bool SwitchShip(std::string shipName)
         playerShip->SaveToBlueprint(true);
         G_->GetWorld()->playerShip->Restart();
         G_->GetWorld()->commandGui->Restart();
+        G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
 
         ret = true;
     }
@@ -1837,32 +1838,140 @@ bool SwitchShipTransfer(std::string shipName)
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
     if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
     {
+        ShipManager* playerShip = G_->GetShipManager(0);
         // Here you save all the data you want to transfer to the new ship
         // You cannot do a transfer by pointer, because all pointer of the old ship get deleted, so:
-        // Crew: save name, race, hp
+        // Crew might be savable if we remove them from the list: save name, race, hp
+        std::vector<CrewMember*> save_vCrewList = playerShip->vCrewList;
         // Systems: save ID, power
+        std::map<int, int> save_systems;
+        for (int i=0; i<playerShip->vSystemList.size(); ++i)
+        {
+            save_systems[playerShip->vSystemList[i]->GetId()] = playerShip->vSystemList[i]->powerState.second;
+        }
         // Reactor: save power
+        int save_reactor = PowerManager::GetPowerManager(0)->currentPower.second;
         // Weapons/Drone: save ID
+        std::vector<std::string> save_vWeaponList;
+        if (playerShip->weaponSystem)
+        {
+            for (ProjectileFactory* weapon : playerShip->weaponSystem->weapons)
+            {
+                save_vWeaponList.push_back(weapon->blueprint->name);
+            }
+        }
+        std::vector<std::string> save_vDroneList;
+        if (playerShip->droneSystem)
+        {
+            for (Drone* drone : playerShip->droneSystem->drones)
+            {
+                save_vDroneList.push_back(drone->blueprint->name);
+            }
+        }
+
         // Augmentations: save ID
+        ShipInfo* info = G_->GetShipInfo(0);
+        std::map<std::string, int> save_augmentations;
+        std::map<std::string, int> save_equipment;
+        for (auto augment : info->augList)
+        {
+            save_augmentations[augment.first] = augment.second;
+        }
+        for (auto equip : info->augList)
+        {
+            save_equipment[equip.first] = equip.second;
+        }
+
         // Cargo: save ID
+        std::vector<std::string> save_cargo;
+        for (auto cargo : G_->GetWorld()->commandGui->equipScreen.GetCargoHold())
+        {
+            save_cargo.push_back(cargo);
+        }
+
         // Scrap/fuel/ammo/droneparts: save amount
+        int save_scrap = playerShip->currentScrap;
+        int save_fuel = playerShip->fuel_count;
+        int save_ammo = playerShip->GetMissileCount();
+        int save_droneparts = playerShip->GetDroneCount();
         // Name: save name
-        // Hull: save health
+        std::string save_name = playerShip->ship.shipName;
+        // Hull: save health (ratio since the new ship might have different max health)
+        int save_health_ratio = playerShip->ship.hullIntegrity.first / playerShip->ship.hullIntegrity.second;
 
 
-
+        hs_log_file("Done Saving\n");
         // Regular ship switch method
         ShipGraph::Restart();
         PowerManager::RestartAll();
         G_->GetWorld()->ClearLocation();
-        ShipManager* playerShip = G_->GetShipManager(0);
+        
         playerShip->myBlueprint = *bp;
         playerShip->SaveToBlueprint(true);
         G_->GetWorld()->playerShip->Restart();
         G_->GetWorld()->commandGui->Restart();
+        G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;
+        hs_log_file("Start Loading\n");
 
         // Here you load all the data you saved before
+
+        // Crew
+        
+        hs_log_file("Crew Done\n");
+        // Systems
+
+        hs_log_file("Systems Done\n");
+        // Reactor
+        PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
+        hs_log_file("Reactor Done\n");
+        // Weapons/Drone
+        //if (playerShip->weaponSystem)
+        //{
+        //}
+
+        //hs_log_file("Weapons Done\n");
+        //
+        //if (playerShip->droneSystem)
+        //{
+        //}
+        
+        hs_log_file("Drones Done\n");
+
+        // Augmentations
+        info->augList.clear();
+        for (auto augment : save_augmentations)
+        {
+            info->augList[augment.first] = augment.second;
+        }
+        info->equipList.clear();
+        for (auto equip : save_equipment)
+        {
+            info->equipList[equip.first] = equip.second;
+        }
+        hs_log_file("Augmentations Done\n");
+
+        // Cargo
+        for (std::string cargo : save_cargo)
+        {
+            G_->GetWorld()->commandGui->equipScreen.AddToCargo(cargo);
+        }
+        hs_log_file("Cargo Done\n");
+
+        // Scrap/fuel/ammo/droneparts
+        playerShip->currentScrap = save_scrap;
+        playerShip->fuel_count = save_fuel;
+        playerShip->ModifyMissileCount(save_ammo - playerShip->GetMissileCount());
+        playerShip->ModifyDroneCount(save_droneparts - playerShip->GetDroneCount());
+        hs_log_file("Resources Done\n");
+
+        // Name
+        playerShip->ship.shipName = save_name;
+        hs_log_file("Name Done\n");
+
+        // Hull
+        playerShip->ship.hullIntegrity.first = playerShip->ship.hullIntegrity.second * save_health_ratio;
+        hs_log_file("Hull Done\n");
     }
     return false;
 }

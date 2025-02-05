@@ -316,6 +316,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "SWITCH2" && command.length() > 7)
+    {
+        std::string shipName = boost::trim_copy(command.substr(7));
+        hs_log_file("Loading new ship %s\n", shipName.c_str());
+        SwitchShipTransfer(shipName);
+
+        return true;
+    }
 
 
     return false;
