@@ -66,7 +66,7 @@ std::string CustomUserSystems::SystemIdToName(int systemId)
 {   
     int idx = systemId - SYS_CUSTOM_FIRST;
     if (idx >=0 && idx < systemNames.size()) return systemNames[idx];
-    return "";
+    return "invalid system id";
 }
 int CustomUserSystems::GetLastSystemId()
 {
