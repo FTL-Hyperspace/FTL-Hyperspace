@@ -77,6 +77,10 @@ public:
 
     Setting<std::string> dismissSound;
 
+    Setting<bool> droneSaveStations;
+
+    Setting<bool> droneSelectHotkeys;
+
     Setting<bool> cloakRenderFix;
     
     Defaults defaults;

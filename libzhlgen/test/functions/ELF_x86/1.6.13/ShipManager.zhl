@@ -102,6 +102,8 @@ cleanup __cdecl void ShipManager::ImportShip(ShipManager *this, int file);
 cleanup __cdecl void ShipManager::CheckVision(ShipManager *this);
 "56538b5424108b4c240c83fa118b8100040000":
 cleanup __cdecl int ShipManager::IsSystemHacked(ShipManager *this, int systemId);
+".5383ec288d????108944????c744????00000000c704??????????":
+cleanup __cdecl void ShipManager::SaveCrewPositions(ShipManager *this);
 "5589e557565383ec3c8b7d080fb645148b4f64":
 cleanup __cdecl CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this, int x, int y, bool intruder);
 "5589e557565383ec6c8b75088d45b0890424":

@@ -165,6 +165,7 @@ target_sources(
     CustomWeapons.cpp
     CustomWeapons.h
     Debugging.cpp
+    Drones.h
     DroneVTable.cpp
     EnemyShipIcons.cpp
     EnemyShipIcons.h

@@ -190,7 +190,8 @@ __thiscall void ShipManager::CreateArmory(ShipManager *this);
 __thiscall Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprint *drone);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b????e8":
 __thiscall void ShipManager::CloneHealing(ShipManager *this);
-
+".57b9????????8d????0883e4f0ff????5589e557538d??ec":
+__thiscall void ShipManager::SaveCrewPositions(ShipManager *this);
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId) 

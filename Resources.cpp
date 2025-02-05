@@ -665,6 +665,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "droneSelectHotkeys") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSelectHotkeys.defaultValue = enabled;
+                customOptions->droneSelectHotkeys.currentValue = enabled;
+            }
+
+            if (strcmp(node->name(), "droneSaveStations") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSaveStations.defaultValue = enabled;
+                customOptions->droneSaveStations.currentValue = enabled;
+            }
+            
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
