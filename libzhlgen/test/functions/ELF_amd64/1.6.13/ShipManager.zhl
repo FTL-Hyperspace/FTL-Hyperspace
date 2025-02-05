@@ -4,6 +4,8 @@ cleanup __amd64 bool ShipManager::IsCloaked(ShipManager *this);
 cleanup __amd64 ShieldPower ShipManager::GetShieldPower(ShipManager *this);
 ".41554154":
 cleanup __amd64 void ShipManager::CloneHealing(ShipManager *this);
+".83fe1174????8b8758060000??63d6??63149031c083faff75??":
+cleanup __amd64 int ShipManager::IsSystemHacked2(ShipManager *this, int systemId);
 ".5331d2bf??????????83ec20??89e6??c704??00000000":
 cleanup __amd64 void ShipManager::SaveCrewPositions(ShipManager *this);
 ".415483fe054989fc5553":
@@ -55,9 +57,21 @@ cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this);
 ".83fe11743383feff7426":
 cleanup __amd64 void ShipManager::ClearStatusSystem(ShipManager *this, int system);
 ".83fe11743b83feff742e":
-noHook __amd64 void ShipManager::DO_NOT_HOOK();
+cleanup __amd64 void ShipManager::SetSystemPowerLimit(ShipManager *this, int systemId, int limit);
 ".83fe11743b83feff742e":
 cleanup __amd64 void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
+".83fe11743b83feff742e":
+cleanup __amd64 void ShipManager::SetSystemDividePower(ShipManager *this, int systemId, int amount);
+".??54??63f65553??8b8758060000??89fb8b04b083f8ff74??":
+cleanup __amd64 int ShipManager::GetSystemAvailablePower(ShipManager *this, int systemId);
+".??8b8758060000??63f6??6304b083f8ff74????8b5728??8b14c28b8278010000":
+cleanup __amd64 int ShipManager::GetSystemDamage(ShipManager *this, int systemId);
+".??8b8758060000??63f6??6304b083f8ff74????8b5728??8b04c28b8074010000":
+cleanup __amd64 int ShipManager::GetSystemHealth(ShipManager *this, int systemId);
+".??8b8758060000??63f6??6304b083f8ff74????8b5728be01000000??8b3cc231d2e9????????":
+cleanup __amd64 bool ShipManager::IncreaseSystemPower(ShipManager *this, int systemId);
+".83feff74????8b8758060000??63f6??6304b083f8ff74????8b5728??8b3cc2??85ff74????8b07":
+cleanup __amd64 bool ShipManager::ForceIncreaseSystemPower(ShipManager *this, int systemId);
 ".83feff743b488b87580600004863f6486304b083f8ff7428488b5728488b3cc24885ff741b488b07be01000000488b8008010000":
 cleanup __amd64 bool ShipManager::ForceDecreaseSystemPower(ShipManager *this, int sys);
 ".415531d24989fd41545589f55331db4883ec08488b4f28":
@@ -68,6 +82,8 @@ cleanup __amd64 int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
 cleanup __amd64 ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
 ".53488b87580600004889fb4863402083f8ff":
 cleanup __amd64 bool ShipManager::DoorsFunction(ShipManager *this);
+".??8b8758060000??63f6??6304b083f8ff74????8b5728??8b3cc2e9????????":
+cleanup __amd64 bool ShipManager::SystemLocked(ShipManager *this, int systemId);
 ".488b87580600004863f6486304b083f8ff7415":
 cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
 ".534889fb4883ec10488b9758060000":
@@ -76,6 +92,8 @@ cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
 cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
 ".83fe11741b488b8758060000":
 cleanup __amd64 bool ShipManager::HasSystem(ShipManager *this, int systemId);
+".8b875806000063f66304b083f8ff748b57288b3cc28b078b80b0000000ffe0":
+cleanup __amd64 int ShipManager::SystemRoom(ShipManager *this, int systemId);
 ".488b87580600004863f6486304b083f8ff740d":
 cleanup __amd64 int ShipManager::GetSystemPowerMax(ShipManager *this, int systemId);
 ".55534889fb4883ec1883fe11":
@@ -96,6 +114,10 @@ cleanup __amd64 int ShipManager::GetDroneCount(ShipManager *this);
 cleanup __amd64 void ShipManager::ModifyDroneCount(ShipManager *this, int drones);
 ".488b8758060000837808ff742b":
 cleanup __amd64 int ShipManager::GetOxygenPercentage(ShipManager *this);
+".??8b8758060000837808ff74????8b7f40e9????????":
+cleanup __amd64 float ShipManager::GetOxygenLevel(ShipManager *this, int roomId);
+".??545553??8b8658060000??89fb837808ff75??":
+cleanup __amd64 std::vector<float> ShipManager::GetOxygenLevels(ShipManager *this);
 ".41574156415541544989f455534889fb4883ec48":
 cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
 ".488b875806000083780cff7413":
