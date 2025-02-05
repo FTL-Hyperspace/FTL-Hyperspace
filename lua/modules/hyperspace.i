@@ -2321,6 +2321,9 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipDefinition::maxReactorLevel;
 %rename("%s") CustomShipDefinition::shipGenerator;
 
+%rename("%s") SwitchShip;
+%rename("%s") SwitchShipTransfer;
+
 %rename("%s") RoomDefinition;
 %rename("%s") RoomDefinition::roomId;
 %rename("%s") RoomDefinition::sensorBlind;
@@ -3998,6 +4001,7 @@ playerVariableType playerVariables;
 %include "CustomScoreKeeper.h"
 %include "CustomShipGenerator.h"
 %include "CustomShipSelect.h"
+%include "CustomShips.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
 %include "ShipManager_Extend.h"

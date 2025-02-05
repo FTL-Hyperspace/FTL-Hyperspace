@@ -5,6 +5,7 @@
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
+#include "CustomShips.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -304,6 +305,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string achName = boost::trim_copy(command.substr(9));
         CustomAchievementTracker *customAchTrack = CustomAchievementTracker::instance;
         customAchTrack->RemoveAchievement(achName);
+
+        return true;
+    }
+    if(cmdName == "SWITCH" && command.length() > 7)
+    {
+        std::string shipName = boost::trim_copy(command.substr(7));
+        hs_log_file("Loading new ship %s\n", shipName.c_str());
+        SwitchShip(shipName);
 
         return true;
     }

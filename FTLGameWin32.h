@@ -4644,6 +4644,7 @@ struct CommandGui
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RenderPlayerShip(Point &shipCenter, float jumpScale);
 	LIBZHL_API void RenderStatic();
+	LIBZHL_API void Restart();
 	LIBZHL_API void RunCommand(std::string &command);
 	LIBZHL_API void Victory();
 	LIBZHL_API void constructor();
@@ -5215,6 +5216,7 @@ struct ShipGraph
 	LIBZHL_API Point GetSlotWorldPosition(int slotId, int roomId);
 	LIBZHL_API bool IsRoomConnected(int room1, int room2);
 	LIBZHL_API int PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances);
+	LIBZHL_API static void __stdcall Restart();
 	LIBZHL_API int RoomCount();
 	
 	std::vector<Room*> rooms;
@@ -6431,6 +6433,7 @@ struct PowerManager
 	}
 
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	LIBZHL_API static void __stdcall RestartAll();
 	LIBZHL_API void SetHacked(bool val);
 	
 	std::pair<int, int> currentPower;

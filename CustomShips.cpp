@@ -1808,3 +1808,61 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
         }
     }
 }
+
+// Ship Switching
+
+bool SwitchShip(std::string shipName)
+{
+    bool ret = false;
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
+    {
+        ShipGraph::Restart();
+        PowerManager::RestartAll();
+        G_->GetWorld()->ClearLocation();
+        ShipManager* playerShip = G_->GetShipManager(0);
+        playerShip->myBlueprint = *bp;
+        playerShip->SaveToBlueprint(true);
+        G_->GetWorld()->playerShip->Restart();
+        G_->GetWorld()->commandGui->Restart();
+
+        ret = true;
+    }
+    return false;
+}
+
+bool SwitchShipTransfer(std::string shipName)
+{
+    bool ret = false;
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
+    {
+        // Here you save all the data you want to transfer to the new ship
+        // You cannot do a transfer by pointer, because all pointer of the old ship get deleted, so:
+        // Crew: save name, race, hp
+        // Systems: save ID, power
+        // Reactor: save power
+        // Weapons/Drone: save ID
+        // Augmentations: save ID
+        // Cargo: save ID
+        // Scrap/fuel/ammo/droneparts: save amount
+        // Name: save name
+        // Hull: save health
+
+
+
+        // Regular ship switch method
+        ShipGraph::Restart();
+        PowerManager::RestartAll();
+        G_->GetWorld()->ClearLocation();
+        ShipManager* playerShip = G_->GetShipManager(0);
+        playerShip->myBlueprint = *bp;
+        playerShip->SaveToBlueprint(true);
+        G_->GetWorld()->playerShip->Restart();
+        G_->GetWorld()->commandGui->Restart();
+        ret = true;
+
+        // Here you load all the data you saved before
+    }
+    return false;
+}
