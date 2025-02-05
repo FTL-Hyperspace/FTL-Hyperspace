@@ -125,6 +125,7 @@ target_sources(
     CustomDrones.cpp
     CustomDrones.h
     CustomEquipment.cpp
+    CustomEquipment.h
     CustomEvents.cpp
     CustomEvents.h
     CustomFleetShips.cpp
@@ -134,6 +135,7 @@ target_sources(
     CustomLocalization.cpp
     CustomLocalization.h
     CustomMap.cpp
+    CustomMap.h
     CustomOptions.cpp
     CustomOptions.h
     CustomReactor.cpp
@@ -163,10 +165,13 @@ target_sources(
     CustomWeapons.cpp
     CustomWeapons.h
     Debugging.cpp
+    Drones.h
     DroneVTable.cpp
     EnemyShipIcons.cpp
     EnemyShipIcons.h
     EnumClassHash.h
+    Equipment_Extend.cpp
+    Equipment_Extend.h
     ErosionEffect.cpp
     EventButtons.cpp
     EventButtons.h

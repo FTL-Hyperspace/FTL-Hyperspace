@@ -1,6 +1,15 @@
-"5531c057565383ec2c8b7c24448b5c244085ff":
-cleanup __cdecl void WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
-".565383ec148b5c24208b742424891c24e8????????":
+//"5789cf5689c65389d383ec10": //082af820 (Duplicate?)
+//cleanup __cdecl bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
+
+"5557565331db83ec1c8b7c????8b8fa4010000": //082b02d0
+cleanup __cdecl bool WeaponSystem::ForceIncreasePower(WeaponSystem *this, int amount);
+".5531c057565383ec2c8b7c24448b5c244085ff": //082b06f0
+cleanup __cdecl ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
+".565383ec148b5c24208b742424891c24e8????????": //082b0b70
 virtual cleanup __cdecl void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
-"5557565383ec3c8b6c2450892c24e8????????8b8da0010000":
+".5557565383ec3c8b6c2450892c24e8????????8b8da0010000": //082b0ba0
 cleanup __cdecl void WeaponSystem::OnLoop(WeaponSystem *this);
+".5557565383ec1c8b74????8b5c????8b6c????8b7c????": //082b0fc0 (Duplicate?)
+cleanup __cdecl bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
+".5557565383ec1c8b74????8b5c????8b44????": //082b1120
+cleanup __cdecl bool WeaponSystem::DePowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven);

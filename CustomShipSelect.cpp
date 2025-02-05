@@ -7,6 +7,7 @@
 #include "EnemyShipIcons.h"
 #include "Resources.h"
 #include "CustomColors.h"
+#include "CustomEquipment.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -685,6 +686,16 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
         {
             isCustom = true;
             def.hideHullDuringExplosion = true;
+        }
+        if (name == "augSlots")
+        {
+            isCustom = true;
+            def.augSlots = boost::lexical_cast<int>(val);
+        }
+        if (name == "cargoSlots")
+        {
+            isCustom = true;
+            def.cargoSlots = boost::lexical_cast<int>(val);
         }
 
     }
@@ -2334,6 +2345,8 @@ static GL_Primitive* crewSlotsBoxPrimitive;
 static GL_Primitive* missilesCountBoxPrimitive;
 static GL_Primitive* dronesCountBoxPrimitive;
 
+Button *shipBuilder_augLeftButton = nullptr;
+Button *shipBuilder_augRightButton = nullptr;
 
 HOOK_METHOD(MenuScreen, constructor, () -> void)
 {
@@ -2359,6 +2372,177 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
         GL_Texture *crewSlotsBoxTexture = G_->GetResources()->GetImageId("customizeUI/shipresources_crewlimit_box.png");
         crewSlotsBoxPrimitive = CSurface::GL_CreateImagePrimitive(crewSlotsBoxTexture, 314, 484, crewSlotsBoxTexture->width_, crewSlotsBoxTexture->height_, 0.f, COLOR_WHITE);
     }
+
+    shipBuilder_augLeftButton = new Button();
+    shipBuilder_augLeftButton->OnInit("statusUI/button_crew_up", Point(1238, 575));
+    shipBuilder_augRightButton = new Button();
+    shipBuilder_augRightButton->OnInit("statusUI/button_crew_down", Point(1238, 629));
+}
+
+// custom augment slots number
+
+int g_currentAugPage = 0;
+int g_maxAugPage = 0;
+
+HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CreateEquipmentBoxes -> Begin (CustomEquipment.cpp)\n")
+    // Rewrite to allow for custom augment slots
+
+    for (auto box : vEquipmentBoxes)
+    {
+        if (box)
+        {
+            delete box;
+        }
+    }
+    vEquipmentBoxes.clear();
+    vCrewBoxes.clear();
+    storeIds[0] = 0;
+
+    int weaponSlots = currentShip->myBlueprint.weaponSlots;
+    int droneSlots = currentShip->myBlueprint.droneSlots;
+    int x = (4 - weaponSlots) * 58 + 435;
+    for (int i = 0; i < weaponSlots; ++i)
+    {
+        WeaponEquipBox *box = new WeaponEquipBox(Point(x + 117 * i, 514), currentShip->weaponSystem, i);
+        vEquipmentBoxes.push_back(box);
+    }
+    storeIds[1] = vEquipmentBoxes.size();
+
+    x = (4 - droneSlots) * 58 + 435;
+    for (int i = 0; i < droneSlots; ++i)
+    {
+        DroneEquipBox *box = new DroneEquipBox(Point(x + 117 * i, 624), currentShip->droneSystem, i);
+        vEquipmentBoxes.push_back(box);
+    }
+    storeIds[2] = vEquipmentBoxes.size();
+
+    int y;
+    for (int i = 0; i < 4 ; ++i)
+    {
+        switch (i % 4)
+        {
+            case 0:
+                x = 70;
+                y = 519;
+                break;
+            case 1:
+                x = 230;
+                y = 519;
+                break;
+            case 2:
+                x = 70;
+                y = 612;
+                break;
+            case 3:
+                x = 230;
+                y = 612;
+                break;
+        }
+
+        CrewCustomizeBox *box = new CrewCustomizeBox(Point(x, y), currentShip, i);
+        vCrewBoxes.push_back(box);
+        vEquipmentBoxes.push_back(box);
+    }
+    storeIds[3] = vEquipmentBoxes.size();
+
+    int augSlots = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).augSlots; // in vanilla, augSlots is hardcoded to 3
+    for (int i = 0; i < augSlots; ++i)
+    {
+        AugmentEquipBox *box = new AugmentEquipBox(Point(988, 529 + 60 * (i % 3)), currentShip, i);
+        box->CheckContents();
+        vEquipmentBoxes.push_back(box);
+    }
+
+    for (auto box : vEquipmentBoxes)
+    {
+        box->blockDetailed = true;
+    }
+
+    g_currentAugPage = 0;
+    g_maxAugPage = std::max((augSlots - 1) / 3, 0);
+}
+
+bool g_shipBuilder_MouseMoving = false;
+
+HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseMove -> Begin (CustomEquipment.cpp)\n")
+
+    g_shipBuilder_MouseMoving = true;
+    super(x, y);
+    g_shipBuilder_MouseMoving = false;
+
+    if (g_maxAugPage > 0 && !shipSelect.bOpen)
+    {
+        shipBuilder_augLeftButton->MouseMove(x, y, false);
+        shipBuilder_augRightButton->MouseMove(x, y, false);
+    }
+}
+
+HOOK_METHOD(EquipmentBox, MouseMove, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> EquipmentBox::MouseMove -> Begin (CustomEquipment.cpp)\n")
+    // fix a bug that a hovering info of an augment in the wrong page is shown
+
+    if (g_shipBuilder_MouseMoving && GetType(true) == 3 && !(g_currentAugPage * 3 <= slot && slot < (g_currentAugPage + 1) * 3))
+    {
+        return;
+    }
+    return super(mX, mY);
+}
+
+HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomEquipment.cpp)\n")
+    super(x, y);
+
+    if (g_maxAugPage > 0 && !shipSelect.bOpen)
+    {
+        if (shipBuilder_augLeftButton->bActive && shipBuilder_augLeftButton->bHover)
+        {
+            if (g_currentAugPage == 0)
+            {
+                g_currentAugPage = g_maxAugPage;
+            }
+            else
+            {
+                --g_currentAugPage;
+            }
+        }
+
+        if (shipBuilder_augRightButton->bActive && shipBuilder_augRightButton->bHover)
+        {
+            if (g_currentAugPage == g_maxAugPage)
+            {
+                g_currentAugPage = 0;
+            }
+            else
+            {
+                ++g_currentAugPage;
+            }
+        }
+    }
+}
+
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_STATIC -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
+
+    std::string ret = super(name, lang);
+
+    if (name == "max_augments")
+    {
+        int augSlots = CustomShipSelect::GetInstance()->GetDefinition(G_->GetShipManager(0)->myBlueprint.blueprintName).augSlots;
+        if (augSlots != 3)
+        {
+            size_t pos = ret.find("3");
+            if (pos != std::string::npos) ret.replace(pos, 1, std::to_string(augSlots));
+        }
+    }
+
+    return ret;
 }
 
 static Button* reactorInfoButton = nullptr;
@@ -2490,6 +2674,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     freetype::easy_print(62, 388, 489, lib->GetText("equipment_frame_weapons"));
     freetype::easy_print(62, 388, 599, lib->GetText("equipment_frame_drones"));
     freetype::easy_print(62, 954, 489, lib->GetText("equipment_frame_augments"));
+    if (g_maxAugPage > 0) freetype::easy_printRightAlign(62, 1256, 489, std::to_string(g_currentAugPage + 1) + "/" + std::to_string(g_maxAugPage + 1));
 
     CSurface::GL_SetColor(g_defaultTextButtonColors[1]); // color used for achievement title
 
@@ -2544,8 +2729,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     // Render ship equipment boxes
 
-    for (auto &box: vEquipmentBoxes)
+    for (int i = 0; i < vEquipmentBoxes.size(); ++i)
     {
+        if (storeIds[3] <= i && !(storeIds[3] + g_currentAugPage * 3 <= i && i < storeIds[3] + (g_currentAugPage + 1) * 3))
+        {
+            continue;
+        }
+
+        auto box = vEquipmentBoxes[i];
         if (box->CanDoJob())
         {
             if (bCustomizingCrew)
@@ -2562,7 +2753,20 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
                 box->RenderLabels(false);
             }
         }
+        else if (g_showDummyEquipmentSlots && i < storeIds[2])
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(box->location.x, box->location.y);
+            box->UpdateBoxImage(false);
+            CSurface::GL_RenderPrimitiveWithColor(box->empty, GL_Color(1.f, 1.f, 1.f, 0.2f));
+            CSurface::GL_PopMatrix();
+        }
+    }
 
+    if (g_maxAugPage > 0)
+    {
+        shipBuilder_augLeftButton->OnRender();
+        shipBuilder_augRightButton->OnRender();
     }
 
     // Render ship crew boxes
