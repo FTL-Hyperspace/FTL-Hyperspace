@@ -65,7 +65,7 @@ int CustomUserSystems::NameToSystemId(const std::string& systemName)
 std::string CustomUserSystems::SystemIdToName(int systemId)
 {   
     int idx = systemId - SYS_CUSTOM_FIRST;
-    if (idx >=0 && idx < systemNames.size()) return systemNames[systemId - SYS_CUSTOM_FIRST];
+    if (idx >=0 && idx < systemNames.size()) return systemNames[idx];
     return "";
 }
 int CustomUserSystems::GetLastSystemId()
@@ -515,7 +515,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         }
         subXPos += sub_spacing + 36;
     }
-    //Custom subsystems systems
+    //Custom subsystems
     //TODO: Allow full user control over systemBox ordering?
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
     {
