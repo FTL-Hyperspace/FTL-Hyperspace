@@ -578,19 +578,110 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
     {
         if (currentShip->HasSystem(systemId))
-            {
-                auto sys = currentShip->GetSystem(systemId);
-                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+        {
+            auto sys = currentShip->GetSystem(systemId);
+            auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
 
-                sysBoxes.push_back(box);
+            sysBoxes.push_back(box);
 
-                box->bShowPower = true;
-                box->bSimplePower = true;
+            box->bShowPower = true;
+            box->bSimplePower = true;
 
-                xPos += 38;
-            }
+            xPos += 38;
+        }
+    }
+}
+
+
+void ShipSystem::CompleteSave(int fd)
+{
+    FileHelper::writeInt(fd, powerState.second);
+    FileHelper::writeInt(fd, powerState.first);
+    FileHelper::writeInt(fd, healthState.second - healthState.first);
+
+    FileHelper::writeInt(fd, iLockCount);
+    FileHelper::writeInt(fd, std::floor(lockTimer.currTime * 5000));
+    FileHelper::writeInt(fd, std::floor(fRepairOverTime));
+    FileHelper::writeInt(fd, std::floor(fDamageOverTime));
+    FileHelper::writeInt(fd, iBatteryPower);
+    FileHelper::writeInt(fd, bUnderAttack ? iHackEffect : 0);
+    FileHelper::writeInt(fd, iHackEffect > 0 ? bUnderAttack : 0);
+    SaveState(fd);
+};
+
+void ShipSystem::CompleteLoad(int fd)
+{
+    bool canDecrease = DecreasePower(false);
+    while (canDecrease)
+    {
+        canDecrease = DecreasePower(false);
     }
 
+    int maxPower = FileHelper::readInteger(fd);
+    while (powerState.second < maxPower)
+    {
+        UpgradeSystem(1);
+    }
+
+    SetBonusPower(0, 0);
+
+    int setPower = FileHelper::readInteger(fd);
+
+    while (powerState.first != setPower)
+    {
+        if (!IncreasePower(1, true)) break;
+    }
+
+    AddDamage(FileHelper::readInteger(fd));
+    AddLock(FileHelper::readInteger(fd));
+    lockTimer.currTime = ((float)FileHelper::readInteger(fd)) / 5000.f;
+
+    repairedLastFrame = true;
+    fRepairOverTime = FileHelper::readInteger(fd);
+
+    damagedLastFrame = true;
+    fDamageOverTime = FileHelper::readInteger(fd);
+
+    ForceBatteryPower(FileHelper::readInteger(fd));
+    SetHackingLevel(FileHelper::readInteger(fd));
+    bUnderAttack = FileHelper::readInteger(fd);
+
+    LoadState(fd);
+}
+
+//Custom System Saving
+HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (TemporalSystem.cpp)\n")
+    super(file);
+
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        FileHelper::writeInt(file, HasSystem(systemId));
+        if (HasSystem(systemId))
+        {
+            ShipSystem* sys = GetSystem(systemId);
+            sys->CompleteSave(file);
+        }
+    } 
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (TemporalSystem.cpp)\n")
+    super(file);
+
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        
+        bool hasSystem = FileHelper::readInteger(file);
+        if (hasSystem)
+        {
+            if (!HasSystem(systemId)) AddSystem(systemId);
+            ShipSystem* sys = GetSystem(systemId);
+            sys->CompleteLoad(file);
+        }
+    }
 }
 
 

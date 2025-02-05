@@ -1272,6 +1272,9 @@ struct LIBZHL_INTERFACE ShipSystem
 		this->constructor(systemId, roomId, shipId, startingPower);
 	}
 
+	void CompleteSave(int fd);
+	void CompleteLoad(int fd);
+
 	virtual ~ShipSystem() {}
 	virtual void SetSelected(int selectedState) LIBZHL_PLACEHOLDER
 	virtual int GetSelected() LIBZHL_PLACEHOLDER
