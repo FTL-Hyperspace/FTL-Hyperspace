@@ -139,7 +139,7 @@ struct InternalEvents
             {"function projectile_update_post(Projectile& projectile, bool preempted) return Chain", 2, false},
             {"function weapon_statbox(WeaponBlueprint& bp, char* stats) return stats", 2, false},
             {"function weapon_descbox(WeaponBlueprint& bp, char* desc) return desc", 2, false},
-            {"function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine", 5, false},
+            {"function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine, char* thirdLine) return Chain, firstLine, secondLine, thirdLine", 6, false},
             {"function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain", 2, false},
             {"function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain", 4, false},
             {"function projectile_collision(Projectile& thisProjectile, Projectile& otherProjectile, Damage& damage, CollisionResponse& response) return Chain", 4, false},

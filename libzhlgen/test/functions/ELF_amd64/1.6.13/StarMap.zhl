@@ -21,7 +21,7 @@ cleanup __amd64 void StarMap::OnLanguageChange(StarMap *this);
 ".4883ec08803d????????00753b":
 cleanup __amd64 int StarMap::GetRandomSectorChoice(StarMap *this);
 ".31c085f67867":
-cleanup __amd64 void StarMap::NeighboringSector(StarMap *this, int unk0);
+cleanup __amd64 bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
 ".41554989fd415441bcffffffff5589cd534883ec18":
 cleanup __amd64 void StarMap::GetSelectedSector(StarMap *this, int unk0, int unk1, int unk2);
 ".4883ec28488b87b0080000c687b908000001":
@@ -76,6 +76,8 @@ cleanup __amd64 void StarMap::ClearBoss(StarMap *this);
 cleanup __amd64 void StarMap::SetBossStage(StarMap *this, int stage);
 ".31c083bfa40a000004":
 cleanup __amd64 void StarMap::CheckGameOver(StarMap *this);
+".55??89f553??89fb??83ec38??6386b00c000083f8ff0f84????????":
+cleanup __amd64 std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
 ".415741564155415455534889fb4881ec98000000":
 cleanup __amd64 void StarMap::RenderLabels(StarMap *this);
 ".41554154554889fd534883ec184c8baf380c0000":
