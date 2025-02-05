@@ -1,5 +1,7 @@
 #include "CooldownNumbers.h"
 #include "CustomOptions.h"
+#include "CustomWeapons.h"
+#include <boost/algorithm/string.hpp>
 
 HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 {
@@ -61,6 +63,14 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
             stream2 << std::setprecision(3) << damage + boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
             
         }
+        std::string shotLimitString;
+        auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(pWeapon->blueprint->name);
+        if (weaponDef->shotLimit >= 0)
+        {
+            int numShotsRemaining = weaponDef->shotLimit - pWeapon->shotsFiredAtTarget;
+            shotLimitString = G_->GetTextLibrary()->GetText("shots_remaining");
+            boost::algorithm::replace_all(shotLimitString, "\\1", std::to_string(numShotsRemaining));
+        }
 
         std::string streamStr = stream.str();
         std::string stream2Str = stream2.str();
@@ -71,20 +81,29 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
         lua_pushstring(context->GetLua(), streamStr.c_str());
         lua_pushstring(context->GetLua(), stream2Str.c_str());
-        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 5, 2);
-        if (lua_isstring(context->GetLua(), -2)) streamStr = lua_tostring(context->GetLua(), -2);
-        if (lua_isstring(context->GetLua(), -1)) stream2Str = lua_tostring(context->GetLua(), -1);
-        lua_pop(context->GetLua(), 5);
+        lua_pushstring(context->GetLua(), shotLimitString.c_str());
+        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_RENDERBOX, 6, 3);
+        if (lua_isstring(context->GetLua(), -3)) streamStr = lua_tostring(context->GetLua(), -3);
+        if (lua_isstring(context->GetLua(), -2)) stream2Str = lua_tostring(context->GetLua(), -2);
+        if (lua_isstring(context->GetLua(), -1)) shotLimitString = lua_tostring(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 6);
 
         if (!preempt)
-        {
+        {   
+            int offset = 34;
             if (streamStr.length() > 0)
             {
-                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, streamStr);
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, streamStr);
+                offset += 10;
             }
             if (stream2Str.length() > 0)
             {
-                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2Str);
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, stream2Str);
+                offset += 10;
+            }
+            if (shotLimitString.length() > 0)
+            {
+                freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - offset, shotLimitString);
             }
         }
     }

@@ -1,5 +1,5 @@
-"!488b14e9eb??0f1f4000":
-noHook __amd64 void WeaponControl::DO_NOT_HOOK();
+"!53??89fbe8????????f30f2a4338f30f2a4b3c0f57d2e8??????????8dbb38020000e8????????":
+cleanup __amd64 void WeaponControl::RenderWarnings(WeaponControl *this);
 ".534889fbbe":
 cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
 ".415641554154554863ee4189ec53":
@@ -18,6 +18,8 @@ cleanup __amd64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, 
 cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
 ".4883ec5883c60189742420488d7c2430":
 cleanup __amd64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
+".??57be03000000??56??55??545553??89fb??81ec18010000??8b7f18e8????????":
+cleanup __amd64 void WeaponControl::OnLoop(WeaponControl* this);
 ".41564155415455534889fb4883ec70":
 cleanup __amd64 void WeaponControl::OnLanguageChange(WeaponControl *this);
 ".41545589f5be03000000534889fb4883ec10488b7f18":

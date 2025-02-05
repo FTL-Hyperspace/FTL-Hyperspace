@@ -987,13 +987,13 @@ Accessed via `ShipSystem`'s `.extend` field
 **Extends [ShipSystem](#ShipSystem)**
 
 ### Methods
-- `void :RemoveWeapon(int slot)`
+- `ProjectileFactory* :RemoveWeapon(int slot)`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
 - [`Pointf`](#Pointf) `.target`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weapons`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weaponsTrashList`
 - `float` `.shot_timer`
 - `int` `.shot_count`
 - `int` `.missile_count`
@@ -2527,6 +2527,14 @@ end)
 
 - `void :ModifyPursuit(int amount)` 
 - `Point :PointToGrid(float x, float y)`
+- `void :ForceWaitMessage(GL_Primitive waitMessage)`
+   - Disables the ability to jump and enables the wait/distress menu. Replaces the "NO FUEL" message shown on the sector map with a primitive of your own.
+   - NOTE: The primitive should be a local or global variable. If it is garbage collected while in use this will lead to a crash.
+   - If no argument is passed, then the jump menu is re-enabled and the "NO FUEL" message is restored.
+   
+[[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
+
+
 
 ### Fields
 
@@ -2621,6 +2629,14 @@ end)
 
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
+- [`TextString`](#TextString) `.description`
+- `int` `.cost`
+- `int` `.rarity`
+- `int` `.baseRarity`
+- `int` `.bp`
+- `bool` `.locked`
+- [`TextString`](#TextString) `.tooltip`
+- `std::string` `.tip`
 
 ## CrewDesc
 

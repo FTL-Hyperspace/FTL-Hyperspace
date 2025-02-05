@@ -5,6 +5,8 @@
 <text name="aug_NANOBOT_DEFENSE_SYSTEM_desc">Boarders take damage over time on your ship.</text>
 <text name="aug_FTL_JUMPER_GOOD_title">Adv. FTL Navigation II</text>
 <text name="aug_FTL_JUMPER_GOOD_desc">Allows you to jump to any beacon in a sector.</text>
+<text name="aug_SECTOR_SCANNER_title">Sector Scanner</text>
+<text name="aug_SECTOR_SCANNER_desc">Allows you to see the exact type of a sector even if it is not adjacent to the current one.</text>
 <text name="aug_BOARDER_RECOVERY_title">Boarder Retro-Thrusters</text>
 <text name="aug_BOARDER_RECOVERY_desc">Non-destroyed boarding drones will be retrieved at the end of combat.</text>
 <text name="aug_MIND_ORDER_title">Neural Reins</text>

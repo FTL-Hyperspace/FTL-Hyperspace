@@ -71,8 +71,6 @@ public:
 
     Setting<bool> altCreditSystem;
 
-    Setting<bool> enableCustomChoiceColors;
-
     Setting<bool> allowRenameInputSpecialCharacters;
 
     Setting<bool> insertNewlineForMultipleCrewTooltips;
@@ -81,6 +79,12 @@ public:
 
     Setting<bool> targetableArtillery;
 
+    Setting<bool> droneSaveStations;
+
+    Setting<bool> droneSelectHotkeys;
+
+    Setting<bool> cloakRenderFix;
+    
     Defaults defaults;
 
 //    Setting hackingDroneFix;
