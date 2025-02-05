@@ -967,6 +967,9 @@
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
+		<Unit filename="CustomMap.h">
+			<Option virtualFolder="Core/Map/" />
+		</Unit>
 		<Unit filename="CustomOptions.cpp">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
