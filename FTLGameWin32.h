@@ -1016,6 +1016,14 @@ struct LIBZHL_INTERFACE ArmamentControl
 	int activeTouch;
 };
 
+struct ArrowDescription
+{
+	Point location;
+	float rotation;
+	bool upgradesRelative;
+	int hostileRelative;
+};
+
 struct ArtilleryBox;
 struct ArtillerySystem;
 
@@ -7628,6 +7636,13 @@ struct StarMap : FocusWindow
 	std::vector<Globals::Rect> sectorHitBoxes;
 };
 
+struct StateInfo
+{
+	bool stateContinueNeeded;
+	TextString stateText;
+	std::vector<ArrowDescription> arrows;
+};
+
 struct Store : FocusWindow
 {
 	Store()
@@ -7736,6 +7751,20 @@ struct SystemStoreBox : StoreBox
 	int droneChoice;
 };
 
+struct TabbedWindows : FocusWindow
+{
+	std::vector<Button> buttons;
+	std::vector<FocusWindow> windows;
+	std::vector<std::string> names;
+	unsigned int currentTab;
+	int buttonType;
+	TextButton doneButton;
+	Point move;
+	bool bBlockClose;
+	bool bTutorialMode;
+	bool bWindowLock;
+};
+
 struct TeleportBox;
 
 struct TeleportBox : SystemBox
@@ -7804,6 +7833,8 @@ struct TouchTooltip
 {
 };
 
+struct TabbedWindows;
+
 struct TutorialManager;
 
 struct TutorialManager
@@ -7812,6 +7843,31 @@ struct TutorialManager
 	LIBZHL_API bool Running();
 	LIBZHL_API void constructor();
 	
+	bool bRunning;
+	TextButton continueButton;
+	int currentState;
+	std::string stateName;
+	std::vector<std::string> stateOrder;
+	std::map<std::string, int> stateValues;
+	std::map<std::string, StateInfo> states;
+	ShipManager *playerShip;
+	CommandGui *gui;
+	CrewControl *crewControl;
+	StarMap *starMap;
+	Upgrades *upgradeScreen;
+	CombatControl *combatControl;
+	SystemControl *systemControl;
+	TabbedWindows *shipInfo;
+	bool bGamePaused;
+	bool bQuitTutorial;
+	AnimationTracker tracker;
+	float timerOpen;
+	WindowFrame *descBox;
+	int descBoxHeight;
+	GL_Texture *arrow;
+	GL_Texture *arrow2;
+	HandAnimation hand;
+	bool bTriggerEvent;
 };
 
 struct UpgradeBox

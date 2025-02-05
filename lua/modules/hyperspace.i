@@ -257,6 +257,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
 %rename("CrewFactory") Global_CrewMemberFactory_Factory;
+%rename("Tutorial") Global_TutorialManager_Tutorial;
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
@@ -270,6 +271,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
 %immutable Global_CrewMemberFactory_Factory;
+%immutable Global_TutorialManager_Tutorial;
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
@@ -318,6 +320,7 @@ public:
     AnimationControl *GetAnimationControl();
     ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
+    TutorialManager *GetTutorialManager();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
     EventGenerator *GetEventGenerator();
@@ -594,6 +597,12 @@ playerVariableType playerVariables;
 %rename("%s") MainMenu::bOpen;
 %immutable MainMenu::shipBuilder;
 %rename("%s") MainMenu::shipBuilder;
+
+%nodefaultctor TutorialManager;
+%nodefaultdtor TutorialManager;
+
+%rename("%s") TutorialManager;
+%rename("%s") TutorialManager::bQuitTutorial;
 
 %nodefaultctor ShipBuilder;
 %nodefaultdtor ShipBuilder;
