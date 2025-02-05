@@ -13533,7 +13533,7 @@ bool ShipManager::HasSystem(int systemId)
 namespace _func1061
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::SystemRoom", typeid(int (ShipManager::*)(int )), ".8b875806000063f66304b083f8ff748b57288b3cc28b078b80b0000000ffe0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::SystemRoom", typeid(int (ShipManager::*)(int )), ".488b87580600004863f6486304b083f8ff74??488b5728488b3cc2488b07488b", nullptr, 0, 0, &func);
 }
 
 int ShipManager::SystemRoom(int systemId)

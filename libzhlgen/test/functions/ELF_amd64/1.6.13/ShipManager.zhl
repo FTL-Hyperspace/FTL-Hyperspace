@@ -92,7 +92,7 @@ cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
 cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
 ".83fe11741b488b8758060000":
 cleanup __amd64 bool ShipManager::HasSystem(ShipManager *this, int systemId);
-".8b875806000063f66304b083f8ff748b57288b3cc28b078b80b0000000ffe0":
+".488b87580600004863f6486304b083f8ff74??488b5728488b3cc2488b07488b":
 cleanup __amd64 int ShipManager::SystemRoom(ShipManager *this, int systemId);
 ".488b87580600004863f6486304b083f8ff740d":
 cleanup __amd64 int ShipManager::GetSystemPowerMax(ShipManager *this, int systemId);
