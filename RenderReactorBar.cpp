@@ -52,25 +52,11 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     }
     if (!customWire_connector)
     {
-        const char* path = "wireUI/wire_custom_connector.png";
-        int x = 0;
-        int y = 0;
-        int rotation = 0;
-        GL_Color color(1.f, 1.f, 1.f, 1.f);
-        float alpha = 1.f;
-        bool mirror = false;
-        customWire_connector = G_->GetResources()->CreateImagePrimitiveString(path, CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, rotation, color, alpha, mirror);
+        customWire_connector = G_->GetResources()->CreateImagePrimitiveString("wireUI/wire_custom_connector.png", CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, 0, COLOR_WHITE, 1.f, false);
     }
     if (!customWire_connector_cap)
     {
-        const char* path = "wireUI/wire_custom_connector_cap.png";
-        int x = 0;
-        int y = 0;
-        int rotation = 0;
-        GL_Color color(1.f, 1.f, 1.f, 1.f);
-        float alpha = 1.f;
-        bool mirror = false;
-        customWire_connector_cap = G_->GetResources()->CreateImagePrimitiveString(path, CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, rotation, color, alpha, mirror);
+        customWire_connector_cap = G_->GetResources()->CreateImagePrimitiveString("wireUI/wire_custom_connector_cap.png", CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, 0, COLOR_WHITE, 1.f, false);
     }
 
     if(G_->GetEventSystem()->PollEvent(11)){
