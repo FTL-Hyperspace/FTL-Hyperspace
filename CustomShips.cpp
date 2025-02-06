@@ -1819,7 +1819,6 @@ bool SwitchShip(std::string shipName)
     {
         ShipGraph::Restart();
         PowerManager::RestartAll();
-        G_->GetWorld()->ClearLocation();
         ShipManager* playerShip = G_->GetShipManager(0);
         playerShip->myBlueprint = *bp;
         playerShip->SaveToBlueprint(true);
@@ -1842,7 +1841,7 @@ bool SwitchShipTransfer(std::string shipName)
         WorldManager* world = G_->GetWorld();
         // Here you save all the data you want to transfer to the new ship
         // You cannot do a transfer by pointer, because all pointer of the old ship get deleted
-        
+
         std::vector<std::string> save_crew_species;
         std::vector<int> save_crew_shipid;
         std::vector<std::string> save_crew_names;
@@ -1921,7 +1920,7 @@ bool SwitchShipTransfer(std::string shipName)
         int save_droneparts = playerShip->GetDroneCount();
 
         // Name: save name
-        std::string save_name = playerShip->ship.shipName;
+        std::string save_name = playerShip->myBlueprint.name.GetText();
 
         // Hull: save health (ratio since the new ship might have different max health)
         int save_health_ratio = playerShip->ship.hullIntegrity.first / playerShip->ship.hullIntegrity.second;
@@ -1929,7 +1928,6 @@ bool SwitchShipTransfer(std::string shipName)
         // Regular ship switch method
         ShipGraph::Restart();
         PowerManager::RestartAll();
-        world->ClearLocation();
         
         playerShip->myBlueprint = *bp;
         playerShip->SaveToBlueprint(true);
@@ -2052,7 +2050,8 @@ bool SwitchShipTransfer(std::string shipName)
         playerShip->ModifyDroneCount(save_droneparts - playerShip->GetDroneCount());
 
         // Name
-        playerShip->ship.shipName = save_name;
+        playerShip->myBlueprint.name.isLiteral = true;
+        playerShip->myBlueprint.name.data = save_name;
 
         // Hull
         playerShip->ship.hullIntegrity.first = playerShip->ship.hullIntegrity.second * save_health_ratio;
