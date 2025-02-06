@@ -311,7 +311,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if(cmdName == "SWITCHALL" && command.length() > 9)
     {
         std::string shipName = boost::trim_copy(command.substr(10));
-        hs_log_file("Loading new ship and transfering crew %s\n", shipName.c_str());
+        hs_log_file("Loading new ship and transfering from old ship %s\n", shipName.c_str());
         SwitchShipTransfer(shipName);
 
         return true;
@@ -324,8 +324,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
-    
-
 
     return false;
 }

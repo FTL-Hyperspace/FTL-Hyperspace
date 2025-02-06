@@ -1815,7 +1815,7 @@ bool SwitchShip(std::string shipName)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
         ShipGraph::Restart();
         PowerManager::RestartAll();
@@ -1835,7 +1835,7 @@ bool SwitchShipTransfer(std::string shipName)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName)
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
         ShipManager* playerShip = G_->GetShipManager(0);
         WorldManager* world = G_->GetWorld();
@@ -1899,7 +1899,7 @@ bool SwitchShipTransfer(std::string shipName)
         std::string save_name = playerShip->myBlueprint.name.GetText();
 
         // Hull: save health (ratio since the new ship might have different max health)
-        int save_health_ratio = playerShip->ship.hullIntegrity.first / playerShip->ship.hullIntegrity.second;
+        int save_health_ratio = (playerShip->ship.hullIntegrity.first * 100) / playerShip->ship.hullIntegrity.second;
 
         // Regular ship switch method
         ShipGraph::Restart();
@@ -2011,7 +2011,7 @@ bool SwitchShipTransfer(std::string shipName)
         playerShip->myBlueprint.name.data = save_name;
 
         // Hull
-        playerShip->ship.hullIntegrity.first = playerShip->ship.hullIntegrity.second * save_health_ratio;
+        playerShip->ship.hullIntegrity.first = (playerShip->ship.hullIntegrity.second * save_health_ratio)/100;
     }
     return false;
 }
