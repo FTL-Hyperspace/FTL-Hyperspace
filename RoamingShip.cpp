@@ -220,7 +220,7 @@ void RoamingShipsManager::MoveShips()
                     Location* exitBeacon = nullptr;
                     for (auto& location : G_->GetWorld()->starMap.locations)
                     {
-                        if (location->newSector == true)
+                        if (location->beacon == true)
                         {
                             hs_log_file("HEYYY I FOUND THE FUCKING EXIT BEACON");
                             exitBeacon = location;
@@ -483,6 +483,20 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -9999, (Location *loc) -> voi
     }
 }
 */
+
+HOOK_METHOD(WorldManager, StartGame, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::StartGame -> Begin (RoamingShip.cpp)\n")
+    RoamingShipsManager::GetInstance()->activeRoamingShips.clear();       
+    super();
+}
+
+HOOK_METHOD(StarMap, UpdateSectorMap, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateSectorMap -> Begin (CustomSectors.cpp)\n")
+    RoamingShipsManager::GetInstance()->activeRoamingShips.clear();   
+    super();
+}
 
 HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -9999, (Location *loc) -> void)
 {
