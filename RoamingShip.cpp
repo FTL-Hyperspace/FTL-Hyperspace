@@ -1,4 +1,3 @@
-#include "FTLGameWin32.h"
 #include "Global.h"
 #include "zhl.h"
 #include "RoamingShip.h"
@@ -493,9 +492,39 @@ HOOK_METHOD(WorldManager, StartGame, () -> void)
 
 HOOK_METHOD(StarMap, UpdateSectorMap, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateSectorMap -> Begin (CustomSectors.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateSectorMap -> Begin (RoamingShip.cpp)\n")
     RoamingShipsManager::GetInstance()->activeRoamingShips.clear();   
     super();
+}
+
+HOOK_METHOD(Ship, SetDestroyed, (bool animation, bool bossAnimation) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::SetDestroyed -> Begin (RoamingShip.cpp)\n")
+    RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+    for (const auto& shipId : roamingManager->activeRoamingShips)
+    { 
+        RoamingShip* ship = roamingManager->roamingShips[shipId];
+
+        if (loc == ship->currentLocation)
+        {
+            if (ship->eventIndex < ship->eventsList.size() - 1)
+            {
+                ship->eventIndex++;
+                animation = true;
+                bossAnimation = true;
+                ship->currentMoveTime == ship->timeToMove
+                if (ship->currentLocation == ship->eventTargetLocation)
+                {
+                    nextLocation = ship->currentLocation->connectedLocations[random32() % ship->currentLocation->connectedLocations.size()];
+                }
+            }
+            else if (ship->eventIndex == ship->eventsList.size())
+            {
+                roamingManager->RemoveRoamingShip(shipId);
+            }
+        }
+    }
+    super(animation, bossAnimation);
 }
 
 HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -9999, (Location *loc) -> void)
