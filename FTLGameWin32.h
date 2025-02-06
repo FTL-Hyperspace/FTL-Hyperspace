@@ -6770,35 +6770,6 @@ struct OuterHull;
 
 struct Ship : ShipObject
 {
-	Pointf GetRoomCenter(int room)
-	{
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		return graph->GetRoomCenter(room);
-	}
-
-	std::vector<LockdownShard*> GetShards()
-    {
-        std::vector<LockdownShard*> ret = std::vector<LockdownShard*>();
-        for (int i=0; i < (int)this->lockdowns.size(); ++i)
-        {
-            ret.push_back(&this->lockdowns[i]);
-        }
-
-        return ret;
-    }
-
-	void RenderEngineAnimation(bool showEngines, float alpha);
-	
-	enum DoorStateType
-	{
-	  DOOR_CLOSED = 0x0,
-	  DOOR_OPEN = 0x1,
-	  DOOR_OPEN_FORCED = 0x2,
-	  DOOR_HIT = 0x3,
-	  DOOR_ANIMATING = 0x4,
-	};
-
-
 	struct DoorState
 	{
 		DoorStateType state;
