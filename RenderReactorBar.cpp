@@ -45,7 +45,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     GL_Color powerBarColourOn = colourBlindOn ? COLOR_CB_WHITE : COLOR_GREEN;
     GL_Color powerBarColour = powerBarColourOn;
 
-    //TODO: Move to constructor or initialization function later
+    //TODO: Move to constructor or initialization function later (SystemControl::OnInit seems most appropriate)
     if (!customWire)
     {
         customWire = G_->GetResources()->GetImageId("wireUI/wire_custom.png");
