@@ -2116,6 +2116,9 @@ playerVariableType playerVariables;
 %immutable Room::iRoomId;
 %rename("%s") Room::iRoomId;
 
+%rename("%s") Room::highlightPrimitive;
+%rename("%s") Room::highlightPrimitive2;
+
 %immutable Room::extend;
 %rename("%s") Room::extend;
 
