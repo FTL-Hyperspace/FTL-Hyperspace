@@ -780,9 +780,11 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int` `.iRepairCount`
 - `int` `.iSystemType`
 - `bool` `.bNeedsManned`
+   - If the system requires manning to function.
 - `bool` `.bManned`
 - `int` `.iActiveManned`
 - `bool` `.bBoostable`
+   - If the system can be manned by a crewmember.
 - `std::pair<int, int>` `.powerState`
 - `int` `.iRequiredPower`
 - ~~`GL_Texture*` `.imageIcon`~~
@@ -803,6 +805,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
    - I don't know if this can be set to true per-frame to hold the repair over time progression counter, it might be able to freeze the graphic so it doesn't count down.
 - `int` `.originalPower`
 - `bool` `.bNeedsPower`
+   - True for regular systems, false for subsystems.
 - `int` `.iTempPowerCap`
 - `int` `.iTempPowerLoss`
 - `int` `.iTempDividePower`
@@ -827,6 +830,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int` `.iHackEffect`
 - `bool` `.bUnderAttack`
 - `bool` `.bLevelBoostable`
+   - If the system is given an additional level when manned by a crewmember (e.g. doors, sensors).
 - `bool` `.bTriggerIon`
 - ~~`std::vector<Animation>` `.damagingEffects`~~
 - `int` `.computerLevel`
