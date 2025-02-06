@@ -1840,30 +1840,6 @@ bool SwitchShipTransfer(std::string shipName)
         ShipManager* playerShip = G_->GetShipManager(0);
         WorldManager* world = G_->GetWorld();
         // Here you save all the data you want to transfer to the new ship
-        // You cannot do a transfer by pointer, because all pointer of the old ship get deleted
-
-        std::vector<std::string> save_crew_species;
-        std::vector<int> save_crew_shipid;
-        std::vector<std::string> save_crew_names;
-        std::vector<std::string> save_crew_names_long;
-        std::vector<float> save_crew_HP;
-        std::vector<std::vector<int>> save_crew_skills;
-        int i = 0;
-        for (CrewMember* crew : playerShip->vCrewList)
-        {
-            save_crew_species.push_back(crew->blueprint.name);
-            save_crew_shipid.push_back(crew->iShipId);
-            save_crew_names.push_back(crew->blueprint.crewName.GetText());
-            save_crew_names_long.push_back(crew->blueprint.crewNameLong.GetText());
-            save_crew_HP.push_back(crew->health.first);
-            std::vector<int> save_skills;
-            for (int j = 0; j < 6; j++) 
-            {
-                save_skills.push_back(crew->blueprint.skillLevel[j].first);
-            }
-            save_crew_skills.push_back(save_skills);
-            i++;
-        }
 
         // Systems: save ID, power
         std::map<int, int> save_systems;
@@ -1938,25 +1914,6 @@ bool SwitchShipTransfer(std::string shipName)
 
         // Here you load all the data you saved before
 
-        // Crew
-        for (CrewMember* crew : playerShip->vCrewList)
-        {
-            crew->Kill(true);
-        }
-
-        for (int i=0; i<save_crew_species.size(); ++i)
-        {
-            CrewMember* crew = world->playerShip->AddCrewMember1(save_crew_species[i], save_crew_names_long[i], save_crew_shipid[i]);
-            if (crew)
-            {
-                crew->blueprint.crewName.isLiteral = true;
-                crew->blueprint.crewName.data = save_crew_names[i];
-                crew->blueprint.crewNameLong.isLiteral = true;
-                crew->blueprint.crewNameLong.data = save_crew_names_long[i];
-                crew->health.first = save_crew_HP[i];
-                for (int j = 0; j < 6; j++) crew->blueprint.skillLevel[j].first = save_crew_skills[i][j];
-            }
-        }
         
         // Systems
         for (auto system : save_systems)
