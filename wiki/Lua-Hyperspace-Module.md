@@ -3654,8 +3654,8 @@ Hyperspace allows you to change the player ship during a run.
 To do so you have access to two methods:
 
 - `bool Hyperspace.SwitchShip(std::string shipName)`
-   - This method will change the player ship to the one specified by `shipName`, crew will be transfered to the new ship
-- `bool Hyperspace.SwitchShipTransfer(std::string shipName)`
+   - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
+- `bool Hyperspace.SwitchShipTransfer(std::string shipName, bool overrideSystem)`
    - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
 
-Disclaimer: This methods cannot be run while another ship is present at the beacon, if you wish the player to be able to do so then run [WorldManager](#WorldManager)ClearLocation()
+Disclaimer: This methods cannot be run while another ship is present at the beacon, if you wish the player to be able to do so then run [WorldManager](#WorldManager)`:ClearLocation()`

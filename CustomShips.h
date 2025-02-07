@@ -4,7 +4,7 @@
 
 bool SwitchShip(std::string shipName);
 
-bool SwitchShipTransfer(std::string shipName);
+bool SwitchShipTransfer(std::string shipName, bool overrideSystem = false);
 
 extern bool g_enemyPreigniterFix;
 

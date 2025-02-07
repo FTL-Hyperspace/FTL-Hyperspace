@@ -1817,6 +1817,7 @@ bool SwitchShip(std::string shipName)
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
     if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
+        std::string fixname = bp->name.GetText();
         ShipGraph::Restart();
         PowerManager::RestartAll();
         ShipManager* playerShipManager = G_->GetShipManager(0);
@@ -1825,13 +1826,15 @@ bool SwitchShip(std::string shipName)
         G_->GetWorld()->playerShip->Restart();
         G_->GetWorld()->commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
+        playerShipManager->myBlueprint.name.isLiteral = true;
+        playerShipManager->myBlueprint.name.data = fixname;
 
         ret = true;
     }
     return ret;
 }
 
-bool SwitchShipTransfer(std::string shipName)
+bool SwitchShipTransfer(std::string shipName, bool overrideSystem)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
@@ -1872,6 +1875,20 @@ bool SwitchShipTransfer(std::string shipName)
         
         playerShipManager->myBlueprint = *bp;
         playerShipManager->SaveToBlueprint(true);
+
+        // blueprint manipulation here
+        if (overrideSystem)
+        {
+            playerShipManager->myBlueprint.systems.clear();
+            for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
+            {
+                if (playerShipManager->myBlueprint.systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
+                {
+                    playerShipManager->myBlueprint.systems.push_back(playerShipManager->vSystemList[i]->GetId());
+                }
+            }
+        }
+
         world->playerShip->Restart();
         world->commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
@@ -1906,14 +1923,15 @@ bool SwitchShipTransfer(std::string shipName)
         playerShipManager->ModifyMissileCount(save_ammo - playerShipManager->GetMissileCount());
         playerShipManager->ModifyDroneCount(save_droneparts - playerShipManager->GetDroneCount());
 
-        // Name
-        playerShipManager->myBlueprint.name.isLiteral = true;
-        playerShipManager->myBlueprint.name.data = save_name;
-
         // Hull
         playerShipManager->ship.hullIntegrity.first = (playerShipManager->ship.hullIntegrity.second * save_health_ratio)/100;
 
+        // reset the blueprint to disallow porting equipment from regular restart
         playerShipManager->myBlueprint = *G_->GetBlueprints()->GetShipBlueprint(playerShipManager->myBlueprint.blueprintName, -1);
+
+        // Name
+        playerShipManager->myBlueprint.name.isLiteral = true;
+        playerShipManager->myBlueprint.name.data = save_name;
     }
     return ret;
 }

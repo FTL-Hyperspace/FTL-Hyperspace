@@ -313,7 +313,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string shipName = boost::trim_copy(command.substr(10));
         hs_log_file("Loading new ship and transfering from old ship %s\n", shipName.c_str());
         G_->GetWorld()->ClearLocation();
-        SwitchShipTransfer(shipName);
+        SwitchShipTransfer(shipName, true);
 
         return true;
     }

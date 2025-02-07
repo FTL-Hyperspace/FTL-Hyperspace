@@ -442,7 +442,7 @@ DAMAGESYS          Damages a system                        Usage: DAMAGESYS <sys
 SHIP_CUSTOM        Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
 SHIP_CUSTOM_LOCK   Locks a customs ship (permanently)      Usage: SHIP_CUSTOM_LOCK <ship_name> Example: SHIP_CUSTOM_LOCK PLAYER_SHIP_CUSTOM
 SWITCH       	   Switch active ship                      Usage: SWITCH <ship_name>      Example: SWITCH PLAYER_SHIP_HARD_2
-SWITCHALL          Switch active ship and with equipment   Usage: SWITCHALL <ship_name>   Example: SWITCHALL PLAYER_SHIP_CIRCLE
+SWITCHALL          Switch active ship with equipment       Usage: SWITCHALL <ship_name>   Example: SWITCHALL PLAYER_SHIP_CIRCLE
 LOADEVENT          Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
 VARIABLE           Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> <n>
 METAVARIABLE       As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
