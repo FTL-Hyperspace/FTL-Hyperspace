@@ -26,6 +26,7 @@
 #include "CustomShips.h"
 #include "TemporalSystem.h"
 #include "Misc.h"
+#include "CustomHotkeys.h"
 %}
 
 %feature("flatnested");
@@ -3870,6 +3871,62 @@ playerVariableType playerVariables;
 %immutable SettingValues::openedList;
 %rename("%s") SettingValues::beamTutorial;
 %immutable SettingValues::beamTutorial;
+
+//NOTE: Hyperspace.Settings refers to Global_Settings_Settings, an instance of SettingValues so it may be a good idea to rename this?
+%rename("%s") Settings;
+%rename("%s") Settings::GetHotkey;
+%rename("%s") Settings::GetHotkeyName;
+%contract Settings::RegisterHotkey(const std::string& hotkeyName, SDLKey defaultValue, int page, int index = -1) {
+    require:
+        page >= 0;
+        page <= 3;
+}
+%rename("%s") Settings::RegisterHotkey;
+%{
+    //Internal utility function to check for duplicate hotkey registration
+    static bool IsDuplicateHotkey(const std::string& hotkeyName)
+    {
+        //Check native hotkeys for duplicate registration
+        const auto& hotkeys = Global::GetInstance()->GetSettings()->hotkeys;
+        for (const auto& descVector : hotkeys)
+        {
+            for (const auto& desc : descVector)
+            {
+                if (hotkeyName == desc.name)
+                {
+                    return true;
+                }
+            }
+        }
+        //Check custom hotkeys for duplicate registration
+        for (const auto& customHotkey : customHotkeys)
+        {
+            if (hotkeyName == customHotkey.hotkeyName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+%}
+%extend Settings {
+
+    static void RegisterHotkey(const std::string& hotkeyName, SDLKey defaultValue, int page, int index = -1)
+    {
+        if (IsDuplicateHotkey(hotkeyName))
+        {
+            //TODO: Throw a proper lua error?
+            ErrorMessage("Attempted to register hotkey: " + hotkeyName + " while this name is already taken!");
+        }
+        else
+        {
+            CustomHotkey newHotkey{hotkeyName, defaultValue, page, index};
+            customHotkeys.push_back(newHotkey);
+            Settings::RegenerateHotkeys();
+            Settings::SetHotkey(hotkeyName, defaultValue); //Clear current value for keys with the same default
+        } 
+    }
+}
 
 //Access PrintHelper singleton through Hyperspace.PrintHelper.GetInstance()
 %nodefaultctor PrintHelper;

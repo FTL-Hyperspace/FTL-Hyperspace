@@ -8,4 +8,5 @@ struct CustomHotkey
     int page;
     int index; // -1
 };
+extern std::vector<CustomHotkey> customHotkeys;
 

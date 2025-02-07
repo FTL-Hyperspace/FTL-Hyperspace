@@ -1,6 +1,6 @@
 #include "CustomHotkeys.h"
 
-static std::vector<CustomHotkey> customHotkeys =
+std::vector<CustomHotkey> customHotkeys =
 {
     {"weapon1", SDLKey::SDLK_1, 1, 8},
     {"weapon2", SDLKey::SDLK_2, 1, 9},
@@ -56,11 +56,8 @@ HOOK_METHOD(ControlsScreen, OnInit, () -> void)
     }
 }
 
-HOOK_STATIC(Settings, ResetHotkeys, () -> void)
+void Settings::RegenerateHotkeys()
 {
-    LOG_HOOK("HOOK_STATIC -> Settings::ResetHotkeys -> Begin (CustomHotkeys.cpp)\n")
-    super();
-
     SettingValues* settings = G_->GetSettings();
 
     for (auto i : customHotkeys)
@@ -88,4 +85,12 @@ HOOK_STATIC(Settings, ResetHotkeys, () -> void)
             settings->hotkeys[i.page].insert(settings->hotkeys[i.page].begin() + i.index, hk);
         }
     }
+}
+
+HOOK_STATIC(Settings, ResetHotkeys, () -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> Settings::ResetHotkeys -> Begin (CustomHotkeys.cpp)\n")
+    super();
+
+    RegenerateHotkeys();
 }
