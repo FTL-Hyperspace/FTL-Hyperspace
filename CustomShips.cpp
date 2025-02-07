@@ -1871,23 +1871,11 @@ bool SwitchShipTransfer(std::string shipName)
 
         // Augmentations: save ID
         ShipInfo* info = G_->GetShipInfo(0);
-        std::map<std::string, int> save_augmentations;
-        std::map<std::string, int> save_equipment;
-        for (auto augment : info->augList)
-        {
-            save_augmentations[augment.first] = augment.second;
-        }
-        for (auto equip : info->augList)
-        {
-            save_equipment[equip.first] = equip.second;
-        }
+        std::map<std::string, int> save_augmentations(info->augList);
+        std::map<std::string, int> save_equipment(info->equipList);
 
         // Cargo: save ID
-        std::vector<std::string> save_cargo;
-        for (auto cargo : world->commandGui->equipScreen.GetCargoHold())
-        {
-            save_cargo.push_back(cargo);
-        }
+        std::vector<std::string> save_cargo(world->commandGui->equipScreen.GetCargoHold());
 
         // Scrap/fuel/ammo/droneparts: save amount
         int save_scrap = playerShipManager->currentScrap;
@@ -1914,7 +1902,9 @@ bool SwitchShipTransfer(std::string shipName)
 
         // Here you load all the data you saved before
 
-        
+        // Reactor
+        PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
+
         // Systems
         for (auto system : save_systems)
         {
@@ -1923,16 +1913,11 @@ bool SwitchShipTransfer(std::string shipName)
             {   
                 playerShipManager->AddSystem(system.first);
                 ShipSystem* sys = playerShipManager->GetSystem(system.first);
-                if (sys)
-                {
-                    sys->powerState.second = system.second;
-                }
+                if (sys) sys->powerState.second = system.second;
             }
 
         }
 
-        // Reactor
-        PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
         // Weapons/Drone
         if (playerShipManager->weaponSystem)
         {
@@ -1940,42 +1925,23 @@ bool SwitchShipTransfer(std::string shipName)
             {
                 playerShipManager->RemoveItem(weapon->blueprint->name);
             }
-            int count = 0;
             for (std::string weapon : save_vWeaponList)
             {
-                if (count < playerShipManager->weaponSystem->slot_count)
-                {
-                    WeaponBlueprint* weaponbp = G_->GetBlueprints()->GetWeaponBlueprint(weapon);
-                    playerShipManager->AddWeapon(weaponbp, -1);
-                }
-                else
-                {
-                    world->commandGui->equipScreen.AddToCargo(weapon);
-                }
-                count++;
+                WeaponBlueprint* weaponbp = G_->GetBlueprints()->GetWeaponBlueprint(weapon);
+                world->commandGui->equipScreen.AddWeapon(weaponbp, true, false);
             }
         }
 
-        //hs_log_file("Weapons Done\n");
         if (playerShipManager->droneSystem)
         {
             for (Drone* drone : playerShipManager->droneSystem->drones)
             {
                 playerShipManager->RemoveItem(drone->blueprint->name);
             }
-            int count = 0;
             for (std::string drone : save_vDroneList)
             {
-                if (count < playerShipManager->droneSystem->slot_count)
-                {
-                    DroneBlueprint* dronebp = G_->GetBlueprints()->GetDroneBlueprint(drone);
-                    playerShipManager->AddDrone(dronebp, -1);
-                }
-                else
-                {
-                    world->commandGui->equipScreen.AddToCargo(drone);
-                }
-                count++;
+                DroneBlueprint* dronebp = G_->GetBlueprints()->GetDroneBlueprint(drone);
+                world->commandGui->equipScreen.AddDrone(dronebp, true, false);
             }
         }
 
@@ -1985,14 +1951,13 @@ bool SwitchShipTransfer(std::string shipName)
         {
             for (int i=0; i<augment.second; ++i)
             {
-            playerShipManager->AddAugmentation(augment.first);
+                playerShipManager->AddAugmentation(augment.first);
             }
         }
+
         info->equipList.clear();
-        for (auto equip : save_equipment)
-        {
-            info->equipList[equip.first] = equip.second;
-        }
+        for (auto equip : save_equipment) info->equipList[equip.first] = equip.second;
+
 
         // Cargo
         for (std::string cargo : save_cargo)
