@@ -1828,7 +1828,7 @@ bool SwitchShip(std::string shipName)
 
         ret = true;
     }
-    return false;
+    return ret;
 }
 
 bool SwitchShipTransfer(std::string shipName)
@@ -2013,5 +2013,5 @@ bool SwitchShipTransfer(std::string shipName)
         // Hull
         playerShipManager->ship.hullIntegrity.first = (playerShip->ship.hullIntegrity.second * save_health_ratio)/100;
     }
-    return false;
+    return ret;
 }
