@@ -1843,9 +1843,9 @@ bool SwitchShipTransfer(std::string shipName)
 
         // Systems: save ID, power
         std::map<int, int> save_systems;
-        for (int i=0; i<playerShip->vSystemList.size(); ++i)
+        for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
         {
-            save_systems[playerShip->vSystemList[i]->GetId()] = playerShipManager->vSystemList[i]->powerState.second;
+            save_systems[playerShipManager->vSystemList[i]->GetId()] = playerShipManager->vSystemList[i]->powerState.second;
         }
 
         // Reactor: save power
@@ -1853,7 +1853,7 @@ bool SwitchShipTransfer(std::string shipName)
 
         // Weapons/Drone: save ID
         std::vector<std::string> save_vWeaponList;
-        if (playerShip->weaponSystem)
+        if (playerShipManager->weaponSystem)
         {
             for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons)
             {
@@ -1861,7 +1861,7 @@ bool SwitchShipTransfer(std::string shipName)
             }
         }
         std::vector<std::string> save_vDroneList;
-        if (playerShip->droneSystem)
+        if (playerShipManager->droneSystem)
         {
             for (Drone* drone : playerShipManager->droneSystem->drones)
             {
@@ -1899,7 +1899,7 @@ bool SwitchShipTransfer(std::string shipName)
         std::string save_name = playerShipManager->myBlueprint.name.GetText();
 
         // Hull: save health (ratio since the new ship might have different max health)
-        int save_health_ratio = (playerShip->ship.hullIntegrity.first * 100) / playerShipManager->ship.hullIntegrity.second;
+        int save_health_ratio = (playerShipManager->ship.hullIntegrity.first * 100) / playerShipManager->ship.hullIntegrity.second;
 
         // Regular ship switch method
         ShipGraph::Restart();
@@ -1919,7 +1919,7 @@ bool SwitchShipTransfer(std::string shipName)
         for (auto system : save_systems)
         {
             bool subsystem = (system.first > 5 && system.first < 9) || system.first == 12;
-            if (!playerShip->HasSystem(system.first) && (playerShip->myBlueprint.systemInfo[system.first].location.size() > 0))
+            if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
             {   
                 playerShipManager->AddSystem(system.first);
                 ShipSystem* sys = playerShipManager->GetSystem(system.first);
@@ -1934,7 +1934,7 @@ bool SwitchShipTransfer(std::string shipName)
         // Reactor
         PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
         // Weapons/Drone
-        if (playerShip->weaponSystem)
+        if (playerShipManager->weaponSystem)
         {
             for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons)
             {
@@ -1957,7 +1957,7 @@ bool SwitchShipTransfer(std::string shipName)
         }
 
         //hs_log_file("Weapons Done\n");
-        if (playerShip->droneSystem)
+        if (playerShipManager->droneSystem)
         {
             for (Drone* drone : playerShipManager->droneSystem->drones)
             {
@@ -2011,7 +2011,7 @@ bool SwitchShipTransfer(std::string shipName)
         playerShipManager->myBlueprint.name.data = save_name;
 
         // Hull
-        playerShipManager->ship.hullIntegrity.first = (playerShip->ship.hullIntegrity.second * save_health_ratio)/100;
+        playerShipManager->ship.hullIntegrity.first = (playerShipManager->ship.hullIntegrity.second * save_health_ratio)/100;
     }
     return ret;
 }
