@@ -3876,11 +3876,7 @@ playerVariableType playerVariables;
 %rename("%s") Settings;
 %rename("%s") Settings::GetHotkey;
 %rename("%s") Settings::GetHotkeyName;
-%contract Settings::RegisterHotkey(const std::string& hotkeyName, SDLKey defaultValue, int page, int index = -1) {
-    require:
-        page >= 0;
-        page <= 3;
-}
+
 %rename("%s") Settings::RegisterHotkey;
 %{
     //Internal utility function to check for duplicate hotkey registration
@@ -3911,12 +3907,15 @@ playerVariableType playerVariables;
 %}
 %extend Settings {
 
-    static void RegisterHotkey(const std::string& hotkeyName, SDLKey defaultValue, int page, int index = -1)
+    static void RegisterHotkey(const std::string& hotkeyName, SDLKey defaultValue, int page, int index = -1) throw(std::string)
     {
         if (IsDuplicateHotkey(hotkeyName))
         {
-            //TODO: Throw a proper lua error?
-            ErrorMessage("Attempted to register hotkey: " + hotkeyName + " while this name is already taken!");
+            throw std::string("Attempted to register hotkey: " + hotkeyName + " while this name is already taken!");
+        }
+        else if (page < 0 || page > 3)
+        {
+            throw std::string("Attempted to register hotkey for invalid page: " + std::to_string(page) + ", integer 0-3 required!");
         }
         else
         {
