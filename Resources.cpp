@@ -555,6 +555,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "oxygenWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
