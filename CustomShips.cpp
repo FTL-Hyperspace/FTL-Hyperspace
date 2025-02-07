@@ -209,6 +209,18 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
     SM_EX(this)->Initialize(true);
 }
 
+//The amount of drones that are added to a ship are capped by droneCount
+//This may be an intended behavior to prevent enemy ships from spawning with more drones than they can use
+//Set droneCount to a high value so player ships spawn with all of their drones on restart
+HOOK_METHOD(ShipManager, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Restart -> Begin (CustomShips.cpp)\n")
+    int oldDroneCount = myBlueprint.droneCount;
+    if(iShipId == 0) myBlueprint.droneCount = INT_MAX;
+    super();
+    if(iShipId == 0) myBlueprint.droneCount = oldDroneCount;
+}
+
 float CrewMemberFactory::GetCrewCapacityUsed()
 {
     return CustomCrewManager::GetInstance()->crewCapacityUsed;
