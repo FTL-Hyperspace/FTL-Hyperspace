@@ -1070,19 +1070,15 @@ No methods are exposed currently.
 
 ### Fields
 - [`ShipSystem`](#shipsystem) `.pSystem`
-
-The ShipSystem managed by this SystemBox.
+   - The ShipSystem managed by this SystemBox.
 - [`Point`](#point) `.location`
-
-The location of the SystemBox.
+   - The location of the SystemBox.
+- `bool` `.bPlayerUI`
 - [`SystemBox_Extend`](#systembox_extend) `.extend`
    - **Read-only**
-
-The SystemBox_Extend associated with this SystemBox.
-
+   - The SystemBox_Extend associated with this SystemBox.
 - LUA table `.table`
-
-A modifiable table of arbitrary data which exists as long as the object it belongs to.
+   - A modifiable table of arbitrary data which exists as long as the object it belongs to.
 
 ## SystemBox_Extend
 The class holding additional SystemBox data members that are not a part of FTL's native SystemBox strucure.
@@ -1093,10 +1089,9 @@ No methods are exposed currently.
 ### Fields
 - [`SystemBox`](#systembox) `.orig`
    - **Read-only**
-
-The SystemBox associated with this SystemBox_Extend.
+   - The SystemBox associated with this SystemBox_Extend.
 - `int` `.xOffset`
-The offset from this SystemBox to the next in the UI.
+   - The offset from this SystemBox to the next in the UI.
 
 ## Drone
 
@@ -1338,6 +1333,8 @@ The offset from this SystemBox to the next in the UI.
    - **Read-only**
 - `int` `.iRoomId`
    - **Read-only**
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive2`
 - [`Room_Extend`](#room_extend) `.extend`
    - **Read-only**
 

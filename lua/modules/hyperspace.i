@@ -1844,6 +1844,7 @@ playerVariableType playerVariables;
 %rename("%s") SystemBox;
 %rename("%s") SystemBox::pSystem;
 %rename("%s") SystemBox::location;
+%rename("%s") SystemBox::bPlayerUI;
 
 %immutable SystemBox::extend;
 %rename("%s") SystemBox::extend;
