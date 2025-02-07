@@ -153,7 +153,7 @@ __thiscall CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, b
 "5589e55383e4f083ec108b550883fa11744e8b81c80400008b1c9031c083fbff750e8b5dfcc9c20800":
 __thiscall int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
-__thiscall ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool unk);
+__thiscall ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool overwrite);
 "578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
 __thiscall void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf pos);
 "578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104":

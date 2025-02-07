@@ -7187,7 +7187,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void Restart();
 	LIBZHL_API bool RestoreCrewPositions();
 	LIBZHL_API void SaveCrewPositions();
-	LIBZHL_API ShipBlueprint SaveToBlueprint(bool unk);
+	LIBZHL_API ShipBlueprint SaveToBlueprint(bool overwrite);
 	LIBZHL_API CrewBlueprint SelectRandomCrew(int seed, const std::string &racePref);
 	LIBZHL_API void SetDestroyed();
 	LIBZHL_API void SetSystemPowerLoss(int systemId, int powerLoss);

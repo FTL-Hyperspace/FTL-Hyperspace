@@ -14088,11 +14088,11 @@ namespace _func1104
 	static FunctionDefinition funcObj("ShipManager::SaveToBlueprint", typeid(ShipBlueprint (ShipManager::*)(bool )), ".4157415641554189d54154554889f5534889fb4883ec48", nullptr, 0, 0, &func);
 }
 
-ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
+ShipBlueprint ShipManager::SaveToBlueprint(bool overwrite)
 {
-	typedef ShipBlueprint (*custom_arg_funcptr_t)(ShipManager *this_arg, bool unk_arg);
+	typedef ShipBlueprint (*custom_arg_funcptr_t)(ShipManager *this_arg, bool overwrite_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1104::func;
-	return execfunc(this, unk);
+	return execfunc(this, overwrite);
 }
 
 namespace _func1105
