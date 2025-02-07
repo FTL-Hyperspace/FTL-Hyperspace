@@ -1871,24 +1871,26 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
         // Regular ship switch method
         ShipGraph::Restart();
         PowerManager::RestartAll();
+
+        std::vector<int> oldSystems = bp->systems;
+        if (overrideSystem)
+        {
+            std::vector<int> newSystems;
+            for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
+            {
+                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
+                {
+                    newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
+                }
+            }
+            bp->systems = newSystems;
+        }
         
         playerShipManager->myBlueprint = *bp;
         playerShipManager->SaveToBlueprint(true);
 
-        // blueprint manipulation here
-        if (overrideSystem)
-        {
-            playerShipManager->myBlueprint.systems.clear();
-            for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
-            {
-                if (playerShipManager->myBlueprint.systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
-                {
-                    playerShipManager->myBlueprint.systems.push_back(playerShipManager->vSystemList[i]->GetId());
-                }
-            }
-        }
-
         playerShip->Restart();
+        bp->systems = oldSystems;
         commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;
