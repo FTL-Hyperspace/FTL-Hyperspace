@@ -204,7 +204,6 @@ target_sources(
     NeutralTeleporterFix.cpp
     OverclockerSystem.cpp
     OverclockerSystem.h
-    OxygenWithoutSystem.cpp
     PALMemoryProtection.h
     ProjectileVTable.cpp
     Projectile_Extend.cpp
