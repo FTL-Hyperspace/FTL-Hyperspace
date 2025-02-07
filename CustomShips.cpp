@@ -1851,29 +1851,6 @@ bool SwitchShipTransfer(std::string shipName)
         // Reactor: save power
         int save_reactor = PowerManager::GetPowerManager(0)->currentPower.second;
 
-        // Weapons/Drone: save ID
-        //std::vector<std::string> save_vWeaponList;
-        //if (playerShipManager->weaponSystem)
-        //{
-        //    for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons)
-        //    {
-        //        save_vWeaponList.push_back(weapon->blueprint->name);
-        //    }
-        //}
-        //std::vector<std::string> save_vDroneList;
-        //if (playerShipManager->droneSystem)
-        //{
-        //    for (Drone* drone : playerShipManager->droneSystem->drones)
-        //    {
-        //        save_vDroneList.push_back(drone->blueprint->name);
-        //    }
-        //}
-
-        // Augmentations: save ID
-        //ShipInfo* info = G_->GetShipInfo(0);
-        //std::map<std::string, int> save_augmentations(info->augList);
-        //std::map<std::string, int> save_equipment(info->equipList);
-
         // Cargo: save ID
         std::vector<std::string> save_cargo(world->commandGui->equipScreen.GetCargoHold());
 
@@ -1915,49 +1892,7 @@ bool SwitchShipTransfer(std::string shipName)
                 ShipSystem* sys = playerShipManager->GetSystem(system.first);
                 if (sys) sys->powerState.second = system.second;
             }
-
         }
-
-        // Weapons/Drone
-        //if (playerShipManager->weaponSystem)
-        //{
-        //    for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons)
-        //    {
-        //        playerShipManager->RemoveItem(weapon->blueprint->name);
-        //    }
-        //    for (std::string weapon : save_vWeaponList)
-        //    {
-        //        WeaponBlueprint* weaponbp = G_->GetBlueprints()->GetWeaponBlueprint(weapon);
-        //        world->commandGui->equipScreen.AddWeapon(weaponbp, true, false);
-        //    }
-        //}
-//
-        //if (playerShipManager->droneSystem)
-        //{
-        //    for (Drone* drone : playerShipManager->droneSystem->drones)
-        //    {
-        //        playerShipManager->RemoveItem(drone->blueprint->name);
-        //    }
-        //    for (std::string drone : save_vDroneList)
-        //    {
-        //        DroneBlueprint* dronebp = G_->GetBlueprints()->GetDroneBlueprint(drone);
-        //        world->commandGui->equipScreen.AddDrone(dronebp, true, false);
-        //    }
-        //}
-//
-        //// Augmentations
-        //info->augList.clear();
-        //for (auto augment : save_augmentations)
-        //{
-        //    for (int i=0; i<augment.second; ++i)
-        //    {
-        //        playerShipManager->AddAugmentation(augment.first);
-        //    }
-        //}
-//
-        //info->equipList.clear();
-        //for (auto equip : save_equipment) info->equipList[equip.first] = equip.second;
-
 
         // Cargo
         for (std::string cargo : save_cargo)
@@ -1977,6 +1912,8 @@ bool SwitchShipTransfer(std::string shipName)
 
         // Hull
         playerShipManager->ship.hullIntegrity.first = (playerShipManager->ship.hullIntegrity.second * save_health_ratio)/100;
+
+        playerShipManager->myBlueprint = *G_->GetBlueprints()->GetShipBlueprint(playerShipManager->myBlueprint.blueprintName, -1);
     }
     return ret;
 }
