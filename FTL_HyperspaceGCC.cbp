@@ -1184,9 +1184,6 @@
 		<Unit filename="OverclockerSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
-		<Unit filename="OxygenWithoutSystem.h">
-			<Option virtualFolder="Content/Systems/" />
-		</Unit>
 		<Unit filename="PALMemoryProtection.h">
 			<Option virtualFolder="PAL/" />
 		</Unit>
