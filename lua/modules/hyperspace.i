@@ -156,6 +156,7 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
+    %template(vector_Animation) vector<Animation>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
