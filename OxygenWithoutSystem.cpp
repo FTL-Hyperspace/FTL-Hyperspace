@@ -1,6 +1,5 @@
 #include "Global.h"
 #include "CustomOptions.h"
-#include "Systems.h"
 /*
     This file contains the code to allow ships to have oxygen without an oxygen system installed.
     The game implements oxygen mechanics via the OxygenSystem class, which is instantiated at ShipManager::oxygenSystem.
