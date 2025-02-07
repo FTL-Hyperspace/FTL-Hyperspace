@@ -52,9 +52,14 @@ std::vector<std::string> CustomUserSystems::systemNames;
 std::unordered_map<std::string, int> CustomUserSystems::systemIds;
 void CustomUserSystems::AddSystemName(const std::string& systemName)
 {
-    //If order of nodes can change upon reload under reasonable circumstances, we may need to sort alphabetically or something so the order is well defined
     systemNames.emplace_back(systemName);
-    systemIds[systemName] = GetLastSystemId();
+    //If order of nodes can change upon reload under reasonable circumstances, we may need to sort alphabetically or something so the order is well defined
+    std::sort(systemNames.begin(), systemNames.end());
+    //Remap IDS
+    for (int idx = 0; idx < systemNames.size(); ++idx)
+    {
+        systemIds[systemNames[idx]] = idx + SYS_CUSTOM_FIRST;
+    }    
 }
 int CustomUserSystems::NameToSystemId(const std::string& systemName)
 {
