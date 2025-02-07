@@ -46,3 +46,9 @@ cleanup __amd64 void WorldManager::Restart(WorldManager *this);
 cleanup __amd64 void WorldManager::OnLoop(WorldManager *this);
 ".41554154554889fd534883ec28488b3f":
 cleanup __amd64 void WorldManager::PauseLoop(WorldManager *this);
+
+struct WorldManager
+{{
+	bool SwitchShip(std::string shipName);
+    bool SwitchShipTransfer(std::string shipName, bool overrideSystem);
+}};

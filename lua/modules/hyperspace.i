@@ -906,6 +906,9 @@ playerVariableType playerVariables;
 %rename("%s") WorldManager::starMap;
 %immutable WorldManager::starMap;
 
+%rename("%s") WorldManager::SwitchShip;
+%rename("%s") WorldManager::SwitchShipTransfer;
+
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable
 ////%rename("%s") WorldManager::currentEffects; // Vector of StatusEffect, maybe allow? Not sure if it should be writeable
@@ -2320,9 +2323,6 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipDefinition::reactorPriceIncrement;
 %rename("%s") CustomShipDefinition::maxReactorLevel;
 %rename("%s") CustomShipDefinition::shipGenerator;
-
-%rename("%s") SwitchShip;
-%rename("%s") SwitchShipTransfer;
 
 %rename("%s") RoomDefinition;
 %rename("%s") RoomDefinition::roomId;

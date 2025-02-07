@@ -146,6 +146,12 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 - `bool :AddBoarders(BoardingEvent boardingEvent)`
 - `void :ClearLocation()`
+- `bool Hyperspace.SwitchShip(std::string shipName)`
+   - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
+   - This method cannot be run while another ship is/was present at the beacon, if you wish to do so then run `:ClearLocation()`
+- `bool Hyperspace.SwitchShipTransfer(std::string shipName, bool overrideSystem)`
+   - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
+   - This method cannot be run while another ship is/was present at the beacon, if you wish to do so then run `:ClearLocation()`
 	
 ### Fields
 
@@ -3650,12 +3656,3 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 
 ## Ship Switch
 
-Hyperspace allows you to change the player ship during a run.
-To do so you have access to two methods:
-
-- `bool Hyperspace.SwitchShip(std::string shipName)`
-   - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
-- `bool Hyperspace.SwitchShipTransfer(std::string shipName, bool overrideSystem)`
-   - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
-
-Disclaimer: This methods cannot be run while another ship is present at the beacon, if you wish the player to be able to do so then run [WorldManager](#WorldManager)`:ClearLocation()`

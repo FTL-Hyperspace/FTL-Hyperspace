@@ -2,10 +2,6 @@
 
 // TODO: Put customShip stuff here, not in CustomShipSelect
 
-bool SwitchShip(std::string shipName);
-
-bool SwitchShipTransfer(std::string shipName, bool overrideSystem = false);
-
 extern bool g_enemyPreigniterFix;
 
 extern bool g_artilleryGibMountFix;

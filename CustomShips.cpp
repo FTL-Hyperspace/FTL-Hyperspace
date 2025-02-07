@@ -1811,11 +1811,11 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 
 // Ship Switching
 
-bool SwitchShip(std::string shipName)
+bool WorldManager::SwitchShip(std::string shipName)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
         std::string fixname = bp->name.GetText();
         ShipGraph::Restart();
@@ -1823,8 +1823,8 @@ bool SwitchShip(std::string shipName)
         ShipManager* playerShipManager = G_->GetShipManager(0);
         playerShipManager->myBlueprint = *bp;
         playerShipManager->SaveToBlueprint(false);
-        G_->GetWorld()->playerShip->Restart();
-        G_->GetWorld()->commandGui->Restart();
+        playerShip->Restart();
+        commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
         playerShipManager->myBlueprint.name.data = fixname;
@@ -1834,14 +1834,13 @@ bool SwitchShip(std::string shipName)
     return ret;
 }
 
-bool SwitchShipTransfer(std::string shipName, bool overrideSystem)
+bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != G_->GetWorld()->playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
         ShipManager* playerShipManager = G_->GetShipManager(0);
-        WorldManager* world = G_->GetWorld();
         // Here you save all the data you want to transfer to the new ship
 
         // Systems: save ID, power
@@ -1855,7 +1854,7 @@ bool SwitchShipTransfer(std::string shipName, bool overrideSystem)
         int save_reactor = PowerManager::GetPowerManager(0)->currentPower.second;
 
         // Cargo: save ID
-        std::vector<std::string> save_cargo(world->commandGui->equipScreen.GetCargoHold());
+        std::vector<std::string> save_cargo(commandGui->equipScreen.GetCargoHold());
 
         // Scrap/fuel/ammo/droneparts: save amount
         int save_scrap = playerShipManager->currentScrap;
@@ -1889,8 +1888,8 @@ bool SwitchShipTransfer(std::string shipName, bool overrideSystem)
             }
         }
 
-        world->playerShip->Restart();
-        world->commandGui->Restart();
+        playerShip->Restart();
+        commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;
 
@@ -1914,7 +1913,7 @@ bool SwitchShipTransfer(std::string shipName, bool overrideSystem)
         // Cargo
         for (std::string cargo : save_cargo)
         {
-            world->commandGui->equipScreen.AddToCargo(cargo);
+            commandGui->equipScreen.AddToCargo(cargo);
         }
 
         // Scrap/fuel/ammo/droneparts
