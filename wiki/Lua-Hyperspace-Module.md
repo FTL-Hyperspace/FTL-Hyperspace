@@ -3617,6 +3617,15 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 ### Fields
 - `std::string` `unlockShip`
+- `std::vector<unsigned int>` `triggeredEvents`
+   - **read-only**
+
+## TriggeredEventDefinition
+
+### Fields
+- `static` [`std::vector<TriggeredEventDefinition>`](#TriggeredEventDefinition) `defs`
+- `std::string` `name`
+- `std::string` `event`
 
 ## MainMenu
 
