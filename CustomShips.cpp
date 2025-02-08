@@ -1834,7 +1834,7 @@ bool WorldManager::SwitchShip(std::string shipName)
     return ret;
 }
 
-bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
+bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
@@ -1873,7 +1873,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
         PowerManager::RestartAll();
 
         std::vector<int> oldSystems = bp->systems;
-        if (overrideSystem)
+        if (overrideSystem == 1)
         {
             std::vector<int> newSystems;
             for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
@@ -1902,14 +1902,17 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
         PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
 
         // Systems
-        for (auto system : save_systems)
+        if (overrideSystem < 2)
         {
-            bool subsystem = (system.first > 5 && system.first < 9) || system.first == 12;
-            if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
-            {   
-                playerShipManager->AddSystem(system.first);
-                ShipSystem* sys = playerShipManager->GetSystem(system.first);
-                if (sys) sys->powerState.second = system.second;
+            for (auto system : save_systems)
+            {
+                bool subsystem = (system.first > 5 && system.first < 9) || system.first == 12;
+                if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
+                {   
+                    playerShipManager->AddSystem(system.first);
+                    ShipSystem* sys = playerShipManager->GetSystem(system.first);
+                    if (sys) sys->powerState.second = system.second;
+                }
             }
         }
 

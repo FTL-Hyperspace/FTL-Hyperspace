@@ -7983,7 +7983,7 @@ struct BoardingEvent;
 struct WorldManager
 {
 	bool SwitchShip(std::string shipName);
-    bool SwitchShipTransfer(std::string shipName, bool overrideSystem);
+    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
 
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);

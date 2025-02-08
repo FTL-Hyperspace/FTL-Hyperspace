@@ -50,5 +50,5 @@ cleanup __cdecl bool WorldManager::CheckRequirements(WorldManager *this, Locatio
 struct WorldManager
 {{
 	bool SwitchShip(std::string shipName);
-    bool SwitchShipTransfer(std::string shipName, bool overrideSystem);
+    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
 }};

@@ -50,5 +50,5 @@ __thiscall bool WorldManager::CheckRequirements(WorldManager *this, LocationEven
 struct WorldManager
 {{
 	bool SwitchShip(std::string shipName);
-    bool SwitchShipTransfer(std::string shipName, bool overrideSystem);
+    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
 }};

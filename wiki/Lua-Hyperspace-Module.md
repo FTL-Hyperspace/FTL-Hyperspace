@@ -149,9 +149,13 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - `bool Hyperspace.SwitchShip(std::string shipName)`
    - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
    - This method cannot be run while another ship is/was present at the beacon, if you wish to do so then run `:ClearLocation()`
-- `bool Hyperspace.SwitchShipTransfer(std::string shipName, bool overrideSystem)`
+- `bool Hyperspace.SwitchShipTransfer(std::string shipName, int overrideSystem)`
    - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
    - This method cannot be run while another ship is/was present at the beacon, if you wish to do so then run `:ClearLocation()`
+   - `overrideSystem`: 
+      - 0: keep systems & power from the old ship, adding them to the new ship systems
+      - 1: keep systems & power from the old ship, replacing the new ship systems
+      - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone in slots will be lost
 	
 ### Fields
 
