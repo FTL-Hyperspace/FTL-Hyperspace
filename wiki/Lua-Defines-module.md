@@ -68,6 +68,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.2.0 | MAIN_MENU | `None` | `None` | Run code when the main menu opens |
 | 1.10.0 | GET_RUN_SEED | `bool isCustomSeed`, `int seed` | `bool isCustomSeed`, `int seed` | Run code when the seed for the run is set |
 | 1.16.0 | DANGEROUS_ENVIRONMENT | `bool danger` | `bool danger` | Can be used to change the state of the environment, affecting music and ability to upgrade |
+| 1.17.0 | GET_BEACON_HAZARD | `Location loc` | `string hazardText` | If a value is returned, can be used to mark a beacon as a hazard with an icon and tooltip on the beacon map |
 | 1.16.0 | GET_HAZARD_FLASH | `float alpha` | `float red`, `float green`, `float blue`, `float alpha` | Can be used to alter the opacity and color of the flash used for suns and pulsars |
 | 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain` chain | Detect keyboard key is pressed |
 | 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain` chain | Detect keyboard key is unpressed |

@@ -153,6 +153,7 @@ class LuaLibScript
             swig_type_info *pWeaponBlueprint;
             swig_type_info *pRoom;
             swig_type_info *pChoiceBox;
+            swig_type_info *pLocation;
             swig_type_info *pLocationEvent;
 
             swig_type_info *pShipSystemTypes[21];

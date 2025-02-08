@@ -142,6 +142,7 @@ namespace std {
     // todo: add std::array
 
     %template(vector_int) vector<int>;
+    %template(vector_unsigned_int) vector<unsigned int>;
     %template(vector_float) vector<float>;
     %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
     %template(vector_ProjectileFactory) vector<ProjectileFactory*>;
@@ -157,6 +158,7 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
+    %template(vector_Animation) vector<Animation>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -184,6 +186,7 @@ namespace std {
     %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
+    %template(vector_TriggeredEventDefinition) vector<TriggeredEventDefinition>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_location) vector<Location*>;
@@ -706,6 +709,18 @@ playerVariableType playerVariables;
 %nodefaultdtor CustomEvent;
 %rename("%s") CustomEvent;
 %rename("%s") CustomEvent::unlockShip;
+%rename("%s") CustomEvent::triggeredEvents;
+%immutable CustomEvent::triggeredEvents;
+
+%nodefaultctor TriggeredEventDefinition;
+%nodefaultdtor TriggeredEventDefinition;
+%rename("%s") TriggeredEventDefinition;
+%rename("%s") TriggeredEventDefinition::defs;
+%immutable TriggeredEventDefinition::defs;
+%rename("%s") TriggeredEventDefinition::name;
+%immutable TriggeredEventDefinition::name;
+%rename("%s") TriggeredEventDefinition::event;
+%immutable TriggeredEventDefinition::event;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;

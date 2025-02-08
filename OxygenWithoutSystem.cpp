@@ -1,6 +1,6 @@
 #include "Global.h"
 #include "CustomOptions.h"
-#include "Systems.h"
+
 /*
     This file contains the code to allow ships to have oxygen without an oxygen system installed.
     The game implements oxygen mechanics via the OxygenSystem class, which is instantiated at ShipManager::oxygenSystem.
@@ -287,7 +287,7 @@ HOOK_METHOD(ShipManager, GetSystemPower, (int systemId) -> int)
     if (stopped) StartDummyOxygen();
     return ret;
 }
-HOOK_METHOD(ShipManager, IsSystemHacked, (int systemId) -> bool)
+HOOK_METHOD(ShipManager, IsSystemHacked, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsSystemHacked -> Begin (OxygenWithoutSystem.cpp)\n")
     bool stopped = StopDummyOxygen();
@@ -295,7 +295,7 @@ HOOK_METHOD(ShipManager, IsSystemHacked, (int systemId) -> bool)
     if (stopped) StartDummyOxygen();
     return ret;
 }
-HOOK_METHOD(ShipManager, IsSystemHacked2, (int systemId) -> bool)
+HOOK_METHOD(ShipManager, IsSystemHacked2, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsSystemHacked2 -> Begin (OxygenWithoutSystem.cpp)\n")
     bool stopped = StopDummyOxygen();
