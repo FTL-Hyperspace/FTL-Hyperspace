@@ -77,6 +77,14 @@ struct InternalEvents
         JUMP_ARRIVE,
         JUMP_LEAVE,
         ON_WAIT,
+
+        SYSTEM_BOX_MOUSE_MOVE,
+        SYSTEM_BOX_MOUSE_CLICK,
+        SYSTEM_BOX_KEY_DOWN,
+        GET_LEVEL_DESCRIPTION,
+        
+        //Constructor Events
+
         CONSTRUCT_CREWMEMBER,
         CONSTRUCT_SPACEDRONE,
         CONSTRUCT_PROJECTILE_FACTORY,
@@ -84,7 +92,9 @@ struct InternalEvents
         CONSTRUCT_ROOM,
         CONSTRUCT_SHIP_MANAGER,
         CONSTRUCT_SHIP_SYSTEM,
-        UNKNOWN_MAX
+        CONSTRUCT_SYSTEM_BOX,
+
+        UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     )
     struct EventInfo
     {
@@ -161,13 +171,18 @@ struct InternalEvents
             {"function jump_arrive(ShipManager& ship)", 1, false},
             {"function jump_leave(ShipManager& ship)", 1, false},
             {"function on_wait(ShipManager& ship)", 1, false},
-            {"function construct_crewmember(CrewMember& crew) return Chain", 1, false},
-            {"function construct_spacedrone(SpaceDrone& drone) return Chain", 1, false},
-            {"function construct_projectile_factory(ProjectileFactory& weapon) return Chain", 1, false},
-            {"function construct_projectile(Projectile& projectile) return Chain", 1, false},
-            {"function construct_room(Room& room) return Chain", 1, false},
-            {"function construct_ship_manager(ShipManager& ship) return Chain", 1, false},
-            {"function construct_ship_system(ShipSystem& system) return Chain", 1, false},
+            {"function system_box_mouse_move(SystemBox& systemBox, int x, int y) return Chain", 3, false},
+            {"function system_box_mouse_click(SystemBox& systemBox, bool shift) return Chain", 2, false},
+            {"function system_box_key_down(SystemBox& systemBox, SDLKey key, bool shift) return Chain", 3, false},
+            {"function get_level_description(int systemId, int level, bool tooltip) return description_string", 3, false},
+            {"function construct_crewmember(CrewMember& crew)", 1, false},
+            {"function construct_spacedrone(SpaceDrone& drone)", 1, false},
+            {"function construct_projectile_factory(ProjectileFactory& weapon)", 1, false},
+            {"function construct_projectile(Projectile& projectile)", 1, false},
+            {"function construct_room(Room& room)", 1, false},
+            {"function construct_ship_manager(ShipManager& ship)", 1, false},
+            {"function construct_ship_system(ShipSystem& system)", 1, false},
+            {"function construct_system_box(SystemBox& systemBox)", 1, false},
             {"n/a", 0, false}, //Must always be last, used to check for bounds of enum input value
         };
         

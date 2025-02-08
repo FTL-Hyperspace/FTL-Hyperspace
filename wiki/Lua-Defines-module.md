@@ -40,6 +40,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | N/A | ~~SHIP_EXPLOSION~~ | --- | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
 | 1.2.0 | LAYER_FRONT | `None` | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
 | 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
+| 1.17.0 | SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
 | 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
@@ -91,6 +92,10 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.11.0 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.16.0 | CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
+| 1.17.0 | SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
+| 1.17.0 | SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
+| 1.17.0 | SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
+| 1.17.0 | GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` | Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
 | 1.17.0 | TABBED_WINDOW_CONFIRM | `int currentTab` | `None` | Called for every event that closes the current tab in the upgrade menu |
 | 1.17.0 | TABBED_WINDOW_UNDO | `int currentTab` | `None` | Called when the UNDO button is activated in the upgrade menu |
 

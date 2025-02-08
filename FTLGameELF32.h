@@ -1113,6 +1113,7 @@ struct LIBZHL_INTERFACE SystemBox
 	virtual void CloseTouchTooltip(bool unk) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void KeyDown(SDLKey key, bool shift);
 	LIBZHL_API void constructor(Point pos, ShipSystem *sys, bool playerUI);
+	LIBZHL_API void destructor();
 	
 	Point location;
 	GL_Primitive *timerCircle[10];
@@ -1124,8 +1125,10 @@ struct LIBZHL_INTERFACE SystemBox
 	GL_Primitive *hackIcon;
 	ShipSystem *pSystem;
 	bool bShowPower;
+	uint8_t gap_ex_1[3];
 	float powerAlpha;
 	bool mouseHover;
+	uint8_t gap_ex_2[3];
 	int activeTouch;
 	Point touchInitialOffset;
 	bool tapped;
@@ -1268,6 +1271,9 @@ struct LIBZHL_INTERFACE ShipSystem
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
 	}
+
+	void CompleteSave(int fd);
+	void CompleteLoad(int fd);
 
 	virtual ~ShipSystem() {}
 	virtual void SetSelected(int selectedState) LIBZHL_PLACEHOLDER

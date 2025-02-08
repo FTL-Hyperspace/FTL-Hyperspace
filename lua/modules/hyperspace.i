@@ -18,6 +18,7 @@
 #include "Projectile_Extend.h"
 #include "ShipManager_Extend.h"
 #include "System_Extend.h"
+#include "SystemBox_Extend.h"
 #include "Room_Extend.h"
 #include "ToggleValue.h"
 #include "CommandConsole.h"
@@ -1856,6 +1857,31 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend::additionalPowerLoss;
 
+%nodefaultctor SystemBox;
+%rename("%s") SystemBox;
+%rename("%s") SystemBox::pSystem;
+%rename("%s") SystemBox::location;
+%rename("%s") SystemBox::bPlayerUI;
+
+%immutable SystemBox::extend;
+%rename("%s") SystemBox::extend;
+
+%extend SystemBox {
+    SystemBox_Extend* extend;
+}
+%wrapper %{
+    static SystemBox_Extend *SystemBox_extend_get(SystemBox* systemBox)
+    {
+        return Get_SystemBox_Extend(systemBox);
+    };
+%}
+
+%nodefaultctor SystemBox_Extend;
+%rename("%s") SystemBox_Extend;
+%immutable SystemBox_Extend::orig;
+%rename("%s") SystemBox_Extend::orig;
+%rename("%s") SystemBox_Extend::xOffset;
+
 %nodefaultctor ProjectileFactory;
 %nodefaultdtor ProjectileFactory;
 %rename("%s") ProjectileFactory;
@@ -2107,6 +2133,9 @@ playerVariableType playerVariables;
 %rename("%s") Room::rect;
 %immutable Room::iRoomId;
 %rename("%s") Room::iRoomId;
+
+%rename("%s") Room::highlightPrimitive;
+%rename("%s") Room::highlightPrimitive2;
 
 %immutable Room::extend;
 %rename("%s") Room::extend;
@@ -3995,6 +4024,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
     script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SystemBox", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
@@ -4019,6 +4049,7 @@ playerVariableType playerVariables;
 %include "Projectile_Extend.h"
 %include "ShipManager_Extend.h"
 %include "System_Extend.h"
+%include "SystemBox_Extend.h"
 %include "Room_Extend.h"
 %include "StatBoost.h"
 %include "ShipUnlocks.h"

@@ -3096,8 +3096,10 @@ struct SystemBox
   GL_Primitive *hackIcon;
   ShipSystem *pSystem;
   bool bShowPower;
+  uint8_t gap_ex_1[3];
   float powerAlpha;
   bool mouseHover;
+  uint8_t gap_ex_2[3];
   int activeTouch;
   Point touchInitialOffset;
   bool tapped;

@@ -1440,6 +1440,10 @@ Syntax ->
 		<level jumpHP="25" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="7" deathSpeed="3"/>
 		<level jumpHP="36" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="0" deathSpeed="3"/>
 	</system>
+	<!--
+	Add customSystem nodes for customSystems. Requires a systemBlueprint in blueprints.xml as well.
+	<customSystem id="newSystem"/>
+	-->
 </customSystems>
 
 <!-- Stat boosts
