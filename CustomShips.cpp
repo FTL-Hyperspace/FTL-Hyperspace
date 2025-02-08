@@ -1873,7 +1873,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         PowerManager::RestartAll();
 
         std::vector<int> oldSystems = bp->systems;
-        if (overrideSystem == 1)
+        if (overrideSystem < 2)
         {
             std::vector<int> newSystems;
             for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
@@ -1881,6 +1881,16 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
                 if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
                 {
                     newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
+                }
+            }
+            if (overrideSystem == 0)
+            {
+                for (int system : oldSystems)
+                {
+                    if (std::find(newSystems.begin(), newSystems.end(), system) != newSystems.end())
+                    {
+                        newSystems.push_back(system);
+                    }
                 }
             }
             bp->systems = newSystems;
@@ -1901,14 +1911,13 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         // Reactor
         PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
 
-        // Systems
+        // Set systems energy
         if (overrideSystem < 2)
         {
             for (auto system : save_systems)
             {
                 if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
                 {   
-                    playerShipManager->AddSystem(system.first);
                     ShipSystem* sys = playerShipManager->GetSystem(system.first);
                     if (sys) sys->powerState.second = system.second;
                 }
