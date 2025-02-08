@@ -1885,9 +1885,9 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
             }
             if (overrideSystem == 0)
             {
-                for (int system : oldSystems)
+                for (int system : bp->systems)
                 {
-                    if (std::find(newSystems.begin(), newSystems.end(), system) != newSystems.end())
+                    if (std::find(newSystems.begin(), newSystems.end(), system) == newSystems.end())
                     {
                         newSystems.push_back(system);
                     }
