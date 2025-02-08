@@ -1906,7 +1906,6 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         {
             for (auto system : save_systems)
             {
-                bool subsystem = (system.first > 5 && system.first < 9) || system.first == 12;
                 if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
                 {   
                     playerShipManager->AddSystem(system.first);
