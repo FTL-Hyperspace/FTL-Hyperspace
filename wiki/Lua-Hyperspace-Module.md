@@ -182,6 +182,8 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 - [`Projectile*[]`](#Projectile) `.projectiles`
    - **Read-only**
+- [`SpaceDrone*[]`](#SpaceDrone) `.drones`
+   - **Read-only**
 - [`GL_Texture`](#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
    - **Read-only**
