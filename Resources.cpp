@@ -38,6 +38,7 @@
 #include "CustomUpgrades.h"
 #include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
+#include "CustomHotkeys.h"
 
 
 #include <boost/lexical_cast.hpp>
@@ -854,6 +855,10 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
+            }
+            if (strcmp(node->name(), "customHotkeys") == 0)
+            {
+                CustomHotkeyManager::ParseCustomHotkeyNode(node);
             }
             if (strcmp(node->name(), "scripts") == 0)
             {
