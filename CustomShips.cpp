@@ -1887,6 +1887,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
         }
         
         playerShipManager->myBlueprint = *bp;
+        int save_max_health = bp->health;
         playerShipManager->SaveToBlueprint(true);
 
         playerShip->Restart();
@@ -1925,6 +1926,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
         playerShipManager->ModifyDroneCount(save_droneparts - playerShipManager->GetDroneCount());
 
         // Hull
+        playerShipManager->ship.hullIntegrity.second = save_max_health;
         playerShipManager->ship.hullIntegrity.first = (playerShipManager->ship.hullIntegrity.second * save_health_ratio)/100;
 
         // reset the blueprint to disallow porting equipment from regular restart
@@ -1933,6 +1935,28 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, bool overrideSystem)
         // Name
         playerShipManager->myBlueprint.name.isLiteral = true;
         playerShipManager->myBlueprint.name.data = save_name;
+
+        // Handle overflowing weapon/drone slots
+        if (playerShipManager->weaponSystem && playerShipManager->weaponSystem->weapons.size() > playerShipManager->weaponSystem->slot_count)
+        {
+            int overflow = playerShipManager->weaponSystem->weapons.size() - playerShipManager->weaponSystem->slot_count;
+            for (int i=0; i<overflow; ++i)
+            {
+                ProjectileFactory* weapon = playerShipManager->weaponSystem->weapons.back();
+                commandGui->equipScreen.AddWeapon(G_->GetBlueprints()->GetWeaponBlueprint(weapon->blueprint->name), true, true);
+                playerShipManager->weaponSystem->weapons.pop_back();
+            }
+        }
+        if (playerShipManager->droneSystem && playerShipManager->droneSystem->drones.size() > playerShipManager->droneSystem->slot_count)
+        {
+            int overflow = playerShipManager->droneSystem->drones.size() - playerShipManager->droneSystem->slot_count;
+            for (int i=0; i<overflow; ++i)
+            {
+                Drone* drone = playerShipManager->droneSystem->drones.back();
+                commandGui->equipScreen.AddDrone(G_->GetBlueprints()->GetDroneBlueprint(drone->blueprint->name), true, true);
+                playerShipManager->droneSystem->drones.pop_back();
+            }
+        }
     }
     return ret;
 }
