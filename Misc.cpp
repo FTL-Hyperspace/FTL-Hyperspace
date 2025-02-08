@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <stack>
 #include "LuaLibScript.h"
 #include "InternalEvents.h"
 #include "RenderEvents.h"
@@ -552,6 +553,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
     types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
     types.pChoiceBox = SWIG_TypeQuery(this->m_Lua, "ChoiceBox *");
+    types.pLocation = SWIG_TypeQuery(this->m_Lua, "Location *");
     types.pLocationEvent = SWIG_TypeQuery(this->m_Lua, "LocationEvent *");
 
     types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
@@ -1067,6 +1069,70 @@ HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
     }
 
     return res;
+}
+
+static std::string g_customHazardText = "";
+HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (Misc.cpp)\n")
+    
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), loc, context->getLibScript()->types.pLocation, 0);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_BEACON_HAZARD, 1, 1) == 1 && lua_isstring(context->GetLua(), -1))
+    {
+        int originalEnv = loc->event->environment;
+        g_customHazardText = lua_tostring(context->GetLua(), -1);
+        loc->event->environment = 1;
+        std::string ret = super(loc);
+        loc->event->environment = originalEnv;
+        g_customHazardText = "";
+        lua_pop(context->GetLua(), 2);
+        return ret;
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 1);
+        return super(loc);
+    }
+}
+HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (Misc.cpp)\n")
+    return (!g_customHazardText.empty() && name == "map_asteroid_loc") ? g_customHazardText : super(name, lang);
+}
+HOOK_METHOD(StarMap, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (Misc.cpp)\n")
+    
+    auto context = Global::GetInstance()->getLuaContext();
+
+    std::stack<std::pair<int, int>> originalEnvs;
+    for (int i = 0; i < locations.size(); ++i)
+    {
+        Location *loc = locations[i];
+        
+        SWIG_NewPointerObj(context->GetLua(), loc, context->getLibScript()->types.pLocation, 0);
+        if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_BEACON_HAZARD, 1, 1) == 1)
+        {
+            originalEnvs.push({i, loc->event->environment});
+            loc->event->environment = 1;
+            lua_pop(context->GetLua(), 2);
+        }
+        else // No return from callback
+        {
+            lua_pop(context->GetLua(), 1);
+        }
+        
+    }
+
+    super();
+
+    while (!originalEnvs.empty())
+    {
+        locations[originalEnvs.top().first]->event->environment = originalEnvs.top().second;
+        originalEnvs.pop();
+    }
 }
 
 static GL_Color g_flashColor = GL_Color(0.f, 0.f, 0.f, 0.f);
