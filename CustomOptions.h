@@ -78,6 +78,8 @@ public:
     Setting<std::string> dismissSound;
 
     Setting<bool> targetableArtillery;
+    
+    Setting<bool> oxygenWithoutSystem;
 
     Setting<bool> droneSaveStations;
 

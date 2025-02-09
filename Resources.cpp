@@ -254,6 +254,18 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 customEventParser->EarlyParseCustomEventNode(node);
             }
 
+            //Map custom system ids before blueprints are loaded
+            if (strcmp(node->name(), "customSystems") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "customSystem") == 0)
+                    {
+                        CustomUserSystems::ParseSystemNode(child);
+                    }  
+                }
+            }
+
             // Perform custom text color registration before event parsing.
             if (strcmp(node->name(), "customChoiceColors") == 0)
             {
@@ -554,6 +566,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "oxygenWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)

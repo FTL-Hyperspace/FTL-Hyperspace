@@ -107,6 +107,8 @@ See data/names.xml and data/text-<langcode>.xml files in the vanilla data for re
 
 <dismissSound enabled="true" sound="airLoss"/>
 
+<oxygenWithoutSystem enabled="false"/> <!-- If enabled, the game will allow oxygen to function without a system -->
+
 <droneSelectHotkeys enabled="false"/> <!--If enabled, controllable crew drones will be selected when their hotkey is pressed.-->
 
 <droneSaveStations enabled="false"/> <!--If enabled, controllable crew drones will be able to save their current stations alongside the rest of the crew, and will return to these stations when requested.-->
@@ -1441,6 +1443,10 @@ Syntax ->
 		<level jumpHP="25" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="7" deathSpeed="3"/>
 		<level jumpHP="36" jumpHPPercent="0" cloneHPPercent="100" skillLossPercent="10" cloneSpeed="0" deathSpeed="3"/>
 	</system>
+	<!--
+	Add customSystem nodes for customSystems. Requires a systemBlueprint in blueprints.xml as well.
+	<customSystem id="newSystem"/>
+	-->
 </customSystems>
 
 <!-- Stat boosts
