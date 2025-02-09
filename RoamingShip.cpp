@@ -252,6 +252,7 @@ void RoamingShipsManager::MoveShips()
             ship->currentLocation = ship->targetLocation;
             ship->currentMoveTime = -1;
             ship->targetLocation = nullptr;
+            ship->exploding = false;
         }
         ship->currentMoveTime += 1;
     }
@@ -501,29 +502,37 @@ HOOK_METHOD(Ship, SetDestroyed, (bool animation, bool bossAnimation) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Ship::SetDestroyed -> Begin (RoamingShip.cpp)\n")
     RoamingShipsManager* roamingManager = RoamingShipsManager::GetInstance();
+    hs_log_file("GOING ONCE\n");
     for (const auto& shipId : roamingManager->activeRoamingShips)
     { 
         RoamingShip* ship = roamingManager->roamingShips[shipId];
-
-        if (loc == ship->currentLocation)
+        hs_log_file("FOR EACH SHIP\n");
+        if (MAP.currentLoc == ship->currentLocation && ship->exploding == false)
         {
-            if (ship->eventIndex < ship->eventsList.size() - 1)
+            if (ship->eventIndex < ship->eventsList.size() - 2)
             {
+                hs_log_file("INDEX IS LESS THAN SIZE, UPDATING INDEX\n");
                 ship->eventIndex++;
                 animation = true;
                 bossAnimation = true;
-                ship->currentMoveTime == ship->timeToMove
-                if (ship->currentLocation == ship->eventTargetLocation)
+                //ship->currentMoveTime = ship->timeToMove;
+                ship->exploding = true;
+                hs_log_file("BEFOREIF\n");
+                /*if (ship->eventTargetLocation != nullptr && ship->currentLocation == ship->eventTargetLocation)
                 {
-                    nextLocation = ship->currentLocation->connectedLocations[random32() % ship->currentLocation->connectedLocations.size()];
-                }
+                    Location* nextLocation = ship->currentLocation->connectedLocations[random32() % ship->currentLocation->connectedLocations.size()];
+                    ship->targetLocation = nextLocation; // Update the ship's current location
+                    hs_log_file("RUNNING AWAY\n");
+                }*/
             }
-            else if (ship->eventIndex == ship->eventsList.size())
+            else
             {
                 roamingManager->RemoveRoamingShip(shipId);
+                hs_log_file("IF PLAYER IS IN THE SAME LOCATION\n");
             }
         }
     }
+    hs_log_file("SUPER TIME\n");
     super(animation, bossAnimation);
 }
 

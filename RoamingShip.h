@@ -11,6 +11,8 @@ struct RoamingShip
         Player, // 3: Runs towards Player
         Aggressive, // 4: Smart targetting toward the player.
         Escape // 5: Flees toward the Exit beacon
+
+        // Scrapped movement ideas
         /*FleetRandom, // 6: Capable of only jumping between fleet beacons
         FleetPlayer, // 7: Targets the Player when in the fleet
         FleetAggressive,*/ // 8: Smart targetting toward the player when in the fleet
@@ -35,6 +37,8 @@ struct RoamingShip
 
     int missingHP = 0;
     int missingCrew = 0; // we'll need a more precise way to handle crew
+
+    bool exploding = false; //method for working around the fact SetDestroyed loops
 };
 
 struct RoamingShipsManager
