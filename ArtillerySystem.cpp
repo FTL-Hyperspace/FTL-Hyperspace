@@ -11,17 +11,19 @@ HOOK_METHOD(ArtillerySystem, Jump, () -> void)
     projectileFactory->ClearAiming();
     projectileFactory->ClearProjectiles();
 }
-static Point baseOffset(22, -5);
+
+static const Point baseOffset(22, -5);
 HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ArtilleryBox::constructor -> Begin (ArtillerySystem.cpp)\n")
     super(pos, sys);
 
-    SB_EX(this)->artilleryButton.OnInit("systemUI/artilleryButton", location);
-    SB_EX(this)->artilleryButton.hitbox.w = 17;
-    SB_EX(this)->artilleryButton.hitbox.h = 19;
-    SB_EX(this)->isArtillery = true;
-    SB_EX(this)->offset = baseOffset;
+    SystemBox_Extend* extend = SB_EX(this);
+    extend->artilleryButton.OnInit("systemUI/artilleryButton", location);
+    extend->artilleryButton.hitbox.w = 17;
+    extend->artilleryButton.hitbox.h = 19;
+    extend->isArtillery = true;
+    extend->offset = baseOffset;
 }
 
 HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
@@ -45,7 +47,6 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
             TextString tooltip = artSystem->projectileFactory->blueprint->desc.tooltip; 
             G_->GetMouseControl()->SetTooltip(tooltip.GetText());
         }
-
     }
 }
 
@@ -78,6 +79,7 @@ HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
     }
     return ret;
 }
+
 void ArtillerySystem::OnLoop_HS_ManualTarget()
 {
     ShipSystem::OnLoop();
@@ -101,7 +103,7 @@ void ArtillerySystem::OnLoop_HS_ManualTarget()
     }
     */
 }
-HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9999, () -> void)
+HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtillerySystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
     if (_shipObj.iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || _shipObj.HasAugmentation("ARTILLERY_ORDER")))
