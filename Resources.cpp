@@ -596,6 +596,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "targetableArtillery") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
             if (strcmp(node->name(), "cloakRenderFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
