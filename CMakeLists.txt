@@ -204,6 +204,7 @@ target_sources(
     NeutralTeleporterFix.cpp
     OverclockerSystem.cpp
     OverclockerSystem.h
+    OxygenWithoutSystem.cpp
     PALMemoryProtection.h
     ProjectileVTable.cpp
     Projectile_Extend.cpp
@@ -245,6 +246,8 @@ target_sources(
     SystemDescriptionFixes.cpp
     System_Extend.cpp
     System_Extend.h
+    SystemBox_Extend.cpp
+    SystemBox_Extend.h
     Systems.h
     TemporalBoxVTable.cpp
     TemporalSystem.cpp

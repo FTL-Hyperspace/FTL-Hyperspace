@@ -77,6 +77,8 @@ public:
 
     Setting<std::string> dismissSound;
 
+    Setting<bool> oxygenWithoutSystem;
+
     Setting<bool> droneSaveStations;
 
     Setting<bool> droneSelectHotkeys;

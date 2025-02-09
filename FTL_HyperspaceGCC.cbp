@@ -1184,6 +1184,9 @@
 		<Unit filename="OverclockerSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="OxygenWithoutSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
 		<Unit filename="PALMemoryProtection.h">
 			<Option virtualFolder="PAL/" />
 		</Unit>
@@ -1305,6 +1308,12 @@
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="System_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Systems.h">

@@ -18,6 +18,7 @@
 #include "Projectile_Extend.h"
 #include "ShipManager_Extend.h"
 #include "System_Extend.h"
+#include "SystemBox_Extend.h"
 #include "Room_Extend.h"
 #include "ToggleValue.h"
 #include "CommandConsole.h"
@@ -141,6 +142,7 @@ namespace std {
     // todo: add std::array
 
     %template(vector_int) vector<int>;
+    %template(vector_unsigned_int) vector<unsigned int>;
     %template(vector_float) vector<float>;
     %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
     %template(vector_ProjectileFactory) vector<ProjectileFactory*>;
@@ -156,6 +158,7 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
+    %template(vector_Animation) vector<Animation>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -183,6 +186,7 @@ namespace std {
     %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
+    %template(vector_TriggeredEventDefinition) vector<TriggeredEventDefinition>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_location) vector<Location*>;
@@ -705,6 +709,18 @@ playerVariableType playerVariables;
 %nodefaultdtor CustomEvent;
 %rename("%s") CustomEvent;
 %rename("%s") CustomEvent::unlockShip;
+%rename("%s") CustomEvent::triggeredEvents;
+%immutable CustomEvent::triggeredEvents;
+
+%nodefaultctor TriggeredEventDefinition;
+%nodefaultdtor TriggeredEventDefinition;
+%rename("%s") TriggeredEventDefinition;
+%rename("%s") TriggeredEventDefinition::defs;
+%immutable TriggeredEventDefinition::defs;
+%rename("%s") TriggeredEventDefinition::name;
+%immutable TriggeredEventDefinition::name;
+%rename("%s") TriggeredEventDefinition::event;
+%immutable TriggeredEventDefinition::event;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;
@@ -962,6 +978,8 @@ playerVariableType playerVariables;
 
 %rename("%s") SpaceManager::projectiles;
 %immutable SpaceManager::projectiles;
+%rename("%s") SpaceManager::drones;
+%immutable SpaceManager::drones;
 %rename("%s") SpaceManager::currentBack;
 %rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
 //%nodefaultctor SpaceManager::FleetShip;
@@ -1842,6 +1860,31 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend::additionalPowerLoss;
 
+%nodefaultctor SystemBox;
+%rename("%s") SystemBox;
+%rename("%s") SystemBox::pSystem;
+%rename("%s") SystemBox::location;
+%rename("%s") SystemBox::bPlayerUI;
+
+%immutable SystemBox::extend;
+%rename("%s") SystemBox::extend;
+
+%extend SystemBox {
+    SystemBox_Extend* extend;
+}
+%wrapper %{
+    static SystemBox_Extend *SystemBox_extend_get(SystemBox* systemBox)
+    {
+        return Get_SystemBox_Extend(systemBox);
+    };
+%}
+
+%nodefaultctor SystemBox_Extend;
+%rename("%s") SystemBox_Extend;
+%immutable SystemBox_Extend::orig;
+%rename("%s") SystemBox_Extend::orig;
+%rename("%s") SystemBox_Extend::xOffset;
+
 %nodefaultctor ProjectileFactory;
 %nodefaultdtor ProjectileFactory;
 %rename("%s") ProjectileFactory;
@@ -2093,6 +2136,9 @@ playerVariableType playerVariables;
 %rename("%s") Room::rect;
 %immutable Room::iRoomId;
 %rename("%s") Room::iRoomId;
+
+%rename("%s") Room::highlightPrimitive;
+%rename("%s") Room::highlightPrimitive2;
 
 %immutable Room::extend;
 %rename("%s") Room::extend;
@@ -3981,6 +4027,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
     script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SystemBox", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
@@ -4006,6 +4053,7 @@ playerVariableType playerVariables;
 %include "Projectile_Extend.h"
 %include "ShipManager_Extend.h"
 %include "System_Extend.h"
+%include "SystemBox_Extend.h"
 %include "Room_Extend.h"
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
