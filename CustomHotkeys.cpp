@@ -180,7 +180,7 @@ SDLKey CustomHotkeyManager::StringToKey(const std::string& keyName)
     else if (keyName == "x") return SDLK_x;
     else if (keyName == "y") return SDLK_y;
     else if (keyName == "z") return SDLK_z;
-    else return SDLK_UNKNOWN;
+    else throw std::runtime_error("Invalid hotkey: " + keyName);
 }
 void CustomHotkeyManager::ParseCustomHotkeyNode(rapidxml::xml_node<char>* node)
 {
