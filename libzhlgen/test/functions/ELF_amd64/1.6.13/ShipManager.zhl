@@ -201,7 +201,7 @@ cleanup __amd64 void ShipManager::AddInitialCrew(ShipManager *this, std::vector<
 ".415641554154554889fd534883ec208b4708":
 cleanup __amd64 void ShipManager::Restart(ShipManager *this);
 ".4157415641554189d54154554889f5534889fb4883ec48":
-cleanup __amd64 ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool unk);
+cleanup __amd64 ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool overwrite);
 ".4156415541544c8da7800600005589d5534889fb4c89e74883ec50":
 cleanup __amd64 int ShipManager::OnInit(ShipManager *this, ShipBlueprint *bp, int shipLevel);
 ".415741564189f64155415455534889fb4c8dab800600004c8dbb880700004881ec18040000":

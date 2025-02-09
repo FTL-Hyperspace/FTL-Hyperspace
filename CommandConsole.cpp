@@ -5,6 +5,7 @@
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
+#include "CustomShips.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -307,7 +308,24 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "SWITCHALL" && command.length() > 9)
+    {
+        std::string shipName = boost::trim_copy(command.substr(10));
+        hs_log_file("Loading new ship and transfering from old ship %s\n", shipName.c_str());
+        G_->GetWorld()->ClearLocation();
+        G_->GetWorld()->SwitchShipTransfer(shipName, 1);
 
+        return true;
+    }
+    if(cmdName == "SWITCH" && command.length() > 6)
+    {
+        std::string shipName = boost::trim_copy(command.substr(7));
+        hs_log_file("Loading new ship %s\n", shipName.c_str());
+        G_->GetWorld()->ClearLocation();
+        G_->GetWorld()->SwitchShip(shipName);
+
+        return true;
+    }
 
     return false;
 }
