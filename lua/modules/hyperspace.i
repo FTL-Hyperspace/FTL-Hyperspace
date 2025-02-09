@@ -923,6 +923,9 @@ playerVariableType playerVariables;
 %rename("%s") WorldManager::starMap;
 %immutable WorldManager::starMap;
 
+%rename("%s") WorldManager::SwitchShip;
+%rename("%s") WorldManager::SwitchShipTransfer;
+
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable
 ////%rename("%s") WorldManager::currentEffects; // Vector of StatusEffect, maybe allow? Not sure if it should be writeable
@@ -4052,6 +4055,7 @@ playerVariableType playerVariables;
 %include "CustomScoreKeeper.h"
 %include "CustomShipGenerator.h"
 %include "CustomShipSelect.h"
+%include "CustomShips.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
 %include "ShipManager_Extend.h"

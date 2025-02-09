@@ -2386,7 +2386,7 @@ int g_maxAugPage = 0;
 
 HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CreateEquipmentBoxes -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CreateEquipmentBoxes -> Begin (CustomShipSelect.cpp)\n")
     // Rewrite to allow for custom augment slots
 
     for (auto box : vEquipmentBoxes)
@@ -2468,7 +2468,7 @@ bool g_shipBuilder_MouseMoving = false;
 
 HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseMove -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseMove -> Begin (CustomShipSelect.cpp)\n")
 
     g_shipBuilder_MouseMoving = true;
     super(x, y);
@@ -2483,7 +2483,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(EquipmentBox, MouseMove, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> EquipmentBox::MouseMove -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> EquipmentBox::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     // fix a bug that a hovering info of an augment in the wrong page is shown
 
     if (g_shipBuilder_MouseMoving && GetType(true) == 3 && !(g_currentAugPage * 3 <= slot && slot < (g_currentAugPage + 1) * 3))
@@ -2495,7 +2495,7 @@ HOOK_METHOD(EquipmentBox, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     super(x, y);
 
     if (g_maxAugPage > 0 && !shipSelect.bOpen)
@@ -2528,7 +2528,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
 {
-    LOG_HOOK("HOOK_STATIC -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomShipSelect.cpp)\n")
 
     std::string ret = super(name, lang);
 

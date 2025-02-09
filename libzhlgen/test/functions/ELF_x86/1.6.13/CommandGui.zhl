@@ -2,6 +2,8 @@
 cleanup __cdecl void CommandGui::RunCommand(CommandGui *this, std::string& command);
 "5557565383ec2cc70424a40400008b5c2440":
 cleanup __cdecl Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
+".5557565383ec1c8b5c24308db3":
+cleanup __cdecl void CommandGui::Restart(CommandGui *this);
 "5589e557565383ec3c8b5d188d55d8":
 cleanup __cdecl Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 "5589e557565383ec4c8b5d088b4510":

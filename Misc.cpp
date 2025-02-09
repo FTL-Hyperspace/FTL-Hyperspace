@@ -1729,7 +1729,7 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 //Translated so that rendering happens in the reference frame of the SystemBox.
 HOOK_METHOD_PRIORITY(SystemBox, OnRender, 100, (bool ignoreStatus) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SystemBox::OnRender -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::OnRender -> Begin (Misc.cpp)\n")
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSystemBox, 0);

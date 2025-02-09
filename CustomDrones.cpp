@@ -1294,7 +1294,7 @@ HOOK_METHOD(ShipManager, SaveCrewPositions, () -> void)
 }
 HOOK_METHOD(CrewMemberFactory, GetCrewPortraitList, (std::vector<CrewMember*>* vec, int teamId) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::GetCrewPortraitList -> Begin (CustomDrones.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::GetCrewPortraitList -> Begin (CustomDrones.cpp)\n")
     super(vec, teamId);
     if (forceIncludeDrones && CustomOptionsManager::GetInstance()->droneSaveStations.currentValue)
     {
