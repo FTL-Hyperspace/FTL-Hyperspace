@@ -1840,7 +1840,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
     /* overrideSystem
     - 0: keep systems & power from the old ship, adding them to the new ship systems
     - 1: keep systems & power from the old ship, replacing the new ship systems
-    - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone in slots will be lost
+    - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone in slots will be moved to cargo
     */
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
