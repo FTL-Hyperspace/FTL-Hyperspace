@@ -1888,7 +1888,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         std::string save_name = playerShipManager->myBlueprint.name.GetText();
 
         // Hull: save health (ratio since the new ship might have different max health)
-        int save_health_ratio = (playerShipManager->ship.hullIntegrity.first * 100) / playerShipManager->ship.hullIntegrity.second;
+        int save_health_ratio = (int)std::ceil((float)(playerShipManager->ship.hullIntegrity.first * 100) / (float)playerShipManager->ship.hullIntegrity.second);
 
         // Regular ship switch method
         ShipGraph::Restart();
