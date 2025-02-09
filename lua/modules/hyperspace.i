@@ -43,6 +43,7 @@
         //*ppSpaceDrone = dynamic_cast<DerivedType*>(*ppSpaceDrone);
         //Hyperspace currently only uses a single inheritence model for FTLGame classes
         //So the SpaceDrone instance should always be at the beginning of the derived instance
+        if (!ppSpaceDrone || !(*ppSpaceDrone)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[(*ppSpaceDrone)->type];
     }
 %}
@@ -54,6 +55,7 @@ DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 %{
     static swig_type_info* Projectile_dynamic_cast(Projectile** ppProjectile) 
     {     
+        if (!ppProjectile || !(*ppProjectile)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pProjectile[(*ppProjectile)->GetType()];
     }
 %}
