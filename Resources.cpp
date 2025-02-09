@@ -953,10 +953,14 @@ void Global::InitializeResources(ResourceControl *resources)
     }
 
     delete [] hyperspacetext;
+    Settings::LoadSettings(); //Second load after custom hotkey parsing
     //G_->lua = new LuaState;
 }
 
-
-
-
+//Block SaveSettings call in initial load so that saved values for custom hotkeys aren't overwritten
+HOOK_STATIC(Settings, SaveSettings, () -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> Settings::SaveSettings -> Begin (Resources.cpp)\n")
+    if (G_->AreResourcesInitialized()) super();
+}
 
