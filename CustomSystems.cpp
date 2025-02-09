@@ -657,7 +657,7 @@ void ShipSystem::CompleteLoad(int fd)
 //Custom System Saving
 HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomSystems.cpp)\n")
     super(file);
 
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
@@ -673,7 +673,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomSystems.cpp)\n")
     super(file);
 
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
@@ -1410,7 +1410,7 @@ std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0};
 
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CloneHealing -> Begin (CustomSystems.cpp)\n")
     
     g_jumpClone = true;
     super();      
@@ -1556,7 +1556,7 @@ HOOK_STATIC(CloneSystem, GetJumpHealth, (int level) -> int)
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
 {
-    LOG_HOOK("HOOK_STATIC -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
 
     std::string ret = super(name, lang);
 
@@ -1635,7 +1635,7 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
 // fix vanilla bug were replacing the clone bay by a medical one would keep the crew in the cloning process perpetually
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnRenderFloor -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomSystems.cpp)\n")
 
     super();
     if (cloneSystem == nullptr)

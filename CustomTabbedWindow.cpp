@@ -172,7 +172,7 @@ HOOK_METHOD(TabbedWindow, Close, () -> void)
 
 HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 1000, (unsigned int tab) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
 
     auto context = G_->getLuaContext();
     lua_pushinteger(context->GetLua(), currentTab);

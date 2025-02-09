@@ -561,7 +561,6 @@ HOOK_STATIC(CSurface, GL_DrawRect, (float x, float y, float w, float h, GL_Color
 
 HOOK_STATIC(freetype, easy_printCenter , (int fontSize, float x, float y, const std::string &text) -> Pointf)
 {
-    LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter -> Begin (CommandConsole.cpp)\n")
     if (printCenterToLeft)
     {
         freetype::easy_print(8, x, y, text);
