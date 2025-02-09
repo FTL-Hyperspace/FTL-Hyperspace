@@ -8,7 +8,8 @@ cleanup __cdecl void SystemBox::MouseMove(SystemBox *this, int x, int y);
 cleanup __cdecl bool SystemBox::MouseClick(SystemBox *this, bool shift);
 "5589e557565383ec3c8b45108b7d088d5de0":
 cleanup __cdecl void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
-
+"5653bb0100000083ec248b74????c706????????8d74??00":
+cleanup __cdecl void SystemBox::destructor(SystemBox *this);
 
 struct SystemBox
 {{

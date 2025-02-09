@@ -1310,6 +1310,12 @@
 		<Unit filename="System_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
