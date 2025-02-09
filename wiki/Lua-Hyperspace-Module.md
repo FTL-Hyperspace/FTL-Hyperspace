@@ -146,6 +146,16 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 - `bool :AddBoarders(BoardingEvent boardingEvent)`
 - `void :ClearLocation()`
+- `bool :SwitchShip(std::string shipName)`
+   - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
+   - This method cannot be run while another ship is/was present at the beacon, if you wish to do so then run `:ClearLocation()`
+- `bool :SwitchShipTransfer(std::string shipName, int overrideSystem)`
+   - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
+   - This method cannot be run while another ship is/was present at the beacon, if you wish to do so then run `:ClearLocation()`
+   - `overrideSystem`: 
+      - 0: keep systems & power from the old ship, adding them to the new ship systems
+      - 1: keep systems & power from the old ship, replacing the new ship systems
+      - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone will be moved to cargo
 	
 ### Fields
 
@@ -181,6 +191,8 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 ### Fields
 
 - [`Projectile*[]`](#Projectile) `.projectiles`
+   - **Read-only**
+- [`SpaceDrone*[]`](#SpaceDrone) `.drones`
    - **Read-only**
 - [`GL_Texture`](#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
@@ -559,7 +571,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - **Since 1.4.0**
 - LUA table `.table`
   - **Since 1.4.0**
-  - A modifiable table of arbitrary data which exists and long as the object it belongs to
+  - A modifiable table of arbitrary data which exists as long as the object it belongs to
 
 ## ShipManager_Extend
 Accessed via `ShipManager`'s `.extend` field
@@ -780,9 +792,11 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int` `.iRepairCount`
 - `int` `.iSystemType`
 - `bool` `.bNeedsManned`
+   - If the system requires manning to function.
 - `bool` `.bManned`
 - `int` `.iActiveManned`
 - `bool` `.bBoostable`
+   - If the system can be manned by a crewmember.
 - `std::pair<int, int>` `.powerState`
 - `int` `.iRequiredPower`
 - ~~`GL_Texture*` `.imageIcon`~~
@@ -803,6 +817,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
    - I don't know if this can be set to true per-frame to hold the repair over time progression counter, it might be able to freeze the graphic so it doesn't count down.
 - `int` `.originalPower`
 - `bool` `.bNeedsPower`
+   - True for regular systems, false for subsystems.
 - `int` `.iTempPowerCap`
 - `int` `.iTempPowerLoss`
 - `int` `.iTempDividePower`
@@ -827,6 +842,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int` `.iHackEffect`
 - `bool` `.bUnderAttack`
 - `bool` `.bLevelBoostable`
+   - If the system is given an additional level when manned by a crewmember (e.g. doors, sensors).
 - `bool` `.bTriggerIon`
 - ~~`std::vector<Animation>` `.damagingEffects`~~
 - `int` `.computerLevel`
@@ -834,7 +850,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
   - **Since 1.4.0**
 - LUA table `.table`
   - **Since 1.4.0**
-  - A modifiable table of arbitrary data which exists and long as the object it belongs to
+  - A modifiable table of arbitrary data which exists as long as the object it belongs to
 
 ## ShipSystem_Extend
 Accessed via `ShipSystem`'s `.extend` field
@@ -987,13 +1003,13 @@ Accessed via `ShipSystem`'s `.extend` field
 **Extends [ShipSystem](#ShipSystem)**
 
 ### Methods
-- `void :RemoveWeapon(int slot)`
+- `ProjectileFactory* :RemoveWeapon(int slot)`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
 - [`Pointf`](#Pointf) `.target`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weapons`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weaponsTrashList`
 - `float` `.shot_timer`
 - `int` `.shot_count`
 - `int` `.missile_count`
@@ -1057,6 +1073,37 @@ No additional items over base `ShipSystem`
 - `int` `.iStartingBatteryPower`
 - `bool[]` `.repowerList`
    - Vector starts at index 0 not 1.
+
+## SystemBox
+The class representing the UI of a ShipSystem, where power is controlled and buttons are pressed.
+
+### Methods
+No methods are exposed currently.
+
+### Fields
+- [`ShipSystem`](#shipsystem) `.pSystem`
+   - The ShipSystem managed by this SystemBox.
+- [`Point`](#point) `.location`
+   - The location of the SystemBox.
+- `bool` `.bPlayerUI`
+- [`SystemBox_Extend`](#systembox_extend) `.extend`
+   - **Read-only**
+   - The SystemBox_Extend associated with this SystemBox.
+- LUA table `.table`
+   - A modifiable table of arbitrary data which exists as long as the object it belongs to.
+
+## SystemBox_Extend
+The class holding additional SystemBox data members that are not a part of FTL's native SystemBox strucure.
+
+### Methods
+No methods are exposed currently.
+
+### Fields
+- [`SystemBox`](#systembox) `.orig`
+   - **Read-only**
+   - The SystemBox associated with this SystemBox_Extend.
+- `int` `.xOffset`
+   - The offset from this SystemBox to the next in the UI.
 
 ## Drone
 
@@ -1298,6 +1345,8 @@ No additional items over base `ShipSystem`
    - **Read-only**
 - `int` `.iRoomId`
    - **Read-only**
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive2`
 - [`Room_Extend`](#room_extend) `.extend`
    - **Read-only**
 
@@ -2527,6 +2576,14 @@ end)
 
 - `void :ModifyPursuit(int amount)` 
 - `Point :PointToGrid(float x, float y)`
+- `void :ForceWaitMessage(GL_Primitive waitMessage)`
+   - Disables the ability to jump and enables the wait/distress menu. Replaces the "NO FUEL" message shown on the sector map with a primitive of your own.
+   - NOTE: The primitive should be a local or global variable. If it is garbage collected while in use this will lead to a crash.
+   - If no argument is passed, then the jump menu is re-enabled and the "NO FUEL" message is restored.
+   
+[[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
+
+
 
 ### Fields
 
@@ -2621,6 +2678,14 @@ end)
 
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
+- [`TextString`](#TextString) `.description`
+- `int` `.cost`
+- `int` `.rarity`
+- `int` `.baseRarity`
+- `int` `.bp`
+- `bool` `.locked`
+- [`TextString`](#TextString) `.tooltip`
+- `std::string` `.tip`
 
 ## CrewDesc
 
@@ -3601,6 +3666,15 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 ### Fields
 - `std::string` `unlockShip`
+- `std::vector<unsigned int>` `triggeredEvents`
+   - **read-only**
+
+## TriggeredEventDefinition
+
+### Fields
+- `static` [`std::vector<TriggeredEventDefinition>`](#TriggeredEventDefinition) `defs`
+- `std::string` `name`
+- `std::string` `event`
 
 ## MainMenu
 

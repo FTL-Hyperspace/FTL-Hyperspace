@@ -331,7 +331,7 @@ HOOK_METHOD(CombatControl, constructor, () -> void)
 
 HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size, float y_size) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CachedPrimitive::SetPartial -> Begin (HullNumbers.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CachedImage::SetPartial -> Begin (HullNumbers.cpp)\n")
     
     ShipManager *enemyShip;
     if (g_overrideHullBar && y_size == 1.0 && (enemyShip = G_->GetShipManager(1)))

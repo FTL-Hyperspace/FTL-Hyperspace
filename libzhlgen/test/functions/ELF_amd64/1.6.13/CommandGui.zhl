@@ -22,6 +22,8 @@ cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string
 cleanup __amd64 void CommandGui::RunCommand(CommandGui *this, std::string& command);
 ".41554189f5415455534889fbbf580600004c8da3????0000":
 cleanup __amd64 Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
+"!.4155415455488daf68020000":
+cleanup __amd64 void CommandGui::Restart(CommandGui *this);
 ".415541545589f5534889fb4883ec38":
 cleanup __amd64 void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
 ".41564155415455534889fb4883ec40":

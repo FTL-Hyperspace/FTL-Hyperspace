@@ -33,6 +33,7 @@ public:
     int xPos = 240;
     const int hitboxWidth = 77; // 97
 
+    int enabled = false;
 private:
     std::vector<Tab> tabs;
 

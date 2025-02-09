@@ -2165,6 +2165,7 @@ struct Equipment
   DropBox overAugImage;
   DropBox sellBox;
   bool bSellingItem;
+  uint8_t gap_ex[6];
   ShipManager *shipManager;
   std__vector_14EquipmentBoxZ1 vEquipmentBoxes;
   std__vector_19ProjectileFactoryZ1 weaponsTrashList;
@@ -3093,6 +3094,7 @@ struct SystemBox
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
   int lastTimerStencilCount;
+  uint8_t gap_ex_1[4];
   GL_Primitive *brokenIcon;
   GL_Primitive *lockIcon;
   GL_Primitive *hackIcon;
@@ -3118,6 +3120,7 @@ struct SystemBox
   bool bPlayerUI;
   bool useLargeTapIcon;
   Point largeTapIconOffset;
+  uint8_t gap_ex_2[4];
   std__vector_3int tapButtonHeights;
   int tapButtonOffsetY;
   int cooldownOffsetY;
@@ -4428,7 +4431,7 @@ struct VTable_EquipmentBox
   void (__thiscall *SetPosition)(EquipmentBox *this, Point pos);
   void (__thiscall *OnRender)(EquipmentBox *this, bool empty);
   void (__thiscall *RenderLabels)(EquipmentBox *this, bool empty);
-  void (__thiscall *RenderIcon)(EquipmentBox *this, bool empty);
+  void (__thiscall *RenderIcon)(EquipmentBox *this);
   void (__thiscall *SetShipManager)(EquipmentBox *this, ShipManager *ship);
   void (__thiscall *MouseMove)(EquipmentBox *this, int x, int y);
   void (__thiscall *OnTouch)(EquipmentBox *this);
@@ -5351,7 +5354,11 @@ struct WeaponEquipBox
 struct ShipRepair;
 
 /* 240 */
-struct DroneBox;
+struct DroneBox
+{
+    ArmamentBox _base;
+    Drone* pDrone;
+};
 
 /* 254 */
 struct freetype;

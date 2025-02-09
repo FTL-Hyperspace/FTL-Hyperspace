@@ -8,7 +8,8 @@ __thiscall void SystemBox::MouseMove(SystemBox *this, int x, int y);
 __thiscall bool SystemBox::MouseClick(SystemBox *this, bool shift);
 "578d7c240883e4f0ff77fc5589e557565389ce8d5db883ec6c8b078945a48b470489459c8b414c8b10":
 __thiscall void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
-
+"5589e55756538d79348d591089ce":
+__thiscall void SystemBox::destructor(SystemBox* this);
 
 struct SystemBox
 {{

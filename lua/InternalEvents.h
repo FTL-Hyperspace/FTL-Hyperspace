@@ -17,6 +17,7 @@ struct InternalEvents
         ON_TICK,
         MAIN_MENU,
         DANGEROUS_ENVIRONMENT,
+        GET_BEACON_HAZARD,
         GET_HAZARD_FLASH,
         GET_RUN_SEED,
         ON_KEY_DOWN,
@@ -76,6 +77,14 @@ struct InternalEvents
         JUMP_ARRIVE,
         JUMP_LEAVE,
         ON_WAIT,
+
+        SYSTEM_BOX_MOUSE_MOVE,
+        SYSTEM_BOX_MOUSE_CLICK,
+        SYSTEM_BOX_KEY_DOWN,
+        GET_LEVEL_DESCRIPTION,
+        
+        //Constructor Events
+
         CONSTRUCT_CREWMEMBER,
         CONSTRUCT_SPACEDRONE,
         CONSTRUCT_PROJECTILE_FACTORY,
@@ -83,7 +92,9 @@ struct InternalEvents
         CONSTRUCT_ROOM,
         CONSTRUCT_SHIP_MANAGER,
         CONSTRUCT_SHIP_SYSTEM,
-        UNKNOWN_MAX
+        CONSTRUCT_SYSTEM_BOX,
+
+        UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     )
     struct EventInfo
     {
@@ -100,6 +111,7 @@ struct InternalEvents
             {"function on_tick()", 0, false}, 
             {"function main_menu()", 0, false}, 
             {"function dangerous_environment(bool danger) return danger", 1, false}, 
+            {"function get_beacon_hazard(Location& loc) return hazardText", 1, false}, 
             {"function get_hazard_flash(float alpha) return red, green, blue, alpha", 1, false}, 
             {"function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed", 2, false}, 
             {"function on_key_down(SDLKey key) return Chain", 1, false}, 
@@ -129,7 +141,7 @@ struct InternalEvents
             {"function projectile_update_post(Projectile& projectile, bool preempted) return Chain", 2, false},
             {"function weapon_statbox(WeaponBlueprint& bp, char* stats) return stats", 2, false},
             {"function weapon_descbox(WeaponBlueprint& bp, char* desc) return desc", 2, false},
-            {"function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine", 5, false},
+            {"function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine, char* thirdLine) return Chain, firstLine, secondLine, thirdLine", 6, false},
             {"function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain", 2, false},
             {"function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain", 4, false},
             {"function projectile_collision(Projectile& thisProjectile, Projectile& otherProjectile, Damage& damage, CollisionResponse& response) return Chain", 4, false},
@@ -159,13 +171,18 @@ struct InternalEvents
             {"function jump_arrive(ShipManager& ship)", 1, false},
             {"function jump_leave(ShipManager& ship)", 1, false},
             {"function on_wait(ShipManager& ship)", 1, false},
-            {"function construct_crewmember(CrewMember& crew) return Chain", 1, false},
-            {"function construct_spacedrone(SpaceDrone& drone) return Chain", 1, false},
-            {"function construct_projectile_factory(ProjectileFactory& weapon) return Chain", 1, false},
-            {"function construct_projectile(Projectile& projectile) return Chain", 1, false},
-            {"function construct_room(Room& room) return Chain", 1, false},
-            {"function construct_ship_manager(ShipManager& ship) return Chain", 1, false},
-            {"function construct_ship_system(ShipSystem& system) return Chain", 1, false},
+            {"function system_box_mouse_move(SystemBox& systemBox, int x, int y) return Chain", 3, false},
+            {"function system_box_mouse_click(SystemBox& systemBox, bool shift) return Chain", 2, false},
+            {"function system_box_key_down(SystemBox& systemBox, SDLKey key, bool shift) return Chain", 3, false},
+            {"function get_level_description(int systemId, int level, bool tooltip) return description_string", 3, false},
+            {"function construct_crewmember(CrewMember& crew)", 1, false},
+            {"function construct_spacedrone(SpaceDrone& drone)", 1, false},
+            {"function construct_projectile_factory(ProjectileFactory& weapon)", 1, false},
+            {"function construct_projectile(Projectile& projectile)", 1, false},
+            {"function construct_room(Room& room)", 1, false},
+            {"function construct_ship_manager(ShipManager& ship)", 1, false},
+            {"function construct_ship_system(ShipSystem& system)", 1, false},
+            {"function construct_system_box(SystemBox& systemBox)", 1, false},
             {"n/a", 0, false}, //Must always be last, used to check for bounds of enum input value
         };
         

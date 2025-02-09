@@ -5263,7 +5263,7 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD_PRIORITY(CrewMember, Clone, -9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
 
     // lua callback
     auto context = Global::GetInstance()->getLuaContext();
@@ -5566,10 +5566,10 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
     }
 }
 
-// insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are combating
+// insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are fighting
 HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::string)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::GetTooltip -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::GetTooltip -> Begin (CustomCrew.cpp)\n")
 
     // rewrite vanilla code
     std::string tooltip = "";
@@ -5584,7 +5584,7 @@ HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::strin
         }
         else
         {
-            if (!CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
+            if (CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
             {
                 // \n -> \n\n; insert newline between each crew desc.
                 tooltip += " \n\n" + crew->GetTooltip();
@@ -6951,6 +6951,7 @@ HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
 
 HOOK_METHOD(CrewMember, SetRoomPath, (int slotId, int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetRoomPath -> Begin (CustomCrew.cpp)\n")
     if (g_checkForPartitionPath && g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
     {
         slotId = g_partitionDestSlotId;

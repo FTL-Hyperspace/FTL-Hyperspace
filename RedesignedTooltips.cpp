@@ -95,6 +95,12 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
             descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage->accuracyMod)) + "\n";
         }
 
+        if (weaponDef->shotLimit >= 0)
+        {
+            currentText = tLib->GetText("shot_limit");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->shotLimit)) + "\n";
+        }
+
         if (bp->boostPower.count > 0)
         {
             std::string boostType = "";
@@ -948,6 +954,11 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
             currentText = tLib->GetText("accuracy_modifier");
             descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage->accuracyMod)) + "\n";
         }
+        if (weaponDef->shotLimit >= 0)
+        {
+            currentText = tLib->GetText("shot_limit");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->shotLimit)) + "\n";
+        }
         ret.assign(descText);
     }
 
@@ -1321,7 +1332,7 @@ bool ScrollingTooltip::OnScrollWheel(float direction)
 
 HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, bool staticPos) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
 
     int width = overrideTooltipWidth < 1 ? (tooltipTitle.empty() ? 275 : 350) : overrideTooltipWidth;

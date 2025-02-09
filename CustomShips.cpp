@@ -1,4 +1,5 @@
 #include "CustomAugments.h"
+#include "CustomOptions.h"
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
@@ -1529,12 +1530,30 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     lua_pop(context->GetLua(), 2);
 
     // Render floor
-    if (iShipId == 0)
+    ShipManager* shipManager = G_->GetShipManager(iShipId);
+    bool noCrew = shipManager->CountCrew(false) == 0;
+    bool sensorFunction = shipManager->DoSensorsProvide(1);
+    //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
+    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+    if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
+    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
+    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    {
+        //Bypass check for hiding room images
+        bContainsPlayerCrew = true;
+    }
+    super(showInterior, doorControlMode);
+    bContainsPlayerCrew = old_bContainsPlayerCrew;
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
@@ -1788,4 +1807,242 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
             explosion.OnRender(1.f, COLOR_WHITE, false);
         }
     }
+}
+
+// Ship Switching
+
+bool WorldManager::SwitchShip(std::string shipName)
+{
+    bool ret = false;
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
+    {
+        std::string fixname = bp->name.GetText();
+        ShipGraph::Restart();
+        PowerManager::RestartAll();
+        ShipManager* playerShipManager = G_->GetShipManager(0);
+        playerShipManager->myBlueprint = *bp;
+        playerShipManager->SaveToBlueprint(false);
+        playerShip->Restart();
+        commandGui->Restart();
+        G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
+        playerShipManager->myBlueprint.name.isLiteral = true;
+        playerShipManager->myBlueprint.name.data = fixname;
+
+        ret = true;
+    }
+    return ret;
+}
+
+bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
+{
+    if (overrideSystem < 0 || 2 < overrideSystem) return false; // invalid id
+    /* overrideSystem
+    - 0: keep systems & power from the old ship, adding them to the new ship systems
+    - 1: keep systems & power from the old ship, replacing the new ship systems
+    - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone in slots will be moved to cargo
+    */
+    bool ret = false;
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
+    {
+        ShipManager* playerShipManager = G_->GetShipManager(0);
+        // Here you save all the data you want to transfer to the new ship
+
+        // Systems: save ID, power
+        std::map<int, int> save_systems;
+        for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
+        {
+            save_systems[playerShipManager->vSystemList[i]->GetId()] = playerShipManager->vSystemList[i]->powerState.second;
+        }
+
+        // Reactor: save power
+        int save_reactor = PowerManager::GetPowerManager(0)->currentPower.second;
+
+        // Cargo: save ID
+        std::vector<std::string> save_cargo(commandGui->equipScreen.GetCargoHold());
+
+        // Save weapon/drone ID
+        bool saved_weapon = false;
+        std::vector<std::string> save_weapons;
+        bool saved_drone = false;
+        std::vector<std::string> save_drones;
+        if (playerShipManager->weaponSystem)
+        {
+            saved_weapon = true;
+            for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons) save_weapons.push_back(weapon->blueprint->name);
+        }
+        if (playerShipManager->droneSystem)
+        {
+            saved_drone = true;
+            for (Drone* drone : playerShipManager->droneSystem->drones) save_drones.push_back(drone->blueprint->name);
+        }
+
+        // Scrap/fuel/ammo/droneparts: save amount
+        int save_scrap = playerShipManager->currentScrap;
+        int save_fuel = playerShipManager->fuel_count;
+        int save_ammo = playerShipManager->GetMissileCount();
+        int save_droneparts = playerShipManager->GetDroneCount();
+
+        // Name: save name
+        std::string save_name = playerShipManager->myBlueprint.name.GetText();
+
+        // Hull: save health (ratio since the new ship might have different max health)
+        int save_health_ratio = (int)std::ceil((float)(playerShipManager->ship.hullIntegrity.first * 100) / (float)playerShipManager->ship.hullIntegrity.second);
+
+        // Regular ship switch method
+        ShipGraph::Restart();
+        PowerManager::RestartAll();
+
+        std::vector<int> oldSystems = bp->systems;
+        if (overrideSystem < 2)
+        {
+            std::vector<int> newSystems;
+            for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
+            {
+                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
+                {
+                    newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
+                }
+            }
+            if (overrideSystem == 0)
+            {
+                for (int system : bp->systems)
+                {
+                    if (std::find(newSystems.begin(), newSystems.end(), system) == newSystems.end())
+                    {
+                        newSystems.push_back(system);
+                    }
+                }
+            }
+            bp->systems = newSystems;
+        }
+        
+        playerShipManager->myBlueprint = *bp;
+        int save_max_health = bp->health;
+        playerShipManager->SaveToBlueprint(true);
+
+        playerShip->Restart();
+        bp->systems = oldSystems;
+        commandGui->Restart();
+        G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
+        ret = true;
+
+        // Here you load all the data you saved before
+
+        // Reactor
+        PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
+
+        // Set systems energy
+        if (overrideSystem < 2)
+        {
+            for (auto system : save_systems)
+            {
+                if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
+                {   
+                    ShipSystem* sys = playerShipManager->GetSystem(system.first);
+                    if (sys) sys->powerState.second = system.second;
+                }
+            }
+        }
+
+        // Cargo
+        for (std::string cargo : save_cargo)
+        {
+            commandGui->equipScreen.AddToCargo(cargo);
+        }
+
+        // Scrap/fuel/ammo/droneparts
+        playerShipManager->currentScrap = save_scrap;
+        playerShipManager->fuel_count = save_fuel;
+        playerShipManager->ModifyMissileCount(save_ammo - playerShipManager->GetMissileCount());
+        playerShipManager->ModifyDroneCount(save_droneparts - playerShipManager->GetDroneCount());
+
+        // Hull
+        playerShipManager->ship.hullIntegrity.second = save_max_health;
+        playerShipManager->ship.hullIntegrity.first = (playerShipManager->ship.hullIntegrity.second * save_health_ratio)/100;
+
+        // reset the blueprint to disallow porting equipment from regular restart
+        playerShipManager->myBlueprint = *G_->GetBlueprints()->GetShipBlueprint(playerShipManager->myBlueprint.blueprintName, -1);
+
+        // Name
+        playerShipManager->myBlueprint.name.isLiteral = true;
+        playerShipManager->myBlueprint.name.data = save_name;
+
+        // Handle overflowing weapon/drone slots
+        if (playerShipManager->weaponSystem && playerShipManager->weaponSystem->weapons.size() > playerShipManager->weaponSystem->slot_count)
+        {
+            int overflow = playerShipManager->weaponSystem->weapons.size() - playerShipManager->weaponSystem->slot_count;
+            for (int i=0; i<overflow; ++i)
+            {
+                playerShipManager->weaponSystem->weapons.pop_back();
+            }
+        }
+        if (playerShipManager->droneSystem && playerShipManager->droneSystem->drones.size() > playerShipManager->droneSystem->slot_count)
+        {
+            int overflow = playerShipManager->droneSystem->drones.size() - playerShipManager->droneSystem->slot_count;
+            for (int i=0; i<overflow; ++i)
+            {
+                playerShipManager->droneSystem->drones.pop_back();
+            }
+        }
+
+        if (playerShipManager->weaponSystem && saved_weapon)
+        {
+            std::vector<std::string> curr_weapons;
+            for (auto weapon : playerShipManager->weaponSystem->weapons)
+            {
+                curr_weapons.push_back(weapon->blueprint->name);
+            }
+
+            for (const auto& weapon : save_weapons)
+            {
+                auto it = std::find(curr_weapons.begin(), curr_weapons.end(), weapon);
+                if (it == curr_weapons.end())
+                {
+                    commandGui->equipScreen.AddToCargo(weapon);
+                }
+                else
+                {
+                    curr_weapons.erase(it);
+                }
+            }
+        }
+        else if (saved_weapon) {
+            for (std::string weapon : save_weapons)
+            {
+                commandGui->equipScreen.AddToCargo(weapon);
+            }
+        }
+
+        if (playerShipManager->droneSystem && saved_drone)
+        {
+            std::vector<std::string> curr_drones;
+            for (auto drone : playerShipManager->droneSystem->drones)
+            {
+                curr_drones.push_back(drone->blueprint->name);
+            }
+
+            for (const auto& drone : save_drones)
+            {
+                auto it = std::find(curr_drones.begin(), curr_drones.end(), drone);
+                if (it == curr_drones.end())
+                {
+                    commandGui->equipScreen.AddToCargo(drone);
+                }
+                else
+                {
+                    curr_drones.erase(it);
+                }
+            }
+        }
+        else if (saved_drone) {
+            for (std::string drone : save_drones)
+            {
+                commandGui->equipScreen.AddToCargo(drone);
+            }
+        }
+        
+    }
+    return ret;
 }

@@ -937,6 +937,9 @@
 		<Unit filename="CustomEquipment.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
+		<Unit filename="CustomEquipment.h">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
 		<Unit filename="CustomEvents.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
@@ -962,6 +965,9 @@
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CustomMap.cpp">
+			<Option virtualFolder="Core/Map/" />
+		</Unit>
+		<Unit filename="CustomMap.h">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
 		<Unit filename="CustomOptions.cpp">
@@ -1057,6 +1063,9 @@
 		<Unit filename="DiscordIntegration.h">
 			<Option virtualFolder="Content/Discord/" />
 		</Unit>
+		<Unit filename="Drones.h">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
@@ -1068,6 +1077,12 @@
 		</Unit>
 		<Unit filename="EnumClassHash.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="Equipment_Extend.cpp">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="Equipment_Extend.h">
+			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />
@@ -1167,6 +1182,9 @@
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="OverclockerSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="OxygenWithoutSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="PALMemoryProtection.h">
@@ -1290,6 +1308,12 @@
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="System_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Systems.h">
