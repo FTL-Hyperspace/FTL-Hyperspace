@@ -1836,6 +1836,12 @@ bool WorldManager::SwitchShip(std::string shipName)
 
 bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
 {
+    if (overrideSystem < 0 || 2 < overrideSystem) return false; // invalid id
+    /* overrideSystem
+    - 0: keep systems & power from the old ship, adding them to the new ship systems
+    - 1: keep systems & power from the old ship, replacing the new ship systems
+    - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone in slots will be lost
+    */
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
     if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
