@@ -1856,6 +1856,22 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         // Cargo: save ID
         std::vector<std::string> save_cargo(commandGui->equipScreen.GetCargoHold());
 
+        // Save weapon/drone ID
+        bool saved_weapon = false;
+        std::vector<std::string> save_weapons;
+        bool saved_drone = false;
+        std::vector<std::string> save_drones;
+        if (playerShipManager->weaponSystem)
+        {
+            saved_weapon = true;
+            for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons) save_weapons.push_back(weapon->blueprint->name);
+        }
+        if (playerShipManager->droneSystem)
+        {
+            saved_drone = true;
+            for (Drone* drone : playerShipManager->droneSystem->drones) save_drones.push_back(drone->blueprint->name);
+        }
+
         // Scrap/fuel/ammo/droneparts: save amount
         int save_scrap = playerShipManager->currentScrap;
         int save_fuel = playerShipManager->fuel_count;
@@ -1953,8 +1969,6 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
             int overflow = playerShipManager->weaponSystem->weapons.size() - playerShipManager->weaponSystem->slot_count;
             for (int i=0; i<overflow; ++i)
             {
-                ProjectileFactory* weapon = playerShipManager->weaponSystem->weapons.back();
-                commandGui->equipScreen.AddWeapon(G_->GetBlueprints()->GetWeaponBlueprint(weapon->blueprint->name), true, true);
                 playerShipManager->weaponSystem->weapons.pop_back();
             }
         }
@@ -1963,11 +1977,66 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
             int overflow = playerShipManager->droneSystem->drones.size() - playerShipManager->droneSystem->slot_count;
             for (int i=0; i<overflow; ++i)
             {
-                Drone* drone = playerShipManager->droneSystem->drones.back();
-                commandGui->equipScreen.AddDrone(G_->GetBlueprints()->GetDroneBlueprint(drone->blueprint->name), true, true);
                 playerShipManager->droneSystem->drones.pop_back();
             }
         }
+
+        if (playerShipManager->weaponSystem && saved_weapon)
+        {
+            std::vector<std::string> curr_weapons;
+            for (auto weapon : playerShipManager->weaponSystem->weapons)
+            {
+                curr_weapons.push_back(weapon->blueprint->name);
+            }
+
+            for (const auto& weapon : save_weapons)
+            {
+                auto it = std::find(curr_weapons.begin(), curr_weapons.end(), weapon);
+                if (it == curr_weapons.end())
+                {
+                    commandGui->equipScreen.AddToCargo(weapon);
+                }
+                else
+                {
+                    curr_weapons.erase(it);
+                }
+            }
+        }
+        else if (saved_weapon) {
+            for (std::string weapon : save_weapons)
+            {
+                commandGui->equipScreen.AddToCargo(weapon);
+            }
+        }
+
+        if (playerShipManager->droneSystem && saved_drone)
+        {
+            std::vector<std::string> curr_drones;
+            for (auto drone : playerShipManager->droneSystem->drones)
+            {
+                curr_drones.push_back(drone->blueprint->name);
+            }
+
+            for (const auto& drone : save_drones)
+            {
+                auto it = std::find(curr_drones.begin(), curr_drones.end(), drone);
+                if (it == curr_drones.end())
+                {
+                    commandGui->equipScreen.AddToCargo(drone);
+                }
+                else
+                {
+                    curr_drones.erase(it);
+                }
+            }
+        }
+        else if (saved_drone) {
+            for (std::string drone : save_drones)
+            {
+                commandGui->equipScreen.AddToCargo(drone);
+            }
+        }
+        
     }
     return ret;
 }
