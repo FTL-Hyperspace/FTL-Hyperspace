@@ -10,6 +10,12 @@ public:
 
         dismissSound.defaultValue = "airLoss";
         dismissSound.currentValue ="airLoss";
+
+        targetableArtillery_pos_x.defaultValue = 0;
+        targetableArtillery_pos_x.currentValue = 0;
+
+        targetableArtillery_pos_y.defaultValue = 0;
+        targetableArtillery_pos_y.currentValue = 0;
     }
 
     static CustomOptionsManager *GetInstance()

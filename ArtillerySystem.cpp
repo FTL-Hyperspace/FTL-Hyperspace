@@ -118,3 +118,19 @@ HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
         super();
     }
 }
+
+HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (CustomWeapons.cpp)\n")
+    
+    super(on, simple);
+
+    ShipManager* ship = G_->GetShipManager(0);
+    if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || ship->HasAugmentation("ARTILLERY_ORDER"))
+    {
+        for (auto arti : ship->artillerySystems)
+        {
+            arti->projectileFactory->SetAutoFire(autoFiring);
+        }
+    }
+}
