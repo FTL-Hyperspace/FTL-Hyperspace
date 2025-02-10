@@ -1898,11 +1898,20 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         if (overrideSystem < 2)
         {
             std::vector<int> newSystems;
+            bool addedArtillery = false;
             for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
             {
-                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
+                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0 && (playerShipManager->vSystemList[i]->GetId() != SYS_ARTILLERY || !addedArtillery))
                 {
                     newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
+                    if (playerShipManager->vSystemList[i]->GetId() == SYS_ARTILLERY) 
+                    {
+                        for (int i=0; i<bp->systemInfo[SYS_ARTILLERY].location.size() - 1; ++i)
+                        {
+                            newSystems.push_back(SYS_ARTILLERY);
+                        }
+                        addedArtillery = true;
+                    }
                 }
             }
             if (overrideSystem == 0)
@@ -1938,7 +1947,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         {
             for (auto system : save_systems)
             {
-                if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
+                if (playerShipManager->HasSystem(system.first))
                 {   
                     ShipSystem* sys = playerShipManager->GetSystem(system.first);
                     if (sys) sys->powerState.second = system.second;
