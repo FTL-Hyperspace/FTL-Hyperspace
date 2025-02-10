@@ -38,9 +38,12 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         extend->artilleryButton.bRenderSelected = armedWeapon == artSystem->projectileFactory;
         extend->offset.y = baseOffset.y - 8 * pSystem->healthState.second;
 
-        CSurface::GL_Translate(extend->offset.x, extend->offset.y);
+        int offset_x = CustomOptionsManager::GetInstance()->targetableArtillery_pos_x.currentValue;
+        int offset_y = CustomOptionsManager::GetInstance()->targetableArtillery_pos_y.currentValue;
+
+        CSurface::GL_Translate(extend->offset.x + offset_x, extend->offset.y + offset_y);
         extend->artilleryButton.OnRender();
-        CSurface::GL_Translate(-extend->offset.x, -extend->offset.y);
+        CSurface::GL_Translate(-extend->offset.x - offset_x, -extend->offset.y - offset_y);
         if (extend->artilleryButton.Hovering())
         {
             //TODO: Use GetOverrideTooltip (Not working)
@@ -142,5 +145,21 @@ HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
     else
     {
         super();
+    }
+}
+
+HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (CustomWeapons.cpp)\n")
+    
+    super(on, simple);
+
+    ShipManager* ship = G_->GetShipManager(0);
+    if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || ship->HasAugmentation("ARTILLERY_ORDER"))
+    {
+        for (auto arti : ship->artillerySystems)
+        {
+            arti->projectileFactory->SetAutoFire(autoFiring);
+        }
     }
 }

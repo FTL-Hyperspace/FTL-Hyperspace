@@ -9,6 +9,7 @@
 static bool importingShip = false;
 bool revisitingShip = false;
 bool bNoJump = false;
+bool bSwitchingTransfer = false;
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
@@ -200,13 +201,23 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::Restart -> Begin (CustomShips.cpp)\n")
 
-    int hyperspaceCrewCount = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName).crewList.size();
-    std::vector<CrewBlueprint>& customCrew = myBlueprint.customCrew;
-    std::vector<CrewBlueprint> removedCrew(customCrew.end() - hyperspaceCrewCount, customCrew.end());
-    customCrew.erase(customCrew.end() - hyperspaceCrewCount, customCrew.end());
-    super();
-    customCrew.insert(customCrew.end(), removedCrew.begin(), removedCrew.end());
-    SM_EX(this)->Initialize(true);
+    if (!bSwitchingTransfer)
+    {
+        int hyperspaceCrewCount = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName).crewList.size();
+        std::vector<CrewBlueprint>& customCrew = myBlueprint.customCrew;
+        std::vector<CrewBlueprint> removedCrew(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+        customCrew.erase(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+        super();
+        customCrew.insert(customCrew.end(), removedCrew.begin(), removedCrew.end());
+        SM_EX(this)->Initialize(true);
+    }
+    else
+    {
+        revisitingShip = true;
+        super();
+        SM_EX(this)->Initialize(true);
+        revisitingShip = false;
+    }
 }
 
 float CrewMemberFactory::GetCrewCapacityUsed()
@@ -1898,11 +1909,20 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         if (overrideSystem < 2)
         {
             std::vector<int> newSystems;
+            bool addedArtillery = false;
             for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
             {
-                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0)
+                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0 && (playerShipManager->vSystemList[i]->GetId() != SYS_ARTILLERY || !addedArtillery))
                 {
                     newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
+                    if (playerShipManager->vSystemList[i]->GetId() == SYS_ARTILLERY) 
+                    {
+                        for (int i=0; i<bp->systemInfo[SYS_ARTILLERY].location.size() - 1; ++i)
+                        {
+                            newSystems.push_back(SYS_ARTILLERY);
+                        }
+                        addedArtillery = true;
+                    }
                 }
             }
             if (overrideSystem == 0)
@@ -1921,8 +1941,9 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         playerShipManager->myBlueprint = *bp;
         int save_max_health = bp->health;
         playerShipManager->SaveToBlueprint(true);
-
+        bSwitchingTransfer = true;
         playerShip->Restart();
+        bSwitchingTransfer = false;
         bp->systems = oldSystems;
         commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
@@ -1938,7 +1959,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         {
             for (auto system : save_systems)
             {
-                if (!playerShipManager->HasSystem(system.first) && (playerShipManager->myBlueprint.systemInfo[system.first].location.size() > 0))
+                if (playerShipManager->HasSystem(system.first))
                 {   
                     ShipSystem* sys = playerShipManager->GetSystem(system.first);
                     if (sys) sys->powerState.second = system.second;

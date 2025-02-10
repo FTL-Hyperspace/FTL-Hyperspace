@@ -1886,6 +1886,7 @@ playerVariableType playerVariables;
 %immutable SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::xOffset;
+%rename("%s") SystemBox_Extend::offset;
 
 %nodefaultctor ProjectileFactory;
 %nodefaultdtor ProjectileFactory;

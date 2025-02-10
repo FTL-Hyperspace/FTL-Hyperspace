@@ -6472,6 +6472,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API static void __stdcall SaveProjectile(Projectile *p, int fd);
 	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SelectChargeGoal();
+	LIBZHL_API void SetAutoFire(bool autoFire);
 	LIBZHL_API void SetCooldownModifier(float mod);
 	LIBZHL_API void SetCurrentShip(Targetable *ship);
 	LIBZHL_API void SetHacked(int hacked);
