@@ -75,6 +75,8 @@ public:
 
     Setting<bool> insertNewlineForMultipleCrewTooltips;
 
+    Setting<bool> disableDefaultTutorial;
+
     Setting<std::string> dismissSound;
 
     Setting<bool> cloakRenderFix;

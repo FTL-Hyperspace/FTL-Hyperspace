@@ -7839,7 +7839,14 @@ struct TutorialManager;
 
 struct TutorialManager
 {
+	LIBZHL_API bool AllowJumping();
+	LIBZHL_API bool AllowUpgrades();
+	LIBZHL_API void LoadTutorial();
+	LIBZHL_API bool MouseClick();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit(ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
 	LIBZHL_API bool Running();
 	LIBZHL_API void constructor();
 	

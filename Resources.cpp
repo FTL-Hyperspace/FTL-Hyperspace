@@ -591,6 +591,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "disableDefaultTutorial") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableDefaultTutorial.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableDefaultTutorial.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

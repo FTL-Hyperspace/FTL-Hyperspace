@@ -23,6 +23,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "CustomTutorial.h"
 #include "TemporalSystem.h"
 #include "Misc.h"
 %}
@@ -598,11 +599,66 @@ playerVariableType playerVariables;
 %immutable MainMenu::shipBuilder;
 %rename("%s") MainMenu::shipBuilder;
 
+%nodefaultctor TabbedWindows;
+%nodefaultdtor TabbedWindows;
+%rename("%s") TabbedWindows;
+%rename("%s") TabbedWindows::bBlockClose;
+%rename("%s") TabbedWindows::bTutorialMode;
+%rename("%s") TabbedWindows::bWindowLock;
+
 %nodefaultctor TutorialManager;
 %nodefaultdtor TutorialManager;
 
 %rename("%s") TutorialManager;
+%rename("%s") TutorialManager::continueButton;
+%immutable TutorialManager::playerShip;
+%rename("%s") TutorialManager::playerShip;
+%immutable TutorialManager::gui;
+%rename("%s") TutorialManager::gui;
+// %rename("%s") TutorialManager::crewControl;
+%immutable TutorialManager::starMap;
+%rename("%s") TutorialManager::starMap;
+// %rename("%s") TutorialManager::upgradeScreen;
+%immutable TutorialManager::combatControl;
+%rename("%s") TutorialManager::combatControl;
+// %rename("%s") TutorialManager::systemControl;
+%immutable TutorialManager::shipInfo;
+%rename("%s") TutorialManager::shipInfo;
+%rename("%s") TutorialManager::bGamePaused;
 %rename("%s") TutorialManager::bQuitTutorial;
+%immutable TutorialManager::tracker;
+%rename("%s") TutorialManager::tracker;
+
+%rename("%s") TutorialManager::bAllowJumping;
+%rename("%s") TutorialManager::bAllowUpgrades;
+
+%extend TutorialManager {
+    bool bAllowJumping;
+    bool bAllowUpgrades;
+}
+%wrapper %{
+    static bool TutorialManager_bAllowJumping_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowJumping;
+    }
+    static void TutorialManager_bAllowJumping_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowJumping = val;
+    }
+
+    static bool TutorialManager_bAllowUpgrades_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowUpgrades;
+    }
+    static void TutorialManager_bAllowUpgrades_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowUpgrades = val;
+    }
+%}
+
+%nodefaultctor TutorialArrow;
+%rename("%s") TutorialArrow;
+%rename("%s") TutorialArrow::OnRender;
 
 %nodefaultctor ShipBuilder;
 %nodefaultdtor ShipBuilder;
@@ -845,6 +901,10 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bActivated;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
+
+%nodefaultctor TextButton;
+%nodefaultdtor TextButton;
+%rename("%s") TextButton;
 
 %nodefaultctor TextButton0;
 %nodefaultdtor TextButton0;
@@ -3996,5 +4056,6 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "CustomTutorial.h"
 %include "TemporalSystem.h"
 %include "Misc.h"
