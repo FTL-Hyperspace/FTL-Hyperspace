@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="ko">전투가 끝난 후 파괴되지 않은 강습 드론이 회수됩니다.</text>
 <text name="aug_MIND_ORDER_title" language="ko">신경 억제기</text>
 <text name="aug_MIND_ORDER_desc" language="ko">정신 지배한 적 선원을 직접 조종할 수 있습니다. 해당 선원이 지닌 모든 능력도 사용할 수 있습니다.</text>
+<text name="aug_SECTOR_SCANNER_title" language="ko">Sector Scanner</text><!-- placeholder -->
+<text name="aug_SECTOR_SCANNER_desc" language="ko">Allows you to see the exact type of a sector even if it is not adjacent to the current one.</text><!-- placeholder -->
+<text name="aug_ARTILLERY_ORDER_title" language="ko">Advanced Targeting</text><!-- placeholder -->
+<text name="aug_ARTILLERY_ORDER_desc" language="ko">Allows manual targeting of artillery systems.</text><!-- placeholder -->
 <text name="crew_ghost_desc" language="ko">떠나버린 선원의 유령.</text>
 <text name="crew_ghost_title" language="ko">고스트</text>
 <text name="crew_ghost_short" language="ko">Ghost</text>
@@ -271,11 +275,11 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_fr" language="ko">프랑스어</text>
 <text name="credits_hyperspace_loc_fr_names" language="ko">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="ko">이탈리아어</text>
-<text name="credits_hyperspace_loc_it_names" language="ko">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="ko">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="ko">독일어</text>
 <text name="credits_hyperspace_loc_de_names" language="ko">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="ko">스페인어</text>
-<text name="credits_hyperspace_loc_es_names" language="ko">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="ko">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="ko">폴란드어</text>
 <text name="credits_hyperspace_loc_pl_names" language="ko">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="ko">포르투갈어 (브라질)</text>
@@ -295,3 +299,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shields_7" language="ko">방어막 여덟 장</text>
 
 <text name="max_augments" language="ko">보조 장비는 최대 \1개까지 설치할 수 있습니다.</text>
+<text name="shot_limit" language="ko">Weapon shot limit: \1</text><!-- placeholder -->
+<text name="shots_remaining" language="ko">Shots Remaining: \1</text><!-- placeholder -->
+<text name="warning_shot_limit" language="ko">SHOT LIMIT REACHED!</text><!-- placeholder -->
