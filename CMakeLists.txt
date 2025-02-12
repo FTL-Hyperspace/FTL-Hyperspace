@@ -160,6 +160,8 @@ target_sources(
     CustomSystems.h
     CustomTextStyle.cpp
     CustomTextStyle.h
+    CustomTutorial.cpp
+    CustomTutorial.h
     CustomUpgrades.cpp
     CustomUpgrades.h
     CustomWeapons.cpp

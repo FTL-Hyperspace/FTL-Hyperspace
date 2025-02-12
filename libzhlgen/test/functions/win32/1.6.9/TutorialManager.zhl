@@ -4,6 +4,20 @@ __thiscall void TutorialManager::constructor(TutorialManager *this);
 __thiscall bool TutorialManager::Running(TutorialManager *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b470c8b378b4f048b5708c745b412000000":
 __thiscall void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+"57b87c0101008d7c240883e4f0ff77fc5589e5575653e845f62f008db9":
+__thiscall void TutorialManager::LoadTutorial(TutorialManager *this);
+"8039000f84????????8079":
+__thiscall bool TutorialManager::MouseClick(TutorialManager *this);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b078039":
+__thiscall void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY);
+"80390075??c38d76008dbc2700000000578d7c240883e4f0ff77fc5589e55756":
+__thiscall void TutorialManager::OnLoop(TutorialManager *this);
+"80390075??f3c3":
+__thiscall void TutorialManager::OnRender(TutorialManager *this);
+"57ba4d5f0000":
+__thiscall bool TutorialManager::AllowJumping(TutorialManager *this);
+"578d7c240883e4f0ff77fc5589e5575653be01000000":
+__thiscall bool TutorialManager::AllowUpgrades(TutorialManager *this);
 
 "!b9(???????\?)e8????????84c075??8b4b08":
 TutorialManager* Global_TutorialManager_Tutorial;

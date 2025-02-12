@@ -1042,6 +1042,12 @@
 		<Unit filename="CustomTextStyle.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="CustomTutorial.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomUpgrades.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>

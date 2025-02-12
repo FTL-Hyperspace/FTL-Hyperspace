@@ -25,6 +25,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "CustomTutorial.h"
 #include "TemporalSystem.h"
 #include "Misc.h"
 %}
@@ -264,6 +265,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
 %rename("CrewFactory") Global_CrewMemberFactory_Factory;
+%rename("Tutorial") Global_TutorialManager_Tutorial;
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
@@ -277,6 +279,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
 %immutable Global_CrewMemberFactory_Factory;
+%immutable Global_TutorialManager_Tutorial;
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
@@ -325,6 +328,7 @@ public:
     AnimationControl *GetAnimationControl();
     ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
+    TutorialManager *GetTutorialManager();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
     EventGenerator *GetEventGenerator();
@@ -602,6 +606,74 @@ playerVariableType playerVariables;
 %immutable MainMenu::shipBuilder;
 %rename("%s") MainMenu::shipBuilder;
 
+%nodefaultctor TabbedWindow;
+%nodefaultdtor TabbedWindow;
+%rename("%s") TabbedWindow;
+%rename("%s") TabbedWindow::bBlockClose;
+%rename("%s") TabbedWindow::bTutorialMode;
+%rename("%s") TabbedWindow::bWindowLock;
+
+%nodefaultctor TutorialManager;
+%nodefaultdtor TutorialManager;
+
+%rename("%s") TutorialManager;
+%rename("%s") TutorialManager::bRunning;
+%immutable TutorialManager::playerShip;
+%rename("%s") TutorialManager::playerShip;
+%immutable TutorialManager::gui;
+%rename("%s") TutorialManager::gui;
+// %rename("%s") TutorialManager::crewControl;
+%immutable TutorialManager::starMap;
+%rename("%s") TutorialManager::starMap;
+// %rename("%s") TutorialManager::upgradeScreen;
+%immutable TutorialManager::combatControl;
+%rename("%s") TutorialManager::combatControl;
+// %rename("%s") TutorialManager::systemControl;
+%immutable TutorialManager::shipInfo;
+%rename("%s") TutorialManager::shipInfo;
+%rename("%s") TutorialManager::bGamePaused;
+%rename("%s") TutorialManager::bQuitTutorial;
+%immutable TutorialManager::tracker;
+%rename("%s") TutorialManager::tracker;
+
+%rename("%s") TutorialManager::bAllowJumping;
+%rename("%s") TutorialManager::bAllowUpgrades;
+
+%extend TutorialManager {
+    bool bAllowJumping;
+    bool bAllowUpgrades;
+}
+%wrapper %{
+    static bool TutorialManager_bAllowJumping_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowJumping;
+    }
+    static void TutorialManager_bAllowJumping_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowJumping = val;
+    }
+
+    static bool TutorialManager_bAllowUpgrades_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowUpgrades;
+    }
+    static void TutorialManager_bAllowUpgrades_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowUpgrades = val;
+    }
+%}
+
+%nodefaultctor TutorialArrow;
+%rename("%s") TutorialArrow;
+%rename("%s") TutorialArrow::OnRender;
+%rename("%s") TutorialArrow::arrow;
+%rename("%s") TutorialArrow::arrow2;
+%rename("%s") TutorialArrow::position;
+%rename("%s") TutorialArrow::blitSize;
+%rename("%s") TutorialArrow::rotation;
+%rename("%s") TutorialArrow::arrow_color;
+%rename("%s") TutorialArrow::arrow2_color;
+
 %nodefaultctor ShipBuilder;
 %nodefaultdtor ShipBuilder;
 
@@ -856,6 +928,10 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
 
+%rename("%s") TextButton;
+%rename("%s") TextButton::OnInit;
+%rename("%s") TextButton::OnRender;
+
 %nodefaultctor TextButton0;
 %nodefaultdtor TextButton0;
 %rename("%s") TextButton0;
@@ -1053,6 +1129,7 @@ playerVariableType playerVariables;
 %rename("%s") StarMap::worldLevel;
 %rename("%s") StarMap::bChoosingNewSector;
 %rename("%s") StarMap::bSecretSector;
+%rename("%s") StarMap::bTutorialGenerated;
 
 
 /*
@@ -4061,5 +4138,6 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "CustomTutorial.h"
 %include "TemporalSystem.h"
 %include "Misc.h"

@@ -1,9 +1,23 @@
 "5383ec188b5c24208d4304c60300890424":
-cleanup __cdecl void TutorialManager::constructor(TutorialManager *this);
+cleanup __cdecl void TutorialManager::constructor(TutorialManager *this); // 080bd3e0
 ".8b4424040fb600":
-cleanup __cdecl bool TutorialManager::Running(TutorialManager *this);
-"5557565383ec4c8b5c24608d7424308b44247c8d7c2424":
-cleanup __cdecl void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+cleanup __cdecl bool TutorialManager::Running(TutorialManager *this); // 080bd590
+".565383ec348b7424408d4424":
+cleanup __cdecl bool TutorialManager::AllowJumping(TutorialManager *this); // 080be0b0
+".5756be010000005383ec30":
+cleanup __cdecl bool TutorialManager::AllowUpgrades(TutorialManager *this); // 080be140
+".5589e557565383ec5c8b450880380075??8d65":
+cleanup __cdecl void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY); // 080be250
+".5589e557565383ec5c8b45080fb60084c074":
+cleanup __cdecl bool TutorialManager::MouseClick(TutorialManager *this); // 080bf920
+".5589e557565383ec6c8b7d08803f":
+cleanup __cdecl void TutorialManager::OnLoop(TutorialManager *this); // 080bfbf0
+".5589e557565381ec4c010100":
+cleanup __cdecl void TutorialManager::LoadTutorial(TutorialManager *this); // 080c0240
+".5557565383ec4c8b5c24608d7424308b44247c8d7c2424":
+cleanup __cdecl void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk); // 080c1780
+".5589e557565381ecac0000008b45088038":
+cleanup __cdecl void TutorialManager::OnRender(TutorialManager *this); // 080c1cf0
 
 "!c70424(???????\?)e8????????84c075??8383c800000001":
 TutorialManager* Global_TutorialManager_Tutorial;
