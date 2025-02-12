@@ -2408,7 +2408,7 @@ bool CrewMember_Extend::IsInvulnerable()
     // Determine if this crewmember has any temporary effect that makes them invulnerable
     for (ActivatedPower *power : crewPowers)
     {
-        if (power->temporaryPowerActive && power->def->tempPower.invulnerable)
+        if (power && power->temporaryPowerActive && power->def->tempPower.invulnerable)
         {
             return true;
         }

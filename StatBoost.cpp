@@ -1806,7 +1806,7 @@ int CrewMember_Extend::CalculateMaxHealth(const CrewDefinition* def)
     _destination = def->_statName; \
     for (ActivatedPower *power : crewPowers) \
     { \
-        if (power->temporaryPowerActive && power->def->tempPower._statName.enabled) \
+        if (power && power->temporaryPowerActive && power->def->tempPower._statName.enabled) \
         { \
             _destination = power->def->tempPower._statName.value; \
             break; \
