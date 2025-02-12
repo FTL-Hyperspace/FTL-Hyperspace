@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="fr">Les drones d'abordage intact sont retournés à votre vaisseau.</text>
 <text name="aug_MIND_ORDER_title" language="fr">Laisse Neurale</text>
 <text name="aug_MIND_ORDER_desc" language="fr">Permet le contrôle direct des membres d'équipages ennemis contrôlés mentalement. Vous permet aussi de prendre contrôle de tout les effets appliqués à ce membre.</text>
+<text name="aug_SECTOR_SCANNER_title" language="fr">Scanneur de Secteur</text>
+<text name="aug_SECTOR_SCANNER_desc" language="fr">Vous permet de voir le nom des secteurs sur la carte sans avoir à être sur un secteur adjacent.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="fr">Viseur Avancé</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="fr">Permet la visée manuelle des artilleries.</text>
 <text name="crew_ghost_desc" language="fr">Fantome d'un défun.</text>
 <text name="crew_ghost_title" language="fr">Fantome</text>
 <text name="crew_ghost_short" language="fr">Fantome</text>
@@ -26,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="fr">
-  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="fr">
   <mod:setValue>Chance d'Incendie : \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -273,11 +277,11 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_fr" language="fr">Français</text>
 <text name="credits_hyperspace_loc_fr_names" language="fr">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="fr">Italien</text>
-<text name="credits_hyperspace_loc_it_names" language="fr">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="fr">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="fr">Allemand</text>
 <text name="credits_hyperspace_loc_de_names" language="fr">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="fr">Espagnol</text>
-<text name="credits_hyperspace_loc_es_names" language="fr">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="fr">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="fr">Polonais</text>
 <text name="credits_hyperspace_loc_pl_names" language="fr">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="fr">Portugais (Brazil)</text>
@@ -288,8 +292,8 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names" language="fr">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="fr">Japonais</text>
 <text name="credits_hyperspace_loc_ja_names" language="fr">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="fr">Coréen</text>
-<text name="credits_hyperspace_loc_kor_names" language="fr">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="fr">Coréen</text>
+<text name="credits_hyperspace_loc_ko_names" language="fr">nedsociety, H2O</text>
 
 <text name="shields_4" language="fr">Cinq barrières de boucliers</text>
 <text name="shields_5" language="fr">Six barrières de boucliers</text>
@@ -297,3 +301,6 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="shields_7" language="fr">Huit barrières de boucliers</text>
 
 <text name="max_augments" language="fr">Votre vaisseau ne peut pas avoir plus de \1 améliorations.</text>
+<text name="shot_limit" language="fr">Limite de Salves : \1</text>
+<text name="shots_remaining" language="fr">Salves Restantes : \1</text>
+<text name="warning_shot_limit" language="fr">LIMITE DE SALVES ATTEINTES !</text>

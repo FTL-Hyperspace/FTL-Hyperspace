@@ -10,6 +10,12 @@ public:
 
         dismissSound.defaultValue = "airLoss";
         dismissSound.currentValue ="airLoss";
+
+        targetableArtillery_pos_x.defaultValue = 0;
+        targetableArtillery_pos_x.currentValue = 0;
+
+        targetableArtillery_pos_y.defaultValue = 0;
+        targetableArtillery_pos_y.currentValue = 0;
     }
 
     static CustomOptionsManager *GetInstance()
@@ -78,6 +84,18 @@ public:
     Setting<bool> disableDefaultTutorial;
 
     Setting<std::string> dismissSound;
+
+    Setting<bool> targetableArtillery;
+
+    Setting<int> targetableArtillery_pos_x;
+
+    Setting<int> targetableArtillery_pos_y;
+    
+    Setting<bool> oxygenWithoutSystem;
+
+    Setting<bool> droneSaveStations;
+
+    Setting<bool> droneSelectHotkeys;
 
     Setting<bool> cloakRenderFix;
     

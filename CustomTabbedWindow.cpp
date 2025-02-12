@@ -10,7 +10,6 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
     {
         Tab newTab;
 
-        newTab.button = new Button();
         newTab.butPos = Point(xPos, -7);
         xPos += hitboxWidth;
         
@@ -30,20 +29,15 @@ void CustomTabbedWindow::ParseWindowNode(rapidxml::xml_node<char>* node)
     altEquipmentBox = G_->GetResources()->GetImageId("upgradeUI/Equipment/equipment_main_2.png");
 }
 
-void CustomTabbedWindow::InitialiseButton(CustomTabbedWindow::Tab tab) // This may seem uneccessary but restarting the game increment the position of every tab button, so this is to avoid that
+void CustomTabbedWindow::InitialiseButton(CustomTabbedWindow::Tab &tab, Button *newButton) // This may seem uneccessary but restarting the game increment the position of every tab button, so this is to avoid that
 {
-    tab.button->OnInit("upgradeUI/Equipment/tabButtons/right_end", tab.butPos);
-    Globals::Rect rect = Globals::Rect();
-    rect.x = tab.butPos.x + 25;
-    rect.y = 0;
-    rect.w = 75;
-    rect.h = 38;
-    tab.button->hitbox = rect;
+    newButton->OnInit("upgradeUI/Equipment/tabButtons/right_end", tab.butPos);
+    newButton->hitbox = Globals::Rect(tab.butPos.x + 25, 0, 75, 38);
 }
 
 void CustomTabbedWindow::PopulateWindow(TabbedWindow* window)
 {
-    for (auto tab : tabs)
+    for (auto &tab : tabs)
     {
         bool skip = false;
         for (auto name : window->names)
@@ -55,8 +49,9 @@ void CustomTabbedWindow::PopulateWindow(TabbedWindow* window)
         }
         if (skip)
             continue;
-        InitialiseButton(tab);
-        window->AddWindow(tab.name, tab.button, tab.window);
+        Button *newButton = new Button();
+        InitialiseButton(tab, newButton);
+        window->AddWindow(tab.name, newButton, tab.window);
     }
 
     if (undoButton == nullptr) undoButton = new TextButton();
@@ -83,7 +78,7 @@ HOOK_METHOD(TabbedWindow, OnRender, () -> void)
 
     auto context = G_->getLuaContext();
 
-    lua_pushinteger(context->GetLua(), currentTab);
+    lua_pushstring(context->GetLua(), names[currentTab].c_str());
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(position.x, position.y - 7);
@@ -144,7 +139,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
     if (shipScreens.doneButton.bActive && shipScreens.doneButton.bHover)
     {
         auto context = G_->getLuaContext();
-        lua_pushinteger(context->GetLua(), shipScreens.currentTab);
+        lua_pushstring(context->GetLua(), shipScreens.names[shipScreens.currentTab].c_str());
         context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
         lua_pop(context->GetLua(), 1);
     }
@@ -152,7 +147,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
     if (CustomTabbedWindow::GetInstance()->enabled && CustomTabbedWindow::GetInstance()->undoButton->bActive && CustomTabbedWindow::GetInstance()->undoButton->bHover)
     {
         auto context = G_->getLuaContext();
-        lua_pushinteger(context->GetLua(), shipScreens.currentTab);
+        lua_pushstring(context->GetLua(), shipScreens.names[shipScreens.currentTab].c_str());
         context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_UNDO, 1);
         lua_pop(context->GetLua(), 1);
     }
@@ -164,7 +159,7 @@ HOOK_METHOD(TabbedWindow, Close, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> TabbedWindow::Close -> Begin (CustomTabbedWindow.cpp)\n")
     auto context = G_->getLuaContext();
-    lua_pushinteger(context->GetLua(), currentTab);
+    lua_pushstring(context->GetLua(), names[currentTab].c_str());
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
     super();
@@ -172,10 +167,10 @@ HOOK_METHOD(TabbedWindow, Close, () -> void)
 
 HOOK_METHOD_PRIORITY(TabbedWindow, SetTab, 1000, (unsigned int tab) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> TabbedWindow::SetTab -> Begin (CustomTabbedWindow.cpp)\n")
 
     auto context = G_->getLuaContext();
-    lua_pushinteger(context->GetLua(), currentTab);
+    lua_pushstring(context->GetLua(), names[currentTab].c_str());
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::TABBED_WINDOW_CONFIRM, 1);
     lua_pop(context->GetLua(), 1);
 

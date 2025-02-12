@@ -10,6 +10,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="ja">破壊されてない突入ドローンを戦闘終了時に回収できる。</text>
 <text name="aug_MIND_ORDER_title" language="ja">神経の手綱</text>
 <text name="aug_MIND_ORDER_desc" language="ja">洗脳された敵クルーを直接操作できるようにする。また、そのクルーによる効果も自分のものにする。</text>
+<text name="aug_SECTOR_SCANNER_title" language="ja">セクター・スキャナー</text>
+<text name="aug_SECTOR_SCANNER_desc" language="ja">現在のセクターと隣接していないセクターの正確な名前を見ることができる。</text>
+<text name="aug_ARTILLERY_ORDER_title" language="ja">高度なターゲティング</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="ja">弩級砲の手動操作を可能にする。</text>
 <text name="crew_ghost_desc" language="ja">過去のクルーの亡霊。</text>
 <text name="crew_ghost_title" language="ja">ゴースト</text>
 <text name="crew_ghost_short" language="ja">ゴースト</text>
@@ -25,7 +29,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -234,7 +238,7 @@
 -->
 <text name="tooltip_crew_page_down" language="ja">クリックすると、クルーのページが下へ移動します。スクロールホイールを使うこともできます。</text>
 <text name="tooltip_crew_page_up" language="ja">クリックすると、クルーのページが上へ移動します。スクロールホイールを使うこともできます。</text>
-<text name="tooltip_jump_noJump" language="ja">敵艦はあなたのFTLドライブを無効化しました。もう逃げられない。生き残るためには敵艦を倒すしかない!</text>
+<text name="tooltip_jump_noJump" language="ja">敵艦はあなたのFTLドライブを無効化しました。もう逃げられない。生き残るためには敵艦を倒すしかない！</text>
 <text name="tooltip_temporal" language="ja">時間操作機：1区画の時間の経過速度を変えます。</text>
 <text name="tooltip_temporal_enemy" language="ja">時間操作機：敵はこれを使って、1つの区画の時間の経過速度を変えることができます。</text>
 <text name="tooltip_PDS_FLEET_ALL" language="ja">艦隊の対艦砲がこの宙域の全艦に発砲している。</text>
@@ -243,7 +247,7 @@
 
 <text name="transfer_save_dialog" language="ja">このMODをプレイするのが初めてか、まだ新しいセーブファイルを設定していないようですね！バニラの進行状況を引き継ぐか、新しいセーブファイルでプレイしますか？バニラの進行状況には一切影響しません。</text>
 
-<text name="warning_pds_all" language="ja">中立!</text>
+<text name="warning_pds_all" language="ja">中立！</text>
 
 <text name="crewlist_more" language="ja"> その他大勢</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="ja">と精密な艦載AI</text>
@@ -263,11 +267,11 @@
 <text name="credits_hyperspace_loc_fr" language="ja">フランス語</text>
 <text name="credits_hyperspace_loc_fr_names" language="ja">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="ja">イタリア語</text>
-<text name="credits_hyperspace_loc_it_names" language="ja">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="ja">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="ja">ドイツ語</text>
 <text name="credits_hyperspace_loc_de_names" language="ja">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="ja">スペイン語</text>
-<text name="credits_hyperspace_loc_es_names" language="ja">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="ja">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="ja">ポーランド語</text>
 <text name="credits_hyperspace_loc_pl_names" language="ja">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="ja">ポルトガル語(ブラジル)</text>
@@ -278,8 +282,8 @@
 <text name="credits_hyperspace_loc_zn_Hans_names" language="ja">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="ja">日本語</text>
 <text name="credits_hyperspace_loc_ja_names" language="ja">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="ja">韓国語</text>
-<text name="credits_hyperspace_loc_kor_names" language="ja">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="ja">韓国語</text>
+<text name="credits_hyperspace_loc_ko_names" language="ja">nedsociety, H2O</text>
 
 <text name="shields_4" language="ja">5層シールド</text>
 <text name="shields_5" language="ja">6層シールド</text>
@@ -287,3 +291,6 @@
 <text name="shields_7" language="ja">8層シールド</text>
 
 <text name="max_augments" language="ja">拡張パーツは\1個までしか持てない！</text>
+<text name="shot_limit" language="ja">兵器弾数制限: \1</text>
+<text name="shots_remaining" language="ja">残弾数: \1</text>
+<text name="warning_shot_limit" language="ja">弾切れ！</text>

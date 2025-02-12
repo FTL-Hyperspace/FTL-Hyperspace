@@ -1332,7 +1332,7 @@ bool ScrollingTooltip::OnScrollWheel(float direction)
 
 HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, bool staticPos) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::RenderTooltip -> Begin (RedesignedTooltips.cpp)\n")
     // Rewrite vanilla code + add some fix + scrolling tooltip
 
     int width = overrideTooltipWidth < 1 ? (tooltipTitle.empty() ? 275 : 350) : overrideTooltipWidth;

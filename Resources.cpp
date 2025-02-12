@@ -254,6 +254,18 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 customEventParser->EarlyParseCustomEventNode(node);
             }
 
+            //Map custom system ids before blueprints are loaded
+            if (strcmp(node->name(), "customSystems") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "customSystem") == 0)
+                    {
+                        CustomUserSystems::ParseSystemNode(child);
+                    }  
+                }
+            }
+
             // Perform custom text color registration before event parsing.
             if (strcmp(node->name(), "customChoiceColors") == 0)
             {
@@ -555,6 +567,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "oxygenWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
@@ -577,6 +596,27 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "targetableArtillery") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
+
+                if (node->first_attribute("x"))
+                {
+                    auto x = node->first_attribute()->value();
+                    customOptions->targetableArtillery_pos_x.defaultValue = boost::lexical_cast<int>(x);
+                    customOptions->targetableArtillery_pos_x.currentValue = boost::lexical_cast<int>(x);
+                }
+
+                if (node->first_attribute("y"))
+                {
+                    auto y = node->first_attribute("y")->value();
+                    customOptions->targetableArtillery_pos_y.defaultValue = boost::lexical_cast<int>(y);
+                    customOptions->targetableArtillery_pos_y.currentValue = boost::lexical_cast<int>(y);
+                }
+            }
+            
             if (strcmp(node->name(), "cloakRenderFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -672,6 +712,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "droneSelectHotkeys") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSelectHotkeys.defaultValue = enabled;
+                customOptions->droneSelectHotkeys.currentValue = enabled;
+            }
+
+            if (strcmp(node->name(), "droneSaveStations") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSaveStations.defaultValue = enabled;
+                customOptions->droneSaveStations.currentValue = enabled;
+            }
+            
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
