@@ -606,12 +606,12 @@ playerVariableType playerVariables;
 %immutable MainMenu::shipBuilder;
 %rename("%s") MainMenu::shipBuilder;
 
-%nodefaultctor TabbedWindows;
-%nodefaultdtor TabbedWindows;
-%rename("%s") TabbedWindows;
-%rename("%s") TabbedWindows::bBlockClose;
-%rename("%s") TabbedWindows::bTutorialMode;
-%rename("%s") TabbedWindows::bWindowLock;
+%nodefaultctor TabbedWindow;
+%nodefaultdtor TabbedWindow;
+%rename("%s") TabbedWindow;
+%rename("%s") TabbedWindow::bBlockClose;
+%rename("%s") TabbedWindow::bTutorialMode;
+%rename("%s") TabbedWindow::bWindowLock;
 
 %nodefaultctor TutorialManager;
 %nodefaultdtor TutorialManager;

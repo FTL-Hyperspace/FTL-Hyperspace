@@ -7792,20 +7792,6 @@ struct SystemStoreBox : StoreBox
 	int droneChoice;
 };
 
-struct TabbedWindows : FocusWindow
-{
-	std::vector<Button> buttons;
-	std::vector<FocusWindow> windows;
-	std::vector<std::string> names;
-	unsigned int currentTab;
-	int buttonType;
-	TextButton doneButton;
-	Point move;
-	bool bBlockClose;
-	bool bTutorialMode;
-	bool bWindowLock;
-};
-
 struct TeleportBox;
 
 struct TeleportBox : SystemBox
@@ -7874,8 +7860,6 @@ struct TouchTooltip
 {
 };
 
-struct TabbedWindows;
-
 struct TutorialManager;
 
 struct TutorialManager
@@ -7905,7 +7889,7 @@ struct TutorialManager
 	Upgrades *upgradeScreen;
 	CombatControl *combatControl;
 	SystemControl *systemControl;
-	TabbedWindows *shipInfo;
+	TabbedWindow *shipInfo;
 	bool bGamePaused;
 	bool bQuitTutorial;
 	AnimationTracker tracker;

@@ -4851,21 +4851,6 @@ struct std__vector_11FocusWindow
   FocusWindow *_end;
 };
 
-struct TabbedWindows
-{
-  FocusWindow _base;
-  std__vector_6Button buttons;
-  std__vector_11FocusWindow windows;
-  std__vector_11std__string names;
-  unsigned int currentTab;
-  int buttonType;
-  TextButton doneButton;
-  Point move;
-  bool bBlockClose;
-  bool bTutorialMode;
-  bool bWindowLock;
-};
-
 /* 156 */
 struct TutorialManager
 {
@@ -4883,7 +4868,7 @@ struct TutorialManager
   Upgrades *upgradeScreen;
   CombatControl *combatControl;
   SystemControl *systemControl;
-  TabbedWindows *shipInfo;
+  TabbedWindow *shipInfo;
   bool bGamePaused;
   bool bQuitTutorial;
   AnimationTracker tracker;
