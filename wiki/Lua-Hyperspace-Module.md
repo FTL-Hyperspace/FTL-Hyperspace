@@ -99,6 +99,8 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
    - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class, or the shortcut `Hyperspace.Score`.
 - `CrewMemberFactory :GetCrewFactory()`
    - Returns the main instance of [`CrewMemberFactory`](#CrewMemberFactory). Always use this to access any members and methods belonging to the [`CrewMemberFactory`](#CrewMemberFactory) class, or the shortcut `Hyperspace.CrewFactory`.
+- `TutorialManager :GetTutorialManager()`
+   - Returns the main instance of [`TutorialManager`](#TutorialManager). Always use this to access any members and methods belonging to the [`TutorialManager`](#TutorialManager) class, or the shortcut `Hyperspace.Tutorial`.
 - `MouseControl :GetMouseControl()`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
 - `TextLibrary :GetTextLibrary()`
@@ -2601,6 +2603,7 @@ end)
    - The no fuel variant of the `ship` icon.
 - `int` `.worldLevel`
    - **Read-only**
+- `bool` `.bTutorialGenerated`
 
 ## Location
 
@@ -3684,6 +3687,57 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 - [ShipBuilder](#ShipBuilder) `shipBuilder`
    - **read-only**
 
+## TabbedWindow
+
+**Extends [`FocusWindow`](#FocusWindow)**
+
+### Fields
+- `bool` `bBlockClose`
+- `bool` `bTutorialMode`
+   - If true, player cannot access anything other than Upgrades screen.
+- `bool` `bWindowLock`
+
+## TutorialManager
+
+### Fields
+- [`ShipManager`](#ShipManager) `.playerShip`
+   - **read-only**
+- [`CommandGui`](#CommandGui) `.gui`
+   - **read-only**
+- [`StarMap`](#StarMap) `.starMap`
+   - **Read-only**
+- [`CombatControl`](#CombatControl) `.combatControl`
+   - **Read-only**
+- [`TabbedWindow`](#TabbedWindow) `.shipInfo`
+   - **Read-only**
+- [`AnimationTracker`](#animationtracker) `.tracker`
+   - **Read-only**
+- `bool` `.bRunning`
+- `bool` `.bGamePaused`
+- `bool` `.bQuitTutorial`
+   - Setting this to true ends the tutorial.
+- `bool` `.bAllowJumping`
+   - If true, plyer can open the star map.
+- `bool` `.bAllowUpgrades`
+   - If true, player can open Upgrades screen.
+
+## TutorialArrow
+
+### Static methods
+- `Hyperspace.TutorialArrow(Pointf position, float rotation)` Constructor
+
+### Methods
+- `void` `:OnRender()`
+
+### Fields
+- [`GL_Texture`](#GL_Texture) `.arrow`
+- [`GL_Texture`](#GL_Texture) `.arrow2`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.blitSize`
+- `float` `.rotation`
+- [`GL_Color`](#GL_Color) `.arrow_color`
+- [`GL_Color`](#GL_Color) `.arrow2_color`
+
 ## ShipBuilder
 
 ### Fields
@@ -3697,6 +3751,14 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Methods
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+
+## TextButton
+
+**Extends [GenericButton](#GenericButton)**
+
+### Methods
+- `void` `:OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font);`
+- `void` `:OnRender()`
 
 ## TextButton0
 
