@@ -30,7 +30,7 @@ HOOK_METHOD_PRIORITY(TutorialManager, OnLoop, 1000, () -> void)
 
         float speed = G_->GetCFPS()->GetSpeedFactor() * 0.0625f + timerOpen;
         timerOpen = (speed > 1.0f) ? 0.0f : floorf(speed);
-        shipInfo->bTutorialMode = true;
+        // shipInfo->bTutorialMode = true;
 
         return;
     }

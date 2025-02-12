@@ -617,7 +617,7 @@ playerVariableType playerVariables;
 %nodefaultdtor TutorialManager;
 
 %rename("%s") TutorialManager;
-%rename("%s") TutorialManager::continueButton;
+%rename("%s") TutorialManager::bRunning;
 %immutable TutorialManager::playerShip;
 %rename("%s") TutorialManager::playerShip;
 %immutable TutorialManager::gui;
@@ -666,6 +666,13 @@ playerVariableType playerVariables;
 %nodefaultctor TutorialArrow;
 %rename("%s") TutorialArrow;
 %rename("%s") TutorialArrow::OnRender;
+%rename("%s") TutorialArrow::arrow;
+%rename("%s") TutorialArrow::arrow2;
+%rename("%s") TutorialArrow::position;
+%rename("%s") TutorialArrow::blitSize;
+%rename("%s") TutorialArrow::rotation;
+%rename("%s") TutorialArrow::arrow_color;
+%rename("%s") TutorialArrow::arrow2_color;
 
 %nodefaultctor ShipBuilder;
 %nodefaultdtor ShipBuilder;
@@ -921,9 +928,9 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
 
-%nodefaultctor TextButton;
-%nodefaultdtor TextButton;
 %rename("%s") TextButton;
+%rename("%s") TextButton::OnInit;
+%rename("%s") TextButton::OnRender;
 
 %nodefaultctor TextButton0;
 %nodefaultdtor TextButton0;
@@ -1122,6 +1129,7 @@ playerVariableType playerVariables;
 %rename("%s") StarMap::worldLevel;
 %rename("%s") StarMap::bChoosingNewSector;
 %rename("%s") StarMap::bSecretSector;
+%rename("%s") StarMap::bTutorialGenerated;
 
 
 /*
