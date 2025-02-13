@@ -1821,6 +1821,7 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 }
 
 // Ship Switching
+bool overrideTransfer = false;
 
 bool WorldManager::SwitchShip(std::string shipName)
 {
@@ -1828,21 +1829,39 @@ bool WorldManager::SwitchShip(std::string shipName)
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
     if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
+        G_->GetWorld()->ClearLocation();
         std::string fixname = bp->name.GetText();
         ShipGraph::Restart();
         PowerManager::RestartAll();
         ShipManager* playerShipManager = G_->GetShipManager(0);
         playerShipManager->myBlueprint = *bp;
-        playerShipManager->SaveToBlueprint(false);
+
+        overrideTransfer = true;
+        G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
+        G_->GetCApp()->menu.shipBuilder.GetShip();
+        overrideTransfer = false;
+
         playerShip->Restart();
+
         commandGui->Restart();
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
         playerShipManager->myBlueprint.name.data = fixname;
 
+        playerShip->OnLoop();
+
         ret = true;
     }
     return ret;
+}
+
+HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomShips.cpp)\n")
+    
+    if (overrideTransfer) overwrite = false;
+
+    return super(overwrite);
 }
 
 bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
@@ -1857,6 +1876,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
     if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
     {
+        G_->GetWorld()->ClearLocation();
         ShipManager* playerShipManager = G_->GetShipManager(0);
         // Here you save all the data you want to transfer to the new ship
 
@@ -1940,7 +1960,10 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         
         playerShipManager->myBlueprint = *bp;
         int save_max_health = bp->health;
-        playerShipManager->SaveToBlueprint(true);
+
+        G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
+        G_->GetCApp()->menu.shipBuilder.GetShip();
+
         bSwitchingTransfer = true;
         playerShip->Restart();
         bSwitchingTransfer = false;
@@ -2063,7 +2086,8 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
                 commandGui->equipScreen.AddToCargo(drone);
             }
         }
-        
+
+        playerShip->OnLoop();
     }
     return ret;
 }

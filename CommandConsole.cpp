@@ -312,7 +312,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     {
         std::string shipName = boost::trim_copy(command.substr(10));
         hs_log_file("Loading new ship and transfering from old ship %s\n", shipName.c_str());
-        G_->GetWorld()->ClearLocation();
         G_->GetWorld()->SwitchShipTransfer(shipName, 1);
 
         return true;
@@ -321,7 +320,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     {
         std::string shipName = boost::trim_copy(command.substr(7));
         hs_log_file("Loading new ship %s\n", shipName.c_str());
-        G_->GetWorld()->ClearLocation();
         G_->GetWorld()->SwitchShip(shipName);
 
         return true;
