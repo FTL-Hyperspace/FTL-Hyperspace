@@ -1827,9 +1827,9 @@ bool WorldManager::SwitchShip(std::string shipName)
 {
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName)
     {
-        G_->GetWorld()->ClearLocation();
+        G_->GetWorld()->ClearLocation(); // Maybe later we will find a way to keep the current location state for a switch
         std::string fixname = bp->name.GetText();
         ShipGraph::Restart();
         PowerManager::RestartAll();
@@ -1874,7 +1874,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
     */
     bool ret = false;
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
-    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName && !G_->GetShipManager(1))
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName)
     {
         G_->GetWorld()->ClearLocation();
         ShipManager* playerShipManager = G_->GetShipManager(0);
