@@ -601,20 +601,6 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
-
-                if (node->first_attribute("x"))
-                {
-                    auto x = node->first_attribute()->value();
-                    customOptions->targetableArtillery_pos_x.defaultValue = boost::lexical_cast<int>(x);
-                    customOptions->targetableArtillery_pos_x.currentValue = boost::lexical_cast<int>(x);
-                }
-
-                if (node->first_attribute("y"))
-                {
-                    auto y = node->first_attribute("y")->value();
-                    customOptions->targetableArtillery_pos_y.defaultValue = boost::lexical_cast<int>(y);
-                    customOptions->targetableArtillery_pos_y.currentValue = boost::lexical_cast<int>(y);
-                }
             }
             
             if (strcmp(node->name(), "cloakRenderFix") == 0)

@@ -321,10 +321,10 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
+HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomSystems.cpp)\n")
-    ShipBlueprint ret = super(unk);
+    ShipBlueprint ret = super(overwrite);
     if (this->systemKey[SYS_ARTILLERY] != -1) // Fix for saving multiple artillery blueprint
     {
         int numArtillery = this->artillerySystems.size();
@@ -341,11 +341,10 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
             {
                 ret.systems.push_back(SYS_ARTILLERY);
             }
-            if (unk)
+            if (overwrite)
             {
                 this->myBlueprint.systems = ret.systems;
             }
-            return ret;
         }
     }
     return ret;

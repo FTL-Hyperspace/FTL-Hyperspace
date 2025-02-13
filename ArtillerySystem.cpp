@@ -38,12 +38,9 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         extend->artilleryButton.bRenderSelected = armedWeapon == artSystem->projectileFactory;
         extend->offset.y = baseOffset.y - 8 * pSystem->healthState.second;
 
-        int offset_x = CustomOptionsManager::GetInstance()->targetableArtillery_pos_x.currentValue;
-        int offset_y = CustomOptionsManager::GetInstance()->targetableArtillery_pos_y.currentValue;
-
-        CSurface::GL_Translate(extend->offset.x + offset_x, extend->offset.y + offset_y);
+        CSurface::GL_Translate(extend->offset.x, extend->offset.y);
         extend->artilleryButton.OnRender();
-        CSurface::GL_Translate(-extend->offset.x - offset_x, -extend->offset.y - offset_y);
+        CSurface::GL_Translate(-extend->offset.x, -extend->offset.y);
         if (extend->artilleryButton.Hovering())
         {
             //TODO: Use GetOverrideTooltip (Not working)
