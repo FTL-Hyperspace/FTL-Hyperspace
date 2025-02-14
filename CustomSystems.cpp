@@ -356,6 +356,11 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
+
     sysBoxes.clear();
 
     SystemPower.x = 0;
@@ -530,6 +535,10 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
 
     sysBoxes.clear();
 
@@ -929,9 +938,9 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
     super(systemId, roomId, shipId, startingPower);
 }
 
-HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> int)
+HOOK_METHOD_PRIORITY(ShipSystem, RenderPowerBoxes, 9999, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxes -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::RenderPowerBoxes -> Begin (CustomSystems.cpp)\n")
 
     //return super(x, y, width, height, gap, heightMod, flash);
 
