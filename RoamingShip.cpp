@@ -242,9 +242,90 @@ void RoamingShipsManager::MoveShips()
             default:
                 break;
             }
+            bool locationOccupied = false;
+            for (const auto& otherShipId : activeRoamingShips)
+            {
+                if (otherShipId != shipId)
+                {
+                    RoamingShip* otherShip = roamingShips[otherShipId];
+                    if (otherShip->currentLocation == nextLocation || otherShip->targetLocation == nextLocation)
+                    {
+                        locationOccupied = true;
+                        break;
+                    }
+                }
+            }
 
-            ship->targetLocation = nextLocation;
-
+            if (!locationOccupied) // i'm like relatively sure that this should work for movement stuff, i mean it kinda works anyway since i havent seen anything wrong
+            {
+                ship->targetLocation = nextLocation;
+            }
+            else
+            {
+                if (ship->behavior == 1) // Random movement behavior
+                {
+                    // Try to find another random location
+                    std::vector<Location*> connectedLocations = ship->currentLocation->connectedLocations;
+                    std::random_shuffle(connectedLocations.begin(), connectedLocations.end());
+                    for (auto& location : connectedLocations)
+                    {
+                        locationOccupied = false;
+                        for (const auto& otherShipId : activeRoamingShips)
+                        {
+                            if (otherShipId != shipId)
+                            {
+                                RoamingShip* otherShip = roamingShips[otherShipId];
+                                if (otherShip->currentLocation == location || otherShip->targetLocation == location)
+                                {
+                                    locationOccupied = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!locationOccupied)
+                        {
+                            ship->targetLocation = location;
+                            break;
+                        }
+                    }
+                    // If no unoccupied location is found, do not move
+                    if (locationOccupied)
+                    {
+                        ship->targetLocation = nullptr;
+                    }
+                }
+                else // Behavior with a goal
+                {
+                    // Try to find an alternative path around the occupied location
+                    std::vector<Location*> path = G_->GetWorld()->starMap.Dijkstra(ship->currentLocation, ship->eventTargetLocation, true);
+                    for (size_t i = 1; i < path.size(); ++i)
+                    {
+                        locationOccupied = false;
+                        for (const auto& otherShipId : activeRoamingShips)
+                        {
+                            if (otherShipId != shipId)
+                            {
+                                RoamingShip* otherShip = roamingShips[otherShipId];
+                                if (otherShip->currentLocation == path[i] || otherShip->targetLocation == path[i])
+                                {
+                                    locationOccupied = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!locationOccupied)
+                        {
+                            ship->targetLocation = path[i];
+                            break;
+                        }
+                    }
+                    // If no unoccupied location is found, do not move
+                    if (locationOccupied)
+                    {
+                        ship->targetLocation = nullptr;
+                    }
+                }
+            }
         }
         else if (ship->timeToMove < ship->currentMoveTime && ship->targetLocation != nullptr)
         {
