@@ -73,6 +73,7 @@ target_sources(
     AlternateOxygenRendering.h
     ArtilleryBarFix.cpp
     ArtillerySystem.cpp
+    ArtillerySystem.h
     AugmentValues.cpp
     Augments.cpp
     Balance.cpp

@@ -38,7 +38,7 @@
 #include "CustomUpgrades.h"
 #include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
-
+#include "ArtillerySystem.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -598,9 +598,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
             if (strcmp(node->name(), "targetableArtillery") == 0)
             {
-                auto enabled = node->first_attribute("enabled")->value();
-                customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
+                ParseTargetableArtilleryNode(node);
             }
             
             if (strcmp(node->name(), "cloakRenderFix") == 0)
