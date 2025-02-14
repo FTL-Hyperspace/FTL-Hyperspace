@@ -86,6 +86,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.15.0 | SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain` chain, `uint` armamentSlot | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
 | 1.15.0 | SELECT_ARMAMENT_POST | `uint armamentSlot` | `Defines.Chain` chain | Triggered after selecting a weapon to fire |
 | 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
+| 1.17.0 | WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain` chain, `float` cooldownMod | Check and possibly alter the cooldown modifier being applied to a weapon. |
 | 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
 | 1.11.0 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
 | 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine`, `string thirdLine` | `Defines.Chain` chain, `string firstLine`, `string secondLine`, `string thirdLine` | Change the text displayed for the player weapon cooldown timers |
