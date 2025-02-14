@@ -1439,7 +1439,7 @@ HOOK_METHOD(ProjectileFactory, SetCooldownModifier, (float mod) -> void)
     lua_pushnumber(context->GetLua(), mod);
     lua_pushboolean(context->GetLua(), inArtilleryLoop);
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_COOLDOWN_MOD, 3, 1);
-    if (lua_isnumber(context->GetLua(), -1)) mod = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    if (lua_isnumber(context->GetLua(), -1)) mod = static_cast<float>(lua_tonumber(context->GetLua(), -1));
     lua_pop(context->GetLua(), 3);
     
     if (!preempt) super(mod);
