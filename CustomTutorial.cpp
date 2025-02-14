@@ -40,7 +40,7 @@ HOOK_METHOD_PRIORITY(TutorialManager, OnLoop, 1000, () -> void)
 HOOK_METHOD_PRIORITY(TutorialManager, OnRender, 1000, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> TutorialManager::OnRender -> Begin (CustomTutorial.cpp)\n")
-    if (CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
+    if (bRunning && CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
     {
         if (!bRunning) return;
 
@@ -54,7 +54,7 @@ HOOK_METHOD_PRIORITY(TutorialManager, OnRender, 1000, () -> void)
 HOOK_METHOD_PRIORITY(TutorialManager, MouseMove, 1000, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> TutorialManager::MouseMove -> Begin (CustomTutorial.cpp)\n")
-    if (CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
+    if (bRunning && CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
     {
         return;
     }
@@ -64,7 +64,7 @@ HOOK_METHOD_PRIORITY(TutorialManager, MouseMove, 1000, (int mX, int mY) -> void)
 HOOK_METHOD_PRIORITY(TutorialManager, MouseClick, 1000, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> TutorialManager::MouseClick -> Begin (CustomTutorial.cpp)\n")
-    if (CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
+    if (bRunning && CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
     {
         return false;
     }
@@ -74,7 +74,7 @@ HOOK_METHOD_PRIORITY(TutorialManager, MouseClick, 1000, () -> bool)
 HOOK_METHOD_PRIORITY(TutorialManager, AllowJumping, 1000, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> TutorialManager::AllowJumping -> Begin (CustomTutorial.cpp)\n")
-    if (CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
+    if (bRunning && CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
     {
         return CustomTutorialState::allowJumping;
     }
@@ -84,7 +84,7 @@ HOOK_METHOD_PRIORITY(TutorialManager, AllowJumping, 1000, () -> bool)
 HOOK_METHOD_PRIORITY(TutorialManager, AllowUpgrades, 1000, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> TutorialManager::AllowUpgrades -> Begin (CustomTutorial.cpp)\n")
-    if (CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
+    if (bRunning && CustomOptionsManager::GetInstance()->disableDefaultTutorial.currentValue)
     {
         return CustomTutorialState::allowUpgrades;
     }
