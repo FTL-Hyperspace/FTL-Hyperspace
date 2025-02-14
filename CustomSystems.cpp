@@ -356,6 +356,11 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
+
     sysBoxes.clear();
 
     SystemPower.x = 0;
@@ -530,6 +535,10 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
 
     sysBoxes.clear();
 
