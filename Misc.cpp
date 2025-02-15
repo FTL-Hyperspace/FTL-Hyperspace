@@ -1421,6 +1421,37 @@ HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void
     if (!preempt) super(amount, permanentPower);
 }
 
+static bool inArtilleryLoop = false;
+HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (Misc.cpp)\n")
+    
+    inArtilleryLoop = true;
+    super();
+    inArtilleryLoop = false;
+}
+HOOK_METHOD(ProjectileFactory, SetCooldownModifier, (float mod) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SetCooldownModifier -> Begin (Misc.cpp)\n")
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+    lua_pushnumber(context->GetLua(), mod);
+    lua_pushboolean(context->GetLua(), inArtilleryLoop);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_COOLDOWN_MOD, 3, 1);
+    if (lua_isnumber(context->GetLua(), -1))
+    {
+        mod = std::max(0.f, static_cast<float>(lua_tonumber(context->GetLua(), -1)));
+        if (!inArtilleryLoop)
+        {
+            mod = std::min(mod, 1.f);
+        }
+    }
+    lua_pop(context->GetLua(), 3);
+    
+    if (!preempt) super(mod);
+}
+
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (Misc.cpp)\n")
