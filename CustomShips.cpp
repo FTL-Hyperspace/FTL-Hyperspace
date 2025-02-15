@@ -1822,6 +1822,21 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 
 // Ship Switching
 bool overrideTransfer = false;
+bool skip = false;
+
+HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    
+    if (!skip) super();
+}
+
+HOOK_METHOD(SystemControl, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    
+    if (!skip) super();
+}
 
 bool WorldManager::SwitchShip(std::string shipName)
 {
@@ -1836,20 +1851,47 @@ bool WorldManager::SwitchShip(std::string shipName)
         ShipManager* playerShipManager = G_->GetShipManager(0);
         playerShipManager->myBlueprint = *bp;
 
+        SystemControl *sysC = &commandGui->sysControl;
+
         overrideTransfer = true;
         G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
         G_->GetCApp()->menu.shipBuilder.GetShip();
         overrideTransfer = false;
 
+        hs_log_file("------------------------------------\n------------------------------------\n------------------------------------\n------------------------------------\n");
+        for (auto i: sysC->sysBoxes)
+        {
+            if (i)
+            {
+                hs_log_file("Pointer %p   ", i);
+                hs_log_file("System %d",i->pSystem->GetId());
+                delete i;
+                hs_log_file("    Deleted\n");
+            }
+        }
+        skip = true;
+        sysC->sysBoxes.clear();
+        hs_log_file("Before ship restart\n");
         playerShip->Restart();
 
-        commandGui->Restart();
+        //playerShipManager->addedSystem = false;
+
+        hs_log_file("After ship restart\n");
+        
+        //commandGui->Restart();
+
+        commandGui->combatControl.Restart();
+        commandGui->combatControl.Clear();
+        
+        hs_log_file("After CommandGui restart\n");
+
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
         playerShipManager->myBlueprint.name.data = fixname;
 
         playerShip->OnLoop();
 
+        skip = false;
         ret = true;
     }
     return ret;
