@@ -1928,7 +1928,7 @@ void ShipManager::RemoveSystem(int iSystemId)
         }
         if (!shipBuilder.bOpen) gui->sysControl.CreateSystemBoxes();
         else shipBuilder.CreateSystemBoxes();
-        SaveToBlueprint(true);
+        if (!shipBuilder.bOpen) SaveToBlueprint(true);
     }
 }
 //The original game code uses the starting ShipBlueprint when loading the game, and adds all starting systems by default.
