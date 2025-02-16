@@ -36,7 +36,7 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
 }
 void CustomUserSystems::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
-    //TODO: Possibly add control over ordering and mutual exclusive systems later.
+    //TODO: Possibly add control over ordering later.
     if (node->first_attribute("id"))
     {
         std::string sysName = node->first_attribute("id")->value();
@@ -76,6 +76,26 @@ std::string CustomUserSystems::SystemIdToName(int systemId)
 int CustomUserSystems::GetLastSystemId()
 {
     return SYS_CUSTOM_FIRST + systemNames.size() - 1;
+}
+
+int CustomUserSystems::currentExclusivityIndex = 0;
+std::unordered_map<int, int> CustomUserSystems::exclusivityGroups;
+void CustomUserSystems::ParseExclusivityNode(rapidxml::xml_node<char>* node)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        int systemId = ShipSystem::NameToSystemId(child->name());
+        exclusivityGroups[systemId] = currentExclusivityIndex;
+    }    
+    ++currentExclusivityIndex;
+}
+
+bool CustomUserSystems::AreSystemsExclusive(int sysId_1, int sysId_2)
+{
+    if (exclusivityGroups.find(sysId_1) == exclusivityGroups.end()) return false;
+    if (exclusivityGroups.find(sysId_2) == exclusivityGroups.end()) return false;
+
+    return exclusivityGroups[sysId_1] == exclusivityGroups[sysId_2];
 }
 
 //TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
@@ -723,7 +743,6 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
     }
 }
 
-//TODO: Look into mechanics for removing/adding mutually exclusive systems for custom systems.
 HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
@@ -737,6 +756,15 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
     else if (systemId == SYS_CLONEBAY)
     {
         if (systemKey[SYS_MEDBAY] != -1)
+        {
+            return true;
+        }
+    }
+
+    //Mutually exclusive custom systems
+    for (int replacementCandidateId = 0; replacementCandidateId <= CustomUserSystems::GetLastSystemId(); ++replacementCandidateId)
+    {
+        if (CustomUserSystems::AreSystemsExclusive(replacementCandidateId, systemId) && systemKey[replacementCandidateId] != -1)
         {
             return true;
         }
@@ -761,6 +789,16 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSubsystem -> Begin (CustomSystems.cpp)\n")
+
+    //Mutually exclusive custom systems
+    for (int replacementCandidateId = 0; replacementCandidateId <= CustomUserSystems::GetLastSystemId(); ++replacementCandidateId)
+    {
+        if (CustomUserSystems::AreSystemsExclusive(replacementCandidateId, systemId) && systemKey[replacementCandidateId] != -1)
+        {
+            return true;
+        }
+    }
+
     int count = 0;
 
     for (auto i : vSystemList)
@@ -775,6 +813,19 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
     int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
 
     return count < sysLimit;
+}
+
+HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
+    for (int removalCandidateId = 0; removalCandidateId <= CustomUserSystems::GetLastSystemId(); ++removalCandidateId)
+    {
+        if (CustomUserSystems::AreSystemsExclusive(removalCandidateId, systemId) && systemKey[removalCandidateId] != -1)
+        {
+            RemoveSystem(removalCandidateId);
+        }
+    }
+    return super(systemId);
 }
 
 /*
@@ -1648,4 +1699,289 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             crewList.front()->SetCloneReady(false);
         }
     }
+}
+
+//TODO: Make DisarmAll call more selective or conditional on if the system is armed?
+void ShipManager::RemoveSystem(int iSystemId)
+{
+    if (HasSystem(iSystemId))
+    {
+        //Remove base ShipSystem
+    
+        int systemRoom = GetSystemRoom(iSystemId);
+        ship.EmptySlots(systemRoom);
+        for (CrewMember* crew : vCrewList)
+        {
+            if (crew->currentSlot.roomId == systemRoom)
+            {
+                crew->EmptySlot();
+                //TODO: Handle manning and repair
+                //crew->SetCurrentSystem(nullptr); //Not working
+            }
+        }
+
+        ShipSystem* removeSys = GetSystem(iSystemId);
+        while (removeSys->RawDecreasePower()) continue;
+
+        vSystemList.erase(vSystemList.begin() + systemKey[iSystemId]);
+        systemKey[iSystemId] = -1;
+        for (int idx = 0; idx < vSystemList.size(); ++idx)
+        {
+            ShipSystem* sys = vSystemList[idx];
+            systemKey[sys->iSystemType] = idx;
+        }
+        RemoveEquipment(ShipSystem::SystemIdToName(iSystemId), true);
+
+        if (current_target && current_target->hackingSystem != nullptr)
+        {
+            if (current_target->hackingSystem->queuedSystem == removeSys)
+            {
+                current_target->hackingSystem->queuedSystem = nullptr;
+            }
+            if (current_target->hackingSystem->currentSystem == removeSys)
+            {
+                current_target->hackingSystem->currentSystem = nullptr;
+            }
+        }
+
+        CommandGui* gui = G_->GetCApp()->gui;
+        auto& shipBuilder = G_->GetCApp()->menu.shipBuilder;
+        //Special handling per system for derived classes
+        switch (iSystemId)
+        {
+            case SYS_SHIELDS: 
+            {
+                //shieldSystem is present even for ships without shields installed
+                break;
+            };    
+            case SYS_ENGINES: 
+            {
+                delete engineSystem;
+                engineSystem = nullptr;
+                break;
+            };    
+            case SYS_OXYGEN: 
+            {
+                //TODO: Implement seamless transition to dummy oxygen?
+                delete oxygenSystem;
+                oxygenSystem = nullptr;
+                break;
+            };  
+            case SYS_WEAPONS: 
+            {
+                if (iShipId == 0)
+                {
+                    if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                    for (ProjectileFactory* weapon : weaponSystem->weapons)
+                    {
+                        gui->equipScreen.AddToCargo(weapon->blueprint->name);   
+                    }
+                    
+                    for (ArmamentBox* box : gui->combatControl.weapControl.boxes)
+                    {
+                        static_cast<WeaponBox*>(box)->pWeapon = nullptr;
+                    }
+
+                }
+                for (int slot = 0; slot < myBlueprint.weaponSlots; ++slot)
+                {
+                    weaponSystem->RemoveWeapon(slot);
+                }
+                tempMissileCount = weaponSystem->missile_count;
+                delete weaponSystem;
+                weaponSystem = nullptr;
+                gui->equipScreen.OnLoop();
+                break; 
+            };    
+            case SYS_DRONES:
+            {
+                //Might be some issues with removing system while UI is in use?
+                if (iShipId == 0)
+                {
+                    if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                    for (Drone* drone : droneSystem->drones)
+                    {
+                        gui->equipScreen.AddToCargo(drone->blueprint->name);
+                    }
+
+                    for (ArmamentBox* box : gui->combatControl.weapControl.boxes)
+                    {
+                        static_cast<DroneBox*>(box)->pDrone = nullptr;
+                    }
+                } 
+
+                for (int slot = 0; slot < myBlueprint.droneSlots; ++slot)
+                {
+                    droneSystem->RemoveDrone(slot);
+                }
+                if (!shipBuilder.bOpen)
+                {
+                    for (Drone* drone: G_->GetCApp()->world->space.drones)
+                    {
+                        if (drone->iShipId == iShipId)
+                        {
+                            drone->BlowUp(false);
+                        }
+                    }
+                }
+                
+                spaceDrones.clear();
+                tempDroneCount = droneSystem->drone_count;
+                delete droneSystem;
+                droneSystem = nullptr;
+                gui->equipScreen.OnLoop();
+                break; 
+            };  
+            case SYS_MEDBAY:
+            {
+                delete medbaySystem;
+                medbaySystem = nullptr;
+                break;
+            };     
+            case SYS_PILOT: 
+            {
+                delete removeSys;
+                removeSys = nullptr;
+                break;
+            };      
+            case SYS_SENSORS: 
+            {
+                delete removeSys;
+                removeSys = nullptr;
+                break;
+            };      
+            case SYS_DOORS: 
+            {
+                delete removeSys;
+                removeSys = nullptr;
+                break;
+            };         
+            case SYS_TELEPORTER: 
+            {
+                //Might be some issues with removing system while UI is in use?
+                if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                delete teleportSystem;
+                teleportSystem = nullptr;
+                break;
+            }; 
+            case SYS_CLOAKING: 
+            {
+                if (HasSystem(SYS_WEAPONS))
+                {
+                    weaponSystem->cloakingSystem = nullptr;
+                }
+                delete cloakSystem;
+                cloakSystem = nullptr;
+                break;
+            };   
+            case SYS_ARTILLERY: 
+            {
+                //TODO: Figure out how to handle this for multiple artillery systems? Remove last artillery system or remove all?
+                if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                delete artillerySystems.back();
+                artillerySystems.pop_back();
+                break;
+            };  
+            case SYS_BATTERY: 
+            {
+                //TOOD: Hook and use PowerManager::SetBatteryPower
+                PowerManager::GetPowerManager(iShipId)->batteryPower.first = 0;
+                PowerManager::GetPowerManager(iShipId)->batteryPower.second = 0;
+                batterySystem = nullptr;
+                break;
+            };    
+            case SYS_CLONEBAY: 
+            {
+                //Check edge cases with cloned crew
+                delete cloneSystem;
+                cloneSystem = nullptr;
+                break;
+            };   
+            case SYS_MIND: 
+            {
+                //Might be some issues with removing system while UI is in use?
+                if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                mindSystem->ReleaseCrew();
+                delete mindSystem;
+                mindSystem = nullptr;
+                break;
+            };       
+            case SYS_HACKING: 
+            {
+                //Might be some issues with removing system while UI is in use?
+                if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                hackingSystem->BlowHackingDrone();
+                delete hackingSystem;
+                hackingSystem = nullptr;
+                break;
+            };    
+            case SYS_TEMPORAL: 
+            {
+                if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                delete removeSys;
+                break;
+            };  
+            default:
+            {
+                delete removeSys;
+                break;
+            };   
+        }
+        if (!shipBuilder.bOpen) gui->sysControl.CreateSystemBoxes();
+        else shipBuilder.CreateSystemBoxes();
+        SaveToBlueprint(true);
+    }
+}
+//The original game code uses the starting ShipBlueprint when loading the game, and adds all starting systems by default.
+//Here we block addition of systems that the ship originally starts with and that have been removed
+
+//Save removed starting system ids
+HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomSystems.cpp)\n")
+    ShipBlueprint* baseBlueprint = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
+    std::vector<int> removedStartingSystems;
+    for (int startingSystemId : baseBlueprint->systems)
+    {
+        if (std::find(myBlueprint.systems.begin(), myBlueprint.systems.end(), startingSystemId) == myBlueprint.systems.end())
+        {
+            removedStartingSystems.push_back(startingSystemId);
+        }
+    }
+    FileHelper::writeInt(file, removedStartingSystems.size());
+    for (int removedStartingSystemId : removedStartingSystems)
+    {
+        FileHelper::writeInt(file, removedStartingSystemId);
+    }
+
+    super(file);
+}
+//Block addition of removed starting systems and remove their ids from systems vector in the ShipBlueprint
+static std::unordered_set<int> blockSystemAddition;
+HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomSystems.cpp)\n")
+    int numRemovedSystems = FileHelper::readInteger(file);
+    for (int i = 0; i < numRemovedSystems; ++i)
+    {
+        int removedSystemId = FileHelper::readInteger(file);
+        blockSystemAddition.insert(removedSystemId);
+    }
+    super(file);
+    auto& systems = myBlueprint.systems;
+    systems.erase(std::remove_if(systems.begin(), systems.end(), 
+    [&](int value) 
+    {return blockSystemAddition.find(value) != blockSystemAddition.end();}),
+    systems.end());
+    blockSystemAddition.clear();
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, AddSystem, -100, (int systemId) -> int)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
+    if (blockSystemAddition.find(systemId) != blockSystemAddition.end())
+    {
+        return 0;
+    }
+    return super(systemId);
 }

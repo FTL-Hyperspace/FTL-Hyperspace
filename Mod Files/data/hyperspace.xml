@@ -1450,6 +1450,15 @@ Syntax ->
 	Add customSystem nodes for customSystems. Requires a systemBlueprint in blueprints.xml as well.
 	<customSystem id="newSystem"/>
 	-->
+
+	<!--
+	Define exclusive systems here. Each system can only be part of one exclusivity group, and if it is defined in multiple groups it will only register as being part of the last group.
+	<exclusivityGroup>
+		<clonebay/>
+		<medbay/>
+	</exclusivityGroup>
+	
+	-->
 </customSystems>
 
 <!-- Stat boosts

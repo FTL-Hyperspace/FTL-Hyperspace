@@ -264,6 +264,14 @@ void Global::PreInitializeResources(ResourceControl *resources)
                         CustomUserSystems::ParseSystemNode(child);
                     }  
                 }
+                //After system ids are mapped, generate exclusivity groups
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "exclusivityGroup") == 0)
+                    {
+                        CustomUserSystems::ParseExclusivityNode(child);
+                    }  
+                }
             }
 
             // Perform custom text color registration before event parsing.
