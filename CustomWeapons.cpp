@@ -645,6 +645,11 @@ HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
 HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::constructor -> Begin (CustomWeapons.cpp)\n")
+    if (bp->type == -1) // If the blueprint doesn't exist, revert to the default laser
+    {
+        bp = G_->GetBlueprints()->GetWeaponBlueprint("LASER_BURST_1");
+    }
+
     super(bp, shipId);
     HS_MAKE_TABLE(this)
     if (bp->type != 2)

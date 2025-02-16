@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="ru">Не уничтоженные абордажные дроны будут возвращены в конце боя.</text>
 <text name="aug_MIND_ORDER_title" language="ru">Нейронные вожжи</text>
 <text name="aug_MIND_ORDER_desc" language="ru">Позволяет напрямую контролировать вражеский экипаж, находящийся под контролем разума. Также принимает на себя все эффекты, применяемые этим экипажем.</text>
+<text name="aug_SECTOR_SCANNER_title" language="ru">Сканер секторов</text>
+<text name="aug_SECTOR_SCANNER_desc" language="ru">Позволяет увидеть точный тип сектора, даже если он не находится рядом с текущим.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="ru">Улучшенное нацеливание</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="ru">Позволяет вручную наводить артиллерийские системы на цель.</text>
 <text name="crew_ghost_desc" language="ru">Призраки прошлого экипажа.</text>
 <text name="crew_ghost_title" language="ru">Призрак</text>
 <text name="crew_ghost_short" language="ru">Призрак</text>
@@ -271,11 +275,11 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_fr" language="ru">Французский</text>
 <text name="credits_hyperspace_loc_fr_names" language="ru">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="ru">Итальянский</text>
-<text name="credits_hyperspace_loc_it_names" language="ru">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="ru">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="ru">Немецкий</text>
 <text name="credits_hyperspace_loc_de_names" language="ru">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="ru">Испанский</text>
-<text name="credits_hyperspace_loc_es_names" language="ru">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="ru">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="ru">Польский</text>
 <text name="credits_hyperspace_loc_pl_names" language="ru">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="ru">Португальский (Бразилия)</text>
@@ -286,8 +290,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_zn_Hans_names" language="ru">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="ru">Японский</text>
 <text name="credits_hyperspace_loc_ja_names" language="ru">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="ru">Корейский</text>
-<text name="credits_hyperspace_loc_kor_names" language="ru">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="ru">Корейский</text>
+<text name="credits_hyperspace_loc_ko_names" language="ru">nedsociety, H2O</text>
 
 <text name="shields_4" language="ru">Пять уровней щита</text>
 <text name="shields_5" language="ru">Шесть уровней щита</text>
@@ -295,3 +299,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shields_7" language="ru">Восемь уровней щита</text>
 
 <text name="max_augments" language="ru">На ваш корабль можно устанавливать только \1 модуля.</text>
+<text name="shot_limit" language="ru">Предел выстрелов из оружия: \1</text>
+<text name="shots_remaining" language="ru">Оставшиеся выстрелы: \1</text>
+<text name="warning_shot_limit" language="ru">ПРЕДЕЛ ВЫСТРЕЛОВ ДОСТИГНУТ!</text>
