@@ -1,8 +1,10 @@
 #include "CustomStore.h"
 #include "CustomEvents.h"
 #include "CustomShipSelect.h"
+#include "CustomSystems.h"
 #include "Store_Extend.h"
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <array>
 
 CustomStore* CustomStore::instance = new CustomStore();
@@ -1944,7 +1946,8 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
     return super(category, equip);
 }
-
+static int newSystem = -1;
+static int replaceSystem = -1;
 HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
@@ -1972,8 +1975,39 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
         bConfirming = true;
         confirmString = "confirm_buy_last_system";
     }
+
+    for (int replacementCandidateId = 0; replacementCandidateId <= CustomUserSystems::GetLastSystemId(); ++replacementCandidateId)
+    {
+        if (CustomUserSystems::AreSystemsExclusive(replacementCandidateId, itemId) && shopper->systemKey[replacementCandidateId] != -1)
+        {
+            newSystem = itemId;
+            replaceSystem = replacementCandidateId;
+            bConfirming = true;
+            break;
+        }
+    }
+
+
     if (!bConfirming)
     {
         Purchase();
     }
+}
+
+HOOK_METHOD(SystemStoreBox, GetConfirmText, () -> TextString)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::GetConfirmText -> Begin (CustomStore.cpp)\n")
+    if (newSystem == -1 || replaceSystem == -1) return super();
+
+    std::string newSystemName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(newSystem))->GetNameLong();
+    std::string replaceSystemName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(replaceSystem))->GetNameLong();
+    
+    std::string confirmText = G_->GetTextLibrary()->GetText("confirm_buy_custom");
+    boost::algorithm::replace_all(confirmText, "\\1", newSystemName);
+    boost::algorithm::replace_all(confirmText, "\\2", replaceSystemName);
+
+    newSystem = -1;
+    replaceSystem = -1;
+
+    return TextString(confirmText, true);
 }
