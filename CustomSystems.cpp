@@ -1720,8 +1720,11 @@ void ShipManager::RemoveSystem(int iSystemId)
         }
 
         ShipSystem* removeSys = GetSystem(iSystemId);
-        while (removeSys->RawDecreasePower()) continue;
-
+        if (removeSys->bNeedsPower)
+        {
+            while (removeSys->RawDecreasePower()) continue;
+        }
+        
         vSystemList.erase(vSystemList.begin() + systemKey[iSystemId]);
         systemKey[iSystemId] = -1;
         for (int idx = 0; idx < vSystemList.size(); ++idx)
