@@ -1942,7 +1942,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
     std::vector<int> removedStartingSystems;
     for (int startingSystemId : baseBlueprint->systems)
     {
-        if (std::find(myBlueprint.systems.begin(), myBlueprint.systems.end(), startingSystemId) == myBlueprint.systems.end())
+        if (!HasSystem(startingSystemId))
         {
             removedStartingSystems.push_back(startingSystemId);
         }
