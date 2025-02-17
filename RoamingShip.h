@@ -39,6 +39,10 @@ struct RoamingShip
     int missingCrew = 0; // we'll need a more precise way to handle crew
 
     bool exploding = false; //method for working around the fact SetDestroyed loops
+    float lineColorR;
+    float lineColorG;
+    float lineColorB;
+    float lineColorA; // Default alpha
 };
 
 struct RoamingShipsManager

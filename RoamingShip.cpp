@@ -59,6 +59,56 @@ void RoamingShipsManager::ParseShipsNode(rapidxml::xml_node<char>* node)
                 ship->targetEvent = child->first_attribute("targetEvent")->value();
             }
 
+            // Initialize RGBA values from <color> node
+            auto colorNode = child->first_node("color");
+            if (colorNode)
+            {
+                if (colorNode->first_attribute("r"))
+                {
+                    ship->lineColorR = std::stof(colorNode->first_attribute("r")->value()) / 255.0f;
+                }
+                else
+                {
+                    ship->lineColorR = 1.0f; // Default red
+                }
+
+                if (colorNode->first_attribute("g"))
+                {
+                    ship->lineColorG = std::stof(colorNode->first_attribute("g")->value()) / 255.0f;
+                }
+                else
+                {
+                    ship->lineColorG = 0.0f; // Default green
+                }
+
+                if (colorNode->first_attribute("b"))
+                {
+                    ship->lineColorB = std::stof(colorNode->first_attribute("b")->value()) / 255.0f;
+                }
+                else
+                {
+                    ship->lineColorB = 0.0f; // Default blue
+                }
+
+                if (colorNode->first_attribute("a"))
+                {
+                    ship->lineColorA = std::stof(colorNode->first_attribute("a")->value());
+                }
+                else
+                {
+                    ship->lineColorA = 0.5f; // Default alpha
+                }
+            }
+            else
+            {
+                // Default color values
+                ship->lineColorR = 1.0f;
+                ship->lineColorG = 0.0f;
+                ship->lineColorB = 0.0f;
+                ship->lineColorA = 0.5f;
+            }
+
+            
             RoamingShipsManager::GetInstance()->roamingShips[ship->id] = ship;
         }
     }
@@ -107,18 +157,18 @@ void RoamingShipsManager::RenderShips()
 
         if (ship->timeToMove < ship->currentMoveTime && ship->targetLocation != nullptr) // checks if its time to move and if the ship has a target location to move to 
         {
-            Pointf targetPos = ship->targetLocation->loc;
+            Pointf targetPos = ship->targetLocation->loc; //line time
             // Render the line between current location and target location using GL_DrawRect
             float lineWidth = 8.0f; // Set the line width
             float dx = targetPos.x - locationPos.x;
             float dy = targetPos.y - locationPos.y;
             float length = sqrt(dx * dx + dy * dy);
             float angle = atan2(dy, dx) * (180.0f / M_PI);
+            int xBeaconOffset = 3;
+            int yBeaconOffset = 6;
 
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(locationPos.x, locationPos.y);
-            CSurface::GL_Rotate(angle, 0.0f, 0.0f, 1.0f);
-            CSurface::GL_DrawRect(0, -lineWidth / 2, length, lineWidth, GL_Color(1.0f, 0.0f, 0.0f, 0.5f));
+            CSurface::GL_DrawLine(targetPos.x + xBeaconOffset, targetPos.y + yBeaconOffset, locationPos.x + xBeaconOffset, locationPos.y + yBeaconOffset, lineWidth, GL_Color(ship->lineColorR, ship->lineColorG, ship->lineColorB, ship->lineColorA));
             CSurface::GL_PopMatrix();
 
             // Update progress and fade timer
@@ -135,10 +185,9 @@ void RoamingShipsManager::RenderShips()
             }
 
             // Calculate the position of the icon along the line
-            float iconX = locationPos.x + dx * ship->progress;
-            float iconY = locationPos.y + dy * ship->progress;
+            float iconX = targetPos.x * ship->progress;
+            float iconY = targetPos.y * ship->progress;
 
-            // Assuming ship->mapIcon is a pointer to a GL_Primitive object with an associated GL_Texture
             GL_Texture* iconTexture = ship->mapIcon->texture;
 
             // Render the icon with fading effect
@@ -148,14 +197,14 @@ void RoamingShipsManager::RenderShips()
             CSurface::GL_RenderPrimitiveWithAlpha(ship->mapIcon, ship->fadeTimer);
             CSurface::GL_PopMatrix();
         }
-        else
+        else // the circle motion
         {
             ship->beaconDegree = (ship->beaconDegree + 0.5); // increments the rotation by 0.5
             if (ship->beaconDegree > 360) ship->beaconDegree = 0; // if the rotation is greater than 360, reset it to 0
             // Render the ship mapIcon rotating around the beacon, increment the rotation
             float radian = ship->beaconDegree * (M_PI / 180.f); // trying to get the ship to go in a circle
-            int newX = locationPos.x + 20 * cos(radian); // figures out where the x position is
-            int newY = locationPos.y + 20 * sin(radian); // figures out where the y position is
+            int newX = locationPos.x + 1 * cos(radian); // figures out where the x position is
+            int newY = locationPos.y + 1 * sin(radian); // figures out where the y position is
             CSurface::GL_PushMatrix();
             CSurface::GL_Translate(newX - ship->mapIcon->texture->width_ / 2, newY - ship->mapIcon->texture->height_ / 2); // Translate to the center of the icon
             CSurface::GL_Rotate(ship->beaconDegree, 0.0f, 0.0f, 1.0f); // Rotate around the center
@@ -164,7 +213,7 @@ void RoamingShipsManager::RenderShips()
         }
     }
 }
-// okay no testing yet i need to figure out a moving thing
+
 void RoamingShipsManager::MoveShips()
 {
     for (const auto& shipId : activeRoamingShips)
