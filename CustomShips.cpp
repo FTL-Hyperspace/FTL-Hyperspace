@@ -163,6 +163,14 @@ HOOK_METHOD_PRIORITY(ShipManager, ImportShip, -1000, (int fileHelper) -> void)
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomShips.cpp)\n")
+    
+    //Set the image defined in systemInfo to the proper value when adding artillery systems
+    auto shipDef = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName);
+    if (shipDef.artilleryRoomImages.size() > 1 && systemId == SYS_ARTILLERY)
+    {
+        myBlueprint.systemInfo[SYS_ARTILLERY].image = shipDef.artilleryRoomImages[artillerySystems.size()];
+    }
+
     auto ret = super(systemId);
 
     // Fixes shield systems being created with damage when >10 bars
