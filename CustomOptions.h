@@ -75,8 +75,12 @@ public:
 
     Setting<bool> insertNewlineForMultipleCrewTooltips;
 
+    Setting<bool> disableDefaultTutorial;
+
     Setting<std::string> dismissSound;
 
+    Setting<bool> targetableArtillery;
+    
     Setting<bool> oxygenWithoutSystem;
 
     Setting<bool> droneSaveStations;

@@ -7,7 +7,6 @@ public:
     struct Tab
     {
         FocusWindow* window;
-        Button* button;
         Point butPos;
 
         GL_Texture* background;
@@ -27,7 +26,7 @@ public:
 
     void PopulateWindow(TabbedWindow* window);
     void ParseWindowNode(rapidxml::xml_node<char>* node);
-    void InitialiseButton(CustomTabbedWindow::Tab tab);
+    void InitialiseButton(CustomTabbedWindow::Tab &tab, Button *newButton);
 
     TextButton* undoButton = nullptr;
     int xPos = 240;

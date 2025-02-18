@@ -38,7 +38,7 @@
 #include "CustomUpgrades.h"
 #include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
-
+#include "ArtillerySystem.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -252,6 +252,18 @@ void Global::PreInitializeResources(ResourceControl *resources)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
                 customEventParser->EarlyParseCustomEventNode(node);
+            }
+
+            //Map custom system ids before blueprints are loaded
+            if (strcmp(node->name(), "customSystems") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "customSystem") == 0)
+                    {
+                        CustomUserSystems::ParseSystemNode(child);
+                    }  
+                }
             }
 
             // Perform custom text color registration before event parsing.
@@ -584,6 +596,11 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "targetableArtillery") == 0)
+            {
+                ParseTargetableArtilleryNode(node);
+            }
+            
             if (strcmp(node->name(), "cloakRenderFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -596,6 +613,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableDefaultTutorial") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableDefaultTutorial.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableDefaultTutorial.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)

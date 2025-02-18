@@ -3094,6 +3094,7 @@ struct SystemBox
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
   int lastTimerStencilCount;
+  uint8_t gap_ex_1[4];
   GL_Primitive *brokenIcon;
   GL_Primitive *lockIcon;
   GL_Primitive *hackIcon;
@@ -3119,6 +3120,7 @@ struct SystemBox
   bool bPlayerUI;
   bool useLargeTapIcon;
   Point largeTapIconOffset;
+  uint8_t gap_ex_2[4];
   std__vector_3int tapButtonHeights;
   int tapButtonOffsetY;
   int cooldownOffsetY;
@@ -4809,8 +4811,75 @@ struct VTable_StoreBox
   void (__thiscall *SetExtraData)(StoreBox *, int);
 };
 
+struct ArrowDescription
+{
+  Point location;
+  float rotation;
+  bool upgradesRelative;
+  int hostileRelative;
+};
+
+struct std__vector_16ArrowDescription
+{
+  ArrowDescription *_start;
+  ArrowDescription *_finish;
+  ArrowDescription *_end;
+};
+
+struct StateInfo {
+  bool stateContinueNeeded;
+  TextString stateText;
+  std__vector_16ArrowDescription arrows;
+};
+
+struct std__map_23std__string___StateInfo
+{
+  char unk[48];
+};
+
+struct std__vector_6Button
+{
+  Button *_start;
+  Button *_finish;
+  Button *_end;
+};
+
+struct std__vector_11FocusWindow
+{
+  FocusWindow *_start;
+  FocusWindow *_finish;
+  FocusWindow *_end;
+};
+
 /* 156 */
-struct TutorialManager;
+struct TutorialManager
+{
+  bool bRunning;
+  TextButton continueButton;
+  int currentState;
+  std__string stateName;
+  std__vector_11std__string stateOrder;
+  std__map_17std__string___int stateValues;
+  std__map_23std__string___StateInfo states;
+  ShipManager *playerShip;
+  CommandGui *gui;
+  CrewControl *crewControl;
+  StarMap *starMap;
+  Upgrades *upgradeScreen;
+  CombatControl *combatControl;
+  SystemControl *systemControl;
+  TabbedWindow *shipInfo;
+  bool bGamePaused;
+  bool bQuitTutorial;
+  AnimationTracker tracker;
+  float timerOpen;
+  WindowFrame *descBox;
+  int descBoxHeight;
+  GL_Texture *arrow;
+  GL_Texture *arrow2;
+  HandAnimation hand;
+  bool bTriggerEvent;
+};
 
 /* 159 */
 struct ShipRepairDrone;

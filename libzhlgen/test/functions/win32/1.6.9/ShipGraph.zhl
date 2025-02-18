@@ -50,6 +50,8 @@ __thiscall bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 __thiscall Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
 "578d7c240883e4f0ff77fc5589e557565383ec3c8b57048b018d4dd88b1f8b0490890424":
 __thiscall Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
+"8d4c240483e4f0ff71fc5589e55756535183ec188b":
+static cleanup __cdecl void ShipGraph::Restart();
 
 
 struct ShipGraph depends (Point, Pointf, Room) 

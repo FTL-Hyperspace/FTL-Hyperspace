@@ -781,6 +781,9 @@
 		<Unit filename="ArtillerySystem.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="ArtillerySystem.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>
@@ -1040,6 +1043,12 @@
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CustomTextStyle.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CustomUpgrades.cpp">
@@ -1308,6 +1317,12 @@
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="System_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Systems.h">

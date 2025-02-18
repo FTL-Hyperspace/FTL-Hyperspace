@@ -48,12 +48,7 @@ void hs_log_file(const char *str...)
 
 void hs_log_file(const std::string &str)
 {
-    FILE* log = G_->logFile;
-    if (log != nullptr)
-    {
-        fputs(str.c_str(), log);
-        fflush(G_->logFile);
-    }
+    hs_log_file("%s", str.c_str());
 }
 
 void ftl_log(const char *str...)

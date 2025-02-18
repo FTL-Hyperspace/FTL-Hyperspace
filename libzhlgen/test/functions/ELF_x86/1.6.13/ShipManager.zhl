@@ -188,7 +188,7 @@ cleanup __cdecl CrewMember* ShipManager::GetCrewmember(ShipManager *this, int sl
 "5589e55383ec148b550c8b4d0883fa11":
 cleanup __cdecl int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "5589e557565383ec5c8b45108b5d08":
-cleanup __cdecl ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool unk);
+cleanup __cdecl ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool overwrite);
 "5589e557565331db83ec7c8d45c88d75d8":
 cleanup __cdecl void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf pos);
 "5589e557565381ec1c0100008b7d548b75188b5d1c":
