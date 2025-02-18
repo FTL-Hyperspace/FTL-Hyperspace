@@ -835,6 +835,13 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     return ret;
 }
 
+HOOK_METHOD(ShipManager, GetSystemPowerMax, (int systemId) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemPowerMax -> Begin (CustomSystems.cpp)\n")
+    if (systemId == SYS_INVALID) return 0;
+    return super(systemId);
+}
+
 /*
 HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 {
@@ -1710,7 +1717,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 void ShipManager::RemoveSystem(int iSystemId)
 {
-    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR)
+    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID)
     {
         //Remove base ShipSystem
         ShipSystem* removeSys = GetSystem(iSystemId);
