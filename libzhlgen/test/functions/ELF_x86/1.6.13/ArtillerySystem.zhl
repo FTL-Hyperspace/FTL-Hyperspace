@@ -2,3 +2,8 @@
 cleanup __cdecl void ArtillerySystem::Jump(ArtillerySystem *this);
 ".5589e557565383ec6c8b5d08891c24e8????????891c24e8????????85c0":
 cleanup __cdecl void ArtillerySystem::OnLoop(ArtillerySystem *this);
+
+struct ArtillerySystem
+{{
+	void OnLoop_HS_ManualTarget();
+}};

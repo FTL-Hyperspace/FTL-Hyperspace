@@ -261,6 +261,12 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomStore.cpp)\n")
+
+    if (!(shopper->myBlueprint.systemInfo[sys].location.size() > 0))
+    {
+        sys = 1;
+    }
+
     super(shopper, equip, sys);
 
     if (itemId != 4)

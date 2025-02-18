@@ -275,6 +275,10 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
             return 1;
         }
     }
+    else if (blueprint->type == 3 && targetId == iShipId) //self-targetting bomb
+    {
+        return 1; // fix for self-targeting bomb with multiple shots being unable to change the target
+    }
 
     int ret = super();
 
@@ -288,6 +292,18 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
     }
 
     return ret;
+}
+
+//Reverse inlining of NumTargetsRequired
+HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::ClearAiming -> Begin (CustomWeapons.cpp)\n")
+    
+    if (targets.size() > 0 && targets.size() < NumTargetsRequired()) return;
+
+    fireWhenReady = false;
+    targets.clear();
+    lastTargets.clear();
 }
 
 // Pinpoint targeting
@@ -645,6 +661,11 @@ HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
 HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::constructor -> Begin (CustomWeapons.cpp)\n")
+    if (bp->type == -1) // If the blueprint doesn't exist, revert to the default laser
+    {
+        bp = G_->GetBlueprints()->GetWeaponBlueprint("LASER_BURST_1");
+    }
+
     super(bp, shipId);
     HS_MAKE_TABLE(this)
     if (bp->type != 2)

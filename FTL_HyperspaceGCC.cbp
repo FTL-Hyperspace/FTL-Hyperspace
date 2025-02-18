@@ -781,6 +781,9 @@
 		<Unit filename="ArtillerySystem.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="ArtillerySystem.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>
@@ -1042,6 +1045,12 @@
 		<Unit filename="CustomTextStyle.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="CustomTutorial.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomUpgrades.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -1062,6 +1071,9 @@
 		</Unit>
 		<Unit filename="DiscordIntegration.h">
 			<Option virtualFolder="Content/Discord/" />
+		</Unit>
+		<Unit filename="Drones.h">
+			<Option virtualFolder="Core/Drones/" />
 		</Unit>
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
@@ -1179,6 +1191,9 @@
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="OverclockerSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="OxygenWithoutSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="PALMemoryProtection.h">
@@ -1302,6 +1317,12 @@
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="System_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Systems.h">

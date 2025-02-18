@@ -54,3 +54,4 @@ build/
 build-*/
 buildscripts/.DS_Store
 .DS_Store
+.vscode/settings.json

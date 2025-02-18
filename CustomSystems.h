@@ -42,3 +42,16 @@ private:
     static CloneLevel defaultLevel;
     static std::vector<CloneLevel> levels;
 };
+
+class CustomUserSystems
+{
+public:
+    static void ParseSystemNode(rapidxml::xml_node<char>* node);
+    static int NameToSystemId(const std::string& systemName);
+    static std::string SystemIdToName(int systemId);
+    static int GetLastSystemId();
+private:
+    static void AddSystemName(const std::string& systemName);
+    static std::vector<std::string> systemNames;
+    static std::unordered_map<std::string, int> systemIds; //For quicker NameToSystemId;
+};

@@ -37,5 +37,6 @@ __thiscall void WeaponControl::OnLoop(WeaponControl *this);
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
 	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
 }};

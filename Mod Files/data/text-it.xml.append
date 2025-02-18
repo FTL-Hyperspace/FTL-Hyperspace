@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="it">Non distrutto droni d'abbordaggio verrà recuperato alla fine del combattimento.</text>
 <text name="aug_MIND_ORDER_title" language="it">Redini neurale</text>
 <text name="aug_MIND_ORDER_desc" language="it">Permette il controllo diretto dell'equipaggio nemico controllato mentalmente. Inoltre prende possesso di tutti gli effetti applicati da quella squadra.</text>
+<text name="aug_SECTOR_SCANNER_title" language="it">Scanner settoriale</text>
+<text name="aug_SECTOR_SCANNER_desc" language="it">Permette di vedere il tipo esatto di un settore anche se non è adiacente a quello attuale.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="it">Agganciamento avanzato</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="it">Permette di usare la mira manuale per i sistemi di artiglieria.</text>
 <text name="crew_ghost_desc" language="it">Fantasmi dell'equipaggio del passato.</text>
 <text name="crew_ghost_title" language="it">Fantasma</text>
 <text name="crew_ghost_short" language="it">Fant.</text>
@@ -26,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="it">
-  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="it">
   <mod:setValue>Possibilità di Incendio: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -271,11 +275,11 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_fr" language="it">Francese</text>
 <text name="credits_hyperspace_loc_fr_names" language="it">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="it">Italiano</text>
-<text name="credits_hyperspace_loc_it_names" language="it">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="it">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="it">Tedesco</text>
 <text name="credits_hyperspace_loc_de_names" language="it">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="it">Spagnolo</text>
-<text name="credits_hyperspace_loc_es_names" language="it">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="it">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="it">Polacco</text>
 <text name="credits_hyperspace_loc_pl_names" language="it">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="it">Portoghese (Brazil)</text>
@@ -286,8 +290,8 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names" language="it">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="it">Giapponese</text>
 <text name="credits_hyperspace_loc_ja_names" language="it">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="it">Coreano</text>
-<text name="credits_hyperspace_loc_kor_names" language="it">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="it">Coreano</text>
+<text name="credits_hyperspace_loc_ko_names" language="it">nedsociety, H2O</text>
 
 <text name="shields_4" language="it">Cinque barriere di scudi</text>
 <text name="shields_5" language="it">Sei barriere di scudi</text>
@@ -295,3 +299,6 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="shields_7" language="it">Otto barriere di scudi</text>
 
 <text name="max_augments" language="it">La nave può montare al massimo \1 accessori.</text>
+<text name="shot_limit" language="it">Limite colpi arma: \1</text>
+<text name="shots_remaining" language="it">Colpi rimanenti: \1</text>
+<text name="warning_shot_limit" language="it">LIMITE COLPI RAGGIUNTO!</text>
