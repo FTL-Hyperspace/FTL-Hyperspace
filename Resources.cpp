@@ -39,7 +39,7 @@
 #include "CustomEquipment.h"
 #include "CustomTabbedWindow.h"
 #include "CustomHotkeys.h"
-
+#include "ArtillerySystem.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -599,9 +599,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
             if (strcmp(node->name(), "targetableArtillery") == 0)
             {
-                auto enabled = node->first_attribute("enabled")->value();
-                customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
+                ParseTargetableArtilleryNode(node);
             }
             
             if (strcmp(node->name(), "cloakRenderFix") == 0)
@@ -616,6 +614,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableDefaultTutorial") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableDefaultTutorial.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableDefaultTutorial.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)

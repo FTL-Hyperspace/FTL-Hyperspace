@@ -25,6 +25,7 @@
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "CustomTutorial.h"
 #include "TemporalSystem.h"
 #include "Misc.h"
 #include "CustomHotkeys.h"
@@ -44,6 +45,7 @@
         //*ppSpaceDrone = dynamic_cast<DerivedType*>(*ppSpaceDrone);
         //Hyperspace currently only uses a single inheritence model for FTLGame classes
         //So the SpaceDrone instance should always be at the beginning of the derived instance
+        if (!ppSpaceDrone || !(*ppSpaceDrone)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[(*ppSpaceDrone)->type];
     }
 %}
@@ -55,6 +57,7 @@ DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 %{
     static swig_type_info* Projectile_dynamic_cast(Projectile** ppProjectile) 
     {     
+        if (!ppProjectile || !(*ppProjectile)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pProjectile[(*ppProjectile)->GetType()];
     }
 %}
@@ -263,6 +266,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
 %rename("CrewFactory") Global_CrewMemberFactory_Factory;
+%rename("Tutorial") Global_TutorialManager_Tutorial;
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
@@ -276,6 +280,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
 %immutable Global_CrewMemberFactory_Factory;
+%immutable Global_TutorialManager_Tutorial;
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
@@ -324,6 +329,7 @@ public:
     AnimationControl *GetAnimationControl();
     ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
+    TutorialManager *GetTutorialManager();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
     EventGenerator *GetEventGenerator();
@@ -601,6 +607,74 @@ playerVariableType playerVariables;
 %immutable MainMenu::shipBuilder;
 %rename("%s") MainMenu::shipBuilder;
 
+%nodefaultctor TabbedWindow;
+%nodefaultdtor TabbedWindow;
+%rename("%s") TabbedWindow;
+%rename("%s") TabbedWindow::bBlockClose;
+%rename("%s") TabbedWindow::bTutorialMode;
+%rename("%s") TabbedWindow::bWindowLock;
+
+%nodefaultctor TutorialManager;
+%nodefaultdtor TutorialManager;
+
+%rename("%s") TutorialManager;
+%rename("%s") TutorialManager::bRunning;
+%immutable TutorialManager::playerShip;
+%rename("%s") TutorialManager::playerShip;
+%immutable TutorialManager::gui;
+%rename("%s") TutorialManager::gui;
+// %rename("%s") TutorialManager::crewControl;
+%immutable TutorialManager::starMap;
+%rename("%s") TutorialManager::starMap;
+// %rename("%s") TutorialManager::upgradeScreen;
+%immutable TutorialManager::combatControl;
+%rename("%s") TutorialManager::combatControl;
+// %rename("%s") TutorialManager::systemControl;
+%immutable TutorialManager::shipInfo;
+%rename("%s") TutorialManager::shipInfo;
+%rename("%s") TutorialManager::bGamePaused;
+%rename("%s") TutorialManager::bQuitTutorial;
+%immutable TutorialManager::tracker;
+%rename("%s") TutorialManager::tracker;
+
+%rename("%s") TutorialManager::bAllowJumping;
+%rename("%s") TutorialManager::bAllowUpgrades;
+
+%extend TutorialManager {
+    bool bAllowJumping;
+    bool bAllowUpgrades;
+}
+%wrapper %{
+    static bool TutorialManager_bAllowJumping_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowJumping;
+    }
+    static void TutorialManager_bAllowJumping_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowJumping = val;
+    }
+
+    static bool TutorialManager_bAllowUpgrades_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowUpgrades;
+    }
+    static void TutorialManager_bAllowUpgrades_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowUpgrades = val;
+    }
+%}
+
+%nodefaultctor TutorialArrow;
+%rename("%s") TutorialArrow;
+%rename("%s") TutorialArrow::OnRender;
+%rename("%s") TutorialArrow::arrow;
+%rename("%s") TutorialArrow::arrow2;
+%rename("%s") TutorialArrow::position;
+%rename("%s") TutorialArrow::blitSize;
+%rename("%s") TutorialArrow::rotation;
+%rename("%s") TutorialArrow::arrow_color;
+%rename("%s") TutorialArrow::arrow2_color;
+
 %nodefaultctor ShipBuilder;
 %nodefaultdtor ShipBuilder;
 
@@ -855,6 +929,10 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
 
+%rename("%s") TextButton;
+%rename("%s") TextButton::OnInit;
+%rename("%s") TextButton::OnRender;
+
 %nodefaultctor TextButton0;
 %nodefaultdtor TextButton0;
 %rename("%s") TextButton0;
@@ -923,8 +1001,12 @@ playerVariableType playerVariables;
 %rename("%s") WorldManager::starMap;
 %immutable WorldManager::starMap;
 
-%rename("%s") WorldManager::SwitchShip;
-%rename("%s") WorldManager::SwitchShipTransfer;
+/*
+These two mehods are not ready: they often cause a crash on Linux. Memory leak is also confirmed.
+We can expose them once the root cause is identified and the crash is fixed.
+*/
+//%rename("%s") WorldManager::SwitchShip;
+//%rename("%s") WorldManager::SwitchShipTransfer;
 
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable
@@ -1052,6 +1134,7 @@ playerVariableType playerVariables;
 %rename("%s") StarMap::worldLevel;
 %rename("%s") StarMap::bChoosingNewSector;
 %rename("%s") StarMap::bSecretSector;
+%rename("%s") StarMap::bTutorialGenerated;
 
 
 /*
@@ -1885,6 +1968,7 @@ playerVariableType playerVariables;
 %immutable SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::xOffset;
+%rename("%s") SystemBox_Extend::offset;
 
 %nodefaultctor ProjectileFactory;
 %nodefaultdtor ProjectileFactory;
@@ -4065,5 +4149,6 @@ playerVariableType playerVariables;
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "CustomTutorial.h"
 %include "TemporalSystem.h"
 %include "Misc.h"

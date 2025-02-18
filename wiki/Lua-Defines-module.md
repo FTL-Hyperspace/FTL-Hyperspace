@@ -86,6 +86,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.15.0 | SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain` chain, `uint` armamentSlot | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
 | 1.15.0 | SELECT_ARMAMENT_POST | `uint armamentSlot` | `Defines.Chain` chain | Triggered after selecting a weapon to fire |
 | 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
+| 1.17.0 | WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain` chain, `float` cooldownMod | Check and possibly alter the cooldown modifier being applied to a weapon. Return value cannot be greater than 1 for non-artillery weapons. |
 | 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
 | 1.11.0 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
 | 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine`, `string thirdLine` | `Defines.Chain` chain, `string firstLine`, `string secondLine`, `string thirdLine` | Change the text displayed for the player weapon cooldown timers |
@@ -96,8 +97,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.17.0 | SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
 | 1.17.0 | SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
 | 1.17.0 | GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` | Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
-| 1.17.0 | TABBED_WINDOW_CONFIRM | `int currentTab` | `None` | Called for every event that closes the current tab in the upgrade menu |
-| 1.17.0 | TABBED_WINDOW_UNDO | `int currentTab` | `None` | Called when the UNDO button is activated in the upgrade menu |
+| 1.17.0 | TABBED_WINDOW_CONFIRM | `std::string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| 1.17.0 | TABBED_WINDOW_UNDO | `std::string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
 
 ## Other predefined values
 

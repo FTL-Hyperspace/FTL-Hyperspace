@@ -1269,7 +1269,7 @@ HOOK_METHOD(DroneControl, SelectArmament, (unsigned int i) -> void)
             if (crewDrone != nullptr)
             {
                 G_->GetCApp()->gui->crewControl.SelectPotentialCrew(crewDrone, false); 
-                G_->GetCApp()->gui->crewControl.SelectCrew(true);
+                G_->GetCApp()->gui->crewControl.SelectCrew(false);
             }   
         }
     }   
