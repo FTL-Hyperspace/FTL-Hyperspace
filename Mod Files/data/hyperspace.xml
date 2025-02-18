@@ -1460,6 +1460,7 @@ Syntax ->
 
 	<!--
 	Define exclusive systems here. Each system can only be part of one exclusivity group, and if it is defined in multiple groups it will only register as being part of the last group.
+	Some systems do not work as exclusive systems. These are the same systems that cannot be removed using the removeSystem event tag.
 	<exclusivityGroup>
 		<clonebay/>
 		<medbay/>
@@ -2322,6 +2323,7 @@ Syntax ->
 		                                                                                          a "removed" message. Hidden augments can be removed by giving the name "HIDDEN AUG_ID", replacing AUG_ID with the normal
 		                                                                                          augment's id.
 		<removeSystem player="true">systemName</removeSystem>									Removes a system from the player ship. If player attribute is false, removes the system from the enemy ship instead, if present. Applies to the player ship if no attribute is provided.
+																								Some systems cannot be removed at present, such as the engine system.
 		<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
 		                                                                                          The "var" attribute lets you apply a variable or equipment req to another variable, instead of a constant.
