@@ -1,6 +1,7 @@
 #include "CustomSystems.h"
 #include "FTLGame.h"
 #include "TemporalSystem.h"
+#include "CustomOptions.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
 #include "SystemBox_Extend.h"
@@ -817,14 +818,21 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
+    int removedSystemPower = 0;
     for (int removalCandidateId = 0; removalCandidateId <= CustomUserSystems::GetLastSystemId(); ++removalCandidateId)
     {
         if (CustomUserSystems::AreSystemsExclusive(removalCandidateId, systemId) && systemKey[removalCandidateId] != -1)
         {
+            removedSystemPower = GetSystemPowerMax(removalCandidateId);
             RemoveSystem(removalCandidateId);
         }
     }
-    return super(systemId);
+    int ret = super(systemId);
+    while (GetSystemPowerMax(systemId) < removedSystemPower)
+    {
+        UpgradeSystem(systemId, 1);
+    }
+    return ret;
 }
 
 /*
@@ -1700,54 +1708,54 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     }
 }
 
-//TODO: Make DisarmAll call more selective or conditional on if the system is armed?
 void ShipManager::RemoveSystem(int iSystemId)
 {
-    if (HasSystem(iSystemId))
+    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR)
     {
         //Remove base ShipSystem
-    
-        int systemRoom = GetSystemRoom(iSystemId);
-        ship.EmptySlots(systemRoom);
-        for (CrewMember* crew : vCrewList)
-        {
-            if (crew->currentSlot.roomId == systemRoom)
-            {
-                crew->EmptySlot();
-                //TODO: Handle manning and repair
-                //crew->SetCurrentSystem(nullptr); //Not working
-            }
-        }
-
         ShipSystem* removeSys = GetSystem(iSystemId);
-        if (removeSys->bNeedsPower)
+        while (HasSystem(iSystemId)) //Repeat removal for artillery systems
         {
-            while (removeSys->RawDecreasePower()) continue;
-        }
-        
-        vSystemList.erase(vSystemList.begin() + systemKey[iSystemId]);
-        systemKey[iSystemId] = -1;
-        for (int idx = 0; idx < vSystemList.size(); ++idx)
-        {
-            ShipSystem* sys = vSystemList[idx];
-            systemKey[sys->iSystemType] = idx;
-        }
-        RemoveEquipment(ShipSystem::SystemIdToName(iSystemId), true);
-
-        if (current_target && current_target->hackingSystem != nullptr)
-        {
-            if (current_target->hackingSystem->queuedSystem == removeSys)
+            int systemRoom = GetSystemRoom(iSystemId);
+            ship.EmptySlots(systemRoom);
+            for (CrewMember* crew : vCrewList)
             {
-                current_target->hackingSystem->queuedSystem = nullptr;
+                if (crew->currentSlot.roomId == systemRoom)
+                {
+                    crew->EmptySlot();
+                    //TODO: Handle manning and repair
+                    //crew->SetCurrentSystem(nullptr); //Not working
+                }
             }
-            if (current_target->hackingSystem->currentSystem == removeSys)
+            ShipSystem* specificSys = GetSystem(iSystemId)      ;      
+            if (specificSys->bNeedsPower)
             {
-                current_target->hackingSystem->currentSystem = nullptr;
+                while (specificSys->RawDecreasePower()) continue;
+            }
+            
+            vSystemList.erase(vSystemList.begin() + systemKey[iSystemId]);
+            systemKey[iSystemId] = -1;
+            for (int idx = 0; idx < vSystemList.size(); ++idx)
+            {
+                ShipSystem* sys = vSystemList[idx];
+                systemKey[sys->iSystemType] = idx;
+            }
+            RemoveEquipment(ShipSystem::SystemIdToName(iSystemId), true);
+
+            if (current_target && current_target->hackingSystem != nullptr)
+            {
+                if (current_target->hackingSystem->queuedSystem == specificSys)
+                {
+                    current_target->hackingSystem->queuedSystem = nullptr;
+                }
+                if (current_target->hackingSystem->currentSystem == specificSys)
+                {
+                    current_target->hackingSystem->currentSystem = nullptr;
+                }
             }
         }
-
         CommandGui* gui = G_->GetCApp()->gui;
-        auto& shipBuilder = G_->GetCApp()->menu.shipBuilder;
+        ShipBuilder& shipBuilder = G_->GetCApp()->menu.shipBuilder;
         //Special handling per system for derived classes
         switch (iSystemId)
         {
@@ -1764,9 +1772,14 @@ void ShipManager::RemoveSystem(int iSystemId)
             };    
             case SYS_OXYGEN: 
             {
-                //TODO: Implement seamless transition to dummy oxygen?
+                std::vector<float> oxygenLevels = std::move(oxygenSystem->oxygenLevels);
                 delete oxygenSystem;
                 oxygenSystem = nullptr;
+                if (CustomOptionsManager::GetInstance()->oxygenWithoutSystem.currentValue)
+                {
+                    InstallDummyOxygen();
+                    oxygenSystem->oxygenLevels = std::move(oxygenLevels);
+                }
                 break;
             };  
             case SYS_WEAPONS: 
@@ -1797,7 +1810,6 @@ void ShipManager::RemoveSystem(int iSystemId)
             };    
             case SYS_DRONES:
             {
-                //Might be some issues with removing system while UI is in use?
                 if (iShipId == 0)
                 {
                     if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
@@ -1811,23 +1823,14 @@ void ShipManager::RemoveSystem(int iSystemId)
                         static_cast<DroneBox*>(box)->pDrone = nullptr;
                     }
                 } 
-
-                for (int slot = 0; slot < myBlueprint.droneSlots; ++slot)
+                Drone* removedDrone = droneSystem->RemoveDrone(0);
+                while (removedDrone != nullptr)
                 {
-                    droneSystem->RemoveDrone(slot);
-                }
-                if (!shipBuilder.bOpen)
-                {
-                    for (Drone* drone: G_->GetCApp()->world->space.drones)
-                    {
-                        if (drone->iShipId == iShipId)
-                        {
-                            drone->BlowUp(false);
-                        }
-                    }
+                    removedDrone->SetDestroyed(true, false);
+                    removedDrone->SetPowered(false);
+                    removedDrone = droneSystem->RemoveDrone(0);
                 }
                 
-                spaceDrones.clear();
                 tempDroneCount = droneSystem->drone_count;
                 delete droneSystem;
                 droneSystem = nullptr;
@@ -1860,7 +1863,6 @@ void ShipManager::RemoveSystem(int iSystemId)
             };         
             case SYS_TELEPORTER: 
             {
-                //Might be some issues with removing system while UI is in use?
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 delete teleportSystem;
                 teleportSystem = nullptr;
@@ -1878,10 +1880,13 @@ void ShipManager::RemoveSystem(int iSystemId)
             };   
             case SYS_ARTILLERY: 
             {
-                //TODO: Figure out how to handle this for multiple artillery systems? Remove last artillery system or remove all?
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
-                delete artillerySystems.back();
-                artillerySystems.pop_back();
+                for (ArtillerySystem* artillery : artillerySystems)
+                {
+                    delete artillery;
+                }
+                artillerySystems.clear();
+
                 break;
             };  
             case SYS_BATTERY: 
@@ -1901,7 +1906,6 @@ void ShipManager::RemoveSystem(int iSystemId)
             };   
             case SYS_MIND: 
             {
-                //Might be some issues with removing system while UI is in use?
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 mindSystem->ReleaseCrew();
                 delete mindSystem;
@@ -1910,7 +1914,6 @@ void ShipManager::RemoveSystem(int iSystemId)
             };       
             case SYS_HACKING: 
             {
-                //Might be some issues with removing system while UI is in use?
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 hackingSystem->BlowHackingDrone();
                 delete hackingSystem;
@@ -1920,18 +1923,20 @@ void ShipManager::RemoveSystem(int iSystemId)
             case SYS_TEMPORAL: 
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
+                SYS_EX(removeSys)->temporalSystem->StopTimeDilation();
                 delete removeSys;
+                removeSys = nullptr;
                 break;
             };  
             default:
             {
                 delete removeSys;
+                removeSys = nullptr;
                 break;
             };   
         }
         if (!shipBuilder.bOpen) gui->sysControl.CreateSystemBoxes();
         else shipBuilder.CreateSystemBoxes();
-        if (!shipBuilder.bOpen) SaveToBlueprint(true);
     }
 }
 //The original game code uses the starting ShipBlueprint when loading the game, and adds all starting systems by default.

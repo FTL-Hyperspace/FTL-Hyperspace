@@ -7962,12 +7962,12 @@ namespace _func573
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("DroneSystem::RemoveDrone", typeid(void (DroneSystem::*)(int )), "5731c0565383ec108b4c24248b5c242085c9", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("DroneSystem::RemoveDrone", typeid(Drone *(DroneSystem::*)(int )), "5731c0565383ec108b4c24248b5c242085c9", argdata, 2, 2, &func);
 }
 
-void DroneSystem::RemoveDrone(int slot)
+Drone *DroneSystem::RemoveDrone(int slot)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(DroneSystem *this_arg, int slot_arg);
+	typedef Drone *__attribute__((cdecl)) (*custom_arg_funcptr_t)(DroneSystem *this_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func573::func;
 	return execfunc(this, slot);
 }

@@ -7955,12 +7955,12 @@ namespace _func570
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("DroneSystem::RemoveDrone", typeid(void (DroneSystem::*)(int )), "5731c08d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f88????????89ce", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("DroneSystem::RemoveDrone", typeid(Drone *(DroneSystem::*)(int )), "5731c08d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f88????????89ce", argdata, 2, 1, &func);
 }
 
-void DroneSystem::RemoveDrone(int slot)
+Drone *DroneSystem::RemoveDrone(int slot)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(DroneSystem *this_arg, int slot_arg);
+	typedef Drone *__attribute__((thiscall)) (*custom_arg_funcptr_t)(DroneSystem *this_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func570::func;
 	return execfunc(this, slot);
 }

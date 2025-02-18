@@ -7369,12 +7369,12 @@ int DroneSystem::StringToDrone(std::string &name)
 namespace _func569
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DroneSystem::RemoveDrone", typeid(void (DroneSystem::*)(int )), ".31c085f60f888e00000041545553488b8f48020000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DroneSystem::RemoveDrone", typeid(Drone *(DroneSystem::*)(int )), ".31c085f60f888e00000041545553488b8f48020000", nullptr, 0, 0, &func);
 }
 
-void DroneSystem::RemoveDrone(int slot)
+Drone *DroneSystem::RemoveDrone(int slot)
 {
-	typedef void (*custom_arg_funcptr_t)(DroneSystem *this_arg, int slot_arg);
+	typedef Drone *(*custom_arg_funcptr_t)(DroneSystem *this_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func569::func;
 	return execfunc(this, slot);
 }

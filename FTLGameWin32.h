@@ -5385,7 +5385,7 @@ struct DroneSystem : ShipSystem
 	LIBZHL_API bool DePowerDrone(Drone *drone, bool unk);
 	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void RemoveDrone(int slot);
+	LIBZHL_API Drone *RemoveDrone(int slot);
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	LIBZHL_API static int __stdcall StringToDrone(std::string &name);
 	LIBZHL_API void UpdateBonusPower();
