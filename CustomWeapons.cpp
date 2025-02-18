@@ -277,7 +277,7 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
     }
     else if (blueprint->type == 3 && targetId == iShipId) //self-targetting bomb
     {
-        return 1;
+        return 1; // fix for self-targeting bomb with multiple shots being unable to change the target
     }
 
     int ret = super();
@@ -299,12 +299,11 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::ClearAiming -> Begin (CustomWeapons.cpp)\n")
     
-    if (targets.size() > 0 && targets.size() >= NumTargetsRequired())
-    {
-        fireWhenReady = false;
-        targets.clear();
-        lastTargets.clear();
-    }
+    if (targets.size() > 0 && targets.size() < NumTargetsRequired()) return;
+
+    fireWhenReady = false;
+    targets.clear();
+    lastTargets.clear();
 }
 
 // Pinpoint targeting
