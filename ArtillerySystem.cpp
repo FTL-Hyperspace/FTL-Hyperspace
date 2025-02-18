@@ -25,14 +25,11 @@ void ParseTargetableArtilleryNode(rapidxml::xml_node<char>* node)
         auto enabled = node->first_attribute("enabled")->value();
         customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
         customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
-
-        if (customOptions->targetableArtillery.currentValue || customOptions->targetableArtillery.defaultValue)
-        {
-            if (node->first_attribute("xOffset")) baseOffset.x += boost::lexical_cast<int>(node->first_attribute("xOffset")->value());
-            if (node->first_attribute("yOffset")) baseOffset.y += boost::lexical_cast<int>(node->first_attribute("yOffset")->value());
-            if (node->first_attribute("fixedYPos")) g_YPosIsFixed = EventsParser::ParseBoolean(node->first_attribute("fixedYPos")->value());
-        }
     }
+
+    if (node->first_attribute("xOffset")) baseOffset.x += boost::lexical_cast<int>(node->first_attribute("xOffset")->value());
+    if (node->first_attribute("yOffset")) baseOffset.y += boost::lexical_cast<int>(node->first_attribute("yOffset")->value());
+    if (node->first_attribute("fixedYPos")) g_YPosIsFixed = EventsParser::ParseBoolean(node->first_attribute("fixedYPos")->value());
 }
 
 HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void)
