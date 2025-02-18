@@ -116,7 +116,7 @@ HOOK_METHOD_PRIORITY(Equipment, AddToCargo, 9999, (const std::string& name) -> v
 
 HOOK_METHOD(Equipment, AddWeapon, (WeaponBlueprint *bp, bool free, bool forceCargo) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddWeapon -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Equipment::AddWeapon -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
     super(bp, free, forceCargo);
@@ -129,7 +129,7 @@ HOOK_METHOD(Equipment, AddWeapon, (WeaponBlueprint *bp, bool free, bool forceCar
 
 HOOK_METHOD(Equipment, AddDrone, (DroneBlueprint *bp, bool free, bool forceCargo) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddDrone -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Equipment::AddDrone -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
     super(bp, free, forceCargo);
@@ -142,7 +142,7 @@ HOOK_METHOD(Equipment, AddDrone, (DroneBlueprint *bp, bool free, bool forceCargo
 
 HOOK_METHOD(Equipment, AddAugment, (AugmentBlueprint *bp, bool free, bool forceCargo) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddAugment -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> Equipment::AddAugment -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
     super(bp, free, forceCargo);
@@ -223,7 +223,7 @@ ShipManager *g_shipManager = nullptr;
 
 HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportBattleState -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomEquipment.cpp)\n")
     ShipManager *orig = g_shipManager;
     g_shipManager = this;
     super(file);
@@ -393,12 +393,13 @@ void CustomEquipment::OnInit(ShipManager *ship)
     if (!cargoLeftButton)
     {
         cargoLeftButton = new Button();
-        cargoLeftButton->OnInit("statusUI/button_crew_up", Point(orig->position.x + 278, orig->position.y + 339));
+        cargoLeftButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 16, orig->position.y + 369));
     }
     if (!cargoRightButton)
     {
         cargoRightButton = new Button();
-        cargoRightButton->OnInit("statusUI/button_crew_down", Point(orig->position.x + 278, orig->position.y + 394));
+        cargoRightButton->OnInit("upgradeUI/buttons_system_arrow", Point(orig->position.x + 278, orig->position.y + 369));
+        cargoRightButton->bMirror = true;
     }
 
     if (!overCapacityLeftButton)
@@ -488,8 +489,8 @@ void CustomEquipment::SetPosition(Point p)
     if (augLeftButton) augLeftButton->SetLocation(Point(orig->position.x + 571, orig->position.y + 339));
     if (augRightButton) augRightButton->SetLocation(Point(orig->position.x + 571, orig->position.y + 394));
 
-    if (cargoLeftButton) cargoLeftButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 339));
-    if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 394));
+    if (cargoLeftButton) cargoLeftButton->SetLocation(Point(orig->position.x + 16, orig->position.y + 369));
+    if (cargoRightButton) cargoRightButton->SetLocation(Point(orig->position.x + 278, orig->position.y + 369));
 }
 
 void CustomEquipment::OnRender()
@@ -907,7 +908,7 @@ void CustomEquipment::AddOverCapacityItem(const EquipmentBoxItem &item)
 
 HOOK_METHOD_PRIORITY(Equipment, OnInit, 9999, (ShipManager *ship) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> Equipment::OnInit -> Begin (CustomEquipment.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::OnInit -> Begin (CustomEquipment.cpp)\n")
     EQ_EX(this)->customEquipment->OnInit(ship);
 }
 
@@ -941,6 +942,7 @@ HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
 /*
 HOOK_METHOD_PRIORITY(Equipment, MouseClick, 9999, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::MouseClick -> Begin (CustomEquipment.cpp)\n")
     FocusWindow::MouseClick(mX, mY);
     if (selectedEquipBox == -1) return;
 
@@ -954,6 +956,7 @@ HOOK_METHOD_PRIORITY(Equipment, MouseClick, 9999, (int mX, int mY) -> void)
 
 HOOK_METHOD_PRIORITY(Equipment, MouseUp, 9999, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::MouseUp -> Begin (CustomEquipment.cpp)\n")
     if (!bDragging) return;
 
     if (!bSellingItem)

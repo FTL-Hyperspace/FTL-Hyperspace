@@ -1,5 +1,5 @@
-"!8b14b0ebb790":
-noHook __cdecl void WeaponControl::DO_NOT_HOOK();
+"!5383ec188b5c????e8????????c744????00000000f30f2a4320f30f1144????f30f2a431cf30f1104??e8????????8d83a0010000":
+cleanup __cdecl void WeaponControl::RenderWarnings(WeaponControl *this);
 ".565383ec248b5c24308d44241a8d74241c":
 cleanup __cdecl TextString WeaponControl::HolderLabel(WeaponControl *this);
 ".5557565381ec0c0100008d7424748934248d7c2448":
@@ -18,6 +18,8 @@ cleanup __cdecl void WeaponControl::RenderSelfAiming(WeaponControl *this);
 cleanup __cdecl void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
 "5557565383ec2c8b7424408b6c24448b54244c":
 cleanup __cdecl void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
+".!5589e557565381ec8c0000008b????c744????03000000":
+cleanup __cdecl void WeaponControl::OnLoop(WeaponControl *this);
 ".5589e557565381ec9c0000008b5d08891c24":
 cleanup __cdecl void WeaponControl::OnLanguageChange(WeaponControl *this);
 ".565383ec248b5c2430c744240403000000":
@@ -34,5 +36,6 @@ cleanup __cdecl bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
 	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
 }};

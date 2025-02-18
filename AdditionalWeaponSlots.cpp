@@ -1,10 +1,12 @@
+#include "CustomOptions.h"
 #include "Global.h"
 
 #include "TemporalSystem.h"
-
+const int ARTILLERY_ARMED = 2147483647;
 static GL_Primitive *moreTargetIcon[6];
 static GL_Primitive *moreTargetIconYellow[6];
-
+static GL_Primitive *fallbackTargetIcon;
+static GL_Primitive *fallbackTargetIconYellow;
 GL_Primitive *WeaponControl::GetAimingPrimitive(ProjectileFactory *weapon, int i)
 {
     if (i<4)
@@ -15,49 +17,60 @@ GL_Primitive *WeaponControl::GetAimingPrimitive(ProjectileFactory *weapon, int i
     {
         return weapon->autoFiring ? moreTargetIconYellow[i-4] : moreTargetIcon[i-4];
     }
-    return nullptr;
+    return weapon->autoFiring ? fallbackTargetIconYellow : fallbackTargetIcon;
 }
+void WeaponControl::RenderAimingWeapon(ProjectileFactory* weapon, bool player, int i)
+{
+    if (weapon && !weapon->targets.empty() && !((weapon->targetId == 0) ^ player))
+    {
+        if (weapon->blueprint->type == 2) // beam
+        {
+            if (weapon->targets.size() >= 2 && weapon->blueprint->length > 1) // real beam
+            {
+                RenderBeamAiming(weapon->targets[1], weapon->targets[0], weapon->autoFiring);
+            }
+            else if (weapon->targets.size() >= 1 && weapon->blueprint->length == 1) // pinpoint beam
+            {
+                GL_Primitive *prim = GetAimingPrimitive(weapon, i);
+                if (prim)
+                {
+                    Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
+                    CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
+                    CSurface::GL_RenderPrimitive(prim);
+                    CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
+                }
+            }
+        }
+        else // not a beam
+        {
+            if (weapon->radius != 0) // flak radius
+            {
+                CSurface::GL_DrawCircle(weapon->targets[0].x, weapon->targets[0].y, weapon->radius, GL_Color(1.f, 0.f, 0.f, 0.25f));
+            }
 
+            GL_Primitive *prim = GetAimingPrimitive(weapon, i);
+            if (prim)
+            {
+                CSurface::GL_Translate(weapon->targets[0].x, weapon->targets[0].y, 0.f);
+                CSurface::GL_RenderPrimitive(prim);
+                CSurface::GL_Translate(-weapon->targets[0].x, -weapon->targets[0].y, 0.f);
+            }
+        }
+    }
+}
 void WeaponControl::RenderAimingNew(bool player)
 {
     for (int i=0; i<boxes.size(); ++i)
     {
         ProjectileFactory *weapon = ((WeaponBox*)(boxes[i]))->pWeapon;
-        if (weapon && !weapon->targets.empty() && !((weapon->targetId == 0) ^ player))
-        {
-            if (weapon->blueprint->type == 2) // beam
-            {
-                if (weapon->targets.size() >= 2 && weapon->blueprint->length > 1) // real beam
-                {
-                    RenderBeamAiming(weapon->targets[1], weapon->targets[0], weapon->autoFiring);
-                }
-                else if (weapon->targets.size() >= 1 && weapon->blueprint->length == 1) // pinpoint beam
-                {
-                    GL_Primitive *prim = GetAimingPrimitive(weapon, i);
-                    if (prim)
-                    {
-                        Point grid = ShipGraph::TranslateToGrid(weapon->targets[0].x, weapon->targets[0].y);
-                        CSurface::GL_Translate((grid.x * 35.f + 17.5f), (grid.y * 35.f + 17.5f), 0.f);
-                        CSurface::GL_RenderPrimitive(prim);
-                        CSurface::GL_Translate(-(grid.x * 35.f + 17.5f), -(grid.y * 35.f + 17.5f), 0.f);
-                    }
-                }
-            }
-            else // not a beam
-            {
-                if (weapon->radius != 0) // flak radius
-                {
-                    CSurface::GL_DrawCircle(weapon->targets[0].x, weapon->targets[0].y, weapon->radius, GL_Color(1.f, 0.f, 0.f, 0.25f));
-                }
+        RenderAimingWeapon(weapon, player, i);
+    }
 
-                GL_Primitive *prim = GetAimingPrimitive(weapon, i);
-                if (prim)
-                {
-                    CSurface::GL_Translate(weapon->targets[0].x, weapon->targets[0].y, 0.f);
-                    CSurface::GL_RenderPrimitive(prim);
-                    CSurface::GL_Translate(-weapon->targets[0].x, -weapon->targets[0].y, 0.f);
-                }
-            }
+    if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || shipManager->HasAugmentation("ARTILLERY_ORDER"))
+    {
+        for (ArtillerySystem* artillerySystem : shipManager->artillerySystems)
+        {
+            RenderAimingWeapon(artillerySystem->projectileFactory, player, 100);
         }
     }
 }
@@ -72,6 +85,8 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
         moreTargetIcon[i] = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed" + std::to_string(i+5) + ".png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
         moreTargetIconYellow[i] = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed" + std::to_string(i+5) + "_yellow.png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
     }
+    fallbackTargetIcon = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed_fallback.png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
+    fallbackTargetIconYellow = G_->GetResources()->CreateImagePrimitiveString("misc/crosshairs_placed_fallback_yellow.png", -26, -26, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
 }
 
 HOOK_METHOD_PRIORITY(WeaponControl, RenderAiming, 9999, () -> void)
@@ -93,9 +108,10 @@ HOOK_METHOD(CombatControl, SetMouseCursor, () -> void)
 
     MouseControl *mouse = G_->GetMouseControl();
 
-    if (mouse->aiming_required != 0)
+    if (mouse->aiming_required != 0 || weapControl.armedSlot == -1)
     {
-        mouse->aiming_required = (weapControl.armedSlot + 1);
+        bool artilleryArmed = weapControl.armedSlot == -1 && weapControl.armedWeapon != nullptr;
+        mouse->aiming_required = artilleryArmed ? ARTILLERY_ARMED : (weapControl.armedSlot + 1);
 
         if (weapControl.autoFiring != G_->GetSettings()->holdingModifier)
         {
@@ -111,9 +127,10 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 
     MouseControl *mouse = G_->GetMouseControl();
 
-    if (mouse->aiming_required != 0)
+    if (mouse->aiming_required != 0 || weapControl.armedSlot == -1)
     {
-        mouse->aiming_required = (weapControl.armedSlot + 1);
+        bool artilleryArmed = weapControl.armedSlot == -1 && weapControl.armedWeapon != nullptr;
+        mouse->aiming_required = artilleryArmed ? ARTILLERY_ARMED : (weapControl.armedSlot + 1);
 
         if (weapControl.autoFiring != G_->GetSettings()->holdingModifier)
         {
@@ -183,8 +200,18 @@ HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
         tex = selling;
     }
     else if (aiming_required != 0)
-    {
-        if (aiming_required < 0)
+    {   
+        if (aiming_required == ARTILLERY_ARMED)
+        {
+            s = "mouse/mouse_crosshairs2_fallback.png";
+            tex2 = G_->GetResources()->GetImageId(valid ? "mouse/mouse_crosshairs.png" : "mouse/mouse_crosshairs_valid.png");
+        }
+        else if (aiming_required == -ARTILLERY_ARMED)
+        {
+            s = "mouse/mouse_crosshairs3_fallback.png";
+            tex2 = G_->GetResources()->GetImageId(valid ? "mouse/mouse_crosshairs.png" : "mouse/mouse_crosshairs_valid2.png");
+        }
+        else if (aiming_required < 0)
         {
             s = "mouse/mouse_crosshairs3_" + std::to_string(-aiming_required) + ".png";
             tex2 = G_->GetResources()->GetImageId(valid ? "mouse/mouse_crosshairs.png" : "mouse/mouse_crosshairs_valid2.png");

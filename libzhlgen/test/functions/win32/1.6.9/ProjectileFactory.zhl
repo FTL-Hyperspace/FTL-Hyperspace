@@ -14,8 +14,12 @@ __thiscall void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this, 
 __thiscall void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
 ".5781c1????????8d7c240883e4f0ff77fc5589e5":
 __thiscall void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
-"8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??8d65f8":
+".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??8d65f8":
 static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& str);
+".8b8100060000398104060000":
+__thiscall bool ProjectileFactory::QueuedShots(ProjectileFactory *this);
+".578d????0883e4f0ff????5589e557565389cb83ec3c8b??8dbbfc000000":
+__thiscall void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b47048b1f8945e4":
 __thiscall void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
 "8b912c06000031c085d27e??0fb681f600000084c074??8b411c8b911801000039900c0100007e??31c0c3908d74260080b9f50000000075??":
@@ -38,17 +42,18 @@ __thiscall void ProjectileFactory::ClearAiming(ProjectileFactory *this);
 __thiscall void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
 "5589e557565389cf83e4f083ec208b8100060000":
 __thiscall void ProjectileFactory::destructor(ProjectileFactory *this);
-
 "8d4c240483e4f0ff71fc5589e556535183ec6c8b19891c24":
 static cleanup __cdecl Projectile *ProjectileFactory::LoadProjectile(int fd);
 "8d4c240483e4f0ff71fc5589e556535183ec1c8b198b71048b0389d9ff507c89342489442404":
 static cleanup __cdecl void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
 ".578d????0883e4f0ff????5589e557565389cb83ec2c8b??31":
 __thiscall void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);
-
+"8b44240484c075":
+__thiscall void ProjectileFactory::SetAutoFire(ProjectileFactory *this, bool autoFire);
 
 struct ProjectileFactory 
 {{
+	bool HitShotLimit();
 	ProjectileFactory(const WeaponBlueprint *bp, int shipId)
 	{
 		this->constructor(bp, shipId);
