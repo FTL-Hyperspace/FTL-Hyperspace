@@ -35,9 +35,11 @@ cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this);
 ".85f60f57c0":
 cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 ".85f6b801000000":
-cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
+cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room); // 004b23c0
+".415741564155415455534883ec284c8b25":
+static cleanup __amd64 void ShipGraph::Restart(); // 004b27b0
 ".41564531c04989f6415541544189d4554889fd53":
-cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
+cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId); // 004b2970
 ".41564155415441bc010000005589d55389f34883ec20":
 cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
 ".5389fb4881ec90000000":

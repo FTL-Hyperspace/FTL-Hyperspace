@@ -30,3 +30,5 @@ __thiscall void ShipBuilder::constructor(ShipBuilder *this);
 __thiscall void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec2c80b96012000000894de4":
 __thiscall void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
+"80??????????0074??57":
+__thiscall ShipManager *ShipBuilder::GetShip(ShipBuilder *this);

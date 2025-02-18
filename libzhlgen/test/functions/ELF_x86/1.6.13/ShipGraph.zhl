@@ -48,6 +48,8 @@ cleanup __cdecl Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int room)
 cleanup __cdecl float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 "538b4c240cb8010000008b54240885c9":
 cleanup __cdecl bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
+".5557565383ec3c8b2d":
+static cleanup __cdecl void ShipGraph::Restart();
 "5589e5575631f65389f381ecac0000008b45108b7d0c":
 cleanup __cdecl Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
 
