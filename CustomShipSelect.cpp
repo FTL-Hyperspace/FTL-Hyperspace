@@ -698,8 +698,8 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
             def.cargoSlots = boost::lexical_cast<int>(val);
         }
         if (name == "systemList")
-        {
-            for (auto artilleryNode = shipNode->first_node(); artilleryNode; artilleryNode = artilleryNode->next_sibling("artillery"))
+        { // fix a bug where the first given artillery room image is used for all artillery rooms
+            for (auto artilleryNode = shipNode->first_node("artillery"); artilleryNode; artilleryNode = artilleryNode->next_sibling("artillery"))
             {
                 auto imgAttribute = artilleryNode->first_attribute("img");
                 const char* imgName = imgAttribute ? imgAttribute->value() : "";
