@@ -1,6 +1,7 @@
+#include "ArtillerySystem.h"
 #include "CustomOptions.h"
-#include "Global.h"
 #include "SystemBox_Extend.h"
+#include <boost/lexical_cast.hpp>
 
 HOOK_METHOD(ArtillerySystem, Jump, () -> void)
 {
@@ -12,7 +13,25 @@ HOOK_METHOD(ArtillerySystem, Jump, () -> void)
     projectileFactory->ClearProjectiles();
 }
 
-static const Point baseOffset(22, -5);
+static Point baseOffset(22, -5);
+static bool g_YPosIsFixed = false;
+
+void ParseTargetableArtilleryNode(rapidxml::xml_node<char>* node)
+{
+    CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
+
+    if (node->first_attribute("enabled"))
+    {
+        auto enabled = node->first_attribute("enabled")->value();
+        customOptions->targetableArtillery.defaultValue = EventsParser::ParseBoolean(enabled);
+        customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
+    }
+
+    if (node->first_attribute("xOffset")) baseOffset.x += boost::lexical_cast<int>(node->first_attribute("xOffset")->value());
+    if (node->first_attribute("yOffset")) baseOffset.y += boost::lexical_cast<int>(node->first_attribute("yOffset")->value());
+    if (node->first_attribute("fixedYPos")) g_YPosIsFixed = EventsParser::ParseBoolean(node->first_attribute("fixedYPos")->value());
+}
+
 HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ArtilleryBox::constructor -> Begin (ArtillerySystem.cpp)\n")
@@ -26,6 +45,16 @@ HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void
     extend->offset = baseOffset;
 }
 
+static int g_ShipSystem__RenderPowerBoxes_return;
+
+HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxes -> Begin (ArtillerySystem.cpp)\n")
+    int ret = super(x, y, width, height, gap, heightMod, flash);
+    g_ShipSystem__RenderPowerBoxes_return = ret;
+    return ret;
+}
+
 HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ArtilleryBox::OnRender -> Begin (ArtillerySystem.cpp)\n")
@@ -36,14 +65,11 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         extend->artilleryButton.bActive = artSystem->Functioning();
         ProjectileFactory* armedWeapon = G_->GetCApp()->gui->combatControl.weapControl.armedWeapon;
         extend->artilleryButton.bRenderSelected = armedWeapon == artSystem->projectileFactory;
-        extend->offset.y = baseOffset.y - 8 * pSystem->healthState.second;
+        extend->offset.y = g_YPosIsFixed ? baseOffset.y : baseOffset.y + g_ShipSystem__RenderPowerBoxes_return - 265;
 
-        int offset_x = CustomOptionsManager::GetInstance()->targetableArtillery_pos_x.currentValue;
-        int offset_y = CustomOptionsManager::GetInstance()->targetableArtillery_pos_y.currentValue;
-
-        CSurface::GL_Translate(extend->offset.x + offset_x, extend->offset.y + offset_y);
+        CSurface::GL_Translate(extend->offset.x, extend->offset.y);
         extend->artilleryButton.OnRender();
-        CSurface::GL_Translate(-extend->offset.x - offset_x, -extend->offset.y - offset_y);
+        CSurface::GL_Translate(-extend->offset.x, -extend->offset.y);
         if (extend->artilleryButton.Hovering())
         {
             //TODO: Use GetOverrideTooltip (Not working)

@@ -386,9 +386,12 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
-<!--Allows manual control of artillery systems for all ships. To selectively enable this feature for individual ships, set this to false and give the ship the augment ARTILLERY_ORDER.-->
+<!--Allows manual control of artillery systems for all ships. To selectively enable this feature for individual ships, set this to false and give the ship the augment ARTILLERY_ORDER.
+- xOffset and yOffset: Set the offset of the artillery button position.
+- fixedYPos: If true, the y position of the artillery button will be fixed, otherwise it will be relative to the total height of power boxes, manning icon, hacking icon, locked icon and so on.
+-->
 
-<targetableArtillery enabled="false" x="0" y="0"/>
+<targetableArtillery enabled="false" xOffset="0" yOffset="0" fixedYPos="false"/>
 
 <!--Fixes the rendering of cloaked player ships when no crew are onboard.-->
 
@@ -397,6 +400,10 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 <!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are fighting -->
   
 <insertNewlineForMultipleCrewTooltips enabled="false"/>
+
+<!-- Disables the progression of the vanilla tutorial and allows a custom lua-powered tutorial -->
+
+<disableDefaultTutorial enabled="false"/>
 
 <!-- Allows for the existence of additional tabs in the upgrade menu, be wary that they are to be used with lua to have any utility 
 name: name of the tab, will be used to find the icon_[name] for the tab in the img\upgradeUI\Equipment\tabButtons folder

@@ -308,11 +308,11 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_fr">French</text>
 <text name="credits_hyperspace_loc_fr_names">Pepson</text>
 <text name="credits_hyperspace_loc_it">Italian</text>
-<text name="credits_hyperspace_loc_it_names">RawToast</text>
+<text name="credits_hyperspace_loc_it_names">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de">German</text>
 <text name="credits_hyperspace_loc_de_names">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es">Spanish</text>
-<text name="credits_hyperspace_loc_es_names">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl">Polish</text>
 <text name="credits_hyperspace_loc_pl_names">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR">Portuguese (Brazil)</text>

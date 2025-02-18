@@ -1016,6 +1016,14 @@ struct LIBZHL_INTERFACE ArmamentControl
 	int activeTouch;
 };
 
+struct ArrowDescription
+{
+	Point location;
+	float rotation;
+	bool upgradesRelative;
+	int hostileRelative;
+};
+
 struct ArtilleryBox;
 struct ArtillerySystem;
 
@@ -3671,6 +3679,7 @@ struct ShipBuilder
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API void CycleShipNext();
 	LIBZHL_API void CycleShipPrevious();
+	LIBZHL_API ShipManager *GetShip();
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnKeyDown(SDLKey key);
@@ -7671,6 +7680,13 @@ struct StarMap : FocusWindow
 	std::vector<Globals::Rect> sectorHitBoxes;
 };
 
+struct StateInfo
+{
+	bool stateContinueNeeded;
+	TextString stateText;
+	std::vector<ArrowDescription> arrows;
+};
+
 struct Store : FocusWindow
 {
 	Store()
@@ -7851,10 +7867,42 @@ struct TutorialManager;
 
 struct TutorialManager
 {
+	LIBZHL_API bool AllowJumping();
+	LIBZHL_API bool AllowUpgrades();
+	LIBZHL_API void LoadTutorial();
+	LIBZHL_API bool MouseClick();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit(ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
 	LIBZHL_API bool Running();
 	LIBZHL_API void constructor();
 	
+	bool bRunning;
+	TextButton continueButton;
+	int currentState;
+	std::string stateName;
+	std::vector<std::string> stateOrder;
+	std::map<std::string, int> stateValues;
+	std::map<std::string, StateInfo> states;
+	ShipManager *playerShip;
+	CommandGui *gui;
+	CrewControl *crewControl;
+	StarMap *starMap;
+	Upgrades *upgradeScreen;
+	CombatControl *combatControl;
+	SystemControl *systemControl;
+	TabbedWindow *shipInfo;
+	bool bGamePaused;
+	bool bQuitTutorial;
+	AnimationTracker tracker;
+	float timerOpen;
+	WindowFrame *descBox;
+	int descBoxHeight;
+	GL_Texture *arrow;
+	GL_Texture *arrow2;
+	HandAnimation hand;
+	bool bTriggerEvent;
 };
 
 struct UpgradeBox
