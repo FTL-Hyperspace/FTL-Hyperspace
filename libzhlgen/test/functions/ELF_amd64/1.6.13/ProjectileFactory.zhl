@@ -20,6 +20,8 @@ cleanup __amd64 void ProjectileFactory::OnRender(ProjectileFactory *this, float 
 cleanup __amd64 void ProjectileFactory::ClearAiming(ProjectileFactory *this);
 ".488b87e8050000488987f0050000":
 cleanup __amd64 void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
+".4084f675":
+cleanup __amd64 void ProjectileFactory::SetAutoFire(ProjectileFactory *this,bool autoFire);
 ".8b972006000031c085d2":
 cleanup __amd64 bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
 ".8b972006000031c085d27e??80bff20000000074????8b47208b972c010000":

@@ -18,12 +18,14 @@
 #include "Projectile_Extend.h"
 #include "ShipManager_Extend.h"
 #include "System_Extend.h"
+#include "SystemBox_Extend.h"
 #include "Room_Extend.h"
 #include "ToggleValue.h"
 #include "CommandConsole.h"
 #include "StatBoost.h"
 #include "ShipUnlocks.h"
 #include "CustomShips.h"
+#include "CustomTutorial.h"
 #include "TemporalSystem.h"
 #include "Misc.h"
 %}
@@ -42,6 +44,7 @@
         //*ppSpaceDrone = dynamic_cast<DerivedType*>(*ppSpaceDrone);
         //Hyperspace currently only uses a single inheritence model for FTLGame classes
         //So the SpaceDrone instance should always be at the beginning of the derived instance
+        if (!ppSpaceDrone || !(*ppSpaceDrone)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[(*ppSpaceDrone)->type];
     }
 %}
@@ -53,6 +56,7 @@ DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 %{
     static swig_type_info* Projectile_dynamic_cast(Projectile** ppProjectile) 
     {     
+        if (!ppProjectile || !(*ppProjectile)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pProjectile[(*ppProjectile)->GetType()];
     }
 %}
@@ -141,6 +145,7 @@ namespace std {
     // todo: add std::array
 
     %template(vector_int) vector<int>;
+    %template(vector_unsigned_int) vector<unsigned int>;
     %template(vector_float) vector<float>;
     %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
     %template(vector_ProjectileFactory) vector<ProjectileFactory*>;
@@ -156,6 +161,7 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
+    %template(vector_Animation) vector<Animation>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -183,6 +189,7 @@ namespace std {
     %template(vector_CrewPlacementDefinition) vector<CrewPlacementDefinition>;
     %template(vector_string) vector<string>;
     %template(vector_StatBoostDefinition) vector<StatBoostDefinition*>;
+    %template(vector_TriggeredEventDefinition) vector<TriggeredEventDefinition>;
     %template(pair_Animation_int8_t) pair<Animation, int8_t>;
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_location) vector<Location*>;
@@ -258,6 +265,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
 %rename("CrewFactory") Global_CrewMemberFactory_Factory;
+%rename("Tutorial") Global_TutorialManager_Tutorial;
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 %rename("Resources") Global_ResourceControl_GlobalResources;
@@ -271,6 +279,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %immutable Global_SoundControl_Sounds;
 %immutable Global_AnimationControl_Animations;
 %immutable Global_CrewMemberFactory_Factory;
+%immutable Global_TutorialManager_Tutorial;
 %immutable Global_CFPS_FPSControl;
 %immutable Global_ScoreKeeper_Keeper;
 %immutable Global_ResourceControl_GlobalResources;
@@ -319,6 +328,7 @@ public:
     AnimationControl *GetAnimationControl();
     ScoreKeeper *GetScoreKeeper();
     CrewMemberFactory *GetCrewFactory();
+    TutorialManager *GetTutorialManager();
     MouseControl *GetMouseControl();
     TextLibrary *GetTextLibrary();
     EventGenerator *GetEventGenerator();
@@ -596,6 +606,74 @@ playerVariableType playerVariables;
 %immutable MainMenu::shipBuilder;
 %rename("%s") MainMenu::shipBuilder;
 
+%nodefaultctor TabbedWindow;
+%nodefaultdtor TabbedWindow;
+%rename("%s") TabbedWindow;
+%rename("%s") TabbedWindow::bBlockClose;
+%rename("%s") TabbedWindow::bTutorialMode;
+%rename("%s") TabbedWindow::bWindowLock;
+
+%nodefaultctor TutorialManager;
+%nodefaultdtor TutorialManager;
+
+%rename("%s") TutorialManager;
+%rename("%s") TutorialManager::bRunning;
+%immutable TutorialManager::playerShip;
+%rename("%s") TutorialManager::playerShip;
+%immutable TutorialManager::gui;
+%rename("%s") TutorialManager::gui;
+// %rename("%s") TutorialManager::crewControl;
+%immutable TutorialManager::starMap;
+%rename("%s") TutorialManager::starMap;
+// %rename("%s") TutorialManager::upgradeScreen;
+%immutable TutorialManager::combatControl;
+%rename("%s") TutorialManager::combatControl;
+// %rename("%s") TutorialManager::systemControl;
+%immutable TutorialManager::shipInfo;
+%rename("%s") TutorialManager::shipInfo;
+%rename("%s") TutorialManager::bGamePaused;
+%rename("%s") TutorialManager::bQuitTutorial;
+%immutable TutorialManager::tracker;
+%rename("%s") TutorialManager::tracker;
+
+%rename("%s") TutorialManager::bAllowJumping;
+%rename("%s") TutorialManager::bAllowUpgrades;
+
+%extend TutorialManager {
+    bool bAllowJumping;
+    bool bAllowUpgrades;
+}
+%wrapper %{
+    static bool TutorialManager_bAllowJumping_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowJumping;
+    }
+    static void TutorialManager_bAllowJumping_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowJumping = val;
+    }
+
+    static bool TutorialManager_bAllowUpgrades_get(TutorialManager* tutorialManager)
+    {
+        return CustomTutorialState::allowUpgrades;
+    }
+    static void TutorialManager_bAllowUpgrades_set(TutorialManager* tutorialManager, bool val)
+    {
+        CustomTutorialState::allowUpgrades = val;
+    }
+%}
+
+%nodefaultctor TutorialArrow;
+%rename("%s") TutorialArrow;
+%rename("%s") TutorialArrow::OnRender;
+%rename("%s") TutorialArrow::arrow;
+%rename("%s") TutorialArrow::arrow2;
+%rename("%s") TutorialArrow::position;
+%rename("%s") TutorialArrow::blitSize;
+%rename("%s") TutorialArrow::rotation;
+%rename("%s") TutorialArrow::arrow_color;
+%rename("%s") TutorialArrow::arrow2_color;
+
 %nodefaultctor ShipBuilder;
 %nodefaultdtor ShipBuilder;
 
@@ -705,6 +783,18 @@ playerVariableType playerVariables;
 %nodefaultdtor CustomEvent;
 %rename("%s") CustomEvent;
 %rename("%s") CustomEvent::unlockShip;
+%rename("%s") CustomEvent::triggeredEvents;
+%immutable CustomEvent::triggeredEvents;
+
+%nodefaultctor TriggeredEventDefinition;
+%nodefaultdtor TriggeredEventDefinition;
+%rename("%s") TriggeredEventDefinition;
+%rename("%s") TriggeredEventDefinition::defs;
+%immutable TriggeredEventDefinition::defs;
+%rename("%s") TriggeredEventDefinition::name;
+%immutable TriggeredEventDefinition::name;
+%rename("%s") TriggeredEventDefinition::event;
+%immutable TriggeredEventDefinition::event;
 
 %rename("%s") FocusWindow;
 %rename("%s") FocusWindow::bOpen;
@@ -838,6 +928,10 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
 
+%rename("%s") TextButton;
+%rename("%s") TextButton::OnInit;
+%rename("%s") TextButton::OnRender;
+
 %nodefaultctor TextButton0;
 %nodefaultdtor TextButton0;
 %rename("%s") TextButton0;
@@ -906,6 +1000,13 @@ playerVariableType playerVariables;
 %rename("%s") WorldManager::starMap;
 %immutable WorldManager::starMap;
 
+/*
+These two mehods are not ready: they often cause a crash on Linux. Memory leak is also confirmed.
+We can expose them once the root cause is identified and the crash is fixed.
+*/
+//%rename("%s") WorldManager::SwitchShip;
+//%rename("%s") WorldManager::SwitchShipTransfer;
+
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable
 ////%rename("%s") WorldManager::currentEffects; // Vector of StatusEffect, maybe allow? Not sure if it should be writeable
@@ -959,6 +1060,8 @@ playerVariableType playerVariables;
 
 %rename("%s") SpaceManager::projectiles;
 %immutable SpaceManager::projectiles;
+%rename("%s") SpaceManager::drones;
+%immutable SpaceManager::drones;
 %rename("%s") SpaceManager::currentBack;
 %rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
 //%nodefaultctor SpaceManager::FleetShip;
@@ -1030,6 +1133,7 @@ playerVariableType playerVariables;
 %rename("%s") StarMap::worldLevel;
 %rename("%s") StarMap::bChoosingNewSector;
 %rename("%s") StarMap::bSecretSector;
+%rename("%s") StarMap::bTutorialGenerated;
 
 
 /*
@@ -1839,6 +1943,32 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend::additionalPowerLoss;
 
+%nodefaultctor SystemBox;
+%rename("%s") SystemBox;
+%rename("%s") SystemBox::pSystem;
+%rename("%s") SystemBox::location;
+%rename("%s") SystemBox::bPlayerUI;
+
+%immutable SystemBox::extend;
+%rename("%s") SystemBox::extend;
+
+%extend SystemBox {
+    SystemBox_Extend* extend;
+}
+%wrapper %{
+    static SystemBox_Extend *SystemBox_extend_get(SystemBox* systemBox)
+    {
+        return Get_SystemBox_Extend(systemBox);
+    };
+%}
+
+%nodefaultctor SystemBox_Extend;
+%rename("%s") SystemBox_Extend;
+%immutable SystemBox_Extend::orig;
+%rename("%s") SystemBox_Extend::orig;
+%rename("%s") SystemBox_Extend::xOffset;
+%rename("%s") SystemBox_Extend::offset;
+
 %nodefaultctor ProjectileFactory;
 %nodefaultdtor ProjectileFactory;
 %rename("%s") ProjectileFactory;
@@ -2090,6 +2220,9 @@ playerVariableType playerVariables;
 %rename("%s") Room::rect;
 %immutable Room::iRoomId;
 %rename("%s") Room::iRoomId;
+
+%rename("%s") Room::highlightPrimitive;
+%rename("%s") Room::highlightPrimitive2;
 
 %immutable Room::extend;
 %rename("%s") Room::extend;
@@ -3978,6 +4111,7 @@ playerVariableType playerVariables;
     script_add_native_member(L, "ShipManager", "table", hs_Userdata_table_get);
     script_add_native_member(L, "Room", "table", hs_Userdata_table_get);
     script_add_native_member(L, "SpaceDrone", "table", hs_Userdata_table_get);
+    script_add_native_member(L, "SystemBox", "table", hs_Userdata_table_get);
 %}
 %rename("%s") TextString;
 %rename("%s") TextString::GetText;
@@ -3998,13 +4132,16 @@ playerVariableType playerVariables;
 %include "CustomScoreKeeper.h"
 %include "CustomShipGenerator.h"
 %include "CustomShipSelect.h"
+%include "CustomShips.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
 %include "ShipManager_Extend.h"
 %include "System_Extend.h"
+%include "SystemBox_Extend.h"
 %include "Room_Extend.h"
 %include "StatBoost.h"
 %include "ShipUnlocks.h"
 %include "CommandConsole.h"
+%include "CustomTutorial.h"
 %include "TemporalSystem.h"
 %include "Misc.h"

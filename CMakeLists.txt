@@ -73,6 +73,7 @@ target_sources(
     AlternateOxygenRendering.h
     ArtilleryBarFix.cpp
     ArtillerySystem.cpp
+    ArtillerySystem.h
     AugmentValues.cpp
     Augments.cpp
     Balance.cpp
@@ -160,11 +161,14 @@ target_sources(
     CustomSystems.h
     CustomTextStyle.cpp
     CustomTextStyle.h
+    CustomTutorial.cpp
+    CustomTutorial.h
     CustomUpgrades.cpp
     CustomUpgrades.h
     CustomWeapons.cpp
     CustomWeapons.h
     Debugging.cpp
+    Drones.h
     DroneVTable.cpp
     EnemyShipIcons.cpp
     EnemyShipIcons.h
@@ -203,6 +207,7 @@ target_sources(
     NeutralTeleporterFix.cpp
     OverclockerSystem.cpp
     OverclockerSystem.h
+    OxygenWithoutSystem.cpp
     PALMemoryProtection.h
     ProjectileVTable.cpp
     Projectile_Extend.cpp
@@ -244,6 +249,8 @@ target_sources(
     SystemDescriptionFixes.cpp
     System_Extend.cpp
     System_Extend.h
+    SystemBox_Extend.cpp
+    SystemBox_Extend.h
     Systems.h
     TemporalBoxVTable.cpp
     TemporalSystem.cpp

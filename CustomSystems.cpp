@@ -3,6 +3,7 @@
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
+#include "SystemBox_Extend.h"
 #include <boost/lexical_cast.hpp>
 
 #include <cmath>
@@ -33,7 +34,49 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
         }
     }
 }
-
+void CustomUserSystems::ParseSystemNode(rapidxml::xml_node<char>* node)
+{
+    //TODO: Possibly add control over ordering and mutual exclusive systems later.
+    if (node->first_attribute("id"))
+    {
+        std::string sysName = node->first_attribute("id")->value();
+        if (ShipSystem::NameToSystemId(sysName) != SYS_INVALID)
+        {
+            std::string error = "Attempted to register custom system: " + sysName + " when the name is already taken!";
+            throw std::invalid_argument(error);
+        }
+        AddSystemName(sysName);
+    }
+}
+std::vector<std::string> CustomUserSystems::systemNames;
+std::unordered_map<std::string, int> CustomUserSystems::systemIds;
+void CustomUserSystems::AddSystemName(const std::string& systemName)
+{
+    systemNames.emplace_back(systemName);
+    //If order of nodes can change upon reload under reasonable circumstances, we may need to sort alphabetically or something so the order is well defined
+    std::sort(systemNames.begin(), systemNames.end());
+    //Remap IDS
+    for (int idx = 0; idx < systemNames.size(); ++idx)
+    {
+        systemIds[systemNames[idx]] = idx + SYS_CUSTOM_FIRST;
+    }    
+}
+int CustomUserSystems::NameToSystemId(const std::string& systemName)
+{
+    auto it = systemIds.find(systemName);
+    if (it != systemIds.end()) return it->second;
+    return SYS_INVALID;
+}
+std::string CustomUserSystems::SystemIdToName(int systemId)
+{   
+    int idx = systemId - SYS_CUSTOM_FIRST;
+    if (idx >=0 && idx < systemNames.size()) return systemNames[idx];
+    return "invalid system id";
+}
+int CustomUserSystems::GetLastSystemId()
+{
+    return SYS_CUSTOM_FIRST + systemNames.size() - 1;
+}
 
 //TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
 static float DAMAGE_BOOST[4] = {1.0, 1.0, 1.25, 2.0};
@@ -156,7 +199,7 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
         bool hacked = sys->iHackEffect >= 2 && sys->bUnderAttack;
         power = hacked ? sys->healthState.first : sys->GetEffectivePower();
     }
-    return (power > 0 && power - 1 < levels.size()) ? levels[power - 1] : defaultLevel;
+    return GetLevel(power);
 }
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
@@ -166,7 +209,11 @@ HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
     {
         return 20;
     }
-
+    int customId = CustomUserSystems::NameToSystemId(name);
+    if (customId != SYS_INVALID)
+    {
+        return customId;
+    }
     return super(name);
 }
 
@@ -177,6 +224,10 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
     if (systemId == 20)
     {
         ret.assign("temporal");
+    }
+    if (systemId >= SYS_CUSTOM_FIRST)
+    {
+        ret.assign(CustomUserSystems::SystemIdToName(systemId));
     }
 
     return ret;
@@ -195,6 +246,10 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event)
         if (event->stuff.upgradeId == 16) // upgrade everything
         {
             playerShip->shipManager->UpgradeSystem(SYS_TEMPORAL, event->stuff.upgradeAmount);
+            for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+            {
+                playerShip->shipManager->UpgradeSystem(systemId, event->stuff.upgradeAmount);
+            }
         }
         else if (event->stuff.upgradeId >= 20) // new IDs
         {
@@ -239,7 +294,7 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     }
 
     systemKey.clear();
-    for (int i = 0; i < 21; i++)
+    for (int i = 0; i <= CustomUserSystems::GetLastSystemId(); i++)
     {
         systemKey.push_back(-1);
     }
@@ -266,10 +321,10 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
+HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomSystems.cpp)\n")
-    ShipBlueprint ret = super(unk);
+    ShipBlueprint ret = super(overwrite);
     if (this->systemKey[SYS_ARTILLERY] != -1) // Fix for saving multiple artillery blueprint
     {
         int numArtillery = this->artillerySystems.size();
@@ -286,11 +341,10 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
             {
                 ret.systems.push_back(SYS_ARTILLERY);
             }
-            if (unk)
+            if (overwrite)
             {
                 this->myBlueprint.systems = ret.systems;
             }
-            return ret;
         }
     }
     return ret;
@@ -383,7 +437,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         case SYS_DRONES:
             break;
 
-        // Custom systems
+        //Temporal system and fallback
         case SYS_TEMPORAL:
             {
                 auto box = new TemporalBox(Point(xPos + 36, 269), sys, shipManager);
@@ -396,6 +450,16 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
             sysBoxes.push_back(box);
             xPos += 36;
         }
+    }
+    //Custom systems
+    //TODO: Allow full user control over systemBox ordering?
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        auto sys = shipManager->GetSystem(systemId);
+        if (!sys || !sys->bNeedsPower) continue;
+        auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
+        sysBoxes.push_back(box);
+        xPos += SB_EX(box)->xOffset;
     }
 
 
@@ -455,6 +519,16 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         }
         subXPos += sub_spacing + 36;
     }
+    //Custom subsystems
+    //TODO: Allow full user control over systemBox ordering?
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        auto sys = shipManager->GetSystem(systemId);
+        if (!sys || sys->bNeedsPower) continue;
+        auto box = new SystemBox(Point(subXPos, subYPos), sys, true);
+        sysBoxes.push_back(box);
+        subXPos += sub_spacing + SB_EX(box)->xOffset;
+    }
 }
 
 
@@ -471,7 +545,7 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
     int xPos = 360;
 
     std::vector<int> systemIds = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 13, 14, 15, 20, 6, 7, 8, 12 };
-
+    //TODO: Check if user needs to control offsets in ShipBuilder menu too. Might be necessary if they want to do something weird with the UI
     for (auto i : systemIds)
     {
         if (i == SYS_ARTILLERY)
@@ -502,6 +576,114 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
                 xPos += 38;
             }
+        }
+    }
+    //Custom system boxes
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        if (currentShip->HasSystem(systemId))
+        {
+            auto sys = currentShip->GetSystem(systemId);
+            auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+
+            sysBoxes.push_back(box);
+
+            box->bShowPower = true;
+            box->bSimplePower = true;
+
+            xPos += 38;
+        }
+    }
+}
+
+
+void ShipSystem::CompleteSave(int fd)
+{
+    FileHelper::writeInt(fd, powerState.second);
+    FileHelper::writeInt(fd, powerState.first);
+    FileHelper::writeInt(fd, healthState.second - healthState.first);
+
+    FileHelper::writeInt(fd, iLockCount);
+    FileHelper::writeInt(fd, std::floor(lockTimer.currTime * 5000));
+    FileHelper::writeInt(fd, std::floor(fRepairOverTime));
+    FileHelper::writeInt(fd, std::floor(fDamageOverTime));
+    FileHelper::writeInt(fd, iBatteryPower);
+    FileHelper::writeInt(fd, bUnderAttack ? iHackEffect : 0);
+    FileHelper::writeInt(fd, iHackEffect > 0 ? bUnderAttack : 0);
+    SaveState(fd);
+};
+
+void ShipSystem::CompleteLoad(int fd)
+{
+    bool canDecrease = DecreasePower(false);
+    while (canDecrease)
+    {
+        canDecrease = DecreasePower(false);
+    }
+
+    int maxPower = FileHelper::readInteger(fd);
+    while (powerState.second < maxPower)
+    {
+        UpgradeSystem(1);
+    }
+
+    SetBonusPower(0, 0);
+
+    int setPower = FileHelper::readInteger(fd);
+
+    while (powerState.first != setPower)
+    {
+        if (!IncreasePower(1, true)) break;
+    }
+
+    AddDamage(FileHelper::readInteger(fd));
+    AddLock(FileHelper::readInteger(fd));
+    lockTimer.currTime = ((float)FileHelper::readInteger(fd)) / 5000.f;
+
+    repairedLastFrame = true;
+    fRepairOverTime = FileHelper::readInteger(fd);
+
+    damagedLastFrame = true;
+    fDamageOverTime = FileHelper::readInteger(fd);
+
+    ForceBatteryPower(FileHelper::readInteger(fd));
+    SetHackingLevel(FileHelper::readInteger(fd));
+    bUnderAttack = FileHelper::readInteger(fd);
+
+    LoadState(fd);
+}
+
+//Custom System Saving
+HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomSystems.cpp)\n")
+    super(file);
+
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        FileHelper::writeInt(file, HasSystem(systemId));
+        if (HasSystem(systemId))
+        {
+            ShipSystem* sys = GetSystem(systemId);
+            sys->CompleteSave(file);
+        }
+    } 
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomSystems.cpp)\n")
+    super(file);
+
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        
+        bool hasSystem = FileHelper::readInteger(file);
+        if (hasSystem)
+        {
+            if (!HasSystem(systemId)) AddSystem(systemId);
+            ShipSystem* sys = GetSystem(systemId);
+            sys->CompleteLoad(file);
         }
     }
 }
@@ -540,6 +722,7 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
     }
 }
 
+//TODO: Look into mechanics for removing/adding mutually exclusive systems for custom systems.
 HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
@@ -755,9 +938,9 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
     super(systemId, roomId, shipId, startingPower);
 }
 
-HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> int)
+HOOK_METHOD_PRIORITY(ShipSystem, RenderPowerBoxes, 9999, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxes -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::RenderPowerBoxes -> Begin (CustomSystems.cpp)\n")
 
     //return super(x, y, width, height, gap, heightMod, flash);
 
@@ -1226,7 +1409,7 @@ std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0};
 
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::GetJumpHealth -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CloneHealing -> Begin (CustomSystems.cpp)\n")
     
     g_jumpClone = true;
     super();      
@@ -1372,7 +1555,7 @@ HOOK_STATIC(CloneSystem, GetJumpHealth, (int level) -> int)
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
 {
-    LOG_HOOK("HOOK_STATIC -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomSystems.cpp)\n")
 
     std::string ret = super(name, lang);
 
@@ -1451,7 +1634,7 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
 // fix vanilla bug were replacing the clone bay by a medical one would keep the crew in the cloning process perpetually
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnRenderFloor -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomSystems.cpp)\n")
 
     super();
     if (cloneSystem == nullptr)

@@ -46,3 +46,9 @@ __thiscall bool WorldManager::AddBoarders(WorldManager *this, BoardingEvent& boa
 __thiscall void WorldManager::CreateStore(WorldManager *this, LocationEvent* event);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f84120100000fb693d405000084d20f85030100008b834c04000085c00f880a010000":
 __thiscall bool WorldManager::CheckRequirements(WorldManager *this, LocationEvent* event, bool hidden);
+
+struct WorldManager
+{{
+	bool SwitchShip(std::string shipName);
+    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
+}};
