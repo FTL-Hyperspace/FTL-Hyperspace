@@ -350,16 +350,6 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     return ret;
 }
 
-HOOK_METHOD(SystemBox, constructor, (Point pos, ShipSystem *sys, bool playerUI) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> SystemBox::constructor -> Begin (CustomSystems.cpp)\n")
-    
-    super(pos, sys, playerUI);
-    hs_log_file("Creating SystemPointer %p   ", this);
-    hs_log_file("SystemBox for %p %d\n", sys, sys->GetId());
-
-}
-
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
