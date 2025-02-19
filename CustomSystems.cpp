@@ -380,7 +380,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
             }
             else
             {
-                hs_log_file("    Not Deleted\n");
+                hs_log_file("    Deleted\n");
             }
             
         }
