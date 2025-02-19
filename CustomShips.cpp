@@ -1837,12 +1837,20 @@ bool WorldManager::SwitchShip(std::string shipName)
 
         SystemControl *sysC = &commandGui->sysControl;
 
+        for (auto i: sysC->sysBoxes)
+        {
+            if (i)
+            {
+                delete i;
+            }
+        }
+        sysC->sysBoxes.clear();
+
         overrideTransfer = true;
         G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
         G_->GetCApp()->menu.shipBuilder.GetShip();
         overrideTransfer = false;
 
-        sysC->sysBoxes.clear();
         playerShip->Restart();
 
         commandGui->combatControl.Restart();
@@ -1962,6 +1970,15 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         
         playerShipManager->myBlueprint = *bp;
         int save_max_health = bp->health;
+
+        for (auto i: sysC->sysBoxes)
+        {
+            if (i)
+            {
+                delete i;
+            }
+        }
+        sysC->sysBoxes.clear();
 
         G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
         G_->GetCApp()->menu.shipBuilder.GetShip();
