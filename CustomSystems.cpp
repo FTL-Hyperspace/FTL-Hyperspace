@@ -1730,11 +1730,12 @@ void ShipManager::RemoveSystem(int iSystemId)
                 if (crew->currentSlot.roomId == systemRoom)
                 {
                     crew->EmptySlot();
-                    //TODO: Handle manning and repair
-                    //crew->SetCurrentSystem(nullptr); //Not working
+                    crew->SetRoom(systemRoom);
+                    crew->SetCurrentSystem(nullptr);
+                    crew->StopRepairing();
                 }
             }
-            ShipSystem* specificSys = GetSystem(iSystemId)      ;      
+            ShipSystem* specificSys = GetSystem(iSystemId);      
             if (specificSys->bNeedsPower)
             {
                 while (specificSys->RawDecreasePower()) continue;
@@ -1901,6 +1902,7 @@ void ShipManager::RemoveSystem(int iSystemId)
                 //TOOD: Hook and use PowerManager::SetBatteryPower
                 PowerManager::GetPowerManager(iShipId)->batteryPower.first = 0;
                 PowerManager::GetPowerManager(iShipId)->batteryPower.second = 0;
+                delete batterySystem;
                 batterySystem = nullptr;
                 break;
             };    
