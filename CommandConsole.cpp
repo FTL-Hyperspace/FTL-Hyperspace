@@ -147,7 +147,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string luaCode = boost::trim_copy(command.substr(4));
         Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
-    if (command == "SYS ALL")
+    if (boost::to_upper_copy(command) == "SYS ALL")
     {
         ShipManager *ship = commandGui->shipComplete->shipManager;
         
