@@ -1831,8 +1831,7 @@ bool WorldManager::SwitchShip(std::string shipName)
     {
         G_->GetWorld()->ClearLocation(); // Maybe later we will find a way to keep the current location state for a switch
         std::string fixname = bp->name.GetText();
-        ShipGraph::Restart();
-        PowerManager::RestartAll();
+
         ShipManager* playerShipManager = G_->GetShipManager(0);
         playerShipManager->myBlueprint = *bp;
 
@@ -1855,7 +1854,6 @@ bool WorldManager::SwitchShip(std::string shipName)
 
         playerShip->OnLoop();
 
-        skip = false;
         ret = true;
     }
     return ret;
@@ -1928,8 +1926,6 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         int save_health_ratio = (int)std::ceil((float)(playerShipManager->ship.hullIntegrity.first * 100) / (float)playerShipManager->ship.hullIntegrity.second);
 
         // Regular ship switch method
-        ShipGraph::Restart();
-        PowerManager::RestartAll();
 
         std::vector<int> oldSystems = bp->systems;
         if (overrideSystem < 2)
@@ -1974,7 +1970,10 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         playerShip->Restart();
         bSwitchingTransfer = false;
         bp->systems = oldSystems;
-        commandGui->Restart();
+
+        commandGui->combatControl.Restart();
+        commandGui->combatControl.Clear();
+
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;
 
