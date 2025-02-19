@@ -1981,7 +1981,16 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
         }
         else
         {
-            counter++;
+            for (int v = 0; v < 3; ++v)
+            {
+                if (def && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, v))
+                {
+                    if (def->VariantExists(v))
+                    {
+                        counter++;
+                    }
+                }
+            }
         }
     }
 
@@ -2360,11 +2369,11 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
     }
 
     bool buttonsActive = false;
-    buttonsActive = customSel->CountUnlockedShips(currentType) + G_->GetScoreKeeper()->CountUnlockedShips(currentType) > 1;
+    buttonsActive = customSel->CountUnlockedShips(currentType) + (customSel->hideFirstPage ? 0 : G_->GetScoreKeeper()->CountUnlockedShips(currentType)) > 1;
 
     leftButton.SetActive(buttonsActive);
     rightButton.SetActive(buttonsActive);
-    randomButton.SetActive(customSel->CountUnlockedShips(-1) + G_->GetScoreKeeper()->CountUnlockedShips(-1) > 1);
+    randomButton.SetActive(customSel->CountUnlockedShips(-1) + (customSel->hideFirstPage ? 0 : G_->GetScoreKeeper()->CountUnlockedShips(-1)) > 1);
 
     for (auto i : CustomShipSelect::GetInstance()->customAnims)
     {
