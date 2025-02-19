@@ -66,3 +66,12 @@ HOOK_METHOD(ChoiceBox, OnRender, () -> void)
         CSurface::GL_PopMatrix();
     }
 }
+
+HOOK_METHOD(ShipBuilder, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (EventTooltip.cpp)\n")
+    // fix a bug where the infoBox keeps showing when returning to the hangar with the infoBox showing
+
+    super();
+    ::infoBox->Clear();
+}
