@@ -1972,7 +1972,6 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         int save_max_health = bp->health;
 
         SystemControl *sysC = &commandGui->sysControl;
-
         for (auto i: sysC->sysBoxes)
         {
             if (i)
