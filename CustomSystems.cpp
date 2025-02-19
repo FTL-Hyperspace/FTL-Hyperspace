@@ -366,23 +366,11 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
-    hs_log_file("------------------- sysBoxesSTART %d ----------\n", sysBoxes.size());
     for (auto i: sysBoxes)
     {
         if (i)
         {
-            hs_log_file("Pointer %p   ", i);
-            hs_log_file("System %p System %d", i->pSystem, i->pSystem->GetId());
-            if (i->pSystem->GetId() != 99)
-            {
-                delete i;
-                hs_log_file("    Deleted\n");
-            }
-            else
-            {
-                hs_log_file("    Deleted\n");
-            }
-            
+            delete i;
         }
     }
     sysBoxes.clear();
