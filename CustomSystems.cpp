@@ -746,29 +746,8 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
-    if (systemId == SYS_MEDBAY)
-    {
-        if (systemKey[SYS_CLONEBAY] != -1)
-        {
-            return true;
-        }
-    }
-    else if (systemId == SYS_CLONEBAY)
-    {
-        if (systemKey[SYS_MEDBAY] != -1)
-        {
-            return true;
-        }
-    }
-
-    //Mutually exclusive custom systems
-    for (int replacementCandidateId = 0; replacementCandidateId <= CustomUserSystems::GetLastSystemId(); ++replacementCandidateId)
-    {
-        if (CustomUserSystems::AreSystemsExclusive(replacementCandidateId, systemId) && systemKey[replacementCandidateId] != -1)
-        {
-            return true;
-        }
-    }
+    //Mutually exclusive systems
+    if (SystemWillReplace(systemId) != SYS_INVALID) return true;
 
     int count = 0;
 
@@ -791,13 +770,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
     LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSubsystem -> Begin (CustomSystems.cpp)\n")
 
     //Mutually exclusive custom systems
-    for (int replacementCandidateId = 0; replacementCandidateId <= CustomUserSystems::GetLastSystemId(); ++replacementCandidateId)
-    {
-        if (CustomUserSystems::AreSystemsExclusive(replacementCandidateId, systemId) && systemKey[replacementCandidateId] != -1)
-        {
-            return true;
-        }
-    }
+    if (SystemWillReplace(systemId) != SYS_INVALID) return true;
 
     int count = 0;
 
@@ -819,15 +792,15 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
     int removedSystemPower = 0;
-    for (int removalCandidateId = 0; removalCandidateId <= CustomUserSystems::GetLastSystemId(); ++removalCandidateId)
+    int replacedSystem = SystemWillReplace(systemId);
+    if (replacedSystem != SYS_INVALID)
     {
-        if (CustomUserSystems::AreSystemsExclusive(removalCandidateId, systemId) && systemKey[removalCandidateId] != -1)
-        {
-            removedSystemPower = GetSystemPowerMax(removalCandidateId);
-            RemoveSystem(removalCandidateId);
-        }
+        removedSystemPower = GetSystemPowerMax(replacedSystem);
+        RemoveSystem(replacedSystem);
     }
+
     int ret = super(systemId);
+
     while (GetSystemPowerMax(systemId) < removedSystemPower)
     {
         UpgradeSystem(systemId, 1);
@@ -2000,4 +1973,18 @@ HOOK_METHOD_PRIORITY(ShipManager, AddSystem, -100, (int systemId) -> int)
         return 0;
     }
     return super(systemId);
+}
+
+int ShipManager::SystemWillReplace(int systemId)
+{
+    for (ShipSystem* sys : vSystemList)
+    {
+        if (CustomUserSystems::AreSystemsExclusive(systemId, sys->iSystemType))
+        {
+            return sys->iSystemType;
+        }
+    }
+    if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY)) return SYS_CLONEBAY;
+    if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY)) return SYS_MEDBAY;
+    return SYS_INVALID;   
 }

@@ -1976,17 +1976,12 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
         confirmString = "confirm_buy_last_system";
     }
 
-    for (int replacementCandidateId = 0; replacementCandidateId <= CustomUserSystems::GetLastSystemId(); ++replacementCandidateId)
+    if (shopper->SystemWillReplace(itemId) != SYS_INVALID)
     {
-        if (CustomUserSystems::AreSystemsExclusive(replacementCandidateId, itemId) && shopper->systemKey[replacementCandidateId] != -1)
-        {
-            newSystem = itemId;
-            replaceSystem = replacementCandidateId;
-            bConfirming = true;
-            break;
-        }
+        newSystem = itemId;
+        replaceSystem = shopper->SystemWillReplace(itemId);
+        bConfirming = true;
     }
-
 
     if (!bConfirming)
     {
