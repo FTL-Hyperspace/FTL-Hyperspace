@@ -1004,8 +1004,8 @@ playerVariableType playerVariables;
 These two mehods are not ready: they often cause a crash on Linux. Memory leak is also confirmed.
 We can expose them once the root cause is identified and the crash is fixed.
 */
-//%rename("%s") WorldManager::SwitchShip;
-//%rename("%s") WorldManager::SwitchShipTransfer;
+%rename("%s") WorldManager::SwitchShip;
+%rename("%s") WorldManager::SwitchShipTransfer;
 
 ////%rename("%s") WorldManager::commandGui;
 ////%rename("%s") WorldManager::currentShipEvent; // Not sure if this should be writeable

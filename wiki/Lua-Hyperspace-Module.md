@@ -150,10 +150,10 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - `void :ClearLocation()`
 
 `SwitchShip` and `SwitchShipTransfer` cause a crash on Linux. They will be exposed once the root cause is identified and the crash is fixed.
-- ~~`bool :SwitchShip(std::string shipName)`~~
+- `bool :SwitchShip(std::string shipName)`
    - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
    - This method will run `:ClearLocation()` at the beacon, effectively removing any hazard and ship
-- ~~`bool :SwitchShipTransfer(std::string shipName, int overrideSystem)`~~
+- `bool :SwitchShipTransfer(std::string shipName, int overrideSystem)`
    - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
    - This method will run `:ClearLocation()` at the beacon, effectively removing any hazard and ship
    - `overrideSystem`: 
