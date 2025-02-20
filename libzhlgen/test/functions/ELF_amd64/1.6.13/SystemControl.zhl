@@ -6,8 +6,6 @@ static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
 ".415731d231f641564155415455534889fb4883ec58488d7c2430":
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
-"!.e9????????662e0f1f84000000000090":
-cleanup __amd64 void SystemControl::Restart(SystemControl *this);
 
 "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;

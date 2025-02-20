@@ -4071,7 +4071,6 @@ struct CombatControl
 	LIBZHL_API void OnRenderSelfAiming();
 	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	LIBZHL_API void RenderTarget();
-	LIBZHL_API void Restart();
 	LIBZHL_API bool SelectTarget();
 	LIBZHL_API void SetMouseCursor();
 	LIBZHL_API void UpdateAiming();
@@ -4562,7 +4561,6 @@ struct SystemControl
 	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
 	LIBZHL_API void RenderPowerBar();
-	LIBZHL_API void Restart();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;

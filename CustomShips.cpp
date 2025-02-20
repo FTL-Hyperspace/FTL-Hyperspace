@@ -1853,8 +1853,7 @@ bool WorldManager::SwitchShip(std::string shipName)
 
         playerShip->Restart();
 
-        commandGui->combatControl.Restart();
-        commandGui->combatControl.Clear();
+        commandGui->Restart();
 
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
@@ -1989,8 +1988,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         bSwitchingTransfer = false;
         bp->systems = oldSystems;
 
-        commandGui->combatControl.Restart();
-        commandGui->combatControl.Clear();
+        commandGui->Restart();
 
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;

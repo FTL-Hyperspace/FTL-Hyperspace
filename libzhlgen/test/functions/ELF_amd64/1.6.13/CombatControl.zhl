@@ -20,8 +20,6 @@ cleanup __amd64 void CombatControl::DrawHostileBox(CombatControl *this, GL_Color
 cleanup __amd64 void CombatControl::OnInit(CombatControl *this, Point pos);
 "415431c95531ed534889fb4883ec10488b9790070000":
 cleanup __amd64 void CombatControl::OnLoop(CombatControl *this);
-".554889fd488d7f20":
-cleanup __amd64 void CombatControl::Restart(CombatControl *this);
 "534883bff8000000004889fb":
 cleanup __amd64 void CombatControl::SetMouseCursor(CombatControl *this);
 "41545553488b87c0070000":
