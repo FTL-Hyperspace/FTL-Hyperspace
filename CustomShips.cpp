@@ -1842,6 +1842,7 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 
 // Ship Switching
 bool overrideTransfer = false;
+bool noRestartSystems = false;
 
 bool WorldManager::SwitchShip(std::string shipName)
 {
@@ -1873,7 +1874,9 @@ bool WorldManager::SwitchShip(std::string shipName)
 
         playerShip->Restart();
 
+        noRestartSystems = true;
         commandGui->Restart();
+        noRestartSystems = false;
 
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
@@ -2008,7 +2011,9 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         bSwitchingTransfer = false;
         bp->systems = oldSystems;
 
+        noRestartSystems = true;
         commandGui->Restart();
+        noRestartSystems = false;
 
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;
@@ -2131,4 +2136,13 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         playerShip->OnLoop();
     }
     return ret;
+}
+
+HOOK_METHOD(SystemControl, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemControl::Restart -> Begin (CustomShips.cpp)\n")
+    
+    if (noRestartSystems) return;
+
+    super();
 }

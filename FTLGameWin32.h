@@ -4559,6 +4559,7 @@ struct SystemControl
 	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
 	LIBZHL_API void RenderPowerBar();
+	LIBZHL_API void Restart();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
