@@ -1842,6 +1842,7 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
 
 // Ship Switching
 bool overrideTransfer = false;
+bool noRestartSystems = false;
 
 bool WorldManager::SwitchShip(std::string shipName)
 {
@@ -1851,10 +1852,20 @@ bool WorldManager::SwitchShip(std::string shipName)
     {
         G_->GetWorld()->ClearLocation(); // Maybe later we will find a way to keep the current location state for a switch
         std::string fixname = bp->name.GetText();
-        ShipGraph::Restart();
-        PowerManager::RestartAll();
+
         ShipManager* playerShipManager = G_->GetShipManager(0);
         playerShipManager->myBlueprint = *bp;
+
+        SystemControl *sysC = &commandGui->sysControl;
+
+        for (auto i: sysC->sysBoxes)
+        {
+            if (i)
+            {
+                delete i;
+            }
+        }
+        sysC->sysBoxes.clear();
 
         overrideTransfer = true;
         G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
@@ -1863,7 +1874,10 @@ bool WorldManager::SwitchShip(std::string shipName)
 
         playerShip->Restart();
 
+        noRestartSystems = true;
         commandGui->Restart();
+        noRestartSystems = false;
+
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
         playerShipManager->myBlueprint.name.data = fixname;
@@ -1942,8 +1956,6 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         int save_health_ratio = (int)std::ceil((float)(playerShipManager->ship.hullIntegrity.first * 100) / (float)playerShipManager->ship.hullIntegrity.second);
 
         // Regular ship switch method
-        ShipGraph::Restart();
-        PowerManager::RestartAll();
 
         std::vector<int> oldSystems = bp->systems;
         if (overrideSystem < 2)
@@ -1981,6 +1993,16 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         playerShipManager->myBlueprint = *bp;
         int save_max_health = bp->health;
 
+        SystemControl *sysC = &commandGui->sysControl;
+        for (auto i: sysC->sysBoxes)
+        {
+            if (i)
+            {
+                delete i;
+            }
+        }
+        sysC->sysBoxes.clear();
+
         G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
         G_->GetCApp()->menu.shipBuilder.GetShip();
 
@@ -1988,7 +2010,11 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         playerShip->Restart();
         bSwitchingTransfer = false;
         bp->systems = oldSystems;
+
+        noRestartSystems = true;
         commandGui->Restart();
+        noRestartSystems = false;
+
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         ret = true;
 
@@ -2110,4 +2136,13 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
         playerShip->OnLoop();
     }
     return ret;
+}
+
+HOOK_METHOD(SystemControl, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemControl::Restart -> Begin (CustomShips.cpp)\n")
+    
+    if (noRestartSystems) return;
+
+    super();
 }

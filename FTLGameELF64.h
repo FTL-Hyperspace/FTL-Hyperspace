@@ -1105,8 +1105,8 @@ struct LIBZHL_INTERFACE SystemBox
 		this->constructor(pos, sys, playerUI);
 	}
 
-	virtual ~SystemBox() {}
 	virtual void destroy() LIBZHL_PLACEHOLDER
+	virtual ~SystemBox() {}
 	virtual bool HasButton() LIBZHL_PLACEHOLDER
 	virtual int GetCooldownBarHeight() LIBZHL_PLACEHOLDER
 	virtual int GetHeightModifier() LIBZHL_PLACEHOLDER
@@ -4563,6 +4563,7 @@ struct SystemControl
 	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
 	LIBZHL_API void RenderPowerBar();
+	LIBZHL_API void Restart();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
