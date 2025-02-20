@@ -1,4 +1,9 @@
-"41554154554889fd534883ec48488b4760488b58604885db":
+"41554154554889fd534883ec48488b4760488b58604885db": //005dae10
 cleanup __amd64 void CombatAI::UpdateMindControl(CombatAI *this, bool unk);
-"4154554889fd53e8????????488b7d60":
+".5553??89fb??83ec788b05????????83f8020f84????????": //005db310
+cleanup __amd64 int CombatAI::PrioritizeSystem(CombatAI *this, int weaponType);
+".??57??56??55??545553??89fb??83ec58807f5800??8b7760": //005db920
+cleanup __amd64 void CombatAI::UpdateWeapons(CombatAI *this);
+".4154554889fd53e8????????488b7d60": //005dbdb0
 cleanup __amd64 void CombatAI::OnLoop(CombatAI *this);
+
