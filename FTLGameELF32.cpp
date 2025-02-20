@@ -7828,6 +7828,34 @@ bool Door::ApplyDamage(float amount)
 namespace _func563
 {
     static void *func = 0;
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("Door::SaveState", typeid(void (Door::*)(int )), ".5589e5565389ce83e4f083ec108b????8b81d0010000", argdata, 2, 6, &func);
+}
+
+void Door::SaveState(int fd)
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Door *this_arg, int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func561::func;
+	return execfunc(this, fd);
+}
+
+namespace _func562
+{
+    static void *func = 0;
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("Door::LoadState", typeid(void (Door::*)(int )), ".578d????0883e4f0ff????5589e557565389cb83ec1c8b??8934??e8????????8934??", argdata, 2, 6, &func);
+}
+
+void Door::LoadState(int fd)
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Door *this_arg, int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func562::func;
+	return execfunc(this, fd);
+}
+
+namespace _func563
+{
+    static void *func = 0;
 	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("Door::FakeOpen", typeid(void (Door::*)()), ".565383ec148b5c242083bb8c00000004c6432001c783a001000000000000", argdata, 1, 6, &func);
 }

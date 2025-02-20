@@ -7207,6 +7207,32 @@ bool Door::ApplyDamage(float amount)
 namespace _func556
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("Door::SaveState", typeid(void (Door::*)(int )), "!.55??89fd5389f3??83ec088bb7cc01000089dfe8????????", nullptr, 0, 0, &func);
+}
+
+void Door::SaveState(int fd)
+{
+	typedef void (*custom_arg_funcptr_t)(Door *this_arg, int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func554::func;
+	return execfunc(this, fd);
+}
+
+namespace _func555
+{
+    static void *func = 0;
+	static FunctionDefinition funcObj("Door::LoadState", typeid(void (Door::*)(int )), "!.5589f553??89fb89f7??83ec08e8????????89ef8983cc010000", nullptr, 0, 0, &func);
+}
+
+void Door::LoadState(int fd)
+{
+	typedef void (*custom_arg_funcptr_t)(Door *this_arg, int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func555::func;
+	return execfunc(this, fd);
+}
+
+namespace _func556
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("Door::FakeOpen", typeid(void (Door::*)()), ".55534889fb4883ec0883bfb400000004c6472c01", nullptr, 0, 0, &func);
 }
 

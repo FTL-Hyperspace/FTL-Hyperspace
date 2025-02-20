@@ -558,6 +558,8 @@ struct LIBZHL_INTERFACE AnimationTracker
 	{
 	
 	}
+	void LoadState(int fd);
+	void SaveState(int fd);
 
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
@@ -5295,7 +5297,9 @@ public:
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SaveState(int fd);
 	
 	uint8_t garbage[4];
 	Selectable _selectable;

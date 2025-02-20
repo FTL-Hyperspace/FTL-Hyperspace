@@ -6,6 +6,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
 #include "CustomShips.h"
+#include "CustomSystems.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -146,7 +147,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string luaCode = boost::trim_copy(command.substr(4));
         Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
-    if (command == "SYS ALL")
+    if (boost::to_upper_copy(command) == "SYS ALL")
     {
         ShipManager *ship = commandGui->shipComplete->shipManager;
         
@@ -158,6 +159,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             else
             {
             if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
+                ship->AddSystem(systemId);
+            } 
+        }
+
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId))
+            {
                 ship->AddSystem(systemId);
             } 
         }

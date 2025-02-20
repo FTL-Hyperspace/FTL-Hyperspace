@@ -7884,6 +7884,34 @@ bool Door::ApplyDamage(float amount)
 namespace _func565
 {
     static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("Door::SaveState", typeid(void (Door::*)(int )), ".5589e5565389ce83e4f083ec108b????8b81d0010000891c??8944????e8????????", argdata, 2, 5, &func);
+}
+
+void Door::SaveState(int fd)
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Door *this_arg, int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func563::func;
+	return execfunc(this, fd);
+}
+
+namespace _func564
+{
+    static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("Door::LoadState", typeid(void (Door::*)(int )), ".578d????0883e4f0ff????5589e557565389cb83ec1c8b??8934??e8????????8934??", argdata, 2, 5, &func);
+}
+
+void Door::LoadState(int fd)
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Door *this_arg, int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func564::func;
+	return execfunc(this, fd);
+}
+
+namespace _func565
+{
+    static void *func = 0;
 	static short argdata[] = {0x101, 0x2ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("DoorBox::constructor", typeid(void (DoorBox::*)(Point , ShipSystem *, ShipManager *)), "578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b57048b078b4f088b770c8d7dd0c744240c0100000089542404890424894c2408", argdata, 4, 5, &func);
 }
