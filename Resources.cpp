@@ -615,6 +615,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "duelMedical") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->duelMedical.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->duelMedical.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {

@@ -791,6 +791,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
+    
     int removedSystemPower = 0;
     int replacedSystem = SystemWillReplace(systemId);
     if (replacedSystem != SYS_INVALID)
@@ -799,12 +800,62 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
         RemoveSystem(replacedSystem);
     }
 
+    //Save medical system and remove so original AddSystem doesn't remove it
+    ShipSystem* savedMedical = nullptr;
+    bool restoreClonebay = false;
+    bool restoreMedbay = false;
+    if ((systemId == SYS_MEDBAY || systemId == SYS_CLONEBAY) && CustomOptionsManager::GetInstance()->duelMedical.currentValue)
+    {
+        if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY))
+        {
+            savedMedical = cloneSystem;
+            cloneSystem = nullptr;
+
+            vSystemList.erase(vSystemList.begin() + systemKey[SYS_CLONEBAY]);
+            systemKey[SYS_CLONEBAY] = -1;
+
+            restoreClonebay = true;
+        }
+        else if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY))
+        {
+            savedMedical = medbaySystem;
+            medbaySystem = nullptr;
+
+            vSystemList.erase(vSystemList.begin() + systemKey[SYS_MEDBAY]);
+            systemKey[SYS_MEDBAY] = -1;
+
+            restoreMedbay = true;
+        }
+
+        for (int idx = 0; idx < vSystemList.size(); ++idx)
+        {
+            ShipSystem* sys = vSystemList[idx];
+            systemKey[sys->iSystemType] = idx;
+        }     
+    }
+
     int ret = super(systemId);
+
+    //Add medical system back
+    if (restoreMedbay)
+    {
+        medbaySystem = static_cast<MedbaySystem*>(savedMedical);
+        vSystemList.push_back(savedMedical);
+        systemKey[SYS_MEDBAY] = vSystemList.size() - 1;
+    }
+    else if (restoreClonebay)
+    {
+        cloneSystem = static_cast<CloneSystem*>(savedMedical);
+        vSystemList.push_back(savedMedical);
+        systemKey[SYS_CLONEBAY] = vSystemList.size() - 1;
+    }
+
 
     while (GetSystemPowerMax(systemId) < removedSystemPower)
     {
         UpgradeSystem(systemId, 1);
     }
+    
     return ret;
 }
 
@@ -1984,7 +2035,12 @@ int ShipManager::SystemWillReplace(int systemId)
             return sys->iSystemType;
         }
     }
-    if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY)) return SYS_CLONEBAY;
-    if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY)) return SYS_MEDBAY;
+
+    if (!CustomOptionsManager::GetInstance()->duelMedical.currentValue)
+    {
+        if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY)) return SYS_CLONEBAY;
+        if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY)) return SYS_MEDBAY;
+    }
+    
     return SYS_INVALID;   
 }

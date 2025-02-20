@@ -1,5 +1,6 @@
 #include "CustomStore.h"
 #include "CustomEvents.h"
+#include "CustomOptions.h"
 #include "CustomShipSelect.h"
 #include "CustomSystems.h"
 #include "Store_Extend.h"
@@ -1952,7 +1953,7 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
     if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
-    if (itemId == 5 && shopper->HasSystem(13) || itemId == 13 && shopper->HasSystem(5)) return super(); // Change medical system
+    if ((itemId == SYS_MEDBAY && shopper->HasSystem(SYS_CLONEBAY) || itemId == SYS_CLONEBAY && shopper->HasSystem(SYS_MEDBAY)) && !CustomOptionsManager::GetInstance()->duelMedical.currentValue) return super(); // Change medical system
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);
 
     auto custom = CustomShipSelect::GetInstance();
