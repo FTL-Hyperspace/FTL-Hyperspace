@@ -511,6 +511,45 @@ LABEL_TWO:
     return;
 }
 
+
+void AnimationTracker::SaveState(int fd)
+{
+    FileHelper::writeFloat(fd, time);
+    FileHelper::writeInt(fd, loop);
+    FileHelper::writeFloat(fd, current_time);
+    FileHelper::writeInt(fd, running);
+    FileHelper::writeInt(fd, reverse);
+    FileHelper::writeInt(fd, done);
+    FileHelper::writeFloat(fd, loopDelay);
+    FileHelper::writeFloat(fd, currentDelay);
+};
+
+void AnimationTracker::LoadState(int fd)
+{
+    time = FileHelper::readFloat(fd);
+    loop = FileHelper::readInteger(fd);
+    current_time = FileHelper::readFloat(fd);
+    running = FileHelper::readInteger(fd);
+    reverse = FileHelper::readInteger(fd);
+    done = FileHelper::readInteger(fd);
+    loopDelay = FileHelper::readFloat(fd);
+    currentDelay = FileHelper::readFloat(fd);
+};
+
+//Lockdown saving bugfix
+HOOK_METHOD(Door, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::SaveState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.SaveState(fd);
+}
+HOOK_METHOD(Door, LoadState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::LoadState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.LoadState(fd);
+}
+
 // Everything from here onward was originally in the lua folder and needed
 // to be moved in order to compile properly on Linux.
 
@@ -1419,6 +1458,37 @@ HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void
     lua_pop(context->GetLua(), 2);
     
     if (!preempt) super(amount, permanentPower);
+}
+
+static bool inArtilleryLoop = false;
+HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (Misc.cpp)\n")
+    
+    inArtilleryLoop = true;
+    super();
+    inArtilleryLoop = false;
+}
+HOOK_METHOD(ProjectileFactory, SetCooldownModifier, (float mod) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SetCooldownModifier -> Begin (Misc.cpp)\n")
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+    lua_pushnumber(context->GetLua(), mod);
+    lua_pushboolean(context->GetLua(), inArtilleryLoop);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_COOLDOWN_MOD, 3, 1);
+    if (lua_isnumber(context->GetLua(), -1))
+    {
+        mod = std::max(0.f, static_cast<float>(lua_tonumber(context->GetLua(), -1)));
+        if (!inArtilleryLoop)
+        {
+            mod = std::min(mod, 1.f);
+        }
+    }
+    lua_pop(context->GetLua(), 3);
+    
+    if (!preempt) super(mod);
 }
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
