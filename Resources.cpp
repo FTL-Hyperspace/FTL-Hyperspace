@@ -1,4 +1,3 @@
-#include "Store_Extend.h"
 #include "rapidxml.hpp"
 #include "Resources.h"
 #include "CustomOptions.h"
@@ -11,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomTextStyle.h"
 #include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
@@ -36,6 +36,9 @@
 #include "CustomAchievements.h"
 #include "HSVersion.h"
 #include "CustomUpgrades.h"
+#include "CustomEquipment.h"
+#include "CustomTabbedWindow.h"
+#include "ArtillerySystem.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -124,9 +127,62 @@ void Global::PreInitializeResources(ResourceControl *resources)
             throw "No parent node found in hyperspace.xml";
         }
 
+        bool checkedVersion = false;
+
         // Stuff to parse early
         for (auto node = parentNode->first_node(); node; node = node->next_sibling())
         {
+            if (strcmp(node->name(), "version") == 0)
+            {
+                std::string versionStr = node->value();
+                if(versionStr.find('.') == std::string::npos)
+                {
+                    hs_log_file("Old version check in use. Mod authors please update your hyperspace.xml's version tag!\n");
+                    checkedVersion = boost::lexical_cast<int>(node->value()) == HS_Version.getDeprecatedIntegerVersion();
+                }
+                else
+                {
+                    // Enhanced Hyperspace version check
+                    hs_log_file("Checking version Mod requests version: '%s' vs Hyperspace version: '%s'\n", versionStr.c_str(), HS_Version.toVersionString().c_str());
+
+                    char firstChar = versionStr.front();
+                    if(firstChar == '=' || firstChar == '~' || firstChar == '^')
+                    {
+                        versionStr.erase(0, 1);
+                    }
+
+                    std::vector<std::string> version;
+                    boost::split(version, versionStr, boost::is_any_of("."));
+
+                    if(version.size() != 3)
+                    {
+                        hs_log_file("Invalid version check syntax.\n");
+                        checkedVersion = false;
+                        throw "Invalid/Unknown Hyperspace version check syntax in mod, could not validate hyperspace version matches mod requirements.\nMods may function incorrectly.";
+                    }
+
+                    unsigned int v_major = boost::lexical_cast<unsigned int>(version[0]);
+                    unsigned int v_minor = boost::lexical_cast<unsigned int>(version[1]);
+                    unsigned int v_patch = boost::lexical_cast<unsigned int>(version[2]);
+
+                    switch(firstChar)
+                    {
+                        case '=':
+                            checkedVersion = v_major == HS_Version.major && v_minor == HS_Version.minor && v_patch == HS_Version.patch;
+                            break;
+
+                        case '~':
+                            checkedVersion = v_major == HS_Version.major && v_minor == HS_Version.minor && v_patch <= HS_Version.patch;
+                            break;
+
+                        default:
+                            hs_log_file("No version check case specified, defaulting to '^'.\n");
+                        case '^':
+                            checkedVersion = v_major == HS_Version.major && (v_minor < HS_Version.minor || (v_minor == HS_Version.minor && v_patch <= HS_Version.patch));
+                    }
+                }
+            }
+            
             if (strcmp(node->name(), "defaults") == 0)
             {
                 for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -198,19 +254,22 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 customEventParser->EarlyParseCustomEventNode(node);
             }
 
+            //Map custom system ids before blueprints are loaded
+            if (strcmp(node->name(), "customSystems") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "customSystem") == 0)
+                    {
+                        CustomUserSystems::ParseSystemNode(child);
+                    }  
+                }
+            }
+
             // Perform custom text color registration before event parsing.
             if (strcmp(node->name(), "customChoiceColors") == 0)
             {
-                auto enableCustomChoiceColors = node->first_attribute("enabled")->value();
-                customOptions->enableCustomChoiceColors.defaultValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
-                customOptions->enableCustomChoiceColors.currentValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (strcmp(child->name(), "choiceColor") == 0)
-                    {
-                        ParseChoiceColorNode(child);
-                    }
-                }
+                ParseChoiceColorsNode(node);
             }
         }
 
@@ -218,6 +277,11 @@ void Global::PreInitializeResources(ResourceControl *resources)
         {
             auto customEventParser = CustomEventsParser::GetInstance();
             customEventParser->ReadCustomEventFiles();
+        }
+
+        if (!checkedVersion)
+        {
+            throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods. You can continue, but mods may function incorrectly.";
         }
 
         doc.clear();
@@ -246,6 +310,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
     auto customOptions = CustomOptionsManager::GetInstance();
 
+
     try
     {
         if (!hyperspacetext)
@@ -260,63 +325,11 @@ void Global::InitializeResources(ResourceControl *resources)
         if (!parentNode)
             throw "No parent node found in hyperspace.xml";
 
-        bool checkedVersion = false;
-
         std::string discordModName = "";
 
         // First Pass
         for (auto node = parentNode->first_node(); node; node = node->next_sibling())
         {
-            if (strcmp(node->name(), "version") == 0)
-            {
-                std::string versionStr = node->value();
-                if(versionStr.find('.') == std::string::npos)
-                {
-                    hs_log_file("Old version check in use. Mod authors please update your hyperspace.xml's version tag!\n");
-                    checkedVersion = boost::lexical_cast<int>(node->value()) == HS_Version.getDeprecatedIntegerVersion();
-                }
-                else
-                {
-                    // Enhanced Hyperspace version check
-                    hs_log_file("Checking version Mod requests version: '%s' vs Hyperspace version: '%s'\n", versionStr.c_str(), HS_Version.toVersionString().c_str());
-
-                    char firstChar = versionStr.front();
-                    if(firstChar == '=' || firstChar == '~' || firstChar == '^')
-                    {
-                        versionStr.erase(0, 1);
-                    }
-
-                    std::vector<std::string> version;
-                    boost::split(version, versionStr, boost::is_any_of("."));
-
-                    if(version.size() != 3)
-                    {
-                        hs_log_file("Invalid version check syntax.\n");
-                        checkedVersion = false;
-                        throw "Invalid/Unknown Hyperspace version check syntax in mod, could not validate hyperspace version matches mod requirements.\nMods may function incorrectly.";
-                    }
-
-                    unsigned int v_major = boost::lexical_cast<unsigned int>(version[0]);
-                    unsigned int v_minor = boost::lexical_cast<unsigned int>(version[1]);
-                    unsigned int v_patch = boost::lexical_cast<unsigned int>(version[2]);
-
-                    switch(firstChar)
-                    {
-                        case '=':
-                            checkedVersion = v_major == HS_Version.major && v_minor == HS_Version.minor && v_patch == HS_Version.patch;
-                            break;
-
-                        case '~':
-                            checkedVersion = v_major == HS_Version.major && v_minor == HS_Version.minor && v_patch <= HS_Version.patch;
-                            break;
-
-                        default:
-                            hs_log_file("No version check case specified, defaulting to '^'.\n");
-                        case '^':
-                            checkedVersion = v_major == HS_Version.major && (v_minor < HS_Version.minor || (v_minor == HS_Version.minor && v_patch <= HS_Version.patch));
-                    }
-                }
-            }
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
                 if (node->first_attribute("enabled"))
@@ -341,6 +354,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "hackingIonFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hackingIonFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
@@ -425,6 +444,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "warningLightPositionFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_warningLightPositionFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
@@ -542,6 +567,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "oxygenWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
@@ -564,6 +596,32 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "targetableArtillery") == 0)
+            {
+                ParseTargetableArtilleryNode(node);
+            }
+            
+            if (strcmp(node->name(), "cloakRenderFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableDefaultTutorial") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableDefaultTutorial.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableDefaultTutorial.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -582,6 +640,16 @@ void Global::InitializeResources(ResourceControl *resources)
                     {
                         AlternateOxygenManager::GetInstance()->CreateDefaultGradient();
                     }
+                }
+            }
+
+            if (strcmp(node->name(), "customTabs") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                if (EventsParser::ParseBoolean(enabled))
+                {
+                    CustomTabbedWindow::GetInstance()->enabled = true;
+                    CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
                 }
             }
 
@@ -628,6 +696,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "droneSelectHotkeys") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSelectHotkeys.defaultValue = enabled;
+                customOptions->droneSelectHotkeys.currentValue = enabled;
+            }
+
+            if (strcmp(node->name(), "droneSaveStations") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSaveStations.defaultValue = enabled;
+                customOptions->droneSaveStations.currentValue = enabled;
+            }
+            
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -789,6 +871,10 @@ void Global::InitializeResources(ResourceControl *resources)
                     CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
             }
+            if (strcmp(node->name(), "customTextStyle") == 0)
+            {
+                CustomTextStyleManager::GetInstance()->enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+            }
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
@@ -838,18 +924,32 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
             }
+            if (strcmp(node->name(), "systemNoPurchaseThreshold") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                SystemNoPurchaseThreshold::enabled = EventsParser::ParseBoolean(enabled);
+                if (SystemNoPurchaseThreshold::enabled)
+                {
+                    SystemNoPurchaseThreshold::threshold = boost::lexical_cast<int>(node->first_attribute("threshold")->value());
+                    SystemNoPurchaseThreshold::replace = node->first_attribute("replace")->value();
+                }
+            }
+            if (strcmp(node->name(), "multipleOverCapacity") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_multipleOverCapacity = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "showDummyEquipmentSlots") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
+            }
         }
 
         // Post-processing (might not be needed anymore)
         {
             auto customEventParser = CustomEventsParser::GetInstance();
             customEventParser->PostProcessCustomEvents();
-        }
-
-
-        if (!checkedVersion)
-        {
-            throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods. You can continue, but mods may function incorrectly.";
         }
 
         doc.clear();

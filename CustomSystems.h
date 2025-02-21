@@ -20,3 +20,38 @@ private:
     static MindLevel defaultLevel;
     static std::vector<MindLevel> levels;
 };
+
+class CustomCloneSystem
+{
+public:
+    struct CloneLevel
+    {
+        int jumpHP;
+        int jumpHPPercent;
+        int cloneHPPercent;
+        int skillLossPercent;
+        float cloneSpeed;
+        float deathSpeed;
+        int count; // Number of clones, unused for now, still here with the xml implementation for a later use
+    };
+    static void ParseSystemNode(rapidxml::xml_node<char>* node);
+    static CloneLevel& GetLevel(CloneSystem* system, bool passive);
+    
+    static CloneLevel& GetLevel(int power);
+private:
+    static CloneLevel defaultLevel;
+    static std::vector<CloneLevel> levels;
+};
+
+class CustomUserSystems
+{
+public:
+    static void ParseSystemNode(rapidxml::xml_node<char>* node);
+    static int NameToSystemId(const std::string& systemName);
+    static std::string SystemIdToName(int systemId);
+    static int GetLastSystemId();
+private:
+    static void AddSystemName(const std::string& systemName);
+    static std::vector<std::string> systemNames;
+    static std::unordered_map<std::string, int> systemIds; //For quicker NameToSystemId;
+};

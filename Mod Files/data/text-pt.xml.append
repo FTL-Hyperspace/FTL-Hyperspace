@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="pt">Drone invasores não destruídos vão ser recuperados no fim do combate.</text>
 <text name="aug_MIND_ORDER_title" language="pt">Rédeas Neurais</text>
 <text name="aug_MIND_ORDER_desc" language="pt">Permite controle direto da tripulação inimiga enquanto sobre controle mental. Também toma controle de qualquer efeito sendo aplicado nessa tripulação.</text>
+<text name="aug_SECTOR_SCANNER_title" language="pt">Scanner de Setor</text>
+<text name="aug_SECTOR_SCANNER_desc" language="pt">Permite ver o tipo exato de setores mesmo se eles não estiverem adjacente ao setor atual.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="pt">Mira Avançada</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="pt">Permite a mira manual do sistema de artilharia.</text>
 <text name="crew_ghost_desc" language="pt">Fantasmas da tripulação do passado.</text>
 <text name="crew_ghost_title" language="pt">Fantasma</text>
 <text name="crew_ghost_short" language="pt">Fantasma</text>
@@ -26,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="pt">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="pt">
   <mod:setValue>Chance de Fogo: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -262,20 +266,20 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="pt">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pt">Projeto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pt">Desenvolvido por:</text>
-<text name="credits_hyperspace_developed_names" language="pt">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="pt">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art" language="pt">Arte Adicional:</text>
 <text name="credits_hyperspace_art_names" language="pt">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="pt">Contribuições Adicionais:</text>
-<text name="credits_hyperspace_contributors_names" language="pt">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="pt">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="pt">Tradução do Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="pt">Francês</text>
 <text name="credits_hyperspace_loc_fr_names" language="pt">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="pt">Italiano</text>
-<text name="credits_hyperspace_loc_it_names" language="pt">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="pt">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="pt">Alemão</text>
 <text name="credits_hyperspace_loc_de_names" language="pt">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="pt">Espanhol</text>
-<text name="credits_hyperspace_loc_es_names" language="pt">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="pt">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="pt">Polonês</text>
 <text name="credits_hyperspace_loc_pl_names" language="pt">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="pt">Português Brasileiro</text>
@@ -286,5 +290,15 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names" language="pt">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="pt">Japonês</text>
 <text name="credits_hyperspace_loc_ja_names" language="pt">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="pt">Coreano</text>
-<text name="credits_hyperspace_loc_kor_names" language="pt">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="pt">Coreano</text>
+<text name="credits_hyperspace_loc_ko_names" language="pt">nedsociety, H2O</text>
+
+<text name="shields_4" language="pt">5 Barreiras</text>
+<text name="shields_5" language="pt">6 Barreiras</text>
+<text name="shields_6" language="pt">7 Barreiras</text>
+<text name="shields_7" language="pt">8 Barreiras</text>
+
+<text name="max_augments" language="pt">Sua nave só pode ter \1 reforços.</text>
+<text name="shot_limit" language="pt">Limite de Tiros da Arma: \1</text>
+<text name="shots_remaining" language="pt">Tiros Sobrando: \1</text>
+<text name="warning_shot_limit" language="pt">LIMITE DE TIROS ALCANÇADO!</text>

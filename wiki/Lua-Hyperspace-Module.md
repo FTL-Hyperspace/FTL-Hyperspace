@@ -1,4 +1,4 @@
-Available calls
+## Available calls
 
 All calls are under `Hyperspace`
 
@@ -10,6 +10,73 @@ All calls are under `Hyperspace`
 - `.ships.player` (See [`ShipManager`](#shipmanager) below)
 - `.ships.enemy` (See [`ShipManager`](#shipmanager) below)
 
+## Templates
+Templates cannot be instantiated from the lua side. Specific instantiations of templates are treated as individual classes with similar usage, and are defined in [hyperspace.i](../lua/modules/hyperspace.i#L114) in the form `%template(template_name) template<parameters>`. Static methods of a template are accessed via `Hyperspace.template_name`
+
+---
+
+### std::vector\<T\>
+
+### Methods
+#### Constructor overloads
+To construct a vector named `template_name`:
+```lua
+local instance = Hyperspace.template_name(args)
+```
+- `std::vector<T>` `constructor()`
+
+Constructs a `std::vector<T>` of size 0.
+- `std::vector<T>` `constructor(unsigned int size)`
+
+Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
+- `std::vector<T>` `constructor(std::vector<T> other)`
+
+Makes a copy of `other`.
+
+- `std::vector<T>` `constructor(unsigned int size, T value)`
+
+Constructs a vector of size `size` where each element is equal to `value`.
+
+#### Member methods
+- `T :back()`
+
+Accesses the last element of the vector. 
+
+WARNING: Undefined behavior (crash) if used on an empty vector!
+- `void :clear()`
+
+Empties the vector and sets its size to 0.
+
+- `bool :empty()` 
+
+Returns a boolean indicating if the vector is empty.
+
+- `T :front()`
+
+Accesses the first element of the vector. 
+
+WARNING: Undefined behavior (crash) if used on an empty vector!
+
+- `unsigned int :max_size()`
+
+The maximum size of the vector.
+- `void :pop_back()`
+
+Removes an element from the end and decreases the vector's size by 1.
+
+- `void :push_back(T elem)`
+
+Adds `elem` to the vector and increases its size by 1.
+
+- `unsigned int :size()`
+
+The size of the vector.
+
+- `T& operator[](unsigned int index)`
+
+Access the element at position `index`.
+
+NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ## Global
 
@@ -32,10 +99,14 @@ All calls are under `Hyperspace`
    - Returns the main instance of [`ScoreKeeper`](#ScoreKeeper). Always use this to access any members and methods belonging to the [`ScoreKeeper`](#ScoreKeeper) class, or the shortcut `Hyperspace.Score`.
 - `CrewMemberFactory :GetCrewFactory()`
    - Returns the main instance of [`CrewMemberFactory`](#CrewMemberFactory). Always use this to access any members and methods belonging to the [`CrewMemberFactory`](#CrewMemberFactory) class, or the shortcut `Hyperspace.CrewFactory`.
+- `TutorialManager :GetTutorialManager()`
+   - Returns the main instance of [`TutorialManager`](#TutorialManager). Always use this to access any members and methods belonging to the [`TutorialManager`](#TutorialManager) class, or the shortcut `Hyperspace.Tutorial`.
 - `MouseControl :GetMouseControl()`
    - Returns the main instance of [`MouseControl`](#MouseControl). Always use this to access any members and methods belonging to the [`MouseControl`](#MouseControl) class, or the shortcut `Hyperspace.Mouse`.
 - `TextLibrary :GetTextLibrary()`
    - Returns the main instance of [`TextLibrary`](#TextLibrary). Always use this to access any members and methods belonging to the [`TextLibrary`](#TextLibrary) class, or the shortcut `Hyperspace.Text`.
+- `EventGenerator :GetEventGenerator()`
+   - Returns the main instance of [`EventGenerator`](#EventGenerator). Always use this to access any members and methods belonging to the [`EventGenerator`](#EventGenerator) class, or the shortcut `Hyperspace.Event`.
 
 ### Fields
 - `int` `.currentSeed`
@@ -58,6 +129,13 @@ All calls are under `Hyperspace`
 - `MainMenu` `.menu`
    - **Read-only**
 
+## EventGenerator
+
+### Methods
+
+- [`LocationEvent`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
+- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
+
 ## ShipInfo
 
 ### Fields
@@ -70,6 +148,18 @@ All calls are under `Hyperspace`
 
 - `bool :AddBoarders(BoardingEvent boardingEvent)`
 - `void :ClearLocation()`
+
+`SwitchShip` and `SwitchShipTransfer` cause a crash on Linux. They will be exposed once the root cause is identified and the crash is fixed.
+- ~~`bool :SwitchShip(std::string shipName)`~~
+   - This method will change the player ship to the one specified by `shipName`, default hangar equipments for the ship are applied
+   - This method will run `:ClearLocation()` at the beacon, effectively removing any hazard and ship
+- ~~`bool :SwitchShipTransfer(std::string shipName, int overrideSystem)`~~
+   - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
+   - This method will run `:ClearLocation()` at the beacon, effectively removing any hazard and ship
+   - `overrideSystem`: 
+      - 0: keep systems & power from the old ship, adding them to the new ship systems
+      - 1: keep systems & power from the old ship, replacing the new ship systems
+      - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone will be moved to cargo
 	
 ### Fields
 
@@ -106,6 +196,8 @@ All calls are under `Hyperspace`
 
 - [`Projectile*[]`](#Projectile) `.projectiles`
    - **Read-only**
+- [`SpaceDrone*[]`](#SpaceDrone) `.drones`
+   - **Read-only**
 - [`GL_Texture`](#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
    - **Read-only**
@@ -127,6 +219,24 @@ All calls are under `Hyperspace`
       - **Read-only**
    - `bool` `.bStorm`
       - **Read-only**
+
+## WindowFrame
+
+### Static methods
+
+- `Hyperspace.WindowFrame(int x, int y, int w, int h)` Constructor
+
+### Methods
+
+- `void` `:Draw(int x, int y)`
+- `void` `:DrawMask(int stencilBits)`
+
+### Fields
+
+- [`Globals::Rect`](#Globals) `.rect`
+- [`GL_Primitive*`](#GL_Primitive) `.outline`
+- [`GL_Primitive*`](#GL_Primitive) `.mask`
+- [`GL_Primitive*`](#GL_Primitive) `.pattern`
 
 ## AsteroidGenerator
 	
@@ -209,7 +319,7 @@ The members held by this class determine how the `print` function displays messa
 
 ### Methods
 - `void :AddAugmentation(string augmentName)`
-   - Adds the specified augment to the ship. Note that adding hidden augments is bugged right now.
+   - Adds the specified augment to the ship. Works properly with hidden augments.
 - `void :RemoveAugmentation(string augmentName)`
    - Removes the specified augment from the ship. Does nothing if the augment isn't present. Works properly with hidden augments.
 - `void :ClearShipInfo()`
@@ -258,7 +368,7 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
 - `int :CountCrewShipId(int roomId, int shipId)`
    - Counts crew in a room. shipId corresponds to which ship owns the crewmembers, 0 being the player and 1 being the enemy.
 - ~~`CrewDrone* :CreateCrewDrone(DroneBlueprint *bp)`~~ Use Events
-- ~~`SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)`~~ Use Events
+- `SpaceDrone* :CreateSpaceDrone(DroneBlueprint *bp)`
 - `bool :DamageArea(Pointf location, DamageParameter dmg, bool force)`
    - I think this causes damage to a area like when a projectile hits but it's not tested yet, could possibly be used for bursts?
    - `force` ignores room resistances.
@@ -465,7 +575,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
   - **Since 1.4.0**
 - LUA table `.table`
   - **Since 1.4.0**
-  - A modifiable table of arbitrary data which exists and long as the object it belongs to
+  - A modifiable table of arbitrary data which exists as long as the object it belongs to
 
 ## ShipManager_Extend
 Accessed via `ShipManager`'s `.extend` field
@@ -509,9 +619,11 @@ Accessed via `ShipManager`'s `.extend` field
 **Extends [ShipObject](#Shipobject)**
 
 ### Methods
-
+-  [`std::vector<LockdownShard*>`](#LockdownShard) `:GetShards()`
 -  `bool :BreachRandomHull(int roomId)`
    -  Breaches a random tile in the room with `roomId` as its id. This can select an already breached tile, in which case nothing will happen.
+-  `bool :BreachSpecificHull(int grid_x, int grid_y)`
+   -  Breaches a tile at the specified grid coordinates.
 -  `int :EmptySlots(int roomId)`
    -  Returns the number of tiles within the room (Equivalent to the area of the room). I think this marks all tiles in the room as empty, so you can use this to fit more crew than you should in a given room.
 -  `bool :FullRoom(int roomId, bool intruder)`
@@ -568,7 +680,9 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bCloaked`
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
--  ~~`std::vector<LockdownShard>` `.lockdowns`~~
+-  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+   - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
+
 ### Hyperspace Fields
 -  `std::vector<std::pair<Animation, int8_t>>` 
 `extraEngineAnim`
@@ -581,6 +695,23 @@ Accessed via `ShipManager`'s `.extend` field
    |  1   | 90 Degrees Counterclockwise  |
 
    Note: Pairs are returned by value, and not by reference.
+
+## LockdownShard
+
+### Methods
+- `void` `:Update()`
+
+### Fields
+- [`Animation`](#Animation) `.shard`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.goal`
+- `float` `.speed`
+- `bool` `.bArrived`
+- `bool` `.bDone`
+- `float` `.lifeTime`
+- `bool` `.superFreeze`
+- `int` `.lockingRoom`
+
 ## ShipSystem
 
 ### Static methods
@@ -665,9 +796,11 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int` `.iRepairCount`
 - `int` `.iSystemType`
 - `bool` `.bNeedsManned`
+   - If the system requires manning to function.
 - `bool` `.bManned`
 - `int` `.iActiveManned`
 - `bool` `.bBoostable`
+   - If the system can be manned by a crewmember.
 - `std::pair<int, int>` `.powerState`
 - `int` `.iRequiredPower`
 - ~~`GL_Texture*` `.imageIcon`~~
@@ -688,6 +821,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
    - I don't know if this can be set to true per-frame to hold the repair over time progression counter, it might be able to freeze the graphic so it doesn't count down.
 - `int` `.originalPower`
 - `bool` `.bNeedsPower`
+   - True for regular systems, false for subsystems.
 - `int` `.iTempPowerCap`
 - `int` `.iTempPowerLoss`
 - `int` `.iTempDividePower`
@@ -712,6 +846,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int` `.iHackEffect`
 - `bool` `.bUnderAttack`
 - `bool` `.bLevelBoostable`
+   - If the system is given an additional level when manned by a crewmember (e.g. doors, sensors).
 - `bool` `.bTriggerIon`
 - ~~`std::vector<Animation>` `.damagingEffects`~~
 - `int` `.computerLevel`
@@ -719,7 +854,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
   - **Since 1.4.0**
 - LUA table `.table`
   - **Since 1.4.0**
-  - A modifiable table of arbitrary data which exists and long as the object it belongs to
+  - A modifiable table of arbitrary data which exists as long as the object it belongs to
 
 ## ShipSystem_Extend
 Accessed via `ShipSystem`'s `.extend` field
@@ -872,13 +1007,13 @@ Accessed via `ShipSystem`'s `.extend` field
 **Extends [ShipSystem](#ShipSystem)**
 
 ### Methods
-- `void :RemoveWeapon(int slot)`
+- `ProjectileFactory* :RemoveWeapon(int slot)`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
 - [`Pointf`](#Pointf) `.target`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
-- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.drone`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weapons`
+- [`std::vector<ProjectileFactory*>`](#ProjectileFactory) `.weaponsTrashList`
 - `float` `.shot_timer`
 - `int` `.shot_count`
 - `int` `.missile_count`
@@ -942,6 +1077,37 @@ No additional items over base `ShipSystem`
 - `int` `.iStartingBatteryPower`
 - `bool[]` `.repowerList`
    - Vector starts at index 0 not 1.
+
+## SystemBox
+The class representing the UI of a ShipSystem, where power is controlled and buttons are pressed.
+
+### Methods
+No methods are exposed currently.
+
+### Fields
+- [`ShipSystem`](#shipsystem) `.pSystem`
+   - The ShipSystem managed by this SystemBox.
+- [`Point`](#point) `.location`
+   - The location of the SystemBox.
+- `bool` `.bPlayerUI`
+- [`SystemBox_Extend`](#systembox_extend) `.extend`
+   - **Read-only**
+   - The SystemBox_Extend associated with this SystemBox.
+- LUA table `.table`
+   - A modifiable table of arbitrary data which exists as long as the object it belongs to.
+
+## SystemBox_Extend
+The class holding additional SystemBox data members that are not a part of FTL's native SystemBox strucure.
+
+### Methods
+No methods are exposed currently.
+
+### Fields
+- [`SystemBox`](#systembox) `.orig`
+   - **Read-only**
+   - The SystemBox associated with this SystemBox_Extend.
+- `int` `.xOffset`
+   - The offset from this SystemBox to the next in the UI.
 
 ## Drone
 
@@ -1183,6 +1349,8 @@ No additional items over base `ShipSystem`
    - **Read-only**
 - `int` `.iRoomId`
    - **Read-only**
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive2`
 - [`Room_Extend`](#room_extend) `.extend`
    - **Read-only**
 
@@ -2245,24 +2413,33 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`Point`](#Point) `.targetPosition`
 - `bool` `.open`
 - [`Pointf`](#Pointf) `.potentialAiming`
+- [`std::vector<Pointf*>`](#Pointf) `.aimingPoints`
 - `bool` `.mouseDown`
 - `bool` `.isAimingTouch`
+- `bool` `.movingBeam`
+- [`Point`](#Point) `.beamMoveLast`
+- `bool` `.invalidBeamTouch`
 - `bool` `.boss_visual`
    - **Read-only**
 
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields
+- [`ProjectileFactory`](#ProjectileFactory) `.armedWeapon`
 - `bool` `.autoFiring`
    - **Read-only**
+- `int` `.armedSlot`
 
 ## LocationEvent
 
 ### Methods
 - [`std::vector<Choice*>`](#Choice) `:GetChoices()`
+- `void :AddChoice(LocationEvent *event, std::string text, ChoiceReq req, bool hiddenReward)`
+- `bool :RemoveChoice(int index)`
 
 ### Fields
 - [`TextString`](#TextString) `.text`
+- [`ResourceEvent`](#ResourceEvent) `.stuff`
 - `int` `.environment`
 - `int` `.environmentTarget`
 - `bool` `.store`
@@ -2277,12 +2454,29 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::string` `.spaceImage`
 - `std::string` `.planetImage`
 - `std::string` `.eventName`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
 - [`BoardingEvent`](#BoardingEvent) `.boarders`
 - `int` `.unlockShip`
 - [`TextString`](#TextString) `.unlockShipText`
 - `bool` `.secretSector`
 - [`std::vector<Choice>`](#Choice) `.choices`
    - If you want to modify the current `Choice` values please refer to `:GetChoices()` instead
+
+###### Example
+```lua
+-- Adds to every event choice a new choice with the text "new text" leading to the event "FUEL_FLEET_DELAY"
+script.on_internal_event(Defines.InternalEvents.PRE_CREATE_CHOICEBOX, function(event)
+   local locEvent = Hyperspace.Event:GetBaseEvent("FUEL_FLEET_DELAY", Hyperspace.App.world.starMap.worldLevel, false, Hyperspace.Global.currentSeed);
+   local req = Hyperspace.ChoiceReq()
+   req.object = ""
+   req.min_level = 0
+   req.max_level = 0
+   req.max_group = 0
+   req.blue = true
+
+   event:AddChoice(locEvent, "choice text", req, false)
+end)
+```
 
 ## Choice
 
@@ -2329,6 +2523,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.centered`
 - `int` `.gap_size`
 - `float` `.openTime`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
 - [`GL_Color`](#GL_Color) `.currentTextColor`
 - [`Pointf`](#Pointf) `.lastChoice`
 
@@ -2337,6 +2532,35 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `int` `.type`
 - `std::string` `.text`
+- [`ResourceEvent`](#ResourceEvent) `.reward`
+
+## ResourceEvent
+
+### Fields
+- `int` `.missiles`
+- `int` `.fuel`
+- `int` `.drones`
+- `int` `.scrap`
+- `int` `.crew`
+- `bool` `.traitor`
+- `bool` `.cloneable`
+-[ `TextString`](#textstring) `.cloneText`
+- `std::string` `.crewType`
+- [`WeaponBlueprint`](#weaponblueprint) `.*weapon`
+- [`DroneBlueprint`](#droneblueprint) `.*drone`
+- [`AugmentBlueprint`](#droneblueprint) `.*augment`
+- [`CrewBlueprint`](#crewblueprint) `.crewBlue`
+- `int` `.systemId`
+- `int` `.weaponCount`
+- `int` `.droneCount`
+- `bool` `.steal`
+- `bool` `.intruders`
+- `int` `.fleetDelay`
+- `int` `.hullDamage`
+- `int` `.upgradeAmount`
+- `int` `.upgradeId`
+- `int` `.upgradeSuccessFlag`
+- `std::string` `.removeItem`
 
 ## ScoreKeeper
 
@@ -2356,13 +2580,24 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 - `void :ModifyPursuit(int amount)` 
 - `Point :PointToGrid(float x, float y)`
+- `void :ForceWaitMessage(GL_Primitive waitMessage)`
+   - Disables the ability to jump and enables the wait/distress menu. Replaces the "NO FUEL" message shown on the sector map with a primitive of your own.
+   - NOTE: The primitive should be a local or global variable. If it is garbage collected while in use this will lead to a crash.
+   - If no argument is passed, then the jump menu is re-enabled and the "NO FUEL" message is restored.
+   
+[[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
+
+
 
 ### Fields
 
 - `std::vector<Location>` `.locations`
    - **Read-only**
 - [`Location`](#Location) `.currentLoc`
+- [`std::vector<Sector*>`](#sector) `.sectors`
 - [`Sector`](#Sector) `.currentSector`
+- `bool` `.bChoosingNewSector`
+- `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
 - `GL_Primitive` `.ship`
    - The map icon that rotates around the current location representing the player ship.
@@ -2370,6 +2605,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - The no fuel variant of the `ship` icon.
 - `int` `.worldLevel`
    - **Read-only**
+- `bool` `.bTutorialGenerated`
 
 ## Location
 
@@ -2395,6 +2631,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ## Sector
 
 ### Fields
+- `bool` `.visited`
+- `int` `.level`
 - [`SectorDescription`](#SectorDescription) `.description`
    - Field is **read-only** but fields under this object may still be mutable.
 
@@ -2445,6 +2683,14 @@ end)
 
 - [`TextString`](#TextString) `.title`
 - [`TextString`](#TextString) `.shortTitle`
+- [`TextString`](#TextString) `.description`
+- `int` `.cost`
+- `int` `.rarity`
+- `int` `.baseRarity`
+- `int` `.bp`
+- `bool` `.locked`
+- [`TextString`](#TextString) `.tooltip`
+- `std::string` `.tip`
 
 ## CrewDesc
 
@@ -3321,6 +3567,9 @@ Accessed via `Projectile`'s `.extend` field
 
 ### Methods
 - `int :PlaySoundMix(std::string soundName, float volume, bool loop)`
+- `void :StopChannel(int channel, float fade)`
+   - The channel value is given by `PlaySoundMix`
+   - `fade` is counted in milliseconds
 
 ## SettingValues
 
@@ -3415,6 +3664,22 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 - `void :LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
 - `void :LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string eventName)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(Location *loc)`
+
+## CustomEvent
+
+### Fields
+- `std::string` `unlockShip`
+- `std::vector<unsigned int>` `triggeredEvents`
+   - **read-only**
+
+## TriggeredEventDefinition
+
+### Fields
+- `static` [`std::vector<TriggeredEventDefinition>`](#TriggeredEventDefinition) `defs`
+- `std::string` `name`
+- `std::string` `event`
 
 ## MainMenu
 
@@ -3423,6 +3688,57 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
    - **read-only**
 - [ShipBuilder](#ShipBuilder) `shipBuilder`
    - **read-only**
+
+## TabbedWindow
+
+**Extends [`FocusWindow`](#FocusWindow)**
+
+### Fields
+- `bool` `bBlockClose`
+- `bool` `bTutorialMode`
+   - If true, player cannot access anything other than Upgrades screen.
+- `bool` `bWindowLock`
+
+## TutorialManager
+
+### Fields
+- [`ShipManager`](#ShipManager) `.playerShip`
+   - **read-only**
+- [`CommandGui`](#CommandGui) `.gui`
+   - **read-only**
+- [`StarMap`](#StarMap) `.starMap`
+   - **Read-only**
+- [`CombatControl`](#CombatControl) `.combatControl`
+   - **Read-only**
+- [`TabbedWindow`](#TabbedWindow) `.shipInfo`
+   - **Read-only**
+- [`AnimationTracker`](#animationtracker) `.tracker`
+   - **Read-only**
+- `bool` `.bRunning`
+- `bool` `.bGamePaused`
+- `bool` `.bQuitTutorial`
+   - Setting this to true ends the tutorial.
+- `bool` `.bAllowJumping`
+   - If true, plyer can open the star map.
+- `bool` `.bAllowUpgrades`
+   - If true, player can open Upgrades screen.
+
+## TutorialArrow
+
+### Static methods
+- `Hyperspace.TutorialArrow(Pointf position, float rotation)` Constructor
+
+### Methods
+- `void` `:OnRender()`
+
+### Fields
+- [`GL_Texture`](#GL_Texture) `.arrow`
+- [`GL_Texture`](#GL_Texture) `.arrow2`
+- [`Pointf`](#Pointf) `.position`
+- [`Pointf`](#Pointf) `.blitSize`
+- `float` `.rotation`
+- [`GL_Color`](#GL_Color) `.arrow_color`
+- [`GL_Color`](#GL_Color) `.arrow2_color`
 
 ## ShipBuilder
 
@@ -3438,6 +3754,14 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
 
+## TextButton
+
+**Extends [GenericButton](#GenericButton)**
+
+### Methods
+- `void` `:OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font);`
+- `void` `:OnRender()`
+
 ## TextButton0
 
 **Extends [GenericButton](#GenericButton)**
@@ -3445,4 +3769,3 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ## FTLButton
 
 **Extends [TextButton0](#TextButton0)**
-

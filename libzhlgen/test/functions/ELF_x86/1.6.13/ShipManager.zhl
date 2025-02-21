@@ -14,14 +14,24 @@ cleanup __cdecl std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *
 cleanup __cdecl int ShipManager::OnInit(ShipManager *this, ShipBlueprint *bp, int shipLevel);
 "8b44240883f81174??8b5424048b9200040000":
 cleanup __cdecl bool ShipManager::HasSystem(ShipManager *this, int systemId);
+".8b54????8b4c????8b82000400008b048883f8ff74??8b52188b04828b108944????8b4258ffe0":
+cleanup __cdecl int ShipManager::SystemRoom(ShipManager *this, int systemId);
 "5557565331db83ec1c8b6c24308b7424348b55188b451c":
 cleanup __cdecl ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this, int roomId);
 "5589e5575689c65381ec1c010000":
 cleanup __regparm1 void ShipManager::OnLoop(ShipManager* this);
 "5383ec188b4424248b5424208b5c242883f811":
-noHook void ShipManager::DO_NOT_HOOK();
+cleanup __cdecl void ShipManager::SetSystemPowerLimit(ShipManager *this, int systemId, int limit);
 ".5383ec188b4424248b5424208b5c242883f811":
 cleanup __cdecl void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
+".5383ec188b4424248b5424208b5c242883f811":
+cleanup __cdecl void ShipManager::SetSystemDividePower(ShipManager *this, int systemId, int amount);
+".57565383ec108b74????8b54????8b86000400008b1c9083fbff74??":
+cleanup __cdecl int ShipManager::GetSystemAvailablePower(ShipManager *this, int systemId);
+".8b54????8b4c????8b82000400008b048883f8ff74??8b52188b14828b82f0000000":
+cleanup __cdecl int ShipManager::GetSystemDamage(ShipManager *this, int systemId);
+
+
 "5589e557565383ec4c8b5d088b83c4040000":
 cleanup __cdecl int ShipManager::CreateSystems(ShipManager *this);
 "5589e557565381ecdc0000008b45088d98c0040000":
@@ -38,6 +48,12 @@ cleanup __cdecl CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager 
 cleanup __cdecl CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male);
 "8b4424048b9000040000837a08ff74??8b4024f30f1005????????":
 cleanup __cdecl int ShipManager::GetOxygenPercentage(ShipManager *this);
+".8b44????8b9000040000837a08ff74??8b40248944????e9????????":
+cleanup __cdecl float ShipManager::GetOxygenLevel(ShipManager *this, int roomId);
+".5557565383ec1c8b44????8b5c????8b9000040000837a08ff75??c70300000000":
+cleanup __cdecl std::vector<float> ShipManager::GetOxygenLevels(ShipManager *this);
+
+
 "5557565383ec1c807c246600":
 cleanup __cdecl bool ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
 "5557565383ec3c8b442454894424048d44242c890424":
@@ -90,6 +106,9 @@ cleanup __cdecl int ShipManager::CountCrewShipId(ShipManager *this, int roomId, 
 cleanup __cdecl ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
 ".5383ec188b5c24208b83000400008b4020":
 cleanup __cdecl bool ShipManager::DoorsFunction(ShipManager *this);
+".8b548b4c8b82000400008b048883f8ff748b52188b04828944e9":
+cleanup __cdecl bool ShipManager::SystemLocked(ShipManager *this, int systemId);
+
 "5589e557565381ec1c0100008b45088b7d0c0594040000":
 cleanup __cdecl void ShipManager::ExportShip(ShipManager *this, int file);
 ".5557565383ec1c8b7c2430":
@@ -102,6 +121,8 @@ cleanup __cdecl void ShipManager::ImportShip(ShipManager *this, int file);
 cleanup __cdecl void ShipManager::CheckVision(ShipManager *this);
 "56538b5424108b4c240c83fa118b8100040000":
 cleanup __cdecl int ShipManager::IsSystemHacked(ShipManager *this, int systemId);
+".5383ec288d????108944????c744????00000000c704??????????":
+cleanup __cdecl void ShipManager::SaveCrewPositions(ShipManager *this);
 "5589e557565383ec3c8b7d080fb645148b4f64":
 cleanup __cdecl CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this, int x, int y, bool intruder);
 "5589e557565383ec6c8b75088d45b0890424":
@@ -114,10 +135,22 @@ cleanup __cdecl void ShipManager::ResetScrapLevel(ShipManager *this);
 cleanup __cdecl void ShipManager::JumpArrive(ShipManager *this);
 "5589e557565383ec5c8b7d08c745b000000000":
 cleanup __cdecl void ShipManager::CheckSpreadDamage(ShipManager *this);
-"8b4424088b54240483f8ff74??8b8a000400008b048183f8ff74??8b52188b048285c074??8b10c744240801000000894424048b8284000000":
+
+"8b54????8b4c????8b82000400008b048883f8ff74??8b52188b04828b80ec000000":
+cleanup __cdecl int ShipManager::GetSystemHealth(ShipManager *this, int systemId);
+".83ec1c8b4c????8b54????8b81000400008b149031c083faff74??c744????00000000c744????01000000":
+cleanup __cdecl bool ShipManager::IncreaseSystemPower(ShipManager *this, int systemId);
+".8b44????8b54????83f8ff74??8b8a000400008b048183f8ff74??8b52188b048285c074??8b10c744????010000008944????8b8288000000":
+cleanup __cdecl bool ShipManager::ForceIncreaseSystemPower(ShipManager *this, int sys);
+".8b4424088b54240483f8ff74??8b8a000400008b048183f8ff74??8b52188b048285c074??8b10c744240801000000894424048b8284000000":
 cleanup __cdecl bool ShipManager::ForceDecreaseSystemPower(ShipManager *this, int sys);
 "8b5424088b4424048b524485d2":
 cleanup __cdecl ShieldPower ShipManager::GetShieldPower(ShipManager *this);
+"5589c557565383ec1c":
+cleanup __cdecl void ShipManager::CloneHealing(ShipManager *this);
+".5683fa115389c18b800004000074??8b1c9031c083fbff75??":
+cleanup __cdecl int ShipManager::IsSystemHacked2(ShipManager *this, int systemId);
+
 "538b4424088b9000040000837a0cff":
 cleanup __cdecl int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
 "5557565331db83ec3c8b4424548d74242c":
@@ -155,7 +188,7 @@ cleanup __cdecl CrewMember* ShipManager::GetCrewmember(ShipManager *this, int sl
 "5589e55383ec148b550c8b4d0883fa11":
 cleanup __cdecl int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "5589e557565383ec5c8b45108b5d08":
-cleanup __cdecl ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool unk);
+cleanup __cdecl ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool overwrite);
 "5589e557565331db83ec7c8d45c88d75d8":
 cleanup __cdecl void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf pos);
 "5589e557565381ec1c0100008b7d548b75188b5d1c":
@@ -186,6 +219,10 @@ cleanup __cdecl bool ShipManager::IsCloaked(ShipManager *this);
 cleanup __cdecl int ShipManager::CountPlayerCrew(ShipManager *this);
 "565383ec148b5c24208b8300":
 cleanup __cdecl void ShipManager::Wait(ShipManager *this);
+"5589e557565383ec4c8b5d088b8300040000":
+cleanup __cdecl void ShipManager::CreateArmory(ShipManager *this);
+"57565383ec208b7c24348b5c24308b4740":
+cleanup __cdecl Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprint *drone);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
@@ -218,5 +255,11 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
+
+	void StartDummyOxygen();
+	bool StopDummyOxygen();
+	void InstallDummyOxygen();
+	void RemoveDummyOxygen();
+	bool DummyOxygenInstalled();
 
 }};

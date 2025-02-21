@@ -781,6 +781,9 @@
 		<Unit filename="ArtillerySystem.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="ArtillerySystem.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>
@@ -895,6 +898,12 @@
 		<Unit filename="CustomCommandGui.h">
 			<Option virtualFolder="Core/CommandGui/" />
 		</Unit>
+		<Unit filename="CustomTabbedWindow.cpp">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
+		<Unit filename="CustomTabbedWindow.h">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
 		<Unit filename="CustomCrew.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -931,6 +940,9 @@
 		<Unit filename="CustomEquipment.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
+		<Unit filename="CustomEquipment.h">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
 		<Unit filename="CustomEvents.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
@@ -956,6 +968,9 @@
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CustomMap.cpp">
+			<Option virtualFolder="Core/Map/" />
+		</Unit>
+		<Unit filename="CustomMap.h">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
 		<Unit filename="CustomOptions.cpp">
@@ -1024,6 +1039,18 @@
 		<Unit filename="CustomSystems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="CustomTextStyle.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTextStyle.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomUpgrades.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -1045,6 +1072,9 @@
 		<Unit filename="DiscordIntegration.h">
 			<Option virtualFolder="Content/Discord/" />
 		</Unit>
+		<Unit filename="Drones.h">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
@@ -1056,6 +1086,12 @@
 		</Unit>
 		<Unit filename="EnumClassHash.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="Equipment_Extend.cpp">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="Equipment_Extend.h">
+			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />
@@ -1155,6 +1191,9 @@
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="OverclockerSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="OxygenWithoutSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="PALMemoryProtection.h">
@@ -1280,6 +1319,12 @@
 		<Unit filename="System_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -1326,6 +1371,9 @@
 			<Option virtualFolder="ZHL/" />
 		</Unit>
 		<Unit filename="lua/InternalEvents.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="lua/EventEnums.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/LuaLibScript.h">

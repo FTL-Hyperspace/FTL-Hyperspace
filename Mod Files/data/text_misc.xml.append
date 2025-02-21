@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.15.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.0)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -25,6 +25,8 @@
 </mod:findName>
 
 <text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->
+
+<text name="shot_limit">Weapon shot limit: \1</text>  <!-- \1: shot limit -->
 
 <text name="erosion_chance">Erosion Chance: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
 <text name="crew_statboost_chance">Affliction Chance: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
@@ -153,6 +155,7 @@
 <text name="weapon_lockdown">Locks down rooms on hit</text>
 <text name="scrap_value">Buy/Sell Price: \1 scrap/\2 scrap</text>
 <text name="damage_word">Damage</text>
+<text name="shots_remaining">Shots Remaining: \1</text>
 <text name="bomb_shots">Shots per charge: \1 (1 on own ship)</text>
 <text name="crew_scrap_value">Hire Price: \1~</text>
 <text name="drone_speed">Drone Speed: \1</text>
@@ -172,6 +175,8 @@
 
 <text name="teleporter_instant">No cooldown</text>
 <text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
+
+<text name="max_augments">Your ship can only hold \1 augmentations.</text>
 
 <!-- Tooltips when hovering over deployed drones -->
 
@@ -262,6 +267,13 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="discord_dead">Dead</text>
 <text name="discord_mod"></text>
 
+<!-- Shield system -->
+
+<text name="shields_4">Five Shield Barriers</text>
+<text name="shields_5">Six Shield Barriers</text>
+<text name="shields_6">Seven Shield Barriers</text>
+<text name="shields_7">Eight Shield Barriers</text>
+
 <!-- New save file -->
 
 <text name="transfer_save_dialog">It appears this is either your first time playing this mod, or have not yet set up a new save file! Would you like to transfer vanilla progress, or play with a fresh save? This will NOT influence your vanilla progress in any way.</text>
@@ -270,6 +282,8 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="warning_pds_all">NEUTRAL!</text>
 
+<!--shotLimit warning text-->
+<text name="warning_shot_limit">SHOT LIMIT REACHED!</text>  
 <!--Credits-->
 
 <text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
@@ -282,20 +296,20 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="credits_hyperspace_project">Hyperspace Project</text>
 <text name="credits_hyperspace_developed_by">Developed by:</text>
-<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art">Additional Art:</text>
 <text name="credits_hyperspace_art_names">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors">Additional Contributions:</text>
-<text name="credits_hyperspace_contributors_names">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc">Hyperspace Translators:</text>
 <text name="credits_hyperspace_loc_fr">French</text>
 <text name="credits_hyperspace_loc_fr_names">Pepson</text>
 <text name="credits_hyperspace_loc_it">Italian</text>
-<text name="credits_hyperspace_loc_it_names">RawToast</text>
+<text name="credits_hyperspace_loc_it_names">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de">German</text>
 <text name="credits_hyperspace_loc_de_names">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es">Spanish</text>
-<text name="credits_hyperspace_loc_es_names">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl">Polish</text>
 <text name="credits_hyperspace_loc_pl_names">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR">Portuguese (Brazil)</text>

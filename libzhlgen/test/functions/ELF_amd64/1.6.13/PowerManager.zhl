@@ -1,7 +1,9 @@
 "??80fe0119c0f7d083e002894720":
-cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val);
+cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val); // 00644d90
+".488b15????????488b05????????48b9":
+static cleanup __amd64 void  PowerManager::RestartAll(); // 00644e30
 ".5389fb4883ec30488b05????????488b0d????????4889c2":
-static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
+static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId); // 00644e80
 
 
 struct PowerManager

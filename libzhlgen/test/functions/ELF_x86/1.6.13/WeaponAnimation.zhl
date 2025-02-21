@@ -1,3 +1,5 @@
+"565383ec148b74????8b5c????8974????891c????????????8d":
+cleanup __cdecl void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
 "5383ec188b5c24200fb68391000000":
 cleanup __cdecl bool WeaponAnimation::StartFire(WeaponAnimation *this);
 "8b442404f30f104424088b5004":
@@ -8,3 +10,5 @@ cleanup __cdecl Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
 cleanup __cdecl void WeaponAnimation::Update(WeaponAnimation *this);
 "5589e557565383ec7c8b????e8????????":
 cleanup __cdecl void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
+"5589e557565383ec6c8b5d08e8????????8b8b":
+cleanup __cdecl void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);

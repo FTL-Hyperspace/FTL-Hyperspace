@@ -1,4 +1,5 @@
 #include "CustomAugments.h"
+#include "CustomOptions.h"
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
@@ -8,6 +9,7 @@
 static bool importingShip = false;
 bool revisitingShip = false;
 bool bNoJump = false;
+bool bSwitchingTransfer = false;
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
@@ -67,7 +69,7 @@ void ShipManager_Extend::Initialize(bool restarting)
         }
     }
 
-    if (!restarting && !revisitingShip)
+    if (!revisitingShip)
     {
         for (auto &i : def.crewList)
         {
@@ -86,8 +88,7 @@ void ShipManager_Extend::Initialize(bool restarting)
                     species = "human";
                 }
             }
-
-            orig->AddCrewMemberFromString(i.name, i.species, false, i.roomId, false, random32() % 2);
+            orig->AddCrewMemberFromString(i.name, species, false, i.roomId, false, random32() % 2);
 
             orig->bAutomated = false;
         }
@@ -162,6 +163,14 @@ HOOK_METHOD_PRIORITY(ShipManager, ImportShip, -1000, (int fileHelper) -> void)
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomShips.cpp)\n")
+    
+    //Set the image defined in systemInfo to the proper value when adding artillery systems
+    auto shipDef = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName);
+    if (shipDef.artilleryRoomImages.size() > 1 && systemId == SYS_ARTILLERY)
+    {
+        myBlueprint.systemInfo[SYS_ARTILLERY].image = shipDef.artilleryRoomImages[artillerySystems.size()];
+    }
+
     auto ret = super(systemId);
 
     // Fixes shield systems being created with damage when >10 bars
@@ -194,12 +203,41 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
     return ret;
 }
 
+//AddInitialCrew adds all crew from ShipManager::myBlueprint::customCrew
+//So the crew added by Hyperspace are temporarily removed from customCrew so crew aren't added twice on restart
 HOOK_METHOD(ShipManager, Restart, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::Restart -> Begin (CustomShips.cpp)\n")
-    super();
 
-    SM_EX(this)->Initialize(true);
+    if (!bSwitchingTransfer)
+    {
+        int hyperspaceCrewCount = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName).crewList.size();
+        std::vector<CrewBlueprint>& customCrew = myBlueprint.customCrew;
+        std::vector<CrewBlueprint> removedCrew(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+        customCrew.erase(customCrew.end() - hyperspaceCrewCount, customCrew.end());
+        super();
+        customCrew.insert(customCrew.end(), removedCrew.begin(), removedCrew.end());
+        SM_EX(this)->Initialize(true);
+    }
+    else
+    {
+        revisitingShip = true;
+        super();
+        SM_EX(this)->Initialize(true);
+        revisitingShip = false;
+    }
+}
+
+//The amount of drones that are added to a ship are capped by droneCount
+//This may be an intended behavior to prevent enemy ships from spawning with more drones than they can use
+//Set droneCount to a high value so player ships spawn with all of their drones on restart
+HOOK_METHOD(ShipManager, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Restart -> Begin (CustomShips.cpp)\n")
+    int oldDroneCount = myBlueprint.droneCount;
+    if(iShipId == 0) myBlueprint.droneCount = INT_MAX;
+    super();
+    if(iShipId == 0) myBlueprint.droneCount = oldDroneCount;
 }
 
 float CrewMemberFactory::GetCrewCapacityUsed()
@@ -729,6 +767,16 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 }
 
 
+bool g_warningLightPositionFix = false;
+
+void RelocateWarningLight(Room *room, int x, int y, int rotation)
+{
+    CSurface::GL_DestroyPrimitive(room->lightPrimitive);
+    room->lightPrimitive = G_->GetResources()->CreateImagePrimitiveString("effects/light_base.png", x, y, rotation, COLOR_WHITE, 1.f, false);
+    CSurface::GL_DestroyPrimitive(room->lightGlowPrimitive);
+    room->lightGlowPrimitive = G_->GetResources()->CreateImagePrimitiveString("effects/light_glow.png", x, y, rotation, COLOR_WHITE, 1.f, false);
+}
+
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
@@ -867,6 +915,156 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
     }
 
     wallsPrimitive = CSurface::GL_CreateMultiLinePrimitive(walls, GL_Color(0.f, 0.f, 0.f, 1.f), 2.f);
+
+
+    // warning light relocation
+    if (!g_warningLightPositionFix) return;
+
+    for (auto i : vRoomList)
+    {
+        int columns = i->rect.w / 35;
+        int rows = i->rect.h / 35;
+
+        if (columns % 2 == 0) // columns is even number -> set the light to the bottom center
+        {
+            RelocateWarningLight(i, i->rect.x + (columns / 2 - 1) * 35, i->rect.y + i->rect.h - 37, 0);
+            continue;
+        }
+        else if (rows % 2 == 0) // rows is even number -> set the light to the left center
+        {
+            RelocateWarningLight(i, i->rect.x - 15, i->rect.y + (rows / 2 - 1) * 35 + 17, 90);
+            continue;
+        }
+
+        // handle odd x odd shape
+
+        int horizontal_center = columns / 2;
+        int vertical_center = rows / 2;
+        int candidate_diff_from_center = 9999;
+        int candidate_dimention = -1; // 0: bottom, 1: top, 2: left, 3: right
+        int candidate_index;
+
+        // find the empty wall closest to the center
+        for (int j = 0; j < columns && candidate_diff_from_center > 0; j++)
+        {
+            // bottom
+
+            bool hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + 9 + j * 35 && gap.start.y == i->rect.y + i->rect.h)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - horizontal_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - horizontal_center);
+                candidate_dimention = 0;
+                candidate_index = j;
+                continue;
+            }
+
+            // top
+
+            hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + 9 + j * 35 && gap.start.y == i->rect.y)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - horizontal_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - horizontal_center);
+                candidate_dimention = 1;
+                candidate_index = j;
+            }
+        }
+
+        for (int j = 0; j < rows && candidate_diff_from_center > 0; j++)
+        {
+            // left
+
+            bool hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x && gap.start.y == i->rect.y + 9 + j * 35)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - vertical_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - vertical_center);
+                candidate_dimention = 2;
+                candidate_index = j;
+                continue;
+            }
+
+            // right
+
+            hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + i->rect.w && gap.start.y == i->rect.y + 9 + j * 35)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor && abs(j - vertical_center) < candidate_diff_from_center)
+            {
+                candidate_diff_from_center = abs(j - vertical_center);
+                candidate_dimention = 3;
+                candidate_index = j;
+            }
+        }
+
+        switch (candidate_dimention)
+        {
+            case 0: // bottom
+                RelocateWarningLight(i, i->rect.x + candidate_index * 35 - 17, i->rect.y + i->rect.h - 37, 0);
+                continue;
+            case 1: // top
+                RelocateWarningLight(i, i->rect.x + candidate_index * 35 - 17, i->rect.y + 2, 180);
+                continue;
+            case 2: // left
+                RelocateWarningLight(i, i->rect.x - 15, i->rect.y + candidate_index * 35, 90);
+                continue;
+            case 3: //right
+                // note: the light image shrinks at the bottom by 1 pixel when rotating 270 degrees
+                RelocateWarningLight(i, i->rect.x + i->rect.w - 54, i->rect.y + candidate_index * 35, 270);
+                continue;
+        }
+
+        // handle the case where every wall has a door
+
+        if (columns > 1)
+        {
+            RelocateWarningLight(i, i->rect.x + (horizontal_center - 1) * 35, i->rect.y + i->rect.h - 37, 0);
+        }
+        else if (rows > 1)
+        {
+            RelocateWarningLight(i, i->rect.x - 15, i->rect.y + (vertical_center - 1) * 35 + 17, 90);
+        }
+        else // where 1x1 room has 4 doors -> move the light to the bottom left corner
+        {
+            RelocateWarningLight(i, i->rect.x - 30, i->rect.y + i->rect.h - 37, 0);
+        }
+    }
 }
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)
@@ -1363,12 +1561,30 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
     lua_pop(context->GetLua(), 2);
 
     // Render floor
-    if (iShipId == 0)
+    ShipManager* shipManager = G_->GetShipManager(iShipId);
+    bool noCrew = shipManager->CountCrew(false) == 0;
+    bool sensorFunction = shipManager->DoSensorsProvide(1);
+    //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
+    bool hideFloor = shipManager->IsCloaked() && noCrew && !sensorFunction && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue;
+    if (iShipId == 0 && !hideFloor)
     {
         CSurface::GL_Translate(xPos, yPos, 0.0);
         CSurface::GL_RenderPrimitiveWithAlpha(floorPrimitive, alphaOther);
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
+    bool old_bContainsPlayerCrew = bContainsPlayerCrew;
+    if (IsCloaked() && !bContainsPlayerCrew && DoSensorsProvide(1) && iShipId == 0 && CustomOptionsManager::GetInstance()->cloakRenderFix.currentValue)
+    {
+        //Bypass check for hiding room images
+        bContainsPlayerCrew = true;
+    }
+    super(showInterior, doorControlMode);
+    bContainsPlayerCrew = old_bContainsPlayerCrew;
 }
 
 HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
@@ -1622,4 +1838,276 @@ HOOK_METHOD(ExplosionAnimation, OnRender, (Globals::Rect *shipRect, ImageDesc sh
             explosion.OnRender(1.f, COLOR_WHITE, false);
         }
     }
+}
+
+// Ship Switching
+bool overrideTransfer = false;
+
+bool WorldManager::SwitchShip(std::string shipName)
+{
+    bool ret = false;
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName)
+    {
+        G_->GetWorld()->ClearLocation(); // Maybe later we will find a way to keep the current location state for a switch
+        std::string fixname = bp->name.GetText();
+        ShipGraph::Restart();
+        PowerManager::RestartAll();
+        ShipManager* playerShipManager = G_->GetShipManager(0);
+        playerShipManager->myBlueprint = *bp;
+
+        overrideTransfer = true;
+        G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
+        G_->GetCApp()->menu.shipBuilder.GetShip();
+        overrideTransfer = false;
+
+        playerShip->Restart();
+
+        commandGui->Restart();
+        G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
+        playerShipManager->myBlueprint.name.isLiteral = true;
+        playerShipManager->myBlueprint.name.data = fixname;
+
+        playerShip->OnLoop();
+
+        ret = true;
+    }
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomShips.cpp)\n")
+    
+    if (overrideTransfer) overwrite = false;
+
+    return super(overwrite);
+}
+
+bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
+{
+    if (overrideSystem < 0 || 2 < overrideSystem) return false; // invalid id
+    /* overrideSystem
+    - 0: keep systems & power from the old ship, adding them to the new ship systems
+    - 1: keep systems & power from the old ship, replacing the new ship systems
+    - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone in slots will be moved to cargo
+    */
+    bool ret = false;
+    ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+    if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName)
+    {
+        G_->GetWorld()->ClearLocation();
+        ShipManager* playerShipManager = G_->GetShipManager(0);
+        // Here you save all the data you want to transfer to the new ship
+
+        // Systems: save ID, power
+        std::map<int, int> save_systems;
+        for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
+        {
+            save_systems[playerShipManager->vSystemList[i]->GetId()] = playerShipManager->vSystemList[i]->powerState.second;
+        }
+
+        // Reactor: save power
+        int save_reactor = PowerManager::GetPowerManager(0)->currentPower.second;
+
+        // Cargo: save ID
+        std::vector<std::string> save_cargo(commandGui->equipScreen.GetCargoHold());
+
+        // Save weapon/drone ID
+        bool saved_weapon = false;
+        std::vector<std::string> save_weapons;
+        bool saved_drone = false;
+        std::vector<std::string> save_drones;
+        if (playerShipManager->weaponSystem)
+        {
+            saved_weapon = true;
+            for (ProjectileFactory* weapon : playerShipManager->weaponSystem->weapons) save_weapons.push_back(weapon->blueprint->name);
+        }
+        if (playerShipManager->droneSystem)
+        {
+            saved_drone = true;
+            for (Drone* drone : playerShipManager->droneSystem->drones) save_drones.push_back(drone->blueprint->name);
+        }
+
+        // Scrap/fuel/ammo/droneparts: save amount
+        int save_scrap = playerShipManager->currentScrap;
+        int save_fuel = playerShipManager->fuel_count;
+        int save_ammo = playerShipManager->GetMissileCount();
+        int save_droneparts = playerShipManager->GetDroneCount();
+
+        // Name: save name
+        std::string save_name = playerShipManager->myBlueprint.name.GetText();
+
+        // Hull: save health (ratio since the new ship might have different max health)
+        int save_health_ratio = (int)std::ceil((float)(playerShipManager->ship.hullIntegrity.first * 100) / (float)playerShipManager->ship.hullIntegrity.second);
+
+        // Regular ship switch method
+        ShipGraph::Restart();
+        PowerManager::RestartAll();
+
+        std::vector<int> oldSystems = bp->systems;
+        if (overrideSystem < 2)
+        {
+            std::vector<int> newSystems;
+            bool addedArtillery = false;
+            for (int i=0; i<playerShipManager->vSystemList.size(); ++i)
+            {
+                if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0 && (playerShipManager->vSystemList[i]->GetId() != SYS_ARTILLERY || !addedArtillery))
+                {
+                    newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
+                    if (playerShipManager->vSystemList[i]->GetId() == SYS_ARTILLERY) 
+                    {
+                        for (int i=0; i<bp->systemInfo[SYS_ARTILLERY].location.size() - 1; ++i)
+                        {
+                            newSystems.push_back(SYS_ARTILLERY);
+                        }
+                        addedArtillery = true;
+                    }
+                }
+            }
+            if (overrideSystem == 0)
+            {
+                for (int system : bp->systems)
+                {
+                    if (std::find(newSystems.begin(), newSystems.end(), system) == newSystems.end())
+                    {
+                        newSystems.push_back(system);
+                    }
+                }
+            }
+            bp->systems = newSystems;
+        }
+        
+        playerShipManager->myBlueprint = *bp;
+        int save_max_health = bp->health;
+
+        G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
+        G_->GetCApp()->menu.shipBuilder.GetShip();
+
+        bSwitchingTransfer = true;
+        playerShip->Restart();
+        bSwitchingTransfer = false;
+        bp->systems = oldSystems;
+        commandGui->Restart();
+        G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
+        ret = true;
+
+        // Here you load all the data you saved before
+
+        // Reactor
+        PowerManager::GetPowerManager(0)->currentPower.second = save_reactor;
+
+        // Set systems energy
+        if (overrideSystem < 2)
+        {
+            for (auto system : save_systems)
+            {
+                if (playerShipManager->HasSystem(system.first))
+                {   
+                    ShipSystem* sys = playerShipManager->GetSystem(system.first);
+                    if (sys) sys->powerState.second = system.second;
+                }
+            }
+        }
+
+        // Cargo
+        for (std::string cargo : save_cargo)
+        {
+            commandGui->equipScreen.AddToCargo(cargo);
+        }
+
+        // Scrap/fuel/ammo/droneparts
+        playerShipManager->currentScrap = save_scrap;
+        playerShipManager->fuel_count = save_fuel;
+        playerShipManager->ModifyMissileCount(save_ammo - playerShipManager->GetMissileCount());
+        playerShipManager->ModifyDroneCount(save_droneparts - playerShipManager->GetDroneCount());
+
+        // Hull
+        playerShipManager->ship.hullIntegrity.second = save_max_health;
+        playerShipManager->ship.hullIntegrity.first = (playerShipManager->ship.hullIntegrity.second * save_health_ratio)/100;
+
+        // reset the blueprint to disallow porting equipment from regular restart
+        playerShipManager->myBlueprint = *G_->GetBlueprints()->GetShipBlueprint(playerShipManager->myBlueprint.blueprintName, -1);
+
+        // Name
+        playerShipManager->myBlueprint.name.isLiteral = true;
+        playerShipManager->myBlueprint.name.data = save_name;
+
+        // Handle overflowing weapon/drone slots
+        if (playerShipManager->weaponSystem && playerShipManager->weaponSystem->weapons.size() > playerShipManager->weaponSystem->slot_count)
+        {
+            int overflow = playerShipManager->weaponSystem->weapons.size() - playerShipManager->weaponSystem->slot_count;
+            for (int i=0; i<overflow; ++i)
+            {
+                playerShipManager->weaponSystem->weapons.pop_back();
+            }
+        }
+        if (playerShipManager->droneSystem && playerShipManager->droneSystem->drones.size() > playerShipManager->droneSystem->slot_count)
+        {
+            int overflow = playerShipManager->droneSystem->drones.size() - playerShipManager->droneSystem->slot_count;
+            for (int i=0; i<overflow; ++i)
+            {
+                playerShipManager->droneSystem->drones.pop_back();
+            }
+        }
+
+        if (playerShipManager->weaponSystem && saved_weapon)
+        {
+            std::vector<std::string> curr_weapons;
+            for (auto weapon : playerShipManager->weaponSystem->weapons)
+            {
+                curr_weapons.push_back(weapon->blueprint->name);
+            }
+
+            for (const auto& weapon : save_weapons)
+            {
+                auto it = std::find(curr_weapons.begin(), curr_weapons.end(), weapon);
+                if (it == curr_weapons.end())
+                {
+                    commandGui->equipScreen.AddToCargo(weapon);
+                }
+                else
+                {
+                    curr_weapons.erase(it);
+                }
+            }
+        }
+        else if (saved_weapon) {
+            for (std::string weapon : save_weapons)
+            {
+                commandGui->equipScreen.AddToCargo(weapon);
+            }
+        }
+
+        if (playerShipManager->droneSystem && saved_drone)
+        {
+            std::vector<std::string> curr_drones;
+            for (auto drone : playerShipManager->droneSystem->drones)
+            {
+                curr_drones.push_back(drone->blueprint->name);
+            }
+
+            for (const auto& drone : save_drones)
+            {
+                auto it = std::find(curr_drones.begin(), curr_drones.end(), drone);
+                if (it == curr_drones.end())
+                {
+                    commandGui->equipScreen.AddToCargo(drone);
+                }
+                else
+                {
+                    curr_drones.erase(it);
+                }
+            }
+        }
+        else if (saved_drone) {
+            for (std::string drone : save_drones)
+            {
+                commandGui->equipScreen.AddToCargo(drone);
+            }
+        }
+
+        playerShip->OnLoop();
+    }
+    return ret;
 }

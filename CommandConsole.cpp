@@ -5,6 +5,8 @@
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
+#include "CustomShips.h"
+#include "CustomSystems.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -145,7 +147,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string luaCode = boost::trim_copy(command.substr(4));
         Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
-    if (command == "SYS ALL")
+    if (boost::to_upper_copy(command) == "SYS ALL")
     {
         ShipManager *ship = commandGui->shipComplete->shipManager;
         
@@ -157,6 +159,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             else
             {
             if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
+                ship->AddSystem(systemId);
+            } 
+        }
+
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId))
+            {
                 ship->AddSystem(systemId);
             } 
         }
@@ -180,7 +190,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (command == "SHIP ALL")
     {
         CustomShipUnlocks::instance->UnlockAllShips();
-        return true;
+        return false; //Run native game ship unlocks as well
     }
     if (cmdName == "SHIP_CUSTOM")
     {
@@ -307,7 +317,33 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "SWITCHALL" && command.length() > 9)
+    {
+        std::string shipName = boost::trim_copy(command.substr(10));
+        hs_log_file("Loading new ship and transfering from old ship %s\n", shipName.c_str());
+        G_->GetWorld()->SwitchShipTransfer(shipName, 1);
 
+        return true;
+    }
+    if(cmdName == "SWITCH" && command.length() > 6)
+    {
+        std::string shipName = boost::trim_copy(command.substr(7));
+        hs_log_file("Loading new ship %s\n", shipName.c_str());
+        G_->GetWorld()->SwitchShip(shipName);
+
+        return true;
+    }
+    if(cmdName == "WEAPON" && command.length() > 6)
+    {
+        std::string weaponName = boost::trim_copy(command.substr(7));
+        WeaponBlueprint *weapon = G_->GetBlueprints()->GetWeaponBlueprint(weaponName);
+        if (weapon && weapon->type != -1)
+        {
+            commandGui->equipScreen.AddWeapon(weapon, true, false);
+        }
+
+        return true;
+    }
 
     return false;
 }
@@ -421,6 +457,7 @@ void PrintHelper::Render()
                 screenMessage += message;
                 screenMessage += "\n";
             }
+            CSurface::GL_SetColor(COLOR_WHITE);
             freetype::easy_printAutoNewlines(font, x, y, lineLength, screenMessage);
             float increment = useSpeed ? G_->GetCFPS()->GetSpeedFactor() * 0.0625 : 1.0 / G_->GetCFPS()->NumFrames;
             timer += increment;
@@ -542,7 +579,6 @@ HOOK_STATIC(CSurface, GL_DrawRect, (float x, float y, float w, float h, GL_Color
 
 HOOK_STATIC(freetype, easy_printCenter , (int fontSize, float x, float y, const std::string &text) -> Pointf)
 {
-    LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter -> Begin (CommandConsole.cpp)\n")
     if (printCenterToLeft)
     {
         freetype::easy_print(8, x, y, text);

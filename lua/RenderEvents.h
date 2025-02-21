@@ -1,9 +1,11 @@
 #ifndef RENDEREVENTS_H
 #define RENDEREVENTS_H
+#include "EventEnums.h"
 
 struct RenderEvents
 {
-    enum Identifiers {
+
+    NAMED_ENUM(Identifiers,
         UNKNOWN, // Must always be first, used to check for bounds of enum input value
 
         ////LANGUAGE_CHOOSER, // LanguageChooser::OnRender
@@ -50,21 +52,21 @@ struct RenderEvents
         //COMBAT_CONTROL_COMBAT, // CombatControl::OnRenderCombat could be used with SHIP to determine we're rendering an enemy ship (or to provide a ENEMY_SHIP) render method
         //CREW_CONTROL, // CrewControl::OnRender
         //SYSTEM_CONTROL, // SystemControl::OnRender
+        SYSTEM_BOX, //SystemBox::OnRender
         //COMBAT_CONTROL_INTERFACE, // CombatControl::OnRenderInterface
         ////PAUSE, // CommandGui::RenderPause (not hooked yet)
         SPACE_STATUS, // SpaceStatus::OnRender
         //SHIP_STATUS, // ShipStatus::OnRender
         ////CONFIRM_WINDOW, // ConfirmWindow::OnRender, TODO: Might need to pass which window it is
         ////CHOICE_BOX, // ChoiceBox::OnRender, TODO: Might need to pass which choice it is
+        TABBED_WINDOW, // TabbedWindow::OnRender(currentTabName)
         
         ////ACHIEVEMENT_TRACKER, // AchievementTracker::OnRender (not hooked yet)
         MOUSE_CONTROL, // MouseControl::OnRender
         ////FPS, // CFPS::OnRender (not hooked yet)
         
         ////SHIELD_BASE, // Shields::RenderBase
-
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
-    };
+    )
 };
-
 #endif // RENDEREVENTS_H
