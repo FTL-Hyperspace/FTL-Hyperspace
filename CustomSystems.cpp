@@ -350,6 +350,23 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     return ret;
 }
 
+HOOK_METHOD_PRIORITY(SystemBox, destructor, 999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::destructor -> Begin (CustomSystems.cpp)\n")
+    for (int i = 0; i < 4; i++)
+    {
+        CSurface::GL_DestroyPrimitive(this->timerCircle[i]);
+    }
+    CSurface::GL_DestroyPrimitive(this->timerLines);
+    CSurface::GL_DestroyPrimitive(this->timerStencil);
+    CSurface::GL_DestroyPrimitive(this->brokenIcon);
+    CSurface::GL_DestroyPrimitive(this->lockIcon);
+    CSurface::GL_DestroyPrimitive(this->hackIcon);
+    if (this->touchTooltip) {
+        delete this->touchTooltip;
+    }
+}
+
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
