@@ -154,15 +154,15 @@ align can be left, center or right
 -->
 
 <hullNumbers enabled="true">
-	<playerText x="335" y="50" type="0" align="left" />
-	<enemyText x="988" y="59" type="0" align="center" />
-	<enemyText x="1008" y="59" language="es" type="0" align="center" />
-	<enemyText x="1017" y="59" language="it" type="0" align="center" />
-	<enemyText x="1002" y="59" language="ja" type="0" align="center" />
-	<bossText x="864" y="16" type="0" align="center" />
-	<bossText x="884" y="16" language="es" type="0" align="center" />
-	<bossText x="893" y="16" language="it" type="0" align="center" />
-	<bossText x="878" y="16" language="ja" type="0" align="center" />
+	<playerText X="335" Y="50" type="0" align="left" />
+	<enemyText X="988" Y="59" type="0" align="center" />
+	<enemyText X="1008" Y="59" language="es" type="0" align="center" />
+	<enemyText X="1017" Y="59" language="it" type="0" align="center" />
+	<enemyText X="1002" Y="59" language="ja" type="0" align="center" />
+	<bossText X="864" Y="16" type="0" align="center" />
+	<bossText X="884" Y="16" language="es" type="0" align="center" />
+	<bossText X="893" Y="16" language="it" type="0" align="center" />
+	<bossText X="878" Y="16" language="ja" type="0" align="center" />
 </hullNumbers>
 
 <!-- Hull bar indicator
@@ -179,10 +179,10 @@ barColor: colour of the stacked HP bars (type 2), will loop around if there are 
 -->
 
 <hullBars type="0" maxHull="22" maxHullBoss="22">
-	<barColor r="255" g="255" b="0" a="255"/>
-	<barColor r="255" g="180" b="0" a="255"/>
-	<barColor r="255" g="120" b="0" a="255"/>
-	<barColor r="255" g="20" b="0" a="255"/>
+	<barColor R="255" G="255" B="0" A="255"/>
+	<barColor R="255" G="180" B="0" A="255"/>
+	<barColor R="255" G="120" B="0" A="255"/>
+	<barColor R="255" G="20" B="0" A="255"/>
 </hullBars>
 
 <!--  Blows up hacking drone if hacking is depowered
@@ -314,8 +314,8 @@ If the "oxygen" attribute is omitted, then the value will be auto-generated: 0.0
 
 <alternateOxygenRendering enabled="false">
 	<gradient>
-		<color r="0" g="0" b="219" oxygen="0.0"/>
-		<color r="230" g="226" b="219" oxygen="100.0"/>
+		<color R="0" G="0" B="219" oxygen="0.0"/>
+		<color R="230" G="226" B="219" oxygen="100.0"/>
 	</gradient>
 </alternateOxygenRendering>
 
@@ -366,7 +366,7 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <allowRenameInputSpecialCharacters enabled="false"/>
 
-<!-- Enables command console in game - press \ to use
+<!-- Enables command console in game - press \ to use;
 
 
 EVENT              Run an event.                           Usage: EVENT <event_id>        Example: EVENT FREE_AUG
@@ -375,13 +375,13 @@ ACH                Unlock achievement.                     Usage: ACH <achieveme
 ACH_LOCK           Locks achievement.                      Usage: ACH_LOCK <achievement_id> Example: ACH_LOCK ACH_SECTOR_8
 VICTORY            Forces a Victory and plays Credits.     Usage: VICTORY / CREDITS
 SECTOR             Go to sector type.                      Usage: SECTOR <sector_type>    Example: SECTOR PIRATE_SECTOR
-SCRAP              Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
+SCRAP              Adds/Removes scrap.                     Usage: SCRAP <num_to_add>      Example: SCRAP 500 (Negative numbers removes scrap instead)
 WEAPON             Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
 SHIP               Unlock a ship.                          Usage: SHIP <ship_id>          Example: SHIP PLAYER_SHIP_MANTIS
-DRONES             Add drone parts.                        Usage: DRONES <num_to_add>     Example: DRONES 50
+DRONES             Adds/Removes drone parts.               Usage: DRONES <num_to_add>     Example: DRONES 50 (Negative numbers removes drone parts instead)
 DRONE              Add a drone blueprint.                  Usage: DRONE <drone_id>        Example: DRONE COMBAT_2
-FUEL               Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
-MISSILES           Add missiles.                           Usage: MISSILES <num_to_add>   Example: MISSILES 50
+FUEL               Adds/Removes fuel.                      Usage: FUEL <num_to_add>       Example: FUEL 50 (Negative numbers removes fuel instead)
+MISSILES           Adds/Removes missiles.                  Usage: MISSILES <num_to_add>   Example: MISSILES 50 (Negative numbers removes missiles instead)
 RICH               Add 80 of each resource and 1999 scrap. Usage: RICH
 POOR               Takes away all of your resources        Usage: POOR
 GOD                Fully upgrade every system and reactor. Usage: GOD
@@ -397,7 +397,7 @@ SKILL              Grants full skills to all of your crew  Usage: SKILL
 DELETECREW         Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED              Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS          Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
-HULL          	   Alters your ship's hull                 Usage: HULL <num_to_alter> 	  Example: HULL 10 (negative numbers damage your hull)
+HULL          	   Heals/Damages your ship's hull          Usage: HULL <num_to_heal> 	  Example: HULL 10 (Negative numbers damages the hull instead)
 SHIP_CUSTOM        Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
 SHIP_CUSTOM_LOCK   Locks a customs ship (permanently)      Usage: SHIP_CUSTOM_LOCK <ship_name> Example: SHIP_CUSTOM_LOCK PLAYER_SHIP_CUSTOM
 LOADEVENT          Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
