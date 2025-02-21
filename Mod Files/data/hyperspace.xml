@@ -154,15 +154,15 @@ align can be left, center or right
 -->
 
 <hullNumbers enabled="true">
-	<playerText X="335" Y="50" type="0" align="left" />
-	<enemyText X="988" Y="59" type="0" align="center" />
-	<enemyText X="1008" Y="59" language="es" type="0" align="center" />
-	<enemyText X="1017" Y="59" language="it" type="0" align="center" />
-	<enemyText X="1002" Y="59" language="ja" type="0" align="center" />
-	<bossText X="864" Y="16" type="0" align="center" />
-	<bossText X="884" Y="16" language="es" type="0" align="center" />
-	<bossText X="893" Y="16" language="it" type="0" align="center" />
-	<bossText X="878" Y="16" language="ja" type="0" align="center" />
+	<playerText x="335" y="50" type="0" align="left" />
+	<enemyText x="988" y="59" type="0" align="center" />
+	<enemyText x="1008" y="59" language="es" type="0" align="center" />
+	<enemyText x="1017" y="59" language="it" type="0" align="center" />
+	<enemyText x="1002" y="59" language="ja" type="0" align="center" />
+	<bossText x="864" y="16" type="0" align="center" />
+	<bossText x="884" y="16" language="es" type="0" align="center" />
+	<bossText x="893" y="16" language="it" type="0" align="center" />
+	<bossText x="878" y="16" language="ja" type="0" align="center" />
 </hullNumbers>
 
 <!-- Hull bar indicator
@@ -179,10 +179,10 @@ barColor: colour of the stacked HP bars (type 2), will loop around if there are 
 -->
 
 <hullBars type="0" maxHull="22" maxHullBoss="22">
-	<barColor R="255" G="255" B="0" A="255"/>
-	<barColor R="255" G="180" B="0" A="255"/>
-	<barColor R="255" G="120" B="0" A="255"/>
-	<barColor R="255" G="20" B="0" A="255"/>
+	<barColor r="255" g="255" b="0" a="255"/>
+	<barColor r="255" g="180" b="0" a="255"/>
+	<barColor r="255" g="120" b="0" a="255"/>
+	<barColor r="255" g="20" b="0" a="255"/>
 </hullBars>
 
 <!--  Blows up hacking drone if hacking is depowered
@@ -314,8 +314,8 @@ If the "oxygen" attribute is omitted, then the value will be auto-generated: 0.0
 
 <alternateOxygenRendering enabled="false">
 	<gradient>
-		<color R="0" G="0" B="219" oxygen="0.0"/>
-		<color R="230" G="226" B="219" oxygen="100.0"/>
+		<color r="0" g="0" b="219" oxygen="0.0"/>
+		<color r="230" g="226" b="219" oxygen="100.0"/>
 	</gradient>
 </alternateOxygenRendering>
 
