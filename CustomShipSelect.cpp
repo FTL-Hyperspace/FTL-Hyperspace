@@ -1866,96 +1866,143 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
 
     if (index + 1 == numShips)
     {
-        index = 0;
+        auto it = std::find(vanillaShipOrder.begin(), vanillaShipOrder.end(), currentShipId);
+        index = std::distance(vanillaShipOrder.begin(), it);
+        isVanilla = true;
     }
     else
     {
-        index++;
+        isVanilla = false;
+        index = GetShipButtonOrderIndex(currentShipId - 100);
+        if (index == -1) index = 0;
     }
 
     int counter = 0;
-    while (true)
-    {
-        ShipButtonDefinition* def = GetOrderedShipButtonDefinition(index);
 
-        if (!def || !def->VariantExists(currentType) || !CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, currentType))
+    bool hasShip = false;
+    while (!hasShip)
+    {
+        if (isVanilla)
         {
-            if (index + 1 >= numShips)
+            if (index + 1 >= vanillaShipOrder.size())
             {
                 index = 0;
+                isVanilla = customShipOrder.empty();
+            }
+            else 
+            {
+                index++;
+            }
+        }
+        else
+        {
+            if (index + 1 >= customShipOrder.size())
+            {
+                index = 0;
+                isVanilla = !hideFirstPage;
             }
             else
             {
                 index++;
             }
-
-            counter++;
-            if (counter > 1000)
-            {
-                printf("Infinite loop while getting next ship!");
-                break;
-            }
+        }
+        
+        counter++;
+        if (counter > 1000)
+        {
+            printf("Infinite loop while getting next ship!");
+            break;
+        }
+        
+        if (isVanilla)
+        {
+            hasShip = G_->GetScoreKeeper()->GetShipUnlocked(vanillaShipOrder[index], currentType);
         }
         else
         {
-            index = GetShipButtonIdFromName(def->name);
-            break;
+            ShipButtonDefinition* def = GetOrderedShipButtonDefinition(index);
+            hasShip = def && def->VariantExists(currentType) && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, currentType);
         }
     }
 
-    return index + 100;
+    return isVanilla ? vanillaShipOrder[index] : GetShipButtonIdFromName(GetOrderedShipButtonDefinition(index)->name) + 100;
 }
 
 int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
 {
-    int numShips = customShipOrder.size() - 1;
-
-    int index = GetShipButtonOrderIndex(currentShipId - 100);
-    if (index == -1) index = numShips;
-
-    if (index == 0)
+    int index;
+    bool isVanilla;
+    if (currentShipId < 100)
     {
-        index = numShips;
+        auto it = std::find(vanillaShipOrder.begin(), vanillaShipOrder.end(), currentShipId);
+        index = std::distance(vanillaShipOrder.begin(), it);
+        isVanilla = true;
     }
     else
     {
-        index--;
+        isVanilla = false;
+        index = GetShipButtonOrderIndex(currentShipId - 100);
+        if (index == -1) index = customShipOrder.size() - 1;
     }
 
     int counter = 0;
-    while (true)
-    {
-        ShipButtonDefinition* def = GetOrderedShipButtonDefinition(index);
 
-        if (!def || !def->VariantExists(currentType) || !CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, currentType))
+    bool hasShip = false;
+    while (!hasShip)
+    {
+        if (isVanilla)
         {
             if (index <= 0)
             {
-                index = numShips;
+                if (customShipOrder.empty())
+                {
+                    index = vanillaShipOrder.size() - 1;
+                    isVanilla = true;
+                }
+                else
+                {
+                    index = customShipOrder.size() - 1;
+                    isVanilla = false;
+                }
             }
             else
             {
                 index--;
             }
-
-            counter++;
-            if (counter > 1000)
-            {
-                printf("Infinite loop while getting next ship!");
-                break;
-            }
         }
         else
         {
-            index = GetShipButtonIdFromName(def->name);
-
+            if (index <= 0)
+            {
+                index = hideFirstPage ? customShipOrder.size() - 1 : vanillaShipOrder.size() - 1;
+                isVanilla = !hideFirstPage;
+            }
+            else
+            {
+                index--;
+            }
+        }
+        
+        counter++;
+        if (counter > 1000)
+        {
+            printf("Infinite loop while getting next ship!");
             break;
+        }
+        
+        if (isVanilla)
+        {
+            hasShip = G_->GetScoreKeeper()->GetShipUnlocked(vanillaShipOrder[index], currentType);
+        }
+        else
+        {
+            ShipButtonDefinition* def = GetOrderedShipButtonDefinition(index);
+            hasShip = def && def->VariantExists(currentType) && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, currentType);
         }
     }
 
-    return index + 100;
+    return isVanilla ? vanillaShipOrder[index] : GetShipButtonIdFromName(GetOrderedShipButtonDefinition(index)->name) + 100;
 }
-
 int CustomShipSelect::GetRandomShipIndex()
 {
     return GetShipButtonOrderIndex(random32() % shipButtonDefs.size());
@@ -2251,15 +2298,16 @@ HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipNext -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
-    if (currentShipId >= 100)
+    int nextShipId = customSel->CycleShipNext(currentShipId, currentType);
+    if (nextShipId >= 100)
     {
-        currentShip->destructor2();
-
-        customSel->SwitchShip(this, customSel->CycleShipNext(currentShipId, currentType), currentType);
+        currentShip->destructor2(); 
+        customSel->SwitchShip(this, nextShipId, currentType);
     }
     else
     {
-        super();
+        currentShipId = nextShipId;
+        SwitchShip(nextShipId, currentType);   
     }
 }
 
@@ -2268,15 +2316,16 @@ HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipPrevious -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
-    if (currentShipId >= 100)
+    int prevShipId = customSel->CycleShipPrevious(currentShipId, currentType);
+    if (prevShipId >= 100)
     {
-        currentShip->destructor2();
-
-        customSel->SwitchShip(this, customSel->CycleShipPrevious(currentShipId, currentType), currentType);
+        currentShip->destructor2(); 
+        customSel->SwitchShip(this, prevShipId, currentType);
     }
     else
     {
-        super();
+        currentShipId = prevShipId;
+        SwitchShip(prevShipId, currentType);
     }
 
 }
