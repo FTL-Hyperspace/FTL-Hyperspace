@@ -1859,12 +1859,9 @@ void CustomShipSelect::Close()
 
 int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
 {
-    int numShips = customShipOrder.size();
-
-    int index = GetShipButtonOrderIndex(currentShipId - 100);
-    if (index == -1) index = 0;
-
-    if (index + 1 == numShips)
+    int index;
+    bool isVanilla;
+    if (currentShipId < 100)
     {
         auto it = std::find(vanillaShipOrder.begin(), vanillaShipOrder.end(), currentShipId);
         index = std::distance(vanillaShipOrder.begin(), it);
