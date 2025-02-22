@@ -105,6 +105,8 @@ struct CustomShipDefinition
 
     std::string shipGenerator = "";
 
+    std::vector<std::string> artilleryRoomImages;
+
     CustomShipDefinition()
     {
 
