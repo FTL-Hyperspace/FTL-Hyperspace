@@ -558,6 +558,8 @@ struct LIBZHL_INTERFACE AnimationTracker
 	{
 	
 	}
+	void LoadState(int fd);
+	void SaveState(int fd);
 
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
@@ -741,6 +743,9 @@ struct Pointf
 	{		
 		return Pointf(x * amount, y * amount);
 	}
+
+	friend bool operator==(const Pointf &a, const Pointf &b) {return a.x==b.x && a.y==b.y;}
+	friend bool operator!=(const Pointf &a, const Pointf &b) {return a.x!=b.x || a.y!=b.y;}
 
 
 	LIBZHL_API Pointf Normalize();
@@ -3020,7 +3025,9 @@ struct CombatAI;
 struct CombatAI
 {
 	LIBZHL_API void OnLoop();
+	LIBZHL_API int PrioritizeSystem(int weaponType);
 	LIBZHL_API void UpdateMindControl(bool unk);
+	LIBZHL_API void UpdateWeapons();
 	
 	ShipManager *target;
 	std::vector<ProjectileFactory*> weapons;
@@ -5271,7 +5278,9 @@ public:
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SaveState(int fd);
 	
 	Selectable _selectable;
 	int iRoom1;

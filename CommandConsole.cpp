@@ -7,6 +7,7 @@
 #include "CustomSystems.h"
 #include "CustomAchievements.h"
 #include "CustomShips.h"
+#include "CustomSystems.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -174,7 +175,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 ship->AddSystem(systemId);
             } 
         }
-
         return true;
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)

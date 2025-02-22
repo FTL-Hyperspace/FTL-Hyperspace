@@ -293,6 +293,46 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 
     return ret;
 }
+//Rewrite to fix hang when an enemy fires a weapon with more shots than the ship has rooms
+//NOTE: Native game implementation of generating non-repeating targets is inefficient, should rework when implementing custom AI
+HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatAI::UpdateWeapons -> Begin (CustomWeapons.cpp)\n")
+
+    if (bFiringWhileCloaked || !self->ship.bCloaked) 
+    {
+        weapons = self->GetWeaponList();
+        for (ProjectileFactory* weapon : weapons)
+        {
+            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked()) 
+            {
+                int chargeLevels = weapon->blueprint->chargeLevels;
+                bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0;
+                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire) 
+                {
+                    std::vector<Pointf> targets;
+                    while (targets.size() < weapon->NumTargetsRequired())
+                    {
+                        Pointf temp_target(0, 0);
+                        int systemTarget = PrioritizeSystem(weapon->blueprint->type);
+                        if (systemTarget == -1) temp_target = target->GetRandomRoomCenter();
+                        else temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
+    
+                        //Only remove repeated targets if it is possible to add a non-repeated one
+                        if (ShipGraph::GetShipInfo(target->iShipId)->RoomCount() > targets.size())
+                        {
+                            targets.erase(std::remove_if(targets.begin(), targets.end(), [&](Pointf potentialTarget) { return potentialTarget == temp_target; }), targets.end());
+                        }
+
+                        targets.push_back(temp_target);
+                    }
+                    weapon->Fire(targets, target->iShipId);
+                    weapon->SelectChargeGoal();
+                }  
+            }
+        }
+    }
+}
 
 //Reverse inlining of NumTargetsRequired
 HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
