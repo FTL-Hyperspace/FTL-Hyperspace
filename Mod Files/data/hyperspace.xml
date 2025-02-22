@@ -429,14 +429,14 @@ ACH                Unlock achievement.                     Usage: ACH <achieveme
 ACH_LOCK           Locks achievement.                      Usage: ACH_LOCK <achievement_id> Example: ACH_LOCK ACH_SECTOR_8
 VICTORY            Forces a Victory and plays Credits.     Usage: VICTORY / CREDITS
 SECTOR             Go to sector type.                      Usage: SECTOR <sector_type>    Example: SECTOR PIRATE_SECTOR
-SCRAP              Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
+SCRAP              Adds/Removes scrap.                     Usage: SCRAP <num_to_add>      Example: SCRAP 500 (Negative numbers removes scrap instead)
 WEAPON             Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
 SHIP               Unlock a ship.                          Usage: SHIP <ship_id>          Example: SHIP PLAYER_SHIP_MANTIS
 SHIP ALL           Unlock all ships                        Usage: SHIP ALL
-DRONES             Add drone parts.                        Usage: DRONES <num_to_add>     Example: DRONES 50
+DRONES             Adds/Removes drone parts.               Usage: DRONES <num_to_add>     Example: DRONES 50 (Negative numbers removes drone parts instead)
 DRONE              Add a drone blueprint.                  Usage: DRONE <drone_id>        Example: DRONE COMBAT_2
-FUEL               Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
-MISSILES           Add missiles.                           Usage: MISSILES <num_to_add>   Example: MISSILES 50
+FUEL               Adds/Removes fuel.                      Usage: FUEL <num_to_add>       Example: FUEL 50 (Negative numbers removes fuel instead)
+MISSILES           Adds/Removes missiles.                  Usage: MISSILES <num_to_add>   Example: MISSILES 50 (Negative numbers removes missiles instead)
 RICH               Add 80 of each resource and 1999 scrap. Usage: RICH
 POOR               Takes away all of your resources        Usage: POOR
 GOD                Fully upgrade every system and reactor. Usage: GOD
@@ -452,6 +452,7 @@ SKILL              Grants full skills to all of your crew  Usage: SKILL
 DELETECREW         Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED              Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS          Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
+HULL          	   Heals/Damages your ship's hull          Usage: HULL <num_to_heal> 	  Example: HULL 10 (Negative numbers damages the hull instead)
 SHIP_CUSTOM        Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
 SHIP_CUSTOM_LOCK   Locks a customs ship (permanently)      Usage: SHIP_CUSTOM_LOCK <ship_name> Example: SHIP_CUSTOM_LOCK PLAYER_SHIP_CUSTOM
 SWITCH       	   Switch active ship                      Usage: SWITCH <ship_name>      Example: SWITCH PLAYER_SHIP_HARD_2
