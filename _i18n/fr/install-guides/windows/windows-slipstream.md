@@ -2,7 +2,7 @@
 
 1. **Assurez-vous** d'avoir une installation de FTL vanilla avant de faire une nouvelle installation de Slipstream ou une mise à jour de Slipstream.
    - Si vous vérifiez la taille de `ftl.dat` dans votre dossier d'installation FTL, elle devrait être d'environ 270MB (ou 212MB pour GoG), si elle est significativement plus grande, vous avez encore des mods installés et vous devez d'abord revenir à la version vanilla !
-   - Slipstream 1.9.1 n'est pas très malin pour vérifier si le fichier est vanilla, il utilisera le `ftl.dat` qui existe lorsque vous l'ouvrez pour la première fois (donc si vous avez des mods installés et que vous lancez une nouvelle installation de Slipstream, il considérera ce fichier comme "vanilla" même s'il ne l'est pas !)
+   - Slipstream 1.9.1 n'est pas capable de vérifier si le fichier est vanilla, il utilisera le `ftl.dat` qui existe lorsque vous l'ouvrez pour la première fois (donc si vous avez des mods installés et que vous lancez une nouvelle installation de Slipstream, il considérera ce fichier comme "vanilla" même s'il ne l'est pas !)
    - *Épargnez-vous beaucoup d'hécatombes et de problèmes en vous assurant que vous avez un ftl.dat vanilla propre en premier lieu*.
 2. [Télécharger slipstream 1.9.1](https://subsetgames.com/forum/viewtopic.php?f=12&t=17102)
 3. Extrayez-le dans un dossier où vous le garderez, ***ne l'exécutez pas depuis le zip***

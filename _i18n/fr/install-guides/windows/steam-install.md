@@ -1,4 +1,4 @@
-**Désinstaller tous les autres mods FTL avant de continuer !
+**Désinstaller tous les autres mods FTL avant de continuer !**
 
 ## Downgrader & Installer la librairie d'Hyperspace
 
