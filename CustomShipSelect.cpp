@@ -2300,9 +2300,9 @@ HOOK_METHOD(ShipSelect, Close, () -> void)
     customSel->Close();
 }
 
-HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
+HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipNext, 9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipNext -> Begin (CustomShipSelect.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CycleShipNext -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     int nextShipId = customSel->CycleShipNext(currentShipId, currentType);
@@ -2313,14 +2313,15 @@ HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
     }
     else
     {
+        if (currentShipId >= 100) customSel->SwitchPage(0);
         currentShipId = nextShipId;
         SwitchShip(nextShipId, currentType);   
     }
 }
 
-HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
+HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipPrevious, 9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipPrevious -> Begin (CustomShipSelect.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CycleShipPrevious -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     int prevShipId = customSel->CycleShipPrevious(currentShipId, currentType);
@@ -2331,6 +2332,7 @@ HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
     }
     else
     {
+        if (currentShipId >= 100) customSel->SwitchPage(0);
         currentShipId = prevShipId;
         SwitchShip(prevShipId, currentType);
     }
