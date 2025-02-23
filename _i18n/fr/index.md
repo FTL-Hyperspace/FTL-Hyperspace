@@ -34,7 +34,7 @@ Si vous souhaitez suggérer des améliorations au wiki, vous pouvez créer une i
 
 Rejoignez nous sur Discord !
 - Discutez avec nous sur les canaux Hyperspace [***du Discord FTL:Multiverse (Officiel, anglophone)***](https://discord.gg/hhs5ecx) pour plus d'informations.
-- Vous pouvez également retrouver la communauté francophone sur [***le Discord FTL:Multiverse FR***](https://discord.gg/7Z8Z8QJ), cependant l'équipe de développement d'Hyperspace n'y est pas présente.
+- Vous pouvez également retrouver la communauté francophone sur [***le Discord FTL:Multiverse FR***](https://discord.gg/3jEqT38Sh4), cependant l'équipe de développement d'Hyperspace n'y est pas présente.
 
 
 ### Crédits
