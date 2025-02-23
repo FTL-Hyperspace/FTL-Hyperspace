@@ -3,11 +3,12 @@ plugins:
   - jekyll-multiple-languages-plugin
   - jekyll-github-metadata
 repository: FTL-Hyperspace/FTL-Hyperspace
-languages: ["en", "de", "ko"]
+languages: ["en", "de", "ko", "fr"]
 countryFlags:
   en: us
   de: de
   ko: kr
+  fr: fr
 # exclude_from_localizations: ["javascript", "images", "css"]
 title: FTL Hyperspace
 description: "A binary mod for FTL: Faster Than Light"
