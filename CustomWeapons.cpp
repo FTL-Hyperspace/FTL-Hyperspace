@@ -382,7 +382,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     }
     super(points, target);
     // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
-    if (cooldown.second < 0 && iShipId == 0)
+    if ((cooldown.second < 0 && HitShotLimit()) && iShipId == 0)
     {
         targets.clear();
     }    
@@ -916,15 +916,18 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
     super();
-    for (auto weapon : weapons)
+    if (_shipObj.iShipId == 1)
     {
-        if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+        for (auto weapon : weapons)
+        {
+            if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+        }
     }
 }
 HOOK_METHOD(WeaponSystem, PowerWeapon, (ProjectileFactory* weapon, bool userDriven, bool force) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::PowerWeapon -> Begin (CustomWeapons.cpp)\n")
-    if (weapon->HitShotLimit()) return false;
+    if (weapon->HitShotLimit() && _shipObj.iShipId == 1) return false;
     return super(weapon, userDriven, force);
 
 }
