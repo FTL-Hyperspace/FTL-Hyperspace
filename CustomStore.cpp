@@ -1953,7 +1953,6 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
     if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
-    if ((itemId == SYS_MEDBAY && shopper->HasSystem(SYS_CLONEBAY) || itemId == SYS_CLONEBAY && shopper->HasSystem(SYS_MEDBAY)) && !CustomOptionsManager::GetInstance()->duelMedical.currentValue) return super(); // Change medical system
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);
 
     auto custom = CustomShipSelect::GetInstance();
@@ -1971,17 +1970,16 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
         }
     }
 
-    if (sysLimit - sysCount == 1)
-    {
-        bConfirming = true;
-        confirmString = "confirm_buy_last_system";
-    }
-
     if (shopper->SystemWillReplace(itemId) != SYS_INVALID)
     {
         newSystem = itemId;
         replaceSystem = shopper->SystemWillReplace(itemId);
         bConfirming = true;
+    }
+    else if (sysLimit - sysCount == 1)
+    {
+        bConfirming = true;
+        confirmString = "confirm_buy_last_system";
     }
 
     if (!bConfirming)

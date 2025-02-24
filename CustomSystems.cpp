@@ -79,9 +79,8 @@ int CustomUserSystems::GetLastSystemId()
     return SYS_CUSTOM_FIRST + systemNames.size() - 1;
 }
 
-int CustomUserSystems::currentExclusivityIndex = 0;
-std::unordered_map<int, int> CustomUserSystems::exclusivityGroups;
-void CustomUserSystems::ParseExclusivityNode(rapidxml::xml_node<char>* node)
+
+void SystemExclusivityManager::ParseExclusivityNode(rapidxml::xml_node<char>* node)
 {
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
@@ -91,12 +90,18 @@ void CustomUserSystems::ParseExclusivityNode(rapidxml::xml_node<char>* node)
     ++currentExclusivityIndex;
 }
 
-bool CustomUserSystems::AreSystemsExclusive(int sysId_1, int sysId_2)
+bool SystemExclusivityManager::AreSystemsExclusive(int sysId_1, int sysId_2)
 {
     if (exclusivityGroups.find(sysId_1) == exclusivityGroups.end()) return false;
     if (exclusivityGroups.find(sysId_2) == exclusivityGroups.end()) return false;
 
     return exclusivityGroups[sysId_1] == exclusivityGroups[sysId_2];
+}
+
+SystemExclusivityManager* SystemExclusivityManager::GetGlobalManager()
+{
+    static SystemExclusivityManager globalManager;
+    return &globalManager; 
 }
 
 //TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
@@ -804,7 +809,8 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     ShipSystem* savedMedical = nullptr;
     bool restoreClonebay = false;
     bool restoreMedbay = false;
-    if ((systemId == SYS_MEDBAY || systemId == SYS_CLONEBAY) && CustomOptionsManager::GetInstance()->duelMedical.currentValue)
+
+    if ((systemId == SYS_MEDBAY || systemId == SYS_CLONEBAY))
     {
         if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY))
         {
@@ -2028,15 +2034,17 @@ HOOK_METHOD_PRIORITY(ShipManager, AddSystem, -100, (int systemId) -> int)
 
 int ShipManager::SystemWillReplace(int systemId)
 {
+    auto def = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName);
+    SystemExclusivityManager* exclusivityManager = def.hasExclusivityOverride ? &def.exclusivityOverride : SystemExclusivityManager::GetGlobalManager(); 
     for (ShipSystem* sys : vSystemList)
     {
-        if (CustomUserSystems::AreSystemsExclusive(systemId, sys->iSystemType))
+        if (exclusivityManager->AreSystemsExclusive(systemId, sys->iSystemType))
         {
             return sys->iSystemType;
         }
     }
 
-    if (!CustomOptionsManager::GetInstance()->duelMedical.currentValue)
+    if (!CustomOptionsManager::GetInstance()->duelMedical.currentValue && !def.hasExclusivityOverride)
     {
         if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY)) return SYS_CLONEBAY;
         if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY)) return SYS_MEDBAY;

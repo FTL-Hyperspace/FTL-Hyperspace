@@ -269,7 +269,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 {
                     if (strcmp(child->name(), "exclusivityGroup") == 0)
                     {
-                        CustomUserSystems::ParseExclusivityNode(child);
+                        SystemExclusivityManager::GetGlobalManager()->ParseExclusivityNode(child);
                     }  
                 }
             }
