@@ -344,6 +344,8 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
     fireWhenReady = false;
     targets.clear();
     lastTargets.clear();
+    
+    targetId = -1;
 }
 
 // Pinpoint targeting
