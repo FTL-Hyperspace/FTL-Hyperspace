@@ -981,13 +981,18 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (CustomWeapons.cpp)\n")
     shotLimitMessage->Stop();
-    super(armamentSlot);
+    
     WeaponBox* box = static_cast<WeaponBox*>(boxes[armamentSlot]);
-    if (box->pWeapon->HitShotLimit())
+    
+    if (box->pWeapon->HitShotLimit() && box->pWeapon->powered)
     {
         shotLimitMessage->Start();
         missileMessage.Stop();
         systemMessage.Stop();
+    }
+    else
+    {
+        super(armamentSlot);
     }
 }
 
