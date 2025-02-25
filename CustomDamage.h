@@ -91,6 +91,7 @@ struct CustomDamage
 };
 
 
+#ifndef SWIG //Running functions that use the SWIG API through SWIG is not a good idea, plus none of this should be directly visible on the lua side of things.
 class CustomDamageManager
 {
 public:
@@ -110,3 +111,4 @@ public:
         }
     }
 };
+#endif //SWIG
