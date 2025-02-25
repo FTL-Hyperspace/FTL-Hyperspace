@@ -361,6 +361,75 @@ HOOK_METHOD(SpaceStatus, OnInit, (SpaceManager *space, Point pos) -> void)
     warningPdsAll = G_->GetResources()->CreateImagePrimitiveString("warnings/danger_pds_neutral.png", position.x - 30, position.y, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
 }
 
+HOOK_METHOD_PRIORITY(SpaceStatus, OnLoop, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::OnLoop -> Begin (Misc.cpp)\n")
+    // Rewrite to remove asteroid's early return that prevents other warnings from displaying when asteroids and other environemts are combined
+    
+    int effect = 0;
+    std::string warnStr;
+
+    currentEffect = 0;
+    currentEffect2 = 0;
+
+    if (space->asteroidGenerator.bRunning)
+    {
+        currentEffect = 1;
+    }
+
+    if (space->sunLevel)
+    {
+        warnStr = "warning_solar_flare";
+        effect = 2;
+    }
+    else if (space->pulsarLevel)
+    {
+        warnStr = "warning_ion_pulse";
+        effect = 5;
+    }
+    else if (space->bPDS)
+    {
+        warnStr = "warning_pds_locked";
+    }
+    else if (space->bNebula)
+    {
+        effect = 3;
+        if (space->bStorm)
+        {
+            currentEffect2 = 4;
+        }
+    }
+
+    if (!warnStr.empty())
+    {
+        if (5.f <= space->flashTimer.currGoal - space->flashTimer.currTime)
+        {
+            warningMessage->tracker.Stop(false);
+        }
+        else
+        {
+            TextString text(warnStr, false);
+            warningMessage->SetText(text);
+            warningMessage->Start();
+        }
+    }
+
+    if (currentEffect == 0)
+    {
+        if (space->bPDS)
+        {
+            currentEffect = space->envTarget == 1 ? 9 : 6;
+        }
+        else
+        {
+            currentEffect = effect;
+        }
+    }
+
+    warningMessage->OnLoop();
+    incomingFire->OnLoop();
+}
+
 HOOK_METHOD(SpaceStatus, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnRender -> Begin (Misc.cpp)\n")
