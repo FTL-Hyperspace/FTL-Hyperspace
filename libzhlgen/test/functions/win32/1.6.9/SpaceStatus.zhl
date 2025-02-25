@@ -6,3 +6,5 @@ __thiscall void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, in
 __thiscall void SpaceStatus::OnRender(SpaceStatus *this);
 "578d????0883e4f0ff????5589e557565389cb83ec4c8b??8b4130":
 __thiscall void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
+"578d7c240883e4f0ff77fc5589e557565389cb81eccc0000008b4158":
+__thiscall void SpaceStatus::OnLoop(SpaceStatus *this);
