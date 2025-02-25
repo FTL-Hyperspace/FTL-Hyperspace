@@ -350,28 +350,6 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     return ret;
 }
 
-// Linux handling of timerCircle creation cause a crash for the destructor of WeaponSystemBox
-// This solution is to avoid the deletion of the crashing index, it involves a small bit of memory leak
-// This solution should not be a permanent one, we just had enough failing to fix it
-#ifdef __amd64__
-HOOK_METHOD_PRIORITY(SystemBox, destructor, 999, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::destructor -> Begin (CustomSystems.cpp)\n")
-    for (int i = 0; i < (pSystem->GetId() == 3 ? 4 : 10); i++)
-    {
-        CSurface::GL_DestroyPrimitive(this->timerCircle[i]);
-    }
-    CSurface::GL_DestroyPrimitive(this->timerLines);
-    CSurface::GL_DestroyPrimitive(this->timerStencil);
-    CSurface::GL_DestroyPrimitive(this->brokenIcon);
-    CSurface::GL_DestroyPrimitive(this->lockIcon);
-    CSurface::GL_DestroyPrimitive(this->hackIcon);
-    if (this->touchTooltip) {
-        delete this->touchTooltip;
-    }
-}
-#endif
-
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
