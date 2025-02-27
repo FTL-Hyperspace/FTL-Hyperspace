@@ -888,6 +888,73 @@ void CustomEquipment::MouseClick(int mX, int mY)
     }
 }
 
+void CustomEquipment::OnScrollWheel(float direction)
+{
+    Point mousePos = G_->GetMouseControl()->position;
+
+    // turn cargo page
+    if (orig->position.x + 10 < mousePos.x && mousePos.x < orig->position.x + 10 + 286 && orig->position.y + 264 < mousePos.y && mousePos.y < orig->position.y + 264 + 199)
+    {
+        if (maxCargoPage > 0)
+        {
+            if (direction == -1.f)
+            {
+                if (currentCargoPage == 0)
+                {
+                    currentCargoPage = maxCargoPage;
+                }
+                else
+                {
+                    --currentCargoPage;
+                }
+            }
+    
+            if (direction == 1.f)
+            {
+                if (currentCargoPage == maxCargoPage)
+                {
+                    currentCargoPage = 0;
+                }
+                else
+                {
+                    ++currentCargoPage;
+                }
+            }
+        }
+    }
+
+    // turn augment page
+    if (orig->position.x + 300 < mousePos.x && mousePos.x < orig->position.x + 300 + 290 && orig->position.y + 264 < mousePos.y && mousePos.y < orig->position.y + 264 + 199)
+    {
+        if (maxAugPage > 0)
+        {
+            if (direction == -1.f)
+            {
+                if (currentAugPage == 0)
+                {
+                    currentAugPage = maxAugPage;
+                }
+                else
+                {
+                    --currentAugPage;
+                }
+            }
+    
+            if (direction == 1.f)
+            {
+                if (currentAugPage == maxAugPage)
+                {
+                    currentAugPage = 0;
+                }
+                else
+                {
+                    ++currentAugPage;
+                }
+            }
+        }
+    }
+}
+
 void CustomEquipment::AddOverCapacityItem(const EquipmentBoxItem &item)
 {
     overCapacityItems.push_back(std::make_pair(item, item.augment));
@@ -936,6 +1003,16 @@ HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
     LOG_HOOK("HOOK_METHOD -> Equipment::MouseClick -> Begin (CustomEquipment.cpp)\n")
     super(mX, mY);
     EQ_EX(this)->customEquipment->MouseClick(mX, mY);
+}
+
+HOOK_METHOD(Equipment, Open, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::Open -> Begin (CustomEquipment.cpp)\n")
+    super();
+    CustomEquipment *custom = EQ_EX(this)->customEquipment;
+    custom->currentAugPage = 0;
+    custom->currentCargoPage = 0;
+    custom->currentOverCapacityPage = 0;
 }
 
 
