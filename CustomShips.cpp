@@ -1847,43 +1847,31 @@ bool noRestartSystems = false;
 bool WorldManager::SwitchShip(std::string shipName)
 {
     bool ret = false;
+
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
     if (bp->blueprintName != "DEFAULT" && bp->blueprintName != playerShip->shipManager->myBlueprint.blueprintName)
     {
         G_->GetWorld()->ClearLocation(); // Maybe later we will find a way to keep the current location state for a switch
         std::string fixname = bp->name.GetText();
 
-        ShipManager* playerShipManager = G_->GetShipManager(0);
+        ShipManager* playerShipManager = playerShip->shipManager;
         playerShipManager->myBlueprint = *bp;
-
-        SystemControl *sysC = &commandGui->sysControl;
-
-        for (auto i: sysC->sysBoxes)
-        {
-            if (i)
-            {
-                delete i;
-            }
-        }
-        sysC->sysBoxes.clear();
 
         overrideTransfer = true;
         G_->GetCApp()->menu.shipBuilder.currentShip = playerShipManager;
-        G_->GetCApp()->menu.shipBuilder.GetShip();
+        G_->GetCApp()->menu.shipBuilder.GetShip(); // no leak
         overrideTransfer = false;
 
-        playerShip->Restart();
+        commandGui->Restart(); // Seems to be reducing the probability of a crash, that's not a solution but it's a start for investigation
 
-        noRestartSystems = true;
-        commandGui->Restart();
-        noRestartSystems = false;
-
+        playerShip->Restart(); // medium leak and cause crash
+//
+        commandGui->Restart(); // small leak but no crash
+//
         G_->GetScoreKeeper()->currentScore.blueprint = bp->blueprintName;
         playerShipManager->myBlueprint.name.isLiteral = true;
         playerShipManager->myBlueprint.name.data = fixname;
-
-        playerShip->OnLoop();
-
+//
         ret = true;
     }
     return ret;
