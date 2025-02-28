@@ -4463,6 +4463,7 @@ struct ShipStatus
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RenderEvadeOxygen(bool unk);
 	LIBZHL_API void RenderHealth(bool unk);
+	LIBZHL_API void RenderResources(bool renderText);
 	LIBZHL_API void RenderShields(bool renderText);
 	
 	Point location;
@@ -7167,6 +7168,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetFireCount(int roomId);
 	LIBZHL_API std::vector<CrewMember*> GetLeavingCrew(bool intruders);
 	LIBZHL_API int GetMissileCount();
+	LIBZHL_API int GetNetDodgeFactor();
 	LIBZHL_API float GetOxygenLevel(int roomId);
 	LIBZHL_API std::vector<float> GetOxygenLevels();
 	LIBZHL_API int GetOxygenPercentage();
