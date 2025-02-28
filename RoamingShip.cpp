@@ -614,18 +614,18 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -9999, (Location *loc) -> voi
 }
 */
 
-HOOK_METHOD(WorldManager, StartGame, () -> void)
+HOOK_METHOD(WorldManager, StartGame, (ShipManager* ship) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::StartGame -> Begin (RoamingShip.cpp)\n")
     RoamingShipsManager::GetInstance()->activeRoamingShips.clear();       
-    super();
+    super(ship);
 }
 
-HOOK_METHOD(StarMap, UpdateSectorMap, () -> void)
+HOOK_METHOD(StarMap, UpdateSectorMap, (Sector *unk0) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::UpdateSectorMap -> Begin (RoamingShip.cpp)\n")
     RoamingShipsManager::GetInstance()->activeRoamingShips.clear();   
-    super();
+    super(unk0);
 }
 
 HOOK_METHOD(Ship, SetDestroyed, (bool animation, bool bossAnimation) -> void)
