@@ -354,17 +354,40 @@ HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size
     super(x_start, y_start, x_size, y_size);
 }
 
-
 HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::OnRender -> Begin (TouchScreen.cpp)\n")
 
-    // Rewritten to fix the HP bar color not being based off percent but instead 10HP steps.
-
     CSurface::GL_PushMatrix();
-    CSurface::GL_Translate(static_cast<float>(this->location.x), static_cast<float>(this->location.y));
+    CSurface::GL_Translate(this->location.x, this->location.y);
+    this->RenderHealth(true);
+    this->RenderShields(false);
+    this->RenderEvadeOxygen(false);
+    this->RenderResources(false);
+    this->RenderEvadeOxygen(true);
+    this->RenderResources(true);
+    this->hullMessage->OnRender();
+    if (!this->bBossFight)
+    {
+        if (!this->bEnemyShip)
+        {
+            CSurface::GL_Translate(static_cast<float>(this->noShipShift.x), static_cast<float>(this->noShipShift.y));
+        }
+    }
+    else
+    {
+        CSurface::GL_Translate(-120.f,0.f);
+    }
+    CSurface::GL_Translate(0.f,static_cast<float>(this->intruderShift.y));
+    CSurface::GL_Translate(static_cast<float>(this->intruderPos.x), static_cast<float>(this->intruderPos.x));
+    this->boardingMessage->OnRender();
+    CSurface::GL_PopMatrix();
+}
 
-    // Render hull status
+HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::RenderHealth -> Begin (TouchScreen.cpp)\n")
+
     GL_Primitive* renderHullBox = this->hullBox;
     GL_Texture* renderHullLabel = this->hullLabel;
 
@@ -467,109 +490,9 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
     }
     CSurface::GL_RenderPrimitive(this->healthMask);
 
-    // Render shields
-    this->RenderShields(false);
-
-    // Render evade and oxygen
-    GL_Primitive *currentEvadeOxygenBox;
-    if (this->ship->GetNetDodgeFactor() == 0)
+    if (renderText)
     {
-        if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
-        {
-            currentEvadeOxygenBox = this->evadeOxygenBox_topRed;
-        }
-        else
-        {
-            currentEvadeOxygenBox = this->evadeOxygenBox_bothRed;
-        }
+        CSurface::GL_SetColor(GL_Color(::COLOR_BUTTON_TEXT.r / 255, ::COLOR_BUTTON_TEXT.g / 255, ::COLOR_BUTTON_TEXT.b / 255, 1.f));
+        freetype::easy_print(62, 9.f, 9.f, hullText);
     }
-    else if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
-    {
-        currentEvadeOxygenBox = this->evadeOxygenBox;
-    }
-    else
-    {
-        currentEvadeOxygenBox = this->evadeOxygenBox_bottomRed;
-    }
-
-    CSurface::GL_RenderPrimitive(currentEvadeOxygenBox);
-
-    // Render hacked systems
-    if ((1 < this->ship->IsSystemHacked(SYS_OXYGEN)) && (this->flashTracker.Progress(-1.0) <= 0.5f))
-    {
-        CSurface::GL_RenderPrimitive(this->oxygenPurple);
-    }
-    if (((1 < this->ship->IsSystemHacked(SYS_ENGINES)) || (1 < this->ship->IsSystemHacked(SYS_PILOT))) && (this->flashTracker.Progress(-1.0) <= 0.5f))
-    {
-        CSurface::GL_RenderPrimitive(this->evadePurple);
-    }
-
-    // Render oxygen warning
-    this->oxygenMessage->OnRender();
-
-    // Render fuel, missiles, drones, and scrap icons
-    if (this->ship->fuel_count < 4)
-    {
-        CSurface::GL_RenderPrimitive(this->fuelIcon_red);
-    }
-    else
-    {
-        CSurface::GL_RenderPrimitive(this->fuelIcon);
-    }
-
-    if (this->ship->GetMissileCount() < 1)
-    {
-        CSurface::GL_RenderPrimitive(this->missilesIcon_red);
-    }
-    else
-    {
-        CSurface::GL_RenderPrimitive(this->missilesIcon);
-    }
-
-    if (this->ship->GetDroneCount() < 1)
-    {
-        CSurface::GL_RenderPrimitive(this->dronesIcon_red);
-    }
-    else
-    {
-        CSurface::GL_RenderPrimitive(this->dronesIcon);
-    }
-
-    if (!this->noMoneyTracker.running || this->flashTracker.Progress(-1.f) > 0.5f)
-    {
-        CSurface::GL_RenderPrimitive(this->scrapIcon);
-    }
-    else
-    {
-        CSurface::GL_RenderPrimitive(this->scrapIcon_red);
-    }
-
-    // Render hull text
-    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
-    freetype::easy_print(62, 9.f, 9.f, hullText);
-
-    // Render evade and oxygen details
-    this->RenderEvadeOxygen(true);
-    this->RenderResources(true);
-
-    // Render hull warning if critically low
-    this->hullMessage->OnRender();
-
-    if (!this->bBossFight)
-    {
-        if (!this->bEnemyShip)
-        {
-            CSurface::GL_Translate(static_cast<float>(this->noShipShift.x), static_cast<float>(this->noShipShift.y));
-        }
-    }
-    else
-    {
-        CSurface::GL_Translate(-120.f, 0.f);
-    }
-
-    CSurface::GL_Translate(0.f, static_cast<float>(this->intruderShift.y));
-    CSurface::GL_Translate(static_cast<float>(this->intruderPos.x), static_cast<float>(this->intruderPos.y));
-    this->boardingMessage->OnRender();
-
-    CSurface::GL_PopMatrix();
 }
