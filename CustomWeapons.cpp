@@ -352,7 +352,7 @@ HOOK_METHOD(ProjectileFactory, GetProjectile, () -> Projectile*)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::GetProjectile -> Begin (CustomWeapons.cpp)\n")
     Projectile* ret = super();
-    if (queuedProjectiles.empty() && HitShotLimit()) ClearAiming();
+    if (!QueuedShots() && HitShotLimit()) ClearAiming();
     return ret;
 }
 // Pinpoint targeting
@@ -389,7 +389,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     }
     super(points, target);
     // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
-    if ((cooldown.second < 0 && HitShotLimit()) && iShipId == 0)
+    if ((cooldown.second < 0 || (HitShotLimit() && !QueuedShots())) && iShipId == 0)
     {
         targets.clear();
     }    
