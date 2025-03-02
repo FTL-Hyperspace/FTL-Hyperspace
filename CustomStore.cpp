@@ -1977,3 +1977,40 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
         Purchase();
     }
 }
+
+// replace dummy info for artillery systems with actual info
+WeaponBlueprint *g_currentArtilleryBP = nullptr;
+
+HOOK_METHOD(SystemStoreBox, SetInfoBox, (InfoBox *box, int forceSystemInfoWidth) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::SetInfoBox -> Begin (CustomStore.cpp)\n")
+    if (type != SYS_ARTILLERY) return super(box, forceSystemInfoWidth);
+
+    const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
+    g_currentArtilleryBP = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()]);
+    int ret = super(box, forceSystemInfoWidth);
+    g_currentArtilleryBP = nullptr;
+    return ret;
+}
+// called within SystemStoreBox::SetInfoBox
+HOOK_METHOD(InfoBox, CalcBoxHeight, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::CalcBoxHeight -> Begin (CustomStore.cpp)\n")
+    if (systemId == SYS_ARTILLERY && g_currentArtilleryBP)
+    {
+        desc = g_currentArtilleryBP->desc;
+    }
+    super();
+}
+
+// replace dummy artillery system title with actual title
+HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomStore.cpp)\n")
+    super(shopper, equip, sys);
+    if (sys == SYS_ARTILLERY)
+    {
+        const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
+        desc.title = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()])->desc.title;
+    }
+}

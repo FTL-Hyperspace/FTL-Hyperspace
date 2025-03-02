@@ -8,6 +8,8 @@ cleanup __cdecl bool SystemStoreBox::CanHold(SystemStoreBox *this);
 cleanup __cdecl void SystemStoreBox::MouseMove(SystemStoreBox *this, int mX, int mY);
 "5383ec288b5c24308b93c00000008b8398000000":
 cleanup __cdecl void SystemStoreBox::Activate(SystemStoreBox *this);
+".5589e557565381ecbc0000008b5d088b83":
+cleanup __cdecl int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox *box, int forceSystemInfoWidth);
 "5557565383ec3c8b5c24508d74242c891c24e8????????8b4304":
 cleanup __cdecl void SystemStoreBox::Purchase(SystemStoreBox *this);
 
