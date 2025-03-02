@@ -369,7 +369,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
     GL_Texture* renderHullLabel = this->hullLabel;
 
     // Check for red damage blinking
-    if (!this->hullMessage->tracker.done && this->hullMessage->tracker.running && (!this->hullMessage->flash || this->hullMessage->flashTracker.Progress(-1.0) <= 0.5f))
+    if (!this->hullMessage->tracker.done && this->hullMessage->tracker.running && (!this->hullMessage->flash || this->hullMessage->flashTracker.Progress(-1.f) <= 0.5f))
     {
         renderHullBox = this->hullBox_Red;
         renderHullLabel = this->hullLabel_Red;
@@ -424,7 +424,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
                 green = 255.f;
                 blue = 120.f;
             }
-            else if (healthRatio > 9)
+            else if (currentHealth > 9)
             {
                 red = 255.f;
                 green = 230.f;
@@ -471,34 +471,35 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
     this->RenderShields(false);
 
     // Render evade and oxygen
+    GL_Primitive *currentEvadeOxygenBox;
     if (this->ship->GetNetDodgeFactor() == 0)
     {
-        if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5)))
+        if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
         {
-            this->evadeOxygenBox = this->evadeOxygenBox_topRed;
+            currentEvadeOxygenBox = this->evadeOxygenBox_topRed;
         }
         else
         {
-            this->evadeOxygenBox = this->evadeOxygenBox_bothRed;
+            currentEvadeOxygenBox = this->evadeOxygenBox_bothRed;
         }
     }
-    else if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5)))
+    else if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
     {
-        this->evadeOxygenBox = this->evadeOxygenBox;
+        currentEvadeOxygenBox = this->evadeOxygenBox;
     }
     else
     {
-        this->evadeOxygenBox = this->evadeOxygenBox_bottomRed;
+        currentEvadeOxygenBox = this->evadeOxygenBox_bottomRed;
     }
 
-    CSurface::GL_RenderPrimitive(this->evadeOxygenBox);
+    CSurface::GL_RenderPrimitive(currentEvadeOxygenBox);
 
     // Render hacked systems
-    if ((1 < this->ship->IsSystemHacked(SYS_OXYGEN)) && (this->flashTracker.Progress(-1.0) <= 0.5))
+    if ((1 < this->ship->IsSystemHacked(SYS_OXYGEN)) && (this->flashTracker.Progress(-1.0) <= 0.5f))
     {
         CSurface::GL_RenderPrimitive(this->oxygenPurple);
     }
-    if (((1 < this->ship->IsSystemHacked(SYS_ENGINES)) || (1 < this->ship->IsSystemHacked(SYS_PILOT))) && (this->flashTracker.Progress(-1.0) <= 0.5))
+    if (((1 < this->ship->IsSystemHacked(SYS_ENGINES)) || (1 < this->ship->IsSystemHacked(SYS_PILOT))) && (this->flashTracker.Progress(-1.0) <= 0.5f))
     {
         CSurface::GL_RenderPrimitive(this->evadePurple);
     }

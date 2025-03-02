@@ -348,7 +348,7 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "playerHpColorFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+                g_playerHpColorFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "hullBars") == 0)
