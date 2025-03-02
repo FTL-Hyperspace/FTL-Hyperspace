@@ -16045,7 +16045,7 @@ namespace _func1159
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipStatus::RenderResources", typeid(void (ShipStatus::*)(bool )), ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b490c803f00", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("ShipStatus::RenderResources", typeid(void (ShipStatus::*)(bool )), ".578d7c240883e4f0ff77fc5589e557565389cb81ecac040000", argdata, 2, 5, &func);
 }
 
 void ShipStatus::RenderResources(bool renderText)
