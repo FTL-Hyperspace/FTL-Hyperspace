@@ -494,11 +494,11 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
     CSurface::GL_RenderPrimitive(this->evadeOxygenBox);
 
     // Render hacked systems
-    if ((1 < this->ship->IsSystemHacked(2)) && (this->flashTracker.Progress(-1.0) <= 0.5))
+    if ((1 < this->ship->IsSystemHacked(SYS_OXYGEN)) && (this->flashTracker.Progress(-1.0) <= 0.5))
     {
         CSurface::GL_RenderPrimitive(this->oxygenPurple);
     }
-    if (((1 < this->ship->IsSystemHacked(1)) || (1 < this->ship->IsSystemHacked(6))) && (this->flashTracker.Progress(-1.0) <= 0.5))
+    if (((1 < this->ship->IsSystemHacked(SYS_ENGINES)) || (1 < this->ship->IsSystemHacked(SYS_PILOT))) && (this->flashTracker.Progress(-1.0) <= 0.5))
     {
         CSurface::GL_RenderPrimitive(this->evadePurple);
     }
@@ -544,8 +544,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
     }
 
     // Render hull text
-    GL_Color textColor = GL_Color(::COLOR_BUTTON_TEXT.r / 255, ::COLOR_BUTTON_TEXT.g / 255, ::COLOR_BUTTON_TEXT.b / 255, 1.f);
-    CSurface::GL_SetColor(textColor);
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
     freetype::easy_print(62, 9.f, 9.f, hullText);
 
     // Render evade and oxygen details
