@@ -767,6 +767,11 @@ struct Animation
 		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 	}
 
+	inline void Stop()
+	{
+		tracker.Stop(false);
+	}
+
 	LIBZHL_API void AddSoundQueue(int frame, const std::string &sound);
 	LIBZHL_API bool Done();
 	LIBZHL_API void LoadState(int fd);
@@ -829,11 +834,15 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Point GetFireLocation();
 	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void OnRender(float alpha);
 	LIBZHL_API void RenderChargeBar(float alpha);
 	LIBZHL_API void SaveState(int fd);
+	LIBZHL_API void SetBoostLevel(int value);
+	LIBZHL_API void SetChargedLevel(float charged);
 	LIBZHL_API void SetFireTime(float time);
+	LIBZHL_API void SetPowered(bool powered);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
 	
