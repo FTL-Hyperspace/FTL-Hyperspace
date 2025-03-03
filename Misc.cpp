@@ -76,7 +76,7 @@ static bool displayWarning = true;
 HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool unk) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderEvadeOxygen -> Begin (Misc.cpp)\n")
-    if (!ship->HasSystem(ShipSystem::NameToSystemId("oxygen")) && ship->GetOxygenPercentage() <= 24)
+    if (!ship->HasSystem(SYS_OXYGEN) && ship->GetOxygenPercentage() <= 24)
     {
         displayWarning = false;
         oxygenMessage->flash = false;
@@ -97,6 +97,14 @@ HOOK_METHOD(WarningMessage, OnRender, () -> void)
     }
 }
 
+HOOK_METHOD(WarningMessage, Start, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WarningMessage::Start -> Begin (Misc.cpp)\n")
+    if (displayWarning)
+    {
+        super();
+    }
+}
 
 
 // Bugfix for switching to the same background
