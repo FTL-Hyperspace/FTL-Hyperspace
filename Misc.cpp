@@ -79,22 +79,11 @@ HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool unk) -> void)
     if (!ship->HasSystem(SYS_OXYGEN) && ship->GetOxygenPercentage() <= 24)
     {
         displayWarning = false;
-        oxygenMessage->flash = false;
     }
 
     super(unk);
 
     displayWarning = true;
-    oxygenMessage->flash = true;
-}
-
-HOOK_METHOD(WarningMessage, OnRender, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> WarningMessage::OnRender -> Begin (Misc.cpp)\n")
-    if (displayWarning)
-    {
-        super();
-    }
 }
 
 HOOK_METHOD(WarningMessage, Start, () -> void)
