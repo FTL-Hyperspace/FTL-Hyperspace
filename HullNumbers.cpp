@@ -359,7 +359,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::OnRender -> Begin (TouchScreen.cpp)\n")
 
     CSurface::GL_PushMatrix();
-    CSurface::GL_Translate(this->location.x, this->location.y);
+    CSurface::GL_Translate(static_cast<float>(this->location.x), static_cast<float>(this->location.y));
     this->RenderHealth(false);
     this->RenderShields(false);
     this->RenderEvadeOxygen(false);
@@ -389,6 +389,8 @@ HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::RenderHealth -> Begin (TouchScreen.cpp)\n")
 
+    std::string hullText = G_->GetTextLibrary()->GetText("status_hull");
+
     if (renderText)
     {
         CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
@@ -409,7 +411,6 @@ HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
     CSurface::GL_RenderPrimitive(renderHullBox);
 
     // Render hull label
-    std::string hullText = G_->GetTextLibrary()->GetText("status_hull", G_->GetTextLibrary()->currentLanguage);
     Pointf textSize = freetype::easy_measurePrintLines(62, 0.f, 0.f, 999, hullText);
 
     float textWidth = roundf(textSize.x);
@@ -418,12 +419,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
     float scaleFactor = 16.f;
 
     // Check for primitive
-    if (renderHullLabel == nullptr)
-    {
-        textureWidth = 1.f;
-        scaleFactor = 16.f;
-    }
-    else
+    if (renderHullLabel)
     {
         textureWidth = static_cast<float>(renderHullLabel->width_);
         textureHeight = static_cast<float>(renderHullLabel->height_);
