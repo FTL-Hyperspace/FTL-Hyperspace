@@ -360,10 +360,11 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(this->location.x, this->location.y);
-    this->RenderHealth(true);
+    this->RenderHealth(false);
     this->RenderShields(false);
     this->RenderEvadeOxygen(false);
     this->RenderResources(false);
+    this->RenderHealth(true);
     this->RenderEvadeOxygen(true);
     this->RenderResources(true);
     this->hullMessage->OnRender();
@@ -387,6 +388,13 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::RenderHealth -> Begin (TouchScreen.cpp)\n")
+
+    if (renderText)
+    {
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+        freetype::easy_print(62, 9.f, 9.f, hullText);
+        return;
+    }
 
     GL_Primitive* renderHullBox = this->hullBox;
     GL_Texture* renderHullLabel = this->hullLabel;
@@ -489,10 +497,4 @@ HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
         this->healthMask = CSurface::GL_CreateImagePartialPrimitive(this->healthMaskTexture, 11.f, 0.f, healthRatio * 360.f, 65.f, 0.f, healthRatio, 0.f, 1.f, 1.f, healthColor, false);
     }
     CSurface::GL_RenderPrimitive(this->healthMask);
-
-    if (renderText)
-    {
-        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
-        freetype::easy_print(62, 9.f, 9.f, hullText);
-    }
 }
