@@ -170,6 +170,12 @@ align can be left, center or right
 	<bossText x="878" y="16" language="ja" type="0" align="center" />
 </hullNumbers>
 
+<!-- Fixes the players HP bar color being based on a hardcoded number
+Enabling it will base teh color on a 3-third ratio (actually intended by the devs)
+-->
+
+<playerHpColorFix enabled="true"/>
+
 <!-- Hull bar indicator
 Displays the amount of hull points left for the player or enemy
 
