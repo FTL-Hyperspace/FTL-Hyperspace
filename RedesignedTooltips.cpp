@@ -1356,7 +1356,7 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
         }
         if (1260.f < position.x + rect_w)
         {
-            if (rect_h > 620.f) // prevent the scrolling tooltip overlapping the point of the cursor
+            if (rect_h > 620.f) // prevent the scrolling tooltip from overlapping the point of the cursor
             {
                 tooltipPoint.x -= rect_w + 31.f;
             }
