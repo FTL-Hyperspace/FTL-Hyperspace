@@ -492,7 +492,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
 
     if (renderText)
     {
-        CSurface::GL_SetColor(GL_Color(::COLOR_BUTTON_TEXT.r / 255, ::COLOR_BUTTON_TEXT.g / 255, ::COLOR_BUTTON_TEXT.b / 255, 1.f));
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
         freetype::easy_print(62, 9.f, 9.f, hullText);
     }
 }
