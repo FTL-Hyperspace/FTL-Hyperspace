@@ -229,16 +229,15 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if(cmdName == "FLEET" && command.length() > 5)
     {
-        try {
+        try
+        {
            int fleetdelay = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
            commandGui->starMap->ModifyPursuit(fleetdelay);
-        
         }
         catch (boost::bad_lexical_cast const &e)
-         {
-                printf("boost::bad_lexical_cast in RunCommand FLEET\n");
-         }
-    
+        {
+            printf("boost::bad_lexical_cast in RunCommand FLEET\n");
+        }
         return true;
     }
     /*
