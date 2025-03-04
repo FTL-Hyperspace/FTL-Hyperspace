@@ -4054,6 +4054,8 @@ struct WeaponControl : ArmamentControl
 
 struct CombatControl
 {
+    void ArmArtillery(ArtillerySystem* artillerySystem);
+
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API char CanTargetSelf();
 	LIBZHL_API void Clear();
