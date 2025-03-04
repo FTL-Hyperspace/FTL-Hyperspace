@@ -2,6 +2,7 @@
 #include "CustomOptions.h"
 #include "SystemBox_Extend.h"
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 
 HOOK_METHOD(ArtillerySystem, Jump, () -> void)
 {
@@ -73,8 +74,20 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         if (extend->artilleryButton.Hovering())
         {
             //TODO: Use GetOverrideTooltip (Not working)
-            TextString tooltip = artSystem->projectileFactory->blueprint->desc.tooltip; 
-            G_->GetMouseControl()->SetTooltip(tooltip.GetText());
+            TextString tooltip = artSystem->projectileFactory->blueprint->desc.tooltip;
+            std::string text = tooltip.GetText();
+            ShipManager *ship = G_->GetShipManager(pSystem->_shipObj.iShipId);
+            auto it = std::find(ship->artillerySystems.begin(), ship->artillerySystems.end(), artSystem);
+            if (it != ship->artillerySystems.end())
+            {
+                int index = std::distance(ship->artillerySystems.begin(), it);
+                if (index < 4)
+                {
+                    std::string hotkey = Settings::GetHotkeyName("artillery" + std::to_string(index + 1));
+                    text += "\n" + boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("hotkey"), "\\1", hotkey);
+                }
+            }
+            G_->GetMouseControl()->SetTooltip(text);
         }
     }
 }
