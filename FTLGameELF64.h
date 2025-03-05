@@ -558,6 +558,8 @@ struct LIBZHL_INTERFACE AnimationTracker
 	{
 	
 	}
+	void LoadState(int fd);
+	void SaveState(int fd);
 
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
@@ -741,6 +743,9 @@ struct Pointf
 	{		
 		return Pointf(x * amount, y * amount);
 	}
+
+	friend bool operator==(const Pointf &a, const Pointf &b) {return a.x==b.x && a.y==b.y;}
+	friend bool operator!=(const Pointf &a, const Pointf &b) {return a.x!=b.x || a.y!=b.y;}
 
 
 	LIBZHL_API Pointf Normalize();
@@ -1103,8 +1108,8 @@ struct LIBZHL_INTERFACE SystemBox
 		this->constructor(pos, sys, playerUI);
 	}
 
-	virtual ~SystemBox() {}
 	virtual void destroy() LIBZHL_PLACEHOLDER
+	virtual ~SystemBox() {}
 	virtual bool HasButton() LIBZHL_PLACEHOLDER
 	virtual int GetCooldownBarHeight() LIBZHL_PLACEHOLDER
 	virtual int GetHeightModifier() LIBZHL_PLACEHOLDER
@@ -1866,6 +1871,7 @@ struct CSurface
 	LIBZHL_API static bool __stdcall GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
 	LIBZHL_API static void __stdcall GL_ClearAll();
 	LIBZHL_API static void __stdcall GL_ClearColor();
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
@@ -3023,7 +3029,9 @@ struct CombatAI;
 struct CombatAI
 {
 	LIBZHL_API void OnLoop();
+	LIBZHL_API int PrioritizeSystem(int weaponType);
 	LIBZHL_API void UpdateMindControl(bool unk);
+	LIBZHL_API void UpdateWeapons();
 	
 	ShipManager *target;
 	std::vector<ProjectileFactory*> weapons;
@@ -4051,6 +4059,8 @@ struct WeaponControl : ArmamentControl
 
 struct CombatControl
 {
+    void ArmArtillery(ArtillerySystem* artillerySystem);
+
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API char CanTargetSelf();
 	LIBZHL_API void Clear();
@@ -4461,6 +4471,7 @@ struct ShipStatus
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RenderEvadeOxygen(bool unk);
 	LIBZHL_API void RenderHealth(bool unk);
+	LIBZHL_API void RenderResources(bool renderText);
 	LIBZHL_API void RenderShields(bool renderText);
 	
 	Point location;
@@ -4527,6 +4538,7 @@ struct SpaceStatus
 {
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit(SpaceManager *space, Point pos);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RenderWarningText(int effect, int textOffset);
 	
@@ -5290,7 +5302,9 @@ public:
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SaveState(int fd);
 	
 	uint8_t garbage[4];
 	Selectable _selectable;
@@ -6724,6 +6738,7 @@ struct TopScore
 
 struct ScoreKeeper
 {
+    int CountUnlockedShips(int variant);
 
 	LIBZHL_API void AddScrapCollected(int scrap);
 	LIBZHL_API int AddTopScoreList(TopScore &score, std::vector<TopScore> &topScoreList);
@@ -7181,6 +7196,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetFireCount(int roomId);
 	LIBZHL_API std::vector<CrewMember*> GetLeavingCrew(bool intruders);
 	LIBZHL_API int GetMissileCount();
+	LIBZHL_API int GetNetDodgeFactor();
 	LIBZHL_API float GetOxygenLevel(int roomId);
 	LIBZHL_API std::vector<float> GetOxygenLevels();
 	LIBZHL_API int GetOxygenPercentage();

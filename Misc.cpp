@@ -361,6 +361,75 @@ HOOK_METHOD(SpaceStatus, OnInit, (SpaceManager *space, Point pos) -> void)
     warningPdsAll = G_->GetResources()->CreateImagePrimitiveString("warnings/danger_pds_neutral.png", position.x - 30, position.y, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
 }
 
+HOOK_METHOD_PRIORITY(SpaceStatus, OnLoop, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::OnLoop -> Begin (Misc.cpp)\n")
+    // Rewrite to remove asteroid's early return that prevents other warnings from displaying when asteroids and other environemts are combined
+    
+    int effect = 0;
+    std::string warnStr;
+
+    currentEffect = 0;
+    currentEffect2 = 0;
+
+    if (space->asteroidGenerator.bRunning)
+    {
+        currentEffect = 1;
+    }
+
+    if (space->sunLevel)
+    {
+        warnStr = "warning_solar_flare";
+        effect = 2;
+    }
+    else if (space->pulsarLevel)
+    {
+        warnStr = "warning_ion_pulse";
+        effect = 5;
+    }
+    else if (space->bPDS)
+    {
+        warnStr = "warning_pds_locked";
+    }
+    else if (space->bNebula)
+    {
+        effect = 3;
+        if (space->bStorm)
+        {
+            currentEffect2 = 4;
+        }
+    }
+
+    if (!warnStr.empty())
+    {
+        if (5.f <= space->flashTimer.currGoal - space->flashTimer.currTime)
+        {
+            warningMessage->tracker.Stop(false);
+        }
+        else
+        {
+            TextString text(warnStr, false);
+            warningMessage->SetText(text);
+            warningMessage->Start();
+        }
+    }
+
+    if (currentEffect == 0)
+    {
+        if (space->bPDS)
+        {
+            currentEffect = space->envTarget == 1 ? 9 : 6;
+        }
+        else
+        {
+            currentEffect = effect;
+        }
+    }
+
+    warningMessage->OnLoop();
+    incomingFire->OnLoop();
+}
+
 HOOK_METHOD(SpaceStatus, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnRender -> Begin (Misc.cpp)\n")
@@ -509,6 +578,45 @@ LABEL_TWO:
         G_->GetMouseControl()->LoadTooltip(tip);
     }
     return;
+}
+
+
+void AnimationTracker::SaveState(int fd)
+{
+    FileHelper::writeFloat(fd, time);
+    FileHelper::writeInt(fd, loop);
+    FileHelper::writeFloat(fd, current_time);
+    FileHelper::writeInt(fd, running);
+    FileHelper::writeInt(fd, reverse);
+    FileHelper::writeInt(fd, done);
+    FileHelper::writeFloat(fd, loopDelay);
+    FileHelper::writeFloat(fd, currentDelay);
+};
+
+void AnimationTracker::LoadState(int fd)
+{
+    time = FileHelper::readFloat(fd);
+    loop = FileHelper::readInteger(fd);
+    current_time = FileHelper::readFloat(fd);
+    running = FileHelper::readInteger(fd);
+    reverse = FileHelper::readInteger(fd);
+    done = FileHelper::readInteger(fd);
+    loopDelay = FileHelper::readFloat(fd);
+    currentDelay = FileHelper::readFloat(fd);
+};
+
+//Lockdown saving bugfix
+HOOK_METHOD(Door, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::SaveState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.SaveState(fd);
+}
+HOOK_METHOD(Door, LoadState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::LoadState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.LoadState(fd);
 }
 
 // Everything from here onward was originally in the lua folder and needed

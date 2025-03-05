@@ -293,6 +293,46 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 
     return ret;
 }
+//Rewrite to fix hang when an enemy fires a weapon with more shots than the ship has rooms
+//NOTE: Native game implementation of generating non-repeating targets is inefficient, should rework when implementing custom AI
+HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatAI::UpdateWeapons -> Begin (CustomWeapons.cpp)\n")
+
+    if (bFiringWhileCloaked || !self->ship.bCloaked) 
+    {
+        weapons = self->GetWeaponList();
+        for (ProjectileFactory* weapon : weapons)
+        {
+            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked()) 
+            {
+                int chargeLevels = weapon->blueprint->chargeLevels;
+                bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0;
+                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire) 
+                {
+                    std::vector<Pointf> targets;
+                    while (targets.size() < weapon->NumTargetsRequired())
+                    {
+                        Pointf temp_target(0, 0);
+                        int systemTarget = PrioritizeSystem(weapon->blueprint->type);
+                        if (systemTarget == -1) temp_target = target->GetRandomRoomCenter();
+                        else temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
+    
+                        //Only remove repeated targets if it is possible to add a non-repeated one
+                        if (ShipGraph::GetShipInfo(target->iShipId)->RoomCount() > targets.size())
+                        {
+                            targets.erase(std::remove_if(targets.begin(), targets.end(), [&](Pointf potentialTarget) { return potentialTarget == temp_target; }), targets.end());
+                        }
+
+                        targets.push_back(temp_target);
+                    }
+                    weapon->Fire(targets, target->iShipId);
+                    weapon->SelectChargeGoal();
+                }  
+            }
+        }
+    }
+}
 
 //Reverse inlining of NumTargetsRequired
 HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
@@ -304,8 +344,17 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
     fireWhenReady = false;
     targets.clear();
     lastTargets.clear();
+    
+    targetId = -1;
 }
 
+HOOK_METHOD(ProjectileFactory, GetProjectile, () -> Projectile*)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::GetProjectile -> Begin (CustomWeapons.cpp)\n")
+    Projectile* ret = super();
+    if (queuedProjectiles.empty() && HitShotLimit()) ClearAiming();
+    return ret;
+}
 // Pinpoint targeting
 HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -> void)
 {
@@ -340,7 +389,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     }
     super(points, target);
     // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
-    if (cooldown.second < 0 && iShipId == 0)
+    if ((cooldown.second < 0 && HitShotLimit()) && iShipId == 0)
     {
         targets.clear();
     }    
@@ -874,15 +923,18 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
     super();
-    for (auto weapon : weapons)
+    if (_shipObj.iShipId == 1)
     {
-        if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+        for (auto weapon : weapons)
+        {
+            if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+        }
     }
 }
 HOOK_METHOD(WeaponSystem, PowerWeapon, (ProjectileFactory* weapon, bool userDriven, bool force) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::PowerWeapon -> Begin (CustomWeapons.cpp)\n")
-    if (weapon->HitShotLimit()) return false;
+    if (weapon->HitShotLimit() && _shipObj.iShipId == 1) return false;
     return super(weapon, userDriven, force);
 
 }
@@ -936,13 +988,18 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (CustomWeapons.cpp)\n")
     shotLimitMessage->Stop();
-    super(armamentSlot);
+    
     WeaponBox* box = static_cast<WeaponBox*>(boxes[armamentSlot]);
-    if (box->pWeapon->HitShotLimit())
+    
+    if (box->pWeapon->HitShotLimit() && box->pWeapon->powered)
     {
         shotLimitMessage->Start();
         missileMessage.Stop();
         systemMessage.Stop();
+    }
+    else
+    {
+        super(armamentSlot);
     }
 }
 

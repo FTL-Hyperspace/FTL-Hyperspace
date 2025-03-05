@@ -88,6 +88,8 @@ cleanup __amd64 bool ShipManager::SystemLocked(ShipManager *this, int systemId);
 cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
 ".534889fb4883ec10488b9758060000":
 cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
+".554889fd534883ec08":
+cleanup __amd64 int ShipManager::GetNetDodgeFactor(ShipManager *this);
 ".415455534889fb4883ec20807f1c00":
 cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
 ".83fe11741b488b8758060000":
