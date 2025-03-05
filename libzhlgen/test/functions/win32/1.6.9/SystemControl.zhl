@@ -10,3 +10,10 @@ static cleanup __cdecl SystemControl::PowerBars* SystemControl::GetPowerBars(int
 "!a3(???????\?)8915????????e8????????8b55e08b45dc83ec088b7b0c8915????????8b5308a3(???????\?)":
 Point* Global_SystemControl_weapon_position;
 Point* Global_SystemControl_drone_position;
+
+struct SystemControl
+{{
+
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+}};

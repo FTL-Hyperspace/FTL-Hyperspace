@@ -10,3 +10,10 @@ cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
 "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;
 offsetVariable Point* Global_SystemControl_drone_position;
+
+struct SystemControl
+{{
+
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+}};

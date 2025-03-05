@@ -805,6 +805,9 @@
 		<Unit filename="Blueprint_Extend.h">
 			<Option virtualFolder="Core/Blueprints/" />
 		</Unit>
+		<Unit filename="CloneQueue.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Colors.cpp">
 			<Option virtualFolder="Core/" />
 		</Unit>

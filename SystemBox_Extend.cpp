@@ -6,7 +6,22 @@ HOOK_METHOD_PRIORITY(SystemBox, constructor, 900, (Point pos, ShipSystem *sys, b
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::constructor -> Begin (SystemBox_Extend.cpp)\n")
 	super(pos, sys, playerUI);
 
-	auto ex = new SystemBox_Extend();
+	SystemBox_Extend* ex = nullptr;
+    //Create proper subclass depnding on system ID
+    switch (sys->iSystemType)
+    {
+        case SYS_ARTILLERY:
+            ex = new ArtilleryBox_Extend();
+            break;
+        case SYS_CLONEBAY:
+            ex = new CloneBox_Extend();
+            break;
+        default:
+            ex = new SystemBox_Extend();
+            break;
+    }
+
+
     uintptr_t dEx = (uintptr_t)ex;
 
 #ifdef __amd64__
@@ -62,4 +77,14 @@ SystemBox_Extend* Get_SystemBox_Extend(SystemBox* c)
     dEx |= c->gap_ex_2[1];
 
     return (SystemBox_Extend*)dEx;
+}
+
+void SystemBox_Extend::OnScrollWheel(float direction)
+{
+
+}
+
+void SystemBox_Extend::RButtonUp(int mX, int mY, bool shiftHeld)
+{
+    
 }
