@@ -613,6 +613,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "enhancedCloneUI") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->enhancedCloneUI.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->enhancedCloneUI.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
