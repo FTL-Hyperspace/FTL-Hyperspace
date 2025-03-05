@@ -281,7 +281,7 @@ HOOK_METHOD(SystemBox, MouseRightClick, (bool force) -> void)
 void CloneBox_Extend::OnScrollWheel(float direction)
 {
     SystemBox_Extend::OnScrollWheel(direction);
-    //TODO: See if CountCloneReadyCrew works instead
+    
     std::vector<CrewMember*> cloneQueue;
     G_->GetCrewFactory()->GetCloneReadyList(cloneQueue, orig->pSystem->_shipObj.iShipId == 0);
 
