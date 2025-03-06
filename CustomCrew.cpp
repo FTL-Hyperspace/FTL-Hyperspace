@@ -9,6 +9,7 @@
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
 #include "CustomSystems.h"
+#include "Tasks.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -5372,7 +5373,13 @@ HOOK_METHOD(CrewAI, UpdateCrewMember, (int crewId) -> void)
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
-    if (task.taskId == 0 && !crewList[crewId]->CanMan())
+    if (task.taskId == TASK_MANNING && !crewList[crewId]->CanMan())
+    {
+        return 1001;
+    }
+
+    bool repairTask = task.taskId == TASK_REPAIRING || task.taskId == TASK_FIRE || task.taskId == TASK_BREACH;
+    if (repairTask && !crewList[crewId]->CanRepair())
     {
         return 1001;
     }
