@@ -6016,7 +6016,7 @@ namespace _func431
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::SetCurrentSystem", typeid(void (CrewMember::*)(ShipSystem *)), ".578d7c240883e4f0ff77fc", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("CrewMember::SetCurrentSystem", typeid(void (CrewMember::*)(ShipSystem *)), ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c", argdata, 2, 5, &func);
 }
 
 void CrewMember::SetCurrentSystem(ShipSystem *sys)
