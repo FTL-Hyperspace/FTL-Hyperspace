@@ -969,7 +969,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
     {
         if (NumTargetsRequired() <= targets.size())
         {
-            if (blueprint->missiles > 0) iSpendMissile = blueprint->missiles;
+            if (blueprint->missiles > 0 && blueprint->type != BEAM) iSpendMissile = blueprint->missiles;
             shotsFiredAtTarget++;
             if (blueprint->boostPower.amount > 0.f)
             {
