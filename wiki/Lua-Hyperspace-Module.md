@@ -333,8 +333,9 @@ The members held by this class determine how the `print` function displays messa
    - Returns the number of the given augment you have, NOT a bool.
 - ~~`void :AddEquipment(string equipmentName)`~~
 - ~~`void :RemoveEquipment(string equipmentName, bool completely)`~~
-- `bool :HasEquipment(string equipmentName)`
-   - Returns a bool indicating whether you have the blue options for the specified equipment.
+- `int :HasEquipment(string equipmentName, bool checkCargo=false)`
+   - Returns an int indicating whether you have the blue options for the specified equipment.
+   - checkCargo indicates if cargo will be included in the check.
 
 ## ShipManager
 
@@ -433,8 +434,9 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - I do not know if this is safe to call
 - `void :PrepareSuperDrones()`
    - I do not know if this is safe to call
-- `void :RemoveItem(string name)`
+- `void :RemoveItem(string name, bool checkCargo=false)`
    - Remove an item by name (equivalent to removing via an event).
+   - checkCargo indicates if items will be removed from cargo if not present in weapon/drone system.
 - `void :ResetScrapLevel()`
 - `bool :RestoreCrewPositions()`
    - Same as hitting the button to return crew to their original positions.
