@@ -6911,3 +6911,18 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
 }
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
+    super(event);
+    auto& choices = G_->GetCApp()->gui->choiceBox.choices;
+    for (auto& choice : choices)
+    {
+        if (playerShip->shipManager->CanFitCrew(choice.rewards.crewBlue.name))
+        {
+            std::string dismissWarning = G_->GetTextLibrary()->GetText("event_crew_full");
+            boost::algorithm::replace_all(choice.text, dismissWarning, "");
+        }
+    }
+}

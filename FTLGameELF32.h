@@ -7121,6 +7121,8 @@ struct ShipManager : ShipObject
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
+	
+	bool CanFitCrew(const std::string& crewName);
 
 
 	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
