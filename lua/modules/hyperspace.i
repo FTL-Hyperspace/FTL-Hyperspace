@@ -1324,13 +1324,13 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipObject::HasAugmentation;
 %rename("%s") ShipObject::HasEquipment;
 %extend ShipObject {
-    int HasEquipment(const std::string& equipment)
+    int HasEquipment(const std::string& equipment, bool checkCargo = false)
     {
         bool temp = advancedCheckEquipment[7];
         advancedCheckEquipment[7] = true;
 
         bool old_checkCargo = g_checkCargo;
-        g_checkCargo = true;
+        g_checkCargo = checkCargo;
 
         int ret = $self->HasEquipment(equipment);
 
@@ -1421,10 +1421,10 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipManager::PrepareSuperDrones;
 %rename("%s") ShipManager::RemoveItem;
 %extend ShipManager {
-    void RemoveItem(const std::string& item)
+    void RemoveItem(const std::string& item, bool checkCargo = false)
     {
         bool old_checkCargo = g_checkCargo;
-        g_checkCargo = true;
+        g_checkCargo = checkCargo;
         $self->RemoveItem(item);
         g_checkCargo = old_checkCargo;
     }
