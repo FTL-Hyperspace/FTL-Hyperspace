@@ -255,13 +255,15 @@ bool ShipManager::CanFitCrew(const std::string& crewName)
     CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(crewName);
     if (crewDef)
     {
+        //TODO: noSlot does not seem to be calculated dynamically like other stats, this will need to be changed if that is no longer the case.
+        if (crewDef->noSlot) return true;
         crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
     }
     else
     {
         crewCount += 1.f;
     }
-    return crewCount > crewLimit;
+    return crewCount <= crewLimit;
 }
 
 
@@ -277,7 +279,7 @@ HOOK_METHOD_PRIORITY(ShipManager, IsCrewFull, 9999, () -> bool)
     if (storeCrewBlue)
     {
         // If looking at a store blueprint, check if adding this crew would put the player over capacity
-        return CanFitCrew(storeCrewBlue->name);
+        return !CanFitCrew(storeCrewBlue->name);
     }
     else
     {
