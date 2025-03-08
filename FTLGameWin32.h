@@ -1926,6 +1926,7 @@ struct LIBZHL_INTERFACE GenericButton
 	bool bRenderOff;
 	bool bRenderSelected;
 	bool bFlashing;
+	uint8_t gap_ex_gb[3];
 	AnimationTracker flashing;
 	bool bActive;
 	bool bHover;
@@ -1941,12 +1942,7 @@ struct Button : GenericButton
 		this->constructor();
 	}
 	
-	~Button()
-	{
-		CSurface::GL_DestroyPrimitive(primitives[0]);
-		CSurface::GL_DestroyPrimitive(primitives[1]);
-		CSurface::GL_DestroyPrimitive(primitives[2]);
-	}
+	~Button();
 
 	LIBZHL_API void OnInit(const std::string &img, Point pos);
 	LIBZHL_API void OnRender();
@@ -1960,6 +1956,7 @@ struct Button : GenericButton
 	GL_Primitive *primitives[3];
 	Point imageSize;
 	bool bMirror;
+	uint8_t gap_ex[3];
 };
 
 struct Equipment;
