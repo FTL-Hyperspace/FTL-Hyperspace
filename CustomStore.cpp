@@ -262,7 +262,7 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomStore.cpp)\n")
 
-    if (!(shopper->myBlueprint.systemInfo[sys].location.size() > 0))
+    if (shopper && !(shopper->myBlueprint.systemInfo[sys].location.size() > 0))
     {
         sys = 1;
     }
