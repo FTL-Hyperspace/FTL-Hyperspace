@@ -81,6 +81,7 @@ target_sources(
     BeamFixes.cpp
     Blueprint_Extend.cpp
     Blueprint_Extend.h
+    CloneQueue.cpp
     Colors.cpp
     Colors.h
     CommandConsole.cpp

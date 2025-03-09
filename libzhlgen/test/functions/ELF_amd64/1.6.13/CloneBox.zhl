@@ -1,6 +1,9 @@
-"415731c94156415541544531e4554889d5534889fb4881ec08020000":
+"5331d2bb4b000000??83ec20??8b8790000000bf????????":
+cleanup __amd64 int CloneBox::GetHeightModifier(CloneBox *this);
+".415731c94156415541544531e4554889d5534889fb4881ec08020000":
 cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point pos, CloneSystem* sys);
-
+".??5731d2??56??89fe??55??bd03000000??54555389f3??81ec28020000":
+cleanup __amd64 void CloneBox::OnRender(CloneBox *this, bool ignoreStatus);
 
 struct CloneBox
 {{
