@@ -28,6 +28,7 @@
 #include "CustomTutorial.h"
 #include "TemporalSystem.h"
 #include "Misc.h"
+#include "CustomDamage.h"
 %}
 
 %feature("flatnested");
@@ -3200,7 +3201,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Projectile_Extend::missedDrones; // list of selfId of drones that have dodged this projectile
 
 %rename("%s") CustomDamage;
-%rename("%S") CustomDamage::Clear;
+%rename("%s") CustomDamage::Clear;
 
 %rename("%s") CustomDamage::def;
 %rename("%s") CustomDamage::sourceShipId;
@@ -4275,3 +4276,4 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "CustomTutorial.h"
 %include "TemporalSystem.h"
 %include "Misc.h"
+%include "CustomDamage.h"

@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Variables
+      id: variables
+      run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Build binaries
+      run: |
+        buildscripts/ci-buildall-release-only-from-docker.sh
+
+    - name: Package
+      run: |
+        cp -r "Release Files" build-package
+        cd "Mod Files"
+        zip -r Hyperspace.ftl * -x Hyperspace.ftl
+        cd ..
+        mv "Mod Files/Hyperspace.ftl" build-package
+        cp build-*/Hyperspace.*.so "build-package/Linux/"
+        cp build-*/Hyperspace.dll "build-package/Windows - Extract these files into where FTLGame.exe is/"
+        cd build-package
+        zip -r FTL.Hyperspace.${{ steps.variables.outputs.version }}.zip * -x FTL.Hyperspace.${{ steps.variables.outputs.version }}.zip -x Linux/IGNORE_THIS_FILE.txt
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build-package/FTL.Hyperspace.${{ steps.variables.outputs.version }}.zip
+        name: ${{ steps.variables.outputs.version }}
+        generate_release_notes: true
