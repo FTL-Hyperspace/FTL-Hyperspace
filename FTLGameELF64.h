@@ -4463,11 +4463,11 @@ struct WarningWithLines;
 
 struct ShipStatus
 {
-	LIBZHL_API void OnInit(Point unk, float unk2);
+	LIBZHL_API void OnInit(Point location, float size);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
-	LIBZHL_API void RenderEvadeOxygen(bool unk);
-	LIBZHL_API void RenderHealth(bool unk);
+	LIBZHL_API void RenderEvadeOxygen(bool renderText);
+	LIBZHL_API void RenderHealth(bool renderText);
 	LIBZHL_API void RenderShields(bool renderText);
 	
 	Point location;

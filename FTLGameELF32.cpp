@@ -15926,11 +15926,11 @@ namespace _func1160
 	static FunctionDefinition funcObj("ShipStatus::RenderHealth", typeid(void (ShipStatus::*)(bool )), "5589e557565381ec8c0000008b5d08807d0c00", argdata, 2, 6, &func);
 }
 
-void ShipStatus::RenderHealth(bool unk)
+void ShipStatus::RenderHealth(bool renderText)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool unk_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool renderText_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1160::func;
-	return execfunc(this, unk);
+	return execfunc(this, renderText);
 }
 
 namespace _func1161
@@ -15940,11 +15940,11 @@ namespace _func1161
 	static FunctionDefinition funcObj("ShipStatus::OnInit", typeid(void (ShipStatus::*)(Point , float )), "5557565381ec2c0100008bac24400100008d9c2400010000", argdata, 3, 6, &func);
 }
 
-void ShipStatus::OnInit(Point unk, float unk2)
+void ShipStatus::OnInit(Point location, float size)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, Point unk_arg, float unk2_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, Point location_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1161::func;
-	return execfunc(this, unk, unk2);
+	return execfunc(this, location, size);
 }
 
 namespace _func1162
@@ -15954,11 +15954,11 @@ namespace _func1162
 	static FunctionDefinition funcObj("ShipStatus::RenderEvadeOxygen", typeid(void (ShipStatus::*)(bool )), "5589e557565381ecfc0100008b7d08807d0c008b470c890424", argdata, 2, 6, &func);
 }
 
-void ShipStatus::RenderEvadeOxygen(bool unk)
+void ShipStatus::RenderEvadeOxygen(bool renderText)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool unk_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool renderText_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1162::func;
-	return execfunc(this, unk);
+	return execfunc(this, renderText);
 }
 
 namespace _func1163

@@ -73,15 +73,16 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
 static bool displayWarning = true;
 
-HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool unk) -> void)
+HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool renderText) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderEvadeOxygen -> Begin (Misc.cpp)\n")
     if (!ship->HasSystem(SYS_OXYGEN) && ship->GetOxygenPercentage() <= 24)
     {
+        oxygenMessage->Stop();
         displayWarning = false;
     }
 
-    super(unk);
+    super(renderText);
 
     displayWarning = true;
 }
