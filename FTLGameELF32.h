@@ -1241,7 +1241,6 @@ struct ShipObject;
 
 struct ShipObject
 {
-	int HS_HasEquipment(const std::string& equip);
 	int HasItem(const std::string& equip);
 	int HasCargo(const std::string& equip);
 	void CheckCargo(const std::string& equip, int& ret);
