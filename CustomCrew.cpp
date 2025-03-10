@@ -4628,7 +4628,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
             skillNumber++;
         }
 
-        if (!sTooltip.empty())
+        if (!sTooltip.empty() && !G_->GetCApp()->gui->choiceBoxOpen)
         {
             Point tooltipPosition = Point(box.x + box.w + 95, box.y);
             auto mouse = G_->GetMouseControl();

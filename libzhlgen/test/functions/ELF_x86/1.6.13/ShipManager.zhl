@@ -4,6 +4,8 @@ cleanup __cdecl int ShipManager::constructor(ShipManager *this, int shipId);
 cleanup __cdecl void ShipManager::AddInitialCrew(ShipManager *this, std::vector<CrewBlueprint>& blueprints);
 "5383ec188b5c24208b93000400008b420483f8ff74??8b4b188b0c818b818001000085c07e??80b9840100000074??83f80174??31c0":
 cleanup __cdecl int ShipManager::GetDodgeFactor(ShipManager *this);
+".565383ec148b742420893424":
+cleanup __cdecl int ShipManager::GetNetDodgeFactor(ShipManager *this);
 "5589e557565381ecdc0000008b5d0c8b4510":
 cleanup __cdecl void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
 "5557565383ec1c8b7c24300fb6442434":

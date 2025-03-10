@@ -170,6 +170,12 @@ align can be left, center or right
 	<bossText x="878" y="16" language="ja" type="0" align="center" />
 </hullNumbers>
 
+<!-- Fixes the players HP bar color being based on a hardcoded number
+Enabling it will base teh color on a 3-third ratio (actually intended by the devs)
+-->
+
+<playerHpColorFix enabled="true"/>
+
 <!-- Hull bar indicator
 Displays the amount of hull points left for the player or enemy
 
@@ -453,6 +459,7 @@ DELETECREW         Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED              Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS          Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
 HULL          	   Heals/Damages your ship's hull          Usage: HULL <num_to_heal> 	  Example: HULL 10 (Negative numbers damages the hull instead)
+FLEET              Advances/Delays the fleet.              Usage: FLEET <num_to_modify>   Example: FLEET 2 (Negative numbers delay the fleet instead)
 SHIP_CUSTOM        Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
 SHIP_CUSTOM_LOCK   Locks a customs ship (permanently)      Usage: SHIP_CUSTOM_LOCK <ship_name> Example: SHIP_CUSTOM_LOCK PLAYER_SHIP_CUSTOM
 SWITCH       	   Switch active ship                      Usage: SWITCH <ship_name>      Example: SWITCH PLAYER_SHIP_HARD_2
@@ -2171,6 +2178,7 @@ Syntax ->
 		<sectorEight>false</sectorEight>         Allows quests to spawn in sector 8 when not playing in infinite mode. Default is same as <lastStand>.
 		<lastStand>false</lastStand>             Allows quests to spawn in the last stand.
 		<createNebula>true</createNebula>        Adds the nebula environment to the event if a nebula beacon is selected. Default is true if and only if nonNebulaBeacon is true AND nebulaEvent is not given.
+		<removeNebula>false</removeNebula>       Removes the nebula environment to the event if a nebula beacon is selected. Default is false. Overrides createNebula if true.
 		<nebulaEvent>NEBULA_EVENT</nebulaEvent>  Specifies a different event to override the quest event if a nebula beacon is selected.
 		<aggressive>0</aggressive>               Aggressive spawning flag. Ignores usual spawning restrictions based on player/fleet position. 0 is default. 1 will enable aggressive spawning if the quest would otherwise not
 	</quest>                                       spawn at all. 2 will enable aggressive spawning if the quest would otherwise not spawn in the current sector.
