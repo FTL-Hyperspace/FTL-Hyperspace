@@ -219,6 +219,7 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 
                 CSurface::GL_RenderPrimitiveWithColor(superShieldBars[i],color);
             }
+            CSurface::GL_SetColor(COLOR_WHITE);
 
             return;
         }
