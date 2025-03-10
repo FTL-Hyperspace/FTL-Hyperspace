@@ -2182,6 +2182,7 @@ Syntax ->
 		<sectorEight>false</sectorEight>         Allows quests to spawn in sector 8 when not playing in infinite mode. Default is same as <lastStand>.
 		<lastStand>false</lastStand>             Allows quests to spawn in the last stand.
 		<createNebula>true</createNebula>        Adds the nebula environment to the event if a nebula beacon is selected. Default is true if and only if nonNebulaBeacon is true AND nebulaEvent is not given.
+		<removeNebula>false</removeNebula>       Removes the nebula environment to the event if a nebula beacon is selected. Default is false. Overrides createNebula if true.
 		<nebulaEvent>NEBULA_EVENT</nebulaEvent>  Specifies a different event to override the quest event if a nebula beacon is selected.
 		<aggressive>0</aggressive>               Aggressive spawning flag. Ignores usual spawning restrictions based on player/fleet position. 0 is default. 1 will enable aggressive spawning if the quest would otherwise not
 	</quest>                                       spawn at all. 2 will enable aggressive spawning if the quest would otherwise not spawn in the current sector.
@@ -2314,9 +2315,9 @@ Syntax ->
 		<removeHazards/>                                                                        Removes all hazards (asteroids, pulsar, ASB, sun, and plasma storm). Nebula status is preserved.
 		<removeNebula/>                                                                         Removes nebula and plasma storm.
 		<customFleet right="false" firing="false" autoDarkening="false">FLEET_ID</customFleet>  Adds a custom fleet. If right is true, fleet comes from the right, otherwise it comes from the left. If firing is true, the
-		                                                                                          fleet's bigShip will be drawn and be the source of the ASB. If autoDarkening is true, the tint will be automatically adjusted
-		                                                                                          by layer.
+		                                                                                          fleet's bigShip will be drawn and be the source of the ASB, and no planet will be rendered. If autoDarkening is true, the tint will be automatically adjusted.
 		<clearCustomFleet/>                                                                     Removes a custom fleet if one is present.
+		<noASBPlanet/>																			If this event creates an ASB, it does not render a planet.
 		<disableScrapScore/>                                                                    Any scrap gained from this event is not added to the player's score.
 		<disableScrapAugments/>                                                                 Any scrap gained from this event is not affected by augments (scrap recovery or repair arm).
 		<checkCargo/>                                                                           Choice requirements will check the ship's cargo in addition to equipment. Can put value of true or false, no value means true.
