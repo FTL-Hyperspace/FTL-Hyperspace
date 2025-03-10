@@ -25,6 +25,7 @@ extern bool bossDefeated;
 extern TimerHelper *restartMusicTimer;
 
 extern std::string replaceCreditsMusic;
+extern bool g_checkCargo;
 
 struct CreditText
 {
