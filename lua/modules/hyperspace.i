@@ -122,6 +122,66 @@ namespace std {
         }
     };
 
+    template<class K, class T, class H = std::hash<K>, class E = std::equal_to<K> > class unordered_multimap {
+        // add typemaps here
+    public:
+        typedef size_t size_type;
+        typedef ptrdiff_t difference_type;
+        typedef K key_type;
+        typedef T mapped_type;
+        typedef std::pair< const K, T > value_type;
+        typedef value_type* pointer;
+        typedef const value_type* const_pointer;
+        typedef value_type& reference;
+        typedef const value_type& const_reference;
+
+        unordered_multimap();
+        unordered_multimap(const unordered_multimap& other);
+
+        unsigned int size() const;
+        bool empty() const;
+        void clear();
+        
+        %extend {
+            const T& get(const K& key) throw (std::out_of_range) {
+                auto it = self->find(key);
+                if (it != self->end())
+                    return it->second;
+                else
+                    throw std::out_of_range("key not found");
+            }
+            void set(const K& key, const T& value) {
+                self->emplace(key, value);
+            }
+            void del(const K& key) throw (std::out_of_range) {
+                auto it = self->find(key);
+                if (it != self->end())
+                    self->erase(it);
+                else
+                    throw std::out_of_range("key not found");
+            }
+            bool has_key(const K& key) {
+                return self->find(key) != self->end();
+            }
+
+            // stuff
+            %newobject __getitem__; // the returned pointer should be tracked and deallocated when the Lua garbage collector runs
+            std::pair<K, T>* __getitem__(unsigned int idx) throw(std::out_of_range) {
+                if (idx >= self->size())
+                    throw std::out_of_range("index out of range");
+                
+                auto it = self->begin();
+                for (unsigned int i = 0; i < idx; ++i)
+                    ++it;
+                
+                return new std::pair<K, T>(it->first, it->second);
+            }
+            void __setitem__(const K& key, const T& value) {
+                self->emplace(key, value);
+            }
+        }
+    };
+
     // extend the map as well
     %extend map {
         std::vector<K> keys() {
@@ -201,6 +261,9 @@ namespace std {
     %template(vector_Sector) vector<Sector*>;
     %template(vector_LockdownShard) vector<LockdownShard>;
     %template(vector_p_LockdownShard) vector<LockdownShard*>;
+    %template(unordered_multimap_string_AugmentFunction) unordered_multimap<string, AugmentFunction>;
+    %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
+    %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -1997,6 +2060,73 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::xOffset;
 %rename("%s") SystemBox_Extend::offset;
+
+%nodefaultctor CustomAugmentManager;
+%nodefaultdtor CustomAugmentManager;
+%rename("%s") CustomAugmentManager;
+%rename("%s") CustomAugmentManager::GetInstance;
+%rename("%s") CustomAugmentManager::GetAugmentDefinition;
+
+%nodefaultctor AugmentFunction;
+%nodefaultdtor AugmentFunction;
+%rename("%s") AugmentFunction;
+%rename("%s") AugmentFunction::value;
+%immutable AugmentFunction::value;
+%rename("%s") AugmentFunction::preferHigher;
+%immutable AugmentFunction::preferHigher;
+%rename("%s") AugmentFunction::useForReqs;
+%immutable AugmentFunction::useForReqs;
+%rename("%s") AugmentFunction::warning;
+%immutable AugmentFunction::warning;
+%rename("%s") AugmentFunction::sys;
+%immutable AugmentFunction::sys;
+%rename("%s") AugmentFunction::modifyChoiceTextScrap;
+%immutable AugmentFunction::modifyChoiceTextScrap;
+%rename("%s") AugmentFunction::Functional;
+
+%nodefaultctor AugmentSuperShield;
+%nodefaultdtor AugmentSuperShield;
+%rename("%s") AugmentSuperShield;
+%rename("%s") AugmentSuperShield::value;
+%immutable AugmentSuperShield::value;
+%rename("%s") AugmentSuperShield::add;
+%immutable AugmentSuperShield::add;
+%rename("%s") AugmentSuperShield::customRender;
+%immutable AugmentSuperShield::customRender;
+%rename("%s") AugmentSuperShield::present;
+%immutable AugmentSuperShield::present;
+%rename("%s") AugmentSuperShield::shieldTexture;
+%immutable AugmentSuperShield::shieldTexture;
+%rename("%s") AugmentSuperShield::shieldColor;
+%immutable AugmentSuperShield::shieldColor;
+
+%nodefaultctor AugmentCrystalShard;
+%nodefaultdtor AugmentCrystalShard;
+%rename("%s") AugmentCrystalShard;
+%rename("%s") AugmentCrystalShard::weapon;
+%immutable AugmentCrystalShard::weapon;
+%rename("%s") AugmentCrystalShard::chance;
+%immutable AugmentCrystalShard::chance;
+%rename("%s") AugmentCrystalShard::stacking;
+%immutable AugmentCrystalShard::stacking;
+
+%nodefaultctor AugmentDefinition;
+%nodefaultdtor AugmentDefinition;
+%rename("%s") AugmentDefinition;
+%rename("%s") AugmentDefinition::name;
+%immutable AugmentDefinition::name;
+%rename("%s") AugmentDefinition::functions;
+%immutable AugmentDefinition::functions;
+%rename("%s") AugmentDefinition::superShield;
+%immutable AugmentDefinition::superShield;
+%rename("%s") AugmentDefinition::crystalShard;
+%immutable AugmentDefinition::crystalShard;
+%rename("%s") AugmentDefinition::locked;
+%immutable AugmentDefinition::locked;
+%rename("%s") AugmentDefinition::statBoosts;
+%immutable AugmentDefinition::statBoosts;
+%rename("%s") AugmentDefinition::iconShipId;
+%immutable AugmentDefinition::iconShipId;
 
 %nodefaultctor ProjectileFactory;
 %nodefaultdtor ProjectileFactory;

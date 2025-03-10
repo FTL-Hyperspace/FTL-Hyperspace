@@ -1761,6 +1761,8 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
             }
 
+            if (firing) customEvent->noASBPlanet = true;
+
             if (!right)
             {
                 customEvent->leftFleet.fleetDefName = child->value();
@@ -2127,6 +2129,12 @@ bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             quest->createNebula = EventsParser::ParseBoolean(child->value());
+        }
+
+        if (nodeName == "removeNebula")
+        {
+            isDefault = false;
+            quest->removeNebula = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nebulaEvent")
@@ -3340,6 +3348,10 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
                         i->event->environment = 3;
                         i->event->statusEffects.push_back({2,7,0,2});
                     }
+                    if (quest.removeNebula.value) //remove nebula environment
+                    {
+                        CustomEventsParser::LocationRemoveNebula(i);
+                    }
                 }
                 break;
             }
@@ -4516,6 +4528,23 @@ void CustomEventsParser::QueueEvent(std::string &event, int seed)
     eventQueue.push_back(queueEvent);
 }
 
+bool CustomEventsParser::LocationRemoveNebula(Location *loc)
+{
+    if (loc->nebula)
+    {
+        loc->nebula = false;
+        loc->event->environment = 0;
+        loc->event->statusEffects.erase(
+            std::remove_if(
+                loc->event->statusEffects.begin(),
+                loc->event->statusEffects.end(),
+                [](const StatusEffect& item) { return item.system == 7; }),
+                loc->event->statusEffects.end());
+        return true;
+    }
+    return false;
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
@@ -5002,17 +5031,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
     if (customSector && customSector->removeFirstBeaconNebula)
     {
-        if (currentLoc->nebula)
-        {
-            currentLoc->nebula = false;
-            currentLoc->event->environment = 0;
-            currentLoc->event->statusEffects.erase(
-                std::remove_if(
-                    currentLoc->event->statusEffects.begin(),
-                    currentLoc->event->statusEffects.end(),
-                    [](const StatusEffect& item) { return item.system == 7; }),
-                currentLoc->event->statusEffects.end());
-        }
+        CustomEventsParser::LocationRemoveNebula(currentLoc);
     }
 }
 

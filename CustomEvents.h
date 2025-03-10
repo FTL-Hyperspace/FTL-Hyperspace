@@ -116,6 +116,7 @@ struct CustomQuest
     ToggleValue<bool> nonNebulaBeacon;
     ToggleValue<bool> nebulaBeacon;
     ToggleValue<bool> createNebula;
+    ToggleValue<bool> removeNebula;
     ToggleValue<std::string> nebulaEvent;
     ToggleValue<bool> currentSector;
     ToggleValue<bool> nextSector;
@@ -128,6 +129,7 @@ struct CustomQuest
         nonNebulaBeacon.value = true;
         nebulaBeacon.value = false;
         createNebula.value = true;
+        removeNebula.value = false;
         nebulaEvent.value = "";
         currentSector.value = true;
         nextSector.value = true;
@@ -141,6 +143,7 @@ struct CustomQuest
         if (other->nonNebulaBeacon.enabled) nonNebulaBeacon = other->nonNebulaBeacon;
         if (other->nebulaBeacon.enabled) nebulaBeacon = other->nebulaBeacon;
         if (other->createNebula.enabled) createNebula = other->createNebula;
+        if (other->removeNebula.enabled) removeNebula = other->removeNebula;
         if (other->nebulaEvent.enabled) nebulaEvent = other->nebulaEvent;
         if (other->currentSector.enabled) currentSector = other->currentSector;
         if (other->nextSector.enabled) nextSector = other->nextSector;
@@ -966,6 +969,8 @@ public:
     void LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr);
     static void QueueEvent(EventQueueEvent &event);
     static void QueueEvent(std::string &event, int seed);
+
+    static bool LocationRemoveNebula(Location *loc);
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory;
