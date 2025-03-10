@@ -1126,7 +1126,7 @@ struct LIBZHL_INTERFACE SystemBox
 	virtual bool GetMouseHover() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseMove(int x, int y);
 	LIBZHL_API virtual bool MouseClick(bool shift);
-	virtual int MouseRightClick(bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseRightClick(bool force);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	virtual void CancelTouch() LIBZHL_PLACEHOLDER
 	virtual void CloseTapBox() LIBZHL_PLACEHOLDER
@@ -3961,6 +3961,8 @@ struct CloneBox : CooldownSystemBox
 		this->constructor(pos, sys);
 	}
 
+	LIBZHL_API int GetHeightModifier();
+	LIBZHL_API void OnRender(bool ignoreStatus);
 	LIBZHL_API void constructor(Point pos, CloneSystem *sys);
 	
 	CloneSystem *cloneSys;
@@ -4564,6 +4566,10 @@ struct SystemControl;
 
 struct SystemControl
 {
+
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+
 	struct PowerBars
 	{
 		GL_Primitive *normal[30];
