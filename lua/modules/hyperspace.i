@@ -1385,7 +1385,26 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipObject::GetAugmentationList;
 %rename("%s") ShipObject::GetAugmentationValue;
 %rename("%s") ShipObject::HasAugmentation;
-%rename("HasEquipment") ShipObject::HS_HasEquipment;
+%rename("%s") ShipObject::HasEquipment;
+%extend ShipObject {
+    int HasEquipment(const std::string& equipment, bool checkCargo = false)
+    {
+        bool temp = advancedCheckEquipment[7];
+        advancedCheckEquipment[7] = true;
+
+        bool old_checkCargo = g_checkCargo;
+        g_checkCargo = checkCargo;
+
+        int ret = $self->HasEquipment(equipment);
+
+        advancedCheckEquipment[7] = temp;
+        g_checkCargo = old_checkCargo;
+
+        return ret;
+    }
+}
+
+
 %rename("%s") ShipObject::RemoveAugmentation;
 %immutable ShipObject::iShipId;
 %rename("%s") ShipObject::iShipId;
@@ -1464,6 +1483,15 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipManager::PrepareSuperBarrage;
 %rename("%s") ShipManager::PrepareSuperDrones;
 %rename("%s") ShipManager::RemoveItem;
+%extend ShipManager {
+    void RemoveItem(const std::string& item, bool checkCargo = false)
+    {
+        bool old_checkCargo = g_checkCargo;
+        g_checkCargo = checkCargo;
+        $self->RemoveItem(item);
+        g_checkCargo = old_checkCargo;
+    }
+}
 %rename("%s") ShipManager::ResetScrapLevel;
 %rename("%s") ShipManager::RestoreCrewPositions;
 %rename("%s") ShipManager::SelectRandomCrew;
