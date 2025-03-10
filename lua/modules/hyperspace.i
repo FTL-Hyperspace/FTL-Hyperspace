@@ -1924,6 +1924,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipSystem::GetId;
 %rename("%s") ShipSystem::IsRoomBased;
 %rename("%s") ShipSystem::GetRoomId;
+%rename("%s") ShipSystem::IonDamage;
 %rename("%s") ShipSystem::Ioned;
 %rename("%s") ShipSystem::SetRoomId;
 %rename("%s") ShipSystem::SetHackingLevel;

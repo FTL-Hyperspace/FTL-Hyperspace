@@ -749,7 +749,8 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int :GetId()`
 - `bool :IsRoomBased()`
 - `int :GetRoomId()`
-- `bool :Ioned()`
+- `bool :IonDamage(int amount)`
+- `bool :Ioned(int num)`
 - `void :SetRoomId()`
 - `void :SetHackingLevel(int level)`
 - `void :ForceBatteryPower(int power)`
@@ -758,7 +759,6 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - ~~`string* :GetOverrideTooltip()`~~
 - `void :CheckMaxPower()`
 - `void :CheckForRepower()`
-  - **Since 1.4.0**
 - `void :SetBonusPower(int amount, int permanentPower)`
 - `void :AddDamage(int amount)`
 - `bool :ForceDecreasePower(int powerLoss)`
@@ -777,7 +777,6 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int :GetMaxPower()`
 - `int :GetPowerCap()`
 - `bool :IncreasePower(int amount, bool force)`
-- ~~`bool :Ioned(int num)`~~
 - `int :IsMannedBoost()`
 - `void :LockSystem(int lock)`
 - `void SetPowerCap(int cap)`
