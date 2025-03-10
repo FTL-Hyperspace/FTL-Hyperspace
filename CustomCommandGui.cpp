@@ -1,4 +1,5 @@
 #include "CustomCommandGui.h"
+#include "CustomOptions.h"
 
 CustomCommandGui CustomCommandGui::instance = CustomCommandGui();
 
@@ -208,11 +209,26 @@ HOOK_METHOD(CrewBox, OnRenderSkillLevel, () -> void)
 HOOK_METHOD(CrewControl, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewControl::OnRender -> Begin (CustomCommandGui.cpp)\n")
+    int crewCount = G_->GetCrewFactory()->GetCrewCount(0);
+
+    if (crewCount == 0)
+    {
+        if (CustomOptionsManager::GetInstance()->droneSaveStations.currentValue && G_->GetShipManager(0)->HasSystem(SYS_DRONES))
+        {
+            saveStations.SetLocation(Point(24, 152));
+            returnStations.SetLocation(Point(63, 152));
+        }
+        else
+        {
+            Point offscreen(INT_MIN, INT_MIN);
+            saveStations.SetLocation(offscreen);
+            returnStations.SetLocation(offscreen);
+        }
+    }
+
     super();
 
     auto gui = CustomCommandGui::GetInstance();
-
-    int crewCount = G_->GetCrewFactory()->GetCrewCount(0);
 
     int numPages = gui->maxPage;
 
