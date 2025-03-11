@@ -4,6 +4,7 @@
 HullNumbers HullNumbers::instance = HullNumbers();
 HullBars HullBars::instance = HullBars();
 static bool g_overrideHullBar = false;
+bool g_playerHpColorFix = true;
 
 // TODO: 
 // sig for linux CacheImage::SetPartial
@@ -352,3 +353,370 @@ HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size
 
     super(x_start, y_start, x_size, y_size);
 }
+
+HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::OnRender -> Begin (HullNumbers.cpp)\n")
+    // Rewritten to reverse inlining for Linux binary.
+
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(static_cast<float>(this->location.x), static_cast<float>(this->location.y));
+    this->RenderHealth(false);
+    this->RenderShields(false);
+    this->RenderEvadeOxygen(false);
+    this->RenderResources(false);
+    this->RenderHealth(true);
+    this->RenderEvadeOxygen(true);
+    this->RenderResources(true);
+    this->hullMessage->OnRender();
+    if (!this->bBossFight)
+    {
+        if (!this->bEnemyShip)
+        {
+            CSurface::GL_Translate(static_cast<float>(this->noShipShift.x), static_cast<float>(this->noShipShift.y));
+        }
+    }
+    else
+    {
+        CSurface::GL_Translate(-120.f,0.f);
+    }
+    CSurface::GL_Translate(0.f,static_cast<float>(this->intruderShift.y));
+    CSurface::GL_Translate(static_cast<float>(this->intruderPos.x), static_cast<float>(this->intruderPos.x));
+    this->boardingMessage->OnRender();
+    CSurface::GL_PopMatrix();
+}
+
+HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::RenderHealth -> Begin (HullNumbers.cpp)\n")
+    // Rewritten to fix the HP bar color not being based off percent but instead 10HP steps.
+
+    std::string hullText = G_->GetTextLibrary()->GetText("status_hull");
+
+    if (renderText)
+    {
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+        freetype::easy_print(62, 9.f, 9.f, hullText);
+        return;
+    }
+
+    GL_Primitive* renderHullBox = this->hullBox;
+    GL_Texture* renderHullLabel = this->hullLabel;
+
+    // Check for red damage blinking
+    if (!this->hullMessage->tracker.done && this->hullMessage->tracker.running && (!this->hullMessage->flash || this->hullMessage->flashTracker.Progress(-1.f) <= 0.5f))
+    {
+        renderHullBox = this->hullBox_Red;
+        renderHullLabel = this->hullLabel_Red;
+    }
+    // Render the primitive
+    CSurface::GL_RenderPrimitive(renderHullBox);
+
+    // Render hull label
+    Pointf textSize = freetype::easy_measurePrintLines(62, 0.f, 0.f, 999, hullText);
+
+    float textWidth = roundf(textSize.x);
+    float textureWidth = 1.f;
+    float textureHeight = 1.f;
+    float scaleFactor = 16.f;
+
+    // Check for primitive
+    if (renderHullLabel)
+    {
+        textureWidth = static_cast<float>(renderHullLabel->width_);
+        textureHeight = static_cast<float>(renderHullLabel->height_);
+        scaleFactor = 16.f / textureWidth;
+    }
+
+    // Modify the box under the "HULL" text based on the text size of the current language
+    CSurface::GL_BlitImagePartial(renderHullLabel, 0.f, 0.f, 16.f, textureHeight, 0.f, scaleFactor, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(renderHullLabel, 16.f, 0.f, textWidth - 15.f, textureHeight, scaleFactor, 17.f / textureWidth, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(renderHullLabel, textWidth + 1.f, 0.f, 34.f, textureHeight, 17.f / textureWidth, 51.f / textureWidth, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(renderHullLabel, textWidth + 35.f, 0.f, 121.f - (textWidth + 35.f), textureHeight, 51.f / textureWidth, 52.f / textureWidth, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+
+    // Render health mask
+    int currentHealth = this->ship->ship.hullIntegrity.first;
+    int maxHealth = this->ship->ship.hullIntegrity.second;
+
+    if (currentHealth != this->lastHealth || !this->healthMask)
+    {
+        this->lastHealth = currentHealth;
+
+        float healthRatio = static_cast<float>(currentHealth) / static_cast<float>(maxHealth);
+        // Fix is here, reworked the original if/else logic with my own that used the health ratio which was already being provided for the HP-Bar lenght
+        float red, green, blue;
+        if (!g_playerHpColorFix)
+        {
+            if (currentHealth > 19)
+            {
+                red = 120.f;
+                green = 255.f;
+                blue = 120.f;
+            }
+            else if (currentHealth > 9)
+            {
+                red = 255.f;
+                green = 230.f;
+                blue = 92.f;
+            }
+            else
+            {
+                red = 255.f;
+                green = 92.f;
+                blue = 92.f;
+            }
+        }
+        else
+        {
+            if (healthRatio > 0.65f)
+            {
+                red = 120.f;
+                green = 255.f;
+                blue = 120.f;
+            }
+            else if (healthRatio > 0.32f)
+            {
+                red = 255.f;
+                green = 230.f;
+                blue = 92.f;
+            }
+            else
+            {
+                red = 255.f;
+                green = 92.f;
+                blue = 92.f;
+            }
+        }
+
+        CSurface::GL_DestroyPrimitive(this->healthMask);
+
+        GL_Color healthColor = GL_Color(red / 255, green / 255, blue / 255, 1.f);
+
+        this->healthMask = CSurface::GL_CreateImagePartialPrimitive(this->healthMaskTexture, 11.f, 0.f, healthRatio * 360.f, 65.f, 0.f, healthRatio, 0.f, 1.f, 1.f, healthColor, false);
+    }
+    CSurface::GL_RenderPrimitive(this->healthMask);
+}
+
+
+// For further reference to you who want to rewrite RenderShields, RenderEvadeOxygen or RenderResources. Note that they are inlined here.
+// Rewritten by Dino.
+/*
+HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::OnRender -> Begin (HullNumbers.cpp)\n")
+
+    // Rewritten to fix the HP bar color not being based off percent but instead 10HP steps.
+
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(static_cast<float>(this->location.x), static_cast<float>(this->location.y));
+
+    // Render hull status
+    GL_Primitive* renderHullBox = this->hullBox;
+    GL_Texture* renderHullLabel = this->hullLabel;
+
+    // Check for red damage blinking
+    if (!this->hullMessage->tracker.done && this->hullMessage->tracker.running && (!this->hullMessage->flash || this->hullMessage->flashTracker.Progress(-1.f) <= 0.5f))
+    {
+        renderHullBox = this->hullBox_Red;
+        renderHullLabel = this->hullLabel_Red;
+    }
+    // Render the primitive
+    CSurface::GL_RenderPrimitive(renderHullBox);
+
+    // Render hull label
+    std::string hullText = G_->GetTextLibrary()->GetText("status_hull", G_->GetTextLibrary()->currentLanguage);
+    Pointf textSize = freetype::easy_measurePrintLines(62, 0.f, 0.f, 999, hullText);
+
+    float textWidth = roundf(textSize.x);
+    float textureWidth = 1.f;
+    float textureHeight = 1.f;
+    float scaleFactor = 16.f;
+
+    // Check for primitive
+    if (renderHullLabel == nullptr)
+    {
+        textureWidth = 1.f;
+        scaleFactor = 16.f;
+    }
+    else
+    {
+        textureWidth = static_cast<float>(renderHullLabel->width_);
+        textureHeight = static_cast<float>(renderHullLabel->height_);
+        scaleFactor = 16.f / textureWidth;
+    }
+
+    // Modify the box under the "HULL" text based on the text size of the current language
+    CSurface::GL_BlitImagePartial(renderHullLabel, 0.f, 0.f, 16.f, textureHeight, 0.f, scaleFactor, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(renderHullLabel, 16.f, 0.f, textWidth - 15.f, textureHeight, scaleFactor, 17.f / textureWidth, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(renderHullLabel, textWidth + 1.f, 0.f, 34.f, textureHeight, 17.f / textureWidth, 51.f / textureWidth, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(renderHullLabel, textWidth + 35.f, 0.f, 121.f - (textWidth + 35.f), textureHeight, 51.f / textureWidth, 52.f / textureWidth, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+
+    // Render health mask
+    int currentHealth = this->ship->ship.hullIntegrity.first;
+    int maxHealth = this->ship->ship.hullIntegrity.second;
+
+    if (currentHealth != this->lastHealth || !this->healthMask)
+    {
+        this->lastHealth = currentHealth;
+
+        float healthRatio = static_cast<float>(currentHealth) / static_cast<float>(maxHealth);
+        // Fix is here, reworked the original if/else logic with my own that used the health ratio which was already being provided for the HP-Bar lenght
+        float red, green, blue;
+        if (!g_playerHpColorFix)
+        {
+            if (currentHealth > 19)
+            {
+                red = 120.f;
+                green = 255.f;
+                blue = 120.f;
+            }
+            else if (currentHealth > 9)
+            {
+                red = 255.f;
+                green = 230.f;
+                blue = 92.f;
+            }
+            else
+            {
+                red = 255.f;
+                green = 92.f;
+                blue = 92.f;
+            }
+        }
+        else
+        {
+            if (healthRatio > 0.65f)
+            {
+                red = 120.f;
+                green = 255.f;
+                blue = 120.f;
+            }
+            else if (healthRatio > 0.32f)
+            {
+                red = 255.f;
+                green = 230.f;
+                blue = 92.f;
+            }
+            else
+            {
+                red = 255.f;
+                green = 92.f;
+                blue = 92.f;
+            }
+        }
+
+        CSurface::GL_DestroyPrimitive(this->healthMask);
+
+        GL_Color healthColor = GL_Color(red / 255, green / 255, blue / 255, 1.f);
+
+        this->healthMask = CSurface::GL_CreateImagePartialPrimitive(this->healthMaskTexture, 11.f, 0.f, healthRatio * 360.f, 65.f, 0.f, healthRatio, 0.f, 1.f, 1.f, healthColor, false);
+    }
+    CSurface::GL_RenderPrimitive(this->healthMask);
+
+    // Render shields
+    this->RenderShields(false);
+
+    // Render evade and oxygen
+    GL_Primitive *currentEvadeOxygenBox;
+    if (this->ship->GetNetDodgeFactor() == 0)
+    {
+        if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
+        {
+            currentEvadeOxygenBox = this->evadeOxygenBox_topRed;
+        }
+        else
+        {
+            currentEvadeOxygenBox = this->evadeOxygenBox_bothRed;
+        }
+    }
+    else if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
+    {
+        currentEvadeOxygenBox = this->evadeOxygenBox;
+    }
+    else
+    {
+        currentEvadeOxygenBox = this->evadeOxygenBox_bottomRed;
+    }
+
+    CSurface::GL_RenderPrimitive(currentEvadeOxygenBox);
+
+    // Render hacked systems
+    if ((1 < this->ship->IsSystemHacked(SYS_OXYGEN)) && (this->flashTracker.Progress(-1.0) <= 0.5f))
+    {
+        CSurface::GL_RenderPrimitive(this->oxygenPurple);
+    }
+    if (((1 < this->ship->IsSystemHacked(SYS_ENGINES)) || (1 < this->ship->IsSystemHacked(SYS_PILOT))) && (this->flashTracker.Progress(-1.0) <= 0.5f))
+    {
+        CSurface::GL_RenderPrimitive(this->evadePurple);
+    }
+
+    // Render oxygen warning
+    this->oxygenMessage->OnRender();
+
+    // Render fuel, missiles, drones, and scrap icons
+    if (this->ship->fuel_count < 4)
+    {
+        CSurface::GL_RenderPrimitive(this->fuelIcon_red);
+    }
+    else
+    {
+        CSurface::GL_RenderPrimitive(this->fuelIcon);
+    }
+
+    if (this->ship->GetMissileCount() < 1)
+    {
+        CSurface::GL_RenderPrimitive(this->missilesIcon_red);
+    }
+    else
+    {
+        CSurface::GL_RenderPrimitive(this->missilesIcon);
+    }
+
+    if (this->ship->GetDroneCount() < 1)
+    {
+        CSurface::GL_RenderPrimitive(this->dronesIcon_red);
+    }
+    else
+    {
+        CSurface::GL_RenderPrimitive(this->dronesIcon);
+    }
+
+    if (!this->noMoneyTracker.running || this->flashTracker.Progress(-1.f) > 0.5f)
+    {
+        CSurface::GL_RenderPrimitive(this->scrapIcon);
+    }
+    else
+    {
+        CSurface::GL_RenderPrimitive(this->scrapIcon_red);
+    }
+
+    // Render hull text
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+    freetype::easy_print(62, 9.f, 9.f, hullText);
+
+    // Render evade and oxygen details
+    this->RenderEvadeOxygen(true);
+    this->RenderResources(true);
+
+    // Render hull warning if critically low
+    this->hullMessage->OnRender();
+
+    if (!this->bBossFight)
+    {
+        if (!this->bEnemyShip)
+        {
+            CSurface::GL_Translate(static_cast<float>(this->noShipShift.x), static_cast<float>(this->noShipShift.y));
+        }
+    }
+    else
+    {
+        CSurface::GL_Translate(-120.f, 0.f);
+    }
+
+    CSurface::GL_Translate(0.f, static_cast<float>(this->intruderShift.y));
+    CSurface::GL_Translate(static_cast<float>(this->intruderPos.x), static_cast<float>(this->intruderPos.y));
+    this->boardingMessage->OnRender();
+
+    CSurface::GL_PopMatrix();
+}
+*/
