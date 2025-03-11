@@ -767,6 +767,11 @@ struct Animation
 		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 	}
 
+	inline void Stop()
+	{
+		tracker.Stop(false);
+	}
+
 	LIBZHL_API void AddSoundQueue(int frame, const std::string &sound);
 	LIBZHL_API bool Done();
 	LIBZHL_API void LoadState(int fd);
@@ -829,11 +834,15 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Point GetFireLocation();
 	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void OnRender(float alpha);
 	LIBZHL_API void RenderChargeBar(float alpha);
 	LIBZHL_API void SaveState(int fd);
+	LIBZHL_API void SetBoostLevel(int value);
+	LIBZHL_API void SetChargedLevel(float charged);
 	LIBZHL_API void SetFireTime(float time);
+	LIBZHL_API void SetPowered(bool powered);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
 	
@@ -1108,8 +1117,8 @@ struct LIBZHL_INTERFACE SystemBox
 		this->constructor(pos, sys, playerUI);
 	}
 
-	virtual ~SystemBox() {}
 	virtual void destroy() LIBZHL_PLACEHOLDER
+	virtual ~SystemBox() {}
 	virtual bool HasButton() LIBZHL_PLACEHOLDER
 	virtual int GetCooldownBarHeight() LIBZHL_PLACEHOLDER
 	virtual int GetHeightModifier() LIBZHL_PLACEHOLDER
@@ -1118,7 +1127,7 @@ struct LIBZHL_INTERFACE SystemBox
 	virtual bool GetMouseHover() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseMove(int x, int y);
 	LIBZHL_API virtual bool MouseClick(bool shift);
-	virtual int MouseRightClick(bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseRightClick(bool force);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	virtual void CancelTouch() LIBZHL_PLACEHOLDER
 	virtual void CloseTapBox() LIBZHL_PLACEHOLDER
@@ -1233,7 +1242,6 @@ struct ShipObject;
 
 struct ShipObject
 {
-	int HS_HasEquipment(const std::string& equip);
 	int HasItem(const std::string& equip);
 	int HasCargo(const std::string& equip);
 	void CheckCargo(const std::string& equip, int& ret);
@@ -3958,6 +3966,8 @@ struct CloneBox : CooldownSystemBox
 		this->constructor(pos, sys);
 	}
 
+	LIBZHL_API int GetHeightModifier();
+	LIBZHL_API void OnRender(bool ignoreStatus);
 	LIBZHL_API void constructor(Point pos, CloneSystem *sys);
 	
 	CloneSystem *cloneSys;
@@ -4059,6 +4069,8 @@ struct WeaponControl : ArmamentControl
 
 struct CombatControl
 {
+    void ArmArtillery(ArtillerySystem* artillerySystem);
+
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API char CanTargetSelf();
 	LIBZHL_API void Clear();
@@ -4559,6 +4571,10 @@ struct SystemControl;
 
 struct SystemControl
 {
+
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+
 	struct PowerBars
 	{
 		GL_Primitive *normal[30];

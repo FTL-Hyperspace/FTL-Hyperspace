@@ -613,6 +613,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "enhancedCloneUI") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->enhancedCloneUI.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->enhancedCloneUI.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
@@ -949,6 +956,10 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
+                if (node->first_attribute("opacity"))
+                {
+                    g_dummyEquipmentSlotsOpacity = boost::lexical_cast<float>(node->first_attribute("opacity")->value());
+                }
             }
         }
 
