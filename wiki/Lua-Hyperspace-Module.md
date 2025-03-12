@@ -333,8 +333,9 @@ The members held by this class determine how the `print` function displays messa
    - Returns the number of the given augment you have, NOT a bool.
 - ~~`void :AddEquipment(string equipmentName)`~~
 - ~~`void :RemoveEquipment(string equipmentName, bool completely)`~~
-- `bool :HasEquipment(string equipmentName)`
-   - Returns a bool indicating whether you have the blue options for the specified equipment.
+- `int :HasEquipment(string equipmentName, bool checkCargo=false)`
+   - Returns an int indicating whether you have the blue options for the specified equipment.
+   - checkCargo indicates if cargo will be included in the check.
 
 ## ShipManager
 
@@ -433,8 +434,9 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - I do not know if this is safe to call
 - `void :PrepareSuperDrones()`
    - I do not know if this is safe to call
-- `void :RemoveItem(string name)`
+- `void :RemoveItem(string name, bool checkCargo=false)`
    - Remove an item by name (equivalent to removing via an event).
+   - checkCargo indicates if items will be removed from cargo if not present in weapon/drone system.
 - `void :ResetScrapLevel()`
 - `bool :RestoreCrewPositions()`
    - Same as hitting the button to return crew to their original positions.
@@ -747,7 +749,8 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int :GetId()`
 - `bool :IsRoomBased()`
 - `int :GetRoomId()`
-- `bool :Ioned()`
+- `bool :IonDamage(int amount)`
+- `bool :Ioned(int num)`
 - `void :SetRoomId()`
 - `void :SetHackingLevel(int level)`
 - `void :ForceBatteryPower(int power)`
@@ -756,7 +759,6 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - ~~`string* :GetOverrideTooltip()`~~
 - `void :CheckMaxPower()`
 - `void :CheckForRepower()`
-  - **Since 1.4.0**
 - `void :SetBonusPower(int amount, int permanentPower)`
 - `void :AddDamage(int amount)`
 - `bool :ForceDecreasePower(int powerLoss)`
@@ -775,7 +777,6 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `int :GetMaxPower()`
 - `int :GetPowerCap()`
 - `bool :IncreasePower(int amount, bool force)`
-- ~~`bool :Ioned(int num)`~~
 - `int :IsMannedBoost()`
 - `void :LockSystem(int lock)`
 - `void SetPowerCap(int cap)`
@@ -2835,6 +2836,60 @@ Accessed via `Hyperspace.CustomShipUnlocks.instance`
 - `int` `.iTempDividePower`
 - `int` `.iHacked`
 - `std::pair<int, int>` `.batteryPower`
+
+## CustomAugmentManager
+
+Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
+
+### Methods
+- `static` [`CustomAugmentManager*`](#CustomAugmentManager) `.GetInstance()`
+- [`AugmentDefinition*`](#AugmentDefinition) `CustomAugmentManager::GetAugmentDefinition(const std::string &name)`
+
+## AugmentFunction
+
+### Methods
+- `bool :Functional(int iShipId)`
+
+### Fields
+**All fields are read-only**
+- `float` `.value`
+- `bool` `.preferHigher`
+- `bool` `.useForReqs`
+- `bool` `.warning`
+- `int` `.sys`
+- `bool` `.modifyChoiceTextScrap`
+
+## AugmentSuperShield
+
+### Fields
+**All fields are read-only**
+- `int` `.value`
+- `int` `.add`
+- `bool` `.customRender`
+- `bool` `.present`
+- `std::string[2]` `.shieldTexture`
+- [`GL_Color`](#GL_Color) `.shieldColor`
+
+## AugmentCrystalShard
+
+### Fields
+**All fields are read-only**
+- `std::string` `.weapon`
+- `float` `.chance`
+- `int` `.stacking`
+
+## AugmentDefinition
+
+### Fields
+**All fields are read-only**
+- `std::string` `.name`
+- [`std::unordered_multimap<std::string, AugmentFunction>`](#AugmentFunction) `.functions`
+- [`AugmentSuperShield`](#AugmentSuperShield) `.superShield`
+- [`std::vector<AugmentCrystalShard>`](#AugmentCrystalShard) `.crystalShard`
+- `bool` `.locked`
+- [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
+- `std::string` `.icon`
+- `int` `.iconShipId`
 
 ## ProjectileFactory
 

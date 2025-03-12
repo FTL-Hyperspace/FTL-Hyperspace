@@ -1,9 +1,11 @@
 #include "Global.h"
 #include "CustomCommandGui.h"
 #include "CustomCrewManifest.h"
+#include "Equipment_Extend.h"
 #include "ShipZoom.h"
 #include "ScrollingChoiceBox.h"
 #include "RedesignedTooltips.h"
+#include "SystemBox_Extend.h"
 
 static void OnScrollWheel(float direction)
 {
@@ -25,11 +27,39 @@ static void OnScrollWheel(float direction)
             {
                 CustomCrewManifest::GetInstance()->OnScrollWheel(direction);
             }
+            else if (cApp->gui->equipScreen.bOpen)
+            {
+                EQ_EX(&(cApp->gui->equipScreen))->customEquipment->OnScrollWheel(direction);
+            }
             else
             {
                 CustomCommandGui::GetInstance()->OnScrollWheel(direction);
             }
         }
+    }
+}
+
+bool SystemControl::OnScrollWheel(float direction)
+{
+    for (SystemBox* systemBox : sysBoxes)
+    {
+        SB_EX(systemBox)->OnScrollWheel(direction);
+        /*
+        TODO: Find better condition for system hovering for systems with complex UI
+        if (systemBox->mouseHover)
+        {
+            SB_EX(systemBox)->OnScrollWheel(direction);
+            return true;
+        }
+        */       
+    }
+    return false;
+}
+void SystemControl::RButtonUp(int mX, int mY, bool shiftHeld)
+{
+    for (SystemBox* systemBox : sysBoxes)
+    {   
+        SB_EX(systemBox)->RButtonUp(mX, mY, shiftHeld);    
     }
 }
 
@@ -47,4 +77,15 @@ HOOK_METHOD(CEvent, OnEvent, (const InputEvent* inputEvent) -> void)
     }
 
     super(inputEvent);
+}
+
+HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonUp -> Begin (Input.cpp)\n")
+    if (!langChooser.bOpen && !menu.bOpen)
+    {
+        Point pos = Point((int)((x - x_bar)*mouseModifier_x) - modifier_x, (int)((y - y_bar)*mouseModifier_y) - modifier_y);
+        gui->sysControl.RButtonUp(pos.x, pos.y, shift_held);
+    }
+    super(x, y);
 }
