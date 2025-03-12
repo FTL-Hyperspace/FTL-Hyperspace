@@ -14778,11 +14778,11 @@ namespace _func1157
 	static FunctionDefinition funcObj("ShipStatus::RenderHealth", typeid(void (ShipStatus::*)(bool )), "4155415455534881ec880000004084f6", nullptr, 0, 0, &func);
 }
 
-void ShipStatus::RenderHealth(bool unk)
+void ShipStatus::RenderHealth(bool renderText)
 {
-	typedef void (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool unk_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool renderText_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1157::func;
-	return execfunc(this, unk);
+	return execfunc(this, renderText);
 }
 
 namespace _func1158
@@ -14791,11 +14791,11 @@ namespace _func1158
 	static FunctionDefinition funcObj("ShipStatus::OnInit", typeid(void (ShipStatus::*)(Point , float )), "415741564155415455534889fb4881ece8010000f30f114708", nullptr, 0, 0, &func);
 }
 
-void ShipStatus::OnInit(Point unk, float unk2)
+void ShipStatus::OnInit(Point location, float size)
 {
-	typedef void (*custom_arg_funcptr_t)(ShipStatus *this_arg, Point unk_arg, float unk2_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipStatus *this_arg, Point location_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1158::func;
-	return execfunc(this, unk, unk2);
+	return execfunc(this, location, size);
 }
 
 namespace _func1159
@@ -14817,11 +14817,11 @@ namespace _func1160
 	static FunctionDefinition funcObj("ShipStatus::RenderEvadeOxygen", typeid(void (ShipStatus::*)(bool )), "415741564155415455534889fb4881ec580300004084f6", nullptr, 0, 0, &func);
 }
 
-void ShipStatus::RenderEvadeOxygen(bool unk)
+void ShipStatus::RenderEvadeOxygen(bool renderText)
 {
-	typedef void (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool unk_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool renderText_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1160::func;
-	return execfunc(this, unk);
+	return execfunc(this, renderText);
 }
 
 namespace _func1161

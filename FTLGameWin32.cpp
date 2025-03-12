@@ -16048,11 +16048,11 @@ namespace _func1159
 	static FunctionDefinition funcObj("ShipStatus::RenderHealth", typeid(void (ShipStatus::*)(bool )), "578d7c240883e4f0ff77fc5589e557565381ec????????803f000f85????????89cb8b79148bb180000000", argdata, 2, 5, &func);
 }
 
-void ShipStatus::RenderHealth(bool unk)
+void ShipStatus::RenderHealth(bool renderText)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool unk_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool renderText_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1159::func;
-	return execfunc(this, unk);
+	return execfunc(this, renderText);
 }
 
 namespace _func1160
@@ -16062,11 +16062,11 @@ namespace _func1160
 	static FunctionDefinition funcObj("ShipStatus::OnInit", typeid(void (ShipStatus::*)(Point , float )), "578d7c240883e4f0ff77fc5589e55756538db5c0feffff81ec????????8b078b5704f30f104708", argdata, 3, 5, &func);
 }
 
-void ShipStatus::OnInit(Point unk, float unk2)
+void ShipStatus::OnInit(Point location, float size)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, Point unk_arg, float unk2_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, Point location_arg, float size_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1160::func;
-	return execfunc(this, unk, unk2);
+	return execfunc(this, location, size);
 }
 
 namespace _func1161
@@ -16090,11 +16090,11 @@ namespace _func1162
 	static FunctionDefinition funcObj("ShipStatus::RenderEvadeOxygen", typeid(void (ShipStatus::*)(bool )), "578d7c240883e4f0ff77fc5589e557565389cb81ec????????803f008b490c0f84????????e8????????", argdata, 2, 5, &func);
 }
 
-void ShipStatus::RenderEvadeOxygen(bool unk)
+void ShipStatus::RenderEvadeOxygen(bool renderText)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool unk_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipStatus *this_arg, bool renderText_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1162::func;
-	return execfunc(this, unk);
+	return execfunc(this, renderText);
 }
 
 namespace _func1163
