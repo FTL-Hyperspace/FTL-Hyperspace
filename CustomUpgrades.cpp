@@ -743,7 +743,7 @@ HOOK_METHOD(InfoBox, OnRender, () -> void)
     if (pCrewBlueprint && bDetailed) y -= 40;
     if (y >= 0) return super();
 
-    CSurface::GL_Translate(0.f, (float)-y);
+    CSurface::GL_Translate(0.f, static_cast<float>(-y));
     super();
-    CSurface::GL_Translate(0.f, (float)y);
+    CSurface::GL_Translate(0.f, static_cast<float>(y));
 }
