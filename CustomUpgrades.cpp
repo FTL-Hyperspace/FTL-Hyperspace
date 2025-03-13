@@ -710,3 +710,40 @@ HOOK_STATIC(freetype, easy_print, (int fontSize, float x, float y, const std::st
     else if (g_upgradeCostThresholdRewrite && fontSize == 0 && text != " -") return super(fontSize, x, y, SystemNoPurchaseThreshold::to_string(boost::lexical_cast<int>(text)));
     else return super(fontSize, x, y, text);
 }
+
+// info box fix
+
+// make the artillery system description box extendable
+ShipSystem *g_currentShipSystem = nullptr;
+
+HOOK_METHOD(InfoBox, SetSystem, (ShipSystem *system, int upgrade, int yShift, int forceSystemWidth)-> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetSystem -> Begin (CustomUpgrades.cpp)\n")
+    g_currentShipSystem = system;
+    super(system, upgrade, yShift, forceSystemWidth);
+    g_currentShipSystem = nullptr;
+}
+// called within InfoBox::SetSystem
+HOOK_METHOD(InfoBox, CalcBoxHeight, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::CalcBoxHeight -> Begin (CustomUpgrades.cpp)\n")
+    if (systemId == SYS_ARTILLERY && g_currentShipSystem)
+    {
+        WeaponBlueprint *bp = g_currentShipSystem->GetWeaponInfo();
+        if (bp) desc.description = bp->desc.description;
+    }
+    super();
+}
+
+// prevent infoBox from rendering outside the screen when the description is too long
+HOOK_METHOD(InfoBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    int y = location.y + primaryBoxOffset;
+    if (pCrewBlueprint && bDetailed) y -= 40;
+    if (y >= 0) return super();
+
+    CSurface::GL_Translate(0.f, static_cast<float>(-y));
+    super();
+    CSurface::GL_Translate(0.f, static_cast<float>(y));
+}
