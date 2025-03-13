@@ -3284,10 +3284,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
             i->nebula = i->nebula || i->fleetChanging || i->dangerZone;
             if (!i->nebula) // check fleet arc
             {
-                int dangerMove = 0;
-                if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
-                Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
-                i->nebula = i->loc.RelativeDistance(nextDangerZone) < 588289.f;
+                i->nebula = WillBeOvertaken(i);
             }
         }
     }
@@ -3509,6 +3506,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->fleetChanging = false;
             }
         }
+        //Vanilla doesn't update fleetChanging when fleet delay prevents the fleet from overtaking a beacon that would have been otherwise.
+        if (i->fleetChanging && !WillBeOvertaken(i) && !bossLevel) i->fleetChanging = false;
     }
 
     for (auto i : locLabelValues)

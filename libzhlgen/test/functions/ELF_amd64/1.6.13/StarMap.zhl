@@ -148,5 +148,5 @@ cleanup __amd64 void StarMap::OnRender(StarMap *this);
 
 struct StarMap
 {{
-	
+	bool WillBeOvertaken(Location* loc);
 }};
