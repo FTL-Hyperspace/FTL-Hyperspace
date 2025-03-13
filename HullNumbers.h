@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
+extern bool g_playerHpColorFix;
 class HullNumbers
 {
 public:

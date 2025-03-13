@@ -122,11 +122,8 @@ static cleanup __cdecl int CSurface::opengl_select_shader(const void *primitive,
 
 "5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
-
-/*
 "8d4c240483e4f0ff71fc5589e55756535183ec78807938008b19f30f107910f30f117dc4f30f107924f30f106104f30f104108":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror); 
-*/
 "5589e557565383e4f083ec408b75088b46042b06c1f8048d14c5????????89c78944243cc1e00581fa????????ba????????0f47c2":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
 "5589e557565383e4f081ec90020000f30f105514f30f105d180f2eda":
