@@ -14001,30 +14001,17 @@ void ShipManager::AddCrewMember(CrewMember *crew, int roomId)
 namespace _func1097
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::PulsarDamage", typeid(void (ShipManager::*)()), ".41574156415541545553", nullptr, 0, 0, &func);
-}
-
-void ShipManager::PulsarDamage()
-{
-	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1097::func;
-	return execfunc(this);
-}
-
-namespace _func1098
-{
-    static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::TeleportCrew", typeid(std::vector<CrewMember*> (ShipManager::*)(int , bool )), ".4157415641554989fd41544989f455534883ec18", nullptr, 0, 0, &func);
 }
 
 std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool intruders)
 {
 	typedef std::vector<CrewMember*> (*custom_arg_funcptr_t)(ShipManager *this_arg, int roomId_arg, bool intruders_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1098::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1097::func;
 	return execfunc(this, roomId, intruders);
 }
 
-namespace _func1099
+namespace _func1098
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::GetLeavingCrew", typeid(std::vector<CrewMember*> (ShipManager::*)(bool )), ".415631c941554989f541544989fc5589d553", nullptr, 0, 0, &func);
@@ -14033,11 +14020,11 @@ namespace _func1099
 std::vector<CrewMember*> ShipManager::GetLeavingCrew(bool intruders)
 {
 	typedef std::vector<CrewMember*> (*custom_arg_funcptr_t)(ShipManager *this_arg, bool intruders_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1099::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1098::func;
 	return execfunc(this, intruders);
 }
 
-namespace _func1100
+namespace _func1099
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromBlueprint", typeid(CrewMember *(ShipManager::*)(CrewBlueprint *, int , bool , int , bool )), ".41574989ff415641554589cd4154554889f5", nullptr, 0, 0, &func);
@@ -14046,8 +14033,21 @@ namespace _func1100
 CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)
 {
 	typedef CrewMember *(*custom_arg_funcptr_t)(ShipManager *this_arg, CrewBlueprint *bp_arg, int slot_arg, bool init_arg, int roomId_arg, bool intruder_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1100::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1099::func;
 	return execfunc(this, bp, slot, init, roomId, intruder);
+}
+
+namespace _func1100
+{
+    static void *func = 0;
+	static FunctionDefinition funcObj("ShipManager::PulsarDamage", typeid(void (ShipManager::*)()), ".41574156415541545553", nullptr, 0, 0, &func);
+}
+
+void ShipManager::PulsarDamage()
+{
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1100::func;
+	return execfunc(this);
 }
 
 namespace _func1101

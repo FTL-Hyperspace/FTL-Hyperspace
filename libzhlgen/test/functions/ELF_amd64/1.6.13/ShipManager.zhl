@@ -140,14 +140,14 @@ cleanup __amd64 void ShipManager::StartFire(ShipManager *this, int roomId);
 cleanup __amd64 int ShipManager::GetFireCount(ShipManager *this, int roomId);
 ".5589d5534889fb4889f74883ec184889742408":
 cleanup __amd64 void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, int roomId);
-".41574156415541545553":
-cleanup __amd64 void ShipManager::PulsarDamage(ShipManager *this);
 ".4157415641554989fd41544989f455534883ec18":
 cleanup __amd64 std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *this, int roomId, bool intruders);
 ".415631c941554989f541544989fc5589d553":
 cleanup __amd64 std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
 ".41574989ff415641554589cd4154554889f5":
 cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder);
+".41574156415541545553":
+cleanup __amd64 void ShipManager::PulsarDamage(ShipManager *this);
 ".41574989ff4156415541545589f5534883ec48":
 cleanup __amd64 void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
 ".4157be????????4156415541544989fc55534883ec68":
