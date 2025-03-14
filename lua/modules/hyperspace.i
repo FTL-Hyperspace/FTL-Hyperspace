@@ -85,6 +85,13 @@ namespace std {
         bool empty() const;
         void clear();
         %extend {
+            std::vector<K> keys() {
+                std::vector<K> keys;
+                keys.reserve(self->size());
+                for (std::unordered_map< K, T, H, E >::iterator i = self->begin(); i != self->end(); ++i)
+                    keys.push_back(i->first);
+                return keys;
+            }
             const T& get(const K& key) throw (std::out_of_range) {
                 std::unordered_map< K, T, H, E >::iterator i = self->find(key);
                 if (i != self->end())
@@ -2067,6 +2074,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomAugmentManager;
 %rename("%s") CustomAugmentManager::GetInstance;
 %rename("%s") CustomAugmentManager::GetAugmentDefinition;
+%rename("%s") CustomAugmentManager::GetShipAugments;
 
 %nodefaultctor AugmentFunction;
 %nodefaultdtor AugmentFunction;
