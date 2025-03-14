@@ -90,6 +90,8 @@ public:
     Setting<bool> cloakRenderFix;
 
     Setting<bool> enhancedCloneUI;
+
+    Setting<bool> permanentStore;
     
     Defaults defaults;
 

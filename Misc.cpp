@@ -617,6 +617,22 @@ HOOK_METHOD(Door, LoadState, (int fd) -> void)
     lockedDown.LoadState(fd);
 }
 
+int overrideSetActiveButton = 0;
+HOOK_METHOD(CommandGui, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnLoop -> Begin (Misc.cpp)\n")
+    if (CustomOptionsManager::GetInstance()->permanentStore.currentValue && storeScreens.windows[0] && !(enemyShip && enemyShip->shipManager && enemyShip->shipManager->hostile_ship)) overrideSetActiveButton = 2;
+    super();
+    overrideSetActiveButton = 0;
+}
+
+HOOK_METHOD(GenericButton, SetActive, (bool active) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> GenericButton::SetActive -> Begin (Misc.cpp)\n")
+    if (overrideSetActiveButton-- == 1) active = true;
+    super(active);
+}
+
 // Everything from here onward was originally in the lua folder and needed
 // to be moved in order to compile properly on Linux.
 

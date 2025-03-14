@@ -620,6 +620,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->enhancedCloneUI.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->enhancedCloneUI.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "permanentStore") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->permanentStore.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->permanentStore.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
