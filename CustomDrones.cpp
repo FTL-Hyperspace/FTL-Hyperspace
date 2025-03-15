@@ -7,9 +7,9 @@
 #include <cmath>
 #include <cfloat>
 
-bool g_DefenseDroneFix = false;
-float g_DefenseDroneFix_BoxRange[2] = {150.f, 150.f};
-float g_DefenseDroneFix_EllipseRange[2] = {50.f, 50.f};
+bool DefenseDroneFix::active = false;
+float DefenseDroneFix::boxRange[2] = {150.f, 150.f};
+float DefenseDroneFix::ellipseRange[2] = {50.f, 50.f};
 
 //bool g_dronesCanTeleport = false;
 
@@ -733,7 +733,7 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> DefenseDrone::PickTarget -> Begin (CustomDrones.cpp)\n")
-    if (!g_defenseDroneFix) return super();
+    if (!DefenseDroneFix::active) return super();
 
     if (!bDisrupted || !powered)
     {
@@ -802,10 +802,10 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                         ShipGraph *graph = ShipGraph::GetShipInfo(currentSpace);
                         if (graph)
                         {
-                            x0 = graph->shipBox.x - g_defenseDroneFix_BoxRange[iShipId];
-                            y0 = graph->shipBox.y - g_defenseDroneFix_BoxRange[iShipId];
-                            x1 = graph->shipBox.x + graph->shipBox.w + g_defenseDroneFix_BoxRange[iShipId];
-                            y1 = graph->shipBox.y + graph->shipBox.h + g_defenseDroneFix_BoxRange[iShipId];
+                            x0 = graph->shipBox.x - DefenseDroneFix::boxRange[iShipId];
+                            y0 = graph->shipBox.y - DefenseDroneFix::boxRange[iShipId];
+                            x1 = graph->shipBox.x + graph->shipBox.w + DefenseDroneFix::boxRange[iShipId];
+                            y1 = graph->shipBox.y + graph->shipBox.h + DefenseDroneFix::boxRange[iShipId];
                         }
                         else
                         {
@@ -825,8 +825,8 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                     if (movementTarget)
                     {
                         Globals::Ellipse shield = movementTarget->GetShieldShape();
-                        shield.a += g_defenseDroneFix_EllipseRange[iShipId];
-                        shield.b += g_defenseDroneFix_EllipseRange[iShipId];
+                        shield.a += DefenseDroneFix::ellipseRange[iShipId];
+                        shield.b += DefenseDroneFix::ellipseRange[iShipId];
 
                         float relX = targetLocation.x - shield.center.x;
                         float relY = targetLocation.y - shield.center.y;
