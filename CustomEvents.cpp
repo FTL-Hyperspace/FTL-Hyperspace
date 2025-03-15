@@ -5143,6 +5143,146 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
     }
 }
 
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& names) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
+    if (names.empty()) return;
+
+    CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
+
+    // non-nebula priority events count
+    int pEventCount = 0;
+    if (customSector && customSector->priorityEventsOverrideNebula)
+    {
+        for (PriorityEvent pEvent : customSector->priorityEventCounts)
+        {
+            // Only count priority events that aren't nebulas and
+            // that have their requirement met if they have one
+            int reqLvl;
+            if (pEvent.event.first.rfind("NEBULA", 0) != 0 && (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl))))
+            {
+                pEventCount += pEvent.event.second.min;
+            }
+        }
+    }
+
+    const std::vector<ImageDesc> &nebulaImages = names.size() < 6 ? smallNebula : largeNebula;
+    const ImageDesc *nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
+
+    // nebula beacon candidates
+    std::vector<Location*> nebulaFreeLocations;
+    std::vector<Location*> defaultNebulaEventLocCandidates;
+
+    if (locations.size() > 0)
+    {
+        for (Location *loc : locations)
+        {
+            if (!loc->nebula)
+            {
+                nebulaFreeLocations.push_back(loc);
+            }
+        }
+    }
+
+    while (nebulaFreeLocations.size() - names.size() < 4)
+    {
+        names.erase(names.begin() + random32() % names.size());
+    }
+
+    Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
+    int x = loc->loc.x - nebulaImage->w / 2;
+    int y = loc->loc.y - nebulaImage->h / 2;
+
+    int count = 0;
+    while (!names.empty())
+    {
+        if (nebulaFreeLocations.empty()) ++count;
+        else
+        {
+            bool nebulaBeaconIsNewlyAllocated = false;
+            for (auto it = nebulaFreeLocations.begin(); it != nebulaFreeLocations.end();)
+            {
+                Location *loc = *it;
+                // whether the location is nebula or not is determined by the nebula cloud image position
+                if (x + 5 < loc->loc.x && loc->loc.x < x + 5 + nebulaImage->w - 10 &&
+                    y + 5 < loc->loc.y && loc->loc.y < y + 5 + nebulaImage->h - 10)
+                {
+                    loc->nebula = true;
+                    if (!loc->event)
+                    {
+                        // randomly choose a nebula event from names
+                        if (!names.empty())
+                        {
+                            auto i = names.begin() + random32() % names.size();
+                            loc->event = G_->GetEventGenerator()->GetBaseEvent(*i, worldLevel, false, -1);
+                            names.erase(i);
+                        }
+                        else
+                        {
+                            defaultNebulaEventLocCandidates.push_back(loc);
+                        }
+                    }
+                    else
+                    {
+                        if (loc->beacon)
+                        {
+                            loc->event = G_->GetEventGenerator()->GetBaseEvent("FINISH_BEACON_NEBULA", worldLevel, false, -1);
+                        }
+                        loc->event->environment = 3;
+                        loc->event->statusEffects.push_back(StatusEffect::GetNebulaEffect());
+                    }
+                    it = nebulaFreeLocations.erase(it);
+                    nebulaBeaconIsNewlyAllocated = true;
+                }
+                else
+                {
+                    ++it;
+                }
+            }
+            if (!nebulaBeaconIsNewlyAllocated)
+            {
+                ++count;
+            }
+            else
+            {
+                GL_Primitive *primitive = CSurface::GL_CreatePixelImagePrimitive(nebulaImage->tex, x, y, nebulaImage->w, nebulaImage->h, 0.f, COLOR_WHITE, false);
+                currentNebulas.push_back(StarMap::NebulaInfo{primitive, x, y, nebulaImage->w, nebulaImage->h});
+            }
+        }
+        if (count < 21)
+        {
+            const StarMap::NebulaInfo &nebulaInfo = currentNebulas[random32() % currentNebulas.size()];
+            nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
+            x = nebulaInfo.x + random32() % (nebulaInfo.w + nebulaImage->w) - nebulaImage->w;
+            y = nebulaInfo.y + random32() % (nebulaInfo.h + nebulaImage->h) - nebulaImage->h;
+        }
+        else
+        {
+            Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
+            x = loc->loc.x - nebulaImage->w / 2;
+            y = loc->loc.y - nebulaImage->h / 2;
+        }
+    }
+
+    // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
+    // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
+    // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
+    if (nebulaFreeLocations.size() < pEventCount)
+    {
+        for (int i = pEventCount - nebulaFreeLocations.size(); i > 0; --i)
+        {
+            if (defaultNebulaEventLocCandidates.empty()) break;
+
+            defaultNebulaEventLocCandidates.back()->nebula = false;
+            defaultNebulaEventLocCandidates.pop_back();
+        }
+    }
+    for (Location *loc : defaultNebulaEventLocCandidates)
+    {
+        loc->event = G_->GetEventGenerator()->GetBaseEvent("NEBULA", worldLevel, false, -1);
+    }
+}
 
 HOOK_METHOD(StarMap, StartSecretSector, () -> void)
 {

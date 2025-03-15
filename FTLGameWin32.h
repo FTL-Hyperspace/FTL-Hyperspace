@@ -5619,11 +5619,9 @@ struct ShipEvent
 	int shipSeed;
 };
 
-struct StatusEffect;
-
 struct StatusEffect
 {
-	LIBZHL_API static StatusEffect *__stdcall GetNebulaEffect();
+	LIBZHL_API static StatusEffect __stdcall GetNebulaEffect();
 	
 	int type;
 	int system;
