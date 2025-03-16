@@ -1520,8 +1520,10 @@ whiteList/blackList: determines the species that the boost applies to. whiteList
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
 priority: determines the timing of when the boost gets applied, useful when you want to change how things stack. A bigger priority number means that the boost is calculated first, and the default priority is 0
 systemList: the list of systems to use with the next variable. can be the file-name of any system (e.g. "mind") or all
+  "all" will add every vanilla system (so not Temporal or any custom systems)
 systemRoomTarget: determines if the boost only works in the systems provided, or only *doesn't* work in those systems.
 systemPowerDependency: determines the systems that affect the power of this stat boost. can be any amount of system file names, reactorMax, reactorCurrent, or all
+  "all" works the same as with systemList. "reactorMax" and "reactorCurrent" are not added either.
 systemPowerScaling: determines how the boost is affected by the total power bars within the systems in systemPowerDependency.
   noSys and hackedSys are values used for if the system isn't there and if the system is being hacked, respectively.
   The other tag names don't matter; the first value is used when the system is offline, and the second onwards determines the power at each given bar of power (with any amount of power over the max using the last number).
