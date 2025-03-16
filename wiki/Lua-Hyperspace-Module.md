@@ -2843,7 +2843,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 
 ### Methods
 - `static` [`CustomAugmentManager*`](#CustomAugmentManager) `.GetInstance()`
-- [`AugmentDefinition*`](#AugmentDefinition) `CustomAugmentManager::GetAugmentDefinition(const std::string &name)`
+- [`AugmentDefinition*`](#AugmentDefinition) `:GetAugmentDefinition(const std::string &name)`
+- `std::unordered_map<std::string, int>` `:GetShipAugments(int iShipId)`
 
 ## AugmentFunction
 
