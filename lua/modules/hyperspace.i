@@ -2075,7 +2075,18 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomAugmentManager::GetInstance;
 %rename("%s") CustomAugmentManager::GetAugmentDefinition;
 %rename("%s") CustomAugmentManager::GetShipAugments;
-
+%rename("%s") CustomAugmentManager::IsAugment;
+%extend CustomAugmentManager {
+    AugmentDefinition* GetAugmentDefinition(const std::string& name) throw (std::string)
+    {
+        if (!$self->IsAugment(name))
+        {
+            std::string error = "No definition found for augment: " + name;
+            throw error;
+        }
+        return $self->GetAugmentDefinition(name);
+    }
+}
 %nodefaultctor AugmentFunction;
 %nodefaultdtor AugmentFunction;
 %rename("%s") AugmentFunction;
