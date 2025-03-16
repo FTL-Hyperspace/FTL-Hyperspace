@@ -1063,7 +1063,6 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                     case BOMB:
                         proj = new BombProjectile(pos, iShipId, targetId, currTargets[idx]);
                         static_cast<BombProjectile*>(proj)->superShieldBypass = HasAugmentation("ZOLTAN_BYPASS");
-                        static_cast<BombProjectile*>(proj)->bSuperShield = currentShipTarget != nullptr && currentShipTarget->GetShieldPower().super.first > 0;
                         break;
                     case BURST:
                         proj = new LaserBlast(pos, iShipId, targetId, currTargets[idx]);
