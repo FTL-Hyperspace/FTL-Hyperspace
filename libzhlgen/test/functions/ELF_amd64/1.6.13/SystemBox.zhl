@@ -2,6 +2,8 @@
 cleanup __amd64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
 ".41544189f4554889fd5331db4883ec20":
 cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
+".5589f553??89fb??83ec28??8bbf90000000e8????????84c075??80bba000000000":
+cleanup __amd64 void SystemBox::MouseRightClick(SystemBox *this, bool force);
 ".55??89fd5331db??83ec18??c707????????660f1f440000":
 cleanup __amd64 void SystemBox::destructor(SystemBox *this);
 ".4157415641be01000000415541544189cc55534889fb":
