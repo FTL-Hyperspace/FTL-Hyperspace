@@ -57,7 +57,7 @@ std::string TextMultiLineCalculator::ProcessLongWord(const std::string &word, in
         else if ((c & 0xF8) == 0xF0) d = 4; // c is the first byte of 4 byte character
         else
         {
-            throw std::runtime_error("Invalid UTF-8 character while processing custom text style.");
+            throw std::runtime_error("Invalid UTF-8 character while processing custom text style: " + word);
         }
         
         if (MeasureWidth(word.substr(break_point, i + d - break_point)) > line_length)
