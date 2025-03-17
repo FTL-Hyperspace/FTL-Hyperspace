@@ -912,10 +912,10 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             sector->removeFirstBeaconNebula = true;
         }
 
-        if (strcmp(sectorNode->name(), "priorityEventsOverrideNebula") == 0)
+        if (strcmp(sectorNode->name(), "priorityNebulaFix") == 0)
         {
             isDefault = false;
-            sector->priorityEventsOverrideNebula = true;
+            sector->priorityNebulaFix = true;
         }
 
         if (strcmp(sectorNode->name(), "noExit") == 0)
@@ -5034,15 +5034,22 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
     CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
 
-    if (customSector && customSector->priorityEventsOverrideNebula)
+    if (customSector && customSector->priorityNebulaFix)
     {
         int pEventCount = 0;
         for (PriorityEvent pEvent : customSector->priorityEventCounts)
         {
-            // Only count priority events that aren't nebulas and
-            // that have their requirement met if they have one
             int reqLvl;
-            if (pEvent.event.first.rfind("NEBULA", 0) != 0 && (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl))))
+
+            // Insert any nebula priority events that are missing
+            if (pEvent.event.first.rfind("NEBULA", 0) == 0)
+            {
+                int missing = pEvent.event.second.min - std::count(names.begin(), names.end(), pEvent.event.first);
+                for (int i = 0; i < missing; ++i) names.push_back(pEvent.event.first);
+            }
+            // Count priority events that aren't nebulas and
+            // that have their requirement met if they have one
+            else if (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl)))
             {
                 pEventCount += pEvent.event.second.min;
             }
@@ -5144,7 +5151,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
 
     // non-nebula priority events count
     int pEventCount = 0;
-    if (customSector && customSector->priorityEventsOverrideNebula)
+    if (customSector && customSector->priorityNebulaFix)
     {
         for (PriorityEvent pEvent : customSector->priorityEventCounts)
         {
