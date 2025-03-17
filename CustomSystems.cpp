@@ -1344,7 +1344,7 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
 
     for (CrewMember* crew : queuedCrew)
     {
-        if (crew->IsTelepathic()) crew->SetResisted(true); //Set resisted crew
+        if (crew->IsTelepathic() && crew->iShipId != _shipObj.iShipId) crew->SetResisted(true); //Set resisted crew
     }
     //Remove crew that are not valid targets
     bool hacked = iHackEffect >= 2 && bUnderAttack;
