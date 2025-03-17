@@ -16,7 +16,8 @@ HOOK_METHOD(ArtillerySystem, Jump, () -> void)
     projectileFactory->ClearProjectiles();
 }
 
-static Point baseOffset(22, -5);
+static const Point baseOffset(22, -5);
+static Point modifiedOffset = baseOffset;
 static bool g_YPosIsFixed = false;
 
 void ParseTargetableArtilleryNode(rapidxml::xml_node<char>* node)
@@ -30,8 +31,8 @@ void ParseTargetableArtilleryNode(rapidxml::xml_node<char>* node)
         customOptions->targetableArtillery.currentValue = EventsParser::ParseBoolean(enabled);
     }
 
-    if (node->first_attribute("xOffset")) baseOffset.x += boost::lexical_cast<int>(node->first_attribute("xOffset")->value());
-    if (node->first_attribute("yOffset")) baseOffset.y += boost::lexical_cast<int>(node->first_attribute("yOffset")->value());
+    if (node->first_attribute("xOffset")) modifiedOffset.x += boost::lexical_cast<int>(node->first_attribute("xOffset")->value());
+    if (node->first_attribute("yOffset")) modifiedOffset.y += boost::lexical_cast<int>(node->first_attribute("yOffset")->value());
     if (node->first_attribute("fixedYPos")) g_YPosIsFixed = EventsParser::ParseBoolean(node->first_attribute("fixedYPos")->value());
 }
 static bool VTable_Modified = false;
@@ -44,7 +45,7 @@ HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void
     extend->artilleryButton.OnInit("systemUI/artilleryButton", location);
     extend->artilleryButton.hitbox.w = 17;
     extend->artilleryButton.hitbox.h = 19;
-    extend->offset = baseOffset;
+    extend->offset = modifiedOffset;
     if (!VTable_Modified)
     {
         void** vtable = *reinterpret_cast<void***>(this);
@@ -63,7 +64,8 @@ int ArtilleryBox::_HS_GetHeightModifier()
 {
     if (!g_YPosIsFixed && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER")))
     {
-        return 21;
+        int additionalOffset = baseOffset.y - modifiedOffset.y; //Larger height modifier for smaller y values
+        return 21 + additionalOffset;
     }
     else
     {
@@ -81,7 +83,7 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         extend->artilleryButton.bActive = artSystem->Functioning();
         ProjectileFactory* armedWeapon = G_->GetCApp()->gui->combatControl.weapControl.armedWeapon;
         extend->artilleryButton.bRenderSelected = armedWeapon == artSystem->projectileFactory;
-        extend->offset.y = g_YPosIsFixed ? baseOffset.y : baseOffset.y - 8 * pSystem->healthState.second;
+        extend->offset.y = g_YPosIsFixed ? modifiedOffset.y : modifiedOffset.y - 8 * pSystem->healthState.second;
 
         CSurface::GL_Translate(extend->offset.x, extend->offset.y);
         extend->artilleryButton.OnRender();
