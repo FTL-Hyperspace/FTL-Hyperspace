@@ -1953,12 +1953,15 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
     if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
+    bool replacingClonebay = itemId == SYS_MEDBAY && shopper->HasSystem(SYS_CLONEBAY) && shopper->SystemWillReplace(SYS_CLONEBAY) == SYS_MEDBAY;
+    bool replacingMedbay = itemId == SYS_CLONEBAY && shopper->HasSystem(SYS_MEDBAY) && shopper->SystemWillReplace(SYS_MEDBAY) == SYS_CLONEBAY;
+    if (replacingClonebay || replacingMedbay) return super(); //Use original text string for medical system replacements
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);
 
     auto custom = CustomShipSelect::GetInstance();
     int sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
 
-    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4.
+    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4. (TODO: Remove when fixing custom subsystem UI)
 
     int sysCount = 0;
 
