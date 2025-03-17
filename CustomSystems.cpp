@@ -1857,7 +1857,7 @@ void ShipManager::RemoveSystem(int iSystemId)
                         gui->equipScreen.AddToCargo(drone->blueprint->name);
                     }
 
-                    for (ArmamentBox* box : gui->combatControl.weapControl.boxes)
+                    for (ArmamentBox* box : gui->combatControl.droneControl.boxes)
                     {
                         static_cast<DroneBox*>(box)->pDrone = nullptr;
                     }
@@ -1979,6 +1979,17 @@ void ShipManager::RemoveSystem(int iSystemId)
         else shipBuilder.CreateSystemBoxes();
     }
 }
+
+// fix crashing when hovering FTL button while pilot system isn't present
+// TODO: Return a string saying like "The Pilot System must be installed in order to Jump."
+HOOK_METHOD(FTLButton, GetPilotTooltip, () -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> FTLButton::GetPilotTooltip -> Begin (CustomSystems.cpp)\n")
+    if (!ship->HasSystem(SYS_PILOT)) return "";
+
+    return super(); // nullptr check for pilot system isn't performed in the base function, which results in segfault.
+}
+
 //The original game code uses the starting ShipBlueprint when loading the game, and adds all starting systems by default.
 //Here we block addition of systems that the ship originally starts with and that have been removed
 

@@ -2,3 +2,5 @@
 __thiscall void FTLButton::OnRender(FTLButton *this);
 "5731d28d7c240883e4f0ff77fc5589e557565383ec2c8b47048b3789c38945e48b47088945dc8b410c39c6":
 __thiscall void FTLButton::MouseMove(FTLButton *this, int mX, int mY, bool silent);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b378b8e":
+__thiscall std::string FTLButton::GetPilotTooltip(FTLButton *this);
