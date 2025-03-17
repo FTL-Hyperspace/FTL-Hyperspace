@@ -1,6 +1,8 @@
 #include "ArtillerySystem.h"
 #include "CustomOptions.h"
 #include "SystemBox_Extend.h"
+#include "PALMemoryProtection.h"
+
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -32,7 +34,7 @@ void ParseTargetableArtilleryNode(rapidxml::xml_node<char>* node)
     if (node->first_attribute("yOffset")) baseOffset.y += boost::lexical_cast<int>(node->first_attribute("yOffset")->value());
     if (node->first_attribute("fixedYPos")) g_YPosIsFixed = EventsParser::ParseBoolean(node->first_attribute("fixedYPos")->value());
 }
-
+static bool VTable_Modified = false;
 HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ArtilleryBox::constructor -> Begin (ArtillerySystem.cpp)\n")
@@ -43,16 +45,30 @@ HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void
     extend->artilleryButton.hitbox.w = 17;
     extend->artilleryButton.hitbox.h = 19;
     extend->offset = baseOffset;
+    if (!VTable_Modified)
+    {
+        void** vtable = *reinterpret_cast<void***>(this);
+        MEMPROT_SAVE_PROT(dwOldProtect);
+        MEMPROT_PAGESIZE();
+        int GetHeightModifier_Index = 5;
+        MEMPROT_UNPROTECT(&vtable[GetHeightModifier_Index], sizeof(void*), dwOldProtect);
+        auto newFunc = &ArtilleryBox::_HS_GetHeightModifier;
+        vtable[GetHeightModifier_Index] = reinterpret_cast<void *&>(newFunc);
+        MEMPROT_REPROTECT(&vtable[GetHeightModifier_Index], sizeof(void*), dwOldProtect);
+        VTable_Modified = true;
+    }
 }
 
-static int g_ShipSystem__RenderPowerBoxes_return;
-
-HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> int)
+int ArtilleryBox::_HS_GetHeightModifier()
 {
-    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxes -> Begin (ArtillerySystem.cpp)\n")
-    int ret = super(x, y, width, height, gap, heightMod, flash);
-    g_ShipSystem__RenderPowerBoxes_return = ret;
-    return ret;
+    if (!g_YPosIsFixed && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER")))
+    {
+        return 21;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
@@ -65,7 +81,7 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
         extend->artilleryButton.bActive = artSystem->Functioning();
         ProjectileFactory* armedWeapon = G_->GetCApp()->gui->combatControl.weapControl.armedWeapon;
         extend->artilleryButton.bRenderSelected = armedWeapon == artSystem->projectileFactory;
-        extend->offset.y = g_YPosIsFixed ? baseOffset.y : baseOffset.y + g_ShipSystem__RenderPowerBoxes_return - 265;
+        extend->offset.y = g_YPosIsFixed ? baseOffset.y : baseOffset.y - 8 * pSystem->healthState.second;
 
         CSurface::GL_Translate(extend->offset.x, extend->offset.y);
         extend->artilleryButton.OnRender();
