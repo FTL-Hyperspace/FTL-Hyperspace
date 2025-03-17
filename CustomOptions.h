@@ -91,6 +91,8 @@ public:
 
     Setting<bool> duelMedical;
     
+    Setting<bool> enhancedCloneUI;
+    
     Defaults defaults;
 
 //    Setting hackingDroneFix;

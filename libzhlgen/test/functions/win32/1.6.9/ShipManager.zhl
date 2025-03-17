@@ -4,6 +4,8 @@ __thiscall int ShipManager::constructor(ShipManager *this, int shipId);
 __thiscall void ShipManager::AddInitialCrew(ShipManager *this, std::vector<CrewBlueprint>& blueprints);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8bb1c8040000837e04ff74??c70424????????89cb":
 __thiscall int ShipManager::GetDodgeFactor(ShipManager *this);
+".5589e5565389cb83e4f0e8????????89c68b038b4010":
+__thiscall int ShipManager::GetNetDodgeFactor(ShipManager *this);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????803d??????????8b188b4004889d44ffffff898530ffffff0f84????????":
 __thiscall void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
 "5589e557565383e4f083ec100fb645088b51648844240f8b416829d0c1f80285c00f84????????":
@@ -50,6 +52,8 @@ __thiscall void ShipManager::RemoveItem(ShipManager *this, const std::string& na
 __thiscall bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 "578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c":
 __thiscall bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
+"578d????0883e4f0ff????5589e557565389ce83ec6c8b01":
+__thiscall void ShipManager::PulsarDamage(ShipManager *this);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
 __thiscall CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
 "5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":

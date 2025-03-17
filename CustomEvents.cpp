@@ -1773,6 +1773,8 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
             }
 
+            if (firing) customEvent->noASBPlanet = true;
+
             if (!right)
             {
                 customEvent->leftFleet.fleetDefName = child->value();
@@ -2139,6 +2141,12 @@ bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             quest->createNebula = EventsParser::ParseBoolean(child->value());
+        }
+
+        if (nodeName == "removeNebula")
+        {
+            isDefault = false;
+            quest->removeNebula = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nebulaEvent")
@@ -2732,7 +2740,7 @@ HOOK_METHOD(EventsParser, ProcessShipEvent, (rapidxml::xml_node<char> *node) -> 
 
 //=====================================================================================
 
-static bool g_checkCargo = false;
+bool g_checkCargo = false;
 
 void SetCheckCargo(CustomEvent *event)
 {
@@ -2964,17 +2972,6 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -1000, (const std::string& equipm
     return ret;
 }
 
-int ShipObject::HS_HasEquipment(const std::string& equip)
-{
-    bool temp = advancedCheckEquipment[7];
-    advancedCheckEquipment[7] = true;
-
-    int ret = HasEquipment(equip);
-
-    advancedCheckEquipment[7] = temp;
-    return ret;
-}
-
 static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
@@ -3048,9 +3045,9 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -200, (LocationEvent *event)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
     bool removedItem = false;
 
     if (HasAugmentation(name) || boost::algorithm::starts_with(name, "HIDDEN "))
@@ -3362,6 +3359,10 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
                     {
                         i->event->environment = 3;
                         i->event->statusEffects.push_back({2,7,0,2});
+                    }
+                    if (quest.removeNebula.value) //remove nebula environment
+                    {
+                        CustomEventsParser::LocationRemoveNebula(i);
                     }
                 }
                 break;
@@ -4539,6 +4540,23 @@ void CustomEventsParser::QueueEvent(std::string &event, int seed)
     eventQueue.push_back(queueEvent);
 }
 
+bool CustomEventsParser::LocationRemoveNebula(Location *loc)
+{
+    if (loc->nebula)
+    {
+        loc->nebula = false;
+        loc->event->environment = 0;
+        loc->event->statusEffects.erase(
+            std::remove_if(
+                loc->event->statusEffects.begin(),
+                loc->event->statusEffects.end(),
+                [](const StatusEffect& item) { return item.system == 7; }),
+                loc->event->statusEffects.end());
+        return true;
+    }
+    return false;
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
@@ -5025,17 +5043,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
     if (customSector && customSector->removeFirstBeaconNebula)
     {
-        if (currentLoc->nebula)
-        {
-            currentLoc->nebula = false;
-            currentLoc->event->environment = 0;
-            currentLoc->event->statusEffects.erase(
-                std::remove_if(
-                    currentLoc->event->statusEffects.begin(),
-                    currentLoc->event->statusEffects.end(),
-                    [](const StatusEffect& item) { return item.system == 7; }),
-                currentLoc->event->statusEffects.end());
-        }
+        CustomEventsParser::LocationRemoveNebula(currentLoc);
     }
 }
 

@@ -73,30 +73,28 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
 static bool displayWarning = true;
 
-HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool unk) -> void)
+HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool renderText) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderEvadeOxygen -> Begin (Misc.cpp)\n")
-    if (!ship->HasSystem(ShipSystem::NameToSystemId("oxygen")) && ship->GetOxygenPercentage() <= 24)
+    if (!ship->HasSystem(SYS_OXYGEN) && ship->GetOxygenPercentage() <= 24)
     {
+        oxygenMessage->Stop();
         displayWarning = false;
-        oxygenMessage->flash = false;
     }
 
-    super(unk);
+    super(renderText);
 
     displayWarning = true;
-    oxygenMessage->flash = true;
 }
 
-HOOK_METHOD(WarningMessage, OnRender, () -> void)
+HOOK_METHOD(WarningMessage, Start, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WarningMessage::OnRender -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WarningMessage::Start -> Begin (Misc.cpp)\n")
     if (displayWarning)
     {
         super();
     }
 }
-
 
 
 // Bugfix for switching to the same background
@@ -359,6 +357,75 @@ HOOK_METHOD(SpaceStatus, OnInit, (SpaceManager *space, Point pos) -> void)
     LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnInit -> Begin (Misc.cpp)\n")
     super(space, pos);
     warningPdsAll = G_->GetResources()->CreateImagePrimitiveString("warnings/danger_pds_neutral.png", position.x - 30, position.y, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
+}
+
+HOOK_METHOD_PRIORITY(SpaceStatus, OnLoop, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::OnLoop -> Begin (Misc.cpp)\n")
+    // Rewrite to remove asteroid's early return that prevents other warnings from displaying when asteroids and other environemts are combined
+    
+    int effect = 0;
+    std::string warnStr;
+
+    currentEffect = 0;
+    currentEffect2 = 0;
+
+    if (space->asteroidGenerator.bRunning)
+    {
+        currentEffect = 1;
+    }
+
+    if (space->sunLevel)
+    {
+        warnStr = "warning_solar_flare";
+        effect = 2;
+    }
+    else if (space->pulsarLevel)
+    {
+        warnStr = "warning_ion_pulse";
+        effect = 5;
+    }
+    else if (space->bPDS)
+    {
+        warnStr = "warning_pds_locked";
+    }
+    else if (space->bNebula)
+    {
+        effect = 3;
+        if (space->bStorm)
+        {
+            currentEffect2 = 4;
+        }
+    }
+
+    if (!warnStr.empty())
+    {
+        if (5.f <= space->flashTimer.currGoal - space->flashTimer.currTime)
+        {
+            warningMessage->tracker.Stop(false);
+        }
+        else
+        {
+            TextString text(warnStr, false);
+            warningMessage->SetText(text);
+            warningMessage->Start();
+        }
+    }
+
+    if (currentEffect == 0)
+    {
+        if (space->bPDS)
+        {
+            currentEffect = space->envTarget == 1 ? 9 : 6;
+        }
+        else
+        {
+            currentEffect = effect;
+        }
+    }
+
+    warningMessage->OnLoop();
+    incomingFire->OnLoop();
 }
 
 HOOK_METHOD(SpaceStatus, OnRender, () -> void)
