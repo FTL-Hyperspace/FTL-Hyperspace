@@ -265,9 +265,11 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <extraShipInfo missileCount="false" droneCount="false" crewLimit="false"/>
 
-<!-- Shows transparent equipment slots under the text "SYSTEM NOT INSTALLED" when a weapon or drone system is not installed so that player can see how many slots the system has before installing it. -->
+<!-- Shows transparent equipment slots under the text "SYSTEM NOT INSTALLED" when a weapon or drone system is not installed so that player can see how many slots the system has before installing it.
+opacity: the opacity of those transparent equipment slots.
+-->
 
-<showDummyEquipmentSlots enabled="false"/>
+<showDummyEquipmentSlots enabled="false" opacity="0.2"/>
 
 <!-- Shows all beacon connections in the beacon map -->
 
@@ -402,6 +404,10 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 <!--Fixes the rendering of cloaked player ships when no crew are onboard.-->
 
 <cloakRenderFix enabled="false"/>
+
+<!--Allows paging and reordering of cloning crew in the clonebay UI.-->
+
+<enhancedCloneUI enabled="false"/>
 
 <!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are fighting -->
   
@@ -2312,9 +2318,9 @@ Syntax ->
 		<removeHazards/>                                                                        Removes all hazards (asteroids, pulsar, ASB, sun, and plasma storm). Nebula status is preserved.
 		<removeNebula/>                                                                         Removes nebula and plasma storm.
 		<customFleet right="false" firing="false" autoDarkening="false">FLEET_ID</customFleet>  Adds a custom fleet. If right is true, fleet comes from the right, otherwise it comes from the left. If firing is true, the
-		                                                                                          fleet's bigShip will be drawn and be the source of the ASB. If autoDarkening is true, the tint will be automatically adjusted
-		                                                                                          by layer.
+		                                                                                          fleet's bigShip will be drawn and be the source of the ASB, and no planet will be rendered. If autoDarkening is true, the tint will be automatically adjusted.
 		<clearCustomFleet/>                                                                     Removes a custom fleet if one is present.
+		<noASBPlanet/>																			If this event creates an ASB, it does not render a planet.
 		<disableScrapScore/>                                                                    Any scrap gained from this event is not added to the player's score.
 		<disableScrapAugments/>                                                                 Any scrap gained from this event is not affected by augments (scrap recovery or repair arm).
 		<checkCargo/>                                                                           Choice requirements will check the ship's cargo in addition to equipment. Can put value of true or false, no value means true.

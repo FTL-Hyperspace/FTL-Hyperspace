@@ -758,6 +758,10 @@ struct Animation
 	{
 		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 	}
+	inline void Stop()
+	{
+		tracker.Stop(false);
+	}
 
 	LIBZHL_API void AddSoundQueue(int frame, const std::string &sound);
 	LIBZHL_API bool Done();
@@ -821,11 +825,15 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API Point GetFireLocation();
 	LIBZHL_API Pointf GetSlide();
 	LIBZHL_API void OnRender(float alpha);
 	LIBZHL_API void RenderChargeBar(float alpha);
 	LIBZHL_API void SaveState(int fd);
+	LIBZHL_API void SetBoostLevel(int value);
+	LIBZHL_API void SetChargedLevel(float charged);
 	LIBZHL_API void SetFireTime(float time);
+	LIBZHL_API void SetPowered(bool powered);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
 	
@@ -1110,7 +1118,7 @@ struct LIBZHL_INTERFACE SystemBox
 	virtual bool GetMouseHover() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseMove(int x, int y);
 	LIBZHL_API virtual bool MouseClick(bool shift);
-	virtual int MouseRightClick(bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseRightClick(bool force);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	virtual void CancelTouch() LIBZHL_PLACEHOLDER
 	virtual void CloseTapBox() LIBZHL_PLACEHOLDER
@@ -1225,7 +1233,6 @@ struct ShipObject;
 
 struct ShipObject
 {
-	int HS_HasEquipment(const std::string& equip);
 	int HasItem(const std::string& equip);
 	int HasCargo(const std::string& equip);
 	void CheckCargo(const std::string& equip, int& ret);
@@ -3953,6 +3960,8 @@ struct CloneBox : CooldownSystemBox
 		this->constructor(pos, sys);
 	}
 
+	LIBZHL_API int GetHeightModifier();
+	LIBZHL_API void OnRender(bool ignoreStatus);
 	LIBZHL_API void constructor(Point pos, CloneSystem *sys);
 	
 	CloneSystem *cloneSys;
@@ -4462,11 +4471,11 @@ struct WarningWithLines;
 
 struct ShipStatus
 {
-	LIBZHL_API void OnInit(Point unk, float unk2);
+	LIBZHL_API void OnInit(Point location, float size);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
-	LIBZHL_API void RenderEvadeOxygen(bool unk);
-	LIBZHL_API void RenderHealth(bool unk);
+	LIBZHL_API void RenderEvadeOxygen(bool renderText);
+	LIBZHL_API void RenderHealth(bool renderText);
 	LIBZHL_API void RenderResources(bool renderText);
 	LIBZHL_API void RenderShields(bool renderText);
 	
@@ -4557,6 +4566,10 @@ struct SystemControl;
 
 struct SystemControl
 {
+
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+
 	struct PowerBars
 	{
 		GL_Primitive *normal[30];
@@ -7231,6 +7244,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool PowerDrone(Drone *drone, int roomId, bool userDriven, bool force);
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API void PrepareSuperDrones();
+	LIBZHL_API void PulsarDamage();
 	LIBZHL_API void RemoveItem(const std::string &name);
 	LIBZHL_API void RenderChargeBars();
 	LIBZHL_API void RenderWeapons();
@@ -7797,6 +7811,7 @@ struct SystemStoreBox : StoreBox
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
 	LIBZHL_API void SetExtraData(int droneChoice);
+	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *shopper, Equipment *equip, int sys);
 	
 	SystemBlueprint *blueprint;

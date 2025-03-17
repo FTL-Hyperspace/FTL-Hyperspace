@@ -1356,7 +1356,14 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
         }
         if (1260.f < position.x + rect_w)
         {
-            tooltipPoint.x -= position.x + rect_w - 1240.f;
+            if (tooltipPoint.y <= position.y && position.y <= tooltipPoint.y + rect_h) // prevent the tooltip from overlapping the point of the cursor
+            {
+                tooltipPoint.x -= rect_w + 31.f;
+            }
+            else
+            {
+                tooltipPoint.x -= position.x + rect_w - 1240.f;
+            }
         }
     }
 

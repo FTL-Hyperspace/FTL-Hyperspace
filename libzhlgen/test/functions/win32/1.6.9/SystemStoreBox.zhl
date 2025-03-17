@@ -10,6 +10,8 @@ __thiscall void SystemStoreBox::MouseMove(SystemStoreBox *this, int mX, int mY);
 __thiscall void SystemStoreBox::Activate(SystemStoreBox *this);
 "578d7c240883e4f0ff77fc5589e557565389cb8d75d883ec4c":
 __thiscall void SystemStoreBox::Purchase(SystemStoreBox *this);
+"578d7c240883e4f0ff77fc5589e557565389cb81ecdc010000":
+__thiscall int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox *box, int forceSystemInfoWidth);
 
 
 struct SystemStoreBox

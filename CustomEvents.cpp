@@ -1768,6 +1768,8 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
             }
 
+            if (firing) customEvent->noASBPlanet = true;
+
             if (!right)
             {
                 customEvent->leftFleet.fleetDefName = child->value();
@@ -2733,7 +2735,7 @@ HOOK_METHOD(EventsParser, ProcessShipEvent, (rapidxml::xml_node<char> *node) -> 
 
 //=====================================================================================
 
-static bool g_checkCargo = false;
+bool g_checkCargo = false;
 
 void SetCheckCargo(CustomEvent *event)
 {
@@ -2965,17 +2967,6 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -1000, (const std::string& equipm
     return ret;
 }
 
-int ShipObject::HS_HasEquipment(const std::string& equip)
-{
-    bool temp = advancedCheckEquipment[7];
-    advancedCheckEquipment[7] = true;
-
-    int ret = HasEquipment(equip);
-
-    advancedCheckEquipment[7] = temp;
-    return ret;
-}
-
 static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
@@ -3049,9 +3040,9 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -200, (LocationEvent *event)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
     bool removedItem = false;
 
     if (HasAugmentation(name) || boost::algorithm::starts_with(name, "HIDDEN "))
