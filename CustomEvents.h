@@ -792,6 +792,7 @@ struct CustomSector
     SectorExit exitBeacons;
     SectorFleet fleetBeacons;
     bool removeFirstBeaconNebula = false;
+    bool priorityNebulaFix = false;
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;
