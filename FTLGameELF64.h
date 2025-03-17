@@ -4359,6 +4359,7 @@ struct TextButton0 : GenericButton
 
 struct FTLButton : TextButton0
 {
+	LIBZHL_API std::string GetPilotTooltip();
 	LIBZHL_API void MouseMove(int mX, int mY, bool silent);
 	LIBZHL_API void OnRender();
 	

@@ -64,5 +64,5 @@ public:
     static SystemExclusivityManager* GetGlobalManager();
 private:
     int currentExclusivityIndex = 0;
-    std::unordered_map<int, int> exclusivityGroups;
+    std::unordered_map<int, int> exclusivityGroups; // systemId, group
 };
