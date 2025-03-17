@@ -23,6 +23,16 @@
     <stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="FTL_JUMPER_LONG">
+	<title id="aug_FTL_JUMPER_LONG_title"/>
+	<desc id="aug_FTL_JUMPER_LONG_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>1</value>
+    <stackable>true</stackable>
+</augBlueprint>
+
 <augBlueprint name="FTL_JUMPER_GOOD">
 	<title id="aug_FTL_JUMPER_GOOD_title"/>
 	<desc id="aug_FTL_JUMPER_GOOD_desc"/>

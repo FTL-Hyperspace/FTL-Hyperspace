@@ -24,7 +24,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
 
 
-// FTL_JUMPER_GOOD Augment
+// FTL_JUMPER_GOOD & FTL_JUMPER_LONG Augment
 
 static int fuelReq = 0;
 
@@ -65,7 +65,7 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 
     super();
 
-    if (HasAugmentation("FTL_JUMPER_GOOD") && fuelReq > 1)
+    if ((HasAugmentation("FTL_JUMPER_GOOD") || HasAugmentation("FTL_JUMPER_LONG")) && fuelReq > 1)
     {
         fuel_count = oldFuelCount - fuelReq;
         fuelReq = 0;
@@ -98,6 +98,24 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
         }
 
         if (shipManager->fuel_count >= fuelReq && hoverLoc != currentLoc)
+        {
+            potentialLoc = hoverLoc;
+        }
+    }
+
+    if (shipManager->HasAugmentation("FTL_JUMPER_LONG"))
+    {
+        int range = shipManager->GetAugmentationValue("FTL_JUMPER_LONG");
+        std::vector<Location*> vec = StarMap::Dijkstra(currentLoc, hoverLoc, true);
+
+        fuelReq = 0;
+
+        if (vec.size() - 1 <= range && fuelReq > 0 && fuelReq < vec.size() - 1)
+        {
+            fuelReq = vec.size() - 1;
+        }
+
+        if (shipManager->fuel_count >= fuelReq && hoverLoc != currentLoc && vec.size() - 1 <= range)
         {
             potentialLoc = hoverLoc;
         }
