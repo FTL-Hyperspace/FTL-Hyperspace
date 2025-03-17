@@ -1953,8 +1953,8 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
     if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
-    bool replacingClonebay = itemId == SYS_MEDBAY && shopper->HasSystem(SYS_CLONEBAY) && shopper->SystemWillReplace(SYS_CLONEBAY) == SYS_MEDBAY;
-    bool replacingMedbay = itemId == SYS_CLONEBAY && shopper->HasSystem(SYS_MEDBAY) && shopper->SystemWillReplace(SYS_MEDBAY) == SYS_CLONEBAY;
+    bool replacingClonebay = itemId == SYS_MEDBAY && shopper->HasSystem(SYS_CLONEBAY) && shopper->SystemWillReplace(SYS_MEDBAY) == SYS_CLONEBAY;
+    bool replacingMedbay = itemId == SYS_CLONEBAY && shopper->HasSystem(SYS_MEDBAY) && shopper->SystemWillReplace(SYS_CLONEBAY) == SYS_MEDBAY;
     if (replacingClonebay || replacingMedbay) return super(); //Use original text string for medical system replacements
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);
 
