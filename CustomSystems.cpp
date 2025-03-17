@@ -2045,7 +2045,7 @@ int ShipManager::SystemWillReplace(int systemId)
         }
     }
 
-    if (!CustomOptionsManager::GetInstance()->duelMedical.currentValue && !def.hasExclusivityOverride)
+    if (!CustomOptionsManager::GetInstance()->dualMedical.currentValue && !def.hasExclusivityOverride)
     {
         if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY)) return SYS_CLONEBAY;
         if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY)) return SYS_MEDBAY;

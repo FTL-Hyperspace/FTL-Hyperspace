@@ -622,11 +622,11 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "duelMedical") == 0)
+            if (strcmp(node->name(), "dualMedical") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                customOptions->duelMedical.defaultValue = EventsParser::ParseBoolean(enabled);
-                customOptions->duelMedical.currentValue = EventsParser::ParseBoolean(enabled);
+                customOptions->dualMedical.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->dualMedical.currentValue = EventsParser::ParseBoolean(enabled);
             }
             
             if (strcmp(node->name(), "enhancedCloneUI") == 0)

@@ -407,7 +407,7 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <!--Causes medbay and clonebay systems to no longer be mutually exclusive.-->
 
-<duelMedical enabled="false"/>
+<dualMedical enabled="false"/>
 
 <!--Allows paging and reordering of cloning crew in the clonebay UI.-->
 
@@ -595,7 +595,7 @@ maxLevel attribute sets the maximum level you can upgrade to
 <hideHullDuringExplosion> hides the hull of this ship if not already enabled globally
 <augSlots> sets the number of augment slots for custom ship
 <cargoSlots> sets the number of cargo slots for custom ship
-<exclusivityOverride> defines groups of mutually exclusive systems for the ship. If present, ignores all global <exclusivityGroup> tags and <duelMedical>. 
+<exclusivityOverride> defines groups of mutually exclusive systems for the ship. If present, ignores all global <exclusivityGroup> tags and <dualMedical>. 
 
 
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
