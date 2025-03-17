@@ -2356,7 +2356,7 @@ Syntax ->
 		                                                                                          a "removed" message. Hidden augments can be removed by giving the name "HIDDEN AUG_ID", replacing AUG_ID with the normal
 		                                                                                          augment's id.
 		<removeSystem player="true">systemName</removeSystem>									Removes a system from the player ship. If player attribute is false, removes the system from the enemy ship instead, if present. Applies to the player ship if no attribute is provided.
-																								Some systems cannot be removed at present, such as the engine system.
+																								NOTE: The engine system cannot be removed from the player ship at present, as this causes a crash.
 		<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
 		                                                                                          The "var" attribute lets you apply a variable or equipment req to another variable, instead of a constant.

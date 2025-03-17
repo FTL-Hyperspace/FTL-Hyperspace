@@ -1747,7 +1747,8 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 void ShipManager::RemoveSystem(int iSystemId)
 {
-    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID && iSystemId != SYS_ENGINES) //TODO: Possibly fix bug with engineless player ships?
+    bool playerEngines = iSystemId == SYS_ENGINES && iShipId == 0;
+    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID && !playerEngines) //TODO: Possibly fix bug with engineless player ships?
     {
         //Remove base ShipSystem
         ShipSystem* removeSys = GetSystem(iSystemId);
