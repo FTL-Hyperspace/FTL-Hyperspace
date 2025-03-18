@@ -264,6 +264,14 @@ void Global::PreInitializeResources(ResourceControl *resources)
                         CustomUserSystems::ParseSystemNode(child);
                     }  
                 }
+                //After system ids are mapped, generate exclusivity groups
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "exclusivityGroup") == 0)
+                    {
+                        SystemExclusivityManager::GetGlobalManager()->ParseExclusivityNode(child);
+                    }  
+                }
             }
 
             // Perform custom text color registration before event parsing.
@@ -614,6 +622,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "dualMedical") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->dualMedical.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->dualMedical.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
             if (strcmp(node->name(), "enhancedCloneUI") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

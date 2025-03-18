@@ -1,8 +1,11 @@
 #include "CustomStore.h"
 #include "CustomEvents.h"
+#include "CustomOptions.h"
 #include "CustomShipSelect.h"
+#include "CustomSystems.h"
 #include "Store_Extend.h"
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <array>
 
 CustomStore* CustomStore::instance = new CustomStore();
@@ -1944,18 +1947,21 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
     return super(category, equip);
 }
-
+static int newSystem = -1;
+static int replaceSystem = -1;
 HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
     if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
-    if (itemId == 5 && shopper->HasSystem(13) || itemId == 13 && shopper->HasSystem(5)) return super(); // Change medical system
+    bool replacingClonebay = itemId == SYS_MEDBAY && shopper->HasSystem(SYS_CLONEBAY) && shopper->SystemWillReplace(SYS_MEDBAY) == SYS_CLONEBAY;
+    bool replacingMedbay = itemId == SYS_CLONEBAY && shopper->HasSystem(SYS_MEDBAY) && shopper->SystemWillReplace(SYS_CLONEBAY) == SYS_MEDBAY;
+    if (replacingClonebay || replacingMedbay) return super(); //Use original text string for medical system replacements
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);
 
     auto custom = CustomShipSelect::GetInstance();
     int sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
 
-    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4.
+    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4. (TODO: Remove when fixing custom subsystem UI)
 
     int sysCount = 0;
 
@@ -1967,17 +1973,41 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
         }
     }
 
-    if (sysLimit - sysCount == 1)
+    if (shopper->SystemWillReplace(itemId) != SYS_INVALID)
+    {
+        newSystem = itemId;
+        replaceSystem = shopper->SystemWillReplace(itemId);
+        bConfirming = true;
+    }
+    else if (sysLimit - sysCount == 1)
     {
         bConfirming = true;
         confirmString = "confirm_buy_last_system";
     }
+
     if (!bConfirming)
     {
         Purchase();
     }
 }
 
+HOOK_METHOD(SystemStoreBox, GetConfirmText, () -> TextString)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::GetConfirmText -> Begin (CustomStore.cpp)\n")
+    if (newSystem == -1 || replaceSystem == -1) return super();
+
+    std::string newSystemName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(newSystem))->GetNameLong();
+    std::string replaceSystemName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(replaceSystem))->GetNameLong();
+    
+    std::string confirmText = G_->GetTextLibrary()->GetText("confirm_buy_custom");
+    boost::algorithm::replace_all(confirmText, "\\1", newSystemName);
+    boost::algorithm::replace_all(confirmText, "\\2", replaceSystemName);
+
+    newSystem = -1;
+    replaceSystem = -1;
+
+    return TextString(confirmText, true);
+}
 // replace dummy info for artillery systems with actual info
 WeaponBlueprint *g_currentArtilleryBP = nullptr;
 

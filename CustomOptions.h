@@ -89,6 +89,8 @@ public:
 
     Setting<bool> cloakRenderFix;
 
+    Setting<bool> dualMedical;
+    
     Setting<bool> enhancedCloneUI;
     
     Defaults defaults;
