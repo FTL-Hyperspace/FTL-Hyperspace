@@ -14625,27 +14625,27 @@ bool ShipObject::AddAugmentation(const std::string &augment)
 namespace _func1145
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipObject::RemoveEquipment", typeid(void (ShipObject::*)(const std::string &, bool )), ".??57??56??55??545553??89fb??83ec58??8d????308954????e8????????8b530831c0", nullptr, 0, 0, &func);
-}
-
-void ShipObject::RemoveEquipment(const std::string &blueName, bool completely)
-{
-	typedef void (*custom_arg_funcptr_t)(ShipObject *this_arg, const std::string &blueName_arg, bool completely_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1145::func;
-	return execfunc(this, blueName, completely);
-}
-
-namespace _func1146
-{
-    static void *func = 0;
 	static FunctionDefinition funcObj("ShipObject::RemoveAugmentation", typeid(void (ShipObject::*)(const std::string &)), ".415741564155415455534889fb4883ec48488d7c2420", nullptr, 0, 0, &func);
 }
 
 void ShipObject::RemoveAugmentation(const std::string &augment)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipObject *this_arg, const std::string &augment_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1146::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1145::func;
 	return execfunc(this, augment);
+}
+
+namespace _func1146
+{
+    static void *func = 0;
+	static FunctionDefinition funcObj("ShipObject::RemoveEquipment", typeid(void (ShipObject::*)(const std::string &, bool )), ".??57??56??55??545553??89fb??83ec58??8d????308954????e8????????8b530831c0", nullptr, 0, 0, &func);
+}
+
+void ShipObject::RemoveEquipment(const std::string &blueName, bool completely)
+{
+	typedef void (*custom_arg_funcptr_t)(ShipObject *this_arg, const std::string &blueName_arg, bool completely_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1146::func;
+	return execfunc(this, blueName, completely);
 }
 
 ShipInfo **Global_ShipObject_ShipInfoList;
@@ -15188,7 +15188,112 @@ int ShipSystem::RenderPowerBoxes(int x, int y, int width, int height, int gap, i
 	return execfunc(this, x, y, width, height, gap, heightMod, flash);
 }
 
-namespace _func1189
+GL_Primitive **ShipSystem__glowWhite;
+
+namespace _var1189
+{
+    static VariableDefinition varObj("ShipSystem__glowWhite", "!.488b3d(???????\?)", &ShipSystem__glowWhite, true, true);
+}
+
+GL_Primitive **ShipSystem__lockBlue;
+
+namespace _var1190
+{
+    static VariableDefinition varObj("ShipSystem__lockBlue", "!.4c8b05(???????\?)", &ShipSystem__lockBlue, true, true);
+}
+
+GL_Primitive **ShipSystem__fireImage;
+
+namespace _var1191
+{
+    static VariableDefinition varObj("ShipSystem__fireImage", "!.488b3d(???????\?)", &ShipSystem__fireImage, true, true);
+}
+
+GL_Primitive **ShipSystem__lockHack;
+
+namespace _var1192
+{
+    static VariableDefinition varObj("ShipSystem__lockHack", "!.488b3d(???????\?)", &ShipSystem__lockHack, true, true);
+}
+
+GL_Primitive **ShipSystem__manningBarIon;
+
+namespace _var1193
+{
+    static VariableDefinition varObj("ShipSystem__manningBarIon", "!.488b3d(???????\?)", &ShipSystem__manningBarIon, true, true);
+}
+
+GL_Primitive **ShipSystem__manningBarOff;
+
+namespace _var1194
+{
+    static VariableDefinition varObj("ShipSystem__manningBarOff", "!.480f443d(???????\?)", &ShipSystem__manningBarOff, true, true);
+}
+
+GL_Primitive **ShipSystem__lockWhite;
+
+namespace _var1195
+{
+    static VariableDefinition varObj("ShipSystem__lockWhite", "!.4c8b05(???????\?)", &ShipSystem__lockWhite, true, true);
+}
+
+GL_Primitive **ShipSystem__sabotageImage;
+
+namespace _var1196
+{
+    static VariableDefinition varObj("ShipSystem__sabotageImage", "!.488b3d(???????\?)", &ShipSystem__sabotageImage, true, true);
+}
+
+GL_Primitive **ShipSystem__manningOutline;
+
+namespace _var1197
+{
+    static VariableDefinition varObj("ShipSystem__manningOutline", "!.488b3d(???????\?)", &ShipSystem__manningOutline, true, true);
+}
+
+GL_Primitive **ShipSystem__manningBarOn;
+
+namespace _var1198
+{
+    static VariableDefinition varObj("ShipSystem__manningBarOn", "!.488b3d(???????\?)", &ShipSystem__manningBarOn, true, true);
+}
+
+GL_Primitive **ShipSystem__manningWhite;
+
+namespace _var1199
+{
+    static VariableDefinition varObj("ShipSystem__manningWhite", "!.488b3d(???????\?)", &ShipSystem__manningWhite, true, true);
+}
+
+GL_Primitive **ShipSystem__manningGreen;
+
+namespace _var1200
+{
+    static VariableDefinition varObj("ShipSystem__manningGreen", "!.488b3d(???????\?)", &ShipSystem__manningGreen, true, true);
+}
+
+GL_Primitive **ShipSystem__manningYellow;
+
+namespace _var1201
+{
+    static VariableDefinition varObj("ShipSystem__manningYellow", "!.488b3d(???????\?)", &ShipSystem__manningYellow, true, true);
+}
+
+GL_Primitive **ShipSystem__glowBlue;
+
+namespace _var1202
+{
+    static VariableDefinition varObj("ShipSystem__glowBlue", "!.488b3d(???????\?)", &ShipSystem__glowBlue, true, true);
+}
+
+GL_Primitive **ShipSystem__glowRed;
+
+namespace _var1203
+{
+    static VariableDefinition varObj("ShipSystem__glowRed", "!.488b3d(???????\?)", &ShipSystem__glowRed, true, true);
+}
+
+namespace _func1204
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("ShipSystem::RawDecreasePower", typeid(bool (ShipSystem::*)()), "!.5553??89fb??83ec088b6f588b7f18e8????????", nullptr, 0, 0, &func);
@@ -15197,113 +15302,8 @@ namespace _func1189
 bool ShipSystem::RawDecreasePower()
 {
 	typedef bool (*custom_arg_funcptr_t)(ShipSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1189::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1204::func;
 	return execfunc(this);
-}
-
-GL_Primitive **ShipSystem__glowWhite;
-
-namespace _var1190
-{
-    static VariableDefinition varObj("ShipSystem__glowWhite", "!.488b3d(???????\?)", &ShipSystem__glowWhite, true, true);
-}
-
-GL_Primitive **ShipSystem__lockBlue;
-
-namespace _var1191
-{
-    static VariableDefinition varObj("ShipSystem__lockBlue", "!.4c8b05(???????\?)", &ShipSystem__lockBlue, true, true);
-}
-
-GL_Primitive **ShipSystem__fireImage;
-
-namespace _var1192
-{
-    static VariableDefinition varObj("ShipSystem__fireImage", "!.488b3d(???????\?)", &ShipSystem__fireImage, true, true);
-}
-
-GL_Primitive **ShipSystem__lockHack;
-
-namespace _var1193
-{
-    static VariableDefinition varObj("ShipSystem__lockHack", "!.488b3d(???????\?)", &ShipSystem__lockHack, true, true);
-}
-
-GL_Primitive **ShipSystem__manningBarIon;
-
-namespace _var1194
-{
-    static VariableDefinition varObj("ShipSystem__manningBarIon", "!.488b3d(???????\?)", &ShipSystem__manningBarIon, true, true);
-}
-
-GL_Primitive **ShipSystem__manningBarOff;
-
-namespace _var1195
-{
-    static VariableDefinition varObj("ShipSystem__manningBarOff", "!.480f443d(???????\?)", &ShipSystem__manningBarOff, true, true);
-}
-
-GL_Primitive **ShipSystem__lockWhite;
-
-namespace _var1196
-{
-    static VariableDefinition varObj("ShipSystem__lockWhite", "!.4c8b05(???????\?)", &ShipSystem__lockWhite, true, true);
-}
-
-GL_Primitive **ShipSystem__sabotageImage;
-
-namespace _var1197
-{
-    static VariableDefinition varObj("ShipSystem__sabotageImage", "!.488b3d(???????\?)", &ShipSystem__sabotageImage, true, true);
-}
-
-GL_Primitive **ShipSystem__manningOutline;
-
-namespace _var1198
-{
-    static VariableDefinition varObj("ShipSystem__manningOutline", "!.488b3d(???????\?)", &ShipSystem__manningOutline, true, true);
-}
-
-GL_Primitive **ShipSystem__manningBarOn;
-
-namespace _var1199
-{
-    static VariableDefinition varObj("ShipSystem__manningBarOn", "!.488b3d(???????\?)", &ShipSystem__manningBarOn, true, true);
-}
-
-GL_Primitive **ShipSystem__manningWhite;
-
-namespace _var1200
-{
-    static VariableDefinition varObj("ShipSystem__manningWhite", "!.488b3d(???????\?)", &ShipSystem__manningWhite, true, true);
-}
-
-GL_Primitive **ShipSystem__manningGreen;
-
-namespace _var1201
-{
-    static VariableDefinition varObj("ShipSystem__manningGreen", "!.488b3d(???????\?)", &ShipSystem__manningGreen, true, true);
-}
-
-GL_Primitive **ShipSystem__manningYellow;
-
-namespace _var1202
-{
-    static VariableDefinition varObj("ShipSystem__manningYellow", "!.488b3d(???????\?)", &ShipSystem__manningYellow, true, true);
-}
-
-GL_Primitive **ShipSystem__glowBlue;
-
-namespace _var1203
-{
-    static VariableDefinition varObj("ShipSystem__glowBlue", "!.488b3d(???????\?)", &ShipSystem__glowBlue, true, true);
-}
-
-GL_Primitive **ShipSystem__glowRed;
-
-namespace _var1204
-{
-    static VariableDefinition varObj("ShipSystem__glowRed", "!.488b3d(???????\?)", &ShipSystem__glowRed, true, true);
 }
 
 namespace _func1205
@@ -17787,30 +17787,17 @@ void SystemStoreBox::SetExtraData(int droneChoice)
 namespace _func1397
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SystemStoreBox::GetConfirmText", typeid(TextString (SystemStoreBox::*)()), ".53??81c650010000??89fbe8????????", nullptr, 0, 0, &func);
-}
-
-TextString SystemStoreBox::GetConfirmText()
-{
-	typedef TextString (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1397::func;
-	return execfunc(this);
-}
-
-namespace _func1398
-{
-    static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::Activate", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec20488bbf180100008b83e0000000", nullptr, 0, 0, &func);
 }
 
 void SystemStoreBox::Activate()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1398::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1397::func;
 	return execfunc(this);
 }
 
-namespace _func1399
+namespace _func1398
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::SetInfoBox", typeid(int (SystemStoreBox::*)(InfoBox *, int )), ".41554189d54154554889f5534889fb4881ec", nullptr, 0, 0, &func);
@@ -17819,11 +17806,11 @@ namespace _func1399
 int SystemStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
 {
 	typedef int (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1399::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1398::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
 
-namespace _func1400
+namespace _func1399
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::constructor", typeid(void (SystemStoreBox::*)(ShipManager *, Equipment *, int )), ".41568d41fa41554989d541544989f45589cd534889fb4883ec5083f802", nullptr, 0, 0, &func);
@@ -17832,11 +17819,11 @@ namespace _func1400
 void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equip, int sys)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, ShipManager *shopper_arg, Equipment *equip_arg, int sys_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1400::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1399::func;
 	return execfunc(this, shopper, equip, sys);
 }
 
-namespace _func1401
+namespace _func1400
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::Purchase", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec30e8????????8b7308", nullptr, 0, 0, &func);
@@ -17845,11 +17832,11 @@ namespace _func1401
 void SystemStoreBox::Purchase()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1401::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1400::func;
 	return execfunc(this);
 }
 
-namespace _func1402
+namespace _func1401
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::MouseMove", typeid(void (SystemStoreBox::*)(int , int )), ".41544189d45589f5534889fb4883ec308b8710010000", nullptr, 0, 0, &func);
@@ -17858,8 +17845,21 @@ namespace _func1402
 void SystemStoreBox::MouseMove(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1402::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1401::func;
 	return execfunc(this, mX, mY);
+}
+
+namespace _func1402
+{
+    static void *func = 0;
+	static FunctionDefinition funcObj("SystemStoreBox::GetConfirmText", typeid(TextString (SystemStoreBox::*)()), ".53??81c650010000??89fbe8????????", nullptr, 0, 0, &func);
+}
+
+TextString SystemStoreBox::GetConfirmText()
+{
+	typedef TextString (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1402::func;
+	return execfunc(this);
 }
 
 namespace _func1403
