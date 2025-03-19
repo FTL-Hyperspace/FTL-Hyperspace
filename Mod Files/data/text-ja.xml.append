@@ -197,7 +197,10 @@
 <text name="hotkey_un_temporal" language="ja">時間操作機の出力を下げる</text>
 <text name="hotkey_temporal_speed" language="ja">時間加速</text>
 <text name="hotkey_temporal_slow" language="ja">時間停滞</text>
-
+<text name="hotkey_artillery1" language="ja">弩級砲1照準</text>
+<text name="hotkey_artillery2" language="ja">弩級砲2照準</text>
+<text name="hotkey_artillery3" language="ja">弩級砲3照準</text>
+<text name="hotkey_artillery4" language="ja">弩級砲4照準</text>
 
 <text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text> 
 <text name="temporal_tooltip" language="ja">\3/\6秒間、\1x/\4倍速</text>
@@ -206,6 +209,7 @@
 <text name="temporal_arm_slow" language="ja">\6秒間、区画内のすべてを\4分の1の速度にする</text>
 <text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text> 
 <text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text> 
+<text name="confirm_buy_custom" language="ja">本当によろしいですか？\n\2が\1に置き換えられます。</text>
 
 <text name="tooltip_more_info" language="ja">次の情報を表示する拡張モードに切り替える：
 -兵器/ドローン/拡張機能の説明

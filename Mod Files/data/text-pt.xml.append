@@ -194,6 +194,10 @@
 <text name="hotkey_un_temporal" language="pt">Cortar o Manipulador Temporal</text>
 <text name="hotkey_temporal_speed" language="pt">Aceleramento Temporal</text>
 <text name="hotkey_temporal_slow" language="pt">Desaceleramento Temporal</text>
+<text name="hotkey_artillery1" language="pt">Mira da Artilharia 1</text>
+<text name="hotkey_artillery2" language="pt">Mira da Artilharia 2</text>
+<text name="hotkey_artillery3" language="pt">Mira da Artilharia 3</text>
+<text name="hotkey_artillery4" language="pt">Mira da Artilharia 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -212,6 +216,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_arm_slow" language="pt">Desacelera tudo na sala por por \4x por \6 segundos.</text>
 <text name="temporal_button_speed" language="pt">Acelera tudo que ocorre na sala por uma duração curta.\nHotkey: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="pt">Desacelera tudo que ocorre na sala por uma duração curta.\nHotkey: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="pt">Você tem certeza?\nO \1 vai substituir o seu \2.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="pt">Alternar as informações avançadas, as quais providencia informação extra para:
 -Painel de info para Armas/Drone/Reforços

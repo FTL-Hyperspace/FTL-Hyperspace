@@ -194,6 +194,10 @@
 <text name="hotkey_un_temporal" language="it">Disattiva il manipolatore temporale</text>
 <text name="hotkey_temporal_speed" language="it">Accelerazione temporale</text>
 <text name="hotkey_temporal_slow" language="it">Rallentamento temporale</text>
+<text name="hotkey_artillery1" language="it">Bersaglio artiglieria 1</text>
+<text name="hotkey_artillery2" language="it">Bersaglio artiglieria 2</text>
+<text name="hotkey_artillery3" language="it">Bersaglio artiglieria 3</text>
+<text name="hotkey_artillery4" language="it">Bersaglio artiglieria 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -212,6 +216,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_arm_slow" language="it">Rallenta tutto nella stanza \4x per \6 secondi.</text>
 <text name="temporal_button_speed" language="it">Accelera tutto ciò che accade in una stanza per un breve periodo.\nHotkey: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="it">Rallenta tutto ciò che accade in una stanza per un breve periodo.\nHotkey: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="it">Vuoi procedere? Il sistema \1 sostituirà il sistema \2.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="it">Attiva/disattiva le informazioni avanzate, che forniscono informazioni aggiuntive per:
 -Tooltip armi/droni/potenziamenti

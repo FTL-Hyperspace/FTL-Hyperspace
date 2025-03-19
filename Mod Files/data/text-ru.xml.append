@@ -194,6 +194,10 @@
 <text name="hotkey_un_temporal" language="ru">Питание от временного манипулятора</text>
 <text name="hotkey_temporal_speed" language="ru">Временное ускорение</text>
 <text name="hotkey_temporal_slow" language="ru">Временное замедление</text>
+<text name="hotkey_artillery1" language="ru">Артиллерийская цель 1</text>
+<text name="hotkey_artillery2" language="ru">Артиллерийская цель 2</text>
+<text name="hotkey_artillery3" language="ru">Артиллерийская цель 3</text>
+<text name="hotkey_artillery4" language="ru">Артиллерийская цель 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -212,6 +216,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_arm_slow" language="ru">Замедляет все в отсеке в \4 раза на \6 секунд.</text>
 <text name="temporal_button_speed" language="ru">Ускоряет все, что происходит в отсеке на короткий промежуток времени. \nГорячая клавиша: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="ru">Замедляет все, что происходит в отсеке на короткий промежуток времени.\nГорячая клавиша: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="ru">Вы уверены?\n\1 заменит \2.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="ru">Переключение расширенной информации, которая предоставляет дополнительную информацию для:
 -Подсказки оружия/дронов/модулей
