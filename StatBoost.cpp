@@ -4,6 +4,7 @@
 #include "CrewMember_Extend.h"
 #include "Room_Extend.h"
 #include "StatBoost.h"
+#include "CustomSystems.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
 #include "TemporalSystem.h"
@@ -435,6 +436,13 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                             {
                                 def->systemPowerScaling.push_back(i);
                             }
+
+                            def->systemPowerScaling.push_back(SYS_TEMPORAL);
+
+                            for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
+                            {
+                                def->systemPowerScaling.push_back(i);
+                            }
                         }
                         else if (systemChildName == "reactorMax")
                         {
@@ -655,6 +663,13 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
                     {
                         statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
                     }
+
+                    statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
+                            
+                    for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
+                    {
+                        statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
+                    }
                 }
                 else
                 {
@@ -668,6 +683,13 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
                     for (int i = 0; i < 15; i++)
                     {
                         statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(i));
+                    }
+
+                    statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
+                            
+                    for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
+                    {
+                        statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(i));
                     }
                 }
                 else
@@ -730,6 +752,13 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
                     {
                         statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
                     }
+
+                    statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
+                            
+                    for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
+                    {
+                        statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
+                    }
                 }
                 else
                 {
@@ -743,6 +772,13 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
                     for (int i = 0; i < 15; i++)
                     {
                         statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(i));
+                    }
+
+                    statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
+                            
+                    for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
+                    {
+                        statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(i));
                     }
                 }
                 else
