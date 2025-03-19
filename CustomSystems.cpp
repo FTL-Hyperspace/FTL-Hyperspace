@@ -1747,8 +1747,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 void ShipManager::RemoveSystem(int iSystemId)
 {
-    bool playerEngines = iSystemId == SYS_ENGINES && iShipId == 0;
-    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID && !playerEngines) //TODO: Possibly fix bug with engineless player ships?
+    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID)
     {
         //Remove base ShipSystem
         ShipSystem* removeSys = GetSystem(iSystemId);
@@ -1988,6 +1987,17 @@ HOOK_METHOD(FTLButton, GetPilotTooltip, () -> std::string)
     if (!ship->HasSystem(SYS_PILOT)) return "";
 
     return super(); // nullptr check for pilot system isn't performed in the base function, which results in segfault.
+}
+
+//Quick fix for engineless player ships crashing when entering combat.
+//This can be removed when rewriting WorldManager::OnLoop, as that function calls this on a null ShipSystem*
+
+HOOK_METHOD(ShipSystem, GetPowerCap, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetPowerCap -> Begin (CustomSystems.cpp)\n")
+    volatile ShipSystem* thisPtr = this;
+    if (thisPtr == nullptr) return 0;
+    else return super();
 }
 
 //The original game code uses the starting ShipBlueprint when loading the game, and adds all starting systems by default.
