@@ -1994,9 +1994,9 @@ HOOK_METHOD(FTLButton, GetPilotTooltip, () -> std::string)
 
 HOOK_METHOD(ShipSystem, GetPowerCap, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetPowerCap -> Begin (CustomSystems.cpp)\n")
-    volatile ShipSystem* thisPtr = this;
-    if (thisPtr == nullptr) return 0;
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetPowerCap -> Begin (CustomSystems.cpp)\n")  
+    //This necessitates building under -fno-delete-null-pointer-checks  
+    if (this == nullptr) return 0;
     else return super();
 }
 
