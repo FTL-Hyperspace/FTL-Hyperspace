@@ -182,7 +182,7 @@ void ArtillerySystem::OnLoop_HS_ManualTarget()
 }
 HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtillerySystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtillerySystem::OnLoop -> Begin (ArtillerySystem.cpp)\n")
     if (_shipObj.iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || _shipObj.HasAugmentation("ARTILLERY_ORDER")))
     {
         OnLoop_HS_ManualTarget();
@@ -195,7 +195,7 @@ HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
 
 HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (CustomWeapons.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (ArtillerySystem.cpp)\n")
     
     super(on, simple);
 

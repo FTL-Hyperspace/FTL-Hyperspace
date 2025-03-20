@@ -189,6 +189,10 @@
 <text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
 <text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
 <text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
+<text name="hotkey_artillery1" language="de">Geschütz 1 Zielen</text>
+<text name="hotkey_artillery2" language="de">Geschütz 2 Zielen</text>
+<text name="hotkey_artillery3" language="de">Geschütz 3 Zielen</text>
+<text name="hotkey_artillery4" language="de">Geschütz 4 Zielen</text>
 <text name="temporal" language="de">Temporalmanipulator</text> 
 <text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 Sek.</text>
 <text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
@@ -196,6 +200,7 @@
 <text name="temporal_arm_slow" language="de">Verlangsame alles im Raum \4x für \6 Sekunden.</text>
 <text name="temporal_button_speed" language="de">Beschleunige alles in einem Raum für einen Moment.\nTaste: \1</text>
 <text name="temporal_button_slow" language="de">Verlangsame alles in einem Raum für einen Moment.\nTaste: \1</text>
+<text name="confirm_buy_custom" language="de">Bist du sicher?\nDas \1-System ersetzt das \2-System.</text>
 <text name="tooltip_more_info" language="de">Aktiviere erweiterte Informationen, zeigt zusätzliche Infos über:
 -Kurzinfos für Waffen/Drohnen/Ausbauten
 -Kurzinfos für Crew

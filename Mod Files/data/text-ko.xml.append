@@ -194,6 +194,10 @@
 <text name="hotkey_un_temporal" language="ko">시간 조율기 전력공급 중단</text>
 <text name="hotkey_temporal_speed" language="ko">시간 가속</text>
 <text name="hotkey_temporal_slow" language="ko">시간 감속</text>
+<text name="hotkey_artillery1" language="ko">함포 1 조준</text>
+<text name="hotkey_artillery2" language="ko">함포 2 조준</text>
+<text name="hotkey_artillery3" language="ko">함포 3 조준</text>
+<text name="hotkey_artillery4" language="ko">함포 4 조준</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -212,6 +216,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_arm_slow" language="ko">\6초 동안 선실 내에 있는 모든 것을 \4배로 감속합니다.</text>
 <text name="temporal_button_speed" language="ko">짧은 시간 동안 한 선실 내에 있는 모든 것을 가속합니다.\n단축키: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="ko">짧은 시간 동안 한 선실 내에 있는 모든 것을 감속합니다.\n단축키: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="ko">확실합니까? \n\1 시스템이 \2 시스템을 대체할 것입니다.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="ko">상세 정보를 표시합니다. 다음 정보가 추가로 표시됩니다:
 -무기/드론/보조장비 툴팁
