@@ -13,6 +13,10 @@
 <text name="aug_MIND_ORDER_desc">Allows direct control of mind controlled enemy crew. Also takes ownership of any effects being applied by that crew.</text>
 <text name="aug_ARTILLERY_ORDER_title">Advanced Targeting</text>
 <text name="aug_ARTILLERY_ORDER_desc">Allows manual targeting of artillery systems.</text>
+<text name="aug_AUGMENT_SLOT_title">Augment Capacity</text>
+<text name="aug_AUGMENT_SLOT_desc">Increases augment slots by 1.</text>
+<text name="aug_CARGO_SLOT_title">Cargo Capacity</text>
+<text name="aug_CARGO_SLOT_desc">Increases cargo slots by 1.</text>
 
 <text name="crew_ghost_desc">Ghosts of the past crew.</text>
 <text name="crew_ghost_title">Ghost</text>
