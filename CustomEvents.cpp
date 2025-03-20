@@ -2822,6 +2822,28 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+    // Fix an issue where HasEquipment only checks the rightmost artillery system's level
+    int ret = super(equipment);
+
+    if (equipment == "artillery")
+    {
+        ShipManager *ship = G_->GetShipManager(iShipId);
+        if (ship)
+        {
+            for (ArtillerySystem *artillery : ship->artillerySystems)
+            {
+                int lvl = artillery->powerState.second;
+                if (lvl > ret) ret = lvl;
+            }
+        }
+    }
+
+    return ret;
+}
+
 int ShipObject::HasItem(const std::string& equip)
 {
     int ret = 0;
