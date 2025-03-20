@@ -155,7 +155,7 @@
 <text name="weapon_lockdown">Locks down rooms on hit</text>
 <text name="scrap_value">Buy/Sell Price: \1 scrap/\2 scrap</text>
 <text name="damage_word">Damage</text>
-<text name="shots_remaining">Shots Remaining: \1</text>
+<text name="shots_remaining">Shots: \1</text>
 <text name="bomb_shots">Shots per charge: \1 (1 on own ship)</text>
 <text name="crew_scrap_value">Hire Price: \1~</text>
 <text name="drone_speed">Drone Speed: \1</text>
@@ -287,7 +287,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="warning_pds_all">NEUTRAL!</text>
 
 <!--shotLimit warning text-->
-<text name="warning_shot_limit">SHOT LIMIT REACHED!</text>  
+<text name="warning_shot_limit">SHOT LIMIT REACHED</text>  
 <!--Credits-->
 
 <text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
