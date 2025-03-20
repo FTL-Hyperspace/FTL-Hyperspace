@@ -7482,7 +7482,7 @@ struct WindowFrame
 
 struct StarMap : FocusWindow
 {
-	
+	bool WillBeOvertaken(Location* loc);
 
 	struct NebulaInfo
 	{

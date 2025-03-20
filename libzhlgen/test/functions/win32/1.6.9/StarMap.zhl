@@ -148,5 +148,5 @@ __thiscall void StarMap::UpdateBoss(StarMap *this);
 
 struct StarMap
 {{
-	
+    bool WillBeOvertaken(Location* loc);
 }};

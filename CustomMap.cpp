@@ -187,7 +187,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
             CSurface::GL_PushMatrix();
 
-            float newX = std::floor((GetNextDangerMove() + dangerOffset) + 767.f);
+            float newX = std::floor((GetNextDangerMove() + dangerOffset) + dangerZoneRadius);
             float newX2 = translation.x + newX;
 
 
@@ -206,7 +206,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
         }
 
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(dangerZone.x + 767.f, dangerZone.y, 0.f);
+        CSurface::GL_Translate(dangerZone.x + dangerZoneRadius, dangerZone.y, 0.f);
         CSurface::GL_RenderPrimitive(dangerZoneEdge);
         CSurface::GL_PopMatrix();
 

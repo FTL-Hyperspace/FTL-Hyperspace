@@ -264,3 +264,11 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
     return currentLoc;
 }
 
+bool StarMap::WillBeOvertaken(Location *loc)
+{
+    //NOTE: This is an inlined call to another GetNextDangerMove() function that is identical to this one except it returns 0 when dangerZone.x >= 60.
+    int dangerMove = 0;
+    if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
+    Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
+    return loc->loc.RelativeDistance(nextDangerZone) < (dangerZoneRadius * dangerZoneRadius);
+}
