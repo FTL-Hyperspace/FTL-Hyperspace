@@ -1143,6 +1143,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 if (autoFiring && targets.empty())
                 {
                     targets = lastTargets;
+                    targets.resize(blueprint->miniProjectiles.empty() ? 1 : blueprint->miniProjectiles.size());
                 }
                 queuedProjectiles.push_back(proj);
                 if (blueprint->type == BEAM) break;
