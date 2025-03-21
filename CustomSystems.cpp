@@ -1956,6 +1956,11 @@ void ShipManager::RemoveSystem(int iSystemId)
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 hackingSystem->BlowHackingDrone();
+                auto RemoveIfHackingDrone = [&](SpaceDrone* drone) { return drone->selfId == hackingSystem->drone.selfId;};
+                auto& drones = G_->GetWorld()->space.drones;
+                drones.erase(std::remove_if(drones.begin(), drones.end(), RemoveIfHackingDrone), drones.end());
+                spaceDrones.erase(std::remove_if(spaceDrones.begin(), spaceDrones.end(), RemoveIfHackingDrone), spaceDrones.end());
+                
                 delete hackingSystem;
                 hackingSystem = nullptr;
                 break;
