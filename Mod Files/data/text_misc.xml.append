@@ -300,7 +300,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="credits_hyperspace_project">Hyperspace Project</text>
 <text name="credits_hyperspace_developed_by">Developed by:</text>
-<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art">Additional Art:</text>
 <text name="credits_hyperspace_art_names">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors">Additional Contributions:</text>
