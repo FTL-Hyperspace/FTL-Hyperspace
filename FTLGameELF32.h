@@ -1205,6 +1205,8 @@ struct ArtilleryBox : CooldownSystemBox
 	{
 		this->constructor(pos, sys);
 	}
+	
+	int _HS_GetHeightModifier();
 
 	LIBZHL_API void OnRender(bool ignoreStatus);
 	LIBZHL_API void constructor(Point pos, ArtillerySystem *sys);
