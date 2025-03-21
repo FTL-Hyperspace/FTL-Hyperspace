@@ -297,4 +297,4 @@
 <text name="max_augments" language="ja">拡張パーツは\1個までしか持てない！</text>
 <text name="shot_limit" language="ja">兵器弾数制限: \1</text>
 <text name="shots_remaining" language="ja">残弾数: \1</text>
-<text name="warning_shot_limit" language="ja">弾切れ！</text>
+<text name="warning_shot_limit" language="ja">弾切れ</text>

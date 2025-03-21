@@ -305,5 +305,5 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="max_augments" language="pl">Statek może mieć tylko \1 wspomagania.</text>
 <text name="shot_limit" language="pl">Limit strzałów: \1</text>
-<text name="shots_remaining" language="pl">Pozostałe strzały: \1</text>
-<text name="warning_shot_limit" language="pl">LIMIT STRZAŁÓW OSIĄGNIĘTY!</text>
+<text name="shots_remaining" language="pl">Strzały: \1</text>
+<text name="warning_shot_limit" language="pl">LIMIT STRZAŁÓW OSIĄGNIĘTY</text>

@@ -306,4 +306,4 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="max_augments" language="ko">보조 장비는 최대 \1개까지 설치할 수 있습니다.</text>
 <text name="shot_limit" language="ko">무기 발사 횟수 제한: \1</text>
 <text name="shots_remaining" language="ko">남은 발사 횟수: \1</text>
-<text name="warning_shot_limit" language="ko">더 이상 발사할 수 없습니다!</text>
+<text name="warning_shot_limit" language="ko">더 이상 발사할 수 없습니다</text>

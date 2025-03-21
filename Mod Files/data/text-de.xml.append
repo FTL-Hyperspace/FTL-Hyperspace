@@ -292,5 +292,5 @@ Taste: \1</text>
 
 <text name="max_augments" language="de">Dein Schiff kann \1 Ausbauten aufnehmen.</text>
 <text name="shot_limit" language="de">Salven Limit: \1</text>
-<text name="shots_remaining" language="de">Salven Verbleibend: \1</text>
-<text name="warning_shot_limit" language="de">FEUER LIMIT ERREICHT!</text>
+<text name="shots_remaining" language="de">Salven übrig: \1</text>
+<text name="warning_shot_limit" language="de">FEUER LIMIT ERREICHT</text>

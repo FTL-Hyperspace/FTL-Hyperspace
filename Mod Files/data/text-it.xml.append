@@ -305,5 +305,5 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="max_augments" language="it">La nave può montare al massimo \1 accessori.</text>
 <text name="shot_limit" language="it">Limite colpi arma: \1</text>
-<text name="shots_remaining" language="it">Colpi rimanenti: \1</text>
-<text name="warning_shot_limit" language="it">LIMITE COLPI RAGGIUNTO!</text>
+<text name="shots_remaining" language="it">Colpi: \1</text>
+<text name="warning_shot_limit" language="it">LIMITE COLPI RAGGIUNTO</text>

@@ -307,5 +307,5 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 
 <text name="max_augments" language="fr">Votre vaisseau ne peut pas avoir plus de \1 améliorations.</text>
 <text name="shot_limit" language="fr">Limite de Salves : \1</text>
-<text name="shots_remaining" language="fr">Salves Restantes : \1</text>
-<text name="warning_shot_limit" language="fr">LIMITE DE SALVES ATTEINTES !</text>
+<text name="shots_remaining" language="fr">Salves : \1</text>
+<text name="warning_shot_limit" language="fr">LIMITE DE SALVES ATTEINTES</text>

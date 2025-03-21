@@ -305,5 +305,5 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="max_augments" language="es">Tu nave solo puede tener instalados \1 aumentos.</text>
 <text name="shot_limit" language="es">Limite de disparos del arma: \1</text>
-<text name="shots_remaining" language="es">Disparos restantes: \1</text>
-<text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO!</text>
+<text name="shots_remaining" language="es">Disparos: \1</text>
+<text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO</text>

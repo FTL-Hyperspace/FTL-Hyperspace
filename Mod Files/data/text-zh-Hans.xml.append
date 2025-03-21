@@ -315,4 +315,4 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="max_augments" language="zh-Hans">你的战舰只能装载 \1 个增强部件。</text>
 <text name="shot_limit" language="zh-Hans">可开火次数：\1</text>
 <text name="shots_remaining" language="zh-Hans">剩余开火次数：\1</text>
-<text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数。</text>
+<text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数</text>

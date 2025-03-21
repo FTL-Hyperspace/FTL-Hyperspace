@@ -305,5 +305,5 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 
 <text name="max_augments" language="ru">На ваш корабль можно устанавливать только \1 модуля.</text>
 <text name="shot_limit" language="ru">Предел выстрелов из оружия: \1</text>
-<text name="shots_remaining" language="ru">Оставшиеся выстрелы: \1</text>
-<text name="warning_shot_limit" language="ru">ПРЕДЕЛ ВЫСТРЕЛОВ ДОСТИГНУТ!</text>
+<text name="shots_remaining" language="ru">Выстрелы: \1</text>
+<text name="warning_shot_limit" language="ru">ПРЕДЕЛ ВЫСТРЕЛОВ ДОСТИГНУТ</text>
