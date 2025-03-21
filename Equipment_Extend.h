@@ -9,6 +9,7 @@ public:
     void OnRender();
     void MouseMove(int mX, int mY);
     void MouseClick(int mX, int mY);
+    void OnLoop();
 
     void OnScrollWheel(float direction);
     void AddOverCapacityItem(const EquipmentBoxItem &item);

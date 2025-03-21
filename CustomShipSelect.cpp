@@ -2558,6 +2558,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
     storeIds[3] = vEquipmentBoxes.size();
 
     int augSlots = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).augSlots; // in vanilla, augSlots is hardcoded to 3
+    if (currentShip->HasAugmentation("AUGMENT_SLOT")) augSlots += static_cast<int>(currentShip->GetAugmentationValue("AUGMENT_SLOT"));
     for (int i = 0; i < augSlots; ++i)
     {
         AugmentEquipBox *box = new AugmentEquipBox(Point(988, 529 + 60 * (i % 3)), currentShip, i);

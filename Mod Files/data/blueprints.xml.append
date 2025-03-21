@@ -70,6 +70,26 @@
 	<stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="AUGMENT_SLOT">
+	<title id="aug_AUGMENT_SLOT_title"/>
+	<desc id="aug_AUGMENT_SLOT_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>1</value> <!--The amount of augment slots added. Negative values decrease slots.-->
+    <stackable>true</stackable>
+</augBlueprint>
+
+<augBlueprint name="CARGO_SLOT">
+	<title id="aug_CARGO_SLOT_title"/>
+	<desc id="aug_CARGO_SLOT_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>1</value> <!--The amount of cargo slots added. Negative values decrease slots.-->
+    <stackable>true</stackable>
+</augBlueprint>
+
 <crewBlueprint name="ghost">
 	<desc id="crew_ghost_desc"/>
 	<cost>50</cost>
