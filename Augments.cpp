@@ -1,5 +1,5 @@
 #include "Global.h"
-
+#include "CustomEvents.h"
 // NANOBOT_DEFENSE_SYSTEM Augment
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
@@ -134,4 +134,17 @@ HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
     return super();
 }
 
+//TELEPORT_RECALL augment
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (Augments.cpp)\n")
+    if (ship.hullIntegrity.first <= 0 && iShipId == 1 && G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, true, true);
+    super();
+}
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (Augments.cpp)\n")
+    if (iShipId == 1 && G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, true, true);
+    super();
+}
 
