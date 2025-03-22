@@ -1548,7 +1548,7 @@ struct LIBZHL_INTERFACE Targetable
 	bool targeted;
 };
 
-struct LIBZHL_INTERFACE Projectile : Collideable
+struct LIBZHL_INTERFACE Projectile : Collideable, Targetable
 {
 	void HS_OnUpdate();
 	void HS_CollisionCheck(Collideable *other);
@@ -1580,7 +1580,6 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
 	
-	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
 	float speed_magnitude;
@@ -2605,7 +2604,7 @@ struct DroneBlueprint : Blueprint
 	std::string combatIcon;
 };
 
-struct CrewDrone : CrewMember
+struct CrewDrone : CrewMember, Drone
 {
 	virtual ~CrewDrone()
 	{
@@ -2649,7 +2648,6 @@ struct CrewDrone : CrewMember
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
-	Drone _drone;
 	int droneRoom;
 	Animation powerUp;
 	Animation powerDown;
@@ -2900,7 +2898,7 @@ struct DamageMessage;
 
 struct SpaceDrone;
 
-struct LIBZHL_INTERFACE SpaceDrone : Drone
+struct LIBZHL_INTERFACE SpaceDrone : Drone, Targetable, Collideable
 {
 	virtual void PickDestination() LIBZHL_PLACEHOLDER
 	virtual void PickTarget() LIBZHL_PLACEHOLDER
@@ -2934,8 +2932,6 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
 	LIBZHL_API void destructor();
 	
-	Targetable _targetable;
-	Collideable _collideable;
 	int currentSpace;
 	int destinationSpace;
 	Pointf currentLocation;
@@ -5076,7 +5072,7 @@ struct Selectable
 
 struct Room;
 
-struct Room : Selectable
+struct Room : Selectable, ShipObject
 {
 	Point GetIntoRoom(Point pos)
 	{
@@ -5124,7 +5120,6 @@ struct Room : Selectable
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
 	LIBZHL_API void destructor();
 	
-	ShipObject _shipObject;
 	Globals::Rect rect;
 	int iRoomId;
 	bool bBlackedOut;
@@ -5257,7 +5252,7 @@ struct ShipGraph
 	std::string shipName;
 };
 
-struct Door : CrewTarget
+struct Door : CrewTarget, Selectable
 {
 public:
 	Point GetCenterPoint()
@@ -5302,7 +5297,6 @@ public:
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void SaveState(int fd);
 	
-	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
