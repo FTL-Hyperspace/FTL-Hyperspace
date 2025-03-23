@@ -7758,6 +7758,7 @@ struct SuperShieldDrone : DefenseDrone
 		this->constructor(iShipId, selfId, blueprint);
 	}
 
+	LIBZHL_API float GetWeaponCooldown();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void constructor(int iShipId, int selfId, DroneBlueprint *blueprint);
 	

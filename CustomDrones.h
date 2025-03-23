@@ -68,3 +68,23 @@ private:
 
     static CustomDroneManager _instance;
 };
+
+struct ShieldDroneDefinition
+{
+    std::string chargeSound = "shieldDroneCharge";
+    std::string activateSound = "shieldDroneActivate";
+    float slowDuration = 1;
+    float pulseDuration = 1.5;
+    std::vector<float> cooldowns;
+    int layers = 1;
+};
+
+class ShieldDroneManager
+{
+public:
+    static void ParseShieldDroneBlueprint(rapidxml::xml_node<char> *node);
+    static const ShieldDroneDefinition* GetDefinition(const std::string& droneName);
+private:
+    static const ShieldDroneDefinition defaultDefinition;
+    static std::unordered_map<std::string, ShieldDroneDefinition> defs;
+};

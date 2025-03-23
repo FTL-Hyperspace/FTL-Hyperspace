@@ -17565,20 +17565,20 @@ void StoreBox::OnRender()
 namespace _func1379
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SuperShieldDrone::constructor", typeid(void (SuperShieldDrone::*)(int , int , DroneBlueprint *)), "53??89fb??83ec??e8??????????8d????0e??8d????10????????????c703??????????c74340??????????c74350????????e8??????????8dbbc8040000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SuperShieldDrone::GetWeaponCooldown", typeid(float (SuperShieldDrone::*)()), "??8bbf58010000f30f1005??????????85ff74????83ec08??8b07ff5030b804000000", nullptr, 0, 0, &func);
 }
 
-void SuperShieldDrone::constructor(int iShipId, int selfId, DroneBlueprint *blueprint)
+float SuperShieldDrone::GetWeaponCooldown()
 {
-	typedef void (*custom_arg_funcptr_t)(SuperShieldDrone *this_arg, int iShipId_arg, int selfId_arg, DroneBlueprint *blueprint_arg);
+	typedef float (*custom_arg_funcptr_t)(SuperShieldDrone *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1379::func;
-	return execfunc(this, iShipId, selfId, blueprint);
+	return execfunc(this);
 }
 
 namespace _func1380
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SuperShieldDrone::OnLoop", typeid(void (SuperShieldDrone::*)()), "534889fb4883ec30e813fdff", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SuperShieldDrone::OnLoop", typeid(void (SuperShieldDrone::*)()), ".534889fb4883ec30e813fdff", nullptr, 0, 0, &func);
 }
 
 void SuperShieldDrone::OnLoop()
@@ -17591,17 +17591,30 @@ void SuperShieldDrone::OnLoop()
 namespace _func1381
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("SuperShieldDrone::constructor", typeid(void (SuperShieldDrone::*)(int , int , DroneBlueprint *)), ".53??89fb??83ec??e8??????????8d????0e??8d????10????????????c703??????????c74340??????????c74350????????e8??????????8dbbc8040000", nullptr, 0, 0, &func);
+}
+
+void SuperShieldDrone::constructor(int iShipId, int selfId, DroneBlueprint *blueprint)
+{
+	typedef void (*custom_arg_funcptr_t)(SuperShieldDrone *this_arg, int iShipId_arg, int selfId_arg, DroneBlueprint *blueprint_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1381::func;
+	return execfunc(this, iShipId, selfId, blueprint);
+}
+
+namespace _func1382
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::OnRender", typeid(void (SystemBox::*)(bool )), "4157b8010000004156415541545589f5534889fb4883ec58", nullptr, 0, 0, &func);
 }
 
 void SystemBox::OnRender(bool ignoreStatus)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemBox *this_arg, bool ignoreStatus_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1381::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1382::func;
 	return execfunc(this, ignoreStatus);
 }
 
-namespace _func1382
+namespace _func1383
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::MouseClick", typeid(bool (SystemBox::*)(bool )), ".41544189f4554889fd5331db4883ec20", nullptr, 0, 0, &func);
@@ -17610,11 +17623,11 @@ namespace _func1382
 bool SystemBox::MouseClick(bool shift)
 {
 	typedef bool (*custom_arg_funcptr_t)(SystemBox *this_arg, bool shift_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1382::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1383::func;
 	return execfunc(this, shift);
 }
 
-namespace _func1383
+namespace _func1384
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::MouseRightClick", typeid(void (SystemBox::*)(bool )), ".5589f553??89fb??83ec28??8bbf90000000e8????????84c075??80bba000000000", nullptr, 0, 0, &func);
@@ -17623,11 +17636,11 @@ namespace _func1383
 void SystemBox::MouseRightClick(bool force)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemBox *this_arg, bool force_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1383::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1384::func;
 	return execfunc(this, force);
 }
 
-namespace _func1384
+namespace _func1385
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::destructor", typeid(void (SystemBox::*)()), ".55??89fd5331db??83ec18??c707????????660f1f440000", nullptr, 0, 0, &func);
@@ -17636,11 +17649,11 @@ namespace _func1384
 void SystemBox::destructor()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1384::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1385::func;
 	return execfunc(this);
 }
 
-namespace _func1385
+namespace _func1386
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::constructor", typeid(void (SystemBox::*)(Point , ShipSystem *, bool )), ".4157415641be01000000415541544189cc55534889fb", nullptr, 0, 0, &func);
@@ -17649,11 +17662,11 @@ namespace _func1385
 void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemBox *this_arg, Point pos_arg, ShipSystem *sys_arg, bool playerUI_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1385::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1386::func;
 	return execfunc(this, pos, sys, playerUI);
 }
 
-namespace _func1386
+namespace _func1387
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::KeyDown", typeid(void (SystemBox::*)(SDLKey , bool )), ".415541544189d45589f5534889fb4883ec38", nullptr, 0, 0, &func);
@@ -17662,11 +17675,11 @@ namespace _func1386
 void SystemBox::KeyDown(SDLKey key, bool shift)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemBox *this_arg, SDLKey key_arg, bool shift_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1386::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1387::func;
 	return execfunc(this, key, shift);
 }
 
-namespace _func1387
+namespace _func1388
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemBox::MouseMove", typeid(void (SystemBox::*)(int , int )), ".5589f5534889fb4883ec388b87ac010000", nullptr, 0, 0, &func);
@@ -17675,11 +17688,11 @@ namespace _func1387
 void SystemBox::MouseMove(int x, int y)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemBox *this_arg, int x_arg, int y_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1387::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1388::func;
 	return execfunc(this, x, y);
 }
 
-namespace _func1388
+namespace _func1389
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemControl::GetSystemBox", typeid(SystemBox *(SystemControl::*)(int )), "415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57", nullptr, 0, 0, &func);
@@ -17688,11 +17701,11 @@ namespace _func1388
 SystemBox *SystemControl::GetSystemBox(int systemId)
 {
 	typedef SystemBox *(*custom_arg_funcptr_t)(SystemControl *this_arg, int systemId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1388::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1389::func;
 	return execfunc(this, systemId);
 }
 
-namespace _func1389
+namespace _func1390
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemControl::GetPowerBars", typeid(SystemControl::PowerBars *(*)(int , int , int , bool )), ".41574189f24189d34189cf415641554c63ee41545589fd534863df4989d84889d84881ec88000000", nullptr, 0, 0, &func);
@@ -17701,11 +17714,11 @@ namespace _func1389
 SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap)
 {
 	typedef SystemControl::PowerBars *(*custom_arg_funcptr_t)(int width_arg, int height_arg, int gap_arg, bool useShieldGap_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1389::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1390::func;
 	return execfunc(width, height, gap, useShieldGap);
 }
 
-namespace _func1390
+namespace _func1391
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemControl::RenderPowerBar", typeid(void (SystemControl::*)()), ".415741564989fe4155415455534883ec28488b3f", nullptr, 0, 0, &func);
@@ -17714,11 +17727,11 @@ namespace _func1390
 void SystemControl::RenderPowerBar()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1390::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1391::func;
 	return execfunc(this);
 }
 
-namespace _func1391
+namespace _func1392
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemControl::CreateSystemBoxes", typeid(void (SystemControl::*)()), ".415731d231f641564155415455534889fb4883ec58488d7c2430", nullptr, 0, 0, &func);
@@ -17727,25 +17740,25 @@ namespace _func1391
 void SystemControl::CreateSystemBoxes()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1391::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1392::func;
 	return execfunc(this);
 }
 
 Point *Global_SystemControl_weapon_position;
 
-namespace _var1392
+namespace _var1393
 {
     static VariableDefinition varObj("Global_SystemControl_weapon_position", "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)", &Global_SystemControl_weapon_position, true, true);
 }
 
 Point *Global_SystemControl_drone_position;
 
-namespace _var1393
+namespace _var1394
 {
     static VariableDefinition varObj("Global_SystemControl_drone_position", "", &Global_SystemControl_drone_position, true, true);
 }
 
-namespace _func1394
+namespace _func1395
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemCustomBox::constructor", typeid(void (SystemCustomBox::*)(Point , ShipSystem *, ShipManager *)), "41544989cc31c9554889f5534889fb4883ec40", nullptr, 0, 0, &func);
@@ -17754,11 +17767,11 @@ namespace _func1394
 void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipManager *ship)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemCustomBox *this_arg, Point pos_arg, ShipSystem *sys_arg, ShipManager *ship_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1394::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1395::func;
 	return execfunc(this, pos, sys, ship);
 }
 
-namespace _func1395
+namespace _func1396
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::CanHold", typeid(bool (SystemStoreBox::*)()), "534883bf18010000004889fb", nullptr, 0, 0, &func);
@@ -17767,11 +17780,11 @@ namespace _func1395
 bool SystemStoreBox::CanHold()
 {
 	typedef bool (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1395::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1396::func;
 	return execfunc(this);
 }
 
-namespace _func1396
+namespace _func1397
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::SetExtraData", typeid(void (SystemStoreBox::*)(int )), ".55534889fb4883ec38837f0804", nullptr, 0, 0, &func);
@@ -17780,11 +17793,11 @@ namespace _func1396
 void SystemStoreBox::SetExtraData(int droneChoice)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, int droneChoice_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1396::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1397::func;
 	return execfunc(this, droneChoice);
 }
 
-namespace _func1397
+namespace _func1398
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::Activate", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec20488bbf180100008b83e0000000", nullptr, 0, 0, &func);
@@ -17793,11 +17806,11 @@ namespace _func1397
 void SystemStoreBox::Activate()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1397::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1398::func;
 	return execfunc(this);
 }
 
-namespace _func1398
+namespace _func1399
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::SetInfoBox", typeid(int (SystemStoreBox::*)(InfoBox *, int )), ".41554189d54154554889f5534889fb4881ec", nullptr, 0, 0, &func);
@@ -17806,11 +17819,11 @@ namespace _func1398
 int SystemStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
 {
 	typedef int (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1398::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1399::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
 
-namespace _func1399
+namespace _func1400
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::constructor", typeid(void (SystemStoreBox::*)(ShipManager *, Equipment *, int )), ".41568d41fa41554989d541544989f45589cd534889fb4883ec5083f802", nullptr, 0, 0, &func);
@@ -17819,11 +17832,11 @@ namespace _func1399
 void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equip, int sys)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, ShipManager *shopper_arg, Equipment *equip_arg, int sys_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1399::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1400::func;
 	return execfunc(this, shopper, equip, sys);
 }
 
-namespace _func1400
+namespace _func1401
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::Purchase", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec30e8????????8b7308", nullptr, 0, 0, &func);
@@ -17832,11 +17845,11 @@ namespace _func1400
 void SystemStoreBox::Purchase()
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1400::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1401::func;
 	return execfunc(this);
 }
 
-namespace _func1401
+namespace _func1402
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::MouseMove", typeid(void (SystemStoreBox::*)(int , int )), ".41544189d45589f5534889fb4883ec308b8710010000", nullptr, 0, 0, &func);
@@ -17845,11 +17858,11 @@ namespace _func1401
 void SystemStoreBox::MouseMove(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1401::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1402::func;
 	return execfunc(this, mX, mY);
 }
 
-namespace _func1402
+namespace _func1403
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("SystemStoreBox::GetConfirmText", typeid(TextString (SystemStoreBox::*)()), ".53??81c650010000??89fbe8????????", nullptr, 0, 0, &func);
@@ -17858,11 +17871,11 @@ namespace _func1402
 TextString SystemStoreBox::GetConfirmText()
 {
 	typedef TextString (*custom_arg_funcptr_t)(SystemStoreBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1402::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1403::func;
 	return execfunc(this);
 }
 
-namespace _func1403
+namespace _func1404
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TabbedWindow::Close", typeid(void (TabbedWindow::*)()), "!538b57684889fb488b4738", nullptr, 0, 0, &func);
@@ -17871,11 +17884,11 @@ namespace _func1403
 void TabbedWindow::Close()
 {
 	typedef void (*custom_arg_funcptr_t)(TabbedWindow *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1403::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1404::func;
 	return execfunc(this);
 }
 
-namespace _func1404
+namespace _func1405
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TabbedWindow::SetTab", typeid(void (TabbedWindow::*)(unsigned int )), ".41554189f541544989fc5531ed534883", nullptr, 0, 0, &func);
@@ -17884,11 +17897,11 @@ namespace _func1404
 void TabbedWindow::SetTab(unsigned int tab)
 {
 	typedef void (*custom_arg_funcptr_t)(TabbedWindow *this_arg, unsigned int tab_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1404::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1405::func;
 	return execfunc(this, tab);
 }
 
-namespace _func1405
+namespace _func1406
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TabbedWindow::AddWindow", typeid(void (TabbedWindow::*)(const std::string &, Button *, FocusWindow *)), ".4154554889f5534889fb4889cf", nullptr, 0, 0, &func);
@@ -17897,11 +17910,11 @@ namespace _func1405
 void TabbedWindow::AddWindow(const std::string &name, Button *button, FocusWindow *window)
 {
 	typedef void (*custom_arg_funcptr_t)(TabbedWindow *this_arg, const std::string &name_arg, Button *button_arg, FocusWindow *window_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1405::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1406::func;
 	return execfunc(this, name, button, window);
 }
 
-namespace _func1406
+namespace _func1407
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TabbedWindow::OnRender", typeid(void (TabbedWindow::*)()), "!.554889fd534883ec18e8????????f30f2a", nullptr, 0, 0, &func);
@@ -17910,11 +17923,11 @@ namespace _func1406
 void TabbedWindow::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(TabbedWindow *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1406::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1407::func;
 	return execfunc(this);
 }
 
-namespace _func1407
+namespace _func1408
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TabbedWindow::MouseMove", typeid(void (TabbedWindow::*)(int , int )), ".41554189d541544189f4554889fd534883", nullptr, 0, 0, &func);
@@ -17923,11 +17936,11 @@ namespace _func1407
 void TabbedWindow::MouseMove(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(TabbedWindow *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1407::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1408::func;
 	return execfunc(this, mX, mY);
 }
 
-namespace _func1408
+namespace _func1409
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportBox::constructor", typeid(void (TeleportBox::*)(Point , TeleportSystem *)), "4155b9010000004989d5415455534889fb4c8da370020000488dab000300004883ec58", nullptr, 0, 0, &func);
@@ -17936,11 +17949,11 @@ namespace _func1408
 void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportBox *this_arg, Point pos_arg, TeleportSystem *sys_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1408::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1409::func;
 	return execfunc(this, pos, sys);
 }
 
-namespace _func1409
+namespace _func1410
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::Jump", typeid(void (TeleportSystem::*)()), "534889fbe8????????c78344020000000000005b", nullptr, 0, 0, &func);
@@ -17949,11 +17962,11 @@ namespace _func1409
 void TeleportSystem::Jump()
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1409::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1410::func;
 	return execfunc(this);
 }
 
-namespace _func1410
+namespace _func1411
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::SetHackingLevel", typeid(void (TeleportSystem::*)(int )), ".5589f5534889fb4883ec0883fe017e09", nullptr, 0, 0, &func);
@@ -17962,11 +17975,11 @@ namespace _func1410
 void TeleportSystem::SetHackingLevel(int hackingLevel)
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg, int hackingLevel_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1410::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1411::func;
 	return execfunc(this, hackingLevel);
 }
 
-namespace _func1411
+namespace _func1412
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::OnRenderFloor", typeid(void (TeleportSystem::*)()), ".415741564155415455534889fb4883ec38", nullptr, 0, 0, &func);
@@ -17975,11 +17988,11 @@ namespace _func1411
 void TeleportSystem::OnRenderFloor()
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1411::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1412::func;
 	return execfunc(this);
 }
 
-namespace _func1412
+namespace _func1413
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::constructor", typeid(void (TeleportSystem::*)(int , int , int , int )), ".5589d5534889fb4883ec08", nullptr, 0, 0, &func);
@@ -17988,11 +18001,11 @@ namespace _func1412
 void TeleportSystem::constructor(int systemId, int roomId, int shipId, int startingPower)
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg, int systemId_arg, int roomId_arg, int shipId_arg, int startingPower_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1412::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1413::func;
 	return execfunc(this, systemId, roomId, shipId, startingPower);
 }
 
-namespace _func1413
+namespace _func1414
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::GetChargedPercent", typeid(float (TeleportSystem::*)()), ".f30f108744020000", nullptr, 0, 0, &func);
@@ -18001,11 +18014,11 @@ namespace _func1413
 float TeleportSystem::GetChargedPercent()
 {
 	typedef float (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1413::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1414::func;
 	return execfunc(this);
 }
 
-namespace _func1414
+namespace _func1415
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::Charged", typeid(bool (TeleportSystem::*)()), ".534889fb", nullptr, 0, 0, &func);
@@ -18014,11 +18027,11 @@ namespace _func1414
 bool TeleportSystem::Charged()
 {
 	typedef bool (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1414::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1415::func;
 	return execfunc(this);
 }
 
-namespace _func1415
+namespace _func1416
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::ClearCrewLocations", typeid(void (TeleportSystem::*)()), ".41564155415455534c63a77c0200004889fb", nullptr, 0, 0, &func);
@@ -18027,11 +18040,11 @@ namespace _func1415
 void TeleportSystem::ClearCrewLocations()
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1415::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1416::func;
 	return execfunc(this);
 }
 
-namespace _func1416
+namespace _func1417
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::UpdateCrewLocation", typeid(void (TeleportSystem::*)(int )), ".488b97500200004863c689f148c1e806488d14c2b801000000", nullptr, 0, 0, &func);
@@ -18040,11 +18053,11 @@ namespace _func1416
 void TeleportSystem::UpdateCrewLocation(int unk)
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg, int unk_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1416::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1417::func;
 	return execfunc(this, unk);
 }
 
-namespace _func1417
+namespace _func1418
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::SetArmed", typeid(void (TeleportSystem::*)(int )), ".534889fb4883ec3083fe01", nullptr, 0, 0, &func);
@@ -18053,11 +18066,11 @@ namespace _func1417
 void TeleportSystem::SetArmed(int armed)
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg, int armed_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1417::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1418::func;
 	return execfunc(this, armed);
 }
 
-namespace _func1418
+namespace _func1419
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TeleportSystem::ForceReady", typeid(void (TeleportSystem::*)()), "!.c787440200000000c84231f6", nullptr, 0, 0, &func);
@@ -18066,19 +18079,6 @@ namespace _func1418
 void TeleportSystem::ForceReady()
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1418::func;
-	return execfunc(this);
-}
-
-namespace _func1419
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TeleportSystem::CanSend", typeid(bool (TeleportSystem::*)()), ".534889fb4883ec308b4f1885c9", nullptr, 0, 0, &func);
-}
-
-bool TeleportSystem::CanSend()
-{
-	typedef bool (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1419::func;
 	return execfunc(this);
 }
@@ -18086,10 +18086,10 @@ bool TeleportSystem::CanSend()
 namespace _func1420
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TeleportSystem::CanReceive", typeid(bool (TeleportSystem::*)()), ".5589f5534889fb4883ec0880bf4902000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TeleportSystem::CanSend", typeid(bool (TeleportSystem::*)()), ".534889fb4883ec308b4f1885c9", nullptr, 0, 0, &func);
 }
 
-bool TeleportSystem::CanReceive()
+bool TeleportSystem::CanSend()
 {
 	typedef bool (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1420::func;
@@ -18099,12 +18099,12 @@ bool TeleportSystem::CanReceive()
 namespace _func1421
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TeleportSystem::OnLoop", typeid(void (TeleportSystem::*)()), ".534889fb4883ec30", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TeleportSystem::CanReceive", typeid(bool (TeleportSystem::*)()), ".5589f5534889fb4883ec0880bf4902000000", nullptr, 0, 0, &func);
 }
 
-void TeleportSystem::OnLoop()
+bool TeleportSystem::CanReceive()
 {
-	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
+	typedef bool (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1421::func;
 	return execfunc(this);
 }
@@ -18112,10 +18112,10 @@ void TeleportSystem::OnLoop()
 namespace _func1422
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TeleportSystem::InitiateTeleport", typeid(void (TeleportSystem::*)()), ".534889fb4883ec20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TeleportSystem::OnLoop", typeid(void (TeleportSystem::*)()), ".534889fb4883ec30", nullptr, 0, 0, &func);
 }
 
-void TeleportSystem::InitiateTeleport()
+void TeleportSystem::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1422::func;
@@ -18125,17 +18125,30 @@ void TeleportSystem::InitiateTeleport()
 namespace _func1423
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TeleportSystem::InitiateTeleport", typeid(void (TeleportSystem::*)()), ".534889fb4883ec20", nullptr, 0, 0, &func);
+}
+
+void TeleportSystem::InitiateTeleport()
+{
+	typedef void (*custom_arg_funcptr_t)(TeleportSystem *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1423::func;
+	return execfunc(this);
+}
+
+namespace _func1424
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::ResetPrimitives", typeid(void (TextButton::*)()), "554889fd5331db4883ec08488b7c1d50", nullptr, 0, 0, &func);
 }
 
 void TextButton::ResetPrimitives()
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1423::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1424::func;
 	return execfunc(this);
 }
 
-namespace _func1424
+namespace _func1425
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::GetIdealButtonWidth", typeid(int (TextButton::*)()), "55534889fb4883ec3880bfe800000000", nullptr, 0, 0, &func);
@@ -18144,11 +18157,11 @@ namespace _func1424
 int TextButton::GetIdealButtonWidth()
 {
 	typedef int (*custom_arg_funcptr_t)(TextButton *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1424::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1425::func;
 	return execfunc(this);
 }
 
-namespace _func1425
+namespace _func1426
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(Point , Point , int , TextString *, int )), "415741564d89c641554989d541544989f44c89c6554489cd534889fb488dbfe0000000", nullptr, 0, 0, &func);
@@ -18157,30 +18170,17 @@ namespace _func1425
 void TextButton::OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, Point pos_arg, Point size_arg, int cornerInset_arg, TextString *buttonLabel_arg, int font_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1425::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1426::func;
 	return execfunc(this, pos, size, cornerInset, buttonLabel, font);
 }
 
-namespace _func1426
+namespace _func1427
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::OnRender", typeid(void (TextButton::*)()), "4157415641554989fd415455534883ec5880bfd000000000", nullptr, 0, 0, &func);
 }
 
 void TextButton::OnRender()
-{
-	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1426::func;
-	return execfunc(this);
-}
-
-namespace _func1427
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::destructor", typeid(void (TextButton::*)()), "534889fb4883ec1048c707????????488b7f50", nullptr, 0, 0, &func);
-}
-
-void TextButton::destructor()
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1427::func;
@@ -18190,17 +18190,30 @@ void TextButton::destructor()
 namespace _func1428
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TextButton::destructor", typeid(void (TextButton::*)()), "534889fb4883ec1048c707????????488b7f50", nullptr, 0, 0, &func);
+}
+
+void TextButton::destructor()
+{
+	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1428::func;
+	return execfunc(this);
+}
+
+namespace _func1429
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::GetSize", typeid(Point (TextButton::*)()), "4155415455534889fb4883ec1880bfd000000000751a", nullptr, 0, 0, &func);
 }
 
 Point TextButton::GetSize()
 {
 	typedef Point (*custom_arg_funcptr_t)(TextButton *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1428::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1429::func;
 	return execfunc(this);
 }
 
-namespace _func1429
+namespace _func1430
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::OnInitRect", typeid(void (TextButton::*)(Globals::Rect &, int , TextString &, int )), "41574156415541544989cc554889f5534889fb4883ec488954240c", nullptr, 0, 0, &func);
@@ -18209,11 +18222,11 @@ namespace _func1429
 void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, Globals::Rect &rect_arg, int cornerInset_arg, TextString &buttonLabel_arg, int font_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1429::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1430::func;
 	return execfunc(this, rect, cornerInset, buttonLabel, font);
 }
 
-namespace _func1430
+namespace _func1431
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::SetBaseImage", typeid(void (TextButton::*)(const std::string &, Point , int )), "4154488b065553488378e800", nullptr, 0, 0, &func);
@@ -18222,11 +18235,11 @@ namespace _func1430
 void TextButton::SetBaseImage(const std::string &name, Point pos, int autoWidthMin)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, const std::string &name_arg, Point pos_arg, int autoWidthMin_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1430::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1431::func;
 	return execfunc(this, name, pos, autoWidthMin);
 }
 
-namespace _func1431
+namespace _func1432
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::SetAutoWidth", typeid(void (TextButton::*)(bool , bool , int , int )), "4585c04088b7d0000000", nullptr, 0, 0, &func);
@@ -18235,30 +18248,17 @@ namespace _func1431
 void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, int margin, int min)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, bool autoWidth_arg, bool autoRightAlign_arg, int margin_arg, int min_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1431::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1432::func;
 	return execfunc(this, autoWidth, autoRightAlign, margin, min);
 }
 
-namespace _func1432
+namespace _func1433
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::UpdateAutoWidth", typeid(void (TextButton::*)()), ".4155415455534889fb4883ec1880bfd000000000", nullptr, 0, 0, &func);
 }
 
 void TextButton::UpdateAutoWidth()
-{
-	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1432::func;
-	return execfunc(this);
-}
-
-namespace _func1433
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::constructor", typeid(void (TextButton::*)()), "55534889fb488d7f08488d6b284883ec28", nullptr, 0, 0, &func);
-}
-
-void TextButton::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1433::func;
@@ -18268,23 +18268,23 @@ void TextButton::constructor()
 namespace _func1434
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::SetInactiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::constructor", typeid(void (TextButton::*)()), "55534889fb488d7f08488d6b284883ec28", nullptr, 0, 0, &func);
 }
 
-void TextButton::SetInactiveColor(GL_Color color)
+void TextButton::constructor()
 {
-	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, GL_Color color_arg);
+	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1434::func;
-	return execfunc(this, color);
+	return execfunc(this);
 }
 
 namespace _func1435
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::SetActiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::SetInactiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", nullptr, 0, 0, &func);
 }
 
-void TextButton::SetActiveColor(GL_Color color)
+void TextButton::SetInactiveColor(GL_Color color)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, GL_Color color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1435::func;
@@ -18294,10 +18294,10 @@ void TextButton::SetActiveColor(GL_Color color)
 namespace _func1436
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::SetSelectedColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::SetActiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", nullptr, 0, 0, &func);
 }
 
-void TextButton::SetSelectedColor(GL_Color color)
+void TextButton::SetActiveColor(GL_Color color)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, GL_Color color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1436::func;
@@ -18307,10 +18307,10 @@ void TextButton::SetSelectedColor(GL_Color color)
 namespace _func1437
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::SetTextColor", typeid(void (TextButton::*)(GL_Color )), ".80bf8000000000660fd64c24f8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::SetSelectedColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", nullptr, 0, 0, &func);
 }
 
-void TextButton::SetTextColor(GL_Color color)
+void TextButton::SetSelectedColor(GL_Color color)
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, GL_Color color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1437::func;
@@ -18320,17 +18320,30 @@ void TextButton::SetTextColor(GL_Color color)
 namespace _func1438
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TextButton::SetTextColor", typeid(void (TextButton::*)(GL_Color )), ".80bf8000000000660fd64c24f8", nullptr, 0, 0, &func);
+}
+
+void TextButton::SetTextColor(GL_Color color)
+{
+	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg, GL_Color color_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1438::func;
+	return execfunc(this, color);
+}
+
+namespace _func1439
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TextButton::InitPrimitives", typeid(void (TextButton::*)()), "415741564989fe4155415455534881ecb800000080bf8000000000", nullptr, 0, 0, &func);
 }
 
 void TextButton::InitPrimitives()
 {
 	typedef void (*custom_arg_funcptr_t)(TextButton *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1438::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1439::func;
 	return execfunc(this);
 }
 
-namespace _func1439
+namespace _func1440
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::constructor", typeid(void (TextInput::*)(int , TextInput::AllowedCharType , const std::string &)), "!41544189d45589f54889ce534889fb", nullptr, 0, 0, &func);
@@ -18339,11 +18352,11 @@ namespace _func1439
 void TextInput::constructor(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string &prompt)
 {
 	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg, int maxChars_arg, TextInput::AllowedCharType allowedCharType_arg, const std::string &prompt_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1439::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1440::func;
 	return execfunc(this, maxChars, allowedCharType, prompt);
 }
 
-namespace _func1440
+namespace _func1441
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::OnRender", typeid(void (TextInput::*)(int , Point )), ".4156b9ffffffff41554189f54889fe41544989d431d255534889fb4883ec70", nullptr, 0, 0, &func);
@@ -18352,11 +18365,11 @@ namespace _func1440
 void TextInput::OnRender(int font, Point pos)
 {
 	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg, int font_arg, Point pos_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1440::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1441::func;
 	return execfunc(this, font, pos);
 }
 
-namespace _func1441
+namespace _func1442
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::OnLoop", typeid(void (TextInput::*)()), ".!538b473839473c", nullptr, 0, 0, &func);
@@ -18365,11 +18378,11 @@ namespace _func1441
 void TextInput::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1441::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1442::func;
 	return execfunc(this);
 }
 
-namespace _func1442
+namespace _func1443
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::OnTextEvent", typeid(void (TextInput::*)(CEvent::TextEvent )), ".53807f40004889fb", nullptr, 0, 0, &func);
@@ -18378,11 +18391,11 @@ namespace _func1442
 void TextInput::OnTextEvent(CEvent::TextEvent event)
 {
 	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg, CEvent::TextEvent event_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1442::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1443::func;
 	return execfunc(this, event);
 }
 
-namespace _func1443
+namespace _func1444
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::GetActive", typeid(bool (TextInput::*)()), ".!0fb64740c3", nullptr, 0, 0, &func);
@@ -18391,11 +18404,11 @@ namespace _func1443
 bool TextInput::GetActive()
 {
 	typedef bool (*custom_arg_funcptr_t)(TextInput *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1443::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1444::func;
 	return execfunc(this);
 }
 
-namespace _func1444
+namespace _func1445
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string (TextInput::*)()), ".53b9ffffffff4889fb31d2", nullptr, 0, 0, &func);
@@ -18404,19 +18417,6 @@ namespace _func1444
 std::string TextInput::GetText()
 {
 	typedef std::string (*custom_arg_funcptr_t)(TextInput *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1444::func;
-	return execfunc(this);
-}
-
-namespace _func1445
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TextInput::Start", typeid(void (TextInput::*)()), ".534883ec30488b4710482b4708", nullptr, 0, 0, &func);
-}
-
-void TextInput::Start()
-{
-	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1445::func;
 	return execfunc(this);
 }
@@ -18424,10 +18424,10 @@ void TextInput::Start()
 namespace _func1446
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextInput::Stop", typeid(void (TextInput::*)()), ".!c6474000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextInput::Start", typeid(void (TextInput::*)()), ".534883ec30488b4710482b4708", nullptr, 0, 0, &func);
 }
 
-void TextInput::Stop()
+void TextInput::Start()
 {
 	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1446::func;
@@ -18437,17 +18437,30 @@ void TextInput::Stop()
 namespace _func1447
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TextInput::Stop", typeid(void (TextInput::*)()), ".!c6474000", nullptr, 0, 0, &func);
+}
+
+void TextInput::Stop()
+{
+	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1447::func;
+	return execfunc(this);
+}
+
+namespace _func1448
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::SetText", typeid(int (TextInput::*)(const std::string &)), ".55488d6f08534889fb4883ec28", nullptr, 0, 0, &func);
 }
 
 int TextInput::SetText(const std::string &text)
 {
 	typedef int (*custom_arg_funcptr_t)(TextInput *this_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1447::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1448::func;
 	return execfunc(this, text);
 }
 
-namespace _func1448
+namespace _func1449
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextInput::OnTextInput", typeid(void (TextInput::*)(int )), ".41564155415455534889fb4883ec30807f4000", nullptr, 0, 0, &func);
@@ -18456,11 +18469,11 @@ namespace _func1448
 void TextInput::OnTextInput(int asciiChar)
 {
 	typedef void (*custom_arg_funcptr_t)(TextInput *this_arg, int asciiChar_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1448::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1449::func;
 	return execfunc(this, asciiChar);
 }
 
-namespace _func1449
+namespace _func1450
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextLibrary::GetText", typeid(std::string (TextLibrary::*)(const std::string &, const std::string &)), "41574156415541544989fc5553488d5e384883ec48", nullptr, 0, 0, &func);
@@ -18469,11 +18482,11 @@ namespace _func1449
 std::string TextLibrary::GetText(const std::string &name, const std::string &lang)
 {
 	typedef std::string (*custom_arg_funcptr_t)(TextLibrary *this_arg, const std::string &name_arg, const std::string &lang_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1449::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1450::func;
 	return execfunc(this, name, lang);
 }
 
-namespace _func1450
+namespace _func1451
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TextString::GetText", typeid(std::string (TextString::*)()), "53807e08004889fb", nullptr, 0, 0, &func);
@@ -18482,11 +18495,11 @@ namespace _func1450
 std::string TextString::GetText()
 {
 	typedef std::string (*custom_arg_funcptr_t)(TextString *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1450::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1451::func;
 	return execfunc(this);
 }
 
-namespace _func1451
+namespace _func1452
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TimerHelper::Start", typeid(void (TimerHelper::*)(int )), "83feffc6471101c7470800000000", nullptr, 0, 0, &func);
@@ -18495,11 +18508,11 @@ namespace _func1451
 void TimerHelper::Start(int goal)
 {
 	typedef void (*custom_arg_funcptr_t)(TimerHelper *this_arg, int goal_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1451::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1452::func;
 	return execfunc(this, goal);
 }
 
-namespace _func1452
+namespace _func1453
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TimerHelper::Running", typeid(bool (TimerHelper::*)()), "!.0fb64711c3", nullptr, 0, 0, &func);
@@ -18508,11 +18521,11 @@ namespace _func1452
 bool TimerHelper::Running()
 {
 	typedef bool (*custom_arg_funcptr_t)(TimerHelper *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1452::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1453::func;
 	return execfunc(this);
 }
 
-namespace _func1453
+namespace _func1454
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TimerHelper::ResetMinMax", typeid(void (TimerHelper::*)(int , int )), ".8917897704", nullptr, 0, 0, &func);
@@ -18521,11 +18534,11 @@ namespace _func1453
 void TimerHelper::ResetMinMax(int min, int max)
 {
 	typedef void (*custom_arg_funcptr_t)(TimerHelper *this_arg, int min_arg, int max_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1453::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1454::func;
 	return execfunc(this, min, max);
 }
 
-namespace _func1454
+namespace _func1455
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TimerHelper::SetMaxTime", typeid(void (TimerHelper::*)(float )), ".f30f104f08f30f5e4f0c", nullptr, 0, 0, &func);
@@ -18534,30 +18547,17 @@ namespace _func1454
 void TimerHelper::SetMaxTime(float max)
 {
 	typedef void (*custom_arg_funcptr_t)(TimerHelper *this_arg, float max_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1454::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1455::func;
 	return execfunc(this, max);
 }
 
-namespace _func1455
+namespace _func1456
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TimerHelper::Stop", typeid(void (TimerHelper::*)()), "!.c6471100c3", nullptr, 0, 0, &func);
 }
 
 void TimerHelper::Stop()
-{
-	typedef void (*custom_arg_funcptr_t)(TimerHelper *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1455::func;
-	return execfunc(this);
-}
-
-namespace _func1456
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TimerHelper::Update", typeid(void (TimerHelper::*)()), ".53807f11004889fb", nullptr, 0, 0, &func);
-}
-
-void TimerHelper::Update()
 {
 	typedef void (*custom_arg_funcptr_t)(TimerHelper *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1456::func;
@@ -18567,17 +18567,30 @@ void TimerHelper::Update()
 namespace _func1457
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TimerHelper::Update", typeid(void (TimerHelper::*)()), ".53807f11004889fb", nullptr, 0, 0, &func);
+}
+
+void TimerHelper::Update()
+{
+	typedef void (*custom_arg_funcptr_t)(TimerHelper *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1457::func;
+	return execfunc(this);
+}
+
+namespace _func1458
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TimerHelper::Done", typeid(bool (TimerHelper::*)()), ".0fb6471184c0", nullptr, 0, 0, &func);
 }
 
 bool TimerHelper::Done()
 {
 	typedef bool (*custom_arg_funcptr_t)(TimerHelper *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1457::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1458::func;
 	return execfunc(this);
 }
 
-namespace _func1458
+namespace _func1459
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TutorialManager::constructor", typeid(void (TutorialManager::*)()), "!534889fb488d7f084883ec10c647f800", nullptr, 0, 0, &func);
@@ -18586,19 +18599,6 @@ namespace _func1458
 void TutorialManager::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1458::func;
-	return execfunc(this);
-}
-
-namespace _func1459
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TutorialManager::Running", typeid(bool (TutorialManager::*)()), "!.0fb607c3", nullptr, 0, 0, &func);
-}
-
-bool TutorialManager::Running()
-{
-	typedef bool (*custom_arg_funcptr_t)(TutorialManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1459::func;
 	return execfunc(this);
 }
@@ -18606,10 +18606,10 @@ bool TutorialManager::Running()
 namespace _func1460
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TutorialManager::AllowJumping", typeid(bool (TutorialManager::*)()), ".554889fdbe", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TutorialManager::Running", typeid(bool (TutorialManager::*)()), "!.0fb607c3", nullptr, 0, 0, &func);
 }
 
-bool TutorialManager::AllowJumping()
+bool TutorialManager::Running()
 {
 	typedef bool (*custom_arg_funcptr_t)(TutorialManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1460::func;
@@ -18619,10 +18619,10 @@ bool TutorialManager::AllowJumping()
 namespace _func1461
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TutorialManager::AllowUpgrades", typeid(bool (TutorialManager::*)()), ".55bd01000000534889fb4883ec38", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TutorialManager::AllowJumping", typeid(bool (TutorialManager::*)()), ".554889fdbe", nullptr, 0, 0, &func);
 }
 
-bool TutorialManager::AllowUpgrades()
+bool TutorialManager::AllowJumping()
 {
 	typedef bool (*custom_arg_funcptr_t)(TutorialManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1461::func;
@@ -18632,17 +18632,30 @@ bool TutorialManager::AllowUpgrades()
 namespace _func1462
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TutorialManager::AllowUpgrades", typeid(bool (TutorialManager::*)()), ".55bd01000000534889fb4883ec38", nullptr, 0, 0, &func);
+}
+
+bool TutorialManager::AllowUpgrades()
+{
+	typedef bool (*custom_arg_funcptr_t)(TutorialManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1462::func;
+	return execfunc(this);
+}
+
+namespace _func1463
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TutorialManager::MouseMove", typeid(void (TutorialManager::*)(int , int )), ".41574156415541544989fc55534883ec38803f", nullptr, 0, 0, &func);
 }
 
 void TutorialManager::MouseMove(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1462::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1463::func;
 	return execfunc(this, mX, mY);
 }
 
-namespace _func1463
+namespace _func1464
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TutorialManager::MouseClick", typeid(bool (TutorialManager::*)()), ".41574156415541544989fc55534883ec380fb607", nullptr, 0, 0, &func);
@@ -18651,19 +18664,6 @@ namespace _func1463
 bool TutorialManager::MouseClick()
 {
 	typedef bool (*custom_arg_funcptr_t)(TutorialManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1463::func;
-	return execfunc(this);
-}
-
-namespace _func1464
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("TutorialManager::OnLoop", typeid(void (TutorialManager::*)()), ".415741564155415455534889fb4881ec88000000803f", nullptr, 0, 0, &func);
-}
-
-void TutorialManager::OnLoop()
-{
-	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1464::func;
 	return execfunc(this);
 }
@@ -18671,10 +18671,10 @@ void TutorialManager::OnLoop()
 namespace _func1465
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TutorialManager::LoadTutorial", typeid(void (TutorialManager::*)()), ".415741564155415455534889fb4881ecc8010100", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TutorialManager::OnLoop", typeid(void (TutorialManager::*)()), ".415741564155415455534889fb4881ec88000000803f", nullptr, 0, 0, &func);
 }
 
-void TutorialManager::LoadTutorial()
+void TutorialManager::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1465::func;
@@ -18684,17 +18684,30 @@ void TutorialManager::LoadTutorial()
 namespace _func1466
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("TutorialManager::LoadTutorial", typeid(void (TutorialManager::*)()), ".415741564155415455534889fb4881ecc8010100", nullptr, 0, 0, &func);
+}
+
+void TutorialManager::LoadTutorial()
+{
+	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1466::func;
+	return execfunc(this);
+}
+
+namespace _func1467
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("TutorialManager::OnInit", typeid(void (TutorialManager::*)(ShipManager *, CommandGui *, CrewControl *, Upgrades *, CombatControl *, SystemControl *, TabbedWindow *)), ".415455534889fb4883ec404889b790010000", nullptr, 0, 0, &func);
 }
 
 void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk)
 {
 	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg, ShipManager *ship_arg, CommandGui *gui_arg, CrewControl *crewControl_arg, Upgrades *upgradesScreen_arg, CombatControl *combatControl_arg, SystemControl *sysControl_arg, TabbedWindow *unk_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1466::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1467::func;
 	return execfunc(this, ship, gui, crewControl, upgradesScreen, combatControl, sysControl, unk);
 }
 
-namespace _func1467
+namespace _func1468
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("TutorialManager::OnRender", typeid(void (TutorialManager::*)()), ".41574156415541544989fc55534881ec88000000", nullptr, 0, 0, &func);
@@ -18703,18 +18716,18 @@ namespace _func1467
 void TutorialManager::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(TutorialManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1467::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1468::func;
 	return execfunc(this);
 }
 
 TutorialManager *Global_TutorialManager_Tutorial;
 
-namespace _var1468
+namespace _var1469
 {
     static VariableDefinition varObj("Global_TutorialManager_Tutorial", "!498b07488b7810488b07ff908000000084c00f84????????bf(???????\?)", &Global_TutorialManager_Tutorial);
 }
 
-namespace _func1469
+namespace _func1470
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UnlockArrow::constructor", typeid(void (UnlockArrow::*)(Point , int , int )), "554889f5534889fb4883ec28803d????????00", nullptr, 0, 0, &func);
@@ -18723,11 +18736,11 @@ namespace _func1469
 void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 {
 	typedef void (*custom_arg_funcptr_t)(UnlockArrow *this_arg, Point pos_arg, int unk1_arg, int unk2_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1469::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1470::func;
 	return execfunc(this, pos, unk1, unk2);
 }
 
-namespace _func1470
+namespace _func1471
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UnlockArrow::MouseMove", typeid(bool (UnlockArrow::*)(int , int )), ".837f0403", nullptr, 0, 0, &func);
@@ -18736,11 +18749,11 @@ namespace _func1470
 bool UnlockArrow::MouseMove(int x, int y)
 {
 	typedef bool (*custom_arg_funcptr_t)(UnlockArrow *this_arg, int x_arg, int y_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1470::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1471::func;
 	return execfunc(this, x, y);
 }
 
-namespace _func1471
+namespace _func1472
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UnlockArrow::OnRender", typeid(void (UnlockArrow::*)()), ".534889fb4883ec308b0785c0", nullptr, 0, 0, &func);
@@ -18749,11 +18762,11 @@ namespace _func1471
 void UnlockArrow::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(UnlockArrow *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1471::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1472::func;
 	return execfunc(this);
 }
 
-namespace _func1472
+namespace _func1473
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UpgradeBox::OnRender", typeid(void (UpgradeBox::*)()), "415741564989fe4155415455534881ecd801000080bf5901000000", nullptr, 0, 0, &func);
@@ -18762,30 +18775,17 @@ namespace _func1472
 void UpgradeBox::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1472::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1473::func;
 	return execfunc(this);
 }
 
-namespace _func1473
+namespace _func1474
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UpgradeBox::MouseMove", typeid(void (UpgradeBox::*)(int , int )), ".48833f007412", nullptr, 0, 0, &func);
 }
 
 void UpgradeBox::MouseMove(int mX, int mY)
-{
-	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1473::func;
-	return execfunc(this, mX, mY);
-}
-
-namespace _func1474
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("UpgradeBox::MouseClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", nullptr, 0, 0, &func);
-}
-
-void UpgradeBox::MouseClick(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1474::func;
@@ -18795,10 +18795,10 @@ void UpgradeBox::MouseClick(int mX, int mY)
 namespace _func1475
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("UpgradeBox::MouseRightClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("UpgradeBox::MouseClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", nullptr, 0, 0, &func);
 }
 
-void UpgradeBox::MouseRightClick(int mX, int mY)
+void UpgradeBox::MouseClick(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1475::func;
@@ -18808,23 +18808,23 @@ void UpgradeBox::MouseRightClick(int mX, int mY)
 namespace _func1476
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("UpgradeBox::Undo", typeid(void (UpgradeBox::*)()), ".538b47204889fb85c0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("UpgradeBox::MouseRightClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", nullptr, 0, 0, &func);
 }
 
-void UpgradeBox::Undo()
+void UpgradeBox::MouseRightClick(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg);
+	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1476::func;
-	return execfunc(this);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func1477
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("UpgradeBox::Accept", typeid(void (UpgradeBox::*)()), ".534889fb4883ec20488b3f4885ff", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("UpgradeBox::Undo", typeid(void (UpgradeBox::*)()), ".538b47204889fb85c0", nullptr, 0, 0, &func);
 }
 
-void UpgradeBox::Accept()
+void UpgradeBox::Undo()
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1477::func;
@@ -18834,17 +18834,30 @@ void UpgradeBox::Accept()
 namespace _func1478
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("UpgradeBox::Accept", typeid(void (UpgradeBox::*)()), ".534889fb4883ec20488b3f4885ff", nullptr, 0, 0, &func);
+}
+
+void UpgradeBox::Accept()
+{
+	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1478::func;
+	return execfunc(this);
+}
+
+namespace _func1479
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("UpgradeBox::constructorEmpty", typeid(void (UpgradeBox::*)(Point , bool )), ".41554189d541544989f449c1fc20554889f5534889fb488d7f384883ec38", nullptr, 0, 0, &func);
 }
 
 void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg, Point pos_arg, bool subsystem_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1478::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1479::func;
 	return execfunc(this, pos, subsystem);
 }
 
-namespace _func1479
+namespace _func1480
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UpgradeBox::constructorSystem", typeid(void (UpgradeBox::*)(ShipManager *, ShipSystem *, Point , bool )), ".41574589c741564c8d773841554989cd41544989d455488dafc8000000534889fb4883ec38", nullptr, 0, 0, &func);
@@ -18853,11 +18866,11 @@ namespace _func1479
 void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg, ShipManager *ship_arg, ShipSystem *sys_arg, Point pos_arg, bool subsystem_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1479::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1480::func;
 	return execfunc(this, ship, sys, pos, subsystem);
 }
 
-namespace _func1480
+namespace _func1481
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("UpgradeBox::destructor", typeid(void (UpgradeBox::*)()), ".534889fb4883ec10488bbf60010000", nullptr, 0, 0, &func);
@@ -18866,30 +18879,17 @@ namespace _func1480
 void UpgradeBox::destructor()
 {
 	typedef void (*custom_arg_funcptr_t)(UpgradeBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1480::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1481::func;
 	return execfunc(this);
 }
 
-namespace _func1481
+namespace _func1482
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Upgrades::MouseMove", typeid(void (Upgrades::*)(int , int )), "!41554989fd41544189d45589f55331db4883ec08", nullptr, 0, 0, &func);
 }
 
 void Upgrades::MouseMove(int mX, int mY)
-{
-	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1481::func;
-	return execfunc(this, mX, mY);
-}
-
-namespace _func1482
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("Upgrades::MouseRightClick", typeid(void (Upgrades::*)(int , int )), ".415431c94989fc5531ed534883ec20", nullptr, 0, 0, &func);
-}
-
-void Upgrades::MouseRightClick(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1482::func;
@@ -18899,23 +18899,23 @@ void Upgrades::MouseRightClick(int mX, int mY)
 namespace _func1483
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Upgrades::Close", typeid(void (Upgrades::*)()), ".41554154554889fd534883ec28807f0800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Upgrades::MouseRightClick", typeid(void (Upgrades::*)(int , int )), ".415431c94989fc5531ed534883ec20", nullptr, 0, 0, &func);
 }
 
-void Upgrades::Close()
+void Upgrades::MouseRightClick(int mX, int mY)
 {
-	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
+	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg, int mX_arg, int mY_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1483::func;
-	return execfunc(this);
+	return execfunc(this, mX, mY);
 }
 
 namespace _func1484
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Upgrades::OnLoop", typeid(void (Upgrades::*)()), ".4155415455534889fb4883ec68807f0800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Upgrades::Close", typeid(void (Upgrades::*)()), ".41554154554889fd534883ec28807f0800", nullptr, 0, 0, &func);
 }
 
-void Upgrades::OnLoop()
+void Upgrades::Close()
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1484::func;
@@ -18925,10 +18925,10 @@ void Upgrades::OnLoop()
 namespace _func1485
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Upgrades::ConfirmUpgrades", typeid(void (Upgrades::*)()), ".415531c941bd????????41544989fc5531ed534883ec28", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Upgrades::OnLoop", typeid(void (Upgrades::*)()), ".4155415455534889fb4883ec68807f0800", nullptr, 0, 0, &func);
 }
 
-void Upgrades::ConfirmUpgrades()
+void Upgrades::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1485::func;
@@ -18938,17 +18938,30 @@ void Upgrades::ConfirmUpgrades()
 namespace _func1486
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("Upgrades::ConfirmUpgrades", typeid(void (Upgrades::*)()), ".415531c941bd????????41544989fc5531ed534883ec28", nullptr, 0, 0, &func);
+}
+
+void Upgrades::ConfirmUpgrades()
+{
+	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1486::func;
+	return execfunc(this);
+}
+
+namespace _func1487
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("Upgrades::MouseClick", typeid(void (Upgrades::*)(int , int )), ".41554189d541544189f4554889fd5331db4883ec28", nullptr, 0, 0, &func);
 }
 
 void Upgrades::MouseClick(int mX, int mY)
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg, int mX_arg, int mY_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1486::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1487::func;
 	return execfunc(this, mX, mY);
 }
 
-namespace _func1487
+namespace _func1488
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Upgrades::ClearUpgradeBoxes", typeid(void (Upgrades::*)()), ".41544989fc55534883ec10488b4f30488b57284889c84829d048c1f80385c0", nullptr, 0, 0, &func);
@@ -18957,11 +18970,11 @@ namespace _func1487
 void Upgrades::ClearUpgradeBoxes()
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1487::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1488::func;
 	return execfunc(this);
 }
 
-namespace _func1488
+namespace _func1489
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Upgrades::OnInit", typeid(void (Upgrades::*)(ShipManager *)), ".41574989ff41564155415455534881ecb8000000", nullptr, 0, 0, &func);
@@ -18970,30 +18983,17 @@ namespace _func1488
 void Upgrades::OnInit(ShipManager *ship)
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg, ShipManager *ship_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1488::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1489::func;
 	return execfunc(this, ship);
 }
 
-namespace _func1489
+namespace _func1490
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Upgrades::Open", typeid(void (Upgrades::*)()), "!.534889fbe8????????488b", nullptr, 0, 0, &func);
 }
 
 void Upgrades::Open()
-{
-	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1489::func;
-	return execfunc(this);
-}
-
-namespace _func1490
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("Upgrades::OnRender", typeid(void (Upgrades::*)()), ".415455534889fb4883ec50488b7f20", nullptr, 0, 0, &func);
-}
-
-void Upgrades::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1490::func;
@@ -19003,17 +19003,30 @@ void Upgrades::OnRender()
 namespace _func1491
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("Upgrades::OnRender", typeid(void (Upgrades::*)()), ".415455534889fb4883ec50488b7f20", nullptr, 0, 0, &func);
+}
+
+void Upgrades::OnRender()
+{
+	typedef void (*custom_arg_funcptr_t)(Upgrades *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1491::func;
+	return execfunc(this);
+}
+
+namespace _func1492
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::RenderWithAlpha", typeid(void (WarningMessage::*)(float )), "41570f28f041564155415455534889fb4883ec48", nullptr, 0, 0, &func);
 }
 
 void WarningMessage::RenderWithAlpha(float alpha)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, float alpha_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1491::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1492::func;
 	return execfunc(this, alpha);
 }
 
-namespace _func1492
+namespace _func1493
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::constructor", typeid(void (WarningMessage::*)()), ".0f57c0534889fb488d7f2831d24883ec20", nullptr, 0, 0, &func);
@@ -19022,11 +19035,11 @@ namespace _func1492
 void WarningMessage::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1492::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1493::func;
 	return execfunc(this);
 }
 
-namespace _func1493
+namespace _func1494
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::InitImage", typeid(void (WarningMessage::*)(const std::string &, Point , float , bool )), ".41564189ce415541544989f4554889d5534889fb488dbfa80000004c8d6b604883ec10", nullptr, 0, 0, &func);
@@ -19035,11 +19048,11 @@ namespace _func1493
 void WarningMessage::InitImage(const std::string &imageName, Point position, float time, bool flash)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, const std::string &imageName_arg, Point position_arg, float time_arg, bool flash_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1493::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1494::func;
 	return execfunc(this, imageName, position, time, flash);
 }
 
-namespace _func1494
+namespace _func1495
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::InitText", typeid(void (WarningMessage::*)(const TextString &, Point , float , GL_Color , bool , bool )), ".41574589c741564189ce41554154554889f5534889fb488d7f384883ec28", nullptr, 0, 0, &func);
@@ -19048,30 +19061,17 @@ namespace _func1494
 void WarningMessage::InitText(const TextString &text, Point position, float time, GL_Color textColor, bool centerText, bool flash)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, const TextString &text_arg, Point position_arg, float time_arg, GL_Color textColor_arg, bool centerText_arg, bool flash_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1494::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1495::func;
 	return execfunc(this, text, position, time, textColor, centerText, flash);
 }
 
-namespace _func1495
+namespace _func1496
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::OnLoop", typeid(void (WarningMessage::*)()), ".55488d6f08534889fb4889ef4883ec08", nullptr, 0, 0, &func);
 }
 
 void WarningMessage::OnLoop()
-{
-	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1495::func;
-	return execfunc(this);
-}
-
-namespace _func1496
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WarningMessage::OnRender", typeid(void (WarningMessage::*)()), ".53807f1e004889fb", nullptr, 0, 0, &func);
-}
-
-void WarningMessage::OnRender()
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1496::func;
@@ -19081,17 +19081,30 @@ void WarningMessage::OnRender()
 namespace _func1497
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WarningMessage::OnRender", typeid(void (WarningMessage::*)()), ".53807f1e004889fb", nullptr, 0, 0, &func);
+}
+
+void WarningMessage::OnRender()
+{
+	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1497::func;
+	return execfunc(this);
+}
+
+namespace _func1498
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::SetImage", typeid(void (WarningMessage::*)(const std::string &)), ".4155415455534889fb4883ec08807f3000", nullptr, 0, 0, &func);
 }
 
 void WarningMessage::SetImage(const std::string &imageName)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, const std::string &imageName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1497::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1498::func;
 	return execfunc(this, imageName);
 }
 
-namespace _func1498
+namespace _func1499
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::SetText", typeid(void (WarningMessage::*)(const TextString &)), ".4155415455534889fb4883ec08807f3000", nullptr, 0, 0, &func);
@@ -19100,11 +19113,11 @@ namespace _func1498
 void WarningMessage::SetText(const TextString &text)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, const TextString &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1498::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1499::func;
 	return execfunc(this, text);
 }
 
-namespace _func1499
+namespace _func1500
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::SetText", typeid(void (WarningMessage::*)(const TextString &, GL_Color )), ".415741564155415455534889fb4883ec18807f3000", nullptr, 0, 0, &func);
@@ -19113,11 +19126,11 @@ namespace _func1499
 void WarningMessage::SetText(const TextString &text, GL_Color textColor)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, const TextString &text_arg, GL_Color textColor_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1499::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1500::func;
 	return execfunc(this, text, textColor);
 }
 
-namespace _func1500
+namespace _func1501
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::SetPosition", typeid(void (WarningMessage::*)(Point )), ".807f300048897728", nullptr, 0, 0, &func);
@@ -19126,11 +19139,11 @@ namespace _func1500
 void WarningMessage::SetPosition(Point position)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, Point position_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1500::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1501::func;
 	return execfunc(this, position);
 }
 
-namespace _func1501
+namespace _func1502
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::SetLoop", typeid(void (WarningMessage::*)(bool )), "!.0f57c0400fb6f64883c708", nullptr, 0, 0, &func);
@@ -19139,11 +19152,11 @@ namespace _func1501
 void WarningMessage::SetLoop(bool loop)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, bool loop_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1501::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1502::func;
 	return execfunc(this, loop);
 }
 
-namespace _func1502
+namespace _func1503
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::SetSound", typeid(void (WarningMessage::*)(const std::string &)), "!.4881c7b8000000", nullptr, 0, 0, &func);
@@ -19152,11 +19165,11 @@ namespace _func1502
 void WarningMessage::SetSound(const std::string &sound)
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg, const std::string &sound_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1502::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1503::func;
 	return execfunc(this, sound);
 }
 
-namespace _func1503
+namespace _func1504
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WarningMessage::Start", typeid(void (WarningMessage::*)()), ".53807f1c004889fb", nullptr, 0, 0, &func);
@@ -19165,11 +19178,11 @@ namespace _func1503
 void WarningMessage::Start()
 {
 	typedef void (*custom_arg_funcptr_t)(WarningMessage *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1503::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1504::func;
 	return execfunc(this);
 }
 
-namespace _func1504
+namespace _func1505
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::SaveState", typeid(void (WeaponAnimation::*)(int )), "554889fd5389f34883ec08e8??????????8d", nullptr, 0, 0, &func);
@@ -19178,11 +19191,11 @@ namespace _func1504
 void WeaponAnimation::SaveState(int fd)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, int fd_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1504::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1505::func;
 	return execfunc(this, fd);
 }
 
-namespace _func1505
+namespace _func1506
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::SetBoostLevel", typeid(void (WeaponAnimation::*)(int )), ".!80bfc10000000074??f3c3", nullptr, 0, 0, &func);
@@ -19191,11 +19204,11 @@ namespace _func1505
 void WeaponAnimation::SetBoostLevel(int value)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, int value_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1505::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1506::func;
 	return execfunc(this, value);
 }
 
-namespace _func1506
+namespace _func1507
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::StartFire", typeid(bool (WeaponAnimation::*)()), "530fb687c10000004889fb84c0", nullptr, 0, 0, &func);
@@ -19204,11 +19217,11 @@ namespace _func1506
 bool WeaponAnimation::StartFire()
 {
 	typedef bool (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1506::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1507::func;
 	return execfunc(this);
 }
 
-namespace _func1507
+namespace _func1508
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::SetFireTime", typeid(void (WeaponAnimation::*)(float )), "8b470889c22b97c8000000", nullptr, 0, 0, &func);
@@ -19217,11 +19230,11 @@ namespace _func1507
 void WeaponAnimation::SetFireTime(float time)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, float time_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1507::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1508::func;
 	return execfunc(this, time);
 }
 
-namespace _func1508
+namespace _func1509
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::GetSlide", typeid(Pointf (WeaponAnimation::*)()), "534889fb488dbff8", nullptr, 0, 0, &func);
@@ -19230,11 +19243,11 @@ namespace _func1508
 Pointf WeaponAnimation::GetSlide()
 {
 	typedef Pointf (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1508::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1509::func;
 	return execfunc(this);
 }
 
-namespace _func1509
+namespace _func1510
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::SetPowered", typeid(void (WeaponAnimation::*)(bool )), ".5589f553??89fb??83ec0880bfdc0000000074????84f6", nullptr, 0, 0, &func);
@@ -19243,11 +19256,11 @@ namespace _func1509
 void WeaponAnimation::SetPowered(bool powered)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, bool powered_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1509::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1510::func;
 	return execfunc(this, powered);
 }
 
-namespace _func1510
+namespace _func1511
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::SetChargedLevel", typeid(void (WeaponAnimation::*)(float )), ".f30f101d????????80bfc1000000000f28c8", nullptr, 0, 0, &func);
@@ -19256,11 +19269,11 @@ namespace _func1510
 void WeaponAnimation::SetChargedLevel(float charged)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, float charged_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1510::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1511::func;
 	return execfunc(this, charged);
 }
 
-namespace _func1511
+namespace _func1512
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::Update", typeid(void (WeaponAnimation::*)()), "415455534889fb4883ec1080bfc100000000", nullptr, 0, 0, &func);
@@ -19269,11 +19282,11 @@ namespace _func1511
 void WeaponAnimation::Update()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1511::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1512::func;
 	return execfunc(this);
 }
 
-namespace _func1512
+namespace _func1513
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::GetFireLocation", typeid(Point (WeaponAnimation::*)()), ".??83ec188b97f40000008bb7f0000000", nullptr, 0, 0, &func);
@@ -19282,30 +19295,17 @@ namespace _func1512
 Point WeaponAnimation::GetFireLocation()
 {
 	typedef Point (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1512::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1513::func;
 	return execfunc(this);
 }
 
-namespace _func1513
+namespace _func1514
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponAnimation::OnRender", typeid(void (WeaponAnimation::*)(float )), ".??57??56??55??545553??89fb??83ec38", nullptr, 0, 0, &func);
 }
 
 void WeaponAnimation::OnRender(float alpha)
-{
-	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, float alpha_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1513::func;
-	return execfunc(this, alpha);
-}
-
-namespace _func1514
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WeaponAnimation::RenderChargeBar", typeid(void (WeaponAnimation::*)(float )), ".41564155415455534889fb4883ec20e8", nullptr, 0, 0, &func);
-}
-
-void WeaponAnimation::RenderChargeBar(float alpha)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, float alpha_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1514::func;
@@ -19315,17 +19315,30 @@ void WeaponAnimation::RenderChargeBar(float alpha)
 namespace _func1515
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WeaponAnimation::RenderChargeBar", typeid(void (WeaponAnimation::*)(float )), ".41564155415455534889fb4883ec20e8", nullptr, 0, 0, &func);
+}
+
+void WeaponAnimation::RenderChargeBar(float alpha)
+{
+	typedef void (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, float alpha_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1515::func;
+	return execfunc(this, alpha);
+}
+
+namespace _func1516
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WeaponBlueprint::RenderIcon", typeid(void (WeaponBlueprint::*)(float )), "!488db738010000", nullptr, 0, 0, &func);
 }
 
 void WeaponBlueprint::RenderIcon(float scale)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponBlueprint *this_arg, float scale_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1515::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1516::func;
 	return execfunc(this, scale);
 }
 
-namespace _func1516
+namespace _func1517
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponBlueprint::GetDimensions", typeid(Point (WeaponBlueprint::*)()), ".53??8d9738010000", nullptr, 0, 0, &func);
@@ -19334,11 +19347,11 @@ namespace _func1516
 Point WeaponBlueprint::GetDimensions()
 {
 	typedef Point (*custom_arg_funcptr_t)(WeaponBlueprint *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1516::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1517::func;
 	return execfunc(this);
 }
 
-namespace _func1517
+namespace _func1518
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponBlueprint::GetDescription", typeid(std::string (WeaponBlueprint::*)(bool )), ".4157415641554989fd4154554889f5534881ec08010000", nullptr, 0, 0, &func);
@@ -19347,30 +19360,17 @@ namespace _func1517
 std::string WeaponBlueprint::GetDescription(bool tooltip)
 {
 	typedef std::string (*custom_arg_funcptr_t)(WeaponBlueprint *this_arg, bool tooltip_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1517::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1518::func;
 	return execfunc(this, tooltip);
 }
 
-namespace _func1518
+namespace _func1519
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponBlueprint::constructor", typeid(void (WeaponBlueprint::*)()), ".534889fb488d7f08be????????4883ec20", nullptr, 0, 0, &func);
 }
 
 void WeaponBlueprint::constructor()
-{
-	typedef void (*custom_arg_funcptr_t)(WeaponBlueprint *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1518::func;
-	return execfunc(this);
-}
-
-namespace _func1519
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WeaponBlueprint::destructor", typeid(void (WeaponBlueprint::*)()), ".4154554889fd534883ec10488b8788010000", nullptr, 0, 0, &func);
-}
-
-void WeaponBlueprint::destructor()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponBlueprint *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1519::func;
@@ -19380,17 +19380,30 @@ void WeaponBlueprint::destructor()
 namespace _func1520
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WeaponBlueprint::destructor", typeid(void (WeaponBlueprint::*)()), ".4154554889fd534883ec10488b8788010000", nullptr, 0, 0, &func);
+}
+
+void WeaponBlueprint::destructor()
+{
+	typedef void (*custom_arg_funcptr_t)(WeaponBlueprint *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1520::func;
+	return execfunc(this);
+}
+
+namespace _func1521
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WeaponBox::RenderBox", typeid(void (WeaponBox::*)(bool , bool )), "41570fb6d2400fb6f641564155415455534889fb4881ec68030000", nullptr, 0, 0, &func);
 }
 
 void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponBox *this_arg, bool dragging_arg, bool flashPowerBox_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1520::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1521::func;
 	return execfunc(this, dragging, flashPowerBox);
 }
 
-namespace _func1521
+namespace _func1522
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponBox::GenerateTooltip", typeid(std::string (WeaponBox::*)()), "554889f5534889fb4889f74883ec38488b06", nullptr, 0, 0, &func);
@@ -19399,11 +19412,11 @@ namespace _func1521
 std::string WeaponBox::GenerateTooltip()
 {
 	typedef std::string (*custom_arg_funcptr_t)(WeaponBox *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1521::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1522::func;
 	return execfunc(this);
 }
 
-namespace _func1522
+namespace _func1523
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::RenderWarnings", typeid(void (WeaponControl::*)()), "!53??89fbe8????????f30f2a4338f30f2a4b3c0f57d2e8??????????8dbb38020000e8????????", nullptr, 0, 0, &func);
@@ -19412,11 +19425,11 @@ namespace _func1522
 void WeaponControl::RenderWarnings()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1522::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1523::func;
 	return execfunc(this);
 }
 
-namespace _func1523
+namespace _func1524
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::HolderLabel", typeid(TextString (WeaponControl::*)()), ".534889fbbe", nullptr, 0, 0, &func);
@@ -19425,11 +19438,11 @@ namespace _func1523
 TextString WeaponControl::HolderLabel()
 {
 	typedef TextString (*custom_arg_funcptr_t)(WeaponControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1523::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1524::func;
 	return execfunc(this);
 }
 
-namespace _func1524
+namespace _func1525
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::SelectArmament", typeid(void (WeaponControl::*)(unsigned int )), ".415641554154554863ee4189ec53", nullptr, 0, 0, &func);
@@ -19438,11 +19451,11 @@ namespace _func1524
 void WeaponControl::SelectArmament(unsigned int armamentSlot)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, unsigned int armamentSlot_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1524::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1525::func;
 	return execfunc(this, armamentSlot);
 }
 
-namespace _func1525
+namespace _func1526
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::constructor", typeid(void (WeaponControl::*)()), ".4157be03000000415641554989fd415455498dad3802000053498d9d180300004881ec58030000", nullptr, 0, 0, &func);
@@ -19451,11 +19464,11 @@ namespace _func1525
 void WeaponControl::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1525::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1526::func;
 	return execfunc(this);
 }
 
-namespace _func1526
+namespace _func1527
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::RenderBeamAiming", typeid(void (*)(Pointf , Pointf , bool )), ".41545589fd534883ec40", nullptr, 0, 0, &func);
@@ -19464,30 +19477,17 @@ namespace _func1526
 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire)
 {
 	typedef void (*custom_arg_funcptr_t)(Pointf one_arg, Pointf two_arg, bool bAutoFire_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1526::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1527::func;
 	return execfunc(one, two, bAutoFire);
 }
 
-namespace _func1527
+namespace _func1528
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::RenderAiming", typeid(void (WeaponControl::*)()), ".41574989ff415641554531ed4154555331db4883ec38", nullptr, 0, 0, &func);
 }
 
 void WeaponControl::RenderAiming()
-{
-	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1527::func;
-	return execfunc(this);
-}
-
-namespace _func1528
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WeaponControl::RenderSelfAiming", typeid(void (WeaponControl::*)()), ".4157415641554531ed41544989fc555331db4883ec18", nullptr, 0, 0, &func);
-}
-
-void WeaponControl::RenderSelfAiming()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1528::func;
@@ -19497,17 +19497,30 @@ void WeaponControl::RenderSelfAiming()
 namespace _func1529
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WeaponControl::RenderSelfAiming", typeid(void (WeaponControl::*)()), ".4157415641554531ed41544989fc555331db4883ec18", nullptr, 0, 0, &func);
+}
+
+void WeaponControl::RenderSelfAiming()
+{
+	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1529::func;
+	return execfunc(this);
+}
+
+namespace _func1530
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::SetAutofiring", typeid(void (WeaponControl::*)(bool , bool )), ".41554189d54154554889fd534883ec484084f64088b7e0000000", nullptr, 0, 0, &func);
 }
 
 void WeaponControl::SetAutofiring(bool on, bool simple)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, bool on_arg, bool simple_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1529::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1530::func;
 	return execfunc(this, on, simple);
 }
 
-namespace _func1530
+namespace _func1531
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::Fire", typeid(void (WeaponControl::*)(std::vector<Pointf> &, int , bool )), ".4155415455534889fb4883ec28488bbfd80000004885ff", nullptr, 0, 0, &func);
@@ -19516,11 +19529,11 @@ namespace _func1530
 void WeaponControl::Fire(std::vector<Pointf> &points, int target, bool autoFire)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, std::vector<Pointf> &points_arg, int target_arg, bool autoFire_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1530::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1531::func;
 	return execfunc(this, points, target, autoFire);
 }
 
-namespace _func1531
+namespace _func1532
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::ArmamentHotkey", typeid(SDLKey (WeaponControl::*)(unsigned int )), ".4883ec5883c60189742420488d7c2430", nullptr, 0, 0, &func);
@@ -19529,30 +19542,17 @@ namespace _func1531
 SDLKey WeaponControl::ArmamentHotkey(unsigned int i)
 {
 	typedef SDLKey (*custom_arg_funcptr_t)(WeaponControl *this_arg, unsigned int i_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1531::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1532::func;
 	return execfunc(this, i);
 }
 
-namespace _func1532
+namespace _func1533
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::OnLoop", typeid(void (WeaponControl::*)()), ".??57be03000000??56??55??545553??89fb??81ec18010000??8b7f18e8????????", nullptr, 0, 0, &func);
 }
 
 void WeaponControl::OnLoop()
-{
-	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1532::func;
-	return execfunc(this);
-}
-
-namespace _func1533
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WeaponControl::OnLanguageChange", typeid(void (WeaponControl::*)()), ".41564155415455534889fb4883ec70", nullptr, 0, 0, &func);
-}
-
-void WeaponControl::OnLanguageChange()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1533::func;
@@ -19562,17 +19562,30 @@ void WeaponControl::OnLanguageChange()
 namespace _func1534
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WeaponControl::OnLanguageChange", typeid(void (WeaponControl::*)()), ".41564155415455534889fb4883ec70", nullptr, 0, 0, &func);
+}
+
+void WeaponControl::OnLanguageChange()
+{
+	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1534::func;
+	return execfunc(this);
+}
+
+namespace _func1535
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::OnRender", typeid(void (WeaponControl::*)(bool )), ".41545589f5be03000000534889fb4883ec10488b7f18", nullptr, 0, 0, &func);
 }
 
 void WeaponControl::OnRender(bool unk)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, bool unk_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1534::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1535::func;
 	return execfunc(this, unk);
 }
 
-namespace _func1535
+namespace _func1536
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::LButton", typeid(bool (WeaponControl::*)(int , int , bool )), ".80bf30010000007427530fb69f3101000084db", nullptr, 0, 0, &func);
@@ -19581,11 +19594,11 @@ namespace _func1535
 bool WeaponControl::LButton(int x, int y, bool holdingShift)
 {
 	typedef bool (*custom_arg_funcptr_t)(WeaponControl *this_arg, int x_arg, int y_arg, bool holdingShift_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1535::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1536::func;
 	return execfunc(this, x, y, holdingShift);
 }
 
-namespace _func1536
+namespace _func1537
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::MouseMove", typeid(void (WeaponControl::*)(int , int )), ".41544189d45589f5534889fb", nullptr, 0, 0, &func);
@@ -19594,11 +19607,11 @@ namespace _func1536
 void WeaponControl::MouseMove(int x, int y)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, int x_arg, int y_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1536::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1537::func;
 	return execfunc(this, x, y);
 }
 
-namespace _func1537
+namespace _func1538
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::KeyDown", typeid(bool (WeaponControl::*)(SDLKey )), ".4155415441bc010000005589f5534889fb4883ec28", nullptr, 0, 0, &func);
@@ -19607,11 +19620,11 @@ namespace _func1537
 bool WeaponControl::KeyDown(SDLKey key)
 {
 	typedef bool (*custom_arg_funcptr_t)(WeaponControl *this_arg, SDLKey key_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1537::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1538::func;
 	return execfunc(this, key);
 }
 
-namespace _func1538
+namespace _func1539
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponControl::LinkShip", typeid(void (WeaponControl::*)(ShipManager *)), ".55534889fb4883ec28", nullptr, 0, 0, &func);
@@ -19620,11 +19633,11 @@ namespace _func1538
 void WeaponControl::LinkShip(ShipManager *ship)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponControl *this_arg, ShipManager *ship_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1538::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1539::func;
 	return execfunc(this, ship);
 }
 
-namespace _func1539
+namespace _func1540
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponEquipBox::constructor", typeid(void (WeaponEquipBox::*)(Point , WeaponSystem *, int )), "4154554889d5534889fb4889", nullptr, 0, 0, &func);
@@ -19633,11 +19646,11 @@ namespace _func1539
 void WeaponEquipBox::constructor(Point location, WeaponSystem *sys, int slot)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponEquipBox *this_arg, Point location_arg, WeaponSystem *sys_arg, int slot_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1539::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1540::func;
 	return execfunc(this, location, sys, slot);
 }
 
-namespace _func1540
+namespace _func1541
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("DroneEquipBox::constructor", typeid(void (DroneEquipBox::*)(Point , DroneSystem *, int )), ".4154554889d5534889fb4889", nullptr, 0, 0, &func);
@@ -19646,17 +19659,17 @@ namespace _func1540
 void DroneEquipBox::constructor(Point location, DroneSystem *sys, int slot)
 {
 	typedef void (*custom_arg_funcptr_t)(DroneEquipBox *this_arg, Point location_arg, DroneSystem *sys_arg, int slot_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1540::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1541::func;
 	return execfunc(this, location, sys, slot);
 }
 
-namespace _func1541
+namespace _func1542
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (WeaponStoreBox::*)()), "41554989d541544989f4be", nullptr, 0, 0, &func);
 }
 
-namespace _func1542
+namespace _func1543
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponStoreBox::constructor", typeid(void (WeaponStoreBox::*)(ShipManager *, Equipment *, const WeaponBlueprint *)), ".41554989d541544989f4be", nullptr, 0, 0, &func);
@@ -19665,11 +19678,11 @@ namespace _func1542
 void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponStoreBox *this_arg, ShipManager *ship_arg, Equipment *equip_arg, const WeaponBlueprint *weaponBp_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1542::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1543::func;
 	return execfunc(this, ship, equip, weaponBp);
 }
 
-namespace _func1543
+namespace _func1544
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystem::ForceIncreasePower", typeid(bool (WeaponSystem::*)(int )), ".??5531c9??54??89fc555331db??83ec08??8bb758020000", nullptr, 0, 0, &func);
@@ -19678,11 +19691,11 @@ namespace _func1543
 bool WeaponSystem::ForceIncreasePower(int amount)
 {
 	typedef bool (*custom_arg_funcptr_t)(WeaponSystem *this_arg, int amount_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1543::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1544::func;
 	return execfunc(this, amount);
 }
 
-namespace _func1544
+namespace _func1545
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystem::RemoveWeapon", typeid(ProjectileFactory *(WeaponSystem::*)(int )), "31c085f60f88d800000041564155415455534889fb4883ec20", nullptr, 0, 0, &func);
@@ -19691,11 +19704,11 @@ namespace _func1544
 ProjectileFactory *WeaponSystem::RemoveWeapon(int slot)
 {
 	typedef ProjectileFactory *(*custom_arg_funcptr_t)(WeaponSystem *this_arg, int slot_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1544::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1545::func;
 	return execfunc(this, slot);
 }
 
-namespace _func1545
+namespace _func1546
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystem::SetBonusPower", typeid(void (WeaponSystem::*)(int , int )), "!.5589f5534889fb4883ec08e8????????39e8", nullptr, 0, 0, &func);
@@ -19704,11 +19717,11 @@ namespace _func1545
 void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponSystem *this_arg, int amount_arg, int permanentPower_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1545::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1546::func;
 	return execfunc(this, amount, permanentPower);
 }
 
-namespace _func1546
+namespace _func1547
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystem::OnLoop", typeid(void (WeaponSystem::*)()), ".415741564155415455534889fb4883ec38e8????????488b9350020000", nullptr, 0, 0, &func);
@@ -19717,11 +19730,11 @@ namespace _func1546
 void WeaponSystem::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponSystem *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1546::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1547::func;
 	return execfunc(this);
 }
 
-namespace _func1547
+namespace _func1548
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystem::PowerWeapon", typeid(bool (WeaponSystem::*)(ProjectileFactory *, bool , bool )), ".??55??89d5??54??89cc55??89fd53??89f3??83ec08e8????????", nullptr, 0, 0, &func);
@@ -19730,11 +19743,11 @@ namespace _func1547
 bool WeaponSystem::PowerWeapon(ProjectileFactory *weapon, bool userDriven, bool force)
 {
 	typedef bool (*custom_arg_funcptr_t)(WeaponSystem *this_arg, ProjectileFactory *weapon_arg, bool userDriven_arg, bool force_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1547::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1548::func;
 	return execfunc(this, weapon, userDriven, force);
 }
 
-namespace _func1548
+namespace _func1549
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystem::DePowerWeapon", typeid(bool (WeaponSystem::*)(ProjectileFactory *, bool )), ".??55??54??89f45553??83ec08??0fb6aef2000000", nullptr, 0, 0, &func);
@@ -19743,11 +19756,11 @@ namespace _func1548
 bool WeaponSystem::DePowerWeapon(ProjectileFactory *weapon, bool userDriven)
 {
 	typedef bool (*custom_arg_funcptr_t)(WeaponSystem *this_arg, ProjectileFactory *weapon_arg, bool userDriven_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1548::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1549::func;
 	return execfunc(this, weapon, userDriven);
 }
 
-namespace _func1549
+namespace _func1550
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WeaponSystemBox::constructor", typeid(void (WeaponSystemBox::*)(Point , ShipSystem *, WeaponControl *)), "554889cdb901000000534889fb4883ec08e8????????488dbb70020000", nullptr, 0, 0, &func);
@@ -19756,11 +19769,11 @@ namespace _func1549
 void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponControl *weapCtrl)
 {
 	typedef void (*custom_arg_funcptr_t)(WeaponSystemBox *this_arg, Point pos_arg, ShipSystem *sys_arg, WeaponControl *weapCtrl_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1549::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1550::func;
 	return execfunc(this, pos, sys, weapCtrl);
 }
 
-namespace _func1550
+namespace _func1551
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WindowFrame::constructor", typeid(void (WindowFrame::*)(int , int , int , int )), "41574156415541545589d55389f34881ecc8000000", nullptr, 0, 0, &func);
@@ -19769,11 +19782,11 @@ namespace _func1550
 void WindowFrame::constructor(int x, int y, int w, int h)
 {
 	typedef void (*custom_arg_funcptr_t)(WindowFrame *this_arg, int x_arg, int y_arg, int w_arg, int h_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1550::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1551::func;
 	return execfunc(this, x, y, w, h);
 }
 
-namespace _func1551
+namespace _func1552
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WindowFrame::destructor", typeid(void (WindowFrame::*)()), "!.534889fb488b7f10", nullptr, 0, 0, &func);
@@ -19782,11 +19795,11 @@ namespace _func1551
 void WindowFrame::destructor()
 {
 	typedef void (*custom_arg_funcptr_t)(WindowFrame *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1551::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1552::func;
 	return execfunc(this);
 }
 
-namespace _func1552
+namespace _func1553
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WindowFrame::Draw", typeid(void (WindowFrame::*)(int , int )), "!.41544189d45589f5534889fb", nullptr, 0, 0, &func);
@@ -19795,11 +19808,11 @@ namespace _func1552
 void WindowFrame::Draw(int x, int y)
 {
 	typedef void (*custom_arg_funcptr_t)(WindowFrame *this_arg, int x_arg, int y_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1552::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1553::func;
 	return execfunc(this, x, y);
 }
 
-namespace _func1553
+namespace _func1554
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WindowFrame::DrawMask", typeid(void (WindowFrame::*)(int )), "!.5389f24889fbbf01000000", nullptr, 0, 0, &func);
@@ -19808,11 +19821,11 @@ namespace _func1553
 void WindowFrame::DrawMask(int unk)
 {
 	typedef void (*custom_arg_funcptr_t)(WindowFrame *this_arg, int unk_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1553::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1554::func;
 	return execfunc(this, unk);
 }
 
-namespace _func1554
+namespace _func1555
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::constructor", typeid(void (WorldManager::*)()), "534889fb488d7f104883ec10", nullptr, 0, 0, &func);
@@ -19821,11 +19834,11 @@ namespace _func1554
 void WorldManager::constructor()
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1554::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1555::func;
 	return execfunc(this);
 }
 
-namespace _func1555
+namespace _func1556
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::OnInit", typeid(int (WorldManager::*)()), ".415455488d6f10534889fb4889ef", nullptr, 0, 0, &func);
@@ -19834,11 +19847,11 @@ namespace _func1555
 int WorldManager::OnInit()
 {
 	typedef int (*custom_arg_funcptr_t)(WorldManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1555::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1556::func;
 	return execfunc(this);
 }
 
-namespace _func1556
+namespace _func1557
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::CreateStore", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488bb6d0040000", nullptr, 0, 0, &func);
@@ -19847,11 +19860,11 @@ namespace _func1556
 void WorldManager::CreateStore(LocationEvent *event)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1556::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1557::func;
 	return execfunc(this, event);
 }
 
-namespace _func1557
+namespace _func1558
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::CheckRequirements", typeid(bool (WorldManager::*)(LocationEvent *, bool )), ".415455534889f34883ec204885f6", nullptr, 0, 0, &func);
@@ -19860,11 +19873,11 @@ namespace _func1557
 bool WorldManager::CheckRequirements(LocationEvent *event, bool hidden)
 {
 	typedef bool (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg, bool hidden_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1557::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1558::func;
 	return execfunc(this, event, hidden);
 }
 
-namespace _func1558
+namespace _func1559
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::AddBoarders", typeid(bool (WorldManager::*)(BoardingEvent &)), ".4154554889fd534883ec20488b07488b5010", nullptr, 0, 0, &func);
@@ -19873,11 +19886,11 @@ namespace _func1558
 bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 {
 	typedef bool (*custom_arg_funcptr_t)(WorldManager *this_arg, BoardingEvent &boardingEvent_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1558::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1559::func;
 	return execfunc(this, boardingEvent);
 }
 
-namespace _func1559
+namespace _func1560
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::HostileEnvironment", typeid(bool (WorldManager::*)()), ".534889fb488d7f10", nullptr, 0, 0, &func);
@@ -19886,11 +19899,11 @@ namespace _func1559
 bool WorldManager::HostileEnvironment()
 {
 	typedef bool (*custom_arg_funcptr_t)(WorldManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1559::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1560::func;
 	return execfunc(this);
 }
 
-namespace _func1560
+namespace _func1561
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::ModifyEnvironment", typeid(void (WorldManager::*)(int , int )), ".83fe01534889fb", nullptr, 0, 0, &func);
@@ -19899,11 +19912,11 @@ namespace _func1560
 void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, int envFlag_arg, int envTarget_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1560::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1561::func;
 	return execfunc(this, envFlag, envTarget);
 }
 
-namespace _func1561
+namespace _func1562
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::ModifyStatusEffect", typeid(void (WorldManager::*)(StatusEffect , ShipManager *, int )), ".41554889d04989fd48c1f82041544989cc4889f148c1f920", nullptr, 0, 0, &func);
@@ -19912,11 +19925,11 @@ namespace _func1561
 void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, StatusEffect effect_arg, ShipManager *target_arg, int targetType_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1561::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1562::func;
 	return execfunc(this, effect, target, targetType);
 }
 
-namespace _func1562
+namespace _func1563
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::ModifyResources", typeid(LocationEvent *(WorldManager::*)(LocationEvent *)), ".41574989f7488db65803000041564d8db78803000041554154554889fd534881ecd8020000", nullptr, 0, 0, &func);
@@ -19925,11 +19938,11 @@ namespace _func1562
 LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 {
 	typedef LocationEvent *(*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1562::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1563::func;
 	return execfunc(this, event);
 }
 
-namespace _func1563
+namespace _func1564
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::CheckStatusEffects", typeid(void (WorldManager::*)(std::vector<StatusEffect> &)), "!.415741564989fe41554531ed41544c8da7001500005531ed534889f34883ec08", nullptr, 0, 0, &func);
@@ -19938,30 +19951,17 @@ namespace _func1563
 void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, std::vector<StatusEffect> &vec_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1563::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1564::func;
 	return execfunc(this, vec);
 }
 
-namespace _func1564
+namespace _func1565
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox", typeid(void (WorldManager::*)(LocationEvent *)), ".4157488d87501500004989ff41564889c741554154554889f5534889c34881ec08030000", nullptr, 0, 0, &func);
 }
 
 void WorldManager::CreateChoiceBox(LocationEvent *event)
-{
-	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1564::func;
-	return execfunc(this, event);
-}
-
-namespace _func1565
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", nullptr, 0, 0, &func);
-}
-
-void WorldManager::CreateChoiceBox0(LocationEvent *event)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1565::func;
@@ -19971,17 +19971,30 @@ void WorldManager::CreateChoiceBox0(LocationEvent *event)
 namespace _func1566
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", nullptr, 0, 0, &func);
+}
+
+void WorldManager::CreateChoiceBox0(LocationEvent *event)
+{
+	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1566::func;
+	return execfunc(this, event);
+}
+
+namespace _func1567
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), ".4156415541544989fc55534881ec60030000", nullptr, 0, 0, &func);
 }
 
 CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool boss)
 {
 	typedef CompleteShip *(*custom_arg_funcptr_t)(WorldManager *this_arg, ShipEvent *shipEvent_arg, bool boss_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1566::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1567::func;
 	return execfunc(this, shipEvent, boss);
 }
 
-namespace _func1567
+namespace _func1568
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::CreateLocation", typeid(void (WorldManager::*)(Location *)), ".41574156415541544989f455534889fb4881ecf8030000", nullptr, 0, 0, &func);
@@ -19990,30 +20003,17 @@ namespace _func1567
 void WorldManager::CreateLocation(Location *loc)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, Location *loc_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1567::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1568::func;
 	return execfunc(this, loc);
 }
 
-namespace _func1568
+namespace _func1569
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::UpdateLocation", typeid(void (WorldManager::*)(LocationEvent *)), ".4157415641554154554889fd534889f34881ec88030000", nullptr, 0, 0, &func);
 }
 
 void WorldManager::UpdateLocation(LocationEvent *event)
-{
-	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1568::func;
-	return execfunc(this, event);
-}
-
-namespace _func1569
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WorldManager::UpdateLocation0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", nullptr, 0, 0, &func);
-}
-
-void WorldManager::UpdateLocation0(LocationEvent *event)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1569::func;
@@ -20023,17 +20023,30 @@ void WorldManager::UpdateLocation0(LocationEvent *event)
 namespace _func1570
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WorldManager::UpdateLocation0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", nullptr, 0, 0, &func);
+}
+
+void WorldManager::UpdateLocation0(LocationEvent *event)
+{
+	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, LocationEvent *event_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1570::func;
+	return execfunc(this, event);
+}
+
+namespace _func1571
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::ClearLocation", typeid(void (WorldManager::*)()), ".415741564155415455534889fb488d7f104881ec68020000", nullptr, 0, 0, &func);
 }
 
 void WorldManager::ClearLocation()
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1570::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1571::func;
 	return execfunc(this);
 }
 
-namespace _func1571
+namespace _func1572
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::LoadGame", typeid(void (WorldManager::*)(const std::string &)), ".415741564155415455534889fb4881ece8010000", nullptr, 0, 0, &func);
@@ -20042,30 +20055,17 @@ namespace _func1571
 void WorldManager::LoadGame(const std::string &fileName)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, const std::string &fileName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1571::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1572::func;
 	return execfunc(this, fileName);
 }
 
-namespace _func1572
+namespace _func1573
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::SaveGame", typeid(void (WorldManager::*)()), ".415455534889fb4883ec20488bbfb8110000", nullptr, 0, 0, &func);
 }
 
 void WorldManager::SaveGame()
-{
-	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1572::func;
-	return execfunc(this);
-}
-
-namespace _func1573
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WorldManager::CreateNewGame", typeid(void (WorldManager::*)()), ".554889fd5331db4883ec28488b07488b78104881c718010000", nullptr, 0, 0, &func);
-}
-
-void WorldManager::CreateNewGame()
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1573::func;
@@ -20075,36 +20075,36 @@ void WorldManager::CreateNewGame()
 namespace _func1574
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WorldManager::CreateNewGame", typeid(void (WorldManager::*)()), ".554889fd5331db4883ec28488b07488b78104881c718010000", nullptr, 0, 0, &func);
+}
+
+void WorldManager::CreateNewGame()
+{
+	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1574::func;
+	return execfunc(this);
+}
+
+namespace _func1575
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::StartGame", typeid(void (WorldManager::*)(ShipManager *)), ".4154554889f5534889fb4883ec20", nullptr, 0, 0, &func);
 }
 
 void WorldManager::StartGame(ShipManager *ship)
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg, ShipManager *ship_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1574::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1575::func;
 	return execfunc(this, ship);
 }
 
-namespace _func1575
+namespace _func1576
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("WorldManager::Restart", typeid(void (WorldManager::*)()), "!.534889fbe8????????e8????????e8", nullptr, 0, 0, &func);
 }
 
 void WorldManager::Restart()
-{
-	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1575::func;
-	return execfunc(this);
-}
-
-namespace _func1576
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("WorldManager::OnLoop", typeid(void (WorldManager::*)()), ".415731f64989ff41564155415455534881ecf8000000", nullptr, 0, 0, &func);
-}
-
-void WorldManager::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1576::func;
@@ -20114,10 +20114,10 @@ void WorldManager::OnLoop()
 namespace _func1577
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WorldManager::PauseLoop", typeid(void (WorldManager::*)()), ".41554154554889fd534883ec28488b3f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WorldManager::OnLoop", typeid(void (WorldManager::*)()), ".415731f64989ff41564155415455534881ecf8000000", nullptr, 0, 0, &func);
 }
 
-void WorldManager::PauseLoop()
+void WorldManager::OnLoop()
 {
 	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1577::func;
@@ -20127,17 +20127,30 @@ void WorldManager::PauseLoop()
 namespace _func1578
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("WorldManager::PauseLoop", typeid(void (WorldManager::*)()), ".41554154554889fd534883ec28488b3f", nullptr, 0, 0, &func);
+}
+
+void WorldManager::PauseLoop()
+{
+	typedef void (*custom_arg_funcptr_t)(WorldManager *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1578::func;
+	return execfunc(this);
+}
+
+namespace _func1579
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("freetype::font_data::init", typeid(void (freetype::font_data::*)(const void *, int , unsigned int , bool )), "89c9534889fbf3480f2ac14889f731c989d631d2", nullptr, 0, 0, &func);
 }
 
 void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int h, bool glow)
 {
 	typedef void (*custom_arg_funcptr_t)(freetype::font_data *this_arg, const void *buffer_arg, int bufferSize_arg, unsigned int h_arg, bool glow_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1578::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1579::func;
 	return execfunc(this, buffer, bufferSize, h, glow);
 }
 
-namespace _func1579
+namespace _func1580
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("freetype::font_data::init_bitmap", typeid(void (freetype::font_data::*)(const void *, int , int , int )), ".41544189cc31c955", nullptr, 0, 0, &func);
@@ -20146,11 +20159,11 @@ namespace _func1579
 void freetype::font_data::init_bitmap(const void *buffer, int bufferSize, int size, int h)
 {
 	typedef void (*custom_arg_funcptr_t)(freetype::font_data *this_arg, const void *buffer_arg, int bufferSize_arg, int size_arg, int h_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1579::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1580::func;
 	return execfunc(this, buffer, bufferSize, size, h);
 }
 
-namespace _func1580
+namespace _func1581
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.8b7f04e9", nullptr, 0, 0, &func);
@@ -20159,11 +20172,11 @@ namespace _func1580
 void freetype::font_data::clean()
 {
 	typedef void (*custom_arg_funcptr_t)(freetype::font_data *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1580::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1581::func;
 	return execfunc(this);
 }
 
-namespace _func1581
+namespace _func1582
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_measurePrintLines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
@@ -20172,11 +20185,11 @@ namespace _func1581
 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1581::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1582::func;
 	return execfunc(fontSize, x, y, line_length, text);
 }
 
-namespace _func1582
+namespace _func1583
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_measureWidth", typeid(int (*)(int , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
@@ -20185,30 +20198,17 @@ namespace _func1582
 int freetype::easy_measureWidth(int fontSize, const std::string &text)
 {
 	typedef int (*custom_arg_funcptr_t)(int fontSize_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1582::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1583::func;
 	return execfunc(fontSize, text);
 }
 
-namespace _func1583
+namespace _func1584
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_print", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string &text)
-{
-	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1583::func;
-	return execfunc(fontSize, x, y, text);
-}
-
-namespace _func1584
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
-}
-
-Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1584::func;
@@ -20218,23 +20218,23 @@ Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std:
 namespace _func1585
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
 }
 
-Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)
+Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string &text)
 {
-	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
+	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1585::func;
-	return execfunc(fontSize, x, y, line_length, text);
+	return execfunc(fontSize, x, y, text);
 }
 
 namespace _func1586
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
 }
 
-Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)
+Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1586::func;
@@ -20244,17 +20244,30 @@ Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line
 namespace _func1587
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889d089fd5389f34883ec38", nullptr, 0, 0, &func);
+}
+
+Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)
+{
+	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, int line_length_arg, const std::string &text_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1587::func;
+	return execfunc(fontSize, x, y, line_length, text);
+}
+
+namespace _func1588
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_printCenter", typeid(Pointf (*)(int , float , float , const std::string &)), ".5389fb4883ec30488b36488d54241e", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string &text)
 {
 	typedef Pointf (*custom_arg_funcptr_t)(int fontSize_arg, float x_arg, float y_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1587::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1588::func;
 	return execfunc(fontSize, x, y, text);
 }
 
-namespace _func1588
+namespace _func1589
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("freetype::easy_printAutoShrink", typeid(void (*)(int , float , float , int , bool , const std::string &)), ".41578d47cc415641554989cd4154555389fb4883ec5883f801", nullptr, 0, 0, &func);
@@ -20263,11 +20276,11 @@ namespace _func1588
 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text)
 {
 	typedef void (*custom_arg_funcptr_t)(int fontId_arg, float x_arg, float y_arg, int maxWidth_arg, bool centered_arg, const std::string &text_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1588::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1589::func;
 	return execfunc(fontId, x, y, maxWidth, centered, text);
 }
 
-namespace _func1589
+namespace _func1590
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
@@ -20276,11 +20289,11 @@ namespace _func1589
 float __stdcall font_height(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1589::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1590::func;
 	return execfunc(font_id, size);
 }
 
-namespace _func1590
+namespace _func1591
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".85ff530f8e", nullptr, 0, 0, &func);
@@ -20289,13 +20302,13 @@ namespace _func1590
 float __stdcall font_baseline(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1590::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1591::func;
 	return execfunc(font_id, size);
 }
 
 float *Global_freetype_sil_freetype_outline;
 
-namespace _var1591
+namespace _var1592
 {
     static VariableDefinition varObj("Global_freetype_sil_freetype_outline", "!.f30f5905(???????\?)4531c031c9f30f2df0", &Global_freetype_sil_freetype_outline, true, true);
 }

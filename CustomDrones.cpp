@@ -118,6 +118,11 @@ HOOK_METHOD(BlueprintManager, ProcessDroneBlueprint, (rapidxml::xml_node<char>* 
                 }
             }
         }
+        
+        if (ret.typeName == "SHIELD")
+        {
+            ShieldDroneManager::ParseShieldDroneBlueprint(node);
+        }
 
         return ret;
     }
@@ -1001,6 +1006,60 @@ HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
     return G_->GetTextLibrary()->GetText(tooltipText, G_->GetTextLibrary()->currentLanguage);
 }
 
+std::unordered_map<std::string, ShieldDroneDefinition> ShieldDroneManager::defs;
+const ShieldDroneDefinition ShieldDroneManager::defaultDefinition;
+void ShieldDroneManager::ParseShieldDroneBlueprint(rapidxml::xml_node<char> *node)
+{
+    bool isCustom = false;
+    ShieldDroneDefinition def;
+    std::string droneName = node->first_attribute("name") ? node->first_attribute("name")->value() : "";
+    for (auto droneNode = node->first_node(); droneNode; droneNode = droneNode->next_sibling())
+    {
+        if (strcmp(droneNode->name(), "chargeSound") == 0)
+        {
+            def.chargeSound = droneNode->value();
+            isCustom = true;
+        }  
+        else if (strcmp(droneNode->name(), "activateSound") == 0)
+        {
+            def.activateSound = droneNode->value();
+            isCustom = true;
+        }
+        else if (strcmp(droneNode->name(), "slowDuration") == 0)
+        {
+            def.slowDuration = boost::lexical_cast<float>(droneNode->value());
+            isCustom = true;
+        }
+        else if (strcmp(droneNode->name(), "pulseDuration") == 0)
+        {
+            def.pulseDuration = boost::lexical_cast<float>(droneNode->value());
+            isCustom = true;
+        }
+        else if (strcmp(droneNode->name(), "cooldowns") == 0)
+        {
+            for (auto cooldownNode = droneNode->first_node(); cooldownNode; cooldownNode = cooldownNode->next_sibling())
+            {
+                def.cooldowns.push_back(boost::lexical_cast<float>(cooldownNode->value()));
+                isCustom = true;
+            }
+        }
+        else if (strcmp(droneNode->name(), "layers") == 0)
+        {
+            def.layers = boost::lexical_cast<int>(droneNode->value());
+            isCustom = true;
+        }
+    }
+    if (isCustom && !droneName.empty())
+    {
+        defs[droneName] = def;
+    }
+
+}
+const ShieldDroneDefinition* ShieldDroneManager::GetDefinition(const std::string& droneName)
+{
+    auto it = defs.find(droneName);
+    return it == defs.end() ? &defaultDefinition : &it->second;
+}
 HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::constructor -> Begin (CustomDrones.cpp)\n")
@@ -1011,58 +1070,66 @@ HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBluepr
     drone_image_glow = CachedImage("ship/drones/" + blueprint->droneImage + "_glow.png", CachedImage::Centered::CENTERED);
 }
 
+HOOK_METHOD(SuperShieldDrone, GetWeaponCooldown, () -> float)
+{
+    LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::GetWeaponCooldown -> Begin (CustomDrones.cpp)\n")
+    const ShieldDroneDefinition* customDefinition = ShieldDroneManager::GetDefinition(blueprint->name);
+    if (customDefinition->cooldowns.empty()) return super();
+    int superLayers = movementTarget->GetShieldPower().super.first;
+    if (superLayers >= customDefinition->cooldowns.size()) superLayers = customDefinition->cooldowns.size() - 1;
+    return customDefinition->cooldowns[superLayers];
+}
+
 HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
 {  
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SuperShieldDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
-    this->DefenseDrone::OnLoop();
-    if (!GetPowered()) 
+    DefenseDrone::OnLoop();
+    if (GetPowered() && GetDeployed())
     {
-        weaponCooldown = GetWeaponCooldown();
-        glowAnimation = -1.0;
-        return;
-    }
-    else 
-    {
-        if (GetDeployed()) 
+        const ShieldDroneDefinition* customDefinition = ShieldDroneManager::GetDefinition(blueprint->name);
+        currentSpeed = blueprint->speed;
+        if (weaponCooldown < customDefinition->pulseDuration && glowAnimation <= 0.0) 
         {
-            currentSpeed = (float) blueprint->speed;
-            if (weaponCooldown < 1.5 && glowAnimation <= 0.0) 
-            {
-                glowAnimation = 3.0;
-                G_->GetSoundControl()->PlaySoundMix("shieldDroneCharge", -1.0, false);
-            }
-            if (weaponCooldown < 2.5) 
-            {
-                currentSpeed = std::max(weaponCooldown - 1.5, 0.0) * currentSpeed;
-            }
-            if (0.0 < glowAnimation) 
-            {
-                currentSpeed = 0.0;
-            }
-            glowAnimation -= G_->GetCFPS()->GetSpeedFactor() * 0.0625f;
-            if (glowAnimation < 0.0) 
-            {
-                glowAnimation = -1.0;
-            }
-
-            if (!bFire) return;
-
-            bFire = false;
-
-            // Prevent vanilla crash when shieldSystem is null (occurs when not defined in the shipBlueprint)
-            if (shieldSystem)
-            {
-                shieldSystem->AddSuperShield(Point(currentLocation.x, currentLocation.y));
-            }
-
-            G_->GetSoundControl()->PlaySoundMix("shieldDroneActivate", -1.0, false);
-            weaponCooldown = GetWeaponCooldown();
-            return;
+            glowAnimation = 3.0;
+            G_->GetSoundControl()->PlaySoundMix(customDefinition->chargeSound, -1.0, false);
         }
+        if (weaponCooldown < customDefinition->slowDuration + customDefinition->pulseDuration) 
+        {
+            currentSpeed = std::max((weaponCooldown - customDefinition->pulseDuration) / customDefinition->slowDuration, 0.f) * currentSpeed;
+        }
+        if (0.0 < glowAnimation) 
+        {
+            currentSpeed = 0.0;
+        }
+        float speedMultiplier = 1.5 / customDefinition->pulseDuration;
+        glowAnimation -= G_->GetCFPS()->GetSpeedFactor() * 0.0625f * speedMultiplier;
+        if (glowAnimation < 0.0) 
+        {
+            glowAnimation = -1.0;
+        }
+
+        if (!bFire) return;
+
+        bFire = false;
+
+        // Prevent vanilla crash when shieldSystem is null (occurs when not defined in the shipBlueprint)
+        if (shieldSystem)
+        {
+            shieldSystem->AddSuperShield(Point(currentLocation.x, currentLocation.y));
+            int additionalShieldLayers = customDefinition->layers - 1;
+            shieldSystem->shields.power.super.first += additionalShieldLayers;
+            shieldSystem->shields.power.super.first = std::min(shieldSystem->shields.power.super.first, shieldSystem->shields.power.super.second);
+            shieldSystem->shields.power.super.first = std::max(shieldSystem->shields.power.super.first, 0);
+        }
+
+        G_->GetSoundControl()->PlaySoundMix(customDefinition->activateSound, -1.0, false);
+        weaponCooldown = GetWeaponCooldown();
+    }
+    else
+    {
         weaponCooldown = GetWeaponCooldown();
         glowAnimation = -1.0;
-        return;
-    }
+    }  
 }
 
 
