@@ -3517,6 +3517,8 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") BoarderPodDrone::diedInSpace;
 
 %rename("%s") ShipRepairDrone;
+%rename("%s") ShipRepairDrone::repairBeam;
+%rename("%s") ShipRepairDrone::repairBeams;
 
 %rename("%s") HackingDrone;
 

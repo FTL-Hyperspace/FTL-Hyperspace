@@ -7328,8 +7328,10 @@ struct ShipRepair
 {
 };
 
-struct ShipRepairDrone
+struct ShipRepairDrone : CombatDrone
 {
+	CachedImage repairBeam;
+	std::vector<float> repairBeams;
 };
 
 struct SlugAlien
