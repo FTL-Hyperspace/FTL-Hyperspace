@@ -1325,6 +1325,14 @@ No methods are exposed currently.
 - [`CachedImage`](#CachedImage) `.drone_image_glow`
 - `float` `.glowAnimation`
 
+## ShipRepairDrone
+
+**Extends [`CombatDrone`](#CombatDrone)**
+
+### Fields
+- [`CachedImage`](#CachedImage) `.repairBeam`
+- `std::vector<float>` `.repairBeams`
+
 ## DroneBlueprint
 
 **Extends [`Blueprint`](#blueprint)**
