@@ -797,6 +797,8 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
     
+    if (myBlueprint.systemInfo.find(systemId) == myBlueprint.systemInfo.end()) return 0;
+
     int removedSystemPower = 0;
     int replacedSystem = SystemWillReplace(systemId);
     if (replacedSystem != SYS_INVALID)
