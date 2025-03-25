@@ -325,7 +325,7 @@ The members held by this class determine how the `print` function displays messa
 - `void :ClearShipInfo()`
 - `int :GetAugmentationCount()`
    - Returns the number of augments on the ship.
-- `string[] :GetAugmentationList()`
+- `std::string[] :GetAugmentationList()`
    - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
 - `float :GetAugmentationValue(std::string augmentName)`
    - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
@@ -348,8 +348,8 @@ As ShipManager extends ShipObject, the methods of ShipObject can be called from 
    - Gets the room center point of a specific room id.
 - `std::pair<int, int> :GetAvailablePower()`
    - First element of the pair is the maximum reactor power, the second element is the available reactor power.
-- `CrewMember* :AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
-- `CrewMember* :AddCrewMemberFromString(std::string name, std::string race, bool intruder, int roomId, bool init, bool male)`
+- [`CrewMember*`](#CrewMember) `:AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder)`
+- [`CrewMember*`](#CrewMember) `:AddCrewMemberFromString(std::string name, std::string race, bool intruder, int roomId, bool init, bool male)`
 - `int :AddSystem(int systemId)`
 - `bool :CanFitSubsystem(int systemId)`
 - `bool :CanFitSystem(int systemId)`
@@ -381,7 +381,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `bool :DoorsFunction()`
    - Do the doors work or not
 - `bool :ForceDecreaseSystemPower(int systemId)`
-- `CrewMember* :GetCrewmember(int slot, bool present)`
+- [`CrewMember*`](#CrewMember) `:GetCrewmember(int slot, bool present)`
 - `int :GetDodgeFactor()`
 - `bool :GetDodged()`
    - Calculates whether a projectile should be dodged or not.
@@ -392,8 +392,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Returns the list of Drones for this ship, the `std::vector` it returns can be accessed like an array in Lua
 - `int :GetFireCount(int roomId)` Get number of fires in a room, could be quite useful for computing damage of multiple fires
 - `int :GetOxygenPercentage()` Ship's overall oxygen percentage (not per-room)
-- `CrewMember* :GetSelectedCrewPoint(int x, int y, bool intruder)`
-- `ShieldPower :GetShieldPower()`
+- [`CrewMember*`](#CrewMember) `:GetSelectedCrewPoint(int x, int y, bool intruder)`
+- [`ShieldPower`](#ShieldPower) `:GetShieldPower()`
 - [`ShipSystem*`](#shipsystem) `:GetSystem(int systemId)`
    - You can also just access the system directly with fields below if it's one of the vanilla systems like `oxygenSystem` `medbaySystem` etc... but custom systems like Temporal currently need to be accessed by id.
 - [`ShipSystem*`](#shipsystem) `:GetSystemInRoom(int roomId)`
@@ -404,8 +404,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - What is the max power level of this system, functionally this is the same as the system's "level"
 - `int :GetSystemRoom(int systemId)`
    - Find what roomId a system is in, could be useful for AI targeting mechanics or some cheesy player weapon that can only attack one system or something.
-- `string :GetTooltip(int x, int y)`
-- `ProjectileFactory*[] :GetWeaponList()`
+- `std::string :GetTooltip(int x, int y)`
+- [`ProjectileFactory*[]`](#projectilefactory) `:GetWeaponList()`
    - Return a vector of weapons on this ship, can be treated like an array in Lua.
 - `bool :HasSystem(int systemId)`
    - Does the ship have a specific system, true/false
@@ -428,7 +428,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `void :ResetScrapLevel()`
 - `bool :RestoreCrewPositions()`
    - Same as hitting the button to return crew to their original positions.
-- `CrewBlueprint :SelectRandomCrew(int seed, string racePreference)`
+- [`CrewBlueprint`](#CrewBlueprint) `:SelectRandomCrew(int seed, string racePreference)`
    - Select random crew from the ship *for ~~execution~~ selection of your diabolical plans*.
    - Not sure why there is a seed option, not sure if you should give it a fixed number or call `Hyperspace.random32()` for a nice random number.
 - `void :SetDestroyed()`
@@ -439,7 +439,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Yeah, it does *exactly what you think it does* [you monster](https://gfycat.com/complexcarefulant).
 - `bool :SystemFunctions(int systemId)`
    - Returns whether the system has any power assigned to it.
-- `CrewMember*[] :TeleportCrew(int roomId, bool intruders)`
+- [`CrewMember*[]`](#CrewMember) `:TeleportCrew(int roomId, bool intruders)`
    - Teleport crew & get back the list of CrewMembers.
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
 
@@ -555,7 +555,7 @@ Accessed via `ShipManager`'s `.extend` field
 - `Pointf :GetRandomTargettingPoint(bool unk)`
 - `std::vector<Pointf> :GetAllTargettingPoints()`
 - [`Ellipse`](#Ellipse) `:GetShieldShape()`
-- `ShieldPower :GetShieldPower()`
+- [`ShieldPower`](#ShieldPower) `:GetShieldPower()`
 - `int :GetSpaceId()`
 - `Pointf :GetSpeed()`
 - `int :GetOwnerId()`
@@ -683,16 +683,16 @@ Accessed via `ShipManager`'s `.extend` field
 ### Static methods
 These are called either under `Hyperspace.ShipSystem` or an existing object (for example you could call `Hyperspace.ShipSystem.GetLevelDescription()` or `Hyperspace.ships.player.oxygenSystem.GetLevelDescription()`) with the same effect (although constructors probably don't make any sense to call in the second manner)
 - `Hyperspace.ShipSystem.ShipSystem()` Default Constructor
-- `string .GetLevelDescription(int systemId, int level, bool tooltip)`
+- `std::string .GetLevelDescription(int systemId, int level, bool tooltip)`
 - `bool .IsSubsystem(int systemType)`
 - `int .NameToSystemId(std::string name)`
-- `string .SystemIdToName(int systemId)`
+- `std::string .SystemIdToName(int systemId)`
 
 ### Methods
 - `void :SetSelected(int selectedState)`
 - `int :GetSelected()`
 - `bool :CompletelyDestroyed()`
-- `string* :GetName()`
+- `std::string* :GetName()`
 - `void :SetName(std::string name)`
 - `void :Repair()`
    - Not sure if this is a function called every tick to cause repairs or what, probably not useful to lua
@@ -749,7 +749,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `float` `.fDamage`
 - [`Point`](#Point) `.pLoc`
 - `float` `.fMaxDamage`
-- `string` `.name`
+- `std::string` `.name`
 - `int` `.roomId`
 - `int` `.iRepairCount`
 - `int` `.iSystemType`
@@ -781,7 +781,7 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bExploded`
 - `bool` `.bOccupied`
 - `bool` `.bFriendlies`
-- `string` `.interiorImageName`
+- `std::string` `.interiorImageName`
 - [`GL_Primitive*`](#GL_Primitive) `.interiorImage`
 - [`GL_Primitive*`](#GL_Primitive) `.interiorImageOn`
 - [`GL_Primitive*`](#GL_Primitive) `.interiorImageManned`
@@ -957,7 +957,7 @@ Accessed via `ShipSystem`'s `.extend` field
 **Extends [ShipSystem](#ShipSystem)**
 
 ### Methods
-- `ProjectileFactory* :RemoveWeapon(int slot)`
+- [`ProjectileFactory*`](#projectilefactory) `:RemoveWeapon(int slot)`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
@@ -2294,7 +2294,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `std::vector<std::string>` `.hitShipSounds`
 - `std::vector<std::string>` `.hitShieldSounds`
 - `std::vector<std::string>` `.missSounds`
-- `string` `.image`
+- `std::string` `.image`
 
 ## CommandGui
 
