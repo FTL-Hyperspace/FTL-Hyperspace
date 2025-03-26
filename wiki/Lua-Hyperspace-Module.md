@@ -2588,22 +2588,27 @@ end)
    
 [[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
 
-
-
 ### Fields
 
 - `std::vector<Location>` `.locations`
    - **Read-only**
 - [`Location`](#Location) `.currentLoc`
+- [`Location`](#Location) `.potentialLoc`
+- [`Location`](#Location) `.hoverLoc`
 - [`std::vector<Sector*>`](#sector) `.sectors`
 - [`Sector`](#Sector) `.currentSector`
 - `bool` `.bChoosingNewSector`
 - `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
-- `GL_Primitive` `.ship`
+-  [`Point`](#Pointf) `.dangerZone`
+-  `float` `.dangerZoneRadius`
+-  `bool` `.bMapRevealed`
+- [`GL_Primitive*`](#GL_Primitive) `.ship`
    - The map icon that rotates around the current location representing the player ship.
-- `GL_Primitive` `.shipNoFuel`
+- [`GL_Primitive*`](#GL_Primitive) `.shipNoFuel`
    - The no fuel variant of the `ship` icon.
+- [`GL_Primitive*[3]`](#GL_Primitive) `.mapsBottom`
+   - Contains the 3 background images of the sector map. Index selected via `worldLevel % 3`.
 - `int` `.worldLevel`
    - **Read-only**
 - `bool` `.bTutorialGenerated`
