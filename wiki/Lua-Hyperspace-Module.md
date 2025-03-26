@@ -2600,7 +2600,7 @@ end)
 - `bool` `.bChoosingNewSector`
 - `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
--  [`Point`](#Pointf) `.dangerZone`
+-  [`Point`](#Point) `.dangerZone`
 -  `float` `.dangerZoneRadius`
 -  `bool` `.bMapRevealed`
 - [`GL_Primitive*`](#GL_Primitive) `.ship`
