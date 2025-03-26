@@ -29,7 +29,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.17.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -197,7 +197,10 @@
 <text name="hotkey_un_temporal" language="ja">時間操作機の出力を下げる</text>
 <text name="hotkey_temporal_speed" language="ja">時間加速</text>
 <text name="hotkey_temporal_slow" language="ja">時間停滞</text>
-
+<text name="hotkey_artillery1" language="ja">弩級砲1照準</text>
+<text name="hotkey_artillery2" language="ja">弩級砲2照準</text>
+<text name="hotkey_artillery3" language="ja">弩級砲3照準</text>
+<text name="hotkey_artillery4" language="ja">弩級砲4照準</text>
 
 <text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text> 
 <text name="temporal_tooltip" language="ja">\3/\6秒間、\1x/\4倍速</text>
@@ -206,6 +209,7 @@
 <text name="temporal_arm_slow" language="ja">\6秒間、区画内のすべてを\4分の1の速度にする</text>
 <text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text> 
 <text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text> 
+<text name="confirm_buy_custom" language="ja">本当によろしいですか？\n\2が\1に置き換えられます。</text>
 
 <text name="tooltip_more_info" language="ja">次の情報を表示する拡張モードに切り替える：
 -兵器/ドローン/拡張機能の説明
@@ -258,7 +262,7 @@
 <text name="credits_loc_ko_names" language="ja">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
 <text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
-<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>
@@ -293,4 +297,4 @@
 <text name="max_augments" language="ja">拡張パーツは\1個までしか持てない！</text>
 <text name="shot_limit" language="ja">兵器弾数制限: \1</text>
 <text name="shots_remaining" language="ja">残弾数: \1</text>
-<text name="warning_shot_limit" language="ja">弾切れ！</text>
+<text name="warning_shot_limit" language="ja">弾切れ</text>

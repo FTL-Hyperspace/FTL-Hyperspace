@@ -30,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ko">
-  <mod:setValue>\1 (Hyperspace 1.17.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ko">
   <mod:setValue>화재 발생 확률: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -194,6 +194,10 @@
 <text name="hotkey_un_temporal" language="ko">시간 조율기 전력공급 중단</text>
 <text name="hotkey_temporal_speed" language="ko">시간 가속</text>
 <text name="hotkey_temporal_slow" language="ko">시간 감속</text>
+<text name="hotkey_artillery1" language="ko">함포 1 조준</text>
+<text name="hotkey_artillery2" language="ko">함포 2 조준</text>
+<text name="hotkey_artillery3" language="ko">함포 3 조준</text>
+<text name="hotkey_artillery4" language="ko">함포 4 조준</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -212,6 +216,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_arm_slow" language="ko">\6초 동안 선실 내에 있는 모든 것을 \4배로 감속합니다.</text>
 <text name="temporal_button_speed" language="ko">짧은 시간 동안 한 선실 내에 있는 모든 것을 가속합니다.\n단축키: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="ko">짧은 시간 동안 한 선실 내에 있는 모든 것을 감속합니다.\n단축키: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="ko">확실합니까? \n\1 시스템이 \2 시스템을 대체할 것입니다.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="ko">상세 정보를 표시합니다. 다음 정보가 추가로 표시됩니다:
 -무기/드론/보조장비 툴팁
@@ -266,7 +271,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="ko">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ko">하이퍼스페이스 프로잭트</text>
 <text name="credits_hyperspace_developed_by" language="ko">개발:</text>
-<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="ko">추가 아트웍:</text>
 <text name="credits_hyperspace_art_names" language="ko">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ko">추가 기여:</text>
@@ -301,4 +306,4 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="max_augments" language="ko">보조 장비는 최대 \1개까지 설치할 수 있습니다.</text>
 <text name="shot_limit" language="ko">무기 발사 횟수 제한: \1</text>
 <text name="shots_remaining" language="ko">남은 발사 횟수: \1</text>
-<text name="warning_shot_limit" language="ko">더 이상 발사할 수 없습니다!</text>
+<text name="warning_shot_limit" language="ko">더 이상 발사할 수 없습니다</text>

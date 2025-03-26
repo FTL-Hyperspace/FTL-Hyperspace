@@ -114,6 +114,7 @@ HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
         Point pos = Point((int)((x - x_bar)*mouseModifier_x) - modifier_x, (int)((y - y_bar)*mouseModifier_y) - modifier_y);
         CustomCommandGui::GetInstance()->RButtonUp(pos.x, pos.y, shift_held);
     }
+    super(x, y);
 }
 
 HOOK_METHOD(CrewBox, OnRender, () -> void)

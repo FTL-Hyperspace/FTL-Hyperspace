@@ -38,11 +38,10 @@ HOOK_METHOD(ArtilleryBox, constructor, (Point pos, ArtillerySystem* sys) -> void
     LOG_HOOK("HOOK_METHOD -> ArtilleryBox::constructor -> Begin (ArtillerySystem.cpp)\n")
     super(pos, sys);
 
-    SystemBox_Extend* extend = SB_EX(this);
+    ArtilleryBox_Extend* extend = static_cast<ArtilleryBox_Extend*>(SB_EX(this));
     extend->artilleryButton.OnInit("systemUI/artilleryButton", location);
     extend->artilleryButton.hitbox.w = 17;
     extend->artilleryButton.hitbox.h = 19;
-    extend->isArtillery = true;
     extend->offset = baseOffset;
 }
 
@@ -62,7 +61,7 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
     super(ignoreStatus);
     if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER"))
     {
-        SystemBox_Extend* extend = SB_EX(this);
+        ArtilleryBox_Extend* extend = static_cast<ArtilleryBox_Extend*>(SB_EX(this));
         extend->artilleryButton.bActive = artSystem->Functioning();
         ProjectileFactory* armedWeapon = G_->GetCApp()->gui->combatControl.weapControl.armedWeapon;
         extend->artilleryButton.bRenderSelected = armedWeapon == artSystem->projectileFactory;
@@ -98,8 +97,8 @@ HOOK_METHOD(SystemBox, MouseMove, (int x, int y) -> void)
     super(x, y);
     if (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER"))
     {
-        SystemBox_Extend* extend = SB_EX(this);
-        if (extend->isArtillery) extend->artilleryButton.MouseMove(x - extend->offset.x, y - extend->offset.y, false);
+        ArtilleryBox_Extend* extend = dynamic_cast<ArtilleryBox_Extend*>(SB_EX(this));
+        if (extend) extend->artilleryButton.MouseMove(x - extend->offset.x, y - extend->offset.y, false);
     }
 }
 
@@ -142,8 +141,8 @@ HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
     bool ret = super(shift);
 
     bool targetableArtillery = CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER");
-    SystemBox_Extend* extend = SB_EX(this);
-    if (extend->isArtillery && targetableArtillery && extend->artilleryButton.Hovering())
+    ArtilleryBox_Extend* extend = dynamic_cast<ArtilleryBox_Extend*>(SB_EX(this));
+    if (extend && targetableArtillery && extend->artilleryButton.Hovering())
     {  
         ArtillerySystem* artillerySystem = static_cast<ArtillerySystem*>(pSystem);
         G_->GetCApp()->gui->combatControl.ArmArtillery(artillerySystem);
@@ -183,7 +182,7 @@ void ArtillerySystem::OnLoop_HS_ManualTarget()
 }
 HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtillerySystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtillerySystem::OnLoop -> Begin (ArtillerySystem.cpp)\n")
     if (_shipObj.iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || _shipObj.HasAugmentation("ARTILLERY_ORDER")))
     {
         OnLoop_HS_ManualTarget();
@@ -196,7 +195,7 @@ HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
 
 HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (CustomWeapons.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (ArtillerySystem.cpp)\n")
     
     super(on, simple);
 

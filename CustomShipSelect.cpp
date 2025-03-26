@@ -707,6 +707,15 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
             }
             if (def.artilleryRoomImages.size() > 1) isCustom = true; //Only qualify for a custom definition if multiple artillery systems are present
         }
+        if (name == "exclusivityOverride")
+        {
+            isCustom = true;
+            def.hasExclusivityOverride = true;
+            for (auto exclusivityGroup = shipNode->first_node("exclusivityGroup"); exclusivityGroup; exclusivityGroup = exclusivityGroup->next_sibling("exclusivityGroup"))
+            {
+                def.exclusivityOverride.ParseExclusivityNode(exclusivityGroup);
+            }
+        }
 
     }
 
@@ -2859,7 +2868,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             CSurface::GL_PushMatrix();
             CSurface::GL_Translate(box->location.x, box->location.y);
             box->UpdateBoxImage(false);
-            CSurface::GL_RenderPrimitiveWithColor(box->empty, GL_Color(1.f, 1.f, 1.f, 0.2f));
+            CSurface::GL_RenderPrimitiveWithColor(box->empty, GL_Color(1.f, 1.f, 1.f, g_dummyEquipmentSlotsOpacity));
             CSurface::GL_PopMatrix();
         }
     }
