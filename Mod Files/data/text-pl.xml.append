@@ -271,7 +271,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="pl">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pl">Projekt Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pl">Stworzony przez:</text>
-<text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="pl">Dodatkowa grafika:</text>
 <text name="credits_hyperspace_art_names" language="pl">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="pl">Dodatkowa pomoc:</text>
@@ -305,5 +305,5 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="max_augments" language="pl">Statek może mieć tylko \1 wspomagania.</text>
 <text name="shot_limit" language="pl">Limit strzałów: \1</text>
-<text name="shots_remaining" language="pl">Pozostałe strzały: \1</text>
-<text name="warning_shot_limit" language="pl">LIMIT STRZAŁÓW OSIĄGNIĘTY!</text>
+<text name="shots_remaining" language="pl">Strzały: \1</text>
+<text name="warning_shot_limit" language="pl">LIMIT STRZAŁÓW OSIĄGNIĘTY</text>

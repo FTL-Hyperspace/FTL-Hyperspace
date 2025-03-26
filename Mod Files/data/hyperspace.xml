@@ -2191,7 +2191,7 @@ Syntax ->
 	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>                   See <variable> below for details. Applied at the start of the run.
 	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_" force="false"/> See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
 	
-	<sectorDescription name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
+	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
         <removeFirstBeaconNebula/>                                                         Removes the nebula from the starting beacon.
@@ -2203,7 +2203,7 @@ Syntax ->
 		<quest event="EVENT_NAME" req="req_name" lvl="1" max_lvl="999">                    Adds events to spawn as quests on sector entry, with optional req to control spawning.
 			...
 		</quest>
-    </sectorDescription>
+    </sector>
 	
 	<quest>                                      Specifies new defaults for quest spawning. This tag also exists for individual events to override the defaults.
 		<nonNebulaBeacon>true</nonNebulaBeacon>  Allows quests to spawn at non-nebula beacons.

@@ -410,49 +410,50 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
-            {
-                auto enabled = node->first_attribute("enabled")->value();
-                DefenseDroneFix::active = EventsParser::ParseBoolean(enabled);
-                if (DefenseDroneFix::active)
-                {
-                    for (auto child = node->first_node(); child; child = child->next_sibling())
-                    {
-                        if (strcmp(child->name(), "boxRange") == 0)
-                        {
-                            if (child->value())
-                            {
-                                DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->value());
-                                DefenseDroneFix::boxRange[1] = DefenseDroneFix::boxRange[0];
-                            }
-                            if (child->first_attribute("player"))
-                            {
-                                DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
-                            }
-                            if (child->first_attribute("enemy"))
-                            {
-                                DefenseDroneFix::boxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                            }
-                        }
-                        if (strcmp(child->name(), "ellipseRange") == 0)
-                        {
-                            if (child->value())
-                            {
-                                DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->value());
-                                DefenseDroneFix::ellipseRange[1] = DefenseDroneFix::ellipseRange[0];
-                            }
-                            if (child->first_attribute("player"))
-                            {
-                                DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
-                            }
-                            if (child->first_attribute("enemy"))
-                            {
-                                DefenseDroneFix::ellipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                            }
-                        }
-                    }
-                }
-            }
+            // defense drone fix is currently broken 
+            // if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
+            // {
+            //     auto enabled = node->first_attribute("enabled")->value();
+            //     DefenseDroneFix::active = EventsParser::ParseBoolean(enabled);
+            //     if (DefenseDroneFix::active)
+            //     {
+            //         for (auto child = node->first_node(); child; child = child->next_sibling())
+            //         {
+            //             if (strcmp(child->name(), "boxRange") == 0)
+            //             {
+            //                 if (child->value())
+            //                 {
+            //                     DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->value());
+            //                     DefenseDroneFix::boxRange[1] = DefenseDroneFix::boxRange[0];
+            //                 }
+            //                 if (child->first_attribute("player"))
+            //                 {
+            //                     DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+            //                 }
+            //                 if (child->first_attribute("enemy"))
+            //                 {
+            //                     DefenseDroneFix::boxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+            //                 }
+            //             }
+            //             if (strcmp(child->name(), "ellipseRange") == 0)
+            //             {
+            //                 if (child->value())
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->value());
+            //                     DefenseDroneFix::ellipseRange[1] = DefenseDroneFix::ellipseRange[0];
+            //                 }
+            //                 if (child->first_attribute("player"))
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+            //                 }
+            //                 if (child->first_attribute("enemy"))
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
 
             if (strcmp(node->name(), "artilleryGibMountFix") == 0) // fixes artillery disappearing during ship explosions
             {

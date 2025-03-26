@@ -271,7 +271,7 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="es">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="es">Proyecto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="es">Desarrollado por:</text>
-<text name="credits_hyperspace_developed_names" language="es">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="es">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="es">Arte adicional:</text>
 <text name="credits_hyperspace_art_names" language="es">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="es">Contribuciones adicionales:</text>
@@ -305,5 +305,5 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="max_augments" language="es">Tu nave solo puede tener instalados \1 aumentos.</text>
 <text name="shot_limit" language="es">Limite de disparos del arma: \1</text>
-<text name="shots_remaining" language="es">Disparos restantes: \1</text>
-<text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO!</text>
+<text name="shots_remaining" language="es">Disparos: \1</text>
+<text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO</text>
