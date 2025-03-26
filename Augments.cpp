@@ -138,13 +138,26 @@ HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (Augments.cpp)\n")
-    if (ship.hullIntegrity.first <= 0 && iShipId == 1 && G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, true, true);
+    if (ship.hullIntegrity.first <= 0)
+    {
+        int direction = iShipId == 0 ? -1 : 1;
+        RecallBoarders(direction, false, true);
+    }
     super();
 }
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (Augments.cpp)\n")
-    if (iShipId == 1 && G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, true, true);
+    if (iShipId == 1)
+    {
+        if (G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
+        if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+    }
+    else if (iShipId == 0)
+    {
+        if (G_->GetShipManager(1)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+        if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
+    }
     super();
 }
 
