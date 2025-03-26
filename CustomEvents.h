@@ -712,6 +712,7 @@ struct CustomEvent
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
+    std::vector<std::pair<bool, int>> removeSystems = std::vector<std::pair<bool, int>>();
     std::vector<VariableModifier> variables = std::vector<VariableModifier>();
     std::string playSound = "";
     std::string playMusic = "";
@@ -792,6 +793,7 @@ struct CustomSector
     SectorExit exitBeacons;
     SectorFleet fleetBeacons;
     bool removeFirstBeaconNebula = false;
+    bool priorityNebulaFix = false;
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;

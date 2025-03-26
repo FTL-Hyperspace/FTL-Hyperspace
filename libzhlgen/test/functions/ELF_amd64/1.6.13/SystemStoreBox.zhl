@@ -12,6 +12,8 @@ cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManag
 cleanup __amd64 void SystemStoreBox::Purchase(SystemStoreBox *this);
 ".41544189d45589f5534889fb4883ec308b8710010000":
 cleanup __amd64 void SystemStoreBox::MouseMove(SystemStoreBox *this, int mX, int mY);
+".53??81c650010000??89fbe8????????":
+cleanup __amd64 TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);
 
 
 struct SystemStoreBox
