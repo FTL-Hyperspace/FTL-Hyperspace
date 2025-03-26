@@ -1193,7 +1193,6 @@ We can expose them once the root cause is identified and the crash is fixed.
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
 // TODO: Maybe one of the members in StarMap (that are not exposed) could help to determine how many free event locations are left so an event can be chosen to spawn in the current sector or next sector?
 %rename("%s") StarMap::dangerZone;
-%rename("%s") StarMap::dangerZoneRadius;
 %rename("%s") StarMap::bMapRevealed;
 %rename("%s") StarMap::pursuitDelay;
 //%rename("%s") StarMap::outOfFuel;

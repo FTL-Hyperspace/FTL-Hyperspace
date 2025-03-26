@@ -2601,7 +2601,6 @@ end)
 - `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
 -  [`Point`](#Point) `.dangerZone`
--  `float` `.dangerZoneRadius`
 -  `bool` `.bMapRevealed`
 - [`GL_Primitive*`](#GL_Primitive) `.ship`
    - The map icon that rotates around the current location representing the player ship.
