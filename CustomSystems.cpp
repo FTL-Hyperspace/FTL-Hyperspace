@@ -797,6 +797,8 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
     
+    if (myBlueprint.systemInfo.find(systemId) == myBlueprint.systemInfo.end()) return 0;
+
     int removedSystemPower = 0;
     int replacedSystem = SystemWillReplace(systemId);
     if (replacedSystem != SYS_INVALID)
@@ -1747,8 +1749,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 void ShipManager::RemoveSystem(int iSystemId)
 {
-    bool playerEngines = iSystemId == SYS_ENGINES && iShipId == 0;
-    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID && !playerEngines) //TODO: Possibly fix bug with engineless player ships?
+    if (HasSystem(iSystemId) && iSystemId != SYS_REACTOR && iSystemId != SYS_INVALID)
     {
         //Remove base ShipSystem
         ShipSystem* removeSys = GetSystem(iSystemId);
@@ -1956,6 +1957,11 @@ void ShipManager::RemoveSystem(int iSystemId)
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 hackingSystem->BlowHackingDrone();
+                auto RemoveIfHackingDrone = [&](SpaceDrone* drone) { return drone->selfId == hackingSystem->drone.selfId;};
+                auto& drones = G_->GetWorld()->space.drones;
+                drones.erase(std::remove_if(drones.begin(), drones.end(), RemoveIfHackingDrone), drones.end());
+                spaceDrones.erase(std::remove_if(spaceDrones.begin(), spaceDrones.end(), RemoveIfHackingDrone), spaceDrones.end());
+                
                 delete hackingSystem;
                 hackingSystem = nullptr;
                 break;
@@ -1988,6 +1994,17 @@ HOOK_METHOD(FTLButton, GetPilotTooltip, () -> std::string)
     if (!ship->HasSystem(SYS_PILOT)) return "";
 
     return super(); // nullptr check for pilot system isn't performed in the base function, which results in segfault.
+}
+
+//Quick fix for engineless player ships crashing when entering combat.
+//This can be removed when rewriting WorldManager::OnLoop, as that function calls this on a null ShipSystem*
+
+HOOK_METHOD(ShipSystem, GetPowerCap, () -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetPowerCap -> Begin (CustomSystems.cpp)\n")  
+    //This necessitates building under -fno-delete-null-pointer-checks  
+    if (this == nullptr) return 0;
+    else return super();
 }
 
 //The original game code uses the starting ShipBlueprint when loading the game, and adds all starting systems by default.
