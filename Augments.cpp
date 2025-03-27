@@ -138,7 +138,8 @@ HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (Augments.cpp)\n")
-    if (ship.hullIntegrity.first <= 0)
+    ShipManager* otherShip = G_->GetShipManager(1 - iShipId);
+    if (ship.hullIntegrity.first <= 0 && otherShip && otherShip->HasAugmentation("TELEPORT_RECALL"))
     {
         int direction = iShipId == 0 ? -1 : 1;
         RecallBoarders(direction, false, true);
