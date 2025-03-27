@@ -7140,10 +7140,13 @@ struct ShipManager : ShipObject
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-
+	
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
+
+	bool CanFitCrew(const std::string& crewName);
+
 
 	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);

@@ -265,8 +265,11 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-
+	
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
+
+	bool CanFitCrew(const std::string& crewName);
+
 }};
