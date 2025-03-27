@@ -209,6 +209,8 @@ cleanup __cdecl void ShipManager::SetDestroyed(ShipManager *this);
 cleanup __cdecl int ShipManager::GetFireCount(ShipManager *this, int roomId);
 "5383ec188b5c24208b4304894424048b442424890424":
 cleanup __cdecl void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, int roomId);
+".5589e557565383ec7c":
+cleanup __cdecl void ShipManager::PulsarDamage(ShipManager *this);
 "5557565331db83ec1c0fb6442438":
 cleanup __cdecl std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
 "5589e557565383ec1c8b450c8b75088b5d10":
@@ -266,4 +268,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	
 	bool CanFitCrew(const std::string& crewName);
 
+	void RemoveSystem(int systemId);
+
+	int SystemWillReplace(int systemId);
 }};

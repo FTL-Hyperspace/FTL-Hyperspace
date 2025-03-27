@@ -1693,6 +1693,13 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     CSurface::GL_PopMatrix();
 }
 
+HOOK_METHOD(ShipManager, PulsarDamage, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PulsarDamage -> Begin (CustomShips.cpp)\n")
+    if (vSystemList.size() <= 0) return;
+    super();
+}
+
 // save and load rooms
 
 HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
