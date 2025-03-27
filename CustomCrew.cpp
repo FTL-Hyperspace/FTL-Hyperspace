@@ -5373,6 +5373,8 @@ HOOK_METHOD(CrewAI, UpdateCrewMember, (int crewId) -> void)
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
+    if (crewId == -1) return super(task, crewId);
+    
     CrewMember* crew = crewList[crewId];
     if (task.taskId == TASK_MANNING && !crew->CanMan())
     {
