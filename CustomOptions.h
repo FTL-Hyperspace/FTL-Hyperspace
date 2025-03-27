@@ -92,6 +92,8 @@ public:
     Setting<bool> dualMedical;
     
     Setting<bool> enhancedCloneUI;
+
+    Setting<bool> permanentStore;
     
     Defaults defaults;
 
