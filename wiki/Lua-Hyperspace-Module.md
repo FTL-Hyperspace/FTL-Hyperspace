@@ -198,7 +198,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
    - **Read-only**
 - [`SpaceDrone*[]`](#SpaceDrone) `.drones`
    - **Read-only**
-- [`GL_Texture`](#GL_Texture) `.currentBack`
+- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
    - **Read-only**
    # 
@@ -234,9 +234,9 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 ### Fields
 
 - [`Globals::Rect`](#Globals) `.rect`
-- [`GL_Primitive*`](#GL_Primitive) `.outline`
-- [`GL_Primitive*`](#GL_Primitive) `.mask`
-- [`GL_Primitive*`](#GL_Primitive) `.pattern`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.outline`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.mask`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.pattern`
 
 ## AsteroidGenerator
 	
@@ -273,16 +273,16 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - `bool` `.newHover`
 - `bool` `.lastValid`
 - `int` `.animateDoor`
-- [`GL_Texture*`](#GL_Texture) `.validPointer`
-- [`GL_Texture*`](#GL_Texture) `.invalidPointer`
-- [`GL_Texture*`](#GL_Texture) `.selling`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.validPointer`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.invalidPointer`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.selling`
 - `Animation` `.openDoor`
 - `std::string` `.tooltip`
 - `float` `.tooltipTimer`
 - `bool` `.bMoving`
 - `bool` `.bHideMouse`
-- [`GL_Texture*`](#GL_Texture) `.lastIcon`
-- [`GL_Texture*`](#GL_Texture) `.lastAddition`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.lastIcon`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.lastAddition`
 - `bool` `.bForceTooltip`
 - `std::string` `.tooltipTitle`
 - `std::string` `.lastTooltipText`
@@ -621,21 +621,21 @@ Accessed via `ShipManager`'s `.extend` field
 -  `std::vector<WeaponMount>` `.weaponMounts`
 -  `std::string` `.floorImageName`
 -  [`ImageDesc`](#ImageDesc) `.shipFloor`
--  [`GL_Primitive*`](#GL_Primitive) `.floorPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.floorPrimitive`
 -  `std::string` `.shipImageName`
 -  [`ImageDesc`](#ImageDesc) `.shipImage`
 -  [`Point`](#Point) `.glowOffset`
--  [`GL_Primitive*`](#GL_Primitive) `.shipImagePrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.shipImagePrimitive`
 -  `std::string` `.cloakImageName`
 -  [`ImageDesc`](#ImageDesc) `.shipImageCloak`
--  [`GL_Primitive*`](#GL_Primitive) `.cloakPrimitive`
--  [`GL_Primitive*`](#GL_Primitive) `.gridPrimitive`
--  [`GL_Primitive*`](#GL_Primitive) `.wallsPrimitive`
--  [`GL_Primitive*`](#GL_Primitive) `.doorsPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.cloakPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.gridPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.wallsPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.doorsPrimitive`
 -  `std::vector<DoorState>` `.doorState`
 -  `bool` `.lastDoorControlMode`
--  [`GL_Texture*`](#GL_Texture) `.thrustersImage`
--  [`GL_Texture*`](#GL_Texture) `.jumpGlare`
+-  [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.thrustersImage`
+-  [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.jumpGlare`
 -  `int` `.vertical_shift`
 -  `int` `.horizontal_shift`
 -  `std::string` `.shipName`
@@ -782,10 +782,10 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bOccupied`
 - `bool` `.bFriendlies`
 - `std::string` `.interiorImageName`
-- [`GL_Primitive*`](#GL_Primitive) `.interiorImage`
-- [`GL_Primitive*`](#GL_Primitive) `.interiorImageOn`
-- [`GL_Primitive*`](#GL_Primitive) `.interiorImageManned`
-- [`GL_Primitive*`](#GL_Primitive) `.interiorImageMannedFancy`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImage`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImageOn`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImageManned`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImageMannedFancy`
 - `int` `.lastUserPower`
 - `int` `.iBonusPower`
 - `int` `.iLastBonusPower`
@@ -931,8 +931,8 @@ Accessed via `ShipSystem`'s `.extend` field
 - `bool` `.superShieldDown`
 - [`Pointf`](#Pointf) `.shieldsDownPoint`
 - [`AnimationTracker`](#AnimationTracker) `.shieldsUp`
-- [`GL_Texture*`](#GL_Texture) `.shieldImage`
-- [`GL_Primitive*`](#GL_Primitive) `.shieldPrimitive`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.shieldImage`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.shieldPrimitive`
 - `std::string` `.shieldImageName`
 - `bool` `.bEnemyPresent`
 - `bool` `.bBarrierMode`
@@ -1001,9 +1001,9 @@ No additional items over base `ShipSystem`
 - [`CrewMember*`](#crewmember) `.clone`
 - `float` `.fTimeGoal`
 - `float` `.fDeathTime`
-- [`GL_Texture*`](#GL_Texture) `.bottom`
-- [`GL_Texture*`](#GL_Texture) `.top`
-- [`GL_Texture*`](#GL_Texture) `.gas`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.bottom`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.top`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.gas`
 - `int` `.slot`
 
 ## DroneSystem
@@ -1231,8 +1231,8 @@ No methods are exposed currently.
 - `void :SetMovementTarget(Targetable *target)`
 
 ### Fields
-- [`GL_Texture*`](#GL_Texture) `.baseSheet`
-- [`GL_Texture*`](#GL_Texture) `.colorSheet`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.baseSheet`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.colorSheet`
 - [`Pointf`](#Pointf) `.startingPosition`
 - [`Animation`](#Animation) `.droneImage`
 - [`CachedImage`](#CachedImage) `.flame`
@@ -1251,9 +1251,9 @@ No methods are exposed currently.
 
 ### Fields
 - [`Pointf`](#Pointf) `.startingPosition`
-- [`GL_Texture*`](#GL_Texture) `.droneImage_on`
-- [`GL_Texture*`](#GL_Texture) `.droneImage_off`
-- [`GL_Texture*`](#GL_Texture) `.lightImage`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.droneImage_on`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.droneImage_off`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.lightImage`
 - [`Pointf`](#Pointf) `.finalDestination`
 - `bool` `.arrived`
 - `bool` `.finishedSetup`
@@ -1299,8 +1299,8 @@ No methods are exposed currently.
    - **Read-only**
 - `int` `.iRoomId`
    - **Read-only**
-- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive`
-- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive2`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.highlightPrimitive2`
 - [`Room_Extend`](#room_extend) `.extend`
    - **Read-only**
 
@@ -1711,7 +1711,7 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `bool` `.bFighting`
 - `bool` `.bSharedSpot`
 - [`CrewAnimation*`](#CrewAnimation) `.crewAnim`
-- [`GL_Texture*`](#GL_Texture) `.selectionImage`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.selectionImage`
 - [`CachedImage`](#CachedImage) `.healthBox`
 - [`CachedImage`](#CachedImage) `.healthBoxRed`
 - [`CachedRect`](#CachedRect) `.healthBar`
@@ -1846,9 +1846,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `int` `.iShipId`
 - [`std::vector<std::vector<Animation>>`](#Animation) `.anims`
-- [`GL_Texture*`](#GL_Texture) `.baseStrip`
-- [`GL_Texture*`](#GL_Texture) `.colorStrip`
-- [`std::vector<GL_Texture*>`](#GL_Texture) `.layerStrips`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.baseStrip`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.colorStrip`
+- [`std::vector<GL_Texture*>`](./Lua-Graphics-Module.md#GL_Texture) `.layerStrips`
 - [`Pointf`](#Pointf) `.lastPosition`
 - `int` `.direction`
 - `int` `.sub_direction`
@@ -1871,10 +1871,10 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.currentShip`
 - `bool` `.bMale`
 - `bool` `.colorblind`
-- [`std::vector<GL_Color>`](#GL_Color) `.layerColors`
+- [`std::vector<GL_Color>`](./Lua-Graphics-Module.md#GL_Color) `.layerColors`
 - `int` `.forcedAnimation`
 - `int` `.forcedDirection`
-- [`GL_Color`](#GL_Color) `.projectileColor`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.projectileColor`
 - `bool` `.bStunned`
 - `bool` `.bDoorTarget`
 - `bool` `.uniqueBool1`
@@ -2080,7 +2080,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.soundsEnemy`
 - `bool` `.effectSoundsEnemy`
 - [`TextString`](#TextString) `.buttonLabel`
-- [`GL_Color`](#GL_Color) `.cooldownColor`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.cooldownColor`
 - [`TextString`](#TextString) `.tooltip`
 - `std::string` `.effectAnim`
 - `std::string` `.effectPostAnim`
@@ -2132,7 +2132,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.showTemporaryBars`
 - `bool` `.showLinkedCooldowns`
 - `bool` `.showLinkedCharges`
-- [`GL_Color`](#GL_Color) `.cooldownColor`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.cooldownColor`
 - [`ActivatedPowerRequirements*`](#ActivatedPowerRequirements) `.chargeReq`
 
 ## ActivatedPowerRequirements
@@ -2232,7 +2232,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
 - `bool` `.invulnerable`
 - `int` `.animFrame`
-- [`GL_Color`](#GL_Color) `.cooldownColor`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.cooldownColor`
 
 ## GenericButton
 
@@ -2470,7 +2470,7 @@ end)
 - `int` `.gap_size`
 - `float` `.openTime`
 - [`ResourceEvent`](#ResourceEvent) `.reward`
-- [`GL_Color`](#GL_Color) `.currentTextColor`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.currentTextColor`
 - [`Pointf`](#Pointf) `.lastChoice`
 
 ## ChoiceText
@@ -2676,7 +2676,7 @@ end)
 ## ImageDesc
 
 ### Fields
-- [`GL_Texture`](#GL_Texture) `.tex`
+- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.tex`
 - `float` `.resId`
 - `float` `.w`
 - `float` `.h`
@@ -2814,7 +2814,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `bool` `.customRender`
 - `bool` `.present`
 - `std::string[2]` `.shieldTexture`
-- [`GL_Color`](#GL_Color) `.shieldColor`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.shieldColor`
 
 ## AugmentCrystalShard
 
@@ -2962,13 +2962,13 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `void :SaveState(int fd)`
 - `void :SetAnimationId(GL_Texture *tex)`
 - `void :SetCurrentFrame(int frame)`
-- [`GL_Texture`](#GL_Texture) `:SetProgress(float progress)`
+- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `:SetProgress(float progress)`
 - `void :Start(bool reset)`
 - `void :StartReverse(bool reset)`
 - `void :Update()`
 
 ### Fields
-- [`GL_Texture*`](#GL_Texture) `.animationStrip`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.animationStrip`
 - [`AnimationDescriptor`](#AnimationDescriptor) `.info`
 - [`AnimationTracker`](#AnimationTracker) `.tracker`
 - [`Pointf`](#Pointf) `.position`
@@ -2987,8 +2987,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `int` `.mask_x_size`
 - `int` `.mask_y_pos`
 - `int` `.mask_y_size`
-- [`GL_Primitive*`](#GL_Primitive) `.primitive`
-- [`GL_Primitive*`](#GL_Primitive) `.mirroredPrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.primitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.mirroredPrimitive`
 
 ## Door
 
@@ -3007,8 +3007,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
    - **read-only**
 - `int` `.height`
    - **read-only**
-- [`GL_Primitive*`](#GL_Primitive) `.outlinePrimitive`
-- [`GL_Primitive*`](#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.outlinePrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.highlightPrimitive`
 - [`Animation`](#Animation) `.doorAnim`
 - [`Animation`](#Animation) `.doorAnimLarge`
 - `int` `.iDoorId`
@@ -3073,7 +3073,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `int` `.spin`
 - `int` `.chargeLevels`
 - [`TextString`](#TextString) `.flavorType`
-- [`GL_Color`](#GL_Color) `.color`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.color`
 
 ## BoostPower
 
@@ -3186,7 +3186,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 **Extends [Blueprint](#Blueprint)**
 
 ### Methods
-- [`GL_Color`](#GL_Color) `:GetCurrentSkillColor(int skill)`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `:GetCurrentSkillColor(int skill)`
 - `std::string :GetNameShort()`
 - `void :RandomSkills(int worldLevel)`
 - `void :RenderIcon(float opacity)`
@@ -3367,7 +3367,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `bool` `.passedTarget`
 - `bool` `.bBroadcastTarget`
 - [`AnimationTracker`](#AnimationTracker) `.flashTracker`
-- [`GL_Color`](#GL_Color) `.color`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.color`
 - [`Projectile_Extend`](#Projectile_Extend) `.extend`
    - **read-only**
 
@@ -3434,7 +3434,7 @@ Accessed via `Projectile`'s `.extend` field
 - `static` [`Asteroid*`](#Asteroid) `.Asteroid(Pointf pos, int destinationSpace)`
 
 ### Fields
-- [`GL_Texture*`](#GL_Texture) `.imageId`
+- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.imageId`
 - `float` `.angle`
 
 ## Missile
@@ -3612,10 +3612,10 @@ Accessed via `Projectile`'s `.extend` field
 ## ResourceControl
 
 ### Methods
-- [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror)`
-- [`GL_Primitive`](#GL_Primitive) `:*CreateImagePrimitiveString(std::string tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
+- [`GL_Primitive`](./Lua-Graphics-Module.md#GL_Primitive) `:*CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror)`
+- [`GL_Primitive`](./Lua-Graphics-Module.md#GL_Primitive) `:*CreateImagePrimitiveString(std::string tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
 - [`freetype::font_data`](#font_data) `:GetFontData(int size, bool ignoreLanguage)`
-- [`GL_Texture`](#GL_Texture) `:*GetImageId(std::string dir)`
+- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `:*GetImageId(std::string dir)`
 - `bool :ImageExists(std::string name)`
 - `int :RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
 - `int :RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
@@ -3733,13 +3733,13 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 - `void` `:OnRender()`
 
 ### Fields
-- [`GL_Texture`](#GL_Texture) `.arrow`
-- [`GL_Texture`](#GL_Texture) `.arrow2`
+- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.arrow`
+- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.arrow2`
 - [`Pointf`](#Pointf) `.position`
 - [`Pointf`](#Pointf) `.blitSize`
 - `float` `.rotation`
-- [`GL_Color`](#GL_Color) `.arrow_color`
-- [`GL_Color`](#GL_Color) `.arrow2_color`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.arrow_color`
+- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.arrow2_color`
 
 ## ShipBuilder
 
