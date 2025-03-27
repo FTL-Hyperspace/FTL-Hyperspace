@@ -37,7 +37,6 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
 }
 void CustomUserSystems::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
-    //TODO: Possibly add control over ordering later.
     if (node->first_attribute("id"))
     {
         std::string sysName = node->first_attribute("id")->value();
@@ -103,6 +102,57 @@ SystemExclusivityManager* SystemExclusivityManager::GetGlobalManager()
     static SystemExclusivityManager globalManager;
     return &globalManager; 
 }
+
+//System position handling
+void SystemPositionManager::ParsePositionsNode(rapidxml::xml_node<char>* node)
+{
+    static int defaultPosition = 0;
+    for (auto positionNode = node->first_node(); positionNode; positionNode = positionNode->next_sibling())
+    {
+        int systemId = ShipSystem::NameToSystemId(positionNode->name());
+        if (systemId == SYS_INVALID)
+        {
+            std::string error = "Attempted to add system position for: " + std::string(positionNode->name()) + ", this is not a valid system ID!";
+            throw std::invalid_argument(error);
+        }
+        auto position = positionNode->first_attribute("position");
+        auto staticOffset = positionNode->first_attribute("staticOffset");
+
+        systemPositions[systemId] = {
+            position ? boost::lexical_cast<int>(position->value()) : INT_MAX - 2, //Default positions to just before the weapon system
+            staticOffset != nullptr,
+            staticOffset ? boost::lexical_cast<int>(staticOffset->value()) : -1
+        };
+    }
+}
+const SystemPosition* SystemPositionManager::GetSystemPosition(int systemId)
+{
+    auto it = systemPositions.find(systemId);
+    if (it != systemPositions.end()) return &it->second;
+    return &defaultPosition;
+}
+//Default values for vanilla UI
+std::unordered_map<int, SystemPosition> SystemPositionManager::systemPositions = {
+    {SYS_SHIELDS,    {0, false, -1}},    
+    {SYS_ENGINES,    {1, false, -1}},    
+    {SYS_MEDBAY,     {2, false, -1}}, 
+    {SYS_CLONEBAY,   {3, false, -1}},   
+    {SYS_OXYGEN,     {4, false, -1}},       
+    {SYS_TELEPORTER, {5, false, -1}}, 
+    {SYS_CLOAKING,   {6, false, -1}},   
+    {SYS_ARTILLERY,  {7, false, -1}},  
+    {SYS_MIND,       {8, false, -1}},       
+    {SYS_HACKING,    {9, false, -1}},
+    {SYS_TEMPORAL,   {10, false, -1}},
+    {SYS_WEAPONS,    {INT_MAX - 1, false, -1}},    
+    {SYS_DRONES,     {INT_MAX, false, -1}}, 
+
+    {SYS_PILOT,      {-1, true, 0}},      
+    {SYS_SENSORS,    {-1, true, 36}},    
+    {SYS_DOORS,      {-1, true, 72}},  
+    {SYS_BATTERY,    {-1, true, 123}}
+};
+const SystemPosition SystemPositionManager::defaultPosition = {INT_MAX - 2, false, -1};
 
 //TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
 static float DAMAGE_BOOST[4] = {1.0, 1.0, 1.25, 2.0};
@@ -392,168 +442,213 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     SystemPower.x = 0;
     SystemPower.y = 0;
 
-    int xPos = 22;
+    //Collect all systems and subsystems owned by the player 
+    std::vector<ShipSystem*> systems;
+    std::vector<ShipSystem*> subSystems;
 
-    std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
-
-    for (auto sysId : systemOrder)
+    auto AddShipSystemToVector = [&](ShipSystem* sys)
     {
-        auto sys = shipManager->GetSystem(sysId);
-        if (!sys || !sys->bNeedsPower) continue;
-
-        switch (sysId)
+        if (sys)
         {
-        case SYS_MIND:
-            {
-                auto box = new MindBox(Point(xPos + 36, 269), shipManager->mindSystem);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_CLONEBAY:
-            {
-                auto box = new CloneBox(Point(xPos + 36, 269), shipManager->cloneSystem);
-                sysBoxes.push_back(box);
-                xPos += 36;
-                break;
-            }
-        case SYS_HACKING:
-            {
-                auto box = new HackBox(Point(xPos + 36, 269), shipManager->hackingSystem, shipManager);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_TELEPORTER:
-            {
-                auto box = new TeleportBox(Point(xPos + 36, 269), shipManager->teleportSystem);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_CLOAKING:
-            {
-                auto box = new CloakingBox(Point(xPos + 36, 269), shipManager->cloakSystem);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_ARTILLERY:
-            {
-                for (auto i : shipManager->artillerySystems)
-                {
-                    auto box = new ArtilleryBox(Point(xPos + 36, 269), i);
-                    sysBoxes.push_back(box);
-                    xPos += 36;
-                }
-
-                /*
-                if (shipManager->artillerySystems.size() > 0)
-                {
-                    auto artillerySys = shipManager->artillerySystems[0];
-                    auto box = new ArtilleryBox(Point(xPos + 36, 269), artillerySys);
-                    sysBoxes.push_back(box);
-                    xPos += 36;
-                }
-                */
-            }
-            break;
-        case SYS_WEAPONS:
-            break;
-        case SYS_DRONES:
-            break;
-
-        //Temporal system and fallback
-        case SYS_TEMPORAL:
-            {
-                auto box = new TemporalBox(Point(xPos + 36, 269), sys, shipManager);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        default:
-            auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
-            sysBoxes.push_back(box);
-            xPos += 36;
+            if (sys->bNeedsPower) systems.push_back(sys);
+            else subSystems.push_back(sys);
         }
+    };
+    //Vanilla IDs
+    for (int systemId = 0; systemId < 16; ++systemId) 
+    {
+        if (systemId == SYS_ARTILLERY)
+        {
+            for (auto artillerySystem : shipManager->artillerySystems)
+            {
+                AddShipSystemToVector(artillerySystem);
+            }
+        }
+        else
+        {
+            ShipSystem* sys = shipManager->GetSystem(systemId);
+            AddShipSystemToVector(sys);
+        }      
     }
-    //Custom systems
-    //TODO: Allow full user control over systemBox ordering?
+
+    //Hyperspace ID
+    AddShipSystemToVector(shipManager->GetSystem(SYS_TEMPORAL));
+    
+    //Custom IDS
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
     {
-        auto sys = shipManager->GetSystem(systemId);
-        if (!sys || !sys->bNeedsPower) continue;
-        auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
+        ShipSystem* sys = shipManager->GetSystem(systemId);
+        AddShipSystemToVector(sys);
+    }
+
+    auto SortSystems = [](ShipSystem* sys1, ShipSystem* sys2)
+    {
+        return SystemPositionManager::GetSystemPosition(sys1->iSystemType)->position < SystemPositionManager::GetSystemPosition(sys2->iSystemType)->position;
+    };
+
+    std::sort(systems.begin(), systems.end(), SortSystems);
+
+    //Create and position system boxes based on the values of xOffset
+    int xPos = 22;
+    for (ShipSystem* sys : systems)
+    {
+        SystemBox* box = nullptr;
+        Point boxPosition(xPos + 36, 269);
+        switch (sys->iSystemType)
+        {
+            case SYS_MIND:
+            {
+                box = new MindBox(boxPosition, shipManager->mindSystem);
+                break;
+            }
+            case SYS_CLONEBAY:
+            {
+                box = new CloneBox(boxPosition, shipManager->cloneSystem);
+                break;
+            }
+            case SYS_HACKING:
+            {
+                box = new HackBox(boxPosition, shipManager->hackingSystem, shipManager);
+                break;
+            }
+            case SYS_TELEPORTER:
+            {
+                box = new TeleportBox(boxPosition, shipManager->teleportSystem);
+                break;
+            }
+            case SYS_CLOAKING:
+            {
+                box = new CloakingBox(boxPosition, shipManager->cloakSystem);
+                break;
+            }
+            case SYS_ARTILLERY:
+            {
+                box = new ArtilleryBox(boxPosition, static_cast<ArtillerySystem*>(sys));
+                break;
+            }
+            case SYS_WEAPONS:  
+            {
+                *Global::weaponPosition = position + boxPosition;
+                box = new WeaponSystemBox(boxPosition, sys, &combatControl->weapControl);
+                xPos += 97 * shipManager->myBlueprint.weaponSlots;
+                break;
+            }
+            case SYS_DRONES:
+            {
+                *Global::dronePosition = position + boxPosition;
+                box = new SystemBox(Point(xPos + 36, 269), sys, true);
+                xPos += 97 * shipManager->myBlueprint.droneSlots;
+                break;
+            }
+            case SYS_TEMPORAL:
+            {
+                box = new TemporalBox(boxPosition, sys, shipManager);
+                break;
+            }
+            default:
+            {
+                box = new SystemBox(boxPosition, sys, true);
+                break;
+            }       
+        }
         sysBoxes.push_back(box);
         xPos += SB_EX(box)->xOffset;
     }
 
-
-    if (shipManager->HasSystem(3))
+    //Only use static positioning if every owned subsystem is positioned statically
+    bool staticSubSystemPositioning = true;
+    for (ShipSystem* sys : subSystems)
     {
-        *Global::weaponPosition = Point(position.x + xPos + 36, position.y + 269);
-        auto box = new WeaponSystemBox(Point(xPos + 36, 269), shipManager->GetSystem(3), &combatControl->weapControl);
-
-        sysBoxes.push_back(box);
-
-        xPos += 48 + 97 * shipManager->myBlueprint.weaponSlots;
-    }
-    if (shipManager->HasSystem(4))
-    {
-        *Global::dronePosition = Point(position.x + xPos + 36, position.y + 269);
-        auto box = new SystemBox(Point(xPos + 36, 269), shipManager->GetSystem(4), true);
-
-        sysBoxes.push_back(box);
-    }
-
-    int subSystemOrder[4] = { 6, 7, 8, 12 };
-
-    int subXPos = subSystemPosition.x;
-    int subYPos = subSystemPosition.y;
-
-    for (int i = 0; i < 4; i++)
-    {
-        int sysId = subSystemOrder[i];
-
-        auto sys = shipManager->GetSystem(sysId);
-        switch (sysId)
+        if (!SystemPositionManager::GetSystemPosition(sys->iSystemType)->staticallyPositioned)
         {
-        case SYS_DOORS:
-            if (sys)
-            {
-                auto box = new DoorBox(Point(subXPos, subYPos), sys, shipManager);
-                sysBoxes.push_back(box);
-            }
-
-            subXPos += 15;
-            break;
-        case SYS_BATTERY:
-            if (sys)
-            {
-                auto box = new BatteryBox(Point(subXPos, subYPos), shipManager->batterySystem);
-                sysBoxes.push_back(box);
-            }
-            subXPos += 18;
-            break;
-        default:
-            if (sys)
-            {
-                auto box = new SystemBox(Point(subXPos, subYPos), sys, true);
-                sysBoxes.push_back(box);
-            }
+            staticSubSystemPositioning = false;
             break;
         }
-        subXPos += sub_spacing + 36;
     }
-    //Custom subsystems
-    //TODO: Allow full user control over systemBox ordering?
-    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+
+    if (staticSubSystemPositioning)
     {
-        auto sys = shipManager->GetSystem(systemId);
-        if (!sys || sys->bNeedsPower) continue;
-        auto box = new SystemBox(Point(subXPos, subYPos), sys, true);
-        sysBoxes.push_back(box);
-        subXPos += sub_spacing + SB_EX(box)->xOffset;
+        //Order subsystems by their static position
+        std::sort(subSystems.begin(), subSystems.end(), 
+        [](ShipSystem* sys1, ShipSystem* sys2)
+        {
+            return SystemPositionManager::GetSystemPosition(sys1->iSystemType)->staticOffset < SystemPositionManager::GetSystemPosition(sys2->iSystemType)->staticOffset;
+        });
+    
+        int additionalOffset = 0;
+        for (ShipSystem* sys : subSystems)
+        {
+            SystemBox* box = nullptr;
+            Point customOffset(SystemPositionManager::GetSystemPosition(sys->iSystemType)->staticOffset, 0);
+            Point spacingOffset(additionalOffset, 0); //Add additional shift depending on the value of sub_spacing
+            additionalOffset += sub_spacing;
+            Point boxPosition = subSystemPosition + spacingOffset + customOffset;
+            switch (sys->iSystemType)
+            {
+                case SYS_DOORS:
+                {
+                    box = new DoorBox(boxPosition, sys, shipManager);
+                    break;
+                }
+                case SYS_BATTERY:
+                {
+                    box = new BatteryBox(boxPosition, shipManager->batterySystem);
+                    break;
+                }
+                default:
+                {
+                    box = new SystemBox(boxPosition, sys, true);
+                    break;
+                }
+            }
+            sysBoxes.push_back(box);
+        }
+    }
+    else
+    {
+        //Sort systems based on position priority
+        std::sort(subSystems.begin(), subSystems.end(), SortSystems);
+
+        //Determine if the subsystem holder needs to be shifted left
+        const Point vanillaSubSystemPosition(1015, 251);
+        const int vanillaSubSystemTotalWidth = 177 + 4 * sub_spacing;
+        int subSystemTotalWidth = 36 * subSystems.size()  + 4 * sub_spacing; //TODO: Figure out a way to calculate total subsystem width now that xOffset is determined on SystemBox construction.
+        int subSystemPositionLeftShift = std::max(0, subSystemTotalWidth - vanillaSubSystemTotalWidth);
+
+        subSystemPosition = vanillaSubSystemPosition;
+        subSystemPosition.x -= subSystemPositionLeftShift;
+    
+        int subXPos = subSystemPosition.x;
+        int subYPos = subSystemPosition.y;
+        
+        
+    
+        for (ShipSystem* sys : subSystems)
+        {
+            SystemBox* box = nullptr;
+            Point boxPosition(subXPos, subYPos);
+
+            switch (sys->iSystemType)
+            {
+                case SYS_DOORS:
+                {
+                    box = new DoorBox(boxPosition, sys, shipManager);
+                    break;
+                }
+                case SYS_BATTERY:
+                {
+                    box = new BatteryBox(boxPosition, shipManager->batterySystem);
+                    break;
+                }
+                default:
+                {
+                    box = new SystemBox(boxPosition, sys, true);
+                    break;
+                }
+            }
+            subXPos += sub_spacing + SB_EX(box)->xOffset;
+            sysBoxes.push_back(box);
+        }
     }
 }
 
@@ -570,8 +665,8 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
     int xPos = 360;
 
-    std::vector<int> systemIds = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 13, 14, 15, 20, 6, 7, 8, 12 };
-    //TODO: Check if user needs to control offsets in ShipBuilder menu too. Might be necessary if they want to do something weird with the UI
+    //TODO: Use custom order in the ship select menu as well?
+    std::vector<int> systemIds = {SYS_SHIELDS, SYS_ENGINES, SYS_OXYGEN, SYS_WEAPONS, SYS_DRONES, SYS_MEDBAY, SYS_TELEPORTER, SYS_CLOAKING, SYS_ARTILLERY, SYS_CLONEBAY, SYS_MIND, SYS_HACKING, SYS_TEMPORAL, SYS_PILOT, SYS_SENSORS, SYS_DOORS, SYS_BATTERY};
     for (auto i : systemIds)
     {
         if (i == SYS_ARTILLERY)

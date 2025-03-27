@@ -1496,6 +1496,34 @@ Syntax ->
 		<clonebay/>
 		<medbay/>
 	</exclusivityGroup>
+
+	Define the system order in the UI. Useful for systems that replace vanilla systems.
+	<systemPositions>
+		position is used to determine system order for dynamically positioned system box (regular systems or dynamically positioned subsystems).
+		lower values are placed further to the left.
+
+        <shields position="0"/>
+        <engines position="1"/>
+        <medbay position="2"/>
+        <clonebay position="3"/>
+        <oxygen position="4"/>
+        <teleporter position="5"/>
+        <cloaking position="6"/>
+        <artillery position="7"/>
+        <mind position="8"/>
+        <hacking position="9"/>
+        <temporal position="10"/>
+        <weapons position="2147483646"/>
+        <drones position="2147483647"/>
+
+		staticOffset is used to determine where a system box is placed when static rendering is active (default behavior for subsystems)
+		static rendering is only used for subsystems if every subsystem possessed by the player has a staticOffset.
+
+        <pilot staticOffset="0"/> 
+        <sensors staticOffset="36"/>
+        <doors staticOffset="72"/>
+        <battery staticOffset="123"/>
+    </systemPositions>
 	
 	-->
 </customSystems>

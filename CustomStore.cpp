@@ -1961,8 +1961,6 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
     auto custom = CustomShipSelect::GetInstance();
     int sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
 
-    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4. (TODO: Remove when fixing custom subsystem UI)
-
     int sysCount = 0;
 
     for (auto i : shopper->vSystemList)

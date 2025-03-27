@@ -66,3 +66,18 @@ private:
     int currentExclusivityIndex = 0;
     std::unordered_map<int, int> exclusivityGroups; // systemId, group
 };
+struct SystemPosition
+{
+    int position;
+    bool staticallyPositioned;
+    int staticOffset;
+};
+class SystemPositionManager
+{
+public:
+    static void ParsePositionsNode(rapidxml::xml_node<char>* node);
+    static const SystemPosition* GetSystemPosition(int systemId);
+private:
+    static std::unordered_map<int, SystemPosition> systemPositions;
+    static const SystemPosition defaultPosition;
+};
