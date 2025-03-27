@@ -253,6 +253,7 @@ target_sources(
     SystemBox_Extend.cpp
     SystemBox_Extend.h
     Systems.h
+    Tasks.h
     TemporalBoxVTable.cpp
     TemporalSystem.cpp
     TemporalSystem.h

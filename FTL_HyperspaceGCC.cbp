@@ -1341,6 +1341,9 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="Tasks.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="TemporalBoxVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
