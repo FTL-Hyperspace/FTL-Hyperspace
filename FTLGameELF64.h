@@ -7167,6 +7167,7 @@ struct ShipManager : ShipObject
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
+	
 	bool CanFitCrew(const std::string& crewName);
 
 
