@@ -7231,3 +7231,24 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 }
+
+//Prevent crew from cloning on the enemy ship when killed by an event
+static bool inModifyResources = false;
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
+    inModifyResources = true;
+    LocationEvent* ret = super(event);
+    inModifyResources = false;
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, Clone, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomEvents.cpp)\n")
+    if (inModifyResources && currentShipId != iShipId && currentShipId != -1)
+    {
+        G_->GetShipManager(currentShipId)->RemoveCrewmember(this);
+    } 
+    super();
+}
