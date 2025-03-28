@@ -52,6 +52,8 @@ cleanup __cdecl bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 static cleanup __cdecl void ShipGraph::Restart();
 "5589e5575631f65389f381ecac0000008b45108b7d0c":
 cleanup __cdecl Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
+"5589e557565383ec4c8b????8b????8b4e042b0ec70300000000c7430400000000c1f902":
+cleanup __cdecl std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
 
 
 struct ShipGraph depends (Point, Pointf, Room) 

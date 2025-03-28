@@ -3568,7 +3568,7 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
                 {
                     if (oxygenSystem->oxygenLevels[x->iRoomId] == 0.f)
                     {
-                        oxygenSystem->oxygenLevels[x->iRoomId] = 0.0000001f;
+                        oxygenSystem->oxygenLevels[x->iRoomId] = 0.0000001f; //TODO: Remove workaround
                     }
 
                     oxygenSystem->ComputeAirLoss(x->iRoomId, -oxygenModifier, true);
