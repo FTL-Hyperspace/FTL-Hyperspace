@@ -426,9 +426,9 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     return ret;
 }
 static bool staticSubSystemPositioning = true;
-HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
+HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
