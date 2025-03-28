@@ -565,7 +565,8 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
             break;
         }
     }
-
+    const Point vanillaSubSystemPosition(1015, 251);
+    subSystemPosition = vanillaSubSystemPosition;
     if (staticSubSystemPositioning)
     {
         //Order subsystems by their static position
@@ -610,7 +611,6 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         std::sort(subSystems.begin(), subSystems.end(), SortSystems);
 
         //Determine if the subsystem holder needs to be shifted left
-        const Point vanillaSubSystemPosition(1015, 251);
         const int vanillaSubSystemTotalWidth = 177 + 3 * sub_spacing;
         int subSystemTotalWidth = 0;
         for (ShipSystem* subSystem : subSystems)
@@ -620,7 +620,6 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         subSystemTotalWidth += sub_spacing * subSystems.size() -1;
         int subSystemPositionLeftShift = std::max(0, subSystemTotalWidth - vanillaSubSystemTotalWidth);
 
-        subSystemPosition = vanillaSubSystemPosition;
         subSystemPosition.x -= subSystemPositionLeftShift;
     
         int subXPos = subSystemPosition.x;
