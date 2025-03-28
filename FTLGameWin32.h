@@ -7258,6 +7258,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API void PrepareSuperDrones();
 	LIBZHL_API void PulsarDamage();
+	LIBZHL_API void RemoveCrewmember(CrewMember *crew);
 	LIBZHL_API void RemoveItem(const std::string &name);
 	LIBZHL_API void RenderChargeBars();
 	LIBZHL_API void RenderWeapons();
