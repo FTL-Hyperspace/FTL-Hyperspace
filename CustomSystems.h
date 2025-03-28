@@ -66,3 +66,5 @@ private:
     int currentExclusivityIndex = 0;
     std::unordered_map<int, int> exclusivityGroups; // systemId, group
 };
+
+extern float leakModifiers[2];

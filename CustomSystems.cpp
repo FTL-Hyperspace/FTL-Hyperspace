@@ -2081,3 +2081,78 @@ int ShipManager::SystemWillReplace(int systemId)
     
     return SYS_INVALID;   
 }
+
+float leakModifiers[2] = {1.f, 1.f};
+
+
+HOOK_METHOD_PRIORITY(OxygenSystem, OnLoop, -100, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::OnLoop -> Begin (CustomSystems.cpp)\n")
+
+    leakModifiers[_shipObj.iShipId] = 1.f;
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), G_->GetShipManager(_shipObj.iShipId), context->getLibScript()->types.pShipManager, 0);
+    lua_pushnumber(context->GetLua(), leakModifiers[_shipObj.iShipId]);
+
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_LEAK_MODIFIER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) leakModifiers[_shipObj.iShipId] = lua_tonumber(context->GetLua(), -1);
+
+    lua_pop(context->GetLua(), 2);
+
+    return super();
+}
+
+HOOK_METHOD_PRIORITY(OxygenSystem, UpdateAirlock, 9999, (int roomId, int count) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::UpdateAirlock -> Begin (CustomSystems.cpp)\n")
+    if (count > 0)
+    {
+        float leakModifier = leakModifiers[_shipObj.iShipId];
+
+        bool drainSound = leakModifier > 0 && oxygenLevels[roomId] > 10.f;
+        bool gainSound = leakModifier < 0 && oxygenLevels[roomId] < 90.f;
+        if (drainSound || gainSound)
+        {
+            oxygenLevels[roomId] = leakModifier > 0 ? 0.f : 100.f;
+            G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
+        } 
+
+        if (leakModifier < 0 && oxygenLevels[roomId] <= 0) oxygenLevels[roomId] = 0.0000001f; //TODO: Remove workaround
+        ComputeAirLoss(roomId, count * leakModifier, false);
+    }
+}
+HOOK_METHOD_PRIORITY(OxygenSystem, UpdateBreach, 9999, (int roomId, int count, bool silent) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::UpdateBreach -> Begin (CustomSystems.cpp)\n")
+    if (count > 0)
+    {
+        float leakModifier = leakModifiers[_shipObj.iShipId];
+        if (leakModifier < 0 && oxygenLevels[roomId] <= 0) oxygenLevels[roomId] = 0.0000001f; //TODO: Remove workaround
+        ComputeAirLoss(roomId, count * 0.5 * leakModifier, silent);
+    }     
+}
+
+HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base_loss, bool silent) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::ComputeAirLoss -> Begin (CustomSystems.cpp)\n")
+    ShipGraph* shipGraph = ShipGraph::GetShipInfo(_shipObj.iShipId);
+    std::vector<int> roomDepths = shipGraph->ConnectivityDFS(roomId);
+    for (int idx = 0; idx < roomDepths.size(); ++idx)
+    {
+        if (oxygenLevels[idx] <= 0.f) roomDepths[idx] = -1; //TODO: Refactor to work properly with positive gain
+    }
+
+    for (int idx = 0; idx < roomDepths.size(); ++idx)
+    {
+        int depth = roomDepths[idx];
+        if (depth != -1)
+        {
+            bool shouldLeak = base_loss > 0 ? oxygenLevels[idx] > 1.f : oxygenLevels[idx] < 99.f;
+            if (base_loss == 0) shouldLeak = false;
+            if (shouldLeak) bLeakingO2 = true;
+            oxygenLevels[idx] -= std::pow(0.75, depth) * base_loss * G_->GetCFPS()->GetSpeedFactor();
+        }
+    }
+}
