@@ -1004,7 +1004,8 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                         Pointf offset(r * cos(theta), r * sin(theta));
                         Pointf flakTarget = target + offset;
                         currTargets.push_back(flakTarget);
-                        if (isArtillery) break;
+                        bool manualAiming = iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || HasAugmentation("ARTILLERY_ORDER"));
+                        if (isArtillery && !manualAiming) break;
                     }
                 }  
             }
@@ -1063,7 +1064,6 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                     case BOMB:
                         proj = new BombProjectile(pos, iShipId, targetId, currTargets[idx]);
                         static_cast<BombProjectile*>(proj)->superShieldBypass = HasAugmentation("ZOLTAN_BYPASS");
-                        static_cast<BombProjectile*>(proj)->bSuperShield = currentShipTarget != nullptr && currentShipTarget->GetShieldPower().super.first > 0;
                         break;
                     case BURST:
                         proj = new LaserBlast(pos, iShipId, targetId, currTargets[idx]);
@@ -1144,6 +1144,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 if (autoFiring && targets.empty())
                 {
                     targets = lastTargets;
+                    if (blueprint->chargeLevels > 1) targets.resize(1);
                 }
                 queuedProjectiles.push_back(proj);
                 if (blueprint->type == BEAM) break;

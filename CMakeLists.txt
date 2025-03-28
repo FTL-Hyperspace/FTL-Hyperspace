@@ -253,6 +253,7 @@ target_sources(
     SystemBox_Extend.cpp
     SystemBox_Extend.h
     Systems.h
+    Tasks.h
     TemporalBoxVTable.cpp
     TemporalSystem.cpp
     TemporalSystem.h
@@ -316,6 +317,8 @@ target_compile_options(
 
     # Explicit C++11 mode
     -std=c++11
+    # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
+    -fno-delete-null-pointer-checks
 
     # Warn everything
     # TODO: Check if it's meaningful (original .cbp defined it)
