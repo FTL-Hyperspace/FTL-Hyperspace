@@ -2151,7 +2151,7 @@ HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base
         {
             bool shouldLeak = base_loss > 0 ? oxygenLevels[idx] > 1.f : oxygenLevels[idx] < 99.f;
             if (base_loss == 0) shouldLeak = false;
-            if (shouldLeak) bLeakingO2 = true;
+            if (shouldLeak && !silent) bLeakingO2 = true;
             oxygenLevels[idx] -= std::pow(0.75, depth) * base_loss * G_->GetCFPS()->GetSpeedFactor();
         }
     }
