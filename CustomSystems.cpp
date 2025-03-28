@@ -425,7 +425,7 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     }
     return ret;
 }
-
+static bool staticSubSystemPositioning = true;
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
@@ -552,11 +552,11 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
             }       
         }
         sysBoxes.push_back(box);
-        xPos += SB_EX(box)->xOffset;
+        xPos += SYS_EX(sys)->xOffset;
     }
 
     //Only use static positioning if every owned subsystem is positioned statically
-    bool staticSubSystemPositioning = true;
+    staticSubSystemPositioning = true;
     for (ShipSystem* sys : subSystems)
     {
         if (!SystemPositionManager::GetSystemPosition(sys->iSystemType)->staticallyPositioned)
@@ -611,8 +611,13 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
         //Determine if the subsystem holder needs to be shifted left
         const Point vanillaSubSystemPosition(1015, 251);
-        const int vanillaSubSystemTotalWidth = 177 + 4 * sub_spacing;
-        int subSystemTotalWidth = 36 * subSystems.size()  + 4 * sub_spacing; //TODO: Figure out a way to calculate total subsystem width now that xOffset is determined on SystemBox construction.
+        const int vanillaSubSystemTotalWidth = 177 + 3 * sub_spacing;
+        int subSystemTotalWidth = 0;
+        for (ShipSystem* subSystem : subSystems)
+        {
+            subSystemTotalWidth += SYS_EX(subSystem)->xOffset;
+        }
+        subSystemTotalWidth += sub_spacing * subSystems.size() -1;
         int subSystemPositionLeftShift = std::max(0, subSystemTotalWidth - vanillaSubSystemTotalWidth);
 
         subSystemPosition = vanillaSubSystemPosition;
@@ -646,16 +651,38 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
                     break;
                 }
             }
-            subXPos += sub_spacing + SB_EX(box)->xOffset;
+            subXPos += sub_spacing + SYS_EX(sys)->xOffset;
             sysBoxes.push_back(box);
         }
     }
 }
 
-
-HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
+HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::OnRender -> Begin (CustomSystems.cpp)\n")
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(position.x, position.y);
+    if (!front)
+    {
+        RenderPowerBar();
+        if (staticSubSystemPositioning) CSurface::GL_RenderPrimitive(sub_box);
+        std::string subSystemLabel = G_->GetTextLibrary()->GetText("subsystems_label");
+        CSurface::GL_SetColor(staticSubSystemPositioning ? COLOR_BUTTON_TEXT : COLOR_WHITE);
+        freetype::easy_printCenter(62, sub_spacing * 1.5 + 87 + subSystemPosition.x, subSystemPosition.y + 47, subSystemLabel);
+        CSurface::GL_SetColor(COLOR_WHITE);
+    }
+
+    for (SystemBox* systemBox : sysBoxes)
+    {
+        if (front == systemBox->tapped) systemBox->OnRender(false);
+    }
+    CSurface::GL_PopMatrix();
+}
+
+
+HOOK_METHOD_PRIORITY(ShipBuilder, CreateSystemBoxes, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     for (auto i : sysBoxes)
     {
         delete i;

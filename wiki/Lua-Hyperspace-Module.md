@@ -862,6 +862,8 @@ Accessed via `ShipSystem`'s `.extend` field
 
 ### Fields
 - `int` `additionalPowerLoss`
+- `int` `.xOffset`
+   - The offset from this SystemBox to the next in the UI.
 
 ## OxygenSystem
 
@@ -1109,6 +1111,7 @@ No methods are exposed currently.
    - The SystemBox associated with this SystemBox_Extend.
 - `int` `.xOffset`
    - The offset from this SystemBox to the next in the UI.
+   - THIS IS DEPRECIATED IN FAVOR OF `ShipSystem_Extend.xOffset`!
 
 ## Drone
 

@@ -2043,6 +2043,23 @@ We can expose them once the root cause is identified and the crash is fixed.
 %nodefaultctor ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend::additionalPowerLoss;
+%rename("%s") ShipSystem_Extend::xOffset;
+
+//Modify setter method to track if offset is custom
+%extend ShipSystem_Extend {
+    int xOffset;
+}
+%wrapper %{
+    static int ShipSystem_Extend_xOffset_get(ShipSystem_Extend* shipSystem_extend)
+    {
+        return shipSystem_extend->xOffset;
+    };
+    static void ShipSystem_Extend_xOffset_set(ShipSystem_Extend* shipSystem_extend, int xOffset)
+    {
+        shipSystem_extend->usingDefaultOffset = false;
+        shipSystem_extend->xOffset = xOffset;
+    };
+%}
 
 %nodefaultctor SystemBox;
 %rename("%s") SystemBox;
@@ -2067,8 +2084,22 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") SystemBox_Extend;
 %immutable SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::orig;
+//Backwards compatability patch for depreciated SystemBox_Extend::xOffset
 %rename("%s") SystemBox_Extend::xOffset;
-%rename("%s") SystemBox_Extend::offset;
+%extend SystemBox_Extend {
+    int xOffset;
+}
+%wrapper %{
+    static int SystemBox_Extend_xOffset_get(SystemBox_Extend* systemBox_extend)
+    {
+        return SYS_EX(systemBox_extend->orig->pSystem)->xOffset;
+    };
+    static void SystemBox_Extend_xOffset_set(SystemBox_Extend* systemBox_extend, int xOffset)
+    {
+        SYS_EX(systemBox_extend->orig->pSystem)->usingDefaultOffset = false;
+        SYS_EX(systemBox_extend->orig->pSystem)->xOffset = xOffset;
+    };
+%}
 
 %nodefaultctor CustomAugmentManager;
 %nodefaultdtor CustomAugmentManager;
