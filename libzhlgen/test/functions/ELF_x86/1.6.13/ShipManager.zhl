@@ -187,6 +187,8 @@ cleanup __cdecl std::string ShipManager::GetTooltip(ShipManager *this, int x, in
 cleanup __cdecl bool ShipManager::RestoreCrewPositions(ShipManager *this);
 "555731ff565331db83ec1c8b7424308b4e688b4664":
 cleanup __cdecl CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
+".5557565383ec1c8b6c????8b74????8b5d648b4d6829d9":
+cleanup __cdecl void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember *crew);
 "5589e55383ec148b550c8b4d0883fa11":
 cleanup __cdecl int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "5589e557565383ec5c8b45108b5d08":
@@ -209,6 +211,8 @@ cleanup __cdecl void ShipManager::SetDestroyed(ShipManager *this);
 cleanup __cdecl int ShipManager::GetFireCount(ShipManager *this, int roomId);
 "5383ec188b5c24208b4304894424048b442424890424":
 cleanup __cdecl void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, int roomId);
+".5589e557565383ec7c":
+cleanup __cdecl void ShipManager::PulsarDamage(ShipManager *this);
 "5557565331db83ec1c0fb6442438":
 cleanup __cdecl std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
 "5589e557565383ec1c8b450c8b75088b5d10":
@@ -263,5 +267,11 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
+	
+	void RemoveSystem(int systemId);
+
+	int SystemWillReplace(int systemId);
+
+	bool CanFitCrew(const std::string& crewName);
 
 }};

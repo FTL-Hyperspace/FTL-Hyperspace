@@ -52,6 +52,8 @@ __thiscall void ShipManager::RemoveItem(ShipManager *this, const std::string& na
 __thiscall bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 "578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c":
 __thiscall bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
+"578d????0883e4f0ff????5589e557565389ce83ec6c8b01":
+__thiscall void ShipManager::PulsarDamage(ShipManager *this);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
 __thiscall CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
 "5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":
@@ -172,6 +174,8 @@ __thiscall std::string ShipManager::GetTooltip(ShipManager *this, int x, int y);
 __thiscall bool ShipManager::RestoreCrewPositions(ShipManager *this);
 "5589e557565383e4f083ec108b79688b4164c744240c0000000089fa29c2c1fa0285d274??31db894c2408eb??8d760089fa83c301":
 __thiscall CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
+".578d????0883e4f0ff????5589e557565383ec1c8b5964":
+__thiscall void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember *crew);
 "5589e55383e4f083ec108b550883fa11744e8b81c80400008b1c9031c083fbff750e8b5dfcc9c20800":
 __thiscall int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
@@ -255,4 +259,11 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
+	
+	void RemoveSystem(int systemId);
+
+	int SystemWillReplace(int systemId);
+
+	bool CanFitCrew(const std::string& crewName);
+
 }};

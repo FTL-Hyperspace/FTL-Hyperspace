@@ -352,7 +352,7 @@ HOOK_METHOD(ProjectileFactory, GetProjectile, () -> Projectile*)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::GetProjectile -> Begin (CustomWeapons.cpp)\n")
     Projectile* ret = super();
-    if (queuedProjectiles.empty() && HitShotLimit()) ClearAiming();
+    if (!QueuedShots() && HitShotLimit()) ClearAiming();
     return ret;
 }
 // Pinpoint targeting
@@ -389,7 +389,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     }
     super(points, target);
     // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
-    if ((cooldown.second < 0 && HitShotLimit()) && iShipId == 0)
+    if ((cooldown.second < 0) && iShipId == 0)
     {
         targets.clear();
     }    
@@ -902,7 +902,7 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
 bool ProjectileFactory::HitShotLimit()
 {
     auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
-    return def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget && !QueuedShots();
+    return def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget;
 }
 //Shot limit is implemented in the same context as checks on WeaponBlueprint::missiles as a way of implementing a requirement on weapon usage
 //TODO: Possibly add callback for arbitrary requirements on weapon usage
@@ -927,14 +927,14 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
     {
         for (auto weapon : weapons)
         {
-            if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+            if (weapon->HitShotLimit() && !weapon->QueuedShots()) DePowerWeapon(weapon, false);       
         }
     }
 }
 HOOK_METHOD(WeaponSystem, PowerWeapon, (ProjectileFactory* weapon, bool userDriven, bool force) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::PowerWeapon -> Begin (CustomWeapons.cpp)\n")
-    if (weapon->HitShotLimit() && _shipObj.iShipId == 1) return false;
+    if (weapon->HitShotLimit()  && !weapon->QueuedShots() && _shipObj.iShipId == 1) return false;
     return super(weapon, userDriven, force);
 
 }
@@ -950,8 +950,289 @@ HOOK_METHOD(ProjectileFactory, ReadyToFire, () -> bool)
     if (HitShotLimit()) return false;
     return super();
 }
-//Other places with references to missile variables: WeaponBlueprint:GetDescription, WeaponBox::RenderBox, ProjectileFactory::Update
 
+enum WeaponType
+{
+    INVALID = -1,
+    LASER = 0,
+    MISSILES = 1,
+    BEAM = 2,
+    BOMB = 3,
+    BURST = 4,
+};
+
+
+HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::Update -> Begin (CustomWeapons.cpp)\n")
+    if (FireNextShot())
+    {
+        if (NumTargetsRequired() <= targets.size())
+        {
+            if (blueprint->missiles > 0 && blueprint->type != BEAM) iSpendMissile = blueprint->missiles;
+            shotsFiredAtTarget++;
+            if (blueprint->boostPower.amount > 0.f)
+            {
+                boostLevel++;
+                int boostLevelCap = blueprint->boostPower.type == 2 ? blueprint->boostPower.count + 1 : blueprint->boostPower.count;
+                boostLevel = std::min(boostLevel, boostLevelCap);
+            }
+            std::vector<Pointf> currTargets;
+
+            if (blueprint->type == BEAM)
+            {
+                Pointf target = targets.back();
+                targets.pop_back();
+
+                currTargets.push_back(target);
+
+                Pointf sub_target = targets.back();
+                targets.pop_back();
+
+                currTargets.push_back(sub_target);
+  
+            }
+            else if (blueprint->type == BURST)
+            {
+                
+                for (Pointf& target : targets)
+                {
+                    for (int i = 0; i < blueprint->miniProjectiles.size(); ++i)
+                    {
+                        float r = sqrt(random32() / 2147483648.f) * blueprint->radius;
+                        float theta = random32() % 360 * 0.01745329f;
+                        Pointf offset(r * cos(theta), r * sin(theta));
+                        Pointf flakTarget = target + offset;
+                        currTargets.push_back(flakTarget);
+                        bool manualAiming = iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || HasAugmentation("ARTILLERY_ORDER"));
+                        if (isArtillery && !manualAiming) break;
+                    }
+                }  
+            }
+            else
+            {
+                currTargets = std::move(targets);
+            }
+            targets.clear();
+            
+            fireWhenReady = false;
+            cooldown.first = 0.0;
+            chargeLevel = 0;
+            if (iShipId == 0)
+            {
+                G_->GetEventSystem()->AddEvent(9);
+            }
+            
+            Point fireLoc = weaponVisual.GetFireLocation() + localPosition;
+            if (blueprint->type == MISSILES)
+            {
+                if (currentFiringAngle == 0.0) fireLoc.x += 16;
+                else if (currentFiringAngle == 270.0) fireLoc.y -= 16;
+            }
+
+            for (int idx = 0; idx < currTargets.size(); ++idx)
+            {
+                Pointf pos(fireLoc.x, fireLoc.y);
+                
+                int chargeOffset = weaponVisual.iChargeOffset * idx;
+                if (weaponVisual.bRotation)
+                {
+                    if (weaponVisual.bMirrored) pos.y += chargeOffset;
+                    else pos.y -= chargeOffset;
+                }
+                else
+                {
+                    if (weaponVisual.bMirrored) pos.x += chargeOffset;
+                    else pos.x -= chargeOffset;   
+                }
+        
+                Projectile* proj = nullptr;
+    
+                switch (blueprint->type)
+                {
+                    case LASER:
+                        proj = new LaserBlast(pos, iShipId, targetId, currTargets[idx]);
+                        static_cast<LaserBlast*>(proj)->OnInit();
+                        break;
+                    case MISSILES:
+                        proj = new Missile(pos, iShipId, targetId, currTargets[idx], currentFiringAngle);
+                        break;
+                    case BEAM:
+                        proj = new BeamWeapon(pos, iShipId, targetId, currTargets[0], currTargets[1], blueprint->length, currentShipTarget, currentFiringAngle);
+                        proj->SetWeaponAnimation(weaponVisual);
+                        break;
+                    case BOMB:
+                        proj = new BombProjectile(pos, iShipId, targetId, currTargets[idx]);
+                        static_cast<BombProjectile*>(proj)->superShieldBypass = HasAugmentation("ZOLTAN_BYPASS");
+                        break;
+                    case BURST:
+                        proj = new LaserBlast(pos, iShipId, targetId, currTargets[idx]);
+                        static_cast<LaserBlast*>(proj)->OnInit();
+                        break;
+                    default:
+                        ftl_log("Invalid factory type\n");
+                        break;
+                }
+
+                proj->entryAngle = currentEntryAngle; //TODO: Hook or reimplement inlined function SetEntryAngle
+                proj->Initialize(*blueprint);
+                proj->heading = currentFiringAngle;
+
+                if (blueprint->boostPower.type == 2 && boostLevel > 0)
+                {
+                    int damageBoost = (boostLevel - 1) * blueprint->boostPower.amount;
+                    if (proj->damage.iDamage > 0)
+                    {
+                        proj->damage.iDamage += damageBoost;
+                    }
+                    else if (proj->damage.iIonDamage > 0)
+                    {
+                        proj->damage.iIonDamage += damageBoost;
+                    }
+                    else if (proj->damage.iPersDamage > 0)
+                    {
+                        proj->damage.iPersDamage += damageBoost;
+                    }
+                    else if (proj->damage.iSystemDamage > 0)
+                    {
+                        proj->damage.iSystemDamage += damageBoost;
+                    }
+                }
+
+                if (blueprint->type == BURST)
+                {
+                    proj->flight_animation = G_->GetAnimationControl()->GetAnimation(blueprint->miniProjectiles[idx % blueprint->miniProjectiles.size()].image);
+                    proj->flight_animation.SetCurrentFrame(random32() % proj->flight_animation.info.numFrames);
+                    proj->flight_animation.Stop();
+
+                    if (!blueprint->miniProjectiles[idx % blueprint->miniProjectiles.size()].fake)
+                    {
+                        proj->bBroadcastTarget = iShipId == 0;
+                    }
+                    else
+                    {
+                        proj->damage.iDamage = 0;
+                        proj->damage.iShieldPiercing = 0;
+                        proj->damage.fireChance = 0;
+                        proj->damage.breachChance = 0;
+                        proj->damage.stunChance = 0;
+                        proj->damage.iIonDamage = 0;
+                        proj->damage.iSystemDamage = 0;
+                        proj->damage.iPersDamage = 0;
+                        proj->damage.bHullBuster = false;
+                        proj->damage.ownerId = -1;
+                        proj->damage.selfId = -1;
+                        proj->damage.bLockdown = false;
+                        proj->damage.crystalShard = false;
+                        proj->damage.bFriendlyFire = true;
+                        proj->damage.iStun = 0;
+                        proj->death_animation.fScale = 0.25;
+                    }
+                }
+                else
+                {
+                    proj->flight_animation = flight_animation;
+                }
+                
+                if (blueprint->type == BOMB) 
+                {
+                    //TODO: Hook EffectsBlueprint::RandomSoundChoice
+                    std::string sound = blueprint->effects.launchSounds[random32() % blueprint->effects.launchSounds.size()];
+                    G_->GetSoundControl()->PlaySoundMix(sound, -1.0, false);
+                }
+
+                if (autoFiring && targets.empty())
+                {
+                    targets = lastTargets;
+                    if (blueprint->chargeLevels > 1) targets.resize(1);
+                }
+                queuedProjectiles.push_back(proj);
+                if (blueprint->type == BEAM) break;
+            }
+        }
+    }
+
+    baseCooldown = blueprint->cooldown;
+    if (blueprint->boostPower.type == 1 && boostLevel > 0)
+    {
+        baseCooldown = blueprint->cooldown - boostLevel * blueprint->boostPower.amount;
+    }
+    if (!powered)
+    {
+        if (cooldown.first <= 0.f)
+        {
+            chargeLevel = 0;
+            cooldown.first = 0;
+            boostLevel = 0;
+        }
+        else
+        {
+            if (cooldown.second <= cooldown.first && chargeLevel > 0)
+            {
+                chargeLevel -= 1;
+            }
+            cooldown.first -= G_->GetCFPS()->GetSpeedFactor() * 0.375;
+            cooldown.first = std::max(cooldown.first, 0.f);
+        }
+        fireWhenReady = false;
+        targets.clear();
+        lastTargets.clear();
+        for (Projectile* queuedProjectile : queuedProjectiles)
+        {
+            delete queuedProjectile;
+        }
+        queuedProjectiles.clear();
+        ClearAiming();
+    }
+    else if (iHackLevel < 2 || subCooldown.first < subCooldown.second)
+    {
+        if (currentShipTarget == nullptr || !currentShipTarget->IsCloaked())
+        {
+            if (subCooldown.second <= subCooldown.first)
+            {
+                float oldFirst = cooldown.first;
+                float oldSecond = cooldown.second;
+
+                float reloaders = GetAugmentationValue("AUTO_COOLDOWN");
+                cooldown.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625 * (1 + reloaders);
+                cooldown.first = std::min(cooldown.first, cooldown.second);
+                if (cooldown.second == cooldown.first && oldFirst < oldSecond && chargeLevel < blueprint->chargeLevels)
+                {
+                    chargeLevel += 1;
+                    if (chargeLevel < blueprint->chargeLevels) cooldown.first = 0;
+                }
+                else
+                {
+                    subCooldown.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625;
+                    subCooldown.first = std::min(subCooldown.first, subCooldown.second);
+                }
+
+            }
+        }
+    }
+    else
+    {
+        if (cooldown.second <= cooldown.first && chargeLevel > 0) chargeLevel -= 1;
+        cooldown.first -= G_->GetCFPS()->GetSpeedFactor() * 0.0625;
+        cooldown.first = std::max(cooldown.first, 0.f);
+    }
+
+    weaponVisual.SetChargedLevel(cooldown.first / cooldown.second);
+    weaponVisual.Update();
+    weaponVisual.SetPowered(powered);
+    if (!queuedProjectiles.empty())
+    {
+        weaponVisual.StartFire();
+    }
+    if (blueprint->chargeLevels < 2)
+    {
+        if (blueprint->boostPower.count > 0) weaponVisual.SetBoostLevel(boostLevel - 1);
+    }
+    else
+    {
+        weaponVisual.SetBoostLevel(chargeLevel - 1);
+    }
+}
 //Handle WarningMessage for power attempts
 static WarningMessage* shotLimitMessage = nullptr;
 
