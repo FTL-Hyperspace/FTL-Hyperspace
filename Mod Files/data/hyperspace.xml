@@ -1487,7 +1487,7 @@ Syntax ->
 	</system>
 	<!--
 	Add customSystem nodes for customSystems. Requires a systemBlueprint in blueprints.xml as well.
-	<customSystem id="newSystem"/>
+	<customSystem id="newSystem" subSystem="false"/>
 	-->
 
 	<!--

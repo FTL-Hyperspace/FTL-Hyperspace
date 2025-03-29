@@ -50,10 +50,12 @@ public:
     static int NameToSystemId(const std::string& systemName);
     static std::string SystemIdToName(int systemId);
     static int GetLastSystemId();
+    static bool IsCustomSubSystem(int systemId);
 private:
     static void AddSystemName(const std::string& systemName);
     static std::vector<std::string> systemNames;
     static std::unordered_map<std::string, int> systemIds; //For quicker NameToSystemId;
+    static std::unordered_set<std::string> subSystems;
 
 };
 class SystemExclusivityManager 

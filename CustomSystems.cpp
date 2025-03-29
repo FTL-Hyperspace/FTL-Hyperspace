@@ -46,8 +46,18 @@ void CustomUserSystems::ParseSystemNode(rapidxml::xml_node<char>* node)
             throw std::invalid_argument(error);
         }
         AddSystemName(sysName);
+        if (node->first_attribute("subSystem") && EventsParser::ParseBoolean(node->first_attribute("subSystem")->value()))
+        {
+            subSystems.insert(sysName);
+        }
     }
 }
+bool CustomUserSystems::IsCustomSubSystem(int systemId)
+{
+    std::string sysName = ShipSystem::SystemIdToName(systemId);
+    return subSystems.find(sysName) != subSystems.end();
+}
+std::unordered_set<std::string> CustomUserSystems::subSystems;
 std::vector<std::string> CustomUserSystems::systemNames;
 std::unordered_map<std::string, int> CustomUserSystems::systemIds;
 void CustomUserSystems::AddSystemName(const std::string& systemName)
@@ -314,7 +324,11 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
     return ret;
 }
 
-
+HOOK_STATIC(ShipSystem, IsSubsystem, (int systemId) -> bool)
+{
+    if (systemId >= SYS_CUSTOM_FIRST) return CustomUserSystems::IsCustomSubSystem(systemId);
+    else return super(systemId);
+}
 
 HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event) -> LocationEvent*)
 {

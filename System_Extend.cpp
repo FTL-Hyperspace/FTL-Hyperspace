@@ -75,6 +75,8 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
             break;
         }
     }
+    //Set up subsystems
+    if (systemId >= SYS_CUSTOM_FIRST) bNeedsPower = !ShipSystem::IsSubsystem(systemId);
 
     //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
     auto context = G_->getLuaContext();
