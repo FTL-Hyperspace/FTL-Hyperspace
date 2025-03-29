@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.18.1)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
