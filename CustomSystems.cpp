@@ -57,6 +57,10 @@ bool CustomUserSystems::IsCustomSubSystem(int systemId)
     std::string sysName = ShipSystem::SystemIdToName(systemId);
     return subSystems.find(sysName) != subSystems.end();
 }
+bool CustomUserSystems::AnyCustomSubSystems()
+{
+    return !subSystems.empty();
+}
 std::unordered_set<std::string> CustomUserSystems::subSystems;
 std::vector<std::string> CustomUserSystems::systemNames;
 std::unordered_map<std::string, int> CustomUserSystems::systemIds;

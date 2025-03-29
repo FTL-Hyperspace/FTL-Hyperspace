@@ -51,6 +51,7 @@ public:
     static std::string SystemIdToName(int systemId);
     static int GetLastSystemId();
     static bool IsCustomSubSystem(int systemId);
+    static bool AnyCustomSubSystems();
 private:
     static void AddSystemName(const std::string& systemName);
     static std::vector<std::string> systemNames;
