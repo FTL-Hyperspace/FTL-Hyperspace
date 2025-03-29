@@ -77,6 +77,7 @@ class SystemPositionManager
 public:
     static void ParsePositionsNode(rapidxml::xml_node<char>* node);
     static const SystemPosition* GetSystemPosition(int systemId);
+    static int subSystemOffset;
 private:
     static std::unordered_map<int, SystemPosition> systemPositions;
     static const SystemPosition defaultPosition;

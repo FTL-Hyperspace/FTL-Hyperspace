@@ -1498,7 +1498,7 @@ Syntax ->
 	</exclusivityGroup>
 
 	Define the system order in the UI. Useful for systems that replace vanilla systems.
-	<systemPositions>
+	<systemPositions subSystemOffset="1015"> subSystemOffset is the x coordinate of the subSystemBox. Used only when static rendering is active.
 		position is used to determine system order for dynamically positioned system box (regular systems or dynamically positioned subsystems).
 		lower values are placed further to the left.
 

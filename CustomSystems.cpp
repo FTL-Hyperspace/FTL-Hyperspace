@@ -106,6 +106,11 @@ SystemExclusivityManager* SystemExclusivityManager::GetGlobalManager()
 //System position handling
 void SystemPositionManager::ParsePositionsNode(rapidxml::xml_node<char>* node)
 {
+    if (node->first_attribute("subSystemOffset"))
+    {
+        subSystemOffset = boost::lexical_cast<int>(node->first_attribute("subSystemOffset")->value());
+    }
+
     static int defaultPosition = 0;
     for (auto positionNode = node->first_node(); positionNode; positionNode = positionNode->next_sibling())
     {
@@ -153,7 +158,7 @@ std::unordered_map<int, SystemPosition> SystemPositionManager::systemPositions =
     {SYS_BATTERY,    {-1, true, 123}}
 };
 const SystemPosition SystemPositionManager::defaultPosition = {INT_MAX - 2, false, -1};
-
+int SystemPositionManager::subSystemOffset = 1015;
 //TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
 static float DAMAGE_BOOST[4] = {1.0, 1.0, 1.25, 2.0};
 static float HEALTH_BOOST[4] = {0.0, 0.0, 15.0, 30.0};
@@ -565,10 +570,11 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
             break;
         }
     }
-    const Point vanillaSubSystemPosition(1015, 251);
-    subSystemPosition = vanillaSubSystemPosition;
+    
     if (staticSubSystemPositioning)
     {
+        subSystemPosition = Point(SystemPositionManager::subSystemOffset, 251);
+
         //Order subsystems by their static position
         std::sort(subSystems.begin(), subSystems.end(), 
         [](ShipSystem* sys1, ShipSystem* sys2)
@@ -609,7 +615,8 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     {
         //Sort systems based on position priority
         std::sort(subSystems.begin(), subSystems.end(), SortSystems);
-
+        const Point vanillaSubSystemPosition(1015, 251);
+        subSystemPosition = vanillaSubSystemPosition;
         //Determine if the subsystem holder needs to be shifted left
         const int vanillaSubSystemTotalWidth = 177 + 3 * sub_spacing;
         int subSystemTotalWidth = 0;
