@@ -4,6 +4,8 @@ cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int 
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
 ".415741564989fe4155415455534883ec28488b3f":
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
+".??54??89fc5589f55389f3??83ec50e8????????":
+cleanup __amd64 void SystemControl::OnRender(SystemControl *this, bool front);
 ".415731d231f641564155415455534889fb4883ec58488d7c2430":
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
 

@@ -4,6 +4,8 @@ cleanup __cdecl void SystemControl::CreateSystemBoxes(SystemControl *this);
 cleanup __cdecl SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
 "5589e557565383ec4c8b7d088d45e08b0f890424894c2404":
 cleanup __cdecl void SystemControl::RenderPowerBar(SystemControl *this);
+".5589e557565383ec5c8b????8b????e8????????":
+cleanup __cdecl void SystemControl::OnRender(SystemControl *this, bool front);
 "5557565381ec9c0000008b8424b00000008b9c24b40000008b9424bc000000":
 static cleanup __cdecl SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
 

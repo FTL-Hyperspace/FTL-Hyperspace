@@ -60,7 +60,7 @@ local absorberButtonOffset_y = -50
 --Handles initialization of custom system box
 local function absorber_construct_system_box(systemBox)
     if is_absorber(systemBox) then
-        systemBox.extend.xOffset = 54
+        systemBox.extend.xOffset = 54 --NOTE: SystemBox_Extend::xOffset is depreciated and should instead use ShipSystem_Extend::xOffset
 
         local activateButton = Hyperspace.Button()
         activateButton:OnInit("systemUI/button_cloaking2", Hyperspace.Point(absorberButtonOffset_x, absorberButtonOffset_y))

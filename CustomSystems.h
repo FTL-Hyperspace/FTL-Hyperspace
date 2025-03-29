@@ -50,10 +50,13 @@ public:
     static int NameToSystemId(const std::string& systemName);
     static std::string SystemIdToName(int systemId);
     static int GetLastSystemId();
+    static bool IsCustomSubSystem(int systemId);
+    static bool AnyCustomSubSystems();
 private:
     static void AddSystemName(const std::string& systemName);
     static std::vector<std::string> systemNames;
     static std::unordered_map<std::string, int> systemIds; //For quicker NameToSystemId;
+    static std::unordered_set<std::string> subSystems;
 
 };
 class SystemExclusivityManager 
@@ -65,4 +68,20 @@ public:
 private:
     int currentExclusivityIndex = 0;
     std::unordered_map<int, int> exclusivityGroups; // systemId, group
+};
+struct SystemPosition
+{
+    int position;
+    bool staticallyPositioned;
+    int staticOffset;
+};
+class SystemPositionManager
+{
+public:
+    static void ParsePositionsNode(rapidxml::xml_node<char>* node);
+    static const SystemPosition* GetSystemPosition(int systemId);
+    static int subSystemOffset;
+private:
+    static std::unordered_map<int, SystemPosition> systemPositions;
+    static const SystemPosition defaultPosition;
 };
