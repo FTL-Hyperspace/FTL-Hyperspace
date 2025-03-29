@@ -94,7 +94,7 @@ bool SystemExclusivityManager::AreSystemsExclusive(int sysId_1, int sysId_2)
 {
     if (exclusivityGroups.find(sysId_1) == exclusivityGroups.end()) return false;
     if (exclusivityGroups.find(sysId_2) == exclusivityGroups.end()) return false;
-
+    if (sysId_1 == sysId_2) return false;
     return exclusivityGroups[sysId_1] == exclusivityGroups[sysId_2];
 }
 
