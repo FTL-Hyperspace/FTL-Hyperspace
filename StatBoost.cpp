@@ -2296,7 +2296,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 }
                 if (systemExists)
                 {
-                    sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+                    if (!statBoost.def->powerScaling.empty()) sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+                    else sysPowerScaling = numPower > 0 ? 1.f : 0.f;
                 }
 
                 // Apply effect
