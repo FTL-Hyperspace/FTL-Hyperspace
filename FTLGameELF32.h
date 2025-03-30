@@ -1708,6 +1708,15 @@ struct Drone;
 
 struct EquipmentBoxItem
 {
+	friend bool operator==(const EquipmentBoxItem &a, const EquipmentBoxItem &b)
+	{
+		return a.pWeapon == b.pWeapon && a.pDrone == b.pDrone && a.augment == b.augment && a.pCrew == b.pCrew;
+	}
+	friend bool operator!=(const EquipmentBoxItem &a, const EquipmentBoxItem &b)
+	{
+		return a.pWeapon != b.pWeapon || a.pDrone != b.pDrone || a.augment != b.augment || a.pCrew != b.pCrew;
+	}
+
 	ProjectileFactory *pWeapon;
 	Drone *pDrone;
 	CrewMember *pCrew;
