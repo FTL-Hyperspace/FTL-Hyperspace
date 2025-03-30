@@ -2119,7 +2119,6 @@ HOOK_METHOD_PRIORITY(OxygenSystem, UpdateAirlock, 9999, (int roomId, int count) 
             G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
         } 
 
-        if (leakModifier < 0 && oxygenLevels[roomId] <= 0) oxygenLevels[roomId] = 0.0000001f; //TODO: Remove workaround
         ComputeAirLoss(roomId, count * leakModifier, false);
     }
 }
@@ -2141,7 +2140,8 @@ HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base
     std::vector<int> roomDepths = shipGraph->ConnectivityDFS(roomId);
     for (int idx = 0; idx < roomDepths.size(); ++idx)
     {
-        if (oxygenLevels[idx] <= 0.f) roomDepths[idx] = -1; //TODO: Refactor to work properly with positive gain
+        if (oxygenLevels[idx] <= 0.f && base_loss > 0) roomDepths[idx] = -1;
+        else if (oxygenLevels[idx] >= 100.f && base_loss < 0) roomDepths[idx] = -1;
     }
 
     for (int idx = 0; idx < roomDepths.size(); ++idx)
