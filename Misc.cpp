@@ -445,6 +445,8 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
 
         // Render hazard icons
         CSurface::GL_PushMatrix();
+        int iconsOffsetToLeft = g_hazards.size() > 2 ? (2 - g_hazards.size()) * 72 : 0;
+        CSurface::GL_Translate(iconsOffsetToLeft, 0.f);
         for (int hazard : g_hazards)
         {
             bool neutralAsb = (hazard == ENV_PDS || hazard == ENV_PDS_FRIENDLY) && space->envTarget == 2; // Special case for neutral ASB
@@ -453,7 +455,7 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
         }
         CSurface::GL_PopMatrix();
 
-        RenderWarningText(currentEffect, g_hazards.size() * 36);
+        RenderWarningText(currentEffect, g_hazards.size() * 36 + iconsOffsetToLeft / 2);
         if (touchedTooltip == 1)
         {
             int mX = hitbox.w / 2 + hitbox.x;
@@ -527,9 +529,10 @@ HOOK_METHOD_PRIORITY(SpaceStatus, MouseMove, 9999, (int mX, int mY) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::MouseMove -> Begin (Misc.cpp)\n")
 
     int effect = ENV_NONE;
+    int iconsOffsetToLeft = g_hazards.size() > 2 ? (2 - g_hazards.size()) * 72 : 0;
     for (int i = 0; i < g_hazards.size(); ++i)
     {
-        if (hitbox.x + i * 72 < mX && mX < hitbox.x + i * 72 + hitbox.w && hitbox.y < mY && mY < hitbox.y + hitbox.h)
+        if (hitbox.x + i * 72 + iconsOffsetToLeft < mX && mX < hitbox.x + i * 72 + iconsOffsetToLeft + hitbox.w && hitbox.y < mY && mY < hitbox.y + hitbox.h)
         {
             effect = g_hazards[i];
             break;
