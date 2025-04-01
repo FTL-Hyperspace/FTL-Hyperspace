@@ -1880,3 +1880,11 @@ HOOK_METHOD_PRIORITY(SystemBox, OnRender, 100, (bool ignoreStatus) -> void)
     CSurface::GL_Translate(-location.x, -location.y);
     lua_pop(context->GetLua(), 2);
 }
+
+HOOK_METHOD(ShipStatus, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (Misc.cpp)\n")
+    int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_STATUS, 0);
+    if (idx >= 0) super();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_STATUS, std::abs(idx), 0);
+}

@@ -43,6 +43,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.17.0 | SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
+| 1.19.0 | SHIP_STATUS | `None` | On rendering player element like hull and ressources |
 | 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
 | N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
