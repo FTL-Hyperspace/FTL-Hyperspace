@@ -79,6 +79,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.4.0 | ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect right mouse button is pressed |
 | 1.4.0 | ON_MOUSE_R_BUTTON_UP | `int x`, `int y` | `Defines.Chain chain` | Detect right mouse button is unpressed |
 | 1.4.0 | ON_MOUSE_M_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect middle mouse button is pressed |
+| 1.19.0 | ON_MOUSE_SCROLL | `float direction` | `Defines.Chain chain` | Detect mouse scrolling. `direction` will be 1.0 when scrolling down, -1.0 when scrolling up.|
 | 1.3.0 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
 | 1.4.0 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
 | 1.13.0 | HAS_EQUIPMENT | `ShipManager ship`, `char equipment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasEquipment check |

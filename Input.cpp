@@ -51,15 +51,15 @@ bool SystemControl::OnScrollWheel(float direction)
             SB_EX(systemBox)->OnScrollWheel(direction);
             return true;
         }
-        */       
+        */
     }
     return false;
 }
 void SystemControl::RButtonUp(int mX, int mY, bool shiftHeld)
 {
     for (SystemBox* systemBox : sysBoxes)
-    {   
-        SB_EX(systemBox)->RButtonUp(mX, mY, shiftHeld);    
+    {
+        SB_EX(systemBox)->RButtonUp(mX, mY, shiftHeld);
     }
 }
 
@@ -72,7 +72,16 @@ HOOK_METHOD(CEvent, OnEvent, (const InputEvent* inputEvent) -> void)
 
         if (mEvent->scroll != 0.f)
         {
-            OnScrollWheel(mEvent->scroll);
+            // lua callback
+            auto context = Global::GetInstance()->getLuaContext();
+            lua_pushnumber(context->GetLua(), mEvent->scroll);
+            bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::ON_MOUSE_SCROLL, 1, 0);
+            lua_pop(context->GetLua(), 1);
+            if (!preempt)
+            {
+                // custom scroll wheel handling
+                OnScrollWheel(mEvent->scroll);
+            }
         }
     }
 

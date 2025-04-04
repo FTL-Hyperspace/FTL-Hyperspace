@@ -28,6 +28,7 @@ struct InternalEvents
         ON_MOUSE_R_BUTTON_DOWN,
         ON_MOUSE_R_BUTTON_UP,
         ON_MOUSE_M_BUTTON_DOWN,
+        ON_MOUSE_SCROLL,
         GUI_MOUSE_MOVE,
         CREW_LOOP,
         CREW_CLONE,
@@ -83,7 +84,7 @@ struct InternalEvents
         SYSTEM_BOX_MOUSE_CLICK,
         SYSTEM_BOX_KEY_DOWN,
         GET_LEVEL_DESCRIPTION,
-        
+
         //Constructor Events
 
         CONSTRUCT_CREWMEMBER,
@@ -105,24 +106,25 @@ struct InternalEvents
     };
     static EventInfo GetEventInfo(Identifiers event)
     {
-        static EventInfo eventInfo[Identifiers::UNKNOWN_MAX + 1] = 
+        static EventInfo eventInfo[Identifiers::UNKNOWN_MAX + 1] =
         {
             // {description of the function, number of argument of the function, whether it is a variable argument function}
             {"n/a", 0, false}, //Must always be first, used to check for bounds of enum input value
-            {"function on_tick()", 0, false}, 
-            {"function main_menu()", 0, false}, 
-            {"function dangerous_environment(bool danger) return danger", 1, false}, 
-            {"function get_beacon_hazard(Location& loc) return hazardText", 1, false}, 
-            {"function get_hazard_flash(float alpha) return red, green, blue, alpha", 1, false}, 
-            {"function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed", 2, false}, 
-            {"function on_key_down(SDLKey key) return Chain", 1, false}, 
-            {"function on_key_up(SDLKey key) return Chain", 1, false}, 
-            {"function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain", 7, false}, 
-            {"function on_mouse_l_button_down(int x, int y) return Chain", 2, false}, 
+            {"function on_tick()", 0, false},
+            {"function main_menu()", 0, false},
+            {"function dangerous_environment(bool danger) return danger", 1, false},
+            {"function get_beacon_hazard(Location& loc) return hazardText", 1, false},
+            {"function get_hazard_flash(float alpha) return red, green, blue, alpha", 1, false},
+            {"function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed", 2, false},
+            {"function on_key_down(SDLKey key) return Chain", 1, false},
+            {"function on_key_up(SDLKey key) return Chain", 1, false},
+            {"function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain", 7, false},
+            {"function on_mouse_l_button_down(int x, int y) return Chain", 2, false},
             {"function on_mouse_l_button_up(int x, int y) return Chain", 2, false},
             {"function on_mouse_r_button_down(int x, int y) return Chain", 2, false},
             {"function on_mouse_r_button_up(int x, int y) return Chain", 2, false},
             {"function on_mouse_m_button_down(int x, int y) return Chain", 2, false},
+            {"function on_mouse_scroll(float direction) return Chain", 1, false},
             {"function gui_move_move(int x, int y) return Chain", 2, false},
             {"function crew_loop(CrewMember& crew)", 1, false},
             {"function crew_clone(CrewMember& crew)", 1, false},
@@ -187,9 +189,9 @@ struct InternalEvents
             {"function construct_system_box(SystemBox& systemBox)", 1, false},
             {"n/a", 0, false}, //Must always be last, used to check for bounds of enum input value
         };
-        
+
         return eventInfo[event];
-    }; 
+    };
 };
 
 struct Chain
