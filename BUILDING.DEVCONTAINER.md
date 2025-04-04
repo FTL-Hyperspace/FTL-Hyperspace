@@ -11,7 +11,9 @@ Currently support for debugging is incomplete. IntelliSense should only work whe
 
 Requires Docker.
 
-1. `docker run -it --rm -v $PWD:/ftl ghcr.io/ftl-hyperspace/hs-devcontainer`
+1. Ensure that your current working directory is the repository's root directory.
+     - For example, if your repository is at `/home/$USER`, then your current working directory should be `/home/$USER/FTL-Hyperspace`
+3. `docker run -it --rm -v $PWD:/ftl ghcr.io/ftl-hyperspace/hs-devcontainer`
   * (`$PWD` may vary by your shell, e.g. if it's cmd then use `%cd%` instead)
   * If you want to build the image by yourself (e.g., changed the .devcontainer directory),
     build and run the image using following command:
@@ -20,9 +22,9 @@ Requires Docker.
     docker run -it --rm -v $PWD:/ftl my-hs-devcontainer
     ```
 
-2. `cd /ftl`
+3. `cd /ftl`
 
-3. Configure with CMake. The exact command should depend on what build you're targeting. For example, Linux Release build for FTL 1.6.13 is:
+4. Configure with CMake. The exact command should depend on what build you're targeting. For example, Linux Release build for FTL 1.6.13 is:
 ```
 cmake -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
     -DVCPKG_HOST_TRIPLET=amd64-linux-ftl \
@@ -37,7 +39,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
   * `-DCMAKE_BUILD_TYPE=Release` controls if it's a `Debug` or a `Release` build. Theoretically you may specify `RelWithDebInfo` or `MinSizeRel` as in standard CMake, but these options are not tested.
   * This command line can be inferred from the `.vscode/cmake-kits.json` file.
 
-4. `ninja -C build`
+5. `ninja -C build`
 
 ## Utility scripts
 
