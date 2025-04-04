@@ -13,7 +13,7 @@ Requires Docker.
 
 1. Ensure that your current working directory is the repository's root directory.
      - For example, if your repository is at `/home/$USER`, then your current working directory should be `/home/$USER/FTL-Hyperspace`
-3. `docker run -it --rm -v $PWD:/ftl ghcr.io/ftl-hyperspace/hs-devcontainer`
+2. `docker run -it --rm -v $PWD:/ftl ghcr.io/ftl-hyperspace/hs-devcontainer`
   * (`$PWD` may vary by your shell, e.g. if it's cmd then use `%cd%` instead)
   * If you want to build the image by yourself (e.g., changed the .devcontainer directory),
     build and run the image using following command:
@@ -51,12 +51,12 @@ There are number of support shell scripts:
 
 On changing source code or CMakeFiles.txt, just redo the build.
 * vscode: re-run `CMake: Build`.
-* manually: redo from step 4 (`ninja`)
+* manually: redo from step 5 (`ninja`)
 
 On changing the build target (like changing to linux build or debug build), delete `build/` directory for clean rebuild, and then redo the build.
 * vscode: delete `build/` then re-run `CMake: Build`.
-* manually: delete `build/` then redo from step 4 (`ninja`)
+* manually: delete `build/` then redo from step 5 (`ninja`)
 
 On changing the compiler toolchain files in the .devcontainer folder, you need to (re)build your container image (may take several hours). And also you delete `build/` directory for clean rebuild.
 * vscode: Open `.devcontainer/devcontainer.json` then change `build.dockerfile` from `Dockerfile` to `Dockerfile-actual`. Then run `Dev Containers: Rebuild Container` command.
-* manually: see additional instruction from step 1.
+* manually: see additional instruction from step 2.
