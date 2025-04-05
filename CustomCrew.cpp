@@ -6827,8 +6827,8 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
         bool noWarning;
         ex->CalculateStat(CrewStat::NO_WARNING, &noWarning);
         ex->CalculateStat(CrewStat::CAN_TELEPORT, &canTeleport);
-
-        bool emergencyRecall = canTeleport && G_->GetShipManager(1 - iShipId)->HasAugmentation("TELEPORT_RECALL");
+        ShipManager* otherShip = G_->GetShipManager(1 - iShipId);
+        bool emergencyRecall = canTeleport && otherShip && otherShip->HasAugmentation("TELEPORT_RECALL");
 
         if (crew->iShipId == 0 && !crew->IsDead() && !crew->IsDrone() && !noWarning && !emergencyRecall) ret++;
     }

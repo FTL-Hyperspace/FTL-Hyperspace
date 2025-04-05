@@ -156,7 +156,8 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
     }
     else if (iShipId == 0)
     {
-        if (G_->GetShipManager(1)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+        ShipManager* enemyShip = G_->GetShipManager(1);
+        if (enemyShip && enemyShip->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
         if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
     }
     super();
