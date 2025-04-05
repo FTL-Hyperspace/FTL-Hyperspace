@@ -4100,7 +4100,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void RecallBoarders(int direction, bool force)
+void RecallBoarders(int direction, bool force, bool effects)
 {
     int targetRoom;
     bool canTeleport;
@@ -4127,6 +4127,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     playerShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    } 
                 }
             }
         }
@@ -4147,6 +4152,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     enemyShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    } 
                 }
             }
         }
