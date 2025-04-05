@@ -524,16 +524,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                         def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::ALL;
                     }
                     //Invalid targets
-                    /*
                     if (val == "CREW_TARGET")
                     {
-                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::CREW_TARGET;
+                        throw std::invalid_argument(std::string("CREW_TARGET is an invalid option for powerScalingShipTarget!"));
                     }
                     if (val == "TARGETS_ME")
                     {
-                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::TARGETS_ME;
+                        throw std::invalid_argument(std::string("TARGETS_ME is an invalid option for powerScalingShipTarget!"));
                     }
-                    */
                 }
                 if (name == "maxStacks")
                 {
