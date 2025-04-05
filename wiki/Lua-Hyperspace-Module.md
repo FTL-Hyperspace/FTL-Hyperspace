@@ -803,6 +803,10 @@ Accessed via `ShipSystem`'s `.extend` field
 - `std::vector<float>` `.oxygenLevels`
 - `float` `.fTotalOxygen`
 - `bool` `.bLeakingO2`
+- `float` `leakModifier`
+   - **Read-only**
+   - A multiplier to the rate at which airlocks and breaches drain oxygen.
+   - Can be changed with `CALCULATE_LEAK_MODIFIER` callback.
 
 ## TeleportSystem
 
@@ -3203,6 +3207,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `int :ConnectedGridSquaresPoint(Point p1, Point p2)`
 - [`Door`](#Door) `:*ConnectingDoor(int x1, int y1, int x2, int y2)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
+-  `std::vector<int>` `:ConnectivityDFS(int roomId)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
 - [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
