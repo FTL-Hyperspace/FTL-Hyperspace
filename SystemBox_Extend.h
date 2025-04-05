@@ -3,7 +3,6 @@
 struct SystemBox_Extend
 {
     SystemBox* orig = nullptr;
-    int xOffset = 36; //Offset from previous systembox
 
     virtual ~SystemBox_Extend() {}; //Virtual destructor
 
