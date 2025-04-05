@@ -1552,6 +1552,14 @@ systemPowerDependency: determines the systems that affect the power of this stat
 systemPowerScaling: determines how the boost is affected by the total power bars within the systems in systemPowerDependency.
   noSys and hackedSys are values used for if the system isn't there and if the system is being hacked, respectively.
   The other tag names don't matter; the first value is used when the system is offline, and the second onwards determines the power at each given bar of power (with any amount of power over the max using the last number).
+powerScalingShipTarget: the ship/room that the statBoost scales with. The following options are available:
+  ALL: Scales with the sum of the systems on both ships.
+  PLAYER_SHIP and ENEMY_SHIP: Scales with a specific ship, irrespective of the source of the stat boost.
+  ORIGINAL_SHIP: For augment boosts, scales with the systems on the ship possessing the augment. For crew boosts, scales with the systems on the ship who owns the crewmember.
+  ORIGINAL_OTHER_SHIP: Opposite of ORIGINAL_SHIP.
+  CURRENT_ALL: For augment boosts, same as ORIGINAL_SHIP. For crew boosts, scales with the systems on the ship the crewmember is currently on.
+  OTHER_ALL: Opposite of CURRENT_ALL.
+  CURRENT_ROOM: Invalid for augment boosts. For crew boosts, scales only with a system if the providing crew is in that room.
 deathEffect: When the statBoost name is "deathEffect", specifies the deathEffect to replace or be added to the crewmember's normal deathEffect.
 powerEffect: When the statBoost name is "powerEffect", adds a new powerEffect.
   If boost type is SET then all the crew's existing powerEffects are removed and the new effect is added (or no power if none is specified).
