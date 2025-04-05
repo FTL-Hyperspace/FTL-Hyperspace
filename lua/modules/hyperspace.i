@@ -2394,6 +2394,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %nodefaultctor Room;
 %nodefaultdtor Room;
 %rename("%s") Room;
+%rename("%s") Room::FillSlot;
 
 %rename("%s") Room::bBlackedOut;
 %immutable Room::rect;

@@ -1270,6 +1270,9 @@ No methods are exposed currently.
 
 ## Room
 
+### Methods
+- `void :FillSlot(int slot, bool intruder)`
+
 ### Fields
 - `bool` `.bBlackedOut`
 - [`Globals::Rect`](#Globals) `.rect`
