@@ -302,9 +302,9 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
     }
 }
 
-HOOK_METHOD(ShipManager, CreateSystems, () -> int)
+HOOK_METHOD_PRIORITY(ShipManager, CreateSystems, 9999, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
     if (myBlueprint.systemInfo.find(0) != myBlueprint.systemInfo.end())
     {
         auto shieldInfo = myBlueprint.systemInfo[0];
@@ -316,7 +316,16 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     }
     else
     {
-        shieldSystem = nullptr;
+        if (CustomOptionsManager::GetInstance()->shieldWithoutSystem.currentValue)
+        {
+            auto sys = new Shields(-1, iShipId, 0, myBlueprint.shieldFile);
+            shieldSystem = sys;
+            sys->SetBaseEllipse(ship.GetBaseEllipse());
+        }
+        else
+        {
+            shieldSystem = nullptr;
+        }
     }
 
     systemKey.clear();
