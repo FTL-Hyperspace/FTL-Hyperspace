@@ -2082,7 +2082,7 @@ int ShipManager::SystemWillReplace(int systemId)
     return SYS_INVALID;   
 }
 
-float leakModifiers[2] = {1.f, 1.f};
+float leakModifiers[2] = {1.f, 1.f}; // [0] = player, [1] = enemy
 
 
 HOOK_METHOD_PRIORITY(OxygenSystem, OnLoop, -100, () -> void)
@@ -2111,11 +2111,11 @@ HOOK_METHOD_PRIORITY(OxygenSystem, UpdateAirlock, 9999, (int roomId, int count) 
     {
         float leakModifier = leakModifiers[_shipObj.iShipId];
 
-        bool drainSound = leakModifier > 0 && oxygenLevels[roomId] > 10.f;
-        bool gainSound = leakModifier < 0 && oxygenLevels[roomId] < 90.f;
+        bool drainSound = leakModifier > 0.f && oxygenLevels[roomId] > 10.f;
+        bool gainSound = leakModifier < 0.f && oxygenLevels[roomId] < 90.f;
         if (drainSound || gainSound)
         {
-            oxygenLevels[roomId] = leakModifier > 0 ? 0.f : 100.f;
+            oxygenLevels[roomId] = leakModifier > 0.f ? 0.f : 100.f;
             G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
         } 
 
@@ -2128,8 +2128,8 @@ HOOK_METHOD_PRIORITY(OxygenSystem, UpdateBreach, 9999, (int roomId, int count, b
     if (count > 0)
     {
         float leakModifier = leakModifiers[_shipObj.iShipId];
-        if (leakModifier < 0 && oxygenLevels[roomId] <= 0) oxygenLevels[roomId] = 0.0000001f; //TODO: Remove workaround
-        ComputeAirLoss(roomId, count * 0.5 * leakModifier, silent);
+        if (leakModifier < 0.f && oxygenLevels[roomId] <= 0.f) oxygenLevels[roomId] = 0.0000001f; //TODO: Remove workaround
+        ComputeAirLoss(roomId, count * 0.5f * leakModifier, silent);
     }     
 }
 
@@ -2140,8 +2140,8 @@ HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base
     std::vector<int> roomDepths = shipGraph->ConnectivityDFS(roomId);
     for (int idx = 0; idx < roomDepths.size(); ++idx)
     {
-        if (oxygenLevels[idx] <= 0.f && base_loss > 0) roomDepths[idx] = -1;
-        else if (oxygenLevels[idx] >= 100.f && base_loss < 0) roomDepths[idx] = -1;
+        if (oxygenLevels[idx] <= 0.f && base_loss > 0.f) roomDepths[idx] = -1;
+        else if (oxygenLevels[idx] >= 100.f && base_loss < 0.f) roomDepths[idx] = -1;
     }
 
     for (int idx = 0; idx < roomDepths.size(); ++idx)
@@ -2149,10 +2149,10 @@ HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base
         int depth = roomDepths[idx];
         if (depth != -1)
         {
-            bool shouldLeak = base_loss > 0 ? oxygenLevels[idx] > 1.f : oxygenLevels[idx] < 99.f;
-            if (base_loss == 0) shouldLeak = false;
+            bool shouldLeak = base_loss > 0.f ? oxygenLevels[idx] > 1.f : oxygenLevels[idx] < 99.f;
+            if (base_loss == 0.f) shouldLeak = false;
             if (shouldLeak && !silent) bLeakingO2 = true;
-            oxygenLevels[idx] -= std::pow(0.75, depth) * base_loss * G_->GetCFPS()->GetSpeedFactor();
+            oxygenLevels[idx] -= std::pow(0.75f, depth) * base_loss * G_->GetCFPS()->GetSpeedFactor();
         }
     }
 }

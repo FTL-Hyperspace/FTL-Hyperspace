@@ -67,4 +67,4 @@ private:
     std::unordered_map<int, int> exclusivityGroups; // systemId, group
 };
 
-extern float leakModifiers[2];
+extern float leakModifiers[2]; // [0] = player, [1] = enemy
