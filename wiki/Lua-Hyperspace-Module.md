@@ -34,24 +34,15 @@ local instance = Hyperspace.template_name(args)
 
 #### Member methods
 - `T :back()`
-
-Accesses the last element of the vector.
-
-WARNING: Undefined behavior (crash) if used on an empty vector!
+   - Accesses the last element of the vector.
+   - WARNING: Undefined behavior (crash) if used on an empty vector!
 - `void :clear()`
-
-Empties the vector and sets its size to 0.
-
+   - Empties the vector and sets its size to 0.
 - `bool :empty()`
-
-Returns a boolean indicating if the vector is empty.
-
+   - Returns a boolean indicating if the vector is empty.
 - `T :front()`
-
-Accesses the first element of the vector.
-
-WARNING: Undefined behavior (crash) if used on an empty vector!
-
+   - Accesses the first element of the vector.
+   - WARNING: Undefined behavior (crash) if used on an empty vector!
 - `unsigned int :max_size()`
    - The maximum size of the vector.
 - `void :pop_back()`
