@@ -1038,7 +1038,7 @@ playerVariableType playerVariables;
 %rename("%s") MouseControl::animateDoor;
 %rename("%s") MouseControl::validPointer;
 %rename("%s") MouseControl::invalidPointer;
-%rename("%s") MouseControl::cselling;
+%rename("%s") MouseControl::selling;
 %rename("%s") MouseControl::openDoor;
 %rename("%s") MouseControl::tooltip;
 %rename("%s") MouseControl::tooltipTimer;
