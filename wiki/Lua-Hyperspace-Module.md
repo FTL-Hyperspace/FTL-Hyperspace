@@ -24,18 +24,13 @@ To construct a vector named `template_name`:
 local instance = Hyperspace.template_name(args)
 ```
 - `std::vector<T>` `constructor()`
-
-Constructs a `std::vector<T>` of size 0.
+   - Constructs a `std::vector<T>` of size 0.
 - `std::vector<T>` `constructor(unsigned int size)`
-
-Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
+   - Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
 - `std::vector<T>` `constructor(std::vector<T> other)`
-
-Makes a copy of `other`.
-
+   - Makes a copy of `other`.
 - `std::vector<T>` `constructor(unsigned int size, T value)`
-
-Constructs a vector of size `size` where each element is equal to `value`.
+   - Constructs a vector of size `size` where each element is equal to `value`.
 
 #### Member methods
 - `T :back()`
@@ -58,25 +53,16 @@ Accesses the first element of the vector.
 WARNING: Undefined behavior (crash) if used on an empty vector!
 
 - `unsigned int :max_size()`
-
-The maximum size of the vector.
+   - The maximum size of the vector.
 - `void :pop_back()`
-
-Removes an element from the end and decreases the vector's size by 1.
-
+   - Removes an element from the end and decreases the vector's size by 1.
 - `void :push_back(T elem)`
-
-Adds `elem` to the vector and increases its size by 1.
-
+   - Adds `elem` to the vector and increases its size by 1.
 - `unsigned int :size()`
-
-The size of the vector.
-
+   - The size of the vector.
 - `T& operator[](unsigned int index)`
-
-Access the element at position `index`.
-
-NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
+   - Access the element at position `index`.
+   - NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ## Global
 
@@ -826,6 +812,10 @@ Accessed via `ShipSystem`'s `.extend` field
 - `std::vector<float>` `.oxygenLevels`
 - `float` `.fTotalOxygen`
 - `bool` `.bLeakingO2`
+- `float` `leakModifier`
+   - **Read-only**
+   - A multiplier to the rate at which airlocks and breaches drain oxygen.
+   - Can be changed with `CALCULATE_LEAK_MODIFIER` callback.
 
 ## TeleportSystem
 
@@ -1273,6 +1263,14 @@ No methods are exposed currently.
 - [`CachedImage`](#CachedImage) `.drone_image_off`
 - [`CachedImage`](#CachedImage) `.drone_image_glow`
 - `float` `.glowAnimation`
+
+## ShipRepairDrone
+
+**Extends [`CombatDrone`](#CombatDrone)**
+
+### Fields
+- [`CachedImage`](#CachedImage) `.repairBeam`
+- `std::vector<float>` `.repairBeams`
 
 ## DroneBlueprint
 
@@ -3230,6 +3228,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `int :ConnectedGridSquaresPoint(Point p1, Point p2)`
 - [`Door`](#Door) `:*ConnectingDoor(int x1, int y1, int x2, int y2)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
+-  `std::vector<int>` `:ConnectivityDFS(int roomId)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
 - [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
