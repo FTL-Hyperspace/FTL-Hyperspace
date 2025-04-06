@@ -178,8 +178,8 @@ struct StatBoostDefinition
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
-    float powerScalingNoSys = 0.0;
-    float powerScalingHackedSys = 0.0;
+    float powerScalingNoSys = 0.f;
+    float powerScalingHackedSys = 0.f;
     std::vector<int> systemPowerScaling;
 
     std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
