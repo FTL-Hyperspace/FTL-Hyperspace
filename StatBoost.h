@@ -181,6 +181,7 @@ struct StatBoostDefinition
     float powerScalingNoSys = 0.f;
     float powerScalingHackedSys = 0.f;
     std::vector<int> systemPowerScaling;
+    ShipTarget powerScalingShipTarget = ShipTarget::ORIGINAL_SHIP;
 
     std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
     std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();

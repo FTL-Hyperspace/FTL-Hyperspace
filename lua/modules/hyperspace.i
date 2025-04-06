@@ -1734,6 +1734,19 @@ We can expose them once the root cause is identified and the crash is fixed.
 %immutable OxygenSystem::bLeakingO2;
 %rename("%s") OxygenSystem::bLeakingO2;
 
+%immutable OxygenSystem::leakModifier;
+%rename("%s") OxygenSystem::leakModifier;
+
+%extend OxygenSystem {
+    float leakModifier;
+}
+%wrapper %{
+    static float OxygenSystem_leakModifier_get(OxygenSystem* oxygenSystem)
+    {
+        return leakModifiers[oxygenSystem->_shipObj.iShipId];
+    };
+%}
+
 %nodefaultctor TeleportSystem;
 %nodefaultdtor TeleportSystem;
 %rename("%s") TeleportSystem;
@@ -2394,6 +2407,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %nodefaultctor Room;
 %nodefaultdtor Room;
 %rename("%s") Room;
+%rename("%s") Room::FillSlot;
 
 %rename("%s") Room::bBlackedOut;
 %immutable Room::rect;
@@ -2692,6 +2706,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipGraph::ConnectedGridSquaresPoint;
 %rename("%s") ShipGraph::ConnectingDoor;
 %rename("%s") ShipGraph::ConnectingDoor;
+%rename("%s") ShipGraph::ConnectivityDFS;
 %rename("%s") ShipGraph::ContainsPoint;
 %rename("%s") ShipGraph::ConvertToLocalAngle;
 %rename("%s") ShipGraph::ConvertToLocalPosition;
@@ -3517,6 +3532,8 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") BoarderPodDrone::diedInSpace;
 
 %rename("%s") ShipRepairDrone;
+%rename("%s") ShipRepairDrone::repairBeam;
+%rename("%s") ShipRepairDrone::repairBeams;
 
 %rename("%s") HackingDrone;
 

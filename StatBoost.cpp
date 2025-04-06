@@ -233,6 +233,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->affectsSelf = EventsParser::ParseBoolean(val);
                 }
+                //TODO: Replace with utility macro/function
                 if (name == "shipTarget")
                 {
                     if (val == "PLAYER_SHIP")
@@ -483,7 +484,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                         }
                     }
 
-                    if (def->powerScaling.size())
+                    if (!def->powerScaling.empty())
                     {
                         if (!noSys)
                         {
@@ -493,6 +494,51 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                         {
                             def->powerScalingHackedSys = def->powerScaling.at(0);
                         }
+                    }
+                }
+                //TODO: Replace with utility macro/function
+                if (name == "powerScalingShipTarget")
+                {
+                    if (val == "PLAYER_SHIP")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::PLAYER_SHIP;
+                    }
+                    if (val == "ENEMY_SHIP")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::ENEMY_SHIP;
+                    }
+                    if (val == "CURRENT_ALL")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::CURRENT_ALL;
+                    }
+                    if (val == "CURRENT_ROOM")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::CURRENT_ROOM;
+                    }
+                    if (val == "OTHER_ALL")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::OTHER_ALL;
+                    }
+                    if (val == "ORIGINAL_SHIP")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::ORIGINAL_SHIP;
+                    }
+                    if (val == "ORIGINAL_OTHER_SHIP")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP;
+                    }
+                    if (val == "ALL")
+                    {
+                        def->powerScalingShipTarget = StatBoostDefinition::ShipTarget::ALL;
+                    }
+                    //Invalid targets
+                    if (val == "CREW_TARGET")
+                    {
+                        throw std::invalid_argument(std::string("CREW_TARGET is an invalid option for powerScalingShipTarget!"));
+                    }
+                    if (val == "TARGETS_ME")
+                    {
+                        throw std::invalid_argument(std::string("TARGETS_ME is an invalid option for powerScalingShipTarget!"));
                     }
                 }
                 if (name == "maxStacks")
@@ -665,7 +711,7 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
                     }
 
                     statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
@@ -686,7 +732,7 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
                     }
 
                     statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(i));
@@ -754,7 +800,7 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
                     }
 
                     statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
@@ -775,7 +821,7 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
                     }
 
                     statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(i));
@@ -2245,61 +2291,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         {
             if (statBoost.def->stat == stat)
             {
-                // Calculate power scaling
-                int numPower = 0;
-                float sysPowerScaling = statBoost.def->systemPowerScaling.empty() ? 1.f : statBoost.def->powerScalingNoSys;
-                bool systemExists = false;
-
-                int statBoostSourceShipId;
-                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
-                {
-                    statBoostSourceShipId = statBoost.crewSource->GetPowerOwner();
-                }
-                else
-                {
-                    statBoostSourceShipId = statBoost.sourceShipId;
-                }
-
-                for (auto system : statBoost.def->systemPowerScaling)
-                {
-                    if (system == 16)
-                    {
-                        systemExists = true;
-                        numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.second;
-                    }
-                    else if (system == 17)
-                    {
-                        systemExists = true;
-                        numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.first;
-                    }
-                    else
-                    {
-                        ShipManager* shipManager = G_->GetShipManager(statBoostSourceShipId);
-                        if (shipManager != nullptr)
-                        {
-                            if (shipManager->GetSystemRoom(system) != -1)
-                            {
-                                if (shipManager->GetSystem(system)->iHackEffect >= 2)
-                                {
-                                    sysPowerScaling = statBoost.def->powerScalingHackedSys;
-                                    systemExists = false;
-                                    break;
-                                }
-                                else
-                                {
-                                    systemExists = true;
-                                    numPower += shipManager->GetSystem(system)->GetEffectivePower();
-                                }
-                            }
-                        }
-                    }
-                }
-                if (systemExists)
-                {
-                    if (!statBoost.def->powerScaling.empty()) sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
-                    else sysPowerScaling = numPower > 0 ? 1.f : 0.f;
-                }
-
+                float sysPowerScaling = CalculatePowerScaling(statBoost);
                 // Apply effect
                 if (isBool)
                 {
@@ -2778,6 +2770,125 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "Calculate stat time: " << ms_double.count();
     return finalStat;
+}
+
+float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
+{
+    // Calculate the power scaling factor for a given ship
+    auto CalculatePowerShip = [&](int powerScalingShipId, bool mustBeCurrentRoom = false) -> float
+    {
+        // Calculate power scaling
+        int numPower = 0;
+        float sysPowerScaling = statBoost.def->powerScalingNoSys;
+        bool systemExists = false;
+        for (auto system : statBoost.def->systemPowerScaling)
+        {
+            if (system == SYS_ALL)
+            {
+                systemExists = true;
+                numPower += PowerManager::GetPowerManager(powerScalingShipId)->currentPower.second;
+            }
+            else if (system == SYS_REACTOR)
+            {
+                systemExists = true;
+                numPower += PowerManager::GetPowerManager(powerScalingShipId)->currentPower.first;
+            }
+            else
+            {
+                ShipManager* shipManager = G_->GetShipManager(powerScalingShipId);
+                if (shipManager != nullptr)
+                {
+                    if (shipManager->GetSystemRoom(system) != -1 && (!mustBeCurrentRoom || orig->iRoomId == shipManager->GetSystemRoom(system)))
+                    {
+                        if (shipManager->GetSystem(system)->iHackEffect >= 2)
+                        {
+                            sysPowerScaling = statBoost.def->powerScalingHackedSys;
+                            systemExists = false;
+                            break;
+                        }
+                        else
+                        {
+                            systemExists = true;
+                            numPower += shipManager->GetSystem(system)->GetEffectivePower();
+                        }
+                    }
+                }
+            }
+        }
+        if (systemExists)
+        {
+            sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+        }
+        return sysPowerScaling;
+    };
+
+
+    //Determine target
+    switch (statBoost.def->powerScalingShipTarget)
+    {
+        //ALL: Scales with the sum of the systems on both ships.
+        case StatBoostDefinition::ShipTarget::ALL: return CalculatePowerShip(0) + CalculatePowerShip(1);
+        //PLAYER_SHIP and ENEMY_SHIP: Scales with a specific ship, irrespective of the source of the stat boost.
+        case StatBoostDefinition::ShipTarget::PLAYER_SHIP: return CalculatePowerShip(0);
+        case StatBoostDefinition::ShipTarget::ENEMY_SHIP: return CalculatePowerShip(1);
+        //CURRENT_ALL: For augment boosts, same as ORIGINAL_SHIP. For crew boosts, scales with the systems on the ship the crewmember is currently on.
+        case StatBoostDefinition::ShipTarget::CURRENT_ALL:
+        {
+            if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
+            {
+                return CalculatePowerShip(statBoost.crewSource->currentShipId);
+            }
+            //Fallthrough for augment boosts
+        }
+        //ORIGINAL_SHIP: For augment boosts, scales with the systems on the ship possessing the augment. For crew boosts, scales with the systems on the ship who owns the crewmember.
+        case StatBoostDefinition::ShipTarget::ORIGINAL_SHIP:
+        {
+            //Backwards-compatible default behavior
+            int powerScalingShipId;
+            if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
+            {
+                powerScalingShipId = statBoost.crewSource->GetPowerOwner();
+            }
+            else
+            {
+                powerScalingShipId = statBoost.sourceShipId;
+            }
+            return CalculatePowerShip(powerScalingShipId);
+        }
+        //OTHER_ALL: Opposite of CURRENT_ALL.
+        case StatBoostDefinition::ShipTarget::OTHER_ALL:
+        {
+            if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
+            {
+                return CalculatePowerShip(1 - statBoost.crewSource->currentShipId);
+            }
+            //Fallthrough for augment boosts
+        }
+        //ORIGINAL_OTHER_SHIP: Opposite of ORIGINAL_SHIP.
+        case StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP:
+        {
+            int powerScalingShipId;
+            if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
+            {
+                powerScalingShipId = 1 - statBoost.crewSource->GetPowerOwner();
+            }
+            else
+            {
+                powerScalingShipId = 1 - statBoost.sourceShipId;
+            }
+            return CalculatePowerShip(1 - powerScalingShipId);
+
+        }
+        //CURRENT_ROOM: Invalid for augment boosts. For crew boosts, scales only with a system if the providing crew is in that room.
+        case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
+        {
+            if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
+            {
+                return CalculatePowerShip(statBoost.crewSource->currentShipId, true);
+            }
+        }
+        default: return statBoost.def->powerScalingNoSys;
+    }
 }
 
 float StatBoostManager::CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId, int roomId)

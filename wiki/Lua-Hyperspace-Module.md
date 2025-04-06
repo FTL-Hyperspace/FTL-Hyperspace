@@ -24,59 +24,36 @@ To construct a vector named `template_name`:
 local instance = Hyperspace.template_name(args)
 ```
 - `std::vector<T>` `constructor()`
-
-Constructs a `std::vector<T>` of size 0.
+   - Constructs a `std::vector<T>` of size 0.
 - `std::vector<T>` `constructor(unsigned int size)`
-
-Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
+   - Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
 - `std::vector<T>` `constructor(std::vector<T> other)`
-
-Makes a copy of `other`.
-
+   - Makes a copy of `other`.
 - `std::vector<T>` `constructor(unsigned int size, T value)`
-
-Constructs a vector of size `size` where each element is equal to `value`.
+   - Constructs a vector of size `size` where each element is equal to `value`.
 
 #### Member methods
 - `T :back()`
-
-Accesses the last element of the vector. 
-
-WARNING: Undefined behavior (crash) if used on an empty vector!
+   - Accesses the last element of the vector.
+   - WARNING: Undefined behavior (crash) if used on an empty vector!
 - `void :clear()`
-
-Empties the vector and sets its size to 0.
-
-- `bool :empty()` 
-
-Returns a boolean indicating if the vector is empty.
-
+   - Empties the vector and sets its size to 0.
+- `bool :empty()`
+   - Returns a boolean indicating if the vector is empty.
 - `T :front()`
-
-Accesses the first element of the vector. 
-
-WARNING: Undefined behavior (crash) if used on an empty vector!
-
+   - Accesses the first element of the vector.
+   - WARNING: Undefined behavior (crash) if used on an empty vector!
 - `unsigned int :max_size()`
-
-The maximum size of the vector.
+   - The maximum size of the vector.
 - `void :pop_back()`
-
-Removes an element from the end and decreases the vector's size by 1.
-
+   - Removes an element from the end and decreases the vector's size by 1.
 - `void :push_back(T elem)`
-
-Adds `elem` to the vector and increases its size by 1.
-
+   - Adds `elem` to the vector and increases its size by 1.
 - `unsigned int :size()`
-
-The size of the vector.
-
+   - The size of the vector.
 - `T& operator[](unsigned int index)`
-
-Access the element at position `index`.
-
-NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
+   - Access the element at position `index`.
+   - NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ## Global
 
@@ -85,7 +62,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
    - Returns the main instance of [`Global`](#Global). Always use this to access any members and methods belonging to this class. `Hyperspace.Global.GetInstance()`
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of [`ShipManager`](#ShipManager) associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
-- `CApp :GetCApp()` 
+- `CApp :GetCApp()`
    - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class, or the shortcut `Hyperspace.App`.
 - `ShipInfo :GetShipInfo(bool enemy)`
    - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
@@ -156,11 +133,11 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - ~~`bool :SwitchShipTransfer(std::string shipName, int overrideSystem)`~~
    - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
    - This method will run `:ClearLocation()` at the beacon, effectively removing any hazard and ship
-   - `overrideSystem`: 
+   - `overrideSystem`:
       - 0: keep systems & power from the old ship, adding them to the new ship systems
       - 1: keep systems & power from the old ship, replacing the new ship systems
       - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone will be moved to cargo
-	
+
 ### Fields
 
 - `SpaceManager` `.space`
@@ -191,7 +168,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - [`ImageDesc`](#ImageDesc) `:SwitchPlanet(std::string name)`
 - `void :UpdatePlanetImage()`
 - `void :UpdateProjectile(Projectile *proj)`
-	
+
 ### Fields
 
 - [`Projectile*[]`](#Projectile) `.projectiles`
@@ -201,7 +178,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
    - **Read-only**
-   # 
+   #
    ### Hazards
 
    - [`AsteroidGenerator`](#AsteroidGenerator) `.asteroidGenerator`
@@ -239,7 +216,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.pattern`
 
 ## AsteroidGenerator
-	
+
 ### Fields
 
 - `bool` `.bRunning`
@@ -260,7 +237,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - `void :SetDoor(int state)`
 - `void :SetTooltip(std::string tooltip)`
 - `void :SetTooltipTitle(std::string tooltip)`
-	
+
 ### Fields
 
 - [`Point`](#Point) `.position`
@@ -602,7 +579,7 @@ Accessed via `ShipManager`'s `.extend` field
 - `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
--  `void LockdownRoom(int roomId, Pointf pos)` 
+-  `void LockdownRoom(int roomId, Pointf pos)`
    -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well.
 -  `bool RoomLocked(int roomId)`
    -  Returns true if the room is locked down.
@@ -612,7 +589,7 @@ Accessed via `ShipManager`'s `.extend` field
    -  Sets the room to be selected (Yellow outline). Note: Must be done every tick to have an effect.
 
 ### Fields
--  `int` `.iShipId` 
+-  `int` `.iShipId`
 -  `std::vector<Room*>` `.vRoomList`
 -  `std::vector<Door*>` `.vDoorList`
 -  [`std::vector<OuterHull*>`](#OuterHull) `.vOuterWalls`
@@ -650,10 +627,10 @@ Accessed via `ShipManager`'s `.extend` field
    - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
 
 ### Hyperspace Fields
--  `std::vector<std::pair<Animation, int8_t>>` 
+-  `std::vector<std::pair<Animation, int8_t>>`
 `extraEngineAnim`
-   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
-   
+   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation.
+
    |Value | Rotation                     |
    | ---: | :--------------------------- |
    | -1   | 90 Degrees Clockwise         |
@@ -826,6 +803,10 @@ Accessed via `ShipSystem`'s `.extend` field
 - `std::vector<float>` `.oxygenLevels`
 - `float` `.fTotalOxygen`
 - `bool` `.bLeakingO2`
+- `float` `leakModifier`
+   - **Read-only**
+   - A multiplier to the rate at which airlocks and breaches drain oxygen.
+   - Can be changed with `CALCULATE_LEAK_MODIFIER` callback.
 
 ## TeleportSystem
 
@@ -1274,6 +1255,14 @@ No methods are exposed currently.
 - [`CachedImage`](#CachedImage) `.drone_image_glow`
 - `float` `.glowAnimation`
 
+## ShipRepairDrone
+
+**Extends [`CombatDrone`](#CombatDrone)**
+
+### Fields
+- [`CachedImage`](#CachedImage) `.repairBeam`
+- `std::vector<float>` `.repairBeams`
+
 ## DroneBlueprint
 
 **Extends [`Blueprint`](#blueprint)**
@@ -1292,6 +1281,10 @@ No methods are exposed currently.
 - `std::string` `.combatIcon`
 
 ## Room
+
+### Methods
+- `void :FillSlot(int slot, bool intruder)`
+   - Set the slot to occupied. To empty the slot, use `Ship:EmptySlots`.
 
 ### Fields
 - `bool` `.bBlackedOut`
@@ -1879,9 +1872,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.bDoorTarget`
 - `bool` `.uniqueBool1`
 - `bool` `.uniqueBool2`
-   
+
 ## CrewDefinition
-   
+
 ### Fields
    NOTE: All fields under this object are immutable.
 - `std::string` `.race`
@@ -2238,7 +2231,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ### Methods
 
-- `void :Reset()` 
+- `void :Reset()`
 - `void :SetLocation(Point pos)`
 - `void :SetHitBox(Globals::Rect rect)`
 - `void :SetActive(bool active)`
@@ -2254,7 +2247,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 - [`Point`](#Point) `.position`
    - Field is **read-only** but fields under this object may still be mutable.
-- [`Globals::Rect`](#Globals) `.hitbox` 
+- [`Globals::Rect`](#Globals) `.hitbox`
    - Field is **read-only** but fields under this object may still be mutable.
 - `bool` `.allowAnyTouch`
 - `bool` `.touchSelectable`
@@ -2524,13 +2517,13 @@ end)
 
 ### Methods
 
-- `void :ModifyPursuit(int amount)` 
+- `void :ModifyPursuit(int amount)`
 - `Point :PointToGrid(float x, float y)`
 - `void :ForceWaitMessage(GL_Primitive waitMessage)`
    - Disables the ability to jump and enables the wait/distress menu. Replaces the "NO FUEL" message shown on the sector map with a primitive of your own.
    - NOTE: The primitive should be a local or global variable. If it is garbage collected while in use this will lead to a crash.
    - If no argument is passed, then the jump menu is re-enabled and the "NO FUEL" message is restored.
-   
+
 [[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
 
 
@@ -3226,6 +3219,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `int :ConnectedGridSquaresPoint(Point p1, Point p2)`
 - [`Door`](#Door) `:*ConnectingDoor(int x1, int y1, int x2, int y2)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
+-  `std::vector<int>` `:ConnectivityDFS(int roomId)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
 - [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
@@ -3373,7 +3367,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 
 ## Projectile_Extend
 
-Accessed via `Projectile`'s `.extend` field 
+Accessed via `Projectile`'s `.extend` field
 
 ### Fields
 - [`Projectile*`](#Projectile) `.orig`
