@@ -1,6 +1,6 @@
 <FTL>
 
-<!-- 
+<!--
     Old version check is just a number and must match exactly.
     <version>92</version>
     The old version check will be removed at some point in the future.
@@ -14,7 +14,7 @@
     <version>~0.9.2</version> A feature match, only accept higher patch versions in this case versions 0.9.2 thru 0.9.255 would be allowed but not 0.9.1 or 0.9.0
     <version>^0.9.2</version> A major match, allows minor & patch to be changed (upwards) but not major, in this case 0.10.0 would match as would 0.9.5 but not 1.0.0.
     If you fail to specify a match character and just do <version>0.9.2</version> this will be considered the same as `^` above but will also generate a warning message in FTL_HS.log.
--->  
+-->
 <version>^1.18.1</version>
 
 <!-- Hyperspace defaults
@@ -38,7 +38,7 @@ This way mods that frequently use a particular value can just make it the defaul
 		<roomAnim>                                         (roomAnim to use for erosion, recommended to set it here rather than on each weapon)
 			(uses roomAnim syntax, see custom ships)
 		</roomAnim>
-		
+
 		<growBreachMultiplier>1.0</growBreachMultiplier>   (multiplier on growing a breach, 1.0 means 1 system damage to fully grow a breach)
 		<newBreachDamage>100.0</newBreachDamage>           (how big of a breach to open, 100 is full breach)
 		<newBreachRequirement>100.0</newBreachRequirement> (erosion damage to open a new breach, 100 is equivalent to 1 point of system damage)
@@ -80,7 +80,7 @@ Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but
 Adds new languages onto the game's localization system. Each language needs its own localization files to properly work.
 See data/names.xml and data/text-<langcode>.xml files in the vanilla data for reference.
 
-@langcode:      (required) The handle of the language. You may name it whatever you'd like as long as it matches 
+@langcode:      (required) The handle of the language. You may name it whatever you'd like as long as it matches
                 @language attribute for localized strings, but for consistency with the vanilla game we'd recommend
                 using a variant of ICU locale ID (See https://unicode-org.github.io/icu/userguide/locale/#examples)
                 that replaces underscores to dash (e.g., `zh_Hans` becomes `zh-Hans`).
@@ -368,7 +368,7 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 </titleScreen> -->
 
 <titleScreen logo_x="862" logo_y="7" enabled="true">
-	
+
 </titleScreen>
 
 <!-- Disables toggling off Advanced Edition -->
@@ -416,14 +416,14 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 <enhancedCloneUI enabled="false"/>
 
 <!-- Insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are fighting -->
-  
+
 <insertNewlineForMultipleCrewTooltips enabled="false"/>
 
 <!-- Disables the progression of the vanilla tutorial and allows a custom lua-powered tutorial -->
 
 <disableDefaultTutorial enabled="false"/>
 
-<!-- Allows for the existence of additional tabs in the upgrade menu, be wary that they are to be used with lua to have any utility 
+<!-- Allows for the existence of additional tabs in the upgrade menu, be wary that they are to be used with lua to have any utility
 name: name of the tab, will be used to find the icon_[name] for the tab in the img\upgradeUI\Equipment\tabButtons folder
 windowPath: path for the background of the new tab, do not include the extension, no need to include the selected button in the background, it will be added automatically
 hasUndo: whether the tab has an undo button or not, this button will call the event TABBED_WINDOW_UNDO when pressed
@@ -485,7 +485,7 @@ LUA                Run lua code directly for testing       Usage: LUA <code on o
 SQUISHY            Place a message on screen corner        Usage: SQUISHY <some message you'd like to say in support of squishy> Example: SQUISHY Squishy is awesome!
 -->
 
-<console enabled="true" invertCaps="true"/> 
+<console enabled="true" invertCaps="true"/>
 
 <!-- Custom Victory Achievements
 
@@ -597,7 +597,7 @@ maxLevel attribute sets the maximum level you can upgrade to
 <hideHullDuringExplosion> hides the hull of this ship if not already enabled globally
 <augSlots> sets the number of augment slots for custom ship
 <cargoSlots> sets the number of cargo slots for custom ship
-<exclusivityOverride> defines groups of mutually exclusive systems for the ship. If present, ignores all global <exclusivityGroup> tags and <dualMedical>. 
+<exclusivityOverride> defines groups of mutually exclusive systems for the ship. If present, ignores all global <exclusivityGroup> tags and <dualMedical>.
 
 
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
@@ -610,7 +610,7 @@ shipReq is the ship that you have to do it with to unlock it
 value is only used for reach sector currently which defines which sector the player has to reach
 silent tag defines whether or not it will show up in the top right and plays the sound
 
-for the achievement icon that appears on the top right when you unlock the ship, you will need to add an icon in img/achievements 
+for the achievement icon that appears on the top right when you unlock the ship, you will need to add an icon in img/achievements
 it will use whatever the layoutFile is with "_1" put on the end
 so for the engi ship, the layoutFile is mup_engi_b, so the icon would be img/achievements/mup_engi_b_1.png
 
@@ -642,7 +642,7 @@ By default, all layouts of a given ship are treated as the same ship and share a
 splitUnlockQuestAchievement and splitVictoryAchievement will cause the quest and victory achievements respectively to be split so that each layout is treated as a distinct ship.
 
 If showShipAchievements is set to false, ship achievements will never be visible when that ship is selected (true by default).
-Syntax -> 
+Syntax ->
 
 <ships hideFirstShipPage="false">
 	<hangarAnims>
@@ -661,12 +661,12 @@ Syntax ->
 		<ship>PLAYER_SHIP_CUSTOM8</ship>
 		<empty/>
 	</shipOrder>
-	
-	<customShip> 
+
+	<customShip>
 		<hiddenAug>FIRE_EXTINGUISHERS</hiddenAug>
 		<crewLimit>12</crewLimit>
 	</customShip>
-	
+
 	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true" secret="false" noAppend="false" splitUnlockQuestAchievement="false" splitVictoryAchievement="false">
 		<unlock variant="a">
             <type>1</type>
@@ -698,7 +698,7 @@ Syntax ->
 			...                                                (Same properties as global achievements.)
 		</achievement>
     </ship>
-	
+
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
 		<rooms>
 			<room id="1">
@@ -764,7 +764,7 @@ Syntax ->
 				<clonebay/>
 				<medbay/>
 			</exclusivityGroup>
-			
+
 			<exclusivityGroup>
 				<hacking/>
 				<cloaking/>
@@ -772,7 +772,7 @@ Syntax ->
 
 		</exclusivityOverride>
 	</customShip>
-	
+
 	<customShip name="ENEMY_SHIP">
 		<noJump/>
 		<hpCap>30</hpCap>
@@ -792,7 +792,7 @@ Syntax ->
 
 You can define thruster animations in the XML of individual ships (kestral.xml for example). The animation must be defined in animations.xml.
 
-Syntax -> 
+Syntax ->
 
 <thrusters sync="true">                                              If sync = true, all thruster animations will start on their first frame rather than on a random frame.
     <thruster x="25" y="90" mirror="true">thrusters_on</thruster>    If mirror = true, the animation will be flipped along the y axis.
@@ -824,7 +824,7 @@ Support was recently added for non-rock <animBase>, but is untested.
 
 <animBase> can be either mantis or rock
 
-Syntax -> 
+Syntax ->
 
 <crew>
 	(default human values except where they're obviously not)
@@ -1081,7 +1081,7 @@ Syntax ->
 			<hullBust>false</hullBust>
 			<lockdown>true</lockdown>
 			<friendlyFire>false</friendlyFire>                                                     If false, then the damage is not applied to friendly crewmembers.
-			<stun>0</stun>                                                                         
+			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>                                             If false, then the hull/system/ion damage is only applied on the enemy ship.
 			<win>false</win>                                                                       If true, triggers a victory screen (this is a holdover from before events could trigger the victory screen).
 			<animFrame followCrew="false">-1</animFrame>                                           Frame of ability animation to trigger the ability activation effect. -1 means immediate. If followCrew="true" then the animation
@@ -1154,7 +1154,7 @@ Syntax ->
 			...                                                                          Crew can have multiple abilities!
 		</powerEffect>
 		<powerEffect load="foo"/>                                                        Loads the most recent power definition named "foo" (or the next one if there are none yet).
-		
+
 		<droneAI>                                                                        Custom AI to use for crew drones. This feature is currently disabled for boarding drones.
 			<fightAI/>
 			<repairAI/>
@@ -1162,15 +1162,15 @@ Syntax ->
 			<batteryAI/>
 			<returnToDroneRoom/>
 		</droneAI>
-		
+
 		<droneMoveFromManningSlot>true</droneMoveFromManningSlot>                        AI will avoid blocking a system's manning slot.
 
 	</race>
-	
-	
+
+
 	drone attribute can be BATTLE, REPAIR, BOARDER or BOARDER_ION, and will use default values for those drones
 	you can change anything with drones that you can with crew (realistically) apart from <powerEffect>
-	
+
 	<race name="newDrone" drone="BATTLE">
 		<canMan>true</canMan>
 		<canRepair>true</canRepair>
@@ -1181,7 +1181,7 @@ Syntax ->
 
 <crew>
 	<!-- Vanilla Races -->
-	
+
 	<race name="human">
 		<skills>
 			<piloting req="13"/>
@@ -1192,103 +1192,103 @@ Syntax ->
 			<combat req="7"/>
 		</skills>
 	</race>
-	
+
 	<race name="engi">
 		<repairSpeed>2.0</repairSpeed>
 		<damageMultiplier>0.5</damageMultiplier>
-		
+
 		<deathSounds>
 			<deathSound>engiDeath</deathSound>
 		</deathSounds>
 	</race>
-	
+
 	<race name="mantis">
 		<repairSpeed>0.5</repairSpeed>
 		<damageMultiplier>1.5</damageMultiplier>
 		<moveSpeedMultiplier>1.2</moveSpeedMultiplier>
 		<animBase>mantis</animBase>
-		
+
 		<deathSounds>
 			<deathSound>mantisDeath</deathSound>
 		</deathSounds>
-		
+
 		<shootingSounds>
 			<shootingSound>mantisSpit1</shootingSound>
 			<shootingSound>mantisSpit2</shootingSound>
 			<shootingSound>mantisSpit3</shootingSound>
 		</shootingSounds>
 	</race>
-	
+
 	<race name="rock">
 		<maxHealth>150</maxHealth>
 		<moveSpeedMultiplier>0.5</moveSpeedMultiplier>
 		<fireRepairMultiplier>2.0</fireRepairMultiplier>
 		<canBurn>false</canBurn>
 		<animBase>rock</animBase>
-		
+
 		<repairSounds animSoundFrame="5">
 			<repairSound>rockThud1</repairSound>
 			<repairSound>rockThud2</repairSound>
 			<repairSound>rockThud3</repairSound>
 		</repairSounds>
-		
+
 		<deathSounds>
 			<deathSound>rockDeath</deathSound>
 		</deathSounds>
-		
+
 		<shootingSounds>
 			<shootingSound>rockThrow1</shootingSound>
 			<shootingSound>rockThrow2</shootingSound>
 			<shootingSound>rockThrow3</shootingSound>
 		</shootingSounds>
 	</race>
-	
+
 	<race name="energy">
 		<bonusPower>1</bonusPower>
 		<maxHealth>70</maxHealth>
-		
+
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 		<hasDeathExplosion>true</hasDeathExplosion>
-		
+
 		<deathEffect>
 			<persDamage>1</persDamage>
 			<friendlyFire>false</friendlyFire>
 		</deathEffect>
-		
+
 		<deathSounds>
 			<deathSound>energyDeath</deathSound>
 		</deathSounds>
 	</race>
-	
+
 	<race name="slug">
 		<isTelepathic>true</isTelepathic>
 		<resistsMindControl>true</resistsMindControl>
 		<detectsLifeforms>true</detectsLifeforms>
 	</race>
-	
+
 	<race name="crystal">
 		<maxHealth>125</maxHealth>
 		<moveSpeedMultiplier>0.8</moveSpeedMultiplier>
 		<fireRepairMultiplier>1.0</fireRepairMultiplier>
 		<suffocationModifier>0.5</suffocationModifier>
 		<animBase>rock</animBase>
-		
+
 		<repairSounds animSoundFrame="5">
 			<repairSound>rockThud1</repairSound>
 			<repairSound>rockThud2</repairSound>
 			<repairSound>rockThud3</repairSound>
 		</repairSounds>
-		
+
 		<deathSounds>
 			<deathSound>crystalDeath</deathSound>
 		</deathSounds>
-		
+
 		<shootingSounds>
 			<shootingSound>rockThrow1</shootingSound>
 			<shootingSound>rockThrow2</shootingSound>
 			<shootingSound>rockThrow3</shootingSound>
 		</shootingSounds>
-		
+
 		<powerEffect>
 			<cooldown>50</cooldown>
 			<jumpCooldown>full</jumpCooldown>
@@ -1303,21 +1303,21 @@ Syntax ->
 			<effectAnim>explosion_crystal</effectAnim>
 		</powerEffect>
 	</race>
-	
+
 	<race name="anaerobic">
 		<moveSpeedMultiplier>0.85</moveSpeedMultiplier>
 		<oxygenChangeSpeed>-0.5</oxygenChangeSpeed>
 		<canSuffocate>false</canSuffocate>
-		
+
 		<repairSounds>
 			<repairSound>shrikeRepair</repairSound>
 		</repairSounds>
-		
+
 		<deathSounds>
 			<deathSound>shrikeDeath</deathSound>
 		</deathSounds>
 	</race>
-	
+
 	<!-- Unused race -->
 
 	<race name="ghost">
@@ -1325,18 +1325,18 @@ Syntax ->
 		<canSuffocate>false</canSuffocate>
 		<maxHealth>50</maxHealth>
 	</race>
-	
+
 	<race name="repair" drone="REPAIR">
 		<healSpeed>0.2</healSpeed>
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 	</race>
-	
+
 	<race name="battle" drone="BATTLE">
 		<healSpeed>0.2</healSpeed>
 		<canSabotage>true</canSabotage>
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 	</race>
-	
+
 	<race name="boarder_ion" drone="BOARDER_ION">
 		<healSpeed>0.2</healSpeed>
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
@@ -1393,9 +1393,9 @@ Syntax ->
 		<function name="HACKING_STUN" useForReqs="false" warning="false"/>
 		<function name="SCRAP_COLLECTOR" value="-0.1" modifyChoiceTextScrap="true"/>
 		<function name="DEFENSE_SCRAMBLER" sys="hacking"/>
-		
+
 		<crystalShard weapon="CRYSTAL_1" value="0.1" stackable="false"/> (can be repeated for multiple crystalShard functions on the same augment)
-		
+
 		<superShield>
 			<value>5</value> (gives custom supershield value; when multiple augments are present the highest value is used)
 			<add>0</add> (gives custom supershield value that is added to existing custom supershields to allow stacking)
@@ -1404,13 +1404,13 @@ Syntax ->
 			<playerImage>ship/shield_image.png</playerImage> (use a different shield image for player)
 			<enemyImage>ship/shield_image.png</enemyImage> (use a different shield image for enemy)
 		</superShield>
-		
+
 		<statBoosts>
 			<statBoost name="...">...</statBoost>
 		</statBoosts>
-		
+
 		<locked/>
-		
+
 		<icon ship="player/enemy">icon_name</icon> (dynamically adds additional shipIcons to a ship that possesses this augment; ship parameter makes icon show for player/enemy only) (currently only available for enemy)
     </aug>
 </augments>
@@ -1470,7 +1470,7 @@ Syntax ->
 	<system id="mind">
 		<level damageBoost="1.0" healthBoost="0.0" duration="14.0" lock="4" count="1"/>
 		<level damageBoost="1.25" healthBoost="15.0" duration="20.0" lock="4" count="1"/>
-		<level damageBoost="2.0" healthBoost="30.0" duration="28.0" lock="4" count="1"/>  
+		<level damageBoost="2.0" healthBoost="30.0" duration="28.0" lock="4" count="1"/>
 	</system>
 
 	<!--
@@ -1498,7 +1498,7 @@ Syntax ->
 		<clonebay/>
 		<medbay/>
 	</exclusivityGroup>
-	
+
 	-->
 </customSystems>
 
@@ -1554,6 +1554,7 @@ systemPowerDependency: determines the systems that affect the power of this stat
 systemPowerScaling: determines how the boost is affected by the total power bars within the systems in systemPowerDependency.
   noSys and hackedSys are values used for if the system isn't there and if the system is being hacked, respectively.
   The other tag names don't matter; the first value is used when the system is offline, and the second onwards determines the power at each given bar of power (with any amount of power over the max using the last number).
+  If this tag is omitted, then it will default to a value of 0 when the system is unpowered, hacked, or nonpresent, and a value of 1 otherwise.
 powerScalingShipTarget: the ship/room that the statBoost scales with. The following options are available:
   ALL: Scales with the sum of the systems on both ships.
   PLAYER_SHIP and ENEMY_SHIP: Scales with a specific ship, irrespective of the source of the stat boost.
@@ -1772,11 +1773,11 @@ Example:
 	<rewardScaling> -> Used for scrap scaling that does not depend on the reward level
 		<scrap baseAmount="15.0" sectorAmount="6.0"/>
 	</rewardScaling>
-	
+
 	<rewardScaling difficulty="0"> -> Override for specific difficulty level (0 = easy, 1 = normal, 2 = hard). Default when not specified is normal.
 		<scrap baseAmount="15.0" sectorAmount="6.0" difficultyAmount="1"/> -> Same behaviour as vanilla easy; acts like you are 1 sector ahead compared to normal.
 	</rewardScaling>
-	
+
 	<rewardScaling difficulty="2"> -> Note that for reward scaling at a specified difficulty, the automatic difficulty adjustment is cancelled unless difficultyAmount is explicitly specified in the child tags.
 		<scrap sectorAmount="2.0"> -> Example of piecewise specification (specify the multiplier per sector). sectorAmount will be used to extrapolate if necessary (e.g. for infinite mode).
 			<amount>15.0</amount> -> Hard sector 1
@@ -1795,14 +1796,14 @@ Example:
 		<scrap level="MED" min="800" max="1300" baseAmount="15.0" sectorAmount="5.0"/>
 		<scrap level="HIGH" min="1300" max="1550" baseAmount="15.0" sectorAmount="5.0"/>
 	</resourceRewards>
-	
+
 	<reward name="engi_standard">
 		<resourceRewards> -> Applies for this reward type only, any missing entries will use the default resourceRewards
 			<droneparts level="LOW" min="1" max="2"/>
 			<droneparts level="MED" min="2" max="3"/>
 			<droneparts level="HIGH" min="3" max="5"/>
 		</resourceRewards>
-	
+
 		<reward minResources="2" maxResources="2"> -> Specifies the types of resources to include as well as bonus reward chances. minResources and maxResources limits the number of different resources to include.
 			<resource name="scrap"/>
 			<resource name="fuel" level="LOW"/> -> Overrides the reward level for this specific resource
@@ -1814,7 +1815,7 @@ Example:
 				<augment chance="2"/>
 			</bonus>
 		</reward>
-		
+
 		<reward level="HIGH" minResources="2" maxResources="2"> -> Specifies a different reward to include at a particular level
 			<resource name="scrap"/>
 			<resource name="fuel" level="LOW"/>
@@ -1827,14 +1828,14 @@ Example:
 			</bonus>
 		</reward>
 	</reward>
-	
+
 	<reward name="engi_stuff"> -> Included for completeness. Usually a "standard" reward gives variable scrap but low resources, while a "stuff" reward gives low scrap but variable resources.
 		<resourceRewards>
 			<droneparts level="LOW" min="1" max="2"/>
 			<droneparts level="MED" min="2" max="3"/>
 			<droneparts level="HIGH" min="3" max="5"/>
 		</resourceRewards>
-	
+
 		<reward minResources="2" maxResources="2">
 			<resource name="scrap" level="LOW"/>
 			<resource name="fuel"/>
@@ -1847,7 +1848,7 @@ Example:
 			</bonus>
 		</reward>
 	</reward>
-	
+
 	<reward name="weapon_or_drone">
 		<skipIfWeapon/>  -> If the event already has a weapon then skip this reward.
 		<skipIfDrone/>   -> If the event already has a drone then skip this reward.
@@ -1859,12 +1860,12 @@ Example:
 			</bonus>
 		</reward>
 	</reward>
-	
+
 	<reward name="motherlode"> -> Gives a weapon, drone, augment, and scrap.
 		<rewardScaling> -> rewardScaling can also be given to a specific reward type to override the global scaling
 			<scrap baseAmount="20.0" sectorAmount="8.0"/>
 		</rewardScaling>
-	
+
 		<weapon/>  -> Free random weapon.
 		<drone/>   -> Free random drone.
 		<augment/> -> Free random augment.
@@ -1882,25 +1883,25 @@ Example:
 	<rewardScaling>
 		<scrap baseAmount="15.0" sectorAmount="6.0"/>
 	</rewardScaling>
-	
+
 	<resourceRewards>
 		<scrap level="LOW" min="500" max="700"/>
 		<scrap level="MED" min="800" max="1300"/>
 		<scrap level="HIGH" min="1300" max="1550"/>
-		
+
 		<fuel level="LOW" min="1" max="3"/>
 		<fuel level="MED" min="2" max="4"/>
 		<fuel level="HIGH" min="3" max="6"/>
-		
+
 		<missiles level="LOW" min="1" max="2"/>
 		<missiles level="MED" min="2" max="4"/>
 		<missiles level="HIGH" min="4" max="8"/>
-		
+
 		<droneparts level="LOW" min="1" max="1"/>
 		<droneparts level="MED" min="1" max="1"/>
 		<droneparts level="HIGH" min="1" max="2"/>
 	</resourceRewards>
-	
+
 	<reward name="standard">
 		<reward minResources="2" maxResources="2">
 			<resource name="scrap"/>
@@ -1912,7 +1913,7 @@ Example:
 			</bonus>
 		</reward>
 	</reward>
-	
+
 	<reward name="stuff">
 		<reward minResources="2" maxResources="2">
 			<resource name="scrap" level="LOW"/>
@@ -1924,52 +1925,52 @@ Example:
 			</bonus>
 		</reward>
 	</reward>
-	
+
 	<reward name="scrap_only">
 		<reward>
 			<resource name="scrap"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="fuel">
 		<reward>
 			<resource name="scrap"/>
 			<resource name="fuel"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="missiles">
 		<reward>
 			<resource name="scrap"/>
 			<resource name="missiles"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="droneparts">
 		<reward>
 			<resource name="scrap"/>
 			<resource name="droneparts"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="fuel_only">
 		<reward>
 			<resource name="fuel"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="missiles_only">
 		<reward>
 			<resource name="missiles"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="droneparts_only">
 		<reward>
 			<resource name="droneparts"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="item">
 		<skipIfWeapon/>
 		<skipIfDrone/>
@@ -1981,7 +1982,7 @@ Example:
 			</bonus>
 		</reward>
 	</reward>
-	
+
 	<reward name="weapon">
 		<skipIfWeapon/>
 		<skipIfDrone/>
@@ -1990,7 +1991,7 @@ Example:
 			<resource name="scrap"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="drone">
 		<skipIfWeapon/>
 		<skipIfDrone/>
@@ -1999,7 +2000,7 @@ Example:
 			<resource name="scrap"/>
 		</reward>
 	</reward>
-	
+
 	<reward name="augment">
 		<skipIfWeapon/>
 		<skipIfDrone/>
@@ -2080,14 +2081,14 @@ Example:
 <shipGenerators>
 	<shipGenerator>
 		<difficultyMod difficulty="0">-1</difficultyMod>
-		
+
 		<sectorScaling difficulty="x">
 			<minValue>0.0</minValue>
 			<maxValue>1.0</maxValue>
 			<minSector>0</minSector>
 			<maxSector>8</maxSector>
 		</sectorScaling>
-		
+
 		<systemLevelScaling system="shields" difficulty="x">
 			<sectorScaling>
 				<minValue>0.0</minValue>
@@ -2111,19 +2112,19 @@ Example:
 <shipGenerators>
 	<shipGenerator>
 		<difficultyMod difficulty="0">-1</difficultyMod>
-		
+
 		<sectorScaling>
 			<minValue>0.0</minValue>
 			<maxValue>1.0</maxValue>
 			<minSector>0</minSector>
 			<maxSector>8</maxSector>
 		</sectorScaling>
-		
+
 		<systemLevelScaling difficulty="0">
 			<randomScaling>0</randomScaling>
 			<randomScaling sector="0">1</randomScaling>
 		</systemLevelScaling>
-		
+
 		<systemLevelScaling difficulty="1">
 			<randomScaling>0</randomScaling>
 			<randomScaling sector="0">1</randomScaling>
@@ -2189,17 +2190,17 @@ Due to the numerous trigger attributes, they are not listed in the example synta
 All trigger attributes except for enemyHullScaling and enemyDamageScaling also have a "min" and "max" version (e.g. minTime and maxTime) to allow for random rolls.
 The "loops" attribute also has "minLoops" and "maxLoops" for a random number of loops.
 
-Syntax -> 
+Syntax ->
 <events>
 	<bossShip yOffset="120">BOSS_BLUEPRINT</bossShip>                       Use the boss box for BOSS_BLUEPRINT. yOffset can be used to override the default boss offset.
-	
+
 	<eventFile>filename</eventFile>                                         Parses events_filename.xml for events using the vanilla parser.
-	
+
 	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
-	
+
 	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>                   See <variable> below for details. Applied at the start of the run.
 	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_" force="false"/> See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
-	
+
 	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
@@ -2213,7 +2214,7 @@ Syntax ->
 			...
 		</quest>
     </sector>
-	
+
 	<quest>                                      Specifies new defaults for quest spawning. This tag also exists for individual events to override the defaults.
 		<nonNebulaBeacon>true</nonNebulaBeacon>  Allows quests to spawn at non-nebula beacons.
 		<nebulaBeacon>false</nebulaBeacon>       Allows quests to spawn at nebula beacons.
@@ -2226,7 +2227,7 @@ Syntax ->
 		<nebulaEvent>NEBULA_EVENT</nebulaEvent>  Specifies a different event to override the quest event if a nebula beacon is selected.
 		<aggressive>0</aggressive>               Aggressive spawning flag. Ignores usual spawning restrictions based on player/fleet position. 0 is default. 1 will enable aggressive spawning if the quest would otherwise not
 	</quest>                                       spawn at all. 2 will enable aggressive spawning if the quest would otherwise not spawn in the current sector.
-	
+
 	<combatTimerPosition>              This is the origin point to use for triggeredEventBox when pos="combat".
 		<normalPos x="1259" y="110"/>  Used for the small combat box used for normal enemies.
         <bossPos x="1266" y="72"/>     Used for the large combat box used for the boss.
@@ -2247,7 +2248,7 @@ Syntax ->
 		<warning time="10.0" jumps="1" flash="true"/>               Specifies a warning threshold. Below this threshold, will use image2 and text2. If flash is true, then will flash between normal and warning images/colors.
 		<tooltip id="_id_">_text_</tooltip>                         Specifies tooltip when hovering over the box. Can be either text id or literal string.
 	</triggeredEventBox>
-	
+
 	<timerSounds name="TIMER_SOUNDS">         A list of sound effects to play when a timed triggeredEvent reaches certain time thresholds.
 		<timerSound t="5">sound</timerSound>  List each sound using a timerSound tag. The t attribute specifies at how many seconds to play the sound.
 		<timerSound t="4">sound</timerSound>
@@ -2256,7 +2257,7 @@ Syntax ->
 		<timerSound t="1">sound</timerSound>
 		<timerSound t="0">sound</timerSound>
 	</timerSounds>
-	
+
 	<beaconType name="BEACON_NAME" id="_id_" text="_text_" req="EQUIPMENT_REQ"                  Specifies a custom beacon label with the name BEACON_NAME which can be used by one or more events. Use either id to load a text
 	            global="false" persist="false" hideVanillaLabel="true">                           id or text for a literal text string. If global is true, then the beacon label is visible anywhere on the map. Otherwise it is
 	                                                                                              only visible if the player has been to an adjacent beacon or received a map update. The req tag can be used to specify a piece
@@ -2268,14 +2269,14 @@ Syntax ->
 		<unvisitedTooltip id="_id_">_text_</unvisitedTooltip>                                   Custom tooltip for if the beacon is discovered but unvisited. Can use either text id or literal string.
 		<visitedTooltip id="_id_">_text_</visitedTooltip>                                       Custom tooltip for if the beacon has been visited. Can use either text id or literal string.
 	</beaconType>
-	
+
 	<loadEventList name="LIST_NAME" seeded="true" first="false" default="DEF_EVENT"             Events that loadEvent LIST_NAME will load a random event from this list. seeded = "false" overrides loadEvent seeded.
 	               generate="false" ignoreUnique="false">                                         If first = "true", then load the first candidate instead of a random one. If default is specified, then load it if there are no
 		<event name="EVENT_NAME" req="EQUIP_NAME"/>                                               valid candidates. Both the req and the event's resource requirements must be met (unless that event specifies steal="true").
 		<event name="EVENT_NAME_2" req="REQ_NAME" lvl="1" max_lvl="999" max_group="0"/>           max_group works differently here than vanilla; it will always keep the first event whose req is satisfied and discard the rest.
 	</loadEventList>                                                                              If generate="true" and this is a root-level event, then the event is selected upon sector generation rather than on visit.
 	                                                                                              You can also create an event directly inside this tag rather than naming an event.
-	
+
 	<backgroundObject name="OBJECT_NAME">
 		<layer z="0">background/foreground/asteroids/player/playerfront/front</layer>           Either space layer, planet/fleet layer, asteroids background layer, or with the player ship.
 		                                                                                          The "player" and "playerfront" are positioned relative to the player ship's origin.
@@ -2314,7 +2315,7 @@ Syntax ->
 			...                                                                                   triggerActiveOnly does not freeze the timer but requires the object to be active to trigger the action.
 		</timerAction>                                                                            No limit on how many timer actions you can include.
 	</backgroundObject>
-	
+
 	<eventButton name="BUTTON_NAME">
 		<event load="EVENT_NAME"/>                                                              Name of an event to queue when clicked. Either load an event or define an event.
 		<image border="12">img_path</image>                                                     Path to button asset without extension. For text buttons this is the background.
@@ -2334,7 +2335,7 @@ Syntax ->
 		<noDanger>false</noDanger>                                                              Deactivate this button when the player is in danger (same as upgrade button).
 		<hideInactive>false</hideInactive>                                                      Hide this button when inactive (similar to store button).
 	</eventButton>
-	
+
 	<event name="CUSTOM_EVENT" recursive="true">                                                If recursive is true (default), then the same tags apply to all unnamed child events. Otherwise, it only applies to the
 	                                                                                              top-level event.
 		<beaconType load="BEACON_NAME" ...>                                                     Specifies custom beacon label type for this event. If the load attribute is specified, then loads the beacon label specified
@@ -2422,14 +2423,14 @@ Syntax ->
 			</req>
 			<triggeredEventBox load="DEFAULT_TIMER" ...>                                        Specifies a triggeredEventBox for this triggered event. If the load attribute is specified, then defaults will be loaded from
 				...                                                                               the specified definition, and individual parameters can be overwritten. Otherwise, a full definition is required. If not
-			</triggeredEventBox>                                                                  specified, then this triggered event will not have a box.                                                               
+			</triggeredEventBox>                                                                  specified, then this triggered event will not have a box.
 			<timerSounds load="DEFAULT_TIMER_SOUNDS">                                           Specifies timerSounds. If the load attribute is specified, then those timer sounds will be loaded and the ones specified here
 				...                                                                               will be appended. If not specified, then this triggered event will not have any sounds.
 			</timerSounds>
 			<warningMessage image="_image_" id="test_id" x="0" y="0" time="5.0"                 Adds warningMessage which appears when remaining time is less than specified time. Warning is image warning if image is specified,
 			                centerText="true" flash="true" r="253" g="84" b="70"                  text otherwise (either id or literal string). x/y for offset. RGB for text only. sound is sound to play when warning appears.
 							sound="_sound_" useWarningLine="true">Text</warningMessage>           useWarningLine puts the "WARNING!" header underlined with the text below it.
-		</triggeredEvent>                                                                       
+		</triggeredEvent>
 		<clearTriggeredEvent name="TR_ID"/>                                                     Cancels the trigger named TR_ID.
 		<triggeredEventModifier name="TR_ID" time="60.0" jumps="1" .../>                        Modifies the time or jumps remaining for a trigger named TR_ID.
 		<secretSectorWarp>SEC_ID</secretSectorWarp>                                             Specifies the name of the secret sector to send the player to (instead of the default crystal sector).
@@ -2468,7 +2469,7 @@ Syntax ->
 		<unlockCustomShip>PLAYER_SHIP_ID</unlockCustomShip>                                     Alias for unlockShip - same syntax. This alias must be used in events.xml files.
 		<achievement silent="false">ACH_ID</achievement>                                        Unlocks custom global achievement.
 	</event>
-	
+
 	<shipEvent name="CUSTOM_SHIP_EVENT">                                                        This is similar to custom events, but for ship events. These effects are triggered as soon as the ship spawns (even if not hostile).
 	                                                                                              They also trigger upon revisit.
 		<jumpEvent .../>                                                                        The syntax for these are the same as in an event.
@@ -2478,7 +2479,7 @@ Syntax ->
 		<triggeredEvent .../>
 		<clearTriggeredEvent .../>
 		<triggeredEventModifier .../>
-		
+
 		<invincible/>                                                                           Activate emergency FTL upon destruction similar to Flagship phases 1 and 2. No effect on gameplay.
 		<deadCrewAuto/>                                                                         When you kill the crew, the ship will become automated instead of neutral. The deadCrew event will still be loaded.
 		<finalBoss text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"    When you defeat this ship, you win the game. Credits show ONLY for mutual destruction; otherwise use <win> for credits.
@@ -2486,7 +2487,7 @@ Syntax ->
 		                                                                                          musicDelay will automatically restart the current sector's music if set to a positive value.
 		<miniBoss sound="victory" musicDelay="-1"/>                                             Similar to <finalBoss> but does not set a victory flag. Uses long death animation + sound (optional).
 	</shipEvent>
-	
+
 	<req name="CUSTOM_REQ" type="_type_" mult="1" const="0" lvl="1" max_lvl="0" load="BPLIST">  Custom requirements for blue options. If a choice req matches a requirement named here, then it will be checked. A custom req
 	                                                                                              checks the player's equipment against each of its entries and then performs the specified operation type. If type is "any" or
 	                                                                                              "max", then takes the highest value. If "all" or "min", then takes the lowest value. If "sum" or "count", then take the sum.
@@ -2497,19 +2498,19 @@ Syntax ->
 		<name>CUSTOM_REQ_2</name>                                                               If a custom req is named, then that custom req is evaluated, allowing for nested custom reqs.
 		<req .../>                                                                              Custom reqs can also be nested directly by placing another (unnamed) req tag inside a req tag.
 	</req>                                                                                      You can include as many <name> or <req> tags as you want.
-	
+
 	(Examples follow...)
-	
+
 	<bossShip>AUTO_ASSAULT_DLC</bossShip>
 	<eventFile>special</eventFile>
-	
+
 	<sector name="CIVILIAN_SECTOR">
         <exitBeacon event="BOARDERS" rebelEvent="FLEET_HARD" nebulaEvent="NEBULA_HOSTILE"/>
         <rebelBeacon event="BOARDERS" nebulaEvent="NEBULA_AUTO"/>
         <removeFirstBeaconNebula/>
         <nebulaSector>false</nebulaSector> -> Overrides the nebula sector flag for fleet pursuit.
     </sector>
-	
+
 	<triggeredEventBox name="DEFAULT_TIMER" pos="default/scrap/topright/combat" priority="0"> -> priority affects sorting order of multiple boxes in the same pos
 		<image name="statusUI/top_stopwatch.png" x="6" y="11" w="122" h="35" left="5" right="5" top="5" bottom="5" r="255" g="255" b="255" a="1.0"/> -> sets origin point of image, dimensions, margins, and tint
 		<image2 name="statusUI/top_stopwatch_red.png" r="255" g="255" b="255" a="1.0"/>
@@ -2519,7 +2520,7 @@ Syntax ->
 		<warning time="10.0" flash="true"/> -> use image2 and text2 below this time threshold
 		<tooltip id="tooltip_id"/> -> load tooltip
 	</triggeredEventBox>
-	
+
 	<triggeredEventBox name="DEFAULT_JUMPS">
 		<image name="statusUI/top_jumptimer.png" x="10" y="7" w="59" h="26" left="4" right="4" top="4" bottom="4"/>
 		<image2 name="statusUI/top_jumptimer_red.png"/>
@@ -2528,13 +2529,13 @@ Syntax ->
 		<warning jumps="1" flash="true"/> -> use image2 and text2 below this jump threshold
 		<tooltip>Tooltip</tooltip> -> literal tooltip
 	</triggeredEventBox>
-	
+
 	<event name="CIVILIAN_ASTEROIDS_BEACON_2" recursive="false">
 		<checkCargo/>
 		<removeHazards/>
 		<removeNebula/>
 	</event>
-	
+
 	<event name="TRADER_CIV">
 		<preventQuest/>
 		<noQuestText/>
@@ -2547,7 +2548,7 @@ Syntax ->
 		<playSound>sell</playSound>
 		<changeBackground>BACK_SECTOR_CIVILIAN</changeBackground>
 	</event>
-	
+
 	<event name="QUEST_DESTINATION">
 		<quest>
 			<nonNebulaBeacon>true</nonNebulaBeacon> (allows the quest to spawn at a non-nebula beacon, default true)
@@ -2556,88 +2557,88 @@ Syntax ->
 			<nextSector>true</nextSector> (allows the quest to spawn in the next sector(s), default true)
 			<sectorEight>false</sectorEight> (allows the quest to spawn in sector 8 including secret sectors, default is same as lastStand, forced true in infinite)
 			<lastStand>false</lastStand> (allows the quest to spawn in the last stand)
-			
+
 			<createNebula>true</createNebula> (adds the nebula background/effect to the event if a nebula beacon is selected, default true if nonNebulaBeacon is true and nebulaEvent is not set, otherwise false)
 			<nebulaEvent>NEBULA_QUEST_DESTINATION</nebulaEvent> (replaces the quest event with the named event if a nebula beacon is selected, default is to not replace the event)
-			
+
 			<aggressive>0</aggressive> (aggressive spawn (default 0/off), 1 = lower priority than next sector, 2 = higher priority than next sector)
 		</quest>
 	</event>
-	
+
 	<event name="CRYSTAL_TEST">
 		<secretSectorWarp>ENGI_HOME</secretSectorWarp>
 	</event>
-	
+
 	<event name="CREW_STUCK">
 		<recallBoarders/>
 	</event>
-	
+
 	<event name="FREE_WIN">
 		<win text="Custom event victory!" creditsText="credit_victory" creditsBackground="imageList"/>
 	</event>
-	
+
 	<event name="default_victory"> -> This is the default <win> tag for winning the game by killing the flagship
 		<win text="Custom event victory!" creditsText="credit_victory" creditsBackground="imageList"/>
 	</event>
-	
+
 	<event name="YOU_LOSE">
 		<lose text="Custom event defeat."/>
 	</event>
-	
+
 	<event name="FREE_HIDDEN_ENERGY_SHIELD" recursive="false">
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 	</event>
-	
+
 	<event name="LOAD_OTHER_BIG_EVENT">
 		<loadEvent name="BIG_EVENT" seeded="true"/>
 	</event>
-	
+
 	<event name="REMOVE_ITEMS">
 		<removeItem>HIDDEN ENERGY_SHIELD</removeItem>
 		<removeItem>NANO_MEDBAY</removeItem>
 	</event>
-	
+
 	<event name="UNLOCK_CUSTOM_SHIP">
 		<unlockShip>PLAYER_SHIP_CUSTOM</unlockShip>
 	</event>
-	
+
 	<event name="SANDBOX_GIVE_SCRAP">
 		<disableScrapScore/>
 	</event>
-	
+
 	<event name="STOREEVENT_STORE_CUSTOM" recursive="true">
 		<customStore>STORE_CUSTOM</customStore>
 	</event>
-	
+
 	<event name="CRYSTAL_HOME_ACCEPT">
 		<jumpEvent>GOTO_CRYSTAL_HOME</jumpEvent>
 	</event>
-	
+
 	<event name="JUMPEVENT_CLEAR">
 		<clearJumpEvent/>
 	</event>
-	
+
 	<event name="HACKER_SABOTAGE_FTL">
 		<resetFtl/>
 	</event>
-	
+
 	<event name="INVINCIBLE_MERCHANT">
 		<preventBossFleet forever="false"/> -> default allows fleet to overtake when no other beacons remain; forever="true" makes event stay forever (until visited)
 		<runFromFleet closest="true"/> -> when overtaken by fleet/boss the event will respawn at another beacon (default prefers nearby beacons)
 	</event>
-	
+
 	<event name="GOODBYE">
 		<instantEscape/>
 	</event>
-	
+
 	<event name="ENEMY_BOOM">
 		<enemyDamage amount="30" system="random" effect="random"/> -> same syntax as vanilla <damage> tag.
 	</event>
-	
+
 	<event name="GOTO_FLAGSHIP">
 		<goToFlagship atBase="false" allFleet="false"/> -> atBase advances the flagship to the base and forces the player to beat the flagship there; allFleet converts all other beacons to fleet-controlled.
 	</event>
-	
+
 	<event name="CREATE_TRIGGERED_EVENT">
 		<triggeredEvent name="EXAMPLE_TRIGGER" event="TRIGGERED_EVENT" seeded="true" thisFight="false" clearOnJump="false" loops="1" time="60.0">
 			<triggeredEventBox load="DEFAULT_TIMER" ...> -> You can either specify the full triggeredEventBox definition as above, or load a named triggeredEventBox and override specific parameters by including them here.
@@ -2656,25 +2657,25 @@ Syntax ->
 		<clearTriggeredEvent name="EXAMPLE_TRIGGER_TO_CLEAR"/>
 		<triggeredEventModifier name="EXAMPLE_TRIGGER_ADDTIME" time="60.0" jumps="3"/> -> can also use minTime/maxTime and/or minJumps/maxJumps for random modifier.
 	</event>
-	
+
 	<req name="CUSTOM_REQ" type="any/all/sum" mult="1" const="0"> -> "any" is synonomous with "max", "all" is synonomous with "min", "sum" is synonomous with "count"
 		<name>BLUEPRINT_1</name>
 		<name>BLUEPRINT_2</name>
 		<name>BLUEPRINT_3</name>
 	</req>
-	
+
 	<req name="HAS_UPG_MEDICAL" type="any" lvl="2"> -> when lvl or max_lvl is specified, becomes a boolean value (1 if the condition is met, 0 if not).
 		<name>medbay</name>
 		<name>clonebay</name>
 	</req>
-	
+
 	<req name="COUNT_HUMANS" type="sum" load="LIST_CREW_HUMAN"/> -> load keyword allows using an existing blueprintList instead of copying it into the req
-	
+
 	<req name="MAJORITY_HUMAN" type="sum"> -> example returns the number of humans minus the number of aliens
 		<name>COUNT_HUMANS</name> -> if name matches another custom req, that req is checked recursively
 		<req type="sum" load="LIST_CREW_ALIENS" mult="-1"/> -> can also nest req's directly
 	</req>
-	
+
 	<req name="KEYWORD_EXAMPLE"> -> these keywords work the same way as those directly used in a <choice>
 		<name>ANY LIST_WEAPONS_ION</name>
 		<name>ALL LIST_SUBSYSTEMS</name>
@@ -2687,11 +2688,11 @@ Syntax ->
 -->
 
 <events>
-	
+
 </events>
 
 
-<!-- 
+<!--
 
 About <scrollSpeed/> :
 "speed" is a multiplier if you want to adjust the speed.
@@ -2784,7 +2785,7 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="credits_loc_pt_BR" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
 	<text id="credits_loc_pt_BR_names" fontSize="18" horizontal="640" spacing="114" lineLenght="750"/>
 	<text id="credits_loc_ru" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
-	<text id="credits_loc_ru_names" fontSize="18" horizontal="640" spacing="248" lineLenght="750"/> 
+	<text id="credits_loc_ru_names" fontSize="18" horizontal="640" spacing="248" lineLenght="750"/>
 	<text id="credits_loc_ja" fontSize="14" horizontal="640" spacing="40" lineLenght="750"/>
 	<text id="credits_loc_ja_84" fontSize="18" horizontal="640" spacing="60" lineLenght="750"/>
 	<text id="credits_loc_ja_names" fontSize="18" horizontal="640" spacing="214" lineLenght="750"/>
@@ -2861,27 +2862,27 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="credits_hyperspace_loc" fontSize="18" horizontal="640" spacing="90" lineLenght="750"/>
 
 	<!-- Hyperspace Translations -->
-	<!-- 1st. Row --> 
+	<!-- 1st. Row -->
 	<text id="credits_hyperspace_loc_fr" fontSize="14" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_it" fontSize="14" horizontal="853" spacing="40" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_fr_names" fontSize="18" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_it_names" fontSize="18" horizontal="853" spacing="70" lineLenght="750"/>
-	<!-- 2nd. Row --> 
+	<!-- 2nd. Row -->
 	<text id="credits_hyperspace_loc_de" fontSize="14" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_es" fontSize="14" horizontal="853" spacing="40" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_de_names" fontSize="18" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_es_names" fontSize="18" horizontal="853" spacing="70" lineLenght="750"/>
-	<!-- 3rd. Row --> 
+	<!-- 3rd. Row -->
 	<text id="credits_hyperspace_loc_pl" fontSize="14" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_pt_BR" fontSize="14" horizontal="853" spacing="40" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_pl_names" fontSize="18" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_pt_BR_names" fontSize="18" horizontal="853" spacing="70" lineLenght="750"/>
-	<!-- 4th. Row --> 
+	<!-- 4th. Row -->
 	<text id="credits_hyperspace_loc_ru" fontSize="14" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_zn_Hans" fontSize="14" horizontal="853" spacing="40" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_ru_names" fontSize="18" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_zn_Hans_names" fontSize="18" horizontal="853" spacing="70" lineLenght="750"/>
-	<!-- 5th. Row --> 
+	<!-- 5th. Row -->
 	<text id="credits_hyperspace_loc_ja" fontSize="14" horizontal="427" spacing="0" lineLenght="750"/>
 	<text id="credits_hyperspace_loc_ko" fontSize="14" horizontal="853" spacing="40"lineLenght="750"/>
 	<text id="credits_hyperspace_loc_ja_names" fontSize="18" horizontal="427" spacing="0"lineLenght="750"/>
@@ -2916,7 +2917,7 @@ Example in form of the Vanilla credits rewritten in XML:
 		<human room="14"/>
 		<human room="18"/>
 	</crew>
-	<surgeDrones>    
+	<surgeDrones>
 		<drone difficulty="0" name="COMBAT_1" count="2"/>
 		<drone difficulty="0" name="COMBAT_BEAM" count="2"/>
 		<drone difficulty="1" name="COMBAT_1" count="3"/>
@@ -2925,7 +2926,7 @@ Example in form of the Vanilla credits rewritten in XML:
 		<drone difficulty="2" name="COMBAT_BEAM" count="3"/>
 	</surgeDrones>
 <!--
-	<surgeBarrage>    
+	<surgeBarrage>
 		<weapon difficulty="0" name="LASER_HEAVY_1_1DMG" count="7"/>  The barrage syntax is similar to surgeDrones. However, you can also exclude the difficulty and it will spawn at all difficulties.
 		<weapon difficulty="1" name="LASER_HEAVY_1_1DMG" count="7"/>    All weapon types work. All weapons fire a single shot except for BURST (e.g. flak) which fires a single blast.
 		<weapon difficulty="2" name="LASER_HEAVY_1_1DMG" count="7"/>    The vanilla barrage uses the LASER_HEAVY_1 blueprint but sets the damage to 1.
@@ -2935,11 +2936,11 @@ Example in form of the Vanilla credits rewritten in XML:
 
 <!-- Custom Stores
 	The Custom Store id will be what is used to spawn the store from a custom event
-	
+
 	Prices:
 		These same tags can be used for the price of any item/resource/hull repair
 		flat or not flat determines whether the amount is just added onto the price of the item or if it's a multiplier respectively
-		
+
 		<item>
 			<price>10</price>         Option 1: Set price (if price is not set, defaults to -1 meaning it will use the blueprint price)
 			<price min="5" max="10"/> Option 2: Min-max price, uses random between min-max if not <sectorScaled/>
@@ -2949,49 +2950,49 @@ Example in form of the Vanilla credits rewritten in XML:
 			<modifier flat="false">0.8</modifier>        Option 1: Set modifier (flat is false by default)
 			<modifier min="0.5" max="0.9" flat="false"/> Option 2: random modifier between min-max
 		</item>
-	
+
 	Hull repair:
 		If a hullRepair tag is not set, you will not be able to repair your hull at the store
-		
+
 	Resources:
 		type can be "missiles", "drones", or "fuel"
 		count can either have min and max attributes, or a set amount
-		
+
 	Category:
 		A store category has 3 (or fewer) items of a specific type inside it
 		the type for a category can be: "WEAPONS", "DRONES", "AUGMENTS", "CREW", "SYSTEMS"
-		
+
 		Stores can have infinite categories, pages will be created to accomodate them
-		
+
 		customTitle is the title that appears above the store items. If it's not set it will use the default for the type
-		
+
 		A category can have a group that it belongs to
 		Only one category per group is displayed, unless a group is not set
 		The groupChance determines the chance that the category will be chosen
 		If a groupChance is not set for a category, it will evenly distribute the chance between the categories that don't have a groupChance set (while keeping the chance for the ones that do have it set)
 		NOTE: the sum of all groupChances in a group should never go beyond 100
-		
+
 		allowDuplicates sets whether or not duplicate checking is enabled for that single category (duplicate checking is only used for items using a blueprintList)
-		
+
 		chance is the chance that the category shows up at all (this is rolled separately from groupChance)
-		
+
 	Item:
 		blueprint can either be empty or a blueprint/blueprintList - if it is empty, it will use vanilla generation
 		mysteryItem decides whether or not you can see what the item is before purchasing
-		
+
 		System id list: shields, engines, oxygen, weapons, drones, medbay, pilot, sensors, doors, teleporter, cloaking, artillery, battery, clonebay, mind, hacking
-	
-	Item purchase limit sets the number of total items that can be purchased from a store	
-	
+
+	Item purchase limit sets the number of total items that can be purchased from a store
+
     <customStore id="STORE_CUSTOM">
         <itemPurchaseLimit>2</itemPurchaseLimit>
-		
+
 		<hullRepair>
 			<price min="3" max="8"/>
 			<sectorScaled/>
 			<modifier min="-2" max="2" flat="true"/>
 		</hullRepair>
-		
+
 		<resource>
 			<type>missiles</type>
 			<count min="8" max="20"/>
@@ -3002,7 +3003,7 @@ Example in form of the Vanilla credits rewritten in XML:
 			<count min="8" max="20"/>
 			<price>2</price>
 		</resource>
-		
+
 		With the two categories below, there is a 25% chance that the category chosen will be the mystery item category, with items chosen from the MYSTERY_ITEM_POOL blueprintList
 		(Meaning there is a 75% chance of choosing the non-mystery item category, which will contain visible items from a STORE_CUSTOM_WEAPON_POOL blueprintList)
 		<category type="WEAPONS" group="1">
@@ -3010,18 +3011,18 @@ Example in form of the Vanilla credits rewritten in XML:
                 <blueprint>MYSTERY_ITEM_POOL</blueprint>
                 <modifier min="0.8" max="1.1" flat="false"/>
 				<mysteryItem>true</mysteryItem>
-            </item>    
+            </item>
             <item>
                 <blueprint>MYSTERY_ITEM_POOL</blueprint>
                 <modifier min="0.8" max="1.1" flat="false"/>
 				<mysteryItem>true</mysteryItem>
-            </item>    
+            </item>
             <item>
                 <blueprint>MYSTERY_ITEM_POOL</blueprint>
                 <modifier min="0.8" max="1.1" flat="false"/>
 				<mysteryItem>true</mysteryItem>
-            </item>   
-			
+            </item>
+
 			<groupChance>25</groupChance>
         </category>
 		<category type="WEAPONS" group="1">
@@ -3029,33 +3030,33 @@ Example in form of the Vanilla credits rewritten in XML:
             <item>
                 <blueprint>STORE_CUSTOM_WEAPON_POOL</blueprint>
                 <modifier min="0.8" max="1.1" flat="false"/>
-            </item> 
+            </item>
 			<item>
                 <blueprint>STORE_CUSTOM_WEAPON_POOL</blueprint>
                 <modifier min="0.8" max="1.1" flat="false"/>
-            </item>    			
+            </item>
             <item>
                 <blueprint>STORE_CUSTOM_WEAPON_POOL</blueprint>
                 <modifier min="0.8" max="1.1" flat="false"/>
             </item>
         </category>
-		
+
 		<category type="SYSTEMS"> This spawn a weapons system at the weapon system blueprint price 50% of the time
 			<chance>50</chance>
 			<item>
 				<blueprint>weapons</blueprint>
 			</item>
 		</category>
-		
+
 		<category type="DRONES"> This category will use vanilla generation of drone schematics, but discount them
 			<item>
                 <modifier min="0.5" max="0.8" flat="false"/>
 			</item>
-			
+
 			<item>
                 <modifier min="0.5" max="0.8" flat="false"/>
 			</item>
-			
+
 			<item>
                 <modifier min="0.5" max="0.8" flat="false"/>
 			</item>
@@ -3076,8 +3077,8 @@ Example in form of the Vanilla credits rewritten in XML:
 <!-- For compatibility with the old display image (no shopping cart icon), if this tag is missing, the purchase limit number remains in the conventional position, which is incompatible with the current image due to overlapping. -->
 
 <purchaseLimitNumber fontSize="0" x="-16" y="106"/>
-  
-  
+
+
 <!-- Define an upper limit for system upgrade costs. "threshold" or bigger value will be replaced with the string specified by "replace". Note that this is just a visual fix; player can still purchase the system if they have enough scrap. -->
 
 <systemNoPurchaseThreshold enabled="false" threshold="9999" replace="--"/>
@@ -3099,7 +3100,7 @@ It takes 4 tags as children: <normal/>, <hover/>, <disabled/>, <blue_option/>.
 	Missing any tag means not replacing that color.
 
 	Each tags takes 4 attribute: r, g, b, a. Each value is ranged 0 to 255.
-	You need to specify r(red), g(green) and b(blue). a(opacity) is optional, if missing it defaults to 255. 
+	You need to specify r(red), g(green) and b(blue). a(opacity) is optional, if missing it defaults to 255.
 
 
 <customChoiceColors enabled="true">

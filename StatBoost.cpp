@@ -711,7 +711,7 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
                     }
 
                     statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
@@ -732,7 +732,7 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
                     }
 
                     statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(i));
@@ -800,7 +800,7 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
                     }
 
                     statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
@@ -821,7 +821,7 @@ void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCre
                     }
 
                     statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(SYS_TEMPORAL));
-                            
+
                     for (int i = SYS_CUSTOM_FIRST; i <= CustomUserSystems::GetLastSystemId(); ++i)
                     {
                         statBoost.sourceRoomIds.second.push_back(playerShip->GetSystemRoom(i));
@@ -2779,7 +2779,7 @@ float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
     {
         // Calculate power scaling
         int numPower = 0;
-        float sysPowerScaling = statBoost.def->powerScalingNoSys;
+        float sysPowerScaling = statBoost.def->systemPowerScaling.empty() ? 1.f : statBoost.def->powerScalingNoSys;
         bool systemExists = false;
         for (auto system : statBoost.def->systemPowerScaling)
         {
@@ -2817,17 +2817,18 @@ float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
         }
         if (systemExists)
         {
-            sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+            if (!statBoost.def->powerScaling.empty()) sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+            else sysPowerScaling = numPower > 0 ? 1.f : 0.f;
         }
         return sysPowerScaling;
     };
 
 
-    //Determine target    
+    //Determine target
     switch (statBoost.def->powerScalingShipTarget)
     {
         //ALL: Scales with the sum of the systems on both ships.
-        case StatBoostDefinition::ShipTarget::ALL: return CalculatePowerShip(0) + CalculatePowerShip(1); 
+        case StatBoostDefinition::ShipTarget::ALL: return CalculatePowerShip(0) + CalculatePowerShip(1);
         //PLAYER_SHIP and ENEMY_SHIP: Scales with a specific ship, irrespective of the source of the stat boost.
         case StatBoostDefinition::ShipTarget::PLAYER_SHIP: return CalculatePowerShip(0);
         case StatBoostDefinition::ShipTarget::ENEMY_SHIP: return CalculatePowerShip(1);
@@ -2880,7 +2881,7 @@ float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
 
         }
         //CURRENT_ROOM: Invalid for augment boosts. For crew boosts, scales only with a system if the providing crew is in that room.
-        case StatBoostDefinition::ShipTarget::CURRENT_ROOM: 
+        case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
         {
             if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
             {
@@ -2888,7 +2889,7 @@ float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
             }
         }
         default: return statBoost.def->powerScalingNoSys;
-    }    
+    }
 }
 
 float StatBoostManager::CalculateStatDummy(CrewStat stat, CrewDefinition *def, int ownerId, int shipId, int roomId)
