@@ -31,6 +31,39 @@
 #include "CustomDamage.h"
 %}
 
+//This macro defines a wrapper class for any exposed arrays of TYPE with length SIZE
+%define %array_wrapper(TYPE, NAME, SIZE)
+
+    %{
+        typedef TYPE NAME[SIZE];
+    %}
+    %nodefaultctor NAME;
+    %nodefaultdtor NAME;
+    %rename("%s") NAME;
+
+    class NAME 
+    {
+    public:
+        %extend {
+    
+            const TYPE __getitem__(const std::size_t idx) throw (std::out_of_range)
+            {
+                if (idx < 0 || idx >= SIZE) throw std::out_of_range("Index out of range");
+                return (*self)[idx];
+            }
+            void __setitem__(const std::size_t idx, TYPE value) throw (std::out_of_range)
+            {
+                if (idx < 0 || idx >= SIZE) throw std::out_of_range("Index out of range");
+                (*self)[idx] = value;
+            }
+        }
+    };
+    %typemap(out) TYPE[SIZE]
+    {
+        SWIG_NewPointerObj(L, (NAME*) &$1, $descriptor(NAME*), $owner); SWIG_arg++;
+    }
+%enddef
+
 %feature("flatnested");
 //New method of dealing with polymorphic/dynamic types using SWIG's inheritence system and typemaps
 //For example, the std::vector<SpaceDrone*> indexing method returns a SpaceDrone*, which may be a pointer to a subclass of SpaceDrone
@@ -962,7 +995,7 @@ playerVariableType playerVariables;
 %rename("%s") Button::SetImageBase;
 %rename("%s") Button::SetInactiveImage;
 %rename("%s") Button::SetLocation;
-
+%array_wrapper(GL_Texture*, GL_Texture_Pointer_Array_Size_3_Wrapper, 3);
 %rename("%s") Button::images;
 %rename("%s") Button::primitives;
 %rename("%s") Button::imageSize;
