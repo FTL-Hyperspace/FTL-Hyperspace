@@ -2361,6 +2361,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.boss_visual`
    - **Read-only**
 
+
+## CrewControl
+
+### Fields
+- [`std::vector<CrewMember*>`](#CrewMember) `.selectedCrew`
+- [`std::vector<CrewMember*>`](#CrewMember) `.potentialSelectedCrew`
+- [`Point`](#Point) `.firstMouse`
+- [`Point`](#Point) `.currentMouse`
+- [`Point`](#Point) `.worldFirstMouse`
+- [`Point`](#Point) `.worldCurrentMouse`
+
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields
