@@ -1282,6 +1282,10 @@ No methods are exposed currently.
 
 ## Room
 
+### Methods
+- `void :FillSlot(int slot, bool intruder)`
+   - Set the slot to occupied. To empty the slot, use `Ship:EmptySlots`.
+
 ### Fields
 - `bool` `.bBlackedOut`
 - [`Globals::Rect`](#Globals) `.rect`
