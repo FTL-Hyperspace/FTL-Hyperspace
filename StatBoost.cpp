@@ -2779,7 +2779,7 @@ float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
     {
         // Calculate power scaling
         int numPower = 0;
-        float sysPowerScaling = statBoost.def->powerScalingNoSys;
+        float sysPowerScaling = statBoost.def->systemPowerScaling.empty() ? 1.f : statBoost.def->powerScalingNoSys;
         bool systemExists = false;
         for (auto system : statBoost.def->systemPowerScaling)
         {
@@ -2817,7 +2817,8 @@ float CrewMember_Extend::CalculatePowerScaling(const StatBoost& statBoost)
         }
         if (systemExists)
         {
-            sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+            if (!statBoost.def->powerScaling.empty()) sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+            else sysPowerScaling = numPower > 0 ? 1.f : 0.f;
         }
         return sysPowerScaling;
     };
