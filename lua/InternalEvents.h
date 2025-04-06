@@ -84,6 +84,7 @@ struct InternalEvents
         SYSTEM_BOX_MOUSE_CLICK,
         SYSTEM_BOX_KEY_DOWN,
         GET_LEVEL_DESCRIPTION,
+        CALCULATE_LEAK_MODIFIER,
 
         //Constructor Events
 
@@ -179,6 +180,7 @@ struct InternalEvents
             {"function system_box_mouse_click(SystemBox& systemBox, bool shift) return Chain", 2, false},
             {"function system_box_key_down(SystemBox& systemBox, SDLKey key, bool shift) return Chain", 3, false},
             {"function get_level_description(int systemId, int level, bool tooltip) return description_string", 3, false},
+            {"function calculate_leak_modifier(ShipManager& ship, float leakModifier) return Chain, leakModifier", 2, false},
             {"function construct_crewmember(CrewMember& crew)", 1, false},
             {"function construct_spacedrone(SpaceDrone& drone)", 1, false},
             {"function construct_projectile_factory(ProjectileFactory& weapon)", 1, false},
