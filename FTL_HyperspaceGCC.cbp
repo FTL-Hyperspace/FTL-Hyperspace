@@ -1100,6 +1100,9 @@
 		<Unit filename="EnumClassHash.h">
 			<Option virtualFolder="PAL/" />
 		</Unit>
+		<Unit filename="Environments.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="Equipment_Extend.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
