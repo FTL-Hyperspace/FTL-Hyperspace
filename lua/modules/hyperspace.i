@@ -31,6 +31,39 @@
 #include "CustomDamage.h"
 %}
 
+//This macro defines a wrapper class for any exposed arrays of TYPE with length SIZE
+%define %array_wrapper(TYPE, NAME, SIZE)
+
+    %{
+        typedef TYPE NAME[SIZE];
+    %}
+    %nodefaultctor NAME;
+    %nodefaultdtor NAME;
+    %rename("%s") NAME;
+
+    class NAME
+    {
+    public:
+        %extend {
+
+            const TYPE __getitem__(const std::size_t idx) throw (std::out_of_range)
+            {
+                if (idx < 0 || idx >= SIZE) throw std::out_of_range("Index out of range");
+                return (*self)[idx];
+            }
+            void __setitem__(const std::size_t idx, TYPE value) throw (std::out_of_range)
+            {
+                if (idx < 0 || idx >= SIZE) throw std::out_of_range("Index out of range");
+                (*self)[idx] = value;
+            }
+        }
+    };
+    %typemap(out) TYPE[SIZE]
+    {
+        SWIG_NewPointerObj(L, (NAME*) &$1, $descriptor(NAME*), $owner); SWIG_arg++;
+    }
+%enddef
+
 %feature("flatnested");
 //New method of dealing with polymorphic/dynamic types using SWIG's inheritence system and typemaps
 //For example, the std::vector<SpaceDrone*> indexing method returns a SpaceDrone*, which may be a pointer to a subclass of SpaceDrone
@@ -39,8 +72,8 @@
 %apply SWIGTYPE *DYNAMIC {SpaceDrone*};
 //Typecasting functions and their implementations are detailed here: https://github.com/swig/swig/blob/8fd4df01bd4111e5f7322fe4f9d4817ffd6f0c6d/CHANGES#L23922
 %{
-    static swig_type_info* SpaceDrone_dynamic_cast(SpaceDrone** ppSpaceDrone) 
-    {     
+    static swig_type_info* SpaceDrone_dynamic_cast(SpaceDrone** ppSpaceDrone)
+    {
         //Normally we would be expected to adjust the SpaceDrone* pointed to by ppSpaceDrone using something like
         //*ppSpaceDrone = dynamic_cast<DerivedType*>(*ppSpaceDrone);
         //Hyperspace currently only uses a single inheritence model for FTLGame classes
@@ -55,8 +88,8 @@ DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 %apply SWIGTYPE *DYNAMIC {Projectile*};
 
 %{
-    static swig_type_info* Projectile_dynamic_cast(Projectile** ppProjectile) 
-    {     
+    static swig_type_info* Projectile_dynamic_cast(Projectile** ppProjectile)
+    {
         if (!ppProjectile || !(*ppProjectile)) return nullptr;
         return Global::GetInstance()->getLuaContext()->getLibScript()->types.pProjectile[(*ppProjectile)->GetType()];
     }
@@ -148,7 +181,7 @@ namespace std {
         unsigned int size() const;
         bool empty() const;
         void clear();
-        
+
         %extend {
             const T& get(const K& key) throw (std::out_of_range) {
                 auto it = self->find(key);
@@ -176,11 +209,11 @@ namespace std {
             std::pair<K, T>* __getitem__(unsigned int idx) throw(std::out_of_range) {
                 if (idx >= self->size())
                     throw std::out_of_range("index out of range");
-                
+
                 auto it = self->begin();
                 for (unsigned int i = 0; i < idx; ++i)
                     ++it;
-                
+
                 return new std::pair<K, T>(it->first, it->second);
             }
             void __setitem__(const K& key, const T& value) {
@@ -284,17 +317,17 @@ OBSOLETE METHOD FOR DOWNCASTING:
 
         SWIG_check_num_args("Get_Drone_Subclass",1,1)
         if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Get_Drone_Subclass",1,"SpaceDrone *");
-        
+
         if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceDrone,0))){
             SWIG_fail_ptr("Get_Drone_Subclass",1,SWIGTYPE_p_SpaceDrone);
         }
-        
 
-        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->type], 0); SWIG_arg++; 
+
+        SWIG_NewPointerObj(L, arg1, Global::GetInstance()->getLuaContext()->getLibScript()->types.pSpaceDroneTypes[arg1->type], 0); SWIG_arg++;
         return SWIG_arg;
-        
+
         if(0) SWIG_fail;
-        
+
         fail:
         lua_error(L);
         return SWIG_arg;
@@ -332,7 +365,7 @@ OBSOLETE METHOD FOR DOWNCASTING:
 %apply const std::string& {std::string* GetName()};
 
 %rename("App") Global_CApp;
-%rename("Blueprints") Global_BlueprintManager_Blueprints; 
+%rename("Blueprints") Global_BlueprintManager_Blueprints;
 %rename("Sounds") Global_SoundControl_Sounds;
 %rename("Animations") Global_AnimationControl_Animations;
 %rename("CrewFactory") Global_CrewMemberFactory_Factory;
@@ -434,7 +467,7 @@ void ErrorMessage(const char* msg);
             error("ships is immutable", 2)
         end,
         __call = function(ships, shipId)
-            if shipId ~= 0 and shipId ~= 1 then 
+            if shipId ~= 0 and shipId ~= 1 then
                 error("Invalid shipId!", 2)
             else
                 return Hyperspace.Global.GetInstance():GetShipManager(shipId)
@@ -469,7 +502,7 @@ struct CFPS
 %init %{
         SWIG_Lua_get_class_metatable(L, "CFPS"); //Get CFPS metatable.
         SWIG_Lua_get_table(L, ".get");
-        SWIG_Lua_add_function(L, "speedEnabled", 
+        SWIG_Lua_add_function(L, "speedEnabled",
         [](lua_State* L) -> int
         {
             lua_pushboolean(L, speedEnabled);
@@ -477,7 +510,7 @@ struct CFPS
         });
         lua_pop(L, 1);             //Remove .get table
         SWIG_Lua_get_table(L, ".set");
-        SWIG_Lua_add_function(L, "speedEnabled", 
+        SWIG_Lua_add_function(L, "speedEnabled",
         [](lua_State* L) -> int
         {
             SWIG_check_num_args("CFPS::speedEnabled", 2, 2)
@@ -616,7 +649,7 @@ playerVariableType playerVariables;
 %nodefaultctor Sector;
 %rename("%s") Sector;
 %rename("%s") Sector::visited;
-%immutable Sector::level;   
+%immutable Sector::level;
 %rename("%s") Sector::level;
 %immutable Sector::description;
 %rename("%s") Sector::description;
@@ -826,7 +859,7 @@ playerVariableType playerVariables;
 %rename("%s") LocationEvent::stuff;
 %rename("%s") LocationEvent::environment;
 %rename("%s") LocationEvent::environmentTarget;
-%rename("%s") LocationEvent::store; 
+%rename("%s") LocationEvent::store;
 %rename("%s") LocationEvent::gap_ex_cleared;
 %rename("%s") LocationEvent::fleetPosition;
 %rename("%s") LocationEvent::beacon;
@@ -872,7 +905,7 @@ playerVariableType playerVariables;
 %rename("%s") FocusWindow::bFullFocus;
 %rename("%s") FocusWindow::bCloseButtonSelected;
 
-%rename("%s") ChoiceReq; 
+%rename("%s") ChoiceReq;
 %rename("%s") ChoiceReq::object;
 %rename("%s") ChoiceReq::min_level;
 %rename("%s") ChoiceReq::max_level;
@@ -962,8 +995,9 @@ playerVariableType playerVariables;
 %rename("%s") Button::SetImageBase;
 %rename("%s") Button::SetInactiveImage;
 %rename("%s") Button::SetLocation;
-
+%array_wrapper(GL_Texture*, GL_Texture_Pointer_Array_Size_3_Wrapper, 3);
 %rename("%s") Button::images;
+%array_wrapper(GL_Primitive*, GL_Primitive_Pointer_Array_Size_3_Wrapper, 3);
 %rename("%s") Button::primitives;
 %rename("%s") Button::imageSize;
 %rename("%s") Button::bMirror;
@@ -1025,7 +1059,7 @@ playerVariableType playerVariables;
 %rename("%s") MouseControl::SetDoor;
 %rename("%s") MouseControl::SetTooltip;
 %rename("%s") MouseControl::SetTooltipTitle;
-	
+
 %rename("%s") MouseControl::position;
 %rename("%s") MouseControl::lastPosition;
 %rename("%s") MouseControl::aiming_required;
@@ -1546,7 +1580,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
 %immutable ShipManager::current_target;
-%rename("%s") ShipManager::current_target; 
+%rename("%s") ShipManager::current_target;
 %immutable ShipManager::jump_timer;
 %rename("%s") ShipManager::jump_timer;
 //%immutable ShipManager::fuel_count;
@@ -2339,7 +2373,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Ship::iShipId; // just in case
 %rename("%s") Ship::vRoomList; // TODO: Expose Room
 %rename("%s") Ship::vDoorList;
-%rename("%s") Ship::vOuterWalls; 
+%rename("%s") Ship::vOuterWalls;
 %rename("%s") Ship::vOuterAirlocks;
 %rename("%s") Ship::hullIntegrity;
 %rename("%s") Ship::weaponMounts;
@@ -3240,7 +3274,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %rename("%s") CrewMemberFactory::GetCloneReadyList;
 %extend CrewMemberFactory {
-   
+
     //Overload for returning vector in lua, pass by reference still works but this simplifies things.
     std::vector<CrewMember*> GetCloneReadyList(bool player)
     {
@@ -3492,7 +3526,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") DefenseDrone::PickTarget;
 %rename("%s") DefenseDrone::SetWeaponTarget;
 %rename("%s") DefenseDrone::ValidTargetObject;
-	
+
 %rename("%s") DefenseDrone::currentTargetId;
 %rename("%s") DefenseDrone::shotAtTargetId;
 %rename("%s") DefenseDrone::currentSpeed;
@@ -3505,7 +3539,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %rename("%s") CombatDrone;
 %rename("%s") CombatDrone::SetWeaponTarget;
-	
+
 %rename("%s") CombatDrone::lastDestination;
 %rename("%s") CombatDrone::progressToDestination;
 %rename("%s") CombatDrone::heading;
@@ -3521,7 +3555,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") BoarderPodDrone::CollisionMoving;
 %rename("%s") BoarderPodDrone::SetDeployed;
 %rename("%s") BoarderPodDrone::SetMovementTarget;
-	
+
 %rename("%s") BoarderPodDrone::baseSheet;
 %rename("%s") BoarderPodDrone::colorSheet;
 %rename("%s") BoarderPodDrone::startingPosition;
@@ -3540,7 +3574,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") HackingDrone::CollisionMoving;
 %rename("%s") HackingDrone::OnLoop;
 %rename("%s") HackingDrone::SetMovementTarget;
-	
+
 %rename("%s") HackingDrone::startingPosition;
 %rename("%s") HackingDrone::droneImage_on;
 %rename("%s") HackingDrone::droneImage_off;
@@ -3588,7 +3622,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %immutable DroneBlueprint::combatIcon;
 %rename("%s") DroneBlueprint::combatIcon;
 
-%luacode { 
+%luacode {
     --function to strip prefixes before adding enum to table
     local function CreateEnumTable(prefix, table, key, value)
         if key:find(prefix) then
@@ -3739,7 +3773,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 //%rename("%s") ActivatedPowerDefinition::HOTKEY_SETTING;
 //%rename("%(regex:/^(\\w+::\\w+::(.*))$/\\u\\2/)s", regextarget=1, fullname=1) "ActivatedPowerDefinition::HOTKEY_SETTING::.*";
 //
-//%luacode { 
+//%luacode {
 //    --Create ActivatedPowerDefinition enum tables
 //    Hyperspace.ActivatedPowerDefinition.JUMP_COOLDOWN = {}
 //    Hyperspace.ActivatedPowerDefinition.DISABLED_COOLDOWN = {}
@@ -3786,7 +3820,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") PowerResourceDefinition::showTemporaryBars;
 %rename("%s") PowerResourceDefinition::showLinkedCooldowns;
 %rename("%s") PowerResourceDefinition::showLinkedCharges;
-%rename("%s") PowerResourceDefinition::cooldownColor; 
+%rename("%s") PowerResourceDefinition::cooldownColor;
 %rename("%s") PowerResourceDefinition::chargeReq;
 
 // Require the .h definition of those enums to be `enum class`, but this breaks a lot of established code that would need to be fixed
