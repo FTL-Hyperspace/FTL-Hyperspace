@@ -18,6 +18,8 @@ cleanup __amd64 int ShipManager::DamageHull(ShipManager *this, int dmg, bool for
 cleanup __amd64 void ShipManager::ModifyScrapCount(ShipManager *this, int scrap, bool income);
 ".4156415541544989fc5589f553488bb7c8000000":
 cleanup __amd64 CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
+".55??89fd53??83ec08??8b87c0000000??8b8fc8000000??29c1??c1f903??85c974??":
+cleanup __amd64 void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember *crew);
 ".415731c931d2":
 cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint *bp);
 ".8b05????????c787700600001e00000083f801":
@@ -262,4 +264,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
+	
+	bool CanFitCrew(const std::string& crewName);
+
 }};

@@ -2822,6 +2822,28 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+    // Fix an issue where HasEquipment only checks the rightmost artillery system's level
+    int ret = super(equipment);
+
+    if (equipment == "artillery")
+    {
+        ShipManager *ship = G_->GetShipManager(iShipId);
+        if (ship)
+        {
+            for (ArtillerySystem *artillery : ship->artillerySystems)
+            {
+                int lvl = artillery->powerState.second;
+                if (lvl > ret) ret = lvl;
+            }
+        }
+    }
+
+    return ret;
+}
+
 int ShipObject::HasItem(const std::string& equip)
 {
     int ret = 0;
@@ -3303,10 +3325,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
             i->nebula = i->nebula || i->fleetChanging || i->dangerZone;
             if (!i->nebula) // check fleet arc
             {
-                int dangerMove = 0;
-                if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
-                Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
-                i->nebula = i->loc.RelativeDistance(nextDangerZone) < 588289.f;
+                i->nebula = WillBeOvertaken(i);
             }
         }
     }
@@ -3528,6 +3547,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->fleetChanging = false;
             }
         }
+        //Vanilla doesn't update fleetChanging when fleet delay prevents the fleet from overtaking a beacon that would have been otherwise.
+        if (i->fleetChanging && !WillBeOvertaken(i) && !bossLevel) i->fleetChanging = false;
     }
 
     for (auto i : locLabelValues)
@@ -4079,7 +4100,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void RecallBoarders(int direction, bool force)
+void RecallBoarders(int direction, bool force, bool effects)
 {
     int targetRoom;
     bool canTeleport;
@@ -4106,6 +4127,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     playerShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    } 
                 }
             }
         }
@@ -4126,6 +4152,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     enemyShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    } 
                 }
             }
         }
@@ -7189,4 +7220,45 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
+}
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
+    super(event);
+    auto& choices = G_->GetCApp()->gui->choiceBox.choices;
+    const std::string dismissWarning = G_->GetTextLibrary()->GetText("event_crew_full");
+    for (auto& choice : choices)
+    {
+        if (playerShip->shipManager->CanFitCrew(choice.rewards.crewBlue.name))
+        {
+            boost::algorithm::replace_all(choice.text, dismissWarning, "");
+        }
+        else if (!choice.rewards.crewBlue.name.empty() && !boost::algorithm::contains(choice.text, dismissWarning))
+        {
+            choice.text += " " + dismissWarning;
+
+        }
+    }
+}
+
+//Prevent crew from cloning on the enemy ship when killed by an event
+static bool inModifyResources = false;
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
+    inModifyResources = true;
+    LocationEvent* ret = super(event);
+    inModifyResources = false;
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, Clone, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomEvents.cpp)\n")
+    if (inModifyResources && currentShipId != iShipId && currentShipId != -1)
+    {
+        G_->GetShipManager(currentShipId)->RemoveCrewmember(this);
+    } 
+    super();
 }

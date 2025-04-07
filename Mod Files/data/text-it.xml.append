@@ -30,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="it">
-  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.18.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="it">
   <mod:setValue>Possibilità di Incendio: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -271,7 +271,7 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="it">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="it">Progetto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="it">Sviluppato da:</text>
-<text name="credits_hyperspace_developed_names" language="it">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="it">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="it">Ulteriore art:</text>
 <text name="credits_hyperspace_art_names" language="it">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="it">Contributi Aggiuntivi:</text>
