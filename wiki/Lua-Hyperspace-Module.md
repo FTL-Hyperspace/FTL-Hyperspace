@@ -2540,11 +2540,11 @@ end)
 - `int` `.pursuitDelay`
 -  [`Point`](#Point) `.dangerZone`
 -  `bool` `.bMapRevealed`
-- [`GL_Primitive*`](#GL_Primitive) `.ship`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.ship`
    - The map icon that rotates around the current location representing the player ship.
-- [`GL_Primitive*`](#GL_Primitive) `.shipNoFuel`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.shipNoFuel`
    - The no fuel variant of the `ship` icon.
-- [`GL_Primitive*[3]`](#GL_Primitive) `.mapsBottom`
+- [`GL_Primitive*[3]`](./Lua-Graphics-Module#GL_Primitive) `.mapsBottom`
    - Contains the 3 background images of the sector map. Index selected via `worldLevel % 3`.
 - `int` `.worldLevel`
    - **Read-only**
