@@ -1,7 +1,7 @@
 #pragma once
 #include "CrewMember_Extend.h"
 #include "Global.h"
-
+#include "CustomLockdowns.h"
 #include "LuaScriptInit.h"
 
 #include "swigluarun.h"
@@ -53,6 +53,8 @@ struct CustomDamageDefinition
 
     int erosionChance = -1;
     ErosionEffect erosionEffect;
+
+    CustomLockdownDefinition lockdown;
 
     int crewSpawnChance = -1;
     std::vector<CrewSpawn*> crewSpawns;

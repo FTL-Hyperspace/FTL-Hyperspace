@@ -6995,7 +6995,7 @@ struct Ship : ShipObject
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
 	
-	enum DoorStateType
+	enum DoorState
 	{
 	  DOOR_CLOSED = 0x0,
 	  DOOR_OPEN = 0x1,

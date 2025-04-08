@@ -180,6 +180,13 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             weaponDef.customDamage->erosionChance = boost::lexical_cast<int>(val);
         }
 
+        if (name == "customLockdown")
+        {
+            hasCustomDamage = true;
+            weaponDef.customDamage->lockdown.ParseNode(child);
+            ret.damage.bLockdown = true;
+        }
+
         if (name == "iconReplace")
         {
             weaponDef.iconReplace = val;

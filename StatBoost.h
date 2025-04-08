@@ -10,7 +10,8 @@ struct CrewDefinition;
 struct ActivatedPowerDefinition;
 struct PowerResourceDefinition;
 class CrewMember_Extend;
-struct RoomAnimDef;
+struct RoomAnimDef; 
+struct ExplosionDefinition;
 
 enum class CrewExtraCondition : unsigned int;
 

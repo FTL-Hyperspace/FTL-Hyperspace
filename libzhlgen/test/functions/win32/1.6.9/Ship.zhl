@@ -44,7 +44,10 @@ __thiscall bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 __thiscall int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 "5589e557565383e4f083ec300fb6450c8b7d08c70100000000c7410400000000c7410800000000894c242c":
 __thiscall std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
-
+"578d????0883e4f0ff????5589e5575383ec2080b9b8030000008b??f30f1005????????":
+__thiscall float Ship::GetCloakAlpha(Ship *this, bool complete);
+"578d????0883e4f0ff????5589e557565389cb83ec5c8b9104010000":
+__thiscall void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
 "!1ef7ffff(c6841d5afefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;
 "!89ca7d08(c6841d58fefeff01)":

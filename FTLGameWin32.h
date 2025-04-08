@@ -5132,6 +5132,7 @@ struct Room : Selectable
 	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
 	LIBZHL_API void OnRenderWalls(float alpha);
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
@@ -5325,20 +5326,30 @@ public:
 	}
 
 	LIBZHL_API bool ApplyDamage(float amount);
+	LIBZHL_API bool ConnectsRooms(int roomId1, int roomId2);
 	LIBZHL_API void FakeClose();
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender(float alpha, bool bForceView, bool useLargeSprites);
 	LIBZHL_API void SaveState(int fd);
+	LIBZHL_API void SetBlastDoor(int val);
+	LIBZHL_API void SetLockdown(bool val);
+	LIBZHL_API void StartAnimIfNecessary();
+	LIBZHL_API void UpdateAnimations();
+	LIBZHL_API void constructor(int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId);
+	LIBZHL_API void destructor();
 	
 	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
+	uint8_t gap_ex_1[3];
 	int iBlast;
 	bool bFakeOpen;
+	uint8_t gap_ex_2[3];
 	int width;
 	int height;
 	GL_Primitive *outlinePrimitive;
@@ -5945,6 +5956,7 @@ struct ImageDesc
 
 struct ExplosionAnimation : AnimationTracker
 {
+	LIBZHL_API ImageDesc GetFinalGib();
 	LIBZHL_API void LoadGibs();
 	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
 	LIBZHL_API void OnRender(Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
@@ -6249,8 +6261,21 @@ struct Location
 struct LockdownShard;
 
 struct LockdownShard
-{
+{	
+    LockdownShard() {}
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	void Initialize();
+
+	LIBZHL_API void OnRender();
 	LIBZHL_API void Update();
+	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor3(int fd);
 	
 	Animation shard;
 	Pointf position;
@@ -6258,8 +6283,10 @@ struct LockdownShard
 	float speed;
 	bool bArrived;
 	bool bDone;
+	uint8_t gap_ex_1[2];
 	float lifeTime;
 	bool superFreeze;
+	uint8_t gap_ex_2[3];
 	int lockingRoom;
 };
 
@@ -6412,8 +6439,12 @@ struct NebulaCloud
 	float lightningRotation;
 };
 
+struct OuterHull;
+
 struct OuterHull : Repairable
 {
+	LIBZHL_API void OnLoop();
+	
 	Animation breach;
 	Animation heal;
 };
@@ -6972,8 +7003,6 @@ struct Shields : ShipSystem
 	bool bExcessChargeHack;
 };
 
-struct OuterHull;
-
 struct Ship : ShipObject
 {
 	Pointf GetRoomCenter(int room)
@@ -7020,6 +7049,7 @@ struct Ship : ShipObject
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
+	LIBZHL_API float GetCloakAlpha(bool complete);
 	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API Point GetShipCorner();
@@ -7035,6 +7065,7 @@ struct Ship : ShipObject
 	LIBZHL_API bool RoomLocked(int roomId);
 	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
 	LIBZHL_API void SetSelectedRoom(int roomId);
+	LIBZHL_API void UpdateDoorsPrimitive(bool doorControlMode);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;

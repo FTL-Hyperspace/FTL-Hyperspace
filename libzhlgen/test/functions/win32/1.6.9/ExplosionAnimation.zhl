@@ -4,3 +4,5 @@ __thiscall void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::x
 __thiscall void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
 "8b51308b413429d0c1f802":
 __thiscall void ExplosionAnimation::LoadGibs(ExplosionAnimation *this);
+"5731c08d????0883e4f0ff????5589e557565383ec2c8b??89????8b5730":
+__thiscall ImageDesc ExplosionAnimation::GetFinalGib(ExplosionAnimation *this);
