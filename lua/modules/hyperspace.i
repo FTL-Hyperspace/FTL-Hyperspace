@@ -60,7 +60,7 @@
     };
     %typemap(out) TYPE[SIZE]
     {
-        SWIG_NewPointerObj(L, (NAME*) &$1, $descriptor(NAME*), $owner); SWIG_arg++;
+        SWIG_NewPointerObj(L, &arg1->$1_name, $descriptor(NAME*), $owner); SWIG_arg++;
     }
 %enddef
 
