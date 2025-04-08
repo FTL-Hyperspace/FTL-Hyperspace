@@ -45,7 +45,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
 | 1.19.0 | SHIP_STATUS | `None` | On rendering player element like hull and ressources |
 | 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
-| N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
+| 1.19.0 | CHOICE_BOX | `ChoiceBox choiceBox` | When any choiceBox related window is on screen |
 | 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
 ## Internal Events
