@@ -73,8 +73,8 @@ struct ShieldDroneDefinition
 {
     std::string chargeSound = "shieldDroneCharge";
     std::string activateSound = "shieldDroneActivate";
-    float slowDuration = 1;
-    float pulseDuration = 1.5;
+    float slowDuration = 1.f;
+    float pulseDuration = 1.5f;
     std::vector<float> cooldowns;
     int layers = 1;
 };

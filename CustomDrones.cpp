@@ -1006,8 +1006,10 @@ HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
     return G_->GetTextLibrary()->GetText(tooltipText, G_->GetTextLibrary()->currentLanguage);
 }
 
+
 std::unordered_map<std::string, ShieldDroneDefinition> ShieldDroneManager::defs;
 const ShieldDroneDefinition ShieldDroneManager::defaultDefinition;
+
 void ShieldDroneManager::ParseShieldDroneBlueprint(rapidxml::xml_node<char> *node)
 {
     bool isCustom = false;
@@ -1055,11 +1057,13 @@ void ShieldDroneManager::ParseShieldDroneBlueprint(rapidxml::xml_node<char> *nod
     }
 
 }
+
 const ShieldDroneDefinition* ShieldDroneManager::GetDefinition(const std::string& droneName)
 {
     auto it = defs.find(droneName);
     return it == defs.end() ? &defaultDefinition : &it->second;
 }
+
 HOOK_METHOD(SuperShieldDrone, constructor, (int iShipId, int selfId, DroneBlueprint *blueprint) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::constructor -> Begin (CustomDrones.cpp)\n")
@@ -1074,7 +1078,7 @@ HOOK_METHOD(SuperShieldDrone, GetWeaponCooldown, () -> float)
 {
     LOG_HOOK("HOOK_METHOD -> SuperShieldDrone::GetWeaponCooldown -> Begin (CustomDrones.cpp)\n")
     const ShieldDroneDefinition* customDefinition = ShieldDroneManager::GetDefinition(blueprint->name);
-    if (customDefinition->cooldowns.empty()) return super();
+    if (customDefinition->cooldowns.empty() || movementTarget == nullptr) return super();
     int superLayers = movementTarget->GetShieldPower().super.first;
     if (superLayers >= customDefinition->cooldowns.size()) superLayers = customDefinition->cooldowns.size() - 1;
     return customDefinition->cooldowns[superLayers];
@@ -1088,24 +1092,24 @@ HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
     {
         const ShieldDroneDefinition* customDefinition = ShieldDroneManager::GetDefinition(blueprint->name);
         currentSpeed = blueprint->speed;
-        if (weaponCooldown < customDefinition->pulseDuration && glowAnimation <= 0.0) 
+        if (weaponCooldown < customDefinition->pulseDuration && glowAnimation <= 0.f) 
         {
-            glowAnimation = 3.0;
-            G_->GetSoundControl()->PlaySoundMix(customDefinition->chargeSound, -1.0, false);
+            glowAnimation = 3.f;
+            G_->GetSoundControl()->PlaySoundMix(customDefinition->chargeSound, -1.f, false);
         }
         if (weaponCooldown < customDefinition->slowDuration + customDefinition->pulseDuration) 
         {
             currentSpeed = std::max((weaponCooldown - customDefinition->pulseDuration) / customDefinition->slowDuration, 0.f) * currentSpeed;
         }
-        if (0.0 < glowAnimation) 
+        if (0.f < glowAnimation) 
         {
-            currentSpeed = 0.0;
+            currentSpeed = 0.f;
         }
-        float speedMultiplier = 1.5 / customDefinition->pulseDuration;
+        float speedMultiplier = 1.5f / customDefinition->pulseDuration;
         glowAnimation -= G_->GetCFPS()->GetSpeedFactor() * 0.0625f * speedMultiplier;
-        if (glowAnimation < 0.0) 
+        if (glowAnimation < 0.f) 
         {
-            glowAnimation = -1.0;
+            glowAnimation = -1.f;
         }
 
         if (!bFire) return;
@@ -1122,13 +1126,13 @@ HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
             shieldSystem->shields.power.super.first = std::max(shieldSystem->shields.power.super.first, 0);
         }
 
-        G_->GetSoundControl()->PlaySoundMix(customDefinition->activateSound, -1.0, false);
+        G_->GetSoundControl()->PlaySoundMix(customDefinition->activateSound, -1.f, false);
         weaponCooldown = GetWeaponCooldown();
     }
     else
     {
         weaponCooldown = GetWeaponCooldown();
-        glowAnimation = -1.0;
+        glowAnimation = -1.f;
     }  
 }
 
