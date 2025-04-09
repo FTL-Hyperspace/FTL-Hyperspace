@@ -183,6 +183,39 @@
 	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
 -->
+<!--
+<droneBlueprint name="DRONE_SHIELD">
+	<type>SHIELD</type>
+	<level>1</level>
+	<tip>tip_defense</tip>
+	<title id="drone_DRONE_SHIELD_title"/>
+	<short id="drone_DRONE_SHIELD_short"/>
+	<desc id="drone_DRONE_SHIELD_desc"/>
+	<power>3</power>
+	<cooldown>15000</cooldown>
+	<dodge>0</dodge>
+	<speed>5</speed>
+	<cost>60</cost>
+	<bp>2</bp>
+	<droneImage>drone_shield</droneImage>
+	<rarity>4</rarity>
+	<iconImage>shield</iconImage>
+	
+	The following tags can be used to customize shield drones:
+	<chargeSound>shieldDroneCharge</chargeSound> The sound to play as the drone slows down.
+	<activateSound>shieldDroneActivate</activateSound> The sound to play as the drone activates.
+	<slowDuration>1.0</slowDuration> The time it takes for the drone to slow to a stop.
+	<pulseDuration>1.5</pulseDuration> The time it takes for the drone to activate once it has stopped.
+	<layers>1</layers> The number of super shield points added per pulse by the drone.
+	<cooldowns> The amount of time between super shield additions. Varies based on the number of super shield layers active.
+		<noLayers>8.0</noLayers> The names of the nodes are unimportant, and each node is the time for the next integer amount of layers.
+		<oneLayer>10.0</oneLayer>
+		<twoLayers>13.0</twoLayers>
+		<threeLayers>16.0</threeLayers>
+		<moreLayers>20.0</moreLayers> The last value will be used for all super shield values higher than the number of cooldowns provided.
+	</cooldowns>
+</droneBlueprint>
+-->
 
 <!--
 <shipBlueprint name="PLAYER_SHIP_KESTRAL" layout="kestral" img="kestral">
