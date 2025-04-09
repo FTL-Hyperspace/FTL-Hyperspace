@@ -89,5 +89,52 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	  DOOR_HIT = 0x3,
 	  DOOR_ANIMATING = 0x4,
 	};
+	
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = INT_MAX;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
 
 }};

@@ -24,6 +24,8 @@ __thiscall bool Door::IsSealed(Door *this, int shipId); //00465a90
 __thiscall void Door::SetLockdown(Door* this, bool val); //00465af0
 ".538b54????8b44????83faff74??8b59108b491439c374??39c80f94??39da":
 __thiscall bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2); //00465de0
+".5756530fb681e8010000f30f105c????84c00f85????????80b92c02000000":
+__thiscall bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale); //00465e60
 ".83b9b400000004c641180174??578d????0883e4f0ff????5589e557568d7134":
 __thiscall void Door::Open(Door *this); //00466110
 ".578d????0883e4f0ff????5589e557565389cb83ec1c0fb6411884c075??8079200074??":
@@ -69,5 +71,20 @@ public:
 		{
 			return pos1;
 		}
+	}
+
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
 	}
 }};

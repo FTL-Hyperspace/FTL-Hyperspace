@@ -26,4 +26,5 @@ struct LockdownShard
 	}
 
 	void Initialize(bool loading);
+	void LinkDoor(Door* door);
 }};

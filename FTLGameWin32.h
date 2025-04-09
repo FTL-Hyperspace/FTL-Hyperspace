@@ -5337,9 +5337,25 @@ public:
 		}
 	}
 
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
+	}
+
 	LIBZHL_API void AccelerateAnimation();
 	LIBZHL_API bool ApplyDamage(float amount);
 	LIBZHL_API bool ConnectsRooms(int roomId1, int roomId2);
+	LIBZHL_API bool ContainsPoint(int loc_x, int loc_y, float scale);
 	LIBZHL_API void FakeClose();
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
@@ -6289,6 +6305,7 @@ struct LockdownShard
 	}
 
 	void Initialize(bool loading);
+	void LinkDoor(Door* door);
 
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SaveState(int fd);
@@ -7053,6 +7070,53 @@ struct Ship : ShipObject
 	  DOOR_HIT = 0x3,
 	  DOOR_ANIMATING = 0x4,
 	};
+	
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = INT_MAX;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
 
 
 	struct DoorState

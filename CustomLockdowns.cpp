@@ -111,6 +111,13 @@ void LockdownShard::Initialize(bool loading)
     }
 }
 
+void LockdownShard::LinkDoor(Door* door)
+{
+    LockdownShard_Extend* ex = LD_EX(this);
+    ex->door = door;
+    if (door != nullptr) ex->doorId = door->iDoorId;
+}
+
 HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf start, Point goal, bool superFreeze) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
@@ -211,8 +218,12 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
         int baseX = shape.x + idx * 12;
         Point topGoal(baseX + random32() % 12, shape.y);
         Point bottomGoal(baseX + random32() % 12, shape.y + shape.h);
+
+        //Add shards and link to doors if appropriate
         lockdowns.emplace_back(roomId, pos, topGoal, false);
+        lockdowns.back().LinkDoor(HS_GetSelectedDoor(topGoal.x, topGoal.y, 1.f, true));
         lockdowns.emplace_back(roomId, pos, bottomGoal, false); 
+        lockdowns.back().LinkDoor(HS_GetSelectedDoor(bottomGoal.x, bottomGoal.y, 1.f, true));
     }
 
     for (int idx = 0; idx < (shape.h / 35) * 3; ++idx)
@@ -220,11 +231,13 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
         int baseY = shape.y + idx * 12;
         Point leftGoal(shape.x, baseY + random32() % 12);
         Point rightGoal(shape.x + shape.w, baseY + random32() % 12);
+        //Add shards and link to doors if appropriate
         lockdowns.emplace_back(roomId, pos, leftGoal, false);
+        lockdowns.back().LinkDoor(HS_GetSelectedDoor(leftGoal.x, leftGoal.y, 1.f, true));
         lockdowns.emplace_back(roomId, pos, rightGoal, false); 
+        lockdowns.back().LinkDoor(HS_GetSelectedDoor(rightGoal.x, rightGoal.y, 1.f, true));
     }
 
-    int doorIdx = 0;
     for (Door* door : vDoorList)
     {
         if (door->ConnectsRooms(roomId, -1))
@@ -232,14 +245,12 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
             door->SetLockdown(true);
             Point doorGoal = door->GetCenterPoint();
             lockdowns.emplace_back(roomId, pos, doorGoal, true);
-            lockdowns.back().superFreeze = true; //Constructor does not use superFreeze argument to actaully set superFreeze for some reason so we set it here so the shards do not fade
+            //lockdowns.back().superFreeze = true; //Constructor does not use superFreeze argument to actaully set superFreeze for some reason so we set it here so the shards do not fade
 
             LockdownShard_Extend* ld = LD_EX(&lockdowns.back());
             ld->health = CustomLockdownManager::currentLockdown->health; //Door shards will keep track of health, lifeTime is handled for all shards in the constructor
-            ld->door = door;
-            ld->doorIdx = doorIdx; //Save the index of the door this shard is attached to for saving/loading
+            lockdowns.back().LinkDoor(door);
         }
-        ++doorIdx;
     }
 
     CustomLockdownManager::currentLockdown = old;
@@ -456,7 +467,7 @@ HOOK_METHOD(LockdownShard, SaveState, (int fd) -> void)
 
     LockdownShard_Extend* ex = LD_EX(this);
     FileHelper::writeInt(fd, ex->health);
-    FileHelper::writeInt(fd, ex->doorIdx);
+    FileHelper::writeInt(fd, ex->doorId);
     ex->color.SaveState(fd);
 }
 
@@ -470,7 +481,7 @@ HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
 
     LockdownShard_Extend* ex = LD_EX(this);
     ex->health = FileHelper::readInteger(fd);
-    ex->doorIdx = FileHelper::readInteger(fd);
+    ex->doorId = FileHelper::readInteger(fd);
     ex->color.LoadState(fd);
 }
 
@@ -525,9 +536,9 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
         {
             lockdowns.emplace_back(fd);
             LockdownShard_Extend* ex = LD_EX(&lockdowns.back());
-            if (ex->doorIdx != -1) //If the shard is attached to a door, relink it
+            if (ex->doorId != -1) //If the shard is attached to a door, relink it
             {
-                ex->door = vDoorList[ex->doorIdx];
+                ex->door = GetDoorById(ex->doorId);
                 ex->door->SetLockdown(true);
             }
             

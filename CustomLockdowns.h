@@ -22,7 +22,7 @@ struct LockdownShard_Extend
     LockdownShard* orig;
     int health; //Int for parity with door health
     Door* door = nullptr; //Pointer to the door this shard is attached to, if any
-    int doorIdx = -1; //Index of the door this shard is attached to, only used for saving/loading
+    int doorId = -1; //Id of the door this shard is attached to, only used for saving/loading
     GL_Color color; //The color to tint the shard
 };
 LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c);
