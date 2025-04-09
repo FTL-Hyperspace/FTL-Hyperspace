@@ -161,7 +161,6 @@ LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
 }
 
 
-//LockdownShard does not have a destructor, so we manually delete the extends before they are removed from Ship::lockdowns
 //Vanilla code starts lifeTime at 0 and counts up, but we will start at the duration and count down
 HOOK_METHOD_PRIORITY(LockdownShard, Update, 9999, () -> void)
 {
@@ -535,8 +534,6 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
         }
     }
 }
-//Lockdown saving bugfix
-//This is probably not required anymore so we should test if it is still needed.
 
 void AnimationTracker::SaveState(int fd)
 {
