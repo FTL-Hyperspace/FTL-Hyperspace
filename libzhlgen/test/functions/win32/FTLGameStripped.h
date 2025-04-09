@@ -4883,7 +4883,12 @@ struct TutorialManager
 };
 
 /* 159 */
-struct ShipRepairDrone;
+struct ShipRepairDrone
+{
+    CombatDrone _base;
+    CachedImage repairBeam;
+    std::vector<float> repairBeams;
+};
 
 /* 161 */
 struct CombatDrone

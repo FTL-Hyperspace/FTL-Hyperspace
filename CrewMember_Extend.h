@@ -327,6 +327,8 @@ public:
     bool IsInvulnerable();
 
     bool IsController(bool ai);
+
+    float CalculatePowerScaling(const StatBoost& statBoost);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c);

@@ -3567,11 +3567,6 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 
                 if (oxygenModifier != 0.f && !x->bDead)
                 {
-                    if (oxygenSystem->oxygenLevels[x->iRoomId] == 0.f)
-                    {
-                        oxygenSystem->oxygenLevels[x->iRoomId] = 0.0000001f;
-                    }
-
                     oxygenSystem->ComputeAirLoss(x->iRoomId, -oxygenModifier, true);
                 }
             }
@@ -6855,10 +6850,16 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
     int ret = 0;
     for (auto& crew: vCrewList)
     {   
-        bool noWarning;
         auto ex = CM_EX(crew);
+
+        bool canTeleport;
+        bool noWarning;
         ex->CalculateStat(CrewStat::NO_WARNING, &noWarning);
-        if (crew->iShipId == 0 && !crew->IsDead() && !crew->IsDrone() && !noWarning) ret++;
+        ex->CalculateStat(CrewStat::CAN_TELEPORT, &canTeleport);
+        ShipManager* otherShip = G_->GetShipManager(1 - iShipId);
+        bool emergencyRecall = canTeleport && otherShip && otherShip->HasAugmentation("TELEPORT_RECALL");
+
+        if (crew->iShipId == 0 && !crew->IsDead() && !crew->IsDrone() && !noWarning && !emergencyRecall) ret++;
     }
     return ret;
 }

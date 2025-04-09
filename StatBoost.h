@@ -179,9 +179,10 @@ struct StatBoostDefinition
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
-    float powerScalingNoSys = 1.0;
-    float powerScalingHackedSys = 1.0;
+    float powerScalingNoSys = 0.f;
+    float powerScalingHackedSys = 0.f;
     std::vector<int> systemPowerScaling;
+    ShipTarget powerScalingShipTarget = ShipTarget::ORIGINAL_SHIP;
 
     std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
     std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();

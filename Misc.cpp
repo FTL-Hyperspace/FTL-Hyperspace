@@ -156,42 +156,42 @@ HOOK_METHOD_PRIORITY(SystemBox, OnRender, 9999, (bool ignoreStatus) -> void)
     bool bVar4;
     TimerHelper timer;
     ShipSystem *sys;
-  
+
     bVar2 = bShowPower;
     tapButtonOffsetY = 0;
     cooldownOffsetY = 0;
-    if (!bVar2 && 0 < pSystem->iHackEffect) 
+    if (!bVar2 && 0 < pSystem->iHackEffect)
     {
         bVar2 = pSystem->bUnderAttack;
     }
     bShowPower = bVar2;
     iVar1 = pSystem->iLockCount;
-    if (iVar1 < 1) 
+    if (iVar1 < 1)
     {
         bVar1 = bShowPower;
         bVar3 = false;
 LABEL_1:
         bVar4 = false;
-        if (tapped) 
+        if (tapped)
         {
             bVar4 = useLargeTapIcon;
         }
-        if (!bVar1) 
+        if (!bVar1)
         {
-            if (!G_->GetSettings()->colorblind) 
+            if (!G_->GetSettings()->colorblind)
             {
 LABEL_2:
                 iVar1 = topPower;
                 iVar3 = 0;
                 iVar4 = 0;
             }
-            else 
+            else
             {
-                if (pSystem->healthState.first == 0) 
+                if (pSystem->healthState.first == 0)
                 {
                     prim = brokenIcon;
                 }
-                else 
+                else
                 {
                     bVar2 = pSystem->GetLocked();
                     if (!bVar2) goto LABEL_2;
@@ -205,9 +205,9 @@ LABEL_2:
             goto LABEL_3;
         }
     }
-    else 
+    else
     {
-        if (!ignoreStatus) 
+        if (!ignoreStatus)
         {
             bVar1 = bShowPower;
             bVar3 = true;
@@ -219,48 +219,48 @@ LABEL_2:
         bVar2 = tapped;
         bVar3 = bVar1;
         bVar4 = bVar2;
-        if (bVar2) 
+        if (bVar2)
         {
             bVar4 = useLargeTapIcon;
             bVar3 = bVar2;
         }
     }
-    if (powerAlpha < 1.0) 
+    if (powerAlpha < 1.0)
     {
         GL_Color tint = CSurface::GetColorTint();
         CSurface::GL_SetColorTint(tint);
     }
-    if (!bSimplePower) 
+    if (!bSimplePower)
     {
         iVar1 = GetHeightModifier();
         iVar1 = pSystem->RenderPowerBoxes(location.x, location.y, 16, 6, 2, iVar1, false);
         topPower = iVar1;
     }
-    else 
+    else
     {
         iVar1 = pSystem->powerState.second;
         iVar1 = ShipSystem::RenderPowerBoxesPlain(location.x, location.y, 16, 6, 2, iVar1, 0, iVar1);
         topPower = iVar1;
     }
-    if (powerAlpha <= 1.0 && powerAlpha != 1.0) 
+    if (powerAlpha <= 1.0 && powerAlpha != 1.0)
     {
         CSurface::GL_RemoveColorTint();
         iVar1 = topPower;
         iVar3 = 0;
         iVar4 = 0;
     }
-    else 
+    else
     {
         iVar3 = 0;
         iVar4 = 0;
     }
     LABEL_3:
-    if (!warning.tracker.done && warning.tracker.running) 
+    if (!warning.tracker.done && warning.tracker.running)
     {
         bVar2 = pSystem->bOnFire;
         iVar2 = pSystem->GetId();
-        
-        if (iVar2 == 0) 
+
+        if (iVar2 == 0)
         {
             iVar1 = -78;
         }
@@ -283,27 +283,27 @@ LABEL_2:
         CSurface::GL_DestroyPrimitive(timerStencil);
         timerStencil = nullptr;
         lastTimerStencilCount = -1;
-        if (!bSimplePower) 
+        if (!bSimplePower)
         {
-            if (!bVar4) 
+            if (!bVar4)
             {
                 pSystem->RenderSystemSymbol(bPlayerUI, -1);
             }
-            else 
+            else
             {
                 CSurface::GL_Translate((float)(largeTapIconOffset.x - 32), (float)(largeTapIconOffset.y - 32), 0.0);
                 CSurface::GL_Scale(2.0, 2.0, 1.0);
                 pSystem->RenderSystemSymbol(false, -1);
             }
         }
-        else 
+        else
         {
             pSystem->RenderSystemSymbol(false, 0);
         }
     }
-    else 
+    else
     {
-        if (bVar4) 
+        if (bVar4)
         {
             CSurface::GL_PushMatrix();
             CSurface::GL_Translate(19.0, -14.0, 0.0);
@@ -311,10 +311,10 @@ LABEL_2:
         iVar1 = pSystem->iLockCount;
         //Fix for ion greater than 9 rendering invalid primitive
         CSurface::GL_RenderPrimitive(iVar1 <= 9 ? timerCircle[iVar1] : (ShipSystem::IsSubsystem(pSystem->GetId()) ? timerCircleMaxOcta : timerCircleMaxRing));
-        
+
         timer = pSystem->GetLockTimer();
         iVar1 = (int)((12.0 - (timer.currTime / timer.currGoal) * 12.0) + 1.0);
-        if (iVar1 != lastTimerStencilCount) 
+        if (iVar1 != lastTimerStencilCount)
         {
             lastTimerStencilCount = iVar1;
             CSurface::GL_DestroyPrimitive(timerStencil);
@@ -333,13 +333,13 @@ LABEL_2:
         CSurface::GL_SetStencilMode(STENCIL_USE, 1, 1);
         CSurface::GL_RenderPrimitive(timerLines);
         CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
-        if (bVar4) 
+        if (bVar4)
         {
             CSurface::GL_PopMatrix();
         }
     }
     CSurface::GL_PopMatrix();
-    if (0 < pSystem->iHackEffect && pSystem->bUnderAttack && !bShowPower) 
+    if (0 < pSystem->iHackEffect && pSystem->bUnderAttack && !bShowPower)
     {
         CSurface::GL_Translate(0.0, (float)iVar4, 0.0);
         CSurface::GL_RenderPrimitive(hackIcon);
@@ -363,7 +363,7 @@ HOOK_METHOD_PRIORITY(SpaceStatus, OnLoop, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::OnLoop -> Begin (Misc.cpp)\n")
     // Rewrite to remove asteroid's early return that prevents other warnings from displaying when asteroids and other environemts are combined
-    
+
     int effect = 0;
     std::string warnStr;
 
@@ -433,7 +433,7 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnRender -> Begin (Misc.cpp)\n")
 
     int idx = G_->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SPACE_STATUS, 0);
-    
+
     if (idx >= 0)
     {
         incomingFire->OnRender();
@@ -476,7 +476,7 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
     GL_Texture *tex;
     GL_Color color;
     std::string text;
-  
+
     color.g = 1.0;
     color.a = 1.0;
     if ((effect == 6 || effect == 9) && space->envTarget == 2) // ASB and targeting both ships
@@ -488,14 +488,14 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
         tex = G_->GetResources()->GetImageId("warnings/backglow_warning_yellow.png");
         text = G_->GetTextLibrary()->GetText("warning_pds_all");
     }
-    else if (effect == 9) 
+    else if (effect == 9)
     {
         color.r = 0.4705882;
         color.b = 0.4705882;
         tex = G_->GetResources()->GetImageId("warnings/backglow_warning_green.png");
         text = G_->GetTextLibrary()->GetText("warning_pds_allies");
     }
-    else 
+    else
     {
         //TODO: Hook Global COLOR_RED_WARNING
         /*
@@ -529,20 +529,20 @@ HOOK_METHOD_PRIORITY(SpaceStatus, MouseMove, 9999, (int mX, int mY) -> void)
     {
         goto LABEL_TWO;
     }
-  
-    if (currentEffect == 2) 
+
+    if (currentEffect == 2)
     {
         tip = "sun";
     }
-    else if (currentEffect == 6 || currentEffect == 9) 
+    else if (currentEffect == 6 || currentEffect == 9)
     {
-        bool inFleet = space->dangerZone;    
-        if (space->envTarget == 0) 
+        bool inFleet = space->dangerZone;
+        if (space->envTarget == 0)
         {
             tip = inFleet ? "PDS_FLEET" : "PDS_PLAYER";
         }
         else if (space->envTarget == 1)
-        { 
+        {
             tip = inFleet ? "PDS_FLEET_ENEMY" : "PDS_ENEMY";
         }
         else
@@ -550,15 +550,15 @@ HOOK_METHOD_PRIORITY(SpaceStatus, MouseMove, 9999, (int mX, int mY) -> void)
             tip = inFleet ? "PDS_FLEET_ALL" : "PDS_ALL";
         }
     }
-    else 
+    else
     {
-        if (currentEffect == 5) 
+        if (currentEffect == 5)
         {
             tip = "pulsar";
         }
-        else 
+        else
         {
-            if (currentEffect == 1) 
+            if (currentEffect == 1)
             {
                 tip = "asteroids";
                 goto LABEL_ONE;
@@ -865,7 +865,7 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
     luaL_argcheck(lua, lua_isinteger(lua, 1), 1, "integer expected!");
     luaL_argcheck(lua, lua_isfunction(lua, 2), 2, "function expected!");
     const int callbackHookId = lua_tointeger(lua, 1);
-    luaL_argcheck(lua, callbackHookId > InternalEvents::UNKNOWN && callbackHookId < InternalEvents::UNKNOWN_MAX, 1, "Unknown InternalEvent!"); 
+    luaL_argcheck(lua, callbackHookId > InternalEvents::UNKNOWN && callbackHookId < InternalEvents::UNKNOWN_MAX, 1, "Unknown InternalEvent!");
     // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
     lua_pushvalue(lua, 2);
     LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
@@ -876,23 +876,23 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
         luaL_argcheck(lua, lua_isinteger(lua, 3), 3, "integer expected!");
         priority = lua_tointeger(lua, 3);
     }
-    
+
     lua_Debug ar;
     lua_rawgeti(lua, LUA_REGISTRYINDEX, callbackReference);
     lua_getinfo(lua, ">u", &ar);
-    
+
     InternalEvents::Identifiers id = static_cast<InternalEvents::Identifiers>(callbackHookId);
     InternalEvents::EventInfo info = InternalEvents::GetEventInfo(id);
     const char* eventName = InternalEvents::GetName(id);
     if (ar.nparams > info.argCount) // Only report if the function has more arguments than expected, too many mod use callbacks by only using the first few arguments
-    {  
+    {
         std::string error = (boost::format("Error: Callback function for InternalEvent %s has the wrong number of arguments! Expected %u, got %u\nExpected function of the form: %s\n")
                         % eventName
                         % info.argCount
                         % static_cast<unsigned int>(ar.nparams)
                         % info.functionSignatureDescription).str();
         hs_log_file(error);
-        luaL_error(lua, error.c_str()); 
+        luaL_error(lua, error.c_str());
         return 0;
     }
     else if (ar.isvararg != info.isVariableArgs)
@@ -1146,7 +1146,7 @@ static std::string g_customHazardText = "";
 HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (Misc.cpp)\n")
-    
+
     auto context = Global::GetInstance()->getLuaContext();
 
     SWIG_NewPointerObj(context->GetLua(), loc, context->getLibScript()->types.pLocation, 0);
@@ -1175,14 +1175,14 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (Misc.cpp)\n")
-    
+
     auto context = Global::GetInstance()->getLuaContext();
 
     std::stack<std::pair<int, int>> originalEnvs;
     for (int i = 0; i < locations.size(); ++i)
     {
         Location *loc = locations[i];
-        
+
         SWIG_NewPointerObj(context->GetLua(), loc, context->getLibScript()->types.pLocation, 0);
         if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_BEACON_HAZARD, 1, 1) == 1)
         {
@@ -1194,7 +1194,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
         {
             lua_pop(context->GetLua(), 1);
         }
-        
+
     }
 
     super();
@@ -1414,7 +1414,7 @@ HOOK_METHOD_PRIORITY(WeaponControl, SelectArmament, -100, (unsigned int armament
 HOOK_METHOD_PRIORITY(SpaceDrone, GetNextProjectile, -100, () -> Projectile*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::GetNextProjectile -> Begin (Misc.cpp)\n")
-    
+
     Projectile* ret = super();
     if (ret != nullptr)
     {
@@ -1460,7 +1460,7 @@ HOOK_METHOD(ShipSystem, SetBonusPower, (int amount, int permanentPower) -> void)
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
     if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
     lua_pop(context->GetLua(), 2);
-    
+
     if (!preempt) super(amount, permanentPower);
 }
 HOOK_METHOD(WeaponSystem, SetBonusPower, (int amount, int permanentPower) -> void)
@@ -1473,7 +1473,7 @@ HOOK_METHOD(WeaponSystem, SetBonusPower, (int amount, int permanentPower) -> voi
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
     if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
     lua_pop(context->GetLua(), 2);
-    
+
     if (!preempt) super(amount, permanentPower);
 }
 HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void)
@@ -1486,7 +1486,7 @@ HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
     if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
     lua_pop(context->GetLua(), 2);
-    
+
     if (!preempt) super(amount, permanentPower);
 }
 
@@ -1494,7 +1494,7 @@ static bool inArtilleryLoop = false;
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (Misc.cpp)\n")
-    
+
     inArtilleryLoop = true;
     super();
     inArtilleryLoop = false;
@@ -1517,7 +1517,7 @@ HOOK_METHOD(ProjectileFactory, SetCooldownModifier, (float mod) -> void)
         }
     }
     lua_pop(context->GetLua(), 3);
-    
+
     if (!preempt) super(mod);
 }
 
@@ -1632,7 +1632,7 @@ HOOK_METHOD(SystemBox, KeyDown, (SDLKey key, bool shift) -> void)
 HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (Misc.cpp)\n")
-    
+
     auto context = Global::GetInstance()->getLuaContext();
 
     lua_pushinteger(context->GetLua(), systemId);
@@ -1718,7 +1718,7 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_FLOOR, 2);
     if (idx >= 0) super(experimental);
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_FLOOR, std::abs(idx), 2);
-    
+
     lua_pop(context->GetLua(), 2);
 }
 
@@ -1790,7 +1790,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_MANAGER, 3);
     if (idx >= 0) super(showInterior, doorControlMode);
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_MANAGER, std::abs(idx), 3);
-    
+
     lua_pop(context->GetLua(), 3);
 }
 
@@ -1842,4 +1842,24 @@ HOOK_METHOD_PRIORITY(SystemBox, OnRender, 100, (bool ignoreStatus) -> void)
     context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SYSTEM_BOX, std::abs(idx), 2);
     CSurface::GL_Translate(-location.x, -location.y);
     lua_pop(context->GetLua(), 2);
+}
+
+HOOK_METHOD(ShipStatus, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (Misc.cpp)\n")
+    int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_STATUS, 0);
+    if (idx >= 0) super();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SHIP_STATUS, std::abs(idx), 0);
+}
+
+HOOK_METHOD(ChoiceBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (Misc.cpp)\n")
+
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pChoiceBox, 0);
+    int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::CHOICE_BOX, 1);
+    if (idx >= 0) super();
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::CHOICE_BOX, std::abs(idx), 1);
+    lua_pop(context->GetLua(), 1);
 }
