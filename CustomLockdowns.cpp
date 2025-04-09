@@ -454,6 +454,7 @@ HOOK_METHOD(LockdownShard, SaveState, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LockdownShard::SaveState -> Begin (CustomLockdowns.cpp)\n")
     super(fd);
+    shard.tracker.SaveState(fd);
 
     LockdownShard_Extend* ex = LD_EX(this);
     FileHelper::writeInt(fd, ex->health);
@@ -465,6 +466,9 @@ HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
 	super(fd);
+    
+    //Vanilla code for animation setup has assumptions about the duration of a lockdown so we just load the AnimationTracker state here
+    shard.tracker.LoadState(fd);
 
     LockdownShard_Extend* ex = LD_EX(this);
     ex->health = FileHelper::readInteger(fd);
