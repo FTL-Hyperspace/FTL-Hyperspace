@@ -4,7 +4,7 @@
 #include <boost/lexical_cast.hpp>
 /*
     TODOS:
-        Lockdown definitions for abilities and weapons
+        Lockdown implementation for powerEffect and deathEffect, parsing cleanup
         Save/Load support
         Custom graphics
         Linux signatures/extend classes
@@ -89,7 +89,7 @@ Door_Extend* Get_Door_Extend(Door* c)
 
     return (Door_Extend*)dEx;
 }
-void LockdownShard::Initialize()
+void LockdownShard::Initialize(bool loading)
 {
     auto ex = new LockdownShard_Extend();
     uintptr_t dEx = (uintptr_t)ex;
@@ -105,18 +105,19 @@ void LockdownShard::Initialize()
         gap_ex_2[0] = (dEx >> 8) & 0xFF;
         gap_ex_2[1] = dEx & 0xFF;
         ex->orig = this;
-
-    lifeTime = CustomLockdownManager::currentLockdown->duration;
-    ex->color = CustomLockdownManager::currentLockdown->color;
+    if (!loading)
+    {
+        lifeTime = CustomLockdownManager::currentLockdown->duration;
+        ex->color = CustomLockdownManager::currentLockdown->color;
+    }
 }
 
-//TODO: Hook all contructors if necessary
 HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf start, Point goal, bool superFreeze) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
 	super(lockingRoom, start, goal, superFreeze);
     
-	Initialize();  
+	Initialize(false);  
 }
 
 HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf start, Point goal, bool superFreeze) -> void)
@@ -124,15 +125,15 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf 
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor2 -> Begin (CustomLockdowns.cpp)\n")
 	super(lockingRoom, start, goal, superFreeze);
     
-	Initialize();  
+	Initialize(false);  
 }
 
 HOOK_METHOD_PRIORITY(LockdownShard, constructor3, 900, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor2 -> Begin (CustomLockdowns.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
 	super(fd);
     
-	Initialize();  
+	Initialize(true);  
 }
 
 LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
@@ -204,9 +205,6 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
     {
         CustomLockdownManager::currentLockdown = &CustomDamageManager::currentWeaponDmg->def->lockdown;
     }
-    else printf("NULL!\n");
-
-    printf("%x\n", CustomLockdownManager::currentLockdown);
 
     ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
     Globals::Rect shape = graph->GetRoomShape(roomId);
@@ -228,6 +226,7 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
         lockdowns.emplace_back(roomId, pos, rightGoal, false); 
     }
 
+    int doorIdx = 0;
     for (Door* door : vDoorList)
     {
         if (door->ConnectsRooms(roomId, -1))
@@ -240,7 +239,9 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
             LockdownShard_Extend* ld = LD_EX(&lockdowns.back());
             ld->health = CustomLockdownManager::currentLockdown->health; //Door shards will keep track of health, lifeTime is handled for all shards in the constructor
             ld->door = door;
+            ld->doorIdx = doorIdx; //Save the index of the door this shard is attached to for saving/loading
         }
+        ++doorIdx;
     }
 
     CustomLockdownManager::currentLockdown = old;
@@ -337,9 +338,8 @@ HOOK_METHOD_PRIORITY(Ship, OnLoop, 9999, (std::vector<float> &oxygenLevels) -> v
 //Door::OnLoop
 //Ship::LockdownRoom
 //Door::ApplyDamage
-//SetLockdown will be considered dead code under the new lockdown implmentation as it is not used in these rewrites
 //Vanilla code uses an AnimationTracker to indicate lockdown state, but with multiple lockdown types this approach no longer works
-
+//SetLockdown has been entirely rewritten as lockdown health is now tracked in LockdownShards
 HOOK_METHOD_PRIORITY(Door, SetLockdown, 9999, (bool val) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Door::SetLockdown -> Begin (CustomLockdowns.cpp)\n")
@@ -447,3 +447,129 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderWalls, 9999, (bool forceView, bool doorContro
         shard.OnRender();
     }
 }
+
+
+//Save/Load support
+HOOK_METHOD(LockdownShard, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> LockdownShard::SaveState -> Begin (CustomLockdowns.cpp)\n")
+    super(fd);
+
+    LockdownShard_Extend* ex = LD_EX(this);
+    FileHelper::writeInt(fd, ex->health);
+    FileHelper::writeInt(fd, ex->doorIdx);
+    ex->color.SaveState(fd);
+}
+
+HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
+	super(fd);
+
+    LockdownShard_Extend* ex = LD_EX(this);
+    ex->health = FileHelper::readInteger(fd);
+    ex->doorIdx = FileHelper::readInteger(fd);
+    ex->color.LoadState(fd);
+}
+
+
+//Ship::LoadState rewrite is necessary because of vector reallocations for lockdowns messing with the extend bytes in native code
+HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LoadState -> Begin (CustomLockdowns.cpp)\n")
+
+    if (G_->GetSettings()->loadingSaveVersion < 3)
+    {
+        for (Door* door : vDoorList)
+        {
+            bool doorOpen = FileHelper::readInteger(fd) == 1;
+            bool doorFakeOpen = FileHelper::readInteger(fd) == 1;
+            if (doorOpen) door->Open();
+            if (doorFakeOpen) door->FakeOpen();
+            door->AccelerateAnimation();
+        }
+
+        for (Door* door : vOuterAirlocks)
+        {
+            bool doorOpen = FileHelper::readInteger(fd) == 1;
+            bool doorFakeOpen = FileHelper::readInteger(fd) == 1;
+            if (doorOpen) door->Open();
+            if (doorFakeOpen) door->FakeOpen();
+            door->AccelerateAnimation();
+        }
+    }
+    else
+    {
+        for (Door* door : vDoorList)
+        {
+            door->LoadState(fd);
+        }
+        for (Door* door : vOuterAirlocks)
+        {
+            door->LoadState(fd);
+        }
+    }
+
+    if (G_->GetSettings()->loadingSaveVersion > 4)
+    {
+        float cloakTime = FileHelper::readFloat(fd);
+        cloakingTracker.SetCurrentTime(cloakTime);
+    }
+    if (G_->GetSettings()->loadingSaveVersion > 7) 
+    {
+        int lockdownCount = FileHelper::readInteger(fd);
+        lockdowns.reserve(lockdownCount);
+        for (int i = 0; i < lockdownCount; ++i)
+        {
+            lockdowns.emplace_back(fd);
+            LockdownShard_Extend* ex = LD_EX(&lockdowns.back());
+            if (ex->doorIdx != -1) //If the shard is attached to a door, relink it
+            {
+                ex->door = vDoorList[ex->doorIdx];
+                ex->door->SetLockdown(true);
+            }
+            
+        }
+    }
+}
+//Lockdown saving bugfix
+//This is probably not required anymore so we should test if it is still needed.
+
+void AnimationTracker::SaveState(int fd)
+{
+    FileHelper::writeFloat(fd, time);
+    FileHelper::writeInt(fd, loop);
+    FileHelper::writeFloat(fd, current_time);
+    FileHelper::writeInt(fd, running);
+    FileHelper::writeInt(fd, reverse);
+    FileHelper::writeInt(fd, done);
+    FileHelper::writeFloat(fd, loopDelay);
+    FileHelper::writeFloat(fd, currentDelay);
+};
+
+void AnimationTracker::LoadState(int fd)
+{
+    time = FileHelper::readFloat(fd);
+    loop = FileHelper::readInteger(fd);
+    current_time = FileHelper::readFloat(fd);
+    running = FileHelper::readInteger(fd);
+    reverse = FileHelper::readInteger(fd);
+    done = FileHelper::readInteger(fd);
+    loopDelay = FileHelper::readFloat(fd);
+    currentDelay = FileHelper::readFloat(fd);
+};
+
+/*
+HOOK_METHOD(Door, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::SaveState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.SaveState(fd);
+}
+HOOK_METHOD(Door, LoadState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::LoadState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.LoadState(fd);
+}
+*/

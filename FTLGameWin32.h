@@ -554,6 +554,14 @@ struct LIBZHL_INTERFACE AnimationTracker
 	void LoadState(int fd);
 	void SaveState(int fd);
 
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
+
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
 	LIBZHL_API float GetAlphaLevel(bool reverse);
@@ -705,6 +713,9 @@ struct GL_Color
 	{
 		return !(r == color2.r && g == color2.g && b == color2.b && a == color2.a);
 	}
+
+	void SaveState(int fd);
+	void LoadState(int fd);
 
 	float r;
 	float g;
@@ -5325,6 +5336,7 @@ public:
 		}
 	}
 
+	LIBZHL_API void AccelerateAnimation();
 	LIBZHL_API bool ApplyDamage(float amount);
 	LIBZHL_API bool ConnectsRooms(int roomId1, int roomId2);
 	LIBZHL_API void FakeClose();
@@ -5334,6 +5346,7 @@ public:
 	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(float alpha, bool bForceView, bool useLargeSprites);
+	LIBZHL_API void Open();
 	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetBlastDoor(int val);
 	LIBZHL_API void SetLockdown(bool val);
@@ -6269,9 +6282,15 @@ struct LockdownShard
 		this->constructor(lockingRoom, start, goal, superFreeze);
 	}
 
-	void Initialize();
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading);
 
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze);
 	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze);
@@ -7053,6 +7072,7 @@ struct Ship : ShipObject
 	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API Point GetShipCorner();
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
 	LIBZHL_API void OnInit(ShipBlueprint &bp);
 	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);

@@ -24,4 +24,12 @@ struct AnimationTracker
 	}
 	void LoadState(int fd);
 	void SaveState(int fd);
+
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
 }};

@@ -10,6 +10,8 @@ __thiscall void Door::constructor(Door *this, int roomId1, int roomId2, int locX
 __thiscall void Door::SaveState(Door *this, int fd); //004654f0
 ".578d????0883e4f0ff????5589e557565389cb83ec1c8b??8934??e8????????8934??":
 __thiscall void Door::LoadState(Door *this, int fd); //00465590
+".578d????0883e4f0ff????5589e5575389cb8d4934":
+__thiscall void Door::AccelerateAnimation(Door *this); //004656f0
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c83b9b400000004":
 __thiscall void Door::FakeOpen(Door *this); //00465780
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c80791800c641200075??":
@@ -22,6 +24,8 @@ __thiscall bool Door::IsSealed(Door *this, int shipId); //00465a90
 __thiscall void Door::SetLockdown(Door* this, bool val); //00465af0
 ".538b54????8b44????83faff74??8b59108b491439c374??39c80f94??39da":
 __thiscall bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2); //00465de0
+".83b9b400000004c641180174??578d????0883e4f0ff????5589e557568d7134":
+__thiscall void Door::Open(Door *this); //00466110
 ".578d????0883e4f0ff????5589e557565389cb83ec1c0fb6411884c075??8079200074??":
 __thiscall void Door::StartAnimIfNecessary(Door *this); //004662f0
 ".578d????0883e4f0ff????5589e5578d7934565389cb":

@@ -48,6 +48,9 @@ __thiscall std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyD
 __thiscall float Ship::GetCloakAlpha(Ship *this, bool complete);
 "578d????0883e4f0ff????5589e557565389cb83ec5c8b9104010000":
 __thiscall void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
+"578d????0883e4f0ff????5589f889e557565389cf81ec1c010000":
+__thiscall void Ship::LoadState(Ship *this, int fd);
+
 "!1ef7ffff(c6841d5afefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;
 "!89ca7d08(c6841d58fefeff01)":
