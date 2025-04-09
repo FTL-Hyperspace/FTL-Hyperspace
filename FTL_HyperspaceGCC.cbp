@@ -260,6 +260,8 @@
 				<Compiler>
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
 					<Add option="-Werror=narrowing" />
@@ -439,6 +441,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -485,6 +489,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -670,6 +676,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -716,6 +724,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -1330,6 +1340,9 @@
 		</Unit>
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="Tasks.h">
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="TemporalBoxVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />

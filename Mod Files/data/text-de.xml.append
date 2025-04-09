@@ -29,7 +29,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.18.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -258,7 +258,7 @@ Taste: \1</text>
 <text name="credits_loc_ko_names" language="de">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="de">Hyperspace Projekt</text>
 <text name="credits_hyperspace_developed_by" language="de">Entwickelt von:</text>
-<text name="credits_hyperspace_developed_names" language="de">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="de">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="de">Zusätzliche Grafiken:</text>
 <text name="credits_hyperspace_art_names" language="de">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="de">Zusätzliche Beiträge:</text>

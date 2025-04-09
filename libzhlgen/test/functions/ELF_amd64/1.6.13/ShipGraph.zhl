@@ -44,6 +44,8 @@ cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int room
 cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
 ".5389fb4881ec90000000":
 static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
+".??56??55??54??89d455??89f553??89fb??83ec40":
+cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
 ".41574989f741564155415455534889d348c1eb204881ecc8000000":
 cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
 ".415741564989f641554154554889d548c1ed20534889fb4883ec58":

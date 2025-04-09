@@ -52,6 +52,14 @@
 	<stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="TELEPORT_RECALL">
+	<title id="aug_TELEPORT_RECALL_title"/>
+	<desc id="aug_TELEPORT_RECALL_desc"/>
+	<cost>150</cost>
+	<rarity>4</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
 <augBlueprint name="MIND_ORDER">
 	<title id="aug_MIND_ORDER_title"/>
 	<desc id="aug_MIND_ORDER_desc"/>

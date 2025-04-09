@@ -1015,6 +1015,32 @@ HOOK_METHOD(Equipment, Open, () -> void)
     custom->currentOverCapacityPage = 0;
 }
 
+HOOK_METHOD(Equipment, MouseUp, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::MouseUp -> Begin (CustomEquipment.cpp)\n")
+    super(mX, mY);
+    
+    CustomEquipment *custom = EQ_EX(this)->customEquipment;
+    // updates over capacity item when player swaps item in over capacity box.
+    if (!custom->overCapacityItems.empty())
+    {
+        if (bOverCapacity)
+        {
+            if (overcapacityBox->item != custom->overCapacityItems[custom->currentOverCapacityPage].first)
+            {
+                custom->overCapacityItems[custom->currentOverCapacityPage].first = overcapacityBox->item;
+            }
+        }
+        else if (bOverAugCapacity)
+        {
+            if (overAugBox->item != custom->overCapacityItems[custom->currentOverCapacityPage].first)
+            {
+                custom->overCapacityItems[custom->currentOverCapacityPage].first = overAugBox->item;
+            }
+        }
+    }
+}
+
 
 // unused rewrite
 /*
