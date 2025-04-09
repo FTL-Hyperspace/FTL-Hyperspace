@@ -299,16 +299,16 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatAI::UpdateWeapons -> Begin (CustomWeapons.cpp)\n")
 
-    if (bFiringWhileCloaked || !self->ship.bCloaked) 
+    if (bFiringWhileCloaked || !self->ship.bCloaked)
     {
         weapons = self->GetWeaponList();
         for (ProjectileFactory* weapon : weapons)
         {
-            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked()) 
+            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked())
             {
                 int chargeLevels = weapon->blueprint->chargeLevels;
                 bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0;
-                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire) 
+                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire)
                 {
                     std::vector<Pointf> targets;
                     while (targets.size() < weapon->NumTargetsRequired())
@@ -317,7 +317,7 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
                         int systemTarget = PrioritizeSystem(weapon->blueprint->type);
                         if (systemTarget == -1) temp_target = target->GetRandomRoomCenter();
                         else temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
-    
+
                         //Only remove repeated targets if it is possible to add a non-repeated one
                         if (ShipGraph::GetShipInfo(target->iShipId)->RoomCount() > targets.size())
                         {
@@ -328,7 +328,7 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
                     }
                     weapon->Fire(targets, target->iShipId);
                     weapon->SelectChargeGoal();
-                }  
+                }
             }
         }
     }
@@ -338,13 +338,13 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
 HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::ClearAiming -> Begin (CustomWeapons.cpp)\n")
-    
+
     if (targets.size() > 0 && targets.size() < NumTargetsRequired()) return;
 
     fireWhenReady = false;
     targets.clear();
     lastTargets.clear();
-    
+
     targetId = -1;
 }
 
@@ -392,7 +392,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     if ((cooldown.second < 0) && iShipId == 0)
     {
         targets.clear();
-    }    
+    }
 }
 
 HOOK_METHOD(CombatDrone, PickTarget, () -> void)
@@ -417,7 +417,7 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
         }
         lastAimingAngle = angle;
         targetLocation = weaponTarget->GetRandomTargettingPoint(false);
-        
+
         // check that drone uses pinpoint beam
         if (weaponBlueprint->type == 2 && weaponBlueprint->length <= 1)
         {
@@ -482,16 +482,9 @@ HOOK_METHOD(ProjectileFactory, ForceCoolup, () -> void)
         }
         return;
     }
-    
+
     super();
 }
-
-// Weapon Types:
-// 0: LASER
-// 1: MISSILES
-// 2: BEAM
-// 3: BOMB
-// 4: BURST
 
 static Button* smallAutoFireButton;
 
@@ -725,7 +718,7 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
             weaponVisual.SetFireTime(def->fireTime);
         }
     }
-    
+
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_PROJECTILE_FACTORY, 1);
@@ -927,7 +920,7 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
     {
         for (auto weapon : weapons)
         {
-            if (weapon->HitShotLimit() && !weapon->QueuedShots()) DePowerWeapon(weapon, false);       
+            if (weapon->HitShotLimit() && !weapon->QueuedShots()) DePowerWeapon(weapon, false);
         }
     }
 }
@@ -951,17 +944,6 @@ HOOK_METHOD(ProjectileFactory, ReadyToFire, () -> bool)
     return super();
 }
 
-enum WeaponType
-{
-    INVALID = -1,
-    LASER = 0,
-    MISSILES = 1,
-    BEAM = 2,
-    BOMB = 3,
-    BURST = 4,
-};
-
-
 HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::Update -> Begin (CustomWeapons.cpp)\n")
@@ -969,7 +951,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
     {
         if (NumTargetsRequired() <= targets.size())
         {
-            if (blueprint->missiles > 0 && blueprint->type != BEAM) iSpendMissile = blueprint->missiles;
+            if (blueprint->missiles > 0 && blueprint->type != WEAPON_BEAM) iSpendMissile = blueprint->missiles;
             shotsFiredAtTarget++;
             if (blueprint->boostPower.amount > 0.f)
             {
@@ -979,7 +961,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
             }
             std::vector<Pointf> currTargets;
 
-            if (blueprint->type == BEAM)
+            if (blueprint->type == WEAPON_BEAM)
             {
                 Pointf target = targets.back();
                 targets.pop_back();
@@ -990,11 +972,11 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 targets.pop_back();
 
                 currTargets.push_back(sub_target);
-  
+
             }
-            else if (blueprint->type == BURST)
+            else if (blueprint->type == WEAPON_BURST)
             {
-                
+
                 for (Pointf& target : targets)
                 {
                     for (int i = 0; i < blueprint->miniProjectiles.size(); ++i)
@@ -1007,14 +989,14 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                         bool manualAiming = iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || HasAugmentation("ARTILLERY_ORDER"));
                         if (isArtillery && !manualAiming) break;
                     }
-                }  
+                }
             }
             else
             {
                 currTargets = std::move(targets);
             }
             targets.clear();
-            
+
             fireWhenReady = false;
             cooldown.first = 0.0;
             chargeLevel = 0;
@@ -1022,9 +1004,9 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
             {
                 G_->GetEventSystem()->AddEvent(9);
             }
-            
+
             Point fireLoc = weaponVisual.GetFireLocation() + localPosition;
-            if (blueprint->type == MISSILES)
+            if (blueprint->type == WEAPON_MISSILES)
             {
                 if (currentFiringAngle == 0.0) fireLoc.x += 16;
                 else if (currentFiringAngle == 270.0) fireLoc.y -= 16;
@@ -1033,7 +1015,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
             for (int idx = 0; idx < currTargets.size(); ++idx)
             {
                 Pointf pos(fireLoc.x, fireLoc.y);
-                
+
                 int chargeOffset = weaponVisual.iChargeOffset * idx;
                 if (weaponVisual.bRotation)
                 {
@@ -1043,29 +1025,29 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 else
                 {
                     if (weaponVisual.bMirrored) pos.x += chargeOffset;
-                    else pos.x -= chargeOffset;   
+                    else pos.x -= chargeOffset;
                 }
-        
+
                 Projectile* proj = nullptr;
-    
+
                 switch (blueprint->type)
                 {
-                    case LASER:
+                    case WEAPON_LASER:
                         proj = new LaserBlast(pos, iShipId, targetId, currTargets[idx]);
                         static_cast<LaserBlast*>(proj)->OnInit();
                         break;
-                    case MISSILES:
+                    case WEAPON_MISSILES:
                         proj = new Missile(pos, iShipId, targetId, currTargets[idx], currentFiringAngle);
                         break;
-                    case BEAM:
+                    case WEAPON_BEAM:
                         proj = new BeamWeapon(pos, iShipId, targetId, currTargets[0], currTargets[1], blueprint->length, currentShipTarget, currentFiringAngle);
                         proj->SetWeaponAnimation(weaponVisual);
                         break;
-                    case BOMB:
+                    case WEAPON_BOMB:
                         proj = new BombProjectile(pos, iShipId, targetId, currTargets[idx]);
                         static_cast<BombProjectile*>(proj)->superShieldBypass = HasAugmentation("ZOLTAN_BYPASS");
                         break;
-                    case BURST:
+                    case WEAPON_BURST:
                         proj = new LaserBlast(pos, iShipId, targetId, currTargets[idx]);
                         static_cast<LaserBlast*>(proj)->OnInit();
                         break;
@@ -1099,7 +1081,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                     }
                 }
 
-                if (blueprint->type == BURST)
+                if (blueprint->type == WEAPON_BURST)
                 {
                     proj->flight_animation = G_->GetAnimationControl()->GetAnimation(blueprint->miniProjectiles[idx % blueprint->miniProjectiles.size()].image);
                     proj->flight_animation.SetCurrentFrame(random32() % proj->flight_animation.info.numFrames);
@@ -1133,8 +1115,8 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 {
                     proj->flight_animation = flight_animation;
                 }
-                
-                if (blueprint->type == BOMB) 
+
+                if (blueprint->type == WEAPON_BOMB)
                 {
                     //TODO: Hook EffectsBlueprint::RandomSoundChoice
                     std::string sound = blueprint->effects.launchSounds[random32() % blueprint->effects.launchSounds.size()];
@@ -1147,7 +1129,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                     if (blueprint->chargeLevels > 1) targets.resize(1);
                 }
                 queuedProjectiles.push_back(proj);
-                if (blueprint->type == BEAM) break;
+                if (blueprint->type == WEAPON_BEAM) break;
             }
         }
     }
@@ -1269,9 +1251,9 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (CustomWeapons.cpp)\n")
     shotLimitMessage->Stop();
-    
+
     WeaponBox* box = static_cast<WeaponBox*>(boxes[armamentSlot]);
-    
+
     if (box->pWeapon->HitShotLimit() && box->pWeapon->powered)
     {
         shotLimitMessage->Start();

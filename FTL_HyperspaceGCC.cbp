@@ -1085,9 +1085,6 @@
 		<Unit filename="DiscordIntegration.h">
 			<Option virtualFolder="Content/Discord/" />
 		</Unit>
-		<Unit filename="Drones.h">
-			<Option virtualFolder="Core/Drones/" />
-		</Unit>
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
@@ -1099,6 +1096,9 @@
 		</Unit>
 		<Unit filename="EnumClassHash.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="Enums.h">
+			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="Equipment_Extend.cpp">
 			<Option virtualFolder="Core/Equipment/" />
@@ -1337,12 +1337,6 @@
 		</Unit>
 		<Unit filename="SystemBox_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
-		</Unit>
-		<Unit filename="Systems.h">
-			<Option virtualFolder="Core/Systems/" />
-		</Unit>
-		<Unit filename="Tasks.h">
-			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="TemporalBoxVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
