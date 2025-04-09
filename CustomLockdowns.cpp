@@ -5,7 +5,6 @@
 /*
     TODOS:
         Lockdown implementation for powerEffect and deathEffect, parsing cleanup
-        Save/Load support
         Custom graphics
         Linux signatures/extend classes
 */
@@ -562,18 +561,3 @@ void AnimationTracker::LoadState(int fd)
     loopDelay = FileHelper::readFloat(fd);
     currentDelay = FileHelper::readFloat(fd);
 };
-
-/*
-HOOK_METHOD(Door, SaveState, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> Door::SaveState -> Begin (Misc.cpp)\n")
-    super(fd);
-    lockedDown.SaveState(fd);
-}
-HOOK_METHOD(Door, LoadState, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> Door::LoadState -> Begin (Misc.cpp)\n")
-    super(fd);
-    lockedDown.LoadState(fd);
-}
-*/
