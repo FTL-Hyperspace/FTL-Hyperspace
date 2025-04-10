@@ -44,7 +44,12 @@ cleanup __cdecl int Ship::GetAvailableRoom(Ship *this, int preferred, bool intru
 cleanup __cdecl bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "57565383ec208b7c24348b5c24308b4c2438":
 cleanup __cdecl std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
-
+"5383ec188b44????8b5c????f30f1005":
+cleanup __cdecl float Ship::GetCloakAlpha(Ship *this, bool complete);
+"5557565383ec4c8b5c????8b44????8b93c8000000":
+cleanup __cdecl void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
+"5557565381ecdc000000833d????????028b9c":
+cleanup __cdecl void Ship::LoadState(Ship *this, int fd);
 "!39d07d0b(c6840d74fefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;
 "!39d07d03(c60101)":

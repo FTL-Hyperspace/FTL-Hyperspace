@@ -3,9 +3,8 @@
 #include "Resources.h"
 #include <boost/lexical_cast.hpp>
 /*
-    TODOS:
+    TODO:
         Lua exposures and LockdownRoom overload
-        Linux signatures/extend classes
 */
 
 CustomLockdownDefinition CustomLockdownDefinition::defaultLockdown(12.f, 50, GL_Color(1.f, 1.f, 1.f, 1.f), {"crystal_1", "crystal_2"}); //Default lockdown value from vanilla

@@ -1,20 +1,43 @@
 "5383ec288b4424348b5c24308b90cc010000":
-cleanup __cdecl Point Door::GetPosition(Door *this);
+cleanup __cdecl Point Door::GetPosition(Door *this); //080e2380
 ".5383ec188b5c242080bb7001000000":
-cleanup __cdecl bool Door::ApplyDamage(Door *this, float amount);
+cleanup __cdecl bool Door::ApplyDamage(Door *this, float amount); //080e23d0
+"!.5383ec188b5c????891c??e8????????895c????83c4185b":
+cleanup __cdecl void Door::destructor(Door *this); //080e28a0
+".5557565381ec2c0100008bac??????????8b84??????????":
+cleanup __cdecl void Door::constructor(Door *this); //080e28d0
 ".5589e5565389ce83e4f083ec108b????8b81d0010000":
-cleanup __cdecl void Door::SaveState(Door *this, int fd);
+cleanup __cdecl void Door::SaveState(Door *this, int fd); //080e3d30
 ".578d????0883e4f0ff????5589e557565389cb83ec1c8b??8934??e8????????8934??":
-cleanup __cdecl void Door::LoadState(Door *this, int fd);
+cleanup __cdecl void Door::LoadState(Door *this, int fd); //080e3dc0
+".5383ec188b5c????807b180075??807b2000":
+cleanup __cdecl void Door::AccelerateAnimation(Door *this); //080e3ef0
 ".565383ec148b5c242083bb8c00000004c6432001c783a001000000000000":
-cleanup __cdecl void Door::FakeOpen(Door *this);
+cleanup __cdecl void Door::FakeOpen(Door *this); //080e3f70
 ".565383ec148b5c24200fb64318c6432000":
-cleanup __cdecl void Door::FakeClose(Door *this);
+cleanup __cdecl void Door::FakeClose(Door *this); //080e4040
+".8b44????8b54????80b8b4010000000f85":
+cleanup __cdecl void Door::SetBlastDoor(Door *this, int val); //080e4130
 ".8b5424048b82c40100008b4a0485c0":
-cleanup __cdecl bool Door::IsSealed(Door *this, int shipId);
+cleanup __cdecl bool Door::IsSealed(Door *this, int shipId); //080e4260
+".5383ec18807c????008b5c????75??8d83a40100008904":
+cleanup __cdecl void Door::SetLockdown(Door *this, bool val); //080e42d0
+".56538b5c??148b54??0c8b4c??1083fb??74158b72108b5214":
+cleanup __cdecl bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2); //080e45c0
+".5531c05756538b54????f30f104c":
+cleanup __cdecl bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale); //080e4650
+".565383ec148b5c????83bb8c00000004c643180174":
+cleanup __cdecl void Door::Open(Door *this); //080e48f0
+".565383ec148b5c????0fb6431884c075??807b2000":
+cleanup __cdecl void Door::StartAnimIfNecessary(Door *this); //080e4aa0
+".5557565383ec1c8b5c????8d7b34893c??8db3c4000000":
+cleanup __cdecl void Door::PauseLoop(Door *this); //080e4b80
+".5557565383ec1c8b5c????8d7b34893c??8db3c4000000":
+cleanup __cdecl void Door::UpdateAnimations(Door *this); //080e4d10
 "!.565383ec148b5c24208b83c4010000":
-cleanup __cdecl void Door::OnLoop(Door *this);
-
+cleanup __cdecl void Door::OnLoop(Door *this); //080e4ea0
+".565383ec448b5c????8b74????e8????????8d????288904??":
+cleanup __cdecl void Door::OnRender(Door *this, float alpha, bool bForceView, bool useLargeSprites); //080e52a0
 
 
 struct Door depends (Point, ShipGraph)

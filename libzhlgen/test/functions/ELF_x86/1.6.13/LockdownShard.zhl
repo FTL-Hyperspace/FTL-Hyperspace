@@ -1,5 +1,17 @@
-"5589e55383ec348b5d08c70424????????":
-cleanup __cdecl void LockdownShard::Update(LockdownShard *this);
+"565383ec148b74????8b5c????f30f108690000000":
+cleanup __cdecl void LockdownShard::SaveState(LockdownShard *this, int fd); //080ed7c0
+".5589e55383ec348b5d08c70424????????":
+cleanup __cdecl void LockdownShard::Update(LockdownShard *this); //080ed8d0
+".5383ec388b5c????e8????????c744????00000000f30f108394000000":
+cleanup __cdecl void LockdownShard::OnRender(LockdownShard *this); //080eda70
+".5589e5575689c65381ecfc0000008b":
+cleanup __cdecl void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //080f6310
+".5589e557565381ecfc0000008b????8b????8d??28ffffff":
+cleanup __cdecl void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //080f6970
+".5589e557565381ecfc0000008b????8d??28ffffff":
+cleanup __cdecl void LockdownShard::constructor3(LockdownShard *this, int fd); //080f7480
+
+
 
 struct LockdownShard
 {{

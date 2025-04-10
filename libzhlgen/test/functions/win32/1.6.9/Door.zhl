@@ -31,6 +31,8 @@ __thiscall void Door::Open(Door *this); //00466110
 ".578d????0883e4f0ff????5589e557565389cb83ec1c0fb6411884c075??8079200074??":
 __thiscall void Door::StartAnimIfNecessary(Door *this); //004662f0
 ".578d????0883e4f0ff????5589e5578d7934565389cb":
+__thiscall void Door::PauseLoop(Door *this); //004663e0
+".578d????0883e4f0ff????5589e5578d7934565389cb":
 __thiscall void Door::UpdateAnimations(Door *this); //004665a0
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b813c02000085c0":
 __thiscall void Door::OnLoop(Door *this); //00466760

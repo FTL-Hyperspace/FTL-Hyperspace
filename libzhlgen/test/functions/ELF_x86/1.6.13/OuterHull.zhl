@@ -1,2 +1,4 @@
 "!8b8d44ffffff8d4168c701(???????\?)":
 void** VTable_OuterHull;
+".565383ec248b5c????8b03891c??ff502884c075":
+cleanup __cdecl void OuterHull::OnLoop(OuterHull *this);

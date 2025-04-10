@@ -5364,6 +5364,7 @@ public:
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(float alpha, bool bForceView, bool useLargeSprites);
 	LIBZHL_API void Open();
+	LIBZHL_API void PauseLoop();
 	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetBlastDoor(int val);
 	LIBZHL_API void SetLockdown(bool val);
