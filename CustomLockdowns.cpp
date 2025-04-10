@@ -29,6 +29,10 @@ void CustomLockdownDefinition::ParseNode(rapidxml::xml_node<char> *node)
         {
             ParseColorNode(color, child, true);
         }
+        else if (nodeName == "anim")
+        {
+            anim = child->value();
+        }
     }
 }
 //Extend classes
@@ -108,6 +112,8 @@ void LockdownShard::Initialize(bool loading)
     {
         lifeTime = CustomLockdownManager::currentLockdown->duration;
         ex->color = CustomLockdownManager::currentLockdown->color;
+        ex->anim = CustomLockdownManager::currentLockdown->anim;
+        if (!ex->anim.empty()) shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
     }
 }
 
@@ -469,6 +475,7 @@ HOOK_METHOD(LockdownShard, SaveState, (int fd) -> void)
     FileHelper::writeInt(fd, ex->health);
     FileHelper::writeInt(fd, ex->doorId);
     ex->color.SaveState(fd);
+    FileHelper::writeString(fd, ex->anim);
 }
 
 HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
@@ -483,6 +490,8 @@ HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
     ex->health = FileHelper::readInteger(fd);
     ex->doorId = FileHelper::readInteger(fd);
     ex->color.LoadState(fd);
+    ex->anim = FileHelper::readString(fd);
+    if (!ex->anim.empty()) shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
 }
 
 

@@ -5,7 +5,8 @@ struct CustomLockdownDefinition
 {
     float duration = 12.0f;
     int health = 50;
-    GL_Color color = GL_Color(1.f, 1.f, 1.f, 1.f); //The color to tint the shards
+    GL_Color color = GL_Color(1.f, 1.f, 1.f, 1.f);
+    std::string anim = "";
     void ParseNode(rapidxml::xml_node<char> *node);
 };
 
@@ -24,6 +25,7 @@ struct LockdownShard_Extend
     Door* door = nullptr; //Pointer to the door this shard is attached to, if any
     int doorId = -1; //Id of the door this shard is attached to, only used for saving/loading
     GL_Color color; //The color to tint the shard
+    std::string anim; //The name of the animation, for save/load purposes
 };
 LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c);
 #define LD_EX Get_LockdownShard_Extend
