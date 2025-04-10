@@ -6304,7 +6304,7 @@ struct LockdownShard
 		this->constructor3(fd);
 	}
 
-	void Initialize(bool loading);
+	void Initialize(bool loading, bool superFreeze);
 	void LinkDoor(Door* door);
 
 	LIBZHL_API void OnRender();

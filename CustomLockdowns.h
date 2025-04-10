@@ -3,11 +3,21 @@
 
 struct CustomLockdownDefinition
 {
-    float duration = 12.0f;
-    int health = 50;
-    GL_Color color = GL_Color(1.f, 1.f, 1.f, 1.f);
-    std::string anim = "";
+    CustomLockdownDefinition(float duration_, int health_, GL_Color color_, std::vector<std::string> anims_) :
+    duration(duration_), health(health_), color(color_), anims(anims_) {};
+    CustomLockdownDefinition()
+    {
+        *this = defaultLockdown;
+    };
+
+    float duration;
+    int health;
+    GL_Color color;
+    std::vector<std::string> anims;
     void ParseNode(rapidxml::xml_node<char> *node);
+
+    static CustomLockdownDefinition* currentLockdown;
+    static CustomLockdownDefinition defaultLockdown;
 };
 
 struct Door_Extend
@@ -29,13 +39,3 @@ struct LockdownShard_Extend
 };
 LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c);
 #define LD_EX Get_LockdownShard_Extend
-
-
-class CustomLockdownManager
-{
-public:
-    static CustomLockdownDefinition* currentLockdown;
-private:
-    static CustomLockdownDefinition defaultLockdown;
-
-};

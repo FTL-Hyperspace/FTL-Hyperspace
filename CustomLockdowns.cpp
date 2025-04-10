@@ -4,13 +4,13 @@
 #include <boost/lexical_cast.hpp>
 /*
     TODOS:
-        Lockdown implementation for powerEffect and deathEffect, parsing cleanup
-        Custom graphics
+        Lockdown implementation for powerEffect and deathEffect
+        Lua exposures and LockdownRoom overload
         Linux signatures/extend classes
 */
 
-CustomLockdownDefinition CustomLockdownManager::defaultLockdown; //Default lockdown value from vanilla
-CustomLockdownDefinition* CustomLockdownManager::currentLockdown = &CustomLockdownManager::defaultLockdown; //Default lockdown value from vanilla
+CustomLockdownDefinition CustomLockdownDefinition::defaultLockdown(12.f, 50, GL_Color(1.f, 1.f, 1.f, 1.f), {"crystal_1", "crystal_2"}); //Default lockdown value from vanilla
+CustomLockdownDefinition* CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown; //Default lockdown value from vanilla
 
 void CustomLockdownDefinition::ParseNode(rapidxml::xml_node<char> *node)
 {
@@ -29,9 +29,13 @@ void CustomLockdownDefinition::ParseNode(rapidxml::xml_node<char> *node)
         {
             ParseColorNode(color, child, true);
         }
-        else if (nodeName == "anim")
+        else if (nodeName == "anims")
         {
-            anim = child->value();
+            anims.clear();
+            for (auto animChild = child->first_node(); animChild; animChild = animChild->next_sibling())
+            {
+                anims.emplace_back(animChild->value());
+            }
         }
     }
 }
@@ -58,7 +62,7 @@ HOOK_METHOD_PRIORITY(Door, constructor, 900, (int roomId1, int roomId2, int locX
 	gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
 
-   
+
 }
 
 HOOK_METHOD_PRIORITY(Door, destructor, 900, () -> void)
@@ -92,7 +96,7 @@ Door_Extend* Get_Door_Extend(Door* c)
 
     return (Door_Extend*)dEx;
 }
-void LockdownShard::Initialize(bool loading)
+void LockdownShard::Initialize(bool loading, bool superFreeze)
 {
     auto ex = new LockdownShard_Extend();
     uintptr_t dEx = (uintptr_t)ex;
@@ -110,10 +114,17 @@ void LockdownShard::Initialize(bool loading)
         ex->orig = this;
     if (!loading)
     {
-        lifeTime = CustomLockdownManager::currentLockdown->duration;
-        ex->color = CustomLockdownManager::currentLockdown->color;
-        ex->anim = CustomLockdownManager::currentLockdown->anim;
-        if (!ex->anim.empty()) shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
+        lifeTime = CustomLockdownDefinition::currentLockdown->duration;
+        ex->color = CustomLockdownDefinition::currentLockdown->color;
+        const auto& anims = CustomLockdownDefinition::currentLockdown->anims;
+        if (!anims.empty()) ex->anim = anims[superFreeze ? 0 : random32() % anims.size()];
+        else //Default vanilla anims
+        {
+            if (superFreeze) ex->anim = "crystal_1";
+            else ex->anim = random32() % 2 == 0 ? "crystal_1" : "crystal_2";
+        }
+        hs_log_file("LockdownShard anim: %s\n", ex->anim.c_str());
+        shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
     }
 }
 
@@ -128,24 +139,24 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
 	super(lockingRoom, start, goal, superFreeze);
-    
-	Initialize(false);  
+
+	Initialize(false, superFreeze);
 }
 
 HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf start, Point goal, bool superFreeze) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor2 -> Begin (CustomLockdowns.cpp)\n")
 	super(lockingRoom, start, goal, superFreeze);
-    
-	Initialize(false);  
+
+	Initialize(false, superFreeze);
 }
 
 HOOK_METHOD_PRIORITY(LockdownShard, constructor3, 900, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
 	super(fd);
-    
-	Initialize(true);  
+
+	Initialize(true, this->superFreeze);
 }
 
 LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
@@ -188,7 +199,7 @@ HOOK_METHOD_PRIORITY(LockdownShard, Update, 9999, () -> void)
             shard.Start(true);
         }
     }
-    
+
     if (bArrived)
     {
         shard.Update();
@@ -211,10 +222,10 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::LockdownRoom -> Begin (CustomLockdowns.cpp)\n")
 
-    CustomLockdownDefinition* old = CustomLockdownManager::currentLockdown;
+    CustomLockdownDefinition* old = CustomLockdownDefinition::currentLockdown;
     if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
-        CustomLockdownManager::currentLockdown = &CustomDamageManager::currentWeaponDmg->def->lockdown;
+        CustomLockdownDefinition::currentLockdown = &CustomDamageManager::currentWeaponDmg->def->lockdown;
     }
 
     ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
@@ -228,7 +239,7 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
         //Add shards and link to doors if appropriate
         lockdowns.emplace_back(roomId, pos, topGoal, false);
         lockdowns.back().LinkDoor(HS_GetSelectedDoor(topGoal.x, topGoal.y, 1.f, true));
-        lockdowns.emplace_back(roomId, pos, bottomGoal, false); 
+        lockdowns.emplace_back(roomId, pos, bottomGoal, false);
         lockdowns.back().LinkDoor(HS_GetSelectedDoor(bottomGoal.x, bottomGoal.y, 1.f, true));
     }
 
@@ -240,7 +251,7 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
         //Add shards and link to doors if appropriate
         lockdowns.emplace_back(roomId, pos, leftGoal, false);
         lockdowns.back().LinkDoor(HS_GetSelectedDoor(leftGoal.x, leftGoal.y, 1.f, true));
-        lockdowns.emplace_back(roomId, pos, rightGoal, false); 
+        lockdowns.emplace_back(roomId, pos, rightGoal, false);
         lockdowns.back().LinkDoor(HS_GetSelectedDoor(rightGoal.x, rightGoal.y, 1.f, true));
     }
 
@@ -254,15 +265,15 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
             //lockdowns.back().superFreeze = true; //Constructor does not use superFreeze argument to actaully set superFreeze for some reason so we set it here so the shards do not fade
 
             LockdownShard_Extend* ld = LD_EX(&lockdowns.back());
-            ld->health = CustomLockdownManager::currentLockdown->health; //Door shards will keep track of health, lifeTime is handled for all shards in the constructor
+            ld->health = CustomLockdownDefinition::currentLockdown->health; //Door shards will keep track of health, lifeTime is handled for all shards in the constructor
             lockdowns.back().LinkDoor(door);
         }
     }
 
-    CustomLockdownManager::currentLockdown = old;
+    CustomLockdownDefinition::currentLockdown = old;
 }
 
- 
+
 //We have to rewrite Ship::OnLoop because the vanilla doesnt keep the padding bytes when moving LockdownShards during vector reallocations
 HOOK_METHOD_PRIORITY(Ship, OnLoop, 9999, (std::vector<float> &oxygenLevels) -> void)
 {
@@ -314,21 +325,21 @@ HOOK_METHOD_PRIORITY(Ship, OnLoop, 9999, (std::vector<float> &oxygenLevels) -> v
 
     for (LockdownShard& shard : lockdowns)
     {
-        shard.Update();   
+        shard.Update();
         LockdownShard_Extend* ex = LD_EX(&shard);
         if (ex->door != nullptr)
         {
             if (ex->health <= 0) shard.bDone = true; //Mark destroyed door shards for termination
-            else ex->door->lockedDown.running = true; //If any shards are alive, the door is locked down   
-        }   
+            else ex->door->lockedDown.running = true; //If any shards are alive, the door is locked down
+        }
     }
 
     //Move finished shards to the end of the vector
-    auto it = std::partition(lockdowns.begin(), lockdowns.end(), [](const LockdownShard& shard){ return !shard.bDone;});    
+    auto it = std::partition(lockdowns.begin(), lockdowns.end(), [](const LockdownShard& shard){ return !shard.bDone;});
     //Manually delete extend objects here as LockdownShard does not have a destructor
-    std::for_each(it, lockdowns.end(), [](LockdownShard& shard){ 
+    std::for_each(it, lockdowns.end(), [](LockdownShard& shard){
         delete LD_EX(&shard);
-    });  
+    });
     //Remove finished shards
     lockdowns.erase(it, lockdowns.end());
 
@@ -368,17 +379,17 @@ HOOK_METHOD_PRIORITY(Door, SetLockdown, 9999, (bool val) -> void)
     }
     else
     {
-        lockedDown.Stop(false); 
+        lockedDown.Stop(false);
         baseHealth = lastbase;
         health = lastbase;
     }
-    */ 
+    */
    if (val)
    {
         lockedDown.running = true;
         DOOR_EX(this)->wasLockedDown = true;
         //Health is handled by individual shards now
-        baseHealth = INT_MAX; 
+        baseHealth = INT_MAX;
         health = INT_MAX;
    }
    else
@@ -409,9 +420,9 @@ HOOK_METHOD_PRIORITY(Door, OnLoop, 9999, () -> void)
     /*Vanilla code
         lockedDown.Update();
         if (lockedDown.running && lockedDown.done) SetLockdown(false);
-    
+
     */
-    
+
     fakeOpenTimer += G_->GetCFPS()->GetSpeedFactor() / 16;
     if (fakeOpenTimer > 1.f) bFakeOpen = false;
     UpdateAnimations();
@@ -482,7 +493,7 @@ HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
 	super(fd);
-    
+
     //Vanilla code for animation setup has assumptions about the duration of a lockdown so we just load the AnimationTracker state here
     shard.tracker.LoadState(fd);
 
@@ -491,7 +502,7 @@ HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
     ex->doorId = FileHelper::readInteger(fd);
     ex->color.LoadState(fd);
     ex->anim = FileHelper::readString(fd);
-    if (!ex->anim.empty()) shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
+    shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
 }
 
 
@@ -537,7 +548,7 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
         float cloakTime = FileHelper::readFloat(fd);
         cloakingTracker.SetCurrentTime(cloakTime);
     }
-    if (G_->GetSettings()->loadingSaveVersion > 7) 
+    if (G_->GetSettings()->loadingSaveVersion > 7)
     {
         int lockdownCount = FileHelper::readInteger(fd);
         lockdowns.reserve(lockdownCount);
@@ -550,7 +561,7 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
                 ex->door = GetDoorById(ex->doorId);
                 ex->door->SetLockdown(true);
             }
-            
+
         }
     }
 }
