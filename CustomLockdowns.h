@@ -1,6 +1,5 @@
 #pragma once
-#include "Global.h"
-
+#include "FTLGame.h"
 struct CustomLockdownDefinition
 {
     CustomLockdownDefinition(float duration_, int health_, GL_Color color_, std::vector<std::string> anims_) :

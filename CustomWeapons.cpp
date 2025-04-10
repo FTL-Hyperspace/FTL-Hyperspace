@@ -183,7 +183,7 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         if (name == "customLockdown")
         {
             hasCustomDamage = true;
-            weaponDef.customDamage->lockdown.ParseNode(child);
+            weaponDef.customDamage->customLockdown.ParseNode(child);
             ret.damage.bLockdown = true;
         }
 
@@ -306,16 +306,16 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatAI::UpdateWeapons -> Begin (CustomWeapons.cpp)\n")
 
-    if (bFiringWhileCloaked || !self->ship.bCloaked) 
+    if (bFiringWhileCloaked || !self->ship.bCloaked)
     {
         weapons = self->GetWeaponList();
         for (ProjectileFactory* weapon : weapons)
         {
-            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked()) 
+            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked())
             {
                 int chargeLevels = weapon->blueprint->chargeLevels;
                 bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0;
-                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire) 
+                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire)
                 {
                     std::vector<Pointf> targets;
                     while (targets.size() < weapon->NumTargetsRequired())
@@ -324,7 +324,7 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
                         int systemTarget = PrioritizeSystem(weapon->blueprint->type);
                         if (systemTarget == -1) temp_target = target->GetRandomRoomCenter();
                         else temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
-    
+
                         //Only remove repeated targets if it is possible to add a non-repeated one
                         if (ShipGraph::GetShipInfo(target->iShipId)->RoomCount() > targets.size())
                         {
@@ -335,7 +335,7 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
                     }
                     weapon->Fire(targets, target->iShipId);
                     weapon->SelectChargeGoal();
-                }  
+                }
             }
         }
     }
@@ -345,13 +345,13 @@ HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
 HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::ClearAiming -> Begin (CustomWeapons.cpp)\n")
-    
+
     if (targets.size() > 0 && targets.size() < NumTargetsRequired()) return;
 
     fireWhenReady = false;
     targets.clear();
     lastTargets.clear();
-    
+
     targetId = -1;
 }
 
@@ -399,7 +399,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     if ((cooldown.second < 0) && iShipId == 0)
     {
         targets.clear();
-    }    
+    }
 }
 
 HOOK_METHOD(CombatDrone, PickTarget, () -> void)
@@ -424,7 +424,7 @@ HOOK_METHOD(CombatDrone, PickTarget, () -> void)
         }
         lastAimingAngle = angle;
         targetLocation = weaponTarget->GetRandomTargettingPoint(false);
-        
+
         // check that drone uses pinpoint beam
         if (weaponBlueprint->type == 2 && weaponBlueprint->length <= 1)
         {
@@ -489,7 +489,7 @@ HOOK_METHOD(ProjectileFactory, ForceCoolup, () -> void)
         }
         return;
     }
-    
+
     super();
 }
 
@@ -732,7 +732,7 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
             weaponVisual.SetFireTime(def->fireTime);
         }
     }
-    
+
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_PROJECTILE_FACTORY, 1);
@@ -934,7 +934,7 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
     {
         for (auto weapon : weapons)
         {
-            if (weapon->HitShotLimit() && !weapon->QueuedShots()) DePowerWeapon(weapon, false);       
+            if (weapon->HitShotLimit() && !weapon->QueuedShots()) DePowerWeapon(weapon, false);
         }
     }
 }
@@ -997,11 +997,11 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 targets.pop_back();
 
                 currTargets.push_back(sub_target);
-  
+
             }
             else if (blueprint->type == BURST)
             {
-                
+
                 for (Pointf& target : targets)
                 {
                     for (int i = 0; i < blueprint->miniProjectiles.size(); ++i)
@@ -1014,14 +1014,14 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                         bool manualAiming = iShipId == 0 && (CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || HasAugmentation("ARTILLERY_ORDER"));
                         if (isArtillery && !manualAiming) break;
                     }
-                }  
+                }
             }
             else
             {
                 currTargets = std::move(targets);
             }
             targets.clear();
-            
+
             fireWhenReady = false;
             cooldown.first = 0.0;
             chargeLevel = 0;
@@ -1029,7 +1029,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
             {
                 G_->GetEventSystem()->AddEvent(9);
             }
-            
+
             Point fireLoc = weaponVisual.GetFireLocation() + localPosition;
             if (blueprint->type == MISSILES)
             {
@@ -1040,7 +1040,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
             for (int idx = 0; idx < currTargets.size(); ++idx)
             {
                 Pointf pos(fireLoc.x, fireLoc.y);
-                
+
                 int chargeOffset = weaponVisual.iChargeOffset * idx;
                 if (weaponVisual.bRotation)
                 {
@@ -1050,11 +1050,11 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 else
                 {
                     if (weaponVisual.bMirrored) pos.x += chargeOffset;
-                    else pos.x -= chargeOffset;   
+                    else pos.x -= chargeOffset;
                 }
-        
+
                 Projectile* proj = nullptr;
-    
+
                 switch (blueprint->type)
                 {
                     case LASER:
@@ -1140,8 +1140,8 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 {
                     proj->flight_animation = flight_animation;
                 }
-                
-                if (blueprint->type == BOMB) 
+
+                if (blueprint->type == BOMB)
                 {
                     //TODO: Hook EffectsBlueprint::RandomSoundChoice
                     std::string sound = blueprint->effects.launchSounds[random32() % blueprint->effects.launchSounds.size()];
@@ -1276,9 +1276,9 @@ HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (CustomWeapons.cpp)\n")
     shotLimitMessage->Stop();
-    
+
     WeaponBox* box = static_cast<WeaponBox*>(boxes[armamentSlot]);
-    
+
     if (box->pWeapon->HitShotLimit() && box->pWeapon->powered)
     {
         shotLimitMessage->Start();

@@ -4,7 +4,6 @@
 #include <boost/lexical_cast.hpp>
 /*
     TODOS:
-        Lockdown implementation for powerEffect and deathEffect
         Lua exposures and LockdownRoom overload
         Linux signatures/extend classes
 */
@@ -225,7 +224,7 @@ HOOK_METHOD_PRIORITY(Ship, LockdownRoom, 9999, (int roomId, Pointf pos) -> void)
     CustomLockdownDefinition* old = CustomLockdownDefinition::currentLockdown;
     if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
-        CustomLockdownDefinition::currentLockdown = &CustomDamageManager::currentWeaponDmg->def->lockdown;
+        CustomLockdownDefinition::currentLockdown = &CustomDamageManager::currentWeaponDmg->def->customLockdown;
     }
 
     ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);

@@ -54,7 +54,7 @@ struct CustomDamageDefinition
     int erosionChance = -1;
     ErosionEffect erosionEffect;
 
-    CustomLockdownDefinition lockdown;
+    CustomLockdownDefinition customLockdown;
 
     int crewSpawnChance = -1;
     std::vector<CrewSpawn*> crewSpawns;
