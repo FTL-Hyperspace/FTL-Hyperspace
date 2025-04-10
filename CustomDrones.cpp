@@ -2,7 +2,6 @@
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "CustomWeapons.h"
-#include "Drones.h"
 #include <boost/lexical_cast.hpp>
 #include <cmath>
 #include <cfloat>
@@ -118,7 +117,7 @@ HOOK_METHOD(BlueprintManager, ProcessDroneBlueprint, (rapidxml::xml_node<char>* 
                 }
             }
         }
-        
+
         if (ret.typeName == "SHIELD")
         {
             ShieldDroneManager::ParseShieldDroneBlueprint(node);
@@ -1021,7 +1020,7 @@ void ShieldDroneManager::ParseShieldDroneBlueprint(rapidxml::xml_node<char> *nod
         {
             def.chargeSound = droneNode->value();
             isCustom = true;
-        }  
+        }
         else if (strcmp(droneNode->name(), "activateSound") == 0)
         {
             def.activateSound = droneNode->value();
@@ -1085,29 +1084,29 @@ HOOK_METHOD(SuperShieldDrone, GetWeaponCooldown, () -> float)
 }
 
 HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
-{  
+{
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SuperShieldDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     DefenseDrone::OnLoop();
     if (GetPowered() && GetDeployed())
     {
         const ShieldDroneDefinition* customDefinition = ShieldDroneManager::GetDefinition(blueprint->name);
         currentSpeed = blueprint->speed;
-        if (weaponCooldown < customDefinition->pulseDuration && glowAnimation <= 0.f) 
+        if (weaponCooldown < customDefinition->pulseDuration && glowAnimation <= 0.f)
         {
             glowAnimation = 3.f;
             G_->GetSoundControl()->PlaySoundMix(customDefinition->chargeSound, -1.f, false);
         }
-        if (weaponCooldown < customDefinition->slowDuration + customDefinition->pulseDuration) 
+        if (weaponCooldown < customDefinition->slowDuration + customDefinition->pulseDuration)
         {
             currentSpeed = std::max((weaponCooldown - customDefinition->pulseDuration) / customDefinition->slowDuration, 0.f) * currentSpeed;
         }
-        if (0.f < glowAnimation) 
+        if (0.f < glowAnimation)
         {
             currentSpeed = 0.f;
         }
         float speedMultiplier = 1.5f / customDefinition->pulseDuration;
         glowAnimation -= G_->GetCFPS()->GetSpeedFactor() * 0.0625f * speedMultiplier;
-        if (glowAnimation < 0.f) 
+        if (glowAnimation < 0.f)
         {
             glowAnimation = -1.f;
         }
@@ -1133,7 +1132,7 @@ HOOK_METHOD_PRIORITY(SuperShieldDrone, OnLoop, 9999, () -> void)
     {
         weaponCooldown = GetWeaponCooldown();
         glowAnimation = -1.f;
-    }  
+    }
 }
 
 
@@ -1294,7 +1293,7 @@ HOOK_METHOD(SpaceDrone, constructor, (int iShipId, int selfId, DroneBlueprint *b
     LOG_HOOK("HOOK_METHOD -> SpaceDrone::constructor -> Begin (CustomDrones.cpp)\n")
     super(iShipId, selfId, blueprint);
     HS_MAKE_TABLE(this)
-    
+
     //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDrone, 0);
@@ -1306,7 +1305,7 @@ HOOK_METHOD(SpaceDrone, destructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SpaceDrone::destructor -> Begin (CustomDrones.cpp)\n")
     HS_BREAK_TABLE(this)
-    super();   
+    super();
 }
 
 //Select crewdrones with drone selection hotkeys if setting is enabled.
@@ -1318,7 +1317,7 @@ HOOK_METHOD(DroneControl, SelectArmament, (unsigned int i) -> void)
     {
         DroneBox* box = static_cast<DroneBox*>(boxes[i]);
         Drone* drone = box->pDrone;
-       
+
         if (box->Powered())
         {
             CrewDrone* crewDrone = nullptr;
@@ -1339,11 +1338,11 @@ HOOK_METHOD(DroneControl, SelectArmament, (unsigned int i) -> void)
 
             if (crewDrone != nullptr)
             {
-                G_->GetCApp()->gui->crewControl.SelectPotentialCrew(crewDrone, false); 
+                G_->GetCApp()->gui->crewControl.SelectPotentialCrew(crewDrone, false);
                 G_->GetCApp()->gui->crewControl.SelectCrew(false);
-            }   
+            }
         }
-    }   
+    }
 }
 
 //Add drones to return of GetCrewPortraitList call within functions handling saved positions if setting is enabled.
