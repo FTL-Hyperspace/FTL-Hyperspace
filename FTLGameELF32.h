@@ -556,10 +556,18 @@ struct LIBZHL_INTERFACE AnimationTracker
 {
 	AnimationTracker()
 	{
-	
+
 	}
 	void LoadState(int fd);
 	void SaveState(int fd);
+
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
 
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
@@ -640,9 +648,9 @@ struct GL_Color
 {
 	GL_Color(float rr, float gg, float bb, float aa) : r(rr), g(gg), b(bb), a(aa)
 	{
-		
+
 	}
-	
+
 	static GL_Color FromHSV(float fH, float fS, float fV, float fA)
 	{
 		float fR, fB, fG;
@@ -650,57 +658,57 @@ struct GL_Color
 		float fHPrime = fmod(fH / 60.0, 6);
 		float fX = fC * (1 - fabs(fmod(fHPrime, 2) - 1));
 		float fM = fV - fC;
-		
-		if (0 <= fHPrime && fHPrime < 1) 
+
+		if (0 <= fHPrime && fHPrime < 1)
 		{
 			fR = fC;
 			fG = fX;
 			fB = 0;
-		} 
-		else if(1 <= fHPrime && fHPrime < 2) 
+		}
+		else if(1 <= fHPrime && fHPrime < 2)
 		{
 			fR = fX;
 			fG = fC;
 			fB = 0;
-		} 
-		else if(2 <= fHPrime && fHPrime < 3) 
+		}
+		else if(2 <= fHPrime && fHPrime < 3)
 		{
 			fR = 0;
 			fG = fC;
 			fB = fX;
-		} 
-		else if(3 <= fHPrime && fHPrime < 4) 
+		}
+		else if(3 <= fHPrime && fHPrime < 4)
 		{
 			fR = 0;
 			fG = fX;
 			fB = fC;
-		} 
-		else if(4 <= fHPrime && fHPrime < 5) 
+		}
+		else if(4 <= fHPrime && fHPrime < 5)
 		{
 			fR = fX;
 			fG = 0;
 			fB = fC;
-		} 
-		else if(5 <= fHPrime && fHPrime < 6) 
+		}
+		else if(5 <= fHPrime && fHPrime < 6)
 		{
 			fR = fC;
 			fG = 0;
 			fB = fX;
-		} 
-		else 
+		}
+		else
 		{
 			fR = 0;
 			fG = 0;
 			fB = 0;
 		}
-		  
+
 		fR += fM;
 		fG += fM;
 		fB += fM;
-		
+
 		return GL_Color(fR, fB, fG, fA);
 	}
-	
+
 	GL_Color() {}
 
 	bool operator==(const GL_Color &color2)
@@ -712,6 +720,9 @@ struct GL_Color
 	{
 		return !(r == color2.r && g == color2.g && b == color2.b && a == color2.a);
 	}
+
+	void SaveState(int fd);
+	void LoadState(int fd);
 
 	float r;
 	float g;
@@ -5305,6 +5316,21 @@ public:
 		}
 	}
 
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
+	}
+
 	LIBZHL_API bool ApplyDamage(float amount);
 	LIBZHL_API void FakeClose();
 	LIBZHL_API void FakeOpen();
@@ -6240,6 +6266,21 @@ struct LockdownShard;
 
 struct LockdownShard
 {
+    LockdownShard() {}
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+
 	LIBZHL_API void Update();
 	
 	Animation shard;
@@ -6973,7 +7014,7 @@ struct Ship : ShipObject
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
@@ -6982,6 +7023,53 @@ struct Ship : ShipObject
 	  DOOR_HIT = 0x3,
 	  DOOR_ANIMATING = 0x4,
 	};
+
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = INT_MAX;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
 
 
 	struct DoorState

@@ -1,2 +1,20 @@
 "534889fbbf????????e8????????f30f5905????????f30f5883d8000000":
 cleanup __amd64 void LockdownShard::Update(LockdownShard *this);
+
+struct LockdownShard
+{{
+    LockdownShard() {}
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+}};

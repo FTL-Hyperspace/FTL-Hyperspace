@@ -6291,7 +6291,7 @@ struct Location
 struct LockdownShard;
 
 struct LockdownShard
-{	
+{
     LockdownShard() {}
 
 	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)

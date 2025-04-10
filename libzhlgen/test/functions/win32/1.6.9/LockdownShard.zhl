@@ -1,7 +1,7 @@
 "578d????0883e4f0ff????5589e557565389ce83c13c81ec2c010000":
 __thiscall void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047ec10
 ".578d????0883e4f0ff????5589e557565389cb83c13c81ec2c0100008b??8b????":
-__thiscall void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047f290 
+__thiscall void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047f290
 ".578d????0883e4f0ff????5589e557565389cb83c13c81ec2c010000c741c400000000":
 __thiscall void LockdownShard::constructor3(LockdownShard *this, int fd); //0047f920
 ".578d????0883e4f0ff????5589e557565389cb83ec2c8b??f30f1081cc000000":
@@ -12,7 +12,7 @@ __thiscall void LockdownShard::Update(LockdownShard *this); //00480170
 __thiscall void LockdownShard::OnRender(LockdownShard *this); //00480320
 
 struct LockdownShard
-{{	
+{{
     LockdownShard() {}
 
 	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
