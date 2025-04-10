@@ -613,11 +613,13 @@ struct Door
   int iDoorId;
   int baseHealth;
   int health;
+  uint8_t gap_ex_1[4];
   AnimationTracker forcedOpen;
   AnimationTracker gotHit;
   int doorLevel;
   bool bIoned;
   float fakeOpenTimer;
+  uint8_t gap_ex_2[4];
   AnimationTracker lockedDown;
   float lastbase;
   int iHacked;
@@ -776,10 +778,13 @@ struct LockdownShard
   Pointf goal;
   float speed;
   bool bArrived;
+  uint8_t gap_ex_1[2];
   bool bDone;
   float lifeTime;
   bool superFreeze;
+  uint8_t gap_ex_2[3];
   int lockingRoom;
+  uint8_t gap_ex_3[4];
 };
 
 /* 461 */
@@ -3528,7 +3533,7 @@ struct VTable_ArmamentBox
   void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
   void (__thiscall *RenderLabels)(ArmamentBox *this);
   void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
-  
+
 
 };
 

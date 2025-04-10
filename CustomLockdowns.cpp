@@ -101,16 +101,22 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
     uintptr_t dEx = (uintptr_t)ex;
 
     #ifdef __amd64__
-        gap_ex_1[2] = (dEx >> 56) & 0xFF;
-        gap_ex_1[3] = (dEx >> 48) & 0xFF;
-        gap_ex_2[2] = (dEx >> 40) & 0xFF;
-        gap_ex_2[3] = (dEx >> 32) & 0xFF;
-    #endif // __amd64__
+        gap_ex_1[0] = (dEx >> 56) & 0xFF;
+        gap_ex_1[1] = (dEx >> 48) & 0xFF;
+        gap_ex_2[0] = (dEx >> 40) & 0xFF;
+        gap_ex_2[1] = (dEx >> 32) & 0xFF;
+        gap_ex_2[2] = (dEx >> 24) & 0xFF;
+        gap_ex_3[0] = (dEx >> 16) & 0xFF;
+        gap_ex_3[1] = (dEx >> 8) & 0xFF;
+        gap_ex_3[2] = dEx & 0xFF;
+    #else
         gap_ex_1[0] = (dEx >> 24) & 0xFF;
         gap_ex_1[1] = (dEx >> 16) & 0xFF;
         gap_ex_2[0] = (dEx >> 8) & 0xFF;
         gap_ex_2[1] = dEx & 0xFF;
-        ex->orig = this;
+    #endif // __amd64__
+
+    ex->orig = this;
     if (!loading)
     {
         lifeTime = CustomLockdownDefinition::currentLockdown->duration;
@@ -122,7 +128,6 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
             if (superFreeze) ex->anim = "crystal_1";
             else ex->anim = random32() % 2 == 0 ? "crystal_1" : "crystal_2";
         }
-        hs_log_file("LockdownShard anim: %s\n", ex->anim.c_str());
         shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
     }
 }
@@ -161,16 +166,8 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor3, 900, (int fd) -> void)
 LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
 {
     uintptr_t dEx = 0;
+
 #ifdef __amd64__
-    dEx <<= 8;
-    dEx |= c->gap_ex_1[2];
-    dEx <<= 8;
-    dEx |= c->gap_ex_1[3];
-    dEx <<= 8;
-    dEx |= c->gap_ex_2[2];
-    dEx <<= 8;
-    dEx |= c->gap_ex_2[3];
-#endif // __amd64__
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
@@ -179,7 +176,24 @@ LockdownShard_Extend* Get_LockdownShard_Extend(LockdownShard* c)
     dEx |= c->gap_ex_2[0];
     dEx <<= 8;
     dEx |= c->gap_ex_2[1];
-
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[2];
+    dEx <<= 8;
+    dEx |= c->gap_ex_3[0];
+    dEx <<= 8;
+    dEx |= c->gap_ex_3[1];
+    dEx <<= 8;
+    dEx |= c->gap_ex_3[2];
+#else
+    dEx <<= 8;
+    dEx |= c->gap_ex_1[0];
+    dEx <<= 8;
+    dEx |= c->gap_ex_1[1];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[0];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[1];
+#endif // __amd64__
     return (LockdownShard_Extend*)dEx;
 }
 
