@@ -222,6 +222,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                             }
                         }
                     }
+                    if (strcmp(child->name(), "customLockdown") == 0)
+                    {
+                        CustomLockdownDefinition::defaultLockdown.ParseNode(child);
+                    }
                 }
             }
 
