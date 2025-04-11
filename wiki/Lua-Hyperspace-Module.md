@@ -677,7 +677,7 @@ Accessed via `ShipManager`'s `.extend` field
    The class holding associated data to a [`LockdownShard`](#LockdownShard).
 ### Fields
 - `int` `.health`
-   - The current health of the shard. Is reduced by 1 for each hit from a crew member with base door damage.
+   - The current health of the shard. Is reduced by 1 for each hit from a crew member with base door damage. Only matters for door shards.
 - [`Door*`](#Door) `.door`
    - **Read-Only**
    - The door that this shard is locking down, if any. Nil if no associated door.
