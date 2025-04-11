@@ -7053,7 +7053,7 @@ struct Ship : ShipObject
 	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
 	{
 		Door* ret = nullptr;
-		int lastDistance = INT_MAX;
+		int lastDistance = 2147483647;
 		for (Door* door : vDoorList)
 		{
 			if (door->HS_ContainsPoint(x, y, doorScale, force))

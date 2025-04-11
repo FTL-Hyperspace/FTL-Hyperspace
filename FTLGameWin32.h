@@ -7062,7 +7062,7 @@ struct Ship : ShipObject
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
@@ -7071,12 +7071,12 @@ struct Ship : ShipObject
 	  DOOR_HIT = 0x3,
 	  DOOR_ANIMATING = 0x4,
 	};
-	
+
 	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
 	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
 	{
 		Door* ret = nullptr;
-		int lastDistance = INT_MAX;
+		int lastDistance = 2147483647;
 		for (Door* door : vDoorList)
 		{
 			if (door->HS_ContainsPoint(x, y, doorScale, force))
