@@ -2477,8 +2477,6 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %nodefaultctor LockdownShard_Extend;
 %rename("%s") LockdownShard_Extend;
-%immutable LockdownShard_Extend::orig;
-%rename("%s") LockdownShard_Extend::orig;
 %rename("%s") LockdownShard_Extend::health;
 %immutable LockdownShard_Extend::door;
 %rename("%s") LockdownShard_Extend::door;

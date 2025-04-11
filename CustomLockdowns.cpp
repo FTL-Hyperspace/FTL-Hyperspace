@@ -115,7 +115,6 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
         gap_ex_2[1] = dEx & 0xFF;
     #endif // __amd64__
 
-    ex->orig = this;
     if (!loading)
     {
         lifeTime = CustomLockdownDefinition::currentLockdown->duration;

@@ -676,9 +676,6 @@ Accessed via `ShipManager`'s `.extend` field
 ## LockdownShard_Extend
    The class holding associated data to a [`LockdownShard`](#LockdownShard).
 ### Fields
-- [`LockdownShard`](#LockdownShard) `.orig`
-   - **Read-Only**
-   - The [`LockdownShard`](#LockdownShard) associated with this extend.
 - `int` `.health`
    - The current health of the shard. Is reduced by 1 for each hit from a crew member with base door damage.
 - [`Door*`](#Door) `.door`

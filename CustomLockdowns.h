@@ -29,7 +29,6 @@ Door_Extend* Get_Door_Extend(Door* c);
 
 struct LockdownShard_Extend
 {
-    LockdownShard* orig;
     int health; //Int for parity with door health
     Door* door = nullptr; //Pointer to the door this shard is attached to, if any
     int doorId = -1; //Id of the door this shard is attached to, only used for saving/loading
