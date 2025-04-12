@@ -630,12 +630,11 @@ namespace MologieDetours
                         // TODO: Need to check delta size, if it's larger than a 32-bit jump we'd need to rewrite this code to an absolute jmp rather than this.
                         // TODO: If delta is too big we'll have to allocate more space for that.
 					#ifdef __APPLE__
-						if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
+						if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0) // Use an aboslute jump instead of a relative one
 						{
-							// Anstatt den relativen Jump zu verwenden, verwende einen absoluten Jump
 							unsigned char* pbCurOp = baseNew + i;
-							pbCurOp[0] = 0xE9;  // Absolute Jump (JMP)
-							*reinterpret_cast<uint32_t*>(pbCurOp + 1) = (uintptr_t)baseOld;  // Absoluter Zieladresse
+							pbCurOp[0] = 0xE9;  // Absolute jump (JMP)
+							*reinterpret_cast<uint32_t*>(pbCurOp + 1) = (uintptr_t)baseOld;  // Absolute jump addr
 						}
 					#else
                         if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
