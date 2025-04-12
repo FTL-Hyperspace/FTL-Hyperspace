@@ -702,7 +702,7 @@ void CustomEquipment::MouseMove(int mX, int mY)
 
         EquipmentBox *box = orig->vEquipmentBoxes[i];
         box->MouseMove(mX, mY);
-        
+
         if (!box->bMouseHovering)
         {
             continue;
@@ -768,7 +768,7 @@ void CustomEquipment::MouseMove(int mX, int mY)
             return;
         }
     }
-    
+
     orig->sellCostText = std::to_string(orig->vEquipmentBoxes[orig->bDragging ? orig->draggingEquipBox : orig->selectedEquipBox]->GetItemValue() / 2);
     orig->bSellingItem = orig->bDragging && orig->bStoreMode && orig->sellBox.Contains(mX, mY);
     orig->sellBox.selectedImage = static_cast<int>(orig->bSellingItem);
@@ -908,7 +908,7 @@ void CustomEquipment::OnScrollWheel(float direction)
                     --currentCargoPage;
                 }
             }
-    
+
             if (direction == 1.f)
             {
                 if (currentCargoPage == maxCargoPage)
@@ -939,7 +939,7 @@ void CustomEquipment::OnScrollWheel(float direction)
                     --currentAugPage;
                 }
             }
-    
+
             if (direction == 1.f)
             {
                 if (currentAugPage == maxAugPage)
@@ -1012,14 +1012,14 @@ HOOK_METHOD(Equipment, Open, () -> void)
     CustomEquipment *custom = EQ_EX(this)->customEquipment;
     custom->currentAugPage = 0;
     custom->currentCargoPage = 0;
-    custom->currentOverCapacityPage = 0;
 }
 
 HOOK_METHOD(Equipment, MouseUp, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Equipment::MouseUp -> Begin (CustomEquipment.cpp)\n")
+    if (!bDragging) return super(mX, mY);
     super(mX, mY);
-    
+
     CustomEquipment *custom = EQ_EX(this)->customEquipment;
     // updates over capacity item when player swaps item in over capacity box.
     if (!custom->overCapacityItems.empty())
