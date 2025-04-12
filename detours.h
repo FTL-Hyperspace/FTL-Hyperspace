@@ -629,8 +629,18 @@ namespace MologieDetours
 
                         // TODO: Need to check delta size, if it's larger than a 32-bit jump we'd need to rewrite this code to an absolute jmp rather than this.
                         // TODO: If delta is too big we'll have to allocate more space for that.
+					#ifdef __APPLE__
+						if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
+						{
+							// Anstatt den relativen Jump zu verwenden, verwende einen absoluten Jump
+							unsigned char* pbCurOp = baseNew + i;
+							pbCurOp[0] = 0xE9;  // Absolute Jump (JMP)
+							*reinterpret_cast<uint32_t*>(pbCurOp + 1) = (uintptr_t)baseOld;  // Absoluter Zieladresse
+						}
+					#else
                         if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
                             throw DetourRelocationException("Target relocation cannot be expressed as rel32 and is more than 32-bits away");
+					#endif
 
                         unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1; // Note, this offset computation doesn't deal with prefixes.
                         *reinterpret_cast<uint32_t*>(pbCurOp  + offset) += delta;
