@@ -19,9 +19,8 @@
     #endif // Architecture
 #elif defined(__APPLE__)
 	#include <mach-o/dyld.h>
-	#include <mach-o/loader.h>
-	#include <stdio.h>
-	#include <string.h>
+	#include <mach/vm_page_size.h>
+	#include <sys/mman.h>
 
 	#ifdef __amd64__
 		#define PTR_PRINT_F "0x%016" PRIxPTR
@@ -297,60 +296,63 @@ void SigScan::Init()
 
 void SigScan::Init()
 {
-    // Obtain Mach-O header information
-    const struct mach_header_64* header = reinterpret_cast<const struct mach_header_64*>(_dyld_get_image_header(0));
-    if (!header || header->magic != MH_MAGIC_64)
-    {
-        fprintf(stderr, "ERROR: Mach-O header not found or invalid!\n");
-        return;
-    }
+	for (uint32_t i = 0; i < _dyld_image_count(); i++)
+	{
+		const struct mach_header_64* header = (const struct mach_header_64*)_dyld_get_image_header(i);
+		if (!header || header->magic != MH_MAGIC_64) continue;
 
-    // Pull ASLR slide amount
-    uintptr_t slide = _dyld_get_image_vmaddr_slide(0);
+		if (header->filetype != MH_EXECUTE) continue; // Filter out main executable
 
-    // Iterate through load commands to locate __TEXT.__text section
-    const struct load_command* lc = reinterpret_cast<const struct load_command*>(reinterpret_cast<uintptr_t>(header) + sizeof(struct mach_header_64));
+		uintptr_t slide = _dyld_get_image_vmaddr_slide(i);
+		const uint8_t* ptr = (const uint8_t*)(header + 1);
 
-    const struct section_64* textSection = nullptr;
-    for (uint32_t i = 0; i < header->ncmds && !textSection; ++i)
-    {
-        if (lc->cmd == LC_SEGMENT_64)
-        {
-            const struct segment_command_64* segment = reinterpret_cast<const struct segment_command_64*>(lc);
-            if (strcmp(segment->segname, "__TEXT") == 0)
-            {
-                // Search within the __TEXT segment for the __text section
-                const struct section_64* section = reinterpret_cast<const struct section_64*>(reinterpret_cast<uintptr_t>(segment) + sizeof(struct segment_command_64));
-                for (uint32_t i = 0; i < segment->nsects; ++i, ++section)
-                {
-                    if (strcmp(section->sectname, "__text") == 0)
-                    {
-                        textSection = section;
-                        break;
-                    }
-                }
-            }
-        }
-        lc = reinterpret_cast<const struct load_command*>(reinterpret_cast<uintptr_t>(lc) + lc->cmdsize);
-    }
+		for (uint32_t j = 0; j < header->ncmds; j++)
+		{
+			const struct load_command *lc = (const struct load_command *)ptr;
 
-    // Handle error if __TEXT.__text section is not found
-    if (!textSection)
-    {
-        fprintf(stderr, "FATAL ERROR: Segment __TEXT.__text not found!\n");
-        return;
-    }
+			if (lc->cmd == LC_SEGMENT_64)
+			{
+				const struct segment_command_64 *seg = (const struct segment_command_64 *)lc;
 
-    // Calculate the base address and size of the binary
-    s_pBase = reinterpret_cast<unsigned char*>(textSection->addr + slide);
-    s_iBaseLen = textSection->size;
-    s_pLastAddress = s_pBase;
+				if (strcmp(seg->segname, "__TEXT") == 0)
+				{
+					const struct section_64 *sect = (const struct section_64 *)(seg + 1);
+					for (uint32_t k = 0; k < seg->nsects; k++)
+					{
+						if (strcmp(sect->sectname, "__text") == 0)
+						{
+							uintptr_t codeSectStart = slide + sect->addr;
 
-    // Debug output
-    printf("ASLR slide amount: 0x%lx\n", slide);
-    printf("__TEXT.__text base address: %p\n", s_pBase);
-    printf("__TEXT.__text length: 0x%lx\n", s_iBaseLen);
-    printf("__TEXT.__text continue address: %p\n", s_pLastAddress);
+							s_pBase = reinterpret_cast<unsigned char*>(codeSectStart);
+							s_iBaseLen = sect->size;
+							s_pLastAddress = s_pBase;
+
+							// pre-unprotect 
+							uintptr_t page_start = codeSectStart & ~(vm_page_size - 1);
+							uintptr_t page_end = (codeSectStart + s_iBaseLen + vm_page_size - 1) & ~(vm_page_size - 1);
+							size_t page_len = page_end - page_start;
+						
+							printf("[INFO] Adjusting permissions for page: 0x%lx (size: 0x%lx)\n", (unsigned long)page_start, (unsigned long)page_len);
+						
+							if (mprotect((void*)page_start, page_len, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
+							{
+								return perror("[ERROR] mprotect failed");
+							}
+
+							printf("[INFO] ASLR slide amount: 0x%lx\n", slide);
+							printf("[INFO] __TEXT.__text start address: %lx\n", codeSectStart);
+							printf("[INFO] __TEXT.__text length: 0x%lx\n", s_iBaseLen);
+							return;
+						}
+						sect++;
+					}
+				}
+			}
+			ptr += lc->cmdsize;
+		}
+	}
+	fprintf(stderr, "[ERROR] Something went wrong while initializing the SigScanner!\n");
+	return;
 }
 
 #endif

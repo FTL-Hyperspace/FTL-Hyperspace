@@ -1,5 +1,5 @@
 // Continue from CrewMember::CanMan (hyper efficiency™)
-"!.554889e54156534989fe498b7e10498b4e184839f975054889ca99999999":
+"!.554889e54156534989fe498b7e1049":
 cleanup __amd64 void CrewMemberFactory::destructor(CrewMemberFactory* this);
 ".554889e54157415653504989fe498b4610498b56":
 cleanup __amd64 void CrewMemberFactory::Restart(CrewMemberFactory* this);

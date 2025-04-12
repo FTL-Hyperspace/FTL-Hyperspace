@@ -6521,7 +6521,7 @@ bool CrewMember::CanMan()
 namespace _func506
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMemberFactory::destructor", typeid(void (CrewMemberFactory::*)()), "!.554889e54156534989fe498b7e10498b4e184839f975054889ca99999999", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMemberFactory::destructor", typeid(void (CrewMemberFactory::*)()), "!.554889e54156534989fe498b7e1049", nullptr, 0, 0, &func);
 }
 
 void CrewMemberFactory::destructor()
