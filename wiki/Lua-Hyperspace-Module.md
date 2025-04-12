@@ -686,6 +686,8 @@ Accessed via `ShipManager`'s `.extend` field
 - `std::string` `.anim`
    - **Read-Only**
    - The name of the animation for this shard. Used for restoring animations on save/load.
+- `bool` `.canDilate`
+   - If this shard is affected by time dilation.
 
 ## CustomLockdownDefinition
    The class representing a custom lockdown type.
@@ -700,6 +702,8 @@ Accessed via `ShipManager`'s `.extend` field
    - A selection of animation names for each shard to use.
    - Wall shards will use a random animation from the list.
    - Door shards will use the first animation from the list.
+- `bool` `.canDilate`
+   - If this lockdown is affected by time dilation.
 ## ShipSystem
 
 ### Static methods

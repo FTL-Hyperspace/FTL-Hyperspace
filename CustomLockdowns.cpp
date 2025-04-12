@@ -2,12 +2,8 @@
 #include "CustomLockdowns.h"
 #include "Resources.h"
 #include <boost/lexical_cast.hpp>
-/*
-    TODO:
-        Lua exposures and LockdownRoom overload
-*/
 
-CustomLockdownDefinition CustomLockdownDefinition::defaultLockdown(12.f, 50, GL_Color(1.f, 1.f, 1.f, 1.f), {"crystal_1", "crystal_2"}); //Default lockdown value from vanilla
+CustomLockdownDefinition CustomLockdownDefinition::defaultLockdown(12.f, 50, GL_Color(1.f, 1.f, 1.f, 1.f), {"crystal_1", "crystal_2"}, true); //Default lockdown value from vanilla
 CustomLockdownDefinition* CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown; //Default lockdown value from vanilla
 
 void CustomLockdownDefinition::ParseNode(rapidxml::xml_node<char> *node)
@@ -34,6 +30,10 @@ void CustomLockdownDefinition::ParseNode(rapidxml::xml_node<char> *node)
             {
                 anims.emplace_back(animChild->value());
             }
+        }
+        else if (nodeName == "canDilate")
+        {
+            canDilate = EventsParser::ParseBoolean(child->value());
         }
     }
 }
@@ -127,6 +127,7 @@ void LockdownShard::Initialize(bool loading, bool superFreeze)
             else ex->anim = random32() % 2 == 0 ? "crystal_1" : "crystal_2";
         }
         shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
+        ex->canDilate = CustomLockdownDefinition::currentLockdown->canDilate;
     }
 }
 
@@ -291,20 +292,18 @@ HOOK_METHOD_PRIORITY(Ship, OnLoop, 9999, (std::vector<float> &oxygenLevels) -> v
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnLoop -> Begin (CustomLockdowns.cpp)\n")
     cloakingTracker.Update();
     if (cloakingTracker.done) cloakingTracker.Stop(true);
-    if (!explosion.bJumpOut || explosion.Progress(-1.f) <= 0.75)
-    {
-        explosion.Update();
-        if (explosion.bJumpOut && explosion.Progress(-1.f) > 0.75)
-        {
-            shipImage = explosion.GetFinalGib();
-            CSurface::GL_DestroyPrimitive(shipImagePrimitive);
-            shipImagePrimitive = CSurface::GL_CreatePixelImagePrimitive(shipImage.tex, shipImage.x, shipImage.y, shipImage.w, shipImage.h, 0.f, GL_Color(1.f, 1.f, 1.f, 1.f), false);
 
-        }
-    }
-    else
+    bool wasExploded = explosion.Progress(-1.f) > 0.75f;
+    (&explosion)->Update(); //Ensure virtual call (can be removed once ExplosionAnimation::Update is hooked)
+    if (explosion.bJumpOut && !wasExploded && explosion.Progress(-1.f) > 0.75f)
     {
-        explosion.Update();
+        int offsetX = shipImage.x;
+        int offsetY = shipImage.y;
+        shipImage = explosion.GetFinalGib();
+        shipImage.x += offsetX;
+        shipImage.y += offsetY;
+        CSurface::GL_DestroyPrimitive(shipImagePrimitive);
+        shipImagePrimitive = CSurface::GL_CreatePixelImagePrimitive(shipImage.tex, shipImage.x, shipImage.y, shipImage.w, shipImage.h, 0.f, GL_Color(1.f, 1.f, 1.f, 1.f), false);
     }
 
     int hull = std::min(hullIntegrity.first, hullIntegrity.second);
@@ -370,7 +369,6 @@ HOOK_METHOD_PRIORITY(Ship, OnLoop, 9999, (std::vector<float> &oxygenLevels) -> v
     }
 }
 
-
 //References to SetLockdown:
 //Door::OnLoop
 //Ship::LockdownRoom
@@ -428,10 +426,9 @@ HOOK_METHOD_PRIORITY(Door, OnLoop, 9999, () -> void)
     forcedOpen.Update();
     if (forcedOpen.done) forcedOpen.Stop(false);
 
-    /*Vanilla code
+    /*  Vanilla code
         lockedDown.Update();
         if (lockedDown.running && lockedDown.done) SetLockdown(false);
-
     */
 
     fakeOpenTimer += G_->GetCFPS()->GetSpeedFactor() / 16;
@@ -498,6 +495,7 @@ HOOK_METHOD(LockdownShard, SaveState, (int fd) -> void)
     FileHelper::writeInt(fd, ex->doorId);
     ex->color.SaveState(fd);
     FileHelper::writeString(fd, ex->anim);
+    FileHelper::writeInt(fd, ex->canDilate ? 1 : 0);
 }
 
 HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
@@ -513,6 +511,7 @@ HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
     ex->doorId = FileHelper::readInteger(fd);
     ex->color.LoadState(fd);
     ex->anim = FileHelper::readString(fd);
+    ex->canDilate = FileHelper::readInteger(fd) == 1;
     shard = G_->GetAnimationControl()->GetAnimation(ex->anim);
 }
 

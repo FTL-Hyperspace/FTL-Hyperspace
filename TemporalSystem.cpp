@@ -1339,7 +1339,7 @@ HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 HOOK_METHOD(LockdownShard, Update, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LockdownShard::Update -> Begin (TemporalSystem.cpp)\n")
-    g_dilationAmount = GetRoomDilationAmount(g_shardDilationRooms, lockingRoom);
+    g_dilationAmount = LD_EX(this)->canDilate ? GetRoomDilationAmount(g_shardDilationRooms, lockingRoom) : 0;
 
     super();
 

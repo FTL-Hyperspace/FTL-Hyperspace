@@ -2483,13 +2483,14 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") LockdownShard_Extend::color;
 %immutable LockdownShard_Extend::anim;
 %rename("%s") LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::canDilate;
 
 %rename("%s") CustomLockdownDefinition;
 %rename("%s") CustomLockdownDefinition::duration;
 %rename("%s") CustomLockdownDefinition::health;
 %rename("%s") CustomLockdownDefinition::color;
 %rename("%s") CustomLockdownDefinition::anims;
-
+%rename("%s") CustomLockdownDefinition::canDilate;
 
 
 %nodefaultctor Room;

@@ -53,6 +53,7 @@ This way mods that frequently use a particular value can just make it the defaul
 			<anim>crystal_1</anim>
 			<anim>crystal_2</anim>
 		</anims>
+		<canDilate>true</canDilate>
 	</customLockdown>
 	-->
 </defaults>
@@ -946,6 +947,7 @@ Syntax ->
 					<anim>crystal_1</anim>
 					<anim>crystal_2</anim>
 				</anims>
+				<canDilate>true</canDilate>
 			</customLockdown>
 			<friendlyFire>false</friendlyFire>                                           If false, then the damage is not applied to friendly crewmembers.
 			<stun>0</stun>
@@ -1108,6 +1110,7 @@ Syntax ->
 					<anim>crystal_1</anim> The name of the animation in animations.xml
 					<anim>crystal_2</anim>
 				</anims>
+				<canDilate>true</canDilate>                                                        If the lockdown duration is affected by time dilation.
 			</customLockdown>
 			<friendlyFire>false</friendlyFire>                                                     If false, then the damage is not applied to friendly crewmembers.
 			<stun>0</stun>
@@ -1334,6 +1337,7 @@ Syntax ->
 					<anim>crystal_1</anim>
 					<anim>crystal_2</anim>
 				</anims>
+				<canDilate>true</canDilate>
 			</customLockdown>
 			<buttonText id="button_lockdown">LOCKDOWN</buttonText>
 			<tooltip id="power_ready"></tooltip>
