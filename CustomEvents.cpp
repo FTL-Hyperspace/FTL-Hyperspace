@@ -4721,7 +4721,12 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
     if (loc->ship.present && !ships.empty() && hasLoadAttribute) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
     {
-        replacedShips.push_back(ships[0]);
+        hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
+        CompleteShip* replacedShip = ships[0];
+        replacedShip->shipManager->KillEveryone(true);
+        replacedShip->shipManager->SetDestroyed();
+
+        replacedShips.push_back(replacedShip);
         ships.clear();
         ShipManager* oldEnemy = playerShip->enemyShip->shipManager;
         auto& spaceShips = space.ships;
@@ -4833,8 +4838,6 @@ HOOK_METHOD(WorldManager, ClearLocation, () -> void)
     LOG_HOOK("HOOK_METHOD -> WorldManager::ClearLocation -> Begin (CustomEvents.cpp)\n")
     for (CompleteShip* replacedShip : replacedShips)
     {
-        replacedShip->shipManager->KillEveryone(true);
-        replacedShip->shipManager->SetDestroyed();
         delete replacedShip;
     }
     replacedShips.clear();
