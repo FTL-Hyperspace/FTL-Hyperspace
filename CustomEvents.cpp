@@ -149,11 +149,11 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
     Pointf dynamicCutOff;
     int creditNamesLineSpacing = 40;
     int creditNamesToFinishTextSpacing = 100;
-    
+
     for (auto creditNode = node->first_node(); creditNode; creditNode = creditNode->next_sibling())
     {
         // Parse <scrollSpeed/> xml tag
-        if (strcmp(creditNode->name(), "scrollSpeed") == 0) 
+        if (strcmp(creditNode->name(), "scrollSpeed") == 0)
         {
             if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
@@ -170,7 +170,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         }
 
         // Parse <fadeInSpeed/> xml tag
-        if (strcmp(creditNode->name(), "fadeInSpeed") == 0) 
+        if (strcmp(creditNode->name(), "fadeInSpeed") == 0)
         {
             if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
@@ -189,37 +189,37 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         // Parse scroll pause & initial delay
         if (strcmp(creditNode->name(), "scrollPause") == 0)
         {
-            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay")) 
+            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay"))
             {
                 try
                 {
                     scrollDelay = std::stof(scrollDelayAttribute->value()) * 50;
                 }
-                catch (const std::invalid_argument& e) 
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'scrollDelay' to a float. Using default value.\n");
                 }
             }
 
-            if (auto pauseDurationAttribute = creditNode->first_attribute("duration")) 
+            if (auto pauseDurationAttribute = creditNode->first_attribute("duration"))
             {
-                try 
+                try
                 {
                     pauseDuration = std::stof(pauseDurationAttribute->value()) * 50 + scrollDelay;
-                } 
-                catch (const std::invalid_argument& e) 
+                }
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
                 }
             }
 
-            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
+            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition"))
             {
-                try 
+                try
                 {
                     pausePosition = std::stof(pausePositionAttribute->value());
-                } 
-                catch (const std::invalid_argument& e) 
+                }
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
                 }
@@ -299,7 +299,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditText.lineLenght = 750;
-            
+
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 750, textString);
             creditText.cutOff = dynamicCutOff.x + 50;
 
@@ -378,7 +378,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditFinishText.lineLenght = 1000;
-            
+
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 1000, textString);
             creditFinishText.cutOff = dynamicCutOff.x + 50;
 
@@ -387,7 +387,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
 
         // Parse values for credits.txt
         if (strcmp(creditNode->name(), "creditNames") == 0)
-        {   
+        {
             if (auto valueAttribute = creditNode->first_attribute("fontSize"))
             {
                 std::string valueStr = valueAttribute->value();
@@ -4131,7 +4131,7 @@ void RecallBoarders(int direction, bool force, bool effects)
                     {
                         i->StartTeleportArrive();
                         G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
-                    } 
+                    }
                 }
             }
         }
@@ -4156,7 +4156,7 @@ void RecallBoarders(int direction, bool force, bool effects)
                     {
                         i->StartTeleportArrive();
                         G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
-                    } 
+                    }
                 }
             }
         }
@@ -4698,7 +4698,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 }
 
 static bool g_noASBPlanet = false;
-
+static std::vector<CompleteShip*> replacedShips;
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
@@ -4717,7 +4717,38 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         }
     }
 
+    //Fix bug with multiple enemies at the same beacon
+    bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
+    if (loc->ship.present && !ships.empty() && hasLoadAttribute) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
+    {
+        replacedShips.push_back(ships[0]);
+        ships.clear();
+        ShipManager* oldEnemy = playerShip->enemyShip->shipManager;
+        auto& spaceShips = space.ships;
+        spaceShips.erase(std::remove_if(spaceShips.begin(), spaceShips.end(), [=](ShipManager* ship) {return ship == oldEnemy;}), spaceShips.end());
+    }
+
     super(loc);
+
+    auto CheckHackingDrone = [&](CompleteShip* ship)
+    {
+        if (ship->shipManager->hackingSystem)
+        {
+            bool needHackingDrone = true;
+            for (SpaceDrone* drone : space.drones)
+            {
+                if (drone == &ship->shipManager->hackingSystem->drone)
+                {
+                    needHackingDrone = false;
+                    break;
+                }
+            }
+            if (needHackingDrone)
+            {
+                space.drones.push_back(&ship->shipManager->hackingSystem->drone);
+            }
+        }
+    };
 
     if (loc->ship.present && loc->ship.hostile && !ships.empty())
     {
@@ -4728,38 +4759,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             {
                 commandGui->combatControl.Clear();
                 commandGui->AddEnemyShip(enemyShip);
-                if (playerShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &playerShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
-                    }
-                }
-                if (enemyShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
-                    }
-                }
+                CheckHackingDrone(playerShip);
+                CheckHackingDrone(enemyShip);
             }
         }
     }
@@ -4824,6 +4825,20 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     g_noASBPlanet = false;
+}
+
+//Clean up any replaced ships
+HOOK_METHOD(WorldManager, ClearLocation, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ClearLocation -> Begin (CustomEvents.cpp)\n")
+    for (CompleteShip* replacedShip : replacedShips)
+    {
+        replacedShip->shipManager->KillEveryone(true);
+        replacedShip->shipManager->SetDestroyed();
+        delete replacedShip;
+    }
+    replacedShips.clear();
+    super();
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -5099,12 +5114,12 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
         }
         int availableLocations = locations.size() - 2; // Subtract 2 to account for start and exit beacons
         int nonNebulaLocations = availableLocations - names.size();
-        
+
         // Starting at the end of the names list, remove nebulas until there's space for all priority events
         if (nonNebulaLocations < pEventCount)
         {
             int nebulasToRemoveCount = pEventCount - nonNebulaLocations;
-            
+
             // First pass - remove non-priority nebulas over the minimum
             int nameIndexLast = names.size() - 1;
             while (nameIndexLast >= 0 && nebulasToRemoveCount > 0)
@@ -5113,7 +5128,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                 std::string name = names[nameIndexLast];
                 int nameIndexFirst = nameIndexLast - 1;
                 while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
-                
+
                 // Make sure this isn't a priority event
                 std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
                 std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
@@ -5141,7 +5156,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                         }
                     }
                 }
-                
+
                 // Move on to the last instance of the next different event name
                 nameIndexLast = nameIndexFirst;
             }
@@ -5154,7 +5169,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                 std::string name = names[nameIndexLast];
                 int nameIndexFirst = nameIndexLast - 1;
                 while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
-                
+
                 // Make sure this isn't a priority event
                 std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
                 std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
@@ -5169,7 +5184,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                     names.erase(std::next(names.begin(), nameIndexLast + 1 - removeAmount), std::next(names.begin(), nameIndexLast + 1));
                     nebulasToRemoveCount -= removeAmount;
                 }
-                
+
                 // Move on to the last instance of the next different event name
                 nameIndexLast = nameIndexFirst;
             }
@@ -5546,7 +5561,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             {
                 G_->GetShipManager(1)->RemoveSystem(system.second);
             }
-            
+
         }
 
         if (!customEvent->variables.empty())
@@ -5789,7 +5804,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         {
             newCrewString += crewlistComma + crewNames[i];
             totalLength += crewNames[i].length() + crewlistComma.length();
-            if (totalLength > 140) 
+            if (totalLength > 140)
             {
                 newCrewString += crewlistMore;
                 break;
@@ -5816,7 +5831,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Done -> Begin (CustomEvents.cpp)\n")
 
     bool ret;
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue)
     {
         ret = (scroll <= -scrollEnd) ? true : false;
     }
@@ -5841,7 +5856,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
 
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue)
     {
         /* ----- Resources ----- */
         std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
@@ -5873,7 +5888,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         /* ----- Visuals -----*/
         float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
         float trueScrollSpeed = gameSpeed * 3.5 * scrollSpeed;
-        
+
         fadeIn += gameSpeed * 3.5 * -0.025f * fadeInSpeed;
 
         if (scroll == 0.f && pausing > -scrollDelay) {
@@ -5956,10 +5971,10 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
             CSurface::GL_SetColor(colorWhite);
         }
-        
+
         /* ----- Auto Stop -----*/
         Done();
-    } 
+    }
     else
     {
         super();
@@ -6627,7 +6642,7 @@ HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden)
             if (scrap_cost < 0 && playerShip->shipManager->currentScrap < scrap_cost * -1)
                 return false;
         }
-        
+
         CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
         if (customEvent)
@@ -7259,6 +7274,6 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     if (inModifyResources && currentShipId != iShipId && currentShipId != -1)
     {
         G_->GetShipManager(currentShipId)->RemoveCrewmember(this);
-    } 
+    }
     super();
 }
