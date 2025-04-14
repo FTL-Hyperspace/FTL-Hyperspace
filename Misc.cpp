@@ -492,7 +492,7 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
         tex = G_->GetResources()->GetImageId("warnings/backglow_warning_yellow.png");
         text = G_->GetTextLibrary()->GetText("warning_pds_all");
     }
-    else if (effect == 9)
+    else if (effect == ENV_PDS_FRIENDLY)
     {
         color.r = 0.4705882;
         color.b = 0.4705882;
