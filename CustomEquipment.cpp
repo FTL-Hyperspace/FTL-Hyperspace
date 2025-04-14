@@ -176,7 +176,9 @@ HOOK_METHOD_PRIORITY(AugmentStoreBox, CanHold, 9999, () -> bool)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> AugmentStoreBox::CanHold -> Begin (CustomEquipment.cpp)\n")
     // Rewrite to get over vanilla hard-coded augment slots limit.
 
-    if (!shopper || CustomShipSelect::GetInstance()->GetDefinition(shopper->myBlueprint.blueprintName).augSlots <= shopper->GetAugmentationCount()) return false; // in vanilla, augSlots is hard-coded to 3.
+    int augMax = CustomShipSelect::GetInstance()->GetDefinition(shopper->myBlueprint.blueprintName).augSlots;
+    if (shopper->HasAugmentation("AUGMENT_SLOT")) augMax += static_cast<int>(shopper->GetAugmentationValue("AUGMENT_SLOT"));
+    if (!shopper || augMax <= shopper->GetAugmentationCount()) return false; // in vanilla, augMax is hard-coded to 3.
 
     bool ret = true;
     if (shopper->HasAugmentation(blueprint->name))
@@ -206,6 +208,7 @@ HOOK_METHOD_PRIORITY(AugmentStoreBox, MouseMove, 9999, (int mX, int mY) -> void)
         if (!button.bHover) return;
 
         int augMax = CustomShipSelect::GetInstance()->GetDefinition(shopper->myBlueprint.blueprintName).augSlots;
+        if (shopper->HasAugmentation("AUGMENT_SLOT")) augMax += static_cast<int>(shopper->GetAugmentationValue("AUGMENT_SLOT"));
         if (shopper->GetAugmentationCount() < augMax) return; // in vanilla, augMax is hard-coded to 3.
 
         tooltip = G_->GetTextLibrary()->GetText("max_augments");
@@ -257,14 +260,15 @@ HOOK_METHOD_PRIORITY(ShipObject, AddAugmentation, 1000, (const std::string& name
     ShipManager *ship = g_shipManager ? g_shipManager : G_->GetShipManager(iShipId);
     if (!ship)
     {
-        hs_log_file("\nship not found in adding augment. shipId: %d (CustomEquipment.cpp)\n", iShipId);
+        hs_log_file("shipManager not found while adding augment: %s, shipId: %d\n", name.c_str(), iShipId);
         return super(name);
     }
 
     int augMax = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).augSlots;
+    if (ship->HasAugmentation("AUGMENT_SLOT")) augMax += static_cast<int>(ship->GetAugmentationValue("AUGMENT_SLOT"));
 
     ShipInfo *info = G_->GetShipInfo(iShipId);
-    if (2 < info->augCount && info->augCount < augMax)
+    if (info->augCount < augMax)
     {
         int origAugCount = info->augCount;
         info->augCount = 0;
@@ -272,7 +276,10 @@ HOOK_METHOD_PRIORITY(ShipObject, AddAugmentation, 1000, (const std::string& name
         info->augCount += origAugCount;
         return ret;
     }
-    return super(name);
+    else
+    {
+        return false;
+    }
 }
 
 HOOK_METHOD(Equipment, Jump, () -> void)
@@ -344,6 +351,7 @@ void CustomEquipment::OnInit(ShipManager *ship)
 
     auto custom = CustomShipSelect::GetInstance();
     augNumber = custom->GetDefinition(ship->myBlueprint.blueprintName).augSlots;
+    if (orig->shipManager->HasAugmentation("AUGMENT_SLOT")) augNumber += static_cast<int>(orig->shipManager->GetAugmentationValue("AUGMENT_SLOT"));
 
     for (int i = 0; i < augNumber; ++i)
     {
@@ -368,6 +376,7 @@ void CustomEquipment::OnInit(ShipManager *ship)
     orig->cargoId = orig->vEquipmentBoxes.size();
 
     cargoNumber = custom->GetDefinition(ship->myBlueprint.blueprintName).cargoSlots;
+    if (orig->shipManager->HasAugmentation("CARGO_SLOT")) cargoNumber += static_cast<int>(orig->shipManager->GetAugmentationValue("CARGO_SLOT"));
 
     for (int i = 0; i < cargoNumber; ++i)
     {
@@ -888,6 +897,102 @@ void CustomEquipment::MouseClick(int mX, int mY)
     }
 }
 
+void CustomEquipment::OnLoop()
+{
+    int weaponSlots = orig->shipManager->myBlueprint.weaponSlots;
+    int droneSlots = orig->shipManager->myBlueprint.droneSlots;
+    std::vector<std::string> itemsBuffer;
+    bool changed = false;
+
+    int newAugNumber = CustomShipSelect::GetInstance()->GetDefinition(orig->shipManager->myBlueprint.blueprintName).augSlots;
+    if (orig->shipManager->HasAugmentation("AUGMENT_SLOT")) newAugNumber += static_cast<int>(orig->shipManager->GetAugmentationValue("AUGMENT_SLOT"));
+    if (newAugNumber < 0) newAugNumber = 0;
+    
+    if (augNumber != newAugNumber)
+    {
+        if (newAugNumber > augNumber)
+        {
+            auto it = orig->vEquipmentBoxes.begin() + weaponSlots + droneSlots + augNumber;
+            for (int i = augNumber; i < newAugNumber; ++i)
+            {
+                AugmentEquipBox *box = new AugmentEquipBox(Point(0, 0), orig->shipManager, i);
+                it = orig->vEquipmentBoxes.insert(it, box);
+                ++it;
+            }
+        }
+        else
+        {
+            auto it = orig->vEquipmentBoxes.begin() + weaponSlots + droneSlots + newAugNumber;
+            for (int i = newAugNumber; i < augNumber; ++i)
+            {
+                if ((*it)->item.augment)
+                {
+                    itemsBuffer.push_back((*it)->item.augment->name);
+                    (*it)->RemoveItem();
+                }
+                delete *it;
+                it = orig->vEquipmentBoxes.erase(it);
+            }
+        }
+        augNumber = newAugNumber;
+        maxAugPage = std::max((augNumber - 1) / 3, 0);
+        currentAugPage = 0;
+        orig->cargoId = weaponSlots + droneSlots + augNumber;
+        changed = true;
+    }
+
+    int newCargoNumber = CustomShipSelect::GetInstance()->GetDefinition(orig->shipManager->myBlueprint.blueprintName).cargoSlots;
+    if (orig->shipManager->HasAugmentation("CARGO_SLOT")) newCargoNumber += static_cast<int>(orig->shipManager->GetAugmentationValue("CARGO_SLOT"));
+    if (newCargoNumber < 0) newCargoNumber = 0;
+
+    if (cargoNumber != newCargoNumber)
+    {
+        if (newCargoNumber > cargoNumber)
+        {
+            auto it = orig->vEquipmentBoxes.begin() + orig->cargoId + cargoNumber;
+            for (int i = cargoNumber; i < newCargoNumber; ++i)
+            {
+                EquipmentBox *box = new EquipmentBox(Point(0, 0), i);
+                it = orig->vEquipmentBoxes.insert(it, box);
+                ++it;
+            }
+        }
+        else
+        {
+            auto it = orig->vEquipmentBoxes.begin() + orig->cargoId + newCargoNumber;
+            for (int i = newCargoNumber; i < cargoNumber; ++i)
+            {
+                if ((*it)->item.pWeapon)
+                {
+                    itemsBuffer.push_back((*it)->item.pWeapon->blueprint->name);
+                    (*it)->RemoveItem();
+                }
+                else if ((*it)->item.pDrone)
+                {
+                    itemsBuffer.push_back((*it)->item.pDrone->blueprint->name);
+                    (*it)->RemoveItem();
+                }
+                delete *it;
+                it = orig->vEquipmentBoxes.erase(it);
+            }
+        }
+        cargoNumber = newCargoNumber;
+        maxCargoPage = std::max((cargoNumber - 1) / 4, 0);
+        currentCargoPage = 0;
+        changed = true;
+    }
+
+    for (const std::string &item : itemsBuffer)
+    {
+        orig->AddToCargo(item);
+    }
+
+    if (changed)
+    {
+        SetPosition(orig->position);
+    }
+}
+
 void CustomEquipment::OnScrollWheel(float direction)
 {
     Point mousePos = G_->GetMouseControl()->position;
@@ -1003,6 +1108,13 @@ HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
     LOG_HOOK("HOOK_METHOD -> Equipment::MouseClick -> Begin (CustomEquipment.cpp)\n")
     super(mX, mY);
     EQ_EX(this)->customEquipment->MouseClick(mX, mY);
+}
+
+HOOK_METHOD(Equipment, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnLoop -> Begin (CustomEquipment.cpp)\n")
+    EQ_EX(this)->customEquipment->OnLoop();
+    super();
 }
 
 HOOK_METHOD(Equipment, Open, () -> void)
