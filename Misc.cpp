@@ -579,43 +579,6 @@ LABEL_TWO:
 }
 
 
-void AnimationTracker::SaveState(int fd)
-{
-    FileHelper::writeFloat(fd, time);
-    FileHelper::writeInt(fd, loop);
-    FileHelper::writeFloat(fd, current_time);
-    FileHelper::writeInt(fd, running);
-    FileHelper::writeInt(fd, reverse);
-    FileHelper::writeInt(fd, done);
-    FileHelper::writeFloat(fd, loopDelay);
-    FileHelper::writeFloat(fd, currentDelay);
-};
-
-void AnimationTracker::LoadState(int fd)
-{
-    time = FileHelper::readFloat(fd);
-    loop = FileHelper::readInteger(fd);
-    current_time = FileHelper::readFloat(fd);
-    running = FileHelper::readInteger(fd);
-    reverse = FileHelper::readInteger(fd);
-    done = FileHelper::readInteger(fd);
-    loopDelay = FileHelper::readFloat(fd);
-    currentDelay = FileHelper::readFloat(fd);
-};
-
-//Lockdown saving bugfix
-HOOK_METHOD(Door, SaveState, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> Door::SaveState -> Begin (Misc.cpp)\n")
-    super(fd);
-    lockedDown.SaveState(fd);
-}
-HOOK_METHOD(Door, LoadState, (int fd) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> Door::LoadState -> Begin (Misc.cpp)\n")
-    super(fd);
-    lockedDown.LoadState(fd);
-}
 
 // Everything from here onward was originally in the lua folder and needed
 // to be moved in order to compile properly on Linux.
