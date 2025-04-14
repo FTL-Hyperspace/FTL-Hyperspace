@@ -4719,7 +4719,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
     //Fix bug with multiple enemies at the same beacon
     bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
-    if (loc->ship.present && !ships.empty() && hasLoadAttribute) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
+    if (loc->ship.present && !ships.empty() && hasLoadAttribute && CustomOptionsManager::GetInstance()->multiShipFix.currentValue) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
     {
         hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
         CompleteShip* replacedShip = ships[0];
