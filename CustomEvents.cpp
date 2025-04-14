@@ -4723,6 +4723,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     {
         hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
         CompleteShip* replacedShip = ships[0];
+        commandGui->combatControl.Clear();
         replacedShip->shipManager->KillEveryone(true);
         replacedShip->shipManager->SetDestroyed();
 
