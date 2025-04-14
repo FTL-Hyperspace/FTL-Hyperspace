@@ -455,7 +455,9 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
         }
         CSurface::GL_PopMatrix();
 
-        RenderWarningText(currentEffect, iconsOffsetToLeft / 2);
+        // Render warning text below the icons
+        RenderWarningText(currentEffect, g_hazards.size() > 1 ? (3 - g_hazards.size()) * 36 : 0);
+
         if (touchedTooltip == 1)
         {
             int mX = hitbox.w / 2 + hitbox.x;
