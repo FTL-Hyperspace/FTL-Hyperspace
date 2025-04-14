@@ -589,6 +589,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "shieldWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->shieldWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->shieldWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {

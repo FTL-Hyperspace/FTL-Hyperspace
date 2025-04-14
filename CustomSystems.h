@@ -15,7 +15,7 @@ public:
     };
     static void ParseSystemNode(rapidxml::xml_node<char>* node);
     static MindLevel& GetLevel(MindSystem* system);
-    
+
 private:
     static MindLevel defaultLevel;
     static std::vector<MindLevel> levels;
@@ -36,7 +36,7 @@ public:
     };
     static void ParseSystemNode(rapidxml::xml_node<char>* node);
     static CloneLevel& GetLevel(CloneSystem* system, bool passive);
-    
+
     static CloneLevel& GetLevel(int power);
 private:
     static CloneLevel defaultLevel;
@@ -59,7 +59,7 @@ private:
     static std::unordered_set<std::string> subSystems;
 
 };
-class SystemExclusivityManager 
+class SystemExclusivityManager
 {
 public:
     bool AreSystemsExclusive(int sysId_1, int sysId_2);
@@ -69,6 +69,7 @@ private:
     int currentExclusivityIndex = 0;
     std::unordered_map<int, int> exclusivityGroups; // systemId, group
 };
+
 struct SystemPosition
 {
     int position;
@@ -85,3 +86,5 @@ private:
     static std::unordered_map<int, SystemPosition> systemPositions;
     static const SystemPosition defaultPosition;
 };
+
+extern float leakModifiers[2]; // [0] = player, [1] = enemy
