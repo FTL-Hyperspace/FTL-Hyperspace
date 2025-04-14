@@ -455,7 +455,7 @@ HOOK_METHOD(SpaceStatus, OnRender, () -> void)
         }
         CSurface::GL_PopMatrix();
 
-        RenderWarningText(currentEffect, g_hazards.size() * 36 + iconsOffsetToLeft / 2);
+        RenderWarningText(currentEffect, iconsOffsetToLeft / 2);
         if (touchedTooltip == 1)
         {
             int mX = hitbox.w / 2 + hitbox.x;
@@ -517,10 +517,10 @@ HOOK_METHOD_PRIORITY(SpaceStatus, RenderWarningText, 9999, (int effect, int text
 
     Point textPos = Point(textOffset + position.x, position.y + 51);
     Pointf textSize = freetype::easy_measurePrintLines(52, 0.0, 0.0, 999, text);
-    CSurface::GL_BlitImage(tex, textPos.x - (int)textSize.x / 2, textPos.y - 1, (int)textSize.x, (int)textSize.y, 0.0, GL_Color(1.0, 1.0, 1.0, 1.0), false);
+    CSurface::GL_BlitImage(tex, textPos.x - (int)textSize.x / 2, textPos.y - 1, (int)textSize.x, (int)textSize.y, 0.0, COLOR_WHITE, false);
     CSurface::GL_SetColor(color);
     freetype::easy_printCenter(52, textPos.x, textPos.y, text);
-    CSurface::GL_SetColor(GL_Color(1.0, 1.0, 1.0, 1.0));
+    CSurface::GL_SetColor(COLOR_WHITE);
     return;
 }
 
