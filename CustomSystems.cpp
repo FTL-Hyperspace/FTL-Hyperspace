@@ -449,6 +449,12 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
     return ret;
 }
 static bool staticSubSystemPositioning = true;
+static bool blockCreateSystemBoxes = false;
+HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)")
+    if (!blockCreateSystemBoxes) return super();
+}
 HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
@@ -592,7 +598,9 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     if (staticSubSystemPositioning)
     {
         subSystemPosition = Point(SystemPositionManager::subSystemOffset, 251);
-
+        blockCreateSystemBoxes = true;
+        UpdateSubSystemBox(); //Block recursion when updating subsystem box position
+        blockCreateSystemBoxes = false;
         //Order subsystems by their static position
         std::sort(subSystems.begin(), subSystems.end(), 
         [](ShipSystem* sys1, ShipSystem* sys2)

@@ -1,14 +1,15 @@
 "415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57":
-cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
+cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId); //00580ad0
 ".41574189f24189d34189cf415641554c63ee41545589fd534863df4989d84889d84881ec88000000":
-static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
+static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap); //00581c60
 ".415741564989fe4155415455534883ec28488b3f":
-cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
+cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this); //00582c80
 ".??54??89fc5589f55389f3??83ec50e8????????":
-cleanup __amd64 void SystemControl::OnRender(SystemControl *this, bool front);
+cleanup __amd64 void SystemControl::OnRender(SystemControl *this, bool front); //005831d0
 ".415731d231f641564155415455534889fb4883ec58488d7c2430":
-cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
-
+cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this); //00583440
+".55be????????53??89fb??83ec68??8d????2f??8d????40":
+cleanup __amd64 void SystemControl::UpdateSubSystemBox(SystemControl *this); //00583fb0
 "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;
 offsetVariable Point* Global_SystemControl_drone_position;

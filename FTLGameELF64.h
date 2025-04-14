@@ -4593,6 +4593,7 @@ struct SystemControl
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
 	LIBZHL_API void OnRender(bool front);
 	LIBZHL_API void RenderPowerBar();
+	LIBZHL_API void UpdateSubSystemBox();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
