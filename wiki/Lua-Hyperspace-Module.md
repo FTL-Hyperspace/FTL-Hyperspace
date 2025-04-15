@@ -2361,6 +2361,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.boss_visual`
    - **Read-only**
 
+
+## CrewControl
+
+### Fields
+- [`std::vector<CrewMember*>`](#CrewMember) `.selectedCrew`
+- [`std::vector<CrewMember*>`](#CrewMember) `.potentialSelectedCrew`
+   - Crew hovered by the selection box
+- [`Point`](#Point) `.firstMouse`
+   - Affect the visual portion of the selection box
+- [`Point`](#Point) `.currentMouse`
+   - Affect the visual portion of the selection box
+- [`Point`](#Point) `.worldFirstMouse`
+   - Affect the logic portion of the selection box, fills `.potentialSelectedCrew`
+- [`Point`](#Point) `.worldCurrentMouse`
+   - Affect the logic portion of the selection box, fills `.potentialSelectedCrew`
+
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields

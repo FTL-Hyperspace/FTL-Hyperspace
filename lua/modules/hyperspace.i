@@ -980,6 +980,16 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
+%nodefaultctor CrewControl;
+%nodefaultdtor CrewControl;
+%rename("%s") CrewControl;
+%rename("%s") CrewControl::selectedCrew;
+%rename("%s") CrewControl::potentialSelectedCrew;
+%rename("%s") CrewControl::firstMouse;
+%rename("%s") CrewControl::currentMouse;
+%rename("%s") CrewControl::worldFirstMouse;
+%rename("%s") CrewControl::worldCurrentMouse;
+
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
