@@ -174,6 +174,7 @@ target_sources(
     EnemyShipIcons.h
     EnumClassHash.h
     Enums.h
+    Environments.h
     Equipment_Extend.cpp
     Equipment_Extend.h
     ErosionEffect.cpp

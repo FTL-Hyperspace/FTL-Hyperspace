@@ -1100,6 +1100,9 @@
 		<Unit filename="Enums.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
+		<Unit filename="Environments.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="Equipment_Extend.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
