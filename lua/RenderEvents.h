@@ -58,13 +58,13 @@ struct RenderEvents
         SPACE_STATUS, // SpaceStatus::OnRender
         SHIP_STATUS, // ShipStatus::OnRender
         ////CONFIRM_WINDOW, // ConfirmWindow::OnRender, TODO: Might need to pass which window it is
-        ////CHOICE_BOX, // ChoiceBox::OnRender, TODO: Might need to pass which choice it is
+        CHOICE_BOX, // ChoiceBox::OnRender, TODO: Might need to pass which choice it is
         TABBED_WINDOW, // TabbedWindow::OnRender(currentTabName)
-        
+
         ////ACHIEVEMENT_TRACKER, // AchievementTracker::OnRender (not hooked yet)
         MOUSE_CONTROL, // MouseControl::OnRender
         ////FPS, // CFPS::OnRender (not hooked yet)
-        
+
         ////SHIELD_BASE, // Shields::RenderBase
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     )

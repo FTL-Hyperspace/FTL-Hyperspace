@@ -31,6 +31,39 @@
 #include "CustomDamage.h"
 %}
 
+//This macro defines a wrapper class for any exposed arrays of TYPE with length SIZE
+%define %array_wrapper(TYPE, NAME, SIZE)
+
+    %{
+        typedef TYPE NAME[SIZE];
+    %}
+    %nodefaultctor NAME;
+    %nodefaultdtor NAME;
+    %rename("%s") NAME;
+
+    class NAME
+    {
+    public:
+        %extend {
+
+            const TYPE __getitem__(const std::size_t idx) throw (std::out_of_range)
+            {
+                if (idx < 0 || idx >= SIZE) throw std::out_of_range("Index out of range");
+                return (*self)[idx];
+            }
+            void __setitem__(const std::size_t idx, TYPE value) throw (std::out_of_range)
+            {
+                if (idx < 0 || idx >= SIZE) throw std::out_of_range("Index out of range");
+                (*self)[idx] = value;
+            }
+        }
+    };
+    %typemap(out) TYPE[SIZE]
+    {
+        SWIG_NewPointerObj(L, &arg1->$1_name, $descriptor(NAME*), $owner); SWIG_arg++;
+    }
+%enddef
+
 %feature("flatnested");
 //New method of dealing with polymorphic/dynamic types using SWIG's inheritence system and typemaps
 //For example, the std::vector<SpaceDrone*> indexing method returns a SpaceDrone*, which may be a pointer to a subclass of SpaceDrone
@@ -976,8 +1009,9 @@ playerVariableType playerVariables;
 %rename("%s") Button::SetImageBase;
 %rename("%s") Button::SetInactiveImage;
 %rename("%s") Button::SetLocation;
-
+%array_wrapper(GL_Texture*, GL_Texture_Pointer_Array_Size_3_Wrapper, 3);
 %rename("%s") Button::images;
+%array_wrapper(GL_Primitive*, GL_Primitive_Pointer_Array_Size_3_Wrapper, 3);
 %rename("%s") Button::primitives;
 %rename("%s") Button::imageSize;
 %rename("%s") Button::bMirror;
@@ -1200,12 +1234,14 @@ We can expose them once the root cause is identified and the crash is fixed.
 %immutable StarMap::locations;
 %rename("%s") StarMap::locations;
 %rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.
+%rename("%s") StarMap::potentialLoc;
+%rename("%s") StarMap::hoverLoc;
 %rename("%s") StarMap::currentSector;
+%rename("%s") StarMap::mapsBottom;
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
 // TODO: Maybe one of the members in StarMap (that are not exposed) could help to determine how many free event locations are left so an event can be chosen to spawn in the current sector or next sector?
-////%rename("%s") StarMap::dangerZone; // Messing with this might be interesting, imagine if the fleet didn't proceed directly from the left? lol
-////%rename("%s") StarMap::dangerZoneRadius;
-//%rename("%s") StarMap::bMapRevealed; // Not sure if setting this is okay
+%rename("%s") StarMap::dangerZone;
+%rename("%s") StarMap::bMapRevealed;
 %rename("%s") StarMap::pursuitDelay;
 //%rename("%s") StarMap::outOfFuel;
 //%immutable StarMap::outOfFuel;
