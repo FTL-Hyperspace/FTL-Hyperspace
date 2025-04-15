@@ -60,7 +60,7 @@ void CustomUserSystems::AddSystemName(const std::string& systemName)
     for (int idx = 0; idx < systemNames.size(); ++idx)
     {
         systemIds[systemNames[idx]] = idx + SYS_CUSTOM_FIRST;
-    }    
+    }
 }
 int CustomUserSystems::NameToSystemId(const std::string& systemName)
 {
@@ -69,7 +69,7 @@ int CustomUserSystems::NameToSystemId(const std::string& systemName)
     return SYS_INVALID;
 }
 std::string CustomUserSystems::SystemIdToName(int systemId)
-{   
+{
     int idx = systemId - SYS_CUSTOM_FIRST;
     if (idx >=0 && idx < systemNames.size()) return systemNames[idx];
     return "invalid system id";
@@ -86,7 +86,7 @@ void SystemExclusivityManager::ParseExclusivityNode(rapidxml::xml_node<char>* no
     {
         int systemId = ShipSystem::NameToSystemId(child->name());
         exclusivityGroups[systemId] = currentExclusivityIndex;
-    }    
+    }
     ++currentExclusivityIndex;
 }
 
@@ -101,7 +101,7 @@ bool SystemExclusivityManager::AreSystemsExclusive(int sysId_1, int sysId_2)
 SystemExclusivityManager* SystemExclusivityManager::GetGlobalManager()
 {
     static SystemExclusivityManager globalManager;
-    return &globalManager; 
+    return &globalManager;
 }
 
 //TODO: Get addresses of arrays in native game code and implement using that, values restated here for now.
@@ -116,7 +116,7 @@ std::vector<CustomMindSystem::MindLevel> CustomMindSystem::levels = {
     {DAMAGE_BOOST[1], HEALTH_BOOST[1], MIND_CONTROL_TIMER[1], MIND_CONTROL_LOCK[1], MIND_CONTROL_COUNT[1]},
     {DAMAGE_BOOST[2], HEALTH_BOOST[2], MIND_CONTROL_TIMER[2], MIND_CONTROL_LOCK[2], MIND_CONTROL_COUNT[2]},
     {DAMAGE_BOOST[3], HEALTH_BOOST[3], MIND_CONTROL_TIMER[3], MIND_CONTROL_LOCK[3], MIND_CONTROL_COUNT[3]}
-}; 
+};
 //Define default MindLevel values
 CustomMindSystem::MindLevel CustomMindSystem::defaultLevel{3.f, 50.f, 30.f, 4, 1};
 void CustomMindSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
@@ -125,7 +125,7 @@ void CustomMindSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
     for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
     {
         //Modify vanilla levels, keeping unspecified attributes as their default values
-        if (level < 4) 
+        if (level < 4)
         {
             CustomMindSystem::MindLevel& mindLevel = levels[level];
             if (levelNode->first_attribute("damageBoost")) mindLevel.damageBoost = boost::lexical_cast<float>(levelNode->first_attribute("damageBoost")->value());
@@ -171,7 +171,7 @@ std::vector<CustomCloneSystem::CloneLevel> CustomCloneSystem::levels = {
     {JUMP_HP[1], JUMP_HP_PERCENT[1], CLONE_HP_PERCENT[1], SKILL_LOSS[1], CLONE_SPEED[1], CLONE_DEATH_SPEED[1], CLONE_AMOUNT[1]},
     {JUMP_HP[2], JUMP_HP_PERCENT[2], CLONE_HP_PERCENT[2], SKILL_LOSS[2], CLONE_SPEED[2], CLONE_DEATH_SPEED[2], CLONE_AMOUNT[2]},
     {JUMP_HP[3], JUMP_HP_PERCENT[3], CLONE_HP_PERCENT[3], SKILL_LOSS[3], CLONE_SPEED[3], CLONE_DEATH_SPEED[3], CLONE_AMOUNT[3]}
-}; 
+};
 //Define default CloneLevel values
 CustomCloneSystem::CloneLevel CustomCloneSystem::defaultLevel{0, 0, 100, 10, 5.f, 3.f, 1};
 void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
@@ -180,7 +180,7 @@ void CustomCloneSystem::ParseSystemNode(rapidxml::xml_node<char>* node)
     for (auto levelNode = node->first_node(); levelNode; levelNode = levelNode->next_sibling())
     {
         //Modify vanilla levels, keeping unspecified attributes as their default values
-        if (level < 4) 
+        if (level < 4)
         {
             CustomCloneSystem::CloneLevel& mindLevel = levels[level];
             if (levelNode->first_attribute("jumpHP")) mindLevel.jumpHP = boost::lexical_cast<int>(levelNode->first_attribute("jumpHP")->value());
@@ -302,9 +302,9 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
     }
 }
 
-HOOK_METHOD(ShipManager, CreateSystems, () -> int)
+HOOK_METHOD_PRIORITY(ShipManager, CreateSystems, 9999, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
     if (myBlueprint.systemInfo.find(0) != myBlueprint.systemInfo.end())
     {
         auto shieldInfo = myBlueprint.systemInfo[0];
@@ -316,7 +316,16 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     }
     else
     {
-        shieldSystem = nullptr;
+        if (CustomOptionsManager::GetInstance()->shieldWithoutSystem.currentValue)
+        {
+            auto sys = new Shields(-1, iShipId, 0, myBlueprint.shieldFile);
+            shieldSystem = sys;
+            sys->SetBaseEllipse(ship.GetBaseEllipse());
+        }
+        else
+        {
+            shieldSystem = nullptr;
+        }
     }
 
     systemKey.clear();
@@ -693,7 +702,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
             ShipSystem* sys = GetSystem(systemId);
             sys->CompleteSave(file);
         }
-    } 
+    }
 }
 
 HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
@@ -703,7 +712,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
 
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
     {
-        
+
         bool hasSystem = FileHelper::readInteger(file);
         if (hasSystem)
         {
@@ -796,7 +805,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
-    
+
     if (myBlueprint.systemInfo.find(systemId) == myBlueprint.systemInfo.end()) return 0;
 
     int removedSystemPower = 0;
@@ -839,7 +848,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
         {
             ShipSystem* sys = vSystemList[idx];
             systemKey[sys->iSystemType] = idx;
-        }     
+        }
     }
 
     int ret = super(systemId);
@@ -863,7 +872,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     {
         UpgradeSystem(systemId, 1);
     }
-    
+
     return ret;
 }
 
@@ -1410,13 +1419,13 @@ HOOK_METHOD(MindSystem, OnLoop, () -> void)
     }
     controlledCrew.erase(std::remove_if(controlledCrew.begin(),
                                         controlledCrew.end(),
-                                        [](CrewMember* crew) { 
-                                            return crew->OutOfGame() || 
-                                            crew->IsDead() || 
-                                            crew->crewAnim->status == 3 || 
+                                        [](CrewMember* crew) {
+                                            return crew->OutOfGame() ||
+                                            crew->IsDead() ||
+                                            crew->crewAnim->status == 3 ||
                                             !crew->bMindControlled; }),
                                         controlledCrew.end());
-                                        
+
     for (CrewMember* crew : controlledCrew)
     {
         crew->SetHealthBoost(level.healthBoost);
@@ -1449,7 +1458,7 @@ HOOK_METHOD(MindSystem, InitiateMindControl, () -> void)
     int allyId = hacked ? 1 - _shipObj.iShipId : _shipObj.iShipId;
     queuedCrew.erase(std::remove_if(queuedCrew.begin(),
                                     queuedCrew.end(),
-                                    [&](CrewMember* crew) { 
+                                    [&](CrewMember* crew) {
                                         return crew->OutOfGame() || //Out of game
                                         crew->IsDead() || //Dead
                                         crew->crewAnim->status == 3 || //Dying
@@ -1508,16 +1517,16 @@ std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0};
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CloneHealing -> Begin (CustomSystems.cpp)\n")
-    
+
     g_jumpClone = true;
-    super();      
+    super();
     g_jumpClone = false;
 }
 
 HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::DirectModifyHealth -> Begin (CustomSystems.cpp)\n")
-    
+
     if (g_jumpClone)
     {
         CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
@@ -1536,7 +1545,7 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
             if (heal > health.second) heal = health.second;
         }
     }
-    
+
     return super(heal);
 }
 
@@ -1552,7 +1561,7 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     CloneSystem* sys = G_->GetShipManager(iShipId)->cloneSystem;
     if (sys != nullptr)
     {
-        
+
         CustomCloneSystem::CloneLevel& pLevel = CustomCloneSystem::GetLevel(sys, true);
         CustomCloneSystem::CloneLevel& level = CustomCloneSystem::GetLevel(sys, false);
 
@@ -1620,7 +1629,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
         #endif
 
         g_checkCloneSpeed++;
-    }   
+    }
 
     return speedFactor;
 }
@@ -1629,7 +1638,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId,int level,bool tooltip) -> std::string)
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomSystems.cpp)\n")
-    
+
     g_clonePercentTooltipLevel = level + 1;
     std::string ret = super(systemId, level, tooltip);
     return ret;
@@ -1711,14 +1720,14 @@ HOOK_METHOD(CloneSystem, OnRenderFloor, () -> void)
                         int size_y = tex->height_;
                         int stripStartX = info.stripStartX + info.frameWidth * currentCloneAnimation->currentFrame;
                         int stripStartY = info.imageHeight - info.stripStartY - info.frameHeight;
-                        
-                        CSurface::GL_BlitImagePartial(tex, pos.x - 17.0, pos.y - 9.0, 
-                            (float)info.frameWidth, 
-                            (float)info.frameHeight, 
-                            (float)stripStartX/size_x, 
-                            (float)(stripStartX + info.frameWidth)/size_x, 
-                            (float)stripStartY/size_y, 
-                            (float)(stripStartY + info.frameHeight)/size_y, 
+
+                        CSurface::GL_BlitImagePartial(tex, pos.x - 17.0, pos.y - 9.0,
+                            (float)info.frameWidth,
+                            (float)info.frameHeight,
+                            (float)stripStartX/size_x,
+                            (float)(stripStartX + info.frameWidth)/size_x,
+                            (float)stripStartY/size_y,
+                            (float)(stripStartY + info.frameHeight)/size_y,
                             color.a, color, false);
                     }
                 }
@@ -1767,12 +1776,12 @@ void ShipManager::RemoveSystem(int iSystemId)
                     crew->StopRepairing();
                 }
             }
-            ShipSystem* specificSys = GetSystem(iSystemId);      
+            ShipSystem* specificSys = GetSystem(iSystemId);
             if (specificSys->bNeedsPower)
             {
                 while (specificSys->RawDecreasePower()) continue;
             }
-            
+
             vSystemList.erase(vSystemList.begin() + systemKey[iSystemId]);
             systemKey[iSystemId] = -1;
             for (int idx = 0; idx < vSystemList.size(); ++idx)
@@ -1799,18 +1808,18 @@ void ShipManager::RemoveSystem(int iSystemId)
         //Special handling per system for derived classes
         switch (iSystemId)
         {
-            case SYS_SHIELDS: 
+            case SYS_SHIELDS:
             {
                 //shieldSystem is present even for ships without shields installed
                 break;
-            };    
-            case SYS_ENGINES: 
+            };
+            case SYS_ENGINES:
             {
                 delete engineSystem;
                 engineSystem = nullptr;
                 break;
-            };    
-            case SYS_OXYGEN: 
+            };
+            case SYS_OXYGEN:
             {
                 std::vector<float> oxygenLevels = std::move(oxygenSystem->oxygenLevels);
                 delete oxygenSystem;
@@ -1821,17 +1830,17 @@ void ShipManager::RemoveSystem(int iSystemId)
                     oxygenSystem->oxygenLevels = std::move(oxygenLevels);
                 }
                 break;
-            };  
-            case SYS_WEAPONS: 
+            };
+            case SYS_WEAPONS:
             {
                 if (iShipId == 0)
                 {
                     if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                     for (ProjectileFactory* weapon : weaponSystem->weapons)
                     {
-                        gui->equipScreen.AddToCargo(weapon->blueprint->name);   
+                        gui->equipScreen.AddToCargo(weapon->blueprint->name);
                     }
-                    
+
                     for (ArmamentBox* box : gui->combatControl.weapControl.boxes)
                     {
                         static_cast<WeaponBox*>(box)->pWeapon = nullptr;
@@ -1846,8 +1855,8 @@ void ShipManager::RemoveSystem(int iSystemId)
                 delete weaponSystem;
                 weaponSystem = nullptr;
                 gui->equipScreen.OnLoop();
-                break; 
-            };    
+                break;
+            };
             case SYS_DRONES:
             {
                 if (iShipId == 0)
@@ -1862,7 +1871,7 @@ void ShipManager::RemoveSystem(int iSystemId)
                     {
                         static_cast<DroneBox*>(box)->pDrone = nullptr;
                     }
-                } 
+                }
                 Drone* removedDrone = droneSystem->RemoveDrone(0);
                 while (removedDrone != nullptr)
                 {
@@ -1870,45 +1879,45 @@ void ShipManager::RemoveSystem(int iSystemId)
                     removedDrone->SetPowered(false);
                     removedDrone = droneSystem->RemoveDrone(0);
                 }
-                
+
                 tempDroneCount = droneSystem->drone_count;
                 delete droneSystem;
                 droneSystem = nullptr;
                 gui->equipScreen.OnLoop();
-                break; 
-            };  
+                break;
+            };
             case SYS_MEDBAY:
             {
                 delete medbaySystem;
                 medbaySystem = nullptr;
                 break;
-            };     
-            case SYS_PILOT: 
+            };
+            case SYS_PILOT:
             {
                 delete removeSys;
                 removeSys = nullptr;
                 break;
-            };      
-            case SYS_SENSORS: 
+            };
+            case SYS_SENSORS:
             {
                 delete removeSys;
                 removeSys = nullptr;
                 break;
-            };      
-            case SYS_DOORS: 
+            };
+            case SYS_DOORS:
             {
                 delete removeSys;
                 removeSys = nullptr;
                 break;
-            };         
-            case SYS_TELEPORTER: 
+            };
+            case SYS_TELEPORTER:
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 delete teleportSystem;
                 teleportSystem = nullptr;
                 break;
-            }; 
-            case SYS_CLOAKING: 
+            };
+            case SYS_CLOAKING:
             {
                 if (HasSystem(SYS_WEAPONS))
                 {
@@ -1917,8 +1926,8 @@ void ShipManager::RemoveSystem(int iSystemId)
                 delete cloakSystem;
                 cloakSystem = nullptr;
                 break;
-            };   
-            case SYS_ARTILLERY: 
+            };
+            case SYS_ARTILLERY:
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 for (ArtillerySystem* artillery : artillerySystems)
@@ -1928,8 +1937,8 @@ void ShipManager::RemoveSystem(int iSystemId)
                 artillerySystems.clear();
 
                 break;
-            };  
-            case SYS_BATTERY: 
+            };
+            case SYS_BATTERY:
             {
                 //TOOD: Hook and use PowerManager::SetBatteryPower
                 PowerManager::GetPowerManager(iShipId)->batteryPower.first = 0;
@@ -1937,23 +1946,23 @@ void ShipManager::RemoveSystem(int iSystemId)
                 delete batterySystem;
                 batterySystem = nullptr;
                 break;
-            };    
-            case SYS_CLONEBAY: 
+            };
+            case SYS_CLONEBAY:
             {
                 //Check edge cases with cloned crew
                 delete cloneSystem;
                 cloneSystem = nullptr;
                 break;
-            };   
-            case SYS_MIND: 
+            };
+            case SYS_MIND:
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 mindSystem->ReleaseCrew();
                 delete mindSystem;
                 mindSystem = nullptr;
                 break;
-            };       
-            case SYS_HACKING: 
+            };
+            case SYS_HACKING:
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 hackingSystem->BlowHackingDrone();
@@ -1961,25 +1970,25 @@ void ShipManager::RemoveSystem(int iSystemId)
                 auto& drones = G_->GetWorld()->space.drones;
                 drones.erase(std::remove_if(drones.begin(), drones.end(), RemoveIfHackingDrone), drones.end());
                 spaceDrones.erase(std::remove_if(spaceDrones.begin(), spaceDrones.end(), RemoveIfHackingDrone), spaceDrones.end());
-                
+
                 delete hackingSystem;
                 hackingSystem = nullptr;
                 break;
-            };    
-            case SYS_TEMPORAL: 
+            };
+            case SYS_TEMPORAL:
             {
                 if (!shipBuilder.bOpen) gui->combatControl.DisarmAll();
                 SYS_EX(removeSys)->temporalSystem->StopTimeDilation();
                 delete removeSys;
                 removeSys = nullptr;
                 break;
-            };  
+            };
             default:
             {
                 delete removeSys;
                 removeSys = nullptr;
                 break;
-            };   
+            };
         }
         if (!shipBuilder.bOpen) gui->sysControl.CreateSystemBoxes();
         else shipBuilder.CreateSystemBoxes();
@@ -2001,8 +2010,8 @@ HOOK_METHOD(FTLButton, GetPilotTooltip, () -> std::string)
 
 HOOK_METHOD(ShipSystem, GetPowerCap, () -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetPowerCap -> Begin (CustomSystems.cpp)\n")  
-    //This necessitates building under -fno-delete-null-pointer-checks  
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetPowerCap -> Begin (CustomSystems.cpp)\n")
+    //This necessitates building under -fno-delete-null-pointer-checks
     if (this == nullptr) return 0;
     else return super();
 }
@@ -2044,8 +2053,8 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
     }
     super(file);
     auto& systems = myBlueprint.systems;
-    systems.erase(std::remove_if(systems.begin(), systems.end(), 
-    [&](int value) 
+    systems.erase(std::remove_if(systems.begin(), systems.end(),
+    [&](int value)
     {return blockSystemAddition.find(value) != blockSystemAddition.end();}),
     systems.end());
     blockSystemAddition.clear();
@@ -2064,7 +2073,7 @@ HOOK_METHOD_PRIORITY(ShipManager, AddSystem, -100, (int systemId) -> int)
 int ShipManager::SystemWillReplace(int systemId)
 {
     auto def = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName);
-    SystemExclusivityManager* exclusivityManager = def.hasExclusivityOverride ? &def.exclusivityOverride : SystemExclusivityManager::GetGlobalManager(); 
+    SystemExclusivityManager* exclusivityManager = def.hasExclusivityOverride ? &def.exclusivityOverride : SystemExclusivityManager::GetGlobalManager();
     for (ShipSystem* sys : vSystemList)
     {
         if (exclusivityManager->AreSystemsExclusive(systemId, sys->iSystemType))
@@ -2078,6 +2087,80 @@ int ShipManager::SystemWillReplace(int systemId)
         if (systemId == SYS_MEDBAY && HasSystem(SYS_CLONEBAY)) return SYS_CLONEBAY;
         if (systemId == SYS_CLONEBAY && HasSystem(SYS_MEDBAY)) return SYS_MEDBAY;
     }
-    
-    return SYS_INVALID;   
+
+    return SYS_INVALID;
+}
+
+float leakModifiers[2] = {1.f, 1.f}; // [0] = player, [1] = enemy
+
+
+HOOK_METHOD_PRIORITY(OxygenSystem, OnLoop, -100, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::OnLoop -> Begin (CustomSystems.cpp)\n")
+
+    leakModifiers[_shipObj.iShipId] = 1.f;
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), G_->GetShipManager(_shipObj.iShipId), context->getLibScript()->types.pShipManager, 0);
+    lua_pushnumber(context->GetLua(), leakModifiers[_shipObj.iShipId]);
+
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_LEAK_MODIFIER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) leakModifiers[_shipObj.iShipId] = lua_tonumber(context->GetLua(), -1);
+
+    lua_pop(context->GetLua(), 2);
+
+    return super();
+}
+
+HOOK_METHOD_PRIORITY(OxygenSystem, UpdateAirlock, 9999, (int roomId, int count) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::UpdateAirlock -> Begin (CustomSystems.cpp)\n")
+    if (count > 0)
+    {
+        float leakModifier = leakModifiers[_shipObj.iShipId];
+
+        bool drainSound = leakModifier > 0.f && oxygenLevels[roomId] > 10.f;
+        bool gainSound = leakModifier < 0.f && oxygenLevels[roomId] < 90.f;
+        if (drainSound || gainSound)
+        {
+            oxygenLevels[roomId] = leakModifier > 0.f ? 0.f : 100.f;
+            G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
+        }
+
+        ComputeAirLoss(roomId, count * leakModifier, false);
+    }
+}
+HOOK_METHOD_PRIORITY(OxygenSystem, UpdateBreach, 9999, (int roomId, int count, bool silent) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::UpdateBreach -> Begin (CustomSystems.cpp)\n")
+    if (count > 0)
+    {
+        float leakModifier = leakModifiers[_shipObj.iShipId];
+        ComputeAirLoss(roomId, count * 0.5f * leakModifier, silent);
+    }
+}
+
+HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base_loss, bool silent) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::ComputeAirLoss -> Begin (CustomSystems.cpp)\n")
+    ShipGraph* shipGraph = ShipGraph::GetShipInfo(_shipObj.iShipId);
+    std::vector<int> roomDepths = shipGraph->ConnectivityDFS(roomId);
+    for (int idx = 0; idx < roomDepths.size(); ++idx)
+    {
+        if (oxygenLevels[idx] <= 0.f && base_loss > 0.f) roomDepths[idx] = -1;
+        else if (oxygenLevels[idx] >= 100.f && base_loss < 0.f) roomDepths[idx] = -1;
+    }
+
+    for (int idx = 0; idx < roomDepths.size(); ++idx)
+    {
+        int depth = roomDepths[idx];
+        if (depth != -1)
+        {
+            bool shouldLeak = base_loss > 0.f ? oxygenLevels[idx] > 1.f : oxygenLevels[idx] < 99.f;
+            if (base_loss == 0.f) shouldLeak = false;
+            if (shouldLeak && !silent) bLeakingO2 = true;
+            oxygenLevels[idx] -= std::pow(0.75f, depth) * base_loss * G_->GetCFPS()->GetSpeedFactor();
+        }
+    }
 }

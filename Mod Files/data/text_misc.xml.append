@@ -162,7 +162,6 @@
 <text name="defense_drone_reload_speed">Reload Speed: \1ms</text>
 <text name="defense_drone_projectile_speed">Projectile Speed: \1</text>
 <text name="defense_drone_orbit_speed">Orbit Speed: \1</text>
-
 <text name="defense_drone_projectile_target_unknown">Projectile Target: Unknown</text>
 <text name="defense_drone_projectile_target_solid">Projectile Target: Solid</text>
 <text name="defense_drone_projectile_target_asteroid">Projectile Target: Asteroids</text>
@@ -170,8 +169,9 @@
 <text name="defense_drone_projectile_target_all">Projectile Target: All</text>
 <text name="defense_drone_drone_target_solid_projectiles">Target: Drones + Solid Projectiles</text>
 <text name="defense_drone_drone_target_all_projectiles">Target: Drones + All Projectiles</text>
-
 <text name="defense_drone_drone_target_solid">Target: Solid Drones</text>
+<text name="shield_drone_layers_per_charge">Shield layers per charge: \1</text>
+<text name="shield_drone_cooldowns">Cooldowns: \1</text>
 
 <text name="teleporter_instant">No cooldown</text>
 <text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
