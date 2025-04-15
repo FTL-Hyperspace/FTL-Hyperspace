@@ -38,10 +38,12 @@ cleanup __cdecl int ShipManager::GetSystemDamage(ShipManager *this, int systemId
 cleanup __cdecl int ShipManager::CreateSystems(ShipManager *this);
 "5589e557565381ecdc0000008b45088d98c0040000":
 cleanup __cdecl int ShipManager::AddSystem(ShipManager *this, int systemId);
-"5589e557565331db81ecfc0000008b7d088b57188b471c":
-cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this);
+".5589e557565331db81ecfc0000008b7d088b57188b471c":
+cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this); //08112fa0
+"!.57565331db83ec108b7c????0fb674????8b5764":
+cleanup __cdecl void ShipManager::KillEveryone(ShipManager *this, bool noClone); //08114270
 ".5557565383ec1c8b7424308b5c24348b7c243c8b":
-cleanup __cdecl bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
+cleanup __cdecl bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force); //081142c0
 "5589e557565381ec9c0000008b7d088d4770":
 cleanup __cdecl void ShipManager::UpdateEnvironment(ShipManager *this);
 "5589e557565383ec6c8b4514c7442404????????8b7508":
@@ -59,7 +61,7 @@ cleanup __cdecl std::vector<float> ShipManager::GetOxygenLevels(ShipManager *thi
 "5557565383ec1c807c246600":
 cleanup __cdecl bool ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
 "5557565383ec3c8b442454894424048d44242c890424":
-cleanup __cdecl void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
+cleanup __cdecl void ShipManager::RemoveItem(ShipManager *this, const std::string& name);
 "5589e557565381eccc0000008b45148b5d08":
 cleanup __cdecl bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 "5589e557565381ecdc0000008b7d088b5d0c8b7510":
@@ -232,11 +234,11 @@ cleanup __cdecl Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprin
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -244,21 +246,21 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
@@ -267,7 +269,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-	
+
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
