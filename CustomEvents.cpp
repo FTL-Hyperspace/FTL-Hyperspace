@@ -5184,7 +5184,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& names) -> void)
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& names) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
     // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
@@ -5206,6 +5206,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
                 pEventCount += pEvent.event.second.min;
             }
         }
+    }
+    else
+    {
+        // Although this is a complete rewrite, changing the order of calling random32 affects the seeded run. So we only use this rewrite for priorityNebulaFix and use the original one otherwise.
+        return super(names);
     }
 
     const std::vector<ImageDesc> &nebulaImages = names.size() < 6 ? smallNebula : largeNebula;
