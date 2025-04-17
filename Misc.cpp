@@ -646,6 +646,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pCollideable = SWIG_TypeQuery(this->m_Lua, "Collideable *");
     types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");
     types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");
+    types.pCrewDefinition = SWIG_TypeQuery(this->m_Lua, "CrewDefinition *");
     types.pDamage = SWIG_TypeQuery(this->m_Lua, "Damage *");
     types.pPointf = SWIG_TypeQuery(this->m_Lua, "Pointf *");
     types.pProjectile[0] = SWIG_TypeQuery(this->m_Lua, "Projectile *");

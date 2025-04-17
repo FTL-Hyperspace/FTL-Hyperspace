@@ -104,6 +104,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.17.0 | TABBED_WINDOW_CONFIRM | `std::string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
 | 1.17.0 | TABBED_WINDOW_UNDO | `std::string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
 | 1.19.0 | CALCULATE_LEAK_MODIFIER | `ShipManager ship`, `float modifier` | `Chain`, `modifier` | Called once per ship every game tick to calculate a multiplier to the rate at which airlocks and breaches drain oxygen.
+| ??? | CALCULATE_STAT_PRE | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Chain`, `amount`, `value` | Called before applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
+| ??? | CALCULATE_STAT_PRE | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Chain`, `amount`, `value` | Called after applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
 ## Other predefined values
 
 ### Chain

@@ -2998,6 +2998,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember_Extend::CustomTeleport::roomId;
 %rename("%s") CrewMember_Extend::CustomTeleport::slotId;
 %rename("%s") CrewMember_Extend::customTele;
+%rename("%s") CrewMember_Extend::transformRace;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;
