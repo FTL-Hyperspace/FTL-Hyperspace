@@ -799,6 +799,12 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::combatControl;
 %rename("%s") CommandGui::ftlButton;
 %rename("%s") CommandGui::spaceStatus;
+
+%nodefaultctor SpaceStatus;
+%nodefaultdtor SpaceStatus;
+%rename("%s") SpaceStatus;
+%rename("%s") SpaceStatus::RenderWarningText;
+
 ////%rename("%s") CommandGui::starMap // Part of WorldManager's actual object rather than using a reference ideally don't expose this one in CommandGui
 ////%rename("%s") CommandGui::shipComplete; // Part of WorldManager also, maybe use that one?
 %rename("%s") CommandGui::pauseTextLoc;
@@ -1059,6 +1065,7 @@ playerVariableType playerVariables;
 %nodefaultdtor MouseControl;
 %rename("%s") MouseControl;
 %rename("%s") MouseControl::InstantTooltip;
+%rename("%s") MouseControl::LoadTooltip;
 %rename("%s") MouseControl::MeasureTooltip;
 %rename("%s") MouseControl::OnLoop;
 %rename("%s") MouseControl::OnRender;

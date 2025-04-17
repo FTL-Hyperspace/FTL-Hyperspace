@@ -227,6 +227,8 @@ local instance = Hyperspace.template_name(args)
 ### Methods
 
 - `void :InstantTooltip()`
+- `void :LoadTooltip(std::string tooltipName)`
+   - `tooltipName` should be an id of the text without prefix `tooltip_`.
 - `Point :MeasureTooltip(int width)`
 - `void :OnLoop()`
 - `void :OnRender()`
@@ -3784,3 +3786,8 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ## FTLButton
 
 **Extends [TextButton0](#TextButton0)**
+
+## SpaceStatus
+
+### Methods
+- `void` `:RenderWarningText(int effect, int textOffset)`
