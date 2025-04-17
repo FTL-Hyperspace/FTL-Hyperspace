@@ -2056,7 +2056,7 @@ struct AugmentStoreBox : StoreBox
 	{
 		this->constructor(_ship, _bp);
 	}
-	
+
 	AugmentStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
@@ -2064,6 +2064,7 @@ struct AugmentStoreBox : StoreBox
 
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, const AugmentBlueprint *bp);
 	
 	AugmentBlueprint *blueprint;
@@ -5417,6 +5418,7 @@ struct DroneStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const DroneBlueprint *bp);
 	
 	DroneBlueprint *blueprint;
@@ -8061,13 +8063,14 @@ struct WeaponStoreBox : StoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
-	
+
 	WeaponStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
 		this->bEquipmentBox = true;
 	}
 
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	
 	WeaponBlueprint *blueprint;
