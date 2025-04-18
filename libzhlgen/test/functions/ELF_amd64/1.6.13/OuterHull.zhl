@@ -1,2 +1,4 @@
 "!498dbd880000000f28caf3410f1195840000000f28c249c74500(???????\?)":
-void** VTable_OuterHull;
+void** VTable_OuterHull; //Within OuterHull constructor at 0064c150
+".5553??89fb??83ec28??8b07ff505084c0":
+cleanup __amd64 void OuterHull::OnLoop(OuterHull *this); //0064cdd0

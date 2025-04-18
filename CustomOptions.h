@@ -80,7 +80,7 @@ public:
     Setting<std::string> dismissSound;
 
     Setting<bool> targetableArtillery;
-    
+
     Setting<bool> oxygenWithoutSystem;
 
     Setting<bool> shieldWithoutSystem;
@@ -92,9 +92,11 @@ public:
     Setting<bool> cloakRenderFix;
 
     Setting<bool> dualMedical;
-    
+
     Setting<bool> enhancedCloneUI;
-    
+
+    Setting<bool> scaleSlugGel;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;
