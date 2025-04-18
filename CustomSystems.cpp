@@ -702,7 +702,6 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     }
 }
 
-static const int defaultSubSystemBoxGaps[4] = {0, 36, 36, 51};
 HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::OnRender -> Begin (CustomSystems.cpp)\n")
@@ -719,33 +718,50 @@ HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
         }
         else
         {
-            GL_Texture * subSystemBox = G_->GetResources()->GetImageId("box_subsystems4.png");
+            const int defaultSubSystemBoxGaps[4] = {0, 36, 36, 51};
+            const float yPos = 285.f;
+            GL_Texture *subSystemBox = G_->GetResources()->GetImageId("box_subsystems4.png");
             int prevXPos = subSystemPosition.x;
             int length = std::max((size_t)4, g_subSystemBoxPositions.size());
             for (int i = 0; i < length; ++i)
             {
+                float x, size_x, start_x, end_x;
                 int xPos = i < g_subSystemBoxPositions.size() ? g_subSystemBoxPositions[i] : prevXPos + defaultSubSystemBoxGaps[i];
                 if (i == 0)
                 {
-                    CSurface::GL_BlitImagePartial(subSystemBox, xPos + 7.f, 285.f, 38.f, subSystemBox->height_, 0.f, 38.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                    // render the left edge of the subsystem box and the first pit
+                    x = xPos + 7.f;
+                    size_x = 38.f;
+                    start_x = 0.f;
+                    end_x = 38.f / subSystemBox->width_;
                 }
                 else
                 {
                     int gap = xPos - prevXPos - 26;
                     if (gap > 0)
                     {
-                        CSurface::GL_BlitImagePartial(subSystemBox, prevXPos + 45.f, 285.f, gap, subSystemBox->height_, 10.f / subSystemBox->width_, 11.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                        // render the gap between the subsystem box octagons
+                        CSurface::GL_BlitImagePartial(subSystemBox, prevXPos + 45.f, yPos, gap, subSystemBox->height_, 10.f / subSystemBox->width_, 11.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
                     }
 
                     if (i == length - 1)
                     {
-                        CSurface::GL_BlitImagePartial(subSystemBox, xPos + 19.f, 285.f, 35.f, subSystemBox->height_, 135.f / subSystemBox->width_, 1.f, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                        // render the last pit and the right edge of the subsystem box
+                        x = xPos + 19.f;
+                        size_x = 35.f;
+                        start_x = 135.f / subSystemBox->width_;
+                        end_x = 1.f;
                     }
                     else
                     {
-                        CSurface::GL_BlitImagePartial(subSystemBox, xPos + 19.f, 285.f, 26.f, subSystemBox->height_, 12.f / subSystemBox->width_, 38.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                        // render the pit under the subsystem box octagon
+                        x = xPos + 19.f;
+                        size_x = 26.f;
+                        start_x = 12.f / subSystemBox->width_;
+                        end_x = 38.f / subSystemBox->width_;
                     }
                 }
+                CSurface::GL_BlitImagePartial(subSystemBox, x, yPos, size_x, subSystemBox->height_, start_x, end_x, 0.f, 1.f, 1.f, COLOR_WHITE, false);
                 prevXPos = xPos;
             }
         }
