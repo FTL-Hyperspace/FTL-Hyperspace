@@ -5220,14 +5220,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& 
     std::vector<Location*> nebulaFreeLocations;
     std::vector<Location*> defaultNebulaEventLocCandidates;
 
-    if (locations.size() > 0)
+    for (Location *loc : locations)
     {
-        for (Location *loc : locations)
+        if (!loc->nebula)
         {
-            if (!loc->nebula)
-            {
-                nebulaFreeLocations.push_back(loc);
-            }
+            nebulaFreeLocations.push_back(loc);
         }
     }
 
@@ -5315,15 +5312,12 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& 
     // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
     // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
     // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
-    if (nebulaFreeLocations.size() < pEventCount)
+    for (int i = pEventCount - nebulaFreeLocations.size(); i >= 0; --i)
     {
-        for (int i = pEventCount - nebulaFreeLocations.size(); i > 0; --i)
-        {
-            if (defaultNebulaEventLocCandidates.empty()) break;
+        if (defaultNebulaEventLocCandidates.empty()) break;
 
-            defaultNebulaEventLocCandidates.back()->nebula = false;
-            defaultNebulaEventLocCandidates.pop_back();
-        }
+        defaultNebulaEventLocCandidates.back()->nebula = false;
+        defaultNebulaEventLocCandidates.pop_back();
     }
     for (Location *loc : defaultNebulaEventLocCandidates)
     {
