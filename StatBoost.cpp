@@ -2285,427 +2285,417 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         }
     }
 
-    for (StatBoost& statBoost : personalStatBoosts)
+    auto context = Global::GetInstance()->getLuaContext();
+    auto L = context->GetLua();
+
+    //Perform lua calculations prior to applied statboosts
+    SWIG_NewPointerObj(L, orig, context->getLibScript()->types.pCrewMember, 0);
+    lua_pushinteger(L, static_cast<unsigned int>(stat));
+    SWIG_NewPointerObj(L, &def, context->getLibScript()->types.pCrewDefinition, 0);
+    lua_pushnumber(L, finalStat);
+    lua_pushboolean(L, isBool && *boolValue);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_STAT_PRE, 5, 2);
+    if (lua_isnumber(L, -2)) finalStat = lua_tonumber(L, -2);
+    if (lua_isboolean(L, -1) && isBool) *boolValue = lua_toboolean(L, -1);
+    lua_pop(L, 5);
+
+    if (!preempt) //If not preempted, calculate xml-based boosts and post boosts
     {
-        for (int i = 0; i < statBoost.iStacks; ++i)
+        for (StatBoost& statBoost : personalStatBoosts)
         {
-            if (statBoost.def->stat == stat)
+            for (int i = 0; i < statBoost.iStacks; ++i)
             {
-                float sysPowerScaling = CalculatePowerScaling(statBoost);
-                // Apply effect
-                if (isBool)
+                if (statBoost.def->stat == stat)
                 {
-                    if (sysPowerScaling)
-                    {
-                        if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                        {
-                            *boolValue = statBoost.def->value;
-                        }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
-                        {
-                            *boolValue = !*boolValue;
-                        }
-                    }
-                }
-                else if (isEffect)
-                {
-                    switch (stat)
-                    {
-                    case CrewStat::POWER_EFFECT:
+                    float sysPowerScaling = CalculatePowerScaling(statBoost);
+                    // Apply effect
+                    if (isBool)
                     {
                         if (sysPowerScaling)
                         {
-                            switch (statBoost.def->boostType)
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
                             {
-                            case StatBoostDefinition::BoostType::SET: // all existing powers are cleared and the new one is added (backwards compatibility)
-                                powerChange.clear();
-                                if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
-                                break;
-                            case StatBoostDefinition::BoostType::ADD: // adds the power as an additional power
-                                if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
-                                break;
-                            case StatBoostDefinition::BoostType::REPLACE_POWER: // replace powers (or whitelisted powers) with powerChange
+                                *boolValue = statBoost.def->value;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
+                            {
+                                *boolValue = !*boolValue;
+                            }
+                        }
+                    }
+                    else if (isEffect)
+                    {
+                        switch (stat)
+                        {
+                        case CrewStat::POWER_EFFECT:
+                        {
+                            if (sysPowerScaling)
+                            {
+                                switch (statBoost.def->boostType)
                                 {
-                                    int i = statBoost.def->amount * sysPowerScaling;
-                                    if (i==0) break;
-                                    for (auto it = powerChange.begin(); it != powerChange.end();)
+                                case StatBoostDefinition::BoostType::SET: // all existing powers are cleared and the new one is added (backwards compatibility)
+                                    powerChange.clear();
+                                    if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
+                                    break;
+                                case StatBoostDefinition::BoostType::ADD: // adds the power as an additional power
+                                    if (statBoost.def->powerChange) powerChange.push_back(statBoost.def->powerChange);
+                                    break;
+                                case StatBoostDefinition::BoostType::REPLACE_POWER: // replace powers (or whitelisted powers) with powerChange
                                     {
-                                        if (statBoost.def->IsTargetPower(*it))
+                                        int i = statBoost.def->amount * sysPowerScaling;
+                                        if (i==0) break;
+                                        for (auto it = powerChange.begin(); it != powerChange.end();)
                                         {
-                                            if (statBoost.def->powerChange)
+                                            if (statBoost.def->IsTargetPower(*it))
                                             {
-                                                *it = statBoost.def->powerChange;
-                                                if (--i == 0) break;
+                                                if (statBoost.def->powerChange)
+                                                {
+                                                    *it = statBoost.def->powerChange;
+                                                    if (--i == 0) break;
+                                                }
+                                                else
+                                                {
+                                                    it = powerChange.erase(it);
+                                                    if (--i == 0) break;
+                                                    continue;
+                                                }
                                             }
-                                            else
-                                            {
-                                                it = powerChange.erase(it);
-                                                if (--i == 0) break;
-                                                continue;
-                                            }
+                                            ++it;
                                         }
-                                        ++it;
                                     }
+                                    break;
                                 }
-                                break;
                             }
                         }
-                    }
-                    break;
-                    case CrewStat::POWER_MAX_CHARGES:
-                    {
-                        for (ActivatedPower *power : crewPowers)
-                        {
-                            if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
-                            if (!statBoost.def->IsTargetPower(power->def)) continue;
-
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-                                if (!statBoost.def->powerScaling.empty())
-                                {
-                                    power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                }
-                                else
-                                {
-                                    power->modifiedPowerCharges *= statBoost.def->amount;
-                                }
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-                                power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                            {
-                                power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                            {
-                                power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
-                            }
-                        }
-                        for (ActivatedPowerResource *power : powerResources)
-                        {
-                            if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
-                            if (!statBoost.def->IsTargetPower(power->def)) continue;
-
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-                                if (!statBoost.def->powerScaling.empty())
-                                {
-                                    power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                }
-                                else
-                                {
-                                    power->modifiedPowerCharges *= statBoost.def->amount;
-                                }
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-                                power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                            {
-                                power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                            {
-                                power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
-                            }
-                        }
-                    }
-                    break;
-                    case CrewStat::POWER_CHARGES_PER_JUMP:
-                    {
-                        for (ActivatedPower *power : crewPowers)
-                        {
-                            if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
-                            if (!statBoost.def->IsTargetPower(power->def)) continue;
-
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-                                if (!statBoost.def->powerScaling.empty())
-                                {
-                                    power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                }
-                                else
-                                {
-                                    power->modifiedChargesPerJump *= statBoost.def->amount;
-                                }
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-                                power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                            {
-                                power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                            {
-                                power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
-                            }
-                        }
-                        for (ActivatedPowerResource *power : powerResources)
-                        {
-                            if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
-                            if (!statBoost.def->IsTargetPower(power->def)) continue;
-
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-                                if (!statBoost.def->powerScaling.empty())
-                                {
-                                    power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                }
-                                else
-                                {
-                                    power->modifiedChargesPerJump *= statBoost.def->amount;
-                                }
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-                                power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                            {
-                                power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                            {
-                                power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
-                            }
-                        }
-                    }
-                    break;
-                    case CrewStat::POWER_COOLDOWN:
-                    {
-                        for (ActivatedPower *power : crewPowers)
-                        {
-                            if (!power->enabled && power->def->disabledCooldown != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
-                            if (!statBoost.def->IsTargetPower(power->def)) continue;
-
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-                                if (!statBoost.def->powerScaling.empty())
-                                {
-                                    power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                }
-                                else
-                                {
-                                    power->modifiedPowerCooldown *= statBoost.def->amount;
-                                }
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-                                power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                            {
-                                power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                            {
-                                power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
-                            }
-                        }
-                        for (ActivatedPowerResource *power : powerResources)
-                        {
-                            if (!power->enabled && power->def->disabledCooldown != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
-                            if (!statBoost.def->IsTargetPower(power->def)) continue;
-
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-                                if (!statBoost.def->powerScaling.empty())
-                                {
-                                    power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
-                                }
-                                else
-                                {
-                                    power->modifiedPowerCooldown *= statBoost.def->amount;
-                                }
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                            {
-                                power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                            {
-                                power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                            {
-                                power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
-                            }
-                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                            {
-                                power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
-                            }
-                        }
-                    }
-                    break;
-                    case CrewStat::ACTIVATE_WHEN_READY:
-                    {
-                        if (sysPowerScaling)
+                        break;
+                        case CrewStat::POWER_MAX_CHARGES:
                         {
                             for (ActivatedPower *power : crewPowers)
                             {
-                                if (!power->enabled) continue;
+                                if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
                                 if (!statBoost.def->IsTargetPower(power->def)) continue;
 
-                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    power->activateWhenReady = statBoost.def->value;
+                                    if (!statBoost.def->powerScaling.empty())
+                                    {
+                                        power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                    }
+                                    else
+                                    {
+                                        power->modifiedPowerCharges *= statBoost.def->amount;
+                                    }
                                 }
-                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                                 {
-                                    power->activateWhenReady = !power->activateWhenReady;
+                                    power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                                {
+                                    power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                                {
+                                    power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
                                 }
                             }
-                        }
-                    }
-                    break;
-                    case CrewStat::DEATH_EFFECT:
-                    {
-                        if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                        {
-                            if (statBoost.def->deathEffectChange)
+                            for (ActivatedPowerResource *power : powerResources)
                             {
-                                hasDeathExplosion = true;
-                                deathEffectChange.shipFriendlyFire &= statBoost.def->deathEffectChange->shipFriendlyFire || !sysPowerScaling;
-                                deathEffectChange.damage.iDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iDamage - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.iShieldPiercing *= 1.f + (statBoost.def->deathEffectChange->damage.iShieldPiercing - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.fireChance *= 1.f + (statBoost.def->deathEffectChange->damage.fireChance - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.breachChance *= 1.f + (statBoost.def->deathEffectChange->damage.breachChance - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.stunChance *= 1.f + (statBoost.def->deathEffectChange->damage.stunChance - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.iIonDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iIonDamage - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.iSystemDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iSystemDamage - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.iPersDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iPersDamage - 1.f) * sysPowerScaling;
-                                deathEffectChange.damage.bHullBuster &= statBoost.def->deathEffectChange->damage.bHullBuster || !sysPowerScaling;
-                                deathEffectChange.damage.bLockdown &= statBoost.def->deathEffectChange->damage.bLockdown || !sysPowerScaling;
-                                deathEffectChange.damage.bFriendlyFire &= statBoost.def->deathEffectChange->damage.bFriendlyFire || !sysPowerScaling;
-                                deathEffectChange.damage.iStun *= 1.f + (statBoost.def->deathEffectChange->damage.iStun - 1.f) * sysPowerScaling;
+                                if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
 
-                                deathEffectChange.transformRaceHealth *= 1.f + (statBoost.def->deathEffectChange->transformRaceHealth - 1.f) * sysPowerScaling;
-                                deathEffectChange.transformRaceHealthFraction *= 1.f + (statBoost.def->deathEffectChange->transformRaceHealthFraction - 1.f) * sysPowerScaling;
-                            }
-                        }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                        {
-                            if (statBoost.def->deathEffectChange)
-                            {
-                                hasDeathExplosion = true;
-                                deathEffectChange.shipFriendlyFire |= statBoost.def->deathEffectChange->shipFriendlyFire && sysPowerScaling;
-                                deathEffectChange.damage.iDamage += statBoost.def->deathEffectChange->damage.iDamage * sysPowerScaling;
-                                deathEffectChange.damage.iShieldPiercing += statBoost.def->deathEffectChange->damage.iShieldPiercing * sysPowerScaling;
-                                deathEffectChange.damage.fireChance += statBoost.def->deathEffectChange->damage.fireChance * sysPowerScaling;
-                                deathEffectChange.damage.breachChance += statBoost.def->deathEffectChange->damage.breachChance * sysPowerScaling;
-                                deathEffectChange.damage.stunChance += statBoost.def->deathEffectChange->damage.stunChance * sysPowerScaling;
-                                deathEffectChange.damage.iIonDamage += statBoost.def->deathEffectChange->damage.iIonDamage * sysPowerScaling;
-                                deathEffectChange.damage.iSystemDamage += statBoost.def->deathEffectChange->damage.iSystemDamage * sysPowerScaling;
-                                deathEffectChange.damage.iPersDamage += statBoost.def->deathEffectChange->damage.iPersDamage * sysPowerScaling;
-                                deathEffectChange.damage.bHullBuster |= statBoost.def->deathEffectChange->damage.bHullBuster && sysPowerScaling;
-                                deathEffectChange.damage.bLockdown |= statBoost.def->deathEffectChange->damage.bLockdown && sysPowerScaling;
-                                deathEffectChange.damage.bFriendlyFire |= statBoost.def->deathEffectChange->damage.bFriendlyFire && sysPowerScaling;
-                                deathEffectChange.damage.iStun += statBoost.def->deathEffectChange->damage.iStun * sysPowerScaling;
-
-                                deathEffectChange.transformRaceHealth += statBoost.def->deathEffectChange->transformRaceHealth * sysPowerScaling;
-                                deathEffectChange.transformRaceHealthFraction += statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
-
-                                if (sysPowerScaling)
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                                 {
-                                    for (auto statBoostDef : statBoost.def->deathEffectChange->statBoosts)
+                                    if (!statBoost.def->powerScaling.empty())
                                     {
-                                        deathEffectChange.statBoosts.push_back(statBoostDef);
+                                        power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
                                     }
-
-                                    for (auto statBoostDef : statBoost.def->deathEffectChange->roomStatBoosts)
+                                    else
                                     {
-                                        deathEffectChange.roomStatBoosts.push_back(statBoostDef);
+                                        power->modifiedPowerCharges *= statBoost.def->amount;
                                     }
-
-                                    for (auto crewSpawn : statBoost.def->deathEffectChange->crewSpawns)
-                                    {
-                                        deathEffectChange.crewSpawns.push_back(crewSpawn);
-                                    }
-
-                                    if (!statBoost.def->deathEffectChange->transformRace.empty())
-                                    {
-                                        deathEffectChange.transformRace = statBoost.def->deathEffectChange->transformRace;
-                                        deathEffectChange.transformRaceHealth = statBoost.def->deathEffectChange->transformRaceHealth * sysPowerScaling;
-                                        deathEffectChange.transformRaceHealthFraction = statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
-                                        deathEffectChange.transformRaceDeathSound = statBoost.def->deathEffectChange->transformRaceDeathSound;
-                                    }
-
-                                    // To do, make death events stack rather than overwrite?
-                                    if (!statBoost.def->deathEffectChange->event[0].empty())
-                                    {
-                                        deathEffectChange.event[0] = statBoost.def->deathEffectChange->event[0];
-                                    }
-                                    if (!statBoost.def->deathEffectChange->event[1].empty())
-                                    {
-                                        deathEffectChange.event[1] = statBoost.def->deathEffectChange->event[1];
-                                    }
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                                {
+                                    power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                                {
+                                    power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                                {
+                                    power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
                                 }
                             }
                         }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                        break;
+                        case CrewStat::POWER_CHARGES_PER_JUMP:
+                        {
+                            for (ActivatedPower *power : crewPowers)
+                            {
+                                if (!power->enabled && power->def->disabledCharges != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                                {
+                                    if (!statBoost.def->powerScaling.empty())
+                                    {
+                                        power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                    }
+                                    else
+                                    {
+                                        power->modifiedChargesPerJump *= statBoost.def->amount;
+                                    }
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                                {
+                                    power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                                {
+                                    power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                                {
+                                    power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                                }
+                            }
+                            for (ActivatedPowerResource *power : powerResources)
+                            {
+                                if (!power->enabled && power->def->disabledCharges != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                                {
+                                    if (!statBoost.def->powerScaling.empty())
+                                    {
+                                        power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                    }
+                                    else
+                                    {
+                                        power->modifiedChargesPerJump *= statBoost.def->amount;
+                                    }
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                                {
+                                    power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                                {
+                                    power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                                {
+                                    power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                                }
+                            }
+                        }
+                        break;
+                        case CrewStat::POWER_COOLDOWN:
+                        {
+                            for (ActivatedPower *power : crewPowers)
+                            {
+                                if (!power->enabled && power->def->disabledCooldown != ActivatedPowerDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                                {
+                                    if (!statBoost.def->powerScaling.empty())
+                                    {
+                                        power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                    }
+                                    else
+                                    {
+                                        power->modifiedPowerCooldown *= statBoost.def->amount;
+                                    }
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                                {
+                                    power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                                {
+                                    power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                                {
+                                    power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                                }
+                            }
+                            for (ActivatedPowerResource *power : powerResources)
+                            {
+                                if (!power->enabled && power->def->disabledCooldown != PowerResourceDefinition::DISABLED_COOLDOWN_CONTINUE) continue;
+                                if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                                {
+                                    if (!statBoost.def->powerScaling.empty())
+                                    {
+                                        power->modifiedPowerCooldown = power->modifiedPowerCooldown * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                    }
+                                    else
+                                    {
+                                        power->modifiedPowerCooldown *= statBoost.def->amount;
+                                    }
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                                {
+                                    power->modifiedPowerCooldown += statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    power->modifiedPowerCooldown = statBoost.def->amount * sysPowerScaling;
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                                {
+                                    power->modifiedPowerCooldown = std::min(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                                {
+                                    power->modifiedPowerCooldown = std::max(power->modifiedPowerCooldown, statBoost.def->amount * sysPowerScaling);
+                                }
+                            }
+                        }
+                        break;
+                        case CrewStat::ACTIVATE_WHEN_READY:
                         {
                             if (sysPowerScaling)
+                            {
+                                for (ActivatedPower *power : crewPowers)
+                                {
+                                    if (!power->enabled) continue;
+                                    if (!statBoost.def->IsTargetPower(power->def)) continue;
+
+                                    if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                    {
+                                        power->activateWhenReady = statBoost.def->value;
+                                    }
+                                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
+                                    {
+                                        power->activateWhenReady = !power->activateWhenReady;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                        case CrewStat::DEATH_EFFECT:
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                             {
                                 if (statBoost.def->deathEffectChange)
                                 {
                                     hasDeathExplosion = true;
-                                    deathEffectChange = *statBoost.def->deathEffectChange;
-                                }
-                                else
-                                {
-                                    hasDeathExplosion = false;
-                                }
-                            }
-                        }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
-                        {
+                                    deathEffectChange.shipFriendlyFire &= statBoost.def->deathEffectChange->shipFriendlyFire || !sysPowerScaling;
+                                    deathEffectChange.damage.iDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iDamage - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.iShieldPiercing *= 1.f + (statBoost.def->deathEffectChange->damage.iShieldPiercing - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.fireChance *= 1.f + (statBoost.def->deathEffectChange->damage.fireChance - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.breachChance *= 1.f + (statBoost.def->deathEffectChange->damage.breachChance - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.stunChance *= 1.f + (statBoost.def->deathEffectChange->damage.stunChance - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.iIonDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iIonDamage - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.iSystemDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iSystemDamage - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.iPersDamage *= 1.f + (statBoost.def->deathEffectChange->damage.iPersDamage - 1.f) * sysPowerScaling;
+                                    deathEffectChange.damage.bHullBuster &= statBoost.def->deathEffectChange->damage.bHullBuster || !sysPowerScaling;
+                                    deathEffectChange.damage.bLockdown &= statBoost.def->deathEffectChange->damage.bLockdown || !sysPowerScaling;
+                                    deathEffectChange.damage.bFriendlyFire &= statBoost.def->deathEffectChange->damage.bFriendlyFire || !sysPowerScaling;
+                                    deathEffectChange.damage.iStun *= 1.f + (statBoost.def->deathEffectChange->damage.iStun - 1.f) * sysPowerScaling;
 
-                        }
-                    }
-                    break;
-                    case CrewStat::TRANSFORM_RACE:
-                    {
-                        if (sysPowerScaling)
-                        {
-                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                            {
-
+                                    deathEffectChange.transformRaceHealth *= 1.f + (statBoost.def->deathEffectChange->transformRaceHealth - 1.f) * sysPowerScaling;
+                                    deathEffectChange.transformRaceHealthFraction *= 1.f + (statBoost.def->deathEffectChange->transformRaceHealthFraction - 1.f) * sysPowerScaling;
+                                }
                             }
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
                             {
+                                if (statBoost.def->deathEffectChange)
+                                {
+                                    hasDeathExplosion = true;
+                                    deathEffectChange.shipFriendlyFire |= statBoost.def->deathEffectChange->shipFriendlyFire && sysPowerScaling;
+                                    deathEffectChange.damage.iDamage += statBoost.def->deathEffectChange->damage.iDamage * sysPowerScaling;
+                                    deathEffectChange.damage.iShieldPiercing += statBoost.def->deathEffectChange->damage.iShieldPiercing * sysPowerScaling;
+                                    deathEffectChange.damage.fireChance += statBoost.def->deathEffectChange->damage.fireChance * sysPowerScaling;
+                                    deathEffectChange.damage.breachChance += statBoost.def->deathEffectChange->damage.breachChance * sysPowerScaling;
+                                    deathEffectChange.damage.stunChance += statBoost.def->deathEffectChange->damage.stunChance * sysPowerScaling;
+                                    deathEffectChange.damage.iIonDamage += statBoost.def->deathEffectChange->damage.iIonDamage * sysPowerScaling;
+                                    deathEffectChange.damage.iSystemDamage += statBoost.def->deathEffectChange->damage.iSystemDamage * sysPowerScaling;
+                                    deathEffectChange.damage.iPersDamage += statBoost.def->deathEffectChange->damage.iPersDamage * sysPowerScaling;
+                                    deathEffectChange.damage.bHullBuster |= statBoost.def->deathEffectChange->damage.bHullBuster && sysPowerScaling;
+                                    deathEffectChange.damage.bLockdown |= statBoost.def->deathEffectChange->damage.bLockdown && sysPowerScaling;
+                                    deathEffectChange.damage.bFriendlyFire |= statBoost.def->deathEffectChange->damage.bFriendlyFire && sysPowerScaling;
+                                    deathEffectChange.damage.iStun += statBoost.def->deathEffectChange->damage.iStun * sysPowerScaling;
 
+                                    deathEffectChange.transformRaceHealth += statBoost.def->deathEffectChange->transformRaceHealth * sysPowerScaling;
+                                    deathEffectChange.transformRaceHealthFraction += statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
+
+                                    if (sysPowerScaling)
+                                    {
+                                        for (auto statBoostDef : statBoost.def->deathEffectChange->statBoosts)
+                                        {
+                                            deathEffectChange.statBoosts.push_back(statBoostDef);
+                                        }
+
+                                        for (auto statBoostDef : statBoost.def->deathEffectChange->roomStatBoosts)
+                                        {
+                                            deathEffectChange.roomStatBoosts.push_back(statBoostDef);
+                                        }
+
+                                        for (auto crewSpawn : statBoost.def->deathEffectChange->crewSpawns)
+                                        {
+                                            deathEffectChange.crewSpawns.push_back(crewSpawn);
+                                        }
+
+                                        if (!statBoost.def->deathEffectChange->transformRace.empty())
+                                        {
+                                            deathEffectChange.transformRace = statBoost.def->deathEffectChange->transformRace;
+                                            deathEffectChange.transformRaceHealth = statBoost.def->deathEffectChange->transformRaceHealth * sysPowerScaling;
+                                            deathEffectChange.transformRaceHealthFraction = statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
+                                            deathEffectChange.transformRaceDeathSound = statBoost.def->deathEffectChange->transformRaceDeathSound;
+                                        }
+
+                                        // To do, make death events stack rather than overwrite?
+                                        if (!statBoost.def->deathEffectChange->event[0].empty())
+                                        {
+                                            deathEffectChange.event[0] = statBoost.def->deathEffectChange->event[0];
+                                        }
+                                        if (!statBoost.def->deathEffectChange->event[1].empty())
+                                        {
+                                            deathEffectChange.event[1] = statBoost.def->deathEffectChange->event[1];
+                                        }
+                                    }
+                                }
                             }
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
                             {
-                                transformRace = statBoost.def->stringValue;
-                                if (statBoost.def->value)
+                                if (sysPowerScaling)
                                 {
-                                    originalRace = transformRace;
+                                    if (statBoost.def->deathEffectChange)
+                                    {
+                                        hasDeathExplosion = true;
+                                        deathEffectChange = *statBoost.def->deathEffectChange;
+                                    }
+                                    else
+                                    {
+                                        hasDeathExplosion = false;
+                                    }
                                 }
                             }
                             else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
@@ -2713,45 +2703,84 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                             }
                         }
-                    }
-                    break;
-                    default:
-                    break;
-                    }
-                }
-                else
-                {
-                    if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
-                    {
-                        if (!statBoost.def->powerScaling.empty())
+                        break;
+                        case CrewStat::TRANSFORM_RACE:
                         {
-                            finalStat = finalStat * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                            if (sysPowerScaling)
+                            {
+                                if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                                {
+
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                                {
+
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                                {
+                                    transformRace = statBoost.def->stringValue;
+                                    if (statBoost.def->value)
+                                    {
+                                        originalRace = transformRace;
+                                    }
+                                }
+                                else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
+                                {
+
+                                }
+                            }
                         }
-                        else
+                        break;
+                        default:
+                        break;
+                        }
+                    }
+                    else
+                    {
+                        if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                         {
-                            finalStat *= statBoost.def->amount;
+                            if (!statBoost.def->powerScaling.empty())
+                            {
+                                finalStat = finalStat * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                            }
+                            else
+                            {
+                                finalStat *= statBoost.def->amount;
+                            }
                         }
-                    }
-                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                    {
-                        finalStat += statBoost.def->amount * sysPowerScaling;
-                    }
-                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                    {
-                        finalStat = statBoost.def->amount * sysPowerScaling;
-                    }
-                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
-                    {
-                        finalStat = std::min(finalStat, statBoost.def->amount * sysPowerScaling);
-                    }
-                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
-                    {
-                        finalStat = std::max(finalStat, statBoost.def->amount * sysPowerScaling);
+                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                        {
+                            finalStat += statBoost.def->amount * sysPowerScaling;
+                        }
+                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                        {
+                            finalStat = statBoost.def->amount * sysPowerScaling;
+                        }
+                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                        {
+                            finalStat = std::min(finalStat, statBoost.def->amount * sysPowerScaling);
+                        }
+                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                        {
+                            finalStat = std::max(finalStat, statBoost.def->amount * sysPowerScaling);
+                        }
                     }
                 }
             }
         }
+
+        //Perform additional lua calculations
+        SWIG_NewPointerObj(L, orig, context->getLibScript()->types.pCrewMember, 0);
+        lua_pushinteger(L, static_cast<unsigned int>(stat));
+        SWIG_NewPointerObj(L, &def, context->getLibScript()->types.pCrewDefinition, 0);
+        lua_pushnumber(L, finalStat);
+        lua_pushboolean(L, isBool && *boolValue);
+        context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_STAT_POST, 5, 2);
+        if (lua_isnumber(L, -2)) finalStat = lua_tonumber(L, -2);
+        if (lua_isboolean(L, -1) && isBool) *boolValue = lua_toboolean(L, -1);
+        lua_pop(L, 5);
     }
+
     if ((unsigned int)stat < numCachedStats)
     {
         if (isBool)

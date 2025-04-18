@@ -86,6 +86,10 @@ struct InternalEvents
         GET_LEVEL_DESCRIPTION,
         CALCULATE_LEAK_MODIFIER,
 
+        //Statboost events
+        CALCULATE_STAT_PRE,
+        CALCULATE_STAT_POST,
+
         //Constructor Events
 
         CONSTRUCT_CREWMEMBER,
@@ -181,6 +185,8 @@ struct InternalEvents
             {"function system_box_key_down(SystemBox& systemBox, SDLKey key, bool shift) return Chain", 3, false},
             {"function get_level_description(int systemId, int level, bool tooltip) return description_string", 3, false},
             {"function calculate_leak_modifier(ShipManager& ship, float leakModifier) return Chain, leakModifier", 2, false},
+            {"function calculate_stat_pre(CrewMember& crew, CrewStat stat, CrewDefinition& def, float amount, bool value) return Chain, amount, value", 5, false},
+            {"function calculate_stat_post(CrewMember& crew, CrewStat stat, CrewDefinition& def, float amount, bool value) return Chain, amount, value", 5, false},
             {"function construct_crewmember(CrewMember& crew)", 1, false},
             {"function construct_spacedrone(SpaceDrone& drone)", 1, false},
             {"function construct_projectile_factory(ProjectileFactory& weapon)", 1, false},
