@@ -366,13 +366,14 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
     LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
     super(systemId, roomId, shipId, startingPower);
 
-    if (systemId == 20)
+    if (systemId == SYS_TEMPORAL)
     {
         bNeedsPower = true;
         bBoostable = false;
         bNeedsManned = false;
         bLevelBoostable = false;
     }
+    else if (systemId >= SYS_CUSTOM_FIRST && CustomUserSystems::IsCustomSubSystem(systemId)) bNeedsPower = false;
 }
 
 HOOK_METHOD_PRIORITY(ShipManager, CreateSystems, 9999, () -> int)
