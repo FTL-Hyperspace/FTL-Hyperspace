@@ -152,23 +152,23 @@ const SystemPosition* SystemPositionManager::GetSystemPosition(int systemId)
 }
 //Default values for vanilla UI
 std::unordered_map<int, SystemPosition> SystemPositionManager::systemPositions = {
-    {SYS_SHIELDS,    {0, false, -1}},    
-    {SYS_ENGINES,    {1, false, -1}},    
-    {SYS_MEDBAY,     {2, false, -1}}, 
-    {SYS_CLONEBAY,   {3, false, -1}},   
-    {SYS_OXYGEN,     {4, false, -1}},       
-    {SYS_TELEPORTER, {5, false, -1}}, 
-    {SYS_CLOAKING,   {6, false, -1}},   
-    {SYS_ARTILLERY,  {7, false, -1}},  
-    {SYS_MIND,       {8, false, -1}},       
+    {SYS_SHIELDS,    {0, false, -1}},
+    {SYS_ENGINES,    {1, false, -1}},
+    {SYS_MEDBAY,     {2, false, -1}},
+    {SYS_CLONEBAY,   {3, false, -1}},
+    {SYS_OXYGEN,     {4, false, -1}},
+    {SYS_TELEPORTER, {5, false, -1}},
+    {SYS_CLOAKING,   {6, false, -1}},
+    {SYS_ARTILLERY,  {7, false, -1}},
+    {SYS_MIND,       {8, false, -1}},
     {SYS_HACKING,    {9, false, -1}},
     {SYS_TEMPORAL,   {10, false, -1}},
-    {SYS_WEAPONS,    {INT_MAX - 1, false, -1}},    
-    {SYS_DRONES,     {INT_MAX, false, -1}}, 
+    {SYS_WEAPONS,    {INT_MAX - 1, false, -1}},
+    {SYS_DRONES,     {INT_MAX, false, -1}},
 
-    {SYS_PILOT,      {-1, true, 0}},      
-    {SYS_SENSORS,    {-1, true, 36}},    
-    {SYS_DOORS,      {-1, true, 72}},  
+    {SYS_PILOT,      {-1, true, 0}},
+    {SYS_SENSORS,    {-1, true, 36}},
+    {SYS_DOORS,      {-1, true, 72}},
     {SYS_BATTERY,    {-1, true, 123}}
 };
 const SystemPosition SystemPositionManager::defaultPosition = {INT_MAX - 2, false, -1};
@@ -459,6 +459,7 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
 }
 static bool staticSubSystemPositioning = true;
 static bool blockCreateSystemBoxes = false;
+static std::vector<int> g_subSystemBoxPositions;
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)")
@@ -480,7 +481,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     SystemPower.x = 0;
     SystemPower.y = 0;
 
-    //Collect all systems and subsystems owned by the player 
+    //Collect all systems and subsystems owned by the player
     std::vector<ShipSystem*> systems;
     std::vector<ShipSystem*> subSystems;
 
@@ -493,7 +494,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         }
     };
     //Vanilla IDs
-    for (int systemId = 0; systemId < 16; ++systemId) 
+    for (int systemId = 0; systemId < 16; ++systemId)
     {
         if (systemId == SYS_ARTILLERY)
         {
@@ -506,12 +507,12 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         {
             ShipSystem* sys = shipManager->GetSystem(systemId);
             AddShipSystemToVector(sys);
-        }      
+        }
     }
 
     //Hyperspace ID
     AddShipSystemToVector(shipManager->GetSystem(SYS_TEMPORAL));
-    
+
     //Custom IDS
     for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
     {
@@ -564,7 +565,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
                 box = new ArtilleryBox(boxPosition, static_cast<ArtillerySystem*>(sys));
                 break;
             }
-            case SYS_WEAPONS:  
+            case SYS_WEAPONS:
             {
                 *Global::weaponPosition = position + boxPosition;
                 box = new WeaponSystemBox(boxPosition, sys, &combatControl->weapControl);
@@ -587,7 +588,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
             {
                 box = new SystemBox(boxPosition, sys, true);
                 break;
-            }       
+            }
         }
         sysBoxes.push_back(box);
         xPos += SYS_EX(sys)->xOffset;
@@ -603,7 +604,8 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
             break;
         }
     }
-    
+
+    g_subSystemBoxPositions.clear();
     if (staticSubSystemPositioning)
     {
         subSystemPosition = Point(SystemPositionManager::subSystemOffset, 251);
@@ -611,12 +613,12 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         UpdateSubSystemBox(); //Block recursion when updating subsystem box position
         blockCreateSystemBoxes = false;
         //Order subsystems by their static position
-        std::sort(subSystems.begin(), subSystems.end(), 
+        std::sort(subSystems.begin(), subSystems.end(),
         [](ShipSystem* sys1, ShipSystem* sys2)
         {
             return SystemPositionManager::GetSystemPosition(sys1->iSystemType)->staticOffset < SystemPositionManager::GetSystemPosition(sys2->iSystemType)->staticOffset;
         });
-    
+
         int additionalOffset = 0;
         for (ShipSystem* sys : subSystems)
         {
@@ -625,6 +627,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
             Point spacingOffset(additionalOffset, 0); //Add additional shift depending on the value of sub_spacing
             additionalOffset += sub_spacing;
             Point boxPosition = subSystemPosition + spacingOffset + customOffset;
+            g_subSystemBoxPositions.push_back(boxPosition.x);
             switch (sys->iSystemType)
             {
                 case SYS_DOORS:
@@ -663,14 +666,15 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
         int subSystemPositionLeftShift = std::max(0, subSystemTotalWidth - vanillaSubSystemTotalWidth);
 
         subSystemPosition.x -= subSystemPositionLeftShift;
-    
+
         int subXPos = subSystemPosition.x;
         int subYPos = subSystemPosition.y;
-        
-        
-    
+
+
+
         for (ShipSystem* sys : subSystems)
         {
+            g_subSystemBoxPositions.push_back(subXPos);
             SystemBox* box = nullptr;
             Point boxPosition(subXPos, subYPos);
 
@@ -698,6 +702,7 @@ HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
     }
 }
 
+static const int defaultSubSystemBoxGaps[4] = {0, 36, 36, 51};
 HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemControl::OnRender -> Begin (CustomSystems.cpp)\n")
@@ -706,9 +711,47 @@ HOOK_METHOD_PRIORITY(SystemControl, OnRender, 9999, (bool front) -> void)
     if (!front)
     {
         RenderPowerBar();
-        if (staticSubSystemPositioning) CSurface::GL_RenderPrimitive(sub_box);
+
+        // Render subsystem box on which the label "SUBSYSTEMS" is drawn
+        if (staticSubSystemPositioning)
+        {
+            CSurface::GL_RenderPrimitive(sub_box);
+        }
+        else
+        {
+            GL_Texture * subSystemBox = G_->GetResources()->GetImageId("box_subsystems4.png");
+            int prevXPos = subSystemPosition.x;
+            int length = std::max((size_t)4, g_subSystemBoxPositions.size());
+            for (int i = 0; i < length; ++i)
+            {
+                int xPos = i < g_subSystemBoxPositions.size() ? g_subSystemBoxPositions[i] : prevXPos + defaultSubSystemBoxGaps[i];
+                if (i == 0)
+                {
+                    CSurface::GL_BlitImagePartial(subSystemBox, xPos + 7.f, 285.f, 38.f, subSystemBox->height_, 0.f, 38.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                }
+                else
+                {
+                    int gap = xPos - prevXPos - 26;
+                    if (gap > 0)
+                    {
+                        CSurface::GL_BlitImagePartial(subSystemBox, prevXPos + 45.f, 285.f, gap, subSystemBox->height_, 10.f / subSystemBox->width_, 11.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                    }
+
+                    if (i == length - 1)
+                    {
+                        CSurface::GL_BlitImagePartial(subSystemBox, xPos + 19.f, 285.f, 35.f, subSystemBox->height_, 135.f / subSystemBox->width_, 1.f, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                    }
+                    else
+                    {
+                        CSurface::GL_BlitImagePartial(subSystemBox, xPos + 19.f, 285.f, 26.f, subSystemBox->height_, 12.f / subSystemBox->width_, 38.f / subSystemBox->width_, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+                    }
+                }
+                prevXPos = xPos;
+            }
+        }
+
         std::string subSystemLabel = G_->GetTextLibrary()->GetText("subsystems_label");
-        CSurface::GL_SetColor(staticSubSystemPositioning ? COLOR_BUTTON_TEXT : COLOR_WHITE);
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
         freetype::easy_printCenter(62, sub_spacing * 1.5 + 87 + subSystemPosition.x, subSystemPosition.y + 47, subSystemLabel);
         CSurface::GL_SetColor(COLOR_WHITE);
     }
