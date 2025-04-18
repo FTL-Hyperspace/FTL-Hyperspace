@@ -860,3 +860,15 @@ HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
     context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::POST_CREATE_CHOICEBOX, 2, 0);
     lua_pop(context->GetLua(), 2);
 }
+
+//Fix for SLUG_GEL scaling
+HOOK_METHOD_PRIORITY(OuterHull, OnLoop, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> OuterHull::OnLoop -> Begin (CustomAugments.cpp)\n")
+    if (NeedsRepairing() && shipObj.HasAugmentation("SLUG_GEL"))
+    {
+        float multiplier = CustomOptionsManager::GetInstance()->scaleSlugGel.currentValue ? shipObj.GetAugmentationValue("SLUG_GEL") : 0.25;
+        PartialRepair(multiplier * 3, false);
+    }
+    heal.Update();
+}
