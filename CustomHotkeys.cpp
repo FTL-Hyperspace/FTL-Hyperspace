@@ -16,10 +16,10 @@ static std::vector<CustomHotkey> customHotkeys =
     {"un_temporal", SDLKey::SDLK_UNKNOWN, 2, -1},
     {"temporal_speed", SDLKey::SDLK_PERIOD, 1, 8},
     {"temporal_slow", SDLKey::SDLK_COMMA, 1, 9},
-    {"artillery1", SDLKey::SDLK_UNKNOWN, 3, 8},
-    {"artillery2", SDLKey::SDLK_UNKNOWN, 3, 9},
-    {"artillery3", SDLKey::SDLK_UNKNOWN, 3, -1},
-    {"artillery4", SDLKey::SDLK_UNKNOWN, 3, -1}
+    {"aim_artillery1", SDLKey::SDLK_UNKNOWN, 3, 8},
+    {"aim_artillery2", SDLKey::SDLK_UNKNOWN, 3, 9},
+    {"aim_artillery3", SDLKey::SDLK_UNKNOWN, 3, -1},
+    {"aim_artillery4", SDLKey::SDLK_UNKNOWN, 3, -1}
 };
 
 HOOK_METHOD(ControlsScreen, OnInit, () -> void)
@@ -92,4 +92,16 @@ HOOK_STATIC(Settings, ResetHotkeys, () -> void)
             settings->hotkeys[i.page].insert(settings->hotkeys[i.page].begin() + i.index, hk);
         }
     }
+}
+
+// TO BE REMOVED FOR 2.0
+// A mistake made a version ago forced this backward compatibility fix in order to not break text_misc.xml data that should have just been updated with the new ID instead
+// beware that the prefix "hotkey_artillery" will always break the power artillery hotkey
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomHotkeys.cpp)\n")
+
+    if (name == "hotkey_aim_artillery1" || name == "hotkey_aim_artillery2" || name == "hotkey_aim_artillery3" || name == "hotkey_aim_artillery4")
+        return super("hotkey_artillery" + name.substr(20), lang);
+    return super(name, lang);
 }
