@@ -189,11 +189,11 @@
 <text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
 <text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
 <text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
-<text name="hotkey_artillery1" language="de">Geschütz 1 Zielen</text>
-<text name="hotkey_artillery2" language="de">Geschütz 2 Zielen</text>
-<text name="hotkey_artillery3" language="de">Geschütz 3 Zielen</text>
-<text name="hotkey_artillery4" language="de">Geschütz 4 Zielen</text>
-<text name="temporal" language="de">Temporalmanipulator</text> 
+<text name="hotkey_aim_artillery1" language="de">Geschütz 1 Zielen</text>
+<text name="hotkey_aim_artillery2" language="de">Geschütz 2 Zielen</text>
+<text name="hotkey_aim_artillery3" language="de">Geschütz 3 Zielen</text>
+<text name="hotkey_aim_artillery4" language="de">Geschütz 4 Zielen</text>
+<text name="temporal" language="de">Temporalmanipulator</text>
 <text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 Sek.</text>
 <text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
 <text name="temporal_arm_speed" language="de">Beschleunige alles im Raum \1x für \3 Sekunden.</text>
@@ -214,7 +214,7 @@ Taste: \1</text>
 <text name="hangar_achievements_title_default" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_custom" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_filter" language="de">Filter Schiffserfolge</text>
-<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text> 
+<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text>
 <text name="discord_main_menu" language="de">Im Hauptmenü</text>
 <text name="discord_hangar" language="de">Im Hangar</text>
 <text name="discord_dying" language="de">Stirbt</text>

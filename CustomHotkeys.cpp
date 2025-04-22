@@ -101,7 +101,8 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &l
 {
     LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomHotkeys.cpp)\n")
 
-    if (name == "hotkey_aim_artillery1" || name == "hotkey_aim_artillery2" || name == "hotkey_aim_artillery3" || name == "hotkey_aim_artillery4")
-        return super("hotkey_artillery" + name.substr(20), lang);
-    return super(name, lang);
+    std::string ret = super(name, lang);
+    if (ret.find("Could not find:") != std::string::npos && (name == "hotkey_aim_artillery1" || name == "hotkey_aim_artillery2" || name == "hotkey_aim_artillery3" || name == "hotkey_aim_artillery4"))
+        ret = super("hotkey_artillery" + name.substr(20), lang);
+    return ret;
 }

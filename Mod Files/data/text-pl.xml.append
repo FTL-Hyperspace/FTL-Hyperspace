@@ -194,10 +194,10 @@
 <text name="hotkey_un_temporal" language="pl">- energia manipulatora czasu</text>
 <text name="hotkey_temporal_speed" language="pl">Przyspiesz Czas</text>
 <text name="hotkey_temporal_slow" language="pl">Zwolnij Czas</text>
-<text name="hotkey_artillery1" language="pl">Wyceluj Artylerię 1</text>
-<text name="hotkey_artillery2" language="pl">Wyceluj Artylerię 2</text>
-<text name="hotkey_artillery3" language="pl">Wyceluj Artylerię 3</text>
-<text name="hotkey_artillery4" language="pl">Wyceluj Artylerię 4</text>
+<text name="hotkey_aim_artillery1" language="pl">Wyceluj Artylerię 1</text>
+<text name="hotkey_aim_artillery2" language="pl">Wyceluj Artylerię 2</text>
+<text name="hotkey_aim_artillery3" language="pl">Wyceluj Artylerię 3</text>
+<text name="hotkey_aim_artillery4" language="pl">Wyceluj Artylerię 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -209,7 +209,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \5: slow cooldown
 \6: slow duration
 -->
-<text name="temporal" language="pl">Manipulator Czasu</text> 
+<text name="temporal" language="pl">Manipulator Czasu</text>
 <text name="temporal_tooltip" language="pl">\1x/\4x prędkości na \3/\6 sekund</text>
 <text name="temporal_arm_super_shields" language="pl">Blokowany przez super osłonę.</text>
 <text name="temporal_arm_speed" language="pl">Przyspiesza wszystko w pomiesczeniu o \1x na \3 sekund.</text>
@@ -231,7 +231,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="hangar_achievements_title_default" language="pl">Osiągnięcia Statku</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom" language="pl">Zwycięstwa Statku</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter" language="pl">Filtruj typy wygranych</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements" language="pl">Brak osiągnięć statku</text> 
+<text name="hangar_no_ship_achievements" language="pl">Brak osiągnięć statku</text>
 <!-- Discord Integration -->
 <!--
 <text name="discord_main_menu" language="pl"W menu głównym</text>

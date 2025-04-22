@@ -44,12 +44,12 @@
   <mod:setValue>名無し</mod:setValue> <!-- Vanilla text "名もなきクルー" does not fit as a ship name. "名無し" is at least suitable for both ship and crew names. -->
 </mod:findName>
 
-<text name="free_missile_chance" language="ja">ミサイルを消費しない確率：\1%</text>  
-<text name="erosion_chance" language="ja">発症率：\1%</text>  
-<text name="crew_statboost_chance" language="ja">発症率：\1%</text>  
-<text name="room_statboost_chance" language="ja">区画影響率: \1%</text>  
-<text name="crew_spawn_chance" language="ja">クルーの誕生率：\1%</text>  
-<text name="erosion_effect" language="ja">発症: \1 (\2 秒)</text>  
+<text name="free_missile_chance" language="ja">ミサイルを消費しない確率：\1%</text>
+<text name="erosion_chance" language="ja">発症率：\1%</text>
+<text name="crew_statboost_chance" language="ja">発症率：\1%</text>
+<text name="room_statboost_chance" language="ja">区画影響率: \1%</text>
+<text name="crew_spawn_chance" language="ja">クルーの誕生率：\1%</text>
+<text name="erosion_effect" language="ja">発症: \1 (\2 秒)</text>
 <text name="augment_no_effect" language="ja">この拡張パーツを搭載した場合、次に示す拡張パーツは効果を発揮しない：</text>
 <text name="seed_prompt" language="ja">シード</text>
 <text name="seed_prompt_disabled" language="ja">シード無効</text>
@@ -80,8 +80,8 @@
 <text name="power_not_ready_in_combat" language="ja">発動不可：敵艦なし</text>
 <text name="power_not_ready_system" language="ja">発動不可：\1システム不足</text>
 <text name="power_not_ready_system_functional" language="ja">発動不可：\1システムダウン</text>
-<text name="power_not_ready_min_health" language="ja">発動不可：HP\1未満</text> 
-<text name="power_not_ready_max_health" language="ja">発動不可：HP\1超過</text> 
+<text name="power_not_ready_min_health" language="ja">発動不可：HP\1未満</text>
+<text name="power_not_ready_max_health" language="ja">発動不可：HP\1超過</text>
 <text name="power_not_ready_system_damaged" language="ja">発動不可：区画に無傷のシステム不在</text>
 <text name="power_not_ready_mind_enemy" language="ja">発動不可：敵に操られている</text>
 <text name="power_not_ready_teleporting" language="ja">発動不可：テレポート中</text>
@@ -197,18 +197,18 @@
 <text name="hotkey_un_temporal" language="ja">時間操作機の出力を下げる</text>
 <text name="hotkey_temporal_speed" language="ja">時間加速</text>
 <text name="hotkey_temporal_slow" language="ja">時間停滞</text>
-<text name="hotkey_artillery1" language="ja">弩級砲1照準</text>
-<text name="hotkey_artillery2" language="ja">弩級砲2照準</text>
-<text name="hotkey_artillery3" language="ja">弩級砲3照準</text>
-<text name="hotkey_artillery4" language="ja">弩級砲4照準</text>
+<text name="hotkey_aim_artillery1" language="ja">弩級砲1照準</text>
+<text name="hotkey_aim_artillery2" language="ja">弩級砲2照準</text>
+<text name="hotkey_aim_artillery3" language="ja">弩級砲3照準</text>
+<text name="hotkey_aim_artillery4" language="ja">弩級砲4照準</text>
 
-<text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text> 
+<text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text>
 <text name="temporal_tooltip" language="ja">\3/\6秒間、\1x/\4倍速</text>
 <text name="temporal_arm_super_shields" language="ja">スーパーシールドにより阻止された</text>
 <text name="temporal_arm_speed" language="ja">\3秒間、区画内のすべてを\1倍の速度にする</text>
 <text name="temporal_arm_slow" language="ja">\6秒間、区画内のすべてを\4分の1の速度にする</text>
-<text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text> 
-<text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text> 
+<text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text>
+<text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text>
 <text name="confirm_buy_custom" language="ja">本当によろしいですか？\n\2が\1に置き換えられます。</text>
 
 <text name="tooltip_more_info" language="ja">次の情報を表示する拡張モードに切り替える：
@@ -219,22 +219,22 @@
 -格納庫でのリアクター数
 -イベント装備の説明
 
-キー: \1</text> 
+キー: \1</text>
 
-<text name="hangar_achievements_title_default" language="ja">船の実績</text>  
-<text name="hangar_achievements_title_custom" language="ja">達成したエンディング</text>  
-<text name="hangar_achievements_title_filter" language="ja">エンディングの種類を選択</text>  
-<text name="hangar_no_ship_achievements" language="ja">船の実績がありません。</text> 
+<text name="hangar_achievements_title_default" language="ja">船の実績</text>
+<text name="hangar_achievements_title_custom" language="ja">達成したエンディング</text>
+<text name="hangar_achievements_title_filter" language="ja">エンディングの種類を選択</text>
+<text name="hangar_no_ship_achievements" language="ja">船の実績がありません。</text>
 <!--
 <text name="discord_main_menu" language="ja">メインメニュー</text>
 <text name="discord_hangar" language="ja">格納庫</text>
 <text name="discord_dying" language="ja">死亡中</text>
 <text name="discord_exploring" language="ja">探索</text>
 <text name="discord_battle" language="ja">戦闘</text>
-<text name="discord_battle_boss" language="ja">ボス戦 (フェーズ \1)</text> 
-<text name="discord_sector" language="ja">\1 (\2/8)</text> 
-<text name="discord_ship" language="ja">\1 タイプ \2</text> 
-<text name="discord_playing_modded" language="ja">MODをプレイ中 (\1)</text> 
+<text name="discord_battle_boss" language="ja">ボス戦 (フェーズ \1)</text>
+<text name="discord_sector" language="ja">\1 (\2/8)</text>
+<text name="discord_ship" language="ja">\1 タイプ \2</text>
+<text name="discord_playing_modded" language="ja">MODをプレイ中 (\1)</text>
 <text name="discord_playing_vanilla" language="ja">バニラをプレイ中</text>
 <text name="discord_victory" language="ja">勝利</text>
 <text name="discord_dead" language="ja">敗北</text>
