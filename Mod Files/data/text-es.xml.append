@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="es">Permite ver el tipo de sector exacto incluso si no esta adyacente al actual</text>
 <text name="aug_ARTILLERY_ORDER_title" language="es">Apuntado avanzado</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="es">Permite el apuntado manual de los sistemas de artillería.</text>
+<text name="aug_TELEPORT_RECALL_title" language="es">Teletransportador personal.</text>
+<text name="aug_TELEPORT_RECALL_desc" language="es">La tripulación que este teletrasnportandose o este siendo destruida será teletransportada automáticamente de regreso a la navel.</text> 
+<text name="aug_AUGMENT_SLOT_title" language="es">Capacidad de Aumentos</text>
+<text name="aug_AUGMENT_SLOT_desc" language="es">Incrementa la capacidad de Aumentos en 1.</text>
+<text name="aug_CARGO_SLOT_title" language="es">Capacidad de Carga</text>
+<text name="aug_CARGO_SLOT_desc" language="es">Incrementa el espacio de carga en 1.</text>
 <text name="crew_ghost_desc" language="es">Espectros de antiguos tripulantes.</text>
 <text name="crew_ghost_title" language="es">Espectro</text>
 <text name="crew_ghost_short" language="es">Espectro</text>
@@ -307,3 +313,6 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="shot_limit" language="es">Limite de disparos del arma: \1</text>
 <text name="shots_remaining" language="es">Disparos: \1</text>
 <text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO</text>
+<text name="shield_drone_layers_per_charge" language="es">Barras de escudo por cada carga: \1</text>
+<text name="shield_drone_cooldowns" language="es">Enfriamiento: \1</text>
+<text name="confirm_buy_last_subsystem" language="es">Este es tu último subsistema de la nave.\nEstas seguro?</text>

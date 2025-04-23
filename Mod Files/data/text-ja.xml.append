@@ -14,6 +14,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="ja">現在のセクターと隣接していないセクターの正確な名前を見ることができる。</text>
 <text name="aug_ARTILLERY_ORDER_title" language="ja">高度なターゲティング</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="ja">弩級砲の手動操作を可能にする。</text>
+<text name="aug_TELEPORT_RECALL_title" language="ja">緊急テレポーター</text>
+<text name="aug_TELEPORT_RECALL_desc" language="ja">ワープ中の、もしくは破壊されている敵船にいるクルーは自動的に自船に帰還される。</text>
+<text name="aug_AUGMENT_SLOT_title" language="ja">拡張機能容量</text>
+<text name="aug_AUGMENT_SLOT_desc" language="ja">拡張機能スロットを１増やす。</text>
+<text name="aug_CARGO_SLOT_title" language="ja">貨物容量</text>
+<text name="aug_CARGO_SLOT_desc" language="ja">貨物スロットを１増やす。</text>
 <text name="crew_ghost_desc" language="ja">過去のクルーの亡霊。</text>
 <text name="crew_ghost_title" language="ja">ゴースト</text>
 <text name="crew_ghost_short" language="ja">ゴースト</text>
@@ -298,3 +304,6 @@
 <text name="shot_limit" language="ja">兵器弾数制限: \1</text>
 <text name="shots_remaining" language="ja">残弾数: \1</text>
 <text name="warning_shot_limit" language="ja">弾切れ</text>
+<text name="shield_drone_layers_per_charge" language="ja">チャージごとのシールド枚数: \1</text>
+<text name="shield_drone_cooldowns" language="ja">クールダウン: \1</text>
+<text name="confirm_buy_last_subsystem" language="ja">これが最後のサブシステム枠です。\n本当によろしいですか？</text>

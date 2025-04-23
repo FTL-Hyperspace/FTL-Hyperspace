@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="pl">Pozwala zobaczyć dokładny typ sektoru nawet jeśli nie sąsiaduje z obecnym.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="pl">Zaawansowane celowanie</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="pl">Pozwala na ręczne celowanie systemów artyleryjskich.</text>
+<text name="aug_TELEPORT_RECALL_title" language="pl">Awaryjny teleporter</text>
+<text name="aug_TELEPORT_RECALL_desc" language="pl">Załoga na wrogim statku który skacze lub jest w trakcie zniszczenia zostanie automatycznie teleportana z powrotem.</text>
+<text name="aug_AUGMENT_SLOT_title" language="pl">Pojemność Wspomagań</text>
+<text name="aug_AUGMENT_SLOT_desc" language="pl">Zwiększa ilość miejsc na wspomagania o 1.</text>
+<text name="aug_CARGO_SLOT_title" language="pl">Pojemność Ładowni</text>
+<text name="aug_CARGO_SLOT_desc" language="pl">Zwiększa ilość miejsc w ładowni o 1.</text>
 <text name="crew_ghost_desc" language="pl">Duchy przeszłych załóg.</text>
 <text name="crew_ghost_title" language="pl">Duch</text>
 <text name="crew_ghost_short" language="pl">Duch</text>
@@ -307,3 +313,6 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="shot_limit" language="pl">Limit strzałów: \1</text>
 <text name="shots_remaining" language="pl">Strzały: \1</text>
 <text name="warning_shot_limit" language="pl">LIMIT STRZAŁÓW OSIĄGNIĘTY</text>
+<text name="shield_drone_layers_per_charge" language="pl">Ilość warstw osłony na aktywację: \1</text>
+<text name="shield_drone_cooldowns" language="pl">Czas aktywacji: \1</text>
+<text name="confirm_buy_last_subsystem" language="pl">To ostatnie wolne miejsce na twoim statku.\nNa pewno chcesz w nim umieścić ten subsystem?</text>

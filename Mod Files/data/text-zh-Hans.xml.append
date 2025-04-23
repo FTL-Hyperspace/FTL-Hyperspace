@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="zh-Hans">在星区星图显示所有星区的具体类型。</text>
 <text name="aug_ARTILLERY_ORDER_title" language="zh-Hans">巨炮制导</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="zh-Hans">可使巨炮系统的攻击变为可瞄准。</text>
+<text name="aug_TELEPORT_RECALL_title" language="zh-Hans">Personal Teleporters</text> <!--placeholder-->
+<text name="aug_TELEPORT_RECALL_desc" language="zh-Hans">Crew on an enemy ship that is jumping or being destroyed will be automatically recalled.</text> <!--placeholder-->
+<text name="aug_AUGMENT_SLOT_title" language="zh-Hans">Augment Capacity</text> <!--placeholder-->
+<text name="aug_AUGMENT_SLOT_desc" language="zh-Hans">Increases augment slots by 1.</text> <!--placeholder-->
+<text name="aug_CARGO_SLOT_title" language="zh-Hans">Cargo Capacity</text> <!--placeholder-->
+<text name="aug_CARGO_SLOT_desc" language="zh-Hans">Increases cargo slots by 1.</text> <!--placeholder-->
 <text name="crew_ghost_desc" language="zh-Hans">死去船员的鬼魂。</text>
 <text name="crew_ghost_title" language="zh-Hans">鬼魂</text>
 <text name="crew_ghost_short" language="zh-Hans">鬼魂</text>
@@ -316,3 +322,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shot_limit" language="zh-Hans">可开火次数：\1</text>
 <text name="shots_remaining" language="zh-Hans">剩余开火次数：\1</text>
 <text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数</text>
+<text name="shield_drone_layers_per_charge" language="zh-Hans">Shield layers per charge: \1</text> <!--placeholder-->
+<text name="shield_drone_cooldowns" language="zh-Hans">Cooldowns: \1</text> <!--placeholder-->
+<text name="confirm_buy_last_subsystem" language="zh-Hans">This is your ship's final subsystem slot.\nAre you sure?</text> <!--placeholder-->

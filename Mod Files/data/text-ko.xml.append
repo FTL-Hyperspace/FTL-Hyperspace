@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="ko">인접하지 않은 구역이 어떤 구역인지 확인할 수 있습니다.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="ko">첨단 조준기</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="ko">함포를 직접 조준할 수 있게 해 줍니다.</text>
+<text name="aug_TELEPORT_RECALL_title" language="ko">응급 순간이동기</text>
+<text name="aug_TELEPORT_RECALL_desc" language="ko">적 함선이 격파되거나 도약할 때, 함선에 남아있는 아군 대원이 자동으로 귀환합니다.</text>
+<text name="aug_AUGMENT_SLOT_title" language="ko">보조장비 확장기</text>
+<text name="aug_AUGMENT_SLOT_desc" language="ko">보조장비 슬롯이 한 칸 늘어납니다.</text>
+<text name="aug_CARGO_SLOT_title" language="ko">창고 확장기</text>
+<text name="aug_CARGO_SLOT_desc" language="ko">창고 슬롯이 한 칸 늘어납니다.</text>
 <text name="crew_ghost_desc" language="ko">떠나버린 선원의 유령.</text>
 <text name="crew_ghost_title" language="ko">고스트</text>
 <text name="crew_ghost_short" language="ko">Ghost</text>
@@ -307,3 +313,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shot_limit" language="ko">무기 발사 횟수 제한: \1</text>
 <text name="shots_remaining" language="ko">남은 발사 횟수: \1</text>
 <text name="warning_shot_limit" language="ko">더 이상 발사할 수 없습니다</text>
+<text name="shield_drone_layers_per_charge" language="ko">방어막 충전량: \1</text>
+<text name="shield_drone_cooldowns" language="ko">충전 시간: \1</text>
+<text name="confirm_buy_last_subsystem" language="ko">이것은 전함의 마지막 보조 시스템 슬롯입니다.\n 확실합니까?</text>

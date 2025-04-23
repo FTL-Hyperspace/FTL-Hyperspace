@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="it">Permette di vedere il tipo esatto di un settore anche se non è adiacente a quello attuale.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="it">Agganciamento avanzato</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="it">Permette di usare la mira manuale per i sistemi di artiglieria.</text>
+<text name="aug_TELEPORT_RECALL_title" language="it">Teletrasporto d'emergenza</text>
+<text name="aug_TELEPORT_RECALL_desc" language="it">L'equipaggio su una nave nemica in salto o che viene distrutta è richiamato automaticamente.</text>
+<text name="aug_AUGMENT_SLOT_title" language="it">Espansione funzionale</text>
+<text name="aug_AUGMENT_SLOT_desc" language="it">Aumenta gli slot accessori di 1.</text>
+<text name="aug_CARGO_SLOT_title" language="it">Espansione stiva</text>
+<text name="aug_CARGO_SLOT_desc" language="it">Aumenta gli slot della stiva di 1.</text>
 <text name="crew_ghost_desc" language="it">Fantasmi dell'equipaggio del passato.</text>
 <text name="crew_ghost_title" language="it">Fantasma</text>
 <text name="crew_ghost_short" language="it">Fant.</text>
@@ -307,3 +313,6 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="shot_limit" language="it">Limite colpi arma: \1</text>
 <text name="shots_remaining" language="it">Colpi: \1</text>
 <text name="warning_shot_limit" language="it">LIMITE COLPI RAGGIUNTO</text>
+<text name="shield_drone_layers_per_charge" language="it">Strati scudo per carica: \1</text>
+<text name="shield_drone_cooldowns" language="it">Ricarica: \1</text>
+<text name="confirm_buy_last_subsystem" language="it">È l'ultimo spazio libero per un sottosistema di bordo.\nConfermi?</text>

@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="ru">Позволяет увидеть точный тип сектора, даже если он не находится рядом с текущим.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="ru">Улучшенное нацеливание</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="ru">Позволяет вручную наводить артиллерийские системы на цель.</text>
+<text name="aug_TELEPORT_RECALL_title" language="ru">Аварийные телепорты</text>
+<text name="aug_TELEPORT_RECALL_desc" language="ru">Экипаж на вражеском корабле, который прыгает или уничтожается, будет автоматически отозван.</text>
+<text name="aug_AUGMENT_SLOT_title" language="ru">Вместимый модуль</text>
+<text name="aug_AUGMENT_SLOT_desc" language="ru">Увеличивает слоты модулей на 1.</text>
+<text name="aug_CARGO_SLOT_title" language="ru">Вместимый груз</text>
+<text name="aug_CARGO_SLOT_desc" language="ru">Увеличивает слоты груза на 1.</text>
 <text name="crew_ghost_desc" language="ru">Призраки прошлого экипажа.</text>
 <text name="crew_ghost_title" language="ru">Призрак</text>
 <text name="crew_ghost_short" language="ru">Призрак</text>
@@ -307,3 +313,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shot_limit" language="ru">Предел выстрелов из оружия: \1</text>
 <text name="shots_remaining" language="ru">Выстрелы: \1</text>
 <text name="warning_shot_limit" language="ru">ПРЕДЕЛ ВЫСТРЕЛОВ ДОСТИГНУТ</text>
+<text name="shield_drone_layers_per_charge" language="ru">Слои щита за один заряд: \1</text>
+<text name="shield_drone_cooldowns" language="ru">Перезарядка: \1</text>
+<text name="confirm_buy_last_subsystem" language="ru">Это последний свободный отсек для подсистем.\nВы уверены?</text>

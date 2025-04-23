@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="pt">Permite ver o tipo exato de setores mesmo se eles não estiverem adjacente ao setor atual.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="pt">Mira Avançada</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="pt">Permite a mira manual do sistema de artilharia.</text>
+<text name="aug_TELEPORT_RECALL_title" language="pt">Teleporte De Emergência</text>
+<text name="aug_TELEPORT_RECALL_desc" language="pt">Tripulantes na nave inimiga que está saltando ou sendo destruida vão ser automaticamente teleportados de volta.</text>
+<text name="aug_AUGMENT_SLOT_title" language="pt">Capacidade De Reforço</text>
+<text name="aug_AUGMENT_SLOT_desc" language="pt">Aumenta o número de espaços para reforços por 1.</text>
+<text name="aug_CARGO_SLOT_title" language="pt">Capacidade De Carga</text>
+<text name="aug_AUGMENT_SLOT_desc" language="pt">Aumenta o número de espaços para carga por 1.</text>
 <text name="crew_ghost_desc" language="pt">Fantasmas da tripulação do passado.</text>
 <text name="crew_ghost_title" language="pt">Fantasma</text>
 <text name="crew_ghost_short" language="pt">Fantasma</text>
@@ -307,3 +313,6 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="shot_limit" language="pt">Limite de Tiros da Arma: \1</text>
 <text name="shots_remaining" language="pt">Tiros: \1</text>
 <text name="warning_shot_limit" language="pt">LIMITE DE TIROS ALCANÇADO</text>
+<text name="shield_drone_layers_per_charge" language="pt">Numero de barreiras de escudo por charga: \1</text>
+<text name="shield_drone_cooldowns" language="pt">Recarga: \1</text>
+<text name="confirm_buy_last_subsystem" language="pt">Esta é a última vaga de subsistema da nave.\nContinuar?</text>
