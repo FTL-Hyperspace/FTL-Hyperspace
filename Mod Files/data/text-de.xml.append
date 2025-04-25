@@ -302,4 +302,4 @@ Taste: \1</text>
 <text name="warning_shot_limit" language="de">FEUER LIMIT ERREICHT</text>
 <text name="shield_drone_layers_per_charge" language="de">Superschild-Barriere pro Aufladung: \1</text>
 <text name="shield_drone_cooldowns" language="de">Ladezeit: \1</text>
-<text name="confirm_buy_last_subsystem" language="de">This is your ship's final subsystem slot.\nAre you sure?</text> <!--placeholder-->
+<text name="confirm_buy_last_subsystem" language="de">Das ist der letzte Subsystemplatz deines Schiffs.\nBist du sicher?</text>
