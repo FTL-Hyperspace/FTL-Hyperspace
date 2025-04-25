@@ -324,4 +324,4 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数</text>
 <text name="shield_drone_layers_per_charge" language="zh-Hans">每次充能提供的护盾量：\1</text>
 <text name="shield_drone_cooldowns" language="zh-Hans">充能时间：\1</text>
-<text name="confirm_buy_last_subsystem" language="zh-Hans">这是战舰的最后一个子系统槽。\n确定吗？</text>
+<text name="confirm_buy_last_subsystem" language="zh-Hans">这是战舰上的最后一个子系统槽位。\n你确定吗？</text>
