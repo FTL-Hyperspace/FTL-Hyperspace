@@ -1773,7 +1773,7 @@ Accessed via [`CrewMember`](#CrewMember)'s `.extend` field
 
 ### Methods
 - `void :InitiateTeleport(int shipId, int roomId=-1, int slotId=-1)`
-- [`CrewDefinition`](#CrewDefinition) `:*GetDefinition()`
+- [`CrewDefinition*`](#CrewDefinition) `:GetDefinition()`
 - `float :CalculateStat(CrewStat stat, bool* boolValue=nullptr)`
    - Returns the current `float` and `bool` value for the given `CrewStat`.
 
