@@ -1879,7 +1879,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CloneSystem::gas;
 
 %nodefaultctor HackingSystem;
-%nodefaultdtor HachingSystem;
+%nodefaultdtor HackingSystem;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
