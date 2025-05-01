@@ -18,7 +18,6 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 "N/A" indicates this is a planned render event that has not been added yet, if you need it you can ask for it in an issue (enhancement) and it can be worked towards. Other unplanned events can also be asked for.
 | Available Since | Name | Arguments | Description |
 | :--- | --- | --- | --- |
-| N/A | ~~LANGUAGE_CHOOSER~~ | --- | ~~On rendering the language chooser menu at the start of a fresh install~~ |
 | 1.2.0 | MAIN_MENU | `None` | On rendering the main menu |
 | 1.2.0 | GUI_CONTAINER | `None` | On rendering the main game, this is a wrapper around the entire game UI |
 | 1.2.0 | LAYER_BACKGROUND | `None` | The space background layer |
@@ -26,22 +25,17 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | 1.2.0 | LAYER_ASTEROIDS | `None` | The space asteroids layer, in front of the the space foreground |
 | 1.2.0 | LAYER_PLAYER | `None` | The player ship, you can render things on top the player ship by using the after method of the callbacks |
 | 1.4.0 | SHIP | `Ship ship` | Any active ship, you can render things on top the ship by using the after method of the callbacks |
-| N/A | ~~LAYER_ENEMY~~ | --- | ~~The enemy ship~~ |
 | 1.4.0 | SHIP_MANAGER | `ShipManager ship` | `before_function` is equivalent to `roomAnim` layer 3, `after_function` is equivalent to `roomAnim` layer 4 |
 | 1.4.0 | SHIP_JUMP | `Ship ship` `float animationProgress` | Any active ship that is jumping, you can render things on top the ship by using the after method of the callbacks |
-| N/A | ~~PROJECTILE~~ | --- | ~~Projectile rendering, not a layer but per each individual projectile~~ |
-| N/A | ~~SHIELDS_BASE~~ | --- | ~~Shield base rendering (not sure if player & enemy yet)~~ |
 | 1.4.0 | SHIP_HULL | `Ship ship` `float alphaCloak` | On rendering the ship hull, cloak and thruster animations |
 | 1.4.0 | SHIP_FLOOR | `Ship ship` `bool experimental` | Equivalent to `roomAnim` layer 0 |
 | 1.4.0 | SHIP_BREACHES | `Ship ship` | Equivalent to `roomAnim` layer 1 |
 | 1.3.0 | SHIP_SPARKS | `Ship ship` | Equivalent to `roomAnim` layer 2 |
 | 1.15.0 | CREW_MEMBER_HEALTH | `CrewMember crew` | Runs for each `CrewMember` regardless of whether their health bar is visible |
 | 1.10.0 | SHIP_ENGINES | `Ship ship` `bool showEngines` `float alpha` | Thruster animations |
-| N/A | ~~SHIP_EXPLOSION~~ | --- | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |
 | 1.2.0 | LAYER_FRONT | `None` | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
 | 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
 | 1.17.0 | SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
-| N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
 | 1.19.0 | SHIP_STATUS | `None` | On rendering player element like hull and ressources |
 | 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
