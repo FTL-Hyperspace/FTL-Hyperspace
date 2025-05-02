@@ -77,9 +77,9 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
 | CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
-| HAS_EQUIPMENT | `ShipManager ship`, `char equipment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasEquipment check |
-| HAS_AUGMENTATION | `ShipManager ship`, `char augment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasAugmentation check |
-| GET_AUGMENTATION_VALUE | `ShipManager ship`, `char augment`, `float value` | `Defines.Chain chain`, `float value` | Called when checking an augmentation's value |
+| HAS_EQUIPMENT | `ShipManager ship`, `string equipment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasEquipment check |
+| HAS_AUGMENTATION | `ShipManager ship`, `string augment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasAugmentation check |
+| GET_AUGMENTATION_VALUE | `ShipManager ship`, `string augment`, `float value` | `Defines.Chain chain`, `float value` | Called when checking an augmentation's value |
 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain chain`, `int value` | Can be used to alter the dodge factor for the given ship |
 | SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain chain`, `int` amount | Can be used to alter the bonus power for the given system |
 | SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain chain`, `uint` armamentSlot | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
@@ -114,8 +114,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | POWER_REQ | `ActivatedPower power`, `ActivatedPowerRequirements req`, `PowerReadyState result` | `Defines.Chain chain`, `PowerReadyState result` | Called when checking power requirements |
 | POWER_READY | `ActivatedPower power`, `PowerReadyState result` | `Defines.Chain chain`, `PowerReadyState result` | Called when checking if power is ready |
 | POWER_TOOLTIP | `ActivatedPower power`, `PowerReadyState state` | `string tooltip`, `bool skipAppend` | Called when rendering power tooltip |
-| GENERATOR_CREATE_SHIP | `char name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | Called when generating a new ship from an event |
-| GENERATOR_CREATE_SHIP_POST | `char name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain` | Called after generating a new ship from an event |
+| GENERATOR_CREATE_SHIP | `string name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | Called when generating a new ship from an event |
+| GENERATOR_CREATE_SHIP_POST | `string name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain` | Called after generating a new ship from an event |
 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
 | TABBED_WINDOW_CONFIRM | `std::string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
