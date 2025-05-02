@@ -24,7 +24,7 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | LAYER_ASTEROIDS | `None` | The space asteroids layer, in front of the the space foreground |
 | LAYER_PLAYER | `None` | The player ship, you can render things on top the player ship by using the after method of the callbacks |
 | SHIP | `Ship ship` | Any active ship, you can render things on top the ship by using the after method of the callbacks |
-| SHIP_MANAGER | `ShipManager ship` | `before_function` is equivalent to `roomAnim` layer 3, `after_function` is equivalent to `roomAnim` layer 4 |
+| SHIP_MANAGER | `ShipManager ship` `bool showInterior` `bool doorControlMode` | `before_function` is equivalent to `roomAnim` layer 3, `after_function` is equivalent to `roomAnim` layer 4 |
 | SHIP_JUMP | `Ship ship` `float animationProgress` | Any active ship that is jumping, you can render things on top the ship by using the after method of the callbacks |
 | SHIP_HULL | `Ship ship` `float alphaCloak` | On rendering the ship hull, cloak and thruster animations |
 | SHIP_ENGINES | `Ship ship` `bool showEngines` `float alpha` | Thruster animations |
