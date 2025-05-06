@@ -450,12 +450,17 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
             {
                 ret.systems.push_back(SYS_ARTILLERY);
             }
-            if (overwrite)
-            {
-                this->myBlueprint.systems = ret.systems;
-            }
         }
     }
+    //Fix for saving new systems
+    for (ShipSystem* system : vSystemList)
+    {
+        if (system->iSystemType >= SYS_CUSTOM_FIRST || system->iSystemType == SYS_TEMPORAL)
+        {
+            ret.systems.push_back(system->iSystemType);
+        }
+    }
+    if (overwrite) myBlueprint.systems = ret.systems;
     return ret;
 }
 static bool staticSubSystemPositioning = true;
