@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.18.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.0)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -162,7 +162,6 @@
 <text name="defense_drone_reload_speed">Reload Speed: \1ms</text>
 <text name="defense_drone_projectile_speed">Projectile Speed: \1</text>
 <text name="defense_drone_orbit_speed">Orbit Speed: \1</text>
-
 <text name="defense_drone_projectile_target_unknown">Projectile Target: Unknown</text>
 <text name="defense_drone_projectile_target_solid">Projectile Target: Solid</text>
 <text name="defense_drone_projectile_target_asteroid">Projectile Target: Asteroids</text>
@@ -170,8 +169,9 @@
 <text name="defense_drone_projectile_target_all">Projectile Target: All</text>
 <text name="defense_drone_drone_target_solid_projectiles">Target: Drones + Solid Projectiles</text>
 <text name="defense_drone_drone_target_all_projectiles">Target: Drones + All Projectiles</text>
-
 <text name="defense_drone_drone_target_solid">Target: Solid Drones</text>
+<text name="shield_drone_layers_per_charge">Shield layers per charge: \1</text>
+<text name="shield_drone_cooldowns">Cooldowns: \1</text>
 
 <text name="teleporter_instant">No cooldown</text>
 <text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
@@ -208,10 +208,10 @@
 <text name="hotkey_un_temporal">De-Power Temporal Manipulator</text>
 <text name="hotkey_temporal_speed">Temporal Speed Up</text>
 <text name="hotkey_temporal_slow">Temporal Slow Down</text>
-<text name="hotkey_artillery1">Target Artillery 1</text>
-<text name="hotkey_artillery2">Target Artillery 2</text>
-<text name="hotkey_artillery3">Target Artillery 3</text>
-<text name="hotkey_artillery4">Target Artillery 4</text>
+<text name="hotkey_aim_artillery1">Target Artillery 1</text>
+<text name="hotkey_aim_artillery2">Target Artillery 2</text>
+<text name="hotkey_aim_artillery3">Target Artillery 3</text>
+<text name="hotkey_aim_artillery4">Target Artillery 4</text>
 <!-- Custom systems -->
 
 <!--
@@ -225,7 +225,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \6: slow duration
 -->
 
-<text name="temporal">the Temporal Manipulator</text> 
+<text name="temporal">the Temporal Manipulator</text>
 <text name="temporal_tooltip">\1x/\4x speed for \3/\6 sec</text>
 
 <text name="temporal_arm_super_shields">Blocked by super shields.</text>
@@ -236,6 +236,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_button_slow">Slow down everything that occurs in a room for a short duration.\nHotkey: \1</text> <!-- key name -->
 
 <text name="confirm_buy_custom">Are you sure?\n\1 will replace your \2.</text>  <!-- Displayed when attempting to buy a system that replaces another system. -->
+<text name="confirm_buy_last_subsystem">This is your ship's final subsystem slot.\nAre you sure?</text>  <!-- Displayed when attempting to buy the last subsystem that can fit. -->
 <!-- More Info Button -->
 
 <text name="tooltip_more_info">Toggle advanced information, which provides extra info for:
@@ -253,7 +254,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="hangar_achievements_title_default">Ship Achievements</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom">Ship Victories</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter">Filter Victory Types</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements">No Ship Achievements</text> 
+<text name="hangar_no_ship_achievements">No Ship Achievements</text>
 
 <!-- Discord Integration -->
 
@@ -287,7 +288,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="warning_pds_all">NEUTRAL!</text>
 
 <!--shotLimit warning text-->
-<text name="warning_shot_limit">SHOT LIMIT REACHED</text>  
+<text name="warning_shot_limit">SHOT LIMIT REACHED</text>
 <!--Credits-->
 
 <text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->

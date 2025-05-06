@@ -15,38 +15,31 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 
 `Defines.RenderEvents` table:
 
-"N/A" indicates this is a planned render event that has not been added yet, if you need it you can ask for it in an issue (enhancement) and it can be worked towards. Other unplanned events can also be asked for.
-| Available Since | Name | Arguments | Description |
-| :--- | --- | --- | --- |
-| N/A | ~~LANGUAGE_CHOOSER~~ | --- | ~~On rendering the language chooser menu at the start of a fresh install~~ |
-| 1.2.0 | MAIN_MENU | `None` | On rendering the main menu |
-| 1.2.0 | GUI_CONTAINER | `None` | On rendering the main game, this is a wrapper around the entire game UI |
-| 1.2.0 | LAYER_BACKGROUND | `None` | The space background layer |
-| 1.2.0 | LAYER_FOREGROUND | `None` | The space foreground layer, includes the planet/solar flare/ion storm/nebula but not asteroids |
-| 1.2.0 | LAYER_ASTEROIDS | `None` | The space asteroids layer, in front of the the space foreground |
-| 1.2.0 | LAYER_PLAYER | `None` | The player ship, you can render things on top the player ship by using the after method of the callbacks |
-| 1.4.0 | SHIP | `Ship ship` | Any active ship, you can render things on top the ship by using the after method of the callbacks |
-| N/A | ~~LAYER_ENEMY~~ | --- | ~~The enemy ship~~ |
-| 1.4.0 | SHIP_MANAGER | `ShipManager ship` | `before_function` is equivalent to `roomAnim` layer 3, `after_function` is equivalent to `roomAnim` layer 4 |
-| 1.4.0 | SHIP_JUMP | `Ship ship` `float animationProgress` | Any active ship that is jumping, you can render things on top the ship by using the after method of the callbacks |
-| N/A | ~~PROJECTILE~~ | --- | ~~Projectile rendering, not a layer but per each individual projectile~~ |
-| N/A | ~~SHIELDS_BASE~~ | --- | ~~Shield base rendering (not sure if player & enemy yet)~~ |
-| 1.4.0 | SHIP_HULL | `Ship ship` `float alphaCloak` | On rendering the ship hull, cloak and thruster animations |
-| 1.4.0 | SHIP_FLOOR | `Ship ship` `bool experimental` | Equivalent to `roomAnim` layer 0 |
-| 1.4.0 | SHIP_BREACHES | `Ship ship` | Equivalent to `roomAnim` layer 1 |
-| 1.3.0 | SHIP_SPARKS | `Ship ship` | Equivalent to `roomAnim` layer 2 |
-| 1.15.0 | CREW_MEMBER_HEALTH | `CrewMember crew` | Runs for each `CrewMember` regardless of whether their health bar is visible |
-| 1.10.0 | SHIP_ENGINES | `Ship ship` `bool showEngines` `float alpha` | Thruster animations |
-| N/A | ~~SHIP_EXPLOSION~~ | --- | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |
-| 1.2.0 | LAYER_FRONT | `None` | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
-| 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
-| 1.17.0 | SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
-| N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
-| 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
-| 1.19.0 | SHIP_STATUS | `None` | On rendering player element like hull and ressources |
-| 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
-| N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
-| 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
+| Name | Arguments | Description |
+| :--- | --- | --- |
+| MAIN_MENU | `None` | On rendering the main menu |
+| GUI_CONTAINER | `None` | On rendering the main game, this is a wrapper around the entire game UI |
+| LAYER_BACKGROUND | `None` | The space background layer |
+| LAYER_FOREGROUND | `None` | The space foreground layer, includes the planet/solar flare/ion storm/nebula but not asteroids |
+| LAYER_ASTEROIDS | `None` | The space asteroids layer, in front of the the space foreground |
+| LAYER_PLAYER | `None` | The player ship, you can render things on top the player ship by using the after method of the callbacks |
+| SHIP | `Ship ship` | Any active ship, you can render things on top the ship by using the after method of the callbacks |
+| SHIP_MANAGER | `ShipManager ship` `bool showInterior` `bool doorControlMode` | `before_function` is equivalent to `roomAnim` layer 3, `after_function` is equivalent to `roomAnim` layer 4 |
+| SHIP_JUMP | `Ship ship` `float animationProgress` | Any active ship that is jumping, you can render things on top the ship by using the after method of the callbacks |
+| SHIP_HULL | `Ship ship` `float alphaCloak` | On rendering the ship hull, cloak and thruster animations |
+| SHIP_ENGINES | `Ship ship` `bool showEngines` `float alpha` | Thruster animations |
+| SHIP_FLOOR | `Ship ship` `bool experimental` | Equivalent to `roomAnim` layer 0 |
+| SHIP_BREACHES | `Ship ship` | Equivalent to `roomAnim` layer 1 |
+| SHIP_SPARKS | `Ship ship` | Equivalent to `roomAnim` layer 2 |
+| CREW_MEMBER_HEALTH | `CrewMember crew` | Runs for each `CrewMember` regardless of whether their health bar is visible |
+| LAYER_FRONT | `None` | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
+| FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
+| SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
+| SPACE_STATUS | `None` | On rendering hazard environment icons |
+| SHIP_STATUS | `None` | On rendering player element like hull and ressources |
+| CHOICE_BOX | `ChoiceBox choiceBox` | When any choiceBox related window is on screen |
+| TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
+| MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
 ## Internal Events
 Defines for referencing a specific game engine internal event for hooking with `script.on_internal_event(`
@@ -63,47 +56,87 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 
 `Defines.InternalEvents` table:
 
-| Available Since | Name | Arguments | Must Return | Description |
-| :--- | --- | --- | --- | --- |
-| 1.2.0 | ON_TICK | `None` | `None` | Run code every in-game tick (frame), use in combination with other events to turn logic on and off in your code that runs every tick |
-| 1.2.0 | MAIN_MENU | `None` | `None` | Run code when the main menu opens |
-| 1.10.0 | GET_RUN_SEED | `bool isCustomSeed`, `int seed` | `bool isCustomSeed`, `int seed` | Run code when the seed for the run is set |
-| 1.16.0 | DANGEROUS_ENVIRONMENT | `bool danger` | `bool danger` | Can be used to change the state of the environment, affecting music and ability to upgrade |
-| 1.17.0 | GET_BEACON_HAZARD | `Location loc` | `string hazardText` | If a value is returned, can be used to mark a beacon as a hazard with an icon and tooltip on the beacon map |
-| 1.16.0 | GET_HAZARD_FLASH | `float alpha` | `float red`, `float green`, `float blue`, `float alpha` | Can be used to alter the opacity and color of the flash used for suns and pulsars |
-| 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain chain` | Detect keyboard key is pressed |
-| 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain chain` | Detect keyboard key is unpressed |
-| 1.4.0 | ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `Defines.Chain chain` | Detect mouse movement |
-| 1.9.0 | GUI_MOUSE_MOVE | `int x`, `int y` | `Defines.Chain chain` | Detect mouse movement (to be used for `GenericButton`'s `MouseMove` method) |
-| 1.4.0 | ON_MOUSE_L_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect left mouse button is pressed |
-| 1.4.0 | ON_MOUSE_L_BUTTON_UP | `int x`, `int y` | `Defines.Chain chain` | Detect left mouse button is unpressed |
-| 1.4.0 | ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect right mouse button is pressed |
-| 1.4.0 | ON_MOUSE_R_BUTTON_UP | `int x`, `int y` | `Defines.Chain chain` | Detect right mouse button is unpressed |
-| 1.4.0 | ON_MOUSE_M_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect middle mouse button is pressed |
-| 1.19.0 | ON_MOUSE_SCROLL | `float direction` | `Defines.Chain chain` | Detect mouse scrolling. `direction` will be 1.0 when scrolling down, -1.0 when scrolling up.|
-| 1.3.0 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
-| 1.4.0 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
-| 1.13.0 | HAS_EQUIPMENT | `ShipManager ship`, `char equipment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasEquipment check |
-| 1.13.0 | HAS_AUGMENTATION | `ShipManager ship`, `char augment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasAugmentation check |
-| 1.8.0 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain chain`, `int value` | Can be used to alter the dodge factor for the given ship |
-| 1.13.0 | SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain chain`, `int` amount | Can be used to alter the bonus power for the given system |
-| 1.15.0 | SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain chain`, `uint` armamentSlot | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
-| 1.15.0 | SELECT_ARMAMENT_POST | `uint armamentSlot` | `Defines.Chain chain` | Triggered after selecting a weapon to fire |
-| 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
-| 1.17.0 | WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain chain`, `float` cooldownMod | Check and possibly alter the cooldown modifier being applied to a weapon. Return value cannot be greater than 1 for non-artillery weapons. |
-| 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
-| 1.11.0 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
-| 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine`, `string thirdLine` | `Defines.Chain chain`, `string firstLine`, `string secondLine`, `string thirdLine` | Change the text displayed for the player weapon cooldown timers |
-| 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
-| 1.11.0 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
-| 1.16.0 | CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
-| 1.17.0 | SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
-| 1.17.0 | SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
-| 1.17.0 | SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
-| 1.17.0 | GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` | Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
-| 1.17.0 | TABBED_WINDOW_CONFIRM | `std::string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
-| 1.17.0 | TABBED_WINDOW_UNDO | `std::string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
-| 1.19.0 | CALCULATE_LEAK_MODIFIER | `ShipManager ship`, `float modifier` | `Chain`, `modifier` | Called once per ship every game tick to calculate a multiplier to the rate at which airlocks and breaches drain oxygen.
+| Name | Arguments | Must Return | Description |
+| :--- | --- | --- | --- |
+| ON_TICK | `None` | `None` | Run code every in-game tick (frame), use in combination with other events to turn logic on and off in your code that runs every tick |
+| MAIN_MENU | `None` | `None` | Run code when the main menu opens |
+| DANGEROUS_ENVIRONMENT | `bool danger` | `bool danger` | Can be used to change the state of the environment, affecting music and ability to upgrade |
+| GET_BEACON_HAZARD | `Location loc` | `string hazardText` | If a value is returned, can be used to mark a beacon as a hazard with an icon and tooltip on the beacon map |
+| GET_HAZARD_FLASH | `float alpha` | `float red`, `float green`, `float blue`, `float alpha` | Can be used to alter the opacity and color of the flash used for suns and pulsars |
+| GET_RUN_SEED | `bool isCustomSeed`, `int seed` | `bool isCustomSeed`, `int seed` | Run code when the seed for the run is set |
+| ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain chain` | Detect keyboard key is pressed |
+| ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain chain` | Detect keyboard key is unpressed |
+| ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `Defines.Chain chain` | Detect mouse movement |
+| ON_MOUSE_L_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect left mouse button is pressed |
+| ON_MOUSE_L_BUTTON_UP | `int x`, `int y` | `Defines.Chain chain` | Detect left mouse button is unpressed |
+| ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect right mouse button is pressed |
+| ON_MOUSE_R_BUTTON_UP | `int x`, `int y` | `Defines.Chain chain` | Detect right mouse button is unpressed |
+| ON_MOUSE_M_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain chain` | Detect middle mouse button is pressed |
+| ON_MOUSE_SCROLL | `float direction` | `Defines.Chain chain` | Detect mouse scrolling. `direction` will be 1.0 when scrolling down, -1.0 when scrolling up.|
+| GUI_MOUSE_MOVE | `int x`, `int y` | `Defines.Chain chain` | Detect mouse movement (to be used for `GenericButton`'s `MouseMove` method) |
+| CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
+| CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
+| SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
+| HAS_EQUIPMENT | `ShipManager ship`, `string equipment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasEquipment check |
+| HAS_AUGMENTATION | `ShipManager ship`, `string augment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasAugmentation check |
+| GET_AUGMENTATION_VALUE | `ShipManager ship`, `string augment`, `float value` | `Defines.Chain chain`, `float value` | Called when checking an augmentation's value |
+| GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain chain`, `int value` | Can be used to alter the dodge factor for the given ship |
+| SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain chain`, `int amount` | Can be used to alter the bonus power for the given system |
+| SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain chain`, `uint armamentSlot` | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
+| SELECT_ARMAMENT_POST | `uint armamentSlot` | `Defines.Chain chain` | Triggered after selecting a weapon to fire |
+| PROJECTILE_INITIALIZE | `Projectile projectile`, `WeaponBlueprint bp` | `None` | Called when a projectile is initialized |
+| PROJECTILE_FIRE | `Projectile projectile`, `ProjectileFactory weapon` | `None` | Called when a projectile is fired |
+| PROJECTILE_PRE | `Projectile projectile` | `Defines.Chain chain` | Called before projectile processing |
+| PROJECTILE_POST | `Projectile projectile`, `bool preempted` | `Defines.Chain chain` | Called after projectile processing |
+| PROJECTILE_UPDATE_PRE | `Projectile projectile` | `Defines.Chain chain` | Called before projectile update |
+| PROJECTILE_UPDATE_POST | `Projectile projectile`, `bool preempted` | `Defines.Chain chain` | Called after projectile update |
+| WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain chain`, `float cooldownMod` | Check and possibly alter the cooldown modifier being applied to a weapon. Return value cannot be greater than 1 for non-artillery weapons. |
+| WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
+| WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
+| WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine`, `string thirdLine` | `Defines.Chain chain`, `string firstLine`, `string secondLine`, `string thirdLine` | Change the text displayed for the player weapon cooldown timers |
+| DRONE_FIRE | `Projectile projectile`, `SpaceDrone spacedrone` | `Defines.Chain chain` | Called when a drone fires |
+| DRONE_COLLISION | `SpaceDrone drone`, `Projectile projectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called when a drone collides with a projectile |
+| PROJECTILE_COLLISION | `Projectile thisProjectile`, `Projectile otherProjectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called when projectiles collide |
+| SHIELD_COLLISION_PRE | `ShipManager ship`, `Projectile projectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called before shield collision logic |
+| SHIELD_COLLISION | `ShipManager ship`, `Projectile projectile`, `Damage damage`, `CollisionResponse response` | `Defines.Chain chain` | Called after shield collision |
+| DAMAGE_AREA | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `Evasion forceHit`, `bool shipFriendlyFire` | `Defines.Chain chain`, `Evasion forceHit`, `bool shipFriendlyFire` | Called when an is about to be hit by a projectile |
+| DAMAGE_AREA_HIT | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `bool shipFriendlyFire` | `Defines.Chain chain` | Called when an area is hit by a projectile |
+| DAMAGE_BEAM | `ShipManager ship`, `Projectile projectile`, `Pointf location`, `Damage damage`, `bool newTile`, `BeamHit beamHit` | `Defines.Chain chain`, `BeamHit beamHit` | Called when a beam deals damage |
+| DAMAGE_SYSTEM | `ShipManager ship`, `Projectile projectile`, `int roomId`, `Damage damage` | `Defines.Chain chain` | Called when a system takes damage |
+| SYSTEM_ADD_DAMAGE | `ShipSystem sys`, `Projectile projectile`, `int amount` | `Defines.Chain chain`, `int amount` | Called when damage is added to a system, occurs after all resist calculations |
+| ACTIVATE_POWER | `ActivatedPower power`, `ShipManager ship` | `Defines.Chain chain` | Called when a crew activates a power |
+| PREPARE_POWER | `ActivatedPower power` | `Defines.Chain chain` | Called when preparing a power activation |
+| CANCEL_POWER | `ActivatedPower power`, `bool clearAnim` | `Defines.Chain chain` | Called when canceling a power |
+| POWER_ON_UPDATE | `ActivatedPower power` | `Defines.Chain chain` | Called when updating a power |
+| POWER_RESOURCE_ON_UPDATE | `ActivatedPowerResource power` | `Defines.Chain chain` | Called when updating a resource power |
+| POWER_ENABLE_INIT | `ActivatedPower power` | `Defines.Chain chain` | Called when initializing power enable state |
+| POWER_RESOURCE_ENABLE_INIT | `ActivatedPowerResource power` | `Defines.Chain chain` | Called when initializing resource power enable state |
+| POWER_REQ | `ActivatedPower power`, `ActivatedPowerRequirements req`, `PowerReadyState result` | `Defines.Chain chain`, `PowerReadyState result` | Called when checking power requirements |
+| POWER_READY | `ActivatedPower power`, `PowerReadyState result` | `Defines.Chain chain`, `PowerReadyState result` | Called when checking if power is ready |
+| POWER_TOOLTIP | `ActivatedPower power`, `PowerReadyState state` | `string tooltip`, `bool skipAppend` | Called when rendering power tooltip |
+| GENERATOR_CREATE_SHIP | `string name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | Called when generating a new ship from an event |
+| GENERATOR_CREATE_SHIP_POST | `string name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain` | Called after generating a new ship from an event |
+| PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
+| POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
+| TABBED_WINDOW_CONFIRM | `string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| TABBED_WINDOW_UNDO | `string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
+| JUMP_ARRIVE | `ShipManager ship` | `None` | Called when a ship arrives at a beacon |
+| JUMP_LEAVE | `ShipManager ship` | `None` | Called when a ship leaves a beacon |
+| ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
+| SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Defines.Chain chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
+| SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Defines.Chain chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
+| SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Defines.Chain chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
+| GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` | Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
+| CALCULATE_LEAK_MODIFIER | `ShipManager ship`, `float modifier` | `Defines.Chain chain`, `float modifier` | Called once per ship every game tick to calculate a multiplier to the rate at which airlocks and breaches drain oxygen. |
+| CONSTRUCT_CREWMEMBER | `CrewMember crew` | `None` | Called when constructing a crew member |
+| CONSTRUCT_SPACEDRONE | `SpaceDrone drone` | `None` | Called when constructing a space drone |
+| CONSTRUCT_PROJECTILE_FACTORY | `ProjectileFactory weapon` | `None` | Called when constructing a weapon |
+| CONSTRUCT_PROJECTILE | `Projectile projectile` | `None` | Called when constructing a projectile |
+| CONSTRUCT_ROOM | `Room room` | `None` | Called when constructing a room |
+| CONSTRUCT_SHIP_MANAGER | `ShipManager ship` | `None` | Called when constructing a ShipManager |
+| CONSTRUCT_SHIP_SYSTEM | `ShipSystem system` | `None` | Called when constructing a ship system |
+| CONSTRUCT_SYSTEM_BOX | `SystemBox systemBox` | `None` | Called when constructing a GUI system box |
+
 ## Other predefined values
 
 ### Chain

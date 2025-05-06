@@ -228,6 +228,7 @@ local instance = Hyperspace.template_name(args)
 
 - `void` `:InstantTooltip()`
 - `Point` `:MeasureTooltip(int width)`
+   - `tooltipName` should be an id of the text without prefix `tooltip_`.
 - `void` `:OnLoop()`
 - `void` `:OnRender()`
 - `void` `:QueueStaticTooltip(Point pos)`
@@ -788,6 +789,8 @@ Accessed via `ShipSystem`'s `.extend` field
 
 ### Fields
 - `int` `additionalPowerLoss`
+- `int` `.xOffset`
+   - The offset from this SystemBox to the next in the UI.
 
 ## OxygenSystem
 
@@ -1039,6 +1042,7 @@ No methods are exposed currently.
    - The SystemBox associated with this SystemBox_Extend.
 - `int` `.xOffset`
    - The offset from this SystemBox to the next in the UI.
+   - THIS IS DEPRECIATED IN FAVOR OF `ShipSystem_Extend.xOffset`!
 
 ## Drone
 
@@ -1769,7 +1773,7 @@ Accessed via [`CrewMember`](#CrewMember)'s `.extend` field
 
 ### Methods
 - `void :InitiateTeleport(int shipId, int roomId=-1, int slotId=-1)`
-- [`CrewDefinition`](#CrewDefinition) `:*GetDefinition()`
+- [`CrewDefinition*`](#CrewDefinition) `:GetDefinition()`
 - `float :CalculateStat(CrewStat stat, bool* boolValue=nullptr)`
    - Returns the current `float` and `bool` value for the given `CrewStat`.
 
@@ -2364,6 +2368,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.boss_visual`
    - **Read-only**
 
+
+## CrewControl
+
+### Fields
+- [`std::vector<CrewMember*>`](#CrewMember) `.selectedCrew`
+- [`std::vector<CrewMember*>`](#CrewMember) `.potentialSelectedCrew`
+   - Crew hovered by the selection box
+- [`Point`](#Point) `.firstMouse`
+   - Affect the visual portion of the selection box
+- [`Point`](#Point) `.currentMouse`
+   - Affect the visual portion of the selection box
+- [`Point`](#Point) `.worldFirstMouse`
+   - Affect the logic portion of the selection box, fills `.potentialSelectedCrew`
+- [`Point`](#Point) `.worldCurrentMouse`
+   - Affect the logic portion of the selection box, fills `.potentialSelectedCrew`
+
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
 ### Fields
@@ -2529,22 +2549,26 @@ end)
 
 [[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
 
-
-
 ### Fields
 
 - `std::vector<Location>` `.locations`
    - **Read-only**
 - [`Location`](#Location) `.currentLoc`
+- [`Location`](#Location) `.potentialLoc`
+- [`Location`](#Location) `.hoverLoc`
 - [`std::vector<Sector*>`](#sector) `.sectors`
 - [`Sector`](#Sector) `.currentSector`
 - `bool` `.bChoosingNewSector`
 - `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
-- `GL_Primitive` `.ship`
+-  [`Point`](#Point) `.dangerZone`
+-  `bool` `.bMapRevealed`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.ship`
    - The map icon that rotates around the current location representing the player ship.
-- `GL_Primitive` `.shipNoFuel`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.shipNoFuel`
    - The no fuel variant of the `ship` icon.
+- [`GL_Primitive*[3]`](./Lua-Graphics-Module#GL_Primitive) `.mapsBottom`
+   - Contains the 3 background images of the sector map. Index selected via `worldLevel % 3`.
 - `int` `.worldLevel`
    - **Read-only**
 - `bool` `.bTutorialGenerated`
@@ -3770,3 +3794,8 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ## FTLButton
 
 **Extends [TextButton0](#TextButton0)**
+
+## SpaceStatus
+
+### Methods
+- `void` `:RenderWarningText(int effect, int textOffset)`
