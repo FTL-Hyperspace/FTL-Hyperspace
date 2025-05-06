@@ -118,8 +118,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | GENERATOR_CREATE_SHIP_POST | `string name`, `int sector`, `ShipEvent event`, `ShipBlueprint bp`, `ShipManager ret` | `Defines.Chain chain` | Called after generating a new ship from an event |
 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
-| TABBED_WINDOW_CONFIRM | `std::string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
-| TABBED_WINDOW_UNDO | `std::string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
+| TABBED_WINDOW_CONFIRM | `string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| TABBED_WINDOW_UNDO | `string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
 | JUMP_ARRIVE | `ShipManager ship` | `None` | Called when a ship arrives at a beacon |
 | JUMP_LEAVE | `ShipManager ship` | `None` | Called when a ship leaves a beacon |
 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
