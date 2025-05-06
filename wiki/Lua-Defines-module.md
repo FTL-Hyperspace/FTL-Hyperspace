@@ -81,8 +81,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | HAS_AUGMENTATION | `ShipManager ship`, `string augment`, `int value` | `Defines.Chain chain`, `int value` | Run every hasAugmentation check |
 | GET_AUGMENTATION_VALUE | `ShipManager ship`, `string augment`, `float value` | `Defines.Chain chain`, `float value` | Called when checking an augmentation's value |
 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain chain`, `int value` | Can be used to alter the dodge factor for the given ship |
-| SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain chain`, `int` amount | Can be used to alter the bonus power for the given system |
-| SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain chain`, `uint` armamentSlot | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
+| SET_BONUS_POWER | `ShipSystem system`, `int amount` | `Defines.Chain chain`, `int amount` | Can be used to alter the bonus power for the given system |
+| SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain chain`, `uint armamentSlot` | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
 | SELECT_ARMAMENT_POST | `uint armamentSlot` | `Defines.Chain chain` | Triggered after selecting a weapon to fire |
 | PROJECTILE_INITIALIZE | `Projectile projectile`, `WeaponBlueprint bp` | `None` | Called when a projectile is initialized |
 | PROJECTILE_FIRE | `Projectile projectile`, `ProjectileFactory weapon` | `None` | Called when a projectile is fired |
@@ -90,7 +90,7 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | PROJECTILE_POST | `Projectile projectile`, `bool preempted` | `Defines.Chain chain` | Called after projectile processing |
 | PROJECTILE_UPDATE_PRE | `Projectile projectile` | `Defines.Chain chain` | Called before projectile update |
 | PROJECTILE_UPDATE_POST | `Projectile projectile`, `bool preempted` | `Defines.Chain chain` | Called after projectile update |
-| WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain chain`, `float` cooldownMod | Check and possibly alter the cooldown modifier being applied to a weapon. Return value cannot be greater than 1 for non-artillery weapons. |
+| WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain chain`, `float cooldownMod` | Check and possibly alter the cooldown modifier being applied to a weapon. Return value cannot be greater than 1 for non-artillery weapons. |
 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine`, `string thirdLine` | `Defines.Chain chain`, `string firstLine`, `string secondLine`, `string thirdLine` | Change the text displayed for the player weapon cooldown timers |
@@ -123,11 +123,11 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | JUMP_ARRIVE | `ShipManager ship` | `None` | Called when a ship arrives at a beacon |
 | JUMP_LEAVE | `ShipManager ship` | `None` | Called when a ship leaves a beacon |
 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
-| SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
-| SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
-| SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
+| SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Defines.Chain chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
+| SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Defines.Chain chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
+| SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Defines.Chain chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
 | GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` | Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
-| CALCULATE_LEAK_MODIFIER | `ShipManager ship`, `float modifier` | `Chain`, `modifier` | Called once per ship every game tick to calculate a multiplier to the rate at which airlocks and breaches drain oxygen. |
+| CALCULATE_LEAK_MODIFIER | `ShipManager ship`, `float modifier` | `Defines.Chain chain`, `float modifier` | Called once per ship every game tick to calculate a multiplier to the rate at which airlocks and breaches drain oxygen. |
 | CONSTRUCT_CREWMEMBER | `CrewMember crew` | `None` | Called when constructing a crew member |
 | CONSTRUCT_SPACEDRONE | `SpaceDrone drone` | `None` | Called when constructing a space drone |
 | CONSTRUCT_PROJECTILE_FACTORY | `ProjectileFactory weapon` | `None` | Called when constructing a weapon |
