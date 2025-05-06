@@ -66,8 +66,28 @@ In the Hyperspace zip, go into the `Linux` folder, move `Hyperspace.1.6.13.amd64
 
 [[/img/wsl-linux/file-to-linux.png]]
 
-In the `FTL` file of the `data` folder add the two following lines:
+In the `FTL` file of the `data` folder, delete the contents of the file and replace with the following:
 ```sh
+#!/bin/sh
+
+here="$(dirname "$(readlink -f "$(which "$0")")")"
+there="$(pwd)"
+
+command="$(basename "$0")"
+
+machine="$(uname -m)"
+if [ -e "$here/$command.amd64" ] \
+   && ( [ "$machine" = 'x86_64' ] || [ "$machine" = 'amd64' ] )
+    then arch='amd64'
+    else arch='x86'
+fi
+
+echo Loading Arch = $arch
+
+export LANG="${LC_ALL:-$LANG}"
+export LC_ALL=
+export LC_NUMERIC=C
+export LD_LIBRARY_PATH="$here":${LD_LIBRARY_PATH}
 export LD_PRELOAD=Hyperspace.1.6.13.amd64.so
 exec "$here/$command.$arch" "$@"
 ```
