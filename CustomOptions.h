@@ -83,6 +83,8 @@ public:
     
     Setting<bool> oxygenWithoutSystem;
 
+    Setting<bool> shieldWithoutSystem;
+
     Setting<bool> droneSaveStations;
 
     Setting<bool> droneSelectHotkeys;

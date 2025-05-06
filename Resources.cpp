@@ -589,6 +589,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "shieldWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->shieldWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->shieldWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
@@ -907,6 +914,13 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "systemPositions") == 0)
+                    {
+                        SystemPositionManager::ParsePositionsNode(child);
+                    }  
+                }
             }
             if (strcmp(node->name(), "scripts") == 0)
             {

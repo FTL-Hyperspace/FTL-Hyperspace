@@ -2962,7 +2962,7 @@
 <text name="hotkey" language="ja">ホットキー：\1</text>
 <text name="hotkey_activate_battery" language="ja">予備電源を起動</text>
 <text name="hotkey_activate_cloak" language="ja">クロークを起動</text>
-<text name="hotkey_artillery" language="ja">弩級砲の出力を上げる</text>
+<text name="hotkey_aim_artillery" language="ja">弩級砲の出力を上げる</text>
 <text name="hotkey_autofire" language="ja">オート発射のオン／オフ</text>
 <text name="hotkey_cloaking" language="ja">クロークの出力を上げる</text>
 <text name="hotkey_close" language="ja">全ドアを閉じる</text>
