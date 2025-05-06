@@ -94,9 +94,9 @@ local instance = Hyperspace.template_name(args)
 
 ### Methods
 
-- `void :OnExit()`
+- `void` `:OnExit()`
    - Close game, autosave profile and settings but not current run (current run will be on previous autosave).
-- `void :OnRequestExit()`
+- `void` `:OnRequestExit()`
    - Close game, autosave run, profile, and settings.
 
 ### Fields
@@ -110,8 +110,8 @@ local instance = Hyperspace.template_name(args)
 
 ### Methods
 
-- [`LocationEvent`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
-- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
+- [`LocationEvent*`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
+- [`LocationEvent*`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
 
 ## ShipInfo
 
@@ -226,19 +226,18 @@ local instance = Hyperspace.template_name(args)
 
 ### Methods
 
-- `void :InstantTooltip()`
-- `void :LoadTooltip(std::string tooltipName)`
+- `void` `:InstantTooltip()`
+- `Point` `:MeasureTooltip(int width)`
    - `tooltipName` should be an id of the text without prefix `tooltip_`.
-- `Point :MeasureTooltip(int width)`
-- `void :OnLoop()`
-- `void :OnRender()`
-- `void :QueueStaticTooltip(Point pos)`
-- `void :RenderTooltip(Point tooltipPoint, bool staticPos)`
-- `void :Reset()`
-- `void :ResetArmed()`
-- `void :SetDoor(int state)`
-- `void :SetTooltip(std::string tooltip)`
-- `void :SetTooltipTitle(std::string tooltip)`
+- `void` `:OnLoop()`
+- `void` `:OnRender()`
+- `void` `:QueueStaticTooltip(Point pos)`
+- `void` `:RenderTooltip(Point tooltipPoint, bool staticPos)`
+- `void` `:Reset()`
+- `void` `:ResetArmed()`
+- `void` `:SetDoor(int state)`
+- `void` `:SetTooltip(std::string &tooltip)`
+- `void` `:SetTooltipTitle(std::string &tooltip)`
 
 ### Fields
 
@@ -1522,11 +1521,12 @@ end
 ## CrewMemberFactory
 
 ### Methods
-- `void :GetCloneReadyList(std::vector<CrewMember*> vec, bool player)`
-- `void :GetCloneReadyList(bool player)`
+- `void` `:GetCloneReadyList(std::vector<CrewMember*> vec, bool player)`
+- `std::vector<CrewMember*>` `:GetCloneReadyList(bool player)`
 
 ### Fields
 - [`std::vector<CrewMember*>`](#CrewMember) `.crewMembers`
+  - **read-only** 
 
 ## CrewMember
 Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the Internal Event `CREW_LOOP`
@@ -2334,6 +2334,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - **Read-only**
 - `bool` `.secretSector`
    - **Read-only**
+- `ChoiceBox` `.choiceBox`
+   - **Read-only**
 - `bool` `.choiceBoxOpen`
    - **Read-only**
 
@@ -2597,6 +2599,7 @@ end)
 ### Fields
 - `bool` `.visited`
 - `int` `.level`
+  - **Read-only**
 - [`SectorDescription`](#SectorDescription) `.description`
    - Field is **read-only** but fields under this object may still be mutable.
 
@@ -3244,7 +3247,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `int :ConnectedGridSquaresPoint(Point p1, Point p2)`
 - [`Door`](#Door) `:*ConnectingDoor(int x1, int y1, int x2, int y2)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
--  `std::vector<int>` `:ConnectivityDFS(int roomId)`
+- `std::vector<int>` `:ConnectivityDFS(int roomId)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
 - [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
@@ -3635,16 +3638,17 @@ Accessed via `Projectile`'s `.extend` field
 - [`GL_Primitive`](./Lua-Graphics-Module#GL_Primitive) `:*CreateImagePrimitiveString(std::string tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
 - [`freetype::font_data`](#font_data) `:GetFontData(int size, bool ignoreLanguage)`
 - [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `:*GetImageId(std::string dir)`
-- `bool :ImageExists(std::string name)`
-- `int :RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
-- `int :RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `bool` `:ImageExists(std::string name)`
+- `int` `:RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `int` `:RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `char` `:*LoadFile(const std::string &fileName)`
 
 ## Point
 
 ### Methods
 - `static` [`Point`](#Point) `.Point(int x, int y)`
-- `int :Distance(Point other)`
-- `int :RelativeDistance(Point other)`
+- `int` `:Distance(Point other)`
+- `int` `:RelativeDistance(Point other)`
 
 ### Fields
 - `int` `.x`
@@ -3667,12 +3671,13 @@ Accessed via `Projectile`'s `.extend` field
 Accessed via `Hyperspace.CustomAchievementTracker.instance`
 
 ### Methods
-- `void :UpdateVariableAchievements(std::string varName, int varValue, bool inGame=true)`
-- `int :GetAchievementStatus(std::string name)`
-- `void :SetAchievement(std::string name, bool noPopup)`
+- `void` `:UpdateVariableAchievements(std::string &varName, int varValue, bool inGame=true)`
+- `int` `:GetAchievementStatus(std::string &name)`
+- `void` `:SetAchievement(std::string &name, bool noPopup)`
+  - Used to award achievements (CheckShipAchievement is automatically called if needed)
 
 ### Fields
-- `static` [CustomAchievementTracker*](#CustomAchievementTracker) `.instance`
+- `static` [`CustomAchievementTracker*`](#CustomAchievementTracker) `.instance`
 
 ## CustomEventsParser
 
@@ -3680,11 +3685,11 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
 ### Methods
 
-- `static` [CustomEventsParser*](#CustomEventsParser) `.GetInstance()`
+- `static` [`CustomEventsParser*`](#CustomEventsParser) `.GetInstance()`
 
-- `void :LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
-- `void :LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
-- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string eventName)`
+- `void` `:LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
+- `void` `:LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string &event)`
 - [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(Location *loc)`
 
 ## CustomEvent
@@ -3706,7 +3711,7 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 ### Fields
 - `bool` `bOpen`
    - **read-only**
-- [ShipBuilder](#ShipBuilder) `shipBuilder`
+- [`ShipBuilder`](#ShipBuilder) `shipBuilder`
    - **read-only**
 
 ## TabbedWindow
