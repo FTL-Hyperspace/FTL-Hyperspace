@@ -1,2 +1,21 @@
 "4883ec08803d????????007433660f6f05????????48b8020000000700000048ba0000000002000000":
 static cleanup __amd64 StatusEffect StatusEffect::GetNebulaEffect();
+
+struct StatusEffect
+{{
+    enum TargetId
+    {
+        TARGET_PLAYER = 0,
+        TARGET_ENEMY = 1,
+        TARGET_ALL = 2,
+    };
+
+    enum TypeId
+    {
+        TYPE_NONE = 0,
+        TYPE_LOSS = 1,
+        TYPE_LIMIT = 2,
+        TYPE_DIVIDE = 3,
+        TYPE_CLEAR = 4,
+    };
+}};
