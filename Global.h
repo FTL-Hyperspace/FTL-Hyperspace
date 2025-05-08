@@ -6,7 +6,6 @@
 #include "zhl.h"
 #include "FTLGame.h"
 
-#include "Systems.h"
 #include "Colors.h"
 
 

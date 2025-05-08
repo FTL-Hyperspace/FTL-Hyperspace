@@ -254,7 +254,7 @@ struct RandomAmount
 	int max;
 	float chanceNone;
 };
-	
+
 enum TouchAction
 {
   TOUCH_DOWN = 0x1,
@@ -531,6 +531,88 @@ enum GraphicsComparisonType
   GRAPHICS_COMPARISON_LESS_EQUAL = 0x5,
   GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
   GRAPHICS_COMPARISON_GREATER = 0x7,
+};
+
+enum SystemId
+{
+  SYS_INVALID = -1,
+  SYS_SHIELDS = 0,
+  SYS_ENGINES = 1,
+  SYS_OXYGEN = 2,
+  SYS_WEAPONS = 3,
+  SYS_DRONES = 4,
+  SYS_MEDBAY = 5,
+  SYS_PILOT = 6,
+  SYS_SENSORS = 7,
+  SYS_DOORS = 8,
+  SYS_TELEPORTER = 9,
+  SYS_CLOAKING = 10,
+  SYS_ARTILLERY = 11,
+  SYS_BATTERY = 12,
+  SYS_CLONEBAY = 13,
+  SYS_MIND = 14,
+  SYS_HACKING = 15,
+
+  SYS_ALL = 16,
+  SYS_REACTOR = 17,
+  SYS_RANDOM = 18,
+  SYS_ROOM = 19,
+
+  SYS_TEMPORAL = 20,
+  SYS_CUSTOM_FIRST = 21,
+};
+
+enum WeaponType
+{
+  WEAPON_INVALID = -1,
+  WEAPON_LASER = 0,
+  WEAPON_MISSILES = 1,
+  WEAPON_BEAM = 2,
+  WEAPON_BOMB = 3,
+  WEAPON_BURST = 4,
+  WEAPON_TOTAL = 5,
+};
+
+enum DroneType
+{
+  DRONE_DEFENSE = 0,
+  DRONE_COMBAT = 1,
+  DRONE_REPAIR = 2,
+  DRONE_BATTLE = 3,
+  DRONE_BOARDER = 4,
+  DRONE_SHIP_REPAIR = 5,
+  DRONE_FIGHTER_TEST = 6,
+  DRONE_SHIELD = 7,
+  DRONE_TOTAL = 8
+};
+
+enum TaskId
+{
+  TASK_MANNING = 0,
+  TASK_REPAIRING = 1,
+  TASK_FIRE = 2,
+  TASK_BREACH = 3,
+  TASK_NOTHING = 4,
+  TASK_DEAD = 5,
+  TASK_HEAL = 6,
+  TASK_BOARDERS = 7,
+  TASK_TELEPORTING = 8,
+  TASK_KILLING = 9,
+  TASK_SABOTAGING = 10
+};
+
+enum EnvId
+{
+  ENV_NONE = 0,
+  ENV_ASTEROIDS = 1,
+  ENV_SUN = 2,
+  ENV_NEBULA = 3,
+  ENV_STORM = 4,
+  ENV_PULSAR = 5,
+  ENV_PDS = 6,
+  ENV_AVOIDED = 8,
+  ENV_PDS_FRIENDLY = 9,
+  ENV_TOTAL = 10
 };
 
 typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);

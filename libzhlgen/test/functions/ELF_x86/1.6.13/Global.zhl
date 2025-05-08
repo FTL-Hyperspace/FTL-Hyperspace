@@ -23,11 +23,11 @@ struct GlobalPre
 	#ifndef M_PI
 		#define M_PI 3.14159265358979323846
 	#endif
-	
+
 	struct CAchievement;
 	struct RandomAmount;
 	struct Point;
-	
+
 	typedef std::pair<int, int> std_pair_int_int;
 	typedef std::pair<float, float> std_pair_float_float;
 	typedef std::pair<std::string, int> std_pair_std_string_int;
@@ -59,7 +59,7 @@ struct GlobalPre
 
 // struct GlobalConst // comment this line out and uncomment the line below if this block requires specific structures (don't forget to replace the list of dependencies with your own)
 struct GlobalConst depends(RandomAmount, CAchievement, Point)
-{{	
+{{
 	enum TouchAction
 	{
 	  TOUCH_DOWN = 0x1,
@@ -67,7 +67,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  TOUCH_UP = 0x3,
 	  TOUCH_CANCEL = 0x4,
 	};
-	
+
 	enum InputEventType
 	{
 	  INPUT_EVENT_JOYSTICK = 0x1,
@@ -77,7 +77,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  INPUT_EVENT_TEXT = 0x5,
 	  INPUT_EVENT_TOUCH = 0x6,
 	};
-	
+
 	enum InputEventDetail
 	{
 	  INPUT_JOYSTICK_CONNECTED = 0x1,
@@ -134,13 +134,13 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  FONT_ALIGN_CENTER = 0x1,
 	  FONT_ALIGN_RIGHT = 0x2,
 	};
-	
+
 	enum FramebufferColorType
 	{
 	  FBCOLOR_RGB8 = 0x1,
 	  FBCOLOR_RGBA8 = 0x2,
 	};
-	
+
 	enum GL_StencilMode
 	{
 	  STENCIL_IGNORE = 0x0,
@@ -317,7 +317,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_PRIMITIVE_QUADS = 0x6,
 	  GRAPHICS_PRIMITIVE_QUAD_STRIP = 0x7,
 	};
-	
+
 	enum GraphicsTextureColorType
 	{
 	  GRAPHICS_TEXCOLOR_NONE = 0x0,
@@ -325,7 +325,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_TEXCOLOR_A = 0x2,
 	  GRAPHICS_TEXCOLOR_L = 0x3,
 	};
-	
+
 	enum GraphicsComparisonType
 	{
 	  GRAPHICS_COMPARISON_FALSE = 0x0,
@@ -338,8 +338,90 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
 
+	enum SystemId
+	{
+	  SYS_INVALID = -1,
+	  SYS_SHIELDS = 0,
+	  SYS_ENGINES = 1,
+	  SYS_OXYGEN = 2,
+	  SYS_WEAPONS = 3,
+	  SYS_DRONES = 4,
+	  SYS_MEDBAY = 5,
+	  SYS_PILOT = 6,
+	  SYS_SENSORS = 7,
+	  SYS_DOORS = 8,
+	  SYS_TELEPORTER = 9,
+	  SYS_CLOAKING = 10,
+	  SYS_ARTILLERY = 11,
+	  SYS_BATTERY = 12,
+	  SYS_CLONEBAY = 13,
+	  SYS_MIND = 14,
+	  SYS_HACKING = 15,
+
+	  SYS_ALL = 16,
+	  SYS_REACTOR = 17,
+	  SYS_RANDOM = 18,
+	  SYS_ROOM = 19,
+
+	  SYS_TEMPORAL = 20,
+	  SYS_CUSTOM_FIRST = 21,
+	};
+
+	enum WeaponType
+	{
+	  WEAPON_INVALID = -1,
+	  WEAPON_LASER = 0,
+	  WEAPON_MISSILES = 1,
+	  WEAPON_BEAM = 2,
+	  WEAPON_BOMB = 3,
+	  WEAPON_BURST = 4,
+	  WEAPON_TOTAL = 5,
+	};
+
+	enum DroneType
+	{
+	  DRONE_DEFENSE = 0,
+	  DRONE_COMBAT = 1,
+	  DRONE_REPAIR = 2,
+	  DRONE_BATTLE = 3,
+	  DRONE_BOARDER = 4,
+	  DRONE_SHIP_REPAIR = 5,
+	  DRONE_FIGHTER_TEST = 6,
+	  DRONE_SHIELD = 7,
+	  DRONE_TOTAL = 8
+	};
+
+	enum TaskId
+	{
+	  TASK_MANNING = 0,
+	  TASK_REPAIRING = 1,
+	  TASK_FIRE = 2,
+	  TASK_BREACH = 3,
+	  TASK_NOTHING = 4,
+	  TASK_DEAD = 5,
+	  TASK_HEAL = 6,
+	  TASK_BOARDERS = 7,
+	  TASK_TELEPORTING = 8,
+	  TASK_KILLING = 9,
+	  TASK_SABOTAGING = 10
+	};
+
+	enum EnvId
+	{
+	  ENV_NONE = 0,
+	  ENV_ASTEROIDS = 1,
+	  ENV_SUN = 2,
+	  ENV_NEBULA = 3,
+	  ENV_STORM = 4,
+	  ENV_PULSAR = 5,
+	  ENV_PDS = 6,
+	  ENV_AVOIDED = 8,
+	  ENV_PDS_FRIENDLY = 9,
+	  ENV_TOTAL = 10
+	};
+
 	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
-	
+
 	static void* GetBaseAddress()
 	{
 	  return SigScan::GetBaseAddress();

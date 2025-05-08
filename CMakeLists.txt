@@ -169,12 +169,10 @@ target_sources(
     CustomWeapons.cpp
     CustomWeapons.h
     Debugging.cpp
-    Drones.h
     DroneVTable.cpp
     EnemyShipIcons.cpp
     EnemyShipIcons.h
     EnumClassHash.h
-    Environments.h
     Equipment_Extend.cpp
     Equipment_Extend.h
     ErosionEffect.cpp
@@ -253,8 +251,6 @@ target_sources(
     System_Extend.h
     SystemBox_Extend.cpp
     SystemBox_Extend.h
-    Systems.h
-    Tasks.h
     TemporalBoxVTable.cpp
     TemporalSystem.cpp
     TemporalSystem.h

@@ -3,7 +3,6 @@
 #include "ShipUnlocks.h"
 #include "EnemyShipIcons.h"
 #include "CustomOptions.h"
-#include "Environments.h"
 
 #include <sstream>
 #include <vector>

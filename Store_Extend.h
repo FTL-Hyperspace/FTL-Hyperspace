@@ -1,6 +1,5 @@
 #pragma once
 #include "FTLGame.h"
-#include "Systems.h"
 
 enum class Currency
 {
