@@ -7051,15 +7051,15 @@ HOOK_METHOD_PRIORITY(WorldManager, CheckStatusEffects, 9999, (std::vector<Status
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CheckStatusEffects -> Begin (CustomEvents.cpp)\n")
     for (StatusEffect &effect : effects)
     {
-        if (effect.target == 0 || effect.target == 2)
+        if (effect.target == StatusEffect::TARGET_PLAYER || effect.target == StatusEffect::TARGET_ALL)
         {
-            ModifyStatusEffect(effect, playerShip->shipManager, 0);
+            ModifyStatusEffect(effect, playerShip->shipManager, StatusEffect::TARGET_PLAYER);
         }
-        if (!ships.empty() && (effect.target == 1 || effect.target == 2))
+        if (!ships.empty() && (effect.target == StatusEffect::TARGET_ENEMY || effect.target == StatusEffect::TARGET_ALL))
         {
             for (CompleteShip *ship : ships)
             {
-                ModifyStatusEffect(effect, ship->shipManager, 1);
+                ModifyStatusEffect(effect, ship->shipManager, StatusEffect::TARGET_ENEMY);
             }
         }
         currentEffects.push_back(effect);
@@ -7080,9 +7080,63 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyStatusEffect -> Begin (CustomEvents.cpp)\n")
     super(effect, target, targetType);
-    if (effect.system == 16 && (targetType == effect.target || effect.target == 2)) // all systems
+    if (effect.system == SYS_ALL && (targetType == effect.target || effect.target == StatusEffect::TARGET_ALL)) // all systems
     {
+        // Temporal system
         super(StatusEffect{effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+        // Custom systems
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            super(StatusEffect{effect.type, systemId, effect.amount, effect.target}, target, targetType);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemPowerLimit, (int systemId, int limit) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLimit -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, limit);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetPowerCap(limit);
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemPowerLoss, (int systemId, int powerLoss) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLoss -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, powerLoss);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetPowerLoss(powerLoss);
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemDividePower, (int systemId, int amount) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemDividePower -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, amount);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetDividePower(amount);
+    }
+}
+
+HOOK_METHOD(ShipManager, ClearStatusSystem, (int system) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (CustomEvents.cpp)\n")
+    if (system != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(system);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->ClearStatus();
     }
 }
 
