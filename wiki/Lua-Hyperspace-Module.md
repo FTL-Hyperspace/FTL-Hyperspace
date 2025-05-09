@@ -1526,10 +1526,14 @@ end
 
 ### Fields
 - [`std::vector<CrewMember*>`](#CrewMember) `.crewMembers`
-  - **read-only** 
+  - **read-only**
 
 ## CrewMember
 Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the Internal Event `CREW_LOOP`
+
+### Static Methods
+- `int .GetSkillFromSystem(int systemId)`
+- `std::string .GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
 
 ### Methods
 - `Point :GetPosition()`
@@ -1618,11 +1622,9 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `int :GetRepairingId()`
 - `bool :GetResisted()`
 - [`Slot`](#Slot) `:GetSavedPosition()`
-- `int :GetSkillFromSystem(int systemId)`
 - `int :GetSkillLevel(int skillId)`
 - `float :GetSkillModifier(int skillId)`
 - `int` `:GetSkillProgress(int skillId)`
-- `std::string :GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
 - `std::string :GetTooltip()`
 - `void :IncreaseSkill(int skillId)`
 - `void :InitializeSkills()`
@@ -2037,14 +2039,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## ActivatedPowerDefinition
 
+### Static Methods
+
+- [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string name)`
+- [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string name, ActivatedPowerDefinition* copyDef)`
+
 ### Methods
 - `void :AssignIndex()`
 - `void :AssignName(std::string name)`
 - `void :AssignActivateGroup(std::string name)`
 - `void :AssignReplaceGroup(std::string name)`
 - `void :AssignGroup(std::string name)`
-- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string name)`
-- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string name, ActivatedPowerDefinition* copyDef)`
 
 ### Fields
 - `std::string` `.name`
@@ -2102,12 +2107,14 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## PowerResourceDefinition
 
+### Static Methods
+- [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string name)`
+- [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string name, PowerResourceDefinition* copyDef);`
+
 ### Methods
 - `void :AssignIndex()`
 - `void :AssignName(std::string name)`
 - `void :AssignGroup(std::string name)`
-- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string name)`
-- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string name, PowerResourceDefinition* copyDef);`
 
 ### Fields
 - `std::string` `.name`
@@ -2787,10 +2794,12 @@ Accessed via `Hyperspace.CustomShipUnlocks.instance`
 
 ## PowerManager
 
+### Static Methods
+- [`PowerManager`](#PowerManager) `.GetPowerManager(int iShipId)`
+
 ### Methods
 - `int :GetAvailablePower()`
 - `int :GetMaxPower()`
-- `static` [`PowerManager`](#PowerManager) `.GetPowerManager(int iShipId)`
 
 ### Fields
 - `std::pair<int, int>` `.currentPower`
@@ -2807,8 +2816,10 @@ Accessed via `Hyperspace.CustomShipUnlocks.instance`
 
 Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 
+### Static Methods
+- [`CustomAugmentManager*`](#CustomAugmentManager) `.GetInstance()`
+
 ### Methods
-- `static` [`CustomAugmentManager*`](#CustomAugmentManager) `.GetInstance()`
 - [`AugmentDefinition*`](#AugmentDefinition) `:GetAugmentDefinition(const std::string &name)`
 - `std::unordered_map<std::string, int>` `:GetShipAugments(int iShipId)`
 
@@ -3237,6 +3248,9 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 
 Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 
+### Static Methods
+   - [`ShipGraph`](#ShipGraph) `.GetShipInfo(int shipId)`
+
 ### Methods
 - [`Point`](#Point) `:TranslateFromGrid(int xx, int yy)`
 - [`Point`](#Point) `:TranslateToGrid(int xx, int yy)`
@@ -3263,7 +3277,6 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `float :GetRoomOxygen(int room)`
 - [`Rect`](#Rect) `:GetRoomShape(int room)`
 - `int :GetSelectedRoom(int x, int y, bool unk)`
-- `static` [`ShipGraph`](#ShipGraph) `.GetShipInfo(int shipId)`
 - [`Point`](#Point) `:GetSlotWorldPosition(int slotId, int roomId)`
 - `bool :IsRoomConnected(int room1, int room2)`
 - `int :PopClosestDoor(std::vector<int> doors, std::vector<float> distances)`
@@ -3334,6 +3347,9 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 
 **Extends [Collideable](#Collideable)**
 
+### Static Methods
+- [`Pointf`](#Pointf) `.RandomSidePoint(int side)`
+
 ### Methods
 - `void :SetWeaponAnimation(WeaponAnimation animation)`
 - `void :OnRenderSpecific(int spaceId)`
@@ -3357,7 +3373,6 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `void :SetMovingTarget(Targetable *target)`
 - [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
 - `void :Initialize(WeaponBlueprint bp)`
-- `static` [`Pointf`](#Pointf) `.RandomSidePoint(int side)`
 - `void :constructor(Pointf position, int ownerId, int targetId, Pointf target)`
 
 ### Fields
@@ -3452,8 +3467,8 @@ Accessed via `Projectile`'s `.extend` field
 
 **Extends [Projectile](#Projectile)**
 
-## Methods
-- `static` [`Asteroid*`](#Asteroid) `.Asteroid(Pointf pos, int destinationSpace)`
+### Static Methods
+- [`Asteroid*`](#Asteroid) `.Asteroid(Pointf pos, int destinationSpace)`
 
 ### Fields
 - [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.imageId`
@@ -3463,15 +3478,15 @@ Accessed via `Projectile`'s `.extend` field
 
 **Extends [Projectile](#Projectile)**
 
-## Methods
-- `static` [`Missile*`](#Missile) `.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)`
+### Static Methods
+- [`Missile*`](#Missile) `.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)`
 
 ## BombProjectile
 
 **Extends [Projectile](#Projectile)**
 
-## Methods
-- `static` [`BombProjectile*`](#BombProjectile) `.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)`
+### Static Methods
+- [`BombProjectile*`](#BombProjectile) `.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)`
 
 ### Fields
 - `bool` `.bMissed`
@@ -3567,8 +3582,9 @@ Accessed via `Projectile`'s `.extend` field
 
 ## TimerHelper
 
+### Static Methods
+- [`TimerHelper`](#TimerHelper) `.TimerHelper(bool isLoop=false)`
 ### Methods
-- `static` [`TimerHelper`](#TimerHelper) `.TimerHelper(bool isLoop=false)`
 - `void :Start(float goal)`
 - `bool :Done()`
 - `void :ResetMinMax(int min, int max)`
@@ -3645,8 +3661,10 @@ Accessed via `Projectile`'s `.extend` field
 
 ## Point
 
+### Static Methods
+- [`Point`](#Point) `.Point(int x, int y)`
+
 ### Methods
-- `static` [`Point`](#Point) `.Point(int x, int y)`
 - `int` `:Distance(Point other)`
 - `int` `:RelativeDistance(Point other)`
 
@@ -3656,9 +3674,11 @@ Accessed via `Projectile`'s `.extend` field
 
 ## Pointf
 
+### Static Methods
+- [`Pointf`](#Pointf) `.Pointf()`
+- [`Pointf`](#Pointf) `.Pointf(int x, int y)`
+
 ### Methods
-- `static` [`Pointf`](#Pointf) `.Pointf()`
-- `static` [`Pointf`](#Pointf) `.Pointf(int x, int y)`
 - [`Pointf`](#Pointf) `:Normalize()`
 - `float :RelativeDistance(Pointf other)`
 
@@ -3683,9 +3703,10 @@ Accessed via `Hyperspace.CustomAchievementTracker.instance`
 
 Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
-### Methods
+### Static Methods
+- [`CustomEventsParser*`](#CustomEventsParser) `.GetInstance()`
 
-- `static` [`CustomEventsParser*`](#CustomEventsParser) `.GetInstance()`
+### Methods
 
 - `void` `:LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
 - `void` `:LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
@@ -3774,9 +3795,10 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 ## CustomShipSelect
 
 Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
+### Static Methods
+- [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 
 ### Methods
-- `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
 
 ## TextButton
