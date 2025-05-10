@@ -12,6 +12,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
+#include "Equipment_Extend.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -3125,8 +3126,9 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
 
     if (!removedItem && g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
+        Equipment *equip = &(G_->GetWorld()->commandGui->equipScreen);
+        CustomEquipment *custom = EQ_EX(equip)->customEquipment;
+        auto boxes = equip->vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -3141,6 +3143,7 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
                     if (cargoItem->name == name)
                     {
                         box->RemoveItem();
+                        custom->UpdateOverCapacityItems();
                         return;
                     }
                 }
