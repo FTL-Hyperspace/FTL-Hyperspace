@@ -227,7 +227,7 @@ HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
     }
 }
 
-// Prevent non-hostile enemy's artillery from firing when the system power is provided by energy crews (i.g. zoltans)
+// Prevents neutral enemy's artillery from firing when the system is powered by energy crews (i.g. zoltans)
 static bool g_haltArtilleryFire = false;
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
 {
