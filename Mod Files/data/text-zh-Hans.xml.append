@@ -290,7 +290,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
 <text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>
-<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc，bamalf，BlizzArchonJ，Choosechee，codyfun，_Kilburn，Kix，Masala，nedsociety，Paradigm，PDTM，slowriderxcorps，The Dumb Dino，Vertaalfout，多元宇宙制作组</text>
+<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \n多元宇宙制作组</text>
 <text name="credits_hyperspace_loc" language="zh-Hans">超空间本地化人员：</text>
 <text name="credits_hyperspace_loc_fr" language="zh-Hans">法语：</text>
 <text name="credits_hyperspace_loc_fr_names" language="zh-Hans">Pepson</text>

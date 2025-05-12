@@ -281,7 +281,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_art" language="ru">Дополнительная графика:</text>
 <text name="credits_hyperspace_art_names" language="ru">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ru">Дополнительная помощь:</text>
-<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nкоманда FTL Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nкоманда FTL Multiverse</text>
 <text name="credits_hyperspace_loc" language="ru">Переводчики Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="ru">Французский</text>
 <text name="credits_hyperspace_loc_fr_names" language="ru">Pepson</text>
