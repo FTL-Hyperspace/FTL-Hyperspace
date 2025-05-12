@@ -1172,7 +1172,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 chargeLevel -= 1;
             }
             cooldown.first -= G_->GetCFPS()->GetSpeedFactor() * 0.375;
-            cooldown.first = std::max(cooldown.first, 0.f);
+            cooldown.first = std::max( 0.f, cooldown.first);
         }
         fireWhenReady = false;
         targets.clear();
