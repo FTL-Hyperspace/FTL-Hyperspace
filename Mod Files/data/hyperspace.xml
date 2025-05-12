@@ -2912,9 +2912,9 @@ Example in form of the Vanilla credits rewritten in XML:
 	<text id="credits_hyperspace_loc_zn_Hans_names" fontSize="18" horizontal="853" spacing="70" lineLenght="750"/>
 	<!-- 5th. Row -->
 	<text id="credits_hyperspace_loc_ja" fontSize="14" horizontal="427" spacing="0" lineLenght="750"/>
-	<text id="credits_hyperspace_loc_ko" fontSize="14" horizontal="853" spacing="40"lineLenght="750"/>
-	<text id="credits_hyperspace_loc_ja_names" fontSize="18" horizontal="427" spacing="0"lineLenght="750"/>
-	<text id="credits_hyperspace_loc_ko_names" fontSize="18" horizontal="853" spacing="110"lineLenght="750"/>
+	<text id="credits_hyperspace_loc_ko" fontSize="14" horizontal="853" spacing="40" lineLenght="750"/>
+	<text id="credits_hyperspace_loc_ja_names" fontSize="18" horizontal="427" spacing="0" lineLenght="750"/>
+	<text id="credits_hyperspace_loc_ko_names" fontSize="18" horizontal="853" spacing="110" lineLenght="750"/>
 
 	<!-- credits.txt -->
 	<text id="kickstarter" fontSize="14" horizontal="640" spacing="80" lineLenght="750"/>
