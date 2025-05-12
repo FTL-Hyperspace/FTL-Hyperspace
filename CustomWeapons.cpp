@@ -1167,7 +1167,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
         }
         else
         {
-            if (cooldown.second <= cooldown.first && chargeLevel > 0)
+            if ((cooldown.second <= cooldown.first || cooldown.second == 0.f) && chargeLevel > 0)
             {
                 chargeLevel -= 1;
             }
@@ -1196,7 +1196,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
                 float reloaders = GetAugmentationValue("AUTO_COOLDOWN");
                 cooldown.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625 * (1 + reloaders);
                 cooldown.first = std::min(cooldown.second, cooldown.first);
-                if (cooldown.second == cooldown.first && (oldFirst < oldSecond || oldSecond == 0) && chargeLevel < blueprint->chargeLevels)
+                if (cooldown.second == cooldown.first && (oldFirst < oldSecond || oldSecond == 0.f) && chargeLevel < blueprint->chargeLevels)
                 {
                     chargeLevel += 1;
                     if (chargeLevel < blueprint->chargeLevels) cooldown.first = 0;
