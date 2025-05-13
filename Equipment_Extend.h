@@ -13,6 +13,7 @@ public:
 
     void OnScrollWheel(float direction);
     void AddOverCapacityItem(const EquipmentBoxItem &item);
+    void UpdateOverCapacityItems();
 
     CustomEquipment(Equipment *equipment)
     {
@@ -33,7 +34,7 @@ public:
     int currentAugPage = 0;
     int currentCargoPage = 0;
     int currentOverCapacityPage = 0;
-    
+
 private:
     Equipment *orig = nullptr;
 
