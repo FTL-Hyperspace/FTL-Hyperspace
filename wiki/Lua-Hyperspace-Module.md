@@ -1533,7 +1533,7 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 
 ### Static Methods
 - `int .GetSkillFromSystem(int systemId)`
-- `std::string .GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
+- ~~`std::string .GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`~~
 
 ### Methods
 - `Point :GetPosition()`
