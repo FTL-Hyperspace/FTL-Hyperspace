@@ -1282,7 +1282,7 @@ struct WeaponBlueprint;
 struct LIBZHL_INTERFACE ShipSystem
 {
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
@@ -1360,6 +1360,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API static int __stdcall RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
 	LIBZHL_API void RenderSystemSymbol(bool forPowerUI, int forceColor);
 	LIBZHL_API void SaveState(int file);
+	LIBZHL_API void SetDividePower(int val);
 	LIBZHL_API void SetPowerCap(int cap);
 	LIBZHL_API int SetPowerLoss(int power);
 	LIBZHL_API static std::string __stdcall SystemIdToName(int systemId);
@@ -5653,6 +5654,22 @@ struct ShipEvent
 
 struct StatusEffect
 {
+    enum TargetId
+    {
+        TARGET_PLAYER = 0,
+        TARGET_ENEMY = 1,
+        TARGET_ALL = 2,
+    };
+
+    enum TypeId
+    {
+        TYPE_NONE = 0,
+        TYPE_LOSS = 1,
+        TYPE_LIMIT = 2,
+        TYPE_DIVIDE = 3,
+        TYPE_CLEAR = 4,
+    };
+
 	LIBZHL_API static StatusEffect __stdcall GetNebulaEffect();
 	
 	int type;
@@ -7143,11 +7160,11 @@ struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -7155,30 +7172,30 @@ struct ShipManager : ShipObject
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-	
+
 	void StartDummyOxygen();
 	bool StopDummyOxygen();
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-	
+
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
