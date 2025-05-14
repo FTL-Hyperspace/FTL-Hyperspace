@@ -3468,7 +3468,7 @@ Accessed via `Projectile`'s `.extend` field
 **Extends [Projectile](#Projectile)**
 
 ### Static Methods
-- [`Asteroid*`](#Asteroid) `.Asteroid(Pointf pos, int destinationSpace)`
+- [`Asteroid*`](#Asteroid) `Hyperspace.Asteroid(Pointf pos, int destinationSpace)` Constructor
 
 ### Fields
 - [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.imageId`
@@ -3479,14 +3479,14 @@ Accessed via `Projectile`'s `.extend` field
 **Extends [Projectile](#Projectile)**
 
 ### Static Methods
-- [`Missile*`](#Missile) `.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)`
+- [`Missile*`](#Missile) `Hyperspace.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)` Constructor
 
 ## BombProjectile
 
 **Extends [Projectile](#Projectile)**
 
 ### Static Methods
-- [`BombProjectile*`](#BombProjectile) `.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)`
+- [`BombProjectile*`](#BombProjectile) `Hyperspace.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)` Constructor
 
 ### Fields
 - `bool` `.bMissed`
@@ -3583,7 +3583,7 @@ Accessed via `Projectile`'s `.extend` field
 ## TimerHelper
 
 ### Static Methods
-- [`TimerHelper`](#TimerHelper) `.TimerHelper(bool isLoop=false)`
+- [`TimerHelper`](#TimerHelper) `Hyperspace.TimerHelper(bool isLoop=false)` Constructor
 ### Methods
 - `void :Start(float goal)`
 - `bool :Done()`
@@ -3662,7 +3662,7 @@ Accessed via `Projectile`'s `.extend` field
 ## Point
 
 ### Static Methods
-- [`Point`](#Point) `.Point(int x, int y)`
+- [`Point`](#Point) `Hyperspace.Point(int x, int y)` Constructor
 
 ### Methods
 - `int` `:Distance(Point other)`
@@ -3675,7 +3675,7 @@ Accessed via `Projectile`'s `.extend` field
 ## Pointf
 
 ### Static Methods
-- [`Pointf`](#Pointf) `.Pointf()`
+- [`Pointf`](#Pointf) `Hyperspace.Pointf()` Constructor
 - [`Pointf`](#Pointf) `.Pointf(int x, int y)`
 
 ### Methods
