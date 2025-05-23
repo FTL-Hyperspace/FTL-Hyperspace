@@ -16,7 +16,7 @@
 <text name="aug_ARTILLERY_ORDER_title" language="es">Apuntado avanzado</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="es">Permite el apuntado manual de los sistemas de artillería.</text>
 <text name="aug_TELEPORT_RECALL_title" language="es">Teletransportador personal.</text>
-<text name="aug_TELEPORT_RECALL_desc" language="es">La tripulación que este teletrasnportandose o este siendo destruida será teletransportada automáticamente de regreso a la navel.</text> 
+<text name="aug_TELEPORT_RECALL_desc" language="es">La tripulación que este teletrasnportandose o este siendo destruida será teletransportada automáticamente de regreso a la navel.</text>
 <text name="aug_AUGMENT_SLOT_title" language="es">Capacidad de Aumentos</text>
 <text name="aug_AUGMENT_SLOT_desc" language="es">Incrementa la capacidad de Aumentos en 1.</text>
 <text name="aug_CARGO_SLOT_title" language="es">Capacidad de Carga</text>
@@ -281,7 +281,7 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_art" language="es">Arte adicional:</text>
 <text name="credits_hyperspace_art_names" language="es">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="es">Contribuciones adicionales:</text>
-<text name="credits_hyperspace_contributors_names" language="es">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nEquipo de FTL Multiverse </text>
+<text name="credits_hyperspace_contributors_names" language="es">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="es">Traductores de Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="es">Francés</text>
 <text name="credits_hyperspace_loc_fr_names" language="es">Pepson</text>

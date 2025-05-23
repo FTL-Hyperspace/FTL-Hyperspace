@@ -226,3 +226,21 @@ HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
         }
     }
 }
+
+// Prevents neutral enemy's artillery from firing when the system is powered by energy crews (i.g. zoltans)
+static bool g_haltArtilleryFire = false;
+HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (ArtillerySystem.cpp)\n")
+    if (projectileFactory->targetId == 1 || !G_->GetShipManager(1) || G_->GetShipManager(1)->_targetable.hostile) return super();
+
+    g_haltArtilleryFire = true;
+    super();
+    g_haltArtilleryFire = false;
+}
+HOOK_METHOD(ProjectileFactory, ReadyToFire, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::ReadyToFire -> Begin (ArtillerySystem.cpp)\n")
+    if (g_haltArtilleryFire) return false;
+    return super();
+}

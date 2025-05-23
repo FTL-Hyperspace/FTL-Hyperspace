@@ -334,6 +334,13 @@ HOOK_STATIC(ShipSystem, IsSubsystem, (int systemId) -> bool)
     else return super(systemId);
 }
 
+HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (TemporalSystem.cpp)\n")
+    if (task.system >= SYS_CUSTOM_FIRST && task.system <= CustomUserSystems::GetLastSystemId()) task.system = 15;
+    return super(task, crewId);
+}
+
 HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomSystems.cpp)\n")
@@ -450,12 +457,17 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
             {
                 ret.systems.push_back(SYS_ARTILLERY);
             }
-            if (overwrite)
-            {
-                this->myBlueprint.systems = ret.systems;
-            }
         }
     }
+    //Fix for saving new systems
+    for (ShipSystem* system : vSystemList)
+    {
+        if (system->iSystemType >= SYS_CUSTOM_FIRST || system->iSystemType == SYS_TEMPORAL)
+        {
+            ret.systems.push_back(system->iSystemType);
+        }
+    }
+    if (overwrite) myBlueprint.systems = ret.systems;
     return ret;
 }
 static bool staticSubSystemPositioning = true;

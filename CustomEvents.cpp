@@ -5035,22 +5035,22 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
 
     int env = loc->event->environment;
 
-    // TODO: Switch anyone, or maybe at least some elses?
-    if (env == 1)
+    switch (env)
     {
-        retStr += " \n" + lib->GetText("map_asteroid_loc");
-    }
-    if (env == 2)
-    {
-        retStr += " \n" + lib->GetText("map_sun_loc");
-    }
-    if (env == 4)
-    {
-        retStr += " \n" + lib->GetText("map_ion_loc");
-    }
-    if (env == 5)
-    {
-        retStr += " \n" + lib->GetText("map_pulsar_loc");
+        case 1:
+            retStr += " \n" + lib->GetText("map_asteroid_loc");
+            break;
+        case 2:
+            retStr += " \n" + lib->GetText("map_sun_loc");
+            break;
+        case 4:
+            retStr += " \n" + lib->GetText("map_ion_loc");
+            break;
+        case 5:
+            retStr += " \n" + lib->GetText("map_pulsar_loc");
+            break;
+        default:
+            break;
     }
 
     if (env != 6 || loc->boss)

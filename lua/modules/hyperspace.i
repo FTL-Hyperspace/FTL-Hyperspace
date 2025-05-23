@@ -31,6 +31,24 @@
 #include "CustomDamage.h"
 %}
 
+//Current exception macro offers a trace to the wrong level
+%{
+    #define SWIG_exception(a, b)\
+    {\
+        luaL_where(L, 2);\
+        lua_pushfstring(L,"%s:%s",#a,b);\
+        lua_concat(L, 2);\
+        SWIG_fail;\
+    }\
+%}
+//Change typemap for unsigned numeric types to throw a proper lua error when provided a negative value
+%typemap(in, checkfn="lua_isnumber") unsigned int, unsigned short, unsigned long, unsigned char
+%{
+    if (lua_tonumber(L, $input) < 0) SWIG_exception(SWIG_ValueError, "number must not be negative");
+    $1 = ($type) lua_tonumber(L, $input);
+%}
+
+
 //This macro defines a wrapper class for any exposed arrays of TYPE with length SIZE
 %define %array_wrapper(TYPE, NAME, SIZE)
 
@@ -1861,7 +1879,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CloneSystem::gas;
 
 %nodefaultctor HackingSystem;
-%nodefaultdtor HachingSystem;
+%nodefaultdtor HackingSystem;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
