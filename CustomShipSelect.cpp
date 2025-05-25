@@ -3691,13 +3691,13 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnKeyDown, 9999, (SDLKey key) -> void)
                 }
             }
         }
-        else
+    }
+    else
+    {
+        shipSelect.KeyDown(key);
+        if (key == SDLK_ESCAPE)
         {
-            shipSelect.KeyDown(key);
-            if (key == SDLK_ESCAPE)
-            {
-                shipSelect.Close();
-            }
+            shipSelect.Close();
         }
     }
 }
