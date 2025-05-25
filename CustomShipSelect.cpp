@@ -3655,40 +3655,34 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnKeyDown, 9999, (SDLKey key) -> void)
             return;
         }
 
-        bool bRenaming = bRenaming;
+        bool renaming = bRenaming;
         for (CrewCustomizeBox* crewBox : vCrewBoxes)
         {
-            bRenaming = bRenaming || crewBox->bRenaming || crewBox->bQuickRenaming;
+            renaming = renaming || crewBox->bRenaming || crewBox->bQuickRenaming;
         }
 
-        if (!bRenaming)
+        if (renaming)
         {
-            if (key == SDLK_RIGHT)
+            switch (key)
             {
-                //if (currentShipId != GetNextShipId()) GetNextShipId does not work properly outside of the normal ship select so this check is removed
-                CycleShipNext();
-            }
-            else if (key == SDLK_LEFT)
-            {
-
-                //if (currentShipId != GetPrevShipId()) GetPrevShipId does not work properly outside of the normal ship select so this check is removed
-                CycleShipPrevious();
-            }
-            else
-            {
-                if (key == SDLK_DOWN)
-                {
+                case SDLK_RIGHT:
+                    CycleShipNext();
+                    break;
+                case SDLK_LEFT:
+                    CycleShipPrevious();
+                    break;
+                case SDLK_DOWN:
                     CycleTypePrev();
-                }
-                else if (key == SDLK_UP)
-                {
+                    break;
+                case SDLK_UP:
                     CycleTypeNext();
-                }
-                else if (key == SDLK_ESCAPE)
-                {
+                    break;
+                case SDLK_ESCAPE:
                     currentShip->destructor2();
                     Close();
-                }
+                    break;
+                default:
+                    break;
             }
         }
     }
