@@ -3661,7 +3661,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnKeyDown, 9999, (SDLKey key) -> void)
             renaming = renaming || crewBox->bRenaming || crewBox->bQuickRenaming;
         }
 
-        if (renaming)
+        if (!renaming)
         {
             switch (key)
             {
