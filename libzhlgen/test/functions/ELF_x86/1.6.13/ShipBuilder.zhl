@@ -32,3 +32,9 @@ cleanup __cdecl void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
 cleanup __cdecl void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
 "5531c089e556":
 cleanup __cdecl ShipManager *ShipBuilder::GetShip(ShipBuilder *this);
+"575631f65383ec108b7c????8b87001700008d5801eb??":
+cleanup __cdecl void ShipBuilder::CycleTypeNext(ShipBuilder *this);
+"5756be020000005383ec108b7c????8b87001700008d58ff":
+cleanup __cdecl void ShipBuilder::CycleTypePrev(ShipBuilder *this);
+"565383ec148b5c????8b8b340e00008b93300e000089c829d0c1f80285c074??":
+cleanup __cdecl void ShipBuilder::Close(ShipBuilder *this);

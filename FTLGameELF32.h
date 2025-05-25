@@ -3332,6 +3332,7 @@ struct ChoiceBox : FocusWindow
         return ret;
     }
 
+	LIBZHL_API bool KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
@@ -3712,10 +3713,13 @@ struct ShipBuilder
 {
 	LIBZHL_API void CheckTypes();
 	LIBZHL_API void ClearShipAchievements();
+	LIBZHL_API void Close();
 	LIBZHL_API void CreateEquipmentBoxes();
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API void CycleShipNext();
 	LIBZHL_API void CycleShipPrevious();
+	LIBZHL_API void CycleTypeNext();
+	LIBZHL_API void CycleTypePrev();
 	LIBZHL_API ShipManager *GetShip();
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);

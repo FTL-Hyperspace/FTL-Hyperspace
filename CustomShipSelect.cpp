@@ -1905,7 +1905,7 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
                 index = 0;
                 isVanilla = customShipOrder.empty();
             }
-            else 
+            else
             {
                 index++;
             }
@@ -1922,14 +1922,14 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
                 index++;
             }
         }
-        
+
         counter++;
         if (counter > 1000)
         {
             printf("Infinite loop while getting next ship!");
             break;
         }
-        
+
         if (isVanilla)
         {
             hasShip = G_->GetScoreKeeper()->GetShipUnlocked(vanillaShipOrder[index], currentType);
@@ -1998,14 +1998,14 @@ int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
                 index--;
             }
         }
-        
+
         counter++;
         if (counter > 1000)
         {
             printf("Infinite loop while getting next ship!");
             break;
         }
-        
+
         if (isVanilla)
         {
             hasShip = G_->GetScoreKeeper()->GetShipUnlocked(vanillaShipOrder[index], currentType);
@@ -2018,6 +2018,20 @@ int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
     }
 
     return isVanilla ? vanillaShipOrder[index] : GetShipButtonIdFromName(GetOrderedShipButtonDefinition(index)->name) + 100;
+}
+int CustomShipSelect::CycleType(int currentShipId, int currentType, bool forward)
+{
+    int index = GetShipButtonOrderIndex(currentShipId - 100);
+    ShipButtonDefinition* def = GetOrderedShipButtonDefinition(index);
+    for (int x = 1; x <= 3; ++x)
+    {
+        int offset = forward ? x : -x;
+        int candidateType = (currentType + offset + 3) % 3;
+        if (def->VariantExists(candidateType) && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, candidateType))
+        {
+            return candidateType;
+        }
+    }
 }
 int CustomShipSelect::GetRandomShipIndex()
 {
@@ -2263,12 +2277,6 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
     return super(shipType, shipVariant);
 }
 
-// TODO: Why??? There's no implemenation here
-HOOK_METHOD(AchievementTracker, GetShipAchievements, (std::string& ship) -> std::vector<CAchievement*>)
-{
-    LOG_HOOK("HOOK_METHOD -> AchievementTracker::GetShipAchievements -> Begin (CustomShipSelect.cpp)\n")
-    return super(ship);
-}
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
@@ -2295,11 +2303,6 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
     }
 }
 
-HOOK_METHOD(ShipBuilder, SwapType, (int variant) -> int)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwapType -> Begin (CustomShipSelect.cpp)\n")
-    return super(variant);
-}
 
 HOOK_METHOD(ShipSelect, Close, () -> void)
 {
@@ -2317,14 +2320,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipNext, 9999, () -> void)
     int nextShipId = customSel->CycleShipNext(currentShipId, currentType);
     if (nextShipId >= 100)
     {
-        currentShip->destructor2(); 
+        currentShip->destructor2();
         customSel->SwitchShip(this, nextShipId, currentType);
     }
     else
     {
         if (currentShipId >= 100) customSel->SwitchPage(0);
         currentShipId = nextShipId;
-        SwitchShip(nextShipId, currentType);   
+        SwitchShip(nextShipId, currentType);
     }
 }
 
@@ -2336,7 +2339,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipPrevious, 9999, () -> void)
     int prevShipId = customSel->CycleShipPrevious(currentShipId, currentType);
     if (prevShipId >= 100)
     {
-        currentShip->destructor2(); 
+        currentShip->destructor2();
         customSel->SwitchShip(this, prevShipId, currentType);
     }
     else
@@ -2665,7 +2668,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     bool isVanillaShip = currentShipId < 100;
 
     auto customSel = CustomShipSelect::GetInstance();
-    
+
     bool showShipAchievements = customSel->ShowAchievementsForShip(currentShipId, currentType);
 
     if (Global::forceDlc)
@@ -3618,16 +3621,83 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     }
 }
 
-HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
+HOOK_METHOD(ShipBuilder, CycleTypeNext, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnKeyDown -> Begin (CustomShipSelect.cpp)\n")
-    if (key == SDLKey::SDLK_UP
-        || key == SDLKey::SDLK_LEFT
-        || key == SDLKey::SDLK_RIGHT
-        || key == SDLKey::SDLK_DOWN)
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleTypeNext -> Begin (CustomShipSelect.cpp)\n")
+    if (currentShipId < 100) return super();
+    else
     {
-        return;
+        auto customSel = CustomShipSelect::GetInstance();
+        int type = customSel->CycleType(currentShipId, currentType, true);
+        customSel->SwitchShip(this, currentShipId, type);
     }
+}
+HOOK_METHOD(ShipBuilder, CycleTypePrev, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CycleTypePrev -> Begin (CustomShipSelect.cpp)\n")
+    if (currentShipId < 100) return super();
+    else
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+        int type = customSel->CycleType(currentShipId, currentType, true);
+        customSel->SwitchShip(this, currentShipId, type);
+    }
+}
 
-    super(key);
+HOOK_METHOD_PRIORITY(ShipBuilder, OnKeyDown, 9999, (SDLKey key) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnKeyDown -> Begin (CustomShipSelect.cpp)\n")
+    if (!shipSelect.bOpen)
+    {
+        if (introScreen.bOpen)
+        {
+            introScreen.KeyDown(key);
+            return;
+        }
+
+        bool bRenaming = bRenaming;
+        for (CrewCustomizeBox* crewBox : vCrewBoxes)
+        {
+            bRenaming = bRenaming || crewBox->bRenaming || crewBox->bQuickRenaming;
+        }
+
+        if (!bRenaming)
+        {
+            if (key == SDLK_RIGHT)
+            {
+                //if (currentShipId != GetNextShipId()) GetNextShipId does not work properly outside of the normal ship select so this check is removed
+                CycleShipNext();
+            }
+            else if (key == SDLK_LEFT)
+            {
+
+                //if (currentShipId != GetPrevShipId()) GetPrevShipId does not work properly outside of the normal ship select so this check is removed
+                CycleShipPrevious();
+            }
+            else
+            {
+                if (key == SDLK_DOWN)
+                {
+                    CycleTypePrev();
+                }
+                else if (key == SDLK_UP)
+                {
+                    CycleTypeNext();
+                }
+                else if (key == SDLK_ESCAPE)
+                {
+                    currentShip->destructor2();
+                    Close();
+                }
+            }
+        }
+        else
+        {
+            shipSelect.KeyDown(key);
+            if (key == SDLK_ESCAPE)
+            {
+                shipSelect.Close();
+            }
+        }
+    }
 }
