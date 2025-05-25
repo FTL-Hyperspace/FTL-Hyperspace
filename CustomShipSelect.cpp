@@ -3639,7 +3639,7 @@ HOOK_METHOD(ShipBuilder, CycleTypePrev, () -> void)
     else
     {
         auto customSel = CustomShipSelect::GetInstance();
-        int type = customSel->CycleType(currentShipId, currentType, true);
+        int type = customSel->CycleType(currentShipId, currentType, false);
         customSel->SwitchShip(this, currentShipId, type);
     }
 }
