@@ -36,7 +36,7 @@
   <mod:setValue>超越光速：超空间</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="zh-Hans">
-  <mod:setValue>\1 (超空间 1.19.0)</mod:setValue>
+  <mod:setValue>\1 (超空间 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="zh-Hans">
   <mod:setValue>起火率：\1 %</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
