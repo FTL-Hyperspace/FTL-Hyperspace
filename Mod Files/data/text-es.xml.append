@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace (FTL: Hyperspace)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="es">
-  <mod:setValue>\1 (Hyperspace 1.19.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="es">
   <mod:setValue>Probabilidad de Fuego: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
