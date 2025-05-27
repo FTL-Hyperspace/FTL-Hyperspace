@@ -384,10 +384,10 @@ void CustomEquipment::OnInit(ShipManager *ship)
         orig->vEquipmentBoxes.push_back(box);
     }
 
-    orig->overcapacityBox = new EquipmentBox(Point(0, 0), 4);
+    orig->overcapacityBox = new EquipmentBox(Point(0, 0), -2); // in vanilla, slot is 4
     orig->vEquipmentBoxes.push_back(orig->overcapacityBox);
 
-    orig->overAugBox = new AugmentEquipBox(Point(0, 0), nullptr, 4);
+    orig->overAugBox = new AugmentEquipBox(Point(0, 0), nullptr, -2); // in vanilla, slot is 4
     orig->vEquipmentBoxes.push_back(orig->overAugBox);
 
     orig->SetPosition(orig->position);
@@ -907,7 +907,7 @@ void CustomEquipment::OnLoop()
     int newAugNumber = CustomShipSelect::GetInstance()->GetDefinition(orig->shipManager->myBlueprint.blueprintName).augSlots;
     if (orig->shipManager->HasAugmentation("AUGMENT_SLOT")) newAugNumber += static_cast<int>(orig->shipManager->GetAugmentationValue("AUGMENT_SLOT"));
     if (newAugNumber < 0) newAugNumber = 0;
-    
+
     if (augNumber != newAugNumber)
     {
         if (newAugNumber > augNumber)
@@ -1078,6 +1078,20 @@ void CustomEquipment::AddOverCapacityItem(const EquipmentBoxItem &item)
     currentOverCapacityPage = 0;
 }
 
+void CustomEquipment::UpdateOverCapacityItems()
+{
+    if (overCapacityItems.empty()) return;
+
+    if (orig->bOverCapacity)
+    {
+        overCapacityItems[currentOverCapacityPage].first = orig->overcapacityBox->item;
+    }
+    else if (orig->bOverAugCapacity)
+    {
+        overCapacityItems[currentOverCapacityPage].first = orig->overAugBox->item;
+    }
+}
+
 
 HOOK_METHOD_PRIORITY(Equipment, OnInit, 9999, (ShipManager *ship) -> void)
 {
@@ -1134,23 +1148,7 @@ HOOK_METHOD(Equipment, MouseUp, (int mX, int mY) -> void)
 
     CustomEquipment *custom = EQ_EX(this)->customEquipment;
     // updates over capacity item when player swaps item in over capacity box.
-    if (!custom->overCapacityItems.empty())
-    {
-        if (bOverCapacity)
-        {
-            if (overcapacityBox->item != custom->overCapacityItems[custom->currentOverCapacityPage].first)
-            {
-                custom->overCapacityItems[custom->currentOverCapacityPage].first = overcapacityBox->item;
-            }
-        }
-        else if (bOverAugCapacity)
-        {
-            if (overAugBox->item != custom->overCapacityItems[custom->currentOverCapacityPage].first)
-            {
-                custom->overCapacityItems[custom->currentOverCapacityPage].first = overAugBox->item;
-            }
-        }
-    }
+    custom->UpdateOverCapacityItems();
 }
 
 
