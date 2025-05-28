@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "StableMap.h"
 #include "ToggleValue.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
@@ -287,7 +288,7 @@ public:
 class TriggeredEvent
 {
 public:
-    static std::unordered_map<std::string, TriggeredEvent> eventList;
+    static StableMap<std::string, TriggeredEvent> eventList;
 
     static void NewEvent(TriggeredEventDefinition* def);
     static void DestroyEvent(const std::string& name);
@@ -428,7 +429,7 @@ public:
         auto it = TriggeredEvent::eventList.find(name);
         if (it != TriggeredEvent::eventList.end())
         {
-            TriggeredEvent& event = it->second;
+            TriggeredEvent& event = *it;
             if (event.triggerTimer != nullptr)
             {
                 float modTime = minTime;

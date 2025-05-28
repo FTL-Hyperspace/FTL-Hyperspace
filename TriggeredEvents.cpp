@@ -4,7 +4,7 @@
 #include <boost/algorithm/string.hpp>
 
 std::vector<TriggeredEventDefinition> TriggeredEventDefinition::defs = std::vector<TriggeredEventDefinition>();
-std::unordered_map<std::string, TriggeredEvent> TriggeredEvent::eventList = std::unordered_map<std::string, TriggeredEvent>();
+StableMap<std::string, TriggeredEvent> TriggeredEvent::eventList{};
 
 std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> TriggeredEventDefinition::timerSoundDefs = std::unordered_map<std::string,std::vector<std::pair<float,std::string>>>();
 
@@ -868,12 +868,7 @@ void TriggeredEvent::NewEvent(TriggeredEventDefinition* def)
 {
     if (def->seeded && SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
 
-    auto it = eventList.find(def->name);
-    if (it != eventList.end())
-    {
-        eventList.erase(it);
-    }
-    eventList.emplace(std::piecewise_construct, std::forward_as_tuple(def->name), std::forward_as_tuple(def));
+    eventList.insert_or_assign(def->name, def);
 
     TriggeredEventGui::GetInstance()->reset = true;
 
@@ -885,7 +880,7 @@ void TriggeredEvent::DestroyEvent(const std::string& name)
     auto it = eventList.find(name);
     if (it != eventList.end())
     {
-        eventList.erase(it);
+        it.erase();
         TriggeredEventGui::GetInstance()->reset = true;
     }
 }
@@ -898,31 +893,26 @@ void TriggeredEvent::UpdateAll()
         if (crew->iShipId == 0 && crew->CountForVictory() && crew->bOutOfGame && crew->clone_ready) playerCloneCount++;
     }
 
-    for (auto it=eventList.begin(); it!=eventList.end(); )
+    for (auto it = eventList.begin(); it != eventList.end(); ++it)
     {
-        if (it->second.def->thisFight)
+        if (it->def->thisFight)
         {
             ShipManager* enemy = G_->GetShipManager(1);
 
             if (enemy != nullptr && enemy->_targetable.hostile && !enemy->bDestroyed && !enemy->bJumping)
             {
-                it->second.Update();
+                it->Update();
             }
 
             if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
             {
-                it = eventList.erase(it);
+                it.erase();
                 TriggeredEventGui::GetInstance()->reset = true;
-            }
-            else
-            {
-                ++it;
             }
         }
         else
         {
-            it->second.Update();
-            ++it;
+            it->Update();
         }
     }
 
@@ -942,60 +932,51 @@ void TriggeredEvent::RenderAll()
 {
     for (auto it=eventList.begin(); it!=eventList.end(); ++it)
     {
-        it->second.OnRender();
+        it->OnRender();
     }
 }
 
 void TriggeredEvent::JumpAll(uint8_t jumpType)
 {
-    for (auto it=eventList.begin(); it!=eventList.end(); )
+    for (auto it = eventList.begin(); it != eventList.end(); ++it)
     {
-        it->second.Jump(jumpType);
-        if (it->second.def->clearOnJump)
+        it->Jump(jumpType);
+        if (it->def->clearOnJump)
         {
-            it = eventList.erase(it);
+            it.erase();
             TriggeredEventGui::GetInstance()->reset = true;
-        }
-        else
-        {
-            ++it;
         }
     }
 }
 
 void TriggeredEvent::TriggerCheck()
 {
-    for (auto it=eventList.begin(); it!=eventList.end(); )
+    for (auto it = eventList.begin(); it != eventList.end(); ++it)
     {
-        if (it->second.triggered)
+        if (it->triggered)
         {
-            std::string eventName = it->second.def->event;
-            int seed = it->second.seed;
+            std::string eventName = it->def->event;
+            int seed = it->seed;
             int level = G_->GetWorld()->starMap.currentSector->level;
 
-            if (it->second.warning != nullptr)
+            if (it->warning != nullptr)
             {
-                it->second.warning->tracker.Stop(false);
+                it->warning->tracker.Stop(false);
             }
 
-            if (--(it->second.loops) <= 0)
+            if (--(it->loops) <= 0)
             {
-                it = eventList.erase(it);
+                it.erase();
                 TriggeredEventGui::GetInstance()->reset = true;
             }
             else
             {
-                it->second.triggered = false;
-                it->second.Reset();
-                ++it;
+                it->triggered = false;
+                it->Reset();
             }
 
             G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
             if (G_->GetWorld()->commandGui->choiceBox.bOpen) break;
-        }
-        else
-        {
-            ++it;
         }
     }
 }
@@ -1326,10 +1307,10 @@ void TriggeredEvent::Jump(uint8_t jumpType)
 void TriggeredEvent::SaveAll(int file)
 {
     FileHelper::writeInt(file, eventList.size());
-    for (auto it=eventList.begin(); it!=eventList.end(); ++it)
+    for (auto it = eventList.begin(); it != eventList.end(); ++it)
     {
-        FileHelper::writeString(file, it->first);
-        it->second.Save(file);
+        FileHelper::writeString(file, it.key());
+        it->Save(file);
     }
 }
 
@@ -1344,8 +1325,8 @@ void TriggeredEvent::LoadAll(int file)
     {
         std::string name = FileHelper::readString(file);
         TriggeredEventDefinition* def = &(TriggeredEventDefinition::defs.at(FileHelper::readInteger(file)));
-        auto it = eventList.emplace(std::piecewise_construct, std::forward_as_tuple(def->name), std::forward_as_tuple(def));
-        it.first->second.Load(file);
+        auto it = eventList.insert_if_absent(def->name, def);
+        it->Load(file);
     }
 }
 
@@ -1618,24 +1599,24 @@ void TriggeredEventGui::CreateBoxes()
 
     for (auto& event: TriggeredEvent::eventList)
     {
-        TriggeredEventBoxDefinition* box = event.second.def->box;
+        TriggeredEventBoxDefinition* box = event.def->box;
         if (box != nullptr)
         {
             if (box->boxPosition == TriggeredEventBoxDefinition::BoxPosition::SCRAP)
             {
-                scrap_box_events.push_back(&event.second);
+                scrap_box_events.push_back(&event);
             }
             else if (box->boxPosition == TriggeredEventBoxDefinition::BoxPosition::TOPRIGHT)
             {
-                topright_box_events.push_back(&event.second);
+                topright_box_events.push_back(&event);
             }
             else if (box->boxPosition == TriggeredEventBoxDefinition::BoxPosition::COMBAT)
             {
-                combat_box_events.push_back(&event.second);
+                combat_box_events.push_back(&event);
             }
             else
             {
-                default_box_events.push_back(&event.second);
+                default_box_events.push_back(&event);
             }
         }
     }
