@@ -305,7 +305,7 @@ public:
 
     int seed = -1;
     int loops;
-    TimerHelper* triggerTimer = nullptr;
+    std::unique_ptr<TimerHelper> triggerTimer = nullptr;
     int timerSoundIndex = 0;
     int triggerJumps;
     int triggerPlayerHull;
@@ -329,7 +329,7 @@ public:
 
     bool triggered = false;
 
-    WarningMessage* warning = nullptr;
+    std::unique_ptr<WarningMessage> warning = nullptr;
     float warningTime = -1.f;
 
     TriggeredEvent(TriggeredEventDefinition* newDef) : def{newDef}
@@ -347,12 +347,12 @@ public:
 
         if (def->triggerMinTime != -1.f)
         {
-            triggerTimer = new TimerHelper();
+            triggerTimer.reset(new TimerHelper);
         }
 
         if (def->warning != nullptr)
         {
-            warning = new WarningMessage();
+            warning.reset(new WarningMessage);
             if (!def->warning->image.empty())
             {
                 warning->InitImage(def->warning->image, def->warning->position, def->warning->time, def->warning->flash);
@@ -384,12 +384,6 @@ public:
         }
 
         Reset();
-    }
-
-    ~TriggeredEvent()
-    {
-        delete triggerTimer;
-        delete warning;
     }
 
     float GetTimeLeft()
