@@ -7137,8 +7137,13 @@ struct EngineSystem;
 struct MedbaySystem;
 struct ParticleEmitter;
 
+struct Spreader_Fire;
+
 struct Spreader_Fire : ShipObject
 {
+	LIBZHL_API int CounterRoom(int roomId);
+	LIBZHL_API void UpdateSpread();
+	
 	int count;
 	std::vector<int> roomCount;
 	std::vector<std::vector<Fire>> grid;
