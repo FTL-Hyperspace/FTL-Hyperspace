@@ -1843,6 +1843,16 @@ We can expose them once the root cause is identified and the crash is fixed.
         }
         $self->ModifyRoomOxygen(roomId, amount);
     }
+    //EmptyOxygen allows an out-of-bounds write in vanilla code
+    void EmptyOxygen(int roomId) throw (std::invalid_argument)
+    {
+        if (roomId < 0 || roomId >= $self->oxygenLevels.size())
+        {
+            std::string error = (boost::format("Invalid roomId: %i") % roomId).str();
+            throw std::invalid_argument(error);
+        }
+        $self->EmptyOxygen(roomId);
+    }
 }
 
 %rename("%s") OxygenSystem::max_oxygen;
