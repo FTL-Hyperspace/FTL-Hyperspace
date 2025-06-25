@@ -24,8 +24,8 @@ cleanup __amd64 void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember
 cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint *bp);
 ".8b05????????c787700600001e00000083f801":
 cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
-".41564989fe415541545553488b87c800":   
-cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this); 
+".41564989fe415541545553488b87c800":
+cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
 ".41574989ff41564155415455534883ec08488b8fc0000000":
 cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
 ".415741564989fe4155415455534883ec18488b87c8000000":
@@ -123,7 +123,7 @@ cleanup __amd64 float ShipManager::GetOxygenLevel(ShipManager *this, int roomId)
 ".??545553??8b8658060000??89fb837808ff75??":
 cleanup __amd64 std::vector<float> ShipManager::GetOxygenLevels(ShipManager *this);
 ".41574156415541544989f455534889fb4883ec48":
-cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
+cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::string& name);
 ".488b875806000083780cff7413":
 cleanup __amd64 int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
 ".488b875806000083780cff7523":
@@ -225,11 +225,11 @@ cleanup __amd64 Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprin
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -237,26 +237,25 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-	
-	void StartDummyOxygen();
-	bool StopDummyOxygen();
+
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
@@ -264,7 +263,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
-	
+
 	bool CanFitCrew(const std::string& crewName);
 
 }};

@@ -47,7 +47,7 @@ __thiscall int ShipManager::GetOxygenPercentage(ShipManager *this);
 "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04":
 __thiscall bool ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
 "578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec5c8b378945d0894dac":
-__thiscall void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
+__thiscall void ShipManager::RemoveItem(ShipManager *this, const std::string& name);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff":
 __thiscall bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 "578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c":
@@ -224,11 +224,11 @@ __thiscall void ShipManager::CloneHealing(ShipManager *this);
 __thiscall void ShipManager::SaveCrewPositions(ShipManager *this);
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -236,30 +236,29 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-	
-	void StartDummyOxygen();
-	bool StopDummyOxygen();
+
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-	
+
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
