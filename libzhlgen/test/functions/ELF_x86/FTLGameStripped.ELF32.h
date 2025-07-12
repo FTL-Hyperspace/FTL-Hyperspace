@@ -3525,7 +3525,7 @@ struct VTable_ArmamentBox
   void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
   void (__thiscall *RenderLabels)(ArmamentBox *this);
   void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
-  
+
 
 };
 
@@ -3731,11 +3731,11 @@ struct VTable_Drone
   bool (__thiscall *Destroyed)(Drone *);
   Point (__thiscall *GetWorldLocation)(Drone *);
   void (__thiscall *SetWorldLocation)(Drone *, Point point);
-  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  Slot (__thiscall *GetDroneSlot)(Drone *);
   int (__thiscall *GetDroneHealth)(Drone *);
   int (__thiscall *GetRequiredPower)(Drone *);
   void (__thiscall *RenderIcon)(Drone *);
-  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  std__string (__thiscall *GetName)(Drone *);
   bool (__thiscall *CanBeDeployed)(Drone *);
   bool (__thiscall *RecallOnJump)(Drone *);
   bool (__thiscall *CanBeRecovered)(Drone *);
