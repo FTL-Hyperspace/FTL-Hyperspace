@@ -12,6 +12,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
+#include "Equipment_Extend.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -3125,8 +3126,9 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
 
     if (!removedItem && g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
+        Equipment *equip = &(G_->GetWorld()->commandGui->equipScreen);
+        CustomEquipment *custom = EQ_EX(equip)->customEquipment;
+        auto boxes = equip->vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -3141,6 +3143,7 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
                     if (cargoItem->name == name)
                     {
                         box->RemoveItem();
+                        custom->UpdateOverCapacityItems();
                         return;
                     }
                 }
@@ -5051,22 +5054,22 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
 
     int env = loc->event->environment;
 
-    // TODO: Switch anyone, or maybe at least some elses?
-    if (env == 1)
+    switch (env)
     {
-        retStr += " \n" + lib->GetText("map_asteroid_loc");
-    }
-    if (env == 2)
-    {
-        retStr += " \n" + lib->GetText("map_sun_loc");
-    }
-    if (env == 4)
-    {
-        retStr += " \n" + lib->GetText("map_ion_loc");
-    }
-    if (env == 5)
-    {
-        retStr += " \n" + lib->GetText("map_pulsar_loc");
+        case 1:
+            retStr += " \n" + lib->GetText("map_asteroid_loc");
+            break;
+        case 2:
+            retStr += " \n" + lib->GetText("map_sun_loc");
+            break;
+        case 4:
+            retStr += " \n" + lib->GetText("map_ion_loc");
+            break;
+        case 5:
+            retStr += " \n" + lib->GetText("map_pulsar_loc");
+            break;
+        default:
+            break;
     }
 
     if (env != 6 || loc->boss)
@@ -5203,7 +5206,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& names) -> void)
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& names) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
     // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
@@ -5226,6 +5229,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
             }
         }
     }
+    else
+    {
+        // Although this is a complete rewrite, changing the order of calling random32 affects the seeded run. So we only use this rewrite for priorityNebulaFix and use the original one otherwise.
+        return super(names);
+    }
 
     const std::vector<ImageDesc> &nebulaImages = names.size() < 6 ? smallNebula : largeNebula;
     const ImageDesc *nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
@@ -5234,14 +5242,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
     std::vector<Location*> nebulaFreeLocations;
     std::vector<Location*> defaultNebulaEventLocCandidates;
 
-    if (locations.size() > 0)
+    for (Location *loc : locations)
     {
-        for (Location *loc : locations)
+        if (!loc->nebula)
         {
-            if (!loc->nebula)
-            {
-                nebulaFreeLocations.push_back(loc);
-            }
+            nebulaFreeLocations.push_back(loc);
         }
     }
 
@@ -5319,6 +5324,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
         }
         else
         {
+            count = 0;
             Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
             x = loc->loc.x - nebulaImage->w / 2;
             y = loc->loc.y - nebulaImage->h / 2;
@@ -5328,15 +5334,12 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
     // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
     // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
     // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
-    if (nebulaFreeLocations.size() < pEventCount)
+    for (int i = pEventCount - nebulaFreeLocations.size(); i >= 0; --i)
     {
-        for (int i = pEventCount - nebulaFreeLocations.size(); i > 0; --i)
-        {
-            if (defaultNebulaEventLocCandidates.empty()) break;
+        if (defaultNebulaEventLocCandidates.empty()) break;
 
-            defaultNebulaEventLocCandidates.back()->nebula = false;
-            defaultNebulaEventLocCandidates.pop_back();
-        }
+        defaultNebulaEventLocCandidates.back()->nebula = false;
+        defaultNebulaEventLocCandidates.pop_back();
     }
     for (Location *loc : defaultNebulaEventLocCandidates)
     {

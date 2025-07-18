@@ -2952,7 +2952,7 @@
 <text name="hotkey" language="ko">단축키: \1</text>
 <text name="hotkey_activate_battery" language="ko">배터리 활성화</text>
 <text name="hotkey_activate_cloak" language="ko">은폐 활성화</text>
-<text name="hotkey_artillery" language="ko">함포 전력공급</text>
+<text name="hotkey_aim_artillery" language="ko">함포 전력공급</text>
 <text name="hotkey_autofire" language="ko">자동사격 토글</text>
 <text name="hotkey_cloaking" language="ko">은폐장 전력공급</text>
 <text name="hotkey_close" language="ko">전체 문 폐쇄</text>

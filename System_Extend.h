@@ -76,6 +76,9 @@ public:
 
     int iOverclockEffect = 0;
 
+    int xOffset = 36; //Offset from previous system in the UI
+    bool usingDefaultOffset = true; //Determines dynamic wires should be used or not
+
     TemporalSystem_Wrapper *temporalSystem = nullptr;
 
     ~ShipSystem_Extend()

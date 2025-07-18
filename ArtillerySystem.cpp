@@ -100,7 +100,7 @@ HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
                 int index = std::distance(ship->artillerySystems.begin(), it);
                 if (index < 4)
                 {
-                    std::string hotkey = Settings::GetHotkeyName("artillery" + std::to_string(index + 1));
+                    std::string hotkey = Settings::GetHotkeyName("aim_artillery" + std::to_string(index + 1));
                     text += "\n" + boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("hotkey"), "\\1", hotkey);
                 }
             }
@@ -135,19 +135,19 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
     super(key);
     const auto& artillerySystems = shipManager->artillerySystems;
     bool targetableArtillery = CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || shipManager->HasAugmentation("ARTILLERY_ORDER");
-    if (key == Settings::GetHotkey("artillery1") && artillerySystems.size() >= 1 && targetableArtillery)
+    if (key == Settings::GetHotkey("aim_artillery1") && artillerySystems.size() >= 1 && targetableArtillery)
     {
         ArmArtillery(artillerySystems[0]);
     }
-    else if (key == Settings::GetHotkey("artillery2") && artillerySystems.size() >= 2 && targetableArtillery)
+    else if (key == Settings::GetHotkey("aim_artillery2") && artillerySystems.size() >= 2 && targetableArtillery)
     {
         ArmArtillery(artillerySystems[1]);
     }
-    else if (key == Settings::GetHotkey("artillery3") && artillerySystems.size() >= 3 && targetableArtillery)
+    else if (key == Settings::GetHotkey("aim_artillery3") && artillerySystems.size() >= 3 && targetableArtillery)
     {
         ArmArtillery(artillerySystems[2]);
     }
-    else if (key == Settings::GetHotkey("artillery4") && artillerySystems.size() >= 4 && targetableArtillery)
+    else if (key == Settings::GetHotkey("aim_artillery4") && artillerySystems.size() >= 4 && targetableArtillery)
     {
         ArmArtillery(artillerySystems[3]);
     }
@@ -161,7 +161,7 @@ HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
     bool targetableArtillery = CustomOptionsManager::GetInstance()->targetableArtillery.currentValue || pSystem->_shipObj.HasAugmentation("ARTILLERY_ORDER");
     ArtilleryBox_Extend* extend = dynamic_cast<ArtilleryBox_Extend*>(SB_EX(this));
     if (extend && targetableArtillery && extend->artilleryButton.Hovering())
-    {  
+    {
         ArtillerySystem* artillerySystem = static_cast<ArtillerySystem*>(pSystem);
         G_->GetCApp()->gui->combatControl.ArmArtillery(artillerySystem);
     }
@@ -176,7 +176,7 @@ void ArtillerySystem::OnLoop_HS_ManualTarget()
     projectileFactory->SetCooldownModifier(1.5f - 0.25f * power);
     projectileFactory->Update();
     projectileFactory->SetCurrentShip(target);
-  
+
     /* Begin: inline int GetHackLevel(ShipSystem * this) */
     int iHacked = bUnderAttack ? iHackEffect : 0;
     projectileFactory->SetHacked(iHacked);
@@ -189,12 +189,12 @@ void ArtillerySystem::OnLoop_HS_ManualTarget()
         projectileFactory->ClearProjectiles();
     }
     /*
-    if (projectileFactory->ReadyToFire()) 
+    if (projectileFactory->ReadyToFire())
     {
         if (target->IsCloaked()) return;
         //Vanilla code would have automatic targetting and firing here, instead manual firing is handled through WeaponControl
-    
-    
+
+
     }
     */
 }
@@ -214,7 +214,7 @@ HOOK_METHOD_PRIORITY(ArtillerySystem, OnLoop, 9998, () -> void)
 HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (ArtillerySystem.cpp)\n")
-    
+
     super(on, simple);
 
     ShipManager* ship = G_->GetShipManager(0);
@@ -225,4 +225,22 @@ HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
             arti->projectileFactory->SetAutoFire(autoFiring);
         }
     }
+}
+
+// Prevents neutral enemy's artillery from firing when the system is powered by energy crews (i.g. zoltans)
+static bool g_haltArtilleryFire = false;
+HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (ArtillerySystem.cpp)\n")
+    if (projectileFactory->targetId == 1 || !G_->GetShipManager(1) || G_->GetShipManager(1)->_targetable.hostile) return super();
+
+    g_haltArtilleryFire = true;
+    super();
+    g_haltArtilleryFire = false;
+}
+HOOK_METHOD(ProjectileFactory, ReadyToFire, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::ReadyToFire -> Begin (ArtillerySystem.cpp)\n")
+    if (g_haltArtilleryFire) return false;
+    return super();
 }

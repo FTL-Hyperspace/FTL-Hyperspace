@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="zh-Hans">在星区星图显示所有星区的具体类型。</text>
 <text name="aug_ARTILLERY_ORDER_title" language="zh-Hans">巨炮制导</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="zh-Hans">可使巨炮系统的攻击变为可瞄准。</text>
+<text name="aug_TELEPORT_RECALL_title" language="zh-Hans">应急传送器</text>
+<text name="aug_TELEPORT_RECALL_desc" language="zh-Hans">敌舰即将跃迁走或被摧毁前，自动将所有友方船员传送回己方战舰。</text>
+<text name="aug_AUGMENT_SLOT_title" language="zh-Hans">部件容量</text>
+<text name="aug_AUGMENT_SLOT_desc" language="zh-Hans">提高1件战舰可容纳的部件量。</text>
+<text name="aug_CARGO_SLOT_title" language="zh-Hans">货舱容量</text>
+<text name="aug_CARGO_SLOT_desc" language="zh-Hans">提高1件货舱的可容纳量。</text>
 <text name="crew_ghost_desc" language="zh-Hans">死去船员的鬼魂。</text>
 <text name="crew_ghost_title" language="zh-Hans">鬼魂</text>
 <text name="crew_ghost_short" language="zh-Hans">鬼魂</text>
@@ -30,7 +36,7 @@
   <mod:setValue>超越光速：超空间</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="zh-Hans">
-  <mod:setValue>\1 (超空间 1.18.1)</mod:setValue>
+  <mod:setValue>\1 (超空间 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="zh-Hans">
   <mod:setValue>起火率：\1 %</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -202,10 +208,10 @@
 <text name="hotkey_un_temporal" language="zh-Hans">减能时流系统</text>
 <text name="hotkey_temporal_speed" language="zh-Hans">时流加快</text>
 <text name="hotkey_temporal_slow" language="zh-Hans">时流减慢</text>
-<text name="hotkey_artillery1" language="zh-Hans">选择巨炮 1</text>
-<text name="hotkey_artillery2" language="zh-Hans">选择巨炮 2</text>
-<text name="hotkey_artillery3" language="zh-Hans">选择巨炮 3</text>
-<text name="hotkey_artillery4" language="zh-Hans">选择巨炮 4</text>
+<text name="hotkey_aim_artillery1" language="zh-Hans">选择巨炮 1</text>
+<text name="hotkey_aim_artillery2" language="zh-Hans">选择巨炮 2</text>
+<text name="hotkey_aim_artillery3" language="zh-Hans">选择巨炮 3</text>
+<text name="hotkey_aim_artillery4" language="zh-Hans">选择巨炮 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -217,7 +223,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \5: slow cooldown
 \6: slow duration
 -->
-<text name="temporal" language="zh-Hans">时流系统</text> 
+<text name="temporal" language="zh-Hans">时流系统</text>
 <text name="temporal_tooltip" language="zh-Hans">\3/\6秒内时间流速变为\1/\4倍</text>
 <text name="temporal_arm_super_shields" language="zh-Hans">被超级护盾阻挡。</text>
 <text name="temporal_arm_speed" language="zh-Hans">使舱室内时间流速在\3秒内加快\1倍。</text>
@@ -241,7 +247,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="hangar_achievements_title_default" language="zh-Hans">战舰成就</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom" language="zh-Hans">战舰胜利统计</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter" language="zh-Hans">筛选胜利类别</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements" language="zh-Hans">无战舰专属成就</text> 
+<text name="hangar_no_ship_achievements" language="zh-Hans">无战舰专属成就</text>
 <!-- Discord Integration -->
 <!--
 <text name="discord_main_menu" language="zh-Hans">主菜单</text>
@@ -284,7 +290,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
 <text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>
-<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc，bamalf，BlizzArchonJ，Choosechee，codyfun，_Kilburn，Kix，Masala，nedsociety，Paradigm，PDTM，slowriderxcorps，The Dumb Dino，Vertaalfout，多元宇宙制作组</text>
+<text name="credits_hyperspace_contributors_names" language="zh-Hans">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \n多元宇宙制作组</text>
 <text name="credits_hyperspace_loc" language="zh-Hans">超空间本地化人员：</text>
 <text name="credits_hyperspace_loc_fr" language="zh-Hans">法语：</text>
 <text name="credits_hyperspace_loc_fr_names" language="zh-Hans">Pepson</text>
@@ -316,3 +322,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shot_limit" language="zh-Hans">可开火次数：\1</text>
 <text name="shots_remaining" language="zh-Hans">剩余开火次数：\1</text>
 <text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数</text>
+<text name="shield_drone_layers_per_charge" language="zh-Hans">每次充能提供的护盾量：\1</text>
+<text name="shield_drone_cooldowns" language="zh-Hans">充能时间：\1</text>
+<text name="confirm_buy_last_subsystem" language="zh-Hans">这是战舰上的最后一个子系统槽位。\n你确定吗？</text>

@@ -31,6 +31,24 @@
 #include "CustomDamage.h"
 %}
 
+//Current exception macro offers a trace to the wrong level
+%{
+    #define SWIG_exception(a, b)\
+    {\
+        luaL_where(L, 2);\
+        lua_pushfstring(L,"%s:%s",#a,b);\
+        lua_concat(L, 2);\
+        SWIG_fail;\
+    }\
+%}
+//Change typemap for unsigned numeric types to throw a proper lua error when provided a negative value
+%typemap(in, checkfn="lua_isnumber") unsigned int, unsigned short, unsigned long, unsigned char
+%{
+    if (lua_tonumber(L, $input) < 0) SWIG_exception(SWIG_ValueError, "number must not be negative");
+    $1 = ($type) lua_tonumber(L, $input);
+%}
+
+
 //This macro defines a wrapper class for any exposed arrays of TYPE with length SIZE
 %define %array_wrapper(TYPE, NAME, SIZE)
 
@@ -799,6 +817,12 @@ playerVariableType playerVariables;
 %rename("%s") CommandGui::combatControl;
 %rename("%s") CommandGui::ftlButton;
 %rename("%s") CommandGui::spaceStatus;
+
+%nodefaultctor SpaceStatus;
+%nodefaultdtor SpaceStatus;
+%rename("%s") SpaceStatus;
+%rename("%s") SpaceStatus::RenderWarningText;
+
 ////%rename("%s") CommandGui::starMap // Part of WorldManager's actual object rather than using a reference ideally don't expose this one in CommandGui
 ////%rename("%s") CommandGui::shipComplete; // Part of WorldManager also, maybe use that one?
 %rename("%s") CommandGui::pauseTextLoc;
@@ -980,6 +1004,16 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl::boss_visual;
 %immutable CombatControl::boss_visual;
 
+%nodefaultctor CrewControl;
+%nodefaultdtor CrewControl;
+%rename("%s") CrewControl;
+%rename("%s") CrewControl::selectedCrew;
+%rename("%s") CrewControl::potentialSelectedCrew;
+%rename("%s") CrewControl::firstMouse;
+%rename("%s") CrewControl::currentMouse;
+%rename("%s") CrewControl::worldFirstMouse;
+%rename("%s") CrewControl::worldCurrentMouse;
+
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
@@ -1049,6 +1083,7 @@ playerVariableType playerVariables;
 %nodefaultdtor MouseControl;
 %rename("%s") MouseControl;
 %rename("%s") MouseControl::InstantTooltip;
+%rename("%s") MouseControl::LoadTooltip;
 %rename("%s") MouseControl::MeasureTooltip;
 %rename("%s") MouseControl::OnLoop;
 %rename("%s") MouseControl::OnRender;
@@ -1844,7 +1879,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CloneSystem::gas;
 
 %nodefaultctor HackingSystem;
-%nodefaultdtor HachingSystem;
+%nodefaultdtor HackingSystem;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
@@ -2092,6 +2127,23 @@ We can expose them once the root cause is identified and the crash is fixed.
 %nodefaultctor ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend::additionalPowerLoss;
+%rename("%s") ShipSystem_Extend::xOffset;
+
+//Modify setter method to track if offset is custom
+%extend ShipSystem_Extend {
+    int xOffset;
+}
+%wrapper %{
+    static int ShipSystem_Extend_xOffset_get(ShipSystem_Extend* shipSystem_extend)
+    {
+        return shipSystem_extend->xOffset;
+    };
+    static void ShipSystem_Extend_xOffset_set(ShipSystem_Extend* shipSystem_extend, int xOffset)
+    {
+        shipSystem_extend->usingDefaultOffset = false;
+        shipSystem_extend->xOffset = xOffset;
+    };
+%}
 
 %nodefaultctor SystemBox;
 %rename("%s") SystemBox;
@@ -2116,8 +2168,22 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") SystemBox_Extend;
 %immutable SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::orig;
+//Backwards compatability patch for depreciated SystemBox_Extend::xOffset
 %rename("%s") SystemBox_Extend::xOffset;
-%rename("%s") SystemBox_Extend::offset;
+%extend SystemBox_Extend {
+    int xOffset;
+}
+%wrapper %{
+    static int SystemBox_Extend_xOffset_get(SystemBox_Extend* systemBox_extend)
+    {
+        return SYS_EX(systemBox_extend->orig->pSystem)->xOffset;
+    };
+    static void SystemBox_Extend_xOffset_set(SystemBox_Extend* systemBox_extend, int xOffset)
+    {
+        SYS_EX(systemBox_extend->orig->pSystem)->usingDefaultOffset = false;
+        SYS_EX(systemBox_extend->orig->pSystem)->xOffset = xOffset;
+    };
+%}
 
 %nodefaultctor CustomAugmentManager;
 %nodefaultdtor CustomAugmentManager;
