@@ -1046,6 +1046,48 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
     UpdateFilteredAchievements();
 
+    //Unlock/relock vanilla achievement for having every ship
+    bool haveAllTypeA = true;
+    if (!hideFirstPage)
+    {
+        for (const auto& unlockedTypes : G_->GetScoreKeeper()->unlocked)
+        {
+            if (!unlockedTypes[0])
+            {
+                haveAllTypeA = false;
+                break;
+            }
+        }
+    }
+
+    for (const auto& shipButtonDef : shipButtonDefs)
+    {
+        if (shipButtonDef.VariantExists(0) && !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipButtonDef.name, 0))
+        {
+            haveAllTypeA = false;
+            break;
+        }
+    }
+
+    if (!haveAllTypeA)
+    {
+        //TODO: Hook GetAchievement
+        CAchievement* allTypeAAchievement = nullptr;
+        for (CAchievement* ach : G_->GetAchievementTracker()->achievements)
+        {
+            if (ach->name_id == "ACH_UNLOCK_ALL")
+            {
+                allTypeAAchievement = ach;
+                break;
+            }
+        }
+        allTypeAAchievement->unlocked = false;
+    }
+    else
+    {
+        G_->GetAchievementTracker()->SetAchievement("ACH_UNLOCK_ALL", false, true);
+    }
+
     initialized = true;
 }
 

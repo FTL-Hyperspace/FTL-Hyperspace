@@ -356,6 +356,35 @@ void CustomShipUnlocks::UnlockShip(const std::string& ship, bool silent, bool ch
             {
                 CheckMultiUnlocks();
             }
+            //Unlock vanilla achievement for having every type A if necessary
+            CustomShipSelect* customSel = CustomShipSelect::GetInstance();
+            bool haveAllTypeA = true;
+            if (!customSel->hideFirstPage)
+            {
+                for (const auto& unlockedTypes : G_->GetScoreKeeper()->unlocked)
+                {
+                    if (!unlockedTypes[0])
+                    {
+                        haveAllTypeA = false;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < customSel->customShipOrder.size(); i++)
+            {
+                ShipButtonDefinition* def = customSel->GetOrderedShipButtonDefinition(i);
+                if (def && def->VariantExists(0) && !GetCustomShipUnlocked(def->name, 0))
+                {
+                    haveAllTypeA = false;
+                    break;
+                }
+            }
+
+            if (haveAllTypeA)
+            {
+                G_->GetAchievementTracker()->SetAchievement("ACH_UNLOCK_ALL", false, true);
+            }
         }
     }
 
