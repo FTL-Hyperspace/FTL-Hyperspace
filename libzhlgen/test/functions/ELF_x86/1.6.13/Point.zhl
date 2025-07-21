@@ -3,7 +3,7 @@ cleanup __cdecl int Point::RelativeDistance(Point *this, Point other);
 "83ec1c8b4424208b108b40042b5424242b442428":
 cleanup __cdecl int Point::Distance(Point *this, Point other);
 
-struct Point 
+struct Point
 {{
 	Point(int xx, int yy) : x(xx), y(yy)  { }
 	Point() { }
@@ -14,20 +14,27 @@ struct Point
 	}
 
 	Point operator-(const Point& other)
-	{		
+	{
 		return Point(x - other.x, y - other.y);
 	}
 
 	Point operator/(int amount)
-	{		
+	{
 		return Point(x / amount, y / amount);
 	}
 
 	Point operator*(int amount)
-	{		
+	{
 		return Point(x * amount, y * amount);
 	}
-	
+
+	//Required for std::map with Point keys to function properly
+    bool operator<(const Point& other) const
+    {
+        if (x == other.x) return y < other.y;
+        return x < other.x;
+    }
+
 	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
 }};

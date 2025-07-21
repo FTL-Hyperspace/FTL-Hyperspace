@@ -931,6 +931,12 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             sector->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
         }
 
+        if (strcmp(sectorNode->name(), "bossSector") == 0)
+        {
+            isDefault = false;
+            sector->bossSector = EventsParser::ParseBoolean(sectorNode->value());
+        }
+
         if (strcmp(sectorNode->name(), "maxSector") == 0)
         {
             isDefault = false;

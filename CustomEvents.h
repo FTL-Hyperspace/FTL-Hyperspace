@@ -796,6 +796,7 @@ struct CustomSector
     bool priorityNebulaFix = false;
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
+    ToggleValue<bool> bossSector;
     int maxSector = -1;
     std::vector<PriorityEvent> priorityEventCounts;
     std::vector<SectorQuest> sectorQuests;

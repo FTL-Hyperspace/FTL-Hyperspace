@@ -10,6 +10,10 @@ cleanup __cdecl float BlueprintManager::GetAugmentValue(BlueprintManager *this, 
 cleanup __cdecl ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this, const std::string& name);
 ".5589e557565383ec4c8d7dd78d75d8897c2408":
 cleanup __cdecl AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this, const std::string& name);
+".5589e557565383ec5c8b????8b????8d??c4": //082417d0
+cleanup __cdecl void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
+".5589e557565381eccc0000008d??5cffffff8904??8d??54ffffff": //08241ac0
+cleanup __cdecl void BlueprintManager::ResetRarities(BlueprintManager *this);
 "5589e557565381ec8c0000008b45088b75108d7db0890424":
 cleanup __cdecl WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
 "5589e557565383ec6c8b7d088d5de0895c2408":
