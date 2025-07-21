@@ -155,20 +155,27 @@ struct Point
 	}
 
 	Point operator-(const Point& other)
-	{		
+	{
 		return Point(x - other.x, y - other.y);
 	}
 
 	Point operator/(int amount)
-	{		
+	{
 		return Point(x / amount, y / amount);
 	}
 
 	Point operator*(int amount)
-	{		
+	{
 		return Point(x * amount, y * amount);
 	}
-	
+
+	//Required for std::map with Point keys to function properly
+    bool operator<(const Point& other) const
+    {
+        if (x == other.x) return y < other.y;
+        return x < other.x;
+    }
+
 	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
 
@@ -2876,6 +2883,8 @@ struct BlueprintManager
 	LIBZHL_API EffectsBlueprint ProcessEffectsBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API ShipBlueprint ProcessShipBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API WeaponBlueprint ProcessWeaponBlueprint(rapidxml::xml_node<char> *node);
+	LIBZHL_API void ResetRarities();
+	LIBZHL_API void SetRarity(const std::string &name, int rarity);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -5766,11 +5775,11 @@ struct EventGenerator
 		auto it = usedEvents.find(name);
 		if (it != usedEvents.end())
 		{
-			events[name] = it->second;
+			events?? = it->second;
 			usedEvents.erase(it);
 		}
 	}
-	
+
 	void ClearUsedEvent(LocationEvent *locEvent)
 	{
 		if (locEvent)
@@ -5783,6 +5792,7 @@ struct EventGenerator
 		}
 	}
 
+	LIBZHL_API void Clear();
 	LIBZHL_API LocationEvent *CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique);
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed);
 	LIBZHL_API std::string GetImageFromList(const std::string &listName);
@@ -7556,7 +7566,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void LocationHasShip(Location *unk0);
 	LIBZHL_API void LocationHasStore(Location *unk0);
 	LIBZHL_API bool LocationsConnected(Location *unk0, Location *unk1);
-	LIBZHL_API void MapConnected();
+	LIBZHL_API bool MapConnected();
 	LIBZHL_API void ModifyPursuit(int unk0);
 	LIBZHL_API void MouseClick(int unk0, int unk1);
 	LIBZHL_API void MouseMove(int x, int y);
@@ -7596,7 +7606,7 @@ struct StarMap : FocusWindow
 	
 	float visual_size;
 	std::vector<Location*> locations;
-	std::map<Point, Location*> locations_grid;
+	std::map<Point, std::vector<Location*>> locations_grid;
 	std::vector<Location*> temp_path;
 	Location *currentLoc;
 	Location *potentialLoc;

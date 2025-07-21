@@ -10,6 +10,8 @@ cleanup __cdecl std::string EventGenerator::GetImageFromList(EventGenerator *thi
 cleanup __cdecl SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
 "5589e557565383ec2c8b450c8b75108b5d08":
 cleanup __cdecl ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
+"5557565383ec3c8b74????8b9ea40000008dae8400000085db":
+cleanup __cdecl void EventGenerator::Clear(EventGenerator *this);
 
 "!c74424080000000089742404c70424(???????\?)e8????????8b54242c8d4af4":
 EventGenerator* Global_EventGenerator_Generator;
@@ -24,11 +26,11 @@ struct EventGenerator depends (SectorDescription, Sector, LocationEvent)
 		auto it = usedEvents.find(name);
 		if (it != usedEvents.end())
 		{
-			events[name] = it->second;
+			events?? = it->second;
 			usedEvents.erase(it);
 		}
 	}
-	
+
 	void ClearUsedEvent(LocationEvent *locEvent)
 	{
 		if (locEvent)

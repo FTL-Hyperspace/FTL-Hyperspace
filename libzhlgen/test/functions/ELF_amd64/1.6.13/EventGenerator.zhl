@@ -6,6 +6,8 @@ cleanup __amd64 ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, con
 cleanup __amd64 SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
 ".4157415641554c8d6e1841544989d4554889f5534889fb4881ecd8000000":
 cleanup __amd64 SectorDescription EventGenerator::GetSpecificSector(EventGenerator *this, const std::string& name);
+".??57??56??55??8daf08010000??5455??89fd53??83ec28??8b9f48010000":
+cleanup __amd64 void EventGenerator::Clear(EventGenerator *this);
 ".415741564155415455488d6f78534889f34881ec88020000":
 cleanup __amd64 LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
 ".5589cd534889fb4883ec184183f8ff":
@@ -24,11 +26,11 @@ struct EventGenerator depends (SectorDescription, Sector, LocationEvent)
 		auto it = usedEvents.find(name);
 		if (it != usedEvents.end())
 		{
-			events[name] = it->second;
+			events?? = it->second;
 			usedEvents.erase(it);
 		}
 	}
-	
+
 	void ClearUsedEvent(LocationEvent *locEvent)
 	{
 		if (locEvent)
