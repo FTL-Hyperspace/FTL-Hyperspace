@@ -5775,7 +5775,7 @@ struct EventGenerator
 		auto it = usedEvents.find(name);
 		if (it != usedEvents.end())
 		{
-			events?? = it->second;
+			events[name] = it->second;
 			usedEvents.erase(it);
 		}
 	}
