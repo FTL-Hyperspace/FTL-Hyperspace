@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "ShipManager_Extend.h"
 #include "CustomEvents.h"
+#include "Equipment_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -284,11 +285,11 @@ void CustomAugmentManager::UpdateAugments(int iShipId)
     {
         if (boost::algorithm::starts_with(i.first, "HIDDEN "))
         {
-            hiddenList[i.first.substr(7)] = i.second;
+            hiddenList[i.first.substr(7)] += i.second;
         }
         else
         {
-            hiddenList[i.first] = i.second;
+            hiddenList[i.first] += i.second;
             notHiddenList.push_back(i.first);
         }
     }
@@ -534,7 +535,7 @@ HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
     if (draggingEquipBox != -1)
     {
         auto box = vEquipmentBoxes[draggingEquipBox];
-        if (box->CanHoldAugment() && box->slot != 4)
+        if (box->CanHoldAugment() && box->slot != -2)
         {
             if (box->item.augment && customAug->IsAugment(box->item.augment->name))
             {
@@ -564,7 +565,7 @@ HOOK_METHOD(EquipmentBox, OnRender, (bool isEmpty) -> void)
 
         if (item.augment && customAug->IsAugment(item.augment->name) && customAug->GetAugmentDefinition(item.augment->name)->locked && augLockTexture)
         {
-            float xPos = slot == 4 ? location.x - 36.f : location.x - 24.f;
+            float xPos = slot == -2 ? location.x - 36.f : location.x - 24.f;
 
             G_->GetResources()->RenderImage(augLockTexture, xPos, location.y + 7.f, 0.f, COLOR_WHITE, 1.f, false);
         }
@@ -575,11 +576,11 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Equipment::OnLoop -> Begin (CustomAugments.cpp)\n")
     super();
+    CustomEquipment *customEquip = EQ_EX(this)->customEquipment;
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    EquipmentBox *firstSlot;
-    EquipmentBox *fullSlot;
-    bool swapSlots = false;
+    EquipmentBox *firstSlot = nullptr;
+    EquipmentBox *fullSlot = nullptr;
 
     for (auto i : vEquipmentBoxes)
     {
@@ -594,16 +595,17 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
             {
                 i->bBlocked = true;
 
-                if (i->slot == 4)
+                if (i->slot == -2)
                 {
                     fullSlot = i;
-                    swapSlots = true;
                 }
             }
         }
     }
 
-    if (swapSlots)
+    if (!firstSlot) return;
+
+    if (fullSlot)
     {
         EquipmentBoxItem item1 = fullSlot->item;
         EquipmentBoxItem item2 = firstSlot->item;
@@ -611,6 +613,22 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
         firstSlot->RemoveItem();
         fullSlot->AddItem(item2);
         firstSlot->AddItem(item1);
+        customEquip->UpdateOverCapacityItems();
+        return;
+    }
+
+    // Search over capacity items for locked augments to force swap
+    for (auto &i : customEquip->overCapacityItems)
+    {
+        if (i.first.augment && customAug->IsAugment(i.first.augment->name) && customAug->GetAugmentDefinition(i.first.augment->name)->locked)
+        {
+            EquipmentBoxItem item1 = i.first;
+            EquipmentBoxItem item2 = firstSlot->item;
+            firstSlot->RemoveItem();
+            i.first = item2;
+            firstSlot->AddItem(item1);
+            return;
+        }
     }
 }
 
@@ -702,6 +720,9 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipObject::AddAugmentation -> Begin (CustomAugments.cpp)\n")
+    if (boost::algorithm::starts_with(name, "HIDDEN ")){
+        G_->GetShipInfo(iShipId)->augCount--;
+    }
     auto ret = super(name);
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
     return ret;

@@ -9,6 +9,7 @@
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
 #include "CustomSystems.h"
+#include "Tasks.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -3565,11 +3566,6 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 
                 if (oxygenModifier != 0.f && !x->bDead)
                 {
-                    if (oxygenSystem->oxygenLevels[x->iRoomId] == 0.f)
-                    {
-                        oxygenSystem->oxygenLevels[x->iRoomId] = 0.0000001f;
-                    }
-
                     oxygenSystem->ComputeAirLoss(x->iRoomId, -oxygenModifier, true);
                 }
             }
@@ -4628,7 +4624,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
             skillNumber++;
         }
 
-        if (!sTooltip.empty())
+        if (!sTooltip.empty() && !G_->GetCApp()->gui->choiceBoxOpen)
         {
             Point tooltipPosition = Point(box.x + box.w + 95, box.y);
             auto mouse = G_->GetMouseControl();
@@ -5263,7 +5259,7 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD_PRIORITY(CrewMember, Clone, -9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
 
     // lua callback
     auto context = Global::GetInstance()->getLuaContext();
@@ -5372,7 +5368,16 @@ HOOK_METHOD(CrewAI, UpdateCrewMember, (int crewId) -> void)
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
-    if (task.taskId == 0 && !crewList[crewId]->CanMan())
+    if (crewId == -1) return super(task, crewId);
+    
+    CrewMember* crew = crewList[crewId];
+    if (task.taskId == TASK_MANNING && !crew->CanMan())
+    {
+        return 1001;
+    }
+
+    bool repairTask = task.taskId == TASK_REPAIRING || task.taskId == TASK_FIRE || task.taskId == TASK_BREACH;
+    if (repairTask && !crew->CanRepair())
     {
         return 1001;
     }
@@ -5565,6 +5570,43 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
         return ret;
     }
 }
+
+// insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are fighting
+HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::GetTooltip -> Begin (CustomCrew.cpp)\n")
+
+    // rewrite vanilla code
+    std::string tooltip = "";
+    for (auto crew : vCrewList)
+    {
+        if (!crew->ContainsPoint(x, y) || crew->bDead) continue;
+        ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
+        if (shipGraph->GetRoomBlackedOut(crew->iRoomId)) continue;
+        if (tooltip.empty())
+        {
+            tooltip = crew->GetTooltip();
+        }
+        else
+        {
+            if (CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
+            {
+                // \n -> \n\n; insert newline between each crew desc.
+                tooltip += " \n\n" + crew->GetTooltip();
+            }
+            else
+            {
+                tooltip += " \n" + crew->GetTooltip();
+            }
+        }
+        if (!tooltip.empty() && crew->bMindControlled)
+        {
+            tooltip += " \n" + G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
+        }
+    }
+    return tooltip;
+}
+
 
 HOOK_METHOD(CrewAnimation, FireShot, () -> bool)
 {
@@ -6784,10 +6826,16 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
     int ret = 0;
     for (auto& crew: vCrewList)
     {   
-        bool noWarning;
         auto ex = CM_EX(crew);
+
+        bool canTeleport;
+        bool noWarning;
         ex->CalculateStat(CrewStat::NO_WARNING, &noWarning);
-        if (crew->iShipId == 0 && !crew->IsDead() && !crew->IsDrone() && !noWarning) ret++;
+        ex->CalculateStat(CrewStat::CAN_TELEPORT, &canTeleport);
+        ShipManager* otherShip = G_->GetShipManager(1 - iShipId);
+        bool emergencyRecall = canTeleport && otherShip && otherShip->HasAugmentation("TELEPORT_RECALL");
+
+        if (crew->iShipId == 0 && !crew->IsDead() && !crew->IsDrone() && !noWarning && !emergencyRecall) ret++;
     }
     return ret;
 }
@@ -6914,6 +6962,7 @@ HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
 
 HOOK_METHOD(CrewMember, SetRoomPath, (int slotId, int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetRoomPath -> Begin (CustomCrew.cpp)\n")
     if (g_checkForPartitionPath && g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
     {
         slotId = g_partitionDestSlotId;

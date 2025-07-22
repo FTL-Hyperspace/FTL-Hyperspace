@@ -1,3 +1,4 @@
+#include "CustomSystems.h"
 #include "CustomUpgrades.h"
 #include "CustomShipSelect.h"
 #include <boost/lexical_cast.hpp>
@@ -402,6 +403,17 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
         }
     }
 
+    //Custom systems
+    //TODO: Allow full user control over systemBox ordering?
+    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    {
+        auto sys = ship->GetSystem(systemId);
+        if (sys)
+        {
+            AddUpgradeBox(this, sys, systemXPos, subsystemXPos, numSystems, numSubsystems);
+        }
+    }
+
     for (int i = numSystems; i < sysLimit; i++)
     {
         AddEmptyUpgradeBox(this, false, systemXPos, subsystemXPos, numSystems, numSubsystems);
@@ -561,7 +573,7 @@ bool g_infoBoxRenderFix = false;
 bool g_upgradeCostThresholdRewrite = false;
 bool g_force_easy_print = false;
 Pointf infoBoxUpgradeCostPos;
-std::vector<int> upgradeCosts;
+const std::vector<int> *upgradeCosts;
 
 HOOK_METHOD(InfoBox, OnRender, () -> void)
 {
@@ -571,7 +583,7 @@ HOOK_METHOD(InfoBox, OnRender, () -> void)
     {
         infoBoxUpgradeCostPos.x = (float)(location.x + 105);
         infoBoxUpgradeCostPos.y = (float)(location.y + yShift + 224);
-        upgradeCosts = std::vector<int>(blueprint->upgradeCosts);
+        upgradeCosts = &(blueprint->upgradeCosts);
     }
     g_upgradeCostThresholdRewrite = SystemNoPurchaseThreshold::enabled;
     // if g_infoBoxRenderFix is true, upgrade costs rendering is prevented in this method. Instead they are rendered within ShipSystem::RenderPowerBoxesPlain hook, taking scrolling into account
@@ -620,7 +632,7 @@ HOOK_STATIC(ShipSystem, RenderPowerBoxesPlain, (int x, int y, int width, int hei
         {
             if (current - barIncrement < 8 - i)
             {
-                freetype::easy_print(0, infoBoxUpgradeCostPos.x, infoBoxUpgradeCostPos.y + (float)(i * 26), SystemNoPurchaseThreshold::to_string(upgradeCosts[6 - i + barIncrement]));
+                freetype::easy_print(0, infoBoxUpgradeCostPos.x, infoBoxUpgradeCostPos.y + (float)(i * 26), SystemNoPurchaseThreshold::to_string((*upgradeCosts)[6 - i + barIncrement]));
             }
         }
         CSurface::GL_SetColor(originalColor);
@@ -697,4 +709,41 @@ HOOK_STATIC(freetype, easy_print, (int fontSize, float x, float y, const std::st
     else if (g_infoBoxRenderFix && fontSize == 0) return  super(fontSize, x, y, "");
     else if (g_upgradeCostThresholdRewrite && fontSize == 0 && text != " -") return super(fontSize, x, y, SystemNoPurchaseThreshold::to_string(boost::lexical_cast<int>(text)));
     else return super(fontSize, x, y, text);
+}
+
+// info box fix
+
+// make the artillery system description box extendable
+ShipSystem *g_currentShipSystem = nullptr;
+
+HOOK_METHOD(InfoBox, SetSystem, (ShipSystem *system, int upgrade, int yShift, int forceSystemWidth)-> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetSystem -> Begin (CustomUpgrades.cpp)\n")
+    g_currentShipSystem = system;
+    super(system, upgrade, yShift, forceSystemWidth);
+    g_currentShipSystem = nullptr;
+}
+// called within InfoBox::SetSystem
+HOOK_METHOD(InfoBox, CalcBoxHeight, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::CalcBoxHeight -> Begin (CustomUpgrades.cpp)\n")
+    if (systemId == SYS_ARTILLERY && g_currentShipSystem)
+    {
+        WeaponBlueprint *bp = g_currentShipSystem->GetWeaponInfo();
+        if (bp) desc.description = bp->desc.description;
+    }
+    super();
+}
+
+// prevent infoBox from rendering outside the screen when the description is too long
+HOOK_METHOD(InfoBox, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> InfoBox::OnRender -> Begin (CustomUpgrades.cpp)\n")
+    int y = location.y + primaryBoxOffset;
+    if (pCrewBlueprint && bDetailed) y -= 40;
+    if (y >= 0) return super();
+
+    CSurface::GL_Translate(0.f, static_cast<float>(-y));
+    super();
+    CSurface::GL_Translate(0.f, static_cast<float>(y));
 }

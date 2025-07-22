@@ -4,7 +4,10 @@
 #include "CustomOptions.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CustomSystems.h"
 #include "CustomAchievements.h"
+#include "CustomShips.h"
+#include "CustomSystems.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -105,7 +108,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         for (auto i : G_->GetCrewFactory()->crewMembers)
         {
             if (i->iShipId == 0)
-            { 
+            {
                 for (int skill = 0; skill<6; skill++)
                 {
                     i->MasterSkill(skill);
@@ -145,20 +148,32 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         std::string luaCode = boost::trim_copy(command.substr(4));
         Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
-    if (command == "SYS ALL")
+    if (boost::to_upper_copy(command) == "SYS ALL")
     {
         ShipManager *ship = commandGui->shipComplete->shipManager;
-        
-        for (int systemId = 0; systemId< 17; systemId++) {
-            if (systemId == 16)
+
+        //Vanilla Systems
+        for (int systemId = 0; systemId < 16; ++systemId)
+        {
+            if (!ship->HasSystem(systemId) && ship->SystemWillReplace(systemId) == SYS_INVALID)
             {
-                ship->AddSystem(20);
-            } 
-            else
-            {
-            if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
                 ship->AddSystem(systemId);
-            } 
+            }
+        }
+
+        //Temporal system
+        if (!ship->HasSystem(SYS_TEMPORAL) && ship->SystemWillReplace(SYS_TEMPORAL) == SYS_INVALID)
+        {
+            ship->AddSystem(SYS_TEMPORAL);
+        }
+
+        //Custom systems
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId) && ship->SystemWillReplace(systemId) == SYS_INVALID)
+            {
+                ship->AddSystem(systemId);
+            }
         }
         return true;
     }
@@ -173,6 +188,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if (cmdName == "REMOVESYS" && command.length() > 9)
+    {
+        commandGui->shipComplete->shipManager->RemoveSystem(ShipSystem::NameToSystemId(boost::trim_copy(command.substr(10))));
+
+        return true;
+    }
     if (cmdName == "DEBUG")
     {
         return true;
@@ -180,7 +201,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (command == "SHIP ALL")
     {
         CustomShipUnlocks::instance->UnlockAllShips();
-        return true;
+        return false; //Run native game ship unlocks as well
     }
     if (cmdName == "SHIP_CUSTOM")
     {
@@ -215,6 +236,19 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         commandGui->shipComplete->shipManager->fuel_count -= 800;
         if (commandGui->shipComplete->shipManager->fuel_count < 0) commandGui->shipComplete->shipManager->fuel_count = 0;
         commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
+        return true;
+    }
+    if(cmdName == "FLEET" && command.length() > 5)
+    {
+        try
+        {
+           int fleetdelay = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
+           commandGui->starMap->ModifyPursuit(fleetdelay);
+        }
+        catch (boost::bad_lexical_cast const &e)
+        {
+            printf("boost::bad_lexical_cast in RunCommand FLEET\n");
+        }
         return true;
     }
     /*
@@ -307,7 +341,33 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "SWITCHALL" && command.length() > 9)
+    {
+        std::string shipName = boost::trim_copy(command.substr(10));
+        hs_log_file("Loading new ship and transfering from old ship %s\n", shipName.c_str());
+        G_->GetWorld()->SwitchShipTransfer(shipName, 1);
 
+        return true;
+    }
+    if(cmdName == "SWITCH" && command.length() > 6)
+    {
+        std::string shipName = boost::trim_copy(command.substr(7));
+        hs_log_file("Loading new ship %s\n", shipName.c_str());
+        G_->GetWorld()->SwitchShip(shipName);
+
+        return true;
+    }
+    if(cmdName == "WEAPON" && command.length() > 6)
+    {
+        std::string weaponName = boost::trim_copy(command.substr(7));
+        WeaponBlueprint *weapon = G_->GetBlueprints()->GetWeaponBlueprint(weaponName);
+        if (weapon && weapon->type != -1)
+        {
+            commandGui->equipScreen.AddWeapon(weapon, true, false);
+        }
+
+        return true;
+    }
 
     return false;
 }
@@ -388,7 +448,7 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
         super(command);
 
         // This is here instead of in CommandConsole::RunCommand because CommandGui has shipComplete
-        if(command == "GOD")
+        if(boost::to_upper_copy(command) == "GOD")
             PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }
 }
@@ -421,6 +481,7 @@ void PrintHelper::Render()
                 screenMessage += message;
                 screenMessage += "\n";
             }
+            CSurface::GL_SetColor(COLOR_WHITE);
             freetype::easy_printAutoNewlines(font, x, y, lineLength, screenMessage);
             float increment = useSpeed ? G_->GetCFPS()->GetSpeedFactor() * 0.0625 : 1.0 / G_->GetCFPS()->NumFrames;
             timer += increment;
@@ -430,7 +491,7 @@ void PrintHelper::Render()
             timer = 0;
             messages.pop_front();
         }
-    }  
+    }
 }
 
 void PrintHelper::AddMessage(const std::string message)
@@ -512,7 +573,7 @@ HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
 HOOK_METHOD(InputBox, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::OnRender -> Begin (CommandConsole.cpp)\n")
-        
+
     if (bOpen == false) return;
 
     textBox->Draw(consolePos->x - 25, consolePos->y - 25);
@@ -533,7 +594,7 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
 HOOK_STATIC(CSurface, GL_DrawRect, (float x, float y, float w, float h, GL_Color color) -> bool)
 {
     LOG_HOOK("HOOK_STATIC -> CSurface::GL_DrawRect -> Begin (CommandConsole.cpp)\n")
-        
+
     if (printCenterToLeft)
         return super(x + 2, y, 1.0, h, color);
 
@@ -542,7 +603,6 @@ HOOK_STATIC(CSurface, GL_DrawRect, (float x, float y, float w, float h, GL_Color
 
 HOOK_STATIC(freetype, easy_printCenter , (int fontSize, float x, float y, const std::string &text) -> Pointf)
 {
-    LOG_HOOK("HOOK_STATIC -> freetype::easy_printCenter -> Begin (CommandConsole.cpp)\n")
     if (printCenterToLeft)
     {
         freetype::easy_print(8, x, y, text);

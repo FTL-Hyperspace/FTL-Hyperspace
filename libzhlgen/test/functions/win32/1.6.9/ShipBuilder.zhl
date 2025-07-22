@@ -30,3 +30,11 @@ __thiscall void ShipBuilder::constructor(ShipBuilder *this);
 __thiscall void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec2c80b96012000000894de4":
 __thiscall void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
+"80??????????0074??57":
+__thiscall ShipManager *ShipBuilder::GetShip(ShipBuilder *this);
+"578d????0883e4f0ff????5589e557565389cf31f683ec1c8b81001c0000":
+__thiscall void ShipBuilder::CycleTypeNext(ShipBuilder *this);
+"578d????0883e4f0ff????5589e557565389cfbe02000000":
+__thiscall void ShipBuilder::CycleTypePrev(ShipBuilder *this);
+"5589e557565389cb83e4f083ec108bb94c0f0000":
+__thiscall void ShipBuilder::Close(ShipBuilder *this);

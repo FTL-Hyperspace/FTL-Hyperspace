@@ -25,6 +25,7 @@ extern bool bossDefeated;
 extern TimerHelper *restartMusicTimer;
 
 extern std::string replaceCreditsMusic;
+extern bool g_checkCargo;
 
 struct CreditText
 {
@@ -115,6 +116,7 @@ struct CustomQuest
     ToggleValue<bool> nonNebulaBeacon;
     ToggleValue<bool> nebulaBeacon;
     ToggleValue<bool> createNebula;
+    ToggleValue<bool> removeNebula;
     ToggleValue<std::string> nebulaEvent;
     ToggleValue<bool> currentSector;
     ToggleValue<bool> nextSector;
@@ -127,6 +129,7 @@ struct CustomQuest
         nonNebulaBeacon.value = true;
         nebulaBeacon.value = false;
         createNebula.value = true;
+        removeNebula.value = false;
         nebulaEvent.value = "";
         currentSector.value = true;
         nextSector.value = true;
@@ -140,6 +143,7 @@ struct CustomQuest
         if (other->nonNebulaBeacon.enabled) nonNebulaBeacon = other->nonNebulaBeacon;
         if (other->nebulaBeacon.enabled) nebulaBeacon = other->nebulaBeacon;
         if (other->createNebula.enabled) createNebula = other->createNebula;
+        if (other->removeNebula.enabled) removeNebula = other->removeNebula;
         if (other->nebulaEvent.enabled) nebulaEvent = other->nebulaEvent;
         if (other->currentSector.enabled) currentSector = other->currentSector;
         if (other->nextSector.enabled) nextSector = other->nextSector;
@@ -708,6 +712,7 @@ struct CustomEvent
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
+    std::vector<std::pair<bool, int>> removeSystems = std::vector<std::pair<bool, int>>();
     std::vector<VariableModifier> variables = std::vector<VariableModifier>();
     std::string playSound = "";
     std::string playMusic = "";
@@ -788,6 +793,7 @@ struct CustomSector
     SectorExit exitBeacons;
     SectorFleet fleetBeacons;
     bool removeFirstBeaconNebula = false;
+    bool priorityNebulaFix = false;
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;
@@ -966,6 +972,8 @@ public:
     static void QueueEvent(EventQueueEvent &event);
     static void QueueEvent(std::string &event, int seed);
 
+    static bool LocationRemoveNebula(Location *loc);
+
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory;
     CustomQuest *defaultQuest;
@@ -1056,4 +1064,4 @@ public:
 
 void EventDamageEnemy(EventDamage eventDamage);
 void GoToFlagship(bool atBase, bool allFleet);
-void RecallBoarders(int direction, bool force);
+void RecallBoarders(int direction, bool force, bool effects=false);

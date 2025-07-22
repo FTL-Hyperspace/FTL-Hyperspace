@@ -3,6 +3,7 @@
 #include "ToggleValue.h"
 #include "Room_Extend.h"
 #include "CustomAchievements.h"
+#include "CustomSystems.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -87,6 +88,9 @@ struct CustomShipDefinition
     int startingFuel = -1;
     int startingScrap = -1;
 
+    int augSlots = 3;
+    int cargoSlots = 4;
+
     std::unordered_map<int, RoomDefinition*> roomDefs;
     std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> roomStationBackups;
     std::vector<std::string> shipIcons;
@@ -101,6 +105,11 @@ struct CustomShipDefinition
     int maxReactorLevel = 25;
 
     std::string shipGenerator = "";
+
+    std::vector<std::string> artilleryRoomImages;
+
+    bool hasExclusivityOverride = false;
+    SystemExclusivityManager exclusivityOverride;
 
     CustomShipDefinition()
     {
@@ -202,6 +211,8 @@ public:
     int CycleShipNext(int currentShipId, int currentType);
     int CycleShipPrevious(int currentShipId, int currentType);
 
+    int CycleType(int currentShipId, int currentType, bool forward);
+
     void EarlyParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseVanillaShipNode(rapidxml::xml_node<char> *node);
@@ -209,7 +220,7 @@ public:
     int CountUnlockedShips(int variant);
 
     void UpdateFilteredAchievements();
-    
+
     bool ShowAchievementsForShip(int currentShipId, int currentType);
 
 
@@ -285,7 +296,7 @@ public:
     {
         for (auto& def : shipButtons)
         {
-            if (def->GetId() == id) 
+            if (def->GetId() == id)
             {
                 return def;
             }

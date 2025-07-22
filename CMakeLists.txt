@@ -73,6 +73,7 @@ target_sources(
     AlternateOxygenRendering.h
     ArtilleryBarFix.cpp
     ArtillerySystem.cpp
+    ArtillerySystem.h
     AugmentValues.cpp
     Augments.cpp
     Balance.cpp
@@ -80,6 +81,7 @@ target_sources(
     BeamFixes.cpp
     Blueprint_Extend.cpp
     Blueprint_Extend.h
+    CloneQueue.cpp
     Colors.cpp
     Colors.h
     CommandConsole.cpp
@@ -111,6 +113,8 @@ target_sources(
     CustomColors.h
     CustomCommandGui.cpp
     CustomCommandGui.h
+    CustomTabbedWindow.cpp
+    CustomTabbedWindow.h
     CustomCrew.cpp
     CustomCrew.h
     CustomCrewCommon.h
@@ -123,6 +127,7 @@ target_sources(
     CustomDrones.cpp
     CustomDrones.h
     CustomEquipment.cpp
+    CustomEquipment.h
     CustomEvents.cpp
     CustomEvents.h
     CustomFleetShips.cpp
@@ -132,6 +137,7 @@ target_sources(
     CustomLocalization.cpp
     CustomLocalization.h
     CustomMap.cpp
+    CustomMap.h
     CustomOptions.cpp
     CustomOptions.h
     CustomReactor.cpp
@@ -154,15 +160,23 @@ target_sources(
     CustomSuperShield.cpp
     CustomSystems.cpp
     CustomSystems.h
+    CustomTextStyle.cpp
+    CustomTextStyle.h
+    CustomTutorial.cpp
+    CustomTutorial.h
     CustomUpgrades.cpp
     CustomUpgrades.h
     CustomWeapons.cpp
     CustomWeapons.h
     Debugging.cpp
+    Drones.h
     DroneVTable.cpp
     EnemyShipIcons.cpp
     EnemyShipIcons.h
     EnumClassHash.h
+    Environments.h
+    Equipment_Extend.cpp
+    Equipment_Extend.h
     ErosionEffect.cpp
     EventButtons.cpp
     EventButtons.h
@@ -195,6 +209,7 @@ target_sources(
     NeutralTeleporterFix.cpp
     OverclockerSystem.cpp
     OverclockerSystem.h
+    OxygenWithoutSystem.cpp
     PALMemoryProtection.h
     ProjectileVTable.cpp
     Projectile_Extend.cpp
@@ -238,7 +253,10 @@ target_sources(
     SystemDescriptionFixes.cpp
     System_Extend.cpp
     System_Extend.h
+    SystemBox_Extend.cpp
+    SystemBox_Extend.h
     Systems.h
+    Tasks.h
     TemporalBoxVTable.cpp
     TemporalSystem.cpp
     TemporalSystem.h
@@ -302,6 +320,8 @@ target_compile_options(
 
     # Explicit C++11 mode
     -std=c++11
+    # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
+    -fno-delete-null-pointer-checks
 
     # Warn everything
     # TODO: Check if it's meaningful (original .cbp defined it)

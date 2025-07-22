@@ -260,6 +260,8 @@
 				<Compiler>
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
 					<Add option="-Werror=narrowing" />
@@ -439,6 +441,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -485,6 +489,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -670,6 +676,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -716,6 +724,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -781,6 +791,9 @@
 		<Unit filename="ArtillerySystem.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="ArtillerySystem.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>
@@ -801,6 +814,9 @@
 		</Unit>
 		<Unit filename="Blueprint_Extend.h">
 			<Option virtualFolder="Core/Blueprints/" />
+		</Unit>
+		<Unit filename="CloneQueue.cpp">
+			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Colors.cpp">
 			<Option virtualFolder="Core/" />
@@ -895,6 +911,12 @@
 		<Unit filename="CustomCommandGui.h">
 			<Option virtualFolder="Core/CommandGui/" />
 		</Unit>
+		<Unit filename="CustomTabbedWindow.cpp">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
+		<Unit filename="CustomTabbedWindow.h">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
 		<Unit filename="CustomCrew.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -931,6 +953,9 @@
 		<Unit filename="CustomEquipment.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
+		<Unit filename="CustomEquipment.h">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
 		<Unit filename="CustomEvents.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
@@ -956,6 +981,9 @@
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CustomMap.cpp">
+			<Option virtualFolder="Core/Map/" />
+		</Unit>
+		<Unit filename="CustomMap.h">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
 		<Unit filename="CustomOptions.cpp">
@@ -1024,6 +1052,18 @@
 		<Unit filename="CustomSystems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="CustomTextStyle.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTextStyle.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomTutorial.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomUpgrades.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -1045,6 +1085,9 @@
 		<Unit filename="DiscordIntegration.h">
 			<Option virtualFolder="Content/Discord/" />
 		</Unit>
+		<Unit filename="Drones.h">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
@@ -1056,6 +1099,15 @@
 		</Unit>
 		<Unit filename="EnumClassHash.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="Environments.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="Equipment_Extend.cpp">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="Equipment_Extend.h">
+			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />
@@ -1155,6 +1207,9 @@
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="OverclockerSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="OxygenWithoutSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="PALMemoryProtection.h">
@@ -1286,8 +1341,17 @@
 		<Unit filename="System_Extend.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="SystemBox_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="SystemBox_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="Tasks.h">
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="TemporalBoxVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />

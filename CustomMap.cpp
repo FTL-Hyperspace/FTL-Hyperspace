@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "CustomEvents.h"
+#include "CustomMap.h"
 #include "CustomOptions.h"
 #include <unordered_set>
 
@@ -186,7 +187,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
             CSurface::GL_PushMatrix();
 
-            float newX = std::floor((GetNextDangerMove() + dangerOffset) + 767.f);
+            float newX = std::floor((GetNextDangerMove() + dangerOffset) + dangerZoneRadius);
             float newX2 = translation.x + newX;
 
 
@@ -205,7 +206,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
         }
 
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(dangerZone.x + 767.f, dangerZone.y, 0.f);
+        CSurface::GL_Translate(dangerZone.x + dangerZoneRadius, dangerZone.y, 0.f);
         CSurface::GL_RenderPrimitive(dangerZoneEdge);
         CSurface::GL_PopMatrix();
 
@@ -339,4 +340,86 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
             break;
         }
     }
+}
+ 
+bool forceWait = false;
+HOOK_METHOD_PRIORITY(StarMap, OnLoop, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::OnLoop -> Begin (CustomMap.cpp)\n")
+    if (!bOpen) return;
+    bossJumpingWarning->OnLoop();
+    outOfFuel = (this->shipManager->fuel_count < 1) || forceWait;
+    if (bChoosingNewSector && NeighboringSector(finalSectorChoice))
+    { 
+        SelectNewSector(finalSectorChoice);
+        AdvanceWorldLevel();
+        readyToTravel = true;
+        finalSectorChoice = -1;
+        potentialLoc = &dummyNewSector;
+        Close();
+    }
+    G_->GetSoundControl()->UpdateSoundLoop("distress", outOfFuel && distressButton.state == true ? 1.0 : 0.0);
+    distressAnim.Update();
+
+    if (waiting.running) UpdateDangerZone();
+  
+    if (potentialLoc != nullptr || endButton.Hovering()) 
+    {
+        G_->GetMouseControl()->SetValid(true, false);
+    }
+    distressButton.SetActive(outOfFuel);
+    bool endButtonActive = false;
+    if (!outOfFuel && !bossLevel && currentLoc != nullptr) 
+    {
+        endButtonActive = this->currentLoc->beacon;
+    }
+    endButton.SetActive(endButtonActive);
+
+    bool jumpButtonActive;
+    if (!bChoosingNewSector) 
+    {
+        if (potentialLoc == nullptr) jumpButtonActive = false;
+        else jumpButtonActive = currentLoc != potentialLoc;
+    }
+    else jumpButtonActive = NeighboringSector(potentialSectorChoice);
+    jumpButton.SetActive(jumpButtonActive);
+
+    bool waitButtonActive;
+    if (outOfFuel) waitButtonActive = true;
+    else if (!bossLevel) waitButtonActive = false;
+    else waitButtonActive = !bEnemyShip;
+    waitButton.SetActive(waitButtonActive);
+
+    if (waiting.running) 
+    {
+        waitButton.SetActive(false);
+        closeButton.SetActive(false);
+    }
+
+    if (!outOfFuel) 
+    {
+        if (hoverLoc != nullptr) 
+        {
+            std::string hoverText = GetLocationText(hoverLoc);
+            G_->GetMouseControl()->SetTooltip(hoverText);
+        }
+        G_->GetMouseControl()->InstantTooltip();
+    }
+    else 
+    {
+        std::string tooltip;
+        if (waitButton.Hovering()) tooltip = "map_wait";
+        else if (distressButton.Hovering()) tooltip = "map_distress";
+        else tooltip = "";
+
+        if (!tooltip.empty())
+        {
+            G_->GetMouseControl()->LoadTooltip(tooltip);
+        }
+    }
+    for (auto location : locations)
+    {
+        location->flashTracker.Update();
+    }
+    targetBoxTimer.Update();
 }

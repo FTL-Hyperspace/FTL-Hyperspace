@@ -4,6 +4,10 @@ cleanup __amd64 void ShipBuilder::constructor(ShipBuilder *this);
 cleanup __amd64 void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
 ".488b87f81d0000c787101e0000ffffffff":
 cleanup __amd64 void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
+".5553??89fb??83ec08??8bb710110000??8b9708110000":
+cleanup __amd64 void ShipBuilder::Close(ShipBuilder *this);
+".5331c04889fb4881":
+cleanup __amd64 ShipManager *ShipBuilder::GetShip(ShipBuilder *this);
 ".4156be????????41554989fd415455534883ec50":
 cleanup __amd64 void ShipBuilder::SetupShipAchievements(ShipBuilder *this);
 ".41574989ff41564155415455534883ec48488bb710110000":
@@ -22,6 +26,10 @@ cleanup __amd64 void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, in
 cleanup __amd64 void ShipBuilder::CycleShipNext(ShipBuilder *this);
 "!.5589f5534889fb4883ec08488b3f4885ff":
 cleanup __amd64 void ShipBuilder::SwapType(ShipBuilder *this, int variant);
+".??54??31e455??89fd538b87841d00008d5801":
+cleanup __amd64 void ShipBuilder::CycleTypeNext(ShipBuilder *this);
+".??54??bc0200000055??89fd538b87841d00008d58ffeb":
+cleanup __amd64 void ShipBuilder::CycleTypePrev(ShipBuilder *this);
 "!.41564989fe415541545553488b3f4885ff":
 cleanup __amd64 void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
 ".5589f5534889fb4883ec0880bf5814000000":

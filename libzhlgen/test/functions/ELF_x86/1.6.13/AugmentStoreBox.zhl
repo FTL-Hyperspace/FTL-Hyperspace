@@ -1,5 +1,11 @@
-"5557565383ec2c8d44241a8b5c24408d7c241c8b742448":
-cleanup __cdecl void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp);
+"565383ec348b5c24408b":
+cleanup __cdecl bool AugmentStoreBox::CanHold(AugmentStoreBox *this); // 081bcc90
+".5557565383ec2c8d44241a8b5c24408d7c241c8b742448":
+cleanup __cdecl void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp); // 081be0c0
+".5557565383ec2c8d74241c8b5c24408d7c241a897c2408c7442404????????893424e8????????c744240c00000000c7442408000080bf89742404c70424????????e8????????8b44241c8d50f481fa????????0f85????????897c2408c7442404????????893424e8????????89742404c70424????????e8????????8b44241c8d50f481fa????????0f85????????c7442408000000008b8398000000f7d8894424048b83c0000000890424e8????????8b83b800000083e80185c08983b80000000f9fc00fb6c0894424048d4310890424e8????????8b83dc000000893424":
+cleanup __cdecl void AugmentStoreBox::Purchase(AugmentStoreBox *this); // 081c17f0
+".5589e557565383ec4c8b45108b5d08c744":
+cleanup __cdecl void AugmentStoreBox::MouseMove(AugmentStoreBox *this, int mX, int mY); // 081c3bf0
 
 struct AugmentStoreBox
 {{
@@ -7,7 +13,7 @@ struct AugmentStoreBox
 	{
 		this->constructor(_ship, _bp);
 	}
-	
+
 	AugmentStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);

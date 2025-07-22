@@ -28,6 +28,8 @@ __thiscall void Ship::OnRenderBase(Ship *this, bool unk);
 __thiscall void Ship::OnRenderFloor(Ship *this, bool unk);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b4104f30f1027f30f1165d4890424":
 __thiscall void Ship::OnRenderJump(Ship *this, float progress);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec208b410489":
+__thiscall Point Ship::GetShipCorner(Ship *this);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b83f401000089018b83f80100008941048b83fc0100008941088b830002000089410c":
 __thiscall Globals::Ellipse Ship::GetBaseEllipse(Ship *this);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b378b790c8b4108894de489fa29c2c1fa02":

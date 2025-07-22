@@ -11,6 +11,16 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="ru">Не уничтоженные абордажные дроны будут возвращены в конце боя.</text>
 <text name="aug_MIND_ORDER_title" language="ru">Нейронные вожжи</text>
 <text name="aug_MIND_ORDER_desc" language="ru">Позволяет напрямую контролировать вражеский экипаж, находящийся под контролем разума. Также принимает на себя все эффекты, применяемые этим экипажем.</text>
+<text name="aug_SECTOR_SCANNER_title" language="ru">Сканер секторов</text>
+<text name="aug_SECTOR_SCANNER_desc" language="ru">Позволяет увидеть точный тип сектора, даже если он не находится рядом с текущим.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="ru">Улучшенное нацеливание</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="ru">Позволяет вручную наводить артиллерийские системы на цель.</text>
+<text name="aug_TELEPORT_RECALL_title" language="ru">Аварийные телепорты</text>
+<text name="aug_TELEPORT_RECALL_desc" language="ru">Экипаж на вражеском корабле, который прыгает или уничтожается, будет автоматически отозван.</text>
+<text name="aug_AUGMENT_SLOT_title" language="ru">Вместимый модуль</text>
+<text name="aug_AUGMENT_SLOT_desc" language="ru">Увеличивает слоты модулей на 1.</text>
+<text name="aug_CARGO_SLOT_title" language="ru">Вместимый груз</text>
+<text name="aug_CARGO_SLOT_desc" language="ru">Увеличивает слоты груза на 1.</text>
 <text name="crew_ghost_desc" language="ru">Призраки прошлого экипажа.</text>
 <text name="crew_ghost_title" language="ru">Призрак</text>
 <text name="crew_ghost_short" language="ru">Призрак</text>
@@ -26,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ru">
-  <mod:setValue>\1 (Hyperspace 1.16.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ru">
   <mod:setValue>Вероятность возгорания: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -114,9 +124,9 @@
 <text name="power_not_ready_teleporting_false" language="ru">Не готов: не телепортируется</text>
 <text name="advanced_health_tooltip" language="ru">Здоровье</text>
 <text name="weapon_cooldown_negative" language="ru">Отключено</text>
-<text name="crew_stun_time" language="ru">Оглушен: \1 секунд</text>
-<text name="crew_death_time" language="ru">Продолжительность жизни: \1 секунд</text>
-<text name="crew_death_time_expired" language="ru">Продолжительность жизни: Истек</text>
+<text name="crew_stun_time" language="ru">Оглушен: \1 сек.</text>
+<text name="crew_death_time" language="ru">Время жизни: \1 сек.</text>
+<text name="crew_death_time_expired" language="ru">Время жизни: Истек</text>
 <!-- System info boxes -->
 <text name="reactor_desc_start" language="ru">Начальная мощность: \1</text>
 <text name="reactor_desc_max" language="ru">Максимальная мощность: \1</text>
@@ -130,8 +140,8 @@
 <text name="redesigned_boost_power_damage_negative" language="ru">Эффект цепи: снижение урона на \1</text>
 <text name="redesigned_boost_power_speed_positive" language="ru">Эффект цепи: снижение времени перезарядки на \1</text>
 <text name="redesigned_boost_power_speed_negative" language="ru">Эффект цепи: увеличение времени перезарядки на \1</text>
-<text name="redesigned_damage_cap" language="ru">Макс. урон цепи: \1 урона (\2 выстрела)</text>
-<text name="redesigned_speed_cap" language="ru">Мин. перезарядка цепи: \1 (\2 выстрела)</text>
+<text name="redesigned_damage_cap" language="ru">Макс. урон цепи: \1 урона (после \2-го залпа)</text>
+<text name="redesigned_speed_cap" language="ru">Мин. перезарядка цепи: \1 (после \2-го залпа)</text>
 <text name="shot_radius" language="ru">Разброс выстрела: \1</text>
 <text name="shot_radius_angular" language="ru">Разброс выстрела: \1 градусов</text>
 <text name="beam_length" language="ru">Длина луча: \1</text>
@@ -145,14 +155,14 @@
 <text name="hull_damage_negative" language="ru">Восстановление корпуса: \1</text>
 <text name="system_damage_negative" language="ru">Ремонт системы: \1</text>
 <text name="personnel_damage_negative" language="ru">Урон экипажу: \1</text>
-<text name="stun_length" language="ru">секунд</text>
+<text name="stun_length" language="ru">сек.</text>
 <text name="weapon_lockdown" language="ru">Запирает отсеки при попадании</text>
 <text name="scrap_value" language="ru">Стоимость покупки/продажи: \1 лома/\2 лома</text>
 <text name="damage_word" language="ru">Урон</text>
 <text name="bomb_shots" language="ru">Выстрелов за заряд: \1 (1 по собственному кораблю)</text>
 <text name="crew_scrap_value" language="ru">Стоимость найма: \1~</text>
 <text name="drone_speed" language="ru">Скорость дрона: \1</text>
-<text name="defense_drone_reload_speed" language="ru">Скорость перезарядки: \1ms</text>
+<text name="defense_drone_reload_speed" language="ru">Скорость перезарядки: \1мс</text>
 <text name="defense_drone_projectile_speed" language="ru">Скорость снаряда: \1</text>
 <text name="defense_drone_orbit_speed" language="ru">Скорость движения: \1</text>
 <text name="defense_drone_projectile_target_unknown" language="ru">Цель снаряда: Неизвестно</text>
@@ -190,6 +200,10 @@
 <text name="hotkey_un_temporal" language="ru">Питание от временного манипулятора</text>
 <text name="hotkey_temporal_speed" language="ru">Временное ускорение</text>
 <text name="hotkey_temporal_slow" language="ru">Временное замедление</text>
+<text name="hotkey_aim_artillery1" language="ru">Артиллерийская цель 1</text>
+<text name="hotkey_aim_artillery2" language="ru">Артиллерийская цель 2</text>
+<text name="hotkey_aim_artillery3" language="ru">Артиллерийская цель 3</text>
+<text name="hotkey_aim_artillery4" language="ru">Артиллерийская цель 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -201,13 +215,14 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \5: slow cooldown
 \6: slow duration
 -->
-<text name="temporal" language="ru">Временной манипулятор</text> 
+<text name="temporal" language="ru">Временной манипулятор</text>
 <text name="temporal_tooltip" language="ru">\1x/\4x скорости за \3/\6 сек.</text>
 <text name="temporal_arm_super_shields" language="ru">Заблокировано суперщитом.</text>
 <text name="temporal_arm_speed" language="ru">Ускоряет все в отсеке в \1x раз на \3 секунды.</text>
 <text name="temporal_arm_slow" language="ru">Замедляет все в отсеке в \4 раза на \6 секунд.</text>
 <text name="temporal_button_speed" language="ru">Ускоряет все, что происходит в отсеке на короткий промежуток времени. \nГорячая клавиша: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="ru">Замедляет все, что происходит в отсеке на короткий промежуток времени.\nГорячая клавиша: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="ru">Вы уверены?\n\1 заменит \2.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="ru">Переключение расширенной информации, которая предоставляет дополнительную информацию для:
 -Подсказки оружия/дронов/модулей
@@ -222,7 +237,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="hangar_achievements_title_default" language="ru">Достижения корабля</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom" language="ru">Победы корабля</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter" language="ru">Фильтр побед</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements" language="ru">У корабля нет достижений</text> 
+<text name="hangar_no_ship_achievements" language="ru">У корабля нет достижений</text>
 <!-- Discord Integration -->
 <!--
 <text name="discord_main_menu" language="ru">В главном меню</text>
@@ -262,20 +277,20 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="ru">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ru">Проект Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="ru">Разработчики:</text>
-<text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="ru">Дополнительная графика:</text>
 <text name="credits_hyperspace_art_names" language="ru">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ru">Дополнительная помощь:</text>
-<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nкоманда FTL Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nкоманда FTL Multiverse</text>
 <text name="credits_hyperspace_loc" language="ru">Переводчики Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="ru">Французский</text>
 <text name="credits_hyperspace_loc_fr_names" language="ru">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="ru">Итальянский</text>
-<text name="credits_hyperspace_loc_it_names" language="ru">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="ru">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="ru">Немецкий</text>
 <text name="credits_hyperspace_loc_de_names" language="ru">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="ru">Испанский</text>
-<text name="credits_hyperspace_loc_es_names" language="ru">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="ru">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="ru">Польский</text>
 <text name="credits_hyperspace_loc_pl_names" language="ru">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="ru">Португальский (Бразилия)</text>
@@ -286,10 +301,18 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_zn_Hans_names" language="ru">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="ru">Японский</text>
 <text name="credits_hyperspace_loc_ja_names" language="ru">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="ru">Корейский</text>
-<text name="credits_hyperspace_loc_kor_names" language="ru">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="ru">Корейский</text>
+<text name="credits_hyperspace_loc_ko_names" language="ru">nedsociety, H2O</text>
 
 <text name="shields_4" language="ru">Пять уровней щита</text>
 <text name="shields_5" language="ru">Шесть уровней щита</text>
 <text name="shields_6" language="ru">Семь уровней щита</text>
 <text name="shields_7" language="ru">Восемь уровней щита</text>
+
+<text name="max_augments" language="ru">На ваш корабль можно устанавливать только \1 модуля.</text>
+<text name="shot_limit" language="ru">Предел выстрелов из оружия: \1</text>
+<text name="shots_remaining" language="ru">Выстрелов: \1</text>
+<text name="warning_shot_limit" language="ru">ПРЕДЕЛ ВЫСТРЕЛОВ ДОСТИГНУТ</text>
+<text name="shield_drone_layers_per_charge" language="ru">Слои щита за один заряд: \1</text>
+<text name="shield_drone_cooldowns" language="ru">Перезарядка: \1</text>
+<text name="confirm_buy_last_subsystem" language="ru">Это последний свободный отсек для подсистем.\nВы уверены?</text>

@@ -17,6 +17,7 @@ struct InternalEvents
         ON_TICK,
         MAIN_MENU,
         DANGEROUS_ENVIRONMENT,
+        GET_BEACON_HAZARD,
         GET_HAZARD_FLASH,
         GET_RUN_SEED,
         ON_KEY_DOWN,
@@ -27,6 +28,7 @@ struct InternalEvents
         ON_MOUSE_R_BUTTON_DOWN,
         ON_MOUSE_R_BUTTON_UP,
         ON_MOUSE_M_BUTTON_DOWN,
+        ON_MOUSE_SCROLL,
         GUI_MOUSE_MOVE,
         CREW_LOOP,
         CREW_CLONE,
@@ -44,6 +46,7 @@ struct InternalEvents
         PROJECTILE_POST,
         PROJECTILE_UPDATE_PRE,
         PROJECTILE_UPDATE_POST,
+        WEAPON_COOLDOWN_MOD,
         WEAPON_STATBOX,
         WEAPON_DESCBOX,
         WEAPON_RENDERBOX,
@@ -71,9 +74,20 @@ struct InternalEvents
         GENERATOR_CREATE_SHIP_POST,
         PRE_CREATE_CHOICEBOX,
         POST_CREATE_CHOICEBOX,
+        TABBED_WINDOW_CONFIRM,
+        TABBED_WINDOW_UNDO,
         JUMP_ARRIVE,
         JUMP_LEAVE,
         ON_WAIT,
+
+        SYSTEM_BOX_MOUSE_MOVE,
+        SYSTEM_BOX_MOUSE_CLICK,
+        SYSTEM_BOX_KEY_DOWN,
+        GET_LEVEL_DESCRIPTION,
+        CALCULATE_LEAK_MODIFIER,
+
+        //Constructor Events
+
         CONSTRUCT_CREWMEMBER,
         CONSTRUCT_SPACEDRONE,
         CONSTRUCT_PROJECTILE_FACTORY,
@@ -81,7 +95,9 @@ struct InternalEvents
         CONSTRUCT_ROOM,
         CONSTRUCT_SHIP_MANAGER,
         CONSTRUCT_SHIP_SYSTEM,
-        UNKNOWN_MAX
+        CONSTRUCT_SYSTEM_BOX,
+
+        UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     )
     struct EventInfo
     {
@@ -91,23 +107,25 @@ struct InternalEvents
     };
     static EventInfo GetEventInfo(Identifiers event)
     {
-        static EventInfo eventInfo[Identifiers::UNKNOWN_MAX + 1] = 
+        static EventInfo eventInfo[Identifiers::UNKNOWN_MAX + 1] =
         {
             // {description of the function, number of argument of the function, whether it is a variable argument function}
             {"n/a", 0, false}, //Must always be first, used to check for bounds of enum input value
-            {"function on_tick()", 0, false}, 
-            {"function main_menu()", 0, false}, 
-            {"function dangerous_environment(bool danger) return danger", 1, false}, 
-            {"function get_hazard_flash(float alpha) return red, green, blue, alpha", 1, false}, 
-            {"function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed", 2, false}, 
-            {"function on_key_down(SDLKey key) return Chain", 1, false}, 
-            {"function on_key_up(SDLKey key) return Chain", 1, false}, 
-            {"function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain", 7, false}, 
-            {"function on_mouse_l_button_down(int x, int y) return Chain", 2, false}, 
+            {"function on_tick()", 0, false},
+            {"function main_menu()", 0, false},
+            {"function dangerous_environment(bool danger) return danger", 1, false},
+            {"function get_beacon_hazard(Location& loc) return hazardText", 1, false},
+            {"function get_hazard_flash(float alpha) return red, green, blue, alpha", 1, false},
+            {"function get_run_seed(bool isCustomSeed, int seed) return isCustomSeed, seed", 2, false},
+            {"function on_key_down(SDLKey key) return Chain", 1, false},
+            {"function on_key_up(SDLKey key) return Chain", 1, false},
+            {"function on_mouse_move(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB) return Chain", 7, false},
+            {"function on_mouse_l_button_down(int x, int y) return Chain", 2, false},
             {"function on_mouse_l_button_up(int x, int y) return Chain", 2, false},
             {"function on_mouse_r_button_down(int x, int y) return Chain", 2, false},
             {"function on_mouse_r_button_up(int x, int y) return Chain", 2, false},
             {"function on_mouse_m_button_down(int x, int y) return Chain", 2, false},
+            {"function on_mouse_scroll(float direction) return Chain", 1, false},
             {"function gui_move_move(int x, int y) return Chain", 2, false},
             {"function crew_loop(CrewMember& crew)", 1, false},
             {"function crew_clone(CrewMember& crew)", 1, false},
@@ -117,7 +135,7 @@ struct InternalEvents
             {"function get_augmentation_value(ShipManager& ship, char* augment, float value) return Chain, value", 3, false},
             {"function get_dodge_factor(ShipManager& ship, int value) return Chain, value", 2, false},
             {"function set_bonus_power(ShipSystem& system, int amount) return Chain, amount", 2, false},
-            {"function set_armament_pre(uint armamentSlot) return Chain, armamentSlot", 2, false},
+            {"function set_armament_pre(uint armamentSlot) return Chain, armamentSlot", 1, false},
             {"function set_armament_post(uint armamentSlot)", 1, false},
             {"function projectile_initialize(Projectile& projectile, WeaponBlueprint &bp)", 2, false},
             {"function projectile_fire(Projectile& projectile, ProjectileFactory &weapon)", 2, false},
@@ -125,9 +143,10 @@ struct InternalEvents
             {"function projectile_post(Projectile& projectile, bool preempted) return Chain", 2, false},
             {"function projectile_update_pre(Projectile& projectile) return Chain", 1, false},
             {"function projectile_update_post(Projectile& projectile, bool preempted) return Chain", 2, false},
+            {"function weapon_cooldown_mod(ProjectileFactory& weapon, float cooldownMod, bool isArtillery) return Chain, cooldownMod", 3, false},
             {"function weapon_statbox(WeaponBlueprint& bp, char* stats) return stats", 2, false},
             {"function weapon_descbox(WeaponBlueprint& bp, char* desc) return desc", 2, false},
-            {"function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine) return Chain, firstLine, secondLine", 4, false},
+            {"function weapon_renderbox(ProjectileFactory& weapon, int cooldown, int maxCooldown, char* firstLine, char* secondLine, char* thirdLine) return Chain, firstLine, secondLine, thirdLine", 6, false},
             {"function drone_fire(Projectile& projectile, SpaceDrone& spacedrone) return Chain", 2, false},
             {"function drone_collision(SpaceDrone& drone, Projectile& projectile, Damage& damage, CollisionResponse& response) return Chain", 4, false},
             {"function projectile_collision(Projectile& thisProjectile, Projectile& otherProjectile, Damage& damage, CollisionResponse& response) return Chain", 4, false},
@@ -152,21 +171,29 @@ struct InternalEvents
             {"function generator_create_ship_post(char* name, int sector, ShipEvent &event, ShipBlueprint &bp, ShipManager *ret) return Chain", 5, false},
             {"function pre_create_choicebox(LocationEvent &event)", 1, false},
             {"function post_create_choicebox(choiceBox &choiceBox, LocationEvent &event)", 2, false},
+            {"function tabbed_window_confirm(currentTabName)", 1, false},
+            {"function tabbed_window_undo(currentTabName)", 1, false},
             {"function jump_arrive(ShipManager& ship)", 1, false},
             {"function jump_leave(ShipManager& ship)", 1, false},
             {"function on_wait(ShipManager& ship)", 1, false},
-            {"function construct_crewmember(CrewMember& crew) return Chain", 1, false},
-            {"function construct_spacedrone(SpaceDrone& drone) return Chain", 1, false},
-            {"function construct_projectile_factory(ProjectileFactory& weapon) return Chain", 1, false},
-            {"function construct_projectile(Projectile& projectile) return Chain", 1, false},
-            {"function construct_room(Room& room) return Chain", 1, false},
-            {"function construct_ship_manager(ShipManager& ship) return Chain", 1, false},
-            {"function construct_ship_system(ShipSystem& system) return Chain", 1, false},
+            {"function system_box_mouse_move(SystemBox& systemBox, int x, int y) return Chain", 3, false},
+            {"function system_box_mouse_click(SystemBox& systemBox, bool shift) return Chain", 2, false},
+            {"function system_box_key_down(SystemBox& systemBox, SDLKey key, bool shift) return Chain", 3, false},
+            {"function get_level_description(int systemId, int level, bool tooltip) return description_string", 3, false},
+            {"function calculate_leak_modifier(ShipManager& ship, float leakModifier) return Chain, leakModifier", 2, false},
+            {"function construct_crewmember(CrewMember& crew)", 1, false},
+            {"function construct_spacedrone(SpaceDrone& drone)", 1, false},
+            {"function construct_projectile_factory(ProjectileFactory& weapon)", 1, false},
+            {"function construct_projectile(Projectile& projectile)", 1, false},
+            {"function construct_room(Room& room)", 1, false},
+            {"function construct_ship_manager(ShipManager& ship)", 1, false},
+            {"function construct_ship_system(ShipSystem& system)", 1, false},
+            {"function construct_system_box(SystemBox& systemBox)", 1, false},
             {"n/a", 0, false}, //Must always be last, used to check for bounds of enum input value
         };
-        
+
         return eventInfo[event];
-    }; 
+    };
 };
 
 struct Chain

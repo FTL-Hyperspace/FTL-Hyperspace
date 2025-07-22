@@ -10,6 +10,16 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="ja">破壊されてない突入ドローンを戦闘終了時に回収できる。</text>
 <text name="aug_MIND_ORDER_title" language="ja">神経の手綱</text>
 <text name="aug_MIND_ORDER_desc" language="ja">洗脳された敵クルーを直接操作できるようにする。また、そのクルーによる効果も自分のものにする。</text>
+<text name="aug_SECTOR_SCANNER_title" language="ja">セクター・スキャナー</text>
+<text name="aug_SECTOR_SCANNER_desc" language="ja">現在のセクターと隣接していないセクターの正確な名前を見ることができる。</text>
+<text name="aug_ARTILLERY_ORDER_title" language="ja">高度なターゲティング</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="ja">弩級砲の手動操作を可能にする。</text>
+<text name="aug_TELEPORT_RECALL_title" language="ja">緊急テレポーター</text>
+<text name="aug_TELEPORT_RECALL_desc" language="ja">ワープ中の、もしくは破壊されている敵船にいるクルーは自動的に自船に帰還される。</text>
+<text name="aug_AUGMENT_SLOT_title" language="ja">拡張機能容量</text>
+<text name="aug_AUGMENT_SLOT_desc" language="ja">拡張機能スロットを１増やす。</text>
+<text name="aug_CARGO_SLOT_title" language="ja">貨物容量</text>
+<text name="aug_CARGO_SLOT_desc" language="ja">貨物スロットを１増やす。</text>
 <text name="crew_ghost_desc" language="ja">過去のクルーの亡霊。</text>
 <text name="crew_ghost_title" language="ja">ゴースト</text>
 <text name="crew_ghost_short" language="ja">ゴースト</text>
@@ -25,7 +35,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.16.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -40,12 +50,12 @@
   <mod:setValue>名無し</mod:setValue> <!-- Vanilla text "名もなきクルー" does not fit as a ship name. "名無し" is at least suitable for both ship and crew names. -->
 </mod:findName>
 
-<text name="free_missile_chance" language="ja">ミサイルを消費しない確率：\1%</text>  
-<text name="erosion_chance" language="ja">発症率：\1%</text>  
-<text name="crew_statboost_chance" language="ja">発症率：\1%</text>  
-<text name="room_statboost_chance" language="ja">区画影響率: \1%</text>  
-<text name="crew_spawn_chance" language="ja">クルーの誕生率：\1%</text>  
-<text name="erosion_effect" language="ja">発症: \1 (\2 秒)</text>  
+<text name="free_missile_chance" language="ja">ミサイルを消費しない確率：\1%</text>
+<text name="erosion_chance" language="ja">発症率：\1%</text>
+<text name="crew_statboost_chance" language="ja">発症率：\1%</text>
+<text name="room_statboost_chance" language="ja">区画影響率: \1%</text>
+<text name="crew_spawn_chance" language="ja">クルーの誕生率：\1%</text>
+<text name="erosion_effect" language="ja">発症: \1 (\2 秒)</text>
 <text name="augment_no_effect" language="ja">この拡張パーツを搭載した場合、次に示す拡張パーツは効果を発揮しない：</text>
 <text name="seed_prompt" language="ja">シード</text>
 <text name="seed_prompt_disabled" language="ja">シード無効</text>
@@ -76,8 +86,8 @@
 <text name="power_not_ready_in_combat" language="ja">発動不可：敵艦なし</text>
 <text name="power_not_ready_system" language="ja">発動不可：\1システム不足</text>
 <text name="power_not_ready_system_functional" language="ja">発動不可：\1システムダウン</text>
-<text name="power_not_ready_min_health" language="ja">発動不可：HP\1未満</text> 
-<text name="power_not_ready_max_health" language="ja">発動不可：HP\1超過</text> 
+<text name="power_not_ready_min_health" language="ja">発動不可：HP\1未満</text>
+<text name="power_not_ready_max_health" language="ja">発動不可：HP\1超過</text>
 <text name="power_not_ready_system_damaged" language="ja">発動不可：区画に無傷のシステム不在</text>
 <text name="power_not_ready_mind_enemy" language="ja">発動不可：敵に操られている</text>
 <text name="power_not_ready_teleporting" language="ja">発動不可：テレポート中</text>
@@ -152,7 +162,7 @@
 <text name="weapon_lockdown" language="ja">命中区画を入出不能にする</text>
 <text name="scrap_value" language="ja">購入/売却価格：\1スクラップ/\2スクラップ</text>
 <text name="damage_word" language="ja">通常ダメージ</text>
-<text name="bomb_shots" language="ja">チャージごとの弾数：\1 (1ミサイル消費)</text>
+<text name="bomb_shots" language="ja">チャージごとの弾数：\1 (自船では1)</text>
 <text name="crew_scrap_value" language="ja">レンタル料：\1~</text>
 <text name="drone_speed" language="ja">ドローン移動速度：\1</text>
 <text name="defense_drone_reload_speed" language="ja">再装填速度：\1ms</text>
@@ -193,15 +203,19 @@
 <text name="hotkey_un_temporal" language="ja">時間操作機の出力を下げる</text>
 <text name="hotkey_temporal_speed" language="ja">時間加速</text>
 <text name="hotkey_temporal_slow" language="ja">時間停滞</text>
+<text name="hotkey_aim_artillery1" language="ja">弩級砲1照準</text>
+<text name="hotkey_aim_artillery2" language="ja">弩級砲2照準</text>
+<text name="hotkey_aim_artillery3" language="ja">弩級砲3照準</text>
+<text name="hotkey_aim_artillery4" language="ja">弩級砲4照準</text>
 
-
-<text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text> 
+<text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text>
 <text name="temporal_tooltip" language="ja">\3/\6秒間、\1x/\4倍速</text>
 <text name="temporal_arm_super_shields" language="ja">スーパーシールドにより阻止された</text>
 <text name="temporal_arm_speed" language="ja">\3秒間、区画内のすべてを\1倍の速度にする</text>
 <text name="temporal_arm_slow" language="ja">\6秒間、区画内のすべてを\4分の1の速度にする</text>
-<text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text> 
-<text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text> 
+<text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text>
+<text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text>
+<text name="confirm_buy_custom" language="ja">本当によろしいですか？\n\2が\1に置き換えられます。</text>
 
 <text name="tooltip_more_info" language="ja">次の情報を表示する拡張モードに切り替える：
 -兵器/ドローン/拡張機能の説明
@@ -211,22 +225,22 @@
 -格納庫でのリアクター数
 -イベント装備の説明
 
-キー: \1</text> 
+キー: \1</text>
 
-<text name="hangar_achievements_title_default" language="ja">船の実績</text>  
-<text name="hangar_achievements_title_custom" language="ja">達成したエンディング</text>  
-<text name="hangar_achievements_title_filter" language="ja">エンディングの種類を選択</text>  
-<text name="hangar_no_ship_achievements" language="ja">船の実績がありません。</text> 
+<text name="hangar_achievements_title_default" language="ja">船の実績</text>
+<text name="hangar_achievements_title_custom" language="ja">達成したエンディング</text>
+<text name="hangar_achievements_title_filter" language="ja">エンディングの種類を選択</text>
+<text name="hangar_no_ship_achievements" language="ja">船の実績がありません。</text>
 <!--
 <text name="discord_main_menu" language="ja">メインメニュー</text>
 <text name="discord_hangar" language="ja">格納庫</text>
 <text name="discord_dying" language="ja">死亡中</text>
 <text name="discord_exploring" language="ja">探索</text>
 <text name="discord_battle" language="ja">戦闘</text>
-<text name="discord_battle_boss" language="ja">ボス戦 (フェーズ \1)</text> 
-<text name="discord_sector" language="ja">\1 (\2/8)</text> 
-<text name="discord_ship" language="ja">\1 タイプ \2</text> 
-<text name="discord_playing_modded" language="ja">MODをプレイ中 (\1)</text> 
+<text name="discord_battle_boss" language="ja">ボス戦 (フェーズ \1)</text>
+<text name="discord_sector" language="ja">\1 (\2/8)</text>
+<text name="discord_ship" language="ja">\1 タイプ \2</text>
+<text name="discord_playing_modded" language="ja">MODをプレイ中 (\1)</text>
 <text name="discord_playing_vanilla" language="ja">バニラをプレイ中</text>
 <text name="discord_victory" language="ja">勝利</text>
 <text name="discord_dead" language="ja">敗北</text>
@@ -234,7 +248,7 @@
 -->
 <text name="tooltip_crew_page_down" language="ja">クリックすると、クルーのページが下へ移動します。スクロールホイールを使うこともできます。</text>
 <text name="tooltip_crew_page_up" language="ja">クリックすると、クルーのページが上へ移動します。スクロールホイールを使うこともできます。</text>
-<text name="tooltip_jump_noJump" language="ja">敵艦はあなたのFTLドライブを無効化しました。もう逃げられない。生き残るためには敵艦を倒すしかない!</text>
+<text name="tooltip_jump_noJump" language="ja">敵艦はあなたのFTLドライブを無効化しました。もう逃げられない。生き残るためには敵艦を倒すしかない！</text>
 <text name="tooltip_temporal" language="ja">時間操作機：1区画の時間の経過速度を変えます。</text>
 <text name="tooltip_temporal_enemy" language="ja">時間操作機：敵はこれを使って、1つの区画の時間の経過速度を変えることができます。</text>
 <text name="tooltip_PDS_FLEET_ALL" language="ja">艦隊の対艦砲がこの宙域の全艦に発砲している。</text>
@@ -243,7 +257,7 @@
 
 <text name="transfer_save_dialog" language="ja">このMODをプレイするのが初めてか、まだ新しいセーブファイルを設定していないようですね！バニラの進行状況を引き継ぐか、新しいセーブファイルでプレイしますか？バニラの進行状況には一切影響しません。</text>
 
-<text name="warning_pds_all" language="ja">中立!</text>
+<text name="warning_pds_all" language="ja">中立！</text>
 
 <text name="crewlist_more" language="ja"> その他大勢</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai" language="ja">と精密な艦載AI</text>
@@ -254,20 +268,20 @@
 <text name="credits_loc_ko_names" language="ja">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
 <text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
-<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>
-<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverseチーム</text>
+<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Teamチーム</text>
 <text name="credits_hyperspace_loc" language="ja">Hyperspace翻訳者:</text>
 <text name="credits_hyperspace_loc_fr" language="ja">フランス語</text>
 <text name="credits_hyperspace_loc_fr_names" language="ja">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="ja">イタリア語</text>
-<text name="credits_hyperspace_loc_it_names" language="ja">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="ja">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="ja">ドイツ語</text>
 <text name="credits_hyperspace_loc_de_names" language="ja">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="ja">スペイン語</text>
-<text name="credits_hyperspace_loc_es_names" language="ja">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="ja">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="ja">ポーランド語</text>
 <text name="credits_hyperspace_loc_pl_names" language="ja">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="ja">ポルトガル語(ブラジル)</text>
@@ -278,10 +292,18 @@
 <text name="credits_hyperspace_loc_zn_Hans_names" language="ja">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="ja">日本語</text>
 <text name="credits_hyperspace_loc_ja_names" language="ja">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="ja">韓国語</text>
-<text name="credits_hyperspace_loc_kor_names" language="ja">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="ja">韓国語</text>
+<text name="credits_hyperspace_loc_ko_names" language="ja">nedsociety, H2O</text>
 
 <text name="shields_4" language="ja">5層シールド</text>
 <text name="shields_5" language="ja">6層シールド</text>
 <text name="shields_6" language="ja">7層シールド</text>
 <text name="shields_7" language="ja">8層シールド</text>
+
+<text name="max_augments" language="ja">拡張パーツは\1個までしか持てない！</text>
+<text name="shot_limit" language="ja">兵器弾数制限: \1</text>
+<text name="shots_remaining" language="ja">残弾数: \1</text>
+<text name="warning_shot_limit" language="ja">弾切れ</text>
+<text name="shield_drone_layers_per_charge" language="ja">チャージごとのシールド枚数: \1</text>
+<text name="shield_drone_cooldowns" language="ja">クールダウン: \1</text>
+<text name="confirm_buy_last_subsystem" language="ja">これが最後のサブシステム枠です。\n本当によろしいですか？</text>

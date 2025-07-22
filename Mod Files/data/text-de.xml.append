@@ -11,6 +11,16 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="de">Nicht zerstörte Boardingdrohnen werden am Ende eines Gefechts eingesammelt.</text>
 <text name="aug_MIND_ORDER_title" language="de">Neurale Zügel</text>
 <text name="aug_MIND_ORDER_desc" language="de">Erlaubt direkte Kontrolle von Gedanken kontrollierter feindlicher Crew. Erlaubt auch die Nutzung von Fähigkeiten der kontrollierten Crew.</text>
+<text name="aug_SECTOR_SCANNER_title" language="de">Sektorscanner</text>
+<text name="aug_SECTOR_SCANNER_desc" language="de">Ermöglicht es alle Sektortypen zu erfassen, auch wenn diese nicht in unmittelbarer Nähe liegen.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="de">Artillerie-Feinjustierung</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="de">Ermöglicht manuelles Zielen von Artillerien.</text>
+<text name="aug_TELEPORT_RECALL_title" language="de">Teleportschleudersitz</text>
+<text name="aug_TELEPORT_RECALL_desc" language="de">Crewmitglieder werden sofort zurückteleportiert, wenn das Gegnerschiff springt oder zerstört wurde.</text>
+<text name="aug_AUGMENT_SLOT_title" language="de">Ausbaukapazität</text>
+<text name="aug_AUGMENT_SLOT_desc" language="de">Erhöht die Menge an Ausbauplätzen um 1.</text>
+<text name="aug_CARGO_SLOT_title" language="de">Frachtkapazität</text>
+<text name="aug_CARGO_SLOT_desc" language="de">Vergrößert den Frachtraum um einen Platz.</text>
 <text name="crew_ghost_desc" language="de">Geister der vergangenen Crew.</text>
 <text name="crew_ghost_title" language="de">Geist</text>
 <text name="crew_ghost_short" language="de">Geist</text>
@@ -25,7 +35,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.16.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -185,13 +195,18 @@
 <text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
 <text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
 <text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
-<text name="temporal" language="de">Temporalmanipulator</text> 
+<text name="hotkey_aim_artillery1" language="de">Geschütz 1 Zielen</text>
+<text name="hotkey_aim_artillery2" language="de">Geschütz 2 Zielen</text>
+<text name="hotkey_aim_artillery3" language="de">Geschütz 3 Zielen</text>
+<text name="hotkey_aim_artillery4" language="de">Geschütz 4 Zielen</text>
+<text name="temporal" language="de">Temporalmanipulator</text>
 <text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 Sek.</text>
 <text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
 <text name="temporal_arm_speed" language="de">Beschleunige alles im Raum \1x für \3 Sekunden.</text>
 <text name="temporal_arm_slow" language="de">Verlangsame alles im Raum \4x für \6 Sekunden.</text>
 <text name="temporal_button_speed" language="de">Beschleunige alles in einem Raum für einen Moment.\nTaste: \1</text>
 <text name="temporal_button_slow" language="de">Verlangsame alles in einem Raum für einen Moment.\nTaste: \1</text>
+<text name="confirm_buy_custom" language="de">Bist du sicher?\nDas \1-System ersetzt das \2-System.</text>
 <text name="tooltip_more_info" language="de">Aktiviere erweiterte Informationen, zeigt zusätzliche Infos über:
 -Kurzinfos für Waffen/Drohnen/Ausbauten
 -Kurzinfos für Crew
@@ -205,7 +220,7 @@ Taste: \1</text>
 <text name="hangar_achievements_title_default" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_custom" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_filter" language="de">Filter Schiffserfolge</text>
-<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text> 
+<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text>
 <text name="discord_main_menu" language="de">Im Hauptmenü</text>
 <text name="discord_hangar" language="de">Im Hangar</text>
 <text name="discord_dying" language="de">Stirbt</text>
@@ -249,20 +264,20 @@ Taste: \1</text>
 <text name="credits_loc_ko_names" language="de">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="de">Hyperspace Projekt</text>
 <text name="credits_hyperspace_developed_by" language="de">Entwickelt von:</text>
-<text name="credits_hyperspace_developed_names" language="de">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="de">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="de">Zusätzliche Grafiken:</text>
 <text name="credits_hyperspace_art_names" language="de">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="de">Zusätzliche Beiträge:</text>
-<text name="credits_hyperspace_contributors_names" language="de">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="de">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="de">Hyperspace Translators:</text>
 <text name="credits_hyperspace_loc_fr" language="de">Französisch</text>
 <text name="credits_hyperspace_loc_fr_names" language="de">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="de">Italienisch</text>
-<text name="credits_hyperspace_loc_it_names" language="de">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="de">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="de">Deutsch</text>
 <text name="credits_hyperspace_loc_de_names" language="de">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="de">Spanisch</text>
-<text name="credits_hyperspace_loc_es_names" language="de">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="de">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="de">Polnisch</text>
 <text name="credits_hyperspace_loc_pl_names" language="de">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="de">Brasilianisch-Portugiesisch</text>
@@ -273,10 +288,18 @@ Taste: \1</text>
 <text name="credits_hyperspace_loc_zn_Hans_names" language="de">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="de">Japanisch</text>
 <text name="credits_hyperspace_loc_ja_names" language="de">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="de">Koreanisch</text>
-<text name="credits_hyperspace_loc_kor_names" language="de">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="de">Koreanisch</text>
+<text name="credits_hyperspace_loc_ko_names" language="de">nedsociety, H2O</text>
 
 <text name="shields_4" language="de">Fünf Schildbarrieren</text>
 <text name="shields_5" language="de">Sechs Schildbarrieren</text>
 <text name="shields_6" language="de">Sieben Schildbarrieren</text>
 <text name="shields_7" language="de">Acht Schildbarrieren</text>
+
+<text name="max_augments" language="de">Dein Schiff kann \1 Ausbauten aufnehmen.</text>
+<text name="shot_limit" language="de">Salven Limit: \1</text>
+<text name="shots_remaining" language="de">Salven übrig: \1</text>
+<text name="warning_shot_limit" language="de">FEUER LIMIT ERREICHT</text>
+<text name="shield_drone_layers_per_charge" language="de">Superschild-Barriere pro Aufladung: \1</text>
+<text name="shield_drone_cooldowns" language="de">Ladezeit: \1</text>
+<text name="confirm_buy_last_subsystem" language="de">Das ist der letzte Subsystemplatz deines Schiffs.\nBist du sicher?</text>

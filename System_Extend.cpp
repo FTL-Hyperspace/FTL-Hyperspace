@@ -26,6 +26,58 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 
     HS_MAKE_TABLE(this)
 
+    //Set up proper defaults for systemBox offsets
+    switch (systemId)
+    {
+        //Armament systems
+        case SYS_WEAPONS:
+        case SYS_DRONES:
+        {
+            ex->xOffset = 48;
+            break;
+        }
+        //Button systems
+        case SYS_MIND:
+        case SYS_HACKING:   
+        case SYS_CLOAKING:
+        case SYS_TELEPORTER:
+        case SYS_TEMPORAL:
+        case SYS_BATTERY:
+        {
+            ex->xOffset = 54;
+            break;
+        }
+        
+        //Basic systems
+        case SYS_ARTILLERY:
+        case SYS_CLONEBAY:
+        case SYS_MEDBAY:
+        case SYS_SHIELDS:
+        case SYS_ENGINES:
+        case SYS_OXYGEN:
+        case SYS_PILOT:
+        case SYS_SENSORS:
+        {
+            ex->xOffset = 36;
+            break;
+        }
+        //Special case
+        case SYS_DOORS:
+        {
+            ex->xOffset = 51;
+            break;
+        }
+    
+        //Custom systems are set via lua callback but this is present for in case the user forgets to set it
+        default:
+        {
+            ex->xOffset = 36;
+            break;
+        }
+    }
+    //Set up subsystems
+    if (systemId >= SYS_CUSTOM_FIRST) bNeedsPower = !ShipSystem::IsSubsystem(systemId);
+
     //Push base class data only, to avoid garbage data (Derived class constructor not yet called)
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipSystem, 0);

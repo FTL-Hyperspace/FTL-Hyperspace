@@ -11,6 +11,16 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="es">Los Drones de Abordaje no destruidos serán recuperados al final del combate.</text>
 <text name="aug_MIND_ORDER_title" language="es">Riendas Neurales</text>
 <text name="aug_MIND_ORDER_desc" language="es">Permite el control directo de la tripulación enemiga controlada mentalmente. También toma propiedad de todos los efectos que tenga el tripulante.</text>
+<text name="aug_SECTOR_SCANNER_title" language="es">Escáner del Sector</text>
+<text name="aug_SECTOR_SCANNER_desc" language="es">Permite ver el tipo de sector exacto incluso si no esta adyacente al actual</text>
+<text name="aug_ARTILLERY_ORDER_title" language="es">Apuntado avanzado</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="es">Permite el apuntado manual de los sistemas de artillería.</text>
+<text name="aug_TELEPORT_RECALL_title" language="es">Teletransportador personal.</text>
+<text name="aug_TELEPORT_RECALL_desc" language="es">La tripulación que este teletrasnportandose o este siendo destruida será teletransportada automáticamente de regreso a la navel.</text>
+<text name="aug_AUGMENT_SLOT_title" language="es">Capacidad de Aumentos</text>
+<text name="aug_AUGMENT_SLOT_desc" language="es">Incrementa la capacidad de Aumentos en 1.</text>
+<text name="aug_CARGO_SLOT_title" language="es">Capacidad de Carga</text>
+<text name="aug_CARGO_SLOT_desc" language="es">Incrementa el espacio de carga en 1.</text>
 <text name="crew_ghost_desc" language="es">Espectros de antiguos tripulantes.</text>
 <text name="crew_ghost_title" language="es">Espectro</text>
 <text name="crew_ghost_short" language="es">Espectro</text>
@@ -26,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace (FTL: Hyperspace)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="es">
-  <mod:setValue>\1 (Hyperspace 1.16.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="es">
   <mod:setValue>Probabilidad de Fuego: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -190,6 +200,10 @@
 <text name="hotkey_un_temporal" language="es">Quitar Poder al Manipulador Temporal</text>
 <text name="hotkey_temporal_speed" language="es">Acelerar Velocidad Temporal</text>
 <text name="hotkey_temporal_slow" language="es">Realentizar Velocidad Temporal</text>
+<text name="hotkey_aim_artillery1" language="es">Apuntar Artilleria 1</text>
+<text name="hotkey_aim_artillery2" language="es">Apuntar Artilleria 2</text>
+<text name="hotkey_aim_artillery3" language="es">Apuntar Artilleria 3</text>
+<text name="hotkey_aim_artillery4" language="es">Apuntar Artilleria 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -201,13 +215,14 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \5: slow cooldown
 \6: slow duration
 -->
-<text name="temporal" language="es">el Manipulador Temporal</text> 
+<text name="temporal" language="es">el Manipulador Temporal</text>
 <text name="temporal_tooltip" language="es">\1x/\4x de velocidad por \3/\6 seg</text>
 <text name="temporal_arm_super_shields" language="es">Bloqueado por super escudos.</text>
 <text name="temporal_arm_speed" language="es">Acelera todo en la habitación por \1x por \3 segundos.</text>
 <text name="temporal_arm_slow" language="es">Realentiza todo en la habitación por \4x por \6 segundos.</text>
 <text name="temporal_button_speed" language="es">Acelera todo lo que ocurre en una habitación por una corta duración.\nAtajo: \1</text> <!-- key name -->
 <text name="temporal_button_slow" language="es">Realentiza todo lo que ocurre en una habitación por una corta duración.\nAtajo: \1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="es">Estas seguro?\nTu \1 reemplazará tu \2.</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="es">Encender/Apagar información avanzada, la cual provee datos extra sobre:
 -Consejos sobre Armas/Drones/Mejoras
@@ -222,9 +237,9 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="hangar_achievements_title_default" language="es">Logros de Naves</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom" language="es">Victorias de Naves</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter" language="es">Filtrar Tipos de Victoria</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements" language="es">No Hay Logros para la Nave</text> 
+<text name="hangar_no_ship_achievements" language="es">No Hay Logros para la Nave</text>
 <!-- Discord Integration -->
-<!-- 
+<!--
 <text name="discord_main_menu" language="es">En el menu principal</text>
 <text name="discord_hangar" language="es">En el hangar</text>
 <text name="discord_dying" language="es">Muriendo</text>
@@ -262,20 +277,20 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="es">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="es">Proyecto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="es">Desarrollado por:</text>
-<text name="credits_hyperspace_developed_names" language="es">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names" language="es">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art" language="es">Arte adicional:</text>
 <text name="credits_hyperspace_art_names" language="es">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="es">Contribuciones adicionales:</text>
-<text name="credits_hyperspace_contributors_names" language="es">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nEquipo de FTL Multiverse </text>
+<text name="credits_hyperspace_contributors_names" language="es">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="es">Traductores de Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="es">Francés</text>
 <text name="credits_hyperspace_loc_fr_names" language="es">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="es">Italiano</text>
-<text name="credits_hyperspace_loc_it_names" language="es">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="es">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="es">Alemán</text>
 <text name="credits_hyperspace_loc_de_names" language="es">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="es">Español</text>
-<text name="credits_hyperspace_loc_es_names" language="es">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="es">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="es">Polaco</text>
 <text name="credits_hyperspace_loc_pl_names" language="es">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="es">Portugués (Brazil)</text>
@@ -286,10 +301,18 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names" language="es">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="es">Japonés</text>
 <text name="credits_hyperspace_loc_ja_names" language="es">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="es">Coreano</text>
-<text name="credits_hyperspace_loc_kor_names" language="es">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="es">Coreano</text>
+<text name="credits_hyperspace_loc_ko_names" language="es">nedsociety, H2O</text>
 
 <text name="shields_4" language="es">Cinco escudos</text>
 <text name="shields_5" language="es">Seis escudos</text>
 <text name="shields_6" language="es">Siete escudos</text>
 <text name="shields_7" language="es">Ocho escudos</text>
+
+<text name="max_augments" language="es">Tu nave solo puede tener instalados \1 aumentos.</text>
+<text name="shot_limit" language="es">Limite de disparos del arma: \1</text>
+<text name="shots_remaining" language="es">Disparos: \1</text>
+<text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO</text>
+<text name="shield_drone_layers_per_charge" language="es">Barras de escudo por cada carga: \1</text>
+<text name="shield_drone_cooldowns" language="es">Enfriamiento: \1</text>
+<text name="confirm_buy_last_subsystem" language="es">Este es tu último subsistema de la nave.\nEstas seguro?</text>
