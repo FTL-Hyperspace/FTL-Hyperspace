@@ -27,6 +27,7 @@
 #include "CustomShips.h"
 #include "CustomTutorial.h"
 #include "TemporalSystem.h"
+#include "RoamingShip.h"
 #include "Misc.h"
 #include "CustomDamage.h"
 %}
@@ -1302,6 +1303,13 @@ We can expose them once the root cause is identified and the crash is fixed.
 %immutable StarMap::fuelEventSeed;
 */
 ////%rename("%s") StarMap::foundMap; // Not sure what this map of location/bool does but maybe this is for marking what nodes have information, like if you find the sector map & scan???
+
+%rename("%s") RoamingShipsManager;
+%rename("%s") RoamingShipsManager::instance;
+%rename("%s") RoamingShipsManager::GetInstance;
+%rename("%s") RoamingShipsManager::AddRoamingShip;
+%rename("%s") RoamingShipsManager::RemoveRoamingShip;
+
 %rename("%s") StarMap::ForceWaitMessage;
 %extend StarMap {
     //TODO: Figure out best ownership approach for this
@@ -4443,5 +4451,6 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "CommandConsole.h"
 %include "CustomTutorial.h"
 %include "TemporalSystem.h"
+%include "RoamingShip.h"
 %include "Misc.h"
 %include "CustomDamage.h"

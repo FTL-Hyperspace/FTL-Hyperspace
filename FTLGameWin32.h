@@ -7043,6 +7043,7 @@ struct Ship : ShipObject
 	LIBZHL_API void OnRenderSparks();
 	LIBZHL_API void OnRenderWalls(bool forceView, bool doorControlMode);
 	LIBZHL_API bool RoomLocked(int roomId);
+	LIBZHL_API void SetDestroyed(bool animation, bool bossAnimation);
 	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
 	LIBZHL_API void SetSelectedRoom(int roomId);
 	
