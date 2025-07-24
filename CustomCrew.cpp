@@ -5385,6 +5385,33 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
     return super(task, crewId);
 }
 
+//Prevent impossible tasks from blocking manning
+HOOK_METHOD(CrewMember, SetCurrentSystem, (ShipSystem* system) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetCurrentSystem -> Begin (CustomCrew.cpp)\n")
+    
+    if (system == nullptr) return super(system);
+    else
+    {
+        bool oldOccupied = system->bOccupied;
+        bool oldOnFire = system->bOnFire;
+        int oldHealth = system->healthState.first;
+
+        if (!CanRepair())
+        {
+            system->bOnFire = false;
+            system->healthState.first = system->healthState.second;
+        }
+        if (!CanFight()) system->bOccupied = false;
+
+        super(system);
+
+        system->bOccupied = oldOccupied;
+        system->bOnFire = oldOnFire;
+        system->healthState.first = oldHealth;
+    }
+}
+
 HOOK_METHOD(CrewMember, GetSavedPosition, () -> Slot)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::GetSavedPosition -> Begin (CustomCrew.cpp)\n")
