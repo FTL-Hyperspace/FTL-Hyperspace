@@ -1575,7 +1575,7 @@ extraConditions: list of extra conditions. Same syntax as for power requirements
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
   Can also use load attribute to load a blueprintList, or <blueprintList load="LIST_NAME"/> to load any number of lists.
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
-priority: determines the timing of when the boost gets applied, useful when you want to change how things stack. A bigger priority number means that the boost is calculated first, and the default priority is 0
+priority: determines the timing of when the boost gets applied, useful when you want to change how things stack. A lower priority number means that the boost is calculated first, and the default priority is 0
 systemList: the list of systems to use with the next variable. can be the file-name of any system (e.g. "mind") or all
 systemRoomTarget: determines if the boost only works in the systems provided, or only *doesn't* work in those systems.
 systemPowerDependency: determines the systems that affect the power of this stat boost. can be any amount of system file names, reactorMax, reactorCurrent, or all
