@@ -4036,8 +4036,15 @@ void EventDamageEnemy(EventDamage eventDamage)
         int room = -1;
         if (eventDamage.system == 18)
         {
-            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
-            room = randomSystem->GetRoomId();
+            if (!enemyShip->vSystemList.empty())
+            {
+                ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+                room = randomSystem->GetRoomId();
+            }
+            else
+            {
+                room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+            }
         }
         else if (eventDamage.system == 19)
         {

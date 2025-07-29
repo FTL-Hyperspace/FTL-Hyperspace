@@ -6026,6 +6026,7 @@ struct Fire;
 
 struct Repairable : Selectable
 {
+	uint8_t padding[4];
 	ShipObject shipObj;
 	float fDamage;
 	Point pLoc;
