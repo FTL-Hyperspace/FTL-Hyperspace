@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="ko">인접하지 않은 구역이 어떤 구역인지 확인할 수 있습니다.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="ko">첨단 조준기</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="ko">함포를 직접 조준할 수 있게 해 줍니다.</text>
+<text name="aug_TELEPORT_RECALL_title" language="ko">응급 순간이동기</text>
+<text name="aug_TELEPORT_RECALL_desc" language="ko">적 함선이 격파되거나 도약할 때, 함선에 남아있는 아군 대원이 자동으로 귀환합니다.</text>
+<text name="aug_AUGMENT_SLOT_title" language="ko">보조장비 확장기</text>
+<text name="aug_AUGMENT_SLOT_desc" language="ko">보조장비 슬롯이 한 칸 늘어납니다.</text>
+<text name="aug_CARGO_SLOT_title" language="ko">창고 확장기</text>
+<text name="aug_CARGO_SLOT_desc" language="ko">창고 슬롯이 한 칸 늘어납니다.</text>
 <text name="crew_ghost_desc" language="ko">떠나버린 선원의 유령.</text>
 <text name="crew_ghost_title" language="ko">고스트</text>
 <text name="crew_ghost_short" language="ko">Ghost</text>
@@ -30,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ko">
-  <mod:setValue>\1 (Hyperspace 1.18.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ko">
   <mod:setValue>화재 발생 확률: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -194,10 +200,10 @@
 <text name="hotkey_un_temporal" language="ko">시간 조율기 전력공급 중단</text>
 <text name="hotkey_temporal_speed" language="ko">시간 가속</text>
 <text name="hotkey_temporal_slow" language="ko">시간 감속</text>
-<text name="hotkey_artillery1" language="ko">함포 1 조준</text>
-<text name="hotkey_artillery2" language="ko">함포 2 조준</text>
-<text name="hotkey_artillery3" language="ko">함포 3 조준</text>
-<text name="hotkey_artillery4" language="ko">함포 4 조준</text>
+<text name="hotkey_aim_artillery1" language="ko">함포 1 조준</text>
+<text name="hotkey_aim_artillery2" language="ko">함포 2 조준</text>
+<text name="hotkey_aim_artillery3" language="ko">함포 3 조준</text>
+<text name="hotkey_aim_artillery4" language="ko">함포 4 조준</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -209,7 +215,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \5: slow cooldown
 \6: slow duration
 -->
-<text name="temporal" language="ko">시간 조율기</text> 
+<text name="temporal" language="ko">시간 조율기</text>
 <text name="temporal_tooltip" language="ko">\3/\6초 동안 \1/\4배</text>
 <text name="temporal_arm_super_shields" language="ko">슈퍼 방어막에 의해 차단됨.</text>
 <text name="temporal_arm_speed" language="ko">\3초 동안 선실 내에 있는 모든 것을 \1x배로 가속합니다.</text>
@@ -231,7 +237,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="hangar_achievements_title_default" language="ko">함선 업적</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom" language="ko">함선 승리</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter" language="ko">승리 유형 필터</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements" language="ko">함선 업적 없음</text> 
+<text name="hangar_no_ship_achievements" language="ko">함선 업적 없음</text>
 <!-- Discord Integration -->
 <!--
 <text name="discord_main_menu" language="ko">In main menu</text>
@@ -275,7 +281,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_art" language="ko">추가 아트웍:</text>
 <text name="credits_hyperspace_art_names" language="ko">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ko">추가 기여:</text>
-<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="ko">하이퍼스페이스 번역:</text>
 <text name="credits_hyperspace_loc_fr" language="ko">프랑스어</text>
 <text name="credits_hyperspace_loc_fr_names" language="ko">Pepson</text>
@@ -307,3 +313,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shot_limit" language="ko">무기 발사 횟수 제한: \1</text>
 <text name="shots_remaining" language="ko">남은 발사 횟수: \1</text>
 <text name="warning_shot_limit" language="ko">더 이상 발사할 수 없습니다</text>
+<text name="shield_drone_layers_per_charge" language="ko">방어막 충전량: \1</text>
+<text name="shield_drone_cooldowns" language="ko">충전 시간: \1</text>
+<text name="confirm_buy_last_subsystem" language="ko">이것은 전함의 마지막 보조 시스템 슬롯입니다.\n 확실합니까?</text>

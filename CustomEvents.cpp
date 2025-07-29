@@ -12,6 +12,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
+#include "Equipment_Extend.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -3125,8 +3126,9 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
 
     if (!removedItem && g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
+        Equipment *equip = &(G_->GetWorld()->commandGui->equipScreen);
+        CustomEquipment *custom = EQ_EX(equip)->customEquipment;
+        auto boxes = equip->vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -3141,6 +3143,7 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
                     if (cargoItem->name == name)
                     {
                         box->RemoveItem();
+                        custom->UpdateOverCapacityItems();
                         return;
                     }
                 }
@@ -4033,8 +4036,15 @@ void EventDamageEnemy(EventDamage eventDamage)
         int room = -1;
         if (eventDamage.system == 18)
         {
-            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
-            room = randomSystem->GetRoomId();
+            if (!enemyShip->vSystemList.empty())
+            {
+                ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+                room = randomSystem->GetRoomId();
+            }
+            else
+            {
+                room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+            }
         }
         else if (eventDamage.system == 19)
         {
@@ -4698,7 +4708,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 }
 
 static bool g_noASBPlanet = false;
-
+static std::vector<CompleteShip*> replacedShips;
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
@@ -4717,7 +4727,44 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         }
     }
 
+    //Fix bug with multiple enemies at the same beacon
+    bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
+    if (loc->ship.present && !ships.empty() && hasLoadAttribute && CustomOptionsManager::GetInstance()->multiShipFix.currentValue) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
+    {
+        hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
+        CompleteShip* replacedShip = ships[0];
+        commandGui->combatControl.Clear();
+        replacedShip->shipManager->KillEveryone(true);
+        replacedShip->shipManager->SetDestroyed();
+
+        replacedShips.push_back(replacedShip);
+        ships.clear();
+        ShipManager* oldEnemy = playerShip->enemyShip->shipManager;
+        auto& spaceShips = space.ships;
+        spaceShips.erase(std::remove_if(spaceShips.begin(), spaceShips.end(), [=](ShipManager* ship) {return ship == oldEnemy;}), spaceShips.end());
+    }
+
     super(loc);
+
+    auto CheckHackingDrone = [&](CompleteShip* ship)
+    {
+        if (ship->shipManager->hackingSystem)
+        {
+            bool needHackingDrone = true;
+            for (SpaceDrone* drone : space.drones)
+            {
+                if (drone == &ship->shipManager->hackingSystem->drone)
+                {
+                    needHackingDrone = false;
+                    break;
+                }
+            }
+            if (needHackingDrone)
+            {
+                space.drones.push_back(&ship->shipManager->hackingSystem->drone);
+            }
+        }
+    };
 
     if (loc->ship.present && loc->ship.hostile && !ships.empty())
     {
@@ -4728,38 +4775,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             {
                 commandGui->combatControl.Clear();
                 commandGui->AddEnemyShip(enemyShip);
-                if (playerShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &playerShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
-                    }
-                }
-                if (enemyShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
-                    }
-                }
+                CheckHackingDrone(playerShip);
+                CheckHackingDrone(enemyShip);
             }
         }
     }
@@ -4824,6 +4841,18 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     g_noASBPlanet = false;
+}
+
+//Clean up any replaced ships
+HOOK_METHOD(WorldManager, ClearLocation, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ClearLocation -> Begin (CustomEvents.cpp)\n")
+    for (CompleteShip* replacedShip : replacedShips)
+    {
+        delete replacedShip;
+    }
+    replacedShips.clear();
+    super();
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -5032,22 +5061,22 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
 
     int env = loc->event->environment;
 
-    // TODO: Switch anyone, or maybe at least some elses?
-    if (env == 1)
+    switch (env)
     {
-        retStr += " \n" + lib->GetText("map_asteroid_loc");
-    }
-    if (env == 2)
-    {
-        retStr += " \n" + lib->GetText("map_sun_loc");
-    }
-    if (env == 4)
-    {
-        retStr += " \n" + lib->GetText("map_ion_loc");
-    }
-    if (env == 5)
-    {
-        retStr += " \n" + lib->GetText("map_pulsar_loc");
+        case 1:
+            retStr += " \n" + lib->GetText("map_asteroid_loc");
+            break;
+        case 2:
+            retStr += " \n" + lib->GetText("map_sun_loc");
+            break;
+        case 4:
+            retStr += " \n" + lib->GetText("map_ion_loc");
+            break;
+        case 5:
+            retStr += " \n" + lib->GetText("map_pulsar_loc");
+            break;
+        default:
+            break;
     }
 
     if (env != 6 || loc->boss)
@@ -5220,14 +5249,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& 
     std::vector<Location*> nebulaFreeLocations;
     std::vector<Location*> defaultNebulaEventLocCandidates;
 
-    if (locations.size() > 0)
+    for (Location *loc : locations)
     {
-        for (Location *loc : locations)
+        if (!loc->nebula)
         {
-            if (!loc->nebula)
-            {
-                nebulaFreeLocations.push_back(loc);
-            }
+            nebulaFreeLocations.push_back(loc);
         }
     }
 
@@ -5315,15 +5341,12 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& 
     // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
     // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
     // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
-    if (nebulaFreeLocations.size() < pEventCount)
+    for (int i = pEventCount - nebulaFreeLocations.size(); i >= 0; --i)
     {
-        for (int i = pEventCount - nebulaFreeLocations.size(); i > 0; --i)
-        {
-            if (defaultNebulaEventLocCandidates.empty()) break;
+        if (defaultNebulaEventLocCandidates.empty()) break;
 
-            defaultNebulaEventLocCandidates.back()->nebula = false;
-            defaultNebulaEventLocCandidates.pop_back();
-        }
+        defaultNebulaEventLocCandidates.back()->nebula = false;
+        defaultNebulaEventLocCandidates.pop_back();
     }
     for (Location *loc : defaultNebulaEventLocCandidates)
     {

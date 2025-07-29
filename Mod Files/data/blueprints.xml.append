@@ -56,7 +56,7 @@
 	<title id="aug_TELEPORT_RECALL_title"/>
 	<desc id="aug_TELEPORT_RECALL_desc"/>
 	<cost>150</cost>
-	<rarity>4</rarity>
+	<rarity>0</rarity>
 	<stackable>false</stackable>
 </augBlueprint>
 
@@ -131,7 +131,7 @@
 <!--
 <weaponBlueprint name="WEAPON_NAME">
 	...
-	
+
 	(added blueprint attribute for BURST weapons; allows a certain projectile to inherit the stats of a different blueprint)
 	(does not work for fake projectiles; also all projectiles with the same anim_name will be affected, even if they don't all have the blueprint attribute)
 	(if you want different overrides on the same animation, you will need to make copies of the animation; they can use the same sheet)
@@ -139,14 +139,14 @@
 	<projectiles>
 		<projectile count="3" fake="false" blueprint="OTHER_BP">anim_name</projectile>
 	</projectiles>
-	
+
 	<freeMissileChance>0.0</freeMissileChance>       Probability that the weapon does not consume missiles when fired. Rolled separately from explosive replicator.
-	
+
 	<descriptionOverride id="">TEXT</descriptionOverride>                 Replaces standard weapon description with custom text. Also replaces extended if the latter is not specified.
 	<advancedDescriptionOverride id="">TEXT</advancedDescriptionOverride> Replaces extended weapon description with custom text.
 	<tooltipOverride id="">TEXT</tooltipOverride>                         Replaces standard weapon tooltip with custom text. Also replaces extended if the latter is not specified.
 	<advancedTooltipOverride id="">TEXT</advancedTooltipOverride>         Replaces extended weapon tooltip with custom text.
-	
+
 	<hideEventTooltip>false</hideEventTooltip>       Prevents showing event tooltip on hover in events; useful for mystery weapons or weapons whose stats should otherwise not be seen on the event screen.
 	<accuracyMod>0</accuracyMod>                     Changes weapon accuracy. This is equivalent to subtracting accuracyMod from the enemy's evasion for this weapon when performing the evasion check.
 	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
@@ -168,7 +168,7 @@
 			(uses roomAnim syntax, see custom ships)
 		</roomAnim>
 	</erosion>
-	
+
 	<statBoostChance>0</statBoostChance>             Chance to apply stat boosts as listed below.
 	<statBoosts>                                     Same as statBoosts for crew/augment/etc. - list of all stat boosts to apply.
 		<statBoost>                                  Conditions for stat boost are checked on application. Once applied, the effect is continuous. Use a nested self statboost if you want to check conditions continuously.
@@ -176,7 +176,7 @@
 			...
 		</statBoost>
 	</statBoosts>
-	
+
 	<roomStatBoostChance>0</roomStatBoostChance>     Chance to apply room stat boosts as listed below.
 	<roomStatBoosts>                                 Same as statBoosts but applies a lingering effect to the hit room.
 		<statBoost>                                  Conditions for stat boosts are on top of being restricted to the affected room. If the room cannot be affected, the stat boost is not applied.
@@ -184,7 +184,7 @@
 			...
 		</statBoost>
 	</roomStatBoosts>
-	
+
 	<crewSpawnChance>0</crewSpawnChance>             Chance to spawn the crew listed below.
 	<spawnCrew>                                      Include as many <spawnCrew> tags as you need.
 		<race>human</race>                           Race to spawn.
@@ -198,7 +198,7 @@
 		<enemy>false</enemy>                         If true, spawns crew of enemy alignment.
 		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
 	</spawnCrew>
-	
+
 	<iconReplace>ANIMATION</iconReplace>             Replaces the weapon icon in equipment/store/hangar screens. Animation should have a single frame.
 	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
@@ -220,7 +220,7 @@
 	<droneImage>drone_shield</droneImage>
 	<rarity>4</rarity>
 	<iconImage>shield</iconImage>
-	
+
 	The following tags can be used to customize shield drones:
 	<chargeSound>shieldDroneCharge</chargeSound> The sound to play as the drone slows down.
 	<activateSound>shieldDroneActivate</activateSound> The sound to play as the drone activates.
