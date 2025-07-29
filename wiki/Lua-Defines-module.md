@@ -136,6 +136,8 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | CONSTRUCT_SHIP_MANAGER | `ShipManager ship` | `None` | Called when constructing a ShipManager |
 | CONSTRUCT_SHIP_SYSTEM | `ShipSystem system` | `None` | Called when constructing a ship system |
 | CONSTRUCT_SYSTEM_BOX | `SystemBox systemBox` | `None` | Called when constructing a GUI system box |
+| CALCULATE_STAT_PRE | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Chain`, `amount`, `value` | Called before applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
+| CALCULATE_STAT_POST | `CrewMember crew`, `CrewStat stat`, `CrewDefinition def`, `float amount`, `bool value` | `Chain`, `amount`, `value` | Called after applied `StatBoosts` are calculated. Preempt prevents those boosts from being applied.
 
 ## Other predefined values
 
