@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="it">Permette di vedere il tipo esatto di un settore anche se non è adiacente a quello attuale.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="it">Agganciamento avanzato</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="it">Permette di usare la mira manuale per i sistemi di artiglieria.</text>
+<text name="aug_TELEPORT_RECALL_title" language="it">Teletrasporto d'emergenza</text>
+<text name="aug_TELEPORT_RECALL_desc" language="it">L'equipaggio su una nave nemica in salto o che viene distrutta è richiamato automaticamente.</text>
+<text name="aug_AUGMENT_SLOT_title" language="it">Espansione funzionale</text>
+<text name="aug_AUGMENT_SLOT_desc" language="it">Aumenta gli slot accessori di 1.</text>
+<text name="aug_CARGO_SLOT_title" language="it">Espansione stiva</text>
+<text name="aug_CARGO_SLOT_desc" language="it">Aumenta gli slot della stiva di 1.</text>
 <text name="crew_ghost_desc" language="it">Fantasmi dell'equipaggio del passato.</text>
 <text name="crew_ghost_title" language="it">Fantasma</text>
 <text name="crew_ghost_short" language="it">Fant.</text>
@@ -30,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="it">
-  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="it">
   <mod:setValue>Possibilità di Incendio: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -194,10 +200,10 @@
 <text name="hotkey_un_temporal" language="it">Disattiva il manipolatore temporale</text>
 <text name="hotkey_temporal_speed" language="it">Accelerazione temporale</text>
 <text name="hotkey_temporal_slow" language="it">Rallentamento temporale</text>
-<text name="hotkey_artillery1" language="it">Bersaglio artiglieria 1</text>
-<text name="hotkey_artillery2" language="it">Bersaglio artiglieria 2</text>
-<text name="hotkey_artillery3" language="it">Bersaglio artiglieria 3</text>
-<text name="hotkey_artillery4" language="it">Bersaglio artiglieria 4</text>
+<text name="hotkey_aim_artillery1" language="it">Bersaglio artiglieria 1</text>
+<text name="hotkey_aim_artillery2" language="it">Bersaglio artiglieria 2</text>
+<text name="hotkey_aim_artillery3" language="it">Bersaglio artiglieria 3</text>
+<text name="hotkey_aim_artillery4" language="it">Bersaglio artiglieria 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -209,7 +215,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 \5: slow cooldown
 \6: slow duration
 -->
-<text name="temporal" language="it">il manipolatore temporale</text> 
+<text name="temporal" language="it">il manipolatore temporale</text>
 <text name="temporal_tooltip" language="it">\1x/\4x velocità per \3/\6 sec</text>
 <text name="temporal_arm_super_shields" language="it">Bloccato da super scudi.</text>
 <text name="temporal_arm_speed" language="it">Accelera tutto nella stanza \1x per \3 secondi.</text>
@@ -231,7 +237,7 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="hangar_achievements_title_default" language="it">Conseguimento dell'astronave</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_custom" language="it">Vittorie delle astronavi</text>  <!-- Shown above the ship achievement list -->
 <text name="hangar_achievements_title_filter" language="it">Filtrare i tipi di vittoria</text>  <!-- Shown above the ship achievement list -->
-<text name="hangar_no_ship_achievements" language="it">Nessun conseguimento sull'astronave</text> 
+<text name="hangar_no_ship_achievements" language="it">Nessun conseguimento sull'astronave</text>
 <!-- Discord Integration -->
 <!--
 <text name="discord_main_menu" language="it">Nel menu principale</text>
@@ -275,7 +281,7 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_art" language="it">Ulteriore art:</text>
 <text name="credits_hyperspace_art_names" language="it">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="it">Contributi Aggiuntivi:</text>
-<text name="credits_hyperspace_contributors_names" language="it">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="it">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="it">Hyperspace Traduttori:</text>
 <text name="credits_hyperspace_loc_fr" language="it">Francese</text>
 <text name="credits_hyperspace_loc_fr_names" language="it">Pepson</text>
@@ -307,3 +313,6 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="shot_limit" language="it">Limite colpi arma: \1</text>
 <text name="shots_remaining" language="it">Colpi: \1</text>
 <text name="warning_shot_limit" language="it">LIMITE COLPI RAGGIUNTO</text>
+<text name="shield_drone_layers_per_charge" language="it">Strati scudo per carica: \1</text>
+<text name="shield_drone_cooldowns" language="it">Ricarica: \1</text>
+<text name="confirm_buy_last_subsystem" language="it">È l'ultimo spazio libero per un sottosistema di bordo.\nConfermi?</text>

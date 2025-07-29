@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="fr">Vous permet de voir le nom des secteurs sur la carte sans avoir à être sur un secteur adjacent.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="fr">Viseur Avancé</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="fr">Permet la visée manuelle des artilleries.</text>
+<text name="aug_TELEPORT_RECALL_title" language="fr">Téléporteur d'Urgence</text>
+<text name="aug_TELEPORT_RECALL_desc" language="fr">Tout membre d'équipage présent sur un vaisseau ennemi sera automatiquement téléporté si le vaisseau fuit ou est détruit.</text>
+<text name="aug_AUGMENT_SLOT_title" language="fr">Capacité d'Amélioration</text>
+<text name="aug_AUGMENT_SLOT_desc" language="fr">Augmente le nombre d'emplacements d'amélioration de 1.</text>
+<text name="aug_CARGO_SLOT_title" language="fr">Capacité de Cargo</text>
+<text name="aug_CARGO_SLOT_desc" language="fr">Augmente le nombre d'emplacements du cargo de 1.</text>
 <text name="crew_ghost_desc" language="fr">Fantome d'un défun.</text>
 <text name="crew_ghost_title" language="fr">Fantome</text>
 <text name="crew_ghost_short" language="fr">Fantome</text>
@@ -30,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="fr">
-  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="fr">
   <mod:setValue>Chance d'Incendie : \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -194,10 +200,10 @@
 <text name="hotkey_un_temporal" language="fr">De-Énergiser Manipulateur Temporel</text>
 <text name="hotkey_temporal_speed" language="fr">Accélération Du Temps</text>
 <text name="hotkey_temporal_slow" language="fr">Dilatation Du Temps</text>
-<text name="hotkey_artillery1" language="fr">Cibler l'Artillerie 1</text>
-<text name="hotkey_artillery2" language="fr">Cibler l'Artillerie 2</text>
-<text name="hotkey_artillery3" language="fr">Cibler l'Artillerie 3</text>
-<text name="hotkey_artillery4" language="fr">Cibler l'Artillerie 4</text>
+<text name="hotkey_aim_artillery1" language="fr">Cibler l'Artillerie 1</text>
+<text name="hotkey_aim_artillery2" language="fr">Cibler l'Artillerie 2</text>
+<text name="hotkey_aim_artillery3" language="fr">Cibler l'Artillerie 3</text>
+<text name="hotkey_aim_artillery4" language="fr">Cibler l'Artillerie 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -277,7 +283,7 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_art" language="fr">Art Additionel :</text>
 <text name="credits_hyperspace_art_names" language="fr">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="fr">Contributions Additionnel :</text>
-<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, L'équipe FTL: Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="fr">Traducteurs Hyperspace :</text>
 <text name="credits_hyperspace_loc_fr" language="fr">Français</text>
 <text name="credits_hyperspace_loc_fr_names" language="fr">Pepson</text>
@@ -309,3 +315,6 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="shot_limit" language="fr">Limite de Salves : \1</text>
 <text name="shots_remaining" language="fr">Salves : \1</text>
 <text name="warning_shot_limit" language="fr">LIMITE DE SALVES ATTEINTES</text>
+<text name="shield_drone_layers_per_charge" language="fr">Couche de bouclier par charge: \1</text>
+<text name="shield_drone_cooldowns" language="fr">Délai: \1</text>
+<text name="confirm_buy_last_subsystem" language="fr">Ceci est le dernier emplacement de sous-système de votre vaisseau.\nÊtes-vous sûr ?</text>

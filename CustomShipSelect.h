@@ -45,7 +45,7 @@ struct ShipButtonDefinition
     std::array<std::vector<CustomAchievement*>,3> shipAchievements;
     TextString shipAchievementHeading;
 
-    bool VariantExists(int variant)
+    bool VariantExists(int variant) const
     {
         return (variant == 0 && typeA) || (variant == 1 && typeB) || (variant == 2 && typeC);
     }
@@ -211,6 +211,8 @@ public:
     int CycleShipNext(int currentShipId, int currentType);
     int CycleShipPrevious(int currentShipId, int currentType);
 
+    int CycleType(int currentShipId, int currentType, bool forward);
+
     void EarlyParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseVanillaShipNode(rapidxml::xml_node<char> *node);
@@ -218,7 +220,7 @@ public:
     int CountUnlockedShips(int variant);
 
     void UpdateFilteredAchievements();
-    
+
     bool ShowAchievementsForShip(int currentShipId, int currentType);
 
 
@@ -294,7 +296,7 @@ public:
     {
         for (auto& def : shipButtons)
         {
-            if (def->GetId() == id) 
+            if (def->GetId() == id)
             {
                 return def;
             }

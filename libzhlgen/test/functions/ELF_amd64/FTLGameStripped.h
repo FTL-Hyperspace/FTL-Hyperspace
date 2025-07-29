@@ -630,7 +630,7 @@ struct Door
 struct Repairable
 {
   Selectable _base;
-  // I might of borked Repairable, it might need some bytes here after selectable to stop it from packing ShipObject next to it?
+  uint8_t padding[4];
   ShipObject shipObj;
   float fDamage;
   Point pLoc;
@@ -4885,7 +4885,12 @@ struct TutorialManager
 };
 
 /* 159 */
-struct ShipRepairDrone;
+struct ShipRepairDrone
+{
+    CombatDrone _base;
+    CachedImage repairBeam;
+    std::vector<float> repairBeams;
+};
 
 /* 161 */
 struct CombatDrone

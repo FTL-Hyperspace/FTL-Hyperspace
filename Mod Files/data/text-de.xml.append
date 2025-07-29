@@ -15,6 +15,12 @@
 <text name="aug_SECTOR_SCANNER_desc" language="de">Ermöglicht es alle Sektortypen zu erfassen, auch wenn diese nicht in unmittelbarer Nähe liegen.</text>
 <text name="aug_ARTILLERY_ORDER_title" language="de">Artillerie-Feinjustierung</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="de">Ermöglicht manuelles Zielen von Artillerien.</text>
+<text name="aug_TELEPORT_RECALL_title" language="de">Teleportschleudersitz</text>
+<text name="aug_TELEPORT_RECALL_desc" language="de">Crewmitglieder werden sofort zurückteleportiert, wenn das Gegnerschiff springt oder zerstört wurde.</text>
+<text name="aug_AUGMENT_SLOT_title" language="de">Ausbaukapazität</text>
+<text name="aug_AUGMENT_SLOT_desc" language="de">Erhöht die Menge an Ausbauplätzen um 1.</text>
+<text name="aug_CARGO_SLOT_title" language="de">Frachtkapazität</text>
+<text name="aug_CARGO_SLOT_desc" language="de">Vergrößert den Frachtraum um einen Platz.</text>
 <text name="crew_ghost_desc" language="de">Geister der vergangenen Crew.</text>
 <text name="crew_ghost_title" language="de">Geist</text>
 <text name="crew_ghost_short" language="de">Geist</text>
@@ -29,7 +35,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="de">
-  <mod:setValue>\1 (Hyperspace 1.18.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="de">
   <mod:setValue>Feuerchance: \1%</mod:setValue>
@@ -189,11 +195,11 @@
 <text name="hotkey_un_temporal" language="de">Temporalmanipulator inaktiv</text>
 <text name="hotkey_temporal_speed" language="de">Temporale Beschleunigung</text>
 <text name="hotkey_temporal_slow" language="de">Temporale Verlangsamung</text>
-<text name="hotkey_artillery1" language="de">Geschütz 1 Zielen</text>
-<text name="hotkey_artillery2" language="de">Geschütz 2 Zielen</text>
-<text name="hotkey_artillery3" language="de">Geschütz 3 Zielen</text>
-<text name="hotkey_artillery4" language="de">Geschütz 4 Zielen</text>
-<text name="temporal" language="de">Temporalmanipulator</text> 
+<text name="hotkey_aim_artillery1" language="de">Geschütz 1 Zielen</text>
+<text name="hotkey_aim_artillery2" language="de">Geschütz 2 Zielen</text>
+<text name="hotkey_aim_artillery3" language="de">Geschütz 3 Zielen</text>
+<text name="hotkey_aim_artillery4" language="de">Geschütz 4 Zielen</text>
+<text name="temporal" language="de">Temporalmanipulator</text>
 <text name="temporal_tooltip" language="de">\1x/\4x Geschwin. für \3/\6 Sek.</text>
 <text name="temporal_arm_super_shields" language="de">Von Superschilden blockiert.</text>
 <text name="temporal_arm_speed" language="de">Beschleunige alles im Raum \1x für \3 Sekunden.</text>
@@ -214,7 +220,7 @@ Taste: \1</text>
 <text name="hangar_achievements_title_default" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_custom" language="de">Schiffserfolge</text>
 <text name="hangar_achievements_title_filter" language="de">Filter Schiffserfolge</text>
-<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text> 
+<text name="hangar_no_ship_achievements" language="de">Keine Schiffserfolge</text>
 <text name="discord_main_menu" language="de">Im Hauptmenü</text>
 <text name="discord_hangar" language="de">Im Hangar</text>
 <text name="discord_dying" language="de">Stirbt</text>
@@ -262,7 +268,7 @@ Taste: \1</text>
 <text name="credits_hyperspace_art" language="de">Zusätzliche Grafiken:</text>
 <text name="credits_hyperspace_art_names" language="de">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="de">Zusätzliche Beiträge:</text>
-<text name="credits_hyperspace_contributors_names" language="de">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="de">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="de">Hyperspace Translators:</text>
 <text name="credits_hyperspace_loc_fr" language="de">Französisch</text>
 <text name="credits_hyperspace_loc_fr_names" language="de">Pepson</text>
@@ -294,3 +300,6 @@ Taste: \1</text>
 <text name="shot_limit" language="de">Salven Limit: \1</text>
 <text name="shots_remaining" language="de">Salven übrig: \1</text>
 <text name="warning_shot_limit" language="de">FEUER LIMIT ERREICHT</text>
+<text name="shield_drone_layers_per_charge" language="de">Superschild-Barriere pro Aufladung: \1</text>
+<text name="shield_drone_cooldowns" language="de">Ladezeit: \1</text>
+<text name="confirm_buy_last_subsystem" language="de">Das ist der letzte Subsystemplatz deines Schiffs.\nBist du sicher?</text>

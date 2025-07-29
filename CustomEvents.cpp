@@ -12,6 +12,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
+#include "Equipment_Extend.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -149,11 +150,11 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
     Pointf dynamicCutOff;
     int creditNamesLineSpacing = 40;
     int creditNamesToFinishTextSpacing = 100;
-    
+
     for (auto creditNode = node->first_node(); creditNode; creditNode = creditNode->next_sibling())
     {
         // Parse <scrollSpeed/> xml tag
-        if (strcmp(creditNode->name(), "scrollSpeed") == 0) 
+        if (strcmp(creditNode->name(), "scrollSpeed") == 0)
         {
             if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
@@ -170,7 +171,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         }
 
         // Parse <fadeInSpeed/> xml tag
-        if (strcmp(creditNode->name(), "fadeInSpeed") == 0) 
+        if (strcmp(creditNode->name(), "fadeInSpeed") == 0)
         {
             if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
@@ -189,37 +190,37 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         // Parse scroll pause & initial delay
         if (strcmp(creditNode->name(), "scrollPause") == 0)
         {
-            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay")) 
+            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay"))
             {
                 try
                 {
                     scrollDelay = std::stof(scrollDelayAttribute->value()) * 50;
                 }
-                catch (const std::invalid_argument& e) 
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'scrollDelay' to a float. Using default value.\n");
                 }
             }
 
-            if (auto pauseDurationAttribute = creditNode->first_attribute("duration")) 
+            if (auto pauseDurationAttribute = creditNode->first_attribute("duration"))
             {
-                try 
+                try
                 {
                     pauseDuration = std::stof(pauseDurationAttribute->value()) * 50 + scrollDelay;
-                } 
-                catch (const std::invalid_argument& e) 
+                }
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
                 }
             }
 
-            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
+            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition"))
             {
-                try 
+                try
                 {
                     pausePosition = std::stof(pausePositionAttribute->value());
-                } 
-                catch (const std::invalid_argument& e) 
+                }
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
                 }
@@ -299,7 +300,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditText.lineLenght = 750;
-            
+
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 750, textString);
             creditText.cutOff = dynamicCutOff.x + 50;
 
@@ -378,7 +379,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditFinishText.lineLenght = 1000;
-            
+
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 1000, textString);
             creditFinishText.cutOff = dynamicCutOff.x + 50;
 
@@ -387,7 +388,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
 
         // Parse values for credits.txt
         if (strcmp(creditNode->name(), "creditNames") == 0)
-        {   
+        {
             if (auto valueAttribute = creditNode->first_attribute("fontSize"))
             {
                 std::string valueStr = valueAttribute->value();
@@ -3125,8 +3126,9 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
 
     if (!removedItem && g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
+        Equipment *equip = &(G_->GetWorld()->commandGui->equipScreen);
+        CustomEquipment *custom = EQ_EX(equip)->customEquipment;
+        auto boxes = equip->vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -3141,6 +3143,7 @@ HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) ->
                     if (cargoItem->name == name)
                     {
                         box->RemoveItem();
+                        custom->UpdateOverCapacityItems();
                         return;
                     }
                 }
@@ -4033,8 +4036,15 @@ void EventDamageEnemy(EventDamage eventDamage)
         int room = -1;
         if (eventDamage.system == 18)
         {
-            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
-            room = randomSystem->GetRoomId();
+            if (!enemyShip->vSystemList.empty())
+            {
+                ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+                room = randomSystem->GetRoomId();
+            }
+            else
+            {
+                room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+            }
         }
         else if (eventDamage.system == 19)
         {
@@ -4100,7 +4110,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void RecallBoarders(int direction, bool force)
+void RecallBoarders(int direction, bool force, bool effects)
 {
     int targetRoom;
     bool canTeleport;
@@ -4127,6 +4137,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     playerShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    }
                 }
             }
         }
@@ -4147,6 +4162,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     enemyShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    }
                 }
             }
         }
@@ -4688,7 +4708,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 }
 
 static bool g_noASBPlanet = false;
-
+static std::vector<CompleteShip*> replacedShips;
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
@@ -4707,7 +4727,44 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         }
     }
 
+    //Fix bug with multiple enemies at the same beacon
+    bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
+    if (loc->ship.present && !ships.empty() && hasLoadAttribute && CustomOptionsManager::GetInstance()->multiShipFix.currentValue) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
+    {
+        hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
+        CompleteShip* replacedShip = ships[0];
+        commandGui->combatControl.Clear();
+        replacedShip->shipManager->KillEveryone(true);
+        replacedShip->shipManager->SetDestroyed();
+
+        replacedShips.push_back(replacedShip);
+        ships.clear();
+        ShipManager* oldEnemy = playerShip->enemyShip->shipManager;
+        auto& spaceShips = space.ships;
+        spaceShips.erase(std::remove_if(spaceShips.begin(), spaceShips.end(), [=](ShipManager* ship) {return ship == oldEnemy;}), spaceShips.end());
+    }
+
     super(loc);
+
+    auto CheckHackingDrone = [&](CompleteShip* ship)
+    {
+        if (ship->shipManager->hackingSystem)
+        {
+            bool needHackingDrone = true;
+            for (SpaceDrone* drone : space.drones)
+            {
+                if (drone == &ship->shipManager->hackingSystem->drone)
+                {
+                    needHackingDrone = false;
+                    break;
+                }
+            }
+            if (needHackingDrone)
+            {
+                space.drones.push_back(&ship->shipManager->hackingSystem->drone);
+            }
+        }
+    };
 
     if (loc->ship.present && loc->ship.hostile && !ships.empty())
     {
@@ -4718,38 +4775,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             {
                 commandGui->combatControl.Clear();
                 commandGui->AddEnemyShip(enemyShip);
-                if (playerShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &playerShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
-                    }
-                }
-                if (enemyShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
-                    }
-                }
+                CheckHackingDrone(playerShip);
+                CheckHackingDrone(enemyShip);
             }
         }
     }
@@ -4814,6 +4841,18 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     g_noASBPlanet = false;
+}
+
+//Clean up any replaced ships
+HOOK_METHOD(WorldManager, ClearLocation, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ClearLocation -> Begin (CustomEvents.cpp)\n")
+    for (CompleteShip* replacedShip : replacedShips)
+    {
+        delete replacedShip;
+    }
+    replacedShips.clear();
+    super();
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -5022,22 +5061,22 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
 
     int env = loc->event->environment;
 
-    // TODO: Switch anyone, or maybe at least some elses?
-    if (env == 1)
+    switch (env)
     {
-        retStr += " \n" + lib->GetText("map_asteroid_loc");
-    }
-    if (env == 2)
-    {
-        retStr += " \n" + lib->GetText("map_sun_loc");
-    }
-    if (env == 4)
-    {
-        retStr += " \n" + lib->GetText("map_ion_loc");
-    }
-    if (env == 5)
-    {
-        retStr += " \n" + lib->GetText("map_pulsar_loc");
+        case 1:
+            retStr += " \n" + lib->GetText("map_asteroid_loc");
+            break;
+        case 2:
+            retStr += " \n" + lib->GetText("map_sun_loc");
+            break;
+        case 4:
+            retStr += " \n" + lib->GetText("map_ion_loc");
+            break;
+        case 5:
+            retStr += " \n" + lib->GetText("map_pulsar_loc");
+            break;
+        default:
+            break;
     }
 
     if (env != 6 || loc->boss)
@@ -5089,12 +5128,12 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
         }
         int availableLocations = locations.size() - 2; // Subtract 2 to account for start and exit beacons
         int nonNebulaLocations = availableLocations - names.size();
-        
+
         // Starting at the end of the names list, remove nebulas until there's space for all priority events
         if (nonNebulaLocations < pEventCount)
         {
             int nebulasToRemoveCount = pEventCount - nonNebulaLocations;
-            
+
             // First pass - remove non-priority nebulas over the minimum
             int nameIndexLast = names.size() - 1;
             while (nameIndexLast >= 0 && nebulasToRemoveCount > 0)
@@ -5103,7 +5142,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                 std::string name = names[nameIndexLast];
                 int nameIndexFirst = nameIndexLast - 1;
                 while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
-                
+
                 // Make sure this isn't a priority event
                 std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
                 std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
@@ -5131,7 +5170,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                         }
                     }
                 }
-                
+
                 // Move on to the last instance of the next different event name
                 nameIndexLast = nameIndexFirst;
             }
@@ -5144,7 +5183,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                 std::string name = names[nameIndexLast];
                 int nameIndexFirst = nameIndexLast - 1;
                 while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
-                
+
                 // Make sure this isn't a priority event
                 std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
                 std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
@@ -5159,7 +5198,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
                     names.erase(std::next(names.begin(), nameIndexLast + 1 - removeAmount), std::next(names.begin(), nameIndexLast + 1));
                     nebulasToRemoveCount -= removeAmount;
                 }
-                
+
                 // Move on to the last instance of the next different event name
                 nameIndexLast = nameIndexFirst;
             }
@@ -5174,7 +5213,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& names) -> void)
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& names) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
     // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
@@ -5197,6 +5236,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
             }
         }
     }
+    else
+    {
+        // Although this is a complete rewrite, changing the order of calling random32 affects the seeded run. So we only use this rewrite for priorityNebulaFix and use the original one otherwise.
+        return super(names);
+    }
 
     const std::vector<ImageDesc> &nebulaImages = names.size() < 6 ? smallNebula : largeNebula;
     const ImageDesc *nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
@@ -5205,14 +5249,11 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
     std::vector<Location*> nebulaFreeLocations;
     std::vector<Location*> defaultNebulaEventLocCandidates;
 
-    if (locations.size() > 0)
+    for (Location *loc : locations)
     {
-        for (Location *loc : locations)
+        if (!loc->nebula)
         {
-            if (!loc->nebula)
-            {
-                nebulaFreeLocations.push_back(loc);
-            }
+            nebulaFreeLocations.push_back(loc);
         }
     }
 
@@ -5290,6 +5331,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
         }
         else
         {
+            count = 0;
             Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
             x = loc->loc.x - nebulaImage->w / 2;
             y = loc->loc.y - nebulaImage->h / 2;
@@ -5299,15 +5341,12 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& 
     // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
     // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
     // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
-    if (nebulaFreeLocations.size() < pEventCount)
+    for (int i = pEventCount - nebulaFreeLocations.size(); i >= 0; --i)
     {
-        for (int i = pEventCount - nebulaFreeLocations.size(); i > 0; --i)
-        {
-            if (defaultNebulaEventLocCandidates.empty()) break;
+        if (defaultNebulaEventLocCandidates.empty()) break;
 
-            defaultNebulaEventLocCandidates.back()->nebula = false;
-            defaultNebulaEventLocCandidates.pop_back();
-        }
+        defaultNebulaEventLocCandidates.back()->nebula = false;
+        defaultNebulaEventLocCandidates.pop_back();
     }
     for (Location *loc : defaultNebulaEventLocCandidates)
     {
@@ -5536,7 +5575,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             {
                 G_->GetShipManager(1)->RemoveSystem(system.second);
             }
-            
+
         }
 
         if (!customEvent->variables.empty())
@@ -5779,7 +5818,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         {
             newCrewString += crewlistComma + crewNames[i];
             totalLength += crewNames[i].length() + crewlistComma.length();
-            if (totalLength > 140) 
+            if (totalLength > 140)
             {
                 newCrewString += crewlistMore;
                 break;
@@ -5806,7 +5845,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Done -> Begin (CustomEvents.cpp)\n")
 
     bool ret;
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue)
     {
         ret = (scroll <= -scrollEnd) ? true : false;
     }
@@ -5831,7 +5870,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
 
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue)
     {
         /* ----- Resources ----- */
         std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
@@ -5863,7 +5902,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         /* ----- Visuals -----*/
         float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
         float trueScrollSpeed = gameSpeed * 3.5 * scrollSpeed;
-        
+
         fadeIn += gameSpeed * 3.5 * -0.025f * fadeInSpeed;
 
         if (scroll == 0.f && pausing > -scrollDelay) {
@@ -5946,10 +5985,10 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
             CSurface::GL_SetColor(colorWhite);
         }
-        
+
         /* ----- Auto Stop -----*/
         Done();
-    } 
+    }
     else
     {
         super();
@@ -6617,7 +6656,7 @@ HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden)
             if (scrap_cost < 0 && playerShip->shipManager->currentScrap < scrap_cost * -1)
                 return false;
         }
-        
+
         CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
         if (customEvent)
@@ -7249,6 +7288,6 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
     if (inModifyResources && currentShipId != iShipId && currentShipId != -1)
     {
         G_->GetShipManager(currentShipId)->RemoveCrewmember(this);
-    } 
+    }
     super();
 }

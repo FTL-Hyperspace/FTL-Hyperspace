@@ -1207,11 +1207,52 @@ void StoreComplete::OnLoop()
 }
 
 static StoreBox* g_purchasedStoreItem = nullptr;
+static bool g_purchasingLimitSubjectItems = false;
 
 HOOK_METHOD(StoreBox, Purchase, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StoreBox::Purchase -> Begin (CustomStore.cpp)\n")
-    if (pBlueprint && pBlueprint->GetType() != 5)
+    if (pBlueprint && g_purchasingLimitSubjectItems)
+    {
+        g_purchasedStoreItem = this;
+    }
+
+    super();
+}
+
+/*
+Following functions on Linux amd64 binary inline the call to StoreBox::Purchase so the hook above fails.
+- AugmentStoreBox::Purchase
+- DroneStoreBox::Purchase
+- ItemStoreBox::Purchase
+- WeaponStoreBox::Purchase
+*/
+
+// so we need to hook the Purchase method of each derived class here
+HOOK_METHOD(AugmentStoreBox, Purchase, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> AugmentStoreBox::Purchase -> Begin (CustomStore.cpp)\n")
+    if (pBlueprint && g_purchasingLimitSubjectItems)
+    {
+        g_purchasedStoreItem = this;
+    }
+
+    super();
+}
+HOOK_METHOD(DroneStoreBox, Purchase, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> DroneStoreBox::Purchase -> Begin (CustomStore.cpp)\n")
+    if (pBlueprint && g_purchasingLimitSubjectItems)
+    {
+        g_purchasedStoreItem = this;
+    }
+
+    super();
+}
+HOOK_METHOD(WeaponStoreBox, Purchase, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponStoreBox::Purchase -> Begin (CustomStore.cpp)\n")
+    if (pBlueprint && g_purchasingLimitSubjectItems)
     {
         g_purchasedStoreItem = this;
     }
@@ -1255,6 +1296,7 @@ void StoreComplete::MouseClick(int x, int y)
 
         if (pages.size() > 0)
         {
+            g_purchasingLimitSubjectItems = true;
             for (auto sec : pages[currentPage].sections)
             {
                 if (sec.storeBoxes.size() > 0)
@@ -1281,6 +1323,7 @@ void StoreComplete::MouseClick(int x, int y)
                     }
                 }
             }
+            g_purchasingLimitSubjectItems = false;
         }
 
         if (leftButton->bActive && leftButton->bHover)
@@ -1960,9 +2003,7 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 
     auto custom = CustomShipSelect::GetInstance();
     int sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
-
-    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4. (TODO: Remove when fixing custom subsystem UI)
-
+    if (isSubsystem && sysLimit >= 4 && !CustomUserSystems::AnyCustomSubSystems()) return super(); //Preserve vanilla behavior for subsystems if no custom ones are registered and limit allows all subsystems
     int sysCount = 0;
 
     for (auto i : shopper->vSystemList)
@@ -1982,7 +2023,7 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
     else if (sysLimit - sysCount == 1)
     {
         bConfirming = true;
-        confirmString = "confirm_buy_last_system";
+        confirmString =  isSubsystem ? "confirm_buy_last_subsystem" : "confirm_buy_last_system";
     }
 
     if (!bConfirming)
@@ -1998,7 +2039,7 @@ HOOK_METHOD(SystemStoreBox, GetConfirmText, () -> TextString)
 
     std::string newSystemName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(newSystem))->GetNameLong();
     std::string replaceSystemName = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(replaceSystem))->GetNameLong();
-    
+
     std::string confirmText = G_->GetTextLibrary()->GetText("confirm_buy_custom");
     boost::algorithm::replace_all(confirmText, "\\1", newSystemName);
     boost::algorithm::replace_all(confirmText, "\\2", replaceSystemName);

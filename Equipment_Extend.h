@@ -9,9 +9,11 @@ public:
     void OnRender();
     void MouseMove(int mX, int mY);
     void MouseClick(int mX, int mY);
+    void OnLoop();
 
     void OnScrollWheel(float direction);
     void AddOverCapacityItem(const EquipmentBoxItem &item);
+    void UpdateOverCapacityItems();
 
     CustomEquipment(Equipment *equipment)
     {
@@ -32,7 +34,7 @@ public:
     int currentAugPage = 0;
     int currentCargoPage = 0;
     int currentOverCapacityPage = 0;
-    
+
 private:
     Equipment *orig = nullptr;
 
