@@ -2239,6 +2239,7 @@ Syntax ->
         <removeFirstBeaconNebula/>                                                         Removes the nebula from the starting beacon.
         <priorityNebulaFix/>                                                               If a priorityEvent would not normally spawn because of the way nebulas generate, nebula priorityEvents will be added and non-nebula priorityEvents will have non-priority nebulas cleared to make room for them.
         <nebulaSector>false</nebulaSector>                                                 Overrides whether the sector is a nebula sector, affecting the fleet pursuit when the player is in nebula. Useful for secret sectors.
+		<bossSector>false</bossSector>                                                     Overrides whether the sector is a boss sector, with flagship and scattered fleet mechanics. When not provided, defaults to normal behavior for that sector level (false for sectors 1-7, true for sector 8).
 		<noExit/>                                                                          Removes the exit beacon, preventing normal travel to the next sector. Still creates an exit beacon event where the exit would be.
 		<priorityEvent name="EVENT_LIST" min="0" max="0" priority="0"                      Like <event> in sector_data.xml but adds priority for sorting (high to low). >=0 goes above normal events.
 		               req="req_name" lvl="1" max_lvl="999"/>                                If req is specified, only generate the event if the req is met upon sector entry.

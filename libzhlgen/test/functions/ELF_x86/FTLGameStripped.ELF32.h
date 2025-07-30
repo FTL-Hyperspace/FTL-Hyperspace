@@ -2518,7 +2518,7 @@ struct StarMap
   FocusWindow _base;
   float visual_size;
   std__vector_10LocationZ1 locations;
-  std__map_18Point___LocationZ1 locations_grid;
+  std::map<Point, std::vector<Location*>> locations_grid;
   std__vector_10LocationZ1 temp_path;
   Location *currentLoc;
   Location *potentialLoc;
@@ -3525,7 +3525,7 @@ struct VTable_ArmamentBox
   void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
   void (__thiscall *RenderLabels)(ArmamentBox *this);
   void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
-  
+
 
 };
 

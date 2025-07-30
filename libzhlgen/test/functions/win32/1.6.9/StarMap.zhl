@@ -105,7 +105,7 @@ __thiscall void StarMap::GenerateEvents(StarMap *this, bool tutorial);
 ".578d7c240883e4f0ff77fc5589e557565383ec2c":
 __thiscall void StarMap::AddConnections(StarMap *this, Location * unk0);
 ".578d810c0a00008d7c240883e4f0ff77fc5589e5":
-__thiscall void StarMap::MapConnected(StarMap *this);
+__thiscall bool StarMap::MapConnected(StarMap *this);
 ".578d7c240883e4f0ff77fc5589e5575653":
 __thiscall void StarMap::ConnectLocations(StarMap *this, Point unk0, Point unk1);
 ".5789c883c02c8d7c240883e4f0ff77fc5589e5575653":
