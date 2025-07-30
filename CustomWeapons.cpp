@@ -1174,12 +1174,12 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
         }
         else
         {
-            if (cooldown.second <= cooldown.first && chargeLevel > 0)
+            if ((cooldown.second <= cooldown.first || cooldown.second == 0.f) && chargeLevel > 0)
             {
                 chargeLevel -= 1;
             }
             cooldown.first -= G_->GetCFPS()->GetSpeedFactor() * 0.375;
-            cooldown.first = std::max(cooldown.first, 0.f);
+            cooldown.first = std::max( 0.f, cooldown.first);
         }
         fireWhenReady = false;
         targets.clear();
@@ -1202,8 +1202,8 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
 
                 float reloaders = GetAugmentationValue("AUTO_COOLDOWN");
                 cooldown.first += G_->GetCFPS()->GetSpeedFactor() * 0.0625 * (1 + reloaders);
-                cooldown.first = std::min(cooldown.first, cooldown.second);
-                if (cooldown.second == cooldown.first && oldFirst < oldSecond && chargeLevel < blueprint->chargeLevels)
+                cooldown.first = std::min(cooldown.second, cooldown.first);
+                if (cooldown.second == cooldown.first && (oldFirst < oldSecond || oldSecond == 0.f) && chargeLevel < blueprint->chargeLevels)
                 {
                     chargeLevel += 1;
                     if (chargeLevel < blueprint->chargeLevels) cooldown.first = 0;
@@ -1224,7 +1224,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, Update, 9999, () -> void)
         cooldown.first = std::max(cooldown.first, 0.f);
     }
 
-    weaponVisual.SetChargedLevel(cooldown.first / cooldown.second);
+    weaponVisual.SetChargedLevel(cooldown.second == 0 ? 1.f : cooldown.first / cooldown.second);
     weaponVisual.Update();
     weaponVisual.SetPowered(powered);
     if (!queuedProjectiles.empty())

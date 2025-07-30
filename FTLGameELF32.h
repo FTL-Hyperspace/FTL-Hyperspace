@@ -155,20 +155,27 @@ struct Point
 	}
 
 	Point operator-(const Point& other)
-	{		
+	{
 		return Point(x - other.x, y - other.y);
 	}
 
 	Point operator/(int amount)
-	{		
+	{
 		return Point(x / amount, y / amount);
 	}
 
 	Point operator*(int amount)
-	{		
+	{
 		return Point(x * amount, y * amount);
 	}
-	
+
+	//Required for std::map with Point keys to function properly
+    bool operator<(const Point& other) const
+    {
+        if (x == other.x) return y < other.y;
+        return x < other.x;
+    }
+
 	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
 
@@ -2062,7 +2069,7 @@ struct AugmentStoreBox : StoreBox
 	{
 		this->constructor(_ship, _bp);
 	}
-	
+
 	AugmentStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
@@ -2070,6 +2077,7 @@ struct AugmentStoreBox : StoreBox
 
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, const AugmentBlueprint *bp);
 	
 	AugmentBlueprint *blueprint;
@@ -2886,6 +2894,8 @@ struct BlueprintManager
 	LIBZHL_API EffectsBlueprint ProcessEffectsBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API ShipBlueprint ProcessShipBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API WeaponBlueprint ProcessWeaponBlueprint(rapidxml::xml_node<char> *node);
+	LIBZHL_API void ResetRarities();
+	LIBZHL_API void SetRarity(const std::string &name, int rarity);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -3342,6 +3352,7 @@ struct ChoiceBox : FocusWindow
         return ret;
     }
 
+	LIBZHL_API bool KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
@@ -3722,10 +3733,13 @@ struct ShipBuilder
 {
 	LIBZHL_API void CheckTypes();
 	LIBZHL_API void ClearShipAchievements();
+	LIBZHL_API void Close();
 	LIBZHL_API void CreateEquipmentBoxes();
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API void CycleShipNext();
 	LIBZHL_API void CycleShipPrevious();
+	LIBZHL_API void CycleTypeNext();
+	LIBZHL_API void CycleTypePrev();
 	LIBZHL_API ShipManager *GetShip();
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
@@ -4606,7 +4620,9 @@ struct SystemControl
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
+	LIBZHL_API void OnRender(bool front);
 	LIBZHL_API void RenderPowerBar();
+	LIBZHL_API void UpdateSubSystemBox();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
@@ -5436,6 +5452,7 @@ struct DroneStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const DroneBlueprint *bp);
 	
 	DroneBlueprint *blueprint;
@@ -5803,7 +5820,7 @@ struct EventGenerator
 			usedEvents.erase(it);
 		}
 	}
-	
+
 	void ClearUsedEvent(LocationEvent *locEvent)
 	{
 		if (locEvent)
@@ -5816,6 +5833,7 @@ struct EventGenerator
 		}
 	}
 
+	LIBZHL_API void Clear();
 	LIBZHL_API LocationEvent *CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique);
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed);
 	LIBZHL_API std::string GetImageFromList(const std::string &listName);
@@ -7232,11 +7250,11 @@ struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -7244,21 +7262,21 @@ struct ShipManager : ShipObject
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
@@ -7267,7 +7285,7 @@ struct ShipManager : ShipObject
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-	
+
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
@@ -7351,6 +7369,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int IsSystemHacked2(int systemId);
 	LIBZHL_API void JumpArrive();
 	LIBZHL_API void JumpLeave();
+	LIBZHL_API void KillEveryone(bool noClone);
 	LIBZHL_API void ModifyDroneCount(int drones);
 	LIBZHL_API void ModifyMissileCount(int missiles);
 	LIBZHL_API void ModifyScrapCount(int scrap, bool income);
@@ -7664,7 +7683,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void LocationHasShip(Location *unk0);
 	LIBZHL_API void LocationHasStore(Location *unk0);
 	LIBZHL_API bool LocationsConnected(Location *unk0, Location *unk1);
-	LIBZHL_API void MapConnected();
+	LIBZHL_API bool MapConnected();
 	LIBZHL_API void ModifyPursuit(int unk0);
 	LIBZHL_API void MouseClick(int unk0, int unk1);
 	LIBZHL_API void MouseMove(int x, int y);
@@ -7704,7 +7723,7 @@ struct StarMap : FocusWindow
 	
 	float visual_size;
 	std::vector<Location*> locations;
-	std::map<Point, Location*> locations_grid;
+	std::map<Point, std::vector<Location*>> locations_grid;
 	std::vector<Location*> temp_path;
 	Location *currentLoc;
 	Location *potentialLoc;
@@ -8154,13 +8173,14 @@ struct WeaponStoreBox : StoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
-	
+
 	WeaponStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
 		this->bEquipmentBox = true;
 	}
 
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	
 	WeaponBlueprint *blueprint;

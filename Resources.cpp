@@ -182,7 +182,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     }
                 }
             }
-            
+
             if (strcmp(node->name(), "defaults") == 0)
             {
                 for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -266,7 +266,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "customSystem") == 0)
                     {
                         CustomUserSystems::ParseSystemNode(child);
-                    }  
+                    }
                 }
                 //After system ids are mapped, generate exclusivity groups
                 for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -274,7 +274,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "exclusivityGroup") == 0)
                     {
                         SystemExclusivityManager::GetGlobalManager()->ParseExclusivityNode(child);
-                    }  
+                    }
                 }
             }
 
@@ -356,7 +356,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                 }
             }
-            
+
             if (strcmp(node->name(), "playerHpColorFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -414,7 +414,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
-            // defense drone fix is currently broken 
+            // defense drone fix is currently broken
             // if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
             // {
             //     auto enabled = node->first_attribute("enabled")->value();
@@ -579,7 +579,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showScrapCollectorScrap.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
             if (strcmp(node->name(), "preIgniteChargers") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -600,7 +600,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->shieldWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->shieldWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -626,7 +626,7 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 ParseTargetableArtilleryNode(node);
             }
-            
+
             if (strcmp(node->name(), "cloakRenderFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -640,14 +640,21 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->dualMedical.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->dualMedical.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
             if (strcmp(node->name(), "enhancedCloneUI") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->enhancedCloneUI.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->enhancedCloneUI.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
+            if (strcmp(node->name(), "multiShipFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->multiShipFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -749,7 +756,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->droneSaveStations.defaultValue = enabled;
                 customOptions->droneSaveStations.currentValue = enabled;
             }
-            
+
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -918,6 +925,13 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "systemPositions") == 0)
+                    {
+                        SystemPositionManager::ParsePositionsNode(child);
+                    }  
+                }
             }
             if (strcmp(node->name(), "scripts") == 0)
             {
