@@ -1801,6 +1801,8 @@ Accessed via [`CrewMember`](#CrewMember)'s `.extend` field
    - **read-only**
 - [`std::vector<ActivatedPowerDefinition*>`](#ActivatedPowerDefinition) `.powerChange`
 - [`CustomTeleport`](#CustomTeleport) `.customTele`
+- `std::string` `.transformRace`
+   - Can be set within a CalculateStat callback to transform a crew to a different race.
 
 ###### Example
 ```lua

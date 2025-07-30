@@ -5369,7 +5369,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
     if (crewId == -1) return super(task, crewId);
-    
+
     CrewMember* crew = crewList[crewId];
     if (task.taskId == TASK_MANNING && !crew->CanMan())
     {
@@ -5383,6 +5383,33 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
     }
 
     return super(task, crewId);
+}
+
+//Prevent impossible tasks from blocking manning
+HOOK_METHOD(CrewMember, SetCurrentSystem, (ShipSystem* system) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetCurrentSystem -> Begin (CustomCrew.cpp)\n")
+    
+    if (system == nullptr) return super(system);
+    else
+    {
+        bool oldOccupied = system->bOccupied;
+        bool oldOnFire = system->bOnFire;
+        int oldHealth = system->healthState.first;
+
+        if (!CanRepair())
+        {
+            system->bOnFire = false;
+            system->healthState.first = system->healthState.second;
+        }
+        if (!CanFight()) system->bOccupied = false;
+
+        super(system);
+
+        system->bOccupied = oldOccupied;
+        system->bOnFire = oldOnFire;
+        system->healthState.first = oldHealth;
+    }
 }
 
 HOOK_METHOD(CrewMember, GetSavedPosition, () -> Slot)
@@ -5952,6 +5979,9 @@ HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
 HOOK_METHOD(CrewMember, SetMindControl, (bool controlled) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::SetMindControl -> Begin (CustomCrew.cpp)\n")
+    //Fix bug where calling this method on a crewmember that is dying would leave the wrong slot filled when they died
+    bool deathState = IsDead() || crewAnim->status == 3 || OutOfGame();
+    if (deathState) controlled = bMindControlled;
     super(controlled);
     if (iShipId == 1)
     {
@@ -6825,7 +6855,7 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
     int ret = 0;
     for (auto& crew: vCrewList)
-    {   
+    {
         auto ex = CM_EX(crew);
 
         bool canTeleport;
@@ -6843,7 +6873,7 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
 HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::RestorePosition -> Begin (CustomCrew.cpp)\n")
-    
+
     Slot station;
     if (!bDead && savedPosition.roomId != -1 && (station = FindSlot(savedPosition.roomId, savedPosition.slotId, false), station.roomId > -1) && station.slotId > -1)
     {
@@ -6911,7 +6941,7 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
             }
         }
     }
-    
+
     return false;
 }
 
@@ -6947,7 +6977,7 @@ HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
             {
                 int slot = shipManager->ship.vRoomList[backupRoom.first]->GetEmptySlot(false);
                 ret = super(p1, GetSlotWorldPosition(slot, backupRoom.first), shipId);
-                if (ret.distance != -1.0) 
+                if (ret.distance != -1.0)
                 {
                     g_partitionDestRoomId = backupRoom.first;
                     g_partitionDestSlotId = slot;
