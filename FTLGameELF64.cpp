@@ -9890,7 +9890,7 @@ void LocationEvent::constructor()
 namespace _func769
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::SaveState", typeid(void (LockdownShard::*)(int )), ".55??89fd5389f3??83ec08f30f1087c0000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::SaveState", typeid(void (LockdownShard::*)(int )), "55??89fd5389f3??83ec08f30f1087c0000000", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::SaveState(int fd)
@@ -9903,7 +9903,7 @@ void LockdownShard::SaveState(int fd)
 namespace _func770
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::Update", typeid(void (LockdownShard::*)()), ".534889fbbf????????e8????????f30f5905????????f30f5883d8000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::Update", typeid(void (LockdownShard::*)()), ".534889fbbf????????e8", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::Update()
@@ -9916,7 +9916,7 @@ void LockdownShard::Update()
 namespace _func771
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::OnRender", typeid(void (LockdownShard::*)()), ".53??89fb??83ec10e8????????f30f108bc4000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::OnRender", typeid(void (LockdownShard::*)()), ".534889fb4883ec10e8", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::OnRender()
@@ -9929,7 +9929,7 @@ void LockdownShard::OnRender()
 namespace _func772
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), ".??57??56??89fe??8d7f48??55??5455", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), ".415741564989fe488d", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze)
@@ -9942,7 +9942,7 @@ void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal, bool
 namespace _func773
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::constructor", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), ".??57??56??89fe??8d7f48??55??89cd??54", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::constructor", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), ".415741564989fe488d", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze)
@@ -9955,7 +9955,7 @@ void LockdownShard::constructor(int lockingRoom, Pointf start, Point goal, bool 
 namespace _func774
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::constructor3", typeid(void (LockdownShard::*)(int )), ".??57??56??55??54??89fc??8d7f485553", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::constructor3", typeid(void (LockdownShard::*)(int )), ".41574156415541544989fc", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::constructor3(int fd)
