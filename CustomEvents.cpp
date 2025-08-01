@@ -931,6 +931,12 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             sector->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
         }
 
+        if (strcmp(sectorNode->name(), "bossSector") == 0)
+        {
+            isDefault = false;
+            sector->bossSector = EventsParser::ParseBoolean(sectorNode->value());
+        }
+
         if (strcmp(sectorNode->name(), "maxSector") == 0)
         {
             isDefault = false;
@@ -4036,8 +4042,15 @@ void EventDamageEnemy(EventDamage eventDamage)
         int room = -1;
         if (eventDamage.system == 18)
         {
-            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
-            room = randomSystem->GetRoomId();
+            if (!enemyShip->vSystemList.empty())
+            {
+                ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+                room = randomSystem->GetRoomId();
+            }
+            else
+            {
+                room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+            }
         }
         else if (eventDamage.system == 19)
         {
@@ -4701,7 +4714,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 }
 
 static bool g_noASBPlanet = false;
-
+static std::vector<CompleteShip*> replacedShips;
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
@@ -4720,7 +4733,44 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         }
     }
 
+    //Fix bug with multiple enemies at the same beacon
+    bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
+    if (loc->ship.present && !ships.empty() && hasLoadAttribute && CustomOptionsManager::GetInstance()->multiShipFix.currentValue) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
+    {
+        hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
+        CompleteShip* replacedShip = ships[0];
+        commandGui->combatControl.Clear();
+        replacedShip->shipManager->KillEveryone(true);
+        replacedShip->shipManager->SetDestroyed();
+
+        replacedShips.push_back(replacedShip);
+        ships.clear();
+        ShipManager* oldEnemy = playerShip->enemyShip->shipManager;
+        auto& spaceShips = space.ships;
+        spaceShips.erase(std::remove_if(spaceShips.begin(), spaceShips.end(), [=](ShipManager* ship) {return ship == oldEnemy;}), spaceShips.end());
+    }
+
     super(loc);
+
+    auto CheckHackingDrone = [&](CompleteShip* ship)
+    {
+        if (ship->shipManager->hackingSystem)
+        {
+            bool needHackingDrone = true;
+            for (SpaceDrone* drone : space.drones)
+            {
+                if (drone == &ship->shipManager->hackingSystem->drone)
+                {
+                    needHackingDrone = false;
+                    break;
+                }
+            }
+            if (needHackingDrone)
+            {
+                space.drones.push_back(&ship->shipManager->hackingSystem->drone);
+            }
+        }
+    };
 
     if (loc->ship.present && loc->ship.hostile && !ships.empty())
     {
@@ -4731,38 +4781,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             {
                 commandGui->combatControl.Clear();
                 commandGui->AddEnemyShip(enemyShip);
-                if (playerShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &playerShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
-                    }
-                }
-                if (enemyShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
-                    }
-                }
+                CheckHackingDrone(playerShip);
+                CheckHackingDrone(enemyShip);
             }
         }
     }
@@ -4827,6 +4847,18 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     g_noASBPlanet = false;
+}
+
+//Clean up any replaced ships
+HOOK_METHOD(WorldManager, ClearLocation, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ClearLocation -> Begin (CustomEvents.cpp)\n")
+    for (CompleteShip* replacedShip : replacedShips)
+    {
+        delete replacedShip;
+    }
+    replacedShips.clear();
+    super();
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -7054,15 +7086,15 @@ HOOK_METHOD_PRIORITY(WorldManager, CheckStatusEffects, 9999, (std::vector<Status
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CheckStatusEffects -> Begin (CustomEvents.cpp)\n")
     for (StatusEffect &effect : effects)
     {
-        if (effect.target == 0 || effect.target == 2)
+        if (effect.target == StatusEffect::TARGET_PLAYER || effect.target == StatusEffect::TARGET_ALL)
         {
-            ModifyStatusEffect(effect, playerShip->shipManager, 0);
+            ModifyStatusEffect(effect, playerShip->shipManager, StatusEffect::TARGET_PLAYER);
         }
-        if (!ships.empty() && (effect.target == 1 || effect.target == 2))
+        if (!ships.empty() && (effect.target == StatusEffect::TARGET_ENEMY || effect.target == StatusEffect::TARGET_ALL))
         {
             for (CompleteShip *ship : ships)
             {
-                ModifyStatusEffect(effect, ship->shipManager, 1);
+                ModifyStatusEffect(effect, ship->shipManager, StatusEffect::TARGET_ENEMY);
             }
         }
         currentEffects.push_back(effect);
@@ -7083,9 +7115,63 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyStatusEffect -> Begin (CustomEvents.cpp)\n")
     super(effect, target, targetType);
-    if (effect.system == 16 && (targetType == effect.target || effect.target == 2)) // all systems
+    if (effect.system == SYS_ALL && (targetType == effect.target || effect.target == StatusEffect::TARGET_ALL)) // all systems
     {
+        // Temporal system
         super(StatusEffect{effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+        // Custom systems
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            super(StatusEffect{effect.type, systemId, effect.amount, effect.target}, target, targetType);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemPowerLimit, (int systemId, int limit) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLimit -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, limit);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetPowerCap(limit);
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemPowerLoss, (int systemId, int powerLoss) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLoss -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, powerLoss);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetPowerLoss(powerLoss);
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemDividePower, (int systemId, int amount) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemDividePower -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, amount);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetDividePower(amount);
+    }
+}
+
+HOOK_METHOD(ShipManager, ClearStatusSystem, (int system) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (CustomEvents.cpp)\n")
+    if (system != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(system);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->ClearStatus();
     }
 }
 

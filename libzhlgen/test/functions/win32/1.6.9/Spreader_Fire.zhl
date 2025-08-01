@@ -1,0 +1,4 @@
+"578d????0883e4f0ff????5589f889e557565389cf83ec5c8b??89c389????8b4104":
+__thiscall int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId); //007352c0
+".578d????0883e4f0ff????5589e557565389cf83ec7c8b41048904??e8":
+__thiscall void Spreader_Fire::UpdateSpread(Spreader_Fire *this); //007355b0

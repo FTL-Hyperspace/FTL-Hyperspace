@@ -155,20 +155,27 @@ struct Point
 	}
 
 	Point operator-(const Point& other)
-	{		
+	{
 		return Point(x - other.x, y - other.y);
 	}
 
 	Point operator/(int amount)
-	{		
+	{
 		return Point(x / amount, y / amount);
 	}
 
 	Point operator*(int amount)
-	{		
+	{
 		return Point(x * amount, y * amount);
 	}
-	
+
+	//Required for std::map with Point keys to function properly
+    bool operator<(const Point& other) const
+    {
+        if (x == other.x) return y < other.y;
+        return x < other.x;
+    }
+
 	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
 
@@ -1290,7 +1297,7 @@ struct WeaponBlueprint;
 struct LIBZHL_INTERFACE ShipSystem
 {
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
@@ -1368,6 +1375,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API static int __stdcall RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
 	LIBZHL_API void RenderSystemSymbol(bool forPowerUI, int forceColor);
 	LIBZHL_API void SaveState(int file);
+	LIBZHL_API void SetDividePower(int val);
 	LIBZHL_API void SetPowerCap(int cap);
 	LIBZHL_API int SetPowerLoss(int power);
 	LIBZHL_API static std::string __stdcall SystemIdToName(int systemId);
@@ -2874,6 +2882,8 @@ struct BlueprintManager
 	LIBZHL_API EffectsBlueprint ProcessEffectsBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API ShipBlueprint ProcessShipBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API WeaponBlueprint ProcessWeaponBlueprint(rapidxml::xml_node<char> *node);
+	LIBZHL_API void ResetRarities();
+	LIBZHL_API void SetRarity(const std::string &name, int rarity);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -5635,6 +5645,22 @@ struct ShipEvent
 
 struct StatusEffect
 {
+    enum TargetId
+    {
+        TARGET_PLAYER = 0,
+        TARGET_ENEMY = 1,
+        TARGET_ALL = 2,
+    };
+
+    enum TypeId
+    {
+        TYPE_NONE = 0,
+        TYPE_LOSS = 1,
+        TYPE_LIMIT = 2,
+        TYPE_DIVIDE = 3,
+        TYPE_CLEAR = 4,
+    };
+
 	LIBZHL_API static StatusEffect __stdcall GetNebulaEffect();
 	
 	int type;
@@ -5768,7 +5794,7 @@ struct EventGenerator
 			usedEvents.erase(it);
 		}
 	}
-	
+
 	void ClearUsedEvent(LocationEvent *locEvent)
 	{
 		if (locEvent)
@@ -5781,6 +5807,7 @@ struct EventGenerator
 		}
 	}
 
+	LIBZHL_API void Clear();
 	LIBZHL_API LocationEvent *CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique);
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed);
 	LIBZHL_API std::string GetImageFromList(const std::string &listName);
@@ -6979,7 +7006,7 @@ struct Ship : ShipObject
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
@@ -6999,6 +7026,7 @@ struct Ship : ShipObject
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API bool BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API std::pair<int, int> ContainsHullBreach(int roomId);
 	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
@@ -7111,8 +7139,13 @@ struct EngineSystem;
 struct MedbaySystem;
 struct ParticleEmitter;
 
+struct Spreader_Fire;
+
 struct Spreader_Fire : ShipObject
 {
+	LIBZHL_API int CounterRoom(int roomId);
+	LIBZHL_API void UpdateSpread();
+	
 	int count;
 	std::vector<int> roomCount;
 	std::vector<std::vector<Fire>> grid;
@@ -7122,11 +7155,11 @@ struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -7134,30 +7167,29 @@ struct ShipManager : ShipObject
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
-	void StartDummyOxygen();
-	bool StopDummyOxygen();
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
-	
+
 	void RemoveSystem(int systemId);
 
 	int SystemWillReplace(int systemId);
@@ -7241,6 +7273,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int IsSystemHacked2(int systemId);
 	LIBZHL_API void JumpArrive();
 	LIBZHL_API void JumpLeave();
+	LIBZHL_API void KillEveryone(bool noClone);
 	LIBZHL_API void ModifyDroneCount(int drones);
 	LIBZHL_API void ModifyMissileCount(int missiles);
 	LIBZHL_API void ModifyScrapCount(int scrap, bool income);
@@ -7554,7 +7587,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void LocationHasShip(Location *unk0);
 	LIBZHL_API void LocationHasStore(Location *unk0);
 	LIBZHL_API bool LocationsConnected(Location *unk0, Location *unk1);
-	LIBZHL_API void MapConnected();
+	LIBZHL_API bool MapConnected();
 	LIBZHL_API void ModifyPursuit(int unk0);
 	LIBZHL_API void MouseClick(int unk0, int unk1);
 	LIBZHL_API void MouseMove(int x, int y);
@@ -7594,7 +7627,7 @@ struct StarMap : FocusWindow
 	
 	float visual_size;
 	std::vector<Location*> locations;
-	std::map<Point, Location*> locations_grid;
+	std::map<Point, std::vector<Location*>> locations_grid;
 	std::vector<Location*> temp_path;
 	Location *currentLoc;
 	Location *potentialLoc;
