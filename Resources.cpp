@@ -649,6 +649,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->scaleSlugGel.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "multiShipFix") == 0)
             {
@@ -932,7 +933,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "systemPositions") == 0)
                     {
                         SystemPositionManager::ParsePositionsNode(child);
-                    }  
+                    }
                 }
             }
             if (strcmp(node->name(), "scripts") == 0)
