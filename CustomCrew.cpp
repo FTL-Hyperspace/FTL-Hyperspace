@@ -3703,9 +3703,9 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, ClearStatusSystem, (int sys) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, ClearStatusSystem, -1000, (int sys) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ClearStatusSystem -> Begin (CustomCrew.cpp)\n")
     if (blockClearStatus) return;
 
     super(sys);
