@@ -7032,7 +7032,7 @@ struct Ship : ShipObject
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
@@ -7052,6 +7052,7 @@ struct Ship : ShipObject
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API bool BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API std::pair<int, int> ContainsHullBreach(int roomId);
 	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
@@ -7164,8 +7165,13 @@ struct EngineSystem;
 struct MedbaySystem;
 struct ParticleEmitter;
 
+struct Spreader_Fire;
+
 struct Spreader_Fire : ShipObject
 {
+	LIBZHL_API int CounterRoom(int roomId);
+	LIBZHL_API void UpdateSpread();
+	
 	int count;
 	std::vector<int> roomCount;
 	std::vector<std::vector<Fire>> grid;
@@ -7205,8 +7211,10 @@ struct ShipManager : ShipObject
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void StartDummyOxygen();
 	bool StopDummyOxygen();
+
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();

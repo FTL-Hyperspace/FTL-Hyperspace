@@ -2390,3 +2390,63 @@ HOOK_METHOD_PRIORITY(OxygenSystem, ComputeAirLoss, 9999, (int roomId, float base
         }
     }
 }
+
+//Rewrite such that leakModifier does not affect the oxygen drain caused by anaerobic crew
+HOOK_METHOD_PRIORITY(ShipManager, UpdateEnvironment, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::UpdateEnvironment -> Begin (CustomSystems.cpp)\n")
+    fireSpreader.UpdateSpread();
+    bool allTilesBurning = true;
+    for (int roomId = 0; roomId < ship.vRoomList.size(); ++roomId)
+    {
+        Globals::Rect roomRect = ship.vRoomList[roomId]->GetRect();
+        Globals::Rect gridRect = Globals::Rect(roomRect.x / 35, roomRect.y / 35, roomRect.w / 35, roomRect.h / 35);
+        int numTiles = gridRect.w * gridRect.h;
+        int numBurningTiles = fireSpreader.CounterRoom(roomId);
+        allTilesBurning = allTilesBurning && (numBurningTiles >= numTiles);
+
+        if (systemKey[SYS_OXYGEN] != -1 && numBurningTiles > 0)
+        {
+            oxygenSystem->ModifyRoomOxygen(roomId, -0.06f * G_->GetCFPS()->GetSpeedFactor() * numBurningTiles);
+            ship.vRoomList[roomId]->bWarningLight = true;
+        }
+
+        for (int x = gridRect.x; x < gridRect.x + gridRect.w; ++x)
+        {
+            for (int y = gridRect.y; y < gridRect.y + gridRect.h; ++y)
+            {
+                fireSpreader.grid[x][y].fOxygen = GetOxygenLevel(roomId);
+            }
+        }
+
+        std::pair<int, int> roomDrains = ship.ContainsHullBreach(roomId);
+        int openAirlocks = roomDrains.first;
+        int openBreaches = roomDrains.second;
+        if (systemKey[SYS_OXYGEN] != -1)
+        {
+            int anaerobicCrew = 0;
+            for (CrewMember* crew : vCrewList)
+            {
+                if (crew->iRoomId == roomId && crew->IsAnaerobic()) ++anaerobicCrew;
+            }
+            oxygenSystem->UpdateAirlock(roomId, openAirlocks);
+            oxygenSystem->UpdateBreach(roomId, openBreaches, openBreaches == 0);
+            oxygenSystem->ComputeAirLoss(roomId, anaerobicCrew * 0.5f, true);
+
+            if (openBreaches > 0) ship.vRoomList[roomId]->bWarningLight = true;
+        }
+        ShipSystem* sys = GetSystemInRoom(roomId);
+        if (sys != nullptr) sys->bBreached = openBreaches > 0;
+    }
+
+    //Use HasSystem instead of systemKey[SYS_OXYGEN] != -1 so suffocation achievement does not trigger on ships without the oxygen system installed
+    if (HasSystem(SYS_OXYGEN) && iShipId != 0 && GetOxygenPercentage() < 5)
+    {
+        G_->GetAchievementTracker()->SetAchievement("ACH_SUFFOCATE", false, true);
+    }
+    if (allTilesBurning && iShipId != 0)
+    {
+        G_->GetAchievementTracker()->SetAchievement("ACH_BURNING", false, true);
+    }
+
+}
