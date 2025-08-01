@@ -191,9 +191,11 @@ cleanup __amd64 int ShipManager::CreateSystems(ShipManager *this);
 ".4157415641554154554889fd534881ece8000000":
 cleanup __amd64 bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
 ".415731c94156415541544989fc555331db4881ec38010000":
-cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this);
+cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this); //004c63d0
+"!.??5431c9??0fb6e655??89fd53":
+cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone); //004c7840
 ".41554154554889fd534883ec08488b87":
-cleanup __amd64 bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
+cleanup __amd64 bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force); //004c78b0
 "!.4157415641554154554889fd5389f34883ec18":
 cleanup __amd64 void ShipManager::ImportBattleState(ShipManager *this, int file);
 ".41574989ffbe????????41564155415455534881ec48010000":
@@ -256,6 +258,9 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	}
 
 	bool SetDummyOxygen(bool useDummyOxygen);
+	void StartDummyOxygen();
+	bool StopDummyOxygen();
+
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();

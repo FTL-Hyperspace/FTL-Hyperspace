@@ -38,10 +38,12 @@ cleanup __cdecl int ShipManager::GetSystemDamage(ShipManager *this, int systemId
 cleanup __cdecl int ShipManager::CreateSystems(ShipManager *this);
 "5589e557565381ecdc0000008b45088d98c0040000":
 cleanup __cdecl int ShipManager::AddSystem(ShipManager *this, int systemId);
-"5589e557565331db81ecfc0000008b7d088b57188b471c":
-cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this);
+".5589e557565331db81ecfc0000008b7d088b57188b471c":
+cleanup __cdecl void ShipManager::UpdateCrewMembers(ShipManager *this); //08112fa0
+"!.57565331db83ec108b7c????0fb674????8b5764":
+cleanup __cdecl void ShipManager::KillEveryone(ShipManager *this, bool noClone); //08114270
 ".5557565383ec1c8b7424308b5c24348b7c243c8b":
-cleanup __cdecl bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
+cleanup __cdecl bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force); //081142c0
 "5589e557565381ec9c0000008b7d088d4770":
 cleanup __cdecl void ShipManager::UpdateEnvironment(ShipManager *this);
 "5589e557565383ec6c8b4514c7442404????????8b7508":
