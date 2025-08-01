@@ -27,9 +27,11 @@ __thiscall int ShipManager::CreateSystems(ShipManager *this);
 "8b810807000085c00f84????????578d7c240883e4f0ff77fc5589e557568db104070000":
 __thiscall int ShipManager::AddSystem(ShipManager *this, int systemId);
 "578d7c240883e4f0ff77fc5589e557565331db89cf81ec????????8b5118":
-__thiscall void ShipManager::UpdateCrewMembers(ShipManager *this);
+__thiscall void ShipManager::UpdateCrewMembers(ShipManager *this); //0049ee10
+".578d????0883e4f0ff????5589e557565331f689fb":
+__thiscall void ShipManager::KillEveryone(ShipManager *this, bool noClone); //004a0210
 ".578d7c240883e4f0ff77fc5589e557565383ec2c8b81c80400008b57088b1f8b7f0c837810ff8955e4":
-__thiscall bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
+__thiscall bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force); //004a0280
 "578d41708d7c240883e4f0ff77fc5589e557565389cf89c1":
 __thiscall void ShipManager::UpdateEnvironment(ShipManager *this);
 "578d7c240883e4f0ff77fc5589e557565389ce8d4d9c81ec????????8b0789c389458c8b47048945908b4708":

@@ -334,6 +334,13 @@ HOOK_STATIC(ShipSystem, IsSubsystem, (int systemId) -> bool)
     else return super(systemId);
 }
 
+HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (TemporalSystem.cpp)\n")
+    if (task.system >= SYS_CUSTOM_FIRST && task.system <= CustomUserSystems::GetLastSystemId()) task.system = 15;
+    return super(task, crewId);
+}
+
 HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomSystems.cpp)\n")

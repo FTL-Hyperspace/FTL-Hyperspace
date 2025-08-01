@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ru">
-  <mod:setValue>\1 (Hyperspace 1.19.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ru">
   <mod:setValue>Вероятность возгорания: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -124,9 +124,9 @@
 <text name="power_not_ready_teleporting_false" language="ru">Не готов: не телепортируется</text>
 <text name="advanced_health_tooltip" language="ru">Здоровье</text>
 <text name="weapon_cooldown_negative" language="ru">Отключено</text>
-<text name="crew_stun_time" language="ru">Оглушен: \1 секунд</text>
-<text name="crew_death_time" language="ru">Продолжительность жизни: \1 секунд</text>
-<text name="crew_death_time_expired" language="ru">Продолжительность жизни: Истек</text>
+<text name="crew_stun_time" language="ru">Оглушен: \1 сек.</text>
+<text name="crew_death_time" language="ru">Время жизни: \1 сек.</text>
+<text name="crew_death_time_expired" language="ru">Время жизни: Истек</text>
 <!-- System info boxes -->
 <text name="reactor_desc_start" language="ru">Начальная мощность: \1</text>
 <text name="reactor_desc_max" language="ru">Максимальная мощность: \1</text>
@@ -140,8 +140,8 @@
 <text name="redesigned_boost_power_damage_negative" language="ru">Эффект цепи: снижение урона на \1</text>
 <text name="redesigned_boost_power_speed_positive" language="ru">Эффект цепи: снижение времени перезарядки на \1</text>
 <text name="redesigned_boost_power_speed_negative" language="ru">Эффект цепи: увеличение времени перезарядки на \1</text>
-<text name="redesigned_damage_cap" language="ru">Макс. урон цепи: \1 урона (\2 выстрела)</text>
-<text name="redesigned_speed_cap" language="ru">Мин. перезарядка цепи: \1 (\2 выстрела)</text>
+<text name="redesigned_damage_cap" language="ru">Макс. урон цепи: \1 урона (после \2-го залпа)</text>
+<text name="redesigned_speed_cap" language="ru">Мин. перезарядка цепи: \1 (после \2-го залпа)</text>
 <text name="shot_radius" language="ru">Разброс выстрела: \1</text>
 <text name="shot_radius_angular" language="ru">Разброс выстрела: \1 градусов</text>
 <text name="beam_length" language="ru">Длина луча: \1</text>
@@ -155,14 +155,14 @@
 <text name="hull_damage_negative" language="ru">Восстановление корпуса: \1</text>
 <text name="system_damage_negative" language="ru">Ремонт системы: \1</text>
 <text name="personnel_damage_negative" language="ru">Урон экипажу: \1</text>
-<text name="stun_length" language="ru">секунд</text>
+<text name="stun_length" language="ru">сек.</text>
 <text name="weapon_lockdown" language="ru">Запирает отсеки при попадании</text>
 <text name="scrap_value" language="ru">Стоимость покупки/продажи: \1 лома/\2 лома</text>
 <text name="damage_word" language="ru">Урон</text>
 <text name="bomb_shots" language="ru">Выстрелов за заряд: \1 (1 по собственному кораблю)</text>
 <text name="crew_scrap_value" language="ru">Стоимость найма: \1~</text>
 <text name="drone_speed" language="ru">Скорость дрона: \1</text>
-<text name="defense_drone_reload_speed" language="ru">Скорость перезарядки: \1ms</text>
+<text name="defense_drone_reload_speed" language="ru">Скорость перезарядки: \1мс</text>
 <text name="defense_drone_projectile_speed" language="ru">Скорость снаряда: \1</text>
 <text name="defense_drone_orbit_speed" language="ru">Скорость движения: \1</text>
 <text name="defense_drone_projectile_target_unknown" language="ru">Цель снаряда: Неизвестно</text>
@@ -281,7 +281,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_art" language="ru">Дополнительная графика:</text>
 <text name="credits_hyperspace_art_names" language="ru">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ru">Дополнительная помощь:</text>
-<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nкоманда FTL Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nкоманда FTL Multiverse</text>
 <text name="credits_hyperspace_loc" language="ru">Переводчики Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="ru">Французский</text>
 <text name="credits_hyperspace_loc_fr_names" language="ru">Pepson</text>
@@ -311,7 +311,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 
 <text name="max_augments" language="ru">На ваш корабль можно устанавливать только \1 модуля.</text>
 <text name="shot_limit" language="ru">Предел выстрелов из оружия: \1</text>
-<text name="shots_remaining" language="ru">Выстрелы: \1</text>
+<text name="shots_remaining" language="ru">Выстрелов: \1</text>
 <text name="warning_shot_limit" language="ru">ПРЕДЕЛ ВЫСТРЕЛОВ ДОСТИГНУТ</text>
 <text name="shield_drone_layers_per_charge" language="ru">Слои щита за один заряд: \1</text>
 <text name="shield_drone_cooldowns" language="ru">Перезарядка: \1</text>

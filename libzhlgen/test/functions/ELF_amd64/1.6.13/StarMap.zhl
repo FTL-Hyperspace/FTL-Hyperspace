@@ -113,7 +113,7 @@ cleanup __amd64 void StarMap::GenerateEvents(StarMap *this, bool tutorial);
 ".415641554989fd41544c8da7800c0000554889f5534c89e34883ec10":
 cleanup __amd64 void StarMap::AddConnections(StarMap *this, Location * unk0);
 ".53488bb7880c00004889fb488dbf780c0000":
-cleanup __amd64 void StarMap::MapConnected(StarMap *this);
+cleanup __amd64 bool StarMap::MapConnected(StarMap *this);
 ".415741564155415455488d6f4853488d5f404883ec38":
 cleanup __amd64 void StarMap::ConnectLocations(StarMap *this, Point unk0, Point unk1);
 ".415541544989fc5553488d5f404883ec38":
