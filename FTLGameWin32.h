@@ -5098,9 +5098,13 @@ struct DistressButton : TextButton
 	bool state;
 };
 
-struct Selectable
+struct Selectable;
+
+struct LIBZHL_INTERFACE Selectable
 {
-	void *vptr;
+	virtual ~Selectable() {}
+	virtual void SetSelected(int selected) LIBZHL_PLACEHOLDER
+	virtual int GetSelected() LIBZHL_PLACEHOLDER
 	int selectedState;
 };
 
@@ -6040,8 +6044,30 @@ struct FileHelper
 
 struct Fire;
 
-struct Repairable : Selectable
+struct LIBZHL_INTERFACE Repairable : Selectable
 {
+	virtual ~Repairable() {}
+	virtual bool CompletelyDestroyed() LIBZHL_PLACEHOLDER
+	virtual std::string GetName() LIBZHL_PLACEHOLDER
+	virtual void SetName(std::string &name) LIBZHL_PLACEHOLDER
+	virtual void Repair() LIBZHL_PLACEHOLDER
+	virtual void PartialRepair(float speed, bool autoRepair) LIBZHL_PLACEHOLDER
+	virtual void PartialDamage(float amount) LIBZHL_PLACEHOLDER
+	virtual bool NeedsRepairing() LIBZHL_PLACEHOLDER
+	virtual bool Functioning() LIBZHL_PLACEHOLDER
+	virtual bool CanBeSabatoged() LIBZHL_PLACEHOLDER
+	virtual float GetDamage() LIBZHL_PLACEHOLDER
+	virtual Point GetLocation() LIBZHL_PLACEHOLDER
+	virtual Point GetGridLocation() LIBZHL_PLACEHOLDER
+	virtual void SetDamage(float diff) LIBZHL_PLACEHOLDER
+	virtual void SetMaxDamage(float dam) LIBZHL_PLACEHOLDER
+	virtual void SetLocation(Point location) LIBZHL_PLACEHOLDER
+	virtual void OnRenderHighlight() LIBZHL_PLACEHOLDER
+	virtual int GetId() LIBZHL_PLACEHOLDER
+	virtual bool IsRoomBased() LIBZHL_PLACEHOLDER
+	virtual int GetRoomId() LIBZHL_PLACEHOLDER
+	virtual bool Ioned(int amount) LIBZHL_PLACEHOLDER
+	virtual void SetRoomId() LIBZHL_PLACEHOLDER
 	ShipObject shipObj;
 	float fDamage;
 	Point pLoc;
@@ -6448,8 +6474,12 @@ struct NebulaCloud
 	float lightningRotation;
 };
 
+struct OuterHull;
+
 struct OuterHull : Repairable
 {
+	LIBZHL_API void OnLoop();
+	
 	Animation breach;
 	Animation heal;
 };
@@ -7008,8 +7038,6 @@ struct Shields : ShipSystem
 	Point superUpLoc;
 	bool bExcessChargeHack;
 };
-
-struct OuterHull;
 
 struct Ship : ShipObject
 {
