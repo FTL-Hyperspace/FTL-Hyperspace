@@ -563,10 +563,18 @@ struct LIBZHL_INTERFACE AnimationTracker
 {
 	AnimationTracker()
 	{
-	
+
 	}
 	void LoadState(int fd);
 	void SaveState(int fd);
+
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
 
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
@@ -647,9 +655,9 @@ struct GL_Color
 {
 	GL_Color(float rr, float gg, float bb, float aa) : r(rr), g(gg), b(bb), a(aa)
 	{
-		
+
 	}
-	
+
 	static GL_Color FromHSV(float fH, float fS, float fV, float fA)
 	{
 		float fR, fB, fG;
@@ -657,57 +665,57 @@ struct GL_Color
 		float fHPrime = fmod(fH / 60.0, 6);
 		float fX = fC * (1 - fabs(fmod(fHPrime, 2) - 1));
 		float fM = fV - fC;
-		
-		if (0 <= fHPrime && fHPrime < 1) 
+
+		if (0 <= fHPrime && fHPrime < 1)
 		{
 			fR = fC;
 			fG = fX;
 			fB = 0;
-		} 
-		else if(1 <= fHPrime && fHPrime < 2) 
+		}
+		else if(1 <= fHPrime && fHPrime < 2)
 		{
 			fR = fX;
 			fG = fC;
 			fB = 0;
-		} 
-		else if(2 <= fHPrime && fHPrime < 3) 
+		}
+		else if(2 <= fHPrime && fHPrime < 3)
 		{
 			fR = 0;
 			fG = fC;
 			fB = fX;
-		} 
-		else if(3 <= fHPrime && fHPrime < 4) 
+		}
+		else if(3 <= fHPrime && fHPrime < 4)
 		{
 			fR = 0;
 			fG = fX;
 			fB = fC;
-		} 
-		else if(4 <= fHPrime && fHPrime < 5) 
+		}
+		else if(4 <= fHPrime && fHPrime < 5)
 		{
 			fR = fX;
 			fG = 0;
 			fB = fC;
-		} 
-		else if(5 <= fHPrime && fHPrime < 6) 
+		}
+		else if(5 <= fHPrime && fHPrime < 6)
 		{
 			fR = fC;
 			fG = 0;
 			fB = fX;
-		} 
-		else 
+		}
+		else
 		{
 			fR = 0;
 			fG = 0;
 			fB = 0;
 		}
-		  
+
 		fR += fM;
 		fG += fM;
 		fB += fM;
-		
+
 		return GL_Color(fR, fB, fG, fA);
 	}
-	
+
 	GL_Color() {}
 
 	bool operator==(const GL_Color &color2)
@@ -719,6 +727,9 @@ struct GL_Color
 	{
 		return !(r == color2.r && g == color2.g && b == color2.b && a == color2.a);
 	}
+
+	void SaveState(int fd);
+	void LoadState(int fd);
 
 	float r;
 	float g;
@@ -5114,15 +5125,15 @@ struct Room : Selectable
 	{
 		int posX = pos.x;
 		int posY = pos.y;
-		
+
 		int rectY = this->rect.y;
 		int rectH = this->rect.h;
-		
+
 		int rectX = this->rect.x;
 		int rectW = this->rect.w;
-		
+
 		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
-		
+
 		if (rectY + rectH - posY > 15 && posY - rectY > 15)
 		{
 			if (rectW + rectX - posX > 15 && posX - rectX > 15)
@@ -5130,19 +5141,19 @@ struct Room : Selectable
 				return Point(-1, -1);
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
-		
+
 		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
 		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
-		
+
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
 
-	Globals::Rect GetRect() 
+	Globals::Rect GetRect()
 	{
 		return this->rect;
 	}
@@ -5151,6 +5162,7 @@ struct Room : Selectable
 	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
 	LIBZHL_API void OnRenderWalls(float alpha);
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
@@ -5326,21 +5338,50 @@ public:
 		}
 	}
 
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
+	}
+
+	LIBZHL_API void AccelerateAnimation();
 	LIBZHL_API bool ApplyDamage(float amount);
+	LIBZHL_API bool ConnectsRooms(int roomId1, int roomId2);
+	LIBZHL_API bool ContainsPoint(int loc_x, int loc_y, float scale);
 	LIBZHL_API void FakeClose();
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender(float alpha, bool bForceView, bool useLargeSprites);
+	LIBZHL_API void Open();
+	LIBZHL_API void PauseLoop();
 	LIBZHL_API void SaveState(int fd);
+	LIBZHL_API void SetBlastDoor(int val);
+	LIBZHL_API void SetLockdown(bool val);
+	LIBZHL_API void StartAnimIfNecessary();
+	LIBZHL_API void UpdateAnimations();
+	LIBZHL_API void constructor();
+	LIBZHL_API void destructor();
 	
 	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
+	uint8_t gap_ex_1[3];
 	int iBlast;
 	bool bFakeOpen;
+	uint8_t gap_ex_2[3];
 	int width;
 	int height;
 	GL_Primitive *outlinePrimitive;
@@ -5965,6 +6006,7 @@ struct ImageDesc
 
 struct ExplosionAnimation : AnimationTracker
 {
+	LIBZHL_API ImageDesc GetFinalGib();
 	LIBZHL_API void LoadGibs();
 	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
 	LIBZHL_API void OnRender(Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
@@ -6301,7 +6343,27 @@ struct LockdownShard;
 
 struct LockdownShard
 {
+    LockdownShard() {}
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+
+	LIBZHL_API void OnRender();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void Update();
+	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor3(int fd);
 	
 	Animation shard;
 	Pointf position;
@@ -6309,8 +6371,10 @@ struct LockdownShard
 	float speed;
 	bool bArrived;
 	bool bDone;
+	uint8_t gap_ex_1[2];
 	float lifeTime;
 	bool superFreeze;
+	uint8_t gap_ex_2[3];
 	int lockingRoom;
 };
 
@@ -7046,6 +7110,53 @@ struct Ship : ShipObject
 	  DOOR_ANIMATING = 0x4,
 	};
 
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = 2147483647;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
+
 
 	struct DoorState
 	{
@@ -7063,9 +7174,11 @@ struct Ship : ShipObject
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
+	LIBZHL_API float GetCloakAlpha(bool complete);
 	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API Point GetShipCorner();
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
 	LIBZHL_API void OnInit(ShipBlueprint *bp);
 	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);
@@ -7078,6 +7191,7 @@ struct Ship : ShipObject
 	LIBZHL_API bool RoomLocked(int roomId);
 	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
 	LIBZHL_API void SetSelectedRoom(int roomId);
+	LIBZHL_API void UpdateDoorsPrimitive(bool doorControlMode);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;

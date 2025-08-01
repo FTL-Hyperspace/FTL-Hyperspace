@@ -136,6 +136,8 @@ target_sources(
     CustomHotkeys.h
     CustomLocalization.cpp
     CustomLocalization.h
+    CustomLockdowns.cpp
+    CustomLockdowns.h
     CustomMap.cpp
     CustomMap.h
     CustomOptions.cpp

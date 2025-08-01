@@ -607,8 +607,10 @@ struct Door
   int iRoom1;
   int iRoom2;
   bool bOpen;
+  uint8_t gap_ex_1[3];
   int iBlast;
   bool bFakeOpen;
+  uint8_t gap_ex_2[3];
   int width;
   int height;
   GL_Primitive *outlinePrimitive;
@@ -808,8 +810,10 @@ struct LockdownShard
   float speed;
   bool bArrived;
   bool bDone;
+  uint8_t gap_ex_1[2];
   float lifeTime;
   bool superFreeze;
+  uint8_t gap_ex_2[3];
   int lockingRoom;
 };
 

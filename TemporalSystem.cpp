@@ -1339,13 +1339,13 @@ HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 HOOK_METHOD(LockdownShard, Update, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LockdownShard::Update -> Begin (TemporalSystem.cpp)\n")
-    g_dilationAmount = GetRoomDilationAmount(g_shardDilationRooms, lockingRoom);
+    g_dilationAmount = LD_EX(this)->canDilate ? GetRoomDilationAmount(g_shardDilationRooms, lockingRoom) : 0;
 
     super();
 
     g_dilationAmount = 0;
 }
-
+/*Unneeded since lockdown rework
 HOOK_METHOD(Door, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Door::OnLoop -> Begin (TemporalSystem.cpp)\n")
@@ -1363,7 +1363,7 @@ HOOK_METHOD(Door, OnLoop, () -> void)
             {
                 if (shard.lockingRoom == iRoom1 || shard.lockingRoom == iRoom2)
                 {
-                     lockTime = std::min(lockTime, shard.lifeTime + speedFactor * TemporalSystemParser::GetDilationStrength(GetRoomDilationAmount(g_shardDilationRooms, shard.lockingRoom)));
+                    lockTime = std::min(lockTime, shard.lifeTime + speedFactor * TemporalSystemParser::GetDilationStrength(GetRoomDilationAmount(g_shardDilationRooms, shard.lockingRoom)));
                 }
             }
             if (lockTime == 12.f)
@@ -1382,7 +1382,7 @@ HOOK_METHOD(Door, OnLoop, () -> void)
     }
     super();
 }
-
+*/
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnLoop -> Begin (TemporalSystem.cpp)\n")

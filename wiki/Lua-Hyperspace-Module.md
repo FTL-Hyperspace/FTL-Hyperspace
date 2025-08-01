@@ -581,7 +581,9 @@ Accessed via `ShipManager`'s `.extend` field
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
 -  `void LockdownRoom(int roomId, Pointf pos)`
-   -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well.
+   -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well. Uses the default lockdown type.
+- `void LockdownRoom(int roomId, Pointf pos, CustomLockdownDefinition def)`
+   - Does the same thing as the other version of LockdownRoom, and allows a custom lockdown type to be defined with a [`CustomLockdownDefinition`](#CustomLockdownDefinition).
 -  `bool RoomLocked(int roomId)`
    -  Returns true if the room is locked down.
 -  `void SetRoomBlackout(int roomId, bool blackout)`
@@ -625,7 +627,9 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
 -  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+   - **Read-only**
    - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
+   - WARNING: Shards should not be removed from this vector! This will result in a memory leak. If this is absolutely necessary, set the `.bDone` field to true instead.
 
 ### Hyperspace Fields
 -  `std::vector<std::pair<Animation, int8_t>>`
@@ -641,21 +645,66 @@ Accessed via `ShipManager`'s `.extend` field
    Note: Pairs are returned by value, and not by reference.
 
 ## LockdownShard
-
+   The class representing an individual piece of crystal from a lockdown.
 ### Methods
 - `void` `:Update()`
 
 ### Fields
 - [`Animation`](#Animation) `.shard`
+   - The animation used for the shard visual.
 - [`Pointf`](#Pointf) `.position`
+   - The current position of the shard.
 - [`Pointf`](#Pointf) `.goal`
+   - The location where the shard is heading, if it is not already there.
 - `float` `.speed`
+   - The rate at which the shard is moving.
 - `bool` `.bArrived`
+   - If the shard has reached its destination.
 - `bool` `.bDone`
+   - **Read-only**
+   - If the shard has completed its lifetime and is marked for removal.
 - `float` `.lifeTime`
+   - The remaining time in seconds until this shard disappears.
 - `bool` `.superFreeze`
+   - If false, the shard will gradually complete its animation over the course of its lifetime. If true, the shard will not animation until the end of its lifetime, and will start the animation then at a faster pace.
 - `int` `.lockingRoom`
+   - **Read-only**
+   - The room that this shard is locking down.
+- [`LockdownShard_Extend`](#LockdownShard_Extend) `.extend`
+   - **Read-only**
+   - The associated extend object for this instance.
 
+## LockdownShard_Extend
+   The class holding associated data to a [`LockdownShard`](#LockdownShard).
+### Fields
+- `int` `.health`
+   - The current health of the shard. Is reduced by 1 for each hit from a crew member with base door damage. Only matters for door shards.
+- [`Door*`](#Door) `.door`
+   - **Read-Only**
+   - The door that this shard is locking down, if any. Nil if no associated door.
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.color`
+   - The color that this shard is tinted.
+- `std::string` `.anim`
+   - **Read-Only**
+   - The name of the animation for this shard. Used for restoring animations on save/load.
+- `bool` `.canDilate`
+   - If this shard is affected by time dilation.
+
+## CustomLockdownDefinition
+   The class representing a custom lockdown type.
+### Fields
+- `float` `.duration`
+   - The amount of time that this lockdown will last, in seconds.
+- `int` `.health`
+   - The health of each shard.
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.color`
+   - The color that each shard will be tinted.
+- `std::vector<std::string>` `.anims`
+   - A selection of animation names for each shard to use.
+   - Wall shards will use a random animation from the list.
+   - Door shards will use the first animation from the list.
+- `bool` `.canDilate`
+   - If this lockdown is affected by time dilation.
 ## ShipSystem
 
 ### Static methods
