@@ -1,3 +1,5 @@
+"5589e55731ff565383ec2c8b????8b????c70000000000c7400400000000":
+cleanup __cdecl std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
 "57565383ec108b4424208b7424248b7c24288b5c242c8b40040fb6db890424e8????????895c242c897c2428897424248944242083c4105b5e5fe9????????9057":
 cleanup __cdecl int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 "5589e557565381ec2c0100008b45088b4004890424":

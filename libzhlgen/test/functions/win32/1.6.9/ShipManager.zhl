@@ -20,11 +20,7 @@ __thiscall bool ShipManager::HasSystem(ShipManager *this, int systemId);
 __thiscall ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this, int roomId);
 "578d7c240883e4f0ff77fc5589e557565389ce8d8d1cffffff81ec????????":
 __thiscall void ShipManager::OnLoop(ShipManager* this);
-"578d7c240883e4f0ff77fc5589e55783ec148b078b7f0483f81174??83f8ff74??8b91c8040000":
-__thiscall void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
-".578d????0883e4f0ff????5589e55783ec148b??8b????83f81174??":
-__thiscall void ShipManager::SetSystemDividePower(ShipManager *this, int systemId, int amount);
-".578d????0883e4f0ff????5589e55783ec148b81c80400008b??8b149031c0":
+"578d????0883e4f0ff????5589e55783ec148b81c80400008b??8b149031c0":
 __thiscall bool ShipManager::IncreaseSystemPower(ShipManager *this, int systemId);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b810807000085c0":
 __thiscall int ShipManager::CreateSystems(ShipManager *this);
@@ -136,6 +132,10 @@ __thiscall void ShipManager::JumpArrive(ShipManager *this);
 __thiscall void ShipManager::CheckSpreadDamage(ShipManager *this);
 ".578d????0883e4f0ff????55":
 __thiscall void ShipManager::SetSystemPowerLimit(ShipManager *this, int systemId, int limit);
+".578d7c240883e4f0ff77fc5589e55783ec148b078b7f0483f81174??83f8ff74??8b91c8040000":
+__thiscall void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
+".578d????0883e4f0ff????5589e55783ec148b??8b????83f81174??":
+__thiscall void ShipManager::SetSystemDividePower(ShipManager *this, int systemId, int amount);
 "5731c08d7c240883e4f0ff77fc5589e55783ec148b1783faff74??8bb9c80400008b149783faff74??8b4918":
 __thiscall bool ShipManager::ForceDecreaseSystemPower(ShipManager *this, int sys);
 "5589c889e58b55088b524485d274??8b8aec0100005d89088b8af00100008948048b8af40100008b92f801000089480889500c":
@@ -256,8 +256,10 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void StartDummyOxygen();
 	bool StopDummyOxygen();
+
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();

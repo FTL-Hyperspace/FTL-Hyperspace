@@ -515,8 +515,15 @@ struct Ship
 /* 303 */
 struct Selectable
 {
-  void *vptr;
+  VTable_Selectable *_vtable;
   int selectedState;
+};
+
+struct VTable_Selectable
+{
+  void (__thiscall *Free)(Selectable *this);
+  void (__thiscall *SetSelected)(Selectable *this, int selected);
+  int (__thiscall *GetSelected)(Selectable *this);
 };
 
 /* 460 */
@@ -629,6 +636,7 @@ struct Door
 /* 180 */
 struct Repairable
 {
+  VTable_Repairable *_vtable;
   Selectable _base;
   ShipObject shipObj;
   float fDamage;
@@ -637,6 +645,32 @@ struct Repairable
   std__string name;
   int roomId;
   int iRepairCount;
+};
+
+struct VTable_Repairable
+{
+    void (__thiscall *Free)(Repairable *this);
+    bool (__thiscall *CompletelyDestroyed)(Repairable *this);
+    std__string (__thiscall *GetName)(Repairable *this);
+    void (__thiscall *SetName)(Repairable *this, std__string* name);
+    void (__thiscall *Repair)(Repairable *this);
+    void (__thiscall *PartialRepair)(Repairable *this, float speed, bool autoRepair);
+    void (__thiscall *PartialDamage)(Repairable *this, float amount);
+    bool (__thiscall *NeedsRepairing)(Repairable *this);
+    bool (__thiscall *Functioning)(Repairable *this);
+    bool (__thiscall *CanBeSabatoged)(Repairable *this);
+    float (__thiscall *GetDamage)(Repairable *this);
+    Point (__thiscall *GetLocation)(Repairable *this);
+    Point (__thiscall *GetGridLocation)(Repairable *this);
+    void (__thiscall *SetDamage)(Repairable *this, float diff);
+    void (__thiscall *SetMaxDamage)(Repairable *this, float dam);
+    void (__thiscall *SetLocation)(Repairable *this, Point location);
+    void (__thiscall *OnRenderHighlight)(Repairable *this);
+    int (__thiscall *GetId)(Repairable *this);
+    bool (__thiscall *IsRoomBased)(Repairable *this);
+    int (__thiscall *GetRoomId)(Repairable *this);
+    bool (__thiscall *Ioned)(Repairable *this, int amount);
+    void (__thiscall *SetRoomId)(Repairable *this);
 };
 
 /* 294 */

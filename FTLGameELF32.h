@@ -1308,7 +1308,7 @@ struct WeaponBlueprint;
 struct LIBZHL_INTERFACE ShipSystem
 {
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
@@ -1386,6 +1386,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API static int __stdcall RenderPowerBoxesPlain(int x, int y, int width, int height, int gap, int current, int temp, int max);
 	LIBZHL_API void RenderSystemSymbol(bool forPowerUI, int forceColor);
 	LIBZHL_API void SaveState(int file);
+	LIBZHL_API void SetDividePower(int val);
 	LIBZHL_API void SetPowerCap(int cap);
 	LIBZHL_API int SetPowerLoss(int power);
 	LIBZHL_API static std::string __stdcall SystemIdToName(int systemId);
@@ -5106,9 +5107,13 @@ struct DistressButton : TextButton
 	bool state;
 };
 
-struct Selectable
+struct Selectable;
+
+struct LIBZHL_INTERFACE Selectable
 {
-	void *vptr;
+	virtual ~Selectable() {}
+	virtual void SetSelected(int selected) LIBZHL_PLACEHOLDER
+	virtual int GetSelected() LIBZHL_PLACEHOLDER
 	int selectedState;
 };
 
@@ -5687,6 +5692,22 @@ struct ShipEvent
 
 struct StatusEffect
 {
+    enum TargetId
+    {
+        TARGET_PLAYER = 0,
+        TARGET_ENEMY = 1,
+        TARGET_ALL = 2,
+    };
+
+    enum TypeId
+    {
+        TYPE_NONE = 0,
+        TYPE_LOSS = 1,
+        TYPE_LIMIT = 2,
+        TYPE_DIVIDE = 3,
+        TYPE_CLEAR = 4,
+    };
+
 	LIBZHL_API static StatusEffect __stdcall GetNebulaEffect();
 	
 	int type;
@@ -6054,8 +6075,30 @@ struct FileHelper
 
 struct Fire;
 
-struct Repairable : Selectable
+struct LIBZHL_INTERFACE Repairable : Selectable
 {
+	virtual ~Repairable() {}
+	virtual bool CompletelyDestroyed() LIBZHL_PLACEHOLDER
+	virtual std::string GetName() LIBZHL_PLACEHOLDER
+	virtual void SetName(std::string &name) LIBZHL_PLACEHOLDER
+	virtual void Repair() LIBZHL_PLACEHOLDER
+	virtual void PartialRepair(float speed, bool autoRepair) LIBZHL_PLACEHOLDER
+	virtual void PartialDamage(float amount) LIBZHL_PLACEHOLDER
+	virtual bool NeedsRepairing() LIBZHL_PLACEHOLDER
+	virtual bool Functioning() LIBZHL_PLACEHOLDER
+	virtual bool CanBeSabatoged() LIBZHL_PLACEHOLDER
+	virtual float GetDamage() LIBZHL_PLACEHOLDER
+	virtual Point GetLocation() LIBZHL_PLACEHOLDER
+	virtual Point GetGridLocation() LIBZHL_PLACEHOLDER
+	virtual void SetDamage(float diff) LIBZHL_PLACEHOLDER
+	virtual void SetMaxDamage(float dam) LIBZHL_PLACEHOLDER
+	virtual void SetLocation(Point location) LIBZHL_PLACEHOLDER
+	virtual void OnRenderHighlight() LIBZHL_PLACEHOLDER
+	virtual int GetId() LIBZHL_PLACEHOLDER
+	virtual bool IsRoomBased() LIBZHL_PLACEHOLDER
+	virtual int GetRoomId() LIBZHL_PLACEHOLDER
+	virtual bool Ioned(int amount) LIBZHL_PLACEHOLDER
+	virtual void SetRoomId() LIBZHL_PLACEHOLDER
 	ShipObject shipObj;
 	float fDamage;
 	Point pLoc;
@@ -7124,6 +7167,7 @@ struct Ship : ShipObject
 	
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API bool BreachSpecificHull(int grid_x, int grid_y);
+	LIBZHL_API std::pair<int, int> ContainsHullBreach(int roomId);
 	LIBZHL_API bool DestroyedDone();
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
@@ -7239,8 +7283,13 @@ struct EngineSystem;
 struct MedbaySystem;
 struct ParticleEmitter;
 
+struct Spreader_Fire;
+
 struct Spreader_Fire : ShipObject
 {
+	LIBZHL_API int CounterRoom(int roomId);
+	LIBZHL_API void UpdateSpread();
+	
 	int count;
 	std::vector<int> roomCount;
 	std::vector<std::vector<Fire>> grid;
@@ -7280,8 +7329,7 @@ struct ShipManager : ShipObject
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
-	void StartDummyOxygen();
-	bool StopDummyOxygen();
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();

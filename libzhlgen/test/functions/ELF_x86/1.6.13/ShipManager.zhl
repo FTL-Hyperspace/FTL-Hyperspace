@@ -264,8 +264,7 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
-	void StartDummyOxygen();
-	bool StopDummyOxygen();
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
