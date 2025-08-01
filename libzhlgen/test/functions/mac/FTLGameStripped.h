@@ -2943,7 +2943,7 @@ struct ShipManager
   std__vector_12CrewMemberZ1 vCrewList;
   Spreader_Fire fireSpreader;
   Ship ship;
-  char statusMessages[80]; // Note this is actually a queue/dequeue not a char array, maybe we can specify this better so it's not different between 64-bit/32-bit.
+  std::queue<std::string> statusMessages; // Note this is actually a queue/dequeue not a char array, maybe we can specify this better so it's not different between 64-bit/32-bit.
   bool bGameOver;
   ShipManager *current_target;
   std__pair_13float___float jump_timer;

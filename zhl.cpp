@@ -97,6 +97,38 @@ static void Log(const char *format, ...)
 	va_end(va);
 }
 
+// Buffer overflow fix reportet by asan
+template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size], const char *name, const char *type)
+{
+	// Ensure tmp is null-terminated
+    char tmp[128] = {0}; // Zero-initialize
+    strncpy(tmp, type, sizeof(tmp) - 1); // Leave space for null terminator
+
+	const char *p = tmp;
+	if (p[0] == '.')
+	{
+		++p;
+		if (p[0] == 'P' && p[1] == '8')
+		{
+			p += 2;
+			while (p[0] && (p[0] != '@' || p[1] != '@'))
+			{
+				++p;
+			}
+		}
+	}
+
+	// Safely concatenate (truncate if needed)
+	int written = snprintf(dst, Size, "%s%s", name, p);
+	if (written >= Size) 
+	{
+		dst[Size - 1] = '\0'; // Ensure null-termination
+	}
+	return dst;
+}
+
+// Original code
+/*
 template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size], const char *name, const char *type)
 {
 	char tmp[128];
@@ -116,6 +148,7 @@ template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size],
 	snprintf(dst, Size, "%s%s", name, p);
 	return dst;
 }
+*/
 
 //================================================================================
 // Definition

@@ -19,5 +19,5 @@ cleanup __amd64 void Equipment::Open(Equipment* this);
 cleanup __amd64 void Equipment::MouseClick(Equipment* this, int mX, int mY);
 ".554889e5534883ec684889fb80bb1403":
 cleanup __amd64 void Equipment::MouseUp(Equipment* this, int mX, int mY);
-"!.554889e5c64708??5d":
+"!.554889e55de97671":
 cleanup __amd64 void Equipment::Close(Equipment* this);

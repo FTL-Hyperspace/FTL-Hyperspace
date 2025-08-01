@@ -1030,6 +1030,7 @@ local function writeFunctionWrappers(funcs, out)
 	
 	out([[#include "%s"
 #include "zhl_internal.h"
+#include <iostream>
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
@@ -1185,7 +1186,12 @@ using namespace ZHL;
                     out(");\n")
                     
                     out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
-                    out("\treturn execfunc(")
+
+					-- Debug to monitor individual calls
+                    out("\n\t// Debug to monitor individual calls\n")
+					out("\tstd::cout << \"Trying to call %s::%s at address: \" << (void*)execfunc << std::endl;\n\n", classname, func.name)
+                    
+					out("\treturn execfunc(")
                     out(argsToString(func, true, false, true, true)) -- TODO: Need to hide implicit attributes (but leave this attribute)
                     out(");\n")
                     out("}\n\n")
