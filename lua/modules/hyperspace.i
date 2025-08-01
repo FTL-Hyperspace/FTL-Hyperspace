@@ -31,6 +31,31 @@
 #include "CustomDamage.h"
 %}
 
+//Some exception levels are empty, this grabs the first non-empty level
+%{
+    #define SWIG_exception(a, b)\
+    {\
+        int errorLevel = 0;\
+        size_t len = 0;\
+        do {\
+            luaL_where(L, errorLevel++);\
+            lua_tolstring(L, -1, &len);\
+            if (len == 0) lua_pop(L, 1);\
+            else break;\
+        } while (true);\
+        lua_pushfstring(L,"%s:%s",#a,b);\
+        lua_concat(L, 2);\
+        SWIG_fail;\
+    }\
+%}
+//Change typemap for unsigned numeric types to throw a proper lua error when provided a negative value
+%typemap(in, checkfn="lua_isnumber") unsigned int, unsigned short, unsigned long, unsigned char
+%{
+    if (lua_tonumber(L, $input) < 0) SWIG_exception(SWIG_ValueError, "number must not be negative");
+    $1 = ($type) lua_tonumber(L, $input);
+%}
+
+
 //This macro defines a wrapper class for any exposed arrays of TYPE with length SIZE
 %define %array_wrapper(TYPE, NAME, SIZE)
 
@@ -1675,7 +1700,14 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
-//Potential fix for fireSpreader indexing issue
+
+%{
+    static bool Fire_Coordinates_Valid(ShipManager* shipManager, int x, int y)
+    {
+        return (x >= 0 && x < shipManager->fireSpreader.grid.size() && y >= 0 && y < shipManager->fireSpreader.grid[x].size());
+    }
+%}
+
 %rename("%s") ShipManager::GetFireAtPoint;
 %rename("%s") ShipManager::GetFire;
 %extend ShipManager {
@@ -1684,33 +1716,52 @@ We can expose them once the root cause is identified and the crash is fixed.
     //Possible Methods
 
     //Get fire at spacial coordinates
-    Fire& GetFireAtPoint(float x, float y)
+    Fire& GetFireAtPoint(float x, float y) throw (std::invalid_argument)
     {
         Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
+        if (!Fire_Coordinates_Valid($self, fireCoordinates.x, fireCoordinates.y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: (%f, %f)") % x % y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
     }
 
     //Get fire at spacial coordintes (Point form)
-    Fire& GetFireAtPoint(Point p)
+    Fire& GetFireAtPoint(Point p) throw (std::invalid_argument)
     {
         Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        if (!Fire_Coordinates_Valid($self, fireCoordinates.x, fireCoordinates.y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: Point(%i, %i)") % p.x % p.y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
     }
 
     //Get fire at spacial coordinates (Pointf form)
-    Fire& GetFireAtPoint(Pointf p)
+    Fire& GetFireAtPoint(Pointf p) throw (std::invalid_argument)
     {
         Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        if (!Fire_Coordinates_Valid($self, fireCoordinates.x, fireCoordinates.y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: Pointf(%f, %f)") % p.x % p.y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
     }
 
     //Indexing function, grid coordinates
-    Fire& GetFire(int x, int y)
+    Fire& GetFire(int x, int y) throw (std::invalid_argument)
     {
+        if (!Fire_Coordinates_Valid($self, x, y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: (%i, %i)") % x % y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[x][y];
     }
 }
-
 
 %rename("%s") Spreader_Fire;
 %rename("%s") Spreader_Fire::count;
@@ -1781,6 +1832,29 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") OxygenSystem::EmptyOxygen;
 %rename("%s") OxygenSystem::GetRefillSpeed;
 %rename("%s") OxygenSystem::ModifyRoomOxygen;
+%extend OxygenSystem {
+    //ModifyRoomOxygen allows an out-of-bounds write in vanilla code
+    void ModifyRoomOxygen(int roomId, float amount) throw (std::invalid_argument)
+    {
+        if (roomId < 0 || roomId >= $self->oxygenLevels.size())
+        {
+            std::string error = (boost::format("Invalid roomId: %i") % roomId).str();
+            throw std::invalid_argument(error);
+        }
+        $self->ModifyRoomOxygen(roomId, amount);
+    }
+    //EmptyOxygen allows an out-of-bounds write in vanilla code
+    void EmptyOxygen(int roomId) throw (std::invalid_argument)
+    {
+        if (roomId < 0 || roomId >= $self->oxygenLevels.size())
+        {
+            std::string error = (boost::format("Invalid roomId: %i") % roomId).str();
+            throw std::invalid_argument(error);
+        }
+        $self->EmptyOxygen(roomId);
+    }
+}
+
 %rename("%s") OxygenSystem::max_oxygen;
 %rename("%s") OxygenSystem::oxygenLevels;
 %rename("%s") OxygenSystem::fTotalOxygen;
@@ -1861,7 +1935,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CloneSystem::gas;
 
 %nodefaultctor HackingSystem;
-%nodefaultdtor HachingSystem;
+%nodefaultdtor HackingSystem;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
@@ -2109,6 +2183,23 @@ We can expose them once the root cause is identified and the crash is fixed.
 %nodefaultctor ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend;
 %rename("%s") ShipSystem_Extend::additionalPowerLoss;
+%rename("%s") ShipSystem_Extend::xOffset;
+
+//Modify setter method to track if offset is custom
+%extend ShipSystem_Extend {
+    int xOffset;
+}
+%wrapper %{
+    static int ShipSystem_Extend_xOffset_get(ShipSystem_Extend* shipSystem_extend)
+    {
+        return shipSystem_extend->xOffset;
+    };
+    static void ShipSystem_Extend_xOffset_set(ShipSystem_Extend* shipSystem_extend, int xOffset)
+    {
+        shipSystem_extend->usingDefaultOffset = false;
+        shipSystem_extend->xOffset = xOffset;
+    };
+%}
 
 %nodefaultctor SystemBox;
 %rename("%s") SystemBox;
@@ -2133,8 +2224,22 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") SystemBox_Extend;
 %immutable SystemBox_Extend::orig;
 %rename("%s") SystemBox_Extend::orig;
+//Backwards compatability patch for depreciated SystemBox_Extend::xOffset
 %rename("%s") SystemBox_Extend::xOffset;
-%rename("%s") SystemBox_Extend::offset;
+%extend SystemBox_Extend {
+    int xOffset;
+}
+%wrapper %{
+    static int SystemBox_Extend_xOffset_get(SystemBox_Extend* systemBox_extend)
+    {
+        return SYS_EX(systemBox_extend->orig->pSystem)->xOffset;
+    };
+    static void SystemBox_Extend_xOffset_set(SystemBox_Extend* systemBox_extend, int xOffset)
+    {
+        SYS_EX(systemBox_extend->orig->pSystem)->usingDefaultOffset = false;
+        SYS_EX(systemBox_extend->orig->pSystem)->xOffset = xOffset;
+    };
+%}
 
 %nodefaultctor CustomAugmentManager;
 %nodefaultdtor CustomAugmentManager;
@@ -2998,6 +3103,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember_Extend::CustomTeleport::roomId;
 %rename("%s") CrewMember_Extend::CustomTeleport::slotId;
 %rename("%s") CrewMember_Extend::customTele;
+%rename("%s") CrewMember_Extend::transformRace;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;

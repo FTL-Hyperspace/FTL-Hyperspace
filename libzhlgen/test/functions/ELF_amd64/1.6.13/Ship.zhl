@@ -1,7 +1,9 @@
 "534889fb4883ec20f30f108fc4020000":
-cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); //004a2370 /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+".??57??56??89fe??55??545589f553??83ec08":
+cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId); //004a2810
 ".4c8b8778040000488b8f8004000048b835c2724f232cf7344c29c148c1f903":
-cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
+cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId); //004a2940
 ".0fb687b802000084c0":
 cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
 ".41564155415455534889fb4883ec208b7f08":
@@ -77,7 +79,7 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,

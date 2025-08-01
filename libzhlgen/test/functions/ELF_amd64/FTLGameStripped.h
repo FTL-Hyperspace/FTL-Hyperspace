@@ -637,7 +637,7 @@ struct Repairable
 {
   VTable_Repairable *_vtable;
   Selectable _base;
-  // I might of borked Repairable, it might need some bytes here after selectable to stop it from packing ShipObject next to it?
+  uint8_t padding[4];
   ShipObject shipObj;
   float fDamage;
   Point pLoc;
@@ -2554,7 +2554,7 @@ struct StarMap
   FocusWindow _base;
   float visual_size;
   std__vector_10LocationZ1 locations;
-  std__map_18Point___LocationZ1 locations_grid;
+  std::map<Point, std::vector<Location*>> locations_grid;
   std__vector_10LocationZ1 temp_path;
   Location *currentLoc;
   Location *potentialLoc;

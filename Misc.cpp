@@ -646,6 +646,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pCollideable = SWIG_TypeQuery(this->m_Lua, "Collideable *");
     types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");
     types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");
+    types.pCrewDefinition = SWIG_TypeQuery(this->m_Lua, "CrewDefinition *");
     types.pDamage = SWIG_TypeQuery(this->m_Lua, "Damage *");
     types.pPointf = SWIG_TypeQuery(this->m_Lua, "Pointf *");
     types.pProjectile[0] = SWIG_TypeQuery(this->m_Lua, "Projectile *");
@@ -1187,7 +1188,7 @@ HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
 }
 
 static std::string g_customHazardText = "";
-HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
+HOOK_METHOD_PRIORITY(StarMap, GetLocationText, -100, (Location* loc) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (Misc.cpp)\n")
 

@@ -649,6 +649,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->scaleSlugGel.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
+
+            if (strcmp(node->name(), "multiShipFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->multiShipFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
@@ -921,6 +927,13 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "systemPositions") == 0)
+                    {
+                        SystemPositionManager::ParsePositionsNode(child);
+                    }  
+                }
             }
             if (strcmp(node->name(), "scripts") == 0)
             {

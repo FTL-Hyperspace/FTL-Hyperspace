@@ -96,6 +96,8 @@ public:
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
+  
+    Setting<bool> multiShipFix;
 
     Defaults defaults;
 

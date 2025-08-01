@@ -1,3 +1,5 @@
+"578d????0883e4f0ff????5589f889e557565331db89cf83ec2c8b??":
+__thiscall std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
 __thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
@@ -74,7 +76,7 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
