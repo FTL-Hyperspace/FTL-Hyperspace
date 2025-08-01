@@ -268,10 +268,27 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     */
     if(cmdName == "LOADEVENT")
     {
+
         if (command.length() > 10)
         {
+            //Temporarily clear lists of used text and events so that command can be used to test events more easily
+            EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+            auto oldEvents = eventGenerator->events;
+            eventGenerator->events.insert(eventGenerator->usedEvents.begin(), eventGenerator->usedEvents.end());
+            auto oldTextLists = eventGenerator->textLists;
+            eventGenerator->textLists.insert(eventGenerator->usedTextLists.begin(), eventGenerator->usedTextLists.end());
+
+            auto oldUsedEvents = std::move(eventGenerator->usedEvents);
+            auto oldUsedTextLists = std::move(eventGenerator->usedTextLists);
+
             std::string eventName = boost::trim_copy(command.substr(10));
-            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, true, -1);
+
+            eventGenerator->events = std::move(oldEvents);
+            eventGenerator->usedEvents = std::move(oldUsedEvents);
+            eventGenerator->textLists = std::move(oldTextLists);
+            eventGenerator->usedTextLists = std::move(oldUsedTextLists);
         }
         return true;
     }
