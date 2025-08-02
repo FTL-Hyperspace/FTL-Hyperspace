@@ -23762,7 +23762,7 @@ void freetype::font_data::init(const void *buffer, int bufferSize, unsigned int 
 namespace _func1441
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::font_data::init_bitmap", typeid(void (freetype::font_data::*)(const void *, int , int , int )), "!.554889e54157", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::font_data::init_bitmap", typeid(void (freetype::font_data::*)(const void *, int , int , int )), "!.554889e54157415653504589c6", nullptr, 0, 0, &func);
 }
 
 void freetype::font_data::init_bitmap(const void *buffer, int bufferSize, int size, int h)
@@ -23779,7 +23779,7 @@ void freetype::font_data::init_bitmap(const void *buffer, int bufferSize, int si
 namespace _func1442
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.554889e5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::font_data::clean", typeid(void (freetype::font_data::*)()), "!.554889e58b7f04", nullptr, 0, 0, &func);
 }
 
 void freetype::font_data::clean()
@@ -23796,7 +23796,7 @@ void freetype::font_data::clean()
 namespace _func1443
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_print", typeid(Pointf (*)(int , float , float , const std::string &)), "554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d015c", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_print", typeid(Pointf (*)(int , float , float , const std::string &)), ".554889e54157415641554154534883ec384889f3f30f114da0", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_print(int fontSize, float x, float y, const std::string &text)
@@ -23813,7 +23813,7 @@ Pointf freetype::easy_print(int fontSize, float x, float y, const std::string &t
 namespace _func1444
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(Pointf (*)(int , float , float , const std::string &)), "554889e54157415641554154534883ec384889f3f30f114da0f30f1145d489f8488d3d015b", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(Pointf (*)(int , float , float , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std::string &text)
@@ -23830,7 +23830,7 @@ Pointf freetype::easy_printRightAlign(int fontSize, float x, float y, const std:
 namespace _func1445
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(Pointf (*)(int , float , float , int , const std::string &)), "!.554889e54157415641554154534883ec", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)
@@ -23847,7 +23847,7 @@ Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, float y, int 
 namespace _func1446
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(Pointf (*)(int , float , float , int , const std::string &)), "!.554889e54157415641554154534883ec", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)
@@ -23864,7 +23864,7 @@ Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float y, int line
 namespace _func1447
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_measurePrintLines", typeid(Pointf (*)(int , float , float , int , const std::string &)), "!.554889e54157415641554154534883ec", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_measurePrintLines", typeid(Pointf (*)(int , float , float , int , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text)
@@ -23881,7 +23881,7 @@ Pointf freetype::easy_measurePrintLines(int fontSize, float x, float y, int line
 namespace _func1448
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_measureWidth", typeid(int (*)(int , const std::string &)), "!.554889e54157415641554154534883ec", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_measureWidth", typeid(int (*)(int , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 int freetype::easy_measureWidth(int fontSize, const std::string &text)
@@ -23898,7 +23898,7 @@ int freetype::easy_measureWidth(int fontSize, const std::string &text)
 namespace _func1449
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printCenter", typeid(Pointf (*)(int , float , float , const std::string &)), "!.554889e54157415641554154534883ec", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printCenter", typeid(Pointf (*)(int , float , float , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::string &text)
@@ -23915,7 +23915,7 @@ Pointf freetype::easy_printCenter(int fontSize, float x, float y, const std::str
 namespace _func1450
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("freetype::easy_printAutoShrink", typeid(void (*)(int , float , float , int , bool , const std::string &)), "!.554889e54157415641554154534883ec", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("freetype::easy_printAutoShrink", typeid(void (*)(int , float , float , int , bool , const std::string &)), ".554889e54157415641554154", nullptr, 0, 0, &func);
 }
 
 void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text)
@@ -23929,7 +23929,14 @@ void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, 
 	return execfunc(fontId, x, y, maxWidth, centered, text);
 }
 
-namespace _func1451
+float *Global_freetype_sil_freetype_outline;
+
+namespace _var1451
+{
+	static VariableDefinition varObj("Global_freetype_sil_freetype_outline", "!.488b55d0488908488950088b4dd8894810488d1d(???????\?)", &Global_freetype_sil_freetype_outline, true, true);
+}
+
+namespace _func1452
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("font_height", typeid(float (*)(int , float )), ".554889e5535085ff", nullptr, 0, 0, &func);
@@ -23938,7 +23945,7 @@ namespace _func1451
 float __stdcall font_height(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1451::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1452::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call nil::font_height at address: " << (void*)execfunc << std::endl;
@@ -23946,7 +23953,7 @@ float __stdcall font_height(int font_id, float size)
 	return execfunc(font_id, size);
 }
 
-namespace _func1452
+namespace _func1453
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("font_baseline", typeid(float (*)(int , float )), ".554889e5535085ff", nullptr, 0, 0, &func);
@@ -23955,18 +23962,11 @@ namespace _func1452
 float __stdcall font_baseline(int font_id, float size)
 {
 	typedef float (*custom_arg_funcptr_t)(int font_id_arg, float size_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1452::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1453::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call nil::font_baseline at address: " << (void*)execfunc << std::endl;
 
 	return execfunc(font_id, size);
-}
-
-float *Global_freetype_sil_freetype_outline;
-
-namespace _var1453
-{
-	static VariableDefinition varObj("Global_freetype_sil_freetype_outline", "!4889de4883c618e836770700488b7b18f30f1005(???????\?)", &Global_freetype_sil_freetype_outline);
 }
 

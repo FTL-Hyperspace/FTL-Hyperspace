@@ -6811,7 +6811,7 @@ struct Ship : ShipObject
 
 		if (iShipId == 0)
 		{
-			ret.center.y + 110;
+			ret.center.y += 110;
 		}
 		return ret;
 	}
