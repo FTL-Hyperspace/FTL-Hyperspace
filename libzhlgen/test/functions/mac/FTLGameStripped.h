@@ -1757,7 +1757,7 @@ struct VTable_ArmamentControl
   void (__thiscall *RButton)(ArmamentControl *this, int mX, int mY, bool shift);
   void (__thiscall *MouseMove)(ArmamentControl *this, int mX, int mY);
   bool (__thiscall *OnTouch)(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-  bool (__thiscall *KeyDown)(ArmamentControl *this, SDLKey sym);
+  bool (__thiscall *KeyDown)(ArmamentControl *this, SDLKey key);
   void (__thiscall *LinkShip)(ArmamentControl *this, ShipManager *ship);
   ArmamentBox* (__thiscall *CreateArmamentBox)(ArmamentControl *this, Point loc);
   int (__thiscall *NumArmamentSlots)(ArmamentControl *this);
@@ -2943,7 +2943,7 @@ struct ShipManager
   std__vector_12CrewMemberZ1 vCrewList;
   Spreader_Fire fireSpreader;
   Ship ship;
-  char statusMessages[80]; // Note this is actually a queue/dequeue not a char array, maybe we can specify this better so it's not different between 64-bit/32-bit.
+  std::queue<std::string> statusMessages; // Note this is actually a queue/dequeue not a char array, maybe we can specify this better so it's not different between 64-bit/32-bit.
   bool bGameOver;
   ShipManager *current_target;
   std__pair_13float___float jump_timer;
