@@ -3336,17 +3336,13 @@ struct CreditScreen
 	LIBZHL_API void constructor();
 	
 	float scroll;
-	std::string shipName;
-	std::string crewString;
+	float scrollSpeed;
 	float pausing;
 	GL_Texture *bg;
-	std::vector<std::string> creditNames;
 	int lastValidCredit;
 	int touchesDown;
 	double touchDownTime;
 	float skipMessageTimer;
-	char gap5C[3];
-	char _unk;
 };
 
 struct MainMenu;
@@ -3721,6 +3717,7 @@ struct MainMenu
 	GL_Texture *background;
 	GL_Texture *glowy;
 	AnimationTracker glowTracker;
+	Button macButton;
 	Button continueButton;
 	Button startButton;
 	Button helpButton;
@@ -3739,9 +3736,8 @@ struct MainMenu
 	bool bCreditScreen;
 	CreditScreen credits;
 	bool bChangedLogin;
-	std::vector<CrewMember*> testCrew;
 	bool bChangedScreen;
-	char gap34A4[7];
+	bool bSyncScreen;
 	std::string error;
 };
 

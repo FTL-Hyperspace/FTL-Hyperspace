@@ -1353,7 +1353,7 @@ struct ShipBuilder
   int currentSlot;
   int currentBox;
   bool bDone;
-  const ShipBlueprint *ships[30];
+  const ShipBlueprint *ships[30]; // Actually [10][3]
   int currentShipId;
   int storeIds[4];
   bool bRenaming;
@@ -1484,7 +1484,7 @@ struct OptionsScreen
 struct CreditScreen
 {
   float scroll;
-  //float scrollSpeed; // This exists on Linux
+  float scrollSpeed; // This exists on Linux // And on MacOs too so I'll uncomment it
   std__string shipName;
   std__string crewString;
   float pausing;
@@ -1494,8 +1494,15 @@ struct CreditScreen
   int touchesDown;
   double touchDownTime;
   float skipMessageTimer;
-  char gap5C[3]; // This is writing some crap outside of the CreditScreen struct! Could be dangerous, this doesn't exist on Linux?
-  char _unk; // This doesn't exist
+  //char gap5C[3]; // This is writing some crap outside of the CreditScreen struct! Could be dangerous, this doesn't exist on Linux?
+  //char _unk; // This doesn't exist
+  /*
+  * Those are most likely just some old IDA auto-generated padding bytes
+  * for the existing 4 byte gap after the float, floats are 4 bytes and the 
+  * struct gets aligned to 8 byte blocks anyways so I doubt that this
+  * would have been dangerous - removed anyways
+  * -Dino
+  */
 };
 
 /* 474 */
@@ -1514,6 +1521,7 @@ struct MainMenu
   GL_Texture *background;
   GL_Texture *glowy;
   AnimationTracker glowTracker;
+  Button macButton; // There seems to be another button (or at least a gap the size of the button struct) for the mac binary here - 90 unused bytes (verified)
   Button continueButton;
   Button startButton;
   Button helpButton;
@@ -1532,10 +1540,9 @@ struct MainMenu
   bool bCreditScreen;
   CreditScreen credits;
   bool bChangedLogin;
-  std__vector_12CrewMemberZ1 testCrew;
   bool bChangedScreen;
-  char gap34A4[7];
-  std__string error;
+  bool bSyncScreen; // The variable was previously covered by a manual 7 byte gap (and still is for the other platforms)
+  std::string error;
 };
 
 /* 150 */

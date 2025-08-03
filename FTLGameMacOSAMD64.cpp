@@ -23257,7 +23257,7 @@ void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 namespace _func1410
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("WeaponSystem::OnLoop", typeid(void (WeaponSystem::*)()), ".554889e54157415641554154534883ec184989fee857aeff", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponSystem::OnLoop", typeid(void (WeaponSystem::*)()), ".554889e54157415641554154534883ec184989fee8", nullptr, 0, 0, &func);
 }
 
 void WeaponSystem::OnLoop()
