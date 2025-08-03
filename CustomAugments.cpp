@@ -421,7 +421,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    auto ship = G_->GetShipManager(iShipId);
+    // auto ship = G_->GetShipManager(iShipId);
     int augCount = 0;
 
     // Count hidden augments
@@ -463,7 +463,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
 
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    auto ship = G_->GetShipManager(iShipId);
+    // auto ship = G_->GetShipManager(iShipId);
     std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
     int augCount = 0;
 
