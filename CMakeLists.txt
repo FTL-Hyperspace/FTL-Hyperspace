@@ -198,7 +198,6 @@ target_sources(
     HullNumbers.h
     Infinite.cpp
     Infinite.h
-    InfiniteTeleport.cpp
     Input.cpp
     MainMenu.cpp
     MainMenu.h
@@ -206,7 +205,7 @@ target_sources(
     Misc.h
     MoreInfoButton.cpp
     MoreInfoButton.h
-    NeutralTeleporterFix.cpp
+    TeleporterBugFixes.cpp
     OverclockerSystem.cpp
     OverclockerSystem.h
     OxygenWithoutSystem.cpp
