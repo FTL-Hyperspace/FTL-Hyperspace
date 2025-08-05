@@ -18,3 +18,5 @@ cleanup __cdecl void CrewAI::OnLoop(CrewAI *this);
 cleanup __cdecl void CrewAI::CheckForProblems(CrewAI *this);
 "5589e557565383ec5c8b75088b4d108b5d0c":
 cleanup __cdecl int CrewAI::DangerRating(CrewAI *this,int roomId,int crewId);
+"8b44????8b108b405c8b52283982b8010000":
+cleanup __cdecl bool CrewAI::ReadyForTeleport(CrewAI *this);
