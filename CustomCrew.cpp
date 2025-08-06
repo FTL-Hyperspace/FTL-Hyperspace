@@ -8,6 +8,7 @@
 #include "CustomDamage.h"
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
+#include "CustomLockdowns.h"
 #include "CustomSystems.h"
 #include "Tasks.h"
 
@@ -642,6 +643,11 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
         {
             def.damage.bLockdown = EventsParser::ParseBoolean(effectNode->value());
         }
+        if (effectName == "customLockdown")
+        {
+            def.customLockdown.ParseNode(effectNode);
+            def.damage.bLockdown = true;
+        }
         if (effectName == "friendlyFire")
         {
             def.damage.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
@@ -945,6 +951,11 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         if (effectName == "lockdown")
         {
             def->damage.bLockdown = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "customLockdown")
+        {
+            def->customLockdown.ParseNode(effectNode);
+            def->damage.bLockdown = true;
         }
         if (effectName == "friendlyFire")
         {
@@ -2565,7 +2576,10 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                             CustomDamage* oldDamage = CustomDamageManager::currentWeaponDmg;
                             CustomDamageManager::currentWeaponDmg = nullptr; // if triggered by a projectile we don't want that projectile's CustomDamage for this effect
 
+                            CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+                            CustomLockdownDefinition::currentLockdown = &explosionDef->customLockdown;
                             crewShip->DamageArea(Pointf(x, y), damage, true);
+                            CustomLockdownDefinition::currentLockdown = oldLockdown;
 
                             CustomDamageManager::currentWeaponDmg = oldDamage;
                         }
@@ -4092,8 +4106,15 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
         Damage dmgI = crew->GetRoomDamage();
 
-        if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        if (custom->IsRace(crew->species))
+        {
+            auto def = custom->GetDefinition(crew->species);
+            CustomLockdownDefinition::currentLockdown = &CM_EX(crew)->deathEffectChange.customLockdown;
+        }
 
+        if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
         if (custom->IsRace(crew->species))
         {
             int ownerShip = crew->GetPowerOwner();
@@ -4172,7 +4193,10 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                         Damage dmg = power->GetPowerDamage();
 
                         shipFriendlyFire = power->def->shipFriendlyFire;
+                        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+                        CustomLockdownDefinition::currentLockdown = &power->def->customLockdown;
                         actualShip->DamageArea(power->effectWorldPos, dmg, true);
+                        CustomLockdownDefinition::currentLockdown = oldLockdown;
                     }
                     power->powerActivated = false;
                 }
@@ -6302,39 +6326,62 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 }
 
 // Door damage multiplier
-HOOK_METHOD(Door, ApplyDamage, (float amount) -> bool)
+HOOK_METHOD_PRIORITY(Door, ApplyDamage, 9999, (float amount) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> Door::ApplyDamage -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Door::ApplyDamage -> Begin (CustomCrew.cpp)\n")
+    if (forcedOpen.running) return false;
+    gotHit.Start(0.f);
+
+    float damage = 1.f;
     if (currentCrewLoop)
     {
         CrewMember_Extend *ex = CM_EX(currentCrewLoop);
         CrewDefinition *def = ex->GetDefinition();
-        if (def)
+        if (def) damage = ex->CalculateStat(CrewStat::DOOR_DAMAGE_MULTIPLIER, def);
+    }
+
+
+    int iDamage = (int)damage;
+    float fDamage = damage - iDamage;
+    if (fDamage > 0.f && random32() < fDamage*2147483648.f) iDamage++;
+    if (iDamage > 0)
+    {
+        if (lockedDown.running)
         {
-            if (forcedOpen.running) return false;
-
-            float damage = ex->CalculateStat(CrewStat::DOOR_DAMAGE_MULTIPLIER, def);
-            int iDamage = (int)damage;
-            float fDamage = damage - iDamage;
-            if (fDamage > 0.f && random32() < fDamage*2147483648.f) iDamage++;
-
-            if (iDamage > 0) health -= iDamage;
-            gotHit.Start(0.f);
-
+            //Apply all damage to the LockdownShards
+            Ship* ship = &G_->GetShipManager(iShipId)->ship;
+            bool allLockdownsDead = true;
+            for (LockdownShard& shard : ship->lockdowns)
+            {
+                LockdownShard_Extend* ex = LD_EX(&shard);
+                if (ex->door == this)
+                {
+                    ex->health -= iDamage;
+                    if (ex->health > 0) allLockdownsDead = false;
+                }
+            }
+            Door_Extend* ex = DOOR_EX(this);
+            if (allLockdownsDead && ex->wasLockedDown)
+            {
+                SetLockdown(false);
+                forcedOpen.Start(0.f);
+                bOpen = true;
+            }
+        }
+        else
+        {
+            health -= iDamage;
             if (health < 1)
             {
                 forcedOpen.Start(0.f);
-                health = baseHealth;
-                lockedDown.Stop(false);
                 baseHealth = lastbase;
                 health = lastbase;
                 bOpen = true;
             }
 
-            return false;
         }
     }
-    return super(amount);
+    return false;
 }
 
 // Custom Teleport
