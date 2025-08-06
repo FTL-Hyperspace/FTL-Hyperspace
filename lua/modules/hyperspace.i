@@ -331,7 +331,7 @@ namespace std {
     %template(unordered_multimap_string_AugmentFunction) unordered_multimap<string, AugmentFunction>;
     %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
-    %template(vector_ShipButtonList) vector<ShipButtonList*>;
+    %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -2861,12 +2861,6 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect::GetDefaultDefinition;
 %rename("%s") CustomShipSelect::GetRandomShipIndex;
 %rename("%s") CustomShipSelect::ShipCount;
-%extend CustomShipSelect {
-    const std::vector<ShipButtonList*>& GetShipButtonLists()
-    {
-        return $self->shipButtons;
-    }
-}
 
 %nodefaultctor ShipButtonDefinition;
 %nodefaultdtor ShipButtonDefinition;

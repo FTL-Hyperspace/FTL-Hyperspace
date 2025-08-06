@@ -432,6 +432,11 @@ public:
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
     std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();
+    //For use by Lua
+    std::vector<ShipButtonList*> GetShipButtonLists()
+    {
+        return shipButtons;
+    }
 
 private:
     ShipSelect* shipSelect;
