@@ -2864,7 +2864,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %extend CustomShipSelect {
     const std::vector<ShipButtonList*>& GetShipButtonLists()
     {
-        return shipButtons;
+        return $self->shipButtons;
     }
 }
 
