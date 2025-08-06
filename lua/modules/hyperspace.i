@@ -2836,6 +2836,8 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Description::tooltip;
 %rename("%s") Description::tip;
 
+%nodefaultctor CustomShipSelect;
+%nodefaultdtor CustomShipSelect;
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
 %rename("%s") CustomShipSelect::GetDefinition;
@@ -2860,14 +2862,20 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect::GetRandomShipIndex;
 %rename("%s") CustomShipSelect::ShipCount;
 
+%nodefaultctor ShipButtonDefinition;
+%nodefaultdtor ShipButtonDefinition;
 %rename("%s") ShipButtonDefinition;
 %rename("%s") ShipButtonDefinition::name;
 
+%nodefaultctor ShipButtonList;
+%nodefaultdtor ShipButtonList;
 %rename("%s") ShipButtonList;
 %rename("%s") ShipButtonList::GetPage;
 %rename("%s") ShipButtonList::GetId;
 %rename("%s") ShipButtonList::GetIndex;
 
+%nodefaultctor CustomShipDefinition;
+%nodefaultdtor CustomShipDefinition;
 %rename("%s") CustomShipDefinition;
 %rename("%s") CustomShipDefinition::name;
 %rename("%s") CustomShipDefinition::hiddenAugs;
