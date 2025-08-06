@@ -3850,7 +3850,40 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 
 ### Methods
+- `std::string` `:GetShipBlueprint(int shipId)`
+- `int` `:CountUnlockedShips(int variant)`
+- `bool` `:IsOpen()`
+- `int` `:GetCurrentPage()`
+- `int` `:GetMaxPages()`
+- `bool` `:FirstPage()`
+- `int` `:GetSelection()`
+- `int` `:GetSelectedId()`
+- `int` `:GetLastSelected()`
+- `void` `:ClearSelection()`
+- `int` `:GetShipButtonIdFromName(std::string name)`
+- [ShipButtonList*](#ShipButtonList) `:GetShipButtonListFromID(int id)`
+- [std::vector<ShipButtonList*>](#ShipButtonList) `:GetShipButtonLists()`
+- `std::pair<int,int>` `:GetShipIdAndVariantFromName(const std::string& name)`
+- [ShipButtonDefinition*](#ShipButtonDefinition) `:GetOrderedShipButtonDefinition(int id)`
+- `int` `:GetShipButtonOrderIndex(int id)`
+- [ShipButtonDefinition](#ShipButtonDefinition) `:GetShipButtonDefinition(int id)`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+- [CustomShipDefinition](#CustomShipDefinition) `:GetDefaultDefinition()`
+- `int` `:GetRandomShipIndex()`
+- `int` `:ShipCount(int type=0)`
+
+## ShipButtonDefinition
+
+### Fields
+- `std::string` `.name`
+
+## ShipButtonList
+
+### Methods
+- `int` `:GetPage()`
+- `int` `:GetId()`
+- `int` `:GetIndex()`
+   - equivalent of `:GetId() - 100`, all custom ship id are shifted by 100 to not overwrite vanilla ones
 
 ## TextButton
 
