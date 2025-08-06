@@ -100,7 +100,7 @@ static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Textur
 static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
 ".41550f28f041540f28fe4189cc55f30f5cfc89d5534883ec68":
 static cleanup __amd64 bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness); /* GL_Color is in XMM2:XMM3 */
-".41544189d45589fd534883ec60"
+".41544189d45589fd534883ec60":
 static cleanup __amd64 bool CSurface::GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
 ".41554189fd41544189cc":
 static cleanup __amd64 bool CSurface::GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
