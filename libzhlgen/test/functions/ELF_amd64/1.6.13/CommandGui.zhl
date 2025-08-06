@@ -8,6 +8,8 @@ cleanup __amd64 bool CommandGui::IsGameOver(CommandGui *this);
 cleanup __amd64 void CommandGui::OnInit(CommandGui *this);
 ".4154554889f5534889fb488dbf880500004883ec30":
 cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
+".53??8b8770190000??89fb??8dbf88050000??8b40108bb08c020000":
+cleanup __amd64 void CommandGui::ClearLocation(CommandGui *this);
 ".415731d2415641554154554889":
 cleanup __amd64 void CommandGui::LinkShip(CommandGui *this, CompleteShip *ship);
 ".41544189d4554889fd534889f34883ec204889e7":
