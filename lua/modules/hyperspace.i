@@ -331,6 +331,7 @@ namespace std {
     %template(unordered_multimap_string_AugmentFunction) unordered_multimap<string, AugmentFunction>;
     %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
+    %template(vector_ShipButtonList) vector<ShipButtonList*>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -2838,6 +2839,34 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
 %rename("%s") CustomShipSelect::GetDefinition;
+%rename("%s") CustomShipSelect::GetShipBlueprint;
+%rename("%s") CustomShipSelect::CountUnlockedShips;
+%rename("%s") CustomShipSelect::IsOpen;
+%rename("%s") CustomShipSelect::GetCurrentPage;
+%rename("%s") CustomShipSelect::GetMaxPages;
+%rename("%s") CustomShipSelect::FirstPage;
+%rename("%s") CustomShipSelect::GetSelection;
+%rename("%s") CustomShipSelect::GetSelectedId;
+%rename("%s") CustomShipSelect::GetLastSelected;
+%rename("%s") CustomShipSelect::ClearSelection;
+%rename("%s") CustomShipSelect::GetShipButtonIdFromName;
+%rename("%s") CustomShipSelect::GetShipButtonListFromID;
+%rename("%s") CustomShipSelect::GetShipButtonLists;
+%rename("%s") CustomShipSelect::GetShipIdAndVariantFromName;
+%rename("%s") CustomShipSelect::GetOrderedShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetShipButtonOrderIndex;
+%rename("%s") CustomShipSelect::GetShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetDefaultDefinition;
+%rename("%s") CustomShipSelect::GetRandomShipIndex;
+%rename("%s") CustomShipSelect::ShipCount;
+
+%rename("%s") ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition::name;
+
+%rename("%s") ShipButtonList;
+%rename("%s") ShipButtonList::GetPage;
+%rename("%s") ShipButtonList::GetId;
+%rename("%s") ShipButtonList::GetIndex;
 
 %rename("%s") CustomShipDefinition;
 %rename("%s") CustomShipDefinition::name;
