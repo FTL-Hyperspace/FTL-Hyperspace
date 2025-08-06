@@ -8,6 +8,10 @@ __thiscall DroneBlueprint* BlueprintManager::GetDroneBlueprint(BlueprintManager 
 __thiscall float BlueprintManager::GetAugmentValue(BlueprintManager *this, const std::string& name);
 ".578d7c240883e4f0ff77fc5589e557565389cb8d4dd083ec4c8b378dbbf4000000":
 __thiscall AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this, const std::string& name);
+".578d????0883e4f0ff????5589e557565389cb83ec2c8b??8b????8d79648934??89f9":
+__thiscall void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
+".578d????0883e4f0ff????5589e557565389ce8d??d0fdffff8d??b0fdffff81ec6c02000089??????????8d??e0fdffff":
+__thiscall void BlueprintManager::ResetRarities(BlueprintManager *this);
 "578d91c80000008d7c240883e4f0ff77fc5589e557565383ec3c8b99cc000000894dcc":
 __thiscall ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this, const std::string& name);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b18899d14ffffff8b5804e8????????8b8514ffffff8d8d4cffffff8b7318895c2404890424e8????????8d954cffffff83ec088d4f1c":
