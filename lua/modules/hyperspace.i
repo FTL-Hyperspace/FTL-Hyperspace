@@ -2861,11 +2861,18 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect::GetDefaultDefinition;
 %rename("%s") CustomShipSelect::GetRandomShipIndex;
 %rename("%s") CustomShipSelect::ShipCount;
+%extend CustomShipSelect {
+    const std::vector<ShipButtonList*>& GetShipButtonLists()
+    {
+        return shipButtons;
+    }
+}
 
 %nodefaultctor ShipButtonDefinition;
 %nodefaultdtor ShipButtonDefinition;
 %rename("%s") ShipButtonDefinition;
 %rename("%s") ShipButtonDefinition::name;
+%immutable ShipButtonDefinition::name;
 
 %nodefaultctor ShipButtonList;
 %nodefaultdtor ShipButtonList;

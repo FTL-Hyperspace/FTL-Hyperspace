@@ -304,11 +304,6 @@ public:
         return nullptr;
     }
 
-    std::vector<ShipButtonList*> GetShipButtonLists()
-    {
-        return shipButtons;
-    }
-
     std::pair<int,int> GetShipIdAndVariantFromName(const std::string& name)
     {
         int variant = 0;
