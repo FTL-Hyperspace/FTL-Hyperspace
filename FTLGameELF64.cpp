@@ -9890,7 +9890,7 @@ void LocationEvent::constructor()
 namespace _func769
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::SaveState", typeid(void (LockdownShard::*)(int )), "55??89fd5389f3??83ec08f30f1087c0000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::SaveState", typeid(void (LockdownShard::*)(int )), "!55??89fd5389f3??83ec08f30f1087c0000000", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::SaveState(int fd)
@@ -9916,7 +9916,7 @@ void LockdownShard::Update()
 namespace _func771
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::OnRender", typeid(void (LockdownShard::*)()), ".534889fb4883ec10e8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::OnRender", typeid(void (LockdownShard::*)()), ".!534889fb4883ec10e8", nullptr, 0, 0, &func);
 }
 
 void LockdownShard::OnRender()
