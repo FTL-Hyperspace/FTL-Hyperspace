@@ -51,6 +51,12 @@ HOOK_METHOD(CrewMember, ShipDamage, (float damage) -> bool)
     return super(damage / 2);
 }
 
+// TEMP: Halves all damage that crew drones take from weapons
+HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
+{
+    return super(damage / 2);
+}
+
 
 
 // Doesn't do anything, but I usually use this to test random stuff by changing what the numpad buttons do
