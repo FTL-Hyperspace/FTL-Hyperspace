@@ -171,43 +171,43 @@ struct GL_Color
         float fX = fC * (1 - fabs(fmod(fHPrime, 2) - 1));
         float fM = fV - fC;
 
-        if (0 <= fHPrime && fHPrime < 1) 
+        if (0 <= fHPrime && fHPrime < 1)
         {
             fR = fC;
             fG = fX;
             fB = 0;
-        } 
-        else if(1 <= fHPrime && fHPrime < 2) 
+        }
+        else if(1 <= fHPrime && fHPrime < 2)
         {
             fR = fX;
             fG = fC;
             fB = 0;
-        } 
-        else if(2 <= fHPrime && fHPrime < 3) 
+        }
+        else if(2 <= fHPrime && fHPrime < 3)
         {
             fR = 0;
             fG = fC;
             fB = fX;
-        } 
-        else if(3 <= fHPrime && fHPrime < 4) 
+        }
+        else if(3 <= fHPrime && fHPrime < 4)
         {
             fR = 0;
             fG = fX;
             fB = fC;
-        } 
-        else if(4 <= fHPrime && fHPrime < 5) 
+        }
+        else if(4 <= fHPrime && fHPrime < 5)
         {
             fR = fX;
             fG = 0;
             fB = fC;
-        } 
-        else if(5 <= fHPrime && fHPrime < 6) 
+        }
+        else if(5 <= fHPrime && fHPrime < 6)
         {
             fR = fC;
             fG = 0;
             fB = fX;
-        } 
-        else 
+        }
+        else
         {
             fR = 0;
             fG = 0;
@@ -576,6 +576,17 @@ struct CSurface
     @within functions
     */
     static bool GL_DrawCircle(float x, float y, float radius, GL_Color color);
+    /***
+    @function CSurface_GL_DrawEllipse
+    @tparam int x
+    @tparam int y
+    @tparam int a1
+    @tparam int b1
+    @tparam GL_Color color
+    @treturn bool
+    @within functions
+    */
+    static bool GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
     /***
     @function CSurface_GL_DrawLine
     @tparam float x1

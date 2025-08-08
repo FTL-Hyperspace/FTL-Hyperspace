@@ -29,6 +29,8 @@
 #include "TemporalSystem.h"
 #include "Misc.h"
 #include "CustomDamage.h"
+#include "CustomLockdowns.h"
+
 %}
 
 //Some exception levels are empty, this grabs the first non-empty level
@@ -329,6 +331,7 @@ namespace std {
     %template(unordered_multimap_string_AugmentFunction) unordered_multimap<string, AugmentFunction>;
     %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
+    %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -2529,22 +2532,26 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Ship::bCloaked;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
+%immutable Ship::lockdowns; //Removing shards via lua will cause a memory leak as the extend will not be deleted
 %rename("%s") Ship::lockdowns;
 
-%nodefaultctor LockdownShard;
 
-%rename("%s") LockdownShard;
-%rename("%s") LockdownShard::Update;
-%rename("%s") LockdownShard::shard;
-%rename("%s") LockdownShard::position;
-%rename("%s") LockdownShard::goal;
-%rename("%s") LockdownShard::speed;
-%rename("%s") LockdownShard::bArrived;
-%rename("%s") LockdownShard::bDone;
-%rename("%s") LockdownShard::lifeTime;
-%rename("%s") LockdownShard::superFreeze;
-%rename("%s") LockdownShard::lockingRoom;
-
+%extend Ship {
+    void LockdownRoom(int roomId, Pointf pos)
+    {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown;
+        $self->LockdownRoom(roomId, pos);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
+    }
+    void LockdownRoom(int roomId, Pointf pos, CustomLockdownDefinition& def)
+    {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &def;
+        $self->LockdownRoom(roomId, pos);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
+    }
+}
 
 //Expose Hyperspace engine anims as a member variable
 //Note: Pairs are returned by value rather than by reference, change if there is a need for mutability via lua
@@ -2560,6 +2567,53 @@ We can expose them once the root cause is identified and the crash is fixed.
         return &extraEngineAnim[ship->iShipId];
     };
 %}
+
+
+%nodefaultctor LockdownShard;
+
+%rename("%s") LockdownShard;
+%rename("%s") LockdownShard::Update;
+%rename("%s") LockdownShard::shard;
+%rename("%s") LockdownShard::position;
+%rename("%s") LockdownShard::goal;
+%rename("%s") LockdownShard::speed;
+%rename("%s") LockdownShard::bArrived;
+%immutable LockdownShard::bDone;
+%rename("%s") LockdownShard::bDone;
+%rename("%s") LockdownShard::lifeTime;
+%rename("%s") LockdownShard::superFreeze;
+%immutable LockdownShard::lockingRoom;
+%rename("%s") LockdownShard::lockingRoom;
+
+%immutable LockdownShard::extend;
+%rename("%s") LockdownShard::extend;
+
+%extend LockdownShard {
+    LockdownShard_Extend* extend;
+}
+%wrapper %{
+    static LockdownShard_Extend *LockdownShard_extend_get(LockdownShard* LockdownShard)
+    {
+        return Get_LockdownShard_Extend(LockdownShard);
+    };
+%}
+
+%nodefaultctor LockdownShard_Extend;
+%rename("%s") LockdownShard_Extend;
+%rename("%s") LockdownShard_Extend::health;
+%immutable LockdownShard_Extend::door;
+%rename("%s") LockdownShard_Extend::door;
+%rename("%s") LockdownShard_Extend::color;
+%immutable LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::canDilate;
+
+%rename("%s") CustomLockdownDefinition;
+%rename("%s") CustomLockdownDefinition::duration;
+%rename("%s") CustomLockdownDefinition::health;
+%rename("%s") CustomLockdownDefinition::color;
+%rename("%s") CustomLockdownDefinition::anims;
+%rename("%s") CustomLockdownDefinition::canDilate;
 
 
 %nodefaultctor Room;
@@ -2782,10 +2836,47 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Description::tooltip;
 %rename("%s") Description::tip;
 
+%nodefaultctor CustomShipSelect;
+%nodefaultdtor CustomShipSelect;
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
 %rename("%s") CustomShipSelect::GetDefinition;
+%rename("%s") CustomShipSelect::GetShipBlueprint;
+%rename("%s") CustomShipSelect::CountUnlockedShips;
+%rename("%s") CustomShipSelect::IsOpen;
+%rename("%s") CustomShipSelect::GetCurrentPage;
+%rename("%s") CustomShipSelect::GetMaxPages;
+%rename("%s") CustomShipSelect::FirstPage;
+%rename("%s") CustomShipSelect::GetSelection;
+%rename("%s") CustomShipSelect::GetSelectedId;
+%rename("%s") CustomShipSelect::GetLastSelected;
+%rename("%s") CustomShipSelect::ClearSelection;
+%rename("%s") CustomShipSelect::GetShipButtonIdFromName;
+%rename("%s") CustomShipSelect::GetShipButtonListFromID;
+%rename("%s") CustomShipSelect::GetShipButtonLists;
+%rename("%s") CustomShipSelect::GetShipIdAndVariantFromName;
+%rename("%s") CustomShipSelect::GetOrderedShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetShipButtonOrderIndex;
+%rename("%s") CustomShipSelect::GetShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetDefaultDefinition;
+%rename("%s") CustomShipSelect::GetRandomShipIndex;
+%rename("%s") CustomShipSelect::ShipCount;
 
+%nodefaultctor ShipButtonDefinition;
+%nodefaultdtor ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition::name;
+%immutable ShipButtonDefinition::name;
+
+%nodefaultctor ShipButtonList;
+%nodefaultdtor ShipButtonList;
+%rename("%s") ShipButtonList;
+%rename("%s") ShipButtonList::GetPage;
+%rename("%s") ShipButtonList::GetId;
+%rename("%s") ShipButtonList::GetIndex;
+
+%nodefaultctor CustomShipDefinition;
+%nodefaultdtor CustomShipDefinition;
 %rename("%s") CustomShipDefinition;
 %rename("%s") CustomShipDefinition::name;
 %rename("%s") CustomShipDefinition::hiddenAugs;
@@ -4503,3 +4594,4 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "TemporalSystem.h"
 %include "Misc.h"
 %include "CustomDamage.h"
+%include "CustomLockdowns.h"

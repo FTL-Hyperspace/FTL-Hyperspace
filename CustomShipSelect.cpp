@@ -3676,7 +3676,7 @@ HOOK_METHOD(ShipBuilder, CycleTypeNext, () -> void)
 }
 HOOK_METHOD(ShipBuilder, CycleTypePrev, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::CycleTypePrev -> Begin (CustomShipSelect.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleTypePrev -> Begin (CustomShipSelect.cpp)\n")
     if (currentShipId < 100) return super();
     else
     {
