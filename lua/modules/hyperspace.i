@@ -4150,6 +4150,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") TemporaryPowerDefinition::oxygenChangeSpeed;
 %rename("%s") TemporaryPowerDefinition::canPhaseThroughDoors;
 %rename("%s") TemporaryPowerDefinition::fireDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::persDamageMultiplier;
 %rename("%s") TemporaryPowerDefinition::isTelepathic;
 %rename("%s") TemporaryPowerDefinition::resistsMindControl;
 %rename("%s") TemporaryPowerDefinition::isAnaerobic;
