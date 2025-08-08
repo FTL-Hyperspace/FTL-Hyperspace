@@ -1,7 +1,7 @@
 "41564155415455488daf48070000534889fb4889ef":
 virtual cleanup __amd64 void CrewDrone::OnLoop(CrewDrone *this);
 
-".0f57c90f2ec877??31c0c30f1f440000f30f5905????????e9????????906690"
+".0f57c90f2ec877??31c0c30f1f440000f30f5905????????e9????????906690":
 cleanup __amd64 bool CrewDrone::ShipDamage(CrewDrone *this, float amount);
 
 ".41574989d7415641554189cd41544d89c4554c89cd534889fb4881ec58010000":

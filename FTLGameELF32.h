@@ -2367,7 +2367,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual int GetMaxHealth() LIBZHL_PLACEHOLDER
 	virtual bool IsDead() LIBZHL_PLACEHOLDER
 	virtual bool PermanentDeath() LIBZHL_PLACEHOLDER
-	virtual bool ShipDamage(float damage) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool ShipDamage(float amount);
 	virtual bool FireFightingSoundEffect() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual std::string GetUniqueRepairing();
 	virtual bool ProvidesVision() LIBZHL_PLACEHOLDER
@@ -2666,6 +2666,7 @@ struct CrewDrone : CrewMember
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual bool ProvidesVision();
 	LIBZHL_API void SetCurrentShip(int shipId);
+	LIBZHL_API bool ShipDamage(float amount);
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
