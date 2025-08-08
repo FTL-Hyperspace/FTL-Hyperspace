@@ -1917,6 +1917,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.resistsMindControl`
 - `bool` `.isAnaerobic`
 - `float` `.fireDamageMultiplier`
+- `float` `.persDamageMultiplier`
 - `bool` `.canPhaseThroughDoors`
 - `float` `.oxygenChangeSpeed`
 - `float` `.damageTakenMultiplier`
@@ -2206,6 +2207,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `ToggleValue<float>` `.oxygenChangeSpeed`
 - `ToggleValue<bool>` `.canPhaseThroughDoors`
 - `ToggleValue<float>` `.fireDamageMultiplier`
+- `ToggleValue<float>` `.persDamageMultiplier`
 - `ToggleValue<bool>` `.isTelepathic`
 - `ToggleValue<bool>` `.resistsMindControl`
 - `ToggleValue<bool>` `.isAnaerobic`

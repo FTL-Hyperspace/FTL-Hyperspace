@@ -227,6 +227,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.fireDamageMultiplier = boost::lexical_cast<float>(val);
                         }
+                        if (str == "persDamageMultiplier")
+                        {
+                            crew.persDamageMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "canPhaseThroughDoors")
                         {
                             crew.canPhaseThroughDoors = EventsParser::ParseBoolean(val);
@@ -1252,6 +1256,10 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
                 if (tempEffectName == "fireDamageMultiplier")
                 {
                     def->tempPower.fireDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "persDamageMultiplier")
+                {
+                    def->tempPower.persDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "damageTakenMultiplier")
                 {
@@ -2459,6 +2467,48 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 9999, (float healthMod)->bo
         return newHealth <= 0.f;
     }
     return false;
+}
+
+// Functionality for persDamageMultiplier for crew
+HOOK_METHOD(CrewMember, ShipDamage, (float damage) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::ShipDamage -> Begin (CustomCrew.cpp)\n")
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(this->species);
+    auto ex = CM_EX(this);
+
+    // hs_log_file("Damage hook triggered. Activating on crew: %p", this, "\n");
+
+    float persMultiplier = 1.f;
+
+    if (custom->IsRace(species))
+    {
+        persMultiplier = ex->CalculateStat(CrewStat::PERS_DAMAGE_MULTIPLIER, def);
+    }
+
+    return super(damage * persMultiplier);
+}
+
+// Functionality for persDamageMultiplier for crew drones
+HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::ShipDamage -> Begin (CustomCrew.cpp)\n")
+    
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(this->species);
+    auto ex = CM_EX(this);
+
+    // hs_log_file("Damage hook triggered. Activating on crew: %p", this, "\n");
+
+    float persMultiplier = 1.f;
+
+    if (custom->IsRace(species))
+    {
+        persMultiplier = ex->CalculateStat(CrewStat::PERS_DAMAGE_MULTIPLIER, def);
+    }
+
+    return super(damage * persMultiplier);
 }
 
 // rewrite to modify lowCrewHealth behavior
