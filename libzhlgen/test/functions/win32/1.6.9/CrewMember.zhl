@@ -207,6 +207,10 @@ __thiscall void CrewMember::CycleColorLayer(CrewMember *this, int unk);
 __thiscall bool CrewMember::Functional(CrewMember *this);
 ".8b4424043941780f94c0":
 __thiscall bool CrewMember::InsideRoom(CrewMember *this, int roomId);
+
+".578d????0883e4f0ff????5589e55783ec14f30f10??f30f1104??e8????????8b????83ec04c98d??f85fc204009090":
+__thiscall bool CrewMember::ShipDamage(CrewMember *this, float amount);
+
 "8b410485c074??31c0c38db6000000008b015589e55389cb8b808800000083e4f0":
 __thiscall bool CrewMember::GetControllable(CrewMember *this);
 ".8d510889c8c7410872657061c7410406000000c6410e008911ba????????6689510c":
