@@ -2862,6 +2862,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect::GetDefaultDefinition;
 %rename("%s") CustomShipSelect::GetRandomShipIndex;
 %rename("%s") CustomShipSelect::ShipCount;
+%rename("%s") CustomShipSelect::customShipOrder;
 
 %nodefaultctor ShipButtonDefinition;
 %nodefaultdtor ShipButtonDefinition;

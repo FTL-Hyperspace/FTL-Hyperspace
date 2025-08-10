@@ -3872,6 +3872,10 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - `int` `:GetRandomShipIndex()`
 - `int` `:ShipCount(int type=0)`
 
+### Fields
+- `std::vector<std::string>` `.customShipOrder`
+   - Each pages is %11 ships, `empty` means that a ship button in the page is skipped, special ships are the two last slots.
+
 ## ShipButtonDefinition
 
 ### Fields
