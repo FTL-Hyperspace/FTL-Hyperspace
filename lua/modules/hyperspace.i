@@ -351,6 +351,7 @@ namespace std {
     %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
     %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
+    %template(vector_p_GL_Texture) vector<GL_Texture*>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
