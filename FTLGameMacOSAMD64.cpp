@@ -3747,7 +3747,7 @@ void CloakingSystem::OnLoop()
 namespace _func225
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CloneBox::constructor", typeid(void (CloneBox::*)(Point , CloneSystem *)), "554889e553504889fb488d0500??24", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CloneBox::constructor", typeid(void (CloneBox::*)(Point , CloneSystem *)), "554889e54157415641554154534881ecc80000004889d3", nullptr, 0, 0, &func);
 }
 
 void CloneBox::constructor(Point _position, CloneSystem *_cloneSystem)
@@ -11898,7 +11898,7 @@ void MenuScreen::Open()
 namespace _func716
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("MindBox::constructor", typeid(void (MindBox::*)(Point , MindSystem *)), ".554889e54156534883ec604989d64889fb31c9e8????0300488d05????????488903", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MindBox::constructor", typeid(void (MindBox::*)(Point , MindSystem *)), ".554889e54156534883ec6049", nullptr, 0, 0, &func);
 }
 
 void MindBox::constructor(Point _position, MindSystem *_system)
@@ -16320,7 +16320,7 @@ void ShipManager::ModifyDroneCount(int drones)
 namespace _func985
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::GetSystemPower", typeid(int (ShipManager::*)(int )), ".554889e54863c6488b8fd8060000486304814883f8ff740e488b4f28488b3cc15de9????1600b8ff", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::GetSystemPower", typeid(int (ShipManager::*)(int )), ".554889e54863c6488b8fd8", nullptr, 0, 0, &func);
 }
 
 int ShipManager::GetSystemPower(int systemId)
@@ -16337,7 +16337,7 @@ int ShipManager::GetSystemPower(int systemId)
 namespace _func986
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::GetSystem", typeid(ShipSystem *(ShipManager::*)(int )), ".554889e583feff741e4863c6", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::GetSystem", typeid(ShipSystem *(ShipManager::*)(int )), ".554889e583feff741e", nullptr, 0, 0, &func);
 }
 
 ShipSystem *ShipManager::GetSystem(int systemId)
@@ -23274,7 +23274,7 @@ void WeaponSystem::OnLoop()
 namespace _func1411
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("WeaponSystemBox::constructor", typeid(void (WeaponSystemBox::*)(Point , ShipSystem *, WeaponControl *)), "!554889e54156534889fb488d05????????4889034c8bb3????????4d85f6", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponSystemBox::constructor", typeid(void (WeaponSystemBox::*)(Point , ShipSystem *, WeaponControl *)), "554889e54156534989ce4889fbb901000000e899", nullptr, 0, 0, &func);
 }
 
 void WeaponSystemBox::constructor(Point _position, ShipSystem *_system, WeaponControl *_weapCtrl)

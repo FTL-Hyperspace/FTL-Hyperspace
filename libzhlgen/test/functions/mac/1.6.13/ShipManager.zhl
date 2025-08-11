@@ -70,9 +70,9 @@ cleanup __amd64 bool ShipManager::IsCrewFull(ShipManager* this);
 cleanup __amd64 int ShipManager::GetFireCount(ShipManager* this, int roomId);
 "!.554889e5488b87d8060000837810ff740d488bbf900000005de9????150031c003b7b80a":
 cleanup __amd64 void ShipManager::ModifyDroneCount(ShipManager* this, int drones);
-".554889e54863c6488b8fd8060000486304814883f8ff740e488b4f28488b3cc15de9????1600b8ff":
+".554889e54863c6488b8fd8":
 cleanup __amd64 int ShipManager::GetSystemPower(ShipManager* this, int systemId);
-".554889e583feff741e4863c6":
+".554889e583feff741e":
 cleanup __amd64 ShipSystem* ShipManager::GetSystem(ShipManager* this, int systemId);
 ".554889e54157415653504989ff498b8f":
 cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager* this);

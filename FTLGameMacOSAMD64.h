@@ -3337,8 +3337,11 @@ struct CreditScreen
 	
 	float scroll;
 	float scrollSpeed;
+	std::string shipName;
+	std::string crewString;
 	float pausing;
 	GL_Texture *bg;
+	std::vector<std::string> creditNames;
 	int lastValidCredit;
 	int touchesDown;
 	double touchDownTime;

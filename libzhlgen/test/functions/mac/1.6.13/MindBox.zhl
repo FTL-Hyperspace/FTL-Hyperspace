@@ -1,5 +1,5 @@
 // Continue from MenuScreen::Open (hyper efficiency™)
-".554889e54156534883ec604989d64889fb31c9e8????0300488d05????????488903":
+".554889e54156534883ec6049":
 cleanup __amd64 void MindBox::constructor(MindBox* this, Point _position, MindSystem* _system);
 
 
