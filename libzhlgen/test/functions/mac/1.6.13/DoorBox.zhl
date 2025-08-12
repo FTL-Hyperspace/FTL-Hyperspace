@@ -1,6 +1,6 @@
 // Continue from Door::Getpositionition (hyper efficiency™)
 ".554889e54157415641554154534883ec??4989cc4889fb":
-cleanup __amd64 void DoorBox::constructor(DoorBox* this, Point _position, ShipSystem* _system, ShipManager* _ship);
+cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point _position, ShipSystem* _system, ShipManager* _ship);
 
 
 struct DoorBox

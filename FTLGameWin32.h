@@ -2633,7 +2633,7 @@ struct EffectsBlueprint
 		hitShieldSounds = other.hitShieldSounds;
 		missSounds = other.missSounds;
 		image = other.image;
-		return* this;
+		return *this;
 	}
 
 	std::vector<std::string> launchSounds;
@@ -6974,7 +6974,7 @@ struct ShipManager : ShipObject
 	
 	~ShipManager()
 	{
-		this->destructor();
+		this->destructor2();
 	}
 	
 	Pointf GetRandomRoomCenter()
@@ -7089,6 +7089,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void Wait();
 	LIBZHL_API int constructor(int _shipId);
 	LIBZHL_API void destructor();
+	LIBZHL_API void destructor2();
 	
 	Targetable _targetable;
 	Collideable _collideable;

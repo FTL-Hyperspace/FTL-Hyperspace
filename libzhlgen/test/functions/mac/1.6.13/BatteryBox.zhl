@@ -1,5 +1,5 @@
 "554889e5415741564154534883ec404889d3":
-cleanup __amd64 void BatteryBox::constructor(BatteryBox* this, Point position, BatterySystem* _system);
+cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point position, BatterySystem* _system);
 
 
 struct BatteryBox

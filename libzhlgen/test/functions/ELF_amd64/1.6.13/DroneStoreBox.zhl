@@ -1,5 +1,5 @@
 "41554989d541544989f4be":
-cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox* this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
+cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
 
 
 

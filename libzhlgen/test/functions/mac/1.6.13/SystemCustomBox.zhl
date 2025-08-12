@@ -1,5 +1,5 @@
 "554889e5415741564154534883ec404989ce4989f4":
-cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox* this, Point _position, ShipSystem* _system, ShipManager* _ship);
+cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point _position, ShipSystem* _system, ShipManager* _ship);
 
 
 struct SystemCustomBox

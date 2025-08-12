@@ -1,9 +1,9 @@
 "554889f5534889fb4883ec28803d????????00":
-cleanup __amd64 void UnlockArrow::constructor(UnlockArrow* this, Point _position, int _status, int _direction);
+cleanup __amd64 void UnlockArrow::constructor(UnlockArrow *this, Point _position, int _status, int _direction);
 ".837f0403":
-cleanup __amd64 bool UnlockArrow::MouseMove(UnlockArrow* this, int x, int y);
+cleanup __amd64 bool UnlockArrow::MouseMove(UnlockArrow *this, int x, int y);
 ".534889fb4883ec308b0785c0":
-cleanup __amd64 void UnlockArrow::OnRender(UnlockArrow* this);
+cleanup __amd64 void UnlockArrow::OnRender(UnlockArrow *this);
 
 
 struct UnlockArrow

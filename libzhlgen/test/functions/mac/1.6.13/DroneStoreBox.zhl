@@ -2,7 +2,7 @@
 ".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
 noHook __amd64 void DroneStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
-cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox* this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
+cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
 
 
 struct DroneStoreBox

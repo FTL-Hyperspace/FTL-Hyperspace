@@ -1,5 +1,5 @@
 "!554889e54157415641554154534881ec88030100":
-cleanup __amd64 void Ship::OnInit(Ship* this, ShipBlueprint* bp);
+cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
 "!.39cf4c89cb7f04(c6041301)":
 noop void* Global__NOP__Ship_OnInit_1;
 "!.39c7488d9da6fdfeff7f04(c6041301)":
@@ -15,47 +15,47 @@ noop void* Global__NOP__Ship_OnInit_5;
 noop void* Global__NOP__Ship_OnInit_6;
 */
 ".554889e54157415641554154534883ec284989f64989ff498d9ff004":
-cleanup __amd64 void Ship::OnLoop(Ship* this, std::vector<float>& oxygenLevels);
+cleanup __amd64 void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 /* Causes issues when hooking - faked the function by using its overload
 "!.554889e54157415653504189d64989f74c89fb48c1eb":
-cleanup __amd64 int Ship::GetSelectedRoomId(Ship* this, int x, int y, bool bIncludeWalls);
+cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
 */
 ".554889e5488b871805000048":
-cleanup __amd64 bool Ship::RoomLocked(Ship* this, int roomId);
+cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 ".554889e54157415641554154534881ec980100000f294580":
-cleanup __amd64 void Ship::LockdownRoom(Ship* this, int roomId, Pointf position);
+cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf position);
 "!.554889e541574156534883ec18f30f1145e44889":
-cleanup __amd64 void Ship::OnRenderJump(Ship* this, float progress);
+cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress);
 "!.554889e5415741564155415453504189f64889fb":
-cleanup __amd64 void Ship::OnRenderBase(Ship* this, bool engineWorking);
+cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool engineWorking);
 "!.554889e54157415653504189f64989ff4180bf10":
-cleanup __amd64 void Ship::OnRenderFloor(Ship* this, bool forceView);
+cleanup __amd64 void Ship::OnRenderFloor(Ship *this, bool forceView);
 ".554889e54156534989fe498b461049394618742dbb0100000031c90f1f440000488b3cc8e83715ff":
-cleanup __amd64 void Ship::OnRenderSparks(Ship* this);
+cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
 ".554889e54157415653504989fe498b464049394648744cbb":
-cleanup __amd64 void Ship::OnRenderBreaches(Ship* this);
+cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 ".554889e54157415641554154534883ec184189d78975d449":
-cleanup __amd64 void Ship::OnRenderWalls(Ship* this, bool forceView, bool doorControlMode);
+cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 ".554889e54157415641554154534883ec284189d74189f44889fb":
-cleanup __amd64 void Ship::BreachSpecificHull(Ship* this, int grid_x, int grid_y);
+cleanup __amd64 void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "!.554889e54157415653504189d64989f74c89fb48c1eb208b7f08": // Use this instead because the other causes issues when trying to hook it
-cleanup __amd64 int Ship::_GetSelectedRoomId_DO_NOT_CALL(Ship* this, Point _position, bool _bIncludeWalls);
+cleanup __amd64 int Ship::_GetSelectedRoomId_DO_NOT_CALL(Ship *this, Point _position, bool _bIncludeWalls);
 "!.554889e54157415641554154534883ec688975cc":
-cleanup __amd64 void Ship::BreachRandomHull(Ship* this, int roomId);
+cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
 "!.554889e54157415641554154534883ec184989f74989fd49":
-cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship* this, bool onlyDamaged);
+cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 ".554889e54157415653504189f64989ff498b4710":
-cleanup __amd64 void Ship::SetSelectedRoom(Ship* this, int roomId);
+cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
 "!.554889e54863c6488b4f10488b3cc10fb6f2":
-cleanup __amd64 void Ship::SetRoomBlackout(Ship* this, int roomId, bool blackout);
+cleanup __amd64 void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
 "!.554889e54863c6488b4f10488b3cc10fb6f2":
-cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship* this, int roomId, bool intruder);
+cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
 ".554889e54157415653504989fe4c63fe":
-cleanup __amd64 int Ship::EmptySlots(Ship* this, int roomId);
+cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);
 "!.554889e585f67823":
-cleanup __amd64 bool Ship::FullRoom(Ship* this, int roomId, bool intruder);
+cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 "!.554889e54157415641554154534883ec2889d341":
-cleanup __amd64 int Ship::GetAvailableRoom(Ship* this, int preferred, bool intruder);
+cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 
 struct Ship depends (ShipGraph, Globals::Ellipse)
 {{

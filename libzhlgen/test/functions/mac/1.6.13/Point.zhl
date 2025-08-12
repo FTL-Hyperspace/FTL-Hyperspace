@@ -1,8 +1,8 @@
 // Continue from PDSFire::CollisionCheck (hyper efficiency™)
 ".554889e58b0f29f1":
-cleanup __amd64 int Point::RelativeDistance(Point* this, Point other);
+cleanup __amd64 int Point::RelativeDistance(Point *this, Point other);
 ".554889e58b0729f0":
-cleanup __amd64 int Point::Distance(Point* this, Point other);
+cleanup __amd64 int Point::Distance(Point *this, Point other);
 
 
 struct Point 

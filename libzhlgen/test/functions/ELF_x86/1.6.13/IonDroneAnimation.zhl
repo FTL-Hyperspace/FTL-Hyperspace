@@ -1,5 +1,5 @@
 "5589e557565381ecfc0000008b5d18":
-cleanup __cdecl void IonDroneAnimation::constructor(IonDroneAnimation* this, int _iShipId, Pointf _position, bool _enemy);
+cleanup __cdecl void IonDroneAnimation::constructor(IonDroneAnimation *this, int _iShipId, Pointf _position, bool _enemy);
 
 
 struct IonDroneAnimation

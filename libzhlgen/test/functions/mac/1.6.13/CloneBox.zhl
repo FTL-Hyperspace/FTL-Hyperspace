@@ -1,5 +1,5 @@
 "554889e54157415641554154534881ecc80000004889d3":
-cleanup __amd64 void CloneBox::constructor(CloneBox* this, Point _position, CloneSystem* _cloneSystem);
+cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point _position, CloneSystem* _cloneSystem);
 
 
 struct CloneBox

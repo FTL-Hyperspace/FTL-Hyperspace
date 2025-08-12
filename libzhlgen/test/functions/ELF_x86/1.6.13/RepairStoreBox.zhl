@@ -1,5 +1,5 @@
 "5589e557565383ec7c8b45108d75e08b5d08":
-cleanup __cdecl void RepairStoreBox::constructor(RepairStoreBox* this, ShipManager* _ship, bool _repairAll, int _price);
+cleanup __cdecl void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager* _ship, bool _repairAll, int _price);
 
 
 struct RepairStoreBox

@@ -1,5 +1,5 @@
 "5557565383ec7c8b9c24900000008d7c243c":
-cleanup __cdecl void MindBox::constructor(MindBox* this, Point _position, MindSystem* _system);
+cleanup __cdecl void MindBox::constructor(MindBox *this, Point _position, MindSystem* _system);
 
 
 struct MindBox

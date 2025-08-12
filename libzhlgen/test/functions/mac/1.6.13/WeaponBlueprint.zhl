@@ -1,10 +1,10 @@
 // Continue from WeaponAnimation::Update (hyper efficiency™)
 "!.554889e54157415641554154534881ec????????8995????????4889f3":
-cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint* this, bool tooltip);
+cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
 "!.554889e5488db7b8":
-cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint* this, float scale);
+cleanup __amd64 void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
 "!.554889e54157415653504989fe488d05????????49890641f686":
-cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint* this);
+cleanup __amd64 void WeaponBlueprint::destructor(WeaponBlueprint *this);
 
 
 struct WeaponBlueprint
