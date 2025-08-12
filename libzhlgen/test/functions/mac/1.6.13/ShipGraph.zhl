@@ -51,7 +51,7 @@ struct ShipGraph depends (Point, Pointf, Room)
     // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	static Point TranslateFromGrid(int xx, int yy)
 	{
-		return Point(xx*  35, yy*  35);
+		return Point(xx * 35, yy * 35);
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition

@@ -17,9 +17,6 @@ __thiscall void Shields::RenderBase(Shields *this, float alpha, float superShiel
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec2c8b37c741fc00000000f30f106704":
 __thiscall CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
 
-"!f30f1015(???????\?)f30f5ee6":
-GL_Color* Global_COLOR_GREEN;
-
 
 struct Shields
 {{

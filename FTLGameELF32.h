@@ -145,16 +145,8 @@ struct CachedImage : CachedPrimitive
 
 struct Point
 {
-	Point()
-	{
-		
-	}
-
-	Point(int x, int y)
-	{
-		this->x = x;
-		this->y = y;
-	}
+	Point(int xx, int yy) : x(xx), y(yy)  { }
+	Point() { }
 	
 	friend bool operator==(const Point& a, const Point& b)
 	{
@@ -697,16 +689,8 @@ struct GL_Color
 
 struct Pointf
 {
-	Pointf()
-	{
-
-	}
-
-	Pointf(float x, float y)
-	{
-		this->x = x;
-		this->y = y;
-	}
+	Pointf() : x(0.f), y(0.f) {}
+	Pointf(float _x, float _y) : x(_x), y(_y) {}
 	
 	Pointf operator+(const Pointf& other)
 	{
@@ -725,12 +709,11 @@ struct Pointf
 	
 	Pointf operator*(float amount)
 	{		
-		return Pointf(x*  amount, y*  amount);
+		return Pointf(x * amount, y * amount);
 	}
 
 	LIBZHL_API Pointf Normalize();
 	LIBZHL_API float RelativeDistance(Pointf other);
-	LIBZHL_API void constructor(float _x, float _y);
 	
 	float x;
 	float y;
@@ -1239,10 +1222,7 @@ struct WeaponBlueprint;
 
 struct LIBZHL_INTERFACE ShipSystem
 {
-	ShipSystem()
-	{
-		
-	}
+	ShipSystem() { }
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
@@ -4966,8 +4946,8 @@ struct Room : Selectable
 
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
 		
-		Point toGrid = Point((posX + 2*  (center.x > posX) - 1) / 35, (posY + 2*  (center.y > posY) - 1) / 35);
-		Point fromGrid = Point(toGrid.x*  35, toGrid.y*  35);
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
 		
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
@@ -5030,7 +5010,7 @@ struct ShipGraph
     // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	static Point TranslateFromGrid(int xx, int yy)
 	{
-		return Point(xx*  35, yy*  35);
+		return Point(xx * 35, yy * 35);
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
@@ -7883,7 +7863,6 @@ extern LIBZHL_API void **VTable_RepairAnimation;
 extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
-extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API GL_Primitive **ShipSystem__lockBlue;
 extern LIBZHL_API GL_Primitive **ShipSystem__fireImage;

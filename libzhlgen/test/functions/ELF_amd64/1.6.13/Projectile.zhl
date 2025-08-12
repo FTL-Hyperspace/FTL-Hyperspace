@@ -1,4 +1,3 @@
-#include <complex>
 "0fb6873402000083f001":
 cleanup __amd64 bool Projectile::ValidTarget(Projectile *this);
 ".!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000":

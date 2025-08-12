@@ -53,8 +53,8 @@ struct Room depends (Globals, Point)
 
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
 		
-		Point toGrid = Point((posX + 2*  (center.x > posX) - 1) / 35, (posY + 2*  (center.y > posY) - 1) / 35);
-		Point fromGrid = Point(toGrid.x*  35, toGrid.y*  35);
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
 		
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}

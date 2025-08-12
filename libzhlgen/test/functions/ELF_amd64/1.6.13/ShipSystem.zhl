@@ -107,10 +107,7 @@ cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); 
 
 struct ShipSystem
 {{
-	ShipSystem()
-	{
-		
-	}
+	ShipSystem() { }
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{

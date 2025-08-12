@@ -108,10 +108,7 @@ GL_Primitive** ShipSystem__fireImage;
 
 struct ShipSystem
 {{
-	ShipSystem()
-	{
-		
-	}
+	ShipSystem() { }
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{

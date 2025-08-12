@@ -106,10 +106,7 @@ GL_Primitive** ShipSystem__glowWhite;
 
 struct ShipSystem
 {{
-	ShipSystem()
-	{
-		
-	}
+	ShipSystem() { }
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{

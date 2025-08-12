@@ -723,12 +723,11 @@ struct Pointf
 	
 	Pointf operator*(float amount)
 	{		
-		return Pointf(x*  amount, y*  amount);
+		return Pointf(x * amount, y * amount);
 	}
 
 	LIBZHL_API Pointf Normalize();
 	LIBZHL_API float RelativeDistance(Pointf other);
-	LIBZHL_API void constructor(float _x, float _y);
 	
 	float x;
 	float y;
@@ -4987,8 +4986,8 @@ struct Room : Selectable
 
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
 		
-		Point toGrid = Point((posX + 2*  (center.x > posX) - 1) / 35, (posY + 2*  (center.y > posY) - 1) / 35);
-		Point fromGrid = Point(toGrid.x*  35, toGrid.y*  35);
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
 		
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
@@ -5052,7 +5051,7 @@ struct ShipGraph
     // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	static Point TranslateFromGrid(int xx, int yy)
 	{
-		return Point(xx*  35, yy*  35);
+		return Point(xx * 35, yy * 35);
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition

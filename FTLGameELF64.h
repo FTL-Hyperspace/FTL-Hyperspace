@@ -145,16 +145,8 @@ struct CachedImage : CachedPrimitive
 
 struct Point
 {
-	Point()
-	{
-		
-	}
-
-	Point(int x, int y)
-	{
-		this->x = x;
-		this->y = y;
-	}
+	Point(int xx, int yy) : x(xx), y(yy)  { }
+	Point() { }
 	
 	friend bool operator==(const Point& a, const Point& b)
 	{
@@ -697,16 +689,8 @@ struct GL_Color
 
 struct Pointf
 {
-	Pointf()
-	{
-
-	}
-
-	Pointf(float x, float y)
-	{
-		this->x = x;
-		this->y = y;
-	}
+	Pointf() : x(0.f), y(0.f) {}
+	Pointf(float _x, float _y) : x(_x), y(_y) {}
 	
 	Pointf operator+(const Pointf& other)
 	{
@@ -725,12 +709,11 @@ struct Pointf
 	
 	Pointf operator*(float amount)
 	{		
-		return Pointf(x*  amount, y*  amount);
+		return Pointf(x * amount, y * amount);
 	}
 
 	LIBZHL_API Pointf Normalize();
 	LIBZHL_API float RelativeDistance(Pointf other);
-	LIBZHL_API void constructor(float _x, float _y);
 	
 	float x;
 	float y;
@@ -1240,10 +1223,7 @@ struct WeaponBlueprint;
 
 struct LIBZHL_INTERFACE ShipSystem
 {
-	ShipSystem()
-	{
-		
-	}
+	ShipSystem() { }
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
@@ -1507,26 +1487,35 @@ struct LIBZHL_INTERFACE Targetable
 
 struct LIBZHL_INTERFACE Projectile : Collideable
 {
+	void HS_OnUpdate();
+	void HS_CollisionCheck(Collideable* other);
+
 	virtual void SetWeaponAnimation(WeaponAnimation &animation) LIBZHL_PLACEHOLDER
 	virtual void OnRenderSpecific(int spaceId) LIBZHL_PLACEHOLDER
-	virtual void CollisionCheck(Collideable *object) LIBZHL_PLACEHOLDER
-	virtual void OnUpdate() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void CollisionCheck(Collideable *other);
+	LIBZHL_API virtual void OnUpdate();
 	virtual Pointf GetWorldCenterPoint() LIBZHL_PLACEHOLDER
 	virtual Pointf GetRandomTargettingPoint(bool valuable) LIBZHL_PLACEHOLDER
 	virtual void ComputeHeading() LIBZHL_PLACEHOLDER
 	virtual void SetDestinationSpace(int space) LIBZHL_PLACEHOLDER
 	virtual void EnterDestinationSpace() LIBZHL_PLACEHOLDER
 	virtual bool Dead() LIBZHL_PLACEHOLDER
-	virtual bool ValidTarget() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool ValidTarget();
 	virtual void Kill() LIBZHL_PLACEHOLDER
 	virtual Pointf GetSpeed() LIBZHL_PLACEHOLDER
 	virtual void SetDamage(Damage damage) LIBZHL_PLACEHOLDER
-	virtual int ForceRenderLayer() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual int ForceRenderLayer();
 	virtual void SetSpin(float spin) LIBZHL_PLACEHOLDER
 	virtual void SaveProjectile(int fd) LIBZHL_PLACEHOLDER
 	virtual void LoadProjectile(int fd) LIBZHL_PLACEHOLDER
 	virtual int GetType() LIBZHL_PLACEHOLDER
 	virtual void SetMovingTarget(Targetable *target) LIBZHL_PLACEHOLDER
+	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
+	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
+	LIBZHL_API static Pointf __stdcall RandomSidePoint(int side);
+	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target);
+	LIBZHL_API void destructor();
+	
 	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
@@ -2857,7 +2846,7 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, DroneBlueprint *_blueprint);
-	LIBZHL_API void destructor(int __in_chrg);
+	LIBZHL_API void destructor();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -4982,8 +4971,8 @@ struct Room : Selectable
 
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
 		
-		Point toGrid = Point((posX + 2*  (center.x > posX) - 1) / 35, (posY + 2*  (center.y > posY) - 1) / 35);
-		Point fromGrid = Point(toGrid.x*  35, toGrid.y*  35);
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
 		
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
@@ -5047,7 +5036,7 @@ struct ShipGraph
     // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	static Point TranslateFromGrid(int xx, int yy)
 	{
-		return Point(xx*  35, yy*  35);
+		return Point(xx * 35, yy * 35);
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
@@ -7906,7 +7895,6 @@ extern LIBZHL_API void **VTable_RepairAnimation;
 extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
-extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowWhite;
 extern LIBZHL_API GL_Primitive **ShipSystem__lockBlue;
