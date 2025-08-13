@@ -1,4 +1,4 @@
-// Continue from WeaponAnimation::Update (hyper efficiency™)
+// Continue from WeaponAnimation::OnRender (hyper efficiency™)
 "!.554889e54157415641554154534881ec????????8995????????4889f3":
 cleanup __amd64 std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
 ".554889e54156534881ec70":

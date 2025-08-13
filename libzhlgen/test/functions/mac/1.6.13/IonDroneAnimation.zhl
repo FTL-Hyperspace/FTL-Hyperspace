@@ -1,6 +1,8 @@
 // Continue from IonDrone::GetRoomDamage (hyper efficiency™)
 "!.554889e54157415641554154534881ecd80100004889fb0f":
 cleanup __amd64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int _iShipId, Pointf _position, bool _enemy);
+".554889e54157415641554154534883":
+cleanup __amd64 void IonDroneAnimation::UpdateShooting(IonDroneAnimation *this);
 
 
 struct IonDroneAnimation

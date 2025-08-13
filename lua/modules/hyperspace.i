@@ -2021,6 +2021,12 @@ playerVariableType playerVariables;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 %rename("%s") BlueprintManager::GetBlueprintList;
 
+%nodefaultctor AugmentBlueprint;
+%nodefaultdtor AugmentBlueprint;
+%rename("%s") AugmentBlueprint;
+%rename("%s") AugmentBlueprint::value;
+%rename("%s") AugmentBlueprint::stacking;
+
 %nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
@@ -2176,6 +2182,12 @@ playerVariableType playerVariables;
 %rename("%s") CrewBlueprint::skillLevel;
 %rename("%s") CrewBlueprint::colorLayers;
 %rename("%s") CrewBlueprint::colorChoices;
+
+%rename("%s") SCrewStats;
+%rename("%s") SCrewStats::stat;
+%rename("%s") SCrewStats::species;
+%rename("%s") SCrewStats::name;
+%rename("%s") SCrewStats::male;
 
 //%nodefaultctor Blueprint;
 //%nodefaultdtor Blueprint;
@@ -3185,7 +3197,6 @@ playerVariableType playerVariables;
 %rename("%s") ActivatedPowerDefinition::hideCharges;
 %rename("%s") ActivatedPowerDefinition::hideButton;
 %rename("%s") ActivatedPowerDefinition::powerResources;
-%rename("%s") ActivatedPowerDefinition::respawnCharges;
 %rename("%s") ActivatedPowerDefinition::sounds;
 %rename("%s") ActivatedPowerDefinition::effectSounds;
 %rename("%s") ActivatedPowerDefinition::soundsEnemy;

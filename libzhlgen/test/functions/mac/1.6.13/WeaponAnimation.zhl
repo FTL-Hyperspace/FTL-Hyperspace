@@ -6,3 +6,5 @@ cleanup __amd64 Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
 cleanup __amd64 bool WeaponAnimation::StartFire(WeaponAnimation *this);
 ".554889e54157415653504889fb448bb3":
 cleanup __amd64 void WeaponAnimation::Update(WeaponAnimation *this);
+".554889e54157415641":
+cleanup __amd64 void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);

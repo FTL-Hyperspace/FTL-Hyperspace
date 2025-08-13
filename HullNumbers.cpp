@@ -1,28 +1,31 @@
 #include "HullNumbers.h"
-#include "Global.h"
 #include <boost/lexical_cast.hpp>
 
 HullNumbers HullNumbers::instance = HullNumbers();
+HullBars HullBars::instance = HullBars();
+static bool g_overrideHullBar = false;
 
+// TODO: 
+// sig for linux CacheImage::SetPartial
 
 HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
 {
-            if (node->first_attribute("x"))
-            {
-                indicatorInfo.x = boost::lexical_cast<int>(node->first_attribute("x")->value());
-            }
-            if (node->first_attribute("y"))
-            {
-                indicatorInfo.y = boost::lexical_cast<int>(node->first_attribute("y")->value());
-            }
-            if (node->first_attribute("type"))
-            {
-                indicatorInfo.type = boost::lexical_cast<int>(node->first_attribute("type")->value());
-            }
-            if (node->first_attribute("align"))
-            {
-                indicatorInfo.align = node->first_attribute("align")->value();
-            }
+    if (node->first_attribute("x"))
+    {
+        indicatorInfo.x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+    }
+    if (node->first_attribute("y"))
+    {
+        indicatorInfo.y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+    }
+    if (node->first_attribute("type"))
+    {
+        indicatorInfo.type = boost::lexical_cast<int>(node->first_attribute("type")->value());
+    }
+    if (node->first_attribute("align"))
+    {
+        indicatorInfo.align = node->first_attribute("align")->value();
+    }
 
     return indicatorInfo;
 }
@@ -132,18 +135,83 @@ void HullNumbers::PrintAlignment(int font, int x, int y, std::string str, std::s
     }
 }
 
+void HullBars::ParseHullBarsNode(rapidxml::xml_node<char> *node)
+{
+    try
+    {
+        if (node->first_attribute("type"))
+        {
+            enabledType = boost::lexical_cast<int>(node->first_attribute("type")->value());
+        }
+        if (node->first_attribute("maxHull"))
+        {
+            barWidth = boost::lexical_cast<int>(node->first_attribute("maxHull")->value());
+        }
+        if (node->first_attribute("maxHullBoss"))
+        {
+            barWidthBoss = boost::lexical_cast<int>(node->first_attribute("maxHullBoss")->value());
+        }
+
+        for (auto child = node->first_node("barColor"); child; child = child->next_sibling("barColor"))
+        {
+            ParseHullBarsColorsNode(child);
+        }
+    }
+    catch (rapidxml::parse_error& e)
+    {
+        ErrorMessage(std::string("Error parsing <hullBars> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <hullBars> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <hullBars> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <hullBars> in hyperspace.xml\n");
+    }
+}
+
+void HullBars::ParseHullBarsColorsNode(rapidxml::xml_node<char> *node)
+{
+    float r = 1.f;
+    float g = 1.f;
+    float b = 1.f;
+    float a = 1.f;
+
+    if (node->first_attribute("r"))
+    {
+        r = boost::lexical_cast<float>(node->first_attribute("r")->value()) / 255.f;
+    }
+    if (node->first_attribute("g"))
+    {
+        g = boost::lexical_cast<float>(node->first_attribute("g")->value()) / 255.f;
+    }
+    if (node->first_attribute("b"))
+    {
+        b = boost::lexical_cast<float>(node->first_attribute("b")->value()) / 255.f;
+    }
+    if (node->first_attribute("a"))
+    {
+        a = boost::lexical_cast<float>(node->first_attribute("a")->value()) / 255.f;
+    }
+    barColor.push_back(GL_Color(r, g, b ,a));
+}
 
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (HullNumbers.cpp)\n")
     super(renderText);
 
-    HullNumbers *manager = HullNumbers::GetInstance();
-    if (manager && manager->enabled)
+    HullNumbers *HNManager = HullNumbers::GetInstance();
+    if (HNManager && HNManager->enabled)
     {
         char buffer[64];
         sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
-        auto textInfo = manager->playerIndicator;
+        auto textInfo = HNManager->playerIndicator;
         HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
     }
 }
@@ -167,12 +235,31 @@ HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (HullNumbers.cpp)\n")
+    
+    g_overrideHullBar = true;
     super();
+    g_overrideHullBar = false;
 
-    HullNumbers *manager = HullNumbers::GetInstance();
+    HullBars *HBManager = HullBars::GetInstance();
+    int barWidth = boss_visual ? HBManager->barWidthBoss : HBManager->barWidth;
+    if(HBManager->enabledType == 1 && this->GetCurrentTarget()->ship.hullIntegrity.first > barWidth)
+    {
+        int ibar = std::floor(this->GetCurrentTarget()->ship.hullIntegrity.first / barWidth);
 
+        HBManager->RefreshPosition(boss_visual);
+        float x1 = barWidth / 22.f;
+        float x2 = ((float)(this->GetCurrentTarget()->ship.hullIntegrity.first % (barWidth))/barWidth)*(barWidth / 22.f);
 
-    if (this->GetCurrentTarget() && manager && manager->enabled)
+        HBManager->hullBarImage->SetPartial(0.0, 0.0, x1, 1.0);
+        HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar - 1));
+
+        HBManager->hullBarImage->SetPartial(0.0, 0.0, x2, 1.0);
+        HBManager->hullBarImage->OnRender(HBManager->GetBarColor(ibar));
+    }
+
+    HullNumbers *HNManager = HullNumbers::GetInstance();
+
+    if (this->GetCurrentTarget() && HNManager && HNManager->enabled)
     {
         bool hostile = this->GetCurrentTarget()->_targetable.hostile;
         if (hostile)
@@ -193,26 +280,26 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         HullNumbers::IndicatorInfo textInfo;
         if (boss_visual)
         {
-            auto it = manager->bossIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
-            if (it != std::end(manager->bossIndicatorLoc))
+            auto it = HNManager->bossIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
+            if (it != std::end(HNManager->bossIndicatorLoc))
             {
                 textInfo = it->second;
             }
             else
             {
-                textInfo = manager->bossIndicator;
+                textInfo = HNManager->bossIndicator;
             }
         }
         else
         {
-            auto it = manager->enemyIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
-            if (it != std::end(manager->enemyIndicatorLoc))
+            auto it = HNManager->enemyIndicatorLoc.find(G_->GetTextLibrary()->currentLanguage);
+            if (it != std::end(HNManager->enemyIndicatorLoc))
             {
                 textInfo = it->second;
             }
             else
             {
-                textInfo = manager->enemyIndicator;
+                textInfo = HNManager->enemyIndicator;
             }
         }
 
@@ -230,4 +317,38 @@ HOOK_METHOD(ShipStatus, OnInit, (Point unk, float unk2) -> void)
         hullBox = G_->GetResources()->CreateImagePrimitiveString("statusUI/top_hull_numbers.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
         hullBox_Red = G_->GetResources()->CreateImagePrimitiveString("statusUI/top_hull_numbers_red.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
+}
+
+HOOK_METHOD(CombatControl, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (HullNumbers.cpp)\n")
+    super();
+    if (HullBars::GetInstance() && HullBars::GetInstance()->enabledType == 1)
+    {
+        HullBars::GetInstance()->hullBarImage = new CachedImage("combatUI/box_hostiles_hull2.png", 889, 90);
+    }
+}
+
+HOOK_METHOD(CachedImage, SetPartial, (float x_start, float y_start, float x_size, float y_size) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CachedPrimitive::SetPartial -> Begin (HullNumbers.cpp)\n")
+    
+    ShipManager *enemyShip;
+    if (g_overrideHullBar && y_size == 1.0 && (enemyShip = G_->GetShipManager(1)))
+    {
+        HullBars *HBManager = HullBars::GetInstance();
+        std::pair<int, int> shipHp = enemyShip->ship.hullIntegrity;
+        int barWidth = G_->GetCApp()->gui->combatControl.boss_visual ? HBManager->barWidthBoss : HBManager->barWidth;
+
+        if (HBManager->enabledType == 2 && shipHp.second > barWidth)
+        {
+            x_size = ((float) shipHp.first / (float) shipHp.second) * (barWidth / 22.f);
+        }
+        else if (HBManager->enabledType == 1 && shipHp.first > barWidth)
+        {
+            x_size = 0.0;
+        }
+    }
+
+    super(x_start, y_start, x_size, y_size);
 }

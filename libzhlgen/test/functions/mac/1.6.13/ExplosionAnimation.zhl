@@ -1,2 +1,6 @@
 "!554889e54157415641554154534881ec080100004989ce48":
 cleanup __amd64 void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);
+".554889e54157415641554154534883ec18488975d0":
+cleanup __amd64 void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
+".554889e5415741564154":
+cleanup __amd64 void ExplosionAnimation::LoadGibs(ExplosionAnimation *this);

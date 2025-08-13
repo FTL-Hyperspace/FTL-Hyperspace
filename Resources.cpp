@@ -316,10 +316,37 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "hullBars") == 0)
+            {
+                HullBars::GetInstance()->ParseHullBarsNode(node);
+            }
+
             if (strcmp(node->name(), "hackingDroneFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_repairDroneRecoveryFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "controllableIonDroneFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_controllableIonDroneFix = EventsParser::ParseBoolean(enabled);
+                if (g_controllableIonDroneFix && node->first_attribute("ionDelay"))
+                {
+                    float delay = boost::lexical_cast<float>(node->first_attribute("ionDelay")->value());
+                    g_controllableIonDroneFix_Delay = delay;
+                    g_controllableIonDroneFix_DelayInitial = delay;
+                }
+                if (g_controllableIonDroneFix && node->first_attribute("ionDelayInitial"))
+                {
+                    g_controllableIonDroneFix_DelayInitial = boost::lexical_cast<float>(node->first_attribute("ionDelayInitial")->value());
+                }
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
@@ -376,6 +403,12 @@ void Global::InitializeResources(ResourceControl *resources)
                         }
                     }
                 }
+            }
+
+            if (strcmp(node->name(), "artilleryGibMountFix") == 0) // fixes artillery disappearing during ship explosions
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "resistsMindControlStat") == 0)

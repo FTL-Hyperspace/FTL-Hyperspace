@@ -81,11 +81,13 @@ struct CustomShipDefinition
     std::vector<CrewPlacementDefinition> crewList = std::vector<CrewPlacementDefinition>();
     bool noJump = false;
     bool noFuelStalemate = false;
+    bool artilleryGibMountFix = false;
     int hpCap = 20;
     int startingFuel = -1;
     int startingScrap = -1;
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
+    std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> roomStationBackups;
     std::vector<std::string> shipIcons;
     ToggleValue<bool> forceAutomated;
 

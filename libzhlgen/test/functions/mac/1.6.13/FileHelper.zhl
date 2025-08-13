@@ -1,4 +1,4 @@
-// Continue from ExplosionAnimation::OnInit (hyper efficiency™)
+// Continue from ExplosionAnimation::LoadGibs (hyper efficiency™)
 "!.554889e54156534889fb4c8d7301f60301488b7b10490f44fe31f6e8????160085c07405":
 static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
 "!.554889e54157415641554154534883ec??4989ffe8????????4989c6":

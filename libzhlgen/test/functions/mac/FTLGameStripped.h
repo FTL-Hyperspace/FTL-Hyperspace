@@ -373,11 +373,11 @@ struct std__vector_6Pointf
 };
 
 /* 446 */
-struct std__vector_15WeaponAnimation
+struct std__vector_17WeaponAnimationZ1
 {
-  WeaponAnimation *_start;
-  WeaponAnimation *_finish;
-  WeaponAnimation *_end;
+  WeaponAnimation **_start;
+  WeaponAnimation **_finish;
+  WeaponAnimation **_end;
 };
 
 /* 191 */
@@ -386,7 +386,7 @@ struct ExplosionAnimation
   AnimationTracker _base;
   ShipObject shipObj;
   std__vector_9Animation explosions;
-  std__vector_10GL_Texture pieces;
+  std__vector_12GL_TextureZ1 pieces;
   std__vector_11std__string pieceNames;
   std__vector_5float rotationSpeed;
   std__vector_5float rotation;
@@ -398,7 +398,7 @@ struct ExplosionAnimation
   float soundTimer;
   bool bFinalBoom;
   bool bJumpOut;
-  std__vector_15WeaponAnimation weaponAnims;
+  std__vector_17WeaponAnimationZ1 weaponAnims;
   Point pos;
 };
 

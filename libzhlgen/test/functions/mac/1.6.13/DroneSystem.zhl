@@ -5,6 +5,8 @@ static cleanup __amd64 int DroneSystem::StringToDrone(std::string& name);
 cleanup __amd64 bool DroneSystem::DePowerDrone(DroneSystem *this, Drone* drone, bool userDriven);
 ".554889e5415741564154534889fb85f6":
 cleanup __amd64 void DroneSystem::RemoveDrone(DroneSystem *this, int slot);
+".554889e54156":
+cleanup __amd64 void DroneSystem::Jump(DroneSystem *this);
 ".554889e54157415641554154534883ec284989fee807cf00":
 cleanup __amd64 void DroneSystem::OnLoop(DroneSystem *this);
 ".554889e5415741564155415453504989fc498b84":

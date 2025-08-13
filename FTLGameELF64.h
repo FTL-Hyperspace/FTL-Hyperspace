@@ -121,6 +121,7 @@ struct CachedImage : CachedPrimitive
 	LIBZHL_API void CreatePrimitive();
 	LIBZHL_API void SetImagePath(const std::string &imagePath);
 	LIBZHL_API void SetMirrored(bool _mirrored);
+	LIBZHL_API void SetPartial(float x_start, float y_start, float x_size, float y_size);
 	LIBZHL_API void SetPosition(int x, int y);
 	LIBZHL_API void SetRotation(float _rotation);
 	LIBZHL_API void SetScale(float wScale, float hScale);
@@ -787,6 +788,7 @@ struct WeaponMount
 struct WeaponAnimation
 {
 	LIBZHL_API Pointf GetSlide();
+	LIBZHL_API void OnRender(float alpha);
 	LIBZHL_API void SetFireTime(float time);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
@@ -2883,6 +2885,7 @@ struct BoarderPodDrone : SpaceDrone
 
 	LIBZHL_API bool CanBeDeployed();
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void SetDeployed(bool _deployed);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
@@ -5218,6 +5221,7 @@ struct DroneStoreBox : StoreBox
 struct DroneSystem : ShipSystem
 {
 	LIBZHL_API bool DePowerDrone(Drone *drone, bool unk);
+	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RemoveDrone(int slot);
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
@@ -5701,25 +5705,26 @@ struct EventsParser
 
 struct ExplosionAnimation;
 
-struct GL_Texture
+struct ImageDesc
 {
-	int id_;
-	int width_;
-	int height_;
-	bool isLogical_;
-	float u_base_;
-	float v_base_;
-	float u_size_;
-	float v_size_;
+	GL_Texture *tex;
+	int resId;
+	int w;
+	int h;
+	int x;
+	int y;
+	int rot;
 };
 
 struct ExplosionAnimation : AnimationTracker
 {
+	LIBZHL_API void LoadGibs();
 	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
+	LIBZHL_API void OnRender(Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
 	
 	ShipObject shipObj;
 	std::vector<Animation> explosions;
-	std::vector<GL_Texture> pieces;
+	std::vector<GL_Texture*> pieces;
 	std::vector<std::string> pieceNames;
 	std::vector<float> rotationSpeed;
 	std::vector<float> rotation;
@@ -5731,7 +5736,7 @@ struct ExplosionAnimation : AnimationTracker
 	float soundTimer;
 	bool bFinalBoom;
 	bool bJumpOut;
-	std::vector<WeaponAnimation> weaponAnims;
+	std::vector<WeaponAnimation*> weaponAnims;
 	Point pos;
 };
 
@@ -5827,6 +5832,18 @@ struct GL_Primitive
 	int id;
 };
 
+struct GL_Texture
+{
+	int id_;
+	int width_;
+	int height_;
+	bool isLogical_;
+	float u_base_;
+	float v_base_;
+	float u_size_;
+	float v_size_;
+};
+
 struct Ghost
 {
 };
@@ -5901,17 +5918,6 @@ struct HotkeyDesc
 	int key;
 };
 
-struct ImageDesc
-{
-	GL_Texture *tex;
-	int resId;
-	int w;
-	int h;
-	int x;
-	int y;
-	int rot;
-};
-
 struct InputEventUnion
 {
 	char eventData[20];
@@ -5930,6 +5936,7 @@ struct IonDrone;
 struct IonDrone : BoarderDrone
 {
 	LIBZHL_API Damage GetRoomDamage();
+	LIBZHL_API void constructor(int iShipId, DroneBlueprint *blueprint);
 	
 	int lastRoom;
 };
@@ -5943,6 +5950,7 @@ struct IonDroneAnimation : CrewAnimation
 		this->constructor(_shipId, _position, _hostile);
 	}
 
+	LIBZHL_API void UpdateShooting();
 	LIBZHL_API void constructor(int iShipId, Pointf position, bool enemy);
 	
 	Animation ionExplosion;
