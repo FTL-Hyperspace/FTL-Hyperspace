@@ -17,23 +17,28 @@ cleanup __amd64 int InfoBox::CalcBoxHeight(InfoBox *this);
 ".4157415641554589cd41544189f455534889fb4883ec2883feff":
 cleanup __amd64 void InfoBox::SetSystemId(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 ".41564589c641554189d541544189cc554889f5534889fb":
-cleanup __amd64 void InfoBox::SetDescription(InfoBox *this, Description* desc, int width, int height, InfoBox::ExpandDir dir); 
+cleanup __amd64 void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
 ".41574989ff41564589ce41554d8d6f1041545589cd534489c34881eca8000000":
 cleanup __amd64 void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir); 
 ".4157415641554154554889f5534889fb4883ec384885f6":
-cleanup __amd64 void InfoBox::SetSystem(InfoBox *this, ShipSystem* system, int upgrade, int yShift, int forceSystemWidth);
+cleanup __amd64 void InfoBox::SetSystem(InfoBox *this, ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
 ".55be????????534889fb4883ec28":
 cleanup __amd64 void InfoBox::Clear(InfoBox *this);
 ".4157415641554989fd415455534881ec68020000":
 cleanup __amd64 void InfoBox::OnRender(InfoBox *this);
 
 "!f30f2a8424b0000000443b642420ba(???????\?)b8(???????\?)":
-GL_Color* Global_InfoBox_detailsBarOff;
-GL_Color* Global_InfoBox_detailsBarOn;
+GL_Color *Global_InfoBox_detailsBarOff;
+GL_Color *Global_InfoBox_detailsBarOn;
 
 
 struct InfoBox 
 {{
+	InfoBox()
+	{
+		this->constructor();
+	}
+
 	enum ExpandDir
 	{
 	  EXPAND_UP = -1,
@@ -41,8 +46,4 @@ struct InfoBox
 	  EXPAND_DOWN = 1,
 	};
 
-	InfoBox()
-	{
-		this->constructor();
-	}
 }};

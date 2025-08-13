@@ -13,15 +13,15 @@ cleanup __amd64 void CrewEquipBox::OnTextInput(CrewEquipBox *this, SDLKey key);
 ".5589f553488d9fc00200004883ec084889df":
 cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox *this, CEvent::TextEvent event);
 ".415741564189ce41554989d5ba4300000041544989f449c1fc20":
-cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point _position, ShipManager* _shipManager, int _slot);
+cleanup __amd64 void CrewEquipBox::constructor(CrewEquipBox *this, Point pos, ShipManager *ship, int slot);
 ".415541545589f5534889fb":
-cleanup __amd64 void CrewEquipBox::OnRender(CrewEquipBox *this, bool dragging);
+cleanup __amd64 void CrewEquipBox::OnRender(CrewEquipBox *this, bool unk);
 
 
 struct CrewEquipBox depends (TextInput)
 {{
-	CrewEquipBox(Point position, ShipManager* shipManager, int slot)
+	CrewEquipBox(Point pos_, ShipManager *ship_, int slot_)
 	{
-		this->constructor(position, shipManager, slot);
+		this->constructor(pos_, ship_, slot_);
 	}
 }};

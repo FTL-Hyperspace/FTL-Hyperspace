@@ -4,5 +4,5 @@ void** VTable_RepairAnimation;
 
 struct RepairAnimation
 {{
-	RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy);
+	RepairAnimation(int _shipId, const std::string& _race, Pointf _unk, bool _hostile);
 }};

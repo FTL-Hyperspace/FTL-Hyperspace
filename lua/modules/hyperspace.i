@@ -119,6 +119,7 @@ namespace std {
     %template(vector_Drone) vector<Drone*>;
     %template(vector_SpaceDrone) vector<SpaceDrone*>;
     %template(vector_Room) vector<Room*>;
+    %template(unordered_map_int_RoomDefinition) unordered_map<int, RoomDefinition*>;
 	%template(vector_Door) vector<Door*>;
 	%template(vector_Repairable) vector<Repairable*>;
 	%template(vector_OuterHull) vector<OuterHull*>;
@@ -156,7 +157,9 @@ namespace std {
     %template(vector_pair_Animation_int8_t) vector<pair<Animation, int8_t>>;
     %template(vector_location) vector<Location*>;
     %template(vector_locationEventChoice) vector<LocationEvent::Choice>;
+    %template(vector_p_locationEventChoice) vector<LocationEvent::Choice*>;
     %template(vector_choiceText) vector<ChoiceText>;
+    %template(vector_p_choiceText) vector<ChoiceText*>;
 }
 
 %rename("%s") Get_Drone_Subclass; // Get derived class of a SpaceDrone with Hyperspace.Get_Drone_Subclass(spaceDrone)
@@ -493,6 +496,7 @@ playerVariableType playerVariables;
 %rename("%s") SectorDescription;
 %rename("%s") SectorDescription::name;
 %rename("%s") SectorDescription::shortName;
+%rename("%s") SectorDescription::type;
 
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
@@ -613,10 +617,11 @@ playerVariableType playerVariables;
 
 %nodefaultctor LocationEvent;
 %rename("%s") LocationEvent;
+%rename("%s") LocationEvent::GetChoices;
 %rename("%s") LocationEvent::Choice;
 %rename("%s") LocationEvent::Choice::event;
 %rename("%s") LocationEvent::Choice::text;
-//%rename("%s") LocationEvent::Choice::requirement; ChoiceReq not exposed
+%rename("%s") LocationEvent::Choice::requirement;
 %rename("%s") LocationEvent::Choice::hiddenReward;
 %rename("%s") LocationEvent::text;
 //%rename("%s") LocationEvent::ship; ShipEvent not exposed
@@ -652,7 +657,15 @@ playerVariableType playerVariables;
 %rename("%s") FocusWindow::bFullFocus;
 %rename("%s") FocusWindow::bCloseButtonSelected;
 
+%rename("%s") ChoiceReq; 
+%rename("%s") ChoiceReq::object;
+%rename("%s") ChoiceReq::min_level;
+%rename("%s") ChoiceReq::max_level;
+%rename("%s") ChoiceReq::max_group;
+%rename("%s") ChoiceReq::blue;
+
 %rename("%s") ChoiceBox;
+%rename("%s") ChoiceBox::GetChoices;
 %rename("%s") ChoiceBox::mainText;
 %rename("%s") ChoiceBox::choices;
 %rename("%s") ChoiceBox::columnSize;
@@ -828,14 +841,25 @@ playerVariableType playerVariables;
 %rename("%s") SpaceManager::CreateBurstProjectile;
 %rename("%s") SpaceManager::CreatePDSFire;
 
-%rename("%s") SpaceManager::projectiles;
-%immutable SpaceManager::projectiles;
-%rename("%s") SpaceManager::currentBack;
-%rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
+// hazards
+%rename("%s") SpaceManager::asteroidGenerator;
+%immutable SpaceManager::asteroidGenerator;
+%rename("%s") SpaceManager::sunLevel;
+%immutable SpaceManager::sunLevel;
+%rename("%s") SpaceManager::pulsarLevel;
+%immutable SpaceManager::pulsarLevel;
+%rename("%s") SpaceManager::bPDS;
+%immutable SpaceManager::bPDS;
+%rename("%s") SpaceManager::envTarget;
 %rename("%s") SpaceManager::bNebula;
 %immutable SpaceManager::bNebula;
 %rename("%s") SpaceManager::bStorm;
 %immutable SpaceManager::bStorm;
+
+%rename("%s") SpaceManager::projectiles;
+%immutable SpaceManager::projectiles;
+%rename("%s") SpaceManager::currentBack;
+%rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
 //%nodefaultctor SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip;
 //%rename("%s") SpaceManager::FleetShip::location;
@@ -845,6 +869,11 @@ playerVariableType playerVariables;
 ////%rename("%s") SpaceManager::shipHealth; // Not sure if this is player health or WHY THE HELL IT'S HERE (or possibly duplicated) and not part of the SHIP.
 %rename("%s") SpaceManager::gamePaused; // Not sure how this differs from CommandGui's pause information.
 %immutable SpaceManager::gamePaused;
+
+%nodefaultctor AsteroidGenerator;
+%rename("%s") AsteroidGenerator;
+%rename("%s") AsteroidGenerator::bRunning;
+%immutable AsteroidGenerator::bRunning;
 
 //%rename("%s") ImageDesc;
 //%rename("%s") ImageDesc:rot;
@@ -1006,12 +1035,21 @@ playerVariableType playerVariables;
 
 %nodefaultctor Location;
 %rename("%s") Location;
-%rename("%s") Location::space;
-%rename("%s") Location::spaceImage;
-%rename("%s") Location::planet;
-%rename("%s") Location::planetImage;
+%rename("%s") Location::loc;
+%rename("%s") Location::connectedLocations;
+%rename("%s") Location::beacon;
 %rename("%s") Location::known;
+%rename("%s") Location::visited;
+%rename("%s") Location::dangerZone;
+//%rename("%s") Location::newSector;
+%rename("%s") Location::nebula;
+%rename("%s") Location::boss;
 %rename("%s") Location::event;
+%rename("%s") Location::planet;
+%rename("%s") Location::space;
+%rename("%s") Location::fleetChanging;
+%rename("%s") Location::planetImage;
+%rename("%s") Location::spaceImage;
 
 
 %rename("%s") BoardingEvent;
@@ -1393,6 +1431,7 @@ playerVariableType playerVariables;
 %nodefaultdtor MindSystem;
 %rename("%s") MindSystem;
 %rename("%s") MindSystem::SetArmed;
+%rename("%s") MindSystem::SetHackingLevel;
 %rename("%s") MindSystem::controlTimer;
 %rename("%s") MindSystem::bCanUse;
 %rename("%s") MindSystem::iArmed;
@@ -1416,7 +1455,7 @@ playerVariableType playerVariables;
 %rename("%s") CloneSystem::gas;
 
 %nodefaultctor HackingSystem;
-%nodefaultdtor HackingSystem;
+%nodefaultdtor HachingSystem;
 %rename("%s") HackingSystem;
 %rename("%s") HackingSystem::BlowHackingDrone;
 %rename("%s") HackingSystem::bHacking;
@@ -1459,6 +1498,7 @@ playerVariableType playerVariables;
 %rename("%s") Shields::CollisionReal;
 %rename("%s") Shields::InstantCharge;
 %rename("%s") Shields::SetBaseEllipse;
+%rename("%s") Shields::SetHackingLevel;
 %rename("%s") Shields::ellipseRatio;
 %rename("%s") Shields::center;
 %rename("%s") Shields::baseShield;
@@ -1588,7 +1628,7 @@ playerVariableType playerVariables;
 %rename("%s") ShipSystem::SystemIdToName;
 %rename("%s") ShipSystem::UpgradeSystem;
 //%rename("%s") ShipSystem::selectedState;
-//%rename("%s") ShipSystem::_shipObj;
+%rename("%s") ShipSystem::_shipObj;
 %rename("%s") ShipSystem::fDamage;
 %rename("%s") ShipSystem::pLoc;
 %rename("%s") ShipSystem::fMaxDamage;
@@ -1917,6 +1957,7 @@ playerVariableType playerVariables;
 %rename("%s") Room_Extend;
 %rename("%s") Room_Extend::sysDamageResistChance;
 %rename("%s") Room_Extend::ionDamageResistChance;
+%rename("%s") Room_Extend::hullDamageResistChance;
 %rename("%s") Room_Extend::timeDilation;
 
 %nodefaultctor Door;
@@ -2108,6 +2149,13 @@ playerVariableType playerVariables;
 %rename("%s") CustomShipDefinition::reactorPriceIncrement;
 %rename("%s") CustomShipDefinition::maxReactorLevel;
 %rename("%s") CustomShipDefinition::shipGenerator;
+
+%rename("%s") RoomDefinition;
+%rename("%s") RoomDefinition::roomId;
+%rename("%s") RoomDefinition::sensorBlind;
+%rename("%s") RoomDefinition::sysDamageResistChance;
+%rename("%s") RoomDefinition::ionDamageResistChance;
+%rename("%s") RoomDefinition::hullDamageResistChance;
 
 %rename("%s") CrewPlacementDefinition;
 %rename("%s") CrewPlacementDefinition::species;

@@ -1,13 +1,13 @@
 "807f60007412807f6100740c":
-cleanup __amd64 void StoreBox::MouseClick(StoreBox *this, int mX, int mY);
+cleanup __amd64 void StoreBox::MouseClick(StoreBox *this, int x, int y);
 ".4883ec28488b8718010000":
 cleanup __amd64 void StoreBox::Activate(StoreBox *this);
 ".554889f248c1fa2053488d5f184883ec18":
-cleanup __amd64 void StoreBox::SetPosition(StoreBox *this, Point position);
+cleanup __amd64 void StoreBox::SetPosition(StoreBox *this, Point pos);
 ".554889f5488d7610534889fb488dbfb0000000":
 cleanup __amd64 void StoreBox::InitBlueprint(StoreBox *this, Blueprint* bp);
 ".41574989d7415641554989f5415455534889fb":
-cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& _buttonImage, ShipManager* _shopper, Equipment* _equip);
+cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& buttonImage, ShipManager *shopper, Equipment *equip);
 "!.538b871001000031f64889fb85c0":
 cleanup __amd64 void StoreBox::OnLoop(StoreBox *this);
 ".534889fbbe":
@@ -22,9 +22,9 @@ struct StoreBox
 	{
 	}
 	
-	StoreBox(const std::string& buttonImage, ShipManager* ship, Equipment* equip)
+	StoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship)
 	{
-		this->constructor(buttonImage, ship, equip);
+		this->constructor(buttonImage, shopper, ship);
 	}
 	
 	void SetPosition(int x, int y)

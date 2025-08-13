@@ -3,9 +3,9 @@ __thiscall void MouseControl::SetTooltip(MouseControl *this, const std::string& 
 "578d7c240883e4f0ff77fc5589e55783ec148b91300100008b0785d2751181c12c010000890424":
 __thiscall void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
 "578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec4c8b37":
-__thiscall Point MouseControl::MeasureTooltip(MouseControl *this, int width);
+__thiscall Point MouseControl::MeasureTooltip(MouseControl *this, int unk);
 ".5589e58b45088b550c5d898164010000":
-__thiscall void MouseControl::QueueStaticTooltip(MouseControl *this, Point position);
+__thiscall void MouseControl::QueueStaticTooltip(MouseControl *this, Point pos);
 "5589e55389cb83e4f083ec1080b91c0100000074??f30f1005????????0f2e8318010000":
 __thiscall void MouseControl::OnLoop(MouseControl *this);
 ".c6812801000001":

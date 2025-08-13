@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83c12081ec????????8b07c741e800000000":
-__thiscall void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* _blueprint, int _ownerId);
+__thiscall void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* bp, int shipId);
 ".5589e55389cb83e4f0803d??????????75??e8????????":
 __thiscall void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
 ".8b411c8b80d801000085c07e??":
@@ -7,13 +7,13 @@ __thiscall bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this);
 ".5781c1????????8d7c240883e4f0ff77fc5589e5":
 __thiscall void ProjectileFactory::SetHacked(ProjectileFactory *this, int hacked);
 ".8b44240439814001000074??85c074??c7811c06000000000000":
-__thiscall void ProjectileFactory::SetCurrentShip(ProjectileFactory *this, Targetable* ship);
+__thiscall void ProjectileFactory::SetCurrentShip(ProjectileFactory *this, Targetable *ship);
 ".f30f1041080f28c8f30f10542404f30f104118":
 __thiscall void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this, float mod);
 ".80b9f60000000074??8b411cf30f10410cf30f114108c7812c06000001000000":
 __thiscall void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
 ".5781c1????????8d7c240883e4f0ff77fc5589e5":
-__thiscall void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float alpha);
+__thiscall void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
 "8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??8d65f8":
 static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& str);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b47048b1f8945e4":
@@ -36,21 +36,8 @@ __thiscall void ProjectileFactory::ClearAiming(ProjectileFactory *this);
 __thiscall void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
 "5589e557565389cf83e4f083ec208b8100060000":
 __thiscall void ProjectileFactory::destructor(ProjectileFactory *this);
+
 "8d4c240483e4f0ff71fc5589e556535183ec6c8b19891c24":
-static cleanup __cdecl Projectile* ProjectileFactory::LoadProjectile(int fd);
+static cleanup __cdecl Projectile *ProjectileFactory::LoadProjectile(int fd);
 "8d4c240483e4f0ff71fc5589e556535183ec1c8b198b71048b0389d9ff507c89342489442404":
-static cleanup __cdecl void ProjectileFactory::SaveProjectile(Projectile* p, int fd);
-
-
-struct ProjectileFactory
-{{
-    ProjectileFactory(const WeaponBlueprint* blueprint, int ownerId)
-    {
-        this->constructor(blueprint, ownerId);
-    }
-
-    ~ProjectileFactory()
-    {
-        this->destructor();
-    }
-}};
+static cleanup __cdecl void ProjectileFactory::SaveProjectile(Projectile *p, int fd);

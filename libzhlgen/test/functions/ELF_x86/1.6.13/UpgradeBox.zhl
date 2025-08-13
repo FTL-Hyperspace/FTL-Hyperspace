@@ -1,7 +1,7 @@
 "5557565383ec5c8b5c24708b7424748b7c24788b6c247c":
-cleanup __cdecl void UpgradeBox::constructorEmpty(UpgradeBox *this, Point _position, bool _isSubsystem);
+cleanup __cdecl void UpgradeBox::constructorEmpty(UpgradeBox *this, Point pos, bool subsystem);
 "5589e557565383ec5c8b45148b75088b7d10":
-cleanup __cdecl void UpgradeBox::constructorSystem(UpgradeBox *this, ShipManager* _ship, ShipSystem* _system, Point _position, bool _isSubsystem);
+cleanup __cdecl void UpgradeBox::constructorSystem(UpgradeBox *this, ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
 "5383ec288b5c24308b83fc000000890424":
 cleanup __cdecl void UpgradeBox::destructor(UpgradeBox *this);
 "5589e557565381ec3c0100008b5d0880bbf900000000":
@@ -24,14 +24,14 @@ struct UpgradeBox
 	{
 	}
 	
-	UpgradeBox(Point position, bool isSubsystem)
+	UpgradeBox(Point pos, bool subsystem)
 	{
-		this->constructorEmpty(position, isSubsystem);
+		this->constructorEmpty(pos, subsystem);
 	}
 	
-	UpgradeBox(ShipManager* ship, ShipSystem* systen, Point position, bool isSubsystem)
+	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
 	{
-		this->constructorSystem(ship, systen, position, isSubsystem);
+		this->constructorSystem(ship, sys, pos, subsystem);
 	}
 	
 	~UpgradeBox()

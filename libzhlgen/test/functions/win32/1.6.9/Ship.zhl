@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
-__thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
+__thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
-__thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf position);
+__thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
 "538b81bc0300008b89c00300008b5c240829c1c1f90469c9????????85c974??3b98ec00000074??05????????31d2eb??05????????3b9810ffffff":
 __thiscall bool Ship::RoomLocked(Ship *this, int roomId);
 "0fb681f001000084c0":
@@ -23,9 +23,9 @@ __thiscall void Ship::OnRenderSparks(Ship *this);
 "578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704890424e8????????8b7dfc":
 __thiscall void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b008945d08b4104890424e8????????":
-__thiscall void Ship::OnRenderBase(Ship *this, bool engineWorking);
+__thiscall void Ship::OnRenderBase(Ship *this, bool unk);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c80b9b803000000":
-__thiscall void Ship::OnRenderFloor(Ship *this, bool forceView);
+__thiscall void Ship::OnRenderFloor(Ship *this, bool unk);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b4104f30f1027f30f1165d4890424":
 __thiscall void Ship::OnRenderJump(Ship *this, float progress);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b83f401000089018b83f80100008941048b83fc0100008941088b830002000089410c":

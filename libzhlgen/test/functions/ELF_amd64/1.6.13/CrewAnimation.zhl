@@ -21,7 +21,7 @@ cleanup __amd64 void CrewAnimation::SetupStrips(CrewAnimation *this);
 ".415783f20141564155415455534889fb4889f74881ec08010000":
 cleanup __amd64 void CrewAnimation::OnInit(CrewAnimation *this, const std::string& name, Pointf position, bool enemy);
 ".415741564155415455534881ec98000000":
-cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int _shipId, const std::string& _race, Pointf _position, bool _enemy);
+cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
 ".415741564155415455534889fb4883ec6848897c2430":
 cleanup __amd64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
 
@@ -32,9 +32,9 @@ struct CrewAnimation
 	{
 	}
 
-	CrewAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
+	CrewAnimation(int _shipId, const std::string& _race, Pointf _unk, char _hostile)
 	{
-		this->constructor(shipId, race, position, enemy);
+		this->constructor(_shipId, _race, _unk, _hostile);
 	}
 
 	bool _HS_CustomDeath();

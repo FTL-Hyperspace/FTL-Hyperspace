@@ -61,6 +61,7 @@ struct RoomDefinition
     std::vector<RoomAnimDef> roomAnims;
     bool sensorBlind = false;
 
+    float hullDamageResistChance = 0.f;
     float sysDamageResistChance = 0.f;
     float ionDamageResistChance = 0.f;
 };
@@ -275,6 +276,18 @@ public:
                 return -1;
             }
         }
+    }
+
+    ShipButtonList* GetShipButtonListFromID(int id)
+    {
+        for (auto& def : shipButtons)
+        {
+            if (def->GetId() == id) 
+            {
+                return def;
+            }
+        }
+        return nullptr;
     }
 
     std::pair<int,int> GetShipIdAndVariantFromName(const std::string& name)

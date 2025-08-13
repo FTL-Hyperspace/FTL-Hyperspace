@@ -5,17 +5,17 @@ cleanup __amd64 void CrewControl::LButton(CrewControl *this, int mX, int mY, int
 ".41545553807f54004889fb":
 cleanup __amd64 void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
 ".415431c0554889f553488b4e0831db":
-cleanup __amd64 void CrewControl::ClearDeadCrew(CrewControl *this, std::vector<CrewMember*>* crew);
+cleanup __amd64 void CrewControl::ClearDeadCrew(CrewControl *this, std::vector<CrewMember*> *crew);
 ".415731d241564155415455534889fb":
 cleanup __amd64 void CrewControl::UpdateCrewBoxes(CrewControl *this);
 ".534889374889fb":
-cleanup __amd64 void CrewControl::LinkShip(CrewControl *this, ShipManager* ship);
+cleanup __amd64 void CrewControl::LinkShip(CrewControl *this, ShipManager *ship);
 ".415455488dafc8000000534889fb4889ef4883ec30":
 cleanup __amd64 void CrewControl::OnLoop(CrewControl *this);
 ".41544084f655534889fb":
 cleanup __amd64 void CrewControl::SelectCrew(CrewControl *this, bool keep_current);
 ".55534889fb4889f74883ec184885f64889742408":
-cleanup __amd64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember* crew, bool allowTeleportLeaving);
+cleanup __amd64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember *crew, bool allowTeleportLeaving);
 ".4157415641554989fd415455534881ecc8010000":
 cleanup __amd64 void CrewControl::KeyDown(CrewControl *this, SDLKey key);
 ".415741564c8db7f000000041554989fd415455534883ec58":

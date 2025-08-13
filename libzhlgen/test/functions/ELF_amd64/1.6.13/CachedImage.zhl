@@ -5,15 +5,15 @@ cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::str
 ".41544189d45589f553397720":
 cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
 "41544189cc5589d5534889fb48c7470800000000":
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& _path, int _x, int _y);
+cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
 "53??89fb??c74708??????????c707??????????c74710??????????????????":
-cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& _path, CachedImage::Centered _centered);
+cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);
 "554889f5488d7610534889fb488d7f104883ec0848c747f800000000":
-cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage& _source);
+cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
 "534889fb4883ec100f2e4740":
-cleanup __amd64 void CachedImage::SetRotation(CachedImage *this, float rotation);
+cleanup __amd64 void CachedImage::SetRotation(CachedImage *this, float _rotation);
 ".5589f5534889fb4883ec0840387744":
-cleanup __amd64 void CachedImage::SetMirrored(CachedImage *this, bool mirrored);
+cleanup __amd64 void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
 "534889fb4883ec100f2e4728":
 cleanup __amd64 void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
 "415455534889fb4883ec50488b6f184885ed":
@@ -42,9 +42,9 @@ struct CachedImage
 		
 	}
 	
-	CachedImage(const CachedImage& source)
+	CachedImage(const CachedImage &other)
 	{
-		constructor_copy(source);
+		constructor_copy(other);
 	}
 }};
 

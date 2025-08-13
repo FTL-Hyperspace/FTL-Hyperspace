@@ -1,22 +1,23 @@
 "41574156415541545589d55389f34881ecc8000000":
-cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int _x, int _y, int _w, int _h);
+cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h);
 "!.534889fb488b7f10":
 cleanup __amd64 void WindowFrame::destructor(WindowFrame *this);
 "!.41544189d45589f5534889fb":
 cleanup __amd64 void WindowFrame::Draw(WindowFrame *this, int x, int y);
 "!.5389f24889fbbf01000000":
-cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int stencilBits);
+cleanup __amd64 void WindowFrame::DrawMask(WindowFrame *this, int unk);
 
 
 struct WindowFrame
 {{
-	WindowFrame(int x, int y, int w, int h) 
+	WindowFrame(int _x, int _y, int _w, int _h) 
 	{
-		this->constructor(x, y, w, h);
+		this->constructor(_x, _y, _w, _h);
 	}
 	
 	~WindowFrame()
 	{
 		this->destructor();
 	}
+
 }};

@@ -172,7 +172,7 @@ std::string GetWeaponStatsString(const WeaponBlueprint* bp, bool drone = false, 
                     else
                     {
                         std::stringstream maxShotCount;
-                        maxShotCount << bp->boostPower.count - 1;
+                        maxShotCount << std::ceil((bp->cooldown / bp->boostPower.amount));
 
                         currentText = tLib->GetText("max_shots");
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", maxShotCount.str());
@@ -1134,7 +1134,7 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 static bool g_emptyDroneStatText = false;
 HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
-    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomLocalization.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (RedesignedTooltips.cpp)\n")
 
     if (g_emptyDroneStatText && (name == "required_power" || name == "drone_required"))
     {

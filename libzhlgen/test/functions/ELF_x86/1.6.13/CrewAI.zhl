@@ -7,7 +7,7 @@ cleanup __cdecl int CrewAI::PrioritizeTask(CrewAI *this, CrewTask task, int crew
 "5557565383ec3c8b6c24508b451c8b5518":
 cleanup __cdecl void CrewAI::UpdateIntruders(CrewAI *this);
 "5557565383ec2c8b7c24448b5c24408b7424488b4778":
-cleanup __cdecl int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember* crew, int roomId, int target);
+cleanup __cdecl int CrewAI::PrioritizeIntruderRoom(CrewAI *this, CrewMember *crew, int roomId, int target);
 "5557565383ec5c8b5c24708b5424748b430c":
 cleanup __cdecl void CrewAI::UpdateCrewMember(CrewAI *this, int crewId);
 "5589e557565331db83ec4c8b7d088b4f0c8b4710":

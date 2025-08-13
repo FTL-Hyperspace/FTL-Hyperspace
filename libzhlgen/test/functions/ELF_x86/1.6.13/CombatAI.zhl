@@ -1,5 +1,5 @@
 "5589e557565383ec4c8b45088b550c":
-cleanup __cdecl void CombatAI::UpdateMindControl(CombatAI *this, bool hostile);
+cleanup __cdecl void CombatAI::UpdateMindControl(CombatAI *this, bool unk);
 "57565383ec108b742420893424e8????????8b4630":
 cleanup __cdecl void CombatAI::OnLoop(CombatAI *this);
 

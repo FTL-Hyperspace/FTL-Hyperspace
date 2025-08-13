@@ -13,6 +13,8 @@ cleanup __amd64 void Shields::InstantCharge(Shields *this);
 cleanup __amd64 CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
 ".554889e54156534883ec10f30f114de8":
 cleanup __amd64 CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
+".554889e583":
+cleanup __amd64 void Shields::SetHackingLevel(Shields *this, int hackingLevel);
 ".554889e54157415641554154534883ec684989fde8776500":
 cleanup __amd64 void Shields::OnLoop(Shields *this);
 "!.554889e54156534883ec300f294dc048":

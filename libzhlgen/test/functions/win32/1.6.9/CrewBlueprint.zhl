@@ -7,15 +7,11 @@ __thiscall void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
 "5589e557565389ce83e4f083ec108b811c010000c701????????85c074??890424e8????????8bbe140100008b9e1001000039df74??":
 __thiscall void CrewBlueprint::destructor(CrewBlueprint *this);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f80bbd4000000008dbbbc000000":
-__thiscall std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
+__thiscall std::string CrewBlueprint::GetNameShort(CrewBlueprint* this);
 "8b54240489c88b4c2408660fefc0660fefc98b9204010000":
 __thiscall GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
 
 
 struct CrewBlueprint
 {{
-    CrewBlueprint()
-    {
-        this->destructor();
-    }
 }};

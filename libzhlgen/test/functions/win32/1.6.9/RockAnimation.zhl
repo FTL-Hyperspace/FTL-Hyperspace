@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589f889e557565381ec????????898de0feffff8b57048b0f8b58108d8520ffffff8b77088b7f0c8995e4feffff898518ffffff":
-__thiscall void RockAnimation::constructor(RockAnimation *this, const std::string& _subRace, int _iShipId, Pointf _position, bool _enemy);
+__thiscall void RockAnimation::constructor(RockAnimation *this, const std::string& subRace, int iShipId, Pointf position, bool enemy);
 "5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":
 noHook void RockAnimation::__DO_NOT_HOOK();
 ".5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":

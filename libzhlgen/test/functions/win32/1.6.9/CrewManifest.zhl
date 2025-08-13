@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078bb9d80000008b91d40000008945cc89f829d083f8037e??31f68b0cb285c974??8b01":
-__thiscall void CrewManifest::OnInit(CrewManifest *this, ShipManager* ship);
+__thiscall void CrewManifest::OnInit(CrewManifest *this, ShipManager *ship);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????e8????????8b831c02000085c078??0f2805????????c70424????????0f2945c8":
 __thiscall void CrewManifest::OnRender(CrewManifest *this);
 "578d7c240883e4f0ff77fc5589e557565389cb8d7d948d75d481ec????????e8????????8d4320c703????????89c1898554ffffff":
@@ -24,10 +24,5 @@ __thiscall void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
 
 struct CrewManifest
 {{
-	CrewManifest()
-	{
-		this->constructor();
-	}
-	
 	void _HS_MouseUp(int mX, int mY);
 }};

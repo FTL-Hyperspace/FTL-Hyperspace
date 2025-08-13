@@ -1271,7 +1271,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual int GetRoomId() LIBZHL_PLACEHOLDER
 	virtual bool Ioned() LIBZHL_PLACEHOLDER
 	virtual void SetRoomId() LIBZHL_PLACEHOLDER
-	virtual void SetHackingLevel(int level) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetHackingLevel(int hackingLevel);
 	virtual void ForceBatteryPower(int power) LIBZHL_PLACEHOLDER
 	virtual void RemoveBatteryPower() LIBZHL_PLACEHOLDER
 	virtual WeaponBlueprint *GetWeaponInfo() LIBZHL_PLACEHOLDER
@@ -3223,6 +3223,17 @@ struct WindowFrame;
 
 struct ChoiceBox : FocusWindow
 {
+    std::vector<ChoiceText*> GetChoices()
+    {
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnRender();
@@ -4309,8 +4320,10 @@ struct InputBox;
 
 struct InputBox : FocusWindow
 {
+	LIBZHL_API void OnRender();
 	LIBZHL_API void StartInput();
 	LIBZHL_API void TextEvent(CEvent::TextEvent event);
+	LIBZHL_API void TextInput(int ch);
 	
 	WindowFrame *textBox;
 	std::string mainText;
@@ -5523,19 +5536,30 @@ struct StatusEffect
 
 struct LocationEvent
 {
-	LocationEvent()
-	{
-		this->constructor();
-	}
+    struct Choice
+    {
+        LocationEvent *event;
+        TextString text;
+        ChoiceReq requirement;
+        bool hiddenReward;
+    };
 
-	struct Choice
-	{
-		LocationEvent *event;
-		TextString text;
-		ChoiceReq requirement;
-		bool hiddenReward;
-	};
-	
+    LocationEvent()
+    {
+        this->constructor();
+    }
+
+    std::vector<Choice*> GetChoices()
+    {
+        std::vector<Choice*> ret = std::vector<Choice*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+
 	LIBZHL_API void ClearEvent(bool force);
 	LIBZHL_API void constructor();
 	
@@ -6145,6 +6169,7 @@ struct MindSystem : ShipSystem
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void ReleaseCrew();
 	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	
 	std::pair<float, float> controlTimer;
 	bool bCanUse;
@@ -6324,6 +6349,7 @@ struct PowerManager
 	}
 
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	LIBZHL_API void SetHacked(bool val);
 	
 	std::pair<int, int> currentPower;
 	int over_powered;
@@ -6762,6 +6788,7 @@ struct Shields : ShipSystem
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RenderBase(float alpha, float superShieldOverwrite);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	LIBZHL_API void constructor(int _roomId, int _shipId, int _startingPower, const std::string &_shieldFile);
 	
 	float ellipseRatio;

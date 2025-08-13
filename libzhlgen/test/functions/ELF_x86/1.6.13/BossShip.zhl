@@ -3,7 +3,7 @@ cleanup __cdecl void BossShip::Restart(BossShip *this);
 ".8b442404f30f100d????????f30f108044010000f30f5c8040010000":
 cleanup __cdecl bool BossShip::IncomingFire(BossShip *this);
 ".!5383ec188b5c24208b442424c744240c01000000":
-cleanup __cdecl void BossShip::constructor(BossShip *this, SpaceManager* _space);
+cleanup __cdecl void BossShip::constructor(BossShip *this, SpaceManager *space);
 ".5383ec188b5c24208b430885c074??8b10":
 cleanup __cdecl void BossShip::ClearLocation(BossShip *this);
 ".83ec1c31c08b54242083ba3401000003":

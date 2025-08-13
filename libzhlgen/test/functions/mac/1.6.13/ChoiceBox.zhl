@@ -4,3 +4,18 @@ cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);
 "!.554889e5488d0525":
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY); // maybe faulty
+
+
+struct ChoiceBox
+{{
+    std::vector<ChoiceText*> GetChoices()
+    {
+        std::vector<ChoiceText*> ret = std::vector<ChoiceText*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+}};

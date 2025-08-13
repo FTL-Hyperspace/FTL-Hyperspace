@@ -2,6 +2,8 @@
 noHook __amd64 void ShipSystem::DO_NOT_HOOK();
 "!.554889e5":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); // Thunk of ShipSystem::DamageOverTime, maybe it can be used instead?
+".554889e589":
+cleanup __amd64 void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
 "!.554889e54156534189f64889fb8bb3":
 cleanup __amd64 void ShipSystem::SaveState(ShipSystem *this, int file);
 ".554889e541565389f34989fe89dfe8????f5ff41":

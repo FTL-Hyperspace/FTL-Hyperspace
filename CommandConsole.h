@@ -1,14 +1,17 @@
 #pragma once
 #include "Global.h"
+#include <cstddef>
 
 
 class CommandConsole
 {
 public:
     bool enabled;
+    bool invertCaps = true;
     //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
 
+    TextInput *textInput = nullptr;
 
     static CommandConsole *GetInstance() { return &instance; }
 private:
@@ -37,4 +40,3 @@ private:
 };
 
 extern bool speedEnabled;
-

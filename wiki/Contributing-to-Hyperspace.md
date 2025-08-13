@@ -29,7 +29,7 @@ Be sure to write a description which explains the changes you made.
 
 # Adding to the Wiki
 
-All the files which make up the wiki are held in `FTL-Hyperspace/wiki`. Right now the LUA documentation is severely lacking, specifically the `Hyperspace` module page (`Lua-Hyperspace-Module.md`), which should cover everything you can access through the `Hyperspace` module. The `Defines` module page (`Lua-Defines-module.md`) is also missing a number of events which can be hooked with callback functions. This section explains how to read the source code files relevant to these pages so you that they can be expanded.
+All the files which make up the wiki are held in `FTL-Hyperspace/wiki`. Right now the LUA documentation is severely lacking, specifically the `Hyperspace` module page (`Lua-Hyperspace-Module.md`), which should cover everything you can access through the `Hyperspace` module. The `Defines` module page (`Lua-Defines-module.md`) is also missing a number of events which can be hooked with callback functions. This section explains how to read the source code files relevant to these pages so that they can be expanded.
 
 ## LUA Hyperspace Module
 
@@ -78,4 +78,4 @@ If you think a member or method needs additional info, you can open the console 
 
 ## LUA Defines Module
 
-The hookable events for the `Defines` module are in the [`InternalEvents.i`](../blob/master/lua/InternalEvents.h) source file, and the events for the `Graphics` module are in the [`RenderEvents.i`](../blob/master/lua/RenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the `Defines` module wiki page.
+The hookable events for the `Defines` module are in the [`InternalEvents.h`](../blob/master/lua/InternalEvents.h) source file, and the events for the `Graphics` module are in the [`RenderEvents.h`](../blob/master/lua/RenderEvents.h) source file. Information on these events already exist as comments in the code itself, the information only needs to be moved to the appropriate tables inside the `Defines` module wiki page.

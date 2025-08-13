@@ -11,11 +11,11 @@ cleanup __amd64 ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const s
 ".55534889fb4883ec68488bb710010000":
 cleanup __amd64 void SpaceManager::UpdatePlanetImage(SpaceManager *this);
 ".55534889fb4883ec68488b8424a0000000":
-cleanup __amd64 void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc back, ImageDesc beacon);
+cleanup __amd64 void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 ".415641be????????41554989d541544989f4554889fd534883ec30":
 cleanup __amd64 ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
 ".4883ec28488b87d8000000482b87d00000000fb6ca":
-cleanup __amd64 void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool defense);
+cleanup __amd64 void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool unk);
 ".55488dafa0030000bad0840000534889fb4883ec28":
 cleanup __amd64 void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 ".41544189f4be204e000055488dafa0030000534889fb4881ec90000000":
@@ -25,9 +25,9 @@ cleanup __amd64 void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsa
 ".0fb6977003000084d2":
 cleanup __amd64 bool SpaceManager::DangerousEnvironment(SpaceManager *this);
 ".41574989ff41564531f641554189f541544189d45589cd5331db4883ec08":
-cleanup __amd64 void SpaceManager::MouseMove(SpaceManager *this, int mX, int mY, int spaceId);
+cleanup __amd64 void SpaceManager::MouseMove(SpaceManager *this, int x, int y, int unk);
 ".41574156415541544989fc55534883ec184c8b87e8000000":
-cleanup __amd64 SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int mX, int mY, int spaceId);
+cleanup __amd64 SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int x, int y, int unk);
 ".530f57c04883ec10":
 cleanup __amd64 float SpaceManager::GetFlashOpacity(SpaceManager *this);
 ".80bf7c04000000":
@@ -39,7 +39,7 @@ cleanup __amd64 void SpaceManager::OnRenderForeground(SpaceManager *this);
 ".4157415641554989fd41544189f455534883ec28":
 cleanup __amd64 void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
 ".554889fd534883ec1880bfc800000000":
-cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float alpha);
+cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float unk2);
 ".415741564189d6415541544189f455534889fb4883ec28":
 cleanup __amd64 void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
 ".55be????????534889fb4883ec58":
@@ -53,17 +53,17 @@ cleanup __amd64 void SpaceManager::Clear(SpaceManager *this);
 ".41545553488b0f4889fb":
 cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this);
 ".415741564531f641554531ed41544531e4554889fd4889f7534889f34883ec08":
-cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile* proj);
+cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile *proj);
 "!.554889f7534889f34883ec08":
-cleanup __amd64 void SpaceManager::TransferProjectile(SpaceManager *this, Projectile* proj);
+cleanup __amd64 void SpaceManager::TransferProjectile(SpaceManager *this, Projectile *proj);
 ".41564989fe4155415455534883ec1080bf7c04000000":
 cleanup __amd64 void SpaceManager::OnRenderBackground(SpaceManager *this);
 ".4883ec18488b4708483b47104889742408":
-cleanup __amd64 void SpaceManager::AddProjectile(SpaceManager *this, Projectile* proj);
+cleanup __amd64 void SpaceManager::AddProjectile(SpaceManager *this, Projectile *proj);
 ".415741564189f64155415455534889fb89f74883ec48":
 cleanup __amd64 void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
 ".415455534889fb4883ec30488b87d8000000":
-cleanup __amd64 void SpaceManager::AddShip(SpaceManager *this, ShipManager* ship);
+cleanup __amd64 void SpaceManager::AddShip(SpaceManager *this, ShipManager *ship);
 ".415731d241564531f64155415449bcabaaaaaaaaaaaaaa554889fd4c8dad98040000534881ec28010000":
 cleanup __amd64 void SpaceManager::UpdatePDS(SpaceManager *this);
 ".415748ba398ee3388ee3388e415641554989fd415455534881ecc8010000":
@@ -78,16 +78,11 @@ cleanup __amd64 void SpaceManager::SetStorm(SpaceManager *this, bool state);
 
 struct SpaceManager
 {{
-	SpaceManager()
-	{
-		this->constructor();
-	}
-
-	LaserBlast* CreateLaserBlast(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	LaserBlast* CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	Asteroid* CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
-	Missile* CreateMissile(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
-	BombProjectile* CreateBomb(WeaponBlueprint* weapon, int ownerId, Pointf target, int targetSpace);
-	BeamWeapon* CreateBeam(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
-	LaserBlast* CreateBurstProjectile(WeaponBlueprint* weapon, const std::string& image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
-	PDSFire* CreatePDSFire(WeaponBlueprint* weapon, Point position, Pointf target, int targetSpace, bool smoke);
+	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
+	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 }};

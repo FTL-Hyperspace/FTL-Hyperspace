@@ -27,7 +27,7 @@ cleanup __amd64 void CrewMember::Cleanup(CrewMember *this);
 ".41544989fc89f75589f553":
 cleanup __amd64 void CrewMember::LoadState(CrewMember *this, int fileHelper);
 ".554889f5534889fb4883ec08488b07c6872802000000":
-cleanup __amd64 void CrewMember::SetCurrentSystem(CrewMember *this, ShipSystem* sys);
+cleanup __amd64 void CrewMember::SetCurrentSystem(CrewMember *this, ShipSystem *sys);
 ".83bfa00000000b0f94c0":
 cleanup __amd64 bool CrewMember::IsManningArtillery(CrewMember *this);
 ".4156415541545589f5534889fb4883ec20488b07":
@@ -93,7 +93,7 @@ cleanup __amd64 Slot CrewMember::FindSlot(CrewMember *this, int roomId, int slot
 ".415531c9baffffffff41544531e4554889fd5389f34883ec38":
 cleanup __amd64 bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
 ".f30f2ace4889f248c1fa2055f30f2ac2534889fb4883ec18":
-cleanup __amd64 void CrewMember::SetPosition(CrewMember *this, Point position);
+cleanup __amd64 void CrewMember::SetPosition(CrewMember *this, Point pos);
 ".8b879c000000c787e0010000ffffffff":
 cleanup __amd64 void CrewMember::ClearTask(CrewMember *this);
 ".55534889fb4883ec38488b07":
@@ -109,7 +109,7 @@ cleanup __amd64 Point CrewMember::GetFinalGoal(CrewMember *this);
 ".534889fb4883ec20f30f104720":
 cleanup __amd64 Point CrewMember::GetNextGoal(CrewMember *this);
 ".4889b780000000":
-cleanup __amd64 void CrewMember::CloseDoorBehind(CrewMember *this, Door* door);
+cleanup __amd64 void CrewMember::CloseDoorBehind(CrewMember *this, Door *door);
 ".55be????????31ed534889fb4883ec38":
 cleanup __amd64 float CrewMember::GetMoveSpeed(CrewMember *this);
 ".4155415449bcabaaaaaaaaaaaaaa5531ed534889fb4883ec18":
@@ -137,7 +137,7 @@ cleanup __amd64 void CrewMember::SetDeathNumber(CrewMember *this, int deathNum);
 ".4088b731050000":
 cleanup __amd64 void CrewMember::ForceMindControl(CrewMember *this, bool force);
 ".41574989ff415641554531ed41544989f449c1fc20554889f5534883ec38":
-cleanup __amd64 void CrewMember::RenderSkillUpAnimation(CrewMember *this, Point position);
+cleanup __amd64 void CrewMember::RenderSkillUpAnimation(CrewMember *this, Point pos);
 ".55534889fb4883ec28c6871002000000":
 cleanup __amd64 void CrewMember::Clone(CrewMember *this);
 ".55534889fb4883ec488b872402000085c0":
@@ -145,7 +145,7 @@ cleanup __amd64 void CrewMember::UpdateHealth(CrewMember *this);
 ".534889fb4883ec108b4f0885c9":
 cleanup __amd64 void CrewMember::OnRenderPath(CrewMember *this);
 ".4157415641554154554889f5534889fb4883ec28":
-cleanup __amd64 bool CrewMember::SetPath(CrewMember *this, Path* path);
+cleanup __amd64 bool CrewMember::SetPath(CrewMember *this, Path *path);
 ".415455534889fb4883ec30488bbff0010000":
 cleanup __amd64 void CrewMember::SetRoomPath(CrewMember *this, int slotId, int roomId);
 ".534889fb4883ec20f30f104710":
@@ -165,11 +165,11 @@ cleanup __amd64 bool CrewMember::WithinRect(CrewMember *this, int x, int y, int 
 ".5380bed0020000004889fb":
 cleanup __amd64 std::string CrewMember::GetLongName(CrewMember *this);
 ".41544189d4554889f5534889fb488dbfc80200004883ec40":
-cleanup __amd64 void CrewMember::SetName(CrewMember *this, TextString* name, bool force);
+cleanup __amd64 void CrewMember::SetName(CrewMember *this, TextString *name, bool force);
 ".5380bec0020000004889fb":
 cleanup __amd64 std::string CrewMember::GetName(CrewMember *this);
 ".41544189d4554889f553488b074889fb":
-cleanup __amd64 void CrewMember::SetCurrentTarget(CrewMember *this, CrewTarget* target, bool force);
+cleanup __amd64 void CrewMember::SetCurrentTarget(CrewMember *this, CrewTarget *target, bool unk);
 ".41574989ff41564155415455534883ec28":
 cleanup __amd64 bool CrewMember::GetNewGoal(CrewMember *this);
 ".4157415641554189d541544189cc5589f5534889fb4883ec48":
@@ -201,9 +201,9 @@ static cleanup __amd64 std::string CrewMember::GetSkillTooltip(int skillId, int 
 ".5589f5534889fb4883ec08488bbfc0000000":
 cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
 ".4155415449bcabaaaaaaaaaaaaaa55534889fb4883ec48":
-cleanup __amd64 void CrewMember::CycleColorLayer(CrewMember *this, int dir);
+cleanup __amd64 void CrewMember::CycleColorLayer(CrewMember *this, int unk);
 ".415741564189d641554d89c541544189cc554889f5534889fb488d7f404881ecb8000000":
-cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& _blueprint, int _shipId, bool _intruder, CrewAnimation* _animation);
+cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 ".4883ec08488b07":
 cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
 ".488b07534889fb":
@@ -225,10 +225,11 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 
 	}
 
-	CrewMember(CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation* animation)
+	CrewMember(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation)
 	{
-		this->constructor(blueprint, shipId, intruder, animation);
-	}	
+
+		this->constructor(bp, shipId, enemy, animation);
+	}
 	
 	ShipObject* GetShipObject()
 	{

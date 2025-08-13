@@ -545,6 +545,8 @@ void LuaLibScript::LoadTypeInfo()
     types.pShipEvent = SWIG_TypeQuery(this->m_Lua, "ShipEvent *");
     types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
     types.pShipSystem = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
+    types.pWeaponSystem = SWIG_TypeQuery(this->m_Lua, "WeaponSystem *");
+    types.pDroneSystem = SWIG_TypeQuery(this->m_Lua, "DroneSystem *");
     types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
     types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
     types.pChoiceBox = SWIG_TypeQuery(this->m_Lua, "ChoiceBox *");
@@ -1204,6 +1206,46 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
     return ret;
 }
 
+HOOK_METHOD(ShipSystem, SetBonusPower, (int amount, int permanentPower) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::SetBonusPower -> Begin (Misc.cpp)\n")
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipSystem, 0);
+    lua_pushinteger(context->GetLua(), amount);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    lua_pop(context->GetLua(), 2);
+    
+    if (!preempt) super(amount, permanentPower);
+}
+HOOK_METHOD(WeaponSystem, SetBonusPower, (int amount, int permanentPower) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponSystem::SetBonusPower -> Begin (Misc.cpp)\n")
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pWeaponSystem, 0);
+    lua_pushinteger(context->GetLua(), amount);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    lua_pop(context->GetLua(), 2);
+    
+    if (!preempt) super(amount, permanentPower);
+}
+HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> DroneSystem::SetBonusPower -> Begin (Misc.cpp)\n")
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pDroneSystem, 0);
+    lua_pushinteger(context->GetLua(), amount);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SET_BONUS_POWER, 2, 1);
+    if (lua_isnumber(context->GetLua(), -1)) amount = static_cast<int>(lua_tonumber(context->GetLua(), -1));
+    lua_pop(context->GetLua(), 2);
+    
+    if (!preempt) super(amount, permanentPower);
+}
+
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (Misc.cpp)\n")
@@ -1238,7 +1280,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(ShipManager, Wait, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (InternalEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Wait -> Begin (Misc.cpp)\n")
     super();
     auto context = G_->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);

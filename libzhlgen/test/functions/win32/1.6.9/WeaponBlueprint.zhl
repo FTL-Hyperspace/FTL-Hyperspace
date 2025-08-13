@@ -1,3 +1,7 @@
+"5589e55389cb83e4f083ec108b81c4000000c701????????85c074??890424e8????????8b83a00000008d93a8000000c703????????39d0":
+noHook void WeaponBlueprint::__DO_NOT_HOOK();
+".578d7c240883e4f0ff77fc5589e5575389cb8d4904":
+__thiscall void WeaponBlueprint::constructor(WeaponBlueprint *this);
 "558d91e401000089e557565389ce83e4f083ec108b81dc010000c701????????39d074??890424e8????????8bbebc0100008b9eb801000039df74??":
 __thiscall void WeaponBlueprint::destructor(WeaponBlueprint *this);
 "578d7c240883e4f0ff77fc5589f889e557565381ec????????8b40048b3f898da8feffff89c6":
@@ -10,8 +14,8 @@ __thiscall Point WeaponBlueprint::GetDimensions(WeaponBlueprint *this);
 
 struct WeaponBlueprint
 {{
-	~WeaponBlueprint()
+	WeaponBlueprint()
 	{
-		this->destructor();
+		this->constructor();
 	}
 }};

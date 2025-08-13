@@ -11,7 +11,7 @@ cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextE
 ".415431d231c9554889fd":
 cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
 ".4157415641554989f5415455534889fb4883ec38488b8fc0000000":
-cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager* ship);
+cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager *ship);
 "!.41544989fc5531ed53488b97b8000000":
 cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
 "!.55534889fb4883ec088b87a8010000":
@@ -24,10 +24,5 @@ cleanup __amd64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY)
 
 struct CrewManifest
 {{
-	CrewManifest()
-	{
-		this->constructor();
-	}
-	
 	void _HS_MouseUp(int mX, int mY);
 }};

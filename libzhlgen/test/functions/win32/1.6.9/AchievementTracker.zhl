@@ -25,7 +25,7 @@ __thiscall void AchievementTracker::SetVictoryAchievement(AchievementTracker *th
 "578d7c240883e4f0ff77fc5589e557565381ecfc0400008b511c8b4118898d1cfbffffc7852cfbffff00000000":
 __thiscall void AchievementTracker::OnLanguageChange(AchievementTracker *this);
 "578d7c240883e4f0ff77fc5589e557565381eccc0100008b0780783c00898548feffff":
-__thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement* ach);
+__thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 "578d41248d7c240883e4f0ff77fc5589e557565389cf83ec2c8b712c8945e485f6":
 __thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
 

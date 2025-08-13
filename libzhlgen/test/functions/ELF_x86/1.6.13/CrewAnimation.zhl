@@ -1,5 +1,5 @@
 "5557565383ec4c8b4424748b4c2460":
-cleanup __cdecl void CrewAnimation::(CrewAnimation *this, int _shipId, const std::string& _race, Pointf _position, bool _enemy);
+cleanup __cdecl void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
 "5589e557565381ec0c0100008b450c80b87409000000":
 cleanup __cdecl std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
 "5557565381ec0c010000803d????????00":
@@ -36,10 +36,11 @@ struct CrewAnimation
 	{
 	}
 
-	CrewAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
+	CrewAnimation(int _shipId, const std::string& _race, Pointf _unk, char _hostile)
 	{
-		this->constructor(shipId, race, position, enemy);
+		this->constructor(_shipId, _race, _unk, _hostile);
 	}
 
 	bool _HS_CustomDeath();
+
 }};

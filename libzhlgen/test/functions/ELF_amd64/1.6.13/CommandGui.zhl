@@ -7,15 +7,15 @@ cleanup __amd64 bool CommandGui::IsGameOver(CommandGui *this);
 ".415455488daf90040000534889fb4889ef4881eca0000000":
 cleanup __amd64 void CommandGui::OnInit(CommandGui *this);
 ".4154554889f5534889fb488dbf880500004883ec30":
-cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip* ship);
+cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
 ".41544189d4554889fd534889f34883ec204889e7":
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 ".415431d2554889f531f6534889fb4883ec30":
-cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui *this, Point& shipCenter, float jumpScale);
+cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
 ".4154555380bf????????004889fb":
 cleanup __amd64 void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
 ".415741564155415455534889d34881ec58020000":
-cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText>* choices, ResourceEvent& resources, bool testingEvents);
+cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
 ".4157415641554989fd41544989f45531ed5331db4883ec58488b06":
 cleanup __amd64 void CommandGui::RunCommand(CommandGui *this, std::string& command);
 ".41554189f5415455534889fbbf580600004c8da3????0000":

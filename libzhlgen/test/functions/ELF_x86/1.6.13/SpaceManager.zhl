@@ -11,11 +11,11 @@ cleanup __cdecl ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const s
 "565383ec548b5c24608b83bc000000":
 cleanup __cdecl void SpaceManager::UpdatePlanetImage(SpaceManager *this);
 "565383ec548b5c24608b5424688b842480000000":
-cleanup __cdecl void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc back, ImageDesc beacon);
+cleanup __cdecl void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 "5589e557565383ec3c8b450c8b7d08":
 cleanup __cdecl ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
 "5383ec280fb64424388d5c241c":
-cleanup __cdecl void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool defense);
+cleanup __cdecl void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool unk);
 "5589e557565381ec9c0000008b5d088b4510":
 cleanup __cdecl void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
 "5557565383ec2c8b7424408d7c241a8b4424448d9ea4020000888675020000":
@@ -23,9 +23,9 @@ cleanup __cdecl void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsa
 "8b5424040fb68a8402000084c9":
 cleanup __cdecl bool SpaceManager::DangerousEnvironment(SpaceManager *this);
 "5531ed57565383ec1c8b7424308b7c24348b5c243c":
-cleanup __cdecl void SpaceManager::MouseMove(SpaceManager *this, int mX, int mY, int spaceId);
+cleanup __cdecl void SpaceManager::MouseMove(SpaceManager *this, int x, int y, int unk);
 "5557565383ec1c8b6c24308b74243c8b85a8000000":
-cleanup __cdecl SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int mX, int mY, int spaceId);
+cleanup __cdecl SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int x, int y, int unk);
 "5383ec18a1????????8b542420":
 cleanup __cdecl float SpaceManager::GetFlashOpacity(SpaceManager *this);
 "8b5424088b4424040f2805????????80ba4c03000000":
@@ -39,7 +39,7 @@ cleanup __cdecl void SpaceManager::OnRenderForeground(SpaceManager *this);
 "5557565383ec3c8b4424548b7c245085c0":
 cleanup __cdecl void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
 "57565383ec308b7c24408b74244480bf9400000000":
-cleanup __cdecl void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float alpha);
+cleanup __cdecl void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float unk2);
 "5557565383ec4c8b7c24688b4424648b5c2460":
 cleanup __cdecl void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
 "5589e557565383ec5c8b75088d5de4":
@@ -53,13 +53,13 @@ cleanup __cdecl void SpaceManager::Clear(SpaceManager *this);
 ".57565383ec108b7424208b168b4604":
 cleanup __cdecl void SpaceManager::ClearProjectiles(SpaceManager *this);
 "555731ff565383ec1c8b5c24348b7424308b03":
-cleanup __cdecl void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile* proj);
+cleanup __cdecl void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile *proj);
 "565383ec148b5c24248b038b7370":
-cleanup __cdecl void SpaceManager::TransferProjectile(SpaceManager *this, Projectile* proj);
+cleanup __cdecl void SpaceManager::TransferProjectile(SpaceManager *this, Projectile *proj);
 "5589e557565383ec2c8b5d088b83a00000003b83a4000000":
-cleanup __cdecl void SpaceManager::AddShip(SpaceManager *this, ShipManager* ship);
+cleanup __cdecl void SpaceManager::AddShip(SpaceManager *this, ShipManager *ship);
 "83ec1c8b4424208b50043b5008":
-cleanup __cdecl void SpaceManager::AddProjectile(SpaceManager *this, Projectile* proj);
+cleanup __cdecl void SpaceManager::AddProjectile(SpaceManager *this, Projectile *proj);
 "5589e557565383ec3c8b450c8b7508890424":
 cleanup __cdecl void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
 "5589e5575631f65381ec0c010000":
@@ -78,16 +78,11 @@ cleanup __cdecl void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 
 struct SpaceManager
 {{
-	SpaceManager()
-	{
-		this->constructor();
-	}
-
-	LaserBlast* CreateLaserBlast(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	LaserBlast* CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
 	Asteroid* CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
-	Missile* CreateMissile(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
-	BombProjectile* CreateBomb(WeaponBlueprint* weapon, int ownerId, Pointf target, int targetSpace);
-	BeamWeapon* CreateBeam(WeaponBlueprint* weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
-	LaserBlast* CreateBurstProjectile(WeaponBlueprint* weapon, const std::string& image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
-	PDSFire* CreatePDSFire(WeaponBlueprint* weapon, Point position, Pointf target, int targetSpace, bool smoke);
+	Missile* CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	BombProjectile* CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace);
+	BeamWeapon* CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading);
+	LaserBlast* CreateBurstProjectile(WeaponBlueprint *weapon, const std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading);
+	PDSFire* CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke);
 }};

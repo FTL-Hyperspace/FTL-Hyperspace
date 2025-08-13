@@ -1,5 +1,7 @@
+"8b54????8b44????899080010000":
+cleanup __cdecl void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
 "565383ec14c70424????????8b5c2420":
-cleanup __cdecl bool ShipSystem::DamageOverTime(ShipSystem *this, float amount);
+cleanup __cdecl bool ShipSystem::DamageOverTime(ShipSystem *this, float unk);
 "5557565383ec1c8b5c24308b432c":
 cleanup __cdecl void ShipSystem::CheckForRepower(ShipSystem *this);
 ".5383ec188b5c2420c7442404????????891c24e8????????85c075??83c4185b":
@@ -15,7 +17,7 @@ cleanup __cdecl bool ShipSystem::Ioned(ShipSystem *this, int num);
 "5383ec188b5c24208b44242489830c010000":
 cleanup __cdecl int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
 "5589e557565381ec9c0100008b75088b45148dbdf8feffff":
-cleanup __cdecl void ShipSystem::constructor(ShipSystem *this, int _systemId, int _roomId, int _shipId, int _startingPower);
+cleanup __cdecl void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 "8b54240431c08b8a0801000083f907":
 cleanup __cdecl int ShipSystem::GetPowerCap(ShipSystem *this);
 ".5383ec18807c242400":

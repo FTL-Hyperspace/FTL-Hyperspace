@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83ec7c0fb641508b1fc781b401000000000000":
 __thiscall void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
 "578d7c240883e4f0ff77fc5589e557565389ce8d9e8000000081ec????????8b4f088b57048b078b7f0cc706????????":
-__thiscall void SystemBox::constructor(SystemBox *this, Point _position, ShipSystem* _system, bool _playerUI);
+__thiscall void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b81800100008b7f0439c67e??03818801000039c6":
 __thiscall void SystemBox::MouseMove(SystemBox *this, int x, int y);
 "5589e5565389cb8b494c8b750883e4f0e8????????84c075??807b580075??89f084c075??8d65f831c0":
@@ -12,13 +12,10 @@ __thiscall void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
 
 struct SystemBox
 {{
-	SystemBox()
-	{ 
-		
-	}
+	SystemBox() { }
 	
-	SystemBox(Point position, ShipSystem* system, bool playerUI)
+	SystemBox(Point pos, ShipSystem *sys, bool playerUI)
 	{
-		this->constructor(position, system, playerUI);
+		this->constructor(pos, sys, playerUI);
 	}
 }};

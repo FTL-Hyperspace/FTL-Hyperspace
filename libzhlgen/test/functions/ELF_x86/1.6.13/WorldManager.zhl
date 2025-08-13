@@ -5,7 +5,7 @@ cleanup __cdecl int WorldManager::OnInit(WorldManager *this);
 "5557565381ec1c02000080bc243802000000":
 cleanup __cdecl CompleteShip* WorldManager::CreateShip(WorldManager *this, ShipEvent* shipEvent, bool boss);
 "5589e557565381ec7c0200008b75088b7d0cc686c20e000000":
-cleanup __cdecl void WorldManager::CreateLocation(WorldManager *this, Location* loc);
+cleanup __cdecl void WorldManager::CreateLocation(WorldManager *this, Location *loc);
 ".5589e557565381ec9c0100008b7508":
 cleanup __cdecl void WorldManager::ClearLocation(WorldManager *this);
 "5589e557565383ec2c8b5d088b83cc0c0000890424":
@@ -15,15 +15,15 @@ cleanup __regparm2 void WorldManager::CreateChoiceBox(WorldManager *this, Locati
 "5589e55789d7565381ec1c020000":
 cleanup __regparm2 void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
 "5589e557565381ecbc0100008b7d0c8b75088b87dc010000":
-cleanup __cdecl LocationEvent* WorldManager::ModifyResources(WorldManager *this, LocationEvent* event);
+cleanup __cdecl LocationEvent *WorldManager::ModifyResources(WorldManager *this, LocationEvent *event);
 "5383ec188b4424248b5c24208b54242883f801":
 cleanup __cdecl void WorldManager::ModifyEnvironment(WorldManager *this, int envFlag, int envTarget);
 "5557565383ec3c8b5c24548b7c2450":
 cleanup __cdecl void WorldManager::CheckStatusEffects(WorldManager *this, std::vector<StatusEffect>& vec);
 "5557565383ec5c8b4424748bb424880000008b6c24708bbc248400000089442434":
-cleanup __cdecl void WorldManager::ModifyStatusEffect(WorldManager *this, StatusEffect effect, ShipManager* target, int targetType);
+cleanup __cdecl void WorldManager::ModifyStatusEffect(WorldManager *this, StatusEffect effect, ShipManager *target, int targetType);
 "5589e557565383ec3c8b5d088b750c8b0385c0":
-cleanup __cdecl void WorldManager::StartGame(WorldManager *this, ShipManager* ship);
+cleanup __cdecl void WorldManager::StartGame(WorldManager *this, ShipManager *ship);
 "5383ec188b5c2420891c24e8????????e8????????e8????????":
 cleanup __cdecl void WorldManager::Restart(WorldManager *this);
 "5589e557565381ec3c0100008b7508c78508ffffff00000000":

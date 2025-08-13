@@ -3,7 +3,7 @@ __thiscall void InfoBox::OnRender(InfoBox *this);
 "578d7c240883e4f0ff77fc5589e55756538d45cc8d75d489cb83c10c":
 __thiscall void InfoBox::Clear(InfoBox *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec2c8b378b5708":
-__thiscall void InfoBox::SetDescription(InfoBox *this, Description* desc, int width, int height, InfoBox::ExpandDir dir); 
+__thiscall void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b47048b37c78550ffffff00000000c68554ffffff00c68564ffffff01c7856cffffff00000000":
 __thiscall void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir); 
 "578d7c240883e4f0ff77fc5589e557565389cb8d4d9c81ec????????8b47048b378945948b470cc744240400000000893424894588e8????????8d461c":
@@ -27,15 +27,20 @@ __thiscall void InfoBox::constructor(InfoBox *this);
 "578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b70048b3f8b50088b480cc783c8000000000000008975bc8b701083ffff8b4014":
 __thiscall void InfoBox::SetSystemId(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47048b57088b7f0c85f68945c40f84????????":
-__thiscall void InfoBox::SetSystem(InfoBox *this, ShipSystem* system, int upgrade, int yShift, int forceSystemWidth);
+__thiscall void InfoBox::SetSystem(InfoBox *this, ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
 
 "!83ec083bb514fdffffba(???????\?)b8(???????\?)":
-GL_Color* Global_InfoBox_detailsBarOn;
-GL_Color* Global_InfoBox_detailsBarOff;
+GL_Color *Global_InfoBox_detailsBarOn;
+GL_Color *Global_InfoBox_detailsBarOff;
 
 
 struct InfoBox 
 {{
+	InfoBox()
+	{
+		this->constructor();
+	}
+
 	enum ExpandDir
 	{
 	  EXPAND_UP = -1,
@@ -43,8 +48,4 @@ struct InfoBox
 	  EXPAND_DOWN = 1,
 	};
 
-	InfoBox()
-	{
-		this->constructor();
-	}
 }};

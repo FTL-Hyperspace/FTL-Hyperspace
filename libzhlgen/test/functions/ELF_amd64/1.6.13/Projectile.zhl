@@ -7,9 +7,9 @@ cleanup __amd64 CollisionResponse Projectile::CollisionMoving(Projectile *this, 
 ".534889fb4883ec2080bfc400000000":
 cleanup __amd64 void Projectile::OnUpdate(Projectile *this);
 ".4154554889f5534889fb4883ec60448b673c488b064889f7":
-cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable* other);
+cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable *other);
 ".4157415641554154554889fd534881ecf8000000":
-cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
 ".415731d2415641554c8daed000000041544989f4554889fd5331db4881ec28010000":
 cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
 ".53baffffffff89fb89d64883ec30488d7c2420":
@@ -21,5 +21,5 @@ cleanup __amd64 void Projectile::destructor(Projectile *this);
 struct Projectile
 {{
 	void HS_OnUpdate();
-	void HS_CollisionCheck(Collideable* other);
+	void HS_CollisionCheck(Collideable *other);
 }};

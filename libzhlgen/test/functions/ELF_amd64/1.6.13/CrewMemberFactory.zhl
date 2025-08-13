@@ -7,7 +7,7 @@ cleanup __amd64 int CrewMemberFactory::CountCloneReadyCrew(CrewMemberFactory *th
 ".415731c94989ff4156415549bdffffffffffffff1f41544989f45589d55331db4883ec18":
 cleanup __amd64 void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int teamId);
 ".41574531c04531ff415641554989fd41544989f45589cd5389d34883ec18":
-cleanup __amd64 void CrewMemberFactory::GetCrewList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int player, bool drones);
+cleanup __amd64 void CrewMemberFactory::GetCrewList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int unk, bool unk2);
 "!.8b07c3906666662e0f1f840000000000":
 cleanup __amd64 int CrewMemberFactory::GetPlayerCrewCount(CrewMemberFactory *this);
 "!.8b4708c36666662e0f1f840000000000":
@@ -43,16 +43,11 @@ CrewMemberFactory* Global_CrewMemberFactory_Factory;
 
 struct CrewMemberFactory
 {{
-	~CrewMemberFactory()
-	{
-		this->destructor();
-	}
-
-	void SwapCrewMembers(CrewMember* _first, CrewMember* _second);
-	void MoveCrewMemberToEnd(CrewMember* crew);
-	void MoveCrewMemberBefore(CrewMember* crew, CrewMember* other);
-	void MoveCrewMemberAfter(CrewMember* crew, CrewMember* other);
-	void MoveCrewMemberToSpot(CrewMember* crew, CrewMember* other);
+	void SwapCrewMembers(CrewMember *_first, CrewMember *_second);
+	void MoveCrewMemberToEnd(CrewMember *crew);
+	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
 	
 	float GetCrewCapacityUsed();
 }};

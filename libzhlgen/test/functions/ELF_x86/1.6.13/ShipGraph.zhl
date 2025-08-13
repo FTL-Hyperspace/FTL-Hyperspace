@@ -39,7 +39,7 @@ cleanup __cdecl void ShipGraph::ComputeCenter(ShipGraph *this);
 "538b54240831c08b4c240c8b5a44":
 cleanup __cdecl bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 "555731ff565383ec1c8b7424300fb65c243c":
-cleanup __cdecl int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool bIncludeWalls);
+cleanup __cdecl int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 "8b5424048b42042b02":
 cleanup __cdecl int ShipGraph::RoomCount(ShipGraph *this);
 "5589e557565383ec1c8b550c8b4508":
@@ -49,7 +49,7 @@ cleanup __cdecl float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 "538b4c240cb8010000008b54240885c9":
 cleanup __cdecl bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 "5589e5575631f65389f381ecac0000008b45108b7d0c":
-cleanup __cdecl Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point position, int shipId, bool intruder);
+cleanup __cdecl Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
 
 
 struct ShipGraph depends (Point, Pointf, Room) 
@@ -67,13 +67,13 @@ struct ShipGraph depends (Point, Pointf, Room)
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetIntoRoom(int roomId, Point position)
+	Point GetIntoRoom(int roomId, Point pos)
 	{
 		Point ret;
 		if (roomId >= 0 && roomId < this->rooms.size())
 		{
 			auto room = this->rooms[roomId];
-			ret = room->GetIntoRoom(position);
+			ret = room->GetIntoRoom(pos);
 		}
 		else
 		{

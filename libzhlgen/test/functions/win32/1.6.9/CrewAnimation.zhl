@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b57048b078b5f088b770c894da0":
-__thiscall void CrewAnimation::constructor(CrewAnimation *this, int _shipId, const std::string& _race, Pointf _position, bool _enemy);
+__thiscall void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec308b0780b8c40900000074??803d??????????0f85????????":
 __thiscall std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????8d75d0f7ea":
@@ -32,10 +32,11 @@ struct CrewAnimation
 	{
 	}
 
-	CrewAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
+	CrewAnimation(int _shipId, const std::string& _race, Pointf _unk, char _hostile)
 	{
-		this->constructor(shipId, race, position, enemy);
+		this->constructor(_shipId, _race, _unk, _hostile);
 	}
 
 	bool _HS_CustomDeath();
+
 }};

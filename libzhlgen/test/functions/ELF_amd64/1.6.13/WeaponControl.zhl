@@ -19,7 +19,7 @@ cleanup __amd64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsign
 ".41564155415455534889fb4883ec70":
 cleanup __amd64 void WeaponControl::OnLanguageChange(WeaponControl *this);
 ".41545589f5be03000000534889fb4883ec10488b7f18":
-cleanup __amd64 void WeaponControl::OnRender(WeaponControl *this, bool front);
+cleanup __amd64 void WeaponControl::OnRender(WeaponControl *this, bool unk);
 ".80bf30010000007427530fb69f3101000084db":
 cleanup __amd64 bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
 ".41544189d45589f5534889fb":
@@ -27,10 +27,10 @@ cleanup __amd64 void WeaponControl::MouseMove(WeaponControl *this, int x, int y)
 ".4155415441bc010000005589f5534889fb4883ec28":
 cleanup __amd64 bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
 ".55534889fb4883ec28":
-cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager* ship);
+cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
 
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
-	inline GL_Primitive* GetAimingPrimitive(ProjectileFactory* weapon, int i);
+	inline GL_Primitive *GetAimingPrimitive(ProjectileFactory *weapon, int i);
 }};

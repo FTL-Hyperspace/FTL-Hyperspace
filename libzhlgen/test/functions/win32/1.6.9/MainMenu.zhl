@@ -10,12 +10,3 @@ __thiscall void MainMenu::constructor(MainMenu *this);
 __thiscall void MainMenu::MouseClick(MainMenu *this, int x, int y);
 "578d7c240883e4f0ff77fc5589e557565383ec5c80b910340000008b078b77048945b40f85????????80b95c2f00000089cf0f85????????80b9d031000000":
 __thiscall void MainMenu::MouseMove(MainMenu *this, int x, int y);
-
-
-struct MainMenu
-{{
-    MainMenu()
-    {
-        this->constructor();
-    }
-}};

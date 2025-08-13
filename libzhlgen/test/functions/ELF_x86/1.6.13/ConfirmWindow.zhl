@@ -1,9 +1,9 @@
 "5589e557565383ec4c8b5d088b4514":
-cleanup __cdecl void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text, int minWidth, bool autoCenter, const TextString& yesText, const TextString& noText);
+cleanup __cdecl void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text_, int minWidth, bool autoCenter, const TextString& yesText_, const TextString& noText_);
 "5589e557565381eccc0000008b5d088b434885c0":
 cleanup __cdecl void ConfirmWindow::OnRender(ConfirmWindow *this);
 "5589e557565383ec3c8b5d088b450c8b5510":
-cleanup __cdecl void ConfirmWindow::SetPosition(ConfirmWindow *this, Point position);
+cleanup __cdecl void ConfirmWindow::SetPosition(ConfirmWindow *this, Point pos);
 "5589e557565383ec4c8b5d088d7de0":
 cleanup __cdecl void ConfirmWindow::Open(ConfirmWindow *this);
 "8b4424048078040074??80b88c00000000":

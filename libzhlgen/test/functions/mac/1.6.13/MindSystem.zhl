@@ -7,3 +7,5 @@ cleanup __amd64 void MindSystem::InitiateMindControl(MindSystem *this);
 cleanup __amd64 void MindSystem::ReleaseCrew(MindSystem *this);
 ".554889e553504889fb83fe01":
 cleanup __amd64 void MindSystem::SetArmed(MindSystem *this, int armed);
+".554889e541":
+cleanup __amd64 void MindSystem::SetHackingLevel(MindSystem *this, int hackingLevel);

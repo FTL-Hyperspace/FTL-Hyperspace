@@ -25,7 +25,7 @@ cleanup __cdecl void AchievementTracker::SetVictoryAchievement(AchievementTracke
 "5589e557565381ec9c0000008b75088b45088b4e1c8b4018":
 cleanup __cdecl void AchievementTracker::OnLanguageChange(AchievementTracker *this);
 "5589e557565381ecbc0000008b450c80781400":
-cleanup __cdecl void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement* ach);
+cleanup __cdecl void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
 "565383ec148b7424208b462c894424048d4624890424":
 cleanup __cdecl void AchievementTracker::ResetFlags(AchievementTracker *this);
 

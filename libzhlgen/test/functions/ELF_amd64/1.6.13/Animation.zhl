@@ -15,7 +15,7 @@ cleanup __amd64 void Animation::Update(Animation *this);
 ".803d????????00534889fb7543":
 cleanup __amd64 int Animation::RandomStart(Animation *this);
 ".48393774354889f0":
-cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture* tex);
+cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
 ".534889fb4883ec104084f60f85":
 cleanup __amd64 void Animation::Start(Animation *this, bool reset);
 ".5589f5534889fb89f74883ec08":
@@ -34,8 +34,8 @@ struct Animation
 	{
 	}
 
-	Animation(const std::string& image, int length, float time, Pointf position, int imageWidth, int imageHeight, int stripStartX, int numFrames)
+	Animation(const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
 	{
-		this->constructor(image, length, time, position, imageWidth, imageHeight, stripStartX, numFrames);
+		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 	}
 }};

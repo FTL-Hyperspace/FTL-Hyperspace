@@ -14,8 +14,4 @@ cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this
 
 struct CrewBlueprint
 {{
-    CrewBlueprint()
-    {
-        this->destructor();
-    }
 }};

@@ -1,6 +1,8 @@
 // Continue from Pointf::Normalize (hyper efficiency™)
 "!.554889e54157415641554154534883ec184189fe":
 static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
+".554889e540":
+cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val);
 
 
 struct PowerManager

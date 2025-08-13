@@ -33,9 +33,9 @@ cleanup __cdecl std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(
 "5589e55383ec240fb655148b450c8b5d08895424108b551089442404891c248954240c8d5034":
 cleanup __cdecl std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
 "5589e557565381ecbc0000008b75088d7da8":
-cleanup __cdecl ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+cleanup __cdecl ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager* this, rapidxml::xml_node<char>* node);
 "5589e557565383ec7c8b45088d5da8":
-cleanup __cdecl DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
+cleanup __cdecl DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager* this, rapidxml::xml_node<char>* node);
 "5589e557565383ec3c8b550c8b5d080fb6f2":
 static cleanup __cdecl GL_Texture* BlueprintManager::GetSkillIcon(int skill, bool outline);
 

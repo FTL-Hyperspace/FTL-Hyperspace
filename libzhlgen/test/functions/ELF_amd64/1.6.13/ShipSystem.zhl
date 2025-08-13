@@ -1,4 +1,6 @@
-"415641554154554889fd5380bf8c01000000":
+"89b720020000":
+cleanup __amd64 void ShipSystem::SetHackingLevel(ShipSystem *this, int hackingLevel);
+".415641554154554889fd5380bf8c01000000":
 cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
 ".8b87740100008b977801000029f08b775439d00f4fc231c985c00f48c1":
 cleanup __amd64 void ShipSystem::AddDamage(ShipSystem *this, int amount);
@@ -75,7 +77,7 @@ cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, boo
 ".55534889fb4883ec080fb6878c010000":
 cleanup __amd64 bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
 ".55534889fb":
-cleanup __amd64 bool ShipSystem::DamageOverTime(ShipSystem *this, float amount);
+cleanup __amd64 bool ShipSystem::DamageOverTime(ShipSystem *this, float unk);
 ".415541544531e455534889fb4883ec08":
 cleanup __amd64 void ShipSystem::CheckForRepower(ShipSystem *this);
 ".83fe00751b8b879c010000":
@@ -99,11 +101,10 @@ static cleanup __amd64 std::string ShipSystem::SystemIdToName(int systemId);
 ".4156415541544189d455534889fb4881ec10020000":
 static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 ".41574989ff41564189f641554589c54154555389d389ca4881ecd8010000":
-cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int _systemId, int _roomId, int _shipId, int _startingPower);
+cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 
 "55534889fbbf????????4883ec18f30f1144240c":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
-
 
 struct ShipSystem
 {{

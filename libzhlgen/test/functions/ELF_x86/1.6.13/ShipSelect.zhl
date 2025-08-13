@@ -1,9 +1,11 @@
+"5589e557565389c381ec8c010000":
+cleanup __regparm2 void ShipSelect::SelectShip(ShipSelect *this, int shipType);
 "565383ec248b5c24308d74241fc74424086e000000":
 cleanup __cdecl void ShipSelect::constructor(ShipSelect *this);
 "565383ec148b7424208b4e208b561c89c829d083f8037e??31db8db600000000":
 cleanup __cdecl void ShipSelect::ClearShipButtons(ShipSelect *this);
 "5589e557565381ecac0000008b450880b84404000000":
-cleanup __cdecl void ShipSelect::MouseMove(ShipSelect *this, int mX, int mY);
+cleanup __cdecl void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
 "5589e557565381ecac0000008b5d0880bb4404000000":
 cleanup __cdecl void ShipSelect::OnLoop(ShipSelect *this);
 "8b442404054004000089442404":
@@ -24,12 +26,3 @@ cleanup __cdecl int ShipSelect::GetSelectedShip(ShipSelect *this);
 cleanup __cdecl void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
 "5589e557565383ec5c8b5d0880bb4404000000":
 cleanup __cdecl void ShipSelect::OnRender(ShipSelect *this);
-
-
-struct ShipSelect
-{{
-    ShipSelect()
-    {
-        this->constructor();
-    }
-}};

@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389cb8db32c0a000083ec3cc7442404010000008b8124110000b9????????890424e8????????83ec0884c00f85????????c70424????????89f1e8????????c6834a0a000000":
 __thiscall void ShipBuilder::CheckTypes(ShipBuilder *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9bc190000008b07":
-__thiscall void ShipBuilder::MouseClick(ShipBuilder *this, int mX, int mY);
+__thiscall void ShipBuilder::MouseClick(ShipBuilder *this, int x, int y);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b178b7f0489b9001c0000":
 __thiscall void ShipBuilder::SwitchShip(ShipBuilder *this, int shipType, int shipVariant);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8bb94c0f00008b91480f000089f829d0c1f802":
@@ -27,15 +27,6 @@ __thiscall void ShipBuilder::OnLoop(ShipBuilder *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10c8d7dd08d75d883ec3cc741f800000000c741fc00000000":
 __thiscall void ShipBuilder::constructor(ShipBuilder *this);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004898570feffff8d81540f000089b574feffff":
-__thiscall void ShipBuilder::MouseMove(ShipBuilder *this, int mX, int mY);
+__thiscall void ShipBuilder::MouseMove(ShipBuilder *this, int x, int y);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec2c80b96012000000894de4":
 __thiscall void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
-
-
-struct ShipBuilder
-{{
-    ShipBuilder()
-    {
-        this->constructor();
-    }
-}};

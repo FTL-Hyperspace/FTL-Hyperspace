@@ -11,5 +11,5 @@ void** VTable_Targetable_LaserBlast;
 
 struct LaserBlast
 {{
-	LaserBlast(Pointf position, int ownerId, int targetId, Pointf target);
+	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
 }};

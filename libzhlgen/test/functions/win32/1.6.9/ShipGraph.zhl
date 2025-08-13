@@ -37,7 +37,7 @@ __thiscall void ShipGraph::ComputeCenter(ShipGraph *this);
 ".538b514431c08b5c240839da7f??03514c39d37f??":
 __thiscall bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 ".578d7c240883e4f0ff77fc5589e557565389fb89ce83ec2c8b43040fb6530831db":
-__thiscall int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool bIncludeWalls);
+__thiscall int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 ".8b41042b01c1f802":
 __thiscall int ShipGraph::RoomCount(ShipGraph *this);
 ".5789c88d7c240883e4f0ff77fc5589e557565383ec2c8b178b7f04":
@@ -47,7 +47,7 @@ __thiscall float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 ".5653b8????????8b5c240c85db78??8b318b510429f2c1fa02":
 __thiscall bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704898d6cffffff8b10894588":
-__thiscall Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point position, int shipId, bool intruder);
+__thiscall Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
 "578d7c240883e4f0ff77fc5589e557565383ec3c8b57048b018d4dd88b1f8b0490890424":
 __thiscall Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
 
@@ -57,19 +57,19 @@ struct ShipGraph depends (Point, Pointf, Room)
 	Pointf ConvertToWorldPosition(Pointf local)
 	{
         __int64 ret = ConvertToWorldPosition_DO_NOT_USE_DIRECTLY(local);
-        return* ((Pointf*)& ret);
+        return *((Pointf*) &ret);
 	}
 	
 	Pointf ConvertToLocalPosition(Pointf world, bool past)
 	{
         __int64 ret = ConvertToLocalPosition_DO_NOT_USE_DIRECTLY(world, past);
-        return* ((Pointf*)& ret);
+        return *((Pointf*) &ret);
 	}
 	
     Point GetSlotRenderPosition(int slotId, int roomId, bool intruder)
     {
         __int64 ret = GetSlotRenderPosition_DO_NOT_USE_DIRECTLY(slotId, roomId, intruder);
-        return* ((Point*)& ret);
+        return *((Point*) &ret);
     }
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
@@ -85,13 +85,13 @@ struct ShipGraph depends (Point, Pointf, Room)
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetIntoRoom(int roomId, Point position)
+	Point GetIntoRoom(int roomId, Point pos)
 	{
 		Point ret;
 		if (roomId >= 0 && roomId < this->rooms.size())
 		{
 			auto room = this->rooms[roomId];
-			ret = room->GetIntoRoom(position);
+			ret = room->GetIntoRoom(pos);
 		}
 		else
 		{

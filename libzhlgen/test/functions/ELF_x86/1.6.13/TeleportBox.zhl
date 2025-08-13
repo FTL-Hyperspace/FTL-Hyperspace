@@ -1,11 +1,10 @@
 "5557565383ec7c8bbc24900000008d6c24508b842494000000":
-cleanup __cdecl void TeleportBox::constructor(TeleportBox *this, Point _position, TeleportSystem* _system);
-
+cleanup __cdecl void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
 
 struct TeleportBox
 {{
-	TeleportBox(Point position, TeleportSystem* system)
+	TeleportBox(Point pos, TeleportSystem* sys)
 	{
-		this->constructor(position, system);
+		this->constructor(pos, sys);
 	}
 }};

@@ -34,6 +34,7 @@
 #include "ShipUnlocks.h"
 #include "CustomAchievements.h"
 #include "HSVersion.h"
+#include "CustomUpgrades.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -569,6 +570,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 CommandConsole::GetInstance()->enabled = EventsParser::ParseBoolean(enabled);
+
+                if (node->first_attribute("invertCaps"))
+                {
+                    auto invertCaps = node->first_attribute("invertCaps")->value();
+                    CommandConsole::GetInstance()->invertCaps = EventsParser::ParseBoolean(invertCaps);
+                }
             }
 
             if (strcmp(node->name(), "infinite") == 0)
@@ -701,6 +708,17 @@ void Global::InitializeResources(ResourceControl *resources)
                 if (node->first_attribute("allowMetaVars"))
                 {
                     SeedInputBox::seedsAllowMetaVars = EventsParser::ParseBoolean(node->first_attribute("allowMetaVars")->value());
+                }
+            }
+            if (strcmp(node->name(), "renameShipInRun") == 0)
+            {
+                if (node->first_attribute("enabled"))
+                {
+                    CustomUpgrades::GetInstance()->allowRename = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                }
+                if (node->first_attribute("allowButton"))
+                {
+                    CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
             }
             if (strcmp(node->name(), "customSystems") == 0)
