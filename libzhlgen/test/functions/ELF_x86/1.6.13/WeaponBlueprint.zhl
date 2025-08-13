@@ -4,6 +4,8 @@ cleanup __cdecl void WeaponBlueprint::destructor(WeaponBlueprint *this);
 cleanup __cdecl std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
 "8b442404c7442404????????05cc00000089442408":
 cleanup __cdecl void WeaponBlueprint::RenderIcon(WeaponBlueprint *this, float scale);
+"5589e557565381ec9c030000":
+cleanup __cdecl Point WeaponBlueprint::GetDimensions(WeaponBlueprint *this);
 
 
 struct WeaponBlueprint

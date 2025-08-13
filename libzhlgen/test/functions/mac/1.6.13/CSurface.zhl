@@ -61,6 +61,8 @@ static cleanup __amd64 bool CSurface::GL_DrawRect(float x1, float y1, float x2, 
 static cleanup __amd64 bool CSurface::GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth); /* GL_Color is in XMM0:XMM1 */
 ".554889e541574156534883ec38660f28d9660f14":
 static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
+".554889e54157415641554154534883ec7866":
+static cleanup __amd64 bool CSurface::GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
 ".554889e5415741564154534881eca00000004189ce89d3c7":
 static cleanup __amd64 bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness); /* GL_Color is in XMM2:XMM3 */
 "!.554889e5400fb6d6":
