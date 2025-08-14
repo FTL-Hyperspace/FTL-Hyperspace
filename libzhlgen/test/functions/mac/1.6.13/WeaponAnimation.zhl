@@ -1,4 +1,6 @@
-"554889e58b4708f30f2ac82b":
+"!554889e54156534189f64889fbe8????0f":
+cleanup __amd64 void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
+".554889e58b4708f30f2ac82b":
 cleanup __amd64 void WeaponAnimation::SetFireTime(WeaponAnimation *this, float time);
 "!.554889e5534883ec??4889fb488dbb28010000":
 cleanup __amd64 Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);

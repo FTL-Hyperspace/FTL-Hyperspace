@@ -25,6 +25,8 @@ cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager* s
 cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
 ".554889e5534883ec38ffc68975f4488d5dc0488d75f44889dfe8????efff488d":
 cleanup __amd64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
+".554889e54157":
+cleanup __amd64 void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
 "!.554889e54157415641554154534883ec384889f34989fc498bbc24d8":
 cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
 
