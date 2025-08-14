@@ -76,6 +76,8 @@ static cleanup __cdecl int ShipSystem::RenderPowerBoxesPlain(int x, int y, int w
 __thiscall void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
 "8b54????89c88b8a2c010000":
 __thiscall TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b1f85":
+__thiscall void ShipSystem::IonDamage(ShipSystem *this, int amount);
 
 "f30f11542404c7042400000000e8????????a1(???????\?)890424e8????????e8????????":
 GL_Primitive** ShipSystem__glowBlue;

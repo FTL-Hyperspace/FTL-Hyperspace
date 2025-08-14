@@ -96,6 +96,8 @@ cleanup __amd64 void ShipManager::SetDestroyed(ShipManager *this);
 cleanup __amd64 void ShipManager::JumpLeave(ShipManager *this);
 ".554889e5415741564154534883ec104989fe498b":
 cleanup __amd64 void ShipManager::Wait(ShipManager *this);
+".554889e54157415653":
+cleanup __amd64 void ShipManager::CloneHealing(ShipManager *this);
 ".554889e541574156534883ec284989fe498b86c0":
 cleanup __amd64 void ShipManager::JumpArrive(ShipManager *this);
 ".554889e54863c6488b8fd8060000486304814883f8ff740f":

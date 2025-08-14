@@ -268,13 +268,9 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data) {
 
             programBaseAddress = (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr);
             
-            size_t seg_size = 0;
             // get segment size
-            while(seg_size < t_phdr.p_filesz) {
-                printf("SEG SIZE: 0x%016x\n", t_phdr.p_align);
-                seg_size += t_phdr.p_align; // TODO: Dump these individual seg sizes to see if any are correct, maybe we're scanning too far?
-            }
-            segmentLength = seg_size; // TODO: This segment size might be wrong on 64-bit, it seems to compute a length too long?
+            printf("SEG SIZE: 0x%016" PRIx64 "\n", t_phdr.p_memsz);
+            segmentLength = t_phdr.p_memsz;
 
             break;
         }

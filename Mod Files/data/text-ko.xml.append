@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ko">
-  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ko">
   <mod:setValue>화재 발생 확률: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -262,11 +262,11 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="ko">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ko">하이퍼스페이스 프로잭트</text>
 <text name="credits_hyperspace_developed_by" language="ko">개발:</text>
-<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="ko">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art" language="ko">추가 아트웍:</text>
 <text name="credits_hyperspace_art_names" language="ko">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ko">추가 기여:</text>
-<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="ko">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, FTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="ko">하이퍼스페이스 번역:</text>
 <text name="credits_hyperspace_loc_fr" language="ko">프랑스어</text>
 <text name="credits_hyperspace_loc_fr_names" language="ko">Pepson</text>
@@ -288,3 +288,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_hyperspace_loc_ja_names" language="ko">ranhai</text>
 <text name="credits_hyperspace_loc_ko" language="ko">한국어</text>
 <text name="credits_hyperspace_loc_ko_names" language="ko">nedsociety, H2O</text>
+
+<text name="shields_4" language="ko">방어막 다섯 장</text>
+<text name="shields_5" language="ko">방어막 여섯 장</text>
+<text name="shields_6" language="ko">방어막 일곱 장</text>
+<text name="shields_7" language="ko">방어막 여덟 장</text>

@@ -97,6 +97,8 @@ cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerL
 cleanup __amd64 void ShipSystem::SetBonusPower(ShipSystem *this, int amount, int permanentPower);
 ".554889e54156534189f64889fb80bb9c":
 cleanup __amd64 bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
+".554889e54156534189f64889fb45":
+cleanup __amd64 void ShipSystem::IonDamage(ShipSystem *this, int amount);
 ".554889e54157415641554154534881ec9800000089d34989":
 static cleanup __amd64 std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 ".554889e58b47648b8f840100":

@@ -26,7 +26,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="pt">
-  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="pt">
   <mod:setValue>Chance de Fogo: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -262,11 +262,11 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="pt">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pt">Projeto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pt">Desenvolvido por:</text>
-<text name="credits_hyperspace_developed_names" language="pt">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="pt">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art" language="pt">Arte Adicional:</text>
 <text name="credits_hyperspace_art_names" language="pt">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="pt">Contribuições Adicionais:</text>
-<text name="credits_hyperspace_contributors_names" language="pt">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="pt">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="pt">Tradução do Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="pt">Francês</text>
 <text name="credits_hyperspace_loc_fr_names" language="pt">Pepson</text>
@@ -288,3 +288,8 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names" language="pt">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="pt">Coreano</text>
 <text name="credits_hyperspace_loc_kor_names" language="pt">nedsociety</text>
+
+<text name="shields_4" language="pt">5 Barreiras</text>
+<text name="shields_5" language="pt">6 Barreiras</text>
+<text name="shields_6" language="pt">7 Barreiras</text>
+<text name="shields_7" language="pt">8 Barreiras</text>

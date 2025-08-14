@@ -6,7 +6,7 @@ cleanup __amd64 LocationEvent* EventGenerator::CreateEvent(EventGenerator *this,
 ".554889e5415741564155415453504989d74889f34989fe48":
 cleanup __amd64 std::string EventGenerator::GetImageFromList(EventGenerator *this, const std::string& listName);
 "!.554889e5415741564154534189cf4189d64989f4":
-cleanup __amd64 LocationEvent* EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
+cleanup __amd64 LocationEvent* EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
 ".554889e54157415653504989d74889f34989fe4881c35801":
 cleanup __amd64 ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
 ".554889e541574156534883ec184889d3":

@@ -47,3 +47,16 @@ private:
 
     static CustomUpgrades instance;
 };
+
+struct SystemNoPurchaseThreshold
+{
+    static std::string to_string(int cost)
+    {
+        if (!enabled || cost < threshold) return std::to_string(cost);
+        return replace;
+    }
+    
+    static bool enabled;
+    static int threshold;
+    static std::string replace;
+};

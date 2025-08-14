@@ -25,7 +25,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.15.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -254,11 +254,11 @@
 <text name="credits_loc_ko_names" language="ja">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
 <text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
-<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson</text>
+<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
 <text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>
-<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, Pepson, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverseチーム</text>
+<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout,\nFTL Multiverseチーム</text>
 <text name="credits_hyperspace_loc" language="ja">Hyperspace翻訳者:</text>
 <text name="credits_hyperspace_loc_fr" language="ja">フランス語</text>
 <text name="credits_hyperspace_loc_fr_names" language="ja">Pepson</text>
@@ -280,3 +280,8 @@
 <text name="credits_hyperspace_loc_ja_names" language="ja">ranhai</text>
 <text name="credits_hyperspace_loc_kor" language="ja">韓国語</text>
 <text name="credits_hyperspace_loc_kor_names" language="ja">nedsociety</text>
+
+<text name="shields_4" language="ja">5層シールド</text>
+<text name="shields_5" language="ja">6層シールド</text>
+<text name="shields_6" language="ja">7層シールド</text>
+<text name="shields_7" language="ja">8層シールド</text>
