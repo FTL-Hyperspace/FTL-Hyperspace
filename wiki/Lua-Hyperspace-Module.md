@@ -303,8 +303,8 @@ The members held by this class determine how the `print` function displays messa
 - `void :ClearShipInfo()`
 - `int :GetAugmentationCount()`
    - Returns the number of augments on the ship.
-- `std::string[] :GetAugmentationList()`
-   - Returns a `std::vector<std::string>` of augments.
+- `std::vector<std::string> :GetAugmentationList()`
+   - Returns a list of augments.
 - `float :GetAugmentationValue(std::string augmentName)`
    - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
 - `int :HasAugmentation(std::string augmentName)`
