@@ -42,3 +42,9 @@ cleanup __cdecl bool WorldManager::AddBoarders(WorldManager *this, BoardingEvent
 cleanup __cdecl void WorldManager::CreateStore(WorldManager *this, LocationEvent* event);
 "5557565383ec3c8b5c245485db":
 cleanup __cdecl bool WorldManager::CheckRequirements(WorldManager *this, LocationEvent* event, bool hidden);
+
+struct WorldManager
+{{
+	bool SwitchShip(std::string shipName);
+    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
+}};

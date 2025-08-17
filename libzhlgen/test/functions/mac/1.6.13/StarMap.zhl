@@ -16,7 +16,7 @@ cleanup __amd64 int StarMap::GetRandomSectorChoice(StarMap *this);
 "!.554889e54157415641554154534881ec980100004c8db7f8":
 cleanup __amd64 void StarMap::AddSectorColumn(StarMap *this);
 ".554889e585f6781d":
-cleanup __amd64 void StarMap::NeighboringSector(StarMap *this, int potentialSector);
+cleanup __amd64 bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
 ".554889e5415741564155415453504189cf4989fe":
 cleanup __amd64 void StarMap::GetSelectedSector(StarMap *this, int mX, int mY, int maxDist);
 "!.554889e54157415641554154534881ec580100004989fd49":
@@ -107,6 +107,8 @@ cleanup __amd64 bool StarMap::LocationsConnected(StarMap *this, Location* locati
 cleanup __amd64 void StarMap::ForceExitBeacon(StarMap *this);
 "!.554889e54157415641554154534881ec980000004189d441":
 cleanup __amd64 void StarMap::MouseMove(StarMap *this, int mX, int mY);
+".554889e54156":
+cleanup __amd64 std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
 ".554889e54156534889fb807b08000f85":
 cleanup __amd64 void StarMap::Open(StarMap *this);
 ".554889e5534883ec184889fb80bb9408":

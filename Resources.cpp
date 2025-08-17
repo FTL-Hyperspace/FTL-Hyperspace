@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomTextStyle.h"
 #include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
@@ -35,6 +36,9 @@
 #include "CustomAchievements.h"
 #include "HSVersion.h"
 #include "CustomUpgrades.h"
+#include "CustomEquipment.h"
+#include "CustomTabbedWindow.h"
+#include "ArtillerySystem.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -250,19 +254,22 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 customEventParser->EarlyParseCustomEventNode(node);
             }
 
+            //Map custom system ids before blueprints are loaded
+            if (strcmp(node->name(), "customSystems") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "customSystem") == 0)
+                    {
+                        CustomUserSystems::ParseSystemNode(child);
+                    }  
+                }
+            }
+
             // Perform custom text color registration before event parsing.
             if (strcmp(node->name(), "customChoiceColors") == 0)
             {
-                auto enableCustomChoiceColors = node->first_attribute("enabled")->value();
-                customOptions->enableCustomChoiceColors.defaultValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
-                customOptions->enableCustomChoiceColors.currentValue = EventsParser::ParseBoolean(enableCustomChoiceColors);
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (strcmp(child->name(), "choiceColor") == 0)
-                    {
-                        ParseChoiceColorNode(child);
-                    }
-                }
+                ParseChoiceColorsNode(node);
             }
         }
 
@@ -302,6 +309,7 @@ void Global::InitializeResources(ResourceControl *resources)
     char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
 
     auto customOptions = CustomOptionsManager::GetInstance();
+
 
     try
     {
@@ -559,6 +567,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "oxygenWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
             
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
@@ -581,6 +596,32 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "targetableArtillery") == 0)
+            {
+                ParseTargetableArtilleryNode(node);
+            }
+            
+            if (strcmp(node->name(), "cloakRenderFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableDefaultTutorial") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableDefaultTutorial.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableDefaultTutorial.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -599,6 +640,16 @@ void Global::InitializeResources(ResourceControl *resources)
                     {
                         AlternateOxygenManager::GetInstance()->CreateDefaultGradient();
                     }
+                }
+            }
+
+            if (strcmp(node->name(), "customTabs") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                if (EventsParser::ParseBoolean(enabled))
+                {
+                    CustomTabbedWindow::GetInstance()->enabled = true;
+                    CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
                 }
             }
 
@@ -645,6 +696,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "droneSelectHotkeys") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSelectHotkeys.defaultValue = enabled;
+                customOptions->droneSelectHotkeys.currentValue = enabled;
+            }
+
+            if (strcmp(node->name(), "droneSaveStations") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSaveStations.defaultValue = enabled;
+                customOptions->droneSaveStations.currentValue = enabled;
+            }
+            
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -806,6 +871,10 @@ void Global::InitializeResources(ResourceControl *resources)
                     CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
             }
+            if (strcmp(node->name(), "customTextStyle") == 0)
+            {
+                CustomTextStyleManager::GetInstance()->enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+            }
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
@@ -864,6 +933,16 @@ void Global::InitializeResources(ResourceControl *resources)
                     SystemNoPurchaseThreshold::threshold = boost::lexical_cast<int>(node->first_attribute("threshold")->value());
                     SystemNoPurchaseThreshold::replace = node->first_attribute("replace")->value();
                 }
+            }
+            if (strcmp(node->name(), "multipleOverCapacity") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_multipleOverCapacity = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "showDummyEquipmentSlots") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
             }
         }
 

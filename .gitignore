@@ -60,3 +60,5 @@ build-*/
 # Mac
 .DS_Store
 /vcpkg_installed
+
+.vscode/settings.json

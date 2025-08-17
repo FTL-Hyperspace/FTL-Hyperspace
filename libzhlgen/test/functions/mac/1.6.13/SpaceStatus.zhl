@@ -7,3 +7,5 @@ cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effec
 cleanup __amd64 void SpaceStatus::OnRender(SpaceStatus *this);
 ".554889e541574156534881ec????????4189d6":
 cleanup __amd64 void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
+".554889e541":
+cleanup __amd64 void SpaceStatus::OnLoop(SpaceStatus *this);

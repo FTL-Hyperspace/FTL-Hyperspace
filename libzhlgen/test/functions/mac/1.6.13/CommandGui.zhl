@@ -19,8 +19,12 @@ cleanup __amd64 void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shif
 cleanup __amd64 void CommandGui::OnLoop(CommandGui *this);
 ".554889e54157415641554154534881ec1801000041":
 cleanup __amd64 void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
+".554889e5415741564155":
+cleanup __amd64 void CommandGui::LinkShip(CommandGui *this, CompleteShip *ship);
 ".554889e5415741564154534881ecb000000049":
 cleanup __amd64 void CommandGui::OnInit(CommandGui *this);
+"!.554889e541":
+cleanup __amd64 void CommandGui::Restart(CommandGui *this);
 ".554889e541574156534883ec384989f648":
 cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip* ship);
 ".554889e54157415641554154534883ec384989fc80":

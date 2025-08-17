@@ -21,8 +21,18 @@ cleanup __amd64 void CrewEquipBox::OnTextEvent(CrewEquipBox *this, CEvent::TextE
 
 struct CrewEquipBox depends (TextInput)
 {{
+	CrewEquipBox()
+	{
+		
+	}
+
 	CrewEquipBox(Point position, ShipManager* shipManager, int slot)
 	{
 		this->constructor(position, shipManager, slot);
+	}
+
+	int GetType(bool forcedEmpty)
+	{
+		return 2;
 	}
 }};

@@ -1,8 +1,8 @@
 #include "Global.h"
 
-HOOK_METHOD(ArtilleryBox, OnRender, (bool ignoreStatus) -> void)
+HOOK_METHOD_PRIORITY(ArtilleryBox, OnRender, 9999, (bool ignoreStatus) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ArtilleryBox::OnRender -> Begin (ArtilleryBarFix.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ArtilleryBox::OnRender -> Begin (ArtilleryBarFix.cpp)\n")
     CooldownSystemBox::OnRender(ignoreStatus);
 
     CSurface::GL_PushMatrix();

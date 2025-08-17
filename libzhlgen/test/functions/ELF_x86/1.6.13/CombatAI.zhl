@@ -1,5 +1,8 @@
-"5589e557565383ec4c8b45088b550c":
+"5589e557565383ec4c8b45088b550c": //08232f20
 cleanup __cdecl void CombatAI::UpdateMindControl(CombatAI *this, bool unk);
-"57565383ec108b742420893424e8????????8b4630":
+".5589e557565383ec4ca1????????8b????83f802": //08233410
+cleanup __cdecl int CombatAI::PrioritizeSystem(CombatAI *this, int weaponType);
+".5589e557565383ec5c8b????807b2c008b4330": //082339e0
+cleanup __cdecl void CombatAI::UpdateWeapons(CombatAI *this);
+".57565383ec108b742420893424e8????????8b4630": //08233e40
 cleanup __cdecl void CombatAI::OnLoop(CombatAI *this);
-

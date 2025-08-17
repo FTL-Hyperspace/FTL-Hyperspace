@@ -5263,7 +5263,7 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD_PRIORITY(CrewMember, Clone, -9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
 
     // lua callback
     auto context = Global::GetInstance()->getLuaContext();
@@ -5565,6 +5565,43 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
         return ret;
     }
 }
+
+// insert newline between each crew description in a tooltip when mouse over a tile where multiple crews are fighting
+HOOK_METHOD_PRIORITY(ShipManager, GetTooltip, 9999, (int x, int y) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::GetTooltip -> Begin (CustomCrew.cpp)\n")
+
+    // rewrite vanilla code
+    std::string tooltip = "";
+    for (auto crew : vCrewList)
+    {
+        if (!crew->ContainsPoint(x, y) || crew->bDead) continue;
+        ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
+        if (shipGraph->GetRoomBlackedOut(crew->iRoomId)) continue;
+        if (tooltip.empty())
+        {
+            tooltip = crew->GetTooltip();
+        }
+        else
+        {
+            if (CustomOptionsManager::GetInstance()->insertNewlineForMultipleCrewTooltips.currentValue)
+            {
+                // \n -> \n\n; insert newline between each crew desc.
+                tooltip += " \n\n" + crew->GetTooltip();
+            }
+            else
+            {
+                tooltip += " \n" + crew->GetTooltip();
+            }
+        }
+        if (!tooltip.empty() && crew->bMindControlled)
+        {
+            tooltip += " \n" + G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
+        }
+    }
+    return tooltip;
+}
+
 
 HOOK_METHOD(CrewAnimation, FireShot, () -> bool)
 {
@@ -6914,6 +6951,7 @@ HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
 
 HOOK_METHOD(CrewMember, SetRoomPath, (int slotId, int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetRoomPath -> Begin (CustomCrew.cpp)\n")
     if (g_checkForPartitionPath && g_partitionDestSlotId > -1 && g_partitionDestRoomId > -1)
     {
         slotId = g_partitionDestSlotId;

@@ -45,3 +45,10 @@ cleanup __amd64 void WorldManager::OnLoop(WorldManager *this);
 cleanup __amd64 void WorldManager::SaveGame(WorldManager *this);
 "!.554889e54156534889fbe8c1":
 cleanup __amd64 void WorldManager::Restart(WorldManager *this);
+
+
+struct WorldManager
+{{
+	bool SwitchShip(std::string shipName);
+    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
+}};

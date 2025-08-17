@@ -1,4 +1,8 @@
 // Continue from DefenseDrone::OnLoop (hyper efficiency™)
+"!.554889e54156534189f64889fb8bb32c":
+cleanup __amd64 void Door::SaveState(Door *this, int fd);
+"!.554889e54156534189f64889fb44":
+cleanup __amd64 void Door::LoadState(Door *this, int fd);
 "!.554889e5c6472c01":
 cleanup __amd64 void Door::FakeOpen(Door *this);
 "!.554889e5c6472c00":
@@ -11,6 +15,7 @@ cleanup __amd64 void Door::OnLoop(Door *this);
 cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
 ".554889e54883ec108bb7b00200008b97b4020000488d7df0":
 cleanup __amd64 Point Door::GetPosition(Door *this);
+
 
 struct Door depends (Point, ShipGraph)
 {{

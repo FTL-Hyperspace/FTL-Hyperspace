@@ -28,7 +28,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     {
         std::string name = child->name();
         std::string val = child->value();
-
+        if (name == "shotLimit")
+        {
+            weaponDef.shotLimit = boost::lexical_cast<int>(val);
+        }
         if (name == "freeMissileChance")
         {
             weaponDef.freeMissileChance = boost::lexical_cast<int>(val);
@@ -272,6 +275,10 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
             return 1;
         }
     }
+    else if (blueprint->type == 3 && targetId == iShipId) //self-targetting bomb
+    {
+        return 1; // fix for self-targeting bomb with multiple shots being unable to change the target
+    }
 
     int ret = super();
 
@@ -286,7 +293,68 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 
     return ret;
 }
+//Rewrite to fix hang when an enemy fires a weapon with more shots than the ship has rooms
+//NOTE: Native game implementation of generating non-repeating targets is inefficient, should rework when implementing custom AI
+HOOK_METHOD_PRIORITY(CombatAI, UpdateWeapons, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CombatAI::UpdateWeapons -> Begin (CustomWeapons.cpp)\n")
 
+    if (bFiringWhileCloaked || !self->ship.bCloaked) 
+    {
+        weapons = self->GetWeaponList();
+        for (ProjectileFactory* weapon : weapons)
+        {
+            if (weapon->ReadyToFire() && weapon->IsChargedGoal() && target != nullptr && !target->IsCloaked()) 
+            {
+                int chargeLevels = weapon->blueprint->chargeLevels;
+                bool earlyFire = random32() % (chargeLevels - weapon->chargeLevel + 1) == 0;
+                if (chargeLevels < 2 || chargeLevels == weapon->chargeLevel || earlyFire) 
+                {
+                    std::vector<Pointf> targets;
+                    while (targets.size() < weapon->NumTargetsRequired())
+                    {
+                        Pointf temp_target(0, 0);
+                        int systemTarget = PrioritizeSystem(weapon->blueprint->type);
+                        if (systemTarget == -1) temp_target = target->GetRandomRoomCenter();
+                        else temp_target = target->GetRoomCenter(target->GetSystemRoom(systemTarget));
+    
+                        //Only remove repeated targets if it is possible to add a non-repeated one
+                        if (ShipGraph::GetShipInfo(target->iShipId)->RoomCount() > targets.size())
+                        {
+                            targets.erase(std::remove_if(targets.begin(), targets.end(), [&](Pointf potentialTarget) { return potentialTarget == temp_target; }), targets.end());
+                        }
+
+                        targets.push_back(temp_target);
+                    }
+                    weapon->Fire(targets, target->iShipId);
+                    weapon->SelectChargeGoal();
+                }  
+            }
+        }
+    }
+}
+
+//Reverse inlining of NumTargetsRequired
+HOOK_METHOD_PRIORITY(ProjectileFactory, ClearAiming, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::ClearAiming -> Begin (CustomWeapons.cpp)\n")
+    
+    if (targets.size() > 0 && targets.size() < NumTargetsRequired()) return;
+
+    fireWhenReady = false;
+    targets.clear();
+    lastTargets.clear();
+    
+    targetId = -1;
+}
+
+HOOK_METHOD(ProjectileFactory, GetProjectile, () -> Projectile*)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::GetProjectile -> Begin (CustomWeapons.cpp)\n")
+    Projectile* ret = super();
+    if (queuedProjectiles.empty() && HitShotLimit()) ClearAiming();
+    return ret;
+}
 // Pinpoint targeting
 HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -> void)
 {
@@ -321,7 +389,7 @@ HOOK_METHOD(ProjectileFactory, Fire, (std::vector<Pointf> &points, int target) -
     }
     super(points, target);
     // Untargets preemptive weapons after they're done firing (or anything with negative cooldown)
-    if (cooldown.second < 0 && iShipId == 0)
+    if ((cooldown.second < 0 && HitShotLimit()) && iShipId == 0)
     {
         targets.clear();
     }    
@@ -642,6 +710,11 @@ HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
 HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::constructor -> Begin (CustomWeapons.cpp)\n")
+    if (bp->type == -1) // If the blueprint doesn't exist, revert to the default laser
+    {
+        bp = G_->GetBlueprints()->GetWeaponBlueprint("LASER_BURST_1");
+    }
+
     super(bp, shipId);
     HS_MAKE_TABLE(this)
     if (bp->type != 2)
@@ -826,3 +899,152 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
         }
     }
 }
+bool ProjectileFactory::HitShotLimit()
+{
+    auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
+    return def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget && !QueuedShots();
+}
+//Shot limit is implemented in the same context as checks on WeaponBlueprint::missiles as a way of implementing a requirement on weapon usage
+//TODO: Possibly add callback for arbitrary requirements on weapon usage
+
+//Handle powering/depowering of weapons
+
+//Rewrite to reverse inlining of PowerWeapon(userDriven=false, force=false) so hook is run
+HOOK_METHOD_PRIORITY(WeaponSystem, ForceIncreasePower, 9999, (int power) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponSystem::ForceIncreasePower -> Begin (CustomWeapons.cpp)\n")
+    for (auto weapon : weapons)
+    {
+        if (!weapon->powered && PowerWeapon(weapon, false, false)) return true;
+    }
+    return false;
+}
+HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponSystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
+    super();
+    if (_shipObj.iShipId == 1)
+    {
+        for (auto weapon : weapons)
+        {
+            if (weapon->HitShotLimit()) DePowerWeapon(weapon, false);       
+        }
+    }
+}
+HOOK_METHOD(WeaponSystem, PowerWeapon, (ProjectileFactory* weapon, bool userDriven, bool force) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponSystem::PowerWeapon -> Begin (CustomWeapons.cpp)\n")
+    if (weapon->HitShotLimit() && _shipObj.iShipId == 1) return false;
+    return super(weapon, userDriven, force);
+
+}
+HOOK_METHOD(ProjectileFactory, FireNextShot, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::FireNextShot -> Begin (CustomWeapons.cpp)\n")
+    if (HitShotLimit()) return false;
+    return super();
+}
+HOOK_METHOD(ProjectileFactory, ReadyToFire, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::ReadyToFire -> Begin (CustomWeapons.cpp)\n")
+    if (HitShotLimit()) return false;
+    return super();
+}
+//Other places with references to missile variables: WeaponBlueprint:GetDescription, WeaponBox::RenderBox, ProjectileFactory::Update
+
+//Handle WarningMessage for power attempts
+static WarningMessage* shotLimitMessage = nullptr;
+
+HOOK_METHOD(WeaponControl, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::constructor -> Begin (CustomWeapons.cpp)\n")
+    super();
+
+    shotLimitMessage = new WarningMessage();
+    GL_Color warningColor = COLOR_BUTTON_ON;
+    //Not sure why this adjustment is necessary
+    warningColor.r *= 255.f;
+    warningColor.g *= 255.f;
+    warningColor.b *= 255.f;
+    shotLimitMessage->InitText(TextString("warning_shot_limit", false), Point(203, -25), 2.0, warningColor, true, false);
+}
+
+HOOK_METHOD(WeaponControl, RenderWarnings, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::RenderWarnings -> Begin (CustomWeapons.cpp)\n")
+    super();
+    CSurface::GL_Translate(location.x, location.y);
+    shotLimitMessage->OnRender();
+    CSurface::GL_Translate(-location.x, -location.y);
+}
+HOOK_METHOD(WeaponControl, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::OnLoop -> Begin (CustomWeapons.cpp)\n")
+    super();
+    shotLimitMessage->OnLoop();
+}
+
+HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (CustomWeapons.cpp)\n")
+    shotLimitMessage->Stop();
+    
+    WeaponBox* box = static_cast<WeaponBox*>(boxes[armamentSlot]);
+    
+    if (box->pWeapon->HitShotLimit() && box->pWeapon->powered)
+    {
+        shotLimitMessage->Start();
+        missileMessage.Stop();
+        systemMessage.Stop();
+    }
+    else
+    {
+        super(armamentSlot);
+    }
+}
+
+//Vanilla doesn't save shotsFiredAtTarget so we handle this here
+HOOK_METHOD(ProjectileFactory, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SaveState -> Begin (CustomWeapons.cpp)\n")
+    super(fd);
+    FileHelper::writeInt(fd, shotsFiredAtTarget);
+}
+HOOK_METHOD(ProjectileFactory, LoadState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::LoadState -> Begin (CustomWeapons.cpp)\n")
+    super(fd);
+    shotsFiredAtTarget = FileHelper::readInteger(fd);
+}
+
+
+// Prevent enemy charge bar (sensor lvl 3+ ability) from framing off the right, top and bottom side of the screen.
+Point g_enemyShipCorner;
+
+HOOK_METHOD(WeaponAnimation, RenderChargeBar, (float alpha) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WeaponAnimation::RenderChargeBar -> Begin (CustomWeapons.cpp)\n")
+    int bar_x = bMirrored ? g_enemyShipCorner.x + renderPoint.x + mountPoint.x - (int)(anim.info.frameWidth * anim.fScale) - 18
+                            : g_enemyShipCorner.x + renderPoint.x - mountPoint.x + (int)(anim.info.frameWidth * anim.fScale) + 10;
+    int bar_y = g_enemyShipCorner.y + renderPoint.y - mountPoint.y;
+
+    // charge box size is 8 x 35
+    if (bar_x < 1274 && -1 < bar_y && bar_y < 687) return super(alpha);
+
+    int x = 1273 < bar_x ? 1273 - bar_x : 0;
+    int y = 0;
+    if (bar_y < 0) y = -bar_y;
+    else if (686 < bar_y) y = 686 - bar_y;
+
+    CSurface::GL_Translate(x, y);
+    super(alpha);
+    CSurface::GL_Translate(-x, -y);
+}
+
+HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RenderChargeBars -> Begin (CustomWeapons.cpp)\n")
+    g_enemyShipCorner = G_->GetCApp()->gui->combatControl.position + G_->GetCApp()->gui->combatControl.targetPosition + ship.GetShipCorner();
+    super();
+}
+

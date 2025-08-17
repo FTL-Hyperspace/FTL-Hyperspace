@@ -20,6 +20,8 @@ cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextE
 cleanup __amd64 void CrewManifest::OnRender(CrewManifest *this);
 ".554889e5415741564155415453504189d64189f74989fd":
 cleanup __amd64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
+"!.55":
+cleanup __amd64 void CrewManifest::Open(CrewManifest *this);
 
 
 struct CrewManifest

@@ -1,6 +1,8 @@
 "554889e541574156534881ec9800000089fb488b":
 static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
-".554889e5534883ec1889f348":
+"!.554889e548":
+static cleanup __amd64 void ShipGraph::Restart();
+".554889e553":
 cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
 ".554889e5415741564154534883ec204189ce4189f74889fb":
 cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);

@@ -35,4 +35,9 @@ struct WarningMessage
 	{
 		this->constructor();
 	}
+
+	inline void Stop()
+	{
+		this->tracker.Stop(false);
+	}
 }};

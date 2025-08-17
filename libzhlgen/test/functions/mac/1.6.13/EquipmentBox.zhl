@@ -4,10 +4,14 @@ cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _positi
 virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
 ".554889e54889f048c1e82089":
 virtual cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox *this, Point position);
+".55":
+cleanup __amd64 void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect *newBox);
 "!.554889e541574156534883ec284189f64889fbe8":
 virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
 ".554889e54156534883ec504989fe0f57":
 virtual cleanup __amd64 void EquipmentBox::RenderLabels(EquipmentBox *this, bool dragging);
+".55":
+virtual cleanup __amd64 void EquipmentBox::RenderIcon(EquipmentBox *this);
 ".554889e58b477039":
 virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int x, int y);
 ".554889e5415741564154534883ec504989ff0f57":
@@ -27,11 +31,21 @@ virtual cleanup __amd64 bool EquipmentBox::CanHoldWeapon(EquipmentBox *this);
 ".554889e54883bf8000000000488b8788":
 virtual cleanup __amd64 bool EquipmentBox::CanHoldDrone(EquipmentBox *this);
 ".554889e5488b8f800000004885c9750a":
-virtual cleanup __amd64 int EquipmentBox::GetType(EquipmentBox *this);
+virtual cleanup __amd64 int EquipmentBox::GetType(EquipmentBox *this, bool forcedEmpty);
 
 
 struct EquipmentBox depends (AugmentBlueprint)
 {{
+	EquipmentBox()
+	{
+
+	}
+
+	EquipmentBox(Point position, int slot)
+	{
+		this->constructor(position, slot);
+	}
+
 	bool IsEmpty()
 	{
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;

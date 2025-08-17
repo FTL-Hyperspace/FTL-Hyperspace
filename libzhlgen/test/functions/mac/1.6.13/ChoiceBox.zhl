@@ -1,9 +1,11 @@
-"!554889e54157415641554154534881ec9809":
+"554889e54157415641554154534881ece804":
+cleanup __amd64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
+"!.554889e54157415641554154534881ec9809":
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
 "!.554889e541574156535089d341":
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);
 "!.554889e5488d0525":
-cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY); // maybe faulty
+cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
 
 
 struct ChoiceBox

@@ -2,3 +2,8 @@
 cleanup __amd64 void ArtillerySystem::Jump(ArtillerySystem *this);
 ".415455534889fb4883ec70e8????????4889df":
 cleanup __amd64 void ArtillerySystem::OnLoop(ArtillerySystem *this);
+
+struct ArtillerySystem
+{{
+	void OnLoop_HS_ManualTarget();
+}};

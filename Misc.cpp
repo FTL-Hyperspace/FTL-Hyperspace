@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <stack>
 #include "LuaLibScript.h"
 #include "InternalEvents.h"
 #include "RenderEvents.h"
@@ -360,6 +361,75 @@ HOOK_METHOD(SpaceStatus, OnInit, (SpaceManager *space, Point pos) -> void)
     warningPdsAll = G_->GetResources()->CreateImagePrimitiveString("warnings/danger_pds_neutral.png", position.x - 30, position.y, 0, GL_Color(1.f, 1.f, 1.f, 1.f), 1.f, false);
 }
 
+HOOK_METHOD_PRIORITY(SpaceStatus, OnLoop, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceStatus::OnLoop -> Begin (Misc.cpp)\n")
+    // Rewrite to remove asteroid's early return that prevents other warnings from displaying when asteroids and other environemts are combined
+    
+    int effect = 0;
+    std::string warnStr;
+
+    currentEffect = 0;
+    currentEffect2 = 0;
+
+    if (space->asteroidGenerator.bRunning)
+    {
+        currentEffect = 1;
+    }
+
+    if (space->sunLevel)
+    {
+        warnStr = "warning_solar_flare";
+        effect = 2;
+    }
+    else if (space->pulsarLevel)
+    {
+        warnStr = "warning_ion_pulse";
+        effect = 5;
+    }
+    else if (space->bPDS)
+    {
+        warnStr = "warning_pds_locked";
+    }
+    else if (space->bNebula)
+    {
+        effect = 3;
+        if (space->bStorm)
+        {
+            currentEffect2 = 4;
+        }
+    }
+
+    if (!warnStr.empty())
+    {
+        if (5.f <= space->flashTimer.currGoal - space->flashTimer.currTime)
+        {
+            warningMessage->tracker.Stop(false);
+        }
+        else
+        {
+            TextString text(warnStr, false);
+            warningMessage->SetText(text);
+            warningMessage->Start();
+        }
+    }
+
+    if (currentEffect == 0)
+    {
+        if (space->bPDS)
+        {
+            currentEffect = space->envTarget == 1 ? 9 : 6;
+        }
+        else
+        {
+            currentEffect = effect;
+        }
+    }
+
+    warningMessage->OnLoop();
+    incomingFire->OnLoop();
+}
+
 HOOK_METHOD(SpaceStatus, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SpaceStatus::OnRender -> Begin (Misc.cpp)\n")
@@ -510,6 +580,45 @@ LABEL_TWO:
     return;
 }
 
+
+void AnimationTracker::SaveState(int fd)
+{
+    FileHelper::writeFloat(fd, time);
+    FileHelper::writeInt(fd, loop);
+    FileHelper::writeFloat(fd, current_time);
+    FileHelper::writeInt(fd, running);
+    FileHelper::writeInt(fd, reverse);
+    FileHelper::writeInt(fd, done);
+    FileHelper::writeFloat(fd, loopDelay);
+    FileHelper::writeFloat(fd, currentDelay);
+};
+
+void AnimationTracker::LoadState(int fd)
+{
+    time = FileHelper::readFloat(fd);
+    loop = FileHelper::readInteger(fd);
+    current_time = FileHelper::readFloat(fd);
+    running = FileHelper::readInteger(fd);
+    reverse = FileHelper::readInteger(fd);
+    done = FileHelper::readInteger(fd);
+    loopDelay = FileHelper::readFloat(fd);
+    currentDelay = FileHelper::readFloat(fd);
+};
+
+//Lockdown saving bugfix
+HOOK_METHOD(Door, SaveState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::SaveState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.SaveState(fd);
+}
+HOOK_METHOD(Door, LoadState, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Door::LoadState -> Begin (Misc.cpp)\n")
+    super(fd);
+    lockedDown.LoadState(fd);
+}
+
 // Everything from here onward was originally in the lua folder and needed
 // to be moved in order to compile properly on Linux.
 
@@ -552,6 +661,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pWeaponBlueprint = SWIG_TypeQuery(this->m_Lua, "WeaponBlueprint *");
     types.pRoom = SWIG_TypeQuery(this->m_Lua, "Room *");
     types.pChoiceBox = SWIG_TypeQuery(this->m_Lua, "ChoiceBox *");
+    types.pLocation = SWIG_TypeQuery(this->m_Lua, "Location *");
     types.pLocationEvent = SWIG_TypeQuery(this->m_Lua, "LocationEvent *");
 
     types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
@@ -586,6 +696,8 @@ void LuaLibScript::LoadTypeInfo()
     types.pShipSystemTypes[18] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
     types.pShipSystemTypes[19] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *");
     types.pShipSystemTypes[SYS_TEMPORAL] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *"); // eventually reimplement temporal as TemporalSystem class?
+
+    types.pSystemBox = SWIG_TypeQuery(this->m_Lua, "SystemBox *");
 }
 
 int LuaLibScript::l_on_load(lua_State* lua)
@@ -1069,6 +1181,70 @@ HOOK_METHOD(SpaceManager, DangerousEnvironment, () -> bool)
     return res;
 }
 
+static std::string g_customHazardText = "";
+HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (Misc.cpp)\n")
+    
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), loc, context->getLibScript()->types.pLocation, 0);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_BEACON_HAZARD, 1, 1) == 1 && lua_isstring(context->GetLua(), -1))
+    {
+        int originalEnv = loc->event->environment;
+        g_customHazardText = lua_tostring(context->GetLua(), -1);
+        loc->event->environment = 1;
+        std::string ret = super(loc);
+        loc->event->environment = originalEnv;
+        g_customHazardText = "";
+        lua_pop(context->GetLua(), 2);
+        return ret;
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 1);
+        return super(loc);
+    }
+}
+HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (Misc.cpp)\n")
+    return (!g_customHazardText.empty() && name == "map_asteroid_loc") ? g_customHazardText : super(name, lang);
+}
+HOOK_METHOD(StarMap, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (Misc.cpp)\n")
+    
+    auto context = Global::GetInstance()->getLuaContext();
+
+    std::stack<std::pair<int, int>> originalEnvs;
+    for (int i = 0; i < locations.size(); ++i)
+    {
+        Location *loc = locations[i];
+        
+        SWIG_NewPointerObj(context->GetLua(), loc, context->getLibScript()->types.pLocation, 0);
+        if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_BEACON_HAZARD, 1, 1) == 1)
+        {
+            originalEnvs.push({i, loc->event->environment});
+            loc->event->environment = 1;
+            lua_pop(context->GetLua(), 2);
+        }
+        else // No return from callback
+        {
+            lua_pop(context->GetLua(), 1);
+        }
+        
+    }
+
+    super();
+
+    while (!originalEnvs.empty())
+    {
+        locations[originalEnvs.top().first]->event->environment = originalEnvs.top().second;
+        originalEnvs.pop();
+    }
+}
+
 static GL_Color g_flashColor = GL_Color(0.f, 0.f, 0.f, 0.f);
 HOOK_METHOD(SpaceManager, GetFlashOpacity, () -> float)
 {
@@ -1249,9 +1425,9 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -100, () -> void)
     lua_pop(context->GetLua(), 1);
 }
 
-HOOK_METHOD(WeaponControl, SelectArmament, (unsigned int armamentSlot) -> void)
+HOOK_METHOD_PRIORITY(WeaponControl, SelectArmament, -100, (unsigned int armamentSlot) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponControl::SelectArmament -> Begin (Misc.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
 
@@ -1353,6 +1529,37 @@ HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void
     if (!preempt) super(amount, permanentPower);
 }
 
+static bool inArtilleryLoop = false;
+HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (Misc.cpp)\n")
+    
+    inArtilleryLoop = true;
+    super();
+    inArtilleryLoop = false;
+}
+HOOK_METHOD(ProjectileFactory, SetCooldownModifier, (float mod) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SetCooldownModifier -> Begin (Misc.cpp)\n")
+
+    auto context = G_->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
+    lua_pushnumber(context->GetLua(), mod);
+    lua_pushboolean(context->GetLua(), inArtilleryLoop);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::WEAPON_COOLDOWN_MOD, 3, 1);
+    if (lua_isnumber(context->GetLua(), -1))
+    {
+        mod = std::max(0.f, static_cast<float>(lua_tonumber(context->GetLua(), -1)));
+        if (!inArtilleryLoop)
+        {
+            mod = std::min(mod, 1.f);
+        }
+    }
+    lua_pop(context->GetLua(), 3);
+    
+    if (!preempt) super(mod);
+}
+
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (Misc.cpp)\n")
@@ -1416,6 +1623,74 @@ HOOK_METHOD(CrewEquipBox, constructor, (Point pos, ShipManager *ship, int slot) 
         nameInput.allowedChars = TextInput::ALLOW_ANY;
     }
 }
+
+
+HOOK_METHOD(SystemBox, MouseMove, (int x, int y) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemBox::MouseMove -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSystemBox, 0);
+    //Coordinates are relative to the SystemBox
+    lua_pushinteger(context->GetLua(), x - location.x);
+    lua_pushinteger(context->GetLua(), y - location.y);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SYSTEM_BOX_MOUSE_MOVE, 3, 0);
+
+    lua_pop(context->GetLua(), 3);
+
+    if (!preempt) super(x, y);
+}
+//NOTE: Return seems to indicate if the click was successful, so it will be false if preempted. If this needs to be true in some preempt cases allow user to optionally provide their own return value.
+HOOK_METHOD(SystemBox, MouseClick, (bool shift) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemBox::MouseClick -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSystemBox, 0);
+    lua_pushboolean(context->GetLua(), shift);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SYSTEM_BOX_MOUSE_CLICK, 2, 0);
+
+    lua_pop(context->GetLua(), 2);
+    if (!preempt) return super(shift);
+    else return false;
+}
+HOOK_METHOD(SystemBox, KeyDown, (SDLKey key, bool shift) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemBox::KeyDown -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSystemBox, 0);
+    lua_pushinteger(context->GetLua(), key);
+    lua_pushboolean(context->GetLua(), shift);
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SYSTEM_BOX_KEY_DOWN, 3, 0);
+
+    lua_pop(context->GetLua(), 3);
+    if (!preempt) super(key, shift);
+}
+//Might make more sense for this to be structured to have one function per custom system id but we'll use regular callbacks for now
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
+{
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (Misc.cpp)\n")
+    
+    auto context = Global::GetInstance()->getLuaContext();
+
+    lua_pushinteger(context->GetLua(), systemId);
+    lua_pushinteger(context->GetLua(), level + 1); //Push true level
+    lua_pushboolean(context->GetLua(), tooltip);
+    if (context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::GET_LEVEL_DESCRIPTION, 3, 1) == 1 && lua_isstring(context->GetLua(), -1))
+    {
+        std::string ret = lua_tostring(context->GetLua(), -1);
+        lua_pop(context->GetLua(), 4);
+        return ret;
+    }
+    else // No return from callback
+    {
+        lua_pop(context->GetLua(), 3);
+        return super(systemId, level, tooltip);
+    }
+}
+
+
 
 //////////////////////////////////////////////////
 //////////////// RenderEvents.cpp ////////////////
@@ -1587,4 +1862,23 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     int idx = Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::MOUSE_CONTROL, 0);
     if (idx >= 0) super();
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::MOUSE_CONTROL, std::abs(idx), 0);
+}
+
+//Priority so this is blocked by the one in CustomBoss.cpp
+//Translated so that rendering happens in the reference frame of the SystemBox.
+HOOK_METHOD_PRIORITY(SystemBox, OnRender, 100, (bool ignoreStatus) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> SystemBox::OnRender -> Begin (Misc.cpp)\n")
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSystemBox, 0);
+    lua_pushboolean(context->GetLua(), ignoreStatus);
+    CSurface::GL_Translate(location.x, location.y);
+    int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SYSTEM_BOX, 2);
+    CSurface::GL_Translate(-location.x, -location.y);
+    if (idx >= 0) super(ignoreStatus);
+    CSurface::GL_Translate(location.x, location.y);
+    context->getLibScript()->call_on_render_event_post_callbacks(RenderEvents::SYSTEM_BOX, std::abs(idx), 2);
+    CSurface::GL_Translate(-location.x, -location.y);
+    lua_pop(context->GetLua(), 2);
 }

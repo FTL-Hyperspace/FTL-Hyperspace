@@ -1,10 +1,14 @@
 // Continue from WeaponBox::RenderBox (hyper efficiency™)
 ".554889e54157415641554154534883ec684989febe":
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
+".554889e541":
+cleanup __amd64 void WeaponControl::OnLoop(WeaponControl* this);
 ".554889e54157415641554154534883ec684989fce8????f6":
 cleanup __amd64 void WeaponControl::OnLanguageChange(WeaponControl *this);
-"!.554889e54157415653504189f64989ff498b7f18":
+".554889e54157415653504189f64989ff498b7f18":
 cleanup __amd64 void WeaponControl::OnRender(WeaponControl *this, bool front);
+"!.55":
+cleanup __amd64 void WeaponControl::RenderWarnings(WeaponControl *this);
 ".554889e541574156534883ec584189fe":
 static cleanup __amd64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
 "!.554889e54157415641554154534883ec48488b77":
@@ -34,5 +38,6 @@ cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf
 struct WeaponControl
 {{
 	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
 	inline GL_Primitive* GetAimingPrimitive(ProjectileFactory* weapon, int i);
 }};

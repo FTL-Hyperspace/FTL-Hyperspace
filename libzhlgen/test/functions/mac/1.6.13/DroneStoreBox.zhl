@@ -1,4 +1,4 @@
-// Continue from DroneControl::ArmamentHotkey (hyper efficiency™)
+// Continue from DroneControl::SelectArmament (hyper efficiency™)
 ".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
 noHook __amd64 void DroneStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":

@@ -28,7 +28,7 @@ cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf position)
 cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress);
 ".554889e580":
 cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
-"!.554889e5415741564155415453504189f64889fb":
+"!.554889e5415741564155415453504189f648":
 cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool engineWorking);
 "!.554889e54157415653504189f64989ff4180bf10":
 cleanup __amd64 void Ship::OnRenderFloor(Ship *this, bool forceView);
@@ -59,6 +59,7 @@ cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 "!.554889e54157415641554154534883ec2889d341":
 cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 
+
 struct Ship depends (ShipGraph, Globals::Ellipse)
 {{
 	// Function is inlined thus we need this reversed code
@@ -71,8 +72,8 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
 		ret.a = this->baseEllipse.a;
 		ret.b = this->baseEllipse.b;
 
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		Point newEllipse = Point(graph->center.x + this->baseEllipse.center.x, graph->center.y + this->baseEllipse.center.y);
+		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
+		Point newEllipse = Point(shipGraph->center.x + this->baseEllipse.center.x, shipGraph->center.y + this->baseEllipse.center.y);
 
 		ret.center.x = newEllipse.x;
 		ret.center.y = newEllipse.y;
@@ -86,8 +87,8 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
 
 	Pointf GetRoomCenter(int room)
 	{
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		return graph->GetRoomCenter(room);
+		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
+		return shipGraph->GetRoomCenter(room);
 	}
 
 	std::vector<LockdownShard*> GetShards()
@@ -104,6 +105,12 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
 	int GetSelectedRoomId(int x, int y, bool bIncludeWalls)
 	{
 		return this->_GetSelectedRoomId_DO_NOT_CALL(Point(x, y), bIncludeWalls);
+	}
+
+	Point GetShipCorner()
+	{
+		ShipGraph* shipGraph = ShipGraph::GetShipInfo(iShipId);
+		return Point(this->shipImage.x + shipGraph->shipBox.x, this->shipImage.y + shipGraph->shipBox.y);
 	}
 
 	void RenderEngineAnimation(bool showEngines, float alpha);

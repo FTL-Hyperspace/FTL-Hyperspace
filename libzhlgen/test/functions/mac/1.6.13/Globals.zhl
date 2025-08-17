@@ -18,3 +18,17 @@ static __amd64 int Globals::GetNextSpaceId();
 static cleanup __amd64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
 ".554889e54883ec40f30f114d??0f2945":
 static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, float heading);
+
+
+struct Globals::Rect
+{{
+    Rect()
+    {
+
+    }
+
+    Rect(int _x, int _y, int _w, int _h) : x(_x), y(_y), w(_w), h(_h)
+    {
+
+    }
+}};

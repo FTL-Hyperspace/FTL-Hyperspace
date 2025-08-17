@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="es">Los Drones de Abordaje no destruidos serán recuperados al final del combate.</text>
 <text name="aug_MIND_ORDER_title" language="es">Riendas Neurales</text>
 <text name="aug_MIND_ORDER_desc" language="es">Permite el control directo de la tripulación enemiga controlada mentalmente. También toma propiedad de todos los efectos que tenga el tripulante.</text>
+<text name="aug_SECTOR_SCANNER_title" language="es">Escáner del Sector</text>
+<text name="aug_SECTOR_SCANNER_desc" language="es">Permite ver el tipo de sector exacto incluso si no esta adyacente al actual</text>
+<text name="aug_ARTILLERY_ORDER_title" language="es">Apuntado avanzado</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="es">Permite el apuntado manual de los sistemas de artillería.</text>
 <text name="crew_ghost_desc" language="es">Espectros de antiguos tripulantes.</text>
 <text name="crew_ghost_title" language="es">Espectro</text>
 <text name="crew_ghost_short" language="es">Espectro</text>
@@ -26,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace (FTL: Hyperspace)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="es">
-  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="es">
   <mod:setValue>Probabilidad de Fuego: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -271,11 +275,11 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_fr" language="es">Francés</text>
 <text name="credits_hyperspace_loc_fr_names" language="es">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="es">Italiano</text>
-<text name="credits_hyperspace_loc_it_names" language="es">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="es">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="es">Alemán</text>
 <text name="credits_hyperspace_loc_de_names" language="es">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="es">Español</text>
-<text name="credits_hyperspace_loc_es_names" language="es">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="es">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="es">Polaco</text>
 <text name="credits_hyperspace_loc_pl_names" language="es">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="es">Portugués (Brazil)</text>
@@ -286,10 +290,15 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names" language="es">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="es">Japonés</text>
 <text name="credits_hyperspace_loc_ja_names" language="es">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="es">Coreano</text>
-<text name="credits_hyperspace_loc_kor_names" language="es">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="es">Coreano</text>
+<text name="credits_hyperspace_loc_ko_names" language="es">nedsociety, H2O</text>
 
 <text name="shields_4" language="es">Cinco escudos</text>
 <text name="shields_5" language="es">Seis escudos</text>
 <text name="shields_6" language="es">Siete escudos</text>
 <text name="shields_7" language="es">Ocho escudos</text>
+
+<text name="max_augments" language="es">Tu nave solo puede tener instalados \1 aumentos.</text>
+<text name="shot_limit" language="es">Limite de disparos del arma: \1</text>
+<text name="shots_remaining" language="es">Disparos restantes: \1</text>
+<text name="warning_shot_limit" language="es">LÍMITE DE DISPAROS ALCANZADO!</text>

@@ -10,3 +10,5 @@ cleanup __amd64 bool WeaponAnimation::StartFire(WeaponAnimation *this);
 cleanup __amd64 void WeaponAnimation::Update(WeaponAnimation *this);
 ".554889e54157415641":
 cleanup __amd64 void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
+".55":
+cleanup __amd64 void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);

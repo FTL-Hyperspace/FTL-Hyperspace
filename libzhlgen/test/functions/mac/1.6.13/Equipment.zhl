@@ -1,7 +1,19 @@
 // Continue from EnergyAlien::GetRoomDamage (hyper efficiency™)
-"!.554889e54157415641554154534881ec280100004989f649":
+".554889e553504889fb488d0560????004883":
+cleanup __amd64 void Equipment::destructor(Equipment *this); //1000c2640
+"!.554889e553504889fbe842bf":
+cleanup __amd64 void Equipment::constructor(Equipment *this);
+".554889e54157415641554154534881ec280100004989f649":
 cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager* ship);
-".554889e5415741564154534989fc498b8424c802":
+".554889e54157":
+cleanup __amd64 void Equipment::SetPosition(Equipment *this, Point position);
+".55":
+cleanup __amd64 void Equipment::Jump(Equipment *this);
+".554889e5415741564155":
+cleanup __amd64 bool Equipment::IsCompletelyFull(Equipment *this, int type);
+".554889e5415741564155":
+cleanup __amd64 void Equipment::OnRender(Equipment *this);
+".554889e54157415641545349":
 cleanup __amd64 void Equipment::OnLoop(Equipment *this);
 ".554889e5415741564154534989f74989fe49c746":
 cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
@@ -15,6 +27,8 @@ cleanup __amd64 void Equipment::AddDrone(Equipment *this, DroneBlueprint* bp, bo
 cleanup __amd64 void Equipment::AddAugment(Equipment *this, AugmentBlueprint* bp, bool free, bool forceCargo);
 ".554889e54157415653504989fee8ee84":
 cleanup __amd64 void Equipment::Open(Equipment *this);
+".55":
+cleanup __amd64 void Equipment::MouseMove(Equipment *this, int mX, int mY);
 ".554889e553504889fbe81281":
 cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);
 ".554889e5534883ec684889fb80bb1403":

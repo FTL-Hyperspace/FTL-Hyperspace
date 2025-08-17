@@ -87,6 +87,9 @@ struct CustomShipDefinition
     int startingFuel = -1;
     int startingScrap = -1;
 
+    int augSlots = 3;
+    int cargoSlots = 4;
+
     std::unordered_map<int, RoomDefinition*> roomDefs;
     std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> roomStationBackups;
     std::vector<std::string> shipIcons;
@@ -101,6 +104,8 @@ struct CustomShipDefinition
     int maxReactorLevel = 25;
 
     std::string shipGenerator = "";
+
+    std::vector<std::string> artilleryRoomImages;
 
     CustomShipDefinition()
     {

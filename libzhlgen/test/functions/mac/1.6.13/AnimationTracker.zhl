@@ -22,4 +22,7 @@ struct AnimationTracker
 	{
 	
 	}
+
+	void LoadState(int fd);
+	void SaveState(int fd);
 }};

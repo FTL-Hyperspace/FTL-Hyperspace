@@ -25,3 +25,5 @@ cleanup __amd64 void MouseControl::LoadTooltip(MouseControl *this, const std::st
 cleanup __amd64 void MouseControl::SetTooltip(MouseControl *this, const std::string& tooltip);
 ".0fb68768":
 cleanup __amd64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
+".554889e540":
+cleanup __amd64 void MouseControl::SetValid(MouseControl *this, bool valid, bool newValid);

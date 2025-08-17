@@ -11,6 +11,10 @@
 <text name="aug_BOARDER_RECOVERY_desc" language="pl">Zachowane drony aborda?owe zostan? odzyskane na koniec walki.</text>
 <text name="aug_MIND_ORDER_title" language="pl">Wodze Neuralne</text>
 <text name="aug_MIND_ORDER_desc" language="pl">Pozwala na bezpośrednie sterowanie wrogami pod wpływem kontroli umysłu. Również pozwala na wykorzystywanie wszelkich efektów wywoływanych przez tych wrogów</text>
+<text name="aug_SECTOR_SCANNER_title" language="pl">Skaner Sektorów</text>
+<text name="aug_SECTOR_SCANNER_desc" language="pl">Pozwala zobaczyć dokładny typ sektoru nawet jeśli nie sąsiaduje z obecnym.</text>
+<text name="aug_ARTILLERY_ORDER_title" language="pl">Zaawansowane celowanie</text>
+<text name="aug_ARTILLERY_ORDER_desc" language="pl">Pozwala na ręczne celowanie systemów artyleryjskich.</text>
 <text name="crew_ghost_desc" language="pl">Duchy przeszłych załóg.</text>
 <text name="crew_ghost_title" language="pl">Duch</text>
 <text name="crew_ghost_short" language="pl">Duch</text>
@@ -26,7 +30,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="pl">
-  <mod:setValue>\1 (Hyperspace 1.16.2)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.17.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="pl">
   <mod:setValue>Szansa na wzniecenie po?aru: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -271,11 +275,11 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_fr" language="pl">Francuski</text>
 <text name="credits_hyperspace_loc_fr_names" language="pl">Pepson</text>
 <text name="credits_hyperspace_loc_it" language="pl">Włoski</text>
-<text name="credits_hyperspace_loc_it_names" language="pl">RawToast</text>
+<text name="credits_hyperspace_loc_it_names" language="pl">RawToast, Khal</text>
 <text name="credits_hyperspace_loc_de" language="pl">Niemiecki</text>
 <text name="credits_hyperspace_loc_de_names" language="pl">The Dumb Dino</text>
 <text name="credits_hyperspace_loc_es" language="pl">Hiszpański</text>
-<text name="credits_hyperspace_loc_es_names" language="pl">DavidRedFox, Serpy</text>
+<text name="credits_hyperspace_loc_es_names" language="pl">DavidRedFox, Serpy, DarkieZ</text>
 <text name="credits_hyperspace_loc_pl" language="pl">Polski</text>
 <text name="credits_hyperspace_loc_pl_names" language="pl">Marcinus, Palon</text>
 <text name="credits_hyperspace_loc_pt_BR" language="pl">Portugalski (Brazylia)</text>
@@ -286,10 +290,15 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_zn_Hans_names" language="pl">Mwalls</text>
 <text name="credits_hyperspace_loc_ja" language="pl">Japoński</text>
 <text name="credits_hyperspace_loc_ja_names" language="pl">ranhai</text>
-<text name="credits_hyperspace_loc_kor" language="pl">Koreański</text>
-<text name="credits_hyperspace_loc_kor_names" language="pl">nedsociety</text>
+<text name="credits_hyperspace_loc_ko" language="pl">Koreański</text>
+<text name="credits_hyperspace_loc_ko_names" language="pl">nedsociety, H2O</text>
 
 <text name="shields_4" language="pl">Pięć warstwy osłony</text>
 <text name="shields_5" language="pl">Sześć warstwy osłony</text>
 <text name="shields_6" language="pl">Siedem warstwy osłony</text>
 <text name="shields_7" language="pl">Osiem warstwy osłony</text>
+
+<text name="max_augments" language="pl">Statek może mieć tylko \1 wspomagania.</text>
+<text name="shot_limit" language="pl">Limit strzałów: \1</text>
+<text name="shots_remaining" language="pl">Pozostałe strzały: \1</text>
+<text name="warning_shot_limit" language="pl">LIMIT STRZAŁÓW OSIĄGNIĘTY!</text>

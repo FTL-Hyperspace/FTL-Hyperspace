@@ -22,6 +22,8 @@ cleanup __amd64 void MouseControl::SetTooltip(MouseControl *this, const std::str
 cleanup __amd64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
 ".554889fd5389f34883ec0883fe01":
 cleanup __amd64 void MouseControl::SetDoor(MouseControl *this, int state);
+".84d2??88771d74??c6471e01":
+cleanup __amd64 void MouseControl::SetValid(MouseControl *this, bool valid, bool newValid);
 
 "!0f85570400008b85a401000083f8ff740abf(???????\?)":
 MouseControl* Global_MouseControl_Mouse;

@@ -40,8 +40,10 @@ script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, before_function, a
 | N/A | ~~SHIP_EXPLOSION~~ | --- | ~~Probably affects both player & enemy, I think this is when the ship is destroyed~~ |        
 | 1.2.0 | LAYER_FRONT | `None` | In front of player ship, where asteroids above the ship are rendered but you can draw whatever you want |
 | 1.15.0 | FTL_BUTTON | `None` | Same layer as the FTL jump button and most of the player UI |
+| 1.17.0 | SYSTEM_BOX | `SystemBox systemBox` `bool ignoreStatus` | Called for each individual SystemBox, passed under the `systemBox` arg. Render coordinates are in the reference frame of the SystemBox. Unsure what `ignoreStatus` does.|
 | N/A | ~~PAUSE~~ | --- | ~~Pause menu rendering, might be useful for also stopping some other renders~~ |
 | 1.10.0 | SPACE_STATUS | `None` | On rendering hazard environment icons |
+| 1.17.0 | TABBED_WINDOW | `int currentTab` | On rendering a tab in the upgrade interface |
 | N/A | ~~CHOICE~~ | --- | ~~ConfirmWindow/ChoiceBox, when a choice window is on screen~~ |
 | 1.2.0 | MOUSE_CONTROL | `None` | Rendering at the highest layer above everything else where the mouse cursor is finally drawn |
 
@@ -66,16 +68,17 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.2.0 | MAIN_MENU | `None` | `None` | Run code when the main menu opens |
 | 1.10.0 | GET_RUN_SEED | `bool isCustomSeed`, `int seed` | `bool isCustomSeed`, `int seed` | Run code when the seed for the run is set |
 | 1.16.0 | DANGEROUS_ENVIRONMENT | `bool danger` | `bool danger` | Can be used to change the state of the environment, affecting music and ability to upgrade |
+| 1.17.0 | GET_BEACON_HAZARD | `Location loc` | `string hazardText` | If a value is returned, can be used to mark a beacon as a hazard with an icon and tooltip on the beacon map |
 | 1.16.0 | GET_HAZARD_FLASH | `float alpha` | `float red`, `float green`, `float blue`, `float alpha` | Can be used to alter the opacity and color of the flash used for suns and pulsars |
-| 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is pressed |
-| 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `None` | Detect keyboard key is unpressed |
-| 1.4.0 | ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `None` | Detect mouse movement |
+| 1.4.0 | ON_KEY_DOWN | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain` chain | Detect keyboard key is pressed |
+| 1.4.0 | ON_KEY_UP | [`Defines.SDL`](#sdl-keys)` Key` | `Defines.Chain` chain | Detect keyboard key is unpressed |
+| 1.4.0 | ON_MOUSE_MOVE | `int x`, `int y`, `int xdiff`, `int ydiff`, `bool holdingLMB`, `bool holdingRMB`, `bool holdingMMB` | `Defines.Chain` chain | Detect mouse movement |
 | 1.9.0 | GUI_MOUSE_MOVE | `int x`, `int y` | `Defines.Chain` chain | Detect mouse movement (to be used for `GenericButton`'s `MouseMove` method) |
-| 1.4.0 | ON_MOUSE_L_BUTTON_DOWN | `int x`, `int y` | `None` | Detect left mouse button is pressed |
-| 1.4.0 | ON_MOUSE_L_BUTTON_UP | `int x`, `int y` | `None` | Detect left mouse button is unpressed |
-| 1.4.0 | ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `None` | Detect right mouse button is pressed |
-| 1.4.0 | ON_MOUSE_R_BUTTON_UP | `int x`, `int y` | `None` | Detect right mouse button is unpressed |
-| 1.4.0 | ON_MOUSE_M_BUTTON_DOWN | `int x`, `int y` | `None` | Detect middle mouse button is pressed |
+| 1.4.0 | ON_MOUSE_L_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain` chain | Detect left mouse button is pressed |
+| 1.4.0 | ON_MOUSE_L_BUTTON_UP | `int x`, `int y` | `Defines.Chain` chain | Detect left mouse button is unpressed |
+| 1.4.0 | ON_MOUSE_R_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain` chain | Detect right mouse button is pressed |
+| 1.4.0 | ON_MOUSE_R_BUTTON_UP | `int x`, `int y` | `Defines.Chain` chain | Detect right mouse button is unpressed |
+| 1.4.0 | ON_MOUSE_M_BUTTON_DOWN | `int x`, `int y` | `Defines.Chain` chain | Detect middle mouse button is pressed |
 | 1.3.0 | CREW_LOOP | `CrewMember crew` | `None` | While unpaused, run code every in-game tick for each crew member |
 | 1.4.0 | SHIP_LOOP | `ShipManager ship` | `None` | While unpaused, run code every in-game tick for each ship |
 | 1.8.0 | GET_DODGE_FACTOR | `ShipManager ship`, `int value` | `Defines.Chain` chain, `int` value | Can be used to alter the dodge factor for the given ship |
@@ -83,16 +86,19 @@ _**NOTE:** Currently internal events do not expect any arguments or return value
 | 1.15.0 | SELECT_ARMAMENT_PRE | `uint armamentSlot` | `Defines.Chain` chain, `uint` armamentSlot | Triggered when selecting a weapon to fire, can be used to alter or block the selected weapon |
 | 1.15.0 | SELECT_ARMAMENT_POST | `uint armamentSlot` | `Defines.Chain` chain | Triggered after selecting a weapon to fire |
 | 1.10.0 | ON_WAIT | `ShipManager ship` | `None` | Run code every time the ship waits (Spending a jump cycle without moving beacons, either when out of fuel or at last stand) |
-| N/A | ~~ON_INIT~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code on the start of a run (and loading a run), currently handled by `script.on_init` this internal event will potentially replace it~~ |
-| N/A | ~~ON_LOAD~~ | ~~`None`~~ | ~~`None`~~ | ~~Run code after the game is loaded (currently after hyperspace.xml is initialized but might change to on main menu loading so all Lua is ready first), currently handled by `script.on_load` this internal event will potentially replace it~~ |
-| N/A | ~~PLAYERSHIP_ON_HULL_DAMAGE~~ | ~~`int damage`~~ | ~~`int` hull value~~ | ~~Detect damage to the player ship & return a value of the final hull hitpoints, returning 0 will blow up the ship. Receiving a negative value implies healing~~ |
+| 1.17.0 | WEAPON_COOLDOWN_MOD | `ProjectileFactory weapon`, `float cooldownMod`, `bool isArtillery` | `Defines.Chain` chain, `float` cooldownMod | Check and possibly alter the cooldown modifier being applied to a weapon. Return value cannot be greater than 1 for non-artillery weapons. |
 | 1.11.0 | WEAPON_STATBOX | `WeaponBlueprint bp`, `string stats` | `string stats` | Change the text displayed for the player weapon stats (only works if `redesignedWeaponTooltips` is enabled) |
 | 1.11.0 | WEAPON_DESCBOX | `WeaponBlueprint bp`, `string desc` | `string desc` | Change the text displayed for the player weapon description |
-| 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine` | `string firstLine`, `string secondLine` | Change the text displayed for the player weapon cooldown timers |
+| 1.10.0 | WEAPON_RENDERBOX | `ProjectileFactory weapon`, `int cooldown`, `int maxCooldown`, `string firstLine`, `string secondLine`, `string thirdLine` | `Defines.Chain` chain, `string firstLine`, `string secondLine`, `string thirdLine` | Change the text displayed for the player weapon cooldown timers |
 | 1.11.0 | PRE_CREATE_CHOICEBOX | `LocationEvent event` | `None` | Called before the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.11.0 | POST_CREATE_CHOICEBOX | `ChoiceBox choiceBox`, `LocationEvent event` | `None` | Called after the creation of a `ChoiceBox` by a `LocationEvent` |
 | 1.16.0 | CREW_CLONE | `CrewMember crew` | `None` | Called at the start of creating a `CrewMember` after the cloning process |
-
+| 1.17.0 | SYSTEM_BOX_MOUSE_MOVE | `SystemBox systemBox`, `int x`, `int y` | `Chain` | Called when the mouse is moved at coordinates (`x`, `y`). Coordinates are relative to the SystemBox in question. |
+| 1.17.0 | SYSTEM_BOX_MOUSE_CLICK | `SystemBox systemBox`, `bool shift` | `Chain` | Called when the mouse is clicked. `shift` indicates whether the shift key is held on click. |
+| 1.17.0 | SYSTEM_BOX_KEY_DOWN | `SystemBox systemBox`, [`Defines.SDL`](#sdl-keys)` Key`, `bool shift` | `Chain` | Called when a key is pressed. `Key` argument indicates the specific key pressed, and `shift` argument indicates whether the shift key is held on click. |
+| 1.17.0 | GET_LEVEL_DESCRIPTION | `int systemId`, `int level`, `bool tooltip` | `string level_description` | Called to get the description of what a system does at a certain level. `systemId` indicates the ID of the system, `level` indicates the power level, and `tooltip` indicates whether the string being generated is in the context of a mouseover tooltip. |
+| 1.17.0 | TABBED_WINDOW_CONFIRM | `std::string currentTabName` | `None` | Called for every event that closes the current tab in the upgrade menu |
+| 1.17.0 | TABBED_WINDOW_UNDO | `std::string currentTabName` | `None` | Called when the UNDO button is activated in the upgrade menu |
 
 ## Other predefined values
 

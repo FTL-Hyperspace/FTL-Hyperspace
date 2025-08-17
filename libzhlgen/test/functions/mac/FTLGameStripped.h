@@ -1530,6 +1530,7 @@ struct MainMenu
   Button creditsButton;
   Button quitButton;
   std__vector_8ButtonZ1 buttons;
+	uint64_t unk_gap[2]; // No idea what this is, realized there was an issue here because GetShipManager gave a nullptr when accesing this (ptr acces was off by 16 bytes)
   int finalChoice;
   ShipBuilder shipBuilder;
   bool bScoreScreen;
@@ -1542,7 +1543,7 @@ struct MainMenu
   bool bChangedLogin;
   bool bChangedScreen;
   bool bSyncScreen; // The variable was previously covered by a manual 7 byte gap (and still is for the other platforms)
-  std::string error;
+  std__string error;
 };
 
 /* 150 */
@@ -2172,6 +2173,7 @@ struct Equipment
   DropBox overAugImage;
   DropBox sellBox;
   bool bSellingItem;
+  uint8_t gap_ex[6];
   ShipManager *shipManager;
   std__vector_14EquipmentBoxZ1 vEquipmentBoxes;
   std__vector_19ProjectileFactoryZ1 weaponsTrashList;
@@ -3100,6 +3102,7 @@ struct SystemBox
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
   int lastTimerStencilCount;
+  uint8_t gap_ex_1[4];
   GL_Primitive *brokenIcon;
   GL_Primitive *lockIcon;
   GL_Primitive *hackIcon;
@@ -3125,6 +3128,7 @@ struct SystemBox
   bool bPlayerUI;
   bool useLargeTapIcon;
   Point largeTapIconOffset;
+  uint8_t gap_ex_2[4];
   std__vector_3int tapButtonHeights;
   int tapButtonOffsetY;
   int cooldownOffsetY;
@@ -4434,7 +4438,7 @@ struct VTable_EquipmentBox
   void (__thiscall *Free)(EquipmentBox *this);
   void (__thiscall *SetPosition)(EquipmentBox *this, Point pos);
   void (__thiscall *OnRender)(EquipmentBox *this, bool empty);
-  void (__thiscall *RenderLabels)(EquipmentBox *this, bool empty);
+  void (__thiscall *RenderLabels)(EquipmentBox *this, bool dragging);
   void (__thiscall *RenderIcon)(EquipmentBox *this, bool empty);
   void (__thiscall *SetShipManager)(EquipmentBox *this, ShipManager *ship);
   void (__thiscall *MouseMove)(EquipmentBox *this, int x, int y);
@@ -4451,6 +4455,46 @@ struct VTable_EquipmentBox
   char (__thiscall *IsCargoBox)(EquipmentBox *this);
   char (__thiscall *CanHoldCrew)(EquipmentBox *this);
   char (__thiscall *CanDoJob)(EquipmentBox *this);
+};
+
+struct ArrowDescription
+{
+  Point location;
+  float rotation;
+  bool upgradesRelative;
+  int hostileRelative;
+};
+
+struct std__vector_16ArrowDescription
+{
+  ArrowDescription *_start;
+  ArrowDescription *_finish;
+  ArrowDescription *_end;
+};
+
+struct StateInfo {
+  bool stateContinueNeeded;
+  TextString stateText;
+  std__vector_16ArrowDescription arrows;
+};
+
+struct std__map_23std__string___StateInfo
+{
+  char unk[48];
+};
+
+struct std__vector_6Button
+{
+  Button *_start;
+  Button *_finish;
+  Button *_end;
+};
+
+struct std__vector_11FocusWindow
+{
+  FocusWindow *_start;
+  FocusWindow *_finish;
+  FocusWindow *_end;
 };
 
 /* 672 */
@@ -4816,7 +4860,34 @@ struct VTable_StoreBox
 };
 
 /* 156 */
-struct TutorialManager;
+struct TutorialManager
+{
+  bool bRunning;
+  TextButton continueButton;
+  int currentState;
+  std__string stateName;
+  std__vector_11std__string stateOrder;
+  std__map_17std__string___int stateValues;
+  std__map_23std__string___StateInfo states;
+  ShipManager *playerShip;
+  CommandGui *gui;
+  CrewControl *crewControl;
+  StarMap *starMap;
+  Upgrades *upgradeScreen;
+  CombatControl *combatControl;
+  SystemControl *systemControl;
+  TabbedWindow *shipInfo;
+  bool bGamePaused;
+  bool bQuitTutorial;
+  AnimationTracker tracker;
+  float timerOpen;
+  WindowFrame *descBox;
+  int descBoxHeight;
+  GL_Texture *arrow;
+  GL_Texture *arrow2;
+  HandAnimation hand;
+  bool bTriggerEvent;
+};
 
 /* 159 */
 struct ShipRepairDrone;
@@ -5358,7 +5429,11 @@ struct WeaponEquipBox
 struct ShipRepair;
 
 /* 240 */
-struct DroneBox;
+struct DroneBox
+{
+    ArmamentBox _base;
+    Drone* pDrone;
+};
 
 /* 254 */
 struct freetype;
@@ -6195,3 +6270,10 @@ struct VTable_CrewTarget
   bool (__thiscall *IsDrone)(CrewTarget *this);
 };
 
+struct ResourceBoxDesc
+{
+  int w;
+  int h;
+  Point row1;
+  Point row2;
+};
