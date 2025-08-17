@@ -41,6 +41,10 @@ cleanup __amd64 std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugmen
 cleanup __amd64 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
 ".554889e541574156534883ec184989f74889fb4c8db3e0":
 cleanup __amd64 SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this, const std::string& name);
+".554889e54157415641554154534883ec4849":
+cleanup __amd64 void BlueprintManager::ResetRarities(BlueprintManager *this);
+".554889e54157415641554154534883":
+cleanup __amd64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
 
 
 struct BlueprintManager

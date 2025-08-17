@@ -87,12 +87,16 @@ cleanup __amd64 void ShipSystem::ClearStatus(ShipSystem *this);
 cleanup __amd64 void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
 "!.554889e553504889fb89b3a4":
 cleanup __amd64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+"!.554889e553504889fb89b3a8":
+cleanup __amd64 void ShipSystem::SetDividePower(ShipSystem *this,int val);
 ".554889e54157415653504989ff4183bf":
 cleanup __amd64 void ShipSystem::OnLoop(ShipSystem *this);
 ".554889e5415741564154534889fb80bb":
 cleanup __amd64 void ShipSystem::CheckMaxPower(ShipSystem *this);
 ".554889e54157415641545389f34989fe":
 cleanup __amd64 bool ShipSystem::ForceDecreasePower(ShipSystem *this, int powerLoss);
+"!.55":
+cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
 ".80bf9c01":
 cleanup __amd64 void ShipSystem::SetBonusPower(ShipSystem *this, int amount, int permanentPower);
 ".554889e54156534189f64889fb80bb9c":
@@ -110,8 +114,6 @@ cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bo
 ".554889e553504889fb488d35????0d00e8????0b":
 static cleanup __amd64 int ShipSystem::NameToSystemId(const std::string& name);
 
-"eeeeee":
-cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
 
 struct ShipSystem
 {{

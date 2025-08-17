@@ -8,6 +8,7 @@
 #include "CustomDamage.h"
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
+#include "CustomLockdowns.h"
 #include "CustomSystems.h"
 #include "Tasks.h"
 
@@ -642,6 +643,11 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
         {
             def.damage.bLockdown = EventsParser::ParseBoolean(effectNode->value());
         }
+        if (effectName == "customLockdown")
+        {
+            def.customLockdown.ParseNode(effectNode);
+            def.damage.bLockdown = true;
+        }
         if (effectName == "friendlyFire")
         {
             def.damage.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
@@ -945,6 +951,11 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
         if (effectName == "lockdown")
         {
             def->damage.bLockdown = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "customLockdown")
+        {
+            def->customLockdown.ParseNode(effectNode);
+            def->damage.bLockdown = true;
         }
         if (effectName == "friendlyFire")
         {
@@ -2565,7 +2576,10 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                             CustomDamage* oldDamage = CustomDamageManager::currentWeaponDmg;
                             CustomDamageManager::currentWeaponDmg = nullptr; // if triggered by a projectile we don't want that projectile's CustomDamage for this effect
 
+                            CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+                            CustomLockdownDefinition::currentLockdown = &explosionDef->customLockdown;
                             crewShip->DamageArea(Pointf(x, y), damage, true);
+                            CustomLockdownDefinition::currentLockdown = oldLockdown;
 
                             CustomDamageManager::currentWeaponDmg = oldDamage;
                         }
@@ -3703,9 +3717,9 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, ClearStatusSystem, (int sys) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, ClearStatusSystem, -1000, (int sys) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ClearStatusSystem -> Begin (CustomCrew.cpp)\n")
     if (blockClearStatus) return;
 
     super(sys);
@@ -4092,8 +4106,15 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
         Damage dmgI = crew->GetRoomDamage();
 
-        if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        if (custom->IsRace(crew->species))
+        {
+            auto def = custom->GetDefinition(crew->species);
+            CustomLockdownDefinition::currentLockdown = &CM_EX(crew)->deathEffectChange.customLockdown;
+        }
 
+        if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
         if (custom->IsRace(crew->species))
         {
             int ownerShip = crew->GetPowerOwner();
@@ -4172,7 +4193,10 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                         Damage dmg = power->GetPowerDamage();
 
                         shipFriendlyFire = power->def->shipFriendlyFire;
+                        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+                        CustomLockdownDefinition::currentLockdown = &power->def->customLockdown;
                         actualShip->DamageArea(power->effectWorldPos, dmg, true);
+                        CustomLockdownDefinition::currentLockdown = oldLockdown;
                     }
                     power->powerActivated = false;
                 }
@@ -5369,7 +5393,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
     if (crewId == -1) return super(task, crewId);
-    
+
     CrewMember* crew = crewList[crewId];
     if (task.taskId == TASK_MANNING && !crew->CanMan())
     {
@@ -5383,6 +5407,33 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
     }
 
     return super(task, crewId);
+}
+
+//Prevent impossible tasks from blocking manning
+HOOK_METHOD(CrewMember, SetCurrentSystem, (ShipSystem* system) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetCurrentSystem -> Begin (CustomCrew.cpp)\n")
+    
+    if (system == nullptr) return super(system);
+    else
+    {
+        bool oldOccupied = system->bOccupied;
+        bool oldOnFire = system->bOnFire;
+        int oldHealth = system->healthState.first;
+
+        if (!CanRepair())
+        {
+            system->bOnFire = false;
+            system->healthState.first = system->healthState.second;
+        }
+        if (!CanFight()) system->bOccupied = false;
+
+        super(system);
+
+        system->bOccupied = oldOccupied;
+        system->bOnFire = oldOnFire;
+        system->healthState.first = oldHealth;
+    }
 }
 
 HOOK_METHOD(CrewMember, GetSavedPosition, () -> Slot)
@@ -5952,6 +6003,9 @@ HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
 HOOK_METHOD(CrewMember, SetMindControl, (bool controlled) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::SetMindControl -> Begin (CustomCrew.cpp)\n")
+    //Fix bug where calling this method on a crewmember that is dying would leave the wrong slot filled when they died
+    bool deathState = IsDead() || crewAnim->status == 3 || OutOfGame();
+    if (deathState) controlled = bMindControlled;
     super(controlled);
     if (iShipId == 1)
     {
@@ -6272,39 +6326,62 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 }
 
 // Door damage multiplier
-HOOK_METHOD(Door, ApplyDamage, (float amount) -> bool)
+HOOK_METHOD_PRIORITY(Door, ApplyDamage, 9999, (float amount) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> Door::ApplyDamage -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Door::ApplyDamage -> Begin (CustomCrew.cpp)\n")
+    if (forcedOpen.running) return false;
+    gotHit.Start(0.f);
+
+    float damage = 1.f;
     if (currentCrewLoop)
     {
         CrewMember_Extend *ex = CM_EX(currentCrewLoop);
         CrewDefinition *def = ex->GetDefinition();
-        if (def)
+        if (def) damage = ex->CalculateStat(CrewStat::DOOR_DAMAGE_MULTIPLIER, def);
+    }
+
+
+    int iDamage = (int)damage;
+    float fDamage = damage - iDamage;
+    if (fDamage > 0.f && random32() < fDamage*2147483648.f) iDamage++;
+    if (iDamage > 0)
+    {
+        if (lockedDown.running)
         {
-            if (forcedOpen.running) return false;
-
-            float damage = ex->CalculateStat(CrewStat::DOOR_DAMAGE_MULTIPLIER, def);
-            int iDamage = (int)damage;
-            float fDamage = damage - iDamage;
-            if (fDamage > 0.f && random32() < fDamage*2147483648.f) iDamage++;
-
-            if (iDamage > 0) health -= iDamage;
-            gotHit.Start(0.f);
-
+            //Apply all damage to the LockdownShards
+            Ship* ship = &G_->GetShipManager(iShipId)->ship;
+            bool allLockdownsDead = true;
+            for (LockdownShard& shard : ship->lockdowns)
+            {
+                LockdownShard_Extend* ex = LD_EX(&shard);
+                if (ex->door == this)
+                {
+                    ex->health -= iDamage;
+                    if (ex->health > 0) allLockdownsDead = false;
+                }
+            }
+            Door_Extend* ex = DOOR_EX(this);
+            if (allLockdownsDead && ex->wasLockedDown)
+            {
+                SetLockdown(false);
+                forcedOpen.Start(0.f);
+                bOpen = true;
+            }
+        }
+        else
+        {
+            health -= iDamage;
             if (health < 1)
             {
                 forcedOpen.Start(0.f);
-                health = baseHealth;
-                lockedDown.Stop(false);
                 baseHealth = lastbase;
                 health = lastbase;
                 bOpen = true;
             }
 
-            return false;
         }
     }
-    return super(amount);
+    return false;
 }
 
 // Custom Teleport
@@ -6825,7 +6902,7 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CountPlayerCrew -> Begin (CustomCrew.cpp)\n")
     int ret = 0;
     for (auto& crew: vCrewList)
-    {   
+    {
         auto ex = CM_EX(crew);
 
         bool canTeleport;
@@ -6843,7 +6920,7 @@ HOOK_METHOD_PRIORITY(ShipManager, CountPlayerCrew, 9999, () -> int)
 HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::RestorePosition -> Begin (CustomCrew.cpp)\n")
-    
+
     Slot station;
     if (!bDead && savedPosition.roomId != -1 && (station = FindSlot(savedPosition.roomId, savedPosition.slotId, false), station.roomId > -1) && station.slotId > -1)
     {
@@ -6911,7 +6988,7 @@ HOOK_METHOD(CrewMember, RestorePosition, () -> bool)
             }
         }
     }
-    
+
     return false;
 }
 
@@ -6947,7 +7024,7 @@ HOOK_METHOD(ShipGraph, FindPath, (Point p1, Point p2, int shipId) -> Path)
             {
                 int slot = shipManager->ship.vRoomList[backupRoom.first]->GetEmptySlot(false);
                 ret = super(p1, GetSlotWorldPosition(slot, backupRoom.first), shipId);
-                if (ret.distance != -1.0) 
+                if (ret.distance != -1.0)
                 {
                     g_partitionDestRoomId = backupRoom.first;
                     g_partitionDestSlotId = slot;

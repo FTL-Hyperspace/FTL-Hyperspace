@@ -1,4 +1,4 @@
-// Continue from SpaceStatus::MouseMove (hyper efficiency™)
+// Continue from Spreader_Fire::CounterRoom (hyper efficiency™)
 ".554889e54157415641554154534881ec????????4989fce8????????488d05????????4989042441c7442420":
 cleanup __amd64 void StarMap::constructor(StarMap *this);
 ".554889e54157415641554154534883ec584889fb488bbb80":
@@ -58,7 +58,7 @@ cleanup __amd64 void StarMap::SetupNoFuel(StarMap *this, int seed, const std::st
 ".554889e5415741564154534883ec704189f64989":
 cleanup __amd64 Location* StarMap::NewGame(StarMap *this, bool tutorial);
 ".554889e54156534889fb488dbbb80c00":
-cleanup __amd64 void StarMap::MapConnected(StarMap *this);
+cleanup __amd64 bool StarMap::MapConnected(StarMap *this);
 ".554889e5415741564155415453504989f54c8da7":
 cleanup __amd64 void StarMap::AddConnections(StarMap *this, Location* location);
 "!.554889e54157415641554154534883ec384989f64d89f749":

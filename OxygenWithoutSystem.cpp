@@ -5,10 +5,10 @@
     This file contains the code to allow ships to have oxygen without an oxygen system installed.
     The game implements oxygen mechanics via the OxygenSystem class, which is instantiated at ShipManager::oxygenSystem.
     This was previously nullptr for all ShipManager instances that did not have an oxygen system installed, preventing oxygen mechanics from functioning properly.
-    
+
     Implementation Details:
-    
-    All ShipManagers now have an OxygenSystem instance, regardless of whether an oxygen system is installed.     
+
+    All ShipManagers now have an OxygenSystem instance, regardless of whether an oxygen system is installed.
 
 
     All OxygenSystem methods are called either directly via ShipManager::oxygenSystem or by virtual dispatch from the ShipSystem base class.
@@ -98,7 +98,7 @@ Other:
 *
 * @return true if the dummy oxygen system should be used; false otherwise.
 */
-static inline bool UseDummyOxygen()
+static inline bool OxygenSettingEnabled()
 {
     return CustomOptionsManager::GetInstance()->oxygenWithoutSystem.currentValue;
 }
@@ -108,33 +108,26 @@ static inline bool UseDummyOxygen()
 const static int DUMMY_VALUE = -2;
 /**
  * @brief Starts using the dummy oxygen system.
+ * @return true if the dummy oxygen system was not being used; false otherwise.
 */
-void ShipManager::StartDummyOxygen()
+
+/**
+ * @brief Sets whether the dummy oxygen system is being used or not.
+ * @param useDummyOxygen A boolean indicating whether to use the dummy oxygen system.
+ * @return The previous state of the dummy oxygen system, true if it was being used, false otherwise.
+*/
+bool ShipManager::SetDummyOxygen(bool useDummyOxygen)
 {
-    if (systemKey[SYS_OXYGEN] == -1 && UseDummyOxygen())
+    bool lastState = systemKey[SYS_OXYGEN] == DUMMY_VALUE;
+    if (OxygenSettingEnabled() && systemKey[SYS_OXYGEN] < 0)
     {
-        systemKey[SYS_OXYGEN] = DUMMY_VALUE;
         //Possibly move this elsewhere? Must be before all uses of oxygenSystem methods but after the number of rooms is known.
         //Or use a multi-step initialization process.
-        if (oxygenSystem == nullptr) 
-        {
-            InstallDummyOxygen();
-        }
+        if (oxygenSystem == nullptr && useDummyOxygen) InstallDummyOxygen();
+        systemKey[SYS_OXYGEN] = useDummyOxygen ? DUMMY_VALUE : -1;
     }
-};
-/**
-* @brief Stops using the dummy oxygen system.
-* @return true if the dummy oxygen system was being used; false otherwise.
-*/
-bool ShipManager::StopDummyOxygen()
-{
-    if (systemKey[SYS_OXYGEN] == DUMMY_VALUE && UseDummyOxygen())
-    {
-        systemKey[SYS_OXYGEN] = -1;
-        return true;
-    }
-    return false;
-};
+    return lastState;
+}
 /**
 * @brief Installs the dummy oxygen system.
 */
@@ -180,40 +173,40 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddCrewMemberFromString -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     CrewMember* ret = super(name, race, intruder, roomId, init, male);
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder) -> CrewMember*)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddCrewMemberFromBlueprint -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     CrewMember* ret = super(bp, slot, init, roomId, intruder);
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetOxygenLevel, (int roomId) -> float)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetOxygenLevel -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     float ret = super(roomId);
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateEnvironment -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     super();
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     super();
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 
 HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
@@ -252,211 +245,208 @@ HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
 HOOK_METHOD(ShipManager, GetOxygenLevels, () -> std::vector<float>)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetOxygenLevels -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     std::vector<float> ret = super();
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetOxygenPercentage, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetOxygenPercentage -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     int ret = super();
-    StopDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 //Call OnLoop method (Normally called via virtual dispatch) from ShipSystem* in vSystemList
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (OxygenWithoutSystem.cpp)\n")
-    StartDummyOxygen();
+    bool lastState = SetDummyOxygen(true);
     super();
-    StopDummyOxygen();
-    if (UseDummyOxygen() && DummyOxygenInstalled())
-    {
-        oxygenSystem->OnLoop();
-    }
+    if (OxygenSettingEnabled() && DummyOxygenInstalled()) oxygenSystem->OnLoop();
+    SetDummyOxygen(lastState);
 }
 
 //Ensure systemKey checks are not bypassed for relevant methods.
 HOOK_METHOD(ShipManager, GetSystemPower, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemPower -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, IsSystemHacked, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsSystemHacked -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 #ifndef __APPLE__ // Double instance doesn't exist in the mac binary
 HOOK_METHOD(ShipManager, IsSystemHacked2, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IsSystemHacked2 -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 #endif
 HOOK_METHOD(ShipManager, ClearStatusSystem, (int systemId) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 HOOK_METHOD(ShipManager, ClearStatusAll, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusAll -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     super();
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 HOOK_METHOD(ShipManager, SetSystemPowerLimit, (int systemId, int limit) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLimit -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     super(systemId, limit);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 HOOK_METHOD(ShipManager, SetSystemPowerLoss, (int systemId, int powerLoss) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLoss -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     super(systemId, powerLoss);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 HOOK_METHOD(ShipManager, SetSystemDividePower, (int systemId, int amount) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemDividePower -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     super(systemId, amount);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
 }
 HOOK_METHOD(ShipManager, GetSystemAvailablePower, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemAvailablePower -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetSystemDamage, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemDamage -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetSystemHealth, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemHealth -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, IncreaseSystemPower, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::IncreaseSystemPower -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, ForceIncreaseSystemPower, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::ForceIncreaseSystemPower -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, ForceDecreaseSystemPower, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::ForceDecreaseSystemPower -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetSystemRoom, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemRoom -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetSystem, (int systemId) -> ShipSystem*)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystem -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, SystemLocked, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SystemLocked -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, SystemFunctions, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SystemFunctions -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 //Check that this isn't used as a guard in some cases, it should be inlined most of the time.
 HOOK_METHOD(ShipManager, HasSystem, (int systemId) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::HasSystem -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, SystemRoom, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SystemRoom -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, GetSystemPowerMax, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::GetSystemPowerMax -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, CanUpgrade, (int systemId, int amount) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CanUpgrade -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     auto ret = super(systemId, amount);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
     return ret;
 }
 HOOK_METHOD(ShipManager, UpgradeSystem, (int systemId, int amount) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::UpgradeSystem -> Begin (OxygenWithoutSystem.cpp)\n")
-    bool stopped = StopDummyOxygen();
+    bool lastState = SetDummyOxygen(false);
     super(systemId, amount);
-    if (stopped) StartDummyOxygen();
+    SetDummyOxygen(lastState);
 }

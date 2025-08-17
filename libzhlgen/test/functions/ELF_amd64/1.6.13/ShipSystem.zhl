@@ -91,6 +91,8 @@ cleanup __amd64 void ShipSystem::ClearStatus(ShipSystem *this);
 cleanup __amd64 void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
 "!.53488b074889fb89b794010000":
 cleanup __amd64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+"!.83fe01534889fb89b798010000":
+cleanup __amd64 void ShipSystem::SetDividePower(ShipSystem *this,int val);
 ".5531c0534889fb4883ec18":
 cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
 ".8b879c01000083f8ff":
@@ -114,7 +116,7 @@ cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); 
 struct ShipSystem
 {{
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);

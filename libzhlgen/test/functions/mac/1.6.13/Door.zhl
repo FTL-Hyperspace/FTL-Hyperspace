@@ -1,19 +1,43 @@
 // Continue from DefenseDrone::OnLoop (hyper efficiency™)
-"!.554889e54156534189f64889fb8bb32c":
+".554889e54157415641554154534881ec7801000045":
+cleanup __amd64 void Door::constructor(Door *this);
+"!.554889e541":
 cleanup __amd64 void Door::SaveState(Door *this, int fd);
 "!.554889e54156534189f64889fb44":
 cleanup __amd64 void Door::LoadState(Door *this, int fd);
+"!.554889e553":
+cleanup __amd64 void Door::AccelerateAnimation(Door *this);
+"!.554889e553504889fb488d05b0":
+cleanup __amd64 void Door::destructor(Door *this);
 "!.554889e5c6472c01":
 cleanup __amd64 void Door::FakeOpen(Door *this);
-"!.554889e5c6472c00":
+".554889e541":
+cleanup __amd64 void Door::StartAnimIfNecessary(Door *this);
+"!.554889e5c6":
 cleanup __amd64 void Door::FakeClose(Door *this);
-".554889e58b4f0831":
+".554889e580":
+cleanup __amd64 void Door::SetBlastDoor(Door *this, int val);
+".55":
 cleanup __amd64 bool Door::IsSealed(Door *this, int shipId);
 "!.554889e54156534889fb8b83":
 cleanup __amd64 void Door::OnLoop(Door *this);
+".554889e553":
+cleanup __amd64 void Door::SetLockdown(Door *this, bool val);
+".55":
+cleanup __amd64 void Door::UpdateAnimations(Door *this);
+"!.55":
+cleanup __amd64 void Door::PauseLoop(Door *this);
 ".554889e553504889fb80bb4c02000000":
 cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
-".554889e54883ec108bb7b00200008b97b4020000488d7df0":
+".554889e583":
+cleanup __amd64 bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2);
+".554889e580":
+cleanup __amd64 bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale);
+"!.554889e5c6472401":
+cleanup __amd64 void Door::Open(Door *this);
+".554889e54157":
+cleanup __amd64 void Door::OnRender(Door *this, float alpha, bool bForceView, bool useLargeSprites);
+".554889e548":
 cleanup __amd64 Point Door::GetPosition(Door *this);
 
 
@@ -22,9 +46,9 @@ struct Door depends (Point, ShipGraph)
 public:
 	Point GetCenterPoint()
 	{
-		Point ret = Point(this->x, this->y);
-		return ret;
+		return Point(this->x, this->y);
 	}
+
 	Point GetEntryWay(int room)
 	{
 		Point position1 = Point(this->x, this->y);
@@ -51,5 +75,20 @@ public:
 		{
 			return position1;
 		}
+	}
+
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
 	}
 }};

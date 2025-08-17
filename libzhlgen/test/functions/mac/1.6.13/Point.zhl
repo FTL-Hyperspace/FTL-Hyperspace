@@ -5,11 +5,11 @@ cleanup __amd64 int Point::RelativeDistance(Point *this, Point other);
 cleanup __amd64 int Point::Distance(Point *this, Point other);
 
 
-struct Point 
+struct Point
 {{
 	Point()
 	{
-		
+
 	}
 
 	Point(int x, int y)
@@ -17,25 +17,32 @@ struct Point
 		this->x = x;
 		this->y = y;
 	}
-	
+
 	Point operator+(const Point& other)
 	{
 		return Point(x + other.x, y + other.y);
 	}
 
 	Point operator-(const Point& other)
-	{		
+	{
 		return Point(x - other.x, y - other.y);
 	}
 
 	Point operator/(int amount)
-	{		
+	{
 		return Point(x / amount, y / amount);
 	}
 
 	Point operator*(int amount)
-	{		
+	{
 		return Point(x * amount, y * amount);
+	}
+
+	//Required for std::map with Point keys to function properly
+	bool operator<(const Point& other) const
+	{
+		if (x == other.x) return y < other.y;
+		return x < other.x;
 	}
 
 	friend bool operator==(const Point& a, const Point& b)

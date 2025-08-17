@@ -60,6 +60,8 @@ cleanup __amd64 CrewMember* ShipManager::AddCrewMemberFromString(ShipManager *th
 cleanup __amd64 CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
 ".554889e54157415641554154534883ec484889f30f57c00f":
 cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint* bp);
+"!.554889e54157415653":
+cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone);
 "!.554889e54157415641554154534881ec????????4989fe498b":
 cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this);
 ".554889e54157415641554154534883ec384989fc41837c24":
@@ -242,18 +244,19 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
 	
-	Pointf GetRoomCenter(int roomId)
+	inline Pointf GetRoomCenter(int roomId)
 	{
-		return ship.GetRoomCenter(roomId);
+		return this->ship.GetRoomCenter(roomId);
 	}
 	
 	std::pair<int, int> GetAvailablePower()
 	{
-		PowerManager* powerMan = PowerManager::GetPowerManager(iShipId);
+		PowerManager* powerMan = PowerManager::GetPowerManager(this->iShipId);
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void StartDummyOxygen();
 	bool StopDummyOxygen();
 	void InstallDummyOxygen();

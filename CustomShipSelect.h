@@ -45,7 +45,7 @@ struct ShipButtonDefinition
     std::array<std::vector<CustomAchievement*>,3> shipAchievements;
     TextString shipAchievementHeading;
 
-    bool VariantExists(int variant)
+    bool VariantExists(int variant) const
     {
         return (variant == 0 && typeA) || (variant == 1 && typeB) || (variant == 2 && typeC);
     }
@@ -432,6 +432,11 @@ public:
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
     std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();
+    //For use by Lua
+    std::vector<ShipButtonList*> GetShipButtonLists()
+    {
+        return shipButtons;
+    }
 
 private:
     ShipSelect* shipSelect;

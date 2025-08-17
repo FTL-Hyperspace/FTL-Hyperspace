@@ -16,6 +16,8 @@ noop void* Global__NOP__Ship_OnInit_6;
 */
 ".554889e54157415641554154534883ec284989f64989ff498d9ff004":
 cleanup __amd64 void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
+".554889e54157415641554154535041":
+cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
 /* Causes issues when hooking - faked the function by using its overload
 "!.554889e54157415653504189d64989f74c89fb48c1eb":
 cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
@@ -28,6 +30,8 @@ cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf position)
 cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress);
 ".554889e580":
 cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
+".554889e553":
+cleanup __amd64 float Ship::GetCloakAlpha(Ship *this, bool complete);
 "!.554889e5415741564155415453504189f648":
 cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool engineWorking);
 "!.554889e54157415653504189f64989ff4180bf10":
@@ -36,14 +40,18 @@ cleanup __amd64 void Ship::OnRenderFloor(Ship *this, bool forceView);
 cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
 ".554889e54157415653504989fe498b464049394648744cbb":
 cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
+".554889e54157415641554154534883ec28":
+cleanup __amd64 void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
 ".554889e54157415641554154534883ec184189d78975d449":
 cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 ".554889e54157415641554154534883ec284189d74189f44889fb":
 cleanup __amd64 bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "!.554889e54157415653504189d64989f74c89fb48c1eb208b7f08": // Use this instead because the other causes issues when trying to hook it
 cleanup __amd64 int Ship::_GetSelectedRoomId_DO_NOT_CALL(Ship *this, Point _position, bool _bIncludeWalls);
-"!.554889e54157415641554154534883ec688975cc":
+".554889e54157415641554154534883ec688975cc":
 cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
+".554889e54157415641554154534881":
+cleanup __amd64 void Ship::LoadState(Ship *this, int fd);
 "!.554889e54157415641554154534883ec184989f74989fd49":
 cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 ".554889e54157415653504189f64989ff498b4710":
@@ -124,4 +132,50 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
 	  DOOR_ANIMATING = 0x4,
 	};
 
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = 2147483647;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
 }};

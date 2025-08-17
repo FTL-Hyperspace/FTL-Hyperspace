@@ -29,13 +29,22 @@
 #include "TemporalSystem.h"
 #include "Misc.h"
 #include "CustomDamage.h"
+#include "CustomLockdowns.h"
+
 %}
 
-//Current exception macro offers a trace to the wrong level
+//Some exception levels are empty, this grabs the first non-empty level
 %{
     #define SWIG_exception(a, b)\
     {\
-        luaL_where(L, 2);\
+        int errorLevel = 0;\
+        size_t len = 0;\
+        do {\
+            luaL_where(L, errorLevel++);\
+            lua_tolstring(L, -1, &len);\
+            if (len == 0) lua_pop(L, 1);\
+            else break;\
+        } while (true);\
         lua_pushfstring(L,"%s:%s",#a,b);\
         lua_concat(L, 2);\
         SWIG_fail;\
@@ -322,6 +331,8 @@ namespace std {
     %template(unordered_multimap_string_AugmentFunction) unordered_multimap<string, AugmentFunction>;
     %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
+    %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
+    %template(vector_p_GL_Texture) vector<GL_Texture*>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -1693,7 +1704,14 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %nodefaultctor ShipManager_Extend;
 %rename("%s") ShipManager_Extend;
-//Potential fix for fireSpreader indexing issue
+
+%{
+    static bool Fire_Coordinates_Valid(ShipManager* shipManager, int x, int y)
+    {
+        return (x >= 0 && x < shipManager->fireSpreader.grid.size() && y >= 0 && y < shipManager->fireSpreader.grid[x].size());
+    }
+%}
+
 %rename("%s") ShipManager::GetFireAtPoint;
 %rename("%s") ShipManager::GetFire;
 %extend ShipManager {
@@ -1702,33 +1720,52 @@ We can expose them once the root cause is identified and the crash is fixed.
     //Possible Methods
 
     //Get fire at spacial coordinates
-    Fire& GetFireAtPoint(float x, float y)
+    Fire& GetFireAtPoint(float x, float y) throw (std::invalid_argument)
     {
         Point fireCoordinates = ShipGraph::TranslateToGrid(x, y);
+        if (!Fire_Coordinates_Valid($self, fireCoordinates.x, fireCoordinates.y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: (%f, %f)") % x % y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
     }
 
     //Get fire at spacial coordintes (Point form)
-    Fire& GetFireAtPoint(Point p)
+    Fire& GetFireAtPoint(Point p) throw (std::invalid_argument)
     {
         Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        if (!Fire_Coordinates_Valid($self, fireCoordinates.x, fireCoordinates.y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: Point(%i, %i)") % p.x % p.y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
     }
 
     //Get fire at spacial coordinates (Pointf form)
-    Fire& GetFireAtPoint(Pointf p)
+    Fire& GetFireAtPoint(Pointf p) throw (std::invalid_argument)
     {
         Point fireCoordinates = ShipGraph::TranslateToGrid(p.x, p.y);
+        if (!Fire_Coordinates_Valid($self, fireCoordinates.x, fireCoordinates.y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: Pointf(%f, %f)") % p.x % p.y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[fireCoordinates.x][fireCoordinates.y];
     }
 
     //Indexing function, grid coordinates
-    Fire& GetFire(int x, int y)
+    Fire& GetFire(int x, int y) throw (std::invalid_argument)
     {
+        if (!Fire_Coordinates_Valid($self, x, y))
+        {
+            std::string error = (boost::format("Invalid fire coordinates: (%i, %i)") % x % y).str();
+            throw std::invalid_argument(error);
+        }
         return $self->fireSpreader.grid[x][y];
     }
 }
-
 
 %rename("%s") Spreader_Fire;
 %rename("%s") Spreader_Fire::count;
@@ -1799,6 +1836,29 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") OxygenSystem::EmptyOxygen;
 %rename("%s") OxygenSystem::GetRefillSpeed;
 %rename("%s") OxygenSystem::ModifyRoomOxygen;
+%extend OxygenSystem {
+    //ModifyRoomOxygen allows an out-of-bounds write in vanilla code
+    void ModifyRoomOxygen(int roomId, float amount) throw (std::invalid_argument)
+    {
+        if (roomId < 0 || roomId >= $self->oxygenLevels.size())
+        {
+            std::string error = (boost::format("Invalid roomId: %i") % roomId).str();
+            throw std::invalid_argument(error);
+        }
+        $self->ModifyRoomOxygen(roomId, amount);
+    }
+    //EmptyOxygen allows an out-of-bounds write in vanilla code
+    void EmptyOxygen(int roomId) throw (std::invalid_argument)
+    {
+        if (roomId < 0 || roomId >= $self->oxygenLevels.size())
+        {
+            std::string error = (boost::format("Invalid roomId: %i") % roomId).str();
+            throw std::invalid_argument(error);
+        }
+        $self->EmptyOxygen(roomId);
+    }
+}
+
 %rename("%s") OxygenSystem::max_oxygen;
 %rename("%s") OxygenSystem::oxygenLevels;
 %rename("%s") OxygenSystem::fTotalOxygen;
@@ -2473,22 +2533,26 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Ship::bCloaked;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
+%immutable Ship::lockdowns; //Removing shards via lua will cause a memory leak as the extend will not be deleted
 %rename("%s") Ship::lockdowns;
 
-%nodefaultctor LockdownShard;
 
-%rename("%s") LockdownShard;
-%rename("%s") LockdownShard::Update;
-%rename("%s") LockdownShard::shard;
-%rename("%s") LockdownShard::position;
-%rename("%s") LockdownShard::goal;
-%rename("%s") LockdownShard::speed;
-%rename("%s") LockdownShard::bArrived;
-%rename("%s") LockdownShard::bDone;
-%rename("%s") LockdownShard::lifeTime;
-%rename("%s") LockdownShard::superFreeze;
-%rename("%s") LockdownShard::lockingRoom;
-
+%extend Ship {
+    void LockdownRoom(int roomId, Pointf pos)
+    {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown;
+        $self->LockdownRoom(roomId, pos);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
+    }
+    void LockdownRoom(int roomId, Pointf pos, CustomLockdownDefinition& def)
+    {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &def;
+        $self->LockdownRoom(roomId, pos);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
+    }
+}
 
 //Expose Hyperspace engine anims as a member variable
 //Note: Pairs are returned by value rather than by reference, change if there is a need for mutability via lua
@@ -2504,6 +2568,53 @@ We can expose them once the root cause is identified and the crash is fixed.
         return &extraEngineAnim[ship->iShipId];
     };
 %}
+
+
+%nodefaultctor LockdownShard;
+
+%rename("%s") LockdownShard;
+%rename("%s") LockdownShard::Update;
+%rename("%s") LockdownShard::shard;
+%rename("%s") LockdownShard::position;
+%rename("%s") LockdownShard::goal;
+%rename("%s") LockdownShard::speed;
+%rename("%s") LockdownShard::bArrived;
+%immutable LockdownShard::bDone;
+%rename("%s") LockdownShard::bDone;
+%rename("%s") LockdownShard::lifeTime;
+%rename("%s") LockdownShard::superFreeze;
+%immutable LockdownShard::lockingRoom;
+%rename("%s") LockdownShard::lockingRoom;
+
+%immutable LockdownShard::extend;
+%rename("%s") LockdownShard::extend;
+
+%extend LockdownShard {
+    LockdownShard_Extend* extend;
+}
+%wrapper %{
+    static LockdownShard_Extend *LockdownShard_extend_get(LockdownShard* LockdownShard)
+    {
+        return Get_LockdownShard_Extend(LockdownShard);
+    };
+%}
+
+%nodefaultctor LockdownShard_Extend;
+%rename("%s") LockdownShard_Extend;
+%rename("%s") LockdownShard_Extend::health;
+%immutable LockdownShard_Extend::door;
+%rename("%s") LockdownShard_Extend::door;
+%rename("%s") LockdownShard_Extend::color;
+%immutable LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::canDilate;
+
+%rename("%s") CustomLockdownDefinition;
+%rename("%s") CustomLockdownDefinition::duration;
+%rename("%s") CustomLockdownDefinition::health;
+%rename("%s") CustomLockdownDefinition::color;
+%rename("%s") CustomLockdownDefinition::anims;
+%rename("%s") CustomLockdownDefinition::canDilate;
 
 
 %nodefaultctor Room;
@@ -2726,10 +2837,48 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Description::tooltip;
 %rename("%s") Description::tip;
 
+%nodefaultctor CustomShipSelect;
+%nodefaultdtor CustomShipSelect;
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
 %rename("%s") CustomShipSelect::GetDefinition;
+%rename("%s") CustomShipSelect::GetShipBlueprint;
+%rename("%s") CustomShipSelect::CountUnlockedShips;
+%rename("%s") CustomShipSelect::IsOpen;
+%rename("%s") CustomShipSelect::GetCurrentPage;
+%rename("%s") CustomShipSelect::GetMaxPages;
+%rename("%s") CustomShipSelect::FirstPage;
+%rename("%s") CustomShipSelect::GetSelection;
+%rename("%s") CustomShipSelect::GetSelectedId;
+%rename("%s") CustomShipSelect::GetLastSelected;
+%rename("%s") CustomShipSelect::ClearSelection;
+%rename("%s") CustomShipSelect::GetShipButtonIdFromName;
+%rename("%s") CustomShipSelect::GetShipButtonListFromID;
+%rename("%s") CustomShipSelect::GetShipButtonLists;
+%rename("%s") CustomShipSelect::GetShipIdAndVariantFromName;
+%rename("%s") CustomShipSelect::GetOrderedShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetShipButtonOrderIndex;
+%rename("%s") CustomShipSelect::GetShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetDefaultDefinition;
+%rename("%s") CustomShipSelect::GetRandomShipIndex;
+%rename("%s") CustomShipSelect::ShipCount;
+%rename("%s") CustomShipSelect::customShipOrder;
 
+%nodefaultctor ShipButtonDefinition;
+%nodefaultdtor ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition::name;
+%immutable ShipButtonDefinition::name;
+
+%nodefaultctor ShipButtonList;
+%nodefaultdtor ShipButtonList;
+%rename("%s") ShipButtonList;
+%rename("%s") ShipButtonList::GetPage;
+%rename("%s") ShipButtonList::GetId;
+%rename("%s") ShipButtonList::GetIndex;
+
+%nodefaultctor CustomShipDefinition;
+%nodefaultdtor CustomShipDefinition;
 %rename("%s") CustomShipDefinition;
 %rename("%s") CustomShipDefinition::name;
 %rename("%s") CustomShipDefinition::hiddenAugs;
@@ -3047,6 +3196,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember_Extend::CustomTeleport::roomId;
 %rename("%s") CrewMember_Extend::CustomTeleport::slotId;
 %rename("%s") CrewMember_Extend::customTele;
+%rename("%s") CrewMember_Extend::transformRace;
 
 %rename("%s") CrewMember::GetPosition;
 %rename("%s") CrewMember::PositionShift;
@@ -4445,3 +4595,4 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "TemporalSystem.h"
 %include "Misc.h"
 %include "CustomDamage.h"
+%include "CustomLockdowns.h"

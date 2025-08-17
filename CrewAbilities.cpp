@@ -351,7 +351,6 @@ Damage ActivatedPower::GetPowerDamage()
 
     damage.ownerId = crew->GetPowerOwner();
     damage.selfId = crew_ex->selfId;
-    damage.bLockdown = false;
 
     return damage;
 }
@@ -583,7 +582,10 @@ void ActivatedPower::ActivatePower()
     // Lockdown
     if (def->damage.bLockdown)
     {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &def->customLockdown;
         crew->ship->LockdownRoom(crew->iRoomId, Pointf(crew->x, crew->y));
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
     }
 
     // Win effect

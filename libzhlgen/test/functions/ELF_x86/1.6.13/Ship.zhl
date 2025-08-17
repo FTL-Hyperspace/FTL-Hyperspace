@@ -1,3 +1,5 @@
+"5589e55731ff565383ec2c8b????8b????c70000000000c7400400000000":
+cleanup __cdecl std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
 "57565383ec108b4424208b7424248b7c24288b5c242c8b40040fb6db890424e8????????895c242c897c2428897424248944242083c4105b5e5fe9????????9057":
 cleanup __cdecl int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
 "5589e557565381ec2c0100008b45088b4004890424":
@@ -44,7 +46,12 @@ cleanup __cdecl int Ship::GetAvailableRoom(Ship *this, int preferred, bool intru
 cleanup __cdecl bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "57565383ec208b7c24348b5c24308b4c2438":
 cleanup __cdecl std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
-
+"5383ec188b44????8b5c????f30f1005":
+cleanup __cdecl float Ship::GetCloakAlpha(Ship *this, bool complete);
+"5557565383ec4c8b5c????8b44????8b93c8000000":
+cleanup __cdecl void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
+"5557565381ecdc000000833d????????028b9c":
+cleanup __cdecl void Ship::LoadState(Ship *this, int fd);
 "!39d07d0b(c6840d74fefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;
 "!39d07d03(c60101)":
@@ -78,7 +85,7 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
     }
 
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
@@ -87,5 +94,52 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	  DOOR_HIT = 0x3,
 	  DOOR_ANIMATING = 0x4,
 	};
+
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = 2147483647;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
 
 }};
