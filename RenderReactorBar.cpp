@@ -119,8 +119,11 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 sysBoxLocY = currentSysBox->location.y;
                 CSurface::GL_Translate(sysBoxLocX, sysBoxLocY, 0);
 
-                //generic wires 
-                if (currentSysBox->pSystem->iSystemType >= SYS_CUSTOM_FIRST) //Use custom offset for custom systems
+                //generic wires for cases that do not occur with vanilla ordering:
+                //Custom systems
+                //Custom offsets
+                //Drone system is not the last system
+                if (currentSysBox->pSystem->iSystemType >= SYS_CUSTOM_FIRST || !SYS_EX(currentSysBox->pSystem)->usingDefaultOffset || currentSysBox->pSystem->GetId() == SYS_DRONES)
                 {
                     currentSys = sysBoxes[startsAtTwo]->pSystem;
                     //Determine which connector primitive to use
@@ -132,8 +135,13 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                         //Last system
                         connectorToUse = customWire_connector_cap;
                     }
+                    //Calculate wire size for drones and weapons
+                    int xOffset = SYS_EX(currentSysBox->pSystem)->xOffset;
+                    if (currentSysBox->pSystem->GetId() == SYS_WEAPONS) xOffset += 97 * numWeaponSlots;
+                    else if (currentSysBox->pSystem->GetId() == SYS_DRONES) xOffset += 97 * shipManager->myBlueprint.droneSlots;
+
                     //Render dynamically sized wire wire
-                    float width = SB_EX(currentSysBox)->xOffset - connectorToUse->texture->width_;
+                    float width = xOffset - connectorToUse->texture->width_;
                     width = std::max(0.f, width);
                     float alpha = unusedPower ? 1.f : greyOpacity;
                     GL_Color color(1.f, 1.f, 1.f, alpha);

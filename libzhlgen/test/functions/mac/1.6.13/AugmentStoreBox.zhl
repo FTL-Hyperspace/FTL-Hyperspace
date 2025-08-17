@@ -5,6 +5,8 @@ cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipMan
 cleanup __amd64 bool AugmentStoreBox::CanHold(AugmentStoreBox *this);
 ".554889e541574156534883ec68":
 cleanup __amd64 void AugmentStoreBox::MouseMove(AugmentStoreBox *this, int mX, int mY);
+".554889e54156534883ec204889fbe82d":
+cleanup __amd64 void AugmentStoreBox::Purchase(AugmentStoreBox *this);
 
 
 struct AugmentStoreBox

@@ -2111,6 +2111,7 @@ struct AugmentStoreBox : StoreBox
 
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *_ship, const AugmentBlueprint *_augment);
 	
 	AugmentBlueprint *blueprint;
@@ -3394,6 +3395,7 @@ struct ChoiceBox : FocusWindow
         return ret;
     }
 
+	LIBZHL_API bool KeyDown(SDLKey sym);
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnRender();
@@ -3787,10 +3789,13 @@ struct ShipBuilder
 
 	LIBZHL_API void CheckTypes();
 	LIBZHL_API void ClearShipAchievements();
+	LIBZHL_API void Close();
 	LIBZHL_API void CreateEquipmentBoxes();
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API void CycleShipNext();
 	LIBZHL_API void CycleShipPrevious();
+	LIBZHL_API void CycleTypeNext();
+	LIBZHL_API void CycleTypePrev();
 	LIBZHL_API ShipManager *GetShip();
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
@@ -4686,7 +4691,9 @@ struct SystemControl
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
+	LIBZHL_API void OnRender(bool front);
 	LIBZHL_API void RenderPowerBar();
+	LIBZHL_API void UpdateSubSystemBox();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
@@ -5366,6 +5373,7 @@ struct ShipGraph
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
 	LIBZHL_API Door *ConnectingDoor(int x1, int y1, int x2, int y2);
+	LIBZHL_API std::vector<int> ConnectivityDFS(int roomId);
 	LIBZHL_API bool ContainsPoint(int x, int y);
 	LIBZHL_API float ConvertToLocalAngle(float ang);
 	LIBZHL_API Pointf ConvertToLocalPosition(Pointf world, bool past);
@@ -5530,6 +5538,7 @@ struct DroneStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *_ship, Equipment *_equipScreen, const DroneBlueprint *_blueprint);
 	
 	DroneBlueprint *blueprint;
@@ -6554,6 +6563,7 @@ struct OxygenSystem : ShipSystem
 	LIBZHL_API void EmptyOxygen(int roomId);
 	LIBZHL_API float GetRefillSpeed();
 	LIBZHL_API void ModifyRoomOxygen(int roomId, float value);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void UpdateAirlock(int roomId, int count);
 	LIBZHL_API void UpdateBreach(int roomId, int hasBreach, bool silent);
 	LIBZHL_API void constructor(int _numRooms, int _roomId, int _shipId, int _startingPower);
@@ -7514,8 +7524,10 @@ struct ShipRepair
 {
 };
 
-struct ShipRepairDrone
+struct ShipRepairDrone : CombatDrone
 {
+	CachedImage repairBeam;
+	std::vector<float> repairBeams;
 };
 
 struct SlugAlien
@@ -7939,6 +7951,7 @@ struct SuperShieldDrone : DefenseDrone
 		this->constructor(iShipId, selfId, blueprint);
 	}
 
+	LIBZHL_API float GetWeaponCooldown();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void constructor(int _iShipId, int _selfId, DroneBlueprint *_blueprint);
 	
@@ -8219,6 +8232,7 @@ struct WeaponStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
+	LIBZHL_API void Purchase();
 	LIBZHL_API void constructor(ShipManager *_ship, Equipment *_equipScreen, const WeaponBlueprint *_weaponBp);
 	
 	WeaponBlueprint *blueprint;

@@ -4,6 +4,8 @@ noHook __amd64 void OxygenSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this, int _numRooms, int _roomId, int _shipId, int _startingPower);
 ".554889e553504889fb80bb44":
 cleanup __amd64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this);
+".55":
+cleanup __amd64 void OxygenSystem::OnLoop(OxygenSystem *this);
 ".554889e54863c6488b8f68020000f30f580481f3":
 cleanup __amd64 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this, int roomId, float value);
 "!.554889e585d27e15":

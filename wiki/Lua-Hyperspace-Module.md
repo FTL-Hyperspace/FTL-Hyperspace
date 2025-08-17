@@ -24,59 +24,36 @@ To construct a vector named `template_name`:
 local instance = Hyperspace.template_name(args)
 ```
 - `std::vector<T>` `constructor()`
-
-Constructs a `std::vector<T>` of size 0.
+   - Constructs a `std::vector<T>` of size 0.
 - `std::vector<T>` `constructor(unsigned int size)`
-
-Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
+   - Constructs a `std::vector<T>` with a size given by `size`. Elements are default-constructed.
 - `std::vector<T>` `constructor(std::vector<T> other)`
-
-Makes a copy of `other`.
-
+   - Makes a copy of `other`.
 - `std::vector<T>` `constructor(unsigned int size, T value)`
-
-Constructs a vector of size `size` where each element is equal to `value`.
+   - Constructs a vector of size `size` where each element is equal to `value`.
 
 #### Member methods
 - `T :back()`
-
-Accesses the last element of the vector. 
-
-WARNING: Undefined behavior (crash) if used on an empty vector!
+   - Accesses the last element of the vector.
+   - WARNING: Undefined behavior (crash) if used on an empty vector!
 - `void :clear()`
-
-Empties the vector and sets its size to 0.
-
-- `bool :empty()` 
-
-Returns a boolean indicating if the vector is empty.
-
+   - Empties the vector and sets its size to 0.
+- `bool :empty()`
+   - Returns a boolean indicating if the vector is empty.
 - `T :front()`
-
-Accesses the first element of the vector. 
-
-WARNING: Undefined behavior (crash) if used on an empty vector!
-
+   - Accesses the first element of the vector.
+   - WARNING: Undefined behavior (crash) if used on an empty vector!
 - `unsigned int :max_size()`
-
-The maximum size of the vector.
+   - The maximum size of the vector.
 - `void :pop_back()`
-
-Removes an element from the end and decreases the vector's size by 1.
-
+   - Removes an element from the end and decreases the vector's size by 1.
 - `void :push_back(T elem)`
-
-Adds `elem` to the vector and increases its size by 1.
-
+   - Adds `elem` to the vector and increases its size by 1.
 - `unsigned int :size()`
-
-The size of the vector.
-
+   - The size of the vector.
 - `T& operator[](unsigned int index)`
-
-Access the element at position `index`.
-
-NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
+   - Access the element at position `index`.
+   - NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ## Global
 
@@ -85,7 +62,7 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
    - Returns the main instance of [`Global`](#Global). Always use this to access any members and methods belonging to this class. `Hyperspace.Global.GetInstance()`
 - `ShipManager :GetShipManager(int iShipId)`
    - Returns the instance of [`ShipManager`](#ShipManager) associated with the given ID (can be 0 or 1). If a ship does not exist for the given ID, returns `nil`.
-- `CApp :GetCApp()` 
+- `CApp :GetCApp()`
    - Returns the main instance of [`CApp`](#CApp). Always use this to access any members and methods belonging to the [`CApp`](#CApp) class, or the shortcut `Hyperspace.App`.
 - `ShipInfo :GetShipInfo(bool enemy)`
    - Returns [`ShipInfo`](#ShipInfo) for the player ship if `enemy` is `false`, or for the enemy ship if `enemy` is `true`.
@@ -117,9 +94,9 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ### Methods
 
-- `void :OnExit()`
+- `void` `:OnExit()`
    - Close game, autosave profile and settings but not current run (current run will be on previous autosave).
-- `void :OnRequestExit()`
+- `void` `:OnRequestExit()`
    - Close game, autosave run, profile, and settings.
 
 ### Fields
@@ -133,8 +110,8 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ### Methods
 
-- [`LocationEvent`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
-- [`LocationEvent`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
+- [`LocationEvent*`](#LocationEvent) `CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)`
+- [`LocationEvent*`](#LocationEvent) `GetBaseEvent(const std::string &name, int worldLevel, bool ignoreUnique, int seed)`
 
 ## ShipInfo
 
@@ -156,11 +133,11 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - ~~`bool :SwitchShipTransfer(std::string shipName, int overrideSystem)`~~
    - This method will change the player ship to the one specified by `shipName`, crew/systems/weapons/drones/augments will be transfered to the new ship
    - This method will run `:ClearLocation()` at the beacon, effectively removing any hazard and ship
-   - `overrideSystem`: 
+   - `overrideSystem`:
       - 0: keep systems & power from the old ship, adding them to the new ship systems
       - 1: keep systems & power from the old ship, replacing the new ship systems
       - 2: No transfer of systems & power to the new ship, diclaimer: if the new ship does not contain a drone/weapon system, weapon/drone will be moved to cargo
-	
+
 ### Fields
 
 - `SpaceManager` `.space`
@@ -191,17 +168,17 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - [`ImageDesc`](#ImageDesc) `:SwitchPlanet(std::string name)`
 - `void :UpdatePlanetImage()`
 - `void :UpdateProjectile(Projectile *proj)`
-	
+
 ### Fields
 
 - [`Projectile*[]`](#Projectile) `.projectiles`
    - **Read-only**
 - [`SpaceDrone*[]`](#SpaceDrone) `.drones`
    - **Read-only**
-- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.currentBack`
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
    - **Read-only**
-   # 
+   #
    ### Hazards
 
    - [`AsteroidGenerator`](#AsteroidGenerator) `.asteroidGenerator`
@@ -234,12 +211,12 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 ### Fields
 
 - [`Globals::Rect`](#Globals) `.rect`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.outline`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.mask`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.pattern`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.outline`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.mask`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.pattern`
 
 ## AsteroidGenerator
-	
+
 ### Fields
 
 - `bool` `.bRunning`
@@ -249,18 +226,19 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 
 ### Methods
 
-- `void :InstantTooltip()`
-- `Point :MeasureTooltip(int width)`
-- `void :OnLoop()`
-- `void :OnRender()`
-- `void :QueueStaticTooltip(Point pos)`
-- `void :RenderTooltip(Point tooltipPoint, bool staticPos)`
-- `void :Reset()`
-- `void :ResetArmed()`
-- `void :SetDoor(int state)`
-- `void :SetTooltip(std::string tooltip)`
-- `void :SetTooltipTitle(std::string tooltip)`
-	
+- `void` `:InstantTooltip()`
+- `Point` `:MeasureTooltip(int width)`
+   - `tooltipName` should be an id of the text without prefix `tooltip_`.
+- `void` `:OnLoop()`
+- `void` `:OnRender()`
+- `void` `:QueueStaticTooltip(Point pos)`
+- `void` `:RenderTooltip(Point tooltipPoint, bool staticPos)`
+- `void` `:Reset()`
+- `void` `:ResetArmed()`
+- `void` `:SetDoor(int state)`
+- `void` `:SetTooltip(std::string &tooltip)`
+- `void` `:SetTooltipTitle(std::string &tooltip)`
+
 ### Fields
 
 - [`Point`](#Point) `.position`
@@ -273,16 +251,16 @@ NOTE: C vectors are 0-indexed, while lua tables are 1-indexed.
 - `bool` `.newHover`
 - `bool` `.lastValid`
 - `int` `.animateDoor`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.validPointer`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.invalidPointer`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.selling`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.validPointer`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.invalidPointer`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.selling`
 - `Animation` `.openDoor`
 - `std::string` `.tooltip`
 - `float` `.tooltipTimer`
 - `bool` `.bMoving`
 - `bool` `.bHideMouse`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.lastIcon`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.lastAddition`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.lastIcon`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.lastAddition`
 - `bool` `.bForceTooltip`
 - `std::string` `.tooltipTitle`
 - `std::string` `.lastTooltipText`
@@ -602,7 +580,7 @@ Accessed via `ShipManager`'s `.extend` field
 - `std::vector<Repairable*> :GetHullBreaches(bool onlyDamaged)`
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
--  `void LockdownRoom(int roomId, Pointf pos)` 
+-  `void LockdownRoom(int roomId, Pointf pos)`
    -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well.
 -  `bool RoomLocked(int roomId)`
    -  Returns true if the room is locked down.
@@ -612,7 +590,7 @@ Accessed via `ShipManager`'s `.extend` field
    -  Sets the room to be selected (Yellow outline). Note: Must be done every tick to have an effect.
 
 ### Fields
--  `int` `.iShipId` 
+-  `int` `.iShipId`
 -  `std::vector<Room*>` `.vRoomList`
 -  `std::vector<Door*>` `.vDoorList`
 -  [`std::vector<OuterHull*>`](#OuterHull) `.vOuterWalls`
@@ -621,21 +599,21 @@ Accessed via `ShipManager`'s `.extend` field
 -  `std::vector<WeaponMount>` `.weaponMounts`
 -  `std::string` `.floorImageName`
 -  [`ImageDesc`](#ImageDesc) `.shipFloor`
--  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.floorPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.floorPrimitive`
 -  `std::string` `.shipImageName`
 -  [`ImageDesc`](#ImageDesc) `.shipImage`
 -  [`Point`](#Point) `.glowOffset`
--  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.shipImagePrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.shipImagePrimitive`
 -  `std::string` `.cloakImageName`
 -  [`ImageDesc`](#ImageDesc) `.shipImageCloak`
--  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.cloakPrimitive`
--  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.gridPrimitive`
--  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.wallsPrimitive`
--  [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.doorsPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.cloakPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.gridPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.wallsPrimitive`
+-  [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.doorsPrimitive`
 -  `std::vector<DoorState>` `.doorState`
 -  `bool` `.lastDoorControlMode`
--  [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.thrustersImage`
--  [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.jumpGlare`
+-  [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.thrustersImage`
+-  [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.jumpGlare`
 -  `int` `.vertical_shift`
 -  `int` `.horizontal_shift`
 -  `std::string` `.shipName`
@@ -650,10 +628,10 @@ Accessed via `ShipManager`'s `.extend` field
    - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
 
 ### Hyperspace Fields
--  `std::vector<std::pair<Animation, int8_t>>` 
+-  `std::vector<std::pair<Animation, int8_t>>`
 `extraEngineAnim`
-   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation. 
-   
+   -  Engine animations defined in Hyperspace for the ship. The first member of the pair is the animation. The second member of the pair is an integer indicating rotation of the animation.
+
    |Value | Rotation                     |
    | ---: | :--------------------------- |
    | -1   | 90 Degrees Clockwise         |
@@ -782,10 +760,10 @@ These are called either under `Hyperspace.ShipSystem` or an existing object (for
 - `bool` `.bOccupied`
 - `bool` `.bFriendlies`
 - `std::string` `.interiorImageName`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImage`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImageOn`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImageManned`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.interiorImageMannedFancy`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.interiorImage`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.interiorImageOn`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.interiorImageManned`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.interiorImageMannedFancy`
 - `int` `.lastUserPower`
 - `int` `.iBonusPower`
 - `int` `.iLastBonusPower`
@@ -811,6 +789,8 @@ Accessed via `ShipSystem`'s `.extend` field
 
 ### Fields
 - `int` `additionalPowerLoss`
+- `int` `.xOffset`
+   - The offset from this SystemBox to the next in the UI.
 
 ## OxygenSystem
 
@@ -826,6 +806,10 @@ Accessed via `ShipSystem`'s `.extend` field
 - `std::vector<float>` `.oxygenLevels`
 - `float` `.fTotalOxygen`
 - `bool` `.bLeakingO2`
+- `float` `leakModifier`
+   - **Read-only**
+   - A multiplier to the rate at which airlocks and breaches drain oxygen.
+   - Can be changed with `CALCULATE_LEAK_MODIFIER` callback.
 
 ## TeleportSystem
 
@@ -931,8 +915,8 @@ Accessed via `ShipSystem`'s `.extend` field
 - `bool` `.superShieldDown`
 - [`Pointf`](#Pointf) `.shieldsDownPoint`
 - [`AnimationTracker`](#AnimationTracker) `.shieldsUp`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.shieldImage`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.shieldPrimitive`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.shieldImage`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.shieldPrimitive`
 - `std::string` `.shieldImageName`
 - `bool` `.bEnemyPresent`
 - `bool` `.bBarrierMode`
@@ -1001,9 +985,9 @@ No additional items over base `ShipSystem`
 - [`CrewMember*`](#crewmember) `.clone`
 - `float` `.fTimeGoal`
 - `float` `.fDeathTime`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.bottom`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.top`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.gas`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.bottom`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.top`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.gas`
 - `int` `.slot`
 
 ## DroneSystem
@@ -1058,6 +1042,7 @@ No methods are exposed currently.
    - The SystemBox associated with this SystemBox_Extend.
 - `int` `.xOffset`
    - The offset from this SystemBox to the next in the UI.
+   - THIS IS DEPRECIATED IN FAVOR OF `ShipSystem_Extend.xOffset`!
 
 ## Drone
 
@@ -1231,8 +1216,8 @@ No methods are exposed currently.
 - `void :SetMovementTarget(Targetable *target)`
 
 ### Fields
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.baseSheet`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.colorSheet`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.baseSheet`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.colorSheet`
 - [`Pointf`](#Pointf) `.startingPosition`
 - [`Animation`](#Animation) `.droneImage`
 - [`CachedImage`](#CachedImage) `.flame`
@@ -1251,9 +1236,9 @@ No methods are exposed currently.
 
 ### Fields
 - [`Pointf`](#Pointf) `.startingPosition`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.droneImage_on`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.droneImage_off`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.lightImage`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.droneImage_on`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.droneImage_off`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.lightImage`
 - [`Pointf`](#Pointf) `.finalDestination`
 - `bool` `.arrived`
 - `bool` `.finishedSetup`
@@ -1274,6 +1259,14 @@ No methods are exposed currently.
 - [`CachedImage`](#CachedImage) `.drone_image_glow`
 - `float` `.glowAnimation`
 
+## ShipRepairDrone
+
+**Extends [`CombatDrone`](#CombatDrone)**
+
+### Fields
+- [`CachedImage`](#CachedImage) `.repairBeam`
+- `std::vector<float>` `.repairBeams`
+
 ## DroneBlueprint
 
 **Extends [`Blueprint`](#blueprint)**
@@ -1293,14 +1286,18 @@ No methods are exposed currently.
 
 ## Room
 
+### Methods
+- `void :FillSlot(int slot, bool intruder)`
+   - Set the slot to occupied. To empty the slot, use `Ship:EmptySlots`.
+
 ### Fields
 - `bool` `.bBlackedOut`
 - [`Globals::Rect`](#Globals) `.rect`
    - **Read-only**
 - `int` `.iRoomId`
    - **Read-only**
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.highlightPrimitive`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.highlightPrimitive2`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.highlightPrimitive2`
 - [`Room_Extend`](#room_extend) `.extend`
    - **Read-only**
 
@@ -1524,14 +1521,19 @@ end
 ## CrewMemberFactory
 
 ### Methods
-- `void :GetCloneReadyList(std::vector<CrewMember*> vec, bool player)`
-- `void :GetCloneReadyList(bool player)`
+- `void` `:GetCloneReadyList(std::vector<CrewMember*> vec, bool player)`
+- `std::vector<CrewMember*>` `:GetCloneReadyList(bool player)`
 
 ### Fields
 - [`std::vector<CrewMember*>`](#CrewMember) `.crewMembers`
+  - **read-only**
 
 ## CrewMember
 Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the Internal Event `CREW_LOOP`
+
+### Static Methods
+- `int .GetSkillFromSystem(int systemId)`
+- ~~`std::string .GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`~~
 
 ### Methods
 - `Point :GetPosition()`
@@ -1620,11 +1622,9 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `int :GetRepairingId()`
 - `bool :GetResisted()`
 - [`Slot`](#Slot) `:GetSavedPosition()`
-- `int :GetSkillFromSystem(int systemId)`
 - `int :GetSkillLevel(int skillId)`
 - `float :GetSkillModifier(int skillId)`
 - `int` `:GetSkillProgress(int skillId)`
-- `std::string :GetSkillTooltip(int skillId, int skillLevel, std::pair<int, int> progress, bool infoScreen)`
 - `std::string :GetTooltip()`
 - `void :IncreaseSkill(int skillId)`
 - `void :InitializeSkills()`
@@ -1711,7 +1711,7 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `bool` `.bFighting`
 - `bool` `.bSharedSpot`
 - [`CrewAnimation*`](#CrewAnimation) `.crewAnim`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.selectionImage`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.selectionImage`
 - [`CachedImage`](#CachedImage) `.healthBox`
 - [`CachedImage`](#CachedImage) `.healthBoxRed`
 - [`CachedRect`](#CachedRect) `.healthBar`
@@ -1775,7 +1775,7 @@ Accessed via [`CrewMember`](#CrewMember)'s `.extend` field
 
 ### Methods
 - `void :InitiateTeleport(int shipId, int roomId=-1, int slotId=-1)`
-- [`CrewDefinition`](#CrewDefinition) `:*GetDefinition()`
+- [`CrewDefinition*`](#CrewDefinition) `:GetDefinition()`
 - `float :CalculateStat(CrewStat stat, bool* boolValue=nullptr)`
    - Returns the current `float` and `bool` value for the given `CrewStat`.
 
@@ -1846,9 +1846,9 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 ### Fields
 - `int` `.iShipId`
 - [`std::vector<std::vector<Animation>>`](#Animation) `.anims`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.baseStrip`
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.colorStrip`
-- [`std::vector<GL_Texture*>`](./Lua-Graphics-Module.md#GL_Texture) `.layerStrips`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.baseStrip`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.colorStrip`
+- [`std::vector<GL_Texture*>`](./Lua-Graphics-Module#GL_Texture) `.layerStrips`
 - [`Pointf`](#Pointf) `.lastPosition`
 - `int` `.direction`
 - `int` `.sub_direction`
@@ -1871,17 +1871,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `int` `.currentShip`
 - `bool` `.bMale`
 - `bool` `.colorblind`
-- [`std::vector<GL_Color>`](./Lua-Graphics-Module.md#GL_Color) `.layerColors`
+- [`std::vector<GL_Color>`](./Lua-Graphics-Module#GL_Color) `.layerColors`
 - `int` `.forcedAnimation`
 - `int` `.forcedDirection`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.projectileColor`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.projectileColor`
 - `bool` `.bStunned`
 - `bool` `.bDoorTarget`
 - `bool` `.uniqueBool1`
 - `bool` `.uniqueBool2`
-   
+
 ## CrewDefinition
-   
+
 ### Fields
    NOTE: All fields under this object are immutable.
 - `std::string` `.race`
@@ -2039,14 +2039,17 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## ActivatedPowerDefinition
 
+### Static Methods
+
+- [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string name)`
+- [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string name, ActivatedPowerDefinition* copyDef)`
+
 ### Methods
 - `void :AssignIndex()`
 - `void :AssignName(std::string name)`
 - `void :AssignActivateGroup(std::string name)`
 - `void :AssignReplaceGroup(std::string name)`
 - `void :AssignGroup(std::string name)`
-- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.GetPowerByName(std::string name)`
-- `static` [`ActivatedPowerDefinition`](#ActivatedPowerDefinition) `.AddNamedDefinition(std::string name, ActivatedPowerDefinition* copyDef)`
 
 ### Fields
 - `std::string` `.name`
@@ -2080,7 +2083,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.soundsEnemy`
 - `bool` `.effectSoundsEnemy`
 - [`TextString`](#TextString) `.buttonLabel`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.cooldownColor`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.cooldownColor`
 - [`TextString`](#TextString) `.tooltip`
 - `std::string` `.effectAnim`
 - `std::string` `.effectPostAnim`
@@ -2104,12 +2107,14 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 ## PowerResourceDefinition
 
+### Static Methods
+- [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string name)`
+- [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string name, PowerResourceDefinition* copyDef);`
+
 ### Methods
 - `void :AssignIndex()`
 - `void :AssignName(std::string name)`
 - `void :AssignGroup(std::string name)`
-- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.GetByName(std::string name)`
-- `static` [`PowerResourceDefinition`](#PowerResourceDefinition) `.AddNamedDefinition(std::string name, PowerResourceDefinition* copyDef);`
 
 ### Fields
 - `std::string` `.name`
@@ -2132,7 +2137,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.showTemporaryBars`
 - `bool` `.showLinkedCooldowns`
 - `bool` `.showLinkedCharges`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.cooldownColor`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.cooldownColor`
 - [`ActivatedPowerRequirements*`](#ActivatedPowerRequirements) `.chargeReq`
 
 ## ActivatedPowerRequirements
@@ -2232,13 +2237,13 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`std::vector<StatBoostDefinition*>`](#StatBoostDefinition) `.statBoosts`
 - `bool` `.invulnerable`
 - `int` `.animFrame`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.cooldownColor`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.cooldownColor`
 
 ## GenericButton
 
 ### Methods
 
-- `void :Reset()` 
+- `void :Reset()`
 - `void :SetLocation(Point pos)`
 - `void :SetHitBox(Globals::Rect rect)`
 - `void :SetActive(bool active)`
@@ -2254,7 +2259,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 
 - [`Point`](#Point) `.position`
    - Field is **read-only** but fields under this object may still be mutable.
-- [`Globals::Rect`](#Globals) `.hitbox` 
+- [`Globals::Rect`](#Globals) `.hitbox`
    - Field is **read-only** but fields under this object may still be mutable.
 - `bool` `.allowAnyTouch`
 - `bool` `.touchSelectable`
@@ -2336,6 +2341,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
    - **Read-only**
 - `bool` `.secretSector`
    - **Read-only**
+- `ChoiceBox` `.choiceBox`
+   - **Read-only**
 - `bool` `.choiceBoxOpen`
    - **Read-only**
 
@@ -2367,6 +2374,22 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.invalidBeamTouch`
 - `bool` `.boss_visual`
    - **Read-only**
+
+
+## CrewControl
+
+### Fields
+- [`std::vector<CrewMember*>`](#CrewMember) `.selectedCrew`
+- [`std::vector<CrewMember*>`](#CrewMember) `.potentialSelectedCrew`
+   - Crew hovered by the selection box
+- [`Point`](#Point) `.firstMouse`
+   - Affect the visual portion of the selection box
+- [`Point`](#Point) `.currentMouse`
+   - Affect the visual portion of the selection box
+- [`Point`](#Point) `.worldFirstMouse`
+   - Affect the logic portion of the selection box, fills `.potentialSelectedCrew`
+- [`Point`](#Point) `.worldCurrentMouse`
+   - Affect the logic portion of the selection box, fills `.potentialSelectedCrew`
 
 ## WeaponControl
 **Extends [`ArmamentControl`](#ArmamentControl)**
@@ -2470,7 +2493,7 @@ end)
 - `int` `.gap_size`
 - `float` `.openTime`
 - [`ResourceEvent`](#ResourceEvent) `.reward`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.currentTextColor`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.currentTextColor`
 - [`Pointf`](#Pointf) `.lastChoice`
 
 ## ChoiceText
@@ -2524,31 +2547,35 @@ end)
 
 ### Methods
 
-- `void :ModifyPursuit(int amount)` 
+- `void :ModifyPursuit(int amount)`
 - `Point :PointToGrid(float x, float y)`
 - `void :ForceWaitMessage(GL_Primitive waitMessage)`
    - Disables the ability to jump and enables the wait/distress menu. Replaces the "NO FUEL" message shown on the sector map with a primitive of your own.
    - NOTE: The primitive should be a local or global variable. If it is garbage collected while in use this will lead to a crash.
    - If no argument is passed, then the jump menu is re-enabled and the "NO FUEL" message is restored.
-   
+
 [[/img/lua-hyperspace-module/map_fuel_text_nofuel.png]]
-
-
 
 ### Fields
 
 - `std::vector<Location>` `.locations`
    - **Read-only**
 - [`Location`](#Location) `.currentLoc`
+- [`Location`](#Location) `.potentialLoc`
+- [`Location`](#Location) `.hoverLoc`
 - [`std::vector<Sector*>`](#sector) `.sectors`
 - [`Sector`](#Sector) `.currentSector`
 - `bool` `.bChoosingNewSector`
 - `bool` `.bSecretSector`
 - `int` `.pursuitDelay`
-- `GL_Primitive` `.ship`
+-  [`Point`](#Point) `.dangerZone`
+-  `bool` `.bMapRevealed`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.ship`
    - The map icon that rotates around the current location representing the player ship.
-- `GL_Primitive` `.shipNoFuel`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.shipNoFuel`
    - The no fuel variant of the `ship` icon.
+- [`GL_Primitive*[3]`](./Lua-Graphics-Module#GL_Primitive) `.mapsBottom`
+   - Contains the 3 background images of the sector map. Index selected via `worldLevel % 3`.
 - `int` `.worldLevel`
    - **Read-only**
 - `bool` `.bTutorialGenerated`
@@ -2579,6 +2606,7 @@ end)
 ### Fields
 - `bool` `.visited`
 - `int` `.level`
+  - **Read-only**
 - [`SectorDescription`](#SectorDescription) `.description`
    - Field is **read-only** but fields under this object may still be mutable.
 
@@ -2676,7 +2704,7 @@ end)
 ## ImageDesc
 
 ### Fields
-- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.tex`
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.tex`
 - `float` `.resId`
 - `float` `.w`
 - `float` `.h`
@@ -2766,10 +2794,12 @@ Accessed via `Hyperspace.CustomShipUnlocks.instance`
 
 ## PowerManager
 
+### Static Methods
+- [`PowerManager`](#PowerManager) `.GetPowerManager(int iShipId)`
+
 ### Methods
 - `int :GetAvailablePower()`
 - `int :GetMaxPower()`
-- `static` [`PowerManager`](#PowerManager) `.GetPowerManager(int iShipId)`
 
 ### Fields
 - `std::pair<int, int>` `.currentPower`
@@ -2786,8 +2816,10 @@ Accessed via `Hyperspace.CustomShipUnlocks.instance`
 
 Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 
+### Static Methods
+- [`CustomAugmentManager*`](#CustomAugmentManager) `.GetInstance()`
+
 ### Methods
-- `static` [`CustomAugmentManager*`](#CustomAugmentManager) `.GetInstance()`
 - [`AugmentDefinition*`](#AugmentDefinition) `:GetAugmentDefinition(const std::string &name)`
 - `std::unordered_map<std::string, int>` `:GetShipAugments(int iShipId)`
 
@@ -2814,7 +2846,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `bool` `.customRender`
 - `bool` `.present`
 - `std::string[2]` `.shieldTexture`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.shieldColor`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.shieldColor`
 
 ## AugmentCrystalShard
 
@@ -2962,13 +2994,13 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `void :SaveState(int fd)`
 - `void :SetAnimationId(GL_Texture *tex)`
 - `void :SetCurrentFrame(int frame)`
-- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `:SetProgress(float progress)`
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `:SetProgress(float progress)`
 - `void :Start(bool reset)`
 - `void :StartReverse(bool reset)`
 - `void :Update()`
 
 ### Fields
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.animationStrip`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.animationStrip`
 - [`AnimationDescriptor`](#AnimationDescriptor) `.info`
 - [`AnimationTracker`](#AnimationTracker) `.tracker`
 - [`Pointf`](#Pointf) `.position`
@@ -2987,8 +3019,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `int` `.mask_x_size`
 - `int` `.mask_y_pos`
 - `int` `.mask_y_size`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.primitive`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.mirroredPrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.primitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.mirroredPrimitive`
 
 ## Door
 
@@ -3007,8 +3039,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
    - **read-only**
 - `int` `.height`
    - **read-only**
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.outlinePrimitive`
-- [`GL_Primitive*`](./Lua-Graphics-Module.md#GL_Primitive) `.highlightPrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.outlinePrimitive`
+- [`GL_Primitive*`](./Lua-Graphics-Module#GL_Primitive) `.highlightPrimitive`
 - [`Animation`](#Animation) `.doorAnim`
 - [`Animation`](#Animation) `.doorAnimLarge`
 - `int` `.iDoorId`
@@ -3073,7 +3105,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `int` `.spin`
 - `int` `.chargeLevels`
 - [`TextString`](#TextString) `.flavorType`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.color`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.color`
 
 ## BoostPower
 
@@ -3186,7 +3218,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 **Extends [Blueprint](#Blueprint)**
 
 ### Methods
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `:GetCurrentSkillColor(int skill)`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `:GetCurrentSkillColor(int skill)`
 - `std::string :GetNameShort()`
 - `void :RandomSkills(int worldLevel)`
 - `void :RenderIcon(float opacity)`
@@ -3216,6 +3248,9 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 
 Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 
+### Static Methods
+   - [`ShipGraph`](#ShipGraph) `.GetShipInfo(int shipId)`
+
 ### Methods
 - [`Point`](#Point) `:TranslateFromGrid(int xx, int yy)`
 - [`Point`](#Point) `:TranslateToGrid(int xx, int yy)`
@@ -3226,6 +3261,7 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `int :ConnectedGridSquaresPoint(Point p1, Point p2)`
 - [`Door`](#Door) `:*ConnectingDoor(int x1, int y1, int x2, int y2)`
 - [`Door`](#Door) `:*ConnectingDoor(Point p1, Point p2)`
+- `std::vector<int>` `:ConnectivityDFS(int roomId)`
 - `bool :ContainsPoint(int x, int y)`
 - `float :ConvertToLocalAngle(float ang)`
 - [`Pointf`](#Pointf) `:ConvertToLocalPosition(Pointf world, bool past)`
@@ -3241,7 +3277,6 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `float :GetRoomOxygen(int room)`
 - [`Rect`](#Rect) `:GetRoomShape(int room)`
 - `int :GetSelectedRoom(int x, int y, bool unk)`
-- `static` [`ShipGraph`](#ShipGraph) `.GetShipInfo(int shipId)`
 - [`Point`](#Point) `:GetSlotWorldPosition(int slotId, int roomId)`
 - `bool :IsRoomConnected(int room1, int room2)`
 - `int :PopClosestDoor(std::vector<int> doors, std::vector<float> distances)`
@@ -3312,6 +3347,9 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 
 **Extends [Collideable](#Collideable)**
 
+### Static Methods
+- [`Pointf`](#Pointf) `.RandomSidePoint(int side)`
+
 ### Methods
 - `void :SetWeaponAnimation(WeaponAnimation animation)`
 - `void :OnRenderSpecific(int spaceId)`
@@ -3335,7 +3373,6 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `void :SetMovingTarget(Targetable *target)`
 - [`CollisionResponse`](#CollisionResponse) `:CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)`
 - `void :Initialize(WeaponBlueprint bp)`
-- `static` [`Pointf`](#Pointf) `.RandomSidePoint(int side)`
 - `void :constructor(Pointf position, int ownerId, int targetId, Pointf target)`
 
 ### Fields
@@ -3367,13 +3404,13 @@ Accessed via `Hyperspace.ShipGraph.GetShipInfo(int shipId)`
 - `bool` `.passedTarget`
 - `bool` `.bBroadcastTarget`
 - [`AnimationTracker`](#AnimationTracker) `.flashTracker`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.color`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.color`
 - [`Projectile_Extend`](#Projectile_Extend) `.extend`
    - **read-only**
 
 ## Projectile_Extend
 
-Accessed via `Projectile`'s `.extend` field 
+Accessed via `Projectile`'s `.extend` field
 
 ### Fields
 - [`Projectile*`](#Projectile) `.orig`
@@ -3430,26 +3467,26 @@ Accessed via `Projectile`'s `.extend` field
 
 **Extends [Projectile](#Projectile)**
 
-## Methods
-- `static` [`Asteroid*`](#Asteroid) `.Asteroid(Pointf pos, int destinationSpace)`
+### Static Methods
+- [`Asteroid*`](#Asteroid) `Hyperspace.Asteroid(Pointf pos, int destinationSpace)` Constructor
 
 ### Fields
-- [`GL_Texture*`](./Lua-Graphics-Module.md#GL_Texture) `.imageId`
+- [`GL_Texture*`](./Lua-Graphics-Module#GL_Texture) `.imageId`
 - `float` `.angle`
 
 ## Missile
 
 **Extends [Projectile](#Projectile)**
 
-## Methods
-- `static` [`Missile*`](#Missile) `.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)`
+### Static Methods
+- [`Missile*`](#Missile) `Hyperspace.Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)` Constructor
 
 ## BombProjectile
 
 **Extends [Projectile](#Projectile)**
 
-## Methods
-- `static` [`BombProjectile*`](#BombProjectile) `.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)`
+### Static Methods
+- [`BombProjectile*`](#BombProjectile) `Hyperspace.BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)` Constructor
 
 ### Fields
 - `bool` `.bMissed`
@@ -3545,8 +3582,9 @@ Accessed via `Projectile`'s `.extend` field
 
 ## TimerHelper
 
+### Static Methods
+- [`TimerHelper`](#TimerHelper) `Hyperspace.TimerHelper(bool isLoop=false)` Constructor
 ### Methods
-- `static` [`TimerHelper`](#TimerHelper) `.TimerHelper(bool isLoop=false)`
 - `void :Start(float goal)`
 - `bool :Done()`
 - `void :ResetMinMax(int min, int max)`
@@ -3612,20 +3650,23 @@ Accessed via `Projectile`'s `.extend` field
 ## ResourceControl
 
 ### Methods
-- [`GL_Primitive`](./Lua-Graphics-Module.md#GL_Primitive) `:*CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror)`
-- [`GL_Primitive`](./Lua-Graphics-Module.md#GL_Primitive) `:*CreateImagePrimitiveString(std::string tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
+- [`GL_Primitive`](./Lua-Graphics-Module#GL_Primitive) `:*CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror)`
+- [`GL_Primitive`](./Lua-Graphics-Module#GL_Primitive) `:*CreateImagePrimitiveString(std::string tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror)`
 - [`freetype::font_data`](#font_data) `:GetFontData(int size, bool ignoreLanguage)`
-- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `:*GetImageId(std::string dir)`
-- `bool :ImageExists(std::string name)`
-- `int :RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
-- `int :RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `:*GetImageId(std::string dir)`
+- `bool` `:ImageExists(std::string name)`
+- `int` `:RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `int` `:RenderImageString(std::string tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)`
+- `char` `:*LoadFile(const std::string &fileName)`
 
 ## Point
 
+### Static Methods
+- [`Point`](#Point) `Hyperspace.Point(int x, int y)` Constructor
+
 ### Methods
-- `static` [`Point`](#Point) `.Point(int x, int y)`
-- `int :Distance(Point other)`
-- `int :RelativeDistance(Point other)`
+- `int` `:Distance(Point other)`
+- `int` `:RelativeDistance(Point other)`
 
 ### Fields
 - `int` `.x`
@@ -3633,9 +3674,11 @@ Accessed via `Projectile`'s `.extend` field
 
 ## Pointf
 
+### Static Methods
+- [`Pointf`](#Pointf) `Hyperspace.Pointf()` Constructor
+- [`Pointf`](#Pointf) `.Pointf(int x, int y)`
+
 ### Methods
-- `static` [`Pointf`](#Pointf) `.Pointf()`
-- `static` [`Pointf`](#Pointf) `.Pointf(int x, int y)`
 - [`Pointf`](#Pointf) `:Normalize()`
 - `float :RelativeDistance(Pointf other)`
 
@@ -3648,24 +3691,26 @@ Accessed via `Projectile`'s `.extend` field
 Accessed via `Hyperspace.CustomAchievementTracker.instance`
 
 ### Methods
-- `void :UpdateVariableAchievements(std::string varName, int varValue, bool inGame=true)`
-- `int :GetAchievementStatus(std::string name)`
-- `void :SetAchievement(std::string name, bool noPopup)`
+- `void` `:UpdateVariableAchievements(std::string &varName, int varValue, bool inGame=true)`
+- `int` `:GetAchievementStatus(std::string &name)`
+- `void` `:SetAchievement(std::string &name, bool noPopup)`
+  - Used to award achievements (CheckShipAchievement is automatically called if needed)
 
 ### Fields
-- `static` [CustomAchievementTracker*](#CustomAchievementTracker) `.instance`
+- `static` [`CustomAchievementTracker*`](#CustomAchievementTracker) `.instance`
 
 ## CustomEventsParser
 
 Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 
+### Static Methods
+- [`CustomEventsParser*`](#CustomEventsParser) `.GetInstance()`
+
 ### Methods
 
-- `static` [CustomEventsParser*](#CustomEventsParser) `.GetInstance()`
-
-- `void :LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
-- `void :LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
-- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string eventName)`
+- `void` `:LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr)`
+- `void` `:LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr)`
+- [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(std::string &event)`
 - [`CustomEvent*`](#CustomEvent) `CustomEventsParser::GetCustomEvent(Location *loc)`
 
 ## CustomEvent
@@ -3687,7 +3732,7 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 ### Fields
 - `bool` `bOpen`
    - **read-only**
-- [ShipBuilder](#ShipBuilder) `shipBuilder`
+- [`ShipBuilder`](#ShipBuilder) `shipBuilder`
    - **read-only**
 
 ## TabbedWindow
@@ -3733,13 +3778,13 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 - `void` `:OnRender()`
 
 ### Fields
-- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.arrow`
-- [`GL_Texture`](./Lua-Graphics-Module.md#GL_Texture) `.arrow2`
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.arrow`
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.arrow2`
 - [`Pointf`](#Pointf) `.position`
 - [`Pointf`](#Pointf) `.blitSize`
 - `float` `.rotation`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.arrow_color`
-- [`GL_Color`](./Lua-Graphics-Module.md#GL_Color) `.arrow2_color`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.arrow_color`
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.arrow2_color`
 
 ## ShipBuilder
 
@@ -3750,9 +3795,10 @@ Accessed via `Hyperspace.CustomEventsParser.GetInstance()`
 ## CustomShipSelect
 
 Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
+### Static Methods
+- [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 
 ### Methods
-- `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
 
 ## TextButton
@@ -3770,3 +3816,8 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ## FTLButton
 
 **Extends [TextButton0](#TextButton0)**
+
+## SpaceStatus
+
+### Methods
+- `void` `:RenderWarningText(int effect, int textOffset)`

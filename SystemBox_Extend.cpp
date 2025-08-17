@@ -20,7 +20,7 @@ HOOK_METHOD_PRIORITY(SystemBox, constructor, 900, (Point pos, ShipSystem *sys, b
             ex = new SystemBox_Extend();
             break;
     }
-
+  
 
     uintptr_t dEx = (uintptr_t)ex;
 

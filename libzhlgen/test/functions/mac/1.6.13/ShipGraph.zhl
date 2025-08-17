@@ -16,6 +16,8 @@ cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1,
 cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
 "!.554889e54157415641554154534883ec284189d54889f34989fe49c7":
 cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
+".554889e54157415641554154534883ec58":
+cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
 ".554889e531c085f67819488b":
 cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId);
 ".554889e54863c6488b0f488b":

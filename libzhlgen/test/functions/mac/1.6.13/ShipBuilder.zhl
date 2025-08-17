@@ -27,8 +27,14 @@ cleanup __amd64 void ShipBuilder::CycleShipPrevious(ShipBuilder *this);
 cleanup __amd64 void ShipBuilder::CycleShipNext(ShipBuilder *this);
 "!.554889e54156534189f64889fb488b3b4885ff74":
 cleanup __amd64 void ShipBuilder::SwapType(ShipBuilder *this, int variant);
+".554889e541565349":
+cleanup __amd64 void ShipBuilder::Close(ShipBuilder *this);
 "!.554889e54157415641554154535089f34989fe41":
 cleanup __amd64 void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
+".554889e54157415641554154535049":
+cleanup __amd64 void ShipBuilder::CycleTypePrev(ShipBuilder *this);
+".55":
+cleanup __amd64 void ShipBuilder::CycleTypeNext(ShipBuilder *this);
 ".554889e54156534881eca003":
 cleanup __amd64 ShipManager* ShipBuilder::GetShip(ShipBuilder *this);
 ".554889e5488b870822000048":
