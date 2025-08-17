@@ -18,10 +18,8 @@ noop void* Global__NOP__Ship_OnInit_6;
 cleanup __amd64 void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 ".554889e54157415641554154535041":
 cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
-/* Causes issues when hooking - faked the function by using its overload
-"!.554889e54157415653504189d64989f74c89fb48c1eb":
+"!.5548":
 cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
-*/
 ".554889e5488b871805000048":
 cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
 ".554889e54157415641554154534881ec980100000f294580":
@@ -46,8 +44,6 @@ cleanup __amd64 void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode
 cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 ".554889e54157415641554154534883ec284189d74189f44889fb":
 cleanup __amd64 bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
-"!.554889e54157415653504189d64989f74c89fb48c1eb208b7f08": // Use this instead because the other causes issues when trying to hook it
-cleanup __amd64 int Ship::_GetSelectedRoomId_DO_NOT_CALL(Ship *this, Point _position, bool _bIncludeWalls);
 ".554889e54157415641554154534883ec688975cc":
 cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
 ".554889e54157415641554154534881":
@@ -74,29 +70,18 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
 	Globals::Ellipse GetBaseEllipse()
 	{
 		Globals::Ellipse ret;
-		
-		ret.center.x = this->baseEllipse.center.x;
-		ret.center.y = this->baseEllipse.center.y;
-		ret.a = this->baseEllipse.a;
+		ShipGraph* graph = ShipGraph::GetShipInfo(this->iShipId);
+
+		// Combine the graph's center with the base ellipse's center
+		Point center = graph->center + baseEllipse.center;
+
 		ret.b = this->baseEllipse.b;
+		ret.a = this->baseEllipse.a;
+		ret.center.x = center.x;
+		// Apply Y-offset only if this is not the player
+		ret.center.y = center.y + (this->iShipId != 1 ? 110 : 0);
 
-		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
-		Point newEllipse = Point(shipGraph->center.x + this->baseEllipse.center.x, shipGraph->center.y + this->baseEllipse.center.y);
-
-		ret.center.x = newEllipse.x;
-		ret.center.y = newEllipse.y;
-
-		if (iShipId == 0)
-		{
-			ret.center.y += 110;
-		}
 		return ret;
-	}
-
-	Pointf GetRoomCenter(int room)
-	{
-		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
-		return shipGraph->GetRoomCenter(room);
 	}
 
 	std::vector<LockdownShard*> GetShards()
@@ -110,9 +95,10 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
         return ret;
     }
 
-	int GetSelectedRoomId(int x, int y, bool bIncludeWalls)
+	Pointf GetRoomCenter(int room)
 	{
-		return this->_GetSelectedRoomId_DO_NOT_CALL(Point(x, y), bIncludeWalls);
+		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
+		return shipGraph->GetRoomCenter(room);
 	}
 
 	Point GetShipCorner()

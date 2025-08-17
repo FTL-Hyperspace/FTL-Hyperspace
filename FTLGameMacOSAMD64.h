@@ -7238,29 +7238,18 @@ struct Ship : ShipObject
 	Globals::Ellipse GetBaseEllipse()
 	{
 		Globals::Ellipse ret;
-		
-		ret.center.x = this->baseEllipse.center.x;
-		ret.center.y = this->baseEllipse.center.y;
-		ret.a = this->baseEllipse.a;
+		ShipGraph* graph = ShipGraph::GetShipInfo(this->iShipId);
+
+		// Combine the graph's center with the base ellipse's center
+		Point center = graph->center + baseEllipse.center;
+
 		ret.b = this->baseEllipse.b;
+		ret.a = this->baseEllipse.a;
+		ret.center.x = center.x;
+		// Apply Y-offset only if this is not the player
+		ret.center.y = center.y + (this->iShipId != 1 ? 110 : 0);
 
-		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
-		Point newEllipse = Point(shipGraph->center.x + this->baseEllipse.center.x, shipGraph->center.y + this->baseEllipse.center.y);
-
-		ret.center.x = newEllipse.x;
-		ret.center.y = newEllipse.y;
-
-		if (iShipId == 0)
-		{
-			ret.center.y += 110;
-		}
 		return ret;
-	}
-
-	Pointf GetRoomCenter(int room)
-	{
-		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
-		return shipGraph->GetRoomCenter(room);
 	}
 
 	std::vector<LockdownShard*> GetShards()
@@ -7274,9 +7263,10 @@ struct Ship : ShipObject
         return ret;
     }
 
-	int GetSelectedRoomId(int x, int y, bool bIncludeWalls)
+	Pointf GetRoomCenter(int room)
 	{
-		return this->_GetSelectedRoomId_DO_NOT_CALL(Point(x, y), bIncludeWalls);
+		ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->iShipId);
+		return shipGraph->GetRoomCenter(room);
 	}
 
 	Point GetShipCorner()
@@ -7360,6 +7350,7 @@ struct Ship : ShipObject
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API float GetCloakAlpha(bool complete);
 	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
+	LIBZHL_API int GetSelectedRoomId(int x, int y, bool bIncludeWalls);
 	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf position);
 	LIBZHL_API void OnInit(ShipBlueprint *bp);
@@ -7374,7 +7365,6 @@ struct Ship : ShipObject
 	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
 	LIBZHL_API void SetSelectedRoom(int roomId);
 	LIBZHL_API void UpdateDoorsPrimitive(bool doorControlMode);
-	LIBZHL_API int _GetSelectedRoomId_DO_NOT_CALL(Point _position, bool _bIncludeWalls);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;

@@ -15918,13 +15918,30 @@ std::pair<int, int> Ship::ContainsHullBreach(int roomId)
 namespace _func962
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("Ship::GetSelectedRoomId", typeid(int (Ship::*)(int , int , bool )), "!.5548", nullptr, 0, 0, &func);
+}
+
+int Ship::GetSelectedRoomId(int x, int y, bool bIncludeWalls)
+{
+	typedef int (*custom_arg_funcptr_t)(Ship *this_arg, int x_arg, int y_arg, bool bIncludeWalls_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func962::func;
+
+	// Debug to monitor individual calls
+	std::cout << "Trying to call Ship::GetSelectedRoomId at address: " << (void*)execfunc << std::endl;
+
+	return execfunc(this, x, y, bIncludeWalls);
+}
+
+namespace _func963
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("Ship::RoomLocked", typeid(bool (Ship::*)(int )), ".554889e5488b871805000048", nullptr, 0, 0, &func);
 }
 
 bool Ship::RoomLocked(int roomId)
 {
 	typedef bool (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func962::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func963::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::RoomLocked at address: " << (void*)execfunc << std::endl;
@@ -15932,7 +15949,7 @@ bool Ship::RoomLocked(int roomId)
 	return execfunc(this, roomId);
 }
 
-namespace _func963
+namespace _func964
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::LockdownRoom", typeid(void (Ship::*)(int , Pointf )), ".554889e54157415641554154534881ec980100000f294580", nullptr, 0, 0, &func);
@@ -15941,7 +15958,7 @@ namespace _func963
 void Ship::LockdownRoom(int roomId, Pointf position)
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, int roomId_arg, Pointf position_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func963::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func964::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::LockdownRoom at address: " << (void*)execfunc << std::endl;
@@ -15949,7 +15966,7 @@ void Ship::LockdownRoom(int roomId, Pointf position)
 	return execfunc(this, roomId, position);
 }
 
-namespace _func964
+namespace _func965
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::OnRenderJump", typeid(void (Ship::*)(float )), "!.554889e541574156534883ec18f30f1145e44889", nullptr, 0, 0, &func);
@@ -15958,7 +15975,7 @@ namespace _func964
 void Ship::OnRenderJump(float progress)
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, float progress_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func964::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func965::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::OnRenderJump at address: " << (void*)execfunc << std::endl;
@@ -15966,7 +15983,7 @@ void Ship::OnRenderJump(float progress)
 	return execfunc(this, progress);
 }
 
-namespace _func965
+namespace _func966
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::DestroyedDone", typeid(bool (Ship::*)()), ".554889e580", nullptr, 0, 0, &func);
@@ -15975,7 +15992,7 @@ namespace _func965
 bool Ship::DestroyedDone()
 {
 	typedef bool (*custom_arg_funcptr_t)(Ship *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func965::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func966::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::DestroyedDone at address: " << (void*)execfunc << std::endl;
@@ -15983,7 +16000,7 @@ bool Ship::DestroyedDone()
 	return execfunc(this);
 }
 
-namespace _func966
+namespace _func967
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::GetCloakAlpha", typeid(float (Ship::*)(bool )), ".554889e553", nullptr, 0, 0, &func);
@@ -15992,7 +16009,7 @@ namespace _func966
 float Ship::GetCloakAlpha(bool complete)
 {
 	typedef float (*custom_arg_funcptr_t)(Ship *this_arg, bool complete_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func966::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func967::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::GetCloakAlpha at address: " << (void*)execfunc << std::endl;
@@ -16000,7 +16017,7 @@ float Ship::GetCloakAlpha(bool complete)
 	return execfunc(this, complete);
 }
 
-namespace _func967
+namespace _func968
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::OnRenderBase", typeid(void (Ship::*)(bool )), "!.554889e5415741564155415453504189f648", nullptr, 0, 0, &func);
@@ -16009,7 +16026,7 @@ namespace _func967
 void Ship::OnRenderBase(bool engineWorking)
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, bool engineWorking_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func967::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func968::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::OnRenderBase at address: " << (void*)execfunc << std::endl;
@@ -16017,7 +16034,7 @@ void Ship::OnRenderBase(bool engineWorking)
 	return execfunc(this, engineWorking);
 }
 
-namespace _func968
+namespace _func969
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::OnRenderFloor", typeid(void (Ship::*)(bool )), "!.554889e54157415653504189f64989ff4180bf10", nullptr, 0, 0, &func);
@@ -16026,7 +16043,7 @@ namespace _func968
 void Ship::OnRenderFloor(bool forceView)
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, bool forceView_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func968::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func969::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::OnRenderFloor at address: " << (void*)execfunc << std::endl;
@@ -16034,7 +16051,7 @@ void Ship::OnRenderFloor(bool forceView)
 	return execfunc(this, forceView);
 }
 
-namespace _func969
+namespace _func970
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::OnRenderSparks", typeid(void (Ship::*)()), ".554889e54156534989fe498b461049394618742dbb0100000031c90f1f440000488b3cc8e83715ff", nullptr, 0, 0, &func);
@@ -16043,7 +16060,7 @@ namespace _func969
 void Ship::OnRenderSparks()
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func969::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func970::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::OnRenderSparks at address: " << (void*)execfunc << std::endl;
@@ -16051,7 +16068,7 @@ void Ship::OnRenderSparks()
 	return execfunc(this);
 }
 
-namespace _func970
+namespace _func971
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::OnRenderBreaches", typeid(void (Ship::*)()), ".554889e54157415653504989fe498b464049394648744cbb", nullptr, 0, 0, &func);
@@ -16060,7 +16077,7 @@ namespace _func970
 void Ship::OnRenderBreaches()
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func970::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func971::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::OnRenderBreaches at address: " << (void*)execfunc << std::endl;
@@ -16068,7 +16085,7 @@ void Ship::OnRenderBreaches()
 	return execfunc(this);
 }
 
-namespace _func971
+namespace _func972
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::UpdateDoorsPrimitive", typeid(void (Ship::*)(bool )), ".554889e54157415641554154534883ec28", nullptr, 0, 0, &func);
@@ -16077,7 +16094,7 @@ namespace _func971
 void Ship::UpdateDoorsPrimitive(bool doorControlMode)
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, bool doorControlMode_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func971::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func972::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::UpdateDoorsPrimitive at address: " << (void*)execfunc << std::endl;
@@ -16085,7 +16102,7 @@ void Ship::UpdateDoorsPrimitive(bool doorControlMode)
 	return execfunc(this, doorControlMode);
 }
 
-namespace _func972
+namespace _func973
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::OnRenderWalls", typeid(void (Ship::*)(bool , bool )), ".554889e54157415641554154534883ec184189d78975d449", nullptr, 0, 0, &func);
@@ -16094,7 +16111,7 @@ namespace _func972
 void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 {
 	typedef void (*custom_arg_funcptr_t)(Ship *this_arg, bool forceView_arg, bool doorControlMode_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func972::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func973::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::OnRenderWalls at address: " << (void*)execfunc << std::endl;
@@ -16102,7 +16119,7 @@ void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 	return execfunc(this, forceView, doorControlMode);
 }
 
-namespace _func973
+namespace _func974
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("Ship::BreachSpecificHull", typeid(bool (Ship::*)(int , int )), ".554889e54157415641554154534883ec284189d74189f44889fb", nullptr, 0, 0, &func);
@@ -16111,29 +16128,12 @@ namespace _func973
 bool Ship::BreachSpecificHull(int grid_x, int grid_y)
 {
 	typedef bool (*custom_arg_funcptr_t)(Ship *this_arg, int grid_x_arg, int grid_y_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func973::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func974::func;
 
 	// Debug to monitor individual calls
 	std::cout << "Trying to call Ship::BreachSpecificHull at address: " << (void*)execfunc << std::endl;
 
 	return execfunc(this, grid_x, grid_y);
-}
-
-namespace _func974
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("Ship::_GetSelectedRoomId_DO_NOT_CALL", typeid(int (Ship::*)(Point , bool )), "!.554889e54157415653504189d64989f74c89fb48c1eb208b7f08", nullptr, 0, 0, &func);
-}
-
-int Ship::_GetSelectedRoomId_DO_NOT_CALL(Point _position, bool _bIncludeWalls)
-{
-	typedef int (*custom_arg_funcptr_t)(Ship *this_arg, Point _position_arg, bool _bIncludeWalls_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func974::func;
-
-	// Debug to monitor individual calls
-	std::cout << "Trying to call Ship::_GetSelectedRoomId_DO_NOT_CALL at address: " << (void*)execfunc << std::endl;
-
-	return execfunc(this, _position, _bIncludeWalls);
 }
 
 namespace _func975
