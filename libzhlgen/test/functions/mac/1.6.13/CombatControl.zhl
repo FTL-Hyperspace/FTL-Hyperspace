@@ -50,3 +50,9 @@ cleanup __amd64 bool CombatControl::MouseRClick(CombatControl *this, int mX, int
 cleanup __amd64 void CombatControl::KeyDown(CombatControl *this, SDLKey key);
 "!.554889e54157415653504189d64189f74889fbc683b811000001":
 cleanup __amd64 void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
+
+
+struct CombatControl 
+{{
+    void ArmArtillery(ArtillerySystem* artillerySystem);
+}};

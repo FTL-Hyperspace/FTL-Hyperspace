@@ -9,6 +9,7 @@
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
 #include "CustomSystems.h"
+#include "Tasks.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -4628,7 +4629,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
             skillNumber++;
         }
 
-        if (!sTooltip.empty())
+        if (!sTooltip.empty() && !G_->GetCApp()->gui->choiceBoxOpen)
         {
             Point tooltipPosition = Point(box.x + box.w + 95, box.y);
             auto mouse = G_->GetMouseControl();
@@ -5372,7 +5373,16 @@ HOOK_METHOD(CrewAI, UpdateCrewMember, (int crewId) -> void)
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
-    if (task.taskId == 0 && !crewList[crewId]->CanMan())
+    if (crewId == -1) return super(task, crewId);
+    
+    CrewMember* crew = crewList[crewId];
+    if (task.taskId == TASK_MANNING && !crew->CanMan())
+    {
+        return 1001;
+    }
+
+    bool repairTask = task.taskId == TASK_REPAIRING || task.taskId == TASK_FIRE || task.taskId == TASK_BREACH;
+    if (repairTask && !crew->CanRepair())
     {
         return 1001;
     }

@@ -12,6 +12,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
+#include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -911,6 +912,12 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             sector->removeFirstBeaconNebula = true;
         }
 
+        if (strcmp(sectorNode->name(), "priorityNebulaFix") == 0)
+        {
+            isDefault = false;
+            sector->priorityNebulaFix = true;
+        }
+
         if (strcmp(sectorNode->name(), "noExit") == 0)
         {
             isDefault = false;
@@ -1720,6 +1727,18 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->removeItems.push_back(child->value());
         }
+        if (nodeName == "removeSystem")
+        {
+            isDefault = false;
+            std::pair<bool, int> removeSys;
+            removeSys.first = true;
+            if (child->first_attribute("player"))
+            {
+                removeSys.first = EventsParser::ParseBoolean(child->first_attribute("player")->value());
+            }
+            removeSys.second = ShipSystem::NameToSystemId(child->value());
+            customEvent->removeSystems.push_back(removeSys);
+        }
         if (nodeName == "variable" || nodeName == "metaVariable" || nodeName == "tempVariable")
         {
             isDefault = false;
@@ -1760,6 +1779,8 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
             }
+
+            if (firing) customEvent->noASBPlanet = true;
 
             if (!right)
             {
@@ -2127,6 +2148,12 @@ bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             quest->createNebula = EventsParser::ParseBoolean(child->value());
+        }
+
+        if (nodeName == "removeNebula")
+        {
+            isDefault = false;
+            quest->removeNebula = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nebulaEvent")
@@ -2720,7 +2747,7 @@ HOOK_METHOD(EventsParser, ProcessShipEvent, (rapidxml::xml_node<char> *node) -> 
 
 //=====================================================================================
 
-static bool g_checkCargo = false;
+bool g_checkCargo = false;
 
 void SetCheckCargo(CustomEvent *event)
 {
@@ -2790,6 +2817,28 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     if (g_checkCargo)
     {
         CheckCargo(equipment, ret);
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+    // Fix an issue where HasEquipment only checks the rightmost artillery system's level
+    int ret = super(equipment);
+
+    if (equipment == "artillery")
+    {
+        ShipManager *ship = G_->GetShipManager(iShipId);
+        if (ship)
+        {
+            for (ArtillerySystem *artillery : ship->artillerySystems)
+            {
+                int lvl = artillery->powerState.second;
+                if (lvl > ret) ret = lvl;
+            }
+        }
     }
 
     return ret;
@@ -2952,25 +3001,11 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -1000, (const std::string& equipm
     return ret;
 }
 
-int ShipObject::HS_HasEquipment(const std::string& equip)
-{
-    bool temp = advancedCheckEquipment[7];
-    advancedCheckEquipment[7] = true;
-
-    int ret = HasEquipment(equip);
-
-    advancedCheckEquipment[7] = temp;
-    return ret;
-}
-
-bool deathEventActive = false;
 static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return;
-
     auto customEvents = CustomEventsParser::GetInstance();
 
     SetCheckCargo(customEvents->GetCustomEvent(event->eventName));
@@ -3039,9 +3074,9 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -200, (LocationEvent *event)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
     bool removedItem = false;
 
     if (HasAugmentation(name) || boost::algorithm::starts_with(name, "HIDDEN "))
@@ -3290,10 +3325,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
             i->nebula = i->nebula || i->fleetChanging || i->dangerZone;
             if (!i->nebula) // check fleet arc
             {
-                int dangerMove = 0;
-                if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
-                Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
-                i->nebula = i->loc.RelativeDistance(nextDangerZone) < 588289.f;
+                i->nebula = WillBeOvertaken(i);
             }
         }
     }
@@ -3353,6 +3385,10 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
                     {
                         i->event->environment = 3;
                         i->event->statusEffects.push_back({2,7,0,2});
+                    }
+                    if (quest.removeNebula.value) //remove nebula environment
+                    {
+                        CustomEventsParser::LocationRemoveNebula(i);
                     }
                 }
                 break;
@@ -3511,6 +3547,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->fleetChanging = false;
             }
         }
+        //Vanilla doesn't update fleetChanging when fleet delay prevents the fleet from overtaking a beacon that would have been otherwise.
+        if (i->fleetChanging && !WillBeOvertaken(i) && !bossLevel) i->fleetChanging = false;
     }
 
     for (auto i : locLabelValues)
@@ -4530,6 +4568,23 @@ void CustomEventsParser::QueueEvent(std::string &event, int seed)
     eventQueue.push_back(queueEvent);
 }
 
+bool CustomEventsParser::LocationRemoveNebula(Location *loc)
+{
+    if (loc->nebula)
+    {
+        loc->nebula = false;
+        loc->event->environment = 0;
+        loc->event->statusEffects.erase(
+            std::remove_if(
+                loc->event->statusEffects.begin(),
+                loc->event->statusEffects.end(),
+                [](const StatusEffect& item) { return item.system == 7; }),
+                loc->event->statusEffects.end());
+        return true;
+    }
+    return false;
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
@@ -4637,8 +4692,6 @@ static bool g_noASBPlanet = false;
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return;
-
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
 
     if (!loadingGame)
@@ -5012,26 +5065,255 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
         names.resize(locations.size());
     }
 
-    super(names);
-
     CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
+
+    if (customSector && customSector->priorityNebulaFix)
+    {
+        int pEventCount = 0;
+        for (PriorityEvent pEvent : customSector->priorityEventCounts)
+        {
+            int reqLvl;
+
+            // Insert any nebula priority events that are missing
+            if (pEvent.event.first.rfind("NEBULA", 0) == 0)
+            {
+                int missing = pEvent.event.second.min - std::count(names.begin(), names.end(), pEvent.event.first);
+                for (int i = 0; i < missing; ++i) names.push_back(pEvent.event.first);
+            }
+            // Count priority events that aren't nebulas and
+            // that have their requirement met if they have one
+            else if (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl)))
+            {
+                pEventCount += pEvent.event.second.min;
+            }
+        }
+        int availableLocations = locations.size() - 2; // Subtract 2 to account for start and exit beacons
+        int nonNebulaLocations = availableLocations - names.size();
+        
+        // Starting at the end of the names list, remove nebulas until there's space for all priority events
+        if (nonNebulaLocations < pEventCount)
+        {
+            int nebulasToRemoveCount = pEventCount - nonNebulaLocations;
+            
+            // First pass - remove non-priority nebulas over the minimum
+            int nameIndexLast = names.size() - 1;
+            while (nameIndexLast >= 0 && nebulasToRemoveCount > 0)
+            {
+                // Find where the instances of this event start in the name list
+                std::string name = names[nameIndexLast];
+                int nameIndexFirst = nameIndexLast - 1;
+                while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
+                
+                // Make sure this isn't a priority event
+                std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
+                std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
+                {
+                    return pEvent.event.first == name;
+                });
+                if (pEventsIt == pEvents.end())
+                {
+                    // Find the minimum count for this event
+                    std::vector<std::pair<std::string, RandomAmount>> eventCounts = currentSector->description.eventCounts;
+                    std::vector<std::pair<std::string, RandomAmount>>::iterator it = std::find_if(eventCounts.begin(), eventCounts.end(), [name](std::pair<std::string, RandomAmount> eventCount)
+                    {
+                        return eventCount.first == name;
+                    });
+                    if (it != eventCounts.end())
+                    {
+                        // If current count exceeds minimum, remove instances until it meets the minimum
+                        int currentCount = nameIndexLast - nameIndexFirst;
+                        int minCount = (*it).second.min;
+                        if (currentCount > minCount)
+                        {
+                            int removeAmount = std::min(nebulasToRemoveCount, currentCount - minCount);
+                            names.erase(std::next(names.begin(), nameIndexLast + 1 - removeAmount), std::next(names.begin(), nameIndexLast + 1));
+                            nebulasToRemoveCount -= removeAmount;
+                        }
+                    }
+                }
+                
+                // Move on to the last instance of the next different event name
+                nameIndexLast = nameIndexFirst;
+            }
+
+            // Second pass - remove any non-priority nebulas
+            nameIndexLast = names.size() - 1;
+            while (nameIndexLast >= 0 && nebulasToRemoveCount > 0)
+            {
+                // Find where the instances of this event start in the name list
+                std::string name = names[nameIndexLast];
+                int nameIndexFirst = nameIndexLast - 1;
+                while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
+                
+                // Make sure this isn't a priority event
+                std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
+                std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
+                {
+                    return pEvent.event.first == name;
+                });
+                if (pEventsIt == pEvents.end())
+                {
+                    // Remove all instances needed to meet quota
+                    int currentCount = nameIndexLast - nameIndexFirst;
+                    int removeAmount = std::min(nebulasToRemoveCount, currentCount);
+                    names.erase(std::next(names.begin(), nameIndexLast + 1 - removeAmount), std::next(names.begin(), nameIndexLast + 1));
+                    nebulasToRemoveCount -= removeAmount;
+                }
+                
+                // Move on to the last instance of the next different event name
+                nameIndexLast = nameIndexFirst;
+            }
+        }
+    }
+
+    super(names);
 
     if (customSector && customSector->removeFirstBeaconNebula)
     {
-        if (currentLoc->nebula)
-        {
-            currentLoc->nebula = false;
-            currentLoc->event->environment = 0;
-            currentLoc->event->statusEffects.erase(
-                std::remove_if(
-                    currentLoc->event->statusEffects.begin(),
-                    currentLoc->event->statusEffects.end(),
-                    [](const StatusEffect& item) { return item.system == 7; }),
-                currentLoc->event->statusEffects.end());
-        }
+        CustomEventsParser::LocationRemoveNebula(currentLoc);
     }
 }
 
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9999, (std::vector<std::string>& names) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
+    if (names.empty()) return;
+
+    CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
+
+    // non-nebula priority events count
+    int pEventCount = 0;
+    if (customSector && customSector->priorityNebulaFix)
+    {
+        for (PriorityEvent pEvent : customSector->priorityEventCounts)
+        {
+            // Only count priority events that aren't nebulas and
+            // that have their requirement met if they have one
+            int reqLvl;
+            if (pEvent.event.first.rfind("NEBULA", 0) != 0 && (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl))))
+            {
+                pEventCount += pEvent.event.second.min;
+            }
+        }
+    }
+
+    const std::vector<ImageDesc> &nebulaImages = names.size() < 6 ? smallNebula : largeNebula;
+    const ImageDesc *nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
+
+    // nebula beacon candidates
+    std::vector<Location*> nebulaFreeLocations;
+    std::vector<Location*> defaultNebulaEventLocCandidates;
+
+    if (locations.size() > 0)
+    {
+        for (Location *loc : locations)
+        {
+            if (!loc->nebula)
+            {
+                nebulaFreeLocations.push_back(loc);
+            }
+        }
+    }
+
+    while (nebulaFreeLocations.size() - names.size() < 4)
+    {
+        names.erase(names.begin() + random32() % names.size());
+    }
+
+    Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
+    int x = loc->loc.x - nebulaImage->w / 2;
+    int y = loc->loc.y - nebulaImage->h / 2;
+
+    int count = 0;
+    while (!names.empty())
+    {
+        if (nebulaFreeLocations.empty()) ++count;
+        else
+        {
+            bool nebulaBeaconIsNewlyAllocated = false;
+            for (auto it = nebulaFreeLocations.begin(); it != nebulaFreeLocations.end();)
+            {
+                Location *loc = *it;
+                // whether the location is nebula or not is determined by the nebula cloud image position
+                if (x + 5 < loc->loc.x && loc->loc.x < x + 5 + nebulaImage->w - 10 &&
+                    y + 5 < loc->loc.y && loc->loc.y < y + 5 + nebulaImage->h - 10)
+                {
+                    loc->nebula = true;
+                    if (!loc->event)
+                    {
+                        // randomly choose a nebula event from names
+                        if (!names.empty())
+                        {
+                            auto i = names.begin() + random32() % names.size();
+                            loc->event = G_->GetEventGenerator()->GetBaseEvent(*i, worldLevel, false, -1);
+                            names.erase(i);
+                        }
+                        else
+                        {
+                            defaultNebulaEventLocCandidates.push_back(loc);
+                        }
+                    }
+                    else
+                    {
+                        if (loc->beacon)
+                        {
+                            loc->event = G_->GetEventGenerator()->GetBaseEvent("FINISH_BEACON_NEBULA", worldLevel, false, -1);
+                        }
+                        loc->event->environment = 3;
+                        loc->event->statusEffects.push_back(StatusEffect::GetNebulaEffect());
+                    }
+                    it = nebulaFreeLocations.erase(it);
+                    nebulaBeaconIsNewlyAllocated = true;
+                }
+                else
+                {
+                    ++it;
+                }
+            }
+            if (!nebulaBeaconIsNewlyAllocated)
+            {
+                ++count;
+            }
+            else
+            {
+                GL_Primitive *primitive = CSurface::GL_CreatePixelImagePrimitive(nebulaImage->tex, x, y, nebulaImage->w, nebulaImage->h, 0.f, COLOR_WHITE, false);
+                currentNebulas.push_back(StarMap::NebulaInfo{primitive, x, y, nebulaImage->w, nebulaImage->h});
+            }
+        }
+        if (count < 21)
+        {
+            const StarMap::NebulaInfo &nebulaInfo = currentNebulas[random32() % currentNebulas.size()];
+            nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
+            x = nebulaInfo.x + random32() % (nebulaInfo.w + nebulaImage->w) - nebulaImage->w;
+            y = nebulaInfo.y + random32() % (nebulaInfo.h + nebulaImage->h) - nebulaImage->h;
+        }
+        else
+        {
+            Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
+            x = loc->loc.x - nebulaImage->w / 2;
+            y = loc->loc.y - nebulaImage->h / 2;
+        }
+    }
+
+    // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
+    // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
+    // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
+    if (nebulaFreeLocations.size() < pEventCount)
+    {
+        for (int i = pEventCount - nebulaFreeLocations.size(); i > 0; --i)
+        {
+            if (defaultNebulaEventLocCandidates.empty()) break;
+
+            defaultNebulaEventLocCandidates.back()->nebula = false;
+            defaultNebulaEventLocCandidates.pop_back();
+        }
+    }
+    for (Location *loc : defaultNebulaEventLocCandidates)
+    {
+        loc->event = G_->GetEventGenerator()->GetBaseEvent("NEBULA", worldLevel, false, -1);
+    }
+}
 
 HOOK_METHOD(StarMap, StartSecretSector, () -> void)
 {
@@ -5242,6 +5524,19 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         for (auto i : customEvent->removeItems)
         {
             playerShip->shipManager->RemoveItem(i);
+        }
+
+        for (std::pair<bool, int> system : customEvent->removeSystems)
+        {
+            if (system.first)
+            {
+                playerShip->shipManager->RemoveSystem(system.second);
+            }
+            else if (G_->GetShipManager(1) != nullptr)
+            {
+                G_->GetShipManager(1)->RemoveSystem(system.second);
+            }
+            
         }
 
         if (!customEvent->variables.empty())
@@ -6800,6 +7095,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
 }
 */
 
+bool deathEventActive = false;
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> GameOver::OpenText -> Begin (CustomEvents.cpp)\n")
@@ -6916,4 +7212,44 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
+}
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
+    super(event);
+    auto& choices = G_->GetCApp()->gui->choiceBox.choices;
+    const std::string dismissWarning = G_->GetTextLibrary()->GetText("event_crew_full");
+    for (auto& choice : choices)
+    {
+        if (playerShip->shipManager->CanFitCrew(choice.rewards.crewBlue.name))
+        {
+            boost::algorithm::replace_all(choice.text, dismissWarning, "");
+        }
+        else if (!choice.rewards.crewBlue.name.empty() && !boost::algorithm::contains(choice.text, dismissWarning))
+        {
+            choice.text += " " + dismissWarning;
+
+        }
+    }
+}
+
+//Prevent crew from cloning on the enemy ship when killed by an event
+static bool inModifyResources = false;
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
+    inModifyResources = true;
+    LocationEvent* ret = super(event);
+    inModifyResources = false;
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, Clone, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomEvents.cpp)\n")
+    if (inModifyResources && currentShipId != iShipId && currentShipId != -1)
+    {
+        G_->GetShipManager(currentShipId)->RemoveCrewmember(this);
+    } 
+    super();
 }

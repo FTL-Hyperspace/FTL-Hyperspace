@@ -15,13 +15,14 @@ cleanup __amd64 std::vector<std::string> ShipObject::GetAugmentationList(ShipObj
 cleanup __amd64 void ShipObject::ClearShipInfo(ShipObject *this);
 ".554889e54157415641554154534883ec684989f74989fe48":
 cleanup __amd64 int ShipObject::HasEquipment(ShipObject *this, const std::string& equip);
+".55":
+cleanup __amd64 void ShipObject::RemoveEquipment(ShipObject* this, const std::string& blueName, bool completely);
 
 "!.488905????????488d35(???????\?)488d4870":
 offsetVariable ShipInfo** Global_ShipObject_ShipInfoList;
 
 struct ShipObject
 {{
-	int HS_HasEquipment(const std::string& equip);
 	int HasItem(const std::string& equip);
 	int HasCargo(const std::string& equip);
 	void CheckCargo(const std::string& equip, int& ret);

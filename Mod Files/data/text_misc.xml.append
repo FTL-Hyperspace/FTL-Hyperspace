@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.17.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.18.1)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -155,7 +155,7 @@
 <text name="weapon_lockdown">Locks down rooms on hit</text>
 <text name="scrap_value">Buy/Sell Price: \1 scrap/\2 scrap</text>
 <text name="damage_word">Damage</text>
-<text name="shots_remaining">Shots Remaining: \1</text>
+<text name="shots_remaining">Shots: \1</text>
 <text name="bomb_shots">Shots per charge: \1 (1 on own ship)</text>
 <text name="crew_scrap_value">Hire Price: \1~</text>
 <text name="drone_speed">Drone Speed: \1</text>
@@ -208,7 +208,10 @@
 <text name="hotkey_un_temporal">De-Power Temporal Manipulator</text>
 <text name="hotkey_temporal_speed">Temporal Speed Up</text>
 <text name="hotkey_temporal_slow">Temporal Slow Down</text>
-
+<text name="hotkey_artillery1">Target Artillery 1</text>
+<text name="hotkey_artillery2">Target Artillery 2</text>
+<text name="hotkey_artillery3">Target Artillery 3</text>
+<text name="hotkey_artillery4">Target Artillery 4</text>
 <!-- Custom systems -->
 
 <!--
@@ -232,6 +235,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_button_speed">Speed up everything that occurs in a room for a short duration.\nHotkey: \1</text> <!-- key name -->
 <text name="temporal_button_slow">Slow down everything that occurs in a room for a short duration.\nHotkey: \1</text> <!-- key name -->
 
+<text name="confirm_buy_custom">Are you sure?\n\1 will replace your \2.</text>  <!-- Displayed when attempting to buy a system that replaces another system. -->
 <!-- More Info Button -->
 
 <text name="tooltip_more_info">Toggle advanced information, which provides extra info for:
@@ -283,7 +287,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="warning_pds_all">NEUTRAL!</text>
 
 <!--shotLimit warning text-->
-<text name="warning_shot_limit">SHOT LIMIT REACHED!</text>  
+<text name="warning_shot_limit">SHOT LIMIT REACHED</text>  
 <!--Credits-->
 
 <text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
@@ -296,7 +300,7 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="credits_hyperspace_project">Hyperspace Project</text>
 <text name="credits_hyperspace_developed_by">Developed by:</text>
-<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai</text>
+<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
 <text name="credits_hyperspace_art">Additional Art:</text>
 <text name="credits_hyperspace_art_names">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors">Additional Contributions:</text>

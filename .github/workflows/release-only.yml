@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Setup Variables
       id: variables
-      run: echo "::set-output name=version::${GITHUB_REF#refs/tags/v}"
+      run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
     - name: Checkout
       uses: actions/checkout@v3

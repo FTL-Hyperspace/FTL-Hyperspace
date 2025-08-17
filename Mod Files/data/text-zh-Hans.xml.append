@@ -30,7 +30,7 @@
   <mod:setValue>超越光速：超空间</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="zh-Hans">
-  <mod:setValue>\1 (超空间 1.17.1)</mod:setValue>
+  <mod:setValue>\1 (超空间 1.18.1)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="zh-Hans">
   <mod:setValue>起火率：\1 %</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -202,6 +202,10 @@
 <text name="hotkey_un_temporal" language="zh-Hans">减能时流系统</text>
 <text name="hotkey_temporal_speed" language="zh-Hans">时流加快</text>
 <text name="hotkey_temporal_slow" language="zh-Hans">时流减慢</text>
+<text name="hotkey_artillery1" language="zh-Hans">选择巨炮 1</text>
+<text name="hotkey_artillery2" language="zh-Hans">选择巨炮 2</text>
+<text name="hotkey_artillery3" language="zh-Hans">选择巨炮 3</text>
+<text name="hotkey_artillery4" language="zh-Hans">选择巨炮 4</text>
 <!-- Custom systems -->
 <!--
 For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
@@ -221,6 +225,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="temporal_button_speed" language="zh-Hans">
 短时使舱室内时间流速加快。\n热键：\1</text> <!-- key name -->
 <text name="temporal_button_slow" language="zh-Hans">S短时使舱室内时间流速减慢。\n热键：\1</text> <!-- key name -->
+<text name="confirm_buy_custom" language="zh-Hans">确定吗？\n \2 会被替换为 \1。</text>
 <!-- More Info Button -->
 <text name="tooltip_more_info" language="zh-Hans">
 开启额外信息模式后，系统将额外显示下列项目：
@@ -275,7 +280,7 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="zh-Hans">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="zh-Hans">超空间(Hyperspace)项目</text>
 <text name="credits_hyperspace_developed_by" language="zh-Hans">开发者：</text>
-<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger，Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)，Chrono Vortex，Pepson，ranhai</text>
+<text name="credits_hyperspace_developed_names" language="zh-Hans">TheSwiftTiger，Winderps，ih8ih8sn0w，Admiral Billy，laszlogasd，mathchamp93，\nMr. Doom (Nasa62)，Chrono Vortex，Pepson，ranhai，sillysandvich</text>
 <text name="credits_hyperspace_art" language="zh-Hans">额外美术支持：</text>
 <text name="credits_hyperspace_art_names" language="zh-Hans">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="zh-Hans">特别贡献者：</text>
@@ -310,4 +315,4 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="max_augments" language="zh-Hans">你的战舰只能装载 \1 个增强部件。</text>
 <text name="shot_limit" language="zh-Hans">可开火次数：\1</text>
 <text name="shots_remaining" language="zh-Hans">剩余开火次数：\1</text>
-<text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数。</text>
+<text name="warning_shot_limit" language="zh-Hans">已耗尽开火次数</text>

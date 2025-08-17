@@ -21,6 +21,7 @@ struct StoreBox
 {{
 	StoreBox()
 	{
+		
 	}
 	
 	StoreBox(const std::string& buttonImage, ShipManager* ship, Equipment* equip)

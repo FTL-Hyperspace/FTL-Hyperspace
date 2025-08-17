@@ -37,4 +37,8 @@ struct Animation
 	{
 		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 	}
+	inline void Stop()
+	{
+		tracker.Stop(false);
+	}
 }};

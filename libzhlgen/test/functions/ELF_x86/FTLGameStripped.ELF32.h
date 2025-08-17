@@ -2858,7 +2858,10 @@ struct std__vector_12ShipSystemZ1
 struct EngineSystem;
 
 /* 409 */
-struct MedbaySystem;
+struct MedbaySystem
+{
+    ShipSystem _base;
+};
 
 /* 815 */
 struct std__vector_17ArtillerySystemZ1
@@ -4441,8 +4444,8 @@ struct VTable_EquipmentBox
 /* 672 */
 struct VTable_SystemBox
 {
-  void (__thiscall *Free)(SystemBox *this);
   void (__thiscall *destroy)(SystemBox *this);
+  void (__thiscall *Free)(SystemBox *this);
   bool (__thiscall *HasButton)(SystemBox *this);
   int (__thiscall *GetCooldownBarHeight)(SystemBox *this);
   int (__thiscall *GetHeightModifier)(SystemBox *this);

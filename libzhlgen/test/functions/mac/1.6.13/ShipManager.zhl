@@ -52,6 +52,8 @@ cleanup __amd64 std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager
 cleanup __amd64 std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *this, int roomId, bool intruders);
 ".554889e5415741564155415453504189f74989fc":
 cleanup __amd64 CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
+"!.55":
+cleanup __amd64 void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember* crew);
 ".554889e54157415641554154534881ec????????44894dcc":
 cleanup __amd64 CrewMember* ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male);
 "!.554889e54157415641554154534883ec784989ce":
@@ -96,6 +98,8 @@ cleanup __amd64 void ShipManager::CheckSpreadDamage(ShipManager *this);
 cleanup __amd64 void ShipManager::CheckVision(ShipManager *this);
 ".554889e583fe1175":
 cleanup __amd64 int ShipManager::IsSystemHacked(ShipManager *this, int systemId);
+".554889e54157415641":
+cleanup __amd64 void ShipManager::PulsarDamage(ShipManager *this);
 "!.554889e54157415641554154534883ec784189f44989fd8b":
 cleanup __amd64 void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
 "!.554889e54156534989fe41c6":
@@ -108,6 +112,8 @@ cleanup __amd64 void ShipManager::Wait(ShipManager *this);
 cleanup __amd64 void ShipManager::CloneHealing(ShipManager *this);
 ".554889e541574156534883ec284989fe498b86c0":
 cleanup __amd64 void ShipManager::JumpArrive(ShipManager *this);
+".55":
+cleanup __amd64 int ShipManager::GetNetDodgeFactor(ShipManager *this);
 ".554889e54863c6488b8fd8060000486304814883f8ff740f":
 cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
 ".554889e541574156534883ec184989ff41b60141":
@@ -252,5 +258,8 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	bool StopDummyOxygen();
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
-	bool DummyOxygenInstalled();
+	bool DummyOxygenInstalled();	
+	void RemoveSystem(int systemId);
+	int SystemWillReplace(int systemId);
+	bool CanFitCrew(const std::string& crewName);
 }};

@@ -247,9 +247,30 @@ float CrewMemberFactory::GetCrewCapacityUsed()
 }
 
 static CrewBlueprint *storeCrewBlue = nullptr;
-HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
+
+bool ShipManager::CanFitCrew(const std::string& crewName)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
+    auto custom = CustomShipSelect::GetInstance();
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
+    int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
+    CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(crewName);
+    if (crewDef)
+    {
+        //TODO: noSlot does not seem to be calculated dynamically like other stats, this will need to be changed if that is no longer the case.
+        if (crewDef->noSlot) return true;
+        crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
+    }
+    else
+    {
+        crewCount += 1.f;
+    }
+    return crewCount <= crewLimit;
+}
+
+
+HOOK_METHOD_PRIORITY(ShipManager, IsCrewFull, 9999, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
     if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
@@ -259,16 +280,7 @@ HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
     if (storeCrewBlue)
     {
         // If looking at a store blueprint, check if adding this crew would put the player over capacity
-        CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(storeCrewBlue->name);
-        if (crewDef)
-        {
-            crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
-        }
-        else
-        {
-            crewCount += 1.f;
-        }
-        return crewCount > crewLimit;
+        return !CanFitCrew(storeCrewBlue->name);
     }
     else
     {
@@ -1563,7 +1575,6 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
 
     // Render floor
     ShipManager* shipManager = G_->GetShipManager(iShipId);
-    if (!shipManager) printf("ShipMan is a null_ptr\n");
     bool noCrew = shipManager->CountCrew(false) == 0;
     bool sensorFunction = shipManager->DoSensorsProvide(1);
     //Hide floor image when cloaking with no crew onboard and no sensors and setting for fix is enabled
@@ -1575,17 +1586,6 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         CSurface::GL_Translate(-xPos, -yPos, 0.0);
     }
 }
-
-HOOK_METHOD_PRIORITY(ShipManager, CountCrew, -100, (bool unk) -> void)
-{
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CountCrew -> Begin (CustomShips.cpp)\n")
-
-
-	std::vector<CrewMember*> vCrewList = this->vCrewList;
-
-    return super(unk);
-}
-
 
 HOOK_METHOD_PRIORITY(ShipManager, OnRender, -100, (bool showInterior, bool doorControlMode) -> void)
 {
@@ -1692,6 +1692,13 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     CSurface::GL_Scale(sparkScale*0.015625, sparkScale*0.015625, 0.0);
     CSurface::GL_BlitPixelImage(jumpGlare, 0.0, 0.0, 64.0, 64.0, 0.0, COLOR_WHITE, false);
     CSurface::GL_PopMatrix();
+}
+
+HOOK_METHOD(ShipManager, PulsarDamage, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PulsarDamage -> Begin (CustomShips.cpp)\n")
+    if (vSystemList.size() <= 0) return;
+    super();
 }
 
 // save and load rooms

@@ -4,6 +4,7 @@
 #include "CustomOptions.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CustomSystems.h"
 #include "CustomAchievements.h"
 #include "CustomShips.h"
 #include "CustomSystems.h"
@@ -151,14 +152,26 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     {
         ShipManager *ship = commandGui->shipComplete->shipManager;
         
-        for (int systemId = 0; systemId< 17; systemId++) {
-            if (systemId == 16)
+        //Vanilla Systems
+        for (int systemId = 0; systemId < 16; ++systemId) 
+        {
+            if (!ship->HasSystem(systemId) && ship->SystemWillReplace(systemId) == SYS_INVALID)
             {
-                ship->AddSystem(20);
+                ship->AddSystem(systemId);
             } 
-            else
+        }
+
+        //Temporal system
+        if (!ship->HasSystem(SYS_TEMPORAL) && ship->SystemWillReplace(SYS_TEMPORAL) == SYS_INVALID)
+        {
+            ship->AddSystem(SYS_TEMPORAL);
+        }
+        
+        //Custom systems
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId) && ship->SystemWillReplace(systemId) == SYS_INVALID)
             {
-            if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
                 ship->AddSystem(systemId);
             } 
         }
@@ -181,6 +194,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             sys->healthState.first = 0;
         }
 
+        return true;
+    }
+    if (cmdName == "REMOVESYS" && command.length() > 9)
+    {
+        commandGui->shipComplete->shipManager->RemoveSystem(ShipSystem::NameToSystemId(boost::trim_copy(command.substr(10))));
+        
         return true;
     }
     if (cmdName == "DEBUG")
@@ -225,6 +244,19 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         commandGui->shipComplete->shipManager->fuel_count -= 800;
         if (commandGui->shipComplete->shipManager->fuel_count < 0) commandGui->shipComplete->shipManager->fuel_count = 0;
         commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
+        return true;
+    }
+    if(cmdName == "FLEET" && command.length() > 5)
+    {
+        try
+        {
+           int fleetdelay = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
+           commandGui->starMap->ModifyPursuit(fleetdelay);
+        }
+        catch (boost::bad_lexical_cast const &e)
+        {
+            printf("boost::bad_lexical_cast in RunCommand FLEET\n");
+        }
         return true;
     }
     /*

@@ -32,10 +32,16 @@ struct Animation
 {{
 	Animation()
 	{
+
 	}
 
 	Animation(const std::string& image, int length, float time, Pointf position, int imageWidth, int imageHeight, int stripStartX, int numFrames)
 	{
 		this->constructor(image, length, time, position, imageWidth, imageHeight, stripStartX, numFrames);
+	}
+
+	inline void Stop()
+	{
+		tracker.Stop(false);
 	}
 }};

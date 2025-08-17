@@ -153,4 +153,5 @@ cleanup __amd64 Location* StarMap::PopClosestLoc(StarMap *this, std::vector<Loca
 
 struct StarMap
 {{
+	bool WillBeOvertaken(Location* loc);
 }};

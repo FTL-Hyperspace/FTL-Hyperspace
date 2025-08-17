@@ -110,6 +110,8 @@ cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bo
 ".554889e553504889fb488d35????0d00e8????0b":
 static cleanup __amd64 int ShipSystem::NameToSystemId(const std::string& name);
 
+"eeeeee":
+cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
 
 struct ShipSystem
 {{

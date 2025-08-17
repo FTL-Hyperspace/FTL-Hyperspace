@@ -10,3 +10,10 @@ offsetVariable Point* Global_SystemControl_drone_position;
 cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
 "!.554889e54157415641554154534883ec384989ff498b3fe8":
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
+
+
+struct SystemControl
+{{
+    bool OnScrollWheel(float direction);
+    void RButtonUp(int mX, int mY, bool shiftHeld);
+}};
