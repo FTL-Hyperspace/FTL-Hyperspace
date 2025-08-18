@@ -1560,7 +1560,6 @@ struct MainMenu
   GL_Texture *background;
   GL_Texture *glowy;
   AnimationTracker glowTracker;
-  Button macButton; // There seems to be another button (or at least a gap the size of the button struct) for the mac binary here - 90 unused bytes (verified)
   Button continueButton;
   Button startButton;
   Button helpButton;
@@ -1568,8 +1567,10 @@ struct MainMenu
   Button optionsButton;
   Button creditsButton;
   Button quitButton;
+  bool itbButtonActive;
+  Button itbButton;
+  Animation *itbAnim;
   std__vector_8ButtonZ1 buttons;
-	uint64_t unk_gap[2]; // No idea what this is, realized there was an issue here because GetShipManager gave a nullptr when accesing this (ptr acces was off by 16 bytes)
   int finalChoice;
   ShipBuilder shipBuilder;
   bool bScoreScreen;
@@ -1580,8 +1581,9 @@ struct MainMenu
   bool bCreditScreen;
   CreditScreen credits;
   bool bChangedLogin;
+  std__vector_12CrewMemberZ1 testCrew;
   bool bChangedScreen;
-  bool bSyncScreen; // The variable was previously covered by a manual 7 byte gap (and still is for the other platforms)
+  bool bSyncScreen;
   std__string error;
 };
 

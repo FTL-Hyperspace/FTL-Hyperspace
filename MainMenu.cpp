@@ -52,26 +52,23 @@ void CustomMainMenu::ParseTitleScreenNode(rapidxml::xml_node<char> *node)
 static SplashImage* currentSplashImage = nullptr;
 static GL_Texture* splashImageTexture = nullptr;
 
-#ifdef _WIN32
+#ifndef __linux__
 void removeItbButtonFromRenderTargets(MainMenu &mainMenu)
 {
-    auto itBegin = mainMenu.buttons.begin();
-    auto itEnd = mainMenu.buttons.end();
-    auto itItbButton = std::find(itBegin, itEnd, &mainMenu.itbButton);
-    if (itItbButton != itEnd)
-        mainMenu.buttons.erase(itItbButton);
+    std::vector<Button*>::iterator it = std::find(mainMenu.buttons.begin(), mainMenu.buttons.end(), &mainMenu.itbButton);
+    if (it != mainMenu.buttons.end()) mainMenu.buttons.erase(it);
 }
-#endif // _WIN32
+#endif
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (MainMenu.cpp)\n")
-#ifdef _WIN32
-    // At some point we need to lock this behind a FTL Version as this is 1.6.9 specific (this itbButtonActive doesn't exist in later versions)
+#ifndef __linux__
+    // This is oddly enough only different on linux, windows and mac both feature the itb button as an extra member and an active bool
     itbButtonActive = false;
     // Make sure we're removing this->itbButton from this->buttons to prevent rendering it.
     removeItbButtonFromRenderTargets(*this);
-#endif // _WIN32
+#endif
 
     if (CustomMainMenu::GetInstance()->splashImages.size() > 0)
     {

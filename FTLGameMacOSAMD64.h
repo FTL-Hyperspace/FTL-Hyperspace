@@ -3922,7 +3922,6 @@ struct MainMenu
 	GL_Texture *background;
 	GL_Texture *glowy;
 	AnimationTracker glowTracker;
-	Button macButton;
 	Button continueButton;
 	Button startButton;
 	Button helpButton;
@@ -3930,8 +3929,10 @@ struct MainMenu
 	Button optionsButton;
 	Button creditsButton;
 	Button quitButton;
+	bool itbButtonActive;
+	Button itbButton;
+	Animation *itbAnim;
 	std::vector<Button*> buttons;
-	uint64_t unk_gap[2];
 	int finalChoice;
 	ShipBuilder shipBuilder;
 	bool bScoreScreen;
@@ -3942,6 +3943,7 @@ struct MainMenu
 	bool bCreditScreen;
 	CreditScreen credits;
 	bool bChangedLogin;
+	std::vector<CrewMember*> testCrew;
 	bool bChangedScreen;
 	bool bSyncScreen;
 	std::string error;
