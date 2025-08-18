@@ -2863,6 +2863,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect::GetRandomShipIndex;
 %rename("%s") CustomShipSelect::ShipCount;
 %rename("%s") CustomShipSelect::customShipOrder;
+%rename("%s") CustomShipSelect::shipSelect;
 
 %nodefaultctor ShipButtonDefinition;
 %nodefaultdtor ShipButtonDefinition;
@@ -2876,6 +2877,23 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipButtonList::GetPage;
 %rename("%s") ShipButtonList::GetId;
 %rename("%s") ShipButtonList::GetIndex;
+%rename("%s") ShipButtonList::GetButton;
+
+%nodefaultctor ShipSelect;
+%nodefaultdtor ShipSelect;
+%rename("%s") ShipSelect;
+%rename("%s") ShipSelect::selectedShip;
+%rename("%s") ShipSelect::currentType;
+
+%nodefaultctor ShipButton;
+%rename("%s") ShipButton;
+%rename("%s") ShipButton::iShipImage;
+%rename("%s") ShipButton::bShipLocked;
+%rename("%s") ShipButton::bLayoutLocked;
+%rename("%s") ShipButton::bNoExist;
+// %rename("%s") ShipButton::achievements;
+%rename("%s") ShipButton::iSelectedAch;
+%rename("%s") ShipButton::bSelected;
 
 %nodefaultctor CustomShipDefinition;
 %nodefaultdtor CustomShipDefinition;

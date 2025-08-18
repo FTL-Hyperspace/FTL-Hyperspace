@@ -3875,6 +3875,30 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Fields
 - `std::vector<std::string>` `.customShipOrder`
    - Each pages always contain 10 ship string, `empty` means that a ship button in the page is skipped
+- [ShipSelect*](#ShipSelect)  `.shipSelect`
+
+## ShipSelect
+
+### Fields
+
+- `int` `.selectedShip`
+- `int` `.currentType`
+
+## ShipButton
+
+**Extends [Button](#Button)**
+
+### Static methods
+
+- `Hyperspace.ShipButton(int shipType, int shipVariant)` Constructor
+
+### Fields
+- [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.iShipImage`
+- `bool` `.bShipLocked`
+- `bool` `.bLayoutLocked`
+- `bool` `.bNoExist`
+- `int` `.iSelectedAch`
+- `bool` `.bSelected`
 
 ## ShipButtonDefinition
 
@@ -3888,13 +3912,14 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - `int` `:GetId()`
 - `int` `:GetIndex()`
    - equivalent of `:GetId() - 100`, all custom ship id are shifted by 100 to not overwrite vanilla ones
+- [ShipButton](#ShipButton) `:GetButton(int variant)`
 
 ## TextButton
 
 **Extends [GenericButton](#GenericButton)**
 
 ### Methods
-- `void` `:OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font);`
+- `void` `:OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)`
 - `void` `:OnRender()`
 
 ## TextButton0
