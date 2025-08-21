@@ -11,7 +11,7 @@ __thiscall char* ResourceControl::LoadFromResourceFile(ResourceControl *this, co
 "578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b1f8b3d????????":
 __thiscall GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
 "5589e583e4f083ec408b45088b552c85c00f84????????660fefd289c185c9f30f104d20f30f106d1cf30f104518":
-__thiscall int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+__thiscall void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b5724":
 __thiscall int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b5724890424":

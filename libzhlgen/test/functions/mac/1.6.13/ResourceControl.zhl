@@ -13,8 +13,8 @@ cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, c
 cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture* tex);
 ".554889e54156534883ec204889f04889":
 cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
-".0f28f20f":
-cleanup __amd64 int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+".0f28":
+cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".554889e5415741564154534883ec":
 cleanup __amd64 int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 "!.554889e50f28f20f":

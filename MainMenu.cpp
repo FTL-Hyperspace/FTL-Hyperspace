@@ -99,7 +99,24 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     super();
 }
 
-HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
+/* Rewrote this to debug the crash, leaving this in in case someone needs this in the future
+HOOK_METHOD_PRIORITY(ResourceControl, RenderImage, 9999, (GL_Texture* image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ResourceControl::RenderImage -> Begin (MainMenu.cpp)\n")
+
+    if (image)
+    {
+        float size_x = (float)image->width_;
+        float size_y = (float)image->height_;
+
+        color.a = alpha;
+
+        CSurface::GL_BlitPixelImage(image, (float)x, (float)y, size_x, size_y, (float)rotation, color, mirror );
+    }
+}
+*/
+
+HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderImage -> Begin (MainMenu.cpp)\n")
     if (tex == G_->GetCApp()->menu.glowy)

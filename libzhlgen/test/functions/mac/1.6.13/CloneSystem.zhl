@@ -1,9 +1,9 @@
 // Continue from CloneBox::constructor (hyper efficiency™)
-".554889e54863c7":
+".554889e54863c7488d0d02":
 static cleanup __amd64 int CloneSystem::GetCloneTime(int level);
-".554889e54863c7488d0d????0c00f3":
+".55":
 static cleanup __amd64 int CloneSystem::GetJumpHealth(int level);
-".554889e54157":
+".554889e5415741":
 cleanup __amd64 void CloneSystem::OnRenderFloor(CloneSystem *this);
 ".554889e54157415641":
 cleanup __amd64 void CloneSystem::OnLoop(CloneSystem *this);
