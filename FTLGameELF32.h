@@ -4926,6 +4926,7 @@ struct CrewCustomizeBox : CrewEquipBox
     }
 
 	LIBZHL_API void CheckContents();
+	LIBZHL_API void MouseClick();
 	LIBZHL_API void SetCustomizeMode(Point location);
 	LIBZHL_API void constructor(Point location, ShipManager *shipManager, int slot);
 	

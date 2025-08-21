@@ -1,9 +1,12 @@
 "80b9880600000075??80b96e0200000074??c3578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b8984000000":
 __thiscall void CrewCustomizeBox::CheckContents(CrewCustomizeBox *this); // 0052aed0
+"!.578d7c240883e4f0ff77fc5589e557565389cb81ec9c00000080b9c403000000":
+__thiscall void CrewCustomizeBox::MouseClick(CrewCustomizeBox *this);
 ".578d7c240883e4f0ff77fc5589f889e557565389cb81ecbc000000":
 __thiscall void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot); // 0052ea60
 ".578d7c240883e4f0ff77fc5589f889e557565389ce8d5dd4":
 __thiscall void CrewCustomizeBox::SetCustomizeMode(CrewCustomizeBox *this, Point location);
+
 
 struct CrewCustomizeBox
 {{

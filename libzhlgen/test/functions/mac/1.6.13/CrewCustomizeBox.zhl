@@ -1,6 +1,8 @@
 // Continue from CrewControl::KeyDown (hyper efficiency™)
 ".554889e54157415641554154534883ec684989f74989fd":
 cleanup __amd64 void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point _location, ShipManager* _shipManager, int _slot);
+"!.554889e541574156534883ec3848":
+cleanup __amd64 void CrewCustomizeBox::MouseClick(CrewCustomizeBox *this);
 ".554889e54157415641554154534883ec584989f7":
 cleanup __amd64 void CrewCustomizeBox::SetCustomizeMode(CrewCustomizeBox *this, Point location);
 ".55":
