@@ -3110,7 +3110,7 @@ void CloneBox::OnRender(bool ignoreStatus)
 namespace _func243
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CloneSystem::GetCloneTime", typeid(int (*)(int )), ".554889e54863c7", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CloneSystem::GetCloneTime", typeid(int (*)(int )), ".554889e54863c7488d0d02", nullptr, 0, 0, &func);
 }
 
 int CloneSystem::GetCloneTime(int level)
@@ -3123,7 +3123,7 @@ int CloneSystem::GetCloneTime(int level)
 namespace _func244
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CloneSystem::GetJumpHealth", typeid(int (*)(int )), ".554889e54863c7488d0d????0c00f3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CloneSystem::GetJumpHealth", typeid(int (*)(int )), ".55", nullptr, 0, 0, &func);
 }
 
 int CloneSystem::GetJumpHealth(int level)
@@ -3136,7 +3136,7 @@ int CloneSystem::GetJumpHealth(int level)
 namespace _func245
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CloneSystem::OnRenderFloor", typeid(void (CloneSystem::*)()), ".554889e54157", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CloneSystem::OnRenderFloor", typeid(void (CloneSystem::*)()), ".554889e5415741", nullptr, 0, 0, &func);
 }
 
 void CloneSystem::OnRenderFloor()
@@ -11329,12 +11329,12 @@ bool ResourceControl::ImageExists(const std::string &name)
 namespace _func889
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ResourceControl::RenderImage", typeid(int (ResourceControl::*)(GL_Texture *, int , int , int , GL_Color , float , bool )), ".0f28f20f", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ResourceControl::RenderImage", typeid(void (ResourceControl::*)(GL_Texture *, int , int , int , GL_Color , float , bool )), ".0f28", nullptr, 0, 0, &func);
 }
 
-int ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)
+void ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)
 {
-	typedef int (*custom_arg_funcptr_t)(ResourceControl *this_arg, GL_Texture *tex_arg, int x_arg, int y_arg, int rotation_arg, GL_Color color_arg, float opacity_arg, bool mirror_arg);
+	typedef void (*custom_arg_funcptr_t)(ResourceControl *this_arg, GL_Texture *tex_arg, int x_arg, int y_arg, int rotation_arg, GL_Color color_arg, float opacity_arg, bool mirror_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func889::func;
 	return execfunc(this, tex, x, y, rotation, color, opacity, mirror);
 }

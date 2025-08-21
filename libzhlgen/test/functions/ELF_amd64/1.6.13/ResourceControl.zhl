@@ -1,7 +1,7 @@
 "4155be0a00000041545548bdffffffffffffff1f534889fb488d7f20":
 cleanup __amd64 void ResourceControl::constructor(ResourceControl *this);
 ".4883ec284885f64889f7660fd60424488b0424660fd60c24":
-cleanup __amd64 int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".4883ec284885f64889f7660fd60424488b0424660fd60c24":
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
 ".534889fb89b7a0000000c7870801000000000000":
