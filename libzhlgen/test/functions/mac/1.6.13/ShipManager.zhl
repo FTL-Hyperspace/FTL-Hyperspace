@@ -142,6 +142,8 @@ cleanup __amd64 CollisionResponse ShipManager::CollisionShield(ShipManager *this
 cleanup __amd64 void ShipManager::PrepareSuperDrones(ShipManager *this);
 ".554889e54157415641554154534881ec980000004989fe49":
 cleanup __amd64 void ShipManager::PrepareSuperBarrage(ShipManager *this);
+".55":
+cleanup __amd64 void ShipManager::CheckDlcEnabled(ShipManager *this);
 ".554889e548":
 cleanup __amd64 float ShipManager::GetOxygenLevel(ShipManager *this, int roomId);
 ".55":

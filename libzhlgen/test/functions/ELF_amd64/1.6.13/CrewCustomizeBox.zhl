@@ -1,6 +1,8 @@
 "534889fb4883ec2080bf6807000000":
 cleanup __amd64 void CrewCustomizeBox::CheckContents(CrewCustomizeBox *this);
-"41554154554889f54989ed":
+".415541544989f455534889fb4883ec68c6873804000001":
+cleanup __amd64 void CrewCustomizeBox::SetCustomizeMode(CrewCustomizeBox *this, Point location);
+".41554154554889f54989ed":
 cleanup __amd64 void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot);
 
 struct CrewCustomizeBox

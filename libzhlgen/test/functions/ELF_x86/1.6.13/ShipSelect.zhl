@@ -26,3 +26,12 @@ cleanup __cdecl int ShipSelect::GetSelectedShip(ShipSelect *this);
 cleanup __cdecl void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
 "5589e557565383ec5c8b5d0880bb4404000000":
 cleanup __cdecl void ShipSelect::OnRender(ShipSelect *this);
+
+
+struct ShipSelect
+{{
+    inline int GetSelection()
+    {
+        return this->selectedShip;
+    }
+}};

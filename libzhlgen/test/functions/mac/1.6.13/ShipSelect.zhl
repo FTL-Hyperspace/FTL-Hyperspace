@@ -29,8 +29,8 @@ cleanup __amd64 void ShipSelect::Open(ShipSelect *this, int currentId, int curre
 
 struct ShipSelect
 {{
-    ShipSelect()
+    inline int GetSelection()
     {
-        this->constructor();
+        return this->selectedShip;
     }
 }};

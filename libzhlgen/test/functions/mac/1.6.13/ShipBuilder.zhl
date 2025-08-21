@@ -43,8 +43,8 @@ cleanup __amd64 void ShipBuilder::ClearShipAchievements(ShipBuilder *this);
 
 struct ShipBuilder
 {{
-    ShipBuilder()
+    inline void Finish()
     {
-        this->constructor();
+        this->bDone = true;
     }
 }};

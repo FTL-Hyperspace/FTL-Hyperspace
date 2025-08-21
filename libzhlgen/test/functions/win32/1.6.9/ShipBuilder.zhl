@@ -38,3 +38,12 @@ __thiscall void ShipBuilder::CycleTypeNext(ShipBuilder *this);
 __thiscall void ShipBuilder::CycleTypePrev(ShipBuilder *this);
 "5589e557565389cb83e4f083ec108bb94c0f0000":
 __thiscall void ShipBuilder::Close(ShipBuilder *this);
+
+
+struct ShipBuilder
+{{
+    inline void Finish()
+    {
+        this->bDone = true;
+    }
+}};

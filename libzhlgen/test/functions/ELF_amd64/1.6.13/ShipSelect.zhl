@@ -24,3 +24,12 @@ cleanup __amd64 void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
 cleanup __amd64 void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
 ".41564155415455534889fb4883ec5080bf5005000000":
 cleanup __amd64 void ShipSelect::OnRender(ShipSelect *this);
+
+
+struct ShipSelect
+{{
+    inline int GetSelection()
+    {
+        return this->selectedShip;
+    }
+}};

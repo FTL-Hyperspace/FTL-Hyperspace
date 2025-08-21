@@ -184,6 +184,8 @@ cleanup __amd64 SpaceDrone *ShipManager::CreateSpaceDrone(ShipManager *this, con
 cleanup __amd64 Drone* ShipManager::AddDrone(ShipManager *this, const DroneBlueprint *bp, int slot);
 ".415641554154554889f5534883ec30":
 cleanup __amd64 void ShipManager::AddEquipmentFromList(ShipManager *this, std::vector<std::string> *equipmentList);
+".4157415641554154":
+cleanup __amd64 void ShipManager::CheckDlcEnabled(ShipManager *this);
 ".415741564155415455534889fb4881ece8000000":
 cleanup __amd64 int ShipManager::AddSystem(ShipManager *this, int systemId);
 ".4154488d8fb007000055534889fb4883ec20":

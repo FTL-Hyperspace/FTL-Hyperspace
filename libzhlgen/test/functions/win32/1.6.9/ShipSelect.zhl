@@ -24,3 +24,12 @@ __thiscall int ShipSelect::GetSelectedShip(ShipSelect *this);
 __thiscall void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6c80b948050000000f85????????807b34000f84????????8b7b148b731039f774??89f68dbc27000000008b06":
 __thiscall void ShipSelect::OnRender(ShipSelect *this);
+
+
+struct ShipSelect
+{{
+    inline int GetSelection()
+    {
+        return this->selectedShip;
+    }
+}};

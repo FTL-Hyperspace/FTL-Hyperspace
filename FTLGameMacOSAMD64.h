@@ -3722,9 +3722,9 @@ struct UnlockArrow
 
 struct ShipSelect
 {
-    ShipSelect()
+    inline int GetSelection()
     {
-        this->constructor();
+        return this->selectedShip;
     }
 
 	LIBZHL_API void ClearShipButtons();
@@ -3804,9 +3804,9 @@ struct TextInput
 
 struct ShipBuilder
 {
-    ShipBuilder()
+    inline void Finish()
     {
-        this->constructor();
+        this->bDone = true;
     }
 
 	LIBZHL_API void CheckTypes();
@@ -5015,6 +5015,7 @@ struct CrewCustomizeBox : CrewEquipBox
     }
 
 	LIBZHL_API void CheckContents();
+	LIBZHL_API void SetCustomizeMode(Point location);
 	LIBZHL_API void constructor(Point _location, ShipManager *_shipManager, int _slot);
 	
 	TextButton customizeButton;
@@ -7523,6 +7524,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool CanFitSystem(int systemId);
 	LIBZHL_API int CanUpgrade(int systemId, int amount);
 	LIBZHL_API void CheckCrystalAugment(Pointf position);
+	LIBZHL_API void CheckDlcEnabled();
 	LIBZHL_API void CheckSpreadDamage();
 	LIBZHL_API void CheckVision();
 	LIBZHL_API void ClearStatusAll();
