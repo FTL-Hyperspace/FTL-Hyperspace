@@ -2819,10 +2819,7 @@ struct ShipBlueprint;
 
 struct ShipBlueprint : Blueprint
 {
-    ~ShipBlueprint()
-    {
-        this->destructor();
-    }
+
 
 	struct SystemTemplate
 	{
@@ -7251,7 +7248,7 @@ struct Ship : ShipObject
 		ret.a = this->baseEllipse.a;
 		ret.center.x = center.x;
 		// Apply Y-offset only if this is not the player
-		ret.center.y = center.y + (this->iShipId != 1 ? 110 : 0);
+		ret.center.y = center.y + (this->iShipId != 0 ? 110 : 0);
 
 		return ret;
 	}

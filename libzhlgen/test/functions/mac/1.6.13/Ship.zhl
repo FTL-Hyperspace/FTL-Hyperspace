@@ -79,7 +79,7 @@ struct Ship depends (ShipGraph, Globals::Ellipse)
 		ret.a = this->baseEllipse.a;
 		ret.center.x = center.x;
 		// Apply Y-offset only if this is not the player
-		ret.center.y = center.y + (this->iShipId != 1 ? 110 : 0);
+		ret.center.y = center.y + (this->iShipId != 0 ? 110 : 0);
 
 		return ret;
 	}
