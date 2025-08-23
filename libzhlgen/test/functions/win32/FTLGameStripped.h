@@ -4463,25 +4463,25 @@ struct ParticleEmitter
 struct VTable_EquipmentBox
 {
   void (__thiscall *Free)(EquipmentBox *this);
-  void (__thiscall *SetPosition)(EquipmentBox *this, Point pos);
-  void (__thiscall *OnRender)(EquipmentBox *this, bool empty);
-  void (__thiscall *RenderLabels)(EquipmentBox *this, bool empty);
+  void (__thiscall *SetPosition)(EquipmentBox *this, Point p);
+  void (__thiscall *OnRender)(EquipmentBox *this, bool dragging);
+  void (__thiscall *RenderLabels)(EquipmentBox *this, bool dragging);
   void (__thiscall *RenderIcon)(EquipmentBox *this);
   void (__thiscall *SetShipManager)(EquipmentBox *this, ShipManager *ship);
-  void (__thiscall *MouseMove)(EquipmentBox *this, int x, int y);
-  void (__thiscall *OnTouch)(EquipmentBox *this);
-  void (__thiscall *UpdateBoxImage)(EquipmentBox *this, bool unk);
+  void (__thiscall *MouseMove)(EquipmentBox *this, int mX, int mY);
+  void (__thiscall *OnTouch)(EquipmentBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+  void (__thiscall *UpdateBoxImage)(EquipmentBox *this, bool dragging);
   void (__thiscall *Restart)(EquipmentBox *this);
-  void (__thiscall *AddItem)(EquipmentBox *this, EquipmentBoxItem item);
+  void (__thiscall *AddItem)(EquipmentBox *this, EquipmentBoxItem newItem);
   void (__thiscall *RemoveItem)(EquipmentBox *this);
-  char (__thiscall *CanHoldWeapon)(EquipmentBox *this);
-  char (__thiscall *CanHoldDrone)(EquipmentBox *this);
-  char (__thiscall *CanHoldAugment)(EquipmentBox *this);
+  bool (__thiscall *CanHoldWeapon)(EquipmentBox *this);
+  bool (__thiscall *CanHoldDrone)(EquipmentBox *this);
+  bool (__thiscall *CanHoldAugment)(EquipmentBox *this);
   void (__thiscall *CheckContents)(EquipmentBox *this);
-  int (__thiscall *GetType)(EquipmentBox *this, bool unk);
-  char (__thiscall *IsCargoBox)(EquipmentBox *this);
-  char (__thiscall *CanHoldCrew)(EquipmentBox *this);
-  char (__thiscall *CanDoJob)(EquipmentBox *this);
+  int (__thiscall *GetType)(EquipmentBox *this, bool forcedEmpty);
+  bool (__thiscall *IsCargoBox)(EquipmentBox *this);
+  bool (__thiscall *CanHoldCrew)(EquipmentBox *this);
+  bool (__thiscall *CanDoJob)(EquipmentBox *this);
 };
 
 /* 672 */
