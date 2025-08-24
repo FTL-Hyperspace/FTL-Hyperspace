@@ -1810,22 +1810,22 @@ struct LIBZHL_INTERFACE EquipmentBox
 	}
 
 	virtual ~EquipmentBox() {}
-	LIBZHL_API virtual void SetPosition(Point position);
+	virtual void SetPosition(Point position) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void OnRender(bool isEmpty);
-	LIBZHL_API virtual void RenderLabels(bool dragging);
+	virtual void RenderLabels(bool dragging) LIBZHL_PLACEHOLDER
 	virtual void RenderIcon() LIBZHL_PLACEHOLDER
 	virtual void SetShipManager(ShipManager *ship) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseMove(int mX, int mY);
 	virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual void UpdateBoxImage(bool dragging);
-	LIBZHL_API virtual void Restart();
-	LIBZHL_API virtual void AddItem(EquipmentBoxItem item);
+	virtual void UpdateBoxImage(bool dragging) LIBZHL_PLACEHOLDER
+	virtual void Restart() LIBZHL_PLACEHOLDER
+	virtual void AddItem(EquipmentBoxItem newItem) LIBZHL_PLACEHOLDER
 	virtual void RemoveItem() LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual bool CanHoldWeapon();
-	LIBZHL_API virtual bool CanHoldDrone();
+	virtual bool CanHoldWeapon() LIBZHL_PLACEHOLDER
+	virtual bool CanHoldDrone() LIBZHL_PLACEHOLDER
 	virtual bool CanHoldAugment() LIBZHL_PLACEHOLDER
 	virtual void CheckContents() LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual int GetType(bool forcedEmpty);
+	virtual int GetType(bool forcedEmpty) LIBZHL_PLACEHOLDER
 	virtual bool IsCargoBox() LIBZHL_PLACEHOLDER
 	virtual bool CanHoldCrew() LIBZHL_PLACEHOLDER
 	virtual bool CanDoJob() LIBZHL_PLACEHOLDER
