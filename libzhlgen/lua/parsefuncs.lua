@@ -357,8 +357,11 @@ for _,v in pairs(structs) do
             -- vtables
             vtables[cname] = structs[cname]
             v.vtable = structs[cname]
-            
-            if v.vtable.fields[1] and v.vtable.fields[1].name == "Free" then
+
+            if v.vtable.fields[2] and v.vtable.fields[2].name == "Free" then
+                -- hasFuncBeforeVirtDestructor = true
+                v.hasVirtualDestructor = true
+            elseif v.vtable.fields[1] and v.vtable.fields[1].name == "Free" then
                 v.hasVirtualDestructor = true
             end
         end

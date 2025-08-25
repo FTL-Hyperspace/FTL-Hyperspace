@@ -656,8 +656,8 @@ struct VTable_Repairable
     std__string (__thiscall *GetName)(Repairable *this);
     void (__thiscall *SetName)(Repairable *this, std__string* name);
     void (__thiscall *Repair)(Repairable *this);
-    void (__thiscall *PartialRepair)(Repairable *this, float speed, bool autoRepair);
-    void (__thiscall *PartialDamage)(Repairable *this, float amount);
+    bool (__thiscall *PartialRepair)(Repairable *this, float speed, bool autoRepair);
+    bool (__thiscall *PartialDamage)(Repairable *this, float amount);
     bool (__thiscall *NeedsRepairing)(Repairable *this);
     bool (__thiscall *Functioning)(Repairable *this);
     bool (__thiscall *CanBeSabatoged)(Repairable *this);
@@ -665,7 +665,7 @@ struct VTable_Repairable
     Point (__thiscall *GetLocation)(Repairable *this);
     Point (__thiscall *GetGridLocation)(Repairable *this);
     void (__thiscall *SetDamage)(Repairable *this, float diff);
-    void (__thiscall *SetMaxDamage)(Repairable *this, float dam);
+    void (__thiscall *SetMaxDamage)(Repairable *this, float damage);
     void (__thiscall *SetLocation)(Repairable *this, Point location);
     void (__thiscall *OnRenderHighlight)(Repairable *this);
     int (__thiscall *GetId)(Repairable *this);
@@ -1797,7 +1797,7 @@ struct VTable_ArmamentControl
   bool (__thiscall *OnTouch)(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
   bool (__thiscall *KeyDown)(ArmamentControl *this, SDLKey sym);
   void (__thiscall *LinkShip)(ArmamentControl *this, ShipManager *ship);
-  ArmamentBox* (__thiscall *CreateArmamentBox)(ArmamentControl *this, Point loc);
+  ArmamentBox* (__thiscall *CreateArmamentBox)(ArmamentControl *this, Point location);
   int (__thiscall *NumArmamentSlots)(ArmamentControl *this);
   Point (__thiscall *ArmamentBoxOrigin)(ArmamentControl *this);
   TextString (__thiscall *HolderLabel)(ArmamentControl *this);
@@ -2824,15 +2824,15 @@ struct VTable_GenericButton
 {
   void (__thiscall *Free)(GenericButton *this);
   void (__thiscall *Reset)(GenericButton *this);
-  void (__thiscall *SetLocation)(GenericButton *this, Point pos);
-  void (__thiscall *SetHitBox)(GenericButton *this, Globals__Rect rect);
+  void (__thiscall *SetLocation)(GenericButton *this, Point position);
+  void (__thiscall *SetHitBox)(GenericButton *this, Globals__Rect box);
   void (__thiscall *SetActive)(GenericButton *this, bool active);
   void (__thiscall *OnLoop)(GenericButton *this);
   void (__thiscall *OnRender)(GenericButton *this);
-  bool (__thiscall *MouseMove)(GenericButton *this, int x, int y, bool silent);
+  bool (__thiscall *MouseMove)(GenericButton *this, int mX, int mY, bool silent);
   void (__thiscall *OnClick)(GenericButton *this);
   void (__thiscall *OnRightClick)(GenericButton *this);
-  void (__thiscall *OnTouch)(GenericButton *this);
+  bool (__thiscall *OnTouch)(GenericButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
   void (__thiscall *ResetPrimitives)(GenericButton *this);
 };
 
@@ -2841,7 +2841,7 @@ struct VTable_Targetable
 {
   void (__thiscall *Free)(Targetable *);
   Pointf (__thiscall *GetWorldCenterPoint)(Targetable *);
-  Pointf (__thiscall *GetRandomTargettingPoint)(Targetable *, bool unk);
+  Pointf (__thiscall *GetRandomTargettingPoint)(Targetable *, bool valuable);
   std__vector_6Pointf (__thiscall *GetAllTargettingPoints)(Targetable *);
   Globals__Ellipse (__thiscall *GetShieldShape)(Targetable *);
   ShieldPower (__thiscall *GetShieldPower)(Targetable *);
@@ -2850,7 +2850,7 @@ struct VTable_Targetable
   int (__thiscall *GetOwnerId)(Targetable *);
   int (__thiscall *GetSelfId)(Targetable *);
   bool (__thiscall *IsCloaked)(Targetable *);
-  void (__thiscall *DamageTarget)(Targetable *, Pointf pos, Damage damage);
+  void (__thiscall *DamageTarget)(Targetable *, Pointf location, Damage damage);
   bool (__thiscall *GetIsDying)(Targetable *);
   bool (__thiscall *GetIsJumping)(Targetable *);
   bool (__thiscall *ValidTarget)(Targetable *);
@@ -3317,7 +3317,7 @@ struct AugmentBlueprint
 struct VTable_Blueprint
 {
   void (__thiscall *Free)(Blueprint *this);
-  void (__thiscall *RenderIcon)(Blueprint *this, float unk);
+  void (__thiscall *RenderIcon)(Blueprint *this, float scale);
   std__string (__stdcall *GetNameLong)(Blueprint *this);
   std__string (__stdcall *GetNameShort)(Blueprint *this);
   int (__thiscall *GetType)(Blueprint *this);
@@ -3561,13 +3561,12 @@ struct VTable_ArmamentBox
   GL_Color (__thiscall *StatusColor)(ArmamentBox *this);
   std__string (__thiscall *GenerateTooltip)(ArmamentBox *this);
   void (__thiscall *OnLoop)(ArmamentBox *this);
-  void (__thiscall *RenderTouchTooltip)(ArmamentBox *this, int spaceToTop);
+  void (__thiscall *RenderTouchTooltip)(ArmamentBox *this, int spaceToTop, bool tray);
   void (__thiscall *OnRender)(ArmamentBox *this, bool dragging, bool flashPowerBox);
   void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
   void (__thiscall *RenderLabels)(ArmamentBox *this);
-  void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
-
-
+  void (__thiscall *RenderIcon)(ArmamentBox *this, Point &position);
+  bool (__thiscall *GetHacked)(ArmamentBox *this);
 };
 
 struct ArmamentBox
@@ -3759,29 +3758,29 @@ struct VTable_Drone
   void (__thiscall *OnInit)(Drone *);
   void (__thiscall *OnLoop)(Drone *);
   void (__thiscall *OnDestroy)(Drone *);
-  void (__thiscall *SetPowered)(Drone *, bool _powered);
+  void (__thiscall *SetPowered)(Drone *, bool powered);
   void (__thiscall *SetInstantPowered)(Drone *);
   bool (__thiscall *GetPowered)(Drone *);
-  void (__thiscall *SetCurrentShip)(Drone *, int shipId);
-  void (__thiscall *SetDeployed)(Drone *, bool _deployed);
-  void (__thiscall *SetDestroyed)(Drone *, bool dead, bool setTimer);
+  void (__thiscall *SetCurrentShip)(Drone *, int iShipId);
+  void (__thiscall *SetDeployed)(Drone *, bool newDeployed);
+  void (__thiscall *SetDestroyed)(Drone *, bool dead, bool rebuildRequired);
   void (__thiscall *SetHacked)(Drone *, int level);
   bool (__thiscall *GetDeployed)(Drone *);
   bool (__thiscall *NeedsRoom)(Drone *);
-  void (__thiscall *SetSlot)(Drone *, int room, int slot);
+  void (__thiscall *SetSlot)(Drone *, int slotId, int roomId);
   bool (__thiscall *Destroyed)(Drone *);
   Point (__thiscall *GetWorldLocation)(Drone *);
-  void (__thiscall *SetWorldLocation)(Drone *, Point point);
-  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  void (__thiscall *SetWorldLocation)(Drone *, Point position);
+  Slot (__thiscall *GetDroneSlot)(Drone *);
   int (__thiscall *GetDroneHealth)(Drone *);
   int (__thiscall *GetRequiredPower)(Drone *);
   void (__thiscall *RenderIcon)(Drone *);
-  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  std__string (__thiscall *GetName)(Drone *);
   bool (__thiscall *CanBeDeployed)(Drone *);
   bool (__thiscall *RecallOnJump)(Drone *);
   bool (__thiscall *CanBeRecovered)(Drone *);
-  void (__thiscall *SaveState)(Drone *, int fh);
-  void (__thiscall *LoadState)(Drone *, int fh);
+  void (__thiscall *SaveState)(Drone *, int fd);
+  void (__thiscall *LoadState)(Drone *, int fd);
   void (__thiscall *BlowUp)(Drone *, bool silent);
   bool (__thiscall *GetStunned)(Drone *);
 };
@@ -3807,6 +3806,9 @@ struct Drone
 /* 160 */
 struct VTable_SpaceDrone
 {
+  void (__thiscall *Free)(SpaceDrone *);
+  void (__thiscall *OnLoop)(SpaceDrone *);
+  void (__thiscall *SetDeployed)(SpaceDrone *, bool newDeployed);
   void (__thiscall *PickDestination)(SpaceDrone *);
   void (__thiscall *PickTarget)(SpaceDrone *);
   bool (__thiscall *HasTarget)(SpaceDrone *);
@@ -3818,22 +3820,22 @@ struct VTable_SpaceDrone
   void (__thiscall *SetMovementTarget)(SpaceDrone *, Targetable *target);
   void (__thiscall *SetWeaponTarget)(SpaceDrone *, Targetable *target);
   bool (__thiscall *ValidTargetObject)(SpaceDrone *, Targetable *target);
-  void (__thiscall *OnRender)(SpaceDrone *, int space);
+  void (__thiscall *OnRender)(SpaceDrone *, int spaceId);
   void (__thiscall *RenderDrone)(SpaceDrone *);
-  static std__string *(__stdcall *GetTooltip)(std__string *str, SpaceDrone *drone);
+  std__string (__thiscall *GetTooltip)(SpaceDrone *);
   Pointf (__thiscall *GetWorldCenterPoint)(SpaceDrone *);
-  void (__thiscall *SetCurrentLocation)(SpaceDrone *, Pointf pos);
+  void (__thiscall *SetCurrentLocation)(SpaceDrone *, Pointf location);
   void (__thiscall *MouseMove)(SpaceDrone *, int mX, int mY);
-  Pointf (__thiscall *GetRandomTargettingPoint)(SpaceDrone *, bool unk);
-  static Globals__Ellipse *(__stdcall *GetShieldShape)(Globals__Ellipse *ret, SpaceDrone *drone);
+  Pointf (__thiscall *GetRandomTargettingPoint)(SpaceDrone *, bool valuable);
+  Globals__Ellipse (__thiscall *GetShieldShape)(SpaceDrone *);
   int (__thiscall *GetSpaceId)(SpaceDrone *);
   Pointf (__thiscall *GetSpeed)(SpaceDrone *);
   int (__thiscall *GetOwnerId)(SpaceDrone *);
   int (__thiscall *GetSelfId)(SpaceDrone *);
   CollisionResponse (__thiscall *CollisionMoving)(SpaceDrone *, Pointf start, Pointf finish, Damage damage, bool raytrace);
-  bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, Damage damage);
-  bool (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
-  BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);
+  bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf current, Pointf last, Damage damage);
+  bool (__thiscall *DamageArea)(SpaceDrone *, Pointf location, Damage damage, bool forceHit);
+  CrewDrone* (__thiscall *GetBoardingDrone)(SpaceDrone *);
 };
 
 struct SpaceDrone
@@ -3953,6 +3955,11 @@ struct BossShip
 
 struct VTable_Projectile
 {
+  void (__thiscall *Free)(Projectile *);
+  CollisionResponse (__thiscall *CollisionMoving)(Projectile *, Pointf start, Pointf finish, Damage damage, bool raytrace);
+  int (__thiscall *GetSpaceId)(Projectile *);
+  int (__thiscall *GetSelfId)(Projectile *);
+  int (__thiscall *GetOwnderId)(Projectile *);
   void (__thiscall *SetWeaponAnimation)(Projectile *, WeaponAnimation *animation);
   void (__thiscall *OnRenderSpecific)(Projectile *, int spaceId);
   void (__thiscall *CollisionCheck)(Projectile *, Collideable *object);
@@ -4469,7 +4476,7 @@ struct ParticleEmitter
 struct VTable_EquipmentBox
 {
   void (__thiscall *Free)(EquipmentBox *this);
-  void (__thiscall *SetPosition)(EquipmentBox *this, Point p);
+  void (__thiscall *SetPosition)(EquipmentBox *this, Point position);
   void (__thiscall *OnRender)(EquipmentBox *this, bool dragging);
   void (__thiscall *RenderLabels)(EquipmentBox *this, bool dragging);
   void (__thiscall *RenderIcon)(EquipmentBox *this);
@@ -4493,24 +4500,24 @@ struct VTable_EquipmentBox
 /* 672 */
 struct VTable_SystemBox
 {
-  void (__thiscall *destroy)(SystemBox *this);
+  void (__thiscall *RenderTouchTooltips)(SystemBox *this, bool renderTray);
   void (__thiscall *Free)(SystemBox *this);
   bool (__thiscall *HasButton)(SystemBox *this);
   int (__thiscall *GetCooldownBarHeight)(SystemBox *this);
   int (__thiscall *GetHeightModifier)(SystemBox *this);
   void (__thiscall *OnLoop)(SystemBox *this);
-  void (__thiscall *OnRender)(SystemBox *this, bool unk);
+  void (__thiscall *OnRender)(SystemBox *this, bool ignoreStatus);
   bool (__thiscall *GetMouseHover)(SystemBox *this);
-  bool (__thiscall *MouseMove)(SystemBox *this, int x, int y);
-  int (__thiscall *MouseClick)(SystemBox *this, bool unk);
-  int (__thiscall *MouseRightClick)(SystemBox *this, bool unk);
-  void (__thiscall *OnTouch)(SystemBox *this);
+  void (__thiscall *MouseMove)(SystemBox *this, int mX, int mY);
+  bool (__thiscall *MouseClick)(SystemBox *this, bool force);
+  void (__thiscall *MouseRightClick)(SystemBox *this, bool force);
+  void (__thiscall *OnTouch)(SystemBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
   void (__thiscall *CancelTouch)(SystemBox *this);
   void (__thiscall *CloseTapBox)(SystemBox *this);
-  void (__thiscall *IsTouchTooltipOpen)(SystemBox *this);
-  void (__thiscall *IsTouchTooltipActive)(SystemBox *this);
-  void (__thiscall *CloseTouchTooltip)(SystemBox *this, bool unk);
-  void (__thiscall *KeyDown)(SystemBox *this, int key, bool unk);
+  bool (__thiscall *IsTouchTooltipOpen)(SystemBox *this);
+  bool (__thiscall *IsTouchTooltipActive)(SystemBox *this);
+  void (__thiscall *CloseTouchTooltip)(SystemBox *this, bool immediate);
+  void (__thiscall *KeyDown)(SystemBox *this, SDLKey sym, bool shift);
 };
 
 /* 418 */
@@ -4554,9 +4561,9 @@ struct VTable_CrewMember
   Point (__thiscall *GetPosition)(CrewMember *this);
   float (__thiscall *PositionShift)(CrewMember *this);
   bool (__thiscall *InsideRoom)(CrewMember *this, int roomId);
-  bool (__thiscall *ApplyDamage)(CrewMember *this, float damage);
+  bool (__thiscall *ApplyDamage)(CrewMember *this, float amount);
   int (__thiscall *GetPriority)(CrewMember *this);
-  bool (__thiscall *ValidTarget)(CrewMember *this, int unk);
+  bool (__thiscall *ValidTarget)(CrewMember *this, int shipId);
   bool (__thiscall *MultiShots)(CrewMember *this);
   bool (__thiscall *ExactTarget)(CrewMember *this);
   bool (__thiscall *IsCrew)(CrewMember *this);
@@ -4564,10 +4571,10 @@ struct VTable_CrewMember
   bool (__thiscall *IsDrone)(CrewMember *this);
   void (__thiscall *Jump)(CrewMember *this);
   bool (__thiscall *GetIntruder)(CrewMember *this);
-  void (__thiscall *SaveState)(CrewMember *this, int fileHelper);
-  void (__thiscall *LoadState)(CrewMember *this, int fileHelper);
+  void (__thiscall *SaveState)(CrewMember *this, int fd);
+  void (__thiscall *LoadState)(CrewMember *this, int fd);
   void (__thiscall *OnLoop)(CrewMember *this);
-  void (__thiscall *OnRender)(CrewMember *this, bool unk);
+  void (__thiscall *OnRender)(CrewMember *this, bool outlineOnly);
   bool (__thiscall *OutOfGame)(CrewMember *this);
   void (__thiscall *SetOutOfGame)(CrewMember *this);
   bool (__thiscall *Functional)(CrewMember *this);
@@ -4585,7 +4592,7 @@ struct VTable_CrewMember
   int (__thiscall *GetMaxHealth)(CrewMember *this);
   bool (__thiscall *IsDead)(CrewMember *this);
   bool (__thiscall *PermanentDeath)(CrewMember *this);
-  bool (__thiscall *ShipDamage)(CrewMember *this, float damage);
+  bool (__thiscall *ShipDamage)(CrewMember *this, float amount);
   bool (__thiscall *FireFightingSoundEffect)(CrewMember *this);
   std__string (__thiscall *GetUniqueRepairing)(CrewMember *this);
   bool (__thiscall *ProvidesVision)(CrewMember *this);
@@ -4723,44 +4730,44 @@ struct std__pair_26std__string___RandomAmount
   RandomAmount _second;
 };
 
-/* 678 */
-struct VTable_ShipSystem
+/* 678 */ // This Vtable could actually be shorted if the struct wasnt borked
+struct VTable_ShipSystem 
 {
   void (__thiscall *Free)(ShipSystem *this);
   void (__thiscall *SetSelected)(ShipSystem *this, int selectedState);
   int (__thiscall *GetSelected)(ShipSystem *this);
   bool (__thiscall *CompletelyDestroyed)(ShipSystem *this);
-  std__string *(__thiscall *GetName)(ShipSystem *this);
+  std__string (__thiscall *GetName)(ShipSystem *this);
   void (__thiscall *SetName)(ShipSystem *this, std__string *name);
   void (__thiscall *Repair)(ShipSystem *this);
-  bool (__thiscall *PartialRepair)(ShipSystem *this, float amount, bool unk);
-  bool (__thiscall *PartialDamage)(ShipSystem *this, float damage);
+  bool (__thiscall *PartialRepair)(ShipSystem *this, float speedt, bool autoRepair);
+  bool (__thiscall *PartialDamage)(ShipSystem *this, float amount);
   bool (__thiscall *NeedsRepairing)(ShipSystem *this);
   bool (__thiscall *Functioning)(ShipSystem *this);
   bool (__thiscall *CanBeSabotaged)(ShipSystem *this);
   float (__thiscall *GetDamage)(ShipSystem *this);
-  void *(__thiscall *GetLocation)(ShipSystem *this);
-  void *(__thiscall *GetGridLocation)(ShipSystem *this);
+  Point (__thiscall *GetLocation)(ShipSystem *this);
+  Point (__thiscall *GetGridLocation)(ShipSystem *this);
   void (__thiscall *SetDamage)(ShipSystem *this, float damage);
-  void (__thiscall *SetMaxDamage)(ShipSystem *this, float maxDamage);
-  void (__thiscall *SetLocation)(ShipSystem *this, Point pos);
+  void (__thiscall *SetMaxDamage)(ShipSystem *this, float damage);
+  void (__thiscall *SetLocation)(ShipSystem *this, Point position);
   void (__thiscall *OnRenderHighlight)(ShipSystem *this);
   int (__thiscall *GetId)(ShipSystem *this);
   bool (__thiscall *IsRoomBased)(ShipSystem *this);
   int (__thiscall *GetRoomId)(ShipSystem *this);
-  bool (__thiscall *Ioned)(ShipSystem *this);
+  bool (__thiscall *Ioned)(ShipSystem *this, int amount);
   void (__thiscall *SetRoomId)(ShipSystem *this);
   void (__thiscall *SetHackingLevel)(ShipSystem *this, int level);
   void (__thiscall *ForceBatteryPower)(ShipSystem *this, int power);
   void (__thiscall *RemoveBatteryPower)(ShipSystem *this);
   WeaponBlueprint *(__thiscall *GetWeaponInfo)(ShipSystem *this);
-  std__string *(__thiscall *GetOverrideTooltip)(ShipSystem *this);
+  std__string (__thiscall *GetOverrideTooltip)(ShipSystem *this);
   void (__thiscall *CheckMaxPower)(ShipSystem *this);
-  void (__thiscall *SetBonusPower)(ShipSystem *this, int unk1, int unk2);
-  void (__thiscall *AddDamage)(ShipSystem *this, int damage);
-  bool (__thiscall *ForceDecreasePower)(ShipSystem *this, int power);
-  bool (__thiscall *ForceIncreasePower)(ShipSystem *this, int power);
-  void (__thiscall *StopHacking)(ShipSystem *this);
+  void (__thiscall *SetBonusPower)(ShipSystem *this, int amount, int permanentBonus);
+  void (__thiscall *AddDamage)(ShipSystem *this, int amount);
+  bool (__thiscall *ForceDecreasePower)(ShipSystem *this, int amount);
+  bool (__thiscall *ForceIncreasePower)(ShipSystem *this, int amount);
+  void (__thiscall *Jump)(ShipSystem *this);
   void (__thiscall *OnRender)(ShipSystem *this);
   void (__thiscall *OnRenderFloor)(ShipSystem *this);
   void (__thiscall *OnRenderEffects)(ShipSystem *this);
@@ -4810,7 +4817,7 @@ struct Fire
 struct VTable_CrewAnimation
 {
   void (__thiscall *Free)(CrewAnimation *this);
-  void (__thiscall *OnRender)(CrewAnimation *this, float unk1, int unk2, bool unk3);
+  void (__thiscall *OnRender)(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
   void (__thiscall *OnRenderProps)(CrewAnimation *this);
   void (__thiscall *OnUpdateEffects)(CrewAnimation *this);
   void (__thiscall *UpdateFiring)(CrewAnimation *this);
@@ -4838,18 +4845,18 @@ struct VTable_StoreBox
   void (__thiscall *Free)(StoreBox *);
   void (__thiscall *OnLoop)(StoreBox *);
   void (__thiscall *OnRender)(StoreBox *);
-  void (__thiscall *MouseMove)(StoreBox *, int, int);
-  void (__thiscall *MouseClick)(StoreBox *, int, int);
-  void (__thiscall *OnTouch)(StoreBox *);
+  void (__thiscall *MouseMove)(StoreBox *, int mX, int mY);
+  void (__thiscall *MouseClick)(StoreBox *, int mX, int mY);
+  void (__thiscall *OnTouch)(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
   void (__thiscall *Activate)(StoreBox *);
   void (__thiscall *Purchase)(StoreBox *);
-  int (__thiscall *SetInfoBox)(StoreBox *, InfoBox *, int);
+  int (__thiscall *SetInfoBox)(StoreBox *, InfoBox *box, int forceSystemInfoWidth);
   bool (__thiscall *CanHold)(StoreBox *);
   bool (__thiscall *RequiresConfirm)(StoreBox *);
-  void (__thiscall *Confirm)(StoreBox *, bool);
+  void (__thiscall *Confirm)(StoreBox *, bool val);
   TextString (__thiscall *GetConfirmText)(StoreBox *);
   int (__thiscall *GetExtraData)(StoreBox *);
-  void (__thiscall *SetExtraData)(StoreBox *, int);
+  void (__thiscall *SetExtraData)(StoreBox *, int data);
 };
 
 struct ArrowDescription
@@ -6300,7 +6307,7 @@ struct VTable_CrewTarget
   bool (__thiscall *InsideRoom)(CrewTarget *this, int roomId);
   bool (__thiscall *ApplyDamage)(CrewTarget *this, float damage);
   int (__thiscall *GetPriority)(CrewTarget *this);
-  bool (__thiscall *ValidTarget)(CrewTarget *this, int unk);
+  bool (__thiscall *ValidTarget)(CrewTarget *this, int shipId);
   bool (__thiscall *MultiShots)(CrewTarget *this);
   bool (__thiscall *ExactTarget)(CrewTarget *this);
   bool (__thiscall *IsCrew)(CrewTarget *this);
