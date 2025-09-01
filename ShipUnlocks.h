@@ -66,7 +66,7 @@ public:
     void CheckSectorUnlocks(const std::string& currentShip, int sector);
     void CheckMultiUnlocks();
     void CheckMultiVictoryUnlocks();
-    void CheckMultiVictoryUnlocks(std::string &victoryShip, std::string &victoryType);
+    void CheckMultiVictoryUnlocks(const std::string &victoryShip, std::string &victoryType);
     void CheckBasicUnlock(const std::string& currentShip, ShipUnlock::UnlockType type);
     bool CheckVanillaUnlocks(const ShipUnlock& unlock, const std::string& currentShip);
     void UnlockAllShips();

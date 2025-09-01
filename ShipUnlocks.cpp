@@ -675,7 +675,7 @@ void CustomShipUnlocks::CheckMultiVictoryUnlocks()
 }
 
 // this overload checks a specific victory on its own to see if it suffices to unlock something (for when achievements are locked)
-void CustomShipUnlocks::CheckMultiVictoryUnlocks(std::string &victoryShip, std::string &victoryType)
+void CustomShipUnlocks::CheckMultiVictoryUnlocks(const std::string &victoryShip, std::string &victoryType)
 {
     for (auto i : customShipUnlocks)
     {
