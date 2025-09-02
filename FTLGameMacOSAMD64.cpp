@@ -9734,7 +9734,21 @@ void LaserBlast::OnUpdate()
 	return execfunc(this);
 }
 
-namespace _func760
+void **VTable_Targetable_LaserBlast;
+
+namespace _var760
+{
+    static VariableDefinition varObj("VTable_Targetable_LaserBlast", "!.(???????\?)66480f6ec0488d05(???????\?)66480f6ec8660f6cc8f30f10", &VTable_Targetable_LaserBlast, true, true);
+}
+
+void **VTable_LaserBlast;
+
+namespace _var761
+{
+    static VariableDefinition varObj("VTable_LaserBlast", "", &VTable_LaserBlast, true, true);
+}
+
+namespace _func762
 {
     static void *func = 0;
 	static FunctionDefinition funcObj("LaserBlast::OnInit", typeid(void (LaserBlast::*)()), ".554889e553504889fbc74340", nullptr, 0, 0, &func);
@@ -9743,22 +9757,8 @@ namespace _func760
 void LaserBlast::OnInit()
 {
 	typedef void (*custom_arg_funcptr_t)(LaserBlast *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func760::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func762::func;
 	return execfunc(this);
-}
-
-void **VTable_LaserBlast;
-
-namespace _var761
-{
-    static VariableDefinition varObj("VTable_LaserBlast", "!.0f288d????????e8????????488d05(???????\?)4889c1488d81(???????\?)66480f6ec0488d41", &VTable_LaserBlast, true, true);
-}
-
-void **VTable_Targetable_LaserBlast;
-
-namespace _var762
-{
-    static VariableDefinition varObj("VTable_Targetable_LaserBlast", "", &VTable_Targetable_LaserBlast, true, true);
 }
 
 namespace _func763
