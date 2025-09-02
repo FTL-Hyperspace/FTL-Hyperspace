@@ -5,8 +5,11 @@ std::string TextString::GetText()
 {
     if (!this->isLiteral)
     {
-        this->data = G_->GetTextLibrary()->GetText(this->data, G_->GetTextLibrary()->currentLanguage);
+        return G_->GetTextLibrary()->GetText(this->data);
     }
-    return this->data;
+    else
+    {
+        return this->data;
+    }
 }
 #endif
