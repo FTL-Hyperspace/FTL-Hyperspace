@@ -7,15 +7,22 @@ cleanup __amd64 Pointf Pointf::Normalize(Pointf *this);
 
 struct Pointf
 {{
-	Pointf()
+	inline Pointf()
 	{
-
+		this->x = 0.f;
+		this->y = 0.f;
 	}
 
-	Pointf(float x, float y)
+	inline Pointf(float x, float y)
 	{
 		this->x = x;
 		this->y = y;
+	}
+
+	inline Pointf(Point point)
+	{
+		this->x = (float)point.y;
+		this->y = (float)point.y;
 	}
 	
 	Pointf operator+(const Pointf& other)

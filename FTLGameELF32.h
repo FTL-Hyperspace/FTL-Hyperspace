@@ -741,6 +741,7 @@ struct Pointf
 {
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}
+	Pointf(Point p) : x((float)p.x), y((float)p.y) {}
 	
 	Pointf operator+(const Pointf& other)
 	{
