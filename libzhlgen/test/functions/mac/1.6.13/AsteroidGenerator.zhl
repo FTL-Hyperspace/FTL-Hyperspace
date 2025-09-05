@@ -5,12 +5,12 @@ cleanup __amd64 float AsteroidGenerator::Initialize(AsteroidGenerator *this, int
 ".554889e553504889fb31c9":
 cleanup __amd64 void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
 ".554889e58977785dc3":
-cleanup __amd64 void AsteroidGenerator::SetNumShips(AsteroidGenerator *this, int ships); // forceDetour maybe?
+cleanup __amd64 void AsteroidGenerator::SetNumShips(AsteroidGenerator *this, int ships);
 ".554889e541574156534883ec784889fb488b4b":
 cleanup __amd64 Projectile* AsteroidGenerator::GetNextAsteroid(AsteroidGenerator *this);
 ".554889e541574156534883ec184889fb80bb90":
 cleanup __amd64 void AsteroidGenerator::OnLoop(AsteroidGenerator *this);
-".554889e553504889fb488d3d20":
+".554889e5535048":
 cleanup __amd64 void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
 "!.554889e54156534189f64889fbf30f108388":
 cleanup __amd64 void AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, int fd);

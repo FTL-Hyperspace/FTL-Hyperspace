@@ -18,7 +18,7 @@ cleanup __amd64 void CrewAnimation::OnRender(CrewAnimation *this, float scale, i
 cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int _shipId, const std::string& _race, Pointf _position, bool _enemy);
 ".554889e54156534883ec204889fb80be":
 cleanup __amd64 std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
-".554889e54156534883ec204889fb488d051b":
+".554889e54156534883ec204889fb488d05":
 cleanup __amd64 std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
 "!.554889e553504889fb4881c3d8":
 cleanup __amd64 bool CrewAnimation::FireShot(CrewAnimation *this);

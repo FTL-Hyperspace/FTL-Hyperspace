@@ -1,6 +1,6 @@
 "554889e5415741564155415453504889fbf6":
 cleanup __amd64 void Animation::destructor(Animation *this);
-"!.554889e54157415641554154534883ec3844894d":
+"!.554889e54157415641554154534883ec38??89":
 cleanup __amd64 void Animation::constructor(Animation *this, const std::string& image, int length, float time, Pointf position, int imageWidth, int imageHeight, int stripStartX, int numFrames);
 "!.554889e54156534189f64889fb0fb673":
 cleanup __amd64 void Animation::SaveState(Animation *this, int fd);

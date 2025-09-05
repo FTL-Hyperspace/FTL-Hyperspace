@@ -11,7 +11,7 @@ cleanup __amd64 void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);
 cleanup __amd64 std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this, const std::string& blueprintName);
 ".554889e553504889fb4863c2488d0440":
 cleanup __amd64 std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int index);
-"!.554889e541565389f34989fe488d057d":
+"!.55":
 cleanup __amd64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 ".554889e5415741564154534881ec8001":
 cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);

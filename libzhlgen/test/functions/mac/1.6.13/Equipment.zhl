@@ -1,6 +1,6 @@
 // Continue from EnergyAlien::GetRoomDamage (hyper efficiency™)
-".554889e553504889fb488d0560????004883":
-cleanup __amd64 void Equipment::destructor(Equipment *this); //1000c2640
+".554889e553504889fb488d05??????004883":
+cleanup __amd64 void Equipment::destructor(Equipment *this); // This is the free destructor, the delete calls this one and then deallocates the object memory (No potential memory leak)
 "!.554889e553504889fbe842bf":
 cleanup __amd64 void Equipment::constructor(Equipment *this);
 ".554889e54157415641554154534881ec280100004989f649":

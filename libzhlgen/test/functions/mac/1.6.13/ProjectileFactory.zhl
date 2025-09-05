@@ -1,6 +1,6 @@
 "554889e54157415641554154534881ec????????4989f64889fb":
 cleanup __amd64 void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* _blueprint, int _ownerId);
-".554889e553504889fb488d05e0????0080380074":
+".554889e553504889fb488d05??????0080380074":
 cleanup __amd64 void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
 ".554889e5488b472083b834020000007e":
 cleanup __amd64 bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this);

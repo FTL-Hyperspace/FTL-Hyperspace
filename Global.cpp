@@ -103,7 +103,7 @@ void ErrorMessage(const char *msg)
 }
 
 
-HOOK_METHOD(CApp, OnInit, () -> int)
+HOOK_METHOD(CApp, OnInit, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Global.cpp)\n")
     G_->SetCApp(this);

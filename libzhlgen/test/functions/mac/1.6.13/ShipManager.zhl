@@ -72,9 +72,9 @@ cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
 cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
 ".554889e5415741564155415453504189d74989fc":
 cleanup __amd64 int ShipManager::CountCrewShipId(ShipManager *this, int roomId, int shipId);
-".554889e553504889fb31f6837b0800400f95c6488d3df6":
+".554889e553504889fb31f6837b0800400f95c6488d":
 cleanup __amd64 bool ShipManager::IsCrewOverFull(ShipManager *this);
-".554889e553504889fb31f6837b0800400f95c6488d3db6":
+".554889e553504889fb31f6837b0800400f95c6488d":
 cleanup __amd64 bool ShipManager::IsCrewFull(ShipManager *this);
 "!.554889e54881c7????????5de9":
 cleanup __amd64 int ShipManager::GetFireCount(ShipManager *this, int roomId);

@@ -3918,8 +3918,8 @@ struct MainMenu
         this->constructor();
     }
 
-	LIBZHL_API void MouseClick(int x, int y);
-	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API bool Open();

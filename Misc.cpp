@@ -22,7 +22,7 @@
 
 CApp *Global_CApp = nullptr;
 
-HOOK_METHOD(CApp, OnInit, () -> int)
+HOOK_METHOD(CApp, OnInit, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Misc.cpp)\n")
     Global_CApp = this;

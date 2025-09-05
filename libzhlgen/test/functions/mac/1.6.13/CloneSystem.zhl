@@ -1,5 +1,5 @@
 // Continue from CloneBox::constructor (hyper efficiency™)
-".554889e54863c7488d0d02":
+".554889e54863c7488d":
 static cleanup __amd64 int CloneSystem::GetCloneTime(int level);
 ".55":
 static cleanup __amd64 int CloneSystem::GetJumpHealth(int level);
