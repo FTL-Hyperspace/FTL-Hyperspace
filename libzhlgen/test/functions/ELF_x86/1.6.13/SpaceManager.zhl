@@ -39,7 +39,7 @@ cleanup __cdecl void SpaceManager::OnRenderForeground(SpaceManager *this);
 "5557565383ec3c8b4424548b7c245085c0":
 cleanup __cdecl void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
 "57565383ec308b7c24408b74244480bf9400000000":
-cleanup __cdecl void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float unk2);
+cleanup __cdecl void SpaceManager::OnRenderAsteroids(SpaceManager* this, int layers, float alpha);
 "5557565383ec4c8b7c24688b4424648b5c2460":
 cleanup __cdecl void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
 "5589e557565383ec5c8b75088d5de4":

@@ -6,3 +6,5 @@ cleanup __amd64 void SpaceStatus::RenderWarningText(SpaceStatus *this, int effec
 cleanup __amd64 void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
 ".415455534889fb4883ec10488b7f58e8":
 cleanup __amd64 void SpaceStatus::OnRender(SpaceStatus *this);
+".83ee0183fe0176":
+cleanup __amd64 void SpaceStatus::OnTouch(SpaceStatus* this, TouchAction action, int id, int x, int y, int initialX, int initialY);

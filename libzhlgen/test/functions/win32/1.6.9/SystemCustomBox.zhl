@@ -1,5 +1,9 @@
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b77048b57088b7f0cc744240c000000008904248974240489542408":
 __thiscall void SystemCustomBox::constructor(SystemCustomBox *this, Point pos, ShipSystem *sys, ShipManager *ship);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b77":
+__thiscall void SystemCustomBox::OnTouch(SystemCustomBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"!.578d7c240883e4f0ff77fc5589e557565389ce8d89????????83ec1c":
+__thiscall void SystemCustomBox::OnRender(SystemCustomBox* this, bool ignoreStatus);
 
 
 struct SystemCustomBox

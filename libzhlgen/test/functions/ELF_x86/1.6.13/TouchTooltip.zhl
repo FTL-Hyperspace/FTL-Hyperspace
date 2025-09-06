@@ -1,0 +1,4 @@
+"5383ec188b5424248b5c242083fa010f84":
+cleanup __cdecl bool TouchTooltip::OnTouch(TouchTooltip* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".8b44240480785400751c8b542408c74070000000008950648b542414":
+cleanup __cdecl bool TouchTooltip::TakeTouch(TouchTooltip* this, int id, int x, int y, int initialX, int initialY);

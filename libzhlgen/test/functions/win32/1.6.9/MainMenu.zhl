@@ -1,12 +1,26 @@
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b910340000000f85????????80b948200000000f84????????":
-__thiscall void MainMenu::OnRender(MainMenu *this);
-"578d7c240883e4f0ff77fc5589e557565381ec????????80b92003000000898da4fdffff0f85????????8d8510feffff89859cfdffff8d85f8fdffff":
-__thiscall bool MainMenu::Open(MainMenu *this);
-"578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b910340000000f85????????a1????????89f9":
-__thiscall void MainMenu::OnLoop(MainMenu *this);
-"578d412c8d7c240883e4f0ff77fc5589e557565389cb8dbb040100008db37001000083ec4cc60100":
-__thiscall void MainMenu::constructor(MainMenu *this);
-"578d7c240883e4f0ff77fc5589e557565383ec4c80b910340000008b078b57040f85????????80b9d03100000089cb":
-__thiscall void MainMenu::MouseClick(MainMenu *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e557565383ec5c80b910340000008b078b77048945b40f85????????80b95c2f00000089cf0f85????????80b9d031000000":
-__thiscall void MainMenu::MouseMove(MainMenu *this, int x, int y);
+/*
+<<< READ BEFORE EDITING >>>
+
+This files signatures were adjusted to work from version 1.6.8 - 1.6.14
+Please make your signatures compatible aswell when adding some to this file
+
+If you are not sure how or you are simply too lazy, then please contact Dino to do it for you
+*/
+
+"578d??2c8d7c240883e4f0ff77fc5589e557565389cb8dbb????00008db3????0000":
+__thiscall void MainMenu::constructor(MainMenu* this);
+".578d7c240883e4f0ff77fc5589e557565389cf81ec????000080b9????0000000f85????0000":
+__thiscall void MainMenu::OnRender(MainMenu* this);
+".578d7c240883e4f0ff77fc5589e557565381ec??02000080b92003000000898d??fdffff":
+__thiscall bool MainMenu::Open(MainMenu* this);
+".578d7c240883e4f0ff77fc5589e557565383ec5c80b9????0000008b??8b??04":
+__thiscall void MainMenu::MouseMove(MainMenu* this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e557565389cf81ec????000080b9????0000000f85????0000a1??????0089f9":
+__thiscall void MainMenu::OnLoop(MainMenu* this);
+".578d7c240883e4f0ff77fc5589e55783ec1480b9????0000008b078b5704":
+__thiscall void MainMenu::MouseUp(MainMenu* this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e55783ec1480b9????0000008b078b5704":
+__thiscall void MainMenu::MouseRClick(MainMenu* this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e5575653":
+__thiscall void MainMenu::MouseClick(MainMenu* this, int mX, int mY);
+

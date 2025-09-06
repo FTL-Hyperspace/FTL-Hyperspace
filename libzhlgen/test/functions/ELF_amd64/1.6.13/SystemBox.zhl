@@ -1,11 +1,19 @@
-"4157b8010000004156415541545589f5534889fb4883ec58":
+"488b07c787a4000000????????488b4070":
+cleanup __amd64 void SystemBox::CancelTouch(SystemBox *this);
+".534889fbc687b000000000c6876002000000c687b100000000":
+cleanup __amd64 void SystemBox::CloseTapBox(SystemBox *this);
+".4157b8010000004156415541545589f5534889fb4883ec58":
 cleanup __amd64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
 ".41544189f4554889fd5331db4883ec20":
 cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
-".55??89fd5331db??83ec18??c707????????660f1f440000":
-cleanup __amd64 void SystemBox::destructor(SystemBox *this);
+".554889fd5331db4883ec1848c707????????66":
+cleanup __amd64 void SystemBox::destructor(SystemBox* this);
 ".4157415641be01000000415541544189cc55534889fb":
 cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
+".415541544189f4554889fd534883ec28488bbf":
+cleanup __amd64 void SystemBox::AdjustPowerTo(SystemBox* this, int newPower);
+".415741564589c641554189cd41544189d45589f5534889fb":
+cleanup __amd64 void SystemBox::OnTouch(SystemBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 ".415541544189d45589f5534889fb4883ec38":
 cleanup __amd64 void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
 ".5589f5534889fb4883ec388b87ac010000":

@@ -1,6 +1,6 @@
 #include "CustomOptions.h"
 #include "Global.h"
-
+#include "InputManager.h"
 #include "TemporalSystem.h"
 const int ARTILLERY_ARMED = 2147483647;
 static GL_Primitive *moreTargetIcon[6];
@@ -143,7 +143,8 @@ HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::OnRender -> Begin (AdditionalWeaponSlots.cpp)\n")
 
-    if (bHideMouse) return;
+    InputManager* inputManager = InputManager::GetInstance();
+    if (bHideMouse || (inputManager->currentInputDevice != InputManager::KEYBOARD && inputManager->currentInputDevice != InputManager::DEBUG)) return;
 
     if (valid && (!lastValid || newHover))
     {

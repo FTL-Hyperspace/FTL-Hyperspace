@@ -331,6 +331,20 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
 
+	enum TouchPauseReason
+	{
+	  TOUCH_PAUSE_CREW_SELECT = 0x0,
+	  TOUCH_PAUSE_CREW_MOVE = 0x1,
+	  TOUCH_PAUSE_DOORS = 0x2,
+	  TOUCH_PAUSE_HACKING = 0x3,
+	  TOUCH_PAUSE_MIND = 0x4,
+	  TOUCH_PAUSE_TARGETING = 0x5,
+	  TOUCH_PAUSE_TELEPORT_ARRIVE = 0x6,
+	  TOUCH_PAUSE_TELEPORT_LEAVE = 0x7,
+	  TOUCH_PAUSE_TEMPORAL = 0x8, // Custom ID - Does not exist in Vanilla
+	  TOUCH_PAUSE_OVERCLOCKER= 0x9, // Custom ID - Does not exist in Vanilla
+	};
+
 	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 	
 	static DWORD GetBaseAddress()
@@ -519,3 +533,13 @@ cleanup __cdecl void sys_graphics_set_window_title(char* title);
 
 "55660fefc089e583e4f083ec30f30f106d180f2ee8f30f106508f30f105d0cf30f105510f30f104d14":
 cleanup __cdecl void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+"803d??????00007507????????????005589e5":
+noHook __cdecl void _DO_NOT_HOOK_1();
+".803d??????00007507????????????005589e5":
+noHook __cdecl void _DO_NOT_HOOK_2();
+".803d??????00007507????????????005589e5":
+cleanup __cdecl void input_update();
+
+"5589e583e4f083ec10e8????04002b05":
+cleanup __cdecl double time_now();

@@ -1,5 +1,6 @@
 #include "TemporalSystem.h"
 #include "Room_Extend.h"
+#include "SystemBox_Extend.h"
 #include "boost/algorithm/string.hpp"
 #include "boost/lexical_cast.hpp"
 #include <sstream>
@@ -110,7 +111,7 @@ int TemporalSystemParser::GetDilationCooldown(int level)
 
 TemporalArmState g_iTemporal = TEMPORAL_ARM_NONE;
 
-void TemporalBox::RenderBox(bool ignoreStatus)
+void TemporalBox::RenderPCBox(bool ignoreStatus)
 {
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(buttonOffset.x, buttonOffset.y);
@@ -128,6 +129,28 @@ void TemporalBox::RenderBox(bool ignoreStatus)
 
 
     CSurface::GL_PopMatrix();
+}
+
+void TemporalBox::RenderTouchBox(bool ignoreStatus)
+{
+    SystemBox* sysbox = this;
+    SystemBox_Extend* ex = SB_EX(sysbox);
+
+    if (this->tapped)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(static_cast<float>(this->location.x), static_cast<float>(this->location.y));
+        CSurface::GL_RenderPrimitive(ex->tappedBoxBottom);
+        CSurface::GL_Translate(0.f, 48.f);
+        float boxHeight = static_cast<float>(this->hitBox.h) - 1.f;
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Scale(1.f, -boxHeight);
+        CSurface::GL_RenderPrimitive(ex->tappedBoxMiddle);
+        CSurface::GL_PopMatrix();
+        CSurface::GL_Translate(0.f, -boxHeight);
+        CSurface::GL_RenderPrimitive(ex->tappedBoxSeparator);
+        CSurface::GL_PopMatrix();
+    }
 }
 
 void TemporalBox::NewMouseMove(int x, int y)

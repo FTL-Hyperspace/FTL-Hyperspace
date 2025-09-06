@@ -236,6 +236,11 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 		return (ShipObject*)(this);
 	}
 
+	inline void SetSelectedState(int state)
+	{
+		this->selectionState = state;
+	}
+
 	int GetPowerOwner();
 
 	bool _HS_ValidTarget(int shipId);

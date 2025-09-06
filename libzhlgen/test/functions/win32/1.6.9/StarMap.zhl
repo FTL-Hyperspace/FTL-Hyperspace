@@ -1,152 +1,177 @@
-"5589e58b45088b550c5d89415c895160c208008d":
-__thiscall void StarMap::SetPosition(StarMap *this, Point unk0);
-".80b91007000000741a5653837c240c31741e837c":
-__thiscall void StarMap::KeyDown(StarMap *this, int unk0);
-".56538b999804000085db78??83fb0119d283e2e083c24083fb0119c0":
-__thiscall int StarMap::GetNextDangerMove(StarMap *this);
-".80790400740ac389f68dbc2700000000578d7c24":
-__thiscall void StarMap::Open(StarMap *this);
+/*
+<<< READ BEFORE EDITING >>>
+
+This files signatures were adjusted to work from version 1.6.8 - 1.6.14
+Please make your signatures compatible aswell when adding some to this file
+
+If you are not sure how or you are simply too lazy, then please contact Dino to do it for you
+*/
+
+// NOTE:
+// This file uses three individual signature fetching chains because of different orders of functions across the binaries
+
+// Chain 1 - Main
+"5589e58b45088b550c5d89415c":
+__thiscall void StarMap::SetPosition(StarMap *this, Point position);
+".80b9100700000074??5653837c240c3174??837c240c32":
+__thiscall void StarMap::KeyDown(StarMap *this, SDLKey sym);
 ".80b9c0060000000f85b6000000578d7c240883e4":
 __thiscall void StarMap::Close(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83":
-__thiscall void StarMap::SetOpen(StarMap *this, bool unk0);
-".578d7c240883e4f0ff77fc5589e557565389ce8d":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803f008b010f85d10000008b4010":
+__thiscall void StarMap::SetOpen(StarMap *this, bool open);
+".578d7c240883e4f0ff77fc5589e557565389ce8d7d":
 __thiscall void StarMap::InitMapTitle(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cb8d":
+".578d7c240883e4f0ff77fc5589e557565389cb8d7dc8":
 __thiscall void StarMap::InitNoFuelText(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8bb158060000":
 __thiscall void StarMap::InitBossMessageBox(StarMap *this);
-".5589e55389cb83e4f0e812f7ffff89d9e8ebfaff":
+".5589e55389cb83e4f0e8??f7ffff89d9":
 __thiscall void StarMap::OnLanguageChange(StarMap *this);
-".5589e583e4f0803d????????007435e8a46e1500":
+".5589e583e4f0803d??????000074??e8??????0089c189c8":
 __thiscall int StarMap::GetRandomSectorChoice(StarMap *this);
 ".565331c08b5c240c85db78438bb1fc0600008b91":
 __thiscall bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
-".578d7c240883e4f0ff77fc5589fa89e557565389":
-__thiscall void StarMap::GetSelectedSector(StarMap *this, int unk0, int unk1, int unk2);
+".578d7c240883e4f0ff77fc5589":
+__thiscall void StarMap::GetSelectedSector(StarMap *this, int mX, int mY, int maxDist);
 ".578d7c240883e4f0ff77fc5589e55756538d75d0":
 __thiscall void StarMap::StartSecretSector(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565383ec6c":
-__thiscall void StarMap::ReachSector(StarMap *this, Sector * unk0);
-".578d7c240883e4f0ff77fc5589f889e557565389":
-__thiscall void StarMap::UpdateSectorMap(StarMap *this, Sector * unk0);
-".578d7c240883e4f0ff77fc5589f889e557565389":
+".578d7c240883e4f0ff77fc5589e557565383ec":
+__thiscall void StarMap::ReachSector(StarMap *this, Sector* sector);
+".578d7c240883e4f0ff77fc5589????????????????????????????????????0000??????????00":
+__thiscall void StarMap::UpdateSectorMap(StarMap *this, Sector* fakeCurrent);
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b":
 __thiscall void StarMap::SaveGame(StarMap *this, int file);
-".f3c38db426000000008dbc2700000000f3c38db4":
+"!.f3c38db426000000008dbc2700000000":
 __thiscall void StarMap::InitStatistics(StarMap *this);
-".f3c38db426000000008dbc2700000000f3c38db4":
+"!.f3c38db426000000008dbc2700000000":
 __thiscall void StarMap::PrintStatistics(StarMap *this);
-".f3c38db426000000008dbc27000000008b442404":
+"!.f3c38db426000000008dbc2700000000":
 __thiscall void StarMap::AnalyzeMap(StarMap *this);
-".8b442404018198040000c2040090669031c083b9":
-__thiscall void StarMap::ModifyPursuit(StarMap *this, int unk0);
-".31c083b9800000003b7f4656538b999804000085":
+"!.8b442404018198040000c20400906690":
+__thiscall void StarMap::ModifyPursuit(StarMap *this, int amount);
+".31c083b9800000003b7f??56??????????00":
+__thiscall int StarMap::GetNextDangerMove(StarMap *this);
+"!.8b41500fb64014c3908db42600000000":
 __thiscall void StarMap::AtBeacon(StarMap *this);
-".80797c00741a80b9ac060000007411c6417c00c6":
+".80797c00741a80b9ac060000007411c6417c00c6818108000000":
 __thiscall void StarMap::GetWaitLocation(StarMap *this);
-".8b919004000031c085d27e04c38d760056538b71":
+".8b919004000031c085d27e04":
 __thiscall void StarMap::StartBeacon(StarMap *this);
-".538b4424088b5c240c8b48088b500c29cac1fa02":
-__thiscall void StarMap::LocationsConnected(StarMap *this, Location * unk0, Location * unk1);
-".578d7c240883e4f0ff77fc5589e5578d4df083ec":
+".538b4424088b5c240c8b48088b500c29cac1fa0285d27414":
+__thiscall void StarMap::LocationsConnected(StarMap *this, Location* location1, Location* location2);
+".578d7c240883e4f0ff77fc5589e5578d4df083ec34f30f104f040f28c1":
 __thiscall Point StarMap::PointToGrid(StarMap *this, float x, float y);
-".538b44240880787c008941507404c6407c008b58":
-__thiscall void StarMap::TravelToLocation(StarMap *this, Location * unk0);
-".8b4150c6401401c3908db42600000000f3c38db4":
+".??????????????????????????????????????????8b??????????01":
+__thiscall void StarMap::TravelToLocation(StarMap *this, Location* location);
+"!.8b4150c6401401c3908db42600000000":
 __thiscall void StarMap::ForceExitBeacon(StarMap *this);
-".f3c38db426000000008dbc2700000000568b9174":
+"!.f3c38db426000000008dbc2700000000":
 __thiscall void StarMap::OnRenderFogEffect(StarMap *this);
-".568b917408000031c0538b99680800008b74240c":
-__thiscall void StarMap::LocationHasBoss(StarMap *this, Location * unk0);
-".56538b54240c8b422085c074258b801c06000085":
-__thiscall void StarMap::LocationHasStore(StarMap *this, Location * unk0);
-".8b4424048b402085c074070fb6401cc2040031c0":
-__thiscall void StarMap::LocationHasShip(StarMap *this, Location * unk0);
-".8b819004000083c00183f8038981900400007f01":
+".568b917408000031c0538b99680800008b74240c39349a":
+__thiscall void StarMap::LocationHasBoss(StarMap *this, Location* location);
+".5653":
+__thiscall void StarMap::LocationHasStore(StarMap *this, Location* location);
+".8b4424048b??20??c0":
+__thiscall void StarMap::LocationHasShip(StarMap *this, Location* location);
+".8b819004000083c00183f803898190040000":
 __thiscall void StarMap::AdvanceWorldLevel(StarMap *this);
-".568b8174080000538b997808000080b170080000":
-__thiscall void StarMap::ReverseBossPath(StarMap *this);
-".80b97008000000c6817108000001751a8b817808":
+".80b97008000000c6817108000001751a8b81780800002b8174080000c1f80283e801398168080000":
 __thiscall void StarMap::ForceBossJump(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565331db89":
+".578d7c240883e4f0ff77fc5589e5575653":
 __thiscall void StarMap::ClearBoss(StarMap *this);
-".8b4424048981e4090000c2040090669031c083b9":
+"!.8b4424048981e4090000c20400906690":
 __thiscall void StarMap::SetBossStage(StarMap *this, int stage);
-".31c083b96c080000047405f3c38d76008b817408":
+".31c083b96c080000047405f3c38d76008b8174080000":
 __thiscall void StarMap::CheckGameOver(StarMap *this);
-".578d????0883e4f0ff????5589e557565389ce83ec5c8b??8b832c0a0000":
+".578d7c240883e4f0ff77fc5589e557565389??83ec5c8b??8b862c0a0000":
 __thiscall std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cf81":
+".578d7c240883e4f0ff77fc5589e557565389cf81ecfc000000e8":
 __thiscall void StarMap::RenderLabels(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b81d80900008b99dc09000039d8":
+".578d7c240883e4f0ff77fc5589e557565389??83ec2c8b??d8090000":
 __thiscall void StarMap::DeleteMap(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83":
-__thiscall void StarMap::MouseClick(StarMap *this, int unk0, int unk1);
-".578d7c240883e4f0ff77fc5589e557565389cebb":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c80b9a805000000":
+__thiscall void StarMap::MouseClick(StarMap *this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e557565389????56555555":
 __thiscall void StarMap::AddSectorColumn(StarMap *this);
 ".5589e557565389cf83e4f083ec208b81fc060000":
 __thiscall void StarMap::PushSectorColumn(StarMap *this);
-".578d7c240883e4f0ff77fc5589f889e557565389":
-__thiscall void StarMap::SelectNewSector(StarMap *this, int unk0);
-".578d7c240883e4f0ff77fc5589e557565389cb81":
+".578d7c240883e4f0ff77fc5589":
+__thiscall void StarMap::SelectNewSector(StarMap *this, int choice);
+".578d7c240883e4f0ff77fc5589e557565389cb81ec1c0100008b91fc060000": // DO NOT PLACE A ! - FOLLOWING HOOK WILL BREAK
 __thiscall void StarMap::GenerateSectorMap(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cb8d":
+".578d7c240883e4f0ff77fc5589":
+__thiscall void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
+".578d7c240883e4f0ff77fc5589e557565389cb8db518ffffff":
 __thiscall void StarMap::constructor(StarMap *this);
-".578d7c240883e4f0ff77fc5589e55756538d85d0":
-__thiscall void StarMap::RenderSectorName(StarMap *this, Sector * unk0, GL_Color unk1);
-".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9c0060000000f85????????80b980080000000f85????????8bb38000000083fe3b0f8f????????89d9e8????????01f083f83b898380000000":
+".578d7c240883e4f0ff77fc5589":
+__thiscall void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
+".578d7c240883e4f0ff77fc5589e557565383ec??8b1f8b4320c6431c01c6839c00000000":
+__thiscall void StarMap::TurnIntoFleetLocation(StarMap *this, Location *loc);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9c006000000":
 __thiscall void StarMap::UpdateDangerZone(StarMap *this);
-".31c080797c00747880b9ac06000000755c5589e5":
+".????????????????????????????????????????????????????????????????????????????????????????????????????????????????8b??????????????????????????????????????????????????????????????????????????????????0000????????????????????????c6407c00????8d76008dbc2700000000????????????000000??????00000000":
 __thiscall Location* StarMap::GetNewLocation(StarMap *this);
 ".80790400750ac389f68dbc2700000000578d7c24":
 __thiscall void StarMap::OnLoop(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565381ec????????8b81a00600008b919c0600008b37898de8feffff898504ffffff29d0c1f802":
-__thiscall void StarMap::GenerateEvents(StarMap *this, bool tutorial);
-".578d7c240883e4f0ff77fc5589e557565383ec2c":
-__thiscall void StarMap::AddConnections(StarMap *this, Location * unk0);
-".578d810c0a00008d7c240883e4f0ff77fc5589e5":
-__thiscall void StarMap::MapConnected(StarMap *this);
-".578d7c240883e4f0ff77fc5589e5575653":
-__thiscall void StarMap::ConnectLocations(StarMap *this, Point unk0, Point unk1);
-".5789c883c02c8d7c240883e4f0ff77fc5589e5575653":
-__thiscall void StarMap::PopulateGrid(StarMap *this, Point unk0);
-".578d7c240883e4f0ff77fc5589e557565383ec4c8b07":
-__thiscall Location *StarMap::PopClosestLoc(StarMap *this, std::vector<Location*>& vec, std::map<Location*, int>& map);
-".578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b100fb64004":
-__thiscall bool StarMap::AddQuest(StarMap *this, const std::string& questEvent, bool force);
-".578d7c240883e4f0ff77fc5589e557565381ec????????":
-__thiscall Location* StarMap::GenerateMap(StarMap *this, bool tutorial, bool seed);
-".578d7c240883e4f0ff77fc5589e557565389ce83":
-__thiscall Location* StarMap::NewGame(StarMap *this, bool unk0);
-".578d7c240883e4f0ff77fc5589f889e557565381":
-__thiscall std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location * start, Location * finish, bool include_unknown);
-".578d7c240883e4f0ff77fc5589e557565381ec8c":
-__thiscall void StarMap::MouseMove(StarMap *this, int x, int y);
-".578d7c240883e4f0ff77fc5589e557565389ce81":
-__thiscall void StarMap::OnTouch(StarMap *this, TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5);
-".578d7c240883e4f0ff77fc5589f889e557565389":
-__thiscall Location* StarMap::LoadGame(StarMap *this, int fileHelper);
-".578d7c240883e4f0ff77fc5589e557565389cb83":
-__thiscall void StarMap::RenderLeftInsetButton(StarMap *this, float unk0, float unk1, bool unk2);
-".578d7c240883e4f0ff77fc5589e55756538d7dc8":
-__thiscall void StarMap::RenderDistressButtons(StarMap *this);
-".578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b91007000000":
-__thiscall void StarMap::OnRender(StarMap *this);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b57048b5f08894db889458089d689957cffffff8b5004":
-__thiscall void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
-"578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b4320c6431c01c6839c00000000":
-__thiscall void StarMap::TurnIntoFleetLocation(StarMap *this, Location *loc);
-"578d41088d7c240883e4f0ff77fc5589e557565389ce83ec7c8b1f8d7dd08901":
-__thiscall std::string StarMap::GetLocationText(StarMap *this, const Location* loc);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????833fff8b77040f84????????8b81ac090000c68543ffffff00803d??????????c683c8090000018983ac090000":
-__thiscall void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b0789c78945888b40048b17":
+".578d7c240883e4f0ff77fc5589e557565381ec??0000008b":
 __thiscall void StarMap::GenerateNebulas(StarMap *this, const std::vector<std::string>& names);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b81680800008b91740800008b3c82":
+".578d7c240883e4f0ff77fc5589e557565381ec2c0100008b????060000":
+__thiscall void StarMap::GenerateEvents(StarMap *this, bool tutorial);
+".578d????????????????????????????????????????????????????????????????????????????00": // DO NOT ADD A ! - FOLLOWING HOOK WILL BREAK
+__thiscall void StarMap::AddConnections(StarMap *this, Location* location);
+".578d":
+__thiscall void StarMap::MapConnected(StarMap *this);
+".578d7c240883e4f0ff77fc5589e55756538d712c8d593083ec??89f1893c24":
+__thiscall void StarMap::ConnectLocations(StarMap *this, Point grid1, Point grid2);
+".57????????????????????????????????????????????????????89":
+__thiscall void StarMap::PopulateGrid(StarMap *this, Point grid);
+".578d7c240883e4f0ff77fc5589??????????????????????????????????????????ffff":
+__thiscall bool StarMap::AddQuest(StarMap *this, const std::string& questEvent, bool force);
+".578d7c240883e4f0ff77fc5589??????????????????????????00????????????????????????????????????????????????00":
+__thiscall Location* StarMap::GenerateMap(StarMap *this, bool tutorial, bool useOldSeed);
+".578d7c240883e4f0ff77fc5589e557565389??83ec7c8b078b????060000c7819004000000000000c681c809000000c681a6080000008945908b81??060000":
+__thiscall Location* StarMap::NewGame(StarMap *this, bool tutorial);
+".578d7c240883e4f0ff77fc5589??????????????????00????????????????????????????????000000????????000000":
+__thiscall std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location* start, Location* finish, bool include_unknown);
+".578d7c240883e4f0ff77fc5589e5575653????????????????8b":
+__thiscall void StarMap::MouseMove(StarMap *this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ecbc0400008b??89":
+__thiscall Location* StarMap::LoadGame(StarMap *this, int fileHelper);
+".578d7c240883e4f0ff77fc5589e557565389cb??ec":
+__thiscall void StarMap::RenderLeftInsetButton(StarMap *this, float rightX, float y, bool isWait);
+".578d7c240883e4f0ff77fc5589e55756538d7dc889cb8d75b081ecdc00000089f9c70424??????00":
+__thiscall void StarMap::RenderDistressButtons(StarMap *this);
+".578d7c240883e4f0ff77fc5589e557565389??81ec??01000080b910070000000f84??0c00008d8d??ffffffc7442404d3000000c7042466010000e8????faff":
+__thiscall void StarMap::OnRender(StarMap *this);
+
+// Chain 2
+"80790400740a??????8d????00000000578d7c240883e4f0":
+__thiscall void StarMap::Open(StarMap *this);
+".578d7c240883e4f0ff77fc5589e5575653????????????????????????????????????????????????????????????????????????????08????????????????????????????????????????????00????????????????ff????????????????????????????????????00":
+__thiscall void StarMap::RenderSectorName(StarMap *this, Sector* sector, GL_Color color);
+
+// Chain 3
+"578d41088d7c240883e4f0ff77fc5589e557565389ce83ec7c8b1f??????????????????000000":
+__thiscall std::string StarMap::GetLocationText(StarMap *this, const Location* loc);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b8168080000":
 __thiscall void StarMap::UpdateBoss(StarMap *this);
+".8b470483ec??8bbd??ffffffe9????ffff":
+noHook void StarMap::DO_NOT_HOOK();
+".578d7c240883e4f0ff77fc5589??????????????????????00????????????????00????????????????????????????????????????????????????????????????00????????????????????????00":
+__thiscall void StarMap::OnTouch(StarMap *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct StarMap
 {{
-	
+    // Rewritten because hooking isn't possible
+    void ReverseBossPath()
+    {
+        this->reversedPath = !this->reversedPath;
+
+        if (!this->boss_path.empty())
+        {
+            std::reverse(this->boss_path.begin(), this->boss_path.end());
+            this->bossLoc = this->boss_path.size() - 1 - this->bossLoc;
+        }
+    }
 }};

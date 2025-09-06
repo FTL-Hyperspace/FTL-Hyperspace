@@ -235,7 +235,7 @@
 <text name="button_lockdown" language="ko">잠금</text>
 <text name="button_nextsector" language="ko">다음 구역</text>
 <text name="button_options" language="ko">설정</text>
-<text name="button_pause" language="ko">PAUSE</text>
+<text name="button_pause" language="ko">일시정지</text>
 <text name="button_sell" language="ko">판매</text>
 <text name="button_store" language="ko">상점</text>
 <text name="button_undo" language="ko">되돌리기</text>

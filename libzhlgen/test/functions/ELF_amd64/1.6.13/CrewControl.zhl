@@ -1,11 +1,15 @@
 "41544989fc5553488b4f68488b57604889c84829d048c1f80385c0":
 cleanup __amd64 void CrewControl::ClearCrewBoxes(CrewControl *this);
+".41574531ff4156415541544189d455534889fb4883ec18":
+cleanup __amd64 bool CrewControl::IsPointInCrewBoxes(CrewControl* this, int x, int y);
 ".41574589c741564189ce41554189d541544189f455534889fb4883ec38":
 cleanup __amd64 void CrewControl::LButton(CrewControl *this, int mX, int mY, int wX, int wY, bool shiftHeld);
 ".41545553807f54004889fb":
 cleanup __amd64 void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
 ".415431c0554889f553488b4e0831db":
 cleanup __amd64 void CrewControl::ClearDeadCrew(CrewControl *this, std::vector<CrewMember*> *crew);
+".488b7708488b4f1031d231c04829f1":
+cleanup __amd64 void CrewControl::ClearSelectedCrew(CrewControl* this);
 ".415731d241564155415455534889fb":
 cleanup __amd64 void CrewControl::UpdateCrewBoxes(CrewControl *this);
 ".534889374889fb":
@@ -16,9 +20,15 @@ cleanup __amd64 void CrewControl::OnLoop(CrewControl *this);
 cleanup __amd64 void CrewControl::SelectCrew(CrewControl *this, bool keep_current);
 ".55534889fb4889f74883ec184885f64889742408":
 cleanup __amd64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember *crew, bool allowTeleportLeaving);
+".41574989ff4156415541544589c45589cd5389f34883ec58":
+cleanup __amd64 bool CrewControl::OnTouch(CrewControl* this, TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection);
 ".4157415641554989fd415455534881ecc8010000":
 cleanup __amd64 void CrewControl::KeyDown(CrewControl *this, SDLKey key);
+".4154555380bf98000000004889fb75":
+cleanup __amd64 void CrewControl::LButtonUp(CrewControl *this, int mX, int mY, bool shiftHeld);
 ".415741564c8db7f000000041554989fd415455534883ec58":
 cleanup __amd64 void CrewControl::OnRender(CrewControl *this);
 ".41574989ff415641554589c541544189cc5589d55389f34881ec18010000":
 cleanup __amd64 void CrewControl::MouseMove(CrewControl *this, int mX, int mY, int wX, int wY);
+".41574589c741564189ce41554189d541544189f4554489cd534889fb":
+cleanup __amd64 bool CrewControl::OnTouchButtons(CrewControl* this, TouchAction action, int id, int x, int y, int initialX, int initialY);

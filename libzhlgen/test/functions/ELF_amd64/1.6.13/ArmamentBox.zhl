@@ -1,0 +1,4 @@
+"!41544189d45589f5534889fb4883ec10":
+cleanup __amd64 bool ArmamentBox::OnRender(ArmamentBox* this, bool dragging, bool flashPowerBox);
+"!.41574989ff415641554589c541544189cc5589d55389f3":
+cleanup __amd64 bool ArmamentBox::OnTouch(ArmamentBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);

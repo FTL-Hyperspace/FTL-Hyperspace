@@ -1,7 +1,7 @@
 "57565383ec208b5c24308d4310c7430400000000":
 cleanup __cdecl void ResourceControl::constructor(ResourceControl *this);
 "83ec5c8b4424648b8c248800000085c00f84????????89c285d2f30f1074247cf30f10642478f30f106c2474f30f2a542470":
-cleanup __cdecl GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
+cleanup __cdecl GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 "5383ec188b5c24208b442424c7838800000000000000894354c70424b80b0000":
 cleanup __cdecl void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
 "555731ff565383ec4c8d44241e8b5c246089442408":

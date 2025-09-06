@@ -27,7 +27,7 @@ static cleanup __amd64 int CSurface::GL_PopMatrix();
 ".0f57e44881ecf80000000f2ec4":
 static cleanup __amd64 void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
 ".f30f101d????????b8000000000f2ec30f9bc20f45d084d2":
-static cleanup __amd64 void CSurface::GL_Scale(float x, float y, float z);
+static cleanup __amd64 void CSurface::GL_Scale(float x, float y, float z=1.f);
 ".0f57dbb8000000000f2ec30f9bc20f45d084d2":
 static cleanup __amd64 bool CSurface::GL_Translate(float x, float y, float z=0.f);
 ".4883ec28660fd6442408488b442408660fd64c2408488b542408":
@@ -83,19 +83,17 @@ static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::
 ".41564155415455534881ec80020000":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
 ".415541544989f455534883ec48":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vertices, GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".488b05????????483b05":
 static cleanup __amd64 void CSurface::GL_PushStencilMode();
 ".4883ec18488b0d":
 static cleanup __amd64 void CSurface::GL_SetColorTint(GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".41550f28f84989fd415455534883ec58":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk); /* GL_Color is in XMM5:XMM6 */
-/*
 ".4154554889fd534883ec704084f6":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror); 
-*/
 ".554889fd534883ec28488b07488b5f08":
-static cleanup __amd64 void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
+static cleanup __amd64 void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vertices, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y);
 ".550f28f84889fd534883ec58":
 static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color); /* GL_Color is in XMM5:XMM6 */
 ".415455534883ec50660fd64c2408":
@@ -114,6 +112,21 @@ static cleanup __amd64 int CSurface::GL_OrthoProjection(float mx1, float mx2, fl
 struct CSurface
 {{
 	/*
+	void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vertices, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y) 
+	{
+		// Reserve memory if required
+		if (vertices.capacity() < vertices.size() + 4)
+		{
+			vertices.reserve(vertices.size() + 4);
+		}
+
+		// Add the squares edge points 
+		vertices.push_back({x,          y,          start_x, start_y}); // Top left
+		vertices.push_back({x + size_x, y,          end_x,   start_y}); // Top right
+		vertices.push_back({x + size_x, y + size_y, end_x,   end_y  }); // Bottom right
+		vertices.push_back({x,          y + size_y, start_x, end_y  }); // Bottom left
+	}
+
 	static void GL_ApplyShader(int pipeline)
 	{
 		shader_pipeline_apply(pipeline);

@@ -1,5 +1,19 @@
-"57????????83e4f0ff77fc5589e557565389ce8d4d9081ecac000000":
-__thiscall void LanguageChooser::OnRender(LanguageChooser *this);
+/*
+<<< READ BEFORE EDITING >>>
 
-"!83ec1ca1(???????\?)c1e30301d8":
+This files signatures were adjusted to work from version 1.6.8 - 1.6.14
+Please make your signatures compatible aswell when adding some to this file
+
+If you are not sure how or you are simply too lazy, then please contact Dino to do it for you
+*/
+
+"578d7c240883e4f0ff77fc5589f889e557565389ce83ec4c8b??048b":
+__thiscall void LanguageChooser::OnTouch(LanguageChooser* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c":
+__thiscall void LanguageChooser::MouseClick(LanguageChooser* this, int mX, int mY);
+
+"!.83ec1ca1(???????\?)c1":
 std::vector<std::string>* Global_OptionsScreen_languageList;
+
+".578d7c240883e4f0ff77fc5589e557565389ce8d4d??81ec??000000":
+__thiscall void LanguageChooser::OnRender(LanguageChooser *this);

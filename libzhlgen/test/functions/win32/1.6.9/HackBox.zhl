@@ -1,5 +1,9 @@
-"578d7c240883e4f0ff77fc5589e557565389fe89cb81ec????????8b57048b078b7f088b760cc744240c0000000089542404":
+"c21800908db6000000008dbf00000000":
+__thiscall void HackBox::OnTouch(HackBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".578d7c240883e4f0ff77fc5589e557565389fe89cb81ecac0000008b57048b078b7f08":
 __thiscall void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+".55400fb6f6534889fb4883ec18e8??6e0300e8????0600f30f2a8300030000": 
+__thiscall void HackBox::OnRender(HackBox* this, bool ignoreStatus);
 
 
 struct HackBox

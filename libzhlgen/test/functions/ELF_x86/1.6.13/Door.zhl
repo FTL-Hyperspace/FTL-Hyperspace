@@ -47,4 +47,75 @@ public:
 			return pos1;
 		}
 	}
+
+	void Open()
+	{
+		this->bOpen = true;
+		if (this->doorAnim.currentFrame != 4)
+		{
+			if (this->doorAnim.Done() || this->doorAnim.tracker.reverse)
+			{
+				this->doorAnim.Start(false);
+				this->doorAnimLarge.Start(false);
+			}
+			if (!this->bOpen && !this->bFakeOpen && (this->doorAnim.currentFrame != 0) && (this->doorAnim.Done() || !this->doorAnim.tracker.reverse))
+			{
+				this->doorAnim.StartReverse(false);
+				this->doorAnimLarge.StartReverse(false);
+				return;
+			}
+		}
+		return;
+	}
+
+	void Close()
+	{
+		this->bOpen = false;
+		if (this->bFakeOpen && (this->doorAnim.currentFrame != 4))
+		{
+			if ((this->doorAnim.Done()) || this->doorAnim.tracker.reverse)
+			{
+				this->doorAnim.Start(false);
+				this->doorAnimLarge.Start(false);
+			}
+			if (this->bOpen) return;
+		}
+		if (!this->bFakeOpen && (this->doorAnim.currentFrame != 0))
+		{
+			if (this->doorAnim.Done() || !this->doorAnim.tracker.reverse)
+			{
+				this->doorAnim.StartReverse(false);
+				this->doorAnimLarge.StartReverse(false);
+				return;
+			}
+		}
+		return;
+	}
+
+	void Manipulate()
+	{
+		this->bOpen = !this->bOpen;
+		if (this->bOpen || this->bFakeOpen)
+		{
+			if (this->doorAnim.currentFrame != 4)
+			{
+				if (this->doorAnim.Done() || this->doorAnim.tracker.reverse)
+				{
+					this->doorAnim.Start(false);
+					this->doorAnimLarge.Start(false);
+				}
+			}
+
+			if (this->bOpen) return;
+		}
+
+		if (!this->bFakeOpen && this->doorAnim.currentFrame != 0)
+		{
+			if (this->doorAnim.Done() || !this->doorAnim.tracker.reverse)
+			{
+				this->doorAnim.StartReverse(false);
+				this->doorAnimLarge.StartReverse(false);
+			}
+		}
+	}
 }};

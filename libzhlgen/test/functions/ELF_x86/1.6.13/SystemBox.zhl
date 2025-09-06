@@ -1,7 +1,15 @@
-"55b90100000089e557565383ec7c8b5d088b750c":
+"!8b4424048b10c7405c000000008b4238ffe0":
+cleanup __cdecl void SystemBox::CancelTouch(SystemBox *this);
+".5383ec188b5c24208b434cc6436800c683ac01000000c64369008b10":
+cleanup __cdecl void SystemBox::CloseTapBox(SystemBox *this);
+".55b90100000089e557565383ec7c8b5d088b750c":
 cleanup __cdecl void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
 "5557565381ec3c0100008b9c24500100008d6c2470":
 cleanup __cdecl void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
+"5557565383ec2c8b6c24408b7424448b454c890424":
+cleanup __cdecl void SystemBox::AdjustPowerTo(SystemBox* this, int newPower);
+".5557565383ec4c837c2464018b5c2460":
+cleanup __cdecl void SystemBox::OnTouch(SystemBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 "5589e557565383ec2c8b5d088b750c":
 cleanup __cdecl void SystemBox::MouseMove(SystemBox *this, int x, int y);
 "57565331db83ec208b7424308b7c24348b464c":

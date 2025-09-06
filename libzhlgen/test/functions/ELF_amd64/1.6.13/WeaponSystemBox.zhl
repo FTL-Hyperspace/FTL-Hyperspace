@@ -1,10 +1,14 @@
 "554889cdb901000000534889fb4883ec08e8????????488dbb70020000":
-cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point pos, ShipSystem* sys, WeaponControl *weapCtrl);
+cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox* this, Point pos, ShipSystem* sys, WeaponControl* weapCtrl);
+".4154400fb6f655534889fb4883ec30e89c87ffff488b034889df":
+cleanup __amd64 void WeaponSystemBox::OnRender(WeaponSystemBox* this, bool ignoreStatus);
+"!.41574989ff415641554589cd41544589c45589cd5389f34883ec18488b0789542408":
+cleanup __amd64 void WeaponSystemBox::OnTouch(WeaponSystemBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct WeaponSystemBox
 {{
-	WeaponSystemBox(Point pos, ShipSystem* sys, WeaponControl *weapCtrl)
+	WeaponSystemBox(Point pos, ShipSystem* sys, WeaponControl* weapCtrl)
 	{
 		this->constructor(pos, sys, weapCtrl);
 	}

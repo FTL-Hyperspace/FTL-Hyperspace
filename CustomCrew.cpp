@@ -9,6 +9,7 @@
 #include "ShipUnlocks.h"
 #include "CustomEvents.h"
 #include "CustomSystems.h"
+#include "InputManager.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -2469,11 +2470,23 @@ HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
         crewAnim->OnRenderProps();
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(0.f, PositionShift());
+
+        InputManager* inputManager = InputManager::GetInstance();
+        CrewControl* crewControl = &G_->GetCApp()->gui->crewControl;
+        bool renderTouched = ((this->selectionState == 1 || (crewControl->selectedCrew.empty() && crewControl->selectingCrew)) && inputManager->currentInputDevice == InputManager::TOUCHSCREEN);
+
         if (healing.tracker.running)
         {
             CSurface::GL_PushMatrix();
             CSurface::GL_Translate(x - std::round(scale * 17.f), y - std::round(scale * 20.f));
             CSurface::GL_Scale(scale, scale, 1.f);
+
+            if (renderTouched)
+            {
+                CSurface::GL_Translate(-roundf(static_cast<float>(healing.info.frameWidth) / 2 - 1.f), -roundf(static_cast<float>(healing.info.frameHeight) / 2 - 1.f));
+                CSurface::GL_Scale(2.f, 2.f);
+            }
+
             healing.OnRender(1.f, GL_Color(1.f, 1.f, 1.f, 1.f), false);
             CSurface::GL_PopMatrix();
         }
@@ -2488,22 +2501,63 @@ HOOK_METHOD_PRIORITY(CrewMember, OnRenderHealth, 9999, ()->void)
             flashHealthTracker.Update();
             CachedImage& healthBoxActive = (health.first <= lowHealthThreshold && flashHealthTracker.Progress(-1.f) < 0.5f) ? healthBoxRed : healthBox;
             Pointf healthBoxLoc = Pointf(x - std::round(scale * 18.f), y - 2.f - std::round(scale * 15.f));
+
             healthBoxActive.SetPosition(healthBoxLoc.x, healthBoxLoc.y);
             healthBoxActive.SetScale(scale, scale);
-            healthBoxActive.OnRender(GL_Color(1.f, 1.f, 1.f, 1.f));
+            
             healthBar.SetPosition(healthBoxLoc.x + std::round(scale * 5.f), healthBoxLoc.y + std::round(scale * 3.f));
             healthBar.SetSize(static_cast<int>(std::round(health.first / health.second * scale * 25.f)), static_cast<int>(std::round(scale * 3.f)));
-            healthBar.OnRender(healthBarColor);
+
+            if (renderTouched)
+            {
+                CSurface::GL_Scale(2.f, 2.f);
+                CSurface::GL_Translate(-roundf(static_cast<float>(healthBoxLoc.x) / 2 - 1.f + 9.f), -roundf(static_cast<float>(healthBoxLoc.y) / 2 - 1.f + 8.f));
+
+                healthBoxActive.OnRender(GL_Color(1.f, 1.f, 1.f, 1.f));
+                healthBar.OnRender(healthBarColor);
+
+                CSurface::GL_Translate(roundf(static_cast<float>(healthBoxLoc.x) / 2 - 1.f + 9.f), roundf(static_cast<float>(healthBoxLoc.y) / 2 - 1.f + 8.f));
+                CSurface::GL_Scale(-2.f, -2.f);
+
+            }
+            else
+            {
+                healthBoxActive.OnRender(GL_Color(1.f, 1.f, 1.f, 1.f));
+                healthBar.OnRender(healthBarColor);
+            }
+
             mindControlled.position.x = stunIcon.position.x = x - 27.f;
             mindControlled.position.y = stunIcon.position.y = y - 20.f;
         }
         if (fStunTime > 0)
         {
-            stunIcon.OnRender(1.f, GL_Color(1.f, 1.f, 0.f, 1.f), false);
+            if (renderTouched)
+            {
+                stunIcon.fScale = stunIcon.fScale * 2;
+                CSurface::GL_Translate(-roundf(static_cast<float>(stunIcon.info.frameWidth) / 2 - 1.f), -roundf(static_cast<float>(stunIcon.info.frameHeight) / 2 - 1.f));
+                stunIcon.OnRender(1.f, GL_Color(1.f, 1.f, 0.f, 1.f), false);
+                CSurface::GL_Translate(-roundf(static_cast<float>(stunIcon.info.frameWidth) / 2 - 1.f), -roundf(static_cast<float>(stunIcon.info.frameHeight) / 2 - 1.f));
+                stunIcon.fScale = stunIcon.fScale / 2;
+            }
+            else
+            {
+                stunIcon.OnRender(1.f, GL_Color(1.f, 1.f, 0.f, 1.f), false);
+            }
         }
         else if (bMindControlled)
         {
-            mindControlled.OnRender(1.f, healthBarColor, false);
+            if (renderTouched)
+            {
+                mindControlled.fScale = mindControlled.fScale * 2;
+                CSurface::GL_Translate(-roundf(static_cast<float>(mindControlled.info.frameWidth) / 2 - 1.f), -roundf(static_cast<float>(mindControlled.info.frameHeight) / 2 - 1.f));
+                mindControlled.OnRender(1.f, GL_Color(1.f, 1.f, 0.f, 1.f), false);
+                CSurface::GL_Translate(-roundf(static_cast<float>(mindControlled.info.frameWidth) / 2 - 1.f), -roundf(static_cast<float>(mindControlled.info.frameHeight) / 2 - 1.f));
+                mindControlled.fScale = mindControlled.fScale / 2;
+            }
+            else
+            {
+                mindControlled.OnRender(1.f, GL_Color(1.f, 1.f, 0.f, 1.f), false);
+            }
         }
         if (levelUp.running && iShipId == 0)
         {
@@ -4922,6 +4976,14 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(x, y);
+
+    // If a crew member is in any touchscreen selection mode render at twice the size
+    InputManager* inputManager = InputManager::GetInstance();
+    CrewControl* crewControl = &G_->GetCApp()->gui->crewControl;
+    if ((this->selectionState == 1 || (crewControl->selectedCrew.empty() && crewControl->selectingCrew)) && inputManager->currentInputDevice == InputManager::TOUCHSCREEN)
+    {
+        CSurface::GL_Scale(2.f, 2.f);
+    }
 
     // Render ability temporary effect animations
     for (ActivatedPower *power : ex->crewPowers)

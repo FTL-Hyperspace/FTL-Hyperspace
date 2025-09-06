@@ -1,7 +1,11 @@
 "!538b57684889fb488b4738":
 cleanup __amd64 void TabbedWindow::Close(TabbedWindow *this); // 005854a0
+".488b4f38488b574031c04829ca48c1fa03":
+cleanup __amd64 FocusWindow* TabbedWindow::GetWindow(TabbedWindow* this, int tab); // 00585b50
 ".41554189f541544989fc5531ed534883":
-cleanup __amd64 void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab); // 00585be0
+cleanup __amd64 void TabbedWindow::SetTab(TabbedWindow *this, uint tab); // 00585be0
+".53807f08004889fb751e488b4720483947287414":
+cleanup __amd64 void TabbedWindow::Open(TabbedWindow* this); // 00585fa0
 ".4154554889f5534889fb4889cf":
 cleanup __amd64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button *button, FocusWindow *window); // 00585fd0
 "!.554889fd534883ec18e8????????f30f2a":

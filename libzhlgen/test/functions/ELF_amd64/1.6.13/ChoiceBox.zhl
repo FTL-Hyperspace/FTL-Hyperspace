@@ -1,5 +1,7 @@
 "41554189d541544989fcbf":
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y); // 004e53b0
+"!.415783fe0441564155415455538b442438":
+cleanup __amd64 void ChoiceBox::OnTouch(ChoiceBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004e5490
 ".833d????????0274??8b4770":
 cleanup __amd64 void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY); // 004e55b0
 ".4157410fb6c1":

@@ -1,5 +1,9 @@
 "415431c9554889d5534889fb4883ec60":
 cleanup __amd64 void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
+"!.4154400fb6f655534889fbe8??6f0300448ba3700300008bab74030000e8??38":
+cleanup __amd64 void MindBox::OnRender(MindBox* this, bool ignoreStatus);
+".41574589c741564189f641554189cd41544189d4554489cd534889fb488dbfe00200004883ec38":
+cleanup __amd64 void MindBox::OnTouch(MindBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct MindBox

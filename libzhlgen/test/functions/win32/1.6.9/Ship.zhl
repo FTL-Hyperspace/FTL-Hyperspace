@@ -1,5 +1,7 @@
-"578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
-__thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
+"578d7c240883e4f0ff77fc5589e5575653":
+__thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
+".578d7c240883e4f0ff77fc5589e5575653":
+__thiscall Door* Ship::GetSelectedDoor(Ship* this, int x, int y, float doorScale);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
 __thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
 "538b81bc0300008b89c00300008b5c240829c1c1f90469c9????????85c974??3b98ec00000074??05????????31d2eb??05????????3b9810ffffff":
@@ -14,6 +16,8 @@ __thiscall int Ship::EmptySlots(Ship *this, int roomId);
 __thiscall int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
 "8b51208b412429d0c1f80285c074??5589e557565389ce31db83e4f0eb??66908b462483c301":
 __thiscall void Ship::OnRenderBreaches(Ship *this);
+".5589e5575653??????????????????????????0000":
+__thiscall std::vector<Room*> Ship::GetRoomListConst(Ship* this); // TODO: turn std::vector<Room*> into std::vector<const Room*> when zhl script gets const support
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c0fb6078b770431ff8845cc8b410c2b4108c1f80285c075??e9????????8b43088b0cb8f30f110424":
 __thiscall void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 "57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????29c48b0789cb8db5a4fffeff898544fefeffa1????????85c00f84????????8b3d????????85ff":

@@ -1,5 +1,9 @@
 "41544989cc31c9554889f5534889fb4883ec40":
 cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point pos, ShipSystem *sys, ShipManager *ship);
+".534889fb488dbf700200004883ec108b442420890424e8????????0fb683ba020000":
+cleanup __amd64 void SystemCustomBox::OnTouch(SystemCustomBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"!.5589f5534889fb488dbf700200004883ec08e8????f6ff4883c408":
+cleanup __amd64 void SystemCustomBox::OnRender(SystemCustomBox* this, bool ignoreStatus);
 
 
 struct SystemCustomBox

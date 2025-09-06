@@ -1,4 +1,9 @@
-"!8d348500000000a1(???????\?)":
+"5531ed57565383ec2c8b5c24408b7c24448b7424488b4b1c":
+cleanup __cdecl void LanguageChooser::OnTouch(LanguageChooser* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".5631c0538b74240c8b5e1c8b4e2029d9c1f90285c9741a90":
+cleanup __cdecl void LanguageChooser::MouseClick(LanguageChooser* this, int mX, int mY);
+
+"!.8d348500000000a1(???????\?)":
 std::vector<std::string>* Global_OptionsScreen_languageList;
 
 ".5557565331db83ec6c":

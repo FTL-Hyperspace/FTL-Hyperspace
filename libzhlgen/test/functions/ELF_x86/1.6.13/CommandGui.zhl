@@ -36,3 +36,18 @@ cleanup __cdecl void CommandGui::NewLocation(CommandGui *this, const std::string
 cleanup __cdecl void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
 ".5557565383ec2c8b7424408b44244c8b7c24448b6c2448":
 cleanup __cdecl void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
+
+
+struct CommandGui
+{{
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+    void RenderPause();
+    /*
+    inline void SetPaused(bool val, bool isAutoPause)
+    {
+        this->bPaused = val;
+        this->bAutoPaused = isAutoPause;
+        *TutorialManager_Tutorial_bGamePaused = val;
+    }
+    */
+}};

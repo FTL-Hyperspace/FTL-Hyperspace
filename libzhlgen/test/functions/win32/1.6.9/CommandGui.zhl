@@ -36,3 +36,18 @@ __thiscall void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shi
 __thiscall void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
 "578d7c240883e4f0ff77fc5589e557568d??????????5389cb8dbbc8030000":
 __thiscall void CommandGui::Restart(CommandGui *this);
+
+
+struct CommandGui
+{{
+    void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
+    void RenderPause();
+    /*
+    inline void SetPaused(bool val, bool isAutoPause)
+    {
+        this->bPaused = val;
+        this->bAutoPaused = isAutoPause;
+        *TutorialManager_Tutorial_bGamePaused = val;
+    }
+    */
+}};

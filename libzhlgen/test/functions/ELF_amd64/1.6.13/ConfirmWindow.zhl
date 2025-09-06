@@ -14,6 +14,8 @@ cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow *this);
 cleanup __amd64 void ConfirmWindow::OnRender(ConfirmWindow *this);
 ".41545553807f08004889fb":
 cleanup __amd64 void ConfirmWindow::MouseMove(ConfirmWindow *this, int mX, int mY);
+".415741564155415455534889fb4883ec18":
+cleanup __amd64 void ConfirmWindow::OnTouch(ConfirmWindow* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct ConfirmWindow

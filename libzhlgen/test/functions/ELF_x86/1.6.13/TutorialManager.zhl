@@ -2,8 +2,12 @@
 cleanup __cdecl void TutorialManager::constructor(TutorialManager *this);
 ".8b4424040fb600":
 cleanup __cdecl bool TutorialManager::Running(TutorialManager *this);
+".5589e557565383ec5c8b4508803800750f31c0":
+cleanup __cdecl bool TutorialManager::OnTouch(TutorialManager* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 "5557565383ec4c8b5c24608d7424308b44247c8d7c2424":
 cleanup __cdecl void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+".5589e557565381ec????????8b4508803800":
+cleanup __cdecl void TutorialManager::OnRender(TutorialManager* this);
 
 "!c70424(???????\?)e8????????84c075??8383c800000001":
 TutorialManager* Global_TutorialManager_Tutorial;

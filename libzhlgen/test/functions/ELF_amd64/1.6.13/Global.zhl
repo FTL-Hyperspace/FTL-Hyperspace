@@ -159,7 +159,6 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  RES_FILE = 0x6,
 	};
 
-
 	enum SDLKey
 	{
 	  SDLK_UNKNOWN = 0x0,
@@ -336,6 +335,20 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_LESS_EQUAL = 0x5,
 	  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
+	};
+
+	enum TouchPauseReason
+	{
+	  TOUCH_PAUSE_CREW_SELECT = 0x0,
+	  TOUCH_PAUSE_CREW_MOVE = 0x1,
+	  TOUCH_PAUSE_DOORS = 0x2,
+	  TOUCH_PAUSE_HACKING = 0x3,
+	  TOUCH_PAUSE_MIND = 0x4,
+	  TOUCH_PAUSE_TARGETING = 0x5,
+	  TOUCH_PAUSE_TELEPORT_ARRIVE = 0x6,
+	  TOUCH_PAUSE_TELEPORT_LEAVE = 0x7,
+	  TOUCH_PAUSE_TEMPORAL = 0x8, // Custom ID - Does not exist in Vanilla
+	  TOUCH_PAUSE_OVERCLOCKER= 0x9, // Custom ID - Does not exist in Vanilla
 	};
 
 	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
@@ -528,3 +541,9 @@ cleanup __amd64 void sys_graphics_set_window_title(char* title);
 
 "0f57ed4883ec2889fa0f2ee5":
 cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+"803d49703f000075??c3????????????55534883ec":
+cleanup __amd64 void input_update();
+
+"4883ec08e8????????482b05":
+cleanup __amd64 double time_now();

@@ -1,5 +1,7 @@
 "415741564189d6415541544531e4":
 cleanup __amd64 void LanguageChooser::OnTouch(LanguageChooser* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".488b7720488b4f2831d231c04829f148c1f9034885c97427":
+cleanup __amd64 void LanguageChooser::MouseClick(LanguageChooser* this, int mX, int mY);
 
 "!.4889ee480335(???????\?)":
 offsetVariable std::vector<std::string>* Global_OptionsScreen_languageList;

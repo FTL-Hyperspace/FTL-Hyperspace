@@ -27,3 +27,17 @@ cleanup __amd64 void MouseControl::SetValid(MouseControl *this, bool valid, bool
 
 "!0f85570400008b85a401000083f8ff740abf(???????\?)":
 MouseControl* Global_MouseControl_Mouse;
+
+struct MouseControl
+{{
+    void SetPosition(int mX,int mY)
+    {
+        if ((this->position.x == mX) && (this->position.y == mY))
+        {
+            return;
+        }
+        this->bMoving = true;
+        this->position.x = mX;
+        this->position.y = mY;
+    }
+}};

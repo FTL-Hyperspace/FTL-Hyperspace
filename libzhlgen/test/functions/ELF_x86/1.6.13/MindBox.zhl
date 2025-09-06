@@ -1,5 +1,11 @@
 "5557565383ec7c8b9c24900000008d7c243c":
-cleanup __cdecl void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
+cleanup __cdecl void MindBox::constructor(MindBox* this, Point pos, MindSystem* sys);
+"!.57565383ec108b5c24200fb6442424":
+noHook void MindBox::DO_NOT_HOOK(); // BATTERY BOX
+"!.57565383ec108b5c24200fb6442424":
+cleanup __cdelc void MindBox::OnRender(MindBox* this, bool ignoreStatus);
+".5557565383ec3c8b5c24508b6c24608b7c24688b4c245c8b83640200008b93600200008b742458":
+cleanup __cdelc void MindBox::OnTouch(MindBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 struct MindBox
 {{

@@ -19,7 +19,9 @@ cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 ".41564989fe4155415455534883ec30":
 cleanup __amd64 bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "!.41544189cc5589d5538b7f08":
-cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
+cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls);
+".4157415641554189d541544189f455534889fb4883ec38488b5728":
+cleanup __amd64 Door* Ship::GetSelectedDoor(Ship* this, int x, int y, float doorScale);
 ".415431c94189f4554889fd53488b5710":
 cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
 "!.4863c60fb6f2":
@@ -36,6 +38,8 @@ cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intru
 cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 ".415741564989fe41554154554889f553488d9f500400004883ec68":
 cleanup __amd64 void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
+".554889f84889f5534883ec284c8b461848c707":
+cleanup __amd64 std::vector<Room*> Ship::GetRoomListConst(Ship* this); // TODO: turn std::vector<Room*> into std::vector<const Room*> when zhl script gets const support
 ".4156415541544989fc554863ee534883ec40":
 cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
 ".41554154554889f5534889fb4883ec18":

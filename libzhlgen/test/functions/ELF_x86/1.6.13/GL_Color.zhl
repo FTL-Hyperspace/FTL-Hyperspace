@@ -1,10 +1,29 @@
 
 
-struct GL_Color {{
+struct GL_Color
+{{
 	GL_Color(float rr, float gg, float bb, float aa) : r(rr), g(gg), b(bb), a(aa)
 	{
 		
 	}
+
+    static GL_Color Lerp(const GL_Color &color1, const GL_Color &color2, float amount)
+    {
+		float red = color1.r * (1.f - amount) + color2.r * amount;
+		float green = color1.g * (1.f - amount) + color2.g * amount;
+		float blue = color1.b * (1.f - amount) + color2.b * amount;
+		float alpha = 1.f;
+        return GL_Color(red, green, blue, alpha);
+    }
+
+    static GL_Color LerpAlpha(const GL_Color &color1, const GL_Color &color2, float amount)
+    {
+		float red = color1.r * (1.f - amount) + color2.r * amount;
+		float green = color1.g * (1.f - amount) + color2.g * amount;
+		float blue = color1.b * (1.f - amount) + color2.b * amount;
+		float alpha = color1.a * (1.f - amount) + color2.a * amount;
+        return GL_Color(red, green, blue, alpha);
+    }
 	
 	static GL_Color FromHSV(float fH, float fS, float fV, float fA)
 	{

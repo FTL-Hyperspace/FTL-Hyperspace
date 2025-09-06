@@ -88,6 +88,8 @@ cleanup __amd64 bool ShipManager::SystemLocked(ShipManager *this, int systemId);
 cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
 ".534889fb4883ec10488b9758060000":
 cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
+".554889fd534883ec08":
+cleanup __amd64 int ShipManager::GetNetDodgeFactor(ShipManager *this);
 ".415455534889fb4883ec20807f1c00":
 cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
 ".83fe11741b488b8758060000":
@@ -212,10 +214,15 @@ cleanup __amd64 int ShipManager::constructor(ShipManager *this, int shipId);
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
 "!.534889fb":
 cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
+".534889fb8b7e":
+cleanup __amd64 Globals::Rect ShipManager::GetShape(ShipManager* this);
 "415741564155415455534889fb4883ec48488b":
 cleanup __amd64 void ShipManager::CreateArmory(ShipManager *this);
 "41544989f455534889fb4883ec108b":
 cleanup __amd64 Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprint *drone);
+
+"!41544531c04531e4554889f553":
+cleanup __amd64 std::vector<CrewMember*> ShipManager::GetCrewList(ShipManager* this);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
@@ -236,6 +243,21 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
+
+	inline Door* GetSelectedDoor(int x, int y, float doorScale)
+	{
+		return this->ship.GetSelectedDoor(x, y, doorScale);
+	}
+
+	inline int GetSelectedRoom(int x, int y, bool bIncludeWalls)
+	{
+		return this->ship.GetSelectedRoomId(x, y, bIncludeWalls);
+	}
+
+	inline void SetSelectedRoom(int roomId)
+	{
+		this->ship.SetSelectedRoom(roomId);
+	}
 	
 	~ShipManager()
 	{
@@ -248,6 +270,13 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
+
+	/*
+	std::vector<CrewMember*>* GetCrewList()
+	{
+		return &vCrewList;
+	}
+	*/
 	
 	void StartDummyOxygen();
 	bool StopDummyOxygen();

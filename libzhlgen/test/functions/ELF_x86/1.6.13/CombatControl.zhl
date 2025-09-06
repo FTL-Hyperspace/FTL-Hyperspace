@@ -50,3 +50,33 @@ cleanup __cdecl void CombatControl::Clear(CombatControl *this);
 cleanup __cdecl bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
 "57565383ec108b5c24208b7424248b7c24288d4314c683480b000001":
 cleanup __cdecl void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
+
+
+struct CombatControl depends (ShipManager)
+{{
+    inline void SetSelectedSelfRoom(int room)
+    {
+        this->selectedSelfRoom = room;
+    }
+    
+    int SelectRoom(int x, int y)
+    {
+        if (this->currentTarget != nullptr)
+        {
+            if (!this->currentTarget->shipManager->bDestroyed)
+            {
+                if (!this->currentTarget->shipManager->IsCloaked() || this->currentTarget->shipManager->bContainsPlayerCrew)
+                {
+                    int relative_x = (x - this->position.x) - this->targetPosition.x;
+                    int relative_y = (y - this->position.y) - this->targetPosition.y;
+                    this->selectedRoom = this->currentTarget->shipManager->GetSelectedRoom(relative_x, relative_y, false);
+
+                    return this->selectedRoom;
+                }
+            }
+        }
+
+        this->selectedRoom = -1;
+        return -1;
+    }
+}};

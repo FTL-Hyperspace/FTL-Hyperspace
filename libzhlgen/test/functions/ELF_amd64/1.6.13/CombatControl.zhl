@@ -8,10 +8,14 @@ cleanup __amd64 char CombatControl::CurrentTargetIsBoss(CombatControl *this);
 cleanup __amd64 char CombatControl::CanTargetSelf(CombatControl *this);
 "534889fb4883ec3080bfb80e000000":
 cleanup __amd64 void CombatControl::OnRenderCombat(CombatControl *this);
+"!.4155440fb6ee41544189f44489ee55488d6f2053":
+cleanup __amd64 void CombatControl::OnRenderInterface(CombatControl* this, bool front);
 "4155415455534889fb4883ec284883bfc007000000":
 cleanup __amd64 void CombatControl::AddEnemyShip(CombatControl *this, CompleteShip *ship);	
 "415455534889fb4883ec1083bfdc070000ff":
 cleanup __amd64 void CombatControl::UpdateAiming(CombatControl *this);
+".488b87????????4885c0742c":
+cleanup __amd64 CrewMember* CombatControl::GetSelectedCrew(CombatControl* this, int x, int y);
 "41564155415455534889fb4881eca0000000f30f1087e00e0000":
 cleanup __amd64 bool CombatControl::UpdateTarget(CombatControl *this);
 "415731d24156415541545589f531f6534889fb4883ec38488d7c2420":
@@ -48,5 +52,39 @@ cleanup __amd64 std::string CombatControl::GetCrewTooltip(CombatControl *this, i
 cleanup __amd64 void CombatControl::Clear(CombatControl *this);
 "f30f2ac641554189f541544189d455534889fb4883ec08":
 cleanup __amd64 bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
+".41574989ff488d7f2041564589ce41554589c54154":
+cleanup __amd64 bool CombatControl::OnTouchWeaponBoxes(CombatControl* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".4157f30f2ac1415641554589c541544189cc":
+cleanup __amd64 bool CombatControl::OnTouch(CombatControl* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 "415431c94189d45589f553c687e80e0000014889fb":
 cleanup __amd64 void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
+
+
+struct CombatControl depends (ShipManager)
+{{
+    inline void SetSelectedSelfRoom(int room)
+    {
+        this->selectedSelfRoom = room;
+    }
+
+    int SelectRoom(int x, int y)
+    {
+        if (this->currentTarget != nullptr)
+        {
+            if (!this->currentTarget->shipManager->bDestroyed)
+            {
+                if (!this->currentTarget->shipManager->IsCloaked() || this->currentTarget->shipManager->bContainsPlayerCrew)
+                {
+                    int relative_x = (x - this->position.x) - this->targetPosition.x;
+                    int relative_y = (y - this->position.y) - this->targetPosition.y;
+                    this->selectedRoom = this->currentTarget->shipManager->GetSelectedRoom(relative_x, relative_y, false);
+
+                    return this->selectedRoom;
+                }
+            }
+        }
+
+        this->selectedRoom = -1;
+        return -1;
+    }
+}};

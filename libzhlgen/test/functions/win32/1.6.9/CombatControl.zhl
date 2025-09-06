@@ -50,3 +50,33 @@ __thiscall bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
 __thiscall void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
 "5589e55756538b815c07000089ce83e4f085c0":
 __thiscall std::pair<int,int> CombatControl::GetTeleportationCommand(CombatControl *this);
+
+
+struct CombatControl depends (ShipManager)
+{{
+    inline void SetSelectedSelfRoom(int room)
+    {
+        this->selectedSelfRoom = room;
+    }
+    
+    int SelectRoom(int x, int y)
+    {
+        if (this->currentTarget != nullptr)
+        {
+            if (!this->currentTarget->shipManager->bDestroyed)
+            {
+                if (!this->currentTarget->shipManager->IsCloaked() || this->currentTarget->shipManager->bContainsPlayerCrew)
+                {
+                    int relative_x = (x - this->position.x) - this->targetPosition.x;
+                    int relative_y = (y - this->position.y) - this->targetPosition.y;
+                    this->selectedRoom = this->currentTarget->shipManager->GetSelectedRoom(relative_x, relative_y, false);
+
+                    return this->selectedRoom;
+                }
+            }
+        }
+
+        this->selectedRoom = -1;
+        return -1;
+    }
+}};

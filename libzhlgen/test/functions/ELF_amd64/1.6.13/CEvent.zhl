@@ -1,5 +1,12 @@
-"415741564155415455534889f34883ec288b4604":
+"!f20f1005(???????\?)75684489f02b442410":
+offsetVariable double* Global_CEvent_lastEventTime;
+
+".415741564155415455534889f34883ec288b4604":
 cleanup __amd64 void CEvent::OnEvent(CEvent *this, const InputEvent* event);
+"!.4883ec08e8????????31d285":
+static cleanup __amd64 bool CEvent::IsKeyboardPresent();
+".4883ec08e8????????85c00f95c04883c408c3":
+static cleanup __amd64 bool CEvent::IsTouchActive(int id);
 
 
 struct CEvent

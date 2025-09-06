@@ -27,3 +27,17 @@ cleanup __cdecl void MouseControl::LoadTooltip(MouseControl *this, const std::st
 
 "!e8????????e8????????884305c70424(???????\?)":
 MouseControl* Global_MouseControl_Mouse;
+
+struct MouseControl
+{{
+    void SetPosition(int mX,int mY)
+    {
+        if ((this->position.x == mX) && (this->position.y == mY))
+        {
+            return;
+        }
+        this->bMoving = true;
+        this->position.x = mX;
+        this->position.y = mY;
+    }
+}};

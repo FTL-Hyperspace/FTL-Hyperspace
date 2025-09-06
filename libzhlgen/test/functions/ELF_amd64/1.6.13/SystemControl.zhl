@@ -1,12 +1,41 @@
-"415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57":
+"4157415641554589cd41544589c4554889fd53":
+cleanup __amd64 void SystemControl::OnTouch(SystemControl* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57":
 cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
+"!.4c8b4710488b77184c29c648c1fe03":
+cleanup __amd64 bool SystemControl::IsAnySystemTapped(SystemControl* this);
+".554889fd534883ec184c8b4f104c8b47184d29c8":
+cleanup __amd64 bool SystemControl::IsPointInTappedSystem(SystemControl* this, Point position);
+".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c0742a":
+cleanup __amd64 void SystemControl::CloseAll(SystemControl* this);
 ".41574189f24189d34189cf415641554c63ee41545589fd534863df4989d84889d84881ec88000000":
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
 ".415741564989fe4155415455534883ec28488b3f":
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
+".41544989fc5589f55389f34883ec50":
+cleanup __amd64 void SystemControl::OnRender(SystemControl* this, bool front);
 ".415731d231f641564155415455534889fb4883ec58488d7c2430":
 cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
+".55534889fb4883ec584889773cbf":
+cleanup __amd64 void SystemControl::OnInit(SystemControl *this, Point position);
+
 
 "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position;
 offsetVariable Point* Global_SystemControl_drone_position;
+
+
+struct SystemControl
+{{
+    bool IsSystemTapped(int systemId)
+    {
+        for (SystemBox* pSystemBox : sysBoxes)
+        {
+            if (pSystemBox->pSystem->iSystemType == systemId)
+            {
+                return pSystemBox->tapped;
+            }
+        }
+        return false;
+    }
+}};

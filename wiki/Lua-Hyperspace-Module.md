@@ -3698,10 +3698,10 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - `static` [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
 
-## TextButton0
+## TextButton
 
 **Extends [GenericButton](#GenericButton)**
 
 ## FTLButton
 
-**Extends [TextButton0](#TextButton0)**
+**Extends [TextButton](#TextButton)**

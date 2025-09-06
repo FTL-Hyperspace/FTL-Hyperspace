@@ -1,10 +1,14 @@
 "41554989cdb901000000415455534889fb488dab700200004c8da3000300004883ec48":
-cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point pos, ShipSystem* sys, ShipManager* ship);
+cleanup __amd64 void DoorBox::constructor(DoorBox* this, Point pos, ShipSystem* sys, ShipManager* ship);
+".41574589cf415641554589c541544189cc5589d5534889fb488dbf700200004883ec28":
+cleanup __amd64 void DoorBox::OnTouch(DoorBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"!.41564189f64155415455534889fb4c8da370020000488dab00030000":
+cleanup __amd64 void DoorBox::OnRender(DoorBox* this, bool ignoreStatus);
 
 
 struct DoorBox
 {{
-	DoorBox(Point pos, ShipSystem* sys, ShipManager *ship)
+	DoorBox(Point pos, ShipSystem* sys, ShipManager* ship)
 	{
 		this->constructor(pos, sys, ship);
 	}

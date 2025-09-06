@@ -1,5 +1,17 @@
 "415431c94989fc5589f553":
 cleanup __amd64 bool ArmamentControl::KeyDown(ArmamentControl *this, SDLKey key);
+"!.415741564155415455534889fb4883ec58488b7f184885ff":
+cleanup __amd64 bool ArmamentControl::OnTouch(ArmamentControl* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"!.534889fb4883ec1080bf????????00747de8????????f30f2a4338":
+cleanup __amd64 void ArmamentControl::RenderDragging(ArmamentControl* this);
+"!.4155415455534889fb4883ec088b7708":
+cleanup __amd64 void ArmamentControl::RenderLabels(ArmamentControl* this);
+".415541545589f5534889fb4883ec588b7708488b7f18":
+cleanup __amd64 void ArmamentControl::OnRender(ArmamentControl* this, bool front);
+".41574156415541544989fc55534883ec58488b7728488b5720":
+cleanup __amd64 void ArmamentControl::destructor(ArmamentControl* this);
+".53baffffffff4889fb897708":
+cleanup __amd64 void ArmamentControl::constructor(ArmamentControl* this, int systemId);
 ".5383bfb0000000ff":
 cleanup __amd64 bool ArmamentControl::Dragging(ArmamentControl *this);
 ".4154be????????55534889fb4883ec60":

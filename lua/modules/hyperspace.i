@@ -854,9 +854,9 @@ playerVariableType playerVariables;
 %rename("%s") GenericButton::bSelected;
 %rename("%s") GenericButton::activeTouch;
 
-%nodefaultctor TextButton0;
-%nodefaultdtor TextButton0;
-%rename("%s") TextButton0;
+%nodefaultctor TextButton;
+%nodefaultdtor TextButton;
+%rename("%s") TextButton;
 
 %nodefaultctor FTLButton;
 %nodefaultdtor FTLButton;
@@ -1025,7 +1025,6 @@ playerVariableType playerVariables;
 ////%rename("%s") StarMap::LocationsConnected; // Might be useful with Dijkstra or ConnectLocations to make sure it's not already connected
 %rename("%s") StarMap::ModifyPursuit; // We can also allow them to directly modify StarMap.pursuitDelay, all this function does is add it to the existing pursuitDelay but setting it directly could be funny or simpler than this call.
 %rename("%s") StarMap::PointToGrid;
-////%rename("%s") StarMap::PopClosestLoc; // Not sure if this would be useful or safe
 ////%rename("%s") StarMap::SelectNewSector; // Not sure if safe
 //%rename("%s") StarMap::TurnIntoFleetLocation; // Could be interesting to allow something like 1. Delaying the pursuit for many many turns, 2. having every node you jump out of (or random nodes you've already visited or that do not line up with the path to the exit) convert to a fleet location as if they were chasing your path rather than the whole sector.
 

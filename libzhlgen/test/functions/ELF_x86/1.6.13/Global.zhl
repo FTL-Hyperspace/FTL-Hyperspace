@@ -338,6 +338,20 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
 
+	enum TouchPauseReason
+	{
+	  TOUCH_PAUSE_CREW_SELECT = 0x0,
+	  TOUCH_PAUSE_CREW_MOVE = 0x1,
+	  TOUCH_PAUSE_DOORS = 0x2,
+	  TOUCH_PAUSE_HACKING = 0x3,
+	  TOUCH_PAUSE_MIND = 0x4,
+	  TOUCH_PAUSE_TARGETING = 0x5,
+	  TOUCH_PAUSE_TELEPORT_ARRIVE = 0x6,
+	  TOUCH_PAUSE_TELEPORT_LEAVE = 0x7,
+	  TOUCH_PAUSE_TEMPORAL = 0x8, // Custom ID - Does not exist in Vanilla
+	  TOUCH_PAUSE_OVERCLOCKER= 0x9, // Custom ID - Does not exist in Vanilla
+	};
+
 	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 	
 	static void* GetBaseAddress()
@@ -526,3 +540,9 @@ cleanup __cdecl void sys_graphics_set_window_title(char* title);
 
 "83ec3c0f57c0f30f106c2450f30f10642440f30f105c2444":
 cleanup __cdecl void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+"803d10264b08007507c3????????????5557565383ec4c":
+cleanup __amd64 void input_update();
+
+"83ec2ce8????????2b0590574b08":
+cleanup __amd64 double time_now();

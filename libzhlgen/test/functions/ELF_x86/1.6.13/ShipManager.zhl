@@ -4,6 +4,8 @@ cleanup __cdecl int ShipManager::constructor(ShipManager *this, int shipId);
 cleanup __cdecl void ShipManager::AddInitialCrew(ShipManager *this, std::vector<CrewBlueprint>& blueprints);
 "5383ec188b5c24208b93000400008b420483f8ff74??8b4b188b0c818b818001000085c07e??80b9840100000074??83f80174??31c0":
 cleanup __cdecl int ShipManager::GetDodgeFactor(ShipManager *this);
+".565383ec148b742420893424":
+cleanup __cdecl int ShipManager::GetNetDodgeFactor(ShipManager *this);
 "5589e557565381ecdc0000008b5d0c8b4510":
 cleanup __cdecl void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
 "5557565383ec1c8b7c24300fb6442434":
@@ -115,6 +117,8 @@ cleanup __cdecl void ShipManager::ExportShip(ShipManager *this, int file);
 cleanup __cdecl void ShipManager::destructor(ShipManager *this);
 ".5383ec188b5c2420891c24":
 cleanup __cdecl void ShipManager::destructor2(ShipManager *this);
+".5383ec188b4424248b5c24208b4004890424e8c933feff":
+cleanup __cdecl Globals::Rect ShipManager::GetShape(ShipManager* this);
 "5589e557565381ec7c0200008b7d0c8d8588feffff":
 cleanup __cdecl void ShipManager::ImportShip(ShipManager *this, int file);
 "5557565383ec4c8b7c24608b870004000083781cff":
@@ -224,6 +228,9 @@ cleanup __cdecl void ShipManager::CreateArmory(ShipManager *this);
 "57565383ec208b7c24348b5c24308b4740":
 cleanup __cdecl Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprint *drone);
 
+"!5531ed575631f65383ec1c8b7c24348b5c24308b57682b5764":
+cleanup __cdecl std::vector<CrewMember*> ShipManager::GetCrewList(ShipManager* this);
+
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId) 
@@ -243,6 +250,21 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
+
+	inline Door* GetSelectedDoor(int x, int y, float doorScale)
+	{
+		return this->ship.GetSelectedDoor(x, y, doorScale);
+	}
+
+	inline int GetSelectedRoom(int x, int y, bool bIncludeWalls)
+	{
+		return this->ship.GetSelectedRoomId(x, y, bIncludeWalls);
+	}
+
+	inline void SetSelectedRoom(int roomId)
+	{
+		this->ship.SetSelectedRoom(roomId);
+	}
 	
 	~ShipManager()
 	{
@@ -255,6 +277,13 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
+
+	/*
+	std::vector<CrewMember*>* GetCrewList()
+	{
+		return &vCrewList;
+	}
+	*/
 
 	void StartDummyOxygen();
 	bool StopDummyOxygen();

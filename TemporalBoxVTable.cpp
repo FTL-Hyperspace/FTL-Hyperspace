@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "PALMemoryProtection.h"
+#include "InputManager.h"
 
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
@@ -37,8 +38,20 @@ bool TemporalBox::_HS_HasButton()
 
 void TemporalBox::_HS_OnRender(bool ignoreStatus)
 {
-    this->RenderBox(ignoreStatus);
+    if (InputManager::GetInstance()->currentInputDevice == InputManager::TOUCHSCREEN)
+    {
+        this->RenderTouchBox(ignoreStatus);
+    }
+    else
+    {
+        this->RenderPCBox(ignoreStatus);
+    }
     this->CooldownSystemBox::OnRender(ignoreStatus);
+}
+
+void TemporalBox::_HS_OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY)
+{
+    this->SystemBox::OnTouch(action, id, x, y, initialX, initialY);
 }
 
 void TemporalBox::_HS_MouseMove(int x, int y)
@@ -90,6 +103,10 @@ void SetupVTable(TemporalBox* box)
     {
         auto fptr = &TemporalBox::_HS_MouseClick;
         g_temporalBoxVTable[10] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_OnTouch;
+        g_temporalBoxVTable[12] = reinterpret_cast<void *&>(fptr);
     }
     {
         auto fptr = &TemporalBox::_HS_KeyDown;

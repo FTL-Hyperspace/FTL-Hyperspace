@@ -1676,8 +1676,8 @@ struct CrewControl
   bool mouseDown;
   bool bUpdated;
   int activeTouch;
-  char selectingCrew;
-  char selectingCrewOnPlayerShip;
+  bool selectingCrew;
+  bool selectingCrewOnPlayerShip;
   double selectingCrewStartTime;
   bool doorControlMode;
   bool doorControlOpen;
@@ -1913,37 +1913,10 @@ struct CombatControl
   HandAnimation hand;
 };
 
-/* 606 */
-struct TextButton0
-{
-  GenericButton _base;
-  GL_Primitive *primitives[3];
-  GL_Texture *baseImage;
-  Point baseImageOffset;
-  GL_Primitive *basePrimitive;
-  bool colorsSet;
-  _BYTE gap65[3];
-  GL_Color colors[3];
-  GL_Color textColor;
-  Point buttonSize;
-  int cornerInset;
-  bool autoWidth;
-  _BYTE gapB5[3];
-  int autoWidthMargin;
-  int autoWidthMin;
-  bool autoRightAlign;
-  _BYTE gapC1[3];
-  TextString label;
-  int font;
-  int lineHeight;
-  int textYOffset;
-  bool autoShrink;
-};
-
 /* 236 */
 struct FTLButton
 {
-  TextButton0 _base;
+  TextButton _base;
   bool autoShrinkText;
   bool ready;
   float ftl_blink;
@@ -2521,7 +2494,7 @@ struct StarMap
   FocusWindow _base;
   float visual_size;
   std__vector_10LocationZ1 locations;
-  std__map_18Point___LocationZ1 locations_grid;
+  std::map<Point, std::vector<Location*>> locations_grid;
   std__vector_10LocationZ1 temp_path;
   Location *currentLoc;
   Location *potentialLoc;
@@ -3072,7 +3045,33 @@ struct SystemBlueprint
 };
 
 /* 238 */
-struct TouchTooltip;
+struct TouchTooltip
+{
+  Point position;
+  Point tabOffset;
+  bool mirrored;
+  // uint8_t gap_manualNotPacked_1[7];
+  std__string text;
+  int trayWidth;
+  int trayHeight;
+  GL_Primitive* tab;
+  Point tabSize;
+  GL_Primitive* tray;
+  Globals__Rect tabHitBox;
+  Globals__Rect trayHitBox;
+  int slideOffset;
+  bool isOpen;
+  bool isSnapping;
+  // uint8_t gap_manualNotPacked_2[2];
+  int snapTargetOffset;
+  // uint8_t gap_manualNotPacked_3[4];
+  double snapLastTimestamp;
+  int activeTouch;
+  bool ignoreTouch;
+  // uint8_t gap_manualNotPacked_4[2];
+  int initialSlideOffset;
+  int lastTouchDelta;
+};
 
 /* 403 */
 struct TapBoxFrame
@@ -3094,18 +3093,20 @@ struct SystemBox
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
   int lastTimerStencilCount;
-  uint8_t gap_ex_1[4];
   GL_Primitive *brokenIcon;
   GL_Primitive *lockIcon;
   GL_Primitive *hackIcon;
   ShipSystem *pSystem;
   bool bShowPower;
+  uint8_t gap_ex_1[3];
   float powerAlpha;
   bool mouseHover;
+  uint8_t gap_ex_2[3];
   int activeTouch;
   Point touchInitialOffset;
   bool tapped;
   bool draggingPower;
+  uint8_t gap_ex_3[2];
   int dragInitialPower;
   float lastDragSpeed;
   int lastDragY;
@@ -3120,7 +3121,6 @@ struct SystemBox
   bool bPlayerUI;
   bool useLargeTapIcon;
   Point largeTapIconOffset;
-  uint8_t gap_ex_2[4];
   std__vector_3int tapButtonHeights;
   int tapButtonOffsetY;
   int cooldownOffsetY;

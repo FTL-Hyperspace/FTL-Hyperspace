@@ -1,5 +1,9 @@
-"415431c9554889d5534889fb4883ec50":
-cleanup __amd64 void CloakingBox::constructor(CloakingBox *this, Point pos, CloakingSystem* sys);
+"!4154400fb6f655534889fbe830fbffff488bbbf8020000":
+cleanup __amd64 void CloakingBox::OnRender(CloakingBox* this, bool ignoreStatus);
+"!.41574589cf415641554589c541544189cc5589d5534889fb4883ec188b9700030000":
+cleanup __amd64 void CloakingBox::OnTouch(CloakingBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".415431c9554889d5534889fb4883ec50":
+cleanup __amd64 void CloakingBox::constructor(CloakingBox* this, Point pos, CloakingSystem* sys);
 
 
 struct CloakingBox

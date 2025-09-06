@@ -1,5 +1,9 @@
 "5383ec288b44243c8b5c24308b542438c7442410010000008944240c8b442434891c248954240889442404e8????????8b442440c703????????8983b00100008d83b4010000":
 cleanup __cdecl void WeaponSystemBox::constructor(WeaponSystemBox *this, Point pos, ShipSystem* sys, WeaponControl *weapCtrl);
+".5589e557565383ec2c8b5d080fb6450c891c2489442404":
+cleanup __cdecl void WeaponSystemBox::OnRender(WeaponSystemBox* this, bool ignoreStatus);
+"!.5557565383ec3c8b4424548b5c24508b74245c8b6c2460894424288b442458894424248b4424648944241c8b442468894424208b03891c24":
+cleanup __cdecl void WeaponSystemBox::OnTouch(WeaponSystemBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct WeaponSystemBox

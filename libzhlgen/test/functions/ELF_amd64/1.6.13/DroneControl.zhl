@@ -1,6 +1,6 @@
-"!5589d55389f34883ec08488b7f18":
-noHook __amd64 void DroneControl::DO_NOT_HOOK();
-".534889fb":
+"!534889fbe8????????f30f2a4338":
+cleanup __amd64 void DroneControl::RenderWarnings(DroneControl* this);
+".534889fbbe????????4883ec":
 cleanup __amd64 TextString DroneControl::HolderLabel(DroneControl *this);
 ".??57??56??55??54??63e6":
 cleanup __amd64 void DroneControl::SelectArmament(DroneControl *this, unsigned int i);
@@ -8,3 +8,7 @@ cleanup __amd64 void DroneControl::SelectArmament(DroneControl *this, unsigned i
 cleanup __amd64 SDLKey DroneControl::ArmamentHotkey(DroneControl *this, unsigned int i);
 ".4155be04000000415455534889fb4883ec28":
 cleanup __amd64 void DroneControl::OnLoop(DroneControl *this);
+"!.5589f5be04000000534889fb4883ec08488b7f18":
+cleanup __amd64 void DroneControl::OnRender(DroneControl* this, bool front);
+"!.415741564155415455534889fb4883ec18488b7f18":
+cleanup __amd64 bool DroneControl::OnTouch(DroneControl* this, TouchAction action, int id, int x, int y, int initialX, int initialY);

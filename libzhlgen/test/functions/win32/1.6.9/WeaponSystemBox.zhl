@@ -1,5 +1,9 @@
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57048b4f088b7f0cc744240c0100000089042489542404894c2408":
 __thiscall void WeaponSystemBox::constructor(WeaponSystemBox *this, Point pos, ShipSystem* sys, WeaponControl *weapCtrl);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c0fb607":
+__thiscall void WeaponSystemBox::OnRender(WeaponSystemBox* this, bool ignoreStatus);
+"!.578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b07":
+__thiscall void WeaponSystemBox::OnTouch(WeaponSystemBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct WeaponSystemBox

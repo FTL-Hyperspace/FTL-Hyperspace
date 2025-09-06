@@ -2,8 +2,10 @@
 virtual cleanup __amd64 void GenericButton::SetLocation(GenericButton *this, Point pos);
 ".4084f640887748":
 virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
-".8b4710440fb6474939c6":
+"!.8b4710440fb6474939c6":
 virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
+".55534889fb4883ec180fb66f20c6474a00":
+virtual cleanup __amd64 bool GenericButton::OnTouch(GenericButton* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 "!.f3c3662e0f1f8400000000000f1f4000":
 noHook __amd64 void GenericButton::DO_NOT_HOOK_1();
 "!.f3c3662e0f1f8400000000000f1f4000":

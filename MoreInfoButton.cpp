@@ -1,8 +1,9 @@
 #include "MoreInfoButton.h"
 #include "CustomOptions.h"
+#include "InputManager.h"
 #include <boost/algorithm/string.hpp>
 
-static Button* moreInfoButton;
+Button* moreInfoButton;
 
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
@@ -13,6 +14,7 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     moreInfoButton->OnInit("statusUI/moreInfoButtonOff", Point(1207, 656));
     moreInfoButton->bActive = true;
     moreInfoButton->SetLocation(Point(1207, 656));
+    moreInfoButton->hitbox = Globals::Rect(1213, 664, 35, 35);
 }
 
 HOOK_METHOD(ShipStatus, OnRender, () -> void)
@@ -20,7 +22,18 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (MoreInfoButton.cpp)\n")
     super();
     if (moreInfoButton)
-    moreInfoButton->OnRender();
+    {
+        if (InputManager::GetInstance()->currentInputDevice == InputManager::TOUCHSCREEN)
+        {
+            CSurface::GL_Translate(9.f, -58.f);
+            moreInfoButton->OnRender();
+            CSurface::GL_Translate(-9.f, 58.f);
+        }
+        else
+        {
+            moreInfoButton->OnRender();
+        }
+    }
 }
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)

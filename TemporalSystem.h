@@ -55,7 +55,8 @@ public:
     TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship);
     ~TemporalBox();
 
-    void RenderBox(bool ignoreStatus);
+    void RenderPCBox(bool ignoreStatus);
+    void RenderTouchBox(bool ignoreStatus);
     void NewMouseMove(int x, int y);
     void LeftMouseClick(bool unk);
     void OnKeyDown(SDLKey key, bool shift);
@@ -64,6 +65,7 @@ public:
     float _HS_GetCooldownFraction();
     bool _HS_HasButton();
     void _HS_OnRender(bool ignoreStatus);
+    void _HS_OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
     void _HS_MouseMove(int x, int y);
     bool _HS_MouseClick(bool shift);
     void _HS_KeyDown(SDLKey key, bool shift);

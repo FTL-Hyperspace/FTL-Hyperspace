@@ -71,6 +71,8 @@ target_sources(
     AdditionalWeaponSlots.cpp
     AlternateOxygenRendering.cpp
     AlternateOxygenRendering.h
+    ArmamentControl_Extend.cpp
+    ArmamentControl_Extend.h
     ArtilleryBarFix.cpp
     ArtillerySystem.cpp
     AugmentValues.cpp
@@ -195,6 +197,8 @@ target_sources(
     Infinite.h
     InfiniteTeleport.cpp
     Input.cpp
+    InputManager.cpp
+    InputManager.h
     MainMenu.cpp
     MainMenu.h
     Misc.cpp
@@ -206,6 +210,8 @@ target_sources(
     OverclockerSystem.h
     OxygenWithoutSystem.cpp
     PALMemoryProtection.h
+    PauseButton.cpp
+    PauseButton.h
     ProjectileVTable.cpp
     Projectile_Extend.cpp
     Projectile_Extend.h
@@ -257,6 +263,8 @@ target_sources(
     TileBasedCrewMovement.h
     TimerHelper.cpp
     ToggleValue.h
+    TouchScreen.cpp
+    TouchScreen.h
     TriggeredEvents.cpp
     Wormhole.cpp
     detours.h

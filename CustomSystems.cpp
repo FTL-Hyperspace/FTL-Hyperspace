@@ -4,6 +4,7 @@
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
 #include "SystemBox_Extend.h"
+#include "InputManager.h"
 #include <boost/lexical_cast.hpp>
 
 #include <cmath>
@@ -351,184 +352,360 @@ HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
     return ret;
 }
 
-HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
+HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
-    for (auto i : sysBoxes)
+    for (SystemBox* box : this->sysBoxes)
     {
-        delete i;
+        delete box;
     }
 
-    sysBoxes.clear();
+    this->sysBoxes.clear();
 
-    SystemPower.x = 0;
-    SystemPower.y = 0;
-
-    int xPos = 22;
-
-    std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
-
-    for (auto sysId : systemOrder)
+    this->SystemPower.x = 0;
+    this->SystemPower.y = 0;
+    
+    if (InputManager::GetInstance()->currentInputDevice == InputManager::TOUCHSCREEN)
     {
-        auto sys = shipManager->GetSystem(sysId);
-        if (!sys || !sys->bNeedsPower) continue;
-
-        switch (sysId)
+        int systemOrder[17] =
         {
-        case SYS_MIND:
-            {
-                auto box = new MindBox(Point(xPos + 36, 269), shipManager->mindSystem);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_CLONEBAY:
-            {
-                auto box = new CloneBox(Point(xPos + 36, 269), shipManager->cloneSystem);
-                sysBoxes.push_back(box);
-                xPos += 36;
-                break;
-            }
-        case SYS_HACKING:
-            {
-                auto box = new HackBox(Point(xPos + 36, 269), shipManager->hackingSystem, shipManager);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_TELEPORTER:
-            {
-                auto box = new TeleportBox(Point(xPos + 36, 269), shipManager->teleportSystem);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_CLOAKING:
-            {
-                auto box = new CloakingBox(Point(xPos + 36, 269), shipManager->cloakSystem);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
-            }
-        case SYS_ARTILLERY:
-            {
-                for (auto i : shipManager->artillerySystems)
-                {
-                    auto box = new ArtilleryBox(Point(xPos + 36, 269), i);
-                    sysBoxes.push_back(box);
-                    xPos += 36;
-                }
+            SYS_WEAPONS,
+            SYS_DRONES,
+            SYS_SHIELDS,
+            SYS_ENGINES,
+            SYS_MEDBAY,
+            SYS_CLONEBAY,
+            SYS_OXYGEN,
+            SYS_TELEPORTER,
+            SYS_CLOAKING,
+            SYS_ARTILLERY,
+            SYS_MIND,
+            SYS_HACKING,
+            SYS_TEMPORAL,
+            SYS_PILOT,
+            SYS_SENSORS,
+            SYS_BATTERY,
+            SYS_DOORS
+        };
+        
+        int xPos = 56;
 
-                /*
-                if (shipManager->artillerySystems.size() > 0)
-                {
-                    auto artillerySys = shipManager->artillerySystems[0];
-                    auto box = new ArtilleryBox(Point(xPos + 36, 269), artillerySys);
-                    sysBoxes.push_back(box);
-                    xPos += 36;
-                }
-                */
-            }
-            break;
-        case SYS_WEAPONS:
-            break;
-        case SYS_DRONES:
-            break;
+        for (int sysId : systemOrder)
+        {
+            ShipSystem* sys = shipManager->GetSystem(sysId);
+            if (!sys || !sys->bNeedsPower) continue;
 
-        //Temporal system and fallback
-        case SYS_TEMPORAL:
+            switch (sysId)
             {
-                auto box = new TemporalBox(Point(xPos + 36, 269), sys, shipManager);
-                sysBoxes.push_back(box);
-                xPos += 54;
-                break;
+                case SYS_WEAPONS:
+                {
+                    *G_->weaponPosition = Point(position.x + xPos, position.y + 261);
+                    WeaponSystemBox* box = new WeaponSystemBox(Point(xPos, 261), sys, reinterpret_cast<WeaponControl*>(&this->combatControl->weapControl));
+                    xPos += 94;
+                    sysBoxes.push_back(box);
+                    break;
+                }
+                case SYS_DRONES:
+                {
+                    *G_->dronePosition = Point(position.x + xPos, position.y + 261);
+                    WeaponSystemBox* box = new WeaponSystemBox(Point(xPos, 261), sys, reinterpret_cast<WeaponControl*>(&this->combatControl->droneControl));
+                    xPos += 94;
+                    sysBoxes.push_back(box);
+                    break;
+                }
+                case SYS_MIND:
+                {
+                    MindBox* box = new MindBox(Point(xPos, 261), shipManager->mindSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                    break;
+                }
+                case SYS_CLONEBAY:
+                {
+                    CloneBox* box = new CloneBox(Point(xPos, 261), shipManager->cloneSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                    break;
+                }
+                case SYS_HACKING:
+                {
+                    HackBox* box = new HackBox(Point(xPos, 261), shipManager->hackingSystem, shipManager);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                    break;
+                }
+                case SYS_TELEPORTER:
+                {
+                    TeleportBox* box = new TeleportBox(Point(xPos, 261), shipManager->teleportSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                    break;
+                }
+                case SYS_CLOAKING:
+                {
+                    CloakingBox* box = new CloakingBox(Point(xPos, 261), shipManager->cloakSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                    break;
+                }
+                case SYS_ARTILLERY:
+                {
+                    for (ArtillerySystem* i : shipManager->artillerySystems)
+                    {
+                        ArtilleryBox* box = new ArtilleryBox(Point(xPos, 261), i);
+                        sysBoxes.push_back(box);
+                        xPos += 56;
+                    }
+                    break;
+                }
+                case SYS_TEMPORAL:
+                {
+                    TemporalBox* box = new TemporalBox(Point(xPos, 261), sys, shipManager);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                    break;
+                }
+                default:
+                {
+                    SystemBox* box = new SystemBox(Point(xPos, 261), sys, true);
+                    sysBoxes.push_back(box);
+                    xPos += 56;
+                }
             }
-        default:
-            auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
+        }
+        //Custom systems
+        //TODO: Allow full user control over systemBox ordering?
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            ShipSystem* sys = shipManager->GetSystem(systemId);
+            if (!sys || !sys->bNeedsPower) continue;
+            SystemBox* box = new SystemBox(Point(xPos, 261), sys, true);
             sysBoxes.push_back(box);
-            xPos += 36;
+            xPos += SB_EX(box)->xOffset;
         }
-    }
-    //Custom systems
-    //TODO: Allow full user control over systemBox ordering?
-    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
-    {
-        auto sys = shipManager->GetSystem(systemId);
-        if (!sys || !sys->bNeedsPower) continue;
-        auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
-        sysBoxes.push_back(box);
-        xPos += SB_EX(box)->xOffset;
-    }
-
-
-    if (shipManager->HasSystem(3))
-    {
-        *Global::weaponPosition = Point(position.x + xPos + 36, position.y + 269);
-        auto box = new WeaponSystemBox(Point(xPos + 36, 269), shipManager->GetSystem(3), &combatControl->weapControl);
-
-        sysBoxes.push_back(box);
-
-        xPos += 48 + 97 * shipManager->myBlueprint.weaponSlots;
-    }
-    if (shipManager->HasSystem(4))
-    {
-        *Global::dronePosition = Point(position.x + xPos + 36, position.y + 269);
-        auto box = new SystemBox(Point(xPos + 36, 269), shipManager->GetSystem(4), true);
-
-        sysBoxes.push_back(box);
-    }
-
-    int subSystemOrder[4] = { 6, 7, 8, 12 };
-
-    int subXPos = subSystemPosition.x;
-    int subYPos = subSystemPosition.y;
-
-    for (int i = 0; i < 4; i++)
-    {
-        int sysId = subSystemOrder[i];
-
-        auto sys = shipManager->GetSystem(sysId);
-        switch (sysId)
+        
+        // Order is reversed so that they dynamically order from right to left based on the pause buttons left side
+        int subSystemOrder[4] =
         {
-        case SYS_DOORS:
-            if (sys)
-            {
-                auto box = new DoorBox(Point(subXPos, subYPos), sys, shipManager);
-                sysBoxes.push_back(box);
-            }
+            SYS_DOORS,
+            SYS_BATTERY,
+            SYS_SENSORS,
+            SYS_PILOT
+        };
+        
+        // Start position to order from right to left
+        int subXPos = 1032;
 
-            subXPos += 15;
-            break;
-        case SYS_BATTERY:
-            if (sys)
+        for (int sysId : subSystemOrder)
+        {
+            if (!shipManager->HasSystem(sysId)) continue; // Without this check I'd have gaps when some subsystem is missing
+
+            ShipSystem* sys = shipManager->GetSystem(sysId);
+            switch (sysId)
             {
-                auto box = new BatteryBox(Point(subXPos, subYPos), shipManager->batterySystem);
-                sysBoxes.push_back(box);
+                case SYS_DOORS:
+                if (sys)
+                {
+                    DoorBox* box = new DoorBox(Point(subXPos, 261), sys, shipManager);
+                    sysBoxes.push_back(box);
+                    break;
+                }
+                case SYS_BATTERY:
+                if (sys)
+                {
+                    BatteryBox* box = new BatteryBox(Point(subXPos, 261), shipManager->batterySystem);
+                    sysBoxes.push_back(box);
+                    break;
+                }
+                default:
+                if (sys)
+                {
+                    SystemBox* box = new SystemBox(Point(subXPos, 261), sys, true);
+                    sysBoxes.push_back(box);
+                    break;
+                }
             }
-            subXPos += 18;
-            break;
-        default:
-            if (sys)
-            {
-                auto box = new SystemBox(Point(subXPos, subYPos), sys, true);
-                sysBoxes.push_back(box);
-            }
-            break;
+            subXPos += -56;
         }
-        subXPos += sub_spacing + 36;
+        //Custom subsystems
+        //TODO: Allow full user control over systemBox ordering?
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            ShipSystem* sys = shipManager->GetSystem(systemId);
+            if (!sys || sys->bNeedsPower) continue;
+            SystemBox* box = new SystemBox(Point(subXPos, 261), sys, true);
+            sysBoxes.push_back(box);
+            subXPos += sub_spacing + SB_EX(box)->xOffset;
+        }
     }
-    //Custom subsystems
-    //TODO: Allow full user control over systemBox ordering?
-    for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+    else
     {
-        auto sys = shipManager->GetSystem(systemId);
-        if (!sys || sys->bNeedsPower) continue;
-        auto box = new SystemBox(Point(subXPos, subYPos), sys, true);
-        sysBoxes.push_back(box);
-        subXPos += sub_spacing + SB_EX(box)->xOffset;
+        std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
+        int xPos = 22;
+
+        for (int sysId : systemOrder)
+        {
+            ShipSystem* sys = shipManager->GetSystem(sysId);
+            if (!sys || !sys->bNeedsPower) continue;
+
+            switch (sysId)
+            {
+                case SYS_MIND:
+                {
+                    MindBox* box = new MindBox(Point(xPos + 36, 269), shipManager->mindSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 54;
+                    break;
+                }
+                case SYS_CLONEBAY:
+                {
+                    CloneBox* box = new CloneBox(Point(xPos + 36, 269), shipManager->cloneSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 36;
+                    break;
+                }
+                case SYS_HACKING:
+                {
+                    HackBox* box = new HackBox(Point(xPos + 36, 269), shipManager->hackingSystem, shipManager);
+                    sysBoxes.push_back(box);
+                    xPos += 54;
+                    break;
+                }
+                case SYS_TELEPORTER:
+                {
+                    TeleportBox* box = new TeleportBox(Point(xPos + 36, 269), shipManager->teleportSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 54;
+                    break;
+                }
+                case SYS_CLOAKING:
+                {
+                    CloakingBox* box = new CloakingBox(Point(xPos + 36, 269), shipManager->cloakSystem);
+                    sysBoxes.push_back(box);
+                    xPos += 54;
+                    break;
+                }
+                case SYS_ARTILLERY:
+                {
+                    for (ArtillerySystem* i : shipManager->artillerySystems)
+                    {
+                        ArtilleryBox* box = new ArtilleryBox(Point(xPos + 36, 269), i);
+                        sysBoxes.push_back(box);
+                        xPos += 36;
+                    }
+
+                    /*
+                    if (shipManager->artillerySystems.size() > 0)
+                    {
+                        ArtillerySystem* artillerySys = shipManager->artillerySystems[0];
+                        ArtilleryBox* box = new ArtilleryBox(Point(xPos + 36, 269), artillerySys);
+                        sysBoxes.push_back(box);
+                        xPos += 36;
+                    }
+                    */
+                }
+                break;
+                case SYS_WEAPONS:
+                case SYS_DRONES:
+                break;
+                // Temporal system and fallback
+                case SYS_TEMPORAL:
+                {
+                    TemporalBox* box = new TemporalBox(Point(xPos + 36, 269), sys, shipManager);
+                    sysBoxes.push_back(box);
+                    xPos += 54;
+                    break;
+                }
+                default:
+                {
+                    SystemBox* box = new SystemBox(Point(xPos + 36, 269), sys, true);
+                    sysBoxes.push_back(box);
+                    xPos += 36;
+                }
+            }
+        }
+        //Custom systems
+        //TODO: Allow full user control over systemBox ordering?
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            ShipSystem* sys = shipManager->GetSystem(systemId);
+            if (!sys || !sys->bNeedsPower) continue;
+            SystemBox* box = new SystemBox(Point(xPos + 36, 269), sys, true);
+            sysBoxes.push_back(box);
+            xPos += SB_EX(box)->xOffset;
+        }
+
+
+        if (shipManager->HasSystem(3))
+        {
+            *Global::weaponPosition = Point(position.x + xPos + 36, position.y + 269);
+            WeaponSystemBox* box = new WeaponSystemBox(Point(xPos + 36, 269), shipManager->GetSystem(3), &combatControl->weapControl);
+
+            sysBoxes.push_back(box);
+
+            xPos += 48 + 97 * shipManager->myBlueprint.weaponSlots;
+        }
+        if (shipManager->HasSystem(4))
+        {
+            *Global::dronePosition = Point(position.x + xPos + 36, position.y + 269);
+            SystemBox* box = new SystemBox(Point(xPos + 36, 269), shipManager->GetSystem(4), true);
+
+            sysBoxes.push_back(box);
+        }
+
+        int subSystemOrder[4] = { 6, 7, 8, 12 };
+
+        int subXPos = subSystemPosition.x;
+        int subYPos = subSystemPosition.y;
+
+        for (int i = 0; i < 4; i++)
+        {
+            int sysId = subSystemOrder[i];
+
+            ShipSystem* sys = shipManager->GetSystem(sysId);
+            switch (sysId)
+            {
+            case SYS_DOORS:
+                if (sys)
+                {
+                    DoorBox* box = new DoorBox(Point(subXPos, subYPos), sys, shipManager);
+                    sysBoxes.push_back(box);
+                }
+
+                subXPos += 15;
+                break;
+            case SYS_BATTERY:
+                if (sys)
+                {
+                    BatteryBox* box = new BatteryBox(Point(subXPos, subYPos), shipManager->batterySystem);
+                    sysBoxes.push_back(box);
+                }
+                subXPos += 18;
+                break;
+            default:
+                if (sys)
+                {
+                    SystemBox* box = new SystemBox(Point(subXPos, subYPos), sys, true);
+                    sysBoxes.push_back(box);
+                }
+                break;
+            }
+            subXPos += sub_spacing + 36;
+        }
+        //Custom subsystems
+        //TODO: Allow full user control over systemBox ordering?
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            ShipSystem* sys = shipManager->GetSystem(systemId);
+            if (!sys || sys->bNeedsPower) continue;
+            SystemBox* box = new SystemBox(Point(subXPos, subYPos), sys, true);
+            sysBoxes.push_back(box);
+            subXPos += sub_spacing + SB_EX(box)->xOffset;
+        }
     }
 }
 
@@ -536,7 +713,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
-    for (auto i : sysBoxes)
+    for (SystemCustomBox* i : sysBoxes)
     {
         delete i;
     }
@@ -547,13 +724,13 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
     std::vector<int> systemIds = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 13, 14, 15, 20, 6, 7, 8, 12 };
     //TODO: Check if user needs to control offsets in ShipBuilder menu too. Might be necessary if they want to do something weird with the UI
-    for (auto i : systemIds)
+    for (int i : systemIds)
     {
         if (i == SYS_ARTILLERY)
         {
             for (auto sys : currentShip->artillerySystems)
             {
-                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+                SystemCustomBox* box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
 
                 sysBoxes.push_back(box);
 
@@ -567,8 +744,8 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
         {
             if (currentShip->HasSystem(i))
             {
-                auto sys = currentShip->GetSystem(i);
-                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+                ShipSystem* sys = currentShip->GetSystem(i);
+                SystemCustomBox* box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
 
                 sysBoxes.push_back(box);
 
@@ -584,8 +761,8 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
     {
         if (currentShip->HasSystem(systemId))
         {
-            auto sys = currentShip->GetSystem(systemId);
-            auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+            ShipSystem* sys = currentShip->GetSystem(systemId);
+            SystemCustomBox* box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
 
             sysBoxes.push_back(box);
 
@@ -915,6 +1092,10 @@ static std::array<GL_Primitive*,10> ErosionIconPrimitive;
 static GL_Primitive *ErosionTimerStencil = nullptr;
 int lastErosionTimerStencilCount = -1;
 
+static GL_Primitive* touchManningBarOn = nullptr;
+static GL_Primitive* touchManningBarOff = nullptr;
+static GL_Primitive* touchManningBarIon = nullptr;
+
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
@@ -933,6 +1114,10 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
         ErosionIconPrimitive[8] = G_->GetResources()->CreateImagePrimitiveString("icons/erosion/base_9.png",16,-30,0,COLOR_TRUE_WHITE,1.f,false);
         ErosionIconPrimitive[9] = G_->GetResources()->CreateImagePrimitiveString("icons/erosion/base_9p.png",16,-30,0,COLOR_TRUE_WHITE,1.f,false);
 
+        touchManningBarOn = G_->GetResources()->CreateImagePrimitiveString("ipad/systemUI/manning_bar_on.png", 17, -17, 0, COLOR_WHITE, 1.f, false);
+        touchManningBarOff = G_->GetResources()->CreateImagePrimitiveString("ipad/systemUI/manning_bar_off.png", 17, -17, 0, COLOR_WHITE, 1.f, false);
+        touchManningBarIon = G_->GetResources()->CreateImagePrimitiveString("ipad/systemUI/manning_bar_ion.png", 17, -17, 0, COLOR_WHITE, 1.f, false);
+
         initRenderPowerBoxes = true;
     }
 
@@ -946,6 +1131,7 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
     //return super(x, y, width, height, gap, heightMod, flash);
 
     SystemControl::PowerBars *powerBars = SystemControl::GetPowerBars(width, height, gap, iSystemType == 0);
+    InputManager* inputManager = InputManager::GetInstance();
 
     float repairFraction = fRepairOverTime / 100.f;
     float damageFraction = fDamageOverTime / 100.f;
@@ -992,16 +1178,50 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
         {
             if (i >= healthPower)
             {
-                CSurface::GL_RenderPrimitive(*ShipSystem__glowRed);
+                if ((inputManager->currentInputDevice == InputManager::TOUCHSCREEN) && (this->_shipObj.iShipId == 0))
+                {
+                    RenderThickRed:
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Scale(2.f, 1.75f);
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowRed);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowRed);
+                }
             }
             else if (i >= maxPower)
             {
-                CSurface::GL_RenderPrimitive(*ShipSystem__glowBlue);
+                if ((inputManager->currentInputDevice == InputManager::TOUCHSCREEN) && (this->_shipObj.iShipId == 0))
+                {
+                    RenderThickBlue:
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Scale(2.f, 1.75f);
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowBlue);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowBlue);
+                }
             }
             else
             {
-                CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
-                CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
+                if ((inputManager->currentInputDevice == InputManager::TOUCHSCREEN) && (this->_shipObj.iShipId == 0))
+                {
+                    RenderThickWhite:
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Scale(2.f, 1.75f);
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
+                    CSurface::GL_RenderPrimitive(*ShipSystem__glowWhite);
+                }
             }
             if (iSystemType == 0 && i+1<powerState.second && (i&1) != 0) // shields power bar gap
             {
@@ -1118,15 +1338,36 @@ HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, 
         {
             if (iActiveManned >= 1 && bBoostable && healthState.first == healthState.second)
             {
-                manningPrimitive = *ShipSystem__manningBarOn;
+                if ((inputManager->currentInputDevice == InputManager::TOUCHSCREEN) && (this->_shipObj.iShipId == 0))
+                {
+                    manningPrimitive = touchManningBarOn;
+                }
+                else
+                {
+                    manningPrimitive = *ShipSystem__manningBarOn;
+                }
             }
             else if (BlockedBoosted(true))
             {
-                manningPrimitive = *ShipSystem__manningBarIon;
+                if ((inputManager->currentInputDevice == InputManager::TOUCHSCREEN) && (this->_shipObj.iShipId == 0))
+                {
+                    manningPrimitive = touchManningBarIon;
+                }
+                else
+                {
+                    manningPrimitive = *ShipSystem__manningBarIon;
+                }
             }
             else
             {
-                manningPrimitive = *ShipSystem__manningBarOff;
+                if ((inputManager->currentInputDevice == InputManager::TOUCHSCREEN) && (this->_shipObj.iShipId == 0))
+                {
+                    manningPrimitive = touchManningBarOff;
+                }
+                else
+                {
+                    manningPrimitive = *ShipSystem__manningBarOff;
+                }
             }
             CSurface::GL_RenderPrimitive(manningPrimitive);
         }

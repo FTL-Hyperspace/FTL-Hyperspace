@@ -1,0 +1,4 @@
+"5589e5565383e4f083ec208b45088b517883f801":
+__thiscall bool TouchTooltip::OnTouch(TouchTooltip* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".8079680075248b4424048b5164c7":
+__thiscall bool TouchTooltip::TakeTouch(TouchTooltip* this, int id, int x, int y, int initialX, int initialY);

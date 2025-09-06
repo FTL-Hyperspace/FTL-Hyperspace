@@ -1,7 +1,7 @@
 "8d4118f30f1005????????c7410401000000c7410800000000f30f11411089018d4134c7410c00000000c7411400000000f30f11412c89411c8d4150c7411800000000c7412001000000f30f1141488941388d4164c7412400000000c741280000000089415c":
 __thiscall void ResourceControl::constructor(ResourceControl *this);
 "5589e583e4f083ec408b45088b552c85c00f84????????660fefe489c185c9f30f104d20f30f106d1cf30f104518f30f2a6514":
-__thiscall GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
+__thiscall GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 ".5589e55389cb":
 __thiscall void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
 "5589e557565389cf31db83e4f083ec408d442430c744240c10000000c744240800000000c744243064617461c74424342e646174894424288b4508":

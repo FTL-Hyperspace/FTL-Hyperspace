@@ -1157,6 +1157,12 @@
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>
+		<Unit filename="InputManager.cpp">
+			<Option virtualFolder="Core/CApp/" />
+		</Unit>
+		<Unit filename="InputManager.h">
+			<Option virtualFolder="Core/CApp/" />
+		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
@@ -1189,6 +1195,12 @@
 		</Unit>
 		<Unit filename="PALMemoryProtection.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="PauseButton.cpp">
+			<Option virtualFolder="Core/Misc/" />
+		</Unit>
+		<Unit filename="PauseButton.h">
+			<Option virtualFolder="Core/Misc/" />
 		</Unit>
 		<Unit filename="ProjectileVTable.cpp">
 			<Option virtualFolder="Core/Weapons/" />
@@ -1341,6 +1353,12 @@
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="ToggleValue.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="TouchScreen.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="TouchScreen.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="TriggeredEvents.cpp">

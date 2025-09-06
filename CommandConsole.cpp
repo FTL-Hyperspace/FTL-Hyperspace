@@ -6,6 +6,7 @@
 #include "CustomScoreKeeper.h"
 #include "CustomAchievements.h"
 #include "CustomShips.h"
+#include "InputManager.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <cmath>
@@ -176,6 +177,30 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (cmdName == "DEBUG")
     {
+        return true;
+    }
+    if (cmdName == "INPUT" && command.length() > 5)
+    {
+        std::string inputMethod = boost::trim_copy(command.substr(6));
+
+        if (inputMethod == "DEBUG")
+        {
+            InputManager::GetInstance()->currentInputDevice = InputManager::DEBUG;
+        }
+        else if (inputMethod == "KEYBOARD" || inputMethod == "MOUSE")
+        {
+            InputManager::GetInstance()->currentInputDevice = InputManager::KEYBOARD;
+        }
+        else if (inputMethod == "TOUCHSCREEN" || inputMethod == "TOUCH")
+        {
+            InputManager::GetInstance()->currentInputDevice = InputManager::TOUCHSCREEN;
+        }
+        else if (inputMethod == "CONTROLLER" || inputMethod == "JOYSTICK")
+        {
+            InputManager::GetInstance()->currentInputDevice = InputManager::CONTROLLER;
+        }
+        commandGui->sysControl.CreateSystemBoxes();
+
         return true;
     }
     if (command == "SHIP ALL")

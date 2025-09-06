@@ -1,5 +1,12 @@
-"5557565381ec9c0000008b9c24b00000008dbc2480000000":
+"b803000000c38d76008dbc2700000000b802000000c38d76008dbc2700000000":
+noHook __cdecl void HackBox::DO_NOT_HOOK();
+".f3c3":
+cleanup __cdecl void HackBox::OnTouch(HackBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".5557565381ec9c0000008b9c24b00000008dbc2480000000":
 cleanup __cdecl void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+"!.55400fb6f6534889fb4883ec18e8??6e0300e8????0600f30f2a8300030000":
+cleanup __cdecl void HackBox::OnRender(HackBox* this, bool ignoreStatus);
+
 
 struct HackBox
 {{

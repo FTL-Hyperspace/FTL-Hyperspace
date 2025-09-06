@@ -1,0 +1,4 @@
+"534889fb4883ec1083fe010f84":
+cleanup __amd64 bool TouchTooltip::OnTouch(TouchTooltip* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".807f6400751b4129d0":
+cleanup __amd64 bool TouchTooltip::TakeTouch(TouchTooltip* this, int id, int x, int y, int initialX, int initialY);

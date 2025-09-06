@@ -1,5 +1,10 @@
 "5557565383ec7c8bbc24900000008d6c24508b842494000000":
 cleanup __cdecl void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
+".5557565383ec3c8b5c24508b6c24608b4c24688b7c245c8b83940200008b9390020000":
+cleanup __cdecl void TeleportBox::OnTouch(TeleportBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"!.57565383ec408b5c24500fb6442454891c2489442404":
+cleanup __cdecl void TeleportBox::OnRender(TeleportBox* this, bool ignoreStatus);
+
 
 struct TeleportBox
 {{

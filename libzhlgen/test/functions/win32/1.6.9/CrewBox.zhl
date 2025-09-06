@@ -40,4 +40,21 @@ struct CrewBox
 		CSurface::GL_DestroyPrimitive(cooldownBar);
 		CSurface::GL_DestroyPrimitive(healthBar);
 	}
+
+	inline Point GetTopLeft()
+	{
+		return Point(this->box.x, this->box.y);
+	}
+	inline Point GetTopRight()
+	{
+		return Point(this->box.x + this->box.w, this->box.y);
+	}
+	inline Point GetBottomLeft()
+	{
+		return Point(this->box.x, this->box.y + this->box.h);
+	}
+	inline Point GetBottomRight()
+	{
+		return Point(this->box.x + this->box.w, this->box.y + this->box.h);
+	}
 }};

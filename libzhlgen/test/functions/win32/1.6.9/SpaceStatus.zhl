@@ -1,8 +1,19 @@
-"578d????0883e4??ff????5589e557565389cb89de81ec????????":
+/*
+<<< READ BEFORE EDITING >>>
+
+This files signatures were adjusted to work from version 1.6.8 - 1.6.14
+Please make your signatures compatible aswell when adding some to this file
+
+If you are not sure how or you are simply too lazy, then please contact Dino to do it for you
+*/
+
+"578d7c240883e4f0ff77fc5589e557565389cb89de81eccc000000":
 __thiscall void SpaceStatus::OnInit(SpaceStatus *this, SpaceManager *space, Point pos);
-"578d????0883e4f0ff????5589e557565381ecac0000008b7160":
+".578d7c240883e4f0ff77fc5589e557565381ec??0000008b????????8b????8d??33":
 __thiscall void SpaceStatus::RenderWarningText(SpaceStatus *this, int effect, int textOffset);
-"578d????0883e4f0ff????5589e557565389cb83ec2c8b492c":
-__thiscall void SpaceStatus::OnRender(SpaceStatus *this);
-"578d????0883e4f0ff????5589e557565389cb83ec4c8b??8b4130":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b41308b7f04":
 __thiscall void SpaceStatus::MouseMove(SpaceStatus *this, int mX, int mY);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b492c":
+__thiscall void SpaceStatus::OnRender(SpaceStatus *this);
+".8b44240483e80183f8017614c7416400000000c21800":
+__thiscall void SpaceStatus::OnTouch(SpaceStatus* this, TouchAction action, int id, int x, int y, int initialX, int initialY);

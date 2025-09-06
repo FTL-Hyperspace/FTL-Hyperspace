@@ -5,7 +5,9 @@ cleanup __cdecl float Pointf::RelativeDistance(Pointf *this, Pointf other);
 "5383ec288b5c24348b442430":
 cleanup __cdecl Pointf Pointf::Normalize(Pointf *this);
 
-struct Pointf {{
+
+struct Pointf
+{{
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}
 	
@@ -29,4 +31,8 @@ struct Pointf {{
 		return Pointf(x * amount, y * amount);
 	}
 
+    bool operator==(const Pointf& rhs) const
+    {
+        return (this->x == rhs.x) && (this->y == rhs.y);
+    }
 }};

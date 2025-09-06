@@ -1,10 +1,16 @@
-"41554989cd31c94154554889d5534889fb4c8da3180300004883ec68":
-cleanup __amd64 void HackBox::constructor(HackBox *this, Point pos, HackingSystem* sys, ShipManager* ship);
+"b803000000c3662e0f1f840000000000b802000000c3662e0f1f840000000000":
+noHook __amd64 void HackBox::DO_NOT_HOOK();
+".f3c3":
+cleanup __amd64 void HackBox::OnTouch(HackBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".41554989cd31c94154554889d5534889fb4c8da3180300004883ec68":
+cleanup __amd64 void HackBox::constructor(HackBox* this, Point pos, HackingSystem* sys, ShipManager* ship);
+"!.55400fb6f6534889fb4883ec18e8??6e0300e8????0600f30f2a8300030000":
+cleanup __amd64 void HackBox::OnRender(HackBox* this, bool ignoreStatus);
 
 
 struct HackBox
 {{
-	HackBox(Point pos, HackingSystem* sys, ShipManager *ship)
+	HackBox(Point pos, HackingSystem* sys, ShipManager* ship)
 	{
 		this->constructor(pos, sys, ship);
 	}

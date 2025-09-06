@@ -2,8 +2,13 @@
 cleanup __amd64 void TutorialManager::constructor(TutorialManager *this);
 "!.0fb607c3":
 cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);
+".41574156415541544989fc55534883ec58803f00":
+cleanup __amd64 bool TutorialManager::OnTouch(TutorialManager* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 ".415455534889fb4883ec404889b790010000":
 cleanup __amd64 void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+".41574156415541544989fc55534881ec":
+cleanup __amd64 void TutorialManager::OnRender(TutorialManager* this);
+
 
 "!498b07488b7810488b07ff908000000084c00f84????????bf(???????\?)":
 TutorialManager* Global_TutorialManager_Tutorial;

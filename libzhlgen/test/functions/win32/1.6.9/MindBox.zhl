@@ -1,5 +1,11 @@
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b77088b5704c744240c000000008d7db4890424":
-__thiscall void MindBox::constructor(MindBox *this, Point pos, MindSystem* sys);
+__thiscall void MindBox::constructor(MindBox* this, Point pos, MindSystem* sys);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb607":
+noHook void MindBox::DO_NOT_HOOK(); // BATTERY BOX
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb607":
+__thiscall void MindBox::OnRender(MindBox* this, bool ignoreStatus);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b":
+__thiscall void MindBox::OnTouch(MindBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 
 
 struct MindBox

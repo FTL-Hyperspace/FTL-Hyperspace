@@ -1,15 +1,34 @@
-"578d7c240883e4f0ff77fc5589e557565389ce83ec7c0fb641508b1fc781b401000000000000":
+/*
+<<< READ BEFORE EDITING >>>
+
+This files signatures were adjusted to work from version 1.6.8 - 1.6.14
+Please make your signatures compatible aswell when adding some to this file
+
+If you are not sure how or you are simply too lazy, then please contact Dino to do it for you
+*/
+
+// offsets taken from Epic 1.6.9
+"8b0155c7415c0000000089e583e4f0ff5038": // 004ca2d0
+__thiscall void SystemBox::CancelTouch(SystemBox *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10c6416800": // 004ca700
+__thiscall void SystemBox::CloseTapBox(SystemBox *this);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec7c0fb64150": // 004ca770
 __thiscall void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
-"578d7c240883e4f0ff77fc5589e557565389ce8d9e8000000081ec????????8b4f088b57048b078b7f0cc706????????":
-__thiscall void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b81800100008b7f0439c67e??03818801000039c6":
-__thiscall void SystemBox::MouseMove(SystemBox *this, int x, int y);
-"5589e5565389cb8b494c8b750883e4f0e8????????84c075??807b580075??89f084c075??8d65f831c0":
-__thiscall bool SystemBox::MouseClick(SystemBox *this, bool shift);
-"578d7c240883e4f0ff77fc5589e557565389ce8d5db883ec6c8b078945a48b470489459c8b414c8b10":
-__thiscall void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
-"5589e55756538d79348d591089ce":
+".5589e55756538d79348d591089ce83e4f083ec10c701": // 004cb330
 __thiscall void SystemBox::destructor(SystemBox* this);
+".5589e5565389cb8b494c8b750883e4f0": // 004cbff0
+__thiscall bool SystemBox::MouseClick(SystemBox *this, bool shift);
+".578d7c240883e4f0ff77fc5589e557565389ce8d9e80000000": // 004cc460
+__thiscall void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b494c8b30": // 004cd470
+__thiscall void SystemBox::AdjustPowerTo(SystemBox* this, int newPower);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b47088b37": // 004cd5e0
+__thiscall void SystemBox::OnTouch(SystemBox* this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".578d7c240883e4f0ff77fc5589e557565389ce8d5db8": // 004cdf50
+__thiscall void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b81800100008b7f04": // 004d3b30
+__thiscall void SystemBox::MouseMove(SystemBox *this, int x, int y);
+
 
 struct SystemBox
 {{
