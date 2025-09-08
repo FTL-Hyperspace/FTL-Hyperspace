@@ -5939,7 +5939,7 @@ struct SettingValues
   uint8_t gap1[3];
   std__string language;
   bool languageSet;
-  uint8_t gap2[3];
+  uint8_t gap2[3]; // Compiler fails to pad anything after languageSet for some odd reason? Like every gap after will not be placed automatically and I can't see the reason as to why (Is this a compiler issue?)
   Point screenResolution;
   int dialogKeys;
   bool logging;
@@ -5963,7 +5963,7 @@ struct SettingValues
   int openedList;
   bool beamTutorial;
   uint8_t gap6[7];
-} __attribute__((packed));
+} __attribute__((packed)); // Packing just to make sure that the compiler places no unwanted memory inbetween the defined members
 
 /* 663 */
 struct std__map_43std__string___std_map_std_string_std_string

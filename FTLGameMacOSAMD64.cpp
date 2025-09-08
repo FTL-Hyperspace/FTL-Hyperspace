@@ -10665,7 +10665,7 @@ void Projectile::constructor(Pointf _position, int _ownerId, int _targetId, Poin
 namespace _func837
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Projectile::CollisionCheck", typeid(void (Projectile::*)(Collideable *)), ".554889e54157415641554154534881ecc80000004989f549", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Projectile::CollisionCheck", typeid(void (Projectile::*)(Collideable *)), ".554889e54157415641554154534881ecc80000004989f5", nullptr, 0, 0, &func);
 }
 
 void Projectile::CollisionCheck(Collideable *other)
@@ -10678,7 +10678,7 @@ void Projectile::CollisionCheck(Collideable *other)
 namespace _func838
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), ".554889e5415741564154534881ec700100004989f6", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), ".554889e54157", nullptr, 0, 0, &func);
 }
 
 void Projectile::Initialize(const WeaponBlueprint &bp)
