@@ -7140,12 +7140,15 @@ struct SettingValues
 	bool touchAutoPause;
 	bool lowend;
 	bool fbError;
+	uint8_t gap1[3];
 	std::string language;
 	bool languageSet;
+	uint8_t gap2[3];
 	Point screenResolution;
 	int dialogKeys;
 	bool logging;
 	bool bShowChangelog;
+	uint8_t gap3[2];
 	int loadingSaveVersion;
 	bool achPopups;
 	bool vsync;
@@ -7156,12 +7159,15 @@ struct SettingValues
 	bool showPaths;
 	bool swapTextureType;
 	bool colorblind;
+	uint8_t gap4[7];
 	std::array<std::vector<HotkeyDesc>, 4> hotkeys;
 	bool holdingModifier;
 	bool bDlcEnabled;
+	uint8_t gap5[2];
 	int openedList;
 	bool beamTutorial;
-};
+	uint8_t gap6[7];
+} __attribute__((packed));
 
 struct Settings
 {
