@@ -5963,7 +5963,7 @@ struct SettingValues
   int openedList;
   bool beamTutorial;
   uint8_t gap6[7];
-} __attribute__((packed)); // Packing just to make sure that the compiler places no unwanted memory inbetween the defined members
+}; // DO NOT PACK THIS, IT WILL CAUSE ISSUES
 
 /* 663 */
 struct std__map_43std__string___std_map_std_string_std_string

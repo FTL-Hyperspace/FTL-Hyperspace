@@ -7167,7 +7167,7 @@ struct SettingValues
 	int openedList;
 	bool beamTutorial;
 	uint8_t gap6[7];
-} __attribute__((packed));
+};
 
 struct Settings
 {
