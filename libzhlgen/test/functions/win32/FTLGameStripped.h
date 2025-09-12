@@ -6311,3 +6311,79 @@ struct ResourceBoxDesc
   Point row1;
   Point row2;
 };
+
+struct Matrix4f 
+{
+    float _11;
+    float _12;
+    float _13;
+    float _14;
+    float _21;
+    float _22;
+    float _23;
+    float _24;
+    float _31;
+    float _32;
+    float _33;
+    float _34;
+    float _41;
+    float _42;
+    float _43;
+    float _44;
+};
+
+struct Vector2f 
+{
+    float x;
+    float y;
+};
+
+struct Vector4f 
+{
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
+struct OpenGLSysPrimitive 
+{
+    unsigned int generation;
+    unsigned int type;
+    uint8_t converted_quads;
+    uint8_t has_indices;
+    uint8_t is_immediate_vbo;
+    uint8_t is_single_quad;
+    uint8_t vertex_local;
+    uint8_t index_local;
+    uint8_t vao_configured;
+    unsigned int vertex_buffer;
+    unsigned int index_buffer;
+    unsigned int vertex_array;
+    uint8_t *vertex_data;
+    int vertex_size;
+    int vertex_count;
+    int position_size;
+    unsigned int position_type;
+    int position_offset;
+    int texcoord_size;
+    unsigned int texcoord_type;
+    int texcoord_offset;
+    int color_size;
+    unsigned int color_type;
+    int color_offset;
+    int num_user_attribs;
+    uint32_t *user_attribs;
+    uint8_t *index_data;
+    int index_size;
+    int index_count;
+    unsigned int index_type;
+};
+
+struct ShaderInfo 
+{
+    unsigned int program;
+    int uniforms[9];
+    int num_user_uniforms;
+    int *user_uniforms;
+};

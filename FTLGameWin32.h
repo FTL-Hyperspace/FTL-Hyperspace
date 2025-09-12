@@ -56,7 +56,7 @@ typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
 typedef std::map<std::string, std::string> std_map_std_string_std_string;
 typedef std::map<std::string, int> std_map_std_string_int;
 typedef std::map<std::string, bool> std_map_std_string_bool;
-
+typedef void*(*lookup_func)(const char*);
 
 
 
@@ -540,6 +540,26 @@ enum GraphicsComparisonType
   GRAPHICS_COMPARISON_GREATER = 0x7,
 };
 
+enum GraphicsBlendOperation 
+{
+	GRAPHICS_BLEND_ADD = 0x1,
+	GRAPHICS_BLEND_SUB = 0x2,
+	GRAPHICS_BLEND_RSUB = 0x3,
+};
+enum GraphicsBlendFactor 
+{
+	GRAPHICS_BLEND_ZERO = 0x0,
+	GRAPHICS_BLEND_ONE = 0x1,
+	GRAPHICS_BLEND_SRC_COLOR = 0x2,
+	GRAPHICS_BLEND_SRC_ALPHA = 0x3,
+	GRAPHICS_BLEND_INV_SRC_ALPHA = 0x4,
+	GRAPHICS_BLEND_DEST_COLOR = 0x5,
+	GRAPHICS_BLEND_DEST_ALPHA = 0x6,
+	GRAPHICS_BLEND_INV_DEST_ALPHA = 0x7,
+	GRAPHICS_BLEND_CONSTANT = 0x8,
+	GRAPHICS_BLEND_INV_CONSTANT = 0x9,
+};
+
 typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 
 static DWORD GetBaseAddress()
@@ -599,6 +619,7 @@ struct AchievementTracker
 	LIBZHL_API void LoadProfile(int file, int version);
 	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
 	LIBZHL_API void ResetFlags();
 	LIBZHL_API void SaveProfile(int file);
 	LIBZHL_API void SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer);
@@ -1836,6 +1857,8 @@ struct GL_ColorTexVertex
 	float a;
 };
 
+struct GL_FrameBuffer;
+
 struct GL_Line
 {
 	GL_Line(float x1, float y1, float x2, float y2)
@@ -1887,6 +1910,8 @@ struct CSurface
 
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static void __stdcall FinishFrame();
+	LIBZHL_API static void __stdcall GL_BindFrameBuffer(GL_FrameBuffer *fb);
+	LIBZHL_API static void __stdcall GL_BlitFrameBuffer(GL_FrameBuffer *fb, float size_x, float size_y, bool antialias);
 	LIBZHL_API static bool __stdcall GL_BlitImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
 	LIBZHL_API static bool __stdcall GL_BlitImagePartial(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
 	LIBZHL_API static void __stdcall GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias);
@@ -1895,6 +1920,7 @@ struct CSurface
 	LIBZHL_API static bool __stdcall GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
 	LIBZHL_API static void __stdcall GL_ClearAll();
 	LIBZHL_API static void __stdcall GL_ClearColor();
+	LIBZHL_API static GL_FrameBuffer *__stdcall GL_CreateFrameBuffer(int w, int h);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
@@ -1933,7 +1959,9 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_Scale(float x, float y, float z);
 	LIBZHL_API static int __stdcall GL_SetColor(GL_Color color);
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
+	LIBZHL_API static void __stdcall GL_SetScissor(int x, int y, int w, int h);
 	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
+	LIBZHL_API static bool __stdcall GL_SetViewPort(int x1, int y1, int x2, int y2);
 	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
 	LIBZHL_API static GL_Color __stdcall GetColorTint();
 	LIBZHL_API static bool __stdcall IsFrameBufferSupported();
@@ -3241,8 +3269,6 @@ struct CEvent
 	
 	void *vptr;
 };
-
-struct GL_FrameBuffer;
 
 struct FocusWindow;
 
@@ -6406,6 +6432,26 @@ struct MantisAnimation : CrewAnimation
 	
 };
 
+struct Matrix4f
+{
+	float _11;
+	float _12;
+	float _13;
+	float _14;
+	float _21;
+	float _22;
+	float _23;
+	float _24;
+	float _31;
+	float _32;
+	float _33;
+	float _34;
+	float _41;
+	float _42;
+	float _43;
+	float _44;
+};
+
 struct MedbaySystem : ShipSystem
 {
 };
@@ -6537,6 +6583,40 @@ struct NebulaCloud
 	AnimationTracker lightningFlash;
 	float flashTimer;
 	float lightningRotation;
+};
+
+struct OpenGLSysPrimitive
+{
+	unsigned int generation;
+	unsigned int type;
+	uint8_t converted_quads;
+	uint8_t has_indices;
+	uint8_t is_immediate_vbo;
+	uint8_t is_single_quad;
+	uint8_t vertex_local;
+	uint8_t index_local;
+	uint8_t vao_configured;
+	unsigned int vertex_buffer;
+	unsigned int index_buffer;
+	unsigned int vertex_array;
+	uint8_t *vertex_data;
+	int vertex_size;
+	int vertex_count;
+	int position_size;
+	unsigned int position_type;
+	int position_offset;
+	int texcoord_size;
+	unsigned int texcoord_type;
+	int texcoord_offset;
+	int color_size;
+	unsigned int color_type;
+	int color_offset;
+	int num_user_attribs;
+	uint32_t *user_attribs;
+	uint8_t *index_data;
+	int index_size;
+	int index_count;
+	unsigned int index_type;
 };
 
 struct OuterHull;
@@ -7034,6 +7114,14 @@ struct Settings
 	LIBZHL_API static void __stdcall SaveSettings();
 	LIBZHL_API static void __stdcall SetHotkey(const std::string &hotkeyName, SDLKey key);
 	
+};
+
+struct ShaderInfo
+{
+	unsigned int program;
+	int uniforms[9];
+	int num_user_uniforms;
+	int *user_uniforms;
 };
 
 struct Shields;
@@ -8192,6 +8280,20 @@ struct UpgradeBox
 	GL_Primitive *dummyBox;
 };
 
+struct Vector2f
+{
+	float x;
+	float y;
+};
+
+struct Vector4f
+{
+	float x;
+	float y;
+	float z;
+	float w;
+};
+
 struct WarningWithLines : WarningMessage
 {
 	GL_Primitive *linePrimitive;
@@ -8364,15 +8466,22 @@ struct WorldManager
 	std::vector<LocationEvent::Choice> originalChoiceList;
 };
 
+struct OpenGLSysPrimitive;
 struct RewardDesc;
 
 LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
+LIBZHL_API void __stdcall dyngl_init(lookup_func func);
 LIBZHL_API float __stdcall font_baseline(int font_id, float size);
 LIBZHL_API float __stdcall font_height(int font_id, float size);
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 LIBZHL_API void __stdcall graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+LIBZHL_API int __stdcall graphics_display_height();
+LIBZHL_API int __stdcall graphics_display_width();
+LIBZHL_API int __stdcall graphics_set_blend(GraphicsBlendOperation operation, GraphicsBlendFactor src_factor, GraphicsBlendFactor dest_factor);
+LIBZHL_API void __stdcall graphics_show_mouse_pointer(int on);
+LIBZHL_API int __stdcall opengl_apply_shader(OpenGLSysPrimitive *primitive);
 LIBZHL_API int __stdcall random32();
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
 LIBZHL_API void __stdcall sys_graphics_set_window_title(char *title);
@@ -8385,6 +8494,18 @@ extern LIBZHL_API CrewMemberFactory *Global_CrewMemberFactory_Factory;
 extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
+extern LIBZHL_API Matrix4f *transformation_matrix;
+extern LIBZHL_API float *fog_start;
+extern LIBZHL_API Vector2f *fog_params;
+extern LIBZHL_API float *fog_end;
+extern LIBZHL_API Vector4f *fog_color;
+extern LIBZHL_API Vector4f *fog_transform;
+extern LIBZHL_API float *alpha_test_reference;
+extern LIBZHL_API float *point_size;
+extern LIBZHL_API Vector2f *texture_offset;
+extern LIBZHL_API Vector4f *opengl_primitive_color;
+extern LIBZHL_API ShaderInfo **current_shader;
+extern LIBZHL_API bool *window_is_d3d;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API int *Globals_GetNextSpaceId_id;
 extern LIBZHL_API bool *Globals_RNG;

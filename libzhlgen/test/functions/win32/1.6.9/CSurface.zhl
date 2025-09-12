@@ -107,8 +107,21 @@ static cleanup __cdecl void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, co
 "5589e557565383e4f083ec508b45108b15????????8b5d088b750c89442420a1????????39d00f84????????29d083e0f08d4402f0f30f1020f30f106804f30f107008f30f10780cf30f1164242c":
 static cleanup __cdecl void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex>& texVertices, bool antialias);
 
+"5589e583e4f083ec108b????85c074??8b008904??e8":
+static cleanup __cdecl void CSurface::GL_BindFrameBuffer(GL_FrameBuffer *fb);
+"5589e583e4f083ec108b????8944????8b????8944????8b????8944????8b????":
+static cleanup __cdecl bool CSurface::GL_SetViewPort(int x1, int y1, int x2, int y2);
+"8d????0483e4f0ff????5589e55183ec24a1????????3b05????????660f6e??660f6e":
+static cleanup __cdecl void CSurface::GL_SetScissor(int x, int y, int w, int h);
+"5589e557565383e4f083ec608b????8b????8d????200f2805":
+static cleanup __cdecl void CSurface::GL_BlitFrameBuffer(GL_FrameBuffer *fb, float size_x, float size_y, bool antialias);
 
-/* Could cause OpenGL issues
+"5589e55383e4f083ec208b????c744????08000000c744????00000000c744????010000008944????8b????8904??e8????????89c331c085db74??":
+static cleanup __cdecl GL_FrameBuffer* CSurface::GL_CreateFrameBuffer(int w, int h);
+/* Could cause OpenGL issues 
+
+"5589e583e4f083ec20c744????00000000c744????00000000c744????00000000c744????00000000":
+cleanup __cdecl int graphics_use_shader_objects(int enable);
 "5531c089e5565383e4f083ec208b75088b5d0c8b551083fe0177??85d274??85db74??803b0074??":
 static cleanup __cdecl int CSurface::shader_create_from_source(ShaderType type, const char* source, int length);
 ".5589e557565383e4f083ec208b5d088b7d0c85db7e??a1????????39c38944241c7d??0fb605????????8b15????????84c08844241b75??89d18b0c9985c974??85ff7e??":
@@ -121,6 +134,8 @@ static cleanup __cdecl void CSurface::shader_pipeline_apply(int pipeline);
 static cleanup __cdecl char* CSurface::generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 "8d4c240483e4f0ff71fc5589e55756535181ec????????8b79088b018b5104897dcc8b790c897dc88b7910897dc48b7914897dc08b7918":
 static cleanup __cdecl int CSurface::opengl_select_shader(const void *primitive, const void *texture, int tex_offset, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
+"55b83027000089e557565383e4f0e8????????29c48b????8d5c??20c744??0c????????c744??08????????":
+static cleanup __cdecl char* CSurface::generate_vertex_shader_source(GraphicsPrimitiveType primitive_type,int position_count,int texcoord_count,GraphicsTextureColorType texcolor_type,int tex_offset,int color_count,int color_uniform,int fog,int alpha_test,GraphicsComparisonType alpha_comparison);
 */
 
 "5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":

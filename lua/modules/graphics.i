@@ -811,3 +811,24 @@ struct freetype
 	static Pointf easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text);
 	static Pointf easy_printRightAlign(int fontSize, float x, float y, const std::string &text);
 };
+
+%{
+#include "Shaders.h"
+typedef CustomOpenGLShader Shader; //TODO: Expose under proper name after testing is complete
+%}
+class Shader
+{
+public:
+    Shader(const char* vertexShaderSource, const char* fragmentShaderSource) throw(std::runtime_error, std::invalid_argument);
+    void SetFloatUniform(const char* name, float value) throw(std::invalid_argument);
+    void SetIntUniform(const char* name, float value) throw(std::invalid_argument);
+};
+
+%nodefaultctor FrameBufferManager;
+%nodefaultdtor FrameBufferManager;
+class FrameBufferManager
+{
+public:
+    static void StartFrameBuffer();
+    static void EndFrameBuffer(Shader* shader);
+}; 

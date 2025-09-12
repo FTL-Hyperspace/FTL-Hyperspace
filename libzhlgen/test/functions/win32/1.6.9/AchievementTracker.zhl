@@ -30,7 +30,8 @@ __thiscall void AchievementTracker::SetTooltip(AchievementTracker *this, CAchiev
 __thiscall void AchievementTracker::ResetFlags(AchievementTracker *this);
 "578d7c????83e4f0ff????5589e557565389cb83ec4c8b013b":
 __thiscall void AchievementTracker::OnLoop(AchievementTracker *this);
-
+"80794c000f84????????578d????0883e4f0":
+__thiscall void AchievementTracker::OnRender(AchievementTracker *this);
 
 "!b9(???????\?)e8????????c744240c00000000":
 AchievementTracker* Global_AchievementTracker_Tracker;

@@ -1281,6 +1281,9 @@
 		<Unit filename="Shaders.cpp">
 			<Option virtualFolder="Core/Shaders/" />
 		</Unit>
+		<Unit filename="Shaders.h">
+			<Option virtualFolder="Core/Shaders/" />
+		</Unit>
 		<Unit filename="ShipEditor.cpp">
 			<Option virtualFolder="Content/ShipEditor/" />
 		</Unit>

@@ -36,7 +36,7 @@ struct GlobalPre
 	typedef std::map<std::string, std::string> std_map_std_string_std_string;
 	typedef std::map<std::string, int> std_map_std_string_int;
 	typedef std::map<std::string, bool> std_map_std_string_bool;
-
+	typedef void*(*lookup_func)(const char*);
 	
 }};
 
@@ -331,6 +331,26 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
 
+	enum GraphicsBlendOperation 
+	{
+		GRAPHICS_BLEND_ADD = 0x1,
+		GRAPHICS_BLEND_SUB = 0x2,
+		GRAPHICS_BLEND_RSUB = 0x3,
+	};
+	enum GraphicsBlendFactor 
+	{
+		GRAPHICS_BLEND_ZERO = 0x0,
+		GRAPHICS_BLEND_ONE = 0x1,
+		GRAPHICS_BLEND_SRC_COLOR = 0x2,
+		GRAPHICS_BLEND_SRC_ALPHA = 0x3,
+		GRAPHICS_BLEND_INV_SRC_ALPHA = 0x4,
+		GRAPHICS_BLEND_DEST_COLOR = 0x5,
+		GRAPHICS_BLEND_DEST_ALPHA = 0x6,
+		GRAPHICS_BLEND_INV_DEST_ALPHA = 0x7,
+		GRAPHICS_BLEND_CONSTANT = 0x8,
+		GRAPHICS_BLEND_INV_CONSTANT = 0x9,
+	};
+
 	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 	
 	static DWORD GetBaseAddress()
@@ -519,3 +539,42 @@ cleanup __cdecl void sys_graphics_set_window_title(char* title);
 
 "55660fefc089e583e4f083ec30f30f106d180f2ee8f30f106508f30f105d0cf30f105510f30f104d14":
 cleanup __cdecl void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+"8d????0483e4f0ff????5589e55756535183ec38c605????????01":
+cleanup __cdecl void dyngl_init(lookup_func func);
+"!5589e557565383e4f083ec208b????8b3d":
+cleanup __cdecl int opengl_apply_shader(OpenGLSysPrimitive *primitive);
+".!7428c7442404(???????\?)":
+Matrix4f* transformation_matrix;
+".!f30f1005(???????\?)c7442404(???????\?)f30f100d(???????\?)":
+float* fog_start;
+Vector2f* fog_params;
+float* fog_end;
+".!85c00f85????????c7442404(???????\?)":
+Vector4f* fog_color;
+".!803d????????000f84????????c7442404(???????\?)":
+Vector4f* fog_transform;
+".!75??803d????????000f84????????f30f1005(???????\?)":
+float* alpha_test_reference;
+".!75??89f084c075??803d????????0074??f30f1005(???????\?)":
+float* point_size;
+".!c7442404(???????\?)c7042402000000e8":
+Vector2f* texture_offset;
+".!c7442404(???????\?)c7042403000000":
+Vector4f* opengl_primitive_color;
+
+"!5589e583e4f083ec108b????8904??e8????????c9c3????????????????????5589e583e4f0e8????????c9":
+cleanup __cdecl void graphics_show_mouse_pointer(int on);
+".a1":
+cleanup __cdecl int graphics_display_width();
+".a1":
+cleanup __cdecl int graphics_display_height();
+
+"8b0e85c90f84????????31c03b35(???????\?)":
+ShaderInfo** current_shader;
+
+"5531c089e583e4f083ec108b????8d4aff83f90277??83????09":
+cleanup __cdecl int graphics_set_blend(GraphicsBlendOperation operation, GraphicsBlendFactor src_factor, GraphicsBlendFactor dest_factor);
+
+"5589e583e4f083ec10803d(???????\?)008b45088b550c8b4d10":
+bool* window_is_d3d;

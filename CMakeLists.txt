@@ -233,6 +233,7 @@ target_sources(
     Seeds.cpp
     Seeds.h
     Shaders.cpp
+    Shaders.h
     ShipEditor.cpp
     ShipEditor.h
     ShipManager_Extend.cpp
