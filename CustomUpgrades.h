@@ -1,4 +1,27 @@
 #include "Global.h"
+template<unsigned int PageSize>
+class UpgradeBoxSet
+{
+public:
+    void OnInit(Upgrades* upgrades, int leftOffset, int rightOffset, int verticalOffset);
+    void OnRender();
+    void MouseMove(int mX, int mY);
+    void MouseClick(int mX, int mY);
+    void MouseRightClick(int mX, int mY);
+    void AddUpgradeBox(UpgradeBox* box);
+    bool OnLoop();
+    void Accept();
+private:
+    int GetNumPages()
+    {
+        return boxes.size();
+    }
+    std::vector<std::vector<UpgradeBox*>> boxes;
+    std::unique_ptr<Button> leftButton = nullptr;
+    std::unique_ptr<Button> rightButton = nullptr;
+    int currentPage = 0;
+    Upgrades* orig = nullptr;
+};
 
 class CustomUpgrades
 {
@@ -7,17 +30,6 @@ public:
     {
 
     };
-
-    std::vector<UpgradeBox*> GetPage(int page)
-    {
-        return systemUpgradeBoxes[page];
-    }
-
-    int GetNumPages()
-    {
-        return systemUpgradeBoxes.size();
-    }
-
     void OnInit(Upgrades *upgrades, ShipManager *ship);
     void MouseClick(int mX, int mY);
     void MouseMove(int mX, int mY);
@@ -25,11 +37,10 @@ public:
     void OnRender();
     void Close();
     void OnLoop();
-    void AddSystemBox(UpgradeBox* box);
+    void AddSystemBox(UpgradeBox* box, bool subSystem);
     void ConfirmUpgrades();
 
     Upgrades *orig = nullptr;
-    std::vector<std::vector<UpgradeBox*>> systemUpgradeBoxes;
     TextInput *renameInput = nullptr;
     bool allowRename = false;
     bool allowButton = false;
@@ -39,12 +50,9 @@ public:
         return &instance;
     }
 private:
-    Button *leftButton = nullptr;
-    Button *rightButton = nullptr;
+    UpgradeBoxSet<8> systemBoxes;
+    UpgradeBoxSet<4> subSystemBoxes;
     Button *renameButton = nullptr;
-
-    int currentPage = 0;
-
     static CustomUpgrades instance;
 };
 
@@ -55,7 +63,7 @@ struct SystemNoPurchaseThreshold
         if (!enabled || cost < threshold) return std::to_string(cost);
         return replace;
     }
-    
+
     static bool enabled;
     static int threshold;
     static std::string replace;

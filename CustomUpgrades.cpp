@@ -5,26 +5,169 @@
 
 CustomUpgrades CustomUpgrades::instance = CustomUpgrades();
 bool blockShipNameRendering = false;
-
-void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::OnInit(Upgrades* upgrades, int leftOffset, int rightOffset, int verticalOffset)
 {
-    currentPage = 0;
     orig = upgrades;
-
-    delete leftButton;
-    delete rightButton;
-
+    currentPage = 0;
     std::string buttonImg("upgradeUI/buttons_system_arrow");
-    leftButton = new Button();
-    leftButton->OnInit(buttonImg, Point(upgrades->position.x + 18, upgrades->position.y + 182));
+    leftButton.reset(new Button);
+    leftButton->OnInit(buttonImg, Point(upgrades->position.x + leftOffset, upgrades->position.y + verticalOffset));
 
-    rightButton = new Button();
-    rightButton->OnInit(buttonImg, Point(upgrades->position.x + 572, upgrades->position.y + 182));
+    rightButton.reset(new Button);
+    rightButton->OnInit(buttonImg, Point(upgrades->position.x + rightOffset, upgrades->position.y + verticalOffset));
 
     rightButton->bMirror = true;
 
-    systemUpgradeBoxes.clear();
-    systemUpgradeBoxes.push_back(std::vector<UpgradeBox*>());
+    boxes.clear();
+    boxes.push_back(std::vector<UpgradeBox*>());
+
+}
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::OnRender()
+{
+    for (auto box : boxes[currentPage])
+    {
+        box->OnRender();
+    }
+
+    if (GetNumPages() > 1)
+    {
+        leftButton->OnRender();
+        rightButton->OnRender();
+    }
+}
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::MouseMove(int mX, int mY)
+{
+    for (auto box : boxes[currentPage])
+    {
+        box->MouseMove(mX, mY);
+    }
+
+    if (GetNumPages() > 1)
+    {
+        leftButton->MouseMove(mX, mY, false);
+        rightButton->MouseMove(mX, mY, false);
+    }
+}
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::MouseClick(int mX, int mY)
+{
+    for (auto box : boxes[currentPage])
+    {
+        box->MouseClick(mX, mY);
+    }
+
+    if (orig->undoButton.Hovering())
+    {
+        for (auto page : boxes)
+        {
+            for (auto box : page)
+            {
+                box->Undo();
+            }
+        }
+    }
+
+    int pages = GetNumPages();
+    if (pages > 1)
+    {
+        if (leftButton->Hovering())
+        {
+            currentPage--;
+            if (currentPage < 0)
+            {
+                currentPage = pages - 1;
+            }
+        }
+
+        if (rightButton->Hovering())
+        {
+            currentPage++;
+            if (currentPage >= pages)
+            {
+                currentPage = 0;
+            }
+        }
+    }
+
+}
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::MouseRightClick(int mX, int mY)
+{
+    for (auto box : boxes[currentPage])
+    {
+        box->MouseRightClick(mX, mY);
+    }
+}
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::AddUpgradeBox(UpgradeBox* box)
+{
+    if (boxes[boxes.size() - 1].size() == PageSize)
+    {
+        boxes.push_back(std::vector<UpgradeBox*>());
+    }
+
+    boxes[boxes.size() - 1].push_back(box);
+}
+template<unsigned int PageSize>
+bool UpgradeBoxSet<PageSize>::OnLoop()
+{
+    for (auto i : boxes[currentPage])
+    {
+        if (i->system != nullptr)
+        {
+            ShipSystem* system = i->system;
+            int maxPower = system->powerState.second;
+            int maxLevel = system->maxLevel;
+            int currUpgrade = maxPower + i->tempUpgrade;
+
+            if (currUpgrade == maxLevel && i->tempUpgrade > 0)
+            {
+                i->currentButton = &i->maxButton;
+            }
+            else
+            {
+                i->currentButton = &i->boxButton;
+                i->boxButton.SetActive(maxPower != maxLevel);
+            }
+
+            if (i->currentButton != nullptr && (i->currentButton->bHover || i->currentButton->bSelected))
+            {
+                orig->infoBox.SetSystem(i->system, i->tempUpgrade, 0, orig->forceSystemInfoWidth);
+            }
+        }
+    }
+
+    for (auto page : boxes)
+    {
+        for (auto box : page)
+        {
+            if (box->tempUpgrade > 0) return true;
+        }
+    }
+    return false;
+
+}
+template<unsigned int PageSize>
+void UpgradeBoxSet<PageSize>::Accept()
+{
+    for (auto page : boxes)
+    {
+        for (auto box : page)
+        {
+            box->Accept();
+        }
+    }
+}
+
+
+void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
+{
+    orig = upgrades;
+    systemBoxes.OnInit(upgrades, 18, 572, 182);
+    subSystemBoxes.OnInit(upgrades, 18, 265, 315);
 
     if (allowRename)
     {
@@ -53,21 +196,13 @@ void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
 
 void CustomUpgrades::OnRender()
 {
-    for (auto i : systemUpgradeBoxes[currentPage])
-    {
-        i->OnRender();
-    }
-
-    if (GetNumPages() > 1)
-    {
-        leftButton->OnRender();
-        rightButton->OnRender();
-    }
+    systemBoxes.OnRender();
+    subSystemBoxes.OnRender();
 
     // Draw the ship name
     Point pos = Point(orig->position.x + 310, orig->position.y + 39);
     CSurface::GL_SetColor(COLOR_WHITE);
-    if (allowRename) 
+    if (allowRename)
     {
         if (allowButton) renameButton->OnRender();
         renameInput->OnRender(24, pos);
@@ -81,16 +216,8 @@ void CustomUpgrades::OnRender()
 
 void CustomUpgrades::MouseMove(int mX, int mY)
 {
-    for (auto i : systemUpgradeBoxes[currentPage])
-    {
-        i->MouseMove(mX, mY);
-    }
-
-    if (GetNumPages() > 1)
-    {
-        leftButton->MouseMove(mX, mY, false);
-        rightButton->MouseMove(mX, mY, false);
-    }
+    systemBoxes.MouseMove(mX, mY);
+    subSystemBoxes.MouseMove(mX, mY);
 
     if (allowRename && allowButton)
         renameButton->MouseMove(mX, mY, false);
@@ -98,41 +225,11 @@ void CustomUpgrades::MouseMove(int mX, int mY)
 
 void CustomUpgrades::OnLoop()
 {
-    for (auto i : systemUpgradeBoxes[currentPage])
-    {
-        if (i->system != nullptr)
-        {
-            ShipSystem* system = i->system;
-            int maxPower = system->powerState.second;
-            int maxLevel = system->maxLevel;
-            int currUpgrade = maxPower + i->tempUpgrade;
-
-            if (currUpgrade == maxLevel && i->tempUpgrade > 0)
-            {
-                i->currentButton = &i->maxButton;
-            }
-            else
-            {
-                i->currentButton = &i->boxButton;
-                i->boxButton.SetActive(maxPower != maxLevel);
-            }
-
-            if (i->currentButton != nullptr && (i->currentButton->bHover || i->currentButton->bSelected))
-            {
-                orig->infoBox.SetSystem(i->system, i->tempUpgrade, 0, orig->forceSystemInfoWidth);
-            }
-        }
-    }
+    
 
     bool undoActive = orig->reactorButton.tempUpgrade > 0;
-
-    for (auto page : systemUpgradeBoxes)
-    {
-        for (auto i : page)
-        {
-            undoActive = undoActive || i->tempUpgrade > 0;
-        }
-    }
+    undoActive = undoActive || systemBoxes.OnLoop();
+    undoActive = undoActive || subSystemBoxes.OnLoop();
 
     orig->undoButton.SetActive(undoActive);
     if (allowRename)
@@ -141,48 +238,13 @@ void CustomUpgrades::OnLoop()
 
 void CustomUpgrades::MouseClick(int mX, int mY)
 {
-    for (auto i : systemUpgradeBoxes[currentPage])
-    {
-        i->MouseClick(mX, mY);
-    }
-
-    if (orig->undoButton.bActive && orig->undoButton.bHover)
-    {
-        for (auto page : systemUpgradeBoxes)
-        {
-            for (auto i : page)
-            {
-                i->Undo();
-            }
-        }
-    }
-
-    int pages = GetNumPages();
-    if (pages > 1)
-    {
-        if (leftButton->bActive && leftButton->bHover)
-        {
-            currentPage--;
-            if (currentPage < 0)
-            {
-                currentPage = pages - 1;
-            }
-        }
-
-        if (rightButton->bActive && rightButton->bHover)
-        {
-            currentPage++;
-            if (currentPage >= pages)
-            {
-                currentPage = 0;
-            }
-        }
-    }
+    systemBoxes.MouseClick(mX, mY);
+    subSystemBoxes.MouseClick(mX, mY);
     if (allowRename)
     {
         if (((
             !allowButton &&
-            mX > orig->position.x + 155 && mX < orig->position.x + 465 && 
+            mX > orig->position.x + 155 && mX < orig->position.x + 465 &&
             mY > orig->position.y + 46 && mY < orig->position.y + 86) ||
             (allowButton && renameButton->bHover)) &&
             !renameInput->GetActive())
@@ -205,23 +267,16 @@ void CustomUpgrades::MouseClick(int mX, int mY)
 
 void CustomUpgrades::MouseRightClick(int mX, int mY)
 {
-    for (auto i : systemUpgradeBoxes[currentPage])
-    {
-        i->MouseRightClick(mX, mY);
-    }
+    systemBoxes.MouseRightClick(mX, mY);
+    subSystemBoxes.MouseRightClick(mX, mY);
 }
 
 void CustomUpgrades::Close()
 {
     if (orig->bOpen)
     {
-        for (auto page : systemUpgradeBoxes)
-        {
-            for (auto i : page)
-            {
-                i->Accept();
-            }
-        }
+        systemBoxes.Accept();
+        subSystemBoxes.Accept();
 
         for (auto i : orig->vUpgradeBoxes)
         {
@@ -248,24 +303,23 @@ void CustomUpgrades::Close()
 
 void CustomUpgrades::ConfirmUpgrades()
 {
-    for (auto page : systemUpgradeBoxes)
-    {
-        for (auto i : page)
-        {
-            i->Accept();
-        }
-    }
+    systemBoxes.Accept();
+    subSystemBoxes.Accept();
 }
 
-void CustomUpgrades::AddSystemBox(UpgradeBox* box)
+
+void CustomUpgrades::AddSystemBox(UpgradeBox* box, bool subSystem)
 {
-    if (systemUpgradeBoxes[systemUpgradeBoxes.size() - 1].size() == 8)
+    if (subSystem)
     {
-        systemUpgradeBoxes.push_back(std::vector<UpgradeBox*>());
+        subSystemBoxes.AddUpgradeBox(box);
     }
-
-    systemUpgradeBoxes[systemUpgradeBoxes.size() - 1].push_back(box);
+    else
+    {
+        systemBoxes.AddUpgradeBox(box);
+    }
 }
+
 
 void AddUpgradeBox(Upgrades *upgrades, ShipSystem *sys, int& systemXPos, int& subsystemXPos, int& numSystems, int& numSubsystems)
 {
@@ -290,7 +344,7 @@ void AddUpgradeBox(Upgrades *upgrades, ShipSystem *sys, int& systemXPos, int& su
 
     if (!isSubsystem)
     {
-        custom->AddSystemBox(box);
+        custom->AddSystemBox(box, false);
         if (numSystems % 8 == 0)
         {
             systemXPos = upgrades->position.x - 27;
@@ -298,7 +352,11 @@ void AddUpgradeBox(Upgrades *upgrades, ShipSystem *sys, int& systemXPos, int& su
     }
     else
     {
-        upgrades->vUpgradeBoxes.push_back(box);
+        custom->AddSystemBox(box, true);
+        if (numSystems % 4 == 0)
+        {
+            subsystemXPos = upgrades->position.x - 50;
+        }
     }
 
     upgrades->systemCount++;
@@ -326,7 +384,7 @@ void AddEmptyUpgradeBox(Upgrades *upgrades, bool isSubsystem, int& systemXPos, i
 
     if (!isSubsystem)
     {
-        custom->AddSystemBox(box);
+        custom->AddSystemBox(box, false);
         if (numSystems % 8 == 0)
         {
             systemXPos = upgrades->position.x - 27;
@@ -334,7 +392,11 @@ void AddEmptyUpgradeBox(Upgrades *upgrades, bool isSubsystem, int& systemXPos, i
     }
     else
     {
-        upgrades->vUpgradeBoxes.push_back(box);
+        custom->AddSystemBox(box, true);
+        if (numSystems % 4 == 0)
+        {
+            subsystemXPos = upgrades->position.x - 50;
+        }
     }
 }
 
@@ -499,7 +561,7 @@ HOOK_METHOD(Upgrades, ConfirmUpgrades, () -> void)
 HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnTextInput -> Begin (CustomUpgrades.cpp)\n")
-    
+
     if (G_->GetWorld()->commandGui->upgradeScreen.bOpen)
     {
         CustomUpgrades *upgrade = CustomUpgrades::GetInstance();
