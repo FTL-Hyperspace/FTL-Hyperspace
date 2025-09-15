@@ -367,6 +367,7 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event)
     return ret;
 }
 
+//Fix power bugs for subsystems
 static bool blockPowerUp = false;
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
@@ -396,6 +397,21 @@ HOOK_METHOD(PowerManager, IncreasePower, (std::pair<int, int>* powerLevel, int* 
     return super(powerLevel, iBatteryPower, requestedPower);
 }
 
+//Use proper store image for subsystems
+static bool sellingSubSystem = false;
+HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomSystems.cpp)\n")
+    if (sys >= SYS_CUSTOM_FIRST && CustomUserSystems::IsCustomSubSystem(sys)) sellingSubSystem = true;
+    super(shopper, equip, sys);
+    sellingSubSystem = false;
+}
+HOOK_METHOD(StoreBox, constructor, (const std::string& buttonImage, ShipManager *shopper, Equipment *equip) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StoreBox::constructor -> Begin (CustomSystems.cpp)\n");
+    std::string image = sellingSubSystem ? "storeUI/store_subsystems" : buttonImage;
+    return super(image, shopper, equip);
+}
 HOOK_METHOD_PRIORITY(ShipManager, CreateSystems, 9999, () -> int)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
