@@ -353,7 +353,7 @@ void AddUpgradeBox(Upgrades *upgrades, ShipSystem *sys, int& systemXPos, int& su
     else
     {
         custom->AddSystemBox(box, true);
-        if (numSubSystems % 4 == 0)
+        if (numSubsystems % 4 == 0)
         {
             subsystemXPos = upgrades->position.x - 50;
         }
@@ -393,7 +393,7 @@ void AddEmptyUpgradeBox(Upgrades *upgrades, bool isSubsystem, int& systemXPos, i
     else
     {
         custom->AddSystemBox(box, true);
-        if (numSubSystems % 4 == 0)
+        if (numSubsystems % 4 == 0)
         {
             subsystemXPos = upgrades->position.x - 50;
         }
