@@ -4,7 +4,8 @@ __thiscall void PowerManager::SetHacked(PowerManager *this, bool val);
 static cleanup __cdecl PowerManager* PowerManager::GetPowerManager(int iShipId);
 "8b15????????a1????????5529d089e551c1f80269c0????????85c0":
 static cleanup __cdecl void PowerManager::RestartAll();
-
+"8b41048b51200351185557568b71145389c38b39":
+__thiscall bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower);
 struct PowerManager
 {{
 	int GetAvailablePower()

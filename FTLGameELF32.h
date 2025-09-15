@@ -6603,18 +6603,8 @@ struct PowerManager;
 
 struct PowerManager
 {
-	int GetAvailablePower()
-	{
-		return currentPower.second - currentPower.first;
-	}
-	
-	int GetMaxPower()
-	{
-		int ret = currentPower.second - (iTempPowerLoss + iHacked);
-		return ret > iTempPowerCap ? iTempPowerCap : ret;
-	}
-
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	LIBZHL_API bool IncreasePower(std::pair<int, int> *powerLevel, int *iBatteryPower, int requestedPower);
 	LIBZHL_API static void __stdcall RestartAll();
 	LIBZHL_API void SetHacked(bool val);
 	

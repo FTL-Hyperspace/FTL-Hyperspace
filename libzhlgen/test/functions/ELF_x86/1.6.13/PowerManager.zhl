@@ -1,5 +1,5 @@
-"807c????018b54????":
-noHook void PowerManager::DO_NOT_HOOK();
+"555756538b44????8b7c????8b58048b50208b6814":
+cleanup __cdecl bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 082a0a80
 ".807c????018b54????":
 cleanup __cdecl void PowerManager::SetHacked(PowerManager *this, bool val); // 082a0b90
 ".8b15????????a1????????29d0":
@@ -7,7 +7,7 @@ static cleanup __cdecl void PowerManager::RestartAll(); // 082a0c60
 ".565383ec448b15????????8b1d????????8b742450":
 static cleanup __cdecl PowerManager* PowerManager::GetPowerManager(int iShipId); // 082a0c90
 
-
+struct PowerManager
 struct PowerManager
 {{
 	int GetAvailablePower()

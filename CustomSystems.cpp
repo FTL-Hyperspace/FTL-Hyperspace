@@ -367,12 +367,17 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, 1000, (LocationEvent *event)
     return ret;
 }
 
-
+static bool blockPowerUp = false;
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
+    bool customSubsystem = systemId >= SYS_CUSTOM_FIRST && CustomUserSystems::IsCustomSubSystem(systemId);
+    
+    if (customSubsystem) blockPowerUp = true;
     super(systemId, roomId, shipId, startingPower);
+    if (customSubsystem) powerState.first = healthState.first;
+    blockPowerUp = false;
 
     if (systemId == SYS_TEMPORAL)
     {
@@ -381,7 +386,14 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
         bNeedsManned = false;
         bLevelBoostable = false;
     }
-    else if (systemId >= SYS_CUSTOM_FIRST && CustomUserSystems::IsCustomSubSystem(systemId)) bNeedsPower = false;
+    else if (customSubsystem) bNeedsPower = false;
+}
+
+HOOK_METHOD(PowerManager, IncreasePower, (std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> PowerManager::IncreasePower -> Begin (CustomSystems.cpp)\n")
+    if (blockPowerUp) return false;
+    return super(powerLevel, iBatteryPower, requestedPower);
 }
 
 HOOK_METHOD_PRIORITY(ShipManager, CreateSystems, 9999, () -> int)

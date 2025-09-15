@@ -11587,8 +11587,15 @@ Pointf Pointf::Normalize()
 namespace _func841
 {
     static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("PowerManager::DO_NOT_HOOK", typeid(void (PowerManager::*)()), "807c????018b54????", argdata, 0, 4, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("PowerManager::IncreasePower", typeid(bool (PowerManager::*)(std::pair<int, int> *, int *, int )), "555756538b44????8b7c????8b58048b50208b6814", argdata, 4, 2, &func);
+}
+
+bool PowerManager::IncreasePower(std::pair<int, int> *powerLevel, int *iBatteryPower, int requestedPower)
+{
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(PowerManager *this_arg, std::pair<int, int> *powerLevel_arg, int *iBatteryPower_arg, int requestedPower_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func841::func;
+	return execfunc(this, powerLevel, iBatteryPower, requestedPower);
 }
 
 namespace _func842

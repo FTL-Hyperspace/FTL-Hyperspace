@@ -6627,6 +6627,7 @@ struct PowerManager
 	}
 
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	LIBZHL_API bool IncreasePower(std::pair<int, int> *powerLevel, int *iBatteryPower, int requestedPower);
 	LIBZHL_API static void __stdcall RestartAll();
 	LIBZHL_API void SetHacked(bool val);
 	
