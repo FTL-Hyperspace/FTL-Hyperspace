@@ -1588,7 +1588,7 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	LIBZHL_API virtual CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	virtual int GetSpaceId() LIBZHL_PLACEHOLDER
 	virtual int GetSelfId() LIBZHL_PLACEHOLDER
-	virtual int GetOwnderId() LIBZHL_PLACEHOLDER
+	virtual int GetOwnerId() LIBZHL_PLACEHOLDER
 	virtual void SetWeaponAnimation(WeaponAnimation &animation) LIBZHL_PLACEHOLDER
 	virtual void OnRenderSpecific(int spaceId) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void CollisionCheck(Collideable *other);

@@ -3970,7 +3970,7 @@ struct VTable_Projectile
   CollisionResponse (__thiscall *CollisionMoving)(Projectile *, Pointf start, Pointf finish, Damage damage, bool raytrace);
   int (__thiscall *GetSpaceId)(Projectile *);
   int (__thiscall *GetSelfId)(Projectile *);
-  int (__thiscall *GetOwnderId)(Projectile *);
+  int (__thiscall *GetOwnerId)(Projectile *);
   void (__thiscall *SetWeaponAnimation)(Projectile *, WeaponAnimation *animation);
   void (__thiscall *OnRenderSpecific)(Projectile *, int spaceId);
   void (__thiscall *CollisionCheck)(Projectile *, Collideable *object);
