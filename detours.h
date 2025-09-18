@@ -417,12 +417,10 @@ namespace MologieDetours
 			*reinterpret_cast<uint32_t*>(jmpBack + 1) = originalCodeJmpBackOffset;
 
 			// Make backupOriginalCode_ executable
-			#ifndef __APPLE__
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
 			}
-			#endif
 
 			// Create a new trampoline which points at the detour
 			#ifdef __i386__
@@ -443,20 +441,16 @@ namespace MologieDetours
 			#endif // __arch__
 
 			// Make trampoline_ executable
-			#ifndef __APPLE__
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(trampoline_, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make trampoline executable", trampoline_);
 			}
-			#endif
 
 			// Unprotect original function
-			#ifndef __APPLE__ // We unprotect the entire MachO executeable on launch
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to change page protection of original function", reinterpret_cast<void*>(targetFunction));
 			}
-			#endif
 
 			// TODO: In the future properly compute needed detour size based on if we'll need a E9 relative jump (5 bytes, 32-bit relative) or if we'll need a FF absolute 64-bit jump (12 bytes)
 			// To do so we'll need to pay attention to the upper 32-bits of the source & target address to see if the upper 32-bits is the same, if it's not we need a absolute jump, if it is we can compute a IP relative jump just like 32-bit.
@@ -471,12 +465,10 @@ namespace MologieDetours
 			memcpy(backupDetour_, targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE);
 
 			// Reprotect original function
-			#ifndef __APPLE__ // TODO: Remove this - only ifdef'ed for debugging
 			if(!MOLOGIE_DETOURS_MEMORY_REPROTECT(targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
-			    throw DetourPageProtectionException("Failed to change page protection of original function", reinterpret_cast<void*>(targetFunction));
+				throw DetourPageProtectionException("Failed to change page protection of original function", reinterpret_cast<void*>(targetFunction));
 			}
-			#endif
 
 			// Flush instruction cache on Windows
 #ifdef WIN32

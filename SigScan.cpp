@@ -323,7 +323,8 @@ void SigScan::Init()
 							s_iBaseLen = sect->size;
 							s_pLastAddress = s_pBase;
 
-							// pre-unprotect 
+							// pre-unprotect
+							/*
 							uintptr_t page_start = codeSectStart & ~(vm_page_size - 1);
 							uintptr_t page_end = (codeSectStart + s_iBaseLen + vm_page_size - 1) & ~(vm_page_size - 1);
 							size_t page_len = page_end - page_start;
@@ -334,6 +335,7 @@ void SigScan::Init()
 							{
 								return perror("[ERROR] mprotect failed");
 							}
+							*/
 
 							printf("[INFO] ASLR slide amount: 0x%lx\n", slide);
 							printf("[INFO] __TEXT.__text start address: %lx\n", codeSectStart);
