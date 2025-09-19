@@ -1,16 +1,22 @@
 {
-	"name": "HyperspaceBuild",
-	"build": {
-		"dockerfile": "Dockerfile",
-	},
-	"runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
-
-	// Set *default* container specific settings.json values on container create.
-	"settings": { "cmake.configureOnOpen": false },
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"ms-vscode.cpptools",
-		"ms-vscode.cmake-tools",
-	],
+    "name": "HyperspaceBuild",
+    "build": {
+        "dockerfile": "Dockerfile",
+    },
+    "runArgs": [
+        "--cap-add=SYS_PTRACE",
+        "--security-opt",
+        "seccomp=unconfined"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+            ],
+            "settings": {
+                "cmake.configureOnOpen": false,
+            },
+        }
+    },
 }
