@@ -65,8 +65,8 @@ FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/sources.list \
-    && echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial universe >> /etc/apt/sources.list \
+RUN echo deb http://no.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/sources.list \
+    && echo deb http://no.archive.ubuntu.com/ubuntu/ xenial universe >> /etc/apt/sources.list \
     && dpkg --add-architecture i386 \
     && apt update
 
