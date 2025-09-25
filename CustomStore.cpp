@@ -1118,7 +1118,7 @@ void StoreComplete::OnRender()
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
     char buffer[64];
-    sprintf(buffer, "%d", orig->shopper->ship.hullIntegrity.first);
+    snprintf(buffer, 64, "%d", orig->shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, orig->position.x + 143, orig->position.y + 432, buffer);
     orig->infoBox.OnRender();
 
@@ -1510,7 +1510,7 @@ HOOK_METHOD(Store, OnRender, () -> void)
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
     char buffer[64];
-    sprintf(buffer, "%d", shopper->ship.hullIntegrity.first);
+    snprintf(buffer, 64, "%d", shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, position.x + 143, position.y + 432, buffer);
     infoBox.OnRender();
     if (confirmBuy)

@@ -1316,11 +1316,11 @@ void CustomShipSelect::OnRender(bool renderSelect)
 
         if (hideFirstPage)
         {
-            sprintf(buf, "%d/%d", GetCurrentPage(), GetMaxPages());
+            snprintf(buf, 128, "%d/%d", GetCurrentPage(), GetMaxPages());
         }
         else
         {
-            sprintf(buf, "%d/%d", GetCurrentPage() + 1, GetMaxPages() + 1);
+            snprintf(buf, 128, "%d/%d", GetCurrentPage() + 1, GetMaxPages() + 1);
         }
 
         std::string text(buf);
@@ -3554,7 +3554,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
         char buf[12];
 
-        sprintf(buf, "%u", Global::currentSeed);
+        snprintf(buf, 12, "%u", Global::currentSeed);
 
         freetype::easy_printCenter(62, position.x + 81.f + 160.f, position.y + 325.f + 40.f, std::string(buf));
     }
@@ -3686,7 +3686,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
                 if (SeedInputBox::seedsEnabled)
                 {
-                    sprintf(buf, "%u", Global::currentSeed);
+                    snprintf(buf, 12, "%u", Global::currentSeed);
                 }
                 freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
 
@@ -3792,7 +3792,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     char buf[12] = "-";
     if (SeedInputBox::seedsEnabled)
     {
-        sprintf(buf, "%u", Global::currentSeed);
+        snprintf(buf, 12, "%u", Global::currentSeed);
     }
     freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 40, std::string(buf));
 

@@ -334,7 +334,7 @@ HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roo
 
     char buf[128];
 
-    sprintf(buf, "effects/low_o2_stripes_%dx%d.png", w, h);
+    snprintf(buf, 128, "effects/low_o2_stripes_%dx%d.png", w, h);
 
     o2LowPrimitive = G_->GetResources()->CreateImagePrimitiveString(buf, rect.x, rect.y, 0, COLOR_WHITE, 0.5f, false);
 }
