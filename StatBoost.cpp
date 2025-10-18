@@ -26,6 +26,7 @@ const std::array<std::string, numStats> crewStats =
     "fireRepairMultiplier",
     "suffocationModifier",
     "fireDamageMultiplier",
+    "persDamageMultiplier",
     "oxygenChangeSpeed",
     "damageTakenMultiplier",
     "cloneSpeedMultiplier",
@@ -2007,6 +2008,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::FIRE_DAMAGE_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, fireDamageMultiplier);
+            break;
+        case CrewStat::PERS_DAMAGE_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, persDamageMultiplier);
             break;
         case CrewStat::OXYGEN_CHANGE_SPEED:
             _CALCULATE_BASE_STAT(finalStat, oxygenChangeSpeed);
