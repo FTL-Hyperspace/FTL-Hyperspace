@@ -337,9 +337,9 @@ void SigScan::Init()
 							}
 							*/
 
-							printf("[INFO] ASLR slide amount: 0x%lx\n", slide);
-							printf("[INFO] __TEXT.__text start address: %lx\n", codeSectStart);
-							printf("[INFO] __TEXT.__text length: 0x%lx\n", s_iBaseLen);
+							printf("ASLR slide amount: 0x%lx\n", slide);
+							printf("__TEXT.__text start address: %lx\n", codeSectStart);
+							printf("__TEXT.__text length: 0x%lx\n", s_iBaseLen);
 							return;
 						}
 						sect++;
