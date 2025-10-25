@@ -1,4 +1,6 @@
-"554889e5534883ec184889fb4889f048c1e820488d0d":
+"554889e5534883ec184889fb48c7":
+noHook __amd64 void EquipmentBox::InitPrimitives(); 
+".554889e5534883ec184889fb48":
 cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _position, int _slot);
 ".554889e55350":
 virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
@@ -8,6 +10,8 @@ cleanup __amd64 void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect
 virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
 ".554889e58b":
 virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int mX, int mY);
+".554889e583":
+cleanup __amd64 bool EquipmentBox::OnTouch(EquipmentBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 ".554889e548":
 cleanup __amd64 int EquipmentBox::GetItemValue(EquipmentBox *this);
 ".55":

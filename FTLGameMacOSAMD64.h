@@ -157,6 +157,71 @@ struct Point
 		this->y = y;
 	}
 
+	int Distance(Point p)
+	{
+		int x1 = this->x - p.x;
+		int y1 = this->y - p.y;
+		int distSquared = (x1 * x1 + y1 * y1);
+		return (int)sqrtf(distSquared);
+	}
+
+	int RelativeDistance(Point p)
+	{
+		int x1 = this->x - p.x;
+		int y1 = this->y - p.y;
+		float dist = (x1 * x1 + y1 * y1);
+		return dist;
+	}
+
+	float Slope(Point p)
+	{
+		float run = (float)(p.x - this->x);
+		float rise = (float)(p.y - this->y);
+		return run / rise;
+	}
+
+	// Rotate around origin (0, 0) - Could get rid of this actually by setting p = (0,0) in the other function
+	inline Point RotatePoint(float angle)
+	{
+		Point ret = RotatePoint(angle, Point(0, 0));
+		return ret;
+	}
+
+	// Rotate around arbitrary pivot point p
+	inline Point RotatePoint(float angle, Point p)
+	{
+		const float rads = (angle * 3.1415927f) / 180.0f;	// Degrees to radians
+		const float s = sinf(rads);
+		const float c = cosf(rads);
+
+		// Translate point to origin relative to pivot
+		const float translatedX = (float)(this->x - p.x);
+		const float translatedY = (float)(this->y - p.y);
+
+		// Rotate
+		Point ret;
+		ret.x = (int)((translatedX * c) - (translatedY * s) + p.x);
+		ret.y = (int)((translatedX * s) + (translatedY * c) + p.y);
+		return ret;
+	}
+
+	int DistancePath(std::vector<Point> path)
+	{
+		if (path.size() < 2)
+		{
+			return 0;
+		}
+		
+		int totalDistance = 0;
+		for (uint i = 0; i < path.size() - 1; i++)
+		{
+			int distanceBetween = path[i].Distance(path[i + 1]);
+			totalDistance += distanceBetween;
+		}
+		
+		return totalDistance;
+	}
+
 	Point operator+(const Point& other)
 	{
 		return Point(x + other.x, y + other.y);
@@ -180,23 +245,22 @@ struct Point
 	//Required for std::map with Point keys to function properly
 	bool operator<(const Point& other) const
 	{
-		if (x == other.x) return y < other.y;
-		return x < other.x;
+		if (this->x == other.x) return this->y < other.y;
+		return this->x < other.x;
 	}
 
 	friend bool operator==(const Point& a, const Point& b)
 	{
-		return a.x==b.x && a.y==b.y;
+		if (a.x != b.x) return false;
+		return a.y==b.y;
 	}
 
 	friend bool operator!=(const Point& a, const Point& b)
 	{
-		return a.x!=b.x || a.y!=b.y;
+		if (a.x == b.x) return false;
+		return a.y!=b.y;
 	}
 
-	LIBZHL_API int Distance(Point other);
-	LIBZHL_API int RelativeDistance(Point other);
-	
 	int x;
 	int y;
 };
@@ -233,7 +297,7 @@ struct TextString
 	{
 
 	}
-	
+
 	std::string GetText();
 
 	std::string data;
@@ -564,7 +628,7 @@ typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsText
 
 static void* GetBaseAddress()
 {
-  return SigScan::GetBaseAddress();
+	return SigScan::GetBaseAddress();
 }
 
 
@@ -773,7 +837,78 @@ struct Pointf
 		this->x = (float)point.y;
 		this->y = (float)point.y;
 	}
+
+	inline float Magnitude() const
+	{
+		return sqrtf(x * x + y * y);
+	}
 	
+	Pointf Normalize() const
+	{
+		Pointf ret;
+		float mag = Magnitude();
+		
+		if (mag == 0.0f)
+		{
+			ret.x = 0.0f;
+			ret.y = 0.0f;
+		}
+		else
+		{
+			ret.x = x / mag;
+			ret.y = y / mag;
+		}
+		
+		return ret;
+	}
+
+	float Distance(Pointf p)
+	{
+		float x1 = this->x - p.x;
+		float y1 = this->y - p.y;
+		float distSquared = (x1 * x1 + y1 * y1);
+		return sqrtf(distSquared);
+	}
+
+	float RelativeDistance(Pointf p)
+	{
+		float x1 = this->x - p.x;
+		float y1 = this->y - p.y;
+		return (x1 * x1 + y1 * y1);
+	}
+
+	float Slope(Pointf p)
+	{
+		float run = p.x - this->x;
+		float rise = p.y - this->y;
+		return run / rise;
+	}
+
+	// Rotate around origin (0, 0) - Could get rid of this actually by setting p = (0,0) in the other function
+	inline Pointf RotatePoint(float angle)
+	{
+		Pointf ret = RotatePoint(angle, Pointf(0.0f, 0.0f));
+		return ret;
+	}
+
+	// Rotate around arbitrary pivot point p
+	inline Pointf RotatePoint(float angle, Pointf p)
+	{
+		const float rads = (angle * 3.1415927f) / 180.0f;	// Degrees to radians
+		const float s = sinf(rads);
+		const float c = cosf(rads);
+
+		// Translate point to origin relative to pivot
+		const float translatedX = x - p.x;
+		const float translatedY = y - p.y;
+
+		// Rotate
+		Pointf ret;
+		ret.x = (translatedX * c) - (translatedY * s) + p.x;
+		ret.y = (translatedX * s) + (translatedY * c) + p.y;
+		return ret;
+	}
+
 	Pointf operator+(const Pointf& other)
 	{
 		return Pointf(x + other.x, y + other.y);
@@ -796,16 +931,15 @@ struct Pointf
 
 	friend bool operator==(const Pointf &a, const Pointf &b)
 	{
-		return a.x==b.x && a.y==b.y;
+		if (a.x != b.x) return false;
+		return a.y==b.y;
 	}
 	friend bool operator!=(const Pointf &a, const Pointf &b)
 	{
-		return a.x!=b.x || a.y!=b.y;
+		if (a.x == b.x) return false;
+		return a.y!=b.y;
 	}
 
-	LIBZHL_API Pointf Normalize();
-	LIBZHL_API float RelativeDistance(Pointf other);
-	
 	float x;
 	float y;
 };
@@ -1194,7 +1328,7 @@ struct LIBZHL_INTERFACE SystemBox
 	LIBZHL_API virtual void MouseMove(int mX, int mY);
 	LIBZHL_API virtual bool MouseClick(bool shift);
 	LIBZHL_API virtual void MouseRightClick(bool force);
-	virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	virtual void CancelTouch() LIBZHL_PLACEHOLDER
 	virtual void CloseTapBox() LIBZHL_PLACEHOLDER
 	virtual bool IsTouchTooltipOpen() LIBZHL_PLACEHOLDER
@@ -1358,9 +1492,9 @@ struct LIBZHL_INTERFACE ShipSystem
 {
 	ShipSystem()
 	{
-		
+
 	}
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
@@ -1828,7 +1962,7 @@ struct LIBZHL_INTERFACE EquipmentBox
 	virtual void RenderIcon() LIBZHL_PLACEHOLDER
 	virtual void SetShipManager(ShipManager *ship) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseMove(int mX, int mY);
-	virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	virtual void UpdateBoxImage(bool dragging) LIBZHL_PLACEHOLDER
 	virtual void Restart() LIBZHL_PLACEHOLDER
 	virtual void AddItem(EquipmentBoxItem newItem) LIBZHL_PLACEHOLDER
@@ -1922,6 +2056,18 @@ struct GL_Line
 	Pointf end;
 };
 
+struct GL_Primitive
+{
+	int type;
+	float lineWidth;
+	bool hasTexture;
+	GL_Texture *texture;
+	bool textureAntialias;
+	bool hasColor;
+	GL_Color color;
+	int id;
+};
+
 struct GL_TexVertex
 {
 	float x;
@@ -1932,6 +2078,88 @@ struct GL_TexVertex
 
 struct CSurface
 {
+	/*
+	// Could actually use the reimplemented function here but decided not to for simplicity
+	inline static GL_Primitive* CSurface::CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float u0, float v0, float u1, float v1, GL_Color color, float rotate)
+	{
+		std::vector<GL_TexVertex> vertices;
+		vertices.resize(4);
+
+		// Set up the 4 vertices with custom texture coordinates
+		vertices[0] = {x, y, u0, v0};					// Bottom-left
+		vertices[1] = {x + size_x, y, u1, v0};		   // Bottom-right  
+		vertices[2] = {x + size_x, y + size_y, u1, v1};  // Top-right
+		vertices[3] = {x, y + size_y, u0, v1};		   // Top-left
+
+		if (rotate != 0.f)
+		{
+			float sinRotate = sinf(rotate);
+			float cosRotate = cosf(rotate);
+			float halfWidth = size_x * 0.5f;
+			float halfHeight = size_y * 0.5f;
+			float centerX = x + halfWidth;
+			float centerY = y + halfHeight;
+
+			// Pre-calculate rotation components
+			float rotatedHalfWidthX = cosRotate * -halfWidth;
+			float rotatedHalfWidthY = -halfWidth * sinRotate;
+			float rotatedHalfHeightX = -halfHeight * cosRotate;
+			float rotatedHalfHeightY = sinRotate * halfHeight;
+
+			// Rotate each vertex around the center
+			vertices[0].x = rotatedHalfWidthX + rotatedHalfHeightY + centerX;
+			vertices[0].y = rotatedHalfWidthY + rotatedHalfHeightX + centerY;
+
+			vertices[1].x = rotatedHalfHeightY + cosRotate * halfWidth + centerX;
+			vertices[1].y = rotatedHalfHeightX + sinRotate * halfWidth + centerY;
+
+			vertices[2].x = (cosRotate * halfWidth - rotatedHalfHeightY) + centerX;
+			vertices[2].y = sinRotate * halfWidth + cosRotate * halfHeight + centerY;
+
+			vertices[3].x = rotatedHalfWidthX - rotatedHalfHeightY + centerX;
+			vertices[3].y = rotatedHalfWidthY + cosRotate * halfHeight + centerY;
+		}
+
+		GL_Primitive* primitive = LowCreateImagePrimitive(tex, &vertices, color);
+		return primitive;
+	}
+	*/
+
+	static GL_Primitive* GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool mirrored)
+	{
+		if (1.f < color.r || 1.f < color.g || 1.f < color.b)
+		{
+			color.r = color.r / 255.f;
+			color.g = color.g / 255.f;
+			color.b = color.b / 255.f;
+		}
+
+		// Determine texture coordinates based on mirroring
+		float u0, u1;
+		if (mirrored)
+		{
+			u0 = 1.f;  // Mirrored: start from right side of texture
+			u1 = 0.f;  // Mirrored: end at left side of texture
+		}
+		else
+		{
+			u0 = 0.f;  // Normal: start from left side of texture
+			u1 = 1.f;  // Normal: end at right side of texture
+		}
+
+		// De-Inlined CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float u0, float v0, float u1, float v1, GL_Color color, float rotate)
+		return _CreateImagePrimitive(tex, x, y, size_x, size_y, u0, 0.f, u1, 1.f, color, rotate);
+	}
+
+	static GL_Primitive* GL_CreateImagePrimitive(GL_Texture* tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color)
+	{
+		// De-Inlined CreatePixelsImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool mirrored)
+		GL_Primitive* primitive = GL_CreatePixelImagePrimitive(tex, x, y, size_x, size_y, rotate, color, false);
+		primitive->textureAntialias = true;
+		return primitive;
+	}
+
+
 	/*
 	static void GL_ApplyShader(int pipeline)
 	{
@@ -1966,12 +2194,10 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_ClearAll();
 	LIBZHL_API static void __stdcall GL_ClearColor();
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> &vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
-	LIBZHL_API static GL_Primitive *__stdcall GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool mirrored);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
 	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
@@ -2006,6 +2232,7 @@ struct CSurface
 	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
 	LIBZHL_API static GL_Color __stdcall GetColorTint();
 	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
+	LIBZHL_API static GL_Primitive *__stdcall _CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float u0, float v0, float u1, float v1, GL_Color color, float rotate);
 	
 };
 
@@ -2098,7 +2325,7 @@ struct LIBZHL_INTERFACE StoreBox
 	LIBZHL_API virtual void OnRender();
 	virtual void MouseMove(int mX, int mY) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseClick(int mX, int mY);
-	virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API virtual void Activate();
 	LIBZHL_API virtual void Purchase();
 	virtual int SetInfoBox(InfoBox &box, int forceSystemInfoWidth) LIBZHL_PLACEHOLDER
@@ -2377,7 +2604,7 @@ struct LIBZHL_INTERFACE CrewMember
 	CrewMember(CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation* animation)
 	{
 		this->constructor(blueprint, shipId, intruder, animation);
-	}	
+	}
 	
 	ShipObject* GetShipObject()
 	{
@@ -2393,7 +2620,7 @@ struct LIBZHL_INTERFACE CrewMember
 	bool _HS_CanRepair();
 	bool _HS_CanSabotage();
 	bool _HS_CanMan();
-    bool _HS_CanTeleport();
+	bool _HS_CanTeleport();
 	bool _HS_CanBurn();
 	int _HS_GetMaxHealth();
 	float _HS_GetMoveSpeedMultiplier();
@@ -2409,7 +2636,6 @@ struct LIBZHL_INTERFACE CrewMember
 	bool _HS_PowerReady();
 	void _HS_ResetPower();
 	void _HS_ActivatePower();
-
 
 	virtual ~CrewMember() {}
 	virtual Point GetPosition() LIBZHL_PLACEHOLDER
@@ -2711,6 +2937,7 @@ struct CrewDrone : CrewMember
 
 	CrewDrone()
 	{
+
 	}
 
 	CrewDrone(const std::string& type, const std::string& name, int iShipId, const DroneBlueprint* blueprint, CrewAnimation* animation)
@@ -2738,7 +2965,6 @@ struct CrewDrone : CrewMember
 	float _HS_GetSuffocationModifier();
 	bool _HS_IsAnaerobic();
 	int _HS_BlockRoom();
-
 
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual bool ProvidesVision();
@@ -2824,12 +3050,8 @@ struct ItemBlueprint : Blueprint
 {
 };
 
-struct ShipBlueprint;
-
 struct ShipBlueprint : Blueprint
 {
-
-
 	struct SystemTemplate
 	{
 		int systemId;
@@ -2842,8 +3064,6 @@ struct ShipBlueprint : Blueprint
 		int direction;
 		std::vector<std::string> weapon;
 	};
-	
-	LIBZHL_API void destructor();
 	
 	Description desc;
 	std::string blueprintName;
@@ -3227,6 +3447,7 @@ struct ShipAI
 	int iTimesTeleported;
 };
 
+struct ShipBlueprint;
 struct SpaceManager;
 
 struct LIBZHL_INTERFACE CompleteShip
@@ -3335,6 +3556,7 @@ struct FocusWindow
 	LIBZHL_API void Close();
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open();
 	LIBZHL_API void SetPosition(Point position);
 	LIBZHL_API void constructor();
@@ -3743,6 +3965,7 @@ struct ShipSelect
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open(int currentId, int currentType);
 	LIBZHL_API void constructor();
 	
@@ -3777,10 +4000,10 @@ struct TextInput
 	  ALLOW_LANGUAGE = 0x1,
 	  ALLOW_ANY = 0x2,
 	};
-	
+
 	TextInput()
 	{
-		
+
 	}
 
 	TextInput(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt)
@@ -3832,6 +4055,7 @@ struct ShipBuilder
 	LIBZHL_API void OnKeyDown(SDLKey key);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open();
 	LIBZHL_API void SetupShipAchievements();
 	LIBZHL_API void SwapType(int variant);
@@ -3913,11 +4137,6 @@ struct ShipBuilder
 
 struct MainMenu
 {
-    MainMenu()
-    {
-        this->constructor();
-    }
-
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnLoop();
@@ -3984,6 +4203,10 @@ struct CApp : CEvent
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
 	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTouchCancel(int id, int x, int y, int initialX, int initialY);
+	LIBZHL_API void OnTouchDown(int id, int x, int y);
+	LIBZHL_API void OnTouchMove(int id, int x, int y, int initialX, int initialY);
+	LIBZHL_API void OnTouchUp(int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API int SetupWindow();
 	LIBZHL_API Point TranslateMouse(int mX, int mY);
 	LIBZHL_API void UpdateFullScreen();
@@ -4168,7 +4391,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API bool LButton(int x, int y, bool holdingShift);
 	LIBZHL_API void LinkShip(ShipManager *ship);
-	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender(bool front);
@@ -4397,6 +4620,7 @@ struct CrewManifest : FocusWindow
 	LIBZHL_API void OnRender();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
 	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open();
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor();
@@ -4426,6 +4650,7 @@ struct Equipment : FocusWindow
 	LIBZHL_API void OnInit(ShipManager *ship);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open();
 	LIBZHL_API void SetPosition(Point position);
 	LIBZHL_API void constructor();
@@ -4490,8 +4715,10 @@ struct TextButton0 : GenericButton
 struct FTLButton : TextButton0
 {
 	LIBZHL_API std::string GetPilotTooltip();
+	LIBZHL_API bool MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY, bool silent);
 	LIBZHL_API void OnRender();
+	LIBZHL_API bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	
 	bool autoShrinkText;
 	bool ready;
@@ -4781,6 +5008,7 @@ struct ReactorButton : Button
 	LIBZHL_API void OnClick();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void OnRightClick();
+	LIBZHL_API bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	
 	int tempUpgrade;
 	ShipManager *ship;
@@ -4801,6 +5029,7 @@ struct Upgrades : FocusWindow
 	LIBZHL_API void OnInit(ShipManager *ship);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open();
 	
 	GL_Texture *box;
@@ -5024,6 +5253,7 @@ struct CrewCustomizeBox : CrewEquipBox
 
 	LIBZHL_API void CheckContents();
 	LIBZHL_API void MouseClick();
+	LIBZHL_API bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void SetCustomizeMode(Point location);
 	LIBZHL_API void constructor(Point _location, ShipManager *_shipManager, int _slot);
 	
@@ -5272,11 +5502,33 @@ struct Room : Selectable
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
 
-	Globals::Rect GetRect()
+	inline Globals::Rect GetRect()
 	{
 		return this->rect;
 	}
 
+	bool ContainsPoint(int x, int y, bool bIncludeWalls)
+	{
+		if (bIncludeWalls)
+		{
+			if ((x >= rect.x) && (x <= rect.x + rect.w) && (y >= rect.y))
+			{
+				return y <= (rect.y + rect.h);
+			}
+		}
+		else
+		{
+			if ((x > rect.x) && (x < rect.x + rect.w) && (y > rect.y))
+			{
+				return y < (rect.y + rect.h);
+			}
+		}
+
+		return false;
+	}
+
+	LIBZHL_API bool Empty(bool intruder);
+	LIBZHL_API int EmptySlot(int slot, bool intruder);
 	LIBZHL_API void FillSlot(int slot, bool intruder);
 	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
@@ -5284,6 +5536,8 @@ struct Room : Selectable
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
 	LIBZHL_API void OnRenderWalls(float alpha);
+	LIBZHL_API void SetHacked(float val);
+	LIBZHL_API void SetPrimarySlot(int slot);
 	LIBZHL_API void constructor(int _iShipId, int _x, int _y, int _w, int _h, int _roomId);
 	LIBZHL_API void destructor();
 	
@@ -5329,111 +5583,159 @@ struct ShipGraph;
 
 struct ShipGraph
 {
-    // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	static Point TranslateFromGrid(int xx, int yy)
+	// Using a bunch of reimplemented functions to avoid fetching them via signature
+
+	inline static Point TranslateFromGrid(int x, int y)
 	{
-		return Point(xx * 35, yy * 35);
+		Point ret = Point(x * 35, y * 35);
+		return ret;
 	}
-	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	static Point TranslateToGrid(int xx, int yy)
+
+	inline static Point TranslateFromGrid(Point p)
 	{
-		return Point(xx / 35, yy / 35);
+		return TranslateFromGrid(p.x, p.y);
 	}
-	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetIntoRoom(int roomId, Point position)
+
+	inline static Point TranslateToGrid(int x, int y)
 	{
-		Point ret;
-		if (roomId >= 0 && roomId < this->rooms.size())
+		Point ret = Point(x / 35, y / 35);
+		return ret;
+	}
+
+	inline static Point TranslateToGrid(Point p)
+	{
+		return TranslateToGrid(p.x, p.y);
+	}
+
+	inline int ConnectedGridSquaresPoint(Point p1, Point p2)
+	{
+		return this->ConnectedGridSquares(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	inline Door* ConnectingDoor(Point p1, Point p2)
+	{
+		return this->ConnectingDoor(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	bool ContainsPoint(int x, int y)
+	{
+		if ((x >= this->shipBox.x) && (x < (this->shipBox.x + this->shipBox.w)) && (y >= this->shipBox.y))
 		{
-			auto room = this->rooms[roomId];
-			ret = room->GetIntoRoom(position);
+			return y < (this->shipBox.y + this->shipBox.h);
+		}
+		return false;
+	}
+
+	int DoorCount(int roomId)
+	{
+		if (-1 < roomId && roomId < this->doorCounts.size())
+		{
+			return this->doorCounts[roomId];
+		}
+		return 0;
+	}
+
+	int RoomCount()
+	{
+		return this->rooms.size();
+	}
+
+	int GetNumSlots(int roomId)
+	{
+		return this->rooms[roomId]->slots.size();
+		// return this->rooms[roomId]->GetNumSlots(roomId); // TODO: Call was inlined
+	}
+
+	int GetSelectedRoom(int x, int y, bool bIncludeWalls)
+	{
+		for (Room* room : this->rooms)
+		{
+			if (room->ContainsPoint(x, y, bIncludeWalls))
+			{
+				return room->iRoomId;
+			}
+		}
+		return -1;
+	}
+	
+	Point GetIntoRoom(int roomId, Point p)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->GetIntoRoom(p);
 		}
 		else
 		{
-			ret = Point(-1, -1);
+			return Point(-1, -1);
 		}
-		
-		return ret;
 	}
-	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
+
+	Globals::Rect GetRoomShape(int roomId) 
+	{	
+		Globals::Rect dummy;
+
+		for (Room* room: this->rooms)
+		{
+			if (room->iRoomId == roomId)
+			{
+				dummy = room->GetRect();
+				return dummy;
+			}
+		}
+
+		dummy.x = -1;
+		dummy.y = -1;
+		dummy.w = 0;
+		dummy.h = 0;
+		return dummy;
+	}
+
 	Pointf GetRoomCenter(int roomId) 
 	{
-		auto rooms = this->rooms;
-		float xx = -1;
-		float yy = -1;
-		
-		for (auto const& x: rooms)
-		{
-			if (roomId == x->iRoomId)
-			{
-				auto rect = x->GetRect();
-				
-				xx = rect.x + rect.w / 2;
-				yy = rect.y + rect.h / 2;
-				break;
-			}
-		}
-		
-		return Pointf(xx, yy);
+		Globals::Rect shape = this->GetRoomShape(roomId);
+
+		float x = shape.x + shape.w / 2.f;
+		float y = shape.y + shape.h / 2.f;
+
+		return Pointf(x, y);
 	}
 
-	// Redeclared because the actual ones also just calls the other function
-	int ConnectedGridSquaresPoint(Point p1, Point p2)
+	float GetRoomOxygen(int roomId)
 	{
-		return ConnectedGridSquares(p1.x, p1.y, p2.x, p2.y);
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->lastO2;
+		}
+		return 0.f;
 	}
 
-	// Redeclared because the actual one also just calls the other function
-	Door* ConnectingDoor(Point p1, Point p2)
+	bool GetRoomBlackedOut(int roomId)
 	{
-		return ConnectingDoor(p1.x, p1.y, p2.x, p2.y);
-	}
-	
-	// Use Redefinition from Linux to avoid hooking
-	Globals::Rect GetRoomShape(int roomId) 
-	{
-		auto rooms = this->rooms;
-		
-		for (auto const& x: rooms)
+		if (-1 < roomId && roomId < this->rooms.size())
 		{
-			if (roomId == x->iRoomId)
-			{
-				return x->GetRect();
-			}
+			return this->rooms[roomId]->bBlackedOut;
 		}
-		
-		return {-1, -1, 0, 0};
+		return false;
 	}
-	
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
 	LIBZHL_API Door *ConnectingDoor(int x1, int y1, int x2, int y2);
 	LIBZHL_API std::vector<int> ConnectivityDFS(int roomId);
-	LIBZHL_API bool ContainsPoint(int x, int y);
-	LIBZHL_API float ConvertToLocalAngle(float ang);
+	LIBZHL_API float ConvertToLocalAngle(float world);
 	LIBZHL_API Pointf ConvertToLocalPosition(Pointf world, bool past);
-	LIBZHL_API float ConvertToWorldAngle(float ang);
+	LIBZHL_API float ConvertToWorldAngle(float local);
 	LIBZHL_API Pointf ConvertToWorldPosition(Pointf local);
 	LIBZHL_API Path Dijkstra(Point start, Point goal, int shipId);
-	LIBZHL_API int DoorCount(int roomId);
 	LIBZHL_API Path FindPath(Point p1, Point p2, int shipId);
 	LIBZHL_API Slot GetClosestSlot(Point position, int shipId, bool intruder);
 	LIBZHL_API std::vector<Door*> GetDoors(int roomId);
-	LIBZHL_API int GetNumSlots(int room);
-	LIBZHL_API bool GetRoomBlackedOut(int room);
-	LIBZHL_API float GetRoomOxygen(int room);
-	LIBZHL_API int GetSelectedRoom(int x, int y, bool bIncludeWalls);
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API Point GetSlotRenderPosition(int slotId, int roomId, bool intruder);
 	LIBZHL_API Point GetSlotWorldPosition(int slotId, int roomId);
 	LIBZHL_API bool IsRoomConnected(int room1, int room2);
 	LIBZHL_API int PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances);
 	LIBZHL_API static void __stdcall Restart();
-	LIBZHL_API int RoomCount();
 	
 	std::vector<Room*> rooms;
 	std::vector<Door*> doors;
@@ -5471,7 +5773,7 @@ public:
 			position1 = Point(this->x, this->y - 18);
 		}
 
-		auto shipInfo = ShipGraph::GetShipInfo(this->iShipId);
+		ShipGraph* shipInfo = ShipGraph::GetShipInfo(this->iShipId);
 
 		if (room == shipInfo->GetSelectedRoom(position2.x, position2.y, false))
 		{
@@ -5516,7 +5818,7 @@ public:
 	LIBZHL_API void SetLockdown(bool val);
 	LIBZHL_API void StartAnimIfNecessary();
 	LIBZHL_API void UpdateAnimations();
-	LIBZHL_API void constructor();
+	LIBZHL_API void __stdcall constructor();
 	LIBZHL_API void destructor();
 	
 	uint8_t garbage[4];
@@ -6120,9 +6422,11 @@ struct EventsParser;
 
 struct EventsParser
 {
-	static bool ParseBoolean(const std::string& str)
+	inline static bool ParseBoolean(const std::string& str)
 	{
-		return str == "true" || str == "TRUE" || str == "True";
+		// Bit manipulation trick: flip the 0x20 bit to check both cases
+		// This works because ASCII upper/lower case differs only by bit 0x20
+		return ((str[0] | 0x20) == 't' && (str[1] | 0x20) == 'r' && (str[2] | 0x20) == 'u' && (str[3] | 0x20) == 'e');
 	}
 
 	LIBZHL_API void AddAllEvents();
@@ -6180,6 +6484,7 @@ struct ExplosionAnimation : AnimationTracker
 
 struct FileHelper
 {
+	// TODO: Reimplement using using fstat()
     static int fileLength(int fd)
     {
         FILE* fp = fdopen(dup(fd), "r"); // Duplicate file descriptor&  then open the stream so that we can fclose correctly later on
@@ -6279,18 +6584,6 @@ struct Fire : Spreadable
 
 struct GL_FrameBuffer
 {
-};
-
-struct GL_Primitive
-{
-	int type;
-	float lineWidth;
-	bool hasTexture;
-	GL_Texture *texture;
-	bool textureAntialias;
-	bool hasColor;
-	GL_Color color;
-	int id;
 };
 
 struct GL_Texture
@@ -6614,6 +6907,11 @@ struct MouseControl;
 
 struct MouseControl
 {
+	void SetTooltipTitle(const std::string& tooltip)
+	{
+		if (this->tooltipTitle.empty()) this->tooltipTitle = tooltip;
+	}
+
 	LIBZHL_API void InstantTooltip();
 	LIBZHL_API void LoadTooltip(const std::string &tooltipName);
 	LIBZHL_API Point MeasureTooltip(int width);
@@ -6625,7 +6923,6 @@ struct MouseControl
 	LIBZHL_API void ResetArmed();
 	LIBZHL_API void SetDoor(int state);
 	LIBZHL_API void SetTooltip(const std::string &tooltip);
-	LIBZHL_API void SetTooltipTitle(const std::string &tooltip);
 	LIBZHL_API void SetValid(bool valid, bool newValid);
 	
 	Point position;
@@ -6722,7 +7019,9 @@ struct PDSFire : LaserBlast
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API void LoadProjectile(int fd);
 	LIBZHL_API void OnUpdate();
+	LIBZHL_API void SaveProjectile(int fd);
 	LIBZHL_API void constructor(Point _position, int _destinationSpace, Pointf _destination);
 	
 	Pointf startPoint;
@@ -6758,13 +7057,14 @@ struct PowerManager
 	{
 		return currentPower.second - currentPower.first;
 	}
-	
+
 	int GetMaxPower()
 	{
 		int ret = currentPower.second - (iTempPowerLoss + iHacked);
 		return ret > iTempPowerCap ? iTempPowerCap : ret;
 	}
 
+	LIBZHL_API void ClearStatus();
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
 	LIBZHL_API static void __stdcall RestartAll();
 	LIBZHL_API void SetHacked(bool val);
@@ -7052,10 +7352,11 @@ struct ScoreKeeper
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadGame(int fd);
 	LIBZHL_API void LoadVersionFour(int file, int version);
-	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnRender(bool lastPlaythrough);
+	LIBZHL_API bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void Open(bool fromGameOver);
 	LIBZHL_API void RenderTopScores(const std::vector<TopScore> &topScoreList, Point position, int newHighScore);
 	LIBZHL_API void Save(bool newHighScore);
@@ -7428,7 +7729,7 @@ struct ShipButton : Button
 		this->constructor(shipId, type);
 	}
 
-	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit(const std::string &imgName, Point position);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void constructor(int _shipId, int _type);
@@ -7491,25 +7792,25 @@ struct ShipManager : ShipObject
 	{
 		this->constructor(shipId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
-		auto rng = rand();
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		auto rooms = graph->rooms.size();
+		int rng = rand();
+		ShipGraph* graph = ShipGraph::GetShipInfo(this->iShipId);
+		int rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	inline Pointf GetRoomCenter(int roomId)
 	{
 		return this->ship.GetRoomCenter(roomId);
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager* powerMan = PowerManager::GetPowerManager(this->iShipId);
@@ -7588,6 +7889,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetSystemHealth(int systemId);
 	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
 	LIBZHL_API int GetSystemPower(int systemId);
+	LIBZHL_API int GetSystemPowerLevel(int systemId);
 	LIBZHL_API int GetSystemPowerMax(int systemId);
 	LIBZHL_API int GetSystemRoom(int sysId);
 	LIBZHL_API std::string GetTooltip(int x, int y);
@@ -7855,7 +8157,7 @@ struct WindowFrame
 	{
 		this->constructor(x, y, w, h);
 	}
-	
+
 	~WindowFrame()
 	{
 		this->destructor();
@@ -8095,8 +8397,8 @@ struct Store : FocusWindow
 	LIBZHL_API void InitHeading(int index, Point position);
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadStore(int file, int worldLevel);
-	LIBZHL_API void MouseClick(int x, int y);
-	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit(ShipManager *shopper, Equipment *equip, int worldLevel);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
@@ -8222,12 +8524,13 @@ struct TeleportSystem : ShipSystem
 	LIBZHL_API bool Charged();
 	LIBZHL_API void ClearCrewLocations();
 	LIBZHL_API void ForceReady();
+	LIBZHL_API int GetArmed();
 	LIBZHL_API float GetChargedPercent();
 	LIBZHL_API void InitiateTeleport();
 	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderFloor();
-	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void SetArmed(int val);
 	LIBZHL_API void SetHackingLevel(int hackingLevel);
 	LIBZHL_API void UpdateCrewLocation(int slotId);
 	LIBZHL_API void constructor(int _systemId, int _roomId, int _shipId, int _startingPower);
@@ -8315,18 +8618,19 @@ struct UpgradeBox
 {
 	UpgradeBox()
 	{
+
 	}
 	
 	UpgradeBox(Point position, bool isSubsystem)
 	{
 		this->constructorEmpty(position, isSubsystem);
 	}
-	
+
 	UpgradeBox(ShipManager* ship, ShipSystem* systen, Point position, bool isSubsystem)
 	{
 		this->constructorSystem(ship, systen, position, isSubsystem);
 	}
-	
+
 	~UpgradeBox()
 	{
 		this->destructor();
@@ -8415,7 +8719,7 @@ struct WeaponStoreBox : StoreBox
 	{
 		this->constructor(ship, equipScreen, weaponBp);
 	}
-	
+
 	WeaponStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
@@ -8475,7 +8779,7 @@ struct BoardingEvent;
 struct WorldManager
 {
 	bool SwitchShip(std::string shipName);
-    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
+	bool SwitchShipTransfer(std::string shipName, int overrideSystem);
 
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
@@ -8550,10 +8854,10 @@ extern LIBZHL_API CrewMemberFactory *Global_CrewMemberFactory_Factory;
 extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
-extern LIBZHL_API int *Globals_GetNextSpaceId_id;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API bool *Globals_RNG;
 extern LIBZHL_API FILE *ftl_log_logfile;
+extern LIBZHL_API int *Globals_GetNextSpaceId_id;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOn;
 extern LIBZHL_API std::vector<std::string> *Global_OptionsScreen_languageList;
@@ -8567,8 +8871,8 @@ extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowWhite;
-extern LIBZHL_API GL_Primitive **ShipSystem__glowBlue;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowRed;
+extern LIBZHL_API GL_Primitive **ShipSystem__glowBlue;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningOutline;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningWhite;
 extern LIBZHL_API GL_Primitive **ShipSystem__manningGreen;

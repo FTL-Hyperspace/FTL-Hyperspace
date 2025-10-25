@@ -1,5 +1,5 @@
 // Continue from IonDroneAnimation::UpdateShooting (hyper efficiency™)
-".554889e5415741564154534883ec??4989d64989f74889fb488d35":
+".554889e5415741564154534883ec????89??4989f7??89??48":
 cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager* _ship, const std::string& _resourceName);
 
 

@@ -5,7 +5,7 @@ cleanup __amd64 void CommandGui::constructor(CommandGui *this);
 cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText>* choices, ResourceEvent& resources, bool testingEvents);
 ".554889e54157415641554154534883ec184189f74889fbbf":
 cleanup __amd64 Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
-".554889e54157415641554154534881ec??010000??89??48897d":
+".554889e54157415641554154534881ec??010000":
 cleanup __amd64 void CommandGui::RunCommand(CommandGui *this, std::string& command);
 ".554889e5415741564154534881eca000000049":
 cleanup __amd64 void CommandGui::Victory(CommandGui *this);
@@ -33,7 +33,7 @@ cleanup __amd64 void CommandGui::RenderStatic(CommandGui *this);
 cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui *this, Point& shipCenter, float jumpScale);
 ".554889e5415741564154534883ec104189d74989f4":
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
-"!.554889e54157415641554154534883ec284189cd":
+"!.554889e5415741564155415453":
 cleanup __amd64 void CommandGui::LButtonDown(CommandGui *this, int mX, int mY, bool shiftHeld);
-"!.554889e54157415653504189d64189f74889fb80bb":
+"!.554889e54157415653":
 cleanup __amd64 void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);

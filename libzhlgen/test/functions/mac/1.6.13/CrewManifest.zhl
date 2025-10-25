@@ -1,6 +1,6 @@
 "!554889e5415741564154534881ecb000000048":
 cleanup __amd64 void CrewManifest::constructor(CrewManifest *this);
-".554889e54157415641554154534883ec484989f4":
+".554889e54157415641554154534883ec??49":
 cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager* ship);
 "!.554889e54157415653504989fe498b8608":
 cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
@@ -8,17 +8,19 @@ cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
 cleanup __amd64 void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
 ".554889e541574156534883ec584989fe0f":
 cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
-".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e87789":
+".554889e541574156415453":
 cleanup __amd64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);
-".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e8f788":
+".554889e541574156415453":
 cleanup __amd64 void CrewManifest::OnKeyUp(CrewManifest *this, SDLKey key);
-".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e87788":
+".554889e541574156415453":
 cleanup __amd64 void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
-".554889e5415741564154534189f64989ff498b870801000049398710010000744ebb010000004531e40f1f80000000004a8b3ce0e8f787":
+".554889e541574156415453":
 cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
-".554889e54157415641554154534881ec980000004989ffe8":
+"!.554889e5415741564155415453":
+cleanup __amd64 void CrewManifest::OnTouch(CrewManifest *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".554889e54157415641554154534881ec98":
 cleanup __amd64 void CrewManifest::OnRender(CrewManifest *this);
-".554889e5415741564155415453504189d64189f74989fd":
+".554889e5415741564155415453504189d6":
 cleanup __amd64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
 "!.55":
 cleanup __amd64 void CrewManifest::Open(CrewManifest *this);

@@ -1,5 +1,5 @@
 // Continue from Store::destructor (hyper efficiency™)
-".554889e54157415641554154534883ec??48894da8":
+".554889e54157":
 cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& _buttonImage, ShipManager* _shopper, Equipment* _equip);
 ".554889e54156534883ec104889fb4889f248c1ea20488b43":
 cleanup __amd64 void StoreBox::SetPosition(StoreBox *this, Point position);
@@ -11,6 +11,8 @@ cleanup __amd64 void StoreBox::OnLoop(StoreBox *this);
 cleanup __amd64 void StoreBox::OnRender(StoreBox *this);
 ".554889e5807f7000":
 cleanup __amd64 void StoreBox::MouseClick(StoreBox *this, int mX, int mY);
+".55":
+cleanup __amd64 void StoreBox::OnTouch(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 "!.488b8778":
 cleanup __amd64 void StoreBox::Activate(StoreBox *this);
 ".554889e5534883ec384889fb0f57c00f":

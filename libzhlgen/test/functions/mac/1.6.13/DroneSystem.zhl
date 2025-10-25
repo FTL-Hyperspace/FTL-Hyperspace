@@ -7,9 +7,9 @@ cleanup __amd64 bool DroneSystem::DePowerDrone(DroneSystem *this, Drone* drone, 
 cleanup __amd64 Drone* DroneSystem::RemoveDrone(DroneSystem *this, int slot);
 ".554889e54156":
 cleanup __amd64 void DroneSystem::Jump(DroneSystem *this);
-".554889e54157415641554154534883ec284989fee807cf00":
+".554889e5415741564155415453":
 cleanup __amd64 void DroneSystem::OnLoop(DroneSystem *this);
-".554889e5415741564155415453504989fc498b84":
+".554889e5415741564155415453504989fc":
 cleanup __amd64 void DroneSystem::UpdateBonusPower(DroneSystem *this);
-"!.554889e54156534189f64889fbe86eac":
+"!.554889e54156534189f64889fbe8":
 virtual cleanup __amd64 void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);

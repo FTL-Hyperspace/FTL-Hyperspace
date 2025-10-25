@@ -1,7 +1,9 @@
 // Continue from CSurface::AddTexVertices (hyper efficiency™)
-"!554889e54157415641554154534881ec????????4189f54989fc":
+".554889e54156534189f64889fb4439":
+noHook __amd64 void DamageMessage::DO_NOT_HOOK();
+".554889e54157":
 cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float _length, int _amount, Pointf _position, bool _symbol);
-"!.554889e54157415641554154534883ec284889fb488d05":
+".554889e54157415641554154534883ec284889fb48":
 cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float _length, Pointf _position, DamageMessage::MessageType _type);
 
 

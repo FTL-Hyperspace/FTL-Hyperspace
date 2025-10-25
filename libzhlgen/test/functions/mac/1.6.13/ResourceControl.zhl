@@ -1,4 +1,4 @@
-"!004889fb488d3d(???????\?)":
+"!488d3d(???????\?)31f6":
 offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 
 ".554889e548c747180000000048c747100000000048c747080000000048c70700000000c7":
@@ -25,11 +25,11 @@ cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(Resour
 cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool preloadPlayerShips);
 "!.554889e553504889fb89b398":
 cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
-".554889e54156534883ec504989fe4983":
+".554889e5415653":
 cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
-".554889e54883ec10488d55fc":
+".554889e54883ec1048":
 cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
-".554889e5415741564155415453504989d74989fc":
+".554889e54157":
 cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string& fileName, std::size_t& fileSize, const std::string* unused_resourceFile);
 
 

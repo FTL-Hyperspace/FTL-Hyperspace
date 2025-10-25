@@ -1,4 +1,6 @@
-"554889e54156534883ec204989d6":
+"554889e5415741564154534883ec204189d64189f74889fb80":
+noHook __amd64 void WeaponEquipBox::NoHook();
+".554889e5":
 cleanup __amd64 void WeaponEquipBox::constructor(WeaponEquipBox *this, Point location, WeaponSystem* _system, int _slot);
 ".554889e54156534883ec20":
 cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem* _system, int _slot);

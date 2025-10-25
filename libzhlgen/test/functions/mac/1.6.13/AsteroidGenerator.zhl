@@ -1,18 +1,18 @@
 "554889e548c74730":
 cleanup __amd64 void AsteroidGenerator::constructor(AsteroidGenerator *this);
-".554889e54157415653504889fb89":
+".554889e553":
 cleanup __amd64 float AsteroidGenerator::Initialize(AsteroidGenerator *this, int numberOfShips, int shieldCount, bool defense);
-".554889e553504889fb31c9":
+".554889e553":
 cleanup __amd64 void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
-".554889e58977785dc3":
+".554889e589":
 cleanup __amd64 void AsteroidGenerator::SetNumShips(AsteroidGenerator *this, int ships);
-".554889e541574156534883ec784889fb488b4b":
+".554889e541":
 cleanup __amd64 Projectile* AsteroidGenerator::GetNextAsteroid(AsteroidGenerator *this);
-".554889e541574156534883ec184889fb80bb90":
+".554889e541":
 cleanup __amd64 void AsteroidGenerator::OnLoop(AsteroidGenerator *this);
-".554889e5535048":
+".554889e553":
 cleanup __amd64 void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
-"!.554889e54156534189f64889fbf30f108388":
+"!.554889e541":
 cleanup __amd64 void AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, int fd);
-".554889e541565389f34989fe89dfe8????13":
+".554889e541":
 cleanup __amd64 void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, int fd);

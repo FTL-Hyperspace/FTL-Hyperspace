@@ -1,6 +1,8 @@
-"!554889e54157415653504989fe488d05????32":
+"!554889e54157415653504989fe488d05":
 cleanup __amd64 void CrewBlueprint::destructor(CrewBlueprint *this);
-".554889e54157415641554154534883ec4848897d90":
+".554889e54156534889d3":
+noHook __amd64 void CrewBlueprint::DO_NOT_HOOK();
+".554889e54157415641554154534883ec48":
 cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel);
 ".554889e54157415641554154534881ece8010000f3":
 cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
@@ -8,7 +10,7 @@ cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacit
 cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
 "!.554889e54157415641554154534883ec184589c74189ce":
 cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
-".554889e5415741564154534883ec204989f4":
+".554889e5415741564154":
 cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
 
 

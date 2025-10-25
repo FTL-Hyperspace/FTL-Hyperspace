@@ -3,7 +3,7 @@
 cleanup __amd64 bool WeaponSystem::DePowerWeapon(WeaponSystem *this,ProjectileFactory *weapon, bool userDriven);
 ".554889e54157415641554154534883ec184989fc85f60f88":
 cleanup __amd64 ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
-"!.554889e54156534189f64889fbe82e9f":
+"!.554889e541":
 virtual cleanup __amd64 void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
 ".554889e541574156415541545350":
 cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);

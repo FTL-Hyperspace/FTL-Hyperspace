@@ -1,5 +1,5 @@
 // Continue from SystemBox::OnRender (hyper efficiency™)
-".554889e54157415641554154534881eca80000004189cc89":
+".554889e54157415641554154534881eca80000004189??89":
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
 ".554889e541574156534883ec584889fb48":
 cleanup __amd64 void SystemControl::UpdateSubSystemBox(SystemControl *this);
@@ -12,7 +12,7 @@ offsetVariable Point* Global_SystemControl_drone_position;
 cleanup __amd64 SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId);
 ".554889e541574156534883ec384189f64989ffe8":
 cleanup __amd64 void SystemControl::OnRender(SystemControl *this, bool front);
-"!.55":
+"!.5548":
 cleanup __amd64 void SystemControl::RenderPowerBar(SystemControl *this);
 
 

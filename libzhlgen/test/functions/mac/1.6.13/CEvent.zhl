@@ -1,5 +1,7 @@
 // Continue from CApp::OnLanguageChange (hyper efficiency™)
-"!.554889e54157415641554154534883ec284889f34989fe488b":
+"!.554889e5e8??????0085c00f95":
+noHook __amd64 void CEvent::DO_NOT_HOOK();
+"!.554889e54157415641554154534883ec??4889f3":
 cleanup __amd64 void CEvent::OnEvent(CEvent *this, const InputEvent* event);
 
 

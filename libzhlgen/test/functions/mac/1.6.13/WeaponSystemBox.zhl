@@ -1,4 +1,6 @@
-"554889e54156534989ce4889fbb901000000e899":
+"554889e54156534189f64889fb488bbb48":
+noHook __amd64 void WeaponSystemBox::NoHook();
+".55":
 cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point _position, ShipSystem* _system, WeaponControl* _weapCtrl);
 
 

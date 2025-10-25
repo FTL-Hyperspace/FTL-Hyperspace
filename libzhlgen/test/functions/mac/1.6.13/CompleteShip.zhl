@@ -28,7 +28,7 @@ cleanup __amd64 std::vector<CrewMember*> CompleteShip::TeleportCrew(CompleteShip
 cleanup __amd64 std::vector<CrewMember*> CompleteShip::GetTeleportingParty(CompleteShip *this);
 "!.554889e5488b7f105de9????08":
 cleanup __amd64 void CompleteShip::KillRandomCrew(CompleteShip *this);
-"!.554889e5488b7f1040":
+"!.554889e5488b7f":
 cleanup __amd64 int CompleteShip::CountCrew(CompleteShip *this, bool boarders);
 ".554889e5488b87b8":
 cleanup __amd64 void CompleteShip::Jump(CompleteShip *this);

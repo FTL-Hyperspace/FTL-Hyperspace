@@ -8,8 +8,8 @@ noHook __amd64 void CrewDrone::DO_NOT_HOOK(); // Free destructor
 cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // Delete destructor
 "!.554889e5837f08007409":
 virtual cleanup __amd64 bool CrewDrone::ProvidesVision(CrewDrone *this);
-"!.554889e55de9269d":
-cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId); // force detour maybe?
+"!.554889e55de9":
+cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
 
 
 struct CrewDrone depends (CrewMember, DroneBlueprint)
@@ -21,6 +21,7 @@ struct CrewDrone depends (CrewMember, DroneBlueprint)
 
 	CrewDrone()
 	{
+
 	}
 
 	CrewDrone(const std::string& type, const std::string& name, int iShipId, const DroneBlueprint* blueprint, CrewAnimation* animation)
@@ -48,5 +49,4 @@ struct CrewDrone depends (CrewMember, DroneBlueprint)
 	float _HS_GetSuffocationModifier();
 	bool _HS_IsAnaerobic();
 	int _HS_BlockRoom();
-
 }};

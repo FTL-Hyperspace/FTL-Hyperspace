@@ -1,6 +1,6 @@
-"554889e58a05??????0084c0":
+"554889e58a05????190084c0":
 noHook __amd64 void StatusEffect::DO_NOT_HOOK_GetStormEffect();
-".554889e58a05??????0084c0":
+".554889e58a05????190084c0":
 static cleanup __amd64 StatusEffect StatusEffect::GetNebulaEffect();
 
 

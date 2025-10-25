@@ -1,7 +1,9 @@
 // Continue from SystemStoreBox::Purchase (hyper efficiency™)
-".554889e54157415641554154534883ec784189f6":
+"!.554889e553504889fb807b08007407":
+noHook __amd64 void TabbedWindow::NoHook();
+".55":
 cleanup __amd64 void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab);
-"!.55":
+"!.5548":
 cleanup __amd64 void TabbedWindow::Close(TabbedWindow *this);
 ".554889e54157415641":
 cleanup __amd64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button* button, FocusWindow* window);

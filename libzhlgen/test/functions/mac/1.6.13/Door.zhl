@@ -1,15 +1,17 @@
 // Continue from DefenseDrone::OnLoop (hyper efficiency™)
-".554889e54157415641554154534881ec7801000045":
-cleanup __amd64 void Door::constructor(Door *this);
+"!.554889e553500f2805e3":
+noHook __amd64 void Door::DO_NOT_HOOK_1(); // __GLOBAL__sub_I_CrewMemberFactory.cpp
+".554889e541":
+cleanup __amd64 void Door::constructor(); // (Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId);
 "!.554889e541":
 cleanup __amd64 void Door::SaveState(Door *this, int fd);
-"!.554889e54156534189f64889fb44":
+"!.554889e54156":
 cleanup __amd64 void Door::LoadState(Door *this, int fd);
 "!.554889e553":
 cleanup __amd64 void Door::AccelerateAnimation(Door *this);
-"!.554889e553":
-noHook __amd64 void Door::DO_NOT_HOOK(Door *this); // Non virtual thunk free  (unused)
-"!.554889e553":
+"!.554889e5535":
+noHook __amd64 void Door::DO_NOT_HOOK_2(Door *this); // Non virtual thunk free  (unused)
+"!.554889e5535":
 cleanup __amd64 void Door::destructor(Door *this); // Virtual free
 // TODO: Hook the virtual delete to free the extend. Otherwise it'll leak memory
 /*
@@ -40,7 +42,7 @@ cleanup __amd64 void Door::UpdateAnimations(Door *this);
 cleanup __amd64 void Door::PauseLoop(Door *this);
 ".554889e553504889fb80bb4c02000000":
 cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
-".554889e583":
+".554889e5????????????7418":
 cleanup __amd64 bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2);
 ".554889e580":
 cleanup __amd64 bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale);
@@ -76,7 +78,7 @@ public:
 			position1 = Point(this->x, this->y - 18);
 		}
 
-		auto shipInfo = ShipGraph::GetShipInfo(this->iShipId);
+		ShipGraph* shipInfo = ShipGraph::GetShipInfo(this->iShipId);
 
 		if (room == shipInfo->GetSelectedRoom(position2.x, position2.y, false))
 		{

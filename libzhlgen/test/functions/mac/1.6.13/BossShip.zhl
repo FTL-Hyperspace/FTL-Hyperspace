@@ -4,7 +4,7 @@ noHook __amd64 void BossShip::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager* _space);
 ".554889e54157415653504189f64989ff418b":
 cleanup __amd64 void BossShip::SaveBoss(BossShip *this, int fd);
-".554889e54157415641554154534883ec284189f54889fb44":
+".554889e54157":
 cleanup __amd64 void BossShip::LoadBoss(BossShip *this, int fd);
 ".554889e5534883ec38488d":
 cleanup __amd64 LocationEvent* BossShip::GetEvent(BossShip *this);

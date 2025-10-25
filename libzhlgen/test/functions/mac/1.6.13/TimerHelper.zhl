@@ -11,7 +11,7 @@ cleanup __amd64 void TimerHelper::SetMaxTime(TimerHelper *this, float max);
 cleanup __amd64 void TimerHelper::Stop(TimerHelper *this);
 ".554889e553504889fb807b1100741e48":
 cleanup __amd64 void TimerHelper::Update(TimerHelper *this);
-".554889e553504889fb807b11007433f3":
+".55":
 cleanup __amd64 bool TimerHelper::Done(TimerHelper *this);
 
 

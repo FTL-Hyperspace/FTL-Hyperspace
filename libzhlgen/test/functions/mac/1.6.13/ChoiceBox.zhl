@@ -1,8 +1,8 @@
-"554889e5488d05????29":
+"554889e5488d05??????008b40":
 cleanup __amd64 bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
-".554889e54157415641554154534881ece804":
+".554889e54157415641554154534881ec??04":
 cleanup __amd64 ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
-".554889e54157415641554154534881ec9809":
+".554889e54157415641554154534881ec??09":
 cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this);
 ".554889e54157":
 cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this, int mX, int mY);

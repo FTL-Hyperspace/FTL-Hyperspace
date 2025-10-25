@@ -21,7 +21,7 @@ cleanup __amd64 void TutorialManager::OnLoop(TutorialManager *this);
 
 "!41807e200075??488d3d(???????\?)e8????????84c0":
 offsetVariable TutorialManager* Global_TutorialManager_Tutorial;
-
+// TODO: A bunch of sigs are reliant on the ret scan, otherwise they'd match earlier, consider changing in the future when ret scan gets removed
 
 struct TutorialManager
 {{

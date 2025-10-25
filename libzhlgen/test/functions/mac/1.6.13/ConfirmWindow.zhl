@@ -1,5 +1,7 @@
 // Continue from CompleteShip::Restart (hyper efficiency™)
-"!.554889e553504889fbe8a298":
+"!.554889e553504889fbe8????0100":
+noHook __amd64 void ConfirmWindow::COPIED_constructor();
+"!.554889e553504889fbe8????0100":
 cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this);
 ".554889e54157415641554154534883ec584c":
 cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow *this, const TextString& text, int minWidth, bool autoCenter, const TextString& yesText, const TextString& noText);

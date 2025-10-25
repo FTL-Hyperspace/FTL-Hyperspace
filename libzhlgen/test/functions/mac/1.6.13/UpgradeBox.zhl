@@ -23,18 +23,19 @@ struct UpgradeBox
 {{
 	UpgradeBox()
 	{
+
 	}
 	
 	UpgradeBox(Point position, bool isSubsystem)
 	{
 		this->constructorEmpty(position, isSubsystem);
 	}
-	
+
 	UpgradeBox(ShipManager* ship, ShipSystem* systen, Point position, bool isSubsystem)
 	{
 		this->constructorSystem(ship, systen, position, isSubsystem);
 	}
-	
+
 	~UpgradeBox()
 	{
 		this->destructor();

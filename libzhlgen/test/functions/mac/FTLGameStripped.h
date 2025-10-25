@@ -1992,6 +1992,7 @@ struct TextButton0
 /* 236 */
 struct FTLButton
 {
+  // TODO: Inherit from TextButton when possible
   TextButton0 _base;
   bool autoShrinkText;
   bool ready;

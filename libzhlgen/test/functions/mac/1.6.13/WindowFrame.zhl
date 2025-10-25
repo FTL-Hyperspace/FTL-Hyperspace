@@ -17,7 +17,7 @@ struct WindowFrame
 	{
 		this->constructor(x, y, w, h);
 	}
-	
+
 	~WindowFrame()
 	{
 		this->destructor();

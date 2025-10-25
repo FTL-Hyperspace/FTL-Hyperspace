@@ -1,20 +1,12 @@
-"!554889e54157415641554154534881ec88030100":
+"!554889e54157415641554154534881ec??0301":
 cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
-"!.39cf4c89cb7f04(c6041301)":
+"!.7f04(c6041301)":
 noop void* Global__NOP__Ship_OnInit_1;
-"!.39c7488d9da6fdfeff7f04(c6041301)":
+"!.7f04(c6041301)":
 noop void* Global__NOP__Ship_OnInit_2;
-"!.39c7488d9da6fdfeff7f04(c6041301)":
+"!.7f04(c6041301)":
 noop void* Global__NOP__Ship_OnInit_3;
-/* The functions seems to be different to the one on linux - this alone might work
-".NULL":
-noop void* Global__NOP__Ship_OnInit_4;
-".NULL":
-noop void* Global__NOP__Ship_OnInit_5;
-".NULL":
-noop void* Global__NOP__Ship_OnInit_6;
-*/
-".554889e54157415641554154534883ec284989f64989ff498d9ff004":
+".554889e54157415641554154534883ec??4989f64989??498d??f004":
 cleanup __amd64 void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 ".554889e54157415641554154535041":
 cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
@@ -34,9 +26,9 @@ cleanup __amd64 float Ship::GetCloakAlpha(Ship *this, bool complete);
 cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool engineWorking);
 "!.554889e54157415653504189f64989ff4180bf10":
 cleanup __amd64 void Ship::OnRenderFloor(Ship *this, bool forceView);
-".554889e54156534989fe498b461049394618742dbb0100000031c90f1f440000488b3cc8e83715ff":
+".554889e54156534989fe498b461049394618742d":
 cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
-".554889e54157415653504989fe498b464049394648744cbb":
+".554889e54157415653504989fe":
 cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 ".554889e54157415641554154534883ec28":
 cleanup __amd64 void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
@@ -52,15 +44,17 @@ cleanup __amd64 void Ship::LoadState(Ship *this, int fd);
 cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 ".554889e54157415653504189f64989ff498b4710":
 cleanup __amd64 void Ship::SetSelectedRoom(Ship *this, int roomId);
-"!.554889e54863c6488b4f10488b3cc10fb6f2":
+"!.554889e548":
 cleanup __amd64 void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
-"!.554889e54863c6488b4f10488b3cc10fb6f2":
+"!.554889e553":
+noHook __amd64 void Ship::GetRoomRect(); // (Ship *this, int)
+"!.554889e54863c6488b4f10488b3cc1":
 cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
-".554889e54157415653504989fe4c63fe":
+".554889e541574156535049":
 cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);
-"!.554889e585f67823":
+"!.554889e585":
 cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
-"!.554889e54157415641554154534883ec2889d341":
+"!.554889e54157415641554154534883ec28":
 cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 
 

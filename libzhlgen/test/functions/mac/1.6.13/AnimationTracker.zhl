@@ -12,7 +12,7 @@ cleanup __amd64 void AnimationTracker::Start(AnimationTracker *this, float time)
 cleanup __amd64 void AnimationTracker::StartReverse(AnimationTracker *this, float time);
 ".554889e5c64714":
 cleanup __amd64 void AnimationTracker::Stop(AnimationTracker *this, bool resetTime);
-".554889e5f30f104f08f30f10":
+".554889e5f3":
 cleanup __amd64 float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
 
 

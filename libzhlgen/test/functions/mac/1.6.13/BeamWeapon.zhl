@@ -1,10 +1,10 @@
 "554889e54157415641554154534883ec28f30f115d":
 cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable* _targetable, float heading);
-".554889e54157415641554154534883ec284989fe4180be":
+".554889e54157415641554154534883ec":
 cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
-".554889e54157415641554154534881ec780200":
+".554889e54157":
 cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable* other);
-".554889e54157415641554154534883ec284189f649":
+".554889e541574156415541545348":
 cleanup __amd64 void BeamWeapon::OnRenderSpecific(BeamWeapon *this, int spaceId);
 
 

@@ -9,7 +9,7 @@ cleanup __amd64 int WorldManager::OnInit(WorldManager *this);
 cleanup __amd64 void WorldManager::LoadGame(WorldManager *this, const std::string& fileName);
 ".554889e5415741564154534881ecc003":
 cleanup __amd64 void WorldManager::ClearLocation(WorldManager *this);
-".554889e54157415641554154534881ec38060000":
+".5548":
 cleanup __amd64 void WorldManager::CreateLocation(WorldManager *this, Location* loc);
 "!.554889e54157415641554154534881ec18060000":
 cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
@@ -43,12 +43,12 @@ cleanup __amd64 bool WorldManager::HostileEnvironment(WorldManager *this);
 cleanup __amd64 void WorldManager::OnLoop(WorldManager *this);
 ".554889e54157415641554154534883ec184989fd498bbdd0":
 cleanup __amd64 void WorldManager::SaveGame(WorldManager *this);
-"!.554889e54156534889fbe8c1":
+"!.554889e54156534889fbe8":
 cleanup __amd64 void WorldManager::Restart(WorldManager *this);
 
 
 struct WorldManager
 {{
 	bool SwitchShip(std::string shipName);
-    bool SwitchShipTransfer(std::string shipName, int overrideSystem);
+	bool SwitchShipTransfer(std::string shipName, int overrideSystem);
 }};
