@@ -1,4 +1,6 @@
-"554889e54156534889fb488d05??????00488903488d7b08e8????0a":
+"554889e553504889fb48837b6800":
+noHook __amd64 void TextButton::NoHook();
+".554889e5415653":
 cleanup __amd64 void TextButton::constructor(TextButton *this); // 2 instances in binary & both called - must rewrite if we want to modify it
 "!.554889e553":
 cleanup __amd64 void TextButton::destructor(TextButton *this); // 3 instances in binary & 2 are called - must rewrite if we want to modify it

@@ -13,7 +13,7 @@ cleanup __amd64 void StarMap::OnLanguageChange(StarMap *this);
 cleanup __amd64 void StarMap::SetPosition(StarMap *this, Point position);
 "!.554889e548":
 cleanup __amd64 int StarMap::GetRandomSectorChoice(StarMap *this);
-"!.55":
+"!.5548":
 cleanup __amd64 void StarMap::AddSectorColumn(StarMap *this);
 ".554889e585f6781d":
 cleanup __amd64 bool StarMap::NeighboringSector(StarMap *this, int potentialSector);

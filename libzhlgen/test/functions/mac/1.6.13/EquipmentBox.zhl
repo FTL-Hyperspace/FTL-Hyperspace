@@ -1,4 +1,4 @@
-"554889e5534883ec184889fb48c7":
+"554889e5534883ec184889fb48c743":
 noHook __amd64 void EquipmentBox::InitPrimitives(); 
 ".554889e5534883ec184889fb48":
 cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _position, int _slot);

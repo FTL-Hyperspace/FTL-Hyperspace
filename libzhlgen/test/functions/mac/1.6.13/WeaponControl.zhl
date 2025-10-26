@@ -17,7 +17,7 @@ cleanup __amd64 void WeaponControl::RenderAiming(WeaponControl *this);
 cleanup __amd64 void WeaponControl::RenderSelfAiming(WeaponControl *this);
 "!.80bf3001000000742580bf31010000":
 cleanup __amd64 bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
-".5548":
+".554889e541":
 cleanup __amd64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
 "!.554889e54157415653504189d64189f74889fbe8????f6ff":
 cleanup __amd64 void WeaponControl::MouseMove(WeaponControl *this, int mX, int mY);

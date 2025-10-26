@@ -33,7 +33,7 @@ cleanup __amd64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float worl
 cleanup __amd64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
 "!.5548":
 cleanup __amd64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
-"!.55":
+"!.5548":
 cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this);
 // Disabled ret scan for every function because it's unnecessary
 

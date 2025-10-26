@@ -1,5 +1,5 @@
 // Continue from DefenseDrone::OnLoop (hyper efficiency™)
-"!.554889e553500f2805e3":
+"!.554889e553500f2805????25":
 noHook __amd64 void Door::DO_NOT_HOOK_1(); // __GLOBAL__sub_I_CrewMemberFactory.cpp
 ".554889e541":
 cleanup __amd64 void Door::constructor(); // (Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId);

@@ -122,7 +122,7 @@ cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemI
 cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
 ".554889e553":
 cleanup __amd64 bool ShipManager::DoorsFunction(ShipManager *this);
-".554889e54157415641":
+".554889e5415741564155":
 cleanup __amd64 bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 ".5548":
 cleanup __amd64 bool ShipManager::DamageCrew(ShipManager *this, CrewMember* crew, Damage dmg);
@@ -158,7 +158,7 @@ cleanup __amd64 void ShipManager::RenderChargeBars(ShipManager *this);
 cleanup __amd64 void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
 "!.554889e541565349":
 cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this);
-"!.83":
+"!.83fe":
 cleanup __amd64 void ShipManager::ClearStatusSystem(ShipManager *this, int system);
 "!.554889e553":
 cleanup __amd64 void ShipManager::SetSystemPowerLimit(ShipManager *this, int systemId, int limit);
