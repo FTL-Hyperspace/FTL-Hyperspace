@@ -74,6 +74,24 @@ target_link_libraries(
     Threads::Threads
 )
 
+if(APPLE)
+    
+      set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
+      set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
+
+      # Required frameworks for SDL2 static linking
+      target_link_libraries(Hyperspace PRIVATE
+          "-framework IOKit"
+          "-framework CoreAudio"
+          "-framework AudioToolbox"
+          "-framework Carbon"
+          "-framework Cocoa"
+          "-framework ForceFeedback"
+          "-framework Metal"
+          "-framework CoreVideo"
+    )
+endif()
+
 target_sources(
     Hyperspace PRIVATE
     AbilityDrone.cpp
