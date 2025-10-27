@@ -74,6 +74,22 @@ target_link_libraries(
     ${LUA_LIBRARIES}
     Threads::Threads
 )
+if(APPLE)
+    target_link_libraries (Hyperspace PRIVATE
+    "-framework Cocoa"
+    "-framework IOKit"
+    "-framework CoreFoundation"
+    "-framework CoreVideo"
+    "-framework CoreAudio"
+    "-framework AudioToolbox"
+    "-framework ForceFeedback"
+    "-framework Carbon"
+    "-framework Metal"
+    "-framework QuartzCore"
+    "-framework GameController"
+    "-framework CoreHaptics"
+    )
+endif()
 
 target_sources(
     Hyperspace PRIVATE
