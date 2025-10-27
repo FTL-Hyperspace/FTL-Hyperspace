@@ -3,14 +3,23 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-find_package(Boost REQUIRED PATHS /Users/dino/vcpkg/installed/x64-osx/include)
-set(LUA_LIBRARIES "/Users/dino/vcpkg/installed/x64-osx/lib/liblua.a")
-set(LUA_INCLUDE_DIR "/Users/dino/vcpkg/installed/x64-osx/include")
+if(APPLE)
+    # Build static libraries on macOS to avoid issues with dynamic libraries and code signing
+    set(BUILD_SHARED_LIBS OFF)
 
-if(UNIX)
+    # load packages from local vcpkg installation
+    find_package(Boost REQUIRED PATHS ${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include)
+    set(LUA_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/lib/liblua.a")
+    set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include")
+    find_package(SDL2 REQUIRED) # From system
+elseif(UNIX)
+    find_package(Boost REQUIRED) # From vcpkg
+    find_package(Lua REQUIRED) # From vcpkg
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
-    find_package(OpenGL REQUIRED)
+    find_package(Boost REQUIRED) # From vcpkg
+    find_package(Lua REQUIRED) # From vcpkg
+    find_package(OpenGL REQUIRED)    
 endif()
 
 # pthread
@@ -34,7 +43,6 @@ set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)
 
 # Name the binary as Hyperspace.dll instead of libHyperspace.dll
 set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
-set(BUILD_SHARED_LIBS OFF)
 
 swig_add_library(
     Hyperspace
@@ -62,7 +70,7 @@ target_include_directories(
 )
 target_link_libraries(
     Hyperspace PRIVATE
-    /Users/dino/vcpkg/installed/x64-osx/lib/liblua.a
+    ${LUA_LIBRARIES}
     Threads::Threads
 )
 
@@ -312,6 +320,12 @@ add_custom_command(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+if(APPLE)
+    set(CXX_STANDARD_FLAG "-std=c++14")
+else()
+    set(CXX_STANDARD_FLAG "-std=c++11")
+endif()
+
 target_compile_options(
     Hyperspace PRIVATE
 
@@ -321,8 +335,8 @@ target_compile_options(
     # Error on narrowing conversion
     -Werror=narrowing
 
-    # Explicit C++11 mode
-    -std=c++11
+    # Explicit C++ standard (C++14 for macOS, C++11 for Linux/Windows)
+    ${CXX_STANDARD_FLAG}
     # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
     -fno-delete-null-pointer-checks
 

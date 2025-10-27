@@ -1,0 +1,24 @@
+name: 'Build macOS'
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  build-macos:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup macOS build environment
+        run: buildscripts/ci/setup-macos.sh
+
+      - name: Build all macOS variants
+        run: buildscripts/buildall-darwin.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hyperspace-macos-binaries
+          path: |
+            build-darwin-*/Hyperspace.*.dylib
