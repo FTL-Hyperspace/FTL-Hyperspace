@@ -1,0 +1,157 @@
+// Continue from Spreader_Fire::CounterRoom (hyper efficiency™)
+".554889e54157415641554154534881ec????????4989fce8????????488d05????????4989042441c7442420":
+cleanup __amd64 void StarMap::constructor(StarMap *this);
+".5548":
+cleanup __amd64 void StarMap::InitMapTitle(StarMap *this);
+".5548":
+cleanup __amd64 void StarMap::InitNoFuelText(StarMap *this);
+".5548":
+cleanup __amd64 void StarMap::InitBossMessageBox(StarMap *this);
+"!.554889e553504889fbe862f3":
+cleanup __amd64 void StarMap::OnLanguageChange(StarMap *this);
+".55":
+cleanup __amd64 void StarMap::SetPosition(StarMap *this, Point position);
+"!.554889e548":
+cleanup __amd64 int StarMap::GetRandomSectorChoice(StarMap *this);
+"!.5548":
+cleanup __amd64 void StarMap::AddSectorColumn(StarMap *this);
+".554889e585f6781d":
+cleanup __amd64 bool StarMap::NeighboringSector(StarMap *this, int potentialSector);
+".55":
+cleanup __amd64 void StarMap::GetSelectedSector(StarMap *this, int mX, int mY, int maxDist);
+"!.5548":
+cleanup __amd64 void StarMap::GenerateSectorMap(StarMap *this);
+"!.5548":
+cleanup __amd64 void StarMap::UpdateSectorMap(StarMap *this, Sector* fakeCurrent);
+"!.55":
+cleanup __amd64 void StarMap::StartSecretSector(StarMap *this);
+"!.55":
+cleanup __amd64 void StarMap::SelectNewSector(StarMap *this, int choice);
+"!.55":
+cleanup __amd64 void StarMap::PushSectorColumn(StarMap *this);
+"!.5548":
+cleanup __amd64 void StarMap::ReachSector(StarMap *this, Sector* sector);
+"!.55":
+cleanup __amd64 void StarMap::RenderSectorName(StarMap *this, Sector* sector, GL_Color color);
+"!.554889e580":
+cleanup __amd64 void StarMap::KeyDown(StarMap *this, SDLKey key);
+"!.55":
+cleanup __amd64 bool StarMap::AddQuest(StarMap *this, const std::string& questEvent, bool force);
+"!.5548":
+cleanup __amd64 std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location* start, Location* finish, bool include_unknown);
+"!.5548":
+cleanup __amd64 void StarMap::DeleteMap(StarMap *this);
+".55":
+cleanup __amd64 void StarMap::SaveGame(StarMap *this, int file);
+"!.5548":
+cleanup __amd64 int StarMap::GetNextDangerMove(StarMap *this);
+"!.55":
+cleanup __amd64 Location* StarMap::LoadGame(StarMap *this, int fileHelper);
+"!.5548":
+cleanup __amd64 Location* StarMap::GenerateMap(StarMap *this, bool tutorial, bool seed);
+"!.5548":
+cleanup __amd64 void StarMap::ReverseBossPath(StarMap *this);
+".55":
+cleanup __amd64 void StarMap::TurnIntoFleetLocation(StarMap *this, Location* location);
+".5548":
+cleanup __amd64 void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
+".5548":
+cleanup __amd64 Location* StarMap::NewGame(StarMap *this, bool tutorial);
+".5548":
+cleanup __amd64 bool StarMap::MapConnected(StarMap *this);
+".55":
+cleanup __amd64 void StarMap::AddConnections(StarMap *this, Location* location);
+"!.5548":
+cleanup __amd64 void StarMap::PopulateGrid(StarMap *this, Point grid);
+"!.5548":
+cleanup __amd64 void StarMap::GenerateEvents(StarMap *this, bool bTutorial);
+".554889e548897770":
+cleanup __amd64 void StarMap::TravelToLocation(StarMap *this, Location* location);
+/* Empty functions - unused
+".554889e55dc3":
+cleanup __amd64 void StarMap::InitStatistics(StarMap *this);
+".554889e55dc3":
+cleanup __amd64 void StarMap::PrintStatistics(StarMap *this);
+".554889e55dc3":
+cleanup __amd64 void StarMap::AnalyzeMap(StarMap *this);
+*/
+"!.554889e541":
+cleanup __amd64 void StarMap::GenerateNebulas(StarMap *this, const std::vector<std::string>& names);
+"!.5548":
+cleanup __amd64 void StarMap::ConnectLocations(StarMap *this, Point grid1, Point grid2);
+"!.5548":
+cleanup __amd64 void StarMap::MouseClick(StarMap *this, int mX, int mY);
+".5548":
+cleanup __amd64 void StarMap::AdvanceWorldLevel(StarMap *this);
+"!.5548":
+cleanup __amd64 void StarMap::OnTouch(StarMap *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".5548":
+cleanup __amd64 Point StarMap::PointToGrid(StarMap *this, float x, float y);
+".554889e501b75005":
+cleanup __amd64 void StarMap::ModifyPursuit(StarMap *this, int amount);
+"!.55":
+cleanup __amd64 void StarMap::UpdateBoss(StarMap *this);
+".5548":
+cleanup __amd64 void StarMap::UpdateDangerZone(StarMap *this);
+".554889e5488b47708a40205d":
+cleanup __amd64 void StarMap::AtBeacon(StarMap *this);
+".554889e580bfa800":
+cleanup __amd64 void StarMap::GetWaitLocation(StarMap *this);
+".554889e553504889fb80bba8":
+cleanup __amd64 Location* StarMap::GetNewLocation(StarMap *this);
+".554889e583bf4805":
+cleanup __amd64 void StarMap::StartBeacon(StarMap *this);
+".554889e5488b4608":
+cleanup __amd64 bool StarMap::LocationsConnected(StarMap *this, Location* location1, Location* location2);
+".554889e5488b4770c6402001":
+cleanup __amd64 void StarMap::ForceExitBeacon(StarMap *this);
+"!.554889e54157415641554154534881ec980000004189d441":
+cleanup __amd64 void StarMap::MouseMove(StarMap *this, int mX, int mY);
+".554889e54156":
+cleanup __amd64 std::string StarMap::GetPotentialSectorChoiceName(StarMap *this);
+".5548":
+cleanup __amd64 void StarMap::Open(StarMap *this);
+".554889e5534883ec184889fb80bb9408":
+cleanup __amd64 void StarMap::Close(StarMap *this);
+"!.55":
+cleanup __amd64 void StarMap::SetOpen(StarMap *this, bool open);
+/* Empty function - unused
+".554889e55dc3":
+cleanup __amd64 void StarMap::OnRenderFogEffect(StarMap *this);
+*/
+".554889e5486387a0":
+cleanup __amd64 void StarMap::LocationHasBoss(StarMap *this, Location* location);
+".554889e5488b46304885c074224883b8":
+cleanup __amd64 void StarMap::LocationHasStore(StarMap *this, Location* location);
+".554889e5488b46304885c07409807820":
+cleanup __amd64 void StarMap::LocationHasShip(StarMap *this, Location* location);
+".554889e541574156534883ec784989ff41807f08":
+cleanup __amd64 void StarMap::OnLoop(StarMap *this);
+".554889e5415741564154534881ec800000004989":
+cleanup __amd64 std::string StarMap::GetLocationText(StarMap *this, const Location* location);
+".554889e5c687a90a":
+cleanup __amd64 void StarMap::ForceBossJump(StarMap *this);
+".554889e54157415653504989fe41c686":
+cleanup __amd64 void StarMap::ClearBoss(StarMap *this);
+".554889e589b7800c":
+cleanup __amd64 void StarMap::SetBossStage(StarMap *this, int stage);
+".554889e583bfa40a":
+cleanup __amd64 void StarMap::CheckGameOver(StarMap *this);
+".554889e54157415641554154534881ec080100004989cd48":
+cleanup __amd64 void StarMap::DrawConnection(StarMap *this, const Pointf& position1, const Pointf& position2, const GL_Color* color);
+".554889e54157415641554154534881ec??0100004989fd41":
+cleanup __amd64 void StarMap::OnRender(StarMap *this);
+".554889e541":
+cleanup __amd64 void StarMap::RenderDistressButtons(StarMap *this);
+".5548":
+cleanup __amd64 void StarMap::RenderLeftInsetButton(StarMap *this, float rightX, float y, bool isWait);
+".554889e54157415641554154534881ecd80000004989fce8":
+cleanup __amd64 void StarMap::RenderLabels(StarMap *this);
+".554889e54157415641554154534883ec284989f0":
+cleanup __amd64 Location* StarMap::PopClosestLoc(StarMap *this, std::vector<Location*>& vec, std::map<Location*, int>& map);
+
+
+struct StarMap
+{{
+	bool WillBeOvertaken(Location* loc);
+}};

@@ -1,0 +1,15 @@
+"554889e589b7f8":
+noHook __amd64 void LaserBlast::DO_NOT_HOOK();
+".554889e553":
+cleanup __amd64 void LaserBlast::OnUpdate(LaserBlast *this);
+"!.(???????\?)66480f6ec0488d05(???????\?)":
+offsetVariable void** VTable_Targetable_LaserBlast;
+offsetVariable void** VTable_LaserBlast;
+".554889e553504889fbc74340":
+cleanup __amd64 void LaserBlast::OnInit(LaserBlast *this);
+
+
+struct LaserBlast
+{{
+	LaserBlast(Pointf position, int ownerId, int targetId, Pointf target);
+}};

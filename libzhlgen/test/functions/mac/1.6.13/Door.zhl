@@ -1,0 +1,107 @@
+// Continue from DefenseDrone::OnLoop (hyper efficiency™)
+"!.554889e553500f2805????25":
+noHook __amd64 void Door::DO_NOT_HOOK_1(); // __GLOBAL__sub_I_CrewMemberFactory.cpp
+".554889e541":
+cleanup __amd64 void Door::constructor(); // (Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId);
+"!.554889e541":
+cleanup __amd64 void Door::SaveState(Door *this, int fd);
+"!.554889e54156":
+cleanup __amd64 void Door::LoadState(Door *this, int fd);
+"!.554889e553":
+cleanup __amd64 void Door::AccelerateAnimation(Door *this);
+"!.554889e5535":
+noHook __amd64 void Door::DO_NOT_HOOK_2(Door *this); // Non virtual thunk free  (unused)
+"!.554889e5535":
+cleanup __amd64 void Door::destructor(Door *this); // Virtual free
+// TODO: Hook the virtual delete to free the extend. Otherwise it'll leak memory
+/*
+"!.554889e553":
+cleanup __amd64 void Door::destructor(Door *this); // Secondary virtual free  (unused)
+"!.554889e553":
+cleanup __amd64 void Door::destructor(Door *this); // Virtual delete
+"!.554889e553":
+cleanup __amd64 void Door::destructor(Door *this); // Secondary virtual delete (unused)
+*/
+"!.554889e5c6472c01":
+cleanup __amd64 void Door::FakeOpen(Door *this);
+".554889e541":
+cleanup __amd64 void Door::StartAnimIfNecessary(Door *this);
+"!.554889e5c6":
+cleanup __amd64 void Door::FakeClose(Door *this); 
+".554889e580":
+cleanup __amd64 void Door::SetBlastDoor(Door *this, int val);
+".55":
+cleanup __amd64 bool Door::IsSealed(Door *this, int shipId);
+"!.554889e54156534889fb8b83":
+cleanup __amd64 void Door::OnLoop(Door *this);
+".554889e553":
+cleanup __amd64 void Door::SetLockdown(Door *this, bool val);
+".55":
+cleanup __amd64 void Door::UpdateAnimations(Door *this);
+"!.55":
+cleanup __amd64 void Door::PauseLoop(Door *this);
+".554889e553504889fb80bb4c02000000":
+cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
+".554889e5????????????7418":
+cleanup __amd64 bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2);
+".554889e580":
+cleanup __amd64 bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale);
+"!.554889e5c6472401":
+cleanup __amd64 void Door::Open(Door *this);
+".554889e54157":
+cleanup __amd64 void Door::OnRender(Door *this, float alpha, bool bForceView, bool useLargeSprites);
+".554889e548":
+cleanup __amd64 Point Door::GetPosition(Door *this);
+
+
+struct Door depends (Point, ShipGraph)
+{{
+public:
+	Point GetCenterPoint()
+	{
+		return Point(this->x, this->y);
+	}
+
+	Point GetEntryWay(int room)
+	{
+		Point position1 = Point(this->x, this->y);
+		Point position2;
+
+		if (this->bVertical)
+		{
+			position2 = Point(position1.x + 17, position1.y);
+			position1 = Point(this->x - 17, position1.y);
+		}
+		else
+		{
+			position2 = Point(this->x, position1.y + 17);
+			position1 = Point(this->x, this->y - 18);
+		}
+
+		ShipGraph* shipInfo = ShipGraph::GetShipInfo(this->iShipId);
+
+		if (room == shipInfo->GetSelectedRoom(position2.x, position2.y, false))
+		{
+			return position2;
+		}
+		else
+		{
+			return position1;
+		}
+	}
+
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
+	}
+}};

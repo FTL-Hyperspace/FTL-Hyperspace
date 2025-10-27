@@ -1,0 +1,5 @@
+// Continue from CachedPrimitive::OnRender (hyper efficiency™)
+".554889e54157415653":
+cleanup __amd64 void CachedRect::SetPosition(CachedRect *this, int x, int y);
+"!.554889e54157415653":
+cleanup __amd64 void CachedRect::SetSize(CachedRect *this, int w, int h);

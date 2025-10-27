@@ -17,6 +17,16 @@
     #else
         #error "Unknown processor architecture not supported."
     #endif // Architecture
+#elif defined(__APPLE__)
+	#include <mach-o/dyld.h>
+	#include <mach/vm_page_size.h>
+	#include <sys/mman.h>
+
+	#ifdef __amd64__
+		#define PTR_PRINT_F "0x%016" PRIxPTR
+	#else
+		#error "Processor architecture not supported. Only amd64!"
+	#endif // Architecture
 #else
     #error "Unsupported OS"
 #endif
@@ -277,5 +287,71 @@ void SigScan::Init()
     s_iBaseLen = segmentLength;
 	s_pLastAddress = s_pBase;
 }
+
+#elif defined(__APPLE__)
+
+void SigScan::Init()
+{
+	for (uint32_t i = 0; i < _dyld_image_count(); i++)
+	{
+		const struct mach_header_64* header = (const struct mach_header_64*)_dyld_get_image_header(i);
+		if (!header || header->magic != MH_MAGIC_64) continue;
+
+		if (header->filetype != MH_EXECUTE) continue; // Filter out main executable
+
+		uintptr_t slide = _dyld_get_image_vmaddr_slide(i);
+		const uint8_t* ptr = (const uint8_t*)(header + 1);
+
+		for (uint32_t j = 0; j < header->ncmds; j++)
+		{
+			const struct load_command *lc = (const struct load_command *)ptr;
+
+			if (lc->cmd == LC_SEGMENT_64)
+			{
+				const struct segment_command_64 *seg = (const struct segment_command_64 *)lc;
+
+				if (strcmp(seg->segname, "__TEXT") == 0)
+				{
+					const struct section_64 *sect = (const struct section_64 *)(seg + 1);
+					for (uint32_t k = 0; k < seg->nsects; k++)
+					{
+						if (strcmp(sect->sectname, "__text") == 0)
+						{
+							uintptr_t codeSectStart = slide + sect->addr;
+
+							s_pBase = reinterpret_cast<unsigned char*>(codeSectStart);
+							s_iBaseLen = sect->size;
+							s_pLastAddress = s_pBase;
+
+							// pre-unprotect
+							/*
+							uintptr_t page_start = codeSectStart & ~(vm_page_size - 1);
+							uintptr_t page_end = (codeSectStart + s_iBaseLen + vm_page_size - 1) & ~(vm_page_size - 1);
+							size_t page_len = page_end - page_start;
+						
+							printf("[INFO] Adjusting permissions for page: 0x%lx (size: 0x%lx)\n", (unsigned long)page_start, (unsigned long)page_len);
+						
+							if (mprotect((void*)page_start, page_len, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
+							{
+								return perror("[ERROR] mprotect failed");
+							}
+							*/
+
+							printf("ASLR slide amount: 0x%lx\n", slide);
+							printf("__TEXT.__text start address: %lx\n", codeSectStart);
+							printf("__TEXT.__text length: 0x%lx\n", s_iBaseLen);
+							return;
+						}
+						sect++;
+					}
+				}
+			}
+			ptr += lc->cmdsize;
+		}
+	}
+	fprintf(stderr, "[ERROR] Something went wrong while initializing the SigScanner!\n");
+	return;
+}
+
 #endif
 

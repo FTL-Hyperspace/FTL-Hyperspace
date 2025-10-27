@@ -1,0 +1,15 @@
+// Continue from CachedImage::destructor (hyper efficiency™)
+"!.554889e5488d05????1e":
+cleanup __amd64 void CachedPrimitive::destructor(CachedPrimitive *this);
+"!.554889e54156":
+cleanup __amd64 void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
+
+
+struct CachedPrimitive
+{{
+	~CachedPrimitive()
+	{
+		this->destructor();
+	}
+}};
+

@@ -11,7 +11,7 @@ cleanup __cdecl char* ResourceControl::LoadFromResourceFile(ResourceControl *thi
 "5589e557565383ec5c8d45d4890424":
 cleanup __cdecl GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
 "83ec5c8b4424648b8c248800000085c00f84????????89c285d2f30f1074247cf30f10542478f30f105c2474f30f2a442470":
-cleanup __cdecl int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+cleanup __cdecl void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 "5383ec588b4424648b9c2488000000894424048b442460890424e8????????f30f104c2474f30f10442478f30f1054247c85c00f84????????89c285d2f30f2a5c2470":
 cleanup __cdecl int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 "5383ec588b4424648b9c2488000000894424048b442460890424e8????????f30f104c2474f30f10442478f30f1054247c85c00f84????????89c285d2f30f2a6c2470":

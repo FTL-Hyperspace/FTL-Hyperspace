@@ -1,0 +1,19 @@
+/* Missing on Mac
+"NULL":
+cleanup __amd64 std::string TextString::GetText(TextString *this);
+*/
+
+struct TextString depends (TextLibrary)
+{{
+	TextString() : TextString("", true)
+	{
+
+	}
+
+	TextString(const std::string& str, bool literal) : data(str), isLiteral(literal)
+	{
+
+	}
+
+	std::string GetText();
+}};

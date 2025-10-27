@@ -1,0 +1,272 @@
+"554889e54156534883ec204189f64889fb44897308":
+cleanup __amd64 int ShipManager::constructor(ShipManager *this, int _shipId);
+"!.554889e541": // Free destructor 
+cleanup __amd64 void ShipManager::destructor(ShipManager *this); // Core destructor into which every other destructor overload jumps 
+"!.554889e553": // Delete destructor
+cleanup __amd64 void ShipManager::destructor2(ShipManager *this);
+".554889e5b0":
+cleanup __amd64 bool ShipManager::HasSystem(ShipManager *this, int systemId);
+"!.554889e553":
+cleanup __amd64 void ShipManager::SaveCrewPositions(ShipManager *this);
+"!.55":
+cleanup __amd64 bool ShipManager::RestoreCrewPositions(ShipManager *this);
+".554889e54157415641554154534881":
+cleanup __amd64 int ShipManager::AddSystem(ShipManager *this, int systemId);
+"!.5548":
+cleanup __amd64 void ShipManager::InstantPowerShields(ShipManager *this);
+".55":
+cleanup __amd64 int ShipManager::CreateSystems(ShipManager *this);
+".5548":
+cleanup __amd64 void ShipManager::CreateArmory(ShipManager *this);
+"!.5548":
+cleanup __amd64 int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
+".55":
+cleanup __amd64 Drone* ShipManager::AddDrone(ShipManager *this, const DroneBlueprint* bp, int slot);
+"!.554889e54157":
+cleanup __amd64 bool ShipManager::CanFitSystem(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 bool ShipManager::CanFitSubsystem(ShipManager *this, int systemId);
+".55":
+cleanup __amd64 void ShipManager::AddInitialCrew(ShipManager *this, std::vector<CrewBlueprint>& blueprints);
+"!.5548":
+cleanup __amd64 int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
+".55":
+cleanup __amd64 CrewMember* ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder);
+".5548":
+cleanup __amd64 int ShipManager::OnInit(ShipManager *this, ShipBlueprint* bp, int shipLevel);
+".554889e5c7":
+cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
+".554889e54157415641554154534881":
+cleanup __amd64 void ShipManager::OnLoop(ShipManager *this);
+"!.554889e54157415641554154534883ec18":
+cleanup __amd64 void ShipManager::AddCrewMember(ShipManager *this, CrewMember* crew, int roomId);
+"!.554889e54157415653":
+cleanup __amd64 int ShipManager::DamageHull(ShipManager *this, int dmg, bool force);
+".55":
+cleanup __amd64 void ShipManager::ModifyScrapCount(ShipManager *this, int scrap, bool income);
+".554889e5488b87d8060000837828ff7410":
+cleanup __amd64 bool ShipManager::IsCloaked(ShipManager *this);
+".554889e541574156415541545348":
+cleanup __amd64 std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
+".5548":
+cleanup __amd64 std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *this, int roomId, bool intruders);
+".554889e5415741564155":
+cleanup __amd64 CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
+"!.5548":
+cleanup __amd64 void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember* crew);
+".554889e541574156415541545348":
+cleanup __amd64 CrewMember* ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male);
+".554889e54157415641554154534883ec78":
+cleanup __amd64 CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
+".5548":
+cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint* bp);
+"!.554889e54157415653":
+cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone);
+".55":
+cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this);
+".55488":
+cleanup __amd64 void ShipManager::Restart(ShipManager *this);
+"!.554889e5415741564154":
+cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
+".55":
+cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
+".5548":
+cleanup __amd64 int ShipManager::CountCrewShipId(ShipManager *this, int roomId, int shipId);
+"!.554889e553":
+cleanup __amd64 bool ShipManager::IsCrewOverFull(ShipManager *this);
+".55":
+cleanup __amd64 bool ShipManager::IsCrewFull(ShipManager *this);
+"!.554889e548":
+cleanup __amd64 int ShipManager::GetFireCount(ShipManager *this, int roomId);
+".554889e548":
+cleanup __amd64 void ShipManager::ModifyDroneCount(ShipManager *this, int drones);
+"!.554889e548":
+cleanup __amd64 int ShipManager::GetSystemPower(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 bool ShipManager::SystemLocked(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
+".55":
+cleanup __amd64 int ShipManager::GetDodgeFactor(ShipManager *this);
+"!.554889e5488b87d8":
+cleanup __amd64 bool ShipManager::DoSensorsProvide(ShipManager *this, int vision);
+".55":
+cleanup __amd64 std::vector<float> ShipManager::GetOxygenLevels(ShipManager *this);
+".5548":
+cleanup __amd64 void ShipManager::UpdateEnvironment(ShipManager *this);
+".554889e5415741":
+cleanup __amd64 void ShipManager::CheckSpreadDamage(ShipManager *this);
+".554889e54157415641554154534883ec2849":
+cleanup __amd64 void ShipManager::CheckVision(ShipManager *this);
+".554889e583":
+cleanup __amd64 int ShipManager::IsSystemHacked(ShipManager *this, int systemId);
+".554889e54157415641":
+cleanup __amd64 void ShipManager::PulsarDamage(ShipManager *this);
+".554889e54157415641554154534883ec7841":
+cleanup __amd64 void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
+"!.554889e541":
+cleanup __amd64 void ShipManager::SetDestroyed(ShipManager *this);
+".554889e5415741564154":
+cleanup __amd64 void ShipManager::JumpLeave(ShipManager *this);
+"!.554889e54157415641":
+cleanup __amd64 void ShipManager::Wait(ShipManager *this);
+".55":
+cleanup __amd64 void ShipManager::CloneHealing(ShipManager *this);
+"!.554889e5415741565348":
+cleanup __amd64 void ShipManager::JumpArrive(ShipManager *this);
+"!.55":
+cleanup __amd64 int ShipManager::GetNetDodgeFactor(ShipManager *this);
+"!.55":
+cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
+".55":
+cleanup __amd64 bool ShipManager::GetDodged(ShipManager *this);
+".554889e553":
+cleanup __amd64 bool ShipManager::DoorsFunction(ShipManager *this);
+".554889e5415741564155":
+cleanup __amd64 bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
+".5548":
+cleanup __amd64 bool ShipManager::DamageCrew(ShipManager *this, CrewMember* crew, Damage dmg);
+".5548":
+cleanup __amd64 ShipSystem* ShipManager::GetSystemInRoom(ShipManager *this, int roomId);
+"!.5548":
+cleanup __amd64 void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf position);
+"!.554889e54881c7d8":
+cleanup __amd64 void ShipManager::StartFire(ShipManager *this, int roomId);
+".55":
+cleanup __amd64 bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
+".554889e541":
+cleanup __amd64 CollisionResponse ShipManager::CollisionMoving(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+".5548":
+cleanup __amd64 CollisionResponse ShipManager::CollisionShield(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+".554889e54157415641554154534883ec5849":
+cleanup __amd64 void ShipManager::PrepareSuperDrones(ShipManager *this);
+".554889e54157":
+cleanup __amd64 void ShipManager::PrepareSuperBarrage(ShipManager *this);
+".5548":
+cleanup __amd64 void ShipManager::CheckDlcEnabled(ShipManager *this);
+"!.554889e548":
+cleanup __amd64 float ShipManager::GetOxygenLevel(ShipManager *this, int roomId);
+"!.55":
+cleanup __amd64 int ShipManager::SystemRoom(ShipManager *this, int systemId);
+".55":
+cleanup __amd64 bool ShipManager::ForceIncreaseSystemPower(ShipManager *this, int systemId);
+".554889e54157415641554154534883ec??48":
+cleanup __amd64 void ShipManager::RenderWeapons(ShipManager *this);
+".5548":
+cleanup __amd64 void ShipManager::RenderChargeBars(ShipManager *this);
+".5548":
+cleanup __amd64 void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
+"!.554889e541565349":
+cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this);
+"!.83fe":
+cleanup __amd64 void ShipManager::ClearStatusSystem(ShipManager *this, int system);
+"!.554889e553":
+cleanup __amd64 void ShipManager::SetSystemPowerLimit(ShipManager *this, int systemId, int limit);
+"!.55":
+cleanup __amd64 void ShipManager::SetSystemPowerLoss(ShipManager *this, int systemId, int powerLoss);
+"!.55":
+cleanup __amd64 void ShipManager::SetSystemDividePower(ShipManager *this, int systemId, int amount);
+".55":
+cleanup __amd64 int ShipManager::GetSystemAvailablePower(ShipManager *this, int systemId);
+"!.554889e548":
+cleanup __amd64 int ShipManager::GetSystemDamage(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 int ShipManager::GetSystemPowerLevel(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 int ShipManager::GetSystemHealth(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 bool ShipManager::IncreaseSystemPower(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 bool ShipManager::ForceDecreaseSystemPower(ShipManager *this, int sys);
+".55":
+cleanup __amd64 ShieldPower ShipManager::GetShieldPower(ShipManager *this);
+".488b87":
+cleanup __amd64 int ShipManager::GetOxygenPercentage(ShipManager *this);
+"!.554889e54863":
+cleanup __amd64 int ShipManager::GetSystemPowerMax(ShipManager *this, int systemId);
+"!.55":
+cleanup __amd64 void ShipManager::UpgradeSystem(ShipManager *this, int id, int amount);
+".55":
+cleanup __amd64 int ShipManager::CanUpgrade(ShipManager *this, int systemId, int amount);
+"!.554889e589":
+cleanup __amd64 bool ShipManager::CommandCrewMoveRoom(ShipManager *this, CrewMember* crew, int roomId);
+".55":
+cleanup __amd64 CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this, int x, int y, bool intruder);
+".5548":
+cleanup __amd64 std::string ShipManager::GetTooltip(ShipManager *this, int x, int y);
+".554889e5415741564154":
+cleanup __amd64 std::vector<ProjectileFactory*> ShipManager::GetWeaponList(ShipManager *this);
+"!.554889e5488b":
+cleanup __amd64 int ShipManager::GetMissileCount(ShipManager *this);
+".55":
+cleanup __amd64 int ShipManager::GetDroneCount(ShipManager *this);
+".554889e548":
+cleanup __amd64 void ShipManager::ModifyMissileCount(ShipManager *this, int missiles);
+".554889e54157":
+cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::string& name);
+".5548":
+cleanup __amd64 SpaceDrone* ShipManager::CreateSpaceDrone(ShipManager *this, const DroneBlueprint* drone);
+".554889e5415741564155":
+cleanup __amd64 CrewDrone* ShipManager::CreateCrewDrone(ShipManager *this, const DroneBlueprint* drone);
+".5548":
+cleanup __amd64 Drone* ShipManager::CreateDrone(ShipManager *this, DroneBlueprint *drone);
+".554889e541574156415541545350":
+cleanup __amd64 std::vector<Drone*> ShipManager::GetDroneList(ShipManager *this);
+".554889e54157415641554154535045":
+cleanup __amd64 bool ShipManager::PowerDrone(ShipManager *this, Drone* drone, int roomId, bool userDriven, bool force);
+".554889e541":
+cleanup __amd64 ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool overwrite);
+"!.5548":
+cleanup __amd64 void ShipManager::ExportBattleState(ShipManager *this, int file);
+"!.5548":
+cleanup __amd64 void ShipManager::ImportBattleState(ShipManager *this, int file);
+".5548":
+cleanup __amd64 void ShipManager::ExportShip(ShipManager *this, int file);
+".554889e54157415641554154534881":
+cleanup __amd64 void ShipManager::ImportShip(ShipManager *this, int file);
+".554889e54157415641554154534883ec68":
+cleanup __amd64 void ShipManager::AddEquipmentFromList(ShipManager *this, std::vector<std::string>* equipmentList);
+
+
+struct ShipManager depends (PowerManager, ShieldPower)
+{{
+	ShipManager(int shipId) 
+	{
+		this->constructor(shipId);
+	}
+
+	~ShipManager()
+	{
+		this->destructor2();
+	}
+
+	Pointf GetRandomRoomCenter()
+	{
+		int rng = rand();
+		ShipGraph* graph = ShipGraph::GetShipInfo(this->iShipId);
+		int rooms = graph->rooms.size();
+		return this->ship.GetRoomCenter(rng % rooms);
+	}
+
+	inline Pointf GetRoomCenter(int roomId)
+	{
+		return this->ship.GetRoomCenter(roomId);
+	}
+
+	std::pair<int, int> GetAvailablePower()
+	{
+		PowerManager* powerMan = PowerManager::GetPowerManager(this->iShipId);
+		
+		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
+	}
+
+	bool SetDummyOxygen(bool useDummyOxygen);
+	void StartDummyOxygen();
+	bool StopDummyOxygen();
+	void InstallDummyOxygen();
+	void RemoveDummyOxygen();
+	bool DummyOxygenInstalled();	
+	void RemoveSystem(int systemId);
+	int SystemWillReplace(int systemId);
+	bool CanFitCrew(const std::string& crewName);
+}};

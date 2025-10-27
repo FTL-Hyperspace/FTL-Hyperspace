@@ -187,6 +187,8 @@ cleanup __cdecl void ShipManager::PrepareSuperBarrage(ShipManager *this);
 cleanup __cdecl std::string ShipManager::GetTooltip(ShipManager *this, int x, int y);
 "5589e557565383ec6c8d45a8":
 cleanup __cdecl bool ShipManager::RestoreCrewPositions(ShipManager *this);
+".5557565331db83ec2c8b7424408b5618":
+cleanup __cdecl void ShipManager::CheckDlcEnabled(ShipManager *this);
 "555731ff565331db83ec1c8b7424308b4e688b4664":
 cleanup __cdecl CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
 ".5557565383ec1c8b6c????8b74????8b5d648b4d6829d9":

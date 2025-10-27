@@ -1,0 +1,37 @@
+"554889e54157415641554154534881ec8801000048":
+cleanup __amd64 void AchievementTracker::OnLanguageChange(AchievementTracker *this);
+".554889e54157415641554154534881ec780201":
+cleanup __amd64 void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this);
+".554889e54157415641554154534883ec58":
+cleanup __amd64 std::vector<CAchievement*> AchievementTracker::GetShipAchievements(AchievementTracker *this, const std::string& ship);
+".554889e54157415641554154534883ec184189f7488b":
+cleanup __amd64 void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
+".554889e54157415641554154534883ec688955":
+cleanup __amd64 void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
+".554889e5415741564154":
+cleanup __amd64 void AchievementTracker::SetSectorEight(AchievementTracker *this);
+".554889e541574156415541545348":
+cleanup __amd64 void AchievementTracker::SetAchievement(AchievementTracker *this, const std::string& achievement, bool noPopup, bool sendToServer);
+".554889e541574156":
+noHook __amd64 void AchievementTracker::DO_NOT_HOOK_GetFlagValue();
+".554889e541574156":
+cleanup __amd64 bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
+".554889e541574156":
+cleanup __amd64 int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
+".554889e541574156":
+cleanup __amd64 void AchievementTracker::CheckShipAchievements(AchievementTracker *this, int shipId, bool hidePopups);
+".554889e5415741":
+cleanup __amd64 void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement* ach);
+".554889e54157415641554154534883ec384989fe4d8d":
+cleanup __amd64 void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
+".554889e5415741564154":
+cleanup __amd64 void AchievementTracker::OnLoop(AchievementTracker *this);
+"!.554889e54157415641554154534883ec184989fd83":
+cleanup __amd64 void AchievementTracker::UnlockShip(AchievementTracker *this, int shipId, int shipType);
+".554889e54156534889fb488d7b":
+cleanup __amd64 void AchievementTracker::ResetFlags(AchievementTracker *this);
+".554889e54157415641554154534883ec184989f54989fe498d5e48":
+cleanup __amd64 void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
+
+"!.0089dfe8????1200488d3d(???????\?)":
+offsetVariable AchievementTracker* Global_AchievementTracker_Tracker;

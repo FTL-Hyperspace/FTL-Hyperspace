@@ -1,0 +1,23 @@
+// Continue from Global_CrewMemberFactory_Factory (hyper efficiency™)
+".554889e54157415641554154534881ece801":
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager* _ship, int _worldLevel, const std::string& _type);
+".488bbf78":
+cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
+".554889e5534883ec38":
+cleanup __amd64 void CrewStoreBox::MouseMove(CrewStoreBox *this, int mX, int mY);
+".554889e541574156534881ec88":
+cleanup __amd64 void CrewStoreBox::Purchase(CrewStoreBox *this);
+
+
+struct CrewStoreBox
+{{
+	CrewStoreBox(ShipManager* ship, int worldLevel, const std::string& type)
+	{
+		this->constructor(ship, worldLevel, type);
+	}
+	
+	CrewStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
+	}
+}};

@@ -1,0 +1,265 @@
+"554889e539b79c":
+cleanup __amd64 bool CrewMember::InsideRoom(CrewMember *this, int roomId);
+".554889e548c747100000000048c7470800000000c6070c66c7470569":
+cleanup __amd64 std::string CrewMember::GetUniqueRepairing(CrewMember *this);
+".554889e5c647200048":
+cleanup __amd64 Damage CrewMember::GetRoomDamage(CrewMember *this);
+"!.554889e55350488d05??????004889":
+noHook __amd64 void CrewMember::DO_NOT_HOOK();
+".554889e541":
+cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint& _blueprint, int _shipId, bool _intruder, CrewAnimation* _animation);
+".554889e541574156534883ec584189d7":
+cleanup __amd64 void CrewMember::SetName(CrewMember *this, TextString* name, bool force);
+".554889e54156534189f64889fb488bbbc0":
+cleanup __amd64 void CrewMember::SetSex(CrewMember *this, bool male);
+".554889e58b879c":
+cleanup __amd64 void CrewMember::ClearTask(CrewMember *this);
+".554889e5c747241e":
+cleanup __amd64 bool CrewMember::OnInit(CrewMember *this);
+"!.554889e541565389f34989fef3":
+cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
+".554889e5415741565350":
+cleanup __amd64 void CrewMember::LoadState(CrewMember *this, int fileHelper);
+".554889e54157415641554154534883ec484189f64989fc0f":
+cleanup __amd64 void CrewMember::CycleColorLayer(CrewMember *this, int dir);
+".554889e553504889fb488b83c0":
+cleanup __amd64 bool CrewMember::CanTeleport(CrewMember *this);
+".554889e5f3":
+cleanup __amd64 bool CrewMember::AtFinalGoal(CrewMember *this);
+".554889e54157415641554154534881ec68":
+static cleanup __amd64 std::string CrewMember::GetSkillTooltip(int skillId, int skillLevel, std::pair<int,int> progress, bool infoScreen);
+".554889e54157415653":
+cleanup __amd64 void CrewMember::SetCurrentSystem(CrewMember *this, ShipSystem* sys);
+".554889e5b0":
+cleanup __amd64 bool CrewMember::IsBusy(CrewMember *this);
+".554889e5b8":
+cleanup __amd64 int CrewMember::GetSkillLevel(CrewMember *this, int skillId);
+".554889e583ff06":
+static cleanup __amd64 int CrewMember::GetSkillFromSystem(int systemId);
+".554889e583bfa000":
+cleanup __amd64 bool CrewMember::IsManningArtillery(CrewMember *this);
+".554889e54156534989fe498bbe":
+cleanup __amd64 void CrewMember::CheckSkills(CrewMember *this);
+".554889e54883bf88000000000f":
+cleanup __amd64 bool CrewMember::Repairing(CrewMember *this);
+".554889e5415741564154534883ec204189f64889fb":
+cleanup __amd64 void CrewMember::IncreaseSkill(CrewMember *this, int skillId);
+".554889e54863c6488b8fb80300008b":
+cleanup __amd64 void CrewMember::MasterSkill(CrewMember *this, int skillId);
+".554889e54088b77c": 
+cleanup __amd64 void CrewMember::SetResisted(CrewMember *this, bool resisted);
+".554889e58a877c":
+cleanup __amd64 bool CrewMember::GetResisted(CrewMember *this);
+".554889e54863c6488b8fb803000089":
+cleanup __amd64 void CrewMember::SetSkillProgress(CrewMember *this, int skillId, int skillLevel);
+".554889e54863ce48":
+cleanup __amd64 std::pair<int, int> CrewMember::GetSkillProgress(CrewMember *this, int skillId);
+"!.554889e5b80100000083":
+cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId);
+".554889e553504889fb488b03ff9050":
+cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
+".554889e54157415641554154534883ec184989ff488d05":
+cleanup __amd64 void CrewMember::destructor(CrewMember *this);
+"!.554889e553504889fbe812fd":
+cleanup __amd64 void CrewMember::Cleanup(CrewMember *this); // I think thats the secondary destructor? doesnt really matter as it's unused. 
+".8b97ac00000085d27878":
+cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
+"!.554889e580bf600200000075":
+cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
+".554889e54156534883ec304889fb488bbb88":
+cleanup __amd64 void CrewMember::UpdateRepair(CrewMember *this);
+".554889e553504889fb488bbb8800":
+cleanup __amd64 bool CrewMember::Sabotaging(CrewMember *this);
+".554889e5534883ec184889fb488bbb88":
+cleanup __amd64 Pointf CrewMember::SelectSabotageTarget(CrewMember *this);
+".554889e54883bf880000000074":
+cleanup __amd64 bool CrewMember::RepairingFire(CrewMember *this);
+".554889e553504889fb4883bb8800000000742548":
+cleanup __amd64 void CrewMember::StopRepairing(CrewMember *this);
+"!.554889e5488b870806":
+cleanup __amd64 void CrewMember::Jump(CrewMember *this);
+"!.554889e55350f30f1145f44889fb48":
+cleanup __amd64 void CrewMember::ModifyHealth(CrewMember *this, float health);
+".554889e541574156534883ec384889fbf3":
+cleanup __amd64 bool CrewMember::DirectModifyHealth(CrewMember *this, float health);
+".554889e553504889fb4883bb8800000000742583":
+cleanup __amd64 bool CrewMember::RepairingSystem(CrewMember *this);
+".554889e5415653":
+cleanup __amd64 void CrewMember::StartRepair(CrewMember *this, Repairable* toRepair);
+".554889e5488b87ac000000488b8f":
+cleanup __amd64 void CrewMember::SavePosition(CrewMember *this);
+".554889e548c78780":
+cleanup __amd64 void CrewMember::ClearPosition(CrewMember *this);
+".554889e5488b878008":
+cleanup __amd64 Slot CrewMember::GetSavedPosition(CrewMember *this);
+"!.554889e58bb7":
+cleanup __amd64 bool CrewMember::RestorePosition(CrewMember *this);
+"!.554889e54157415641554154534883ec484189cd":
+cleanup __amd64 bool CrewMember::MoveToRoom(CrewMember *this, int roomId, int slotId, bool forceMove);
+".554889e54889b78008":
+cleanup __amd64 void CrewMember::SetSavePosition(CrewMember *this, Slot position);
+".554889e58a87f401":
+cleanup __amd64 void CrewMember::SetFrozen(CrewMember *this, bool frozen);
+".554889e54088b7f5":
+cleanup __amd64 void CrewMember::SetFrozenLocation(CrewMember *this, bool frozenLocation);
+".554889e54889b7f8":
+cleanup __amd64 void CrewMember::SetTask(CrewMember *this, CrewTask task);
+".554889e5415741564154534883ec204189cc":
+cleanup __amd64 Slot CrewMember::FindSlot(CrewMember *this, int roomId, int slotId, bool closeEnough);
+".554889e5415741564154534883ec3041":
+cleanup __amd64 bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
+".554889e54157415653504189d74989f64889fb488b":
+cleanup __amd64 void CrewMember::SetCurrentTarget(CrewMember *this, CrewTarget* target, bool force);
+".554889e541574156":
+cleanup __amd64 void CrewMember::SetRoomPath(CrewMember *this, int slotId, int roomId);
+".554889e58b":
+cleanup __amd64 bool CrewMember::GetIntruder(CrewMember *this);
+".554889e5415653":
+cleanup __amd64 void CrewMember::SetPosition(CrewMember *this, Point position);
+".554889e5415741564154534883ec104889f3":
+cleanup __amd64 bool CrewMember::SetPath(CrewMember *this, Path* path);
+".554889e54157415641554154534883ec384189f648":
+cleanup __amd64 void CrewMember::SetRoom(CrewMember *this, int roomId);
+".554889e541574156534883ec384889fb8b":
+cleanup __amd64 void CrewMember::ClearPath(CrewMember *this);
+".554889e54883ec10f30f10":
+cleanup __amd64 Point CrewMember::GetFinalGoal(CrewMember *this);
+".554889e5534883ec18f30f10471c":
+cleanup __amd64 Point CrewMember::GetNextGoal(CrewMember *this);
+".554889e54889b78000":
+cleanup __amd64 void CrewMember::CloseDoorBehind(CrewMember *this, Door* door);
+".554889e54157415653":
+cleanup __amd64 float CrewMember::GetMoveSpeed(CrewMember *this);
+".554889e5415741":
+cleanup __amd64 bool CrewMember::GetNewGoal(CrewMember *this);
+".554889e5f30f":
+cleanup __amd64 bool CrewMember::AtGoal(CrewMember *this);
+".554889e5415653":
+cleanup __amd64 void CrewMember::UpdateMovement(CrewMember *this);
+".554889e541574156415453":
+cleanup __amd64 void CrewMember::Restart(CrewMember *this);
+".554889e5f30f":
+cleanup __amd64 void CrewMember::SetDamageBoost(CrewMember *this, float damageBoost);
+".554889e553504889fb":
+cleanup __amd64 void CrewMember::SetHealthBoost(CrewMember *this, int healthBoost);
+".554889e55350":
+cleanup __amd64 void CrewMember::InitializeSkills(CrewMember *this);
+".554889e54156534883ec":
+cleanup __amd64 void CrewMember::SetCloneReady(CrewMember *this, bool cloneReady);
+".554889e5415741565348":
+cleanup __amd64 void CrewMember::Kill(CrewMember *this, bool noClone);
+".554889e580bff4":
+cleanup __amd64 bool CrewMember::NeedFrozenLocation(CrewMember *this);
+".554889e541574156534883ec":
+cleanup __amd64 void CrewMember::CheckForTeleport(CrewMember *this);
+".554889e54157415641554154534881ec??0100004989fc":
+cleanup __amd64 void CrewMember::OnLoop(CrewMember *this);
+".554889e5415653":
+cleanup __amd64 void CrewMember::UpdateHealth(CrewMember *this);
+".554889e553":
+cleanup __amd64 std::string CrewMember::GetLongName(CrewMember *this);
+".554889e589":
+cleanup __amd64 void CrewMember::SetCurrentShip(CrewMember *this, int shipId);
+".554889e548":
+cleanup __amd64 void CrewMember::CheckFighting(CrewMember *this);
+".554889e55350":
+cleanup __amd64 bool CrewMember::ApplyDamage(CrewMember *this, float damage);
+".554889e5c6":
+cleanup __amd64 void CrewMember::SetOutOfGame(CrewMember *this);
+".554889e589b774":
+cleanup __amd64 void CrewMember::SetDeathNumber(CrewMember *this, int deathNum);
+".554889e54157415653":
+cleanup __amd64 void CrewMember::SetMindControl(CrewMember *this, bool controlled);
+".554889e54088b771":
+cleanup __amd64 void CrewMember::ForceMindControl(CrewMember *this, bool force);
+".554889e541574156":
+cleanup __amd64 void CrewMember::RenderSkillUpAnimation(CrewMember *this, Point position);
+".554889e54157415653":
+cleanup __amd64 void CrewMember::Clone(CrewMember *this);
+"!.554889e54156534c8bb7":
+cleanup __amd64 void CrewMember::StartTeleportArrive(CrewMember *this);
+".554889e5534883ec18":
+cleanup __amd64 void CrewMember::OnRenderPath(CrewMember *this);
+".554889e5534883ec18f30f10470c":
+cleanup __amd64 Point CrewMember::GetLocation(CrewMember *this);
+".554889e5f3":
+cleanup __amd64 float CrewMember::PositionShift(CrewMember *this);
+".554889e54156534883ec10":
+cleanup __amd64 void CrewMember::OnRender(CrewMember *this, bool outlineOnly);
+".554889e54157415641554154534881ec980000004989fc":
+cleanup __amd64 void CrewMember::OnRenderHealth(CrewMember *this);
+".554889e531c080bf60":
+cleanup __amd64 int CrewMember::GetIntegerHealth(CrewMember *this);
+".554889e54157415641554154534883ec484989f7":
+cleanup __amd64 std::string CrewMember::GetTooltip(CrewMember *this);
+".554889e5488bbf88":
+cleanup __amd64 int CrewMember::GetRepairingId(CrewMember *this);
+".554889e54589":
+cleanup __amd64 bool CrewMember::WithinRect(CrewMember *this, int x, int y, int w, int h);
+".554889e553504889fb80be70":
+cleanup __amd64 std::string CrewMember::GetName(CrewMember *this);
+".554889e5415653":
+virtual cleanup __amd64 bool CrewMember::CanHeal(CrewMember *this);
+".554889e5f30f":
+cleanup __amd64 bool CrewMember::ContainsPoint(CrewMember *this, int x, int y);
+".554889e5534883":
+cleanup __amd64 void CrewMember::SetMedbay(CrewMember *this, float health);
+"!.554889e55350488b":
+cleanup __amd64 void CrewMember::StartTeleport(CrewMember *this);
+".554889e5488b07ff9010":
+cleanup __amd64 bool CrewMember::Functional(CrewMember *this);
+".554889e553504889fb488b03ff9010":
+cleanup __amd64 bool CrewMember::CountForVictory(CrewMember *this);
+".554889e553504889fb837b08":
+cleanup __amd64 bool CrewMember::GetControllable(CrewMember *this);
+".554889e553504889fb80bbbc":
+virtual cleanup __amd64 bool CrewMember::CanRepair(CrewMember *this);
+".554889e58a87bc":
+virtual cleanup __amd64 bool CrewMember::CanSabotage(CrewMember *this);
+".554889e580bfbc00":
+virtual cleanup __amd64 bool CrewMember::CanMan(CrewMember *this);
+
+
+struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
+{{
+	CrewMember()
+	{
+
+	}
+
+	CrewMember(CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation* animation)
+	{
+		this->constructor(blueprint, shipId, intruder, animation);
+	}
+	
+	ShipObject* GetShipObject()
+	{
+		return (ShipObject*)(this);
+	}
+
+	int GetPowerOwner();
+
+	bool _HS_ValidTarget(int shipId);
+	bool _HS_GetControllable();
+	bool _HS_CanSuffocate();
+	bool _HS_CanFight();
+	bool _HS_CanRepair();
+	bool _HS_CanSabotage();
+	bool _HS_CanMan();
+	bool _HS_CanTeleport();
+	bool _HS_CanBurn();
+	int _HS_GetMaxHealth();
+	float _HS_GetMoveSpeedMultiplier();
+	float _HS_GetRepairSpeed();
+	float _HS_GetDamageMultiplier();
+	bool _HS_ProvidesPower();
+	float _HS_FireRepairMultiplier();
+	bool _HS_IsTelepathic();
+	float _HS_GetSuffocationModifier();
+	bool _HS_IsAnaerobic();
+	bool _HS_HasSpecialPower();
+	std::pair<float, float> _HS_GetPowerCooldown();
+	bool _HS_PowerReady();
+	void _HS_ResetPower();
+	void _HS_ActivatePower();
+}};

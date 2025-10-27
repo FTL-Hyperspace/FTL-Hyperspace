@@ -1,0 +1,4 @@
+"554889e553504889fbe8????ffff488b":
+cleanup __amd64 void EnergyAlien::OnLoop(EnergyAlien *this);
+".554889e580bef108":
+cleanup __amd64 Damage EnergyAlien::GetRoomDamage(EnergyAlien *this);

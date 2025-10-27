@@ -5,6 +5,7 @@
 #include "EnemyShipIcons.h"
 
 #include <boost/lexical_cast.hpp>
+#include <iostream>
 
 static bool importingShip = false;
 bool revisitingShip = false;
@@ -333,7 +334,7 @@ HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roo
 
     char buf[128];
 
-    sprintf(buf, "effects/low_o2_stripes_%dx%d.png", w, h);
+    snprintf(buf, 128, "effects/low_o2_stripes_%dx%d.png", w, h);
 
     o2LowPrimitive = G_->GetResources()->CreateImagePrimitiveString(buf, rect.x, rect.y, 0, COLOR_WHITE, 0.5f, false);
 }
@@ -1604,7 +1605,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
 
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
-    float sparkProgress = progress/0.75;
+    float sparkProgress = progress/0.75; 
     float sparkScale = 0.0;
     float sparkX = 0.0;
     float sparkY = 0.0;

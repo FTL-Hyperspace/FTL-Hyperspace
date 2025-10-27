@@ -1,0 +1,4 @@
+"554889e54157415641554154534881ecb800000049":
+cleanup __amd64 void Spreader_Fire::UpdateSpread(Spreader_Fire *this);
+".55":
+cleanup __amd64 int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId);

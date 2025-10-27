@@ -1,0 +1,59 @@
+// Continue from CSurface::AddTexVertices (hyper efficiency™)
+".554889e54157415653504189ce4189d74889fb48":
+noHook __amd64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_1();
+".554889e54157415653504189ce4189d74889fb48":
+cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& _path, int _x, int _y);
+".554889e553504889fb48c7430800000000488d":
+noHook __amd64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_2();
+".554889e553504889fb48c7430800000000488d": 
+cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& _path, CachedImage::Centered _centered);
+".554889e54156534989f64889fb48c7":
+noHook __amd64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_3();
+".554889e54156534989f64889fb48c7":
+cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage& _source);
+".554889e54157":
+cleanup __amd64 void CachedImage::CreatePrimitive(CachedImage *this);
+".554889e5415653":
+cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
+".554889e5415741565350":
+cleanup __amd64 void CachedImage::SetPosition(CachedImage *this, int x, int y);
+".554889e553504889fb0f2e4338":
+cleanup __amd64 void CachedImage::SetScale(CachedImage *this, float wScale, float hScale);
+".554889e55348":
+cleanup __amd64 void CachedImage::SetPartial(CachedImage *this, float x_start, float y_start, float x_size, float y_size);
+".554889e553504889fb0f2e4350":
+cleanup __amd64 void CachedImage::SetRotation(CachedImage *this, float rotation);
+".554889e541565341":
+cleanup __amd64 void CachedImage::SetMirrored(CachedImage *this, bool mirrored);
+"!.554889e553504889fb":
+cleanup __amd64 void CachedImage::destructor(CachedImage *this);
+
+
+struct CachedImage
+{{
+	enum Centered
+	{
+	  CENTERED = 0x0,
+	};
+	
+	CachedImage(const std::string& path, int x, int y)
+	{
+		constructor1(path, x, y);
+	}
+	
+	CachedImage(const std::string& path, Centered centered)
+	{
+		constructor2(path, centered);
+	}
+
+	CachedImage()
+	{
+		
+	}
+	
+	CachedImage(const CachedImage& source)
+	{
+		constructor_copy(source);
+	}
+}};
+

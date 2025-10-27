@@ -175,6 +175,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 ship->AddSystem(systemId);
             }
         }
+
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId))
+            {
+                ship->AddSystem(systemId);
+            } 
+        }
         return true;
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)

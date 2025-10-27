@@ -1,0 +1,124 @@
+// Reimplemented all functions; they are not complex enough to make jumping to them worth it
+
+struct Pointf
+{{
+	inline Pointf()
+	{
+		this->x = 0.f;
+		this->y = 0.f;
+	}
+
+	inline Pointf(float x, float y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	inline Pointf(Point point)
+	{
+		this->x = (float)point.y;
+		this->y = (float)point.y;
+	}
+
+	inline float Magnitude() const
+	{
+		return sqrtf(x * x + y * y);
+	}
+	
+	Pointf Normalize() const
+	{
+		Pointf ret;
+		float mag = Magnitude();
+		
+		if (mag == 0.0f)
+		{
+			ret.x = 0.0f;
+			ret.y = 0.0f;
+		}
+		else
+		{
+			ret.x = x / mag;
+			ret.y = y / mag;
+		}
+		
+		return ret;
+	}
+
+	float Distance(Pointf p)
+	{
+		float x1 = this->x - p.x;
+		float y1 = this->y - p.y;
+		float distSquared = (x1 * x1 + y1 * y1);
+		return sqrtf(distSquared);
+	}
+
+	float RelativeDistance(Pointf p)
+	{
+		float x1 = this->x - p.x;
+		float y1 = this->y - p.y;
+		return (x1 * x1 + y1 * y1);
+	}
+
+	float Slope(Pointf p)
+	{
+		float run = p.x - this->x;
+		float rise = p.y - this->y;
+		return run / rise;
+	}
+
+	// Rotate around origin (0, 0) - Could get rid of this actually by setting p = (0,0) in the other function
+	inline Pointf RotatePoint(float angle)
+	{
+		Pointf ret = RotatePoint(angle, Pointf(0.0f, 0.0f));
+		return ret;
+	}
+
+	// Rotate around arbitrary pivot point p
+	inline Pointf RotatePoint(float angle, Pointf p)
+	{
+		const float rads = (angle * 3.1415927f) / 180.0f;	// Degrees to radians
+		const float s = sinf(rads);
+		const float c = cosf(rads);
+
+		// Translate point to origin relative to pivot
+		const float translatedX = x - p.x;
+		const float translatedY = y - p.y;
+
+		// Rotate
+		Pointf ret;
+		ret.x = (translatedX * c) - (translatedY * s) + p.x;
+		ret.y = (translatedX * s) + (translatedY * c) + p.y;
+		return ret;
+	}
+
+	Pointf operator+(const Pointf& other)
+	{
+		return Pointf(x + other.x, y + other.y);
+	}
+	
+	Pointf operator-(const Pointf& other)
+	{		
+		return Pointf(x - other.x, y - other.y);
+	}
+	
+	Pointf operator/(float amount)
+	{		
+		return Pointf(x / amount, y / amount);
+	}
+	
+	Pointf operator*(float amount)
+	{		
+		return Pointf(x * amount, y * amount);
+	}
+
+	friend bool operator==(const Pointf &a, const Pointf &b)
+	{
+		if (a.x != b.x) return false;
+		return a.y==b.y;
+	}
+	friend bool operator!=(const Pointf &a, const Pointf &b)
+	{
+		if (a.x == b.x) return false;
+		return a.y!=b.y;
+	}
+}};

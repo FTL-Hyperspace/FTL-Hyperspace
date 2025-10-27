@@ -1,0 +1,13 @@
+"!41c684242002000001488d1d(???????\?)be64000000":
+offsetVariable SoundControl* Global_SoundControl_Sounds;
+
+".554889e5415741564155415453504189f449":
+cleanup __amd64 void SoundControl::StopChannel(SoundControl *this, int channel, float fade);
+".554889e54157415641554154534883":
+cleanup __amd64 void SoundControl::StartPlaylist(SoundControl *this, std::vector<std::string>& playlist);
+".5548":
+cleanup __amd64 void SoundControl::StopPlaylist(SoundControl *this, int fadeOut);
+".5548":
+cleanup __amd64 int SoundControl::PlaySoundMix(SoundControl *this, const std::string& soundName, float volume, bool loop);
+".554889e541574156415541545348":
+cleanup __amd64 void SoundControl::UpdateSoundLoop(SoundControl *this, const std::string& loopId, float count);

@@ -1,7 +1,12 @@
 "5589e5565383ec208b5d0880bbfc05000000":
 cleanup __cdecl void CrewCustomizeBox::CheckContents(CrewCustomizeBox *this);
-"5557565383ec7c8b8424a00000008d":
+".5589e557565383ec2c8b5d0880bb6003000000744380bbac03000000":
+cleanup __cdecl void CrewCustomizeBox::MouseClick(CrewCustomizeBox *this);
+".5557565383ec7c8bb424900000008d5c2460":
+cleanup __cdecl void CrewCustomizeBox::SetCustomizeMode(CrewCustomizeBox *this, Point location);
+".5557565383ec7c8b8424a00000008d":
 cleanup __cdecl void CrewCustomizeBox::constructor(CrewCustomizeBox *this, Point location, ShipManager *shipManager, int slot); 
+
 
 struct CrewCustomizeBox
 {{

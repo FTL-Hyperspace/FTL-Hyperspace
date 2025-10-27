@@ -1,0 +1,177 @@
+"!554889e541574156534881ec9800000089fb488b":
+static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
+"!.554889e548":
+static cleanup __amd64 void ShipGraph::Restart();
+"!.554889e553":
+cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
+"!.55488":
+cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
+"!.5548":
+cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
+"!.554889e541574156415541545348":
+cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
+"!.554889e541":
+cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
+"!.5548":
+cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
+"!.554889e54157415641554154534883ec58":
+cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
+"!.554889e54157415641554154534881ec8800000041":
+cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point position, int shipId, bool intruder);
+"!.554889e54157415641554154534883ec58":
+cleanup __amd64 Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int shipId);
+"!.5548":
+cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
+"!.5548":
+cleanup __amd64 int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
+// TODO: Rewrite these Conversions, they are super simple
+"!.5548":
+cleanup __amd64 float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float local);
+"!.5548":
+cleanup __amd64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float world);
+"!.5548":
+cleanup __amd64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
+"!.5548":
+cleanup __amd64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
+"!.5548":
+cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this);
+// Disabled ret scan for every function because it's unnecessary
+
+
+struct ShipGraph depends (Point, Pointf, Room)
+{{
+	// Using a bunch of reimplemented functions to avoid fetching them via signature
+
+	inline static Point TranslateFromGrid(int x, int y)
+	{
+		Point ret = Point(x * 35, y * 35);
+		return ret;
+	}
+
+	inline static Point TranslateFromGrid(Point p)
+	{
+		return TranslateFromGrid(p.x, p.y);
+	}
+
+	inline static Point TranslateToGrid(int x, int y)
+	{
+		Point ret = Point(x / 35, y / 35);
+		return ret;
+	}
+
+	inline static Point TranslateToGrid(Point p)
+	{
+		return TranslateToGrid(p.x, p.y);
+	}
+
+	inline int ConnectedGridSquaresPoint(Point p1, Point p2)
+	{
+		return this->ConnectedGridSquares(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	inline Door* ConnectingDoor(Point p1, Point p2)
+	{
+		return this->ConnectingDoor(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	bool ContainsPoint(int x, int y)
+	{
+		if ((x >= this->shipBox.x) && (x < (this->shipBox.x + this->shipBox.w)) && (y >= this->shipBox.y))
+		{
+			return y < (this->shipBox.y + this->shipBox.h);
+		}
+		return false;
+	}
+
+	int DoorCount(int roomId)
+	{
+		if (-1 < roomId && roomId < this->doorCounts.size())
+		{
+			return this->doorCounts[roomId];
+		}
+		return 0;
+	}
+
+	int RoomCount()
+	{
+		return this->rooms.size();
+	}
+
+	int GetNumSlots(int roomId)
+	{
+		return this->rooms[roomId]->slots.size();
+		// return this->rooms[roomId]->GetNumSlots(roomId); // TODO: Call was inlined
+	}
+
+	int GetSelectedRoom(int x, int y, bool bIncludeWalls)
+	{
+		for (Room* room : this->rooms)
+		{
+			if (room->ContainsPoint(x, y, bIncludeWalls))
+			{
+				return room->iRoomId;
+			}
+		}
+		return -1;
+	}
+	
+	Point GetIntoRoom(int roomId, Point p)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->GetIntoRoom(p);
+		}
+		else
+		{
+			return Point(-1, -1);
+		}
+	}
+
+	Globals::Rect GetRoomShape(int roomId) 
+	{	
+		Globals::Rect dummy;
+
+		for (Room* room: this->rooms)
+		{
+			if (room->iRoomId == roomId)
+			{
+				dummy = room->GetRect();
+				return dummy;
+			}
+		}
+
+		dummy.x = -1;
+		dummy.y = -1;
+		dummy.w = 0;
+		dummy.h = 0;
+		return dummy;
+	}
+
+	Pointf GetRoomCenter(int roomId) 
+	{
+		Globals::Rect shape = this->GetRoomShape(roomId);
+
+		float x = shape.x + shape.w / 2.f;
+		float y = shape.y + shape.h / 2.f;
+
+		return Pointf(x, y);
+	}
+
+	float GetRoomOxygen(int roomId)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->lastO2;
+		}
+		return 0.f;
+	}
+
+	bool GetRoomBlackedOut(int roomId)
+	{
+		if (-1 < roomId && roomId < this->rooms.size())
+		{
+			return this->rooms[roomId]->bBlackedOut;
+		}
+		return false;
+	}
+}};

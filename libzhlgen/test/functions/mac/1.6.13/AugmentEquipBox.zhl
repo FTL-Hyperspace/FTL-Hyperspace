@@ -1,0 +1,25 @@
+// Continue from AsteroidGenerator::LoadAsteroids (hyper efficiency™)
+".554889e5415741564154534883ec104189cf":
+noHook __amd64 void AugmentEquipBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+".554889e5415741564154534883ec104189cf":
+cleanup __amd64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot);
+"!.554889e553504889fbe8????06":
+cleanup __amd64 void AugmentEquipBox::RenderIcon(AugmentEquipBox *this);
+".554889e541574156534883ec184889fb4c":
+cleanup __amd64 void AugmentEquipBox::RemoveItem(AugmentEquipBox *this);
+".554889e54156534883ec304889fb488bb3":
+cleanup __amd64 void AugmentEquipBox::CheckContents(AugmentEquipBox *this);
+
+
+struct AugmentEquipBox
+{{
+	AugmentEquipBox(Point loc, ShipManager *shipManager, int slot)
+	{
+		this->constructor(loc, shipManager, slot);
+	}
+
+	int GetType(bool forcedEmpty)
+    {
+        return 3;
+    }
+}};

@@ -1,0 +1,60 @@
+// Continue from VTable_Targetable_LaserBlast (hyper efficiency™)
+".554889e553504889fb48c74310":
+noHook __amd64 void LocationEvent::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+".554889e553504889fb48c74310":
+cleanup __amd64 void LocationEvent::constructor(LocationEvent *this);
+".554889e5415741564154534883ec204989ff4183":
+cleanup __amd64 void LocationEvent::ClearEvent(LocationEvent *this, bool force);
+
+
+struct LocationEvent depends (LocationEvent::Choice)
+{{
+    struct Choice
+    {
+        LocationEvent *event;
+        TextString text;
+        ChoiceReq requirement;
+        bool hiddenReward;
+    };
+
+    LocationEvent()
+    {
+        this->constructor();
+    }
+
+    std::vector<Choice*> GetChoices()
+    {
+        std::vector<Choice*> ret = std::vector<Choice*>();
+        for (int i=0; i < (int)this->choices.size(); ++i)
+        {
+            ret.push_back(&this->choices[i]);
+        }
+
+        return ret;
+    }
+    
+    void AddChoice(LocationEvent* newEvent, const std::string& text, ChoiceReq requirement, bool hiddenReward)
+    {
+        if (newEvent != nullptr) {
+            Choice newChoice;
+            newChoice.event = newEvent;
+            newChoice.text.data = text;
+            newChoice.text.isLiteral = true;
+            newChoice.requirement = requirement;
+            newChoice.hiddenReward = hiddenReward;
+ 
+            this->choices.push_back(newChoice);
+        }
+    }
+ 
+    bool RemoveChoice(int index)
+    {
+        if (index >= 0 && index < this->choices.size())
+        {
+            delete this->choices[index].event;
+            this->choices.erase(this->choices.begin() + index);
+            return true;
+        }
+        return false;
+    }
+}};

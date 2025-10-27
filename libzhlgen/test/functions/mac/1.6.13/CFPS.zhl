@@ -1,0 +1,7 @@
+// Continue from CEvent::OnEvent (hyper efficiency™)
+".554889e5534883ec184889fbf20f1043":
+cleanup __amd64 void CFPS::OnLoop(CFPS *this);
+".554889e5f30f1047185d":
+cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
+
+// Moved the GetCFPS offsetVar into CApp.zhl

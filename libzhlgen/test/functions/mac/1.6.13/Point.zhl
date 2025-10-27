@@ -1,0 +1,119 @@
+// Reimplemented all functions; they are not complex enough to make jumping to them worth it
+
+struct Point
+{{
+	Point()
+	{
+
+	}
+
+	Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	int Distance(Point p)
+	{
+		int x1 = this->x - p.x;
+		int y1 = this->y - p.y;
+		int distSquared = (x1 * x1 + y1 * y1);
+		return (int)sqrtf(distSquared);
+	}
+
+	int RelativeDistance(Point p)
+	{
+		int x1 = this->x - p.x;
+		int y1 = this->y - p.y;
+		float dist = (x1 * x1 + y1 * y1);
+		return dist;
+	}
+
+	float Slope(Point p)
+	{
+		float run = (float)(p.x - this->x);
+		float rise = (float)(p.y - this->y);
+		return run / rise;
+	}
+
+	// Rotate around origin (0, 0) - Could get rid of this actually by setting p = (0,0) in the other function
+	inline Point RotatePoint(float angle)
+	{
+		Point ret = RotatePoint(angle, Point(0, 0));
+		return ret;
+	}
+
+	// Rotate around arbitrary pivot point p
+	inline Point RotatePoint(float angle, Point p)
+	{
+		const float rads = (angle * 3.1415927f) / 180.0f;	// Degrees to radians
+		const float s = sinf(rads);
+		const float c = cosf(rads);
+
+		// Translate point to origin relative to pivot
+		const float translatedX = (float)(this->x - p.x);
+		const float translatedY = (float)(this->y - p.y);
+
+		// Rotate
+		Point ret;
+		ret.x = (int)((translatedX * c) - (translatedY * s) + p.x);
+		ret.y = (int)((translatedX * s) + (translatedY * c) + p.y);
+		return ret;
+	}
+
+	int DistancePath(std::vector<Point> path)
+	{
+		if (path.size() < 2)
+		{
+			return 0;
+		}
+		
+		int totalDistance = 0;
+		for (uint i = 0; i < path.size() - 1; i++)
+		{
+			int distanceBetween = path[i].Distance(path[i + 1]);
+			totalDistance += distanceBetween;
+		}
+		
+		return totalDistance;
+	}
+
+	Point operator+(const Point& other)
+	{
+		return Point(x + other.x, y + other.y);
+	}
+
+	Point operator-(const Point& other)
+	{
+		return Point(x - other.x, y - other.y);
+	}
+
+	Point operator/(int amount)
+	{
+		return Point(x / amount, y / amount);
+	}
+
+	Point operator*(int amount)
+	{
+		return Point(x * amount, y * amount);
+	}
+
+	//Required for std::map with Point keys to function properly
+	bool operator<(const Point& other) const
+	{
+		if (this->x == other.x) return this->y < other.y;
+		return this->x < other.x;
+	}
+
+	friend bool operator==(const Point& a, const Point& b)
+	{
+		if (a.x != b.x) return false;
+		return a.y==b.y;
+	}
+
+	friend bool operator!=(const Point& a, const Point& b)
+	{
+		if (a.x == b.x) return false;
+		return a.y!=b.y;
+	}
+}};
