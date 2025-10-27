@@ -11,7 +11,8 @@ if(APPLE)
     find_package(Boost REQUIRED PATHS ${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include)
     set(LUA_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/lib/liblua.a")
     set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include")
-    find_package(SDL2 REQUIRED) # From system
+    set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
+    set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
 elseif(UNIX)
     find_package(Boost REQUIRED) # From vcpkg
     find_package(Lua REQUIRED) # From vcpkg

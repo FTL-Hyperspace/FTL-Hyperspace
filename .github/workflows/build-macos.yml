@@ -16,7 +16,8 @@ jobs:
         run: buildscripts/ci/setup-macos.sh
 
       - name: Build all macOS variants
-        run: buildscripts/buildall-darwin.sh
+        run: buildscripts/darwin-1.6.13/build-releaseonly.sh
+        #run: buildscripts/buildall-darwin.sh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
