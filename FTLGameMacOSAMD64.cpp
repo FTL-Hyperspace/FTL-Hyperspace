@@ -9201,7 +9201,7 @@ void Algae::UpdateDeathTimer(int connectedAlgaes)
 namespace _func729
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Fire::UpdateDeathTimer", typeid(void (Fire::*)(int )), "554889e54156534883ec104189f64889fb488b03ff505084c00f84", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Fire::UpdateDeathTimer", typeid(void (Fire::*)(int )), ".554889e54156534883ec104189f64889fb488b03ff505084c00f84", nullptr, 0, 0, &func);
 }
 
 void Fire::UpdateDeathTimer(int connectedFires)
@@ -9561,7 +9561,7 @@ int *Globals_GetNextSpaceId_id;
 
 namespace _var758
 {
-    static VariableDefinition varObj("Globals_GetNextSpaceId_id", "!.05(???????\?)", &Globals_GetNextSpaceId_id, true, true);
+    static VariableDefinition varObj("Globals_GetNextSpaceId_id", "!.8905(???????\?)", &Globals_GetNextSpaceId_id, true, true);
 }
 
 namespace _func759
@@ -11658,7 +11658,7 @@ namespace _func930
 namespace _func931
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("RockAnimation::constructor", typeid(void (RockAnimation::*)(const std::string &, int , Pointf , bool )), "554889e5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("RockAnimation::constructor", typeid(void (RockAnimation::*)(const std::string &, int , Pointf , bool )), ".554889e5", nullptr, 0, 0, &func);
 }
 
 void RockAnimation::constructor(const std::string &_subRace, int _iShipId, Pointf _position, bool _enemy)

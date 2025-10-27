@@ -1,6 +1,6 @@
 "554889e553504889fbe8????ffff488d3d":
 noHook __amd64 void RockAnimation::NoHook();
-"554889e5":
+".554889e5":
 cleanup __amd64 void RockAnimation::constructor(RockAnimation *this, const std::string& _subRace, int _iShipId, Pointf _position, bool _enemy);
 ".554889e548c7070000000048c747080000000048c7471000000000c6071248b8726f636b":
 cleanup __amd64 std::string RockAnimation::GetDeathSound(RockAnimation *this);
