@@ -3,9 +3,11 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-find_package(Boost REQUIRED PATHS /Users/dino/vcpkg/installed/x64-osx/include)
-set(LUA_LIBRARIES "/Users/dino/vcpkg/installed/x64-osx/lib/liblua.a")
-set(LUA_INCLUDE_DIR "/Users/dino/vcpkg/installed/x64-osx/include")
+# Let vcpkg handle Boost automatically
+find_package(Boost REQUIRED)
+
+# Let vcpkg handle Lua automatically
+find_package(Lua REQUIRED)
 
 if(UNIX)
     find_package(SDL2 REQUIRED) # From system
@@ -42,7 +44,13 @@ swig_add_library(
     LANGUAGE lua
     SOURCES ${swigfiles}
 )
-target_compile_features(Hyperspace PRIVATE cxx_std_11)
+
+if(APPLE)
+    target_compile_features(Hyperspace PRIVATE cxx_std_14)
+else()
+    target_compile_features(Hyperspace PRIVATE cxx_std_11)
+endif()
+
 target_include_directories(
     Hyperspace PRIVATE
 
@@ -62,7 +70,7 @@ target_include_directories(
 )
 target_link_libraries(
     Hyperspace PRIVATE
-    /Users/dino/vcpkg/installed/x64-osx/lib/liblua.a
+    ${LUA_LIBRARIES}
     Threads::Threads
 )
 
@@ -312,30 +320,70 @@ add_custom_command(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_compile_options(
-    Hyperspace PRIVATE
 
-    # Enable SSE2
-    -msse -msse2 -mfpmath=sse
+if(APPLE)
+    target_compile_options(
+        Hyperspace PRIVATE
 
-    # Error on narrowing conversion
-    -Werror=narrowing
+        # Enable SSE2
+        -msse -msse2 -mfpmath=sse
 
-    # Explicit C++11 mode
-    -std=c++11
-    # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
-    -fno-delete-null-pointer-checks
+        # Error on narrowing conversion
+        -Werror=narrowing
 
-    # Warn everything
-    # TODO: Check if it's meaningful (original .cbp defined it)
-    # -Wall
-)
+        # Explicit C++14 mode (Required for boost)
+        -std=c++14
+
+        # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
+        -fno-delete-null-pointer-checks
+
+        # Allow depricated Boost stuff
+        -Wno-deprecated-declarations
+    )
+else()
+    target_compile_options(
+        Hyperspace PRIVATE
+
+        # Enable SSE2
+        -msse -msse2 -mfpmath=sse
+
+        # Error on narrowing conversion
+        -Werror=narrowing
+
+        # Explicit C++11 mode
+        -std=c++11
+
+        # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
+        -fno-delete-null-pointer-checks
+
+        # Warn everything
+        # TODO: Check if it's meaningful (original .cbp defined it)
+        # -Wall
+    )
+endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
     # SDL2
     target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
+
+    if (APPLE)
+        target_link_libraries(Hyperspace PRIVATE
+            "-framework Cocoa"
+            "-framework IOKit"
+            "-framework CoreFoundation"
+            "-framework CoreVideo"
+            "-framework CoreAudio"
+            "-framework AudioToolbox"
+            "-framework ForceFeedback"
+            "-framework Carbon"
+            "-framework Metal"
+            "-framework QuartzCore"
+            "-framework GameController"
+            "-framework CoreHaptics"
+        )
+    endif()
 
     # Disable Discord integration by default
     set(USE_DISCORD_DEFAULT OFF)

@@ -26,6 +26,9 @@ lua/swigluarun.h
 /.idea
 /cmake-build-debug
 
+# VSCode
+.vscode/settings.json
+
 # Doxygen
 docs/*
 
@@ -60,5 +63,3 @@ build-*/
 # Mac
 .DS_Store
 /vcpkg_installed
-
-.vscode/settings.json
