@@ -704,8 +704,12 @@ struct AchievementTracker
 	std::string currentShip;
 };
 
+struct Algae;
+
 struct Algae
 {
+	LIBZHL_API void UpdateDeathTimer(int connectedAlgaes);
+	
 };
 
 struct AnaerobicAlien
