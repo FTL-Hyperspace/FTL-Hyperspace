@@ -1,9 +1,10 @@
 name: 'Build macOS'
 
 on:
-  workflow_dispatch:  # Manual trigger only
-  #push:              # Trigger on push to specific branch
-  #  branches: [mac-build-v2]  
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]  
 
 jobs:
   build-macos:
@@ -16,7 +17,6 @@ jobs:
         run: buildscripts/ci/setup-macos.sh
 
       - name: Build all macOS variants
-        #run: buildscripts/darwin-1.6.13/build-releaseonly.sh
         run: buildscripts/buildall-darwin.sh
 
       - name: Upload artifacts

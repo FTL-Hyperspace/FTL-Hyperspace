@@ -1,0 +1,77 @@
+name: 'Prepare Release'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.20.1)'
+        required: true
+        default: '1.x.x'
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump version
+        run: |
+          git config --global user.email "ftl-hyperspace@github.com"
+          git config --global user.name "FTL Hyperspace"
+          buildscripts/ci/bump-version.sh ${{ inputs.version }}
+          git commit -a -m "Bump version to ${{ inputs.version }}"
+
+      - name: Push changes and create tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin master:master
+          git tag v${{ inputs.version }} master
+          git push origin v${{ inputs.version }}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.version }}
+          name: ${{ inputs.version }}
+          generate_release_notes: true
+          body: |
+            ## Download Instructions
+            - **Linux Only**: Download `FTL.Hyperspace.${{ inputs.version }}-Linux.zip` 
+            - **Windows Only**: Download `FTL.Hyperspace.${{ inputs.version }}-Windows.zip`
+            - **macOS Only**: Download `FTL.Hyperspace.${{ inputs.version }}-MacOS.zip`
+
+            Platform-specific builds will be uploaded automatically.
+
+      - name: Trigger Linux/Windows Build
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'release-linux-windows.yml',
+              ref: 'master',
+              inputs: {
+                tag: 'v${{ inputs.version }}'
+              }
+            });
+
+      - name: Trigger macOS Build
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'release-macos.yml',
+              ref: 'master',
+              inputs: {
+                tag: 'v${{ inputs.version }}'
+              }
+            });

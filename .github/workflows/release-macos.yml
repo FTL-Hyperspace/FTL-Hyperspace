@@ -1,0 +1,46 @@
+name: 'Release macOS'
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.20.1)'
+        required: true
+
+jobs:
+  build-macos:
+    runs-on: macos-15
+    steps:
+      - name: Extract version from tag
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.tag }}"
+            VERSION="${VERSION#v}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref }}
+
+      - name: Setup macOS build environment
+        run: buildscripts/ci/setup-macos.sh
+
+      - name: Build all macOS variants release only
+        run: buildscripts/buildall-darwin-release-only.sh
+
+      - name: Package macOS
+        run: buildscripts/ci/package-macos.sh ${{ steps.version.outputs.version }}
+
+      - name: Upload macOS release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-MacOS.zip
+          tag_name: v${{ steps.version.outputs.version }}
