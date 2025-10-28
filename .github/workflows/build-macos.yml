@@ -2,8 +2,8 @@ name: 'Build macOS'
 
 on:
   workflow_dispatch:  # Manual trigger only
-  push:              # Trigger on push to specific branch
-    branches: [mac-build-v2]  
+  #push:              # Trigger on push to specific branch
+  #  branches: [mac-build-v2]  
 
 jobs:
   build-macos:

@@ -21,12 +21,12 @@ jobs:
         run: |
           git config --global user.email "ftl-hyperspace@github.com"
           git config --global user.name "FTL Hyperspace"
-          buildscripts/ci-bump-version.sh ${{ inputs.version }}
+          buildscripts/ci/bump-version.sh ${{ inputs.version }}
           git commit -a -m "Bump version to ${{ inputs.version }}"
-      
+
       - name: Build binaries
         run: |
-          buildscripts/ci-buildall-release-only-from-docker.sh
+          buildscripts/ci/buildall-release-only-from-docker.sh
 
       - name: Package
         run: |
