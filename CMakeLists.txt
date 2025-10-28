@@ -11,6 +11,8 @@ if(APPLE)
     find_package(Boost REQUIRED PATHS ${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include)
     set(LUA_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/lib/liblua.a")
     set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include")
+
+    # link x86 SDL2 static library
     set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
     set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
 elseif(UNIX)
@@ -74,6 +76,8 @@ target_link_libraries(
     ${LUA_LIBRARIES}
     Threads::Threads
 )
+
+# Link macOS frameworks (needed for SDL2 static linking)
 if(APPLE)
     target_link_libraries (Hyperspace PRIVATE
     "-framework Cocoa"
@@ -88,24 +92,6 @@ if(APPLE)
     "-framework QuartzCore"
     "-framework GameController"
     "-framework CoreHaptics"
-    )
-endif()
-
-if(APPLE)
-    
-      set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
-      set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
-
-      # Required frameworks for SDL2 static linking
-      target_link_libraries(Hyperspace PRIVATE
-          "-framework IOKit"
-          "-framework CoreAudio"
-          "-framework AudioToolbox"
-          "-framework Carbon"
-          "-framework Cocoa"
-          "-framework ForceFeedback"
-          "-framework Metal"
-          "-framework CoreVideo"
     )
 endif()
 
