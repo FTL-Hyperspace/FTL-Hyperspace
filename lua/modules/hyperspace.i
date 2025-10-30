@@ -35,20 +35,39 @@
 
 //Some exception levels are empty, this grabs the first non-empty level
 %{
+    static void push_error_location(lua_State *L)
+    {
+        int errorLevel = 0;
+        size_t len = 0;
+        do {\
+            luaL_where(L, errorLevel++);
+            lua_tolstring(L, -1, &len);
+            if (len == 0) lua_pop(L, 1);
+            else break;
+        } while (true);
+    }
     #define SWIG_exception(a, b)\
     {\
-        int errorLevel = 0;\
-        size_t len = 0;\
-        do {\
-            luaL_where(L, errorLevel++);\
-            lua_tolstring(L, -1, &len);\
-            if (len == 0) lua_pop(L, 1);\
-            else break;\
-        } while (true);\
+        push_error_location(L);\
         lua_pushfstring(L,"%s:%s",#a,b);\
         lua_concat(L, 2);\
         SWIG_fail;\
-    }\
+    }
+
+    SWIGINTERN int SWIG_Lua_set_immutable_new(lua_State *L)
+    {
+    /*  there should be 1 param passed in: the new value */
+    #ifndef SWIGLUA_IGNORE_SET_IMMUTABLE
+        lua_pop(L,1);  /* remove it */
+        push_error_location(L);
+        lua_pushliteral(L, "This variable is immutable");
+        lua_concat(L, 2);
+        lua_error(L);
+    #endif
+        return 0;   /* should not return anything */
+    }
+
+    #define SWIG_Lua_set_immutable SWIG_Lua_set_immutable_new
 %}
 //Change typemap for unsigned numeric types to throw a proper lua error when provided a negative value
 %typemap(in, checkfn="lua_isnumber") unsigned int, unsigned short, unsigned long, unsigned char
