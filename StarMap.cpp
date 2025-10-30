@@ -421,6 +421,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                     {
                         AddQuest(quest, true);
                     }
+                    delayedQuests.clear();
                     forceSectorChoice = "";
                     waitedLast = false;
                     return currentLoc;
@@ -466,6 +467,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 9999, (bool bTutorial, bool useOldSee
                             {
                                 AddQuest(quest, true);
                             }
+                            delayedQuests.clear();
                             forceSectorChoice = "";
                             waitedLast = false;
                             return currentLoc;

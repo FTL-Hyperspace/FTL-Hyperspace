@@ -16,7 +16,7 @@
 <text name="aug_ARTILLERY_ORDER_title" language="es">Apuntado avanzado</text>
 <text name="aug_ARTILLERY_ORDER_desc" language="es">Permite el apuntado manual de los sistemas de artillería.</text>
 <text name="aug_TELEPORT_RECALL_title" language="es">Teletransportador personal.</text>
-<text name="aug_TELEPORT_RECALL_desc" language="es">La tripulación que este teletrasnportandose o este siendo destruida será teletransportada automáticamente de regreso a la navel.</text>
+<text name="aug_TELEPORT_RECALL_desc" language="es">La tripulación que este teletransportandose o este siendo destruida será teletransportada automáticamente de regreso a la nave.</text>
 <text name="aug_AUGMENT_SLOT_title" language="es">Capacidad de Aumentos</text>
 <text name="aug_AUGMENT_SLOT_desc" language="es">Incrementa la capacidad de Aumentos en 1.</text>
 <text name="aug_CARGO_SLOT_title" language="es">Capacidad de Carga</text>
@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace (FTL: Hyperspace)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="es">
-  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="es">
   <mod:setValue>Probabilidad de Fuego: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->

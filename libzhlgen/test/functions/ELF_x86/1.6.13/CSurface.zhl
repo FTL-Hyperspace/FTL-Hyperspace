@@ -104,6 +104,8 @@ static cleanup __cdecl bool CSurface::GL_DrawLaser(int x, int y, int w, int h, G
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 "565383ec54f30f104c2478":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
+"5557565383ec7c8b15????????a1????????f30f10b4":
+static cleanup __cdecl bool CSurface::GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
 
 /* Could cause OpenGL issues
 "5631c05383ec148b7424208b5c24248b542428":

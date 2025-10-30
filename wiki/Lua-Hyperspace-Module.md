@@ -171,9 +171,9 @@ local instance = Hyperspace.template_name(args)
 
 ### Fields
 
-- [`Projectile*[]`](#Projectile) `.projectiles`
+- [`std::vector<Projectile*>`](#Projectile) `.projectiles`
    - **Read-only**
-- [`SpaceDrone*[]`](#SpaceDrone) `.drones`
+- [`std::vector<SpaceDrone*>`](#SpaceDrone) `.drones`
    - **Read-only**
 - [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
@@ -303,8 +303,8 @@ The members held by this class determine how the `print` function displays messa
 - `void :ClearShipInfo()`
 - `int :GetAugmentationCount()`
    - Returns the number of augments on the ship.
-- `std::string[] :GetAugmentationList()`
-   - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
+- `std::vector<std::string> :GetAugmentationList()`
+   - Returns a list of augments.
 - `float :GetAugmentationValue(std::string augmentName)`
    - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
 - `int :HasAugmentation(std::string augmentName)`
@@ -366,8 +366,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Note: 5 calls of this method that return false while the player has fully upgraded, fully powered engines will unlock the achievement 'Astronomically Low Odds'.
 - `int :GetDroneCount()`
    - Returns the number of drone parts the ship has.
-- [`Drone*[]`](#drone) `:GetDroneList()`
-   - Returns the list of Drones for this ship, the `std::vector` it returns can be accessed like an array in Lua
+- [`std::vector<Drone*>`](#drone) `:GetDroneList()`
+   - Returns the list of Drones for this ship.
 - `int :GetFireCount(int roomId)` Get number of fires in a room, could be quite useful for computing damage of multiple fires
 - `int :GetOxygenPercentage()` Ship's overall oxygen percentage (not per-room)
 - [`CrewMember*`](#CrewMember) `:GetSelectedCrewPoint(int x, int y, bool intruder)`
@@ -383,8 +383,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `int :GetSystemRoom(int systemId)`
    - Find what roomId a system is in, could be useful for AI targeting mechanics or some cheesy player weapon that can only attack one system or something.
 - `std::string :GetTooltip(int x, int y)`
-- [`ProjectileFactory*[]`](#projectilefactory) `:GetWeaponList()`
-   - Return a vector of weapons on this ship, can be treated like an array in Lua.
+- [`std::vector<ProjectileFactory*>`](#projectilefactory) `:GetWeaponList()`
+   - Return a vector of weapons on this ship.
 - `bool :HasSystem(int systemId)`
    - Does the ship have a specific system, true/false
 - `void :InstantPowerShields()`
@@ -417,7 +417,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Yeah, it does *exactly what you think it does* [you monster](https://gfycat.com/complexcarefulant).
 - `bool :SystemFunctions(int systemId)`
    - Returns whether the system has any power assigned to it.
-- [`CrewMember*[]`](#CrewMember) `:TeleportCrew(int roomId, bool intruders)`
+- [`std::vector<CrewMember*>`](#CrewMember) `:TeleportCrew(int roomId, bool intruders)`
    - Teleport crew & get back the list of CrewMembers.
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
 
@@ -427,10 +427,10 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `int` `.iShipId`
    - **Read-only**
    - The ship's ID (0 is player, 1 is enemy)
-- [`ShipSystem*[]`](#shipsystem) `.vSystemList`
-   - **Read-only** currently, however we might need to explore if this would be a safe way to remove a system
+- [`std::vector<ShipSystem*>`](#shipsystem) `.vSystemList`
+   - **Read-only**
    - Fields under this object may still be mutable (see their docs).
-   - Holds a vector (array in lua) of ship systems that you can iterate over
+   - Holds a vector of ship systems that you can iterate over
 - [`OxygenSystem*`](#oxygensystem) `.oxygenSystem`
    - Field is **read-only** but fields under this object may still be mutable.
 - [`TeleportSystem*`](#teleportsystem) `.teleportSystem`
@@ -457,12 +457,12 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - [`MedbaySystem*`](#medbaysystem) `.medbaySystem`
    - **Note:** shares system with Clonebay system and both cannot exist at the same time
    - Field is **read-only** but fields under this object may still be mutable.
-- [`ArtillerySystem*[]`](#artillerysystem) `.artillerySystems`
-   - Array (vector) of artillery systems on this ship, you will need to check for length
+- [`std::vector<ArtillerySystem*>`](#artillerysystem) `.artillerySystems`
+   - Vector of artillery systems on this ship, you will need to check for length
    - **Note:** Unlike Lua arrays, because this is a C vector internally it will start at index `0` not index `1` so `.artillerySystems[0]` is the first artillery system.
    - Field is **read-only** but fields under this object may still be mutable.
-- [`CrewMember*[]`](#crewmember) `.vCrewList`
-   - Array (vector) of crew members on this ship
+- [`std::vector<CrewMember*>`](#crewmember) `.vCrewList`
+   - Vector of crew members on this ship
    - **Note:** Vectors are 0 indexed unlike lua's normal arrays
    - Field is **read-only** but fields under this object may still be mutable.
 - `Ship` `.ship`
@@ -495,24 +495,24 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - **read-only**
 - `int` `.iIntruderCount`
    - **read-only**
-- `int[][]` `.crewCounts`
+- `std::vector<std::vector<int>>` `.crewCounts`
    - Note: Double vector, both indices start at 0
    - Field is **read-only** but fields under this object may still be mutable.
 - `int` `.tempDroneCount`
    - **read-only**
 - `int` `.tempMissileCount`
    - **read-only**
-- `bool[]` `.tempVision`
+- `std::vector<bool>` `.tempVision`
    - **read-only**
    - Note: Vectors start at index 0, unlike normal arrays in Lua
 - `int` `.iCustomizeMode`
    - **read-only**
    - 2 while in the hangar, 0 while in a run
 - `bool` `.bShowRoom`
-- `Projectile*[]` `.superBarrage`
+- `std::vector<Projectile*>` `.superBarrage`
    - Note: Vectors start at index 0, unlike normal arrays in Lua
 - `bool` `.bInvincible`
-- `SpaceDrone*[]` `.superDrones`
+- `std::vector<SpaceDrone*>` `.superDrones`
    - Note: Vectors start at index 0, unlike normal arrays in Lua
 - `int` `.failedDodgeCounter`
 - `bool` `.enemyDamagedUncloaked`
@@ -581,7 +581,9 @@ Accessed via `ShipManager`'s `.extend` field
 - `int GetSelectedRoomId(int x, int y, bool bIncludeWalls)`
    -  Returns the id of the room at the selected point, or -1 if no valid room would be selected at that point. bIncludeWalls specifies that walls count as part of the room.
 -  `void LockdownRoom(int roomId, Pointf pos)`
-   -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well.
+   -  Locks down the room, and spawns the crystal animation at `pos`. Does not play the lockdown sound. Note: For a "normal" animation, `pos` can be set to the room's center, but it can be set outside of the room as well. Uses the default lockdown type.
+- `void LockdownRoom(int roomId, Pointf pos, CustomLockdownDefinition def)`
+   - Does the same thing as the other version of LockdownRoom, and allows a custom lockdown type to be defined with a [`CustomLockdownDefinition`](#CustomLockdownDefinition).
 -  `bool RoomLocked(int roomId)`
    -  Returns true if the room is locked down.
 -  `void SetRoomBlackout(int roomId, bool blackout)`
@@ -625,7 +627,9 @@ Accessed via `ShipManager`'s `.extend` field
 -  `bool` `.bExperiment`
 -  `bool` `.bShowEngines`
 -  [`std::vector<LockdownShard>`](#LockdownShard) `.lockdowns`
+   - **Read-only**
    - Does not give a pointer to the LockdownShard, so any changes to the LockdownShard will not be reflected. Use GetShards() instead.
+   - WARNING: Shards should not be removed from this vector! This will result in a memory leak. If this is absolutely necessary, set the `.bDone` field to true instead.
 
 ### Hyperspace Fields
 -  `std::vector<std::pair<Animation, int8_t>>`
@@ -641,21 +645,66 @@ Accessed via `ShipManager`'s `.extend` field
    Note: Pairs are returned by value, and not by reference.
 
 ## LockdownShard
-
+   The class representing an individual piece of crystal from a lockdown.
 ### Methods
 - `void` `:Update()`
 
 ### Fields
 - [`Animation`](#Animation) `.shard`
+   - The animation used for the shard visual.
 - [`Pointf`](#Pointf) `.position`
+   - The current position of the shard.
 - [`Pointf`](#Pointf) `.goal`
+   - The location where the shard is heading, if it is not already there.
 - `float` `.speed`
+   - The rate at which the shard is moving.
 - `bool` `.bArrived`
+   - If the shard has reached its destination.
 - `bool` `.bDone`
+   - **Read-only**
+   - If the shard has completed its lifetime and is marked for removal.
 - `float` `.lifeTime`
+   - The remaining time in seconds until this shard disappears.
 - `bool` `.superFreeze`
+   - If false, the shard will gradually complete its animation over the course of its lifetime. If true, the shard will not animation until the end of its lifetime, and will start the animation then at a faster pace.
 - `int` `.lockingRoom`
+   - **Read-only**
+   - The room that this shard is locking down.
+- [`LockdownShard_Extend`](#LockdownShard_Extend) `.extend`
+   - **Read-only**
+   - The associated extend object for this instance.
 
+## LockdownShard_Extend
+   The class holding associated data to a [`LockdownShard`](#LockdownShard).
+### Fields
+- `int` `.health`
+   - The current health of the shard. Is reduced by 1 for each hit from a crew member with base door damage. Only matters for door shards.
+- [`Door*`](#Door) `.door`
+   - **Read-Only**
+   - The door that this shard is locking down, if any. Nil if no associated door.
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.color`
+   - The color that this shard is tinted.
+- `std::string` `.anim`
+   - **Read-Only**
+   - The name of the animation for this shard. Used for restoring animations on save/load.
+- `bool` `.canDilate`
+   - If this shard is affected by time dilation.
+
+## CustomLockdownDefinition
+   The class representing a custom lockdown type.
+### Fields
+- `float` `.duration`
+   - The amount of time that this lockdown will last, in seconds.
+- `int` `.health`
+   - The health of each shard.
+- [`GL_Color`](./Lua-Graphics-Module#GL_Color) `.color`
+   - The color that each shard will be tinted.
+- `std::vector<std::string>` `.anims`
+   - A selection of animation names for each shard to use.
+   - Wall shards will use a random animation from the list.
+   - Door shards will use the first animation from the list.
+- `bool` `.canDilate`
+   - If this lockdown is affected by time dilation.
 ## ShipSystem
 
 ### Static methods
@@ -1000,16 +1049,16 @@ No additional items over base `ShipSystem`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
-- [`Drone*[]`](#drone) `.drones`
+- [`std::vector<Drone*>`](#drone) `.drones`
    - Vector starts at index 0 not 1.
 - `int` `.drone_count`
 - `int` `.drone_start`
 - [`Targetable*`](#targetable) `.targetShip`
-- `bool[]` `.userPowered`
+- `std::vector<bool>` `.userPowered`
    - Vector starts at index 0 not 1.
 - `int` `.slot_count`
 - `int` `.iStartingBatteryPower`
-- `bool[]` `.repowerList`
+- `std::vector<bool>` `.repowerList`
    - Vector starts at index 0 not 1.
 
 ## SystemBox
@@ -3801,7 +3850,44 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - [CustomShipSelect*](#CustomShipSelect) `.GetInstance()`
 
 ### Methods
+- `std::string` `:GetShipBlueprint(int shipId)`
+- `int` `:CountUnlockedShips(int variant)`
+- `bool` `:IsOpen()`
+- `int` `:GetCurrentPage()`
+- `int` `:GetMaxPages()`
+- `bool` `:FirstPage()`
+- `int` `:GetSelection()`
+- `int` `:GetSelectedId()`
+- `int` `:GetLastSelected()`
+- `void` `:ClearSelection()`
+- `int` `:GetShipButtonIdFromName(std::string name)`
+- [ShipButtonList*](#ShipButtonList) `:GetShipButtonListFromID(int id)`
+- [std::vector<ShipButtonList*>](#ShipButtonList) `:GetShipButtonLists()`
+- `std::pair<int,int>` `:GetShipIdAndVariantFromName(const std::string& name)`
+- [ShipButtonDefinition*](#ShipButtonDefinition) `:GetOrderedShipButtonDefinition(int id)`
+- `int` `:GetShipButtonOrderIndex(int id)`
+- [ShipButtonDefinition](#ShipButtonDefinition) `:GetShipButtonDefinition(int id)`
 - [CustomShipDefinition](#CustomShipDefinition) `:GetDefinition(std::string name)`
+- [CustomShipDefinition](#CustomShipDefinition) `:GetDefaultDefinition()`
+- `int` `:GetRandomShipIndex()`
+- `int` `:ShipCount(int type=0)`
+
+### Fields
+- `std::vector<std::string>` `.customShipOrder`
+   - Each pages always contain 10 ship string, `empty` means that a ship button in the page is skipped
+
+## ShipButtonDefinition
+
+### Fields
+- `std::string` `.name`
+
+## ShipButtonList
+
+### Methods
+- `int` `:GetPage()`
+- `int` `:GetId()`
+- `int` `:GetIndex()`
+   - equivalent of `:GetId() - 100`, all custom ship id are shifted by 100 to not overwrite vanilla ones
 
 ## TextButton
 

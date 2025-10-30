@@ -330,13 +330,14 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 
 HOOK_STATIC(ShipSystem, IsSubsystem, (int systemId) -> bool)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::IsSubsystem -> Begin (CustomSystems.cpp)\n")
     if (systemId >= SYS_CUSTOM_FIRST) return CustomUserSystems::IsCustomSubSystem(systemId);
     else return super(systemId);
 }
 
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomSystems.cpp)\n")
     if (task.system >= SYS_CUSTOM_FIRST && task.system <= CustomUserSystems::GetLastSystemId()) task.system = 15;
     return super(task, crewId);
 }
@@ -475,7 +476,7 @@ static bool blockCreateSystemBoxes = false;
 static std::vector<int> g_subSystemBoxPositions;
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)")
+    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     if (!blockCreateSystemBoxes) return super();
 }
 HOOK_METHOD_PRIORITY(SystemControl, CreateSystemBoxes, 9999, () -> void)

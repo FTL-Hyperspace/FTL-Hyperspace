@@ -207,6 +207,13 @@ All below methods are static, so they are to be called with the `.` operator.
   - `float x, float y` -- center point
   - `radius` -- the radius of the circle
 
+- `bool GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color)`
+  - Draws a full ellipse.
+  - `int x, int y` -- The coordinates of the ellipse's center
+  - `int a1` -- The horizontal radius.
+  - `int a2` -- The vertical radius.
+  - `GL_Color color` -- The color of the ellipse, normalized to RGBA values within the range [0, 1]
+
 - `bool GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color)`
 
   - Renders a line
