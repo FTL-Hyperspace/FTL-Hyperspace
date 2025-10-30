@@ -1,5 +1,5 @@
 # 1st image: Build mingw-w64 and llvm with modified configuration
-FROM ubuntu:focal as toolchain-builder
+FROM ubuntu:focal@sha256:8feb4d8ca5354def3d8fce243717141ce31e2c428701f6682bd2fafe15388214 as toolchain-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 COPY mingw.patch /mingw-build/
@@ -24,8 +24,8 @@ RUN cd /usr/local \
 
 # Install ninja
 # TODO: Upgrade the version to the latest
-RUN wget "https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip" && \
-    echo "d2fea9ff33b3ef353161ed906f260d565ca55b8ca0568fa07b1d2cab90a84a07 ninja-linux.zip" \
+RUN wget "https://github.com/ninja-build/ninja/releases/download/v1.13.1/ninja-linux.zip" && \
+    echo "0830252db77884957a1a4b87b05a1e2d9b5f658b8367f82999a941884cbe0238 ninja-linux.zip" \
         | sha256sum -c  && \
     unzip ninja-linux.zip -d /usr/local/bin && \
     rm ninja-linux.zip
@@ -45,7 +45,7 @@ RUN cd /mingw-build/mingw-dwarf2-build \
 
 # llvm: Fetch source and patch. Patch details:
 # * ABI incompatibility fix for llvm-project#58255
-RUN git clone -b main --single-branch "https://github.com/llvm/llvm-project.git" --depth=1 /llvm-build/src \
+RUN git clone -b llvmorg-18.1.4 --single-branch "https://github.com/llvm/llvm-project.git" --depth=1 /llvm-build/src \
     && cd /llvm-build/src \
     && patch -p1 -s < /llvm-build/llvm.patch
 
@@ -61,12 +61,12 @@ RUN mkdir -p /llvm-build/install /llvm-build/build \
 # -------------------------------------------------------------------------------
 
 # 2nd image: devcontainer
-FROM ubuntu:focal
+FROM ubuntu:focal@sha256:8feb4d8ca5354def3d8fce243717141ce31e2c428701f6682bd2fafe15388214
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/sources.list \
-    && echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial universe >> /etc/apt/sources.list \
+RUN echo deb http://no.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/sources.list \
+    && echo deb http://no.archive.ubuntu.com/ubuntu/ xenial universe >> /etc/apt/sources.list \
     && dpkg --add-architecture i386 \
     && apt update
 
@@ -113,7 +113,7 @@ RUN apt install -y --no-install-recommends libsdl2-dev:amd64 libsdl2-dev:i386
 
 # Setup vcpkg
 RUN cd / \
-    && git clone https://github.com/microsoft/vcpkg \
+    && git clone -b 2023.06.20 https://github.com/microsoft/vcpkg \
     && cd /vcpkg \
     && ./bootstrap-vcpkg.sh \
     && ln -s /vcpkg/vcpkg /usr/bin/vcpkg
@@ -128,7 +128,7 @@ RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-to
 # This command "overwrites" those intrinsic defs to Clang's ones instead.
 # See https://clang.llvm.org/compatibility.html#vector_builtins for more description.
 RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
-    && cp /usr/local/lib/clang/17/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
+    && cp /usr/local/lib/clang/18/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
 
 # Cleanup apt lists from the image
 RUN rm -rf /var/lib/apt/lists/*
