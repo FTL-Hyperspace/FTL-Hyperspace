@@ -36,3 +36,5 @@ __thiscall void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shi
 __thiscall void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
 "578d7c240883e4f0ff77fc5589e557568d??????????5389cb8dbbc8030000":
 __thiscall void CommandGui::Restart(CommandGui *this);
+"5589e5538b8108170000c781541700005e01000089cb8d89c803000083e4f0":
+__thiscall void CommandGui::ClearLocation(CommandGui *this);
