@@ -18,7 +18,7 @@ static const int ALL_ROOMS = -2;
 HOOK_METHOD_PRIORITY(ShipAI, GetTeleportCommand, 9999, () -> std::pair<int, int>)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipAI::GetTeleportCommand -> Begin (TeleporterBugFixes.cpp)\n")
-    static const std::pair<int, int> NULL_COMMAND {TELE_NONE, -1};\
+    static const std::pair<int, int> NULL_COMMAND {TELE_NONE, -1};
     if (target != nullptr && ship != nullptr && ship->HasSystem(SYS_TELEPORTER))
     {
         TeleportSystem* teleSys = ship->teleportSystem;
