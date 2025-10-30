@@ -10,8 +10,8 @@ __thiscall void ShipButton::OnRender(ShipButton *this);
 
 struct ShipButton
 {{
-	ShipButton(int x, int y)
+	ShipButton(int shipType, int shipVariant)
 	{
-		this->constructor(x, y);
+		this->constructor(shipType, shipVariant);
 	}
 }};
