@@ -5,9 +5,9 @@ cleanup __amd64 void SpaceManager::constructor(SpaceManager *this);
 cleanup __amd64 int SpaceManager::GetScreenShake(SpaceManager *this);
 "!.55":
 cleanup __amd64 void SpaceManager::SaveSpace(SpaceManager *this, int fileHelper);
-"!.55":
+"!.5548":
 cleanup __amd64 void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
-"!.55488":
+"!.5548":
 cleanup __amd64 void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 "!.55":
 cleanup __amd64 void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
@@ -19,7 +19,7 @@ cleanup __amd64 ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
 cleanup __amd64 ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const std::string& name);
 "!.5548":
 cleanup __amd64 void SpaceManager::UpdatePlanetImage(SpaceManager *this);
-"!.55":
+"!.5548":
 cleanup __amd64 void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc back, ImageDesc beacon);
 ".55":
 cleanup __amd64 ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);

@@ -19,7 +19,7 @@ cleanup __amd64 void ShipSelect::OnLoop(ShipSelect *this);
 cleanup __amd64 int ShipSelect::KeyDown(ShipSelect *this, SDLKey key);
 "!.55":
 cleanup __amd64 void ShipSelect::MouseClick(ShipSelect *this);
-"!.55":
+"!.5548":
 cleanup __amd64 void ShipSelect::OnTouch(ShipSelect *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
 "!.5548":
 cleanup __amd64 void ShipSelect::Close(ShipSelect *this);

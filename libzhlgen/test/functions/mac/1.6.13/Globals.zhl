@@ -1,4 +1,4 @@
-"!410000488d1d(???????\?)":
+"!458b??????0000488d1d(???????\?)":
 offsetVariable TextLibrary* Global_Globals_Library;
 "!.488d0d(???????\?)80":
 offsetVariable bool* Globals_RNG;
@@ -8,7 +8,7 @@ offsetVariable FILE* ftl_log_logfile;
 static cleanup __amd64 Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest);
 "!.554889e58b05??????0085c0": // Disabled RET scan to allow fetching the offsetVariable
 static __amd64 int Globals::GetNextSpaceId();
-"!.8905(???????\?)":
+"!.ffc08905(???????\?)":
 offsetVariable int* Globals_GetNextSpaceId_id;
 ".554889e5f30f16":
 static cleanup __amd64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
