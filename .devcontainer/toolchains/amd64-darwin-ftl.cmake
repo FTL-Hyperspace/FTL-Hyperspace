@@ -25,6 +25,7 @@ if(NOT _FTL_TOOLCHAIN)
     set(CMAKE_CXX_COMPILER "clang++" CACHE PATH "")
 
     # Compiler flags for different build configurations
+    foreach(lang C CXX)
         set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
         set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
         set(CMAKE_${lang}_FLAGS_MINSIZEREL_INIT "-DNDEBUG")
