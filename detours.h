@@ -448,7 +448,7 @@ namespace MologieDetours
 			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
 			#ifdef __APPLE__
 			vm_address_t trampoline_addr = 0;
-			if (vm_allocate(mach_task_self(), &trampoline_addr, 12, VM_FLAGS_ANYWHERE) != KERN_SUCCESS);
+			vm_allocate(mach_task_self(), &trampoline_addr, 12, VM_FLAGS_ANYWHERE);
 			trampoline_ = reinterpret_cast<uint8_t*>(trampoline_addr);
 			#else 
 			trampoline_ = new uint8_t[12];

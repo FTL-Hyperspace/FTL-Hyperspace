@@ -1,54 +1,66 @@
 if(NOT _FTL_TOOLCHAIN)
     set(_FTL_TOOLCHAIN 1)
 
-    # Systemdefinition für macOS
+    # System definition for macOS
     set(CMAKE_SYSTEM_NAME Darwin)
 
-    # Definiere Flags für Compiler und Linker
+    # Define flags for compiler and linker
     string(CONCAT _compiler_flags
-            # Erzwinge den Build für AMD64 (x86_64)
-            "-target x86_64-apple-macos10.13"
+        # Force build for AMD64 (x86_64)
+        "-target x86_64-apple-macos10.13"
 
-            # Für macOS ist Position Independent Code (PIC) erforderlich
-            " -fPIC"
-
-            # Verwende die C++11 ABI
-            " -D_GLIBCXX_USE_CXX11_ABI=0"
+        # Position Independent Code (PIC) required for macOS
+        " -fPIC"
     )
     string(CONCAT _linker_flags
-            # Erzwinge die Verwendung von LLD als Linker
-            " -fuse-ld=lld"
+        # Force use of LLD as linker
+        " -fuse-ld=lld"
 
-            # Link gegen das System-Framework auf macOS
-            " -framework CoreFoundation"
+        # Link against system framework on macOS
+        " -framework CoreFoundation"
     )
 
-    # Compiler für macOS
+    # Compilers for macOS
     set(CMAKE_C_COMPILER "clang" CACHE PATH "")
     set(CMAKE_CXX_COMPILER "clang++" CACHE PATH "")
 
-    # Compiler-Flags für verschiedene Build-Konfigurationen
+    # Compiler flags for different build configurations
     foreach(lang C CXX)
         set(CMAKE_${lang}_FLAGS_DEBUG_INIT "-DDEBUG")
         set(CMAKE_${lang}_FLAGS_RELEASE_INIT "-DNDEBUG")
         set(CMAKE_${lang}_FLAGS_MINSIZEREL_INIT "-DNDEBUG")
         set(CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT "-DNDEBUG")
 
-        # Füge die angepassten Compiler-Flags hinzu
+        # Add the custom compiler flags
         string(APPEND CMAKE_${lang}_FLAGS " ${_compiler_flags}")
     endforeach()
 
-    # Linker-Flags
+    # Linker flags
     set(CMAKE_SHARED_LINKER_FLAGS_INIT "${_linker_flags}")
     set(CMAKE_EXE_LINKER_FLAGS_INIT "${_linker_flags}")
 
-    # macOS-spezifische Suchpfade für Libraries und Includes
-    list(APPEND CMAKE_FIND_ROOT_PATH
-            "/usr/local"       # Standardpfad für Homebrew
-            "/Library/Frameworks"  # macOS Frameworks
-    )
-    set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-    set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+    # Add vcpkg paths with highest priority FIRST
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl")
+    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/lib")
+    list(APPEND CMAKE_INCLUDE_PATH "${CMAKE_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl/include")
 
+    # Set up FIND_ROOT_PATH if you want to use it (optional)
+    # But with BOTH mode, PREFIX_PATH and LIBRARY_PATH are usually sufficient
+    list(APPEND CMAKE_FIND_ROOT_PATH
+        "${CMAKE_BINARY_DIR}/vcpkg_installed/amd64-darwin-ftl"  # vcpkg first
+        "/usr/local"       # Homebrew second
+        "/Library/Frameworks"  # macOS Frameworks
+    )
+
+    # Search in both vcpkg and system paths (vcpkg first due to list order)
+    set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+    set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+    set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
+
+    # System paths (lower priority)
+    list(APPEND CMAKE_SYSTEM_PREFIX_PATH
+        "/usr/local"       # Homebrew
+        "/Library/Frameworks"  
+    )
 endif()

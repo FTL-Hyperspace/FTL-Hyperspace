@@ -5822,7 +5822,7 @@ public:
 	LIBZHL_API void SetLockdown(bool val);
 	LIBZHL_API void StartAnimIfNecessary();
 	LIBZHL_API void UpdateAnimations();
-	LIBZHL_API void __stdcall constructor();
+	LIBZHL_API void constructor(int _roomId1, int _roomId2, int _locX, int _locY, bool _bVertical, int _doorId, int _shipId);
 	LIBZHL_API void destructor();
 	
 	uint8_t garbage[4];
