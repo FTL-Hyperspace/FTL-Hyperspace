@@ -4596,7 +4596,7 @@ void CustomEventsParser::QueueEvent(EventQueueEvent &event)
     eventQueue.push_back(event);
 }
 
-void CustomEventsParser::QueueEvent(std::string &event, int seed)
+void CustomEventsParser::QueueEvent(const std::string &event, int seed)
 {
     EventQueueEvent queueEvent;
 

@@ -311,13 +311,13 @@ struct ActivatedPowerDefinition
         powerDefs.push_back(this);
     }
 
-    void AssignName(std::string &_name)
+    void AssignName(const std::string &_name)
     {
         name = _name;
         nameDefList[name] = this;
     }
 
-    static ActivatedPowerDefinition* GetPowerByName(std::string &_name)
+    static ActivatedPowerDefinition* GetPowerByName(const std::string &_name)
     {
         auto it = nameDefList.find(_name);
         if (it == nameDefList.end()) // unused name
@@ -330,7 +330,7 @@ struct ActivatedPowerDefinition
         }
     }
 
-    static ActivatedPowerDefinition* AddUndefinedPower(std::string &_name)
+    static ActivatedPowerDefinition* AddUndefinedPower(const std::string &_name)
     {
         auto it = undefinedNameDefList.find(_name);
         if (it == undefinedNameDefList.end()) // unused name
@@ -346,7 +346,7 @@ struct ActivatedPowerDefinition
         }
     }
 
-    static ActivatedPowerDefinition* AddNamedDefinition(std::string &_name, ActivatedPowerDefinition* copyDef)
+    static ActivatedPowerDefinition* AddNamedDefinition(const std::string &_name, ActivatedPowerDefinition* copyDef)
     {
         ActivatedPowerDefinition *def;
 
@@ -377,7 +377,7 @@ struct ActivatedPowerDefinition
         return def;
     }
 
-    void AssignActivateGroup(std::string &_name)
+    void AssignActivateGroup(const std::string &_name)
     {
         auto it = activateGroupNameIndexList.find(_name);
         if (it == activateGroupNameIndexList.end()) // if name is unused assign the next unused index
@@ -391,7 +391,7 @@ struct ActivatedPowerDefinition
         }
     }
 
-    static unsigned int GetReplaceGroup(std::string &_name)
+    static unsigned int GetReplaceGroup(const std::string &_name)
     {
         auto it = replaceGroupNameIndexList.find(_name);
         if (it == replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
@@ -406,12 +406,12 @@ struct ActivatedPowerDefinition
         }
     }
 
-    void AssignReplaceGroup(std::string &_name)
+    void AssignReplaceGroup(const std::string &_name)
     {
         replaceGroupIndex = GetReplaceGroup(_name);
     }
 
-    void AssignGroup(std::string &_name)
+    void AssignGroup(const std::string &_name)
     {
         AssignActivateGroup(_name);
         AssignReplaceGroup(_name);
@@ -527,13 +527,13 @@ struct PowerResourceDefinition
         powerDefs.push_back(this);
     }
 
-    void AssignName(std::string &_name)
+    void AssignName(const std::string &_name)
     {
         name = _name;
         nameDefList[name] = this;
     }
 
-    static PowerResourceDefinition* GetByName(std::string &_name)
+    static PowerResourceDefinition* GetByName(const std::string &_name)
     {
         auto it = nameDefList.find(_name);
         if (it == nameDefList.end()) // unused name
@@ -546,7 +546,7 @@ struct PowerResourceDefinition
         }
     }
 
-    static PowerResourceDefinition* AddUndefined(std::string &_name)
+    static PowerResourceDefinition* AddUndefined(const std::string &_name)
     {
         auto it = undefinedNameDefList.find(_name);
         if (it == undefinedNameDefList.end()) // unused name
@@ -562,7 +562,7 @@ struct PowerResourceDefinition
         }
     }
 
-    static PowerResourceDefinition* AddNamedDefinition(std::string &_name, PowerResourceDefinition* copyDef)
+    static PowerResourceDefinition* AddNamedDefinition(const std::string &_name, PowerResourceDefinition* copyDef)
     {
         PowerResourceDefinition *def;
 
@@ -593,7 +593,7 @@ struct PowerResourceDefinition
         return def;
     }
 
-    void AssignGroup(std::string &_name)
+    void AssignGroup(const std::string &_name)
     {
         auto it = ActivatedPowerDefinition::replaceGroupNameIndexList.find(_name);
         if (it == ActivatedPowerDefinition::replaceGroupNameIndexList.end()) // if name is unused assign the next unused index
