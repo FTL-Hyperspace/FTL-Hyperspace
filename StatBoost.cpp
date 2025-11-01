@@ -2291,7 +2291,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
     //Perform lua calculations prior to applied statboosts
     SWIG_NewPointerObj(L, orig, context->getLibScript()->types.pCrewMember, 0);
     lua_pushinteger(L, static_cast<unsigned int>(stat));
-    SWIG_NewPointerObj(L, &def, context->getLibScript()->types.pCrewDefinition, 0);
+    SWIG_NewPointerObj(L, def, context->getLibScript()->types.pCrewDefinition, 0);
     lua_pushnumber(L, finalStat);
     lua_pushboolean(L, isBool && *boolValue);
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_STAT_PRE, 5, 2);
@@ -2772,7 +2772,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         //Perform additional lua calculations
         SWIG_NewPointerObj(L, orig, context->getLibScript()->types.pCrewMember, 0);
         lua_pushinteger(L, static_cast<unsigned int>(stat));
-        SWIG_NewPointerObj(L, &def, context->getLibScript()->types.pCrewDefinition, 0);
+        SWIG_NewPointerObj(L, def, context->getLibScript()->types.pCrewDefinition, 0);
         lua_pushnumber(L, finalStat);
         lua_pushboolean(L, isBool && *boolValue);
         context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_STAT_POST, 5, 2);
