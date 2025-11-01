@@ -14,9 +14,9 @@ else
     echo "Homebrew (arm64) already installed"
 fi
 
-# Install required packages via arm64 Homebrew
+# Install required tools via arm64 Homebrew
 echo "Installing arm64 build dependencies..."
-brew install boost cmake git lua ninja lld swig sdl2
+brew install cmake git ninja lld swig
 
 # Install x86 Homebrew if not present
 if [ ! -f "/usr/local/bin/brew" ]; then

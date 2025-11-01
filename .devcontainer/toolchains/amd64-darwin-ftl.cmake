@@ -4,6 +4,9 @@ if(NOT _FTL_TOOLCHAIN)
     # System definition for macOS
     set(CMAKE_SYSTEM_NAME Darwin)
 
+    # Specify the target explicitly to be x86_64
+    set(CMAKE_OSX_ARCHITECTURES "x86_64")
+
     # Define flags for compiler and linker
     string(CONCAT _compiler_flags
         # Force build for AMD64 (x86_64)

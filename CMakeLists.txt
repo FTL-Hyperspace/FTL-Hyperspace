@@ -3,13 +3,22 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+if(APPLE)
+    # Prefer static libraries for dependencies on macOS
+    set(BUILD_SHARED_LIBS OFF)
+endif()
+
 # Let vcpkg handle Boost automatically
 find_package(Boost REQUIRED)
 
 # Let vcpkg handle Lua automatically
 find_package(Lua REQUIRED)
 
-if(UNIX)
+if(APPLE)
+    # explicitly link the x86_64 SDL2 static library on macOS (needs to be installed via x86 Homebrew)
+    set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
+    set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
+elseif(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(OpenGL REQUIRED)
@@ -36,7 +45,6 @@ set_property(SOURCE ${swigfiles} PROPERTY CPLUSPLUS ON)
 
 # Name the binary as Hyperspace.dll instead of libHyperspace.dll
 set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
-set(BUILD_SHARED_LIBS OFF)
 
 swig_add_library(
     Hyperspace
@@ -321,45 +329,29 @@ add_custom_command(
 )
 
 
+
+
+target_compile_options(
+    Hyperspace PRIVATE
+
+    # Enable SSE2
+    -msse -msse2 -mfpmath=sse
+
+    # Error on narrowing conversion
+    -Werror=narrowing
+
+    # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
+    -fno-delete-null-pointer-checks
+
+    # Warn everything
+    # TODO: Check if it's meaningful (original .cbp defined it)
+    # -Wall
+)
+
 if(APPLE)
-    target_compile_options(
-        Hyperspace PRIVATE
-
-        # Enable SSE2
-        -msse -msse2 -mfpmath=sse
-
-        # Error on narrowing conversion
-        -Werror=narrowing
-
-        # Explicit C++14 mode (Required for boost)
-        -std=c++14
-
-        # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
-        -fno-delete-null-pointer-checks
-
-        # Allow depricated Boost stuff
-        -Wno-deprecated-declarations
-    )
+    target_compile_options(Hyperspace PRIVATE -std=c++14)
 else()
-    target_compile_options(
-        Hyperspace PRIVATE
-
-        # Enable SSE2
-        -msse -msse2 -mfpmath=sse
-
-        # Error on narrowing conversion
-        -Werror=narrowing
-
-        # Explicit C++11 mode
-        -std=c++11
-
-        # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
-        -fno-delete-null-pointer-checks
-
-        # Warn everything
-        # TODO: Check if it's meaningful (original .cbp defined it)
-        # -Wall
-    )
+    target_compile_options(Hyperspace PRIVATE -std=c++11)
 endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
