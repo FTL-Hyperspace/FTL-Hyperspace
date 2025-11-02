@@ -1087,6 +1087,9 @@ struct GenericButton;
 
 struct Globals
 {
+    static int GetNextSpaceId(void);
+    static void SetNextSpaceId(int id);
+
 	struct Ellipse
 	{
 		Point center;
@@ -1115,7 +1118,7 @@ struct Globals
 	LIBZHL_API static float __stdcall AimAhead(Pointf delta, Pointf vr, float muzzleV);
 	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, Pointf dest);
 	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, float heading);
-	LIBZHL_API static int __stdcall GetNextSpaceId();
+	LIBZHL_API static int __stdcall GetNextSpaceId_orig();
 	
 };
 
@@ -8180,7 +8183,6 @@ struct WindowFrame
 		CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
 		/* Begin: inline void DrawOutline(WindowFrame * this) */
 		CSurface::GL_RenderPrimitive(this->outline);
-		CSurface::GL_RenderPrimitive(this->mask);
 		return;
 	}
 

@@ -9560,10 +9560,10 @@ Pointf Globals::GetNextPoint(Pointf current, float mag_speed, Pointf dest)
 namespace _func758
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Globals::GetNextSpaceId", typeid(int (*)()), "!.554889e58b05??????0085c0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Globals::GetNextSpaceId_orig", typeid(int (*)()), "!.554889e58b05??????0085c0", nullptr, 0, 0, &func);
 }
 
-int Globals::GetNextSpaceId()
+int Globals::GetNextSpaceId_orig()
 {
 	typedef int (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func758::func;
