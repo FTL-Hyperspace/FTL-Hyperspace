@@ -2223,6 +2223,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_PopScissor();
 	LIBZHL_API static void __stdcall GL_PopStencilMode();
 	LIBZHL_API static int __stdcall GL_PushMatrix();
+	LIBZHL_API static int __stdcall GL_PushScissor(int x, int y, int h, int w);
 	LIBZHL_API static void __stdcall GL_PushStencilMode();
 	LIBZHL_API static void __stdcall GL_RemoveColorTint();
 	LIBZHL_API static void __stdcall GL_RenderPrimitive(GL_Primitive *primitive);
@@ -8165,6 +8166,22 @@ struct WindowFrame
 	~WindowFrame()
 	{
 		this->destructor();
+	}
+
+	void Draw(int stencilBits)
+	{
+		/* Begin: inline void DrawMask(WindowFrame * this, int stencilBits) */
+		CSurface::GL_SetStencilMode(STENCIL_SET, stencilBits, stencilBits);
+		CSurface::GL_RenderPrimitive(this->mask);
+		CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
+		/* Begin: inline void DrawBackground(WindowFrame * this, int stencilBits) */
+		CSurface::GL_SetStencilMode(STENCIL_USE, stencilBits, stencilBits);
+		CSurface::GL_RenderPrimitive(this->pattern);
+		CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
+		/* Begin: inline void DrawOutline(WindowFrame * this) */
+		CSurface::GL_RenderPrimitive(this->outline);
+		CSurface::GL_RenderPrimitive(this->mask);
+		return;
 	}
 
 	LIBZHL_API void Draw(int x, int y);
