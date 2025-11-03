@@ -47,22 +47,6 @@
 #  define MOLOGIE_DETOURS_MEMORY_UNPROTECT(ADDRESS, SIZE, OLDPROT) (VirtualProtect((LPVOID)(ADDRESS), (SIZE_T)(SIZE), PAGE_EXECUTE_READWRITE, &OLDPROT) == TRUE)
 #  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) (VirtualProtect((LPVOID)(ADDRESS), (SIZE_T)(SIZE), OLDPROT, &OLDPROT) == TRUE)
 #  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME) DWORD NAME
-#elif defined(__APPLE__)
-#  include <mach/mach.h>
-#  include <mach/vm_map.h>
-#  include <unistd.h>
-#  include <libkern/OSCacheControl.h>
-#  define MOLOGIE_DETOURS_MEMORY_MACH_UNPROTECT(ADDRESS, SIZE, OLDPROT) \
-    ( \
-        vm_protect(mach_task_self(), (vm_address_t)(ADDRESS), (vm_size_t)(SIZE), FALSE, VM_PROT_READ | VM_PROT_WRITE | VM_PROT_EXECUTE) == KERN_SUCCESS \
-    )
-#  define MOLOGIE_DETOURS_MEMORY_MACH_REPROTECT(ADDRESS, SIZE, OLDPROT) \
-    ( \
-        vm_protect(mach_task_self(), (vm_address_t)(ADDRESS), (vm_size_t)(SIZE), FALSE, VM_PROT_READ | VM_PROT_EXECUTE) == KERN_SUCCESS \
-    )
-#  define MOLOGIE_DETOURS_MEMORY_UNPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_MACH_UNPROTECT((ADDRESS), (SIZE), (OLDPROT))
-#  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_MACH_REPROTECT((ADDRESS), (SIZE), (OLDPROT))
-#  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME)
 #else
 #  include <sys/mman.h>
 #  include <unistd.h>
@@ -83,6 +67,7 @@
 #elif defined(__amd64__)
 #define MOLOGIE_DETOURS_DETOUR_SIZE 5
 #endif // __arch__
+
 /**
  * @namespace	MologieDetours
  *
@@ -414,9 +399,7 @@ namespace MologieDetours
 			// Backup the original code
 			// Add 5 bytes of space to shove an extra jmp if we need to rewrite a single jmp/jcc + imm8 (note: supporting more would require many changes to generate line-by-line instead of just memcpy the code)
 			#ifdef __APPLE__
-			vm_address_t backup_addr = 0;
-			vm_allocate(mach_task_self(), &backup_addr, (instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5), VM_FLAGS_ANYWHERE);
-			backupOriginalCode_ = reinterpret_cast<uint8_t*>(backup_addr);
+			backupOriginalCode_ = static_cast<uint8_t*>(mmap(nullptr, (instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
 			#else 
 			backupOriginalCode_ = new uint8_t[instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5];
 			#endif
@@ -447,10 +430,8 @@ namespace MologieDetours
 			#elif defined(__amd64__)
 			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
 			#ifdef __APPLE__
-			vm_address_t trampoline_addr = 0;
-			vm_allocate(mach_task_self(), &trampoline_addr, 12, VM_FLAGS_ANYWHERE);
-			trampoline_ = reinterpret_cast<uint8_t*>(trampoline_addr);
-			#else 
+			trampoline_ = static_cast<uint8_t*>(mmap(nullptr, 12, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			#else
 			trampoline_ = new uint8_t[12];
 			#endif
 			//printf("TRAMPOLINE AT: 0x%016llx, DETOUR: 0x%016llx, Target Func: 0x%016llx, Orig Backup: 0x%016llx\n", reinterpret_cast<address_type>(trampoline_), reinterpret_cast<address_type>(pDetour_), reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_));
