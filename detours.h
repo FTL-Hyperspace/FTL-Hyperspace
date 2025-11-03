@@ -48,20 +48,19 @@
 #  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) (VirtualProtect((LPVOID)(ADDRESS), (SIZE_T)(SIZE), OLDPROT, &OLDPROT) == TRUE)
 #  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME) DWORD NAME
 #elif defined(__APPLE__)
-#  include <mach/mach.h>
-#  include <mach/vm_map.h>
+#  include <sys/mman.h>
 #  include <unistd.h>
-#  include <libkern/OSCacheControl.h>
-#  define MOLOGIE_DETOURS_MEMORY_MACH_UNPROTECT(ADDRESS, SIZE, OLDPROT) \
-    ( \
-        vm_protect(mach_task_self(), (vm_address_t)(ADDRESS), (vm_size_t)(SIZE), FALSE, VM_PROT_READ | VM_PROT_WRITE | VM_PROT_EXECUTE) == KERN_SUCCESS \
-    )
-#  define MOLOGIE_DETOURS_MEMORY_MACH_REPROTECT(ADDRESS, SIZE, OLDPROT) \
-    ( \
-        vm_protect(mach_task_self(), (vm_address_t)(ADDRESS), (vm_size_t)(SIZE), FALSE, VM_PROT_READ | VM_PROT_EXECUTE) == KERN_SUCCESS \
-    )
-#  define MOLOGIE_DETOURS_MEMORY_UNPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_MACH_UNPROTECT((ADDRESS), (SIZE), (OLDPROT))
-#  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_MACH_REPROTECT((ADDRESS), (SIZE), (OLDPROT))
+#  define MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(ADDRESS, SIZE, NEWPROT) (mprotect((void*)(ADDRESS), (SIZE), (NEWPROT)) == 0)
+#  define MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT(ADDRESS, SIZE, NEWPROT) \
+	( \
+		mprotect((void*)((((uintptr_t)(ADDRESS) + pageSize_ - 1) & ~(pageSize_ - 1)) - pageSize_), pageSize_, NEWPROT) == 0 \
+	&&	( \
+			((((uintptr_t)(ADDRESS) + pageSize_ - 1) & ~(pageSize_ - 1)) - pageSize_) == ((((uintptr_t)(ADDRESS) + (SIZE) + pageSize_ - 1) & ~(pageSize_ - 1)) - pageSize_) \
+		||	mprotect((void*)((((uintptr_t)(ADDRESS) + (SIZE) + pageSize_ - 1) & ~(pageSize_ - 1)) - pageSize_), pageSize_, NEWPROT) == 0 \
+		) \
+	)
+#  define MOLOGIE_DETOURS_MEMORY_UNPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_WRITE | PROT_EXEC)
+#  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_WRITE | PROT_EXEC)
 #  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME)
 #else
 #  include <sys/mman.h>
@@ -75,7 +74,7 @@
 		) \
 	)
 #  define MOLOGIE_DETOURS_MEMORY_UNPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_WRITE | PROT_EXEC)
-#  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_WRITE | PROT_EXEC)
+#  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_EXEC)
 #  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME)
 #endif
 #ifdef __i386__
@@ -83,6 +82,7 @@
 #elif defined(__amd64__)
 #define MOLOGIE_DETOURS_DETOUR_SIZE 5
 #endif // __arch__
+
 /**
  * @namespace	MologieDetours
  *
@@ -414,10 +414,12 @@ namespace MologieDetours
 			// Backup the original code
 			// Add 5 bytes of space to shove an extra jmp if we need to rewrite a single jmp/jcc + imm8 (note: supporting more would require many changes to generate line-by-line instead of just memcpy the code)
 			#ifdef __APPLE__
-			vm_address_t backup_addr = 0;
-			vm_allocate(mach_task_self(), &backup_addr, (instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5), VM_FLAGS_ANYWHERE);
-			backupOriginalCode_ = reinterpret_cast<uint8_t*>(backup_addr);
-			#else 
+			size_t backupSize = instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5;
+			backupOriginalCode_ = static_cast<uint8_t*>(mmap(nullptr, backupSize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			if (backupOriginalCode_ == MAP_FAILED) {
+				throw DetourPageProtectionException("Failed to allocate memory for original code backup", nullptr);
+			}
+			#else
 			backupOriginalCode_ = new uint8_t[instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5];
 			#endif
 
@@ -433,11 +435,18 @@ namespace MologieDetours
             uint32_t originalCodeJmpBackOffset = (uint32_t) (reinterpret_cast<address_type>(pSource_) + instructionCount_ - reinterpret_cast<address_type>(jmpBack) - MOLOGIE_DETOURS_DETOUR_SIZE);
 			*reinterpret_cast<uint32_t*>(jmpBack + 1) = originalCodeJmpBackOffset;
 
-			// Make backupOriginalCode_ executable
+			// Make backupOriginalCode_ executable (W^X: change from RW to RX)
+			#ifdef __APPLE__
+			if(!MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(backupOriginalCode_, backupSize, PROT_READ | PROT_EXEC))
+			{
+				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
+			}
+			#else
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
 			}
+			#endif
 
 			// Create a new trampoline which points at the detour
 			#ifdef __i386__
@@ -447,10 +456,12 @@ namespace MologieDetours
 			#elif defined(__amd64__)
 			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
 			#ifdef __APPLE__
-			vm_address_t trampoline_addr = 0;
-			vm_allocate(mach_task_self(), &trampoline_addr, 12, VM_FLAGS_ANYWHERE);
-			trampoline_ = reinterpret_cast<uint8_t*>(trampoline_addr);
-			#else 
+			size_t trampolineSize = 12;
+			trampoline_ = static_cast<uint8_t*>(mmap(nullptr, trampolineSize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			if (trampoline_ == MAP_FAILED) {
+				throw DetourPageProtectionException("Failed to allocate memory for trampoline", nullptr);
+			}
+			#else
 			trampoline_ = new uint8_t[12];
 			#endif
 			//printf("TRAMPOLINE AT: 0x%016llx, DETOUR: 0x%016llx, Target Func: 0x%016llx, Orig Backup: 0x%016llx\n", reinterpret_cast<address_type>(trampoline_), reinterpret_cast<address_type>(pDetour_), reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_));
@@ -459,11 +470,18 @@ namespace MologieDetours
 			trampoline_[10] = 0xFF; trampoline_[11] = 0xE0; // jmp RAX
 			#endif // __arch__
 
-			// Make trampoline_ executable
+			// Make trampoline_ executable (W^X: change from RW to RX)
+			#if defined(__APPLE__) && defined(__amd64__)
+			if(!MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(trampoline_, trampolineSize, PROT_READ | PROT_EXEC))
+			{
+				throw DetourPageProtectionException("Failed to make trampoline executable", trampoline_);
+			}
+			#else
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(trampoline_, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make trampoline executable", trampoline_);
 			}
+			#endif
 
 			// Unprotect original function
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
