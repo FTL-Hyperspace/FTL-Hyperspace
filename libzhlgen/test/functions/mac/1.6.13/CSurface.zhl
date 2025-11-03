@@ -13,6 +13,8 @@ static cleanup __amd64 void CSurface::GL_ClearAll();
 static cleanup __amd64 void CSurface::GL_ClearColor();
 ".554889e5e8????????b0":
 static cleanup __amd64 int CSurface::SetViewPort(int left, int bottom, int h, int w);
+".554889e54883ec1089":
+static cleanup __amd64 int CSurface::GL_PushScissor(int x, int y, int h, int w);
 "!.554889e5488b05??????00488b35":
 static cleanup __amd64 void CSurface::GL_PopScissor();
 "!.554889e5415653":
