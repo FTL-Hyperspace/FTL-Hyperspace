@@ -18,7 +18,7 @@ jobs:
 
     - name: Build binaries
       run: |
-        buildscripts/ci-buildall-release-only-from-docker.sh
+        buildscripts/ci/buildall-release-only-from-docker.sh
 
     - name: Package
       run: |

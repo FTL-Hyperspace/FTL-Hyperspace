@@ -1,0 +1,52 @@
+name: 'Release Linux & Windows'
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.20.1)'
+        required: true
+
+jobs:
+  build-linux-windows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract version from tag
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.tag }}"
+            VERSION="${VERSION#v}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref }}
+
+      - name: Build binaries
+        run: buildscripts/ci/buildall-release-only-from-docker.sh
+
+      - name: Package Linux
+        run: buildscripts/ci/package-linux.sh ${{ steps.version.outputs.version }}
+
+      - name: Package Windows
+        run: buildscripts/ci/package-windows.sh ${{ steps.version.outputs.version }}
+
+      - name: Upload Linux release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-Linux.zip
+          tag_name: v${{ steps.version.outputs.version }}
+
+      - name: Upload Windows release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows.zip
+          tag_name: v${{ steps.version.outputs.version }}

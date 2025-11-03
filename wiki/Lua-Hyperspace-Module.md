@@ -171,9 +171,9 @@ local instance = Hyperspace.template_name(args)
 
 ### Fields
 
-- [`Projectile*[]`](#Projectile) `.projectiles`
+- [`std::vector<Projectile*>`](#Projectile) `.projectiles`
    - **Read-only**
-- [`SpaceDrone*[]`](#SpaceDrone) `.drones`
+- [`std::vector<SpaceDrone*>`](#SpaceDrone) `.drones`
    - **Read-only**
 - [`GL_Texture`](./Lua-Graphics-Module#GL_Texture) `.currentBack`
 - `bool` `.gamePaused`
@@ -303,8 +303,8 @@ The members held by this class determine how the `print` function displays messa
 - `void :ClearShipInfo()`
 - `int :GetAugmentationCount()`
    - Returns the number of augments on the ship.
-- `std::string[] :GetAugmentationList()`
-   - Returns a `std::vector<std::string>` of augments, in Lua you can handle this as if it was an array of strings.
+- `std::vector<std::string> :GetAugmentationList()`
+   - Returns a list of augments.
 - `float :GetAugmentationValue(std::string augmentName)`
    - Returns the value of the augment, this corresponds to the value defined in blueprints.xml. If the ship has multiple, their values are added together.
 - `int :HasAugmentation(std::string augmentName)`
@@ -366,8 +366,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Note: 5 calls of this method that return false while the player has fully upgraded, fully powered engines will unlock the achievement 'Astronomically Low Odds'.
 - `int :GetDroneCount()`
    - Returns the number of drone parts the ship has.
-- [`Drone*[]`](#drone) `:GetDroneList()`
-   - Returns the list of Drones for this ship, the `std::vector` it returns can be accessed like an array in Lua
+- [`std::vector<Drone*>`](#drone) `:GetDroneList()`
+   - Returns the list of Drones for this ship.
 - `int :GetFireCount(int roomId)` Get number of fires in a room, could be quite useful for computing damage of multiple fires
 - `int :GetOxygenPercentage()` Ship's overall oxygen percentage (not per-room)
 - [`CrewMember*`](#CrewMember) `:GetSelectedCrewPoint(int x, int y, bool intruder)`
@@ -383,8 +383,8 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `int :GetSystemRoom(int systemId)`
    - Find what roomId a system is in, could be useful for AI targeting mechanics or some cheesy player weapon that can only attack one system or something.
 - `std::string :GetTooltip(int x, int y)`
-- [`ProjectileFactory*[]`](#projectilefactory) `:GetWeaponList()`
-   - Return a vector of weapons on this ship, can be treated like an array in Lua.
+- [`std::vector<ProjectileFactory*>`](#projectilefactory) `:GetWeaponList()`
+   - Return a vector of weapons on this ship.
 - `bool :HasSystem(int systemId)`
    - Does the ship have a specific system, true/false
 - `void :InstantPowerShields()`
@@ -417,7 +417,7 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - Yeah, it does *exactly what you think it does* [you monster](https://gfycat.com/complexcarefulant).
 - `bool :SystemFunctions(int systemId)`
    - Returns whether the system has any power assigned to it.
-- [`CrewMember*[]`](#CrewMember) `:TeleportCrew(int roomId, bool intruders)`
+- [`std::vector<CrewMember*>`](#CrewMember) `:TeleportCrew(int roomId, bool intruders)`
    - Teleport crew & get back the list of CrewMembers.
    - I think there might be something more you need to do to give them a destination so they don't simply get teleport-ed to space, *unless you know... that was the intention*.
 
@@ -427,10 +427,10 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - `int` `.iShipId`
    - **Read-only**
    - The ship's ID (0 is player, 1 is enemy)
-- [`ShipSystem*[]`](#shipsystem) `.vSystemList`
-   - **Read-only** currently, however we might need to explore if this would be a safe way to remove a system
+- [`std::vector<ShipSystem*>`](#shipsystem) `.vSystemList`
+   - **Read-only**
    - Fields under this object may still be mutable (see their docs).
-   - Holds a vector (array in lua) of ship systems that you can iterate over
+   - Holds a vector of ship systems that you can iterate over
 - [`OxygenSystem*`](#oxygensystem) `.oxygenSystem`
    - Field is **read-only** but fields under this object may still be mutable.
 - [`TeleportSystem*`](#teleportsystem) `.teleportSystem`
@@ -457,12 +457,12 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
 - [`MedbaySystem*`](#medbaysystem) `.medbaySystem`
    - **Note:** shares system with Clonebay system and both cannot exist at the same time
    - Field is **read-only** but fields under this object may still be mutable.
-- [`ArtillerySystem*[]`](#artillerysystem) `.artillerySystems`
-   - Array (vector) of artillery systems on this ship, you will need to check for length
+- [`std::vector<ArtillerySystem*>`](#artillerysystem) `.artillerySystems`
+   - Vector of artillery systems on this ship, you will need to check for length
    - **Note:** Unlike Lua arrays, because this is a C vector internally it will start at index `0` not index `1` so `.artillerySystems[0]` is the first artillery system.
    - Field is **read-only** but fields under this object may still be mutable.
-- [`CrewMember*[]`](#crewmember) `.vCrewList`
-   - Array (vector) of crew members on this ship
+- [`std::vector<CrewMember*>`](#crewmember) `.vCrewList`
+   - Vector of crew members on this ship
    - **Note:** Vectors are 0 indexed unlike lua's normal arrays
    - Field is **read-only** but fields under this object may still be mutable.
 - `Ship` `.ship`
@@ -495,24 +495,24 @@ Hyperspace.ships.player:DamageBeam(Hyperspace.ships.player:GetRandomRoomCenter()
    - **read-only**
 - `int` `.iIntruderCount`
    - **read-only**
-- `int[][]` `.crewCounts`
+- `std::vector<std::vector<int>>` `.crewCounts`
    - Note: Double vector, both indices start at 0
    - Field is **read-only** but fields under this object may still be mutable.
 - `int` `.tempDroneCount`
    - **read-only**
 - `int` `.tempMissileCount`
    - **read-only**
-- `bool[]` `.tempVision`
+- `std::vector<bool>` `.tempVision`
    - **read-only**
    - Note: Vectors start at index 0, unlike normal arrays in Lua
 - `int` `.iCustomizeMode`
    - **read-only**
    - 2 while in the hangar, 0 while in a run
 - `bool` `.bShowRoom`
-- `Projectile*[]` `.superBarrage`
+- `std::vector<Projectile*>` `.superBarrage`
    - Note: Vectors start at index 0, unlike normal arrays in Lua
 - `bool` `.bInvincible`
-- `SpaceDrone*[]` `.superDrones`
+- `std::vector<SpaceDrone*>` `.superDrones`
    - Note: Vectors start at index 0, unlike normal arrays in Lua
 - `int` `.failedDodgeCounter`
 - `bool` `.enemyDamagedUncloaked`
@@ -1049,16 +1049,16 @@ No additional items over base `ShipSystem`
 - `void :SetBonusPower(int amount, int permanentPower)`
 
 ### Fields
-- [`Drone*[]`](#drone) `.drones`
+- [`std::vector<Drone*>`](#drone) `.drones`
    - Vector starts at index 0 not 1.
 - `int` `.drone_count`
 - `int` `.drone_start`
 - [`Targetable*`](#targetable) `.targetShip`
-- `bool[]` `.userPowered`
+- `std::vector<bool>` `.userPowered`
    - Vector starts at index 0 not 1.
 - `int` `.slot_count`
 - `int` `.iStartingBatteryPower`
-- `bool[]` `.repowerList`
+- `std::vector<bool>` `.repowerList`
    - Vector starts at index 0 not 1.
 
 ## SystemBox
@@ -3874,7 +3874,7 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 
 ### Fields
 - `std::vector<std::string>` `.customShipOrder`
-   - Each pages is %11 ships, `empty` means that a ship button in the page is skipped, special ships are the two last slots.
+   - Each pages always contain 10 ship string, `empty` means that a ship button in the page is skipped
 
 ## ShipButtonDefinition
 
