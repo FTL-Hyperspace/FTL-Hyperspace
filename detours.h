@@ -67,6 +67,9 @@
 #elif defined(__amd64__)
 #define MOLOGIE_DETOURS_DETOUR_SIZE 5
 #endif // __arch__
+#if defined(__APPLE__)
+#  define MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(ADDRESS, SIZE, NEWPROT) (mprotect((void*)(ADDRESS), (SIZE), (NEWPROT)) == 0)
+#endif
 
 /**
  * @namespace	MologieDetours
@@ -417,10 +420,19 @@ namespace MologieDetours
 			*reinterpret_cast<uint32_t*>(jmpBack + 1) = originalCodeJmpBackOffset;
 
 			// Make backupOriginalCode_ executable
+			#ifdef __APPLE__
+			// TODO: REMOVE - This approach is not correct and must be replaced when I eventually figure out why it doesn't work normally
+			// Use simple mprotect wrapper for macOS with READ & EXEC permissions
+			if(!MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5, PROT_READ | PROT_EXEC))
+			{
+				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
+			}
+			#else
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
 			}
+			#endif
 
 			// Create a new trampoline which points at the detour
 			#ifdef __i386__
