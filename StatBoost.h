@@ -227,7 +227,7 @@ struct StatBoost
 
     int iStacks = 1;
 
-    CrewMember* crewSource;
+    CrewMember* crewSource = nullptr;
     int crewSourceId;
     TimerHelper timerHelper;
 
