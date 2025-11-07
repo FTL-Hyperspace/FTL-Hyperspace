@@ -1,6 +1,5 @@
 #include "FTLGameMacOSAMD64.h"
 #include "zhl_internal.h"
-#include <iostream>
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
@@ -108,7 +107,14 @@ void AchievementTracker::SetAchievement(const std::string &achievement, bool noP
 namespace _func7
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("AchievementTracker::DO_NOT_HOOK_GetFlagValue", typeid(void (AchievementTracker::*)()), ".554889e541574156", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("AchievementTracker::GetFlagValue", typeid(void (AchievementTracker::*)(const std::string &)), ".554889e541574156", nullptr, 0, 0, &func);
+}
+
+void AchievementTracker::GetFlagValue(const std::string &flag)
+{
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flag_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func7::func;
+	return execfunc(this, flag);
 }
 
 namespace _func8

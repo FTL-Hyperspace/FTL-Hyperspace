@@ -402,7 +402,7 @@ namespace MologieDetours
 			// Backup the original code
 			// Add 5 bytes of space to shove an extra jmp if we need to rewrite a single jmp/jcc + imm8 (note: supporting more would require many changes to generate line-by-line instead of just memcpy the code)
 			#ifdef __APPLE__
-			backupOriginalCode_ = static_cast<uint8_t*>(mmap(nullptr, (instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			backupOriginalCode_ = reinterpret_cast<uint8_t*>(mmap(nullptr, (instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
 			#else 
 			backupOriginalCode_ = new uint8_t[instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5];
 			#endif
@@ -442,7 +442,7 @@ namespace MologieDetours
 			#elif defined(__amd64__)
 			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
 			#ifdef __APPLE__
-			trampoline_ = static_cast<uint8_t*>(mmap(nullptr, 12, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			trampoline_ = reinterpret_cast<uint8_t*>(mmap(nullptr, 12, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
 			#else
 			trampoline_ = new uint8_t[12];
 			#endif

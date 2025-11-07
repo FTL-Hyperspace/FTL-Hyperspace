@@ -1037,7 +1037,6 @@ local function writeFunctionWrappers(funcs, out)
     
     out([[#include "%s"
 #include "zhl_internal.h"
-#include <iostream>
 
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
