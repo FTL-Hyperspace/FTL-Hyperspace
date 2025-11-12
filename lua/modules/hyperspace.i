@@ -309,6 +309,7 @@ namespace std {
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
     %template(vector_Animation) vector<Animation>;
+    %template(vector_vector_Animation) vector<vector<Animation>>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -352,6 +353,11 @@ namespace std {
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
     %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
     %template(vector_p_GL_Texture) vector<GL_Texture*>;
+    %template(vector_p_ActivatedPowerDefinition) vector<ActivatedPowerDefinition*>;
+    %template(vector_AnimationTracker) vector<AnimationTracker>;
+    %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
+    %template(vector_bool) vector<bool>;
+    %template(vector_vector_bool) vector<vector<bool>>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -3439,6 +3445,12 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember::movementTarget;
 %rename("%s") CrewMember::bCloned;
 
+%rename("%s") BoardingGoal;
+%rename("%s") BoardingGoal::fHealthLimit;
+%rename("%s") BoardingGoal::causedDamage;
+%rename("%s") BoardingGoal::targetsDestroyed;
+%rename("%s") BoardingGoal::target;
+%rename("%s") BoardingGoal::damageType;
 
 %nodefaultctor CrewAnimation;
 %nodefaultdtor CrewAnimation;

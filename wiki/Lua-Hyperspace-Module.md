@@ -1809,6 +1809,16 @@ Accessed via [`ShipManager`](#ShipManager)'s `.vCrewList` field or by using the 
 - `bool` `.bCloned`
 - [`CrewMember_Extend`](#CrewMember_Extend) `.extend`
 
+## BoardingGoal
+Accessed via [`CrewMember`](#CrewMember)'s `.boardingGoal` field
+
+### Fields
+- `float` `.fHealthLimit`
+- `int` `.causedDamage`
+- `int` `.targetsDestroyed`
+- `int` `.target`
+- `int` `.damageType`
+
 ## SCrewStats
 Accessed via [`CrewMember`](#CrewMember)'s `.stats` field
 
