@@ -3935,7 +3935,7 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 ### Fields
 - `std::vector<std::string>` `.customShipOrder`
    - Each pages always contain 10 ship string, `empty` means that a ship button in the page is skipped
-- [ShipSelect*](#ShipSelect)  `.shipSelect`
+- [ShipSelect*](#ShipSelect) `.shipSelect`
 
 ## ShipSelect
 
@@ -3972,7 +3972,7 @@ Accessed via `Hyperspace.CustomShipSelect.GetInstance()`
 - `int` `:GetId()`
 - `int` `:GetIndex()`
    - equivalent of `:GetId() - 100`, all custom ship id are shifted by 100 to not overwrite vanilla ones
-- [ShipButton](#ShipButton) `:GetButton(int variant)`
+- [ShipButton*](#ShipButton) `:GetButton(int variant)`
 
 ## TextButton
 
