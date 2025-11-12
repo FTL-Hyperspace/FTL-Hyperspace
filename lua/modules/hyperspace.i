@@ -354,7 +354,6 @@ namespace std {
     %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
     %template(vector_p_GL_Texture) vector<GL_Texture*>;
     %template(vector_p_ArmamentBox) std::vector<ArmamentBox*>;
-
     %template(vector_p_ActivatedPowerDefinition) vector<ActivatedPowerDefinition*>;
     %template(vector_AnimationTracker) vector<AnimationTracker>;
     %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
