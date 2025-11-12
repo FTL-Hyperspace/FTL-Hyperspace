@@ -4179,6 +4179,7 @@ void RecallBoarders(int direction, bool force, bool effects)
     }
 }
 
+static bool forcedEscape = false;
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -4324,6 +4325,7 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         {
             enemyShip->shipAI.escaping = true;
             enemyShip->shipManager->JumpLeave();
+            if (!enemyShip->shipManager->_targetable.hostile) forcedEscape = true;
         }
     }
 
@@ -4477,6 +4479,17 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 }
 
+HOOK_METHOD(WorldManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
+    super();
+    if (forcedEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
+    {
+        forcedEscape = false;
+        commandGui->ClearLocation();
+    }
+}
+
 LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *eventList, int seed)
 {
     if (!eventList->seeded) seed = -1;
@@ -4583,7 +4596,7 @@ void CustomEventsParser::QueueEvent(EventQueueEvent &event)
     eventQueue.push_back(event);
 }
 
-void CustomEventsParser::QueueEvent(std::string &event, int seed)
+void CustomEventsParser::QueueEvent(const std::string &event, int seed)
 {
     EventQueueEvent queueEvent;
 

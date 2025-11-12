@@ -35,20 +35,39 @@
 
 //Some exception levels are empty, this grabs the first non-empty level
 %{
+    static void push_error_location(lua_State *L)
+    {
+        int errorLevel = 0;
+        size_t len = 0;
+        do {\
+            luaL_where(L, errorLevel++);
+            lua_tolstring(L, -1, &len);
+            if (len == 0) lua_pop(L, 1);
+            else break;
+        } while (true);
+    }
     #define SWIG_exception(a, b)\
     {\
-        int errorLevel = 0;\
-        size_t len = 0;\
-        do {\
-            luaL_where(L, errorLevel++);\
-            lua_tolstring(L, -1, &len);\
-            if (len == 0) lua_pop(L, 1);\
-            else break;\
-        } while (true);\
+        push_error_location(L);\
         lua_pushfstring(L,"%s:%s",#a,b);\
         lua_concat(L, 2);\
         SWIG_fail;\
-    }\
+    }
+
+    SWIGINTERN int SWIG_Lua_set_immutable_new(lua_State *L)
+    {
+    /*  there should be 1 param passed in: the new value */
+    #ifndef SWIGLUA_IGNORE_SET_IMMUTABLE
+        lua_pop(L,1);  /* remove it */
+        push_error_location(L);
+        lua_pushliteral(L, "This variable is immutable");
+        lua_concat(L, 2);
+        lua_error(L);
+    #endif
+        return 0;   /* should not return anything */
+    }
+
+    #define SWIG_Lua_set_immutable SWIG_Lua_set_immutable_new
 %}
 //Change typemap for unsigned numeric types to throw a proper lua error when provided a negative value
 %typemap(in, checkfn="lua_isnumber") unsigned int, unsigned short, unsigned long, unsigned char
@@ -290,6 +309,7 @@ namespace std {
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
     %template(vector_Animation) vector<Animation>;
+    %template(vector_vector_Animation) vector<vector<Animation>>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -335,6 +355,11 @@ namespace std {
     %template(vector_p_GL_Texture) vector<GL_Texture*>;
     %template(vector_p_ArmamentBox) std::vector<ArmamentBox*>;
 
+    %template(vector_p_ActivatedPowerDefinition) vector<ActivatedPowerDefinition*>;
+    %template(vector_AnimationTracker) vector<AnimationTracker>;
+    %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
+    %template(vector_bool) vector<bool>;
+    %template(vector_vector_bool) vector<vector<bool>>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -3481,6 +3506,12 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember::movementTarget;
 %rename("%s") CrewMember::bCloned;
 
+%rename("%s") BoardingGoal;
+%rename("%s") BoardingGoal::fHealthLimit;
+%rename("%s") BoardingGoal::causedDamage;
+%rename("%s") BoardingGoal::targetsDestroyed;
+%rename("%s") BoardingGoal::target;
+%rename("%s") BoardingGoal::damageType;
 
 %nodefaultctor CrewAnimation;
 %nodefaultdtor CrewAnimation;

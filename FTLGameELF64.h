@@ -4722,6 +4722,7 @@ struct CommandGui
 {
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API void CheckGameover();
+	LIBZHL_API void ClearLocation();
 	LIBZHL_API Store *CreateNewStore(int sectorNumber);
 	LIBZHL_API Point GetWorldCoordinates(Point point, bool fromTarget);
 	LIBZHL_API bool IsGameOver();
@@ -5774,16 +5775,15 @@ struct LocationEvent
             newChoice.text.isLiteral = true;
             newChoice.requirement = requirement;
             newChoice.hiddenReward = hiddenReward;
- 
+
             this->choices.push_back(newChoice);
         }
     }
- 
+
     bool RemoveChoice(int index)
     {
         if (index >= 0 && index < this->choices.size())
         {
-            delete this->choices[index].event;
             this->choices.erase(this->choices.begin() + index);
             return true;
         }
