@@ -2508,7 +2508,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 **Extends [`ArmamentControl`](#ArmamentControl)**
 
 ### Methods
-- `void :SelectArmament(int i)`
+- `void :SelectArmament(unsigned int i)`
 
 ## LocationEvent
 
