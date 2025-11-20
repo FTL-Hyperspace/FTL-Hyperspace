@@ -81,6 +81,7 @@ enum class CrewStat : unsigned int
     POWER_COOLDOWN,
     TRANSFORM_RACE,
     PERS_DAMAGE_MULTIPLIER,
+    PERS_HEAL_MULTIPLIER,
 };
 
 extern const std::array<std::string, numStats> crewStats;

@@ -232,6 +232,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.persDamageMultiplier = boost::lexical_cast<float>(val);
                         }
+                        if (str == "persHealMultiplier")
+                        {
+                            crew.persHealMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "canPhaseThroughDoors")
                         {
                             crew.canPhaseThroughDoors = EventsParser::ParseBoolean(val);
@@ -1271,6 +1275,10 @@ ActivatedPowerDefinition* CustomCrewManager::ParseAbilityEffect(rapidxml::xml_no
                 if (tempEffectName == "persDamageMultiplier")
                 {
                     def->tempPower.persDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "persHealMultiplier")
+                {
+                    def->tempPower.persHealMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "damageTakenMultiplier")
                 {
@@ -2493,7 +2501,7 @@ HOOK_METHOD(CrewMember, ShipDamage, (float damage) -> bool)
 
     if (custom->IsRace(species))
     {
-        persMultiplier = ex->CalculateStat(CrewStat::PERS_DAMAGE_MULTIPLIER, def);
+        persMultiplier = ex->CalculateStat(damage <= 0.f ? CrewStat::PERS_DAMAGE_MULTIPLIER : CrewStat::PERS_HEAL_MULTIPLIER, def);
     }
 
     return super(damage * persMultiplier);
@@ -2513,7 +2521,7 @@ HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
 
     if (custom->IsRace(species))
     {
-        persMultiplier = ex->CalculateStat(CrewStat::PERS_DAMAGE_MULTIPLIER, def);
+        persMultiplier = ex->CalculateStat(damage <= 0.f ? CrewStat::PERS_DAMAGE_MULTIPLIER : CrewStat::PERS_HEAL_MULTIPLIER, def);
     }
 
     return super(damage * persMultiplier);

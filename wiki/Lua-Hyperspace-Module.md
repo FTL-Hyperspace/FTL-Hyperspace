@@ -1446,6 +1446,8 @@ Accessed via `Room`'s `.extend` field
 - `int` `.POWER_CHARGES_PER_JUMP`
 - `int` `.POWER_COOLDOWN`
 - `int` `.TRANSFORM_RACE`
+- `int` `.PERS_DAMAGE_MULTIPLIER`
+- `int` `.PERS_HEAL_MULTIPLIER`
 
 ## StatBoostDefinition
 
@@ -1983,6 +1985,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `bool` `.isAnaerobic`
 - `float` `.fireDamageMultiplier`
 - `float` `.persDamageMultiplier`
+- `float` `.persHealMultiplier`
 - `bool` `.canPhaseThroughDoors`
 - `float` `.oxygenChangeSpeed`
 - `float` `.damageTakenMultiplier`
@@ -2273,6 +2276,7 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - `ToggleValue<bool>` `.canPhaseThroughDoors`
 - `ToggleValue<float>` `.fireDamageMultiplier`
 - `ToggleValue<float>` `.persDamageMultiplier`
+- `ToggleValue<float>` `.persHealMultiplier`
 - `ToggleValue<bool>` `.isTelepathic`
 - `ToggleValue<bool>` `.resistsMindControl`
 - `ToggleValue<bool>` `.isAnaerobic`
