@@ -32,6 +32,8 @@ virtual cleanup __cdecl bool CrewMember::CanMan(CrewMember *this);
 virtual cleanup __cdecl bool CrewMember::CanRepair(CrewMember *this);
 "5331c083ec188b5c24208b530485d2":
 cleanup __cdecl bool CrewMember::GetControllable(CrewMember *this);
+".!e9db22ffff":
+cleanup __cdecl bool CrewMember::ShipDamage(CrewMember *this, float amount);
 "5383ec188b5c2420f30f1043280f2e432c":
 virtual cleanup __cdecl bool CrewMember::CanHeal(CrewMember *this);
 "!8b4424048b908803000083420c018b108b82cc000000":

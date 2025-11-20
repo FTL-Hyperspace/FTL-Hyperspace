@@ -79,7 +79,9 @@ const std::array<std::string, numStats> crewStats =
     "powerCharges",
     "chargesPerJump",
     "powerCooldown",
-    "transformRace"
+    "transformRace",
+    "persDamageMultiplier",
+    "persHealMultiplier",
 };
 
 std::vector<StatBoostDefinition*> StatBoostDefinition::statBoostDefs = std::vector<StatBoostDefinition*>();
@@ -2254,6 +2256,12 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::NO_WARNING:
             _CALCULATE_BASE_STAT(*boolValue, noWarning);
             isBool = true;
+            break;
+        case CrewStat::PERS_DAMAGE_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, persDamageMultiplier);
+            break;
+        case CrewStat::PERS_HEAL_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, persHealMultiplier);
             break;
     }
 

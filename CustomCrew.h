@@ -149,6 +149,8 @@ struct TemporaryPowerDefinition
     ToggleValue<float> oxygenChangeSpeed;
     ToggleValue<bool> canPhaseThroughDoors;
     ToggleValue<float> fireDamageMultiplier;
+    ToggleValue<float> persDamageMultiplier;
+    ToggleValue<float> persHealMultiplier;
     ToggleValue<bool> isTelepathic;
     ToggleValue<bool> resistsMindControl;
     ToggleValue<bool> isAnaerobic;
@@ -671,6 +673,8 @@ struct CrewDefinition
     bool resistsMindControl = false;
     bool isAnaerobic = false;
     float fireDamageMultiplier = 1.f;
+    float persDamageMultiplier = 1.f;
+    float persHealMultiplier = 1.f;
     bool canPhaseThroughDoors = false;
     float oxygenChangeSpeed = 0.f;
     float damageTakenMultiplier = 1.f;

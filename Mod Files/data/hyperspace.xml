@@ -879,6 +879,8 @@ Syntax ->
 		<isTelepathic>false</isTelepathic>                                               If true, resists mind control and can see into adjacent rooms (slug).
 		<resistsMindControl>false</resistsMindControl>                                   If true, resists mind control if the stat is enabled globally (slug).
 		<fireDamageMultiplier>1.0</fireDamageMultiplier>                                 Modifier for damage taken in rooms on fire.
+		<persDamageMultiplier>1.0</persDamageMultiplier>                                 Modifier for damage taken from sources of <persDamage> with positive values. These are weapons and crew powers that deal crew damage directly.
+		<persHealMultiplier>1.0</persHealMultiplier>                                     Modifier for healing from sources of <persDamage> with negative values. These are weapons and crew powers that heal crew directly.
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
 		<healSpeed>1.0</healSpeed>                                                       Modifier for healing from non-true healing effects.
@@ -1171,6 +1173,8 @@ Syntax ->
 				<detectsLifeforms>false</detectsLifeforms>
 				<isTelepathic>false</isTelepathic>
 				<fireDamageMultiplier>1</fireDamageMultiplier>
+				<persDamageMultiplier>1.0</persDamageMultiplier>
+				<persHealMultiplier>1.0</persHealMultiplier>
 				<suffocationModifier>1</suffocationModifier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>                             Modifier to damage from all sources (anything that would reduce health).
