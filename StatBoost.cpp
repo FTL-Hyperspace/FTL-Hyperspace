@@ -2009,9 +2009,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::FIRE_DAMAGE_MULTIPLIER:
             _CALCULATE_BASE_STAT(finalStat, fireDamageMultiplier);
             break;
-        case CrewStat::PERS_DAMAGE_MULTIPLIER:
-            _CALCULATE_BASE_STAT(finalStat, persDamageMultiplier);
-            break;
         case CrewStat::OXYGEN_CHANGE_SPEED:
             _CALCULATE_BASE_STAT(finalStat, oxygenChangeSpeed);
             break;
@@ -2258,6 +2255,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         case CrewStat::NO_WARNING:
             _CALCULATE_BASE_STAT(*boolValue, noWarning);
             isBool = true;
+            break;
+        case CrewStat::PERS_DAMAGE_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, persDamageMultiplier);
             break;
     }
 

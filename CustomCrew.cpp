@@ -2508,7 +2508,6 @@ HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
     auto def = custom->GetDefinition(this->species);
     auto ex = CM_EX(this);
 
-    // hs_log_file("Damage hook triggered. Activating on crew: %p", this, "\n");
 
     float persMultiplier = 1.f;
 
