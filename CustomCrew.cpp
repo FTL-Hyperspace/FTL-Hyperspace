@@ -2516,7 +2516,6 @@ HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
     auto def = custom->GetDefinition(this->species);
     auto ex = CM_EX(this);
 
-
     float persMultiplier = 1.f;
 
     if (custom->IsRace(species))
