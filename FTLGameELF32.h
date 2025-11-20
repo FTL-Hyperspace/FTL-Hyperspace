@@ -2573,8 +2573,6 @@ struct LIBZHL_INTERFACE CrewMember
 
 struct DroneBlueprint;
 
-struct Slot;
-
 struct LIBZHL_INTERFACE Drone
 {
 	virtual ~Drone() {}
@@ -2594,11 +2592,11 @@ struct LIBZHL_INTERFACE Drone
 	virtual bool Destroyed() LIBZHL_PLACEHOLDER
 	virtual Point GetWorldLocation() LIBZHL_PLACEHOLDER
 	virtual void SetWorldLocation(Point point) LIBZHL_PLACEHOLDER
-	virtual Slot *GetDroneSlot(Drone *drone) LIBZHL_PLACEHOLDER
+	virtual Slot GetDroneSlot() LIBZHL_PLACEHOLDER
 	virtual int GetDroneHealth() LIBZHL_PLACEHOLDER
 	virtual int GetRequiredPower() LIBZHL_PLACEHOLDER
 	virtual void RenderIcon() LIBZHL_PLACEHOLDER
-	virtual std::string *GetName(Drone *drone) LIBZHL_PLACEHOLDER
+	virtual std::string GetName() LIBZHL_PLACEHOLDER
 	virtual bool CanBeDeployed() LIBZHL_PLACEHOLDER
 	virtual bool RecallOnJump() LIBZHL_PLACEHOLDER
 	virtual bool CanBeRecovered() LIBZHL_PLACEHOLDER
@@ -4718,6 +4716,7 @@ struct CommandGui
 {
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API void CheckGameover();
+	LIBZHL_API void ClearLocation();
 	LIBZHL_API Store *CreateNewStore(int sectorNumber);
 	LIBZHL_API Point GetWorldCoordinates(Point point, bool fromTarget);
 	LIBZHL_API bool IsGameOver();
@@ -5753,16 +5752,15 @@ struct LocationEvent
             newChoice.text.isLiteral = true;
             newChoice.requirement = requirement;
             newChoice.hiddenReward = hiddenReward;
- 
+
             this->choices.push_back(newChoice);
         }
     }
- 
+
     bool RemoveChoice(int index)
     {
         if (index >= 0 && index < this->choices.size())
         {
-            delete this->choices[index].event;
             this->choices.erase(this->choices.begin() + index);
             return true;
         }
@@ -7234,9 +7232,9 @@ struct Ship : ShipObject
 
 struct ShipButton : Button
 {
-	ShipButton(int x, int y)
+	ShipButton(int shipType, int shipVariant)
 	{
-		this->constructor(x, y);
+		this->constructor(shipType, shipVariant);
 	}
 
 	LIBZHL_API void MouseMove(int x, int y);
