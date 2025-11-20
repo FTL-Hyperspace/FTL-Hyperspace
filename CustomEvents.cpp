@@ -7015,8 +7015,6 @@ HOOK_METHOD(CApp, OnLoop, () -> void)
             }
         }
     }
-
-    // hs_log_file("%s", "Loop triggered.\n");
 }
 
 

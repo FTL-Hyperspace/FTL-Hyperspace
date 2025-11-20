@@ -26,7 +26,6 @@ enum class CrewStat : unsigned int
     FIRE_REPAIR_MULTIPLIER,
     SUFFOCATION_MODIFIER,
     FIRE_DAMAGE_MULTIPLIER,
-    PERS_DAMAGE_MULTIPLIER,
     OXYGEN_CHANGE_SPEED,
     DAMAGE_TAKEN_MULTIPLIER,
     CLONE_SPEED_MULTIPLIER,
@@ -80,7 +79,8 @@ enum class CrewStat : unsigned int
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
     POWER_COOLDOWN,
-    TRANSFORM_RACE
+    TRANSFORM_RACE,
+    PERS_DAMAGE_MULTIPLIER,
 };
 
 extern const std::array<std::string, numStats> crewStats;

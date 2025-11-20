@@ -2489,8 +2489,6 @@ HOOK_METHOD(CrewMember, ShipDamage, (float damage) -> bool)
     auto def = custom->GetDefinition(this->species);
     auto ex = CM_EX(this);
 
-    // hs_log_file("Damage hook triggered. Activating on crew: %p", this, "\n");
-
     float persMultiplier = 1.f;
 
     if (custom->IsRace(species))
@@ -2505,7 +2503,7 @@ HOOK_METHOD(CrewMember, ShipDamage, (float damage) -> bool)
 HOOK_METHOD(CrewDrone, ShipDamage, (float damage) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CrewDrone::ShipDamage -> Begin (CustomCrew.cpp)\n")
-    
+
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
     auto ex = CM_EX(this);
@@ -5463,7 +5461,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 HOOK_METHOD(CrewMember, SetCurrentSystem, (ShipSystem* system) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::SetCurrentSystem -> Begin (CustomCrew.cpp)\n")
-    
+
     if (system == nullptr) return super(system);
     else
     {

@@ -26,7 +26,6 @@ const std::array<std::string, numStats> crewStats =
     "fireRepairMultiplier",
     "suffocationModifier",
     "fireDamageMultiplier",
-    "persDamageMultiplier",
     "oxygenChangeSpeed",
     "damageTakenMultiplier",
     "cloneSpeedMultiplier",
@@ -80,7 +79,8 @@ const std::array<std::string, numStats> crewStats =
     "powerCharges",
     "chargesPerJump",
     "powerCooldown",
-    "transformRace"
+    "transformRace",
+    "persDamageMultiplier",
 };
 
 std::vector<StatBoostDefinition*> StatBoostDefinition::statBoostDefs = std::vector<StatBoostDefinition*>();
