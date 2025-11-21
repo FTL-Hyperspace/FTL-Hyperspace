@@ -607,8 +607,10 @@ struct Door
   int iRoom1;
   int iRoom2;
   bool bOpen;
+  uint8_t gap_ex_1[3];
   int iBlast;
   bool bFakeOpen;
+  uint8_t gap_ex_2[3];
   int width;
   int height;
   GL_Primitive *outlinePrimitive;
@@ -808,8 +810,10 @@ struct LockdownShard
   float speed;
   bool bArrived;
   bool bDone;
+  uint8_t gap_ex_1[2];
   float lifeTime;
   bool superFreeze;
+  uint8_t gap_ex_2[3];
   int lockingRoom;
 };
 
@@ -3765,11 +3769,11 @@ struct VTable_Drone
   bool (__thiscall *Destroyed)(Drone *);
   Point (__thiscall *GetWorldLocation)(Drone *);
   void (__thiscall *SetWorldLocation)(Drone *, Point point);
-  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  Slot (__thiscall *GetDroneSlot)(Drone *);
   int (__thiscall *GetDroneHealth)(Drone *);
   int (__thiscall *GetRequiredPower)(Drone *);
   void (__thiscall *RenderIcon)(Drone *);
-  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  std__string (__thiscall *GetName)(Drone *);
   bool (__thiscall *CanBeDeployed)(Drone *);
   bool (__thiscall *RecallOnJump)(Drone *);
   bool (__thiscall *CanBeRecovered)(Drone *);

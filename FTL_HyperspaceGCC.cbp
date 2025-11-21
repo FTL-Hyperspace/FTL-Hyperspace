@@ -980,6 +980,12 @@
 		<Unit filename="CustomLocalization.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="CustomLockdowns.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomLockdowns.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>

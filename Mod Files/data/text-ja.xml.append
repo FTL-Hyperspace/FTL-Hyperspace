@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <text name="system_temporal_title" language="ja">時間操作機</text>
-<text name="system_temporal_desc" language="ja">1区画の時間の経過速度を変えます。強化すると持続時間と時間の変化率が上昇します。</text>
+<text name="system_temporal_desc" language="ja">1区画の時間の流れる速度を変えます。強化すると持続時間と時間の変化率が上昇します。</text>
 <text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="ja">ナノボット防衛システム</text>
 <text name="aug_NANOBOT_DEFENSE_SYSTEM_desc" language="ja">乗り込んで来た敵に、時間経過に応じたダメージを与える。</text>
 <text name="aug_FTL_JUMPER_GOOD_title" language="ja">強化FTLナビゲーション II型</text>
@@ -35,7 +35,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.19.1)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -208,13 +208,13 @@
 <text name="hotkey_aim_artillery3" language="ja">弩級砲3照準</text>
 <text name="hotkey_aim_artillery4" language="ja">弩級砲4照準</text>
 
-<text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text>
-<text name="temporal_tooltip" language="ja">\3/\6秒間、\1x/\4倍速</text>
+<text name="temporal" language="ja">時間操作機</text>
+<text name="temporal_tooltip" language="ja">\3/\6秒間、時間の流れを\1x/\4にする</text>
 <text name="temporal_arm_super_shields" language="ja">スーパーシールドにより阻止された</text>
-<text name="temporal_arm_speed" language="ja">\3秒間、区画内のすべてを\1倍の速度にする</text>
-<text name="temporal_arm_slow" language="ja">\6秒間、区画内のすべてを\4分の1の速度にする</text>
-<text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text>
-<text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text>
+<text name="temporal_arm_speed" language="ja">\3秒間、区画内の時間の流れを\1倍にする</text>
+<text name="temporal_arm_slow" language="ja">\6秒間、区画内の時間の流れを\4分にする</text>
+<text name="temporal_button_speed" language="ja">短時間の間、区画内の時間の流れを速くする。\nホットキー：\1</text>
+<text name="temporal_button_slow" language="ja">短時間の間、区画内の時間の流れを遅くする。\nホットキー：\1</text>
 <text name="confirm_buy_custom" language="ja">本当によろしいですか？\n\2が\1に置き換えられます。</text>
 
 <text name="tooltip_more_info" language="ja">次の情報を表示する拡張モードに切り替える：

@@ -15,7 +15,7 @@
     <version>^0.9.2</version> A major match, allows minor & patch to be changed (upwards) but not major, in this case 0.10.0 would match as would 0.9.5 but not 1.0.0.
     If you fail to specify a match character and just do <version>0.9.2</version> this will be considered the same as `^` above but will also generate a warning message in FTL_HS.log.
 -->
-<version>^1.19.1</version>
+<version>^1.20.0</version>
 
 <!-- Hyperspace defaults
 
@@ -44,6 +44,17 @@ This way mods that frequently use a particular value can just make it the defaul
 		<newBreachRequirement>100.0</newBreachRequirement> (erosion damage to open a new breach, 100 is equivalent to 1 point of system damage)
 		<canDilate>false</canDilate>                       (whether erosion is affected by temporal manipulator)
 	</erosion>
+
+	<customLockdown>
+		<health>50</health>
+		<duration>12.0</duration>
+		<color r="255" g="255" b="255" a="1"/>
+		<anims>
+			<anim>crystal_1</anim>
+			<anim>crystal_2</anim>
+		</anims>
+		<canDilate>true</canDilate>
+	</customLockdown>
 	-->
 </defaults>
 
@@ -875,6 +886,8 @@ Syntax ->
 		<isTelepathic>false</isTelepathic>                                               If true, resists mind control and can see into adjacent rooms (slug).
 		<resistsMindControl>false</resistsMindControl>                                   If true, resists mind control if the stat is enabled globally (slug).
 		<fireDamageMultiplier>1.0</fireDamageMultiplier>                                 Modifier for damage taken in rooms on fire.
+		<persDamageMultiplier>1.0</persDamageMultiplier>                                 Modifier for damage taken from sources of <persDamage> with positive values. These are weapons and crew powers that deal crew damage directly.
+		<persHealMultiplier>1.0</persHealMultiplier>                                     Modifier for healing from sources of <persDamage> with negative values. These are weapons and crew powers that heal crew directly.
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
 		<healSpeed>1.0</healSpeed>                                                       Modifier for healing from non-true healing effects.
@@ -943,6 +956,16 @@ Syntax ->
 			<persDamage>1</persDamage> (zoltan value)
 			<hullBust>false</hullBust>
 			<lockdown>false</lockdown>
+			<customLockdown>
+				<health>50</health>
+				<duration>12.0</duration>
+				<color r="255" g="255" b="255" a="1"/>
+				<anims>
+					<anim>crystal_1</anim>
+					<anim>crystal_2</anim>
+				</anims>
+				<canDilate>true</canDilate>
+			</customLockdown>
 			<friendlyFire>false</friendlyFire>                                           If false, then the damage is not applied to friendly crewmembers.
 			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>                                   If false, then the hull/system/ion damage is only applied on the enemy ship.
@@ -1095,6 +1118,17 @@ Syntax ->
 			<persDamage>0</persDamage>
 			<hullBust>false</hullBust>
 			<lockdown>true</lockdown>
+			<customLockdown> 																	   <customLockdown> implies <lockdown>true</lockdown>.  Unsupplied values will be replaced with values from the customLockdown in <defaults>
+																								   If those values are unsupplied, values from the vanilla lockdown will be used instead.
+				<health>50</health> The health of the lockdown. How many times a door must be punched to break through the lockdown.
+				<duration>12.0</duration> The amount of time the lockdown will last, in seconds.
+				<color r="255" g="255" b="255" a="1"/> The color to tint the lockdown animation.
+				<anims> A list of animations for each shard. Shards on walls will choose one of these randomly, while shards on doors will use the first animation.
+					<anim>crystal_1</anim> The name of the animation in animations.xml
+					<anim>crystal_2</anim>
+				</anims>
+				<canDilate>true</canDilate>                                                        If the lockdown duration is affected by time dilation.
+			</customLockdown>
 			<friendlyFire>false</friendlyFire>                                                     If false, then the damage is not applied to friendly crewmembers.
 			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>                                             If false, then the hull/system/ion damage is only applied on the enemy ship.
@@ -1146,6 +1180,8 @@ Syntax ->
 				<detectsLifeforms>false</detectsLifeforms>
 				<isTelepathic>false</isTelepathic>
 				<fireDamageMultiplier>1</fireDamageMultiplier>
+				<persDamageMultiplier>1.0</persDamageMultiplier>
+				<persHealMultiplier>1.0</persHealMultiplier>
 				<suffocationModifier>1</suffocationModifier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>                             Modifier to damage from all sources (anything that would reduce health).
@@ -1312,6 +1348,16 @@ Syntax ->
 				<powerSound>lockdown2</powerSound>
 			</powerSounds>
 			<lockdown>true</lockdown>
+			<customLockdown>
+				<health>50</health>
+				<duration>12.0</duration>
+				<color r="255" g="255" b="255" a="1"/>
+				<anims>
+					<anim>crystal_1</anim>
+					<anim>crystal_2</anim>
+				</anims>
+				<canDilate>true</canDilate>
+			</customLockdown>
 			<buttonText id="button_lockdown">LOCKDOWN</buttonText>
 			<tooltip id="power_ready"></tooltip>
 			<cooldownColor r="133" g="231" b="237"/>

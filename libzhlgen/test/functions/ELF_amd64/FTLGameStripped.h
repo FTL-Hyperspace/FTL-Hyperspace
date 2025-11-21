@@ -619,11 +619,13 @@ struct Door
   int iDoorId;
   int baseHealth;
   int health;
+  uint8_t gap_ex_1[4];
   AnimationTracker forcedOpen;
   AnimationTracker gotHit;
   int doorLevel;
   bool bIoned;
   float fakeOpenTimer;
+  uint8_t gap_ex_2[4];
   AnimationTracker lockedDown;
   float lastbase;
   int iHacked;
@@ -809,10 +811,13 @@ struct LockdownShard
   Pointf goal;
   float speed;
   bool bArrived;
+  uint8_t gap_ex_1[2];
   bool bDone;
   float lifeTime;
   bool superFreeze;
+  uint8_t gap_ex_2[3];
   int lockingRoom;
+  uint8_t gap_ex_3[4];
 };
 
 /* 461 */
@@ -3767,11 +3772,11 @@ struct VTable_Drone
   bool (__thiscall *Destroyed)(Drone *);
   Point (__thiscall *GetWorldLocation)(Drone *);
   void (__thiscall *SetWorldLocation)(Drone *, Point point);
-  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  Slot (__thiscall *GetDroneSlot)(Drone *);
   int (__thiscall *GetDroneHealth)(Drone *);
   int (__thiscall *GetRequiredPower)(Drone *);
   void (__thiscall *RenderIcon)(Drone *);
-  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  std__string (__thiscall *GetName)(Drone *);
   bool (__thiscall *CanBeDeployed)(Drone *);
   bool (__thiscall *RecallOnJump)(Drone *);
   bool (__thiscall *CanBeRecovered)(Drone *);

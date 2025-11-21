@@ -424,6 +424,7 @@ public:
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
+    ShipSelect* shipSelect;
 
     bool showShipAchievements = false;
     bool shipAchievementsToggle = false;
@@ -432,9 +433,13 @@ public:
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
     std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();
+    //For use by Lua
+    std::vector<ShipButtonList*> GetShipButtonLists()
+    {
+        return shipButtons;
+    }
 
 private:
-    ShipSelect* shipSelect;
     Button* leftButton;
     Button* rightButton;
 

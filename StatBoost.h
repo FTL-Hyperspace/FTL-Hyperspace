@@ -79,7 +79,9 @@ enum class CrewStat : unsigned int
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
     POWER_COOLDOWN,
-    TRANSFORM_RACE
+    TRANSFORM_RACE,
+    PERS_DAMAGE_MULTIPLIER,
+    PERS_HEAL_MULTIPLIER,
 };
 
 extern const std::array<std::string, numStats> crewStats;
@@ -227,7 +229,7 @@ struct StatBoost
 
     int iStacks = 1;
 
-    CrewMember* crewSource;
+    CrewMember* crewSource = nullptr;
     int crewSourceId;
     TimerHelper timerHelper;
 

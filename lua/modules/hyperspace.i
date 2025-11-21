@@ -29,24 +29,45 @@
 #include "TemporalSystem.h"
 #include "Misc.h"
 #include "CustomDamage.h"
+#include "CustomLockdowns.h"
+
 %}
 
 //Some exception levels are empty, this grabs the first non-empty level
 %{
+    static void push_error_location(lua_State *L)
+    {
+        int errorLevel = 0;
+        size_t len = 0;
+        do {\
+            luaL_where(L, errorLevel++);
+            lua_tolstring(L, -1, &len);
+            if (len == 0) lua_pop(L, 1);
+            else break;
+        } while (true);
+    }
     #define SWIG_exception(a, b)\
     {\
-        int errorLevel = 0;\
-        size_t len = 0;\
-        do {\
-            luaL_where(L, errorLevel++);\
-            lua_tolstring(L, -1, &len);\
-            if (len == 0) lua_pop(L, 1);\
-            else break;\
-        } while (true);\
+        push_error_location(L);\
         lua_pushfstring(L,"%s:%s",#a,b);\
         lua_concat(L, 2);\
         SWIG_fail;\
-    }\
+    }
+
+    SWIGINTERN int SWIG_Lua_set_immutable_new(lua_State *L)
+    {
+    /*  there should be 1 param passed in: the new value */
+    #ifndef SWIGLUA_IGNORE_SET_IMMUTABLE
+        lua_pop(L,1);  /* remove it */
+        push_error_location(L);
+        lua_pushliteral(L, "This variable is immutable");
+        lua_concat(L, 2);
+        lua_error(L);
+    #endif
+        return 0;   /* should not return anything */
+    }
+
+    #define SWIG_Lua_set_immutable SWIG_Lua_set_immutable_new
 %}
 //Change typemap for unsigned numeric types to throw a proper lua error when provided a negative value
 %typemap(in, checkfn="lua_isnumber") unsigned int, unsigned short, unsigned long, unsigned char
@@ -288,6 +309,7 @@ namespace std {
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
     %template(vector_Animation) vector<Animation>;
+    %template(vector_vector_Animation) vector<vector<Animation>>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -329,6 +351,14 @@ namespace std {
     %template(unordered_multimap_string_AugmentFunction) unordered_multimap<string, AugmentFunction>;
     %template(pair_string_AugmentFunction) pair<string, AugmentFunction>;
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
+    %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
+    %template(vector_p_GL_Texture) vector<GL_Texture*>;
+    %template(vector_p_ArmamentBox) std::vector<ArmamentBox*>;
+    %template(vector_p_ActivatedPowerDefinition) vector<ActivatedPowerDefinition*>;
+    %template(vector_AnimationTracker) vector<AnimationTracker>;
+    %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
+    %template(vector_bool) vector<bool>;
+    %template(vector_vector_bool) vector<vector<bool>>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -465,6 +495,10 @@ public:
     static bool IsSeededRun();
     %immutable;
     static unsigned int currentSeed;
+    %immutable;
+    static Point* dronePosition;
+    %immutable;
+    static Point* weaponPosition;
 };
 
 void ErrorMessage(const char* msg);
@@ -996,6 +1030,7 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl;
 %rename("%s") CombatControl::playerShipPosition;
 %rename("%s") CombatControl::weapControl;
+%rename("%s") CombatControl::droneControl;
 %rename("%s") CombatControl::position;
 %rename("%s") CombatControl::selectedRoom;
 %rename("%s") CombatControl::selectedSelfRoom;
@@ -1021,6 +1056,37 @@ playerVariableType playerVariables;
 %rename("%s") CrewControl::worldFirstMouse;
 %rename("%s") CrewControl::worldCurrentMouse;
 
+%nodefaultctor ArmamentBox;
+%nodefaultdtor ArmamentBox;
+%rename("%s") ArmamentBox;
+%rename("%s") ArmamentBox::Powered;
+%rename("%s") ArmamentBox::iconName;
+%rename("%s") ArmamentBox::iconBackgroundName;
+%rename("%s") ArmamentBox::lastIconPos;
+%rename("%s") ArmamentBox::location;
+%rename("%s") ArmamentBox::xOffset;
+%rename("%s") ArmamentBox::largeIconOffset;
+%rename("%s") ArmamentBox::nameOffset;
+%rename("%s") ArmamentBox::nameWidth;
+%rename("%s") ArmamentBox::mouseHover;
+%rename("%s") ArmamentBox::selected;
+%rename("%s") ArmamentBox::hotKey;
+%rename("%s") ArmamentBox::iconColor;
+%rename("%s") ArmamentBox::droneVariation;
+%rename("%s") ArmamentBox::bIoned;
+
+%nodefaultctor ArmamentControl;
+%nodefaultdtor ArmamentControl;
+%rename("%s") ArmamentControl;
+%rename("%s") ArmamentControl::IsDragging;
+%rename("%s") ArmamentControl::SelectArmament;
+%rename("%s") ArmamentControl::DeselectArmament;
+%rename("%s") ArmamentControl::SwapArmaments;
+%rename("%s") ArmamentControl::systemId;
+%rename("%s") ArmamentControl::boxes;
+%rename("%s") ArmamentControl::location;
+%rename("%s") ArmamentControl::bDragging;
+
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
@@ -1028,6 +1094,11 @@ playerVariableType playerVariables;
 %rename("%s") WeaponControl::autoFiring;
 %immutable WeaponControl::autoFiring;
 %rename("%s") WeaponControl::armedSlot;
+
+%nodefaultctor DroneControl;
+%nodefaultdtor DroneControl;
+%rename("%s") DroneControl;
+%rename("%s") DroneControl::SelectArmament;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
@@ -2529,22 +2600,26 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Ship::bCloaked;
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
+%immutable Ship::lockdowns; //Removing shards via lua will cause a memory leak as the extend will not be deleted
 %rename("%s") Ship::lockdowns;
 
-%nodefaultctor LockdownShard;
 
-%rename("%s") LockdownShard;
-%rename("%s") LockdownShard::Update;
-%rename("%s") LockdownShard::shard;
-%rename("%s") LockdownShard::position;
-%rename("%s") LockdownShard::goal;
-%rename("%s") LockdownShard::speed;
-%rename("%s") LockdownShard::bArrived;
-%rename("%s") LockdownShard::bDone;
-%rename("%s") LockdownShard::lifeTime;
-%rename("%s") LockdownShard::superFreeze;
-%rename("%s") LockdownShard::lockingRoom;
-
+%extend Ship {
+    void LockdownRoom(int roomId, Pointf pos)
+    {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &CustomLockdownDefinition::defaultLockdown;
+        $self->LockdownRoom(roomId, pos);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
+    }
+    void LockdownRoom(int roomId, Pointf pos, CustomLockdownDefinition& def)
+    {
+        CustomLockdownDefinition* oldLockdown = CustomLockdownDefinition::currentLockdown;
+        CustomLockdownDefinition::currentLockdown = &def;
+        $self->LockdownRoom(roomId, pos);
+        CustomLockdownDefinition::currentLockdown = oldLockdown;
+    }
+}
 
 //Expose Hyperspace engine anims as a member variable
 //Note: Pairs are returned by value rather than by reference, change if there is a need for mutability via lua
@@ -2560,6 +2635,53 @@ We can expose them once the root cause is identified and the crash is fixed.
         return &extraEngineAnim[ship->iShipId];
     };
 %}
+
+
+%nodefaultctor LockdownShard;
+
+%rename("%s") LockdownShard;
+%rename("%s") LockdownShard::Update;
+%rename("%s") LockdownShard::shard;
+%rename("%s") LockdownShard::position;
+%rename("%s") LockdownShard::goal;
+%rename("%s") LockdownShard::speed;
+%rename("%s") LockdownShard::bArrived;
+%immutable LockdownShard::bDone;
+%rename("%s") LockdownShard::bDone;
+%rename("%s") LockdownShard::lifeTime;
+%rename("%s") LockdownShard::superFreeze;
+%immutable LockdownShard::lockingRoom;
+%rename("%s") LockdownShard::lockingRoom;
+
+%immutable LockdownShard::extend;
+%rename("%s") LockdownShard::extend;
+
+%extend LockdownShard {
+    LockdownShard_Extend* extend;
+}
+%wrapper %{
+    static LockdownShard_Extend *LockdownShard_extend_get(LockdownShard* LockdownShard)
+    {
+        return Get_LockdownShard_Extend(LockdownShard);
+    };
+%}
+
+%nodefaultctor LockdownShard_Extend;
+%rename("%s") LockdownShard_Extend;
+%rename("%s") LockdownShard_Extend::health;
+%immutable LockdownShard_Extend::door;
+%rename("%s") LockdownShard_Extend::door;
+%rename("%s") LockdownShard_Extend::color;
+%immutable LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::anim;
+%rename("%s") LockdownShard_Extend::canDilate;
+
+%rename("%s") CustomLockdownDefinition;
+%rename("%s") CustomLockdownDefinition::duration;
+%rename("%s") CustomLockdownDefinition::health;
+%rename("%s") CustomLockdownDefinition::color;
+%rename("%s") CustomLockdownDefinition::anims;
+%rename("%s") CustomLockdownDefinition::canDilate;
 
 
 %nodefaultctor Room;
@@ -2782,10 +2904,66 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") Description::tooltip;
 %rename("%s") Description::tip;
 
+%nodefaultctor CustomShipSelect;
+%nodefaultdtor CustomShipSelect;
 %rename("%s") CustomShipSelect;
 %rename("%s") CustomShipSelect::GetInstance;
 %rename("%s") CustomShipSelect::GetDefinition;
+%rename("%s") CustomShipSelect::GetShipBlueprint;
+%rename("%s") CustomShipSelect::CountUnlockedShips;
+%rename("%s") CustomShipSelect::IsOpen;
+%rename("%s") CustomShipSelect::GetCurrentPage;
+%rename("%s") CustomShipSelect::GetMaxPages;
+%rename("%s") CustomShipSelect::FirstPage;
+%rename("%s") CustomShipSelect::GetSelection;
+%rename("%s") CustomShipSelect::GetSelectedId;
+%rename("%s") CustomShipSelect::GetLastSelected;
+%rename("%s") CustomShipSelect::ClearSelection;
+%rename("%s") CustomShipSelect::GetShipButtonIdFromName;
+%rename("%s") CustomShipSelect::GetShipButtonListFromID;
+%rename("%s") CustomShipSelect::GetShipButtonLists;
+%rename("%s") CustomShipSelect::GetShipIdAndVariantFromName;
+%rename("%s") CustomShipSelect::GetOrderedShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetShipButtonOrderIndex;
+%rename("%s") CustomShipSelect::GetShipButtonDefinition;
+%rename("%s") CustomShipSelect::GetDefaultDefinition;
+%rename("%s") CustomShipSelect::GetRandomShipIndex;
+%rename("%s") CustomShipSelect::ShipCount;
+%rename("%s") CustomShipSelect::customShipOrder;
+%rename("%s") CustomShipSelect::shipSelect;
 
+%nodefaultctor ShipButtonDefinition;
+%nodefaultdtor ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition;
+%rename("%s") ShipButtonDefinition::name;
+%immutable ShipButtonDefinition::name;
+
+%nodefaultctor ShipButtonList;
+%nodefaultdtor ShipButtonList;
+%rename("%s") ShipButtonList;
+%rename("%s") ShipButtonList::GetPage;
+%rename("%s") ShipButtonList::GetId;
+%rename("%s") ShipButtonList::GetIndex;
+%rename("%s") ShipButtonList::GetButton;
+
+%nodefaultctor ShipSelect;
+%nodefaultdtor ShipSelect;
+%rename("%s") ShipSelect;
+%rename("%s") ShipSelect::selectedShip;
+%rename("%s") ShipSelect::currentType;
+
+%nodefaultctor ShipButton;
+%rename("%s") ShipButton;
+%rename("%s") ShipButton::iShipImage;
+%rename("%s") ShipButton::bShipLocked;
+%rename("%s") ShipButton::bLayoutLocked;
+%rename("%s") ShipButton::bNoExist;
+// %rename("%s") ShipButton::achievements;
+%rename("%s") ShipButton::iSelectedAch;
+%rename("%s") ShipButton::bSelected;
+
+%nodefaultctor CustomShipDefinition;
+%nodefaultdtor CustomShipDefinition;
 %rename("%s") CustomShipDefinition;
 %rename("%s") CustomShipDefinition::name;
 %rename("%s") CustomShipDefinition::hiddenAugs;
@@ -3327,6 +3505,12 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember::movementTarget;
 %rename("%s") CrewMember::bCloned;
 
+%rename("%s") BoardingGoal;
+%rename("%s") BoardingGoal::fHealthLimit;
+%rename("%s") BoardingGoal::causedDamage;
+%rename("%s") BoardingGoal::targetsDestroyed;
+%rename("%s") BoardingGoal::target;
+%rename("%s") BoardingGoal::damageType;
 
 %nodefaultctor CrewAnimation;
 %nodefaultdtor CrewAnimation;
@@ -4059,6 +4243,8 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") TemporaryPowerDefinition::oxygenChangeSpeed;
 %rename("%s") TemporaryPowerDefinition::canPhaseThroughDoors;
 %rename("%s") TemporaryPowerDefinition::fireDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::persDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::persHealMultiplier;
 %rename("%s") TemporaryPowerDefinition::isTelepathic;
 %rename("%s") TemporaryPowerDefinition::resistsMindControl;
 %rename("%s") TemporaryPowerDefinition::isAnaerobic;
@@ -4502,3 +4688,4 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "TemporalSystem.h"
 %include "Misc.h"
 %include "CustomDamage.h"
+%include "CustomLockdowns.h"

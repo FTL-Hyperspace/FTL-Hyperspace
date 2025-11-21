@@ -561,6 +561,14 @@ struct LIBZHL_INTERFACE AnimationTracker
 	void LoadState(int fd);
 	void SaveState(int fd);
 
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
+
 	virtual ~AnimationTracker() {}
 	LIBZHL_API virtual void Update();
 	LIBZHL_API float GetAlphaLevel(bool reverse);
@@ -712,6 +720,9 @@ struct GL_Color
 	{
 		return !(r == color2.r && g == color2.g && b == color2.b && a == color2.a);
 	}
+
+	void SaveState(int fd);
+	void LoadState(int fd);
 
 	float r;
 	float g;
@@ -1856,23 +1867,23 @@ struct CSurface
 	{
 		shader_pipeline_apply(pipeline);
 	}
-	
+
 	static void GL_DestroyShader(int pipeline)
 	{
 		shader_pipeline_destroy(pipeline);
 	}
-	
+
 	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
 	{
 		return shader_pipeline_create(vertex_shader, fragment_shader);
 	}
-	
+
 	static int GL_CreateShader(ShaderType type, const char* source)
 	{
 		return shader_create_from_source(type, source, -1);
 	}
 	*/
-	
+
 
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static void __stdcall FinishFrame();
@@ -1896,6 +1907,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
 	LIBZHL_API static bool __stdcall GL_DisableBlend();
 	LIBZHL_API static bool __stdcall GL_DrawCircle(int x, int y, float radius, GL_Color color);
+	LIBZHL_API static bool __stdcall GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
@@ -2359,7 +2371,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual int GetMaxHealth() LIBZHL_PLACEHOLDER
 	virtual bool IsDead() LIBZHL_PLACEHOLDER
 	virtual bool PermanentDeath() LIBZHL_PLACEHOLDER
-	virtual bool ShipDamage(float damage) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool ShipDamage(float amount);
 	virtual bool FireFightingSoundEffect() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual std::string GetUniqueRepairing();
 	virtual bool ProvidesVision() LIBZHL_PLACEHOLDER
@@ -2553,8 +2565,6 @@ struct LIBZHL_INTERFACE CrewMember
 
 struct DroneBlueprint;
 
-struct Slot;
-
 struct LIBZHL_INTERFACE Drone
 {
 	virtual ~Drone() {}
@@ -2574,11 +2584,11 @@ struct LIBZHL_INTERFACE Drone
 	virtual bool Destroyed() LIBZHL_PLACEHOLDER
 	virtual Point GetWorldLocation() LIBZHL_PLACEHOLDER
 	virtual void SetWorldLocation(Point point) LIBZHL_PLACEHOLDER
-	virtual Slot *GetDroneSlot(Drone *drone) LIBZHL_PLACEHOLDER
+	virtual Slot GetDroneSlot() LIBZHL_PLACEHOLDER
 	virtual int GetDroneHealth() LIBZHL_PLACEHOLDER
 	virtual int GetRequiredPower() LIBZHL_PLACEHOLDER
 	virtual void RenderIcon() LIBZHL_PLACEHOLDER
-	virtual std::string *GetName(Drone *drone) LIBZHL_PLACEHOLDER
+	virtual std::string GetName() LIBZHL_PLACEHOLDER
 	virtual bool CanBeDeployed() LIBZHL_PLACEHOLDER
 	virtual bool RecallOnJump() LIBZHL_PLACEHOLDER
 	virtual bool CanBeRecovered() LIBZHL_PLACEHOLDER
@@ -2658,6 +2668,7 @@ struct CrewDrone : CrewMember
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual bool ProvidesVision();
 	LIBZHL_API void SetCurrentShip(int shipId);
+	LIBZHL_API bool ShipDamage(float amount);
 	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
 	LIBZHL_API void destructor();
 	
@@ -4707,6 +4718,7 @@ struct CommandGui
 {
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API void CheckGameover();
+	LIBZHL_API void ClearLocation();
 	LIBZHL_API Store *CreateNewStore(int sectorNumber);
 	LIBZHL_API Point GetWorldCoordinates(Point point, bool fromTarget);
 	LIBZHL_API bool IsGameOver();
@@ -5155,6 +5167,7 @@ struct Room : Selectable
 	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
 	LIBZHL_API void OnRenderWalls(float alpha);
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
@@ -5348,21 +5361,50 @@ public:
 		}
 	}
 
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
+	}
+
+	LIBZHL_API void AccelerateAnimation();
 	LIBZHL_API bool ApplyDamage(float amount);
+	LIBZHL_API bool ConnectsRooms(int roomId1, int roomId2);
+	LIBZHL_API bool ContainsPoint(int loc_x, int loc_y, float scale);
 	LIBZHL_API void FakeClose();
 	LIBZHL_API void FakeOpen();
 	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender(float alpha, bool bForceView, bool useLargeSprites);
+	LIBZHL_API void Open();
+	LIBZHL_API void PauseLoop();
 	LIBZHL_API void SaveState(int fd);
+	LIBZHL_API void SetBlastDoor(int val);
+	LIBZHL_API void SetLockdown(bool val);
+	LIBZHL_API void StartAnimIfNecessary();
+	LIBZHL_API void UpdateAnimations();
+	LIBZHL_API void constructor(int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId);
+	LIBZHL_API void destructor();
 	
 	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
 	bool bOpen;
+	uint8_t gap_ex_1[3];
 	int iBlast;
 	bool bFakeOpen;
+	uint8_t gap_ex_2[3];
 	int width;
 	int height;
 	GL_Primitive *outlinePrimitive;
@@ -5732,16 +5774,15 @@ struct LocationEvent
             newChoice.text.isLiteral = true;
             newChoice.requirement = requirement;
             newChoice.hiddenReward = hiddenReward;
- 
+
             this->choices.push_back(newChoice);
         }
     }
- 
+
     bool RemoveChoice(int index)
     {
         if (index >= 0 && index < this->choices.size())
         {
-            delete this->choices[index].event;
             this->choices.erase(this->choices.begin() + index);
             return true;
         }
@@ -5987,6 +6028,7 @@ struct ImageDesc
 
 struct ExplosionAnimation : AnimationTracker
 {
+	LIBZHL_API ImageDesc GetFinalGib();
 	LIBZHL_API void LoadGibs();
 	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
 	LIBZHL_API void OnRender(Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
@@ -6314,7 +6356,27 @@ struct LockdownShard;
 
 struct LockdownShard
 {
+    LockdownShard() {}
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+
+	LIBZHL_API void OnRender();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void Update();
+	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor3(int fd);
 	
 	Animation shard;
 	Pointf position;
@@ -6322,8 +6384,10 @@ struct LockdownShard
 	float speed;
 	bool bArrived;
 	bool bDone;
+	uint8_t gap_ex_1[2];
 	float lifeTime;
 	bool superFreeze;
+	uint8_t gap_ex_2[3];
 	int lockingRoom;
 };
 
@@ -7071,6 +7135,53 @@ struct Ship : ShipObject
 	  DOOR_ANIMATING = 0x4,
 	};
 
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = 2147483647;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
+
 
 	struct DoorState
 	{
@@ -7088,9 +7199,11 @@ struct Ship : ShipObject
 	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
+	LIBZHL_API float GetCloakAlpha(bool complete);
 	LIBZHL_API std::vector<Repairable*> GetHullBreaches(bool onlyDamaged);
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API Point GetShipCorner();
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
 	LIBZHL_API void OnInit(ShipBlueprint &bp);
 	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);
@@ -7103,6 +7216,7 @@ struct Ship : ShipObject
 	LIBZHL_API bool RoomLocked(int roomId);
 	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
 	LIBZHL_API void SetSelectedRoom(int roomId);
+	LIBZHL_API void UpdateDoorsPrimitive(bool doorControlMode);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;
@@ -7143,9 +7257,9 @@ struct Ship : ShipObject
 
 struct ShipButton : Button
 {
-	ShipButton(int x, int y)
+	ShipButton(int shipType, int shipVariant)
 	{
-		this->constructor(x, y);
+		this->constructor(shipType, shipVariant);
 	}
 
 	LIBZHL_API void MouseMove(int x, int y);
