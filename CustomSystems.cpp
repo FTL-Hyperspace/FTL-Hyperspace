@@ -1029,18 +1029,54 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
     return count < sysLimit;
 }
 
+inline int getTrueSystemMaxPower(int systemId, int maxPower) {
+    if(maxPower > 0) {
+        return maxPower;
+    }
+    auto* sysBp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(systemId));
+    if (sysBp == nullptr) {
+        return maxPower;
+    }
+    return sysBp->maxPower;
+}
+
+inline int getTrueSystemStartPower(int systemId, int startPower) {
+    if(startPower > 0) {
+        return startPower;
+    }
+    auto* sysBp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(systemId));
+    if (sysBp == nullptr) {
+        return startPower;
+    }
+    return sysBp->startPower;
+}
+
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomSystems.cpp)\n")
 
-    if (myBlueprint.systemInfo.find(systemId) == myBlueprint.systemInfo.end()) return 0;
+    const auto& systemInfos = myBlueprint.systemInfo;
+    auto newSystemInfo = systemInfos.find(systemId);
+    if (newSystemInfo == systemInfos.end()) return 0;
 
-    int removedSystemPower = 0;
-    int replacedSystem = SystemWillReplace(systemId);
-    if (replacedSystem != SYS_INVALID)
-    {
-        removedSystemPower = GetSystemPowerMax(replacedSystem);
-        RemoveSystem(replacedSystem);
+    int newPowerMax = 1;
+    int replacedSystemId = SystemWillReplace(systemId);
+    auto* replacedSystem = replacedSystemId != SYS_INVALID ? GetSystem(replacedSystemId) : nullptr;
+    if (replacedSystem) {
+        int removedSystemPower = GetSystemPowerMax(replacedSystemId);
+        int newSystemMaxPower = getTrueSystemMaxPower(systemId, newSystemInfo->second.maxPower);
+        if (removedSystemPower > newSystemMaxPower) {
+            // Downgrade the removed system to new system's max power level before removing it
+            removedSystemPower = newSystemMaxPower;
+            replacedSystem->powerState.second = removedSystemPower;
+            replacedSystem->AddDamage(0);
+            replacedSystem->CheckMaxPower();
+            replacedSystem->CheckForRepower();
+        }
+        newPowerMax = removedSystemPower;
+        RemoveSystem(replacedSystemId);
+    } else { // No system replaced, use new system's start power level
+        newPowerMax = getTrueSystemStartPower(systemId, newSystemInfo->second.powerLevel);
     }
 
     //Save medical system and remove so original AddSystem doesn't remove it
@@ -1094,9 +1130,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
         systemKey[SYS_CLONEBAY] = vSystemList.size() - 1;
     }
 
-
-    while (GetSystemPowerMax(systemId) < removedSystemPower)
-    {
+    while (GetSystemPowerMax(systemId) < newPowerMax) {
         UpgradeSystem(systemId, 1);
     }
 
