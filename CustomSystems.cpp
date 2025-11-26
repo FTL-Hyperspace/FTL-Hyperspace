@@ -1030,7 +1030,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 }
 
 inline int getTrueSystemMaxPower(int systemId, int maxPower) {
-    if(maxPower > 0) {
+    if (maxPower > 0) {
         return maxPower;
     }
     auto* sysBp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(systemId));
@@ -1041,7 +1041,7 @@ inline int getTrueSystemMaxPower(int systemId, int maxPower) {
 }
 
 inline int getTrueSystemStartPower(int systemId, int startPower) {
-    if(startPower > 0) {
+    if (startPower > 0) {
         return startPower;
     }
     auto* sysBp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(systemId));
