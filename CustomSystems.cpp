@@ -1034,10 +1034,10 @@ inline int getTrueSystemMaxPower(int systemId, int maxPower) {
         return maxPower;
     }
     auto* sysBp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(systemId));
-    if (sysBp == nullptr) {
-        return maxPower;
+    if (sysBp)  {
+        maxPower = sysBp->maxPower;
     }
-    return sysBp->maxPower;
+    return maxPower > 0 ? maxPower : 1; // Return at least 1 as a safe default
 }
 
 inline int getTrueSystemStartPower(int systemId, int startPower) {
@@ -1045,10 +1045,10 @@ inline int getTrueSystemStartPower(int systemId, int startPower) {
         return startPower;
     }
     auto* sysBp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(systemId));
-    if (sysBp == nullptr) {
-        return startPower;
+    if (sysBp)  {
+        startPower = sysBp->startPower;
     }
-    return sysBp->startPower;
+    return startPower > 0 ? startPower : 1; // Return at least 1 as a safe default
 }
 
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
