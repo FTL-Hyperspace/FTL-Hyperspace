@@ -2064,14 +2064,14 @@ HOOK_METHOD(SystemStoreBox, SetInfoBox, (InfoBox *box, int forceSystemInfoWidth)
     return ret;
 }
 // called within SystemStoreBox::SetInfoBox
-HOOK_METHOD(InfoBox, CalcBoxHeight, () -> void)
+HOOK_METHOD(InfoBox, CalcBoxHeight, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::CalcBoxHeight -> Begin (CustomStore.cpp)\n")
     if (systemId == SYS_ARTILLERY && g_currentArtilleryBP)
     {
         desc = g_currentArtilleryBP->desc;
     }
-    super();
+    return super();
 }
 
 // replace dummy artillery system title with actual title

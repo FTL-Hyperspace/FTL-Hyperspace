@@ -67,7 +67,7 @@ void CustomUpgrades::OnRender()
     // Draw the ship name
     Point pos = Point(orig->position.x + 310, orig->position.y + 39);
     CSurface::GL_SetColor(COLOR_WHITE);
-    if (allowRename) 
+    if (allowRename)
     {
         if (allowButton) renameButton->OnRender();
         renameInput->OnRender(24, pos);
@@ -182,7 +182,7 @@ void CustomUpgrades::MouseClick(int mX, int mY)
     {
         if (((
             !allowButton &&
-            mX > orig->position.x + 155 && mX < orig->position.x + 465 && 
+            mX > orig->position.x + 155 && mX < orig->position.x + 465 &&
             mY > orig->position.y + 46 && mY < orig->position.y + 86) ||
             (allowButton && renameButton->bHover)) &&
             !renameInput->GetActive())
@@ -499,7 +499,7 @@ HOOK_METHOD(Upgrades, ConfirmUpgrades, () -> void)
 HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnTextInput -> Begin (CustomUpgrades.cpp)\n")
-    
+
     if (G_->GetWorld()->commandGui->upgradeScreen.bOpen)
     {
         CustomUpgrades *upgrade = CustomUpgrades::GetInstance();
@@ -714,7 +714,7 @@ HOOK_STATIC(freetype, easy_print, (int fontSize, float x, float y, const std::st
 // info box fix
 
 // make the artillery system description box extendable
-ShipSystem *g_currentShipSystem = nullptr;
+static ShipSystem *g_currentShipSystem = nullptr;
 
 HOOK_METHOD(InfoBox, SetSystem, (ShipSystem *system, int upgrade, int yShift, int forceSystemWidth)-> void)
 {
@@ -724,15 +724,25 @@ HOOK_METHOD(InfoBox, SetSystem, (ShipSystem *system, int upgrade, int yShift, in
     g_currentShipSystem = nullptr;
 }
 // called within InfoBox::SetSystem
-HOOK_METHOD(InfoBox, CalcBoxHeight, () -> void)
+HOOK_METHOD(InfoBox, CalcBoxHeight, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::CalcBoxHeight -> Begin (CustomUpgrades.cpp)\n")
     if (systemId == SYS_ARTILLERY && g_currentShipSystem)
     {
         WeaponBlueprint *bp = g_currentShipSystem->GetWeaponInfo();
-        if (bp) desc.description = bp->desc.description;
+        if (bp)
+        {
+            // replace default dummy desc with actual desc
+            // replace only title and description, which are used in the height calculation
+            desc.title = bp->desc.title;
+            desc.description = bp->desc.description;
+        }
     }
-    super();
+
+    // vanilla code assumes title is always one line, so we need to add the extra height if the title is longer
+    int titleOffset = std::max(0, static_cast<int>(freetype::easy_measurePrintLines(16, 0.f, 0.f, descBoxSize.x, desc.title.GetText()).y - G_->GetResources()->GetFontData(16, true).lineHeight));
+
+    return super() + titleOffset;
 }
 
 // prevent infoBox from rendering outside the screen when the description is too long
