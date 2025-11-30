@@ -662,6 +662,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "teleporterHackFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->teleporterHackFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->teleporterHackFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "energyBypassTeleportRecall") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->energyBypassTeleportRecall.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->energyBypassTeleportRecall.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
