@@ -766,7 +766,7 @@ void CustomShipUnlocks::UnlockAllShips()
         for (int shipType = 0; shipType < scoreKeeper->unlocked[shipId].size(); ++shipType)
         {
             // note that UnlockShip does not save layout B vanilla ships as unlocked in the save file
-            // so we have to do it ourselves in the hoooks below
+            // so we have to do it ourselves in the hooks below
             scoreKeeper->UnlockShip(shipId, shipType, true, true);
         }
     }
@@ -795,7 +795,7 @@ HOOK_STATIC(FileHelper, fileLength, (int file) -> int)
 
     // insert unlock saving process for vanilla ships with layout B
     ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < scoreKeeper->unlocked.size(); i++)
     {
         FileHelper::writeInt(file, scoreKeeper->unlocked[i][1]);
     }
@@ -810,7 +810,7 @@ HOOK_METHOD(ScoreKeeper, LoadVersionFour, (int file, int version) -> void)
 
     super(file, version);
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < unlocked.size(); i++)
     {
         if (FileHelper::readInteger(file) == 1) UnlockShip(i, 1, false, true);
     }
