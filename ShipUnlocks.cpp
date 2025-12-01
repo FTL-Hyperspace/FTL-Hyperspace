@@ -759,12 +759,63 @@ void CustomShipUnlocks::CheckBasicUnlock(const std::string& currentShip, ShipUnl
 
 void CustomShipUnlocks::UnlockAllShips()
 {
+    // unlock all vanilla ships
+    ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
+    for (int shipId = 0; shipId < scoreKeeper->unlocked.size(); ++shipId)
+    {
+        for (int shipType = 0; shipType < scoreKeeper->unlocked[shipId].size(); ++shipType)
+        {
+            // note that UnlockShip does not save layout B vanilla ships as unlocked in the save file
+            // so we have to do it ourselves in the hoooks below
+            scoreKeeper->UnlockShip(shipId, shipType, true, true);
+        }
+    }
+
+    // unlock all custom ships
     for (auto i : customShipUnlocks)
     {
         UnlockShip(i.first, true, false);
     }
 }
 
+// Save unlock state of vanilla ships with layout B - begin
+static bool g_insertVanillaTypeBShipsUnlockSaving = false;
+// saving
+HOOK_METHOD(ScoreKeeper, Save, (bool newHighScore) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::Save -> Begin (ShipUnlocks.cpp)\n")
+    g_insertVanillaTypeBShipsUnlockSaving = true;
+    super(newHighScore);
+    g_insertVanillaTypeBShipsUnlockSaving = false;
+}
+HOOK_STATIC(FileHelper, fileLength, (int file) -> int)
+{
+    LOG_HOOK("HOOK_STATIC -> FileHelper::fileLength -> Begin (ShipUnlocks.cpp)\n")
+    if (!g_insertVanillaTypeBShipsUnlockSaving) return super(file);
+
+    // insert unlock saving process for vanilla ships with layout B
+    ScoreKeeper *scoreKeeper = G_->GetScoreKeeper();
+    for (int i = 0; i < 12; i++)
+    {
+        FileHelper::writeInt(file, scoreKeeper->unlocked[i][1]);
+    }
+
+    return super(file);
+}
+// loading
+HOOK_METHOD(ScoreKeeper, LoadVersionFour, (int file, int version) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadVersionFour -> Begin (ShipUnlocks.cpp)\n")
+    if (CustomShipUnlocks::instance->loadVersion < 4) return super(file, version); // skip if loading older version for backward compatibility
+
+    super(file, version);
+
+    for (int i = 0; i < 12; i++)
+    {
+        if (FileHelper::readInteger(file) == 1) UnlockShip(i, 1, false, true);
+    }
+}
+// Save unlock state of vanilla ships with layout B - end
 
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {

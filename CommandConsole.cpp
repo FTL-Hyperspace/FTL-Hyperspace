@@ -200,8 +200,10 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (command == "SHIP ALL")
     {
+        //Vanilla also has SHIP ALL for vanilla ships, but it is temporal unlock (relocked after relaunch)
+        //This command is for permanently unlocking all ships including vanilla and custom ships
         CustomShipUnlocks::instance->UnlockAllShips();
-        return false; //Run native game ship unlocks as well
+        return true; //Prevent vanilla SHIP ALL from running since we already unlocked all vanilla ships
     }
     if (cmdName == "SHIP_CUSTOM")
     {
