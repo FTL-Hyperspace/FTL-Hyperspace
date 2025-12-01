@@ -178,7 +178,7 @@ HOOK_METHOD_PRIORITY(ScoreKeeper, CycleLeft, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ScoreKeeper::CycleLeft -> Begin (CustomScoreKeeper.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
-    
+
     int prevShipId = customSel->CycleShipPrevious(selectedShip, selectedLayout);
     if (selectedShip >= 100 && prevShipId < 100) customSel->SwitchPage(0);
     selectedShip = prevShipId;
@@ -189,7 +189,7 @@ HOOK_METHOD_PRIORITY(ScoreKeeper, CycleRight, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ScoreKeeper::CycleRight -> Begin (CustomScoreKeeper.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
-    
+
     int nextShipId = customSel->CycleShipNext(selectedShip, selectedLayout);
     if (selectedShip >= 100 && nextShipId < 100) customSel->SwitchPage(0);
     selectedShip = nextShipId;
@@ -399,22 +399,29 @@ HOOK_METHOD(AchievementTracker, LoadProfile, (int file, int version) -> void)
     LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadProfile -> Begin (CustomScoreKeeper.cpp)\n")
     super(file, version);
 
-    if (CustomShipUnlocks::instance->loadVersion == SaveFileHandler::version)
+    switch (CustomShipUnlocks::instance->loadVersion)
     {
-        CustomShipUnlocks::instance->LoadCurrent(file); // VersionTwo
-        CustomAchievementTracker::instance->LoadCurrent(file); // VersionThree
-        CustomScoreKeeper::instance->LoadShipScores(file);
-        CustomScoreKeeper::instance->LoadMetaVars(file);
-    }
-    else if (CustomShipUnlocks::instance->loadVersion == 2)
-    {
-        CustomShipUnlocks::instance->LoadVersionTwo(file);
-        CustomScoreKeeper::instance->LoadShipScores(file);
-    }
-    else if (CustomShipUnlocks::instance->loadVersion == 1)
-    {
-        CustomShipUnlocks::instance->LoadVersionOne(file);
-        CustomScoreKeeper::instance->LoadShipScores(file);
+        case SaveFileHandler::version: // version 4 added vanilla layout B ships unlock saving
+        case 3:
+        {
+            CustomShipUnlocks::instance->LoadCurrent(file); // VersionTwo
+            CustomAchievementTracker::instance->LoadCurrent(file); // VersionThree
+            CustomScoreKeeper::instance->LoadShipScores(file);
+            CustomScoreKeeper::instance->LoadMetaVars(file);
+            break;
+        }
+        case 2:
+        {
+            CustomShipUnlocks::instance->LoadVersionTwo(file);
+            CustomScoreKeeper::instance->LoadShipScores(file);
+            break;
+        }
+        case 1:
+        {
+            CustomShipUnlocks::instance->LoadVersionOne(file);
+            CustomScoreKeeper::instance->LoadShipScores(file);
+            break;
+        }
     }
 }
 
