@@ -1,4 +1,104 @@
 #include "Global.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+json *saveData = nullptr;
+
+HOOK_METHOD_PRIORITY(WorldManager, SaveGame, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::SaveGame -> Begin (SavingRewrite.cpp)\n")
+    // Don't save if the game is over
+    if (this->commandGui->IsGameOver())
+    {
+        return;
+    }
+
+    this->CheckForNewLocation(true);
+    this->commandGui->ConfirmUpgrades();
+
+    // Create the save file
+    int fd = FileHelper::createSaveFile(FileHelper::getSaveFile());
+    if (fd > -1)
+    {
+        this->commandGui->ClearWriteError();
+
+        // Write save file header
+        FileHelper::writeInt(fd, 11); // Save version
+        FileHelper::writeInt(fd, *Globals_RNG);
+        FileHelper::writeInt(fd, Settings::GetDlcEnabled());
+
+        // Save various game components
+        G_->GetScoreKeeper()->SaveGame(fd);
+        this->playerShip->shipManager->ExportShip(fd);
+        this->commandGui->ExportData(fd);
+        this->starMap.SaveGame(fd);
+        this->currentShipEvent.Save(fd);
+        FileHelper::writeString(fd, this->generatedEvent);
+        FileHelper::writeInt(fd, this->lastMainText.isLiteral);
+        FileHelper::writeString(fd, this->lastMainText.data);
+        FileHelper::writeInt(fd, this->lastSelectedCrewSeed);
+
+        // Save choice history
+        FileHelper::writeInt(fd, this->choiceHistory.size());
+        for (int choice : this->choiceHistory)
+        {
+            FileHelper::writeInt(fd, choice);
+        }
+
+        // Check for and save enemy ship state
+        if (this->ships.empty() || (this->ships[0]->shipManager->bDestroyed && this->ships[0]->shipManager->ship.DestroyedDone()))
+        {
+            // No enemy ship present or it's destroyed
+            FileHelper::writeInt(fd, 0);
+            this->space.SaveSpace(fd);
+            this->playerShip->shipManager->ExportBattleState(fd);
+            this->playerShip->SaveState(fd);
+        }
+        else
+        {
+            // Enemy ship present
+            CompleteShip* enemyShip = this->ships[0];
+            FileHelper::writeInt(fd, 1);
+            FileHelper::writeInt(fd, enemyShip->IsBoss());
+            enemyShip->shipManager->ExportShip(fd);
+            enemyShip->shipAI.Save(fd);
+            this->space.SaveSpace(fd);
+            this->playerShip->shipManager->ExportBattleState(fd);
+            enemyShip->shipManager->ExportBattleState(fd);
+            this->playerShip->SaveState(fd);
+            enemyShip->SaveState(fd);
+        }
+
+        // Save remaining components
+        this->commandGui->combatControl.SaveState(fd);
+        this->bossShip->SaveBoss(fd);
+
+        FileHelper::closeBinaryFile(fd);
+        G_->GetScoreKeeper()->Save(false);
+    }
+    else
+    {
+        // Failed to create save file
+        this->commandGui->ShowWriteError();
+    }
+}
+
+HOOK_METHOD(WorldManager, SaveGame, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::SaveGame -> Begin (SavingRewrite.cpp)\n")
+    saveData = new json();
+    (*saveData)["version"] = 1;
+    super();
+    std::ofstream saveFile(FileHelper::getUserFolder() + "save_debug.json");
+    if (!saveFile)
+    {
+        hs_log_file("Failed to open save_debug.json for writing");
+        return;
+    }
+    saveFile << saveData->dump(4);
+    saveFile.close();
+}
 
 HOOK_METHOD_PRIORITY(Animation, LoadState, 9999, (int fd) -> void)
 {
