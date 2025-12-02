@@ -10,7 +10,8 @@
         "boost-crc",
         "discord-rpc",
         "opengl",
-        "lua"
+        "lua",
+        "nlohmann-json"
     ],
 
     "builtin-baseline": "8e1f46de11423e5f7d2395458f5252738ffffbbd",

@@ -5,6 +5,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 find_package(Boost REQUIRED) # From vcpkg
 find_package(Lua REQUIRED) # From vcpkg
+find_package(nlohmann_json CONFIG REQUIRED) # From vcpkg
 
 if(UNIX)
     find_package(SDL2 REQUIRED) # From system
@@ -62,6 +63,7 @@ target_link_libraries(
     Hyperspace PRIVATE
     ${LUA_LIBRARIES}
     Threads::Threads
+    nlohmann_json::nlohmann_json
 )
 
 target_sources(
