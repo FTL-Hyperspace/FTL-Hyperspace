@@ -2,6 +2,8 @@
 cleanup __cdecl void CommandGui::RunCommand(CommandGui *this, std::string& command);
 "5557565383ec2cc70424a40400008b5c2440":
 cleanup __cdecl Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
+".5557565383ec1c8b5c24308db3":
+cleanup __cdecl void CommandGui::Restart(CommandGui *this);
 "5589e557565383ec3c8b5d188d55d8":
 cleanup __cdecl Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 "5589e557565383ec4c8b5d088b4510":
@@ -12,6 +14,8 @@ cleanup __cdecl void CommandGui::RenderStatic(CommandGui *this);
 cleanup __cdecl void CommandGui::constructor(CommandGui *this);
 "5557565383ec3c8b5c24508d7c24208b7424548d83ac030000":
 cleanup __cdecl void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
+".5557565381ec0c0100008b9c24200100008d":
+cleanup __cdecl void CommandGui::LinkShip(CommandGui *this, CompleteShip *ship);
 "5589e557565383ec6c8b45088b80b4120000":
 cleanup __cdecl void CommandGui::Victory(CommandGui *this);
 "5557565381ecbc0000008b8424d00000008d7424688d7c244c":
@@ -32,3 +36,5 @@ cleanup __cdecl void CommandGui::NewLocation(CommandGui *this, const std::string
 cleanup __cdecl void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
 ".5557565383ec2c8b7424408b44244c8b7c24448b6c2448":
 cleanup __cdecl void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
+"5383ec188b5c????8b83b41200008b40088b887c010000":
+cleanup __cdecl void CommandGui::ClearLocation(CommandGui *this);

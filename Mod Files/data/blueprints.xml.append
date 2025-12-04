@@ -33,11 +33,29 @@
     <stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="SECTOR_SCANNER">
+	<title id="aug_SECTOR_SCANNER_title"/>
+	<desc id="aug_SECTOR_SCANNER_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>7</value> <!--The range of the scanner-->
+    <stackable>false</stackable>
+</augBlueprint>
+
 <augBlueprint name="BOARDER_RECOVERY">
 	<title id="aug_BOARDER_RECOVERY_title"/>
 	<desc id="aug_BOARDER_RECOVERY_desc"/>
 	<cost>50</cost>
 	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="TELEPORT_RECALL">
+	<title id="aug_TELEPORT_RECALL_title"/>
+	<desc id="aug_TELEPORT_RECALL_desc"/>
+	<cost>150</cost>
 	<rarity>0</rarity>
 	<stackable>false</stackable>
 </augBlueprint>
@@ -49,6 +67,35 @@
 	<bp>8</bp>
 	<rarity>0</rarity>
 	<stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="ARTILLERY_ORDER">
+	<title id="aug_ARTILLERY_ORDER_title"/>
+	<desc id="aug_ARTILLERY_ORDER_desc"/>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="AUGMENT_SLOT">
+	<title id="aug_AUGMENT_SLOT_title"/>
+	<desc id="aug_AUGMENT_SLOT_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>1</value> <!--The amount of augment slots added. Negative values decrease slots.-->
+    <stackable>true</stackable>
+</augBlueprint>
+
+<augBlueprint name="CARGO_SLOT">
+	<title id="aug_CARGO_SLOT_title"/>
+	<desc id="aug_CARGO_SLOT_desc"/>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>1</value> <!--The amount of cargo slots added. Negative values decrease slots.-->
+    <stackable>true</stackable>
 </augBlueprint>
 
 <crewBlueprint name="ghost">
@@ -84,7 +131,7 @@
 <!--
 <weaponBlueprint name="WEAPON_NAME">
 	...
-	
+
 	(added blueprint attribute for BURST weapons; allows a certain projectile to inherit the stats of a different blueprint)
 	(does not work for fake projectiles; also all projectiles with the same anim_name will be affected, even if they don't all have the blueprint attribute)
 	(if you want different overrides on the same animation, you will need to make copies of the animation; they can use the same sheet)
@@ -92,14 +139,14 @@
 	<projectiles>
 		<projectile count="3" fake="false" blueprint="OTHER_BP">anim_name</projectile>
 	</projectiles>
-	
+
 	<freeMissileChance>0.0</freeMissileChance>       Probability that the weapon does not consume missiles when fired. Rolled separately from explosive replicator.
-	
+
 	<descriptionOverride id="">TEXT</descriptionOverride>                 Replaces standard weapon description with custom text. Also replaces extended if the latter is not specified.
 	<advancedDescriptionOverride id="">TEXT</advancedDescriptionOverride> Replaces extended weapon description with custom text.
 	<tooltipOverride id="">TEXT</tooltipOverride>                         Replaces standard weapon tooltip with custom text. Also replaces extended if the latter is not specified.
 	<advancedTooltipOverride id="">TEXT</advancedTooltipOverride>         Replaces extended weapon tooltip with custom text.
-	
+
 	<hideEventTooltip>false</hideEventTooltip>       Prevents showing event tooltip on hover in events; useful for mystery weapons or weapons whose stats should otherwise not be seen on the event screen.
 	<accuracyMod>0</accuracyMod>                     Changes weapon accuracy. This is equivalent to subtracting accuracyMod from the enemy's evasion for this weapon when performing the evasion check.
 	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
@@ -108,7 +155,7 @@
 	<invisibleBeam>false</invisibleBeam>             If true, prevents beams from being rendered.
 	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
 	<fireTime>0.0</fireTime>                         Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
-	
+	<shotLimit>-1</shotLimit>                        The amount of times this weapon can be fired per combat encounter. Negative values indicate no limit.
 	<erosionChance>0</erosionChance>                          Chance to apply erosion (0-10)
 	<erosion>                                                 Leave out any child tags to use the defaults
 		<speed>0.63</speed>                                   How quickly to erode the system, equivalent to sabotage multiplier
@@ -121,7 +168,7 @@
 			(uses roomAnim syntax, see custom ships)
 		</roomAnim>
 	</erosion>
-	
+
 	<statBoostChance>0</statBoostChance>             Chance to apply stat boosts as listed below.
 	<statBoosts>                                     Same as statBoosts for crew/augment/etc. - list of all stat boosts to apply.
 		<statBoost>                                  Conditions for stat boost are checked on application. Once applied, the effect is continuous. Use a nested self statboost if you want to check conditions continuously.
@@ -129,7 +176,7 @@
 			...
 		</statBoost>
 	</statBoosts>
-	
+
 	<roomStatBoostChance>0</roomStatBoostChance>     Chance to apply room stat boosts as listed below.
 	<roomStatBoosts>                                 Same as statBoosts but applies a lingering effect to the hit room.
 		<statBoost>                                  Conditions for stat boosts are on top of being restricted to the affected room. If the room cannot be affected, the stat boost is not applied.
@@ -137,7 +184,7 @@
 			...
 		</statBoost>
 	</roomStatBoosts>
-	
+
 	<crewSpawnChance>0</crewSpawnChance>             Chance to spawn the crew listed below.
 	<spawnCrew>                                      Include as many <spawnCrew> tags as you need.
 		<race>human</race>                           Race to spawn.
@@ -151,10 +198,43 @@
 		<enemy>false</enemy>                         If true, spawns crew of enemy alignment.
 		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
 	</spawnCrew>
-	
+
 	<iconReplace>ANIMATION</iconReplace>             Replaces the weapon icon in equipment/store/hangar screens. Animation should have a single frame.
 	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
+-->
+<!--
+<droneBlueprint name="DRONE_SHIELD">
+	<type>SHIELD</type>
+	<level>1</level>
+	<tip>tip_defense</tip>
+	<title id="drone_DRONE_SHIELD_title"/>
+	<short id="drone_DRONE_SHIELD_short"/>
+	<desc id="drone_DRONE_SHIELD_desc"/>
+	<power>3</power>
+	<cooldown>15000</cooldown>
+	<dodge>0</dodge>
+	<speed>5</speed>
+	<cost>60</cost>
+	<bp>2</bp>
+	<droneImage>drone_shield</droneImage>
+	<rarity>4</rarity>
+	<iconImage>shield</iconImage>
+
+	The following tags can be used to customize shield drones:
+	<chargeSound>shieldDroneCharge</chargeSound> The sound to play as the drone slows down.
+	<activateSound>shieldDroneActivate</activateSound> The sound to play as the drone activates.
+	<slowDuration>1.0</slowDuration> The time it takes for the drone to slow to a stop.
+	<pulseDuration>1.5</pulseDuration> The time it takes for the drone to activate once it has stopped.
+	<layers>1</layers> The number of super shield points added per pulse by the drone.
+	<cooldowns> The amount of time between super shield additions. Varies based on the number of super shield layers active.
+		<noLayers>8.0</noLayers> The names of the nodes are unimportant, and each node is the time for the next integer amount of layers.
+		<oneLayer>10.0</oneLayer>
+		<twoLayers>13.0</twoLayers>
+		<threeLayers>16.0</threeLayers>
+		<moreLayers>20.0</moreLayers> The last value will be used for all super shield values higher than the number of cooldowns provided.
+	</cooldowns>
+</droneBlueprint>
 -->
 
 <!--

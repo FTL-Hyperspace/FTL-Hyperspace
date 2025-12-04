@@ -99,6 +99,9 @@ static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Textur
 "8d4c240483e4f0ff71fc5589e556535183ec5c8b318b4128f30f106118f30f1015????????0f2ee2":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
 
+"8d????0483e4f0ff????5589e55756535181ec880000008b??8b????8b":
+static cleanup __cdecl bool CSurface::GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
+
 "5589e557565383e4f083ec508b45108b15????????8b5d088b7d0c89442430a1????????39d00f84????????29d083e0f08d4402f0f30f1018f30f106804f30f106008f30f10500c8b47042b07":
 static cleanup __cdecl void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias);
 "5589e557565383e4f083ec508b45108b15????????8b5d088b750c89442420a1????????39d00f84????????29d083e0f08d4402f0f30f1020f30f106804f30f107008f30f10780cf30f1164242c":
@@ -122,11 +125,8 @@ static cleanup __cdecl int CSurface::opengl_select_shader(const void *primitive,
 
 "5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
-
-/*
 "8d4c240483e4f0ff71fc5589e55756535183ec78807938008b19f30f107910f30f117dc4f30f107924f30f106104f30f104108":
-static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror); 
-*/
+static cleanup __cdecl GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
 "5589e557565383e4f083ec408b75088b46042b06c1f8048d14c5????????89c78944243cc1e00581fa????????ba????????0f47c2":
 static cleanup __cdecl GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
 "5589e557565383e4f081ec90020000f30f105514f30f105d180f2eda":
@@ -140,21 +140,21 @@ struct CSurface
 	{
 		shader_pipeline_apply(pipeline);
 	}
-	
+
 	static void GL_DestroyShader(int pipeline)
 	{
 		shader_pipeline_destroy(pipeline);
 	}
-	
+
 	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
 	{
 		return shader_pipeline_create(vertex_shader, fragment_shader);
 	}
-	
+
 	static int GL_CreateShader(ShaderType type, const char* source)
 	{
 		return shader_create_from_source(type, source, -1);
 	}
 	*/
-	
+
 }};

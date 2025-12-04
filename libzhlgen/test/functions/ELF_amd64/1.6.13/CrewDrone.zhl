@@ -8,6 +8,8 @@ virtual cleanup __amd64 void CrewDrone::OnLoop(CrewDrone *this); // 00435000
 cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId); // 00435290
 "5589f5534889fb4883ec084084":
 cleanup __amd64 void CrewDrone::SetDeployed(CrewDrone *this, bool deploy); // 004352e0
+"0f57c90f2ec877??31":  // unique sig
+cleanup __amd64 bool CrewDrone::ShipDamage(CrewDrone *this, float amount); // 00435360
 "41574989d7415641554189cd41544d89c4554c89cd534889fb4881ec58010000":
 cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim); // 00435c00
 ".8b57084889f885d2":

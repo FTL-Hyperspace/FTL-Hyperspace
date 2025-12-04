@@ -15,7 +15,11 @@ static std::vector<CustomHotkey> customHotkeys =
     {"temporal", SDLKey::SDLK_SEMICOLON, 2, 11},
     {"un_temporal", SDLKey::SDLK_UNKNOWN, 2, -1},
     {"temporal_speed", SDLKey::SDLK_PERIOD, 1, 8},
-    {"temporal_slow", SDLKey::SDLK_COMMA, 1, 9}
+    {"temporal_slow", SDLKey::SDLK_COMMA, 1, 9},
+    {"aim_artillery1", SDLKey::SDLK_UNKNOWN, 3, 8},
+    {"aim_artillery2", SDLKey::SDLK_UNKNOWN, 3, 9},
+    {"aim_artillery3", SDLKey::SDLK_UNKNOWN, 3, -1},
+    {"aim_artillery4", SDLKey::SDLK_UNKNOWN, 3, -1}
 };
 
 HOOK_METHOD(ControlsScreen, OnInit, () -> void)
@@ -29,7 +33,7 @@ HOOK_METHOD(ControlsScreen, OnInit, () -> void)
     super();
 
     Point origin = Point(480, 130);
-    int btnsPerColumn = 8;
+    int btnsPerColumn = 10;
     for (int page = 0; page < 3; page++)
     {
         if (page == 0)
@@ -88,4 +92,17 @@ HOOK_STATIC(Settings, ResetHotkeys, () -> void)
             settings->hotkeys[i.page].insert(settings->hotkeys[i.page].begin() + i.index, hk);
         }
     }
+}
+
+// TO BE REMOVED FOR 2.0
+// A mistake made a version ago forced this backward compatibility fix in order to not break text_misc.xml data that should have just been updated with the new ID instead
+// beware that the prefix "hotkey_artillery" will always break the power artillery hotkey
+HOOK_METHOD(TextLibrary, GetText, (const std::string &name, const std::string &lang) -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomHotkeys.cpp)\n")
+
+    std::string ret = super(name, lang);
+    if (ret.find("Could not find:") != std::string::npos && (name == "hotkey_aim_artillery1" || name == "hotkey_aim_artillery2" || name == "hotkey_aim_artillery3" || name == "hotkey_aim_artillery4"))
+        ret = super("hotkey_artillery" + name.substr(20), lang);
+    return ret;
 }

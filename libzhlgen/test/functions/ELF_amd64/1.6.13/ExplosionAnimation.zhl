@@ -1,4 +1,8 @@
-"415741564155415455534889fb4883ec38807f1400":
-cleanup __amd64 void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive);
+"41545553488b5748":
+cleanup __amd64 void ExplosionAnimation::LoadGibs(ExplosionAnimation *this); //004a2d40
+".??55??54??89fc5553??89f3??83ec08??8b4e48":
+cleanup __amd64 ImageDesc ExplosionAnimation::GetFinalGib(ExplosionAnimation *this); //004a2db0
+".415741564155415455534889fb4883ec38807f1400":
+cleanup __amd64 void ExplosionAnimation::OnRender(ExplosionAnimation *this, Globals::Rect *shipRect, ImageDesc shipImage, GL_Primitive *shipImagePrimitive); //004a2e70
 ".415741564989fe4155415455534889f34881ec380200008b7f28":
 cleanup __amd64 void ExplosionAnimation::OnInit(ExplosionAnimation *this, rapidxml::xml_node<char>* node, const std::string& name, Point glowOffset);

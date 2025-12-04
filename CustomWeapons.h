@@ -38,6 +38,7 @@ struct CustomWeaponDefinition
     bool simultaneousFire = false;
     float fireTime = 0.f;
     float angularRadius = -1.f;
+    int shotLimit = -1;
 
     std::string iconReplace;
     float iconScale = 1.f;

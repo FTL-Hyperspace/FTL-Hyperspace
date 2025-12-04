@@ -12,6 +12,8 @@
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
 #include "EventButtons.h"
+#include "Equipment_Extend.h"
+#include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -148,11 +150,11 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
     Pointf dynamicCutOff;
     int creditNamesLineSpacing = 40;
     int creditNamesToFinishTextSpacing = 100;
-    
+
     for (auto creditNode = node->first_node(); creditNode; creditNode = creditNode->next_sibling())
     {
         // Parse <scrollSpeed/> xml tag
-        if (strcmp(creditNode->name(), "scrollSpeed") == 0) 
+        if (strcmp(creditNode->name(), "scrollSpeed") == 0)
         {
             if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
@@ -169,7 +171,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         }
 
         // Parse <fadeInSpeed/> xml tag
-        if (strcmp(creditNode->name(), "fadeInSpeed") == 0) 
+        if (strcmp(creditNode->name(), "fadeInSpeed") == 0)
         {
             if (auto speedMultiplier = creditNode->first_attribute("speed"))
             {
@@ -188,37 +190,37 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
         // Parse scroll pause & initial delay
         if (strcmp(creditNode->name(), "scrollPause") == 0)
         {
-            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay")) 
+            if (auto scrollDelayAttribute = creditNode->first_attribute("scrollDelay"))
             {
                 try
                 {
                     scrollDelay = std::stof(scrollDelayAttribute->value()) * 50;
                 }
-                catch (const std::invalid_argument& e) 
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'scrollDelay' to a float. Using default value.\n");
                 }
             }
 
-            if (auto pauseDurationAttribute = creditNode->first_attribute("duration")) 
+            if (auto pauseDurationAttribute = creditNode->first_attribute("duration"))
             {
-                try 
+                try
                 {
                     pauseDuration = std::stof(pauseDurationAttribute->value()) * 50 + scrollDelay;
-                } 
-                catch (const std::invalid_argument& e) 
+                }
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'duration' to a float. Using default value.\n");
                 }
             }
 
-            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition")) 
+            if (auto pausePositionAttribute = creditNode->first_attribute("pausePosition"))
             {
-                try 
+                try
                 {
                     pausePosition = std::stof(pausePositionAttribute->value());
-                } 
-                catch (const std::invalid_argument& e) 
+                }
+                catch (const std::invalid_argument& e)
                 {
                     hs_log_file("Failed to convert an attribute value in 'pausePosition' to a float. Using default value.\n");
                 }
@@ -298,7 +300,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditText.lineLenght = 750;
-            
+
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 750, textString);
             creditText.cutOff = dynamicCutOff.x + 50;
 
@@ -377,7 +379,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
                 }
             }
             else creditFinishText.lineLenght = 1000;
-            
+
             dynamicCutOff = freetype::easy_measurePrintLines(textFont, 0, 0, 1000, textString);
             creditFinishText.cutOff = dynamicCutOff.x + 50;
 
@@ -386,7 +388,7 @@ void CustomEventsParser::ParseCustomCredits(rapidxml::xml_node<char> *node)
 
         // Parse values for credits.txt
         if (strcmp(creditNode->name(), "creditNames") == 0)
-        {   
+        {
             if (auto valueAttribute = creditNode->first_attribute("fontSize"))
             {
                 std::string valueStr = valueAttribute->value();
@@ -911,6 +913,12 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             sector->removeFirstBeaconNebula = true;
         }
 
+        if (strcmp(sectorNode->name(), "priorityNebulaFix") == 0)
+        {
+            isDefault = false;
+            sector->priorityNebulaFix = true;
+        }
+
         if (strcmp(sectorNode->name(), "noExit") == 0)
         {
             isDefault = false;
@@ -921,6 +929,12 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
         {
             isDefault = false;
             sector->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
+        }
+
+        if (strcmp(sectorNode->name(), "bossSector") == 0)
+        {
+            isDefault = false;
+            sector->bossSector = EventsParser::ParseBoolean(sectorNode->value());
         }
 
         if (strcmp(sectorNode->name(), "maxSector") == 0)
@@ -1720,6 +1734,18 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->removeItems.push_back(child->value());
         }
+        if (nodeName == "removeSystem")
+        {
+            isDefault = false;
+            std::pair<bool, int> removeSys;
+            removeSys.first = true;
+            if (child->first_attribute("player"))
+            {
+                removeSys.first = EventsParser::ParseBoolean(child->first_attribute("player")->value());
+            }
+            removeSys.second = ShipSystem::NameToSystemId(child->value());
+            customEvent->removeSystems.push_back(removeSys);
+        }
         if (nodeName == "variable" || nodeName == "metaVariable" || nodeName == "tempVariable")
         {
             isDefault = false;
@@ -1760,6 +1786,8 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
             }
+
+            if (firing) customEvent->noASBPlanet = true;
 
             if (!right)
             {
@@ -2127,6 +2155,12 @@ bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             quest->createNebula = EventsParser::ParseBoolean(child->value());
+        }
+
+        if (nodeName == "removeNebula")
+        {
+            isDefault = false;
+            quest->removeNebula = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nebulaEvent")
@@ -2720,7 +2754,7 @@ HOOK_METHOD(EventsParser, ProcessShipEvent, (rapidxml::xml_node<char> *node) -> 
 
 //=====================================================================================
 
-static bool g_checkCargo = false;
+bool g_checkCargo = false;
 
 void SetCheckCargo(CustomEvent *event)
 {
@@ -2790,6 +2824,28 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     if (g_checkCargo)
     {
         CheckCargo(equipment, ret);
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
+    // Fix an issue where HasEquipment only checks the rightmost artillery system's level
+    int ret = super(equipment);
+
+    if (equipment == "artillery")
+    {
+        ShipManager *ship = G_->GetShipManager(iShipId);
+        if (ship)
+        {
+            for (ArtillerySystem *artillery : ship->artillerySystems)
+            {
+                int lvl = artillery->powerState.second;
+                if (lvl > ret) ret = lvl;
+            }
+        }
     }
 
     return ret;
@@ -2952,17 +3008,6 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -1000, (const std::string& equipm
     return ret;
 }
 
-int ShipObject::HS_HasEquipment(const std::string& equip)
-{
-    bool temp = advancedCheckEquipment[7];
-    advancedCheckEquipment[7] = true;
-
-    int ret = HasEquipment(equip);
-
-    advancedCheckEquipment[7] = temp;
-    return ret;
-}
-
 static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
@@ -3036,9 +3081,9 @@ HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -200, (LocationEvent *event)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, RemoveItem, 9999, (const std::string& name) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
     bool removedItem = false;
 
     if (HasAugmentation(name) || boost::algorithm::starts_with(name, "HIDDEN "))
@@ -3087,8 +3132,9 @@ HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
 
     if (!removedItem && g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
+        Equipment *equip = &(G_->GetWorld()->commandGui->equipScreen);
+        CustomEquipment *custom = EQ_EX(equip)->customEquipment;
+        auto boxes = equip->vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -3103,6 +3149,7 @@ HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
                     if (cargoItem->name == name)
                     {
                         box->RemoveItem();
+                        custom->UpdateOverCapacityItems();
                         return;
                     }
                 }
@@ -3287,10 +3334,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
             i->nebula = i->nebula || i->fleetChanging || i->dangerZone;
             if (!i->nebula) // check fleet arc
             {
-                int dangerMove = 0;
-                if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
-                Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
-                i->nebula = i->loc.RelativeDistance(nextDangerZone) < 588289.f;
+                i->nebula = WillBeOvertaken(i);
             }
         }
     }
@@ -3350,6 +3394,10 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
                     {
                         i->event->environment = 3;
                         i->event->statusEffects.push_back({2,7,0,2});
+                    }
+                    if (quest.removeNebula.value) //remove nebula environment
+                    {
+                        CustomEventsParser::LocationRemoveNebula(i);
                     }
                 }
                 break;
@@ -3508,6 +3556,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->fleetChanging = false;
             }
         }
+        //Vanilla doesn't update fleetChanging when fleet delay prevents the fleet from overtaking a beacon that would have been otherwise.
+        if (i->fleetChanging && !WillBeOvertaken(i) && !bossLevel) i->fleetChanging = false;
     }
 
     for (auto i : locLabelValues)
@@ -3992,8 +4042,15 @@ void EventDamageEnemy(EventDamage eventDamage)
         int room = -1;
         if (eventDamage.system == 18)
         {
-            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
-            room = randomSystem->GetRoomId();
+            if (!enemyShip->vSystemList.empty())
+            {
+                ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+                room = randomSystem->GetRoomId();
+            }
+            else
+            {
+                room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+            }
         }
         else if (eventDamage.system == 19)
         {
@@ -4059,7 +4116,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void RecallBoarders(int direction, bool force)
+void RecallBoarders(int direction, bool force, bool effects)
 {
     int targetRoom;
     bool canTeleport;
@@ -4086,6 +4143,11 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     playerShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    }
                 }
             }
         }
@@ -4106,12 +4168,18 @@ void RecallBoarders(int direction, bool force)
                 {
                     i->EmptySlot();
                     enemyShip->AddCrewMember2(i,targetRoom);
+                    if (effects)
+                    {
+                        i->StartTeleportArrive();
+                        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+                    }
                 }
             }
         }
     }
 }
 
+static bool forcedEscape = false;
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -4257,6 +4325,7 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         {
             enemyShip->shipAI.escaping = true;
             enemyShip->shipManager->JumpLeave();
+            if (!enemyShip->shipManager->_targetable.hostile) forcedEscape = true;
         }
     }
 
@@ -4410,6 +4479,17 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 }
 
+HOOK_METHOD(WorldManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
+    super();
+    if (forcedEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
+    {
+        forcedEscape = false;
+        commandGui->ClearLocation();
+    }
+}
+
 LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *eventList, int seed)
 {
     if (!eventList->seeded) seed = -1;
@@ -4516,7 +4596,7 @@ void CustomEventsParser::QueueEvent(EventQueueEvent &event)
     eventQueue.push_back(event);
 }
 
-void CustomEventsParser::QueueEvent(std::string &event, int seed)
+void CustomEventsParser::QueueEvent(const std::string &event, int seed)
 {
     EventQueueEvent queueEvent;
 
@@ -4525,6 +4605,23 @@ void CustomEventsParser::QueueEvent(std::string &event, int seed)
     queueEvent.label = "";
 
     eventQueue.push_back(queueEvent);
+}
+
+bool CustomEventsParser::LocationRemoveNebula(Location *loc)
+{
+    if (loc->nebula)
+    {
+        loc->nebula = false;
+        loc->event->environment = 0;
+        loc->event->statusEffects.erase(
+            std::remove_if(
+                loc->event->statusEffects.begin(),
+                loc->event->statusEffects.end(),
+                [](const StatusEffect& item) { return item.system == 7; }),
+                loc->event->statusEffects.end());
+        return true;
+    }
+    return false;
 }
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
@@ -4630,7 +4727,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 }
 
 static bool g_noASBPlanet = false;
-
+static std::vector<CompleteShip*> replacedShips;
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
@@ -4649,7 +4746,47 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         }
     }
 
+    //Fix bug with multiple enemies at the same beacon
+    bool hasLoadAttribute = !std::all_of(loc->ship.name.begin(), loc->ship.name.end(), ::isdigit); //Native parsing assigns an integer to <ship> tags with no load attribute
+    if (loc->ship.present && !ships.empty() && hasLoadAttribute && CustomOptionsManager::GetInstance()->multiShipFix.currentValue) //Remove ship and mark for cleanup when attempting to load a new ship at the same beacon
+    {
+        hs_log_file("Replacing old ship with: %s\n", loc->ship.name.c_str());
+        CompleteShip* replacedShip = ships[0];
+        //Recall player's boarders
+        RecallBoarders(1, false);
+        replacedShip->shipManager->UpdateCrewMembers();
+        commandGui->combatControl.Clear();
+        replacedShip->shipManager->KillEveryone(true);
+        replacedShip->shipManager->SetDestroyed();
+
+        replacedShips.push_back(replacedShip);
+        ships.clear();
+        ShipManager* oldEnemy = playerShip->enemyShip->shipManager;
+        auto& spaceShips = space.ships;
+        spaceShips.erase(std::remove_if(spaceShips.begin(), spaceShips.end(), [=](ShipManager* ship) {return ship == oldEnemy;}), spaceShips.end());
+    }
+
     super(loc);
+
+    auto CheckHackingDrone = [&](CompleteShip* ship)
+    {
+        if (ship->shipManager->hackingSystem)
+        {
+            bool needHackingDrone = true;
+            for (SpaceDrone* drone : space.drones)
+            {
+                if (drone == &ship->shipManager->hackingSystem->drone)
+                {
+                    needHackingDrone = false;
+                    break;
+                }
+            }
+            if (needHackingDrone)
+            {
+                space.drones.push_back(&ship->shipManager->hackingSystem->drone);
+            }
+        }
+    };
 
     if (loc->ship.present && loc->ship.hostile && !ships.empty())
     {
@@ -4660,38 +4797,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             {
                 commandGui->combatControl.Clear();
                 commandGui->AddEnemyShip(enemyShip);
-                if (playerShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &playerShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
-                    }
-                }
-                if (enemyShip->shipManager->hackingSystem)
-                {
-                    bool needHackingDrone = true;
-                    for (SpaceDrone* drone : space.drones)
-                    {
-                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
-                        {
-                            needHackingDrone = false;
-                            break;
-                        }
-                    }
-                    if (needHackingDrone)
-                    {
-                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
-                    }
-                }
+                CheckHackingDrone(playerShip);
+                CheckHackingDrone(enemyShip);
             }
         }
     }
@@ -4756,6 +4863,18 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     g_noASBPlanet = false;
+}
+
+//Clean up any replaced ships
+HOOK_METHOD(WorldManager, ClearLocation, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ClearLocation -> Begin (CustomEvents.cpp)\n")
+    for (CompleteShip* replacedShip : replacedShips)
+    {
+        delete replacedShip;
+    }
+    replacedShips.clear();
+    super();
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -4964,22 +5083,22 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
 
     int env = loc->event->environment;
 
-    // TODO: Switch anyone, or maybe at least some elses?
-    if (env == 1)
+    switch (env)
     {
-        retStr += " \n" + lib->GetText("map_asteroid_loc");
-    }
-    if (env == 2)
-    {
-        retStr += " \n" + lib->GetText("map_sun_loc");
-    }
-    if (env == 4)
-    {
-        retStr += " \n" + lib->GetText("map_ion_loc");
-    }
-    if (env == 5)
-    {
-        retStr += " \n" + lib->GetText("map_pulsar_loc");
+        case 1:
+            retStr += " \n" + lib->GetText("map_asteroid_loc");
+            break;
+        case 2:
+            retStr += " \n" + lib->GetText("map_sun_loc");
+            break;
+        case 4:
+            retStr += " \n" + lib->GetText("map_ion_loc");
+            break;
+        case 5:
+            retStr += " \n" + lib->GetText("map_pulsar_loc");
+            break;
+        default:
+            break;
     }
 
     if (env != 6 || loc->boss)
@@ -5007,26 +5126,255 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
         names.resize(locations.size());
     }
 
-    super(names);
-
     CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
+
+    if (customSector && customSector->priorityNebulaFix)
+    {
+        int pEventCount = 0;
+        for (PriorityEvent pEvent : customSector->priorityEventCounts)
+        {
+            int reqLvl;
+
+            // Insert any nebula priority events that are missing
+            if (pEvent.event.first.rfind("NEBULA", 0) == 0)
+            {
+                int missing = pEvent.event.second.min - std::count(names.begin(), names.end(), pEvent.event.first);
+                for (int i = 0; i < missing; ++i) names.push_back(pEvent.event.first);
+            }
+            // Count priority events that aren't nebulas and
+            // that have their requirement met if they have one
+            else if (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl)))
+            {
+                pEventCount += pEvent.event.second.min;
+            }
+        }
+        int availableLocations = locations.size() - 2; // Subtract 2 to account for start and exit beacons
+        int nonNebulaLocations = availableLocations - names.size();
+
+        // Starting at the end of the names list, remove nebulas until there's space for all priority events
+        if (nonNebulaLocations < pEventCount)
+        {
+            int nebulasToRemoveCount = pEventCount - nonNebulaLocations;
+
+            // First pass - remove non-priority nebulas over the minimum
+            int nameIndexLast = names.size() - 1;
+            while (nameIndexLast >= 0 && nebulasToRemoveCount > 0)
+            {
+                // Find where the instances of this event start in the name list
+                std::string name = names[nameIndexLast];
+                int nameIndexFirst = nameIndexLast - 1;
+                while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
+
+                // Make sure this isn't a priority event
+                std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
+                std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
+                {
+                    return pEvent.event.first == name;
+                });
+                if (pEventsIt == pEvents.end())
+                {
+                    // Find the minimum count for this event
+                    std::vector<std::pair<std::string, RandomAmount>> eventCounts = currentSector->description.eventCounts;
+                    std::vector<std::pair<std::string, RandomAmount>>::iterator it = std::find_if(eventCounts.begin(), eventCounts.end(), [name](std::pair<std::string, RandomAmount> eventCount)
+                    {
+                        return eventCount.first == name;
+                    });
+                    if (it != eventCounts.end())
+                    {
+                        // If current count exceeds minimum, remove instances until it meets the minimum
+                        int currentCount = nameIndexLast - nameIndexFirst;
+                        int minCount = (*it).second.min;
+                        if (currentCount > minCount)
+                        {
+                            int removeAmount = std::min(nebulasToRemoveCount, currentCount - minCount);
+                            names.erase(std::next(names.begin(), nameIndexLast + 1 - removeAmount), std::next(names.begin(), nameIndexLast + 1));
+                            nebulasToRemoveCount -= removeAmount;
+                        }
+                    }
+                }
+
+                // Move on to the last instance of the next different event name
+                nameIndexLast = nameIndexFirst;
+            }
+
+            // Second pass - remove any non-priority nebulas
+            nameIndexLast = names.size() - 1;
+            while (nameIndexLast >= 0 && nebulasToRemoveCount > 0)
+            {
+                // Find where the instances of this event start in the name list
+                std::string name = names[nameIndexLast];
+                int nameIndexFirst = nameIndexLast - 1;
+                while (nameIndexFirst >= 0 && name == names[nameIndexFirst]) --nameIndexFirst;
+
+                // Make sure this isn't a priority event
+                std::vector<PriorityEvent> pEvents = customSector->priorityEventCounts;
+                std::vector<PriorityEvent>::iterator pEventsIt = std::find_if(pEvents.begin(), pEvents.end(), [name](PriorityEvent pEvent)
+                {
+                    return pEvent.event.first == name;
+                });
+                if (pEventsIt == pEvents.end())
+                {
+                    // Remove all instances needed to meet quota
+                    int currentCount = nameIndexLast - nameIndexFirst;
+                    int removeAmount = std::min(nebulasToRemoveCount, currentCount);
+                    names.erase(std::next(names.begin(), nameIndexLast + 1 - removeAmount), std::next(names.begin(), nameIndexLast + 1));
+                    nebulasToRemoveCount -= removeAmount;
+                }
+
+                // Move on to the last instance of the next different event name
+                nameIndexLast = nameIndexFirst;
+            }
+        }
+    }
+
+    super(names);
 
     if (customSector && customSector->removeFirstBeaconNebula)
     {
-        if (currentLoc->nebula)
-        {
-            currentLoc->nebula = false;
-            currentLoc->event->environment = 0;
-            currentLoc->event->statusEffects.erase(
-                std::remove_if(
-                    currentLoc->event->statusEffects.begin(),
-                    currentLoc->event->statusEffects.end(),
-                    [](const StatusEffect& item) { return item.system == 7; }),
-                currentLoc->event->statusEffects.end());
-        }
+        CustomEventsParser::LocationRemoveNebula(currentLoc);
     }
 }
 
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& names) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
+    if (names.empty()) return;
+
+    CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
+
+    // non-nebula priority events count
+    int pEventCount = 0;
+    if (customSector && customSector->priorityNebulaFix)
+    {
+        for (PriorityEvent pEvent : customSector->priorityEventCounts)
+        {
+            // Only count priority events that aren't nebulas and
+            // that have their requirement met if they have one
+            int reqLvl;
+            if (pEvent.event.first.rfind("NEBULA", 0) != 0 && (pEvent.req.empty() || (reqLvl = G_->GetShipManager(0)->HasEquipment(pEvent.req), (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl))))
+            {
+                pEventCount += pEvent.event.second.min;
+            }
+        }
+    }
+    else
+    {
+        // Although this is a complete rewrite, changing the order of calling random32 affects the seeded run. So we only use this rewrite for priorityNebulaFix and use the original one otherwise.
+        return super(names);
+    }
+
+    const std::vector<ImageDesc> &nebulaImages = names.size() < 6 ? smallNebula : largeNebula;
+    const ImageDesc *nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
+
+    // nebula beacon candidates
+    std::vector<Location*> nebulaFreeLocations;
+    std::vector<Location*> defaultNebulaEventLocCandidates;
+
+    for (Location *loc : locations)
+    {
+        if (!loc->nebula)
+        {
+            nebulaFreeLocations.push_back(loc);
+        }
+    }
+
+    while (nebulaFreeLocations.size() - names.size() < 4)
+    {
+        names.erase(names.begin() + random32() % names.size());
+    }
+
+    Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
+    int x = loc->loc.x - nebulaImage->w / 2;
+    int y = loc->loc.y - nebulaImage->h / 2;
+
+    int count = 0;
+    while (!names.empty())
+    {
+        if (nebulaFreeLocations.empty()) ++count;
+        else
+        {
+            bool nebulaBeaconIsNewlyAllocated = false;
+            for (auto it = nebulaFreeLocations.begin(); it != nebulaFreeLocations.end();)
+            {
+                Location *loc = *it;
+                // whether the location is nebula or not is determined by the nebula cloud image position
+                if (x + 5 < loc->loc.x && loc->loc.x < x + 5 + nebulaImage->w - 10 &&
+                    y + 5 < loc->loc.y && loc->loc.y < y + 5 + nebulaImage->h - 10)
+                {
+                    loc->nebula = true;
+                    if (!loc->event)
+                    {
+                        // randomly choose a nebula event from names
+                        if (!names.empty())
+                        {
+                            auto i = names.begin() + random32() % names.size();
+                            loc->event = G_->GetEventGenerator()->GetBaseEvent(*i, worldLevel, false, -1);
+                            names.erase(i);
+                        }
+                        else
+                        {
+                            defaultNebulaEventLocCandidates.push_back(loc);
+                        }
+                    }
+                    else
+                    {
+                        if (loc->beacon)
+                        {
+                            loc->event = G_->GetEventGenerator()->GetBaseEvent("FINISH_BEACON_NEBULA", worldLevel, false, -1);
+                        }
+                        loc->event->environment = 3;
+                        loc->event->statusEffects.push_back(StatusEffect::GetNebulaEffect());
+                    }
+                    it = nebulaFreeLocations.erase(it);
+                    nebulaBeaconIsNewlyAllocated = true;
+                }
+                else
+                {
+                    ++it;
+                }
+            }
+            if (!nebulaBeaconIsNewlyAllocated)
+            {
+                ++count;
+            }
+            else
+            {
+                GL_Primitive *primitive = CSurface::GL_CreatePixelImagePrimitive(nebulaImage->tex, x, y, nebulaImage->w, nebulaImage->h, 0.f, COLOR_WHITE, false);
+                currentNebulas.push_back(StarMap::NebulaInfo{primitive, x, y, nebulaImage->w, nebulaImage->h});
+            }
+        }
+        if (count < 21)
+        {
+            const StarMap::NebulaInfo &nebulaInfo = currentNebulas[random32() % currentNebulas.size()];
+            nebulaImage = &(nebulaImages[random32() % nebulaImages.size()]);
+            x = nebulaInfo.x + random32() % (nebulaInfo.w + nebulaImage->w) - nebulaImage->w;
+            y = nebulaInfo.y + random32() % (nebulaInfo.h + nebulaImage->h) - nebulaImage->h;
+        }
+        else
+        {
+            count = 0;
+            Location *loc = nebulaFreeLocations[random32() % nebulaFreeLocations.size()];
+            x = loc->loc.x - nebulaImage->w / 2;
+            y = loc->loc.y - nebulaImage->h / 2;
+        }
+    }
+
+    // when names is empty, "NEBULA" event is allocated, resulting in some priority events being overwritten.
+    // this prevents non-nebula locations from being allocated "NEBULA" and makes room for non-nebula priority events.
+    // note that this fix is a band aid: non-nebula event being inside a nebula cloud image looks weird. tweaking for nebula clouds generation is required in the future.
+    for (int i = pEventCount - nebulaFreeLocations.size(); i >= 0; --i)
+    {
+        if (defaultNebulaEventLocCandidates.empty()) break;
+
+        defaultNebulaEventLocCandidates.back()->nebula = false;
+        defaultNebulaEventLocCandidates.pop_back();
+    }
+    for (Location *loc : defaultNebulaEventLocCandidates)
+    {
+        loc->event = G_->GetEventGenerator()->GetBaseEvent("NEBULA", worldLevel, false, -1);
+    }
+}
 
 HOOK_METHOD(StarMap, StartSecretSector, () -> void)
 {
@@ -5237,6 +5585,19 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         for (auto i : customEvent->removeItems)
         {
             playerShip->shipManager->RemoveItem(i);
+        }
+
+        for (std::pair<bool, int> system : customEvent->removeSystems)
+        {
+            if (system.first)
+            {
+                playerShip->shipManager->RemoveSystem(system.second);
+            }
+            else if (G_->GetShipManager(1) != nullptr)
+            {
+                G_->GetShipManager(1)->RemoveSystem(system.second);
+            }
+
         }
 
         if (!customEvent->variables.empty())
@@ -5479,7 +5840,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
         {
             newCrewString += crewlistComma + crewNames[i];
             totalLength += crewNames[i].length() + crewlistComma.length();
-            if (totalLength > 140) 
+            if (totalLength > 140)
             {
                 newCrewString += crewlistMore;
                 break;
@@ -5506,7 +5867,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
     LOG_HOOK("HOOK_METHOD -> CreditScreen::Done -> Begin (CustomEvents.cpp)\n")
 
     bool ret;
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue)
     {
         ret = (scroll <= -scrollEnd) ? true : false;
     }
@@ -5531,7 +5892,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
 
-    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue) 
+    if (CustomOptionsManager::GetInstance()->altCreditSystem.currentValue)
     {
         /* ----- Resources ----- */
         std::string creditTextThankShip = G_->GetTextLibrary()->GetText("thank_ship");
@@ -5563,7 +5924,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
         /* ----- Visuals -----*/
         float gameSpeed = G_->GetCFPS()->GetSpeedFactor();
         float trueScrollSpeed = gameSpeed * 3.5 * scrollSpeed;
-        
+
         fadeIn += gameSpeed * 3.5 * -0.025f * fadeInSpeed;
 
         if (scroll == 0.f && pausing > -scrollDelay) {
@@ -5646,10 +6007,10 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
             G_->GetResources()->RenderImage(bg, 0, 0, 0, colorGray, fadeIn, false);
             CSurface::GL_SetColor(colorWhite);
         }
-        
+
         /* ----- Auto Stop -----*/
         Done();
-    } 
+    }
     else
     {
         super();
@@ -6283,6 +6644,13 @@ std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref
     return eligibleCrewList;
 }
 
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
+    G_->GetWorld()->lastLocationEvent = nullptr;
+    return super(tutorial, seed);
+}
+
 HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CheckRequirements -> Begin (CustomEvents.cpp)\n")
@@ -6290,6 +6658,27 @@ HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden)
 
     if (ret && event)
     {
+        if (lastLocationEvent && !event->stuff.steal && !lastLocationEvent->stuff.steal)
+        {
+            // fix a vanilla bug that player can select a choice that requires more resources than they have when two costing events are back to back
+            // this is because requirements check is done before the cost of the previous event is applied to the resources balance
+            int fuel_cost = event->stuff.fuel + lastLocationEvent->stuff.fuel;
+            if (fuel_cost < 0 && playerShip->shipManager->fuel_count < fuel_cost * -1)
+                return false;
+
+            int missiles_cost = event->stuff.missiles + lastLocationEvent->stuff.missiles;
+            if (missiles_cost < 0 && playerShip->shipManager->GetMissileCount() < missiles_cost * -1)
+                return false;
+
+            int drones_cost = event->stuff.drones + lastLocationEvent->stuff.drones;
+            if (drones_cost < 0 && playerShip->shipManager->GetDroneCount() < drones_cost * -1)
+                return false;
+
+            int scrap_cost = event->stuff.scrap + lastLocationEvent->stuff.scrap;
+            if (scrap_cost < 0 && playerShip->shipManager->currentScrap < scrap_cost * -1)
+                return false;
+        }
+
         CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
         if (customEvent)
@@ -6713,15 +7102,15 @@ HOOK_METHOD_PRIORITY(WorldManager, CheckStatusEffects, 9999, (std::vector<Status
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CheckStatusEffects -> Begin (CustomEvents.cpp)\n")
     for (StatusEffect &effect : effects)
     {
-        if (effect.target == 0 || effect.target == 2)
+        if (effect.target == StatusEffect::TARGET_PLAYER || effect.target == StatusEffect::TARGET_ALL)
         {
-            ModifyStatusEffect(effect, playerShip->shipManager, 0);
+            ModifyStatusEffect(effect, playerShip->shipManager, StatusEffect::TARGET_PLAYER);
         }
-        if (!ships.empty() && (effect.target == 1 || effect.target == 2))
+        if (!ships.empty() && (effect.target == StatusEffect::TARGET_ENEMY || effect.target == StatusEffect::TARGET_ALL))
         {
             for (CompleteShip *ship : ships)
             {
-                ModifyStatusEffect(effect, ship->shipManager, 1);
+                ModifyStatusEffect(effect, ship->shipManager, StatusEffect::TARGET_ENEMY);
             }
         }
         currentEffects.push_back(effect);
@@ -6742,9 +7131,63 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyStatusEffect -> Begin (CustomEvents.cpp)\n")
     super(effect, target, targetType);
-    if (effect.system == 16 && (targetType == effect.target || effect.target == 2)) // all systems
+    if (effect.system == SYS_ALL && (targetType == effect.target || effect.target == StatusEffect::TARGET_ALL)) // all systems
     {
+        // Temporal system
         super(StatusEffect{effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+        // Custom systems
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            super(StatusEffect{effect.type, systemId, effect.amount, effect.target}, target, targetType);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemPowerLimit, (int systemId, int limit) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLimit -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, limit);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetPowerCap(limit);
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemPowerLoss, (int systemId, int powerLoss) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemPowerLoss -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, powerLoss);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetPowerLoss(powerLoss);
+    }
+}
+
+HOOK_METHOD(ShipManager, SetSystemDividePower, (int systemId, int amount) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SetSystemDividePower -> Begin (CustomEvents.cpp)\n")
+    if (systemId != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(systemId, amount);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->SetDividePower(amount);
+    }
+}
+
+HOOK_METHOD(ShipManager, ClearStatusSystem, (int system) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (CustomEvents.cpp)\n")
+    if (system != SYS_ARTILLERY || systemKey[SYS_ARTILLERY] == -1) return super(system);
+
+    // Fix an issue where only the rightmost artillery system gets the effect
+    for (ArtillerySystem *artillery :  artillerySystems)
+    {
+        artillery->ClearStatus();
     }
 }
 
@@ -6882,4 +7325,45 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
+}
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
+    super(event);
+    auto& choices = G_->GetCApp()->gui->choiceBox.choices;
+    const std::string dismissWarning = G_->GetTextLibrary()->GetText("event_crew_full");
+    for (auto& choice : choices)
+    {
+        if (playerShip->shipManager->CanFitCrew(choice.rewards.crewBlue.name))
+        {
+            boost::algorithm::replace_all(choice.text, dismissWarning, "");
+        }
+        else if (!choice.rewards.crewBlue.name.empty() && !boost::algorithm::contains(choice.text, dismissWarning))
+        {
+            choice.text += " " + dismissWarning;
+
+        }
+    }
+}
+
+//Prevent crew from cloning on the enemy ship when killed by an event
+static bool inModifyResources = false;
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
+    inModifyResources = true;
+    LocationEvent* ret = super(event);
+    inModifyResources = false;
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, Clone, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomEvents.cpp)\n")
+    if (inModifyResources && currentShipId != iShipId && currentShipId != -1)
+    {
+        G_->GetShipManager(currentShipId)->RemoveCrewmember(this);
+    }
+    super();
 }

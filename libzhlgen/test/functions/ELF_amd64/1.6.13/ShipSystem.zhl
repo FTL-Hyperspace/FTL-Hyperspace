@@ -42,6 +42,7 @@ static cleanup __amd64 int ShipSystem::RenderPowerBoxesPlain(int x, int y, int w
 static cleanup __amd64 bool ShipSystem::IsSubsystem(int systemType);
 "!.41574989ff41564189ce41554189f541544589c4554489cd5389d34881ec88000000":
 cleanup __amd64 int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+
 "!.488b3d(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__glowWhite;
 "!.4c8b05(???????\?)":
@@ -72,6 +73,8 @@ offsetVariable GL_Primitive** ShipSystem__manningYellow;
 offsetVariable GL_Primitive** ShipSystem__glowBlue;
 "!.488b3d(???????\?)":
 offsetVariable GL_Primitive** ShipSystem__glowRed;
+"!.5553??89fb??83ec088b6f588b7f18e8????????":
+cleanup __amd64 bool ShipSystem::RawDecreasePower(ShipSystem *this);
 ".534889fb4883ec108b879c010000":
 cleanup __amd64 bool ShipSystem::IncreasePower(ShipSystem *this, int amount, bool force);
 ".55534889fb4883ec080fb6878c010000":
@@ -88,10 +91,14 @@ cleanup __amd64 void ShipSystem::ClearStatus(ShipSystem *this);
 cleanup __amd64 void ShipSystem::SetPowerCap(ShipSystem *this, int cap);
 "!.53488b074889fb89b794010000":
 cleanup __amd64 int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+"!.83fe01534889fb89b798010000":
+cleanup __amd64 void ShipSystem::SetDividePower(ShipSystem *this,int val);
 ".5531c0534889fb4883ec18":
 cleanup __amd64 bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
 ".8b879c01000083f8ff":
 cleanup __amd64 void ShipSystem::AddLock(ShipSystem *this, int lock);
+".5589f553??83ec08":
+cleanup __amd64 void ShipSystem::IonDamage(ShipSystem *this, int amount);
 ".415455538b879c0100004889fb85c0":
 cleanup __amd64 void ShipSystem::OnLoop(ShipSystem *this);
 ".53be????????4889fb":
@@ -109,9 +116,12 @@ cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); 
 struct ShipSystem
 {{
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
 	}
+
+	void CompleteSave(int fd);
+	void CompleteLoad(int fd);
 }};

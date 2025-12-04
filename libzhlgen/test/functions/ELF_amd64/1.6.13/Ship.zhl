@@ -1,11 +1,17 @@
 "534889fb4883ec20f30f108fc4020000":
-cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+cleanup __amd64 Globals::Ellipse Ship::GetBaseEllipse(Ship *this); //004a2370 /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+".??57??56??89fe??55??545589f553??83ec08":
+cleanup __amd64 std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId); //004a2810
 ".4c8b8778040000488b8f8004000048b835c2724f232cf7344c29c148c1f903":
-cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId);
+cleanup __amd64 bool Ship::RoomLocked(Ship *this, int roomId); //004a2940
 ".0fb687b802000084c0":
 cleanup __amd64 bool Ship::DestroyedDone(Ship *this);
 ".41564155415455534889fb4883ec208b7f08":
-cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress);
+cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress); //004a3280
+".??83ec1880bf7004000000f30f1005":
+cleanup __amd64 float Ship::GetCloakAlpha(Ship *this, bool complete); //004a36f0
+".534889fb4883ec108b7f08e8":
+cleanup __amd64 Point Ship::GetShipCorner(Ship *this); //004a3760
 ".41554189f5415455534889fb4883ec288b7f08":
 cleanup __amd64 void Ship::OnRenderBase(Ship *this, bool unk);
 ".5589f5534889fb4883ec1880bf7004000000":
@@ -15,7 +21,7 @@ cleanup __amd64 void Ship::OnRenderSparks(Ship *this);
 ".41544531e45531ed53488b57404889fb":
 cleanup __amd64 void Ship::OnRenderBreaches(Ship *this);
 ".41564989fe4155415455534883ec30":
-cleanup __amd64 void Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
+cleanup __amd64 bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
 "!.41544189cc5589d5538b7f08":
 cleanup __amd64 int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool bIncludeWalls); // 004a48d0
 ".415531c941544531e45589f5534889fb":
@@ -31,9 +37,11 @@ cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);
 ".488b4f10488b47184829c848c1f80339c6":
 cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
 ".41574156440fb6f2415541544189f4554889fd534883ec48":
-cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
+cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder); //004a5610
+".??57??56??55??54??89f45553??89fb??83ec38??83bf3801000000":
+cleanup __amd64 void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode); //004a65c0
 ".41574531ff41564c8db7500400004155440fb6ee41544189d45531ed534889fb4883ec18":
-cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
+cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode); //004a6940
 ".415741564989fe41554154554889f553488d9f500400004883ec68":
 cleanup __amd64 void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 ".4156415541544989fc554863ee534883ec40":
@@ -41,11 +49,11 @@ cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
 ".41554154554889f5534889fb4883ec18":
 cleanup __amd64 std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
 ".41574989ff4156415541545589f5534881ec38010000":
-cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
-".4156415541545589f5534889fb4881ec????????833d":
-cleanup __amd64 void Ship::LoadState(Ship *this, int fd); // 004ab7a0
+cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos); //004aad00
+".??56??55??545589f553??89fb??81ecf0000000":
+cleanup __amd64 void Ship::LoadState(Ship *this, int fd); //004ab7a0
 "!.41574989ff41564155415455534889f34881ec28030100":
-cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
+cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp); //004acad0
 "!.39c17d03(c60201)":
 noop void* Global__NOP__Ship_OnInit_4;
 "!.39c27d03(c60101)":
@@ -60,6 +68,7 @@ noop void* Global__NOP__Ship_OnInit_3;
 noop void* Global__NOP__Ship_OnInit_0;
 
 
+
 struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	Pointf GetRoomCenter(int room)
 	{
@@ -67,8 +76,19 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 		return graph->GetRoomCenter(room);
 	}
 
+	std::vector<LockdownShard*> GetShards()
+    {
+        std::vector<LockdownShard*> ret = std::vector<LockdownShard*>();
+        for (int i=0; i < (int)this->lockdowns.size(); ++i)
+        {
+            ret.push_back(&this->lockdowns[i]);
+        }
+
+        return ret;
+    }
+
 	void RenderEngineAnimation(bool showEngines, float alpha);
-	
+
 	enum DoorStateType
 	{
 	  DOOR_CLOSED = 0x0,
@@ -77,5 +97,52 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	  DOOR_HIT = 0x3,
 	  DOOR_ANIMATING = 0x4,
 	};
+
+	//Reimplementation of GetSelectedDoor that includes locked down and forced open doors
+	Door* HS_GetSelectedDoor(int x, int y, float doorScale, bool force)
+	{
+		Door* ret = nullptr;
+		int lastDistance = 2147483647;
+		for (Door* door : vDoorList)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->HS_ContainsPoint(x, y, doorScale, force))
+			{
+				int distance = door->GetCenterPoint().Distance(Point(x, y));
+				if (distance < lastDistance)
+				{
+					lastDistance = distance;
+					ret = door;
+				}
+			}
+		}
+		return ret;
+	}
+
+	Door* GetDoorById(int doorId)
+	{
+		if (doorId == -1) return nullptr;
+		for (Door* door : vDoorList)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+		for (Door* door : vOuterAirlocks)
+		{
+			if (door->iDoorId == doorId) return door;
+		}
+
+		return nullptr;
+	}
 
 }};

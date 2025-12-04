@@ -16,10 +16,16 @@ cleanup __cdecl void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
 cleanup __cdecl void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
 ".5383ec188b5c2420c7442404????????891c24":
 static cleanup __cdecl int ProjectileFactory::StringToWeapon(const std::string& str);
+".8b44????8b90840400003990880400000f95??":
+cleanup __cdecl bool Projectile::QueuedShots(ProjectileFactory * this);
 "57565383ec108b7424208b7c24248b86c40000002b86c0000000":
 cleanup __cdecl void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
+".!5531ed57565383ec4c8b74????8d????208b5c????":
+cleanup __cdecl void ProjectileFactory::LoadState(ProjectileFactory *this,int fd);
 "538b54240831c08b8ab004000085c9":
 cleanup __cdecl bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
+".8b54????31c08b8ab004000085c97e??80baba0000000074??8b421c":
+cleanup __cdecl bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
 "57565383ec308b5c24408b839804000085c0":
 cleanup __cdecl int ProjectileFactory::SpendMissiles(ProjectileFactory *this);
 "!5383ec18807c2428008b5c2420f30f10442424":
@@ -36,8 +42,20 @@ cleanup __cdecl void ProjectileFactory::Update(ProjectileFactory *this);
 cleanup __cdecl Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);
 "5557565383ec2c8b442440c700????3d088b8084":
 cleanup __cdecl void ProjectileFactory::destructor(ProjectileFactory *this);
-
 "565383ec148b5c24208b7424248b03891c24":
 static cleanup __cdecl void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
 "5589e557565383ec6c8b4508890424":
 static cleanup __cdecl Projectile* ProjectileFactory::LoadProjectile(int fd);
+".555731ff565383ec1c8b5c????8b74????f30f10":
+cleanup __cdecl void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);
+"8b5424088b44240484d275":
+cleanup __cdecl void ProjectileFactory::SetAutoFire(ProjectileFactory *this, bool autoFire);
+
+struct ProjectileFactory 
+{{
+    bool HitShotLimit();
+	ProjectileFactory(const WeaponBlueprint *bp, int shipId)
+	{
+		this->constructor(bp, shipId);
+	}
+}};

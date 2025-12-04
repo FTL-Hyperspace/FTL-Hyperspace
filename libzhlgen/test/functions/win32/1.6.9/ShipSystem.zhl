@@ -14,6 +14,10 @@ __thiscall void ShipSystem::OnLoop(ShipSystem *this);
 __thiscall bool ShipSystem::Ioned(ShipSystem *this, int num);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b200100003d????????0f85????????":
 __thiscall int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b0783f8":
+__thiscall void ShipSystem::SetDividePower(ShipSystem *this, int val);
+".578d????0883e4f0ff????5589e557565389cb83ec1c8b410c":
+__thiscall bool ShipSystem::RawDecreasePower(ShipSystem *this);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f048b770c898d24feffff898504feffff8b4708":
 __thiscall void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 "8b811c01000083f8077f??85c0ba????????0f48c2c38d76008dbc27000000008b415485c0":
@@ -76,6 +80,8 @@ static cleanup __cdecl int ShipSystem::RenderPowerBoxesPlain(int x, int y, int w
 __thiscall void ShipSystem::RenderSystemSymbol(ShipSystem *this, bool forPowerUI, int forceColor);
 "8b54????89c88b8a2c010000":
 __thiscall TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b1f85":
+__thiscall void ShipSystem::IonDamage(ShipSystem *this, int amount);
 
 "f30f11542404c7042400000000e8????????a1(???????\?)890424e8????????e8????????":
 GL_Primitive** ShipSystem__glowBlue;
@@ -110,9 +116,12 @@ GL_Primitive** ShipSystem__fireImage;
 struct ShipSystem
 {{
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
 	}
+
+	void CompleteSave(int fd);
+	void CompleteLoad(int fd);
 }};

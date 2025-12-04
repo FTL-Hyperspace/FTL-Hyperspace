@@ -1,5 +1,5 @@
 #include "Global.h"
-
+#include "CustomEvents.h"
 // NANOBOT_DEFENSE_SYSTEM Augment
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
@@ -92,9 +92,74 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
             fuelReq = std::floor(shipManager->GetAugmentationValue("FTL_JUMPER_GOOD"));
         }
 
+        if (hoverLoc && hoverLoc->visited > 0 && shipManager->HasAugmentation("FTL_JUMPER"))
+        {
+            fuelReq = 1;
+        }
+
         if (shipManager->fuel_count >= fuelReq && hoverLoc != currentLoc)
         {
             potentialLoc = hoverLoc;
         }
     }
 }
+
+//SECTOR_SCANNER Augment
+static bool SectorReachable(Sector* start, Sector* destination, int range)
+{
+    if (range < 0) return false;
+    if (start == destination) return true;
+    for (Sector* neighbor : start->neighbors)
+    {
+        if (SectorReachable(neighbor, destination, range - 1))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::GetPotentialSectorChoiceName -> Begin (Augments.cpp)\n")
+    if (potentialSectorChoice != -1 && shipManager->HasAugmentation("SECTOR_SCANNER") && sectors[potentialSectorChoice]->level - currentSector->level > 1)
+    {
+        int range = shipManager->GetAugmentationValue("SECTOR_SCANNER"); 
+        Sector* destination  = sectors[potentialSectorChoice];
+        if (SectorReachable(currentSector, destination, range))
+        {
+            return destination->description.name.GetText();
+        }
+    }
+    return super();
+}
+
+//TELEPORT_RECALL augment
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (Augments.cpp)\n")
+    ShipManager* otherShip = G_->GetShipManager(1 - iShipId);
+    if (ship.hullIntegrity.first <= 0 && otherShip && otherShip->HasAugmentation("TELEPORT_RECALL"))
+    {
+        int direction = iShipId == 0 ? -1 : 1;
+        RecallBoarders(direction, false, true);
+    }
+    super();
+}
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (Augments.cpp)\n")
+    if (iShipId == 1)
+    {
+        if (G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
+        if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+    }
+    else if (iShipId == 0)
+    {
+        ShipManager* enemyShip = G_->GetShipManager(1);
+        if (enemyShip && enemyShip->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+        if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
+    }
+    super();
+}
+

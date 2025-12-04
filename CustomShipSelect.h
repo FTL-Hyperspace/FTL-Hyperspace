@@ -3,6 +3,7 @@
 #include "ToggleValue.h"
 #include "Room_Extend.h"
 #include "CustomAchievements.h"
+#include "CustomSystems.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -44,7 +45,7 @@ struct ShipButtonDefinition
     std::array<std::vector<CustomAchievement*>,3> shipAchievements;
     TextString shipAchievementHeading;
 
-    bool VariantExists(int variant)
+    bool VariantExists(int variant) const
     {
         return (variant == 0 && typeA) || (variant == 1 && typeB) || (variant == 2 && typeC);
     }
@@ -82,9 +83,13 @@ struct CustomShipDefinition
     bool noJump = false;
     bool noFuelStalemate = false;
     bool artilleryGibMountFix = false;
+    bool hideHullDuringExplosion = false;
     int hpCap = 20;
     int startingFuel = -1;
     int startingScrap = -1;
+
+    int augSlots = 3;
+    int cargoSlots = 4;
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
     std::unordered_map<int, std::vector<std::pair<int, std::vector<int>>>*> roomStationBackups;
@@ -100,6 +105,11 @@ struct CustomShipDefinition
     int maxReactorLevel = 25;
 
     std::string shipGenerator = "";
+
+    std::vector<std::string> artilleryRoomImages;
+
+    bool hasExclusivityOverride = false;
+    SystemExclusivityManager exclusivityOverride;
 
     CustomShipDefinition()
     {
@@ -201,6 +211,8 @@ public:
     int CycleShipNext(int currentShipId, int currentType);
     int CycleShipPrevious(int currentShipId, int currentType);
 
+    int CycleType(int currentShipId, int currentType, bool forward);
+
     void EarlyParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseVanillaShipNode(rapidxml::xml_node<char> *node);
@@ -208,7 +220,7 @@ public:
     int CountUnlockedShips(int variant);
 
     void UpdateFilteredAchievements();
-    
+
     bool ShowAchievementsForShip(int currentShipId, int currentType);
 
 
@@ -284,7 +296,7 @@ public:
     {
         for (auto& def : shipButtons)
         {
-            if (def->GetId() == id) 
+            if (def->GetId() == id)
             {
                 return def;
             }
@@ -412,6 +424,7 @@ public:
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
+    ShipSelect* shipSelect;
 
     bool showShipAchievements = false;
     bool shipAchievementsToggle = false;
@@ -420,9 +433,13 @@ public:
 
     std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
     std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();
+    //For use by Lua
+    std::vector<ShipButtonList*> GetShipButtonLists()
+    {
+        return shipButtons;
+    }
 
 private:
-    ShipSelect* shipSelect;
     Button* leftButton;
     Button* rightButton;
 

@@ -140,6 +140,34 @@ All below methods are static, so they are to be called with the `.` operator.
   - Renders a portion of an image texture
   - `float x, float y` -- starting point (top-left corner)
   - `float x2, float y2` -- width and length
+  - `float start_x, float end_x, float start_y, float end_y` -- normalized coordinates of the portion of the texture to render
+  - Example:
+  ```lua
+  -- Load a sprite with 35x35 pixel cells
+  local tex = Hyperspace.Resources:GetImageId("my_35x35_cell_sprite.png")
+  local cellWidth = 35
+  local cellHeight = 35
+
+  -- Pick a random cell
+  local cellCount = (tex.width/cellWidth)*(tex.height/cellHeight)
+  local cell = math.random(cellCount) - 1
+
+  -- Calculte coordinates of the given cell
+  local cellX = cell*cellWidth % tex.width
+  local cellY = math.floor(cell/(tex.width/cellWidth))*cellHeight
+
+  -- Normalize cell coordinates
+  local normalX1 = cellX/tex.width
+  local normalX2 = (cellX + cellWidth)/tex.width
+  local normalY1 = cellY/tex.height
+  local normalY2 = (cellY + cellHeight)/tex.height
+
+  -- Render cell
+  local posX = 100
+  local posY = 100
+  local white = Graphics.GL_Color(1, 1, 1, 1)
+  Graphics.CSurface.GL_BlitImagePartial(tex, posX, posY, cellWidth, cellHeight, normalX1, normalX2, normalY1, normalY2, 1, white, false)
+  ```
 
 - `void GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias)`
 
@@ -172,6 +200,19 @@ All below methods are static, so they are to be called with the `.` operator.
 - `void GL_DestroyPrimitive(GL_Primitive *primitive)`
 
 - `bool GL_DisableBlend()`
+
+- `bool GL_DrawCircle(float x, float y, float radius, GL_Color color)`
+
+  - Renders a full circle
+  - `float x, float y` -- center point
+  - `radius` -- the radius of the circle
+
+- `bool GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color)`
+  - Draws a full ellipse.
+  - `int x, int y` -- The coordinates of the ellipse's center
+  - `int a1` -- The horizontal radius.
+  - `int a2` -- The vertical radius.
+  - `GL_Color color` -- The color of the ellipse, normalized to RGBA values within the range [0, 1]
 
 - `bool GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color)`
 
@@ -260,14 +301,32 @@ Contains functions for writing text to the screen
 **Note**: The `fontSize` argument is not the literal font size, it needs to be a font ID.  
 See `fonts.png` inside the hyperspace zip folder
 
+If `customTextStyle` is enabled in hyperspace.xml, you can apply custom text style to following functions:
+- Since 1.17: `easy_measurePrintLines`, `easy_printAutoNewlines`
+- Since 1.18: `easy_measureWidth`, `easy_print`, `easy_printCenter`, `easy_printNewlinesCentered`, `easy_printRightAlign`
+
+- Example:
+```lua
+script.on_render_event(Defines.RenderEvents.MOUSE_CONTROL, function()
+	local text = "This text is colored, like [style[color:FF0000]]red[[/style]], [style[color:00FF00]]green[[/style]] and [style[color:0000FF]]blue[[/style]]!"
+	Graphics.freetype.easy_printAutoNewlines(13, 100, 100, 300, text)
+end, function () end)
+```
+
 ### Methods
 - `Pointf easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text)`
+  - Return: The horizontal/vertical size of the text. Note that the augments `x` and `y` do not affect the return value.
 
 - `int easy_measureWidth(int fontSize, const std::string &text)`
+  - Return: The horizontal size of the text.
 
 - `Pointf easy_print(int fontSize, float x, float y, const std::string &text)`
+  - Return.`x`: The horizontal size of the text.
+  - Return.`y`: Y position of the last letter.
 
 - `Pointf easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)`
+  - Return.`x`: The horizontal size of the text.
+  - Return.`y`: Y position of the last letter.
 
 - `void easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text)`
 
@@ -276,3 +335,5 @@ See `fonts.png` inside the hyperspace zip folder
 - `Pointf easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)`
 
 - `Pointf easy_printRightAlign(int fontSize, float x, float y, const std::string &text)`
+  - Return.`x`: The value is somehow always fixed to 0.
+  - Return.`y`: Y position of the last letter.

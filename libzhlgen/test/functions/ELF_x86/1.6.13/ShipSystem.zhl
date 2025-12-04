@@ -16,6 +16,8 @@ cleanup __cdecl void ShipSystem::OnLoop(ShipSystem *this);
 cleanup __cdecl bool ShipSystem::Ioned(ShipSystem *this, int num);
 "5383ec188b5c24208b44242489830c010000":
 cleanup __cdecl int ShipSystem::SetPowerLoss(ShipSystem *this, int power);
+"!.5383ec188b4424248b5c242083f8":
+cleanup __cdecl void ShipSystem::SetDividePower(ShipSystem *this,int val);
 "5589e557565381ec9c0100008b75088b45148dbdf8feffff":
 cleanup __cdecl void ShipSystem::constructor(ShipSystem *this, int systemId, int roomId, int shipId, int startingPower);
 "8b54240431c08b8a0801000083f907":
@@ -46,6 +48,8 @@ cleanup __cdecl void ShipSystem::ClearStatus(ShipSystem *this);
 static cleanup __cdecl std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 "538b5424088b4c240c8b8214010000":
 cleanup __cdecl void ShipSystem::AddLock(ShipSystem *this, int lock);
+".565383ec148b74????":
+cleanup __cdecl void ShipSystem::IonDamage(ShipSystem *this, int amount);
 "8b4424048b901401000083faff":
 cleanup __cdecl bool ShipSystem::GetLocked(ShipSystem *this);
 ".83ec1c8b4424208b10c6808401000000":
@@ -64,6 +68,8 @@ cleanup __cdecl bool ShipSystem::DecreasePower(ShipSystem *this, bool force);
 cleanup __cdecl bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoRepair);
 "5557565381ec8c0000008bac24a00000000fb68424bc000000":
 cleanup __cdecl int ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+".565383ec148b5c????8b430c8b73448904??e8????????":
+cleanup __cdecl bool ShipSystem::RawDecreasePower(ShipSystem *this);
 "56538b44240c8b88f00000008b90ec000000":
 cleanup __cdecl void ShipSystem::AddDamage(ShipSystem *this, int amount);
 "57bf05000000565383ec208b7424308b464c89f3":
@@ -109,9 +115,12 @@ GL_Primitive** ShipSystem__glowWhite;
 struct ShipSystem
 {{
 	ShipSystem() { }
-	
+
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);
 	}
+
+	void CompleteSave(int fd);
+	void CompleteLoad(int fd);
 }};

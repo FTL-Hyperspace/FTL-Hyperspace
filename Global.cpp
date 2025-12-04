@@ -46,6 +46,11 @@ void hs_log_file(const char *str...)
     va_end(va);
 }
 
+void hs_log_file(const std::string &str)
+{
+    hs_log_file("%s", str.c_str());
+}
+
 void ftl_log(const char *str...)
 {
     va_list va;

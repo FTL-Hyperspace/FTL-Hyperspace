@@ -16,6 +16,8 @@ cleanup __cdecl void Room::OnRenderFloor(Room *this, float alpha, bool experimen
 cleanup __cdecl void Room::OnRenderWalls(Room *this, float alpha);
 "5557565383ec4c8b442460c700????????c74008????????8b407c890424":
 cleanup __cdecl void Room::destructor(Room *this);
+"5557565383ec4c8b44????8d98e8010000":
+cleanup __cdecl void Room::OnLoop(Room *this);
 
 
 struct Room depends (Globals, Point) {{
@@ -23,15 +25,15 @@ struct Room depends (Globals, Point) {{
 	{
 		int posX = pos.x;
 		int posY = pos.y;
-		
+
 		int rectY = this->rect.y;
 		int rectH = this->rect.h;
-		
+
 		int rectX = this->rect.x;
 		int rectW = this->rect.w;
-		
+
 		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
-		
+
 		if (rectY + rectH - posY > 15 && posY - rectY > 15)
 		{
 			if (rectW + rectX - posX > 15 && posX - rectX > 15)
@@ -39,19 +41,19 @@ struct Room depends (Globals, Point) {{
 				return Point(-1, -1);
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
-		
+
 		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
 		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
-		
+
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
 
-	Globals::Rect GetRect() 
+	Globals::Rect GetRect()
 	{
 		return this->rect;
 	}

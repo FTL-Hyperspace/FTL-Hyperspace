@@ -15,10 +15,20 @@ cleanup __cdecl void AnimationTracker::SetProgress(AnimationTracker *this, float
 "83ec048b44????f30f1005????????f30f1015????????807c????00f30f594004f30f10480cf30f5cc80f28d80f54caf30f5cd90f28cbf30f5ec8":
 cleanup __cdecl float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
 
-struct AnimationTracker 
+struct AnimationTracker
 {{
 	AnimationTracker()
 	{
-	
+
+	}
+	void LoadState(int fd);
+	void SaveState(int fd);
+
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
 	}
 }};

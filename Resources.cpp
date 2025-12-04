@@ -10,6 +10,7 @@
 #include "CustomEvents.h"
 #include "CustomRewards.h"
 #include "CustomSectors.h"
+#include "CustomTextStyle.h"
 #include "CustomLocalization.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
@@ -35,6 +36,9 @@
 #include "CustomAchievements.h"
 #include "HSVersion.h"
 #include "CustomUpgrades.h"
+#include "CustomEquipment.h"
+#include "CustomTabbedWindow.h"
+#include "ArtillerySystem.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -123,132 +127,9 @@ void Global::PreInitializeResources(ResourceControl *resources)
             throw "No parent node found in hyperspace.xml";
         }
 
-        // Stuff to parse early
-        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
-        {
-            if (strcmp(node->name(), "defaults") == 0)
-            {
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (strcmp(child->name(), "checkCargo") == 0)
-                    {
-                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
-                    }
-                    if (strcmp(child->name(), "choiceRequiresCrew") == 0)
-                    {
-                        customOptions->defaults.choiceRequiresCrew = EventsParser::ParseBoolean(child->value());
-                    }
-                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
-                    {
-                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
-                    }
-                    if (strcmp(child->name(), "erosion") == 0)
-                    {
-                        ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
-                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
-                        {
-                            if (strcmp(child2->name(), "growBreachMultiplier") == 0)
-                            {
-                                ErosionEffect::growBreachMultiplier = boost::lexical_cast<float>(child2->value());
-                            }
-                            else if (strcmp(child2->name(), "newBreachDamage") == 0)
-                            {
-                                ErosionEffect::newBreachDamage = boost::lexical_cast<float>(child2->value());
-                            }
-                            else if (strcmp(child2->name(), "newBreachRequirement") == 0)
-                            {
-                                ErosionEffect::newBreachRequirement = boost::lexical_cast<float>(child2->value());
-                            }
-                            else if (strcmp(child2->name(), "canDilate") == 0)
-                            {
-                                ErosionEffect::canDilate = EventsParser::ParseBoolean(child2->value());
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (strcmp(node->name(), "colors") == 0)
-            {
-                ParseCustomColorsNode(node);
-            }
-
-            if (strcmp(node->name(), "ships") == 0)
-            {
-                auto customShipManager = CustomShipSelect::GetInstance();
-                customShipManager->EarlyParseShipsNode(node);
-            }
-
-            if (strcmp(node->name(), "languages") == 0)
-            {
-                ParseLanguagesNode(resources, node);
-            }
-
-            if (strcmp(node->name(), "customCredits") == 0)
-            {
-                auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->ParseCustomCredits(node);
-            }
-
-            // Read event files and other early stuff.
-            if (strcmp(node->name(), "events") == 0)
-            {
-                auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->EarlyParseCustomEventNode(node);
-            }
-        }
-
-        // Read the custom events.
-        {
-            auto customEventParser = CustomEventsParser::GetInstance();
-            customEventParser->ReadCustomEventFiles();
-        }
-
-        doc.clear();
-    }
-    catch (rapidxml::parse_error& e)
-    {
-        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
-    }
-    catch (std::exception &e)
-    {
-        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
-    }
-    catch (const char* e)
-    {
-        ErrorMessage(e);
-    }
-
-    delete [] hyperspacetext;
-}
-
-void Global::InitializeResources(ResourceControl *resources)
-{
-    __resourcesInitialized = true;
-
-    char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
-
-    auto customOptions = CustomOptionsManager::GetInstance();
-
-    try
-    {
-        if (!hyperspacetext)
-        {
-            throw "hyperspace.xml not found";
-        }
-
-        rapidxml::xml_document<> doc;
-        doc.parse<0>(hyperspacetext);
-
-        auto parentNode = doc.first_node("FTL");
-        if (!parentNode)
-            throw "No parent node found in hyperspace.xml";
-
         bool checkedVersion = false;
 
-        std::string discordModName = "";
-
-        // First Pass
+        // Stuff to parse early
         for (auto node = parentNode->first_node(); node; node = node->next_sibling())
         {
             if (strcmp(node->name(), "version") == 0)
@@ -301,6 +182,166 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                 }
             }
+
+            if (strcmp(node->name(), "defaults") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "checkCargo") == 0)
+                    {
+                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "choiceRequiresCrew") == 0)
+                    {
+                        customOptions->defaults.choiceRequiresCrew = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
+                    {
+                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "erosion") == 0)
+                    {
+                        ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
+                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                        {
+                            if (strcmp(child2->name(), "growBreachMultiplier") == 0)
+                            {
+                                ErosionEffect::growBreachMultiplier = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "newBreachDamage") == 0)
+                            {
+                                ErosionEffect::newBreachDamage = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "newBreachRequirement") == 0)
+                            {
+                                ErosionEffect::newBreachRequirement = boost::lexical_cast<float>(child2->value());
+                            }
+                            else if (strcmp(child2->name(), "canDilate") == 0)
+                            {
+                                ErosionEffect::canDilate = EventsParser::ParseBoolean(child2->value());
+                            }
+                        }
+                    }
+                    if (strcmp(child->name(), "customLockdown") == 0)
+                    {
+                        CustomLockdownDefinition::defaultLockdown.ParseNode(child);
+                    }
+                }
+            }
+
+            if (strcmp(node->name(), "colors") == 0)
+            {
+                ParseCustomColorsNode(node);
+            }
+
+            if (strcmp(node->name(), "ships") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                customShipManager->EarlyParseShipsNode(node);
+            }
+
+            if (strcmp(node->name(), "languages") == 0)
+            {
+                ParseLanguagesNode(resources, node);
+            }
+
+            if (strcmp(node->name(), "customCredits") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomCredits(node);
+            }
+
+            // Read event files and other early stuff.
+            if (strcmp(node->name(), "events") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->EarlyParseCustomEventNode(node);
+            }
+
+            //Map custom system ids before blueprints are loaded
+            if (strcmp(node->name(), "customSystems") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "customSystem") == 0)
+                    {
+                        CustomUserSystems::ParseSystemNode(child);
+                    }
+                }
+                //After system ids are mapped, generate exclusivity groups
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "exclusivityGroup") == 0)
+                    {
+                        SystemExclusivityManager::GetGlobalManager()->ParseExclusivityNode(child);
+                    }
+                }
+            }
+
+            // Perform custom text color registration before event parsing.
+            if (strcmp(node->name(), "customChoiceColors") == 0)
+            {
+                ParseChoiceColorsNode(node);
+            }
+        }
+
+        // Read the custom events.
+        {
+            auto customEventParser = CustomEventsParser::GetInstance();
+            customEventParser->ReadCustomEventFiles();
+        }
+
+        if (!checkedVersion)
+        {
+            throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods. You can continue, but mods may function incorrectly.";
+        }
+
+        doc.clear();
+    }
+    catch (rapidxml::parse_error& e)
+    {
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(e);
+    }
+
+    delete [] hyperspacetext;
+}
+
+void Global::InitializeResources(ResourceControl *resources)
+{
+    __resourcesInitialized = true;
+
+    char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
+
+    auto customOptions = CustomOptionsManager::GetInstance();
+
+
+    try
+    {
+        if (!hyperspacetext)
+        {
+            throw "hyperspace.xml not found";
+        }
+
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(hyperspacetext);
+
+        auto parentNode = doc.first_node("FTL");
+        if (!parentNode)
+            throw "No parent node found in hyperspace.xml";
+
+        std::string discordModName = "";
+
+        // First Pass
+        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
+        {
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
                 if (node->first_attribute("enabled"))
@@ -316,6 +357,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "playerHpColorFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_playerHpColorFix = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "hullBars") == 0)
             {
                 HullBars::GetInstance()->ParseHullBarsNode(node);
@@ -325,6 +372,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "hackingIonFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hackingIonFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "repairDroneRecoveryFix") == 0)
@@ -361,54 +414,67 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
-            {
-                auto enabled = node->first_attribute("enabled")->value();
-                g_defenseDroneFix = EventsParser::ParseBoolean(enabled);
-                if (g_defenseDroneFix)
-                {
-                    for (auto child = node->first_node(); child; child = child->next_sibling())
-                    {
-                        if (strcmp(child->name(), "boxRange") == 0)
-                        {
-                            if (child->value())
-                            {
-                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->value());
-                                g_defenseDroneFix_BoxRange[1] = g_defenseDroneFix_BoxRange[0];
-                            }
-                            if (child->first_attribute("player"))
-                            {
-                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
-                            }
-                            if (child->first_attribute("enemy"))
-                            {
-                                g_defenseDroneFix_BoxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                            }
-                        }
-                        if (strcmp(child->name(), "ellipseRange") == 0)
-                        {
-                            if (child->value())
-                            {
-                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->value());
-                                g_defenseDroneFix_EllipseRange[1] = g_defenseDroneFix_EllipseRange[0];
-                            }
-                            if (child->first_attribute("player"))
-                            {
-                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
-                            }
-                            if (child->first_attribute("enemy"))
-                            {
-                                g_defenseDroneFix_EllipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                            }
-                        }
-                    }
-                }
-            }
+            // defense drone fix is currently broken
+            // if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
+            // {
+            //     auto enabled = node->first_attribute("enabled")->value();
+            //     DefenseDroneFix::active = EventsParser::ParseBoolean(enabled);
+            //     if (DefenseDroneFix::active)
+            //     {
+            //         for (auto child = node->first_node(); child; child = child->next_sibling())
+            //         {
+            //             if (strcmp(child->name(), "boxRange") == 0)
+            //             {
+            //                 if (child->value())
+            //                 {
+            //                     DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->value());
+            //                     DefenseDroneFix::boxRange[1] = DefenseDroneFix::boxRange[0];
+            //                 }
+            //                 if (child->first_attribute("player"))
+            //                 {
+            //                     DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+            //                 }
+            //                 if (child->first_attribute("enemy"))
+            //                 {
+            //                     DefenseDroneFix::boxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+            //                 }
+            //             }
+            //             if (strcmp(child->name(), "ellipseRange") == 0)
+            //             {
+            //                 if (child->value())
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->value());
+            //                     DefenseDroneFix::ellipseRange[1] = DefenseDroneFix::ellipseRange[0];
+            //                 }
+            //                 if (child->first_attribute("player"))
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+            //                 }
+            //                 if (child->first_attribute("enemy"))
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
 
             if (strcmp(node->name(), "artilleryGibMountFix") == 0) // fixes artillery disappearing during ship explosions
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_artilleryGibMountFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "warningLightPositionFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_warningLightPositionFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "hideHullDuringExplosion") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hideHullDuringExplosion = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
@@ -513,14 +579,28 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showScrapCollectorScrap.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
             if (strcmp(node->name(), "preIgniteChargers") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->preIgniteChargers.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->preIgniteChargers.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
+            if (strcmp(node->name(), "oxygenWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "shieldWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->shieldWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->shieldWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -533,6 +613,67 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->altCreditSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->altCreditSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "allowRenameInputSpecialCharacters") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->allowRenameInputSpecialCharacters.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->allowRenameInputSpecialCharacters.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "targetableArtillery") == 0)
+            {
+                ParseTargetableArtilleryNode(node);
+            }
+
+            if (strcmp(node->name(), "cloakRenderFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "dualMedical") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->dualMedical.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->dualMedical.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "enhancedCloneUI") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->enhancedCloneUI.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->enhancedCloneUI.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "scaleSlugGel") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->scaleSlugGel.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "multiShipFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->multiShipFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableDefaultTutorial") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableDefaultTutorial.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableDefaultTutorial.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
@@ -553,6 +694,16 @@ void Global::InitializeResources(ResourceControl *resources)
                     {
                         AlternateOxygenManager::GetInstance()->CreateDefaultGradient();
                     }
+                }
+            }
+
+            if (strcmp(node->name(), "customTabs") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                if (EventsParser::ParseBoolean(enabled))
+                {
+                    CustomTabbedWindow::GetInstance()->enabled = true;
+                    CustomTabbedWindow::GetInstance()->ParseWindowNode(node);
                 }
             }
 
@@ -597,6 +748,20 @@ void Global::InitializeResources(ResourceControl *resources)
                     customOptions->dismissSound.defaultValue = "";
                     customOptions->dismissSound.currentValue = "";
                 }
+            }
+
+            if (strcmp(node->name(), "droneSelectHotkeys") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSelectHotkeys.defaultValue = enabled;
+                customOptions->droneSelectHotkeys.currentValue = enabled;
+            }
+
+            if (strcmp(node->name(), "droneSaveStations") == 0)
+            {
+                bool enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+                customOptions->droneSaveStations.defaultValue = enabled;
+                customOptions->droneSaveStations.currentValue = enabled;
             }
 
             if (strcmp(node->name(), "console") == 0)
@@ -720,6 +885,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 CustomStore::instance->ParseStoreNode(node);
             }
+            if (strcmp(node->name(), "purchaseLimitNumber") == 0)
+            {
+                PurchaseLimitIndicatorInfo::fontSize = boost::lexical_cast<int>(node->first_attribute("fontSize")->value());
+                PurchaseLimitIndicatorInfo::x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+                PurchaseLimitIndicatorInfo::y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+            }
             if (strcmp(node->name(), "drones") == 0)
             {
                 CustomDroneManager::GetInstance()->ParseDroneNode(node);
@@ -754,9 +925,20 @@ void Global::InitializeResources(ResourceControl *resources)
                     CustomUpgrades::GetInstance()->allowButton = EventsParser::ParseBoolean(node->first_attribute("allowButton")->value());
                 }
             }
+            if (strcmp(node->name(), "customTextStyle") == 0)
+            {
+                CustomTextStyleManager::GetInstance()->enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
+            }
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "systemPositions") == 0)
+                    {
+                        SystemPositionManager::ParsePositionsNode(child);
+                    }
+                }
             }
             if (strcmp(node->name(), "scripts") == 0)
             {
@@ -803,18 +985,36 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
             }
+            if (strcmp(node->name(), "systemNoPurchaseThreshold") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                SystemNoPurchaseThreshold::enabled = EventsParser::ParseBoolean(enabled);
+                if (SystemNoPurchaseThreshold::enabled)
+                {
+                    SystemNoPurchaseThreshold::threshold = boost::lexical_cast<int>(node->first_attribute("threshold")->value());
+                    SystemNoPurchaseThreshold::replace = node->first_attribute("replace")->value();
+                }
+            }
+            if (strcmp(node->name(), "multipleOverCapacity") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_multipleOverCapacity = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "showDummyEquipmentSlots") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
+                if (node->first_attribute("opacity"))
+                {
+                    g_dummyEquipmentSlotsOpacity = boost::lexical_cast<float>(node->first_attribute("opacity")->value());
+                }
+            }
         }
 
         // Post-processing (might not be needed anymore)
         {
             auto customEventParser = CustomEventsParser::GetInstance();
             customEventParser->PostProcessCustomEvents();
-        }
-
-
-        if (!checkedVersion)
-        {
-            throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods. You can continue, but mods may function incorrectly.";
         }
 
         doc.clear();

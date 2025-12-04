@@ -1,2 +1,30 @@
-"578d7c240883e4f0ff77fc5589e5575389cbb9????????83ec30e8????????d95df4f30f1045f4f30f5905????????f30f5883e4000000f30f1183e4000000f30f1083d40000000f2e83cc0000007a??":
-__thiscall void LockdownShard::Update(LockdownShard *this);
+"578d????0883e4f0ff????5589e557565389ce83c13c81ec2c010000":
+__thiscall void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047ec10
+".578d????0883e4f0ff????5589e557565389cb83c13c81ec2c0100008b??8b????":
+__thiscall void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047f290
+".578d????0883e4f0ff????5589e557565389cb83c13c81ec2c010000c741c400000000":
+__thiscall void LockdownShard::constructor3(LockdownShard *this, int fd); //0047f920
+".578d????0883e4f0ff????5589e557565389cb83ec2c8b??f30f1081cc000000":
+__thiscall void LockdownShard::SaveState(LockdownShard *this, int fd); //00480040
+".578d7c240883e4f0ff77fc5589e5575389cbb9????????83ec30e8????????d95df4f30f1045f4f30f5905????????f30f5883e4000000f30f1183e4000000f30f1083d40000000f2e83cc0000007a??":
+__thiscall void LockdownShard::Update(LockdownShard *this); //00480170
+".578d????0883e4f0ff????5589e5575389cb83ec30e8????????f30f1083d0000000":
+__thiscall void LockdownShard::OnRender(LockdownShard *this); //00480320
+
+struct LockdownShard
+{{
+    LockdownShard() {}
+
+	LockdownShard(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+	{
+		this->constructor(lockingRoom, start, goal, superFreeze);
+	}
+
+	LockdownShard(int fd)
+	{
+		this->constructor3(fd);
+	}
+
+	void Initialize(bool loading, bool superFreeze);
+	void LinkDoor(Door* door);
+}};

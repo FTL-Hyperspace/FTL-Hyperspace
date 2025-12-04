@@ -1,7 +1,7 @@
 #pragma once
 #include "CrewMember_Extend.h"
 #include "Global.h"
-
+#include "CustomLockdowns.h"
 #include "LuaScriptInit.h"
 
 #include "swigluarun.h"
@@ -54,6 +54,8 @@ struct CustomDamageDefinition
     int erosionChance = -1;
     ErosionEffect erosionEffect;
 
+    CustomLockdownDefinition customLockdown;
+
     int crewSpawnChance = -1;
     std::vector<CrewSpawn*> crewSpawns;
 
@@ -91,6 +93,7 @@ struct CustomDamage
 };
 
 
+#ifndef SWIG //Running functions that use the SWIG API through SWIG is not a good idea, plus none of this should be directly visible on the lua side of things.
 class CustomDamageManager
 {
 public:
@@ -110,3 +113,4 @@ public:
         }
     }
 };
+#endif //SWIG

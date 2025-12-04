@@ -515,8 +515,15 @@ struct Ship
 /* 303 */
 struct Selectable
 {
-  void *vptr;
+  VTable_Selectable *_vtable;
   int selectedState;
+};
+
+struct VTable_Selectable
+{
+  void (__thiscall *Free)(Selectable *this);
+  void (__thiscall *SetSelected)(Selectable *this, int selected);
+  int (__thiscall *GetSelected)(Selectable *this);
 };
 
 /* 460 */
@@ -600,8 +607,10 @@ struct Door
   int iRoom1;
   int iRoom2;
   bool bOpen;
+  uint8_t gap_ex_1[3];
   int iBlast;
   bool bFakeOpen;
+  uint8_t gap_ex_2[3];
   int width;
   int height;
   GL_Primitive *outlinePrimitive;
@@ -627,6 +636,7 @@ struct Door
 /* 180 */
 struct Repairable
 {
+  VTable_Repairable *_vtable;
   Selectable _base;
   ShipObject shipObj;
   float fDamage;
@@ -635,6 +645,32 @@ struct Repairable
   std__string name;
   int roomId;
   int iRepairCount;
+};
+
+struct VTable_Repairable
+{
+    void (__thiscall *Free)(Repairable *this);
+    bool (__thiscall *CompletelyDestroyed)(Repairable *this);
+    std__string (__thiscall *GetName)(Repairable *this);
+    void (__thiscall *SetName)(Repairable *this, std__string* name);
+    void (__thiscall *Repair)(Repairable *this);
+    void (__thiscall *PartialRepair)(Repairable *this, float speed, bool autoRepair);
+    void (__thiscall *PartialDamage)(Repairable *this, float amount);
+    bool (__thiscall *NeedsRepairing)(Repairable *this);
+    bool (__thiscall *Functioning)(Repairable *this);
+    bool (__thiscall *CanBeSabatoged)(Repairable *this);
+    float (__thiscall *GetDamage)(Repairable *this);
+    Point (__thiscall *GetLocation)(Repairable *this);
+    Point (__thiscall *GetGridLocation)(Repairable *this);
+    void (__thiscall *SetDamage)(Repairable *this, float diff);
+    void (__thiscall *SetMaxDamage)(Repairable *this, float dam);
+    void (__thiscall *SetLocation)(Repairable *this, Point location);
+    void (__thiscall *OnRenderHighlight)(Repairable *this);
+    int (__thiscall *GetId)(Repairable *this);
+    bool (__thiscall *IsRoomBased)(Repairable *this);
+    int (__thiscall *GetRoomId)(Repairable *this);
+    bool (__thiscall *Ioned)(Repairable *this, int amount);
+    void (__thiscall *SetRoomId)(Repairable *this);
 };
 
 /* 294 */
@@ -774,8 +810,10 @@ struct LockdownShard
   float speed;
   bool bArrived;
   bool bDone;
+  uint8_t gap_ex_1[2];
   float lifeTime;
   bool superFreeze;
+  uint8_t gap_ex_2[3];
   int lockingRoom;
 };
 
@@ -2162,6 +2200,7 @@ struct Equipment
   DropBox overAugImage;
   DropBox sellBox;
   bool bSellingItem;
+  uint8_t gap_ex[2];
   ShipManager *shipManager;
   std__vector_14EquipmentBoxZ1 vEquipmentBoxes;
   std__vector_19ProjectileFactoryZ1 weaponsTrashList;
@@ -2517,7 +2556,7 @@ struct StarMap
   FocusWindow _base;
   float visual_size;
   std__vector_10LocationZ1 locations;
-  std__map_18Point___LocationZ1 locations_grid;
+  std::map<Point, std::vector<Location*>> locations_grid;
   std__vector_10LocationZ1 temp_path;
   Location *currentLoc;
   Location *potentialLoc;
@@ -2857,7 +2896,10 @@ struct std__vector_12ShipSystemZ1
 struct EngineSystem;
 
 /* 409 */
-struct MedbaySystem;
+struct MedbaySystem
+{
+    ShipSystem _base;
+};
 
 /* 815 */
 struct std__vector_17ArtillerySystemZ1
@@ -3095,8 +3137,10 @@ struct SystemBox
   GL_Primitive *hackIcon;
   ShipSystem *pSystem;
   bool bShowPower;
+  uint8_t gap_ex_1[3];
   float powerAlpha;
   bool mouseHover;
+  uint8_t gap_ex_2[3];
   int activeTouch;
   Point touchInitialOffset;
   bool tapped;
@@ -3519,7 +3563,7 @@ struct VTable_ArmamentBox
   void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
   void (__thiscall *RenderLabels)(ArmamentBox *this);
   void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
-  
+
 
 };
 
@@ -3725,11 +3769,11 @@ struct VTable_Drone
   bool (__thiscall *Destroyed)(Drone *);
   Point (__thiscall *GetWorldLocation)(Drone *);
   void (__thiscall *SetWorldLocation)(Drone *, Point point);
-  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  Slot (__thiscall *GetDroneSlot)(Drone *);
   int (__thiscall *GetDroneHealth)(Drone *);
   int (__thiscall *GetRequiredPower)(Drone *);
   void (__thiscall *RenderIcon)(Drone *);
-  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  std__string (__thiscall *GetName)(Drone *);
   bool (__thiscall *CanBeDeployed)(Drone *);
   bool (__thiscall *RecallOnJump)(Drone *);
   bool (__thiscall *CanBeRecovered)(Drone *);
@@ -4417,7 +4461,7 @@ struct VTable_EquipmentBox
   void (__thiscall *SetPosition)(EquipmentBox *this, Point pos);
   void (__thiscall *OnRender)(EquipmentBox *this, bool empty);
   void (__thiscall *RenderLabels)(EquipmentBox *this, bool empty);
-  void (__thiscall *RenderIcon)(EquipmentBox *this, bool empty);
+  void (__thiscall *RenderIcon)(EquipmentBox *this);
   void (__thiscall *SetShipManager)(EquipmentBox *this, ShipManager *ship);
   void (__thiscall *MouseMove)(EquipmentBox *this, int x, int y);
   void (__thiscall *OnTouch)(EquipmentBox *this);
@@ -4438,8 +4482,8 @@ struct VTable_EquipmentBox
 /* 672 */
 struct VTable_SystemBox
 {
-  void (__thiscall *Free)(SystemBox *this);
   void (__thiscall *destroy)(SystemBox *this);
+  void (__thiscall *Free)(SystemBox *this);
   bool (__thiscall *HasButton)(SystemBox *this);
   int (__thiscall *GetCooldownBarHeight)(SystemBox *this);
   int (__thiscall *GetHeightModifier)(SystemBox *this);
@@ -4797,11 +4841,83 @@ struct VTable_StoreBox
   void (__thiscall *SetExtraData)(StoreBox *, int);
 };
 
+struct ArrowDescription
+{
+  Point location;
+  float rotation;
+  bool upgradesRelative;
+  int hostileRelative;
+};
+
+struct std__vector_16ArrowDescription
+{
+  ArrowDescription *_start;
+  ArrowDescription *_finish;
+  ArrowDescription *_end;
+};
+
+struct StateInfo {
+  bool stateContinueNeeded;
+  TextString stateText;
+  std__vector_16ArrowDescription arrows;
+};
+
+struct std__map_23std__string___StateInfo
+{
+  char unk[24];
+};
+
+struct std__vector_6Button
+{
+  Button *_start;
+  Button *_finish;
+  Button *_end;
+};
+
+struct std__vector_11FocusWindow
+{
+  FocusWindow *_start;
+  FocusWindow *_finish;
+  FocusWindow *_end;
+};
+
 /* 156 */
-struct TutorialManager;
+struct TutorialManager
+{
+  bool bRunning;
+  TextButton continueButton;
+  int currentState;
+  std__string stateName;
+  std__vector_11std__string stateOrder;
+  std__map_17std__string___int stateValues;
+  std__map_23std__string___StateInfo states;
+  ShipManager *playerShip;
+  CommandGui *gui;
+  CrewControl *crewControl;
+  StarMap *starMap;
+  Upgrades *upgradeScreen;
+  CombatControl *combatControl;
+  SystemControl *systemControl;
+  TabbedWindow *shipInfo;
+  bool bGamePaused;
+  bool bQuitTutorial;
+  AnimationTracker tracker;
+  float timerOpen;
+  WindowFrame *descBox;
+  int descBoxHeight;
+  GL_Texture *arrow;
+  GL_Texture *arrow2;
+  HandAnimation hand;
+  bool bTriggerEvent;
+};
 
 /* 159 */
-struct ShipRepairDrone;
+struct ShipRepairDrone
+{
+    CombatDrone _base;
+    CachedImage repairBeam;
+    std::vector<float> repairBeams;
+};
 
 /* 161 */
 struct CombatDrone
@@ -5340,7 +5456,11 @@ struct WeaponEquipBox
 struct ShipRepair;
 
 /* 240 */
-struct DroneBox;
+struct DroneBox
+{
+    ArmamentBox _base;
+    Drone* pDrone;
+};
 
 /* 254 */
 struct freetype;
@@ -6177,3 +6297,10 @@ struct VTable_CrewTarget
   bool (__thiscall *IsDrone)(CrewTarget *this);
 };
 
+struct ResourceBoxDesc
+{
+  int w;
+  int h;
+  Point row1;
+  Point row2;
+};

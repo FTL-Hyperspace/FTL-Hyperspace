@@ -8,6 +8,10 @@ cleanup __amd64 bool CommandGui::IsGameOver(CommandGui *this);
 cleanup __amd64 void CommandGui::OnInit(CommandGui *this);
 ".4154554889f5534889fb488dbf880500004883ec30":
 cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip *ship);
+".53??8b8770190000??89fb??8dbf88050000??8b40108bb08c020000":
+cleanup __amd64 void CommandGui::ClearLocation(CommandGui *this);
+".415731d2415641554154554889":
+cleanup __amd64 void CommandGui::LinkShip(CommandGui *this, CompleteShip *ship);
 ".41544189d4554889fd534889f34883ec204889e7":
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 ".415431d2554889f531f6534889fb4883ec30":
@@ -20,6 +24,8 @@ cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string
 cleanup __amd64 void CommandGui::RunCommand(CommandGui *this, std::string& command);
 ".41554189f5415455534889fbbf580600004c8da3????0000":
 cleanup __amd64 Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
+"!.4155415455488daf68020000":
+cleanup __amd64 void CommandGui::Restart(CommandGui *this);
 ".415541545589f5534889fb4883ec38":
 cleanup __amd64 void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
 ".41564155415455534889fb4883ec40":

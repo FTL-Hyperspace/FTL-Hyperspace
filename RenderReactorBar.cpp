@@ -1,7 +1,16 @@
 #include "RenderReactorBar.h"
+#include "SystemBox_Extend.h"
 
 static GL_Primitive *droneN = nullptr;
 static int droneN_n = -1;
+
+static GL_Texture* customWire = nullptr;
+static GL_Primitive* customWire_connector = nullptr;
+static GL_Primitive* customWire_connector_cap = nullptr;
+
+
+const Point CUSTOM_WIRE_UI_OFFSET(31, 31);;
+
 
 HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 {
@@ -36,6 +45,19 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     GL_Color powerBarColourOn = colourBlindOn ? COLOR_CB_WHITE : COLOR_GREEN;
     GL_Color powerBarColour = powerBarColourOn;
 
+    //TODO: Move to constructor or initialization function later (SystemControl::OnInit seems most appropriate)
+    if (!customWire)
+    {
+        customWire = G_->GetResources()->GetImageId("wireUI/wire_custom.png");
+    }
+    if (!customWire_connector)
+    {
+        customWire_connector = G_->GetResources()->CreateImagePrimitiveString("wireUI/wire_custom_connector.png", CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, 0, COLOR_WHITE, 1.f, false);
+    }
+    if (!customWire_connector_cap)
+    {
+        customWire_connector_cap = G_->GetResources()->CreateImagePrimitiveString("wireUI/wire_custom_connector_cap.png", CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, 0, COLOR_WHITE, 1.f, false);
+    }
 
     if(G_->GetEventSystem()->PollEvent(11)){
         flashBatteryPower.Start(0);
@@ -97,8 +119,40 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 sysBoxLocY = currentSysBox->location.y;
                 CSurface::GL_Translate(sysBoxLocX, sysBoxLocY, 0);
 
-                //generic wires
-                if(currentSysBox->HasButton()) {
+                //generic wires for cases that do not occur with vanilla ordering:
+                //Custom systems
+                //Custom offsets
+                //Drone system is not the last system
+                if (currentSysBox->pSystem->iSystemType >= SYS_CUSTOM_FIRST || !SYS_EX(currentSysBox->pSystem)->usingDefaultOffset || currentSysBox->pSystem->GetId() == SYS_DRONES)
+                {
+                    currentSys = sysBoxes[startsAtTwo]->pSystem;
+                    //Determine which connector primitive to use
+                    GL_Primitive* connectorToUse = nullptr;
+                    if(sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower()) { 
+                        //If not last system
+                        connectorToUse = customWire_connector;
+                    } else {
+                        //Last system
+                        connectorToUse = customWire_connector_cap;
+                    }
+                    //Calculate wire size for drones and weapons
+                    int xOffset = SYS_EX(currentSysBox->pSystem)->xOffset;
+                    if (currentSysBox->pSystem->GetId() == SYS_WEAPONS) xOffset += 97 * numWeaponSlots;
+                    else if (currentSysBox->pSystem->GetId() == SYS_DRONES) xOffset += 97 * shipManager->myBlueprint.droneSlots;
+
+                    //Render dynamically sized wire wire
+                    float width = xOffset - connectorToUse->texture->width_;
+                    width = std::max(0.f, width);
+                    float alpha = unusedPower ? 1.f : greyOpacity;
+                    GL_Color color(1.f, 1.f, 1.f, alpha);
+                    CSurface::GL_BlitImage(customWire, CUSTOM_WIRE_UI_OFFSET.x, CUSTOM_WIRE_UI_OFFSET.y, width, customWire->height_, 0, color, false);
+                    //Render connector
+                    CSurface::GL_Translate(width, 0);
+                    CSurface::GL_RenderPrimitiveWithAlpha(connectorToUse, alpha);
+                    CSurface::GL_Translate(-width, 0);
+                }
+
+                else if(currentSysBox->HasButton()) {
                     currentSys = sysBoxes[startsAtTwo]->pSystem;
                     if(sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower()) {
                         CSurface::GL_RenderPrimitiveWithAlpha(button, greyOpacity);

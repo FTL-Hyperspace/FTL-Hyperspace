@@ -1339,13 +1339,13 @@ HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 HOOK_METHOD(LockdownShard, Update, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> LockdownShard::Update -> Begin (TemporalSystem.cpp)\n")
-    g_dilationAmount = GetRoomDilationAmount(g_shardDilationRooms, lockingRoom);
+    g_dilationAmount = LD_EX(this)->canDilate ? GetRoomDilationAmount(g_shardDilationRooms, lockingRoom) : 0;
 
     super();
 
     g_dilationAmount = 0;
 }
-
+/*Unneeded since lockdown rework
 HOOK_METHOD(Door, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Door::OnLoop -> Begin (TemporalSystem.cpp)\n")
@@ -1363,7 +1363,7 @@ HOOK_METHOD(Door, OnLoop, () -> void)
             {
                 if (shard.lockingRoom == iRoom1 || shard.lockingRoom == iRoom2)
                 {
-                     lockTime = std::min(lockTime, shard.lifeTime + speedFactor * TemporalSystemParser::GetDilationStrength(GetRoomDilationAmount(g_shardDilationRooms, shard.lockingRoom)));
+                    lockTime = std::min(lockTime, shard.lifeTime + speedFactor * TemporalSystemParser::GetDilationStrength(GetRoomDilationAmount(g_shardDilationRooms, shard.lockingRoom)));
                 }
             }
             if (lockTime == 12.f)
@@ -1382,7 +1382,7 @@ HOOK_METHOD(Door, OnLoop, () -> void)
     }
     super();
 }
-
+*/
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnLoop -> Begin (TemporalSystem.cpp)\n")
@@ -1433,18 +1433,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
     {
         auto sys = GetSystem(20);
 
-        FileHelper::writeInt(file, sys->powerState.second);
-        FileHelper::writeInt(file, sys->powerState.first);
-        FileHelper::writeInt(file, sys->healthState.second - sys->healthState.first);
-
-        FileHelper::writeInt(file, sys->iLockCount);
-        FileHelper::writeInt(file, std::floor(sys->lockTimer.currTime * 5000));
-        FileHelper::writeInt(file, std::floor(sys->fRepairOverTime));
-        FileHelper::writeInt(file, std::floor(sys->fDamageOverTime));
-        FileHelper::writeInt(file, sys->iBatteryPower);
-        FileHelper::writeInt(file, sys->bUnderAttack ? sys->iHackEffect : 0);
-        FileHelper::writeInt(file, sys->iHackEffect > 0 ? sys->bUnderAttack : 0);
-        sys->SaveState(file);
+        sys->CompleteSave(file);
     }
 }
 
@@ -1460,42 +1449,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
         if (!HasSystem(20)) AddSystem(20);
         auto sys = GetSystem(20);
 
-        bool canDecrease = sys->DecreasePower(false);
-        while (canDecrease)
-        {
-            canDecrease = sys->DecreasePower(false);
-        }
-
-        int maxPower = FileHelper::readInteger(file);
-        while (sys->powerState.second < maxPower)
-        {
-            sys->UpgradeSystem(1);
-        }
-
-        sys->SetBonusPower(0, 0);
-
-        int setPower = FileHelper::readInteger(file);
-
-        while (sys->powerState.first != setPower)
-        {
-            if (!sys->IncreasePower(1, true)) break;
-        }
-
-        sys->AddDamage(FileHelper::readInteger(file));
-        sys->AddLock(FileHelper::readInteger(file));
-        sys->lockTimer.currTime = ((float)FileHelper::readInteger(file)) / 5000.f;
-
-        sys->repairedLastFrame = true;
-        sys->fRepairOverTime = FileHelper::readInteger(file);
-
-        sys->damagedLastFrame = true;
-        sys->fDamageOverTime = FileHelper::readInteger(file);
-
-        sys->ForceBatteryPower(FileHelper::readInteger(file));
-        sys->SetHackingLevel(FileHelper::readInteger(file));
-        sys->bUnderAttack = FileHelper::readInteger(file);
-
-        sys->LoadState(file);
+        sys->CompleteLoad(file);
     }
 }
 
