@@ -17,16 +17,22 @@ HOOK_METHOD_PRIORITY(WorldManager, SaveGame, 9999, () -> void)
     this->CheckForNewLocation(true);
     this->commandGui->ConfirmUpgrades();
 
+    saveData = new json();
+    (*saveData)["version"] = 1;
+
     // Create the save file
-    int fd = FileHelper::createSaveFile(FileHelper::getSaveFile());
+    int fd = FileHelper::createBinaryFile(FileHelper::getSaveFile());
     if (fd > -1)
     {
         this->commandGui->ClearWriteError();
 
         // Write save file header
         FileHelper::writeInt(fd, 11); // Save version
+        (*saveData)["main"]["version"] = 11;
         FileHelper::writeInt(fd, *Globals_RNG);
+        (*saveData)["main"]["rng"] = *Globals_RNG;
         FileHelper::writeInt(fd, Settings::GetDlcEnabled());
+        (*saveData)["main"]["dlcEnabled"] = Settings::GetDlcEnabled();
 
         // Save various game components
         G_->GetScoreKeeper()->SaveGame(fd);
@@ -35,15 +41,20 @@ HOOK_METHOD_PRIORITY(WorldManager, SaveGame, 9999, () -> void)
         this->starMap.SaveGame(fd);
         this->currentShipEvent.Save(fd);
         FileHelper::writeString(fd, this->generatedEvent);
+        (*saveData)["main"]["generatedEvent"] = this->generatedEvent;
         FileHelper::writeInt(fd, this->lastMainText.isLiteral);
+        (*saveData)["main"]["lastMainText"]["isLiteral"] = this->lastMainText.isLiteral;
         FileHelper::writeString(fd, this->lastMainText.data);
+        (*saveData)["main"]["lastMainText"]["data"] = this->lastMainText.data;
         FileHelper::writeInt(fd, this->lastSelectedCrewSeed);
+        (*saveData)["main"]["lastSelectedCrewSeed"] = this->lastSelectedCrewSeed;
 
         // Save choice history
         FileHelper::writeInt(fd, this->choiceHistory.size());
         for (int choice : this->choiceHistory)
         {
             FileHelper::writeInt(fd, choice);
+            (*saveData)["main"]["choiceHistory"].push_back(choice);
         }
 
         // Check for and save enemy ship state
@@ -51,6 +62,7 @@ HOOK_METHOD_PRIORITY(WorldManager, SaveGame, 9999, () -> void)
         {
             // No enemy ship present or it's destroyed
             FileHelper::writeInt(fd, 0);
+            (*saveData)["main"]["enemyShipPresent"] = false;
             this->space.SaveSpace(fd);
             this->playerShip->shipManager->ExportBattleState(fd);
             this->playerShip->SaveState(fd);
@@ -60,7 +72,9 @@ HOOK_METHOD_PRIORITY(WorldManager, SaveGame, 9999, () -> void)
             // Enemy ship present
             CompleteShip* enemyShip = this->ships[0];
             FileHelper::writeInt(fd, 1);
+            (*saveData)["main"]["enemyShipPresent"] = true;
             FileHelper::writeInt(fd, enemyShip->IsBoss());
+            (*saveData)["main"]["enemyShipIsBoss"] = enemyShip->IsBoss();
             enemyShip->shipManager->ExportShip(fd);
             enemyShip->shipAI.Save(fd);
             this->space.SaveSpace(fd);
@@ -82,14 +96,7 @@ HOOK_METHOD_PRIORITY(WorldManager, SaveGame, 9999, () -> void)
         // Failed to create save file
         this->commandGui->ShowWriteError();
     }
-}
 
-HOOK_METHOD(WorldManager, SaveGame, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> WorldManager::SaveGame -> Begin (SavingRewrite.cpp)\n")
-    saveData = new json();
-    (*saveData)["version"] = 1;
-    super();
     std::ofstream saveFile(FileHelper::getUserFolder() + "save_debug.json");
     if (!saveFile)
     {
@@ -99,6 +106,7 @@ HOOK_METHOD(WorldManager, SaveGame, () -> void)
     saveFile << saveData->dump(4);
     saveFile.close();
 }
+
 
 HOOK_METHOD_PRIORITY(Animation, LoadState, 9999, (int fd) -> void)
 {

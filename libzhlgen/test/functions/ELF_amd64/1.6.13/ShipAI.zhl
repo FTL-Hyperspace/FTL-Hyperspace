@@ -2,6 +2,8 @@
 cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool unk);
 ".4084f6740980bf9801000000":
 cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
+"!.554889fd5389f34883ec080fb6b739":  // unique sig
+cleanup __amd64 void ShipAI::Save(ShipAI *this, int fd); // 005e0760
 ".41545589f5534889fb4883ec304084f6488b07":
 cleanup __amd64 void ShipAI::OnLoop(ShipAI *this, bool hostile);
 "5348837f08004889fb":

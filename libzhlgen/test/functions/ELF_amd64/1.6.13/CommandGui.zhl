@@ -1,5 +1,9 @@
-"4157415641554989fd415455534883ec78488b8770190000":
+"41554189f5488d":  // unique sig
+cleanup __amd64 void CommandGui::ExportData(CommandGui *this, int fd); // 004f8540
+".4157415641554989fd415455534883ec78488b8770190000":
 cleanup __amd64 void CommandGui::Victory(CommandGui *this);
+".80bf10360000":  // unique sig
+cleanup __amd64 void CommandGui::ConfirmUpgrades(CommandGui *this); // 004f8d30
 ".415455534889fb4883ec50":
 cleanup __amd64 void CommandGui::CheckGameover(CommandGui *this);
 ".803d????????00756753":
@@ -18,6 +22,10 @@ cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point po
 cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
 ".4154555380bf????????004889fb":
 cleanup __amd64 void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
+".c6879848000000":  // unique sig
+cleanup __amd64 void CommandGui::ClearWriteError(CommandGui *this); // 004faee0
+".415741564155415455534889fb4881ec1801000080":  // unique sig
+cleanup __amd64 void CommandGui::ShowWriteError(CommandGui *this); // 004faef0
 ".415741564155415455534889d34881ec58020000":
 cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
 ".4157415641554989fd41544989f45531ed5331db4883ec58488b06":

@@ -3159,6 +3159,7 @@ struct ShipAI
 {
 	LIBZHL_API std::pair<int, int> GetTeleportCommand();
 	LIBZHL_API void OnLoop(bool hostile);
+	LIBZHL_API void Save(int fd);
 	LIBZHL_API void SetStalemate(bool stalemate);
 	LIBZHL_API void constructor(bool unk);
 	
@@ -4756,7 +4757,10 @@ struct CommandGui
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API void CheckGameover();
 	LIBZHL_API void ClearLocation();
+	LIBZHL_API void ClearWriteError();
+	LIBZHL_API void ConfirmUpgrades();
 	LIBZHL_API Store *CreateNewStore(int sectorNumber);
+	LIBZHL_API void ExportData(int fd);
 	LIBZHL_API Point GetWorldCoordinates(Point point, bool fromTarget);
 	LIBZHL_API bool IsGameOver();
 	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
@@ -4771,6 +4775,7 @@ struct CommandGui
 	LIBZHL_API void RenderStatic();
 	LIBZHL_API void Restart();
 	LIBZHL_API void RunCommand(std::string &command);
+	LIBZHL_API void ShowWriteError();
 	LIBZHL_API void Victory();
 	LIBZHL_API void constructor();
 	
@@ -5728,6 +5733,7 @@ struct ShipEvent;
 
 struct ShipEvent
 {
+	LIBZHL_API void Save(int fd);
 	LIBZHL_API void constructor(const ShipEvent &event);
 	
 	bool present;
@@ -8366,6 +8372,7 @@ struct WorldManager
     bool SwitchShipTransfer(std::string shipName, int overrideSystem);
 
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
+	LIBZHL_API bool CheckForNewLocation(bool savingGame);
 	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
 	LIBZHL_API void ClearLocation();

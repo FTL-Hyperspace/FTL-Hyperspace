@@ -1,2 +1,4 @@
-"415641554989f5488d760841544989fc488d7f08":
+"!554889fd5389f34883ec080fb637":  // unique sig
+cleanup __amd64 void ShipEvent::Save(ShipEvent *this, int fd); // 0060a070
+".415641554989f5488d760841544989fc488d7f08":
 cleanup __amd64 void ShipEvent::constructor(ShipEvent *this, const ShipEvent& event);

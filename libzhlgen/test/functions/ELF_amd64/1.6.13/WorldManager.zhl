@@ -34,6 +34,8 @@ cleanup __amd64 void WorldManager::UpdateLocation0(WorldManager *this, LocationE
 cleanup __amd64 void WorldManager::ClearLocation(WorldManager *this);
 ".415741564155415455534889fb4881ece8010000":
 cleanup __amd64 void WorldManager::LoadGame(WorldManager *this, const std::string& fileName);
+".5589f5534889fb4883ec78":  // unique sig
+cleanup __amd64 bool WorldManager::CheckForNewLocation(WorldManager *this, bool savingGame); // 00635700
 ".415455534889fb4883ec20488bbfb8110000":
 cleanup __amd64 void WorldManager::SaveGame(WorldManager *this);
 ".554889fd5331db4883ec28488b07488b78104881c718010000":
