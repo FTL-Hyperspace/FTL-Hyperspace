@@ -103,7 +103,7 @@ HOOK_METHOD(WorldManager, SaveGame, () -> void)
 HOOK_METHOD_PRIORITY(Animation, LoadState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Animation::LoadState -> Begin (SavingRewrite.cpp)\n")
-    
+
     // Reverse engineered Vanilla code by Dino
     if (FileHelper::readInteger(fd) != 0)
     {
@@ -126,7 +126,7 @@ HOOK_METHOD_PRIORITY(Animation, LoadState, 9999, (int fd) -> void)
 HOOK_METHOD_PRIORITY(Animation, SaveState, 9999, (int fd) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Animation::SaveState -> Begin (SavingRewrite.cpp)\n")
-    
+
     // Reverse engineered Vanilla code by Dino
     FileHelper::writeInt(fd, tracker.running);
     FileHelper::writeInt(fd, tracker.loop);
@@ -381,7 +381,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, LoadState, 9999, (int fd) -> void)
         anims[0][6].tracker.SetLoop(false, 0.f);
         anims[0][6].Start(true);
     }
-    
+
     // Load the animation itself
     anims[0][6].LoadState(fd);
 
@@ -541,9 +541,9 @@ HOOK_METHOD_PRIORITY(HackingSystem, LoadState, 9999, (int fd) -> void)
     // End of orig code
 }
 
-HOOK_METHOD_PRIORITY(LockdownShard, LoadState, 9999, (int fd) -> void)
+HOOK_METHOD_PRIORITY(LockdownShard, constructor3, 9999, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::SaveState -> Begin (SavingRewrite.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor3 -> Begin (SavingRewrite.cpp)\n")
 
     // Initialize the shard's animation
     shard.animationStrip = nullptr;
@@ -649,7 +649,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::SaveState -> Begin (SavingRewrite.cpp)\n")
 
     // Reverse engineered Vanilla code by Dino
-    
+
     // Saving cooldown and subCooldown
     FileHelper::writeFloat(fd, cooldown.first);
     FileHelper::writeFloat(fd, cooldown.second);
@@ -694,7 +694,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SaveState, 9999, (int fd) -> void)
 
         if (projectileType != 0)
         {
-            projectile->SaveProjectile(fd); 
+            projectile->SaveProjectile(fd);
         }
     }
     // End of orig code
@@ -784,7 +784,7 @@ HOOK_STATIC_PRIORITY(ProjectileFactory, SaveProjectile, 9999, (Projectile *proje
 
     if (projectileType != 0)
     {
-        projectile->SaveProjectile(fd); 
+        projectile->SaveProjectile(fd);
     }
     // End of orig code
 }
@@ -927,26 +927,25 @@ HOOK_METHOD_PRIORITY(Ship, LoadState, 9999, (int fd) -> void)
     {
         // Loading Cloak Time
         float cloakTime = FileHelper::readFloat(fd);
-        if (cloakTime < 0.f) 
+        if (cloakTime < 0.f)
         {
             cloakTime = 0.f;
         }
-        if (cloakTime > cloakingTracker.time) 
+        if (cloakTime > cloakingTracker.time)
         {
             cloakTime = cloakingTracker.time;
         }
         cloakingTracker.current_time = cloakTime;
 
         // Load lockdown shards (crystal bomb/crew)
-        if (G_->GetSettings()->loadingSaveVersion > 7) 
+        if (G_->GetSettings()->loadingSaveVersion > 7)
         {
             int lockdownCount = FileHelper::readInteger(fd);
-            if (lockdownCount > 0) 
+            if (lockdownCount > 0)
             {
                 for (int i = 0; i < lockdownCount; ++i)
                 {
-                    LockdownShard shard;
-                    shard.LoadState(fd);
+                    LockdownShard shard(fd);
                     lockdowns.push_back(shard);
                 }
             }
