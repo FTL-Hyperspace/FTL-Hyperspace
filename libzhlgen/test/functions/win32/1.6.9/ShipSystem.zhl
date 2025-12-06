@@ -95,7 +95,9 @@ static cleanup __cdecl ShipSystem::ConstComputerGlowInfo* ShipSystem::GetGlowInf
 __thiscall bool ShipSystem::GetExploded(ShipSystem *this);
 
 "++CrewMemberFactory::~CrewMemberFactory()":
-void* simple_match_test_001;
+void* symbol_lookup_test_001;
+"@adapdadcmapmopqpmcqcoqemcsdpqowkpqooqpqw>578d7c240883e4f0ff77fc5589e557565383ec2c8b1f85":
+void* symbol_lookup_test_002;
 
 "##ShipSystem::glowInfo":
 std::map<std::string, ShipSystem::ComputerGlowInfo>* ShipSystem__glowInfo;

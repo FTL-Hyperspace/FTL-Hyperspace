@@ -400,11 +400,19 @@ bool SigScan::Scan(Callback callback)
 			}
 		} else {
 			// Symbol not found, fail the scan
+			if(!m_bContinueFromSymbolLookup) {
+				#ifdef DEBUG
+				printf("SigScan: Symbol '%s' not found in symbol table\n", m_symbolName.c_str());
+				#endif
+				s_pLastAddress = s_pBase;
+				return false;
+			}
 			#ifdef DEBUG
-			printf("SigScan: Symbol '%s' not found in symbol table\n", m_symbolName.c_str());
-			#endif // DEBUG
-			s_pLastAddress = s_pBase;
-			return false;
+			printf("SigScan: Symbol '%s' not found in symbol table, fallback to sig\n", m_symbolName.c_str());
+			#endif
+			if(m_bStartFromLastAddress) {
+				pStart = s_pLastAddress;
+			}
 		}
 	} else if(m_bStartFromLastAddress) {
 		pStart = s_pLastAddress;
