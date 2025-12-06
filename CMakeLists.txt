@@ -250,6 +250,8 @@ target_sources(
     StatBoost.h
     Store_Extend.cpp
     Store_Extend.h
+    SymbolTable.cpp
+    SymbolTable.h
     SystemDescriptionFixes.cpp
     System_Extend.cpp
     System_Extend.h

@@ -2,7 +2,8 @@
 
 #include <vector>
 #include <list>
-#include <stddef.h>
+#include <string>
+#include <cstddef>
 
 class SigScan
 {
@@ -38,6 +39,17 @@ private:
 
 	bool m_bNoReturnSeek;
 	bool m_bStartFromLastAddress;
+	bool m_bUseSymbolLookup;
+	bool m_bContinueFromSymbolLookup;
+	enum class SLType : std::uint8_t {
+		BY_NAME,
+		BY_DEMANGLED_NAME,
+		BY_NAME_REGEX,
+		BY_DEMANGLED_NAME_REGEX,
+		BY_NAME_SIMPLE,
+		BY_DEMANGLED_NAME_SIMPLE
+	} m_symbolLookupType;
+	std::string m_symbolName;
 
 	unsigned char *m_pAddress;
 	int m_dist;
@@ -61,6 +73,28 @@ public:
 		auto it = m_matches.cbegin();
 		for( ; i && it != m_matches.cend() ; ++it, --i);
 		return *it;
+	}
+
+	constexpr bool IsSymbolLookup() const {
+		return m_bUseSymbolLookup;
+	}
+
+	const char* GetSymbolLookupType() const {
+		switch (m_symbolLookupType) {
+			case SLType::BY_NAME:
+				return "by name";
+			case SLType::BY_DEMANGLED_NAME:
+				return "by demangled name";
+			case SLType::BY_NAME_REGEX:
+				return "by name regex";
+			case SLType::BY_DEMANGLED_NAME_REGEX:
+				return "by demangled name regex";
+			case SLType::BY_NAME_SIMPLE:
+				return "by name simple";
+			case SLType::BY_DEMANGLED_NAME_SIMPLE:
+				return "by demangled name simple";
+		}
+		return "by name";
 	}
 
 public:

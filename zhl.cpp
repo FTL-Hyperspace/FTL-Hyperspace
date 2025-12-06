@@ -177,6 +177,11 @@ int VariableDefinition::Load()
 		snprintf(g_defLastError, 1024, "Failed to find value for variable %s, address could not be found", _name);
 		return 0;
 	}
+	if(sig.IsSymbolLookup()) {
+		*static_cast<void**>(_outVar) = sig.GetAddress<void*>();
+		Log("Found address for %s via symbol lookup (%s): " PTR_PRINT_F "\n", _name, sig.GetSymbolLookupType(), *(static_cast<uintptr_t*>(_outVar)));
+		return 1;
+	}
 
 	if(sig.GetMatchCount() == 0)
 	{
@@ -287,8 +292,11 @@ int FunctionDefinition::Load()
 
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
-	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, (uintptr_t)_address, sig.GetDistance());
-
+	if (sig.IsSymbolLookup()) {
+		Log("Found address for %s via symbol lookup (%s): " PTR_PRINT_F "\n", _name, sig.GetSymbolLookupType(), reinterpret_cast<uintptr_t>(_address));
+		return 1;
+	}
+	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, reinterpret_cast<uintptr_t>(_address), sig.GetDistance());
 	return 1;
 }
 

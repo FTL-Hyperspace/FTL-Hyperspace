@@ -1299,6 +1299,14 @@ struct WeaponBlueprint;
 
 struct LIBZHL_INTERFACE ShipSystem
 {
+	struct ComputerGlowInfo {
+    	std::string name;
+    	int x;
+    	int y;
+    	int direction;
+	};
+	using ConstComputerGlowInfo = const ComputerGlowInfo;
+
 	ShipSystem() { }
 
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
@@ -1355,14 +1363,18 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual void ShipDestroyed() LIBZHL_PLACEHOLDER
 	LIBZHL_API void AddLock(int lock);
 	LIBZHL_API bool BlockedBoosted(bool countLimit);
+	LIBZHL_API void CheckDlcEnabled();
 	LIBZHL_API void CheckForRepower();
 	LIBZHL_API void ClearStatus();
 	LIBZHL_API bool DamageOverTime(float unk);
 	LIBZHL_API bool DecreasePower(bool force);
 	LIBZHL_API int GetEffectivePower();
+	LIBZHL_API bool GetExploded();
+	LIBZHL_API static ShipSystem::ConstComputerGlowInfo *__stdcall GetGlowInfoForImage(const std::string &image);
 	LIBZHL_API static std::string __stdcall GetLevelDescription(int systemId, int level, bool tooltip);
 	LIBZHL_API TimerHelper GetLockTimer();
 	LIBZHL_API bool GetLocked();
+	LIBZHL_API static std::string __stdcall GetMannedDescription(int skillId, int level);
 	LIBZHL_API int GetMaxPower();
 	LIBZHL_API int GetPowerCap();
 	LIBZHL_API bool IncreasePower(int amount, bool force);
@@ -8401,6 +8413,8 @@ extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
+extern LIBZHL_API void *simple_match_test_001;
+extern LIBZHL_API std::map<std::string, ShipSystem::ComputerGlowInfo> *ShipSystem__glowInfo;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowBlue;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowWhite;
 extern LIBZHL_API GL_Primitive **ShipSystem__glowRed;
