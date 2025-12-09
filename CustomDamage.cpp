@@ -805,7 +805,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
         {
             if (this->powered)
             {
-                this->ionStun = std::max(this->ionStun, damage.iIonDamage * 5);
+                this->ionStun = std::max(this->ionStun, static_cast<float>(damage.iIonDamage * 5));
             }
         }
     }
