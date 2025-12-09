@@ -796,18 +796,17 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
         {
             return ret;
         }
-
-        if (damage.iIonDamage > 0) // if ion damage then stun the drone
+        if (damage.iDamage > 0) // normal damage blows up drone
+        {
+            this->BlowUp(false);
+            return ret;
+        }
+        if (damage.iIonDamage > 0) // ion damage stuns drone only if there is no normal damage
         {
             if (this->powered)
             {
-                this->ionStun = damage.iIonDamage * 5;
+                this->ionStun = std::max(this->ionStun, damage.iIonDamage * 5);
             }
-            return ret;
-        }
-        if (damage.iDamage > 0) // if no ion damage then normal damage blows up the drone
-        {
-            this->BlowUp(false);
         }
     }
 
