@@ -4,7 +4,13 @@
 #include "CrewSpawn.h"
 #include "ShipManager_Extend.h"
 #include "Room_Extend.h"
+#include "CustomOptions.h"
 #include <boost/lexical_cast.hpp>
+
+static bool DroneIonDodgeFix()
+{
+    return CustomOptionsManager::GetInstance()->droneIonDodgeFix.currentValue;
+}
 
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 Projectile* CustomDamageManager::currentProjectile = nullptr;
@@ -779,7 +785,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
             }
             if (damage.iIonDamage > 0) // ion damage stuns drone only if there is no normal damage
             {
-                if (this->powered)
+                if (this->powered || DroneIonDodgeFix())
                 {
                     this->ionStun = std::max(this->ionStun, static_cast<float>(damage.iIonDamage * 5));
                 }
