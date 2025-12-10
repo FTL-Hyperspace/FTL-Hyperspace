@@ -746,66 +746,43 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
 
         if (random32()%100 < dodgeFactor) // miss
         {
-            if (this->powered)
-            {
-                delete this->message;
-                this->message = new DamageMessage(1.0,this->currentLocation,DamageMessage::MISS);
-                if (ex) ex->missedDrones.push_back(selfId);
-                return ret;
-            }
-            ret.collision_type = 1;
-            if (damage.iIonDamage > 0)
-            {
-                return ret;
-            }
+            delete this->message;
+            this->message = new DamageMessage(1.0,this->currentLocation,DamageMessage::MISS);
+            if (ex) ex->missedDrones.push_back(selfId);
+            return ret;
         }
-        else //hit
+        else // hit
         {
             ret.collision_type = 1;
-            if (damage.iIonDamage > 0)
+
+            // push everything to the lua stack: Drone, Projectile, Damage, CollisionResponse
+            auto context = Global::GetInstance()->getLuaContext();
+            SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDroneTypes[this->type], 0);
+            CustomDamageManager::lua_PushCurrentProjectile(context);
+            SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
+            SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
+
+            // check drone-projectile collision callbacks
+            bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DRONE_COLLISION, 4, 0);
+
+            // pop the stack
+            lua_pop(context->GetLua(), 4);
+
+            if (preempt) // a pre-empt will block the damage effect on the drone - script can also set collision type to 0 to prevent projectile death
+            {
+                return ret;
+            }
+            if (damage.iDamage > 0) // normal damage blows up drone
+            {
+                this->BlowUp(false);
+                return ret;
+            }
+            if (damage.iIonDamage > 0) // ion damage stuns drone only if there is no normal damage
             {
                 if (this->powered)
                 {
-                    this->ionStun = damage.iIonDamage * 5;
+                    this->ionStun = std::max(this->ionStun, static_cast<float>(damage.iIonDamage * 5));
                 }
-                return ret;
-            }
-        }
-        if (damage.iDamage > 0)
-        {
-            this->BlowUp(false);
-        }
-    }
-
-    if (ret.collision_type == 1) // hit
-    {
-        // push everything to the lua stack: Drone, Projectile, Damage, CollisionResponse
-        auto context = Global::GetInstance()->getLuaContext();
-        SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDroneTypes[this->type], 0);
-        CustomDamageManager::lua_PushCurrentProjectile(context);
-        SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
-        SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
-
-        // check drone-projectile collision callbacks
-        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DRONE_COLLISION, 4, 0);
-
-        // pop the stack
-        lua_pop(context->GetLua(), 4);
-
-        if (preempt) // a pre-empt will block the damage effect on the drone - script can also set collision type to 0 to prevent projectile death
-        {
-            return ret;
-        }
-        if (damage.iDamage > 0) // normal damage blows up drone
-        {
-            this->BlowUp(false);
-            return ret;
-        }
-        if (damage.iIonDamage > 0) // ion damage stuns drone only if there is no normal damage
-        {
-            if (this->powered)
-            {
-                this->ionStun = std::max(this->ionStun, static_cast<float>(damage.iIonDamage * 5));
             }
         }
     }
