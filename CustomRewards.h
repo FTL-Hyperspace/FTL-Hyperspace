@@ -14,15 +14,15 @@ struct CustomScrapScaling
 
     int GetReward(int worldLevel, float resourceAmount)
     {
-        worldLevel = std::max(0, worldLevel + difficultyAmount);
+        int sectorAmountMultiplier = std::max(0, worldLevel + difficultyAmount);
 
         if (amounts.empty()) // Not piecewise
         {
-            return (int)(resourceAmount / 1000.0 * (sectorAmount*worldLevel + baseAmount));
+            return (int)(resourceAmount / 1000.0 * (sectorAmount*sectorAmountMultiplier + baseAmount));
         }
         else if (worldLevel >= amounts.size()) // Extrapolate
         {
-            return (int)(resourceAmount / 1000.0 * (amounts.back() + sectorAmount*(worldLevel-amounts.size()+1)));
+            return (int)(resourceAmount / 1000.0 * (amounts.back() + sectorAmount*(sectorAmountMultiplier-amounts.size()+1)));
         }
         else // Piecewise
         {
