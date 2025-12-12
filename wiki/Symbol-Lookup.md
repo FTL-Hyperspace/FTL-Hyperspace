@@ -85,9 +85,6 @@ You can do this by adding a separator (`||` or `->`) after the symbol name, foll
 | **`\|\|`** | **Optional** | **"OR" Logic:** The scanner attempts Symbol Lookup first. If the symbol is found, the hex signature is ignored. If the symbol is missing, it runs the hex signature scan. |
 | **`->`** | **Chained** | **"Anchor" Logic:** If the symbol is found, the scanner uses the symbol's address as the *start* point for the hex signature scan. If the symbol is missing, it behaves like `\|\|` (runs the hex scan globally). |
 
-* `||`: Optional fallback: SigScan will only uses the fallback signature when symbol lookup fails.
-* `->`: Always fallback: After a successful symbol lookup, SigScan will continue scaning from symbol address. Does the same as `||` when symbol lookup fails.
-
 > **Note:** Do not use `->` if you are looking up a **global variable**. Use `||` for globals.
 
 ### Example: Hybrid Signature
