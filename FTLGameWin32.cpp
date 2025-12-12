@@ -17376,7 +17376,7 @@ namespace _func1253
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("ShipSystem::CheckDlcEnabled", typeid(void (ShipSystem::*)()), "@_ZN10ShipSystem15CheckDlcEnabledEv;", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("ShipSystem::CheckDlcEnabled", typeid(void (ShipSystem::*)()), "@ _ZN10ShipSystem15CheckDlcEnabledEv ", argdata, 1, 5, &func);
 }
 
 void ShipSystem::CheckDlcEnabled()
@@ -17390,7 +17390,7 @@ namespace _func1254
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipSystem::GetMannedDescription", typeid(std::string (*)(int , int )), "##><ShipSystem::GetMannedDescription", argdata, 3, 2, &func);
+	static FunctionDefinition funcObj("ShipSystem::GetMannedDescription", typeid(std::string (*)(int , int )), "## ShipSystem::GetMannedDescription ->", argdata, 3, 2, &func);
 }
 
 std::string ShipSystem::GetMannedDescription(int skillId, int level)
@@ -17404,7 +17404,7 @@ namespace _func1255
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("ShipSystem::GetGlowInfoForImage", typeid(ShipSystem::ConstComputerGlowInfo *(*)(const std::string &)), "++ShipSystem::GetGlowInfoForImage ( std:: string & )", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("ShipSystem::GetGlowInfoForImage", typeid(ShipSystem::ConstComputerGlowInfo *(*)(const std::string &)), "++ ShipSystem::GetGlowInfoForImage(std:: string&) ->", argdata, 1, 2, &func);
 }
 
 ShipSystem::ConstComputerGlowInfo *ShipSystem::GetGlowInfoForImage(const std::string &image)
@@ -17418,7 +17418,7 @@ namespace _func1256
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("ShipSystem::GetExploded", typeid(bool (ShipSystem::*)()), "++ShipSystem::GetExploded", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("ShipSystem::GetExploded", typeid(bool (ShipSystem::*)()), "++ ShipSystem::GetExploded ", argdata, 1, 1, &func);
 }
 
 bool ShipSystem::GetExploded()
@@ -17432,21 +17432,21 @@ void *symbol_lookup_test_001;
 
 namespace _var1257
 {
-    static VariableDefinition varObj("symbol_lookup_test_001", "++CrewMemberFactory::~CrewMemberFactory()", &symbol_lookup_test_001);
+    static VariableDefinition varObj("symbol_lookup_test_001", "++ CrewMemberFactory::~CrewMemberFactory() ", &symbol_lookup_test_001);
 }
 
 void *symbol_lookup_test_002;
 
 namespace _var1258
 {
-    static VariableDefinition varObj("symbol_lookup_test_002", "@adapdadcmapmopqpmcqcoqemcsdpqowkpqooqpqw>578d7c240883e4f0ff77fc5589e557565383ec2c8b1f85", &symbol_lookup_test_002);
+    static VariableDefinition varObj("symbol_lookup_test_002", "@ adapdadcmapmopqpmcqcoqemcsdpqowkpqooqpqw || f30f11542404c7042400000000e8????????a1(???????\?)890424e8????????e8????????", &symbol_lookup_test_002);
 }
 
 std::map<std::string, ShipSystem::ComputerGlowInfo> *ShipSystem__glowInfo;
 
 namespace _var1259
 {
-    static VariableDefinition varObj("ShipSystem__glowInfo", "##ShipSystem::glowInfo", &ShipSystem__glowInfo);
+    static VariableDefinition varObj("ShipSystem__glowInfo", "++ ^ShipSystem::glowInfo", &ShipSystem__glowInfo);
 }
 
 GL_Primitive **ShipSystem__glowBlue;

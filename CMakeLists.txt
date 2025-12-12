@@ -250,6 +250,7 @@ target_sources(
     StatBoost.h
     Store_Extend.cpp
     Store_Extend.h
+    StringView.h
     SymbolTable.cpp
     SymbolTable.h
     SystemDescriptionFixes.cpp
@@ -267,6 +268,7 @@ target_sources(
     TileBasedCrewMovement.h
     TimerHelper.cpp
     ToggleValue.h
+    TokenScanner.h
     TriggeredEvents.cpp
     Wormhole.cpp
     detours.h

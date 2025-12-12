@@ -1,6 +1,7 @@
 #include "SigScan.h"
 #include <string>
 #include "hde.h"
+#include "TokenScanner.h"
 #include "SymbolTable.h"
 
 #ifdef _WIN32
@@ -30,7 +31,7 @@ unsigned char *SigScan::s_pLastAddress = 0;
 
 //=====================================================================
 
-SigScan::SigScan(const char *sig) :
+SigScan::SigScan(const char *sig) noexcept :
 	m_iLength(0),
 	m_sig(nullptr),
 	m_mask(nullptr),
@@ -38,9 +39,11 @@ SigScan::SigScan(const char *sig) :
 	m_bNoReturnSeek(false),
 	m_bStartFromLastAddress(false),
 	m_bUseSymbolLookup(false),
-	m_bContinueFromSymbolLookup(false),
+	m_bHasFallback(false),
+	m_bAlwaysFallback(false),
+	m_bSymbolLookupSuccess(false),
 	m_symbolLookupType(SLType::BY_NAME),
-	m_symbolName(),
+	m_symbolName{"", 0},
 	m_pAddress(nullptr),
 	m_dist(0)
 {
@@ -59,191 +62,66 @@ SigScan::SigScan(const char *sig) :
 			s_lastMatches().pop_front();
 			m_matches = s_lastMatches();
 			m_iLength = 0;
-			m_sig = NULL;
-			m_mask = NULL;
+			m_sig = nullptr;
+			m_mask = nullptr;
 			return;
 		}
 	}
 
-	const char *real_sig_start = sig;
-	std::string real_sig{};
-	for(const char *p = sig ; *p; )
-	{
-		// regex equivalent /^@(.+)[;>]?/
-		if(*p == '@') { // If first character is '@', use symbol lookup
-			++p; // consume '@'
-			if (!*p) { // Malformed symbol name, ignore
-				real_sig_start = p;
-				break;
-			}
-			if (*p == ';' || *p == '>') { // Empty symbol name, ignore
-				++p;	// consume ';' or '>'
-				real_sig_start = p;
-				break;
-			}
-			const char *name_start = p;
-			while (*p && *p != ';' && *p != '>') { // Read symbol name until ';' or '>' or end of string
-				++p;
-			}
-			m_symbolName.assign(name_start, p);
-			m_symbolLookupType	= SLType::BY_NAME;
-			m_bUseSymbolLookup = true;
-			if(*p == '>') {	// If '>' is used, continue scanning from symbol address
-				m_bContinueFromSymbolLookup = true;
-				++p; // consume '>'
-				real_sig_start = p;
-				break;
-			}
-			// If ';' or end of string, do not continue scanning from symbol address
-			m_bContinueFromSymbolLookup = false;
-			while (*p) { // Skip to end of string
-				++p;
-			}
-			real_sig_start = p;
+	StringView sigView{sig};
+	const char* realSig = sigView.begin();
+	const char* sigEnd = sigView.end();
+
+	Scanner::SkipSpace(realSig);
+	for(; *realSig;) {
+		static constexpr std::initializer_list<StringView> tokenList = {
+			{"@@", 2}, {"@", 1}, {"##", 2}, {"#", 1}, {"++", 2}, {"+", 1}};
+		const size_t lookupType = Scanner::ConsumeAnyOf(realSig, tokenList);
+		if(lookupType == tokenList.size()) {
+			m_bUseSymbolLookup = false;
 			break;
 		}
-		// regex equivalent /^{(.+)}>?/
-		if(*p == '{') { // If first character is '{', use demangled symbol lookup
-			++p; // consume '{'
-			if (!*p) { // Malformed symbol name, ignore
-				real_sig_start = p;
+		Scanner::SkipSpace(realSig);
+		StringView symbolNameView{"", 0};
+		if(Scanner::MatchTrimmedEndsWith(realSig, sigEnd, {"||", 2}, symbolNameView)) {
+			if(symbolNameView.empty()) {
+				m_bUseSymbolLookup = false;
 				break;
 			}
-			if (*p == '}') { // Empty symbol name, ignore
-				++p;	// consume '}'
-				if (*p == '>') {
-					++p; // consume '>'
-				}
-				real_sig_start = p;
-				break;
-			}
-			const char *name_start = p;
-			while (*p && *p != '}') { // Read symbol name until '}' or end of string
-				++p;
-			}
-			if (*p) {
-				++p; // consume '}'
-			}
-			m_symbolName.assign(name_start, p);
-			m_symbolLookupType = SLType::BY_DEMANGLED_NAME;
+			m_bHasFallback = true;
+			m_bAlwaysFallback = false;
+			m_symbolName = symbolNameView;
+			m_symbolLookupType = static_cast<SLType>(lookupType);
 			m_bUseSymbolLookup = true;
-			if(*p == '>') {	// If '>' is used, continue scanning from symbol address
-				m_bContinueFromSymbolLookup = true;
-				++p; // consume '>'
-				real_sig_start = p;
-				break;
-			}
-			// If '>' is not used, do not continue scanning from symbol address
-			m_bContinueFromSymbolLookup = false;
-			while (*p) { // Skip to end of string
-				++p;
-			}
-			real_sig_start = p;
 			break;
 		}
-		// regex equivalent /^##?(>.*<)?(.+)$/
-		if (*p == '#') { // If first character is '#', use regex
-			++p; // consume '#'
-			bool is_demangled = false;
-			if (*p == '#') { // If second character is also '#', use demangled name regex
-				++p; // consume second '#'
-				is_demangled = true;
-			}
-			const char *real_sig_end = nullptr;
-			if (*p == '>') {
-				++p; // consume '>'
-				real_sig_start = p;
-				if (!*p) { // Malformed symbol name, ignore
-					break;
-				}
-				while (*p && *p != '<') { // Skip until '<' or end of string
-					++p;
-				}
-				if(!*p) {	// Continue as if it's normal signature if no closing '<' found
-					break;
-				}
-				real_sig_end = p;
-				++p; // consume '<'
-			}
-			if (!*p) { // Malformed symbol name, ignore
-				if (real_sig_end) {
-					real_sig.assign(real_sig_start, real_sig_end); // Extract real signature
-					real_sig_start = real_sig.c_str();
-				} else {
-					real_sig_start = p;
-				}
+		if(Scanner::MatchTrimmedUntil<true>(realSig, sigEnd, {"->", 2}, symbolNameView)) {
+			if(symbolNameView.empty()) {
+				m_bUseSymbolLookup = false;
 				break;
 			}
-			const char *name_start = p;
-			while (*p) { // Read until end of string
-				++p;
-			}
-			m_symbolName.assign(name_start, p);
-			m_symbolLookupType = is_demangled ? SLType::BY_DEMANGLED_NAME_REGEX : SLType::BY_NAME_REGEX;
-			m_bContinueFromSymbolLookup = real_sig_end != nullptr;
+			m_bHasFallback = true;
+			m_bAlwaysFallback = true;
+			m_symbolName = symbolNameView;
+			m_symbolLookupType = static_cast<SLType>(lookupType);
 			m_bUseSymbolLookup = true;
-			if (real_sig_end) {
-				real_sig.assign(real_sig_start, real_sig_end); // Extract real signature
-				real_sig_start = real_sig.c_str();
-			} else {
-				real_sig_start = p;
-			}
 			break;
 		}
-		// regex equivalent /^\+\+?(>.*<)?(.+)$/
-		if (*p == '+') { // If first character is '+', use simple pattern match
-			++p; // consume '+'
-			bool is_demangled = false;
-			if (*p == '+') { // If second character is also '+', use demangled name simple match
-				++p; // consume second '+'
-				is_demangled = true;
-			}
-			const char *real_sig_end = nullptr;
-			if (*p == '>') {
-				++p; // consume '>'
-				real_sig_start = p;
-				if (!*p) { // Malformed symbol name, ignore
-					break;
-				}
-				while (*p && *p != '<') { // Skip until '<' or end of string
-					++p;
-				}
-				if(!*p) {	// Continue as if it's normal signature if no closing '<' found
-					break;
-				}
-				real_sig_end = p;
-				++p; // consume '<'
-			}
-			if (!*p) { // Malformed symbol name, ignore
-				if (real_sig_end) {
-					real_sig.assign(real_sig_start, real_sig_end); // Extract real signature
-					real_sig_start = real_sig.c_str();
-				} else {
-					real_sig_start = p;
-				}
-				break;
-			}
-			const char *name_start = p;
-			while (*p) { // Read until end of string
-				++p;
-			}
-			m_symbolName.assign(name_start, p);
-			m_symbolLookupType = is_demangled ? SLType::BY_DEMANGLED_NAME_SIMPLE : SLType::BY_NAME_SIMPLE;
-			m_bContinueFromSymbolLookup = real_sig_end != nullptr;
-			m_bUseSymbolLookup = true;
-			if (real_sig_end) {
-				real_sig.assign(real_sig_start, real_sig_end); // Extract real signature
-				real_sig_start = real_sig.c_str();
-			} else {
-				real_sig_start = p;
-			}
+		if(symbolNameView.empty()) {
+			m_bUseSymbolLookup = false;
 			break;
 		}
+		m_bHasFallback = false;
+		m_bAlwaysFallback = false;
+		m_symbolName = symbolNameView;
+		m_symbolLookupType = static_cast<SLType>(lookupType);
+		m_bUseSymbolLookup = true;
 		break;
 	}
+	Scanner::SkipSpace(realSig);
 
 	int len = 0;
-	for(const char *p = real_sig_start ; *p ; ++p)
+	for(const char *p = realSig; *p; ++p)
 	{
 		char c = *p;
 		len += ((c>='a' && c<='f') || (c>='A' && c<='F') || (c>='0' && c<='9') || c=='?');
@@ -253,7 +131,7 @@ SigScan::SigScan(const char *sig) :
 	if(m_iLength == 0) {
 		m_sig = nullptr;
 		m_mask = nullptr;
-		for (const char *p = real_sig_start ; *p ; ++p) {
+		for (const char *p = realSig; *p; ++p) {
 			if (*p == '.') {
 				m_bStartFromLastAddress = true;
 				continue;
@@ -265,18 +143,26 @@ SigScan::SigScan(const char *sig) :
 		}
 		return;
 	}
-	m_sig = new unsigned char[m_iLength];
-	m_mask = new unsigned char[m_iLength];
+
+	try {
+		m_sig = new unsigned char[m_iLength];
+		m_mask = new unsigned char[m_iLength];
+	} catch(const std::bad_alloc&) {
+		m_sig = nullptr;
+		m_mask = nullptr;
+		m_iLength = 0;
+		return;
+	}
 
 	unsigned char *ps = m_sig;
 	unsigned char *pm = m_mask;
 
 	short matchStart = -1;
-	int i = 0;
+	short i = 0;
 
-	for(const char *p = real_sig_start ; *p ; ++p)
+	for(const char *p = realSig; *p; ++p)
 	{
-		int c = *p;
+		int c = static_cast<unsigned char>(*p);
 		if(c == '.')
 		{
 			m_bStartFromLastAddress = true;
@@ -297,7 +183,6 @@ SigScan::SigScan(const char *sig) :
 		if(c == ')')
 		{
 			m_matches.emplace_back(matchStart, i - matchStart);
-
 			matchStart = -1;
 			continue;
 		}
@@ -309,7 +194,7 @@ SigScan::SigScan(const char *sig) :
 
 		++p;
 
-		int d = *p;
+		int d = static_cast<unsigned char>(*p);
 		if(!d) break;
 		if(d >= '0' && d <= '9') d -= '0';
 		else if(d >= 'a' && d <= 'f') d -= ('a' - 10);
@@ -333,12 +218,11 @@ SigScan::SigScan(const char *sig) :
 
 //=====================================================================
 
-SigScan::~SigScan()
+SigScan::~SigScan() noexcept
 {
-	if(m_sig)
-		delete[] m_sig;
-	if(m_mask)
-		delete[] m_mask;
+	// 'if' statement is unnecessary; deleting null pointer has no effect 
+	delete[] m_sig;
+	delete[] m_mask;
 }
 
 bool SigScan::Scan(Callback callback)
@@ -360,37 +244,32 @@ bool SigScan::Scan(Callback callback)
 			case SLType::BY_NAME:
 				opt_symbol = GetSymbolByName(m_symbolName);
 				break;
-			case SLType::BY_DEMANGLED_NAME:
+			case SLType::BY_DEMANGLED:
 				opt_symbol = GetSymbolByDemangledName(m_symbolName);
 				break;
 			case SLType::BY_NAME_REGEX:
 				opt_symbol = GetSymbolByNameRegex(m_symbolName);
 				break;
-			case SLType::BY_DEMANGLED_NAME_REGEX:
+			case SLType::BY_DEMANGLED_REGEX:
 				opt_symbol = GetSymbolByDemangledNameRegex(m_symbolName);
 				break;
 			case SLType::BY_NAME_SIMPLE:
 				opt_symbol = GetSymbolByNameSimple(m_symbolName);
 				break;
-			case SLType::BY_DEMANGLED_NAME_SIMPLE:
+			case SLType::BY_DEMANGLED_SIMPLE:
 				opt_symbol = GetSymbolByDemangledNameSimple(m_symbolName);
 				break;
 		}
 		if(opt_symbol.has_value()) {
 			const Symbol& symbol = opt_symbol.value();
-			unsigned char * pSymbol = Symbol::IsOffset() ? s_pBase + symbol.address : reinterpret_cast<unsigned char*>(symbol.address);
-			if(!m_bContinueFromSymbolLookup) {
-				// Direct jump to symbol address
+			unsigned char *pSymbol = Symbol::IsOffset() ? s_pBase + symbol.address : reinterpret_cast<unsigned char*>(symbol.address);
+			m_bSymbolLookupSuccess = true;
+			if(!(m_bHasFallback && m_bAlwaysFallback)) {
+				// Symbol found and no fallback or not always fallback, just use symbol address
 				m_pAddress = pSymbol;
-				#ifdef DEBUG
-				printf("SigScan: Found symbol '%s' at address %p\n", m_symbolName.c_str(), pSymbol);
-				#endif // DEBUG
 				return true;
 			}
-			// Start scanning from symbol address
-			#ifdef DEBUG
-			printf("SigScan: Starting scan from symbol '%s' at address %p\n", m_symbolName.c_str(), pSymbol);
-			#endif // DEBUG
+			// Start scanning from symbol address if m_bHasFallback && m_bAlwaysFallback
 			pStart = pSymbol;
 			if(symbol.size == static_cast<std::size_t>(-1)) {
 				// Size unknown, just scan to end of module
@@ -399,17 +278,13 @@ bool SigScan::Scan(Callback callback)
 				pEnd = pStart + symbol.size;
 			}
 		} else {
-			// Symbol not found, fail the scan
-			if(!m_bContinueFromSymbolLookup) {
-				#ifdef DEBUG
-				printf("SigScan: Symbol '%s' not found in symbol table\n", m_symbolName.c_str());
-				#endif
+			m_bSymbolLookupSuccess = false;
+			if(!m_bHasFallback) {
+				// Symbol not found and no fallback sig, fail the scan
 				s_pLastAddress = s_pBase;
 				return false;
 			}
-			#ifdef DEBUG
-			printf("SigScan: Symbol '%s' not found in symbol table, fallback to sig\n", m_symbolName.c_str());
-			#endif
+			// Symbol not found, use fallback sig
 			if(m_bStartFromLastAddress) {
 				pStart = s_pLastAddress;
 			}
@@ -448,7 +323,7 @@ bool SigScan::Scan(Callback callback)
 			}
 			else
 			{
-				T_HDE s = {0};
+				T_HDE s{};
 				int n = 0;
 
 				do
@@ -464,8 +339,8 @@ bool SigScan::Scan(Callback callback)
 				}
 			}
 
-			for(auto it = m_matches.begin() ; it != m_matches.end() ; ++it)
-				it->address = m_pAddress + it->begin;
+			for(auto& match : m_matches)
+				match.address = m_pAddress + match.begin;
 
 			s_lastMatches() = m_matches;
 
@@ -484,9 +359,9 @@ void SigScan::Init()
 {
 	HMODULE hModule = GetModuleHandle(NULL);
 
-	s_pBase = (unsigned char*)hModule;
-	IMAGE_DOS_HEADER *dos = (IMAGE_DOS_HEADER*)s_pBase;
-	IMAGE_NT_HEADERS *pe = (IMAGE_NT_HEADERS*)(s_pBase + dos->e_lfanew);
+	s_pBase = reinterpret_cast<unsigned char*>(hModule);
+	auto *dos = reinterpret_cast<IMAGE_DOS_HEADER*>(s_pBase);
+	auto *pe = reinterpret_cast<IMAGE_NT_HEADERS*>(s_pBase + dos->e_lfanew);
 
 	if(pe->Signature != IMAGE_NT_SIGNATURE)
 	{

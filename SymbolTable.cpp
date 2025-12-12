@@ -1,19 +1,11 @@
 #include "SymbolTable.h"
-#include <algorithm>
-#include <boost/algorithm/string/predicate.hpp>
-// #include <boost/regex.hpp>
-#include <iomanip>
-#include <iostream>
-#include <memory>
-#include <regex>
+#include <array>
+#include <boost/regex.hpp>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-#ifdef USE_BOOST_DEMANGLE
-#include <boost/core/demangle.hpp>
-#else
-#include <cxxabi.h>
+#if defined(DEBUG)
+#include <iostream>
 #endif
 
 // ==========================================
@@ -39,73 +31,136 @@
 #endif
 
 using SymbolStorage = std::vector<Symbol>;
-using SymbolTable = std::unordered_map<std::string, Symbol&>;
+using SymbolTable = std::unordered_map<StringView, Symbol&, HashStringView>;
 
 // Check if text starts with any of the given prefixes
-static bool starts_with_any(const std::string& text, std::initializer_list<const char*> prefixes) {
-    return std::any_of(prefixes.begin(), prefixes.end(),
-                       [&text](const char* prefix) {
-                           return boost::algorithm::starts_with(text, prefix);
-                       });
+[[maybe_unused]]
+static bool starts_with_any(StringView text, std::initializer_list<StringView> prefixes) noexcept {
+    for (auto prefix : prefixes) {
+        if (text.starts_with(prefix)) {
+            return true;
+        }
+    }
+    return false;
 }
 
-// Simple pattern matching function (non-regex) with delimiter support
-bool simpleMatch(const std::string& text, const std::string& pattern, char delimiter = ' ') {
-    if (pattern.empty())
+static bool is_space_char(char c) noexcept {
+    return c == '\t' || c == '\n' || c == '\v' ||
+           c == '\f' || c == '\r' || c == ' ';
+}
+
+static bool is_word_char(char c) noexcept {
+    return (c >= 'a' && c <= 'z') ||
+           (c >= 'A' && c <= 'Z') ||
+           (c >= '0' && c <= '9') ||
+           c == '_' || c == ':' || c == '~';
+}
+
+/**
+ * Simple pattern matching function (non-regex)
+ * Checks if the source string matches the sequence of tokens defined in the query.
+ * Rules:
+ * 1. Tokens are words ([0-9a-zA-Z_:~]+) or single non-space characters.
+ * 2. Spaces are ignored/delimiters.
+ * 3. '^' at start: First token must match the start of source.
+ * 4. '$' at end: Last token must match the end of source.
+ * 5. Tokens must appear in order (non-overlapping).
+ */
+static bool simpleMatch(StringView source, StringView query) noexcept {
+    if (query.empty())
         return true;
 
-    size_t text_pos = 0;
-    size_t pattern_pos = 0;
-    size_t pattern_len = pattern.length();
-    while (pattern_pos < pattern_len) {
-        if (pattern[pattern_pos] == delimiter) {
-            pattern_pos++;
-            continue;
+    const size_t qLen = query.length();
+    size_t qIdx = 0;
+
+    // Check Anchors
+    bool anchorStart = false;
+    bool anchorEnd = false;
+    size_t effectiveQLen = qLen;
+    if (qLen > 0 && query[0] == '^') {
+        anchorStart = true;
+        qIdx = 1;
+    }
+    if (qLen > qIdx && query[qLen - 1] == '$') {
+        anchorEnd = true;
+        effectiveQLen--;
+    }
+
+    size_t sIdx = 0;  // Source Index
+    const size_t sLen = source.length();
+    bool isFirstToken = true;
+    while (qIdx < effectiveQLen) {
+        while (qIdx < effectiveQLen && is_space_char(query[qIdx])) {
+            qIdx++;
         }
-        size_t next_delim_pos = pattern.find(delimiter, pattern_pos);
-        size_t token_len = 0;
-        if (next_delim_pos == std::string::npos) {
-            token_len = pattern_len - pattern_pos;
+        if (qIdx == effectiveQLen)
+            break;
+        size_t tokStart = qIdx;
+        if (is_word_char(query[qIdx])) {
+            qIdx++;
+            while (qIdx < effectiveQLen) {
+                if (!is_word_char(query[qIdx]))
+                    break;
+                qIdx++;
+            }
         } else {
-            token_len = next_delim_pos - pattern_pos;
+            qIdx++;
         }
-        size_t found_pos = text.find(&pattern[pattern_pos], text_pos, token_len);
-        if (found_pos == std::string::npos) {
-            return false;
+        size_t tokLen = qIdx - tokStart;
+        bool isLastToken = (anchorEnd && qIdx == effectiveQLen);
+        if (anchorEnd && !isLastToken) {
+            // Edge case: query might be "word1 word2 $".
+            // We just consumed "word1". qIdx is at space.
+            // We need to peek to see if only spaces remain.
+            size_t temp = qIdx;
+            while (temp < effectiveQLen && is_space_char(query[temp]))
+                temp++;
+            if (temp == effectiveQLen)
+                isLastToken = true;
         }
-        text_pos = found_pos + token_len;
-        pattern_pos += token_len;
+        if (isFirstToken && anchorStart) {
+            if (sIdx + tokLen > sLen)
+                return false;
+            // Compare substring directly
+            if (source.compare(sIdx, tokLen, query, tokStart, tokLen) != 0)
+                return false;
+            sIdx += tokLen;
+        } else if (isLastToken) {  // implicitly && anchorEnd due to bool definition above
+            if (tokLen > sLen)
+                return false;
+            size_t matchPos = sLen - tokLen;
+            if (matchPos < sIdx)
+                return false;  // Overlap check
+            if (source.compare(matchPos, tokLen, query, tokStart, tokLen) != 0)
+                return false;
+            return true;
+        } else {
+            size_t foundPos = 0;
+            if (tokLen == 1) {
+                foundPos = source.find(query[tokStart], sIdx);
+            } else {
+                foundPos = source.find(&query[tokStart], sIdx, tokLen);
+            }
+            if (foundPos == StringView::npos)
+                return false;
+            sIdx = foundPos + tokLen;
+        }
+        isFirstToken = false;
     }
     return true;
 }
 
-static std::string demangle(const std::string& mangled_name) {
-    const char* name_cstr = mangled_name.c_str();
-#ifdef USE_BOOST_DEMANGLE
-    return boost::core::demangle(name_cstr);
-#else
-    int status = -1;
-    // Use std::unique_ptr for automatic memory management of the demangled name
-    std::unique_ptr<char, decltype(&std::free)> demangled_name_ptr(
-        abi::__cxa_demangle(name_cstr, nullptr, nullptr, &status),
-        &std::free);
-    if (status != 0) {
-        return mangled_name;  // Demangling failed, return original name
-    }
-    return demangled_name_ptr.get();
-#endif
-}
-
-static SymbolStorage sortSymbols(SymbolStorage&& symbols) {
+static SymbolStorage sortSymbols(SymbolStorage&& symbols) noexcept {
     if (symbols.empty()) {
         return symbols;
     }
-    std::sort(symbols.begin(), symbols.end(), [](const Symbol& a, const Symbol& b) {
+    std::sort(symbols.begin(), symbols.end(), [](const Symbol& a, const Symbol& b) noexcept {
         if (a.address == b.address) {
             return a.name < b.name;
         }
         return a.address < b.address;
     });
+#ifndef SYMBOL_TABLE_CPP_USE_REAL_SIZE
     auto n = static_cast<std::ptrdiff_t>(symbols.size());
     symbols[n - 1].size = -1;  // Size unknown for last symbol
     for (std::ptrdiff_t i = n - 2; i >= 0; --i) {
@@ -115,13 +170,15 @@ static SymbolStorage sortSymbols(SymbolStorage&& symbols) {
             symbols[i].size = symbols[i + 1].size;
         }
     }
+#endif
     return symbols;
 }
 
 static SymbolTable toTable(SymbolStorage& symbols) {
     SymbolTable symbolTable{};
     for (auto& sym : symbols) {
-        auto result = symbolTable.emplace(sym.name, sym);
+        const auto& name = sym.name;
+        auto result = symbolTable.emplace(StringView{name.data(), name.size()}, sym);
         if (!result.second) {
             auto& existingSym = result.first->second;
             if (existingSym.address != sym.address) {
@@ -130,7 +187,8 @@ static SymbolTable toTable(SymbolStorage& symbols) {
         }
     }
     for (auto& sym : symbols) {
-        auto it = symbolTable.find(sym.name);
+        const auto& name = sym.name;
+        auto it = symbolTable.find(StringView{name.data(), name.size()});
         if (it != symbolTable.end() && it->second.ambiguous) {
             sym.ambiguous = true;
         }
@@ -141,7 +199,8 @@ static SymbolTable toTable(SymbolStorage& symbols) {
 static SymbolTable toTableDemangled(SymbolStorage& symbols) {
     SymbolTable symbolTable{};
     for (auto& sym : symbols) {
-        auto result = symbolTable.emplace(sym.demangled_name, sym);
+        const auto& name = sym.demangled;
+        auto result = symbolTable.emplace(StringView{name.data(), name.size()}, sym);
         if (!result.second) {
             auto& existingSym = result.first->second;
             if (existingSym.address != sym.address) {
@@ -150,7 +209,8 @@ static SymbolTable toTableDemangled(SymbolStorage& symbols) {
         }
     }
     for (auto& sym : symbols) {
-        auto it = symbolTable.find(sym.demangled_name);
+        const auto& name = sym.demangled;
+        auto it = symbolTable.find(StringView{name.data(), name.size()});
         if (it != symbolTable.end() && it->second.ambiguous_demangle) {
             sym.ambiguous_demangle = true;
         }
@@ -161,10 +221,10 @@ static SymbolTable toTableDemangled(SymbolStorage& symbols) {
 // ==========================================
 //        Cross-Platform Mapped File
 // ==========================================
-class MappedFile {
-   public:
+struct MappedFile {
     const char* data;
     size_t size;
+    bool success;
 
 #ifdef _WIN32
     HANDLE hFile;
@@ -175,69 +235,81 @@ class MappedFile {
     MappedFile(MappedFile&&) = delete;
     MappedFile& operator=(const MappedFile&) = delete;
     MappedFile& operator=(MappedFile&&) = delete;
-    MappedFile(const std::string& filename)
-        : hFile(CreateFile(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr)) {
-        if (hFile == INVALID_HANDLE_VALUE)
-            throw std::runtime_error("Could not open file");
-
+    MappedFile(const char* filename) noexcept
+        : data(nullptr),
+          size(0),
+          success(false),
+          hFile(CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr)),
+          hMap(nullptr) {
+        if (hFile == INVALID_HANDLE_VALUE) {
+            // Could not open file
+            return;
+        }
         LARGE_INTEGER fs;
         if (!GetFileSizeEx(hFile, &fs)) {
-            CloseHandle(hFile);
-            throw std::runtime_error("Could not get file size");
+            // Could not get file size
+            return;
         }
         size = static_cast<size_t>(fs.QuadPart);
-
-        hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
+        hMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
         if (!hMap) {
-            CloseHandle(hFile);
-            throw std::runtime_error("Could not create file mapping");
+            // Could not create file mapping
+            return;
         }
-
         data = static_cast<const char*>(MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0));
         if (!data) {
-            CloseHandle(hMap);
-            CloseHandle(hFile);
-            throw std::runtime_error("Could not map view of file");
+            // Could not map view of file
+            return;
         }
+        success = true;
     }
 
-    ~MappedFile() {
-        if (data)
+    ~MappedFile() noexcept {
+        if (data) {
             UnmapViewOfFile(data);
-        if (hMap)
+        }
+        if (hMap) {
             CloseHandle(hMap);
-        if (hFile != INVALID_HANDLE_VALUE)
+        }
+        if (hFile != INVALID_HANDLE_VALUE) {
             CloseHandle(hFile);
+        }
     }
 #else
     // POSIX Implementation (Linux & macOS)
     int fd;
 
-    MappedFile(const std::string& filename)
-        : fd{open(filename.c_str(), O_RDONLY)} {
-        if (fd < 0)
-            throw std::runtime_error("Could not open file");
-
+    MappedFile(const char* filename) noexcept
+        : data(nullptr),
+          size(0),
+          success(false),
+          fd{open(filename, O_RDONLY)} {
+        if (fd < 0) {
+            // Could not open file
+            return;
+        }
         struct stat st;
         if (fstat(fd, &st) < 0) {
-            close(fd);
-            throw std::runtime_error("Could not stat file");
+            // Could not stat file
+            return;
         }
         size = st.st_size;
-
         void* ptr = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
         if (ptr == MAP_FAILED) {
-            close(fd);
-            throw std::runtime_error("Could not mmap file");
+            // Could not mmap file
+            return;
         }
         data = static_cast<const char*>(ptr);
+        success = true;
     }
 
-    ~MappedFile() {
-        if (data != MAP_FAILED)
-            munmap((void*)data, size);
-        if (fd >= 0)
+    ~MappedFile() noexcept {
+        if (data != MAP_FAILED) {
+            munmap(const_cast<char*>(data), size);
+        }
+        if (fd >= 0) {
             close(fd);
+        }
     }
 #endif
 };
@@ -248,31 +320,35 @@ class MappedFile {
 // ==========================================
 
 template <typename Ehdr, typename Shdr, typename Sym>
-static SymbolStorage process_elf(const char* data_ptr) {
-    auto ehdr = reinterpret_cast<const Ehdr*>(data_ptr);
-    auto section_headers = reinterpret_cast<const Shdr*>(data_ptr + ehdr->e_shoff);
+static SymbolStorage processELF(const char* data_ptr) noexcept {
+    const auto* ehdr = reinterpret_cast<const Ehdr*>(data_ptr);
+    const auto* section_headers = reinterpret_cast<const Shdr*>(data_ptr + ehdr->e_shoff);
 
     SymbolStorage storage{};
-    for (int i = 0; i < ehdr->e_shnum; ++i) {
+    for (size_t i = 0; i < ehdr->e_shnum; ++i) {
         const Shdr& shdr = section_headers[i];
-        if (shdr.sh_type == SHT_SYMTAB || shdr.sh_type == SHT_DYNSYM) {
+        if (shdr.sh_type == SHT_SYMTAB) {
             const Sym* symbols = reinterpret_cast<const Sym*>(data_ptr + shdr.sh_offset);
-            int symbol_count = shdr.sh_size / sizeof(Sym);
+            size_t symbol_count = shdr.sh_size / sizeof(Sym);
 
             const Shdr& str_shdr = section_headers[shdr.sh_link];
             const char* str_tab = data_ptr + str_shdr.sh_offset;
 
-            for (int j = 0; j < symbol_count; ++j) {
+            for (size_t j = 0; j < symbol_count; ++j) {
                 const Sym& sym = symbols[j];
-                std::string sym_name = str_tab + sym.st_name;
-                if (!sym_name.empty()) {
-                    storage.emplace_back(Symbol{
-                        sym_name,
-                        demangle(sym_name),
-                        sym.st_value,
-                        static_cast<size_t>(-1),
-                        false,
-                        false});
+                if (sym.st_value == 0) {
+                    continue;
+                }
+                StringView sym_name{str_tab + sym.st_name};
+                if (!sym_name.empty() && !starts_with_any(sym_name, {".L", "._"})) {
+                    try {
+#ifdef SYMBOL_TABLE_CPP_USE_REAL_SIZE
+                        storage.emplace_back(std::string{sym_name.data(), sym_name.size()}, sym.st_value, sym.st_size);
+#else
+                        storage.emplace_back(std::string{sym_name.data(), sym_name.size()}, sym.st_value);
+#endif
+                    } catch (...) {
+                    }
                 }
             }
         }
@@ -285,16 +361,16 @@ static SymbolStorage process_elf(const char* data_ptr) {
 //           WINDOWS PE LOGIC
 // ==========================================
 
-static std::vector<Symbol> process_pe(const char* data) {
+static std::vector<Symbol> processPE(const char* data) noexcept {
     const auto* dosHeader = reinterpret_cast<const IMAGE_DOS_HEADER*>(data);
     if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE) {
-        std::cerr << "Error: Not a valid DOS/PE header.\n";
+        // Error: Not a valid DOS/PE header.
         return {};
     }
 
     const auto* ntHeaders32 = reinterpret_cast<const IMAGE_NT_HEADERS32*>(data + dosHeader->e_lfanew);
     if (ntHeaders32->Signature != IMAGE_NT_SIGNATURE) {
-        std::cerr << "Error: Not a valid PE signature.\n";
+        // Error: Not a valid PE signature.
         return {};
     }
 
@@ -322,14 +398,15 @@ static std::vector<Symbol> process_pe(const char* data) {
     }
 
     if (pointerToSymbolTable == 0) {
-        std::cerr << "No COFF Symbol Table (stripped?).\n";
+        // Error: No COFF Symbol Table (stripped?).
         return {};
     }
 
     const auto* symbolRoot = reinterpret_cast<const IMAGE_SYMBOL*>(data + pointerToSymbolTable);
     const char* stringTable = data + pointerToSymbolTable + (numberOfSymbols * IMAGE_SIZEOF_SYMBOL);
 
-    std::vector<Symbol> symbols;
+    SymbolStorage symbols{};
+    std::array<char, 16> buffer{};
     for (DWORD i = 0; i < numberOfSymbols; ++i) {
         const IMAGE_SYMBOL& sym = symbolRoot[i];
         /* https://learn.microsoft.com/en-us/windows/win32/debug/pe-format
@@ -348,28 +425,24 @@ static std::vector<Symbol> process_pe(const char* data) {
           The offset of the symbol within the section. If the Value field is zero, then the symbol represents a section name.*/
         if (sym.SectionNumber > 0 && sym.SectionNumber <= numSections &&
             (sym.StorageClass == IMAGE_SYM_CLASS_EXTERNAL || sym.StorageClass == IMAGE_SYM_CLASS_STATIC)) {
-            std::string name;
+            StringView nameView{"", 0};
             if (sym.N.Name.Short == 0) {
-                name.assign(stringTable + sym.N.Name.Long);
+                nameView = stringTable + sym.N.Name.Long;
             } else {
-                name.assign(reinterpret_cast<const char*>(sym.N.ShortName), 8);
-                size_t nullPos = name.find('\0');
-                if (nullPos != std::string::npos)
-                    name.resize(nullPos);
+                buffer.fill('\0');
+                std::memcpy(buffer.data(), sym.N.ShortName, sizeof(sym.N.ShortName));
+                nameView = buffer.data();
             }
-            if (!name.empty() && name[0] == '_') {
-                name = name.substr(1);  // Remove leading underscore
+            if (!nameView.empty() && nameView[0] == '_') {
+                nameView.remove_prefix(1);  // Remove leading underscore
             }
-            if (!name.empty() &&
-                !starts_with_any(name, {".text", ".bss", ".debug", ".idata", ".rdata", ".data", ".ctors"})) {
+            if (!nameView.empty() &&
+                !starts_with_any(nameView, {".text", ".bss", ".debug", ".idata", ".rdata", ".data", ".ctors"})) {
                 uintptr_t finalAddr = imageBase + sections[sym.SectionNumber - 1].VirtualAddress + sym.Value;
-                symbols.emplace_back(Symbol{
-                    name,
-                    demangle(name),
-                    finalAddr,
-                    static_cast<size_t>(-1),
-                    false,
-                    false});
+                try {
+                    symbols.emplace_back(std::string{nameView.data(), nameView.size()}, finalAddr);
+                } catch (...) {
+                }
             }
         }
         i += sym.NumberOfAuxSymbols;
@@ -377,28 +450,27 @@ static std::vector<Symbol> process_pe(const char* data) {
     return symbols;
 }
 
+#elif defined(__APPLE__)
 // ==========================================
 //           MACOS MACH-O LOGIC
 // ==========================================
-#elif defined(__APPLE__)
 
 // Template to handle both mach_header (32) and mach_header_64
 template <typename MachHeader, typename Nlist>
-static SymbolStorage process_macho_slice(const char* data_ptr) {
-    auto header = reinterpret_cast<const MachHeader*>(data_ptr);
-    int width = (sizeof(MachHeader) == sizeof(struct mach_header)) ? 8 : 16;
+static SymbolStorage processMac(const char* data_ptr) noexcept {
+    auto* header = reinterpret_cast<const MachHeader*>(data_ptr);
 
     // Load commands follow immediately after the header
     const char* cmd_ptr = data_ptr + sizeof(MachHeader);
 
-    SymbolStorage symbols;
+    SymbolStorage symbols{};
     // Iterate through Load Commands
     for (uint32_t i = 0; i < header->ncmds; ++i) {
-        auto lc = reinterpret_cast<const struct load_command*>(cmd_ptr);
+        auto* lc = reinterpret_cast<const load_command*>(cmd_ptr);
 
         // We are looking for the Symbol Table command
         if (lc->cmd == LC_SYMTAB) {
-            auto symtab = reinterpret_cast<const struct symtab_command*>(lc);
+            auto* symtab = reinterpret_cast<const symtab_command*>(lc);
 
             // Pointers to Symbol table and String table
             // Offsets are from the start of the file (or the start of the fat slice)
@@ -423,11 +495,12 @@ static SymbolStorage process_macho_slice(const char* data_ptr) {
 
                 // Mach-O symbols usually have a leading underscore in the string table
                 const char* raw_name = str_table + sym.n_un.n_strx;
-                std::string name = raw_name;
-                /* std::cout << "0x" << std::hex << std::setw(width) << std::setfill('0')
-                          << sym.n_value << " " << name << std::dec << "\n"; */
-                if (!name.empty())
-                    symbols.emplace_back(name, sym.n_value, -1);
+                try {
+                    std::string name = raw_name;
+                    if (!name.empty())
+                        symbols.emplace_back(std::move(name), sym.n_value);
+                } catch (...) {
+                }
             }
         }
 
@@ -439,64 +512,57 @@ static SymbolStorage process_macho_slice(const char* data_ptr) {
 
 #endif
 
-static std::string getProcessFilePath() {
+static std::string getProcessFilePath() noexcept {
+    try {
+        char path[4096]{};
 #if defined(_WIN32)
-    char path[MAX_PATH]{};
-    GetModuleFileNameA(nullptr, path, MAX_PATH);
-    return path;
+        if (GetModuleFileName(nullptr, path, sizeof(path) - 1)) {
+            return path;
+        }
 #elif defined(__linux__)
-    char path[4096];
-    ssize_t len = readlink("/proc/self/exe", path, sizeof(path) - 1);
-    if (len != -1) {
-        path[len] = '\0';
-        return std::string(path);
-    }
-    return "";
+        ssize_t len = readlink("/proc/self/exe", path, sizeof(path) - 1);
+        if (len != -1) {
+            path[len] = '\0';
+            return path;
+        }
 #elif defined(__APPLE__)
-    char path[4096];
-    uint32_t size = sizeof(path);
-    if (_NSGetExecutablePath(path, &size) == 0) {
-        return std::string(path);
-    }
-    return "";
+        uint32_t size = sizeof(path);
+        if (_NSGetExecutablePath(path, &size) == 0) {
+            return path;
+        }
 #else
 #error "Unsupported OS"
 #endif
-}
-
-static SymbolStorage process_file(const std::string& filename) {
-    if (filename.empty()) {
-        std::cerr << "Error: Filename is empty.\n";
+        return {};
+    } catch (...) {
         return {};
     }
-#if defined(_WIN32)
-    try {
-        MappedFile file(filename);
-        return process_pe(file.data);
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+}
+
+static SymbolStorage processFile(const std::string& filenameString) noexcept {
+    if (filenameString.empty()) {
+        // Error: Filename is empty.
+        return {};
     }
+    const char* filename = filenameString.c_str();
+    MappedFile file(filename);
+    if (file.success) {
+#if defined(_WIN32)
+        return processPE(file.data);
 #elif defined(__linux__)
-    try {
-        MappedFile file(filename);
         if (std::memcmp(file.data, ELFMAG, SELFMAG) != 0) {
-            std::cerr << "Error: Not a valid ELF file.\n";
+            // Error: Not a valid ELF file.
             return {};
         }
         uint8_t elf_class = file.data[EI_CLASS];
         if (elf_class == ELFCLASS32)
-            return process_elf<Elf32_Ehdr, Elf32_Shdr, Elf32_Sym>(file.data);
+            return processELF<Elf32_Ehdr, Elf32_Shdr, Elf32_Sym>(file.data);
         else if (elf_class == ELFCLASS64)
-            return process_elf<Elf64_Ehdr, Elf64_Shdr, Elf64_Sym>(file.data);
+            return processELF<Elf64_Ehdr, Elf64_Shdr, Elf64_Sym>(file.data);
         else {
-            std::cerr << "Error: Unknown ELF class.\n";
+            // Error: Unknown ELF class.
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
-    }
 #elif defined(__APPLE__)
-    try {
-        MappedFile file(filename);
         const char* data_ptr = file.data;
 
         // Check for Universal (Fat) Binary
@@ -527,152 +593,187 @@ static SymbolStorage process_file(const std::string& filename) {
 
         // 2. Process Mach-O (Thin)
         if (magic == MH_MAGIC_64) {
-            return process_macho_slice<struct mach_header_64, struct nlist_64>(data_ptr);
+            return processMac<struct mach_header_64, struct nlist_64>(data_ptr);
         } else if (magic == MH_MAGIC) {
-            return process_macho_slice<struct mach_header, struct nlist>(data_ptr);
+            return processMac<struct mach_header, struct nlist>(data_ptr);
         } else {
-            std::cerr << "Error: Unknown Magic 0x" << std::hex << magic << ". Not a valid Mach-O file.\n";
+            // Error: Not a valid Mach-O file.
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
-    }
 #else
 #error "Unsupported OS"
 #endif
+    }
     return {};
 }
 
-SymbolStorage& GetSymbolStorage() {
-    static SymbolStorage symbolStorage{sortSymbols(process_file(getProcessFilePath()))};
+SymbolStorage& GetStaticSymbolStorage(const std::string& filename = getProcessFilePath()) {
+    static SymbolStorage symbolStorage{sortSymbols(processFile(filename))};
     return symbolStorage;
 }
 
 const SymbolTable& GetSymbolTableByName() {
-    static const SymbolTable symbolTable{toTable(GetSymbolStorage())};
+    static const SymbolTable symbolTable{toTable(GetStaticSymbolStorage())};
     return symbolTable;
 }
 
 const SymbolTable& GetSymbolTableByDemangledName() {
-    static const SymbolTable symbolTable{toTableDemangled(GetSymbolStorage())};
+    static const SymbolTable symbolTable{toTableDemangled(GetStaticSymbolStorage())};
     return symbolTable;
 }
 
-boost::optional<const Symbol&> GetSymbolByName(const std::string& name, bool allow_ambiguous) {
-    const auto& table = GetSymbolTableByName();
-    auto it = table.find(name);
-    if (it != table.end() && (allow_ambiguous || !it->second.ambiguous)) {
-        return it->second;
-    }
-    return boost::none;
-}
-
-boost::optional<const Symbol&> GetSymbolByDemangledName(const std::string& name, bool allow_ambiguous) {
-    const auto& table = GetSymbolTableByDemangledName();
-    auto it = table.find(name);
-    if (it != table.end() && (allow_ambiguous || !it->second.ambiguous_demangle)) {
-        return it->second;
-    }
-    return boost::none;
-}
-
-boost::optional<const Symbol&> GetSymbolByNameRegex(const std::string& pattern, bool allow_ambiguous) {
-    const auto& storage = GetSymbolStorage();
-    std::regex regex_pattern(pattern);
-    const Symbol* match = nullptr;
-    for (const auto& symbol : storage) {
-        if (std::regex_search(symbol.name, regex_pattern)) {
-            if (allow_ambiguous) {
-                return symbol;
-            }
-            if (match && match->address != symbol.address) {
-                return boost::none;  // Multiple matches found
-            }
-            match = &symbol;
+boost::optional<const Symbol&> GetSymbolByName(StringView name, bool allow_ambiguous) noexcept {
+    try {
+        const auto& table = GetSymbolTableByName();
+        auto it = table.find(name);
+        if (it != table.end() && (allow_ambiguous || !it->second.ambiguous)) {
+            return it->second;
         }
+        return boost::none;
+    } catch (...) {
+        return boost::none;
     }
-    if (match) {
-        return *match;
-    }
-    return boost::none;
 }
 
-boost::optional<const Symbol&> GetSymbolByDemangledNameRegex(const std::string& pattern, bool allow_ambiguous) {
-    const auto& storage = GetSymbolStorage();
-    std::regex regex_pattern(pattern);
-    const Symbol* match = nullptr;
-    for (const auto& symbol : storage) {
-        if (std::regex_search(symbol.demangled_name, regex_pattern)) {
-            if (allow_ambiguous) {
-                return symbol;
-            }
-            if (match && match->address != symbol.address) {
-                return boost::none;  // Multiple matches found
-            }
-            match = &symbol;
+boost::optional<const Symbol&> GetSymbolByDemangledName(StringView name, bool allow_ambiguous) noexcept {
+    try {
+        const auto& table = GetSymbolTableByDemangledName();
+        auto it = table.find(name);
+        if (it != table.end() && (allow_ambiguous || !it->second.ambiguous_demangle)) {
+            return it->second;
         }
+        return boost::none;
+    } catch (...) {
+        return boost::none;
     }
-    if (match) {
-        return *match;
-    }
-    return boost::none;
 }
 
-boost::optional<const Symbol&> GetSymbolByNameSimple(const std::string& pattern, char delimiter, bool allow_ambiguous) {
-    const auto& storage = GetSymbolStorage();
-    const Symbol* match = nullptr;
-    for (const auto& symbol : storage) {
-        if (simpleMatch(symbol.name, pattern, delimiter)) {
-            if (allow_ambiguous) {
-                return symbol;
+boost::optional<const Symbol&> GetSymbolByNameRegex(StringView pattern, bool allow_ambiguous) noexcept {
+    try {
+        const auto& storage = GetStaticSymbolStorage();
+        boost::regex regex_pattern(pattern.cbegin(), pattern.cend());
+        const Symbol* match = nullptr;
+        constexpr boost::match_flag_type flags = boost::match_default;
+        for (const auto& symbol : storage) {
+            if (boost::regex_search(symbol.name, regex_pattern, flags)) {
+                if (allow_ambiguous) {
+                    return symbol;
+                }
+                if (match && match->address != symbol.address) {
+                    return boost::none;  // Multiple matches found
+                }
+                match = &symbol;
             }
-            if (match && match->address != symbol.address) {
-                return boost::none;  // Multiple matches found
-            }
-            match = &symbol;
         }
-    }
-    if (match) {
-        return *match;
-    }
-    return boost::none;
-}
-
-boost::optional<const Symbol&> GetSymbolByDemangledNameSimple(const std::string& pattern, char delimiter, bool allow_ambiguous) {
-    const auto& storage = GetSymbolStorage();
-    const Symbol* match = nullptr;
-    for (const auto& symbol : storage) {
-        if (simpleMatch(symbol.demangled_name, pattern, delimiter)) {
-            if (allow_ambiguous) {
-                return symbol;
-            }
-            if (match && match->address != symbol.address) {
-                return boost::none;  // Multiple matches found
-            }
-            match = &symbol;
+        if (match) {
+            return *match;
         }
+        return boost::none;
+#ifdef DEBUG
+    } catch (std::exception& e) {
+        std::cerr << "Error while name regex search:" << pattern << ':' << e.what() << '\n';
+        return boost::none;
+#endif
+    } catch (...) {
+        return boost::none;
     }
-    if (match) {
-        return *match;
-    }
-    return boost::none;
 }
 
-#ifdef IS_MAIN_EXE
+boost::optional<const Symbol&> GetSymbolByDemangledNameRegex(StringView pattern, bool allow_ambiguous) noexcept {
+    try {
+        const auto& storage = GetStaticSymbolStorage();
+        boost::regex regex_pattern(pattern.cbegin(), pattern.cend());
+        const Symbol* match = nullptr;
+        constexpr boost::match_flag_type flags = boost::match_default;
+        for (const auto& symbol : storage) {
+            if (boost::regex_search(symbol.demangled, regex_pattern, flags)) {
+                if (allow_ambiguous) {
+                    return symbol;
+                }
+                if (match && match->address != symbol.address) {
+                    return boost::none;  // Multiple matches found
+                }
+                match = &symbol;
+            }
+        }
+        if (match) {
+            return *match;
+        }
+        return boost::none;
+#ifdef DEBUG
+    } catch (std::exception& e) {
+        std::cerr << "Error while demangled regex search:" << pattern << ':' << e.what() << '\n';
+        return boost::none;
+#endif
+    } catch (...) {
+        return boost::none;
+    }
+}
+
+boost::optional<const Symbol&> GetSymbolByNameSimple(StringView pattern, bool allow_ambiguous) noexcept {
+    try {
+        const auto& storage = GetStaticSymbolStorage();
+        const Symbol* match = nullptr;
+        for (const auto& symbol : storage) {
+            if (simpleMatch(symbol.name, pattern)) {
+                if (allow_ambiguous) {
+                    return symbol;
+                }
+                if (match && match->address != symbol.address) {
+                    return boost::none;  // Multiple matches found
+                }
+                match = &symbol;
+            }
+        }
+        if (match) {
+            return *match;
+        }
+        return boost::none;
+    } catch (...) {
+        return boost::none;
+    }
+}
+
+boost::optional<const Symbol&> GetSymbolByDemangledNameSimple(StringView pattern, bool allow_ambiguous) noexcept {
+    try {
+        const auto& storage = GetStaticSymbolStorage();
+        const Symbol* match = nullptr;
+        for (const auto& symbol : storage) {
+            if (simpleMatch(symbol.demangled, pattern)) {
+                if (allow_ambiguous) {
+                    return symbol;
+                }
+                if (match && match->address != symbol.address) {
+                    return boost::none;  // Multiple matches found
+                }
+                match = &symbol;
+            }
+        }
+        if (match) {
+            return *match;
+        }
+        return boost::none;
+    } catch (...) {
+        return boost::none;
+    }
+}
+
+#ifdef SYMBOL_TABLE_CPP_AS_MAIN_EXE
+#include <iomanip>
+#include <iostream>
 
 int main(int argc, char** argv) {
     if (argc < 2) {
         std::cout << "Usage: " << argv[0] << " <binary_path>\n";
         return 1;
     }
-
     std::string filename = argv[1];
     if (filename.empty()) {
         std::cerr << "Error: Filename is empty.\n";
         return 1;
     }
-    auto symbols = sortSymbols(process_file(filename));
-    toTable(symbols);
-    toTableDemangled(symbols);
+    const auto& symbols = GetStaticSymbolStorage(filename);
+    GetSymbolTableByName();
+    GetSymbolTableByDemangledName();
     if (argc >= 3) {
         std::string query = argv[2];
         auto opt_sym = GetSymbolByNameRegex(query, true);
@@ -686,7 +787,7 @@ int main(int argc, char** argv) {
         auto opt_sym2 = GetSymbolByDemangledNameRegex(query, true);
         if (opt_sym2.has_value()) {
             const Symbol& sym = opt_sym2.value();
-            std::cout << "Found symbol by demangled name: " << sym.demangled_name << " at address 0x"
+            std::cout << "Found symbol by demangled name: " << sym.demangled << " at address 0x"
                       << std::hex << sym.address << "\n";
         } else {
             std::cout << "Symbol not found by demangled name: " << query << "\n";
@@ -704,7 +805,7 @@ int main(int argc, char** argv) {
             std::cout << " |  ";
         std::cout << std::hex << std::setw(16) << std::setfill('0') << sym.address << " +"
                   << std::hex << std::setw(4) << std::setfill('0') << sym.size << " "
-                  << sym.name << " {" << sym.demangled_name << "}\n";
+                  << sym.name << " {" << sym.demangled << "}\n";
     }
     return 0;
 }

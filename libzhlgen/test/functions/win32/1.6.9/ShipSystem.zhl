@@ -83,23 +83,23 @@ __thiscall TimerHelper ShipSystem::GetLockTimer(ShipSystem *this);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b1f85":
 __thiscall void ShipSystem::IonDamage(ShipSystem *this, int amount);
 
-"@_ZN10ShipSystem15CheckDlcEnabledEv;":
+"@ _ZN10ShipSystem15CheckDlcEnabledEv ":
 __thiscall void ShipSystem::CheckDlcEnabled(ShipSystem *this);
-"##><ShipSystem::GetMannedDescription":
+"## ShipSystem::GetMannedDescription ->":
 static cleanup __cdecl std::string ShipSystem::GetMannedDescription(int skillId, int level);
 
-"++ShipSystem::GetGlowInfoForImage ( std:: string & )":
+"++ ShipSystem::GetGlowInfoForImage(std:: string&) ->":
 static cleanup __cdecl ShipSystem::ConstComputerGlowInfo* ShipSystem::GetGlowInfoForImage(const std::string& image);
 
-"++ShipSystem::GetExploded":
+"++ ShipSystem::GetExploded ":
 __thiscall bool ShipSystem::GetExploded(ShipSystem *this);
 
-"++CrewMemberFactory::~CrewMemberFactory()":
+"++ CrewMemberFactory::~CrewMemberFactory() ":
 void* symbol_lookup_test_001;
-"@adapdadcmapmopqpmcqcoqemcsdpqowkpqooqpqw>578d7c240883e4f0ff77fc5589e557565383ec2c8b1f85":
+"@ adapdadcmapmopqpmcqcoqemcsdpqowkpqooqpqw || f30f11542404c7042400000000e8????????a1(???????\?)890424e8????????e8????????":
 void* symbol_lookup_test_002;
 
-"##ShipSystem::glowInfo":
+"++ ^ShipSystem::glowInfo":
 std::map<std::string, ShipSystem::ComputerGlowInfo>* ShipSystem__glowInfo;
 
 "f30f11542404c7042400000000e8????????a1(???????\?)890424e8????????e8????????":

@@ -93,10 +93,10 @@ static void Log(const char *format, ...)
 	va_end(va);
 }
 
-template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size], const char *name, const char *type)
+template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size], const char *name, const char *type) noexcept
 {
-	char tmp[128];
-	strncpy(tmp, type, 128);
+	char tmp[128]{};
+	std::strncpy(tmp, type, sizeof(tmp) - 1);
 
 	const char *p = tmp;
 	if(p[0] == '.')
@@ -109,7 +109,7 @@ template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size],
 		}
 	}
 
-	snprintf(dst, Size, "%s%s", name, p);
+	std::snprintf(dst, Size, "%s%s", name, p);
 	return dst;
 }
 
@@ -132,7 +132,7 @@ static char g_defLastError[1024] = {0};
 
 const char *Definition::GetLastError() {return g_defLastError;}
 
-void FunctionDefinition::SetName(const char *name, const char *type)
+void FunctionDefinition::SetName(const char *name, const char *type) noexcept
 {
 	ConvertToUniqueName(_name, name, type);
 }
@@ -153,14 +153,18 @@ Definition *Definition::Find(const char *name)
 	auto it = DefsByName().find(name);
 	if(it != DefsByName().end())
 		return (*it).second;
-	else
-		return NULL;
+	return nullptr;
 }
 
-void Definition::Add(const char *name, Definition *def)
+bool Definition::Add(const char *name, Definition *def) noexcept
 {
-	Defs().push_back(def);
-	DefsByName().insert(std::pair<std::string, Definition*>(name, def));
+	try {
+		Defs().push_back(def);
+		DefsByName().insert(std::pair<std::string, Definition*>(name, def));
+		return true;
+	} catch (...) {
+		return false;
+	}
 }
 
 
@@ -177,10 +181,24 @@ int VariableDefinition::Load()
 		snprintf(g_defLastError, 1024, "Failed to find value for variable %s, address could not be found", _name);
 		return 0;
 	}
-	if(sig.IsSymbolLookup()) {
-		*static_cast<void**>(_outVar) = sig.GetAddress<void*>();
-		Log("Found address for %s via symbol lookup (%s): " PTR_PRINT_F "\n", _name, sig.GetSymbolLookupType(), *(static_cast<uintptr_t*>(_outVar)));
-		return 1;
+
+	if (sig.IsSymbolLookup()) {
+		if (sig.AlwaysFallback()) {
+			Log("Warning: symbol lookup for %s: always fallback should not be used for variable, this could be a mistake\n", _name);
+		}
+		if (sig.IsSymbolLookupSuccess()) {
+			if (!(sig.HasFallbackSig() && sig.AlwaysFallback())) {
+				*static_cast<void**>(_outVar) = sig.GetAddress<void*>();
+				Log("Found address for %s via symbol lookup (%s): " PTR_PRINT_F "\n",
+					_name, sig.GetSymbolLookupType(), *static_cast<uintptr_t*>(_outVar));
+				return 1;
+			}
+		} else if (!sig.HasFallbackSig()) {
+			snprintf(g_defLastError, 1024, "Failed to find address for variable %s via symbol lookup", _name);
+			return 0;
+		} else {
+			Log("Symbol lookup failed for variable %s, using fallback sig...\n", _name);
+		}
 	}
 
 	if(sig.GetMatchCount() == 0)
@@ -223,6 +241,10 @@ int VariableDefinition::Load()
 int NoOpDefinition::Load()
 {
 	SigScan sig(_sig);
+	if(sig.IsSymbolLookup()) {
+		snprintf(g_defLastError, 1024, "Symbol lookup not supported for NoOpDefinition, address could not be found for %s", _name);
+		return 0;
+	}
 	if(!sig.Scan())
 	{
 		snprintf(g_defLastError, 1024, "Failed to find match for no-op region %s, address could not be found", _name);
@@ -256,26 +278,9 @@ int NoOpDefinition::Load()
 //================================================================================
 // FunctionDefinition
 
-FunctionDefinition::FunctionDefinition(const char *name, const std::type_info &type, const char* sig, const short *argdata, int nArgs, unsigned int flags, void **outfunc)
-{
-    _argdata = argdata;
-    _nArgs = nArgs;
-    _flags = flags;
-    _outFunc = outfunc;
-
-
-
-    SetName(name, type.name());
-    strcpy(_name, name);
-    strcpy(_sig, sig);
-
-    Add(_name, this);
-
-}
-
 int FunctionDefinition::Load()
 {
-	SigScan sig = SigScan(_sig);
+	SigScan sig{_sig};
 
 	if(!sig.Scan())
 	{
@@ -293,8 +298,15 @@ int FunctionDefinition::Load()
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
 	if (sig.IsSymbolLookup()) {
-		Log("Found address for %s via symbol lookup (%s): " PTR_PRINT_F "\n", _name, sig.GetSymbolLookupType(), reinterpret_cast<uintptr_t>(_address));
-		return 1;
+		if (sig.IsSymbolLookupSuccess()) {
+			Log("Found address for %s via symbol lookup (%s): " PTR_PRINT_F "\n", _name, sig.GetSymbolLookupType(), reinterpret_cast<uintptr_t>(_address));
+			return 1;
+		}
+		if (!sig.HasFallbackSig()) {
+			snprintf(g_defLastError, 1024, "Failed to find address for function %s via symbol lookup", _name);
+			return 0;
+		}
+		Log("Symbol lookup failed for function %s, using fallback sig...\n", _name);
 	}
 	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, reinterpret_cast<uintptr_t>(_address), sig.GetDistance());
 	return 1;
@@ -316,23 +328,26 @@ static std::multimap<int, FunctionHook_private*, std::greater<int>> &FuncHooks()
 
 static char g_hookLastError[1024] = {0};
 
-FunctionHook_private::FunctionHook_private(const char *name, const std::type_info &type, void *hook, void **outInternalSuper, int priority) :
-		_hook(hook),
-		_outInternalSuper(outInternalSuper),
-		_hSize(0),
-		_sSize(0),
-		_detour(NULL),
-		_priority(priority)
+FunctionHook_private::FunctionHook_private(const char *name, const std::type_info &type, void *hook, void **outInternalSuper, int priority) noexcept :
+	_name(),
+	_outInternalSuper(outInternalSuper),
+	_internalHook(),
+	_internalSuper(),
+	_hSize(0),
+	_sSize(0),
+	_priority(priority),
+	_detour(nullptr),
+	_hook(hook)
 {
     SetName(name, type.name());
-    memcpy(&_outInternalSuper, &outInternalSuper, POINTER_BYTES);
-	strcpy(_name, name);
+    std::memcpy(&_outInternalSuper, &outInternalSuper, POINTER_BYTES);
+	std::strncpy(_name, name, sizeof(_name) - 1);
 	Add(this);
 }
 
 const char *FunctionHook_private::GetLastError() {return g_hookLastError;}
 
-void FunctionHook_private::SetName(const char *name, const char *type)
+void FunctionHook_private::SetName(const char *name, const char *type) noexcept
 {
 	ConvertToUniqueName(_name, name, type);
 }
@@ -346,9 +361,14 @@ int FunctionHook_private::Init()
 	return 1;
 }
 
-void FunctionHook_private::Add(FunctionHook_private *hook)
+bool FunctionHook_private::Add(FunctionHook_private *hook) noexcept
 {
-	FuncHooks().insert(std::pair<int, FunctionHook_private*>(hook->_priority, hook));
+	try{
+		FuncHooks().insert(std::pair<int, FunctionHook_private*>(hook->_priority, hook));
+		return true;
+	} catch(...) {
+		return false;
+	}
 }
 
 #define P(x) *(ptr++) = (x)
@@ -358,7 +378,7 @@ void FunctionHook_private::Add(FunctionHook_private *hook)
 FunctionHook_private::~FunctionHook_private()
 {
 	if(_detour)
-		delete (MologieDetours::Detour<void*>*)_detour;
+		delete static_cast<MologieDetours::Detour<void*>*>(_detour);
 }
 
 int FunctionHook_private::Install()
