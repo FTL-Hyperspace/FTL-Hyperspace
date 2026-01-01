@@ -634,6 +634,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "seeNeutralShipRooms") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->seeNeutralShipRooms.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->seeNeutralShipRooms.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "dualMedical") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
