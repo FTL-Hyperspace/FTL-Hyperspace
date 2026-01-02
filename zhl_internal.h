@@ -1,6 +1,7 @@
 #pragma once
 
 #include "zhl.h"
+#include <cstring>
 
 namespace ZHL
 {
@@ -13,7 +14,7 @@ public:
 	static Definition *Find(const char *name);
 
 protected:
-	static void Add(const char *name, Definition *def);
+	static bool Add(const char *name, Definition *def) noexcept;
 
 public:
 	virtual int Load() = 0;
@@ -26,23 +27,34 @@ public:
 class FunctionDefinition : public Definition
 {
 private:
-	char _name[256];
+	char _name[256]{};
 
-	char _sig[512];
+	char _sig[512]{};
 	const short *_argdata;
 	int _nArgs;
 	void **_outFunc;
-	void *_address;
+	void *_address{};
 
 	unsigned int _flags;
 
-private:
-	void SetName(const char *name, const char *type);
+	void SetName(const char *name, const char *type) noexcept;
 
 public:
-	FunctionDefinition(const char *name, const std::type_info &type, const char *sig, const short *argdata, int nArgs, unsigned int flags, void **outfunc);
+	FunctionDefinition(const char *name, const std::type_info &type, const char* sig, const short *argdata, int nArgs, unsigned int flags, void **outfunc) noexcept :
+		_argdata(argdata),
+		_nArgs(nArgs),
+		_outFunc(outfunc),
+		_flags(flags)
+	{
+    	SetName(name, type.name());
+		std::strncpy(_name, name, sizeof(_name) - 1);
+    	std::strncpy(_sig, sig, sizeof(_sig) - 1);
+    	if(!Add(_name, this)) {
+			// error
+		}
+	}
 
-	virtual int Load();
+	int Load() override;
 
 #ifdef __i386__
 #ifdef _WIN32
@@ -74,17 +86,19 @@ private:
 	const bool _useOffset;
 
 public:
-	VariableDefinition(const char *name, const char *sig, void *outvar, bool useValue = true, bool useOffset = false) :
+	VariableDefinition(const char *name, const char *sig, void *outvar, bool useValue = true, bool useOffset = false) noexcept :
+        _outVar(outvar),
         _name(name),
         _sig(sig),
-        _outVar(outvar),
         _useValue(useValue),
         _useOffset(useOffset)
     {
-        Add(_name, this);
+        if(!Add(_name, this)) {
+			// error
+		}
     }
 
-	virtual int Load();
+	int Load() override;
 };
 
 //=================================================================================================
@@ -96,14 +110,16 @@ private:
 	const char *_sig;
 
 public:
-	NoOpDefinition(const char *name, const char *sig) :
+	NoOpDefinition(const char *name, const char *sig) noexcept :
         _name(name),
         _sig(sig)
     {
-        Add(_name, this);
+        if(!Add(_name, this)) {
+			// error
+		}
     }
 
-	virtual int Load();
+	int Load() override;
 };
 
 }
