@@ -234,6 +234,10 @@ ionDelayInitial: if defined, determines how long the drone takes to trigger the 
 
 <controllableIonDroneFix enabled="false" ionDelay="6" ionDelayInitial="6"/>
 
+<!--Unpowered drones can be stunned and destroyed by enemy ion projectiles if enabled.-->
+
+<droneIonDodgeFix enabled="false"/>
+
 <!--  Shows the power list of crew that are moused over
 Primarily useful for mods that add significant amounts of custom crew
 

@@ -402,6 +402,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "droneIonDodgeFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->droneIonDodgeFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();
