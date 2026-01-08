@@ -25,6 +25,14 @@ The **Hyperspace Profile Save Format** (`hs_prof.sav`) extends FTL's original ac
 | version                  | s4
 | opened_list              | s4
 | achievements             | achievement_block
++--------------------------+
+|   HYPERSPACE EXTENSIONS  |
++--------------------------+
+| custom_ship_unlocks      | custom_ship_unlocks_block
+| custom_achievements      | custom_achievements_block # only v3, but version stored in a separate file...
+| custom_ship_scores       | custom_ship_scores_block
+| meta_variables           | meta_variables_block # only v3, but version stored in a separate file...
++--------------------------+
 | ship_unlocks             | 12 x ship_unlock_layout
 | top_scores               | score_block
 | ship_scores              | score_block
@@ -32,13 +40,6 @@ The **Hyperspace Profile Save Format** (`hs_prof.sav`) extends FTL's original ac
 | games_played             | s4
 | victories                | s4
 | crew_stats               | 5 x crew_stat
-+--------------------------+
-|   HYPERSPACE EXTENSIONS  |
-+--------------------------+
-| custom_ship_unlocks      | custom_ship_unlocks_block
-| custom_achievements      | custom_achievements_block
-| custom_ship_scores       | custom_ship_scores_block
-| meta_variables           | meta_variables_block
 +--------------------------+
 ```
 
@@ -353,7 +354,7 @@ struct CustomAchievement
 
 #### Block 3: custom_ship_scores (custom_ship_scores_block)
 
-**Purpose**: Stores custom ship high scores (up to 4 per ship).
+**Purpose**: Stores custom ship high scores
 
 **Structure**:
 
@@ -362,7 +363,7 @@ custom_ship_scores:
   ship_scores_count: s4                   # Number of ships with scores
   ship_scores[]:
     ship_blueprint: len_str                # Ship blueprint name
-    scores_count: s4                       # Number of scores (max 4)
+    scores_count: s4                       # Number of scores
     scores[]: ship_score                   # Score entries:
                                           # - ship_name (len_str)
                                           # - blueprint (len_str)
@@ -494,21 +495,6 @@ Profile settings are configured via `Mod Files/data/hyperspace.xml`:
 
 ---
 
-## Save Format Comparison
-
-### Vanilla FTL vs Hyperspace
-
-| Section | Vanilla FTL | Hyperspace |
-|---------|-------------|------------|
-| Version | 4-9 | Same (vanilla header) |
-| Ship Slots | 12 fixed | Same + custom ships in extensions |
-| Achievements | Fixed list | Same + custom achievements |
-| Ship Unlocks | Layout A/C only | Same + custom unlock tracking |
-| Scores | Per-ship lists | Same + custom ship scores |
-| Victory Types | Flagship only | Same + custom victory types |
-| Meta Variables | None | Yes (for achievement tracking) |
-
----
 
 ## Key Implementation Files
 
@@ -519,8 +505,8 @@ Profile settings are configured via `Mod Files/data/hyperspace.xml`:
 | `ShipUnlocks.cpp` | Custom ship unlock serialization |
 | `CustomAchievements.cpp` | Achievement save/load |
 | `CustomScoreKeeper.cpp` | Score/meta-variable save/load, main hooks |
-| `reference/ae_prof.ksy` | Original FTL format schema |
-| `reference/hs_prof.ksy` | Hyperspace extended format schema |
+| `ae_prof.ksy` | Original FTL format schema |
+| `hs_prof.ksy` | Hyperspace extended format schema |
 
 ---
 
@@ -542,18 +528,3 @@ ksc -t cpp reference/hs_prof.ksy
 ```
 
 ---
-
-## References
-
-- **Original Format**: `reference/ae_prof.ksy`
-- **Hyperspace Extended Format**: `reference/hs_prof.ksy`
-- **Main Hook File**: `SaveFile.cpp`
-- **Ship Unlocks**: `ShipUnlocks.cpp`, `ShipUnlocks.h`
-- **Achievements**: `CustomAchievements.cpp`, `CustomAchievements.h`
-- **Score Tracking**: `CustomScoreKeeper.cpp`, `CustomScoreKeeper.h`
-
----
-
-*Document generated for FTL Hyperspace mod development*
-*Format Version: 3*
-*Last Updated: 2025*
