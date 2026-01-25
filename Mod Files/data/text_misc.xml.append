@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.21.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.21.1)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -290,6 +290,10 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <!--shotLimit warning text-->
 <text name="warning_shot_limit">SHOT LIMIT REACHED</text>
 <!--Credits-->
+
+<mod:findName type="text" name="matthew_justin">
+  <mod:setValue>Matthew Davis and Jay Ma</mod:setValue>
+</mod:findName>
 
 <text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai">Controlled by its precise onboard AI</text>
