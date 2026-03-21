@@ -500,7 +500,6 @@ HOOK_METHOD_PRIORITY(ShipStatus, RenderHealth, 9999, (bool renderText) -> void)
 
 // For further reference to you who want to rewrite RenderShields, RenderEvadeOxygen or RenderResources. Note that they are inlined here.
 // Rewritten by Dino.
-/*
 HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipStatus::OnRender -> Begin (HullNumbers.cpp)\n")
@@ -618,7 +617,7 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 
     // Render evade and oxygen
     GL_Primitive *currentEvadeOxygenBox;
-    if (this->ship->GetNetDodgeFactor() == 0)
+    if (this->ship->GetNetDodgeFactor() <= 0)
     {
         if (oxygenMessage->tracker.done || !oxygenMessage->tracker.running || (oxygenMessage->flash && (oxygenMessage->flashTracker.Progress(-1.f) > 0.5f)))
         {
@@ -719,4 +718,3 @@ HOOK_METHOD_PRIORITY(ShipStatus, OnRender, 9999, () -> void)
 
     CSurface::GL_PopMatrix();
 }
-*/
