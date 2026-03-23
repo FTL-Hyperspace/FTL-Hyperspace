@@ -36,6 +36,8 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting<bool> droneIonDodgeFix;
+
     Setting<bool> redesignedWeaponTooltips;
     Setting<bool> redesignedCrewTooltips;
     Setting<bool> redesignedDroneTooltips;
