@@ -45,7 +45,7 @@ For maximum compatibility with other mods, don't redistribute the Hyperspace res
 
 Development:
 	TheSwiftTiger
-	Winderps
+	Amyseni (Winderps)
 	ih8ih8sn0w
 	Admiral Billy
 	laszlogasd
@@ -55,12 +55,14 @@ Development:
 	Pepson
 	ranhai
 	sillysandvich
+	The Dumb Dino
 Art:
 	SaltyFriedRice
 
 = Special Thanks =
 
 _Kilburn
+zerofreed
 slow (slowriderxcorps)
 Masala
 bamalf
