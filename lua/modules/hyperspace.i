@@ -320,6 +320,7 @@ namespace std {
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_Projectile) vector<Projectile*>;
     %template(vector_Animation) vector<Animation>;
+    %template(vector_vector_Animation) vector<vector<Animation>>;
 	%template(vector_MiniProjectile) vector<WeaponBlueprint::MiniProjectile>;
 //	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
     %template(pair_int_int) pair<int, int>;
@@ -363,6 +364,12 @@ namespace std {
     %template(vector_AugmentCrystalShard) vector<AugmentCrystalShard>;
     %template(vector_p_ShipButtonList) vector<ShipButtonList*>;
     %template(vector_p_GL_Texture) vector<GL_Texture*>;
+    %template(vector_p_ArmamentBox) std::vector<ArmamentBox*>;
+    %template(vector_p_ActivatedPowerDefinition) vector<ActivatedPowerDefinition*>;
+    %template(vector_AnimationTracker) vector<AnimationTracker>;
+    %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
+    %template(vector_bool) vector<bool>;
+    %template(vector_vector_bool) vector<vector<bool>>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -499,6 +506,10 @@ public:
     static bool IsSeededRun();
     %immutable;
     static unsigned int currentSeed;
+    %immutable;
+    static Point* dronePosition;
+    %immutable;
+    static Point* weaponPosition;
 };
 
 void ErrorMessage(const char* msg);
@@ -1030,6 +1041,7 @@ playerVariableType playerVariables;
 %rename("%s") CombatControl;
 %rename("%s") CombatControl::playerShipPosition;
 %rename("%s") CombatControl::weapControl;
+%rename("%s") CombatControl::droneControl;
 %rename("%s") CombatControl::position;
 %rename("%s") CombatControl::selectedRoom;
 %rename("%s") CombatControl::selectedSelfRoom;
@@ -1055,6 +1067,37 @@ playerVariableType playerVariables;
 %rename("%s") CrewControl::worldFirstMouse;
 %rename("%s") CrewControl::worldCurrentMouse;
 
+%nodefaultctor ArmamentBox;
+%nodefaultdtor ArmamentBox;
+%rename("%s") ArmamentBox;
+%rename("%s") ArmamentBox::Powered;
+%rename("%s") ArmamentBox::iconName;
+%rename("%s") ArmamentBox::iconBackgroundName;
+%rename("%s") ArmamentBox::lastIconPos;
+%rename("%s") ArmamentBox::location;
+%rename("%s") ArmamentBox::xOffset;
+%rename("%s") ArmamentBox::largeIconOffset;
+%rename("%s") ArmamentBox::nameOffset;
+%rename("%s") ArmamentBox::nameWidth;
+%rename("%s") ArmamentBox::mouseHover;
+%rename("%s") ArmamentBox::selected;
+%rename("%s") ArmamentBox::hotKey;
+%rename("%s") ArmamentBox::iconColor;
+%rename("%s") ArmamentBox::droneVariation;
+%rename("%s") ArmamentBox::bIoned;
+
+%nodefaultctor ArmamentControl;
+%nodefaultdtor ArmamentControl;
+%rename("%s") ArmamentControl;
+%rename("%s") ArmamentControl::IsDragging;
+%rename("%s") ArmamentControl::SelectArmament;
+%rename("%s") ArmamentControl::DeselectArmament;
+%rename("%s") ArmamentControl::SwapArmaments;
+%rename("%s") ArmamentControl::systemId;
+%rename("%s") ArmamentControl::boxes;
+%rename("%s") ArmamentControl::location;
+%rename("%s") ArmamentControl::bDragging;
+
 %nodefaultctor WeaponControl;
 %nodefaultdtor WeaponControl;
 %rename("%s") WeaponControl;
@@ -1062,6 +1105,11 @@ playerVariableType playerVariables;
 %rename("%s") WeaponControl::autoFiring;
 %immutable WeaponControl::autoFiring;
 %rename("%s") WeaponControl::armedSlot;
+
+%nodefaultctor DroneControl;
+%nodefaultdtor DroneControl;
+%rename("%s") DroneControl;
+%rename("%s") DroneControl::SelectArmament;
 
 %rename("%s") Button;
 %rename("%s") Button::OnInit;
@@ -2893,6 +2941,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CustomShipSelect::GetRandomShipIndex;
 %rename("%s") CustomShipSelect::ShipCount;
 %rename("%s") CustomShipSelect::customShipOrder;
+%rename("%s") CustomShipSelect::shipSelect;
 
 %nodefaultctor ShipButtonDefinition;
 %nodefaultdtor ShipButtonDefinition;
@@ -2906,6 +2955,23 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipButtonList::GetPage;
 %rename("%s") ShipButtonList::GetId;
 %rename("%s") ShipButtonList::GetIndex;
+%rename("%s") ShipButtonList::GetButton;
+
+%nodefaultctor ShipSelect;
+%nodefaultdtor ShipSelect;
+%rename("%s") ShipSelect;
+%rename("%s") ShipSelect::selectedShip;
+%rename("%s") ShipSelect::currentType;
+
+%nodefaultctor ShipButton;
+%rename("%s") ShipButton;
+%rename("%s") ShipButton::iShipImage;
+%rename("%s") ShipButton::bShipLocked;
+%rename("%s") ShipButton::bLayoutLocked;
+%rename("%s") ShipButton::bNoExist;
+// %rename("%s") ShipButton::achievements;
+%rename("%s") ShipButton::iSelectedAch;
+%rename("%s") ShipButton::bSelected;
 
 %nodefaultctor CustomShipDefinition;
 %nodefaultdtor CustomShipDefinition;
@@ -3450,6 +3516,12 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") CrewMember::movementTarget;
 %rename("%s") CrewMember::bCloned;
 
+%rename("%s") BoardingGoal;
+%rename("%s") BoardingGoal::fHealthLimit;
+%rename("%s") BoardingGoal::causedDamage;
+%rename("%s") BoardingGoal::targetsDestroyed;
+%rename("%s") BoardingGoal::target;
+%rename("%s") BoardingGoal::damageType;
 
 %nodefaultctor CrewAnimation;
 %nodefaultdtor CrewAnimation;
@@ -4182,6 +4254,8 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") TemporaryPowerDefinition::oxygenChangeSpeed;
 %rename("%s") TemporaryPowerDefinition::canPhaseThroughDoors;
 %rename("%s") TemporaryPowerDefinition::fireDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::persDamageMultiplier;
+%rename("%s") TemporaryPowerDefinition::persHealMultiplier;
 %rename("%s") TemporaryPowerDefinition::isTelepathic;
 %rename("%s") TemporaryPowerDefinition::resistsMindControl;
 %rename("%s") TemporaryPowerDefinition::isAnaerobic;
