@@ -79,7 +79,9 @@ const std::array<std::string, numStats> crewStats =
     "powerCharges",
     "chargesPerJump",
     "powerCooldown",
-    "transformRace"
+    "transformRace",
+    "persDamageMultiplier",
+    "persHealMultiplier",
 };
 
 std::vector<StatBoostDefinition*> StatBoostDefinition::statBoostDefs = std::vector<StatBoostDefinition*>();
@@ -2255,6 +2257,12 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             _CALCULATE_BASE_STAT(*boolValue, noWarning);
             isBool = true;
             break;
+        case CrewStat::PERS_DAMAGE_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, persDamageMultiplier);
+            break;
+        case CrewStat::PERS_HEAL_MULTIPLIER:
+            _CALCULATE_BASE_STAT(finalStat, persHealMultiplier);
+            break;
     }
 
     std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
@@ -2291,7 +2299,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
     //Perform lua calculations prior to applied statboosts
     SWIG_NewPointerObj(L, orig, context->getLibScript()->types.pCrewMember, 0);
     lua_pushinteger(L, static_cast<unsigned int>(stat));
-    SWIG_NewPointerObj(L, &def, context->getLibScript()->types.pCrewDefinition, 0);
+    SWIG_NewPointerObj(L, def, context->getLibScript()->types.pCrewDefinition, 0);
     lua_pushnumber(L, finalStat);
     lua_pushboolean(L, isBool && *boolValue);
     bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_STAT_PRE, 5, 2);
@@ -2772,7 +2780,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         //Perform additional lua calculations
         SWIG_NewPointerObj(L, orig, context->getLibScript()->types.pCrewMember, 0);
         lua_pushinteger(L, static_cast<unsigned int>(stat));
-        SWIG_NewPointerObj(L, &def, context->getLibScript()->types.pCrewDefinition, 0);
+        SWIG_NewPointerObj(L, def, context->getLibScript()->types.pCrewDefinition, 0);
         lua_pushnumber(L, finalStat);
         lua_pushboolean(L, isBool && *boolValue);
         context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::CALCULATE_STAT_POST, 5, 2);

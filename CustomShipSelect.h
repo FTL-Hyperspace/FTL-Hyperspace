@@ -424,6 +424,7 @@ public:
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
+    ShipSelect* shipSelect;
 
     bool showShipAchievements = false;
     bool shipAchievementsToggle = false;
@@ -439,7 +440,6 @@ public:
     }
 
 private:
-    ShipSelect* shipSelect;
     Button* leftButton;
     Button* rightButton;
 
