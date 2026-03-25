@@ -27,11 +27,11 @@ public:
 	void *_hook;
 
 private:
-	static void Add(FunctionHook_private *hook);
-	void SetName(const char *name, const char *type);
+	static bool Add(FunctionHook_private *hook) noexcept;
+	void SetName(const char *name, const char *type) noexcept;
 	int Install();
 
 public:
-	FunctionHook_private(const char *name, const std::type_info &type, void *hook, void **outInternalSuper, int priority);
+	FunctionHook_private(const char *name, const std::type_info &type, void *hook, void **outInternalSuper, int priority) noexcept;
 	~FunctionHook_private();
 };

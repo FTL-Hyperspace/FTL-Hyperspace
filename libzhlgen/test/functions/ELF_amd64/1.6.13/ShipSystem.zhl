@@ -113,8 +113,35 @@ cleanup __amd64 void ShipSystem::constructor(ShipSystem *this, int systemId, int
 "55534889fbbf????????4883ec18f30f1144240c":
 cleanup __amd64 bool ShipSystem::PartialDamage(ShipSystem *this, float amount); /* Thunk of ShipSystem::DamageOverTime, maybe it can be used instead? */
 
+"@ _ZN10ShipSystem15CheckDlcEnabledEv ":
+cleanup __amd64 void ShipSystem::CheckDlcEnabled(ShipSystem *this);
+"## ShipSystem::GetMannedDescription ->":
+static cleanup __amd64 std::string ShipSystem::GetMannedDescription(int skillId, int level);
+
+"++ ShipSystem::GetGlowInfoForImage(std:: string&) ->":
+static cleanup __amd64 ShipSystem::ConstComputerGlowInfo* ShipSystem::GetGlowInfoForImage(const std::string& image);
+
+"++ ShipSystem::GetExploded ":
+cleanup __amd64 bool ShipSystem::GetExploded(ShipSystem *this);
+
+"++ CrewMemberFactory::~CrewMemberFactory() ":
+void* symbol_lookup_test_001;
+"@ adapdadcmapmopqpmcqcoqemcsdpqowkpqooqpqw || !488b3d(???????\?)":
+void* symbol_lookup_test_002;
+
+"++ ^ShipSystem::glowInfo":
+std::map<std::string, ShipSystem::ComputerGlowInfo>* ShipSystem__glowInfo;
+
 struct ShipSystem
 {{
+	struct ComputerGlowInfo {
+    	std::string name;
+    	int x;
+    	int y;
+    	int direction;
+	};
+	using ConstComputerGlowInfo = const ComputerGlowInfo;
+
 	ShipSystem() { }
 
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)

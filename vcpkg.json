@@ -8,6 +8,7 @@
         "boost-math",
         "boost-format",
         "boost-crc",
+        "boost-regex",
         "discord-rpc",
         "opengl",
         "lua"
