@@ -101,6 +101,10 @@ public:
   
     Setting<bool> multiShipFix;
 
+    Setting<bool> teleporterHackFix;
+
+    Setting<bool> energyBypassTeleportRecall;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;
