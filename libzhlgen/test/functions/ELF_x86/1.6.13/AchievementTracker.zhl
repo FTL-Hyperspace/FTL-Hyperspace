@@ -14,6 +14,8 @@ cleanup __cdecl void AchievementTracker::SetSectorEight(AchievementTracker *this
 cleanup __cdecl int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
 "5589e557565383ec5c8b5d088d532889d78955b88b550c8d43248945b4894424048d45c489042489542408":
 cleanup __cdecl void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
+".5589e557565383ec5c8b5d088d43":
+cleanup __cdecl int AchievementTracker::GetFlagValue(AchievementTracker *this, const std::string& flagName);
 "5589e557565383ec5c8b5d088d432489c28945b48d432889c78945b88b450c89542404894424088d45c4890424??????????31c089fa83ec043b7dc4":
 cleanup __cdecl bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
 "5557565383ec1c8b7c24308b6f188b5f1c29ebc1fb0285db":

@@ -1,1 +1,1 @@
-FROM ghcr.io/ftl-hyperspace/hs-devcontainer:latest
+FROM ghcr.io/fr-eed/hs-devcontainer:latest

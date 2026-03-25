@@ -12,6 +12,8 @@ cleanup __cdecl void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrou
 cleanup __regparm3 void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
 "8b5424088b44240484d28890e4000000":
 cleanup __cdecl void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
+".5383ec18":
+cleanup __cdecl void ScoreKeeper::AddExploredLocations(ScoreKeeper *this);
 "5557565383ec4c8b442460c70000000000":
 cleanup __cdecl void ScoreKeeper::constructor(ScoreKeeper *this);
 "55575653bb????????83ec3c8b6c2458c744241800000000":

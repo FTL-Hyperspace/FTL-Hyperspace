@@ -1,0 +1,8 @@
+"554889e54157415641554154534883ec584989fc498b44":
+cleanup __amd64 void CombatAI::UpdateMindControl(CombatAI *this, bool hostile);
+".5548":
+cleanup __amd64 void CombatAI::OnLoop(CombatAI *this);
+".5548":
+cleanup __amd64 void CombatAI::UpdateWeapons(CombatAI *this);
+".554889e5415741564155":
+cleanup __amd64 int CombatAI::PrioritizeSystem(CombatAI *this, int weaponType);

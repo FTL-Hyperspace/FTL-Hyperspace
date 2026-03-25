@@ -6784,7 +6784,6 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 100, (Location *location) -> 
 HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 100, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
-
     if (event->stuff.crew < 0)
     {
         ShipManager *ship = G_->GetShipManager(0);
@@ -7195,18 +7194,30 @@ HOOK_METHOD(ShipManager, ClearStatusSystem, (int system) -> void)
 
 bool deathEventActive = false;
 
-HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
+// this->playerShip->shipManager->GetIsDying() is actually called initially for an early return in a Thunk 
+// function that the compiler created for both Windows & Linux but the Mac binary doesn't have such a function, 
+// therefore this hook has to run last to replicate this if check plus the deathEventActive skip. On MacOS the 
+// thunk is part of the main function which I had to NOP-Patch in order to skip that check there too. To better 
+// understand open the function in ghidra and compare between platforms. 
+// -Dino
+HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation0 -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return UpdateLocation(loc);
-    return super(loc);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox0 -> Begin (CustomEvents.cpp)\n")
+
+    if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return super(event);
+    }
 }
 
-HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox0 -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return CreateChoiceBox(event);
-    return super(event);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation0 -> Begin (CustomEvents.cpp)\n")
+
+    if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return super(event);
+    }
 }
 
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
@@ -7326,7 +7337,6 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
 }
-
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")

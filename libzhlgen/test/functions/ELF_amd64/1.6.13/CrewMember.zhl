@@ -264,4 +264,8 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 	void _HS_ResetPower();
 	void _HS_ActivatePower();
 
+	inline Point GetGridPosition()
+	{
+		return Point((int)this->x, (int)this->y);
+	}
 }};

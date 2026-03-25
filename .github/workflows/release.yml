@@ -1,55 +1,71 @@
-name: 'Bump + Tag + Release'
+name: 'Release'
+
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version name ("v" will be prepended to the tag name)'
+        description: 'Version number (e.g., 1.20.1)'
         required: true
         default: '1.x.x'
 
+permissions:
+  contents: write
+
 jobs:
-  build:
+  # Gate: check hook signatures before releasing
+  check-hooks:
+    uses: ./.github/workflows/check-hook-signatures.yml
+
+  prepare:
+    needs: check-hooks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: master
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Bump version on master
+      - name: Bump version
         run: |
           git config --global user.email "ftl-hyperspace@github.com"
           git config --global user.name "FTL Hyperspace"
-          buildscripts/ci-bump-version.sh ${{ inputs.version }}
+          buildscripts/ci/bump-version.sh ${{ inputs.version }}
           git commit -a -m "Bump version to ${{ inputs.version }}"
-      
-      - name: Build binaries
-        run: |
-          buildscripts/ci-buildall-release-only-from-docker.sh
 
-      - name: Package
-        run: |
-          cp -r "Release Files" build-package
-          cd "Mod Files"
-          zip -r Hyperspace.ftl * -x Hyperspace.ftl
-          cd ..
-          mv "Mod Files/Hyperspace.ftl" build-package
-          cp build-*/Hyperspace.*.so "build-package/Linux/"
-          cp build-*/Hyperspace.dll "build-package/Windows - Extract these files into where FTLGame.exe is/"
-          cd build-package
-          zip -r FTL.Hyperspace.${{ inputs.version }}.zip * -x FTL.Hyperspace.${{ inputs.version }}.zip -x Linux/IGNORE_THIS_FILE.txt
-
-      - name: Push changes to the repo
+      - name: Push changes and create tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push origin master:master
           git tag v${{ inputs.version }} master
           git push origin v${{ inputs.version }}
 
-      - name: Release
+      - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: build-package/FTL.Hyperspace.${{ inputs.version }}.zip
           tag_name: v${{ inputs.version }}
           name: ${{ inputs.version }}
           generate_release_notes: true
+          body: |
+            ## Download Instructions
+            - **Linux Only**: Download `FTL.Hyperspace.${{ inputs.version }}-Linux.zip`
+            - **Windows Only**: Download `FTL.Hyperspace.${{ inputs.version }}-Windows.zip`
+            - **macOS Only**: Download `FTL.Hyperspace.${{ inputs.version }}-MacOS.zip`
+
+            Platform-specific builds will be uploaded automatically.
+
+  build-linux-windows:
+    needs: prepare
+    uses: ./.github/workflows/release-linux-windows.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
+
+  build-macos:
+    needs: prepare
+    uses: ./.github/workflows/release-macos.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit

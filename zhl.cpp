@@ -12,10 +12,12 @@
 
 #ifdef _WIN32
     #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 1
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
     #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 0
     #define USE_STACK_ALIGNMENT
     #define STACK_ALIGNMENT_SIZE 0x10
+	#include <SDL2/SDL_messagebox.h>
+	#include <cstdlib>
 #else
     #define "Unknown OS"
 #endif
@@ -47,7 +49,8 @@ void ZHL::Init()
 #ifdef _WIN32
 		MessageBox(0, FunctionDefinition::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", FunctionDefinition::GetLastError(), NULL);
         fprintf(stderr, "Fatal Error %s:", FunctionDefinition::GetLastError());
         exit(1);
 #endif
@@ -58,7 +61,8 @@ void ZHL::Init()
 #ifdef _WIN32
 		MessageBox(0, FunctionHook_private::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__APPLE__)
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", FunctionHook_private::GetLastError(), NULL);
         fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
         exit(1);
 #endif
@@ -93,6 +97,38 @@ static void Log(const char *format, ...)
 	va_end(va);
 }
 
+// Buffer overflow fix reportet by asan
+template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size], const char *name, const char *type)
+{
+	// Ensure tmp is null-terminated
+    char tmp[128] = {0}; // Zero-initialize
+    strncpy(tmp, type, sizeof(tmp) - 1); // Leave space for null terminator
+
+	const char *p = tmp;
+	if (p[0] == '.')
+	{
+		++p;
+		if (p[0] == 'P' && p[1] == '8')
+		{
+			p += 2;
+			while (p[0] && (p[0] != '@' || p[1] != '@'))
+			{
+				++p;
+			}
+		}
+	}
+
+	// Safely concatenate (truncate if needed)
+	int written = snprintf(dst, Size, "%s%s", name, p);
+	if (written >= Size) 
+	{
+		dst[Size - 1] = '\0'; // Ensure null-termination
+	}
+	return dst;
+}
+
+// Original code
+/*
 template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size], const char *name, const char *type)
 {
 	char tmp[128];
@@ -112,6 +148,7 @@ template <size_t Size> static const char *ConvertToUniqueName(char (&dst)[Size],
 	snprintf(dst, Size, "%s%s", name, p);
 	return dst;
 }
+*/
 
 //================================================================================
 // Definition

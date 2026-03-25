@@ -1,0 +1,27 @@
+// Continue from CSurface::AddTexVertices (hyper efficiency™)
+".554889e54156534189f64889fb4439":
+noHook __amd64 void DamageMessage::DO_NOT_HOOK();
+".554889e54157":
+cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float _length, int _amount, Pointf _position, bool _symbol);
+".554889e54157415641554154534883ec284889fb48":
+cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float _length, Pointf _position, DamageMessage::MessageType _type);
+
+
+struct DamageMessage 
+{{
+	enum MessageType
+	{
+	  MISS = 0x0,
+	  RESIST = 0x1,
+	};
+
+	DamageMessage(float length, Pointf position, MessageType type)
+	{
+		constructor(length, position, type);
+	}
+	
+	DamageMessage(float length, int amount, Pointf position, bool symbol)
+	{
+		constructor2(length, amount, position, symbol);
+	}
+}};

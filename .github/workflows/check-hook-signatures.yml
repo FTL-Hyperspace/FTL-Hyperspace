@@ -1,0 +1,24 @@
+name: Check Hook Signatures
+
+on:
+  workflow_call:
+    # Called by release workflow
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  check-signatures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Check hook return type mismatches
+        run: python3 libzhlgen/check_hook_signatures.py
