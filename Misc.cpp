@@ -4,6 +4,7 @@
 #include "EnemyShipIcons.h"
 #include "CustomOptions.h"
 #include "Environments.h"
+#include "Drones.h"
 
 #include <sstream>
 #include <vector>
@@ -633,16 +634,26 @@ void LuaLibScript::LoadTypeInfo()
     types.pLocation = SWIG_TypeQuery(this->m_Lua, "Location *");
     types.pLocationEvent = SWIG_TypeQuery(this->m_Lua, "LocationEvent *");
 
+    types.pDrone = SWIG_TypeQuery(this->m_Lua, "Drone *");
+    types.pDroneTypes[DRONE_DEFENSE] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
+    types.pDroneTypes[DRONE_REPAIR] = SWIG_TypeQuery(this->m_Lua, "RepairDrone *");
+    types.pDroneTypes[DRONE_BATTLE] = SWIG_TypeQuery(this->m_Lua, "BattleDrone *");
+    types.pDroneTypes[DRONE_BOARDER] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
+    types.pDroneTypes[DRONE_SHIP_REPAIR] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
+    types.pDroneTypes[DRONE_FIGHTER_TEST] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
+    types.pDroneTypes[DRONE_SHIELD] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
+
     types.pSpaceDrone = SWIG_TypeQuery(this->m_Lua, "SpaceDrone *");
     // todo: fix the derived types to make them work (probably need to expose them in hyperspace.i)
-    types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
-    types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
-    types.pSpaceDroneTypes[2] = nullptr;
-    types.pSpaceDroneTypes[3] = nullptr;
-    types.pSpaceDroneTypes[4] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
-    types.pSpaceDroneTypes[5] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
-    types.pSpaceDroneTypes[6] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
-    types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
+    types.pSpaceDroneTypes[DRONE_DEFENSE] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pSpaceDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
+    types.pSpaceDroneTypes[DRONE_REPAIR] = nullptr;
+    types.pSpaceDroneTypes[DRONE_BATTLE] = nullptr;
+    types.pSpaceDroneTypes[DRONE_BOARDER] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
+    types.pSpaceDroneTypes[DRONE_SHIP_REPAIR] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
+    types.pSpaceDroneTypes[DRONE_FIGHTER_TEST] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
+    types.pSpaceDroneTypes[DRONE_SHIELD] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
 
     types.pShipSystemTypes[SYS_SHIELDS] = SWIG_TypeQuery(this->m_Lua, "Shields *");
     types.pShipSystemTypes[SYS_ENGINES] = SWIG_TypeQuery(this->m_Lua, "ShipSystem *"); // todo: add EngineSystem struct and expose in lua
