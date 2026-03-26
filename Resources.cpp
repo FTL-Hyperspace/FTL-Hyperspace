@@ -182,7 +182,7 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     }
                 }
             }
-            
+
             if (strcmp(node->name(), "defaults") == 0)
             {
                 for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -221,6 +221,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                                 ErosionEffect::canDilate = EventsParser::ParseBoolean(child2->value());
                             }
                         }
+                    }
+                    if (strcmp(child->name(), "customLockdown") == 0)
+                    {
+                        CustomLockdownDefinition::defaultLockdown.ParseNode(child);
                     }
                 }
             }
@@ -262,7 +266,15 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     if (strcmp(child->name(), "customSystem") == 0)
                     {
                         CustomUserSystems::ParseSystemNode(child);
-                    }  
+                    }
+                }
+                //After system ids are mapped, generate exclusivity groups
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "exclusivityGroup") == 0)
+                    {
+                        SystemExclusivityManager::GetGlobalManager()->ParseExclusivityNode(child);
+                    }
                 }
             }
 
@@ -344,7 +356,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                 }
             }
-            
+
             if (strcmp(node->name(), "playerHpColorFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -390,6 +402,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "droneIonDodgeFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->droneIonDodgeFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -402,49 +421,50 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
-            {
-                auto enabled = node->first_attribute("enabled")->value();
-                g_defenseDroneFix = EventsParser::ParseBoolean(enabled);
-                if (g_defenseDroneFix)
-                {
-                    for (auto child = node->first_node(); child; child = child->next_sibling())
-                    {
-                        if (strcmp(child->name(), "boxRange") == 0)
-                        {
-                            if (child->value())
-                            {
-                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->value());
-                                g_defenseDroneFix_BoxRange[1] = g_defenseDroneFix_BoxRange[0];
-                            }
-                            if (child->first_attribute("player"))
-                            {
-                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
-                            }
-                            if (child->first_attribute("enemy"))
-                            {
-                                g_defenseDroneFix_BoxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                            }
-                        }
-                        if (strcmp(child->name(), "ellipseRange") == 0)
-                        {
-                            if (child->value())
-                            {
-                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->value());
-                                g_defenseDroneFix_EllipseRange[1] = g_defenseDroneFix_EllipseRange[0];
-                            }
-                            if (child->first_attribute("player"))
-                            {
-                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
-                            }
-                            if (child->first_attribute("enemy"))
-                            {
-                                g_defenseDroneFix_EllipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
-                            }
-                        }
-                    }
-                }
-            }
+            // defense drone fix is currently broken
+            // if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
+            // {
+            //     auto enabled = node->first_attribute("enabled")->value();
+            //     DefenseDroneFix::active = EventsParser::ParseBoolean(enabled);
+            //     if (DefenseDroneFix::active)
+            //     {
+            //         for (auto child = node->first_node(); child; child = child->next_sibling())
+            //         {
+            //             if (strcmp(child->name(), "boxRange") == 0)
+            //             {
+            //                 if (child->value())
+            //                 {
+            //                     DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->value());
+            //                     DefenseDroneFix::boxRange[1] = DefenseDroneFix::boxRange[0];
+            //                 }
+            //                 if (child->first_attribute("player"))
+            //                 {
+            //                     DefenseDroneFix::boxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+            //                 }
+            //                 if (child->first_attribute("enemy"))
+            //                 {
+            //                     DefenseDroneFix::boxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+            //                 }
+            //             }
+            //             if (strcmp(child->name(), "ellipseRange") == 0)
+            //             {
+            //                 if (child->value())
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->value());
+            //                     DefenseDroneFix::ellipseRange[1] = DefenseDroneFix::ellipseRange[0];
+            //                 }
+            //                 if (child->first_attribute("player"))
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+            //                 }
+            //                 if (child->first_attribute("enemy"))
+            //                 {
+            //                     DefenseDroneFix::ellipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
 
             if (strcmp(node->name(), "artilleryGibMountFix") == 0) // fixes artillery disappearing during ship explosions
             {
@@ -566,7 +586,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showScrapCollectorScrap.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
             if (strcmp(node->name(), "preIgniteChargers") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -580,7 +600,14 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->oxygenWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->oxygenWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
+            if (strcmp(node->name(), "shieldWithoutSystem") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->shieldWithoutSystem.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->shieldWithoutSystem.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "altLockedMiniships") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -606,14 +633,42 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 ParseTargetableArtilleryNode(node);
             }
-            
+
             if (strcmp(node->name(), "cloakRenderFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->cloakRenderFix.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->cloakRenderFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
-            
+
+            if (strcmp(node->name(), "dualMedical") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->dualMedical.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->dualMedical.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "enhancedCloneUI") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->enhancedCloneUI.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->enhancedCloneUI.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "scaleSlugGel") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->scaleSlugGel.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "multiShipFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->multiShipFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -715,7 +770,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->droneSaveStations.defaultValue = enabled;
                 customOptions->droneSaveStations.currentValue = enabled;
             }
-            
+
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -884,6 +939,13 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "systemPositions") == 0)
+                    {
+                        SystemPositionManager::ParsePositionsNode(child);
+                    }
+                }
             }
             if (strcmp(node->name(), "scripts") == 0)
             {
@@ -949,6 +1011,10 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_showDummyEquipmentSlots = EventsParser::ParseBoolean(enabled);
+                if (node->first_attribute("opacity"))
+                {
+                    g_dummyEquipmentSlotsOpacity = boost::lexical_cast<float>(node->first_attribute("opacity")->value());
+                }
             }
         }
 

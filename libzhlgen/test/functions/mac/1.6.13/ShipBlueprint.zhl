@@ -1,0 +1,10 @@
+"554889e54156534889f34989fe4885db7423":
+nohook __amd64 void ShipBlueprint::NoHook();
+"!.554889e541574156":
+cleanup __amd64 void ShipBlueprint::destructor(ShipBlueprint *this);
+
+
+struct ShipBlueprint
+{{
+
+}};

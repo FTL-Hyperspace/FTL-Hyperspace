@@ -260,6 +260,8 @@
 				<Compiler>
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
 					<Add option="-Werror=narrowing" />
@@ -439,6 +441,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -485,6 +489,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -670,6 +676,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -716,6 +724,8 @@
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-O3" />
+					<!--No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)-->
+					<Add option="-fno-delete-null-pointer-checks" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
@@ -804,6 +814,9 @@
 		</Unit>
 		<Unit filename="Blueprint_Extend.h">
 			<Option virtualFolder="Core/Blueprints/" />
+		</Unit>
+		<Unit filename="CloneQueue.cpp">
+			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Colors.cpp">
 			<Option virtualFolder="Core/" />
@@ -967,6 +980,12 @@
 		<Unit filename="CustomLocalization.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="CustomLockdowns.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomLockdowns.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
@@ -1086,6 +1105,9 @@
 		</Unit>
 		<Unit filename="EnumClassHash.h">
 			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="Environments.h">
+			<Option virtualFolder="Core/Events/" />
 		</Unit>
 		<Unit filename="Equipment_Extend.cpp">
 			<Option virtualFolder="Core/Equipment/" />
@@ -1328,6 +1350,9 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="Tasks.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="TemporalBoxVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
@@ -1339,6 +1364,9 @@
 		</Unit>
 		<Unit filename="TemporalSystemVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename"TextString.cpp">
+			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="TileBasedCrewMovement.cpp">
 			<Option virtualFolder="Core/Crew/" />

@@ -1,0 +1,24 @@
+// Continue from PDSFire::CollisionCheck (hyper efficiency™)
+".554889e54157415641554154534883ec184189fe":
+static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
+".55":
+static cleanup __amd64 void PowerManager::RestartAll();
+".554889e548c74714":
+cleanup __amd64 void PowerManager::ClearStatus(PowerManager *this);
+".554889e5":
+cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val);
+
+
+struct PowerManager
+{{
+	int GetAvailablePower()
+	{
+		return currentPower.second - currentPower.first;
+	}
+
+	int GetMaxPower()
+	{
+		int ret = currentPower.second - (iTempPowerLoss + iHacked);
+		return ret > iTempPowerCap ? iTempPowerCap : ret;
+	}
+}};

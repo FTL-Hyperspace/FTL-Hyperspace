@@ -1,5 +1,6 @@
 #include "Global.h"
-
+#include "CustomEvents.h"
+#include <cstdio>
 // NANOBOT_DEFENSE_SYSTEM Augment
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
@@ -41,7 +42,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
             {
                 char buf[32];
 
-                sprintf(buf, "-%d", fuelReq);
+                snprintf(buf, 32, "-%d", fuelReq);
 
                 if (fuelReq > shipManager->fuel_count)
                 {
@@ -134,4 +135,32 @@ HOOK_METHOD(StarMap, GetPotentialSectorChoiceName, () -> std::string)
     return super();
 }
 
+//TELEPORT_RECALL augment
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (Augments.cpp)\n")
+    ShipManager* otherShip = G_->GetShipManager(1 - iShipId);
+    if (ship.hullIntegrity.first <= 0 && otherShip && otherShip->HasAugmentation("TELEPORT_RECALL"))
+    {
+        int direction = iShipId == 0 ? -1 : 1;
+        RecallBoarders(direction, false, true);
+    }
+    super();
+}
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (Augments.cpp)\n")
+    if (iShipId == 1)
+    {
+        if (G_->GetShipManager(0)->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
+        if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+    }
+    else if (iShipId == 0)
+    {
+        ShipManager* enemyShip = G_->GetShipManager(1);
+        if (enemyShip && enemyShip->HasAugmentation("TELEPORT_RECALL")) RecallBoarders(-1, false, true);
+        if (HasAugmentation("TELEPORT_RECALL")) RecallBoarders(1, false, true);
+    }
+    super();
+}
 

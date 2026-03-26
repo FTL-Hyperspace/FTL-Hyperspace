@@ -1268,6 +1268,31 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
             currentText = G_->GetTextLibrary()->GetText("required_power");
             newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->power)) + "\n";
             newDesc += G_->GetTextLibrary()->GetText("drone_required");
+
+            if (bp->typeName == "SHIELD")
+            {
+                newDesc += "\n\n";
+                const ShieldDroneDefinition *def = ShieldDroneManager::GetDefinition(bp->name);
+                currentText = G_->GetTextLibrary()->GetText("shield_drone_layers_per_charge");
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(def->layers)) + "\n";
+                currentText = G_->GetTextLibrary()->GetText("shield_drone_cooldowns");
+                std::string cooldownText;
+                if (def->cooldowns.empty())
+                {
+                    cooldownText = "8/10/13/16/20";
+                }
+                else
+                {
+                    std::ostringstream oss;
+                    oss << def->cooldowns[0];
+                    for (int i = 1; i < def->cooldowns.size(); i++)
+                    {
+                        oss << "/" << def->cooldowns[i];
+                    }
+                    cooldownText = oss.str();
+                }
+                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", cooldownText);
+            }
         }
 
         newDesc += "\n\n";
@@ -1356,7 +1381,14 @@ HOOK_METHOD_PRIORITY(MouseControl, RenderTooltip, 9999, (Point tooltipPoint, boo
         }
         if (1260.f < position.x + rect_w)
         {
-            tooltipPoint.x -= position.x + rect_w - 1240.f;
+            if (tooltipPoint.y <= position.y && position.y <= tooltipPoint.y + rect_h) // prevent the tooltip from overlapping the point of the cursor
+            {
+                tooltipPoint.x -= rect_w + 31.f;
+            }
+            else
+            {
+                tooltipPoint.x -= position.x + rect_w - 1240.f;
+            }
         }
     }
 

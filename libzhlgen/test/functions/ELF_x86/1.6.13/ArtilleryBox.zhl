@@ -10,4 +10,6 @@ struct ArtilleryBox
 	{
 		this->constructor(pos, sys);
 	}
+	
+	int _HS_GetHeightModifier();
 }};

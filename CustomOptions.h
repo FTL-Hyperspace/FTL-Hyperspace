@@ -36,6 +36,8 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting<bool> droneIonDodgeFix;
+
     Setting<bool> redesignedWeaponTooltips;
     Setting<bool> redesignedCrewTooltips;
     Setting<bool> redesignedDroneTooltips;
@@ -80,15 +82,25 @@ public:
     Setting<std::string> dismissSound;
 
     Setting<bool> targetableArtillery;
-    
+
     Setting<bool> oxygenWithoutSystem;
+
+    Setting<bool> shieldWithoutSystem;
 
     Setting<bool> droneSaveStations;
 
     Setting<bool> droneSelectHotkeys;
 
     Setting<bool> cloakRenderFix;
-    
+
+    Setting<bool> dualMedical;
+
+    Setting<bool> enhancedCloneUI;
+
+    Setting<bool> scaleSlugGel;
+  
+    Setting<bool> multiShipFix;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;

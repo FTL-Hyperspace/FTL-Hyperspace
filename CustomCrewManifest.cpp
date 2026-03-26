@@ -806,3 +806,55 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slo
 
     return ret;
 }
+
+//Allow dismissal of last crew member where appropriate
+HOOK_METHOD_PRIORITY(CrewEquipBox, OnRender, 9999, (bool dragging) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewEquipBox::OnRender -> Begin (CustomCrewManifest.cpp)\n")
+    int playerCrewCount = G_->GetCrewFactory()->GetPlayerCrewCount();
+    bool canDismissLastCrew = ship->bAutomated || CustomCrewManifest::GetInstance()->IsOverCrewBox(this);
+    deleteButton.SetActive(playerCrewCount > 1 || canDismissLastCrew);
+    if (bQuickRenaming)
+    {
+        nameInput.OnLoop();
+        if (!nameInput.GetActive())
+        {
+            bQuickRenaming = false;
+            nameInput.Stop();
+            TextString name(nameInput.GetText(), true);
+            item.pCrew->SetName(&name, false);
+        }
+    }
+    if (!IsEmpty() && !dragging && bShowDelete)
+    {
+        CSurface::GL_RenderPrimitive(bGlow ? box_on : box);
+        deleteButton.OnRender();
+    }
+    EquipmentBox::OnRender(dragging);
+}
+
+HOOK_METHOD_PRIORITY(CrewEquipBox, MouseClick, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewEquipBox::MouseClick -> Begin (CustomCrewManifest.cpp)\n")
+    if (!IsEmpty())
+    {
+        int playerCrewCount = G_->GetCrewFactory()->GetPlayerCrewCount();
+        bool canDismissLastCrew = ship->bAutomated || CustomCrewManifest::GetInstance()->IsOverCrewBox(this);
+        if (bShowDelete && deleteButton.Hovering() && (playerCrewCount > 1 || canDismissLastCrew))
+        {
+            bConfirmDelete = true;
+        }
+        if (bQuickRenaming)
+        {
+            bQuickRenaming = false;
+            nameInput.Stop();
+            TextString name(nameInput.GetText(), true);
+            item.pCrew->SetName(&name, false);
+        }
+        else if (renameButton.Hovering())
+        {
+            bQuickRenaming = true;
+            nameInput.Start();
+        }
+    }
+}

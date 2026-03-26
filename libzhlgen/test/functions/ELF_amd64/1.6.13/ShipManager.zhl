@@ -18,12 +18,14 @@ cleanup __amd64 int ShipManager::DamageHull(ShipManager *this, int dmg, bool for
 cleanup __amd64 void ShipManager::ModifyScrapCount(ShipManager *this, int scrap, bool income);
 ".4156415541544989fc5589f553488bb7c8000000":
 cleanup __amd64 CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
+".55??89fd53??83ec08??8b87c0000000??8b8fc8000000??29c1??c1f903??85c974??":
+cleanup __amd64 void ShipManager::RemoveCrewmember(ShipManager *this, CrewMember *crew);
 ".415731c931d2":
 cleanup __amd64 CrewMember* ShipManager::FindCrew(ShipManager *this, const CrewBlueprint *bp);
 ".8b05????????c787700600001e00000083f801":
 cleanup __amd64 void ShipManager::ResetScrapLevel(ShipManager *this);
-".41564989fe415541545553488b87c800":   
-cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this); 
+".41564989fe415541545553488b87c800":
+cleanup __amd64 int ShipManager::CountPlayerCrew(ShipManager *this);
 ".41574989ff41564155415455534883ec08488b8fc0000000":
 cleanup __amd64 int ShipManager::CountCrew(ShipManager *this, bool boarders);
 ".415741564989fe4155415455534883ec18488b87c8000000":
@@ -121,7 +123,7 @@ cleanup __amd64 float ShipManager::GetOxygenLevel(ShipManager *this, int roomId)
 ".??545553??8b8658060000??89fb837808ff75??":
 cleanup __amd64 std::vector<float> ShipManager::GetOxygenLevels(ShipManager *this);
 ".41574156415541544989f455534889fb4883ec48":
-cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
+cleanup __amd64 void ShipManager::RemoveItem(ShipManager *this, const std::string& name);
 ".488b875806000083780cff7413":
 cleanup __amd64 int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
 ".488b875806000083780cff7523":
@@ -146,6 +148,8 @@ cleanup __amd64 std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *
 cleanup __amd64 std::vector<CrewMember*> ShipManager::GetLeavingCrew(ShipManager *this, bool intruders);
 ".41574989ff415641554589cd4154554889f5":
 cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder);
+".41574156415541545553":
+cleanup __amd64 void ShipManager::PulsarDamage(ShipManager *this);
 ".41574989ff4156415541545589f5534883ec48":
 cleanup __amd64 void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
 ".4157be????????4156415541544989fc55534883ec68":
@@ -180,6 +184,8 @@ cleanup __amd64 SpaceDrone *ShipManager::CreateSpaceDrone(ShipManager *this, con
 cleanup __amd64 Drone* ShipManager::AddDrone(ShipManager *this, const DroneBlueprint *bp, int slot);
 ".415641554154554889f5534883ec30":
 cleanup __amd64 void ShipManager::AddEquipmentFromList(ShipManager *this, std::vector<std::string> *equipmentList);
+".4157415641554154":
+cleanup __amd64 void ShipManager::CheckDlcEnabled(ShipManager *this);
 ".415741564155415455534889fb4881ece8000000":
 cleanup __amd64 int ShipManager::AddSystem(ShipManager *this, int systemId);
 ".4154488d8fb007000055534889fb4883ec20":
@@ -187,9 +193,11 @@ cleanup __amd64 int ShipManager::CreateSystems(ShipManager *this);
 ".4157415641554154554889fd534881ece8000000":
 cleanup __amd64 bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
 ".415731c94156415541544989fc555331db4881ec38010000":
-cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this);
+cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this); //004c63d0
+"!.??5431c9??0fb6e655??89fd53":
+cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone); //004c7840
 ".41554154554889fd534883ec08488b87":
-cleanup __amd64 bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force);
+cleanup __amd64 bool ShipManager::PowerDrone(ShipManager *this, Drone *drone, int roomId, bool userDriven, bool force); //004c78b0
 "!.4157415641554154554889fd5389f34883ec18":
 cleanup __amd64 void ShipManager::ImportBattleState(ShipManager *this, int file);
 ".41574989ffbe????????41564155415455534881ec48010000":
@@ -221,11 +229,11 @@ cleanup __amd64 Drone *ShipManager::CreateDrone(ShipManager *this, DroneBlueprin
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
-	ShipManager(int shipId) 
+	ShipManager(int shipId)
 	{
 		this->constructor(shipId);
 	}
-	
+
 	Pointf GetRandomRoomCenter()
 	{
 		auto rng = rand();
@@ -233,28 +241,77 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
-	
+
 	Pointf GetRoomCenter(int roomId)
 	{
 		return ship.GetRoomCenter(roomId);
 	}
-	
+
 	~ShipManager()
 	{
 		this->destructor2();
 	}
-	
+
 	std::pair<int, int> GetAvailablePower()
 	{
 		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
-		
+
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
+
+	inline int GetSelectedRoom(int x, int y, bool bIncludeWalls)
+	{
+		return this->ship.GetSelectedRoomId(x, y, bIncludeWalls);
+	}
 	
+	inline void LockdownRoom(int roomId, Pointf position)
+	{
+		return this->ship.LockdownRoom(roomId, position);
+	}
+
+	void DestroyBoardingDrones()
+	{
+		for (CrewMember* crew : this->vCrewList)
+		{
+			if (crew->GetIntruder() && crew->IsDrone() && this->iShipId == 0)
+			{
+				crew->DirectModifyHealth(-1000.f);
+			}
+		}
+	}
+
+	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
+	{   
+		if (this->HasAugmentation(augment) != 0)
+		{
+			/* 
+			Begin: inline int randNumber(int min, int max)
+			Begin: inline int Get(RandomNumberGenerator * this)
+			if (Globals::RNG.useSysRand == false) {
+			iVar4 = random32();
+			}
+			else {
+			iVar4 = rand();
+			}
+			*/
+			int random = rand();
+			return random % 100 + 1 <= static_cast<float>(this->GetAugmentationValue(augment) * 100);
+		}
+		return false;
+	}
+
+	bool SetDummyOxygen(bool useDummyOxygen);
 	void StartDummyOxygen();
 	bool StopDummyOxygen();
+
 	void InstallDummyOxygen();
 	void RemoveDummyOxygen();
 	bool DummyOxygenInstalled();
+
+	void RemoveSystem(int systemId);
+
+	int SystemWillReplace(int systemId);
+
+	bool CanFitCrew(const std::string& crewName);
 
 }};

@@ -1,5 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83ec7c0fb641508b1fc781b401000000000000":
 __thiscall void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
+".578d????0883e4f0ff????5589e5575389cb83ec308b494c8b??e8????????":
+__thiscall void SystemBox::MouseRightClick(SystemBox *this, bool force);
 "578d7c240883e4f0ff77fc5589e557565389ce8d9e8000000081ec????????8b4f088b57048b078b7f0cc706????????":
 __thiscall void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b81800100008b7f0439c67e??03818801000039c6":

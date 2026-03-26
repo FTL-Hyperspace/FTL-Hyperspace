@@ -5,6 +5,7 @@
 #include "EnemyShipIcons.h"
 
 #include <boost/lexical_cast.hpp>
+#include <iostream>
 
 static bool importingShip = false;
 bool revisitingShip = false;
@@ -246,9 +247,30 @@ float CrewMemberFactory::GetCrewCapacityUsed()
 }
 
 static CrewBlueprint *storeCrewBlue = nullptr;
-HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
+
+bool ShipManager::CanFitCrew(const std::string& crewName)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
+    auto custom = CustomShipSelect::GetInstance();
+    float crewCount = G_->GetCrewFactory()->GetCrewCapacityUsed();
+    int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
+    CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(crewName);
+    if (crewDef)
+    {
+        //TODO: noSlot does not seem to be calculated dynamically like other stats, this will need to be changed if that is no longer the case.
+        if (crewDef->noSlot) return true;
+        crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
+    }
+    else
+    {
+        crewCount += 1.f;
+    }
+    return crewCount <= crewLimit;
+}
+
+
+HOOK_METHOD_PRIORITY(ShipManager, IsCrewFull, 9999, () -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
     if (iShipId == 1) return false; // no limit for enemy
 
     auto custom = CustomShipSelect::GetInstance();
@@ -258,16 +280,7 @@ HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
     if (storeCrewBlue)
     {
         // If looking at a store blueprint, check if adding this crew would put the player over capacity
-        CrewDefinition *crewDef = CustomCrewManager::GetInstance()->GetDefinition(storeCrewBlue->name);
-        if (crewDef)
-        {
-            crewCount += StatBoostManager::GetInstance()->CalculateStatDummy(CrewStat::CREW_SLOTS, crewDef, 0, 0);
-        }
-        else
-        {
-            crewCount += 1.f;
-        }
-        return crewCount > crewLimit;
+        return !CanFitCrew(storeCrewBlue->name);
     }
     else
     {
@@ -321,7 +334,7 @@ HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roo
 
     char buf[128];
 
-    sprintf(buf, "effects/low_o2_stripes_%dx%d.png", w, h);
+    snprintf(buf, 128, "effects/low_o2_stripes_%dx%d.png", w, h);
 
     o2LowPrimitive = G_->GetResources()->CreateImagePrimitiveString(buf, rect.x, rect.y, 0, COLOR_WHITE, 0.5f, false);
 }
@@ -1159,7 +1172,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
     return ret;
 }
 
-HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> void)
+HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomShips.cpp)\n")
 
@@ -1184,7 +1197,7 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
         }
     }
 
-    super(location1, location2, dmg);
+    return super(location1, location2, dmg);
 }
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
@@ -1592,7 +1605,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
 
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
-    float sparkProgress = progress/0.75;
+    float sparkProgress = progress/0.75; 
     float sparkScale = 0.0;
     float sparkX = 0.0;
     float sparkY = 0.0;
@@ -1679,6 +1692,13 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     CSurface::GL_Scale(sparkScale*0.015625, sparkScale*0.015625, 0.0);
     CSurface::GL_BlitPixelImage(jumpGlare, 0.0, 0.0, 64.0, 64.0, 0.0, COLOR_WHITE, false);
     CSurface::GL_PopMatrix();
+}
+
+HOOK_METHOD(ShipManager, PulsarDamage, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PulsarDamage -> Begin (CustomShips.cpp)\n")
+    if (vSystemList.size() <= 0) return;
+    super();
 }
 
 // save and load rooms

@@ -28,5 +28,6 @@ jobs:
       - name: Build container and cache it
         # Should match to devcontainer.json setup
         run: |
-          docker buildx build --load --build-arg BUILDKIT_INLINE_CACHE=1 -f .devcontainer/Dockerfile-actual -t ghcr.io/ftl-hyperspace/hs-devcontainer:latest .devcontainer
-          docker push ghcr.io/ftl-hyperspace/hs-devcontainer:latest
+          source .devcontainer/devcontainer.sh
+          docker buildx build --load --build-arg BUILDKIT_INLINE_CACHE=1 -f .devcontainer/Dockerfile-actual -t $DEVCONTAINER_FULL .devcontainer
+          docker push $DEVCONTAINER_FULL

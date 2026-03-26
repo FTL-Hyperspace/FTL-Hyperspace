@@ -1,5 +1,5 @@
 # 1st image: Build mingw-w64 and llvm with modified configuration
-FROM ubuntu:focal as toolchain-builder
+FROM --platform=linux/amd64 ubuntu:focal as toolchain-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 COPY mingw.patch /mingw-build/
@@ -45,7 +45,9 @@ RUN cd /mingw-build/mingw-dwarf2-build \
 
 # llvm: Fetch source and patch. Patch details:
 # * ABI incompatibility fix for llvm-project#58255
-RUN git clone -b main --single-branch "https://github.com/llvm/llvm-project.git" --depth=1 /llvm-build/src \
+## Force llvm 12.0.0 to match LLVM patch
+RUN git clone --branch llvmorg-12.0.0 --single-branch \
+        "https://github.com/llvm/llvm-project.git" /llvm-build/src \
     && cd /llvm-build/src \
     && patch -p1 -s < /llvm-build/llvm.patch
 
@@ -61,7 +63,7 @@ RUN mkdir -p /llvm-build/install /llvm-build/build \
 # -------------------------------------------------------------------------------
 
 # 2nd image: devcontainer
-FROM ubuntu:focal
+FROM --platform=linux/amd64 ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -128,7 +130,8 @@ RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-to
 # This command "overwrites" those intrinsic defs to Clang's ones instead.
 # See https://clang.llvm.org/compatibility.html#vector_builtins for more description.
 RUN rm /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/*intrin* \
-    && cp /usr/local/lib/clang/17/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
+    && cp /usr/local/lib/clang/12.0.0/include/*intrin* /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/
+
 
 # Cleanup apt lists from the image
 RUN rm -rf /var/lib/apt/lists/*

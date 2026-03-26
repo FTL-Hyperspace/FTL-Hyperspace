@@ -1,0 +1,39 @@
+"554889e5534883ec184889fb48c743":
+noHook __amd64 void EquipmentBox::InitPrimitives(); 
+".554889e5534883ec184889fb48":
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _position, int _slot);
+".554889e55350":
+virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
+".554889e5488b":
+cleanup __amd64 void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect* newBox);
+"!.55":
+virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
+".554889e58b":
+virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int mX, int mY);
+".554889e583":
+cleanup __amd64 bool EquipmentBox::OnTouch(EquipmentBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".554889e548":
+cleanup __amd64 int EquipmentBox::GetItemValue(EquipmentBox *this);
+".55":
+cleanup __amd64 void EquipmentBox::SetBlueprint(EquipmentBox *this, InfoBox* infoBox, bool detailedBox);
+".55":
+cleanup __amd64 Blueprint* EquipmentBox::GetBlueprint(EquipmentBox *this);
+
+
+struct EquipmentBox depends (AugmentBlueprint)
+{{
+	EquipmentBox()
+	{
+
+	}
+
+	EquipmentBox(Point position, int slot)
+	{
+		this->constructor(position, slot);
+	}
+
+	bool IsEmpty()
+	{
+		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
+	}
+}};

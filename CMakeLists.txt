@@ -3,10 +3,26 @@ project(Hyperspace CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-find_package(Boost REQUIRED) # From vcpkg
-find_package(Lua REQUIRED) # From vcpkg
+if(APPLE)
+    # Prefer static libraries for dependencies on macOS
+    set(BUILD_SHARED_LIBS OFF)
+endif()
 
-if(UNIX)
+# Let vcpkg handle Boost automatically
+find_package(Boost REQUIRED COMPONENTS filesystem system)
+
+# Let vcpkg handle Lua automatically
+find_package(Lua REQUIRED)
+
+# Let vcpkg handle minizip automatically
+find_package(minizip REQUIRED)
+find_package(ZLIB REQUIRED)
+
+if(APPLE)
+    # explicitly link the x86_64 SDL2 static library on macOS (needs to be installed via x86 Homebrew)
+    set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
+    set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
+elseif(UNIX)
     find_package(SDL2 REQUIRED) # From system
 elseif(WIN32)
     find_package(OpenGL REQUIRED)
@@ -40,7 +56,13 @@ swig_add_library(
     LANGUAGE lua
     SOURCES ${swigfiles}
 )
-target_compile_features(Hyperspace PRIVATE cxx_std_11)
+
+if(APPLE)
+    target_compile_features(Hyperspace PRIVATE cxx_std_14)
+else()
+    target_compile_features(Hyperspace PRIVATE cxx_std_11)
+endif()
+
 target_include_directories(
     Hyperspace PRIVATE
 
@@ -61,233 +83,83 @@ target_include_directories(
 target_link_libraries(
     Hyperspace PRIVATE
     ${LUA_LIBRARIES}
+    minizip::minizip
+    ZLIB::ZLIB
+    Boost::filesystem
     Threads::Threads
 )
 
+# Automatically include all source files from root directory
+# TODO: Move sources to src/ directory? (Original project had them in root)
+file(GLOB ROOT_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+)
+
+# Exclude platform-specific files (they are #included by FTLGame.cpp)
+list(FILTER ROOT_SOURCES EXCLUDE REGEX "FTLGame.*\\.cpp$")
+
+# Exclude Discord files (added conditionally later based on USE_DISCORD option)
+list(FILTER ROOT_SOURCES EXCLUDE REGEX "DiscordIntegration\\.")
+
+# Exclude zhl.cpp (added at end to ensure proper static initialization order)
+list(FILTER ROOT_SOURCES EXCLUDE REGEX "zhl\\.cpp$")
+
+# Include lua sources
+file(GLOB LUA_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/lua/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lua/*.h"
+)
+
+# Include src/ sources
+file(GLOB_RECURSE SRC_SOURCES
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
+)
+
+# Enable testing - controlled by ENABLE_TESTING option
+option(ENABLE_TESTING "Enable Hyperspace automated testing" OFF)
+
+if(ENABLE_TESTING)
+    # Automatically include all test files recursively
+    file(GLOB_RECURSE TEST_SOURCES
+     "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.h"
+    )
+    target_compile_definitions(Hyperspace PRIVATE HYPERSPACE_TESTING)
+    message(STATUS "Hyperspace Testing: ENABLED")
+else()
+    set(TEST_SOURCES "")
+    message(STATUS "Hyperspace Testing: DISABLED")
+endif()
+
+# Add all sources in a single target_sources call to ensure proper linking order
+# TEST_SOURCES must come first to ensure TestScript hooks into the game loop first
 target_sources(
     Hyperspace PRIVATE
-    AbilityDrone.cpp
-    AbilityDrone.h
-    AdditionalWeaponSlots.cpp
-    AlternateOxygenRendering.cpp
-    AlternateOxygenRendering.h
-    ArtilleryBarFix.cpp
-    ArtillerySystem.cpp
-    ArtillerySystem.h
-    AugmentValues.cpp
-    Augments.cpp
-    Balance.cpp
-    Balance.h
-    BeamFixes.cpp
-    Blueprint_Extend.cpp
-    Blueprint_Extend.h
-    Colors.cpp
-    Colors.h
-    CommandConsole.cpp
-    CommandConsole.h
-    Constants.h
-    CooldownNumbers.cpp
-    CooldownNumbers.h
-    Credits.cpp
-    CrewAbilities.cpp
-    CrewBox_Extend.cpp
-    CrewBox_Extend.h
-    CrewManifestVTable.cpp
-    CrewMember_Extend.cpp
-    CrewMember_Extend.h
-    CrewNames.cpp
-    CrewNames.h
-    CrewSpawn.cpp
-    CrewSpawn.h
-    CrewVTable.cpp
-    CustomAchievements.cpp
-    CustomAchievements.h
-    CustomAugments.cpp
-    CustomAugments.h
-    CustomBackgroundObject.cpp
-    CustomBackgroundObject.h
-    CustomBoss.cpp
-    CustomBoss.h
-    CustomColors.cpp
-    CustomColors.h
-    CustomCommandGui.cpp
-    CustomCommandGui.h
-    CustomTabbedWindow.cpp
-    CustomTabbedWindow.h
-    CustomCrew.cpp
-    CustomCrew.h
-    CustomCrewCommon.h
-    CustomCrewManifest.cpp
-    CustomCrewManifest.h
-    CustomCrystalShard.cpp
-    CustomCrystalShard.h
-    CustomDamage.cpp
-    CustomDamage.h
-    CustomDrones.cpp
-    CustomDrones.h
-    CustomEquipment.cpp
-    CustomEquipment.h
-    CustomEvents.cpp
-    CustomEvents.h
-    CustomFleetShips.cpp
-    CustomFleetShips.h
-    CustomHotkeys.cpp
-    CustomHotkeys.h
-    CustomLocalization.cpp
-    CustomLocalization.h
-    CustomMap.cpp
-    CustomMap.h
-    CustomOptions.cpp
-    CustomOptions.h
-    CustomReactor.cpp
-    CustomReactor.h
-    CustomRewards.cpp
-    CustomRewards.h
-    CustomScoreKeeper.cpp
-    CustomScoreKeeper.h
-    CustomSectors.cpp
-    CustomSectors.h
-    CustomShipGenerator.cpp
-    CustomShipGenerator.h
-    CustomShipSelect.cpp
-    CustomShipSelect.h
-    CustomShips.cpp
-    CustomShips.h
-    CustomStore.cpp
-    CustomStore.h
-    CustomStoreBox.cpp
-    CustomSuperShield.cpp
-    CustomSystems.cpp
-    CustomSystems.h
-    CustomTextStyle.cpp
-    CustomTextStyle.h
-    CustomTutorial.cpp
-    CustomTutorial.h
-    CustomUpgrades.cpp
-    CustomUpgrades.h
-    CustomWeapons.cpp
-    CustomWeapons.h
-    Debugging.cpp
-    Drones.h
-    DroneVTable.cpp
-    EnemyShipIcons.cpp
-    EnemyShipIcons.h
-    EnumClassHash.h
-    Equipment_Extend.cpp
-    Equipment_Extend.h
-    ErosionEffect.cpp
-    EventButtons.cpp
-    EventButtons.h
-    EventTooltip.cpp
-    EventTooltip.h
-    FTLGame.cpp
-    FTLGame.h
-    # FTLGameELF32.cpp
-    FTLGameELF32.h
-    # FTLGameELF64.cpp
-    FTLGameELF64.h
-    # FTLGameWin32.cpp
-    FTLGameWin32.h
-    Global.cpp
-    Global.h
-    HackingSystem.cpp
-    HSVersion.h
-    HullNumbers.cpp
-    HullNumbers.h
-    Infinite.cpp
-    Infinite.h
-    InfiniteTeleport.cpp
-    Input.cpp
-    MainMenu.cpp
-    MainMenu.h
-    Misc.cpp
-    Misc.h
-    MoreInfoButton.cpp
-    MoreInfoButton.h
-    NeutralTeleporterFix.cpp
-    OverclockerSystem.cpp
-    OverclockerSystem.h
-    OxygenWithoutSystem.cpp
-    PALMemoryProtection.h
-    ProjectileVTable.cpp
-    Projectile_Extend.cpp
-    Projectile_Extend.h
-    RedesignedTooltips.cpp
-    RedesignedTooltips.h
-    RenderReactorBar.cpp
-    RenderReactorBar.h
-    Renderer.cpp
-    Resources.cpp
-    Resources.h
-    ReturnHacks.cpp
-    Room_Extend.cpp
-    Room_Extend.h
-    SaveFile.cpp
-    SaveFile.h
-    ScrollingChoiceBox.cpp
-    ScrollingChoiceBox.h
-    Seeds.cpp
-    Seeds.h
-    Shaders.cpp
-    ShipEditor.cpp
-    ShipEditor.h
-    ShipManager_Extend.cpp
-    ShipManager_Extend.h
-    ShipTypeC.cpp
-    ShipUnlocks.cpp
-    ShipUnlocks.h
-    ShipZoom.cpp
-    ShipZoom.h
-    SigScan.cpp
-    SigScan.h
-    SpaceId.cpp
-    StarMap.cpp
-    StatBoost.cpp
-    StatBoost.h
-    Store_Extend.cpp
-    Store_Extend.h
-    SystemDescriptionFixes.cpp
-    System_Extend.cpp
-    System_Extend.h
-    SystemBox_Extend.cpp
-    SystemBox_Extend.h
-    Systems.h
-    TemporalBoxVTable.cpp
-    TemporalSystem.cpp
-    TemporalSystem.h
-    TemporalSystemVTable.cpp
-    TileBasedCrewMovement.cpp
-    TileBasedCrewMovement.h
-    TimerHelper.cpp
-    ToggleValue.h
-    TriggeredEvents.cpp
-    Wormhole.cpp
-    detours.h
-    hde.cpp
-    hde.h
-    main.cpp
-    main.h
-    palWindowsGeneric.h
-    rapidxml_interface.h
-    zhl.cpp
-    zhl.h
-    zhl_internal.h
-    zhl_private.h
-    lua/InternalEvents.h
-    lua/EventEnums.h
-    lua/LuaLibScript.h
-    lua/LuaScriptInit.cpp
-    lua/LuaScriptInit.h
-    lua/RenderEvents.h
-    lua/linit.c
-    lua/luaDefines.h
-    lua/luaGlobal.h
-    lua/luaInclude.h
-    lua/luaLibBase.h
 
-    # Generated by the script
-    Version.autogen.hpp
-	lua/swigluarun.h
+    # Main junction for os-specific code
+    FTLGame.h
+    FTLGame.cpp
+
+    # Test sources first (if enabled) - ensures TestScript initializes first
+    ${TEST_SOURCES}
+
+    # All src/ files (in future, consider moving ROOT_SOURCES to src/)
+    ${SRC_SOURCES}
+
+    # all root source files (will be deprecated in future)
+    ${ROOT_SOURCES}
+
+    # all lua files
+    ${LUA_SOURCES}
+
+    # Generated files
+    ${CMAKE_CURRENT_SOURCE_DIR}/lua/swigluarun.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Version.autogen.hpp
+
+    # zhl.cpp MUST be last to ensure all hooks are registered before ZHL::Init() runs
+    zhl.cpp
 )
 
 add_custom_command(
@@ -313,19 +185,43 @@ target_compile_options(
     # Error on narrowing conversion
     -Werror=narrowing
 
-    # Explicit C++11 mode
-    -std=c++11
+    # No warning for this == nullptr (can be removed once ShipSystem::GetPowerCap workaround is replaced)
+    -fno-delete-null-pointer-checks
 
     # Warn everything
     # TODO: Check if it's meaningful (original .cbp defined it)
     # -Wall
 )
 
+if(APPLE)
+    target_compile_options(Hyperspace PRIVATE -std=c++14 -Wno-deprecated-declarations)
+else()
+    target_compile_options(Hyperspace PRIVATE -std=c++11)
+endif()
+
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
     # SDL2
     target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
+
+    if (APPLE)
+        target_link_libraries(Hyperspace PRIVATE
+            "-framework Cocoa"
+            "-framework IOKit"
+            "-framework CoreFoundation"
+            "-framework CoreVideo"
+            "-framework CoreAudio"
+            "-framework OpenGL"
+            "-framework AudioToolbox"
+            "-framework ForceFeedback"
+            "-framework Carbon"
+            "-framework Metal"
+            "-framework QuartzCore"
+            "-framework GameController"
+            "-framework CoreHaptics"
+        )
+    endif()
 
     # Disable Discord integration by default
     set(USE_DISCORD_DEFAULT OFF)
@@ -362,3 +258,4 @@ if(USE_DISCORD)
     target_compile_definitions(Hyperspace PRIVATE USE_DISCORD)
     target_link_libraries(Hyperspace PRIVATE DiscordRpc::DiscordRpc)
 endif()
+

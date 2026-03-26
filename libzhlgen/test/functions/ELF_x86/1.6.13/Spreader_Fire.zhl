@@ -1,0 +1,16 @@
+"5589e55756beeb":
+cleanup __cdecl bool Spreader_Fire::StartInRoom(Spreader_Fire *this, int roomId, int count);
+".5589e557565383ec5c8b????8b47048904??e8????????8b????8d??d88914":
+cleanup __cdecl int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId); //08120be0
+".5589e557565383ec7c8b????8b47048904??e8????????8904??e8":
+cleanup __cdecl void Spreader_Fire::UpdateSpread(Spreader_Fire *this); //08120d70
+
+
+struct Spreader_Fire
+{{
+    // Originally of type bool but each one was inlined so I have no idea what it was for
+    inline void StartInGrid(int x, int y)
+    {
+        this->grid.at(x).at(y).Spread();
+    }
+}};

@@ -1,5 +1,7 @@
 "55b90100000089e557565383ec7c8b5d088b750c":
 cleanup __cdecl void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
+".565383ec248b5c????8b74????8b434c8904??e8????????":
+cleanup __cdecl void SystemBox::MouseRightClick(SystemBox *this, bool force);
 "5557565381ec3c0100008b9c24500100008d6c2470":
 cleanup __cdecl void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
 "5589e557565383ec2c8b5d088b750c":

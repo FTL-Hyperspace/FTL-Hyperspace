@@ -1,0 +1,10 @@
+"554889e5c74738":
+noHook __amd64 void CreditScreen::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+".554889e5c74738":
+cleanup __amd64 void CreditScreen::constructor(CreditScreen *this);
+".554889e54157":
+cleanup __amd64 void CreditScreen::Start(CreditScreen *this, const std::string& shipName, const std::vector<std::string>& crewNames);
+".554889e54156":
+cleanup __amd64 bool CreditScreen::Done(CreditScreen *this);
+".554889e54157":
+cleanup __amd64 void CreditScreen::OnRender(CreditScreen *this);

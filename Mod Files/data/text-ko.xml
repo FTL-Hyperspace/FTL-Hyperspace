@@ -2952,7 +2952,7 @@
 <text name="hotkey" language="ko">단축키: \1</text>
 <text name="hotkey_activate_battery" language="ko">배터리 활성화</text>
 <text name="hotkey_activate_cloak" language="ko">은폐 활성화</text>
-<text name="hotkey_artillery" language="ko">함포 전력공급</text>
+<text name="hotkey_aim_artillery" language="ko">함포 전력공급</text>
 <text name="hotkey_autofire" language="ko">자동사격 토글</text>
 <text name="hotkey_cloaking" language="ko">은폐장 전력공급</text>
 <text name="hotkey_close" language="ko">전체 문 폐쇄</text>
@@ -3167,7 +3167,7 @@
 <text name="map_title" language="ko">송신소 지도</text>
 <text name="map_unvisited_loc" language="ko">방문하지 않은 송신소입니다.</text>
 <text name="map_waiting" language="ko">기다리는 중...</text>
-<text name="matthew_justin" language="ko">Matthew Davis와 Justin Ma</text>
+<text name="matthew_justin" language="ko">Matthew Davis와 Jay Ma</text>
 <text name="max_augments" language="ko">보조 장비는 최대 3개까지 설치할 수 있습니다.</text>
 <text name="max_crew" language="ko">함선에 자리가 없어 선원을 더 이상 받아들일 수 없습니다!</text>
 <text name="max_drones" language="ko">화물칸에 자리가 없어 드론 장비를 더 이상 실을 수 없습니다!</text>

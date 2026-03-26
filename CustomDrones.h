@@ -3,9 +3,12 @@
 #include "AbilityDrone.h"
 #include <rapidxml.hpp>
 
-static bool g_defenseDroneFix;
-static float g_defenseDroneFix_BoxRange[2];
-static float g_defenseDroneFix_EllipseRange[2];
+namespace DefenseDroneFix
+{
+    extern bool active;
+    extern float boxRange[2];
+    extern float ellipseRange[2];
+};
 
 //extern bool g_dronesCanTeleport;
 
@@ -64,4 +67,24 @@ private:
     std::vector<CustomDroneDefinition*> droneDefs = std::vector<CustomDroneDefinition*>();
 
     static CustomDroneManager _instance;
+};
+
+struct ShieldDroneDefinition
+{
+    std::string chargeSound = "shieldDroneCharge";
+    std::string activateSound = "shieldDroneActivate";
+    float slowDuration = 1.f;
+    float pulseDuration = 1.5f;
+    std::vector<float> cooldowns;
+    int layers = 1;
+};
+
+class ShieldDroneManager
+{
+public:
+    static void ParseShieldDroneBlueprint(rapidxml::xml_node<char> *node);
+    static const ShieldDroneDefinition* GetDefinition(const std::string& droneName);
+private:
+    static const ShieldDroneDefinition defaultDefinition;
+    static std::unordered_map<std::string, ShieldDroneDefinition> defs;
 };

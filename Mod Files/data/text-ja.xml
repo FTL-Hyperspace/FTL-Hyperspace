@@ -2962,7 +2962,7 @@
 <text name="hotkey" language="ja">ホットキー：\1</text>
 <text name="hotkey_activate_battery" language="ja">予備電源を起動</text>
 <text name="hotkey_activate_cloak" language="ja">クロークを起動</text>
-<text name="hotkey_artillery" language="ja">弩級砲の出力を上げる</text>
+<text name="hotkey_aim_artillery" language="ja">弩級砲の出力を上げる</text>
 <text name="hotkey_autofire" language="ja">オート発射のオン／オフ</text>
 <text name="hotkey_cloaking" language="ja">クロークの出力を上げる</text>
 <text name="hotkey_close" language="ja">全ドアを閉じる</text>
@@ -3177,7 +3177,7 @@
 <text name="map_title" language="ja">ビーコンマップ</text>
 <text name="map_unvisited_loc" language="ja">未訪エリア</text>
 <text name="map_waiting" language="ja">待機中...</text>
-<text name="matthew_justin" language="ja">Matthew Davis and Justin Ma</text>
+<text name="matthew_justin" language="ja">Matthew Davis and Jay Ma</text>
 <text name="max_augments" language="ja">拡張パーツは3個までしか持てない！</text>
 <text name="max_crew" language="ja">定員オーバーのため、これ以上クルーを雇えない！</text>
 <text name="max_drones" language="ja">貨物室が一杯で、これ以上ドローンを運べない！</text>

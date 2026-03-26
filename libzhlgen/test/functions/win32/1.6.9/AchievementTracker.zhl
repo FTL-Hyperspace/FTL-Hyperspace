@@ -14,6 +14,8 @@ __thiscall void AchievementTracker::SetSectorEight(AchievementTracker *this);
 __thiscall int AchievementTracker::GetShipMarker(AchievementTracker *this, const std::string& baseName, const std::string& thisName);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec4c8b582c8b17894dc083c128894dcc85db8955c4":
 __thiscall void AchievementTracker::SetFlag(AchievementTracker *this, const std::string& flagName);
+".578d":
+__thiscall int AchievementTracker::GetFlagValue(AchievementTracker *this, const std::string& flagName);
 "578d51288d7c240883e4f0ff77fc5589e557565383ec4c8b078b792c8955cc85ff8945c4":
 __thiscall bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b008b71188945e48b411c":

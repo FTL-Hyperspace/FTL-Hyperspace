@@ -79,7 +79,9 @@ enum class CrewStat : unsigned int
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
     POWER_COOLDOWN,
-    TRANSFORM_RACE
+    TRANSFORM_RACE,
+    PERS_DAMAGE_MULTIPLIER,
+    PERS_HEAL_MULTIPLIER,
 };
 
 extern const std::array<std::string, numStats> crewStats;
@@ -178,9 +180,10 @@ struct StatBoostDefinition
     ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
-    float powerScalingNoSys = 1.0;
-    float powerScalingHackedSys = 1.0;
+    float powerScalingNoSys = 0.f;
+    float powerScalingHackedSys = 0.f;
     std::vector<int> systemPowerScaling;
+    ShipTarget powerScalingShipTarget = ShipTarget::ORIGINAL_SHIP;
 
     std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
     std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
@@ -226,7 +229,7 @@ struct StatBoost
 
     int iStacks = 1;
 
-    CrewMember* crewSource;
+    CrewMember* crewSource = nullptr;
     int crewSourceId;
     TimerHelper timerHelper;
 

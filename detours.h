@@ -40,6 +40,7 @@
 #include "hde.h"
 #include <stdexcept>
 #include <cstring>
+#include <string>
 
 #ifdef _WIN32
 #  include <windows.h>
@@ -61,6 +62,12 @@
 #  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_WRITE | PROT_EXEC)
 #  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME)
 #endif
+
+#ifdef __APPLE__
+// Simple mprotect wrapper for macOS. Fixes code signature issues on macOS Big Sur and later.
+#  define MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(ADDRESS, SIZE, NEWPROT) (mprotect((void*)(ADDRESS), (SIZE), (NEWPROT)) == 0)
+#endif
+
 #ifdef __i386__
 #define MOLOGIE_DETOURS_DETOUR_SIZE (1 + sizeof(void*))
 #elif defined(__amd64__)
@@ -397,7 +404,16 @@ namespace MologieDetours
 
 			// Backup the original code
 			// Add 5 bytes of space to shove an extra jmp if we need to rewrite a single jmp/jcc + imm8 (note: supporting more would require many changes to generate line-by-line instead of just memcpy the code)
+			#ifdef __APPLE__
+			size_t backupSize = instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5;
+			backupOriginalCode_ = static_cast<uint8_t*>(mmap(nullptr, backupSize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			if (backupOriginalCode_ == MAP_FAILED) {
+				throw DetourPageProtectionException("Failed to allocate memory for original code backup", nullptr);
+			}
+			#else
 			backupOriginalCode_ = new uint8_t[instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5];
+			#endif
+
 			memcpy(backupOriginalCode_, targetFunction, instructionCount_);
 
 			// Fix relative jmps to point to the correct location
@@ -410,11 +426,18 @@ namespace MologieDetours
             uint32_t originalCodeJmpBackOffset = (uint32_t) (reinterpret_cast<address_type>(pSource_) + instructionCount_ - reinterpret_cast<address_type>(jmpBack) - MOLOGIE_DETOURS_DETOUR_SIZE);
 			*reinterpret_cast<uint32_t*>(jmpBack + 1) = originalCodeJmpBackOffset;
 
-			// Make backupOriginalCode_ executable
+			// Make backupOriginalCode_ executable (W^X: change from RW to RX)
+			#ifdef __APPLE__
+			if(!MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(backupOriginalCode_, backupSize, PROT_READ | PROT_EXEC))
+			{
+				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
+			}
+			#else
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make copy of original code executable", backupOriginalCode_);
 			}
+			#endif
 
 			// Create a new trampoline which points at the detour
 			#ifdef __i386__
@@ -423,18 +446,33 @@ namespace MologieDetours
 			*reinterpret_cast<address_pointer_type>(trampoline_ + 1) = reinterpret_cast<address_type>(pDetour_) - reinterpret_cast<address_type>(trampoline_) - MOLOGIE_DETOURS_DETOUR_SIZE;
 			#elif defined(__amd64__)
 			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
+			#ifdef __APPLE__
+			size_t trampolineSize = 12;
+			trampoline_ = static_cast<uint8_t*>(mmap(nullptr, trampolineSize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+			if (trampoline_ == MAP_FAILED) {
+				throw DetourPageProtectionException("Failed to allocate memory for trampoline", nullptr);
+			}
+			#else
 			trampoline_ = new uint8_t[12];
+			#endif
 			//printf("TRAMPOLINE AT: 0x%016llx, DETOUR: 0x%016llx, Target Func: 0x%016llx, Orig Backup: 0x%016llx\n", reinterpret_cast<address_type>(trampoline_), reinterpret_cast<address_type>(pDetour_), reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_));
 			trampoline_[0] = 0x48; trampoline_[1] = 0xB8; // mov imm64 into RAX
 			*reinterpret_cast<address_pointer_type>(trampoline_ + 2) = reinterpret_cast<address_type>(pDetour_);
 			trampoline_[10] = 0xFF; trampoline_[11] = 0xE0; // jmp RAX
 			#endif // __arch__
 
-			// Make trampoline_ executable
+			// Make trampoline_ executable (W^X: change from RW to RX)
+			#if defined(__APPLE__) && defined(__amd64__)
+			if(!MOLOGIE_DETOURS_MEMORY_SIMPLE_PROTECT(trampoline_, trampolineSize, PROT_READ | PROT_EXEC))
+			{
+				throw DetourPageProtectionException("Failed to make trampoline executable", trampoline_);
+			}
+			#else
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(trampoline_, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
 				throw DetourPageProtectionException("Failed to make trampoline executable", trampoline_);
 			}
+			#endif
 
 			// Unprotect original function
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
@@ -457,7 +495,7 @@ namespace MologieDetours
 			// Reprotect original function
 			if(!MOLOGIE_DETOURS_MEMORY_REPROTECT(targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
 			{
-			    throw DetourPageProtectionException("Failed to change page protection of original function", reinterpret_cast<void*>(targetFunction));
+				throw DetourPageProtectionException("Failed to change page protection of original function", reinterpret_cast<void*>(targetFunction));
 			}
 
 			// Flush instruction cache on Windows
@@ -611,8 +649,17 @@ namespace MologieDetours
 
                         // TODO: Need to check delta size, if it's larger than a 32-bit jump we'd need to rewrite this code to an absolute jmp rather than this.
                         // TODO: If delta is too big we'll have to allocate more space for that.
+					#ifdef __APPLE__
+						if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0) // Use an aboslute jump instead of a relative one
+						{
+							unsigned char* pbCurOp = baseNew + i;
+							pbCurOp[0] = 0xE9;  // Absolute jump (JMP)
+							*reinterpret_cast<uint32_t*>(pbCurOp + 1) = (uintptr_t)baseOld;  // Absolute jump addr
+						}
+					#else
                         if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
                             throw DetourRelocationException("Target relocation cannot be expressed as rel32 and is more than 32-bits away");
+					#endif
 
                         unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1; // Note, this offset computation doesn't deal with prefixes.
                         *reinterpret_cast<uint32_t*>(pbCurOp  + offset) += delta;

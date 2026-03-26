@@ -707,6 +707,15 @@ bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, Custo
             }
             if (def.artilleryRoomImages.size() > 1) isCustom = true; //Only qualify for a custom definition if multiple artillery systems are present
         }
+        if (name == "exclusivityOverride")
+        {
+            isCustom = true;
+            def.hasExclusivityOverride = true;
+            for (auto exclusivityGroup = shipNode->first_node("exclusivityGroup"); exclusivityGroup; exclusivityGroup = exclusivityGroup->next_sibling("exclusivityGroup"))
+            {
+                def.exclusivityOverride.ParseExclusivityNode(exclusivityGroup);
+            }
+        }
 
     }
 
@@ -1037,6 +1046,48 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
     UpdateFilteredAchievements();
 
+    //Unlock/relock vanilla achievement for having every ship
+    bool haveAllTypeA = true;
+    if (!hideFirstPage)
+    {
+        for (const auto& unlockedTypes : G_->GetScoreKeeper()->unlocked)
+        {
+            if (!unlockedTypes[0])
+            {
+                haveAllTypeA = false;
+                break;
+            }
+        }
+    }
+
+    for (const auto& shipButtonDef : shipButtonDefs)
+    {
+        if (shipButtonDef.VariantExists(0) && !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipButtonDef.name, 0))
+        {
+            haveAllTypeA = false;
+            break;
+        }
+    }
+
+    if (!haveAllTypeA)
+    {
+        //TODO: Hook GetAchievement
+        CAchievement* allTypeAAchievement = nullptr;
+        for (CAchievement* ach : G_->GetAchievementTracker()->achievements)
+        {
+            if (ach->name_id == "ACH_UNLOCK_ALL")
+            {
+                allTypeAAchievement = ach;
+                break;
+            }
+        }
+        allTypeAAchievement->unlocked = false;
+    }
+    else
+    {
+        G_->GetAchievementTracker()->SetAchievement("ACH_UNLOCK_ALL", false, true);
+    }
+
     initialized = true;
 }
 
@@ -1265,11 +1316,11 @@ void CustomShipSelect::OnRender(bool renderSelect)
 
         if (hideFirstPage)
         {
-            sprintf(buf, "%d/%d", GetCurrentPage(), GetMaxPages());
+            snprintf(buf, 128, "%d/%d", GetCurrentPage(), GetMaxPages());
         }
         else
         {
-            sprintf(buf, "%d/%d", GetCurrentPage() + 1, GetMaxPages() + 1);
+            snprintf(buf, 128, "%d/%d", GetCurrentPage() + 1, GetMaxPages() + 1);
         }
 
         std::string text(buf);
@@ -1896,7 +1947,7 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
                 index = 0;
                 isVanilla = customShipOrder.empty();
             }
-            else 
+            else
             {
                 index++;
             }
@@ -1913,14 +1964,14 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
                 index++;
             }
         }
-        
+
         counter++;
         if (counter > 1000)
         {
             printf("Infinite loop while getting next ship!");
             break;
         }
-        
+
         if (isVanilla)
         {
             hasShip = G_->GetScoreKeeper()->GetShipUnlocked(vanillaShipOrder[index], currentType);
@@ -1989,14 +2040,14 @@ int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
                 index--;
             }
         }
-        
+
         counter++;
         if (counter > 1000)
         {
             printf("Infinite loop while getting next ship!");
             break;
         }
-        
+
         if (isVanilla)
         {
             hasShip = G_->GetScoreKeeper()->GetShipUnlocked(vanillaShipOrder[index], currentType);
@@ -2009,6 +2060,20 @@ int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
     }
 
     return isVanilla ? vanillaShipOrder[index] : GetShipButtonIdFromName(GetOrderedShipButtonDefinition(index)->name) + 100;
+}
+int CustomShipSelect::CycleType(int currentShipId, int currentType, bool forward)
+{
+    int index = GetShipButtonOrderIndex(currentShipId - 100);
+    ShipButtonDefinition* def = GetOrderedShipButtonDefinition(index);
+    for (int x = 1; x <= 3; ++x)
+    {
+        int offset = forward ? x : -x;
+        int candidateType = (currentType + offset + 3) % 3;
+        if (def->VariantExists(candidateType) && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, candidateType))
+        {
+            return candidateType;
+        }
+    }
 }
 int CustomShipSelect::GetRandomShipIndex()
 {
@@ -2254,11 +2319,179 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
     return super(shipType, shipVariant);
 }
 
-// TODO: Why??? There's no implemenation here
-HOOK_METHOD(AchievementTracker, GetShipAchievements, (std::string& ship) -> std::vector<CAchievement*>)
+// Rewritten because of inlining in the Mac binary
+HOOK_METHOD_PRIORITY(ShipBuilder, MouseClick, 9999, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> AchievementTracker::GetShipAchievements -> Begin (CustomShipSelect.cpp)\n")
-    return super(ship);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
+
+    if (this->introScreen.bOpen)
+    {
+        this->introScreen.MouseClick(mX, mY);
+        return;
+    }
+
+    if (this->bRenaming)
+    {
+        return;
+    }
+
+    if (this->shipSelect.bOpen)
+    {
+        this->shipSelect.MouseClick();
+        if (this->shipSelect.GetSelection() != -1)
+        {
+            this->currentShipId = this->shipSelect.GetSelection();
+            if (this->currentShip)
+            {
+                this->currentShip->destructor2();
+            }
+            this->SwitchShip(this->currentShipId, this->shipSelect.currentType);
+            this->shipSelect.Close();
+        }
+        return;
+    }
+
+    // Handle crew customization boxes
+    for (CrewCustomizeBox* currentBox : this->vCrewBoxes)
+    {
+        if (!this->bCustomizingCrew && currentBox->customizeButton.Hovering())
+        {
+            currentBox->SetCustomizeMode(Point(100, 542));
+        }
+        else
+        {
+            currentBox->MouseClick();
+        }
+    }
+
+    // Start button
+    if (this->startButton.Hovering())
+    {
+        this->Finish();
+        return;
+    }
+
+    // Difficulty buttons (inactive = selected)
+    if (this->easyButton.Hovering())
+    {
+        *Global::difficulty = 0;
+        this->easyButton.SetActive(false);
+        this->normalButton.SetActive(true);
+        this->hardButton.SetActive(true);
+        return;
+    }
+    if (this->normalButton.Hovering())
+    {
+        *Global::difficulty = 1;
+        this->easyButton.SetActive(true);
+        this->normalButton.SetActive(false);
+        this->hardButton.SetActive(true);
+        return;
+    }
+    if (this->hardButton.Hovering())
+    {
+        *Global::difficulty = 2;
+        this->easyButton.SetActive(true);
+        this->normalButton.SetActive(true);
+        this->hardButton.SetActive(false);
+        return;
+    }
+
+    // Rename button
+    if (this->renameButton.Hovering())
+    {
+        this->bRenaming = true;
+        this->nameInput.Start();
+        return;
+    }
+
+    // Ship navigation
+    if (this->leftButton.Hovering())
+    {
+        this->CycleShipPrevious();
+        return;
+    }
+    if (this->rightButton.Hovering())
+    {
+        this->CycleShipNext();
+        return;
+    }
+
+    // Show rooms toggle
+    if (this->showButton.Hovering())
+    {
+        this->bShowRooms = !this->bShowRooms;
+        return;
+    }
+
+    // Ship list
+    if (this->listButton.Hovering())
+    {
+        this->shipSelect.Open(this->currentShipId, this->currentType);
+        return;
+    }
+
+    // Ship type selection (A/B/C)
+    if (this->typeA.Hovering())
+    {
+        this->SwapType(0);
+        return;
+    }
+    if (this->typeB.Hovering())
+    {
+        this->SwapType(1);
+        return;
+    }
+    if (this->typeC.Hovering())
+    {
+        this->SwapType(2);
+        return;
+    }
+
+    // Advanced Edition toggle
+    if (this->advancedOffButton.Hovering())
+    {
+        G_->GetSettings()->bDlcEnabled = false;
+        this->currentShip->CheckDlcEnabled();
+        this->advancedOffButton.SetActive(false);
+        this->advancedOnButton.SetActive(true);
+        return;
+    }
+    if (this->advancedOnButton.Hovering())
+    {
+        G_->GetSettings()->bDlcEnabled = true;
+        this->currentShip->CheckDlcEnabled();
+        this->advancedOffButton.SetActive(true);
+        this->advancedOnButton.SetActive(false);
+        return;
+    }
+
+    // Random ship selection
+    if (this->randomButton.Hovering())
+    {
+        std::vector<int> possibleShips;
+        for (int i = 0; i < 30; ++i)
+        {
+            if (G_->GetScoreKeeper()->GetShipUnlocked(i % 10, i / 10))
+            {
+                possibleShips.push_back(i);
+            }
+        }
+
+        int selected_ship_data = possibleShips[random32() % possibleShips.size()];
+        int shipId = selected_ship_data % 10;
+        int shipType = selected_ship_data / 10;
+
+        this->currentShipId = shipId;
+
+        if (this->currentShip)
+        {
+            this->currentShip->destructor2();
+        }
+
+        this->SwitchShip(shipId, shipType);
+        return;
+    }
 }
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
@@ -2286,11 +2519,6 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
     }
 }
 
-HOOK_METHOD(ShipBuilder, SwapType, (int variant) -> int)
-{
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwapType -> Begin (CustomShipSelect.cpp)\n")
-    return super(variant);
-}
 
 HOOK_METHOD(ShipSelect, Close, () -> void)
 {
@@ -2308,14 +2536,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipNext, 9999, () -> void)
     int nextShipId = customSel->CycleShipNext(currentShipId, currentType);
     if (nextShipId >= 100)
     {
-        currentShip->destructor2(); 
+        currentShip->destructor2();
         customSel->SwitchShip(this, nextShipId, currentType);
     }
     else
     {
         if (currentShipId >= 100) customSel->SwitchPage(0);
         currentShipId = nextShipId;
-        SwitchShip(nextShipId, currentType);   
+        SwitchShip(nextShipId, currentType);
     }
 }
 
@@ -2327,7 +2555,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CycleShipPrevious, 9999, () -> void)
     int prevShipId = customSel->CycleShipPrevious(currentShipId, currentType);
     if (prevShipId >= 100)
     {
-        currentShip->destructor2(); 
+        currentShip->destructor2();
         customSel->SwitchShip(this, prevShipId, currentType);
     }
     else
@@ -2549,6 +2777,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, CreateEquipmentBoxes, 9999, () -> void)
     storeIds[3] = vEquipmentBoxes.size();
 
     int augSlots = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName).augSlots; // in vanilla, augSlots is hardcoded to 3
+    if (currentShip->HasAugmentation("AUGMENT_SLOT")) augSlots += static_cast<int>(currentShip->GetAugmentationValue("AUGMENT_SLOT"));
     for (int i = 0; i < augSlots; ++i)
     {
         AugmentEquipBox *box = new AugmentEquipBox(Point(988, 529 + 60 * (i % 3)), currentShip, i);
@@ -2655,7 +2884,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     bool isVanillaShip = currentShipId < 100;
 
     auto customSel = CustomShipSelect::GetInstance();
-    
+
     bool showShipAchievements = customSel->ShowAchievementsForShip(currentShipId, currentType);
 
     if (Global::forceDlc)
@@ -2859,7 +3088,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             CSurface::GL_PushMatrix();
             CSurface::GL_Translate(box->location.x, box->location.y);
             box->UpdateBoxImage(false);
-            CSurface::GL_RenderPrimitiveWithColor(box->empty, GL_Color(1.f, 1.f, 1.f, 0.2f));
+            CSurface::GL_RenderPrimitiveWithColor(box->empty, GL_Color(1.f, 1.f, 1.f, g_dummyEquipmentSlotsOpacity));
             CSurface::GL_PopMatrix();
         }
     }
@@ -3324,7 +3553,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
         char buf[12];
 
-        sprintf(buf, "%u", Global::currentSeed);
+        snprintf(buf, 12, "%u", Global::currentSeed);
 
         freetype::easy_printCenter(62, position.x + 81.f + 160.f, position.y + 325.f + 40.f, std::string(buf));
     }
@@ -3456,7 +3685,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
                 if (SeedInputBox::seedsEnabled)
                 {
-                    sprintf(buf, "%u", Global::currentSeed);
+                    snprintf(buf, 12, "%u", Global::currentSeed);
                 }
                 freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
 
@@ -3562,7 +3791,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     char buf[12] = "-";
     if (SeedInputBox::seedsEnabled)
     {
-        sprintf(buf, "%u", Global::currentSeed);
+        snprintf(buf, 12, "%u", Global::currentSeed);
     }
     freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 40, std::string(buf));
 
@@ -3608,16 +3837,77 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     }
 }
 
-HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
+HOOK_METHOD(ShipBuilder, CycleTypeNext, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnKeyDown -> Begin (CustomShipSelect.cpp)\n")
-    if (key == SDLKey::SDLK_UP
-        || key == SDLKey::SDLK_LEFT
-        || key == SDLKey::SDLK_RIGHT
-        || key == SDLKey::SDLK_DOWN)
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleTypeNext -> Begin (CustomShipSelect.cpp)\n")
+    if (currentShipId < 100) return super();
+    else
     {
-        return;
+        auto customSel = CustomShipSelect::GetInstance();
+        int type = customSel->CycleType(currentShipId, currentType, true);
+        customSel->SwitchShip(this, currentShipId, type);
     }
+}
+HOOK_METHOD(ShipBuilder, CycleTypePrev, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleTypePrev -> Begin (CustomShipSelect.cpp)\n")
+    if (currentShipId < 100) return super();
+    else
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+        int type = customSel->CycleType(currentShipId, currentType, false);
+        customSel->SwitchShip(this, currentShipId, type);
+    }
+}
 
-    super(key);
+HOOK_METHOD_PRIORITY(ShipBuilder, OnKeyDown, 9999, (SDLKey key) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnKeyDown -> Begin (CustomShipSelect.cpp)\n")
+    if (!shipSelect.bOpen)
+    {
+        if (introScreen.bOpen)
+        {
+            introScreen.KeyDown(key);
+            return;
+        }
+
+        bool renaming = bRenaming;
+        for (CrewCustomizeBox* crewBox : vCrewBoxes)
+        {
+            renaming = renaming || crewBox->bRenaming || crewBox->bQuickRenaming;
+        }
+
+        if (!renaming)
+        {
+            switch (key)
+            {
+                case SDLK_RIGHT:
+                    CycleShipNext();
+                    break;
+                case SDLK_LEFT:
+                    CycleShipPrevious();
+                    break;
+                case SDLK_DOWN:
+                    CycleTypePrev();
+                    break;
+                case SDLK_UP:
+                    CycleTypeNext();
+                    break;
+                case SDLK_ESCAPE:
+                    currentShip->destructor2();
+                    Close();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    else
+    {
+        shipSelect.KeyDown(key);
+        if (key == SDLK_ESCAPE)
+        {
+            shipSelect.Close();
+        }
+    }
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FTLGame.h"
-
+#include "CustomLockdowns.h"
 
 struct StatBoostDefinition;
 
@@ -41,4 +41,5 @@ struct ExplosionDefinition
     float transformRaceHealthFraction = 1.f;
     bool transformRaceDeathSound = false;
     std::array<std::string,2> event = {"",""};
+    CustomLockdownDefinition customLockdown;
 };

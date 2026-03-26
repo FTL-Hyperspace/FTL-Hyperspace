@@ -345,9 +345,7 @@ int CustomShipGenerator::InitShip(ShipManager *ship, ShipBlueprint &bp, int leve
 
 std::vector<int> CustomShipGenerator::GenerateSystemMaxes(ShipBlueprint &bp, int level)
 {
-    std::vector<int> systemMaxes = std::vector<int>();
-    systemMaxes.reserve(21);
-    systemMaxes.resize(21, 0);
+    std::vector<int> systemMaxes = std::vector<int>(CustomUserSystems::GetLastSystemId() + 1, 0);
 
     for (auto sysInfo : bp.systemInfo)
     {

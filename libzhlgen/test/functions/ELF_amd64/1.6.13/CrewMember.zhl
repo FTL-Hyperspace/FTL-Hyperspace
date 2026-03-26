@@ -216,6 +216,8 @@ virtual cleanup __amd64 bool CrewMember::CanMan(CrewMember *this);
 virtual cleanup __amd64 bool CrewMember::CanRepair(CrewMember *this);
 ".538b570831c04889fb85d2":
 cleanup __amd64 bool CrewMember::GetControllable(CrewMember *this);
+".!e9ab35ffff":
+cleanup __amd64 bool CrewMember::ShipDamage(CrewMember *this, float amount);
 
 
 struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
@@ -262,4 +264,8 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 	void _HS_ResetPower();
 	void _HS_ActivatePower();
 
+	inline Point GetGridPosition()
+	{
+		return Point((int)this->x, (int)this->y);
+	}
 }};

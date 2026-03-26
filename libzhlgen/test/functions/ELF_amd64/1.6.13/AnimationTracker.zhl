@@ -16,12 +16,20 @@ cleanup __amd64 void AnimationTracker::SetProgress(AnimationTracker *this, float
 cleanup __amd64 float AnimationTracker::GetAlphaLevel(AnimationTracker *this, bool reverse);
 
 
-struct AnimationTracker 
+struct AnimationTracker
 {{
 	AnimationTracker()
 	{
-	
+
 	}
 	void LoadState(int fd);
 	void SaveState(int fd);
+
+	//Restored inlined vanilla method
+	inline void SetCurrentTime(float newTime)
+	{
+		newTime = std::max(newTime, 0.f);
+		newTime = std::min(newTime, time);
+		current_time = newTime;
+	}
 }};

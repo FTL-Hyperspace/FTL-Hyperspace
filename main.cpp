@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include "Global.h"
 
+#ifdef __APPLE__
+#include "src/features/freeze-watchdog/FreezeWatchdog.h"
+#endif
+
+// Backup log files from previous session before they get overwritten
+static void BackupLogFiles()
+{
+    std::rename("zhl.log", "zhl.log.bak");
+    std::rename("FTL_HS.log", "FTL_HS.log.bak");
+}
+
 // TODO: Add GCC poison pragma for some of the Windows specific bullshit functions & types so that we stop other devs from reintroducing them. https://gcc.gnu.org/onlinedocs/cpp/Pragmas.html#Pragmas (like sfopen!)
 // TODO: Add GCC dependency pragma to Lua parser for the FTLGame files to have GCC auto complain if you updated the ZHL files (if it's possible to match a whole folder, not sure)
 // TODO: Add GCC line preprocessor directives for the Lua parser to reference the correct original lines in the ZHL files maybe? https://gcc.gnu.org/onlinedocs/cpp/Line-Control.html#Line-Control
@@ -24,7 +35,7 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
             printf("Hyperspace.dll is loaded\n");
 #endif
 
-
+            BackupLogFiles();
 
             ZHL::SetLogPath("zhl.log");
             ZHL::Init();
@@ -52,7 +63,6 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
     return TRUE; // succesful
 }
 #elif defined(__linux__)
-
 void __attribute__((constructor)) launchHyperspace() {
 
 #ifdef DEBUG
@@ -64,9 +74,27 @@ void __attribute__((constructor)) launchHyperspace() {
     printf("Hyperspace.so is loaded\n");
 #endif
 
+            BackupLogFiles();
+
             ZHL::SetLogPath("zhl.log");
             ZHL::Init();
 
             G_->Initialize();
+}
+#elif defined(__APPLE__)
+void __attribute__((constructor)) launchHyperspace() {
+
+#ifdef DEBUG
+    printf("Hyperspace.dylib is loaded\n");
+#endif
+
+            BackupLogFiles();
+
+            ZHL::SetLogPath("zhl.log");
+            ZHL::Init();
+
+            G_->Initialize();
+
+            FreezeWatchdog::Start();
 }
 #endif

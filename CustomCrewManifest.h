@@ -14,7 +14,8 @@ public:
 
     std::vector<CrewEquipBox*> GetPage(int page)
     {
-        return crewEquipBoxes[page];
+        bool isValidPage = page >= 0 && page < crewEquipBoxes.size();
+        return isValidPage ? crewEquipBoxes[page] : std::vector<CrewEquipBox*>();
     }
 
     void OnInit(CrewManifest *manifest, ShipManager *ship);
@@ -29,11 +30,15 @@ public:
     void OnScrollWheel(float direction);
 
     int GetEffectiveCrewLimit(ShipManager *ship);
-
+    bool IsOverCrewBox(CrewEquipBox *box)
+    {
+        return overCrewBox == box;
+    }
     static CustomCrewManifest* GetInstance()
     {
         return &instance;
     }
+
 private:
     CrewManifest *crewManifest = nullptr;
     Button *leftButton = nullptr;

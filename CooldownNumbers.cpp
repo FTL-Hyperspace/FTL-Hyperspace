@@ -32,7 +32,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
             CSurface::GL_SetColor(GL_Color(150.f / 255.f, 150.f / 255.f, 150.f / 255.f, 1.f));
         }
         std::stringstream stream;
-        if (pWeapon->cooldown.first < 0)
+        if (pWeapon->cooldown.first < 0 || pWeapon->cooldown.second < 0)
         {
             CSurface::GL_SetColor(GL_Color(150.f / 255.f, 150.f / 255.f, 150.f / 255.f, 1.f));
             stream << G_->GetTextLibrary()->GetText("weapon_cooldown_negative");
@@ -41,11 +41,11 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         {
             stream << std::fixed <<std::setprecision(1) << pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")) << "/" << pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN"));
         }
-        
+
         std::stringstream stream2;
         if (pWeapon->blueprint->boostPower.type == 2)
         {
-            
+
             int boostLevel = std::min(pWeapon->boostLevel, pWeapon->blueprint->boostPower.count);
             int damage = pWeapon->blueprint->damage.iDamage;
             if (damage < 1)
@@ -61,7 +61,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
                 }
             }
             stream2 << std::setprecision(3) << damage + boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
-            
+
         }
         std::string shotLimitString;
         auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(pWeapon->blueprint->name);
@@ -74,7 +74,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 
         std::string streamStr = stream.str();
         std::string stream2Str = stream2.str();
-        
+
         auto context = Global::GetInstance()->getLuaContext();
         SWIG_NewPointerObj(context->GetLua(), pWeapon, context->getLibScript()->types.pProjectileFactory, 0);
         lua_pushnumber(context->GetLua(), pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")));
@@ -89,7 +89,7 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         lua_pop(context->GetLua(), 6);
 
         if (!preempt)
-        {   
+        {
             int offset = 34;
             if (streamStr.length() > 0)
             {

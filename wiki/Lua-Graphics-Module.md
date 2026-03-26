@@ -207,6 +207,13 @@ All below methods are static, so they are to be called with the `.` operator.
   - `float x, float y` -- center point
   - `radius` -- the radius of the circle
 
+- `bool GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color)`
+  - Draws a full ellipse.
+  - `int x, int y` -- The coordinates of the ellipse's center
+  - `int a1` -- The horizontal radius.
+  - `int a2` -- The vertical radius.
+  - `GL_Color color` -- The color of the ellipse, normalized to RGBA values within the range [0, 1]
+
 - `bool GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color)`
 
   - Renders a line
@@ -294,14 +301,32 @@ Contains functions for writing text to the screen
 **Note**: The `fontSize` argument is not the literal font size, it needs to be a font ID.  
 See `fonts.png` inside the hyperspace zip folder
 
+If `customTextStyle` is enabled in hyperspace.xml, you can apply custom text style to following functions:
+- Since 1.17: `easy_measurePrintLines`, `easy_printAutoNewlines`
+- Since 1.18: `easy_measureWidth`, `easy_print`, `easy_printCenter`, `easy_printNewlinesCentered`, `easy_printRightAlign`
+
+- Example:
+```lua
+script.on_render_event(Defines.RenderEvents.MOUSE_CONTROL, function()
+	local text = "This text is colored, like [style[color:FF0000]]red[[/style]], [style[color:00FF00]]green[[/style]] and [style[color:0000FF]]blue[[/style]]!"
+	Graphics.freetype.easy_printAutoNewlines(13, 100, 100, 300, text)
+end, function () end)
+```
+
 ### Methods
 - `Pointf easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text)`
+  - Return: The horizontal/vertical size of the text. Note that the augments `x` and `y` do not affect the return value.
 
 - `int easy_measureWidth(int fontSize, const std::string &text)`
+  - Return: The horizontal size of the text.
 
 - `Pointf easy_print(int fontSize, float x, float y, const std::string &text)`
+  - Return.`x`: The horizontal size of the text.
+  - Return.`y`: Y position of the last letter.
 
 - `Pointf easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text)`
+  - Return.`x`: The horizontal size of the text.
+  - Return.`y`: Y position of the last letter.
 
 - `void easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text)`
 
@@ -310,3 +335,5 @@ See `fonts.png` inside the hyperspace zip folder
 - `Pointf easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text)`
 
 - `Pointf easy_printRightAlign(int fontSize, float x, float y, const std::string &text)`
+  - Return.`x`: The value is somehow always fixed to 0.
+  - Return.`y`: Y position of the last letter.

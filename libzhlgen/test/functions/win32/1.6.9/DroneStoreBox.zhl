@@ -1,6 +1,9 @@
 "578d7c240883e4f0ff77fc5589f889e557565389cb8d4dd083ec4c8b70088d45d88b178b7f04":
 __thiscall void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *ship, Equipment *equip, const DroneBlueprint* bp);
-
+"578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b83540100008b8b3c010000c744240800000000c744240401000000890424e8????????83ec0c8d65f85b5f5d8d67f85fc3":
+__thiscall void DroneStoreBox::Purchase(DroneStoreBox *this);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b83540100008b8b3c010000c744240800000000c744240401000000890424e8????????83ec0c8d65f85b5f5d8d67f85fc3":
+__thiscall void WeaponStoreBox::Purchase(WeaponStoreBox *this);
 
 struct DroneStoreBox
 {{
@@ -8,7 +11,7 @@ struct DroneStoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
-	
+
 	DroneStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);

@@ -1,0 +1,12 @@
+// Continue from MenuScreen::Open (hyper efficiency™)
+".554889e54156534883ec6049":
+cleanup __amd64 void MindBox::constructor(MindBox *this, Point _position, MindSystem* _system);
+
+
+struct MindBox
+{{
+	MindBox(Point position, MindSystem* system)
+	{
+		this->constructor(position, system);
+	}
+}};

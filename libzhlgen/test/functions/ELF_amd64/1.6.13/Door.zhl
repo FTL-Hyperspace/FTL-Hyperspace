@@ -1,19 +1,43 @@
 "4883ec188b97540200008bb7500200004889e7e8????????8b442404":
-cleanup __amd64 Point Door::GetPosition(Door *this);
+cleanup __amd64 Point Door::GetPosition(Door *this); //004968f0
 ".5380bfec01000000":
-cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount);
+cleanup __amd64 bool Door::ApplyDamage(Door *this, float amount); //00496930
+"!.53??89fbe8??????????89df5b":
+cleanup __amd64 void Door::destructor(Door *this); //00496e00
+".??57??56??55??89cd??54??89fc":
+cleanup __amd64 void Door::constructor(Door *this); //00496e30
 "!.55??89fd5389f3??83ec088bb7cc01000089dfe8????????":
-cleanup __amd64 void Door::SaveState(Door *this, int fd);
+cleanup __amd64 void Door::SaveState(Door *this, int fd); //00498290
 "!.5589f553??89fb89f7??83ec08e8????????89ef8983cc010000":
-cleanup __amd64 void Door::LoadState(Door *this, int fd);
+cleanup __amd64 void Door::LoadState(Door *this, int fd); //00498300
+"!.53??89fb??8d7f48807b240075??807b2c00":
+cleanup __amd64 void Door::AccelerateAnimation(Door *this); //00498420
 ".55534889fb4883ec0883bfb400000004c6472c01":
-cleanup __amd64 void Door::FakeOpen(Door *this);
+cleanup __amd64 void Door::FakeOpen(Door *this); //00498470
 ".55534889fb4883ec080fb64724c6472c00":
-cleanup __amd64 void Door::FakeClose(Door *this);
+cleanup __amd64 void Door::FakeClose(Door *this); //00498530
+".80bf3c020000000f85????????83fe04f30f2a97cc010000":
+cleanup __amd64 void Door::SetBlastDoor(Door *this, int val); //00498600
 ".8b8f4c0200008b570885c9":
-cleanup __amd64 bool Door::IsSealed(Door *this, int shipId);
+cleanup __amd64 bool Door::IsSealed(Door *this, int shipId); //00498740
+".??84f653??89fb??8dbf28020000":
+cleanup __amd64 void Door::SetLockdown(Door *this, bool val); //004987a0
+".83faff74??8b4f1c8b7f2039f1":
+cleanup __amd64 bool Door::ConnectsRooms(Door *this, int roomId1, int roomId2); //004989d0
+".31c080bfec010000000f85":
+cleanup __amd64 bool Door::ContainsPoint(Door *this, int loc_x, int loc_y, float scale); //00498a40
+".5553??89fb??83ec0883bfb400000004c647240174":
+cleanup __amd64 void Door::Open(Door *this); //00498c70
+".5553??89fb??83ec080fb6472484c075":
+cleanup __amd64 void Door::StartAnimIfNecessary(Door *this); //00498e00
+".??55??54??8d67485553??89fb??89e7??8dab08010000??83ec08e8":
+cleanup __amd64 void Door::PauseLoop(Door *this); //00498ec0
+".??55??54??8d67485553??89fb??89e7??8dab08010000??83ec08e8":
+cleanup __amd64 void Door::UpdateAnimations(Door *this); //00499020
 "!.55534889fb4883ec188b874c02000085c0":
-cleanup __amd64 void Door::OnLoop(Door *this);
+cleanup __amd64 void Door::OnLoop(Door *this); //00499180
+".5589d553??89fb??83ec38f30f1144":
+cleanup __amd64 void Door::OnRender(Door *this, float alpha, bool bForceView, bool useLargeSprites); //00499560
 
 struct Door depends (Point, ShipGraph)
 {{
@@ -49,5 +73,20 @@ public:
 		{
 			return pos1;
 		}
+	}
+
+	//Vanilla method returns false in all cases when the door is forced open or locked down
+	bool HS_ContainsPoint(int loc_x, int loc_y, float scale, bool force)
+	{
+		if (!force) return ContainsPoint(loc_x, loc_y, scale);
+		bool wasForcedOpen = forcedOpen.running;
+		bool wasLockedDown = lockedDown.running;
+		forcedOpen.running = false;
+		lockedDown.running = false;
+		bool ret = ContainsPoint(loc_x, loc_y, scale);
+		forcedOpen.running = wasForcedOpen;
+		lockedDown.running = wasLockedDown;
+
+		return ret;
 	}
 }};

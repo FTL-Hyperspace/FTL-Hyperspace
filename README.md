@@ -10,6 +10,10 @@ See [Building Windows](../../wiki/Building-on-Windows)
 ## Linux
 See [Building Linux](BUILDING.LINUX.md)
 
+# Contributing
+Please set up editorconfig in your editor.
+See [editorconfig.org](https://editorconfig.org/) for more information on if your editor requires a plugin.
+
 # Licenses
 Please see [LICENSE.md](LICENSE.md) for license details & other open source licenses in use by libraries.
 

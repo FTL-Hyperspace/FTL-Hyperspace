@@ -4,6 +4,7 @@
 #include "CustomOptions.h"
 #include "CustomEvents.h"
 #include "CustomScoreKeeper.h"
+#include "CustomSystems.h"
 #include "CustomAchievements.h"
 #include "CustomShips.h"
 #include "CustomSystems.h"
@@ -107,7 +108,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         for (auto i : G_->GetCrewFactory()->crewMembers)
         {
             if (i->iShipId == 0)
-            { 
+            {
                 for (int skill = 0; skill<6; skill++)
                 {
                     i->MasterSkill(skill);
@@ -150,17 +151,29 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (boost::to_upper_copy(command) == "SYS ALL")
     {
         ShipManager *ship = commandGui->shipComplete->shipManager;
-        
-        for (int systemId = 0; systemId< 17; systemId++) {
-            if (systemId == 16)
+
+        //Vanilla Systems
+        for (int systemId = 0; systemId < 16; ++systemId)
+        {
+            if (!ship->HasSystem(systemId) && ship->SystemWillReplace(systemId) == SYS_INVALID)
             {
-                ship->AddSystem(20);
-            } 
-            else
-            {
-            if (!ship->HasSystem(systemId) && !(systemId == 13 && ship->HasSystem(5)) && !(systemId == 5 && ship->HasSystem(13)))
                 ship->AddSystem(systemId);
-            } 
+            }
+        }
+
+        //Temporal system
+        if (!ship->HasSystem(SYS_TEMPORAL) && ship->SystemWillReplace(SYS_TEMPORAL) == SYS_INVALID)
+        {
+            ship->AddSystem(SYS_TEMPORAL);
+        }
+
+        //Custom systems
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId) && ship->SystemWillReplace(systemId) == SYS_INVALID)
+            {
+                ship->AddSystem(systemId);
+            }
         }
 
         for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
@@ -180,6 +193,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         {
             sys->healthState.first = 0;
         }
+
+        return true;
+    }
+    if (cmdName == "REMOVESYS" && command.length() > 9)
+    {
+        commandGui->shipComplete->shipManager->RemoveSystem(ShipSystem::NameToSystemId(boost::trim_copy(command.substr(10))));
 
         return true;
     }
@@ -257,10 +276,27 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     */
     if(cmdName == "LOADEVENT")
     {
+
         if (command.length() > 10)
         {
+            //Temporarily clear lists of used text and events so that command can be used to test events more easily
+            EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+            auto oldEvents = eventGenerator->events;
+            eventGenerator->events.insert(eventGenerator->usedEvents.begin(), eventGenerator->usedEvents.end());
+            auto oldTextLists = eventGenerator->textLists;
+            eventGenerator->textLists.insert(eventGenerator->usedTextLists.begin(), eventGenerator->usedTextLists.end());
+
+            auto oldUsedEvents = std::move(eventGenerator->usedEvents);
+            auto oldUsedTextLists = std::move(eventGenerator->usedTextLists);
+
             std::string eventName = boost::trim_copy(command.substr(10));
-            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, true, -1);
+
+            eventGenerator->events = std::move(oldEvents);
+            eventGenerator->usedEvents = std::move(oldUsedEvents);
+            eventGenerator->textLists = std::move(oldTextLists);
+            eventGenerator->usedTextLists = std::move(oldUsedTextLists);
         }
         return true;
     }
@@ -437,7 +473,7 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
         super(command);
 
         // This is here instead of in CommandConsole::RunCommand because CommandGui has shipComplete
-        if(command == "GOD")
+        if(boost::to_upper_copy(command) == "GOD")
             PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }
 }
@@ -480,7 +516,7 @@ void PrintHelper::Render()
             timer = 0;
             messages.pop_front();
         }
-    }  
+    }
 }
 
 void PrintHelper::AddMessage(const std::string message)
@@ -562,7 +598,7 @@ HOOK_METHOD(InputBox, TextInput, (int ch) -> void)
 HOOK_METHOD(InputBox, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InputBox::OnRender -> Begin (CommandConsole.cpp)\n")
-        
+
     if (bOpen == false) return;
 
     textBox->Draw(consolePos->x - 25, consolePos->y - 25);
@@ -583,7 +619,7 @@ HOOK_METHOD(InputBox, OnRender, () -> void)
 HOOK_STATIC(CSurface, GL_DrawRect, (float x, float y, float w, float h, GL_Color color) -> bool)
 {
     LOG_HOOK("HOOK_STATIC -> CSurface::GL_DrawRect -> Begin (CommandConsole.cpp)\n")
-        
+
     if (printCenterToLeft)
         return super(x + 2, y, 1.0, h, color);
 

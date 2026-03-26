@@ -1,0 +1,12 @@
+"!554889e553504889fb488d05????2600488903488d":
+noHook __amd64 void DropBox::DO_NOT_HOOK();
+".554889e541":
+cleanup __amd64 void DropBox::OnInit(DropBox *this, Point position, bool isSellBox, TextString* titleText, TextString* bodyText, int bodySpace, TextString* lowerText);
+".554889e548":
+cleanup __amd64 int DropBox::GetHeight(DropBox *this);
+".55":
+cleanup __amd64 int DropBox::GetBodySpaceOffset(DropBox *this);
+".5548":
+cleanup __amd64 void DropBox::OnRender(DropBox *this);
+".55":
+cleanup __amd64 bool DropBox::Contains(DropBox *this, int x, int y);

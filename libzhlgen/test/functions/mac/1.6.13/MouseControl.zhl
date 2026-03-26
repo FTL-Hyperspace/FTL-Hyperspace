@@ -1,0 +1,41 @@
+"!18488d3d(???????\?)":
+offsetVariable MouseControl* Global_MouseControl_Mouse;
+
+".554889e553504889fb80bb4c01000000":
+cleanup __amd64 void MouseControl::OnLoop(MouseControl *this);
+".554889e5c6876001":
+cleanup __amd64 void MouseControl::InstantTooltip(MouseControl *this);
+"!.554889e54157415641554154534883ec784989fd488b05":
+cleanup __amd64 void MouseControl::OnRender(MouseControl *this);
+".554889e54157415641554154534883ec":
+cleanup __amd64 void MouseControl::RenderTooltip(MouseControl *this, Point tooltipPoint, bool staticPos);
+".554889e548c74710":
+cleanup __amd64 void MouseControl::ResetArmed(MouseControl *this);
+".554889e541565389f34989fe83fb0274":
+cleanup __amd64 void MouseControl::SetDoor(MouseControl *this, int state);
+".554889e541":
+cleanup __amd64 Point MouseControl::MeasureTooltip(MouseControl *this, int width);
+".554889e54889b7a00100005d":
+cleanup __amd64 void MouseControl::QueueStaticTooltip(MouseControl *this, Point position);
+".554889e54156534883ec104889fb66c7":
+cleanup __amd64 void MouseControl::Reset(MouseControl *this);
+".554889e5415741564154534883ec304889f04989":
+cleanup __amd64 void MouseControl::LoadTooltip(MouseControl *this, const std::string& tooltipName);
+".554889e5415741564154534989??4989fe418a":
+cleanup __amd64 void MouseControl::SetTooltip(MouseControl *this, const std::string& tooltip);
+/*
+// Hexcode is too different across Steam and GO - Must reimplement
+".NULL":
+cleanup __amd64 void MouseControl::SetTooltipTitle(MouseControl *this, const std::string& tooltip);
+*/
+".554889e540":
+cleanup __amd64 void MouseControl::SetValid(MouseControl *this, bool valid, bool newValid);
+
+
+struct MouseControl
+{{
+	void SetTooltipTitle(const std::string& tooltip)
+	{
+		if (this->tooltipTitle.empty()) this->tooltipTitle = tooltip;
+	}
+}};
