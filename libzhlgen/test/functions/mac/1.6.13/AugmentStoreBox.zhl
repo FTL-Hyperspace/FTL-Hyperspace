@@ -1,0 +1,27 @@
+// Continue from AugmentEquipBox::CheckContents (hyper efficiency™)
+".554889e5534883ec384889fb0f":
+noHook __amd64 void AugmentStoreBox::DO_NOT_HOOK(); // noHook's Required to work on both GOG 1.6.13 and Steam 1.6.13
+".554889e54156534883ec20":
+noHook __amd64 void AugmentStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+".554889e54156534883ec20":
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager* _ship, const AugmentBlueprint* _augment);
+".554889e541":
+cleanup __amd64 bool AugmentStoreBox::CanHold(AugmentStoreBox *this);
+".554889e541":
+cleanup __amd64 void AugmentStoreBox::MouseMove(AugmentStoreBox *this, int mX, int mY);
+".554889e541":
+cleanup __amd64 void AugmentStoreBox::Purchase(AugmentStoreBox *this);
+
+
+struct AugmentStoreBox
+{{
+	AugmentStoreBox(ShipManager* ship, const AugmentBlueprint* augment)
+	{
+		this->constructor(ship, augment);
+	}
+	
+	AugmentStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
+	}
+}};

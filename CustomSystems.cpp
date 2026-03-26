@@ -312,6 +312,71 @@ HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
     return super(name);
 }
 
+/* 
+// CreateSystemBoxes is inlined into the ShipSystem constructor on MacOS, this reimplements some of it's logic adjusted for custom systems
+
+// MacOS specific calls
+CreateStoreBoxes:10011f4c1(c),
+Print:10019894b(c),
+
+// Linux specific calls
+ShipSystem:0064f3f6(c),
+
+the functions above should be rewritten eventually to call the hook correctly
+*/
+#ifdef __APPLE__
+HOOK_METHOD_PRIORITY(ShipSystem, constructor, 9998, (int type, int roomId, int shipId, int starting_power) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
+
+    super(type, roomId, shipId, starting_power);
+
+    // green, grey orange, red, blue
+    if (this->GetId() >= SYS_TEMPORAL)
+    {
+        std::string sysName = this->GetName();
+        std::string color;
+        GL_Texture* tex;
+
+        this->imageIcon =  G_->GetResources()->GetImageId("icons/s_" + sysName + ".png");
+        tex =  G_->GetResources()->GetImageId("icons/s_" + sysName + "_overlay.png");
+        this->iconPrimitive = G_->GetResources()->CreateImagePrimitive(tex, this->location.x - (tex->width_ / 2), this->location.y - (tex->height_ / 2), 0, COLOR_WHITE, 1.f, false);
+        tex =  G_->GetResources()->GetImageId("icons/s_" + sysName + "_overlay2.png");
+        this->iconBorderPrimitive = G_->GetResources()->CreateImagePrimitive(tex, this->location.x - (tex->width_ / 2), this->location.y - (tex->height_ / 2), 0, COLOR_WHITE, 1.f, false);
+
+        int i = 0;
+        while (i != 5)
+        {
+            switch (i)
+            {
+                case 0:
+                    color = "_green";
+                    break;
+                case 1:
+                    color = "_grey";
+                    break;
+                case 2:
+                    color = "_orange";
+                    break;
+                case 3:
+                    color = "_red";
+                    break;
+                case 4:
+                    color = "_blue";
+                    break;
+            }
+
+            // this->iconPrimitives is actually a [5][2][2] array instead of [20] - therefore this cast is needed
+            tex =  G_->GetResources()->GetImageId("icons/s_" + sysName + color + "1.png");
+            ((GL_Primitive* (*)[2][2])iconPrimitives)[i][0][0] = G_->GetResources()->CreateImagePrimitive(tex, 0, 0, 0, COLOR_WHITE, 1.f, false);
+            tex =  G_->GetResources()->GetImageId("icons/s_" + sysName + color + "2.png");
+            ((GL_Primitive* (*)[2][2])iconPrimitives)[i][1][0] = G_->GetResources()->CreateImagePrimitive(tex, 0, 0, 0, COLOR_WHITE, 1.f, false);
+            i++;
+        }
+    }
+}
+#endif
+
 HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::SystemIdToName -> Begin (CustomSystems.cpp)\n")
@@ -1775,6 +1840,111 @@ int g_clonePercentTooltipLevel = 0;
 CloneSystem* g_cloneSystem = nullptr;
 std::vector<float> vanillaCloneTime = {12.0, 9.0, 7.0};
 
+// Rewritten to resolve Inline of CloneHealing and half inline on linux (thunk was inlined)
+HOOK_METHOD_PRIORITY(ShipManager, JumpArrive, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::JumpArrive -> Begin (CustomSystems.cpp)\n")
+
+    // Some preparations
+    this->damMessages.clear();
+    this->jump_timer.first = 0.f;
+    this->minBeaconHealth = this->ship.hullIntegrity.first;
+
+    // "Exit FTL travel" animation
+    this->jumpAnimation.StartReverse(-1.0);
+
+    // Jump update for the weapon system
+    if (this->systemKey[SYS_WEAPONS] != -1)
+    {
+        this->weaponSystem->Jump();
+    }
+
+    // Update every crew state
+    for (CrewMember* crew : this->vCrewList)
+    {
+        crew->Jump();
+    }
+
+    // Jump update for the shield system
+    if (this->shieldSystem)
+    {
+        this->shieldSystem->Jump();
+    }
+
+    // Destroy leftover enemy drones on board the ship
+    this->DestroyBoardingDrones();
+
+    // Apply clonebay heal
+    this->CloneHealing(); // FIX HERE: was fully inlined on MacOS and partially on linux
+
+    // Not sure what this variable does but its updated
+    this->showNetwork = false;
+
+    // Update and reset every system cooldown etc. if the previous beacon wasn't dangerous
+    if (this->bWasSafe)
+    {
+        if (this->systemKey[SYS_MIND] != -1)
+        {
+            // this->mindSystem->ForceReady(); // This is actually just a thunk for LockSystem(0)
+            this->mindSystem->LockSystem(0);
+        }
+        if (this->systemKey[SYS_SHIELDS] != -1)
+        {
+            this->shieldSystem->LockSystem(0);
+        }
+        if (this->systemKey[SYS_ENGINES] != -1)
+        {
+            this->vSystemList[SYS_ENGINES]->LockSystem(0);
+        }
+        if (this->systemKey[SYS_WEAPONS] != -1)
+        {
+            this->weaponSystem->LockSystem(0);
+        }
+        if (this->systemKey[SYS_PILOT] != -1)
+        {
+            this->vSystemList[SYS_PILOT]->LockSystem(0);
+        }
+    }
+    // Set current beacon as unsafe by default
+    this->bWasSafe = false;
+
+    // Play the jump sound
+    G_->GetSoundControl()->PlaySoundMix("jumpArrive", -1.0, false);
+}
+
+// Forced the function to behave the same on all platforms (basically for linux which thunked the systemKey if statement)
+HOOK_METHOD_PRIORITY(ShipManager, CloneHealing, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CloneHealing -> Begin (CustomSystems.cpp)\n")
+
+    // Only run if clonebay is installed
+    if (this->systemKey[SYS_CLONEBAY] != -1)
+    {
+        // Some weird calculation for the heal amount
+        int heal;
+        if (this->cloneSystem->healthState.first != 0) // I think here it checks if it's operational
+        {
+            heal = this->cloneSystem->GetMaxPower();
+        }
+        else
+        {
+            heal = CloneSystem::GetJumpHealth(heal);
+        }
+
+        // Add hp to every non-drone crew on the players ship
+        for (CrewMember* crew: this->vCrewList)
+        {
+            if (crew->iShipId == 0)
+            {
+                if (!crew->IsDrone())
+                {
+                    crew->DirectModifyHealth(static_cast<float>(heal));
+                }
+            }
+        }
+    }
+}
+
 HOOK_METHOD(ShipManager, CloneHealing, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CloneHealing -> Begin (CustomSystems.cpp)\n")
@@ -1784,6 +1954,7 @@ HOOK_METHOD(ShipManager, CloneHealing, () -> void)
     g_jumpClone = false;
 }
 
+// Inlined in ShipManager::Wait on linux
 HOOK_METHOD(CrewMember, DirectModifyHealth, (float heal) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::DirectModifyHealth -> Begin (CustomSystems.cpp)\n")

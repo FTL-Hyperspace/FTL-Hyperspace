@@ -14,6 +14,8 @@ forceDetour cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this,
 cleanup __amd64 void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
 ".4084f64088b798010000":
 cleanup __amd64 void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
+".534889fbbf60a6a300e8":
+cleanup __amd64 void ScoreKeeper::AddExploredLocations(ScoreKeeper *this);
 ".5589f5534889fb":
 cleanup __amd64 void ScoreKeeper::AddScrapCollected(ScoreKeeper *this, int scrap);
 ".415741564989d6415549bdabaaaaaaaaaaaaaa415455534883ec48":
