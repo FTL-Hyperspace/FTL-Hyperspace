@@ -76,6 +76,17 @@ public:
 #define HOOK_METHOD(_classname, _name, ...) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, 0, __VA_ARGS__)
 #define HOOK_METHOD_PRIORITY(_classname, _name, _priority, ...) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, _priority, __VA_ARGS__)
 
+#define HOOK_METHOD_REWRITE(_classname, _name, ...) \
+	namespace Hook_##_classname##__##_name { \
+		static void *internalSuper = NULL; \
+		struct wrapper : public _classname { \
+			using _callsign = auto (wrapper::*) __VA_ARGS__; \
+			auto hook __VA_ARGS__ ; \
+		}; \
+		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) __VA_ARGS__), &wrapper::hook, &internalSuper, INT_MAX); \
+	} \
+	auto Hook_##_classname##__##_name ::wrapper::hook __VA_ARGS__
+
 //=================================================================================================
 
 #define _DEFINE_STATIC_HOOK1(_id, _classname, _name, _priority, _type) \
@@ -97,6 +108,17 @@ public:
 #define HOOK_STATIC(_classname, _name, _type) _DEFINE_STATIC_HOOK0(__LINE__, _classname, _name, 0, _type)
 #define HOOK_STATIC_PRIORITY(_classname, _name, _priority, _type) _DEFINE_STATIC_HOOK0(__LINE__, _classname, _name, _priority, _type)
 
+#define HOOK_STATIC_REWRITE(_classname, _name, _type) \
+	namespace Hook_##_classname##__##_name { \
+		static void *internalSuper = NULL; \
+		struct wrapper : public _classname { \
+			using _callsign = auto __stdcall (*) _type; \
+			static auto __stdcall hook _type ; \
+		}; \
+		static FunctionHook hookObj(#_classname "::" #_name, typeid(auto (*) _type), &wrapper::hook, &internalSuper, INT_MAX); \
+	} \
+	auto Hook_##_classname##__##_name ::wrapper::hook _type
+
 //=================================================================================================
 
 #define _DEFINE_GLOBAL_HOOK1(_id, _name, _priority, _type) \
@@ -116,3 +138,13 @@ public:
 
 #define HOOK_GLOBAL(_name, _type) _DEFINE_GLOBAL_HOOK0(__LINE__, _name, 0, _type)
 #define HOOK_GLOBAL_PRIORITY(_name, _priority, _type) _DEFINE_GLOBAL_HOOK0(__LINE__, _name, _priority, _type)
+
+#define HOOK_GLOBAL_REWRITE(_name, _type) \
+	namespace Hook_##_classname##__##_name { \
+		static void *internalSuper = NULL; \
+		using _callsign = auto __stdcall (*) _type; \
+		static auto __stdcall hook _type ; \
+		\
+		static FunctionHook hookObj(#_name, typeid(auto (*) _type), &hook, &internalSuper, INT_MAX); \
+	} \
+	auto __stdcall Hook_##_classname##__##_name ::hook _type
