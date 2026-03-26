@@ -1365,6 +1365,9 @@
 		<Unit filename="TemporalSystemVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename"TextString.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="TileBasedCrewMovement.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>

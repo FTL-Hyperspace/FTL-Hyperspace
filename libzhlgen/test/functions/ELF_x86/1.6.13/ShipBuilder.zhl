@@ -38,3 +38,12 @@ cleanup __cdecl void ShipBuilder::CycleTypeNext(ShipBuilder *this);
 cleanup __cdecl void ShipBuilder::CycleTypePrev(ShipBuilder *this);
 "565383ec148b5c????8b8b340e00008b93300e000089c829d0c1f80285c074??":
 cleanup __cdecl void ShipBuilder::Close(ShipBuilder *this);
+
+
+struct ShipBuilder
+{{
+    inline void Finish()
+    {
+        this->bDone = true;
+    }
+}};

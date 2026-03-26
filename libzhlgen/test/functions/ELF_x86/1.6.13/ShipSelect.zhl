@@ -12,8 +12,12 @@ cleanup __cdecl void ShipSelect::OnLoop(ShipSelect *this);
 cleanup __cdecl int ShipSelect::KeyDown(ShipSelect *this, SDLKey key);
 "5383ec188b5c242080bb4404000000":
 cleanup __cdecl void ShipSelect::MouseClick(ShipSelect *this);
+/* PreSelect is inlined on Mac, luckily both unused - commented out for now
+"5589e557565389c381ec8c010000":
+cleanup __regparm2 void ShipSelect::SelectShip(ShipSelect *this, int shipType);
 "5383ec188b5424248b5c242085d2":
 cleanup __cdecl void ShipSelect::PreSelectShip(ShipSelect *this, int shipType);
+*/
 "!8b442404c64034000540040000":
 cleanup __cdecl void ShipSelect::Close(ShipSelect *this);
 ".8b4424048b4038":
@@ -22,3 +26,12 @@ cleanup __cdecl int ShipSelect::GetSelectedShip(ShipSelect *this);
 cleanup __cdecl void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
 "5589e557565383ec5c8b5d0880bb4404000000":
 cleanup __cdecl void ShipSelect::OnRender(ShipSelect *this);
+
+
+struct ShipSelect
+{{
+    inline int GetSelection()
+    {
+        return this->selectedShip;
+    }
+}};

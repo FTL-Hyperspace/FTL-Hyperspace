@@ -38,3 +38,12 @@ cleanup __amd64 void ShipBuilder::OnKeyDown(ShipBuilder *this, SDLKey key);
 cleanup __amd64 void ShipBuilder::MouseClick(ShipBuilder *this, int x, int y);
 ".4157415641554154554889fd534881ece8030000":
 cleanup __amd64 void ShipBuilder::Open(ShipBuilder *this);
+
+
+struct ShipBuilder
+{{
+    inline void Finish()
+    {
+        this->bDone = true;
+    }
+}};

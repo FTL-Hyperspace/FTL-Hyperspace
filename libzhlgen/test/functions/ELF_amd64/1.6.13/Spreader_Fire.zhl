@@ -1,4 +1,16 @@
-"??57??89ff??56??55??54555389f3??83ec388b7f088974":
+"41574989ff4156415541545589f55389d34883":
+cleanup __amd64 bool Spreader_Fire::StartInRoom(Spreader_Fire *this, int roomId, int count);
+".??57??89ff??56??55??54555389f3??83ec388b7f088974":
 cleanup __amd64 int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId); //004d2bc0
 ".??57??89ff??56??55??545553??83ec588b7f08e8??????????89c7e8":
 cleanup __amd64 void Spreader_Fire::UpdateSpread(Spreader_Fire *this); //004d2d40
+
+
+struct Spreader_Fire
+{{
+    // Originally of type bool but each one was inlined so I have no idea what it was for
+    inline void StartInGrid(int x, int y)
+    {
+        this->grid.at(x).at(y).Spread();
+    }
+}};

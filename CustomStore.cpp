@@ -4,6 +4,7 @@
 #include "CustomShipSelect.h"
 #include "CustomSystems.h"
 #include "Store_Extend.h"
+#include "CustomEvents.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <array>
@@ -1118,7 +1119,7 @@ void StoreComplete::OnRender()
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
     char buffer[64];
-    sprintf(buffer, "%d", orig->shopper->ship.hullIntegrity.first);
+    snprintf(buffer, 64, "%d", orig->shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, orig->position.x + 143, orig->position.y + 432, buffer);
     orig->infoBox.OnRender();
 
@@ -1405,13 +1406,13 @@ void StoreComplete::MouseMove(int x, int y)
     rightButton->MouseMove(x, y, false);
 }
 
-HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
+HOOK_METHOD(Store, KeyDown, (SDLKey key) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> Store::KeyDown -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->KeyDown(key);
-        return;
+        return false; // Only returns true when closing I think
     }
 
     return super(key);
@@ -1510,7 +1511,7 @@ HOOK_METHOD(Store, OnRender, () -> void)
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
     char buffer[64];
-    sprintf(buffer, "%d", shopper->ship.hullIntegrity.first);
+    snprintf(buffer, 64, "%d", shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, position.x + 143, position.y + 432, buffer);
     infoBox.OnRender();
     if (confirmBuy)
@@ -2071,6 +2072,7 @@ HOOK_METHOD(InfoBox, CalcBoxHeight, () -> int)
     {
         desc = g_currentArtilleryBP->desc;
     }
+
     return super();
 }
 
@@ -2084,4 +2086,263 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
         const ShipBlueprint::SystemTemplate &info = shopper->myBlueprint.systemInfo[SYS_ARTILLERY];
         desc.title = G_->GetBlueprints()->GetWeaponBlueprint(info.weapon[shopper->artillerySystems.size()])->desc.title;
     }
+}
+
+std::array<std::string, 10> vanillaShipNames =
+{
+    "PLAYER_SHIP_HARD",
+    "PLAYER_SHIP_STEALTH",
+    "PLAYER_SHIP_MANTIS",
+    "PLAYER_SHIP_CIRCLE",
+    "PLAYER_SHIP_FED",
+    "PLAYER_SHIP_JELLY",
+    "PLAYER_SHIP_ROCK",
+    "PLAYER_SHIP_ENERGY",
+    "PLAYER_SHIP_CRYSTAL",
+    "PLAYER_SHIP_ANAEROBIC",
+};
+
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 9999, (LocationEvent* event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomStore.cpp)\n")
+
+    /*
+    // Commented out because of CustomEvents.cpp Death Event
+    if (this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return;
+    }
+    */
+
+    if (event->ship.present)
+    {
+        if (this->ships.empty())
+        {
+            this->ModifyAllStatusEffects(this->CreateShip(&event->ship, false)->shipManager,1);
+            this->baseLocationEvent->ship.present = true;
+        }
+        else
+        {
+            if (this->ships.front()->shipManager->_targetable.hostile && !event->ship.hostile)
+            {
+                if (this->playerShip->shipManager->ShipManager::CountCrew(false) < 1)
+                {
+                    G_->GetAchievementTracker()->SetAchievement("ACH_INVADE_SHIP", false, true);
+                }
+            }
+            this->ships.front()->shipManager->_targetable.hostile = event->ship.hostile; // Begin: inline void SetHostile(Targetable * this, bool hostile)
+        }
+    }
+
+    this->CheckStatusEffects(event->statusEffects);
+    this->CreateStore(event);
+
+    int damageCount = 0;
+    for (EventDamage& damage : event->damage)
+    {
+        damage.amount = this->PossibleDamage(damage);
+        damageCount += damage.amount;
+    }
+    if (0 < damageCount)
+    {
+        G_->GetSoundControl()->PlaySoundMix("eventDamage", -1.f, false);
+    }
+
+    if (event->reveal_map)
+    {
+        this->starMap.bMapRevealed = true;
+    }
+
+    this->starMap.StarMap::ModifyPursuit(event->modifyPursuit);
+    this->lastLocationEvent = event;
+    this->ModifyEnvironment(event->environment, event->environmentTarget);
+
+    std::string constructedText;
+    if (this->AddBoarders(event->boarders) && this->playerShip->shipManager->GetShieldPower().super.first > 0)
+    {
+        constructedText = " \n\n" + G_->GetTextLibrary()->GetText("intruder_energy");
+        event->text += constructedText;
+    }
+
+    if (!event->quest.empty())
+    {
+        char* questStatus;
+        if (this->starMap.StarMap::AddQuest(event->quest, false))
+        {
+            questStatus = "added_quest";
+        }
+        else if (this->starMap.worldLevel < 6)
+        {
+            questStatus = "added_quest_sector";
+        }
+        else
+        {
+            questStatus = "no_time";
+        }
+
+        constructedText = " \n\n" + G_->GetTextLibrary()->GetText(std::string(questStatus));
+        event->text += constructedText;
+    }
+
+    if (event->unlockShip != -1)
+    {
+        if (!G_->GetScoreKeeper()->GetShipUnlocked(event->unlockShip, 0))
+        {
+            G_->GetScoreKeeper()->UnlockShip(event->unlockShip, 0, true, false);
+
+            constructedText = " \n\n" + event->unlockShipText.GetText();
+            event->text += constructedText;
+        }
+
+        G_->GetAchievementTracker()->SetAchievement(vanillaShipNames.at(event->unlockShip) + "_QUEST", false, true);
+    }
+
+    this->commandGui->CommandGui::SetSecretSector(event->secretSector);
+    return this->CreateChoiceBox(event);
+}
+
+
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 9999, (Location* loc) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateLocation -> Begin (CustomStore.cpp)\n")
+
+    this->vAutoSaved = false;
+    this->playerCrewCount = G_->GetCrewFactory()->GetPlayerCrewCount();
+    this->playerHull = this->playerShip->shipManager->ship.hullIntegrity.first;
+    this->killedCrew = G_->GetAchievementTracker()->GetFlagValue("killed_crew");
+
+    LocationEvent *event;
+    if (!loc->boss)
+    {
+        event = loc->event;
+    }
+    else
+    {
+        event = this->bossShip->BossShip::GetEvent();
+    }
+    this->lastLocationEvent = event;
+    this->baseLocationEvent = event;
+    if (event->fleetPosition != 1 && !this->bLoadingGame)
+    {
+        G_->GetScoreKeeper()->AddExploredLocations();
+    }
+    if (loc->space.tex == nullptr && loc->planet.tex == nullptr)
+    {
+        loc->space = this->space.SpaceManager::SwitchBackground(event->spaceImage);
+        loc->planet = this->space.SpaceManager::SwitchPlanet(event->planetImage);
+        loc->spaceImage = event->spaceImage;
+        loc->planetImage = event->planetImage;
+    }
+    else
+    {
+        this->space.SpaceManager::SwitchImages(loc->planet, loc->space, loc->beaconImage);
+    }
+
+    this->space.SpaceManager::SetDangerZone(event->fleetPosition);
+
+    if (!this->bLoadingGame && (event->ship.present || loc->boss))
+    {
+        this->CreateShip(&event->ship, loc->boss);
+    }
+    else
+    {
+        this->playerShip->CompleteShip::SetEnemyShip(nullptr);
+    }
+    this->space.SpaceManager::AddShip(this->playerShip->shipManager);
+
+    if (!this->bLoadingGame)
+    {
+        int damageCount = 0;
+        for (EventDamage& damage : event->damage)
+        {
+            damage.amount = this->PossibleDamage(damage);
+            damageCount += damage.amount;
+        }
+        if (0 < damageCount)
+        {
+            G_->GetSoundControl()->PlaySoundMix("eventDamage", -1.f, false);
+        }
+    }
+
+    if (event->reveal_map)
+    {
+        this->starMap.bMapRevealed = true;
+    }
+
+    if (!this->bLoadingGame)
+    {
+        this->starMap.StarMap::ModifyPursuit(event->modifyPursuit);
+    }
+
+    std::string constructedText;
+    if (!event->quest.empty())
+    {
+        char* questStatus;
+        if (this->starMap.StarMap::AddQuest(event->quest, false))
+        {
+            questStatus = "added_quest";
+        }
+        else if (this->starMap.worldLevel < 6)
+        {
+            questStatus = "added_quest_sector";
+        }
+        else
+        {
+            questStatus = "no_time";
+        }
+
+        constructedText = " \n\n" + G_->GetTextLibrary()->GetText(questStatus);
+        event->text += constructedText;
+    }
+
+    if (event->unlockShip != -1)
+    {
+        if (!G_->GetScoreKeeper()->GetShipUnlocked(event->unlockShip, 0))
+        {
+            G_->GetScoreKeeper()->UnlockShip(event->unlockShip, 0, true, false);
+
+            constructedText = " \n\n" + event->unlockShipText.GetText();
+            event->text += constructedText;
+        }
+
+        G_->GetAchievementTracker()->SetAchievement(vanillaShipNames.at(event->unlockShip) + "_QUEST", false, true);
+    }
+
+    if (this->starMap.worldLevel == 4)
+    {
+        if (!G_->GetScoreKeeper()->GetShipUnlocked(3, 0))
+        {
+            if (G_->GetAchievementTracker()->currentShip.find("PLAYER_SHIP_HARD", 0) != std::string::npos)
+            {
+                G_->GetScoreKeeper()->UnlockShip(3, 0, true, false);
+
+                constructedText = " \n\n" + G_->GetTextLibrary()->GetText("circle_ship");
+                event->text += constructedText;
+            }
+        }
+    }
+
+    this->CreateStore(event);
+    this->ModifyEnvironment(event->environment, event->environmentTarget);
+    this->CheckStatusEffects(event->statusEffects);
+
+    if (!this->bLoadingGame)
+    {
+        if (this->AddBoarders(event->boarders) && this->playerShip->shipManager->GetShieldPower().super.first > 0)
+        {
+            constructedText = " \n\n" + G_->GetTextLibrary()->GetText("intruder_energy");
+            event->text += constructedText;
+        }
+    }
+
+    this->commandGui->CommandGui::SetSecretSector(event->secretSector);
+
+    if (!this->bLoadingGame)
+    {
+        this->generatedEvent.clear();
+        this->choiceHistory.clear();
+        this->lastSelectedCrewSeed = -1;
+        return this->CreateChoiceBox(event);
+    }
+    return;
 }

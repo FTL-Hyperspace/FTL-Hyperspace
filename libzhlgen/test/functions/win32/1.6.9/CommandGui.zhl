@@ -38,3 +38,15 @@ __thiscall void CommandGui::LinkShip(CommandGui *this,CompleteShip *ship);
 __thiscall void CommandGui::Restart(CommandGui *this);
 "5589e5538b8108170000c781541700005e01000089cb8d89c803000083e4f0":
 __thiscall void CommandGui::ClearLocation(CommandGui *this);
+
+
+struct CommandGui
+{{
+    void SetSecretSector(bool secret)
+    {
+        if (secret) 
+        {
+            this->secretSector = true;
+        }
+    }
+}};

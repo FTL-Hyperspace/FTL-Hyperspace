@@ -1,0 +1,24 @@
+// Continue from Fire::UpdateStartTimer (hyper efficiency™)
+"!.554889e553504889fb488d05????250048890366":
+cleanup __amd64 void FocusWindow::constructor(FocusWindow *this);
+".554889e548":
+cleanup __amd64 void FocusWindow::SetPosition(FocusWindow *this, Point position);
+".55":
+cleanup __amd64 void FocusWindow::Close(FocusWindow *this);
+".554889e5c6":
+cleanup __amd64 void FocusWindow::Open(FocusWindow *this);
+".55":
+cleanup __amd64 void FocusWindow::MouseMove(FocusWindow *this, int mX, int mY);
+".55":
+cleanup __amd64 void FocusWindow::MouseClick(FocusWindow *this, int mX, int mY);
+".55":
+cleanup __amd64 void FocusWindow::OnTouch(FocusWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+
+
+struct FocusWindow
+{{
+	FocusWindow() 
+	{
+		this->constructor();
+	}
+}};
