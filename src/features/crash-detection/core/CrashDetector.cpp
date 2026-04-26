@@ -60,7 +60,7 @@ void CrashDetector::WriteCrashFlag()
     std::string crashFlagPath = GetCrashFlagPath();
     int file = FileHelper::createBinaryFile(crashFlagPath);
     FileHelper::closeBinaryFile(file);
-    hs_log_file("Crash detection flag written to: %s\n", crashFlagPath.c_str());
+    hs_log_file("Crash detection flag written\n");
 }
 
 void CrashDetector::ClearCrashFlag()
@@ -70,7 +70,7 @@ void CrashDetector::ClearCrashFlag()
     if (FileHelper::fileExists(crashFlagPath))
     {
         FileHelper::deleteFile(crashFlagPath);
-        hs_log_file("Crash flag cleared - game exited normally (was: %s)\n", crashFlagPath.c_str());
+        hs_log_file("Crash flag cleared - game exited normally\n");
     }
 }
 
