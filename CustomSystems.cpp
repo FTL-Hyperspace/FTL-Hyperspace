@@ -1894,7 +1894,7 @@ HOOK_METHOD_PRIORITY(ShipManager, JumpArrive, 9999, () -> void)
         }
         if (this->systemKey[SYS_ENGINES] != -1)
         {
-            this->vSystemList[SYS_ENGINES]->LockSystem(0);
+            this->vSystemList[this->systemKey[SYS_ENGINES]]->LockSystem(0);
         }
         if (this->systemKey[SYS_WEAPONS] != -1)
         {
@@ -1902,7 +1902,7 @@ HOOK_METHOD_PRIORITY(ShipManager, JumpArrive, 9999, () -> void)
         }
         if (this->systemKey[SYS_PILOT] != -1)
         {
-            this->vSystemList[SYS_PILOT]->LockSystem(0);
+            this->vSystemList[this->systemKey[SYS_PILOT]]->LockSystem(0);
         }
     }
     // Set current beacon as unsafe by default
