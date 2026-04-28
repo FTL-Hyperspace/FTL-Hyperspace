@@ -7,6 +7,10 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+static bool SeeNeutralShipRooms()
+{
+    return CustomOptionsManager::GetInstance()->seeNeutralShipRooms.currentValue;
+}
 static bool importingShip = false;
 bool revisitingShip = false;
 bool bNoJump = false;
@@ -627,7 +631,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
     {
         bool hasCloakingSystem = systemKey[10] != -1;
 
-        canSeeRooms = (_targetable.hostile && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
+        canSeeRooms = ((_targetable.hostile || SeeNeutralShipRooms()) && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
     }
     else
     {
