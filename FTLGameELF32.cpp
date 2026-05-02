@@ -9512,12 +9512,12 @@ namespace _func685
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(bool (*)(int )), ".b8", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".b8", argdata, 1, 2, &func);
 }
 
-bool FileHelper::fileLength_OnlyForHooking(int fd)
+int FileHelper::fileLength_OnlyForHooking(int fd)
 {
-	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(int fd_arg);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(int fd_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func685::func;
 	return execfunc(fd);
 }
