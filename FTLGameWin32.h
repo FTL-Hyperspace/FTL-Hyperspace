@@ -6093,15 +6093,9 @@ struct ExplosionAnimation : AnimationTracker
 
 struct FileHelper
 {
-	static int fileLength(int fd)
+        static int fileLength(int fd)
 	{
-        FILE* fp = _fdopen(_dup(fd), "r"); // Duplicate file descriptor & then open the stream so that we can fclose correctly later on
-        rewind(fp); // TODO: Not sure if we have to rewind before but could it hurt?
-        fseek(fp, 0, SEEK_END);
-        int lengthOfFile = ftell(fp);
-        rewind(fp); // Rewind since the file index is shared and lets not screw with other people using the file descriptor that was opened by `open` in FTL's code
-        fclose(fp);
-        return lengthOfFile;
+		return fileLength_OnlyForHooking(fd);
 	}
 
 	LIBZHL_API static void __stdcall closeBinaryFile(int file);
