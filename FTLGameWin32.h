@@ -40,6 +40,8 @@
 #include <unordered_map>
 #include <math.h>
 #include <queue>
+#include <io.h>
+#include <stdio.h>
 #undef LoadImage
 
 #ifndef M_PI
@@ -6093,7 +6095,7 @@ struct FileHelper
 {
 	static int fileLength(int fd)
 	{
-        FILE* fp = fdopen(dup(fd), "r"); // Duplicate file descriptor & then open the stream so that we can fclose correctly later on
+        FILE* fp = _fdopen(_dup(fd), "r"); // Duplicate file descriptor & then open the stream so that we can fclose correctly later on
         rewind(fp); // TODO: Not sure if we have to rewind before but could it hurt?
         fseek(fp, 0, SEEK_END);
         int lengthOfFile = ftell(fp);

@@ -17,6 +17,8 @@ struct GlobalPre
 	#include <unordered_map>
 	#include <math.h>
 	#include <queue>
+	#include <io.h>
+	#include <stdio.h>
 	#undef LoadImage
 
 	#ifndef M_PI
