@@ -8778,12 +8778,12 @@ bool FileHelper::fileExists(const std::string &fileName)
 namespace _func678
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(bool (*)(int )), ".b8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".b8", nullptr, 0, 0, &func);
 }
 
-bool FileHelper::fileLength_OnlyForHooking(int fd)
+int FileHelper::fileLength_OnlyForHooking(int fd)
 {
-	typedef bool (*custom_arg_funcptr_t)(int fd_arg);
+	typedef int (*custom_arg_funcptr_t)(int fd_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func678::func;
 	return execfunc(fd);
 }

@@ -10,7 +10,7 @@ static cleanup __amd64 std::string FileHelper::getSaveFile();
 ".554889e54157415641554154534883ec18e8":
 static cleanup __amd64 void FileHelper::initFileHelper();
 "5548":
-static cleanup __amd64 bool FileHelper::fileLength_OnlyForHooking(int fd);
+static cleanup __amd64 int FileHelper::fileLength_OnlyForHooking(int fd);
 ".554889e5????????????01480f45471031f64889":
 static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
 "!.554889e5":
