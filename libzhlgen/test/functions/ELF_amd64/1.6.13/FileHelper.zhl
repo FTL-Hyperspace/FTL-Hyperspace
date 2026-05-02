@@ -10,6 +10,8 @@ static cleanup __amd64 std::string FileHelper::getSaveFile();
 static cleanup __amd64 void FileHelper::initFileHelper();
 ".4883ec08488b3f31f6":
 static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
+".b8":
+static cleanup __amd64 bool FileHelper::fileLength_OnlyForHooking(int fd);
 "!.488b36488b3f":
 static cleanup __amd64 void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
 ".534889fb488b3f31f6":

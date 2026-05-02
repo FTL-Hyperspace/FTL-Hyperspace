@@ -8,6 +8,8 @@ static cleanup __cdecl std::string FileHelper::getUserFolder();
 static cleanup __cdecl std::string FileHelper::getSaveFile();
 "565383ec34c605????????018d5c241f":
 static cleanup __cdecl void FileHelper::initFileHelper();
+".b8":
+static cleanup __cdecl bool FileHelper::fileLength_OnlyForHooking(int fd);
 "83ec1c8b442420c7442404000000008b00":
 static cleanup __cdecl bool FileHelper::fileExists(const std::string& fileName);
 "8b4424088b00894424088b442404":
