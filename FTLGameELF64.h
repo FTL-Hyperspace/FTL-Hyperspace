@@ -6112,6 +6112,7 @@ struct FileHelper
 	LIBZHL_API static void __stdcall deleteFile(const std::string &fileName);
 	LIBZHL_API static void __stdcall deleteSaveFile();
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);
+	LIBZHL_API static bool __stdcall fileLength_OnlyForHooking(int fd);
 	LIBZHL_API static int __stdcall getPosition(int file);
 	LIBZHL_API static std::string __stdcall getResourceFile();
 	LIBZHL_API static std::string __stdcall getSaveFile();

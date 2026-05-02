@@ -9,7 +9,7 @@ static cleanup __cdecl std::string FileHelper::getSaveFile();
 ".8d4c240483e4f0ff71fc5589e5575653":
 static cleanup __cdecl void FileHelper::initFileHelper();
 ".8d4c240483e4f0ff71fc5589e55183ec14":
-static cleanup __cdecl int FileHelper::fileLength(int file);
+static cleanup __cdecl int FileHelper::fileLength_OnlyForHooking(int fd);
 ".8d4c240483e4f031c0ff71fc5589e55756":
 static cleanup __cdecl bool FileHelper::fileExists(const std::string& fileName);
 ".8d4c240483e4f0ff71fc5589e5575653518d45b88d75d8":
@@ -60,4 +60,14 @@ static cleanup __cdecl bool FileHelper::writeInt(int file, int data);
 
 struct FileHelper
 {{
+	static int fileLength(int fd)
+	{
+        FILE* fp = fdopen(dup(fd), "r"); // Duplicate file descriptor & then open the stream so that we can fclose correctly later on
+        rewind(fp); // TODO: Not sure if we have to rewind before but could it hurt?
+        fseek(fp, 0, SEEK_END);
+        int lengthOfFile = ftell(fp);
+        rewind(fp); // Rewind since the file index is shared and lets not screw with other people using the file descriptor that was opened by `open` in FTL's code
+        fclose(fp);
+        return lengthOfFile;
+	}
 }};

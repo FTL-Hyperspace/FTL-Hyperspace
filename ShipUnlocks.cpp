@@ -788,9 +788,9 @@ HOOK_METHOD(ScoreKeeper, Save, (bool newHighScore) -> void)
     super(newHighScore);
     g_insertVanillaTypeBShipsUnlockSaving = false;
 }
-HOOK_STATIC(FileHelper, fileLength, (int file) -> int)
+HOOK_STATIC(FileHelper, fileLength_OnlyForHooking, (int file) -> int) // Special naming to not conflict with the correct reimplementation (TODO: Fix by rewriting ScoreKeeper::Save)
 {
-    LOG_HOOK("HOOK_STATIC -> FileHelper::fileLength -> Begin (ShipUnlocks.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> FileHelper::fileLength_OnlyForHooking -> Begin (ShipUnlocks.cpp)\n")
     if (!g_insertVanillaTypeBShipsUnlockSaving) return super(file);
 
     // insert unlock saving process for vanilla ships with layout B
