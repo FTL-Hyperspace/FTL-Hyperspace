@@ -40,6 +40,8 @@
 #include <unordered_map>
 #include <math.h>
 #include <queue>
+#include <io.h>
+#include <stdio.h>
 #undef LoadImage
 
 #ifndef M_PI
@@ -6091,6 +6093,16 @@ struct ExplosionAnimation : AnimationTracker
 
 struct FileHelper
 {
+	static int fileLength(int fd)
+	{
+        FILE* fp = _fdopen(_dup(fd), "r"); // Duplicate file descriptor & then open the stream so that we can fclose correctly later on
+        rewind(fp); // TODO: Not sure if we have to rewind before but could it hurt?
+        fseek(fp, 0, SEEK_END);
+        int lengthOfFile = ftell(fp);
+        rewind(fp); // Rewind since the file index is shared and lets not screw with other people using the file descriptor that was opened by `open` in FTL's code
+        fclose(fp);
+        return lengthOfFile;
+	}
 
 	LIBZHL_API static void __stdcall closeBinaryFile(int file);
 	LIBZHL_API static int __stdcall createBinaryFile(const std::string &fileName);
@@ -6100,7 +6112,7 @@ struct FileHelper
 	LIBZHL_API static void __stdcall deleteFile(const std::string &fileName);
 	LIBZHL_API static void __stdcall deleteSaveFile();
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);
-	LIBZHL_API static int __stdcall fileLength(int file);
+	LIBZHL_API static int __stdcall fileLength_OnlyForHooking(int fd);
 	LIBZHL_API static int __stdcall getPosition(int file);
 	LIBZHL_API static std::string __stdcall getResourceFile();
 	LIBZHL_API static std::string __stdcall getSaveFile();

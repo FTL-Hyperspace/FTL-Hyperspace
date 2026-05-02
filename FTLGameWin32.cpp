@@ -9533,14 +9533,14 @@ namespace _func684
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::fileLength", typeid(int (*)(int )), ".8d4c240483e4f0ff71fc5589e55183ec14", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".8d4c240483e4f0ff71fc5589e55183ec14", argdata, 1, 2, &func);
 }
 
-int FileHelper::fileLength(int file)
+int FileHelper::fileLength_OnlyForHooking(int fd)
 {
-	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(int file_arg);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(int fd_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func684::func;
-	return execfunc(file);
+	return execfunc(fd);
 }
 
 namespace _func685
