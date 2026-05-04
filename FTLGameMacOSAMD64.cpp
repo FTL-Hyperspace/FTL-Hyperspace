@@ -8963,7 +8963,7 @@ void FileHelper::initFileHelper()
 namespace _func710
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), "5548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".5548", nullptr, 0, 0, &func);
 }
 
 int FileHelper::fileLength_OnlyForHooking(int fd)
