@@ -8765,27 +8765,27 @@ void FileHelper::initFileHelper()
 namespace _func677
 {
     static void *func = 0;
+	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".b801", nullptr, 0, 0, &func);
+}
+
+int FileHelper::fileLength_OnlyForHooking(int fd)
+{
+	typedef int (*custom_arg_funcptr_t)(int fd_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func677::func;
+	return execfunc(fd);
+}
+
+namespace _func678
+{
+    static void *func = 0;
 	static FunctionDefinition funcObj("FileHelper::fileExists", typeid(bool (*)(const std::string &)), ".4883ec08488b3f31f6", nullptr, 0, 0, &func);
 }
 
 bool FileHelper::fileExists(const std::string &fileName)
 {
 	typedef bool (*custom_arg_funcptr_t)(const std::string &fileName_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func677::func;
-	return execfunc(fileName);
-}
-
-namespace _func678
-{
-    static void *func = 0;
-	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".b8", nullptr, 0, 0, &func);
-}
-
-int FileHelper::fileLength_OnlyForHooking(int fd)
-{
-	typedef int (*custom_arg_funcptr_t)(int fd_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func678::func;
-	return execfunc(fd);
+	return execfunc(fileName);
 }
 
 namespace _func679

@@ -9512,7 +9512,7 @@ namespace _func685
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".b8", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::fileLength_OnlyForHooking", typeid(int (*)(int )), ".b801", argdata, 1, 2, &func);
 }
 
 int FileHelper::fileLength_OnlyForHooking(int fd)
