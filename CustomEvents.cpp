@@ -4479,6 +4479,17 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 }
 
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint * bp) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomEvents.cpp)\n")
+    super(bp);
+
+    // if the player is fast enough, they can go to another beacon before
+    // forcedEscape is reset, so make sure it is reset when a new ship is
+    // created
+    forcedEscape = false;
+}
+
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
