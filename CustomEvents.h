@@ -684,6 +684,7 @@ struct CustomEvent
     SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
+    bool instantEscapeRemoveShipBox;
     bool escape = false;
     bool surrender = false;
     bool loadEscape = false;

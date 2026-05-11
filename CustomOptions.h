@@ -28,6 +28,7 @@ public:
         bool beaconType_hideVanillaLabel = true;
         bool checkCargo = false;
         bool choiceRequiresCrew = false;
+        bool instantEscape_removeShipBox = false;
     };
 
     bool altMode = true;

@@ -1037,6 +1037,7 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
 
 bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent, bool parsingVanilla)
 {
+    customEvent->instantEscapeRemoveShipBox = CustomOptionsManager::GetInstance()->defaults.instantEscape_removeShipBox;
     bool isDefault = true;
 
     for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -1421,6 +1422,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->instantEscape = true;
+
+            if (child->first_attribute("removeShipBox"))
+            {
+                customEvent->instantEscapeRemoveShipBox = EventsParser::ParseBoolean(child->first_attribute("removeShipBox")->value());
+            }
         }
 
         if (nodeName == "escape")
@@ -4179,7 +4185,7 @@ void RecallBoarders(int direction, bool force, bool effects)
     }
 }
 
-static bool forcedEscape = false;
+static bool removeShipBoxAfterEscape = false;
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -4325,7 +4331,8 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         {
             enemyShip->shipAI.escaping = true;
             enemyShip->shipManager->JumpLeave();
-            if (!enemyShip->shipManager->_targetable.hostile) forcedEscape = true;
+            if (customEvent->instantEscapeRemoveShipBox && !enemyShip->shipManager->_targetable.hostile)
+                removeShipBoxAfterEscape = true;
         }
     }
 
@@ -4485,18 +4492,18 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint * bp) -> void)
     super(bp);
 
     // if the player is fast enough, they can go to another beacon before
-    // forcedEscape is reset, so make sure it is reset when a new ship is
-    // created
-    forcedEscape = false;
+    // removeShipBoxAfterEscape is reset, so make sure it is reset when a new
+    // ship is created
+    removeShipBoxAfterEscape = false;
 }
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
     super();
-    if (forcedEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
+    if (removeShipBoxAfterEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
     {
-        forcedEscape = false;
+        removeShipBoxAfterEscape = false;
         commandGui->ClearLocation();
     }
 }
