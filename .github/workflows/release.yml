@@ -20,12 +20,19 @@ jobs:
     needs: check-hooks
     runs-on: ubuntu-latest
     steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.INSTALLER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.INSTALLER_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: master
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Bump version
         run: |
@@ -36,7 +43,7 @@ jobs:
 
       - name: Push changes and create tag
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git push origin master:master
           git tag v${{ inputs.version }} master
@@ -45,6 +52,7 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
+          token: ${{ steps.app-token.outputs.token }}
           tag_name: v${{ inputs.version }}
           name: ${{ inputs.version }}
           generate_release_notes: true
