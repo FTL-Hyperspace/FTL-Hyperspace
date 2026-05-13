@@ -9,7 +9,7 @@ This mod DOES NOT WORK with the latest version of FTL. You will need to downgrad
 Extract the files in the "Windows - Extract these files into where FTLGame.exe is" in your FTL directory.
 This is usually in C:\Program Files (x86)\Steam\steamapps\common\FTL Faster Than Light.
 
-Steam: Download "FTL.Hyperspace.<version>-Windows-Patcher.zip" from the GitHub releases page (https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases), extract it into your FTL directory, and run downgrade.bat.
+Steam: Download "FTL.Hyperspace.<version>-Windows-Patcher.zip" from the GitHub releases page (https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases) and extract it. Inside the unzipped folder, open "Windows - Extract these files into where FTLGame.exe is" and copy its contents (downgrade.bat and the patch/ folder) into your FTL directory (next to FTLGame.exe). Then run downgrade.bat from your FTL directory.
 Other versions: Download the appropriate downgrader for your build from the forum post, copy it to your FTL directory and run it.
 
 (NOTE: Installing Hyperspace.ftl is NOT necessary for FTL: Multiverse)
