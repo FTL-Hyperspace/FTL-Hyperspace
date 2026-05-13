@@ -77,3 +77,10 @@ jobs:
     with:
       version: ${{ inputs.version }}
     secrets: inherit
+
+  build-mac-installer:
+    needs: build-macos
+    uses: ./.github/workflows/release-mac-installer.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
