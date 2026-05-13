@@ -44,7 +44,7 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
           installer-bundle-version: ${{ steps.version.outputs.version }}
-          hyperspace-version: ${{ steps.version.outputs.version }}
+          hyperspace-version: v${{ steps.version.outputs.version }}
           installer-name: "FTL-Hyperspace"
 
       - name: Rename DMG
