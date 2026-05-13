@@ -49,6 +49,31 @@ jobs:
           git tag v${{ inputs.version }} master
           git push origin v${{ inputs.version }}
 
+      - name: Compose release body
+        env:
+          VERSION: ${{ inputs.version }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          BASE="${REPO_URL}/releases/download/v${VERSION}"
+          ASSET="FTL.Hyperspace.${VERSION}"
+          cat > release-body.md <<EOF
+          # Download
+
+          ### ✨ Easy install
+
+          | 🍎 macOS (Apple Silicon) | 🍎 macOS (Intel) |
+          |:-:|:-:|
+          | [Installer arm64 (.dmg)](${BASE}/${ASSET}-Installer-MacOS-arm64.dmg) | [Installer x86_64 (.dmg)](${BASE}/${ASSET}-Installer-MacOS-x86_64.dmg) |
+
+          ### 🛠 Manual install
+
+          | 🪟 Windows | 🍎 macOS | 🐧 Linux |
+          |:-:|:-:|:-:|
+          | [Hyperspace (.zip)](${BASE}/${ASSET}-Windows.zip) + [Patcher (.zip)](${BASE}/${ASSET}-Windows-Patcher.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-MacOS.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-Linux.zip) |
+
+          See README for manual install steps.
+          EOF
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
@@ -56,13 +81,7 @@ jobs:
           tag_name: v${{ inputs.version }}
           name: ${{ inputs.version }}
           generate_release_notes: true
-          body: |
-            ## Download Instructions
-            - **Linux Only**: Download `FTL.Hyperspace.${{ inputs.version }}-Linux.zip`
-            - **Windows Only**: Download `FTL.Hyperspace.${{ inputs.version }}-Windows.zip`
-            - **macOS Only**: Download `FTL.Hyperspace.${{ inputs.version }}-MacOS.zip`
-
-            Platform-specific builds will be uploaded automatically.
+          body_path: release-body.md
 
   build-linux-windows:
     needs: prepare
