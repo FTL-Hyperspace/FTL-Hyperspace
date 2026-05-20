@@ -1,0 +1,285 @@
+name: Copilot issue duplicate check
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  detect-duplicate:
+    if: ${{ github.event.issue.user.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Copilot authentication
+        env:
+          COPILOT_PAT: ${{ secrets.COPILOT_PAT }}
+        run: |
+          if [ -z "$COPILOT_PAT" ]; then
+            echo "::error::Missing repository secret COPILOT_PAT. Create a fine-grained PAT with the Copilot Requests permission and store it as COPILOT_PAT."
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install GitHub Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Build issue context
+        id: issue-context
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          current_issue_path="$RUNNER_TEMP/current-issue.json"
+          recent_issues_path="$RUNNER_TEMP/recent-issues.json"
+          searched_issues_path="$RUNNER_TEMP/searched-issues.json"
+          candidate_issues_path="$RUNNER_TEMP/candidate-issues.json"
+
+          jq '{
+            number: .issue.number,
+            title: .issue.title,
+            body: (.issue.body // ""),
+            url: .issue.html_url,
+            author: .issue.user.login,
+            labels: [.issue.labels[]?.name],
+            created_at: .issue.created_at
+          }' "$GITHUB_EVENT_PATH" > "$current_issue_path"
+
+          search_terms="$(python3 - <<'PY'
+          import json
+          import os
+          import re
+
+          stop_words = {
+              "about", "after", "before", "being", "cannot", "could", "feature",
+              "from", "have", "issue", "please", "request", "should", "that",
+              "there", "these", "this", "when", "with", "would"
+          }
+
+          with open(os.environ["GITHUB_EVENT_PATH"], "r", encoding="utf-8") as event_file:
+              event = json.load(event_file)
+
+          words = re.findall(r"[A-Za-z0-9][A-Za-z0-9_-]{3,}", event["issue"]["title"].lower())
+          selected = []
+          for word in words:
+              if word in stop_words or word in selected:
+                  continue
+              selected.append(word)
+              if len(selected) == 6:
+                  break
+
+          print(" ".join(selected))
+          PY
+          )"
+
+          gh issue list \
+            --repo "$REPO" \
+            --state all \
+            --limit 80 \
+            --json number,title,body,url,state,createdAt \
+            > "$recent_issues_path"
+
+          if [ -n "$search_terms" ]; then
+            gh issue list \
+              --repo "$REPO" \
+              --state all \
+              --limit 40 \
+              --search "$search_terms in:title" \
+              --json number,title,body,url,state,createdAt \
+              > "$searched_issues_path"
+          else
+            printf '[]\n' > "$searched_issues_path"
+          fi
+
+          jq --argjson current "$ISSUE_NUMBER" -s '
+            add
+            | unique_by(.number)
+            | map(select(.number != $current))
+            | map({
+                number,
+                title,
+                url,
+                state,
+                created_at: .createdAt,
+                body: (
+                  (.body // "")
+                  | gsub("\r"; "")
+                  | gsub("[[:space:]]+"; " ")
+                  | if length > 1200 then .[0:1200] + " …[truncated]" else . end
+                )
+              })
+            | .[:60]
+          ' "$recent_issues_path" "$searched_issues_path" > "$candidate_issues_path"
+
+          echo "current-issue-path=$current_issue_path" >> "$GITHUB_OUTPUT"
+          echo "candidate-issues-path=$candidate_issues_path" >> "$GITHUB_OUTPUT"
+          echo "candidate-count=$(jq 'length' "$candidate_issues_path")" >> "$GITHUB_OUTPUT"
+
+      - name: Run GitHub Copilot duplicate analysis
+        id: duplicate-analysis
+        uses: actions/ai-inference@v2
+        with:
+          provider: copilot
+          model: gpt-4.1
+          prompt-file: ./.github/prompts/issue-duplicate-detection.prompt.yml
+          file_input: |
+            current_issue: ${{ steps.issue-context.outputs.current-issue-path }}
+            candidate_issues: ${{ steps.issue-context.outputs.candidate-issues-path }}
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
+
+      - name: Interpret Copilot response
+        id: decision
+        env:
+          CURRENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          DUPLICATE_RESPONSE: ${{ steps.duplicate-analysis.outputs.response }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          response_path="$RUNNER_TEMP/duplicate-response.txt"
+          printf '%s' "$DUPLICATE_RESPONSE" > "$response_path"
+
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import sys
+
+          response_path = os.path.join(os.environ["RUNNER_TEMP"], "duplicate-response.txt")
+          output_path = os.environ["GITHUB_OUTPUT"]
+          current_issue_number = int(os.environ["CURRENT_ISSUE_NUMBER"])
+
+          with open(response_path, "r", encoding="utf-8") as response_file:
+              text = response_file.read().strip()
+
+          text = re.sub(r"^```(?:json)?\s*", "", text)
+          text = re.sub(r"\s*```$", "", text)
+
+          try:
+              payload = json.loads(text)
+          except Exception as exc:
+              print(f"Unable to parse Copilot response as JSON: {exc}")
+              print(text)
+              with open(output_path, "a", encoding="utf-8") as output_file:
+                  output_file.write("parse-error=true\n")
+                  output_file.write("should-comment=false\n")
+              sys.exit(0)
+
+          if not isinstance(payload, dict):
+              print("Copilot response was not a JSON object.")
+              with open(output_path, "a", encoding="utf-8") as output_file:
+                  output_file.write("parse-error=true\n")
+                  output_file.write("should-comment=false\n")
+              sys.exit(0)
+
+          is_duplicate = bool(payload.get("is_duplicate"))
+          duplicate_issue_number = payload.get("duplicate_issue_number")
+          duplicate_issue_url = payload.get("duplicate_issue_url")
+          duplicate_issue_title = payload.get("duplicate_issue_title")
+          confidence = str(payload.get("confidence", "low")).lower()
+          reason = " ".join(str(payload.get("reason", "")).split())
+
+          if confidence not in {"low", "medium", "high"}:
+              confidence = "low"
+
+          should_comment = (
+              is_duplicate
+              and confidence in {"medium", "high"}
+              and isinstance(duplicate_issue_number, int)
+              and duplicate_issue_number != current_issue_number
+              and isinstance(duplicate_issue_url, str)
+              and duplicate_issue_url
+              and isinstance(duplicate_issue_title, str)
+              and duplicate_issue_title
+          )
+
+          with open(output_path, "a", encoding="utf-8") as output_file:
+              output_file.write("parse-error=false\n")
+              output_file.write(f"should-comment={'true' if should_comment else 'false'}\n")
+              output_file.write(f"confidence={confidence}\n")
+              output_file.write(f"duplicate-number={duplicate_issue_number if isinstance(duplicate_issue_number, int) else ''}\n")
+              output_file.write("duplicate-url<<EOF\n")
+              output_file.write(f"{duplicate_issue_url if isinstance(duplicate_issue_url, str) else ''}\n")
+              output_file.write("EOF\n")
+              output_file.write("duplicate-title<<EOF\n")
+              output_file.write(f"{duplicate_issue_title if isinstance(duplicate_issue_title, str) else ''}\n")
+              output_file.write("EOF\n")
+              output_file.write("reason<<EOF\n")
+              output_file.write(f"{reason[:280]}\n")
+              output_file.write("EOF\n")
+          PY
+
+      - name: Comment on likely duplicate
+        if: steps.decision.outputs.should-comment == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          DUPLICATE_NUMBER: ${{ steps.decision.outputs.duplicate-number }}
+          DUPLICATE_URL: ${{ steps.decision.outputs.duplicate-url }}
+          DUPLICATE_TITLE: ${{ steps.decision.outputs.duplicate-title }}
+          CONFIDENCE: ${{ steps.decision.outputs.confidence }}
+          REASON: ${{ steps.decision.outputs.reason }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          reason="$(printf '%s' "$REASON" | tr '\r\n' ' ' | sed 's/[[:space:]]\+/ /g')"
+
+          cat <<EOF > "$RUNNER_TEMP/duplicate-comment.md"
+          <!-- copilot-duplicate-suggestion -->
+          Thanks for opening this issue. GitHub Copilot found an existing issue that may already track the same problem:
+
+          - Potential duplicate: #$DUPLICATE_NUMBER
+          - Link: $DUPLICATE_URL
+          - Title: $DUPLICATE_TITLE
+
+          **Confidence:** $CONFIDENCE  
+          **Why it looks related:** $reason
+
+          If this is the same problem, please continue the discussion on #$DUPLICATE_NUMBER. If not, feel free to ignore this suggestion.
+          EOF
+
+          gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body-file "$RUNNER_TEMP/duplicate-comment.md"
+
+      - name: Write workflow summary
+        if: always()
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          CANDIDATE_COUNT: ${{ steps.issue-context.outputs.candidate-count }}
+          SHOULD_COMMENT: ${{ steps.decision.outputs.should-comment }}
+          PARSE_ERROR: ${{ steps.decision.outputs.parse-error }}
+          DUPLICATE_NUMBER: ${{ steps.decision.outputs.duplicate-number }}
+          CONFIDENCE: ${{ steps.decision.outputs.confidence }}
+        shell: bash
+        run: |
+          {
+            echo "### Copilot issue duplicate check"
+            echo
+            echo "- Issue: #$ISSUE_NUMBER"
+            echo "- Candidate issues reviewed: $CANDIDATE_COUNT"
+
+            if [ "$SHOULD_COMMENT" = "true" ]; then
+              echo "- Suggested duplicate: #$DUPLICATE_NUMBER ($CONFIDENCE confidence)"
+            elif [ "$PARSE_ERROR" = "true" ]; then
+              echo "- Result: Copilot returned an unreadable response."
+            else
+              echo "- Result: No likely duplicate found."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
