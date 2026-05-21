@@ -29,7 +29,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: v${{ steps.version.outputs.version }}
 
@@ -43,13 +43,13 @@ jobs:
         run: buildscripts/ci/package-windows.sh ${{ steps.version.outputs.version }}
 
       - name: Upload Linux release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: FTL.Hyperspace.${{ steps.version.outputs.version }}-Linux.zip
           tag_name: v${{ steps.version.outputs.version }}
 
       - name: Upload Windows release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows.zip
