@@ -29,7 +29,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: v${{ steps.version.outputs.version }}
 
@@ -43,7 +43,7 @@ jobs:
         run: buildscripts/ci/package-macos.sh ${{ steps.version.outputs.version }}
 
       - name: Upload macOS release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: FTL.Hyperspace.${{ steps.version.outputs.version }}-MacOS.zip
           tag_name: v${{ steps.version.outputs.version }}
