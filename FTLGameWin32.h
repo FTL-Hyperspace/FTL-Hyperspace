@@ -40,6 +40,8 @@
 #include <unordered_map>
 #include <math.h>
 #include <queue>
+#include <io.h>
+#include <stdio.h>
 #undef LoadImage
 
 #ifndef M_PI
@@ -6091,6 +6093,10 @@ struct ExplosionAnimation : AnimationTracker
 
 struct FileHelper
 {
+        static int fileLength(int fd)
+	{
+		return fileLength_OnlyForHooking(fd);
+	}
 
 	LIBZHL_API static void __stdcall closeBinaryFile(int file);
 	LIBZHL_API static int __stdcall createBinaryFile(const std::string &fileName);
@@ -6100,7 +6106,7 @@ struct FileHelper
 	LIBZHL_API static void __stdcall deleteFile(const std::string &fileName);
 	LIBZHL_API static void __stdcall deleteSaveFile();
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);
-	LIBZHL_API static int __stdcall fileLength(int file);
+	LIBZHL_API static int __stdcall fileLength_OnlyForHooking(int fd);
 	LIBZHL_API static int __stdcall getPosition(int file);
 	LIBZHL_API static std::string __stdcall getResourceFile();
 	LIBZHL_API static std::string __stdcall getSaveFile();

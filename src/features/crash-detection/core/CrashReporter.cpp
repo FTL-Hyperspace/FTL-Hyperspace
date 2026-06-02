@@ -57,14 +57,14 @@ std::string CrashReporter::CreateBugReportZip()
     fs::path userFolder(FileHelper::getUserFolder());
     std::string zipPath = GenerateBugReportPath();
 
-    hs_log_file("Creating bug report zip: %s\n", zipPath.c_str());
+    hs_log_file("Creating bug report zip\n");
 
     int err = 0;
     zipFile zf = zipOpen(zipPath.c_str(), APPEND_STATUS_CREATE);
 
     if (zf == nullptr)
     {
-        hs_log_file("Failed to create zip file: %s\n", zipPath.c_str());
+        hs_log_file("Failed to create zip file\n");
         return "";
     }
 
@@ -129,7 +129,7 @@ std::string CrashReporter::CreateBugReportZip()
         err = zipClose(zf, nullptr);
         if (err == ZIP_OK)
         {
-            hs_log_file("Bug report zip created successfully: %s\n", zipPath.c_str());
+            hs_log_file("Bug report zip created successfully\n");
             return zipPath;
         }
         else
@@ -152,7 +152,7 @@ void CrashReporter::OpenBugReport(const std::string& bugReportZipPath)
     size_t lastSlash = bugReportZipPath.find_last_of("\\/");
     if (lastSlash == std::string::npos)
     {
-        hs_log_file("Invalid bug report path: %s\n", bugReportZipPath.c_str());
+        hs_log_file("Invalid bug report path\n");
         return;
     }
 
