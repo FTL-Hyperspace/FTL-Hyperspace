@@ -26,4 +26,4 @@ case "$COMMAND" in
         ;;
 esac
 
-docker run --rm -v $SCRIPT_DIR/..:/workspaces/FTL-Hyperspace "$DEVCONTAINER_FULL" bash -c "cd /workspaces/FTL-Hyperspace && ${PRE_COMMAND}$COMMAND"
+docker run --rm -v "$SCRIPT_DIR/..:/workspaces/FTL-Hyperspace" "$DEVCONTAINER_FULL" bash -c "cd /workspaces/FTL-Hyperspace && ${PRE_COMMAND}$COMMAND"
