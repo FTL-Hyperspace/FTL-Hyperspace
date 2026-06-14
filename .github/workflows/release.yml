@@ -69,7 +69,7 @@ jobs:
 
           | 🪟 Windows | 🍎 macOS | 🐧 Linux |
           |:-:|:-:|:-:|
-          | [Hyperspace (.zip)](${BASE}/${ASSET}-Windows.zip) + [Patcher (.zip)](${BASE}/${ASSET}-Windows-Patcher.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-MacOS.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-Linux.zip) |
+          | [Hyperspace (.zip)](${BASE}/${ASSET}-Windows.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-MacOS.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-Linux.zip) |
 
           See README for manual install steps.
           EOF
