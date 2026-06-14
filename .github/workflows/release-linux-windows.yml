@@ -51,7 +51,5 @@ jobs:
       - name: Upload Windows release
         uses: softprops/action-gh-release@v3
         with:
-          files: |
-            FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows.zip
-            FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows-Patcher.zip
+          files: FTL.Hyperspace.${{ steps.version.outputs.version }}-Windows.zip
           tag_name: v${{ steps.version.outputs.version }}

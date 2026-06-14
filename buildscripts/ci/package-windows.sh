@@ -38,16 +38,3 @@ zip -r "../FTL.Hyperspace.${VERSION}-Windows.zip" *
 cd ..
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows.zip ==="
-
-# --- Patcher zip ---
-rm -rf build-package-windows-patcher
-mkdir -p "build-package-windows-patcher/${EXTRACT_DIR}"
-
-cp -r "Release Files/Windows/patcher/"* "build-package-windows-patcher/${EXTRACT_DIR}/"
-cp "Release Files/Windows/README.txt" "build-package-windows-patcher/"
-
-cd build-package-windows-patcher
-zip -r "../FTL.Hyperspace.${VERSION}-Windows-Patcher.zip" *
-cd ..
-
-echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows-Patcher.zip ==="
