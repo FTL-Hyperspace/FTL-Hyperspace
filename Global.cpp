@@ -3,7 +3,7 @@
 #include <chrono>
 
 #if defined(__linux__) || defined (__APPLE__)
-#include <SDL2/SDL_messagebox.h>
+#include <SDL3/SDL_messagebox.h>
 #endif // defined
 
 Global *Global::instance = new Global();

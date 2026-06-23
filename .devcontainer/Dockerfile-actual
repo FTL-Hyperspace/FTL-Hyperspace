@@ -72,6 +72,9 @@ RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/source
     && dpkg --add-architecture i386 \
     && apt update
 
+# SDL3 dependencies for linux (Required to build from vcpkg)
+RUN apt install -y libx11-dev libxft-dev libxext-dev libwayland-dev libxkbcommon-dev libegl1-mesa-dev libibus-1.0-dev
+
 # Install common build tools
 # TODO: Use latest ninja instead of one from system packages (vcpkg requires it)
 RUN apt install -y --no-install-recommends \
@@ -111,7 +114,8 @@ RUN (curl -sL \
 #       For some of them it's a mess to correctly install both amd64 and i386 version at the same time.
 #       The most immediate symptom if the SDL is built without optional deps is that you don't see any of the error
 #       message boxes.
-RUN apt install -y --no-install-recommends libsdl2-dev:amd64 libsdl2-dev:i386
+# RUN apt install -y --no-install-recommends libsdl2-dev:amd64 libsdl2-dev:i386
+
 
 # Setup vcpkg
 RUN cd / \

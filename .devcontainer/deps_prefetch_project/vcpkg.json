@@ -13,9 +13,10 @@
         "discord-rpc",
         "opengl",
         "lua",
+        "sdl3",
         "minizip"
     ],   
-    "builtin-baseline": "8e1f46de11423e5f7d2395458f5252738ffffbbd",
+    "builtin-baseline": "4ff4b6bb22fad8afcc0e88ca6970c423bf3f7bfd",
     "overrides": [
         {
             "name": "lua",
