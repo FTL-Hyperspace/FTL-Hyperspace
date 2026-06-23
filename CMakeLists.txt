@@ -18,13 +18,10 @@ find_package(Lua REQUIRED)
 find_package(minizip REQUIRED)
 find_package(ZLIB REQUIRED)
 
-if(APPLE)
-    # explicitly link the x86_64 SDL2 static library on macOS (needs to be installed via x86 Homebrew)
-    set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
-    set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
-elseif(UNIX)
-    find_package(SDL2 REQUIRED) # From system
-elseif(WIN32)
+# Let vcpkg handle SDL3 automatically
+find_package(SDL3 CONFIG REQUIRED)
+
+if(WIN32)
     find_package(OpenGL REQUIRED)
 endif()
 
@@ -201,9 +198,8 @@ endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
-    # SDL2
-    target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
-    target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
+    # SDL3
+    target_link_libraries(Hyperspace PRIVATE SDL3::SDL3)
 
     if (APPLE)
         target_link_libraries(Hyperspace PRIVATE

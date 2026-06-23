@@ -27,8 +27,8 @@ else
 fi
 
 # Install SDL2 via x86 Homebrew
-echo "Installing x86 dependencies..."
-arch -x86_64 /usr/local/bin/brew install sdl2
+# echo "Installing x86 dependencies..."
+# arch -x86_64 /usr/local/bin/brew install sdl2
 
 # Clone and bootstrap vcpkg
 if [ ! -d "$REPO_ROOT/vcpkg" ]; then

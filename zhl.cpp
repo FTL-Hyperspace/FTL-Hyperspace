@@ -16,7 +16,7 @@
     #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 0
     #define USE_STACK_ALIGNMENT
     #define STACK_ALIGNMENT_SIZE 0x10
-	#include <SDL2/SDL_messagebox.h>
+	#include <SDL3/SDL_messagebox.h>
 	#include <cstdlib>
 #else
     #define "Unknown OS"
