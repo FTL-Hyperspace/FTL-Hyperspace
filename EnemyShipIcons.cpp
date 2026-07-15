@@ -37,7 +37,16 @@ void ShipIconManager::ParseShipIconNode(rapidxml::xml_node<char>* node)
                 }
                 if (iconName == "tooltip")
                 {
-                    def.tooltip = iconValue;
+                    if (iconChild->first_attribute("id"))
+                    {
+                        def.tooltip.data = iconChild->first_attribute("id")->value();
+                        def.tooltip.isLiteral = false;
+                    }
+                    else
+                    {
+                        def.tooltip.data = iconValue;
+                        def.tooltip.isLiteral = true;
+                    }
                 }
                 shipIcons[def.name] = def;
             }
@@ -45,7 +54,7 @@ void ShipIconManager::ParseShipIconNode(rapidxml::xml_node<char>* node)
     }
 }
 
-void ShipIcon::OnInit(const std::string& texture, const std::string& tip, int idx)
+void ShipIcon::OnInit(const std::string& texture, const TextString& tip, int idx)
 {
     box = G_->GetResources()->GetImageId("combatUI/box_hostiles_icon.png");
     icon = G_->GetResources()->GetImageId("combatUI/icons/" + texture + ".png");
@@ -71,7 +80,7 @@ void ShipIcon::MouseMove(int x, int y, bool boss, int idx)
         if (y > pos.y - ((box->height_) * (index + idx + 1)) &&
             y < pos.y - ((box->height_) * (index + idx)))
         {
-            G_->GetMouseControl()->SetTooltip(tooltip);
+            G_->GetMouseControl()->SetTooltip(tooltip.GetText());
             G_->GetMouseControl()->InstantTooltip();
         }
     }
