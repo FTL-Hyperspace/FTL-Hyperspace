@@ -18,17 +18,6 @@ fi
 echo "Installing arm64 build dependencies..."
 brew install cmake git ninja lld swig
 
-# Install x86 Homebrew if not present
-if [ ! -f "/usr/local/bin/brew" ]; then
-    echo "Installing x86 Homebrew (Rosetta)..."
-    arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-    echo "x86 Homebrew already installed"
-fi
-
-# Install SDL2 via x86 Homebrew
-# echo "Installing x86 dependencies..."
-# arch -x86_64 /usr/local/bin/brew install sdl2
 
 # Clone and bootstrap vcpkg
 if [ ! -d "$REPO_ROOT/vcpkg" ]; then
