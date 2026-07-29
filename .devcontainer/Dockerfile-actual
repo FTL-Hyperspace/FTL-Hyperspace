@@ -109,13 +109,6 @@ RUN (curl -sL \
     && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
 
-# Setup SDL
-# Note: We're using the system-provided SDL because vcpkg-built SDL is very sensitive to the optional dependencies.
-#       For some of them it's a mess to correctly install both amd64 and i386 version at the same time.
-#       The most immediate symptom if the SDL is built without optional deps is that you don't see any of the error
-#       message boxes.
-# RUN apt install -y --no-install-recommends libsdl2-dev:amd64 libsdl2-dev:i386
-
 
 # Setup vcpkg
 RUN cd / \
