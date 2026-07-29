@@ -10,20 +10,23 @@ source "$SCRIPT_DIR/../.devcontainer/devcontainer.sh"
 
 COMMAND="${1:?Error: Command argument is required}"
 PRE_COMMAND=""
+PLATFORMS=""
+DOCKER_ENV=""
 
-case "$COMMAND" in
-    buildscripts/windows/build-debugonly.sh)
-        PRE_COMMAND="bash .devcontainer/devcontainer-fixes.sh build-windows-debug && "
-        ;;
-    buildscripts/windows/build-releaseonly.sh)
-        PRE_COMMAND="bash .devcontainer/devcontainer-fixes.sh build-windows-release && "
-        ;;
-    buildscripts/buildall.sh)
-        PRE_COMMAND="bash .devcontainer/devcontainer-fixes.sh build-windows-debug build-windows-release && "
-        ;;
-    buildscripts/buildall-release-only.sh)
-        PRE_COMMAND="bash .devcontainer/devcontainer-fixes.sh build-windows-release && "
-        ;;
+# Emulating the amd64 image on an arm host makes vcpkg's own cmake hang waiting on children that
+# already exited.
+case "$(uname -m)" in
+    arm64 | aarch64) DOCKER_ENV="-e VCPKG_FORCE_SYSTEM_BINARIES=1" ;;
 esac
 
-docker run --rm -v "$SCRIPT_DIR/..:/workspaces/FTL-Hyperspace" "$DEVCONTAINER_FULL" bash -c "cd /workspaces/FTL-Hyperspace && ${PRE_COMMAND}$COMMAND"
+case "$COMMAND" in
+    buildscripts/windows/*) PLATFORMS="windows" ;;
+    buildscripts/linux-*/*) PLATFORMS="linux" ;;
+    buildscripts/buildall*.sh) PLATFORMS="windows linux" ;;
+esac
+
+if [ -n "$PLATFORMS" ]; then
+    PRE_COMMAND="bash .devcontainer/devcontainer-fixes.sh $PLATFORMS && "
+fi
+
+docker run --rm $DOCKER_ENV -v "$SCRIPT_DIR/..:/workspaces/FTL-Hyperspace" "$DEVCONTAINER_FULL" bash -c "cd /workspaces/FTL-Hyperspace && ${PRE_COMMAND}$COMMAND"
