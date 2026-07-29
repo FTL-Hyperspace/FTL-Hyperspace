@@ -72,8 +72,9 @@ RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/source
     && dpkg --add-architecture i386 \
     && apt update
 
-# SDL3 dependencies for linux (Required to build from vcpkg)
-RUN apt install -y libx11-dev libxft-dev libxext-dev libwayland-dev libxkbcommon-dev libegl1-mesa-dev libibus-1.0-dev
+# SDL3 dependencies for linux (Required to build from vcpkg).
+RUN apt install -y --no-install-recommends libx11-dev libxext-dev libxtst-dev \
+        libwayland-dev wayland-protocols libxkbcommon-dev libegl1-mesa-dev
 
 # Install common build tools
 # TODO: Use latest ninja instead of one from system packages (vcpkg requires it)
@@ -108,6 +109,17 @@ RUN (curl -sL \
     > /tmp/pwsh.deb \
     && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
+
+# Focal has the mingw-w64 7.0.0 headers, which are too old for SDL3: the Direct3D renderers need
+# dxgidebug.h and the WASAPI backend needs the stream options from a newer audioclient.h. Jammy has
+# 8.0.0 with both, and they are architecture independent so the compiler above stays untouched.
+# Keep in sync with upgrade_mingw_headers() in devcontainer-fixes.sh.
+RUN cd /tmp \
+    && echo "deb http://archive.ubuntu.com/ubuntu jammy universe" > /etc/apt/sources.list.d/jammy.list \
+    && apt update \
+    && apt-get download mingw-w64-common/jammy mingw-w64-i686-dev/jammy \
+    && dpkg -i --force-overwrite mingw-w64-common_*.deb mingw-w64-i686-dev_*.deb \
+    && rm -f mingw-w64-*.deb /etc/apt/sources.list.d/jammy.list
 
 
 # Setup vcpkg
