@@ -6,10 +6,20 @@ REPO_ROOT=$(cd $SCRIPT_DIR/../.. && pwd)
 
 echo "=== Setting up macOS build environment ==="
 
+# Force --yes on Homebrew commands to avoid interactive prompts.
+export NONINTERACTIVE=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+
 # Check if Homebrew is installed
 if ! command -v brew &> /dev/null; then
     echo "Installing Homebrew (arm64)..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # On Apple Silicon brew lands in /opt/homebrew, which is not on the default PATH
+    BREW_PREFIX=$([ -x /opt/homebrew/bin/brew ] && echo /opt/homebrew || echo /usr/local)
+    echo "eval \"\$($BREW_PREFIX/bin/brew shellenv)\"" >> "$HOME/.zprofile"
+    eval "$("$BREW_PREFIX/bin/brew" shellenv)"
 else
     echo "Homebrew (arm64) already installed"
 fi
