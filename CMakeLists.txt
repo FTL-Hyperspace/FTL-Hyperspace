@@ -54,11 +54,7 @@ swig_add_library(
     SOURCES ${swigfiles}
 )
 
-if(APPLE)
-    target_compile_features(Hyperspace PRIVATE cxx_std_14)
-else()
-    target_compile_features(Hyperspace PRIVATE cxx_std_11)
-endif()
+target_compile_features(Hyperspace PRIVATE cxx_std_14)
 
 target_include_directories(
     Hyperspace PRIVATE
@@ -84,6 +80,7 @@ target_link_libraries(
     ZLIB::ZLIB
     Boost::filesystem
     Threads::Threads
+    SDL3::SDL3
 )
 
 # Automatically include all source files from root directory
@@ -190,33 +187,16 @@ target_compile_options(
     # -Wall
 )
 
+target_compile_options(Hyperspace PRIVATE -std=c++14)
 if(APPLE)
-    target_compile_options(Hyperspace PRIVATE -std=c++14 -Wno-deprecated-declarations)
-else()
-    target_compile_options(Hyperspace PRIVATE -std=c++11)
+    target_compile_options(Hyperspace PRIVATE -Wno-deprecated-declarations)
 endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
-    # SDL3
-    target_link_libraries(Hyperspace PRIVATE SDL3::SDL3)
-
     if (APPLE)
-        target_link_libraries(Hyperspace PRIVATE
-            "-framework Cocoa"
-            "-framework IOKit"
-            "-framework CoreFoundation"
-            "-framework CoreVideo"
-            "-framework CoreAudio"
-            "-framework OpenGL"
-            "-framework AudioToolbox"
-            "-framework ForceFeedback"
-            "-framework Carbon"
-            "-framework Metal"
-            "-framework QuartzCore"
-            "-framework GameController"
-            "-framework CoreHaptics"
-        )
+        # SDL3 loads OpenGL dynamically on macOS. 
+        target_link_libraries(Hyperspace PRIVATE "-framework OpenGL")
     endif()
 
     # Disable Discord integration by default
