@@ -211,7 +211,7 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     if (HNManager && HNManager->enabled)
     {
         char buffer[64];
-        sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
+        snprintf(buffer, 64, "%d", this->ship->ship.hullIntegrity.first);
         auto textInfo = HNManager->playerIndicator;
         HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
     }
@@ -276,7 +276,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         }
 
         char buffer[64];
-        sprintf(buffer, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
+        snprintf(buffer, 64, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
 
         HullNumbers::IndicatorInfo textInfo;
         if (boss_visual)

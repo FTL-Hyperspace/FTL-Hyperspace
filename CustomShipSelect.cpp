@@ -1316,11 +1316,11 @@ void CustomShipSelect::OnRender(bool renderSelect)
 
         if (hideFirstPage)
         {
-            sprintf(buf, "%d/%d", GetCurrentPage(), GetMaxPages());
+            snprintf(buf, 128, "%d/%d", GetCurrentPage(), GetMaxPages());
         }
         else
         {
-            sprintf(buf, "%d/%d", GetCurrentPage() + 1, GetMaxPages() + 1);
+            snprintf(buf, 128, "%d/%d", GetCurrentPage() + 1, GetMaxPages() + 1);
         }
 
         std::string text(buf);
@@ -2319,6 +2319,180 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
     return super(shipType, shipVariant);
 }
 
+// Rewritten because of inlining in the Mac binary
+HOOK_METHOD_PRIORITY(ShipBuilder, MouseClick, 9999, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
+
+    if (this->introScreen.bOpen)
+    {
+        this->introScreen.MouseClick(mX, mY);
+        return;
+    }
+
+    if (this->bRenaming)
+    {
+        return;
+    }
+
+    if (this->shipSelect.bOpen)
+    {
+        this->shipSelect.MouseClick();
+        if (this->shipSelect.GetSelection() != -1)
+        {
+            this->currentShipId = this->shipSelect.GetSelection();
+            if (this->currentShip)
+            {
+                this->currentShip->destructor2();
+            }
+            this->SwitchShip(this->currentShipId, this->shipSelect.currentType);
+            this->shipSelect.Close();
+        }
+        return;
+    }
+
+    // Handle crew customization boxes
+    for (CrewCustomizeBox* currentBox : this->vCrewBoxes)
+    {
+        if (!this->bCustomizingCrew && currentBox->customizeButton.Hovering())
+        {
+            currentBox->SetCustomizeMode(Point(100, 542));
+        }
+        else
+        {
+            currentBox->MouseClick();
+        }
+    }
+
+    // Start button
+    if (this->startButton.Hovering())
+    {
+        this->Finish();
+        return;
+    }
+
+    // Difficulty buttons (inactive = selected)
+    if (this->easyButton.Hovering())
+    {
+        *Global::difficulty = 0;
+        this->easyButton.SetActive(false);
+        this->normalButton.SetActive(true);
+        this->hardButton.SetActive(true);
+        return;
+    }
+    if (this->normalButton.Hovering())
+    {
+        *Global::difficulty = 1;
+        this->easyButton.SetActive(true);
+        this->normalButton.SetActive(false);
+        this->hardButton.SetActive(true);
+        return;
+    }
+    if (this->hardButton.Hovering())
+    {
+        *Global::difficulty = 2;
+        this->easyButton.SetActive(true);
+        this->normalButton.SetActive(true);
+        this->hardButton.SetActive(false);
+        return;
+    }
+
+    // Rename button
+    if (this->renameButton.Hovering())
+    {
+        this->bRenaming = true;
+        this->nameInput.Start();
+        return;
+    }
+
+    // Ship navigation
+    if (this->leftButton.Hovering())
+    {
+        this->CycleShipPrevious();
+        return;
+    }
+    if (this->rightButton.Hovering())
+    {
+        this->CycleShipNext();
+        return;
+    }
+
+    // Show rooms toggle
+    if (this->showButton.Hovering())
+    {
+        this->bShowRooms = !this->bShowRooms;
+        return;
+    }
+
+    // Ship list
+    if (this->listButton.Hovering())
+    {
+        this->shipSelect.Open(this->currentShipId, this->currentType);
+        return;
+    }
+
+    // Ship type selection (A/B/C)
+    if (this->typeA.Hovering())
+    {
+        this->SwapType(0);
+        return;
+    }
+    if (this->typeB.Hovering())
+    {
+        this->SwapType(1);
+        return;
+    }
+    if (this->typeC.Hovering())
+    {
+        this->SwapType(2);
+        return;
+    }
+
+    // Advanced Edition toggle
+    if (this->advancedOffButton.Hovering())
+    {
+        G_->GetSettings()->bDlcEnabled = false;
+        this->currentShip->CheckDlcEnabled();
+        this->advancedOffButton.SetActive(false);
+        this->advancedOnButton.SetActive(true);
+        return;
+    }
+    if (this->advancedOnButton.Hovering())
+    {
+        G_->GetSettings()->bDlcEnabled = true;
+        this->currentShip->CheckDlcEnabled();
+        this->advancedOffButton.SetActive(true);
+        this->advancedOnButton.SetActive(false);
+        return;
+    }
+
+    // Random ship selection
+    if (this->randomButton.Hovering())
+    {
+        std::vector<int> possibleShips;
+        for (int i = 0; i < 30; ++i)
+        {
+            if (G_->GetScoreKeeper()->GetShipUnlocked(i % 10, i / 10))
+            {
+                possibleShips.push_back(i);
+            }
+        }
+
+        int selected_ship_data = possibleShips[random32() % possibleShips.size()];
+        int shipId = selected_ship_data % 10;
+        int shipType = selected_ship_data / 10;
+
+        this->currentShipId = shipId;
+
+        if (this->currentShip)
+        {
+            this->currentShip->destructor2();
+        }
+
+        this->SwitchShip(shipId, shipType);
+        return;
+    }
+}
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
@@ -3379,7 +3553,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
         char buf[12];
 
-        sprintf(buf, "%u", Global::currentSeed);
+        snprintf(buf, 12, "%u", Global::currentSeed);
 
         freetype::easy_printCenter(62, position.x + 81.f + 160.f, position.y + 325.f + 40.f, std::string(buf));
     }
@@ -3511,7 +3685,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
                 if (SeedInputBox::seedsEnabled)
                 {
-                    sprintf(buf, "%u", Global::currentSeed);
+                    snprintf(buf, 12, "%u", Global::currentSeed);
                 }
                 freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
 
@@ -3617,7 +3791,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     char buf[12] = "-";
     if (SeedInputBox::seedsEnabled)
     {
-        sprintf(buf, "%u", Global::currentSeed);
+        snprintf(buf, 12, "%u", Global::currentSeed);
     }
     freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 40, std::string(buf));
 

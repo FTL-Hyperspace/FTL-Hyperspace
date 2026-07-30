@@ -1,0 +1,14 @@
+// Continue from VTable_RepairAnimation (hyper efficiency™)
+"!.554889e553504889fbe8????ffff488bbb78":
+noHook __amd64 void RepairStoreBox::NoHook();
+".554889e5":
+cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager* _ship, bool _repairAll, int _price);
+
+
+struct RepairStoreBox
+{{
+	RepairStoreBox(ShipManager* ship, bool repairAll, int price)
+	{
+		this->constructor(ship, repairAll, price);
+	}
+}};

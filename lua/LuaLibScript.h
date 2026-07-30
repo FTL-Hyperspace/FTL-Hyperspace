@@ -8,7 +8,7 @@
 #include <string>
 #include <algorithm>
 
-typedef struct swig_type_info;
+typedef struct swig_type_info swig_type_info;
 
 /*** Functions for script execution control
  * @module script

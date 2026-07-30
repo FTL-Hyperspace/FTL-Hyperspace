@@ -422,7 +422,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    auto ship = G_->GetShipManager(iShipId);
+    // auto ship = G_->GetShipManager(iShipId);
     int augCount = 0;
 
     // Count hidden augments
@@ -464,7 +464,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
 
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    auto ship = G_->GetShipManager(iShipId);
+    // auto ship = G_->GetShipManager(iShipId);
     std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
     int augCount = 0;
 
@@ -862,9 +862,9 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     }
 }
 
-HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox0 -> Begin (CustomAugments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
 
     auto context = Global::GetInstance()->getLuaContext();
     SWIG_NewPointerObj(context->GetLua(), event, context->getLibScript()->types.pLocationEvent, 0);

@@ -1,0 +1,38 @@
+"!554889e553504889fb488d05??????004883":
+cleanup __amd64 void Equipment::destructor(Equipment *this); // This is the free destructor
+"!.554889e553504889fbe8??bf":
+cleanup __amd64 void Equipment::constructor(Equipment *this);
+".554889e5415741564155415453":
+cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager* ship);
+".554889e54157":
+cleanup __amd64 void Equipment::SetPosition(Equipment *this, Point position);
+".5548":
+cleanup __amd64 void Equipment::Jump(Equipment *this);
+".554889e5415741564155":
+cleanup __amd64 bool Equipment::IsCompletelyFull(Equipment *this, int type);
+".554889e5415741564155":
+cleanup __amd64 void Equipment::OnRender(Equipment *this);
+".554889e54157415641545349":
+cleanup __amd64 void Equipment::OnLoop(Equipment *this);
+".554889e5415741564154534989f74989fe49c746":
+cleanup __amd64 std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
+".554889e541574156534883ec484989f7":
+cleanup __amd64 void Equipment::AddToCargo(Equipment *this, const std::string& name);
+".554889e54157":
+cleanup __amd64 void Equipment::AddWeapon(Equipment *this, WeaponBlueprint* bp, bool free, bool forceCargo);
+".554889e541574156":
+cleanup __amd64 void Equipment::AddDrone(Equipment *this, DroneBlueprint* bp, bool free, bool forceCargo);
+".554889e5415741564155":
+cleanup __amd64 void Equipment::AddAugment(Equipment *this, AugmentBlueprint* bp, bool free, bool forceCargo);
+".554889e54157415653":
+cleanup __amd64 void Equipment::Open(Equipment *this);
+".55":
+cleanup __amd64 void Equipment::MouseMove(Equipment *this, int mX, int mY);
+".554889e553504889fbe8":
+cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);
+".554889e5534883ec":
+cleanup __amd64 void Equipment::MouseUp(Equipment *this, int mX, int mY);
+".554889e54157":
+cleanup __amd64 bool Equipment::OnTouch(Equipment *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+"!.554889e55de9":
+cleanup __amd64 void Equipment::Close(Equipment *this);

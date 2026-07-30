@@ -1,0 +1,23 @@
+"554889e54157415641554154534881ec680100004989ce":
+cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _blueprint);
+".554889e553????????48????????4889b3":
+cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable* target);
+".554889e5b001807f280074025dc380bf3805000000":
+noHook __amd64 void BoarderPodDrone::Destroyed();
+".554889e5":
+cleanup __amd64 CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+".554889e553504889fb488bbb88":
+cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
+"!.554889e54157":
+cleanup __amd64 void BoarderPodDrone::OnLoop(BoarderPodDrone *this);
+".554889e54156534189f64889fb807b18":
+cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool deployed);
+
+
+struct BoarderPodDrone
+{{
+	BoarderPodDrone(int iShipId, int selfId, const DroneBlueprint& blueprint)
+	{
+		this->constructor(iShipId, selfId, blueprint);
+	}
+}};

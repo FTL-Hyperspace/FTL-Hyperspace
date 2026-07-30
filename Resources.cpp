@@ -199,6 +199,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
                     }
+                    if (strcmp(child->name(), "instantEscape_removeShipBox") == 0)
+                    {
+                        customOptions->defaults.instantEscape_removeShipBox = EventsParser::ParseBoolean(child->value());
+                    }
                     if (strcmp(child->name(), "erosion") == 0)
                     {
                         ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
