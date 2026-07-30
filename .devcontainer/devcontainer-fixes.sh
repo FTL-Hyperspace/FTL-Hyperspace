@@ -8,8 +8,9 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 MINGW_HEADERS_VERSION=8.0.0
 
 # Keep in sync with the SDL3 dependencies in Dockerfile-actual.
-SDL3_LINUX_PACKAGES="libx11-dev libxext-dev libxtst-dev libwayland-dev wayland-protocols \
-libxkbcommon-dev libegl1-mesa-dev"
+SDL3_LINUX_PACKAGES="libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+libxrender-dev libxss-dev libxtst-dev libwayland-dev wayland-protocols libxkbcommon-dev \
+libegl1-mesa-dev"
 
 # Update toolchains
 sync_toolchains() {
