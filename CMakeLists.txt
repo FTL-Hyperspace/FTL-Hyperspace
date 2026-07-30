@@ -54,7 +54,7 @@ swig_add_library(
     SOURCES ${swigfiles}
 )
 
-target_compile_features(Hyperspace PRIVATE cxx_std_14)
+target_compile_features(Hyperspace PRIVATE cxx_std_11)
 
 target_include_directories(
     Hyperspace PRIVATE
@@ -187,7 +187,7 @@ target_compile_options(
     # -Wall
 )
 
-target_compile_options(Hyperspace PRIVATE -std=c++14)
+target_compile_options(Hyperspace PRIVATE -std=c++11)
 if(APPLE)
     target_compile_options(Hyperspace PRIVATE -Wno-deprecated-declarations)
 endif()
