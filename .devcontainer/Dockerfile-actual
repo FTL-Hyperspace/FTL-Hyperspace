@@ -73,7 +73,9 @@ RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/source
     && apt update
 
 # SDL3 dependencies for linux (Required to build from vcpkg).
-RUN apt install -y --no-install-recommends libx11-dev libxext-dev libxtst-dev \
+RUN apt install -y --no-install-recommends \
+        libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+        libxrender-dev libxss-dev libxtst-dev \
         libwayland-dev wayland-protocols libxkbcommon-dev libegl1-mesa-dev
 
 # Install common build tools
