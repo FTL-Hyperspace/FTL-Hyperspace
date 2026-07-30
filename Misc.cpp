@@ -636,12 +636,12 @@ void LuaLibScript::LoadTypeInfo()
 
     types.pDrone = SWIG_TypeQuery(this->m_Lua, "Drone *");
     types.pDroneTypes[DRONE_DEFENSE] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
     // TODO: Register type info for Repair and Battle drone when multiple inheritence is properly represented in FTLGame headers
     types.pDroneTypes[DRONE_REPAIR] = nullptr; // RepairDrone does not inherit from Drone
     types.pDroneTypes[DRONE_BATTLE] = nullptr; // BattleDrone does not inherit from Drone
     // types.pDroneTypes[DRONE_COMBAT] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
-    // types.pDroneTypes[DRONE_REPAIR] = SWIG_TypeQuery(this->m_Lua, "RepairDrone *");
-    types.pDroneTypes[DRONE_BATTLE] = SWIG_TypeQuery(this->m_Lua, "BattleDrone *");
+    // types.pDroneTypes[DRONE_BATTLE] = SWIG_TypeQuery(this->m_Lua, "BattleDrone *");
     types.pDroneTypes[DRONE_BOARDER] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
     types.pDroneTypes[DRONE_SHIP_REPAIR] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
     types.pDroneTypes[DRONE_FIGHTER_TEST] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
