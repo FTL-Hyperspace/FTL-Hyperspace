@@ -18,13 +18,10 @@ find_package(Lua REQUIRED)
 find_package(minizip REQUIRED)
 find_package(ZLIB REQUIRED)
 
-if(APPLE)
-    # explicitly link the x86_64 SDL2 static library on macOS (needs to be installed via x86 Homebrew)
-    set(SDL2_LIBRARIES "/usr/local/lib/libSDL2.a")
-    set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
-elseif(UNIX)
-    find_package(SDL2 REQUIRED) # From system
-elseif(WIN32)
+# Let vcpkg handle SDL3 automatically
+find_package(SDL3 CONFIG REQUIRED)
+
+if(WIN32)
     find_package(OpenGL REQUIRED)
 endif()
 
@@ -57,11 +54,7 @@ swig_add_library(
     SOURCES ${swigfiles}
 )
 
-if(APPLE)
-    target_compile_features(Hyperspace PRIVATE cxx_std_14)
-else()
-    target_compile_features(Hyperspace PRIVATE cxx_std_11)
-endif()
+target_compile_features(Hyperspace PRIVATE cxx_std_11)
 
 target_include_directories(
     Hyperspace PRIVATE
@@ -87,6 +80,7 @@ target_link_libraries(
     ZLIB::ZLIB
     Boost::filesystem
     Threads::Threads
+    SDL3::SDL3
 )
 
 # Automatically include all source files from root directory
@@ -193,34 +187,16 @@ target_compile_options(
     # -Wall
 )
 
+target_compile_options(Hyperspace PRIVATE -std=c++11)
 if(APPLE)
-    target_compile_options(Hyperspace PRIVATE -std=c++14 -Wno-deprecated-declarations)
-else()
-    target_compile_options(Hyperspace PRIVATE -std=c++11)
+    target_compile_options(Hyperspace PRIVATE -Wno-deprecated-declarations)
 endif()
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
-    # SDL2
-    target_include_directories(Hyperspace PRIVATE ${SDL2_INCLUDE_DIRS})
-    target_link_libraries(Hyperspace PRIVATE ${SDL2_LIBRARIES})
-
     if (APPLE)
-        target_link_libraries(Hyperspace PRIVATE
-            "-framework Cocoa"
-            "-framework IOKit"
-            "-framework CoreFoundation"
-            "-framework CoreVideo"
-            "-framework CoreAudio"
-            "-framework OpenGL"
-            "-framework AudioToolbox"
-            "-framework ForceFeedback"
-            "-framework Carbon"
-            "-framework Metal"
-            "-framework QuartzCore"
-            "-framework GameController"
-            "-framework CoreHaptics"
-        )
+        # SDL3 loads OpenGL dynamically on macOS. 
+        target_link_libraries(Hyperspace PRIVATE "-framework OpenGL")
     endif()
 
     # Disable Discord integration by default
