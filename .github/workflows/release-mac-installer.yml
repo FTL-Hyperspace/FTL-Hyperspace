@@ -35,7 +35,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.INSTALLER_APP_CLIENT_ID }}
+          client-id: ${{ vars.INSTALLER_APP_CLIENT_ID }}
           private-key: ${{ secrets.INSTALLER_APP_PRIVATE_KEY }}
 
       - name: Build installer for ${{ matrix.arch }}
