@@ -1,0 +1,74 @@
+---
+title: "FTL: Hyperspace"
+description: "A binary mod for FTL: Faster Than Light"
+template: splash
+hero:
+  tagline: "New species, unlimited ships, custom systems and events. Hyperspace is the engine most large FTL mods run on."
+  image:
+    file: ../../../assets/brand/wordmark.png
+  actions:
+    - text: Install Hyperspace
+      link: "#install"
+      icon: down-arrow
+    - text: Join the Discord
+      link: "link:discord"
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+import AppFrame from '~/components/AppFrame.astro';
+import Credits from '~/components/Credits.astro';
+import menu from '~/assets/brand/menu.png';
+
+<AppFrame src={menu} alt="The FTL main menu running Hyperspace" />
+
+## Install
+
+Pick the machine you play on.
+
+<ChoiceGrid>
+	<Choice label="Windows" href="windows/" logo="windows.svg" note="" />
+	<Choice label="Steam Deck" href="steam-deck/" logo="steam-deck.svg" note="" />
+	<Choice label="Linux" href="linux/" logo="linux.svg" note="" />
+	<Choice label="macOS" href="macos/" logo="macos.svg" note="" />
+</ChoiceGrid>
+
+## What it does
+
+FTL's own modding only lets you rearrange what the game already has. Hyperspace patches
+the game itself and removes that limit.
+
+With it, mods can add new species with their own stats and abilities, an unlimited ship
+roster, custom systems and subsystems, augments that combine into new ones, custom
+drones, stores and events, and Lua scripting for behaviour regular patching cannot do.
+
+That is why [FTL: Multiverse](link:multiverseForum) and nearly every other large mod
+require it.
+
+Install it on its own and you get seeded runs to share or race, a numerical hull
+indicator, Discord Rich Presence, and a long list of fixes for bugs in the base game.
+
+It runs natively on Windows, macOS and Linux, the Steam Deck included.
+
+## For mod makers
+
+Most of what Hyperspace exposes is documented in `data/hyperspace.xml` inside
+`Hyperspace.ftl`. Use a `hyperspace.xml.append` and add the tags your mod needs.
+
+Ship your mod expecting the player to download Hyperspace separately and patch it
+first. For the best compatibility with other mods, do not redistribute Hyperspace's
+resource files or binaries, just point people at the download in your forum post.
+
+The Lua API for 1.2.0 and above lives in [the wiki](link:wiki), along with the rest of
+the developer documentation. Improvements are welcome: open an issue on GitHub with a
+markdown snippet or a link to a clone of the wiki repository.
+
+## Join us
+
+Come talk to us in the Hyperspace channels on
+[the FTL Multiverse Discord](link:discord).
+
+<Credits />

@@ -1,0 +1,34 @@
+---
+title: "Update FTL: Hyperspace on Linux"
+description: "Replace the library, then re-patch your mods"
+prev:
+  link: ../
+  label: All Linux guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import FtlmanUpdate from '~/content/docs/_partials/en/_ftlman-update.mdx';
+
+Updating is quick, and your saves are not affected.
+
+1. Download `FTL.Hyperspace.x.xx.x-Linux.zip` from the [latest release](link:releases).
+2. Replace the `Hyperspace.*.so` file in your FTL folder with the one for the same FTL
+   version, either `Hyperspace.1.6.13.amd64.so` or `Hyperspace.1.6.12.amd64.so`. Keep
+   only one.
+
+<Aside type="tip" title="Not sure which version you are on">
+Launch FTL and read the version from the **bottom right** of the main menu.
+</Aside>
+
+Leave the `LD_PRELOAD` line in your launch script alone, unless the filename changed.
+
+<FtlmanUpdate />
+
+<Aside type="caution" title="Running Multiverse?">
+Keeping Hyperspace current matters most for Multiverse players, because Multiverse
+always builds against the newest Hyperspace. After updating, run your mod manager
+again and re-patch Multiverse. Saves survive this.
+</Aside>

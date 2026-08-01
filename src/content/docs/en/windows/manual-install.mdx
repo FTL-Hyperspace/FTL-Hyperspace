@@ -1,0 +1,101 @@
+---
+title: "Install FTL: Hyperspace on Windows manually"
+description: "Roll FTL back to 1.6.9, install FTL: Hyperspace, patch your mods"
+prev:
+  link: ../
+  label: All Windows guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Steps, Aside, FileTree } from '@astrojs/starlight/components';
+import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Rollback from '~/content/docs/_partials/en/_rollback-windows.mdx';
+import FindFolder from '~/content/docs/_partials/en/_find-ftl-folder.mdx';
+import ModManager from '~/content/docs/_partials/en/_mod-manager.mdx';
+import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
+import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import Unpatch from '~/content/docs/_partials/en/_unpatch.mdx';
+
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+2. ### Roll FTL back to 1.6.9
+
+   <Rollback />
+
+3. ### Install the Hyperspace binary
+
+   Download `FTL.Hyperspace.x.xx.x-Windows.zip` from the [latest release](link:releases)
+   and extract it. Inside you will find:
+
+   <FileTree>
+   - Hyperspace.ftl        keep this for step 5
+   - README.txt
+   - **Windows - Extract these files into where FTLGame.exe is/**
+     - Hyperspace.dll
+     - lua-5.3.dll
+     - xinput1_4.dll
+   </FileTree>
+
+   Copy the three files from that folder into your FTL folder, next to `FTLGame.exe`.
+   Leave `Hyperspace.ftl` where it is for now.
+
+   <FindFolder />
+
+4. ### Set up a mod manager
+
+   <ModManager />
+
+5. ### Patch Hyperspace in
+
+   Put the `Hyperspace.ftl` from the ZIP into your manager's `mods` folder, tick it, and apply.
+   Tick any other Hyperspace-based mods after it.
+
+   <Aside type="caution" title="Installing Multiverse instead?">
+   Skip this step. Multiverse already contains Hyperspace, and patching both breaks
+   the game. Go straight to step 6, then follow the Multiverse section below.
+   </Aside>
+
+6. ### Check it worked
+
+   <Verify />
+
+   <Aside type="danger" title="Error mentioning AcheivementTracker">
+   FTL did not downgrade to 1.6.9 successfully. Run the rollback again and confirm
+   `FTLGame_orig.exe` was created.
+   </Aside>
+
+</Steps>
+
+Hyperspace is now installed and ready to play. Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse />
+
+## Uninstalling
+
+<Steps>
+
+1. ### Put `ftl.dat` back to vanilla
+
+   <Unpatch />
+
+2. ### Remove the Hyperspace files
+
+   Delete `Hyperspace.dll`, `lua-5.3.dll` and `xinput1_4.dll` from your FTL folder.
+
+3. ### Undo the rollback
+
+   To go back to 1.6.14, delete `FTLGame.exe` and rename `FTLGame_orig.exe` back to
+   `FTLGame.exe`.
+
+</Steps>

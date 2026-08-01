@@ -1,0 +1,14 @@
+---
+/** Wraps a row of <Choice> cards. Replaces the Jekyll `.selector-grid` markup. */
+---
+
+<div class="choice-grid"><slot /></div>
+
+<style>
+	.choice-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+		gap: 1rem;
+		margin-block: 1.5rem;
+	}
+</style>

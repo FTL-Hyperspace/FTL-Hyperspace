@@ -1,0 +1,51 @@
+import { Steps } from '@astrojs/starlight/components';
+import Screenshot from '~/components/Screenshot.astro';
+import properties from '~/assets/screenshot/steam-properties.png';
+import cloudSaves from '~/assets/screenshot/steam-cloud-saves.png';
+
+### Anything wrong with saves, on Steam
+
+Turn off Steam Cloud first. It restores outdated saves with broken state, which can
+keep Hyperspace from launching and will undo any save fix you try below.
+
+Right-click **FTL: Faster Than Light** in your library and open **Properties**.
+
+<Screenshot src={properties} alt="Right-clicking FTL in the Steam library and choosing Properties" label="Show me how to open Properties" />
+
+Under **General**, untick **Keep games saves in the Steam Cloud**.
+
+<Screenshot src={cloudSaves} alt="The General tab of FTL's Steam properties with the Steam Cloud checkbox unticked" label="Show me the checkbox" />
+
+### My game crashes before loading Multiverse
+
+Make sure you are on the latest Hyperspace. The Multiverse installer is frequently
+behind, and this is by far the most common cause.
+
+If you are on a laptop with both integrated and dedicated graphics, try forcing FTL
+onto one or the other. Otherwise your save file is probably corrupt, see below.
+
+### My game hangs on the last `E` in Multiverse
+
+Your save file is corrupt.
+
+### My game hangs while loading but I can hear music
+
+Your save file is corrupt.
+
+### Resolving a corrupt save file
+
+<Steps>
+
+1. Find your save folder and locate `hs_mv_prof.sav` and `hs_mv_version.sav`.
+
+2. Delete `hs_mv_version.sav`.
+
+3. Move `hs_mv_prof.sav` somewhere else. Do not delete it.
+
+4. Launch the game, let it reach the main menu, then quit.
+
+5. Move your original `hs_mv_prof.sav` back, replacing the one the game just made.
+
+</Steps>
+
+Still stuck? Ask in the Hyperspace channels on [the Multiverse Discord](link:discord).

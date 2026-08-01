@@ -1,0 +1,39 @@
+---
+title: "Update FTL: Hyperspace on Windows"
+description: "Replace the DLL, then re-patch your mods"
+prev:
+  link: ../
+  label: All Windows guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import FtlmanUpdate from '~/content/docs/_partials/en/_ftlman-update.mdx';
+
+Updating is quick, and your saves are not affected.
+
+1. Download `FTL.Hyperspace.x.xx.x-Windows.zip` from the [latest release](link:releases).
+2. Replace `Hyperspace.dll` in your FTL folder with the new one, along with any other
+   DLLs in the ZIP.
+
+You do not need to roll FTL back again. 1.6.9 stays 1.6.9.
+
+<FtlmanUpdate />
+
+<Aside type="tip" title="Check you are still on 1.6.9">
+Launch FTL and read the version from the **bottom right** of the main menu. Anything
+higher means Steam updated the game and put back its own `FTLGame.exe`, so
+[roll it back](../manual-install/) before replacing the DLL.
+</Aside>
+
+<Aside type="caution" title="Running Multiverse or other mods?">
+After updating hyperspace, check for the newest versions of the mods,
+download them and then run your mod manager again and re-patch Multiverse.
+</Aside>
+
+<Aside type="note" title="Running other Hyperspace mods?">
+If a mod ships its own `Hyperspace.ftl`, re-patch that too. Multiverse is the
+exception, it should never have `Hyperspace.ftl` patched alongside it.
+</Aside>

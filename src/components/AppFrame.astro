@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+	/** Imported image asset to show inside the window. */
+	src: ImageMetadata;
+	alt: string;
+	/** Text shown in the fake title bar. */
+	title?: string;
+}
+
+const { src, alt, title = 'FTL: Hyperspace' } = Astro.props;
+---
+
+{/* not-content opts out of Starlight's markdown spacing, which otherwise adds
+    margin-top to sibling elements and stacks the title-bar dots. */}
+<figure class="frame not-content">
+	<div class="bar">
+		<span class="dots"><i></i><i></i><i></i></span>
+		<span class="name">{title}</span>
+	</div>
+	<Image src={src} alt={alt} loading="eager" />
+</figure>
+
+<style>
+	.frame {
+		margin: 2rem 0 3rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.75rem;
+		overflow: hidden;
+		background: var(--sl-color-black);
+		box-shadow: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.5);
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.6rem 0.9rem;
+		background: var(--sl-color-gray-6);
+		border-bottom: 1px solid var(--sl-color-gray-5);
+	}
+
+	.dots {
+		display: flex;
+		gap: 0.4rem;
+	}
+
+	.dots i {
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: 50%;
+		background: var(--sl-color-gray-4);
+	}
+
+	.name {
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-2);
+	}
+
+	.frame :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin: 0;
+	}
+</style>

@@ -1,0 +1,34 @@
+---
+title: "Linux"
+description: "Install, update or fix FTL: Hyperspace on desktop Linux"
+prev:
+  link: ../
+  label: All platforms
+next:
+  link: manual-install/
+  label: Install it
+---
+
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+import IntroSetup from '~/content/docs/_partials/en/_intro-setup.mdx';
+import IntroProblems from '~/content/docs/_partials/en/_intro-problems.mdx';
+
+Native 64-bit Linux. On a Steam Deck, use the [Steam Deck guide](../steam-deck/) instead.
+
+## Setting it up
+
+<IntroSetup />
+
+<ChoiceGrid>
+	<Choice icon="setting" label="Manual install" href="manual-install/" note="First time on this machine" />
+	<Choice icon="cloud-download" label="Update" href="updating/" note="Already installed, want the latest" />
+</ChoiceGrid>
+
+## Something not working
+
+<IntroProblems />
+
+<ChoiceGrid>
+	<Choice icon="warning" label="Fix a problem" href="troubleshooting/" note="Crashes, hangs, no version text" />
+</ChoiceGrid>

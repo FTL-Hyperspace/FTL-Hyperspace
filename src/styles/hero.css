@@ -1,0 +1,99 @@
+/*
+ * Nebula wash behind splash pages, built from stacked CSS gradients
+ */
+
+
+html {
+	overscroll-behavior: none;
+}
+
+:root {
+	--hs-amber: 30, 85%, 55%;
+	--hs-violet: 266, 80%, 50%;
+	--hs-glow-warm: hsla(var(--hs-amber), 0.16);
+	--hs-glow-cool: hsla(var(--hs-violet), 0.22);
+
+	/* Docs pages carry long prose, so their wash is roughly half strength. */
+	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.07);
+	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.1);
+
+	/* How much of its own colour each glass surface keeps. Lower is more see
+	   through. One knob for the nav, the mobile TOC bar and the sidebar. */
+	--hs-glass-opacity: 10%;
+
+	/*
+	 * Violet accent, same family as the nebula wash, replacing Starlight's default
+	 * blue. Lightness is picked for contrast rather than copied from Starlight:
+	 * violet reads darker than blue, so the dark-theme accent lifts to 70% for
+	 * 5.0:1 on the page background, and the light one drops to 48% for 7.4:1 on
+	 * white. Both clear AA for body-sized links.
+	 */
+	--sl-color-accent-low: hsl(266, 55%, 22%);
+	--sl-color-accent: hsl(266, 100%, 70%);
+	--sl-color-accent-high: hsl(266, 100%, 87%);
+}
+
+:root[data-theme='light'] {
+	--hs-glow-warm: hsla(var(--hs-amber), 0.14);
+	--hs-glow-cool: hsla(var(--hs-violet), 0.12);
+	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.06);
+	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.07);
+
+	--sl-color-accent-low: hsl(266, 88%, 92%);
+	--sl-color-accent: hsl(266, 80%, 48%);
+	--sl-color-accent-high: hsl(266, 80%, 30%);
+}
+
+/*
+ * Docs pages get the same wash at half strength, anchored to the top so it 
+ * doesn't interfere with text
+ */
+.page {
+	background:
+		radial-gradient(var(--hs-glow-cool-soft), transparent 60%) no-repeat -25vw -35vh / 85vw 130vh,
+		radial-gradient(var(--hs-glow-warm-soft), transparent 65%) no-repeat 105% -10vh / 45rem 35rem;
+	background-attachment: fixed;
+}
+
+/* Splash pages keep the full nebula. */
+[data-has-hero] .page {
+	background:
+		linear-gradient(215deg, var(--hs-glow-cool), transparent 45%),
+		radial-gradient(var(--hs-glow-cool), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
+		radial-gradient(var(--hs-glow-warm), transparent 60%) no-repeat 8% 42% / 55rem 40rem,
+		radial-gradient(var(--hs-glow-cool), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+}
+
+/*
+ * Dimmed blured glass
+ */
+header {
+	border-bottom: 1px solid var(--sl-color-hairline-shade);
+	background-color: color-mix(in srgb, var(--sl-color-bg-nav) var(--hs-glass-opacity), transparent);
+	backdrop-filter: blur(0.75rem);
+}
+
+[data-has-hero] header {
+	border-bottom-color: transparent;
+}
+
+/* The mobile "On this page" bar sits directly under the nav, so it gets the same
+   glass or the two read as different materials stacked on each other. */
+mobile-starlight-toc nav {
+	background-color: color-mix(in srgb, var(--sl-color-bg-nav) var(--hs-glass-opacity), transparent);
+	backdrop-filter: blur(0.75rem);
+}
+
+/* Same for the sidebar. Starlight only paints it from 50rem, below which it is a
+   drawer over the page and should stay opaque. */
+@media (min-width: 50rem) {
+	.sidebar-pane {
+		background-color: color-mix(in srgb, var(--sl-color-bg-sidebar) var(--hs-glass-opacity), transparent);
+		backdrop-filter: blur(0.75rem);
+	}
+}
+
+/* Let the hero wordmark sit on the glow rather than in a box of its own. */
+[data-has-hero] .hero > img {
+	filter: drop-shadow(0 0 2rem hsla(var(--hs-amber), 0.35));
+}
