@@ -1,0 +1,22 @@
+---
+/**
+ * Lets hero action links use the same `link:<key>` scheme as page content.
+ *
+ */
+import Default from '@astrojs/starlight/components/Hero.astro';
+import { links } from '~/data/links';
+
+const hero = Astro.locals.starlightRoute.entry.data.hero;
+
+for (const action of hero?.actions ?? []) {
+	const key = action.link?.startsWith('link:') && action.link.slice(5);
+	if (!key) continue;
+	const url = (links as Record<string, string>)[key];
+	if (!url) {
+		throw new Error(`Hero: unknown link key "${key}". Add it to src/data/links.ts.`);
+	}
+	action.link = url;
+}
+---
+
+<Default><slot /></Default>

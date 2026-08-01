@@ -1,0 +1,76 @@
+---
+title: "Install FTL: Hyperspace on Linux manually"
+description: "Copy the library, edit the launch script, patch your mods"
+prev:
+  link: ../
+  label: All Linux guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import HyperspaceLinux from '~/content/docs/_partials/en/_hyperspace-linux.mdx';
+import ModManager from '~/content/docs/_partials/en/_mod-manager.mdx';
+import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
+import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import Unpatch from '~/content/docs/_partials/en/_unpatch.mdx';
+
+No downgrade is needed on Linux. Hyperspace ships a library for both 1.6.12 and 1.6.13.
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+2. ### Install the Hyperspace library
+
+   <HyperspaceLinux />
+
+3. ### Set up a mod manager
+
+   <ModManager />
+
+4. ### Patch Hyperspace in
+
+   Put the `Hyperspace.ftl` from the ZIP into your manager's `mods` folder, tick it, and apply.
+   Tick any other Hyperspace-based mods after it.
+
+   <Aside type="caution" title="Installing Multiverse instead?">
+   Skip this step. Multiverse already contains Hyperspace, and patching both breaks
+   the game. Go to step 5, then follow the Multiverse section below.
+   </Aside>
+
+5. ### Check it worked
+
+   <Verify />
+
+</Steps>
+
+Hyperspace is now installed and ready to play. Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse />
+
+## Uninstalling
+
+<Steps>
+
+1. ### Put `ftl.dat` back to vanilla
+
+   <Unpatch />
+
+2. ### Remove the Hyperspace files
+
+   Delete the `Hyperspace.*.so` file and `liblua5.3.so.0` from your FTL folder.
+
+3. ### Undo the launch script edit
+
+   Remove the `LD_PRELOAD` line you added to the `FTL` script.
+
+</Steps>

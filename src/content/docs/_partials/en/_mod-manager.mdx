@@ -1,0 +1,25 @@
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+import Ftlman from './_mod-manager-ftlman.mdx';
+import Slipstream from './_mod-manager-slipstream.mdx';
+
+You need a mod manager to patch `.ftl` files into the game. **ftlman is the one to
+use** unless a mod misbehaves under it. The rest of this guide follows whichever tab
+you pick.
+
+<Tabs syncKey="manager">
+<TabItem label="ftlman">
+
+<Ftlman />
+
+<Aside type="tip" title="Moving over from Slipstream">
+Copy everything out of your Slipstream `mods` folder into `ftlman/mods` before the
+first run and your mod order carries across automatically.
+</Aside>
+
+</TabItem>
+<TabItem label="Slipstream">
+
+<Slipstream />
+
+</TabItem>
+</Tabs>

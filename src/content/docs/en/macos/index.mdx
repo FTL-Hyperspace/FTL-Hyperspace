@@ -1,0 +1,42 @@
+---
+title: "macOS"
+description: "Install, update or fix FTL: Hyperspace on macOS"
+prev:
+  link: ../
+  label: All platforms
+next:
+  link: easy-install/
+  label: Install it the easy way
+---
+
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+import IntroSetup from '~/content/docs/_partials/en/_intro-setup.mdx';
+import IntroProblems from '~/content/docs/_partials/en/_intro-problems.mdx';
+
+## Setting it up
+
+<IntroSetup />
+
+<ChoiceGrid>
+	<Choice icon="rocket" label="Easy install" href="easy-install/" note="Run the installer, recommended" />
+	<Choice icon="setting" label="Manual install" href="manual-install/" note="Edit Info.plist and codesign yourself" />
+	<Choice icon="cloud-download" label="Update" href="updating/" note="Already installed, want the latest" />
+</ChoiceGrid>
+
+## Something not working
+
+<IntroProblems />
+
+<ChoiceGrid>
+	<Choice icon="warning" label="Fix a problem" href="troubleshooting/" note="Crashes, hangs, no version text" />
+</ChoiceGrid>
+
+## Coming from the old wrapper
+
+If you installed Hyperspace with the community FTL Hyperspace wrapper before the
+installer existed, your saves can be migrated to the native FTL Hyperspace release
+
+<ChoiceGrid>
+	<Choice icon="random" label="Migrate your saves" href="migrate-saves/" note="Moving from the old wrapper" />
+</ChoiceGrid>

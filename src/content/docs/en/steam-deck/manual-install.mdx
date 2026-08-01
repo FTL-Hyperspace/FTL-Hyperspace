@@ -1,0 +1,62 @@
+---
+title: "Install FTL: Hyperspace on Steam Deck manually"
+description: "Desktop mode, library, launch script, mods"
+prev:
+  link: ../
+  label: All Steam Deck guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import HyperspaceLinux from '~/content/docs/_partials/en/_hyperspace-linux.mdx';
+import ModManager from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
+import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
+import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+
+The Deck runs the native Linux build, so no downgrade is needed.
+
+<Steps>
+
+1. ### Steam settings
+
+   <SteamSettings />
+
+   Once Steam Cloud is off, delete `~/.local/share/FasterThanLight/` before launching
+   the game again. Cloud sync leaves a save behind that will otherwise keep breaking
+   things, and this only needs doing once.
+
+2. ### Switch to desktop mode
+
+   Hold the power button and choose **Switch to Desktop**. 
+
+3. ### Install the Hyperspace library
+
+   <HyperspaceLinux />
+
+4. ### Set up a mod manager
+
+   <ModManager />
+
+5. ### Patch Hyperspace in
+
+   Put the `Hyperspace.ftl` from the ZIP into your manager's `mods` folder, tick it, and apply.
+
+   <Aside type="caution" title="Installing Multiverse instead?">
+   Skip this step. Multiverse already contains Hyperspace, and patching both breaks
+   the game.
+   </Aside>
+
+6. ### Check it worked
+
+   <Verify />
+
+</Steps>
+
+Hyperspace is now installed. Return to gaming mode and launch FTL as usual.
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />

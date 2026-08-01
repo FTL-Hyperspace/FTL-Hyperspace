@@ -1,0 +1,79 @@
+---
+title: "Install FTL: Hyperspace on macOS with the installer"
+description: "Run the installer, then optionally add Multiverse"
+prev:
+  link: ../
+  label: All macOS guides
+next:
+  link: ../migrate-saves/
+  label: Bringing saves from the old wrapper?
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+import Video from '~/components/Video.astro';
+import Screenshot from '~/components/Screenshot.astro';
+import uninstallButton from '~/assets/screenshot/macos-installer-uninstall.png';
+import tutorial from '~/assets/video/macos-easy-install.mp4?url';
+import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+
+The macOS installer finds your copy of FTL, installs Hyperspace and sets up ftlman
+for you.
+
+<Video src={tutorial} caption="Running the installer, then adding Multiverse on top. Written steps below." />
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+2. ### Download the installer
+
+   From the [latest release](link:releases), download
+   `FTL.Hyperspace.x.xx.x-Installer-MacOS-arm64.dmg` for Apple Silicon, or
+   `...-Installer-MacOS-x86_64.dmg` for an Intel Mac.
+
+3. ### Run it
+
+   Open the `.dmg` and launch the installer.
+
+   <Aside type="tip" title='"Apple could not verify this app"'>
+   Open **System Settings → Privacy & Security**, find the installer near the bottom,
+   and click **Open Anyway**.
+   </Aside>
+
+4. ### Follow the prompts
+
+   The installer detects Steam, GOG and custom locations, and supports FTL 1.6.12 and
+   1.6.13. At the end, use the button at the bottom to open the mods folder.
+
+   To add mods later, go to `~/Games/FTLHyperspace`. Put them in `mods` and run
+   `ftlman` to apply them.
+
+</Steps>
+
+**Hyperspace is now installed and ready to play.** Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />
+
+<Aside type="note" title="Updating later">
+The installer can update Hyperspace on its own. If you run Multiverse, run ftlman
+again afterwards to re-patch it. Your saves are not affected.
+</Aside>
+
+## Uninstalling
+
+Open the `.dmg` again and choose **Uninstall** at the bottom, then follow the
+instructions.
+
+<Screenshot src={uninstallButton} alt="The installer window with the Uninstall button at the bottom" label="Show me the button" />
+
+## Requirements
+
+macOS 14 or later, and FTL 1.6.12 or 1.6.13. Administrator rights are needed during
+installation.

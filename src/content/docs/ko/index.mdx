@@ -1,0 +1,74 @@
+---
+title: "FTL: Hyperspace"
+description: "FTL: Faster Than Light 를 위한 바이너리 모드"
+template: splash
+hero:
+  tagline: "새로운 종족, 제한 없는 함선, 직접 만드는 시스템과 이벤트. 하이퍼스페이스는 대부분의 대형 FTL 모드가 돌아가는 기반입니다."
+  image:
+    file: ../../../assets/brand/wordmark.png
+  actions:
+    - text: 하이퍼스페이스 설치하기
+      link: "#설치"
+      icon: down-arrow
+    - text: 디스코드 참여하기
+      link: "link:discord"
+      icon: external
+      variant: minimal
+---
+
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+import AppFrame from '~/components/AppFrame.astro';
+import Credits from '~/components/Credits.astro';
+import menu from '~/assets/brand/menu.png';
+
+<AppFrame src={menu} alt="하이퍼스페이스가 적용된 FTL 메인 메뉴" />
+
+## 설치
+
+플레이하시는 기기를 선택해주세요.
+
+<ChoiceGrid>
+	<Choice label="Windows" href="windows/" logo="windows.svg" note="" />
+	<Choice label="Steam Deck" href="steam-deck/" logo="steam-deck.svg" note="" />
+	<Choice label="Linux" href="linux/" logo="linux.svg" note="" />
+	<Choice label="macOS" href="macos/" logo="macos.svg" note="" />
+</ChoiceGrid>
+
+## 어떤 모드인가요
+
+FTL 자체의 모딩으로는 게임에 이미 들어 있는 요소를 재배치하는 것만 가능합니다.
+하이퍼스페이스는 게임 자체에 패치를 적용해 그 한계를 없앱니다.
+
+덕분에 모드는 고유한 능력치와 능력을 가진 새로운 종족, 개수 제한이 없는 함선, 새로운
+시스템과 보조 시스템, 서로 합쳐 새로운 것이 되는 보조장비, 직접 만든 드론과 상점과
+이벤트, 그리고 일반적인 패치로는 구현할 수 없는 동작을 위한 Lua 스크립트까지 추가할 수
+있습니다.
+
+[FTL: Multiverse](link:multiverseForum) 를 비롯한 거의 모든 대형 모드가 하이퍼스페이스를
+요구하는 이유입니다.
+
+하이퍼스페이스만 설치해도 공유하거나 경쟁할 수 있는 시드 런, 숫자로 표시되는 선체 체력,
+디스코드 리치 프레즌스, 그리고 원작의 버그를 고친 많은 수정 사항을 함께 얻을 수 있습니다.
+
+Windows, macOS, Linux 에서 네이티브로 동작하며 스팀 덱도 지원합니다.
+
+## 모드 제작자용 문서
+
+하이퍼스페이스가 제공하는 기능은 대부분 `Hyperspace.ftl` 안의 `data/hyperspace.xml` 에
+문서화되어 있습니다. `hyperspace.xml.append` 를 사용해 모드에 필요한 태그를 추가하세요.
+
+사용자가 하이퍼스페이스를 별도로 내려받아 먼저 적용한다는 전제로 모드를 배포해주세요. 다른
+모드와의 호환성을 위해 하이퍼스페이스의 리소스 파일이나 바이너리를 함께 재배포하지 마시고,
+포럼 게시글에서 다운로드 위치만 안내해주시기 바랍니다.
+
+1.2.0 이상의 Lua API 는 나머지 개발 문서와 함께 [위키](link:wiki)에 있습니다. 개선 제안은
+언제든 환영합니다. GitHub 에 이슈를 남기면서 Markdown 예제나 위키 저장소 사본 링크를 함께
+남겨주세요.
+
+## 함께하기
+
+[FTL Multiverse 디스코드](link:discord)의 하이퍼스페이스 채널에서 저희와 이야기 나누실 수
+있습니다.
+
+<Credits />

@@ -1,0 +1,40 @@
+---
+title: "Troubleshooting on macOS"
+description: "Crashes, hangs and blocked apps"
+prev:
+  link: ../
+  label: All macOS guides
+next:
+  link: ../migrate-saves/
+  label: Progress looks missing?
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
+import LibraryHidden from '~/content/docs/_partials/en/_macos-library-hidden.mdx';
+import OldWrapper from '~/content/docs/_partials/en/_macos-old-wrapper.mdx';
+
+Your save folder is `~/Library/Application Support/FasterThanLight`.
+
+<LibraryHidden />
+
+<OldWrapper />
+
+### macOS blocked the app
+
+Open **System Settings → Privacy & Security**, scroll to the bottom, and click
+**Open Anyway**. On older macOS versions, right-click the app and choose **Open**.
+
+### The game will not start after a manual install
+
+You almost certainly skipped the signing step. Run it again:
+
+```sh
+codesign -f -s - --timestamp=none --all-architectures --deep /path/to/FTL.app
+```
+
+<Aside type="caution" title="Launch the app directly">
+Starting FTL through Steam bypasses the patched app bundle. Open `FTL.app` yourself.
+</Aside>
+
+<Troubleshooting />

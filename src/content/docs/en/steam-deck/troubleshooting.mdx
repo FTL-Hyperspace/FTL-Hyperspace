@@ -1,0 +1,26 @@
+---
+title: "Troubleshooting on Steam Deck"
+description: "Crashes, hangs and missing version text"
+prev:
+  link: ../
+  label: All Steam Deck guides
+next:
+  link: ../updating/
+  label: Try updating first
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
+
+Your save folder is `~/.local/share/FasterThanLight/`.
+
+<Aside type="caution" title="Check Steam Cloud first">
+On the Deck this is the most common cause of a broken install. Right-click FTL in
+your library, open **Properties**, and untick **Keep game saves in the Steam Cloud**.
+</Aside>
+
+<Troubleshooting />
+
+### Nothing worked
+
+Delete the entire `~/.local/share/FasterThanLight/` folder and start fresh.

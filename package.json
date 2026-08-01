@@ -1,0 +1,21 @@
+{
+  "name": "ftl-hyperspace-site",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check:content": "node scripts/check-content.mjs --strict",
+    "check:links": "node scripts/check-links.mjs",
+    "check:stale": "node scripts/check-stale.mjs",
+    "check": "npm run check:content && npm run build && npm run check:links"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.41.5",
+    "astro": "^7.0.2",
+    "sharp": "^0.35.3"
+  }
+}
