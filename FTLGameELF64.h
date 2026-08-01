@@ -6645,6 +6645,7 @@ struct OxygenSystem : ShipSystem
 	LIBZHL_API float GetRefillSpeed();
 	LIBZHL_API void ModifyRoomOxygen(int roomId, float value);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void RedistributeOxygen();
 	LIBZHL_API void UpdateAirlock(int roomId, int count);
 	LIBZHL_API void UpdateBreach(int roomId, int count, bool silent);
 	LIBZHL_API void constructor(int numRooms, int roomId, int shipId, int startingPower);
