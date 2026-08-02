@@ -255,9 +255,16 @@ void SigScan::Init()
 {
 	HMODULE hModule = GetModuleHandle(NULL);
 
-	s_pBase = (unsigned char*)hModule;
-	IMAGE_DOS_HEADER *dos = (IMAGE_DOS_HEADER*)s_pBase;
-	IMAGE_NT_HEADERS *pe = (IMAGE_NT_HEADERS*)(s_pBase + dos->e_lfanew);
+	unsigned char *pModuleBase = (unsigned char*)hModule;
+	IMAGE_DOS_HEADER *dos = (IMAGE_DOS_HEADER*)pModuleBase;
+
+	if(dos->e_magic != IMAGE_DOS_SIGNATURE)
+	{
+		s_pBase = 0;
+		return;
+	}
+
+	IMAGE_NT_HEADERS *pe = (IMAGE_NT_HEADERS*)(pModuleBase + dos->e_lfanew);
 
 	if(pe->Signature != IMAGE_NT_SIGNATURE)
 	{
@@ -265,6 +272,24 @@ void SigScan::Init()
 		return;
 	}
 
+	// Restrict scanning to the .text section instead of the whole image.
+	// Reason: sections like .reloc can be marked discardable by the
+	// Windows loader and decommitted after loading, which caused the
+	// scan to hit an access violation partway through memory.
+	IMAGE_SECTION_HEADER *section = IMAGE_FIRST_SECTION(pe);
+	for(WORD i = 0 ; i < pe->FileHeader.NumberOfSections ; ++i, ++section)
+	{
+		if(memcmp(section->Name, ".text", 5) == 0)
+		{
+			s_pBase = pModuleBase + section->VirtualAddress;
+			s_iBaseLen = section->Misc.VirtualSize;
+			s_pLastAddress = s_pBase;
+			return;
+		}
+	}
+
+	// Fallback in case no .text section is found for some reason
+	s_pBase = pModuleBase;
 	s_iBaseLen = pe->OptionalHeader.SizeOfImage;
 	s_pLastAddress = s_pBase;
 }
