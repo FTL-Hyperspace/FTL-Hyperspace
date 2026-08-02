@@ -180,18 +180,19 @@ struct ResourceManager;
 /* 541 */
 struct PackageModuleInfo
 {
-    char* prefix;
-    void** init;
-    void** cleanup;
-    void** list_files_start;
-    void** list_files_next;
-    void** file_info;
-    void** decompress_get_stack_size;
-    void** decompress_init;
-    void** decompress;
-    void* module_data;
-    PackageModuleInfo *next;
-    size_t prefixlen;
+  const char *prefix;
+  PackageInitFunc init;
+  PackageCleanupFunc cleanup;
+  PackageListStartFunc list_files_start;
+  PackageListNextFunc list_files_next;
+  void** file_info;// PackageFileInfoFunc file_info;
+  PackageDecompressGetStackSizeFunc decompress_get_stack_size;
+  PackageDecompressInitFunc decompress_init;
+  PackageDecompressFunc decompress;
+  PackageDecompressFinishFunc decompress_finish;
+  void *module_data;
+  PackageModuleInfo *next;
+  size_t prefixlen;
 };
 
 /* 438 */
@@ -6377,4 +6378,30 @@ struct ResourceBoxDesc
   int h;
   Point row1;
   Point row2;
+};
+
+struct LoadInfo
+{
+  std::string path;
+  int resId;
+  int	mark;
+};
+
+struct Sound
+{
+  uint16_t usage_counter;
+  uint8_t free_on_stop;
+  uint8_t is_file;
+  SoundFormat format;
+  union {
+    void *data;
+    void *fh; // SysFile *fh;
+  };
+  int64_t dataofs;
+  int datalen;
+  int loopstart;
+  int looplen;
+  uint8_t have_audio_params;
+  uint8_t stereo;
+  int native_freq;
 };
