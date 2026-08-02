@@ -337,8 +337,29 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
+										
+	enum SoundFormat
+	{
+		SOUND_FORMAT_AUTODETECT = 0,
+		SOUND_FORMAT_WAV = 0x0001,
+		SOUND_FORMAT_MP3 = 0x0055,
+		SOUND_FORMAT_OGG = 0x674F,
+	};
+
+	struct SysFile;
+	struct Sound;
 
 	typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	typedef struct PackageModuleInfo PackageModuleInfo;
+	typedef int (*PackageInitFunc)(PackageModuleInfo *module);
+	typedef void (*PackageCleanupFunc)(PackageModuleInfo *module);
+	typedef void (*PackageListStartFunc)(PackageModuleInfo *module);
+	typedef const char *(*PackageListNextFunc)(PackageModuleInfo *module);
+	typedef int (*PackageFileInfoFunc)(PackageModuleInfo *module, const char *path, struct SysFile **file_ret, int64_t *pos_ret, int *len_ret, int *comp_ret, int *size_ret);
+	typedef int (*PackageDecompressGetStackSizeFunc)(PackageModuleInfo *module);
+	typedef void *(*PackageDecompressInitFunc)(PackageModuleInfo *module);
+	typedef int (*PackageDecompressFunc)(PackageModuleInfo *module, void *state, const void *in, int insize, void *out, int outsize);
+	typedef void (*PackageDecompressFinishFunc)(PackageModuleInfo *module, void *state);
 	
 	static void* GetBaseAddress()
 	{
@@ -506,6 +527,9 @@ noHook __amd64 void DO_NOT_HOOK();
 */
 
 // Continue from GenericButton::MouseMove (hyper efficiency™)
+".554889e54157415641554154534883ec384989f54989":
+cleanup __amd64 int LoadTexture(ResourceManager *resmgr, const std::string& path);
+
 ".554889e583ff0577??89f8488d0d":
 cleanup __amd64 float getSkillBonus(int skill, int level);
 
@@ -521,11 +545,53 @@ cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char*
 ".554889e54883ec2089f8":
 cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
 
+".554889e54157415641554154534883ec38488b":
+__amd64 void input_update();
+
+"!.554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e580":
+__amd64 bool input_is_quit_requested();
+
+"!.554889e5":
+__amd64 bool input_is_suspend_requested();
+
+"!.554889e5":
+__amd64 void input_acknowledge_suspend_request();
+
 ".554889e548b82d7f954c2df45158":
 __amd64 int random32();
 
 ".554889e589f8488905":
 cleanup __amd64 void srandom32(unsigned int seed);
+
+".554889e54157415641554154535089c8":
+cleanup __amd64 int resource_load_data(ResourceManager *resmgr, const char *name, int align, int flags);
+
+".554889e5415741564155415453504189d64989f44989fd4531ff4d85ed7465":
+cleanup __amd64 int resource_load_sound(ResourceManager *resmgr, const char *name, int flags);
+
+".554889e54157415653504989fe31":
+cleanup __amd64 int resource_mark(ResourceManager *resmgr);
+
+".554889e5415741564154534989fc4d":
+noHook __amd64 void DO_NOT_HOOK();
+
+".5548":
+cleanup __amd64 void resource_wait(ResourceManager *resmgr, int mark);
+
+".554889e54885ff7441":
+cleanup __amd64 void* resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
+
+".554889e541574156535089f34989fe":
+cleanup __amd64 void resource_free(ResourceManager *resmgr, int id);
+
+".554889e54885ff7436":
+cleanup __amd64 Sound* resource_get_sound(ResourceManager *resmgr, int id);
+
+".554889e54157415641554154534883ec284989f44889fb4531f64885db0f84f7":
+cleanup __amd64 int resource_open_sound(ResourceManager *resmgr, const char *name);
+
+".554889e5e8????010048":
+__amd64 double time_now();
 
 "!.554889e553504889fb488b3d":
 cleanup __amd64 void sys_graphics_set_window_title(char* title);

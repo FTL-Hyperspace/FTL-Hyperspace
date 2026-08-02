@@ -627,8 +627,29 @@ enum GraphicsComparisonType
   GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
   GRAPHICS_COMPARISON_GREATER = 0x7,
 };
+									
+enum SoundFormat
+{
+	SOUND_FORMAT_AUTODETECT = 0,
+	SOUND_FORMAT_WAV = 0x0001,
+	SOUND_FORMAT_MP3 = 0x0055,
+	SOUND_FORMAT_OGG = 0x674F,
+};
+
+struct SysFile;
+struct Sound;
 
 typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+typedef struct PackageModuleInfo PackageModuleInfo;
+typedef int (*PackageInitFunc)(PackageModuleInfo *module);
+typedef void (*PackageCleanupFunc)(PackageModuleInfo *module);
+typedef void (*PackageListStartFunc)(PackageModuleInfo *module);
+typedef const char *(*PackageListNextFunc)(PackageModuleInfo *module);
+typedef int (*PackageFileInfoFunc)(PackageModuleInfo *module, const char *path, struct SysFile **file_ret, int64_t *pos_ret, int *len_ret, int *comp_ret, int *size_ret);
+typedef int (*PackageDecompressGetStackSizeFunc)(PackageModuleInfo *module);
+typedef void *(*PackageDecompressInitFunc)(PackageModuleInfo *module);
+typedef int (*PackageDecompressFunc)(PackageModuleInfo *module, void *state, const void *in, int insize, void *out, int outsize);
+typedef void (*PackageDecompressFinishFunc)(PackageModuleInfo *module, void *state);
 
 static void* GetBaseAddress()
 {
@@ -6821,6 +6842,13 @@ struct LaserBlast : Projectile
 	float spinSpeed;
 };
 
+struct LoadInfo
+{
+	std::string path;
+	int resId;
+	int mark;
+};
+
 struct Location
 {
 	Pointf loc;
@@ -7097,15 +7125,16 @@ struct PackageModuleInfo;
 
 struct PackageModuleInfo
 {
-	char *prefix;
-	void **init;
-	void **cleanup;
-	void **list_files_start;
-	void **list_files_next;
+	const char *prefix;
+	PackageInitFunc init;
+	PackageCleanupFunc cleanup;
+	PackageListStartFunc list_files_start;
+	PackageListNextFunc list_files_next;
 	void **file_info;
-	void **decompress_get_stack_size;
-	void **decompress_init;
-	void **decompress;
+	PackageDecompressGetStackSizeFunc decompress_get_stack_size;
+	PackageDecompressInitFunc decompress_init;
+	PackageDecompressFunc decompress;
+	PackageDecompressFinishFunc decompress_finish;
 	void *module_data;
 	PackageModuleInfo *next;
 	size_t prefixlen;
@@ -7306,6 +7335,8 @@ struct ResourceControl
 		int h;
 	};
 	
+	LIBZHL_API void BindAtlases();
+	LIBZHL_API bool BindImage(const std::string &name, int image);
 	LIBZHL_API GL_Primitive *CreateImagePrimitive(GL_Texture *image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 	LIBZHL_API GL_Primitive *CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool ignoreLangauge);
@@ -7315,10 +7346,13 @@ struct ResourceControl
 	LIBZHL_API char *LoadFile(const std::string &fileName);
 	LIBZHL_API char *LoadFromResourceFile(const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
 	LIBZHL_API void OnInit(int imageSwappingMode);
+	LIBZHL_API void ParseAtlas(char *buffer, int size, const std::string &physName);
+	LIBZHL_API void PreloadFont(void *buffer, int size, const std::string &font);
 	LIBZHL_API bool PreloadResources(bool preloadPlayerShips);
 	LIBZHL_API void RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 	LIBZHL_API void RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 	LIBZHL_API void RenderLoadingBar(float initialProgress, float finalProgress);
+	LIBZHL_API void RenderLoadingBarFrame(float initialProgress, float finalProgress);
 	LIBZHL_API void constructor();
 	
 	std::unordered_map<std::string, GL_Texture*> images;
@@ -8153,6 +8187,8 @@ struct SoundControl;
 
 struct SoundControl
 {
+	LIBZHL_API void AddMusicStream(const std::string &name, Sound *sample);
+	LIBZHL_API void AddSoundFile(const std::string &name, Sound *sample);
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	LIBZHL_API void StopChannel(int channel, float fade);
@@ -8991,14 +9027,28 @@ struct RewardDesc;
 
 LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
+LIBZHL_API int __stdcall LoadTexture(ResourceManager *resmgr, const std::string &path);
 LIBZHL_API float __stdcall font_baseline(int font_id, float size);
 LIBZHL_API float __stdcall font_height(int font_id, float size);
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 LIBZHL_API void __stdcall graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+LIBZHL_API void __stdcall input_acknowledge_suspend_request();
+LIBZHL_API bool __stdcall input_is_quit_requested();
+LIBZHL_API bool __stdcall input_is_suspend_requested();
+LIBZHL_API void __stdcall input_update();
 LIBZHL_API int __stdcall random32();
+LIBZHL_API void __stdcall resource_free(ResourceManager *resmgr, int id);
+LIBZHL_API void *__stdcall resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
+LIBZHL_API Sound *__stdcall resource_get_sound(ResourceManager *resmgr, int id);
+LIBZHL_API int __stdcall resource_load_data(ResourceManager *resmgr, const char *name, int align, int flags);
+LIBZHL_API int __stdcall resource_load_sound(ResourceManager *resmgr, const char *name, int flags);
+LIBZHL_API int __stdcall resource_mark(ResourceManager *resmgr);
+LIBZHL_API int __stdcall resource_open_sound(ResourceManager *resmgr, const char *name);
+LIBZHL_API void __stdcall resource_wait(ResourceManager *resmgr, int mark);
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
 LIBZHL_API void __stdcall sys_graphics_set_window_title(char *title);
+LIBZHL_API double __stdcall time_now();
 
 extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
