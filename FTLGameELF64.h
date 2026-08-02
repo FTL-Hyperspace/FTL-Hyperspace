@@ -6635,17 +6635,18 @@ struct OxygenSystem;
 
 struct OxygenSystem : ShipSystem
 {
-	OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
-	{
-		this->constructor(numRooms, roomId, shipId, startingPower);
-	}
+    OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(numRooms, roomId, shipId, startingPower);
+    }
+
+    void RedistributeOxygen();
 
 	LIBZHL_API void ComputeAirLoss(int roomId, float base_loss, bool silent);
 	LIBZHL_API void EmptyOxygen(int roomId);
 	LIBZHL_API float GetRefillSpeed();
 	LIBZHL_API void ModifyRoomOxygen(int roomId, float value);
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void RedistributeOxygen();
 	LIBZHL_API void UpdateAirlock(int roomId, int count);
 	LIBZHL_API void UpdateBreach(int roomId, int count, bool silent);
 	LIBZHL_API void constructor(int numRooms, int roomId, int shipId, int startingPower);

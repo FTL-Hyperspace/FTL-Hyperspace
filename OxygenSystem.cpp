@@ -4,14 +4,15 @@ HOOK_METHOD_PRIORITY(OxygenSystem, GetRefillSpeed, 9999, () -> float)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::GetRefillSpeed -> Begin (OxygenSystem.cpp)\n")
 
-    // Begin: inline int GetHackLevel(ShipSystem * this)
-    if (this->bUnderAttack && 1 < this->iHackEffect)
+    const float speed = G_->GetCFPS()->GetSpeedFactor();
+
+    if (bUnderAttack && iHackEffect > 1)
     {
-        return G_->GetCFPS()->GetSpeedFactor() * -0.375f;
+        return speed * -0.375F;
     }
-    if (!this->OxygenSystem::Functioning())
+    if (!Functioning())
     {
-        return G_->GetCFPS()->GetSpeedFactor() * -0.075f;
+        return speed * -0.075F;
     }
     return ((this->ShipSystem::GetEffectivePower() + -1) * 3.f + 1.f) * 0.075f * G_->GetCFPS()->GetSpeedFactor();
 }
@@ -20,45 +21,75 @@ HOOK_METHOD_PRIORITY(OxygenSystem, OnLoop, 9999, () -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> OxygenSystem::OnLoop -> Begin (OxygenSystem.cpp)\n")
 
-    this->ShipSystem::OnLoop();
-
-    float refillAmount = this->OxygenSystem::GetRefillSpeed();
-
-    // If there are no oxygen levels, skip processing (prevents division by zero)
-    if (!this->oxygenLevels.empty())
+    ShipSystem::OnLoop();
+    const float refillAmount = GetRefillSpeed();
+    float total = 0.0F;
+    for (float& oxygen : oxygenLevels)
     {
-        // Add the refill amount to every room's oxygen level
-        for (float& level : this->oxygenLevels)
+        oxygen += refillAmount; // Add refillAmount of oxygen to each room
+
+        // Clamp oxygen level to [0,100]
+        if(oxygen < 0.0F)
         {
-            level += refillAmount;
+            oxygen = 0.0F;
+        } else if(oxygen > 100.0F)
+        {
+            oxygen = 100.0F;
         }
 
-        // Clamp each level to [0, 100] and sum them
-        float totalOxygen = 0.f;
-        for (float& level : this->oxygenLevels)
-        {
-            if (level < 0.f)
-            {
-                level = 0.f;
-            }
-            else if (level > 100.0f)
-            {
-                level = 100.0f;
-            }
-            totalOxygen += level;
-        }
-
-        // Compute total oxygen as a fraction of the maximum possible (size * 100)
-        this->fTotalOxygen = totalOxygen / (this->oxygenLevels.size() * 100);
+        total += oxygen;
     }
+
+    // Total oxygen as a fraction of the maximum possible (size * 100)
+    fTotalOxygen = total / (oxygenLevels.size() * 100.0F);
 
     // Balance adjacent rooms
-    this->RedistributeOxygen();
+    RedistributeOxygen();
 
     // Update the air leak sound only for the players ship
-    if (this->_shipObj.iShipId == 0)
+    if (_shipObj.iShipId == 0)
     {
-        G_->GetSoundControl()->UpdateSoundLoop("airLeak", static_cast<float>(this->bLeakingO2));
+        G_->GetSoundControl()->UpdateSoundLoop("airLeak", bLeakingO2 ? 1.0F : 0.0F);
     }
-    this->bLeakingO2 = false;
+    bLeakingO2 = false;
+}
+
+void OxygenSystem::RedistributeOxygen()
+{
+    std::vector<bool> visited(oxygenLevels.size(), false);
+    for (std::size_t room = 0; room < oxygenLevels.size(); ++room)
+    {
+        if (visited[room])
+        {
+            continue;
+        }
+        ShipGraph* const graph = ShipGraph::GetShipInfo(_shipObj.iShipId);
+        const std::vector<std::int32_t> depths = graph->ConnectivityDFS(static_cast<std::int32_t>(room));
+        if (depths.empty())
+        {
+            continue;
+        }
+
+        float total = 0.0F;
+        std::int32_t connected = 0;
+        for (std::size_t i = 0; i < depths.size(); ++i)
+        {
+            if (depths[i] != -1)
+            {
+                visited[i] = true;
+                total += oxygenLevels[i];
+                ++connected;
+            }
+        }
+        const float desired = total / static_cast<float>(connected);
+        for (std::size_t i = 0; i < depths.size(); ++i)
+        {
+            if (depths[i] != -1)
+            {
+                const float current = oxygenLevels[i];
+                const float speed = G_->GetCFPS()->GetSpeedFactor();
+                oxygenLevels[i] = current - speed * -0.005F * (desired - current);
+            }
+        }
+    }
 }
