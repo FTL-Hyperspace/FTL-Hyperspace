@@ -74,6 +74,8 @@ export default defineConfig({
 			title: 'FTL: Hyperspace',
 			description: 'A binary mod for FTL: Faster Than Light',
 			customCss: ['./src/styles/hero.css'],
+			// Restores table-of-contents entries for headings that live in partials.
+			routeMiddleware: './src/routeMiddleware.ts',
 			components: {
 				MobileTableOfContents: './src/components/MobileTableOfContents.astro',
 				Hero: './src/components/Hero.astro',
