@@ -14,7 +14,10 @@ HOOK_METHOD_PRIORITY(OxygenSystem, GetRefillSpeed, 9999, () -> float)
     {
         return speed * -0.075F;
     }
-    return ((this->ShipSystem::GetEffectivePower() + -1) * 3.f + 1.f) * 0.075f * G_->GetCFPS()->GetSpeedFactor();
+
+    const int power = GetEffectivePower();
+    const int multiplier = (power == 1) ? 1 : (power - 1) * 3;
+    return multiplier * 0.075F * speed;
 }
 
 HOOK_METHOD_PRIORITY(OxygenSystem, OnLoop, 9999, () -> void)
