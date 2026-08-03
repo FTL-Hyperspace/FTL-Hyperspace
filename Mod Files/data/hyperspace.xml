@@ -352,6 +352,12 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 <rightClickDoorOpening enabled="true"/>
 
 
+<!-- Prevents the game from preloading all the images during launch if disabled. Cuts down loading almost entirely and only uses a 4th of RAM
+-->
+
+<noLazyImageLoading enabled="false"/>
+
+
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
 Vanilla is 255,176,169 at no O2 and 230,226,219 at full O2.
