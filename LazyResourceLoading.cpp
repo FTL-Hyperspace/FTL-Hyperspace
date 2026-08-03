@@ -26,6 +26,8 @@ std::string LogicalPngPath(const std::string& path)
 // Rewritten by canadahonk - slight changes made to save extremely much ram
 HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlayerShips) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ResourceControl::PreloadResources -> Begin (LazyResourceLoading.cpp)\n")
+
     constexpr double kFrameInterval = 1.0 / 60.0;
     constexpr float kFirstPhaseEnd = 0.15F;
     constexpr std::array<const char*, 10> kPlayableShipPrefixes = {
