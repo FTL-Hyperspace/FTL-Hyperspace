@@ -102,6 +102,8 @@ public:
   
     Setting<bool> multiShipFix;
 
+    Setting<bool> noLazyImageLoading;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;

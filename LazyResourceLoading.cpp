@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "CustomOptions.h"
 
 
 // These are actually globals but we only need them in this file and than to canadahonk we have full replicas
@@ -123,7 +124,7 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
                 enemyShipImages.push_back(pngPath);
             }
 
-            if (loadImage && false) // && !HonkSettings::LazyImageLoading)
+            if (loadImage && CustomOptionsManager::GetInstance()->noLazyImageLoading.currentValue)
             {
                 const int resourceId = LoadTexture(resmgr, filename);
                 resourceList.push_back(
