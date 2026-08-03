@@ -10,8 +10,16 @@ cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwa
 cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
 ".4156b91000000041554531ed415455":
 cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
+"!.f3c3":
+forceDetour cleanup __amd64 void ResourceControl::OnLanguageChange(ResourceControl *this);
+".4157":
+cleanup __amd64 void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
 ".534889d04989d14889fb488d7e604883ec10":
 cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
+".415541":
+cleanup __amd64 void ResourceControl::BindAtlases(ResourceControl *this);
+".415749":
+cleanup __amd64 bool ResourceControl::BindImage(ResourceControl *this, const std::string& name, int image);
 ".554889f5534889fb4883ec38":
 cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
 ".4154554889f5be????????534889fb4883ec60":
@@ -22,6 +30,10 @@ cleanup __amd64 void ResourceControl::RenderImageString(ResourceControl *this, s
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 ".415455534889fb4883ec604883bf5001000000":
 cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
+".415455":
+cleanup __amd64 void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
+".41564155":
+cleanup __amd64 void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
 ".41548d46fa55534889fb4883ec3083f802":
 cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int size, bool ignoreLanguage);
 ".415741564155415455534889fb4881ec88000000408874241f":

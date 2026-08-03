@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "CustomOptions.h"
+#include <cstring>
 
 
 // These are actually globals but we only need them in this file and than to canadahonk we have full replicas
@@ -145,7 +146,11 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
             else if (StartsWithCaseInsensitive(
                          filename, "audio/waves/", 12))
             {
+            #ifndef WIN32
                 resourceId = resource_load_sound(resmgr, filename, 0);
+            #else
+                resourceId = resource_load_data(resmgr, filename, 0, 0);
+            #endif
             }
             else if (StartsWithCaseInsensitive(
                          filename, "audio/music/", 12))
@@ -221,22 +226,39 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
         else if (StartsWithCaseInsensitive(
                      info.path.c_str(), "audio/waves/", 12))
         {
+        #ifndef WIN32
             Sound* sound = resource_get_sound(resmgr, info.resId);
             if (sound != nullptr)
             {
                 G_->GetSoundControl()->AddSoundFile(info.path, sound);
-                // SoundControl::Sounds.AddSoundFile(info.path, sound);
             }
+        #else
+            int size = 0;
+            void* data = resource_get_data(resmgr, info.resId, &size);
+            if (data != nullptr)
+            {
+                G_->GetSoundControl()->AddSoundFile(info.path, data, size);
+            }
+        #endif
         }
         else if (StartsWithCaseInsensitive(
                      info.path.c_str(), "audio/music/", 12))
         {
+        #ifndef WIN32
             Sound* sound = resource_get_sound(resmgr, info.resId);
             if (sound != nullptr)
             {
                 G_->GetSoundControl()->AddMusicStream(info.path, sound);
-                // SoundControl::Sounds.AddMusicStream(info.path, sound);
             }
+        #else
+            resource_free(resmgr, info.resId);
+            int size = 0;
+            int64_t offset = 0;
+            if (resource_get_package_offsets(info.path.c_str() , &offset, &size) != 0)
+            {
+                G_->GetSoundControl()->AddMusicStream(info.path, offset, size);
+            }
+        #endif
         }
         else if (StartsWithCaseInsensitive(
                      info.path.c_str(), "fonts/", 6))
