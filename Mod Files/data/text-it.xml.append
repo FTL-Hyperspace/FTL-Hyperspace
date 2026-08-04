@@ -316,3 +316,19 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="shield_drone_layers_per_charge" language="it">Strati scudo per carica: \1</text>
 <text name="shield_drone_cooldowns" language="it">Ricarica: \1</text>
 <text name="confirm_buy_last_subsystem" language="it">È l'ultimo spazio libero per un sottosistema di bordo.\nConfermi?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="it">Un crash della mod Hyperspace è stato rilevato nella sessione precedente.\n\nDesideri creare un report con i tuoi salvataggi e i registri di gioco?</text>
+<text name="confirm_report_bug" language="it">Desideri creare un report con i tuoi salvataggi e i registri di gioco?</text>
+<text name="confirm_report_create" language="it">Crea report</text>
+<text name="confirm_report_skip" language="it">Saltare</text>
+<text name="confirm_report_where" language="it">Report creato con successo!\n\nDove vorresti segnalarlo?</text>
+<text name="confirm_report_discord" language="it">Segnalare in discord</text>
+<text name="confirm_report_github" language="it">Crea un problema in GitHub</text>
+<text name="confirm_report_instructions_discord" language="it">Si prega di segnalarlo sul server Discord di FTL: Multiverse.\n\Posizione del report:\n</text>
+<text name="confirm_report_instructions_github" language="it">Si prega di creare un problema in GitHub a:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nPosizione del report:\n</text>
+<text name="confirm_report_view" language="it">Apri la cartella dei report</text>
+<text name="confirm_report_done" language="it">Finalizzato</text>
+<text name="confirm_report_failed" language="it">Creazione del report non riuscita\n\nSi prega di consultare i registri per i dettagli.</text>
+<text name="confirm_report_failed_okay" language="it">Confermare</text>
+<!-- <text name="confirm_report_failed_no" language="it"> </text> -->
