@@ -740,9 +740,9 @@ HOOK_METHOD(InfoBox, CalcBoxHeight, () -> int)
     }
 
     // vanilla code assumes title is always one line, so we need to add the extra height if the title is longer
+    int baseHeight = super();
     int titleOffset = std::max(0, static_cast<int>(freetype::easy_measurePrintLines(16, 0.f, 0.f, descBoxSize.x, desc.title.GetText()).y - G_->GetResources()->GetFontData(16, true).lineHeight));
-
-    return super() + titleOffset;
+    return baseHeight + titleOffset;
 }
 
 // prevent infoBox from rendering outside the screen when the description is too long
