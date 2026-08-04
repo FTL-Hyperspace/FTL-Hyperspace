@@ -7,16 +7,23 @@
         "boost-filesystem",
         "boost-conversion",
         "boost-algorithm",
-        "boost-math",
+        "boost-lexical-cast",
         "boost-format",
         "boost-crc",
         "discord-rpc",
         "opengl",
         "lua",
+        {
+            "name": "sdl3",
+            "default-features": false,
+            "features": [
+                { "name": "x11", "platform": "linux" },
+                { "name": "wayland", "platform": "linux" }
+            ]
+        },
         "minizip"
     ],
-
-    "builtin-baseline": "8e1f46de11423e5f7d2395458f5252738ffffbbd",
+    "builtin-baseline": "4ff4b6bb22fad8afcc0e88ca6970c423bf3f7bfd",
     "overrides": [
         {
             "name": "lua",

@@ -27,6 +27,7 @@ This way mods that frequently use a particular value can just make it the defaul
 	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
 	<checkCargo>false</checkCargo>
 	<choiceRequiresCrew>false</choiceRequiresCrew>
+	<instantEscape_removeShipBox>false</instantEscape_removeShipBox>
 	<!--
 	<erosion>                                              (set the defaults for the erosion effect; Hyperspace has its own defaults but you can change them globally here)
 		<speed>0.63</speed>
@@ -2530,7 +2531,7 @@ Syntax ->
 		<preventBossFleet forever="false"/>                                                     Prevents this event from being randomly overtaken by the fleet in the last stand. If forever is false, it will be overtaken last.
 		<runFromFleet closest="false"/>                                                         If the fleet/boss overtakes this beacon, move it to a random beacon. If closest is true, prefer a nearby beacon.
 		<resetFtl/>                                                                             Resets the player's FTL charge to zero.
-		<instantEscape/>                                                                        Causes the enemy ship to jump away instantly (even if engines are destroyed, etc.).
+		<instantEscape removeShipBox="false"/>                                                  Causes the enemy ship to jump away instantly (even if engines are destroyed, etc.). If removeShipBox is true, the ship box will disappear like it would for a normal escape.
 		<escape/>                                                                               Trigger's the enemy's normal escape sequence. Does not load the escape event.
 		<surrender/>                                                                            Trigger's the enemy's normal surrender behaviour. Does not load the surrender event.
 		<loadEscape force="false"/>                                                             Triggers escape (including event), if the enemy was set to escape on hull threshold or if force="true".

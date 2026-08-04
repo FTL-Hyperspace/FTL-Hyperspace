@@ -1,27 +1,76 @@
 #!/bin/bash
 set -e
 
-# Update vcpkg to get latest package versions to avoid issues with old cached versions
-# Note: remove when new devcontainer image will be built
-# Not needed anymore. Devcontainer image is up to date. # (cd /vcpkg && git pull && ./bootstrap-vcpkg.sh)
+# Applies fixes that an older devcontainer image is missing. Usage: devcontainer-fixes.sh <platform>...
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# This script applies fixes to a bug caused by a x86-windows-ftl.cmake triplet or/and toolchain.
-# For some reason only boost_atomic library is being built with .lib naming instead of .a like all other boost libs.
-# This causes linking errors when boost-filesystem (which depends on boost-atomic) is used in a MinGW build.
-# As a workaround, we manually copy boost_atomic.lib to libboost
+MINGW_HEADERS_VERSION=8.0.0
 
-# Try to install all packages to both Windows build directories
-# boost-filesystem will fail due to boost-atomic lib naming, that's expected
-/vcpkg/vcpkg install --triplet=x86-windows-ftl --x-install-root=build-windows-debug/vcpkg_installed || true
+# Keep in sync with the SDL3 dependencies in Dockerfile-actual.
+SDL3_LINUX_PACKAGES="libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+libxrender-dev libxss-dev libxtst-dev libwayland-dev wayland-protocols libxkbcommon-dev \
+libegl1-mesa-dev"
 
-# Repeat the process for release build (skip vcpkg install to save time)
-cp -r build-windows-debug build-windows-release
+# Update toolchains
+sync_toolchains() {
+    cp "$SCRIPT_DIR"/toolchains/* /vcpkg/scripts/toolchains/
+}
 
-# Fix boost_atomic.lib naming in both build directories so filesystem can link
-for build_dir in build-windows-debug build-windows-release; do
-    cp "$build_dir/vcpkg_installed/x86-windows-ftl/lib/boost_atomic.lib" "$build_dir/vcpkg_installed/x86-windows-ftl/lib/libboost_atomic.a"
-    cp "$build_dir/vcpkg_installed/x86-windows-ftl/debug/lib/boost_atomic.lib" "$build_dir/vcpkg_installed/x86-windows-ftl/debug/lib/libboost_atomic.a"
+# Focal ships the mingw-w64 7.0.0 headers, which are too old for SDL3: the Direct3D renderers need
+# dxgidebug.h and the WASAPI backend needs the stream options from a newer audioclient.h. Jammy has
+# 8.0.0 with both, and they are architecture independent so the compiler itself stays untouched.
+upgrade_mingw_headers() {
+    local installed
+    installed=$(dpkg-query -W -f='${Version}' mingw-w64-i686-dev 2>/dev/null || true)
+
+    if [ -n "$installed" ] && dpkg --compare-versions "$installed" ge "$MINGW_HEADERS_VERSION"; then
+        echo "mingw-w64 headers are $installed, nothing to fix"
+        return
+    fi
+
+    echo "mingw-w64 headers are ${installed:-missing}, taking $MINGW_HEADERS_VERSION from jammy"
+
+    cd /tmp
+    echo "deb http://archive.ubuntu.com/ubuntu jammy universe" > /etc/apt/sources.list.d/jammy.list
+    apt update
+    apt-get download mingw-w64-common/jammy mingw-w64-i686-dev/jammy
+    dpkg -i --force-overwrite mingw-w64-common_*.deb mingw-w64-i686-dev_*.deb
+    rm -f mingw-w64-*.deb /etc/apt/sources.list.d/jammy.list
+}
+
+# vcpkg builds sdl3 from source on linux and needs the headers of the features it enables. Images
+# built before SDL3 was added do not carry them.
+install_sdl3_linux_deps() {
+    local missing=""
+    for package in $SDL3_LINUX_PACKAGES; do
+        # The trailing newline matters, multi-arch packages report one status line per architecture
+        dpkg-query -W -f='${Status}\n' "$package" 2>/dev/null | grep -q "^install ok installed$" \
+            || missing="$missing $package"
+    done
+
+    if [ -z "$missing" ]; then
+        echo "SDL3 linux dependencies are installed, nothing to fix"
+        return
+    fi
+
+    echo "Installing missing SDL3 linux dependencies:$missing"
+    apt update
+    apt install -y --no-install-recommends $missing
+}
+
+for platform in "$@"; do
+    case "$platform" in
+        windows)
+            sync_toolchains
+            upgrade_mingw_headers
+            ;;
+        linux)
+            install_sdl3_linux_deps
+            ;;
+        *)
+            echo "Unknown platform: $platform" >&2
+            exit 1
+            ;;
+    esac
 done
-
-echo "Devcontainer fixes applied successfully"

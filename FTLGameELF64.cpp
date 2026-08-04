@@ -11828,7 +11828,7 @@ void ScoreKeeper::SetVictory(bool victory)
 namespace _func924
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ScoreKeeper::AddExploredLocations", typeid(void (ScoreKeeper::*)()), ".534889fbbf60a6a300e8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::AddExploredLocations", typeid(void (ScoreKeeper::*)()), ".534889fbbf????a300e8", nullptr, 0, 0, &func);
 }
 
 void ScoreKeeper::AddExploredLocations()
