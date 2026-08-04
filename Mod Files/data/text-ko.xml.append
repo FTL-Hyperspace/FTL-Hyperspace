@@ -325,8 +325,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="confirm_report_where" language="ko">버그 리포트가 생성됐습니다!\n\n어디에 제보하시겠습니까?</text>
 <text name="confirm_report_discord" language="ko">디스코드에 제보한다</text>
 <text name="confirm_report_github" language="ko">GitHub Issue를 생성한다</text>
-<text name="confirm_report_instructions_discord" language="ko">FTL:Multiverse 디스코드 서버에 제보를 남겨주세요.\n\n버그 리포트 위치:\n</text>
-<text name="confirm_report_instructions_github" language="ko">다음 주소에서 GitHub Issue를 생성해 주세요:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\n버그 리포트 위치:\n</text>
+<text name="confirm_report_instructions_discord" language="ko">FTL:Multiverse 디스코드 서버에 제보를 남겨주세요.\n\n버그 리포트 위치:\n\1</text>
+<text name="confirm_report_instructions_github" language="ko">다음 주소에서 GitHub Issue를 생성해 주세요:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\n버그 리포트 위치:\n\1</text>
 <text name="confirm_report_view" language="ko">버그 리포트 폴더를 연다</text>
 <text name="confirm_report_done" language="ko">건너뛴다</text>
 <text name="confirm_report_failed" language="ko">버그 리포트를 생성하지 못했습니다.\n\n자세한 내용은 로그를 확인해 주세요.</text>

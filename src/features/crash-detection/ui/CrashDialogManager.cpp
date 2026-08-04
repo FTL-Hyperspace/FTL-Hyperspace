@@ -1,6 +1,8 @@
 #include "CrashDialogManager.h"
 #include "Global.h"
 
+#include <boost/algorithm/string.hpp>
+
 CrashDialogManager* CrashDialogManager::instance = nullptr;
 
 CrashDialogManager::CrashDialogManager()
@@ -26,7 +28,7 @@ CrashDialogManager* CrashDialogManager::GetInstance()
 }
 
 void CrashDialogManager::InitButton()
-{   
+{
 
     Point buttonPos(1239, 664);
     // Check if the image button resource exists
@@ -112,7 +114,7 @@ void CrashDialogManager::ShowAskReportDialog(bool isManualReport)
     translated = G_->GetTextLibrary()->GetText("confirm_report_create");
     if (!translated.empty())
     {
-        text.data = translated;
+        yes.data = translated;
     }
     else
     {
@@ -124,7 +126,7 @@ void CrashDialogManager::ShowAskReportDialog(bool isManualReport)
     translated = G_->GetTextLibrary()->GetText("confirm_report_skip");
     if (!translated.empty())
     {
-        text.data = translated;
+        no.data = translated;
     }
     else
     {
@@ -162,7 +164,7 @@ void CrashDialogManager::ShowChooseDestinationDialog()
     translated = G_->GetTextLibrary()->GetText("confirm_report_discord");
     if (!translated.empty())
     {
-        text.data = translated;
+        yes.data = translated;
     }
     else
     {
@@ -174,7 +176,7 @@ void CrashDialogManager::ShowChooseDestinationDialog()
     translated = G_->GetTextLibrary()->GetText("confirm_report_github");
     if (!translated.empty())
     {
-        text.data = translated;
+        no.data = translated;
     }
     else
     {
@@ -203,7 +205,7 @@ void CrashDialogManager::ShowInstructionsDialog(const std::string& bugReportPath
         translated = G_->GetTextLibrary()->GetText("confirm_report_instructions_discord");
         if (!translated.empty())
         {
-            text.data = translated;
+            text.data = boost::algorithm::replace_all_copy(translated, "\\1", bugReportPath);
         }
         else
         {
@@ -215,7 +217,7 @@ void CrashDialogManager::ShowInstructionsDialog(const std::string& bugReportPath
         translated = G_->GetTextLibrary()->GetText("confirm_report_instructions_github");
         if (!translated.empty())
         {
-            text.data = translated;
+            text.data = boost::algorithm::replace_all_copy(translated, "\\1", bugReportPath);
         }
         else
         {
@@ -228,7 +230,7 @@ void CrashDialogManager::ShowInstructionsDialog(const std::string& bugReportPath
     translated = G_->GetTextLibrary()->GetText("confirm_report_view");
     if (!translated.empty())
     {
-        text.data = translated;
+        yes.data = translated;
     }
     else
     {
@@ -240,7 +242,7 @@ void CrashDialogManager::ShowInstructionsDialog(const std::string& bugReportPath
     translated = G_->GetTextLibrary()->GetText("confirm_report_done");
     if (!translated.empty())
     {
-        text.data = translated;
+        no.data = translated;
     }
     else
     {
@@ -278,7 +280,7 @@ void CrashDialogManager::ShowErrorDialog()
     translated = G_->GetTextLibrary()->GetText("confirm_report_failed_yes");
     if (!translated.empty())
     {
-        text.data = translated;
+        yes.data = translated;
     }
     else
     {
@@ -290,7 +292,7 @@ void CrashDialogManager::ShowErrorDialog()
     translated = G_->GetTextLibrary()->GetText("confirm_report_failed_no");
     if (!translated.empty())
     {
-        text.data = translated;
+        no.data = translated;
     }
     else
     {

@@ -325,8 +325,8 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_where" language="pt">Reporte de Erro criado com sucesso!\n\nOnde você gostaria de reportá-lo?</text>
 <text name="confirm_report_discord" language="pt">Reportar no Discord</text>
 <text name="confirm_report_github" language="pt">Criar um Issue no GitHub</text>
-<text name="confirm_report_instructions_discord" language="pt">Por favor reportar o problema no servidor FTL:Multiverse no Discord.\n\nLocalização do reporte de erro:\n</text>
-<text name="confirm_report_instructions_github" language="pt">Por favor crie um Issue no GitHub aqui:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nLocalização do reporte de erro:\n</text>
+<text name="confirm_report_instructions_discord" language="pt">Por favor reportar o problema no servidor FTL:Multiverse no Discord.\n\nLocalização do reporte de erro:\n\1</text>
+<text name="confirm_report_instructions_github" language="pt">Por favor crie um Issue no GitHub aqui:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nLocalização do reporte de erro:\n\1</text>
 <text name="confirm_report_view" language="pt">Abrir of arquivo do Reporte de Erro</text>
 <text name="confirm_report_done" language="pt">Confirmado</text>
 <text name="confirm_report_failed" language="pt">Falha ao criar o Reporte de Erro.\n\nPor favor cheque os seus registros para mais detalhes.</text>

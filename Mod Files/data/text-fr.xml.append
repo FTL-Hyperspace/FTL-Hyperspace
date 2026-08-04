@@ -327,8 +327,8 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_where" language="fr">Le rapport de bug a été créé avec succès!\n\nOù souhaitez-vous signaler ce problème?</text>
 <text name="confirm_report_discord" language="fr">Signaler sur Discord</text>
 <text name="confirm_report_github" language="fr">Créer un ticket GitHub</text>
-<text name="confirm_report_instructions_discord" language="fr">Merci de signaler le bug sur le serveur Discord de FTL:Multiverse.\n\nEmplacement du rapport de bug:\n</text>
-<text name="confirm_report_instructions_github" language="fr">Merci de créer un ticket GitHub à l'adresse suivante:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nEmplacement du rapport de bug:\n</text>
+<text name="confirm_report_instructions_discord" language="fr">Merci de signaler le bug sur le serveur Discord de FTL:Multiverse.\n\nEmplacement du rapport de bug:\n\1</text>
+<text name="confirm_report_instructions_github" language="fr">Merci de créer un ticket GitHub à l'adresse suivante:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nEmplacement du rapport de bug:\n\1</text>
 <text name="confirm_report_view" language="fr">Ouvrir le dossier du rapport de bug</text>
 <text name="confirm_report_done" language="fr">Passer</text>
 <text name="confirm_report_failed" language="fr">Échec de la création du rapport de bug.\n\nVeuillez consulter les journaux pour plus de détails.</text>
