@@ -131,6 +131,17 @@
 //Register dynamic cast function
 DYNAMIC_CAST(SWIGTYPE_p_SpaceDrone, SpaceDrone_dynamic_cast);
 
+%apply SWIGTYPE *DYNAMIC {Drone*};
+
+%{
+    static swig_type_info* Drone_dynamic_cast(Drone** ppDrone)
+    {
+        if (!ppDrone || !(*ppDrone)) return nullptr;
+        return Global::GetInstance()->getLuaContext()->getLibScript()->types.pDroneTypes[(*ppDrone)->type];
+    }
+%}
+DYNAMIC_CAST(SWIGTYPE_p_Drone, Drone_dynamic_cast);
+
 %apply SWIGTYPE *DYNAMIC {Projectile*};
 
 %{
