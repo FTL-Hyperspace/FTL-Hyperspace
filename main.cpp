@@ -64,6 +64,11 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
 }
 #elif defined(__linux__)
 void __attribute__((constructor)) launchHyperspace() {
+    /* Stops child processes from inheriting LD_PRELOAD, so they no longer load Hyperspace. */
+    /* SDL runs zenity to show error dialogs; a preloaded zenity fails (it is not FTL) and
+     * runs another zenity to report that, recursively creating a fork bomb.
+     */
+    unsetenv("LD_PRELOAD");
 
 #ifdef DEBUG
     /* *NIX always has a console, it just matters if you launch FTL from it or not */
@@ -83,6 +88,8 @@ void __attribute__((constructor)) launchHyperspace() {
 }
 #elif defined(__APPLE__)
 void __attribute__((constructor)) launchHyperspace() {
+    /* Similar reason as for the linux unset, tough no known issues. */
+    unsetenv("DYLD_INSERT_LIBRARIES");
 
 #ifdef DEBUG
     printf("Hyperspace.dylib is loaded\n");
