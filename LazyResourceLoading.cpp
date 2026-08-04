@@ -127,7 +127,7 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
                 enemyShipImages.push_back(pngPath);
             }
 
-            if (loadImage && CustomOptionsManager::GetInstance()->noLazyImageLoading.currentValue)
+            if (loadImage && CustomOptionsManager::GetInstance()->disableLazyImageLoading.currentValue)
             {
                 const int resourceId = LoadTexture(resmgr, filename);
                 resourceList.push_back(
