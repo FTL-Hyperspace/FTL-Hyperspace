@@ -1,36 +1,76 @@
 #!/bin/bash
 set -e
 
-# This script applies fixes to a bug caused by a x86-windows-ftl.cmake triplet or/and toolchain.
-# For some reason only boost_atomic library is being built with .lib naming instead of .a like all other boost libs.
-# This causes linking errors when boost-filesystem (which depends on boost-atomic) is used in a MinGW build.
-# As a workaround, we manually copy boost_atomic.lib to libboost
+# Applies fixes that an older devcontainer image is missing. Usage: devcontainer-fixes.sh <platform>...
 
-if [ "$#" -eq 0 ]; then
-    BUILD_DIRS=(build-windows-debug build-windows-release)
-else
-    BUILD_DIRS=("$@")
-fi
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-copy_boost_atomic_alias() {
-    local build_dir="$1"
-    local config_dir="$2"
-    local src="$build_dir/vcpkg_installed/x86-windows-ftl/${config_dir}lib/boost_atomic.lib"
-    local dst="$build_dir/vcpkg_installed/x86-windows-ftl/${config_dir}lib/libboost_atomic.a"
+MINGW_HEADERS_VERSION=8.0.0
 
-    if [ -f "$src" ] && ! cmp -s "$src" "$dst"; then
-        cp "$src" "$dst"
-    fi
+# Keep in sync with the SDL3 dependencies in Dockerfile-actual.
+SDL3_LINUX_PACKAGES="libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+libxrender-dev libxss-dev libxtst-dev libwayland-dev wayland-protocols libxkbcommon-dev \
+libegl1-mesa-dev"
+
+# Update toolchains
+sync_toolchains() {
+    cp "$SCRIPT_DIR"/toolchains/* /vcpkg/scripts/toolchains/
 }
 
-for build_dir in "${BUILD_DIRS[@]}"; do
-    /vcpkg/vcpkg install \
-        --triplet=x86-windows-ftl \
-        --host-triplet=x86-windows-ftl \
-        --x-install-root="$build_dir/vcpkg_installed" || true
+# Focal ships the mingw-w64 7.0.0 headers, which are too old for SDL3: the Direct3D renderers need
+# dxgidebug.h and the WASAPI backend needs the stream options from a newer audioclient.h. Jammy has
+# 8.0.0 with both, and they are architecture independent so the compiler itself stays untouched.
+upgrade_mingw_headers() {
+    local installed
+    installed=$(dpkg-query -W -f='${Version}' mingw-w64-i686-dev 2>/dev/null || true)
 
-    copy_boost_atomic_alias "$build_dir" ""
-    copy_boost_atomic_alias "$build_dir" "debug/"
+    if [ -n "$installed" ] && dpkg --compare-versions "$installed" ge "$MINGW_HEADERS_VERSION"; then
+        echo "mingw-w64 headers are $installed, nothing to fix"
+        return
+    fi
+
+    echo "mingw-w64 headers are ${installed:-missing}, taking $MINGW_HEADERS_VERSION from jammy"
+
+    cd /tmp
+    echo "deb http://archive.ubuntu.com/ubuntu jammy universe" > /etc/apt/sources.list.d/jammy.list
+    apt update
+    apt-get download mingw-w64-common/jammy mingw-w64-i686-dev/jammy
+    dpkg -i --force-overwrite mingw-w64-common_*.deb mingw-w64-i686-dev_*.deb
+    rm -f mingw-w64-*.deb /etc/apt/sources.list.d/jammy.list
+}
+
+# vcpkg builds sdl3 from source on linux and needs the headers of the features it enables. Images
+# built before SDL3 was added do not carry them.
+install_sdl3_linux_deps() {
+    local missing=""
+    for package in $SDL3_LINUX_PACKAGES; do
+        # The trailing newline matters, multi-arch packages report one status line per architecture
+        dpkg-query -W -f='${Status}\n' "$package" 2>/dev/null | grep -q "^install ok installed$" \
+            || missing="$missing $package"
+    done
+
+    if [ -z "$missing" ]; then
+        echo "SDL3 linux dependencies are installed, nothing to fix"
+        return
+    fi
+
+    echo "Installing missing SDL3 linux dependencies:$missing"
+    apt update
+    apt install -y --no-install-recommends $missing
+}
+
+for platform in "$@"; do
+    case "$platform" in
+        windows)
+            sync_toolchains
+            upgrade_mingw_headers
+            ;;
+        linux)
+            install_sdl3_linux_deps
+            ;;
+        *)
+            echo "Unknown platform: $platform" >&2
+            exit 1
+            ;;
+    esac
 done
-
-echo "Devcontainer fixes applied successfully"

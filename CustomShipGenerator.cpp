@@ -1,8 +1,8 @@
 #include "CustomShipGenerator.h"
 #include "CustomShipSelect.h"
-#include <boost/math/special_functions/fpclassify.hpp>
-
 #include <boost/lexical_cast.hpp>
+
+#include <cmath>
 
 bool CustomShipGenerator::enabled = false;
 std::unordered_map<std::string,CustomShipGenerator> CustomShipGenerator::customShipGenerators = std::unordered_map<std::string,CustomShipGenerator>();
@@ -170,7 +170,7 @@ void CustomShipGenerator::SectorScaling::Parse(rapidxml::xml_node<char> *node)
         }
     }
 
-    if (boost::math::isnan(maxSector))
+    if (std::isnan(maxSector))
     {
         maxSector = minSector + 8.f;
     }

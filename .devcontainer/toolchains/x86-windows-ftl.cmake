@@ -26,6 +26,9 @@ string(CONCAT _compiler_flags
     # Disable multiple definition of std::type_info::operator==
     " -D__GXX_TYPEINFO_EQUALITY_INLINE=0"
 
+    # Target Windows 8, mingw-w64 defaults to XP which is too old for Boost.WinAPI
+    " -D_WIN32_WINNT=0x0602 -DWINVER=0x0602"
+
     # Use DWARF exceptions
     " -fdwarf-exceptions"
 )
