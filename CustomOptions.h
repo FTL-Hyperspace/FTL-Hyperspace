@@ -102,7 +102,7 @@ public:
   
     Setting<bool> multiShipFix;
 
-    Setting<bool> noLazyImageLoading;
+    Setting<bool> disableLazyImageLoading;
 
     Defaults defaults;
 
