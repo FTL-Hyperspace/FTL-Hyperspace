@@ -316,3 +316,19 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shield_drone_layers_per_charge" language="ko">방어막 충전량: \1</text>
 <text name="shield_drone_cooldowns" language="ko">충전 시간: \1</text>
 <text name="confirm_buy_last_subsystem" language="ko">이것은 전함의 마지막 보조 시스템 슬롯입니다.\n 확실합니까?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="ko">이전 게임 세션에서 하이퍼스페이스 모드 충돌이 감지됐습니다.\n\n세이브 파일과 로그를 포함한 리포트를 생성하시겠습니까?</text>
+<text name="confirm_report_bug" language="ko">세이브 파일과 로그를 포함한 리포트를 생성하시겠습니까?</text>
+<text name="confirm_report_create" language="ko">버그 리포트를 생성한다</text>
+<text name="confirm_report_skip" language="ko">건너뛴다</text>
+<text name="confirm_report_where" language="ko">버그 리포트가 생성됐습니다!\n\n어디에 제보하시겠습니까?</text>
+<text name="confirm_report_discord" language="ko">디스코드에 제보한다</text>
+<text name="confirm_report_github" language="ko">GitHub Issue를 생성한다</text>
+<text name="confirm_report_instructions_discord" language="ko">FTL:Multiverse 디스코드 서버에 제보를 남겨주세요.\n\n버그 리포트 위치:\n</text>
+<text name="confirm_report_instructions_github" language="ko">다음 주소에서 GitHub Issue를 생성해 주세요:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\n버그 리포트 위치:\n</text>
+<text name="confirm_report_view" language="ko">버그 리포트 폴더를 연다</text>
+<text name="confirm_report_done" language="ko">건너뛴다</text>
+<text name="confirm_report_failed" language="ko">버그 리포트를 생성하지 못했습니다.\n\n자세한 내용은 로그를 확인해 주세요.</text>
+<text name="confirm_report_failed_okay" language="ko">확인</text>
+<!-- <text name="confirm_report_failed_no" language="ko"> </text> -->

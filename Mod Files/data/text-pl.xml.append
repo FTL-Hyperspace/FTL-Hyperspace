@@ -316,3 +316,19 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="shield_drone_layers_per_charge" language="pl">Ilość warstw osłony na aktywację: \1</text>
 <text name="shield_drone_cooldowns" language="pl">Czas aktywacji: \1</text>
 <text name="confirm_buy_last_subsystem" language="pl">To ostatnie wolne miejsce na twoim statku.\nNa pewno chcesz w nim umieścić ten subsystem?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="pl">Awaria moda Hyperspace została wykryta podczas poprzedniej sesji gry.\n\nCzy chcesz utworzyć zgłoszenie błędu zawierające twoje zapisy gry oraz logi?</text>
+<text name="confirm_report_bug" language="pl">Czy chcesz utworzyć zgłoszenie błędu zawierające twoje zapisy gry oraz logi?</text>
+<text name="confirm_report_create" language="pl">Utwórz Zgłoszenie Błędu</text>
+<text name="confirm_report_skip" language="pl">Pomiń</text>
+<text name="confirm_report_where" language="pl">Zgłoszenie błędu utworzone poprawnie!\n\nGdzie chciałbyś je zgłosić?</text>
+<text name="confirm_report_discord" language="pl">Zgłoś na Discord</text>
+<text name="confirm_report_github" language="pl">Zgłoś Issue na GitHub</text>
+<text name="confirm_report_instructions_discord" language="pl">Proszę zgłosić problem na serwerze Discord FTL:Multiverse.\n\nLokalizacja zgłoszenia błędu:\n</text>
+<text name="confirm_report_instructions_github" language="pl">Proszę utworzyć Issue na GitHub:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nLokalizacja zgłoszenia błędu:\n</text>
+<text name="confirm_report_view" language="pl">Otwórz Folder Zgłoszeń Błędów</text>
+<text name="confirm_report_done" language="pl">Zakończ</text>
+<text name="confirm_report_failed" language="pl">Utworzenie zgłoszenia błędu zakończone niepowodzeniem. \n\nSprawdź logi, aby uzyskać więcej informacji.</text>
+<text name="confirm_report_failed_okay" language="pl">OK</text>
+<!-- <text name="confirm_report_failed_no" language="pl"> </text> -->

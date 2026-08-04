@@ -316,3 +316,20 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="shield_drone_layers_per_charge" language="es">Barras de escudo por cada carga: \1</text>
 <text name="shield_drone_cooldowns" language="es">Enfriamiento: \1</text>
 <text name="confirm_buy_last_subsystem" language="es">Este es tu último subsistema de la nave.\nEstas seguro?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="es">Un crash del mod Hyperspace se detectò en la sesiòn previa.\n\nSe quiere crear un reporte con sus partidas guardadas y rejistros?</text>
+<text name="confirm_report_bug" language="es">Se quiere crear un reporte con sus partidas guardadas y rejistros?</text>
+<text name="confirm_report_create" language="es">Crear reporte</text>
+<text name="confirm_report_skip" language="es">Pasar</text>
+<text name="confirm_report_where" language="es">Reporte creado exitosamente!\n\nA dònde se quiere reportarlo?</text>
+<text name="confirm_report_discord" language="es">Reportar en Discord</text>
+<text name="confirm_report_github" language="es">Crear un Asunto de GitHub</text>
+<text name="confirm_report_instructions_discord" language="es">Por favor reportarlo en el Discord de FTL: Multiverse\n\nLocaciòn del reporte:\n</text>
+<text name="confirm_report_instructions_github" language="es">Por favor crear un asunto de GitHub a:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nLocaciòn del reporte:\n</text>
+<text name="confirm_report_view" language="es">Abrir el Carpeta del Reporte</text>
+<text name="confirm_report_done" language="es">Finalizado</text>
+<text name="confirm_report_failed" language="es">Fallo en el crear del reporte\n\nPor favor revisar los registros para detalles.</text>
+<text name="confirm_report_failed_okay" language="es">OK</text>
+<!-- <text name="confirm_report_failed_no" language="es"> </text> -->
+

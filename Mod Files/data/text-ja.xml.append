@@ -307,3 +307,19 @@
 <text name="shield_drone_layers_per_charge" language="ja">チャージごとのシールド枚数: \1</text>
 <text name="shield_drone_cooldowns" language="ja">クールダウン: \1</text>
 <text name="confirm_buy_last_subsystem" language="ja">これが最後のサブシステム枠です。\n本当によろしいですか？</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="ja">前回のゲームで、HyperspaceのMODによるクラッシュが検出されました。\n\nセーブデータとログを含めたバグレポートを作成しますか？</text>
+<text name="confirm_report_bug" language="ja">セーブデータとログを含めたバグレポートを作成しますか？</text>
+<text name="confirm_report_create" language="ja">バグレポートを作成する</text>
+<text name="confirm_report_skip" language="ja">無視</text>
+<text name="confirm_report_where" language="ja">バグレポートが作成されました！\n\nどこに報告しますか？</text>
+<text name="confirm_report_discord" language="ja">Discordに報告する</text>
+<text name="confirm_report_github" language="ja">GitHub Issueを作成する</text>
+<text name="confirm_report_instructions_discord" language="ja">FTL:MultiverseのDiscordサーバーでバグを報告してください。\n\nバグレポート場所：\n</text>
+<text name="confirm_report_instructions_github" language="ja">以下のリンクからGitHubのIssueを作成してください：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nバグレポート場所：\n</text>
+<text name="confirm_report_view" language="ja">バグレポートのフォルダを開く</text>
+<text name="confirm_report_done" language="ja">無視</text>
+<text name="confirm_report_failed" language="ja">バグレポートの作成に失敗しました。\n\n詳細はログを確認してください。</text>
+<text name="confirm_report_failed_okay" language="ja">OK</text>
+<!-- <text name="confirm_report_failed_no" language="ja"> </text> -->
