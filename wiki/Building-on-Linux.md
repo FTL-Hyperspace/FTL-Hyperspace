@@ -2,11 +2,16 @@
 
 ## Prerequisites
 
-To build the project, you will need Docker and Git. The installation instructions below are for Ubuntu (26.04 LTS). If you are using a different distribution, I trust in your ability to figure out how to install these things on your own. To install Git, run
+#### Installing Git
 
-```
-sudo apt install docker git
-```
+To build the project, you will need Docker and Git. The installation instructions below have been confirmed to work on Ubuntu (26.04 LTS), but we are including instructions for other distributions. First, install Git.
+
+| Distributions         | Install command        |
+|:----------------------|:-----------------------|
+| Ubuntu / Debain       | `sudo apt install git` |
+| Fedora / RHEL         | `sudo dnf install git` |
+| Arch                  | `sudo pacman -S git`   |
+
 
 Verify Git was properly installed by running
 
@@ -22,36 +27,24 @@ git version 2.53.0
 
 Note that the version number may be different.
 
-To install the Docker Engine, you should follow the method as mentioned on [Docker's own documentation](https://docs.docker.com/engine/install/). The information below on installing Docker is copied from the part of the page linked that shows how to install it through Docker's own apt-repositories. **Note that you should double check that the instructions have not changed by following the link, as the information below might be outdated by the time you read this.**
+#### Installing Docker
+
+To install Docker, we will be using the [convenience script](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script) provided by Docker. If you want to customize the installation, feel free to install the Docker Engine [through other means](https://docs.docker.com/engine/install/ubuntu/#installation-methods). **It is recommended to double check the installation instructions by following the first hyperlink, as they may have changed since writing this.**
+
+Run the following commands in the terminal:
 
 ```
-# Add Docker's official GPG key:
-sudo apt update
-sudo apt install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-# Add the repository to Apt sources:
-sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/ubuntu
-Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-Components: stable
-Architectures: $(dpkg --print-architecture)
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-
-sudo apt update
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh ./get-docker.sh
 ```
 
-Afterwards, install Docker by running
+After the script is finished, Docker will be installed and the `docker` service should start automatically. **Note:** On RPM-based distributions, such as Fedora and RHEL, you need to manually start the `docker` service using `systemctl`.
 
 ```
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl start docker
 ```
 
-Verify Docker is installed by running
+Next, verify Docker is installed by running
 
 ```
 sudo systemctl status docker
@@ -65,23 +58,7 @@ You should see something along the lines of
      Active: active (running) since Thu 2026-06-18 14:01:15 CEST; 42s ago
 ```
 
-If it is not active, you might see something like this instead
-
-```
-● docker.service - Docker Application Container Engine
-     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
-     Active: inactive (dead) since Thu 2026-06-18 14:02:40 CEST; 1s ago
-```
-
-In this case, start Docker manually by running
-
-```
-sudo systemctl start docker
-```
-
-Verify that Docker is running by repeating the steps mentioned above. 
-
-Lastly, verify the installation was successful by running the hello-world image
+Verify the installation was successful by running the hello-world image
 
 ```
 sudo docker run hello-world
@@ -108,7 +85,24 @@ Then, add yourself to it by running
 sudo usermod -aG docker ${USER}
 ```
 
-For it to update, you need to log in and out again.
+For it to update, either log out and back in or run the following command in the terminal to get a new terminal session:
+
+```
+exec su - $USER
+```
+
+To check if you were added to the group successfully, run the `hello-world` image again, this time without `sudo`.
+
+```
+docker run hello-world
+```
+
+If successful, you will see the following text:
+
+```
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+```
 
 ## Building Hyperspace
 
@@ -127,7 +121,7 @@ cd FTL-Hyperspace/
 The `./buildscripts/` directory has the scripts to (you guessed it!) build the project. Within `./buildscripts/` there are different folders for different platforms and (at times) different versions. Within these folders, you want to run the ones that end with `from-docker.sh`. Below we will be compiling Hyperspace version `1.6.13` for Linux by running
 
 ```
-./buildscripts/linux-1.6.13/build-releaseonly-from-docker.sh 
+./buildscripts/linux-1.6.13/build-releaseonly-from-docker.sh
 ```
 
 Compiling will take longer the first time since everything needs to be compiled. Compiling afterwards will be quicker.
@@ -144,7 +138,7 @@ After the compiling is done, you will find a new folder in the `FTL-Hyperspace` 
 
 ## Building ZHL files (not required to build Hyperspace)
 
-To build ZHL files, you need to install Lua and some other dependencies. Run the following commands
+To build ZHL files, you need to install Lua and some relate dependencies. Run the following commands
 
 ```
 sudo apt install lua5.3 liblua5.3-dev luarocks
