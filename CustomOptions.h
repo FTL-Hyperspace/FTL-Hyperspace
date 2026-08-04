@@ -99,8 +99,10 @@ public:
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
-  
+
     Setting<bool> multiShipFix;
+
+    Setting<bool> oxygenRefillFix;
 
     Defaults defaults;
 

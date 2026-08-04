@@ -1,4 +1,5 @@
 #include "OxygenSystem.h"
+#include "CustomOptions.h"
 
 HOOK_METHOD_PRIORITY(OxygenSystem, GetRefillSpeed, 9999, () -> float)
 {
@@ -15,9 +16,14 @@ HOOK_METHOD_PRIORITY(OxygenSystem, GetRefillSpeed, 9999, () -> float)
         return speed * -0.075F;
     }
 
-    const int power = GetEffectivePower();
-    const int multiplier = (power == 1) ? 1 : (power - 1) * 3;
-    return multiplier * 0.075F * speed;
+    const int systemPower = GetEffectivePower();
+    const bool oxygenFixEnabled = CustomOptionsManager::GetInstance()->oxygenRefillFix.currentValue;
+    if(oxygenFixEnabled)
+    {
+        const int multiplier = (systemPower == 1) ? 1 : (systemPower - 1) * 3;
+        return multiplier * 0.075F * speed;
+    }
+    return ((systemPower - 1) * 3 + 1) * 0.075F * speed;
 }
 
 HOOK_METHOD_PRIORITY(OxygenSystem, OnLoop, 9999, () -> void)
