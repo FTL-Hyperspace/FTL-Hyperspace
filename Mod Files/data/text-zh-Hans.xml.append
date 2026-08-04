@@ -334,8 +334,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="confirm_report_where" language="zh-Hans">错误报告已成功创建！\n\n您希望将其报告到哪里？</text>
 <text name="confirm_report_discord" language="zh-Hans">在 Discord 上报告</text>
 <text name="confirm_report_github" language="zh-Hans">在 GitHub 上创建 Issue</text>
-<text name="confirm_report_instructions_discord" language="zh-Hans">请将问题报告至 FTL:Multiverse 的 Discord 服务器。\n\n错误报告的位置：\n</text>
-<text name="confirm_report_instructions_github" language="zh-Hans">请在以下位置创建 GitHub Issue：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\n错误报告的位置：\n</text>
+<text name="confirm_report_instructions_discord" language="zh-Hans">请将问题报告至 FTL:Multiverse 的 Discord 服务器。\n\n错误报告的位置：\n\1</text>
+<text name="confirm_report_instructions_github" language="zh-Hans">请在以下位置创建 GitHub Issue：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\n错误报告的位置：\n\1</text>
 <text name="confirm_report_view" language="zh-Hans">打开错误报告文件</text>
 <text name="confirm_report_done" language="zh-Hans">确认</text>
 <text name="confirm_report_failed" language="zh-Hans">创建错误报告失败。\n\n请检查您的日志以获取更多详情。</text>

@@ -312,8 +312,8 @@ Taste: \1</text>
 <text name="confirm_report_where" language="de">Fehlerbericht wurde erfolgreich erstellt!\n\nWo möchtest du den Fehler melden?</text>
 <text name="confirm_report_discord" language="de">Auf Discord melden</text>
 <text name="confirm_report_github" language="de">GitHub Issue erstellen</text>
-<text name="confirm_report_instructions_discord" language="de">Bitte melde den Fehler im FTL:Multiverse Discord-Server.\n\nFehlerbericht Speicherort:\n</text>
-<text name="confirm_report_instructions_github" language="de">Bitte erstelle ein GitHub issue auf:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nFehlerbericht Speicherort:\n</text>
+<text name="confirm_report_instructions_discord" language="de">Bitte melde den Fehler im FTL:Multiverse Discord-Server.\n\nFehlerbericht Speicherort:\n\1</text>
+<text name="confirm_report_instructions_github" language="de">Bitte erstelle ein GitHub issue auf:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nFehlerbericht Speicherort:\n\1</text>
 <text name="confirm_report_view" language="de">Fehlerberichtsordner öffnen</text>
 <text name="confirm_report_done" language="de">Fertig</text>
 <text name="confirm_report_failed" language="de">Erstellen eines Fehlerberichts ist gescheitert.\n\nBitte überprüfe die Logs für weitere Informationen .</text>

@@ -340,8 +340,8 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_where">Bug report created successfully!\n\nWhere would you like to report this?</text>
 <text name="confirm_report_discord">Report on Discord</text>
 <text name="confirm_report_github">Create GitHub Issue</text>
-<text name="confirm_report_instructions_discord">Please report the bug on the FTL:Multiverse Discord server.\n\nBug report location:\n</text>
-<text name="confirm_report_instructions_github">Please create a GitHub issue at:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nBug report location:\n</text>
+<text name="confirm_report_instructions_discord">Please report the bug on the FTL:Multiverse Discord server.\n\nBug report location:\n\1</text>
+<text name="confirm_report_instructions_github">Please create a GitHub issue at:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nBug report location:\n\1</text>
 <text name="confirm_report_view">Open Bug Report Folder</text>
 <text name="confirm_report_done">Done</text>
 <text name="confirm_report_failed">Failed to create bug report.\n\nPlease check the logs for more details.</text>

@@ -316,8 +316,8 @@
 <text name="confirm_report_where" language="ja">バグレポートが作成されました！\n\nどこに報告しますか？</text>
 <text name="confirm_report_discord" language="ja">Discordに報告する</text>
 <text name="confirm_report_github" language="ja">GitHub Issueを作成する</text>
-<text name="confirm_report_instructions_discord" language="ja">FTL:MultiverseのDiscordサーバーでバグを報告してください。\n\nバグレポート場所：\n</text>
-<text name="confirm_report_instructions_github" language="ja">以下のリンクからGitHubのIssueを作成してください：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nバグレポート場所：\n</text>
+<text name="confirm_report_instructions_discord" language="ja">FTL:MultiverseのDiscordサーバーでバグを報告してください。\n\nバグレポート場所：\n\1</text>
+<text name="confirm_report_instructions_github" language="ja">以下のリンクからGitHubのIssueを作成してください：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nバグレポート場所：\n\1</text>
 <text name="confirm_report_view" language="ja">バグレポートのフォルダを開く</text>
 <text name="confirm_report_done" language="ja">無視</text>
 <text name="confirm_report_failed" language="ja">バグレポートの作成に失敗しました。\n\n詳細はログを確認してください。</text>

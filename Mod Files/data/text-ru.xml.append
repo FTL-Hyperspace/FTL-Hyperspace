@@ -325,8 +325,8 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="confirm_report_where" language="ru">Отчет об ошибке успешно создан!\n\nКуда вы хотите отправить этот отчет?</text>
 <text name="confirm_report_discord" language="ru">Сообщить в Discord</text>
 <text name="confirm_report_github" language="ru">Создать проблему на GitHub</text>
-<text name="confirm_report_instructions_discord" language="ru">Пожалуйста, сообщите об ошибке на сервере Discord FTL:Multiverse.\n\nМестоположение отчета об ошибке:\n</text>
-<text name="confirm_report_instructions_github" language="ru">Пожалуйста, создайте проблему на GitHub по адресу:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nМестоположение отчета об ошибке:\n</text>
+<text name="confirm_report_instructions_discord" language="ru">Пожалуйста, сообщите об ошибке на сервере Discord FTL:Multiverse.\n\nМестоположение отчета об ошибке:\n\1</text>
+<text name="confirm_report_instructions_github" language="ru">Пожалуйста, создайте проблему на GitHub по адресу:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nМестоположение отчета об ошибке:\n\1</text>
 <text name="confirm_report_view" language="ru">Открыть папку с отчетами об ошибках</text>
 <text name="confirm_report_done" language="ru">Пропустить</text>
 <text name="confirm_report_failed" language="ru">Не удалось создать отчет об ошибке.\n\nПожалуйста, проверьте логи для получения подробной информации.</text>
