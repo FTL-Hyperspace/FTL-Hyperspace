@@ -18,22 +18,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Same workflow pull requests run, so nothing deploys that a PR would have failed.
+  checks:
+    uses: ./.github/workflows/checks.yml
+
   build:
+    needs: checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          # `npm run check:stale` compares per-file commit dates,
-          # so it needs real history.
-          fetch-depth: 0
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run check:content
       - run: npm run build
-      - run: npm run check:links
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
