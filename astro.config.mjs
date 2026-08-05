@@ -56,9 +56,9 @@ const jekyllRedirects = Object.fromEntries(
 		'/install-guides/linux/genericlinux/select-game-copy/': 'en/linux/manual-install/',
 		'/install-guides/linux/genericlinux/steam-install/': 'en/linux/manual-install/',
 		'/install-guides/linux/genericlinux/gog-humble/': 'en/linux/manual-install/',
-		'/install-guides/linux/steamdeck/select-game-copy/': 'en/steam-deck/manual-install/',
-		'/install-guides/linux/steamdeck/steam-install/': 'en/steam-deck/manual-install/',
-		'/install-guides/linux/steamdeck/gog-humble/': 'en/steam-deck/manual-install/',
+		'/install-guides/linux/steamdeck/select-game-copy/': 'en/steamos/manual-install/',
+		'/install-guides/linux/steamdeck/steam-install/': 'en/steamos/manual-install/',
+		'/install-guides/linux/steamdeck/gog-humble/': 'en/steamos/manual-install/',
 		'/install-guides/mac/': 'en/macos/',
 	}).map(([from, to]) => [from, withBase(to)]),
 );
@@ -109,13 +109,13 @@ export default defineConfig({
 					],
 				},
 				{
-					label: 'Steam Deck',
+					label: 'SteamOS',
 					items: [
-						{ label: 'Overview', slug: 'steam-deck' },
-						{ label: 'Easy install', slug: 'steam-deck/easy-install' },
-						{ label: 'Manual install', slug: 'steam-deck/manual-install' },
-						{ label: 'Update', slug: 'steam-deck/updating' },
-						{ label: 'Fix a problem', slug: 'steam-deck/troubleshooting' },
+						{ label: 'Overview', slug: 'steamos' },
+						{ label: 'Easy install', slug: 'steamos/easy-install' },
+						{ label: 'Manual install', slug: 'steamos/manual-install' },
+						{ label: 'Update', slug: 'steamos/updating' },
+						{ label: 'Fix a problem', slug: 'steamos/troubleshooting' },
 					],
 				},
 				{
