@@ -3418,6 +3418,7 @@ struct CrewAI
 	LIBZHL_API void OnLoop();
 	LIBZHL_API int PrioritizeIntruderRoom(CrewMember *crew, int roomId, int target);
 	LIBZHL_API int PrioritizeTask(CrewTask task, int crewId);
+	LIBZHL_API bool ReadyForTeleport();
 	LIBZHL_API void UpdateCrewMember(int crewId);
 	LIBZHL_API void UpdateDrones();
 	LIBZHL_API void UpdateIntruders();
@@ -3456,6 +3457,7 @@ struct ShipAI
 
 	LIBZHL_API std::pair<int, int> GetTeleportCommand();
 	LIBZHL_API void OnLoop(bool hostile);
+	LIBZHL_API void SetEvacRequest(int val);
 	LIBZHL_API void SetStalemate(bool stalemate);
 	LIBZHL_API void constructor(bool _player);
 	
@@ -8702,7 +8704,7 @@ struct TeleportSystem : ShipSystem
         this->constructor(systemId, roomId, shipId, startingPower);
     }
 
-	LIBZHL_API bool CanReceive();
+	LIBZHL_API bool CanReceive(bool countHacked);
 	LIBZHL_API bool CanSend();
 	LIBZHL_API bool Charged();
 	LIBZHL_API void ClearCrewLocations();

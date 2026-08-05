@@ -27,7 +27,7 @@ cleanup __amd64 void TeleportSystem::Jump(TeleportSystem *this);
 ".554889e54156534883ec204889fb837b":
 cleanup __amd64 bool TeleportSystem::CanSend(TeleportSystem *this);
 ".554889e54156534189f64889fb80bb69":
-cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this);
+cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
 ".554889e54157415641554154534883ec284989fe8a05":
 cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
 ".554889e553":
