@@ -589,3 +589,6 @@ cleanup __cdecl int resource_open_sound(ResourceManager *resmgr, const char *nam
 
 "83ec2ce8??????002b":
 __cdecl double time_now();
+
+"a1??????08c38d76008dbc27000000005383ec188b44242085":
+__cdecl char* userdata_get_data_path();

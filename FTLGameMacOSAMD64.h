@@ -9049,6 +9049,7 @@ LIBZHL_API void __stdcall resource_wait(ResourceManager *resmgr, int mark);
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
 LIBZHL_API void __stdcall sys_graphics_set_window_title(char *title);
 LIBZHL_API double __stdcall time_now();
+LIBZHL_API char *__stdcall userdata_get_data_path();
 
 extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;

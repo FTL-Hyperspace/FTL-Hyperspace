@@ -589,8 +589,11 @@ cleanup __amd64 int resource_open_sound(ResourceManager *resmgr, const char *nam
 ".4885ff743f": // 00665db0
 cleanup __amd64 void resource_free(ResourceManager *resmgr, int id);
 
-".4883ec08e8????0200482b": // 0066bce0
+".4883ec08e8????0200482b": // 00669700
 __amd64 double time_now();
+
+"!.488b05????3e00c3": // 0066a020
+__amd64 char* userdata_get_data_path();
 
 ".534889fb4883ec20488b3d????????e8????????": // 0068ce10
 cleanup __amd64 void sys_graphics_set_window_title(char* title);

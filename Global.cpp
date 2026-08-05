@@ -51,15 +51,35 @@ void hs_log_file(const std::string &str)
 
 void ftl_log(const char *str...)
 {
-    va_list va;
-    va_start(va, str);
+    static std::FILE* logfile = nullptr;
 
-    if (ftl_log_logfile != nullptr) // todo: open file if it's nullptr
+    va_list arguments;
+    va_start(arguments, str);
+    va_list copy;
+    va_copy(copy, arguments);
+
+    std::vfprintf(stdout, str, arguments);
+    va_end(arguments);
+
+    if (logfile == nullptr)
     {
-        vfprintf(ftl_log_logfile, str, va);
-        fflush(ftl_log_logfile);
+        char path[1000];
+        const char* prefix = userdata_get_data_path();
+        if (prefix == nullptr)
+        {
+            prefix = "";
+        }
+        if (strformat_check(path, sizeof(path), "%s%s", prefix, "FTL.log"))
+        {
+            logfile = std::fopen(path, "w");
+        }
     }
-    va_end(va);
+    if (logfile != nullptr)
+    {
+        std::vfprintf(logfile, str, copy);
+        std::fflush(logfile);
+    }
+    va_end(copy);
 }
 
 void ErrorMessage(const std::string &msg)
@@ -73,6 +93,17 @@ void ErrorMessage(const char *msg)
     fprintf(stderr, "%s", msg);
 }
 
+bool strformat_check(char* buffer, size_t size, const char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    int required_len = vsnprintf(buffer, size, format, args);
+    va_end(args);
+
+    // vsnprintf returns the number of characters that WOULD have been written.
+    // If it's >= size, truncation occurred. If it's < 0, an encoding error occurred.
+    return (required_len >= 0 && (size_t)required_len < size);
+}
 
 HOOK_METHOD(CApp, OnInit, () -> bool)
 {
