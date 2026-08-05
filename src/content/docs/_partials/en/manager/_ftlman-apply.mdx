@@ -1,0 +1,20 @@
+import SelectRelease from '@p/manager/_ftlman-hyperspace-select.mdx';
+import SupplyFile from '@p/manager/_ftlman-hyperspace-file.mdx';
+import OverrideNote from '@p/shared/_hyperspace-override.mdx';
+
+{/* One numbered run whichever path got here, because ftlman does the whole job on a
+    single Apply. Step 1 is the only difference: ftlman fetches Hyperspace itself, or
+    you supply the `.ftl` because you installed the binaries by hand. */}
+
+1. {props.manual ? <SupplyFile /> : <SelectRelease />}
+
+2. Put your mods in the ftlman's `mods` folder.
+
+3. Press **Scan** in the top right so ftlman can find them.
+
+4. Tick mods you want to use. Order matters, some mods specify that they must be loaded before (e.g. Multiverse Assets).
+   To change order simply drag the mod up or down in the list.
+
+   {props.manual && <OverrideNote />}
+
+5. Press **Apply**.

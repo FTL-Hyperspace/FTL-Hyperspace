@@ -15,6 +15,7 @@ import LinuxSaves from '@p/platform/_linux-saves.mdx';
 import BackupSaves from '@p/shared/_saves-backup.mdx';
 import HyperspaceLinux from '@p/platform/_linux-hyperspace-install.mdx';
 import ModManager from '@p/manager/_ftlman-install.mdx';
+import PatchFtlman from '@p/manager/_ftlman-apply.mdx';
 import Verify from '@p/shared/_install-verify.mdx';
 import Multiverse from '@p/shared/_multiverse-install.mdx';
 
@@ -40,11 +41,19 @@ import Multiverse from '@p/shared/_multiverse-install.mdx';
 
 4. ### Set up a mod manager
 
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
+
    <ModManager />
+
+   </TabItem>
+   </Tabs>
 
 5. ### Patch Hyperspace in
 
-   Put the `Hyperspace.ftl` from the ZIP into your manager's `mods` folder, tick it, and apply.
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman"><PatchFtlman manual /></TabItem>
+   </Tabs>
 
 
 6. ### Check it worked

@@ -14,8 +14,7 @@ import SteamSettings from '@p/shared/_steam-settings.mdx';
 import LinuxSaves from '@p/platform/_linux-saves.mdx';
 import BackupSaves from '@p/shared/_saves-backup.mdx';
 import Ftlman from '@p/manager/_ftlman-install.mdx';
-import FtlmanHyperspace from '@p/manager/_ftlman-hyperspace-install.mdx';
-import FtlmanMods from '@p/manager/_ftlman-mods-add.mdx';
+import FtlmanApply from '@p/manager/_ftlman-apply.mdx';
 import Verify from '@p/shared/_install-verify.mdx';
 import Multiverse from '@p/shared/_multiverse-install.mdx';
 import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
@@ -36,21 +35,25 @@ import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
 
 2. ### Set up ftlman
 
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
+
    <Ftlman />
 
-3. ### Install Hyperspace
+   </TabItem>
+   </Tabs>
 
-   <FtlmanHyperspace />
+3. ### Install Hyperspace and your mods
 
-4. ### Add your mods
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
 
-   <FtlmanMods />
+   <FtlmanApply />
 
-   <Aside type="caution" title="Installing Multiverse?">
-   Leave your mods out for now and follow the Multiverse section below instead.
-   </Aside>
+   </TabItem>
+   </Tabs>
 
-5. ### Check it worked
+4. ### Check it worked
 
    <Verify />
 
