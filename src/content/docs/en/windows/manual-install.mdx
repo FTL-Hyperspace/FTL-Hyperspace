@@ -16,6 +16,8 @@ import BackupSaves from '@p/shared/_saves-backup.mdx';
 import Rollback from '@p/platform/_windows-ftl-rollback.mdx';
 import FindFolder from '@p/shared/_ftl-folder-find.mdx';
 import ModManager from '@p/shared/_mod-manager-choose.mdx';
+import PatchFtlman from '@p/manager/_ftlman-apply.mdx';
+import PatchSlipstream from '@p/manager/_slipstream-hyperspace-patch.mdx';
 import Verify from '@p/shared/_install-verify.mdx';
 import Multiverse from '@p/shared/_multiverse-install.mdx';
 import Unpatch from '@p/shared/_ftl-dat-restore.mdx';
@@ -62,8 +64,10 @@ import Unpatch from '@p/shared/_ftl-dat-restore.mdx';
 
 5. ### Patch Hyperspace in
 
-   Put the `Hyperspace.ftl` from the ZIP into your manager's `mods` folder, tick it, and apply.
-   Tick any other Hyperspace-based mods after it.
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman"><PatchFtlman manual /></TabItem>
+   <TabItem label="Slipstream"><PatchSlipstream /></TabItem>
+   </Tabs>
 
 6. ### Check it worked
 

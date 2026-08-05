@@ -1,5 +1,6 @@
 import PatchFtlman from '@p/manager/_ftlman-multiverse-patch.mdx';
 import PatchSlipstream from '@p/manager/_slipstream-multiverse-patch.mdx';
+import OverrideNote from '@p/shared/_hyperspace-override.mdx';
 
 Multiverse is the largest mod built on Hyperspace, and it installs differently from
 everything else.
@@ -18,10 +19,7 @@ everything else.
   {!props.ftlmanOnly && <TabItem label="Slipstream"><PatchSlipstream /></TabItem>}
 </Tabs>
 
-<Aside type="caution" title="Do not patch Hyperspace.ftl with Multiverse">
-Multiverse already contains everything `Hyperspace.ftl` provides. Patching both is
-the single most common cause of a broken install.
-</Aside>
+<OverrideNote />
 
 
 <Aside type="caution" title="Only add Multiverse-compatible mods">
