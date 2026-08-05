@@ -11,13 +11,17 @@ next:
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Saves from '~/content/docs/_partials/en/_saves-linux.mdx';
 import HyperspaceLinux from '~/content/docs/_partials/en/_hyperspace-linux.mdx';
 import ModManager from '~/content/docs/_partials/en/_mod-manager.mdx';
 import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
 import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
 import Unpatch from '~/content/docs/_partials/en/_unpatch.mdx';
 
-No downgrade is needed on Linux. Hyperspace ships a library for both 1.6.12 and 1.6.13.
+<Aside type="tip" title="There is an easier way">
+[ftlman](../easy-install/) does all of this for you. Only continue if you would rather
+place the files yourself, or you want to understand what it does.
+</Aside>
 
 <Steps>
 
@@ -26,6 +30,8 @@ No downgrade is needed on Linux. Hyperspace ships a library for both 1.6.12 and 
    Skip this if you did not buy FTL on Steam.
 
    <SteamSettings />
+
+   <Saves />
 
 2. ### Install the Hyperspace library
 

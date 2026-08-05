@@ -102,6 +102,7 @@ export default defineConfig({
 					label: 'Windows',
 					items: [
 						{ label: 'Overview', slug: 'windows' },
+						{ label: 'Easy install', slug: 'windows/easy-install' },
 						{ label: 'Manual install', slug: 'windows/manual-install' },
 						{ label: 'Update', slug: 'windows/updating' },
 						{ label: 'Fix a problem', slug: 'windows/troubleshooting' },
@@ -111,6 +112,7 @@ export default defineConfig({
 					label: 'Steam Deck',
 					items: [
 						{ label: 'Overview', slug: 'steam-deck' },
+						{ label: 'Easy install', slug: 'steam-deck/easy-install' },
 						{ label: 'Manual install', slug: 'steam-deck/manual-install' },
 						{ label: 'Update', slug: 'steam-deck/updating' },
 						{ label: 'Fix a problem', slug: 'steam-deck/troubleshooting' },
@@ -120,6 +122,7 @@ export default defineConfig({
 					label: 'Linux',
 					items: [
 						{ label: 'Overview', slug: 'linux' },
+						{ label: 'Easy install', slug: 'linux/easy-install' },
 						{ label: 'Manual install', slug: 'linux/manual-install' },
 						{ label: 'Update', slug: 'linux/updating' },
 						{ label: 'Fix a problem', slug: 'linux/troubleshooting' },

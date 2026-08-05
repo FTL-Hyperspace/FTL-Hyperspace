@@ -12,14 +12,12 @@ everything else.
 3. Put both `.zip` files in your mod manager's `mods` folder.
 4. Patch them **in this order**, and nothing else:
 
-{props.ftlmanOnly ? (
-  <PatchFtlman />
-) : (
-  <Tabs syncKey="manager">
-    <TabItem label="ftlman"><PatchFtlman /></TabItem>
-    <TabItem label="Slipstream"><PatchSlipstream /></TabItem>
-  </Tabs>
-)}
+{/* Slipstream is dropped where it is not an option, but the tab stays so the step
+    reads the same on every platform. */}
+<Tabs syncKey="manager">
+  <TabItem label="ftlman"><PatchFtlman /></TabItem>
+  {!props.ftlmanOnly && <TabItem label="Slipstream"><PatchSlipstream /></TabItem>}
+</Tabs>
 
 <Aside type="caution" title="Do not patch Hyperspace.ftl with Multiverse">
 Multiverse already contains everything `Hyperspace.ftl` provides. Patching both is

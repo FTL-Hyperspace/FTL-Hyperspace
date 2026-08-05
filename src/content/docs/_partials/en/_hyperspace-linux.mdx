@@ -31,12 +31,12 @@ LD_PRELOAD=./Hyperspace.1.6.13.amd64.so exec "$here/$command.$arch" "$@"
 Some machines need `LD_LIBRARY_PATH` set as well. Use this form instead:
 
 ```sh
-export LD_LIBRARY_PATH="$here":${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH="$here":"${LD_LIBRARY_PATH}"
 export LD_PRELOAD=Hyperspace.1.6.13.amd64.so
 exec "$here/$command.$arch" "$@"
 ```
 </Aside>
 
 <Aside type="note" title="Requirements">
-Multiverse wants 5 GB or more of RAM. Other Hyperspace mods vary.
+Multiverse wants 3 GB or more of RAM. Other Hyperspace mods vary.
 </Aside>

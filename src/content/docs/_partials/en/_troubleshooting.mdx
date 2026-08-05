@@ -1,20 +1,12 @@
 import { Steps } from '@astrojs/starlight/components';
-import Screenshot from '~/components/Screenshot.astro';
-import properties from '~/assets/screenshot/steam-properties.png';
-import cloudSaves from '~/assets/screenshot/steam-cloud-saves.png';
+import SteamSettings from './_steam-settings.mdx';
+import BackupSaves from './_backup-saves.mdx';
 
 ### Anything wrong with saves, on Steam
 
-Turn off Steam Cloud first. It restores outdated saves with broken state, which can
-keep Hyperspace from launching and will undo any save fix you try below.
+<SteamSettings />
 
-Right-click **FTL: Faster Than Light** in your library and open **Properties**.
-
-<Screenshot src={properties} alt="Right-clicking FTL in the Steam library and choosing Properties" label="Show me how to open Properties" />
-
-Under **General**, untick **Keep games saves in the Steam Cloud**.
-
-<Screenshot src={cloudSaves} alt="The General tab of FTL's Steam properties with the Steam Cloud checkbox unticked" label="Show me the checkbox" />
+<BackupSaves />
 
 ### My game crashes before loading Multiverse
 
