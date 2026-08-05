@@ -93,6 +93,19 @@ mobile-starlight-toc nav {
 	}
 }
 
+/*
+ * Splash-page cards wrap a table, which sizes to its own content. Left as blocks
+ * they leave a wide empty box around it, so shrink them to what is inside and
+ * centre the result. Narrower viewports fall back to full width and the table
+ * scrolls inside the card rather than pushing the page sideways.
+ */
+[data-has-hero] .sl-markdown-content .card {
+	width: fit-content;
+	max-width: 100%;
+	margin-inline: auto;
+	overflow-x: auto;
+}
+
 /* Let the hero wordmark sit on the glow rather than in a box of its own. */
 [data-has-hero] .hero > img {
 	filter: drop-shadow(0 0 2rem hsla(var(--hs-amber), 0.35));
