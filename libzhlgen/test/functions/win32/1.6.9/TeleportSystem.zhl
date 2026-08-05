@@ -21,7 +21,7 @@ __thiscall void TeleportSystem::ForceReady(TeleportSystem *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b490c85c975??80bbc401000000":
 __thiscall bool TeleportSystem::CanSend(TeleportSystem *this);
 ".5589e556538b750883e4f080b9c50100000075??8b410c85c074??8b0189cbff502c84c0":
-__thiscall bool TeleportSystem::CanReceive(TeleportSystem *this);
+__thiscall bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec30e8????????83e80131d283f80277??":
 __thiscall void TeleportSystem::InitiateTeleport(TeleportSystem *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4ce8????????8b0389d9":
