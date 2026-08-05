@@ -62,7 +62,7 @@ HOOK_METHOD_PRIORITY(Equipment, GetCargoHold, 9999, () -> std::vector<std::strin
         {
             if (i == custom->currentOverCapacityPage) continue;
 
-            EquipmentBoxItem item = custom->overCapacityItems[i].first;
+            EquipmentBoxItem item = custom->overCapacityItems[i];
             if (item.pWeapon)
             {
                 ret.push_back(item.pWeapon->blueprint->name);
@@ -864,12 +864,12 @@ void CustomEquipment::MouseClick(int mX, int mY)
         {
             if (orig->bOverCapacity)
             {
-                overCapacityItems[currentOverCapacityPage].first = orig->overcapacityBox->item;
+                overCapacityItems[currentOverCapacityPage] = orig->overcapacityBox->item;
                 orig->overcapacityBox->RemoveItem();
             }
             else if (orig->bOverAugCapacity)
             {
-                overCapacityItems[currentOverCapacityPage].first = orig->overAugBox->item;
+                overCapacityItems[currentOverCapacityPage] = orig->overAugBox->item;
                 orig->overAugBox->RemoveItem();
             }
             orig->bOverCapacity = false;
@@ -899,15 +899,15 @@ void CustomEquipment::MouseClick(int mX, int mY)
                 }
             }
 
-            if (overCapacityItems[currentOverCapacityPage].second)
+            if (overCapacityItems[currentOverCapacityPage].augment)
             {
-                orig->overAugBox->AddItem(overCapacityItems[currentOverCapacityPage].first);
+                orig->overAugBox->AddItem(overCapacityItems[currentOverCapacityPage]);
                 orig->bOverCapacity = false;
                 orig->bOverAugCapacity = true;
             }
             else
             {
-                orig->overcapacityBox->AddItem(overCapacityItems[currentOverCapacityPage].first);
+                orig->overcapacityBox->AddItem(overCapacityItems[currentOverCapacityPage]);
                 orig->bOverCapacity = true;
                 orig->bOverAugCapacity = false;
             }
@@ -1080,18 +1080,18 @@ void CustomEquipment::OnScrollWheel(float direction)
 
 void CustomEquipment::AddOverCapacityItem(const EquipmentBoxItem &item)
 {
-    overCapacityItems.push_back(std::make_pair(item, item.augment));
-    orig->bOverCapacity = !overCapacityItems[0].second;
-    orig->bOverAugCapacity = overCapacityItems[0].second;
+    overCapacityItems.push_back(item);
+    orig->bOverCapacity = !overCapacityItems[0].augment;
+    orig->bOverAugCapacity = overCapacityItems[0].augment;
     orig->overcapacityBox->RemoveItem();
     orig->overAugBox->RemoveItem();
     if (orig->bOverCapacity)
     {
-        orig->overcapacityBox->AddItem(overCapacityItems[0].first);
+        orig->overcapacityBox->AddItem(overCapacityItems[0]);
     }
     else if (orig->bOverAugCapacity)
     {
-        orig->overAugBox->AddItem(overCapacityItems[0].first);
+        orig->overAugBox->AddItem(overCapacityItems[0]);
     }
     currentOverCapacityPage = 0;
 }
@@ -1102,11 +1102,11 @@ void CustomEquipment::UpdateOverCapacityItems()
 
     if (orig->bOverCapacity)
     {
-        overCapacityItems[currentOverCapacityPage].first = orig->overcapacityBox->item;
+        overCapacityItems[currentOverCapacityPage] = orig->overcapacityBox->item;
     }
     else if (orig->bOverAugCapacity)
     {
-        overCapacityItems[currentOverCapacityPage].first = orig->overAugBox->item;
+        overCapacityItems[currentOverCapacityPage] = orig->overAugBox->item;
     }
 }
 
