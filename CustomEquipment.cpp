@@ -120,11 +120,17 @@ HOOK_METHOD(Equipment, AddWeapon, (WeaponBlueprint *bp, bool free, bool forceCar
     LOG_HOOK("HOOK_METHOD -> Equipment::AddWeapon -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
+    bool originalOverCapacity = bOverCapacity;
+    bOverCapacity = false;
     super(bp, free, forceCargo);
 
     if (bOverCapacity)
     {
         EQ_EX(this)->customEquipment->AddOverCapacityItem(overcapacityBox->item);
+    }
+    else
+    {
+        bOverCapacity = originalOverCapacity;
     }
 }
 
@@ -133,11 +139,17 @@ HOOK_METHOD(Equipment, AddDrone, (DroneBlueprint *bp, bool free, bool forceCargo
     LOG_HOOK("HOOK_METHOD -> Equipment::AddDrone -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
+    bool originalOverCapacity = bOverCapacity;
+    bOverCapacity = false;
     super(bp, free, forceCargo);
 
     if (bOverCapacity)
     {
         EQ_EX(this)->customEquipment->AddOverCapacityItem(overcapacityBox->item);
+    }
+    else
+    {
+        bOverCapacity = originalOverCapacity;
     }
 }
 
@@ -146,11 +158,17 @@ HOOK_METHOD(Equipment, AddAugment, (AugmentBlueprint *bp, bool free, bool forceC
     LOG_HOOK("HOOK_METHOD -> Equipment::AddAugment -> Begin (CustomEquipment.cpp)\n")
     if (!g_multipleOverCapacity) return super(bp, free, forceCargo);
 
+    bool originalOverAugCapacity = bOverAugCapacity;
+    bOverAugCapacity = false;
     super(bp, free, forceCargo);
 
     if (bOverAugCapacity)
     {
         EQ_EX(this)->customEquipment->AddOverCapacityItem(overAugBox->item);
+    }
+    else
+    {
+        bOverAugCapacity = originalOverAugCapacity;
     }
 }
 
