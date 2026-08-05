@@ -24,6 +24,7 @@ export const links = {
 	ftlmanReleases: 'https://github.com/afishhh/ftlman/releases/latest',
 
 	multiverseForum: 'https://subsetgames.com/forum/viewtopic.php?f=11&t=35332',
+	insurrectionForum: 'https://subsetgames.com/forum/viewtopic.php?t=37167',
 	slipstreamForum: 'https://subsetgames.com/forum/viewtopic.php?f=12&t=17102',
 
 } as const;

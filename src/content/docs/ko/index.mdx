@@ -3,7 +3,7 @@ title: "FTL: Hyperspace"
 description: "FTL: Faster Than Light 를 위한 바이너리 모드"
 template: splash
 hero:
-  tagline: "새로운 종족, 제한 없는 함선, 직접 만드는 시스템과 이벤트. 하이퍼스페이스는 대부분의 대형 FTL 모드가 돌아가는 기반입니다."
+  tagline: "새로운 함선, 새로운 시스템, 모든 것이 새로워집니다. 원작 자체도 더 나아집니다."
   image:
     file: ../../../assets/brand/wordmark.png
   actions:
@@ -16,11 +16,14 @@ hero:
       variant: minimal
 ---
 
+import { Card } from '@astrojs/starlight/components';
 import ChoiceGrid from '~/components/ChoiceGrid.astro';
 import Choice from '~/components/Choice.astro';
 import AppFrame from '~/components/AppFrame.astro';
 import Credits from '~/components/Credits.astro';
+import LocalCommunity from '~/content/docs/_partials/ko/_local-community.mdx';
 import menu from '~/assets/brand/menu.png';
+import { links } from '~/data/links';
 
 <AppFrame src={menu} alt="하이퍼스페이스가 적용된 FTL 메인 메뉴" />
 
@@ -35,40 +38,65 @@ import menu from '~/assets/brand/menu.png';
 	<Choice label="macOS" href="macos/" logo="macos.svg" note="" />
 </ChoiceGrid>
 
-## 어떤 모드인가요
+## 하이퍼스페이스란
 
-FTL 자체의 모딩으로는 게임에 이미 들어 있는 요소를 재배치하는 것만 가능합니다.
-하이퍼스페이스는 게임 자체에 패치를 적용해 그 한계를 없앱니다.
+지금까지 FTL 모딩은 제약이 매우 심했습니다. 이미 있는 요소를 바꾸거나 교체하는 것만
+가능했고, 새로운 요소는 아주 좁은 범위 안에서만 추가할 수 있었습니다. 하이퍼스페이스는
+모드 제작자가 그 한계를 넘어설 수 있게 해줍니다.
 
-덕분에 모드는 고유한 능력치와 능력을 가진 새로운 종족, 개수 제한이 없는 함선, 새로운
-시스템과 보조 시스템, 서로 합쳐 새로운 것이 되는 보조장비, 직접 만든 드론과 상점과
-이벤트, 그리고 일반적인 패치로는 구현할 수 없는 동작을 위한 Lua 스크립트까지 추가할 수
-있습니다.
+간단히 말해 FTL: Hyperspace 는 지금까지 불가능했던 기능을 가진 모드를 만들 수 있게 해주는
+API 입니다. 고유한 장단점을 지닌 새로운 종족, 새로운 시스템과 보조 시스템, 서로 합쳐지거나
+숨겨진 보조장비, 직접 만든 드론, 새로운 특수 상점과 명령 콘솔, 그리고 Lua 스크립트 지원
+등이 그 예입니다.
 
-[FTL: Multiverse](link:multiverseForum) 를 비롯한 거의 모든 대형 모드가 하이퍼스페이스를
-요구하는 이유입니다.
+[FTL: Multiverse](link:multiverseForum) 와 [Insurrection+](link:insurrectionForum) 같은
+최신 프로젝트들이 하이퍼스페이스를 기반으로 삼는 이유입니다.
 
-하이퍼스페이스만 설치해도 공유하거나 경쟁할 수 있는 시드 런, 숫자로 표시되는 선체 체력,
-디스코드 리치 프레즌스, 그리고 원작의 버그를 고친 많은 수정 사항을 함께 얻을 수 있습니다.
+하이퍼스페이스는 제작자를 위한 API 로 설계되었지만, 그것만으로도 쓸모 있는 편의 기능도
+몇 가지 함께 제공합니다.
 
-Windows, macOS, Linux 에서 네이티브로 동작하며 스팀 덱도 지원합니다.
+<Card title="원작, 그러나 더 낫게" icon="rocket">
+
+| 기능 | 하는 일 | 기본값 |
+| --- | --- | --- |
+| **시드 런** | 같은 시드로 겨루거나 특별한 판을 공유할 수 있습니다 | 켜짐 |
+| **숫자 선체 표시** | 아군과 적군 모두 정확한 수치로 표시됩니다 | 켜짐 |
+| **성능 개선** | 이미지를 필요할 때 불러와 로딩이 훨씬 빠르고 메모리도 덜 씁니다 | 켜짐 |
+| **디스코드 리치 프레즌스** | 무엇을 플레이 중인지 보여줍니다 | Windows 빌드 |
+| **자세한 툴팁** | 승무원과 이벤트 툴팁이 원작보다 많은 정보를 보여줍니다 | 일부 |
+| **버그 수정** | 해킹 드론, 수리 드론, 크리스탈 파편, 방어 드론 | 일부 |
+| **타일 단위 승무원 조작** | 타일 하나까지 정확하게 배치할 수 있습니다 | 꺼짐 |
+
+모두 `hyperspace.xml` 의 설정 항목이므로, 모드가 꺼져 있는 기능을 켤 수 있습니다.
+
+</Card>
+
+Windows, macOS, Linux 에서 네이티브로 동작하며 SteamOS 도 지원합니다.
 
 ## 모드 제작자용 문서
 
 하이퍼스페이스가 제공하는 기능은 대부분 `Hyperspace.ftl` 안의 `data/hyperspace.xml` 에
-문서화되어 있습니다. `hyperspace.xml.append` 를 사용해 모드에 필요한 태그를 추가하세요.
+문서화되어 있습니다. 일반적인 모드라면 간단한 `hyperspace.xml.append` 를 사용해 기존
+태그를 추가하거나 수정하면 됩니다. FTL: Multiverse 같은 대규모 개편 모드는 자체
+`hyperspace.xml` 을 함께 배포합니다.
 
 사용자가 하이퍼스페이스를 별도로 내려받아 먼저 적용한다는 전제로 모드를 배포해주세요. 다른
 모드와의 호환성을 위해 하이퍼스페이스의 리소스 파일이나 바이너리를 함께 재배포하지 마시고,
-포럼 게시글에서 다운로드 위치만 안내해주시기 바랍니다.
+다운로드 위치만 안내해주시기 바랍니다.
 
-1.2.0 이상의 Lua API 는 나머지 개발 문서와 함께 [위키](link:wiki)에 있습니다. 개선 제안은
-언제든 환영합니다. GitHub 에 이슈를 남기면서 Markdown 예제나 위키 저장소 사본 링크를 함께
-남겨주세요.
+## 특별한 기능
+
+Lua 스크립트 지원을 추가했습니다. 현재의 제약 안에서라면 온갖 것을 만들어낼 수 있습니다.
+
+<ChoiceGrid>
+	<Choice icon="open-book" label="Lua" href={links.wiki} note="위키의 API 문서" />
+</ChoiceGrid>
 
 ## 함께하기
 
 [FTL Multiverse 디스코드](link:discord)의 하이퍼스페이스 채널에서 저희와 이야기 나누실 수
 있습니다.
+
+<LocalCommunity />
 
 <Credits />
