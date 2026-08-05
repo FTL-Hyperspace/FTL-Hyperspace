@@ -1,0 +1,9 @@
+# Read by editors on save, and by `npm run check:format` in CI. Indentation is
+# deliberately not covered: this is only the faults a diff will not show you.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
