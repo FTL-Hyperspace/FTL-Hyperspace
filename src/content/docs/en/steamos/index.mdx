@@ -9,27 +9,6 @@ next:
   label: Install it the easy way
 ---
 
-import ChoiceGrid from '~/components/ChoiceGrid.astro';
-import Choice from '~/components/Choice.astro';
-import IntroSetup from '~/content/docs/_partials/en/_intro-setup.mdx';
-import IntroProblems from '~/content/docs/_partials/en/_intro-problems.mdx';
-import { Aside } from '@astrojs/starlight/components';
+import PlatformOverview from '@p/shared/_platform-overview.mdx';
 
-
-## Setting it up
-
-<IntroSetup />
-
-<ChoiceGrid>
-	<Choice icon="rocket" label="Easy install" href="easy-install/" note="Let ftlman do it, recommended" />
-	<Choice icon="setting" label="Manual install" href="manual-install/" note="Copy the library, edit the launch script" />
-	<Choice icon="cloud-download" label="Update" href="updating/" note="Already installed, want the latest" />
-</ChoiceGrid>
-
-## Something not working
-
-<IntroProblems />
-
-<ChoiceGrid>
-	<Choice icon="warning" label="Fix a problem" href="troubleshooting/" note="Crashes, hangs, no version text" />
-</ChoiceGrid>
+<PlatformOverview />

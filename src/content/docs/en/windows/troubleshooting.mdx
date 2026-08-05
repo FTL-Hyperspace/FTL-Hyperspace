@@ -9,12 +9,13 @@ next:
   label: Try updating first
 ---
 
-import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import WindowsSaves from '@p/platform/_windows-saves.mdx';
 
-Your save folder is `Documents\My Games\FasterThanLight`.
+<WindowsSaves />
 
-### My game complains about `-opengl`
+### The game complains about `-opengl`
 
 Stop passing the `-opengl` flag. It was removed in Hyperspace 1.5.0 and is no longer needed.
 
-<Troubleshooting />
+<Troubleshooting Saves={WindowsSaves} />

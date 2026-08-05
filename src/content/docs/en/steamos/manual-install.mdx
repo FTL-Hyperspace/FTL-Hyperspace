@@ -9,18 +9,16 @@ next:
   label: Something not working?
 ---
 
-import { Steps, Aside } from '@astrojs/starlight/components';
-import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
-import Saves from '~/content/docs/_partials/en/_saves-linux.mdx';
-import HyperspaceLinux from '~/content/docs/_partials/en/_hyperspace-linux.mdx';
-import ModManager from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
-import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
-import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import EasierWay from '@p/shared/_install-easier-way.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import HyperspaceLinux from '@p/platform/_linux-hyperspace-install.mdx';
+import ModManager from '@p/manager/_ftlman-install.mdx';
+import Verify from '@p/shared/_install-verify.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
 
-<Aside type="tip" title="There is an easier way">
-[ftlman](../easy-install/) does all of this for you. Only continue if you would rather
-place the files yourself, or you want to understand what it does.
-</Aside>
+<EasierWay />
 
 <Steps>
 
@@ -32,7 +30,9 @@ place the files yourself, or you want to understand what it does.
 
    <SteamSettings />
 
-   <Saves />
+   <LinuxSaves />
+
+   <BackupSaves />
 
 3. ### Install the Hyperspace library
 
@@ -46,10 +46,6 @@ place the files yourself, or you want to understand what it does.
 
    Put the `Hyperspace.ftl` from the ZIP into your manager's `mods` folder, tick it, and apply.
 
-   <Aside type="caution" title="Installing Multiverse instead?">
-   Skip this step. Multiverse already contains Hyperspace, and patching both breaks
-   the game.
-   </Aside>
 
 6. ### Check it worked
 

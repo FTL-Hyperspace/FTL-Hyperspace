@@ -9,9 +9,9 @@ next:
   label: Something not working?
 ---
 
-import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
-import FtlmanUpdate from '~/content/docs/_partials/en/_ftlman-update.mdx';
-import Codesign from '~/content/docs/_partials/en/_macos-codesign.mdx';
+import FtlmanUpdate from '@p/manager/_ftlman-hyperspace-update.mdx';
+import VersionCheck from '@p/shared/_version-check.mdx';
+import Codesign from '@p/platform/_macos-app-codesign.mdx';
 
 <Tabs syncKey="macos-method">
 <TabItem label="Installer">
@@ -29,9 +29,7 @@ The new dylib has to be for the same FTL version as the one already there, eithe
 `Hyperspace.1.6.13.amd64.dylib` or `Hyperspace.1.6.12.amd64.dylib`. Check which one is
 in the folder before you copy, and keep only one.
 
-<Aside type="tip" title="Not sure which version you are on">
-Launch FTL and read the version from the **bottom right** of the main menu.
-</Aside>
+<VersionCheck />
 
 Then sign the app again:
 

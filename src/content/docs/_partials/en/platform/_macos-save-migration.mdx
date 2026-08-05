@@ -1,19 +1,9 @@
----
-title: "macOS"
-description: "Install, update or fix FTL: Hyperspace on macOS"
-prev:
-  link: ../
-  label: All platforms
-next:
-  link: easy-install/
-  label: Install it the easy way
----
-
-import PlatformOverview from '@p/shared/_platform-overview.mdx';
 import ChoiceGrid from '~/components/ChoiceGrid.astro';
 import Choice from '~/components/Choice.astro';
 
-<PlatformOverview />
+{/* A partial only so the macOS index carries no headings of its own. The route
+    middleware appends partial headings in registry order, so a heading written
+    in the page itself would sort above the shared overview's. */}
 
 ## Coming from the old wrapper
 

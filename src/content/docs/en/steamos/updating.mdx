@@ -9,24 +9,6 @@ next:
   label: Something not working?
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-import FtlmanUpdate from '~/content/docs/_partials/en/_ftlman-update.mdx';
+import LinuxUpdate from '@p/platform/_linux-update.mdx';
 
-Back to desktop mode for this. Your saves are not affected.
-
-1. Download `FTL.Hyperspace.x.xx.x-Linux.zip` from the [latest release](link:releases).
-2. Replace the `Hyperspace.*.so` file in your FTL folder with the one for the same FTL
-   version, normally `Hyperspace.1.6.13.amd64.so` on a Deck copy from Steam. Keep only
-   one.
-
-<Aside type="tip" title="Not sure which version you are on">
-Launch FTL and read the version from the **bottom right** of the main menu.
-</Aside>
-
-Leave the `LD_PRELOAD` line in your launch script alone, unless the filename changed.
-
-<FtlmanUpdate />
-
-<Aside type="caution" title="Running Multiverse?">
-Re-patch Multiverse with your mod manager after updating. Saves survive this.
-</Aside>
+<LinuxUpdate />

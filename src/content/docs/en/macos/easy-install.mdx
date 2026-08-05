@@ -9,14 +9,14 @@ next:
   label: Bringing saves from the old wrapper?
 ---
 
-import { Steps, Aside } from '@astrojs/starlight/components';
 import Video from '~/components/Video.astro';
 import Screenshot from '~/components/Screenshot.astro';
 import uninstallButton from '~/assets/screenshot/macos-installer-uninstall.png';
 import tutorial from '~/assets/video/macos-easy-install.mp4?url';
-import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
-import Saves from '~/content/docs/_partials/en/_saves-macos.mdx';
-import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import MacosSaves from '@p/platform/_macos-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
 
 The macOS installer finds your copy of FTL, installs Hyperspace and sets up ftlman
 for you.
@@ -31,7 +31,9 @@ for you.
 
    <SteamSettings />
 
-   <Saves />
+   <MacosSaves />
+
+   <BackupSaves />
 
 2. ### Download the installer
 

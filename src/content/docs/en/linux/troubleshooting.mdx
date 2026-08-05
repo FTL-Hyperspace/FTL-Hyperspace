@@ -9,17 +9,12 @@ next:
   label: Try updating first
 ---
 
-import { Aside, Steps } from '@astrojs/starlight/components';
-import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
 
-Your save folder is `~/.local/share/FasterThanLight/`.
+<LinuxSaves />
 
-<Aside type="tip" title="Steam Cloud">
-Turn off Steam Cloud sync for FTL. It restores old save files behind your back and
-breaks Hyperspace installs regularly.
-</Aside>
-
-### Failed to install hook
+### The game fails to start with `Failed to install hook`
 
 ```
 Fatal Error
@@ -68,4 +63,4 @@ enabled, so that is where this usually turns up. The fix is to add an exception.
 
 Launch the game again and it should start normally.
 
-<Troubleshooting />
+<Troubleshooting Saves={LinuxSaves} />

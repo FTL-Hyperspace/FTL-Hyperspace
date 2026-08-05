@@ -9,18 +9,16 @@ next:
   label: Something not working?
 ---
 
-import { Steps, Aside } from '@astrojs/starlight/components';
-import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
-import Saves from '~/content/docs/_partials/en/_saves-macos.mdx';
-import OldWrapper from '~/content/docs/_partials/en/_macos-old-wrapper.mdx';
-import ModManager from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
-import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
-import Codesign from '~/content/docs/_partials/en/_macos-codesign.mdx';
+import EasierWay from '@p/shared/_install-easier-way.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import MacosSaves from '@p/platform/_macos-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import OldWrapper from '@p/platform/_macos-old-wrapper.mdx';
+import ModManager from '@p/manager/_ftlman-install.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
+import Codesign from '@p/platform/_macos-app-codesign.mdx';
 
-<Aside type="tip" title="There is an easier way">
-The [macOS installer](../easy-install/) does all of this for you. Only continue if it will not run
-on your machine, or you want to understand what it does.
-</Aside>
+<EasierWay />
 
 <Steps>
 
@@ -30,7 +28,9 @@ on your machine, or you want to understand what it does.
 
    <SteamSettings />
 
-   <Saves />
+   <MacosSaves />
+
+   <BackupSaves />
 
 2. ### Find your FTL folder
 
