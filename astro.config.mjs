@@ -145,7 +145,7 @@ export default defineConfig({
 				},
 			],
 		}),
-		// Starlight's building blocks are used on nearly every page, 
+		// Starlight's building blocks are used on nearly every page,
 		// so we rather auto import them
 
 		// Has to sit AFTER starlight(). AutoImport does nothing unless @astrojs/mdx
