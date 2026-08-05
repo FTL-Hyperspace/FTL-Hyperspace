@@ -594,8 +594,5 @@ cleanup __cdecl int resource_get_package_offsets(const char *name, int64_t *offs
 ".5589e583e4f083ec10e8??????002b": // 0063c360
 __cdecl double time_now();
 
-"!.a1??????00c38d76008dbc27000000005589e553": // 0063cce0
-__cdecl char* userdata_get_data_path();
-
 ".5589e55383e4f083ec10a1????????8b5d08890424e8????????": // 0067b780
 cleanup __cdecl void sys_graphics_set_window_title(char* title);
