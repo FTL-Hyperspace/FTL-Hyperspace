@@ -9,7 +9,6 @@ extract it. Inside you will find:
 - **Linux/**
   - Hyperspace.1.6.12.amd64.so
   - Hyperspace.1.6.13.amd64.so
-  - liblua5.3.so.0
 </FileTree>
 
 Which library you need depends on your FTL version. **Launch FTL and read the version
@@ -22,16 +21,11 @@ from the lower right of the main menu** rather than guessing, then close the gam
 
 1. Copy **one** Hyperspace library, the one matching your version, into the folder
    containing `FTL.amd64`.
-2. Copy `liblua5.3.so.0` into that same folder.
-3. Open the `FTL` launch script in a text editor and add a line before `exec`:
+2. Open the `FTL` launch script in a text editor and add a line before `exec`:
 
 ```sh
 LD_PRELOAD=./Hyperspace.1.6.13.amd64.so exec "$here/$command.$arch" "$@"
 ```
-
-<Aside type="caution" title="Copy both files">
-`liblua5.3.so.0` is easy to miss and Hyperspace will not load without it.
-</Aside>
 
 <Aside type="tip" title="If the game starts without Hyperspace">
 Some machines need `LD_LIBRARY_PATH` set as well. Use this form instead:
