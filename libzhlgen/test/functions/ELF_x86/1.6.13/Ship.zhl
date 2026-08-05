@@ -142,4 +142,11 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 		return nullptr;
 	}
 
+	void ProjectileStrike(int roomId, float damage)
+	{
+		if (roomId != -1)
+		{
+			this->hullIntegrity.first -= static_cast<int>(damage);
+		}
+	}
 }};

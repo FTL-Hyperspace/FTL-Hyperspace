@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="pl">
-  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.22.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="pl">
   <mod:setValue>Szansa na wzniecenie po?aru: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -277,11 +277,11 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="pl">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pl">Projekt Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pl">Stworzony przez:</text>
-<text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
+<text name="credits_hyperspace_developed_names" language="pl">TheSwiftTiger, Amyseni (Winderps), ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93, Mr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich, The Dumb Dino</text>
 <text name="credits_hyperspace_art" language="pl">Dodatkowa grafika:</text>
 <text name="credits_hyperspace_art_names" language="pl">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="pl">Dodatkowa pomoc:</text>
-<text name="credits_hyperspace_contributors_names" language="pl">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nZespół FTL Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="pl">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, zerofreed, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nZespół FTL Multiverse</text>
 <text name="credits_hyperspace_loc" language="pl">Tłumacze Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="pl">Francuski</text>
 <text name="credits_hyperspace_loc_fr_names" language="pl">Pepson</text>
@@ -316,3 +316,19 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="shield_drone_layers_per_charge" language="pl">Ilość warstw osłony na aktywację: \1</text>
 <text name="shield_drone_cooldowns" language="pl">Czas aktywacji: \1</text>
 <text name="confirm_buy_last_subsystem" language="pl">To ostatnie wolne miejsce na twoim statku.\nNa pewno chcesz w nim umieścić ten subsystem?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="pl">Awaria moda Hyperspace została wykryta podczas poprzedniej sesji gry.\n\nCzy chcesz utworzyć zgłoszenie błędu zawierające twoje zapisy gry oraz logi?</text>
+<text name="confirm_report_bug" language="pl">Czy chcesz utworzyć zgłoszenie błędu zawierające twoje zapisy gry oraz logi?</text>
+<text name="confirm_report_create" language="pl">Utwórz Zgłoszenie Błędu</text>
+<text name="confirm_report_skip" language="pl">Pomiń</text>
+<text name="confirm_report_where" language="pl">Zgłoszenie błędu utworzone poprawnie!\n\nGdzie chciałbyś je zgłosić?</text>
+<text name="confirm_report_discord" language="pl">Zgłoś na Discord</text>
+<text name="confirm_report_github" language="pl">Zgłoś Issue na GitHub</text>
+<text name="confirm_report_instructions_discord" language="pl">Proszę zgłosić problem na serwerze Discord FTL:Multiverse.\n\nLokalizacja zgłoszenia błędu:\n\1</text>
+<text name="confirm_report_instructions_github" language="pl">Proszę utworzyć Issue na GitHub:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nLokalizacja zgłoszenia błędu:\n\1</text>
+<text name="confirm_report_view" language="pl">Otwórz Folder Zgłoszeń Błędów</text>
+<text name="confirm_report_done" language="pl">Zakończ</text>
+<text name="confirm_report_failed" language="pl">Utworzenie zgłoszenia błędu zakończone niepowodzeniem. \n\nSprawdź logi, aby uzyskać więcej informacji.</text>
+<text name="confirm_report_failed_okay" language="pl">OK</text>
+<!-- <text name="confirm_report_failed_no" language="pl"> </text> -->

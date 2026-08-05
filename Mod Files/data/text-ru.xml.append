@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ru">
-  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.22.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ru">
   <mod:setValue>Вероятность возгорания: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -277,11 +277,11 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="credits_loc_ko_names" language="ru">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ru">Проект Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="ru">Разработчики:</text>
-<text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
+<text name="credits_hyperspace_developed_names" language="ru">TheSwiftTiger, Amyseni (Winderps), ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93, Mr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich, The Dumb Dino</text>
 <text name="credits_hyperspace_art" language="ru">Дополнительная графика:</text>
 <text name="credits_hyperspace_art_names" language="ru">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ru">Дополнительная помощь:</text>
-<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nкоманда FTL Multiverse</text>
+<text name="credits_hyperspace_contributors_names" language="ru">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, zerofreed, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nкоманда FTL Multiverse</text>
 <text name="credits_hyperspace_loc" language="ru">Переводчики Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="ru">Французский</text>
 <text name="credits_hyperspace_loc_fr_names" language="ru">Pepson</text>
@@ -316,3 +316,19 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shield_drone_layers_per_charge" language="ru">Слои щита за один заряд: \1</text>
 <text name="shield_drone_cooldowns" language="ru">Перезарядка: \1</text>
 <text name="confirm_buy_last_subsystem" language="ru">Это последний свободный отсек для подсистем.\nВы уверены?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="ru">В ходе предыдущего игрового сеанса был обнаружен сбой мода Hyperspace.\n\nХотите создать отчет об ошибке с вашими сохраненными данными и логами?</text>
+<text name="confirm_report_bug" language="ru">Хотите создать отчет об ошибке с вашими сохраненными данными и логами?</text>
+<text name="confirm_report_create" language="ru">Создать отчет об ошибке</text>
+<text name="confirm_report_skip" language="ru">Нет</text>
+<text name="confirm_report_where" language="ru">Отчет об ошибке успешно создан!\n\nКуда вы хотите отправить этот отчет?</text>
+<text name="confirm_report_discord" language="ru">Сообщить в Discord</text>
+<text name="confirm_report_github" language="ru">Создать проблему на GitHub</text>
+<text name="confirm_report_instructions_discord" language="ru">Пожалуйста, сообщите об ошибке на сервере Discord FTL:Multiverse.\n\nМестоположение отчета об ошибке:\n\1</text>
+<text name="confirm_report_instructions_github" language="ru">Пожалуйста, создайте проблему на GitHub по адресу:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nМестоположение отчета об ошибке:\n\1</text>
+<text name="confirm_report_view" language="ru">Открыть папку с отчетами об ошибках</text>
+<text name="confirm_report_done" language="ru">Пропустить</text>
+<text name="confirm_report_failed" language="ru">Не удалось создать отчет об ошибке.\n\nПожалуйста, проверьте логи для получения подробной информации.</text>
+<text name="confirm_report_failed_okay" language="ru">Хорошо</text>
+<!-- <text name="confirm_report_failed_no" language="ru"> </text> -->

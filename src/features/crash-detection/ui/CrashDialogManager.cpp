@@ -1,0 +1,440 @@
+#include "CrashDialogManager.h"
+#include "Global.h"
+
+#include <boost/algorithm/string.hpp>
+
+CrashDialogManager* CrashDialogManager::instance = nullptr;
+
+CrashDialogManager::CrashDialogManager()
+{
+}
+
+CrashDialogManager::~CrashDialogManager()
+{
+    delete askReportDialog;
+    delete chooseDestinationDialog;
+    delete instructionsDialog;
+    delete errorDialog;
+    delete bugReportButton;
+}
+
+CrashDialogManager* CrashDialogManager::GetInstance()
+{
+    if (instance == nullptr)
+    {
+        instance = new CrashDialogManager();
+    }
+    return instance;
+}
+
+void CrashDialogManager::InitButton()
+{
+
+    Point buttonPos(1239, 664);
+    // Check if the image button resource exists
+    if (G_->GetResources()->ImageExists("BugReport/bug_on.png"))
+    {
+        useImageButton = true;
+        Button* imageButton = new Button();
+        imageButton->OnInit("BugReport/bug", buttonPos);
+        imageButton->bActive = true;
+        bugReportButton = imageButton;
+    }
+    else
+    {
+        // fallback
+        useImageButton = false;
+        bugReportLabel.data = "B";
+        bugReportLabel.isLiteral = true;
+        TextButton* textButton = new TextButton();
+        int borderSize = 8;
+        Point buttonPosWithBorder = buttonPos + Point(borderSize/2, borderSize/2);
+        textButton->OnInit(buttonPosWithBorder, Point(36-borderSize,36-borderSize), 6, &bugReportLabel, 62);
+        textButton->bActive = true;
+        bugReportButton = textButton;
+    }
+}
+
+void CrashDialogManager::UpdateButtonHover(int x, int y)
+{
+    if (bugReportButton)
+    {
+        bugReportButton->MouseMove(x, y, false);
+        if (bugReportButton->bActive && bugReportButton->bHover)
+        {
+            G_->GetMouseControl()->SetTooltip("Click to report a bug");
+        }
+    }
+}
+
+bool CrashDialogManager::IsBugButtonClicked() const
+{
+    return bugReportButton && bugReportButton->bActive && bugReportButton->bHover;
+}
+
+void CrashDialogManager::ShowAskReportDialog(bool isManualReport)
+{
+    if (askReportDialog == nullptr)
+    {
+        askReportDialog = new ConfirmWindow();
+    }
+
+    std::string translated;
+
+
+    TextString text;
+    text.isLiteral = true;
+    if (isManualReport)
+    {
+        translated = G_->GetTextLibrary()->GetText("confirm_report_bug");
+        if (!translated.empty())
+        {
+            text.data = translated;
+        }
+        else
+        {
+            text.data = "Do you want to create a bug report with your saves and logs?";
+        }
+    }
+    else
+    {
+        translated = G_->GetTextLibrary()->GetText("confirm_report_crash");
+        if (!translated.empty())
+        {
+            text.data = translated;
+        }
+        else
+        {
+            text.data = "A Hyperspace mod crash was detected on the previous game session.\n\nDo you want to create a bug report with your saves and logs?";
+        }
+    }
+
+    TextString yes;
+    yes.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_create");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "Create Bug Report";
+    }
+
+    TextString no;
+    no.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_skip");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "Skip";
+    }
+
+    askReportDialog->SetText(text, 400, true, yes, no);
+    askReportDialog->Open();
+}
+
+void CrashDialogManager::ShowChooseDestinationDialog()
+{
+    if (chooseDestinationDialog == nullptr)
+    {
+        chooseDestinationDialog = new ConfirmWindow();
+    }
+
+    std::string translated;
+
+
+    TextString text;
+    text.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_where");
+    if (!translated.empty())
+    {
+        text.data = translated;
+    }
+    else
+    {
+        text.data = "Bug report created successfully!\n\nWhere would you like to report this?";
+    }
+
+    TextString yes;
+    yes.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_discord");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "Report on Discord";
+    }
+
+    TextString no;
+    no.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_github");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "Create GitHub Issue";
+    }
+
+    chooseDestinationDialog->SetText(text, 400, true, yes, no);
+    chooseDestinationDialog->Open();
+}
+
+void CrashDialogManager::ShowInstructionsDialog(const std::string& bugReportPath, bool discordSelected)
+{
+    if (instructionsDialog == nullptr)
+    {
+        instructionsDialog = new ConfirmWindow();
+    }
+
+    std::string translated;
+
+
+    TextString text;
+    text.isLiteral = true;
+
+    if (discordSelected)
+    {
+        translated = G_->GetTextLibrary()->GetText("confirm_report_instructions_discord");
+        if (!translated.empty())
+        {
+            text.data = boost::algorithm::replace_all_copy(translated, "\\1", bugReportPath);
+        }
+        else
+        {
+            text.data = "Please report the bug on the FTL:Multiverse Discord server.\n\nBug report location:\n" + bugReportPath;
+        }
+    }
+    else
+    {
+        translated = G_->GetTextLibrary()->GetText("confirm_report_instructions_github");
+        if (!translated.empty())
+        {
+            text.data = boost::algorithm::replace_all_copy(translated, "\\1", bugReportPath);
+        }
+        else
+        {
+            text.data = "Please create a GitHub issue at:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nBug report location:\n" + bugReportPath;
+        }
+    }
+
+    TextString yes;
+    yes.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_view");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "Open Bug Report Folder";
+    }
+
+    TextString no;
+    no.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_done");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "Done";
+    }
+
+    instructionsDialog->SetText(text, 450, true, yes, no);
+    instructionsDialog->Open();
+}
+
+void CrashDialogManager::ShowErrorDialog()
+{
+    if (errorDialog == nullptr)
+    {
+        errorDialog = new ConfirmWindow();
+    }
+
+    std::string translated;
+
+
+    TextString text;
+    text.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_failed");
+    if (!translated.empty())
+    {
+        text.data = translated;
+    }
+    else
+    {
+        text.data = "Failed to create bug report.\n\nPlease check the logs for more details.";
+    }
+
+    TextString yes;
+    yes.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_failed_yes");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "OK";
+    }
+
+    TextString no;
+    no.isLiteral = true;
+    translated = G_->GetTextLibrary()->GetText("confirm_report_failed_no");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "";
+    }
+
+    errorDialog->SetText(text, 400, true, yes, no);
+    errorDialog->Open();
+}
+
+void CrashDialogManager::OnRender()
+{
+    // Render bug report button
+    if (bugReportButton)
+    {
+        bugReportButton->OnRender();
+    }
+
+    // Render dialogs
+    if (askReportDialog != nullptr && askReportDialog->bOpen)
+    {
+        askReportDialog->OnRender();
+    }
+
+    if (chooseDestinationDialog != nullptr && chooseDestinationDialog->bOpen)
+    {
+        chooseDestinationDialog->OnRender();
+    }
+
+    if (instructionsDialog != nullptr && instructionsDialog->bOpen)
+    {
+        instructionsDialog->OnRender();
+    }
+
+    if (errorDialog != nullptr && errorDialog->bOpen)
+    {
+        errorDialog->OnRender();
+    }
+}
+
+void CrashDialogManager::OnMouseClick(int x, int y, bool& shouldPropagate)
+{
+    if (askReportDialog != nullptr && askReportDialog->bOpen)
+    {
+        askReportDialog->MouseClick(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (chooseDestinationDialog != nullptr && chooseDestinationDialog->bOpen)
+    {
+        chooseDestinationDialog->MouseClick(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (instructionsDialog != nullptr && instructionsDialog->bOpen)
+    {
+        instructionsDialog->MouseClick(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (errorDialog != nullptr && errorDialog->bOpen)
+    {
+        errorDialog->MouseClick(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    shouldPropagate = true;
+}
+
+void CrashDialogManager::OnMouseMove(int x, int y, bool& shouldPropagate)
+{
+    if (askReportDialog != nullptr && askReportDialog->bOpen)
+    {
+        askReportDialog->MouseMove(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (chooseDestinationDialog != nullptr && chooseDestinationDialog->bOpen)
+    {
+        chooseDestinationDialog->MouseMove(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (instructionsDialog != nullptr && instructionsDialog->bOpen)
+    {
+        instructionsDialog->MouseMove(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    if (errorDialog != nullptr && errorDialog->bOpen)
+    {
+        errorDialog->MouseMove(x, y);
+        shouldPropagate = false;
+        return;
+    }
+
+    shouldPropagate = true;
+}
+
+bool CrashDialogManager::IsAskReportDialogOpen() const
+{
+    return askReportDialog != nullptr && askReportDialog->bOpen;
+}
+
+bool CrashDialogManager::IsChooseDestinationDialogOpen() const
+{
+    return chooseDestinationDialog != nullptr && chooseDestinationDialog->bOpen;
+}
+
+bool CrashDialogManager::IsInstructionsDialogOpen() const
+{
+    return instructionsDialog != nullptr && instructionsDialog->bOpen;
+}
+
+bool CrashDialogManager::IsErrorDialogOpen() const
+{
+    return errorDialog != nullptr && errorDialog->bOpen;
+}
+
+bool CrashDialogManager::AnyCrashDialogOpen() const
+{
+    return IsAskReportDialogOpen() || IsChooseDestinationDialogOpen() || IsInstructionsDialogOpen() || IsErrorDialogOpen();
+}
+
+bool CrashDialogManager::GetAskReportResult() const
+{
+    return askReportDialog != nullptr ? askReportDialog->result : false;
+}
+
+bool CrashDialogManager::GetChooseDestinationResult() const
+{
+    return chooseDestinationDialog != nullptr ? chooseDestinationDialog->result : false;
+}
+
+bool CrashDialogManager::GetInstructionsResult() const
+{
+    return instructionsDialog != nullptr ? instructionsDialog->result : false;
+}

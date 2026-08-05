@@ -199,6 +199,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
                     }
+                    if (strcmp(child->name(), "instantEscape_removeShipBox") == 0)
+                    {
+                        customOptions->defaults.instantEscape_removeShipBox = EventsParser::ParseBoolean(child->value());
+                    }
                     if (strcmp(child->name(), "erosion") == 0)
                     {
                         ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
@@ -400,6 +404,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     g_controllableIonDroneFix_DelayInitial = boost::lexical_cast<float>(node->first_attribute("ionDelayInitial")->value());
                 }
+            }
+
+            if (strcmp(node->name(), "droneIonDodgeFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->droneIonDodgeFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
@@ -681,6 +692,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableLazyImageLoading") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableLazyImageLoading.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableLazyImageLoading.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "disableDefaultTutorial") == 0)

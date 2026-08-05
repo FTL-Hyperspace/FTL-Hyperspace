@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="fr">
-  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.22.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="fr">
   <mod:setValue>Chance d'Incendie : \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -279,11 +279,11 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="fr">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="fr">Projet Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="fr">Developpé par :</text>
-<text name="credits_hyperspace_developed_names" language="fr">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
+<text name="credits_hyperspace_developed_names" language="fr">TheSwiftTiger, Amyseni (Winderps), ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93, Mr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich, The Dumb Dino</text>
 <text name="credits_hyperspace_art" language="fr">Art Additionel :</text>
 <text name="credits_hyperspace_art_names" language="fr">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="fr">Contributions Additionnel :</text>
-<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="fr">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, zerofreed, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter, FTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="fr">Traducteurs Hyperspace :</text>
 <text name="credits_hyperspace_loc_fr" language="fr">Français</text>
 <text name="credits_hyperspace_loc_fr_names" language="fr">Pepson</text>
@@ -318,3 +318,19 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="shield_drone_layers_per_charge" language="fr">Couche de bouclier par charge: \1</text>
 <text name="shield_drone_cooldowns" language="fr">Délai: \1</text>
 <text name="confirm_buy_last_subsystem" language="fr">Ceci est le dernier emplacement de sous-système de votre vaisseau.\nÊtes-vous sûr ?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="fr">Un plantage lié au mod Hyperspace a été détecté lors de la dernière session de jeu.\n\nSouhaitez-vous créer un rapport de bug en joignant vos fichiers de sauvegarde et vos journaux?</text>
+<text name="confirm_report_bug" language="fr">Souhaitez-vous créer un rapport de bug en joignant vos fichiers de sauvegarde et vos journaux?</text>
+<text name="confirm_report_create" language="fr">Créer un rapport de bug</text>
+<text name="confirm_report_skip" language="fr">Passer</text>
+<text name="confirm_report_where" language="fr">Le rapport de bug a été créé avec succès!\n\nOù souhaitez-vous signaler ce problème?</text>
+<text name="confirm_report_discord" language="fr">Signaler sur Discord</text>
+<text name="confirm_report_github" language="fr">Créer un ticket GitHub</text>
+<text name="confirm_report_instructions_discord" language="fr">Merci de signaler le bug sur le serveur Discord de FTL:Multiverse.\n\nEmplacement du rapport de bug:\n\1</text>
+<text name="confirm_report_instructions_github" language="fr">Merci de créer un ticket GitHub à l'adresse suivante:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nEmplacement du rapport de bug:\n\1</text>
+<text name="confirm_report_view" language="fr">Ouvrir le dossier du rapport de bug</text>
+<text name="confirm_report_done" language="fr">Passer</text>
+<text name="confirm_report_failed" language="fr">Échec de la création du rapport de bug.\n\nVeuillez consulter les journaux pour plus de détails.</text>
+<text name="confirm_report_failed_okay" language="fr">OK</text>
+<!-- <text name="confirm_report_failed_no" language="en"> </text> -->

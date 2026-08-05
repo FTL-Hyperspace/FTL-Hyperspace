@@ -308,15 +308,6 @@ HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
 }
 
 
-HOOK_STATIC(FileHelper, getSaveFile, () -> std::string)
-{
-    LOG_HOOK("HOOK_STATIC -> FileHelper::getSaveFile -> Begin (SaveFile.cpp)\n")
-    std::string str = super();
-
-    str.replace(str.size()-12, str.size(), SaveFileHandler::instance->savePrefix + "_continue.sav");
-
-    return str;
-}
 
 HOOK_STATIC(FileHelper, deleteAllSaveFiles, () -> void)
 {
@@ -337,10 +328,10 @@ HOOK_METHOD(MainMenu, constructor, () -> void)
     confirmWipeSave = new ConfirmWindow();
 }
 
-HOOK_METHOD(MainMenu, Open, () -> void)
+HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (SaveFile.cpp)\n")
-    super();
+    bool ret = super();
     /*
     std::string text = G_->GetTextLibrary()->GetText("transfer_save_dialog");
     auto printLines = freetype::easy_measurePrintLines(52, 0, 0, 400, text);
@@ -399,6 +390,8 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     }
 
     welcomeDialogOpen = true;
+
+    return ret;
 }
 
 HOOK_METHOD(MainMenu, OnRender, () -> void)

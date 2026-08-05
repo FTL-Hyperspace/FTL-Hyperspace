@@ -1,0 +1,32 @@
+// Continue from Global_Settings_Settings (hyper efficiency™)
+".554889e5415741564154534883ec??4d89c6":
+cleanup __amd64 void Shields::constructor(Shields *this, int _roomId, int _shipId, int _startingPower, const std::string& _shieldFile);
+"!.554889e54157415653504989f64889fb8b839802":
+cleanup __amd64 void Shields::AddSuperShield(Shields *this, Point position);
+".554889e54156534883ec204889fb":
+cleanup __amd64 void Shields::Jump(Shields *this);
+".554889e5f30f118778020000":
+cleanup __amd64 void Shields::SetBaseEllipse(Shields *this, Globals::Ellipse ellipse);
+".554889e541574156534883ec184989ffe8":
+cleanup __amd64 void Shields::InstantCharge(Shields *this);
+".554889e55dc3":
+noHook __amd64 void Shields::RenderCover(); // (Shields *this, int)
+".554889e5":
+cleanup __amd64 CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
+".554889e54156534883ec10f30f114de8":
+cleanup __amd64 CollisionResponse Shields::CollisionTest(Shields *this, float x, float y, Damage damage);
+".554889e583":
+cleanup __amd64 void Shields::SetHackingLevel(Shields *this, int hackingLevel);
+".554889e54157415641554154534883ec684989fde8":
+cleanup __amd64 void Shields::OnLoop(Shields *this);
+"!.554889e54156534883ec300f294dc048":
+cleanup __amd64 void Shields::RenderBase(Shields *this, float alpha, float superShieldOverwrite);
+
+
+struct Shields
+{{
+	Shields(int roomId, int shipId, int startingPower, const std::string& shieldFile)
+	{
+		this->constructor(roomId, shipId, startingPower, shieldFile);
+	}
+}};

@@ -1,55 +1,105 @@
-name: 'Bump + Tag + Release'
+name: 'Release'
+
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version name ("v" will be prepended to the tag name)'
+        description: 'Version number (e.g., 1.20.1)'
         required: true
         default: '1.x.x'
 
+permissions:
+  contents: write
+
 jobs:
-  build:
+  # Gate: check hook signatures before releasing
+  check-hooks:
+    uses: ./.github/workflows/check-hook-signatures.yml
+
+  prepare:
+    needs: check-hooks
     runs-on: ubuntu-latest
     steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.INSTALLER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.INSTALLER_APP_PRIVATE_KEY }}
+
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           ref: master
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Bump version on master
+      - name: Bump version
         run: |
           git config --global user.email "ftl-hyperspace@github.com"
           git config --global user.name "FTL Hyperspace"
-          buildscripts/ci-bump-version.sh ${{ inputs.version }}
+          buildscripts/ci/bump-version.sh ${{ inputs.version }}
           git commit -a -m "Bump version to ${{ inputs.version }}"
-      
-      - name: Build binaries
-        run: |
-          buildscripts/ci-buildall-release-only-from-docker.sh
 
-      - name: Package
-        run: |
-          cp -r "Release Files" build-package
-          cd "Mod Files"
-          zip -r Hyperspace.ftl * -x Hyperspace.ftl
-          cd ..
-          mv "Mod Files/Hyperspace.ftl" build-package
-          cp build-*/Hyperspace.*.so "build-package/Linux/"
-          cp build-*/Hyperspace.dll "build-package/Windows - Extract these files into where FTLGame.exe is/"
-          cd build-package
-          zip -r FTL.Hyperspace.${{ inputs.version }}.zip * -x FTL.Hyperspace.${{ inputs.version }}.zip -x Linux/IGNORE_THIS_FILE.txt
-
-      - name: Push changes to the repo
+      - name: Push changes and create tag
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git push origin master:master
           git tag v${{ inputs.version }} master
           git push origin v${{ inputs.version }}
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
+      - name: Compose release body
+        env:
+          VERSION: ${{ inputs.version }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          BASE="${REPO_URL}/releases/download/v${VERSION}"
+          ASSET="FTL.Hyperspace.${VERSION}"
+          cat > release-body.md <<EOF
+          # Download
+
+          ### ✨ Easy install
+
+          | 🍎 macOS (Apple Silicon) | 🍎 macOS (Intel) |
+          |:-:|:-:|
+          | [Installer arm64 (.dmg)](${BASE}/${ASSET}-Installer-MacOS-arm64.dmg) | [Installer x86_64 (.dmg)](${BASE}/${ASSET}-Installer-MacOS-x86_64.dmg) |
+
+          ### 🛠 Manual install
+
+          | 🪟 Windows | 🍎 macOS | 🐧 Linux |
+          |:-:|:-:|:-:|
+          | [Hyperspace (.zip)](${BASE}/${ASSET}-Windows.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-MacOS.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-Linux.zip) |
+
+          See README for manual install steps.
+          EOF
+
+      - name: Create release
+        uses: softprops/action-gh-release@v3
         with:
-          files: build-package/FTL.Hyperspace.${{ inputs.version }}.zip
+          token: ${{ steps.app-token.outputs.token }}
           tag_name: v${{ inputs.version }}
           name: ${{ inputs.version }}
           generate_release_notes: true
+          body_path: release-body.md
+
+  build-linux-windows:
+    needs: prepare
+    uses: ./.github/workflows/release-linux-windows.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
+
+  build-macos:
+    needs: prepare
+    uses: ./.github/workflows/release-macos.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit
+
+  build-mac-installer:
+    needs: build-macos
+    uses: ./.github/workflows/release-mac-installer.yml
+    with:
+      version: ${{ inputs.version }}
+    secrets: inherit

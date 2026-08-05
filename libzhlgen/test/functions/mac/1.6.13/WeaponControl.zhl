@@ -1,0 +1,43 @@
+// Continue from WeaponBox::RenderBox (hyper efficiency™)
+".554889e54157415641554154534883ec684989febe":
+cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
+".554889e541":
+cleanup __amd64 void WeaponControl::OnLoop(WeaponControl* this);
+".554889e54157415641554154534883ec684989fce8????f6":
+cleanup __amd64 void WeaponControl::OnLanguageChange(WeaponControl *this);
+".554889e54157415653504189f64989ff498b7f18":
+cleanup __amd64 void WeaponControl::OnRender(WeaponControl *this, bool front);
+"!.55":
+cleanup __amd64 void WeaponControl::RenderWarnings(WeaponControl *this);
+".554889e541574156534883ec584189fe":
+static cleanup __amd64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
+"!.554889e54157415641554154534883ec48488b77":
+cleanup __amd64 void WeaponControl::RenderAiming(WeaponControl *this);
+"!.554889e54157415641554154534883ec58488b77":
+cleanup __amd64 void WeaponControl::RenderSelfAiming(WeaponControl *this);
+"!.80bf3001000000742580bf31010000":
+cleanup __amd64 bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
+".554889e541":
+cleanup __amd64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
+"!.554889e54157415653504189d64189f74889fbe8????f6ff":
+cleanup __amd64 void WeaponControl::MouseMove(WeaponControl *this, int mX, int mY);
+".554889e541574156534883ec184189f7":
+cleanup __amd64 bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);
+"!.55":
+cleanup __amd64 void WeaponControl::LinkShip(WeaponControl *this, ShipManager* ship);
+".554889e553":
+cleanup __amd64 TextString WeaponControl::HolderLabel(WeaponControl *this);
+".554889e5534883ec38ffc68975f4488d5dc0488d75f44889dfe8????efff488d":
+cleanup __amd64 SDLKey WeaponControl::ArmamentHotkey(WeaponControl *this, unsigned int i);
+".554889e54157":
+cleanup __amd64 void WeaponControl::SelectArmament(WeaponControl *this, unsigned int armamentSlot);
+"!.554889e5415741564155":
+cleanup __amd64 void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
+
+
+struct WeaponControl
+{{
+	void RenderAimingNew(bool player);
+	void RenderAimingWeapon(ProjectileFactory *weapon, bool player, int i);
+	inline GL_Primitive* GetAimingPrimitive(ProjectileFactory* weapon, int i);
+}};

@@ -36,7 +36,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="pt">
-  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.22.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="pt">
   <mod:setValue>Chance de Fogo: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -277,11 +277,11 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_loc_ko_names" language="pt">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="pt">Projeto Hyperspace</text>
 <text name="credits_hyperspace_developed_by" language="pt">Desenvolvido por:</text>
-<text name="credits_hyperspace_developed_names" language="pt">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
+<text name="credits_hyperspace_developed_names" language="pt">TheSwiftTiger, Amyseni (Winderps), ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93, Mr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich, The Dumb Dino</text>
 <text name="credits_hyperspace_art" language="pt">Arte Adicional:</text>
 <text name="credits_hyperspace_art_names" language="pt">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="pt">Contribuições Adicionais:</text>
-<text name="credits_hyperspace_contributors_names" language="pt">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names" language="pt">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, zerofreed, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter, FTL Multiverse Team</text>
 <text name="credits_hyperspace_loc" language="pt">Tradução do Hyperspace:</text>
 <text name="credits_hyperspace_loc_fr" language="pt">Francês</text>
 <text name="credits_hyperspace_loc_fr_names" language="pt">Pepson</text>
@@ -316,3 +316,19 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="shield_drone_layers_per_charge" language="pt">Numero de barreiras de escudo por charga: \1</text>
 <text name="shield_drone_cooldowns" language="pt">Recarga: \1</text>
 <text name="confirm_buy_last_subsystem" language="pt">Esta é a última vaga de subsistema da nave.\nContinuar?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="pt">Um crash de uma modificação do Hyperspace foi detectado na sessão anterior.\n\nVocê gostaria de criar um reporte de erro com seus saves e registros?</text>
+<text name="confirm_report_bug" language="pt">Você gostaria de criar um Reporte de Erro com seus saves e registros?</text>
+<text name="confirm_report_create" language="pt">Criar um Reporte de Erro</text>
+<text name="confirm_report_skip" language="pt">Pular</text>
+<text name="confirm_report_where" language="pt">Reporte de Erro criado com sucesso!\n\nOnde você gostaria de reportá-lo?</text>
+<text name="confirm_report_discord" language="pt">Reportar no Discord</text>
+<text name="confirm_report_github" language="pt">Criar um Issue no GitHub</text>
+<text name="confirm_report_instructions_discord" language="pt">Por favor reportar o problema no servidor FTL:Multiverse no Discord.\n\nLocalização do reporte de erro:\n\1</text>
+<text name="confirm_report_instructions_github" language="pt">Por favor crie um Issue no GitHub aqui:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nLocalização do reporte de erro:\n\1</text>
+<text name="confirm_report_view" language="pt">Abrir of arquivo do Reporte de Erro</text>
+<text name="confirm_report_done" language="pt">Confirmado</text>
+<text name="confirm_report_failed" language="pt">Falha ao criar o Reporte de Erro.\n\nPor favor cheque os seus registros para mais detalhes.</text>
+<text name="confirm_report_failed_okay" language="pt">Confirmar</text>
+<!-- <text name="confirm_report_failed_no" language="pt"> </text> -->

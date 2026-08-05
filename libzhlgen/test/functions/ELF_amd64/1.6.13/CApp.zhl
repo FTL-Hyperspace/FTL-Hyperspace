@@ -35,7 +35,7 @@ cleanup __amd64 void CApp::ParseArgs(CApp *this, int argc, const char** argv);
 ".55534889fb":
 cleanup __amd64 void CApp::OnLoop(CApp *this);
 ".53be0100000031c04889fb":
-cleanup __amd64 int CApp::SetupWindow(CApp *this);
+cleanup __amd64 bool CApp::SetupWindow(CApp *this);
 "!.55534889fb4883ec08488b7f18":
 cleanup __amd64 void CApp::OnCleanup(CApp *this);
 ".55534889fb4883ec08":
@@ -53,6 +53,6 @@ cleanup __amd64 void CApp::UpdateWindowSettings(CApp *this);
 ".534889fb4883ec30":
 cleanup __amd64 void CApp::OnRender(CApp *this);
 ".534889fb31ff4883ec40":
-cleanup __amd64 int CApp::OnInit(CApp *this);
+cleanup __amd64 bool CApp::OnInit(CApp *this);
 ".415731f641564155415455534889fb":
 cleanup __amd64 int CApp::OnExecute(CApp *this);
