@@ -28,7 +28,10 @@ src/
   content/docs/
     en/                 English guides are the source
     de/  fr/  ko/       translations, same file names as en/
-    _partials/en/       reusable chunks shared between guides
+    _partials/en/       reusable chunks, grouped by what varies
+      shared/           can be reused by multiple platforms
+      platform/         platform specific (excep steamdeck/linux)
+      manager/          ftlman / slipstream specific
   data/links.ts         every external URL, one key each
   components/           Custom components reused in docs
   assets/               images and video
@@ -43,15 +46,33 @@ mod manager, the generic troubleshooting list. Each is written once in
 `src/content/docs/_partials/en/` and imported wherever it is needed:
 
 ```mdx
-import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
+import Troubleshooting from "@p/shared/_troubleshooting.mdx";
 
 <Troubleshooting />
 ```
 
-The `_` prefix keeps a file out of the router, so a partial never becomes a page
-of its own. A few accept props to adjust a step per platform, like
-`<Multiverse ftlmanOnly />`. Read a partial before editing it: the change shows up
-on every page that imports it.
+`@p/` carries no language. `src/plugins/vite-partials.ts` resolves it against the
+importing file's own language and falls back to English (default) if language specific
+file doesn't exist
+
+Starlight's own components (`Aside`, `Steps`, `Tabs`, `Card`, `FileTree`, `TabItem`)
+need no import at all, see `astro.config.mjs`.
+
+Names read `<scope>-<object>-<action>`, general to specific, so everything for one
+platform or one mod manager sorts together: `ftlman-hyperspace-update`,
+`windows-ftl-rollback`, `linux-saves`.
+
+Every partial keeps its leading `_`. Starlight's loader treats anything without it
+as a page.
+
+Some take props. `<Multiverse ftlmanOnly />` drops a tab. `<Troubleshooting Saves={Saves} />`
+passes the page's own platform partial into a shared one, so the save path is named
+where it is needed.
+
+Read a partial before editing it, the change shows up on every page that imports it.
+
+Headings inside a partial don't reach the table of contents on their own. Register
+any new partial that has one in `src/routeMiddleware.ts`.
 
 ### Links
 
@@ -69,8 +90,8 @@ edit, not a search across four languages.
 ## Translating
 
 A translated page is the same path with the language swapped: `en/windows/updating.mdx`
-becomes `de/windows/updating.mdx`. Partials mirror the same way, into
-`_partials/de/`, and the importing page points at its own language's copy.
+becomes `de/windows/updating.mdx`. Partials mirror the same way, keeping their group:
+`_partials/en/shared/_intro-setup.mdx` becomes `_partials/de/shared/_intro-setup.mdx`.
 
 To see what needs work run:
 

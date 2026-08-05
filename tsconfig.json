@@ -3,9 +3,12 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"],
+      // Editor only. src/plugins/vite-partials.ts does the real resolution, per
+      // language, which TypeScript cannot express. Pointing at the source
+      // language keeps go-to-definition working.
+      "@p/*": ["./src/content/docs/_partials/en/*"]
     }
   }
 }

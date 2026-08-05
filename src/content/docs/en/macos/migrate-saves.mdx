@@ -9,7 +9,7 @@ next:
   label: Something not working?
 ---
 
-import { Steps, Aside } from '@astrojs/starlight/components';
+import LibraryHidden from '@p/platform/_macos-library-hidden.mdx';
 
 The old macOS wrapper is no longer maintained. Its saves work as they are with the
 native release, so they only need moving to the folder the native release reads.
@@ -32,10 +32,7 @@ Copy the whole save folder somewhere safe before you start.
    ~/Library/Application Support/FasterThanLight
    ```
 
-   <Aside type="note" title="Library is hidden by default">
-   Open your home folder in Finder and press **Cmd + Shift + .** to show hidden files,
-   or press **Cmd + Shift + G** and paste the path.
-   </Aside>
+   <LibraryHidden />
 
 3. ### Copy everything except `settings.ini`
 

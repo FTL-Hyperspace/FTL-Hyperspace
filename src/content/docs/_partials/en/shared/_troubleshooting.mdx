@@ -1,0 +1,63 @@
+{/* A troubleshooting page is built in four parts, in this order:
+
+      1. its `_<platform>-saves.mdx`, naming the save folder
+      2. its own platform-specific sections, each a symptom with its fix inline
+      3. this partial, passed that same `_<platform>-saves.mdx` as `Saves` so the
+         Steam fix can name the folder again at the point of renaming it
+      4. anything a platform wants to add to the closing line below
+
+    Keep this partial last of anything carrying a heading. routeMiddleware.ts
+    appends its headings to the end of the table of contents, so a `###` placed
+    after it renders in the right spot but is listed in the wrong one. */}
+
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+
+### The game crashes before loading Multiverse
+
+Make sure you are on the latest Hyperspace. The Multiverse installer is frequently
+behind, and this is by far the most common cause.
+
+If you are on a laptop with both integrated and dedicated graphics, try forcing FTL
+onto one or the other.
+
+If neither applies, your save file is corrupt, see below.
+
+### The game hangs while loading Multiverse
+
+It stops on the last `E` of the Multiverse logo, or the screen freezes while the music
+keeps playing. Both mean the same thing: your save file is corrupt, see below.
+
+### Clearing a corrupt save, on Steam
+
+On Steam, start here. Steam Cloud is usually what corrupted the save in the first
+place. Turning it off and backing up the original Vanilla FTL save is the only way to
+prevent it from happening again.
+
+<SteamSettings />
+
+{/* The page passes its own `_<platform>-saves.mdx`, naming the folder to rename. */}
+<props.Saves />
+
+<BackupSaves />
+
+### Repairing a corrupt save by hand
+
+Slower than starting clean, but it keeps your progress. On Steam, turn Steam Cloud off
+first, as above, or it will corrupt the save again.
+
+<Steps>
+
+1. Open your save folder and locate `hs_mv_prof.sav` and `hs_mv_version.sav`.
+
+2. Delete `hs_mv_version.sav`.
+
+3. Move `hs_mv_prof.sav` somewhere else. Do not delete it.
+
+4. Launch the game, let it reach the main menu, then quit.
+
+5. Move your original `hs_mv_prof.sav` back, replacing the one the game just made.
+
+</Steps>
+
+Still stuck? Ask in the Hyperspace channels on [the Multiverse Discord](link:discord).

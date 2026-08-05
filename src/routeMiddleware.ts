@@ -1,6 +1,7 @@
 import type { MarkdownHeading } from 'astro';
 import { defineRouteMiddleware } from '@astrojs/starlight/route-data';
-import { getHeadings as troubleshootingHeadings } from '~/content/docs/_partials/en/_troubleshooting.mdx';
+import { getHeadings as troubleshootingHeadings } from '@p/shared/_troubleshooting.mdx';
+import { getHeadings as platformOverviewHeadings } from '@p/shared/_platform-overview.mdx';
 
 /** Shape Starlight nests its ToC into. Not exported by the package. */
 type TocItem = MarkdownHeading & { children: TocItem[] };
@@ -19,6 +20,8 @@ type TocItem = MarkdownHeading & { children: TocItem[] };
  */
 const REGISTRY: Array<{ pages: RegExp; headings: MarkdownHeading[] }> = [
 	{ pages: /\/troubleshooting$/, headings: troubleshootingHeadings() },
+	// any /lang/slug page that renders the platform overview partial
+	{ pages: /^[a-z]{2}\/[^/]+$/, headings: platformOverviewHeadings() },
 ];
 
 /**

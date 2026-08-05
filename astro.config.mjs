@@ -1,9 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import AutoImport from 'astro-auto-import';
 import { readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { remarkSiteLinks } from './src/plugins/remark-site-links';
+import { vitePartials } from './src/plugins/vite-partials';
 import { links } from './src/data/links';
 
 // GitHub Pages serves from /FTL-Hyperspace. Preview hosts serve from the root, so
@@ -69,6 +71,8 @@ export default defineConfig({
 	base: BASE,
 	redirects: { ...rootLevelRedirects(), ...jekyllRedirects },
 	markdown: { remarkPlugins: [remarkSiteLinks] },
+	// Makes `@p/...` imports resolve to the importing file's own language.
+	vite: { plugins: [vitePartials()] },
 	integrations: [
 		starlight({
 			title: 'FTL: Hyperspace',
@@ -135,10 +139,24 @@ export default defineConfig({
 						{ label: 'Easy install', slug: 'macos/easy-install' },
 						{ label: 'Manual install', slug: 'macos/manual-install' },
 						{ label: 'Update', slug: 'macos/updating' },
-						{ label: 'Fix a problem', slug: 'macos/troubleshooting' },
 						{ label: 'Migrate saves', slug: 'macos/migrate-saves' },
+						{ label: 'Fix a problem', slug: 'macos/troubleshooting' },
 					],
 				},
+			],
+		}),
+		// Starlight's building blocks are used on nearly every page, 
+		// so we rather auto import them
+
+		// Has to sit AFTER starlight(). AutoImport does nothing unless @astrojs/mdx
+		// is already in the integrations list.
+
+		// The "@astrojs/mdx initialized BEFORE astro-auto-import" warning on build is
+		// expected. Starlight adds mdx itself, so the order check misfires. The auto
+		// imports still work. https://github.com/delucis/astro-auto-import/issues/46
+		AutoImport({
+			imports: [
+				{ '@astrojs/starlight/components': ['Aside', 'Card', 'FileTree', 'Steps', 'TabItem', 'Tabs'] },
 			],
 		}),
 	],

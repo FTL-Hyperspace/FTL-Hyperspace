@@ -9,15 +9,10 @@ next:
   label: Try updating first
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
 
-Your save folder is `~/.local/share/FasterThanLight/`.
+<LinuxSaves />
 
-<Aside type="caution" title="Check Steam Cloud first">
-On the Deck this is the most common cause of a broken install. Right-click FTL in
-your library, open **Properties**, and untick **Keep game saves in the Steam Cloud**.
-</Aside>
-
-<Troubleshooting />
+<Troubleshooting Saves={LinuxSaves} />
 

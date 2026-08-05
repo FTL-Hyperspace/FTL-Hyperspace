@@ -9,15 +9,12 @@ next:
   label: Progress looks missing?
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
-import LibraryHidden from '~/content/docs/_partials/en/_macos-library-hidden.mdx';
-import OldWrapper from '~/content/docs/_partials/en/_macos-old-wrapper.mdx';
-import Codesign from '~/content/docs/_partials/en/_macos-codesign.mdx';
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import MacosSaves from '@p/platform/_macos-saves.mdx';
+import OldWrapper from '@p/platform/_macos-old-wrapper.mdx';
+import Codesign from '@p/platform/_macos-app-codesign.mdx';
 
-Your save folder is `~/Library/Application Support/FasterThanLight`.
-
-<LibraryHidden />
+<MacosSaves />
 
 <OldWrapper />
 
@@ -36,10 +33,8 @@ You almost certainly skipped the signing step. Run it again:
 Starting FTL through Steam bypasses the patched app bundle. Open `FTL.app` yourself.
 </Aside>
 
-<Troubleshooting />
+<Troubleshooting Saves={MacosSaves} />
 
-### Still stuck on a Mac
-
-macOS problems have their own channel on the Multiverse Discord:
+macOS problems also have their own channel there:
 [#mac-support](link:discordMacSupport). Say which macOS version you are on, whether
 you used the installer or installed by hand, and where you bought FTL.

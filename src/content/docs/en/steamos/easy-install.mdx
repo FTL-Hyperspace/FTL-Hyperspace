@@ -9,20 +9,18 @@ next:
   label: Something not working?
 ---
 
-import { Steps, Aside } from '@astrojs/starlight/components';
-import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
-import Saves from '~/content/docs/_partials/en/_saves-linux.mdx';
-import Ftlman from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
-import FtlmanHyperspace from '~/content/docs/_partials/en/_ftlman-hyperspace.mdx';
-import FtlmanMods from '~/content/docs/_partials/en/_ftlman-mods.mdx';
-import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
-import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
-import FtlmanUninstall from '~/content/docs/_partials/en/_ftlman-uninstall.mdx';
+import FtlmanIntro from '@p/shared/_ftlman-intro.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import Ftlman from '@p/manager/_ftlman-install.mdx';
+import FtlmanHyperspace from '@p/manager/_ftlman-hyperspace-install.mdx';
+import FtlmanMods from '@p/manager/_ftlman-mods-add.mdx';
+import Verify from '@p/shared/_install-verify.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
+import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
 
-ftlman is the mod manager built for Hyperspace. It downloads whichever Hyperspace
-release you pick, applies it to your copy of FTL, and keeps your mods in one list you
-can reorder and re-apply whenever you like. The Deck runs the native Linux build, so
-nothing needs downgrading, but you will need desktop mode to run ftlman.
+<FtlmanIntro />
 
 <Steps>
 
@@ -34,7 +32,9 @@ nothing needs downgrading, but you will need desktop mode to run ftlman.
 
    <SteamSettings />
 
-   <Saves />
+   <LinuxSaves />
+
+   <BackupSaves />
 
 3. ### Set up ftlman
 
