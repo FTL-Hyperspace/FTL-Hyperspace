@@ -291,7 +291,7 @@ HOOK_METHOD_PRIORITY(ResourceControl, PreloadResources, 9999, (bool preloadPlaye
         }
     }
 
-    ftl_log("Resource Preload: %.3f\n", time_now() - startTime);
+    // ftl_log("Resource Preload: %.3f\n", time_now() - startTime);
     BindAtlases();
     return true;
 }
