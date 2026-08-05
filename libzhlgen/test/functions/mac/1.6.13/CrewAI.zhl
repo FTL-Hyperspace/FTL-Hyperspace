@@ -1,4 +1,6 @@
 // Continue from CreditScreen::OnRender (hyper efficiency™)
+".554889e5488b07488b4048":
+cleanup __amd64 bool CrewAI::ReadyForTeleport(CrewAI *this);
 ".554889e54157415641554154534883ec584989fd49":
 cleanup __amd64 void CrewAI::OnLoop(CrewAI *this);
 ".554889e54157415641554154534883ec684989ff41":
