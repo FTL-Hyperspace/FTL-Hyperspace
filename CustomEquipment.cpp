@@ -1080,7 +1080,23 @@ void CustomEquipment::OnScrollWheel(float direction)
 
 void CustomEquipment::AddOverCapacityItem(const EquipmentBoxItem &item)
 {
-    overCapacityItems.push_back(item);
+    bool added = false;
+    for (auto &overItem : overCapacityItems)
+    {
+        if (!overItem.pWeapon &&
+            !overItem.pDrone &&
+            (!overItem.augment || overItem.augment->name.empty()) &&
+            !overItem.pCrew)
+        {
+            overItem = item;
+            added = true;
+            break;
+        }
+    }
+    if (!added)
+    {
+        overCapacityItems.push_back(item);
+    }
     orig->bOverCapacity = !overCapacityItems[0].augment;
     orig->bOverAugCapacity = overCapacityItems[0].augment;
     orig->overcapacityBox->RemoveItem();
