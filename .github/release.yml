@@ -1,0 +1,24 @@
+changelog:
+  exclude:
+    labels:
+      - duplicate
+      - invalid
+      - wontfix
+      - question
+  categories:
+    - title: Features
+      labels:
+        - enhancement
+    - title: Bugfixes
+      labels:
+        - hs bug
+        - vanilla bug
+    - title: Documentation
+      labels:
+        - documentation
+    - title: Translations
+      labels:
+        - translation
+    - title: Other Changes
+      labels:
+        - "*"

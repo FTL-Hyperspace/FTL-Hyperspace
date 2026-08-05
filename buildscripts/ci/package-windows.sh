@@ -13,16 +13,16 @@ fi
 
 cd "$REPO_ROOT"
 
+EXTRACT_DIR="Windows - Extract these files into where FTLGame.exe is"
+
 echo "=== Packaging Windows release $VERSION ==="
 
-# Create package directory
+# --- Mod zip ---
 rm -rf build-package-windows
-mkdir -p build-package-windows
+mkdir -p "build-package-windows/${EXTRACT_DIR}"
 
-# Copy Release Files structure
-mkdir -p build-package-windows/Index
-cp -r "Release Files/Windows/"* build-package-windows/Index/
-mv "build-package-windows/Index/README.txt" build-package-windows/
+cp -r "Release Files/Windows/mod/"* "build-package-windows/${EXTRACT_DIR}/"
+cp "Release Files/Windows/README.txt" "build-package-windows/"
 
 # Package Hyperspace.ftl from Mod Files
 cd "Mod Files"
@@ -30,14 +30,11 @@ zip -r Hyperspace.ftl * -x Hyperspace.ftl
 cd ..
 mv "Mod Files/Hyperspace.ftl" build-package-windows/
 
-# Copy built binaries
-cp build-*/Hyperspace.dll "build-package-windows/Index/"
+# Built Hyperspace.dll
+cp build-*/Hyperspace.dll "build-package-windows/${EXTRACT_DIR}/"
 
-# Rename index to Windows - Extract these files into where FTLGame.exe is
-mv "build-package-windows/Index" "build-package-windows/Windows - Extract these files into where FTLGame.exe is"
-
-# Create final zip
 cd build-package-windows
 zip -r "../FTL.Hyperspace.${VERSION}-Windows.zip" *
+cd ..
 
 echo "=== Package created: FTL.Hyperspace.${VERSION}-Windows.zip ==="

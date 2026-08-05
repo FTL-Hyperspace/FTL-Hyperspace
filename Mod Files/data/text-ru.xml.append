@@ -316,3 +316,19 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shield_drone_layers_per_charge" language="ru">Слои щита за один заряд: \1</text>
 <text name="shield_drone_cooldowns" language="ru">Перезарядка: \1</text>
 <text name="confirm_buy_last_subsystem" language="ru">Это последний свободный отсек для подсистем.\nВы уверены?</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="ru">В ходе предыдущего игрового сеанса был обнаружен сбой мода Hyperspace.\n\nХотите создать отчет об ошибке с вашими сохраненными данными и логами?</text>
+<text name="confirm_report_bug" language="ru">Хотите создать отчет об ошибке с вашими сохраненными данными и логами?</text>
+<text name="confirm_report_create" language="ru">Создать отчет об ошибке</text>
+<text name="confirm_report_skip" language="ru">Нет</text>
+<text name="confirm_report_where" language="ru">Отчет об ошибке успешно создан!\n\nКуда вы хотите отправить этот отчет?</text>
+<text name="confirm_report_discord" language="ru">Сообщить в Discord</text>
+<text name="confirm_report_github" language="ru">Создать проблему на GitHub</text>
+<text name="confirm_report_instructions_discord" language="ru">Пожалуйста, сообщите об ошибке на сервере Discord FTL:Multiverse.\n\nМестоположение отчета об ошибке:\n\1</text>
+<text name="confirm_report_instructions_github" language="ru">Пожалуйста, создайте проблему на GitHub по адресу:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nМестоположение отчета об ошибке:\n\1</text>
+<text name="confirm_report_view" language="ru">Открыть папку с отчетами об ошибках</text>
+<text name="confirm_report_done" language="ru">Пропустить</text>
+<text name="confirm_report_failed" language="ru">Не удалось создать отчет об ошибке.\n\nПожалуйста, проверьте логи для получения подробной информации.</text>
+<text name="confirm_report_failed_okay" language="ru">Хорошо</text>
+<!-- <text name="confirm_report_failed_no" language="ru"> </text> -->
