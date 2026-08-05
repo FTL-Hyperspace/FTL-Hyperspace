@@ -11,6 +11,7 @@ next:
 
 import { Steps, Aside, FileTree } from '@astrojs/starlight/components';
 import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Saves from '~/content/docs/_partials/en/_saves-windows.mdx';
 import Rollback from '~/content/docs/_partials/en/_rollback-windows.mdx';
 import FindFolder from '~/content/docs/_partials/en/_find-ftl-folder.mdx';
 import ModManager from '~/content/docs/_partials/en/_mod-manager.mdx';
@@ -18,6 +19,10 @@ import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
 import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
 import Unpatch from '~/content/docs/_partials/en/_unpatch.mdx';
 
+<Aside type="tip" title="There is an easier way">
+[ftlman](../easy-install/) does all of this for you. Only continue if you would rather
+place the files yourself, or you want to understand what it does.
+</Aside>
 
 <Steps>
 
@@ -26,6 +31,8 @@ import Unpatch from '~/content/docs/_partials/en/_unpatch.mdx';
    Skip this if you did not buy FTL on Steam.
 
    <SteamSettings />
+
+   <Saves />
 
 2. ### Roll FTL back to 1.6.9
 

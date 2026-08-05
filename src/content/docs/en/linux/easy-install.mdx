@@ -1,0 +1,71 @@
+---
+title: "Install FTL: Hyperspace on Linux with ftlman"
+description: "Let ftlman install Hyperspace and patch your mods"
+prev:
+  link: ../
+  label: All Linux guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Saves from '~/content/docs/_partials/en/_saves-linux.mdx';
+import Ftlman from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
+import FtlmanHyperspace from '~/content/docs/_partials/en/_ftlman-hyperspace.mdx';
+import FtlmanMods from '~/content/docs/_partials/en/_ftlman-mods.mdx';
+import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
+import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import FtlmanUninstall from '~/content/docs/_partials/en/_ftlman-uninstall.mdx';
+
+ftlman is the mod manager built for Hyperspace. It downloads whichever Hyperspace
+release you pick, applies it to your copy of FTL, and keeps your mods in one list you
+can reorder and re-apply whenever you like. Nothing needs downgrading on Linux.
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+   <Saves />
+
+2. ### Set up ftlman
+
+   <Ftlman />
+
+3. ### Install Hyperspace
+
+   <FtlmanHyperspace />
+
+4. ### Add your mods
+
+   <FtlmanMods />
+
+   <Aside type="caution" title="Installing Multiverse?">
+   Leave your mods out for now and follow the Multiverse section below instead.
+   </Aside>
+
+5. ### Check it worked
+
+   <Verify />
+
+</Steps>
+
+**Hyperspace is now installed and ready to play.** Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />
+
+## Updating
+
+Open ftlman, pick the newer release from the **Hyperspace** dropdown and press
+**Apply**. Your saves are not affected.
+
+## Uninstalling
+
+<FtlmanUninstall />

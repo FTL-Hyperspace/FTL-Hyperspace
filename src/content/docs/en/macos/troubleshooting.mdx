@@ -13,6 +13,7 @@ import { Aside } from '@astrojs/starlight/components';
 import Troubleshooting from '~/content/docs/_partials/en/_troubleshooting.mdx';
 import LibraryHidden from '~/content/docs/_partials/en/_macos-library-hidden.mdx';
 import OldWrapper from '~/content/docs/_partials/en/_macos-old-wrapper.mdx';
+import Codesign from '~/content/docs/_partials/en/_macos-codesign.mdx';
 
 Your save folder is `~/Library/Application Support/FasterThanLight`.
 
@@ -29,9 +30,7 @@ Open **System Settings → Privacy & Security**, scroll to the bottom, and click
 
 You almost certainly skipped the signing step. Run it again:
 
-```sh
-codesign -f -s - --timestamp=none --all-architectures --deep /path/to/FTL.app
-```
+<Codesign />
 
 <Aside type="caution" title="Launch the app directly">
 Starting FTL through Steam bypasses the patched app bundle. Open `FTL.app` yourself.

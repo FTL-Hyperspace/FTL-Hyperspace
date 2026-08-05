@@ -11,6 +11,7 @@ next:
 
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 import FtlmanUpdate from '~/content/docs/_partials/en/_ftlman-update.mdx';
+import Codesign from '~/content/docs/_partials/en/_macos-codesign.mdx';
 
 <Tabs syncKey="macos-method">
 <TabItem label="Installer">
@@ -34,9 +35,7 @@ Launch FTL and read the version from the **bottom right** of the main menu.
 
 Then sign the app again:
 
-```sh
-codesign -f -s - --timestamp=none --all-architectures --deep /path/to/FTL.app
-```
+<Codesign />
 
 </TabItem>
 </Tabs>

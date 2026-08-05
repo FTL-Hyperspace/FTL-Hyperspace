@@ -1,11 +1,19 @@
 import { Aside } from '@astrojs/starlight/components';
 import Screenshot from '~/components/Screenshot.astro';
 import properties from '~/assets/screenshot/steam-properties.png';
+import cloudSaves from '~/assets/screenshot/steam-cloud-saves.png';
 
-Right-click **FTL: Faster Than Light** in your library, open **Properties**, and under
-**Updates** set automatic updates to **Only update this game when I launch it**.
+Right-click **FTL: Faster Than Light** in your library and open **Properties**.
 
 <Screenshot src={properties} alt="Right-clicking FTL in the Steam library and choosing Properties" label="Show me how to open Properties" />
+
+Under **General**, untick **Keep game saves in the Steam Cloud**. Turn off Steam Cloud
+first. It restores outdated saves with broken state, which can keep Hyperspace from
+launching and will undo any save fix you try later.
+
+<Screenshot src={cloudSaves} alt="The General tab of FTL's Steam properties with the Steam Cloud checkbox unticked" label="Show me the checkbox" />
+
+Then under **Updates**, set automatic updates to **Only update this game when I launch it**.
 
 <Aside type="danger" title="Steam will undo your install">
 If Steam updates FTL it replaces the patched game files, and Hyperspace stops loading.

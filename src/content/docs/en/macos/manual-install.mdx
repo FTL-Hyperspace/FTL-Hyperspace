@@ -11,10 +11,11 @@ next:
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
-import LibraryHidden from '~/content/docs/_partials/en/_macos-library-hidden.mdx';
+import Saves from '~/content/docs/_partials/en/_saves-macos.mdx';
 import OldWrapper from '~/content/docs/_partials/en/_macos-old-wrapper.mdx';
 import ModManager from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
 import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import Codesign from '~/content/docs/_partials/en/_macos-codesign.mdx';
 
 <Aside type="tip" title="There is an easier way">
 The [macOS installer](../easy-install/) does all of this for you. Only continue if it will not run
@@ -29,6 +30,8 @@ on your machine, or you want to understand what it does.
 
    <SteamSettings />
 
+   <Saves />
+
 2. ### Find your FTL folder
 
    | Vendor | Location |
@@ -38,8 +41,6 @@ on your machine, or you want to understand what it does.
 
    In Finder, press **Cmd + Shift + G** and paste the path. Steam users can also
    right-click FTL in their library and choose **Manage → Browse Local Files**.
-
-   <LibraryHidden />
 
 3. ### Point the app at Hyperspace
 
@@ -85,14 +86,9 @@ on your machine, or you want to understand what it does.
 
 6. ### Sign the app
 
-   macOS refuses to run the patched app until it is signed. In Terminal:
+   macOS refuses to run the patched app until it is signed.
 
-   ```sh
-   codesign -f -s - --timestamp=none --all-architectures --deep /path/to/FTL.app
-   ```
-
-   Type the command up to `--deep `, then drag `FTL.app` from Finder into the Terminal
-   window to fill in the path.
+   <Codesign />
 
 7. ### Launch
 

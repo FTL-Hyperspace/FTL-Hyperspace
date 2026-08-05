@@ -1,0 +1,85 @@
+---
+title: "Install FTL: Hyperspace on Windows with ftlman"
+description: "Let ftlman install Hyperspace and patch your mods"
+prev:
+  link: ../
+  label: All Windows guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Saves from '~/content/docs/_partials/en/_saves-windows.mdx';
+import Rollback from '~/content/docs/_partials/en/_rollback-windows.mdx';
+import Ftlman from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
+import FtlmanHyperspace from '~/content/docs/_partials/en/_ftlman-hyperspace.mdx';
+import FtlmanMods from '~/content/docs/_partials/en/_ftlman-mods.mdx';
+import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
+import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
+import FtlmanUninstall from '~/content/docs/_partials/en/_ftlman-uninstall.mdx';
+
+ftlman is the mod manager built for Hyperspace. It downloads whichever Hyperspace
+release you pick, applies it to your copy of FTL, and keeps your mods in one list you
+can reorder and re-apply whenever you like. FTL itself has to be on 1.6.9, so the
+rollback comes first.
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+   <Saves />
+
+2. ### Roll FTL back to 1.6.9
+
+   <Rollback />
+
+3. ### Set up ftlman
+
+   <Ftlman />
+
+4. ### Install Hyperspace
+
+   <FtlmanHyperspace />
+
+5. ### Add your mods
+
+   <FtlmanMods />
+
+   <Aside type="caution" title="Installing Multiverse?">
+   Leave your mods out for now and follow the Multiverse section below instead.
+   </Aside>
+
+6. ### Check it worked
+
+   <Verify />
+
+   <Aside type="danger" title="Error mentioning AcheivementTracker">
+   FTL did not downgrade to 1.6.9 successfully. Run the rollback again and confirm
+   `FTLGame_orig.exe` was created.
+   </Aside>
+
+</Steps>
+
+**Hyperspace is now installed and ready to play.** Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />
+
+## Updating
+
+Open ftlman, pick the newer release from the **Hyperspace** dropdown and press
+**Apply**. Your saves are not affected.
+
+## Uninstalling
+
+<FtlmanUninstall />
+
+To go back to FTL 1.6.14 as well, delete `FTLGame.exe` and rename `FTLGame_orig.exe`
+back to `FTLGame.exe`.

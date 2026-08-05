@@ -5,8 +5,8 @@ prev:
   link: ../
   label: All platforms
 next:
-  link: manual-install/
-  label: Install it
+  link: easy-install/
+  label: Install it the easy way
 ---
 
 import ChoiceGrid from '~/components/ChoiceGrid.astro';
@@ -21,7 +21,8 @@ import { Aside } from '@astrojs/starlight/components';
 <IntroSetup />
 
 <ChoiceGrid>
-	<Choice icon="setting" label="Manual install" href="manual-install/" note="First time on this machine" />
+	<Choice icon="rocket" label="Easy install" href="easy-install/" note="Let ftlman do it, recommended" />
+	<Choice icon="setting" label="Manual install" href="manual-install/" note="Copy the library, edit the launch script" />
 	<Choice icon="cloud-download" label="Update" href="updating/" note="Already installed, want the latest" />
 </ChoiceGrid>
 

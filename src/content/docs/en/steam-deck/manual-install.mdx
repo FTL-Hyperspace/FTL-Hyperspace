@@ -11,26 +11,28 @@ next:
 
 import { Steps, Aside } from '@astrojs/starlight/components';
 import SteamSettings from '~/content/docs/_partials/en/_steam-settings.mdx';
+import Saves from '~/content/docs/_partials/en/_saves-linux.mdx';
 import HyperspaceLinux from '~/content/docs/_partials/en/_hyperspace-linux.mdx';
 import ModManager from '~/content/docs/_partials/en/_mod-manager-ftlman.mdx';
 import Verify from '~/content/docs/_partials/en/_verify-install.mdx';
 import Multiverse from '~/content/docs/_partials/en/_multiverse.mdx';
 
-The Deck runs the native Linux build, so no downgrade is needed.
+<Aside type="tip" title="There is an easier way">
+[ftlman](../easy-install/) does all of this for you. Only continue if you would rather
+place the files yourself, or you want to understand what it does.
+</Aside>
 
 <Steps>
 
-1. ### Steam settings
+1. ### Switch to desktop mode
+
+   Press the **Steam** button, then **Power**, then **Switch to Desktop**.
+
+2. ### Steam settings
 
    <SteamSettings />
 
-   Once Steam Cloud is off, delete `~/.local/share/FasterThanLight/` before launching
-   the game again. Cloud sync leaves a save behind that will otherwise keep breaking
-   things, and this only needs doing once.
-
-2. ### Switch to desktop mode
-
-   Hold the power button and choose **Switch to Desktop**. 
+   <Saves />
 
 3. ### Install the Hyperspace library
 
