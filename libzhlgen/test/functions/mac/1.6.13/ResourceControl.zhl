@@ -5,6 +5,12 @@ offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 noHook __amd64 void ResourceControl::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e548c747180000000048c747100000000048c747080000000048c70700000000c7":
 cleanup __amd64 void ResourceControl::constructor(ResourceControl *this);
+".554889e54157415641":
+cleanup __amd64 void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
+".554889e54157415641554154534883ec58":
+cleanup __amd64 void ResourceControl::BindAtlases(ResourceControl *this);
+".554889e5415741564154":
+cleanup __amd64 void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
 ".554889e541574156534883ec284189f7":
 cleanup __amd64 freetype::font_data& ResourceControl::GetFontData(ResourceControl *this, int fontType, bool ignoreLangauge);
 ".554889e5415741564154534883ec704989f44989":
@@ -21,8 +27,12 @@ cleanup __amd64 void ResourceControl::RenderImageString(ResourceControl *this, s
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture* image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 "!.554889e5415741564154534883ec":
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+".554889e54157415641554154534883ec18":
+cleanup __amd64 bool ResourceControl::BindImage(ResourceControl *this, const std::string& name, int image);
 "!.554889e54157415641554154534881ecc800000089b530ff":
 cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool preloadPlayerShips);
+"!.5548":
+cleanup __amd64 void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
 "!.554889e553504889fb89b398":
 cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
 ".554889e5415653":

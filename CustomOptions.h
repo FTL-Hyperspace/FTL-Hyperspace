@@ -104,6 +104,8 @@ public:
 
     Setting<bool> oxygenRefillFix;
 
+    Setting<bool> disableLazyImageLoading;
+
     Defaults defaults;
 
 //    Setting hackingDroneFix;

@@ -687,6 +687,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "disableLazyImageLoading") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableLazyImageLoading.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableLazyImageLoading.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "disableDefaultTutorial") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

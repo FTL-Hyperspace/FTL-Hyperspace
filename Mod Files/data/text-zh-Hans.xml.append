@@ -325,3 +325,19 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="shield_drone_layers_per_charge" language="zh-Hans">每次充能提供的护盾量：\1</text>
 <text name="shield_drone_cooldowns" language="zh-Hans">充能时间：\1</text>
 <text name="confirm_buy_last_subsystem" language="zh-Hans">这是战舰上的最后一个子系统槽位。\n你确定吗？</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="zh-Hans">检测到上一次游玩过程中发生了超空间(Hyperspace)崩溃。\n\n您是否愿意创建一份包含您的存档和日志的错误报告？</text>
+<text name="confirm_report_bug" language="zh-Hans">您是否愿意创建一份包含您的存档和日志的错误报告？</text>
+<text name="confirm_report_create" language="zh-Hans">创建错误报告</text>
+<text name="confirm_report_skip" language="zh-Hans">跳过</text>
+<text name="confirm_report_where" language="zh-Hans">错误报告已成功创建！\n\n您希望将其报告到哪里？</text>
+<text name="confirm_report_discord" language="zh-Hans">在 Discord 上报告</text>
+<text name="confirm_report_github" language="zh-Hans">在 GitHub 上创建 Issue</text>
+<text name="confirm_report_instructions_discord" language="zh-Hans">请将问题报告至 FTL:Multiverse 的 Discord 服务器。\n\n错误报告的位置：\n\1</text>
+<text name="confirm_report_instructions_github" language="zh-Hans">请在以下位置创建 GitHub Issue：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\n错误报告的位置：\n\1</text>
+<text name="confirm_report_view" language="zh-Hans">打开错误报告文件</text>
+<text name="confirm_report_done" language="zh-Hans">确认</text>
+<text name="confirm_report_failed" language="zh-Hans">创建错误报告失败。\n\n请检查您的日志以获取更多详情。</text>
+<text name="confirm_report_failed_okay" language="zh-Hans">确认</text>
+<!-- <text name="confirm_report_failed_no" language="zh-Hans"> </text> -->

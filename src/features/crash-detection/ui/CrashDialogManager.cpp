@@ -1,6 +1,8 @@
 #include "CrashDialogManager.h"
 #include "Global.h"
 
+#include <boost/algorithm/string.hpp>
+
 CrashDialogManager* CrashDialogManager::instance = nullptr;
 
 CrashDialogManager::CrashDialogManager()
@@ -26,7 +28,7 @@ CrashDialogManager* CrashDialogManager::GetInstance()
 }
 
 void CrashDialogManager::InitButton()
-{   
+{
 
     Point buttonPos(1239, 664);
     // Check if the image button resource exists
@@ -77,24 +79,59 @@ void CrashDialogManager::ShowAskReportDialog(bool isManualReport)
         askReportDialog = new ConfirmWindow();
     }
 
+    std::string translated;
+
+
     TextString text;
     text.isLiteral = true;
     if (isManualReport)
     {
-        text.data = "Do you want to create a bug report with your saves and logs?";
+        translated = G_->GetTextLibrary()->GetText("confirm_report_bug");
+        if (!translated.empty())
+        {
+            text.data = translated;
+        }
+        else
+        {
+            text.data = "Do you want to create a bug report with your saves and logs?";
+        }
     }
     else
     {
-        text.data = "A Hyperspace mod crash was detected on the previous game session.\n\nDo you want to create a bug report with your saves and logs?";
+        translated = G_->GetTextLibrary()->GetText("confirm_report_crash");
+        if (!translated.empty())
+        {
+            text.data = translated;
+        }
+        else
+        {
+            text.data = "A Hyperspace mod crash was detected on the previous game session.\n\nDo you want to create a bug report with your saves and logs?";
+        }
     }
 
     TextString yes;
     yes.isLiteral = true;
-    yes.data = "Create Bug Report";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_create");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "Create Bug Report";
+    }
 
     TextString no;
     no.isLiteral = true;
-    no.data = "Skip";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_skip");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "Skip";
+    }
 
     askReportDialog->SetText(text, 400, true, yes, no);
     askReportDialog->Open();
@@ -107,17 +144,44 @@ void CrashDialogManager::ShowChooseDestinationDialog()
         chooseDestinationDialog = new ConfirmWindow();
     }
 
+    std::string translated;
+
+
     TextString text;
     text.isLiteral = true;
-    text.data = "Bug report created successfully!\n\nWhere would you like to report this?";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_where");
+    if (!translated.empty())
+    {
+        text.data = translated;
+    }
+    else
+    {
+        text.data = "Bug report created successfully!\n\nWhere would you like to report this?";
+    }
 
     TextString yes;
     yes.isLiteral = true;
-    yes.data = "Report on Discord";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_discord");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "Report on Discord";
+    }
 
     TextString no;
     no.isLiteral = true;
-    no.data = "Create GitHub Issue";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_github");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "Create GitHub Issue";
+    }
 
     chooseDestinationDialog->SetText(text, 400, true, yes, no);
     chooseDestinationDialog->Open();
@@ -130,25 +194,60 @@ void CrashDialogManager::ShowInstructionsDialog(const std::string& bugReportPath
         instructionsDialog = new ConfirmWindow();
     }
 
+    std::string translated;
+
+
     TextString text;
     text.isLiteral = true;
 
     if (discordSelected)
     {
-        text.data = "Please report the bug on the FTL:Multiverse Discord server.\n\nBug report location:\n" + bugReportPath;
+        translated = G_->GetTextLibrary()->GetText("confirm_report_instructions_discord");
+        if (!translated.empty())
+        {
+            text.data = boost::algorithm::replace_all_copy(translated, "\\1", bugReportPath);
+        }
+        else
+        {
+            text.data = "Please report the bug on the FTL:Multiverse Discord server.\n\nBug report location:\n" + bugReportPath;
+        }
     }
     else
     {
-        text.data = "Please create a GitHub issue at:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nBug report location:\n" + bugReportPath;
+        translated = G_->GetTextLibrary()->GetText("confirm_report_instructions_github");
+        if (!translated.empty())
+        {
+            text.data = boost::algorithm::replace_all_copy(translated, "\\1", bugReportPath);
+        }
+        else
+        {
+            text.data = "Please create a GitHub issue at:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nBug report location:\n" + bugReportPath;
+        }
     }
 
     TextString yes;
     yes.isLiteral = true;
-    yes.data = "Open Bug Report Folder";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_view");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "Open Bug Report Folder";
+    }
 
     TextString no;
     no.isLiteral = true;
-    no.data = "Done";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_done");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "Done";
+    }
 
     instructionsDialog->SetText(text, 450, true, yes, no);
     instructionsDialog->Open();
@@ -161,17 +260,44 @@ void CrashDialogManager::ShowErrorDialog()
         errorDialog = new ConfirmWindow();
     }
 
+    std::string translated;
+
+
     TextString text;
     text.isLiteral = true;
-    text.data = "Failed to create bug report.\n\nPlease check the logs for more details.";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_failed");
+    if (!translated.empty())
+    {
+        text.data = translated;
+    }
+    else
+    {
+        text.data = "Failed to create bug report.\n\nPlease check the logs for more details.";
+    }
 
     TextString yes;
     yes.isLiteral = true;
-    yes.data = "OK";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_failed_yes");
+    if (!translated.empty())
+    {
+        yes.data = translated;
+    }
+    else
+    {
+        yes.data = "OK";
+    }
 
     TextString no;
     no.isLiteral = true;
-    no.data = "";
+    translated = G_->GetTextLibrary()->GetText("confirm_report_failed_no");
+    if (!translated.empty())
+    {
+        no.data = translated;
+    }
+    else
+    {
+        no.data = "";
+    }
 
     errorDialog->SetText(text, 400, true, yes, no);
     errorDialog->Open();

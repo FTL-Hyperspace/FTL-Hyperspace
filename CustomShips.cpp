@@ -113,6 +113,22 @@ void ShipManager_Extend::Initialize(bool restarting)
     }
 }
 
+HOOK_METHOD_PRIORITY(ShipManager, ResetScrapLevel, 9999, () -> void)
+{
+    // On x86_64, super() can read the wrong difficulty because detours.h does not relocate RIP-relative DISP32 addresses correctly
+    // Workaround: re-implement the vanilla scrap initialization here (it would be preferable to fix detours.h instead)
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ResetScrapLevel -> Begin (CustomShips.cpp)\n")
+    currentScrap = 30;
+    if (*Global::difficulty == 1)
+    {
+        currentScrap = 10;
+    }
+    else if (*Global::difficulty == 2)
+    {
+        currentScrap = 0;
+    }
+}
+
 HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::ResetScrapLevel -> Begin (CustomShips.cpp)\n")
@@ -164,7 +180,7 @@ HOOK_METHOD_PRIORITY(ShipManager, ImportShip, -1000, (int fileHelper) -> void)
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomShips.cpp)\n")
-    
+
     //Set the image defined in systemInfo to the proper value when adding artillery systems
     auto shipDef = CustomShipSelect::GetInstance()->GetDefinition(myBlueprint.blueprintName);
     if (shipDef.artilleryRoomImages.size() > 1 && systemId == SYS_ARTILLERY)
@@ -1168,7 +1184,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
         msg->color.a = 1.f;
         damMessages.push_back(msg);
     }
-    
+
     return ret;
 }
 
@@ -1186,14 +1202,14 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
             dmg.iSystemDamage += dmg.iDamage;
             dmg.iPersDamage += dmg.iDamage;
             dmg.iDamage = 0;
-            
+
             if (room1 > -1)
             {
                 auto msg1 = new DamageMessage(1.f, ship.GetRoomCenter(room1), DamageMessage::MessageType::RESIST);
                 msg1->color.a = 1.f;
                 damMessages.push_back(msg1);
             }
-            
+
         }
     }
 
@@ -1474,7 +1490,7 @@ void Ship::RenderEngineAnimation(bool showEngines, float alpha)
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
     lua_pushnumber(context->GetLua(), showEngines);
     lua_pushnumber(context->GetLua(), alpha);
-    
+
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_ENGINES, 3);
     if (showEngines && idx >= 0)
     {
@@ -1534,13 +1550,13 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderBase, 9999, (bool engines) -> void)
         alphaOther = 0.5f;
         alphaHull = 0.375f;
     }
-    
+
     // Lua callback init
     auto context = Global::GetInstance()->getLuaContext();
-    
+
     SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShip, 0);
     lua_pushnumber(context->GetLua(), alphaCloak);
-    
+
     int idx = context->getLibScript()->call_on_render_event_pre_callbacks(RenderEvents::SHIP_HULL, 2);
 
     if (idx >= 0)
@@ -1605,7 +1621,7 @@ HOOK_METHOD_PRIORITY(Ship, OnRenderJump, 9999, (float progress) -> void)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
 
     ShipGraph *shipGraph = ShipGraph::GetShipInfo(iShipId);
-    float sparkProgress = progress/0.75; 
+    float sparkProgress = progress/0.75;
     float sparkScale = 0.0;
     float sparkX = 0.0;
     float sparkY = 0.0;
@@ -1898,7 +1914,7 @@ bool WorldManager::SwitchShip(std::string shipName)
 HOOK_METHOD(ShipManager, SaveToBlueprint, (bool overwrite) -> ShipBlueprint)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomShips.cpp)\n")
-    
+
     if (overrideTransfer) overwrite = false;
 
     return super(overwrite);
@@ -1975,7 +1991,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
                 if (bp->systemInfo[playerShipManager->vSystemList[i]->GetId()].location.size() > 0 && (playerShipManager->vSystemList[i]->GetId() != SYS_ARTILLERY || !addedArtillery))
                 {
                     newSystems.push_back(playerShipManager->vSystemList[i]->GetId());
-                    if (playerShipManager->vSystemList[i]->GetId() == SYS_ARTILLERY) 
+                    if (playerShipManager->vSystemList[i]->GetId() == SYS_ARTILLERY)
                     {
                         for (int i=0; i<bp->systemInfo[SYS_ARTILLERY].location.size() - 1; ++i)
                         {
@@ -1997,7 +2013,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
             }
             bp->systems = newSystems;
         }
-        
+
         playerShipManager->myBlueprint = *bp;
         int save_max_health = bp->health;
 
@@ -2023,7 +2039,7 @@ bool WorldManager::SwitchShipTransfer(std::string shipName, int overrideSystem)
             for (auto system : save_systems)
             {
                 if (playerShipManager->HasSystem(system.first))
-                {   
+                {
                     ShipSystem* sys = playerShipManager->GetSystem(system.first);
                     if (sys) sys->powerState.second = system.second;
                 }

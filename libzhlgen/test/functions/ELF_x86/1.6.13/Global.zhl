@@ -337,9 +337,30 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
+										
+	enum SoundFormat
+	{
+		SOUND_FORMAT_AUTODETECT = 0,
+		SOUND_FORMAT_WAV = 0x0001,
+		SOUND_FORMAT_MP3 = 0x0055,
+		SOUND_FORMAT_OGG = 0x674F,
+	};
 
-	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
-	
+	struct SysFile;
+	struct Sound;
+
+	typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	typedef struct PackageModuleInfo PackageModuleInfo;
+	typedef int (*PackageInitFunc)(PackageModuleInfo *module);
+	typedef void (*PackageCleanupFunc)(PackageModuleInfo *module);
+	typedef void (*PackageListStartFunc)(PackageModuleInfo *module);
+	typedef const char *(*PackageListNextFunc)(PackageModuleInfo *module);
+	typedef int (*PackageFileInfoFunc)(PackageModuleInfo *module, const char *path, struct SysFile **file_ret, int64_t *pos_ret, int *len_ret, int *comp_ret, int *size_ret);
+	typedef int (*PackageDecompressGetStackSizeFunc)(PackageModuleInfo *module);
+	typedef void *(*PackageDecompressInitFunc)(PackageModuleInfo *module);
+	typedef int (*PackageDecompressFunc)(PackageModuleInfo *module, void *state, const void *in, int insize, void *out, int outsize);
+	typedef void (*PackageDecompressFinishFunc)(PackageModuleInfo *module, void *state);
+
 	static void* GetBaseAddress()
 	{
 	  return SigScan::GetBaseAddress();
@@ -526,3 +547,45 @@ cleanup __cdecl void sys_graphics_set_window_title(char* title);
 
 "83ec3c0f57c0f30f106c2450f30f10642440f30f105c2444":
 cleanup __cdecl void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+"5557565389d383ec3c894424188b028b40f48d50fc39c20f873d010000":
+cleanup __cdecl int LoadTexture(ResourceManager *resmgr, const std::string& path);
+
+"803d??????08007507c38db60000000055":
+__cdecl void input_update();
+
+"e95bd103008d7426008dbc2700000000e95bd103008d7426008dbc2700000000e95bd103008d7426008dbc2700000000e95bd103008d7426008dbc270000000031c0":
+__cdecl bool input_is_quit_requested();
+
+".e9":
+__cdecl bool input_is_suspend_requested();
+
+".e9":
+__cdecl void input_acknowledge_suspend_request();
+
+"565383ec148b4424208b4c242485c074688b580c85db744e":
+cleanup __cdecl int resource_load_data(ResourceManager *resmgr, const char *name, int align, int flags);
+
+"565383ec148b4424208b4c242485c074678b580c85db744d85c9745c":
+cleanup __cdecl int resource_load_sound(ResourceManager *resmgr, const char *name, int flags);
+
+"8b44240485c074238b500c85d274118b4a0c89c883c001":
+cleanup __cdecl int resource_mark(ResourceManager *resmgr);
+
+"5557565383ec2c8b44244085c00f84750100008b680c85ed0f848b030000":
+cleanup __cdecl void resource_wait(ResourceManager *resmgr, int mark);
+
+"538b4424088b54240c8b5c241085c074358b480c":
+cleanup __cdecl void* resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
+
+"5383ec088b4424108b5c241485c0742f8b500c85d2742d":
+cleanup __cdecl void resource_free(ResourceManager *resmgr, int id);
+
+"8b4424048b54240885c0742b8b480cb8????490885c90f45c185d27e1a3b50047f158b008d1452c1e2048d4410d0833805":
+cleanup __cdecl Sound* resource_get_sound(ResourceManager *resmgr, int id);
+
+"57565383ec708b8424800000008bb4248400000085c00f84140100008b580c":
+cleanup __cdecl int resource_open_sound(ResourceManager *resmgr, const char *name);
+
+"83ec2ce8??????002b":
+__cdecl double time_now();

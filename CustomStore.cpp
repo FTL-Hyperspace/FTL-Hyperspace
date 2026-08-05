@@ -2106,7 +2106,7 @@ HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 9999, (LocationEvent* event) 
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomStore.cpp)\n")
 
-    /* 
+    /*
     // Commented out because of CustomEvents.cpp Death Event
     if (this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
     {

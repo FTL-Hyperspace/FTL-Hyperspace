@@ -620,12 +620,12 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
     // Search over capacity items for locked augments to force swap
     for (auto &i : customEquip->overCapacityItems)
     {
-        if (i.first.augment && customAug->IsAugment(i.first.augment->name) && customAug->GetAugmentDefinition(i.first.augment->name)->locked)
+        if (i.augment && customAug->IsAugment(i.augment->name) && customAug->GetAugmentDefinition(i.augment->name)->locked)
         {
-            EquipmentBoxItem item1 = i.first;
+            EquipmentBoxItem item1 = i;
             EquipmentBoxItem item2 = firstSlot->item;
             firstSlot->RemoveItem();
-            i.first = item2;
+            i = item2;
             firstSlot->AddItem(item1);
             return;
         }
