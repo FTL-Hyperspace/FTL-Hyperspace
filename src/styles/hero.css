@@ -1,96 +1,45 @@
 /*
- * Nebula wash behind splash pages, built from stacked CSS gradients
+ * Splash-page atmosphere, aiming for FTL's menus rather than a space
+ * wallpaper: a near-black indigo base, one large faint nebula and a sparse
+ * scatter of pixel stars. Everything is a few percent from invisible — the
+ * background's job is negative space.
  */
-
-
-html {
-	overscroll-behavior: none;
-}
-
-:root {
-	--hs-amber: 30, 85%, 55%;
-	--hs-violet: 266, 80%, 50%;
-	--hs-glow-warm: hsla(var(--hs-amber), 0.16);
-	--hs-glow-cool: hsla(var(--hs-violet), 0.22);
-
-	/* Docs pages carry long prose, so their wash is roughly half strength. */
-	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.07);
-	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.1);
-
-	/* How much of its own colour each glass surface keeps. Lower is more see
-	   through. One knob for the nav, the mobile TOC bar and the sidebar. */
-	--hs-glass-opacity: 10%;
-
-	/*
-	 * Violet accent, same family as the nebula wash, replacing Starlight's default
-	 * blue. Lightness is picked for contrast rather than copied from Starlight:
-	 * violet reads darker than blue, so the dark-theme accent lifts to 70% for
-	 * 5.0:1 on the page background, and the light one drops to 48% for 7.4:1 on
-	 * white. Both clear AA for body-sized links.
-	 */
-	--sl-color-accent-low: hsl(266, 55%, 22%);
-	--sl-color-accent: hsl(266, 100%, 70%);
-	--sl-color-accent-high: hsl(266, 100%, 87%);
-}
-
-:root[data-theme='light'] {
-	--hs-glow-warm: hsla(var(--hs-amber), 0.14);
-	--hs-glow-cool: hsla(var(--hs-violet), 0.12);
-	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.06);
-	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.07);
-
-	--sl-color-accent-low: hsl(266, 88%, 92%);
-	--sl-color-accent: hsl(266, 80%, 48%);
-	--sl-color-accent-high: hsl(266, 80%, 30%);
-}
-
-/*
- * Docs pages get the same wash at half strength, anchored to the top so it
- * doesn't interfere with text
- */
-.page {
-	background:
-		radial-gradient(var(--hs-glow-cool-soft), transparent 60%) no-repeat -25vw -35vh / 85vw 130vh,
-		radial-gradient(var(--hs-glow-warm-soft), transparent 65%) no-repeat 105% -10vh / 45rem 35rem;
-	background-attachment: fixed;
-}
-
-/* Splash pages keep the full nebula. */
 [data-has-hero] .page {
+	/* Anchors the starfield pseudo-element to the page. */
+	position: relative;
 	background:
-		linear-gradient(215deg, var(--hs-glow-cool), transparent 45%),
-		radial-gradient(var(--hs-glow-cool), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
-		radial-gradient(var(--hs-glow-warm), transparent 60%) no-repeat 8% 42% / 55rem 40rem,
-		radial-gradient(var(--hs-glow-cool), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+		radial-gradient(ellipse 90rem 55rem at 72% -12%, var(--hs-neb-1), transparent 60%),
+		radial-gradient(ellipse 75rem 45rem at 12% 58%, var(--hs-neb-2), transparent 65%),
+		radial-gradient(ellipse 70rem 40rem at 55% 108%, var(--hs-neb-3), transparent 60%)
+			var(--hs-splash-bg);
 }
 
 /*
- * Dimmed blured glass
+ * A pixel sky: one big sparse tile of square stars, varied in size and
+ * brightness, still thinning out slightly toward the top. Drawn as SVG rects
+ * at 2x so they stay crisp squares, matching the game's pixels.
  */
-header {
-	border-bottom: 1px solid var(--sl-color-hairline-shade);
-	background-color: color-mix(in srgb, var(--sl-color-bg-nav) var(--hs-glass-opacity), transparent);
-	backdrop-filter: blur(0.75rem);
+[data-has-hero] .page::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	opacity: 0.55;
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='331' height='367'><g fill='%23fff'><rect x='25' y='40' width='1' height='1' opacity='.7'/><rect x='120' y='90' width='1' height='1' opacity='.45'/><rect x='210' y='55' width='2' height='2' opacity='.8'/><rect x='300' y='150' width='1' height='1' opacity='.5'/><rect x='60' y='200' width='1' height='1' opacity='.55'/><rect x='250' y='260' width='3' height='3' opacity='.9'/><rect x='160' y='320' width='1' height='1' opacity='.5'/><rect x='40' y='330' width='2' height='2' opacity='.6'/></g></svg>");
+	background-size: 662px 734px;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), #000 80%);
 }
 
+/* The stars are a dark-room effect; on a white page they read as dirt.
+   Light theme keeps only the soft wash. */
+:root[data-theme='light'] [data-has-hero] .page::before {
+	content: none;
+}
+
+/* The splash flows straight from nav into nebula, so no hairline between. */
 [data-has-hero] header {
 	border-bottom-color: transparent;
-}
-
-/* The mobile "On this page" bar sits directly under the nav, so it gets the same
-   glass or the two read as different materials stacked on each other. */
-mobile-starlight-toc nav {
-	background-color: color-mix(in srgb, var(--sl-color-bg-nav) var(--hs-glass-opacity), transparent);
-	backdrop-filter: blur(0.75rem);
-}
-
-/* Same for the sidebar. Starlight only paints it from 50rem, below which it is a
-   drawer over the page and should stay opaque. */
-@media (min-width: 50rem) {
-	.sidebar-pane {
-		background-color: color-mix(in srgb, var(--sl-color-bg-sidebar) var(--hs-glass-opacity), transparent);
-		backdrop-filter: blur(0.75rem);
-	}
 }
 
 /*
@@ -106,7 +55,8 @@ mobile-starlight-toc nav {
 	overflow-x: auto;
 }
 
-/* Let the hero wordmark sit on the glow rather than in a box of its own. */
+/* Let the hero wordmark sit in the nebula's own light rather than in a box
+   of its own — same violet as the wash, so it reads as lit by the scene. */
 [data-has-hero] .hero > img {
-	filter: drop-shadow(0 0 2rem hsla(var(--hs-amber), 0.35));
+	filter: drop-shadow(0 0 2.5rem hsla(var(--hs-violet), 0.45));
 }

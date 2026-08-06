@@ -1,0 +1,103 @@
+/*
+ * Site-wide chrome: scroll behaviour, the ambient background layers shared by
+ * every page, the glass surfaces and the pixel-font site title.
+ */
+
+html {
+	overscroll-behavior: none;
+}
+
+/* Hero actions link to in-page anchors (#install); glide there instead of
+   teleporting. Off for users who asked the OS for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+
+/*
+ * Docs pages get a faint wash, anchored to the top so it doesn't interfere
+ * with text. Splash pages override the background wholesale in hero.css.
+ */
+.page {
+	/* Keeps negative-z children (the orbs, the splash starfield) above this
+	   background instead of vanishing behind the body. */
+	isolation: isolate;
+	background:
+		radial-gradient(var(--hs-glow-cool-soft), transparent 60%) no-repeat -25vw -35vh / 85vw 130vh,
+		radial-gradient(var(--hs-glow-warm-soft), transparent 65%) no-repeat 105% -10vh / 45rem 35rem;
+	background-attachment: fixed;
+}
+
+/*
+ * Ambient orbs: two soft glows hanging near the viewport's top-right corner
+ * of every page. Radial gradients on one fixed pseudo-element stand in for
+ * blurred circles — filter: blur() at this size wrecked the frame rate, and
+ * a gradient with a gaussian-ish falloff looks the same for free.
+ */
+.page::after {
+	--orb-violet: 0.25;
+	--orb-amber: 0.18;
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	/* Extra stops bend the linear gradient ramp into a gaussian-ish curve,
+	   so each orb reads as a blurred glow rather than a hard-edged disc. */
+	background-image:
+		radial-gradient(
+			circle clamp(12rem, 22vw, 22rem) at 100% 22%,
+			hsla(var(--hs-violet), var(--orb-violet)) 0%,
+			hsla(var(--hs-violet), calc(var(--orb-violet) * 0.8)) 35%,
+			hsla(var(--hs-violet), calc(var(--orb-violet) * 0.35)) 65%,
+			transparent 100%
+		),
+		radial-gradient(
+			circle clamp(12rem, 22vw, 22rem) at 85% -6rem,
+			hsla(var(--hs-amber), var(--orb-amber)) 0%,
+			hsla(var(--hs-amber), calc(var(--orb-amber) * 0.8)) 35%,
+			hsla(var(--hs-amber), calc(var(--orb-amber) * 0.35)) 65%,
+			transparent 100%
+		);
+}
+
+/* Pastels carry less on white, so light theme runs them softer. */
+:root[data-theme='light'] .page::after {
+	--orb-violet: 0.16;
+	--orb-amber: 0.11;
+}
+
+/*
+ * Dimmed blurred glass
+ */
+header {
+	border-bottom: 1px solid var(--sl-color-hairline-shade);
+	background-color: color-mix(in srgb, var(--sl-color-bg-nav) var(--hs-glass-opacity), transparent);
+	backdrop-filter: blur(0.75rem);
+}
+
+/* The mobile "On this page" bar sits directly under the nav, so it gets the same
+   glass or the two read as different materials stacked on each other. */
+mobile-starlight-toc nav {
+	background-color: color-mix(in srgb, var(--sl-color-bg-nav) var(--hs-glass-opacity), transparent);
+	backdrop-filter: blur(0.75rem);
+}
+
+/* Same for the sidebar. Starlight only paints it from 50rem, below which it is a
+   drawer over the page and should stay opaque. */
+@media (min-width: 50rem) {
+	.sidebar-pane {
+		background-color: color-mix(in srgb, var(--sl-color-bg-sidebar) var(--hs-glass-opacity), transparent);
+		backdrop-filter: blur(0.75rem);
+	}
+}
+
+/* The one place the game's pixels reach the chrome: the site title in the
+   nav. Silkscreen is built for small sizes, so it stays readable where a
+   heavier pixel face would smear. */
+.site-title {
+	font-family: 'Silkscreen', var(--sl-font-system);
+	font-size: var(--sl-text-xl);
+	letter-spacing: 0.02em;
+}
