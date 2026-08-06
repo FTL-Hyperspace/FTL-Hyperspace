@@ -99,12 +99,14 @@ public:
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
-  
+
     Setting<bool> multiShipFix;
 
     Setting<bool> teleporterHackFix;
 
     Setting<bool> energyBypassTeleportRecall;
+
+    Setting<bool> oxygenRefillFix;
 
     Setting<bool> disableLazyImageLoading;
 

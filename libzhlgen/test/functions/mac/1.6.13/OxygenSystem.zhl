@@ -24,4 +24,6 @@ struct OxygenSystem
     {
         this->constructor(numRooms, roomId, shipId, startingPower);
     }
+
+    void RedistributeOxygen();
 }};

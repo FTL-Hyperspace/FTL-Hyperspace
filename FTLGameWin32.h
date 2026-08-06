@@ -6663,6 +6663,8 @@ struct OxygenSystem : ShipSystem
 		this->constructor(numRooms, roomId, shipId, startingPower);
 	}
 
+    void RedistributeOxygen();
+
 	LIBZHL_API void ComputeAirLoss(int roomId, float base_loss, bool silent);
 	LIBZHL_API void EmptyOxygen(int roomId);
 	LIBZHL_API float GetRefillSpeed();
