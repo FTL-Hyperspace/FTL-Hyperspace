@@ -11891,7 +11891,7 @@ namespace _func862
 bool PowerManager::IncreasePower(std::pair<int, int> *powerLevel, int *iBatteryPower, int requestedPower)
 {
 	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(PowerManager *this_arg, std::pair<int, int> *powerLevel_arg, int *iBatteryPower_arg, int requestedPower_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func841::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func862::func;
 	return execfunc(this, powerLevel, iBatteryPower, requestedPower);
 }
 
