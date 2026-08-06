@@ -1,22 +1,48 @@
-name: Build and deploy Jekyll site to GitHub Pages
+name: Build and deploy site to GitHub Pages
 
 on:
   push:
     branches:
       - gh-pages-source
+  workflow_dispatch:
+
+# Requires Settings > Pages > Source to be set to "GitHub Actions".
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  github-pages:
+  # Same workflow pull requests run, so nothing deploys that a PR would have failed.
+  checks:
+    uses: ./.github/workflows/checks.yml
+
+  build:
+    needs: checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - uses: helaili/jekyll-action@v2
-        with:                                # Some relative inputs of your action
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

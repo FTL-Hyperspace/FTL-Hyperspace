@@ -1,0 +1,49 @@
+---
+title: "Migrate saves from the FTL: Hyperspace wrapper"
+description: "Moving an existing macOS install over to the installer"
+prev:
+  link: ../
+  label: All macOS guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import LibraryHidden from '@p/platform/_macos-library-hidden.mdx';
+
+The old macOS wrapper is no longer maintained. Its saves work as they are with the
+native release, so they only need moving to the folder the native release reads.
+
+<Aside type="caution" title="Back up first">
+Copy the whole save folder somewhere safe before you start.
+</Aside>
+
+<Steps>
+
+1. ### Find the old saves
+
+   ```
+   ~/Documents/My Games/FTL Faster Than Light
+   ```
+
+2. ### Find where the saves need to go
+
+   ```
+   ~/Library/Application Support/FasterThanLight
+   ```
+
+   <LibraryHidden />
+
+3. ### Copy everything except `settings.ini`
+
+   Copy every file from the old folder into the new one, leaving `settings.ini`
+   behind.
+
+4. ### Launch and check
+
+   Start FTL. Your profile, unlocks and any run in progress should be exactly where
+   you left them.
+
+</Steps>
+
+Once you are happy everything survived, the old wrapper can be deleted.

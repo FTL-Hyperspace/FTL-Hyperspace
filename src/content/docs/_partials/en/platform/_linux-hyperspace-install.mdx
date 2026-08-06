@@ -1,0 +1,41 @@
+
+Download `FTL.Hyperspace.x.xx.x-Linux.zip` from the [latest release](link:releases) and
+extract it. Inside you will find:
+
+<FileTree>
+- Hyperspace.ftl        keep this for the mod manager step
+- README.txt
+- **Linux/**
+  - Hyperspace.1.6.12.amd64.so
+  - Hyperspace.1.6.13.amd64.so
+</FileTree>
+
+Which library you need depends on your FTL version. **Launch FTL and read the version
+from the lower right of the main menu** rather than guessing, then close the game.
+
+| Your FTL version | Vendor | Library to copy |
+| --- | --- | --- |
+| 1.6.13 | Steam | `Hyperspace.1.6.13.amd64.so` |
+| 1.6.12 | GOG, Humble, DRM-free | `Hyperspace.1.6.12.amd64.so` |
+
+1. Copy **one** Hyperspace library, the one matching your version, into the folder
+   containing `FTL.amd64`.
+2. Open the `FTL` launch script in a text editor and add a line before `exec`:
+
+```sh
+LD_PRELOAD=./Hyperspace.1.6.13.amd64.so exec "$here/$command.$arch" "$@"
+```
+
+<Aside type="tip" title="If the game starts without Hyperspace">
+Some machines need `LD_LIBRARY_PATH` set as well. Use this form instead:
+
+```sh
+export LD_LIBRARY_PATH="$here":"${LD_LIBRARY_PATH}"
+export LD_PRELOAD=Hyperspace.1.6.13.amd64.so
+exec "$here/$command.$arch" "$@"
+```
+</Aside>
+
+<Aside type="note" title="Requirements">
+Multiverse wants 3 GB or more of RAM. Other Hyperspace mods vary.
+</Aside>

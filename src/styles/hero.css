@@ -1,0 +1,62 @@
+/*
+ * Splash-page atmosphere, aiming for FTL's menus rather than a space
+ * wallpaper: a near-black indigo base, one large faint nebula and a sparse
+ * scatter of pixel stars. Everything is a few percent from invisible — the
+ * background's job is negative space.
+ */
+[data-has-hero] .page {
+	/* Anchors the starfield pseudo-element to the page. */
+	position: relative;
+	background:
+		radial-gradient(ellipse 90rem 55rem at 72% -12%, var(--hs-neb-1), transparent 60%),
+		radial-gradient(ellipse 75rem 45rem at 12% 58%, var(--hs-neb-2), transparent 65%),
+		radial-gradient(ellipse 70rem 40rem at 55% 108%, var(--hs-neb-3), transparent 60%)
+			var(--hs-splash-bg);
+}
+
+/*
+ * A pixel sky: one big sparse tile of square stars, varied in size and
+ * brightness, still thinning out slightly toward the top. Drawn as SVG rects
+ * at 2x so they stay crisp squares, matching the game's pixels.
+ */
+[data-has-hero] .page::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	opacity: 0.55;
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='331' height='367'><g fill='%23fff'><rect x='25' y='40' width='1' height='1' opacity='.7'/><rect x='120' y='90' width='1' height='1' opacity='.45'/><rect x='210' y='55' width='2' height='2' opacity='.8'/><rect x='300' y='150' width='1' height='1' opacity='.5'/><rect x='60' y='200' width='1' height='1' opacity='.55'/><rect x='250' y='260' width='3' height='3' opacity='.9'/><rect x='160' y='320' width='1' height='1' opacity='.5'/><rect x='40' y='330' width='2' height='2' opacity='.6'/></g></svg>");
+	background-size: 662px 734px;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), #000 80%);
+}
+
+/* The stars are a dark-room effect; on a white page they read as dirt.
+   Light theme keeps only the soft wash. */
+:root[data-theme='light'] [data-has-hero] .page::before {
+	content: none;
+}
+
+/* The splash flows straight from nav into nebula, so no hairline between. */
+[data-has-hero] header {
+	border-bottom-color: transparent;
+}
+
+/*
+ * Splash-page cards wrap a table, which sizes to its own content. Left as blocks
+ * they leave a wide empty box around it, so shrink them to what is inside and
+ * centre the result. Narrower viewports fall back to full width and the table
+ * scrolls inside the card rather than pushing the page sideways.
+ */
+[data-has-hero] .sl-markdown-content .card {
+	width: fit-content;
+	max-width: 100%;
+	margin-inline: auto;
+	overflow-x: auto;
+}
+
+/* Let the hero wordmark sit in the nebula's own light rather than in a box
+   of its own — same violet as the wash, so it reads as lit by the scene. */
+[data-has-hero] .hero > img {
+	filter: drop-shadow(0 0 2.5rem hsla(var(--hs-violet), 0.45));
+}

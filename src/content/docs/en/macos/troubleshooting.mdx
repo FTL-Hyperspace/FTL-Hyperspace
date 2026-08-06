@@ -1,0 +1,40 @@
+---
+title: "Troubleshooting on macOS"
+description: "Crashes, hangs and blocked apps"
+prev:
+  link: ../
+  label: All macOS guides
+next:
+  link: ../migrate-saves/
+  label: Progress looks missing?
+---
+
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import MacosSaves from '@p/platform/_macos-saves.mdx';
+import OldWrapper from '@p/platform/_macos-old-wrapper.mdx';
+import Codesign from '@p/platform/_macos-app-codesign.mdx';
+
+<MacosSaves />
+
+<OldWrapper />
+
+### macOS blocked the app
+
+Open **System Settings → Privacy & Security**, scroll to the bottom, and click
+**Open Anyway**. On older macOS versions, right-click the app and choose **Open**.
+
+### The game will not start after a manual install
+
+You almost certainly skipped the signing step. Run it again:
+
+<Codesign />
+
+<Aside type="caution" title="Launch the app directly">
+Starting FTL through Steam bypasses the patched app bundle. Open `FTL.app` yourself.
+</Aside>
+
+<Troubleshooting Saves={MacosSaves} />
+
+macOS problems also have their own channel there:
+[#mac-support](link:discordMacSupport). Say which macOS version you are on, whether
+you used the installer or installed by hand, and where you bought FTL.

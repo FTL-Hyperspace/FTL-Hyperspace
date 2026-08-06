@@ -1,0 +1,45 @@
+---
+title: "Update FTL: Hyperspace on macOS"
+description: "Re-run the installer, or swap the dylib by hand"
+prev:
+  link: ../
+  label: All macOS guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import FtlmanUpdate from '@p/manager/_ftlman-hyperspace-update.mdx';
+import VersionCheck from '@p/shared/_version-check.mdx';
+import Codesign from '@p/platform/_macos-app-codesign.mdx';
+
+<Tabs syncKey="macos-method">
+<TabItem label="Installer">
+
+Download the newest `.dmg` from the [latest release](link:releases) and run it again.
+It updates Hyperspace in place.
+
+</TabItem>
+<TabItem label="Manual">
+
+Download `FTL.Hyperspace.x.xx.x-MacOS.zip` from the [latest release](link:releases) and
+replace `Hyperspace.command` and the dylib in `Contents/MacOS`.
+
+The new dylib has to be for the same FTL version as the one already there, either
+`Hyperspace.1.6.13.amd64.dylib` or `Hyperspace.1.6.12.amd64.dylib`. Check which one is
+in the folder before you copy, and keep only one.
+
+<VersionCheck />
+
+Then sign the app again:
+
+<Codesign />
+
+</TabItem>
+</Tabs>
+
+<FtlmanUpdate />
+
+<Aside type="caution" title="Running Multiverse?">
+Run ftlman again afterwards to re-patch Multiverse. Your saves are not affected.
+</Aside>

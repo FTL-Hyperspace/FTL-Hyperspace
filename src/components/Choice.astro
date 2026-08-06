@@ -1,0 +1,101 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import type { StarlightIcon } from '@astrojs/starlight/types';
+
+interface Props {
+	/** Filename under src/assets/logo, e.g. "linux.svg". For platform artwork. */
+	logo?: string;
+	/** Starlight icon name, for action cards that have no artwork of their own. */
+	icon?: StarlightIcon;
+	label: string;
+	href: string;
+	/** Optional one-line explanation shown under the label. */
+	note?: string;
+}
+
+const { logo, icon, label, href, note } = Astro.props;
+
+// Resolved through Vite so the base path and asset hashing are handled for us,
+// and an unknown filename fails the build instead of shipping a dead image.
+const logos = import.meta.glob<string>('../assets/logo/*.svg', {
+	eager: true,
+	query: '?url',
+	import: 'default',
+});
+const src = logo ? logos[`../assets/logo/${logo}`] : undefined;
+if (logo && !src) throw new Error(`Choice: no such logo "${logo}" in src/assets/logo/`);
+---
+
+<a class="choice" href={href}>
+	{src && <span class="plate"><img src={src} alt="" /></span>}
+	{!src && icon && <span class="glyph"><Icon name={icon} size="1.9rem" /></span>}
+	<span class="label">{label}</span>
+	{note && <span class="note">{note}</span>}
+</a>
+
+<style>
+	.choice {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 1rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		background: var(--sl-color-black);
+		text-decoration: none;
+		color: var(--sl-color-white);
+		transition: border-color 0.2s ease, transform 0.2s ease;
+	}
+
+	.choice:hover {
+		border-color: var(--sl-color-accent);
+		transform: translateY(-2px);
+	}
+
+	/* Vendor logos are near-black artwork, so they get a light plate of their
+	   own rather than inheriting the page background in dark mode. */
+	.plate {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 6rem;
+		padding: 1rem;
+		border-radius: 0.375rem;
+		background: #f4f4f5;
+	}
+
+	.plate img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	/* Icons are monochrome, so they take the accent colour rather than the light
+	   plate the vendor logos need. */
+	.glyph {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 3rem;
+		color: var(--sl-color-text-accent);
+	}
+
+	.choice:hover .glyph {
+		color: var(--sl-color-white);
+	}
+
+	.label {
+		font-weight: 600;
+		text-align: center;
+		line-height: 1.3;
+	}
+
+	.note {
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+		text-align: center;
+		line-height: 1.4;
+	}
+</style>

@@ -1,0 +1,75 @@
+---
+title: "Install FTL: Hyperspace on Linux with ftlman"
+description: "Let ftlman install Hyperspace and patch your mods"
+prev:
+  link: ../
+  label: All Linux guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import FtlmanIntro from '@p/shared/_ftlman-intro.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import Ftlman from '@p/manager/_ftlman-install.mdx';
+import FtlmanApply from '@p/manager/_ftlman-apply.mdx';
+import Verify from '@p/shared/_install-verify.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
+import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
+
+<FtlmanIntro />
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+   <LinuxSaves />
+
+   <BackupSaves />
+
+2. ### Set up ftlman
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
+
+   <Ftlman />
+
+   </TabItem>
+   </Tabs>
+
+3. ### Install Hyperspace and your mods
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
+
+   <FtlmanApply />
+
+   </TabItem>
+   </Tabs>
+
+4. ### Check it worked
+
+   <Verify />
+
+</Steps>
+
+**Hyperspace is now installed and ready to play.** Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />
+
+## Updating
+
+Open ftlman, pick the newer release from the **Hyperspace** dropdown and press
+**Apply**. Your saves are not affected.
+
+## Uninstalling
+
+<FtlmanUninstall />

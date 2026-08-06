@@ -1,0 +1,18 @@
+import OverrideNote from '@p/shared/_hyperspace-override.mdx';
+
+{/* Mirrors the ftlman tab step for step, so switching tabs reads the same. Slipstream
+    has no Hyperspace dropdown, so the `.ftl` is always supplied by hand. */}
+
+1. Enable ZIP support: **Preferences → allow_zip**.
+
+2. Put `Hyperspace.ftl` from the ZIP into Slipstream's `mods` folder, along with your
+   mods.
+
+3. **File → Re-Scan mods/** so Slipstream can find them.
+
+4. Tick mods you want to use. Order matters, some mods specify that they must be loaded before (e.g. Multiverse Assets).
+   To change order simply drag the mod up or down in the list.
+
+   <OverrideNote />
+
+5. Press **Patch**.

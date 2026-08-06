@@ -1,0 +1,21 @@
+---
+title: "Troubleshooting on Windows"
+description: "Crashes, hangs and missing version text"
+prev:
+  link: ../
+  label: All Windows guides
+next:
+  link: ../updating/
+  label: Try updating first
+---
+
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import WindowsSaves from '@p/platform/_windows-saves.mdx';
+
+<WindowsSaves />
+
+### The game complains about `-opengl`
+
+Stop passing the `-opengl` flag. It was removed in Hyperspace 1.5.0 and is no longer needed.
+
+<Troubleshooting Saves={WindowsSaves} />

@@ -1,0 +1,34 @@
+import PatchFtlman from '@p/manager/_ftlman-multiverse-patch.mdx';
+import PatchSlipstream from '@p/manager/_slipstream-multiverse-patch.mdx';
+import OverrideNote from '@p/shared/_hyperspace-override.mdx';
+
+Multiverse is the largest mod built on Hyperspace, and it installs differently from
+everything else.
+
+1. Open the [Multiverse release thread](link:multiverseForum) and scroll to
+   **DOWNLOAD RAW FILES (OTHER PLATFORMS, UPDATES, MANUAL INSTALL)**. Ignore the
+   installer above it, that one is Windows-only and does its own thing.
+2. Download **both** files listed there, the **Assets File** and the **Data File**.
+3. Put both `.zip` files in your mod manager's `mods` folder.
+4. Patch them **in this order**, and nothing else:
+
+{/* Slipstream is dropped where it is not an option, but the tab stays so the step
+    reads the same on every platform. */}
+<Tabs syncKey="manager">
+  <TabItem label="ftlman"><PatchFtlman /></TabItem>
+  {!props.ftlmanOnly && <TabItem label="Slipstream"><PatchSlipstream /></TabItem>}
+</Tabs>
+
+<OverrideNote />
+
+
+<Aside type="caution" title="Only add Multiverse-compatible mods">
+Anything not built for Multiverse can conflict with it.
+Add them one at a time so you know which one broke things,
+and ask on Discord if you are unsure about a particular favourite.
+</Aside>
+
+<Aside type="note" title="When Hyperspace updates">
+Updating Hyperspace does not disturb your saves, but you do need to re-patch
+Multiverse afterwards.
+</Aside>

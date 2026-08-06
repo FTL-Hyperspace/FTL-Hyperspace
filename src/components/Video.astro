@@ -1,0 +1,42 @@
+---
+interface Props {
+	/** URL from a `?url` import, so Vite handles hashing and the base path. */
+	src: string;
+	/** Shown above the player, describing what the clip covers. */
+	caption?: string;
+}
+
+const { src, caption } = Astro.props;
+---
+
+<figure class="clip not-content">
+	<video controls preload="metadata" playsinline>
+		<source src={src} type="video/mp4" />
+		Your browser cannot play this video.
+		<a href={src}>Download it instead</a>.
+	</video>
+	{caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+	.clip {
+		margin-block: 1.5rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		overflow: hidden;
+		background: var(--sl-color-black);
+	}
+
+	video {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	figcaption {
+		padding: 0.6rem 0.8rem;
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+		border-top: 1px solid var(--sl-color-gray-5);
+	}
+</style>

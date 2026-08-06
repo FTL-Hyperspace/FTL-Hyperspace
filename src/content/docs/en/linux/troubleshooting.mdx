@@ -1,0 +1,66 @@
+---
+title: "Troubleshooting on Linux"
+description: "Crashes, hangs and missing version text"
+prev:
+  link: ../
+  label: All Linux guides
+next:
+  link: ../updating/
+  label: Try updating first
+---
+
+import Troubleshooting from '@p/shared/_troubleshooting.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
+
+<LinuxSaves />
+
+### The game fails to start with `Failed to install hook`
+
+```
+Fatal Error
+Failed to install hook for WeaponControl::RenderAiming:
+Failed to make copy of original code executable
+```
+
+SELinux is blocking the Hyperspace library from being linked. Fedora ships with it
+enabled, so that is where this usually turns up. The fix is to add an exception.
+
+<Steps>
+
+1. Check whether SELinux is running:
+
+   ```sh
+   sestatus
+   ```
+
+2. If it is enabled, check whether it is enforcing:
+
+   ```sh
+   getenforce
+   ```
+
+   Anything other than `Enforcing` means SELinux is not your problem.
+
+3. Build and install the exception. `ausearch` finds the denial, `audit2allow`
+   turns it into a rule, and `semodule` loads it:
+
+   ```sh
+   sudo ausearch -c "FTL.amd64" --raw | audit2allow -M FTLMultiverse && sudo semodule -i FTLMultiverse.pp
+   ```
+
+   Swap `FTL.amd64` for the executable your architecture runs. If `ausearch` finds
+   nothing, launch FTL once more to produce a fresh denial and try again.
+
+4. Confirm the rule loaded:
+
+   ```sh
+   sudo semanage module -l | grep FTLMultiverse
+   ```
+
+   You should see something like `FTLMultiverse    400    pp`.
+
+</Steps>
+
+Launch the game again and it should start normally.
+
+<Troubleshooting Saves={LinuxSaves} />

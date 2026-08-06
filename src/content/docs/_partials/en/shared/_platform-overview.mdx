@@ -1,0 +1,26 @@
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+import IntroSetup from '@p/shared/_intro-setup.mdx';
+import IntroProblems from '@p/shared/_intro-problems.mdx';
+
+{/* Every platform index is this page. The hrefs are relative, so each one
+    resolves inside its own platform folder. Headings live here rather than in
+    the pages, so they have to stay registered in src/routeMiddleware.ts. */}
+
+## Setting it up
+
+<IntroSetup />
+
+<ChoiceGrid>
+	<Choice icon="rocket" label="Easy install" href="easy-install/" note="Recommended" />
+	<Choice icon="setting" label="Manual install" href="manual-install/" note="Install everything by hand" />
+	<Choice icon="cloud-download" label="Update" href="updating/" note="Already installed, want the latest" />
+</ChoiceGrid>
+
+## Something not working
+
+<IntroProblems />
+
+<ChoiceGrid>
+	<Choice icon="warning" label="Fix a problem" href="troubleshooting/" note="Crashes, hangs, no version text" />
+</ChoiceGrid>

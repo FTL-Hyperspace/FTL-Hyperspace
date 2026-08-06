@@ -1,0 +1,86 @@
+---
+title: "Install FTL: Hyperspace on Linux manually"
+description: "Copy the library, edit the launch script, patch your mods"
+prev:
+  link: ../
+  label: All Linux guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import EasierWay from '@p/shared/_install-easier-way.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import HyperspaceLinux from '@p/platform/_linux-hyperspace-install.mdx';
+import ModManager from '@p/shared/_mod-manager-choose.mdx';
+import PatchFtlman from '@p/manager/_ftlman-apply.mdx';
+import PatchSlipstream from '@p/manager/_slipstream-hyperspace-patch.mdx';
+import Verify from '@p/shared/_install-verify.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
+import Unpatch from '@p/shared/_ftl-dat-restore.mdx';
+
+<EasierWay />
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+   <LinuxSaves />
+
+   <BackupSaves />
+
+2. ### Install the Hyperspace library
+
+   <HyperspaceLinux />
+
+3. ### Set up a mod manager
+
+   <ModManager />
+
+4. ### Patch Hyperspace in
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman"><PatchFtlman manual /></TabItem>
+   <TabItem label="Slipstream"><PatchSlipstream /></TabItem>
+   </Tabs>
+
+
+5. ### Check it worked
+
+   <Verify />
+
+   Getting a **Failed to install hook** error instead? SELinux is blocking the
+   library, which is common on Fedora. See
+   [the fix](../troubleshooting/#the-game-fails-to-start-with-failed-to-install-hook).
+
+</Steps>
+
+Hyperspace is now installed and ready to play. Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse />
+
+## Uninstalling
+
+<Steps>
+
+1. ### Put `ftl.dat` back to vanilla
+
+   <Unpatch />
+
+2. ### Remove the Hyperspace files
+
+   Delete the `Hyperspace.*.so` file from your FTL folder.
+
+3. ### Undo the launch script edit
+
+   Remove the `LD_PRELOAD` line you added to the `FTL` script.
+
+</Steps>

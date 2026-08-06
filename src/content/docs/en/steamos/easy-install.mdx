@@ -1,0 +1,78 @@
+---
+title: "Install FTL: Hyperspace on SteamOS with ftlman"
+description: "Desktop mode, then let ftlman do the rest"
+prev:
+  link: ../
+  label: All SteamOS guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import FtlmanIntro from '@p/shared/_ftlman-intro.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import LinuxSaves from '@p/platform/_linux-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import Ftlman from '@p/manager/_ftlman-install.mdx';
+import FtlmanApply from '@p/manager/_ftlman-apply.mdx';
+import Verify from '@p/shared/_install-verify.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
+import FtlmanUninstall from '@p/manager/_ftlman-hyperspace-uninstall.mdx';
+
+<FtlmanIntro />
+
+<Steps>
+
+1. ### Switch to desktop mode
+
+   Press the **Steam** button, then **Power**, then **Switch to Desktop**.
+
+2. ### Steam settings
+
+   <SteamSettings />
+
+   <LinuxSaves />
+
+   <BackupSaves />
+
+3. ### Set up ftlman
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
+
+   <Ftlman />
+
+   </TabItem>
+   </Tabs>
+
+4. ### Install Hyperspace and your mods
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
+
+   <FtlmanApply />
+
+   </TabItem>
+   </Tabs>
+
+5. ### Check it worked
+
+   <Verify />
+
+</Steps>
+
+**Hyperspace is now installed.** Return to gaming mode and launch FTL as usual.
+Everything below is optional.
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />
+
+## Updating
+
+Open ftlman in desktop mode, pick the newer release from the **Hyperspace** dropdown
+and press **Apply**. Your saves are not affected.
+
+## Uninstalling
+
+<FtlmanUninstall />

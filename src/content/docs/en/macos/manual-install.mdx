@@ -1,0 +1,114 @@
+---
+title: "Install FTL: Hyperspace on macOS manually"
+description: "Edit Info.plist, copy the dylib, patch mods, codesign"
+prev:
+  link: ../
+  label: All macOS guides
+next:
+  link: ../troubleshooting/
+  label: Something not working?
+---
+
+import EasierWay from '@p/shared/_install-easier-way.mdx';
+import SteamSettings from '@p/shared/_steam-settings.mdx';
+import MacosSaves from '@p/platform/_macos-saves.mdx';
+import BackupSaves from '@p/shared/_saves-backup.mdx';
+import OldWrapper from '@p/platform/_macos-old-wrapper.mdx';
+import ModManager from '@p/manager/_ftlman-install.mdx';
+import Multiverse from '@p/shared/_multiverse-install.mdx';
+import Codesign from '@p/platform/_macos-app-codesign.mdx';
+import KeepVanilla from '@p/platform/_macos-app-duplicate.mdx';
+
+<EasierWay />
+
+<KeepVanilla />
+
+<Steps>
+
+1. ### Steam settings
+
+   Skip this if you did not buy FTL on Steam.
+
+   <SteamSettings />
+
+   <MacosSaves />
+
+   <BackupSaves />
+
+2. ### Find your FTL folder
+
+   | Vendor | Location |
+   | --- | --- |
+   | Steam | `~/Library/Application Support/Steam/steamapps/common/FTL Faster Than Light/` |
+   | GOG | `/Applications/` |
+
+   In Finder, press **Cmd + Shift + G** and paste the path. Steam users can also
+   right-click FTL in their library and choose **Manage → Browse Local Files**.
+
+3. ### Point the app at Hyperspace
+
+   Right-click `FTL.app`, choose **Show Package Contents**, open **Contents**, and
+   open `Info.plist` in a text editor.
+
+   Change:
+
+   ```xml
+   <key>CFBundleExecutable</key>
+   <string>FTL</string>
+   ```
+
+   to:
+
+   ```xml
+   <key>CFBundleExecutable</key>
+   <string>Hyperspace.command</string>
+   ```
+
+   While you are in there, note `CFBundleVersion`. You need it next.
+
+4. ### Copy the Hyperspace files
+
+   Download `FTL.Hyperspace.x.xx.x-MacOS.zip` from the [latest release](link:releases).
+   From the `MacOS/` folder inside it, copy into `Contents/MacOS`:
+
+   - `Hyperspace.command`
+   - **exactly one** dylib matching the version you just noted:
+     `Hyperspace.1.6.13.amd64.dylib` or `Hyperspace.1.6.12.amd64.dylib`
+
+5. ### Set up a mod manager
+
+   <ModManager />
+
+   Point ftlman at `FTL.app/Contents/Resources`, the folder holding `ftl.dat`. In
+   Finder you can right-click `ftl.dat`, hold **Option**, and choose
+   **Copy as Pathname**, then delete the trailing `ftl.dat` from the path. Click **Scan**.
+
+   <Aside type="note">
+   The error "FTL executable not found" is expected here and can be ignored.
+   </Aside>
+
+6. ### Sign the app
+
+   macOS refuses to run the patched app until it is signed.
+
+   <Codesign />
+
+7. ### Launch
+
+   Open `FTL.app` directly. Do **not** launch it through Steam.
+
+</Steps>
+
+<OldWrapper />
+
+## Adding Multiverse
+
+<Multiverse ftlmanOnly />
+
+## Uninstalling
+
+Right-click `FTL.app`, choose **Show Package Contents**, then:
+
+1. In `Contents/Info.plist`, change `Hyperspace.command` back to `FTL`.
+2. Delete `Hyperspace.command` and `Hyperspace.*.dylib` from `Contents/MacOS`.
+3. In `Contents/Resources`, delete `ftl.dat` and rename `ftl.dat.vanilla` to `ftl.dat`.

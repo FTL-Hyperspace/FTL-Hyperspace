@@ -1,0 +1,47 @@
+---
+/**
+ * Starlight keeps the language picker in the mobile menu drawer, two taps away.
+ * This puts it on the right of the "On this page" bar instead, where it is visible
+ * without opening anything. The parent already hides this whole component at lg,
+ * so no extra breakpoint handling is needed.
+ */
+import Default from '@astrojs/starlight/components/MobileTableOfContents.astro';
+import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
+---
+
+<Default />
+
+<div class="toc-lang">
+	<LanguageSelect />
+</div>
+
+<style>
+	.toc-lang {
+		position: fixed;
+		z-index: calc(var(--sl-z-index-toc) + 1);
+		top: calc(var(--sl-nav-height) - 1px);
+		inset-inline-end: 0.75rem;
+		display: flex;
+		align-items: center;
+		height: var(--sl-mobile-toc-height);
+	}
+
+	/* Starlight shows its own picker in the header from 50rem, but keeps this bar
+	   until 72rem. Without this both appear between those two widths. */
+	@media (min-width: 50rem) {
+		.toc-lang {
+			display: none;
+		}
+	}
+
+	/* The picker is sized for the desktop header, so tighten it for the bar. */
+	.toc-lang :global(select) {
+		font-size: var(--sl-text-xs);
+	}
+
+	/* Starlight echoes the heading you are currently on next to the toggle. It adds
+	   nothing the toggle does not already say, and it competes with the picker. */
+	:global(#starlight__mobile-toc .display-current) {
+		display: none;
+	}
+</style>

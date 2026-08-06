@@ -1,0 +1,103 @@
+---
+title: "FTL: Hyperspace"
+description: "A binary mod for FTL: Faster Than Light"
+template: splash
+hero:
+  tagline: "New ships, new systems, new everything with a better vanilla underneath."
+  image:
+    file: ../../../assets/brand/wordmark.png
+  actions:
+    - text: Install Hyperspace
+      link: "#install"
+      icon: down-arrow
+    - text: Join the Discord
+      link: "link:discord"
+      icon: external
+      variant: secondary
+---
+
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+import AppFrame from '~/components/AppFrame.astro';
+import Credits from '~/components/HyperspaceCredits.astro';
+import LocalCommunity from '@p/shared/_local-community.mdx';
+import menu from '~/assets/brand/menu.png';
+import { links } from '~/data/links';
+
+<AppFrame src={menu} alt="The FTL main menu running Hyperspace" />
+
+## Install
+
+Pick the machine you play on.
+
+<ChoiceGrid>
+	<Choice label="Windows" href="windows/" logo="windows.svg" note="" />
+	<Choice label="SteamOS" href="steamos/" logo="steamos.svg" note="" />
+	<Choice label="Linux" href="linux/" logo="linux.svg" note="" />
+	<Choice label="macOS" href="macos/" logo="macos.svg" note="" />
+</ChoiceGrid>
+
+## What is Hyperspace?
+
+Traditionally, FTL modding was very restrictive, only allowing the alteration or
+replacement of existing content. Adding new content was only possible within very narrow
+boundaries. Hyperspace allows mod developers to step beyond these limitations.
+
+In short, FTL: Hyperspace is an API that enables modders to create mods with
+unprecedented features. Examples include new alien races with their own strengths and
+weaknesses, new systems and subsystems, combined and hidden augments, custom drones, new
+special stores and a command console, as well as Lua script support.
+
+Modern projects such as [FTL: Multiverse](link:multiverseForum) and
+[Insurrection+](link:insurrectionForum) therefore rely on it.
+
+Although it is designed to be an API for developers, it also introduces a few
+stand-alone quality-of-life changes.
+
+<Card title="Vanilla, but better" icon="rocket">
+
+| Feature | What it does | Default |
+| --- | --- | --- |
+| **Seeded runs** | Race someone through the same seed, or share a unique find | On |
+| **Numerical hull indicator** | Exact numbers, for players and enemies alike | On |
+| **Improved performance** | Lazy image loading, for far quicker loads and lower memory use | On |
+| **Discord Rich Presence** | Shows what you are playing | Windows builds |
+| **Detailed tooltips** | Crew and event tooltips carry more than the base game shows | Partly |
+| **Bug fixes** | Hacking drones, repair drones, crystal shards, defence drones | Partly |
+| **Tile-based crew control** | Advanced positioning, down to the tile | Off |
+
+Everything here is a switch in `hyperspace.xml`, so a mod can turn on what is off by
+default. [Every flag and its default](features/) is listed separately.
+
+</Card>
+
+Hyperspace is natively supported on Windows, macOS and Linux, including SteamOS.
+
+## For mod developers
+
+Most of the features that Hyperspace provides are documented in `data/hyperspace.xml`
+inside the `Hyperspace.ftl` file. Normal mods should use a basic `hyperspace.xml.append`
+file and add or modify the existing tags. Large overhauls, such as FTL: Multiverse, ship
+with their own `hyperspace.xml`.
+
+If you are shipping your mod, expect your players to download Hyperspace separately and
+patch it first. To ensure the best compatibility with other mods, do not redistribute
+Hyperspace's resource files or binaries; simply direct people to the download.
+
+## Unique features
+
+We have added support for Lua script, which allows modders to create all kinds of
+things, provided they adhere to the current limitations.
+
+<ChoiceGrid>
+	<Choice icon="open-book" label="Lua" href={links.wiki} note="API reference on the wiki" />
+</ChoiceGrid>
+
+## Join us
+
+Come and talk to us in the Hyperspace channels on
+[the FTL Multiverse Discord server](link:discord).
+
+<LocalCommunity />
+
+<Credits />

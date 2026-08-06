@@ -1,0 +1,15 @@
+import ChoiceGrid from '~/components/ChoiceGrid.astro';
+import Choice from '~/components/Choice.astro';
+
+{/* A partial only so the macOS index carries no headings of its own. The route
+    middleware appends partial headings in registry order, so a heading written
+    in the page itself would sort above the shared overview's. */}
+
+## Coming from the old wrapper
+
+If you installed Hyperspace with the community FTL Hyperspace wrapper before the
+installer existed, your saves can be migrated to the native FTL Hyperspace release
+
+<ChoiceGrid>
+	<Choice icon="random" label="Migrate your saves" href="migrate-saves/" note="Moving from the old wrapper" />
+</ChoiceGrid>

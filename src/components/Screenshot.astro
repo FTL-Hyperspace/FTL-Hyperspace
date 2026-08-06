@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+	src: ImageMetadata;
+	alt: string;
+	/** Text on the toggle. Say what the reader will see. */
+	label: string;
+}
+
+const { src, alt, label } = Astro.props;
+---
+
+{/* not-content keeps Starlight's markdown spacing out of the disclosure. */}
+<details class="shot not-content">
+	<summary>{label}</summary>
+	<Image src={src} alt={alt} loading="lazy" />
+</details>
+
+<style>
+	.shot {
+		margin-block: 0.75rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		background: var(--sl-color-black);
+	}
+
+	summary {
+		cursor: pointer;
+		padding: 0.5rem 0.75rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-text-accent);
+		user-select: none;
+	}
+
+	summary:hover {
+		color: var(--sl-color-white);
+	}
+
+	.shot :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin: 0;
+		border-top: 1px solid var(--sl-color-gray-5);
+		border-radius: 0 0 0.5rem 0.5rem;
+	}
+</style>

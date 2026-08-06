@@ -1,0 +1,22 @@
+
+The Windows build of Hyperspace only runs on **FTL 1.6.9**. If Steam, GOG or Epic
+gave you anything newer (and they will have), roll it back first.
+
+<Aside type="tip" title="Check before you start">
+Launch FTL and look at the lower right of the main menu. If it already reads
+**1.6.9** you have rolled back before, so skip this step.
+</Aside>
+
+1. Open [FTL-Version-Rollback](link:rollback) and choose **Code → [Download ZIP](link:rollbackZip)**, then extract it.
+2. Copy the extracted contents into your FTL folder, next to `FTLGame.exe`.
+   That is usually `C:\Program Files (x86)\Steam\steamapps\common\FTL Faster Than Light`.
+3. Run `rollback.bat`.
+
+Your original executable is kept as `FTLGame_orig.exe`, so this is reversible.
+
+<Aside type="note" title="Which versions it covers">
+Steam 1.6.12 / 1.6.13 / 1.6.14 / 1.6.22 · GOG 1.6.12 / 1.6.13 / 1.6.13b ·
+Epic, EA, Origin, Humble and DRM-free 1.6.12.
+
+Older Microsoft Store copies may refuse to patch because of write-protection rules.
+</Aside>

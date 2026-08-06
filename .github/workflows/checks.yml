@@ -1,0 +1,32 @@
+name: Checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+  # Lets the deploy workflow gate itself on this rather than repeating the steps.
+  workflow_call:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch makes an in-flight run pointless.
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check:content
+      # Reports as inline annotations on the diff
+      - run: npm run check:editorconfig -- -format github-actions
+      # check:links needs somewhere to look, so the build has to run first.
+      - run: npm run build
+      - run: npm run check:links
