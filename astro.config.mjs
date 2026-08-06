@@ -75,9 +75,14 @@ export default defineConfig({
 	vite: { plugins: [vitePartials()] },
 	integrations: [
 		starlight({
-			title: 'FTL: Hyperspace',
+			title: 'FTL Hyperspace',
 			description: 'A binary mod for FTL: Faster Than Light',
-			customCss: ['./src/styles/hero.css'],
+			customCss: [
+				'@fontsource/silkscreen/400.css',
+				'./src/styles/theme.css',
+				'./src/styles/global.css',
+				'./src/styles/hero.css',
+			],
 			// Restores table-of-contents entries for headings that live in partials.
 			routeMiddleware: './src/routeMiddleware.ts',
 			components: {

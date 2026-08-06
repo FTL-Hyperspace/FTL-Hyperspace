@@ -1,0 +1,54 @@
+/*
+ * Design tokens: the palette every stylesheet draws from, with the
+ * light-theme overrides kept beside their dark defaults.
+ */
+
+:root {
+	--hs-amber: 30, 85%, 55%;
+	--hs-violet: 266, 80%, 50%;
+
+	/* The docs-page wash, kept faint so it never fights long prose. */
+	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.07);
+	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.1);
+
+	/* How much of its own colour each glass surface keeps. Lower is more see
+	   through. One knob for the nav, the mobile TOC bar and the sidebar. */
+	--hs-glass-opacity: 10%;
+
+	/* Splash pages sit on a near-black indigo rather than Starlight's gray,
+	   with the nebula alphas tuned per theme: whisper-faint on the dark base,
+	   pastel on the light one where a whisper would vanish entirely. */
+	--hs-splash-bg: hsl(228, 42%, 6%);
+	--hs-neb-1: hsla(var(--hs-violet), 0.09);
+	--hs-neb-2: hsla(var(--hs-amber), 0.05);
+	/* The dome of purple light rising past the bottom edge — the credits sit
+	   in it, so it keeps the pre-redesign strength rather than a whisper. */
+	--hs-neb-3: hsla(var(--hs-violet), 0.22);
+
+	/*
+	 * Violet accent, same family as the nebula wash, replacing Starlight's default
+	 * blue. Lightness is picked for contrast rather than copied from Starlight:
+	 * violet reads darker than blue, so the dark-theme accent lifts to 70% for
+	 * 5.0:1 on the page background, and the light one drops to 48% for 7.4:1 on
+	 * white. Both clear AA for body-sized links.
+	 */
+	--sl-color-accent-low: hsl(266, 55%, 22%);
+	--sl-color-accent: hsl(266, 100%, 70%);
+	--sl-color-accent-high: hsl(266, 100%, 87%);
+}
+
+:root[data-theme='light'] {
+	--hs-glow-warm-soft: hsla(var(--hs-amber), 0.06);
+	--hs-glow-cool-soft: hsla(var(--hs-violet), 0.07);
+
+	/* Faint lavender paper instead of plain white, so the splash still reads
+	   as its own place in daylight. */
+	--hs-splash-bg: hsl(250, 45%, 97%);
+	--hs-neb-1: hsla(var(--hs-violet), 0.14);
+	--hs-neb-2: hsla(var(--hs-amber), 0.09);
+	--hs-neb-3: hsla(var(--hs-violet), 0.1);
+
+	--sl-color-accent-low: hsl(266, 88%, 92%);
+	--sl-color-accent: hsl(266, 80%, 48%);
+	--sl-color-accent-high: hsl(266, 80%, 30%);
+}
