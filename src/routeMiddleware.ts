@@ -20,8 +20,9 @@ type TocItem = MarkdownHeading & { children: TocItem[] };
  */
 const REGISTRY: Array<{ pages: RegExp; headings: MarkdownHeading[] }> = [
 	{ pages: /\/troubleshooting$/, headings: troubleshootingHeadings() },
-	// any /lang/slug page that renders the platform overview partial
-	{ pages: /^[a-z]{2}\/[^/]+$/, headings: platformOverviewHeadings() },
+	// The platform overview partial is used on every platform page, so it has to be
+	// registered for all of them. The others are only used on their own page.
+	{ pages: /\/(windows|macos|linux|steamos)$/, headings: platformOverviewHeadings() },
 ];
 
 /**
