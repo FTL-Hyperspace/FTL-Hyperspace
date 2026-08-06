@@ -1,0 +1,171 @@
+---
+/**
+ * The credits as an arrival: each name warps in with the game's jump streak
+ * once the section scrolls into view, glowing white-hot before it cools into
+ * plain text. Hover re-ignites the glow. Names with a GitHub handle link to
+ * the profile.
+ */
+import { credits, type Person } from "~/data/credits";
+
+const t = Astro.locals.t;
+const sections = [
+  { key: "credits.development", people: credits.development },
+  { key: "credits.art", people: credits.art },
+  { key: "credits.specialThanks", people: credits.specialThanks },
+] as const;
+
+const normalise = (person: Person) =>
+  typeof person === "string" ? { name: person } : person;
+
+let tileIndex = 0;
+---
+
+{
+  /* not-content opts out of Starlight's blanket sibling margins, which would
+    push every name after the first down and misalign the rows. */
+}
+<section class="hyperspace-credits not-content">
+  <h2>{t("credits.title")}</h2>
+  {
+    sections.map(({ key, people }) => (
+      <div class="group">
+        <p class="role">{t(key)}</p>
+        <ul>
+          {people.map(normalise).map(({ name, github }) => (
+            <li class="tile" style={`--i: ${tileIndex++}`}>
+              {github ? (
+                <a class="name" href={`https://github.com/${github}`}>
+                  {name}
+                </a>
+              ) : (
+                <span class="name">{name}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .hyperspace-credits {
+    margin-block: 4rem 2rem;
+    text-align: center;
+  }
+
+  /* not-content also detaches Starlight's heading look, so restate it. */
+  .hyperspace-credits h2 {
+    font-size: var(--sl-text-xl);
+    font-weight: 600;
+    color: var(--sl-color-white);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+
+  .group + .group {
+    margin-top: 2.5rem;
+  }
+
+  .role {
+    font-size: var(--sl-text-xs);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3);
+    margin-bottom: 1rem;
+  }
+
+  .group ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.75rem;
+    max-width: 42rem;
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+    line-height: 1.6;
+    /* The warp-in transforms briefly stick out far past the list, which
+		   widens the page's scrollable area and makes mobile viewports (and
+		   their fixed backgrounds) jump when the animation ends. Clip keeps
+		   the flight inside the list without creating a scroll container. */
+    overflow: clip;
+  }
+
+  .tile {
+    opacity: 0;
+  }
+
+  /* The warp streak: arrive stretched and white-hot, snap into place, cool
+	   off. Staggered per name so the crew beams in as a wave. */
+  .hyperspace-credits.in .tile {
+    animation: arrive 550ms calc(var(--i) * 60ms) cubic-bezier(0.2, 0.8, 0.3, 1)
+      both;
+  }
+
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateX(-12rem) scaleX(4);
+      filter: blur(6px);
+      text-shadow: 0 0 18px hsla(var(--hs-amber), 1);
+      color: var(--sl-color-white);
+    }
+    45% {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      text-shadow:
+        0 0 6px hsla(var(--hs-amber), 0.9),
+        0 0 22px hsla(var(--hs-amber), 0.6);
+      color: var(--sl-color-white);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      text-shadow: 0 0 0 transparent;
+    }
+  }
+
+  .name {
+    color: var(--sl-color-white);
+    text-decoration: none;
+    transition:
+      color 150ms ease-out,
+      text-shadow 150ms ease-out;
+  }
+
+  /* Hover re-ignites the jump glow. */
+  a.name:hover,
+  a.name:focus-visible {
+    color: var(--sl-color-white);
+    text-shadow:
+      0 0 6px hsla(var(--hs-amber), 0.9),
+      0 0 22px hsla(var(--hs-amber), 0.6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile,
+    .hyperspace-credits.in .tile {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const wall = document.querySelector<HTMLElement>(".hyperspace-credits");
+
+  if (wall) {
+    new IntersectionObserver(
+      (hits, observer) => {
+        if (!hits.some((hit) => hit.isIntersecting)) return;
+        wall.classList.add("in");
+        observer.disconnect();
+      },
+      { threshold: 0.15 },
+    ).observe(wall);
+  }
+</script>
