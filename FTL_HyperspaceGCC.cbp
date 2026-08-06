@@ -361,7 +361,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -369,7 +369,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
@@ -409,7 +409,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -417,7 +417,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
@@ -456,7 +456,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -465,7 +465,7 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-s" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
@@ -505,7 +505,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -514,7 +514,7 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-s" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
@@ -596,7 +596,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -604,7 +604,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
@@ -644,7 +644,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -652,7 +652,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
@@ -691,7 +691,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -700,7 +700,7 @@
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-s" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
@@ -740,7 +740,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/include/SDL2" />
+					<Add directory="/usr/include/SDL3" />
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
@@ -749,7 +749,7 @@
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-s" />
-					<Add option="-lSDL2" />
+					<Add option="-lSDL3" />
 					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
@@ -1182,9 +1182,6 @@
 		<Unit filename="Infinite.h">
 			<Option virtualFolder="Content/Map/" />
 		</Unit>
-		<Unit filename="InfiniteTeleport.cpp">
-			<Option virtualFolder="Core/Systems/" />
-		</Unit>
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>
@@ -1206,7 +1203,7 @@
 		<Unit filename="MoreInfoButton.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
-		<Unit filename="NeutralTeleporterFix.cpp">
+		<Unit filename="TeleporterBugFixes.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="OverclockerSystem.cpp">
@@ -1364,6 +1361,9 @@
 		</Unit>
 		<Unit filename="TemporalSystemVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename"TextString.cpp">
+			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="TileBasedCrewMovement.cpp">
 			<Option virtualFolder="Core/Crew/" />

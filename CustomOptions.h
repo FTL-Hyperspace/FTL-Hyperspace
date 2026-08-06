@@ -28,6 +28,7 @@ public:
         bool beaconType_hideVanillaLabel = true;
         bool checkCargo = false;
         bool choiceRequiresCrew = false;
+        bool instantEscape_removeShipBox = false;
     };
 
     bool altMode = true;
@@ -36,6 +37,8 @@ public:
 //    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting<bool> droneIonDodgeFix;
+
     Setting<bool> redesignedWeaponTooltips;
     Setting<bool> redesignedCrewTooltips;
     Setting<bool> redesignedDroneTooltips;
@@ -96,8 +99,16 @@ public:
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
-  
+
     Setting<bool> multiShipFix;
+
+    Setting<bool> teleporterHackFix;
+
+    Setting<bool> energyBypassTeleportRecall;
+
+    Setting<bool> oxygenRefillFix;
+
+    Setting<bool> disableLazyImageLoading;
 
     Defaults defaults;
 

@@ -1,0 +1,11 @@
+// Continue from ExplosionAnimation::LoadGibs (hyper efficiency™)
+".554889e54157415641554154534881ec??0100004989fd49":
+cleanup __amd64 void FTLButton::OnRender(FTLButton *this);
+".554889e54156":
+cleanup __amd64 std::string FTLButton::GetPilotTooltip(FTLButton *this);
+".554889e5415741564155415453504189cf4189d6":
+cleanup __amd64 void FTLButton::MouseMove(FTLButton *this, int mX, int mY, bool silent);
+".554889e5415653":
+cleanup __amd64 bool FTLButton::MouseClick(FTLButton *this, int mX, int mY);
+".554889e541574156415453":
+cleanup __amd64 bool FTLButton::OnTouch(FTLButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY);

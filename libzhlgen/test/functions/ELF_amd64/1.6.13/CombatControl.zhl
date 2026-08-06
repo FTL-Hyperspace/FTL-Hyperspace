@@ -3,9 +3,9 @@ cleanup __amd64 void CombatControl::RenderTarget(CombatControl *this);
 "488b87c00700004885c0740c488b4010c3":
 cleanup __amd64 ShipManager *CombatControl::GetCurrentTarget(CombatControl *this);
 ".488bbfc00700004885ff":
-cleanup __amd64 char CombatControl::CurrentTargetIsBoss(CombatControl *this);
+cleanup __amd64 bool CombatControl::CurrentTargetIsBoss(CombatControl *this);
 "4154554889fd534883ec30488b87f80000004885c0":
-cleanup __amd64 char CombatControl::CanTargetSelf(CombatControl *this);
+cleanup __amd64 bool CombatControl::CanTargetSelf(CombatControl *this);
 "534889fb4883ec3080bfb80e000000":
 cleanup __amd64 void CombatControl::OnRenderCombat(CombatControl *this);
 "4155415455534889fb4883ec284883bfc007000000":

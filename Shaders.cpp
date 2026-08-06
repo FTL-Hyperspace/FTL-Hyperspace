@@ -23,12 +23,12 @@ HOOK_STATIC(CSurface, generate_fragment_shader_source, (GraphicsPrimitiveType pr
     return ret;
 }
 
-HOOK_METHOD(CApp, OnInit, () -> void)
+HOOK_METHOD(CApp, OnInit, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Shaders.cpp)\n")
     shader = G_->GetResources()->LoadFile("data/shaders/default.fs");
 
-    super();
+    return super();
 }
 
 HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)

@@ -17,6 +17,8 @@ struct GlobalPre
 	#include <unordered_map>
 	#include <math.h>
 	#include <queue>
+	#include <io.h>
+	#include <stdio.h>
 	#undef LoadImage
 
 	#ifndef M_PI
@@ -330,8 +332,29 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
 	  GRAPHICS_COMPARISON_GREATER = 0x7,
 	};
+										
+	enum SoundFormat
+	{
+		SOUND_FORMAT_AUTODETECT = 0,
+		SOUND_FORMAT_WAV = 0x0001,
+		SOUND_FORMAT_MP3 = 0x0055,
+		SOUND_FORMAT_OGG = 0x674F,
+	};
 
-	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	struct SysFile;
+	struct Sound;
+
+	typedef char* ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	typedef struct PackageModuleInfo PackageModuleInfo;
+	typedef int (*PackageInitFunc)(PackageModuleInfo *module);
+	typedef void (*PackageCleanupFunc)(PackageModuleInfo *module);
+	typedef void (*PackageListStartFunc)(PackageModuleInfo *module);
+	typedef const char *(*PackageListNextFunc)(PackageModuleInfo *module);
+	typedef int (*PackageFileInfoFunc)(PackageModuleInfo *module, const char *path, struct SysFile **file_ret, int64_t *pos_ret, int *len_ret, int *comp_ret, int *size_ret);
+	typedef int (*PackageDecompressGetStackSizeFunc)(PackageModuleInfo *module);
+	typedef void *(*PackageDecompressInitFunc)(PackageModuleInfo *module);
+	typedef int (*PackageDecompressFunc)(PackageModuleInfo *module, void *state, const void *in, int insize, void *out, int outsize);
+	typedef void (*PackageDecompressFinishFunc)(PackageModuleInfo *module, void *state);
 	
 	static DWORD GetBaseAddress()
 	{
@@ -496,26 +519,80 @@ __amd64 // Will be considered a thiscall automatically if this is the first para
 noHook void DO_NOT_HOOK();
 */
 
-"5589e557565383e4f083ec408b4d088b750c85c9":
-cleanup __cdecl float font_text_width(freetype::font_data& fontData, const char* str, float size);
+"578d7c240883e4f0ff77fc5589e557565389d3": // 0059e1e0
+cleanup __cdecl int LoadTexture(ResourceManager *resmgr, const std::string& path);
 
-"556905????????????????89e556536935????????????????83e4f801c6b8????????f725????????01f283c00183d200a3????????8915????????":
-__cdecl int random32();
-
-"55c705????????????????89e583e4f88b4508a3????????":
-cleanup __cdecl void srandom32(unsigned int seed);
-
-"83ec048b4424088b54240c83f80577??ff2485????????89f68dbc270000000085d2660fefc074??83fa010f84????????":
-cleanup __cdecl float getSkillBonus(int skill, int level);
-
-"8d4c240483e4f0ff71fc5589e55756535181ec????????8b018b79088985d4fcffff8b410489bdd0fcffff8985ccfcffff8b4018":
-cleanup __cdecl void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
-
-"8d4c240483e4f0ff71fc5589e55756535183ec288b59048b410c8b398b7108c70424????????89d98945e4e8????????83ec0485c00f84????????":
+".8d4c240483e4f0ff71fc5589e55756535183ec288b59048b410c8b398b7108c70424????????89d98945e4e8????????83ec0485c00f84????????": // 005bb820
 cleanup __cdecl void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
 
-"5589e55383e4f083ec10a1????????8b5d08890424e8????????":
-cleanup __cdecl void sys_graphics_set_window_title(char* title);
+".8d4c240483e4f0ff71fc5589e55756535181ec????????8b018b79088985d4fcffff8b410489bdd0fcffff8985ccfcffff8b4018": // 005bbae0
+cleanup __cdecl void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 
-"55660fefc089e583e4f083ec30f30f106d180f2ee8f30f106508f30f105d0cf30f105510f30f104d14":
+".83ec048b4424088b54240c83f80577??ff2485????????89f68dbc270000000085d2660fefc074??83fa010f84????????": // 005df310
+cleanup __cdecl float getSkillBonus(int skill, int level);
+
+".5589e557565383e4f083ec408b4d088b750c85c9": // 00622490
+cleanup __cdecl float font_text_width(freetype::font_data& fontData, const char* str, float size);
+
+".55660fefc089e583e4f083ec30": // 00624fc0
 cleanup __cdecl void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
+
+".80????????????7507c38db6000000005589e55756": // 0062a0c0
+__cdecl void input_update();
+
+".5589e583":
+noHook __cdecl void DO_NOT_HOOK_1();
+
+".5589e583": // 0062ac30
+__cdecl bool input_is_quit_requested();
+
+".5589e583": // 0062ac40
+__cdecl bool input_is_suspend_requested();
+
+".5589e583": // 0062ac50
+__cdecl void input_acknowledge_suspend_request();
+
+".556905????????????????89e556536935????????????????83e4f801c6b8????????f725????????01f283c00183d200a3????????8915????????": // 0062ec00
+__cdecl int random32();
+
+".55c705????????????????89e583e4f88b4508a3????????": // 0062f000
+cleanup __cdecl void srandom32(unsigned int seed);
+
+".5589e557565383e4f083ec608b": // 006309e0
+cleanup __cdecl int resource_load_data(ResourceManager *resmgr, const char *name, int align, int flags);
+
+".5589e557565383e4f083ec608b5d0885db0f8488": // 00631e50
+cleanup __cdecl int resource_load_sound(ResourceManager *resmgr, const char *name, int flags);
+
+".5589e5565383e4f083ec108b5d0885": // 00632360
+cleanup __cdecl int resource_mark(ResourceManager *resmgr);
+
+".5589e557565383e4f083ec308b5d0885db0f8480": // 00632700
+cleanup __cdecl void resource_wait(ResourceManager *resmgr, int mark);
+
+".5589e5538b4508": // 00633a20
+cleanup __cdecl void* resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
+
+".8b44":
+noHook __cdecl void DO_NOT_HOOK_2();
+
+".8b44":
+noHook __cdecl void DO_NOT_HOOK_3();
+
+".8b44": // 00633b20
+cleanup __cdecl Sound* resource_get_sound(ResourceManager *resmgr, int id);
+
+".5589e557565383e4f083ec508b75": // 006340c0
+cleanup __cdecl int resource_open_sound(ResourceManager *resmgr, const char *name);
+
+".5589e557565383e4f083ec208b75088b": // 00634ff0
+cleanup __cdecl void resource_free(ResourceManager *resmgr, int id);
+
+".5531c9": // 00636180
+cleanup __cdecl int resource_get_package_offsets(const char *name, int64_t *offset_ret, int *size_ret);
+
+".5589e583e4f083ec10e8??????002b": // 0063c360
+__cdecl double time_now();
+
+".5589e55383e4f083ec10a1????????8b5d08890424e8????????": // 0067b780
+cleanup __cdecl void sys_graphics_set_window_title(char* title);

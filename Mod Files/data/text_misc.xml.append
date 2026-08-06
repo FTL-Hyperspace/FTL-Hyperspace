@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.22.2)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -291,6 +291,10 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="warning_shot_limit">SHOT LIMIT REACHED</text>
 <!--Credits-->
 
+<mod:findName type="text" name="matthew_justin">
+  <mod:setValue>Matthew Davis and Jay Ma</mod:setValue>
+</mod:findName>
+
 <text name="crewlist_more"> and more</text>  <!-- Placed at the end of the total crew when they need to be shortened in the credits -->
 <text name="thank_ai">Controlled by its precise onboard AI</text>
 <text name="credits_loc_ko">Korean community version</text>
@@ -301,11 +305,11 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 
 <text name="credits_hyperspace_project">Hyperspace Project</text>
 <text name="credits_hyperspace_developed_by">Developed by:</text>
-<text name="credits_hyperspace_developed_names">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
+<text name="credits_hyperspace_developed_names">TheSwiftTiger, Amyseni (Winderps), ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93, Mr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich, The Dumb Dino</text>
 <text name="credits_hyperspace_art">Additional Art:</text>
 <text name="credits_hyperspace_art_names">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors">Additional Contributions:</text>
-<text name="credits_hyperspace_contributors_names">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Team</text>
+<text name="credits_hyperspace_contributors_names">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, zerofreed, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter, FTL Multiverse Team</text>
 <text name="credits_hyperspace_loc">Hyperspace Translators:</text>
 <text name="credits_hyperspace_loc_fr">French</text>
 <text name="credits_hyperspace_loc_fr_names">Pepson</text>
@@ -327,3 +331,19 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="credits_hyperspace_loc_ja_names">ranhai</text>
 <text name="credits_hyperspace_loc_ko">Korean</text>
 <text name="credits_hyperspace_loc_ko_names">nedsociety, H20</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash">A Hyperspace mod crash was detected on the previous game session.\n\nDo you want to create a bug report with your saves and logs?</text>
+<text name="confirm_report_bug">Do you want to create a bug report with your saves and logs?</text>
+<text name="confirm_report_create">Create Bug Report</text>
+<text name="confirm_report_skip">Skip</text>
+<text name="confirm_report_where">Bug report created successfully!\n\nWhere would you like to report this?</text>
+<text name="confirm_report_discord">Report on Discord</text>
+<text name="confirm_report_github">Create GitHub Issue</text>
+<text name="confirm_report_instructions_discord">Please report the bug on the FTL:Multiverse Discord server.\n\nBug report location:\n\1</text>
+<text name="confirm_report_instructions_github">Please create a GitHub issue at:\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nBug report location:\n\1</text>
+<text name="confirm_report_view">Open Bug Report Folder</text>
+<text name="confirm_report_done">Done</text>
+<text name="confirm_report_failed">Failed to create bug report.\n\nPlease check the logs for more details.</text>
+<text name="confirm_report_failed_okay">OK</text>
+<!-- <text name="confirm_report_failed_no"> </text> -->

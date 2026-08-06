@@ -1037,6 +1037,7 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
 
 bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent, bool parsingVanilla)
 {
+    customEvent->instantEscapeRemoveShipBox = CustomOptionsManager::GetInstance()->defaults.instantEscape_removeShipBox;
     bool isDefault = true;
 
     for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -1421,6 +1422,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->instantEscape = true;
+
+            if (child->first_attribute("removeShipBox"))
+            {
+                customEvent->instantEscapeRemoveShipBox = EventsParser::ParseBoolean(child->first_attribute("removeShipBox")->value());
+            }
         }
 
         if (nodeName == "escape")
@@ -4179,6 +4185,7 @@ void RecallBoarders(int direction, bool force, bool effects)
     }
 }
 
+static bool removeShipBoxAfterEscape = false;
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -4324,6 +4331,8 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         {
             enemyShip->shipAI.escaping = true;
             enemyShip->shipManager->JumpLeave();
+            if (customEvent->instantEscapeRemoveShipBox && !enemyShip->shipManager->_targetable.hostile)
+                removeShipBoxAfterEscape = true;
         }
     }
 
@@ -4477,6 +4486,28 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     }
 }
 
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint * bp) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomEvents.cpp)\n")
+    super(bp);
+
+    // if the player is fast enough, they can go to another beacon before
+    // removeShipBoxAfterEscape is reset, so make sure it is reset when a new
+    // ship is created
+    removeShipBoxAfterEscape = false;
+}
+
+HOOK_METHOD(WorldManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
+    super();
+    if (removeShipBoxAfterEscape && playerShip->enemyShip != nullptr && playerShip->enemyShip->shipManager->jumpAnimation.done)
+    {
+        removeShipBoxAfterEscape = false;
+        commandGui->ClearLocation();
+    }
+}
+
 LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *eventList, int seed)
 {
     if (!eventList->seeded) seed = -1;
@@ -4583,7 +4614,7 @@ void CustomEventsParser::QueueEvent(EventQueueEvent &event)
     eventQueue.push_back(event);
 }
 
-void CustomEventsParser::QueueEvent(std::string &event, int seed)
+void CustomEventsParser::QueueEvent(const std::string &event, int seed)
 {
     EventQueueEvent queueEvent;
 
@@ -6771,7 +6802,6 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 100, (Location *location) -> 
 HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 100, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
-
     if (event->stuff.crew < 0)
     {
         ShipManager *ship = G_->GetShipManager(0);
@@ -7182,18 +7212,30 @@ HOOK_METHOD(ShipManager, ClearStatusSystem, (int system) -> void)
 
 bool deathEventActive = false;
 
-HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
+// this->playerShip->shipManager->GetIsDying() is actually called initially for an early return in a Thunk 
+// function that the compiler created for both Windows & Linux but the Mac binary doesn't have such a function, 
+// therefore this hook has to run last to replicate this if check plus the deathEventActive skip. On MacOS the 
+// thunk is part of the main function which I had to NOP-Patch in order to skip that check there too. To better 
+// understand open the function in ghidra and compare between platforms. 
+// -Dino
+HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation0 -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return UpdateLocation(loc);
-    return super(loc);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox0 -> Begin (CustomEvents.cpp)\n")
+
+    if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return super(event);
+    }
 }
 
-HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox0 -> Begin (CustomEvents.cpp)\n")
-    if (deathEventActive) return CreateChoiceBox(event);
-    return super(event);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation0 -> Begin (CustomEvents.cpp)\n")
+
+    if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
+    {
+        return super(event);
+    }
 }
 
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
@@ -7313,7 +7355,6 @@ void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, 
         CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
 }
-
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")

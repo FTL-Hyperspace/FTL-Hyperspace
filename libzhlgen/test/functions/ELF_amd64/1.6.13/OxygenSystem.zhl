@@ -16,8 +16,10 @@ cleanup __amd64 void OxygenSystem::EmptyOxygen(OxygenSystem *this, int roomId);
 cleanup __amd64 void OxygenSystem::OnLoop(OxygenSystem *this);
 struct OxygenSystem
 {{
-	OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
-	{
-		this->constructor(numRooms, roomId, shipId, startingPower);
-	}
+    OxygenSystem(int numRooms, int roomId, int shipId, int startingPower)
+    {
+        this->constructor(numRooms, roomId, shipId, startingPower);
+    }
+
+    void RedistributeOxygen();
 }};

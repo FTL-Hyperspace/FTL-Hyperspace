@@ -1,5 +1,7 @@
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b70048b088b580c89b574feffff8b70088b4010899d5cfeffff8b5904":
 __thiscall void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
+"57660fefc931c08d????0883e4f0ff????5589e55783ec14f30f10??0f2ec877??8b????c98d??f85fc20400":
+__thiscall bool CrewDrone::ShipDamage(CrewDrone *this, float amount);
 "578d7c240883e4f0ff77fc5589e557568db15c0700005389cb83ec4c89f1e8????????80bbfc0100000074??80bb7007000000":
 virtual __thiscall void CrewDrone::OnLoop(CrewDrone *this);
 "8b410485c074??0fb6813d05000084c074??8b815c0700008d915c0700008b40303d????????75??0fb68170070000c3f3c35589d1":

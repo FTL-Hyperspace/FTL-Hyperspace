@@ -18,9 +18,20 @@ public:
         return nullptr;
     }
 
+    void RegisterStoreDefinition(const std::string& id, const StoreDefinition& def)
+    {
+        storeDefs[id] = def;
+    }
+
+    void UnregisterStoreDefinition(const std::string& id)
+    {
+        storeDefs.erase(id);
+    }
+
     std::string forceCustomStore;
 
     static CustomStore* instance;
+
 private:
     std::unordered_map<std::string, StoreDefinition> storeDefs;
 };

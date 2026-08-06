@@ -1,0 +1,22 @@
+// Continue from DroneControl::SelectArmament (hyper efficiency™)
+".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
+noHook __amd64 void DroneStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
+".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
+cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
+"!.554889e553504889fbe8b2ed":
+cleanup __amd64 void DroneStoreBox::Purchase(DroneStoreBox *this);
+
+
+struct DroneStoreBox
+{{
+	DroneStoreBox(ShipManager* ship, Equipment* equipScreen, const DroneBlueprint* blueprint)
+	{
+		this->constructor(ship, equipScreen, blueprint);
+	}
+	
+	DroneStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
+}};

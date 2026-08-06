@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <text name="system_temporal_title" language="ja">時間操作機</text>
-<text name="system_temporal_desc" language="ja">1区画の時間の経過速度を変えます。強化すると持続時間と時間の変化率が上昇します。</text>
+<text name="system_temporal_desc" language="ja">1区画の時間の流れる速度を変えます。強化すると持続時間と時間の変化率が上昇します。</text>
 <text name="aug_NANOBOT_DEFENSE_SYSTEM_title" language="ja">ナノボット防衛システム</text>
 <text name="aug_NANOBOT_DEFENSE_SYSTEM_desc" language="ja">乗り込んで来た敵に、時間経過に応じたダメージを与える。</text>
 <text name="aug_FTL_JUMPER_GOOD_title" language="ja">強化FTLナビゲーション II型</text>
@@ -35,7 +35,7 @@
   <mod:setValue>FTL: Hyperspace</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="version" language="ja">
-  <mod:setValue>\1 (Hyperspace 1.20.0)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 1.22.2)</mod:setValue>
 </mod:findName>
 <mod:findName type="text" name="fire_chance" language="ja">
   <mod:setValue>火災発生率：\1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
@@ -208,13 +208,13 @@
 <text name="hotkey_aim_artillery3" language="ja">弩級砲3照準</text>
 <text name="hotkey_aim_artillery4" language="ja">弩級砲4照準</text>
 
-<text name="temporal" language="ja">\3/\6秒間、\1x/\4倍速</text>
-<text name="temporal_tooltip" language="ja">\3/\6秒間、\1x/\4倍速</text>
+<text name="temporal" language="ja">時間操作機</text>
+<text name="temporal_tooltip" language="ja">\3/\6秒間、時間の流れを\1x/\4にする</text>
 <text name="temporal_arm_super_shields" language="ja">スーパーシールドにより阻止された</text>
-<text name="temporal_arm_speed" language="ja">\3秒間、区画内のすべてを\1倍の速度にする</text>
-<text name="temporal_arm_slow" language="ja">\6秒間、区画内のすべてを\4分の1の速度にする</text>
-<text name="temporal_button_speed" language="ja">短時間の間、区画内で発生するすべてのことを高速化する。\nホットキー：\1</text>
-<text name="temporal_button_slow" language="ja">短時間の間、区画内で発生するすべてのことを遅延させる。\nホットキー：\1</text>
+<text name="temporal_arm_speed" language="ja">\3秒間、区画内の時間の流れを\1倍にする</text>
+<text name="temporal_arm_slow" language="ja">\6秒間、区画内の時間の流れを\4分にする</text>
+<text name="temporal_button_speed" language="ja">短時間の間、区画内の時間の流れを速くする。\nホットキー：\1</text>
+<text name="temporal_button_slow" language="ja">短時間の間、区画内の時間の流れを遅くする。\nホットキー：\1</text>
 <text name="confirm_buy_custom" language="ja">本当によろしいですか？\n\2が\1に置き換えられます。</text>
 
 <text name="tooltip_more_info" language="ja">次の情報を表示する拡張モードに切り替える：
@@ -268,11 +268,11 @@
 <text name="credits_loc_ko_names" language="ja">H20, nedsociety</text>
 <text name="credits_hyperspace_project" language="ja">Hyperspaceプロジェクト</text>
 <text name="credits_hyperspace_developed_by" language="ja">開発者:</text>
-<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Winderps, ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93,\nMr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich</text>
+<text name="credits_hyperspace_developed_names" language="ja">TheSwiftTiger, Amyseni (Winderps), ih8ih8sn0w, Admiral Billy, laszlogasd, mathchamp93, Mr. Doom (Nasa62), Chrono Vortex, Pepson, ranhai, sillysandvich, The Dumb Dino</text>
 <text name="credits_hyperspace_art" language="ja">描画加筆:</text>
 <text name="credits_hyperspace_art_names" language="ja">SaltyFriedRice</text>
 <text name="credits_hyperspace_contributors" language="ja">追加の貢献者:</text>
-<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter \nFTL Multiverse Teamチーム</text>
+<text name="credits_hyperspace_contributors_names" language="ja">Arc, bamalf, BlizzArchonJ, Choosechee, codyfun, zerofreed, _Kilburn, Kix, kokoro, Masala, nedsociety, Paradigm, PDTM, slowriderxcorps, The Dumb Dino, Vertaalfout, BobThePotat0, Gabriel Cooper, Fishhh, neopryne, Alder, Julk, bibo38, DeserPrinter, FTL Multiverse Teamチーム</text>
 <text name="credits_hyperspace_loc" language="ja">Hyperspace翻訳者:</text>
 <text name="credits_hyperspace_loc_fr" language="ja">フランス語</text>
 <text name="credits_hyperspace_loc_fr_names" language="ja">Pepson</text>
@@ -307,3 +307,19 @@
 <text name="shield_drone_layers_per_charge" language="ja">チャージごとのシールド枚数: \1</text>
 <text name="shield_drone_cooldowns" language="ja">クールダウン: \1</text>
 <text name="confirm_buy_last_subsystem" language="ja">これが最後のサブシステム枠です。\n本当によろしいですか？</text>
+
+<!--Crash Report window-->
+<text name="confirm_report_crash" language="ja">前回のゲームで、HyperspaceのMODによるクラッシュが検出されました。\n\nセーブデータとログを含めたバグレポートを作成しますか？</text>
+<text name="confirm_report_bug" language="ja">セーブデータとログを含めたバグレポートを作成しますか？</text>
+<text name="confirm_report_create" language="ja">バグレポートを作成する</text>
+<text name="confirm_report_skip" language="ja">無視</text>
+<text name="confirm_report_where" language="ja">バグレポートが作成されました！\n\nどこに報告しますか？</text>
+<text name="confirm_report_discord" language="ja">Discordに報告する</text>
+<text name="confirm_report_github" language="ja">GitHub Issueを作成する</text>
+<text name="confirm_report_instructions_discord" language="ja">FTL:MultiverseのDiscordサーバーでバグを報告してください。\n\nバグレポート場所：\n\1</text>
+<text name="confirm_report_instructions_github" language="ja">以下のリンクからGitHubのIssueを作成してください：\ngithub.com/FTL-Hyperspace/FTL-Hyperspace/issues\n\nバグレポート場所：\n\1</text>
+<text name="confirm_report_view" language="ja">バグレポートのフォルダを開く</text>
+<text name="confirm_report_done" language="ja">無視</text>
+<text name="confirm_report_failed" language="ja">バグレポートの作成に失敗しました。\n\n詳細はログを確認してください。</text>
+<text name="confirm_report_failed_okay" language="ja">OK</text>
+<!-- <text name="confirm_report_failed_no" language="ja"> </text> -->

@@ -1,5 +1,7 @@
 "5589e557565381ecdc0000008b450c8b4d08":
 cleanup __cdecl void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
+"f30f1044????0f57c90f2ec877??31c0c38db42600000000":
+cleanup __cdecl bool CrewDrone::ShipDamage(CrewDrone *this, float amount);
 "5589e557565383ec4c8b5d088db340050000":
 virtual cleanup __cdecl void CrewDrone::OnLoop(CrewDrone *this);
 "8b4424048b500485d2":

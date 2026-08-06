@@ -1,4 +1,16 @@
 "578d????0883e4f0ff????5589f889e557565389cf83ec5c8b??89c389????8b4104":
 __thiscall int Spreader_Fire::CounterRoom(Spreader_Fire *this, int roomId); //007352c0
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b308b58":
+__thiscall bool Spreader_Fire::StartInRoom(Spreader_Fire *this, int roomId, int count);
 ".578d????0883e4f0ff????5589e557565389cf83ec7c8b41048904??e8":
 __thiscall void Spreader_Fire::UpdateSpread(Spreader_Fire *this); //007355b0
+
+
+struct Spreader_Fire
+{{
+    // Originally of type bool but each one was inlined so I have no idea what it was for
+    inline void StartInGrid(int x, int y)
+    {
+        this->grid.at(x).at(y).Spread();
+    }
+}};

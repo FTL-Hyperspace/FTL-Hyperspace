@@ -175,6 +175,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
                 ship->AddSystem(systemId);
             }
         }
+
+        for (int systemId = SYS_CUSTOM_FIRST; systemId <= CustomUserSystems::GetLastSystemId(); ++systemId)
+        {
+            if (!ship->HasSystem(systemId))
+            {
+                ship->AddSystem(systemId);
+            } 
+        }
         return true;
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
@@ -200,8 +208,10 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (command == "SHIP ALL")
     {
+        //Vanilla also has SHIP ALL for vanilla ships, but it is temporal unlock (relocked after relaunch)
+        //This command is for permanently unlocking all ships including vanilla and custom ships
         CustomShipUnlocks::instance->UnlockAllShips();
-        return false; //Run native game ship unlocks as well
+        return true; //Prevent vanilla SHIP ALL from running since we already unlocked all vanilla ships
     }
     if (cmdName == "SHIP_CUSTOM")
     {
@@ -268,10 +278,27 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     */
     if(cmdName == "LOADEVENT")
     {
+
         if (command.length() > 10)
         {
+            //Temporarily clear lists of used text and events so that command can be used to test events more easily
+            EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+            auto oldEvents = eventGenerator->events;
+            eventGenerator->events.insert(eventGenerator->usedEvents.begin(), eventGenerator->usedEvents.end());
+            auto oldTextLists = eventGenerator->textLists;
+            eventGenerator->textLists.insert(eventGenerator->usedTextLists.begin(), eventGenerator->usedTextLists.end());
+
+            auto oldUsedEvents = std::move(eventGenerator->usedEvents);
+            auto oldUsedTextLists = std::move(eventGenerator->usedTextLists);
+
             std::string eventName = boost::trim_copy(command.substr(10));
-            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, true, -1);
+
+            eventGenerator->events = std::move(oldEvents);
+            eventGenerator->usedEvents = std::move(oldUsedEvents);
+            eventGenerator->textLists = std::move(oldTextLists);
+            eventGenerator->usedTextLists = std::move(oldUsedTextLists);
         }
         return true;
     }

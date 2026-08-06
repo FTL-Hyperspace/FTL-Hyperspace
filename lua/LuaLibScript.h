@@ -8,7 +8,7 @@
 #include <string>
 #include <algorithm>
 
-typedef struct swig_type_info;
+typedef struct swig_type_info swig_type_info;
 
 /*** Functions for script execution control
  * @module script
@@ -158,6 +158,8 @@ class LuaLibScript
             swig_type_info *pLocationEvent;
 
             swig_type_info *pShipSystemTypes[21];
+            swig_type_info *pDrone;
+            swig_type_info *pDroneTypes[8];
             swig_type_info *pSpaceDrone;
             swig_type_info *pSpaceDroneTypes[8];
 

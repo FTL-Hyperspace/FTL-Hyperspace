@@ -199,6 +199,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
                     }
+                    if (strcmp(child->name(), "instantEscape_removeShipBox") == 0)
+                    {
+                        customOptions->defaults.instantEscape_removeShipBox = EventsParser::ParseBoolean(child->value());
+                    }
                     if (strcmp(child->name(), "erosion") == 0)
                     {
                         ErosionEffect::defaultErosionEffect.ParseErosionEffect(child);
@@ -400,6 +404,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     g_controllableIonDroneFix_DelayInitial = boost::lexical_cast<float>(node->first_attribute("ionDelayInitial")->value());
                 }
+            }
+
+            if (strcmp(node->name(), "droneIonDodgeFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->droneIonDodgeFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->droneIonDodgeFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if(strcmp(node->name(), "oxygenRefillFix") == 0) // Changes oxygen refill values to reflect in-game graphic
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->oxygenRefillFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->oxygenRefillFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
@@ -662,11 +680,32 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->multiShipFix.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "teleporterHackFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->teleporterHackFix.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->teleporterHackFix.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            
+            if (strcmp(node->name(), "energyBypassTeleportRecall") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->energyBypassTeleportRecall.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->energyBypassTeleportRecall.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "insertNewlineForMultipleCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->insertNewlineForMultipleCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->insertNewlineForMultipleCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "disableLazyImageLoading") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->disableLazyImageLoading.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->disableLazyImageLoading.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "disableDefaultTutorial") == 0)
