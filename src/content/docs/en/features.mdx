@@ -1,0 +1,239 @@
+---
+title: "Feature defaults"
+description: "Which Hyperspace features are on out of the box, and which a mod has to switch on"
+prev:
+  link: ../
+  label: All platforms
+next:
+  link: ../windows/
+  label: Install it
+---
+
+Most of what follows is a switch in `hyperspace.xml`, shipped inside `Hyperspace.ftl`.
+The values quoted are what `Mod Files/data/hyperspace.xml` sets, so a plain install
+behaves this way until a mod says otherwise. The **More Info** button is the only thing
+that overrides the file, and the last tables cover what the file does not decide at all.
+
+This page covers every switch the parser reads and the shipped file defines. Content
+blocks that describe ships, crew, events, augments, drones, rewards, sectors, stores and
+the like are out of scope. Read `hyperspace.xml` for those.
+
+It is possible to manually modify `hyperspace.xml` by unpacking `Hyperspace.ftl` (it's just a ZIP) and editing the file.
+
+Rows are written `tag.attribute`, so `advancedCrewTooltips.ally` is the `ally` attribute
+of `<advancedCrewTooltips>`. Values are the literal ones in the file.
+
+## Features
+
+| Attribute | What it sets | Default |
+| --- | --- | --- |
+| `seeds.enabled` | Starts a run on a chosen seed, so two players can race the same map | `true` |
+| `seeds.allowUnlocks` | Whether unlocks count during a seeded run | `false` |
+| `seeds.allowAchievements` | Whether achievements count during a seeded run | `false` |
+| `seeds.allowMetaVars` | Whether metavariable changes stick during a seeded run | `false` |
+| `hullNumbers.enabled` | Prints exact hull point counts for your ship, the enemy and the flagship | `true` |
+| `hullBars.type` | Hull bar style: `0` vanilla, `1` stacking bars, `2` bars capped at `maxHull` and shrinking proportionally | `0` |
+| `hullBars.maxHull` | Hull points the bar draws before it caps | `22` |
+| `hullBars.maxHullBoss` | Same, for ships with a boss box | `22` |
+| `alternateCrewMovement.enabled` | Sends crew to the exact tile you clicked. Crew already standing there step aside if the room has space | `false` |
+| `rightClickDoorOpening.enabled` | Right-clicking a door opens it. Set it off and doors are left-click only. It interacts with the row above: tile movement only runs when no door is selected | `true` |
+| `droneSelectHotkeys.enabled` | Crew number hotkeys also select controllable crew drones | `false` |
+| `droneSaveStations.enabled` | Controllable crew drones save and return to stations with the rest of the crew | `false` |
+| `disableLazyImageLoading.enabled` | Goes back to preloading every image at launch. Left off, images load when they are needed, which cuts loading time to almost nothing and uses about a quarter of the RAM | `false` |
+
+## Tooltips and display
+
+### Set by the More Info button
+
+**More Info** is a button in the ship status UI during a run. Press it at any time to
+switch these attributes between the two states below.
+
+The button is on when the game starts, every time, and nothing remembers your last
+choice. If you prefer it off, you press it again each session.
+
+| Attribute | What it sets | XML | More Info off | More Info on |
+| --- | --- | --- | --- | --- |
+| `advancedCrewTooltips.ally` | Lists powers when hovering crew you own | `false` | `false` | `true` |
+| `advancedCrewTooltips.enemy` | Lists powers when hovering enemy crew | `false` | `false` | `true` |
+| `advancedCrewTooltips.rounding` | Decimal places on crew health | `2` | `2` | `2` \* |
+| `redesignedWeaponTooltips.enabled` | Lists hull, system and crew damage separately | `false` | `false` | `true` |
+| `redesignedDroneTooltips.enabled` | Adds weapon stats to space drone tooltips | `false` | `false` | `true` |
+| `redesignedAugmentTooltips.enabled` | Adds the scrap cost to augment tooltips | `false` | `false` | `true` |
+| `showNumericalWeaponCooldown.enabled` | Prints the remaining cooldown as a number above each weapon box | `false` | `false` | `true` |
+| `showReactor.enabled` | Shows maximum reactor power in the hangar | `false` | `false` | `true` |
+| `showAllConnections.enabled` | Draws every beacon connection on the sector map | `false` | `false` | `true` |
+| `alternateOxygenRendering.enabled` | Alternate colour scheme for oxygen levels, with an optional `<gradient>` child. Not a tooltip, and the one thing the button switches off rather than on | `false` | `false` | `false` |
+
+The button does not turn these features on and off. It picks where their values come
+from:
+
+- **On**: ignore the XML and apply the button's own values. That is `true` for
+  everything above except `alternateOxygenRendering`, which it sets to `false`.
+- **Off**: use the XML values.
+
+Since it starts on, a fresh session ignores your XML for these attributes. That gives
+one rule:
+
+| In the XML | Button on | Button off |
+| --- | --- | --- |
+| `true` | on | on |
+| `false` | on | off |
+
+`true` always applies. `false` applies only with the button off, so
+`<redesignedWeaponTooltips enabled="false"/>` looks like it does nothing: every run
+starts with the button on, and the reworked tooltips appear anyway. Press **More Info**
+off and it takes effect.
+
+A mod can switch these on permanently. It cannot switch them off.
+`alternateOxygenRendering` runs the other way, since the button forces it `false`: a mod
+can switch that one off permanently but not on.
+
+\* `advancedCrewTooltips.rounding` is a number rather than a switch. The button raises
+it to 2 only when the XML says 0 or 1, and leaves any other value alone:
+
+| In the XML | Button on | Button off |
+| --- | --- | --- |
+| `0` | `2` | `0` |
+| `1` | `2` | `1` |
+| `2` | `2` | `2` |
+| `3` | `3` | `3` |
+
+The shipped value is 2, which is why all three columns match in the table above.
+
+### Not affected by the button
+
+The value in `hyperspace.xml` is what runs, whichever way **More Info** is set.
+
+| Attribute | What it sets | Default |
+| --- | --- | --- |
+| `advancedCrewTooltips.enabled` | Hovering a crew member shows name and species, exact health as `x/y (z%)`, the clone bay death timer and remaining stun time | `true` |
+| `insertNewlineForMultipleCrewTooltips.enabled` | Puts a blank line between crew descriptions when several crew are fighting on one tile | `false` |
+| `extraShipInfo.missileCount` | Missile count for the selected ship in the hangar | `false` |
+| `extraShipInfo.droneCount` | Drone count for the selected ship in the hangar | `false` |
+| `extraShipInfo.crewLimit` | Crew limit for the selected ship in the hangar | `false` |
+| `showDummyEquipmentSlots.enabled` | Draws faded weapon and drone slots under **SYSTEM NOT INSTALLED**, so you can count them before buying the system | `false` |
+| `showDummyEquipmentSlots.opacity` | How faint those slots are drawn | `0.2` |
+| `showScrapCollectorScrap.enabled` | Shows scrap rewards with the scrap recovery arm bonus already applied | `false` |
+
+`extraShipInfo` has no `enabled` of its own, so its three readouts are switched one by
+one.
+
+`advancedCrewTooltips.enabled` is the one XML `false` the button cannot override. Set it
+off and `ally`, `enemy` and `rounding` are not even parsed, and the tooltip is skipped
+before the button's values are ever consulted. The power list itself is not part of it:
+that comes from `ally` and `enemy`, so with the button off a plain install shows no
+powers on any crew.
+
+## Bug fixes
+
+| Attribute | What it fixes | Default |
+| --- | --- | --- |
+| `hackingDroneFix.enabled` | Destroys the hacking drone if hacking is depowered while the drone is still in flight, closing the power-depower trick that slipped it past defence drones. A drone that has already attached is unaffected | `true` |
+| `repairDroneRecoveryFix.enabled` | Removes an active repair drone on jump, so you cannot take the repair and keep the parts with the recovery arm | `true` |
+| `crystalShardFix.enabled` | Counts crystal shards as player projectiles, so friendly defence drones stop shooting them down | `true` |
+| `defenseDroneFix.enabled` | Bases defence drone firing range on the ship layout and shield ellipse, which removes the blind spot. Range is unlimited against enemy combat drones | `true` |
+| `hackingIonFix.enabled` | Applies the normal 20 second lock when hacking is ionised, closing the 5 second self-ionisation trick | `false` |
+| `droneIonDodgeFix.enabled` | Lets enemy ion projectiles stun and destroy unpowered drones | `false` |
+| `controllableIonDroneFix.enabled` | Puts a player-controlled ion drone's ion blast on a timer, so it does not fire the moment you order the drone to move. Only bites once a mod has made boarding drones controllable | `false` |
+| `controllableIonDroneFix.ionDelay` | Seconds on the ion blast timer | `6` |
+| `controllableIonDroneFix.ionDelayInitial` | Seconds on the timer when the drone launches | `6` |
+| `playerHpColorFix.enabled` | Colours the player HP bar by thirds of max hull | `false` |
+| `enemyPreigniterFix.enabled` | Lets enemy ships use the weapon pre-igniter augment | `false` |
+| `artilleryGibMountFix.enabled` | Stops artillery with linked gibs vanishing when a ship explodes | `false` |
+| `warningLightPositionFix.enabled` | Moves fire and breach warning lights off doors and walls, into the room | `false` |
+| `hideHullDuringExplosion.enabled` | Stops the hull image drawing over the gibs during a ship explosion | `false` |
+| `cloakRenderFix.enabled` | Fixes cloaked player ship rendering when nobody is aboard | `false` |
+| `multiShipFix.enabled` | Allows more than one ship to be loaded per beacon | `false` |
+| `teleporterHackFix.enabled` | Makes teleporter hacks land regardless of how enemy crew are spread across their ship, and with a cloak active | `false` |
+| `energyBypassTeleportRecall.enabled` | Stops enemy ships ignoring their own energy shield bypass when they evacuate crew by teleporter | `false` |
+
+## Gameplay
+
+| Attribute | What it sets | Default |
+| --- | --- | --- |
+| `preIgniteChargers.enabled` | Charger weapons gain all their charges when pre-ignited instead of one | `true` |
+| `resistsMindControlStat.enabled` | Makes `resistsMindControl` a crew stat separate from `isTelepathic` | `true` |
+| `oxygenWithoutSystem.enabled` | Lets oxygen work on a ship with no oxygen system | `false` |
+| `shieldWithoutSystem.enabled` | Lets supershields work with no shield system in the blueprint | `false` |
+| `dualMedical.enabled` | Medbay and clonebay stop being mutually exclusive, so a ship can carry both | `false` |
+| `targetableArtillery.enabled` | Manual artillery control for every ship. Leave it off and give a ship the `ARTILLERY_ORDER` augment to enable it one ship at a time | `false` |
+| `targetableArtillery.xOffset` | Horizontal offset of the artillery button | `0` |
+| `targetableArtillery.yOffset` | Vertical offset of the artillery button | `0` |
+| `targetableArtillery.fixedYPos` | Pins the button's vertical position instead of stacking it under the power boxes and system icons | `false` |
+| `scaleSlugGel.enabled` | Slug repair gel speed scales with the augment value. The vanilla `SLUG_GEL` value is 0.25 | `false` |
+| `multipleOverCapacity.enabled` | The over-capacity box holds several items and you choose which to keep | `false` |
+| `infinite.enabled` | The game's built-in infinite mode | `false` |
+| `forceDlc.enabled` | Stops Advanced Edition being toggled off | `false` |
+| `disableDefaultTutorial.enabled` | Stops the vanilla tutorial progressing, so a Lua tutorial can replace it | `false` |
+
+## UI and presentation
+
+| Attribute | What it sets | Default |
+| --- | --- | --- |
+| `altCreditSystem.enabled` | Uses the XML credits rather than the hardcoded vanilla ones, and fixes the empty crew section on auto ships | `true` |
+| `dismissSound.enabled` | Plays a sound when crew are dismissed | `true` |
+| `dismissSound.sound` | Which sound that is | `airLoss` |
+| `console.enabled` | The in-game command console | `true` |
+| `console.invertCaps` | Swaps the case of everything you type into the console, so lower case keys enter upper case commands | `true` |
+| `titleScreen.enabled` | Custom title screen background, logo and splash images | `true` |
+| `titleScreen.logo_x` | Horizontal position of the FTL logo | `862` |
+| `titleScreen.logo_y` | Vertical position of the FTL logo | `7` |
+| `customChoiceColors.enabled` | Replaces the vanilla event choice text colours, each colour set as an r/g/b/a child tag | `true` |
+| `customTextStyle.enabled` | Inline `[style[color:RRGGBB]]` markup inside text strings | `false` |
+| `customTabs.enabled` | Extra tabbed windows driven by Lua, with their own background and optional undo button | `false` |
+| `showShipAchievements.enabled` | Shows ship achievements in the hangar for custom ships instead of custom victories | `true` |
+| `showShipAchievements.toggle` | Lets the player switch between ship achievements and victories | `false` |
+| `showShipAchievements.hideIfMissing` | Hides the section for ships that have no achievements | `false` |
+| `showShipAchievements.id` | Text id for the section heading | `hangar_achievements_title_default` |
+| `altLockedMiniships.enabled` | Locked miniships prefer the image with the `_base` suffix | `false` |
+| `renameShipInRun.enabled` | Lets you rename your ship during a run | `false` |
+| `renameShipInRun.allowButton` | `true` puts renaming behind a button in the upgrade menu, `false` puts it on the ship name itself | `false` |
+| `allowRenameInputSpecialCharacters.enabled` | Allows special characters in ship and crew name input | `false` |
+| `systemNoPurchaseThreshold.enabled` | Replaces system upgrade costs at or above `threshold` with a placeholder. Visual only, the purchase still goes through if you have the scrap | `false` |
+| `systemNoPurchaseThreshold.threshold` | The cost at which the replacement kicks in | `9999` |
+| `systemNoPurchaseThreshold.replace` | The string shown in place of the cost | `--` |
+| `purchaseLimitNumber.fontSize` | Font size of the store purchase limit number. The tag has no `enabled`: leaving it out keeps the old position, which overlaps the current shopping cart image | `0` |
+| `purchaseLimitNumber.x` | Horizontal position of that number | `-16` |
+| `purchaseLimitNumber.y` | Vertical position of that number | `106` |
+| `ships.hideFirstShipPage` | Hides the first page of the ship select screen | `false` |
+| `victories.noFlagship` | Suppresses the automatic `flagship` victory type that custom victory achievements otherwise generate | `true` |
+
+## Not set by hyperspace.xml
+
+These have no value to quote, because `hyperspace.xml` does not decide them.
+
+| Feature | What it does | Controlled by |
+| --- | --- | --- |
+| Boarding drone control | Select and order boarding drones the way you order crew | The crew race a mod defines. There is no global switch: the mod sets `<controllable>true</controllable>` on the `BOARDER` or `BOARDER_ION` race |
+| Event tooltips | Hovering an event choice shows the info box for what that choice rewards | Nothing. It is hardcoded on. `<eventTooltips enabled="false"/>` parses but is never read, so setting it has no effect |
+| Redesigned crew tooltips | Nothing visible | Nothing. `<redesignedCrewTooltips enabled="..."/>` parses, but the only code that would read it is commented out. The tag is not in the shipped file either |
+| Crew colours after a transform | How a crew member's colours carry over when a mod turns them into another race | Hyperspace itself. It always uses the built-in `KEEP_INDICES`, which keeps their colour slots so they take the new race's colours. The `transformColorMode` tag is not usable, its current implementation is broken |
+| Discord rich presence | Shows the ship you are flying and your progress | The build. Compiled into Windows builds and compiled out on Linux and macOS, so the `discord` flag exists on Windows only |
+
+## Editing the file by hand
+
+A few things to know if you want unpack `Hyperspace.ftl` and edit `hyperspace.xml` directly:
+
+**Deleting an attribute crashes the game on load.** Most tags read their attributes
+without first checking they are there, so set `enabled="false"` rather than removing
+`enabled=` altogether. `extraShipInfo` needs all three of `missileCount`, `droneCount`
+and `crewLimit`. A few attributes are checked before they are read and can be left out,
+`ionDelay` among them.
+
+**`ionDelay` overwrites `ionDelayInitial`.** Setting `ionDelay` assigns its value to both
+timers, and only an explicit `ionDelayInitial` after it takes effect. Writing
+`ionDelay="10"` alone gives an initial delay of 10, not 6. Both attributes are read only
+when `controllableIonDroneFix.enabled` is already `true`.
+
+**`advancedCrewTooltips.enabled="false"` discards its own attributes.** `ally`, `enemy`
+and `rounding` are parsed inside the enabled check, so switching the tag off throws all
+three away rather than just disabling the base tooltip.
+
+**Leaving `seeds.allowMetaVars` out turns metavariables on, not off.** The built-in
+default is `true` while the shipped file sets `false`, so a mod that replaces
+`hyperspace.xml` without the attribute gets the opposite of stock behaviour. Separately,
+a metavariable marked `force="true"` applies during a seeded run whatever the setting
+says.
+
+**`dronesCanTeleport` does not exist.** Both the parser block and the code that would
+read it are commented out. It appears in searches of the source but has no effect.

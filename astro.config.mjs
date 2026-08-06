@@ -143,6 +143,10 @@ export default defineConfig({
 						{ label: 'Fix a problem', slug: 'macos/troubleshooting' },
 					],
 				},
+								{
+					label: 'Reference',
+					items: [{ label: 'Feature defaults', slug: 'features' }],
+				},
 			],
 		}),
 		// Starlight's building blocks are used on nearly every page,
