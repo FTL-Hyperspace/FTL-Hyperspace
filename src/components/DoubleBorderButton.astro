@@ -1,0 +1,154 @@
+---
+/**
+ * Double-border button from Astro Component Kit, recoloured onto the site's
+ * theme tokens so both themes work. The offset ghost frame slides under the
+ * button on hover and catches up on press.
+ * https://free-astro-components.vercel.app
+ */
+interface Props {
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+}
+
+const {
+  href,
+  type = "button",
+  variant = "primary",
+  size = "md",
+  disabled = false,
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  disabled={disabled}
+  class={`double-border-btn double-border-btn--${variant} double-border-btn--${size}`}
+>
+  <span class="double-border-btn__content"><slot /></span>
+</Tag>
+
+<style>
+  .double-border-btn {
+    --offset: 5px;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    color: var(--btn-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    user-select: none;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .double-border-btn__content {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .double-border-btn::before {
+    content: "";
+    position: absolute;
+    top: var(--offset);
+    left: var(--offset);
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: inherit;
+    z-index: -1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.5;
+  }
+
+  .double-border-btn:hover:not(:disabled) {
+    color: var(--hover-color);
+    border-color: var(--hover-color);
+    transform: translate(
+      calc(var(--offset) * -0.5),
+      calc(var(--offset) * -0.5)
+    );
+  }
+
+  .double-border-btn:hover:not(:disabled)::before {
+    top: calc(var(--offset) * 1.5);
+    left: calc(var(--offset) * 1.5);
+    border-color: var(--hover-color);
+    opacity: 1;
+  }
+
+  .double-border-btn:active:not(:disabled) {
+    transform: translate(0, 0);
+  }
+
+  .double-border-btn:active:not(:disabled)::before {
+    top: 0;
+    left: 0;
+  }
+
+  .double-border-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
+  }
+
+  /* Variants, on Starlight tokens so light theme recolours itself. */
+  .double-border-btn--primary {
+    --border-color: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+    --hover-color: var(--sl-color-accent);
+    --btn-color: var(--sl-color-accent);
+  }
+
+  /* Discord blurple is a brand colour, so it is fixed rather than a Starlight token. */
+  .double-border-btn--secondary {
+    --discord: #5865f2;
+    --border-color: color-mix(in srgb, var(--discord) 70%, transparent);
+    --hover-color: var(--discord);
+    --btn-color: var(--discord);
+  }
+
+  .double-border-btn--ghost {
+    --border-color: color-mix(in srgb, var(--sl-color-white) 12%, transparent);
+    --hover-color: var(--sl-color-gray-2);
+    --btn-color: var(--sl-color-gray-3);
+  }
+
+  /* Sizes */
+  .double-border-btn--sm {
+    --offset: 3px;
+  }
+  .double-border-btn--sm .double-border-btn__content {
+    padding: 0.45rem 1rem;
+    font-size: var(--sl-text-sm);
+  }
+
+  .double-border-btn--md {
+    --offset: 5px;
+  }
+  .double-border-btn--md .double-border-btn__content {
+    padding: 0.65rem 1.6rem;
+    font-size: var(--sl-text-base);
+  }
+
+  .double-border-btn--lg {
+    --offset: 8px;
+  }
+  .double-border-btn--lg .double-border-btn__content {
+    padding: 0.85rem 2.2rem;
+    font-size: var(--sl-text-lg);
+  }
+</style>
