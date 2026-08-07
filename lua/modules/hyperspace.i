@@ -2838,12 +2838,14 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 //%nodefaultctor AugmentBlueprint;
 %nodefaultdtor AugmentBlueprint;
+%copyctor AugmentBlueprint;
 %rename("%s") AugmentBlueprint;
 %rename("%s") AugmentBlueprint::value;
 %rename("%s") AugmentBlueprint::stacking;
 
 //%nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
+%copyctor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
 %rename("%s") WeaponBlueprint::BoostPower;
 %rename("%s") WeaponBlueprint::BoostPower::type;
@@ -3960,6 +3962,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") DroneBlueprint;
 //%nodefaultctor DroneBlueprint;
 %nodefaultdtor DroneBlueprint;
+%copyctor DroneBlueprint;
 
 //%immutable DroneBlueprint::typeName;
 %rename("%s") DroneBlueprint::typeName;
