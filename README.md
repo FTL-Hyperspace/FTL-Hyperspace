@@ -8,7 +8,7 @@ The installation guides for all platforms can be found on the [FTL Hyperspace pa
 ## Windows
 See [Building Windows](../../wiki/Building-on-Windows)
 ## Linux
-See [Building Linux](BUILDING.LINUX.md)
+See [Building Linux](../../wiki/Building-on-Linux)
 
 # Contributing
 Please set up editorconfig in your editor.
