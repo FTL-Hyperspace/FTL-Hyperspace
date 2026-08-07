@@ -2793,8 +2793,21 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") BlueprintManager::GetCrewBlueprint;
 %rename("%s") BlueprintManager::GetDroneBlueprint;
 %rename("%s") BlueprintManager::GetShipBlueprint;
+//%rename("%s") BlueprintManager::GetSystemBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 %rename("%s") BlueprintManager::GetBlueprintList;
+
+%rename("%s") BlueprintManager::GetRandomAugment;
+%rename("%s") BlueprintManager::GetRandomDrone;
+%rename("%s") BlueprintManager::GetRandomWeapon;
+
+%rename("%s") BlueprintManager::shipBlueprints;
+%rename("%s") BlueprintManager::weaponBlueprints;
+%rename("%s") BlueprintManager::droneBlueprints;
+%rename("%s") BlueprintManager::augmentBlueprints;
+%rename("%s") BlueprintManager::crewBlueprints;
+//%rename("%s") BlueprintManager::systemBlueprints;
+%rename("%s") BlueprintManager::blueprintLists;
 
 %nodefaultctor AugmentBlueprint;
 %nodefaultdtor AugmentBlueprint;

@@ -3187,7 +3187,18 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - [`DroneBlueprint`](#DroneBlueprint) `:*GetDroneBlueprint(std::string name)`
 - [`ShipBlueprint`](#ShipBlueprint) `:*GetShipBlueprint(std::string name, int sector)`
 - [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(std::string name)`
-- `std::vector<std::string> :GetBlueprintList(std::string name)`
+- `std::vector<std::string>` `:GetBlueprintList(std::string name)`
+- [`std::vector<AugmentBlueprint*>`](#AugmentBlueprint) `:GetRandomAugment(int count, bool demo_lock);`
+- [`std::vector<DroneBlueprint*>`](#DroneBlueprint) `:GetRandomDrone(int count, bool demo_lock)`
+- [`std::vector<WeaponBlueprint*>`](#WeaponBlueprint) `:GetRandomWeapon(int count, bool demo_lock)`
+
+### Fields
+- [`std::map<std::string, ShipBlueprint>`](#ShipBlueprint) `.shipBlueprints;`
+- [`std::map<std::string, WeaponBlueprint>`](#WeaponBlueprint) `.weaponBlueprints;`
+- [`std::map<std::string, DroneBlueprint>`](#DroneBlueprint) `.droneBlueprints;`
+- [`std::map<std::string, AugmentBlueprint>`](#AugmentBlueprint) `.augmentBlueprints;`
+- [`std::map<std::string, CrewBlueprint>`](#CrewBlueprint) `.crewBlueprints;`
+- `std::map<std::string, std::vector<std::string>>` `.blueprintLists;`
 
 ## AugmentBlueprint
 
