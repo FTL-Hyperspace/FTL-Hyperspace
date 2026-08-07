@@ -3,6 +3,8 @@
 static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
 ".55":
 static cleanup __amd64 void PowerManager::RestartAll();
+".554889e541":
+cleanup __amd64 bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 00644c90
 ".554889e548c74714":
 cleanup __amd64 void PowerManager::ClearStatus(PowerManager *this);
 ".554889e5":
