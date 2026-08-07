@@ -370,6 +370,12 @@ namespace std {
     %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
     %template(vector_bool) vector<bool>;
     %template(vector_vector_bool) vector<vector<bool>>;
+    %template(map_string_ShipBlueprint) map<string, ShipBlueprint>;
+    %template(map_string_WeaponBlueprint) map<string, WeaponBlueprint>;
+    %template(map_string_DroneBlueprint) map<string, DroneBlueprint>;
+    %template(map_string_AugmentBlueprint) map<string, AugmentBlueprint>;
+    %template(map_string_CrewBlueprint) map<string, CrewBlueprint>;
+    %template(map_string_vector_string) map<string, vector<string>>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
