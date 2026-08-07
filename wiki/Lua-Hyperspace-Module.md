@@ -1327,7 +1327,6 @@ No methods are exposed currently.
 **Extends [`Blueprint`](#blueprint)**
 
 ### Fields
-**All fields are read-only**
 - `std::string` `.typeName`
 - `int` `.level`
 - `int` `.targetType`
@@ -3191,14 +3190,26 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - [`std::vector<AugmentBlueprint*>`](#AugmentBlueprint) `:GetRandomAugment(int count, bool demo_lock);`
 - [`std::vector<DroneBlueprint*>`](#DroneBlueprint) `:GetRandomDrone(int count, bool demo_lock)`
 - [`std::vector<WeaponBlueprint*>`](#WeaponBlueprint) `:GetRandomWeapon(int count, bool demo_lock)`
+- `void` `:RegisterAugmentBlueprint(AugmentBlueprint bp)`
+   - Registers a lua created augment blueprint to the relevant blueprint list
+- `void` `:RegisterDroneBlueprint(DroneBlueprint bp)`
+   - Registers a lua created drone blueprint to the relevant blueprint list
+- `void` `:RegisterWeaponBlueprint(WeaponBlueprint bp)`
+   - Registers a lua created weapon blueprint to the relevant blueprint list
 
 ### Fields
 - [`std::map<std::string, ShipBlueprint>`](#ShipBlueprint) `.shipBlueprints;`
+   - **read-only**
 - [`std::map<std::string, WeaponBlueprint>`](#WeaponBlueprint) `.weaponBlueprints;`
+   - **read-only**
 - [`std::map<std::string, DroneBlueprint>`](#DroneBlueprint) `.droneBlueprints;`
+   - **read-only**
 - [`std::map<std::string, AugmentBlueprint>`](#AugmentBlueprint) `.augmentBlueprints;`
+   - **read-only**
 - [`std::map<std::string, CrewBlueprint>`](#CrewBlueprint) `.crewBlueprints;`
+   - **read-only**
 - `std::map<std::string, std::vector<std::string>>` `.blueprintLists;`
+   - **read-only**
 
 ## AugmentBlueprint
 

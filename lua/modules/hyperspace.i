@@ -2796,26 +2796,47 @@ We can expose them once the root cause is identified and the crash is fixed.
 //%rename("%s") BlueprintManager::GetSystemBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 %rename("%s") BlueprintManager::GetBlueprintList;
-
 %rename("%s") BlueprintManager::GetRandomAugment;
 %rename("%s") BlueprintManager::GetRandomDrone;
 %rename("%s") BlueprintManager::GetRandomWeapon;
+%extend BlueprintManager {
+    void RegisterAugmentBlueprint(const AugmentBlueprint& bp)
+    {
+        $self->augmentBlueprints.emplace(bp.name, bp)
+    }
+    void RegisterDroneBlueprint(const DroneBlueprint& bp)
+    {
+        $self->droneBlueprints.emplace(bp.name, bp)
+    }
+    void RegisterWeaponBlueprint(const WeaponBlueprint& bp)
+    {
+        $self->weaponBlueprints.emplace(bp.name, bp)
+    }
+}
 
 %rename("%s") BlueprintManager::shipBlueprints;
+%immutable BlueprintManager::shipBlueprints;
 %rename("%s") BlueprintManager::weaponBlueprints;
+%immutable BlueprintManager::weaponBlueprints;
 %rename("%s") BlueprintManager::droneBlueprints;
+%immutable BlueprintManager::droneBlueprints;
 %rename("%s") BlueprintManager::augmentBlueprints;
+%immutable BlueprintManager::augmentBlueprints;
 %rename("%s") BlueprintManager::crewBlueprints;
+%immutable BlueprintManager::crewBlueprints;
 //%rename("%s") BlueprintManager::systemBlueprints;
+//%immutable BlueprintManager::systemBlueprints;
 %rename("%s") BlueprintManager::blueprintLists;
+%immutable BlueprintManager::blueprintLists;
 
-%nodefaultctor AugmentBlueprint;
+
+//%nodefaultctor AugmentBlueprint;
 %nodefaultdtor AugmentBlueprint;
 %rename("%s") AugmentBlueprint;
 %rename("%s") AugmentBlueprint::value;
 %rename("%s") AugmentBlueprint::stacking;
 
-%nodefaultctor WeaponBlueprint;
+//%nodefaultctor WeaponBlueprint;
 %nodefaultdtor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
 %rename("%s") WeaponBlueprint::BoostPower;
@@ -3931,28 +3952,28 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 
 %rename("%s") DroneBlueprint;
-%nodefaultctor DroneBlueprint;
+//%nodefaultctor DroneBlueprint;
 %nodefaultdtor DroneBlueprint;
 
-%immutable DroneBlueprint::typeName;
+//%immutable DroneBlueprint::typeName;
 %rename("%s") DroneBlueprint::typeName;
-%immutable DroneBlueprint::level;
+//%immutable DroneBlueprint::level;
 %rename("%s") DroneBlueprint::level;
-%immutable DroneBlueprint::targetType;
+//%immutable DroneBlueprint::targetType;
 %rename("%s") DroneBlueprint::targetType;
-%immutable DroneBlueprint::power;
+//%immutable DroneBlueprint::power;
 %rename("%s") DroneBlueprint::power;
-%immutable DroneBlueprint::cooldown;
+//%immutable DroneBlueprint::cooldown;
 %rename("%s") DroneBlueprint::cooldown;
-%immutable DroneBlueprint::speed;
+//%immutable DroneBlueprint::speed;
 %rename("%s") DroneBlueprint::speed;
-%immutable DroneBlueprint::dodge;
+//%immutable DroneBlueprint::dodge;
 %rename("%s") DroneBlueprint::dodge;
-%immutable DroneBlueprint::weaponBlueprint;
+//%immutable DroneBlueprint::weaponBlueprint;
 %rename("%s") DroneBlueprint::weaponBlueprint;
-%immutable DroneBlueprint::droneImage;
+//%immutable DroneBlueprint::droneImage;
 %rename("%s") DroneBlueprint::droneImage;
-%immutable DroneBlueprint::combatIcon;
+//%immutable DroneBlueprint::combatIcon;
 %rename("%s") DroneBlueprint::combatIcon;
 
 %luacode {
