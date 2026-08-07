@@ -488,3 +488,12 @@ bool StarMap::WillBeOvertaken(Location *loc)
     Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
     return loc->loc.RelativeDistance(nextDangerZone) < (dangerZoneRadius * dangerZoneRadius);
 }
+
+HOOK_METHOD_PRIORITY(StarMap, MouseMove, -9999, (int mX, int mY) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (StarMap.cpp)\n")
+
+    // Prevents the player from jumping when waiting (Lead to a softlock)
+    if (this->waiting.running) return;
+    super(mX, mY);
+}
