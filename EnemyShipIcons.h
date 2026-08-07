@@ -4,7 +4,7 @@
 struct ShipIconDefinition
 {
     std::string name;
-    std::string tooltip;
+    TextString tooltip;
 };
 
 class ShipIconManager
