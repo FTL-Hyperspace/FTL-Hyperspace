@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "integration/CrashReportFlow.h"
+#include "ui/CrashDialogManager.h"
 
 // === CApp Hooks ===
 
@@ -42,6 +43,17 @@ HOOK_METHOD_PRIORITY(CApp, OnLoop, -9999, () -> void)
 // === MainMenu Hooks ===
 
 // Initialize crash detection and show dialog on menu open
+
+HOOK_METHOD(MenuScreen, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (CrashDetectionHooks.cpp)\n")
+    super();
+    if (this->bOpen && !this->bShowControls)
+    {
+        CrashDialogManager::GetInstance()->RenderButton();
+    }
+}
+
 HOOK_METHOD(MainMenu, Open, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (CrashDetectionHooks.cpp)\n")

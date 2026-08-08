@@ -154,13 +154,6 @@ void CrashDialogManager::ShowErrorDialog()
 
 void CrashDialogManager::OnRender()
 {
-    // Render bug report button
-    // G_->Get
-    if (bugReportButton)
-    {
-        bugReportButton->OnRender();
-    }
-
     // Render dialogs
     if (askReportDialog != nullptr && askReportDialog->bOpen)
     {
