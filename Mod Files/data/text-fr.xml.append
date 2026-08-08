@@ -334,3 +334,5 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed" language="fr">Échec de la création du rapport de bug.\n\nVeuillez consulter les journaux pour plus de détails.</text>
 <text name="confirm_report_failed_okay" language="fr">OK</text>
 <!-- <text name="confirm_report_failed_no" language="en"> </text> -->
+
+<text name="tooltip_supergrid" language="fr">Affichage avancé des nœuds : \nAffiche toutes les connexions sur la carte du secteur si cette option est activée.</text> 

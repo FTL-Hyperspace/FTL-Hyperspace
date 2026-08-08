@@ -332,3 +332,5 @@ Chiave: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed" language="it">Creazione del report non riuscita\n\nSi prega di consultare i registri per i dettagli.</text>
 <text name="confirm_report_failed_okay" language="it">Confermare</text>
 <!-- <text name="confirm_report_failed_no" language="it"> </text> -->
+
+<text name="tooltip_supergrid" language="it">Visualizzazione nodi avanzata: \nMostra tutti i collegamenti sulla mappa di settore se attivata.</text>

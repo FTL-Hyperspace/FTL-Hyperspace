@@ -319,3 +319,5 @@ Taste: \1</text>
 <text name="confirm_report_failed" language="de">Erstellen eines Fehlerberichts ist gescheitert.\n\nBitte überprüfe die Logs für weitere Informationen .</text>
 <text name="confirm_report_failed_okay" language="de">Schließen</text>
 <!-- <text name="confirm_report_failed_no" language="de"> </text> -->
+
+<text name="tooltip_supergrid" language="de">Erweiterte Knotenansicht: \nZeige alle Verknüpfungen auf der Sektorkarte.</text>
