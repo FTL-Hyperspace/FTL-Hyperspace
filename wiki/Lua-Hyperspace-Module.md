@@ -2999,6 +2999,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `void :SetCooldownModifier(float mod)`
 - `void :SetCurrentShip(Targetable *ship)`
 - `void :SetHacked(int hacked)`
+- `void :DetachFromGlobalBlueprint()`
+   - Detaches this weapon's blueprint from the global blueprint used by all weapons of this type, this lets you modify this weapon's blueprint without affecting all other weapons of this type.
 
 ### Fields
 - `std::pair<float, float>` `.cooldown`
@@ -3036,6 +3038,17 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `int` `.iHackLevel`
 - `int` `.goalChargeLevel`
 - `bool` `.isArtillery`
+- [`ProjectileFactory_Extend`](#ProjectileFactory_Extend) `.extend`
+   - **read-only**
+
+## ProjectileFactory_Extend
+
+Accessed via `ProjectileFactory`'s `.extend` field
+
+### Fields
+- `bool` `.cleanUpBlueprint`
+   - **read-only**
+   - Indicates whether the blueprint of this weapon has been detached from the global blueprint for this weapon type. If true the blueprint for this weapon will be destroyed with the weapon.
 
 ## WeaponMount
 
