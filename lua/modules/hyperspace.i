@@ -2463,13 +2463,14 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %rename("%s") ProjectileFactory::DetachFromGlobalBlueprint;
 %extend ProjectileFactory {
-    ShipManager_Extend* extend;
+    ProjectileFactory_Extend* extend;
     void DetachFromGlobalBlueprint() 
     {
-        if ($self->extend && !$self->extend->cleanupBlueprint && $self->blueprint) {
+        ProjectileFactory_Extend* ex = Get_ProjectileFactory_Extend($self);
+        if (ex && !ex->cleanUpBlueprint && $self->blueprint) {
             $self->blueprint = new WeaponBlueprint(*$self->blueprint);
-            $self->extend->cleanUpBlueprint = true;
-        } 
+            ex->cleanUpBlueprint = true;
+        }
     };
 }
 %wrapper %{
