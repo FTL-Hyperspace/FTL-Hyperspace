@@ -16,6 +16,7 @@
 #include "CustomShipSelect.h"
 #include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
+#include "ProjectileFactory_Extend.h"
 #include "ShipManager_Extend.h"
 #include "System_Extend.h"
 #include "SystemBox_Extend.h"
@@ -2457,6 +2458,31 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ProjectileFactory::goalChargeLevel;
 %rename("%s") ProjectileFactory::isArtillery;
 
+%immutable ProjectileFactory::extend;
+%rename("%s") ProjectileFactory::extend;
+
+%extend ProjectileFactory {
+    ShipManager_Extend* extend;
+    void DetachFromGlobalBlueprint() 
+    {
+        if (this->extend && !this->extend->cleanupBlueprint && this->blueprint) {
+            this->blueprint = new WeaponBlueprint(*this->blueprint);
+            this->extend->cleanUpBlueprint = true;
+        } 
+    };
+}
+%wrapper %{
+    static ProjectileFactory_Extend *ProjectileFactory_extend_get(ProjectileFactory* ProjectileFactory)
+    {
+        return Get_ProjectileFactory_Extend(ProjectileFactory);
+    };
+%}
+
+%nodefaultctor ProjectileFactory_Extend;
+%rename("%s") ProjectileFactory_Extend;
+%rename("%s") ProjectileFactory_Extend::cleanUpBlueprint;
+%immutable ProjectileFactory_Extend::cleanUpBlueprint;
+
 %nodefaultctor WeaponMount;
 %nodefaultdtor WeaponMount;
 %rename("%s") WeaponMount;
@@ -4731,6 +4757,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "CustomShips.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
+%include "ProjectileFactory_Extend.h"
 %include "ShipManager_Extend.h"
 %include "System_Extend.h"
 %include "SystemBox_Extend.h"

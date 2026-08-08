@@ -1227,6 +1227,12 @@
 		<Unit filename="Projectile_Extend.h">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="ProjectileFactory_Extend.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="ProjectileFactory_Extend.h">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="RedesignedTooltips.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
