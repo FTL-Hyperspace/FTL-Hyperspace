@@ -3637,7 +3637,7 @@ struct ProjectileFactory
   std__vector_12ProjectileZ1 queuedProjectiles;
   int iBonusPower;
   bool bFiredOnce;
-  uint8_t gap_ex_1[2]
+  uint8_t gap_ex_1[2];
   int iSpendMissile;
   float cooldownModifier;
   int shotsFiredAtTarget;
@@ -3648,7 +3648,7 @@ struct ProjectileFactory
   int iHackLevel;
   int goalChargeLevel;
   bool isArtillery;
-  uint8_t gap_ex_2[2]
+  uint8_t gap_ex_2[2];
 };
 
 /* 554 */

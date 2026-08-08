@@ -6782,6 +6782,7 @@ struct ProjectileFactory : ShipObject
 	std::vector<Projectile*> queuedProjectiles;
 	int iBonusPower;
 	bool bFiredOnce;
+	uint8_t gap_ex_1[2];
 	int iSpendMissile;
 	float cooldownModifier;
 	int shotsFiredAtTarget;
@@ -6792,6 +6793,7 @@ struct ProjectileFactory : ShipObject
 	int iHackLevel;
 	int goalChargeLevel;
 	bool isArtillery;
+	uint8_t gap_ex_2[2];
 };
 
 struct RepairAnimation : CrewAnimation

@@ -1,5 +1,6 @@
 #include "ProjectileFactory_Extend.h"
-
+#include "luaInclude.h"
+#include "Global.h"
 
 HOOK_METHOD_PRIORITY(ProjectileFactory, constructor, 900, (const WeaponBlueprint *bp, int shipId) -> void)
 {
