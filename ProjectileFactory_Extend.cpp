@@ -1,12 +1,12 @@
 #include "ProjectileFactory_Extend.h"
 
 
-HOOK_METHOD_PRIORITY(ProjectileFactory, constructor, 900, (int iShipId) -> void)
+HOOK_METHOD_PRIORITY(ProjectileFactory, constructor, 900, (const WeaponBlueprint *bp, int shipId) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::constructor -> Begin (ProjectileFactory_Extend.cpp)\n")
 
 
-	super(iShipId);
+	super(bp, shipId);
 
 	auto ex = new ProjectileFactory_Extend();
 
