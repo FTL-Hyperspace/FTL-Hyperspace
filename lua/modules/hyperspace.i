@@ -2466,9 +2466,9 @@ We can expose them once the root cause is identified and the crash is fixed.
     ShipManager_Extend* extend;
     void DetachFromGlobalBlueprint() 
     {
-        if (this->extend && !this->extend->cleanupBlueprint && this->blueprint) {
-            this->blueprint = new WeaponBlueprint(*this->blueprint);
-            this->extend->cleanUpBlueprint = true;
+        if ($self->extend && !$self->extend->cleanupBlueprint && $self->blueprint) {
+            $self->blueprint = new WeaponBlueprint(*$self->blueprint);
+            $self->extend->cleanUpBlueprint = true;
         } 
     };
 }
@@ -2838,15 +2838,15 @@ We can expose them once the root cause is identified and the crash is fixed.
 %extend BlueprintManager {
     void RegisterAugmentBlueprint(const AugmentBlueprint& bp)
     {
-        $self->augmentBlueprints.emplace(bp.name, bp)
+        $self->augmentBlueprints.emplace(bp.name, bp);
     }
     void RegisterDroneBlueprint(const DroneBlueprint& bp)
     {
-        $self->droneBlueprints.emplace(bp.name, bp)
+        $self->droneBlueprints.emplace(bp.name, bp);
     }
     void RegisterWeaponBlueprint(const WeaponBlueprint& bp)
     {
-        $self->weaponBlueprints.emplace(bp.name, bp)
+        $self->weaponBlueprints.emplace(bp.name, bp);
     }
 }
 
