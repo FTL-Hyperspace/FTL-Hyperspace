@@ -1327,7 +1327,6 @@ No methods are exposed currently.
 **Extends [`Blueprint`](#blueprint)**
 
 ### Fields
-**All fields are read-only**
 - `std::string` `.typeName`
 - `int` `.level`
 - `int` `.targetType`
@@ -3000,6 +2999,8 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `void :SetCooldownModifier(float mod)`
 - `void :SetCurrentShip(Targetable *ship)`
 - `void :SetHacked(int hacked)`
+- `void :DetachFromGlobalBlueprint()`
+   - Detaches this weapon's blueprint from the global blueprint used by all weapons of this type, this lets you modify this weapon's blueprint without affecting all other weapons of this type.
 
 ### Fields
 - `std::pair<float, float>` `.cooldown`
@@ -3037,6 +3038,17 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `int` `.iHackLevel`
 - `int` `.goalChargeLevel`
 - `bool` `.isArtillery`
+- [`ProjectileFactory_Extend`](#ProjectileFactory_Extend) `.extend`
+   - **read-only**
+
+## ProjectileFactory_Extend
+
+Accessed via `ProjectileFactory`'s `.extend` field
+
+### Fields
+- `bool` `.cleanUpBlueprint`
+   - **read-only**
+   - Indicates whether the blueprint of this weapon has been detached from the global blueprint for this weapon type. If true the blueprint for this weapon will be destroyed with the weapon.
 
 ## WeaponMount
 
@@ -3187,7 +3199,30 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - [`DroneBlueprint`](#DroneBlueprint) `:*GetDroneBlueprint(std::string name)`
 - [`ShipBlueprint`](#ShipBlueprint) `:*GetShipBlueprint(std::string name, int sector)`
 - [`WeaponBlueprint`](#WeaponBlueprint) `:*GetWeaponBlueprint(std::string name)`
-- `std::vector<std::string> :GetBlueprintList(std::string name)`
+- `std::vector<std::string>` `:GetBlueprintList(std::string name)`
+- [`std::vector<AugmentBlueprint*>`](#AugmentBlueprint) `:GetRandomAugment(int count, bool demo_lock);`
+- [`std::vector<DroneBlueprint*>`](#DroneBlueprint) `:GetRandomDrone(int count, bool demo_lock)`
+- [`std::vector<WeaponBlueprint*>`](#WeaponBlueprint) `:GetRandomWeapon(int count, bool demo_lock)`
+- `void` `:RegisterAugmentBlueprint(AugmentBlueprint bp)`
+   - Registers a lua created augment blueprint to the relevant blueprint list
+- `void` `:RegisterDroneBlueprint(DroneBlueprint bp)`
+   - Registers a lua created drone blueprint to the relevant blueprint list
+- `void` `:RegisterWeaponBlueprint(WeaponBlueprint bp)`
+   - Registers a lua created weapon blueprint to the relevant blueprint list
+
+### Fields
+- [`std::map<std::string, ShipBlueprint>`](#ShipBlueprint) `.shipBlueprints;`
+   - **read-only**
+- [`std::map<std::string, WeaponBlueprint>`](#WeaponBlueprint) `.weaponBlueprints;`
+   - **read-only**
+- [`std::map<std::string, DroneBlueprint>`](#DroneBlueprint) `.droneBlueprints;`
+   - **read-only**
+- [`std::map<std::string, AugmentBlueprint>`](#AugmentBlueprint) `.augmentBlueprints;`
+   - **read-only**
+- [`std::map<std::string, CrewBlueprint>`](#CrewBlueprint) `.crewBlueprints;`
+   - **read-only**
+- `std::map<std::string, std::vector<std::string>>` `.blueprintLists;`
+   - **read-only**
 
 ## AugmentBlueprint
 
