@@ -2461,6 +2461,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %immutable ProjectileFactory::extend;
 %rename("%s") ProjectileFactory::extend;
 
+%rename("%s") ProjectileFactory::DetachFromGlobalBlueprint;
 %extend ProjectileFactory {
     ShipManager_Extend* extend;
     void DetachFromGlobalBlueprint() 
@@ -2831,6 +2832,9 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") BlueprintManager::GetRandomAugment;
 %rename("%s") BlueprintManager::GetRandomDrone;
 %rename("%s") BlueprintManager::GetRandomWeapon;
+%rename("%s") BlueprintManager::RegisterAugmentBlueprint;
+%rename("%s") BlueprintManager::RegisterDroneBlueprint;
+%rename("%s") BlueprintManager::RegisterWeaponBlueprint;
 %extend BlueprintManager {
     void RegisterAugmentBlueprint(const AugmentBlueprint& bp)
     {
