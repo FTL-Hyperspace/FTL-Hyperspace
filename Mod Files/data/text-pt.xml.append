@@ -332,3 +332,5 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed" language="pt">Falha ao criar o Reporte de Erro.\n\nPor favor cheque os seus registros para mais detalhes.</text>
 <text name="confirm_report_failed_okay" language="pt">Confirmar</text>
 <!-- <text name="confirm_report_failed_no" language="pt"> </text> -->
+
+<text name="tooltip_bugreport" language="pt">Clique aqui para reportar um erro.</text>

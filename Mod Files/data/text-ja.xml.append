@@ -323,3 +323,5 @@
 <text name="confirm_report_failed" language="ja">バグレポートの作成に失敗しました。\n\n詳細はログを確認してください。</text>
 <text name="confirm_report_failed_okay" language="ja">OK</text>
 <!-- <text name="confirm_report_failed_no" language="ja"> </text> -->
+
+<text name="tooltip_bugreport" language="ja">バグを報告する</text>
