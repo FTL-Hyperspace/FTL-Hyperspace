@@ -195,13 +195,14 @@ Development:
 	ranhai
 	sillysandvich
 	The Dumb Dino
+	zerofreed
 Art:
 	SaltyFriedRice
 
 = Special Thanks =
 
 _Kilburn
-zerofreed
+Qaser7
 slow (slowriderxcorps)
 Masala
 bamalf
