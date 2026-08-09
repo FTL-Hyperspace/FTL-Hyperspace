@@ -333,3 +333,4 @@ tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed_okay" language="es">OK</text>
 <!-- <text name="confirm_report_failed_no" language="es"> </text> -->
 
+<text name="tooltip_bugreport" language="es">Hacer click a reportar un bug.</text>

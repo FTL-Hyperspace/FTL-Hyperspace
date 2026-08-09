@@ -332,3 +332,5 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="confirm_report_failed" language="ko">버그 리포트를 생성하지 못했습니다.\n\n자세한 내용은 로그를 확인해 주세요.</text>
 <text name="confirm_report_failed_okay" language="ko">확인</text>
 <!-- <text name="confirm_report_failed_no" language="ko"> </text> -->
+
+<text name="tooltip_bugreport" language="ko">버그를 제보한다.</text>
