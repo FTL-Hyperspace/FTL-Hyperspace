@@ -3536,18 +3536,14 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
     if (SeedInputBox::seedsEnabled)
     {
-        CSurface::GL_BlitPixelImageWide(seedBox,
-                                position.x + 160.f,
-                                position.y + 325.f,
-                                162,
-                                72,
-                                1.f,
-                                COLOR_WHITE,
-                                false);
+        float seedBoxPosX = 640.f;
+        float seedBoxPosY = 524.f;
+
+        CSurface::GL_BlitPixelImageWide(seedBox, seedBoxPosX - (seedBox->width_ / 2), seedBoxPosY, 162, 72, 1.f, COLOR_WHITE, false);
 
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-        freetype::easy_printCenter(13, position.x + 81.f + 160.f, position.y + 325.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed", G_->GetTextLibrary()->currentLanguage));
+        freetype::easy_printCenter(13, seedBoxPosX, seedBoxPosY + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
 
         CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -3555,7 +3551,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
         snprintf(buf, 12, "%u", Global::currentSeed);
 
-        freetype::easy_printCenter(62, position.x + 81.f + 160.f, position.y + 325.f + 40.f, std::string(buf));
+        freetype::easy_printCenter(62, seedBoxPosX, seedBoxPosY + 40.f, std::string(buf));
     }
 
     if (bShowStats)
