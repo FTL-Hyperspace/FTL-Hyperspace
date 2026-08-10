@@ -578,7 +578,6 @@ HOOK_METHOD(StarMap, MouseClick, (int mX, int mY) -> void)
     {
         if (superGrid->Hovering())
         {
-            CustomOptionsManager* customOptions = CustomOptionsManager::GetInstance();
             customOptions->showAllNodeConnections = !customOptions->showAllNodeConnections;
             customOptions->showAllNodeConnectionsChanged = true;
             G_->GetSoundControl()->PlaySoundMix(customOptions->showAllNodeConnections ? "moreInfoOn" : "moreInfoOff", -1.f, false);
