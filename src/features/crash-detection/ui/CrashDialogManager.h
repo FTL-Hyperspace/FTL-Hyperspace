@@ -38,7 +38,7 @@ public:
     void OnRender();
     void OnMouseClick(int x, int y, bool& shouldPropagate);
     void OnMouseMove(int x, int y, bool& shouldPropagate);
-    void RenderButton() { if (bugReportButton) this->bugReportButton->OnRender(); }
+    void RenderButton();
 
     // Dialog state queries
     bool IsAskReportDialogOpen() const;

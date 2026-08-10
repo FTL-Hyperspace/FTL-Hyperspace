@@ -242,6 +242,11 @@ void CrashDialogManager::OnMouseMove(int x, int y, bool& shouldPropagate)
     shouldPropagate = true;
 }
 
+void CrashDialogManager::RenderButton()
+{
+    if (bugReportButton) this->bugReportButton->OnRender();
+}
+
 bool CrashDialogManager::IsAskReportDialogOpen() const
 {
     return askReportDialog != nullptr && askReportDialog->bOpen;
