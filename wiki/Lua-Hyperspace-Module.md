@@ -3729,6 +3729,12 @@ Accessed via `Projectile`'s `.extend` field
 
 ## SettingValues
 
+### Methods
+- [`SDLKey`](Lua-Defines-Module.md#SDLkeys) `:GetHotkey(const std::string &hotkeyName)`
+   - hotkeyName can be found by looking at text_tooltips.xml, the text entries `"hotkey_activate_cloak"` contain the relevant hotkey id, in this case that would be `activate_cloak`
+- `std::string :GetHotkeyName(const std::string &name)`
+   - returns the printable name of the key assigned to this hotkey, such as "SPACE" for `KEY_SPACE`
+
 ### Fields
 **All fields are read-only**
 - `int` `.fullscreen`
