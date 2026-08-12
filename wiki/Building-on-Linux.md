@@ -4,16 +4,16 @@
 
 #### Installing Git
 
-To build the project, you will need Docker and Git. The installation instructions below have been confirmed to work on Ubuntu (26.04 LTS), but we are including instructions for other distributions. First, install Git.
+To build the project, you will need Docker and Git. The installation instructions below have been confirmed to work on Ubuntu (26.04 LTS), but we are including instructions for other distributions. First, install Git and curl. 
 
-| Distributions         | Install command        |
-|:----------------------|:-----------------------|
-| Ubuntu / Debain       | `sudo apt install git` |
-| Fedora / RHEL         | `sudo dnf install git` |
-| Arch                  | `sudo pacman -S git`   |
+| Distributions         | Install command             |
+|:----------------------|:----------------------------|
+| Ubuntu / Debain       | `sudo apt install git curl` |
+| Fedora / RHEL         | `sudo dnf install git curl` |
+| Arch                  | `sudo pacman -S git curl`   |
 
 
-Verify Git was properly installed by running
+Verify Git and curl were properly installed by running
 
 ```
 git --version
@@ -25,7 +25,19 @@ You should see something along the lines of
 git version 2.53.0
 ```
 
-Note that the version number may be different.
+Next, verify curl was properly installed
+
+```
+curl --version
+```
+
+You should see something along the lines of
+
+```
+curl 8.18.0 (...)
+```
+
+Note that the version numbers may be different.
 
 #### Installing Docker
 
@@ -38,6 +50,8 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh ./get-docker.sh
 ```
 
+Wehn finished the script will mention how to run Docker as a non-privileged user. Ignore this for now.
+
 After the script is finished, Docker will be installed and the `docker` service should start automatically. **Note:** On RPM-based distributions, such as Fedora and RHEL, you need to manually start the `docker` service using `systemctl`.
 
 ```
@@ -47,7 +61,7 @@ sudo systemctl start docker
 Next, verify Docker is installed by running
 
 ```
-sudo systemctl status docker
+systemctl status docker
 ```
 
 You should see something along the lines of
@@ -138,7 +152,11 @@ After the compiling is done, you will find a new folder in the `FTL-Hyperspace` 
 
 ## Building ZHL files (not required to build Hyperspace)
 
-To build ZHL files, you need to install Lua and some relate dependencies. Run the following commands
+To build ZHL files, you need to install Lua and LuaRocks-packages.
+
+While newer versions of Lua may work, Lua 5.3 is confirmed to work and is therefore our recommendation here. Certain distributions, such as Fedora, do not offer Lua 5.3 in their repositories anymore. In this case, it may be worth it to try newer versions of Lua instead. 
+
+On Ubuntu 26.04, run the following commands to install Lua, LuaRocks and related LuaRocks-packages. 
 
 ```
 sudo apt install lua5.3 liblua5.3-dev luarocks
