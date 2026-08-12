@@ -3039,7 +3039,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     if (!Global::forceDlc)
     {
-        freetype::easy_printCenter(13, 1109, 400, lib->GetText("hangar_advanced_title"));
+        freetype::easy_printCenter(13, 1109 + this->advancedTitleOffset, 400, lib->GetText("hangar_advanced_title"));
     }
 
     CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
