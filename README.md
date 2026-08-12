@@ -9,17 +9,27 @@ Needs Node 22.
 
 ```sh
 npm install
-npm run dev      # http://localhost:4321/FTL-Hyperspace/
+npm run dev      # http://localhost:4321/
 ```
-
-The dev server serves under `/FTL-Hyperspace/` because that is the project-site
-path on GitHub Pages. Set `SITE_BASE=/` to build for a host that serves from the root.
 
 ```sh
 npm run check    # reject raw URLs, build, then validate every link and anchor
 ```
 
 Run that before pushing. It is what CI runs.
+
+## Deploying
+
+Published builds happen in CI, which derives the GitHub Pages URL from the
+repository being built: `https://<owner>.github.io/<repo>/`. A fork deploys
+under its own name automatically.
+
+Locally the site serves from the root. `SITE_BASE` overrides the base path:
+
+```sh
+SITE_BASE=/ npm run build        # a host that serves from the root
+SITE_BASE=/docs npm run build    # https://<host>/docs/
+```
 
 ## Layout
 
@@ -33,10 +43,11 @@ src/
       platform/         platform specific (excep steamdeck/linux)
       manager/          ftlman / slipstream specific
   data/links.ts         every external URL, one key each
+  data/site.mjs         site URL and base path, derived in CI from the repo
   components/           Custom components reused in docs
   assets/               images and video
 scripts/                the three check:* scripts
-astro.config.mjs        base path, locales, sidebar, redirects
+astro.config.mjs        locales, sidebar, redirects
 ```
 
 ### Partials
