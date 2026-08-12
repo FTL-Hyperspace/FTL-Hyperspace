@@ -4556,6 +4556,20 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") SettingValues::beamTutorial;
 %immutable SettingValues::beamTutorial;
 
+%rename("%s") SettingValues::GetHotkey;
+%rename("%s") SettingValues::GetHotkeyName;
+%extend SettingValues {
+    SDLKey GetHotkey(const std::string &hotkeyName)
+    {
+        return Settings::GetHotkey(hotkeyName);
+    }
+    std::string GetHotkeyName(const std::string &name)
+    {
+        return Settings::GetHotkeyName(name);
+    }
+}
+
+
 //Access PrintHelper singleton through Hyperspace.PrintHelper.GetInstance()
 %nodefaultctor PrintHelper;
 %nodefaultdtor PrintHelper;
