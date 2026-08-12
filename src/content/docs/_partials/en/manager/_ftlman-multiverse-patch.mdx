@@ -1,10 +1,17 @@
 import Screenshot from '~/components/Screenshot.astro';
 import order from '~/assets/screenshot/ftlman-multiverse-order.png';
 
-- Press **Scan** in the top right so the new files show up
-- Drag **Multiverse Assets** above **Multiverse Data**
-- Tick both
-- Leave **Hyperspace** unticked
-- Press **Apply**
+1. Press **Scan** in the top right so the new files show up
+2. If ftlman installed Hyperspace for you (you have not disabled the installer
+   in **Settings** → **Advanced settings**), skip this step.
+   If you installed Hyperspace manually, drag `Hyperspace.ftl` to the top of
+   the list. It must be above all other mods.
+3. Drag `Multiverse Assets.zip` above `Multiverse Data.zip`
+4. Check the order, top to bottom:
+   1. `Hyperspace.ftl` (optional)
+   2. `Multiverse Assets.zip`
+   3. `Multiverse Data.zip`
+5. Select the mods: click each entry until it is highlighted blue
+6. Press **Apply**
 
-<Screenshot src={order} alt="ftlman with Multiverse Assets ticked directly above Multiverse Data, and Hyperspace.ftl left unticked" label="Show me what it should look like" />
+<Screenshot src={order} alt="ftlman with Hyperspace.ftl ticked on top, then Multiverse Assets ticked directly above Multiverse Data" label="Show me what it should look like" />
