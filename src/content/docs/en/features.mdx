@@ -61,7 +61,7 @@ choice. If you prefer it off, you press it again each session.
 | `redesignedAugmentTooltips.enabled` | Adds the scrap cost to augment tooltips | `false` | `false` | `true` |
 | `showNumericalWeaponCooldown.enabled` | Prints the remaining cooldown as a number above each weapon box | `false` | `false` | `true` |
 | `showReactor.enabled` | Shows maximum reactor power in the hangar | `false` | `false` | `true` |
-| `showAllConnections.enabled` | Draws every beacon connection on the sector map | `false` | `false` | `true` |
+| `showAllConnections.enabled` | Draws every beacon connection on the sector map | `false` | `false` | `true` \*\* |
 | `alternateOxygenRendering.enabled` | Alternate colour scheme for oxygen levels, with an optional `<gradient>` child. Not a tooltip, and the one thing the button switches off rather than on | `false` | `false` | `false` |
 
 The button does not turn these features on and off. It picks where their values come
@@ -99,6 +99,9 @@ it to 2 only when the XML says 0 or 1, and leaves any other value alone:
 | `3` | `3` | `3` |
 
 The shipped value is 2, which is why all three columns match in the table above.
+
+\*\* Unless `splitAllNodeView` is on: then this toggle moves to its own button on the
+sector map and **More Info** has no effect on it.
 
 ### Not affected by the button
 
@@ -181,6 +184,7 @@ powers on any crew.
 | `customChoiceColors.enabled` | Replaces the vanilla event choice text colours, each colour set as an r/g/b/a child tag | `true` |
 | `customTextStyle.enabled` | Inline `[style[color:RRGGBB]]` markup inside text strings | `false` |
 | `customTabs.enabled` | Extra tabbed windows driven by Lua, with their own background and optional undo button | `false` |
+| `splitAllNodeView.enabled` | Gives the all-connections view its own button on the sector map, instead of following **More Info** | `false` |
 | `showShipAchievements.enabled` | Shows ship achievements in the hangar for custom ships instead of custom victories | `true` |
 | `showShipAchievements.toggle` | Lets the player switch between ship achievements and victories | `false` |
 | `showShipAchievements.hideIfMissing` | Hides the section for ships that have no achievements | `false` |
