@@ -333,4 +333,6 @@ Tecla: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed_okay" language="pt">Confirmar</text>
 <!-- <text name="confirm_report_failed_no" language="pt"> </text> -->
 
+<text name="tooltip_supergrid" language="pt">Visão avançada dos sinais: \nMostra todas as conexões no mapa do setor se ativado.</text>
+
 <text name="tooltip_bugreport" language="pt">Clique aqui para reportar um erro.</text>

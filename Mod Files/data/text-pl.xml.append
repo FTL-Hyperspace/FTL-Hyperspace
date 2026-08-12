@@ -333,4 +333,6 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed_okay" language="pl">OK</text>
 <!-- <text name="confirm_report_failed_no" language="pl"> </text> -->
 
+<text name="tooltip_supergrid" language="pl">Zaawansowany widok węzłów: \nPokaż wszystkie połączenia na mapie sektora, jeśli włączony.</text>
+
 <text name="tooltip_bugreport" language="pl">Kliknij, aby zgłosić błąd.</text>

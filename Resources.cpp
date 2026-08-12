@@ -673,6 +673,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->scaleSlugGel.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "splitAllNodeView") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->splitAllNodeView.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->splitAllNodeView.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "multiShipFix") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

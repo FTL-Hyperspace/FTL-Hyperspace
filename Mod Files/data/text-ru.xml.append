@@ -333,4 +333,6 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="confirm_report_failed_okay" language="ru">Хорошо</text>
 <!-- <text name="confirm_report_failed_no" language="ru"> </text> -->
 
+<text name="tooltip_supergrid" language="ru">Расширенный просмотр узлов: \nПоказать все соединения на карте маяков.</text>
+
 <text name="tooltip_bugreport" language="ru">Нажмите, чтобы сообщить об ошибке.</text>
