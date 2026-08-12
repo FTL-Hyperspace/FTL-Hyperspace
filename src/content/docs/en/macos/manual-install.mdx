@@ -15,6 +15,7 @@ import MacosSaves from '@p/platform/_macos-saves.mdx';
 import BackupSaves from '@p/shared/_saves-backup.mdx';
 import OldWrapper from '@p/platform/_macos-old-wrapper.mdx';
 import ModManager from '@p/manager/_ftlman-install.mdx';
+import PatchFtlman from '@p/manager/_ftlman-apply.mdx';
 import Multiverse from '@p/shared/_multiverse-install.mdx';
 import Codesign from '@p/platform/_macos-app-codesign.mdx';
 import KeepVanilla from '@p/platform/_macos-app-duplicate.mdx';
@@ -75,7 +76,12 @@ import KeepVanilla from '@p/platform/_macos-app-duplicate.mdx';
    - **exactly one** dylib matching the version you just noted:
      `Hyperspace.1.6.13.amd64.dylib` or `Hyperspace.1.6.12.amd64.dylib`
 
+   Leave `Hyperspace.ftl` where it is for now. You need it in step 6.
+
 5. ### Set up a mod manager
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman">
 
    <ModManager />
 
@@ -87,13 +93,22 @@ import KeepVanilla from '@p/platform/_macos-app-duplicate.mdx';
    The error "FTL executable not found" is expected here and can be ignored.
    </Aside>
 
-6. ### Sign the app
+   </TabItem>
+   </Tabs>
+
+6. ### Patch Hyperspace in
+
+   <Tabs syncKey="manager">
+   <TabItem label="ftlman"><PatchFtlman manual /></TabItem>
+   </Tabs>
+
+7. ### Sign the app
 
    macOS refuses to run the patched app until it is signed.
 
    <Codesign />
 
-7. ### Launch
+8. ### Launch
 
    Open `FTL.app` directly. Do **not** launch it through Steam.
 
