@@ -1,5 +1,6 @@
-<Aside type="caution" title="Some mods override Hyperspace.ftl">
-Some mods don't require `Hyperspace.ftl` as they contain their own `Hyperspace.xml`,
-Multiverse is among them. If you are using one of those, leave `Hyperspace.ftl`
-**unticked** in the mod list. Patching both will cause a broken install.
+<Aside type="caution" title="Keep Hyperspace.ftl on top">
+  `Hyperspace.ftl` must sit above every other mod in the list. Mods that ship
+  their own `hyperspace.xml`, Multiverse among them, are patched after it and
+  override it. Patching hyperspace.ftl below other mods may lead to a broken
+  install.
 </Aside>
