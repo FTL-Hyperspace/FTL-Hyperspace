@@ -34,6 +34,9 @@ public:
     bool altMode = true;
     bool altModeChanged = true;
 
+    bool showAllNodeConnections = true; // If split is enabled then this will automatically be enabled too (can be changed in the future)
+    bool showAllNodeConnectionsChanged = true;
+
 //    Setting holdButton;
 
 //    Setting hullNumbers;
@@ -99,6 +102,8 @@ public:
     Setting<bool> enhancedCloneUI;
 
     Setting<bool> scaleSlugGel;
+
+    Setting<bool> splitAllNodeView;
 
     Setting<bool> multiShipFix;
 

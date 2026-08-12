@@ -332,3 +332,5 @@ Key: \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed" language="pl">Utworzenie zgłoszenia błędu zakończone niepowodzeniem. \n\nSprawdź logi, aby uzyskać więcej informacji.</text>
 <text name="confirm_report_failed_okay" language="pl">OK</text>
 <!-- <text name="confirm_report_failed_no" language="pl"> </text> -->
+
+<text name="tooltip_supergrid" language="pl">Zaawansowany widok węzłów: \nPokaż wszystkie połączenia na mapie sektora, jeśli włączony.</text>

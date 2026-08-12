@@ -341,3 +341,5 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <text name="confirm_report_failed" language="zh-Hans">创建错误报告失败。\n\n请检查您的日志以获取更多详情。</text>
 <text name="confirm_report_failed_okay" language="zh-Hans">确认</text>
 <!-- <text name="confirm_report_failed_no" language="zh-Hans"> </text> -->
+
+<text name="tooltip_supergrid" language="zh-Hans">详细视图：\n开启后显示星系内所有信标间的路径。</text>
