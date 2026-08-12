@@ -17,6 +17,17 @@
 -->
 <version>^1.22.2</version>
 
+<!--
+    Identifies this file as the Hyperspace base mod's own hyperspace.xml.
+    Mods that ship their own hyperspace.xml (overhauls like Multiverse) must set
+    <isBasemod>false</isBasemod>, or simply leave the tag out since it defaults to false.
+    
+    If this file is still the active one while overhaul data is present in ftl.dat,
+    hyperspace.ftl was patched after the overhaul and has overwritten some of its
+    files and Hyperspace will warn about this on startup.
+-->
+<isBasemod>true</isBasemod>
+
 <!-- Hyperspace defaults
 
 Allows some default parameters to be configured by the mod.
