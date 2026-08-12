@@ -8,9 +8,9 @@
  */
 import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { join, posix } from 'node:path';
+import { BASE } from '../src/data/site.mjs';
 
 const DIST = 'dist';
-const BASE = process.env.SITE_BASE ?? '/FTL-Hyperspace';
 
 const walk = (dir) =>
 	readdirSync(dir).flatMap((e) => {

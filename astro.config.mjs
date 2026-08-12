@@ -7,10 +7,8 @@ import { join, relative } from 'node:path';
 import { remarkSiteLinks } from './src/plugins/remark-site-links';
 import { vitePartials } from './src/plugins/vite-partials';
 import { links } from './src/data/links';
+import { SITE, BASE } from './src/data/site.mjs';
 
-// GitHub Pages serves from /FTL-Hyperspace. Preview hosts serve from the root, so
-// SITE_BASE=/ produces a build that works there. Nothing in src hardcodes this.
-const BASE = process.env.SITE_BASE ?? '/FTL-Hyperspace';
 const EN_DOCS = 'src/content/docs/en';
 
 /** Prefix a site-root path with the base, without doubling the slash when base is "/". */
@@ -67,7 +65,7 @@ const jekyllRedirects = Object.fromEntries(
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://ftl-hyperspace.github.io',
+	site: SITE,
 	base: BASE,
 	redirects: { ...rootLevelRedirects(), ...jekyllRedirects },
 	markdown: { remarkPlugins: [remarkSiteLinks] },
