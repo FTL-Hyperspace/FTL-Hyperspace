@@ -20,9 +20,14 @@ Run that before pushing. It is what CI runs.
 
 ## Deploying
 
-Published builds happen in CI, which derives the GitHub Pages URL from the
-repository being built: `https://<owner>.github.io/<repo>/`. A fork deploys
-under its own name automatically.
+Every push to `gh-pages-source` deploys automatically.
+
+One-time setup per repository: in Settings > Pages,
+Build and deployment must be set to "GitHub Actions".
+
+The build derives the GitHub Pages URL from the repository being built:
+`https://<owner>.github.io/<repo>/`. A fork deploys under its own name
+with no edits.
 
 Locally the site serves from the root. `SITE_BASE` overrides the base path:
 
