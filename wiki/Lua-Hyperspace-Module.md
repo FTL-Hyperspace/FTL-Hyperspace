@@ -3046,7 +3046,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 Accessed via `ProjectileFactory`'s `.extend` field
 
 ### Fields
-- `bool` `.cleanUpBlueprint`
+- `bool` `.isBlueprintDetached`
    - **read-only**
    - Indicates whether the blueprint of this weapon has been detached from the global blueprint for this weapon type. If true the blueprint for this weapon will be destroyed with the weapon.
 

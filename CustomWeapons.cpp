@@ -897,7 +897,7 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
 bool ProjectileFactory::HitShotLimit()
 {
     auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
-    return def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget;
+    return def && def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget;
 }
 //Shot limit is implemented in the same context as checks on WeaponBlueprint::missiles as a way of implementing a requirement on weapon usage
 //TODO: Possibly add callback for arbitrary requirements on weapon usage

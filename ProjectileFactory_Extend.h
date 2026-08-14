@@ -4,13 +4,15 @@
 struct ProjectileFactory_Extend
 {
     ProjectileFactory *orig;
-    bool cleanUpBlueprint = false;
+    const WeaponBlueprint *detachedBlueprint = nullptr;
 
     ~ProjectileFactory_Extend()
     {
-        if (this->cleanUpBlueprint && this->orig) {
-            delete this->orig->blueprint;
-            this->orig->blueprint = nullptr;
+        if (this->detachedBlueprint) {
+            if (this->orig && this->orig->blueprint == this->detachedBlueprint) {
+                this->orig->blueprint = nullptr;
+            }
+            delete this->detachedBlueprint;
         }
     }
 };

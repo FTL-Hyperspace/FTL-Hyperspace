@@ -2464,12 +2464,12 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ProjectileFactory::DetachFromGlobalBlueprint;
 %extend ProjectileFactory {
     ProjectileFactory_Extend* extend;
-    void DetachFromGlobalBlueprint() 
+    void DetachFromGlobalBlueprint()
     {
         ProjectileFactory_Extend* ex = Get_ProjectileFactory_Extend($self);
-        if (ex && !ex->cleanUpBlueprint && $self->blueprint) {
+        if (ex && !ex->detachedBlueprint && $self->blueprint) {
             $self->blueprint = new WeaponBlueprint(*$self->blueprint);
-            ex->cleanUpBlueprint = true;
+            ex->detachedBlueprint = $self->blueprint;
         }
     };
 }
@@ -2482,8 +2482,18 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %nodefaultctor ProjectileFactory_Extend;
 %rename("%s") ProjectileFactory_Extend;
-%rename("%s") ProjectileFactory_Extend::cleanUpBlueprint;
-%immutable ProjectileFactory_Extend::cleanUpBlueprint;
+%immutable ProjectileFactory_Extend::isBlueprintDetached;
+%rename("%s") ProjectileFactory_Extend::isBlueprintDetached;
+%extend ProjectileFactory_Extend {
+    bool isBlueprintDetached;
+}
+%wrapper %{
+    static bool ProjectileFactory_Extend_isBlueprintDetached_get(ProjectileFactory_Extend* ex)
+    {
+        return ex->detachedBlueprint && ex->orig
+                && ex->detachedBlueprint == ex->orig->blueprint;
+    };
+%}
 
 %nodefaultctor WeaponMount;
 %nodefaultdtor WeaponMount;
@@ -2875,7 +2885,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") AugmentBlueprint::stacking;
 
 //%nodefaultctor WeaponBlueprint;
-%nodefaultdtor WeaponBlueprint;
+//%nodefaultdtor WeaponBlueprint;
 %copyctor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
 %rename("%s") WeaponBlueprint::BoostPower;
