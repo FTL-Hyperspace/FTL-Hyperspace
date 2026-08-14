@@ -85,7 +85,9 @@ Hello from Docker!
 This message shows that your installation appears to be working correctly.
 ```
 
-**Note:** While not required, it may be useful to add your user to the `docker` group. This will let you run Docker commands (and, by extension, the script to build the project) without needing sudo. First, ensure the group exists by running
+**Note:** While not required, it may be useful to add your user to the `docker` group. This will let you run Docker commands (and, by extension, the script to build the project) without needing `sudo`. **However, adding your user to the Docker group poses a security risk, as it allows the user to manipulate containers and potentially access the rest of the file system without `sudo`. Only add your user to the group if you understand and accept the risks.**
+
+If you want to add your user to the `docker` group, ensure the group exists by running
 
 ```
 sudo groupadd docker
