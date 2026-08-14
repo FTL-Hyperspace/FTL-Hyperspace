@@ -8,12 +8,12 @@ To build the project, you will need Docker and Git. The installation instruction
 
 | Distributions         | Install command             |
 |:----------------------|:----------------------------|
-| Ubuntu / Debain       | `sudo apt install git curl` |
+| Ubuntu / Debian       | `sudo apt install git curl` |
 | Fedora / RHEL         | `sudo dnf install git curl` |
 | Arch                  | `sudo pacman -S git curl`   |
 
 
-Verify Git and curl were properly installed by running
+Verify that Git and curl were properly installed by running
 
 ```
 git --version
@@ -41,7 +41,7 @@ Note that the version numbers may be different.
 
 #### Installing Docker
 
-To install Docker, we will be using the [convenience script](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script) provided by Docker. If you want to customize the installation, feel free to install the Docker Engine [through other means](https://docs.docker.com/engine/install/ubuntu/#installation-methods). **It is recommended to double check the installation instructions by following the first hyperlink, as they may have changed since writing this.**
+To install Docker, we will be using the [convenience script](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script) provided by Docker. If you want to customize the installation, feel free to install the Docker Engine [through other means](https://docs.docker.com/engine/install/ubuntu/#installation-methods). **It is recommended to double-check the installation instructions by following the first hyperlink, as they may have changed since writing this.**
 
 Run the following commands in the terminal:
 
@@ -50,7 +50,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh ./get-docker.sh
 ```
 
-Wehn finished the script will mention how to run Docker as a non-privileged user. Ignore this for now.
+When finished, the script will mention how to run Docker as a non-privileged user. Ignore this for now.
 
 After the script is finished, Docker will be installed and the `docker` service should start automatically. **Note:** On RPM-based distributions, such as Fedora and RHEL, you need to manually start the `docker` service using `systemctl`.
 
@@ -78,14 +78,16 @@ Verify the installation was successful by running the hello-world image
 sudo docker run hello-world
 ```
 
-If successful, it will write some text to the screen, including
+If successful, it will print some text to the screen, including
 
 ```
 Hello from Docker!
 This message shows that your installation appears to be working correctly.
 ```
 
-**Note:** While not required, it may be useful to add your user to the `docker` group. This will let you run Docker commands (and, by extension, the script to build the project) without needing sudo. First, ensure the group exists by running
+**Note:** While not required, it may be useful to add your user to the `docker` group. This will let you run Docker commands (and, by extension, the script to build the project) without needing `sudo`. **However, adding your user to the Docker group poses a security risk, as it allows the user to manipulate containers and potentially access the rest of the file system without `sudo`. Only add your user to the group if you understand and accept the risks.**
+
+If you want to add your user to the `docker` group, ensure the group exists by running
 
 ```
 sudo groupadd docker
@@ -99,7 +101,7 @@ Then, add yourself to it by running
 sudo usermod -aG docker ${USER}
 ```
 
-For it to update, either log out and back in or run the following command in the terminal to get a new terminal session:
+For the changes to take effect, either log out and back in or run the following command in the terminal to get a new terminal session:
 
 ```
 exec su - $USER
@@ -132,7 +134,7 @@ Afterwards, navigate into it by running
 cd FTL-Hyperspace/
 ```
 
-The `./buildscripts/` directory has the scripts to (you guessed it!) build the project. Within `./buildscripts/` there are different folders for different platforms and (at times) different versions. Within these folders, you want to run the ones that end with `from-docker.sh`. Below we will be compiling Hyperspace version `1.6.13` for Linux by running
+The `./buildscripts/` directory has the scripts to build the project. Within `./buildscripts/` there are different folders for different platforms and (at times) different versions. Within these folders, you want to run the ones that end with `from-docker.sh`. Below we will be compiling Hyperspace version `1.6.13` for Linux by running
 
 ```
 ./buildscripts/linux-1.6.13/build-releaseonly-from-docker.sh
@@ -152,11 +154,11 @@ After the compiling is done, you will find a new folder in the `FTL-Hyperspace` 
 
 ## Building ZHL files (not required to build Hyperspace)
 
-To build ZHL files, you need to install Lua and LuaRocks-packages.
+To build ZHL files, you need to install Lua and LuaRocks packages.
 
 While newer versions of Lua may work, Lua 5.3 is confirmed to work and is therefore our recommendation here. Certain distributions, such as Fedora, do not offer Lua 5.3 in their repositories anymore. In this case, it may be worth it to try newer versions of Lua instead. 
 
-On Ubuntu 26.04, run the following commands to install Lua, LuaRocks and related LuaRocks-packages. 
+On Ubuntu 26.04, run the following commands to install Lua, LuaRocks and related packages. 
 
 ```
 sudo apt install lua5.3 liblua5.3-dev luarocks
