@@ -2481,6 +2481,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %}
 
 %nodefaultctor ProjectileFactory_Extend;
+%nodefaultdtor ProjectileFactory_Extend;
 %rename("%s") ProjectileFactory_Extend;
 %immutable ProjectileFactory_Extend::isBlueprintDetached;
 %rename("%s") ProjectileFactory_Extend::isBlueprintDetached;
