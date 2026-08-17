@@ -24,6 +24,8 @@ export const links = {
 	ftlmanReleases: 'https://github.com/afishhh/ftlman/releases/latest',
 
 	multiverseForum: 'https://subsetgames.com/forum/viewtopic.php?f=11&t=35332',
+	// Alternative download source: the Multiverse forum's own downloads board
+	multiverseDownloads: 'https://ftlmultiverse.boards.net/board/7/official-downloads',
 	insurrectionForum: 'https://subsetgames.com/forum/viewtopic.php?t=37167',
 	slipstreamForum: 'https://subsetgames.com/forum/viewtopic.php?f=12&t=17102',
 
