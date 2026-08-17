@@ -24,7 +24,14 @@ export function remarkSiteLinks() {
 
 		const walk = (node: any) => {
 			const match = typeof node.url === 'string' && node.url.match(SCHEME);
-			if (match) node.url = resolve(match[1]);
+			if (match) {
+				node.url = resolve(match[1]);
+				// Every link: key is external, and external links open in a new tab.
+				node.data = {
+					...node.data,
+					hProperties: { ...node.data?.hProperties, target: '_blank', rel: 'noopener' },
+				};
+			}
 
 			// Raw HTML blocks (<iframe>) aren't link nodes, so their src never
 			// reaches the branch above. Substitute in the raw string instead.
