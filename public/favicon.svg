@@ -1,4 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <g id="letters">
+      <!-- H -->
+      <rect x="0" y="0" width="1" height="6"/>
+      <rect x="3" y="0" width="1" height="6"/>
+      <rect x="1" y="2" width="2" height="1"/>
+      <!-- S -->
+      <rect x="6" y="0" width="2" height="1"/>
+      <rect x="5" y="1" width="1" height="1"/>
+      <rect x="6" y="2" width="1" height="1"/>
+      <rect x="7" y="3" width="1" height="2"/>
+      <rect x="5" y="5" width="2" height="1"/>
+    </g>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+  </defs>
+
   <rect width="32" height="32" rx="6" fill="#0d1117"/>
-  <path d="M9 8h2.6v6.6h8.8V8H23v16h-2.6v-7H11.6v7H9z" fill="#4dabf7"/>
+
+  <g transform="translate(4.8 7.6) scale(2.8)">
+    <use href="#letters" filter="url(#glow)" fill="hsl(266, 100%, 70%)"/>
+    <use href="#letters" fill="#ffffff"/>
+  </g>
 </svg>
