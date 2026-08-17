@@ -109,7 +109,7 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
 }
 
 // Handle bug report button hover
-HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
+HOOK_METHOD(MenuScreen, MouseMove, (int mX, int mY) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (CrashDetectionHooks.cpp)\n")
 
@@ -123,23 +123,23 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 }
 
 // Handle bug report button click
-HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
+HOOK_METHOD(MenuScreen, MouseClick, (int mX, int mY) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (CrashDetectionHooks.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::MouseClick -> Begin (CrashDetectionHooks.cpp)\n")
 
     bool shouldPropagate = true;
     CrashReportFlow::GetInstance()->OnMouseClick(mX, mY, shouldPropagate);
 
     if (shouldPropagate)
     {
-        super(mX, mY, shiftHeld);
+        super(mX, mY);
     }
 }
 
 // === ShipStatus Hooks ===
 
 // Render bug report button in game
-HOOK_METHOD(ShipStatus, OnRender, () -> void)
+HOOK_METHOD(MenuScreen, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (CrashDetectionHooks.cpp)\n")
     super();

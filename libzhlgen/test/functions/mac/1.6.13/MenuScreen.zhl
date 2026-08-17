@@ -5,6 +5,10 @@ cleanup __amd64 void MenuScreen::constructor(MenuScreen *this);
 cleanup __amd64 void MenuScreen::OnLanguageChange(MenuScreen *this);
 "!.554889e54157415641554154534881ecb80000004989ff4180bf5803":
 cleanup __amd64 void MenuScreen::OnRender(MenuScreen *this);
+"!.5548":
+cleanup __amd64 void MenuScreen::MouseMove(MenuScreen *this, int mX, int mY);
+".5548":
+cleanup __amd64 void MenuScreen::MouseClick(MenuScreen *this, int mX, int mY);
 "!.554889e54157415641554154534883ec684889fbc6430801":
 cleanup __amd64 void MenuScreen::Open(MenuScreen *this);
 
