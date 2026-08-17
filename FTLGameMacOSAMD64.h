@@ -4843,6 +4843,8 @@ struct MenuScreen : FocusWindow
         this->constructor();
     }
 
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();

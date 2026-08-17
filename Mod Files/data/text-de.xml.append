@@ -321,3 +321,5 @@ Taste: \1</text>
 <!-- <text name="confirm_report_failed_no" language="de"> </text> -->
 
 <text name="tooltip_supergrid" language="de">Erweiterte Knotenansicht: \nZeige alle Verknüpfungen auf der Sektorkarte.</text>
+
+<text name="tooltip_bugreport" language="de">Drücke um einen Fehler zu melden.</text>

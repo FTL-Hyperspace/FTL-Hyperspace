@@ -334,3 +334,5 @@ For: "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 <!-- <text name="confirm_report_failed_no" language="ko"> </text> -->
 
 <text name="tooltip_supergrid" language="ko">고급 노드 표시: \n활성화 시 구역 지도에 모든 연결을 표시합니다.</text>
+
+<text name="tooltip_bugreport" language="ko">버그를 제보한다.</text>

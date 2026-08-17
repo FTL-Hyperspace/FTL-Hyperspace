@@ -12,3 +12,6 @@
 <text name="tooltip_purchase_limit">Number of purchases remaining, excluding items and repairs.</text>
 
 <text name="tooltip_supergrid">Advanced node view: \nShow all connections on the sector map if enabled.</text>
+
+
+<text name="tooltip_bugreport">Click to report a bug.</text>

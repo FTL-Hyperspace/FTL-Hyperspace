@@ -335,4 +335,6 @@ Key : \1</text> <!-- \1 is more info hotkey -->
 <text name="confirm_report_failed_okay" language="fr">OK</text>
 <!-- <text name="confirm_report_failed_no" language="en"> </text> -->
 
-<text name="tooltip_supergrid" language="fr">Affichage avancé des nœuds : \nAffiche toutes les connexions sur la carte du secteur si cette option est activée.</text> 
+<text name="tooltip_supergrid" language="fr">Affichage avancé des nœuds : \nAffiche toutes les connexions sur la carte du secteur si cette option est activée.</text>
+
+<text name="tooltip_bugreport" language="fr">Cliquez ici pour signaler un bug.</text>

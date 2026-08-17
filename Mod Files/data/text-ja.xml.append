@@ -325,3 +325,5 @@
 <!-- <text name="confirm_report_failed_no" language="ja"> </text> -->
 
 <text name="tooltip_supergrid" language="ja">有効時、すべてのビーコンの繋がりが表示される</text>
+
+<text name="tooltip_bugreport" language="ja">バグを報告する</text>
