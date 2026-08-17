@@ -101,3 +101,8 @@ mobile-starlight-toc nav {
 	font-size: var(--sl-text-xl);
 	letter-spacing: 0.02em;
 }
+
+/* No line split for commands in code blocks in tables */
+.sl-markdown-content table code {
+	white-space: nowrap;
+}
