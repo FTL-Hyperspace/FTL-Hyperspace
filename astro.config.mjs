@@ -148,7 +148,10 @@ export default defineConfig({
 				},
 								{
 					label: 'Reference',
-					items: [{ label: 'Feature defaults', slug: 'features' }],
+					items: [
+						{ label: 'Feature defaults', slug: 'features' },
+						{ label: 'Console commands', slug: 'console' },
+					],
 				},
 			],
 		}),

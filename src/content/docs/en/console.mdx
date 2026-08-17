@@ -1,0 +1,88 @@
+---
+title: "Console commands"
+description: "Every command for the Hyperspace console"
+---
+
+Hyperspace extends the vanilla FTL debug console with its own set of commands.
+Any input that does not match a Hyperspace command falls through to the vanilla
+console, so all vanilla debug commands still work.
+
+## Opening the console
+
+The console is a switch in `hyperspace.xml`, and the shipped file has it on:
+
+```xml
+<console enabled="true" invertCaps="true"/>
+```
+
+`invertCaps`, also on in the shipped file, swaps the case of typed letters:
+useful because many command arguments are case-sensitive while the console
+encourages caps.
+
+Open the console in-game with the `console` hotkey (`` \ `` by default). Press
+**Up** while the console is open to recall the previously entered command.
+
+Command names are case-insensitive; arguments (crew names, ship names, event
+names, blueprint names) are case-sensitive.
+
+## Commands
+
+### Resources and progression
+
+| Command | Description |
+| --- | --- |
+| `RICH` | Adds 9,999,999 scrap and 800 each of missiles, fuel, and drone parts. |
+| `POOR` | Removes the same amounts (fuel is clamped at 0). |
+| `SHIP ALL` | Permanently unlocks all ships, vanilla and custom. Replaces the vanilla `SHIP ALL`, whose unlocks only last until the game is relaunched. |
+| `SHIP_CUSTOM <ship>` | Unlocks the named custom ship (only if that ship has an unlock defined). |
+| `SHIP_CUSTOM_LOCK <ship>` | Removes the unlock for the named custom ship. |
+| `ACH <achievement>` | Grants the named custom achievement. |
+| `ACH_LOCK <achievement>` | Revokes the named custom achievement. |
+| `CREDITS` / `VICTORY` | Triggers the victory sequence and credits. |
+
+### Crew
+
+| Command | Description |
+| --- | --- |
+| `KILL <name>` | Kills the first player crew member whose name matches exactly. |
+| `SKILL` | Masters all six skills for every player crew member. |
+| `DELETECREW` / `COOLSWORDBRO` | Kills all crew on the currently targeted enemy ship. |
+
+### Ship and systems
+
+| Command | Description |
+| --- | --- |
+| `SYS ALL` | Adds every system the ship is missing: all vanilla systems, the temporal system, and all custom systems. Systems that would be replaced by an installed custom system are skipped. |
+| `DAMAGESYS <system>` | Sets the named system's health to 0 (e.g. `DAMAGESYS shields`). |
+| `REMOVESYS <system>` | Removes the named system from the ship. |
+| `WEAPON <blueprint>` | Adds the weapon with the given blueprint name to your inventory, bypassing slot limits. |
+| `SWITCH <ship>` | Replaces your ship with the named ship blueprint. |
+| `SWITCHALL <ship>` | Replaces your ship with the named blueprint and transfers over your current crew and equipment. |
+| `GOD` | Vanilla god mode, extended by Hyperspace to also fill the reactor to the ship's custom `maxReactorLevel`. |
+
+### Events, stores, and the map
+
+| Command | Description |
+| --- | --- |
+| `LOADEVENT <event>` | Immediately loads the named event at the current beacon. Used-event and used-text-list tracking is temporarily suspended, so unique events can be loaded repeatedly for testing. |
+| `STORE [sector]` | Opens a store at the current beacon. With no argument, stock and prices match the current sector; with a number, they match that sector level. |
+| `FORCE_STORE <storeId>` | Forces the next store created to use the named custom store definition. |
+| `FLEET <n>` | Moves the rebel fleet by `n` jumps (negative values push it back). |
+| `EXIT` | Opens the star map in next-sector selection mode, skipping the exit beacon. |
+
+### Variables
+
+| Command | Description |
+| --- | --- |
+| `VAR <name> [value]` | Sets the player variable to the given integer. With no value, logs the current value to the Hyperspace log file. |
+| `MVAR <name> [value]` | Sets the metavariable to the given integer. Metavariables keep their value across runs. With no value, logs the current value. |
+
+### Miscellaneous
+
+| Command | Description |
+| --- | --- |
+| `LUA <code>` | Runs the given string as Lua in the Hyperspace Lua context. |
+| `SPEED <n>` | Sets the game speed level. Independently, the `speed` hotkey toggles fast-forward on and off. |
+| `SQUISHY <text>` | Permanently displays the given text in the top-right corner of the screen. |
+
+All executed commands are written to the Hyperspace log file.
