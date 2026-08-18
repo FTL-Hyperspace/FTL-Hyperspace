@@ -85,11 +85,11 @@ These come from the vanilla debug console
 
 | Command | Description |
 | --- | --- |
-| `SCRAP <value>` | Adds the given amount of scrap. |
-| `FUEL <value>` | Adds the given amount of fuel. |
-| `MISSILES <value>` | Adds the given number of missiles. |
-| `DRONES <value>` | Adds the given number of drone parts. |
-| `HULL <value>` | Repairs the hull by the given number of points. |
+| `SCRAP <value>` | Adds the given amount of scrap. Negative values subtract, stopping at zero. |
+| `FUEL <value>` | Adds the given amount of fuel. Negative values subtract with no floor, the counter can go below zero. |
+| `MISSILES <value>` | Adds the given number of missiles. Negative values subtract, stopping at zero. |
+| `DRONES <value>` | Adds the given number of drone parts. Negative values subtract, stopping at zero. |
+| `HULL <value>` | Adds the given amount of hull integrity. Negative values deal damage. |
 | `DELETE` | Destroys the enemy ship. |
 | `LOAD <name> [strength]` | Loads the named enemy ship or event at the current beacon. The number sets the sector strength, for ships only. |
 | `SECTOR <sector>` | Jumps to the named sector. |
