@@ -22,11 +22,11 @@ export const credits = {
 		{ name: 'ranhai', github: 'ranhai613' },
 		{ name: 'sillysandvich', github: 'sillysandvich' },
 		{ name: 'The Dumb Dino', github: 'The-Dumb-Dino' },
+		{ name: 'ZeroFreed', github: 'fr-eed' },
 	],
 	art: ['SaltyFriedRice'],
 	specialThanks: [
 		{ name: '_Kilburn', github: 'UnderscoreKilburn' },
-		{ name: 'zerofreed', github: 'fr-eed' },
 		{ name: 'slow (slowriderxcorps)', github: 'slowriderxcorps' },
 		{ name: 'Qaser7', github: 'Qaser7' },
 		'Masala',
