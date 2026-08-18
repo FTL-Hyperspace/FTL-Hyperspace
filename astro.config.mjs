@@ -107,6 +107,7 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Windows',
+					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'windows' },
 						{ label: 'Easy install', slug: 'windows/easy-install' },
@@ -117,6 +118,7 @@ export default defineConfig({
 				},
 				{
 					label: 'SteamOS',
+					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'steamos' },
 						{ label: 'Easy install', slug: 'steamos/easy-install' },
@@ -127,6 +129,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Linux',
+					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'linux' },
 						{ label: 'Easy install', slug: 'linux/easy-install' },
@@ -137,6 +140,7 @@ export default defineConfig({
 				},
 				{
 					label: 'macOS',
+					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'macos' },
 						{ label: 'Easy install', slug: 'macos/easy-install' },
