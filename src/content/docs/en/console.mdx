@@ -35,7 +35,7 @@ listed on [Vanilla ids](../vanilla-ids/).
 | `RICH` | Adds 9,999,999 scrap and 800 each of missiles, fuel, and drone parts. |
 | `POOR` | Removes the same amounts (fuel is clamped at 0). |
 | `SHIP ALL` | Permanently unlocks all ships, vanilla and custom. Replaces the vanilla `SHIP ALL`, whose unlocks only last until the game is relaunched. |
-| `SHIP_CUSTOM <ship>` | Unlocks the named custom ship (only if that ship has an unlock defined). |
+| `SHIP_CUSTOM <ship>` | Unlocks the named custom ship (only if that ship has an unlock defined). Append `_2` or `_3` to the id for the B and C layouts. |
 | `SHIP_CUSTOM_LOCK <ship>` | Removes the unlock for the named custom ship. |
 | `ACH <achievement>` | Grants the named custom achievement. |
 | `ACH_LOCK <achievement>` | Revokes the named custom achievement. |
@@ -69,7 +69,7 @@ listed on [Vanilla ids](../vanilla-ids/).
 | `LOADEVENT <event>` | Immediately loads the named event at the current beacon. Used-event and used-text-list tracking is temporarily suspended, so unique events can be loaded repeatedly for testing. |
 | `STORE [sector]` | Opens a store at the current beacon. With no argument, stock and prices match the current sector; with a number, they match that sector level. |
 | `FORCE_STORE <storeId>` | Forces the next store created to use the named custom store definition. |
-| `FLEET <n>` | Moves the rebel fleet by `n` jumps (negative values push it back). |
+| `FLEET <value>` | Moves the rebel fleet by the given number of jumps (negative values push it back). |
 | `EXIT` | Opens the star map in next-sector selection mode, skipping the exit beacon. |
 
 ### Variables
@@ -85,11 +85,18 @@ These come from the vanilla debug console
 
 | Command | Description |
 | --- | --- |
+| `SCRAP <value>` | Adds the given amount of scrap. |
+| `FUEL <value>` | Adds the given amount of fuel. |
+| `MISSILES <value>` | Adds the given number of missiles. |
+| `DRONES <value>` | Adds the given number of drone parts. |
+| `HULL <value>` | Repairs the hull by the given number of points. |
+| `DELETE` | Destroys the enemy ship. |
 | `LOAD <name> [strength]` | Loads the named enemy ship or event at the current beacon. The number sets the sector strength, for ships only. |
 | `SECTOR <sector>` | Jumps to the named sector. |
 | `SYS <system>` | Adds the named system to your ship. |
 | `CREW <race>` | Spawns a crew member of the named race. Race ids are lowercase. |
 | `DRONE <blueprint>` | Adds the named drone. |
+| `EVENT <event>` | Loads the named event at the current beacon. Unique events will not load a second time; use `LOADEVENT` instead, which has no such limit. |
 | `AUG <blueprint>` | Adds the named augment. |
 
 <Aside type="caution">
@@ -102,7 +109,7 @@ the game.
 | Command | Description |
 | --- | --- |
 | `LUA <code>` | Runs the given string as Lua in the Hyperspace Lua context. |
-| `SPEED <n>` | Sets the game speed level. Independently, the `speed` hotkey toggles fast-forward on and off. |
+| `SPEED <value>` | Sets the game speed level. Independently, the `speed` hotkey toggles fast-forward on and off. |
 | `SQUISHY <text>` | Permanently displays the given text in the top-right corner of the screen. |
 
 All executed commands are written to the Hyperspace log file.
