@@ -155,6 +155,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Feature defaults', slug: 'features' },
 						{ label: 'Console commands', slug: 'console' },
+						{ label: 'Vanilla ids', slug: 'vanilla-ids' },
 					],
 				},
 			],
