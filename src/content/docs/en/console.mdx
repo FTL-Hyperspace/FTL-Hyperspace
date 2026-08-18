@@ -15,7 +15,7 @@ The console is a switch in `hyperspace.xml`, and the shipped file has it on:
 <console enabled="true" invertCaps="true"/>
 ```
 
-`invertCaps`, also on in the shipped file, swaps the case of typed letters:
+`invertCaps`, is also on by default in the basemod, swaps the case of typed letters:
 useful because many command arguments are case-sensitive while the console
 encourages caps.
 
@@ -59,6 +59,7 @@ names, blueprint names) are case-sensitive.
 | `SWITCH <ship>` | Replaces your ship with the named ship blueprint. |
 | `SWITCHALL <ship>` | Replaces your ship with the named blueprint and transfers over your current crew and equipment. |
 | `GOD` | Vanilla god mode, extended by Hyperspace to also fill the reactor to the ship's custom `maxReactorLevel`. |
+| `AUG HIDDEN <blueprint>` | Adds the augment without taking an augment slot. The effect still applies. There is no limit on how many augments you add this way. |
 
 ### Events, stores, and the map
 
@@ -76,6 +77,24 @@ names, blueprint names) are case-sensitive.
 | --- | --- |
 | `VAR <name> [value]` | Sets the player variable to the given integer. With no value, logs the current value to the Hyperspace log file. |
 | `MVAR <name> [value]` | Sets the metavariable to the given integer. Metavariables keep their value across runs. With no value, logs the current value. |
+
+### Vanilla commands
+
+These come from the vanilla debug console
+
+| Command | Description |
+| --- | --- |
+| `LOAD <name> [strength]` | Loads the named enemy ship or event at the current beacon. The number sets the sector strength, for ships only. |
+| `SECTOR <sector>` | Jumps to the named sector. |
+| `SYS <system>` | Adds the named system to your ship. |
+| `CREW <race>` | Spawns a crew member of the named race. Race ids are lowercase. |
+| `DRONE <blueprint>` | Adds the named drone. |
+| `AUG <blueprint>` | Adds the named augment. |
+
+<Aside type="caution">
+A wrong `AUG` id locks up an augment slot with a blank augment until you restart
+the game.
+</Aside>
 
 ### Miscellaneous
 
