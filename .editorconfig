@@ -1,4 +1,4 @@
-# Read by editors on save, and by `npm run check:format` in CI. Indentation is
+# Read by editors on save, and by `npm run check:editorconfig` in CI. Indentation is
 # deliberately not covered: this is only the faults a diff will not show you.
 root = true
 
