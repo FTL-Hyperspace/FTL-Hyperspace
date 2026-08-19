@@ -3,6 +3,20 @@
 ## Other
 TODO: Document other parts of Hyperspace.xml as different sections here.
 
+## Overhaul detection
+
+On startup Hyperspace warns the player when an overhaul mod's files are present in `ftl.dat` but the Hyperspace base mod's own `hyperspace.xml` is the active config. This means `hyperspace.ftl` was patched *after* the overhaul, overwriting some of its files, and the player should re-patch with the overhaul last.
+
+Two signals are used for this:
+
+### `<isBasemod>`
+
+The base mod's `hyperspace.xml` declares `<isBasemod>true</isBasemod>`. Mods that ship their own full `hyperspace.xml` (overhauls like Multiverse) must set `<isBasemod>false</isBasemod>`, or simply leave the tag out since it defaults to false. When the overhaul is patched last (the correct order), its `hyperspace.xml` replaces the base mod's and the tag disappears, so no warning is shown.
+
+### `data/is_overhaul_mod.xml`
+
+If your mod is an overhaul (ships its own full `hyperspace.xml`), also include a file named `data/is_overhaul_mod.xml` (its contents don't matter, it can be empty). Its presence in `ftl.dat` tells Hyperspace that an overhaul was patched in, without your mod needing to be hardcoded in Hyperspace's fingerprint list. If it is present while the base mod's `hyperspace.xml` is still the active one, the patch-order warning is shown.
+
 ## Lua Scripts
 ### To load your script
 
