@@ -57,7 +57,7 @@ jobs:
           BASE="${REPO_URL}/releases/download/v${VERSION}"
           ASSET="FTL.Hyperspace.${VERSION}"
           cat > release-body.md <<EOF
-          # Download
+          # FTL: Hyperspace ${VERSION} downloads
 
           ### ✨ Easy install
 
@@ -71,7 +71,7 @@ jobs:
           |:-:|:-:|:-:|
           | [Hyperspace (.zip)](${BASE}/${ASSET}-Windows.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-MacOS.zip) | [Hyperspace (.zip)](${BASE}/${ASSET}-Linux.zip) |
 
-          See README for manual install steps.
+          See [Docs](https://ftl-hyperspace.github.io/FTL-Hyperspace) for manual install steps.
           EOF
 
       - name: Create release
