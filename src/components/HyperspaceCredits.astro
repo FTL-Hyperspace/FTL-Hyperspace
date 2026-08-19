@@ -93,8 +93,12 @@ let tileIndex = 0;
     overflow: clip;
   }
 
-  .tile {
-    opacity: 0;
+  /* Hide for the warp-in only when scripts can run; without scripting the
+	   names degrade to plain visible text. */
+  @media (scripting: enabled) {
+    .tile {
+      opacity: 0;
+    }
   }
 
   /* The warp streak: arrive stretched and white-hot, snap into place, cool
