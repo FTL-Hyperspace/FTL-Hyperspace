@@ -43,25 +43,38 @@ function rootLevelRedirects(dir = EN_DOCS) {
  * The Jekyll site's URLs, which are pasted all over Discord and the Subset forums.
  * The per-storefront pages are gone because FTL-Version-Rollback made the downgrade
  * identical everywhere, so they all land on the platform's install page.
+ *
+ * GitHub Pages served each old page both extensionless and as .html, and under
+ * /de, /ko and /fr mirrors. Every combination is generated here: the slash route
+ * also catches extensionless requests through the Pages directory redirect, and
+ * translated URLs land on the same page in their language.
  */
-const jekyllRedirects = Object.fromEntries(
-	Object.entries({
-		'/install-guides/windows/': 'en/windows/manual-install/',
-		'/install-guides/windows/steam-install/': 'en/windows/manual-install/',
-		'/install-guides/windows/gog-install/': 'en/windows/manual-install/',
-		'/install-guides/windows/humble-install/': 'en/windows/manual-install/',
-		'/install-guides/windows/other-install/': 'en/windows/manual-install/',
-		'/install-guides/linux/': 'en/linux/manual-install/',
-		'/install-guides/linux/multiverse-install/': 'en/linux/manual-install/',
-		'/install-guides/linux/genericlinux/select-game-copy/': 'en/linux/manual-install/',
-		'/install-guides/linux/genericlinux/steam-install/': 'en/linux/manual-install/',
-		'/install-guides/linux/genericlinux/gog-humble/': 'en/linux/manual-install/',
-		'/install-guides/linux/steamdeck/select-game-copy/': 'en/steamos/manual-install/',
-		'/install-guides/linux/steamdeck/steam-install/': 'en/steamos/manual-install/',
-		'/install-guides/linux/steamdeck/gog-humble/': 'en/steamos/manual-install/',
-		'/install-guides/mac/': 'en/macos/',
-	}).map(([from, to]) => [from, withBase(to)]),
-);
+const jekyllPages = {
+	'windows/': 'windows/manual-install/',
+	'windows/steam-install/': 'windows/manual-install/',
+	'windows/gog-install/': 'windows/manual-install/',
+	'windows/humble-install/': 'windows/manual-install/',
+	'windows/other-install/': 'windows/manual-install/',
+	'linux/': 'linux/manual-install/',
+	'linux/multiverse-install/': 'linux/manual-install/',
+	'linux/genericlinux/select-game-copy/': 'linux/manual-install/',
+	'linux/genericlinux/steam-install/': 'linux/manual-install/',
+	'linux/genericlinux/gog-humble/': 'linux/manual-install/',
+	'linux/steamdeck/select-game-copy/': 'steamos/manual-install/',
+	'linux/steamdeck/steam-install/': 'steamos/manual-install/',
+	'linux/steamdeck/gog-humble/': 'steamos/manual-install/',
+	'mac/': 'macos/',
+};
+
+const jekyllRedirects = {};
+for (const [oldPath, newPath] of Object.entries(jekyllPages)) {
+	for (const lang of ['en', 'de', 'ko', 'fr']) {
+		const prefix = lang === 'en' ? '' : `/${lang}`;
+		const target = withBase(`${lang}/${newPath}`);
+		jekyllRedirects[`${prefix}/install-guides/${oldPath}`] = target;
+		jekyllRedirects[`${prefix}/install-guides/${oldPath.replace(/\/$/, '.html')}`] = target;
+	}
+}
 
 // https://astro.build/config
 export default defineConfig({
