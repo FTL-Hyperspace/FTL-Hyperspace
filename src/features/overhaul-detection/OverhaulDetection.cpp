@@ -12,6 +12,7 @@ namespace {
         "data/events_special_multiverse.xml", // Multiverse
         "img/achievements/insach_stonks.png", // Insurrection+
         "data/alhazrad/arsenalVersion.lua",  // Arsenal+ for Hyperspace
+        "data/alhazrad/buildingBase.lua",  // Arsenal+ test branch for Hyperspace
         "data/is_overhaul_mod.xml", // Opt-in marker any overhaul can ship, see wiki/Hyperspace.xml.md
     };
 
