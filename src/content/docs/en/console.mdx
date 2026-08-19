@@ -69,7 +69,7 @@ listed on [Vanilla ids](../vanilla-ids/).
 | `LOADEVENT <event>` | Immediately loads the named event at the current beacon. Used-event and used-text-list tracking is temporarily suspended, so unique events can be loaded repeatedly for testing. |
 | `STORE [sector]` | Opens a store at the current beacon. With no argument, stock and prices match the current sector; with a number, they match that sector level. |
 | `FORCE_STORE <storeId>` | Forces the next store created to use the named custom store definition. |
-| `FLEET <value>` | Moves the rebel fleet by the given number of jumps (negative values push it back). |
+| `FLEET <value>` | Changes how far the fleet advances on your next jumps. `FLEET -2` holds it still for your next two jumps, `FLEET 2` adds two extra jumps of advance. The fleet itself cannot be moved. |
 | `EXIT` | Opens the star map in next-sector selection mode, skipping the exit beacon. |
 
 ### Variables
