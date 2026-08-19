@@ -10,16 +10,8 @@ next:
 ---
 
 import PlatformOverview from '@p/shared/_platform-overview.mdx';
-import ChoiceGrid from '~/components/ChoiceGrid.astro';
-import Choice from '~/components/Choice.astro';
+import Migration from '@p/platform/_macos-save-migration.mdx';
 
 <PlatformOverview />
 
-## Coming from the old wrapper
-
-If you installed Hyperspace with the community FTL Hyperspace wrapper before the
-installer existed, your saves can be migrated to the native FTL Hyperspace release
-
-<ChoiceGrid>
-	<Choice icon="random" label="Migrate your saves" href="migrate-saves/" note="Moving from the old wrapper" />
-</ChoiceGrid>
+<Migration />
