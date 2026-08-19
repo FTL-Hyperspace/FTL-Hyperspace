@@ -106,3 +106,14 @@ mobile-starlight-toc nav {
 .sl-markdown-content table code {
 	white-space: nowrap;
 }
+
+/* Tab switching for pages with JavaScript disabled: the tab buttons are
+   anchors, so :target stands in for the selection. */
+@media (scripting: none) {
+	starlight-tabs [role='tabpanel']:target {
+		display: block;
+	}
+	starlight-tabs:has([role='tabpanel']:target) [role='tabpanel']:not(:target) {
+		display: none;
+	}
+}
