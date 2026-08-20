@@ -1062,6 +1062,7 @@ playerVariableType playerVariables;
 %rename("%s") CrewControl;
 %rename("%s") CrewControl::selectedCrew;
 %rename("%s") CrewControl::potentialSelectedCrew;
+%rename("%s") CrewControl::selectedDoor;
 %rename("%s") CrewControl::firstMouse;
 %rename("%s") CrewControl::currentMouse;
 %rename("%s") CrewControl::worldFirstMouse;
