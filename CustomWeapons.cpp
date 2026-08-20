@@ -714,7 +714,7 @@ HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
     return ret;
 }
 
-HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
+HOOK_METHOD_PRIORITY(ProjectileFactory, constructor, 999, (const WeaponBlueprint* bp, int shipId) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ProjectileFactory::constructor -> Begin (CustomWeapons.cpp)\n")
     if (bp->type == -1) // If the blueprint doesn't exist, revert to the default laser
@@ -723,7 +723,7 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
     }
 
     super(bp, shipId);
-    HS_MAKE_TABLE(this)
+
     if (bp->type != 2)
     {
         auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
@@ -732,18 +732,6 @@ HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int ship
             weaponVisual.SetFireTime(def->fireTime);
         }
     }
-
-    auto context = G_->getLuaContext();
-    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectileFactory, 0);
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CONSTRUCT_PROJECTILE_FACTORY, 1);
-    lua_pop(context->GetLua(), 1);
-}
-
-HOOK_METHOD(ProjectileFactory, destructor, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::destructor -> Begin (CustomWeapons.cpp)\n")
-    HS_BREAK_TABLE(this)
-    super();
 }
 
 // Fix for weapon animations with many frames.
@@ -909,7 +897,7 @@ void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBl
 bool ProjectileFactory::HitShotLimit()
 {
     auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
-    return def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget;
+    return def && def->shotLimit >=0 && def->shotLimit <= shotsFiredAtTarget;
 }
 //Shot limit is implemented in the same context as checks on WeaponBlueprint::missiles as a way of implementing a requirement on weapon usage
 //TODO: Possibly add callback for arbitrary requirements on weapon usage

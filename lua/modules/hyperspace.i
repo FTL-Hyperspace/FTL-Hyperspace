@@ -16,6 +16,7 @@
 #include "CustomShipSelect.h"
 #include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
+#include "ProjectileFactory_Extend.h"
 #include "ShipManager_Extend.h"
 #include "System_Extend.h"
 #include "SystemBox_Extend.h"
@@ -371,6 +372,12 @@ namespace std {
     %template(vector_vector_AnimationTracker) vector<vector<AnimationTracker>>;
     %template(vector_bool) vector<bool>;
     %template(vector_vector_bool) vector<vector<bool>>;
+    %template(map_string_ShipBlueprint) map<string, ShipBlueprint>;
+    %template(map_string_WeaponBlueprint) map<string, WeaponBlueprint>;
+    %template(map_string_DroneBlueprint) map<string, DroneBlueprint>;
+    %template(map_string_AugmentBlueprint) map<string, AugmentBlueprint>;
+    %template(map_string_CrewBlueprint) map<string, CrewBlueprint>;
+    %template(map_string_vector_string) map<string, vector<string>>;
 }
 /*
 OBSOLETE METHOD FOR DOWNCASTING:
@@ -2452,6 +2459,44 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ProjectileFactory::goalChargeLevel;
 %rename("%s") ProjectileFactory::isArtillery;
 
+%immutable ProjectileFactory::extend;
+%rename("%s") ProjectileFactory::extend;
+
+%rename("%s") ProjectileFactory::DetachFromGlobalBlueprint;
+%extend ProjectileFactory {
+    ProjectileFactory_Extend* extend;
+    void DetachFromGlobalBlueprint()
+    {
+        ProjectileFactory_Extend* ex = Get_ProjectileFactory_Extend($self);
+        if (ex && !ex->detachedBlueprint && $self->blueprint) {
+            $self->blueprint = new WeaponBlueprint(*$self->blueprint);
+            ex->detachedBlueprint = $self->blueprint;
+        }
+    };
+}
+%wrapper %{
+    static ProjectileFactory_Extend *ProjectileFactory_extend_get(ProjectileFactory* ProjectileFactory)
+    {
+        return Get_ProjectileFactory_Extend(ProjectileFactory);
+    };
+%}
+
+%nodefaultctor ProjectileFactory_Extend;
+%nodefaultdtor ProjectileFactory_Extend;
+%rename("%s") ProjectileFactory_Extend;
+%immutable ProjectileFactory_Extend::isBlueprintDetached;
+%rename("%s") ProjectileFactory_Extend::isBlueprintDetached;
+%extend ProjectileFactory_Extend {
+    bool isBlueprintDetached;
+}
+%wrapper %{
+    static bool ProjectileFactory_Extend_isBlueprintDetached_get(ProjectileFactory_Extend* ex)
+    {
+        return ex->detachedBlueprint && ex->orig
+                && ex->detachedBlueprint == ex->orig->blueprint;
+    };
+%}
+
 %nodefaultctor WeaponMount;
 %nodefaultdtor WeaponMount;
 %rename("%s") WeaponMount;
@@ -2794,17 +2839,56 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") BlueprintManager::GetCrewBlueprint;
 %rename("%s") BlueprintManager::GetDroneBlueprint;
 %rename("%s") BlueprintManager::GetShipBlueprint;
+//%rename("%s") BlueprintManager::GetSystemBlueprint;
 %rename("%s") BlueprintManager::GetWeaponBlueprint;
 %rename("%s") BlueprintManager::GetBlueprintList;
+%rename("%s") BlueprintManager::GetRandomAugment;
+%rename("%s") BlueprintManager::GetRandomDrone;
+%rename("%s") BlueprintManager::GetRandomWeapon;
+%rename("%s") BlueprintManager::RegisterAugmentBlueprint;
+%rename("%s") BlueprintManager::RegisterDroneBlueprint;
+%rename("%s") BlueprintManager::RegisterWeaponBlueprint;
+%extend BlueprintManager {
+    void RegisterAugmentBlueprint(const AugmentBlueprint& bp)
+    {
+        $self->augmentBlueprints.emplace(bp.name, bp);
+    }
+    void RegisterDroneBlueprint(const DroneBlueprint& bp)
+    {
+        $self->droneBlueprints.emplace(bp.name, bp);
+    }
+    void RegisterWeaponBlueprint(const WeaponBlueprint& bp)
+    {
+        $self->weaponBlueprints.emplace(bp.name, bp);
+    }
+}
 
-%nodefaultctor AugmentBlueprint;
+%rename("%s") BlueprintManager::shipBlueprints;
+%immutable BlueprintManager::shipBlueprints;
+%rename("%s") BlueprintManager::weaponBlueprints;
+%immutable BlueprintManager::weaponBlueprints;
+%rename("%s") BlueprintManager::droneBlueprints;
+%immutable BlueprintManager::droneBlueprints;
+%rename("%s") BlueprintManager::augmentBlueprints;
+%immutable BlueprintManager::augmentBlueprints;
+%rename("%s") BlueprintManager::crewBlueprints;
+%immutable BlueprintManager::crewBlueprints;
+//%rename("%s") BlueprintManager::systemBlueprints;
+//%immutable BlueprintManager::systemBlueprints;
+%rename("%s") BlueprintManager::blueprintLists;
+%immutable BlueprintManager::blueprintLists;
+
+
+//%nodefaultctor AugmentBlueprint;
 %nodefaultdtor AugmentBlueprint;
+%copyctor AugmentBlueprint;
 %rename("%s") AugmentBlueprint;
 %rename("%s") AugmentBlueprint::value;
 %rename("%s") AugmentBlueprint::stacking;
 
-%nodefaultctor WeaponBlueprint;
-%nodefaultdtor WeaponBlueprint;
+//%nodefaultctor WeaponBlueprint;
+//%nodefaultdtor WeaponBlueprint;
+%copyctor WeaponBlueprint;
 %rename("%s") WeaponBlueprint;
 %rename("%s") WeaponBlueprint::BoostPower;
 %rename("%s") WeaponBlueprint::BoostPower::type;
@@ -3919,28 +4003,29 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 
 %rename("%s") DroneBlueprint;
-%nodefaultctor DroneBlueprint;
+//%nodefaultctor DroneBlueprint;
 %nodefaultdtor DroneBlueprint;
+%copyctor DroneBlueprint;
 
-%immutable DroneBlueprint::typeName;
+//%immutable DroneBlueprint::typeName;
 %rename("%s") DroneBlueprint::typeName;
-%immutable DroneBlueprint::level;
+//%immutable DroneBlueprint::level;
 %rename("%s") DroneBlueprint::level;
-%immutable DroneBlueprint::targetType;
+//%immutable DroneBlueprint::targetType;
 %rename("%s") DroneBlueprint::targetType;
-%immutable DroneBlueprint::power;
+//%immutable DroneBlueprint::power;
 %rename("%s") DroneBlueprint::power;
-%immutable DroneBlueprint::cooldown;
+//%immutable DroneBlueprint::cooldown;
 %rename("%s") DroneBlueprint::cooldown;
-%immutable DroneBlueprint::speed;
+//%immutable DroneBlueprint::speed;
 %rename("%s") DroneBlueprint::speed;
-%immutable DroneBlueprint::dodge;
+//%immutable DroneBlueprint::dodge;
 %rename("%s") DroneBlueprint::dodge;
-%immutable DroneBlueprint::weaponBlueprint;
+//%immutable DroneBlueprint::weaponBlueprint;
 %rename("%s") DroneBlueprint::weaponBlueprint;
-%immutable DroneBlueprint::droneImage;
+//%immutable DroneBlueprint::droneImage;
 %rename("%s") DroneBlueprint::droneImage;
-%immutable DroneBlueprint::combatIcon;
+//%immutable DroneBlueprint::combatIcon;
 %rename("%s") DroneBlueprint::combatIcon;
 
 %luacode {
@@ -4703,6 +4788,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %include "CustomShips.h"
 %include "CrewMember_Extend.h"
 %include "Projectile_Extend.h"
+%include "ProjectileFactory_Extend.h"
 %include "ShipManager_Extend.h"
 %include "System_Extend.h"
 %include "SystemBox_Extend.h"
