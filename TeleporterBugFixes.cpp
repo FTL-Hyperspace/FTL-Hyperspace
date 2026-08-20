@@ -130,7 +130,7 @@ HOOK_METHOD_PRIORITY(CompleteShip, InitiateTeleport, 9999, (int targetRoom, int 
     }
     if (command == TELE_ARRIVE)
     {
-        int arrivingSlots = ShipGraph::GetShipInfo(enemyShip->shipManager->iShipId)->GetNumSlots(teleSysRoom);
+        int arrivingSlots = ShipGraph::GetShipInfo(shipManager->iShipId)->GetNumSlots(teleSysRoom);
         if (targetRoom != ALL_ROOMS) arrivingSlots = std::max(arrivingSlots, 4);
         arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true, arrivingSlots);
     }
