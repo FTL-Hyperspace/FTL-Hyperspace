@@ -3149,6 +3149,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `bool :ApplyDamage(float amount)`
 
 ### Fields
+- [`Selectable`](#selectable) `._selectable`
 - `int` `.iRoom1`
 - `int` `.iRoom2`
 - `bool` `.bOpen`
