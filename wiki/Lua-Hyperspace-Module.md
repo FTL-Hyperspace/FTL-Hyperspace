@@ -2456,6 +2456,8 @@ local _, canMove = crew.extend:CalculateStat(Hyperspace.CrewStat.CAN_MOVE)
 - [`std::vector<CrewMember*>`](#CrewMember) `.selectedCrew`
 - [`std::vector<CrewMember*>`](#CrewMember) `.potentialSelectedCrew`
    - Crew hovered by the selection box
+- [`Door`](#Door) `.selectedDoor`
+   - Door hovered by the cursor
 - [`Point`](#Point) `.firstMouse`
    - Affect the visual portion of the selection box
 - [`Point`](#Point) `.currentMouse`
@@ -3147,6 +3149,7 @@ Accessed via `Hyperspace.CustomAugmentManager.GetInstance()`
 - `bool :ApplyDamage(float amount)`
 
 ### Fields
+- [`Selectable`](#selectable) `._selectable`
 - `int` `.iRoom1`
 - `int` `.iRoom2`
 - `bool` `.bOpen`

@@ -1063,6 +1063,7 @@ playerVariableType playerVariables;
 %rename("%s") CrewControl;
 %rename("%s") CrewControl::selectedCrew;
 %rename("%s") CrewControl::potentialSelectedCrew;
+%rename("%s") CrewControl::selectedDoor;
 %rename("%s") CrewControl::firstMouse;
 %rename("%s") CrewControl::currentMouse;
 %rename("%s") CrewControl::worldFirstMouse;
@@ -2742,6 +2743,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 
 %rename("%s") Door::ApplyDamage;
 
+%rename("%s") Door::_selectable;
 %rename("%s") Door::iRoom1;
 %immutable Door::iRoom1;
 %rename("%s") Door::iRoom2;
