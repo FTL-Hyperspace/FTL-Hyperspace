@@ -1,0 +1,14 @@
+struct GL_Texture
+{{
+	inline float width()
+	{
+		if (this) return this->width_;
+		return 1.f;
+	}
+
+	inline float height()
+	{
+		if (this) return this->height_;
+		return 1.f;
+	}	
+}};
