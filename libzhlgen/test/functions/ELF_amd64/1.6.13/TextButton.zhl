@@ -10,6 +10,8 @@ cleanup __amd64 void TextButton::OnRender(TextButton *this);
 cleanup __amd64 void TextButton::destructor(TextButton *this);
 "4155415455534889fb4883ec1880bfd000000000751a":
 cleanup __amd64 Point TextButton::GetSize(TextButton *this);
+".534889fb4883ec10":
+cleanup __amd64 void TextButton::SetSize(TextButton *this, Point size);
 "41574156415541544989cc554889f5534889fb4883ec488954240c":
 cleanup __amd64 void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 "4154488b065553488378e800":
