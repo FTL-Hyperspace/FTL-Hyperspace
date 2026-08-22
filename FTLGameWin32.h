@@ -3445,6 +3445,7 @@ public:
 	LIBZHL_API void SetBaseImage(const std::string &name, Point pos, int autoWidthMin);
 	LIBZHL_API void SetInactiveColor(GL_Color color);
 	LIBZHL_API void SetSelectedColor(GL_Color color);
+	LIBZHL_API void SetSize(Point size);
 	LIBZHL_API void SetTextColor(GL_Color color);
 	LIBZHL_API void UpdateAutoWidth();
 	LIBZHL_API void constructor();
@@ -6257,6 +6258,18 @@ struct GL_Primitive
 
 struct GL_Texture
 {
+	inline float width()
+	{
+		if (this) return this->width_;
+		return 1.f;
+	}
+
+	inline float height()
+	{
+		if (this) return this->height_;
+		return 1.f;
+	}		
+
 	int id_;
 	int width_;
 	int height_;
