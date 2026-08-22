@@ -3963,11 +3963,11 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                     const int textWidth = freetype::easy_measureWidth(13, noAchText);
                     if (textWidth < maxTextWidth - 30)
                     {
-                        freetype::easy_printCenter(13, maxTextWidth / 2.f + this->statusPosition.x, 387.f, noAchText);
+                        freetype::easy_printCenter(12, maxTextWidth / 2.f + this->statusPosition.x, 387.f, noAchText);
                     }
                     else
                     {
-                        freetype::easy_printNewlinesCentered(13, maxTextWidth / 2.f + this->statusPosition.x, 377.f, textWidth / 3 * 2, noAchText);
+                        freetype::easy_printNewlinesCentered(12, maxTextWidth / 2.f + this->statusPosition.x, 377.f, textWidth / 3 * 2, noAchText);
                     }
                 }
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
