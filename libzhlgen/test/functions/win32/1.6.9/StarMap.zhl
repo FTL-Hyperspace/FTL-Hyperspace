@@ -41,9 +41,9 @@ __thiscall void StarMap::AnalyzeMap(StarMap *this);
 ".8b442404018198":  // unique sig
 __thiscall void StarMap::ModifyPursuit(StarMap *this, int unk0);
 ".31c083b980":  // unique sig
-__thiscall void StarMap::AtBeacon(StarMap *this);
+__thiscall int StarMap::GetNextDangerMove1(StarMap *this);
 ".8b41500f":  // unique sig
-__thiscall bool StarMap::AtBeacon1(StarMap *this); // 005c8610 DWARF original prototype
+__thiscall bool StarMap::AtBeacon(StarMap *this); // 005c8610 DWARF original prototype
 ".80797c0074??80b9ac0600000074":  // unique sig
 __thiscall void StarMap::GetWaitLocation(StarMap *this);
 ".8b919004":  // unique sig

@@ -9504,8 +9504,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void AddSectorColumn();
 	LIBZHL_API void AdvanceWorldLevel();
 	LIBZHL_API void AnalyzeMap();
-	LIBZHL_API void AtBeacon();
-	LIBZHL_API bool AtBeacon1();
+	LIBZHL_API bool AtBeacon();
 	LIBZHL_API void CheckGameOver();
 	LIBZHL_API void ClearBoss();
 	LIBZHL_API void Close();
@@ -9523,6 +9522,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API std::string GetLocationText(const Location *loc);
 	LIBZHL_API Location *GetNewLocation();
 	LIBZHL_API int GetNextDangerMove();
+	LIBZHL_API int GetNextDangerMove1();
 	LIBZHL_API std::string GetPotentialSectorChoiceName();
 	LIBZHL_API int GetRandomSectorChoice();
 	LIBZHL_API void GetSelectedSector(int unk0, int unk1, int unk2);

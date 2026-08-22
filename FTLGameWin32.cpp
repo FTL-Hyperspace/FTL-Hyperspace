@@ -42152,12 +42152,12 @@ namespace _func3051
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("StarMap::AtBeacon", typeid(void (StarMap::*)()), ".31c083b980", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("StarMap::GetNextDangerMove1", typeid(int (StarMap::*)()), ".31c083b980", argdata, 1, 1, &func);
 }
 
-void StarMap::AtBeacon()
+int StarMap::GetNextDangerMove1()
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(StarMap *this_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(StarMap *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3051::func;
 	return execfunc(this);
 }
@@ -42166,10 +42166,10 @@ namespace _func3052
 {
     static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("StarMap::AtBeacon1", typeid(bool (StarMap::*)()), ".8b41500f", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("StarMap::AtBeacon", typeid(bool (StarMap::*)()), ".8b41500f", argdata, 1, 1, &func);
 }
 
-bool StarMap::AtBeacon1()
+bool StarMap::AtBeacon()
 {
 	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(StarMap *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3052::func;
