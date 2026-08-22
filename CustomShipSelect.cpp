@@ -3831,7 +3831,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnLanguageChange, 9999, () -> void)
     if (this->bOpen)
     {
         Point achievementPosition(this->statusPosition.x + 22 + (extraWidth + 3) / 6, this->statusPosition.y + 119);
-        for (uint i = 0; i < this->shipAchievements.size(); ++i)
+        for (unsigned int i = 0; i < this->shipAchievements.size(); ++i)
         {
             this->shipAchievements[i].position = achievementPosition;
             if (i < 2)
