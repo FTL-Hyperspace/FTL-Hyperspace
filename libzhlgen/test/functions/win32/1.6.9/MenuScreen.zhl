@@ -1,12 +1,26 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b511c89d085c0":
+"c7816c03":  // unique sig
+__thiscall void MenuScreen::OnLoop(MenuScreen *this); // 004fc600 DWARF original prototype
+".0fb681c002":  // unique sig
+__thiscall bool MenuScreen::KeyDown(MenuScreen *this, SDLKey sym); // 004fc610 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81eccc0000008b51":  // unique sig
 __thiscall void MenuScreen::OnLanguageChange(MenuScreen *this);
-".578d7c240883e4f0ff77fc5589e557565389cb8db564ffffff81ec????????e8????????8d4b44c703????????c7432000000000c7432800000000c7432c00000000":
+".578d7c240883e4f0ff77fc5589e55783ec148b89bc":  // unique sig
+__thiscall void MenuScreen::SetSaveEnabled(MenuScreen *this, bool val); // 004fd6a0 DWARF original prototype
+".5589e556538b5934":  // unique sig
+__thiscall int MenuScreen::GetCommand(MenuScreen *this); // 004fd6e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8db564":  // unique sig
 __thiscall void MenuScreen::constructor(MenuScreen *this);
-".578d7c240883e4f0ff77fc5589e557565381ec????????80b9c0020000000f84????????":
+".5589e557565331db89ce83e4f083ec108b792c":  // unique sig
+__thiscall void MenuScreen::destructor(MenuScreen *this); // 004fe9a0 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565381":  // unique sig
+__thiscall void MenuScreen::destructor1(MenuScreen *this); // 004fead0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecfc00000080":  // unique sig
 __thiscall void MenuScreen::OnRender(MenuScreen *this);
-"!.578d":
+".578d7c240883e4f0ff77fc5589f889e557565383ec5c80":  // unique sig
 __thiscall void MenuScreen::MouseMove(MenuScreen *this, int mX, int mY);
-".578d":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c807950":  // unique sig
 __thiscall void MenuScreen::MouseClick(MenuScreen *this, int mX, int mY);
-".578d7c240883e4f0ff77fc5589e557565389cf83c14c8d75d883ec5cc641b801":
+".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec5c":  // unique sig
+__thiscall void MenuScreen::OnTouch(MenuScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004ffec0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83c1":  // unique sig
 __thiscall void MenuScreen::Open(MenuScreen *this);

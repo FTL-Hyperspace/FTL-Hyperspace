@@ -1,31 +1,46 @@
-"5589e583ec04f30f1009f30f104104f30f5c4d08f30f5c450cf30f59c9f30f59c0f30f58c1f30f110424":
+"f30f1005????????f30f1101":  // unique sig
+__thiscall void Pointf::constructor(Pointf *this); // 00586170 DWARF original prototype
+".f30f10442404f30f1101":  // unique sig
+__thiscall void Pointf::constructor(Pointf *this, float x, float y); // 00586190 DWARF original prototype
+".5589e583ec04f30f1009":  // unique sig
 __thiscall float Pointf::RelativeDistance(Pointf *this, Pointf other);
-"5589e583e4f083ec20f30f1009f30f104104f30f59c9f30f59c0f30f58c1f30f51c80f2ec9":
+".5589e583e4f083ec20f30f1009f30f104104f30f5c":  // unique sig
+__thiscall float Pointf::Distance(Pointf *this, Pointf p); // 005861f0 DWARF original prototype
+".5589e583ec04f30f104508f3":  // unique sig
+__thiscall float Pointf::Slope(Pointf *this, Pointf p); // 00586250 DWARF original prototype
+".5589e583ec04f30f1045088b":  // unique sig
+__thiscall bool Pointf::equals(Pointf *this, Pointf p); // 00586280 DWARF original prototype
+".5589e55389cb83e4f083ec20f30f100d":  // unique sig
+__thiscall Pointf Pointf::RotatePoint(Pointf *this, float angle); // 005862c0 DWARF original prototype
+".5589e55389cb83e4f083ec30f3":  // unique sig
+__thiscall Pointf Pointf::RotatePoint(Pointf *this, float angle, Pointf p); // 00586370 DWARF original prototype
+".5589e583e4f083ec20f30f1009f30f104104f30f59":  // unique sig
 __thiscall Pointf Pointf::Normalize(Pointf *this);
+
 
 
 struct Pointf {{
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}
 	Pointf(Point p) : x((float)p.x), y((float)p.y) {}
-	
+
 	Pointf operator+(const Pointf& other)
 	{
 		return Pointf(x + other.x, y + other.y);
 	}
-	
+
 	Pointf operator-(const Pointf& other)
-	{		
+	{
 		return Pointf(x - other.x, y - other.y);
 	}
-	
+
 	Pointf operator/(float amount)
-	{		
+	{
 		return Pointf(x / amount, y / amount);
 	}
-	
+
 	Pointf operator*(float amount)
-	{		
+	{
 		return Pointf(x * amount, y * amount);
 	}
 

@@ -1,14 +1,56 @@
-"5731c08d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f88????????89ce":
-__thiscall Drone* DroneSystem::RemoveDrone(DroneSystem *this, int slot);
-"578d7c240883e4f0ff77fc5589e557565383ec2c8b81700100008b91c0010000c745e4000000008945dc8b81c401000029d0c1f802":
-__thiscall void DroneSystem::UpdateBonusPower(DroneSystem *this);
-".5589e556538b750889cb83e4f0e8????????39f089d90f4fc6898370010000":
-virtual __thiscall void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);
-"578d7c240883e4f0ff77fc5589e557565389cf83ec5ce8????????89f9e8????????8bb7c00100008b87c4010000":
-__thiscall void DroneSystem::OnLoop(DroneSystem *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f04008b37":
+"8b4424048981f001000089":  // unique sig
+__thiscall void DroneSystem::ForceBatteryPower(DroneSystem *this, int val); // 00611530 DWARF original prototype
+".8b91c00100008b81c401000029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389ce31db83ec1c":  // unique sig
+__thiscall void DroneSystem::ShipDestroyed(DroneSystem *this); // 00611590 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f04":  // unique sig
 __thiscall bool DroneSystem::DePowerDrone(DroneSystem *this, Drone *drone, bool unk);
-"8b91c00100008b81c401000029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389cf":
+".5589e55389cb83e4f083ec108b81f4010000c701????????c74108????????85c074??890424e8????????8b83d801000085c074??890424e8????????8b83c001000085c074??890424e8????????89d9e8????????8b":  // unique sig
+__thiscall void DroneSystem::destructor(DroneSystem *this); // 00611730 DWARF original prototype
+".5589e55389cb83e4f083ec108b81f4010000c701????????c74108????????85c074??890424e8????????8b83d801000085c074??890424e8????????8b83c001000085c074??890424e8????????89d9e8????????89":  // unique sig
+__thiscall void DroneSystem::destructor1(DroneSystem *this); // 006117a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b07":  // unique sig
+__thiscall void DroneSystem::AddDamage(DroneSystem *this, int amount); // 006118e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b81c0":  // unique sig
+__thiscall bool DroneSystem::ForceDecreasePower(DroneSystem *this, int amount); // 006119d0 DWARF original prototype
+".8b91c00100008b81c401000029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389cf":  // unique sig
 __thiscall void DroneSystem::Jump(DroneSystem *this);
-"8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c0750a8d65f8595b5d8d61fcc3c70424????????89d9e8????????89c283ec04b80100000085d274da":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b470489":  // unique sig
+__thiscall bool DroneSystem::PowerDrone(DroneSystem *this, Drone *drone, bool userDriven, bool force); // 00611c90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec2c8b81":  // unique sig
+__thiscall void DroneSystem::RemoveBatteryPower(DroneSystem *this); // 00612090 DWARF original prototype
+".8b91c00100008b81c401000029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389ce31db83ec2c":  // unique sig
+__thiscall bool DroneSystem::ForceIncreasePower(DroneSystem *this, int amount); // 006122e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b770c":  // unique sig
+__thiscall void DroneSystem::constructor(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 00612460 DWARF original prototype
+".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??8d65f8595b5d8d61fcc3c70424????????89d9e8????????89c283ec04b801":  // unique sig
 static cleanup __cdecl int DroneSystem::StringToDrone(std::string &name);
+".578d7c240883e4f0ff77fc5589f889e55756538d75d0":  // unique sig
+__thiscall void DroneSystem::DroneRemoval(DroneSystem *this, Drone *drone); // 00612700 DWARF original prototype
+".565331c08b5c240c85db78??8bb1c0":  // unique sig
+__thiscall int DroneSystem::GetDroneValue(DroneSystem *this, int slot); // 006127b0 DWARF original prototype
+".5731c08d7c240883e4f0ff77fc5589e557565383ec4c":  // unique sig
+__thiscall Drone* DroneSystem::RemoveDrone(DroneSystem *this, int slot);
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f8b57":  // unique sig
+__thiscall void DroneSystem::CheckRecall(DroneSystem *this, Drone *drone, bool jumping); // 00612920 DWARF original prototype
+".538b81c4":  // unique sig
+__thiscall Drone *DroneSystem::GetDrone(DroneSystem *this, int slot); // 00612ab0 DWARF original prototype
+".8b4424040181cc":  // unique sig
+__thiscall void DroneSystem::ModifyDroneCount(DroneSystem *this, int amount); // 00612ae0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b1f8b7f":  // unique sig
+__thiscall bool DroneSystem::PowerDrone1(DroneSystem *this, Drone *drone, bool userDriven, bool force); // 00612b10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b8170":  // unique sig
+__thiscall void DroneSystem::UpdateBonusPower(DroneSystem *this);
+".5589e556538b750889cb83e4f0e8????????39f089d90f4fc6898370010000e8????????8d65f85b5e5dc208009066905756":  // unique sig
+virtual __thiscall void DroneSystem::SetBonusPower(DroneSystem *this, int amount, int permanentPower);
+".5756538b5424108b7c241485d278??8bb1c0":  // unique sig
+__thiscall void DroneSystem::SwapDrones(DroneSystem *this, int slot1, int slot2); // 006132c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f8b7f":  // unique sig
+__thiscall bool DroneSystem::DePowerDrone1(DroneSystem *this, Drone *drone, bool userDriven); // 00613320 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d75d089cb83ec4c":  // unique sig
+__thiscall Drone *DroneSystem::AddDrone(DroneSystem *this, Drone *drone, int slot); // 00613380 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4ce8????????89":  // unique sig
+__thiscall void DroneSystem::Restart(DroneSystem *this); // 00613570 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec5ce8":  // unique sig
+__thiscall void DroneSystem::OnLoop(DroneSystem *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1ce8????????39":  // unique sig
+__thiscall void DroneSystem::CheckMaxPower(DroneSystem *this); // 00613dd0 DWARF original prototype

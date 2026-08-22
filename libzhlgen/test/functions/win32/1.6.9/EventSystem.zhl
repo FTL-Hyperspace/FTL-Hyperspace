@@ -1,7 +1,12 @@
-"538b54240885d278??8b590c8b411029d8c1f80239c27d??830493015b":
-__thiscall void EventSystem::AddEvent(EventSystem *this, int id);
-"56538b5c240c85db78??8b318b510431c029f2c1fa0239d37d??8b049e5b":
+"5589e557565389cb31f683e4":  // unique sig
+__thiscall void EventSystem::constructor(EventSystem *this); // 0059a770 DWARF original prototype
+".56538b5c240c85db78":  // unique sig
 __thiscall bool EventSystem::PollEvent(EventSystem *this, int id);
+".538b54240885d278??8b590c":  // unique sig
+__thiscall void EventSystem::AddEvent(EventSystem *this, int id);
+".5589e557565389cb83e4f083ec208b79":  // unique sig
+__thiscall void EventSystem::OnLoop(EventSystem *this); // 0059a870 DWARF original prototype
+
 
 "!c704240c000000b9(???????\?)e8????????31c0":
 EventSystem* Global_EventSystem_EventManager;

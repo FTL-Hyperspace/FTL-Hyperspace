@@ -1,5 +1,18 @@
-"578d7c240883e4f0ff77fc5589e557565389ce8d4dcc81ec????????8b47048b1fc745b014000000898504ffffff8b47088d7dd4c744240400000000":
+"b8c3000000c2":  // unique sig
+__thiscall int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 00506240 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce8d4dcc":  // unique sig
 __thiscall void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *ship, bool repairAll, int price);
+".578d7c240883e4f0ff77fc5589e5575389cb83c12483ec10":  // unique sig
+__thiscall void RepairStoreBox::OnLoop(RepairStoreBox *this); // 0050be70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b8938":  // unique sig
+__thiscall void RepairStoreBox::Purchase(RepairStoreBox *this); // 0050c020 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ecac000000e8????????80":  // unique sig
+__thiscall void RepairStoreBox::OnRender(RepairStoreBox *this); // 0050de00 DWARF original prototype
+".558d916401000089e55389cb83e4f083ec108b815c010000c701????????39d074??890424e8????????8b8390000000c703????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b24e8":  // unique sig
+__thiscall void RepairStoreBox::destructor(RepairStoreBox *this); // 0072c0f0 DWARF original prototype
+".558d916401000089e55389cb83e4f083ec108b815c010000c701????????39d074??890424e8????????8b8390000000c703????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b2483":  // unique sig
+__thiscall void RepairStoreBox::destructor1(RepairStoreBox *this); // 0072c1d0 DWARF original prototype
+
 
 
 struct RepairStoreBox

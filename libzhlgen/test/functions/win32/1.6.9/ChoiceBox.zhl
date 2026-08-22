@@ -1,13 +1,46 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????e8????????8b4350c78528feffff09000000":
-__thiscall void ChoiceBox::OnRender(ChoiceBox *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704894de0b9????????8b1f8945e4e8????????8b7e508b464c":
+"c6410400c7415cffffffffc3":  // unique sig
+__thiscall void ChoiceBox::Close(ChoiceBox *this); // 004e82a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b470489":  // unique sig
 __thiscall void ChoiceBox::MouseMove(ChoiceBox *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e55783ec14833d????????028b078b5704":
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b48":  // unique sig
+__thiscall void ChoiceBox::OnTouch(ChoiceBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004e8380 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec14833d":  // unique sig
 __thiscall void ChoiceBox::MouseClick(ChoiceBox *this, int mX, int mY);
-"578d7c240883e4f0ff77fc5589e557565381ec4c020000":
-__thiscall ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
-"8b15????????31c0565383fa0274??85d274??":
+".8b15????????31c056":  // unique sig
 __thiscall bool ChoiceBox::KeyDown(ChoiceBox *this, SDLKey sym);
+".5589e556538b5d0889ce83e4f084":  // unique sig
+__thiscall void ChoiceBox::SetOpen(ChoiceBox *this, bool open); // 004e8650 DWARF original prototype
+".5589e557565383e4f083ec208b5920":  // unique sig
+__thiscall void ChoiceBox::destructor(ChoiceBox *this); // 004e86a0 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389cb83c1":  // unique sig
+__thiscall void ChoiceBox::destructor1(ChoiceBox *this); // 004e8b00 DWARF original prototype
+".f3c38db426000000008dbc27000000008b415c":  // unique sig
+__thiscall void ChoiceBox::OnInit(ChoiceBox *this); // 004e8be0 DWARF original prototype
+".8b415c83f8ff":  // unique sig
+__thiscall int ChoiceBox::GetChoice(ChoiceBox *this); // 004e8bf0 DWARF original prototype
+".8b4158c3":  // unique sig
+__thiscall int ChoiceBox::GetPotentialChoice(ChoiceBox *this); // 004e8c10 DWARF original prototype
+".8b51608d4201":  // unique sig
+__thiscall void ChoiceBox::IncreaseFont(ChoiceBox *this); // 004e8c20 DWARF original prototype
+".8b51608d42ff":  // unique sig
+__thiscall void ChoiceBox::DecreaseFont(ChoiceBox *this); // 004e8c40 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cb8d8d":  // unique sig
+__thiscall int ChoiceBox::RenderResource(ChoiceBox *this, const std::string &name, int val, int x, int y); // 004e8c60 DWARF original prototype
+".5783c1248d7c240883e4f0ff77fc5589e55783ec148b0789":  // unique sig
+__thiscall void ChoiceBox::UpdateMainText(ChoiceBox *this, const std::string &text); // 004e92b0 DWARF original prototype
+".5789c88d7c240883e4f0ff77fc5589e557565381":  // unique sig
+__thiscall ResourceBoxDesc ChoiceBox::RenderResources(ChoiceBox *this, ResourceEvent *resources, int x, int y, bool choice, ResourceBoxDesc desc); // 004e92e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ec2c02":  // unique sig
+__thiscall ResourceBoxDesc ChoiceBox::MeasureResources(ChoiceBox *this, ResourceEvent *resources, bool choice); // 004ebaf0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec4c02":  // unique sig
+__thiscall ResourceBoxDesc ChoiceBox::PrintResourceBox(ChoiceBox *this, ResourceEvent *resources, int x, int y, GL_Color border, bool choice);
+".578d7c240883e4f0ff77fc5589e557565389cb81eccc020000e8":  // unique sig
+__thiscall void ChoiceBox::OnRender(ChoiceBox *this);
+".578d7c240883e4f0ff77fc5589e557565389cb8d8988":  // unique sig
+__thiscall void ChoiceBox::SetEventReward(ChoiceBox *this, ResourceEvent *resource); // 004edce0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec3c0200008b":  // unique sig
+__thiscall void ChoiceBox::SetChoices(ChoiceBox *this, const std::string &mainText, std::vector<ChoiceText> *newChoices, std::vector<ChoiceText> *choicesSecond); // 004edfb0 DWARF original prototype
+
 struct ChoiceBox
 {{
     std::vector<ChoiceText*> GetChoices()

@@ -1,5 +1,18 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b77048b57088b7f0cc744240c000000008904248974240489542408":
+"80b9440200000074??0fb681":  // unique sig
+__thiscall bool SystemCustomBox::GetMouseHover(SystemCustomBox *this); // 004ca390 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b078b77048b5708":  // unique sig
 __thiscall void SystemCustomBox::constructor(SystemCustomBox *this, Point pos, ShipSystem *sys, ShipManager *ship);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b770c":  // unique sig
+__thiscall void SystemCustomBox::OnTouch(SystemCustomBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004d5ed0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce8d8904":  // unique sig
+__thiscall void SystemCustomBox::OnRender(SystemCustomBox *this, bool ignoreStatus); // 004d6200 DWARF original prototype
+".5781c104":  // unique sig
+__thiscall void SystemCustomBox::MouseMove(SystemCustomBox *this, int mX, int mY); // 004d6440 DWARF original prototype
+".5589e55389cb8d8904":  // unique sig
+__thiscall void SystemCustomBox::destructor(SystemCustomBox *this); // 0072ddc0 DWARF original prototype
+".5589e55389cbc701????????8d8904":  // unique sig
+__thiscall void SystemCustomBox::destructor1(SystemCustomBox *this); // 0072de00 DWARF original prototype
+
 
 
 struct SystemCustomBox

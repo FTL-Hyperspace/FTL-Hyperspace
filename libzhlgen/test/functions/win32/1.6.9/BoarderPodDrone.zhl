@@ -1,15 +1,52 @@
-"578d7c240883e4f0ff77fc5589fa89e557565389cfbb????????81ec????????8b028b720889c18985acfeffff8b4204890c248974240889f989b5bcfeffff":
-__thiscall void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
-"578d7c240883e4f0ff77fc5589e5575383ec208b0785c074??8b1089cb89815001000089c1ff521c89434c8b43048d4df0":
+"b801000000c38d76008dbc27000000005589e556":  // unique sig
+__thiscall bool BoarderPodDrone::RecallOnJump(BoarderPodDrone *this); // 0041d930 DWARF original prototype
+".5789c88d7c240883e4f0ff77fc5589e557565383ec1c":  // unique sig
+__thiscall void BoarderPodDrone::SetPowered(BoarderPodDrone *this, bool powered); // 0041da10 DWARF original prototype
+".5589e58b45088b550c5d894150895154898148":  // unique sig
+__thiscall void BoarderPodDrone::SetCurrentLocation(BoarderPodDrone *this, Pointf loc); // 0041da60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec208b07":  // unique sig
 __thiscall void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
-".8b815001000085c074168b108b521881fa????????750cb801000000":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f891c24e8????????0fb6866d":  // unique sig
+__thiscall void BoarderPodDrone::SaveState(BoarderPodDrone *this, int fd); // 0041e1f0 DWARF original prototype
+".8b414c3941480f84????????578d7c240883e4f0ff77fc5589e557565389ce":  // unique sig
+__thiscall void BoarderPodDrone::PickDestination(BoarderPodDrone *this); // 0041e2f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b070fb657040fb6c08954":  // unique sig
+__thiscall void BoarderPodDrone::SetDestroyed(BoarderPodDrone *this, bool dead, bool rebuildRequired); // 0041e5d0 DWARF original prototype
+".0fb6412084":  // unique sig
+__thiscall bool BoarderPodDrone::Destroyed(BoarderPodDrone *this); // 0041e730 DWARF original prototype
+".8b815001000085c074??8b108b521881fa????????75??b801000000c38d760031c0c3578d7c240883e4f0ff77fc5589e5575389cb8d4de883ec20890424ffd28b55f083ec0485d27e??8b430485c075??8d65f8b8010000005b5f5d8d67f85fc38d65f831c05b5f5d8d67f85fc36690578d7c240883e4f0ff77fc5589e55783":  // unique sig
 __thiscall bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec2c807914008b37":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b1f891c24e8????????83":  // unique sig
+__thiscall void BoarderPodDrone::LoadState(BoarderPodDrone *this, int fd); // 0041e940 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????8b83":  // unique sig
+__thiscall void BoarderPodDrone::SetHacked(BoarderPodDrone *this, int val); // 0041eb10 DWARF original prototype
+".80b96c0400000074":  // unique sig
+__thiscall void BoarderPodDrone::RenderDrone(BoarderPodDrone *this); // 0041f3e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8079":  // unique sig
 __thiscall void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470c8b571080be6c04000000":
+".558d912c":  // non-unique sig
+__thiscall void BoarderPodDrone::destructor(BoarderPodDrone *this); // 00420420 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void BoarderPodDrone::destructor1(BoarderPodDrone *this); // 00420800 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470c":  // unique sig
 __thiscall CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-"578d????0883e4f0ff????5589e557565389cb81ecbc000000e8????????":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b0780":  // unique sig
+__thiscall std::string BoarderPodDrone::GetTooltip(BoarderPodDrone *this); // 00421cd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec3080b9a0":  // unique sig
+__thiscall void BoarderPodDrone::BlowUp(BoarderPodDrone *this, bool silent); // 00421db0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589fa89e557565389cfbb":  // unique sig
+__thiscall void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
+".578d7c240883e4f0ff77fc5589e557565389cb81ecbc000000e8????????66":  // unique sig
 __thiscall void BoarderPodDrone::OnLoop(BoarderPodDrone *this);
+".31c0c390909090909090909090909090b801000000c3909090909090909090908b":  // unique sig
+__thiscall bool BoarderPodDrone::CanBeRecovered(BoarderPodDrone *this); // 0072cde0 DWARF original prototype
+".b801000000c3909090909090909090908b81":  // unique sig
+__thiscall bool BoarderPodDrone::HideUnderOwner(BoarderPodDrone *this); // 0072cdf0 DWARF original prototype
+".8b816804":  // unique sig
+__thiscall CrewDrone *BoarderPodDrone::GetBoardingDrone(BoarderPodDrone *this); // 0072ce00 DWARF original prototype
+".f3c39090909090909090909090909090f3c39090909090909090909090909090b801000000c39090909090909090909057":  // unique sig
+__thiscall void BoarderPodDrone::RandomizeStartingPosition(BoarderPodDrone *this); // 0072ce10 DWARF original prototype
+
 
 
 struct BoarderPodDrone

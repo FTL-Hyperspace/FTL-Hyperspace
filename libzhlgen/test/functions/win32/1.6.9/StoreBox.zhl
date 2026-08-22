@@ -1,19 +1,46 @@
-"8079640075??c208008db426000000008079650074??8b015589e583e4f0":
+"8079640075":  // unique sig
 __thiscall void StoreBox::MouseClick(StoreBox *this, int x, int y);
-"578d7c240883e4f0ff77fc5589e5575383ec308b81380100008b80d40400003981e80000007e??b9????????c70424????????8d5de8e8????????8d45e083ec04":
+".578d7c240883e4f0ff77fc5589e5575383ec308b81":  // unique sig
 __thiscall void StoreBox::Activate(StoreBox *this);
-"578d7c240883e4f0ff77fc5589e557565389ce81c1????????83ec4c8b1f8b83b8000000898170ffffff8d431c890424e8????????":
+".578d7c240883e4f0ff77fc5589e557565389ce81c194":  // unique sig
 __thiscall void StoreBox::InitBlueprint(StoreBox *this, Blueprint* bp);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b07c701????????c74104ffffffffc741080000000089c28945c48b47048945c08b470889d78b7704":
+".8b442404898138010000c2":  // unique sig
+__thiscall void StoreBox::SetShopper(StoreBox *this, ShipManager *ship); // 00507a20 DWARF original prototype
+".8b4424048981380100008b":  // unique sig
+__thiscall void StoreBox::RelinkShip(StoreBox *this, ShipManager *ship, Equipment *equip); // 00507a30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b07c701????????c74104ff":  // unique sig
 __thiscall void StoreBox::constructor(StoreBox *this, const std::string& buttonImage, ShipManager *shopper, Equipment *equip);
-"5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b913001000085d27e??80b9f80000000074??":
+".5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b91":  // unique sig
 __thiscall void StoreBox::OnLoop(StoreBox *this);
-"578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec208b078b570489042489542404e8????????8b45f08b55f483ec08":
-__thiscall void StoreBox::SetPosition(StoreBox *this, Point pos);
-"578d7c240883e4f0ff77fc5589e557565389cf8d492481ec????????80b920010000000f84????????e8????????":
-__thiscall void StoreBox::OnRender(StoreBox *this);
-"57ba????????8d7c240883e4f0ff77fc5589e55756538d7dd08d75d889cbb9????????83ec3c8975d0":
+".57ba62":  // unique sig
 __thiscall void StoreBox::Purchase(StoreBox *this);
+".5589e55389cb83e4f083ec108b8190000000c701????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b2483c314e8????????8b43f839d874??890424e8????????8b5dfcc9c390908d":  // unique sig
+__thiscall void StoreBox::destructor(StoreBox *this); // 0050c270 DWARF original prototype
+".5589e55389cb83e4f083ec108b8190000000c701????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b24e8????????8b430c8d531439d074??890424e8????????891c24e8????????8b5dfcc9c39057":  // unique sig
+__thiscall void StoreBox::destructor1(StoreBox *this); // 0050c330 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec208b078b570489042489542404e8????????8b":  // unique sig
+__thiscall void StoreBox::SetPosition(StoreBox *this, Point pos);
+".578d7c240883e4f0ff77fc5589e557565389cf8d49":  // unique sig
+__thiscall void StoreBox::OnRender(StoreBox *this);
+".5783c1248d7c240883e4f0ff77fc5589e55783ec148b078b":  // unique sig
+__thiscall void StoreBox::MouseMove(StoreBox *this, int mX, int mY); // 0050e330 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b4f108b57088b770c8945e48b47048b7f14894c24108974240c89542408894424048b45e4897c24148d7b24":  // unique sig
+__thiscall void StoreBox::OnTouch(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0050e9a0 DWARF original prototype
+".31c0c20800909090909090909090909031c0c390909090909090909090909090c2":  // unique sig
+__thiscall int StoreBox::SetInfoBox(StoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 00737cf0 DWARF original prototype
+".31c0c390909090909090909090909090c20400909090909090909090909090908d510889c8c7410400000000c6410800c6":  // unique sig
+__thiscall int StoreBox::GetExtraData(StoreBox *this); // 00737d00 DWARF original prototype
+".c20400909090909090909090909090908d510889c8c7410400000000c6410800c6":  // unique sig
+__thiscall void StoreBox::SetExtraData(StoreBox *this, int data); // 00737d10 DWARF original prototype
+".8d510889c8c7410400000000c6410800c64118018911c204009090909090909031":  // unique sig
+__thiscall TextString StoreBox::GetConfirmText(StoreBox *this); // 00737d20 DWARF original prototype
+".31c0c390909090909090909090909090b801000000c390909090909090909090c204009090909090909090909090909057":  // unique sig
+__thiscall bool StoreBox::RequiresConfirm(StoreBox *this); // 00737d40 DWARF original prototype
+".b801000000c390909090909090909090c204009090909090909090909090909057":  // unique sig
+__thiscall bool StoreBox::CanHold(StoreBox *this); // 00737d50 DWARF original prototype
+".c2040090909090909090909090909090578d41":  // unique sig
+__thiscall void StoreBox::Confirm(StoreBox *this, bool val); // 00737d60 DWARF original prototype
+
 
 
 struct StoreBox
@@ -21,12 +48,12 @@ struct StoreBox
 	StoreBox()
 	{
 	}
-	
+
 	StoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship)
 	{
 		this->constructor(buttonImage, shopper, ship);
 	}
-	
+
 	void SetPosition(int x, int y)
 	{
 		SetPosition(Point(x, y));

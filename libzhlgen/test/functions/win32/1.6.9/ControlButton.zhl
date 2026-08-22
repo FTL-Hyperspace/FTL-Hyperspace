@@ -1,2 +1,20 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b415c83f8010f84????????f30f102d????????83f802f30f1035????????f30f103d????????f30f116da0f30f1175a4":
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b47048b57":  // unique sig
+__thiscall void ControlButton::constructor(ControlButton *this, Point pos, const std::string &value); // 00569a10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83c128":  // unique sig
+__thiscall void ControlButton::SetDesc(ControlButton *this, TextString *desc); // 00569b10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d45a889ce":  // unique sig
+__thiscall void ControlButton::OnLoop(ControlButton *this); // 00569c70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b415c":  // unique sig
 __thiscall void ControlButton::OnRender(ControlButton *this);
+".83795c0274??8b":  // unique sig
+__thiscall void ControlButton::MouseMove(ControlButton *this, int mX, int mY); // 0056a360 DWARF original prototype
+".83795c0274??83":  // unique sig
+__thiscall void ControlButton::OnTouch(ControlButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0056a3a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c83795c":  // unique sig
+__thiscall void ControlButton::OnKeyDown(ControlButton *this, SDLKey sym); // 0056a3f0 DWARF original prototype
+".83795c010f":  // unique sig
+__thiscall bool ControlButton::GetHovering(ControlButton *this); // 0056a510 DWARF original prototype
+".807c24040119c0f7d083e00289415c":  // unique sig
+__thiscall void ControlButton::SetSelected(ControlButton *this, bool val); // 0056a520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8079":  // unique sig
+__thiscall void ControlButton::OnLanguageChange(ControlButton *this); // 0056a540 DWARF original prototype

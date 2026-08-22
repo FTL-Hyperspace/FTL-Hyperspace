@@ -1,5 +1,22 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b57048b078b4f088b770c8d7dd0c744240c0100000089542404890424894c2408":
+"578d7c240883e4f0ff77fc5589e5575383ec1080b9":  // unique sig
+__thiscall bool DoorBox::MouseClick(DoorBox *this, bool force); // 004ca580 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b944":  // unique sig
+__thiscall void DoorBox::KeyDown(DoorBox *this, SDLKey key_sym, bool shift); // 004cc350 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b57":  // unique sig
 __thiscall void DoorBox::constructor(DoorBox *this, Point pos, ShipSystem* sys, ShipManager* ship);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b5710":  // unique sig
+__thiscall void DoorBox::OnTouch(DoorBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 004d5a20 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b078b89":  // unique sig
+__thiscall void DoorBox::OnRender(DoorBox *this, bool ignoreStatus); // 004d5f50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b378b7f04893424897c2404e8????????83":  // unique sig
+__thiscall void DoorBox::MouseMove(DoorBox *this, int mX, int mY); // 004d6250 DWARF original prototype
+".b801000000c3909090909090909090905589e55389cb8d8970":  // unique sig
+__thiscall bool DoorBox::HasButton(DoorBox *this); // 00733570 DWARF original prototype
+".5589e55389cb8d8970":  // unique sig
+__thiscall void DoorBox::destructor(DoorBox *this); // 00733580 DWARF original prototype
+".5589e55389cbc701????????8d8970":  // unique sig
+__thiscall void DoorBox::destructor1(DoorBox *this); // 007335c0 DWARF original prototype
+
 
 
 struct DoorBox

@@ -1,57 +1,192 @@
-"578d????0883e4f0ff????5589f889e557565331db89cf83ec2c8b??":
-__thiscall std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
-"578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
-__thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
-__thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
-"538b81bc0300008b89c00300008b5c240829c1c1f90469c9????????85c974??3b98ec00000074??05????????31d2eb??05????????3b9810ffffff":
-__thiscall bool Ship::RoomLocked(Ship *this, int roomId);
-"0fb681f001000084c0":
-__thiscall bool Ship::DestroyedDone(Ship *this);
-"578d7c240883e4f0ff77fc5589e557565383ec1c8b59088b410c8b178b770429d8":
-__thiscall bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
-"578d7c240883e4f0ff77fc5589f889e557565389cf83ec1c8b008b51088b0c828d1c85????????8b5134":
-__thiscall int Ship::EmptySlots(Ship *this, int roomId);
-"578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704":
-__thiscall int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
-"8b51208b412429d0c1f80285c074??5589e557565389ce31db83e4f0eb??66908b462483c301":
-__thiscall void Ship::OnRenderBreaches(Ship *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c0fb6078b770431ff8845cc8b410c2b4108c1f80285c075??e9????????8b43088b0cb8f30f110424":
-__thiscall void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
-"57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????29c48b0789cb8db5a4fffeff898544fefeffa1????????85c00f84????????8b3d????????85ff":
-__thiscall void Ship::OnInit(Ship *this, ShipBlueprint& bp);
-"8b51088b410c29d0c1f80285c074??5589e5565389ce31db83e4f0908d7426008b0c9a83c301":
-__thiscall void Ship::OnRenderSparks(Ship *this);
-"578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704890424e8????????8b7dfc":
-__thiscall void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
-"578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b008945d08b4104890424e8????????":
-__thiscall void Ship::OnRenderBase(Ship *this, bool unk);
-"578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c80b9b803000000":
-__thiscall void Ship::OnRenderFloor(Ship *this, bool unk);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b4104f30f1027f30f1165d4890424":
-__thiscall void Ship::OnRenderJump(Ship *this, float progress);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec208b410489":
-__thiscall Point Ship::GetShipCorner(Ship *this);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b83f401000089018b83f80100008941048b83fc0100008941088b830002000089410c":
+"80b9b803000000f3":  // unique sig
+__thiscall float Ship::GetCloakAlpha1(Ship *this, bool complete); // 0047e180 DWARF original prototype
+".5589e557565389ce83e4f083ec208b8180":  // unique sig
+__thiscall void Ship::destructor(Ship *this); // 0047e920 DWARF original prototype
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c36690578d7c240883e4f0ff77fc5589e557565389ce":  // unique sig
+__thiscall void Ship::destructor1(Ship *this); // 0047ebf0 DWARF original prototype
+".578d4154":  // unique sig
+__thiscall void Ship::constructor(Ship *this, int shipId); // 004803c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec408b4104":  // unique sig
+__thiscall void Ship::LoadImages(Ship *this); // 00480980 DWARF original prototype
+".5589e55389cb83e4f083ec108b8180":  // unique sig
+__thiscall void Ship::ClearImages(Ship *this); // 00480ad0 DWARF original prototype
+".56538b44240c85c07e":  // unique sig
+__thiscall int Ship::DamageHull(Ship *this, int amount); // 00480b50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec108b1f8b51088b47048b0c9a890424e8????????83ec048d65f85b5f5d8d67f85fc208008d76008dbc270000000057":  // unique sig
+__thiscall void Ship::OnRenderSystem(Ship *this, int roomId, int computerLevel); // 00480ba0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b83":  // unique sig
 __thiscall Globals::Ellipse Ship::GetBaseEllipse(Ship *this);
-"578d7c240883e4f0ff77fc5589e557565383ec2c8b378b790c8b4108894de489fa29c2c1fa02":
-__thiscall void Ship::SetSelectedRoom(Ship *this, int roomId);
-"578d7c240883e4f0ff77fc5589e557568db19c0300005381ec????????894dac8b1f89cf89f1e8????????80bfae0300000074??c70424????????":
-__thiscall void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
-"578d7c240883e4f0ff77fc5589e557565383ec5c8b51208b41248b3fc745c400000000c745c800000000c745cc0000000029d0":
-__thiscall void Ship::BreachRandomHull(Ship *this, int roomId);
-"578d7c240883e4f0ff77fc5589e557565331db89ce83ec4c8b078b51208945c48b47048945c08b4124":
-__thiscall bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b0789c68945c08b470483feff8845b8":
-__thiscall int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
-"5589e557565383e4f083ec300fb6450c8b7d08c70100000000c7410400000000c7410800000000894c242c":
-__thiscall std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
-"578d????0883e4f0ff????5589e5575383ec2080b9b8030000008b??f30f1005????????":
+".8b91dc00000085":  // unique sig
+__thiscall void Ship::LoadCloakImage(Ship *this); // 00480c80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57048b48":  // unique sig
+__thiscall WeaponMount Ship::GetWeaponMount(Ship *this, int val); // 00480d90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db83ec3c":  // unique sig
+__thiscall void Ship::Restart(Ship *this); // 00480e40 DWARF original prototype
+".5589e556538b51":  // unique sig
+__thiscall void Ship::PauseLoop(Ship *this); // 00481120 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565331db89cf83ec2c":  // unique sig
+__thiscall std::pair<int, int> Ship::ContainsHullBreach(Ship *this, int roomId);
+".578d7c240883e4f0ff77fc5589e5575383ec108b4104":  // unique sig
+noHook void Ship::__STRUCT_OVERRIDE_ANCHOR_20();
+//".578d7c240883e4f0ff77fc5589e5575383ec108b4104":  // unique sig
+// __thiscall Pointf Ship::GetRoomCenter(Ship *this, int roomId); // 00481300 DWARF original prototype
+".538b81bc":  // unique sig
+__thiscall bool Ship::RoomLocked(Ship *this, int roomId);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b47048b4914":  // unique sig
+__thiscall void Ship::SetHackLevel(Ship *this, int roomId, int hackLevel); // 004813a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b178b4108f3":  // unique sig
+__thiscall void Ship::RoomHacked(Ship *this, int roomId, float hackTime); // 004814e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c90c7":  // unique sig
+__thiscall void Ship::TriggerSparks(Ship *this, int room); // 00481520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec108b1f8b51088b47048b0c9a890424e8????????83ec048d65f85b5f5d8d67f85fc208008d76008dbc270000000083":  // unique sig
+__thiscall void Ship::SetFireCount(Ship *this, int roomId, int fireId); // 00481560 DWARF original prototype
+".837c2404ff74":  // unique sig
+noHook void Ship::__STRUCT_OVERRIDE_ANCHOR_21();
+//".837c2404ff74":  // unique sig
+// __thiscall void Ship::ProjectileStrike(Ship *this, int roomId, float damage); // 004815a0 DWARF original prototype
+".5789c88d89":  // unique sig
+__thiscall void Ship::SetCloaked(Ship *this, bool value); // 004815c0 DWARF original prototype
+".0fb681f0":  // unique sig
+__thiscall bool Ship::DestroyedDone(Ship *this);
+".578d7c240883e4f0ff77fc5589e55783ec1480b9f0":  // unique sig
+__thiscall void Ship::SetDestroyed(Ship *this, bool animation, bool bossAnimation); // 00481710 DWARF original prototype
+".8b51148b411829":  // unique sig
+__thiscall void Ship::ResetDoorHealth(Ship *this); // 00481900 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b4104f3":  // unique sig
+__thiscall void Ship::OnRenderJump(Ship *this, float progress);
+".578d7c240883e4f0ff77fc5589e557565389cb8dbb":  // unique sig
+__thiscall void Ship::OnRenderExplosion(Ship *this); // 00481df0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575383ec2080b9":  // unique sig
 __thiscall float Ship::GetCloakAlpha(Ship *this, bool complete);
-"578d????0883e4f0ff????5589e557565389cb83ec5c8b9104010000":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec208b410489":  // unique sig
+__thiscall Point Ship::GetShipCorner(Ship *this);
+".5589e557565389cf83e4f083ec108b41":  // unique sig
+__thiscall void Ship::OnRenderSimple(Ship *this, float alpha); // 00481fd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b008945":  // unique sig
+__thiscall void Ship::OnRenderBase(Ship *this, bool unk);
+".8b51088b410c29d0c1f80285c074??5589e5565389ce31db83e4f0908d7426008b0c9a83c301e8????????8b56088b460c29d0c1f80239c372??8d65f85b5e5df3c38db426000000008dbc270000000055":  // unique sig
+__thiscall void Ship::OnRenderHighlight(Ship *this); // 00482460 DWARF original prototype
+".5589e557565383e4f083ec108b410c":  // unique sig
+__thiscall void Ship::OnRenderFire(Ship *this, bool forceView); // 004824b0 DWARF original prototype
+".8b410c2b4108c1f80285c00f":  // unique sig
+__thiscall void Ship::OnRenderBlackout(Ship *this); // 00482520 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c80b9":  // unique sig
+__thiscall void Ship::OnRenderFloor(Ship *this, bool unk);
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c0f":  // unique sig
+__thiscall void Ship::OnRenderFloorEffects(Ship *this, bool forceView); // 00482740 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??578d7c240883e4f0ff77fc5589e557565389ce31db83ec1c89f68dbc27000000008b0c9ac7":  // unique sig
+__thiscall void Ship::HideInterior(Ship *this); // 00482850 DWARF original prototype
+".8b51088b410c29d0c1f80285c074??5589e5565389ce31db83e4f0908d7426008b0c9a83c301e8????????8b56088b460c29d0c1f80239c372??8d65f85b5e5df3c38db426000000008dbc27000000008b":  // unique sig
+__thiscall void Ship::OnRenderSparks(Ship *this);
+".8b51208b412429d0c1f80285c074??5589e557565389ce31db83e4f0eb??66908b46":  // unique sig
+__thiscall void Ship::OnRenderBreaches(Ship *this);
+".5589e557565331f689cb83e4f083ec108b79":  // unique sig
+__thiscall void Ship::OnCleanup(Ship *this); // 004829a0 DWARF original prototype
+".5589e557565383e4f083ec108b7924":  // unique sig
+__thiscall int Ship::GetHullDamageCount(Ship *this); // 00482b40 DWARF original prototype
+".5589e557565383e4f083ec308b7508c70100000000c7410400000000c74108000000008b5608":  // unique sig
+__thiscall std::vector<Room*> Ship::GetRoomListConst(Ship *this); // 00482bd0 DWARF original prototype
+".5589e557565383e4f083ec308b7508c70100000000c7410400000000c74108000000008b5614":  // unique sig
+__thiscall std::vector<Door*> Ship::GetDoorListConst(Ship *this); // 00482d80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec3c8b078b57":  // unique sig
+__thiscall Repairable *Ship::GetHullBreach(Ship *this, Point world); // 00482f30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565331db89ce":  // unique sig
+__thiscall Repairable *Ship::GetSpecificHull(Ship *this, int grid_x, int grid_y); // 00483040 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec4c8b078b5120":  // unique sig
+__thiscall bool Ship::BreachSpecificHull(Ship *this, int grid_x, int grid_y);
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b51":  // unique sig
+__thiscall void Ship::BreachRandomHull(Ship *this, int roomId);
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f088904248955e4e8????????8b55e40fb6db893424895c240889c189542404e8????????83ec0c8d65f45b5e5f5d8d67f85fc20c00908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e557565383":  // unique sig
+__thiscall int Ship::GetSelectedRoomId(Ship *this, int x, int y, bool unk);
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f088904248955e4e8????????8b55e40fb6db893424895c240889c189542404e8????????83ec0c8d65f45b5e5f5d8d67f85fc20c00908db6000000008dbf00000000578d7c240883e4f0ff77fc5589e557565331":  // unique sig
+__thiscall int Ship::GetSelectedRoomId(Ship *this, Point p, bool bIncludeWalls); // 004836e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565331db89ce83ec4c8b078b5114":  // unique sig
+__thiscall Door *Ship::GetSelectedDoor(Ship *this, int x, int y, float doorScale); // 00483740 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b51148b41188b1f31ff29d0c1f80285c074??8db426000000008b0cba891c2483c701e8????????8b56148b461883ec0429d0c1f80239f8":  // unique sig
+__thiscall void Ship::SaveState(Ship *this, int fd); // 00483930 DWARF original prototype
+".5589e557565383e4f083ec300f":  // unique sig
+__thiscall std::vector<Repairable*> Ship::GetHullBreaches(Ship *this, bool onlyDamaged);
+".5589e557565383e4f083ec208b75088b4508":  // unique sig
+__thiscall std::vector<Door*> Ship::GetRoomAirlocks(Ship *this, int roomId); // 00483c60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b078b7e":  // unique sig
+__thiscall void Ship::ManipulateAllDoors(Ship *this, bool open); // 00483dd0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b4314":  // unique sig
+__thiscall void Ship::ManipulateDoors(Ship *this, int roomid, bool open); // 00483ff0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec5c8b4120":  // unique sig
+__thiscall void Ship::FindOuterWalls(Ship *this); // 00484180 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecac0200008b":  // unique sig
+__thiscall void Ship::RemoveRoom(Ship *this, int room); // 00484450 DWARF original prototype
+".5589e5538b550883e4f085":  // unique sig
+__thiscall void Ship::TapRoom(Ship *this, int roomId); // 00485410 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec2c8b378b":  // unique sig
+__thiscall void Ship::SetSelectedRoom(Ship *this, int roomId);
+".578d7c240883e4f0ff77fc5589e55783ec148b1785":  // unique sig
+__thiscall void Ship::HighlightRoom(Ship *this, int roomId); // 00485500 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b078b57":  // unique sig
+__thiscall int Ship::IsOuterWall(Ship *this, int grid_x, int grid_y); // 00485560 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704890424e8????????8b7dfc83ec04c98d67f85fc208008db6000000008dbf0000000056":  // unique sig
+__thiscall void Ship::SetRoomBlackout(Ship *this, int roomId, bool blackout);
+".568b51":  // unique sig
+__thiscall bool Ship::GetRoomBlackout(Ship *this, int roomId); // 00485700 DWARF original prototype
+".575631c0538b":  // unique sig
+__thiscall void Ship::SetIonedDoors(Ship *this, bool val); // 00485730 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b51148b41188b1f31ff29d0c1f80285c074??8db426000000008b0cba891c2483c701e8????????8b56148b461883ec0429d0c1f80239c7":  // unique sig
+__thiscall void Ship::SetBlastDoors(Ship *this, int val); // 00485790 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57048b40":  // unique sig
+__thiscall Globals::Rect Ship::GetRoomRect(Ship *this, int id); // 00485820 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704890424e8????????8b7dfc83ec04c98d67f85fc208008db6000000008dbf0000000055":  // unique sig
+__thiscall int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intruder);
+".558b410889e583e4f08b55088b0c90e8????????c9c20400908db42600000000578d7c240883e4f0ff77fc5589e55783ec148b07":  // unique sig
+__thiscall void Ship::ClearPrimarySlot(Ship *this, int roomId); // 004858a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b078b51088b7f048b0cba890424e8????????8b7dfc83ec04c98d67f85fc20800908db6000000008dbf0000000057":  // unique sig
+__thiscall void Ship::SetPrimarySlot(Ship *this, int slotId, int roomId); // 004858c0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b078b51088b7f048b0cba890424e8????????8b7dfc83ec04c98d67f85fc20800908db6000000008dbf0000000055":  // unique sig
+__thiscall void Ship::SetPrimaryDirection(Ship *this, int dir, int roomId); // 00485900 DWARF original prototype
+".558b410889e583e4f08b55088b0c90e8????????c9c20400908db42600000000558b410889e583e4f08b55088b0c90e8????????c9c20400908db4260000000055":  // unique sig
+__thiscall bool Ship::IsPrimarySlotFilled(Ship *this, int roomId); // 00485940 DWARF original prototype
+".558b410889e583e4f08b55088b0c90e8????????c9c20400908db42600000000558b410889e583e4f08b55088b0c90e8????????c9c20400908db4260000000057":  // unique sig
+__thiscall int Ship::GetPrimarySlot(Ship *this, int roomId); // 00485960 DWARF original prototype
+".558b410889e583e4f08b55088b0c90e8????????c9c20400908db42600000000578d7c240883e4f0ff77fc5589e55783ec148b51":  // unique sig
+__thiscall int Ship::GetPrimaryDirection(Ship *this, int roomId); // 00485980 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b51088b4f048b078b0c8a0fb6570889042489542404e8????????8b7dfc83ec08c98d67f85fc20c00908d742600578d7c240883e4f0ff77fc5589e5":  // unique sig
+__thiscall void Ship::FillRoomSlot(Ship *this, int slotId, int roomId, bool intruder); // 004859a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b51088b4f048b078b0c8a0fb6570889042489542404e8????????8b7dfc83ec08c98d67f85fc20c00908d742600578d7c240883e4f0ff77fc5589f8":  // unique sig
+__thiscall void Ship::EmptyRoomSlot(Ship *this, int slotId, int roomId, bool intruder); // 004859e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec1c8b00":  // unique sig
+__thiscall int Ship::EmptySlots(Ship *this, int roomId);
+".56538b41088b4c":  // unique sig
+__thiscall bool Ship::IsSlotFilled(Ship *this, int slotId, int roomId, bool intruder); // 00485ac0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704890424e8????????8b7dfc83ec04c98d67f85fc208008db6000000008dbf0000000057":  // unique sig
+__thiscall bool Ship::EmptyRoom(Ship *this, int id, bool intruder); // 00485b00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b5908":  // unique sig
+__thiscall bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b0789":  // unique sig
+__thiscall int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
+".8b41088b54":  // unique sig
+__thiscall void Ship::SetRoomWarning(Ship *this, int roomId, bool warning); // 00485e80 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecbc0000008b1f":  // unique sig
+__thiscall Path Ship::DFS(Ship *this, int startRoom, Path *lastPath); // 00485ea0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d9d20":  // unique sig
+__thiscall bool Ship::Import(Ship *this, const std::string &shipName); // 00486500 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec7c8b0089c6":  // unique sig
+__thiscall void Ship::ChoosePrimarySlot(Ship *this, int roomId); // 00487070 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec1c8b9108":  // unique sig
+__thiscall bool Ship::UpdateDoorState(Ship *this, int index, Door *door); // 00487350 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d5d90":  // unique sig
+__thiscall void Ship::AddDoorVertices(Ship *this, Door *door, std::vector<GL_ColorTexVertex> *vertices); // 004873e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b91":  // unique sig
 __thiscall void Ship::UpdateDoorsPrimitive(Ship *this, bool doorControlMode);
-"578d????0883e4f0ff????5589f889e557565389cf81ec1c010000":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c0fb6078b":  // unique sig
+__thiscall void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ec1c01":  // unique sig
 __thiscall void Ship::LoadState(Ship *this, int fd);
+".578d7c240883e4f0ff77fc5589e557568db19c03":  // unique sig
+__thiscall void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
+".578d7c240883e4f0ff77fc5589e557565389cb81ec5c0100008b":  // unique sig
+__thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
+".57b81c":  // unique sig
+__thiscall void Ship::OnInit(Ship *this, ShipBlueprint& bp);
+
 
 "!1ef7ffff(c6841d5afefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;

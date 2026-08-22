@@ -1,4 +1,12 @@
-"558d91a800000089e55389cb83e4f083ec108b81a0000000c701????????39d074??890424e8????????8b83840000008d938c00000039d074??890424":
+"558d91a800000089e55389cb83e4f083ec108b81a0000000c701????????39d074??890424e8????????8b83840000008d938c00000039d074??890424e8????????8b43548d535c39d074??890424e8????????8b43388d534039d074??890424e8????????8b431c8d532439d074??890424e8????????8b43048d":  // unique sig
 __thiscall void Blueprint::destructor(Blueprint *this);
-".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a500075??83c238":
+".558d91a800000089e55389cb83e4f083ec108b81a0000000c701????????39d074??890424e8????????8b83840000008d938c00000039d074??890424e8????????8b43548d535c39d074??890424e8????????8b43388d534039d074??890424e8????????8b431c8d532439d074??890424e8????????8b430483":  // unique sig
+__thiscall void Blueprint::destructor1(Blueprint *this); // 0073dce0 DWARF original prototype
+".c2040090909090909090909090909090578d7c":  // unique sig
+__thiscall void Blueprint::RenderIcon(Blueprint *this, float scale); // 00743a50 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a34":  // unique sig
+__thiscall std::string Blueprint::GetNameLong(Blueprint *this); // 00743a60 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a50":  // unique sig
 __thiscall std::string Blueprint::GetNameShort(Blueprint* this);
+".b805000000c390909090909090909090b8":  // unique sig
+__thiscall int Blueprint::GetType(Blueprint *this); // 00743c40 DWARF original prototype

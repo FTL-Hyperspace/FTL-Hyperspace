@@ -1,19 +1,32 @@
-"578d7c240883e4f0ff77fc5589e557565383ec4c837904048b0789819001000074??":
-__thiscall void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoice);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b57048945808b470889c7894584":
-__thiscall void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager *shopper, Equipment *equip, int sys);
-"8b913801000031c085d274??578d7c240883e4f0ff77fc5589e5575389cb83ec108b4104890424e8????????":
+"8b8190010000c3":  // unique sig
+__thiscall int SystemStoreBox::GetExtraData(SystemStoreBox *this); // 00506250 DWARF original prototype
+".8b9138":  // unique sig
 __thiscall bool SystemStoreBox::CanHold(SystemStoreBox *this);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b81300100008b378b7f0485c07e??":
-__thiscall void SystemStoreBox::MouseMove(SystemStoreBox *this, int mX, int mY);
-"578d7c240883e4f0ff77fc5589e5575389cb83ec308b89380100008b81d40400003983e8000000":
+".578d7c240883e4f0ff77fc5589e557565383ec4c837904":  // unique sig
+__thiscall void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoice);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b89":  // unique sig
 __thiscall void SystemStoreBox::Activate(SystemStoreBox *this);
-"578d7c240883e4f0ff77fc5589e557565389cb8d75d883ec4c":
-__thiscall void SystemStoreBox::Purchase(SystemStoreBox *this);
-".578d41088d????0883e4f0ff????5589e557565389ce83ec2c8b??89018bba60010000":
-__thiscall TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);
-"578d7c240883e4f0ff77fc5589e557565389cb81ecdc010000":
+".578d7c240883e4f0ff77fc5589e557565389cb81ecdc01":  // unique sig
 __thiscall int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox *box, int forceSystemInfoWidth);
+".578d7c240883e4f0ff77fc5589e557565389cb81ecac0000008b078b570489":  // unique sig
+__thiscall void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager *shopper, Equipment *equip, int sys);
+".578d7c240883e4f0ff77fc5589e557565389cb8d75d883ec4c":  // unique sig
+__thiscall void SystemStoreBox::Purchase(SystemStoreBox *this);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c803f":  // unique sig
+__thiscall void SystemStoreBox::Confirm(SystemStoreBox *this, bool val); // 0050bc20 DWARF original prototype
+".5731c08d7c240883e4f0ff77fc5589e557565389cb83ec3c":  // unique sig
+__thiscall void SystemStoreBox::OnLoop(SystemStoreBox *this); // 0050bf00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b8130":  // unique sig
+__thiscall void SystemStoreBox::MouseMove(SystemStoreBox *this, int mX, int mY);
+".578d41088d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1789018bba60":  // unique sig
+__thiscall TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);
+".0fb6815c":  // unique sig
+__thiscall bool SystemStoreBox::RequiresConfirm(SystemStoreBox *this); // 0072c370 DWARF original prototype
+".558d918001000089e55389cb83e4f083ec108b8178010000c701????????39d074??890424e8????????8b83600100008d936801000039d074??890424e8????????8b8390000000c703????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b24e8":  // unique sig
+__thiscall void SystemStoreBox::destructor(SystemStoreBox *this); // 0072c380 DWARF original prototype
+".558d918001000089e55389cb83e4f083ec108b8178010000c701????????39d074??890424e8????????8b83600100008d936801000039d074??890424e8????????8b8390000000c703????????890424e8????????8b83180100008d932001000039d074??890424e8????????8b83fc0000008d930401000039d074??890424e8????????8b83cc0000008d93d400000039d074??890424e8????????8b83b00000008d93b800000039d074??890424e8????????8b83940000008d939c00000039d074??890424e8????????8d4b2483":  // unique sig
+__thiscall void SystemStoreBox::destructor1(SystemStoreBox *this); // 0072c480 DWARF original prototype
+
 
 
 struct SystemStoreBox

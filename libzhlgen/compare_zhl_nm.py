@@ -11,6 +11,8 @@ from collections import defaultdict
 # Use * as wildcard for any characters (like glob patterns)
 # Use {class} as placeholder for the class name extracted from ZHL name
 # Use {method} as placeholder for the method name extracted from ZHL name
+# Use {class_nm} as placeholder for the class name extracted from the nm name
+# Use {method_nm} as placeholder for the method name extracted from the nm name
 INTENTIONAL_MISMATCHES = [
     # Constructor/destructor overloads - ZHL uses numbered suffixes
     # {class} expands to the class name, so Foo::constructor -> Foo::Foo
@@ -66,6 +68,19 @@ INTENTIONAL_MISMATCHES = [
 
     # CSurface static functions (appear without class prefix in nm)
     ('CSurface::*', '*'),
+
+
+    # additions by ranhai
+    ('{class}::copy_constructor', '{class}::{class}'),
+    ('{class}::copy_assign_*', '{class}::operator='),  # ZHL copy assignment functions
+    ('{class}::add_assign', '{class}::operator+='),  # ZHL operator+= functions
+    ('*::__STRUCT_OVERRIDE_ANCHOR_*', '*'),  # Internal ZHL anchor functions
+    ('{class}::{method_nm}_OnlyForHooking', '{class}::{method_nm}'),  # ZHL internal functions
+    ('{class}::{method_nm}_DO_NOT_USE_DIRECTLY', '{class}::{method_nm}'),  # ZHL internal functions
+    ('{class}::{method_nm}0', '{class}::{method_nm}'),  # ZHL numbered overloads
+    ('{class}::{method_nm}1', '{class}::{method_nm}'),  # ZHL numbered overloads
+    ('{class}::{method_nm}2', '{class}::{method_nm}'),  # ZHL numbered overloads
+    ('{class}::{method_nm}3', '{class}::{method_nm}'),  # ZHL numbered overloads
 ]
 
 def parse_zhl_log(log_path):
@@ -153,9 +168,9 @@ def normalize_name(zhl_name):
 
     return results
 
-def extract_class_name(zhl_name):
-    """Extract the class name from a ZHL function name like 'Namespace::Class::method'."""
-    parts = zhl_name.split('::')
+def extract_class_name(function_name):
+    """Extract the immediate class name from ``Namespace::Class::method``."""
+    parts = function_name.split('::')
     if len(parts) >= 2:
         # Return the part before the last :: (the class name)
         # For 'Class::method' -> 'Class'
@@ -163,30 +178,50 @@ def extract_class_name(zhl_name):
         return parts[-2]
     return ''
 
+def extract_method_name(function_name):
+    """Extract the method name from a qualified ZHL or nm function name."""
+    return function_name.rsplit('::', 1)[-1]
+
+def substitute_placeholders(pattern, zhl_name, nm_name=None):
+    """Expand name placeholders in an intentional-mismatch pattern."""
+    replacements = {
+        '{class}': extract_class_name(zhl_name),
+        '{method}': extract_method_name(zhl_name),
+    }
+    if nm_name is not None:
+        replacements.update({
+            '{class_nm}': extract_class_name(nm_name),
+            '{method_nm}': extract_method_name(nm_name),
+        })
+    for placeholder, value in replacements.items():
+        pattern = pattern.replace(placeholder, value)
+    return pattern
+
 def is_intentional_mismatch(zhl_name, actual_funcs):
     """Check if a mismatch is intentional (NoHook, naming variants, etc.)."""
     # NoHook functions are intentionally bound to arbitrary addresses
     if 'NoHook' in zhl_name:
         return True
 
-    # Extract class name for {class} substitution
-    class_name = extract_class_name(zhl_name)
-
     # Check against the intentional mismatches list
     for zhl_pattern, nm_pattern in INTENTIONAL_MISMATCHES:
-        if fnmatch.fnmatch(zhl_name, zhl_pattern):
-            # Substitute {class} placeholder with actual class name
-            expected_pattern = nm_pattern.replace('{class}', class_name)
+        # nm-derived placeholders can occur on either side of the rule, so an
+        # actual nm candidate must be selected before expanding both patterns.
+        for func in actual_funcs:
+            # Strip parameters for matching
+            func_short = func.split('(')[0] if '(' in func else func
+            expanded_zhl_pattern = substitute_placeholders(
+                zhl_pattern, zhl_name, func_short)
+            if not fnmatch.fnmatch(zhl_name, expanded_zhl_pattern):
+                continue
 
-            # Check if any actual function matches the expected nm pattern
-            for func in actual_funcs:
-                # Strip parameters for matching
-                func_short = func.split('(')[0] if '(' in func else func
-                if fnmatch.fnmatch(func_short, expected_pattern):
-                    return True
-                # Also try matching without leading underscore (CSurface functions)
-                if fnmatch.fnmatch(func_short.lstrip('_'), expected_pattern):
-                    return True
+            expected_pattern = substitute_placeholders(
+                nm_pattern, zhl_name, func_short)
+            if fnmatch.fnmatch(func_short, expected_pattern):
+                return True
+            # Also try matching without leading underscore (CSurface functions)
+            if fnmatch.fnmatch(func_short.lstrip('_'), expected_pattern):
+                return True
 
     return False
 

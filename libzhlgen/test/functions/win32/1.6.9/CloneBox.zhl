@@ -1,9 +1,18 @@
-"578d????0883e4f0ff????5589e55753bb4b00000083ec208b414cb9????????":
+"b8ffffffffc38d76008dbc2700000000d9e8d9e0c3908d76008dbc2700000000b8":  // unique sig
+__thiscall int CloneBox::GetCooldownLevel(CloneBox *this); // 004aca80 DWARF original prototype
+".d9e8d9e0c3908d76008dbc2700000000b8":  // unique sig
+__thiscall float CloneBox::GetCooldownFraction(CloneBox *this); // 004aca90 DWARF original prototype
+".5589e55389cbc701????????8b8964":  // unique sig
+__thiscall void CloneBox::destructor(CloneBox *this); // 004acad0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55753bb":  // unique sig
 __thiscall int CloneBox::GetHeightModifier(CloneBox* this);
-".578d7c240883e4f0ff77fc5589e557565381ec????????8b5f088b078b570489cfc744240c00000000898d3cfeffff895c2408":
+".5589e55389cb83e4f083ec10c701????????8b8964":  // unique sig
+__thiscall void CloneBox::destructor1(CloneBox *this); // 004acd10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecfc01":  // unique sig
 __thiscall void CloneBox::constructor(CloneBox *this, Point pos, CloneSystem* sys);
-".578d????0883e4f0ff????5589e557565389cb81ecac010000":
+".578d7c240883e4f0ff77fc5589e557565389cb81ecac01":  // unique sig
 __thiscall void CloneBox::OnRender(CloneBox *this, bool ignoreStatus);
+
 
 struct CloneBox
 {{

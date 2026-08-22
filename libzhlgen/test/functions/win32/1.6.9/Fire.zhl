@@ -1,6 +1,28 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec1c80b9fc0100000075??8b038db3300100008b4028":
+"660fefc0c74158000080bff30f114110f30f11415cc38d76008dbc2700000000c7415c00000000c3908db4260000000057":  // unique sig
+__thiscall void Fire::Repair(Fire *this); // 0048e940 DWARF original prototype
+".c7415c00000000c3908db4260000000057":  // unique sig
+__thiscall void Fire::ResetStartTimer(Fire *this); // 0048e960 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c80b9fc":  // unique sig
 __thiscall void Fire::OnLoop(Fire *this);
-".5589e5565389cb83e4f083ec108b018b75088b40283d????????0f85????????f30f1041100f2e05????????0f97c084c00f85????????":
+".5589e5565389cb83e4f083ec108b018b75088b40283d????????0f85????????f30f1041100f2e05????????0f97c084c00f85????????660fefdb":  // unique sig
 __thiscall void Fire::UpdateStartTimer(Fire *this, int doorLevel);
-".5589e55389cb83e4f083ec108b018b40283d????????0f85????????f30f1041100f2e05????????0f97c084c00f84????????660fefd2f30f104358":
+".5589e55389cb83e4f083ec108b018b40283d????????0f85????????f30f1041100f2e05????????0f97c084c00f84????????660fefd2f30f1043580f2ec272??b9????????f30f11542408e8????????8b4508660fefc9d95c240cf30f105424088d0440f7d883c00ff30f2ac8f30f590d????????0f28c1f30f104c240cf30f59c8f30f104358f30f5cc10f2ed077??f30f114358f30f100d":  // unique sig
 __thiscall void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
+".57660fefc9660fefd2":  // unique sig
+__thiscall void Fire::OnInit(Fire *this); // 0048ed10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb8d75d883ec3c8b07c704246400000089442404e8????????8d8b":  // unique sig
+__thiscall void Fire::constructor(Fire *this, int shipId); // 0048f5c0 DWARF original prototype
+".8b015589e55389cb8b401c":  // unique sig
+__thiscall void Fire::Reset(Fire *this); // 0048f9a0 DWARF original prototype
+".f30f10442404f30f114160c20400669057":  // unique sig
+__thiscall void Fire::SetOxygenLevel(Fire *this, float oxygen); // 0048f9f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec40f3":  // unique sig
+__thiscall void Fire::OnRender(Fire *this); // 0048fa00 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55783ec148b01c704240000c842ff50408b7dfc83ec04c98d67f85fc39090909090908b018b40283d????????75??f30f1041100f2e05????????0f97c0c38d7426005589e583e4f0ffd0c9c3909090909090558d91":  // unique sig
+__thiscall void Fire::Spread(Fire *this); // 00732be0 DWARF original prototype
+".8b018b40283d????????75??f30f1041100f2e05????????0f97c0c38d7426005589e583e4f0ffd0c9c3909090909090558d91":  // unique sig
+__thiscall bool Fire::Present(Fire *this); // 00732c10 DWARF original prototype
+".558d":  // non-unique sig
+__thiscall void Fire::destructor(Fire *this); // 00732c40 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void Fire::destructor1(Fire *this); // 00732e50 DWARF original prototype

@@ -1,43 +1,82 @@
-"8d4118f30f1005????????c7410401000000c7410800000000f30f11411089018d4134c7410c00000000c7411400000000f30f11412c89411c8d4150c7411800000000c7412001000000f30f1141488941388d4164c7412400000000c741280000000089415c":
+"8d4118f3":  // unique sig
 __thiscall void ResourceControl::constructor(ResourceControl *this);
-"5589e583e4f083ec408b45088b552c85c00f84????????660fefe489c185c9f30f104d20f30f106d1cf30f104518f30f2a6514":
-__thiscall GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
-".5589e55389cb":
-__thiscall void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
-"5589e557565389cf31db83e4f083ec408d442430c744240c10000000c744240800000000c744243064617461c74424342e646174894424288b4508":
-__thiscall char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
-"5589e557565389ce31db83e4f083ec208b45088b7d0cc744240c10000000c7442408000000008b00894424048b81c8000000890424":
-__thiscall char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
-".f3c3":
-forceDetour __thiscall void ResourceControl::OnLanguageChange(ResourceControl *this);
-".578d7c240883e4f0ff77fc5589e557565381ec2c":
-__thiscall void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
-"578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b1f8b3d????????":
-__thiscall GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
-"5589e583e4f083ec408b45088b552c85c00f84????????660fefd289c185c9f30f104d20f30f106d1cf30f104518":
+".b801000000c38d76008dbc27000000005589e583":  // unique sig
+__thiscall bool ResourceControl::ShipGlow(ResourceControl *this); // 0059ef70 DWARF original prototype
+".5589e583e4f083ec408b45088b552c85c00f84????????660fefd2":  // unique sig
 __thiscall void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-"578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b5724":
-__thiscall void ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-".578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b5724890424":
-__thiscall GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
-"57????????83e4f0ff77fc5589e557565389cb83ec4c8b37897dc08b4f048d46fa83f8020f87????????c70709000000b809000000ba01000000be09000000":
-__thiscall freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int size, bool ignoreLanguage);
-"5731d28d7c240883e4f0ff77fc5589f889e557565389ce83ec2c8b0f897dd8":
+".5589e583e4f083ec408b45088b552c85c00f84????????660fefe4":  // unique sig
+__thiscall GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
+".5589e55389cb83e4f083ec108b4508c781":  // unique sig
+__thiscall void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
+".55c781":  // unique sig
+__thiscall void ResourceControl::SetRenderParams(ResourceControl *this, int width, int height, int x, int y); // 0059f1f0 DWARF original prototype
+".5589e583e4f066":  // unique sig
+__thiscall void ResourceControl::SetRenderParams(ResourceControl *this, int width, int height, int x, int y, GL_FrameBuffer *fb, int fbX, int fbY, int fbW, int fbH); // 0059f230 DWARF original prototype
+".5589e5565389ce83e4f083ec108b59":  // unique sig
+__thiscall void ResourceControl::OnCleanup(ResourceControl *this); // 0059f2a0 DWARF original prototype
+".5589e557565389cf31db83e4f083ec40":  // unique sig
+__thiscall char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
+".5589e557565389ce31db83e4f083":  // unique sig
+__thiscall char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string &fileName, std::size_t &fileSize, const std::string *unused_resourceFile);
+".f3c38db426000000008dbc2700000000578d7c240883e4f0ff77fc5589e557568d":  // unique sig
+forceDetour __thiscall void ResourceControl::OnLanguageChange(ResourceControl *this);
+".578d7c240883e4f0ff77fc5589e557568d45d4":  // unique sig
+__thiscall void ResourceControl::destructor(ResourceControl *this); // 0059f510 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b07890424e8":  // unique sig
+__thiscall void ResourceControl::UnloadImage(ResourceControl *this, const std::string &name); // 0059f8e0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ec2c06":  // unique sig
+__thiscall void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
+".5731d28d7c240883e4f0ff77fc5589f8":  // unique sig
 __thiscall ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
-".578d7c240883e4f0ff77fc5589e557565389ce8d":
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b3f":  // unique sig
+__thiscall GL_Texture *ResourceControl::LoadImage(ResourceControl *this, const std::string &path); // 005a0710 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce8d45":  // unique sig
 __thiscall void ResourceControl::BindAtlases(ResourceControl *this);
-".578d7c240883e4f0ff77fc5589e557565389ce83":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????83ec0485c074??8d65f45b":  // unique sig
+__thiscall void ResourceControl::EnsureImageLoaded(ResourceControl *this, const std::string &filename); // 005a0d30 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b078b":  // unique sig
 __thiscall bool ResourceControl::BindImage(ResourceControl *this, const std::string& name, int image);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec1c0200000fb6078885effdffffe8????????8b86cc000000":
-__thiscall bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b89d0000000f30f1017f30f104f048d7dd085c9":
-__thiscall void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
-".578d7c24":
-__thiscall void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
-".578d7c240883e4f0ff77fc5589e557565383ec4c8b37":
-__thiscall void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
-"578d7c240883e4f0ff77fc5589e55756538d5dd083ec4c8b378d7dd8894dc489d9c745d400000000897dd0c645d8008b460483c004890424":
+".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b81a8":  // unique sig
+__thiscall void ResourceControl::ClearDynamicImages(ResourceControl *this); // 005a0eb0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b47":  // unique sig
+__thiscall GL_Texture *ResourceControl::LoadImageFromResourceFile(ResourceControl *this, const std::string &name, const std::string &pathPrefix); // 005a0ff0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d5dd083":  // unique sig
 __thiscall bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
+".578d7c240883e4f0ff77fc5589e55756538d459081ecac":  // unique sig
+__thiscall GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
+".578d7c240883e4f0ff77fc5589e55756538d5d88":  // unique sig
+__thiscall GL_Texture *ResourceControl::GetShipImageId(ResourceControl *this, const std::string &name); // 005a1710 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b57248904248955cce8????????83ec0485c0f30f104710f30f106f14f30f104f180f84????????660fefd2":  // unique sig
+__thiscall void ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+".578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b57248904248955cce8????????83ec0485c0f30f104710f30f106f14f30f104f180f84????????660fefe4":  // unique sig
+__thiscall GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+".578d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b89":  // unique sig
+__thiscall void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec3cf30f101ff3":  // unique sig
+__thiscall void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
+".8b81a800000085c074":  // unique sig
+__thiscall void ResourceControl::LoadShipsFinish(ResourceControl *this); // 005a2410 DWARF original prototype
+".5783c11c":  // unique sig
+__thiscall freetype::font_data *ResourceControl::GetChineseFont(ResourceControl *this, int size); // 005a25a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec7c8b078b5f":  // unique sig
+__thiscall void ResourceControl::PreloadFont1(ResourceControl *this, void *buffer, int size, const std::string &font); // 005a2b10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b378b5f":  // unique sig
+__thiscall void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b37897d":  // unique sig
+__thiscall freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int size, bool ignoreLanguage);
+".578d7c240883e4f0ff77fc5589f889e557565389cf81ecac0000008b30":  // unique sig
+__thiscall void ResourceControl::LoadShipList(ResourceControl *this, std::vector<std::string> *imagesToLoad, bool displayLoadingBar); // 005a3c50 DWARF original prototype
+".8b517485":  // unique sig
+__thiscall void ResourceControl::LoadPlayerShips(ResourceControl *this); // 005a4310 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cf83ec7c89":  // unique sig
+__thiscall void ResourceControl::LoadText(ResourceControl *this); // 005a45a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce81ec1c0200000f":  // unique sig
+__thiscall bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
+".578d7c240883e4f0ff77fc5589e557565381ecac0000008b078985":  // unique sig
+__thiscall void ResourceControl::LoadEnemyShips(ResourceControl *this, const std::string &playerShip); // 005a6d90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381ecac00000083":  // unique sig
+__thiscall void ResourceControl::LoadShipsStart(ResourceControl *this, std::vector<std::string> *shipImages, bool clear); // 005a7ae0 DWARF original prototype
+
 
 
 "!8b45b8890424e8????????b9(???????\?)":
@@ -45,7 +84,7 @@ ResourceControl* Global_ResourceControl_GlobalResources;
 
 
 struct ResourceControl depends (freetype)
-{{	
+{{
 	enum ImageSwappingMode
 	{
 	  SWAP_NONE = 0x0,

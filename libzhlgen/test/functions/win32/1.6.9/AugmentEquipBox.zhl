@@ -1,11 +1,32 @@
-"578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b818400000085c074??":
+"8b442404898184000000c2040090669055":  // unique sig
+__thiscall void AugmentEquipBox::SetShipManager(AugmentEquipBox *this, ShipManager *ship); // 0052ab10 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b8184":  // unique sig
 __thiscall void AugmentEquipBox::RemoveItem(AugmentEquipBox *this); // 0052b1a0
-".8b818400000085c074??578d7c240883e4f0ff77fc5589e557565389cb8d4dc4":
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b17":  // unique sig
+__thiscall void AugmentEquipBox::AddItem(AugmentEquipBox *this, EquipmentBoxItem item); // 0052b2c0 DWARF original prototype
+".8b818400000085c074??57":  // unique sig
 __thiscall void AugmentEquipBox::CheckContents(AugmentEquipBox *this); // 0052bf80
-".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b434c660fefc0c744240800000000f7d8f30f2ac0":
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????8b434c":  // unique sig
 __thiscall void AugmentEquipBox::RenderIcon(AugmentEquipBox *this); // 0052c660
-".578d7c240883e4f0ff77fc5589f889e557565389cb8d4db8":
+".578d7c240883e4f0ff77fc5589f889e557565389cb8d4db8":  // unique sig
 __thiscall void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 0052e1f0
+".31c0c39090909090909090909090909031c0c39090909090909090909090909031c0c390909090909090909090909090b801000000c390909090909090909090b8":  // unique sig
+__thiscall bool AugmentEquipBox::IsCargoBox(AugmentEquipBox *this); // 0072cb40 DWARF original prototype
+".31c0c39090909090909090909090909031c0c390909090909090909090909090b801000000c390909090909090909090b8":  // unique sig
+__thiscall bool AugmentEquipBox::CanHoldDrone(AugmentEquipBox *this); // 0072cb50 DWARF original prototype
+".31c0c390909090909090909090909090b801000000c390909090909090909090b8":  // unique sig
+__thiscall bool AugmentEquipBox::CanHoldWeapon(AugmentEquipBox *this); // 0072cb60 DWARF original prototype
+".b801000000c390909090909090909090b803000000c2":  // unique sig
+__thiscall bool AugmentEquipBox::CanHoldAugment(AugmentEquipBox *this); // 0072cb70 DWARF original prototype
+".b803000000c204009090":  // unique sig
+noHook void AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_1();
+//".b803000000c204009090":  // unique sig
+// __thiscall int AugmentEquipBox::GetType(AugmentEquipBox *this, bool forcedEmpty); // 0072cb80 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void AugmentEquipBox::destructor(AugmentEquipBox *this); // 0072cb90 DWARF original prototype
+".55":  // non-unique sig
+__thiscall void AugmentEquipBox::destructor1(AugmentEquipBox *this); // 0072cc00 DWARF original prototype
+
 
 struct AugmentEquipBox
 {{

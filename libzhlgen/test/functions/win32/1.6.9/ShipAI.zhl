@@ -1,10 +1,42 @@
-"5589e556538b750889cbc741040000000083e4f083c108e8????????8d4b74e8????????89f0c683a900000000":
+"5589e556538b750889cbc7":  // unique sig
 __thiscall void ShipAI::constructor(ShipAI *this, bool player);
-".8b44240484c074??80b9ec0000000075??c781f0000000000000008881ec000000":
+".8b44240484c074??80b9ec":  // unique sig
 __thiscall void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
-"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3789f084c08b010f84????????8bb8cc000000":
-__thiscall void ShipAI::OnLoop(ShipAI *this, bool hostile);
-"8b410485c00f84????????8b0185c00f84????????578d7c240883e4f0ff77fc5589e5575389cb89c1":
-__thiscall std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this);
-"578d????0883e4f0ff????5589e5575389cb83ec208b41048b??85c074??8b10":
+".f30f1081f0":  // unique sig
+__thiscall bool ShipAI::GetStalemate(ShipAI *this); // 006008d0 DWARF original prototype
+".5589e5565389ce83e4f083ec100fb681a9":  // unique sig
+__thiscall void ShipAI::Save(ShipAI *this, int fd); // 00600910 DWARF original prototype
+".5589e5565389cb83e4f083ec208b7508893424e8????????85":  // unique sig
+__thiscall void ShipAI::Load(ShipAI *this, int fd); // 006009f0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cb83c1":  // unique sig
+__thiscall void ShipAI::OnInit(ShipAI *this, ShipManager *shipManager, int boardingAI); // 00600ac0 DWARF original prototype
+".f30f105424040f":  // unique sig
+__thiscall void ShipAI::SetEscapeTimer(ShipAI *this, float val); // 00600b70 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec1080b9a8":  // unique sig
+__thiscall bool ShipAI::RequiredEvac(ShipAI *this); // 00600ba0 DWARF original prototype
+".8b4424043b81b0":  // unique sig
+__thiscall void ShipAI::SetSurrenderThreshold(ShipAI *this, int amount); // 00600c70 DWARF original prototype
+".8b4424043b81ac":  // unique sig
+__thiscall void ShipAI::SetEscapeThreshold(ShipAI *this, int amount); // 00600c90 DWARF original prototype
+".8b018b90cc00000031c085d27e??3991ac":  // unique sig
+__thiscall bool ShipAI::Surrender(ShipAI *this); // 00600cb0 DWARF original prototype
+".8b018b90cc00000031c085d27e??3991b0":  // unique sig
+__thiscall bool ShipAI::Escape(ShipAI *this); // 00600cf0 DWARF original prototype
+".80b9aa":  // unique sig
+__thiscall bool ShipAI::Escaped(ShipAI *this); // 00600d40 DWARF original prototype
+".8b0180b899":  // unique sig
+__thiscall bool ShipAI::Destroyed(ShipAI *this); // 00600da0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e5575389cb83ec208b41048b":  // unique sig
 __thiscall void ShipAI::SetEvacRequest(ShipAI *this, int val);
+".5783c174":  // unique sig
+__thiscall void ShipAI::SetEnemyShip(ShipAI *this, ShipManager *ship); // 00600e70 DWARF original prototype
+".8b410485c00f84????????8b01":  // unique sig
+__thiscall std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this);
+".660fefc0c681":  // unique sig
+__thiscall void ShipAI::RestartStalemate(ShipAI *this); // 00601030 DWARF original prototype
+".c681aa00000000c7":  // unique sig
+__thiscall void ShipAI::CancelEscape(ShipAI *this); // 00601060 DWARF original prototype
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c0fb600":  // unique sig
+__thiscall void ShipAI::CheckPowerLevels(ShipAI *this, bool hostile); // 00601080 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3789f0":  // unique sig
+__thiscall void ShipAI::OnLoop(ShipAI *this, bool hostile);

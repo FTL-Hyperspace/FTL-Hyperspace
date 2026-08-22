@@ -1,38 +1,97 @@
-"530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c2b0491":
-__thiscall int Room::GetEmptySlots(Room *this, bool intruder);
-"578d7c240883e4f0ff77fc5589e557565381ec????????8b57048b078b7714898d9cfeffffc7410400000000c701????????":
+"5589e557565389ce83e4f083ec208b417c":  // unique sig
+__thiscall void Room::destructor(Room *this);
+".5589e55389cb83e4f083ec10e8????????891c24e8????????8b5dfcc9c3669083e908eb??908d76008dbc2700000000578d7c240883e4f0ff77fc5589e557565381":  // unique sig
+__thiscall void Room::destructor1(Room *this); // 00467860 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565381eccc0100008b57":  // unique sig
 __thiscall void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId);
-"5589e55383e4f083ec308b517cf30f1005????????f30f5c4178f30f100d????????891424f30f5905????????f30f2cc0660fefc08d1c0005????????f30f2ac0b8????????":
+".5781c160":  // unique sig
+__thiscall void Room::TapRoom(Room *this); // 00469f50 DWARF original prototype
+".8b44240488813c":  // unique sig
+__thiscall void Room::SetStunning(Room *this, bool val); // 00469f80 DWARF original prototype
+".f30f10442404f30f118140":  // unique sig
+__thiscall void Room::SetHacked(Room *this, float val); // 00469f90 DWARF original prototype
+".8b442404894160c2":  // unique sig
+__thiscall void Room::SetFireCount(Room *this, int newFires); // 00469fb0 DWARF original prototype
+".8b417083f8ff74??56":  // unique sig
+__thiscall bool Room::IsPrimarySlotFilled(Room *this); // 00469fc0 DWARF original prototype
+".8b442404894174":  // unique sig
+__thiscall void Room::SetPrimaryDirection(Room *this, int val); // 0046a000 DWARF original prototype
+".8b4174c38d":  // unique sig
+__thiscall int Room::GetPrimaryDirection(Room *this); // 0046a010 DWARF original prototype
+".8b4170c38d":  // unique sig
+__thiscall int Room::GetPrimarySlot(Room *this); // 0046a020 DWARF original prototype
+".c74170ffffffffc7":  // unique sig
+__thiscall void Room::ClearPrimarySlot(Room *this); // 0046a030 DWARF original prototype
+".538b54240885d278??8b5934":  // unique sig
+__thiscall void Room::SetPrimarySlot(Room *this, int slot); // 0046a040 DWARF original prototype
+".530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c2b":  // unique sig
+__thiscall int Room::GetEmptySlots(Room *this, bool intruder);
+".530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c3b":  // unique sig
+__thiscall bool Room::Full(Room *this, bool intruder);
+".0fb6542404":  // unique sig
+__thiscall bool Room::Empty(Room *this, bool intruder); // 0046a0d0 DWARF original prototype
+".555756538b54241484":  // unique sig
+__thiscall int Room::GetEmptySlot(Room *this, bool intruder);
+".565389cb0fb64424108b73348b4c240c8d14850000000001d08d048689cec1ee058b008d34b0b801000000d3e08b0e85c174":  // unique sig
+__thiscall void Room::EmptySlot(Room *this, int slot, bool intruder); // 0046a180 DWARF original prototype
+".565389cb0fb64424108b73348b4c240c8d14850000000001d08d048689cec1ee058b008d34b0b801000000d3e08b0e85c175":  // unique sig
+__thiscall void Room::FillSlot(Room *this, int slot, bool intruder);
+".5589e557565389cb83e4f083ec60":  // unique sig
+__thiscall void Room::Restart(Room *this); // 0046a220 DWARF original prototype
+".5589c889e583e4f08b5508f30f6f42":  // unique sig
+noHook void Room::__STRUCT_OVERRIDE_ANCHOR_18();
+//".5589c889e583e4f08b5508f30f6f42":  // unique sig
+// __thiscall Globals::Rect Room::GetRect(Room *this); // 0046a500 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565389ce83ec3ce8":  // unique sig
+__thiscall void Room::OnRenderSparks(Room *this); // 0046a520 DWARF original prototype
+".8b416085c00f8e":  // unique sig
+__thiscall void Room::OnRenderFire(Room *this); // 0046a7a0 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b078b71":  // unique sig
+__thiscall void Room::OnRenderSystem(Room *this, int glowLevel); // 0046a8f0 DWARF original prototype
+".5589e55383e4f083ec308b51":  // unique sig
 __thiscall void Room::OnRenderFloor(Room *this, float alpha, bool experimental);
-"8079400074??8079240074??c20400905589e55389cb83e4f083ec108b819c000000f30f105d08f30f115c2404":
+".f30f1005????????0f2e4178":  // unique sig
+__thiscall void Room::OnRenderO2Low(Room *this, float alpha); // 0046abd0 DWARF original prototype
+".8079240074??55":  // unique sig
+__thiscall void Room::OnRenderBlackout(Room *this, float alpha); // 0046ac00 DWARF original prototype
+".8b442404884124":  // unique sig
+__thiscall void Room::SetBlackout(Room *this, bool blackout); // 0046ac30 DWARF original prototype
+".8079400074":  // unique sig
 __thiscall void Room::OnRenderWalls(Room *this, float alpha);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec308b01":  // unique sig
+__thiscall void Room::OnRenderHighlight(Room *this); // 0046acc0 DWARF original prototype
+".5789ca8d7c240883e4f0ff77fc5589f8":  // unique sig
+noHook void Room::__STRUCT_OVERRIDE_ANCHOR_19();
+//".5789ca8d7c240883e4f0ff77fc5589f8":  // unique sig
+// __thiscall Point Room::GetIntoRoom(Room *this, Point p); // 0046ae10 DWARF original prototype
+".f3c38db426000000008dbc270000000053":  // unique sig
+__thiscall void Room::OnCleanup(Room *this); // 0046af20 DWARF original prototype
+".5331c080":  // unique sig
+__thiscall bool Room::ContainsPoint(Room *this, int x, int y, bool bIncludeWalls); // 0046af30 DWARF original prototype
+".5789c80548":  // unique sig
+__thiscall void Room::TriggerSparks(Room *this, bool firstTrigger); // 0046af90 DWARF original prototype
+".578d7c240883e4f0ff77fc5589e55756538d9960":  // unique sig
+__thiscall void Room::OnLoop(Room *this);
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b18c7":  // unique sig
+__thiscall std::vector<GL_Line> Room::GetGridLines(Room *this); // 0046bc90 DWARF original prototype
+
 "890424e8????????89742404893c2489c1c744240800000000e8????????89433883ec0c8d65f45b5e5f5d":
 noHook void Room::__DO_NOT_HOOK();
-".5589e557565389ce83e4f083ec20":
-__thiscall void Room::destructor(Room *this);
-"555756538b54241484d275??8b417083f8ff74??8b593489c5be????????c1ed0589c1d3e68b3b8534af75??":
-__thiscall int Room::GetEmptySlot(Room *this, bool intruder);
-"530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c3b04915b0f94c0":
-__thiscall bool Room::Full(Room *this, bool intruder);
-"565389cb0fb64424108b73348b4c240c8d14850000000001d08d048689cec1ee058b008d34b0b801000000d3e08b0e85c175??03532809c88906830201":
-__thiscall void Room::FillSlot(Room *this, int slot, bool intruder);
-"578d????0883e4f0ff????5589e55756538d9960020000":
-__thiscall void Room::OnLoop(Room *this);
 
 struct Room depends (Globals, Point) {{
 	Point GetIntoRoom(Point pos)
 	{
 		int posX = pos.x;
 		int posY = pos.y;
-		
+
 		int rectY = this->rect.y;
 		int rectH = this->rect.h;
-		
+
 		int rectX = this->rect.x;
 		int rectW = this->rect.w;
-		
+
 		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
-		
+
 		if (rectY + rectH - posY > 15 && posY - rectY > 15)
 		{
 			if (rectW + rectX - posX > 15 && posX - rectX > 15)
@@ -40,19 +99,19 @@ struct Room depends (Globals, Point) {{
 				return Point(-1, -1);
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
-		
+
 		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
 		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
-		
+
 		return Point(fromGrid.x + 17, fromGrid.y + 17);
 	}
 
-	Globals::Rect GetRect() 
+	Globals::Rect GetRect()
 	{
 		return this->rect;
 	}
