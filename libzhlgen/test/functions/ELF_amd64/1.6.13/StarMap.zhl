@@ -125,7 +125,7 @@ cleanup __amd64 void StarMap::PopulateGrid(StarMap *this, Point unk0);
 ".4157415641554989f541544989d455534883ec28488b4e":  // unique sig
 cleanup __amd64 Location* StarMap::PopClosestLoc(StarMap *this, std::vector<Location*>& vec, std::map<Location*, int>& map);
 ".4157415641554154555331db4881ecf8":  // unique sig
-cleanup __amd64 std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location * start, Location * finish, bool include_unknown);
+cleanup __amd64 std::vector<Location*> StarMap::Dijkstra1(StarMap *this, Location * start, Location * finish, bool include_unknown);
 ".415731c941b8":  // unique sig
 cleanup __amd64 bool StarMap::AddQuest(StarMap *this, const std::string& questEvent, bool force);
 ".41574156415541544189f455534889fb4881":  // unique sig
@@ -133,7 +133,7 @@ cleanup __amd64 Location* StarMap::GenerateMap(StarMap *this, bool tutorial, boo
 ".415741564989fe41554189f541545553":  // unique sig
 cleanup __amd64 Location* StarMap::NewGame(StarMap *this, bool unk0);
 ".415741564155415455534881ecf8":  // unique sig
-cleanup __amd64 std::vector<Location*> StarMap::Dijkstra1(StarMap *this, Location *start, Location *finish, bool include_unknown); // 0061ffd0 DWARF original prototype
+cleanup __amd64 std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location *start, Location *finish, bool include_unknown); // 0061ffd0 DWARF original prototype
 ".41574989ff41564189ce415545":  // unique sig
 cleanup __amd64 void StarMap::OnTouch(StarMap *this, TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5);
 ".415741564989fe41554189d5415441":  // unique sig

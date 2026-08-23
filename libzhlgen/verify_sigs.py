@@ -15,6 +15,11 @@ to produce zhl.log, then run compare_zhl_nm.py on it. Both outputs land in
 test_results/zhl_test/<os>-<binary name>/ (zhl.log, zhlscan.txt, compare.txt);
 everything is also echoed to stdout.
 
+If tests/old_zhl_cpp/FTLGame<platform>.cpp exists, an old module is built and
+scanned first. Its files use the *-old names, and find_new_zhl_mismap.py
+compares zhl-old.log against the current zhl.log after both compare_zhl_nm.py
+runs finish.
+
 zhlscan and the modules are built on demand in build-zhlscan/ (or
 ZHLSCAN_BUILD_DIR): zhlscan/build.sh configures it the first time, after that
 an incremental ninja build, so an edited signature costs one recompile. This
@@ -35,6 +40,7 @@ BIN_DIR = ROOT / 'ftl-bin'
 BUILD_DIR = Path(os.environ.get('ZHLSCAN_BUILD_DIR', ROOT / 'build-zhlscan'))
 CONFIGURE_SCRIPT = HERE / 'zhlscan' / 'build.sh'
 COMPARE_SCRIPT = HERE / 'compare_zhl_nm.py'
+MISMATCH_SCRIPT = HERE / 'find_new_zhl_mismap.py'
 RESULTS_DIR = ROOT / 'test_results' / 'zhl_test'
 
 SCANNER_TARGET = 'zhlscan'
@@ -45,6 +51,13 @@ MODULE_TARGETS = {
     ('linux', 'amd64'): 'ftlgame-linux64',
     ('linux', 'x86'): 'ftlgame-linux32',
     ('windows', 'x86'): 'ftlgame-win32',
+}
+
+GENERATED_SOURCES = {
+    'ftlgame-darwin': 'FTLGameMacOSAMD64.cpp',
+    'ftlgame-linux64': 'FTLGameELF64.cpp',
+    'ftlgame-linux32': 'FTLGameELF32.cpp',
+    'ftlgame-win32': 'FTLGameWin32.cpp',
 }
 
 HEADER_RULE = '#' * 70
@@ -81,6 +94,12 @@ class GameBinary:
         return target
 
     @property
+    def old_module_target(self):
+        source = GENERATED_SOURCES[self.module_target]
+        old_source = ROOT / 'tests' / 'old_zhl_cpp' / source
+        return f'{self.module_target}-old' if old_source.is_file() else None
+
+    @property
     def results_dir(self):
         return RESULTS_DIR / f"{self.os_name}-{self.path.name.removesuffix('.exe')}"
 
@@ -98,9 +117,19 @@ def select_binaries(filters):
     return [binary for binary in all_binaries() if wanted <= binary.tokens]
 
 
-def ensure_configured():
+def configured_targets():
+    """Return targets known by the current Ninja configuration."""
+    result = subprocess.run(
+        ['ninja', '-C', str(BUILD_DIR), '-t', 'targets', 'all'],
+        capture_output=True, text=True)
+    if result.returncode != 0:
+        return set()
+    return {line.split(':', 1)[0] for line in result.stdout.splitlines()}
+
+def ensure_configured(required_targets=()):
     """Configure the build directory the first time; returns False if that fails."""
-    if (BUILD_DIR / 'build.ninja').is_file():
+    configured = (BUILD_DIR / 'build.ninja').is_file()
+    if configured and set(required_targets) <= configured_targets():
         return True
     environment = dict(os.environ, ZHLSCAN_BUILD_DIR=str(BUILD_DIR))
     return subprocess.run([str(CONFIGURE_SCRIPT)], env=environment).returncode == 0
@@ -108,7 +137,7 @@ def ensure_configured():
 
 def build_targets(targets):
     """Incrementally build CMake targets; prints the compiler output and returns False on failure."""
-    if not ensure_configured():
+    if not ensure_configured(targets):
         return False
     result = subprocess.run(['ninja', '-C', str(BUILD_DIR), *targets], capture_output=True, text=True)
     if result.returncode != 0:
@@ -125,21 +154,29 @@ def run_and_record(command, output_file):
     return result
 
 
-def scan(binary, log_path):
+def scan(binary, log_path, module_target=None, output_name='zhlscan.txt'):
     """Run zhlscan with the binary's module; returns True if every signature resolved."""
     scanner = BUILD_DIR / SCANNER_TARGET
-    module = BUILD_DIR / f'lib{binary.module_target}.so'
+    module = BUILD_DIR / f'lib{module_target or binary.module_target}.so'
     result = run_and_record([str(scanner), str(module), str(binary.path), str(log_path)],
-                            binary.results_dir / 'zhlscan.txt')
+                            binary.results_dir / output_name)
     if result.returncode != 0:
         print(f"zhlscan stopped at the first unresolved signature, see {log_path}", flush=True)
     return result.returncode == 0
 
 
-def compare(binary, log_path):
+def compare(binary, log_path, output_name='compare.txt'):
     """Check the log against the binary's symbols; returns True if nothing is mis-bound."""
     result = run_and_record([sys.executable, str(COMPARE_SCRIPT), str(log_path), str(binary.path)],
-                            binary.results_dir / 'compare.txt')
+                            binary.results_dir / output_name)
+    return result.returncode == 0
+
+def find_new_mismaps(binary, old_log_path, new_log_path):
+    """Compare old/new scan RVAs after both logs have been checked against nm."""
+    result = run_and_record(
+        [sys.executable, str(MISMATCH_SCRIPT), str(old_log_path),
+         str(new_log_path), str(binary.path)],
+        binary.results_dir / 'find-new-zhl-mismap.txt')
     return result.returncode == 0
 
 
@@ -148,14 +185,30 @@ def verify(binary):
     print(f"\n{HEADER_RULE}\n# {binary.display_name}\n{HEADER_RULE}", flush=True)
     binary.results_dir.mkdir(parents=True, exist_ok=True)
 
-    if not build_targets([SCANNER_TARGET, binary.module_target]):
+    targets = [SCANNER_TARGET, binary.module_target]
+    if binary.old_module_target:
+        targets.append(binary.old_module_target)
+    if not build_targets(targets):
         print(f"SKIPPED: {binary.module_target} does not build", flush=True)
         return None
+
+    old_scanned = old_compared = mismaps_compared = True
+    old_log_path = None
+    if binary.old_module_target:
+        print(f"Using preserved definitions from {binary.old_module_target}",
+              flush=True)
+        old_log_path = binary.results_dir / 'zhl-old.log'
+        old_scanned = scan(binary, old_log_path, binary.old_module_target,
+                           'zhlscan-old.txt')
+        old_compared = compare(binary, old_log_path, 'compare-old.txt')
 
     log_path = binary.results_dir / 'zhl.log'
     scanned = scan(binary, log_path)
     compared = compare(binary, log_path)
-    return scanned and compared
+    if old_log_path:
+        mismaps_compared = find_new_mismaps(binary, old_log_path, log_path)
+    return (old_scanned and old_compared and scanned and compared
+            and mismaps_compared)
 
 
 def report(outcomes):

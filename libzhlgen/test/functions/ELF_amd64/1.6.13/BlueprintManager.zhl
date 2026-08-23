@@ -57,9 +57,9 @@ cleanup __amd64 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(Blueprin
 ".4157488d8798":  // unique sig
 cleanup __amd64 float BlueprintManager::GetAugmentValue(BlueprintManager *this, const std::string& name);
 ".4157415641554c8d6f":  // unique sig
-cleanup __amd64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string& name, int rarity);
+cleanup __amd64 void BlueprintManager::SetRarity1(BlueprintManager *this, const std::string& name, int rarity);
 ".4157488d87c8":  // unique sig
-cleanup __amd64 void BlueprintManager::SetRarity1(BlueprintManager *this, const std::string &name, int rarity); // 005e7c90 DWARF original prototype
+cleanup __amd64 void BlueprintManager::SetRarity(BlueprintManager *this, const std::string &name, int rarity); // 005e7c90 DWARF original prototype
 ".415741564989fe4155415455534883ec2889":  // unique sig
 cleanup __amd64 void BlueprintManager::SetRarity2(BlueprintManager *this, const std::string &name, int rarity); // 005e7ec0 DWARF original prototype
 ".4156415541544989fc4d8db424d0":  // unique sig

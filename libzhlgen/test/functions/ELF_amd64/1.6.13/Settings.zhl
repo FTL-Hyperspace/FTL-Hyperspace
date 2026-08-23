@@ -1,5 +1,5 @@
 "41574989ff41564155415455534883ec1848c7":  // unique sig
-static cleanup __amd64 void Settings::SetHotkey(const std::string& hotkeyName, SDLKey key);
+static cleanup __amd64 void Settings::SetHotkey1(const std::string& hotkeyName, SDLKey key);
 ".31c0803d????????007505c30f1f400048":  // unique sig
 static __amd64 bool Settings::GetDlcEnabled();
 ".bf????????e9????????660f1f440000415741564155":  // unique sig
@@ -11,7 +11,7 @@ static cleanup __amd64 SDLKey Settings::GetHotkey(const std::string& hotkeyName)
 ".5341ba":  // unique sig
 static cleanup __amd64 std::string Settings::GetBinding(SDLKey key); // 005c71c0
 ".415741564155415455534883ec584889":  // unique sig
-static cleanup __amd64 void Settings::SetHotkey1(const std::string &val, SDLKey key); // 005c7250
+static cleanup __amd64 void Settings::SetHotkey(const std::string &val, SDLKey key); // 005c7250
 ".415741564155415455534881ecc8":  // unique sig
 static cleanup __amd64 void Settings::SaveSettings();
 ".0fb605????????c30f1f8400000000000fb635":  // unique sig

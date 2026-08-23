@@ -49,6 +49,9 @@ set(MODULE_SOURCES
 # ZHL_TARGET_BITS selects the HDE decoder used to find function ends (see hde.h).
 function(add_definitions_module platform generated_source target_bits)
     set(name ftlgame-${platform})
+    if(ARGC GREATER 3)
+        set(name ${name}-${ARGV3})
+    endif()
     add_library(${name} MODULE ${HYPERSPACE_ROOT}/${generated_source} ${MODULE_SOURCES})
     set_target_properties(${name} PROPERTIES PREFIX lib SUFFIX .so CXX_VISIBILITY_PRESET hidden)
     target_compile_definitions(${name} PRIVATE ZHL_OFFLINE_SCAN ZHL_TARGET_BITS=${target_bits})
@@ -63,10 +66,31 @@ add_definitions_module(linux64 FTLGameELF64.cpp      64)
 add_definitions_module(linux32 FTLGameELF32.cpp      32)
 add_definitions_module(win32   FTLGameWin32.cpp      32)
 
+# When a preserved generated source is present, build a second definitions
+# module so verify_sigs.py can scan the old and current ZHL sets independently.
+if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameMacOSAMD64.cpp)
+    add_definitions_module(darwin  tests/old_zhl_cpp/FTLGameMacOSAMD64.cpp 64 old)
+endif()
+if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameELF64.cpp)
+    add_definitions_module(linux64 tests/old_zhl_cpp/FTLGameELF64.cpp      64 old)
+endif()
+if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameELF32.cpp)
+    add_definitions_module(linux32 tests/old_zhl_cpp/FTLGameELF32.cpp      32 old)
+endif()
+if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameWin32.cpp)
+    add_definitions_module(win32   tests/old_zhl_cpp/FTLGameWin32.cpp      32 old)
+endif()
+
 # FTLGameWin32.cpp contains 32-bit inline asm in naked wrappers that cannot
 # assemble in 64-bit mode; compile it out. Off Windows it also needs
 # <windows.h>/<io.h> stand-ins.
 target_compile_options(ftlgame-win32 PRIVATE "-D__asm__(...)=")
+if(TARGET ftlgame-win32-old)
+    target_compile_options(ftlgame-win32-old PRIVATE "-D__asm__(...)=")
+endif()
 if(NOT WIN32)
     target_include_directories(ftlgame-win32 PRIVATE stubs)
+    if(TARGET ftlgame-win32-old)
+        target_include_directories(ftlgame-win32-old PRIVATE stubs)
+    endif()
 endif()

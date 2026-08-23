@@ -1,5 +1,5 @@
 "80bf7004000000f30f1005????????7408":  // unique sig
-cleanup __amd64 float Ship::GetCloakAlpha(Ship *this, bool complete); //004a36f0
+cleanup __amd64 float Ship::GetCloakAlpha1(Ship *this, bool complete); //004a36f0
 ".4154554889fd534883ec1048c707????????488bbfb8":  // unique sig
 cleanup __amd64 void Ship::destructor1(Ship *this); // 004a16b0 DWARF original prototype, Itanium D2 destructor
 ".534889fbe8????????4889df5be9????????66666666662e0f1f840000000000554889fd5389f348":  // unique sig
@@ -57,7 +57,7 @@ cleanup __amd64 void Ship::OnRenderJump(Ship *this, float progress); //004a3280
 ".415455534889fb488dab80":  // unique sig
 cleanup __amd64 void Ship::OnRenderExplosion(Ship *this); // 004a3610 DWARF original prototype
 ".4883ec1880bf7004000000f3":  // unique sig
-cleanup __amd64 float Ship::GetCloakAlpha1(Ship *this, bool complete); // 004a36f0 DWARF original prototype
+cleanup __amd64 float Ship::GetCloakAlpha(Ship *this, bool complete); // 004a36f0 DWARF original prototype
 ".534889fb4883ec108b7f08e8":  // unique sig
 cleanup __amd64 Point Ship::GetShipCorner(Ship *this); //004a3760
 "!.415455534889fb4883ec108b":  // unique sig

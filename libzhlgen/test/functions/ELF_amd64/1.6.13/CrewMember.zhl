@@ -67,7 +67,7 @@ cleanup __amd64 void CrewMember::OnRender(CrewMember *this, bool outlineOnly);
 ".534889fbf30f10472c":  // unique sig
 virtual cleanup __amd64 bool CrewMember::CanHeal(CrewMember *this);
 ".f30f10470cf30f2a8fb4000000f30f1015????????f30f5cc1f30f100d????????0f54c20f2ec87627":  // unique sig
-cleanup __amd64 bool CrewMember::IsBusy(CrewMember *this);
+cleanup __amd64 bool CrewMember::IsBusy1(CrewMember *this);
 "!.41544989fc5589f55331dbf3":  // unique sig
 cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
 ".415641554989fd415455534883ec1048c7":  // unique sig
@@ -153,7 +153,7 @@ cleanup __amd64 void CrewMember::ClearPath(CrewMember *this);
 ".4155415455534889fb4883ec184883":  // unique sig
 cleanup __amd64 void CrewMember::SetRoom(CrewMember *this, int roomId);
 ".4883bf8800000000b8":  // unique sig
-cleanup __amd64 bool CrewMember::IsBusy1(CrewMember *this); // 00482f90 DWARF original prototype
+cleanup __amd64 bool CrewMember::IsBusy(CrewMember *this); // 00482f90 DWARF original prototype
 ".c747241e":  // unique sig
 cleanup __amd64 bool CrewMember::OnInit(CrewMember *this);
 ".f30f1005????????0f2e4768":  // unique sig
@@ -308,7 +308,7 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 
 		this->constructor(bp, shipId, enemy, animation);
 	}
-	
+
 	ShipObject* GetShipObject()
 	{
 		return (ShipObject*)(this);

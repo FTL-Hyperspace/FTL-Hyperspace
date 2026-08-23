@@ -33,11 +33,11 @@ cleanup __amd64 bool Projectile::Dead(Projectile *this); // 00445eb0 DWARF origi
 ".534889fb4883ec10f30f104f30":  // unique sig
 cleanup __amd64 void Projectile::ComputeHeading(Projectile *this); // 00446200 DWARF original prototype
 ".534889fb4883ec20488b47":  // unique sig
-cleanup __amd64 void Projectile::OnUpdate(Projectile *this);
+cleanup __amd64 void Projectile::OnUpdate1(Projectile *this);
 ".534889fb4883ec108b4778":  // unique sig
 cleanup __amd64 void Projectile::EnterDestinationSpace(Projectile *this); // 00446470 DWARF original prototype
 ".534889fb4883ec2080bfc4000000000f":  // unique sig
-cleanup __amd64 void Projectile::OnUpdate1(Projectile *this); // 004468d0 DWARF original prototype
+cleanup __amd64 void Projectile::OnUpdate(Projectile *this); // 004468d0 DWARF original prototype
 ".554889fd5389f34883ec28f3":  // unique sig
 cleanup __amd64 void Projectile::SaveProjectile(Projectile *this, int fd); // 004469e0 DWARF original prototype
 ".4154554889f5534889fb4883ec6044":  // unique sig

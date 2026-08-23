@@ -7,7 +7,7 @@ cleanup __amd64 void WeaponSystem::Restart(WeaponSystem *this); // 00652570 DWAR
 ".5531c94889fd5331db4883ec08488b9750020000488b87580200004829d048c1f8034885c07433":  // unique sig
 cleanup __amd64 void WeaponSystem::ShipDestroyed(WeaponSystem *this); // 00652590 DWARF original prototype
 ".41544189d4554889fd534889f3e8":  // unique sig
-cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
+cleanup __amd64 bool WeaponSystem::PowerWeapon1(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
 ".4154554889fd534883ec10488b8758":  // unique sig
 cleanup __amd64 void WeaponSystem::RemoveBatteryPower(WeaponSystem *this); // 006526e0 DWARF original prototype
 ".41564155415455534889fb4883ec3048":  // unique sig
@@ -45,7 +45,7 @@ cleanup __amd64 ProjectileFactory *WeaponSystem::GetWeapon(WeaponSystem *this, i
 ".01b788":  // unique sig
 cleanup __amd64 void WeaponSystem::ModifyMissileCount(WeaponSystem *this, int amount); // 00653da0 DWARF original prototype
 ".41554189d541544189cc554889fd":  // unique sig
-cleanup __amd64 bool WeaponSystem::PowerWeapon1(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force); // 00653dc0 DWARF original prototype
+cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force); // 00653dc0 DWARF original prototype
 ".415541544989f455534883ec0844":  // unique sig
 cleanup __amd64 bool WeaponSystem::DePowerWeapon(WeaponSystem *this,ProjectileFactory *weapon, bool userDriven);
 ".5531c94889fd5331db4883ec08488b9750020000488b87580200004829d048c1f8034885c07431":  // unique sig

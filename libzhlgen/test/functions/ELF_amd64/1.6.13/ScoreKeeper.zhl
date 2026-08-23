@@ -1,5 +1,5 @@
 "41574989ff41564189f6be":  // unique sig
-forceDetour cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
+forceDetour cleanup __amd64 bool ScoreKeeper::GetShipUnlocked1(ScoreKeeper *this, int shipId, int shipVariant);
 ".4157415641554c8daf80":  // unique sig
 cleanup __amd64 void ScoreKeeper::constructor(ScoreKeeper *this);
 ".4157415641554531ed41544989f4":  // unique sig
@@ -13,7 +13,7 @@ cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
 ".554889f5534889fb4883ec08488b068b":  // unique sig
 cleanup __amd64 void ScoreKeeper::UpdateCrewStat(ScoreKeeper *this, SCrewStats crewmember); // 00456d50 DWARF original prototype, gog_dwarf_by_linkage
 ".83fa02760b31":  // unique sig
-cleanup __amd64 bool ScoreKeeper::GetShipUnlocked1(ScoreKeeper *this, int shipId, int layout); // 00456f20 DWARF original prototype
+cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int layout); // 00456f20 DWARF original prototype
 ".41544989fc5589f55331db89":  // unique sig
 cleanup __amd64 void ScoreKeeper::LoadVersionOne(ScoreKeeper *this, int fd); // 00456f40 DWARF original prototype
 "!.4881c778":  // unique sig

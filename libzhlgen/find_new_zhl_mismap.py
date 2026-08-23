@@ -8,12 +8,18 @@ Usage:
 import re
 import subprocess
 import sys
+import shutil
 from collections import defaultdict
 
 
 ADDRESS_RE = re.compile(
     r"Found address for (.+?):\s+(0x[0-9a-fA-F]+)"
 )
+
+# GNU nm only reads its host's formats. llvm-nm handles ELF, PE and Mach-O,
+# matching compare_zhl_nm.py and allowing this script to run in the scanner
+# Docker image for every supported platform.
+NM = shutil.which("llvm-nm") or "nm"
 
 
 def parse_zhl_log(path):
@@ -31,13 +37,13 @@ def nm_functions(binary):
     """Return symbol-name and address indexes from ``nm -C``."""
     try:
         result = subprocess.run(
-            ["nm", "-C", binary],
+            [NM, "-C", binary],
             capture_output=True,
             text=True,
             check=True,
         )
     except FileNotFoundError:
-        raise RuntimeError("nm was not found. Add GNU binutils nm to PATH.")
+        raise RuntimeError("llvm-nm/nm was not found. Add LLVM or binutils to PATH.")
     except subprocess.CalledProcessError as exc:
         message = exc.stderr.strip() or "nm failed"
         raise RuntimeError(message)

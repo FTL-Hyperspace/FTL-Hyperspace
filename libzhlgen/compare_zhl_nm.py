@@ -73,6 +73,7 @@ INTENTIONAL_MISMATCHES = [
 
     # additions by ranhai
     ('ShipGraph::ConnectedGridSquaresPoint', 'ShipGraph::ConnectedGridSquares'),
+    ('TextLibrary::FormatText_template_TextString', '_ZN11TextLibrary10FormatTextII10TextStringEEE*'),
     ('{class}::copy_constructor', '{class}::{class}'),
     ('{class}::copy_assign_*', '{class}::operator='),  # ZHL copy assignment functions
     ('{class}::add_assign', '{class}::operator+='),  # ZHL operator+= functions
