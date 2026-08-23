@@ -5,6 +5,10 @@
 namespace ZHL
 {
 
+// Shared by zhl_definitions.cpp (definition loading) and zhl.cpp (hooks).
+void Log(const char *format, ...);
+const char *ConvertToUniqueName(char *dst, size_t size, const char *name, const char *type);
+
 class Definition
 {
 public:
