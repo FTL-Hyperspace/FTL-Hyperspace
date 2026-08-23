@@ -27,7 +27,7 @@ __thiscall void StoreBox::MouseMove(StoreBox *this, int mX, int mY); // 0050e330
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b4f108b57088b770c8945e48b47048b7f14894c24108974240c89542408894424048b45e4897c24148d7b24":  // unique sig
 __thiscall void StoreBox::OnTouch(StoreBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0050e9a0 DWARF original prototype
 ".31c0c20800909090909090909090909031c0c390909090909090909090909090c2":  // unique sig
-__thiscall int StoreBox::SetInfoBox(StoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 00737cf0 DWARF original prototype
+__thiscall int StoreBox::SetInfoBox(StoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00737cf0 DWARF original prototype
 ".31c0c390909090909090909090909090c20400909090909090909090909090908d510889c8c7410400000000c6410800c6":  // unique sig
 __thiscall int StoreBox::GetExtraData(StoreBox *this); // 00737d00 DWARF original prototype
 ".c20400909090909090909090909090908d510889c8c7410400000000c6410800c6":  // unique sig

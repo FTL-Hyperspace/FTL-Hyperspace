@@ -85,6 +85,98 @@ INTENTIONAL_MISMATCHES = [
     ('{class}::{method_nm}3', '{class}::{method_nm}'),  # ZHL numbered overloads
 ]
 
+def encode_template_arguments(arguments):
+    """Encode template arguments exactly like parsefuncs.lua does.
+
+    Concrete function specializations cannot be represented directly by the
+    ZHL parser, so parsefuncs rewrites ``Method<std::string, int>`` to
+    ``Method_template_std_string_int``. Apply the same lossy encoding to nm's
+    demangled name before comparing it with the generated ZHL name.
+    """
+    suffix = re.sub(r'[^A-Za-z0-9_]', '_', arguments)
+    suffix = re.sub(r'_+', '_', suffix)
+    return suffix.strip('_')
+
+def normalize_nm_template_name(function_name):
+    """Convert a demangled function template name to parsefuncs' ZHL form.
+
+    Only the template argument list attached to the method is rewritten;
+    templates in its class/namespace or parameter types are left untouched.
+    ``function_name`` may be either a short name or a full nm signature.
+    """
+    angle_depth = 0
+    parameter_start = -1
+    method_start = 0
+    index = 0
+    while index < len(function_name):
+        char = function_name[index]
+        if char == '<':
+            angle_depth += 1
+        elif char == '>':
+            angle_depth = max(0, angle_depth - 1)
+        elif char == '(' and angle_depth == 0:
+            parameter_start = index
+            break
+        elif (char == ':' and index + 1 < len(function_name)
+              and function_name[index + 1] == ':' and angle_depth == 0):
+            method_start = index + 2
+            index += 1
+        index += 1
+
+    qualified_name = (function_name if parameter_start < 0
+                      else function_name[:parameter_start])
+    parameters = '' if parameter_start < 0 else function_name[parameter_start:]
+    template_start = qualified_name.find('<', method_start)
+    if template_start < 0:
+        return function_name
+
+    depth = 0
+    template_end = None
+    for index in range(template_start, len(qualified_name)):
+        char = qualified_name[index]
+        if char == '<':
+            depth += 1
+        elif char == '>':
+            depth -= 1
+            if depth == 0:
+                template_end = index
+                break
+    if template_end is None:
+        return function_name
+
+    arguments = qualified_name[template_start + 1:template_end]
+    suffix = encode_template_arguments(arguments)
+    if not suffix:
+        return function_name
+    return (qualified_name[:template_start] + '_template_' + suffix
+            + qualified_name[template_end + 1:] + parameters)
+
+def strip_demangled_return_type(function_name):
+    """Remove a demangled return type while preserving spaces inside templates.
+
+    GNU/LLVM nm commonly prints the return type for function template
+    specializations, for example ``std::vector<Foo> Class::Method<Foo>``.
+    Non-template methods normally do not have that prefix. The last whitespace
+    outside angle brackets separates the return type from the qualified name.
+    """
+    angle_depth = 0
+    separator = -1
+    for index, char in enumerate(function_name):
+        if char == '<':
+            angle_depth += 1
+        elif char == '>':
+            angle_depth = max(0, angle_depth - 1)
+        elif char.isspace() and angle_depth == 0:
+            separator = index
+    return function_name[separator + 1:] if separator >= 0 else function_name
+
+def normalize_nm_template_callable(function_name):
+    """Return a template symbol in the synthetic form used by parsefuncs."""
+    normalized = normalize_nm_template_name(function_name)
+    if normalized == function_name:
+        return function_name
+    return strip_demangled_return_type(normalized)
+
 def parse_zhl_log(log_path):
     """Parse zhl.log and extract function name -> address mappings."""
     funcs = {}
@@ -130,6 +222,9 @@ def parse_nm_output(binary_path):
             else:
                 short_name = full_name
             name_to_addrs[short_name].append((addr, full_name))
+            normalized_template_name = normalize_nm_template_callable(short_name)
+            if normalized_template_name != short_name:
+                name_to_addrs[normalized_template_name].append((addr, full_name))
 
     all_addrs = sorted(set(all_addrs))
     return addr_to_funcs, name_to_addrs, all_addrs
@@ -326,6 +421,9 @@ def main():
                 # Also check without parameters
                 func_short = func_at_addr.split('(')[0] if '(' in func_at_addr else func_at_addr
                 if expected == func_short:
+                    found_match = True
+                    break
+                if expected == normalize_nm_template_callable(func_short).lstrip('_'):
                     found_match = True
                     break
             if found_match:

@@ -1,29 +1,37 @@
-"53ba6e0000004889fbbe700000004883ec10":
+"53ba6e":  // unique sig
 cleanup __amd64 void ShipSelect::constructor(ShipSelect *this);
-".554889fd534883ec08488b4f30488b57284889c84829d048c1f80385c0":
+".554889fd534883ec08488b4f30488b57284889c84829d048c1f80385c07e3431db0f1f80000000004863c3488b3cc24885ff740e488b17ff5208488b5528488b4d304889c883c3014829d048c1f80339c37cd54889":  // unique sig
 cleanup __amd64 void ShipSelect::ClearShipButtons(ShipSelect *this);
-".415741564155415455534889fb4881ec0801000080bf5005000000":
+".415741564155415455534889fb4881ec08":  // unique sig
 cleanup __amd64 void ShipSelect::OnLoop(ShipSelect *this);
-"!.4881c748050000":
+"!.4881c748050000e9????????0f":  // unique sig
 cleanup __amd64 int ShipSelect::KeyDown(ShipSelect *this, SDLKey key);
-"!.5380bf50050000004889fb":
+"!.5380bf50":  // unique sig
 cleanup __amd64 void ShipSelect::MouseClick(ShipSelect *this);
-"!.c64758004881c748050000":
+"!.c647580048":  // unique sig
 cleanup __amd64 void ShipSelect::Close(ShipSelect *this);
-"!.8b475cc3":
+".8b475cc3":  // unique sig
 cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this);
+".415789f241":  // unique sig
+cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int ship); // 00558e00 DWARF original prototype
+"!.85f6534889fb78":  // unique sig
+cleanup __amd64 void ShipSelect::SelectShip1(ShipSelect *this, int ship); // 0055ae80 DWARF original prototype
+".4157415641554154554889fd5389f34883ec38":  // unique sig
+cleanup __amd64 void ShipSelect::OnTouch(ShipSelect *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0055aed0 DWARF original prototype
+".41574189f7415641554154":  // unique sig
+cleanup __amd64 void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
+".41574989ff41564155415455534881ecc801000083":  // unique sig
+cleanup __amd64 void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
+".554889fd534883ec08488b4f30488b57284889c84829d048c1f80385c07e3431db0f1f80000000004863c3488b3cc24885ff740e488b17ff5208488b5528488b4d304889c883c3014829d048c1f80339c37cd5488d":  // unique sig
+cleanup __amd64 void ShipSelect::destructor1(ShipSelect *this); // 0055ea40 DWARF original prototype, Itanium D1 destructor
+".41564155415455534889fb4883ec5080":  // unique sig
+cleanup __amd64 void ShipSelect::OnRender(ShipSelect *this);
 /* PreSelect is inlined on Mac, luckily both unused - commented out for now
 ".415789f241564989fe4155415455534881eca8020000":
 cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int shipType);
 "!.85f6534889fb":
 cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect *this, int shipType);
 */
-".41574189f74156415541544189d4554889fd534881ec18010000":
-cleanup __amd64 void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
-".41574989ff41564155415455534881ecc8010000":
-cleanup __amd64 void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
-".41564155415455534889fb4883ec5080bf5005000000":
-cleanup __amd64 void ShipSelect::OnRender(ShipSelect *this);
 
 
 struct ShipSelect

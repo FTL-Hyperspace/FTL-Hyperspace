@@ -1,28 +1,40 @@
-"534889fbe8????????c78344020000000000005b":
+"534889fbe8????????c783":  // unique sig
 cleanup __amd64 void TeleportSystem::Jump(TeleportSystem *this);
-".5589f5534889fb4883ec0883fe017e09":
+".5589f5534889fb4883ec0883fe017e09":  // unique sig
 cleanup __amd64 void TeleportSystem::SetHackingLevel(TeleportSystem *this, int hackingLevel);
-".415741564155415455534889fb4883ec38":
+".415741564155415455534889fb4883ec38803d":  // unique sig
 cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
-".5589d5534889fb4883ec08":
+".5589d5534889fb4883ec08e8":  // unique sig
 cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int systemId, int roomId, int shipId, int startingPower);
-".f30f108744020000":
+".f30f108744020000f3":  // unique sig
 cleanup __amd64 float TeleportSystem::GetChargedPercent(TeleportSystem *this);
-".534889fb":
+".534889fbe8????????84c0740b31c05bc30f1f8000000000488b034889df5b488b4058ffe090662e0f1f84000000000041":  // unique sig
 cleanup __amd64 bool TeleportSystem::Charged(TeleportSystem *this);
-".41564155415455534c63a77c0200004889fb":
+".41564155415455534c63":  // unique sig
 cleanup __amd64 void TeleportSystem::ClearCrewLocations(TeleportSystem *this);
-".488b97500200004863c689f148c1e806488d14c2b801000000":
+".488b97500200004863":  // unique sig
 cleanup __amd64 void TeleportSystem::UpdateCrewLocation(TeleportSystem *this, int unk);
-".534889fb4883ec3083fe01":
+".8b874c020000c3":  // unique sig
+cleanup __amd64 int TeleportSystem::GetArmed(TeleportSystem *this); // 00651e90 DWARF original prototype
+".534889fb4883ec3083fe01":  // unique sig
 cleanup __amd64 void TeleportSystem::SetArmed(TeleportSystem *this, int armed);
-"!.c787440200000000c84231f6":
+"!.c787440200000000c84231f6e9":  // unique sig
 cleanup __amd64 void TeleportSystem::ForceReady(TeleportSystem *this);
-".534889fb4883ec308b4f1885c9":
+".534889fb4883ec308b4f":  // unique sig
 cleanup __amd64 bool TeleportSystem::CanSend(TeleportSystem *this);
-".5589f5534889fb4883ec0880bf4902000000":
+".5589f5534889fb4883ec0880bf49":  // unique sig
 cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
-".534889fb4883ec30":
+".534889fb4883ec30e8????????488b034889dfff5058":  // unique sig
 cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem *this);
-".534889fb4883ec20":
+".4088b748":  // unique sig
+cleanup __amd64 void TeleportSystem::SetCanSend(TeleportSystem *this, bool val); // 00652310 DWARF original prototype
+".4088b749":  // unique sig
+cleanup __amd64 void TeleportSystem::SetCanReceive(TeleportSystem *this, bool val); // 00652320 DWARF original prototype
+".534889fb4883ec20e8????????83":  // unique sig
 cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem *this);
+".f30f118744020000c30f":  // unique sig
+cleanup __amd64 void TeleportSystem::SetCharge(TeleportSystem *this, float val); // 006523e0 DWARF original prototype
+"!.534889fb48c707????????48c74710????????488bbf500200004885ff7405e8????????4889df5b":  // unique sig
+cleanup __amd64 void TeleportSystem::destructor1(TeleportSystem *this); // 006523f0 DWARF original prototype, Itanium D2 destructor
+".534889fb48c707????????48c74710????????488bbf500200004885ff7405e8????????4889dfe8":  // unique sig
+cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 00652430 DWARF original prototype, Itanium D0 destructor

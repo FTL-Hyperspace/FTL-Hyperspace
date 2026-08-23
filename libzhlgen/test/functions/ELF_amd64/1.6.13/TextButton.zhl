@@ -1,35 +1,45 @@
-"554889fd5331db4883ec08488b7c1d50":
+"554889fd5331db4883ec08488b7c1d50":  // unique sig
 cleanup __amd64 void TextButton::ResetPrimitives(TextButton *this);
-"55534889fb4883ec3880bfe800000000":
+".55534889fb4883ec3880bfe8":  // unique sig
 cleanup __amd64 int TextButton::GetIdealButtonWidth(TextButton *this);
-"415741564d89c641554989d541544989f44c89c6554489cd534889fb488dbfe0000000":
-cleanup __amd64 void TextButton::OnInit(TextButton *this, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
-"4157415641554989fd415455534883ec5880bfd000000000":
-cleanup __amd64 void TextButton::OnRender(TextButton *this);
-"534889fb4883ec1048c707????????488b7f50":
+".534889fb4883ec1048c707????????488b7f50e8????????488b7b58e8????????488b7b60e8????????488b7b78e8????????488b83e0000000488d78e84881ff????????7515":  // unique sig
 cleanup __amd64 void TextButton::destructor(TextButton *this);
-"4155415455534889fb4883ec1880bfd000000000751a":
-cleanup __amd64 Point TextButton::GetSize(TextButton *this);
-"41574156415541544989cc554889f5534889fb4883ec488954240c":
-cleanup __amd64 void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
-"4154488b065553488378e800":
-cleanup __amd64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point pos, int autoWidthMin);
-"4585c04088b7d0000000":
-cleanup __amd64 void TextButton::SetAutoWidth(TextButton *this, bool autoWidth, bool autoRightAlign, int margin, int min);
-".4155415455534889fb4883ec1880bfd000000000":
-cleanup __amd64 void TextButton::UpdateAutoWidth(TextButton *this);
-"55534889fb488d7f08488d6b284883ec28":
+".534889fb4883ec1048c707????????488b7f50e8????????488b7b58e8????????488b7b60e8????????488b7b78e8????????488b83e0000000488d78e84881ff????????751d":  // unique sig
+noHook __amd64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_36();
+//".534889fb4883ec1048c707????????488b7f50e8????????488b7b58e8????????488b7b60e8????????488b7b78e8????????488b83e0000000488d78e84881ff????????751d":  // unique sig
+//cleanup __amd64 void TextButton::destructor(TextButton *this); // 004e2100 DWARF original prototype, Itanium D0 destructor
+".55534889fb488d7f08488d6b284883ec28":  // unique sig
 cleanup __amd64 void TextButton::constructor(TextButton *this);
-".!80bf8000000000660fd64c24f0":
+".f30f1005????????c6878000000001f30f1015":  // unique sig
+cleanup __amd64 void TextButton::InitColors(TextButton *this); // 004e2ce0 DWARF original prototype
+"!.80":  // non-unique sig
 cleanup __amd64 void TextButton::SetInactiveColor(TextButton *this, GL_Color color);
-".!80bf8000000000660fd64c24f0":
+"!.80bf":  // non-unique sig
 cleanup __amd64 void TextButton::SetActiveColor(TextButton *this, GL_Color color);
-".!80bf8000000000660fd64c24f0":
+"!.80bf":  // non-unique sig
 cleanup __amd64 void TextButton::SetSelectedColor(TextButton *this, GL_Color color);
-".80bf8000000000660fd64c24f8":
+".80bf8000000000660fd64c24f8":  // unique sig
 cleanup __amd64 void TextButton::SetTextColor(TextButton *this, GL_Color color);
-"415741564989fe4155415455534881ecb800000080bf8000000000":
+".415741564d89c641554989d5":  // unique sig
+cleanup __amd64 void TextButton::OnInit(TextButton *this, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
+".4585c04088b7":  // unique sig
+cleanup __amd64 void TextButton::SetAutoWidth(TextButton *this, bool autoWidth, bool autoRightAlign, int margin, int min);
+".4155415455534889fb4883ec1880bfd0000000007512":  // unique sig
+cleanup __amd64 void TextButton::UpdateAutoWidth(TextButton *this);
+".4155415455534889fb4883ec1880bfd000000000751a":  // unique sig
+cleanup __amd64 Point TextButton::GetSize(TextButton *this);
+".534889fb4883ec1039b7":  // unique sig
+cleanup __amd64 void TextButton::SetSize(TextButton *this, Point size); // 004e37d0 DWARF original prototype
+".41564155415455534889fb4883ec3083":  // unique sig
+cleanup __amd64 void TextButton::SetFont(TextButton *this, int font_); // 004e3840 DWARF original prototype
+".41574156415541544989cc5548|.41574156415541544989cc":  // unique sig
+cleanup __amd64 void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
+".4154488b06":  // unique sig
+cleanup __amd64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point pos, int autoWidthMin);
+".415741564989fe4155415455534881ecb800000080":  // unique sig
 cleanup __amd64 void TextButton::InitPrimitives(TextButton *this);
+".4157415641554989fd415455534883ec5880":  // unique sig
+cleanup __amd64 void TextButton::OnRender(TextButton *this);
 
 
 struct TextButton depends (CSurface)

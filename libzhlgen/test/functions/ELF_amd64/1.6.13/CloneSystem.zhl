@@ -1,14 +1,30 @@
-"??55??545553??89fb??83ec3883bf70020000ff":
+"4155415455534889fb4883ec3883":  // unique sig
 cleanup __amd64 void CloneSystem::OnRenderFloor(CloneSystem *this);
-".??63fff30f1004??????????":
+".534889fb4883ec20e8????????488d83":  // unique sig
+cleanup __amd64 void CloneSystem::constructor(CloneSystem *this, int type, int roomId, int shipId, int starting_power); // 0063df80 DWARF original prototype
+".4863fff30f1004bd8064|.4863fff30f1004bdc04c":  // unique sig
 static cleanup __amd64 int CloneSystem::GetCloneTime(int level);
-".??63ff8b04??????????":
+".4863ff8b04bd70|.4863ff8b04bdb0":  // unique sig
 static cleanup __amd64 int CloneSystem::GetJumpHealth(int level);
-".0f57c9f30f108754020000":
+"!.554889fd5389f34883ec08f30f108744":  // unique sig
+cleanup __amd64 void CloneSystem::Save(CloneSystem *this, int fd); // 0063e1b0 DWARF original prototype
+".5589f5534889fb89f74883ec08e8????????f30f11":  // unique sig
+cleanup __amd64 void CloneSystem::Load(CloneSystem *this, int fd); // 0063e1f0 DWARF original prototype
+".0f57c9f30f1087":  // unique sig
 cleanup __amd64 float CloneSystem::GetDeathProgress(CloneSystem *this);
-".53??89fbe8????????85c0":
+".f30f118744020000c390":  // unique sig
+cleanup __amd64 void CloneSystem::SetTimeToClone(CloneSystem *this, float val); // 0063e260 DWARF original prototype
+".534889fbe8????????85c00f":  // unique sig
 cleanup __amd64 float CloneSystem::GetProgress(CloneSystem *this);
-".53??8b9f48020000":
+".f30f108744020000c3":  // unique sig
+cleanup __amd64 float CloneSystem::GetTimeToClone(CloneSystem *this); // 0063e2a0 DWARF original prototype
+".53488b9f48":  // unique sig
 cleanup __amd64 CrewMember* CloneSystem::CloneReady(CloneSystem *this);
-".415741564155415455534889fb4881ec88010000":
+".5331d24863":  // unique sig
+cleanup __amd64 void CloneSystem::RenderCloneIcon(CloneSystem *this, int index); // 0063e2e0 DWARF original prototype
+".534889fbbe????????4883ec2048c707????????48c74710????????488d54240e488d7c2410e8????????0f57c0488d742410bf????????e8????????488b442410488d78e84881ff????????7521":  // unique sig
+cleanup __amd64 void CloneSystem::destructor1(CloneSystem *this); // 0063e360 DWARF original prototype, Itanium D2 destructor
+".534889fbbe????????4883ec2048c707????????48c74710????????488d54240e488d7c2410e8????????0f57c0488d742410bf????????e8????????488b442410488d78e84881ff????????7529":  // unique sig
+cleanup __amd64 void CloneSystem::destructor(CloneSystem *this); // 0063e420 DWARF original prototype, Itanium D0 destructor
+".415741564155415455534889fb4881ec8801":  // unique sig
 cleanup __amd64 void CloneSystem::OnLoop(CloneSystem *this);

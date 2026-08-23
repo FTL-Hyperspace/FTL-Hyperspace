@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89380100008b1fc7042404":  // unique sig
-__thiscall int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 00506360 DWARF original prototype
+__thiscall int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00506360 DWARF original prototype
 ".8b893c01000085c974??5589e583e4f0e8????????c9c389f68dbc270000000031c0c3908db6000000008dbf0000000057":  // unique sig
 __thiscall bool DroneStoreBox::CanHold(DroneStoreBox *this); // 005063d0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc18":  // unique sig

@@ -1,7 +1,17 @@
-"55b9010000004889d5534889fb4883ec08":
-cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
-"4154400fb6f655534889fb4883ec70":
+"488b97d802":  // unique sig
+cleanup __amd64 GL_Color ArtilleryBox::GetCooldownColor(ArtilleryBox *this); // 00577810 DWARF original prototype
+".b8ffffffffc3662e0f1f840000000000f30f1005????????c390660f1f44000080":  // unique sig
+cleanup __amd64 int ArtilleryBox::GetCooldownLevel(ArtilleryBox *this); // 00577850 DWARF original prototype
+".f30f1005????????c390660f1f44000080":  // unique sig
+cleanup __amd64 float ArtilleryBox::GetCooldownFraction(ArtilleryBox *this); // 00577860 DWARF original prototype
+".4154400fb6f655534889fb4883ec70":  // unique sig
 cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
+".55b90100000048":  // unique sig
+cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
+"!.554889fd5331db4883ec0848c707????????488bbc1d700200004883c308e8????????4883fb2075e94883c4084889ef5b5de9????????66":  // unique sig
+cleanup __amd64 void ArtilleryBox::destructor1(ArtilleryBox *this); // 0057ff00 DWARF original prototype, Itanium D2 destructor
+".554889fd5331db4883ec0848c707????????488bbc1d700200004883c308e8????????4883fb2075e94889efe8????????4883c4084889ef5b5de9????????9041":  // unique sig
+cleanup __amd64 void ArtilleryBox::destructor(ArtilleryBox *this); // 0057ff40 DWARF original prototype, Itanium D0 destructor
 
 
 struct ArtilleryBox

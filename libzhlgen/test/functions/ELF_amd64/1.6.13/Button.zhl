@@ -1,17 +1,29 @@
-"8b57084889f08b4f0c48c1f82039f2":
-cleanup __amd64 void Button::SetLocation(Button *this, const Point pos);
-"41544989f4554889d5534889fb4883ec20488d7c2410":
+"534889fb48c707????????488b7f68e8????????488b7b70e8????????488b7b78e8????????48c703????????48c74328????????5bc390":  // unique sig
+cleanup __amd64 void Button::destructor1(Button *this); // 004e1e80 DWARF original prototype, Itanium D2 destructor
+".554889fd5331db4883ec08488b7c1d68":  // unique sig
+cleanup __amd64 void Button::ResetPrimitives(Button *this); // 004e1ec0 DWARF original prototype
+".534889fb48c707????????488b7f68e8????????488b7b70e8????????488b7b78e8????????48c703????????48c74328????????4889df5be9????????669055":  // unique sig
+noHook __amd64 void Button::__STRUCT_OVERRIDE_ANCHOR_3();
+//".534889fb48c707????????488b7f68e8????????488b7b70e8????????488b7b78e8????????48c703????????48c74328????????4889df5be9????????669055":  // unique sig
+//cleanup __amd64 void Button::destructor(Button *this); // 004e1f60 DWARF original prototype, Itanium D0 destructor
+".41544989f4554889d5534889fb4883ec20488d":  // unique sig
 cleanup __amd64 void Button::OnInit(Button *this, const std::string& img, Point pos);
-"55534889fb488d7f08488d6b284883ec18":
-cleanup __amd64 void Button::constructor(Button *this);
-"415455534889fb4883ec2048837f6800":
+".415455534889fb4883ec204883":  // unique sig
 cleanup __amd64 void Button::OnRender(Button *this);
-"483977507412488b07":
-cleanup __amd64 void Button::SetInactiveImage(Button *this, GL_Texture *texture);
-"483977587412488b07":
-cleanup __amd64 void Button::SetActiveImage(Button *this, GL_Texture *texture);
-"554889f5534889fb4883ec28488d7c2410":
+".55534889fb488d7f08488d6b284883ec18":  // unique sig
+cleanup __amd64 void Button::constructor(Button *this);
+".41544c8d6718":  // unique sig
+cleanup __amd64 void Button::InitPrimitives(Button *this); // 004e26e0 DWARF original prototype
+".4156b8????????4989ce":  // unique sig
+cleanup __amd64 void Button::OnInit(Button *this, const std::string &imageBase, Globals::Rect *imageStats, Globals::Rect *hitStats, bool alwaysActive); // 004e2760 DWARF original prototype
+".554889f5534889fb4883ec28488d":  // unique sig
 cleanup __amd64 void Button::SetImageBase(Button *this, const std::string& imageBase);
+".48397750":  // unique sig
+cleanup __amd64 void Button::SetInactiveImage(Button *this, GL_Texture *texture);
+".48397758":  // unique sig
+cleanup __amd64 void Button::SetActiveImage(Button *this, GL_Texture *texture);
+".8b57084889f08b4f0c48c1f82039f2":  // unique sig
+cleanup __amd64 void Button::SetLocation(Button *this, const Point pos);
 
 
 struct Button depends (CSurface)

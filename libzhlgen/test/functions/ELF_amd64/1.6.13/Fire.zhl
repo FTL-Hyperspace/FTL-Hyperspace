@@ -1,6 +1,28 @@
-"55534889fb4883ec0880bfd801000000":
+"0f57c0c74748000080bff30f11471cf30f11474cc390662e0f1f840000000000c7474c00000000c30f1f8400000000005553":  // unique sig
+cleanup __amd64 void Fire::Repair(Fire *this); // 00499800 DWARF original prototype
+".c7474c00000000c30f1f8400000000005553":  // unique sig
+cleanup __amd64 void Fire::ResetStartTimer(Fire *this); // 00499820 DWARF original prototype
+".55534889fb4883ec0880bfd8":  // unique sig
 cleanup __amd64 void Fire::OnLoop(Fire *this);
-".5589f5534889fb4883ec18488b07ff505084c0":
+".5589f5534889fb4883ec18488b07ff505084c074730f57c9f30f1043480f2ec17242bf????????f30f114c240ce8????????8d446d00f30f104c240cf7d883c00ff30f2ad0f30f5915????????f30f59d0f30f104348f30f5cc20f2ec87741f30f114348f30f1015":  // unique sig
 cleanup __amd64 void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
-".5589f5534889fb4883ec18488b07ff505084c0":
+".5589f5534889fb4883ec18488b07ff505084c0756c":  // unique sig
 cleanup __amd64 void Fire::UpdateStartTimer(Fire *this, int doorLevel);
+".4157be????????415641554154554889fd534881ec08":  // unique sig
+cleanup __amd64 void Fire::OnInit(Fire *this); // 00499af0 DWARF original prototype
+".5389f2be640000004889fb4883ec30":  // unique sig
+cleanup __amd64 void Fire::constructor(Fire *this, int shipId); // 0049a670 DWARF original prototype
+".488b07534889fbff5038":  // unique sig
+cleanup __amd64 void Fire::Reset(Fire *this); // 0049aa40 DWARF original prototype
+".f30f114750c3662e0f1f840000000000534889fb4883ec30":  // unique sig
+cleanup __amd64 void Fire::SetOxygenLevel(Fire *this, float oxygen); // 0049aa60 DWARF original prototype
+".534889fb4883ec30f3":  // unique sig
+cleanup __amd64 void Fire::OnRender(Fire *this); // 0049aa70 DWARF original prototype
+".488b07488b4050ffe00f1f8000000000488b07f30f1005????????488b8080000000ffe0662e0f1f840000000000669041":  // unique sig
+cleanup __amd64 bool Fire::Present(Fire *this); // 0049ab60 DWARF original prototype
+"488b07f30f1005????????488b8080000000ffe0662e0f1f840000000000669041":  // unique sig
+cleanup __amd64 void Fire::Spread(Fire *this); // 0049ab70 DWARF original prototype
+"415641554154554889fd534883ec10488b87b001000048c707????????48c74710????????488d78e84881ff????????0f8522":  // unique sig
+cleanup __amd64 void Fire::destructor1(Fire *this); // 0049ab90 DWARF original prototype, Itanium D1 destructor
+".415641554154554889fd534883ec10488b87b001000048c707????????48c74710????????488d78e84881ff????????0f852a":  // unique sig
+cleanup __amd64 void Fire::destructor(Fire *this); // 0049b070 DWARF original prototype, Itanium D0 destructor

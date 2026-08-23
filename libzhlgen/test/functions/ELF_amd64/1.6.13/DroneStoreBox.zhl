@@ -1,5 +1,21 @@
-"41554989d541544989f4be":
+"554889f5be04":  // unique sig
+cleanup __amd64 int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00568790 DWARF original prototype
+".488bbf200100004885ff740ce9????????0f1f800000000031c0c3900f1f400048":  // unique sig
+cleanup __amd64 bool DroneStoreBox::CanHold(DroneStoreBox *this); // 005687e0 DWARF original prototype
+".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031c931d24889dfe8????????488b442410488d78e84881ff????????751f":  // non-unique sig
+noHook __amd64 void DroneStoreBox::__STRUCT_OVERRIDE_ANCHOR_12();
+//".534889fbbe????????4883ec20488d54240e488d7c2410e8????????488d74241031c931d24889dfe8????????488b442410488d78e84881ff????????751f":  // non-unique sig
+//cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this); // 0056b250 DWARF original prototype
+".41":  // non-unique sig
 cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *ship, Equipment *equip, const DroneBlueprint* bp);
+"!.eb??0f1f4000":  // non-unique sig
+noHook __amd64 void DroneStoreBox::__DO_NOT_HOOK_56d3bf(); // 0056d3bf
+".53":  // non-unique sig
+cleanup __amd64 void DroneStoreBox::Purchase(DroneStoreBox *this); // 0056d3c0
+".534889fb488d7f1831c94883ec30e8????????48":  // non-unique sig
+cleanup __amd64 void DroneStoreBox::MouseMove(DroneStoreBox *this, int mX, int mY); // 0056f760 DWARF original prototype
+// Failed signature for function: DroneStoreBox::~DroneStoreBox at 00570d80 (failed to generate unique, first-match, override, or noHook signature)
+// Failed signature for function: DroneStoreBox::~DroneStoreBox at 00571b90 (failed to generate unique, first-match, override, or noHook signature)
 
 
 struct DroneStoreBox
@@ -8,7 +24,7 @@ struct DroneStoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
-	
+
 	DroneStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);

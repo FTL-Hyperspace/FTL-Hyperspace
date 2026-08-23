@@ -1,5 +1,5 @@
 "b8c3000000c2":  // unique sig
-__thiscall int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 00506240 DWARF original prototype
+__thiscall int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 00506240 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389ce8d4dcc":  // unique sig
 __thiscall void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *ship, bool repairAll, int price);
 ".578d7c240883e4f0ff77fc5589e5575389cb83c12483ec10":  // unique sig

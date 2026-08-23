@@ -1,6 +1,24 @@
-"488b8748020000c7400c00000000":
+"488b8748020000488b40":  // unique sig
+cleanup __amd64 WeaponBlueprint *ArtillerySystem::GetWeaponInfo(ArtillerySystem *this); // 0063c680 DWARF original prototype
+".488b8748020000c7":  // unique sig
 cleanup __amd64 void ArtillerySystem::Jump(ArtillerySystem *this);
-".415455534889fb4883ec70e8????????4889df":
+"!.534889fb48c707????????48c74710????????488bbf480200004885ff7406488b07ff50084889df5b":  // unique sig
+cleanup __amd64 void ArtillerySystem::destructor1(ArtillerySystem *this); // 0063c6b0 DWARF original prototype, Itanium D2 destructor
+".53488b8648":  // unique sig
+cleanup __amd64 std::string ArtillerySystem::GetOverrideTooltip(ArtillerySystem *this); // 0063c6f0 DWARF original prototype
+"!.534889fb48c707????????48c74710????????488bbf480200004885ff7406488b07ff50084889dfe8":  // unique sig
+cleanup __amd64 void ArtillerySystem::destructor(ArtillerySystem *this); // 0063c730 DWARF original prototype, Itanium D0 destructor
+".41554989f5be0b":  // unique sig
+cleanup __amd64 void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 0063c780 DWARF original prototype
+"!.4889b75002000048":  // unique sig
+cleanup __amd64 void ArtillerySystem::SetEnemy(ArtillerySystem *this, Targetable *ship); // 0063c7f0 DWARF original prototype
+".4088b75802|.4088b758":  // unique sig
+cleanup __amd64 void ArtillerySystem::SetCloaked(ArtillerySystem *this, bool val); // 0063c810 DWARF original prototype, cross-version alternative
+".488b8748020000c3":  // unique sig
+cleanup __amd64 ProjectileFactory *ArtillerySystem::GetWeapon(ArtillerySystem *this); // 0063c820 DWARF original prototype
+"!.488bbf48020000e9????????0f":  // unique sig
+cleanup __amd64 Projectile *ArtillerySystem::GetPreparedProjectile(ArtillerySystem *this); // 0063c830 DWARF original prototype
+".415455534889fb4883ec70e8????????4889":  // unique sig
 cleanup __amd64 void ArtillerySystem::OnLoop(ArtillerySystem *this);
 
 struct ArtillerySystem

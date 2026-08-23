@@ -1,57 +1,71 @@
-"415741564989fe488d7f284d8dbec8000000415541544d8da680000000554889f553498d9e880000004881ec08010000":
+"415741564989fe488d7f28":  // unique sig
 cleanup __amd64 void ProjectileFactory::constructor(ProjectileFactory *this, const WeaponBlueprint* bp, int shipId);
-".803d????????00534889fb":
+".803d????????00534889fb7523":  // unique sig
 cleanup __amd64 void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
-".488b47208b808401000085c0":
+".488b47208b80":  // unique sig
 cleanup __amd64 bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this);
-"!.89b7240600004881c758010000":
+"!.89b724":  // unique sig
 cleanup __amd64 void ProjectileFactory::SetHacked(ProjectileFactory *this, int hacked);
-".4839b74801000074274885f6":
+".4839b748":  // unique sig
 cleanup __amd64 void ProjectileFactory::SetCurrentShip(ProjectileFactory *this, Targetable *ship);
-".f30f104f0cf30f5e4f10":
+".f30f104f0cf3":  // unique sig
 cleanup __amd64 void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this, float mod);
-".5380bff2000000004889fb":
+".5380bff2":  // unique sig
 cleanup __amd64 void ProjectileFactory::ForceCoolup(ProjectileFactory *this);
-"!.4881c758010000":
+".f3c366666666662e0f1f8400000000004881c7":  // unique sig
+cleanup __amd64 void ProjectileFactory::SetInvisibleMode(ProjectileFactory *this); // 00450960 DWARF original prototype
+"!.4881c758010000e9????????0f":  // unique sig
 cleanup __amd64 void ProjectileFactory::RenderChargeBar(ProjectileFactory *this, float unk);
-"!.530f28c8488d9f580100004883ec10":
+"!.530f28c8":  // unique sig
 cleanup __amd64 void ProjectileFactory::OnRender(ProjectileFactory *this, float alpha, bool forceVisual);
-".488b97f8000000488b87000100004829d048c1f803":
+".4883ec284881":  // unique sig
+cleanup __amd64 void ProjectileFactory::SetMount(ProjectileFactory *this, WeaponMount mount); // 004509e0 DWARF original prototype
+".488b97f800":  // unique sig
 cleanup __amd64 void ProjectileFactory::ClearAiming(ProjectileFactory *this);
-".488b87e8050000488987f0050000":
+".488b87e80500004889":  // unique sig
 cleanup __amd64 void ProjectileFactory::ClearProjectiles(ProjectileFactory *this);
-".4084f675":
+".4084f6752b":  // unique sig
 cleanup __amd64 void ProjectileFactory::SetAutoFire(ProjectileFactory *this,bool autoFire);
-".8b972006000031c085d2":
+".8b972006000031c085d27e4c":  // unique sig
 cleanup __amd64 bool ProjectileFactory::FireNextShot(ProjectileFactory *this);
-".8b972006000031c085d27e??80bff20000000074????8b47208b972c010000":
+".8b972006000031c085d27e1c":  // unique sig
 cleanup __amd64 bool ProjectileFactory::ReadyToFire(ProjectileFactory *this);
-".53be????????4889fbe8????????85c0":
+".0f57c0c787":  // unique sig
+cleanup __amd64 void ProjectileFactory::Restart(ProjectileFactory *this); // 00450b90 DWARF original prototype
+".53be????????4889fbe8????????85c075065bc30f1f4000be????????4889dfe8????????89c2b802":  // unique sig
 static cleanup __amd64 int ProjectileFactory::StringToWeapon(const std::string& str);
-".??8b87e8050000??3987f00500000f95??":
+".488b87e80500004839":  // unique sig
 cleanup __amd64 bool ProjectileFactory::QueuedShots(ProjectileFactory *this);
-".4157415641554154554889fd488dbf58010000534883ec58":
+".4157415641554154554889fd488dbf58":  // unique sig
 cleanup __amd64 Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);
-".55534889fb4883ec288b8708060000":
+".55534889fb4883ec288b8708":  // unique sig
 cleanup __amd64 int ProjectileFactory::SpendMissiles(ProjectileFactory *this);
-".488b472083b88401000001":
+".488b472083b884":  // unique sig
 cleanup __amd64 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this);
-".5589f5534889fb4883ec08488b07":
+".4088b7f2":  // unique sig
+cleanup __amd64 void ProjectileFactory::SetPowered(ProjectileFactory *this, bool power); // 004511c0 DWARF original prototype
+".554889fd4889f7534889f34883ec08488b06ff50503b851c":  // unique sig
+cleanup __amd64 void ProjectileFactory::ReconnectProjectile(ProjectileFactory *this, Projectile *p); // 004511d0 DWARF original prototype
+".488b57208b87":  // unique sig
+cleanup __amd64 int ProjectileFactory::GetBoostLevel(ProjectileFactory *this); // 00451220 DWARF original prototype
+".5589f5534889fb4883ec08488b07ff90":  // unique sig
 static cleanup __amd64 void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
-".5589fd534883ec58":
+".5589fd534883ec58":  // unique sig
 static cleanup __amd64 Projectile* ProjectileFactory::LoadProjectile(int fd);
-".415541544531e45589f5534889":
+".415541544531e45589f5534889":  // unique sig
 cleanup __amd64 void ProjectileFactory::SaveState(ProjectileFactory *this, int fd);
-".41544189d4554889f553488b87000100004889fb482b87f800000048c1f80385c0":
+".41544189d4554889f553488b87":  // unique sig
 cleanup __amd64 void ProjectileFactory::Fire(ProjectileFactory *this, std::vector<Pointf>& points, int target);
-".??57??56??55??545589f553??89fb89f7??83ec38e8????????":
+".41574156415541545589f5534889fb89":  // unique sig
 cleanup __amd64 void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
-".4157415641554989fd415455534881ec88010000":
+".4157415641554989fd415455534881ec8801":  // unique sig
 cleanup __amd64 void ProjectileFactory::Update(ProjectileFactory *this);
-".415641554154554889fd534883ec1048c70770??":
+".415641554154554889fd534883ec1048c707????????488bbfe80500004885ff7405e8????????488b85a0050000488d78e84881ff????????0f85b2":  // unique sig
 cleanup __amd64 void ProjectileFactory::destructor(ProjectileFactory *this);
+".415641554154554889fd534883ec1048c707????????488bbfe80500004885ff7405e8????????488b85a0050000488d78e84881ff????????0f85ba":  // unique sig
+cleanup __amd64 void ProjectileFactory::destructor1(ProjectileFactory *this); // 00454200 DWARF original prototype, Itanium D0 destructor
 
-struct ProjectileFactory 
+struct ProjectileFactory
 {{
     bool HitShotLimit();
 	ProjectileFactory(const WeaponBlueprint *bp, int shipId)

@@ -1,22 +1,52 @@
-"!534889fb488d7f084883ec10c647f800":
+"!534889fb488d7f084883ec10c6":  // unique sig
 cleanup __amd64 void TutorialManager::constructor(TutorialManager *this); // 004742c0
-"!.0fb607c3":
+".0fb607c36666":  // unique sig
 cleanup __amd64 bool TutorialManager::Running(TutorialManager *this); // 00474470
-".554889fdbe":
+".4889b7a801":  // unique sig
+cleanup __amd64 void TutorialManager::LinkMap(TutorialManager *this, StarMap *map); // 00474480 DWARF original prototype
+".41540f57c94889":  // unique sig
+cleanup __amd64 void TutorialManager::UpdateDescBox(TutorialManager *this, const std::string &text); // 00474490 DWARF original prototype
+".31c080bf48":  // unique sig
+cleanup __amd64 LocationEvent *TutorialManager::GetEvent(TutorialManager *this); // 00474550 DWARF original prototype
+".31c080bfd101":  // unique sig
+cleanup __amd64 bool TutorialManager::QuitTutorial(TutorialManager *this); // 004745f0 DWARF original prototype
+".53803f":  // unique sig
+cleanup __amd64 void TutorialManager::Stop(TutorialManager *this); // 00474600 DWARF original prototype
+".f3c366666666662e0f1f8400000000004885f60f":  // unique sig
+cleanup __amd64 void TutorialManager::OnLanguageChange(TutorialManager *this); // 00474660 DWARF original prototype
+".4157415641554989fd415455534883ec488b8708010000488d7c243089442414e8????????498b9d40010000498d853801000048894424084885db0f848f0100004c8b6424304889c54d8b7c24e8eb1289c885c078424889dd488b5b104885db743f488b7b204c89e64c8b77e84d39f74c89f2490f46d7e8????????85c075d24c89f14c29f94881f9ffffff7f7fc74881f9000000807db8488b5b184885db75c148396c2408746d488b75204c89e7488b5ee84939df4889da490f46d7e8????????85c00f85f90000004d89f84929d84981f8ffffff7f7e2f8b4424143b4528498d7c24e80f94":  // unique sig
+cleanup __amd64 bool TutorialManager::IsState(TutorialManager *this, const std::string &state); // 00474730 DWARF original prototype
+".554889fdbe":  // unique sig
 cleanup __amd64 bool TutorialManager::AllowJumping(TutorialManager *this); // 004749e0
-".55bd01000000534889fb4883ec38":
+".55bd01000000534889fb4883ec38":  // unique sig
 cleanup __amd64 bool TutorialManager::AllowUpgrades(TutorialManager *this); // 00474a70
-".41574156415541544989fc55534883ec38803f":
+".4157488d8738":  // unique sig
+cleanup __amd64 int TutorialManager::StateValue(TutorialManager *this, const std::string &state); // 00474b70 DWARF original prototype
+".4157415641554989fd415455534883ec488b8708010000488d7c243089442414e8????????498b9d40010000498d853801000048894424084885db0f848f0100004c8b6424304889c54d8b7c24e8eb1289c885c078424889dd488b5b104885db743f488b7b204c89e64c8b77e84d39f74c89f2490f46d7e8????????85c075d24c89f14c29f94881f9ffffff7f7fc74881f9000000807db8488b5b184885db75c148396c2408746d488b75204c89e7488b5ee84939df4889da490f46d7e8????????85c00f85f90000004d89f84929d84981f8ffffff7f7e2f8b4424143b4528498d7c24e80f9f":  // unique sig
+cleanup __amd64 bool TutorialManager::IsStateAfter(TutorialManager *this, const std::string &state); // 00474da0 DWARF original prototype
+".4157415641554989fd415455534883ec488b8708010000488d7c243089442414e8????????498b9d40010000498d853801000048894424084885db0f848f0100004c8b6424304889c54d8b7c24e8eb1289c885c078424889dd488b5b104885db743f488b7b204c89e64c8b77e84d39f74c89f2490f46d7e8????????85c075d24c89f14c29f94881f9ffffff7f7fc74881f9000000807db8488b5b184885db75c148396c2408746d488b75204c89e7488b5ee84939df4889da490f46d7e8????????85c00f85f90000004d89f84929d84981f8ffffff7f7e2f8b4424143b4528498d7c24e80f9c":  // unique sig
+cleanup __amd64 bool TutorialManager::IsStateBefore(TutorialManager *this, const std::string &state); // 00475050 DWARF original prototype
+".4157488d8710":  // unique sig
+cleanup __amd64 bool TutorialManager::CheckState(TutorialManager *this); // 00475300 DWARF original prototype
+".41574156415541544989fc55534883ec3880":  // unique sig
 cleanup __amd64 void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY); // 00475ee0
-".41574156415541544989fc55534883ec380fb607":
+".4157be????????415641554154554889fd534881ecc8":  // unique sig
+cleanup __amd64 void TutorialManager::AdvanceState(TutorialManager *this); // 00476040 DWARF original prototype
+".41574156415541544989fc55534883ec380f":  // unique sig
 cleanup __amd64 bool TutorialManager::MouseClick(TutorialManager *this); // 00476960
-".415741564155415455534889fb4881ec88000000803f":
+".41574156415541544989fc55534883ec58803f0089":  // unique sig
+cleanup __amd64 bool TutorialManager::OnTouch(TutorialManager *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00476ac0 DWARF original prototype
+".415741564155415455534889fb4881ec8800000080":  // unique sig
 cleanup __amd64 void TutorialManager::OnLoop(TutorialManager *this); // 00476c70
-".415741564155415455534889fb4881ecc8010100":
+".415741564155415455534889fb4881ecc8":  // unique sig
 cleanup __amd64 void TutorialManager::LoadTutorial(TutorialManager *this); // 004772b0
-".415455534889fb4883ec404889b790010000":
+".415455534889fb4883ec404889":  // unique sig
 cleanup __amd64 void TutorialManager::OnInit(TutorialManager *this, ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk); // 00478740
-".41574156415541544989fc55534881ec88000000":
+"!.534889fbe8????????c603":  // unique sig
+cleanup __amd64 void TutorialManager::Start(TutorialManager *this); // 00478ac0 DWARF original prototype
+".4154554889fd534883ec10488b9f00":  // unique sig
+cleanup __amd64 void TutorialManager::destructor1(TutorialManager *this); // 00478b00 DWARF original prototype, Itanium D1 destructor
+".41574156415541544989fc55534881ec88":  // unique sig
 cleanup __amd64 void TutorialManager::OnRender(TutorialManager *this); // 00478c70
 
 "!498b07488b7810488b07ff908000000084c00f84????????bf(???????\?)":

@@ -1,7 +1,11 @@
-"4157415641554154554889fd534883ec3883bfc404000001":
-cleanup __amd64 void LocationEvent::ClearEvent(LocationEvent *this, bool force);
-"53be????????4889fb4883ec10488d54240fe8????????488d7b18":
+"53be????????4889fb4883ec10488d54240fe8????????488d":  // unique sig
 cleanup __amd64 void LocationEvent::constructor(LocationEvent *this);
+".415741564155415455534889fb4883ec28488b87f0":  // unique sig
+cleanup __amd64 void LocationEvent::destructor1(LocationEvent *this); // 0060a3f0 DWARF original prototype, Itanium D1 destructor
+".4157415641554154554889fd534883ec3883":  // unique sig
+cleanup __amd64 void LocationEvent::ClearEvent(LocationEvent *this, bool force);
+".41564989d641554589c541544989f448":  // unique sig
+cleanup __amd64 void LocationEvent::AddChoice(LocationEvent *this, TextString *text, LocationEvent *event, ChoiceReq req, bool hiddenReward); // 0060bdc0 DWARF original prototype, gog_dwarf_by_linkage
 
 struct LocationEvent depends (LocationEvent::Choice)
 {{

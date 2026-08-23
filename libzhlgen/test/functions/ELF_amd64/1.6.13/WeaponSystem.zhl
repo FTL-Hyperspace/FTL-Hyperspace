@@ -1,15 +1,63 @@
+"89b7c402":  // unique sig
+cleanup __amd64 void WeaponSystem::ForceBatteryPower(WeaponSystem *this, int val); // 00652480 DWARF original prototype
+"!.5531c94889fd5331db4883ec08488bb770020000488b976802000048c707????????48c74710????????4889f04829d048c1f8034885c074380f1f8000000000488b3cca4885ff7414488b17ff5208488b9568020000488bb5700200004889f083c3014829d089d948c1f8034839c172cf488bbdc80200004885ff7405e8????????488bbd980200004885ff7405e8????????488bbd680200004885ff7405e8????????488bbd500200004885ff7405e8????????4883":  // unique sig
+cleanup __amd64 void WeaponSystem::destructor1(WeaponSystem *this); // 00652490 DWARF original prototype, Itanium D2 destructor
+".534889fbe8????????488b8350":  // unique sig
+cleanup __amd64 void WeaponSystem::Restart(WeaponSystem *this); // 00652570 DWARF original prototype
+".5531c94889fd5331db4883ec08488b9750020000488b87580200004829d048c1f8034885c07433":  // unique sig
+cleanup __amd64 void WeaponSystem::ShipDestroyed(WeaponSystem *this); // 00652590 DWARF original prototype
+".41544189d4554889fd534889f3e8":  // unique sig
+cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
+".4154554889fd534883ec10488b8758":  // unique sig
+cleanup __amd64 void WeaponSystem::RemoveBatteryPower(WeaponSystem *this); // 006526e0 DWARF original prototype
+".41564155415455534889fb4883ec3048":  // unique sig
+cleanup __amd64 void WeaponSystem::Jump(WeaponSystem *this); // 00652cb0 DWARF original prototype
+".415531c0415455":  // unique sig
+cleanup __amd64 void WeaponSystem::AddDamage(WeaponSystem *this, int amount); // 00652df0 DWARF original prototype
+"!.41554154554889fd534883ec08e8":  // unique sig
+cleanup __amd64 void WeaponSystem::CheckMaxPower(WeaponSystem *this); // 00652ee0 DWARF original prototype
+".41564189f6415549":  // unique sig
+cleanup __amd64 bool WeaponSystem::ForceDecreasePower(WeaponSystem *this, int amount); // 00652fb0 DWARF original prototype
+".415531c9415449":  // unique sig
+cleanup __amd64 bool WeaponSystem::ForceIncreasePower(WeaponSystem *this, int amount);
+"!.5531c94889fd5331db4883ec08488bb770020000488b976802000048c707????????48c74710????????4889f04829d048c1f8034885c074380f1f8000000000488b3cca4885ff7414488b17ff5208488b9568020000488bb5700200004889f083c3014829d089d948c1f8034839c172cf488bbdc80200004885ff7405e8????????488bbd980200004885ff7405e8????????488bbd680200004885ff7405e8????????488bbd500200004885ff7405e8????????4889":  // unique sig
+cleanup __amd64 void WeaponSystem::destructor(WeaponSystem *this); // 006531c0 DWARF original prototype, Itanium D0 destructor
+".4156415541544589c44189c889d189f2be03":  // unique sig
+cleanup __amd64 void WeaponSystem::constructor(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 006532a0 DWARF original prototype
+".31c085f67827488b8f50":  // unique sig
+cleanup __amd64 int WeaponSystem::GetWeaponValue(WeaponSystem *this, int slot); // 006534a0 DWARF original prototype
+".31c085f60f88d8":  // unique sig
+cleanup __amd64 ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
+".488bb750020000488b8f":  // unique sig
+cleanup __amd64 float WeaponSystem::GetMaxCooldown(WeaponSystem *this); // 00653650 DWARF original prototype
+".85f6784b488b8f50":  // unique sig
+cleanup __amd64 void WeaponSystem::SwapWeapons(WeaponSystem *this, int slot1, int slot2); // 006536b0 DWARF original prototype
+".41574156415541544531e4554889fd5348":  // unique sig
+cleanup __amd64 void WeaponSystem::UpdateBonusPower(WeaponSystem *this); // 00653710 DWARF original prototype
+".5589f5534889fb4883ec08e8????????39e84889df0f4ee889abe40100004883c4085b5de9????????90660f1f44000041":  // unique sig
+virtual cleanup __amd64 void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
+"415741564155415455534889fb4883ec38e8":  // unique sig
+cleanup __amd64 void WeaponSystem::OnLoop(WeaponSystem *this);
+"!.4883ec08e8????????bf":  // unique sig
+cleanup __amd64 float WeaponSystem::GetCooldownModifier(WeaponSystem *this); // 00653d50 DWARF original prototype
+".31c085f67820":  // unique sig
+cleanup __amd64 ProjectileFactory *WeaponSystem::GetWeapon(WeaponSystem *this, int slot); // 00653d70 DWARF original prototype
+".01b788":  // unique sig
+cleanup __amd64 void WeaponSystem::ModifyMissileCount(WeaponSystem *this, int amount); // 00653da0 DWARF original prototype
+".41554189d541544189cc554889fd":  // unique sig
+cleanup __amd64 bool WeaponSystem::PowerWeapon1(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force); // 00653dc0 DWARF original prototype
+".415541544989f455534883ec0844":  // unique sig
+cleanup __amd64 bool WeaponSystem::DePowerWeapon(WeaponSystem *this,ProjectileFactory *weapon, bool userDriven);
+".5531c94889fd5331db4883ec08488b9750020000488b87580200004829d048c1f8034885c07431":  // unique sig
+cleanup __amd64 void WeaponSystem::ChargeAll(WeaponSystem *this); // 00653ff0 DWARF original prototype
+".4889b79002":  // unique sig
+cleanup __amd64 void WeaponSystem::SetCloakingSystem(WeaponSystem *this, CloakingSystem *cloaking); // 00654050 DWARF original prototype
+".554889fd534883ec08488b07ff50":  // unique sig
+cleanup __amd64 Projectile *WeaponSystem::GetPreparedProjectile(WeaponSystem *this); // 00654060 DWARF original prototype
+".4156415541545589d5534889fb4c":  // unique sig
+cleanup __amd64 ProjectileFactory *WeaponSystem::AddWeapon(WeaponSystem *this, ProjectileFactory *weapon, int slot); // 006540e0 DWARF original prototype
+".415741564989fe41554c63":  // unique sig
+cleanup __amd64 int WeaponSystem::AddWeapon(WeaponSystem *this, WeaponBlueprint *blueprint, int slot); // 00654300 DWARF original prototype
 //"??54??89d455??89fd53??89f3e8????????": //00652600 (Duplicate?)
 //WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
 
-".??5531c9??54??89fc555331db??83ec08??8bb758020000": //00653070
-cleanup __amd64 bool WeaponSystem::ForceIncreasePower(WeaponSystem *this, int amount);
-"31c085f60f88d800000041564155415455534889fb4883ec20": //006534d0
-cleanup __amd64 ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
-"!.5589f5534889fb4883ec08e8????????39e8": //00653980
-virtual cleanup __amd64 void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
-".415741564155415455534889fb4883ec38e8????????488b9350020000": //006539b0
-cleanup __amd64 void WeaponSystem::OnLoop(WeaponSystem *this);
-".??55??89d5??54??89cc55??89fd53??89f3??83ec08e8????????": //00653dc0 (Duplicate?)
-cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
-".??55??54??89f45553??83ec08??0fb6aef2000000": //00653f20
-cleanup __amd64 bool WeaponSystem::DePowerWeapon(WeaponSystem *this,ProjectileFactory *weapon, bool userDriven);

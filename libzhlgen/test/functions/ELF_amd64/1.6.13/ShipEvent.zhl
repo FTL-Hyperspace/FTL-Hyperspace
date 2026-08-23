@@ -1,2 +1,12 @@
-"415641554989f5488d760841544989fc488d7f08":
+"534889fb488d7f08be????????4883ec10c6":  // unique sig
+cleanup __amd64 void ShipEvent::constructor(ShipEvent *this); // 005f98e0 DWARF original prototype
+".415541544989fc55534883ec184c8baf":  // unique sig
+cleanup __amd64 void ShipEvent::destructor1(ShipEvent *this); // 00605e50 DWARF original prototype, Itanium D2 destructor
+"!.554889fd5389f34883ec080fb637":  // unique sig
+cleanup __amd64 void ShipEvent::Save(ShipEvent *this, int fd); // 0060a070 DWARF original prototype
+".5589f5534889fb89f74883ec28":  // unique sig
+cleanup __amd64 void ShipEvent::Load(ShipEvent *this, int fd); // 0060a0e0 DWARF original prototype
+".415641554989f5488d7608":  // unique sig
 cleanup __amd64 void ShipEvent::constructor(ShipEvent *this, const ShipEvent& event);
+".4154554889f5488d7608530f":  // unique sig
+cleanup __amd64 ShipEvent *ShipEvent::copy_assign_1(ShipEvent *this, ShipEvent *param_2); // 0063c080

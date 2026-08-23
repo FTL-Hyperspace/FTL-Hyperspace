@@ -1,14 +1,79 @@
-"41564155415455488daf48070000534889fb4889ef":
+"f30f1005????????c390660f1f4400000f":  // unique sig
+cleanup __amd64 float CrewDrone::GetMoveSpeedMultipler(CrewDrone *this); // 00434da0 DWARF original prototype
+".0fb68720020000c30f1f84000000000048":  // unique sig
+cleanup __amd64 bool CrewDrone::Destroyed(CrewDrone *this); // 00434db0 DWARF original prototype
+"!.f30f1005????????e9????????0f1f004881":  // unique sig
+cleanup __amd64 void CrewDrone::BlowUp(CrewDrone *this, bool silent); // 00434dd0 DWARF original prototype
+".55488daf9007":  // unique sig
+cleanup __amd64 void CrewDrone::SetInstantPowered(CrewDrone *this); // 00434df0 DWARF original prototype
+".41544084f65589":  // unique sig
+cleanup __amd64 void CrewDrone::SetPowered(CrewDrone *this, bool powered); // 00434e80 DWARF original prototype
+"!.41564155415455488daf48":  // unique sig
 virtual cleanup __amd64 void CrewDrone::OnLoop(CrewDrone *this);
-".0f57c90f2ec877??31c0c30f1f440000f30f5905????????e9????????906690":
+"!.41544989f449c1fc20554889f5534889fb8b":  // unique sig
+cleanup __amd64 void CrewDrone::SetWorldLocation(CrewDrone *this, Point p); // 00435290 DWARF original prototype
+".5589f5534889fb4883ec084084":  // unique sig
+cleanup __amd64 void CrewDrone::SetDeployed(CrewDrone *this, bool deploy); // 004352e0 DWARF original prototype
+".0f57c90f2ec87708":  // unique sig
 cleanup __amd64 bool CrewDrone::ShipDamage(CrewDrone *this, float amount);
-".41574989d7415641554189cd41544d89c4554c89cd534889fb4881ec58010000":
+".4084f60f859f01":  // unique sig
+cleanup __amd64 void CrewDrone::OnRender(CrewDrone *this, bool outlineOnly); // 00435540 DWARF original prototype
+".4883ec18f30f104710f30f104f0c4889e7f30f2cd0f30f2cf1e8????????8b":  // unique sig
+cleanup __amd64 Point CrewDrone::GetWorldLocation(CrewDrone *this); // 00435970 DWARF original prototype
+".41574989d7415641554189cd41544d":  // unique sig
 cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
-".e96b79040066662e":
+".f3c366666666662e0f1f8400000000004881ef48070000ebe70f1f80000000000f":  // unique sig
+cleanup __amd64 void CrewDrone::OnDestoy(CrewDrone *this); // 0043bbc0 DWARF original prototype
+".0fb6876007":  // unique sig
+cleanup __amd64 bool CrewDrone::NeedsRoom(CrewDrone *this); // 0043bbe0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031":  // unique sig
+cleanup __amd64 bool CrewDrone::CanStim(CrewDrone *this); // 0043bc00 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool CrewDrone::ReadyToFight(CrewDrone *this); // 0043bc10 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool CrewDrone::CanFight(CrewDrone *this); // 0043bc20 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool CrewDrone::CanRepair(CrewDrone *this); // 0043bc30 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool CrewDrone::CanSabotage(CrewDrone *this); // 0043bc40 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool CrewDrone::CanMan(CrewDrone *this); // 0043bc50 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b864":  // unique sig
+cleanup __amd64 bool CrewDrone::CanTeleport(CrewDrone *this); // 0043bc60 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b864":  // unique sig
+cleanup __amd64 bool CrewDrone::CanBurn(CrewDrone *this); // 0043bc70 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b864000000c3662e0f1f840000000000f30f":  // unique sig
+cleanup __amd64 bool CrewDrone::CanSuffocate(CrewDrone *this); // 0043bc80 DWARF original prototype
+".b864000000c3662e0f1f840000000000f30f":  // unique sig
+cleanup __amd64 int CrewDrone::GetMaxHealth(CrewDrone *this); // 0043bc90 DWARF original prototype
+".f30f6f87":  // unique sig
+cleanup __amd64 Slot CrewDrone::GetDroneSlot(CrewDrone *this); // 0043bca0 DWARF original prototype
+".f30f10472cf30f2c":  // unique sig
+cleanup __amd64 int CrewDrone::GetDroneHealth(CrewDrone *this); // 0043bcd0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0031c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00f3":  // unique sig
+cleanup __amd64 bool CrewDrone::PermanentDeath(CrewDrone *this); // 0043bcf0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00f3c36666":  // unique sig
+cleanup __amd64 bool CrewDrone::GetControllable(CrewDrone *this); // 0043bd00 DWARF original prototype
+".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f00f3c36666":  // unique sig
+cleanup __amd64 bool CrewDrone::IsDrone(CrewDrone *this); // 0043bd10 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00f3c36666":  // unique sig
+cleanup __amd64 bool CrewDrone::CountForVictory(CrewDrone *this); // 0043bd20 DWARF original prototype
+".f3c366666666662e0f1f8400000000004881ef48070000ebe70f1f8000000000f3":  // unique sig
+cleanup __amd64 void CrewDrone::SaveState(CrewDrone *this, int fd); // 0043bd30 DWARF original prototype
+".f3c366666666662e0f1f8400000000004881ef48070000ebe70f1f8000000000b8":  // unique sig
+cleanup __amd64 void CrewDrone::LoadState(CrewDrone *this, int fd); // 0043bd50 DWARF original prototype
+".e9????????662e0f1f84000000000090e9????????6666":  // unique sig
+cleanup __amd64 void CrewDrone::Jump(CrewDrone *this); // 0043beb0 DWARF original prototype
+"!e9????????66662e0f1f8400000000004881ef":  // unique sig
 cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
-".8b57084889f885d2":
+".534889fbe8????????31d284c074":  // unique sig
+cleanup __amd64 bool CrewDrone::GetIntruder(CrewDrone *this); // 0043bee0 DWARF original prototype
+".80bf60070000007507":  // unique sig
+cleanup __amd64 bool CrewDrone::Functional(CrewDrone *this); // 0043bf10 DWARF original prototype
+".8b57084889f8":  // unique sig
 virtual cleanup __amd64 bool CrewDrone::ProvidesVision(CrewDrone *this);
-".415641554154554889fd534883ec10488b87e808000048c707????????48c78748070000????????488d78e84881ff????????0f8526030000":
+// Failed signature for function: CrewDrone::~CrewDrone at 0043c820 (failed to generate unique, first-match, override, or noHook signature)
+".415641554154554889fd534883ec10488b87e808000048c707????????48c78748070000????????488d78e84881ff????????0f8526":  // non-unique sig
 cleanup __amd64 void CrewDrone::destructor(CrewDrone *this);
 
 

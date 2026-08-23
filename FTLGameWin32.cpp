@@ -104,12 +104,12 @@ namespace _func6
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::SetInfoBox", typeid(void (AchievementTracker::*)(CAchievement *, InfoBox *)), ".578d7c240883e4f0ff77fc5589e557565381ec9c0000008b1f", argdata, 3, 5, &func);
+	static FunctionDefinition funcObj("AchievementTracker::SetInfoBox", typeid(void (AchievementTracker::*)(CAchievement *, InfoBox &)), ".578d7c240883e4f0ff77fc5589e557565381ec9c0000008b1f", argdata, 3, 5, &func);
 }
 
-void AchievementTracker::SetInfoBox(CAchievement *ach, InfoBox *infoBox)
+void AchievementTracker::SetInfoBox(CAchievement *ach, InfoBox &infoBox)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, CAchievement *ach_arg, InfoBox *infoBox_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, CAchievement *ach_arg, InfoBox &infoBox_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func6::func;
 	return execfunc(this, ach, infoBox);
 }
@@ -2183,12 +2183,12 @@ namespace _func156
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AugmentStoreBox::SetInfoBox", typeid(int (AugmentStoreBox::*)(InfoBox *, int )), "578d7c240883e4f0ff77fc5589e55783ec148b078b915401000089c1891424e8????????8b7dfc83ec04b8c3000000c98d67f85fc2080090908db426000000005789", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("AugmentStoreBox::SetInfoBox", typeid(int (AugmentStoreBox::*)(InfoBox &, int )), "578d7c240883e4f0ff77fc5589e55783ec148b078b915401000089c1891424e8????????8b7dfc83ec04b8c3000000c98d67f85fc2080090908db426000000005789", argdata, 3, 1, &func);
 }
 
-int AugmentStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
+int AugmentStoreBox::SetInfoBox(InfoBox &box, int forceSystemInfoWidth)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(AugmentStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(AugmentStoreBox *this_arg, InfoBox &box_arg, int forceSystemInfoWidth_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func156::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
@@ -3345,10 +3345,10 @@ namespace _func240
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::RandomItems", typeid(std::vector<CrewBlueprint*> *(BlueprintManager::*)(std::map<std::string, CrewBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9da8", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("BlueprintManager::RandomItems_template_CrewBlueprint", typeid(std::vector<CrewBlueprint*> *(BlueprintManager::*)(std::map<std::string, CrewBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9da8", argdata, 4, 1, &func);
 }
 
-std::vector<CrewBlueprint*> *BlueprintManager::RandomItems(std::map<std::string, CrewBlueprint> *blueprints, int count, bool demo_lock)
+std::vector<CrewBlueprint*> *BlueprintManager::RandomItems_template_CrewBlueprint(std::map<std::string, CrewBlueprint> *blueprints, int count, bool demo_lock)
 {
 	typedef std::vector<CrewBlueprint*> *__attribute__((thiscall)) (*custom_arg_funcptr_t)(BlueprintManager *this_arg, std::map<std::string, CrewBlueprint> *blueprints_arg, int count_arg, bool demo_lock_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func240::func;
@@ -3359,10 +3359,10 @@ namespace _func241
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::RandomItems", typeid(std::vector<DroneBlueprint*> *(BlueprintManager::*)(std::map<std::string, DroneBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9d9c", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("BlueprintManager::RandomItems_template_DroneBlueprint", typeid(std::vector<DroneBlueprint*> *(BlueprintManager::*)(std::map<std::string, DroneBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9d9c", argdata, 4, 1, &func);
 }
 
-std::vector<DroneBlueprint*> *BlueprintManager::RandomItems(std::map<std::string, DroneBlueprint> *blueprints, int count, bool demo_lock)
+std::vector<DroneBlueprint*> *BlueprintManager::RandomItems_template_DroneBlueprint(std::map<std::string, DroneBlueprint> *blueprints, int count, bool demo_lock)
 {
 	typedef std::vector<DroneBlueprint*> *__attribute__((thiscall)) (*custom_arg_funcptr_t)(BlueprintManager *this_arg, std::map<std::string, DroneBlueprint> *blueprints_arg, int count_arg, bool demo_lock_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func241::func;
@@ -3373,10 +3373,10 @@ namespace _func242
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::RandomItems", typeid(std::vector<WeaponBlueprint*> *(BlueprintManager::*)(std::map<std::string, WeaponBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9dc8", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("BlueprintManager::RandomItems_template_WeaponBlueprint", typeid(std::vector<WeaponBlueprint*> *(BlueprintManager::*)(std::map<std::string, WeaponBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9dc8", argdata, 4, 1, &func);
 }
 
-std::vector<WeaponBlueprint*> *BlueprintManager::RandomItems(std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock)
+std::vector<WeaponBlueprint*> *BlueprintManager::RandomItems_template_WeaponBlueprint(std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock)
 {
 	typedef std::vector<WeaponBlueprint*> *__attribute__((thiscall)) (*custom_arg_funcptr_t)(BlueprintManager *this_arg, std::map<std::string, WeaponBlueprint> *blueprints_arg, int count_arg, bool demo_lock_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func242::func;
@@ -3387,10 +3387,10 @@ namespace _func243
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::RandomItems", typeid(std::vector<AugmentBlueprint*> *(BlueprintManager::*)(std::map<std::string, AugmentBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9d0c", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("BlueprintManager::RandomItems_template_AugmentBlueprint", typeid(std::vector<AugmentBlueprint*> *(BlueprintManager::*)(std::map<std::string, AugmentBlueprint> *, int , bool )), ".578d7c240883e4f0ff77fc5589e55756538d9d0c", argdata, 4, 1, &func);
 }
 
-std::vector<AugmentBlueprint*> *BlueprintManager::RandomItems(std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock)
+std::vector<AugmentBlueprint*> *BlueprintManager::RandomItems_template_AugmentBlueprint(std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock)
 {
 	typedef std::vector<AugmentBlueprint*> *__attribute__((thiscall)) (*custom_arg_funcptr_t)(BlueprintManager *this_arg, std::map<std::string, AugmentBlueprint> *blueprints_arg, int count_arg, bool demo_lock_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func243::func;
@@ -16127,12 +16127,12 @@ namespace _func1157
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewStoreBox::SetInfoBox", typeid(int (CrewStoreBox::*)(InfoBox *, int )), "5789c8053802", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("CrewStoreBox::SetInfoBox", typeid(int (CrewStoreBox::*)(InfoBox &, int )), "5789c8053802", argdata, 3, 1, &func);
 }
 
-int CrewStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
+int CrewStoreBox::SetInfoBox(InfoBox &box, int forceSystemInfoWidth)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(CrewStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(CrewStoreBox *this_arg, InfoBox &box_arg, int forceSystemInfoWidth_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1157::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
@@ -18738,12 +18738,12 @@ namespace _func1346
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("DroneStoreBox::SetInfoBox", typeid(int (DroneStoreBox::*)(InfoBox *, int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89380100008b1fc7042404", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("DroneStoreBox::SetInfoBox", typeid(int (DroneStoreBox::*)(InfoBox &, int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89380100008b1fc7042404", argdata, 3, 1, &func);
 }
 
-int DroneStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
+int DroneStoreBox::SetInfoBox(InfoBox &box, int forceSystemInfoWidth)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(DroneStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(DroneStoreBox *this_arg, InfoBox &box_arg, int forceSystemInfoWidth_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1346::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
@@ -28951,12 +28951,12 @@ namespace _func2090
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("RepairStoreBox::SetInfoBox", typeid(int (RepairStoreBox::*)(InfoBox *, int )), "b8c3000000c2", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("RepairStoreBox::SetInfoBox", typeid(int (RepairStoreBox::*)(InfoBox &, int )), "b8c3000000c2", argdata, 3, 1, &func);
 }
 
-int RepairStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
+int RepairStoreBox::SetInfoBox(InfoBox &box, int forceSystemInfoWidth)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(RepairStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(RepairStoreBox *this_arg, InfoBox &box_arg, int forceSystemInfoWidth_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2090::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
@@ -44952,12 +44952,12 @@ namespace _func3252
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SystemStoreBox::SetInfoBox", typeid(int (SystemStoreBox::*)(InfoBox *, int )), ".578d7c240883e4f0ff77fc5589e557565389cb81ecdc01", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("SystemStoreBox::SetInfoBox", typeid(int (SystemStoreBox::*)(InfoBox &, int )), ".578d7c240883e4f0ff77fc5589e557565389cb81ecdc01", argdata, 3, 1, &func);
 }
 
-int SystemStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
+int SystemStoreBox::SetInfoBox(InfoBox &box, int forceSystemInfoWidth)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(SystemStoreBox *this_arg, InfoBox &box_arg, int forceSystemInfoWidth_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3252::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }
@@ -46249,10 +46249,10 @@ namespace _func3344
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("TextLibrary::FormatText", typeid(std::string (TextLibrary::*)(const std::string &, TextString *)), "578d7c240883e4f0ff77fc5589e557565389ce81ec9c0000008b39", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("TextLibrary::FormatText_template_TextString", typeid(std::string (TextLibrary::*)(const std::string &, TextString *)), "578d7c240883e4f0ff77fc5589e557565389ce81ec9c0000008b39", argdata, 4, 1, &func);
 }
 
-std::string TextLibrary::FormatText(const std::string &name, TextString *param_2)
+std::string TextLibrary::FormatText_template_TextString(const std::string &name, TextString *param_2)
 {
 	typedef std::string __attribute__((thiscall)) (*custom_arg_funcptr_t)(TextLibrary *this_arg, const std::string &name_arg, TextString *param_2_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3344::func;
@@ -48909,12 +48909,12 @@ namespace _func3536
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("WeaponStoreBox::SetInfoBox", typeid(int (WeaponStoreBox::*)(InfoBox *, int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89380100008b1fc7042403", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("WeaponStoreBox::SetInfoBox", typeid(int (WeaponStoreBox::*)(InfoBox &, int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b89380100008b1fc7042403", argdata, 3, 1, &func);
 }
 
-int WeaponStoreBox::SetInfoBox(InfoBox *box, int forceSystemInfoWidth)
+int WeaponStoreBox::SetInfoBox(InfoBox &box, int forceSystemInfoWidth)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponStoreBox *this_arg, InfoBox *box_arg, int forceSystemInfoWidth_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(WeaponStoreBox *this_arg, InfoBox &box_arg, int forceSystemInfoWidth_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3536::func;
 	return execfunc(this, box, forceSystemInfoWidth);
 }

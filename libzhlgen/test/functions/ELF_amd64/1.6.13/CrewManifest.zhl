@@ -1,27 +1,41 @@
-"4155415455534889fb4c8d63284881ec88000000":
+"53488b97b800000048":  // unique sig
+cleanup __amd64 bool CrewManifest::LockWindow(CrewManifest *this); // 0050ff60 DWARF original prototype
+".41574889f24989ff":  // unique sig
+cleanup __amd64 void CrewManifest::SetPosition(CrewManifest *this, Point p); // 0050ffa0 DWARF original prototype
+".4155415455534889fb4c8d63":  // unique sig
 cleanup __amd64 void CrewManifest::constructor(CrewManifest *this);
-".41554189f541544989fc5531ed5331db4883ec08":
+".554889fd534883ec08488b8fc0":  // unique sig
+cleanup __amd64 void CrewManifest::ClearCrew(CrewManifest *this); // 00510460 DWARF original prototype
+".41":  // non-unique sig
 cleanup __amd64 void CrewManifest::OnKeyDown(CrewManifest *this, SDLKey key);
-".41554189f541544989fc5531ed5331db4883ec08":
+".41":  // non-unique sig
 cleanup __amd64 void CrewManifest::OnKeyUp(CrewManifest *this, SDLKey key);
-".41554189f541544989fc5531ed5331db4883ec08":
+".41":  // non-unique sig
 cleanup __amd64 void CrewManifest::OnTextInput(CrewManifest *this, SDLKey key);
-".41554189f541544989fc5531ed5331db4883ec08":
+".41554189f541544989fc5531ed5331db4883ec08488b97b8000000488b87c00000004829d048c1f8034885c07523eb48498b9424b8000000498b8424c000000083c50189eb4829d048c1f8034839c37327488b3cdae8????????84c075d2498b8424b80000004489ee488b3cd8e8????????ebbc0f1f40004883c4085b5d415c415dc3906666662e0f1f8400000000004154":  // unique sig
 cleanup __amd64 void CrewManifest::OnTextEvent(CrewManifest *this, CEvent::TextEvent event);
-".415431d231c9554889fd":
+".415431d231c9":  // unique sig
 cleanup __amd64 void CrewManifest::Update(CrewManifest *this);
-".4157415641554989f5415455534889fb4883ec38488b8fc0000000":
+".554889fd534883ec18488b8f":  // unique sig
+cleanup __amd64 void CrewManifest::destructor1(CrewManifest *this); // 00510880 DWARF original prototype, Itanium D1 destructor
+".534889fbe8????????4889df5be9????????66666666662e0f1f84000000000041574156415549":  // unique sig
+cleanup __amd64 void CrewManifest::destructor(CrewManifest *this); // 00510ad0 DWARF original prototype, Itanium D0 destructor
+"4157415641554989f5415455534889fb4883ec38":  // unique sig
 cleanup __amd64 void CrewManifest::OnInit(CrewManifest *this, ShipManager *ship);
-"!.41544989fc5531ed53488b97b8000000":
+"!.41544989fc5531ed53488b97b8":  // unique sig
 cleanup __amd64 void CrewManifest::Close(CrewManifest *this);
-"!.534889fbe8????????488dbbd0000000":
+"!.534889fbe8????????488dbbd0":  // unique sig
 cleanup __amd64 void CrewManifest::Open(CrewManifest *this);
-"!.55534889fb4883ec088b87a8010000":
+"!.55534889fb4883ec088b87a8":  // unique sig
 cleanup __amd64 void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
-".4155415455534889fb4883ec68":
+"!.415741564189ce4155415445":  // unique sig
+cleanup __amd64 void CrewManifest::OnTouch(CrewManifest *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 00510e50 DWARF original prototype
+".4155415455534889fb4883ec68e8":  // unique sig
 cleanup __amd64 void CrewManifest::OnRender(CrewManifest *this);
-".4157488d87d0000000415641554189d541544189f4554889fd4889c7534883ec18":
+".4157488d87d0":  // unique sig
 cleanup __amd64 void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
+".8b87a8010000f7":  // unique sig
+cleanup __amd64 bool CrewManifest::PriorityPopup(CrewManifest *this); // 005117f0 DWARF original prototype
 
 
 struct CrewManifest

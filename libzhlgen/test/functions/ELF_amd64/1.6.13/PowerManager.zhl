@@ -1,10 +1,48 @@
-"??8b57048b4720034718??8b4f14??8b1f??89d0??29c0??39c1??0f4ec1":
+"c70700000000c7470400000000c747080f":  // unique sig
+cleanup __amd64 void PowerManager::constructor(PowerManager *this); // 00644b40 DWARF original prototype
+".c70700000000c7470c":  // unique sig
+cleanup __amd64 void PowerManager::Restart(PowerManager *this); // 00644b90 DWARF original prototype
+".f3c366666666662e0f1f84000000000031c0c3906666662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 void PowerManager::UpdateFuel(PowerManager *this); // 00644bd0 DWARF original prototype
+".31c0c3906666662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 int PowerManager::GetOverAmount(PowerManager *this); // 00644be0 DWARF original prototype
+".b801000000c3662e0f1f8400000000008b0e":  // unique sig
+cleanup __amd64 bool PowerManager::UpdatePower(PowerManager *this, std::pair<int, int> *powerLevel, int *iBatteryPower, int required); // 00644bf0 DWARF original prototype
+".8b0e8b":  // unique sig
+cleanup __amd64 bool PowerManager::DecreasePower(PowerManager *this, std::pair<int, int> *powerLevel, int *iBatteryPower, int required); // 00644c00 DWARF original prototype
+".0fb64710c6":  // unique sig
+cleanup __amd64 bool PowerManager::GetFailedPowerup(PowerManager *this); // 00644c50 DWARF original prototype
+".897724":  // unique sig
+cleanup __amd64 void PowerManager::ForceBatteryPower(PowerManager *this, int used); // 00644c60 DWARF original prototype
+".8b472885c075":  // unique sig
+cleanup __amd64 void PowerManager::SetBatteryPower(PowerManager *this, int amount); // 00644c70 DWARF original prototype
+".448b57048b":  // unique sig
 cleanup __amd64 bool PowerManager::IncreasePower(PowerManager *this, std::pair<int, int>* powerLevel, int* iBatteryPower, int requestedPower); // 00644c90
-".??80fe0119c0f7d083e002894720":
+".8b47044889c2":  // unique sig
+noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_17();
+//".8b47044889c2":  // unique sig
+//cleanup __amd64 std::pair<int, int> PowerManager::GetAvailablePower(PowerManager *this); // 00644d40 DWARF original prototype
+".8b571803":  // unique sig
+noHook __amd64 void PowerManager::__STRUCT_OVERRIDE_ANCHOR_18();
+//".8b571803":  // unique sig
+//cleanup __amd64 int PowerManager::GetMaxPower(PowerManager *this); // 00644d50 DWARF original prototype
+".c74714e8030000c7471800000000c7471c01000000c3":  // unique sig
+cleanup __amd64 void PowerManager::ClearStatus(PowerManager *this); // 00644d70 DWARF original prototype
+".4080fe0119c0f7d083e002894720":  // unique sig
 cleanup __amd64 void PowerManager::SetHacked(PowerManager *this, bool val); // 00644d90
-".488b15????????488b05????????48b9":
+".8b471803":  // unique sig
+cleanup __amd64 int PowerManager::GetPowerLoss(PowerManager *this); // 00644da0 DWARF original prototype
+".538b471c":  // unique sig
+cleanup __amd64 void PowerManager::OnLoop(PowerManager *this); // 00644db0 DWARF original prototype
+".897714c366":  // unique sig
+cleanup __amd64 void PowerManager::SetPowerCap(PowerManager *this, int val); // 00644de0 DWARF original prototype
+".897718c366":  // unique sig
+cleanup __amd64 void PowerManager::SetPowerLoss(PowerManager *this, int val); // 00644df0 DWARF original prototype
+".f30f2ace53":  // unique sig
+cleanup __amd64 void PowerManager::SetDividePower(PowerManager *this, int val); // 00644e00 DWARF original prototype
+".488b15????????488b05????????48b9":  // unique sig
 static cleanup __amd64 void  PowerManager::RestartAll(); // 00644e30
-".5389fb4883ec30488b05????????488b0d????????4889c2":
+".5389fb4883ec30488b05":  // unique sig
 static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId); // 00644e80
 
 

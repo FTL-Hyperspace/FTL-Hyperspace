@@ -1,0 +1,34 @@
+"534889fb488b7f504885ff740f":  // unique sig
+cleanup __amd64 void DroneEquipBox::CheckContents(DroneEquipBox *this); // 00515f30 DWARF original prototype
+".534889fb488b7f504885ff743a":  // unique sig
+cleanup __amd64 void DroneEquipBox::AddItem(DroneEquipBox *this, EquipmentBoxItem newItem); // 00515f50 DWARF original prototype
+".534889fb488b7f504885ff7431":  // unique sig
+cleanup __amd64 void DroneEquipBox::RemoveItem(DroneEquipBox *this); // 00515fa0 DWARF original prototype
+".534889fb4889f7e8????????4885c048894350":  // unique sig
+cleanup __amd64 void DroneEquipBox::SetShipManager(DroneEquipBox *this, ShipManager *ship); // 00516030 DWARF original prototype
+"!.4848c703????????4883c4305b5d415cc3b9????????488d57104885c974??83c8fff00fc10285c07f??488d74241fe8????????eb??8b50f88d4aff8948f889d0eb??66666666662e0f1f840000000000":  // unique sig
+noHook __amd64 void DroneEquipBox::__DO_NOT_HOOK_518b8f(); // 00518b8f
+".41":  // non-unique sig
+cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem *sys, int slot);
+".31c0c3662e0f1f8400000000000f1f0048837f50000f95c0c30f1f800000000031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool DroneEquipBox::CanHoldWeapon(DroneEquipBox *this); // 0051b460 DWARF original prototype
+".48837f50000f95c0c30f1f800000000031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 bool DroneEquipBox::CanHoldDrone(DroneEquipBox *this); // 0051b470 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f0048":  // unique sig
+cleanup __amd64 bool DroneEquipBox::CanHoldAugment(DroneEquipBox *this); // 0051b480 DWARF original prototype
+".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f0048837f":  // unique sig
+noHook __amd64 void DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_11();
+//".b801000000c3662e0f1f84000000000031c0c3662e0f1f8400000000000f1f0048837f":  // unique sig
+//cleanup __amd64 int DroneEquipBox::GetType(DroneEquipBox *this, bool forcedEmpty); // 0051b490 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0048837f50000f95c0c30f1f800000000031c0c3662e0f1f8400000000000f1f0031":  // unique sig
+cleanup __amd64 bool DroneEquipBox::IsCargoBox(DroneEquipBox *this); // 0051b4a0 DWARF original prototype
+".48837f50000f95c0c30f1f800000000031c0c3662e0f1f8400000000000f1f0031":  // unique sig
+cleanup __amd64 bool DroneEquipBox::CanDoJob(DroneEquipBox *this); // 0051b4b0 DWARF original prototype
+"!.00534889fb4883ec1048c707????????488b7f28e8????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????75??4883c4105bc3b9????????488d57104885c974??83c8fff00fc10285c07f??488d74240fe8????????eb??8b50f88d4aff8948f889d0eb??662e0f1f84000000000090":  // unique sig
+noHook __amd64 void DroneEquipBox::__DO_NOT_HOOK_51b59f(); // 0051b59f
+".53":  // non-unique sig
+cleanup __amd64 void DroneEquipBox::destructor1(DroneEquipBox *this); // 0051b5a0 DWARF original prototype, Itanium D1 destructor
+"!.90534889fb4883ec1048c707????????488b7f28??????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????75??4889dfe8????????4883c4105bc3b9????????488d57104885c974??83c8fff00fc10285c07f??488d74240fe8????????eb??8b50f88d4aff8948f889d0eb??0f1f00":  // unique sig
+noHook __amd64 void DroneEquipBox::__DO_NOT_HOOK_51b74f(); // 0051b74f
+".53":  // non-unique sig
+cleanup __amd64 void DroneEquipBox::destructor(DroneEquipBox *this); // 0051b750 DWARF original prototype, Itanium D0 destructor

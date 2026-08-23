@@ -1,57 +1,107 @@
-"534863d289f34883ec20488b07":
+"534863d2":  // unique sig
 cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
-".41554c63ea41544989fc5589cd5389f34883ec28":
+".41554c63ea41544989fc":  // unique sig
 cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
-".488b4f30488b573831c04829ca48c1fa02":
+".488b4f30488b5738":  // unique sig
 cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId);
-".415741564189d641554589c541544189cc5589f5534889fb4883ec68":
+".415741564189d6415545":  // unique sig
 cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
-".41574189cf41564589c641b82300000041554531ed41544989fcbf23000000":
+".41574189cf415645":  // unique sig
 cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
-"!.4889d14889f24989c8":
+".4889d14889f24989c848c1fa2049c1e820e9????????662e0f1f8400000000004889":  // unique sig
 cleanup __amd64 int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this, Point p1, Point p2);
-"!.4889d14889f24989c8":
+"4889d14889f24989c848c1fa2049c1e820e9????????662e0f1f840000000000488b":  // unique sig
 cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2);
-".488b074863f6488b04f0":
+"488b074863":  // unique sig
 cleanup __amd64 int ShipGraph::GetNumSlots(ShipGraph *this, int room);
-".554889f5534883ec08":
+".554889f5534883ec08488b3e":  // unique sig
 cleanup __amd64 int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
-".f30f584758":
+".f30f584758":  // unique sig
 cleanup __amd64 float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float ang);
-".f30f5c4758":
+".f30f5c4758":  // unique sig
 cleanup __amd64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float ang);
-".534889fb4883ec20f30f2a7f48":
+".534889fb4883ec20f30f2a":  // unique sig
 cleanup __amd64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
-".4883ec184084f6660fd60424":
+".4883ec1840":  // unique sig
 cleanup __amd64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
-".41574989ff41564155415455534883ec18":
+".41574989ff41564155415455534883ec184c":  // unique sig
 cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this);
-".8b4f6831c039f1":
+".8b4f6831":  // unique sig
 cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
-".41574531c04989ff41564531f6415541544189f45589d5530fb6d94883ec08":
+".4883ec1885f678":  // unique sig
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_24();
+//".4883ec1885f678":  // unique sig
+//cleanup __amd64 Point ShipGraph::GetIntoRoom(ShipGraph *this, int roomId, Point p); // 004b2160 DWARF original prototype
+".41574531c049":  // unique sig
 cleanup __amd64 int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
-".488b4708482b0748c1f803":
+".488b4708482b0748c1f803c3":  // unique sig
 cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this);
-".85f60f57c0":
+".4883ec184c8b0e":  // unique sig
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_25();
+//".4883ec184c8b0e":  // unique sig
+//cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int roomId); // 004b2270 DWARF original prototype
+".4883ec284c8b07":  // unique sig
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_26();
+//".4883ec284c8b07":  // unique sig
+//cleanup __amd64 Pointf ShipGraph::GetRoomCenter(ShipGraph *this, int roomId); // 004b22e0 DWARF original prototype
+".85f60f57c07821488b17":  // unique sig
 cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
-".85f6b801000000":
+".85f6b80100000078":  // unique sig
 cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room); // 004b23c0
-".415741564155415455534883ec284c8b25":
+".41b8eba00eea89f048":  // unique sig
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_27();
+//".41b8eba00eea89f048":  // unique sig
+//static cleanup __amd64 Point ShipGraph::TranslateToGrid(int x, int y); // 004b23f0
+".b82300000089f2":  // unique sig
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_28();
+//".b82300000089f2":  // unique sig
+//static cleanup __amd64 Point ShipGraph::TranslateFromGrid(int x, int y); // 004b2430
+".4989f8be":  // unique sig
+static cleanup __amd64 Point ShipGraph::TranslateToGrid(Point p); // 004b2460
+".4889fab8":  // unique sig
+static cleanup __amd64 Point ShipGraph::TranslateFromGrid(Point p); // 004b24b0
+".554889f548c1fd20534889f34883ec18":  // unique sig
+static cleanup __amd64 bool ShipGraph::Adjacent(Point p1, Point p2); // 004b24f0
+".4889fa31c048":  // unique sig
+noHook __amd64 void ShipGraph::__STRUCT_OVERRIDE_ANCHOR_29();
+//".4889fa31c048":  // unique sig
+//static cleanup __amd64 bool ShipGraph::Valid(Point p); // 004b2570
+".5589f589d689":  // unique sig
+static cleanup __amd64 bool ShipGraph::Adjacent(int x1, int y1, int x2, int y2); // 004b2590
+".4883ec1889f2":  // unique sig
+static cleanup __amd64 bool ShipGraph::Valid(int x, int y); // 004b2640
+".41554989fd41545531":  // unique sig
+cleanup __amd64 void ShipGraph::OnInit(ShipGraph *this, std::vector<Room*> *pRooms, std::vector<Door*> *pDoors); // 004b2670 DWARF original prototype
+".415741564155415455534883ec284c8b25":  // unique sig
 static cleanup __amd64 void ShipGraph::Restart(); // 004b27b0
-".41564531c04989f6415541544189d4554889fd53":
+".41564531c0":  // unique sig
 cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId); // 004b2970
-".41564155415441bc010000005589d55389f34883ec20":
+".41564155415441bc010000005589":  // unique sig
 cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
-".5389fb4881ec90000000":
+".4157415641554989f541544989fc55534883ec3848c7":  // unique sig
+cleanup __amd64 std::vector<int> ShipGraph::GetRoomNeighbors(ShipGraph *this, int roomId); // 004b2bc0 DWARF original prototype
+".4881ec9800000031":  // unique sig
+static cleanup __amd64 int ShipGraph::GetShipId(); // 004b2dc0
+".5389fb4881ec90":  // unique sig
 static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
-".??56??55??54??89d455??89f553??89fb??83ec40":
+".41574989f741564155415441":  // unique sig
+cleanup __amd64 std::vector<int> ShipGraph::GetConnectedRooms(ShipGraph *this, int roomId, bool doorOpen); // 004b3340 DWARF original prototype
+".41574989cfb9":  // unique sig
+cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFSHelper(ShipGraph *this, int nextId, std::vector<int> *depthList, int depth); // 004b3560 DWARF original prototype
+".4156415541544189d4554889f5534889fb4883ec40":  // unique sig
 cleanup __amd64 std::vector<int> ShipGraph::ConnectivityDFS(ShipGraph *this, int roomId);
-".41574989f741564155415455534889d348c1eb204881ecc8000000":
+".41574989f741564155415455534889":  // unique sig
 cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
-".415741564989f641554154554889d548c1ed20534889fb4883ec58":
+".415741564989f641554154554889d5":  // unique sig
 cleanup __amd64 Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int shipId);
-".41574889f04531ff48c1e820415641554189f54154440fb6e1554889fd534889c34881eca8000000":
+".41574889f045":  // unique sig
 cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
+".41574989ff41564155415455534883ec2848c7":  // unique sig
+cleanup __amd64 std::vector<Point> ShipGraph::RoomSquares(ShipGraph *this, int roomId); // 004b4d30 DWARF original prototype
+".4155448d6e01415441":  // unique sig
+static cleanup __amd64 std::vector<Point> *ShipGraph::ValidAdjacentSquares(int x, int y); // 004b4eb0
+".4155448d6e01415449":  // unique sig
+static cleanup __amd64 std::vector<Point> *ShipGraph::ValidAdjacentSquares(Point p); // 004b50a0
 
 
 struct ShipGraph depends (Point, Pointf, Room) 

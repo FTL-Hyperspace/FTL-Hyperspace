@@ -7,7 +7,7 @@ __thiscall void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoi
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec308b89":  // unique sig
 __thiscall void SystemStoreBox::Activate(SystemStoreBox *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ecdc01":  // unique sig
-__thiscall int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox *box, int forceSystemInfoWidth);
+__thiscall int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox &box, int forceSystemInfoWidth);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ecac0000008b078b570489":  // unique sig
 __thiscall void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager *shopper, Equipment *equip, int sys);
 ".578d7c240883e4f0ff77fc5589e557565389cb8d75d883ec4c":  // unique sig

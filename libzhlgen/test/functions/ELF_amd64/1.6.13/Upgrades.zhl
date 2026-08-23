@@ -1,20 +1,32 @@
-"!41554989fd41544189d45589f55331db4883ec08":
+"31c0c3906666662e0f1f840000000000415549":  // unique sig
+cleanup __amd64 bool Upgrades::KeyDown(Upgrades *this, SDLKey sym); // 00588e20 DWARF original prototype
+".41554989fd41544189d45589":  // unique sig
 cleanup __amd64 void Upgrades::MouseMove(Upgrades *this, int mX, int mY);
-".415431c94989fc5531ed534883ec20":
+".415431c94989fc5531ed534883":  // unique sig
 cleanup __amd64 void Upgrades::MouseRightClick(Upgrades *this, int mX, int mY);
-".41554154554889fd534883ec28807f0800":
+".41554154554889fd534883ec2880":  // unique sig
 cleanup __amd64 void Upgrades::Close(Upgrades *this);
-".4155415455534889fb4883ec68807f0800":
+".4155415455534889fb4883ec68807f":  // unique sig
 cleanup __amd64 void Upgrades::OnLoop(Upgrades *this);
-".415531c941bd????????41544989fc5531ed534883ec28":
+".415531c941bd":  // unique sig
 cleanup __amd64 void Upgrades::ConfirmUpgrades(Upgrades *this);
-".41554189d541544189f4554889fd5331db4883ec28":
+".415531d24989fd41545589f55331db4883ec08488b4f28488b47304829c848c1f8034885c0751e":  // unique sig
+cleanup __amd64 int Upgrades::GetTempUpgrade(Upgrades *this, int sysId); // 0058a300 DWARF original prototype
+".41554189d541544189f4554889fd5331":  // unique sig
 cleanup __amd64 void Upgrades::MouseClick(Upgrades *this, int mX, int mY);
-".41544989fc55534883ec10488b4f30488b57284889c84829d048c1f80385c0":
+".415741564589ce41554589c541545531":  // unique sig
+cleanup __amd64 void Upgrades::OnTouch(Upgrades *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 0058d5c0 DWARF original prototype
+".41544989fc55534883ec10488b4f30488b57284889":  // unique sig
 cleanup __amd64 void Upgrades::ClearUpgradeBoxes(Upgrades *this);
-".41574989ff41564155415455534881ecb8000000":
+".41544989fc55534883ec10488b4f30488b572848c707????????4889c84829d048c1f80385c07e79":  // unique sig
+cleanup __amd64 void Upgrades::destructor1(Upgrades *this); // 0058db40 DWARF original prototype, Itanium D2 destructor
+".41544989fc55534883ec10488b4f30488b572848c707????????4889c84829d048c1f80385c07e7d":  // unique sig
+cleanup __amd64 void Upgrades::destructor(Upgrades *this); // 0058dce0 DWARF original prototype, Itanium D0 destructor
+".41574989ff41564155415455534881ecb8":  // unique sig
 cleanup __amd64 void Upgrades::OnInit(Upgrades *this, ShipManager *ship);
-"!.534889fbe8????????488b":
+".533977184889fb7417":  // unique sig
+cleanup __amd64 void Upgrades::SetPosition(Upgrades *this, Point p); // 0058ed10 DWARF original prototype
+"!.534889fbe8????????488b73":  // unique sig
 cleanup __amd64 void  Upgrades::Open(Upgrades *this);
-".415455534889fb4883ec50488b7f20":
+".415455534889fb4883ec50488b7f":  // unique sig
 cleanup __amd64 void Upgrades::OnRender(Upgrades *this);

@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e55783ec148b078b915401000089c1891424e8????????8b7dfc83ec04b8c3000000c98d67f85fc2080090908db426000000005789":  // unique sig
-__thiscall int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 005062a0 DWARF original prototype
+__thiscall int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 005062a0 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b8138":  // unique sig
 __thiscall bool AugmentStoreBox::CanHold(AugmentStoreBox *this); // 00506800
 ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc15":  // unique sig

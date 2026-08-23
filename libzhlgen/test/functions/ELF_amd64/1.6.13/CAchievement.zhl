@@ -1,7 +1,9 @@
-"415741564189ce415541544989f45589d5534889fb4883ec78":
-cleanup __amd64 void CAchievement::OnRender(CAchievement *this, Point pos, int selected, bool showNew);
-"53be????????4889fb4883ec20":
+"53be????????4889fb4883ec20":  // unique sig
 cleanup __amd64 void CAchievement::constructor(CAchievement *this);
+".534889fb4883ec10488b87e0":  // unique sig
+cleanup __amd64 void CAchievement::destructor1(CAchievement *this); // 00422d50 DWARF original prototype, Itanium D1 destructor
+".415741564189ce4155415449":  // unique sig
+cleanup __amd64 void CAchievement::OnRender(CAchievement *this, Point pos, int selected, bool showNew);
 
 
 struct CAchievement 

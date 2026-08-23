@@ -214,7 +214,7 @@ struct TextLibrary
 	}
 
 	LIBZHL_API void Clear();
-	LIBZHL_API std::string FormatText(const std::string &name, TextString *param_2);
+	LIBZHL_API std::string FormatText_template_TextString(const std::string &name, TextString *param_2);
 	LIBZHL_API std::string GetText(const std::string &name, const std::string &lang);
 	LIBZHL_API void LoadText(const std::string &data, const std::string &filename);
 	
@@ -661,7 +661,7 @@ struct AchievementTracker
 	LIBZHL_API void SaveProfile(int file);
 	LIBZHL_API void SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer);
 	LIBZHL_API void SetFlag(const std::string &flagName);
-	LIBZHL_API void SetInfoBox(CAchievement *ach, InfoBox *infoBox);
+	LIBZHL_API void SetInfoBox(CAchievement *ach, InfoBox &infoBox);
 	LIBZHL_API void SetSectorEight();
 	LIBZHL_API void SetTooltip(CAchievement *ach);
 	LIBZHL_API void SetVictoryAchievement();
@@ -2332,7 +2332,7 @@ struct AugmentStoreBox : StoreBox
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
-	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
+	LIBZHL_API int SetInfoBox(InfoBox &box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *ship, const AugmentBlueprint *bp);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();
@@ -3285,10 +3285,10 @@ struct BlueprintManager
 	LIBZHL_API static std::vector<std::string> *__stdcall ProcessStringList(rapidxml::xml_node<char> *node);
 	LIBZHL_API SystemBlueprint ProcessSystemBlueprint(rapidxml::xml_node<char> *node);
 	LIBZHL_API WeaponBlueprint ProcessWeaponBlueprint(rapidxml::xml_node<char> *node);
-	LIBZHL_API std::vector<CrewBlueprint*> *RandomItems(std::map<std::string, CrewBlueprint> *blueprints, int count, bool demo_lock);
-	LIBZHL_API std::vector<DroneBlueprint*> *RandomItems(std::map<std::string, DroneBlueprint> *blueprints, int count, bool demo_lock);
-	LIBZHL_API std::vector<AugmentBlueprint*> *RandomItems(std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock);
-	LIBZHL_API std::vector<WeaponBlueprint*> *RandomItems(std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock);
+	LIBZHL_API std::vector<AugmentBlueprint*> *RandomItems_template_AugmentBlueprint(std::map<std::string, AugmentBlueprint> *blueprints, int count, bool demo_lock);
+	LIBZHL_API std::vector<CrewBlueprint*> *RandomItems_template_CrewBlueprint(std::map<std::string, CrewBlueprint> *blueprints, int count, bool demo_lock);
+	LIBZHL_API std::vector<DroneBlueprint*> *RandomItems_template_DroneBlueprint(std::map<std::string, DroneBlueprint> *blueprints, int count, bool demo_lock);
+	LIBZHL_API std::vector<WeaponBlueprint*> *RandomItems_template_WeaponBlueprint(std::map<std::string, WeaponBlueprint> *blueprints, int count, bool demo_lock);
 	LIBZHL_API void ResetRarities();
 	LIBZHL_API void SetRarity(const std::string &name, int rarity);
 	LIBZHL_API void SetRarity1(const std::string &name, int rarity);
@@ -5996,7 +5996,7 @@ struct CrewStoreBox : StoreBox
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
-	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
+	LIBZHL_API int SetInfoBox(InfoBox &box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();
@@ -6595,7 +6595,7 @@ struct DroneStoreBox : StoreBox
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
-	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
+	LIBZHL_API int SetInfoBox(InfoBox &box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const DroneBlueprint *bp);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();
@@ -8137,7 +8137,7 @@ struct RepairStoreBox : StoreBox
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Purchase();
-	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
+	LIBZHL_API int SetInfoBox(InfoBox &box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *ship, bool repairAll, int price);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();
@@ -9843,7 +9843,7 @@ struct SystemStoreBox : StoreBox
 	LIBZHL_API void Purchase();
 	LIBZHL_API bool RequiresConfirm();
 	LIBZHL_API void SetExtraData(int droneChoice);
-	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
+	LIBZHL_API int SetInfoBox(InfoBox &box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *shopper, Equipment *equip, int sys);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();
@@ -10139,7 +10139,7 @@ struct WeaponStoreBox : StoreBox
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void Purchase();
-	LIBZHL_API int SetInfoBox(InfoBox *box, int forceSystemInfoWidth);
+	LIBZHL_API int SetInfoBox(InfoBox &box, int forceSystemInfoWidth);
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();

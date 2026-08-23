@@ -1,5 +1,29 @@
-"41574156415541544989fc5553488d5e384883ec48":
+"41544989fc554889f54889":  // unique sig
+cleanup __amd64 std::string TextLibrary::FormatText<TextString>(TextLibrary *this, const std::string &name, TextString *param_2); // 00422850
+".41544989fc554889d5534889":  // unique sig
+cleanup __amd64 std::string TextLibrary::FormatText<std::string_>(TextLibrary *this, const std::string &name); // 0048f910
+".41544989fc555389":  // unique sig
+cleanup __amd64 std::string TextLibrary::FormatText<int>(TextLibrary *this, const std::string &name); // 004ebf90
+".41554989d5415445":  // unique sig
+cleanup __amd64 std::string TextLibrary::FormatText<std::string, _int>(TextLibrary *this, const std::string &name); // 004ec100
+".41544989fc83c2304c":  // unique sig
+cleanup __amd64 std::string TextLibrary::DoFormatText<std::string_>(TextLibrary *this, int index, const std::string &text, const std::string &v); // 0057ff80
+".4883c760e9":  // unique sig
+noHook __amd64 void TextLibrary::__STRUCT_OVERRIDE_ANCHOR_37();
+//".4883c760e9":  // unique sig
+//cleanup __amd64 void TextLibrary::SetLanguage(TextLibrary *this, const std::string &language); // 005b5290 DWARF original prototype
+".4157415641554989fd415455534883ec28488b77":  // unique sig
+cleanup __amd64 void TextLibrary::Clear(TextLibrary *this); // 005b5ff0 DWARF original prototype
+".4157b905":  // unique sig
+cleanup __amd64 void TextLibrary::LoadText(TextLibrary *this, const std::string &data, const std::string &filename); // 005b67b0 DWARF original prototype
+".41574156415541544989fc5553488d":  // unique sig
 cleanup __amd64 std::string TextLibrary::GetText(TextLibrary *this, const std::string& name, const std::string& lang);
+".415741564155415455534883ec28488b47":  // unique sig
+cleanup __amd64 void TextLibrary::destructor1(TextLibrary *this); // 005b8850 DWARF original prototype, Itanium D2 destructor
+".4154488d4e":  // unique sig
+cleanup __amd64 std::string TextLibrary::FormatText<float>(TextLibrary *this, const std::string &name); // 005f4a70
+".41544989fc83c23055":  // unique sig
+cleanup __amd64 std::string TextLibrary::DoFormatText<int>(TextLibrary *this, int index, const std::string &text, int v); // 006512d0
 
 
 struct TextLibrary

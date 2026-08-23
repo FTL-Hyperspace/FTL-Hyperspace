@@ -1,17 +1,37 @@
-"415541544989d455488daec80100004889d6534889fb4889ef4883ec18":
+"f3c366666666662e0f1f840000000000415741564155415449":  // unique sig
+cleanup __amd64 void EventGenerator::PrintStatistics(EventGenerator *this, int sectors); // 005f55a0 DWARF original prototype
+".41544989fc55534883ec10488b5f28":  // unique sig
+cleanup __amd64 void EventGenerator::ClearSectorData(EventGenerator *this); // 005f5940 DWARF original prototype
+".4155415455534889fb4883ec18488b97":  // unique sig
+cleanup __amd64 void EventGenerator::Cleanup(EventGenerator *this); // 005f5a40 DWARF original prototype
+".554889f5be????????534889fb4881ecd8":  // unique sig
+cleanup __amd64 std::vector<SectorDescription> EventGenerator::GetSectorDescriptions(EventGenerator *this); // 005f5b70 DWARF original prototype
+".41544989fc55498dac2410":  // unique sig
+cleanup __amd64 void EventGenerator::InitStatistics(EventGenerator *this); // 005f5d30 DWARF original prototype
+".41554989d541544c8da608":  // unique sig
+cleanup __amd64 TextString EventGenerator::GetTextFromList(EventGenerator *this, const std::string &listName); // 005f6120 DWARF original prototype
+".415541544989d455488daec8":  // unique sig
 cleanup __amd64 std::string EventGenerator::GetImageFromList(EventGenerator *this, const std::string& listName);
-".4156415541544989d455488dae98010000":
+".4156415541544989d455488d":  // unique sig
 cleanup __amd64 ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
-".41574189cf41564989f641554989fd415455498d6e48534889d34883ec58":
+".41574189cf41564989f641":  // unique sig
 cleanup __amd64 SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
-".4157415641554c8d6e1841544989d4554889f5534889fb4881ecd8000000":
+".4157415641554c8d6e18":  // unique sig
 cleanup __amd64 SectorDescription EventGenerator::GetSpecificSector(EventGenerator *this, const std::string& name);
-".??57??56??55??8daf08010000??5455??89fd53??83ec28??8b9f48010000":
+".4157415641554c8daf08":  // unique sig
 cleanup __amd64 void EventGenerator::Clear(EventGenerator *this);
-".415741564155415455488d6f78534889f34881ec88020000":
+".415741564155415455488d6f78":  // unique sig
 cleanup __amd64 LocationEvent *EventGenerator::CreateEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique);
-".5589cd534889fb4883ec184183f8ff":
+".55534889fb4883ec28eb":  // unique sig
+cleanup __amd64 LocationEvent *EventGenerator::GenerateEvent(EventGenerator *this); // 005f96e0 DWARF original prototype
+".41564189ce41554189d541544989fc":  // unique sig
+cleanup __amd64 LocationEvent *EventGenerator::GetEvent(EventGenerator *this, const std::string &eventName, int worldLevel, bool ignoreUnique); // 005f9770 DWARF original prototype
+".5589cd534889fb4883ec18":  // unique sig
 cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, bool ignoreUnique, int seed);
+".4155be0a00000041545548bdffffffffffffff1f534889fb488d7f38":  // unique sig
+cleanup __amd64 void EventGenerator::constructor(EventGenerator *this); // 005fa040 DWARF original prototype
+".415541544989fc55534883ec18488b9f50":  // unique sig
+cleanup __amd64 void EventGenerator::destructor1(EventGenerator *this); // 005fc150 DWARF original prototype, Itanium D1 destructor
 
 "!.418b97e8090000458b87fc1400004d8da77814000031c9bf(???????\?)":
 EventGenerator* Global_EventGenerator_Generator;

@@ -483,6 +483,28 @@ end
 
 table.sort(tfiles, function(a, b) return a.path < b.path end)
 
+local function sanitizeFunctionTemplates(str)
+    -- cparser treats ``<identifier>`` after a function name as a register
+    -- annotation and cannot parse comma-separated function template
+    -- arguments.  These ZHL entries are concrete specializations, not C++
+    -- templates that need to remain templated in the generated wrapper. Give
+    -- every specialization a stable, legal and distinct wrapper name.
+    -- Limit the rewrite to ZHL function declaration lines carrying a calling
+    -- convention.  Generic ``struct {{...}}`` code can legitimately contain
+    -- expressions such as ``std::vector<T>()`` and must remain untouched.
+    local prefixed = "\n" .. str
+    prefixed = prefixed:gsub(
+        "(\n[^\r\n]*__[%w_]+[^\r\n]-)(::[%a_][%w_]*)"
+        .. "(<([^>\r\n]+)>)(%s*%()",
+        function(prefix, name, _, arguments, openParen)
+            local suffix = arguments:gsub("[^%w_]", "_")
+            suffix = suffix:gsub("_+", "_")
+            suffix = suffix:gsub("^_", ""):gsub("_$", "")
+            return prefix .. name .. "_template_" .. suffix .. openParen
+        end)
+    return prefixed:sub(2)
+end
+
 for k,fd in pairs(tfiles) do
     local name = fd.name
     local filename = fd.path
@@ -492,7 +514,8 @@ for k,fd in pairs(tfiles) do
         str = f:read("*a")
         f:close()
     end
-    
+
+    str = sanitizeFunctionTemplates(str)
     
     local t = cparser.ParseFunctions(str)
     

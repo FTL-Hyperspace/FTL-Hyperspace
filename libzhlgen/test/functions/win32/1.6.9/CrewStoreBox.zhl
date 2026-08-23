@@ -1,5 +1,5 @@
 "5789c8053802":  // unique sig
-__thiscall int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 005062e0 DWARF original prototype
+__thiscall int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 005062e0 DWARF original prototype
 ".8b893801000085":  // unique sig
 __thiscall bool CrewStoreBox::CanHold(CrewStoreBox *this);
 ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc16":  // unique sig

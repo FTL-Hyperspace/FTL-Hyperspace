@@ -1,20 +1,74 @@
-"0fb6873402000083f001":
+"f30f7e4718c3662e0f1f8400000000004883ef08ebea662e0f1f840000000000f3":  // unique sig
+cleanup __amd64 Pointf Projectile::GetWorldCenterPoint(Projectile *this); // 004303d0 DWARF original prototype
+".f30f7e4718c3662e0f1f8400000000004883ef08ebea662e0f1f8400000000008b":  // unique sig
+cleanup __amd64 Pointf Projectile::GetRandomTargettingPoint(Projectile *this, bool valuable); // 004303f0 DWARF original prototype
+".8b477cc3":  // unique sig
+cleanup __amd64 int Projectile::GetSpaceId(Projectile *this); // 00430410 DWARF original prototype
+".897778c3":  // unique sig
+cleanup __amd64 void Projectile::SetDestinationSpace(Projectile *this, int space); // 00430430 DWARF original prototype
+".0fb6873402000083":  // unique sig
 cleanup __amd64 bool Projectile::ValidTarget(Projectile *this);
-".!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000":
+"!.488b07c68784":  // unique sig
+cleanup __amd64 void Projectile::Kill(Projectile *this); // 00430460 DWARF original prototype
+".8b473cc3":  // unique sig
+cleanup __amd64 int Projectile::GetSelfId(Projectile *this); // 00430480 DWARF original prototype
+".f30f7e8708":  // unique sig
+cleanup __amd64 Pointf Projectile::GetSpeed(Projectile *this); // 004304a0 DWARF original prototype
+".488b44240848894740":  // unique sig
+cleanup __amd64 void Projectile::SetDamage(Projectile *this, Damage damage); // 004304c0 DWARF original prototype
+".8b4738c36666662e0f1f84000000000048":  // unique sig
+cleanup __amd64 int Projectile::GetOwnerId(Projectile *this); // 00430500 DWARF original prototype
+".b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7":  // unique sig
 forceDetour cleanup __amd64 int Projectile::ForceRenderLayer(Projectile *this);
-".554889f5534889fb488d7f044883ec18c747fc00000000":
+".f3c3662e0f1f8400000000000f1f40004889b7":  // unique sig
+cleanup __amd64 void Projectile::SetSpin(Projectile *this, float spin); // 00430530 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f4000b8ff":  // unique sig
+cleanup __amd64 void Projectile::SetWeaponAnimation(Projectile *this, WeaponAnimation *animation); // 00434c70 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f4000b8ffffffffc3662e0f1f84000000000048":  // unique sig
+cleanup __amd64 void Projectile::SetMovingTarget(Projectile *this, Targetable *target); // 00434c80 DWARF original prototype
+".554889f5534889fb488d7f044883ec18c747fc00000000660fd60c24f3":  // unique sig
 cleanup __amd64 CollisionResponse Projectile::CollisionMoving(Projectile *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".534889fb4883ec2080bfc400000000":
+".0fb68784":  // unique sig
+cleanup __amd64 bool Projectile::Dead(Projectile *this); // 00445eb0 DWARF original prototype
+".534889fb4883ec10f30f104f30":  // unique sig
+cleanup __amd64 void Projectile::ComputeHeading(Projectile *this); // 00446200 DWARF original prototype
+".534889fb4883ec20488b47":  // unique sig
 cleanup __amd64 void Projectile::OnUpdate(Projectile *this);
-".4154554889f5534889fb4883ec60448b673c488b064889f7":
+".534889fb4883ec108b4778":  // unique sig
+cleanup __amd64 void Projectile::EnterDestinationSpace(Projectile *this); // 00446470 DWARF original prototype
+".534889fb4883ec2080bfc4000000000f":  // unique sig
+cleanup __amd64 void Projectile::OnUpdate1(Projectile *this); // 004468d0 DWARF original prototype
+".554889fd5389f34883ec28f3":  // unique sig
+cleanup __amd64 void Projectile::SaveProjectile(Projectile *this, int fd); // 004469e0 DWARF original prototype
+".4154554889f5534889fb4883ec6044":  // unique sig
 cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable *other);
-".4157415641554154554889fd534881ecf8000000":
+".41574156415541544189f4554889fd89":  // unique sig
+cleanup __amd64 void Projectile::LoadProjectile(Projectile *this, int fd); // 00447670 DWARF original prototype
+".4157415641554154554889fd534881ecf8":  // unique sig
 cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
-".415731d2415641554c8daed000000041544989f4554889fd5331db4881ec28010000":
+".415731d2415641554c":  // unique sig
 cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
-".53baffffffff89fb89d64883ec30488d7c2420":
+".534889fb4883ec20488d7c2410e8????????488d74":  // unique sig
+cleanup __amd64 void Projectile::Initialize(Projectile *this, const std::string &blueprint); // 0044a130 DWARF original prototype
+".534889fb4883ec10f30f104f28":  // unique sig
+cleanup __amd64 bool Projectile::AtTarget(Projectile *this); // 0044a1b0 DWARF original prototype
+".8b477839477c66":  // unique sig
+cleanup __amd64 void Projectile::SetTarget(Projectile *this, Pointf target); // 0044a220 DWARF original prototype
+".0fb6873402000084":  // unique sig
+cleanup __amd64 bool Projectile::StartedDeath(Projectile *this); // 0044a240 DWARF original prototype
+".53baffffffff89":  // unique sig
 static cleanup __amd64 Pointf Projectile::RandomSidePoint(int side);
-".415641554154554889fd534883ec10488b872802000048c707????????48c74708????????48c78738020000????????488d78e84881ff????????0f8507030000":
+".534883ec30488d7c":  // unique sig
+static cleanup __amd64 Pointf Projectile::RandomSidePoint(); // 0044b4d0
+".41544c8da738":  // unique sig
+cleanup __amd64 void Projectile::OnRender(Projectile *this, int spaceId); // 0044b6c0 DWARF original prototype
+".f3c3662e0f1f8400000000000f1f400031c0c3662e0f1f8400000000000f1f00b8":  // unique sig
+cleanup __amd64 void Projectile::OnRenderSpecific(Projectile *this, int spaceId); // 0044c130 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f00b802000000c3662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 int Projectile::GetType(Projectile *this); // 0044c140 DWARF original prototype
+".41":  // non-unique sig
+cleanup __amd64 void Projectile::destructor1(Projectile *this); // 0044c1c0 DWARF original prototype, Itanium D1 destructor
+".415641554154554889fd534883ec10488b872802000048c707????????48c74708????????48c78738020000????????488d78e84881ff????????0f8507":  // non-unique sig
 cleanup __amd64 void Projectile::destructor(Projectile *this);
 
 

@@ -1,3 +1,23 @@
+"8b470885c07509":  // unique sig
+cleanup __amd64 void BoarderDrone::Jump(BoarderDrone *this); // 00435380 DWARF original prototype
+".b801000000c3662e0f1f840000000000b896000000c3662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 bool BoarderDrone::CanFight(BoarderDrone *this); // 0043bd80 DWARF original prototype
+".b896000000c3662e0f1f840000000000b8":  // unique sig
+cleanup __amd64 int BoarderDrone::GetMaxHealth(BoarderDrone *this); // 0043bd90 DWARF original prototype
+".b801000000c3662e0f1f840000000000f30f1005":  // unique sig
+cleanup __amd64 bool BoarderDrone::CanSabotage(BoarderDrone *this); // 0043bda0 DWARF original prototype
+".f30f1005????????c30f1f800000000031c0c3662e0f1f8400000000000f1f00b801000000c3662e0f1f84000000000031":  // unique sig
+cleanup __amd64 float BoarderDrone::GetDamageMultiplier(BoarderDrone *this); // 0043bdb0 DWARF original prototype
+".e9????????662e0f1f84000000000090f30f":  // unique sig
+cleanup __amd64 bool BoarderDrone::ReadyToFight(BoarderDrone *this); // 0043be60 DWARF original prototype
+"!.e9????????0f1f4000":  // non-unique sig
+noHook __amd64 void BoarderDrone::__DO_NOT_HOOK_43c3ef(); // 0043c3ef
+".41":  // non-unique sig
+cleanup __amd64 void BoarderDrone::destructor1(BoarderDrone *this); // 0043c3f0 DWARF original prototype, Itanium D1 destructor
+"!.0000004881ef48070000e9????????0f1f4000":  // non-unique sig
+noHook __amd64 void BoarderDrone::__DO_NOT_HOOK_43d07f(); // 0043d07f
+".41":  // non-unique sig
+cleanup __amd64 void BoarderDrone::destructor(BoarderDrone *this); // 0043d080 DWARF original prototype, Itanium D0 destructor
 struct BoarderDrone
 {{
 	BoarderDrone() 

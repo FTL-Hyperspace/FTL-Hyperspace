@@ -1,15 +1,51 @@
-"534889fb488bbf5801000031c04885ff7417488b07ff503085d2b8010000007e088b430885c00f94c05bc3900f1f400048":
+"b801000000c3662e0f1f840000000000554889f5534889fb4883ec084885":  // unique sig
+cleanup __amd64 bool BoarderPodDrone::RecallOnJump(BoarderPodDrone *this); // 00461040 DWARF original prototype
+".534889fb488bbf5801000031c04885ff7417488b07ff503085d2b8010000007e088b430885c00f94c05bc3900f1f400048":  // unique sig
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
-".534889fb4883ec104885f6":
+"!.4889f8488bbf":  // unique sig
+cleanup __amd64 void BoarderPodDrone::SetPowered(BoarderPodDrone *this, bool powered); // 00461270 DWARF original prototype
+".660fd64424f8488b4424f84889476048898750":  // unique sig
+cleanup __amd64 void BoarderPodDrone::SetCurrentLocation(BoarderPodDrone *this, Pointf loc); // 004612a0 DWARF original prototype
+".534889fb4883ec104885f6":  // unique sig
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
-".5589f5534889fb4883ec08807f1800742f":
+".530fb6d2":  // unique sig
+cleanup __amd64 void BoarderPodDrone::SetDestroyed(BoarderPodDrone *this, bool dead, bool rebuildRequired); // 00461920 DWARF original prototype
+".5589f5534889fb4883ec08807f180074":  // unique sig
 cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
-".41554154554889f5534889fb4883ec2880be6804000000":
+".807f2800752a":  // unique sig
+cleanup __amd64 bool BoarderPodDrone::Destroyed(BoarderPodDrone *this); // 00461ce0 DWARF original prototype
+".5589f5534889fb4883ec08e8????????488b83":  // unique sig
+cleanup __amd64 void BoarderPodDrone::SetHacked(BoarderPodDrone *this, int val); // 00461d70 DWARF original prototype
+".415455534889fb4883ec3080bf68":  // unique sig
+cleanup __amd64 void BoarderPodDrone::RenderDrone(BoarderPodDrone *this); // 00462170 DWARF original prototype
+".534889fb4883ec108b475c":  // unique sig
+cleanup __amd64 void BoarderPodDrone::PickDestination(BoarderPodDrone *this); // 00462530 DWARF original prototype
+".554889fd5389f34883ec08e8????????0fb6b569":  // unique sig
+cleanup __amd64 void BoarderPodDrone::SaveState(BoarderPodDrone *this, int fd); // 004629d0 DWARF original prototype
+".41574156415541545589f5534889fb4883ec18e8":  // unique sig
+cleanup __amd64 void BoarderPodDrone::LoadState(BoarderPodDrone *this, int fd); // 00462ce0 DWARF original prototype
+".534889fb4883ec2080be":  // unique sig
+cleanup __amd64 std::string BoarderPodDrone::GetTooltip(BoarderPodDrone *this); // 00462fe0 DWARF original prototype
+".534889fb4883ec2080bfbc":  // unique sig
+cleanup __amd64 void BoarderPodDrone::BlowUp(BoarderPodDrone *this, bool silent); // 00463080 DWARF original prototype
+".41554154554889f5534889fb4883ec2880":  // unique sig
 cleanup __amd64 CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".415455534889fb4881ecc0000000":
+".4157415641554154554889fd534883ec28488b872804000048c707????????48c74740????????48c74750????????48c78718040000????????488d78e84881ff????????0f8578":  // unique sig
+cleanup __amd64 void BoarderPodDrone::destructor1(BoarderPodDrone *this); // 004649d0 DWARF original prototype, Itanium D1 destructor
+".4157415641554154554889fd534883ec28488b872804000048c707????????48c74740????????48c74750????????48c78718040000????????488d78e84881ff????????0f8583":  // unique sig
+cleanup __amd64 void BoarderPodDrone::destructor(BoarderPodDrone *this); // 00464c30 DWARF original prototype, Itanium D0 destructor
+".415455534889fb4881ecc0":  // unique sig
 cleanup __amd64 void BoarderPodDrone::OnLoop(BoarderPodDrone *this);
-".41574989ff415641554989cd415455498dafa8030000":
+".41574989ff415641554989cd41545549":  // unique sig
 cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
+".f3c3662e0f1f8400000000000f1f4000b801000000c3662e0f1f840000000000488b":  // unique sig
+cleanup __amd64 void BoarderPodDrone::RandomizeStartingPosition(BoarderPodDrone *this); // 004697a0 DWARF original prototype
+".b801000000c3662e0f1f840000000000488b8760":  // unique sig
+cleanup __amd64 bool BoarderPodDrone::HideUnderOwner(BoarderPodDrone *this); // 004697b0 DWARF original prototype
+".488b8760040000c3":  // unique sig
+cleanup __amd64 CrewDrone *BoarderPodDrone::GetBoardingDrone(BoarderPodDrone *this); // 004697c0 DWARF original prototype
+".31c0c3662e0f1f8400000000000f1f0053be":  // unique sig
+cleanup __amd64 bool BoarderPodDrone::CanBeRecovered(BoarderPodDrone *this); // 004697d0 DWARF original prototype
 
 
 struct BoarderPodDrone
