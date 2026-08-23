@@ -195,7 +195,7 @@ Development:
 	ranhai
 	sillysandvich
 	The Dumb Dino
-	zerofreed
+	ZeroFreed
 Art:
 	SaltyFriedRice
 
