@@ -1,6 +1,6 @@
 "565383ec148b74????8b5c????f30f108690000000":
 cleanup __cdecl void LockdownShard::SaveState(LockdownShard *this, int fd); //080ed7c0
-".5589e55383ec348b5d08c70424????????":
+"5589e55383ec348b5d08c70424????????":
 cleanup __cdecl void LockdownShard::Update(LockdownShard *this); //080ed8d0
 ".5383ec388b5c????e8????????c744????00000000f30f108394000000":
 cleanup __cdecl void LockdownShard::OnRender(LockdownShard *this); //080eda70

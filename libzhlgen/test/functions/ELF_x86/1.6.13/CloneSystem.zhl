@@ -1,6 +1,6 @@
 "5589e557565383ec6c8b????83bbb4010000ff":
 cleanup __cdecl void CloneSystem::OnRenderFloor(CloneSystem *this);
-".8b44??f30f2c04??????????":
+".8b442404f30f2c0485????3e08c366908b":
 static cleanup __cdecl int CloneSystem::GetCloneTime(int level);
 ".8b442404":
 static cleanup __cdecl int CloneSystem::GetJumpHealth(int level);

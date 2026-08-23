@@ -6,11 +6,11 @@ virtual cleanup __cdecl void GenericButton::SetActive(GenericButton *this, bool 
 virtual cleanup __cdecl void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
 "f3c36690669066906690669066906690":
 noHook void GenericButton::__DO_NOT_HOOK();
-".f3c36690669066906690669066906690":
+".f3c36690669066906690669066906690f3c36690669066906690669066906690f3c3669066906690669066906690669057":
 virtual cleanup __cdecl void GenericButton::OnClick(GenericButton *this);
-".f3c36690669066906690669066906690":
+".f3c36690669066906690669066906690f3c3669066906690669066906690669057":
 virtual cleanup __cdecl void GenericButton::OnRightClick(GenericButton *this);
-".f3c36690669066906690669066906690":
+".f3c36690669066906690669066906690575653":
 virtual cleanup __cdecl void GenericButton::ResetPrimitives(GenericButton *this);
 
 struct GenericButton

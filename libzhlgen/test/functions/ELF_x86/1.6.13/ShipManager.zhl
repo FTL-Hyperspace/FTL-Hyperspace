@@ -110,7 +110,7 @@ cleanup __cdecl int ShipManager::CountCrewShipId(ShipManager *this, int roomId, 
 cleanup __cdecl ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
 ".5383ec188b5c24208b83000400008b4020":
 cleanup __cdecl bool ShipManager::DoorsFunction(ShipManager *this);
-".8b548b4c8b82000400008b048883f8ff748b52188b04828944e9":
+".8b5424048b4c24088b82000400008b048883f8ff74128b52188b048289442404e9fbf1|8b5424048b4c24088b82000400008b048883f8ff74128b52188b048289442404e96b":
 cleanup __cdecl bool ShipManager::SystemLocked(ShipManager *this, int systemId);
 
 "5589e557565381ec1c0100008b45088b7d0c0594040000":
@@ -125,7 +125,7 @@ cleanup __cdecl void ShipManager::ImportShip(ShipManager *this, int file);
 cleanup __cdecl void ShipManager::CheckVision(ShipManager *this);
 "56538b5424108b4c240c83fa118b8100040000":
 cleanup __cdecl int ShipManager::IsSystemHacked(ShipManager *this, int systemId);
-".5383ec288d????108944????c744????00000000c704??????????":
+"5383ec288d????108944????c744????00000000c704??????????":
 cleanup __cdecl void ShipManager::SaveCrewPositions(ShipManager *this);
 "5589e557565383ec3c8b7d080fb645148b4f64":
 cleanup __cdecl CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this, int x, int y, bool intruder);

@@ -554,13 +554,13 @@ cleanup __cdecl int LoadTexture(ResourceManager *resmgr, const std::string& path
 "803d??????08007507c38db60000000055":
 __cdecl void input_update();
 
-"e95bd103008d7426008dbc2700000000e95bd103008d7426008dbc2700000000e95bd103008d7426008dbc2700000000e95bd103008d7426008dbc270000000031c0":
+"e9????????8d7426008dbc2700000000e9????????8d7426008dbc2700000000e9????????8d7426008dbc2700000000e9????????8d7426008dbc270000000031c0":
 __cdecl bool input_is_quit_requested();
 
-".e9":
+"e9????????8d7426008dbc2700000000e9????????8d7426008dbc2700000000e9????????8d7426008dbc270000000031c0":
 __cdecl bool input_is_suspend_requested();
 
-".e9":
+"e9????????8d7426008dbc2700000000e9????????8d7426008dbc270000000031c0":
 __cdecl void input_acknowledge_suspend_request();
 
 "565383ec148b4424208b4c242485c074688b580c85db744e":

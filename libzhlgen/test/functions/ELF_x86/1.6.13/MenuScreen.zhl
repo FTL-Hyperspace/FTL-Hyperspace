@@ -8,5 +8,5 @@ cleanup __cdecl void MenuScreen::MouseMove(MenuScreen *this, int mX, int mY);
 cleanup __cdecl void MenuScreen::MouseClick(MenuScreen *this, int mX, int mY);
 ".5589e557565383ec4c8b7d088d75d88d":
 cleanup __cdecl void MenuScreen::Open(MenuScreen *this);
-".5557565381ec0c0100008b9c24200100008db424a8000000":
+"5557565381ec0c0100008b9c24200100008db424a8000000":
 cleanup __cdecl void MenuScreen::constructor(MenuScreen *this);
