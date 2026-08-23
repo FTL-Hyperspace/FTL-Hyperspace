@@ -12221,10 +12221,10 @@ namespace _func886
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Projectile::QueuedShots", typeid(bool (Projectile::*)()), ".8b44????8b90840400003990880400000f95??", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("ProjectileFactory::QueuedShots", typeid(bool (ProjectileFactory::*)()), ".8b44????8b90840400003990880400000f95??", argdata, 1, 2, &func);
 }
 
-bool Projectile::QueuedShots()
+bool ProjectileFactory::QueuedShots()
 {
 	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ProjectileFactory *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func886::func;
