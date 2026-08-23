@@ -71,3 +71,6 @@ test_results/
 
 # Test environment (user-specific)
 tests/.test.env
+
+# Game binaries
+ftl-bin/

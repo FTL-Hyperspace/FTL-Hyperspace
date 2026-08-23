@@ -5,6 +5,7 @@ import subprocess
 import sys
 import re
 import fnmatch
+import shutil
 from collections import defaultdict
 
 # Intentional name mismatches: (ZHL name pattern, expected nm name pattern)
@@ -97,9 +98,13 @@ def parse_zhl_log(log_path):
                 funcs[name] = addr
     return funcs
 
+# GNU nm only reads its host's formats; llvm-nm reads Mach-O, PE and ELF alike.
+# macOS's nm already is llvm-nm, so this only matters on Linux (e.g. in Docker).
+NM = shutil.which('llvm-nm') or 'nm'
+
 def parse_nm_output(binary_path):
     """Parse nm -C output and extract ALL function addresses."""
-    result = subprocess.run(['nm', '-C', binary_path], capture_output=True, text=True)
+    result = subprocess.run([NM, '-C', binary_path], capture_output=True, text=True)
 
     # Map: address -> list of function names at that address
     addr_to_funcs = defaultdict(list)
@@ -146,6 +151,27 @@ def find_nearest_function(addr, all_addrs, addr_to_funcs):
         offset = addr - result_addr
         return result_addr, funcs, offset
     return None, [], 0
+
+def itanium_mangled(qualified_name):
+    """``Class::Method`` as it appears inside an Itanium-mangled symbol: ``5Class6Method``.
+
+    nm -C cannot demangle stdcall-decorated symbols such as
+    ``__ZN11DebugHelper12CrashCatcherEP19_EXCEPTION_POINTERS@4``, so match those raw."""
+    return ''.join(f'{len(part)}{part}' for part in qualified_name.split('::'))
+
+NOP_PREFIX = 'Global__NOP__'
+
+def nop_target(zhl_name):
+    """``Class::Method`` a NOP region is meant to patch, from ``Global__NOP__Class_Method[_N]``."""
+    parts = zhl_name[len(NOP_PREFIX):].split('_')
+    if parts and parts[-1].isdigit():
+        parts.pop()
+    return '::'.join(parts)
+
+def nop_inside_target(zhl_name, nearest_funcs):
+    """A NOP region sits inside a function by design; it must be the one it is named after."""
+    target = nop_target(zhl_name)
+    return any(func.split('(')[0] == target for func in nearest_funcs)
 
 def normalize_name(zhl_name):
     """Convert ZHL name to possible nm names for matching."""
@@ -289,6 +315,9 @@ def main():
                 if expected in func_at_addr or func_at_addr.startswith(expected + '('):
                     found_match = True
                     break
+                if itanium_mangled(expected) in func_at_addr:
+                    found_match = True
+                    break
                 # Also check without parameters
                 func_short = func_at_addr.split('(')[0] if '(' in func_at_addr else func_at_addr
                 if expected == func_short:
@@ -339,8 +368,11 @@ def main():
             if not found_elsewhere:
                 # Address is in middle of another function or truly not in nm
                 if nearest_addr and offset < 0x1000:  # Within 4KB of another function
-                    # Could be inlined or internal - but let's report it
-                    if offset > 0:  # Not at function start
+                    if name.startswith(NOP_PREFIX):
+                        misplaced = not nop_inside_target(name, nearest_funcs)
+                    else:
+                        misplaced = offset > 0  # Not at function start
+                    if misplaced:
                         wrong_bindings.append({
                             'name': name,
                             'zhl_addr': zhl_addr,
@@ -415,6 +447,8 @@ def main():
                 print(f"  {name}")
         if len(not_in_nm_but_ok) > 20:
             print(f"  ... and {len(not_in_nm_but_ok) - 20} more")
+
+    sys.exit(1 if wrong_bindings else 0)
 
 if __name__ == '__main__':
     main()
