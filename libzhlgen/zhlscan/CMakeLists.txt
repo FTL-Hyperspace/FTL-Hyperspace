@@ -68,17 +68,17 @@ add_definitions_module(win32   FTLGameWin32.cpp      32)
 
 # When a preserved generated source is present, build a second definitions
 # module so verify_sigs.py can scan the old and current ZHL sets independently.
-if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameMacOSAMD64.cpp)
-    add_definitions_module(darwin  tests/old_zhl_cpp/FTLGameMacOSAMD64.cpp 64 old)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/old_zhl_cpp/FTLGameMacOSAMD64.cpp)
+    add_definitions_module(darwin  libzhlgen/zhlscan/old_zhl_cpp/FTLGameMacOSAMD64.cpp 64 old)
 endif()
-if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameELF64.cpp)
-    add_definitions_module(linux64 tests/old_zhl_cpp/FTLGameELF64.cpp      64 old)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/old_zhl_cpp/FTLGameELF64.cpp)
+    add_definitions_module(linux64 libzhlgen/zhlscan/old_zhl_cpp/FTLGameELF64.cpp      64 old)
 endif()
-if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameELF32.cpp)
-    add_definitions_module(linux32 tests/old_zhl_cpp/FTLGameELF32.cpp      32 old)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/old_zhl_cpp/FTLGameELF32.cpp)
+    add_definitions_module(linux32 libzhlgen/zhlscan/old_zhl_cpp/FTLGameELF32.cpp      32 old)
 endif()
-if(EXISTS ${HYPERSPACE_ROOT}/tests/old_zhl_cpp/FTLGameWin32.cpp)
-    add_definitions_module(win32   tests/old_zhl_cpp/FTLGameWin32.cpp      32 old)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/old_zhl_cpp/FTLGameWin32.cpp)
+    add_definitions_module(win32   libzhlgen/zhlscan/old_zhl_cpp/FTLGameWin32.cpp      32 old)
 endif()
 
 # FTLGameWin32.cpp contains 32-bit inline asm in naked wrappers that cannot

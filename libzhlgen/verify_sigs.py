@@ -15,10 +15,10 @@ to produce zhl.log, then run compare_zhl_nm.py on it. Both outputs land in
 test_results/zhl_test/<os>-<binary name>/ (zhl.log, zhlscan.txt, compare.txt);
 everything is also echoed to stdout.
 
-If tests/old_zhl_cpp/FTLGame<platform>.cpp exists, an old module is built and
-scanned first. Its files use the *-old names, and find_new_zhl_mismap.py
-compares zhl-old.log against the current zhl.log after both compare_zhl_nm.py
-runs finish.
+If libzhlgen/zhlscan/old_zhl_cpp/FTLGame<platform>.cpp exists, an old module is
+built and scanned first. Its files use the *-old names, and
+find_new_zhl_mismap.py compares zhl-old.log against the current zhl.log after
+both compare_zhl_nm.py runs finish.
 
 zhlscan and the modules are built on demand in build-zhlscan/ (or
 ZHLSCAN_BUILD_DIR): zhlscan/build.sh configures it the first time, after that
@@ -96,7 +96,7 @@ class GameBinary:
     @property
     def old_module_target(self):
         source = GENERATED_SOURCES[self.module_target]
-        old_source = ROOT / 'tests' / 'old_zhl_cpp' / source
+        old_source = HERE / 'zhlscan' / 'old_zhl_cpp' / source
         return f'{self.module_target}-old' if old_source.is_file() else None
 
     @property
