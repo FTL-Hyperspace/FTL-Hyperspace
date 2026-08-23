@@ -9613,7 +9613,7 @@ bool __stdcall input_is_quit_requested()
 namespace _func760
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("input_is_suspend_requested", typeid(bool (*)()), "!.554889e5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("input_is_suspend_requested", typeid(bool (*)()), "!554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e580", nullptr, 0, 0, &func);
 }
 
 bool __stdcall input_is_suspend_requested()
@@ -9626,7 +9626,7 @@ bool __stdcall input_is_suspend_requested()
 namespace _func761
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("input_acknowledge_suspend_request", typeid(void (*)()), "!.554889e5", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("input_acknowledge_suspend_request", typeid(void (*)()), "!554889e55de9????0300660f1f440000554889e55de9????0300660f1f440000554889e580", nullptr, 0, 0, &func);
 }
 
 void __stdcall input_acknowledge_suspend_request()
