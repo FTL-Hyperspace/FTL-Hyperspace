@@ -1,4 +1,4 @@
-"534889fb488bbf58010000":
+"534889fb488bbf5801000031c04885ff7417488b07ff503085d2b8010000007e088b430885c00f94c05bc3900f1f400048":
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 ".534889fb4883ec104885f6":
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);

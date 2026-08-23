@@ -12,7 +12,7 @@ cleanup __amd64 void AsteroidGenerator::OnLoop(AsteroidGenerator *this);
 cleanup __amd64 void AsteroidGenerator::GetNextState(AsteroidGenerator *this);
 ".534889fbbf????????e8????????":
 cleanup __amd64 void AsteroidGenerator::UpdateState(AsteroidGenerator *this);
-".554889fd5389f34883ec08":
+"!.554889fd5389f34883ec08":
 cleanup __amd64 bool AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this, void* file);
-".5589f5534889fb89f74883ec08":
+".5589f5534889fb89f74883ec08e8????18":
 cleanup __amd64 void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this, void* file);
