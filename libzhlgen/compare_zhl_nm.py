@@ -114,7 +114,9 @@ def parse_nm_output(binary_path):
     all_addrs = []
 
     for line in result.stdout.splitlines():
-        m = re.match(r'([0-9a-fA-F]+)\s+[tT]\s+(.+)', line)
+        # t/T: text symbols; w/W: weak ones, which is how GCC emits inline and
+        # virtual methods defined in headers on Linux.
+        m = re.match(r'([0-9a-fA-F]+)\s+[tTwW]\s+(.+)', line)
         if m:
             addr = int(m.group(1), 16)
             full_name = m.group(2)
@@ -312,7 +314,10 @@ def main():
         for expected in expected_nm_names:
             for func_at_addr in funcs_at_addr:
                 # Check if expected name is in the function name (handles overloads)
-                if expected in func_at_addr or func_at_addr.startswith(expected + '('):
+                # The name must end where the parameter list or an ABI tag begins
+                # (a plain substring test let GetFlag match GetFlagValue). Mach-O
+                # and PE prefix C symbols with an underscore.
+                if re.match('_?' + re.escape(expected) + r'(\(|\[abi:|$)', func_at_addr):
                     found_match = True
                     break
                 if itanium_mangled(expected) in func_at_addr:
