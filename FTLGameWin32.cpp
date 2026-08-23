@@ -38217,10 +38217,10 @@ namespace _func2762
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipObject::AddAugmentation", typeid(void (ShipObject::*)(const std::string &, int )), ".5731c08d7c240883e4f0ff77fc5589e557565381ec9c", argdata, 3, 5, &func);
+	static FunctionDefinition funcObj("ShipObject::AddAugmentation1", typeid(void (ShipObject::*)(const std::string &, int )), ".5731c08d7c240883e4f0ff77fc5589e557565381ec9c", argdata, 3, 5, &func);
 }
 
-void ShipObject::AddAugmentation(const std::string &augId, int slot)
+void ShipObject::AddAugmentation1(const std::string &augId, int slot)
 {
 	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipObject *this_arg, const std::string &augId_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2762::func;

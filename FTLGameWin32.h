@@ -1419,7 +1419,7 @@ struct ShipObject
 	void CheckCargo(const std::string& equip, int& ret);
 
 	LIBZHL_API bool AddAugmentation(const std::string &augment);
-	LIBZHL_API void AddAugmentation(const std::string &augId, int slot);
+	LIBZHL_API void AddAugmentation1(const std::string &augId, int slot);
 	LIBZHL_API void AddEquipment(const std::string &blueName);
 	LIBZHL_API void ClearShipInfo();
 	LIBZHL_API int GetAugmentationCount();
