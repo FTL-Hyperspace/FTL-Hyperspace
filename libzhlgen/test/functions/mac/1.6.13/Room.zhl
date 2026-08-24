@@ -1,7 +1,5 @@
 "554889e54157415641554154534881eca801":  //
-noHook __amd64 void Room::__STRUCT_OVERRIDE_ANCHOR_82();
-//"554889e54157415641554154534881eca801":  //
-//cleanup __amd64 void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId); // 1000663e0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId); // 1000663e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Room::constructor1(Room *this, int iShipId, int x, int y, int w, int h, int roomId); // 100067320 Linux DWARF prototype catalog by linkage
 "!554889e54881c728":  //
@@ -17,9 +15,7 @@ cleanup __amd64 void Room::destructor2(Room *this); // 100067780 Itanium source 
 ".55":  //
 cleanup __amd64 void Room::destructor1(Room *this); // 100067930 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb4883c3f0":  //
-noHook __amd64 void Room::__STRUCT_OVERRIDE_ANCHOR_83();
-//"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb4883c3f0":  //
-//cleanup __amd64 void Room::destructor(Room *this); // 100067950 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void Room::destructor(Room *this); // 100067950 Itanium source destructor prototype, Itanium D0 destructor
 "554889e54157415641554154534883ec284989f6":  //
 cleanup __amd64 std::vector<GL_Line> Room::GetGridLines(Room *this); // 1000679a0 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -84,11 +80,6 @@ cleanup __amd64 void Room::OnCleanup(Room *this); // 100068b70 Linux DWARF proto
 noHook __amd64 void Room::__STRUCT_OVERRIDE_ANCHOR_86();
 //".55":  //
 //cleanup __amd64 bool Room::ContainsPoint(Room *this, int x, int y, bool bIncludeWalls); // 100068b80 Linux DWARF prototype catalog by linkage
-// Continue from RockAnimation::GetShootingSound (hyper efficiency™)
-"!.554889e54157415641554154534881eca801":
-cleanup __amd64 void Room::constructor(Room *this, int _iShipId, int _x, int _y, int _w, int _h, int _roomId);
-"!.554889e541574156":
-cleanup __amd64 void Room::destructor(Room *this);
 
 
 struct Room depends (Globals, Point)

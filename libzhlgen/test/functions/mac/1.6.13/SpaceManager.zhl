@@ -1,7 +1,5 @@
 "!554889e5415741564155415453504889fb48c743100000000048c743080000000048c7030000000048|!554889e54157415641554154534883ec184889fb48c7":  //
-noHook __amd64 void SpaceManager::__STRUCT_OVERRIDE_ANCHOR_123();
-//"!554889e5415741564155415453504889fb48c743100000000048c743080000000048c7030000000048|!554889e54157415641554154534883ec184889fb48c7":  //
-//cleanup __amd64 void SpaceManager::constructor(SpaceManager *this); // 10003c340 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SpaceManager::constructor(SpaceManager *this); // 10003c340 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void SpaceManager::constructor1(SpaceManager *this); // 10003c870 Linux DWARF prototype catalog by linkage
 "554889e58a87a0":  //
@@ -80,9 +78,6 @@ cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this);
 cleanup __amd64 void SpaceManager::AddShip(SpaceManager *this, ShipManager* ship);
 ".554889e54157415653504989ff498d":  //
 cleanup __amd64 void SpaceManager::destructor2(SpaceManager *this); // 1001e7330 Itanium source destructor prototype, Itanium D2 destructor
-// Continue from SpaceDrone::CollisionMoving (hyper efficiency™)
-"!.554889e5415741564155415453??????????????????????00":
-cleanup __amd64 void SpaceManager::constructor(SpaceManager *this);
 
 
 struct SpaceManager

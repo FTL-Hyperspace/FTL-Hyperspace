@@ -1,7 +1,5 @@
 "554889e54157415641554154534883ec384989cc4989d5|554889e54157415641554154534883ec3848894d":  //
-noHook __amd64 void StoreBox::__STRUCT_OVERRIDE_ANCHOR_125();
-//"554889e54157415641554154534883ec384989cc4989d5|554889e54157415641554154534883ec3848894d":  //
-//cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e2b0 Linux DWARF prototype catalog
+cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e2b0 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 void StoreBox::constructor1(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e570 Linux DWARF prototype catalog
 "554889e553504889fb488d05????21":  //
@@ -46,9 +44,6 @@ cleanup __amd64 TextString StoreBox::GetConfirmText(StoreBox *this); // 100121c5
 cleanup __amd64 int StoreBox::GetExtraData(StoreBox *this); // 100121c80 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void StoreBox::SetExtraData(StoreBox *this, int data); // 100121c90 Linux DWARF prototype catalog by linkage
-// Continue from Store::destructor (hyper efficiency™)
-".554889e54157":
-cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string& _buttonImage, ShipManager* _shopper, Equipment* _equip);
 
 
 struct StoreBox

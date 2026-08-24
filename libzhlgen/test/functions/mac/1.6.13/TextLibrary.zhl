@@ -38,7 +38,6 @@ noHook __amd64 void TextLibrary::__STRUCT_OVERRIDE_ANCHOR_135();
 static cleanup __amd64 std::string TextLibrary::DoFormatText<float>(int param_1, const std::string &param_2, float param_3); // 10019a6e0 prototype catalog missing
 ".554889e54157415641554154534883ec68448945|.554889e54157415641554154534883ec58f3":  //
 static cleanup __amd64 std::string TextLibrary::DoFormatText<int, float>(int param_1, const std::string &param_2, int param_3, float param_4); // 1001fafe0 prototype catalog missing
-// Continue from TextInput::Start (hyper efficiency™)
 
 
 struct TextLibrary depends (TextString)

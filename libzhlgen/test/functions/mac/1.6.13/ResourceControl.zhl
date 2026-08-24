@@ -1,13 +1,11 @@
 "554889e548c74718":  //
-noHook __amd64 void ResourceControl::__STRUCT_OVERRIDE_ANCHOR_81();
-//"554889e548c74718":  //
-//cleanup __amd64 void ResourceControl::constructor(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ResourceControl::constructor1(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ResourceControl::destructor1(ResourceControl *this); // 100157590 Itanium source destructor prototype, Itanium D1 destructor
 "!3f5dc3660f1f440000554889e55de9????????660f1f440000":  //
 noHook __amd64 void ResourceControl::__DO_NOT_HOOK_10015759f(); // 10015759f
 ".55":  //
-cleanup __amd64 void ResourceControl::constructor1(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ResourceControl::constructor(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
 "554889e541574156534883ec184989fe0f|554889e541574156534883ec180f":  //
 cleanup __amd64 void ResourceControl::destructor2(ResourceControl *this); // 100157710 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
@@ -39,11 +37,11 @@ cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const s
 ".0f28":  //
 cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".55":  //
-cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b740 Linux DWARF prototype catalog
+cleanup __amd64 void ResourceControl::RenderImageString(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b740 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture* image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 ".55":  //
-cleanup __amd64 GL_Primitive *ResourceControl::CreateImagePrimitive(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b840 Linux DWARF prototype catalog
+cleanup __amd64 GL_Primitive *ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b840 Linux DWARF prototype catalog
 ".554889e5415741564154":  //
 cleanup __amd64 void ResourceControl::UnloadImage(ResourceControl *this, const std::string &name); // 10015ba80 Linux DWARF prototype catalog
 ".55":  //
@@ -85,16 +83,8 @@ cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *thi
 ".55":  //
 cleanup __amd64 void ResourceControl::OnLanguageChange(ResourceControl *this); // 10015f8d0 Linux DWARF prototype catalog by linkage
 "!488d3d(???????\?)31f6":
-offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 
-".554889e548c747180000000048c747100000000048c747080000000048c70700000000c7":
-noHook __amd64 void ResourceControl::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
-".554889e548c747180000000048c747100000000048c747080000000048c70700000000c7":
-cleanup __amd64 void ResourceControl::constructor(ResourceControl *this);
-".554889e5415741564154534883ec":
-cleanup __amd64 void ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-"!.554889e5415741564154534883ec":
-cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 
 
 struct ResourceControl depends (freetype)

@@ -1,31 +1,20 @@
 "554889e54157415641554154534881ec8807":  //
 static cleanup __amd64 ShipManager* ShipGenerator::CreateShip(const std::string& name, int sector, ShipEvent& event);
 ".55":  //
-static cleanup __amd64 std::vector<int> *ShipGenerator::GenerateSystemMaxes(ShipBlueprint *blueprint, int sector); // 1001bf290 Linux DWARF prototype catalog by linkage
+static cleanup __amd64 std::vector<int> ShipGenerator::GenerateSystemMaxes(const ShipBlueprint &blueprint, int sector); // 1001bf290 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 bool ShipGenerator::UpgradeSystem(ShipManager* ship, std::vector<int>& systemMaxes, unsigned int sysId);
 ".55":  //
-static cleanup __amd64 std::vector<int> *ShipGenerator::GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> *maxes, int scrap, int type); // 1001bf960 Linux DWARF prototype catalog
+static cleanup __amd64 std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> *maxes, int scrap, int type); // 1001bf960 Linux DWARF prototype catalog
 ".5548":  //
-static cleanup __amd64 std::vector<WeaponBlueprint*> *ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &name, int scrap, int filter); // 1001bff60 Linux DWARF prototype catalog
+static cleanup __amd64 std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &name, int scrap, int filter); // 1001bff60 Linux DWARF prototype catalog
 ".55":  //
 static cleanup __amd64 int ShipGenerator::GetWeaponFlags(WeaponBlueprint *blueprint); // 1001c0570 Linux DWARF prototype catalog by linkage
 ".55":  //
-static cleanup __amd64 std::vector<DroneBlueprint*> *ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &name, int scrap, int filter, bool desperate); // 1001c05b0 Linux DWARF prototype catalog
+static cleanup __amd64 std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &name, int scrap, int filter, bool desperate); // 1001c05b0 Linux DWARF prototype catalog
 ".55":  //
 static cleanup __amd64 int ShipGenerator::GetDroneFlags(DroneBlueprint *blueprint); // 1001c0a50 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 void ShipGenerator::AddDrone(ShipManager *ship, DroneBlueprint *drone, int *scrap); // 1001c0a70 Linux DWARF prototype catalog by linkage
 ".55":  //
-static cleanup __amd64 std::vector<CrewBlueprint> *ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &type, int scrap); // 1001c0ab0 Linux DWARF prototype catalog
-// Continue from ShipEvent::constructor (hyper efficiency™)
-"!.5548":
-static cleanup __amd64 std::vector<int> ShipGenerator::GenerateSystemMaxes(const ShipBlueprint& ship, int level);
-"!.5548":
-static cleanup __amd64 std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager* ship, std::vector<int>& systemMaxes, int scrap, int type);
-"!.5548":
-static cleanup __amd64 std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager* ship, const std::string& weaponList, int scrap, unsigned int flags);
-"!.554889e541":
-static cleanup __amd64 std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager* ship, const std::string& droneList, int scrap, unsigned int flags, bool repeat);
-"!.554889e541":
-static cleanup __amd64 std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager* ship, const std::string& crewList, unsigned int flags);
+static cleanup __amd64 std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &type, int scrap); // 1001c0ab0 Linux DWARF prototype catalog

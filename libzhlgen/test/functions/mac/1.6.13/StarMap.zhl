@@ -154,12 +154,6 @@ cleanup __amd64 void StarMap::RenderLeftInsetButton(StarMap *this, float rightX,
 cleanup __amd64 void StarMap::RenderLabels(StarMap *this);
 ".55":  //
 cleanup __amd64 Location* StarMap::PopClosestLoc(StarMap *this, std::vector<Location*>& vec, std::map<Location*, int>& map);
-// Continue from Spreader_Fire::CounterRoom (hyper efficiency™)
-// GOG | Steam - different stack allocation
-/* Empty functions - unused
-*/
-/* Empty function - unused
-*/
 
 
 struct StarMap

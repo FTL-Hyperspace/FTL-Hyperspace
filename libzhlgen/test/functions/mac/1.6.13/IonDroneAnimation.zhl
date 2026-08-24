@@ -1,9 +1,7 @@
 "554889e55de9????????660f1f440000554889e54157415641554154534883ec5848|554889e50fb6d2":  //
-noHook __amd64 void IonDroneAnimation::__STRUCT_OVERRIDE_ANCHOR_49();
-//"554889e55de9????????660f1f440000554889e54157415641554154534883ec5848|554889e50fb6d2":  //
-//cleanup __amd64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a200 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void IonDroneAnimation::constructor1(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a200 Linux DWARF prototype catalog by linkage
 ".554889e54157415641":  //
-cleanup __amd64 void IonDroneAnimation::constructor1(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a5a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a5a0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void IonDroneAnimation::Restart(IonDroneAnimation *this); // 10001b550 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -22,9 +20,6 @@ cleanup __amd64 void IonDroneAnimation::destructor1(IonDroneAnimation *this); //
 cleanup __amd64 void IonDroneAnimation::destructor(IonDroneAnimation *this); // 10001d0f0 Itanium source destructor prototype, Itanium D0 destructor
 ".5548":  //
 cleanup __amd64 int IonDroneAnimation::GetFiringFrame(IonDroneAnimation *this); // 10001d170 Linux DWARF prototype catalog by linkage
-// Continue from IonDrone::GetRoomDamage (hyper efficiency™)
-"!.554889e54157415641554154534881ecd8":
-cleanup __amd64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int _iShipId, Pointf _position, bool _enemy);
 
 
 struct IonDroneAnimation

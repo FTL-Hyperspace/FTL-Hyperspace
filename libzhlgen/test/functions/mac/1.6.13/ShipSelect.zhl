@@ -30,15 +30,13 @@ noHook __amd64 void ShipSelect::__STRUCT_OVERRIDE_ANCHOR_119();
 cleanup __amd64 void ShipSelect::OnRender(ShipSelect *this);
 ".55":  //
 cleanup __amd64 void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
-// Continue from Global_ShipObject_ShipInfoList (hyper efficiency™)
-"!.554889e541":
-noHook __amd64 void ShipSelect::NoHook(ShipSelect *this); // destructor
+
 /* Inlined into SelectShip - luckily both unused
 "NULL":
 cleanup __amd64 void ShipSelect::PreSelectShip(ShipSelect *this, int shipType);
 */
-"!.55":
-cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this); // Unused and actually called GetSelection
+// "!.55":
+// cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this); // Unused and actually called GetSelection
 
 
 struct ShipSelect

@@ -1,13 +1,9 @@
 "554889e5534883ec184889fbc645|554889e5534883ec18c6":  //
-noHook __amd64 void CrewStoreBox::__STRUCT_OVERRIDE_ANCHOR_32();
-//"554889e5534883ec184889fbc645|554889e5534883ec18c6":  //
-//cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this); // 10011f370 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this); // 10011f370 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewStoreBox::constructor1(CrewStoreBox *this); // 10011f5b0 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534881ece801":  //
-noHook __amd64 void CrewStoreBox::__STRUCT_OVERRIDE_ANCHOR_33();
-//"554889e54157415641554154534881ece801":  //
-//cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *shopper, int worldLevel, const std::string &type); // 10011f5c0 Linux DWARF prototype catalog
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *shopper, int worldLevel, const std::string &type); // 10011f5c0 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 void CrewStoreBox::constructor1(CrewStoreBox *this, ShipManager *shopper, int worldLevel, const std::string &type); // 10011fa20 Linux DWARF prototype catalog
 "554889e5488d87":  //
@@ -24,9 +20,6 @@ cleanup __amd64 void CrewStoreBox::destructor1(CrewStoreBox *this); // 100121cd0
 cleanup __amd64 void CrewStoreBox::destructor(CrewStoreBox *this); // 100121ce0 Itanium source destructor prototype, Itanium D0 destructor
 ".554889e541":  //
 cleanup __amd64 void CrewStoreBox::destructor2(CrewStoreBox *this); // 100121f00 Itanium source destructor prototype, Itanium D2 destructor
-// Continue from Global_CrewMemberFactory_Factory (hyper efficiency™)
-".554889e54157415641554154534881ece801":
-cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager* _ship, int _worldLevel, const std::string& _type);
 
 
 struct CrewStoreBox

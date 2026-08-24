@@ -99,13 +99,6 @@ cleanup __amd64 void BlueprintManager::destructor2(BlueprintManager *this); // 1
 "!0b0000488d3d(???????\?)":
 offsetVariable BlueprintManager* Global_BlueprintManager_Blueprints;
 
-".554889e54157":
-noHook __amd64 void BlueprintManager::ProcessCrewBlueprint();
-".554889e54157":
-noHook __amd64 void BlueprintManager::DO_NOT_HOOK_1();
-".554889e5535089":
-noHook __amd64 void BlueprintManager::GetRandomCrew();
-
 
 struct BlueprintManager
 {{

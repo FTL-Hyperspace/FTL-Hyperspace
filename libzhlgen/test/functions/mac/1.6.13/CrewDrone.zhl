@@ -27,9 +27,7 @@ cleanup __amd64 bool CrewDrone::Destroyed(CrewDrone *this); // 10001c560 Linux D
 "!.554889e553":  //
 cleanup __amd64 void CrewDrone::destructor1(CrewDrone *this); // 10001c600 Itanium source destructor prototype, Itanium D1 destructor
 ".55":  //
-noHook __amd64 void CrewDrone::__STRUCT_OVERRIDE_ANCHOR_28();
-//".55":  //
-//cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // 10001c650 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // 10001c650 Itanium source destructor prototype, Itanium D0 destructor
 ".554889e5b0":  //
 cleanup __amd64 bool CrewDrone::IsDrone(CrewDrone *this); // 10001c730 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -80,10 +78,6 @@ cleanup __amd64 Slot CrewDrone::GetDroneSlot(CrewDrone *this); // 10001ca80 Linu
 cleanup __amd64 int CrewDrone::GetDroneHealth(CrewDrone *this); // 10001caa0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
-"!.554889e553504889fb488d05":
-noHook __amd64 void CrewDrone::DO_NOT_HOOK(); // Free destructor
-"!.554889e553504889fb488d05":
-cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // Delete destructor
 
 
 struct CrewDrone depends (CrewMember, DroneBlueprint)

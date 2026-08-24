@@ -42,5 +42,3 @@ cleanup __amd64 bool HackingDrone::CanBeRecovered(HackingDrone *this); // 10001f
 cleanup __amd64 void HackingDrone::RandomizeStartingPosition(HackingDrone *this); // 100020020 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool HackingDrone::HideUnderOwner(HackingDrone *this); // 100020030 Linux DWARF prototype catalog by linkage
-".554889e54157":
-noHook __amd64 void HackingDrone::RenderDrone();

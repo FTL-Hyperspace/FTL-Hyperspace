@@ -3,9 +3,7 @@ cleanup __amd64 bool CrewAnimation::CustomDeath(CrewAnimation *this); // 10001cd
 ".554889e54157415641554154534883ec184989fd488d053d|.554889e5415741564155415453504989fe48":  //
 cleanup __amd64 void CrewAnimation::destructor2(CrewAnimation *this); // 10001d7f0 Itanium source destructor prototype, Itanium D2 destructor
 ".554889e5??????????????????????00554889e54156534189f64889fb48":  //
-noHook __amd64 void CrewAnimation::__STRUCT_OVERRIDE_ANCHOR_24();
-//".554889e5??????????????????????00554889e54156534189f64889fb48":  //
-//cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10004fae0 Linux DWARF prototype catalog
+cleanup __amd64 void CrewAnimation::constructor1(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10004fae0 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 void CrewAnimation::SetLayers(CrewAnimation *this, std::vector<GL_Color> layers); // 10004fb20 Linux DWARF prototype catalog
 "!.554889e54156534189f64889fb31":  //
@@ -51,7 +49,7 @@ cleanup __amd64 void CrewAnimation::RenderTarget(CrewAnimation *this); // 10005a
 ".55":  //
 cleanup __amd64 void CrewAnimation::UpdateFiring(CrewAnimation *this); // 10005a5b0 Linux DWARF prototype catalog by linkage
 ".554889e54157415641554154534881":  //
-cleanup __amd64 void CrewAnimation::constructor1(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10005abd0 Linux DWARF prototype catalog
+cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10005abd0 Linux DWARF prototype catalog
 ".554889e54156534883ec20":  //
 cleanup __amd64 std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
 ".55":  //
@@ -66,10 +64,6 @@ cleanup __amd64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
 cleanup __amd64 void CrewAnimation::destructor1(CrewAnimation *this); // 10005d6f0 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9":  //
 cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this);
-"554889e54157415641554154534883ec184989d648":
-noHook __amd64 void CrewAnimation::DO_NOT_HOOK();
-".554889e54157415641554154534881eca8000000":
-cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this, int _shipId, const std::string& _race, Pointf _position, bool _enemy);
 
 
 struct CrewAnimation

@@ -64,8 +64,8 @@ cleanup __amd64 void ProjectileFactory::SaveState(ProjectileFactory *this, int f
 cleanup __amd64 void ProjectileFactory::LoadState(ProjectileFactory *this, int fd);
 "!.55":  //
 cleanup __amd64 void ProjectileFactory::destructor1(ProjectileFactory *this); // 100027620 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
-noHook __amd64 void ProjectileFactory::__STRUCT_OVERRIDE_ANCHOR_79();
+// ".55":  //
+// noHook __amd64 void ProjectileFactory::__STRUCT_OVERRIDE_ANCHOR_79(); // not sure what this override anchor is for, but it seems to be the free constructor
 ".55":  //
 cleanup __amd64 void ProjectileFactory::destructor(ProjectileFactory *this); // 1000276b0 Itanium source destructor prototype, Itanium D0 destructor
 // "!.554889e553504889fb488d05????310048890348":
