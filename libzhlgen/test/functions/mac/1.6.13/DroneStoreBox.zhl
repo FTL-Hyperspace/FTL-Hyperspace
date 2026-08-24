@@ -1,10 +1,25 @@
-// Continue from DroneControl::SelectArmament (hyper efficiency™)
-".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
-noHook __amd64 void DroneStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
-".554889e5415741564154534883ec204989ce4989d74989f44889fbbf":
+"554889e5534883ec184889fbbf":  //
+noHook __amd64 void DroneStoreBox::__STRUCT_OVERRIDE_ANCHOR_40();
+//"554889e5534883ec184889fbbf":  //
+//cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this); // 10011fbb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneStoreBox::constructor1(DroneStoreBox *this); // 10011fc50 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
-"!.554889e553504889fbe8b2ed":
+".55":  //
+cleanup __amd64 void DroneStoreBox::constructor1(DroneStoreBox *this, ShipManager *shopper, Equipment *equipScreen, DroneBlueprint *blue); // 10011fdb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 10011fe70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DroneStoreBox::CanHold(DroneStoreBox *this); // 10011fec0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneStoreBox::MouseMove(DroneStoreBox *this, int mX, int mY); // 10011fee0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void DroneStoreBox::Purchase(DroneStoreBox *this);
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
+cleanup __amd64 void DroneStoreBox::destructor1(DroneStoreBox *this); // 100121d00 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //
+cleanup __amd64 void DroneStoreBox::destructor(DroneStoreBox *this); // 100121d10 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct DroneStoreBox
@@ -13,7 +28,7 @@ struct DroneStoreBox
 	{
 		this->constructor(ship, equipScreen, blueprint);
 	}
-	
+
 	DroneStoreBox()
 	{
 		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);

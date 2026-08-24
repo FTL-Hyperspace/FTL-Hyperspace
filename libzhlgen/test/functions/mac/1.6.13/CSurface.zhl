@@ -1,121 +1,165 @@
+"554889e55dc3662e0f1f840000000000554889e55dc3662e0f1f840000000000554889e54889":  //
+cleanup __amd64 void CSurface::constructor(CSurface *this); // 100146120 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CSurface::constructor1(CSurface *this); // 100146130 Linux DWARF prototype catalog by linkage
+".554889e5e8":  //
+static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
+"!.55":  //
+static cleanup __amd64 void CSurface::StartFrame();
+".55":  //
+static cleanup __amd64 void CSurface::FinishFrame();
+"!554889e5f30f1025":  //
+static cleanup __amd64 void CSurface::GL_ClearAll();
+"!.55":  //
+static cleanup __amd64 void CSurface::GL_ClearColor();
+".55":  //
+static cleanup __amd64 bool CSurface::GL_SetViewPort(int x1, int y1, int x2, int y2); // 1001461d0 Linux DWARF prototype catalog by linkage
+".554889e54883":  //
+static cleanup __amd64 void CSurface::GL_SetScissor(int x, int y, int w, int h); // 100146200 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 int CSurface::GL_PushScissor(int x, int y, int h, int w);
+".55":  //
+static cleanup __amd64 void CSurface::GL_PopScissor();
+".55":  //
+static cleanup __amd64 void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
+".55":  //
+static cleanup __amd64 void CSurface::GL_PushStencilMode();
+".5548":  //
+static cleanup __amd64 void CSurface::GL_PopStencilMode();
+".55":  //
+static cleanup __amd64 int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
+"!554889e5488d05????17":  //
+static cleanup __amd64 int CSurface::GL_LoadIdentity();
+".8b":  //
+static cleanup __amd64 int CSurface::GL_PushMatrix();
+".554889e58b":  //
+static cleanup __amd64 int CSurface::GL_PopMatrix();
+".0f57":  //
+static cleanup __amd64 void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
+".554889e50f":  //
+static cleanup __amd64 void CSurface::GL_Scale(float x, float y, float z);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_Translate(float x, float y, float z=0.f);
+".55":  //
+static cleanup __amd64 int CSurface::GL_SetColor(GL_Color color);
+".55":  //
+static cleanup __amd64 GL_Color CSurface::GL_GetColor();
+".554889e54883":  //
+static cleanup __amd64 void CSurface::GL_SetColorTint(GL_Color color);
+".55":  //
+static cleanup __amd64 void CSurface::GL_RemoveColorTint();
+".55":  //
+static cleanup __amd64 GL_Color CSurface::GetColorTint();
+"!.55":  //
+static cleanup __amd64 bool CSurface::GL_EnableBlend();
+"!.55":  //
+static cleanup __amd64 bool CSurface::GL_DisableBlend();
+".55":  //
+static cleanup __amd64 void CSurface::GL_ForceAntialias(bool on);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawDottedLine(int x1, int y1, int x2, int y2, float thickness, float r, float g, float b); // 1001472c0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawFadingDottedLine(int x1, int y1, int x2, int y2, float thickness, float r, float g, float b, float a1, float a2); // 1001472e0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawTriangle(Point vertex1, Point vertex2, Point vertex3, GL_Color color);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
+".554889e5415741564154":  //
+cleanup __amd64 bool CSurface::GL_DrawPiePartial(CSurface *this, int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color); // 1001482f0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
+".c7":  //
+static cleanup __amd64 bool CSurface::GL_DrawCompleteShield(int x, int y, float a1, float b1); // 100148e70 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 bool CSurface::GL_BlitImage(GL_Texture* tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_BlitPixelImage(GL_Texture* tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
+".440f28c485|.4084f644":  //
+static cleanup __amd64 bool CSurface::GL_BlitImagePartial(GL_Texture* tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
+".554889e54157":  //
+static cleanup __amd64 bool CSurface::GL_BlitPixelImageWide(GL_Texture* tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
+".55":  //
+static cleanup __amd64 bool CSurface::GL_TilePixelImage(GL_Texture *tex, float x, float y, float size_x, float size_y, float sub_size_x, float sub_size_y, float scroll, GL_Color color); // 100149850 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 void CSurface::GL_BlitMultiImage(GL_Texture* tex, const std::vector<GL_TexVertex>& texVertices, bool antialias);
+".55":  //
+static cleanup __amd64 void CSurface::GL_BlitMultiColorImage(GL_Texture* tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias);
+".55":  //
+static cleanup __amd64 GL_FrameBuffer *CSurface::GL_CreateFrameBuffer(int w, int h); // 100149dd0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+static cleanup __amd64 void CSurface::GL_BindFrameBuffer(GL_FrameBuffer *fb); // 100149e10 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 void CSurface::GL_BlitFrameBuffer(GL_FrameBuffer *fb, float size_x, float size_y, bool aa); // 100149e30 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 void CSurface::GL_SetPrimitiveAntialias(GL_Primitive *primitive, bool on); // 100149f20 Linux DWARF prototype catalog by linkage
+"!.55":  //
+static cleanup __amd64 void CSurface::GL_RenderPrimitive(GL_Primitive* primitive);
+"!.55":  //
+static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive* primitive, float alpha);
+".55":  //
+static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive* primitive, GL_Color color);
+".55":  //
+static cleanup __amd64 void CSurface::GL_DestroyPrimitive(GL_Primitive* primitive);
+".55":  //
+cleanup __amd64 GL_Primitive *CSurface::GL_CreateTrianglePrimitive(CSurface *this, Point p1, Point p2, Point p3, GL_Color color); // 10014a080 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 GL_Primitive *CSurface::GL_CreateMultiTrianglePrimitive(CSurface *this, std::vector<Pointf> *points, GL_Color color); // 10014a190 Linux DWARF prototype catalog
+".55":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
+".55":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
+".55":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
+".55":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
+".55":  //
+cleanup __amd64 GL_Primitive *CSurface::GL_CreateCirclePrimitive(CSurface *this, int x, int y, float radius, GL_Color color); // 10014a990 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
+".0f2e2d????????7716|.f3440f16":  //
+noHook __amd64 void CSurface::__STRUCT_OVERRIDE_ANCHOR_14();
+//".0f2e2d????????7716|.f3440f16":  //
+//cleanup __amd64 GL_Primitive *CSurface::GL_CreateImagePrimitive(CSurface *this, GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color); // 10014ad10 Linux DWARF prototype catalog by linkage
+".0f2e2d????????7716|.f3440f16":  //
+noHook __amd64 void CSurface::__STRUCT_OVERRIDE_ANCHOR_15();
+//".0f2e2d????????7716|.f3440f16":  //
+//cleanup __amd64 GL_Primitive *CSurface::GL_CreatePixelImagePrimitive(CSurface *this, GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool mirrored); // 10014ad90 Linux DWARF prototype catalog by linkage
+".554889e54156":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture* tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
+".48":  //
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color);
+".554889e54157415641554154534883ec184989f74989fe4d|.554889e5415741564154534883ec204989f74989fe4d":  //
+static cleanup __amd64 GL_Primitive *CSurface::GL_CreateMultiImageColorPrimitive(GL_Texture *tex, std::vector<GL_ColorTexVertex> *vertices); // 10014b380 Linux DWARF prototype catalog
+".55":  //
+static cleanup __amd64 void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
+".55":  //
+static cleanup __amd64 void CSurface::AddColorTexVertices(std::vector<GL_ColorTexVertex> *vertices, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, GL_Color color); // 10014b670 Linux DWARF prototype catalog
 // Continue from CFPS::GetSpeedFactor (hyper efficiency™)
 /*
-"554889e5e8????0b0085c00f95c05dc3":
-static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
-"!.554889e5e8f79800005de9????0b00":
-static cleanup __amd64 void CSurface::StartFrame();
 */
-"!.554889e55de9????0b00":
-static cleanup __amd64 void CSurface::FinishFrame();
-"!.554889e5f3x":
-static cleanup __amd64 void CSurface::GL_ClearAll();
-"!.554889e50f":
-static cleanup __amd64 void CSurface::GL_ClearColor();
-".554889e5e8????????b0":
-static cleanup __amd64 int CSurface::SetViewPort(int left, int bottom, int h, int w);
-".554889e54883ec1089":
-static cleanup __amd64 int CSurface::GL_PushScissor(int x, int y, int h, int w);
-"!.554889e5488b05??????00488b35":
-static cleanup __amd64 void CSurface::GL_PopScissor();
-"!.554889e5415653":
-static cleanup __amd64 void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
-"!.554889e54157":
-static cleanup __amd64 void CSurface::GL_PushStencilMode();
-"!.554889e5488b05":
-static cleanup __amd64 void CSurface::GL_PopStencilMode();
-"!.554889e55d":
-static cleanup __amd64 int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
-"!.554889e5488d05":
-static cleanup __amd64 int CSurface::GL_LoadIdentity();
-".8b05??????004883":
-static cleanup __amd64 int CSurface::GL_PushMatrix();
-"!.554889e58b":
-static cleanup __amd64 int CSurface::GL_PopMatrix();
-".0f57e40f":
-static cleanup __amd64 void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
-"!.554889e50f2e05":
-static cleanup __amd64 void CSurface::GL_Scale(float x, float y, float z);
-"!.554889e50f57e40f":
-static cleanup __amd64 bool CSurface::GL_Translate(float x, float y, float z=0.f);
-".554889e54883ec10f3":
-static cleanup __amd64 int CSurface::GL_SetColor(GL_Color color);
-".554889e50f2805??????00f2":
-static cleanup __amd64 GL_Color CSurface::GL_GetColor();
-".554889e54883ec100f1345f0":
-static cleanup __amd64 void CSurface::GL_SetColorTint(GL_Color color);
-".554889e5488b05??????00483905":
-static cleanup __amd64 void CSurface::GL_RemoveColorTint();
-".554889e5488b05??????00483905":
-static cleanup __amd64 GL_Color CSurface::GetColorTint();
-"!.554889e5bf01000000be0300":
-static cleanup __amd64 bool CSurface::GL_EnableBlend();
-"!.554889e5bf01000000be0100000031d25d":
-static cleanup __amd64 bool CSurface::GL_DisableBlend();
-".554889e540883d":
-static cleanup __amd64 void CSurface::GL_ForceAntialias(bool on);
-"!.554889e54881ec80000000488b05????1e00488b00":
-static cleanup __amd64 bool CSurface::GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
-"!.554889e54883ec60":
-static cleanup __amd64 bool CSurface::GL_DrawTriangle(Point vertex1, Point vertex2, Point vertex3, GL_Color color);
-"!.554889e54881ec80000000488b05????1e00488b00":
-static cleanup __amd64 bool CSurface::GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
-"!.554889e54881eca0":
-static cleanup __amd64 bool CSurface::GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_Color color, float lineWidth);
-".554889e54157415653":
-static cleanup __amd64 bool CSurface::GL_DrawCircle(int x, int y, float radius, GL_Color color);
-".554889e54157415653":
-static cleanup __amd64 bool CSurface::GL_DrawEllipse(int x, int y, int a1, int b1, GL_Color color);
-".554889e5415741564155415453":
-static cleanup __amd64 bool CSurface::GL_DrawLaser(int x, int y, int w, int h, GL_Color color);
-".554889e541574156415453":
-static cleanup __amd64 bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
-"!.415f5dc3":
-noHook __amd64 void CSurface::DO_NOT_HOOK();
-"!.554889e5":
-static cleanup __amd64 bool CSurface::GL_BlitImage(GL_Texture* tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
-"!.55":
-noHook __amd64 bool CSurface::GL_BlitImageCommon();
-"!.5548":
-static cleanup __amd64 bool CSurface::GL_BlitPixelImage(GL_Texture* tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
-// GOG | Steam - unique patterns at function start
-"440f28c485f67504440f28c5554889e5|4084f6440f28c47504440f28c5554889e5":
-static cleanup __amd64 bool CSurface::GL_BlitImagePartial(GL_Texture* tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
-".554889e5415741564155415453":
-static cleanup __amd64 bool CSurface::GL_BlitPixelImageWide(GL_Texture* tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
-".554889e54157415641554154534883ec5849":
-static cleanup __amd64 void CSurface::GL_BlitMultiImage(GL_Texture* tex, const std::vector<GL_TexVertex>& texVertices, bool antialias);
-".554889e54157415641554154534883ec5849":
-static cleanup __amd64 void CSurface::GL_BlitMultiColorImage(GL_Texture* tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias);
-"!.554889e50f2805????16000f28c85d":
-static cleanup __amd64 void CSurface::GL_RenderPrimitive(GL_Primitive* primitive);
-"!.554889e5":
-static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive* primitive, float alpha);
-".554889e54156534883ec104889fb4885":
-static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive* primitive, GL_Color color);
-".554889e553504889":
-static cleanup __amd64 void CSurface::GL_DestroyPrimitive(GL_Primitive* primitive);
-".554889e55348":
-noHook __amd64 void CSurface::GL_CreateTrianglePrimitive();
-".554889e55348":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
-".554889e541574156415453":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
-".554889e5534881eca8000000":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
-".5548":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
-".554889e541574156":
-noHook __amd64 void CSurface::GL_CreateCirclePrimitive();
-".554889e541":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius, float deg1, float deg2, float thickness, GL_Color color);
-".554889e541574156534883ec38f3":
+// ".554889e5e8????????b0":
+// static cleanup __amd64 int CSurface::SetViewPort(int left, int bottom, int h, int w);
+// "!.415f5dc3":
+// noHook __amd64 void CSurface::DO_NOT_HOOK();
+// "!.55":
+// noHook __amd64 bool CSurface::GL_BlitImageCommon();
+// // GOG | Steam - unique patterns at function start
+// ".554889e55348":
+// noHook __amd64 void CSurface::GL_CreateTrianglePrimitive();
+// ".554889e541574156":
+// noHook __amd64 void CSurface::GL_CreateCirclePrimitive();
+"554889e541574156534883ec38f3":
 static cleanup __amd64 GL_Primitive* CSurface::_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float u0, float v0, float u1, float v1, GL_Color color, float rotate);
-".554889e54156534883ec60":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture* tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
-".4889f0488b08488b":
-static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color);
-".554889e54156534883ec204989fe498b06498b5e":
-static cleanup __amd64 void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 
 
 struct CSurface depends (GL_Primitive)
@@ -129,7 +173,7 @@ struct CSurface depends (GL_Primitive)
 
 		// Set up the 4 vertices with custom texture coordinates
 		vertices[0] = {x, y, u0, v0};					// Bottom-left
-		vertices[1] = {x + size_x, y, u1, v0};		   // Bottom-right  
+		vertices[1] = {x + size_x, y, u1, v0};		   // Bottom-right
 		vertices[2] = {x + size_x, y + size_y, u1, v1};  // Top-right
 		vertices[3] = {x, y + size_y, u0, v1};		   // Top-left
 
@@ -207,21 +251,21 @@ struct CSurface depends (GL_Primitive)
 	{
 		shader_pipeline_apply(pipeline);
 	}
-	
+
 	static void GL_DestroyShader(int pipeline)
 	{
 		shader_pipeline_destroy(pipeline);
 	}
-	
+
 	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
 	{
 		return shader_pipeline_create(vertex_shader, fragment_shader);
 	}
-	
+
 	static int GL_CreateShader(ShaderType type, const char* source)
 	{
 		return shader_create_from_source(type, source, -1);
 	}
 	*/
-	
+
 }};

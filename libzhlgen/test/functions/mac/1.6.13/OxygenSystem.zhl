@@ -1,21 +1,47 @@
+"554889e5415741564154534189f64989ffbe":  //
+noHook __amd64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_59();
+//"554889e5415741564154534189f64989ffbe":  //
+//cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eed50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OxygenSystem::constructor1(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eef60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OxygenSystem::RemoveRoom(OxygenSystem *this); // 1001ef190 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool OxygenSystem::Functioning(OxygenSystem *this); // 1001ef1a0 Linux DWARF prototype catalog by linkage
+"554889e553504889fb80bb44":  //
+cleanup __amd64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this);
+".55":  //
+cleanup __amd64 void OxygenSystem::OnLoop(OxygenSystem *this);
+".55":  //
+noHook __amd64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_60();
+//".55":  //
+//cleanup __amd64 void OxygenSystem::RedistributeOxygen(OxygenSystem *this); // 1001ef510 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float OxygenSystem::GetOxygenLevel(OxygenSystem *this, int roomId); // 1001ef760 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OxygenSystem::Restart(OxygenSystem *this); // 1001ef790 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this, int roomId, float value);
+".55":  //
+cleanup __amd64 void OxygenSystem::SetRoomOxygen(OxygenSystem *this, int roomId, float amount); // 1001ef820 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OxygenSystem::UpdateBreach(OxygenSystem *this, int roomId, int hasBreach, bool silent);
+".55":  //
+cleanup __amd64 void OxygenSystem::ComputeAirLoss(OxygenSystem *this, int roomId, float value, bool silent);
+".55":  //
+cleanup __amd64 void OxygenSystem::UpdateAirlock(OxygenSystem *this, int roomId, int count);
+".55":  //
+cleanup __amd64 void OxygenSystem::EmptyOxygen(OxygenSystem *this, int roomId);
+".55":  //
+cleanup __amd64 void OxygenSystem::OnRender(OxygenSystem *this); // 1001efaf0 Linux DWARF prototype catalog by linkage
+"!554889e553504889fb488d05????1400488903488d05????140048894310488bbb680200004885ff740c":  //
+cleanup __amd64 void OxygenSystem::destructor1(OxygenSystem *this); // 1001efb00 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void OxygenSystem::destructor(OxygenSystem *this); // 1001efb50 Itanium source destructor prototype, Itanium D0 destructor
 "!554889e5415741564154534189f64989ffbe0200":
 noHook __amd64 void OxygenSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e5415741564154534189f64989ffbe0200":
 cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this, int _numRooms, int _roomId, int _shipId, int _startingPower);
-".554889e553504889fb80bb44":
-cleanup __amd64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this);
-".55":
-cleanup __amd64 void OxygenSystem::OnLoop(OxygenSystem *this);
-".554889e54863c6488b8f68020000f30f580481f3":
-cleanup __amd64 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this, int roomId, float value);
-"!.554889e585d27e15":
-cleanup __amd64 void OxygenSystem::UpdateBreach(OxygenSystem *this, int roomId, int hasBreach, bool silent);
-".554889e54157415641554154534883ec288955d4f30f1145":
-cleanup __amd64 void OxygenSystem::ComputeAirLoss(OxygenSystem *this, int roomId, float value, bool silent);
-".554889e541574156534883ec1889d341":
-cleanup __amd64 void OxygenSystem::UpdateAirlock(OxygenSystem *this, int roomId, int count);
-".554889e54863c6488b8f68020000c704":
-cleanup __amd64 void OxygenSystem::EmptyOxygen(OxygenSystem *this, int roomId);
 
 
 struct OxygenSystem

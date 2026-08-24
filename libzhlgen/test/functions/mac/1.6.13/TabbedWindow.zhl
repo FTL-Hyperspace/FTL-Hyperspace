@@ -1,13 +1,47 @@
-// Continue from SystemStoreBox::Purchase (hyper efficiency™)
-"!.554889e553504889fb807b08007407":
-noHook __amd64 void TabbedWindow::NoHook();
-".55":
+"554889e54157415653504989d6":  //
+cleanup __amd64 void TabbedWindow::constructor(TabbedWindow *this, int buttonType_, Point loc); // 100131df0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TabbedWindow::constructor1(TabbedWindow *this, int buttonType_, Point loc); // 100131eb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TabbedWindow::destructor2(TabbedWindow *this); // 100131f70 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void TabbedWindow::ClearWindows(TabbedWindow *this); // 1001320a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TabbedWindow::destructor1(TabbedWindow *this); // 100132150 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534881ec8800":  //
+cleanup __amd64 void TabbedWindow::destructor(TabbedWindow *this); // 100132160 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534881ec880000004989f6":  //
+cleanup __amd64 void TabbedWindow::SetPosition(TabbedWindow *this, Point p); // 100132180 Linux DWARF prototype catalog by linkage
+".554889e5":  //
+cleanup __amd64 void TabbedWindow::Open(TabbedWindow *this); // 100132570 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void TabbedWindow::SetTab(TabbedWindow *this, unsigned int tab);
-"!.5548":
+"!.55":  //
 cleanup __amd64 void TabbedWindow::Close(TabbedWindow *this);
-".554889e54157415641":
+".55":  //
+cleanup __amd64 FocusWindow *TabbedWindow::GetWindow(TabbedWindow *this, int tab); // 1001327f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TabbedWindow::SetNewWindow(TabbedWindow *this, FocusWindow *window, int tab); // 100132820 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void TabbedWindow::AddWindow(TabbedWindow *this, const std::string& name, Button* button, FocusWindow* window);
-"!.554889e541":
+".55":  //
+cleanup __amd64 void TabbedWindow::SetBlockAccept(TabbedWindow *this, bool val); // 100132b40 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void TabbedWindow::OnRender(TabbedWindow *this);
-".554889e54157":
+".55":  //
 cleanup __amd64 void TabbedWindow::MouseMove(TabbedWindow *this, int mX, int mY);
+".55":  //
+cleanup __amd64 void TabbedWindow::MouseClick(TabbedWindow *this, int mX, int mY); // 100132d70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TabbedWindow::OnTouch(TabbedWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100132e30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TabbedWindow::OnLoop(TabbedWindow *this); // 100132f70 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void TabbedWindow::MouseRightClick(TabbedWindow *this, int mX, int mY); // 100133080 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void TabbedWindow::MouseUp(TabbedWindow *this, int mX, int mY); // 1001330a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool TabbedWindow::KeyDown(TabbedWindow *this, SDLKey sym); // 1001330c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool TabbedWindow::KeyUp(TabbedWindow *this, SDLKey sym); // 100133110 Linux DWARF prototype catalog by linkage
+

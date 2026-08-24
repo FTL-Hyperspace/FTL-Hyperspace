@@ -1,80 +1,88 @@
+"!554889e5415741564155415453504889fb48c743100000000048c743080000000048c7030000000048|!554889e54157415641554154534883ec184889fb48c7":  //
+noHook __amd64 void SpaceManager::__STRUCT_OVERRIDE_ANCHOR_123();
+//"!554889e5415741564155415453504889fb48c743100000000048c743080000000048c7030000000048|!554889e54157415641554154534883ec184889fb48c7":  //
+//cleanup __amd64 void SpaceManager::constructor(SpaceManager *this); // 10003c340 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SpaceManager::constructor1(SpaceManager *this); // 10003c870 Linux DWARF prototype catalog by linkage
+"554889e58a87a0":  //
+cleanup __amd64 int SpaceManager::GetScreenShake(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::SaveSpace(SpaceManager *this, int fileHelper);
+".55":  //
+cleanup __amd64 void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
+".55":  //
+cleanup __amd64 void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
+".55":  //
+cleanup __amd64 void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
+".55":  //
+cleanup __amd64 void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
+".55":  //
+cleanup __amd64 ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
+".55":  //
+cleanup __amd64 ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const std::string& name);
+".5548":  //
+cleanup __amd64 void SpaceManager::UpdatePlanetImage(SpaceManager *this);
+"!.55":  //
+cleanup __amd64 void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc back, ImageDesc beacon);
+".55":  //
+cleanup __amd64 ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
+".55":  //
+cleanup __amd64 void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool defense);
+".55":  //
+cleanup __amd64 void SpaceManager::SetStorm(SpaceManager *this, bool state);
+".55":  //
+cleanup __amd64 void SpaceManager::SetNebula(SpaceManager *this, bool state);
+".5548":  //
+cleanup __amd64 bool SpaceManager::DangerousEnvironment(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::UpdatePDS(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::OnLoop(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::OnLoopNebulas(SpaceManager *this);
+"!.55":  //
+cleanup __amd64 void SpaceManager::TransferProjectile(SpaceManager *this, Projectile* proj);
+".55":  //
+cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile* proj);
+".554889e541574156415541545350":  //
+cleanup __amd64 void SpaceManager::MouseMove(SpaceManager *this, int mX, int mY, int spaceId);
+".55":  //
+cleanup __amd64 SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int mX, int mY, int spaceId);
+".55":  //
+cleanup __amd64 float SpaceManager::GetFlashOpacity(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::OnRenderForeground(SpaceManager *this);
+".55":  //
+cleanup __amd64 GL_Color SpaceManager::GetColorTint(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::OnRenderFleet(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::OnRenderBackground(SpaceManager *this);
+".554889e54157415641554154534883ec??89":  //
+cleanup __amd64 void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
+".55":  //
+cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float alpha);
+".55":  //
+cleanup __amd64 void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
+".55":  //
+cleanup __amd64 void SpaceManager::AddProjectile(SpaceManager *this, Projectile* proj);
+".55":  //
+cleanup __amd64 void SpaceManager::OnInit(SpaceManager *this);
+"!.55":  //
+cleanup __amd64 void SpaceManager::Restart(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::ClearEnvironment(SpaceManager *this);
+"!.55":  //
+cleanup __amd64 void SpaceManager::Clear(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this);
+".55":  //
+cleanup __amd64 void SpaceManager::AddShip(SpaceManager *this, ShipManager* ship);
+".554889e54157415653504989ff498d":  //
+cleanup __amd64 void SpaceManager::destructor2(SpaceManager *this); // 1001e7330 Itanium source destructor prototype, Itanium D2 destructor
 // Continue from SpaceDrone::CollisionMoving (hyper efficiency™)
 "!.554889e5415741564155415453??????????????????????00":
 cleanup __amd64 void SpaceManager::constructor(SpaceManager *this);
-"!.554889e58a8":
-cleanup __amd64 int SpaceManager::GetScreenShake(SpaceManager *this);
-"!.55":
-cleanup __amd64 void SpaceManager::SaveSpace(SpaceManager *this, int fileHelper);
-"!.5548":
-cleanup __amd64 void SpaceManager::LoadSpace(SpaceManager *this, int fileHelper);
-"!.5548":
-cleanup __amd64 void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
-"!.55":
-cleanup __amd64 void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
-".55":
-cleanup __amd64 void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
-"!.5548":
-cleanup __amd64 ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
-".55":
-cleanup __amd64 ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const std::string& name);
-"!.5548":
-cleanup __amd64 void SpaceManager::UpdatePlanetImage(SpaceManager *this);
-"!.5548":
-cleanup __amd64 void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc back, ImageDesc beacon);
-".55":
-cleanup __amd64 ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
-"!.5548":
-cleanup __amd64 void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool defense);
-"!.55":
-cleanup __amd64 void SpaceManager::SetStorm(SpaceManager *this, bool state);
-"554889e54157415641554154534881eca80000004989fe4188b629040000":
-cleanup __amd64 void SpaceManager::SetNebula(SpaceManager *this, bool state);
-"!.5548":
-cleanup __amd64 bool SpaceManager::DangerousEnvironment(SpaceManager *this);
-".55":
-cleanup __amd64 void SpaceManager::UpdatePDS(SpaceManager *this);
-".5548":
-cleanup __amd64 void SpaceManager::OnLoop(SpaceManager *this);
-".5548":
-cleanup __amd64 void SpaceManager::OnLoopNebulas(SpaceManager *this);
-"!.5548":
-cleanup __amd64 void SpaceManager::TransferProjectile(SpaceManager *this, Projectile* proj);
-".55":
-cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this, Projectile* proj);
-".554889e541574156415541545350":
-cleanup __amd64 void SpaceManager::MouseMove(SpaceManager *this, int mX, int mY, int spaceId);
-".5548":
-cleanup __amd64 SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int mX, int mY, int spaceId);
-"!.5548":
-cleanup __amd64 float SpaceManager::GetFlashOpacity(SpaceManager *this);
-".55":
-cleanup __amd64 void SpaceManager::OnRenderForeground(SpaceManager *this);
-"!.5548":
-cleanup __amd64 GL_Color SpaceManager::GetColorTint(SpaceManager *this);
-"!.55":
-cleanup __amd64 void SpaceManager::OnRenderFleet(SpaceManager *this);
-".5548":
-cleanup __amd64 void SpaceManager::OnRenderBackground(SpaceManager *this);
-".554889e54157415641554154534883ec??89":
-cleanup __amd64 void SpaceManager::SetDangerZone(SpaceManager *this, int fleetType);
-"!.554889e541":
-cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this, int fieldLayers, float alpha);
-".55":
-cleanup __amd64 void SpaceManager::OnRenderProjectiles(SpaceManager *this, int iShipId, int layerCommand);
-"!.5548":
-cleanup __amd64 void SpaceManager::AddProjectile(SpaceManager *this, Projectile* proj);
-".5548":
-cleanup __amd64 void SpaceManager::OnInit(SpaceManager *this);
-"!.5548":
-cleanup __amd64 void SpaceManager::Restart(SpaceManager *this);
-"!.55":
-cleanup __amd64 void SpaceManager::ClearEnvironment(SpaceManager *this);
-"!.55":
-cleanup __amd64 void SpaceManager::Clear(SpaceManager *this);
-"!.55":
-cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this);
-".55":
-cleanup __amd64 void SpaceManager::AddShip(SpaceManager *this, ShipManager* ship);
 
 
 struct SpaceManager

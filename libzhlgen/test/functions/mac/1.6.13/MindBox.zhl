@@ -1,6 +1,29 @@
-// Continue from MenuScreen::Open (hyper efficiency™)
-".554889e54156534883ec6049":
-cleanup __amd64 void MindBox::constructor(MindBox *this, Point _position, MindSystem* _system);
+"554889e54156534883ec6049":  //
+cleanup __amd64 void MindBox::constructor(MindBox *this, Point loc, MindSystem *sys); // 1000f1de0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindBox::constructor1(MindBox *this, Point loc, MindSystem *sys); // 1000f1fa0 Linux DWARF prototype catalog by linkage
+"!554889e553504889fb488d05????2400488903488bbbb8":  //
+cleanup __amd64 void MindBox::destructor2(MindBox *this); // 1000f1fb0 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void MindBox::destructor1(MindBox *this); // 1000f1ff0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void MindBox::destructor(MindBox *this); // 1000f2030 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 int MindBox::GetCooldownLevel(MindBox *this); // 1000f2080 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float MindBox::GetCooldownFraction(MindBox *this); // 1000f2090 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MindBox::OnRender(MindBox *this, bool ignoreStatus); // 1000f20d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindBox::MouseMove(MindBox *this, int mX, int mY); // 1000f21b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool MindBox::MouseClick(MindBox *this, bool force); // 1000f2380 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindBox::OnTouch(MindBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f2450 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindBox::KeyDown(MindBox *this, SDLKey key_sym, bool shift); // 1000f25a0 Linux DWARF prototype catalog by linkage
+".554889e5b0015dc30f1f840000000000554889e541":  //
+cleanup __amd64 bool MindBox::HasButton(MindBox *this); // 1000f3d70 Linux DWARF prototype catalog by linkage
 
 
 struct MindBox

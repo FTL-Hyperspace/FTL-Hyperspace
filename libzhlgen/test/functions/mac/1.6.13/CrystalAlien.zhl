@@ -1,0 +1,36 @@
+"!554889e54156534189f64889fbe8????????f30f1083f4":  //
+cleanup __amd64 void CrystalAlien::SaveState(CrystalAlien *this, int fd); // 10004fbd0 Linux DWARF prototype catalog by linkage
+".554889e541565389f34989fee8":  //
+cleanup __amd64 void CrystalAlien::LoadState(CrystalAlien *this, int fd); // 10004fdf0 Linux DWARF prototype catalog by linkage
+".f30f1087f4":  //
+cleanup __amd64 void CrystalAlien::ActivatePower(CrystalAlien *this); // 10005a610 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrystalAlien::constructor(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a730 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrystalAlien::constructor1(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a870 Linux DWARF prototype catalog by linkage
+"554889e553504889fbe8????ffff488d3d":  //
+cleanup __amd64 void CrystalAlien::OnLoop(CrystalAlien *this); // 10005a880 Linux DWARF prototype catalog by linkage
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b87d":  //
+cleanup __amd64 void CrystalAlien::destructor1(CrystalAlien *this); // 10005db20 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b87d":  //
+cleanup __amd64 void CrystalAlien::destructor(CrystalAlien *this); // 10005db30 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5b87d0000005dc30f1f440000554889e531":  //
+cleanup __amd64 int CrystalAlien::GetMaxHealth(CrystalAlien *this); // 10005db50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrystalAlien::FireFightingSoundEffect(CrystalAlien *this); // 10005db60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string CrystalAlien::GetUniqueRepairing(CrystalAlien *this); // 10005db70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrystalAlien::GetMoveSpeedMultipler(CrystalAlien *this); // 10005db90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrystalAlien::GetFireRepairMultiplier(CrystalAlien *this); // 10005dba0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::pair<float, float> CrystalAlien::GetPowerCooldown(CrystalAlien *this); // 10005dbb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrystalAlien::PowerReady(CrystalAlien *this); // 10005dbc0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrystalAlien::HasSpecialPower(CrystalAlien *this); // 10005dbe0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrystalAlien::ResetPower(CrystalAlien *this); // 10005dbf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrystalAlien::GetSuffocationModifier(CrystalAlien *this); // 10005dc10 Linux DWARF prototype catalog by linkage

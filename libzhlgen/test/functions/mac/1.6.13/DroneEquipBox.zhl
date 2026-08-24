@@ -1,0 +1,30 @@
+//"554889e54156534883ec204989d64889fb4889f048c1e820488d15e1":  // fail to find cross-store sig
+//cleanup __amd64 void DroneEquipBox::constructor1(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 1000d9980 Linux DWARF prototype catalog by linkage
+"554889e55de9????????660f1f440000554889e553504889fb488b7b60":  //
+cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 1000d9b30 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488b7b6048":  //
+cleanup __amd64 void DroneEquipBox::CheckContents(DroneEquipBox *this); // 1000d9b40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneEquipBox::AddItem(DroneEquipBox *this, EquipmentBoxItem newItem); // 1000d9b70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneEquipBox::RemoveItem(DroneEquipBox *this); // 1000d9bd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneEquipBox::SetShipManager(DroneEquipBox *this, ShipManager *ship); // 1000d9c20 Linux DWARF prototype catalog by linkage
+".554889e553504889fb488d05??????00488903488b7b38e8b4????00488b7b40e8ab????00488b7b48e8a2????00488b7b50e899????00488b7b08e890????00f643200175|.554889e553504889fb488d05????2500488903488b7b38e8??eb0600488b7b40e8??eb0600488b7b48e8??eb0600488b7b50e8????0600488b7b08e8????0600f643200175":  //
+cleanup __amd64 void DroneEquipBox::destructor1(DroneEquipBox *this); // 1000da180 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void DroneEquipBox::destructor(DroneEquipBox *this); // 1000da1e0 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool DroneEquipBox::CanHoldWeapon(DroneEquipBox *this); // 1000da240 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DroneEquipBox::CanHoldDrone(DroneEquipBox *this); // 1000da250 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DroneEquipBox::CanHoldAugment(DroneEquipBox *this); // 1000da260 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_39();
+//".55":  //
+//cleanup __amd64 int DroneEquipBox::GetType(DroneEquipBox *this, bool forcedEmpty); // 1000da270 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DroneEquipBox::IsCargoBox(DroneEquipBox *this); // 1000da280 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DroneEquipBox::CanDoJob(DroneEquipBox *this); // 1000da290 Linux DWARF prototype catalog by linkage

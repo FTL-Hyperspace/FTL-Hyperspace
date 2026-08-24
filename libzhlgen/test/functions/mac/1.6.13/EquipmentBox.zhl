@@ -1,23 +1,79 @@
+"554889e5534883ec184889fb4889f048c1e82048|554889e5534883ec184889fb488d054d51":  //
+noHook __amd64 void EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_41();
+//"554889e5534883ec184889fb4889f048c1e82048|554889e5534883ec184889fb488d054d51":  //
+//cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot); // 1000d58d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::InitPrimitives(EquipmentBox *this); // 1000d5a60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::constructor1(EquipmentBox *this, Point loc, int slot); // 1000d5b40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::constructor1(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5e70 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488d05??????00488903488b7b38":  //
+cleanup __amd64 void EquipmentBox::destructor2(EquipmentBox *this); // 1000d5e80 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void EquipmentBox::destructor1(EquipmentBox *this); // 1000d5ee0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
+".55":  //
+cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox *this, Point p); // 1000d5fa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect* newBox);
+"!.55":  //
+virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
+".5548":  //
+noHook __amd64 void EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_42();
+//".5548":  //
+//cleanup __amd64 bool EquipmentBox::IsEmpty(EquipmentBox *this); // 1000d6290 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::SetBlocked(EquipmentBox *this, bool val); // 1000d62f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::SetColor(EquipmentBox *this, GL_Color color); // 1000d6300 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::RenderLabels(EquipmentBox *this, bool dragging); // 1000d6310 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::RenderIcon(EquipmentBox *this); // 1000d6550 Linux DWARF prototype catalog by linkage
+".55":  //
+virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int mX, int mY);
+".55":  //
+cleanup __amd64 void EquipmentBox::OnTouch(EquipmentBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".55":  //
+cleanup __amd64 void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool dragging); // 1000d66b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int EquipmentBox::GetItemValue(EquipmentBox *this);
+".55":  //
+cleanup __amd64 void EquipmentBox::SetBlueprint(EquipmentBox *this, InfoBox* infoBox, bool detailedBox);
+".55":  //
+cleanup __amd64 Blueprint* EquipmentBox::GetBlueprint(EquipmentBox *this);
+".55":  //
+cleanup __amd64 void EquipmentBox::Restart(EquipmentBox *this); // 1000d6cb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::RemoveItem(EquipmentBox *this); // 1000d6cf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::AddItem(EquipmentBox *this, EquipmentBoxItem newItem); // 1000d6d30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EquipmentBox::CanHoldWeapon(EquipmentBox *this); // 1000d6d70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EquipmentBox::CanHoldDrone(EquipmentBox *this); // 1000d6dd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EquipmentBox::CanHoldAugment(EquipmentBox *this); // 1000d6e30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int EquipmentBox::GetType(EquipmentBox *this, bool forcedEmpty); // 1000d6e40 Linux DWARF prototype catalog by linkage
+".554889e55dc3662e0f1f840000000000554889e55dc3662e0f1f840000000000554889e5b0":  //
+cleanup __amd64 void EquipmentBox::SetShipManager(EquipmentBox *this, ShipManager *ship); // 1000d9fa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EquipmentBox::CheckContents(EquipmentBox *this); // 1000d9fb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EquipmentBox::IsCargoBox(EquipmentBox *this); // 1000d9fc0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EquipmentBox::CanHoldCrew(EquipmentBox *this); // 1000d9fd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EquipmentBox::CanDoJob(EquipmentBox *this); // 1000d9fe0 Linux DWARF prototype catalog by linkage
 "554889e5534883ec184889fb48c743":
-noHook __amd64 void EquipmentBox::InitPrimitives(); 
+noHook __amd64 void EquipmentBox::InitPrimitives();
 ".554889e5534883ec184889fb48":
 cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _position, int _slot);
-".554889e55350":
-virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
-".554889e5488b":
-cleanup __amd64 void EquipmentBox::ForceHitBox(EquipmentBox *this, Globals::Rect* newBox);
-"!.55":
-virtual cleanup __amd64 void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
-".554889e58b":
-virtual cleanup __amd64 void EquipmentBox::MouseMove(EquipmentBox *this, int mX, int mY);
-".554889e583":
-cleanup __amd64 bool EquipmentBox::OnTouch(EquipmentBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-".554889e548":
-cleanup __amd64 int EquipmentBox::GetItemValue(EquipmentBox *this);
-".55":
-cleanup __amd64 void EquipmentBox::SetBlueprint(EquipmentBox *this, InfoBox* infoBox, bool detailedBox);
-".55":
-cleanup __amd64 Blueprint* EquipmentBox::GetBlueprint(EquipmentBox *this);
 
 
 struct EquipmentBox depends (AugmentBlueprint)

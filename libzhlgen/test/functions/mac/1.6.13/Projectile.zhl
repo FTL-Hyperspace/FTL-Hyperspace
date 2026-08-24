@@ -1,23 +1,77 @@
-"554889e580bfc4020000000f94c05dc3":
+"554889e58b47":  //
+cleanup __amd64 int Projectile::GetSpaceId(Projectile *this); // 1000177f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int Projectile::GetSelfId(Projectile *this); // 100017800 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int Projectile::GetOwnerId(Projectile *this); // 100017810 Linux DWARF prototype catalog by linkage
+".554889e5f2":  //
+cleanup __amd64 Pointf Projectile::GetWorldCenterPoint(Projectile *this); // 100017840 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf Projectile::GetRandomTargettingPoint(Projectile *this, bool valuable); // 100017850 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Projectile::SetDestinationSpace(Projectile *this, int space); // 100017860 Linux DWARF prototype catalog by linkage
+".554889e580":  //
 cleanup __amd64 bool Projectile::ValidTarget(Projectile *this);
-".554889e5b8ffffffff5d":
+"!.55":  //
+cleanup __amd64 void Projectile::Kill(Projectile *this); // 100017890 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf Projectile::GetSpeed(Projectile *this); // 1000178b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Projectile::SetDamage(Projectile *this, Damage damage); // 1000178c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 int Projectile::ForceRenderLayer(Projectile *this);
-".554889e54157415641554154534881ec????????4889fbc74310????????66c74314":
+".55":  //
+cleanup __amd64 void Projectile::SetSpin(Projectile *this, float spin); // 100017910 Linux DWARF prototype catalog by linkage
+".554889e55dc3662e0f1f840000000000554889e5b8":  //
+cleanup __amd64 void Projectile::SetWeaponAnimation(Projectile *this, WeaponAnimation *animation); // 100019510 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void Projectile::SetMovingTarget(Projectile *this, Targetable *target); // 100019530 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881ec28":  //
 cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
-".554889e54157415641554154534881ec??0000004989f5":
+".55":  //
+cleanup __amd64 void Projectile::constructor1(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100020d20 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534883ec184189f64889fbf3":  //
+cleanup __amd64 void Projectile::SaveProjectile(Projectile *this, int fd); // 100020d30 Linux DWARF prototype catalog by linkage
+".554889e54157":  //
+cleanup __amd64 void Projectile::LoadProjectile(Projectile *this, int fd); // 100021010 Linux DWARF prototype catalog by linkage
+".554889e54157":  //
 cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable* other);
-".554889e54157":
+".55":  //
+cleanup __amd64 bool Projectile::AtTarget(Projectile *this); // 100021840 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
-".554889e54156534883ec104989f64889fb0f134d":
+".55":  //
+cleanup __amd64 void Projectile::Initialize(Projectile *this, WeaponBlueprint *blueprint); // 100021900 Linux DWARF prototype catalog by linkage
+".554889e50f":  //
+cleanup __amd64 void Projectile::SetTarget(Projectile *this, Pointf target); // 100021ef0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Projectile::ComputeHeading(Projectile *this); // 100021f10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Projectile::StartedDeath(Projectile *this); // 100021f90 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 CollisionResponse Projectile::CollisionMoving(Projectile *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".554889e5534883ec284889fb80bbc400":
+".55":  //
+cleanup __amd64 bool Projectile::Dead(Projectile *this); // 100022040 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void Projectile::OnUpdate(Projectile *this);
-".554889e5535089fb488d7df0":
+".554889e5535089":  //
 static cleanup __amd64 Pointf Projectile::RandomSidePoint(int side);
+".55":  //
+static cleanup __amd64 Pointf Projectile::RandomSidePoint(); // 100022ac0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Projectile::EnterDestinationSpace(Projectile *this); // 100022b10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Projectile::OnRender(Projectile *this, int spaceId); // 100022be0 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb48":  //
+cleanup __amd64 void Projectile::destructor1(Projectile *this); // 100023c50 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void Projectile::destructor(Projectile *this); // This is the delete constructor
+".55":  //
+cleanup __amd64 void Projectile::OnRenderSpecific(Projectile *this, int spaceId); // 100023da0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int Projectile::GetType(Projectile *this); // 100023db0 Linux DWARF prototype catalog by linkage
 "!.554889e553504889fb488d05????????66480f6ec0":
 noHook __amd64 void Projectile::DO_NOT_HOOK_FALSE_DESTRUCTOR(); // This is the free constructor, idk if I should get rid of this noHook, destructing a projectile that is part of another object would currently lead to a double free I believe
-"!.554889e553504889fb488d05????????66480f6ec0":
-cleanup __amd64 void Projectile::destructor(Projectile *this); // This is the delete constructor
 
 
 struct Projectile

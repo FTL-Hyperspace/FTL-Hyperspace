@@ -1,3 +1,89 @@
+"554889e548c74718":  //
+noHook __amd64 void ResourceControl::__STRUCT_OVERRIDE_ANCHOR_81();
+//"554889e548c74718":  //
+//cleanup __amd64 void ResourceControl::constructor(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ResourceControl::destructor1(ResourceControl *this); // 100157590 Itanium source destructor prototype, Itanium D1 destructor
+"!3f5dc3660f1f440000554889e55de9????????660f1f440000":  //
+noHook __amd64 void ResourceControl::__DO_NOT_HOOK_10015759f(); // 10015759f
+".55":  //
+cleanup __amd64 void ResourceControl::constructor1(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
+"554889e541574156534883ec184989fe0f|554889e541574156534883ec180f":  //
+cleanup __amd64 void ResourceControl::destructor2(ResourceControl *this); // 100157710 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
+".554889e54157415641554154534883ec58":  //
+cleanup __amd64 void ResourceControl::BindAtlases(ResourceControl *this);
+".554889e5415741564154":  //
+cleanup __amd64 void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
+".554889e553":  //
+cleanup __amd64 freetype::font_data *ResourceControl::GetJapaneseFont(ResourceControl *this, int size); // 10015a390 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 freetype::font_data *ResourceControl::GetChineseFont(ResourceControl *this, int size); // 10015a9d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 freetype::font_data& ResourceControl::GetFontData(ResourceControl *this, int fontType, bool ignoreLangauge);
+".55":  //
+cleanup __amd64 GL_Texture *ResourceControl::GetShipImageId(ResourceControl *this, const std::string &name); // 10015afd0 Linux DWARF prototype catalog
+".5548":  //
+cleanup __amd64 GL_Texture *ResourceControl::LoadImage(ResourceControl *this, const std::string &path); // 10015b160 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool ResourceControl::ShipGlow(ResourceControl *this); // 10015b2a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
+".55":  //
+cleanup __amd64 void ResourceControl::EnsureImageLoaded(ResourceControl *this, const std::string &filename); // 10015b570 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture* tex);
+".55":  //
+cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
+".0f28":  //
+cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+".55":  //
+cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b740 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture* image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+".55":  //
+cleanup __amd64 GL_Primitive *ResourceControl::CreateImagePrimitive(ResourceControl *this, const std::string &imageName, int x, int y, int rotation, GL_Color color, float alpha, bool mirror); // 10015b840 Linux DWARF prototype catalog
+".554889e5415741564154":  //
+cleanup __amd64 void ResourceControl::UnloadImage(ResourceControl *this, const std::string &name); // 10015ba80 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool ResourceControl::BindImage(ResourceControl *this, const std::string& name, int image);
+".55":  //
+cleanup __amd64 void ResourceControl::LoadText(ResourceControl *this); // 10015bdf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool preloadPlayerShips);
+"!.55":  //
+cleanup __amd64 void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
+".5548":  //
+cleanup __amd64 void ResourceControl::LoadPlayerShips(ResourceControl *this); // 10015d8e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ResourceControl::ClearDynamicImages(ResourceControl *this); // 10015db40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ResourceControl::LoadShipList(ResourceControl *this, std::vector<std::string> *imagesToLoad, bool displayLoadingBar); // 10015dc50 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ResourceControl::LoadEnemyShips(ResourceControl *this, const std::string &playerShip); // 10015e240 Linux DWARF prototype catalog
+".554889e54157415641554154534883ec68":  //
+cleanup __amd64 void ResourceControl::LoadShipsStart(ResourceControl *this, std::vector<std::string> *shipImages, bool clear); // 10015ebe0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ResourceControl::LoadShipsFinish(ResourceControl *this); // 10015f080 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 GL_Texture *ResourceControl::LoadImageFromResourceFile(ResourceControl *this, const std::string &name, const std::string &pathPrefix); // 10015f110 Linux DWARF prototype catalog
+"!.55":  //
+cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
+".55":  //
+cleanup __amd64 void ResourceControl::SetRenderParams(ResourceControl *this, int width, int height, int x, int y); // 10015f2f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ResourceControl::SetRenderParams(ResourceControl *this, int width, int height, int x, int y, GL_FrameBuffer *fb, int fbX, int fbY, int fbW, int fbH); // 10015f320 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
+".55":  //
+cleanup __amd64 void ResourceControl::OnCleanup(ResourceControl *this); // 10015f750 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
+".55":  //
+cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string& fileName, std::size_t& fileSize, const std::string* unused_resourceFile);
+".55":  //
+cleanup __amd64 void ResourceControl::OnLanguageChange(ResourceControl *this); // 10015f8d0 Linux DWARF prototype catalog by linkage
 "!488d3d(???????\?)31f6":
 offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 
@@ -5,46 +91,14 @@ offsetVariable ResourceControl* Global_ResourceControl_GlobalResources;
 noHook __amd64 void ResourceControl::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".554889e548c747180000000048c747100000000048c747080000000048c70700000000c7":
 cleanup __amd64 void ResourceControl::constructor(ResourceControl *this);
-".554889e54157415641":
-cleanup __amd64 void ResourceControl::ParseAtlas(ResourceControl* this, char* buffer, int size, const std::string& physName);
-".554889e54157415641554154534883ec58":
-cleanup __amd64 void ResourceControl::BindAtlases(ResourceControl *this);
-".554889e5415741564154":
-cleanup __amd64 void ResourceControl::PreloadFont(ResourceControl *this, void *buffer, int size, const std::string& font);
-".554889e541574156534883ec284189f7":
-cleanup __amd64 freetype::font_data& ResourceControl::GetFontData(ResourceControl *this, int fontType, bool ignoreLangauge);
-".554889e5415741564154534883ec704989f44989":
-cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
-".554889e54156534883ec104889f34989fe488955":
-cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture* tex);
-".554889e54156534883ec204889f04889":
-cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
-"0f28f20f28e84885f674500f57c0f30f2ac2":
-cleanup __amd64 void ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".554889e5415741564154534883ec":
 cleanup __amd64 void ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-"!.554889e50f":
-cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture* image, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 "!.554889e5415741564154534883ec":
 cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
-".554889e54157415641554154534883ec18":
-cleanup __amd64 bool ResourceControl::BindImage(ResourceControl *this, const std::string& name, int image);
-"!.554889e54157415641554154534881ecc800000089b530ff":
-cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool preloadPlayerShips);
-"!.5548":
-cleanup __amd64 void ResourceControl::RenderLoadingBarFrame(ResourceControl *this, float initialProgress, float finalProgress);
-"!.554889e553504889fb89b398":
-cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
-".554889e5415653":
-cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
-".554889e54883ec1048":
-cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
-".554889e54157":
-cleanup __amd64 char* ResourceControl::LoadFromResourceFile(ResourceControl *this, const std::string& fileName, std::size_t& fileSize, const std::string* unused_resourceFile);
 
 
 struct ResourceControl depends (freetype)
-{{	
+{{
 	enum ImageSwappingMode
 	{
 	  SWAP_NONE = 0x0,

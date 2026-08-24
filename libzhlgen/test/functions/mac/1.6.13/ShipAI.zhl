@@ -1,16 +1,47 @@
-// Continue from Ship::GetAvailableRoom (hyper efficiency™)
-".554889e54156534189f64889fb48c74308":
-cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool _player);
-"!.554889e5":
-noHook __amd64 void ShipAI::NoHook();
-".554889e5":
+"554889e54156534189f64889fb48c7":  //
+cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool player); // 10017cdc0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ShipAI::constructor1(ShipAI *this, bool player); // 10017cf10 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
-".554889e54156534189f64889fb48":
+".55":  //
+cleanup __amd64 bool ShipAI::GetStalemate(ShipAI *this); // 10017cf50 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ShipAI::Save(ShipAI *this, int fd); // 10017cfa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipAI::Load(ShipAI *this, int fd); // 10017d050 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipAI::OnInit(ShipAI *this, ShipManager *shipManager, int boardingAI); // 10017d100 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipAI::SetEscapeTimer(ShipAI *this, float val); // 10017d190 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ShipAI::RequiredEvac(ShipAI *this); // 10017d1c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipAI::SetSurrenderThreshold(ShipAI *this, int amount); // 10017d260 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipAI::SetEscapeThreshold(ShipAI *this, int amount); // 10017d280 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ShipAI::Surrender(ShipAI *this); // 10017d2a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ShipAI::Escape(ShipAI *this); // 10017d2e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ShipAI::Escaped(ShipAI *this); // 10017d330 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ShipAI::Destroyed(ShipAI *this); // 10017d370 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ShipAI::SetEvacRequest(ShipAI *this, int val);
-".554889e54156534889fb49be":
+"!.55":  //
+cleanup __amd64 void ShipAI::SetEnemyShip(ShipAI *this, ShipManager *ship); // 10017d420 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this);
-"!.554889e541574156534883ec2889f349":
+".55":  //
+cleanup __amd64 void ShipAI::RestartStalemate(ShipAI *this); // 10017d580 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ShipAI::OnLoop(ShipAI *this, bool hostile);
+".55":  //
+cleanup __amd64 void ShipAI::CheckPowerLevels(ShipAI *this, bool hostile); // 10017d920 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipAI::CancelEscape(ShipAI *this); // 10017dba0 Linux DWARF prototype catalog by linkage
 
 
 struct ShipAI

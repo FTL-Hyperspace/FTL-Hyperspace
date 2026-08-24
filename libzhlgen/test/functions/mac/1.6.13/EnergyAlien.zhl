@@ -1,4 +1,16 @@
-"554889e553504889fbe8????ffff488b":
+"554889e54157415641554154534883ec284189cc":  //
+cleanup __amd64 void EnergyAlien::constructor(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d4e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EnergyAlien::constructor1(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d5d0 Linux DWARF prototype catalog by linkage
+"554889e553504889fbe8????????488b83":  //
 cleanup __amd64 void EnergyAlien::OnLoop(EnergyAlien *this);
-".554889e580bef108":
+".55":  //
 cleanup __amd64 Damage EnergyAlien::GetRoomDamage(EnergyAlien *this);
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b846":  //
+cleanup __amd64 void EnergyAlien::destructor1(EnergyAlien *this); // 10005dc20 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b846":  //
+cleanup __amd64 void EnergyAlien::destructor(EnergyAlien *this); // 10005dc30 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5b846":  //
+cleanup __amd64 int EnergyAlien::GetMaxHealth(EnergyAlien *this); // 10005dc50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool EnergyAlien::ProvidesPower(EnergyAlien *this); // 10005dc60 Linux DWARF prototype catalog by linkage

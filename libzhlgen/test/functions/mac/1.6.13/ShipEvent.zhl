@@ -1,3 +1,13 @@
-// Continue from ShipButton::OnRender (hyper efficiency™)
-"!.554889e5415741564155415453504989f64989ff":
+"554889e54156534889f34989fe8a":  //
+cleanup __amd64 ShipEvent *ShipEvent::copy_assign_1(ShipEvent *this, ShipEvent *param_1); // 1001a02d0 Linux DWARF prototype catalog by linkage
+".554889e54157415653504989fe":  //
+cleanup __amd64 void ShipEvent::destructor2(ShipEvent *this); // 1001a3a50 Itanium source destructor prototype, Itanium D2 destructor
+".554889e5415741564155415453504989f6":  //
 cleanup __amd64 void ShipEvent::constructor(ShipEvent *this, const ShipEvent& _event);
+".55":  //
+cleanup __amd64 void ShipEvent::constructor(ShipEvent *this); // 1001a4700 Linux DWARF prototype catalog by linkage
+"!.554889e541565341":  //
+cleanup __amd64 void ShipEvent::Save(ShipEvent *this, int fd); // 1001bc120 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ShipEvent::Load(ShipEvent *this, int fd); // 1001bc1a0 Linux DWARF prototype catalog by linkage
+// Continue from ShipButton::OnRender (hyper efficiency™)

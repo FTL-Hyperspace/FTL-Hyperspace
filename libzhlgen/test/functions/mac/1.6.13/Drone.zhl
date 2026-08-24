@@ -1,0 +1,66 @@
+"554889e55dc3662e0f1f840000000000554889e55dc3662e0f1f840000000000554889e58a47":  //
+cleanup __amd64 void Drone::OnInit(Drone *this); // 10001cb70 Linux DWARF prototype catalog by linkage
+".554889e58a":  //
+cleanup __amd64 bool Drone::GetPowered(Drone *this); // 10001cb90 Linux DWARF prototype catalog by linkage
+".554889e58a":  //
+cleanup __amd64 bool Drone::GetDeployed(Drone *this); // 10001cbc0 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void Drone::SetSlot(Drone *this, int slotId, int roomId); // 10001cbe0 Linux DWARF prototype catalog by linkage
+".554889e58b":  //
+cleanup __amd64 int Drone::GetRequiredPower(Drone *this); // 10001cc20 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Drone::RenderIcon(Drone *this); // 10001cc30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string Drone::GetName(Drone *this); // 10001cc50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Drone::CanBeDeployed(Drone *this); // 10001cca0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Drone::RecallOnJump(Drone *this); // 10001ccb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Drone::CanBeRecovered(Drone *this); // 10001ccc0 Linux DWARF prototype catalog by linkage
+".554889e583":  //
+cleanup __amd64 bool Drone::GetStunned(Drone *this); // 10001ccf0 Linux DWARF prototype catalog by linkage
+".554889e580":  //
+cleanup __amd64 void Drone::SetDestroyed(Drone *this, bool dead, bool rebuildRequired); // 10001d970 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::UpdateRebuilding(Drone *this); // 10001d990 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Drone::Rebuilding(Drone *this); // 10001d9d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float Drone::GetRebuildProgress(Drone *this); // 10001d9e0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Drone::SaveState(Drone *this, int fd); // 10001da00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::LoadState(Drone *this, int fd); // 10001da20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::SetHacked(Drone *this, int val); // 10001da40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::SetDeployed(Drone *this, bool newDeployed); // 10001da50 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Drone::BlowUp(Drone *this, bool silent); // 10001da60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::OnLoop(Drone *this); // 10001da80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::destructor1(Drone *this); // 10001db70 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void Drone::destructor(Drone *this); // 10001db80 Itanium source destructor prototype, Itanium D0 destructor
+"554889e55dc3662e0f1f840000000000554889e540":  //
+cleanup __amd64 void Drone::OnDestoy(Drone *this); // 10001db90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::SetPowered(Drone *this, bool powered); // 10001dba0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Drone::SetInstantPowered(Drone *this); // 10001dbb0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::SetCurrentShip(Drone *this, int iShipId); // 10001dbd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Drone::NeedsRoom(Drone *this); // 10001dbe0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool Drone::Destroyed(Drone *this); // 10001dbf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Point Drone::GetWorldLocation(Drone *this); // 10001dc00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Drone::SetWorldLocation(Drone *this, Point p); // 10001dc30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Slot Drone::GetDroneSlot(Drone *this); // 10001dc40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int Drone::GetDroneHealth(Drone *this); // 10001dc80 Linux DWARF prototype catalog by linkage

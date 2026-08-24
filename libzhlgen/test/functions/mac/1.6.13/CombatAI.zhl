@@ -1,8 +1,22 @@
-"554889e54157415641554154534883ec584989fc498b44":
+"554889e54157415641554154534883ec184889fb48c74330|554889e54157415641554154534883ec184989ff49c7":  //
+cleanup __amd64 void CombatAI::constructor(CombatAI *this); // 100176090 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatAI::constructor1(CombatAI *this); // 100176640 Linux DWARF prototype catalog by linkage
+"554889e54156534883ec204889fb4889":  //
+cleanup __amd64 void CombatAI::LinkShip(CombatAI *this, ShipManager *ship); // 100176650 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatAI::SetTarget(CombatAI *this, ShipManager *target); // 1001766c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CombatAI::UpdateMindControl(CombatAI *this, bool hostile);
-".5548":
+".55":  //
 cleanup __amd64 void CombatAI::OnLoop(CombatAI *this);
-".5548":
+".55":  //
 cleanup __amd64 void CombatAI::UpdateWeapons(CombatAI *this);
-".554889e5415741564155":
+".55":  //
+cleanup __amd64 Pointf CombatAI::ChooseTarget(CombatAI *this, int weaponType); // 100176f80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CombatAI::DeactiveWeapons(CombatAI *this); // 100177030 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 Pointf CombatAI::ChooseSecondTarget(CombatAI *this, Pointf *weapon_target); // 100177140 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 int CombatAI::PrioritizeSystem(CombatAI *this, int weaponType);

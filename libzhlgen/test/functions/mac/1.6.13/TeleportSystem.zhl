@@ -1,37 +1,45 @@
-// Continue from TeleportBox::constructor (hyper efficiency™)
-".554889e54156534189d64889fbe8":
-noHook __amd64 void TeleportSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
-"!.554889e54156534189d64889fbe8":
-cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int _systemId, int _roomId, int _shipId, int _startingPower);
-"!.554889e5415653488":
+"554889e54156534189d64889fbe8????????48":  //
+cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TeleportSystem::constructor1(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb490 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void TeleportSystem::OnLoop(TeleportSystem *this);
-"!.554889e58b876c02":
+".55":  //
 cleanup __amd64 int TeleportSystem::GetArmed(TeleportSystem *this);
-// Steam | GOG - different register save, include cmp+jmp
-"554889e54156534889fb4531f683fe027439|554889e553504889fb83fe027431":
+".55":  //
 cleanup __amd64 void TeleportSystem::SetArmed(TeleportSystem *this, int val);
-".554889e54156534189f64889fb4183fe027c1d83":
+".55":  //
 cleanup __amd64 void TeleportSystem::SetHackingLevel(TeleportSystem *this, int hackingLevel);
-"!.554889e5c7876402":
+"!.55":  //
 cleanup __amd64 void TeleportSystem::ForceReady(TeleportSystem *this);
-".554889e5f30f108764020000f30f5905":
+".55":  //
 cleanup __amd64 float TeleportSystem::GetChargedPercent(TeleportSystem *this);
-"!.55":
+".55":  //
 cleanup __amd64 bool TeleportSystem::Charged(TeleportSystem *this);
-"!.554889e54157415641554154534883ec184989fe41c78688":
+".55":  //
 cleanup __amd64 void TeleportSystem::ClearCrewLocations(TeleportSystem *this);
-"!.55":
+".55":  //
 cleanup __amd64 void TeleportSystem::UpdateCrewLocation(TeleportSystem *this, int slotId);
-".55":
+".55":  //
 cleanup __amd64 void TeleportSystem::Jump(TeleportSystem *this);
-".554889e54156534883ec204889fb837b":
+".55":  //
 cleanup __amd64 bool TeleportSystem::CanSend(TeleportSystem *this);
-".554889e54156534189f64889fb80bb69":
+".55":  //
 cleanup __amd64 bool TeleportSystem::CanReceive(TeleportSystem *this, bool countHacked);
-".554889e54157415641554154534883ec284989fe8a05":
+".55":  //
 cleanup __amd64 void TeleportSystem::OnRenderFloor(TeleportSystem *this);
-".554889e553":
+".55":  //
+cleanup __amd64 void TeleportSystem::SetCanSend(TeleportSystem *this, bool val); // 1001fbdc0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TeleportSystem::SetCanReceive(TeleportSystem *this, bool val); // 1001fbdd0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void TeleportSystem::InitiateTeleport(TeleportSystem *this);
+".55":  //
+cleanup __amd64 void TeleportSystem::SetCharge(TeleportSystem *this, float val); // 1001fbe70 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void TeleportSystem::destructor1(TeleportSystem *this); // 1001fbe80 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void TeleportSystem::destructor(TeleportSystem *this); // 1001fbec0 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct TeleportSystem

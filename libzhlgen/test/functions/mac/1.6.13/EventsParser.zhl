@@ -1,24 +1,50 @@
+"554889e55de9????????660f1f440000554889e54157415641554154534883ec48":  //
+cleanup __amd64 void EventsParser::destructor1(EventsParser *this); // 1001a99b0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e54157415641554154534883ec4848897d98":  //
+cleanup __amd64 void EventsParser::AddAllEvents(EventsParser *this);
+".55":  //
+cleanup __amd64 void EventsParser::AddEvents(EventsParser *this, EventGenerator& generator, char* file, const std::string& fileName);
+".554889e5415741564155":  //
+cleanup __amd64 void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
+".5548":  //
+static cleanup __amd64 bool EventsParser::DoesEventExist(EventGenerator *generator, const std::string &event); // 1001ad200 Linux DWARF prototype catalog
+".55":  //
+static cleanup __amd64 bool EventsParser::DoubleCheck(EventGenerator *generator); // 1001ad240 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string EventsParser::GetEventName(EventsParser *this); // 1001ae110 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string EventsParser::ProcessEvent(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
+".5548":  //
+cleanup __amd64 std::vector<EventText> EventsParser::ProcessRandomText(EventsParser *this, rapidxml::xml_node<char> *node, EventGenerator *generator); // 1001b2f30 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
+".5548":  //
+cleanup __amd64 ShipTemplate EventsParser::ProcessShipEvent(EventsParser *this, rapidxml::xml_node<char>* node);
+".5548":  //
+cleanup __amd64 std::vector<std::string> EventsParser::ProcessShipList(EventsParser *this, rapidxml::xml_node<char> *node); // 1001b5db0 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 std::vector<std::pair<std::string, RandomAmount>> EventsParser::ProcessEventCounts(EventsParser *this, rapidxml::xml_node<char> *node); // 1001b5f40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::vector<std::string> EventsParser::ProcessImageList(EventsParser *this, rapidxml::xml_node<char> *node); // 1001b6270 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 RandomAmount EventsParser::PullMinMax(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& name);
+".55":  //
+noHook __amd64 void EventsParser::__STRUCT_OVERRIDE_ANCHOR_43();
+//".55":  //
+//static cleanup __amd64 bool EventsParser::ParseBoolean(const std::string &input); // 1001b67b0 Linux DWARF prototype catalog
+".55":  //
+static cleanup __amd64 TextString EventsParser::ParseTextNode(rapidxml::xml_node<char> *node); // 1001b6800 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 ResourcesTemplate EventsParser::ProcessModifyItem(EventsParser *this, ResourcesTemplate& resources, rapidxml::xml_node<char>* node, const std::string& origin);
+".554889e5415741564155":  //
+cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,std::string& eventName);
+".5548":  //
+cleanup __amd64 void EventsParser::OnCleanup(EventsParser *this); // 1001b81d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void EventsParser::destructor2(EventsParser *this); // 1001b8250 Itanium source destructor prototype, Itanium D2 destructor
 "!31c0e8??????00488d3d(???????\?)e8????1a00":
 offsetVariable EventsParser* Global_EventsParser_Parser;
 
-".554889e54157415641554154534883ec4848897d98488d3d":
-cleanup __amd64 void EventsParser::AddAllEvents(EventsParser *this);
-".554889e54157415641554154534881ecf8000100":
-cleanup __amd64 void EventsParser::AddEvents(EventsParser *this, EventGenerator& generator, char* file, const std::string& fileName);
-".554889e5415741564155415453":
-cleanup __amd64 void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
-".554889e54157415641554154534881ec98030000":
-cleanup __amd64 std::string EventsParser::ProcessEvent(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
-".554889e54157415641554154534883ec384989ce4989f749":
-cleanup __amd64 std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
-".554889e541574156":
-cleanup __amd64 ShipTemplate EventsParser::ProcessShipEvent(EventsParser *this, rapidxml::xml_node<char>* node);
-".554889e54157415641554154534883ec68":
-cleanup __amd64 RandomAmount EventsParser::PullMinMax(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& name);
-".554889e54157415641554154534881":
-cleanup __amd64 ResourcesTemplate EventsParser::ProcessModifyItem(EventsParser *this, ResourcesTemplate& resources, rapidxml::xml_node<char>* node, const std::string& origin);
-".554889e54157415641554154534881":
-cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,std::string& eventName);
 
 
 struct EventsParser

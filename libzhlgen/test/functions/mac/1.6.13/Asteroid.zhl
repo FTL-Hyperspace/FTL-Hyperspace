@@ -1,7 +1,21 @@
+"554889e541574156534881ec68":  //
+noHook __amd64 void Asteroid::__STRUCT_OVERRIDE_ANCHOR_3();
+//"554889e541574156534881ec68":  //
+//cleanup __amd64 void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace); // 100022170 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Asteroid::constructor1(Asteroid *this, Pointf pos, int destinationSpace); // 100022460 Linux DWARF prototype catalog by linkage
+"554889e5534883ec284889fb80bbc4000000000f859a|554889e553504889fbe8????????0f57c080":  //
+cleanup __amd64 void Asteroid::OnUpdate(Asteroid *this);
+".554889e553504889fb39":  //
+cleanup __amd64 void Asteroid::OnRenderSpecific(Asteroid *this, int spaceId); // 100022c80 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05????300066480f6ec0488d05????300066480f6ec8660f6cc8f30f7f0bf683a802000001753ff6839002000001754bf6837802000001740c488bbb88020000e8????2800488dbb78010000e894|!.554889e553504889fb488d05c834":  //
+cleanup __amd64 void Asteroid::destructor1(Asteroid *this); // 100024120 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void Asteroid::destructor(Asteroid *this); // 1000241c0 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 int Asteroid::GetType(Asteroid *this); // 100024270 Linux DWARF prototype catalog by linkage
 "554889e541574156534881ec68":
 cleanup __amd64 void Asteroid::constructor(Asteroid *this, Pointf _position, int _destinationSpace);
-".554889e553":
-cleanup __amd64 void Asteroid::OnUpdate(Asteroid *this);
 
 
 struct Asteroid

@@ -1,9 +1,41 @@
+"554889e54156534883ec204889fb488d050b|554889e54156534883ec204989d6":  //
+noHook __amd64 void WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_142();
+//"554889e54156534883ec204889fb488d050b|554889e54156534883ec204989d6":  //
+//cleanup __amd64 void WeaponEquipBox::constructor(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot); // 1000d96b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponEquipBox::constructor1(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot); // 1000d9860 Linux DWARF prototype catalog by linkage
+"554889e54156534889fb488b7b58":  //
+cleanup __amd64 void WeaponEquipBox::AddItem(WeaponEquipBox *this, EquipmentBoxItem newItem); // 1000d9870 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponEquipBox::RemoveItem(WeaponEquipBox *this); // 1000d98b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponEquipBox::CheckContents(WeaponEquipBox *this); // 1000d9900 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponEquipBox::SetShipManager(WeaponEquipBox *this, ShipManager *ship); // 1000d9930 Linux DWARF prototype catalog by linkage
+".554889e553504889fb488d":  //
+cleanup __amd64 void WeaponEquipBox::destructor1(WeaponEquipBox *this); // 1000da060 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void WeaponEquipBox::destructor(WeaponEquipBox *this); // 1000da0c0 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool WeaponEquipBox::CanHoldWeapon(WeaponEquipBox *this); // 1000da120 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponEquipBox::CanHoldDrone(WeaponEquipBox *this); // 1000da130 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponEquipBox::CanHoldAugment(WeaponEquipBox *this); // 1000da140 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_143();
+//".55":  //
+//cleanup __amd64 int WeaponEquipBox::GetType(WeaponEquipBox *this, bool forcedEmpty); // 1000da150 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponEquipBox::IsCargoBox(WeaponEquipBox *this); // 1000da160 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponEquipBox::CanDoJob(WeaponEquipBox *this); // 1000da170 Linux DWARF prototype catalog by linkage
 "554889e5415741564154534883ec204189d64189f74889fb80":
 noHook __amd64 void WeaponEquipBox::NoHook();
 ".554889e5":
 cleanup __amd64 void WeaponEquipBox::constructor(WeaponEquipBox *this, Point location, WeaponSystem* _system, int _slot);
-".554889e54156534883ec20":
-cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem* _system, int _slot);
+// ".554889e54156534883ec20":
+// cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem* _system, int _slot);
 
 struct WeaponEquipBox
 {{

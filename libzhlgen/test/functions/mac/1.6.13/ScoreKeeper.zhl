@@ -1,64 +1,104 @@
+"554889e55de9????????660f1f440000554889e55de9":  //
+cleanup __amd64 void ScoreKeeper::constructor(ScoreKeeper *this);
+"554889e55de9????????660f1f440000554889e54157415641554154534883ec2848":  //
+cleanup __amd64 void ScoreKeeper::destructor1(ScoreKeeper *this); // 100027f80 Itanium source destructor prototype, Itanium D1 destructor
+"554889e54157415641554154534883ec284889fb":  //
+cleanup __amd64 void ScoreKeeper::constructor1(ScoreKeeper *this); // 100027f90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::WipeProfile(ScoreKeeper *this, bool permanent);
+".55":  //
+cleanup __amd64 void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);
+".55":  //
+cleanup __amd64 std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this, const std::string& blueprintName);
+".55":  //
+cleanup __amd64 std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int index);
+"!.55":  //
+cleanup __amd64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
+".5548":  //
+cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
+".55":  //
+cleanup __amd64 void ScoreKeeper::RenderTopScores(ScoreKeeper *this, const std::vector<TopScore>& topScoreList, Point position, int newHighScore);
+".55":  //
+cleanup __amd64 void ScoreKeeper::CheckTypes(ScoreKeeper *this);
+".55":  //
+cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
+".55":  //
+cleanup __amd64 void ScoreKeeper::SetupTopShip(ScoreKeeper *this, int variant);
+".55":  //
+cleanup __amd64 void ScoreKeeper::UpdateCrewStat(ScoreKeeper *this, SCrewStats crewmember); // 10002ae30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
+".554889e54157415641554154534883ec??89":  //
+cleanup __amd64 void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
+".55":  //
+cleanup __amd64 void ScoreKeeper::CheckCrystalUnlock(ScoreKeeper *this); // 10002d130 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::LoadVersionTwo(ScoreKeeper *this, int fd); // 10002d180 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, int type); // 10002d630 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::LoadVersionOne(ScoreKeeper *this, int fd); // 10002dde0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ScoreKeeper::CycleLeft(ScoreKeeper *this);
+"!.55":  //
+cleanup __amd64 void ScoreKeeper::CycleRight(ScoreKeeper *this);
+".55":  //
+cleanup __amd64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
+".55":  //
+cleanup __amd64 void ScoreKeeper::MouseClick(ScoreKeeper *this, int mX, int mY);
+".55":  //
+cleanup __amd64 bool ScoreKeeper::OnTouch(ScoreKeeper *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+".55":  //
+cleanup __amd64 bool ScoreKeeper::KeyDown(ScoreKeeper *this, SDLKey key);
+".55":  //
+cleanup __amd64 void ScoreKeeper::Open(ScoreKeeper *this, bool fromGameOver);
+".5548":  //
+cleanup __amd64 void ScoreKeeper::destructor2(ScoreKeeper *this); // 10002fa90 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void ScoreKeeper::OnInit(ScoreKeeper *this);
+".55":  //
+cleanup __amd64 void ScoreKeeper::LoadVersionThree(ScoreKeeper *this, int fd); // 100031540 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::LoadVersionFour(ScoreKeeper *this, int file, int version);
+".55":  //
+cleanup __amd64 void ScoreKeeper::LoadCurrent(ScoreKeeper *this, int fd, int version); // 1000329b0 Linux DWARF prototype catalog by linkage
+"554889e5415741564155415453504989d64989f7498b":  //
+cleanup __amd64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, std::vector<TopScore> *topScoreList); // 1000329c0 Linux DWARF prototype catalog
+"!.554889e548":  //
+cleanup __amd64 void ScoreKeeper::SetShipName(ScoreKeeper *this, const std::string &name); // 1000331e0 Linux DWARF prototype catalog
+"!.55":  //
+cleanup __amd64 void ScoreKeeper::SetShipBlueprint(ScoreKeeper *this, const std::string &blueprint); // 100033200 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
+".55":  //
+cleanup __amd64 void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
+".55":  //
+cleanup __amd64 void ScoreKeeper::AddStat(ScoreKeeper *this, int stat, int amount); // 100033270 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::AddDefeatedShips(ScoreKeeper *this); // 1000332c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::AddExploredLocations(ScoreKeeper *this);
+".55":  //
+cleanup __amd64 void ScoreKeeper::AddScrapCollected(ScoreKeeper *this, int scrap);
+".55":  //
+cleanup __amd64 void ScoreKeeper::AddCrew(ScoreKeeper *this); // 100033430 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::Reset(ScoreKeeper *this); // 100033470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ScoreKeeper::SaveScores(ScoreKeeper *this, int file, std::vector<TopScore>& topScores);
+".55":  //
+cleanup __amd64 int ScoreKeeper::CalculateScore(ScoreKeeper *this); // 100033610 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ScoreKeeper::GetTopScore(ScoreKeeper *this); // 100033670 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ScoreKeeper::CalculateSectorScore(ScoreKeeper *this); // 100033690 Linux DWARF prototype catalog by linkage
 "!4889fbe8????????488b7b10e8????????0fb6f0488d3d(???????\?)":
 offsetVariable ScoreKeeper* Global_ScoreKeeper_Keeper;
 
-".554889e54157415641554154534883ec284889fb48c70300":
-cleanup __amd64 void ScoreKeeper::constructor(ScoreKeeper *this);
-"!.554889e54157415641554154534883ec188975c4":
-cleanup __amd64 void ScoreKeeper::WipeProfile(ScoreKeeper *this, bool permanent);
-".554889e5415741564154534881eca000000089f3":
-cleanup __amd64 void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);
-".554889e54157415641554154534883ec38":
-cleanup __amd64 std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this, const std::string& blueprintName);
-".554889e553504889fb4863c2488d0440":
-cleanup __amd64 std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int index);
-"!.55":
-cleanup __amd64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
-".554889e5415741564154534881ec8001":
-cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
-".554889e54157415641554154534881ec":
-cleanup __amd64 void ScoreKeeper::RenderTopScores(ScoreKeeper *this, const std::vector<TopScore>& topScoreList, Point position, int newHighScore);
-".554889e5415741564154534883ec304889fb8bb3f00d0000":
-cleanup __amd64 void ScoreKeeper::CheckTypes(ScoreKeeper *this);
-"!.554889e54157415641554154534883ec684189d44189f648":
-cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
-".554889e54157415641554154534883ec484189f64989fd49":
-cleanup __amd64 void ScoreKeeper::SetupTopShip(ScoreKeeper *this, int variant);
-"!.554889e54157415641554154534881ec??020000":
-cleanup __amd64 void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
-".554889e54157415641554154534883ec??89cb41":
-cleanup __amd64 void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
 ".554889e54157415641554154534881ec080200004189d449":
 cleanup __amd64 void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
-"!.554889e54156534889fb41be":
-cleanup __amd64 void ScoreKeeper::CycleLeft(ScoreKeeper *this);
-"!.554889e54156534889fb4531f6":
-cleanup __amd64 void ScoreKeeper::CycleRight(ScoreKeeper *this);
-".554889e5415741564155415453504189d74189f64989fd41":
-cleanup __amd64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
-"!.554889e54156534889fb4c8db3000e00":
-cleanup __amd64 void ScoreKeeper::MouseClick(ScoreKeeper *this, int mX, int mY);
-"!.554889e541574156":
-cleanup __amd64 bool ScoreKeeper::OnTouch(ScoreKeeper *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
-".554889e54157415653504189f64889fb80bb580e":
-cleanup __amd64 bool ScoreKeeper::KeyDown(ScoreKeeper *this, SDLKey key);
-"!.554889e54157415641554154534881ec480200004989fd48":
-cleanup __amd64 void ScoreKeeper::Open(ScoreKeeper *this, bool fromGameOver);
-"!.554889e54157415641554154534881ec380100004989fc48":
-cleanup __amd64 void ScoreKeeper::OnInit(ScoreKeeper *this);
-".554889e54157415641554154534881ece800000089":
-cleanup __amd64 void ScoreKeeper::LoadVersionFour(ScoreKeeper *this, int file, int version);
 ".554889e5415741564155415453504989d64989f7498b364d":
 cleanup __amd64 int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
-".554889e5c7472800":
-cleanup __amd64 void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
-".554889e54088b7e8":
-cleanup __amd64 void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
-".554889e55350":
-cleanup __amd64 void ScoreKeeper::AddExploredLocations(ScoreKeeper *this);
-".554889e54156534883ec204189f64889fb488d3d":
-cleanup __amd64 void ScoreKeeper::AddScrapCollected(ScoreKeeper *this, int scrap);
-".554889e54157415641554154534883ec584189f5":
-cleanup __amd64 void ScoreKeeper::SaveScores(ScoreKeeper *this, int file, std::vector<TopScore>& topScores);
 
 
 struct ScoreKeeper

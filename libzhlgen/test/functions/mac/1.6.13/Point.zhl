@@ -1,3 +1,41 @@
+"554889e548b801":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_61();
+//"554889e548b801":  //
+//cleanup __amd64 void Point::constructor(Point *this); // 100156e80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Point::constructor1(Point *this); // 100156ea0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_62();
+//".55":  //
+//cleanup __amd64 void Point::constructor(Point *this, int x, int y); // 100156ec0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Point::constructor1(Point *this, int x, int y); // 100156ed0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_63();
+//".55":  //
+//cleanup __amd64 int Point::RelativeDistance(Point *this, Point p); // 100156ee0 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_64();
+//".55":  //
+//cleanup __amd64 int Point::Distance(Point *this, Point p); // 100156f00 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_65();
+//".55":  //
+//cleanup __amd64 float Point::Slope(Point *this, Point p); // 100156f60 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_66();
+//".55":  //
+//static cleanup __amd64 int Point::DistancePath(std::vector<Point> path); // 100156f80 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool Point::equals(Point *this, Point p); // 100157020 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_67();
+//".55":  //
+//cleanup __amd64 Point Point::RotatePoint(Point *this, float angle); // 100157040 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_68();
+//".55":  //
+//cleanup __amd64 Point Point::RotatePoint(Point *this, float angle, Point p); // 1001570c0 Linux DWARF prototype catalog by linkage
 // Reimplemented all functions; they are not complex enough to make jumping to them worth it
 
 struct Point
@@ -67,14 +105,14 @@ struct Point
 		{
 			return 0;
 		}
-		
+
 		int totalDistance = 0;
 		for (uint i = 0; i < path.size() - 1; i++)
 		{
 			int distanceBetween = path[i].Distance(path[i + 1]);
 			totalDistance += distanceBetween;
 		}
-		
+
 		return totalDistance;
 	}
 

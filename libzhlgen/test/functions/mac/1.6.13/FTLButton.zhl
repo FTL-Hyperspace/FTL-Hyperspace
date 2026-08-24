@@ -1,11 +1,27 @@
-// Continue from ExplosionAnimation::LoadGibs (hyper efficiency™)
-".554889e54157415641554154534881ec??0100004989fd49":
+"554889e553504889fbe8????fcff488d05??????00488903c6":  //
+cleanup __amd64 void FTLButton::constructor(FTLButton *this); // 1000da3b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void FTLButton::constructor1(FTLButton *this); // 1000da460 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void FTLButton::destructor2(FTLButton *this); // 1000da510 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void FTLButton::destructor1(FTLButton *this); // 1000da590 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e54157415641554154534881ecb8":  //
+cleanup __amd64 void FTLButton::destructor(FTLButton *this); // 1000da5a0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534881ecb80000004989f7":  //
+cleanup __amd64 void FTLButton::OnInit(FTLButton *this, Point p); // 1000da5c0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void FTLButton::OnRender(FTLButton *this);
-".554889e54156":
+".55":  //
+cleanup __amd64 void FTLButton::RenderPullout(FTLButton *this, bool engines, bool pilot); // 1000dbec0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 std::string FTLButton::GetPilotTooltip(FTLButton *this);
-".554889e5415741564155415453504189cf4189d6":
+".55":  //
+cleanup __amd64 std::string FTLButton::GetEngineTooltip(FTLButton *this); // 1000dc1d0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void FTLButton::MouseMove(FTLButton *this, int mX, int mY, bool silent);
-".554889e5415653":
+".55":  //
 cleanup __amd64 bool FTLButton::MouseClick(FTLButton *this, int mX, int mY);
-".554889e541574156415453":
+".55":  //
 cleanup __amd64 bool FTLButton::OnTouch(FTLButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+// Continue from ExplosionAnimation::LoadGibs (hyper efficiency™)

@@ -1,41 +1,42 @@
-// Continue from CrewMember::CanMan (hyper efficiency™)
-"!.554889e54156534989fe498b7e1049":
-cleanup __amd64 void CrewMemberFactory::destructor(CrewMemberFactory *this);
-".554889e54157415653504989fe498b4610498b56":
+"554889e54156534989fe498b7e":  //
+cleanup __amd64 void CrewMemberFactory::destructor(CrewMemberFactory *this); // 10005fb60 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void CrewMemberFactory::destructor1(CrewMemberFactory *this); // 10005fc00 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
 cleanup __amd64 void CrewMemberFactory::Restart(CrewMemberFactory *this);
-"!.554889e5415741564154534989": // here
+"!.55":  //
 cleanup __amd64 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this);
-".554889e54157415641554154534881ec88":
+".55":  //
 cleanup __amd64 void CrewMemberFactory::OnLoop(CrewMemberFactory *this);
-".554889e54157415641554154534881ec98":
+".55":  //
 cleanup __amd64 std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this, const std::string& race);
-".554889e54157415641554154534883ec184989":
+".5548":  //
 cleanup __amd64 std::vector<std::string> CrewMemberFactory::GetCrewNames(CrewMemberFactory *this);
-"!.554889e54157415641554154534883ec2841":
+".55":  //
 cleanup __amd64 void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this, std::vector<CrewMember*>& vec, bool player);
-".554889e5415741564155415453504189f64989fc":
+".554889e541574156415541545350":  //
 cleanup __amd64 int CrewMemberFactory::CountCloneReadyCrew(CrewMemberFactory *this, bool player);
-"!.554889e54157415641554154534883ec2889d348":
+".55":  //
 cleanup __amd64 void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int teamId);
-"!.554889e54157415641554154534883ec288955d4":
+".55":  //
 cleanup __amd64 void CrewMemberFactory::GetCrewList(CrewMemberFactory *this, std::vector<CrewMember*>* vec, int player, bool drones);
-".554889e58b075d":
+".55":  //
 cleanup __amd64 int CrewMemberFactory::GetPlayerCrewCount(CrewMemberFactory *this);
-".554889e58b47085dc3":
+".55":  //
 cleanup __amd64 int CrewMemberFactory::GetEnemyCloneCount(CrewMemberFactory *this);
-".554889e5488d4704":
+".55":  //
 cleanup __amd64 int CrewMemberFactory::GetCrewCount(CrewMemberFactory *this, bool enemy);
-".554889e58b47045d":
+".55":  //
 cleanup __amd64 int CrewMemberFactory::GetEnemyCrewCount(CrewMemberFactory *this);
-".554889e5415653":
+".55":  //
 static cleanup __amd64 bool CrewMemberFactory::IsRace(const std::string& species);
-"!.554889e54157415641554154534881ecb8":
-cleanup __amd64 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
-"!.554889e54157415641554154534883ec18":
+".55":  //
+cleanup __amd64 CrewMember *CrewMemberFactory::CreateCrewmember(CrewMemberFactory *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 100061470 Linux DWARF prototype catalog by linkage
+".5548":  //
 cleanup __amd64 BoarderDrone* CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
-"!.554889e54157415641554154534883ec38":
+".55":  //
 cleanup __amd64 RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
-"!.554889e54157415641554154534883ec18":
+".55":  //
 cleanup __amd64 BattleDrone* CrewMemberFactory::CreateBattleDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
 
 "!c6488d3d(???????\?)e8":
@@ -54,6 +55,6 @@ struct CrewMemberFactory
 	void MoveCrewMemberBefore(CrewMember* crew, CrewMember* other);
 	void MoveCrewMemberAfter(CrewMember* crew, CrewMember* other);
 	void MoveCrewMemberToSpot(CrewMember* crew, CrewMember* other);
-	
+
 	float GetCrewCapacityUsed();
 }};

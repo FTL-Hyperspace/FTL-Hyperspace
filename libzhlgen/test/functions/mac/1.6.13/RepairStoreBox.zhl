@@ -1,8 +1,19 @@
-// Continue from VTable_RepairAnimation (hyper efficiency™)
-"!.554889e553504889fbe8????ffff488bbb78":
-noHook __amd64 void RepairStoreBox::NoHook();
-".554889e5":
-cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager* _ship, bool _repairAll, int _price);
+"554889e54157415641554154534881ecd800000089cb|554889e54157415641554154534881ecd80000000f57":  //
+cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120130 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void RepairStoreBox::constructor1(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120590 Linux DWARF prototype catalog by linkage
+"554889e54156534883ec404889fb48":  //
+cleanup __amd64 void RepairStoreBox::Purchase(RepairStoreBox *this); // 1001205a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 100120720 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void RepairStoreBox::OnRender(RepairStoreBox *this); // 100120730 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void RepairStoreBox::OnLoop(RepairStoreBox *this); // 100120980 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d":  //
+cleanup __amd64 void RepairStoreBox::destructor1(RepairStoreBox *this); // 100121d60 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void RepairStoreBox::destructor(RepairStoreBox *this); // 100121da0 Itanium source destructor prototype, Itanium D0 destructor
 
 
 struct RepairStoreBox

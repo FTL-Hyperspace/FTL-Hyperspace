@@ -1,3 +1,21 @@
+"554889e541574156534881ec18":  //
+noHook __amd64 void Missile::__STRUCT_OVERRIDE_ANCHOR_57();
+//"554889e541574156534881ec18":  //
+//cleanup __amd64 void Missile::constructor(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020200 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Missile::constructor1(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020330 Linux DWARF prototype catalog by linkage
+"554889e553504889fbf2":  //
+cleanup __amd64 void Missile::constructor(Missile *this, Missile *missile); // 100020340 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Missile::constructor1(Missile *this, Missile *missile); // 1000203b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Missile::OnRenderSpecific(Missile *this, int spaceId); // 100020420 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void Missile::destructor1(Missile *this); // 100020570 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void Missile::destructor(Missile *this); // 100020620 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 int Missile::GetType(Missile *this); // 1000206d0 Linux DWARF prototype catalog by linkage
 "554889e541574156534881ec18010000f30f1155e4":
 cleanup __amd64 void Missile::constructor(Missile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
 

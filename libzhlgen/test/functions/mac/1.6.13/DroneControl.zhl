@@ -1,8 +1,32 @@
-"554889e5415741564154534883ec204989ff498b":
+"554889e54157415641554154534883ec584889fbbe":  //
+cleanup __amd64 void DroneControl::constructor(DroneControl *this); // 1000cee20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneControl::constructor1(DroneControl *this); // 1000cf090 Linux DWARF prototype catalog by linkage
+"554889e5415741564154534883ec204989ff":  //
 cleanup __amd64 void DroneControl::OnLoop(DroneControl *this);
-".554889e55348":
+".55":  //
+cleanup __amd64 void DroneControl::CheckDrones(DroneControl *this); // 1000cf2a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void DroneControl::OnRender(DroneControl *this, bool front); // 1000cf330 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void DroneControl::RenderWarnings(DroneControl *this); // 1000cf370 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool DroneControl::OnTouch(DroneControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000cf3d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 ArmamentBox *DroneControl::CreateArmamentBox(DroneControl *this, Point loc); // 1000cf440 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int DroneControl::NumArmamentSlots(DroneControl *this); // 1000cf470 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 TextString DroneControl::HolderLabel(DroneControl *this);
-".5548":
+".55":  //
 cleanup __amd64 SDLKey DroneControl::ArmamentHotkey(DroneControl *this, unsigned int i);
-".5548":
+".55":  //
 cleanup __amd64 void DroneControl::SelectArmament(DroneControl *this, unsigned int i);
+".5548":  //
+cleanup __amd64 void DroneControl::DeselectArmament(DroneControl *this, unsigned int i); // 1000cf9d0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void DroneControl::SwapArmaments(DroneControl *this, unsigned int a, unsigned int b); // 1000cfab0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void DroneControl::destructor1(DroneControl *this); // 1000cfae0 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void DroneControl::destructor(DroneControl *this); // 1000cfb30 Itanium source destructor prototype, Itanium D0 destructor

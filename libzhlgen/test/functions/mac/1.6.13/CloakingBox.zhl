@@ -1,6 +1,32 @@
+"554889e54157415641554154534883ec684889d34989fd31":  //
+cleanup __amd64 void CloakingBox::constructor(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012b330 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingBox::constructor1(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012ba80 Linux DWARF prototype catalog by linkage
+"!554889e54156534989fe488d05??????00498906498bbe":  //
+cleanup __amd64 void CloakingBox::destructor2(CloakingBox *this); // 10012ba90 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void CloakingBox::destructor1(CloakingBox *this); // 10012bb60 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5488bbf38":  //
+cleanup __amd64 void CloakingBox::destructor(CloakingBox *this); // 10012bb70 Itanium source destructor prototype, Itanium D0 destructor
+"!554889e5488bbf38":  //
+cleanup __amd64 int CloakingBox::GetCooldownLevel(CloakingBox *this); // 10012bb90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CloakingBox::GetCooldownFraction(CloakingBox *this); // 10012bbb0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CloakingBox::OnRender(CloakingBox *this, bool ignoreStatus); // 10012bc00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingBox::MouseMove(CloakingBox *this, int mX, int mY); // 10012bd00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CloakingBox::MouseClick(CloakingBox *this, bool force); // 10012bed0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingBox::OnTouch(CloakingBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10012bf50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CloakingBox::KeyDown(CloakingBox *this, SDLKey key_sym, bool shift); // 10012c060 Linux DWARF prototype catalog by linkage
+".554889e5b0015dc30f1f840000000000554889e553":  //
+cleanup __amd64 bool CloakingBox::HasButton(CloakingBox *this); // 10012c5b0 Linux DWARF prototype catalog by linkage
 // Continue from ChoiceBox::MouseClick (hyper efficiency™)
-".554889e54157415641554154534883ec684889d34989fd31":
-cleanup __amd64 void CloakingBox::constructor(CloakingBox *this, Point _position, CloakingSystem* _system);
+// ".554889e54157415641554154534883ec684889d34989fd31":
+// cleanup __amd64 void CloakingBox::constructor(CloakingBox *this, Point _position, CloakingSystem* _system);
 
 
 struct CloakingBox

@@ -1,11 +1,27 @@
+"!554889e54156534989d6":  //
+noHook __amd64 void ArtilleryBox::__STRUCT_OVERRIDE_ANCHOR_2();
+//"!554889e54156534989d6":  //
+//cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a1f0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ArtilleryBox::constructor1(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a240 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 GL_Color ArtilleryBox::GetCooldownColor(ArtilleryBox *this); // 10012a290 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ArtilleryBox::GetCooldownLevel(ArtilleryBox *this); // 10012a2e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float ArtilleryBox::GetCooldownFraction(ArtilleryBox *this); // 10012a2f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
+"!.554889e553504889fb488d":  //
+cleanup __amd64 void ArtilleryBox::destructor1(ArtilleryBox *this); // 10012c370 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void ArtilleryBox::destructor(ArtilleryBox *this); // 10012c3d0 Itanium source destructor prototype, Itanium D0 destructor
 
 // Continue from ArmamentControl::SetPosition (hyper efficiency™)
 "!.554889e54156534989d64889fb":
 noHook __amd64 void ArtilleryBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 "!.554889e54156534989d64889fb":
 cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point _position, ArtillerySystem* _system);
-".554889e54157":
-cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
 
 
 struct ArtilleryBox

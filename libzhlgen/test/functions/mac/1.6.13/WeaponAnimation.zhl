@@ -1,22 +1,62 @@
-"!554889e54156534189f64889fbe8????0f":
+"554889e54157415653504889fb488dbb":  //
+cleanup __amd64 void WeaponAnimation::destructor2(WeaponAnimation *this); // 1000278c0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e54157415641554154534881ec480100004889fb0f|.554889e54157415641554154534881ec680100004889":  //
+cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this); // 10004b980 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::ComputeDirection(WeaponAnimation *this); // 10004c120 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::constructor1(WeaponAnimation *this); // 10004c160 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534881ec??0100004c":  //
+cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c170 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::constructor1(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c8e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::OnInit(WeaponAnimation *this); // 10004c920 Linux DWARF prototype catalog by linkage
+"!.55":  //
 cleanup __amd64 void WeaponAnimation::SaveState(WeaponAnimation *this, int fd);
-"!.554889e580":
+".55":  //
+cleanup __amd64 void WeaponAnimation::LoadState(WeaponAnimation *this, int fd); // 10004caa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetBoostAnimation(WeaponAnimation *this, Animation boostanim); // 10004cb30 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponAnimation::SetBoostLevel(WeaponAnimation *this,int value);
-".554889e58b4708f30f2ac82b":
+".55":  //
 cleanup __amd64 void WeaponAnimation::SetFireTime(WeaponAnimation *this, float time);
-".554889e5534883ec??4889fb488dbb28010000":
+".55":  //
+cleanup __amd64 void WeaponAnimation::Explode(WeaponAnimation *this); // 10004cce0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetChargeImage(WeaponAnimation *this, GL_Texture *chargeImage); // 10004cd10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetMirror(WeaponAnimation *this, bool mirrored); // 10004cd70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetRotation(WeaponAnimation *this, bool rotation); // 10004cd80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::StopFiring(WeaponAnimation *this); // 10004cd90 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void WeaponAnimation::SetFireLevel(WeaponAnimation *this, float completed); // 10004cda0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Pointf WeaponAnimation::GetSlide(WeaponAnimation *this);
-".55":
+".55":  //
 cleanup __amd64 void WeaponAnimation::SetPowered(WeaponAnimation *this, bool powered);
-".554889e5f3":
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetDirection(WeaponAnimation *this, int dir); // 10004cf50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetMount(WeaponAnimation *this, WeaponMount wMount); // 10004cf60 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponAnimation::SetChargedLevel(WeaponAnimation *this, float charged);
-".554889e553504889fb80bbf1":
+".55":  //
 cleanup __amd64 bool WeaponAnimation::StartFire(WeaponAnimation *this);
-".554889e54157415653504889fb448bb3":
+".55":  //
 cleanup __amd64 void WeaponAnimation::Update(WeaponAnimation *this);
-".554889e548":
+".55":  //
+cleanup __amd64 void WeaponAnimation::SetHacked(WeaponAnimation *this, int val); // 10004d350 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponAnimation::FireShot(WeaponAnimation *this); // 10004d370 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponAnimation::RenderIcon(WeaponAnimation *this); // 10004d390 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Point WeaponAnimation::GetFireLocation(WeaponAnimation *this);
-".554889e54157415641":
+".55":  //
 cleanup __amd64 void WeaponAnimation::OnRender(WeaponAnimation *this, float alpha);
-".55":
+".55":  //
 cleanup __amd64 void WeaponAnimation::RenderChargeBar(WeaponAnimation *this, float alpha);

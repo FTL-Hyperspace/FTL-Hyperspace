@@ -1,17 +1,89 @@
-"554889e54157415641554154534881ec1802":
+"554889e54157415641554154534881ec1802":  //
 cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string& _type, const std::string& _name, int _iShipId, const DroneBlueprint* _blueprint, CrewAnimation* _animation);
-"!.554889e50f57":
+".55":  //
+cleanup __amd64 void CrewDrone::constructor1(CrewDrone *this, const std::string &type, TextString *name, int iShipId, DroneBlueprint *blueprint, CrewAnimation *anim); // 100019be0 Linux DWARF prototype catalog
+"554889e54883ec10f3":  //
+cleanup __amd64 Point CrewDrone::GetWorldLocation(CrewDrone *this); // 100019bf0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void CrewDrone::SetInstantPowered(CrewDrone *this); // 100019c80 Linux DWARF prototype catalog by linkage
+".554889e541565389":  //
+cleanup __amd64 void CrewDrone::SetDeployed(CrewDrone *this, bool deploy); // 10001a490 Linux DWARF prototype catalog by linkage
+".554889e54157415653504189f64889":  //
+cleanup __amd64 void CrewDrone::SetPowered(CrewDrone *this, bool powered); // 10001bf70 Linux DWARF prototype catalog by linkage
+".554889e5f3":  //
+cleanup __amd64 float CrewDrone::GetMoveSpeedMultipler(CrewDrone *this); // 10001c090 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool CrewDrone::ShipDamage(CrewDrone *this, float amount);
-"!.554889e5415741564155415453504889fb4c":
+"!.55":  //
 virtual cleanup __amd64 void CrewDrone::OnLoop(CrewDrone *this);
+"!.554889e5f3":  //
+cleanup __amd64 void CrewDrone::BlowUp(CrewDrone *this, bool silent); // 10001c2f0 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void CrewDrone::OnRender(CrewDrone *this, bool outlineOnly); // 10001c330 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void CrewDrone::SetWorldLocation(CrewDrone *this, Point p); // 10001c4c0 Linux DWARF prototype catalog by linkage
+".554889e58a":  //
+cleanup __amd64 bool CrewDrone::Destroyed(CrewDrone *this); // 10001c560 Linux DWARF prototype catalog by linkage
+"!.554889e553":  //
+cleanup __amd64 void CrewDrone::destructor1(CrewDrone *this); // 10001c600 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+noHook __amd64 void CrewDrone::__STRUCT_OVERRIDE_ANCHOR_28();
+//".55":  //
+//cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // 10001c650 Itanium source destructor prototype, Itanium D0 destructor
+".554889e5b0":  //
+cleanup __amd64 bool CrewDrone::IsDrone(CrewDrone *this); // 10001c730 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewDrone::Jump(CrewDrone *this); // 10001c740 Linux DWARF prototype catalog by linkage
+"554889e553504889fbe8????????84":  //
+cleanup __amd64 bool CrewDrone::GetIntruder(CrewDrone *this); // 10001c750 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewDrone::SaveState(CrewDrone *this, int fd); // 10001c780 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewDrone::LoadState(CrewDrone *this, int fd); // 10001c790 Linux DWARF prototype catalog by linkage
+".554889e580":  //
+cleanup __amd64 bool CrewDrone::Functional(CrewDrone *this); // 10001c7b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CountForVictory(CrewDrone *this); // 10001c7d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::GetControllable(CrewDrone *this); // 10001c7e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::ReadyToFight(CrewDrone *this); // 10001c7f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanFight(CrewDrone *this); // 10001c800 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanRepair(CrewDrone *this); // 10001c810 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanSabotage(CrewDrone *this); // 10001c820 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanMan(CrewDrone *this); // 10001c830 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanTeleport(CrewDrone *this); // 10001c840 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanSuffocate(CrewDrone *this); // 10001c850 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::CanBurn(CrewDrone *this); // 10001c860 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CrewDrone::GetMaxHealth(CrewDrone *this); // 10001c870 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::PermanentDeath(CrewDrone *this); // 10001c880 Linux DWARF prototype catalog by linkage
+".554889e583":  //
+virtual cleanup __amd64 bool CrewDrone::ProvidesVision(CrewDrone *this);
+".554889e531c05dc30f1f840000000000554889e55dc3662e0f1f840000000000554889e580":  //
+cleanup __amd64 bool CrewDrone::CanStim(CrewDrone *this); // 10001ca50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewDrone::OnDestoy(CrewDrone *this); // 10001ca60 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewDrone::NeedsRoom(CrewDrone *this); // 10001ca70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Slot CrewDrone::GetDroneSlot(CrewDrone *this); // 10001ca80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CrewDrone::GetDroneHealth(CrewDrone *this); // 10001caa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
 "!.554889e553504889fb488d05":
 noHook __amd64 void CrewDrone::DO_NOT_HOOK(); // Free destructor
 "!.554889e553504889fb488d05":
 cleanup __amd64 void CrewDrone::destructor(CrewDrone *this); // Delete destructor
-"!.554889e5837f08007409":
-virtual cleanup __amd64 bool CrewDrone::ProvidesVision(CrewDrone *this);
-"!.554889e55de9":
-cleanup __amd64 void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
 
 
 struct CrewDrone depends (CrewMember, DroneBlueprint)

@@ -1,51 +1,131 @@
-// Continue from CombatDrone::PickTarget (hyper efficiency™)
-".554889e54157415641554154534881ece80000004889fbe8":
+"554889e54157415641554154534881ece800000048":  //
 cleanup __amd64 void CommandGui::constructor(CommandGui *this);
-".554889e54157415641554154534881ec9802":
+".5548":  //
+cleanup __amd64 void CommandGui::OnLanguageChange(CommandGui *this); // 1000baea0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::constructor1(CommandGui *this); // 1000bb430 Linux DWARF prototype catalog by linkage
+"!554889e5415741564155415453504989fd498b85":  //
+cleanup __amd64 void CommandGui::destructor2(CommandGui *this); // 1000bb440 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void CommandGui::OnCleanup(CommandGui *this); // 1000bb790 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::destructor1(CommandGui *this); // 1000bb830 Itanium source destructor prototype, Itanium D1 destructor
+"554889e54088b78839|554889e54088b7a03a":  //
+cleanup __amd64 void CommandGui::SetPaused(CommandGui *this, bool val, bool isAutoPause); // 1000bb840 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::SetBossDead(CommandGui *this, bool val); // 1000bb870 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::SpaceBar(CommandGui *this); // 1000bb880 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::ExportData(CommandGui *this, int fd); // 1000bb8e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::ImportData(CommandGui *this, int fd); // 1000bb9c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::AddWeapon(CommandGui *this, WeaponBlueprint *blueprint, bool free); // 1000bba30 Linux DWARF prototype catalog by linkage
+"554889e54881c7????0000??????????????????????662e0f1f840000000000554889e54881c7????0000??????????????????????662e0f1f840000000000554889e553":  //
+cleanup __amd64 void CommandGui::AddAugment(CommandGui *this, AugmentBlueprint *augment, bool free); // 1000bba50 Linux DWARF prototype catalog by linkage
+"554889e54881c7104600000fb6d231c95de9????????662e0f1f840000000000554889e553|554889e54881c728470000??????????????????????662e0f1f840000000000554889e553":  //
+cleanup __amd64 void CommandGui::AddDrone(CommandGui *this, DroneBlueprint *blueprint, bool free); // 1000bba70 Linux DWARF prototype catalog by linkage
+"554889e553504889fb488b83e01c0000488b7810488b07ff908000000084c074":  //
+cleanup __amd64 int CommandGui::GetChoice(CommandGui *this); // 1000bba90 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText>* choices, ResourceEvent& resources, bool testingEvents);
-".554889e54157415641554154534883ec184189f74889fbbf":
+".55":  //
+cleanup __amd64 void CommandGui::LinkSpace(CommandGui *this, SpaceManager *space); // 1000bbea0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::SetStore(CommandGui *this, Store *store, bool bOpen); // 1000bbf00 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
-".554889e54157415641554154534881ec??010000":
+".55":  //
+cleanup __amd64 void CommandGui::CheckCommandPrompt(CommandGui *this); // 1000bc140 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::RunCommand(CommandGui *this, std::string& command);
-".554889e5415741564154534881eca000000049":
+".5548":  //
+cleanup __amd64 void CommandGui::ForceJumpComplete(CommandGui *this); // 1000bd230 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CommandGui::IsJumpComplete(CommandGui *this); // 1000bd290 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Location *CommandGui::GetNewLocation(CommandGui *this); // 1000bd300 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int CommandGui::GetCommand(CommandGui *this); // 1000bd320 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::Victory(CommandGui *this);
-".554889e541574156534881ecb80000004989ff":
+".55":  //
+cleanup __amd64 void CommandGui::ConfirmUpgrades(CommandGui *this); // 1000bd620 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::CheckGameover(CommandGui *this);
-".554889e54156534989fe488d05":
+".55":  //
 cleanup __amd64 bool CommandGui::IsGameOver(CommandGui *this);
-".554889e54157415641554154534881ecc80100004189d7":
+".55":  //
 cleanup __amd64 void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
-".554889e54157415641554154534883ec384889fb80bb????0000007447":
+".5548":  //
+cleanup __amd64 void CommandGui::KeyUp(CommandGui *this, SDLKey sym); // 1000be480 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::OnTextInput(CommandGui *this, int ch); // 1000be510 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::OnTextEvent(CommandGui *this, CEvent::TextEvent event); // 1000be550 Linux DWARF prototype catalog by linkage
+".55":  //
+noHook __amd64 void CommandGui::__STRUCT_OVERRIDE_ANCHOR_21();
+//".55":  //
+//cleanup __amd64 void CommandGui::SetSecretSector(CommandGui *this, bool secret); // 1000be590 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CommandGui::CanSave(CommandGui *this); // 1000be5b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CommandGui::CanAutoSave(CommandGui *this); // 1000be5d0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::OnLoop(CommandGui *this);
-".554889e54157415641554154534881ec1801000041":
+".55":  //
 cleanup __amd64 void CommandGui::MouseMove(CommandGui *this, int mX, int mY);
-".554889e5415741564155":
+".55":  //
+cleanup __amd64 bool CommandGui::IsPaused(CommandGui *this); // 1000bf470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf CommandGui::UpdateShake(CommandGui *this); // 1000bf490 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::LinkShip(CommandGui *this, CompleteShip *ship);
-".554889e5":
+".55":  //
 cleanup __amd64 void CommandGui::ClearLocation(CommandGui *this);
-".554889e5415741564154534881ecb000000049":
+".55":  //
+cleanup __amd64 void CommandGui::LinkMap(CommandGui *this, StarMap *map); // 1000c00a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CommandGui::OnInit(CommandGui *this);
-"!.554889e541":
+".55":  //
+cleanup __amd64 void CommandGui::Close(CommandGui *this); // 1000c0510 Linux DWARF prototype catalog by linkage
+"!554889e5415741564154534889fb66":  //
 cleanup __amd64 void CommandGui::Restart(CommandGui *this);
-".554889e541574156534883ec384989f648":
+".55":  //
 cleanup __amd64 void CommandGui::AddEnemyShip(CommandGui *this, CompleteShip* ship);
-".554889e54157415641554154534883ec384989fc80":
+".55":  //
 cleanup __amd64 void CommandGui::RenderStatic(CommandGui *this);
-".554889e541574156534883ec18f30f1145dc":
+".55":  //
 cleanup __amd64 void CommandGui::RenderPlayerShip(CommandGui *this, Point& shipCenter, float jumpScale);
-".554889e5415741564154534883ec104189d74989f4":
+".55":  //
+cleanup __amd64 void CommandGui::RenderPause(CommandGui *this); // 1000c1010 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
-"!.554889e5415741564155415453":
+".55":  //
 cleanup __amd64 void CommandGui::LButtonDown(CommandGui *this, int mX, int mY, bool shiftHeld);
-"!.554889e54157415653":
+".55":  //
 cleanup __amd64 void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);
+".55":  //
+cleanup __amd64 void CommandGui::RButtonDown(CommandGui *this, int mX, int mY, bool shift); // 1000c19b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::RButtonUp(CommandGui *this, int mX, int mY, bool shift); // 1000c1aa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::pair<std::string, int> CommandGui::LoadEvent(CommandGui *this); // 1000c1ab0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::OnTouch(CommandGui *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c1b00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::ShowWriteError(CommandGui *this); // 1000c2530 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CommandGui::ClearWriteError(CommandGui *this); // 1000c2630 Linux DWARF prototype catalog by linkage
+// Continue from CombatDrone::PickTarget (hyper efficiency™)
 
 
 struct CommandGui
 {{
     void SetSecretSector(bool secret)
     {
-        if (secret) 
+        if (secret)
         {
             this->secretSector = true;
         }

@@ -1,3 +1,17 @@
+"554889e54156534883ec200f":  //
+cleanup __amd64 void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf destination); // 1000224d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewLaser::constructor1(CrewLaser *this, Point pos, Pointf destination); // 1000225c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewLaser::SetColor(CrewLaser *this, int r, int g, int b); // 1000226b0 Linux DWARF prototype catalog by linkage
+"!.554889e5534883ec38":  //
+cleanup __amd64 void CrewLaser::OnRender(CrewLaser *this, GL_Color color); // 100022730 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void CrewLaser::OnUpdate(CrewLaser *this); // 1000228e0 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05????300066480f6ec0488d05????300066480f6ec8660f6cc8f30f7f0bf683a802000001753ff6839002000001754bf6837802000001740c488bbb88020000e8????2800488dbb78010000e8e4|!.554889e553504889fb488d051832":  //
+cleanup __amd64 void CrewLaser::destructor1(CrewLaser *this); // 1000243d0 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void CrewLaser::destructor(CrewLaser *this); // 100024470 Itanium source destructor prototype, Itanium D0 destructor
 struct CrewLaser
 {{
 	CrewLaser(const CrewLaser&) = delete; // doesn't work, make compiler fail if we try

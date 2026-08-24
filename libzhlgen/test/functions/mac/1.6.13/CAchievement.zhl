@@ -1,10 +1,20 @@
+"554889e5415741564154534883ec20":  //
+noHook __amd64 void CAchievement::__STRUCT_OVERRIDE_ANCHOR_13();
+//"554889e5415741564154534883ec20":  //
+//cleanup __amd64 void CAchievement::constructor(CAchievement *this); // 100009d80 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CAchievement::constructor1(CAchievement *this); // 100009ff0 Linux DWARF prototype catalog by linkage
+"554889e54157415653504889fb4c8db3":  //
+cleanup __amd64 void CAchievement::destructor2(CAchievement *this); // 10000a000 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void CAchievement::destructor1(CAchievement *this); // 10000a1a0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e54157415641554154534883ec5841":  //
+cleanup __amd64 void CAchievement::OnRender(CAchievement *this, Point position, int selected, bool showNew);
 "554889e5415741564154534883ec204889fb48c7":
 cleanup __amd64 void CAchievement::constructor(CAchievement *this);
-".554889e54157415641":
-cleanup __amd64 void CAchievement::OnRender(CAchievement *this, Point position, int selected, bool showNew);
 
 
-struct CAchievement 
+struct CAchievement
 {{
 	CAchievement()
 	{

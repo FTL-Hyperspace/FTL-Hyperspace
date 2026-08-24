@@ -1,11 +1,35 @@
+"554889e54156534881":  //
+noHook __amd64 void BombProjectile::__STRUCT_OVERRIDE_ANCHOR_10();
+//"554889e54156534881":  //
+//cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100018a30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BombProjectile::constructor1(BombProjectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100018b10 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void BombProjectile::destructor2(BombProjectile *this); // 100018bf0 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void BombProjectile::destructor1(BombProjectile *this); // 100018cd0 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e553":  //
+cleanup __amd64 void BombProjectile::destructor(BombProjectile *this); // 100018cf0 Itanium source destructor prototype, Itanium D0 destructor
+"!.554889e541":  //
+cleanup __amd64 void BombProjectile::SaveProjectile(BombProjectile *this, int fd); // 100018d40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BombProjectile::LoadProjectile(BombProjectile *this, int fd); // 100018db0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BombProjectile::OnRenderSpecific(BombProjectile *this, int spaceId); // 100018e40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 CollisionResponse BombProjectile::CollisionMoving(BombProjectile *this, Pointf start, Pointf finish, Damage damage, bool raytrace); // 100018f70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable* other);
+".55":  //
+cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this);
+".55":  //
+cleanup __amd64 int BombProjectile::GetOwnerId(BombProjectile *this); // 100019500 Linux DWARF prototype catalog by linkage
+".554889e5b8":  //
+cleanup __amd64 int BombProjectile::GetType(BombProjectile *this); // 100019520 Linux DWARF prototype catalog by linkage
 "554889e54156534881":
 noHook __amd64 void BombProjectile::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 ".55":
 cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
-".554889e541574156??????????????00":
-cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable* other);
-".554889e54157415653504989ff498d9f":
-cleanup __amd64 void BombProjectile::OnUpdate(BombProjectile *this);
 
 
 struct BombProjectile

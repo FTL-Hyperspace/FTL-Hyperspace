@@ -1,11 +1,53 @@
-// Continue from MindBox::constructor (hyper efficiency™)
-".554889e54157415641554154534883ec284989ffe8":
+"554889e553504889fbe8c2??0000488d":  //
+cleanup __amd64 void MindSystem::constructor(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ed8f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindSystem::constructor1(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ed9a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindSystem::SetBlocked(MindSystem *this, bool val); // 1001eda50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindSystem::SetSuperShields(MindSystem *this, bool val); // 1001eda60 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MindSystem::Save(MindSystem *this, int fd); // 1001eda70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindSystem::Load(MindSystem *this, int fd); // 1001edab0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float MindSystem::GetControlProgress(MindSystem *this); // 1001edd20 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool MindSystem::InUse(MindSystem *this); // 1001edd40 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MindSystem::OnLoop(MindSystem *this);
-"!.554889e54157415641554154534881ec88":
+".55":  //
 cleanup __amd64 void MindSystem::InitiateMindControl(MindSystem *this);
-".554889e54157415641554154534883ec18":
+".55":  //
 cleanup __amd64 void MindSystem::ReleaseCrew(MindSystem *this);
-".554889e553504889fb83fe01":
+".80":  //
+cleanup __amd64 int MindSystem::GetControlLimit(MindSystem *this); // 1001ee8a0 Linux DWARF prototype catalog by linkage
+".554889e580":  //
+cleanup __amd64 int MindSystem::GetMindPowerLevel(MindSystem *this); // 1001ee8e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool MindSystem::Charged(MindSystem *this); // 1001ee910 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MindSystem::destructor2(MindSystem *this); // 1001ee940 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void MindSystem::destructor1(MindSystem *this); // 1001ee9a0 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e553504889fb":  //
+cleanup __amd64 void MindSystem::destructor(MindSystem *this); // 1001eea60 Itanium source destructor prototype, Itanium D0 destructor
+".554889e55d":  //
+cleanup __amd64 void MindSystem::ShipDestroyed(MindSystem *this); // 1001eeb40 Linux DWARF prototype catalog by linkage
+"554889e58b8770":  //
+cleanup __amd64 int MindSystem::GetArmed(MindSystem *this); // 1001eeb50 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MindSystem::Jump(MindSystem *this); // 1001eeb60 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MindSystem::SetArmed(MindSystem *this, int armed);
-".554889e541":
+".55":  //
+cleanup __amd64 bool MindSystem::CanUse(MindSystem *this); // 1001eec30 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MindSystem::ForceReady(MindSystem *this); // 1001eec90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MindSystem::SetCanUse(MindSystem *this, bool val); // 1001eeca0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MindSystem::SetHackingLevel(MindSystem *this, int hackingLevel);
+".55":  //
+cleanup __amd64 void MindSystem::QueueMindControl(MindSystem *this, std::vector<CrewMember*> crew, int roomId, int shipId); // 1001eed00 Linux DWARF prototype catalog
+// Continue from MindBox::constructor (hyper efficiency™)

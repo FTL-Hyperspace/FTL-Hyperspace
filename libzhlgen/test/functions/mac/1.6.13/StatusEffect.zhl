@@ -1,9 +1,11 @@
+"554889e58a05????????84c07526|554889e58a05????????84c074":  //
+static cleanup __amd64 StatusEffect StatusEffect::GetStormEffect(); // 1001bbbb0 Linux DWARF prototype catalog by linkage
+".55":  //
+static cleanup __amd64 StatusEffect StatusEffect::GetNebulaEffect();
 "554889e58a05??????0084":
 noHook __amd64 void StatusEffect::NoHook1();
 "!.554889e58a05??????0084":
 noHook __amd64 void StatusEffect::NoHook2(); // StatusEffect::GetStormEffect
-".554889e5":
-static cleanup __amd64 StatusEffect StatusEffect::GetNebulaEffect();
 
 
 struct StatusEffect

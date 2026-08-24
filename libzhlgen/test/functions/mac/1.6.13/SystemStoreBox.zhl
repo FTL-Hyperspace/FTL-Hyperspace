@@ -1,19 +1,37 @@
+"554889e54157415641554154534881eca800000041":  //
+noHook __amd64 void SystemStoreBox::__STRUCT_OVERRIDE_ANCHOR_129();
+//"554889e54157415641554154534881eca800000041":  //
+//cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120a00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemStoreBox::constructor1(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120d90 Linux DWARF prototype catalog by linkage
+"554889e58b87e001":  //
+cleanup __amd64 int SystemStoreBox::GetExtraData(SystemStoreBox *this); // 100120da0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoice);
+".55":  //
+cleanup __amd64 int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox* box, int forceSystemInfoWidth);
+".5548":  //
+cleanup __amd64 bool SystemStoreBox::CanHold(SystemStoreBox *this);
+".55":  //
+cleanup __amd64 void SystemStoreBox::OnLoop(SystemStoreBox *this); // 100121360 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemStoreBox::MouseMove(SystemStoreBox *this, int mouseX, int mouseY);
+".55":  //
+cleanup __amd64 void SystemStoreBox::Activate(SystemStoreBox *this);
+".55":  //
+cleanup __amd64 void SystemStoreBox::Confirm(SystemStoreBox *this, bool val); // 1001216d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemStoreBox::Purchase(SystemStoreBox *this);
+"!.554889e553504889fb488d05????2100488903f683c8":  //
+cleanup __amd64 void SystemStoreBox::destructor1(SystemStoreBox *this); // 100121de0 Itanium source destructor prototype, Itanium D1 destructor
+"!.5548":  //
+cleanup __amd64 void SystemStoreBox::destructor(SystemStoreBox *this); // 100121e30 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool SystemStoreBox::RequiresConfirm(SystemStoreBox *this); // 100121e90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);
 "554889e54157415641554154534881eca80000004189ce":
 cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager* _ship, Equipment* _equip, int _system);
-".554889e541574156534883ec184889fb89b3e001":
-cleanup __amd64 void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoice);
-".55":
-cleanup __amd64 int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox* box, int forceSystemInfoWidth);
-"!.554889e553504889fb4883bb78010000":
-cleanup __amd64 bool SystemStoreBox::CanHold(SystemStoreBox *this);
-".554889e5415741564154534883ec404189d64189":
-cleanup __amd64 void SystemStoreBox::MouseMove(SystemStoreBox *this, int mouseX, int mouseY);
-"!.554889e5534883ec184889fb488bbb78":
-cleanup __amd64 void SystemStoreBox::Activate(SystemStoreBox *this);
-".554889e541":
-cleanup __amd64 void SystemStoreBox::Purchase(SystemStoreBox *this);
-".554889e553504889fb4881":
-cleanup __amd64 TextString SystemStoreBox::GetConfirmText(SystemStoreBox *this);
 
 
 struct SystemStoreBox

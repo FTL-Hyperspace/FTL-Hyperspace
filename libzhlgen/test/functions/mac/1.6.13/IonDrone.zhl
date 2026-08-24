@@ -1,4 +1,24 @@
-"554889e5415741564154534881ec70":
+"554889e55dc3662e0f1f840000000000554889e5415741564154534881ec70":  //
+cleanup __amd64 void IonDrone::UpdateRepair(IonDrone *this); // 100019eb0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void IonDrone::constructor(IonDrone *this, int iShipId, DroneBlueprint *blueprint);
-".554889e5415653??89":
+".554889e55de9????????660f1f440000554889e58b":  //
+cleanup __amd64 void IonDrone::constructor1(IonDrone *this, int iShipId, DroneBlueprint *blueprint); // 10001a330 Linux DWARF prototype catalog by linkage
+"554889e58b8730":  //
+cleanup __amd64 int IonDrone::BlockRoom(IonDrone *this); // 10001a340 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 Damage IonDrone::GetRoomDamage(IonDrone *this);
+".55":  //
+cleanup __amd64 int IonDrone::GetMaxHealth(IonDrone *this); // 10001a3e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void IonDrone::SetDeployed(IonDrone *this, bool deploy); // 10001a3f0 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05??????00488903488d05??????00488983f8080000488dbb300a0000e8f3a0|!.554889e553504889fb488d05d096":  //
+cleanup __amd64 void IonDrone::destructor1(IonDrone *this); // 10001cef0 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void IonDrone::destructor(IonDrone *this); // 10001cf40 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool IonDrone::ReadyToFight(IonDrone *this); // 10001cf90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool IonDrone::CanFight(IonDrone *this); // 10001cfa0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool IonDrone::CanSabotage(IonDrone *this); // 10001cfb0 Linux DWARF prototype catalog by linkage

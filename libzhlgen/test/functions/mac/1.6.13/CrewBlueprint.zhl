@@ -1,17 +1,43 @@
-"!554889e54157415653504989fe488d05":
+"554889e5415741564155415453504989f6":  //
+cleanup __amd64 void CrewBlueprint::constructor(CrewBlueprint *this, CrewBlueprint *param_1); // 1000093f0 Linux DWARF prototype catalog by linkage
+".554889e54157415653":  //
+cleanup __amd64 void CrewBlueprint::destructor2(CrewBlueprint *this); // 100009a20 Itanium source destructor prototype, Itanium D2 destructor
+".554889e54156534889f34989fe49":  //
+cleanup __amd64 CrewBlueprint *CrewBlueprint::copy_assign_1(CrewBlueprint *this, CrewBlueprint *param_1); // 10004f820 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534883ec184989f64989ff498d":  //
+cleanup __amd64 CrewBlueprint *CrewBlueprint::copy_assign_2(CrewBlueprint *this, CrewBlueprint *param_1); // 10008a7e0 Linux DWARF prototype catalog by linkage
+".554889e583fe05":  //
+cleanup __amd64 std::string CrewBlueprint::skillToString(CrewBlueprint *this, int skill); // 10017dbc0 Linux DWARF prototype catalog by linkage
+".554889e55de9????????660f1f440000554889e54157415641554154534881ec88|.554889e55de9????????660f1f440000554889e54157415641554154534881ec78":  //
+cleanup __amd64 void CrewBlueprint::destructor1(CrewBlueprint *this); // 1001836b0 Itanium source destructor prototype, Itanium D1 destructor
+".554889e553504889fb48c7":  //
+noHook __amd64 void CrewBlueprint::__STRUCT_OVERRIDE_ANCHOR_25();
+//".554889e553504889fb48c7":  //
+//cleanup __amd64 void CrewBlueprint::constructor(CrewBlueprint *this); // 10018bdc0 Linux DWARF prototype catalog by linkage
+".554889e54157415641554154534881ecf8":  //
+cleanup __amd64 std::string CrewBlueprint::ShortenName(CrewBlueprint *this, const std::string &name); // 10018d5b0 Linux DWARF prototype catalog
+".554889e54157415641554154534883ec4848897d90|.554889e54157415641554154534883ec4831":  //
+cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel);
+".55":  //
+cleanup __amd64 void CrewBlueprint::ChooseColors(CrewBlueprint *this); // 100193f50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewBlueprint::constructor1(CrewBlueprint *this); // 100194020 Linux DWARF prototype catalog by linkage
+".554889e541":  //
+cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
+".554889e54156534883":  //
+cleanup __amd64 void CrewBlueprint::RenderSkillIcon(CrewBlueprint *this, int x, int y, int skill); // 1001962a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
+".55":  //
+cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
+".554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541":  //
 cleanup __amd64 void CrewBlueprint::destructor(CrewBlueprint *this);
+"554889e5415741564154534883ec204889f34989fe|554889e5415741564154534883ec204989f4":  //
+cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
+".55":  //
+cleanup __amd64 int CrewBlueprint::GetType(CrewBlueprint *this); // 1001968e0 Linux DWARF prototype catalog by linkage
 ".554889e54156534889d3":
 noHook __amd64 void CrewBlueprint::DO_NOT_HOOK();
-".554889e54157415641554154534883ec48":
-cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldLevel);
-".554889e54157415641554154534881ece8010000f3":
-cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
-".554889e54863c6488b8f38":
-cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this, int skill);
-"!.554889e54157415641554154534883ec184589c74189ce":
-cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
-".554889e5415741564154":
-cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
 
 
 struct CrewBlueprint

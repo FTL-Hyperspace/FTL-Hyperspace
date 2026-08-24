@@ -1,7 +1,29 @@
-// Continue from FTLButton::MouseMove (hyper efficiency™)
-".554889e541574156534883ec384989fe48":
+"554889e553504889fbe802fe":  //
+cleanup __amd64 void GameOver::constructor(GameOver *this); // 1000dcaf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GameOver::constructor1(GameOver *this); // 1000dcba0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GameOver::destructor2(GameOver *this); // 1000dcc50 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void GameOver::destructor1(GameOver *this); // 1000dcda0 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541565341":  //
+cleanup __amd64 void GameOver::destructor(GameOver *this); // 1000dcdb0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54156534189f64889fb41":  //
+cleanup __amd64 bool GameOver::KeyDown(GameOver *this, SDLKey sym); // 1000dcdd0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GameOver::SetVictory(GameOver *this, bool victory, const std::string &shipName, std::vector<std::string> crew); // 1000dce40 Linux DWARF prototype catalog
+".55":  //
 cleanup __amd64 void GameOver::OnLoop(GameOver *this);
-".554889e54157415641554154534883ec684989fd4180bd08":
+".55":  //
 cleanup __amd64 void GameOver::OnRender(GameOver *this);
-"!.554889e54157415641554154534881ec280100004989ff41":
+".55":  //
+cleanup __amd64 void GameOver::MouseMove(GameOver *this, int mX, int mY); // 1000dd470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GameOver::MouseClick(GameOver *this, int mX, int mY); // 1000dd500 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GameOver::OnTouch(GameOver *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000dd610 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int GameOver::GetCommand(GameOver *this); // 1000dd790 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void GameOver::OpenText(GameOver *this, const std::string& text);
+// Continue from FTLButton::MouseMove (hyper efficiency™)

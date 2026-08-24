@@ -1,8 +1,32 @@
+"554889e54156534883ec2089f04889|554889e541574156534883ec1889f0":  //
+cleanup __amd64 void Fire::constructor(Fire *this, int shipId); // 100064ea0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::constructor1(Fire *this, int shipId); // 100065250 Linux DWARF prototype catalog by linkage
+"554889e5415741564154534881ec20":  //
+cleanup __amd64 void Fire::OnInit(Fire *this); // 100065260 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::Repair(Fire *this); // 100065420 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::Reset(Fire *this); // 100065440 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::SetOxygenLevel(Fire *this, float oxygen); // 100065460 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
+".55":  //
+cleanup __amd64 void Fire::OnRender(Fire *this); // 100065570 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::OnLoop(Fire *this);
+".55":  //
+cleanup __amd64 void Fire::ResetStartTimer(Fire *this); // 1000656a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void Fire::UpdateStartTimer(Fire *this, int doorLevel);
+".55":  //
+cleanup __amd64 void Fire::destructor1(Fire *this); // 100065790 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void Fire::destructor(Fire *this); // 100065820 Itanium source destructor prototype, Itanium D0 destructor
+".5548":  //
+cleanup __amd64 bool Fire::Present(Fire *this); // 1000658b0 Linux DWARF prototype catalog by linkage
+"554889e5488b07488b8080000000f30f1005????????5dffe00f1f8000000000554889e553":  //
+cleanup __amd64 void Fire::Spread(Fire *this); // 1000658c0 Linux DWARF prototype catalog by linkage
 "554889e54156534883ec104189f64889fb488b03ff505084c00f84":
 cleanup __amd64 void Algae::UpdateDeathTimer(Algae *this, int connectedAlgaes);
-".554889e54156534883ec104189f64889fb488b03ff505084c00f84":
-cleanup __amd64 void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
-".554889e54156534889fb80":
-cleanup __amd64 void Fire::OnLoop(Fire *this);
-".554889e5415653":
-cleanup __amd64 void Fire::UpdateStartTimer(Fire *this, int doorLevel);

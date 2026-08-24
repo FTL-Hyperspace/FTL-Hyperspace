@@ -1,17 +1,57 @@
-"554889e54157415641554154534881ec680100004989ce":
+"554889e54157415641554154534881ec6801000049":  //
 cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _blueprint);
-".554889e553????????48????????4889b3":
+".55":  //
+cleanup __amd64 void BoarderPodDrone::constructor1(BoarderPodDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037b30 Linux DWARF prototype catalog by linkage
+"!554889e54156534189f64889fbe8????????0fb6b339":  //
+cleanup __amd64 void BoarderPodDrone::SaveState(BoarderPodDrone *this, int fd); // 100037b40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BoarderPodDrone::LoadState(BoarderPodDrone *this, int fd); // 100037c10 Linux DWARF prototype catalog by linkage
+".554889e5b0":  //
+cleanup __amd64 bool BoarderPodDrone::RecallOnJump(BoarderPodDrone *this); // 100038810 Linux DWARF prototype catalog by linkage
+".554889e55350":  //
+cleanup __amd64 void BoarderPodDrone::PickDestination(BoarderPodDrone *this); // 100038bc0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable* target);
-".554889e5b001807f280074025dc380bf3805000000":
-noHook __amd64 void BoarderPodDrone::Destroyed();
-".554889e5":
+".55":  //
+cleanup __amd64 void BoarderPodDrone::RenderDrone(BoarderPodDrone *this); // 100038ce0 Linux DWARF prototype catalog by linkage
+".554889e5b0":  //
+cleanup __amd64 bool BoarderPodDrone::Destroyed(BoarderPodDrone *this); // 10003a280 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 CollisionResponse BoarderPodDrone::CollisionMoving(BoarderPodDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".554889e553504889fb488bbb88":
+"!.554889e54156534889":  //
+cleanup __amd64 void BoarderPodDrone::destructor2(BoarderPodDrone *this); // 10003a3f0 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void BoarderPodDrone::destructor1(BoarderPodDrone *this); // 10003a4b0 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e54156534889":  //
+cleanup __amd64 void BoarderPodDrone::destructor(BoarderPodDrone *this); // 10003a6f0 Itanium source destructor prototype, Itanium D0 destructor
+".554889e553":  //
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
-"!.554889e54157":
+".55":  //
+cleanup __amd64 void BoarderPodDrone::BlowUp(BoarderPodDrone *this, bool silent); // 10003a810 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void BoarderPodDrone::SetHacked(BoarderPodDrone *this, int val); // 10003a8e0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void BoarderPodDrone::OnLoop(BoarderPodDrone *this);
-".554889e54156534189f64889fb807b18":
+"!.554889e548":  //
+cleanup __amd64 void BoarderPodDrone::SetPowered(BoarderPodDrone *this, bool powered); // 10003ae90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BoarderPodDrone::SetDestroyed(BoarderPodDrone *this, bool dead, bool rebuildRequired); // 10003aed0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BoarderPodDrone::SetCurrentLocation(BoarderPodDrone *this, Pointf loc); // 10003af10 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool deployed);
+".55":  //
+cleanup __amd64 std::string BoarderPodDrone::GetTooltip(BoarderPodDrone *this); // 10003afb0 Linux DWARF prototype catalog by linkage
+".554889e531c05dc30f1f840000000000554889e55dc3662e0f1f840000000000554889e5b0":  //
+cleanup __amd64 bool BoarderPodDrone::CanBeRecovered(BoarderPodDrone *this); // 10003bcf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void BoarderPodDrone::RandomizeStartingPosition(BoarderPodDrone *this); // 10003bd00 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool BoarderPodDrone::HideUnderOwner(BoarderPodDrone *this); // 10003bd10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 CrewDrone *BoarderPodDrone::GetBoardingDrone(BoarderPodDrone *this); // 10003bd20 Linux DWARF prototype catalog by linkage
+// ".554889e5b001807f280074025dc380bf3805000000":
+// noHook __amd64 void BoarderPodDrone::Destroyed();
 
 
 struct BoarderPodDrone

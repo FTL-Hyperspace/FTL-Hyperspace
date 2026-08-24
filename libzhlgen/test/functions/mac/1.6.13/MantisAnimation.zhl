@@ -1,11 +1,19 @@
-"554889e548c7070000000048c747080000000048c7471000000000c6071648b86d616e74":
+"554889e548c707":  //
 cleanup __amd64 std::string MantisAnimation::GetDeathSound(MantisAnimation *this);
-".554889e54156":
+".554889e541":  //
 cleanup __amd64 std::string MantisAnimation::GetShootingSound(MantisAnimation *this);
-".554889e54157415653504889fb488b431041be900600004c8b384d01f74863":
-noHook __amd64 void MantisAnimation::DO_NOT_HOOK_ROCK_FireShot();
-".554889e54157415653504889fb488b431041be900600004c8b384d01f74863":
+"!.630a00000031c04883c4085b415e415f5dc3666666662e0f1f840000000000":  //
+noHook __amd64 void MantisAnimation::__DO_NOT_HOOK_10005cadf(); // 10005cadf
+".554889e54157":  // generated merge anchor: function_entry
+noHook __amd64 void MERGE_ANCHOR_1(); // epic_1_6_12=10005cb90, gog_1_6_13=10005e880, humble_1_6_12=10005cc10, steam_1_6_13=10005c980
+".55":  //
 cleanup __amd64 bool MantisAnimation::FireShot(MantisAnimation *this);
+".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b8ffffffff5dc30f1f440000554889e553":  //
+cleanup __amd64 void MantisAnimation::destructor1(MantisAnimation *this); // 10005d790 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b8ffffffff5dc30f1f440000554889e553":  //
+cleanup __amd64 void MantisAnimation::destructor(MantisAnimation *this); // 10005d7a0 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5b8ffffffff5dc30f1f440000554889e553504889fb488d":  //
+cleanup __amd64 int MantisAnimation::GetFiringFrame(MantisAnimation *this); // 10005d7c0 Linux DWARF prototype catalog by linkage
 
 
 struct MantisAnimation

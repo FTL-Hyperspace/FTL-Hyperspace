@@ -1,23 +1,61 @@
+"!554889e54156534889fbc603":  //
+noHook __amd64 void TutorialManager::__STRUCT_OVERRIDE_ANCHOR_136();
+//"!554889e54156534889fbc603":  //
+//cleanup __amd64 void TutorialManager::constructor(TutorialManager *this); // 100043a70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TutorialManager::destructor1(TutorialManager *this); // 100043c00 Itanium source destructor prototype, Itanium D1 destructor
+"!554889e54157415653504989ff4d":  //
+cleanup __amd64 void TutorialManager::destructor2(TutorialManager *this); // 100043c10 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void TutorialManager::constructor1(TutorialManager *this); // 100043cf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);
+".55":  //
+cleanup __amd64 void TutorialManager::LinkMap(TutorialManager *this, StarMap *map); // 100043e90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TutorialManager::OnInit(TutorialManager *this, ShipManager* ship, CommandGui* gui, CrewControl* crewControl, Upgrades* upgradesScreen, CombatControl* combatControl, SystemControl* sysControl, TabbedWindow* tabbed);
+".55":  //
+cleanup __amd64 void TutorialManager::LoadTutorial(TutorialManager *this);
+".5548":  //
+cleanup __amd64 void TutorialManager::UpdateDescBox(TutorialManager *this, const std::string &text); // 100045de0 Linux DWARF prototype catalog
+".554889e54157415641554154534883ec28":  //
+cleanup __amd64 bool TutorialManager::IsState(TutorialManager *this, const std::string &state); // 100046220 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 int TutorialManager::StateValue(TutorialManager *this, const std::string &state); // 100046310 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool TutorialManager::IsStateAfter(TutorialManager *this, const std::string &state); // 1000463c0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool TutorialManager::IsStateBefore(TutorialManager *this, const std::string &state); // 1000464b0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 bool TutorialManager::AllowJumping(TutorialManager *this);
+".55":  //
+cleanup __amd64 void TutorialManager::OnRender(TutorialManager *this);
+".55":  //
+cleanup __amd64 void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY);
+".55":  //
+cleanup __amd64 bool TutorialManager::MouseClick(TutorialManager *this);
+".55":  //
+cleanup __amd64 void TutorialManager::AdvanceState(TutorialManager *this); // 100047210 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool TutorialManager::OnTouch(TutorialManager *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 100047b40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 LocationEvent *TutorialManager::GetEvent(TutorialManager *this); // 100047ca0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool TutorialManager::CheckState(TutorialManager *this); // 100047d30 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 bool TutorialManager::QuitTutorial(TutorialManager *this); // 100048d10 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void TutorialManager::Start(TutorialManager *this); // 100048d30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void TutorialManager::Stop(TutorialManager *this); // 100048d70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool TutorialManager::AllowUpgrades(TutorialManager *this);
+".55":  //
+cleanup __amd64 void TutorialManager::OnLoop(TutorialManager *this);
+".55":  //
+cleanup __amd64 void TutorialManager::OnLanguageChange(TutorialManager *this); // 1000493b0 Linux DWARF prototype catalog by linkage
 "!554889e54156534889fbc60300488d7b08e8":
 cleanup __amd64 void TutorialManager::constructor(TutorialManager *this);
-".554889e58a075d":
-cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);
-".554889e5415741564154534883ec604889fb488b4510488b":
-cleanup __amd64 void TutorialManager::OnInit(TutorialManager *this, ShipManager* ship, CommandGui* gui, CrewControl* crewControl, Upgrades* upgradesScreen, CombatControl* combatControl, SystemControl* sysControl, TabbedWindow* tabbed);
-".55":
-cleanup __amd64 void TutorialManager::LoadTutorial(TutorialManager *this);
-".554889e54156":
-cleanup __amd64 bool TutorialManager::AllowJumping(TutorialManager *this);
-".55":
-cleanup __amd64 void TutorialManager::OnRender(TutorialManager *this);
-".55":
-cleanup __amd64 void TutorialManager::MouseMove(TutorialManager *this, int mX, int mY);
-".55":
-cleanup __amd64 bool TutorialManager::MouseClick(TutorialManager *this);
-".554889e54156":
-cleanup __amd64 bool TutorialManager::AllowUpgrades(TutorialManager *this);
-".55":
-cleanup __amd64 void TutorialManager::OnLoop(TutorialManager *this);
 
 "!41807e200075??488d3d(???????\?)e8????????84c0":
 offsetVariable TutorialManager* Global_TutorialManager_Tutorial;

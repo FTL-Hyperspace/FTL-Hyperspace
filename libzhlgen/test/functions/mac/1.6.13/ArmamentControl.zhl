@@ -1,10 +1,81 @@
-"554889e5415741564154534883ec604989ff":
+"554889e553504889fb488d05??????004889038973":  //
+cleanup __amd64 void ArmamentControl::constructor(ArmamentControl *this, int systemId); // 1000a52f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::constructor1(ArmamentControl *this, int systemId); // 1000a5400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::destructor2(ArmamentControl *this); // 1000a5510 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void ArmamentControl::ClearArmamentBoxes(ArmamentControl *this); // 1000a5600 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::destructor1(ArmamentControl *this); // 1000a5670 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb488b":  //
+cleanup __amd64 void ArmamentControl::destructor(ArmamentControl *this); // 1000a5680 Itanium source destructor prototype, Itanium D0 destructor
+"554889e553504889fb488b7b60":  //
+cleanup __amd64 void ArmamentControl::OnLanguageChange(ArmamentControl *this); // 1000a56a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ArmamentControl::CreateHolderTab(ArmamentControl *this);
-".554889e553504889fb83bb":
+".55":  //
+cleanup __amd64 void ArmamentControl::OnLoop(ArmamentControl *this); // 1000a5a10 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool ArmamentControl::Dragging(ArmamentControl *this);
-".554889e54157415653504189f74989fe49":
+".55":  //
+cleanup __amd64 void ArmamentControl::OnRender(ArmamentControl *this, bool front); // 1000a6040 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ArmamentControl::RenderTouchTooltips(ArmamentControl *this, bool renderTray); // 1000a6220 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::RenderLabels(ArmamentControl *this); // 1000a6240 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::RenderDragging(ArmamentControl *this); // 1000a6320 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void ArmamentControl::Restart(ArmamentControl *this); // 1000a63d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ArmamentControl::LButton(ArmamentControl *this, int mX, int mY, bool shift); // 1000a63f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ArmamentControl::LButtonUp(ArmamentControl *this, int mX, int mY, bool shift); // 1000a6470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::RButton(ArmamentControl *this, int mX, int mY, bool shift); // 1000a6520 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::MouseMove(ArmamentControl *this, int mX, int mY); // 1000a6580 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ArmamentControl::OnTouch(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000a6800 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 bool ArmamentControl::IsTouchInHitBox(ArmamentControl *this, int x, int y); // 1000a6cc0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool ArmamentControl::KeyDown(ArmamentControl *this, SDLKey key);
-".554889e5415741564155":
+".55":  //
+cleanup __amd64 int ArmamentControl::GetSelectedSlot(ArmamentControl *this); // 1000a6ed0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void ArmamentControl::LinkShip(ArmamentControl *this, ShipManager* ship);
-".554889e54156534989fe41":
-cleanup __amd64 void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);
+".55":  //
+cleanup __amd64 void ArmamentControl::CreateSmallBoxes(ArmamentControl *this); // 1000a72e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::SetPosition(ArmamentControl *this, Point loc);".55":  //
+cleanup __amd64 bool ArmamentControl::IsAnyTouchTooltipOpen(ArmamentControl *this); // 1000a73b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ArmamentControl::IsAnyTouchTooltipActive(ArmamentControl *this); // 1000a7400 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::RenderWarnings(ArmamentControl *this); // 1000a7450 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool ArmamentControl::IsDragging(ArmamentControl *this); // 1000a7460 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::OnCleanup(ArmamentControl *this); // 1000a7470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::Close(ArmamentControl *this); // 1000a7480 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::SetOpen(ArmamentControl *this, bool open); // 1000a7490 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 ArmamentBox *ArmamentControl::CreateArmamentBox(ArmamentControl *this, Point loc); // 1000a74a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int ArmamentControl::NumArmamentSlots(ArmamentControl *this); // 1000a74f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Point ArmamentControl::ArmamentBoxOrigin(ArmamentControl *this); // 1000a7500 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 TextString ArmamentControl::HolderLabel(ArmamentControl *this); // 1000a7530 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 SDLKey ArmamentControl::ArmamentHotkey(ArmamentControl *this, unsigned int i); // 1000a7560 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::SelectArmament(ArmamentControl *this, unsigned int i); // 1000a7570 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::DeselectArmament(ArmamentControl *this, unsigned int i); // 1000a7580 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void ArmamentControl::SwapArmaments(ArmamentControl *this, unsigned int a, unsigned int b); // 1000a7590 Linux DWARF prototype catalog by linkage

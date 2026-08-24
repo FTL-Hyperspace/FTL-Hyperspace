@@ -1,20 +1,55 @@
-// Continue from LockdownShard::Update (hyper efficiency™)
-"!.554889e54157415653504989fe83fe03":
-noHook __amd64 void MainMenu::NoHook();
-"!.554889e54157415641554154534883ec??4889fb":
-cleanup __amd64 void MainMenu::constructor(MainMenu *this);
-"!.554889e54157415641554154534881ec????00004989??4180": 
+"554889e541574156535049":  //
+cleanup __amd64 void MainMenu::destructor2(MainMenu *this); // 1000075e0 Itanium source destructor prototype, Itanium D2 destructor
+".554889e54157415641554154534883ec584889fbc6|.554889e54157415641554154534883ec584889fb49":  //
+cleanup __amd64 void MainMenu::constructor(MainMenu *this); // 1000e42d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MainMenu::constructor1(MainMenu *this); // 1000e4f40 Linux DWARF prototype catalog by linkage
+"554889e54157415641554154534881ecd80000004989fc41":  //
 cleanup __amd64 void MainMenu::OnRender(MainMenu *this);
-".554889e54157415641554154534881ec38040000":
+".55":  //
+cleanup __amd64 bool MainMenu::IsTitle(MainMenu *this); // 1000e5600 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool MainMenu::Open(MainMenu *this);
-"!.554889e54157415641554154534881ec????00004989??4180":
+".55":  //
+cleanup __amd64 void MainMenu::OnLanguageChange(MainMenu *this); // 1000e7950 Linux DWARF prototype catalog by linkage
+".554889e541574156415541545348":  //
+cleanup __amd64 bool MainMenu::Close(MainMenu *this); // 1000e7ec0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool MainMenu::SaveFileExists(MainMenu *this); // 1000e8030 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void MainMenu::OnLoop(MainMenu *this);
-"!.554889e5415741564154534883ec604189d64189f74889fb":
+".55":  //
 cleanup __amd64 void MainMenu::MouseMove(MainMenu *this, int mX, int mY);
-"!.554889e541574156534883ec584889fb80bb":
+".5548":  //
+cleanup __amd64 void MainMenu::OnKeyDown(MainMenu *this, SDLKey sym, bool bShift); // 1000e9850 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MainMenu::OnKeyUp(MainMenu *this, SDLKey sym); // 1000e9920 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MainMenu::OnTextInput(MainMenu *this, int ch); // 1000e9940 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MainMenu::OnTextEvent(MainMenu *this, CEvent::TextEvent event); // 1000e9960 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MainMenu::MouseUp(MainMenu *this, int mX, int mY); // 1000e9980 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void MainMenu::MouseRClick(MainMenu *this, int mX, int mY); // 1000e99c0 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MainMenu::OpenShipBuilder(MainMenu *this); // 1000e99f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int MainMenu::Choice(MainMenu *this); // 1000e9a10 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 ShipManager *MainMenu::GetTutorialShip(MainMenu *this); // 1000e9a20 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 ShipManager *MainMenu::GetShip(MainMenu *this); // 1000e9a40 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void MainMenu::SetOpeningError(MainMenu *this, const std::string &error); // 1000e9a80 Linux DWARF prototype catalog
+".55":  //
 cleanup __amd64 void MainMenu::MouseClick(MainMenu *this, int mX, int mY);
-"!.554889e5415741564155415453":
-cleanup __amd64 void MainMenu::OnTouch(MainMenu *this, TouchAction action, int id, int x, int y, int initialX, int initialY)
+".5548":  //
+cleanup __amd64 void MainMenu::OnTouch(MainMenu *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000e9df0 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void MainMenu::UpdateButtonLanguage(MainMenu *this, Button *button, const std::string &filename); // 1000ea1d0 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void MainMenu::ShowChangedLoginMessage(MainMenu *this); // 1000ea2b0 Linux DWARF prototype catalog by linkage
 
 
 struct MainMenu

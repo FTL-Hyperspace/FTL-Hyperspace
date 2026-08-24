@@ -1,3 +1,21 @@
+"554889e5415741564154534883ec404989ce49":  //
+noHook __amd64 void SystemCustomBox::__STRUCT_OVERRIDE_ANCHOR_128();
+//"554889e5415741564154534883ec404989ce49":  //
+//cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 10012c170 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemCustomBox::constructor1(SystemCustomBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 10012c260 Linux DWARF prototype catalog by linkage
+"!554889e54156534189f64889fb488dbb":  //
+cleanup __amd64 void SystemCustomBox::OnRender(SystemCustomBox *this, bool ignoreStatus); // 10012c270 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void SystemCustomBox::MouseMove(SystemCustomBox *this, int mX, int mY); // 10012c2a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool SystemCustomBox::GetMouseHover(SystemCustomBox *this); // 10012c2c0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void SystemCustomBox::OnTouch(SystemCustomBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 10012c2f0 Linux DWARF prototype catalog by linkage
+"!.554889e553504889fb488d05????2000488903488dbbb0":  //
+cleanup __amd64 void SystemCustomBox::destructor1(SystemCustomBox *this); // 10012c5c0 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void SystemCustomBox::destructor(SystemCustomBox *this); // 10012c5f0 Itanium source destructor prototype, Itanium D0 destructor
 "554889e5415741564154534883ec404989ce4989f4":
 cleanup __amd64 void SystemCustomBox::constructor(SystemCustomBox *this, Point _position, ShipSystem* _system, ShipManager* _ship);
 

@@ -1,3 +1,9 @@
+"554889e54157415641554154534883ec184989f64989ff4d":  //
+cleanup __amd64 EffectsBlueprint& EffectsBlueprint::copy_assign_1(EffectsBlueprint *this, const EffectsBlueprint& other); // 10018bff0 legacy Mac prototype by unique shape
+".554889e54156":  //
+cleanup __amd64 std::string EffectsBlueprint::RandomSoundChoice(EffectsBlueprint *this, std::vector<std::string> vec); // 100193b40 Linux DWARF prototype catalog
+".554889e54157415653504989fe41":  //
+cleanup __amd64 void EffectsBlueprint::destructor2(EffectsBlueprint *this); // 1001971e0 Itanium source destructor prototype, Itanium D2 destructor
 struct EffectsBlueprint
 {{
 	EffectsBlueprint& operator=(const EffectsBlueprint& other)

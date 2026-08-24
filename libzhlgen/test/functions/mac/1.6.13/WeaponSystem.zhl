@@ -1,13 +1,63 @@
-// Continue from WeaponStoreBox::constructor (hyper efficiency™)
-".554889e54157415653504989f64989ff41":
+"554889e5415741564155415453504589c689c889d189f24889fbbe03":  //
+cleanup __amd64 void WeaponSystem::constructor(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001fc590 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void WeaponSystem::constructor1(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001fc730 Linux DWARF prototype catalog by linkage
+"!554889e54156534989fe488d05????13":  //
+cleanup __amd64 void WeaponSystem::destructor2(WeaponSystem *this); // 1001fc740 Itanium source destructor prototype, Itanium D2 destructor
+".5548":  //
+cleanup __amd64 void WeaponSystem::destructor1(WeaponSystem *this); // 1001fc810 Itanium source destructor prototype, Itanium D1 destructor
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb4883c3f04889dfe8????????4889df4883c4085b5de9????????666666662e0f1f840000000000554889e54157415641554154534883ec48":  //
+cleanup __amd64 void WeaponSystem::destructor(WeaponSystem *this); // 1001fc830 Itanium source destructor prototype, Itanium D0 destructor
+"554889e54157415641554154534883ec484189d749":  //
+cleanup __amd64 ProjectileFactory *WeaponSystem::AddWeapon(WeaponSystem *this, ProjectileFactory *weapon, int slot); // 1001fc880 Linux DWARF prototype catalog by linkage
+".5548":  //
 cleanup __amd64 bool WeaponSystem::DePowerWeapon(WeaponSystem *this,ProjectileFactory *weapon, bool userDriven);
-".554889e54157415641554154534883ec184989fc85f60f88":
+".55":  //
+cleanup __amd64 int WeaponSystem::AddWeapon(WeaponSystem *this, WeaponBlueprint *blueprint, int slot); // 1001fcb90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int WeaponSystem::GetWeaponValue(WeaponSystem *this, int slot); // 1001fd0a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 ProjectileFactory* WeaponSystem::RemoveWeapon(WeaponSystem *this, int slot);
-"!.554889e541":
+".55":  //
+cleanup __amd64 void WeaponSystem::Restart(WeaponSystem *this); // 1001fd200 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float WeaponSystem::GetMaxCooldown(WeaponSystem *this); // 1001fd230 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::SwapWeapons(WeaponSystem *this, int slot1, int slot2); // 1001fd290 Linux DWARF prototype catalog by linkage
+".55":  //
 virtual cleanup __amd64 void WeaponSystem::SetBonusPower(WeaponSystem *this, int amount, int permanentPower);
-".554889e541574156415541545350":
+"554889e54157415641554154534883ec184989fc498b84":  //
+cleanup __amd64 void WeaponSystem::UpdateBonusPower(WeaponSystem *this); // 1001fd310 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool WeaponSystem::PowerWeapon(WeaponSystem *this, ProjectileFactory *weapon, bool userDriven, bool force);
-".554889e54157415641554154534883ec184989fee8":
+"!.55":  //
+cleanup __amd64 float WeaponSystem::GetCooldownModifier(WeaponSystem *this); // 1001fd6b0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 ProjectileFactory *WeaponSystem::GetWeapon(WeaponSystem *this, int slot); // 1001fd6d0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void WeaponSystem::OnLoop(WeaponSystem *this);
-".554889e54156":
+"!.55":  //
+cleanup __amd64 void WeaponSystem::CheckMaxPower(WeaponSystem *this); // 1001fda30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::AddDamage(WeaponSystem *this, int amount); // 1001fdb30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::ModifyMissileCount(WeaponSystem *this, int amount); // 1001fdc30 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::ForceBatteryPower(WeaponSystem *this, int val); // 1001fdc50 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 bool WeaponSystem::ForceIncreasePower(WeaponSystem *this, int amount);
+".55":  //
+cleanup __amd64 void WeaponSystem::ShipDestroyed(WeaponSystem *this); // 1001fdcf0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::RemoveBatteryPower(WeaponSystem *this); // 1001fdd50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool WeaponSystem::ForceDecreasePower(WeaponSystem *this, int amount); // 1001fdf10 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::ChargeAll(WeaponSystem *this); // 1001fdfe0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::Jump(WeaponSystem *this); // 1001fe040 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void WeaponSystem::SetCloakingSystem(WeaponSystem *this, CloakingSystem *cloaking); // 1001fe170 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Projectile *WeaponSystem::GetPreparedProjectile(WeaponSystem *this); // 1001fe180 Linux DWARF prototype catalog by linkage
+// Continue from WeaponStoreBox::constructor (hyper efficiency™)

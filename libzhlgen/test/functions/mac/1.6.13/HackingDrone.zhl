@@ -1,8 +1,46 @@
-"554889e54156534883ec104989f64889fb4d85f6":
+"554889e54157415641554154534881ec68":  //
+cleanup __amd64 void HackingDrone::constructor(HackingDrone *this, int iShipId, int selfId); // 10001dc90 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingDrone::constructor1(HackingDrone *this, int iShipId, int selfId); // 10001e560 Linux DWARF prototype catalog by linkage
+"!554889e54156534189f64889fbe8????????f30f1083f0":  //
+cleanup __amd64 void HackingDrone::SaveState(HackingDrone *this, int fd); // 10001e570 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackingDrone::LoadState(HackingDrone *this, int fd); // 10001e5f0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingDrone::RecallOnJump(HackingDrone *this); // 10001e670 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingDrone::PickDestination(HackingDrone *this); // 10001e680 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 Pointf HackingDrone::CheckAxis(HackingDrone *this, Pointf p1, Pointf p2); // 10001ee80 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void HackingDrone::SetMovementTarget(HackingDrone *this, Targetable* target);
+".55":  //
+cleanup __amd64 void HackingDrone::RenderDrone(HackingDrone *this); // 10001f040 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 CollisionResponse HackingDrone::CollisionMoving(HackingDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
+"!.554889e553":  //
+cleanup __amd64 void HackingDrone::destructor2(HackingDrone *this); // 10001f630 Itanium source destructor prototype, Itanium D2 destructor
+"!.55":  //
+cleanup __amd64 void HackingDrone::destructor1(HackingDrone *this); // 10001f690 Itanium source destructor prototype, Itanium D1 destructor
+"!.554889e553":  //
+cleanup __amd64 void HackingDrone::destructor(HackingDrone *this); // 10001f7d0 Itanium source destructor prototype, Itanium D0 destructor
+".554889e553":  //
+cleanup __amd64 bool HackingDrone::CanBeDeployed(HackingDrone *this); // 10001f920 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingDrone::OnLoop(HackingDrone *this);
+".5548":  //
+cleanup __amd64 void HackingDrone::SetDestroyed(HackingDrone *this, bool dead, bool rebuildRequired); // 10001fe40 Linux DWARF prototype catalog by linkage
+"554889e50f13":  //
+cleanup __amd64 void HackingDrone::SetCurrentLocation(HackingDrone *this, Pointf loc); // 10001fe50 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackingDrone::SetDeployed(HackingDrone *this, bool newDeployed); // 10001fe70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 std::string HackingDrone::GetTooltip(HackingDrone *this); // 10001ff10 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 bool HackingDrone::CanBeRecovered(HackingDrone *this); // 10001ffb0 Linux DWARF prototype catalog by linkage
+".554889e55dc3662e0f1f840000000000554889e5b0":  //
+cleanup __amd64 void HackingDrone::RandomizeStartingPosition(HackingDrone *this); // 100020020 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool HackingDrone::HideUnderOwner(HackingDrone *this); // 100020030 Linux DWARF prototype catalog by linkage
 ".554889e54157":
 noHook __amd64 void HackingDrone::RenderDrone();
-".554889e54157":
-cleanup __amd64 CollisionResponse HackingDrone::CollisionMoving(HackingDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
-".554889e5415741564154534883ec404989fce8":
-cleanup __amd64 void HackingDrone::OnLoop(HackingDrone *this);

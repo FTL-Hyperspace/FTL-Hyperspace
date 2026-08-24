@@ -1,5 +1,18 @@
-// Continue from OptionsScreen::OnLoop (hyper efficiency™)
-"!.400100004889fbe8????????488d05(???????\?)": // 1001fa16b
-offsetVariable void** VTable_OuterHull;
-".554889e54156534883ec20":
+"554889e5415741564154534881ec4001000048":  //
+cleanup __amd64 void OuterHull::constructor(OuterHull *this, int shipId); // 1001fa160 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void OuterHull::constructor1(OuterHull *this, int shipId); // 1001fa5f0 Linux DWARF prototype catalog by linkage
+"554889e54156534883ec404889fb488b03":  //
+cleanup __amd64 void OuterHull::OnRender(OuterHull *this); // 1001fa600 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void OuterHull::OnLoop(OuterHull *this);
+".55":  //
+cleanup __amd64 void OuterHull::SetDamage(OuterHull *this, float diff); // 1001fa7f0 Linux DWARF prototype catalog by linkage
+".554889e553":  //
+cleanup __amd64 void OuterHull::destructor1(OuterHull *this); // 1001fab60 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //40 01 00 00 48 89 fb e8 ?? ?? ?? ?? 48 8d 05
+cleanup __amd64 void OuterHull::destructor(OuterHull *this); // 1001fabd0 Itanium source destructor prototype, Itanium D0 destructor
+
+// Continue from OptionsScreen::OnLoop (hyper efficiency™)
+"!400100004889fbe8????????488d05(???????\?)": // 1001fa16b
+offsetVariable void** VTable_OuterHull;

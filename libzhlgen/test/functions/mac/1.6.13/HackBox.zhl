@@ -1,3 +1,31 @@
+"554889e54157415641554154534883ec784989cc":  //
+noHook __amd64 void HackBox::__STRUCT_OVERRIDE_ANCHOR_47();
+//"554889e54157415641554154534883ec784989cc":  //
+//cleanup __amd64 void HackBox::constructor(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f26d0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackBox::constructor1(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f3020 Linux DWARF prototype catalog by linkage
+"!554889e54156534889fb488dbb":  //
+cleanup __amd64 void HackBox::OnLoop(HackBox *this); // 1000f3030 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackBox::OnRender(HackBox *this, bool ignoreStatus); // 1000f3090 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 int HackBox::GetCooldownLevel(HackBox *this); // 1000f3200 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float HackBox::GetCooldownFraction(HackBox *this); // 1000f3240 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void HackBox::MouseMove(HackBox *this, int mX, int mY); // 1000f32b0 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void HackBox::KeyDown(HackBox *this, SDLKey key_sym, bool shift); // 1000f3950 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 bool HackBox::MouseClick(HackBox *this, bool force); // 1000f3a50 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void HackBox::OnTouch(HackBox *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000f3b50 Linux DWARF prototype catalog by linkage
+"!.55":  //
+cleanup __amd64 void HackBox::destructor1(HackBox *this); // 1000f3b60 Itanium source destructor prototype, Itanium D1 destructor
+"!.55":  //
+cleanup __amd64 void HackBox::destructor(HackBox *this); // 1000f3bc0 Itanium source destructor prototype, Itanium D0 destructor
+".55":  //
+cleanup __amd64 bool HackBox::HasButton(HackBox *this); // 1000f3c20 Linux DWARF prototype catalog by linkage
 "!554889e54157415641554154534883ec??4989cc4889d34989fe":
 cleanup __amd64 void HackBox::constructor(HackBox *this, Point _position, HackingSystem* _system, ShipManager* _ship);
 

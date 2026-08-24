@@ -1,9 +1,35 @@
-"!554889e54889f048c1e8208b5708":
+"!554889e553504889fb488d05??????00488903488d7b":  //
+cleanup __amd64 void GenericButton::constructor(GenericButton *this); // 1000a7ce0 Linux DWARF prototype catalog by linkage
+"!.5548":  //
+cleanup __amd64 void GenericButton::constructor1(GenericButton *this); // 1000a7d90 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void GenericButton::destructor2(GenericButton *this); // 1000a7e40 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
+cleanup __amd64 void GenericButton::destructor1(GenericButton *this); // 1000a7e50 Itanium source destructor prototype, Itanium D1 destructor
+".55":  //
+cleanup __amd64 void GenericButton::destructor(GenericButton *this); // 1000a7e60 Itanium source destructor prototype, Itanium D0 destructor
+"554889e5488b0648":  //
+cleanup __amd64 void GenericButton::SetHitBox(GenericButton *this, Globals::Rect *box); // 1000a7e70 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GenericButton::Reset(GenericButton *this); // 1000a7e90 Linux DWARF prototype catalog by linkage
+".55":  //
 virtual cleanup __amd64 void GenericButton::SetLocation(GenericButton *this, Point position);
-".554889e540887748":
+".55":  //
 virtual cleanup __amd64 void GenericButton::SetActive(GenericButton *this, bool active);
-"!.554889e58b471039":
+".55":  //
+cleanup __amd64 void GenericButton::OnLoop(GenericButton *this); // 1000a7f10 Linux DWARF prototype catalog by linkage
+"554889e58b4710":  //
 virtual cleanup __amd64 void GenericButton::MouseMove(GenericButton *this, int mX, int mY, bool silent);
+".55":  //
+cleanup __amd64 bool GenericButton::OnTouch(GenericButton *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000a7f80 Linux DWARF prototype catalog by linkage
+".554889e55d":  //
+cleanup __amd64 void GenericButton::OnClick(GenericButton *this); // 1000aa470 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GenericButton::OnRightClick(GenericButton *this); // 1000aa480 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GenericButton::OnRender(GenericButton *this); // 1000aa490 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void GenericButton::ResetPrimitives(GenericButton *this); // 1000aa4a0 Linux DWARF prototype catalog by linkage
 // Removed junk hooks of empty virtuals
 
 struct GenericButton

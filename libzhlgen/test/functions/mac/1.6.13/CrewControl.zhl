@@ -1,27 +1,54 @@
-// Continue from CrewBox::RenderCloneDying (hyper efficiency™)
-"!.554889e54157415653504989fe498b4660":
-cleanup __amd64 void CrewControl::destructor(CrewControl *this);
-".554889e54157415653504989fe498b4660":
+"554889e541574156534883ec5848":  //
+cleanup __amd64 void CrewControl::constructor(CrewControl *this); // 1000c94a0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewControl::constructor1(CrewControl *this); // 1000c9770 Linux DWARF prototype catalog by linkage
+"554889e54157415653504989fe498b4660":  //
+cleanup __amd64 void CrewControl::destructor(CrewControl *this); // 1000c9780 Itanium source destructor prototype, Itanium D2 destructor
+".55":  //
 cleanup __amd64 void CrewControl::ClearCrewBoxes(CrewControl *this); // this is actually half of the destructors code, could maybe be used to implement a custom one.
-".554889e54157415641554154534883ec484989fd0f":
+".55":  //
+cleanup __amd64 void CrewControl::destructor1(CrewControl *this); // 1000c9900 Itanium source destructor prototype, Itanium D1 destructor
+"!554889e54156534989f64889fb488d":  //
+cleanup __amd64 void CrewControl::StartCrewMessage(CrewControl *this, const std::string &message); // 1000c9910 Linux DWARF prototype catalog
+".55":  //
+cleanup __amd64 void CrewControl::OnInit(CrewControl *this); // 1000c9950 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewControl::UpdateCrewBoxes(CrewControl *this);
-".554889e553504889fb488933":
+".55":  //
 cleanup __amd64 void CrewControl::LinkShip(CrewControl *this, ShipManager* ship);
-".554889e5415741564154534883ec504989fe498d":
+".55":  //
 cleanup __amd64 void CrewControl::OnLoop(CrewControl *this);
-".554889e5415741564154534989f6498b":
+".55":  //
 cleanup __amd64 void CrewControl::ClearDeadCrew(CrewControl *this, std::vector<CrewMember*>* crew);
-"!.554889e54157415641554154534883ec184189d748":
+".55":  //
 cleanup __amd64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember* crew, bool allowTeleportLeaving);
-".554889e54157415641554154534883ec48":
+".55":  //
+cleanup __amd64 int CrewControl::CountSelectedCrew(CrewControl *this); // 1000ca250 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 bool CrewControl::IsPointInCrewBoxes(CrewControl *this, int x, int y); // 1000ca270 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewControl::OnRender(CrewControl *this);
-".554889e54157415641554154534883ec684589c4":
+".55":  //
 cleanup __amd64 void CrewControl::LButton(CrewControl *this, int mX, int mY, int wX, int wY, bool shiftHeld);
-".554889e54157415641554154534883":
+".55":  //
+cleanup __amd64 void CrewControl::LButtonUp(CrewControl *this, int mX, int mY, bool shift); // 1000ca9a0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewControl::SelectCrew(CrewControl *this, bool keep_current);
-".554889e541574156535049":
+".55":  //
 cleanup __amd64 void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
-".554889e54157415641554154534881ec2801000045":
+".55":  //
 cleanup __amd64 void CrewControl::MouseMove(CrewControl *this, int mX, int mY, int wX, int wY);
-".554889e54157415641554154534881ec98":
+".554889e54157415641554154534883ec58":  //
+cleanup __amd64 void CrewControl::OnTouch(CrewControl *this, TouchAction action, int id, int x, int y, int wX, int wY, int initialX, int initialY, bool allowCrewSelection); // 1000cbaa0 Linux DWARF prototype catalog by linkage
+".55":  //
 cleanup __amd64 void CrewControl::KeyDown(CrewControl *this, SDLKey key);
+".55":  //
+cleanup __amd64 bool CrewControl::OnTouchButtons(CrewControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000cc780 Linux DWARF prototype catalog by linkage
+".5548":  //
+cleanup __amd64 void CrewControl::DeselectCrew(CrewControl *this, CrewMember *crew); // 1000cc9e0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewControl::ClearSelectedCrew(CrewControl *this); // 1000ccab0 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 float CrewControl::SelectingCrewTime(CrewControl *this); // 1000ccb40 Linux DWARF prototype catalog by linkage
+".55":  //
+cleanup __amd64 void CrewControl::Restart(CrewControl *this); // 1000ccb70 Linux DWARF prototype catalog by linkage
