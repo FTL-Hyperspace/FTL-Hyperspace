@@ -89,6 +89,17 @@ INTENTIONAL_MISMATCHES = [
     ('{class}::{method_nm}3', '{class}::{method_nm}'),  # ZHL numbered overloads
 ]
 
+LIBCPP_STRING_RE = re.compile(
+    r'std::(?:(?:__1|__cxx11)::)?basic_string\s*<\s*char\s*,\s*'
+    r'std::(?:(?:__1|__cxx11)::)?char_traits\s*<\s*char\s*>\s*,\s*'
+    r'std::(?:(?:__1|__cxx11)::)?allocator\s*<\s*char\s*>\s*>'
+)
+
+
+def normalize_standard_library_types(value):
+    """Collapse ABI-specific standard-library spellings used by demanglers."""
+    return LIBCPP_STRING_RE.sub('std::string', value)
+
 def encode_template_arguments(arguments):
     """Encode template arguments exactly like parsefuncs.lua does.
 
@@ -97,6 +108,7 @@ def encode_template_arguments(arguments):
     ``Method_template_std_string_int``. Apply the same lossy encoding to nm's
     demangled name before comparing it with the generated ZHL name.
     """
+    arguments = normalize_standard_library_types(arguments)
     suffix = re.sub(r'[^A-Za-z0-9_]', '_', arguments)
     suffix = re.sub(r'_+', '_', suffix)
     return suffix.strip('_')
@@ -164,15 +176,30 @@ def strip_demangled_return_type(function_name):
     outside angle brackets separates the return type from the qualified name.
     """
     angle_depth = 0
-    separator = -1
+    parameter_start = len(function_name)
     for index, char in enumerate(function_name):
+        if char == '<':
+            angle_depth += 1
+        elif char == '>':
+            angle_depth = max(0, angle_depth - 1)
+        elif char == '(' and angle_depth == 0:
+            parameter_start = index
+            break
+
+    callable_name = function_name[:parameter_start]
+    parameters = function_name[parameter_start:]
+    angle_depth = 0
+    separator = -1
+    for index, char in enumerate(callable_name):
         if char == '<':
             angle_depth += 1
         elif char == '>':
             angle_depth = max(0, angle_depth - 1)
         elif char.isspace() and angle_depth == 0:
             separator = index
-    return function_name[separator + 1:] if separator >= 0 else function_name
+    if separator < 0:
+        return function_name
+    return callable_name[separator + 1:] + parameters
 
 def normalize_nm_template_callable(function_name):
     """Return a template symbol in the synthetic form used by parsefuncs."""

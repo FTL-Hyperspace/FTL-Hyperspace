@@ -19,7 +19,7 @@ cleanup __amd64 void SystemControl::CreateSystemBoxes(SystemControl *this);
 "!.488b45c0488905(???????\?)488d7dc031f631d2e8????????488b45c0488905(???????\?)":
 offsetVariable Point* Global_SystemControl_weapon_position; // within SystemControl::CreateSystemBoxes
 offsetVariable Point* Global_SystemControl_drone_position; // within SystemControl::CreateSystemBoxes
-".55":  //
+".5548":  //
 cleanup __amd64 int SystemControl::GetHeight(SystemControl *this); // 100130040 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void SystemControl::MouseMove(SystemControl *this, int mX, int mY); // 100130050 Linux DWARF prototype catalog by linkage

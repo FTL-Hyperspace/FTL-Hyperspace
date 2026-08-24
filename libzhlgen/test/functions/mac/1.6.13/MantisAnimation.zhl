@@ -4,8 +4,6 @@ cleanup __amd64 std::string MantisAnimation::GetDeathSound(MantisAnimation *this
 cleanup __amd64 std::string MantisAnimation::GetShootingSound(MantisAnimation *this);
 "!.630a00000031c04883c4085b415e415f5dc3666666662e0f1f840000000000":  //
 noHook __amd64 void MantisAnimation::__DO_NOT_HOOK_10005cadf(); // 10005cadf
-".554889e54157":  // generated merge anchor: function_entry
-noHook __amd64 void MERGE_ANCHOR_1(); // epic_1_6_12=10005cb90, gog_1_6_13=10005e880, humble_1_6_12=10005cc10, steam_1_6_13=10005c980
 ".55":  //
 cleanup __amd64 bool MantisAnimation::FireShot(MantisAnimation *this);
 ".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b8ffffffff5dc30f1f440000554889e553":  //

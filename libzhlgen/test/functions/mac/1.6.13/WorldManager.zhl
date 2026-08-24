@@ -14,9 +14,9 @@ cleanup __amd64 void WorldManager::CreateLocation(WorldManager *this, Location* 
 cleanup __amd64 void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
 "!.88000000(84c00f85bc1f00004885db7431)": // Related to CustomEvents.cpp Death Event
 noop void* Global__NOP__WorldManager_CreateChoiceBox;
-".55":  //
+".5548":  //
 noHook __amd64 void WorldManager::__STRUCT_OVERRIDE_ANCHOR_148();
-//".55":  //
+//".5548":  //
 //cleanup __amd64 void WorldManager::ModifyAllStatusEffects(WorldManager *this, ShipManager *target, int targetType); // 1001de320 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void WorldManager::AddShip(WorldManager *this, CompleteShip *ship); // 1001de3a0 Linux DWARF prototype catalog by linkage

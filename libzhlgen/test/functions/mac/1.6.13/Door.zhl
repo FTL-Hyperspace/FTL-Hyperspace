@@ -26,7 +26,7 @@ cleanup __amd64 void Door::FakeClose(Door *this);
 cleanup __amd64 void Door::SetBlastDoor(Door *this, int val);
 ".55":  //
 cleanup __amd64 bool Door::IsSealed(Door *this, int shipId);
-".55":  //
+"!.55":  //
 cleanup __amd64 void Door::OnLoop(Door *this);
 ".554889e553":  //
 cleanup __amd64 void Door::SetLockdown(Door *this, bool val);

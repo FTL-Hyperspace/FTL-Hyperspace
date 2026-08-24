@@ -40,7 +40,7 @@ cleanup __amd64 void StarMap::PushSectorColumn(StarMap *this);
 cleanup __amd64 void StarMap::ReachSector(StarMap *this, Sector* sector);
 ".55":  //
 cleanup __amd64 void StarMap::RenderSectorName(StarMap *this, Sector* sector, GL_Color color);
-".55":  //
+"!.55":  //
 cleanup __amd64 void StarMap::RenderSectorMap(StarMap *this); // 1001c80d0 Linux DWARF prototype catalog by linkage
 ".554889e580":  //
 cleanup __amd64 void StarMap::KeyDown(StarMap *this, SDLKey key);
