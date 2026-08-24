@@ -9,7 +9,7 @@ cleanup __amd64 int ShipObject::GetAugmentationCount(ShipObject *this);
 ".55":  //
 cleanup __amd64 float ShipObject::GetAugmentationValue(ShipObject *this, const std::string& augment);
 ".55":  //
-cleanup __amd64 void ShipObject::AddAugmentation(ShipObject *this, const std::string &augId, int slot); // 1000a28d0 Linux DWARF prototype catalog
+cleanup __amd64 void ShipObject::AddAugmentation1(ShipObject *this, const std::string &augId, int slot); // 1000a28d0 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 std::vector<std::string> ShipObject::GetAugmentationList(ShipObject *this);
 ".55":  //

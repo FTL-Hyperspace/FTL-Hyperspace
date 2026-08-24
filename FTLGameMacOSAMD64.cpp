@@ -37824,10 +37824,10 @@ float ShipObject::GetAugmentationValue(const std::string &augment)
 namespace _func2990
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipObject::AddAugmentation", typeid(void (ShipObject::*)(const std::string &, int )), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipObject::AddAugmentation1", typeid(void (ShipObject::*)(const std::string &, int )), ".55", nullptr, 0, 0, &func);
 }
 
-void ShipObject::AddAugmentation(const std::string &augId, int slot)
+void ShipObject::AddAugmentation1(const std::string &augId, int slot)
 {
 	typedef void (*custom_arg_funcptr_t)(ShipObject *this_arg, const std::string &augId_arg, int slot_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2990::func;
