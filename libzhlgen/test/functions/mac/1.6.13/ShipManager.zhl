@@ -53,7 +53,7 @@ cleanup __amd64 void ShipManager::AddInitialCrew(ShipManager *this, std::vector<
 ".5548":  //
 cleanup __amd64 int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
 ".55":  //
-cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint blueprint, int slot, bool init, int roomId, bool intruder); // 100085a50 Linux DWARF prototype catalog by linkage
+cleanup __amd64 CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder); // 100085a50 binary takes CrewBlueprint by value; kept as a pointer (ABI-identical, invisible reference) so the game mutates the caller's blueprint rather than a copy, and so the existing HOOK_METHODs and Lua signature keep working
 ".55":  //
 cleanup __amd64 int ShipManager::OnInit(ShipManager *this, ShipBlueprint* bp, int shipLevel);
 ".554889e548":  //
@@ -113,7 +113,7 @@ cleanup __amd64 void ShipManager::KillSpecificCrew(ShipManager *this, const std:
 "!.55":  //
 cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone);
 ".55":  //
-cleanup __amd64 void ShipManager::UpdateCrewmembers(ShipManager *this); // 10008b520 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this); // 10008b520 binary calls it UpdateCrewmembers; the ZHL name keeps the capital M because it is the published API that five hooks and the Lua bindings use
 ".55":  //
 cleanup __amd64 void ShipManager::Restart(ShipManager *this);
 ".554889e54157415653":  //

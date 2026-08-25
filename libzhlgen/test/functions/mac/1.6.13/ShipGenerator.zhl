@@ -5,7 +5,7 @@ static cleanup __amd64 std::vector<int> ShipGenerator::GenerateSystemMaxes(const
 ".55":  //
 static cleanup __amd64 bool ShipGenerator::UpgradeSystem(ShipManager* ship, std::vector<int>& systemMaxes, unsigned int sysId);
 ".55":  //
-static cleanup __amd64 std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> *maxes, int scrap, int type); // 1001bf960 Linux DWARF prototype catalog
+static cleanup __amd64 std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &maxes, int scrap, int type); // 1001bf960 Linux DWARF prototype catalog
 ".5548":  //
 static cleanup __amd64 std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &name, int scrap, int filter); // 1001bff60 Linux DWARF prototype catalog
 ".55":  //

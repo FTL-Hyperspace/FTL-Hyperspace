@@ -3,13 +3,13 @@ noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_61();
 //"554889e548b801":  //
 //cleanup __amd64 void Point::constructor(Point *this); // 100156e80 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Point::constructor1(Point *this); // 100156ea0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Point::constructor(Point *this); // 100156ea0 Linux DWARF prototype catalog by linkage
 ".55":  //
 noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_62();
 //".55":  //
 //cleanup __amd64 void Point::constructor(Point *this, int x, int y); // 100156ec0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Point::constructor1(Point *this, int x, int y); // 100156ed0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Point::constructor(Point *this, int x, int y); // 100156ed0 Linux DWARF prototype catalog by linkage
 ".55":  //
 noHook __amd64 void Point::__STRUCT_OVERRIDE_ANCHOR_63();
 //".55":  //
@@ -99,17 +99,20 @@ struct Point
 		return ret;
 	}
 
-	int DistancePath(std::vector<Point> path)
+	// static, and takes the path by pointer, to match the bound Linux
+	// declaration this is reimplemented from; the Lua bindings are generated
+	// off that declaration for every platform
+	static int DistancePath(std::vector<Point> *path)
 	{
-		if (path.size() < 2)
+		if (path->size() < 2)
 		{
 			return 0;
 		}
 
 		int totalDistance = 0;
-		for (uint i = 0; i < path.size() - 1; i++)
+		for (uint i = 0; i < path->size() - 1; i++)
 		{
-			int distanceBetween = path[i].Distance(path[i + 1]);
+			int distanceBetween = (*path)[i].Distance((*path)[i + 1]);
 			totalDistance += distanceBetween;
 		}
 

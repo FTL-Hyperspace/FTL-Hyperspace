@@ -47,7 +47,7 @@ __thiscall GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const 
 ".578d7c240883e4f0ff77fc5589e55756538d5d88":  // unique sig
 __thiscall GL_Texture *ResourceControl::GetShipImageId(ResourceControl *this, const std::string &name); // 005a1710 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b57248904248955cce8????????83ec0485c0f30f104710f30f106f14f30f104f180f84????????660fefd2":  // unique sig
-__thiscall void ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+__thiscall void ResourceControl::RenderImageString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".578d7c240883e4f0ff77fc5589e557565383ec5c8b570c8b07f30f1077208b5f048b7708f30f1175d08955d48b57248904248955cce8????????83ec0485c0f30f104710f30f106f14f30f104f180f84????????660fefe4":  // unique sig
 __thiscall GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 ".578d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b89":  // unique sig

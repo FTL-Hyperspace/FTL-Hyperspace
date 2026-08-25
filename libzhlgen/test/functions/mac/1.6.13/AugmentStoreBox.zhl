@@ -7,7 +7,7 @@ cleanup __amd64 void AugmentStoreBox::constructor1(AugmentStoreBox *this, ShipMa
 ".55":  //
 cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *shopper, const AugmentBlueprint *blue); // 10011f000 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 10011f0b0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 10011f0b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool AugmentStoreBox::CanHold(AugmentStoreBox *this);
 ".55":  //

@@ -117,7 +117,7 @@ cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
 ".55":  //
 cleanup __amd64 bool CrewMember::NeedsIntruderSlot(CrewMember *this); // 1000521a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 bool CrewMember::NeedSlot(CrewMember *this); // 1000521c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this); // binary calls it NeedSlot; the ZHL name keeps the s because it is the published Lua API
 ".55":  //
 cleanup __amd64 void CrewMember::UpdateRepair(CrewMember *this);
 ".55":  //
@@ -298,8 +298,8 @@ cleanup __amd64 bool CrewMember::CanSuffocate(CrewMember *this); // 10005db00 Li
 cleanup __amd64 float CrewMember::GetMoveSpeedMultipler(CrewMember *this); // 10005db10 Linux DWARF prototype catalog by linkage
 // "!.554889e55350488d05??????004889":
 // noHook __amd64 void CrewMember::DO_NOT_HOOK();
-// "!.554889e553504889fbe812fd":
-// cleanup __amd64 void CrewMember::Cleanup(CrewMember *this); // I think thats the secondary destructor? doesnt really matter as it's unused.
+"554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c7":
+cleanup __amd64 void CrewMember::Cleanup(CrewMember *this); // same function as CrewMember::destructor; Lua is bound to the name Cleanup
 // "!.554889e580bf600200000075":
 // cleanup __amd64 bool CrewMember::NeedsSlot(CrewMember *this);
 

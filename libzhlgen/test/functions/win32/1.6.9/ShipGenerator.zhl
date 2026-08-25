@@ -7,11 +7,11 @@ static cleanup __cdecl int ShipGenerator::GetDroneFlags(DroneBlueprint *blueprin
 ".8b5424048b82":  // unique sig
 static cleanup __cdecl int ShipGenerator::GetWeaponFlags(WeaponBlueprint *blueprint); // 005f95c0
 ".8d4c240483e4f0ff71fc5589c889e55756535181eca8":  // unique sig
-static cleanup __cdecl std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags);
+static cleanup __cdecl std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &crewList, int flags);
 ".8d4c240483e4f0ff71fc5589c889e55756535181ec88":  // unique sig
-static cleanup __cdecl std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags);
+static cleanup __cdecl std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, int flags);
 ".8d4c240483e4f0ff71fc5589e55756535181ec880000008b0189c7":  // unique sig
-static cleanup __cdecl std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat);
+static cleanup __cdecl std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, int flags, bool repeat);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec6c8945c0c70000000000c7400400000000c740080000000031c08955bcc745c800000000eb??908d74260083":  // unique sig
 static cleanup __regparm3 std::vector<int> ShipGenerator::GetPossibleSystemUpgrades1(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
 ".8d4c240483e4f0ff71fc5589e55756535183ec488b018b79048b590889":  // unique sig

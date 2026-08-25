@@ -27382,12 +27382,12 @@ GL_Texture *ResourceControl::GetShipImageId(const std::string &name)
 namespace _func2134
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ResourceControl::RenderImageString", typeid(void (ResourceControl::*)(std::string &, int , int , int , GL_Color , float , bool )), ".41574589c7415641554589cd41544189d45589cd534883ec38660fd60424488b1c24660fd60c244c8b3424f30f1154241ce8????????891c2448c1eb204885c0f30f100c24891c24f30f10042444893424f30f102c2474", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ResourceControl::RenderImageString", typeid(void (ResourceControl::*)(const std::string &, int , int , int , GL_Color , float , bool )), ".41574589c7415641554589cd41544189d45589cd534883ec38660fd60424488b1c24660fd60c244c8b3424f30f1154241ce8????????891c2448c1eb204885c0f30f100c24891c24f30f10042444893424f30f102c2474", nullptr, 0, 0, &func);
 }
 
-void ResourceControl::RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)
+void ResourceControl::RenderImageString(const std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror)
 {
-	typedef void (*custom_arg_funcptr_t)(ResourceControl *this_arg, std::string &tex_arg, int x_arg, int y_arg, int rotation_arg, GL_Color color_arg, float opacity_arg, bool mirror_arg);
+	typedef void (*custom_arg_funcptr_t)(ResourceControl *this_arg, const std::string &tex_arg, int x_arg, int y_arg, int rotation_arg, GL_Color color_arg, float opacity_arg, bool mirror_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2134::func;
 	return execfunc(this, tex, x, y, rotation, color, opacity, mirror);
 }
@@ -31726,12 +31726,12 @@ bool ShipGenerator::UpgradeSystem(ShipManager *ship, std::vector<int> &systemMax
 namespace _func2478
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGenerator::GetPossibleCrewList", typeid(std::vector<CrewBlueprint> (*)(ShipManager *, const std::string &, unsigned int )), ".41574156415541544989d4554889fd534881ec88", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGenerator::GetPossibleCrewList", typeid(std::vector<CrewBlueprint> (*)(ShipManager *, const std::string &, int )), ".41574156415541544989d4554889fd534881ec88", nullptr, 0, 0, &func);
 }
 
-std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags)
+std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &crewList, int flags)
 {
-	typedef std::vector<CrewBlueprint> (*custom_arg_funcptr_t)(ShipManager *ship_arg, const std::string &crewList_arg, unsigned int flags_arg);
+	typedef std::vector<CrewBlueprint> (*custom_arg_funcptr_t)(ShipManager *ship_arg, const std::string &crewList_arg, int flags_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2478::func;
 	return execfunc(ship, crewList, flags);
 }
@@ -31739,12 +31739,12 @@ std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship,
 namespace _func2479
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGenerator::GetPossibleWeaponList", typeid(std::vector<WeaponBlueprint*> (*)(ShipManager *, const std::string &, int , unsigned int )), ".4157415641554589c5415455", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGenerator::GetPossibleWeaponList", typeid(std::vector<WeaponBlueprint*> (*)(ShipManager *, const std::string &, int , int )), ".4157415641554589c5415455", nullptr, 0, 0, &func);
 }
 
-std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags)
+std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, int flags)
 {
-	typedef std::vector<WeaponBlueprint*> (*custom_arg_funcptr_t)(ShipManager *ship_arg, const std::string &weaponList_arg, int scrap_arg, unsigned int flags_arg);
+	typedef std::vector<WeaponBlueprint*> (*custom_arg_funcptr_t)(ShipManager *ship_arg, const std::string &weaponList_arg, int scrap_arg, int flags_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2479::func;
 	return execfunc(ship, weaponList, scrap, flags);
 }
@@ -31752,12 +31752,12 @@ std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *
 namespace _func2480
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGenerator::GetPossibleDroneList", typeid(std::vector<DroneBlueprint*> (*)(ShipManager *, const std::string &, int , unsigned int , bool )), ".415741564989d64155415445", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGenerator::GetPossibleDroneList", typeid(std::vector<DroneBlueprint*> (*)(ShipManager *, const std::string &, int , int , bool )), ".415741564989d64155415445", nullptr, 0, 0, &func);
 }
 
-std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat)
+std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, int flags, bool repeat)
 {
-	typedef std::vector<DroneBlueprint*> (*custom_arg_funcptr_t)(ShipManager *ship_arg, const std::string &droneList_arg, int scrap_arg, unsigned int flags_arg, bool repeat_arg);
+	typedef std::vector<DroneBlueprint*> (*custom_arg_funcptr_t)(ShipManager *ship_arg, const std::string &droneList_arg, int scrap_arg, int flags_arg, bool repeat_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2480::func;
 	return execfunc(ship, droneList, scrap, flags, repeat);
 }

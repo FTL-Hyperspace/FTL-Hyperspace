@@ -3,7 +3,7 @@ cleanup __amd64 void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager *
 ".55":  //
 cleanup __amd64 void ItemStoreBox::constructor1(ItemStoreBox *this, ShipManager *shopper, const std::string &name); // 1001200d0 Linux DWARF prototype catalog
 "554889e5488b87a00100004889f74889c6e8????????b8c3":  //
-cleanup __amd64 int ItemStoreBox::SetInfoBox(ItemStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 1001200e0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 int ItemStoreBox::SetInfoBox(ItemStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 1001200e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ItemStoreBox::Purchase(ItemStoreBox *this); // 100120100 Linux DWARF prototype catalog by linkage
 ".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553":  //

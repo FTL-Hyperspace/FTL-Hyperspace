@@ -38,7 +38,7 @@ static cleanup __amd64 int CSurface::GL_PopMatrix();
 static cleanup __amd64 void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
 ".554889e50f":  //
 static cleanup __amd64 void CSurface::GL_Scale(float x, float y, float z);
-".55":  //
+".554889e5":  //
 static cleanup __amd64 bool CSurface::GL_Translate(float x, float y, float z=0.f);
 ".55":  //
 static cleanup __amd64 int CSurface::GL_SetColor(GL_Color color);

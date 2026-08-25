@@ -3,13 +3,13 @@ noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_69();
 //"554889e548b800":  //
 //cleanup __amd64 void Pointf::constructor(Pointf *this); // 100157180 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Pointf::constructor1(Pointf *this); // 1001571a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Pointf::constructor(Pointf *this); // 1001571a0 Linux DWARF prototype catalog by linkage
 ".55":  //
 noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_70();
 //".55":  //
 //cleanup __amd64 void Pointf::constructor(Pointf *this, float x, float y); // 1001571c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Pointf::constructor1(Pointf *this, float x, float y); // 1001571d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Pointf::constructor(Pointf *this, float x, float y); // 1001571d0 Linux DWARF prototype catalog by linkage
 ".55":  //
 noHook __amd64 void Pointf::__STRUCT_OVERRIDE_ANCHOR_71();
 //".55":  //
@@ -137,6 +137,13 @@ struct Pointf
 	Pointf operator-(const Pointf& other)
 	{
 		return Pointf(x - other.x, y - other.y);
+	}
+
+	// Linux binds this overload in the binary; reimplemented here to match the
+	// declaration the Lua bindings are generated from.
+	Pointf operator-(Pointf *rhs)
+	{
+		return Pointf(x - rhs->x, y - rhs->y);
 	}
 
 	Pointf operator/(float amount)

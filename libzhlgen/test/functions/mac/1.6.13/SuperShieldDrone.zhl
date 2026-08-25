@@ -26,7 +26,7 @@ cleanup __amd64 void SuperShieldDrone::SetShieldSystem(SuperShieldDrone *this, S
 cleanup __amd64 std::string SuperShieldDrone::GetTooltip(SuperShieldDrone *this); // 10003b750 Linux DWARF prototype catalog by linkage
 "!.554889e54157":  //
 cleanup __amd64 void SuperShieldDrone::destructor1(SuperShieldDrone *this); // 10003bd30 Itanium source destructor prototype, Itanium D1 destructor
-".55":  //
+".554889e5":  //
 cleanup __amd64 void SuperShieldDrone::destructor(SuperShieldDrone *this); // 10003be00 Itanium source destructor prototype, Itanium D0 destructor
 
 

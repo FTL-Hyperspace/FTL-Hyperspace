@@ -7,7 +7,7 @@ cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *
 ".55":  //
 cleanup __amd64 void CrewStoreBox::constructor1(CrewStoreBox *this, ShipManager *shopper, int worldLevel, const std::string &type); // 10011fa20 Linux DWARF prototype catalog
 "554889e5488d87":  //
-cleanup __amd64 int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 10011fa30 Linux DWARF prototype catalog by linkage
+cleanup __amd64 int CrewStoreBox::SetInfoBox(CrewStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 10011fa30 Linux DWARF prototype catalog by linkage
 ".48":  //
 cleanup __amd64 bool CrewStoreBox::CanHold(CrewStoreBox *this);
 ".55":  //

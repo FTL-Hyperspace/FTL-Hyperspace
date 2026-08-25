@@ -9,7 +9,7 @@ cleanup __amd64 int SystemStoreBox::GetExtraData(SystemStoreBox *this); // 10012
 ".55":  //
 cleanup __amd64 void SystemStoreBox::SetExtraData(SystemStoreBox *this, int droneChoice);
 ".55":  //
-cleanup __amd64 int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox* box, int forceSystemInfoWidth);
+cleanup __amd64 int SystemStoreBox::SetInfoBox(SystemStoreBox *this, InfoBox &box, int forceSystemInfoWidth);
 ".5548":  //
 cleanup __amd64 bool SystemStoreBox::CanHold(SystemStoreBox *this);
 ".55":  //

@@ -6936,7 +6936,7 @@ struct LocationEvent
         return false;
     }
 
-	LIBZHL_API void AddChoice(TextString *text, LocationEvent *event, ChoiceReq *req, bool hiddenReward);
+	LIBZHL_API void AddChoice(TextString *text, LocationEvent *event, ChoiceReq req, bool hiddenReward);
 	LIBZHL_API void ClearEvent(bool force);
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
@@ -8238,7 +8238,7 @@ struct ResourceControl
 	LIBZHL_API void PreloadFont1(void *buffer, int size, const std::string &font);
 	LIBZHL_API bool PreloadResources(bool unk);
 	LIBZHL_API void RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
-	LIBZHL_API void RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+	LIBZHL_API void RenderImageString(const std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 	LIBZHL_API void RenderLoadingBar(float initialProgress, float finalProgress);
 	LIBZHL_API void RenderLoadingBarFrame(float initialProgress, float finalProgress);
 	LIBZHL_API void SetRenderParams(int width, int height, int x, int y, GL_FrameBuffer *fb, int fbX, int fbY, int fbW, int fbH);
@@ -8862,13 +8862,13 @@ struct ShipGenerator
 	LIBZHL_API static ShipManager *__stdcall CreateShip(const std::string &name, int sector, ShipEvent &event);
 	LIBZHL_API static std::vector<int> __stdcall GenerateSystemMaxes(const ShipBlueprint &ship, int level);
 	LIBZHL_API static int __stdcall GetDroneFlags(DroneBlueprint *blueprint);
-	LIBZHL_API static std::vector<CrewBlueprint> __stdcall GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags);
-	LIBZHL_API static std::vector<DroneBlueprint*> __stdcall GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat);
+	LIBZHL_API static std::vector<CrewBlueprint> __stdcall GetPossibleCrewList(ShipManager *ship, const std::string &crewList, int flags);
+	LIBZHL_API static std::vector<DroneBlueprint*> __stdcall GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, int flags, bool repeat);
 	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
 	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades0(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
 	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades1(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
 	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades2(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
-	LIBZHL_API static std::vector<WeaponBlueprint*> __stdcall GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags);
+	LIBZHL_API static std::vector<WeaponBlueprint*> __stdcall GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, int flags);
 	LIBZHL_API static int __stdcall GetWeaponFlags(WeaponBlueprint *blueprint);
 	LIBZHL_API static bool __stdcall UpgradeSystem(ShipManager *ship, std::vector<int> &systemMaxes, unsigned int sysId);
 	

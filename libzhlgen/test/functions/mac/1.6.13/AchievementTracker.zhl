@@ -39,7 +39,7 @@ cleanup __amd64 void AchievementTracker::CheckShipAchievements(AchievementTracke
 ".55":  //
 cleanup __amd64 void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement* ach);
 ".554889e5415741564154":  //
-cleanup __amd64 void AchievementTracker::SetInfoBox(AchievementTracker *this, CAchievement *ach, InfoBox *infoBox); // 1000111f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AchievementTracker::SetInfoBox(AchievementTracker *this, CAchievement *ach, InfoBox &infoBox); // 1000111f0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
 ".55":  //

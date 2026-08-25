@@ -5,7 +5,7 @@ __thiscall void LocationEvent::destructor(LocationEvent *this); // 005ebe00 DWAR
 ".578d7c240883e4f0ff77fc5589e557565383ec4c83b9":  // unique sig
 __thiscall void LocationEvent::ClearEvent(LocationEvent *this, bool force);
 ".578d7c240883e4f0ff77fc5589e557565381ecac0000008b47048b":  // unique sig
-__thiscall void LocationEvent::AddChoice(LocationEvent *this, TextString *text, LocationEvent *event, ChoiceReq *req, bool hiddenReward); // 005ecc00 DWARF original prototype
+__thiscall void LocationEvent::AddChoice(LocationEvent *this, TextString *text, LocationEvent *event, ChoiceReq req, bool hiddenReward); // 005ecc00 DWARF original prototype
 
 
 struct LocationEvent depends (LocationEvent::Choice)

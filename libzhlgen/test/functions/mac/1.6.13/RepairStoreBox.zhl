@@ -5,7 +5,7 @@ cleanup __amd64 void RepairStoreBox::constructor1(RepairStoreBox *this, ShipMana
 "554889e54156534883ec404889fb48":  //
 cleanup __amd64 void RepairStoreBox::Purchase(RepairStoreBox *this); // 1001205a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 100120720 Linux DWARF prototype catalog by linkage
+cleanup __amd64 int RepairStoreBox::SetInfoBox(RepairStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100120720 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void RepairStoreBox::OnRender(RepairStoreBox *this); // 100120730 Linux DWARF prototype catalog by linkage
 ".55":  //

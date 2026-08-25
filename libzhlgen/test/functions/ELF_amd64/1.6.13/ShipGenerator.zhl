@@ -7,11 +7,11 @@ static cleanup __amd64 int ShipGenerator::GetWeaponFlags(WeaponBlueprint *bluepr
 ".4157415641554189d541544989fc5553":  // unique sig
 static cleanup __amd64 bool ShipGenerator::UpgradeSystem(ShipManager *ship, std::vector<int> &systemMaxes, unsigned int sysId);
 ".41574156415541544989d4554889fd534881ec88":  // unique sig
-static cleanup __amd64 std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags);
+static cleanup __amd64 std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipManager *ship, const std::string &crewList, int flags);
 ".4157415641554589c5415455":  // unique sig
-static cleanup __amd64 std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags);
+static cleanup __amd64 std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, int flags);
 ".415741564989d64155415445":  // unique sig
-static cleanup __amd64 std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat);
+static cleanup __amd64 std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, int flags, bool repeat);
 ".415741564989fe41554c8d":  // unique sig
 static cleanup __amd64 std::vector<int> ShipGenerator::GenerateSystemMaxes(const ShipBlueprint &ship, int level);
 ".41574989ff41564989d64155415455534889f331":  // unique sig

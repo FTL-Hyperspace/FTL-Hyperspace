@@ -31,7 +31,7 @@ cleanup __amd64 void StoreBox::Activate(StoreBox *this);
 ".55":  //
 cleanup __amd64 void StoreBox::Purchase(StoreBox *this);
 ".554889e531":  //
-cleanup __amd64 int StoreBox::SetInfoBox(StoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 100121c10 Linux DWARF prototype catalog by linkage
+cleanup __amd64 int StoreBox::SetInfoBox(StoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 100121c10 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool StoreBox::CanHold(StoreBox *this); // 100121c20 Linux DWARF prototype catalog by linkage
 ".55":  //

@@ -7,7 +7,7 @@ cleanup __amd64 void DroneStoreBox::constructor1(DroneStoreBox *this, ShipManage
 ".55":  //
 cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *shopper, Equipment *equipScreen, const DroneBlueprint *blue); // 10011fdb0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 10011fe70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox &box, int forceSystemInfoWidth); // 10011fe70 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool DroneStoreBox::CanHold(DroneStoreBox *this); // 10011fec0 Linux DWARF prototype catalog by linkage
 ".55":  //

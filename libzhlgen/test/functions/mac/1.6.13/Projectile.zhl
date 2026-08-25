@@ -39,9 +39,9 @@ cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable* o
 ".55":  //
 cleanup __amd64 bool Projectile::AtTarget(Projectile *this); // 100021840 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
+cleanup __amd64 void Projectile::Initialize(Projectile *this, const std::string& blueprint); // 1000218b0 Initialize(std::string) per the binary; the two overloads were the wrong way round
 ".55":  //
-cleanup __amd64 void Projectile::Initialize(Projectile *this, WeaponBlueprint *blueprint); // 100021900 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp); // 100021900 binary takes WeaponBlueprint const*, which is the same ABI and keeps the name Lua is bound to
 ".554889e50f":  //
 cleanup __amd64 void Projectile::SetTarget(Projectile *this, Pointf target); // 100021ef0 Linux DWARF prototype catalog by linkage
 ".55":  //
