@@ -7,7 +7,8 @@ cleanup __amd64 bool LockdownShard::Done(LockdownShard *this); // 004a1ae0 DWARF
 ".534889fb4883ec10e8????????f30f10":  // unique sig
 cleanup __amd64 void LockdownShard::OnRender(LockdownShard *this); //004a1af0
 ".415741564989fe488d7f4841554154":  // unique sig
-cleanup __amd64 void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //004aa190
+// .constprop.487 clone, GCC folded superFreeze away so it is not passed here
+cleanup __amd64 void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal); //004aa190
 ".415741564989fe488d7f4841554189":  // unique sig
 cleanup __amd64 void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //004aa740
 ".41574156415541544989fc488d7f":  // unique sig

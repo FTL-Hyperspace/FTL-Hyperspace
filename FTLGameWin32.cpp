@@ -24974,15 +24974,15 @@ void LocationEvent::AddChoice(TextString *text, LocationEvent *event, ChoiceReq 
 namespace _func1801
 {
     static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), "578d7c240883e4f0ff77fc5589e557565389ce83c13c", argdata, 5, 5, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff};
+	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point )), "578d7c240883e4f0ff77fc5589e557565389ce83c13c", argdata, 4, 5, &func);
 }
 
-void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(LockdownShard *this_arg, int lockingRoom_arg, Pointf start_arg, Point goal_arg, bool superFreeze_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(LockdownShard *this_arg, int lockingRoom_arg, Pointf start_arg, Point goal_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1801::func;
-	return execfunc(this, lockingRoom, start, goal, superFreeze);
+	return execfunc(this, lockingRoom, start, goal);
 }
 
 namespace _func1802

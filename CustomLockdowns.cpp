@@ -146,14 +146,16 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
 	Initialize(false, superFreeze);
 }
 
-// Doesn't exist twice on MacOS
+// Doesn't exist twice on MacOS.
+// Everywhere it does exist, GCC clones it as .constprop and omits superFreeze,
+// so the parameter is not passed here.
 #ifndef __APPLE__
-HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf start, Point goal, bool superFreeze) -> void)
+HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf start, Point goal) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor2 -> Begin (CustomLockdowns.cpp)\n")
-	super(lockingRoom, start, goal, superFreeze);
+	super(lockingRoom, start, goal);
 
-	Initialize(false, superFreeze);
+	Initialize(false, this->superFreeze);
 }
 #endif
 

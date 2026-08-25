@@ -7693,7 +7693,7 @@ struct LockdownShard
 	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze);
-	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze);
+	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal);
 	LIBZHL_API void constructor3(int fd);
 	
 	Animation shard;

@@ -23322,14 +23322,14 @@ void LockdownShard::OnRender()
 namespace _func1816
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), ".415741564989fe488d7f4841554154", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point )), ".415741564989fe488d7f4841554154", nullptr, 0, 0, &func);
 }
 
-void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal)
 {
-	typedef void (*custom_arg_funcptr_t)(LockdownShard *this_arg, int lockingRoom_arg, Pointf start_arg, Point goal_arg, bool superFreeze_arg);
+	typedef void (*custom_arg_funcptr_t)(LockdownShard *this_arg, int lockingRoom_arg, Pointf start_arg, Point goal_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1816::func;
-	return execfunc(this, lockingRoom, start, goal, superFreeze);
+	return execfunc(this, lockingRoom, start, goal);
 }
 
 namespace _func1817

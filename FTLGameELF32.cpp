@@ -11079,15 +11079,15 @@ void LockdownShard::OnRender()
 namespace _func802
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point , bool )), ".5589e5575689c65381ecfc0000008b", argdata, 5, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0x2ff};
+	static FunctionDefinition funcObj("LockdownShard::constructor2", typeid(void (LockdownShard::*)(int , Pointf , Point )), ".5589e5575689c65381ecfc0000008b", argdata, 4, 6, &func);
 }
 
-void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal, bool superFreeze)
+void LockdownShard::constructor2(int lockingRoom, Pointf start, Point goal)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(LockdownShard *this_arg, int lockingRoom_arg, Pointf start_arg, Point goal_arg, bool superFreeze_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(LockdownShard *this_arg, int lockingRoom_arg, Pointf start_arg, Point goal_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func802::func;
-	return execfunc(this, lockingRoom, start, goal, superFreeze);
+	return execfunc(this, lockingRoom, start, goal);
 }
 
 namespace _func803

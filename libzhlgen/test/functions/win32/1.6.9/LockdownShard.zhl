@@ -1,5 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83c13c":  // unique sig
-__thiscall void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047ec10
+// .constprop.635 clone, GCC folded superFreeze away so it is not passed here
+// (ret $0x14 against the real constructor's ret $0x18)
+__thiscall void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal); //0047ec10
 ".578d7c240883e4f0ff77fc5589e557565389cb83c13c81ec2c0100008b":  // unique sig
 __thiscall void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //0047f290
 ".578d7c240883e4f0ff77fc5589e557565389cb83c13c81ec2c010000c7":  // unique sig
