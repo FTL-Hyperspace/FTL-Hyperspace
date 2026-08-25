@@ -13,9 +13,9 @@ cleanup __amd64 int Door::GetBaseHealth(Door *this, int val); // 100063e20 Linux
 "!.55":  //
 cleanup __amd64 void Door::destructor2(Door *this); // 100063e50 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //
-cleanup __amd64 void Door::destructor1(Door *this); // 100063ea0 Itanium source destructor prototype, Itanium D1 destructor
+cleanup __amd64 void Door::destructor(Door *this); // 100063ea0 Itanium source destructor prototype, Itanium D1 destructor
 "!.554889e553504889fb488d05??????00488903":  //
-cleanup __amd64 void Door::destructor(Door *this); // 100063f40 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void Door::destructor1(Door *this); // 100063f40 Itanium source destructor prototype, Itanium D0 destructor
 "!.554889e5c6":  //
 cleanup __amd64 void Door::FakeOpen(Door *this);
 ".55":  //

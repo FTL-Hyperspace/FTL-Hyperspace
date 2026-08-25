@@ -1,7 +1,7 @@
 "554889e553504889fb488d7b1048c7":  //
-cleanup __amd64 void WorldManager::constructor(WorldManager *this);
+cleanup __amd64 void WorldManager::constructor1(WorldManager *this);
 ".55":  //
-cleanup __amd64 void WorldManager::constructor1(WorldManager *this); // 1001da5b0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WorldManager::constructor(WorldManager *this); // 1001da5b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int WorldManager::OnInit(WorldManager *this);
 ".55":  //

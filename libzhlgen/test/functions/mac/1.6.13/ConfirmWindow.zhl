@@ -1,7 +1,7 @@
 "!554889e553504889fbe8????01":  //
-cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this); // 1000c2f80 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ConfirmWindow::constructor1(ConfirmWindow *this); // 1000c2f80 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void ConfirmWindow::constructor1(ConfirmWindow *this); // 1000c3050 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this); // 1000c3050 Linux DWARF prototype catalog by linkage
 ".5548":  //
 cleanup __amd64 void ConfirmWindow::destructor2(ConfirmWindow *this); // 1000c3120 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
@@ -28,11 +28,6 @@ cleanup __amd64 void ConfirmWindow::MouseMove(ConfirmWindow *this, int mX, int m
 cleanup __amd64 void ConfirmWindow::MouseClick(ConfirmWindow *this, int mX, int mY);
 ".55":  //
 cleanup __amd64 void ConfirmWindow::OnTouch(ConfirmWindow *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c4310 Linux DWARF prototype catalog by linkage
-// Continue from CompleteShip::Restart (hyper efficiency™)
-// "!.554889e553504889fbe8????0100":
-// noHook __amd64 void ConfirmWindow::COPIED_constructor();
-// "!.554889e553504889fbe8????0100":
-// cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this);
 
 
 struct ConfirmWindow

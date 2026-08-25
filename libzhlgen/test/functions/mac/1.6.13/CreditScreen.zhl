@@ -1,7 +1,7 @@
 "554889e5c74738":  //
-cleanup __amd64 void CreditScreen::constructor(CreditScreen *this);
+cleanup __amd64 void CreditScreen::constructor1(CreditScreen *this);
 ".55":  //
-cleanup __amd64 void CreditScreen::constructor1(CreditScreen *this); // 1000c4430 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CreditScreen::constructor(CreditScreen *this); // 1000c4430 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CreditScreen::Start(CreditScreen *this, const std::string& shipName, const std::vector<std::string>& crewNames);
 ".554889e54156":  //
@@ -14,5 +14,3 @@ cleanup __amd64 void CreditScreen::MouseClick(CreditScreen *this, int mX, int mY
 cleanup __amd64 void CreditScreen::MouseUp(CreditScreen *this, int mX, int mY); // 1000c73b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CreditScreen::OnTouch(CreditScreen *this, TouchAction action, int id, int x, int y, int initialX, int initialY); // 1000c73c0 Linux DWARF prototype catalog by linkage
-"554889e5c74738":
-noHook __amd64 void CreditScreen::DO_NOT_HOOK_FALSE_CONSTRUCTOR();

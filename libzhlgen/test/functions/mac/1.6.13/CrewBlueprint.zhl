@@ -1,7 +1,7 @@
 "554889e5415741564155415453504989f6":  //
 cleanup __amd64 void CrewBlueprint::constructor(CrewBlueprint *this, CrewBlueprint *param_1); // 1000093f0 Linux DWARF prototype catalog by linkage
 ".554889e54157415653":  //
-cleanup __amd64 void CrewBlueprint::destructor2(CrewBlueprint *this); // 100009a20 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void CrewBlueprint::destructor(CrewBlueprint *this); // 100009a20 Itanium source destructor prototype, Itanium D2 destructor
 ".554889e54156534889f34989fe49":  //
 cleanup __amd64 CrewBlueprint *CrewBlueprint::copy_assign_1(CrewBlueprint *this, CrewBlueprint *param_1); // 10004f820 Linux DWARF prototype catalog by linkage
 ".554889e54157415641554154534883ec184989f64989ff498d":  //
@@ -31,13 +31,11 @@ cleanup __amd64 GL_Color CrewBlueprint::GetCurrentSkillColor(CrewBlueprint *this
 ".55":  //
 cleanup __amd64 void CrewBlueprint::RenderSkill(CrewBlueprint *this, int x, int y, int length, int height, int skill);
 ".554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e541":  //
-cleanup __amd64 void CrewBlueprint::destructor(CrewBlueprint *this);
+cleanup __amd64 void CrewBlueprint::destructor2(CrewBlueprint *this);
 "554889e5415741564154534883ec204889f34989fe|554889e5415741564154534883ec204989f4":  //
 cleanup __amd64 std::string CrewBlueprint::GetNameShort(CrewBlueprint *this);
 ".55":  //
 cleanup __amd64 int CrewBlueprint::GetType(CrewBlueprint *this); // 1001968e0 Linux DWARF prototype catalog by linkage
-".554889e54156534889d3":
-noHook __amd64 void CrewBlueprint::DO_NOT_HOOK();
 
 
 struct CrewBlueprint

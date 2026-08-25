@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Find ZHL bindings whose RVA changed between two zhl.log files (A should be the baseline).
+"""Find ZHL function/variable bindings whose RVA changed between two logs.
 
 Usage:
     python find_new_zhl_mismap.py <zhl.log A> <zhl.log B> <FTL binary>
@@ -15,6 +15,13 @@ from collections import defaultdict
 ADDRESS_RE = re.compile(
     r"Found address for (.+?):\s+(0x[0-9a-fA-F]+)"
 )
+VALUE_RE = re.compile(
+    r"Found value for (.+?):\s+(0x[0-9a-fA-F]+),\s+"
+    r"scan\s+(0x[0-9a-fA-F]+)"
+)
+LEGACY_VALUE_RE = re.compile(
+    r"Found value for (.+?):\s+(0x[0-9a-fA-F]+),\s+dist\s+"
+)
 
 # GNU nm only reads its host's formats. llvm-nm handles ELF, PE and Mach-O,
 # matching compare_zhl_nm.py and allowing this script to run in the scanner
@@ -23,18 +30,29 @@ NM = shutil.which("llvm-nm") or "nm"
 
 
 def parse_zhl_log(path):
-    """Return {ZHL function name: [runtime addresses]} from a zhl.log."""
+    """Return function and global-variable runtime address indexes."""
     functions = defaultdict(list)
+    variable_scan_hits = defaultdict(list)
+    legacy_variables = set()
     with open(path, "r", encoding="utf-8", errors="replace") as stream:
         for line in stream:
             match = ADDRESS_RE.search(line)
             if match:
                 functions[match.group(1)].append(int(match.group(2), 16))
-    return functions
+                continue
+            match = VALUE_RE.search(line)
+            if match:
+                variable_scan_hits[match.group(1)].append(
+                    int(match.group(3), 16))
+                continue
+            match = LEGACY_VALUE_RE.search(line)
+            if match:
+                legacy_variables.add(match.group(1))
+    return functions, variable_scan_hits, legacy_variables
 
 
 def nm_functions(binary):
-    """Return symbol-name and address indexes from ``nm -C``."""
+    """Return text-name and all-address indexes from ``nm -C``."""
     try:
         result = subprocess.run(
             [NM, "-C", binary],
@@ -51,15 +69,19 @@ def nm_functions(binary):
     symbols = defaultdict(list)
     address_to_symbols = defaultdict(list)
     for line in result.stdout.splitlines():
-        # Include text symbols, including weak text symbols where available.
-        match = re.match(r"^([0-9a-fA-F]+)\s+[tTwW]\s+(.+)$", line)
+        # Keep every defined symbol for diagnostics, but only text/weak-text
+        # symbols are eligible for calculating the ASLR slide.
+        match = re.match(r"^([0-9a-fA-F]+)\s+([A-Za-z])\s+(.+)$", line)
         if not match:
             continue
         address = int(match.group(1), 16)
-        full_name = match.group(2)
+        symbol_type = match.group(2)
+        full_name = match.group(3)
+        address_to_symbols[address].append(full_name)
+        if symbol_type not in "tTwW":
+            continue
         short_name = full_name.split("(", 1)[0]
         symbols[short_name].append(address)
-        address_to_symbols[address].append(full_name)
     return symbols, address_to_symbols
 
 
@@ -95,12 +117,48 @@ def calculate_slide(functions, symbols):
     return None, None
 
 
-def rvas(functions, symbols, slide):
+def rvas(bindings, slide):
     """Convert log addresses to RVAs, using the calculated slide."""
     values = {}
-    for name, runtime_addresses in functions.items():
+    for name, runtime_addresses in bindings.items():
         values[name] = [runtime_address - slide for runtime_address in runtime_addresses]
     return values
+
+
+def compare_rvas(bindings_a, bindings_b, slide_a, slide_b, ignored_name=None):
+    """Return baseline-only names and entries with disjoint RVA sets."""
+    rva_a = rvas(bindings_a, slide_a)
+    rva_b = rvas(bindings_b, slide_b)
+    missing = sorted(set(rva_a) - set(rva_b))
+    if ignored_name is not None:
+        missing = [name for name in missing if not ignored_name(name)]
+    mismatches = sorted(
+        (name, rva_a[name], rva_b[name])
+        for name in set(rva_a) & set(rva_b)
+        if (ignored_name is None or not ignored_name(name))
+        and not set(rva_a[name]) & set(rva_b[name])
+    )
+    return rva_a, rva_b, missing, mismatches
+
+
+def print_comparison(label, missing_label, mismatches, missing,
+                     rva_a, address_to_symbols):
+    print(f"{label} RVA mismatches: {len(mismatches)}")
+    for name, addresses_a, addresses_b in mismatches:
+        print(f"  {name}")
+        for side, addresses in (("A", addresses_a), ("B", addresses_b)):
+            for address in addresses:
+                actual = address_to_symbols.get(address, [])
+                print(f"    {side}: 0x{address:x}")
+                print(f"       nm: {', '.join(actual) if actual else '<no symbol at address>'}")
+
+    print(f"{missing_label}: {len(missing)}")
+    for name in missing:
+        print(f"  {name}:")
+        for address in rva_a[name]:
+            actual = address_to_symbols.get(address, [])
+            print(f"    A=0x{address:x}")
+            print(f"      nm: {', '.join(actual) if actual else '<no symbol at address>'}")
 
 
 def main():
@@ -110,9 +168,11 @@ def main():
 
     log_a, log_b, binary = sys.argv[1:]
     try:
-        functions_a = parse_zhl_log(log_a)
-        functions_b = parse_zhl_log(log_b)
+        functions_a, variables_a, legacy_variables_a = parse_zhl_log(log_a)
+        functions_b, variables_b, legacy_variables_b = parse_zhl_log(log_b)
         symbols, address_to_symbols = nm_functions(binary)
+        if not address_to_symbols:
+            raise RuntimeError("nm returned no defined symbols")
 
         slide_a, source_a = calculate_slide(functions_a, symbols)
         slide_b, source_b = calculate_slide(functions_b, symbols)
@@ -121,41 +181,29 @@ def main():
                 "Could not calculate the load slide for A or B from a common function found by nm"
             )
 
-        rva_a = rvas(functions_a, symbols, slide_a)
-        rva_b = rvas(functions_b, symbols, slide_b)
+        ignored = lambda name: "DO_NOT_HOOK" in name or "NoHook" in name
+        rva_a, _, missing_in_b, mismatches = compare_rvas(
+            functions_a, functions_b, slide_a, slide_b, ignored)
+        variable_rva_a, _, variables_missing_in_b, variable_mismatches = \
+            compare_rvas(variables_a, variables_b, slide_a, slide_b)
 
-        missing_in_b = sorted(set(rva_a) - set(rva_b))
-        missing_in_b = [name for name in missing_in_b if "DO_NOT_HOOK" not in name and "NoHook" not in name]
-        mismatches = sorted(
-            (name, rva_a[name], rva_b[name])
-            for name in set(rva_a) & set(rva_b)
-            if "DO_NOT_HOOK" not in name and "NoHook" not in name
-            and not set(rva_a[name]) & set(rva_b[name])
-        )
-
-        print(f"A: {len(functions_a)} functions, slide 0x{slide_a:x} (from {source_a})")
-        print(f"B: {len(functions_b)} functions, slide 0x{slide_b:x} (from {source_b})")
+        print(f"A: {len(functions_a)} functions, {len(variables_a)} variables, "
+              f"slide 0x{slide_a:x} (from {source_a})")
+        print(f"B: {len(functions_b)} functions, {len(variables_b)} variables, "
+              f"slide 0x{slide_b:x} (from {source_b})")
         print(f"nm: {sum(len(v) for v in symbols.values())} text symbols")
+        if legacy_variables_a or legacy_variables_b:
+            print("WARNING: variable scan locations are unavailable in legacy "
+                  "logs; regenerate both logs with the updated scanner "
+                  f"(A: {len(legacy_variables_a)}, B: {len(legacy_variables_b)})")
         print()
-        print(f"RVA mismatches: {len(mismatches)}")
-        for name, addresses_a, addresses_b in mismatches:
-            print(f"  {name}")
-            for address_a in addresses_a:
-                actual_a = address_to_symbols.get(address_a, [])
-                print(f"    A: 0x{address_a:x}")
-                print(f"       nm: {', '.join(actual_a) if actual_a else '<no symbol at address>'}")
-            for address_b in addresses_b:
-                actual_b = address_to_symbols.get(address_b, [])
-                print(f"    B: 0x{address_b:x}")
-                print(f"       nm: {', '.join(actual_b) if actual_b else '<no symbol at address>'}")
-
-        print(f"Missing in B: {len(missing_in_b)}")
-        for name in missing_in_b:
-            print(f"  {name}:")
-            for address in rva_a[name]:
-                actual = address_to_symbols.get(address, [])
-                print(f"    A=0x{address:x}")
-                print(f"      nm: {', '.join(actual) if actual else '<no symbol at address>'}")
+        print_comparison("Function", "Functions missing in B", mismatches,
+                         missing_in_b, rva_a, address_to_symbols)
+        print()
+        print_comparison("Global variable signature-hit",
+                         "Global variable scan entries missing in B",
+                         variable_mismatches, variables_missing_in_b,
+                         variable_rva_a, address_to_symbols)
 
         # B is expected to contain A, so functions that exist only in B are
         # intentionally not reported.

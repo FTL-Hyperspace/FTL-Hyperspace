@@ -9344,12 +9344,12 @@ Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int unk)
 namespace _func724
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(CrewMember *(CompleteShip::*)(CrewMember *, int )), "41544885f655534889f37424", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(void *(CompleteShip::*)(CrewMember *, int )), "41544885f655534889f37424", nullptr, 0, 0, &func);
 }
 
-CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
+void *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 {
-	typedef CrewMember *(*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
+	typedef void *(*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func724::func;
 	return execfunc(this, member, unk);
 }

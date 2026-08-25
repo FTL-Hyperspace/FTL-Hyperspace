@@ -1,21 +1,19 @@
 "554889e5534883ec184889fb4889f048c1e82048|554889e5534883ec184889fb488d054d51":  //
-noHook __amd64 void EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_41();
-//"554889e5534883ec184889fb4889f048c1e82048|554889e5534883ec184889fb488d054d51":  //
-//cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot); // 1000d58d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructor1(EquipmentBox *this, Point loc, int slot); // 1000d58d0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void EquipmentBox::InitPrimitives(EquipmentBox *this); // 1000d5a60 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EquipmentBox::constructor1(EquipmentBox *this, Point loc, int slot); // 1000d5b40 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot); // 1000d5b40 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructor2(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EquipmentBox::constructor1(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5e70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructor3(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5e70 Linux DWARF prototype catalog by linkage
 "554889e553504889fb488d05??????00488903488b7b38":  //
-cleanup __amd64 void EquipmentBox::destructor2(EquipmentBox *this); // 1000d5e80 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this); // 1000d5e80 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void EquipmentBox::destructor1(EquipmentBox *this); // 1000d5ee0 Itanium source destructor prototype, Itanium D1 destructor
 "!.55":  //
-virtual cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this);
+virtual cleanup __amd64 void EquipmentBox::destructor2(EquipmentBox *this);
 ".55":  //
 cleanup __amd64 void EquipmentBox::SetPosition(EquipmentBox *this, Point p); // 1000d5fa0 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -70,10 +68,6 @@ cleanup __amd64 bool EquipmentBox::IsCargoBox(EquipmentBox *this); // 1000d9fc0 
 cleanup __amd64 bool EquipmentBox::CanHoldCrew(EquipmentBox *this); // 1000d9fd0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool EquipmentBox::CanDoJob(EquipmentBox *this); // 1000d9fe0 Linux DWARF prototype catalog by linkage
-"554889e5534883ec184889fb48c743":
-noHook __amd64 void EquipmentBox::InitPrimitives();
-".554889e5534883ec184889fb48":
-cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point _position, int _slot);
 
 
 struct EquipmentBox depends (AugmentBlueprint)

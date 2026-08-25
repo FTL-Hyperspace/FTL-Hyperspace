@@ -1,7 +1,7 @@
 "!55":  //
-cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager* _space);
+cleanup __amd64 void BossShip::constructor1(BossShip *this, SpaceManager* _space);
 "!.55":  //
-cleanup __amd64 void BossShip::constructor1(BossShip *this, SpaceManager *space); // 100001a50 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager *space); // 100001a50 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void BossShip::SaveBoss(BossShip *this, int fd);
 ".55":  //
@@ -30,5 +30,3 @@ cleanup __amd64 bool BossShip::IncomingFire(BossShip *this);
 cleanup __amd64 void BossShip::OnLoop(BossShip *this);
 ".55":  //
 cleanup __amd64 bool BossShip::IsBoss(BossShip *this); // 100002ca0 Linux DWARF prototype catalog by linkage
-"!554889e553504889fb31d2b9":
-noHook __amd64 void BossShip::DO_NOT_HOOK_FALSE_CONSTRUCTOR();

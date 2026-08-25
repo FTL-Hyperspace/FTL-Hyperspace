@@ -3675,7 +3675,7 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API void AddBoarders(int amount, const std::string &race, bool unk2);
 	LIBZHL_API CrewMember *AddCrewMember(const CrewBlueprint *blueprint, bool hostile);
 	LIBZHL_API CrewMember *AddCrewMember1(const std::string &race, const std::string &name, bool hostile);
-	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
+	LIBZHL_API void *AddCrewMember2(CrewMember *member, int unk);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API bool DeadCrew();

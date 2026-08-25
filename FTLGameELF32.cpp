@@ -4381,12 +4381,12 @@ namespace _func315
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(CrewMember *(CompleteShip::*)(CrewMember *, int )), "57565383ec108b5c24248b7424208b7c242885db", argdata, 3, 2, &func);
+	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(void *(CompleteShip::*)(CrewMember *, int )), "57565383ec108b5c24248b7424208b7c242885db", argdata, 3, 2, &func);
 }
 
-CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
+void *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 {
-	typedef CrewMember *__attribute__((cdecl)) (*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
+	typedef void *__attribute__((cdecl)) (*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func315::func;
 	return execfunc(this, member, unk);
 }

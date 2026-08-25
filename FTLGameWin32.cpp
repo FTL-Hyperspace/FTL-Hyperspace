@@ -9925,12 +9925,12 @@ namespace _func713
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(CrewMember *(CompleteShip::*)(CrewMember *, int )), ".578d7c240883e4f0ff77fc5589e557565383ec1c8b378b7f0485", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("CompleteShip::AddCrewMember2", typeid(void *(CompleteShip::*)(CrewMember *, int )), ".578d7c240883e4f0ff77fc5589e557565383ec1c8b378b7f0485", argdata, 3, 1, &func);
 }
 
-CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
+void *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 {
-	typedef CrewMember *__attribute__((thiscall)) (*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
+	typedef void *__attribute__((thiscall)) (*custom_arg_funcptr_t)(CompleteShip *this_arg, CrewMember *member_arg, int unk_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func713::func;
 	return execfunc(this, member, unk);
 }

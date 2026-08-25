@@ -43,11 +43,11 @@ cleanup __amd64 void ShipSystem::SetFloorImage(ShipSystem *this, const std::stri
 ".55":  //
 cleanup __amd64 void ShipSystem::constructor1(ShipSystem *this, int type, int roomId, int shipId, int starting_power); // 1001f6a20 Linux DWARF prototype catalog by linkage
 "554889e54157415653504989fe488d05??????00498906488d05??????0049894610498b7e|554889e5415741564154534989fe488d057b":  //
-cleanup __amd64 void ShipSystem::destructor2(ShipSystem *this); // 1001f6a30 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void ShipSystem::destructor(ShipSystem *this); // 1001f6a30 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void ShipSystem::destructor1(ShipSystem *this); // 1001f6c40 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e553504889fb4883c3f04889dfe8????????4889df4883c4085b5de9????????666666662e0f1f840000000000554889e531":  //
-cleanup __amd64 void ShipSystem::destructor(ShipSystem *this);
+cleanup __amd64 void ShipSystem::destructor2(ShipSystem *this);
 "554889e531c0837f58":  //
 cleanup __amd64 int ShipSystem::GetEffectivePower(ShipSystem *this);
 ".55":  //

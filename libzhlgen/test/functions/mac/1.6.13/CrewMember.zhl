@@ -107,11 +107,11 @@ cleanup __amd64 float CrewMember::GetSkillModifier(CrewMember *this, int skillId
 ".55":  //
 cleanup __amd64 bool CrewMember::BadAtCombat(CrewMember *this);
 ".55":  //
-cleanup __amd64 void CrewMember::destructor2(CrewMember *this); // 100051d90 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void CrewMember::destructor(CrewMember *this); // 100051d90 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void CrewMember::destructor1(CrewMember *this); // 100052060 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5c7":  //
-cleanup __amd64 void CrewMember::destructor(CrewMember *this);
+cleanup __amd64 void CrewMember::destructor2(CrewMember *this);
 ".8b":  //
 cleanup __amd64 void CrewMember::EmptySlot(CrewMember *this);
 ".55":  //

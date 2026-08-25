@@ -1,7 +1,7 @@
 "554889e553504889fbe8":  //
-cleanup __amd64 void CApp::constructor(CApp *this);
+cleanup __amd64 void CApp::constructor1(CApp *this);
 ".55":  //
-cleanup __amd64 void CApp::constructor1(CApp *this); // 100004990 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CApp::constructor(CApp *this); // 100004990 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CApp::OnInputFocus(CApp *this);
 ".55":  //
@@ -77,6 +77,3 @@ cleanup __amd64 void CApp::destructor(CApp *this); // 100007570 Itanium source d
 // Continue from CAchievement::OnRender (hyper efficiency™)
 "!.45d4488d3d(???????\?)":
 offsetVariable CFPS* Global_CFPS_FPSControl;
-
-"554889e553504889fbe8":
-noHook __amd64 void CApp::DO_NOT_HOOK_FALSE_CONSTRUCTOR();

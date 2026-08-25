@@ -182,7 +182,8 @@ int VariableDefinition::Load()
     else
         *(void**)_outVar = (void*)m.address;
 
-	Log("Found value for %s: " PTR_PRINT_F ", dist %d\n", _name, *((uintptr_t*) _outVar), sig.GetDistance());
+	Log("Found value for %s: " PTR_PRINT_F ", scan " PTR_PRINT_F ", dist %d\n",
+		_name, *((uintptr_t*) _outVar), (uintptr_t)sig.GetAddress(), sig.GetDistance());
 
 	return 1;
 }

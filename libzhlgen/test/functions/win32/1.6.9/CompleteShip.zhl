@@ -17,7 +17,7 @@ __thiscall CrewMember *CompleteShip::AddCrewMember1(CompleteShip *this, const st
 ".578d7c240883e4f0ff77fc5589e55783ec148b078b57048b49":  // unique sig
 __thiscall Drone *CompleteShip::AddDrone(CompleteShip *this, const DroneBlueprint *blueprint, int unk);
 ".578d7c240883e4f0ff77fc5589e557565383ec1c8b378b7f0485":  // unique sig
-__thiscall CrewMember *CompleteShip::AddCrewMember2(CompleteShip *this, CrewMember *member, int unk);
+__thiscall void *CompleteShip::AddCrewMember2(CompleteShip *this, CrewMember *member, int unk);
 ".5589e583e4f083ec108b813001":  // unique sig
 __thiscall void CompleteShip::SaveState(CompleteShip *this, int unk);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec208b078904":  // unique sig

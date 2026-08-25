@@ -9,9 +9,7 @@ static cleanup __amd64 float Globals::AngleDifference(float angle1, float angle2
 ".55":  //
 static cleanup __amd64 int Globals::GetDirection(const std::string &dir); // 100154860 Linux DWARF prototype catalog
 ".55":  //
-noHook __amd64 void Globals::__STRUCT_OVERRIDE_ANCHOR_46();
-//".55":  //
-//static cleanup __amd64 unsigned int Globals::GetNextSpaceId(); // 1001548e0 Linux DWARF prototype catalog by linkage
+static cleanup __amd64 unsigned int Globals::GetNextSpaceId_orig(); // 1001548e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 int Globals::StringToItem(const std::string &name); // 100154910 Linux DWARF prototype catalog
 ".55":  //
@@ -26,6 +24,7 @@ static cleanup __amd64 float Globals::GetVectorAngle(float dx, float dy); // 100
 static cleanup __amd64 Point Globals::LineRectCollide(Globals::Rect rect, Point p1, Point p2); // 100154f30 Linux DWARF prototype catalog by linkage
 ".554889e549":  //
 static cleanup __amd64 bool Globals::PointOnSegment(Point p, Point p1, Point p2); // 1001557d0 Linux DWARF prototype catalog by linkage
+
 "!458b??????0000488d1d(???????\?)":
 offsetVariable TextLibrary* Global_Globals_Library;
 "!.488d0d(???????\?)80":
@@ -33,7 +32,7 @@ offsetVariable bool* Globals_RNG;
 "!.c748893d(???????\?)":
 offsetVariable FILE* ftl_log_logfile;
 "!.554889e58b05??????0085c0": // Disabled RET scan to allow fetching the offsetVariable
-static __amd64 int Globals::GetNextSpaceId_orig();
+noHook __amd64 void Globals::__DO_NOT_HOOK_GetNextSpaceId_orig();
 "!.ffc08905(???????\?)":
 offsetVariable int* Globals_GetNextSpaceId_id;
 

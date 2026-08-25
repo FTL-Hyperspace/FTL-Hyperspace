@@ -106,13 +106,13 @@ cleanup __amd64 void SpaceDrone::destructor(SpaceDrone *this);
 
 struct SpaceDrone
 {{
-    SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
-    {
-        this->constructor(iShipId, selfId, blueprint);
-    }
+    // SpaceDrone(int iShipId, int selfId, DroneBlueprint* blueprint)
+    // {
+    //     this->constructor(iShipId, selfId, blueprint);
+    // }
 
-    ~SpaceDrone()
-    {
-        this->destructor();
-    }
-}}
+    // ~SpaceDrone()
+    // {
+    //     this->destructor();
+    // }
+}};

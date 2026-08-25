@@ -1,7 +1,7 @@
 "554889e531c05dc30f1f840000000000554889e553504889fb488d":  //
 cleanup __amd64 bool CrewAnimation::CustomDeath(CrewAnimation *this); // 10001cd40 Linux DWARF prototype catalog by linkage
 ".554889e54157415641554154534883ec184989fd488d053d|.554889e5415741564155415453504989fe48":  //
-cleanup __amd64 void CrewAnimation::destructor2(CrewAnimation *this); // 10001d7f0 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this); // 10001d7f0 Itanium source destructor prototype, Itanium D2 destructor
 ".554889e5??????????????????????00554889e54156534189f64889fb48":  //
 cleanup __amd64 void CrewAnimation::constructor1(CrewAnimation *this, int iShipId, const std::string &name, Pointf position, bool enemy); // 10004fae0 Linux DWARF prototype catalog
 ".55":  //
@@ -63,7 +63,7 @@ cleanup __amd64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
 ".554889e55de9????????660f1f440000554889e553504889fbe8????????4889":  //
 cleanup __amd64 void CrewAnimation::destructor1(CrewAnimation *this); // 10005d6f0 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9":  //
-cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this);
+cleanup __amd64 void CrewAnimation::destructor2(CrewAnimation *this);
 
 
 struct CrewAnimation

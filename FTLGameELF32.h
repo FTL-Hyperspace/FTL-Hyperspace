@@ -3209,7 +3209,7 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API void AddBoarders(int amount, const std::string &race, bool unk2);
 	LIBZHL_API CrewMember *AddCrewMember(const CrewBlueprint *blueprint, bool hostile);
 	LIBZHL_API CrewMember *AddCrewMember1(const std::string &race, const std::string &name, bool hostile);
-	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
+	LIBZHL_API void *AddCrewMember2(CrewMember *member, int unk);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API bool DeadCrew();
@@ -6708,6 +6708,17 @@ struct PowerManager;
 
 struct PowerManager
 {
+	int GetAvailablePower()
+	{
+		return currentPower.second - currentPower.first;
+	}
+
+	int GetMaxPower()
+	{
+		int ret = currentPower.second - (iTempPowerLoss + iHacked);
+		return ret > iTempPowerCap ? iTempPowerCap : ret;
+	}
+
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
 	LIBZHL_API bool IncreasePower(std::pair<int, int> *powerLevel, int *iBatteryPower, int requestedPower);
 	LIBZHL_API static void __stdcall RestartAll();

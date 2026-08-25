@@ -1,11 +1,11 @@
 "554889e553504889fb488b7b08e8":  //
 cleanup __amd64 CachedPrimitive *CachedPrimitive::copy_assign_1(CachedPrimitive *this, CachedPrimitive *rhs); // 10014cef0 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void CachedPrimitive::destructor2(CachedPrimitive *this); // 10014cf20 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void CachedPrimitive::destructor(CachedPrimitive *this); // 10014cf20 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //
 cleanup __amd64 void CachedPrimitive::destructor1(CachedPrimitive *this); // 10014cf40 Itanium source destructor prototype, Itanium D1 destructor
 "!.55":  //
-cleanup __amd64 void CachedPrimitive::destructor(CachedPrimitive *this); // 10014cf60 Itanium source destructor prototype, Itanium D0 destructor
+cleanup __amd64 void CachedPrimitive::destructor2(CachedPrimitive *this); // 10014cf60 Itanium source destructor prototype, Itanium D0 destructor
 "!.55":  //
 cleanup __amd64 void CachedPrimitive::OnRender(CachedPrimitive *this, const GL_Color& color);
 ".55":  //

@@ -8,13 +8,12 @@ static cleanup __cdecl void PowerManager::RestartAll(); // 082a0c60
 static cleanup __cdecl PowerManager* PowerManager::GetPowerManager(int iShipId); // 082a0c90
 
 struct PowerManager
-struct PowerManager
 {{
 	int GetAvailablePower()
 	{
 		return currentPower.second - currentPower.first;
 	}
-	
+
 	int GetMaxPower()
 	{
 		int ret = currentPower.second - (iTempPowerLoss + iHacked);

@@ -13,7 +13,7 @@ cleanup __amd64 ShipBlueprint *ShipBlueprint::copy_assign_2(ShipBlueprint *this,
 ".554889e54157415641554154534881ec??0000004989f6":  //
 cleanup __amd64 std::string ShipBlueprint::Print(ShipBlueprint *this); // 100194990 Linux DWARF prototype catalog by linkage
 "554889e54156534889f34989fe4885db7423":
-nohook __amd64 void ShipBlueprint::NoHook();
+noHook __amd64 void ShipBlueprint::NoHook();
 
 
 struct ShipBlueprint

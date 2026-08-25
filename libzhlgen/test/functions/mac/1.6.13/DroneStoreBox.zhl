@@ -1,13 +1,11 @@
 "554889e5534883ec184889fbbf":  //
-noHook __amd64 void DroneStoreBox::__STRUCT_OVERRIDE_ANCHOR_40();
-//"554889e5534883ec184889fbbf":  //
-//cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this); // 10011fbb0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DroneStoreBox::constructor3(DroneStoreBox *this); // 10011fbb0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void DroneStoreBox::constructor1(DroneStoreBox *this); // 10011fc50 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DroneStoreBox::constructor2(DroneStoreBox *this); // 10011fc50 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
+cleanup __amd64 void DroneStoreBox::constructor1(DroneStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const DroneBlueprint* _blueprint);
 ".55":  //
-cleanup __amd64 void DroneStoreBox::constructor1(DroneStoreBox *this, ShipManager *shopper, Equipment *equipScreen, DroneBlueprint *blue); // 10011fdb0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *shopper, Equipment *equipScreen, const DroneBlueprint *blue); // 10011fdb0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int DroneStoreBox::SetInfoBox(DroneStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 10011fe70 Linux DWARF prototype catalog by linkage
 ".55":  //

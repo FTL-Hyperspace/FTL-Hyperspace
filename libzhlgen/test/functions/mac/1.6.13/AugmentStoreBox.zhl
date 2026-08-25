@@ -1,13 +1,11 @@
 "554889e5534883ec184889fb0f57c00f2945e048c745f000000000c645e02a|554889e5534883ec180f57c00f2945e0c645e02a":  //
-noHook __amd64 void AugmentStoreBox::__STRUCT_OVERRIDE_ANCHOR_6();
-//"554889e5534883ec184889fb0f57c00f2945e048c745f000000000c645e02a|554889e5534883ec180f57c00f2945e0c645e02a":  //
-//cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this); // 10011ee30 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this); // 10011ee30 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void AugmentStoreBox::constructor1(AugmentStoreBox *this); // 10011eec0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager* _ship, const AugmentBlueprint* _augment);
+cleanup __amd64 void AugmentStoreBox::constructor1(AugmentStoreBox *this, ShipManager* _ship, const AugmentBlueprint* _augment);
 ".55":  //
-cleanup __amd64 void AugmentStoreBox::constructor1(AugmentStoreBox *this, ShipManager *shopper, AugmentBlueprint *blue); // 10011f000 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *shopper, const AugmentBlueprint *blue); // 10011f000 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int AugmentStoreBox::SetInfoBox(AugmentStoreBox *this, InfoBox *box, int forceSystemInfoWidth); // 10011f0b0 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -20,11 +18,6 @@ cleanup __amd64 void AugmentStoreBox::Purchase(AugmentStoreBox *this);
 cleanup __amd64 void AugmentStoreBox::destructor1(AugmentStoreBox *this); // 100121ca0 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55d":  //
 cleanup __amd64 void AugmentStoreBox::destructor(AugmentStoreBox *this); // 100121cb0 Itanium source destructor prototype, Itanium D0 destructor
-// Continue from AugmentEquipBox::CheckContents (hyper efficiency™)
-// ".554889e5534883ec384889fb0f":
-// noHook __amd64 void AugmentStoreBox::DO_NOT_HOOK(); // noHook's Required to work on both GOG 1.6.13 and Steam 1.6.13
-// ".554889e54156534883ec20":
-// noHook __amd64 void AugmentStoreBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR();
 
 
 struct AugmentStoreBox

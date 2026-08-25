@@ -1,7 +1,7 @@
 "!554889e54156534989d6":  //
-cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a1f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ArtilleryBox::constructor1(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a1f0 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void ArtilleryBox::constructor1(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a240 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point loc, ArtillerySystem *sys); // 10012a240 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 GL_Color ArtilleryBox::GetCooldownColor(ArtilleryBox *this); // 10012a290 Linux DWARF prototype catalog by linkage
 ".55":  //

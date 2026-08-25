@@ -1,9 +1,9 @@
 "554889e55de9????????660f1f440000554889e55de9":  //
-cleanup __amd64 void ScoreKeeper::constructor(ScoreKeeper *this);
+cleanup __amd64 void ScoreKeeper::constructor1(ScoreKeeper *this);
 "554889e55de9????????660f1f440000554889e54157415641554154534883ec2848":  //
 cleanup __amd64 void ScoreKeeper::destructor1(ScoreKeeper *this); // 100027f80 Itanium source destructor prototype, Itanium D1 destructor
 "554889e54157415641554154534883ec284889fb":  //
-cleanup __amd64 void ScoreKeeper::constructor1(ScoreKeeper *this); // 100027f90 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ScoreKeeper::constructor(ScoreKeeper *this); // 100027f90 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ScoreKeeper::WipeProfile(ScoreKeeper *this, bool permanent);
 ".55":  //

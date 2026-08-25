@@ -517,7 +517,18 @@ for k,fd in pairs(tfiles) do
 
     str = sanitizeFunctionTemplates(str)
     
-    local t = cparser.ParseFunctions(str)
+    local t, parsedTo = cparser.ParseFunctions(str)
+    if not t then
+        error(string.format("Failed to parse %s", filename))
+    elseif not parsedTo or parsedTo <= #str then
+        local position = parsedTo or 1
+        local prefix = str:sub(1, math.max(0, position - 1))
+        local line = 1 + select(2, prefix:gsub("\n", ""))
+        local excerpt = str:sub(position, position + 120):gsub("[\r\n]+", " ")
+        io.stderr:write(string.format(
+            "WARNING: stopped parsing %s at line %d near: %s\n",
+            filename, line, excerpt))
+    end
     
     -- Preprocess functions and their arguments
     for _, func in ipairs(t) do
@@ -906,6 +917,11 @@ local function argsToString(func, names, def, includeThis, hideType, suffix)
                 str = arg:toString()
             end
             if names then
+                if arg.name == nil then
+                    error(string.format(
+                        "Missing argument name while generating %s (argument type: %s)",
+                        func.name or "<unnamed function>", arg:toString()))
+                end
                 str = str..arg.name
                 if suffix ~= nil then
                     str = str..suffix

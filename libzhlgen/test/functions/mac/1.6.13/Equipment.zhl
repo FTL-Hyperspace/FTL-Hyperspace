@@ -1,5 +1,5 @@
 "554889e553504889fb488d05??????004883":  //
-cleanup __amd64 void Equipment::destructor2(Equipment *this); // 1000c2640 Itanium source destructor prototype, Itanium D2 destructor
+cleanup __amd64 void Equipment::destructor(Equipment *this); // 1000c2640 Itanium source destructor prototype, Itanium D2 destructor
 "!.554889e553504889fbe8??bf":  //
 cleanup __amd64 void Equipment::constructor(Equipment *this);
 ".55":  //
@@ -63,4 +63,4 @@ cleanup __amd64 void Equipment::Restart(Equipment *this); // 1000d5840 Linux DWA
 ".55":  //
 cleanup __amd64 void Equipment::destructor1(Equipment *this); // 1000d58a0 Itanium source destructor prototype, Itanium D1 destructor
 "554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e55348":  //
-cleanup __amd64 void Equipment::destructor(Equipment *this); // This is the free destructor
+cleanup __amd64 void Equipment::destructor2(Equipment *this); // This is the free destructor
