@@ -1,104 +1,267 @@
 #!/usr/bin/env python3
-"""
-Compare HOOK_* declarations against FTLGame*.cpp definitions.
-Catches return type mismatches like: bool vs int
+"""Check every HOOK_* declaration against the definition ZHL will bind it to.
+
+A definition is registered under its name plus its mangled signature, and a hook
+looks itself up the same way, so a hook installs only when some definition of that
+name carries exactly the signature the hook declares: parameter types, const on a
+reference, reference versus pointer, and the return type all count. A mismatch is
+a refused hook and a dead build rather than a silent misbind.
+
+That check runs per platform, on the machine that launches the game. This one runs
+over every FTLGame*.cpp separately, so a signature that only diverges on darwin or
+win32 shows up here instead of on a player's machine.
 """
 
 import re
 import sys
 from pathlib import Path
 
-# Matches: "int ShipManager::CanUpgrade(int systemId, int amount)"
-# Also:    "FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)"
-FUNC_DEF_RE = re.compile(r'''
-    ^(?:FUNC_NAKED\s+)?   # optional FUNC_NAKED prefix
-    ([\w\s\*&:<>]+?)      # return type (int, bool, void*, __int64, etc.)
-    \s+
-    (\w+)::(\w+)          # ClassName::FuncName
-    \s*\([^)]*\)          # (params)
-''', re.MULTILINE | re.VERBOSE)
+ROOT = Path(__file__).resolve().parent.parent
 
-# Matches: "HOOK_METHOD(ShipManager, CanUpgrade, (int systemId, int amount) -> int)"
-HOOK_RE = re.compile(r'''
-    HOOK_(METHOD|STATIC|GLOBAL)   # hook type
-    \s*\(\s*
-    (?:(\w+)\s*,\s*)?             # optional ClassName (not present for GLOBAL)
-    (\w+)\s*,\s*                  # FuncName
-    \([^)]*\)                     # (params)
-    \s*->\s*
-    ([^)]+)                       # return type
-    \)
-''', re.VERBOSE)
+PLATFORM_SOURCES = {
+    'linux64': 'FTLGameELF64.cpp',
+    'linux32': 'FTLGameELF32.cpp',
+    'darwin': 'FTLGameMacOSAMD64.cpp',
+    'win32': 'FTLGameWin32.cpp',
+}
 
-def normalize(t):
-    t = ' '.join(t.split()).strip()
-    t = t.replace('FUNC_NAKED ', '')  # calling convention, not a type
-    return t
+# static FunctionDefinition funcObj("Class::name", typeid(void (Class::*)(int )), ".55", ...
+DEFINITION_RE = re.compile(r'FunctionDefinition funcObj\("([^"]+)",\s*typeid\(([^;]*?)\),\s*"')
 
-def extract_definitions(filepath):
-    content = Path(filepath).read_text(errors='ignore')
-    defs = {}
-    for m in FUNC_DEF_RE.finditer(content):
-        key = f"{m.group(2)}::{m.group(3)}"
-        line = content[:m.start()].count('\n') + 1
-        defs[key] = {'ret': normalize(m.group(1)), 'file': filepath, 'line': line}
-    return defs
+# HOOK_METHOD(Class, name, (int x) -> void), plus the _PRIORITY, STATIC and GLOBAL forms
+HOOK_RE = re.compile(r'\bHOOK_(METHOD|STATIC|GLOBAL)(_PRIORITY)?\s*\(')
 
-def extract_hooks(filepath):
-    content = Path(filepath).read_text(errors='ignore')
+# Words the parameter-name stripper must not mistake for a parameter's name.
+BUILTIN_TYPE_RE = re.compile(r'unsigned|signed|long|short|int|char|float|double|bool|void')
+
+# The headers that define the hook macros; their #defines look like calls.
+MACRO_SOURCES = {'zhl.h', 'zhl_private.h', 'zhl_internal.h'}
+
+COMMENT_RE = re.compile(r'/\*.*?\*/|//[^\n]*', re.S)
+
+# Hooks behind a platform guard, and the platforms that therefore never compile
+# them. Absence of a definition there is expected, not a fault. Add an entry when
+# a guarded hook is reported below, with the guard that puts it here.
+NOT_COMPILED_ON = {
+    'LockdownShard::constructor2': {'darwin'},                    # CustomLockdowns.cpp #ifndef __APPLE__
+    'ShipManager::IsSystemHacked2': {'darwin'},                   # OxygenWithoutSystem.cpp #ifndef __APPLE__
+    'DebugHelper::CrashCatcher': {'darwin', 'linux32', 'linux64'},  # Debugging.cpp #ifdef _WIN32
+    'Globals::GetNextSpaceId_orig': {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef __APPLE__
+}
+
+
+def read_paren_group(text, open_index):
+    """Return what sits between the parens opening at open_index, and its close."""
+    depth = 0
+    for index in range(open_index, len(text)):
+        if text[index] == '(':
+            depth += 1
+        elif text[index] == ')':
+            depth -= 1
+            if depth == 0:
+                return text[open_index + 1:index], index
+    return None, len(text)
+
+
+def split_top_level(text):
+    """Split on commas that are not nested in parens, angle brackets or subscripts."""
+    parts, depth, current, previous = [], 0, '', ''
+    for char in text:
+        if char in '(<[':
+            depth += 1
+        # The > of a trailing return type closes nothing; only a template's does.
+        elif char in ')]' or (char == '>' and previous != '-'):
+            depth -= 1
+        if char == ',' and depth == 0:
+            parts.append(current.strip())
+            current = ''
+        else:
+            current += char
+        previous = char
+    if current.strip():
+        parts.append(current.strip())
+    return parts
+
+
+def tidy(text):
+    """One spelling for a type, so both sides compare equal and still read well.
+
+    Spacing is the only thing that varies: a typeid prints "const std::string &"
+    and "std::pair<int, int>" where a hook may write either with or without the
+    spaces. Collapsing around the punctuation settles both without gluing words
+    like "unsigned int" together.
+    """
+    collapsed = re.sub(r'\s+', ' ', text).strip()
+    return re.sub(r'\s*([*&,<>])\s*', r'\1', collapsed)
+
+
+def normalize_type(text):
+    """Reduce a parameter to its type alone, so both sides compare like for like.
+
+    A hook writes "const std::string &path" where a typeid prints "const std::string &".
+    Top-level const on a by-value parameter is not part of a function's type in C++,
+    so it is dropped rather than compared.
+    """
+    stripped = re.sub(r'\b(volatile|struct|class)\b', ' ', text).strip()
+    # A parameter name follows either a sigil that binds to it ("Ship *ship")
+    # or plain whitespace ("int upgrade").
+    named = (re.match(r'^(.*[\*&])\s*([A-Za-z_]\w*)$', stripped)
+             or re.match(r'^(.*[\w>\]])\s+([A-Za-z_]\w*)$', stripped))
+    if named and not BUILTIN_TYPE_RE.fullmatch(named.group(2)):
+        stripped = named.group(1)
+    stripped = stripped.strip()
+    if not stripped.endswith('&') and not stripped.endswith('*'):
+        stripped = re.sub(r'^\s*const\b', '', stripped)
+    return tidy(stripped)
+
+
+# A signature is (return type, argument types, is a member function). Equal
+# signatures mean equal mangled names, which is what ZHL matches on.
+def from_typeid(text):
+    """'CrewMember *(CrewBox::*)(int , int )' as written in a generated file."""
+    params_open = text.rfind(')(')
+    if params_open == -1:
+        return None
+    body, _ = read_paren_group(text, params_open + 1)
+    if body is None:
+        return None
+    head = text[:params_open + 1]
+    return (tidy(head[:head.rfind('(')]),
+            tuple(normalize_type(p) for p in split_top_level(body)),
+            '::*' in head)
+
+
+def from_hook(text, is_member):
+    """'(int mouseX, int mouseY) -> CrewMember*' as written in a HOOK_* macro."""
+    if not text.startswith('('):
+        return None
+    body, close = read_paren_group(text, 0)
+    tail = text[close + 1:].strip()
+    if body is None or not tail.startswith('->'):
+        return None
+    return (tidy(tail[2:]),
+            tuple(normalize_type(p) for p in split_top_level(body)),
+            is_member)
+
+
+def describe(signature):
+    """What a signature actually is, split into the two halves that can differ."""
+    if signature is None:
+        return 'unreadable typeid'
+    ret, params, _ = signature
+    return f'return: {ret}   args: {", ".join(params) if params else "(none)"}'
+
+
+def collect_definitions(path):
+    """Every definition in a generated file, grouped by the name it registers under."""
+    grouped = {}
+    for number, line in enumerate(path.read_text(errors='replace').splitlines(), 1):
+        match = DEFINITION_RE.search(line)
+        if match:
+            grouped.setdefault(match.group(1), []).append(
+                (from_typeid(match.group(2).strip()), number))
+    return grouped
+
+
+def collect_hooks():
+    """Every HOOK_* in the tree, with the signature its author declared."""
     hooks = []
-    for m in HOOK_RE.finditer(content):
-        htype, cls, func, ret = m.groups()
-        key = f"{cls}::{func}" if cls else func
-        line = content[:m.start()].count('\n') + 1
-        hooks.append({'type': f'HOOK_{htype}', 'key': key, 'ret': normalize(ret), 'file': filepath, 'line': line})
+    for source in sorted(list(ROOT.rglob('*.cpp')) + list(ROOT.rglob('*.h'))):
+        parts = source.parts
+        if '.git' in parts or any(part.startswith('build-') for part in parts):
+            continue
+        if source.name.startswith('FTLGame') or source.name in MACRO_SOURCES:
+            continue
+        # Blank the comments, keeping newlines so line numbers still line up:
+        # a hook inside /* ... */ is not a hook.
+        text = COMMENT_RE.sub(lambda m: re.sub(r'[^\n]', ' ', m.group()),
+                              source.read_text(errors='replace'))
+        for match in HOOK_RE.finditer(text):
+            line_start = text.rfind('\n', 0, match.start()) + 1
+            if text[line_start:match.start()].lstrip().startswith('#define'):
+                continue  # this is the macro's own definition
+            body, _ = read_paren_group(text, match.end() - 1)
+            if body is None:
+                continue
+            arguments = split_top_level(body)
+            kind, has_priority = match.group(1), bool(match.group(2))
+            # HOOK_GLOBAL registers a bare name; the others prefix the class.
+            leading = (1 if kind == 'GLOBAL' else 2) + (1 if has_priority else 0)
+            if len(arguments) <= leading:
+                continue
+            hooks.append({
+                'name': arguments[0] if kind == 'GLOBAL' else f'{arguments[0]}::{arguments[1]}',
+                'declared': arguments[leading],
+                'signature': from_hook(arguments[leading], is_member=(kind == 'METHOD')),
+                'where': f'{source.relative_to(ROOT)}:{text.count(chr(10), 0, match.start()) + 1}',
+            })
     return hooks
 
+
 def main():
-    root = Path(__file__).parent.parent
+    definitions = {}
+    for platform, filename in PLATFORM_SOURCES.items():
+        path = ROOT / filename
+        if path.exists():
+            definitions[platform] = collect_definitions(path)
+    if not definitions:
+        print('No FTLGame*.cpp found; run libzhlgen/parsefuncs.sh first.')
+        return 1
 
-    # Collect definitions from platform files
-    defs = {}
-    for pf in root.glob('FTLGame*.cpp'):
-        for k, v in extract_definitions(pf).items():
-            defs.setdefault(k, []).append(v)
+    hooks = collect_hooks()
+    print(f'Hooks: {len(hooks)} | platforms: {", ".join(definitions)}')
 
-    # Collect hooks from source files
-    hooks = []
-    for ext in ['*.cpp', '*.h']:
-        # Non-recursive in root
-        for f in root.glob(ext):
-            if not f.name.startswith('FTLGame'):
-                hooks.extend(extract_hooks(f))
-        # Recursive in src/ and tests/
-        for d in ['src', 'tests']:
-            for f in (root / d).glob(f'**/{ext}'):
-                hooks.extend(extract_hooks(f))
+    mismatched, undefined = {}, {}
+    counts = {platform: [0, 0, 0] for platform in definitions}
 
-    print(f"Definitions: {len(defs)} | Hooks: {len(hooks)}")
-
-    # Find mismatches
-    mismatches = {}
-    for h in hooks:
-        if h['key'] not in defs:
+    # Each platform is judged on its own definitions: a name that exists only on
+    # darwin is still missing on linux, and must be reported that way.
+    for hook in hooks:
+        if hook['signature'] is None:
             continue
-        for d in defs[h['key']]:
-            if normalize(d['ret']).lower() != normalize(h['ret']).lower():
-                loc = f"{h['file']}:{h['line']}"
-                mismatches.setdefault(loc, {'hook': h, 'defs': []})['defs'].append(d)
+        for platform, grouped in definitions.items():
+            if platform in NOT_COMPILED_ON.get(hook['name'], ()):
+                continue
+            candidates = grouped.get(hook['name'])
+            if not candidates:
+                counts[platform][2] += 1
+                undefined.setdefault(hook['where'], (hook['name'], []))[1].append(platform)
+            elif any(signature == hook['signature'] for signature, _ in candidates):
+                counts[platform][0] += 1
+            else:
+                counts[platform][1] += 1
+                mismatched.setdefault(hook['where'], (hook, {}))[1][platform] = candidates
 
-    if not mismatches:
-        print("No mismatches found!")
-        return 0
+    for platform, (resolved, bad, missing) in counts.items():
+        print(f'  {platform:<8} resolve {resolved:>5}   MISMATCH {bad:>4}   name not defined {missing:>4}')
 
-    print(f"\n{'='*70}\nRETURN TYPE MISMATCHES: {len(mismatches)} unique\n{'='*70}")
-    for loc, data in mismatches.items():
-        h = data['hook']
-        print(f"\n{h['type']} {h['key']}")
-        print(f"  Hook: {h['file']}:{h['line']} -> {h['ret']}")
-        for d in data['defs']:
-            print(f"  Def:  {d['file']}:{d['line']} -> {d['ret']}")
-    return 1
+    unparsed = [hook for hook in hooks if hook['signature'] is None]
+    if unparsed:
+        print(f'\nSkipped, could not parse: {len(unparsed)}')
+        for hook in unparsed:
+            print(f'  {hook["name"]}  [{hook["where"]}]  {hook["declared"]}')
+
+    if undefined:
+        print(f'\nNAME NOT DEFINED ON SOME PLATFORM: {len(undefined)}'
+              f'  (fails to install unless the hook is behind a platform guard)')
+        for where, (name, platforms) in sorted(undefined.items()):
+            print(f'  {name}  [{where}]  missing on {", ".join(sorted(platforms))}')
+
+    if mismatched:
+        print(f'\nSIGNATURE MISMATCHES: {len(mismatched)}')
+        for where, (hook, per_platform) in sorted(mismatched.items()):
+            print(f'\n{hook["name"]}  [{where}]')
+            print(f'  declared  {hook["declared"]}')
+            print(f'  hook      {describe(hook["signature"])}')
+            for platform in sorted(per_platform):
+                for signature, line in per_platform[platform]:
+                    print(f'  {platform:<8}  {describe(signature)}'
+                          f'   {PLATFORM_SOURCES[platform]}:{line}')
+        return 1
+
+    print('\nEvery hook matches a definition signature on every platform.')
+    return 0
+
 
 if __name__ == '__main__':
     sys.exit(main())
