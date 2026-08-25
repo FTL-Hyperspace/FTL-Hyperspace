@@ -776,8 +776,14 @@ struct Pointf
 	}
 	
 	Pointf operator-(const Pointf& other)
-	{		
+	{
 		return Pointf(x - other.x, y - other.y);
+	}
+
+	// linux64 binds this overload; the Lua bindings are generated from its header
+	Pointf operator-(Pointf *rhs)
+	{
+		return Pointf(x - rhs->x, y - rhs->y);
 	}
 	
 	Pointf operator/(float amount)
