@@ -95,7 +95,7 @@ __thiscall void StarMap::SelectNewSector(StarMap *this, int unk0);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec1c":  // unique sig
 __thiscall void StarMap::GenerateSectorMap(StarMap *this);
 ".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b078b":  // unique sig
-__thiscall void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
+__thiscall void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color& color);
 ".578d7c240883e4f0ff77fc5589e557565389cb8db518":  // unique sig
 __thiscall void StarMap::constructor(StarMap *this);
 ".578d7c240883e4f0ff77fc5589e55756538d85d0":  // unique sig

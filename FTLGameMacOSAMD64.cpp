@@ -4929,12 +4929,12 @@ void CApp::OnKeyDown(SDLKey key)
 namespace _func385
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(SDLKey )), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(int )), ".55", nullptr, 0, 0, &func);
 }
 
-void CApp::OnTextInput(SDLKey key)
+void CApp::OnTextInput(int key)
 {
-	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, SDLKey key_arg);
+	typedef void (*custom_arg_funcptr_t)(CApp *this_arg, int key_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func385::func;
 	return execfunc(this, key);
 }
@@ -20892,12 +20892,12 @@ ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &resources, 
 namespace _func1625
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), ".554889e5415741564155", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, const std::string &)), ".554889e5415741564155", nullptr, 0, 0, &func);
 }
 
-void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName)
+void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName)
 {
-	typedef void (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, std::string &eventName_arg);
+	typedef void (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, const std::string &eventName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1625::func;
 	return execfunc(this, event, node, eventName);
 }
@@ -22589,12 +22589,12 @@ void __stdcall input_acknowledge_suspend_request()
 namespace _func1756
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("random32", typeid(int (*)()), ".554889e548b82d7f954c2df45158", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("random32", typeid(unsigned int (*)()), ".554889e548b82d7f954c2df45158", nullptr, 0, 0, &func);
 }
 
-int __stdcall random32()
+unsigned int __stdcall random32()
 {
-	typedef int (*custom_arg_funcptr_t)();
+	typedef unsigned int (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1756::func;
 	return execfunc();
 }
@@ -22816,12 +22816,12 @@ int Globals::GetDirection(const std::string &dir)
 namespace _func1774
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Globals::GetNextSpaceId_orig", typeid(int (*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Globals::GetNextSpaceId_orig", typeid(unsigned int (*)()), ".55", nullptr, 0, 0, &func);
 }
 
-int Globals::GetNextSpaceId_orig()
+unsigned int Globals::GetNextSpaceId_orig()
 {
-	typedef int (*custom_arg_funcptr_t)();
+	typedef unsigned int (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1774::func;
 	return execfunc();
 }
@@ -40315,12 +40315,12 @@ void SpaceManager::SetPulsarLevel(bool pulsarLevel)
 namespace _func3176
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(char , int )), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(bool , int )), ".55", nullptr, 0, 0, &func);
 }
 
-void SpaceManager::SetPlanetaryDefense(char state, int target)
+void SpaceManager::SetPlanetaryDefense(bool state, int target)
 {
-	typedef void (*custom_arg_funcptr_t)(SpaceManager *this_arg, char state_arg, int target_arg);
+	typedef void (*custom_arg_funcptr_t)(SpaceManager *this_arg, bool state_arg, int target_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3176::func;
 	return execfunc(this, state, target);
 }
@@ -41992,12 +41992,12 @@ void StarMap::CheckGameOver()
 namespace _func3305
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color *)), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color &)), ".55", nullptr, 0, 0, &func);
 }
 
-void StarMap::DrawConnection(const Pointf &position1, const Pointf &position2, const GL_Color *color)
+void StarMap::DrawConnection(const Pointf &position1, const Pointf &position2, const GL_Color &color)
 {
-	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &position1_arg, const Pointf &position2_arg, const GL_Color *color_arg);
+	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &position1_arg, const Pointf &position2_arg, const GL_Color &color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3305::func;
 	return execfunc(this, position1, position2, color);
 }

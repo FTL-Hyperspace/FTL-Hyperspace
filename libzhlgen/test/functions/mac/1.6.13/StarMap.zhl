@@ -143,7 +143,7 @@ cleanup __amd64 void StarMap::SetBossStage(StarMap *this, int stage);
 ".55":  //
 cleanup __amd64 void StarMap::CheckGameOver(StarMap *this);
 ".55":  //
-cleanup __amd64 void StarMap::DrawConnection(StarMap *this, const Pointf& position1, const Pointf& position2, const GL_Color* color);
+cleanup __amd64 void StarMap::DrawConnection(StarMap *this, const Pointf& position1, const Pointf& position2, const GL_Color& color);
 ".55":  //
 cleanup __amd64 void StarMap::OnRender(StarMap *this);
 ".55":  //

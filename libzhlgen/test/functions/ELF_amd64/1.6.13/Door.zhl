@@ -7,7 +7,7 @@ cleanup __amd64 void Door::destructor1(Door *this); // 004969b0 DWARF original p
 ".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f840000000000415741":  // unique sig
 cleanup __amd64 void Door::destructor(Door *this); //00496e00
 "4157415641554589cd415449":  // unique sig
-cleanup __amd64 void Door::constructor(Door *this); //00496e30
+cleanup __amd64 void Door::constructor(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); //00496e30
 "!.554889fd5389f34883ec088bb7cc":  // unique sig
 cleanup __amd64 void Door::SaveState(Door *this, int fd); //00498290
 "!.5589f5534889fb89f74883ec08e8????????89ef8983cc":  // unique sig

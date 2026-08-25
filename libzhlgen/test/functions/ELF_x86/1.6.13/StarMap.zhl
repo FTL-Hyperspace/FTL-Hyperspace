@@ -133,7 +133,7 @@ cleanup __cdecl void StarMap::RenderDistressButtons(StarMap *this);
 "5589e55789c7565381ec7c01000080b88406000000":
 cleanup __regparm1 void StarMap::OnRender(StarMap *this);
 "5589e557565381ec9c0000008b450c8b5d148b50048b00":
-cleanup __cdecl void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
+cleanup __cdecl void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color& color);
 "5589e557565383ec5c8b5d0c8b4320":
 cleanup __cdecl void StarMap::TurnIntoFleetLocation(StarMap *this, Location *loc);
 "5589e557565383ec3c8b45088b5d0c":

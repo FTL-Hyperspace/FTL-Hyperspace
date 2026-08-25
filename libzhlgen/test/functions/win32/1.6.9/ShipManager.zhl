@@ -315,7 +315,7 @@ __thiscall void ShipManager::SetPlayerCrewScale(ShipManager *this, float scale);
 ".578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b07":  // unique sig
 __thiscall void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf pos);
 ".578d7c240883e4f0ff77fc5589e557565389ce83c170":  // unique sig
-__thiscall int ShipManager::constructor(ShipManager *this, int shipId);
+__thiscall void ShipManager::constructor(ShipManager *this, int shipId);
 ".578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c0fb630":  // unique sig
 __thiscall void ShipManager::SetShowWeaponCharge(ShipManager *this, bool val); // 00496590 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b90":  // unique sig

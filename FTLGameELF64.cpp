@@ -16050,14 +16050,14 @@ void Door::destructor()
 namespace _func1243
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Door::constructor", typeid(void (Door::*)()), "4157415641554589cd415449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Door::constructor", typeid(void (Door::*)(int , int , int , int , bool , int , int )), "4157415641554589cd415449", nullptr, 0, 0, &func);
 }
 
-void Door::constructor()
+void Door::constructor(int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId)
 {
-	typedef void (*custom_arg_funcptr_t)(Door *this_arg);
+	typedef void (*custom_arg_funcptr_t)(Door *this_arg, int roomId1_arg, int roomId2_arg, int locX_arg, int locY_arg, bool bVertical_arg, int doorId_arg, int shipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1243::func;
-	return execfunc(this);
+	return execfunc(this, roomId1, roomId2, locX, locY, bVertical, doorId, shipId);
 }
 
 namespace _func1244
@@ -19445,12 +19445,12 @@ std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml_node<char>
 namespace _func1511
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), ".41574989d7415641554989cd415449", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, const std::string &)), ".41574989d7415641554989cd415449", nullptr, 0, 0, &func);
 }
 
-void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName)
+void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName)
 {
-	typedef void (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, std::string &eventName_arg);
+	typedef void (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, const std::string &eventName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1511::func;
 	return execfunc(this, event, node, eventName);
 }
@@ -21050,12 +21050,12 @@ void __stdcall input_acknowledge_suspend_request()
 namespace _func1636
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("random32", typeid(int (*)()), ".48b82d7f954c2df45158480faf05????????4883c001488905????????48c1e821", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("random32", typeid(unsigned int (*)()), ".48b82d7f954c2df45158480faf05????????4883c001488905????????48c1e821", nullptr, 0, 0, &func);
 }
 
-int __stdcall random32()
+unsigned int __stdcall random32()
 {
-	typedef int (*custom_arg_funcptr_t)();
+	typedef unsigned int (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1636::func;
 	return execfunc();
 }
@@ -35282,12 +35282,12 @@ void ShipManager::ImportShip(int file)
 namespace _func2758
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::constructor", typeid(int (ShipManager::*)(int )), ".415741564989fe488dbf", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::constructor", typeid(void (ShipManager::*)(int )), ".415741564989fe488dbf", nullptr, 0, 0, &func);
 }
 
-int ShipManager::constructor(int shipId)
+void ShipManager::constructor(int shipId)
 {
-	typedef int (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
+	typedef void (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2758::func;
 	return execfunc(this, shipId);
 }
@@ -38267,12 +38267,12 @@ void SpaceManager::SetFireLevel(bool state)
 namespace _func2996
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(char , int )), ".41544189f4be20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(bool , int )), ".41544189f4be20", nullptr, 0, 0, &func);
 }
 
-void SpaceManager::SetPlanetaryDefense(char state, int target)
+void SpaceManager::SetPlanetaryDefense(bool state, int target)
 {
-	typedef void (*custom_arg_funcptr_t)(SpaceManager *this_arg, char state_arg, int target_arg);
+	typedef void (*custom_arg_funcptr_t)(SpaceManager *this_arg, bool state_arg, int target_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2996::func;
 	return execfunc(this, state, target);
 }
@@ -39541,12 +39541,12 @@ void StarMap::GenerateSectorMap()
 namespace _func3094
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color *)), ".4157415641554989d541544989f4", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color &)), ".4157415641554989d541544989f4", nullptr, 0, 0, &func);
 }
 
-void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color)
+void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color &color)
 {
-	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &pos1_arg, const Pointf &pos2_arg, const GL_Color *color_arg);
+	typedef void (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &pos1_arg, const Pointf &pos2_arg, const GL_Color &color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3094::func;
 	return execfunc(this, pos1, pos2, color);
 }

@@ -22490,12 +22490,12 @@ namespace _func1618
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("random32", typeid(int (*)()), ".556905????????????????89e556536935????????????????83e4f801c6b8????????f725????????01f283c00183d200a3????????8915????????", argdata, 0, 0, &func);
+	static FunctionDefinition funcObj("random32", typeid(unsigned int (*)()), ".556905????????????????89e556536935????????????????83e4f801c6b8????????f725????????01f283c00183d200a3????????8915????????", argdata, 0, 0, &func);
 }
 
-int __stdcall random32()
+unsigned int __stdcall random32()
 {
-	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)();
+	typedef unsigned int __attribute__((cdecl)) (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1618::func;
 	return execfunc();
 }
@@ -32983,12 +32983,12 @@ namespace _func2385
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Ship::OnInit", typeid(void (Ship::*)(ShipBlueprint &)), ".57b81c", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Ship::OnInit", typeid(void (Ship::*)(ShipBlueprint *)), ".57b81c", argdata, 2, 5, &func);
 }
 
-void Ship::OnInit(ShipBlueprint &bp)
+void Ship::OnInit(ShipBlueprint *bp)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Ship *this_arg, ShipBlueprint &bp_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Ship *this_arg, ShipBlueprint *bp_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2385::func;
 	return execfunc(this, bp);
 }
@@ -37083,12 +37083,12 @@ namespace _func2681
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::constructor", typeid(int (ShipManager::*)(int )), ".578d7c240883e4f0ff77fc5589e557565389ce83c170", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::constructor", typeid(void (ShipManager::*)(int )), ".578d7c240883e4f0ff77fc5589e557565389ce83c170", argdata, 2, 5, &func);
 }
 
-int ShipManager::constructor(int shipId)
+void ShipManager::constructor(int shipId)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2681::func;
 	return execfunc(this, shipId);
 }
@@ -41186,12 +41186,12 @@ namespace _func2982
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(char , int )), ".578d7c240883e4f0ff77fc5589e557565389cb81ecbc0000008b47048b37", argdata, 3, 5, &func);
+	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(bool , int )), ".578d7c240883e4f0ff77fc5589e557565389cb81ecbc0000008b47048b37", argdata, 3, 5, &func);
 }
 
-void SpaceManager::SetPlanetaryDefense(char state, int target)
+void SpaceManager::SetPlanetaryDefense(bool state, int target)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(SpaceManager *this_arg, char state_arg, int target_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(SpaceManager *this_arg, bool state_arg, int target_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2982::func;
 	return execfunc(this, state, target);
 }
@@ -42530,12 +42530,12 @@ namespace _func3078
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color *)), ".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b078b", argdata, 4, 5, &func);
+	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color &)), ".578d7c240883e4f0ff77fc5589e557565381ec8c0000008b078b", argdata, 4, 5, &func);
 }
 
-void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color)
+void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color &color)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &pos1_arg, const Pointf &pos2_arg, const GL_Color *color_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &pos1_arg, const Pointf &pos2_arg, const GL_Color &color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3078::func;
 	return execfunc(this, pos1, pos2, color);
 }

@@ -185,7 +185,7 @@ __thiscall void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec5c0100008b":  // unique sig
 __thiscall void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
 ".57b81c":  // unique sig
-__thiscall void Ship::OnInit(Ship *this, ShipBlueprint& bp);
+__thiscall void Ship::OnInit(Ship *this, ShipBlueprint* bp);
 
 
 "!1ef7ffff(c6841d5afefeff01)":

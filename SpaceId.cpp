@@ -46,7 +46,7 @@ void Globals::SetNextSpaceId(int id)
 }
 
 // Replace original function with mine
-HOOK_STATIC(Globals, GetNextSpaceId_orig, () -> int)
+HOOK_STATIC(Globals, GetNextSpaceId_orig, () -> unsigned int)
 {
     LOG_HOOK("HOOK_STATIC -> Globals::GetNextSpaceId_orig -> Begin (Misc.cpp)\n")
     

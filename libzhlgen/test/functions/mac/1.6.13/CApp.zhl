@@ -57,7 +57,7 @@ cleanup __amd64 void CApp::OnKeyUp(CApp *this, SDLKey key);
 ".55":  //
 cleanup __amd64 void CApp::OnKeyDown(CApp *this, SDLKey key);
 ".55":  //
-cleanup __amd64 void CApp::OnTextInput(CApp *this, SDLKey key);
+cleanup __amd64 void CApp::OnTextInput(CApp *this, int key);
 ".55":  //
 cleanup __amd64 void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
 ".55":  //

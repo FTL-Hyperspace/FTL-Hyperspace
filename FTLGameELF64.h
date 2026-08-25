@@ -6493,7 +6493,7 @@ public:
 	LIBZHL_API void TurnIntoAirlock(int roomId);
 	LIBZHL_API void UpdateAnimations();
 	LIBZHL_API bool ValidTarget(int shipId);
-	LIBZHL_API void constructor();
+	LIBZHL_API void constructor(int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor1();
 	
@@ -7174,7 +7174,7 @@ struct EventsParser
 	LIBZHL_API void OnCleanup();
 	LIBZHL_API static TextString __stdcall ParseTextNode(rapidxml::xml_node<char> *node);
 	LIBZHL_API void ProcessBaseNode(rapidxml::xml_node<char> *node, EventGenerator &generator);
-	LIBZHL_API void ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName);
+	LIBZHL_API void ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::string ProcessEvent(rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::vector<std::pair<std::string, RandomAmount>> ProcessEventCounts(rapidxml::xml_node<char> *node);
 	LIBZHL_API std::vector<std::string> ProcessEventList(rapidxml::xml_node<char> *node, const std::string &listName);
@@ -9244,7 +9244,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void UpgradeSystem(int id, int amount);
 	LIBZHL_API bool ValidTargetPosition(Pointf location);
 	LIBZHL_API void Wait();
-	LIBZHL_API int constructor(int shipId);
+	LIBZHL_API void constructor(int shipId);
 	LIBZHL_API void destructor();
 	LIBZHL_API void destructor2();
 	
@@ -9408,7 +9408,7 @@ struct SpaceManager
 	LIBZHL_API void SetDangerZone(int fleetType);
 	LIBZHL_API void SetFireLevel(bool state);
 	LIBZHL_API void SetNebula(bool state);
-	LIBZHL_API void SetPlanetaryDefense(char state, int target);
+	LIBZHL_API void SetPlanetaryDefense(bool state, int target);
 	LIBZHL_API void SetPulsarLevel(bool pulsarLevel);
 	LIBZHL_API void SetStorm(bool state);
 	LIBZHL_API void StartAsteroids(int shieldCount, bool unk);
@@ -9525,7 +9525,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void DeleteMap();
 	LIBZHL_API std::vector<Location*> Dijkstra(Location *start, Location *finish, bool include_unknown);
 	LIBZHL_API std::vector<Location*> Dijkstra1(Location *start, Location *finish, bool include_unknown);
-	LIBZHL_API void DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color);
+	LIBZHL_API void DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color &color);
 	LIBZHL_API void ForceBossJump();
 	LIBZHL_API void ForceExitBeacon();
 	LIBZHL_API void GenerateEvents(bool tutorial);
@@ -10331,7 +10331,7 @@ LIBZHL_API void __stdcall input_acknowledge_suspend_request();
 LIBZHL_API bool __stdcall input_is_quit_requested();
 LIBZHL_API bool __stdcall input_is_suspend_requested();
 LIBZHL_API void __stdcall input_update();
-LIBZHL_API int __stdcall random32();
+LIBZHL_API unsigned int __stdcall random32();
 LIBZHL_API void __stdcall resource_free(ResourceManager *resmgr, int id);
 LIBZHL_API void *__stdcall resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
 LIBZHL_API Sound *__stdcall resource_get_sound(ResourceManager *resmgr, int id);

@@ -558,7 +558,7 @@ __amd64 bool input_is_suspend_requested();
 __amd64 void input_acknowledge_suspend_request();
 
 ".554889e548b82d7f954c2df45158":
-__amd64 int random32();
+__amd64 unsigned int random32();
 
 ".554889e589f8488905":
 cleanup __amd64 void srandom32(unsigned int seed);

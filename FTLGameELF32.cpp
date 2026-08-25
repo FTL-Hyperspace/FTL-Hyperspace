@@ -8069,15 +8069,15 @@ void Door::destructor()
 namespace _func580
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Door::constructor", typeid(void (Door::*)()), ".5557565381ec2c0100008bac??????????8b84??????????", argdata, 1, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("Door::constructor", typeid(void (Door::*)(int , int , int , int , bool , int , int )), ".5557565381ec2c0100008bac??????????8b84??????????", argdata, 8, 6, &func);
 }
 
-void Door::constructor()
+void Door::constructor(int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Door *this_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Door *this_arg, int roomId1_arg, int roomId2_arg, int locX_arg, int locY_arg, bool bVertical_arg, int doorId_arg, int shipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func580::func;
-	return execfunc(this);
+	return execfunc(this, roomId1, roomId2, locX, locY, bVertical, doorId, shipId);
 }
 
 namespace _func581
@@ -9323,12 +9323,12 @@ namespace _func671
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, std::string &)), "5589e557565383ec7c8d", argdata, 4, 6, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessChoice", typeid(void (EventsParser::*)(EventTemplate *, rapidxml::xml_node<char> *, const std::string &)), "5589e557565383ec7c8d", argdata, 4, 6, &func);
 }
 
-void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName)
+void EventsParser::ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, std::string &eventName_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(EventsParser *this_arg, EventTemplate *event_arg, rapidxml::xml_node<char> *node_arg, const std::string &eventName_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func671::func;
 	return execfunc(this, event, node, eventName);
 }
@@ -10135,12 +10135,12 @@ namespace _func730
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("random32", typeid(int (*)()), "6905????????????????690d????????????????01c1b82d7f954cf725????????01ca83c00183d200a3????????89d08915????????d1e8", argdata, 0, 0, &func);
+	static FunctionDefinition funcObj("random32", typeid(unsigned int (*)()), "6905????????????????690d????????????????01c1b82d7f954cf725????????01ca83c00183d200a3????????89d08915????????d1e8", argdata, 0, 0, &func);
 }
 
-int __stdcall random32()
+unsigned int __stdcall random32()
 {
-	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)();
+	typedef unsigned int __attribute__((cdecl)) (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func730::func;
 	return execfunc();
 }
@@ -15100,12 +15100,12 @@ namespace _func1100
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::constructor", typeid(int (ShipManager::*)(int )), "5557565381ec9c0000008bb424b00000008b9c24b4000000", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("ShipManager::constructor", typeid(void (ShipManager::*)(int )), "5557565381ec9c0000008bb424b00000008b9c24b4000000", argdata, 2, 6, &func);
 }
 
-int ShipManager::constructor(int shipId)
+void ShipManager::constructor(int shipId)
 {
-	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int shipId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1100::func;
 	return execfunc(this, shipId);
 }
@@ -18089,12 +18089,12 @@ namespace _func1322
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(char , int )), "5589e557565381ec9c0000008b5d088b4510", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("SpaceManager::SetPlanetaryDefense", typeid(void (SpaceManager::*)(bool , int )), "5589e557565381ec9c0000008b5d088b4510", argdata, 3, 6, &func);
 }
 
-void SpaceManager::SetPlanetaryDefense(char state, int target)
+void SpaceManager::SetPlanetaryDefense(bool state, int target)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SpaceManager *this_arg, char state_arg, int target_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SpaceManager *this_arg, bool state_arg, int target_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1322::func;
 	return execfunc(this, state, target);
 }
@@ -19545,12 +19545,12 @@ namespace _func1426
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color *)), "5589e557565381ec9c0000008b450c8b5d148b50048b00", argdata, 4, 6, &func);
+	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color &)), "5589e557565381ec9c0000008b450c8b5d148b50048b00", argdata, 4, 6, &func);
 }
 
-void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color)
+void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color &color)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &pos1_arg, const Pointf &pos2_arg, const GL_Color *color_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(StarMap *this_arg, const Pointf &pos1_arg, const Pointf &pos2_arg, const GL_Color &color_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1426::func;
 	return execfunc(this, pos1, pos2, color);
 }

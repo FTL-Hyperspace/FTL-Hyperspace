@@ -13,7 +13,7 @@ cleanup __amd64 void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 ".55":  //
 cleanup __amd64 void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
 ".55":  //
-cleanup __amd64 void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
+cleanup __amd64 void SpaceManager::SetPlanetaryDefense(SpaceManager *this, bool state, int target);
 ".55":  //
 cleanup __amd64 ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
 ".55":  //

@@ -19,7 +19,7 @@ __thiscall void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount
 ".578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b00888188":  // unique sig
 __thiscall void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ecbc0000008b47048b37":  // unique sig
-__thiscall void SpaceManager::SetPlanetaryDefense(SpaceManager *this, char state, int target);
+__thiscall void SpaceManager::SetPlanetaryDefense(SpaceManager *this, bool state, int target);
 ".578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b00888189":  // unique sig
 __thiscall void SpaceManager::SetPulsarLevel(SpaceManager *this, bool pulsarLevel);
 ".0fb69198":  // unique sig

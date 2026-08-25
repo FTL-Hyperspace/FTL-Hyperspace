@@ -1220,7 +1220,7 @@ struct Globals
 	LIBZHL_API static int __stdcall GetDirection(const std::string &dir);
 	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, float heading);
 	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, Pointf dest);
-	LIBZHL_API static int __stdcall GetNextSpaceId_orig();
+	LIBZHL_API static unsigned int __stdcall GetNextSpaceId_orig();
 	LIBZHL_API static float __stdcall GetVectorAngle(Point p);
 	LIBZHL_API static float __stdcall GetVectorAngle(float dx, float dy);
 	LIBZHL_API static Point __stdcall LineCollide(Point p1, Point p2, Point p3, Point p4);
@@ -4958,7 +4958,7 @@ struct CApp : CEvent
 	LIBZHL_API void OnResume();
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
-	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTextInput(int key);
 	LIBZHL_API void OnTouchCancel(int id, int x, int y, int initialX, int initialY);
 	LIBZHL_API void OnTouchDown(int id, int x, int y);
 	LIBZHL_API void OnTouchMove(int id, int x, int y, int initialX, int initialY);
@@ -7743,7 +7743,7 @@ struct EventsParser
 	LIBZHL_API void OnCleanup();
 	LIBZHL_API static TextString __stdcall ParseTextNode(rapidxml::xml_node<char> *node);
 	LIBZHL_API void ProcessBaseNode(rapidxml::xml_node<char> *node, EventGenerator &generator);
-	LIBZHL_API void ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, std::string &eventName);
+	LIBZHL_API void ProcessChoice(EventTemplate *event, rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::string ProcessEvent(rapidxml::xml_node<char> *node, const std::string &eventName);
 	LIBZHL_API std::vector<std::pair<std::string, RandomAmount>> ProcessEventCounts(rapidxml::xml_node<char> *node);
 	LIBZHL_API std::vector<std::string> ProcessEventList(rapidxml::xml_node<char> *node, const std::string &listName);
@@ -10034,7 +10034,7 @@ struct SpaceManager
 	LIBZHL_API void SetDangerZone(int fleetType);
 	LIBZHL_API void SetFireLevel(bool state);
 	LIBZHL_API void SetNebula(bool state);
-	LIBZHL_API void SetPlanetaryDefense(char state, int target);
+	LIBZHL_API void SetPlanetaryDefense(bool state, int target);
 	LIBZHL_API void SetPulsarLevel(bool pulsarLevel);
 	LIBZHL_API void SetStorm(bool state);
 	LIBZHL_API void StartAsteroids(int shieldCount, bool defense);
@@ -10167,7 +10167,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void ConnectLocations(Point grid1, Point grid2);
 	LIBZHL_API void DeleteMap();
 	LIBZHL_API std::vector<Location*> Dijkstra(Location *start, Location *finish, bool include_unknown);
-	LIBZHL_API void DrawConnection(const Pointf &position1, const Pointf &position2, const GL_Color *color);
+	LIBZHL_API void DrawConnection(const Pointf &position1, const Pointf &position2, const GL_Color &color);
 	LIBZHL_API void ForceBossJump();
 	LIBZHL_API void ForceExitBeacon();
 	LIBZHL_API void GenerateEvents(bool bTutorial);
@@ -11044,7 +11044,7 @@ LIBZHL_API void __stdcall input_acknowledge_suspend_request();
 LIBZHL_API bool __stdcall input_is_quit_requested();
 LIBZHL_API bool __stdcall input_is_suspend_requested();
 LIBZHL_API void __stdcall input_update();
-LIBZHL_API int __stdcall random32();
+LIBZHL_API unsigned int __stdcall random32();
 LIBZHL_API void __stdcall resource_free(ResourceManager *resmgr, int id);
 LIBZHL_API void *__stdcall resource_get_data(ResourceManager *resmgr, int id, int *size_ret);
 LIBZHL_API Sound *__stdcall resource_get_sound(ResourceManager *resmgr, int id);

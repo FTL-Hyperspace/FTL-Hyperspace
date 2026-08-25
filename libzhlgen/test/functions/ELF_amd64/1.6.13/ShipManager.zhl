@@ -439,7 +439,7 @@ cleanup __amd64 int ShipManager::OnInit(ShipManager *this, ShipBlueprint *bp, in
 ".415741564189f64155415455534889fb4c":  // unique sig
 cleanup __amd64 void ShipManager::ImportShip(ShipManager *this, int file);
 ".415741564989fe488dbf":  // unique sig
-cleanup __amd64 int ShipManager::constructor(ShipManager *this, int shipId);
+cleanup __amd64 void ShipManager::constructor(ShipManager *this, int shipId);
 ".415641554989fd4154555348c7":  // unique sig
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
 ".534889fbe8????????4889df5be9????????66666666662e0f1f8400000000004883ef10ebda662e0f1f84000000000048":  // unique sig

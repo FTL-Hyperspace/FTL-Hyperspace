@@ -5,7 +5,7 @@ cleanup __cdecl bool Door::ApplyDamage(Door *this, float amount); //080e23d0
 "!.5383ec188b5c????891c??e8????????895c????83c4185b":
 cleanup __cdecl void Door::destructor(Door *this); //080e28a0
 ".5557565381ec2c0100008bac??????????8b84??????????":
-cleanup __cdecl void Door::constructor(Door *this); //080e28d0
+cleanup __cdecl void Door::constructor(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); //080e28d0
 ".565383ec148b7424208b5c24248b8658":
 cleanup __cdecl void Door::SaveState(Door *this, int fd); //080e3d30
 "565383ec148b7424248b5c2420893424e8????12":

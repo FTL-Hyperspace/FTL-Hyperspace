@@ -95,7 +95,7 @@ cleanup __amd64 void StarMap::SelectNewSector(StarMap *this, int unk0);
 ".415741564155415455534889fb4881ec1801000048":  // unique sig
 cleanup __amd64 void StarMap::GenerateSectorMap(StarMap *this);
 ".4157415641554989d541544989f4":  // unique sig
-cleanup __amd64 void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
+cleanup __amd64 void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color& color);
 ".415741564989fe41554154554889d5":  // unique sig
 cleanup __amd64 void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
 ".41554154554889fd534889f34883ec3848":  // unique sig

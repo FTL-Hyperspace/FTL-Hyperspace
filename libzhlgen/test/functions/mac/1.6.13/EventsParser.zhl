@@ -37,7 +37,7 @@ static cleanup __amd64 TextString EventsParser::ParseTextNode(rapidxml::xml_node
 ".55":  //
 cleanup __amd64 ResourcesTemplate EventsParser::ProcessModifyItem(EventsParser *this, ResourcesTemplate& resources, rapidxml::xml_node<char>* node, const std::string& origin);
 ".554889e5415741564155":  //
-cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,std::string& eventName);
+cleanup __amd64 void EventsParser::ProcessChoice(EventsParser *this,EventTemplate *event,rapidxml::xml_node<char> *node,const std::string& eventName);
 ".5548":  //
 cleanup __amd64 void EventsParser::OnCleanup(EventsParser *this); // 1001b81d0 Linux DWARF prototype catalog by linkage
 ".55":  //
