@@ -1210,7 +1210,7 @@ struct Globals
 	LIBZHL_API static int __stdcall GetDirection(const std::string &dir);
 	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, float heading);
 	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, Pointf dest);
-	LIBZHL_API static unsigned int __stdcall GetNextSpaceId_orig();
+	LIBZHL_API static int __stdcall GetNextSpaceId_orig();
 	LIBZHL_API static float __stdcall GetVectorAngle(Point p);
 	LIBZHL_API static float __stdcall GetVectorAngle(float dx, float dy);
 	LIBZHL_API static Point __stdcall LineCollide(Point p1, Point p2, Point p3, Point p4);

@@ -22796,12 +22796,12 @@ int Globals::GetDirection(const std::string &dir)
 namespace _func1773
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Globals::GetNextSpaceId_orig", typeid(unsigned int (*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Globals::GetNextSpaceId_orig", typeid(int (*)()), ".55", nullptr, 0, 0, &func);
 }
 
-unsigned int Globals::GetNextSpaceId_orig()
+int Globals::GetNextSpaceId_orig()
 {
-	typedef unsigned int (*custom_arg_funcptr_t)();
+	typedef int (*custom_arg_funcptr_t)();
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1773::func;
 	return execfunc();
 }

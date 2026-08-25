@@ -9,7 +9,7 @@ static cleanup __amd64 float Globals::AngleDifference(float angle1, float angle2
 ".55":  //
 static cleanup __amd64 int Globals::GetDirection(const std::string &dir); // 100154860 Linux DWARF prototype catalog
 ".55":  //
-static cleanup __amd64 unsigned int Globals::GetNextSpaceId_orig(); // 1001548e0 Linux DWARF prototype catalog by linkage
+static cleanup __amd64 int Globals::GetNextSpaceId_orig(); // actually returns unsigned int, 1001548e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 int Globals::StringToItem(const std::string &name); // 100154910 Linux DWARF prototype catalog
 ".55":  //
