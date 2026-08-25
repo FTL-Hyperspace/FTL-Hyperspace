@@ -297,7 +297,7 @@ CustomCloneSystem::CloneLevel& CustomCloneSystem::GetLevel(CloneSystem* sys, boo
     return GetLevel(power);
 }
 
-HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
+HOOK_STATIC(ShipSystem, NameToSystemId, (const std::string& name) -> int)
 {
     LOG_HOOK("HOOK_STATIC -> ShipSystem::NameToSystemId -> Begin (CustomSystems.cpp)\n")
     if (name == "temporal")

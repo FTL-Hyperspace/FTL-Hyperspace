@@ -426,7 +426,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
     return ret;
 }
 
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, bool ignoreUnique, int seed) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (Seeds.cpp)\n")
     if (boost::algorithm::starts_with(name, "QUEST\t")) //loading a saved quest

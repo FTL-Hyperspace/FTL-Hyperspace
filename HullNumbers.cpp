@@ -217,9 +217,10 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     }
 }
 
-HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
+HOOK_METHOD(ResourceControl, GetImageId, (const std::string& pathIn) -> GL_Texture*)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (HullNumbers.cpp)\n")
+    std::string path = pathIn; // the game passes its own string as const
     if (path == "combatUI/box_hostiles2.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
     {
         path.assign("combatUI/box_hostiles2_numbers.png");

@@ -3432,7 +3432,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
     return ret;
 }
 
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, bool ignoreUnique, int seed) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (CustomEvents.cpp)\n")
     if (questOverrideWorldLevel > -1)
@@ -3582,7 +3582,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
 static Location* originalExit = nullptr;
 
-HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     originalExit = nullptr;
@@ -4999,9 +4999,10 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
+HOOK_METHOD(StarMap, GetLocationText, (const Location* locIn) -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (CustomEvents.cpp)\n")
+    Location* loc = const_cast<Location*>(locIn); // edited around super() below, then restored
     struct LocLabelValues
     {
         bool questLoc;
@@ -5136,9 +5137,10 @@ HOOK_METHOD(StarMap, GetLocationText, (Location* loc) -> std::string)
     return retStr;
 }
 
-HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
+HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& namesIn) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    std::vector<std::string> names = namesIn; // binary takes this by value, so edits stay local
     if (names.size() > locations.size())
     {
         names.resize(locations.size());
@@ -5253,9 +5255,10 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
     }
 }
 
-HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (std::vector<std::string>& names) -> void)
+HOOK_METHOD_PRIORITY(StarMap, GenerateNebulas, 9998, (const std::vector<std::string>& namesIn) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
+    std::vector<std::string> names = namesIn; // binary takes this by value, so edits stay local
     // rewrite to fix the issue where an event of a beacon is overwritten by nebula, resulting in priority events being not guaranteed to be generated.
     if (names.empty()) return;
 
@@ -5507,7 +5510,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     return super(unk);
 }
 
-HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     if (!sectorChange.empty() && bSecretSector)
@@ -6607,13 +6610,13 @@ std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, bool includeNoSlot)
     return HS_GetEligibleCrewList(iShipId, std::vector<std::string>{}, includeNoSlot);
 }
 
-std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, std::string &racePref, bool includeNoSlot)
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, const std::string &racePref, bool includeNoSlot)
 {
     if (racePref == "random") return HS_GetEligibleCrewList(iShipId, includeNoSlot);
     return HS_GetEligibleCrewList(iShipId, std::vector<std::string>{racePref}, includeNoSlot);
 }
 
-std::vector<std::string> HS_GetRecursiveBlueprintList(std::string &bp)
+std::vector<std::string> HS_GetRecursiveBlueprintList(const std::string &bp)
 {
     std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(bp);
 
@@ -6629,7 +6632,7 @@ std::vector<std::string> HS_GetRecursiveBlueprintList(std::string &bp)
     return blueprintList;
 }
 
-std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref, bool randomRaceAllowed, bool noSlotAllowed, bool noSlotForbidden)
+std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, const std::string &racePref, bool randomRaceAllowed, bool noSlotAllowed, bool noSlotForbidden)
 {
     noSlotForbidden |= noSlotAllowed;
 
@@ -6749,7 +6752,7 @@ void HS_ShuffleSortCrewList(std::vector<CrewMember*> &crewList, float minPriorit
     }
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
+HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, const std::string &racePref) -> CrewBlueprint)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
     std::string species = racePref;
@@ -6770,7 +6773,7 @@ HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string 
     return bp;
 }
 
-HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> CrewBlueprint)
+HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, const std::string &racePref) -> CrewBlueprint)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
     if (this->CountCrew(false) == 0 && this->bAutomated)

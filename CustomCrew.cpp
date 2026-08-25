@@ -3418,7 +3418,7 @@ HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId,
 }
 
 
-HOOK_STATIC(CrewMemberFactory, IsRace, (std::string& race) -> bool)
+HOOK_STATIC(CrewMemberFactory, IsRace, (const std::string& race) -> bool)
 {
     LOG_HOOK("HOOK_STATIC -> CrewMemberFactory::IsRace -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();

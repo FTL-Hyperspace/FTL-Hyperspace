@@ -158,7 +158,7 @@ HOOK_STATIC(DroneSystem, StringToDrone, (std::string &name) ->  int)
 
 //====================================================
 
-HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)
+HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, const DroneBlueprint *bp) -> BoarderDrone*)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateBoarderDrone -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(bp->name);

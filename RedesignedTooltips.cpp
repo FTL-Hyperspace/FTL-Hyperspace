@@ -1081,7 +1081,7 @@ HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
     super(x, y, w, h);
 }
 
-HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
+HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint* bp, int yShift, bool detailedCrew) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintCrew -> Begin (RedesignedTooltips.cpp)\n")
 //    if (CustomOptionsManager::GetInstance()->redesignedCrewTooltips.currentValue)

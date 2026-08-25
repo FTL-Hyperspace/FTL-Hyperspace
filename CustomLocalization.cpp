@@ -594,7 +594,7 @@ HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float fin
 // Since the loading bar is rendered with this function and there's only
 // one call of it inside ResourceControl::RenderLoadingBar, we can fix
 // the positioning here
-HOOK_METHOD(CSurface, GL_BlitImagePartial, (GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror) -> bool)
+HOOK_STATIC(CSurface, GL_BlitImagePartial, (GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CSurface::GL_BlitImagePartial -> Begin (CustomLocalization.cpp)\n")
     
