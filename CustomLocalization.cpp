@@ -596,7 +596,7 @@ HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float fin
 // the positioning here
 HOOK_STATIC(CSurface, GL_BlitImagePartial, (GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> CSurface::GL_BlitImagePartial -> Begin (CustomLocalization.cpp)\n")
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_BlitImagePartial -> Begin (CustomLocalization.cpp)\n")
     
     if (g_fixJpLoadBarPos) y += 3;
     return super(tex, x, y, size_x, size_y, start_x, end_x, start_y, end_y, alpha, color, mirror);

@@ -115,9 +115,9 @@ void ShipManager_Extend::Initialize(bool restarting)
 
 HOOK_METHOD_PRIORITY(ShipManager, ResetScrapLevel, 9999, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ResetScrapLevel -> Begin (CustomShips.cpp)\n")
     // On x86_64, super() can read the wrong difficulty because detours.h does not relocate RIP-relative DISP32 addresses correctly
     // Workaround: re-implement the vanilla scrap initialization here (it would be preferable to fix detours.h instead)
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::ResetScrapLevel -> Begin (CustomShips.cpp)\n")
     currentScrap = 30;
     if (*Global::difficulty == 1)
     {

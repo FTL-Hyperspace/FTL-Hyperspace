@@ -473,7 +473,7 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
 }
 HOOK_METHOD(StoreBox, constructor, (const std::string& buttonImage, ShipManager *shopper, Equipment *equip) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StoreBox::constructor -> Begin (CustomSystems.cpp)\n");
+    LOG_HOOK("HOOK_METHOD -> StoreBox::constructor -> Begin (CustomSystems.cpp)\n")
     std::string image = sellingSubSystem ? "storeUI/store_subsystems" : buttonImage;
     return super(image, shopper, equip);
 }
