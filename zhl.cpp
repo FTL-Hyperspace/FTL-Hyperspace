@@ -83,7 +83,7 @@ FunctionHook_private::FunctionHook_private(const char *name, const std::type_inf
 {
     SetName(name, type.name());
     memcpy(&_outInternalSuper, &outInternalSuper, POINTER_BYTES);
-	strcpy(_name, name);
+	snprintf(_plainName, sizeof(_plainName), "%s", name);
 	Add(this);
 }
 
@@ -120,10 +120,18 @@ FunctionHook_private::~FunctionHook_private()
 
 int FunctionHook_private::Install()
 {
+	// Matched on name plus signature, so a hook always lands on the overload it
+	// declared and never on one whose arguments or return type it gets wrong.
 	FunctionDefinition *def = dynamic_cast<FunctionDefinition*>(Definition::Find(_name)); // function definition
 	if(!def)
 	{
-		snprintf(g_hookLastError, 1024, "Failed to install hook for %s: Function not found", _name);
+		// The bare name still resolving means the hook named a real function and
+		// described it wrongly; saying "not found" about a function that plainly
+		// exists would send people looking in the wrong place.
+		if(Definition::Find(_plainName))
+			snprintf(g_hookLastError, 1024, "Failed to install hook for %s: no definition matches the signature it declares (%s)", _plainName, _name);
+		else
+			snprintf(g_hookLastError, 1024, "Failed to install hook for %s: Function not found", _plainName);
 		return 0;
 	}
 
@@ -305,7 +313,7 @@ int FunctionHook_private::Install()
 	}
 	catch(MologieDetours::DetourException &e)
 	{
-		snprintf(g_hookLastError, 1024, "Failed to install hook for %s: %s", _name, e.what());
+		snprintf(g_hookLastError, 1024, "Failed to install hook for %s: %s", _plainName, e.what());
 		return 0;
 	}
 	void *original = ((MologieDetours::Detour<void*>*)_detour)->GetOriginalFunction();
@@ -470,7 +478,7 @@ int FunctionHook_private::Install()
 	*_outInternalSuper = original;
 #endif // __amd64__
 
-	Log("Successfully hooked function %s\n", _name);
+	Log("Successfully hooked function %s\n", _plainName);
 #ifdef __amd64__
 	Log("HookAddress: " PTR_PRINT_F ", SuperAddress: " PTR_PRINT_F "\n\n", (uintptr_t) _hook, (uintptr_t) original);
 #endif // __amd64__
@@ -478,7 +486,7 @@ int FunctionHook_private::Install()
 #ifdef DEBUG
     Log("InternalHookAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalHook);
 #endif // DEBUG
-	Log("%s\ninternalHook:\n", _name);
+	Log("%s\ninternalHook:\n", _plainName);
     
 	for(unsigned int i=0 ; i<_hSize ; ++i)
 		Log("%02x ", _internalHook[i]);

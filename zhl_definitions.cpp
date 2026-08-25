@@ -58,14 +58,13 @@ void ZHL::Log(const char *format, ...)
 	va_end(va);
 }
 
-// Buffer overflow fix reportet by asan
+// Builds the key a definition is registered under and a hook looks up: the plain
+// name followed by the mangled signature, so overloads stay apart. Reads type in
+// place; the 128-byte copy this used to make cut the signature at 127 characters,
+// which would give two signatures differing only past the cut the same key.
 const char *ZHL::ConvertToUniqueName(char *dst, size_t Size, const char *name, const char *type)
 {
-	// Ensure tmp is null-terminated
-    char tmp[128] = {0}; // Zero-initialize
-    strncpy(tmp, type, sizeof(tmp) - 1); // Leave space for null terminator
-
-	const char *p = tmp;
+	const char *p = type;
 	if (p[0] == '.')
 	{
 		++p;
@@ -81,9 +80,11 @@ const char *ZHL::ConvertToUniqueName(char *dst, size_t Size, const char *name, c
 
 	// Safely concatenate (truncate if needed)
 	int written = snprintf(dst, Size, "%s%s", name, p);
-	if (written >= Size) 
+	if (written < 0 || (size_t)written >= Size)
 	{
 		dst[Size - 1] = '\0'; // Ensure null-termination
+		// Two signatures that only differ past the cut would now share a key.
+		Log("Warning: unique name for %s truncated to %zu bytes\n", name, Size - 1);
 	}
 	return dst;
 }
@@ -136,6 +137,13 @@ Definition *Definition::Find(const char *name)
 void Definition::Add(const char *name, Definition *def)
 {
 	Defs().push_back(def);
+	AddAlias(name, def);
+}
+
+void Definition::AddAlias(const char *name, Definition *def)
+{
+	// insert() keeps the incumbent, so when several definitions share a key the
+	// first one registered stays reachable and the rest are shadowed.
 	DefsByName().insert(std::pair<std::string, Definition*>(name, def));
 }
 
@@ -238,10 +246,14 @@ FunctionDefinition::FunctionDefinition(const char *name, const std::type_info &t
 
 
     SetName(name, type.name());
-    strcpy(_name, name);
+    snprintf(_plainName, sizeof(_plainName), "%s", name);
     strcpy(_sig, sig);
 
-    Add(_name, this);
+    // Registered under both keys: the signature-qualified one that hooks match
+    // on, and the plain name, which Install() consults only to tell a wrong
+    // signature apart from a name that does not exist at all.
+    Add(_plainName, this);
+    AddAlias(_name, this);
 
 }
 
@@ -252,19 +264,19 @@ int FunctionDefinition::Load()
 	if(!sig.Scan())
 	{
 	#ifdef _WIN32
-		if (strncmp(_name, "AchievementTracker::", 20) == 0)
+		if (strncmp(_plainName, "AchievementTracker::", 20) == 0)
 		{
-			snprintf(g_defLastError, 1024, "Failed to find address for function %s\n\nFTL has most likely not been downgraded. If you got FTL from Steam, please run downgrade.bat in your FTL folder and then run FTLGame.exe again. If you obtained FTL elsewhere, please read the Hyperspace instructions for downgrading FTL.", _name);
+			snprintf(g_defLastError, 1024, "Failed to find address for function %s\n\nFTL has most likely not been downgraded. If you got FTL from Steam, please run downgrade.bat in your FTL folder and then run FTLGame.exe again. If you obtained FTL elsewhere, please read the Hyperspace instructions for downgrading FTL.", _plainName);
 			return 0;
 		}
 	#endif // _WIN32
-		snprintf(g_defLastError, 1024, "Failed to find address for function %s", _name);
+		snprintf(g_defLastError, 1024, "Failed to find address for function %s", _plainName);
 		return 0;
 	}
 
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
-	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, (uintptr_t)_address, sig.GetDistance());
+	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _plainName, (uintptr_t)_address, sig.GetDistance());
 
 	return 1;
 }
