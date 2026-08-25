@@ -8976,7 +8976,7 @@ struct ShipManager : ShipObject
 	{
 		return this->ship.GetSelectedRoomId(x, y, bIncludeWalls);
 	}
-	
+
 	inline void LockdownRoom(int roomId, Pointf position)
 	{
 		return this->ship.LockdownRoom(roomId, position);
@@ -8994,10 +8994,10 @@ struct ShipManager : ShipObject
 	}
 
 	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
-	{   
+	{
 		if (this->HasAugmentation(augment) != 0)
 		{
-			/* 
+			/*
 			Begin: inline int randNumber(int min, int max)
 			Begin: inline int Get(RandomNumberGenerator * this)
 			if (Globals::RNG.useSysRand == false) {
@@ -9026,7 +9026,7 @@ struct ShipManager : ShipObject
 	int SystemWillReplace(int systemId);
 
 	bool CanFitCrew(const std::string& crewName);
-
+	bool CanFitSubsystem(int systemId);
 
 	LIBZHL_API void AccelerateJumpTrack();
 	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
@@ -9043,7 +9043,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void Blowup();
 	LIBZHL_API void CalculateDamage(float x, float y, Damage damage);
 	LIBZHL_API bool CanCloak();
-	LIBZHL_API bool CanFitSubsystem(int systemId);
+	LIBZHL_API bool CanFitSubsystem();
 	LIBZHL_API bool CanFitSystem(int systemId);
 	LIBZHL_API bool CanReceiveTeleport();
 	LIBZHL_API int CanUpgrade(int systemId, int amount);

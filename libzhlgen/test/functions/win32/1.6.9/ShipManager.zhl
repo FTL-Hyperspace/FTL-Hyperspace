@@ -31,7 +31,7 @@ __thiscall void ShipManager::UpgradeAll(ShipManager *this); // 004904f0 DWARF or
 ".5589e557565383e4f083ec108b450883":  // unique sig
 __thiscall bool ShipManager::CanFitSystem(ShipManager *this, int systemId);
 ".5589e557565383e4f083ec108b791c8b511889f829d0c1f80285c074??894c240c31db31f6eb??89f68dbc27000000000fb681180100003c0189f883d60029d083c301c1f80239c373??8b0c9a8b018b80a00000003d????????74??ffd08b7c240c8b57188b7f1ceb??8d":  // unique sig
-cleanup bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>, int systemId);
+cleanup bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>);
 ".c20400908db6000000008dbf0000000056":  // unique sig
 __thiscall void ShipManager::HackingIonPulse(ShipManager *this, ShipSystem *_sil__DO_NOT_USE_system); // 00490700 DWARF original prototype
 ".56660fefc0":  // unique sig
@@ -541,5 +541,5 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	int SystemWillReplace(int systemId);
 
 	bool CanFitCrew(const std::string& crewName);
-
+	bool CanFitSubsystem(int systemId);
 }};

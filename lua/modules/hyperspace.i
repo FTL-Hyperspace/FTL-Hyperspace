@@ -1609,6 +1609,7 @@ We can expose them once the root cause is identified and the crash is fixed.
 %rename("%s") ShipManager::RemoveSystem;
 %rename("%s") ShipManager::AddWeapon;
 %rename("%s") ShipManager::CanFitSubsystem;
+%rename("$ignore") ShipManager::CanFitSubsystem(); // We can expose this if needed
 %rename("%s") ShipManager::CanFitSystem;
 %rename("%s") ShipManager::CanUpgrade;
 %rename("%s") ShipManager::ClearStatusAll;

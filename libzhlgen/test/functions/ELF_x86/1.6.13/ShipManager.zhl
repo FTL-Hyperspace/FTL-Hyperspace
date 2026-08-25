@@ -170,7 +170,7 @@ cleanup __cdecl bool ShipManager::SystemFunctions(ShipManager *this, int systemI
 "57565383ec108b4424248b7c242083f805":
 cleanup __cdecl bool ShipManager::CanFitSystem(ShipManager *this, int systemId);
 "57565383ec108b7c24208b57188b471c":
-cleanup __cdecl bool ShipManager::CanFitSubsystem(ShipManager *this, int systemId);
+cleanup __cdecl bool ShipManager::CanFitSubsystem(ShipManager *this);
 "565383ec148b5c24208b7424288b03891c24":
 cleanup __cdecl int ShipManager::DamageHull(ShipManager *this, int dmg, bool force);
 "5589e557565383ec6c8b45248b7d088b5d10":
@@ -288,10 +288,10 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	}
 
 	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
-	{   
+	{
 		if (this->HasAugmentation(augment) != 0)
 		{
-			/* 
+			/*
 			Begin: inline int randNumber(int min, int max)
 			Begin: inline int Get(RandomNumberGenerator * this)
 			if (Globals::RNG.useSysRand == false) {
@@ -317,5 +317,5 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	int SystemWillReplace(int systemId);
 
 	bool CanFitCrew(const std::string& crewName);
-
+	bool CanFitSubsystem(int systemId);
 }};

@@ -35200,11 +35200,11 @@ bool ShipManager::CanFitSystem(int systemId)
 namespace _func2545
 {
     static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::CanFitSubsystem", typeid(bool (ShipManager::*)(int )), ".5589e557565383e4f083ec108b791c8b511889f829d0c1f80285c074??894c240c31db31f6eb??89f68dbc27000000000fb681180100003c0189f883d60029d083c301c1f80239c373??8b0c9a8b018b80a00000003d????????74??ffd08b7c240c8b57188b7f1ceb??8d", argdata, 2, 3, &func);
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("ShipManager::CanFitSubsystem", typeid(bool (ShipManager::*)()), ".5589e557565383e4f083ec108b791c8b511889f829d0c1f80285c074??894c240c31db31f6eb??89f68dbc27000000000fb681180100003c0189f883d60029d083c301c1f80239c373??8b0c9a8b018b80a00000003d????????74??ffd08b7c240c8b57188b7f1ceb??8d", argdata, 1, 3, &func);
 }
 
-FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
+FUNC_NAKED bool ShipManager::CanFitSubsystem()
 {
 	__asm__
 	(
@@ -35215,10 +35215,8 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 		"pushl %%ebx\n\t"
 		"pushl %%esi\n\t"
 		"pushl %%edi\n\t"
-		"pushl 8(%%ebp)\n\t"		// systemId
 			// ecx has this
 		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
 		"popl %%edi\n\t"
 		"popl %%esi\n\t"
 		"popl %%ebx\n\t"
@@ -35226,7 +35224,7 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 		"popl %%edx\n\t"
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
-		"ret $4\n\t"
+		"ret\n\t"
 		 :: "m"(_func2545::func)
 	);
 }

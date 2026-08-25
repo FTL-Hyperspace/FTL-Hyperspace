@@ -7485,10 +7485,10 @@ struct ShipManager : ShipObject
 	}
 
 	bool ResistDamage(const std::string& augment) // Called in DamageArea & DamageBeam
-	{   
+	{
 		if (this->HasAugmentation(augment) != 0)
 		{
-			/* 
+			/*
 			Begin: inline int randNumber(int min, int max)
 			Begin: inline int Get(RandomNumberGenerator * this)
 			if (Globals::RNG.useSysRand == false) {
@@ -7514,7 +7514,7 @@ struct ShipManager : ShipObject
 	int SystemWillReplace(int systemId);
 
 	bool CanFitCrew(const std::string& crewName);
-
+	bool CanFitSubsystem(int systemId);
 
 	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
@@ -7524,7 +7524,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
 	LIBZHL_API int AddSystem(int systemId);
 	LIBZHL_API int AddWeapon(const WeaponBlueprint *bp, int slot);
-	LIBZHL_API bool CanFitSubsystem(int systemId);
+	LIBZHL_API bool CanFitSubsystem();
 	LIBZHL_API bool CanFitSystem(int systemId);
 	LIBZHL_API int CanUpgrade(int systemId, int amount);
 	LIBZHL_API void CheckCrystalAugment(Pointf pos);

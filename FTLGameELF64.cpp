@@ -32763,14 +32763,14 @@ bool ShipManager::CanFitSystem(int systemId)
 namespace _func2561
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::CanFitSubsystem", typeid(bool (ShipManager::*)(int )), ".41544989fc5553488b57", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::CanFitSubsystem", typeid(bool (ShipManager::*)()), ".41544989fc5553488b57", nullptr, 0, 0, &func);
 }
 
-bool ShipManager::CanFitSubsystem(int systemId)
+bool ShipManager::CanFitSubsystem()
 {
-	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
+	typedef bool (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2561::func;
-	return execfunc(this, systemId);
+	return execfunc(this);
 }
 
 namespace _func2562

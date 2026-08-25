@@ -9020,7 +9020,7 @@ struct ShipManager : ShipObject
 	int SystemWillReplace(int systemId);
 
 	bool CanFitCrew(const std::string& crewName);
-
+	bool CanFitSubsystem(int systemId);
 
 	LIBZHL_API void AccelerateJumpTrack();
 	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
@@ -9036,7 +9036,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void Blowup();
 	LIBZHL_API void CalculateDamage(float x, float y, Damage damage);
 	LIBZHL_API bool CanCloak();
-	LIBZHL_API bool CanFitSubsystem(int systemId);
+	LIBZHL_API bool CanFitSubsystem();
 	LIBZHL_API bool CanFitSystem(int systemId);
 	LIBZHL_API bool CanReceiveTeleport();
 	LIBZHL_API int CanUpgrade(int systemId, int amount);

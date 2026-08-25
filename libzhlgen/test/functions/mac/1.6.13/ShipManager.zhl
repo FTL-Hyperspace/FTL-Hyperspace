@@ -47,7 +47,7 @@ cleanup __amd64 void ShipManager::UpgradeAll(ShipManager *this); // 100084610 Li
 ".55":  //
 cleanup __amd64 bool ShipManager::CanFitSystem(ShipManager *this, int systemId);
 ".55":  //
-cleanup __amd64 bool ShipManager::CanFitSubsystem(ShipManager *this, int systemId); // cant see int systemId from ghidra... 100084720 Linux DWARF prototype catalog by linkage
+cleanup __amd64 bool ShipManager::CanFitSubsystem(ShipManager *this); // 100084720 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ShipManager::AddInitialCrew(ShipManager *this, std::vector<CrewBlueprint>& blueprints);
 ".5548":  //
@@ -536,4 +536,5 @@ struct ShipManager depends (PowerManager, ShieldPower)
 	void RemoveSystem(int systemId);
 	int SystemWillReplace(int systemId);
 	bool CanFitCrew(const std::string& crewName);
+	bool CanFitSubsystem(int systemId);
 }};

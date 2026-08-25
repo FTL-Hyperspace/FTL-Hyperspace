@@ -16247,15 +16247,15 @@ bool ShipManager::CanFitSystem(int systemId)
 namespace _func1182
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::CanFitSubsystem", typeid(bool (ShipManager::*)(int )), "57565383ec108b7c24208b57188b471c", argdata, 2, 2, &func);
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("ShipManager::CanFitSubsystem", typeid(bool (ShipManager::*)()), "57565383ec108b7c24208b57188b471c", argdata, 1, 2, &func);
 }
 
-bool ShipManager::CanFitSubsystem(int systemId)
+bool ShipManager::CanFitSubsystem()
 {
-	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1182::func;
-	return execfunc(this, systemId);
+	return execfunc(this);
 }
 
 namespace _func1183
