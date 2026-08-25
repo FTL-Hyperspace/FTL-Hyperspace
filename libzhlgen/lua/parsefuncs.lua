@@ -1153,7 +1153,10 @@ using namespace ZHL;
                 if func.memPassedPointer then flags = flags + 16 end
             end
             if func.forceDetour then flags = flags + 32 end
-            
+            -- A noHook definition only pins an address; it declares no arguments
+            -- and generates no callable method, so its type describes nothing.
+            if func.noHook then flags = flags + 64 end
+
             local funcptr
             if func.static or isGlobal then
                 funcptr = string.format("%s(*)(%s)", func:toString(), argsToString(func, false))

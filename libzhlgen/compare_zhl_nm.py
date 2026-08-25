@@ -84,6 +84,27 @@ INTENTIONAL_MISMATCHES = [
     ('{class}::{method_nm}3', '{class}::{method_nm}'),  # ZHL numbered overloads
 ]
 
+# Names whose declared type says nothing about the address they hold: anchors
+# only keep a relative scan in step, NoHook entries point somewhere deliberately,
+# and a variadic template's parameter pack is not written out on the ZHL side.
+UNCHECKED_CALL_RE = re.compile(r'DO_NOT_HOOK|NoHook|__STRUCT_OVERRIDE_ANCHOR|_template_')
+
+# Argument counts that differ from the binary on purpose, or that this check
+# cannot read correctly.
+UNCHECKED_CALL_NAMES = {
+    # binary: LineRectCollide(Globals::Rect, Point, Point)
+    # win32 also declares the hidden pointer x86 returns the Point through.
+    'Globals::LineRectCollide',
+    # binary: ConnectedGridSquares(int, int, int, int) and ConnectingDoor likewise
+    # Declared as two Points, which is the same stack layout on x86.
+    'ShipGraph::ConnectedGridSquaresPoint',
+    'ShipGraph::ConnectingDoor',
+    # binary: CanFitSubsystem()
+    # The int is HS's own and Lua is bound to it, so it cannot be dropped. Known
+    # fault: the CustomSystems hook reads it even when the game passes nothing.
+    'ShipManager::CanFitSubsystem',
+}
+
 LIBCPP_STRING_RE = re.compile(
     r'std::(?:(?:__1|__cxx11)::)?basic_string\s*<\s*char\s*,\s*'
     r'std::(?:(?:__1|__cxx11)::)?char_traits\s*<\s*char\s*>\s*,\s*'
@@ -204,21 +225,151 @@ def normalize_nm_template_callable(function_name):
     return strip_demangled_return_type(normalized)
 
 def parse_zhl_log(log_path):
-    """Parse zhl.log and extract function name -> address mappings."""
-    funcs = {}
+    """Parse zhl.log into (name, address, mangled type) for every binding.
+
+    A list rather than a name -> address dict because overloads share a name:
+    ZHL tells them apart by type, so InfoBox::SetBlueprint is five bindings at
+    five addresses. The type is absent from logs written before ZHL started
+    reporting it, and is None then.
+    """
+    entries = []
     with open(log_path, 'r') as f:
         for line in f:
-            # Match: Found address for Class::Method: 0x..., dist ...
-            m = re.match(r'Found address for (.+): (0x[0-9a-fA-F]+)', line)
+            # Found address for Class::Method: 0x..., dist ...[, type ...]
+            m = re.match(r'Found address for (.+?): (0x[0-9a-fA-F]+),'
+                         r'.*?(?:, type (\S+))?$', line.rstrip())
             if m:
-                name = m.group(1)
-                addr = int(m.group(2), 16)
-                funcs[name] = addr
-    return funcs
+                entries.append((m.group(1), int(m.group(2), 16), m.group(3)))
+    return entries
 
 # GNU nm only reads its host's formats; llvm-nm reads Mach-O, PE and ELF alike.
 # macOS's nm already is llvm-nm, so this only matters on Linux (e.g. in Docker).
 NM = shutil.which('llvm-nm') or 'nm'
+
+# ---------------------------------------------------------------------------
+# Call-compatibility check
+#
+# Landing on the right address only proves ZHL found the function, not that it
+# describes it in a way that is safe to call. What makes a call go wrong is
+# passing the wrong number of arguments, or passing them in the wrong kind of
+# register, so that is what gets compared: how each parameter is passed, not how
+# it is spelled. A reference, a pointer, an integer and a class passed by hidden
+# reference all occupy one integer slot, which is why "const std::string &"
+# against "std::string" is not a fault. Floating point by value is the one that
+# lands somewhere else.
+#
+# Return types are not mangled for ordinary functions, so the binary says
+# nothing about them and they cannot be checked here.
+
+# GCC emits specialised copies under the original's name. The demangled name
+# describes the original, not the copy, so its parameters say nothing about what
+# the copy takes: .constprop drops arguments that were folded away.
+# The suffixes chain, as in "(.part.220.constprop.330)".
+CLONE_SUFFIX_RE = re.compile(r'\s*\((\.(part|constprop|isra|cold)\.\d+)+\)\s*$')
+
+def split_parameters(text):
+    """Split a parameter list on commas that are not nested in brackets."""
+    parts, depth, current = [], 0, ''
+    for char in text:
+        if char in '<([':
+            depth += 1
+        elif char in '>)]':
+            depth -= 1
+        if char == ',' and depth == 0:
+            parts.append(current.strip())
+            current = ''
+        else:
+            current += char
+    if current.strip():
+        parts.append(current.strip())
+    return parts
+
+def passing_classes(parameters):
+    """How each parameter is passed: F for floating point, W for a word."""
+    classes = []
+    for parameter in parameters:
+        value = re.sub(r'\s+', ' ', parameter).strip()
+        if not value or value == 'void':
+            continue
+        if '*' in value or '&' in value or '[' in value:
+            classes.append('W')
+            continue
+        value = re.sub(r'\bconst\b', '', value).strip()
+        classes.append('F' if value in ('float', 'double', 'long double') else 'W')
+    return tuple(classes)
+
+def trailing_parameter_list(text):
+    """The parameter list of the call that closes the end of a signature."""
+    value = re.sub(r'\s*\[abi:[^\]]*\]', '', text.strip())
+    value = CLONE_SUFFIX_RE.sub('', value)
+    value = re.sub(r'\s+const$', '', value)
+    if not value.endswith(')'):
+        return None
+    depth = 0
+    for index in range(len(value) - 1, -1, -1):
+        if value[index] == ')':
+            depth += 1
+        elif value[index] == '(':
+            depth -= 1
+            if depth == 0:
+                return split_parameters(value[index + 1:-1])
+    return None
+
+def declared_parameter_list(demangled_type):
+    """'f(void (InfoBox::*)(A, B))' -> the parameters of the function type."""
+    if not demangled_type.startswith('f(') or not demangled_type.endswith(')'):
+        return None
+    inner = demangled_type[2:-1].rstrip()
+    opening = inner.rfind(')(')
+    if opening == -1 or not inner.endswith(')'):
+        return None
+    return split_parameters(inner[opening + 2:-1])
+
+def demangle_types(mangled_types):
+    """Demangle bare type manglings by wrapping each as a function taking it.
+
+    typeid gives a mangled type, and the two sides use different dialects for
+    the same type: the scanner's standard library mangles std::string in full
+    where the game's abbreviates it. Demangling puts both in one spelling.
+    """
+    if not mangled_types:
+        return {}
+    demangler = shutil.which('llvm-cxxfilt') or shutil.which('c++filt')
+    if not demangler:
+        return {}
+    ordered = sorted(mangled_types)
+    # Mach-O tools want the leading underscore that its symbols carry.
+    for prefix in ('__Z1f', '_Z1f'):
+        result = subprocess.run([demangler], input='\n'.join(prefix + t for t in ordered),
+                                capture_output=True, text=True)
+        lines = result.stdout.splitlines()
+        if len(lines) == len(ordered) and lines[0].startswith('f('):
+            return dict(zip(ordered, lines))
+    return {}
+
+def call_compatibility_fault(name, demangled_type, functions_at_address):
+    """The mismatch when no function here can be called as declared."""
+    parameters = declared_parameter_list(demangled_type)
+    if parameters is None:
+        return None
+    declared = passing_classes(parameters)
+    actual = []
+    for function in functions_at_address:
+        # A clone's demangled name describes the original, so it proves nothing.
+        if CLONE_SUFFIX_RE.search(function):
+            return None
+        found = trailing_parameter_list(function)
+        if found is None:
+            return None  # nothing to compare against
+        actual.append((passing_classes(found), function))
+    if not actual:
+        return None
+    if any(classes == declared for classes, _ in actual):
+        return None
+    return {'name': name, 'declared': declared,
+            'actual': actual[0][0], 'nm_name': actual[0][1]}
+
+
 
 def parse_nm_output(binary_path):
     """Parse nm -C output and extract ALL function addresses."""
@@ -381,13 +532,12 @@ def main():
 
     # Calculate ASLR slide using a known function
     slide = None
-    for name in zhl_funcs:
+    for name, zhl_addr, _mangled_type in zhl_funcs:
         if 'DO_NOT_HOOK' in name or 'NoHook' in name:
             continue
         nm_names = normalize_name(name)
         for nm_name in nm_names:
             if nm_name in name_to_addrs:
-                zhl_addr = zhl_funcs[name]
                 nm_addr = name_to_addrs[nm_name][0][0]  # First match
                 slide = zhl_addr - nm_addr
                 print(f"\nCalculated ASLR slide: 0x{slide:x} (from {name})")
@@ -404,10 +554,22 @@ def main():
     correct = 0
     intentional = 0
     not_in_nm_but_ok = []  # Functions in middle of other functions (inlined, etc.)
+    call_faults = []
 
-    for name, zhl_addr in sorted(zhl_funcs.items()):
+    demangled_types = demangle_types({t for _, _, t in zhl_funcs if t})
+
+    for name, zhl_addr, mangled_type in sorted(zhl_funcs):
         if 'DO_NOT_HOOK' in name:
             continue
+
+        if (mangled_type and not UNCHECKED_CALL_RE.search(name)
+                and name not in UNCHECKED_CALL_NAMES):
+            here = addr_to_funcs.get(zhl_addr - slide, [])
+            demangled = demangled_types.get(mangled_type)
+            if here and demangled:
+                fault = call_compatibility_fault(name, demangled, here)
+                if fault:
+                    call_faults.append(fault)
 
         # Convert ZHL address to file offset
         file_offset = zhl_addr - slide
@@ -511,7 +673,19 @@ def main():
     print(f"Correctly bound:      {correct}")
     print(f"Intentional naming:   {intentional}")
     print(f"PROBLEMS FOUND:       {len(wrong_bindings)}")
+    print(f"UNSAFE TO CALL:       {len(call_faults)}")
     print(f"Not in nm (ok):       {len(not_in_nm_but_ok)}")
+
+    if call_faults:
+        print(f"\n{'='*70}")
+        print(f"!!! CANNOT BE CALLED AS DECLARED ({len(call_faults)}) !!!")
+        print(f"{'='*70}")
+        print("W is a word (integer, pointer, reference), F is floating point.")
+        for fault in call_faults:
+            print(f"\n  {fault['name']}:")
+            print(f"    declared takes: {' '.join(fault['declared']) or '(nothing)'}")
+            print(f"    binary takes:   {' '.join(fault['actual']) or '(nothing)'}")
+            print(f"    which is:       {fault['nm_name'][:66]}")
 
     if wrong_bindings:
         # Group by type
@@ -565,7 +739,7 @@ def main():
         if len(not_in_nm_but_ok) > 20:
             print(f"  ... and {len(not_in_nm_but_ok) - 20} more")
 
-    sys.exit(1 if wrong_bindings else 0)
+    sys.exit(1 if wrong_bindings or call_faults else 0)
 
 if __name__ == '__main__':
     main()

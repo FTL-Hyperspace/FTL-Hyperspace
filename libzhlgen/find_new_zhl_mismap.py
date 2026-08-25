@@ -14,6 +14,7 @@ from collections import defaultdict
 
 ADDRESS_RE = re.compile(
     r"Found address for (.+?):\s+(0x[0-9a-fA-F]+)"
+    r"(?:.*,\s+type\s+(\S+))?"
 )
 VALUE_RE = re.compile(
     r"Found value for (.+?):\s+(0x[0-9a-fA-F]+),\s+"
@@ -38,7 +39,8 @@ def parse_zhl_log(path):
         for line in stream:
             match = ADDRESS_RE.search(line)
             if match:
-                functions[match.group(1)].append(int(match.group(2), 16))
+                functions[(match.group(1), match.group(3) or "")].append(
+                    int(match.group(2), 16))
                 continue
             match = VALUE_RE.search(line)
             if match:
@@ -101,6 +103,19 @@ def name_candidates(name):
     return candidates
 
 
+def drop_types(bindings):
+    """Re-key bindings by name alone, merging the overloads back together."""
+    merged = defaultdict(list)
+    for key, addresses in bindings.items():
+        merged[(binding_name(key), "")].extend(addresses)
+    return merged
+
+
+def binding_name(key):
+    """The plain name of a binding. Functions are keyed by name and type."""
+    return key[0] if isinstance(key, tuple) else key
+
+
 def find_nm_address(name, symbols):
     for candidate in name_candidates(name):
         if candidate in symbols:
@@ -110,10 +125,10 @@ def find_nm_address(name, symbols):
 
 def calculate_slide(functions, symbols):
     """Find the runtime-address minus nm-address load slide."""
-    for name, runtime_addresses in functions.items():
-        nm_address = find_nm_address(name, symbols)
+    for key, runtime_addresses in functions.items():
+        nm_address = find_nm_address(binding_name(key), symbols)
         if nm_address is not None:
-            return runtime_addresses[0] - nm_address, name
+            return runtime_addresses[0] - nm_address, binding_name(key)
     return None, None
 
 
@@ -131,11 +146,11 @@ def compare_rvas(bindings_a, bindings_b, slide_a, slide_b, ignored_name=None):
     rva_b = rvas(bindings_b, slide_b)
     missing = sorted(set(rva_a) - set(rva_b))
     if ignored_name is not None:
-        missing = [name for name in missing if not ignored_name(name)]
+        missing = [key for key in missing if not ignored_name(binding_name(key))]
     mismatches = sorted(
         (name, rva_a[name], rva_b[name])
         for name in set(rva_a) & set(rva_b)
-        if (ignored_name is None or not ignored_name(name))
+        if (ignored_name is None or not ignored_name(binding_name(name)))
         and not set(rva_a[name]) & set(rva_b[name])
     )
     return rva_a, rva_b, missing, mismatches
@@ -145,7 +160,7 @@ def print_comparison(label, missing_label, mismatches, missing,
                      rva_a, address_to_symbols):
     print(f"{label} RVA mismatches: {len(mismatches)}")
     for name, addresses_a, addresses_b in mismatches:
-        print(f"  {name}")
+        print(f"  {binding_name(name)}")
         for side, addresses in (("A", addresses_a), ("B", addresses_b)):
             for address in addresses:
                 actual = address_to_symbols.get(address, [])
@@ -154,7 +169,7 @@ def print_comparison(label, missing_label, mismatches, missing,
 
     print(f"{missing_label}: {len(missing)}")
     for name in missing:
-        print(f"  {name}:")
+        print(f"  {binding_name(name)}:")
         for address in rva_a[name]:
             actual = address_to_symbols.get(address, [])
             print(f"    A=0x{address:x}")
@@ -180,6 +195,13 @@ def main():
             raise RuntimeError(
                 "Could not calculate the load slide for A or B from a common function found by nm"
             )
+
+        # Types only tell the overloads of one name apart when both logs carry
+        # them. A log written before ZHL reported types has none, and keying on
+        # a type one side lacks would make every binding look moved.
+        if not any(key[1] for key in functions_a) or not any(key[1] for key in functions_b):
+            functions_a = drop_types(functions_a)
+            functions_b = drop_types(functions_b)
 
         ignored = lambda name: "DO_NOT_HOOK" in name or "NoHook" in name
         rva_a, _, missing_in_b, mismatches = compare_rvas(

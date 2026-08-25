@@ -276,7 +276,13 @@ int FunctionDefinition::Load()
 
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
-	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _plainName, (uintptr_t)_address, sig.GetDistance());
+	// The type lets the signature check compare against the binary's symbol.
+	// _name is the plain name followed by it. A noHook definition only pins an
+	// address, so its placeholder type is left out.
+	if(IsNoHook())
+		Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _plainName, (uintptr_t)_address, sig.GetDistance());
+	else
+		Log("Found address for %s: " PTR_PRINT_F ", dist %d, type %s\n", _plainName, (uintptr_t)_address, sig.GetDistance(), _name + strlen(_plainName));
 
 	return 1;
 }

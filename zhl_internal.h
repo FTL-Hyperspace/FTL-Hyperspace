@@ -66,6 +66,7 @@ public:
 	bool isMemPassedStructPointer() const { return (_flags & 16) != 0;}
 #endif // __i386__
 	bool forceDetourSize() const { return (_flags & 32) != 0; }
+	bool IsNoHook() const { return (_flags & 64) != 0; }
 
 	const short *GetArgData() const {return _argdata;}
 	int GetArgCount() const {return _nArgs;}
