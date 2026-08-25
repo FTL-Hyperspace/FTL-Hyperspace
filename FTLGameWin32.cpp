@@ -22161,12 +22161,12 @@ namespace _func1594
 {
     static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("GenericButton::SetHitBox", typeid(void (GenericButton::*)(Globals::Rect &)), ".8b4424048b1089510c", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("GenericButton::SetHitBox", typeid(void (GenericButton::*)(const Globals::Rect &)), ".8b4424048b1089510c", argdata, 2, 5, &func);
 }
 
-void GenericButton::SetHitBox(Globals::Rect &box)
+void GenericButton::SetHitBox(const Globals::Rect &box)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(GenericButton *this_arg, Globals::Rect &box_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(GenericButton *this_arg, const Globals::Rect &box_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1594::func;
 	return execfunc(this, box);
 }

@@ -2204,7 +2204,7 @@ struct LIBZHL_INTERFACE GenericButton
 	virtual ~GenericButton() {}
 	LIBZHL_API virtual void Reset();
 	LIBZHL_API virtual void SetLocation(Point pos);
-	LIBZHL_API virtual void SetHitBox(Globals::Rect &box);
+	LIBZHL_API virtual void SetHitBox(const Globals::Rect &box);
 	LIBZHL_API virtual void SetActive(bool active);
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual void OnRender();

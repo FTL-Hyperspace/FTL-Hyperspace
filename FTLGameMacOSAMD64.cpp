@@ -22316,12 +22316,12 @@ void GenericButton::destructor()
 namespace _func1735
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("GenericButton::SetHitBox", typeid(void (GenericButton::*)(Globals::Rect &)), "554889e5488b0648", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("GenericButton::SetHitBox", typeid(void (GenericButton::*)(const Globals::Rect &)), "554889e5488b0648", nullptr, 0, 0, &func);
 }
 
-void GenericButton::SetHitBox(Globals::Rect &box)
+void GenericButton::SetHitBox(const Globals::Rect &box)
 {
-	typedef void (*custom_arg_funcptr_t)(GenericButton *this_arg, Globals::Rect &box_arg);
+	typedef void (*custom_arg_funcptr_t)(GenericButton *this_arg, const Globals::Rect &box_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1735::func;
 	return execfunc(this, box);
 }

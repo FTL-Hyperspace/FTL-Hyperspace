@@ -1,7 +1,7 @@
 "48c707????????48c74728????????c3":  // unique sig
 cleanup __amd64 void GenericButton::destructor1(GenericButton *this); // 004e1b80 DWARF original prototype, Itanium D1 destructor
 ".488b0648894710":  // unique sig
-cleanup __amd64 void GenericButton::SetHitBox(GenericButton *this, Globals::Rect *box); // 004e1b90 DWARF original prototype
+cleanup __amd64 void GenericButton::SetHitBox(GenericButton *this, const Globals::Rect *box); // 004e1b90 DWARF original prototype
 ".c6474900c647":  // unique sig
 cleanup __amd64 void GenericButton::Reset(GenericButton *this); // 004e1ba0 DWARF original prototype
 ".8b57084889f08b4f0c48c1f82039d6":  // unique sig

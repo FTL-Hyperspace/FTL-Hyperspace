@@ -9,7 +9,7 @@ cleanup __amd64 void GenericButton::destructor1(GenericButton *this); // 1000a7e
 ".55":  //
 cleanup __amd64 void GenericButton::destructor(GenericButton *this); // 1000a7e60 Itanium source destructor prototype, Itanium D0 destructor
 "554889e5488b0648":  //
-cleanup __amd64 void GenericButton::SetHitBox(GenericButton *this, Globals::Rect *box); // 1000a7e70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void GenericButton::SetHitBox(GenericButton *this, const Globals::Rect *box); // 1000a7e70 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void GenericButton::Reset(GenericButton *this); // 1000a7e90 Linux DWARF prototype catalog by linkage
 ".55":  //

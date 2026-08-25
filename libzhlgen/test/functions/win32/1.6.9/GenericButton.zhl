@@ -1,7 +1,7 @@
 "f3c38db426000000008dbc27000000008b4424048b10":  // unique sig
 __thiscall void GenericButton::destructor(GenericButton *this); // 00573760 DWARF original prototype
 ".8b4424048b1089510c":  // unique sig
-__thiscall void GenericButton::SetHitBox(GenericButton *this, Globals::Rect *box); // 00573770 DWARF original prototype
+__thiscall void GenericButton::SetHitBox(GenericButton *this, const Globals::Rect *box); // 00573770 DWARF original prototype
 ".c6414100c6":  // unique sig
 __thiscall void GenericButton::Reset(GenericButton *this); // 00573790 DWARF original prototype
 ".5589e557568b4508538b59":  // unique sig
