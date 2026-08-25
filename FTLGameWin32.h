@@ -7247,7 +7247,7 @@ struct FileHelper
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);
 	LIBZHL_API static int __stdcall fileLength_orig(int fd);
 	LIBZHL_API static int __stdcall getPosition(int file);
-	LIBZHL_API static std::string __stdcall getResourceFile();
+	LIBZHL_API static std::string __stdcall getResourceFile(const std::string &resourceFile);
 	LIBZHL_API static std::string __stdcall getSaveFile();
 	LIBZHL_API static std::string __stdcall getUserFolder();
 	LIBZHL_API static void __stdcall initFileHelper();

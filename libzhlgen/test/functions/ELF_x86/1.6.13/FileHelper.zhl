@@ -1,7 +1,7 @@
 "5383ec188b5c2420c7442404000000008b03890424e8????????85c074??":
 static cleanup __cdecl void FileHelper::deleteFile(const std::string& fileName);
 "565383ec248b5c24308d74241ce8????????":
-static cleanup __cdecl std::string FileHelper::getResourceFile();
+static cleanup __cdecl std::string FileHelper::getResourceFile(const std::string &resourceFile);
 "5383ec288b5c2430e8????????":
 static cleanup __cdecl std::string FileHelper::getUserFolder();
 "57565383ec208b5c24308d74241ce8????????":

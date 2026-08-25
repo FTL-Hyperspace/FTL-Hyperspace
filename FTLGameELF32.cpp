@@ -1441,7 +1441,7 @@ namespace _func103
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("BoarderPodDrone::_DO_NOT_HOOK_1", typeid(void (BoarderPodDrone::*)()), "5531c089e55383ec24", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("BoarderPodDrone::_DO_NOT_HOOK_1", typeid(void (BoarderPodDrone::*)()), "5531c089e55383ec24", argdata, 0, 68, &func);
 }
 
 namespace _func104
@@ -4241,14 +4241,14 @@ namespace _func304
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CompleteShip::DO_NOT_HOOK", typeid(void (CompleteShip::*)()), "!8b48fc8d59ff8958fc89c8e9????????8b48fc8d59ff8958fc89c8eb??6690", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CompleteShip::DO_NOT_HOOK", typeid(void (CompleteShip::*)()), "!8b48fc8d59ff8958fc89c8e9????????8b48fc8d59ff8958fc89c8eb??6690", argdata, 0, 68, &func);
 }
 
 namespace _func305
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CompleteShip::DO_NOT_HOOK2", typeid(void (CompleteShip::*)()), "!.8b48fc8d59ff8958fc89c8e9????????8b48fc8d59ff8958fc89c8eb??6690", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CompleteShip::DO_NOT_HOOK2", typeid(void (CompleteShip::*)()), "!.8b48fc8d59ff8958fc89c8e9????????8b48fc8d59ff8958fc89c8eb??6690", argdata, 0, 68, &func);
 }
 
 namespace _func306
@@ -5025,14 +5025,14 @@ namespace _func361
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DO_NOT_HOOK_MANTISANIMATIONSHOOTINGSOUND", typeid(void (*)()), "5557565381ec0c010000803d????????00", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DO_NOT_HOOK_MANTISANIMATIONSHOOTINGSOUND", typeid(void (*)()), "5557565381ec0c010000803d????????00", argdata, 0, 68, &func);
 }
 
 namespace _func362
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DO_NOT_HOOK_ROCKANIMATIONSHOOTINGSOUND", typeid(void (*)()), ".5557565381ec0c010000803d????????00", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DO_NOT_HOOK_ROCKANIMATIONSHOOTINGSOUND", typeid(void (*)()), ".5557565381ec0c010000803d????????00", argdata, 0, 68, &func);
 }
 
 namespace _func363
@@ -8336,7 +8336,7 @@ namespace _func599
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DroneControl::DO_NOT_HOOK", typeid(void (DroneControl::*)()), "!565383ec148b4424208b5c24248b7424288b400c890424", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DroneControl::DO_NOT_HOOK", typeid(void (DroneControl::*)()), "!565383ec148b4424208b5c24248b7424288b400c890424", argdata, 0, 68, &func);
 }
 
 namespace _func600
@@ -9469,15 +9469,15 @@ void FileHelper::deleteFile(const std::string &fileName)
 namespace _func682
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::getResourceFile", typeid(std::string (*)()), "565383ec248b5c24308d74241ce8????????", argdata, 1, 18, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("FileHelper::getResourceFile", typeid(std::string (*)(const std::string &)), "565383ec248b5c24308d74241ce8????????", argdata, 2, 18, &func);
 }
 
-std::string FileHelper::getResourceFile()
+std::string FileHelper::getResourceFile(const std::string &resourceFile)
 {
-	typedef std::string __attribute__((cdecl)) (*custom_arg_funcptr_t)();
+	typedef std::string __attribute__((cdecl)) (*custom_arg_funcptr_t)(const std::string &resourceFile_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func682::func;
-	return execfunc();
+	return execfunc(resourceFile);
 }
 
 namespace _func683
@@ -10072,7 +10072,7 @@ namespace _func725
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("GenericButton::__DO_NOT_HOOK", typeid(void (GenericButton::*)()), "f3c36690669066906690669066906690", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("GenericButton::__DO_NOT_HOOK", typeid(void (GenericButton::*)()), "f3c36690669066906690669066906690", argdata, 0, 68, &func);
 }
 
 namespace _func726
@@ -11206,7 +11206,7 @@ namespace _func811
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK", typeid(void (MantisAnimation::*)()), "565383ec148b7424208b5c2424893424895c2404e8????????f30f108640050000", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK", typeid(void (MantisAnimation::*)()), "565383ec148b7424208b5c2424893424895c2404e8????????f30f108640050000", argdata, 0, 68, &func);
 }
 
 namespace _func812
@@ -11227,7 +11227,7 @@ namespace _func813
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK2", typeid(void (MantisAnimation::*)()), "8b44240431d280b8d108000000", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK2", typeid(void (MantisAnimation::*)()), "8b44240431d280b8d108000000", argdata, 0, 68, &func);
 }
 
 namespace _func814
@@ -11248,7 +11248,7 @@ namespace _func815
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK3", typeid(void (MantisAnimation::*)()), "31c080bb9f0900000075??c6839f0900000183c418b8010000005b", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK3", typeid(void (MantisAnimation::*)()), "31c080bb9f0900000075??c6839f0900000183c418b8010000005b", argdata, 0, 68, &func);
 }
 
 namespace _func816
@@ -12837,7 +12837,7 @@ namespace _func931
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK", typeid(void (RockAnimation::*)()), "5557565381ec0c010000803d????????000f85????????e8????????89c7", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK", typeid(void (RockAnimation::*)()), "5557565381ec0c010000803d????????000f85????????e8????????89c7", argdata, 0, 68, &func);
 }
 
 namespace _func932
@@ -12858,14 +12858,14 @@ namespace _func933
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK2", typeid(void (RockAnimation::*)()), "5383ec288b5c24308d44241f89442408c7442404????????891c24e8????????83c42889d85b", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK2", typeid(void (RockAnimation::*)()), "5383ec288b5c24308d44241f89442408c7442404????????891c24e8????????83c42889d85b", argdata, 0, 68, &func);
 }
 
 namespace _func934
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK3", typeid(void (RockAnimation::*)()), ".5383ec288b5c24308d44241f89442408c7442404????????891c24e8????????83c42889d85b", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK3", typeid(void (RockAnimation::*)()), ".5383ec288b5c24308d44241f89442408c7442404????????891c24e8????????83c42889d85b", argdata, 0, 68, &func);
 }
 
 namespace _func935
@@ -12928,7 +12928,7 @@ namespace _func939
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Room::DO_NOT_HOOK", typeid(void (Room::*)()), ".56538b5c240c0fb64424148b4c2410", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Room::DO_NOT_HOOK", typeid(void (Room::*)()), ".56538b5c240c0fb64424148b4c2410", argdata, 0, 68, &func);
 }
 
 namespace _func940
@@ -16941,7 +16941,7 @@ namespace _func1232
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipSelect::__STRUCT_OVERRIDE_ANCHOR_1", typeid(void (ShipSelect::*)()), ".8b4424048b4038", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipSelect::__STRUCT_OVERRIDE_ANCHOR_1", typeid(void (ShipSelect::*)()), ".8b4424048b4038", argdata, 0, 68, &func);
 }
 
 namespace _func1233
@@ -17822,29 +17822,29 @@ void SoundControl::StopChannel(int channel, float fade)
 namespace _func1303
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SoundControl::AddSoundFile", typeid(void (SoundControl::*)(const std::string &, void *, int )), ".5589e557565383", argdata, 4, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("SoundControl::AddSoundFile", typeid(void (SoundControl::*)(const std::string &, Sound *)), ".5589e557565383", argdata, 3, 6, &func);
 }
 
-void SoundControl::AddSoundFile(const std::string &name, void *buffer, int size)
+void SoundControl::AddSoundFile(const std::string &name, Sound *sample)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &name_arg, void *buffer_arg, int size_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &name_arg, Sound *sample_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1303::func;
-	return execfunc(this, name, buffer, size);
+	return execfunc(this, name, sample);
 }
 
 namespace _func1304
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SoundControl::AddMusicStream", typeid(void (SoundControl::*)(const std::string &, int , int )), ".5589", argdata, 4, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("SoundControl::AddMusicStream", typeid(void (SoundControl::*)(const std::string &, Sound *)), ".5589", argdata, 3, 6, &func);
 }
 
-void SoundControl::AddMusicStream(const std::string &name, int pos, int size)
+void SoundControl::AddMusicStream(const std::string &name, Sound *sample)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &name_arg, int pos_arg, int size_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &name_arg, Sound *sample_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1304::func;
-	return execfunc(this, name, pos, size);
+	return execfunc(this, name, sample);
 }
 
 SoundControl *Global_SoundControl_Sounds;
@@ -21868,15 +21868,15 @@ Pointf WeaponAnimation::GetSlide()
 namespace _func1594
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("WeaponAnimation::SetPowered", typeid(void (WeaponAnimation::*)()), "5383ec188b5c????8b44????80bbac00000000", argdata, 1, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("WeaponAnimation::SetPowered", typeid(void (WeaponAnimation::*)(bool )), "5383ec188b5c????8b44????80bbac00000000", argdata, 2, 6, &func);
 }
 
-void WeaponAnimation::SetPowered()
+void WeaponAnimation::SetPowered(bool powered)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(WeaponAnimation *this_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(WeaponAnimation *this_arg, bool powered_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1594::func;
-	return execfunc(this);
+	return execfunc(this, powered);
 }
 
 namespace _func1595
@@ -21939,21 +21939,21 @@ namespace _func1599
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK", typeid(void (WeaponBlueprint::*)()), "565383ec248b5c24308d74241f8d4304c703????????89742408890424", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK", typeid(void (WeaponBlueprint::*)()), "565383ec248b5c24308d74241f8d4304c703????????89742408890424", argdata, 0, 68, &func);
 }
 
 namespace _func1600
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK2", typeid(void (WeaponBlueprint::*)()), ".565383ec248b5c24308d74241f8d4304c703????????89742408890424", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK2", typeid(void (WeaponBlueprint::*)()), ".565383ec248b5c24308d74241f8d4304c703????????89742408890424", argdata, 0, 68, &func);
 }
 
 namespace _func1601
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK3", typeid(void (WeaponBlueprint::*)()), ".565383ec248b5c24308d74241f8d4304c703????????89742408890424", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK3", typeid(void (WeaponBlueprint::*)()), ".565383ec248b5c24308d74241f8d4304c703????????89742408890424", argdata, 0, 68, &func);
 }
 
 namespace _func1602
@@ -22324,7 +22324,7 @@ namespace _func1628
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (WeaponStoreBox::*)()), "5557565383ec2c8d44241a8b5c24408d7c241c8b74244c89442408", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (WeaponStoreBox::*)()), "5557565383ec2c8d44241a8b5c24408d7c241c8b74244c89442408", argdata, 0, 68, &func);
 }
 
 namespace _func1629

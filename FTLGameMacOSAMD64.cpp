@@ -403,7 +403,7 @@ namespace _var29
 namespace _func30
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Animation::__STRUCT_OVERRIDE_ANCHOR_153", typeid(void (Animation::*)()), "554889e5415741564155415453504889", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Animation::__STRUCT_OVERRIDE_ANCHOR_153", typeid(void (Animation::*)()), "554889e5415741564155415453504889", nullptr, 0, 64, &func);
 }
 
 namespace _func31
@@ -435,7 +435,7 @@ void Animation::constructor(Animation *param_1)
 namespace _func33
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Animation::__STRUCT_OVERRIDE_ANCHOR_1", typeid(void (Animation::*)()), ".554889e54157415641554154534883ec384989fe41c7|.554889e54157415641554154534883ec3844894d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Animation::__STRUCT_OVERRIDE_ANCHOR_1", typeid(void (Animation::*)()), ".554889e54157415641554154534883ec384989fe41c7|.554889e54157415641554154534883ec3844894d", nullptr, 0, 64, &func);
 }
 
 namespace _func34
@@ -1800,7 +1800,7 @@ Projectile *ArtillerySystem::GetPreparedProjectile()
 namespace _func139
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Asteroid::__STRUCT_OVERRIDE_ANCHOR_3", typeid(void (Asteroid::*)()), "554889e541574156534881ec68", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Asteroid::__STRUCT_OVERRIDE_ANCHOR_3", typeid(void (Asteroid::*)()), "554889e541574156534881ec68", nullptr, 0, 64, &func);
 }
 
 namespace _func140
@@ -2183,7 +2183,7 @@ bool AugmentEquipBox::CanHoldAugment()
 namespace _func169
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_5", typeid(void (AugmentEquipBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_5", typeid(void (AugmentEquipBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func170
@@ -2332,7 +2332,7 @@ void AugmentStoreBox::destructor()
 namespace _func181
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BatteryBox::__STRUCT_OVERRIDE_ANCHOR_7", typeid(void (BatteryBox::*)()), "554889e5415741564154534883ec404889d3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BatteryBox::__STRUCT_OVERRIDE_ANCHOR_7", typeid(void (BatteryBox::*)()), "554889e5415741564154534883ec404889d3", nullptr, 0, 64, &func);
 }
 
 namespace _func182
@@ -2494,7 +2494,7 @@ void BatteryBox::constructor(Point position, BatterySystem *_system)
 namespace _func194
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BeamWeapon::__STRUCT_OVERRIDE_ANCHOR_8", typeid(void (BeamWeapon::*)()), "554889e54157415641554154534883ec28f3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BeamWeapon::__STRUCT_OVERRIDE_ANCHOR_8", typeid(void (BeamWeapon::*)()), "554889e54157415641554154534883ec28f3", nullptr, 0, 64, &func);
 }
 
 namespace _func195
@@ -2864,7 +2864,7 @@ void BlueprintManager::destructor1()
 namespace _func223
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BlueprintManager::__DO_NOT_HOOK_10017e15f", typeid(void (BlueprintManager::*)()), "!00000000005dc3660f1f840000000000554889e55de9????????660f1f440000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::__DO_NOT_HOOK_10017e15f", typeid(void (BlueprintManager::*)()), "!00000000005dc3660f1f840000000000554889e55de9????????660f1f440000", nullptr, 0, 64, &func);
 }
 
 namespace _func224
@@ -3462,7 +3462,7 @@ namespace _var269
 namespace _func270
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BoarderDrone::__STRUCT_OVERRIDE_ANCHOR_9", typeid(void (BoarderDrone::*)()), "554889e54157415641554154534883ec584989ce|554889e54157415641554154534883ec5848c7", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BoarderDrone::__STRUCT_OVERRIDE_ANCHOR_9", typeid(void (BoarderDrone::*)()), "554889e54157415641554154534883ec584989ce|554889e54157415641554154534883ec5848c7", nullptr, 0, 64, &func);
 }
 
 namespace _func271
@@ -3910,13 +3910,13 @@ CrewDrone *BoarderPodDrone::GetBoardingDrone()
 namespace _func305
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BombProjectile::__STRUCT_OVERRIDE_ANCHOR_10", typeid(void (BombProjectile::*)()), "554889e54156534881", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BombProjectile::__STRUCT_OVERRIDE_ANCHOR_10", typeid(void (BombProjectile::*)()), "554889e54156534881", nullptr, 0, 64, &func);
 }
 
 namespace _func306
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BombProjectile::__STRUCT_OVERRIDE_ANCHOR_149", typeid(void (BombProjectile::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BombProjectile::__STRUCT_OVERRIDE_ANCHOR_149", typeid(void (BombProjectile::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func307
@@ -4065,7 +4065,7 @@ int BombProjectile::GetType()
 namespace _func318
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("BombProjectile::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (BombProjectile::*)()), "554889e54156534881", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("BombProjectile::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (BombProjectile::*)()), "554889e54156534881", nullptr, 0, 64, &func);
 }
 
 namespace _func319
@@ -4344,7 +4344,7 @@ void Button::destructor1()
 namespace _func340
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Button::__STRUCT_OVERRIDE_ANCHOR_12", typeid(void (Button::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Button::__STRUCT_OVERRIDE_ANCHOR_12", typeid(void (Button::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func341
@@ -4467,7 +4467,7 @@ void Button::SetLocation(const Point position)
 namespace _func350
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CAchievement::__STRUCT_OVERRIDE_ANCHOR_13", typeid(void (CAchievement::*)()), "554889e5415741564154534883ec20", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CAchievement::__STRUCT_OVERRIDE_ANCHOR_13", typeid(void (CAchievement::*)()), "554889e5415741564154534883ec20", nullptr, 0, 64, &func);
 }
 
 namespace _func351
@@ -5455,7 +5455,7 @@ void CEvent::OnLanguageChange()
 namespace _func427
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CEvent::DO_NOT_HOOK", typeid(void (CEvent::*)()), "!.554889e5e8??????0085c00f95", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CEvent::DO_NOT_HOOK", typeid(void (CEvent::*)()), "!.554889e5e8??????0085c00f95", nullptr, 0, 64, &func);
 }
 
 namespace _func428
@@ -6449,13 +6449,13 @@ GL_Primitive *CSurface::GL_CreatePiePartialPrimitive(int x, int y, float radius,
 namespace _func504
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CSurface::__STRUCT_OVERRIDE_ANCHOR_14", typeid(void (CSurface::*)()), ".0f2e2d????????7716|.f3440f16", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CSurface::__STRUCT_OVERRIDE_ANCHOR_14", typeid(void (CSurface::*)()), ".0f2e2d????????7716|.f3440f16", nullptr, 0, 64, &func);
 }
 
 namespace _func505
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CSurface::__STRUCT_OVERRIDE_ANCHOR_15", typeid(void (CSurface::*)()), ".0f2e2d????????7716|.f3440f16", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CSurface::__STRUCT_OVERRIDE_ANCHOR_15", typeid(void (CSurface::*)()), ".0f2e2d????????7716|.f3440f16", nullptr, 0, 64, &func);
 }
 
 namespace _func506
@@ -6539,7 +6539,7 @@ GL_Primitive *CSurface::_CreateImagePrimitive(GL_Texture *tex, float x, float y,
 namespace _func512
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CachedImage::__STRUCT_OVERRIDE_ANCHOR_16", typeid(void (CachedImage::*)()), "554889e548c7470800000000488d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CachedImage::__STRUCT_OVERRIDE_ANCHOR_16", typeid(void (CachedImage::*)()), "554889e548c7470800000000488d", nullptr, 0, 64, &func);
 }
 
 namespace _func513
@@ -6558,7 +6558,7 @@ void CachedImage::constructor()
 namespace _func514
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CachedImage::__STRUCT_OVERRIDE_ANCHOR_17", typeid(void (CachedImage::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CachedImage::__STRUCT_OVERRIDE_ANCHOR_17", typeid(void (CachedImage::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func515
@@ -7708,7 +7708,7 @@ bool CloakingSystem::Ready()
 namespace _func603
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CloneBox::__STRUCT_OVERRIDE_ANCHOR_20", typeid(void (CloneBox::*)()), "554889e54157415641554154534881ecc80000004889d3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CloneBox::__STRUCT_OVERRIDE_ANCHOR_20", typeid(void (CloneBox::*)()), "554889e54157415641554154534881ecc80000004889d3", nullptr, 0, 64, &func);
 }
 
 namespace _func604
@@ -9703,7 +9703,7 @@ void CommandGui::OnTextEvent(CEvent::TextEvent event)
 namespace _func757
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CommandGui::__STRUCT_OVERRIDE_ANCHOR_21", typeid(void (CommandGui::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CommandGui::__STRUCT_OVERRIDE_ANCHOR_21", typeid(void (CommandGui::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func758
@@ -12062,7 +12062,7 @@ void CrewBlueprint::destructor1()
 namespace _func939
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CrewBlueprint::__STRUCT_OVERRIDE_ANCHOR_25", typeid(void (CrewBlueprint::*)()), ".554889e553504889fb48c7", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewBlueprint::__STRUCT_OVERRIDE_ANCHOR_25", typeid(void (CrewBlueprint::*)()), ".554889e553504889fb48c7", nullptr, 0, 64, &func);
 }
 
 namespace _func940
@@ -12211,7 +12211,7 @@ int CrewBlueprint::GetType()
 namespace _func951
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CrewBox::__STRUCT_OVERRIDE_ANCHOR_26", typeid(void (CrewBox::*)()), "554889e54157415641554154534881ec980000004189cf", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewBox::__STRUCT_OVERRIDE_ANCHOR_26", typeid(void (CrewBox::*)()), "554889e54157415641554154534881ec980000004189cf", nullptr, 0, 64, &func);
 }
 
 namespace _func952
@@ -12230,7 +12230,7 @@ void CrewBox::constructorAbiCopy(Point loc, CrewMember *crew, int number)
 namespace _func953
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CrewBox::__STRUCT_OVERRIDE_ANCHOR_154", typeid(void (CrewBox::*)()), "!554889e54156534889fb488bbb", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewBox::__STRUCT_OVERRIDE_ANCHOR_154", typeid(void (CrewBox::*)()), "!554889e54156534889fb488bbb", nullptr, 0, 64, &func);
 }
 
 namespace _func954
@@ -13757,7 +13757,7 @@ bool CrewEquipBox::CanHoldAugment()
 namespace _func1071
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CrewEquipBox::__STRUCT_OVERRIDE_ANCHOR_30", typeid(void (CrewEquipBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewEquipBox::__STRUCT_OVERRIDE_ANCHOR_30", typeid(void (CrewEquipBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1072
@@ -13880,7 +13880,7 @@ void CrewLaser::destructor()
 namespace _func1081
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("CrewManifest::__STRUCT_OVERRIDE_ANCHOR_31", typeid(void (CrewManifest::*)()), "554889e5415741564154534881ecb000000048", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewManifest::__STRUCT_OVERRIDE_ANCHOR_31", typeid(void (CrewManifest::*)()), "554889e5415741564154534881ecb000000048", nullptr, 0, 64, &func);
 }
 
 namespace _func1082
@@ -16948,7 +16948,7 @@ void DebugHelper::SetLastEvent(const std::string &event)
 namespace _func1318
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DebugHelper::crit_err_hdlr", typeid(void (DebugHelper::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DebugHelper::crit_err_hdlr", typeid(void (DebugHelper::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1319
@@ -17175,7 +17175,7 @@ void DefenseDrone::destructor2()
 namespace _func1336
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DefenseDrone::DO_NOT_HOOK", typeid(void (DefenseDrone::*)()), "554889e54156534883ec50", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DefenseDrone::DO_NOT_HOOK", typeid(void (DefenseDrone::*)()), "554889e54156534883ec50", nullptr, 0, 64, &func);
 }
 
 namespace _func1337
@@ -17454,13 +17454,13 @@ bool Door::ApplyDamage(float amount)
 namespace _func1358
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_35", typeid(void (Door::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_35", typeid(void (Door::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1359
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_36", typeid(void (Door::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_36", typeid(void (Door::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1360
@@ -18714,7 +18714,7 @@ bool DroneEquipBox::CanHoldAugment()
 namespace _func1456
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_39", typeid(void (DroneEquipBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_39", typeid(void (DroneEquipBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1457
@@ -19318,7 +19318,7 @@ bool DropBox::Contains(int x, int y)
 namespace _func1503
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DropBox::DO_NOT_HOOK", typeid(void (DropBox::*)()), "!554889e553504889fb488d05????2600488903488d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DropBox::DO_NOT_HOOK", typeid(void (DropBox::*)()), "!554889e553504889fb488d05????2600488903488d", nullptr, 0, 64, &func);
 }
 
 namespace _func1504
@@ -20039,7 +20039,7 @@ void EquipmentBox::OnRender(bool isEmpty)
 namespace _func1559
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_42", typeid(void (EquipmentBox::*)()), ".5548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_42", typeid(void (EquipmentBox::*)()), ".5548", nullptr, 0, 64, &func);
 }
 
 namespace _func1560
@@ -20839,7 +20839,7 @@ RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node, const std:
 namespace _func1622
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("EventsParser::__STRUCT_OVERRIDE_ANCHOR_43", typeid(void (EventsParser::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("EventsParser::__STRUCT_OVERRIDE_ANCHOR_43", typeid(void (EventsParser::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1623
@@ -22633,7 +22633,7 @@ int __stdcall resource_mark(ResourceManager *resmgr)
 namespace _func1761
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("DO_NOT_HOOK", typeid(void (*)()), ".554889e5415741564154534989fc4d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("DO_NOT_HOOK", typeid(void (*)()), ".554889e5415741564154534989fc4d", nullptr, 0, 64, &func);
 }
 
 namespace _func1762
@@ -22920,7 +22920,7 @@ namespace _var1784
 namespace _func1785
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Globals::__DO_NOT_HOOK_GetNextSpaceId_orig", typeid(void (Globals::*)()), "!.554889e58b05??????0085c0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Globals::__DO_NOT_HOOK_GetNextSpaceId_orig", typeid(void (Globals::*)()), "!.554889e58b05??????0085c0", nullptr, 0, 64, &func);
 }
 
 int *Globals_GetNextSpaceId_id;
@@ -22933,7 +22933,7 @@ namespace _var1786
 namespace _func1787
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("HackBox::__STRUCT_OVERRIDE_ANCHOR_47", typeid(void (HackBox::*)()), "554889e54157415641554154534883ec784989cc", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("HackBox::__STRUCT_OVERRIDE_ANCHOR_47", typeid(void (HackBox::*)()), "554889e54157415641554154534883ec784989cc", nullptr, 0, 64, &func);
 }
 
 namespace _func1788
@@ -23771,13 +23771,13 @@ void HackingSystem::destructor()
 namespace _func1852
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_48", typeid(void (InfoBox::*)()), "554889e553504889fb31f631", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_48", typeid(void (InfoBox::*)()), "554889e553504889fb31f631", nullptr, 0, 64, &func);
 }
 
 namespace _func1853
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_150", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_150", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1854
@@ -23874,7 +23874,7 @@ int InfoBox::CalcCenterCountForSystem(int systemId, int maxPower)
 namespace _func1861
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_158", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_158", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1862
@@ -23893,7 +23893,7 @@ void InfoBox::CreateTipBox()
 namespace _func1863
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_159", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_159", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1864
@@ -23912,13 +23912,13 @@ void InfoBox::SetBlueprint(const ItemBlueprint *bp)
 namespace _func1865
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_160", typeid(void (InfoBox::*)()), ".5548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_160", typeid(void (InfoBox::*)()), ".5548", nullptr, 0, 64, &func);
 }
 
 namespace _func1866
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_161", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_161", typeid(void (InfoBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func1867
@@ -24041,7 +24041,7 @@ void InfoBox::destructor1()
 namespace _func1876
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (InfoBox::*)()), "554889e553504889fb31f631d2e8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (InfoBox::*)()), "554889e553504889fb31f631d2e8", nullptr, 0, 64, &func);
 }
 
 namespace _func1877
@@ -24060,7 +24060,7 @@ void InfoBox::constructor()
 namespace _func1878
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_157", typeid(void (InfoBox::*)()), ".554889e54157415641554154534883ec48", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("InfoBox::__STRUCT_OVERRIDE_ANCHOR_157", typeid(void (InfoBox::*)()), ".554889e54157415641554154534883ec48", nullptr, 0, 64, &func);
 }
 
 namespace _func1879
@@ -24945,7 +24945,7 @@ int LaserBlast::GetType()
 namespace _func1948
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LaserBlast::DO_NOT_HOOK", typeid(void (LaserBlast::*)()), "554889e589b7f8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LaserBlast::DO_NOT_HOOK", typeid(void (LaserBlast::*)()), "554889e589b7f8", nullptr, 0, 64, &func);
 }
 
 void **VTable_Targetable_LaserBlast;
@@ -25043,7 +25043,7 @@ void LocationEvent::destructor1()
 namespace _func1957
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::__STRUCT_OVERRIDE_ANCHOR_52", typeid(void (LockdownShard::*)()), "554889e5415741564154534881ec40", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::__STRUCT_OVERRIDE_ANCHOR_52", typeid(void (LockdownShard::*)()), "554889e5415741564154534881ec40", nullptr, 0, 64, &func);
 }
 
 namespace _func1958
@@ -25062,7 +25062,7 @@ void LockdownShard::constructorAbiCopy(int lockingRoom, Pointf start, Point goal
 namespace _func1959
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("LockdownShard::__STRUCT_OVERRIDE_ANCHOR_53", typeid(void (LockdownShard::*)()), "554889e541574156534881ec28", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("LockdownShard::__STRUCT_OVERRIDE_ANCHOR_53", typeid(void (LockdownShard::*)()), "554889e541574156534881ec28", nullptr, 0, 64, &func);
 }
 
 namespace _func1960
@@ -25523,7 +25523,7 @@ std::string MantisAnimation::GetShootingSound()
 namespace _func1995
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_10005cadf", typeid(void (MantisAnimation::*)()), "!.630a00000031c04883c4085b415e415f5dc3666666662e0f1f840000000000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_10005cadf", typeid(void (MantisAnimation::*)()), "!.630a00000031c04883c4085b415e415f5dc3666666662e0f1f840000000000", nullptr, 0, 64, &func);
 }
 
 namespace _func1996
@@ -26283,7 +26283,7 @@ void MindSystem::QueueMindControl(std::vector<CrewMember*> crew, int roomId, int
 namespace _func2054
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Missile::__STRUCT_OVERRIDE_ANCHOR_57", typeid(void (Missile::*)()), "554889e541574156534881ec18", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Missile::__STRUCT_OVERRIDE_ANCHOR_57", typeid(void (Missile::*)()), "554889e541574156534881ec18", nullptr, 0, 64, &func);
 }
 
 namespace _func2055
@@ -26588,7 +26588,7 @@ void MouseControl::SetTooltip(const std::string &tooltip)
 namespace _func2078
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("MouseControl::__STRUCT_OVERRIDE_ANCHOR_58", typeid(void (MouseControl::*)()), ".0fb68768|.8a8768", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("MouseControl::__STRUCT_OVERRIDE_ANCHOR_58", typeid(void (MouseControl::*)()), ".0fb68768|.8a8768", nullptr, 0, 64, &func);
 }
 
 namespace _func2079
@@ -26887,7 +26887,7 @@ void OptionsScreen::destructor2()
 namespace _func2102
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("OptionsScreen::DO_NOT_HOOK_1", typeid(void (OptionsScreen::*)()), ".554889e553504889fb48c74358", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("OptionsScreen::DO_NOT_HOOK_1", typeid(void (OptionsScreen::*)()), ".554889e553504889fb48c74358", nullptr, 0, 64, &func);
 }
 
 namespace _func2103
@@ -26991,13 +26991,13 @@ namespace _var2110
 namespace _func2111
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_59", typeid(void (OxygenSystem::*)()), "554889e5415741564154534189f64989ffbe", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_59", typeid(void (OxygenSystem::*)()), "554889e5415741564154534189f64989ffbe", nullptr, 0, 64, &func);
 }
 
 namespace _func2112
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_151", typeid(void (OxygenSystem::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_151", typeid(void (OxygenSystem::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2113
@@ -27055,7 +27055,7 @@ void OxygenSystem::OnLoop()
 namespace _func2117
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_60", typeid(void (OxygenSystem::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_60", typeid(void (OxygenSystem::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2118
@@ -27204,7 +27204,7 @@ void OxygenSystem::destructor()
 namespace _func2129
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("OxygenSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (OxygenSystem::*)()), "!554889e5415741564154534189f64989ffbe0200", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("OxygenSystem::DO_NOT_HOOK_FALSE_CONSTRUCTOR", typeid(void (OxygenSystem::*)()), "!554889e5415741564154534189f64989ffbe0200", nullptr, 0, 64, &func);
 }
 
 namespace _func2130
@@ -27379,7 +27379,7 @@ int PDSFire::GetType()
 namespace _func2143
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_61", typeid(void (Point::*)()), "554889e548b801", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_61", typeid(void (Point::*)()), "554889e548b801", nullptr, 0, 64, &func);
 }
 
 namespace _func2144
@@ -27398,7 +27398,7 @@ void Point::constructor()
 namespace _func2145
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_62", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_62", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2146
@@ -27417,25 +27417,25 @@ void Point::constructor(int x, int y)
 namespace _func2147
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_63", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_63", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2148
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_64", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_64", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2149
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_65", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_65", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2150
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_66", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_66", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2151
@@ -27454,19 +27454,19 @@ bool Point::equals(Point p)
 namespace _func2152
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_67", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_67", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2153
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_68", typeid(void (Point::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_68", typeid(void (Point::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2154
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_69", typeid(void (Pointf::*)()), "554889e548b800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_69", typeid(void (Pointf::*)()), "554889e548b800", nullptr, 0, 64, &func);
 }
 
 namespace _func2155
@@ -27485,7 +27485,7 @@ void Pointf::constructor()
 namespace _func2156
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_70", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_70", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2157
@@ -27504,19 +27504,19 @@ void Pointf::constructor(float x, float y)
 namespace _func2158
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_71", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_71", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2159
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_72", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_72", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2160
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_73", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_73", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2161
@@ -27535,19 +27535,19 @@ bool Pointf::equals(Pointf p)
 namespace _func2162
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_74", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_74", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2163
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_75", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_75", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2164
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_76", typeid(void (Pointf::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Pointf::__STRUCT_OVERRIDE_ANCHOR_76", typeid(void (Pointf::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2165
@@ -27722,13 +27722,13 @@ bool PowerManager::IncreasePower(std::pair<int, int> *powerLevel, int *iBatteryP
 namespace _func2178
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_77", typeid(void (PowerManager::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_77", typeid(void (PowerManager::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2179
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_78", typeid(void (PowerManager::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_78", typeid(void (PowerManager::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2180
@@ -28293,7 +28293,7 @@ int Projectile::GetType()
 namespace _func2223
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Projectile::DO_NOT_HOOK_FALSE_DESTRUCTOR", typeid(void (Projectile::*)()), "!.554889e553504889fb488d05????????66480f6ec0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Projectile::DO_NOT_HOOK_FALSE_DESTRUCTOR", typeid(void (Projectile::*)()), "!.554889e553504889fb488d05????????66480f6ec0", nullptr, 0, 64, &func);
 }
 
 namespace _func2224
@@ -29060,7 +29060,7 @@ void ResourceControl::destructor1()
 namespace _func2283
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ResourceControl::__DO_NOT_HOOK_10015759f", typeid(void (ResourceControl::*)()), "!3f5dc3660f1f440000554889e55de9????????660f1f440000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ResourceControl::__DO_NOT_HOOK_10015759f", typeid(void (ResourceControl::*)()), "!3f5dc3660f1f440000554889e55de9????????660f1f440000", nullptr, 0, 64, &func);
 }
 
 namespace _func2284
@@ -29801,7 +29801,7 @@ int RockAnimation::GetFiringFrame()
 namespace _func2341
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("RockAnimation::NoHook", typeid(void (RockAnimation::*)()), "554889e553504889fbe8????ffff488d3d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("RockAnimation::NoHook", typeid(void (RockAnimation::*)()), "554889e553504889fbe8????ffff488d3d", nullptr, 0, 64, &func);
 }
 
 namespace _func2342
@@ -30132,7 +30132,7 @@ void Room::OnLoop()
 namespace _func2367
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_84", typeid(void (Room::*)()), ".5548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_84", typeid(void (Room::*)()), ".5548", nullptr, 0, 64, &func);
 }
 
 namespace _func2368
@@ -30255,7 +30255,7 @@ void Room::OnRenderHighlight()
 namespace _func2377
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_85", typeid(void (Room::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_85", typeid(void (Room::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2378
@@ -30274,7 +30274,7 @@ void Room::OnCleanup()
 namespace _func2379
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_86", typeid(void (Room::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_86", typeid(void (Room::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2380
@@ -30514,7 +30514,7 @@ void ScoreKeeper::LoadVersionTwo(int fd)
 namespace _func2398
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_162", typeid(void (ScoreKeeper::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_162", typeid(void (ScoreKeeper::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2399
@@ -30689,7 +30689,7 @@ void ScoreKeeper::LoadCurrent(int fd, int version)
 namespace _func2412
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_163", typeid(void (ScoreKeeper::*)()), "554889e5415741564155415453504989d64989f7498b", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_163", typeid(void (ScoreKeeper::*)()), "554889e5415741564155415453504989d64989f7498b", nullptr, 0, 64, &func);
 }
 
 namespace _func2413
@@ -31801,7 +31801,7 @@ void Ship::OnRenderSystem(int roomId, int computerLevel)
 namespace _func2499
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_88", typeid(void (Ship::*)()), "554889e5534883ec184889fbf2", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_88", typeid(void (Ship::*)()), "554889e5534883ec184889fbf2", nullptr, 0, 64, &func);
 }
 
 namespace _func2500
@@ -31939,7 +31939,7 @@ int Ship::GetSelectedRoomId(int x, int y, bool bIncludeWalls)
 namespace _func2512
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_89", typeid(void (Ship::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_89", typeid(void (Ship::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func2513
@@ -32023,7 +32023,7 @@ void Ship::SetFireCount(int roomId, int fireId)
 namespace _func2519
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_90", typeid(void (Ship::*)()), "554889e583fe", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_90", typeid(void (Ship::*)()), "554889e583fe", nullptr, 0, 64, &func);
 }
 
 namespace _func2520
@@ -32120,7 +32120,7 @@ float Ship::GetCloakAlpha(bool complete)
 namespace _func2527
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_91", typeid(void (Ship::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_91", typeid(void (Ship::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2528
@@ -33179,7 +33179,7 @@ std::string ShipBlueprint::Print()
 namespace _func2609
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipBlueprint::NoHook", typeid(void (ShipBlueprint::*)()), "554889e54156534889f34989fe4885db7423", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipBlueprint::NoHook", typeid(void (ShipBlueprint::*)()), "554889e54156534889f34989fe4885db7423", nullptr, 0, 64, &func);
 }
 
 namespace _func2610
@@ -33380,7 +33380,7 @@ void ShipBuilder::SwitchShip(int shipType, int shipVariant)
 namespace _func2625
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_93", typeid(void (ShipBuilder::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_93", typeid(void (ShipBuilder::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2626
@@ -33581,7 +33581,7 @@ ShipManager *ShipBuilder::QuickPlayShip(bool tutorial)
 namespace _func2641
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipBuilder::NoHook", typeid(void (ShipBuilder::*)()), "554889e54157415641554154534881ecf8000000488b", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipBuilder::NoHook", typeid(void (ShipBuilder::*)()), "554889e54157415641554154534881ecf8000000488b", nullptr, 0, 64, &func);
 }
 
 namespace _func2642
@@ -33964,13 +33964,13 @@ int ShipGraph::ConnectedGridSquares(int x1, int y1, int x2, int y2)
 namespace _func2671
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_95", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_95", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2672
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_96", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_96", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2673
@@ -34015,7 +34015,7 @@ int ShipGraph::ConnectedGridSquares(Point p1, Point p2)
 namespace _func2676
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_97", typeid(void (ShipGraph::*)()), "554889e54889f048c1e8204989d049c1e82089d189c25de9????????0f1f4000554889e541", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_97", typeid(void (ShipGraph::*)()), "554889e54889f048c1e8204989d049c1e82089d189c25de9????????0f1f4000554889e541", nullptr, 0, 64, &func);
 }
 
 namespace _func2677
@@ -34086,7 +34086,7 @@ std::vector<int> ShipGraph::ConnectivityDFSHelper(int nextId, std::vector<int> d
 namespace _func2682
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_98", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_98", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2683
@@ -34105,7 +34105,7 @@ bool ShipGraph::Valid(int x, int y)
 namespace _func2684
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_99", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_99", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2685
@@ -34228,31 +34228,31 @@ void ShipGraph::ComputeCenter()
 namespace _func2694
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_100", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_100", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2695
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_101", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_101", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2696
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_102", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_102", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2697
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_103", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_103", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2698
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_104", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_104", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2699
@@ -34271,13 +34271,13 @@ std::vector<int> ShipGraph::GetRoomNeighbors(int roomId)
 namespace _func2700
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_105", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_105", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2701
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_106", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_106", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2702
@@ -34296,19 +34296,19 @@ void ShipGraph::OnInit(std::vector<Room*> pRooms, std::vector<Door*> pDoors)
 namespace _func2703
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_107", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_107", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2704
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_108", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_108", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2705
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_109", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_109", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2706
@@ -34327,7 +34327,7 @@ bool ShipGraph::Adjacent(Point p1, Point p2)
 namespace _func2707
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_110", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_110", typeid(void (ShipGraph::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2708
@@ -34892,7 +34892,7 @@ int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 namespace _func2751
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_113", typeid(void (ShipManager::*)()), ".554889e548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_113", typeid(void (ShipManager::*)()), ".554889e548", nullptr, 0, 64, &func);
 }
 
 namespace _func2752
@@ -35639,7 +35639,7 @@ void ShipManager::SetBoostFTL(bool val)
 namespace _func2809
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_114", typeid(void (ShipManager::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_114", typeid(void (ShipManager::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2810
@@ -35853,7 +35853,7 @@ void ShipManager::CloneHealing()
 namespace _func2826
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_115", typeid(void (ShipManager::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_115", typeid(void (ShipManager::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2827
@@ -36067,7 +36067,7 @@ void ShipManager::CheckCrystalAugment(Pointf position)
 namespace _func2843
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_116", typeid(void (ShipManager::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_116", typeid(void (ShipManager::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func2844
@@ -36216,7 +36216,7 @@ Pointf ShipManager::GetRandomTargettingPoint(bool valuable)
 namespace _func2855
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_117", typeid(void (ShipManager::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_117", typeid(void (ShipManager::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func2856
@@ -36456,7 +36456,7 @@ std::vector<ShipSystem*> ShipManager::GetSystemList()
 namespace _func2874
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_118", typeid(void (ShipManager::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_118", typeid(void (ShipManager::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func2875
@@ -37665,7 +37665,7 @@ void ShipSelect::Close()
 namespace _func2968
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipSelect::__STRUCT_OVERRIDE_ANCHOR_119", typeid(void (ShipSelect::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipSelect::__STRUCT_OVERRIDE_ANCHOR_119", typeid(void (ShipSelect::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func2969
@@ -38139,7 +38139,7 @@ void ShipSystem::LoadState(int file)
 namespace _func3005
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipSystem::__STRUCT_OVERRIDE_ANCHOR_120", typeid(void (ShipSystem::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipSystem::__STRUCT_OVERRIDE_ANCHOR_120", typeid(void (ShipSystem::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func3006
@@ -39042,7 +39042,7 @@ bool ShipSystem::GetExploded()
 namespace _func3075
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipSystem::DO_NOT_HOOK", typeid(void (ShipSystem::*)()), "!554889e553504889fb8b7650e8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipSystem::DO_NOT_HOOK", typeid(void (ShipSystem::*)()), "!554889e553504889fb8b7650e8", nullptr, 0, 64, &func);
 }
 
 namespace _func3076
@@ -39166,7 +39166,7 @@ namespace _var3091
 namespace _func3092
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("ShipSystem::DO_NOT_HOOK_2", typeid(bool (ShipSystem::*)(int )), "!.554889e55d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ShipSystem::DO_NOT_HOOK_2", typeid(bool (ShipSystem::*)(int )), "!.554889e55d", nullptr, 0, 64, &func);
 }
 
 namespace _func3093
@@ -39699,7 +39699,7 @@ CrewDrone *SpaceDrone::GetBoardingDrone()
 namespace _func3134
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_121", typeid(void (SpaceDrone::*)()), ".554889e54157415641554154534881ec58", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_121", typeid(void (SpaceDrone::*)()), ".554889e54157415641554154534881ec58", nullptr, 0, 64, &func);
 }
 
 namespace _func3135
@@ -39731,7 +39731,7 @@ bool SpaceDrone::ValidTarget()
 namespace _func3137
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_155", typeid(void (SpaceDrone::*)()), "!.554889e553504889fb488d", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_155", typeid(void (SpaceDrone::*)()), "!.554889e553504889fb488d", nullptr, 0, 64, &func);
 }
 
 namespace _func3138
@@ -39750,7 +39750,7 @@ void SpaceDrone::destructor1()
 namespace _func3139
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_122", typeid(void (SpaceDrone::*)()), "!.554889e553504889fb488d05??????00488903", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_122", typeid(void (SpaceDrone::*)()), "!.554889e553504889fb488d05??????00488903", nullptr, 0, 64, &func);
 }
 
 namespace _func3140
@@ -42005,13 +42005,13 @@ StatusEffect StatusEffect::GetNebulaEffect()
 namespace _func3313
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("StatusEffect::NoHook1", typeid(void (StatusEffect::*)()), "554889e58a05??????0084", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("StatusEffect::NoHook1", typeid(void (StatusEffect::*)()), "554889e58a05??????0084", nullptr, 0, 64, &func);
 }
 
 namespace _func3314
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("StatusEffect::NoHook2", typeid(void (StatusEffect::*)()), "!.554889e58a05??????0084", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("StatusEffect::NoHook2", typeid(void (StatusEffect::*)()), "!.554889e58a05??????0084", nullptr, 0, 64, &func);
 }
 
 namespace _func3315
@@ -43747,7 +43747,7 @@ void SystemControl::OnCleanup()
 namespace _func3449
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SystemCustomBox::__STRUCT_OVERRIDE_ANCHOR_128", typeid(void (SystemCustomBox::*)()), "554889e5415741564154534883ec404989ce49", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SystemCustomBox::__STRUCT_OVERRIDE_ANCHOR_128", typeid(void (SystemCustomBox::*)()), "554889e5415741564154534883ec404989ce49", nullptr, 0, 64, &func);
 }
 
 namespace _func3450
@@ -43857,7 +43857,7 @@ void SystemCustomBox::constructor(Point _position, ShipSystem *_system, ShipMana
 namespace _func3458
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("SystemStoreBox::__STRUCT_OVERRIDE_ANCHOR_129", typeid(void (SystemStoreBox::*)()), "554889e54157415641554154534881eca800000041", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("SystemStoreBox::__STRUCT_OVERRIDE_ANCHOR_129", typeid(void (SystemStoreBox::*)()), "554889e54157415641554154534881eca800000041", nullptr, 0, 64, &func);
 }
 
 namespace _func3459
@@ -44357,7 +44357,7 @@ bool TabbedWindow::KeyUp(SDLKey sym)
 namespace _func3497
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TeleportBox::__STRUCT_OVERRIDE_ANCHOR_130", typeid(void (TeleportBox::*)()), "554889e54157415641554154534883ec684889d3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TeleportBox::__STRUCT_OVERRIDE_ANCHOR_130", typeid(void (TeleportBox::*)()), "554889e54157415641554154534883ec684889d3", nullptr, 0, 64, &func);
 }
 
 namespace _func3498
@@ -44766,7 +44766,7 @@ void TeleportSystem::destructor()
 namespace _func3529
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_132", typeid(void (TextButton::*)()), "554889e54156534889fb488d05??????00488903488d7b08e8????0a000f2805??????000f114310c6432001??????????????????????48????????????48??????????????????????????????43??00??????????????????????????????????????0000????????????????????c643????????????66c7434d0000c7434900000000be010000000f57c04c89f7e8????09000f57c04c89f7e8????0900488d05??????0048890348c7", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_132", typeid(void (TextButton::*)()), "554889e54156534889fb488d05??????00488903488d7b08e8????0a000f2805??????000f114310c6432001??????????????????????48????????????48??????????????????????????????43??00??????????????????????????????????????0000????????????????????c643????????????66c7434d0000c7434900000000be010000000f57c04c89f7e8????09000f57c04c89f7e8????0900488d05??????0048890348c7", nullptr, 0, 64, &func);
 }
 
 namespace _func3530
@@ -44785,7 +44785,7 @@ void TextButton::constructor()
 namespace _func3531
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_156", typeid(void (TextButton::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_156", typeid(void (TextButton::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func3532
@@ -44804,7 +44804,7 @@ void TextButton::destructor1()
 namespace _func3533
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_133", typeid(void (TextButton::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_133", typeid(void (TextButton::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func3534
@@ -44927,7 +44927,7 @@ void TextButton::SetFont(int font_)
 namespace _func3543
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_164", typeid(void (TextButton::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::__STRUCT_OVERRIDE_ANCHOR_164", typeid(void (TextButton::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func3544
@@ -45024,7 +45024,7 @@ void TextButton::OnRender()
 namespace _func3551
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextButton::NoHook", typeid(void (TextButton::*)()), "554889e553504889fb48837b6800", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextButton::NoHook", typeid(void (TextButton::*)()), "554889e553504889fb48837b6800", nullptr, 0, 64, &func);
 }
 
 namespace _func3552
@@ -45433,7 +45433,7 @@ std::string TextLibrary::GetText(const std::string &name, const std::string &lan
 namespace _func3583
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TextLibrary::__STRUCT_OVERRIDE_ANCHOR_135", typeid(void (TextLibrary::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TextLibrary::__STRUCT_OVERRIDE_ANCHOR_135", typeid(void (TextLibrary::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func3584
@@ -45569,7 +45569,7 @@ bool TimerHelper::Done()
 namespace _func3594
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("TutorialManager::__STRUCT_OVERRIDE_ANCHOR_136", typeid(void (TutorialManager::*)()), "!554889e54156534889fbc603", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("TutorialManager::__STRUCT_OVERRIDE_ANCHOR_136", typeid(void (TutorialManager::*)()), "!554889e54156534889fbc603", nullptr, 0, 64, &func);
 }
 
 namespace _func3595
@@ -47805,7 +47805,7 @@ void WeaponControl::Fire(std::vector<Pointf> &points, int target, bool autoFire)
 namespace _func3767
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_142", typeid(void (WeaponEquipBox::*)()), "554889e54156534883ec204889fb488d050b|554889e54156534883ec204989d6", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_142", typeid(void (WeaponEquipBox::*)()), "554889e54156534883ec204889fb488d050b|554889e54156534883ec204989d6", nullptr, 0, 64, &func);
 }
 
 namespace _func3768
@@ -47941,7 +47941,7 @@ bool WeaponEquipBox::CanHoldAugment()
 namespace _func3778
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_143", typeid(void (WeaponEquipBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_143", typeid(void (WeaponEquipBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func3779
@@ -47973,7 +47973,7 @@ bool WeaponEquipBox::CanDoJob()
 namespace _func3781
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponEquipBox::NoHook", typeid(void (WeaponEquipBox::*)()), "554889e5415741564154534883ec204189d64189f74889fb80", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponEquipBox::NoHook", typeid(void (WeaponEquipBox::*)()), "554889e5415741564154534883ec204189d64189f74889fb80", nullptr, 0, 64, &func);
 }
 
 namespace _func3782
@@ -47992,7 +47992,7 @@ void WeaponEquipBox::constructor(Point location, WeaponSystem *_system, int _slo
 namespace _func3783
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_144", typeid(void (WeaponStoreBox::*)()), "554889e5534883ec184889fbbf20000000e8????????488945f00f2805????????0f2945e048b9795f77", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_144", typeid(void (WeaponStoreBox::*)()), "554889e5534883ec184889fbbf20000000e8????????488945f00f2805????????0f2945e048b9795f77", nullptr, 0, 64, &func);
 }
 
 namespace _func3784
@@ -48518,13 +48518,13 @@ Projectile *WeaponSystem::GetPreparedProjectile()
 namespace _func3824
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_145", typeid(void (WeaponSystemBox::*)()), "554889e54156534989ce4889fbb901000000e8????ffff488d05??????004889034c89b3a802000048", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_145", typeid(void (WeaponSystemBox::*)()), "554889e54156534989ce4889fbb901000000e8????ffff488d05??????004889034c89b3a802000048", nullptr, 0, 64, &func);
 }
 
 namespace _func3825
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_152", typeid(void (WeaponSystemBox::*)()), ".55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_152", typeid(void (WeaponSystemBox::*)()), ".55", nullptr, 0, 64, &func);
 }
 
 namespace _func3826
@@ -48686,7 +48686,7 @@ bool WeaponSystemBox::HasButton()
 namespace _func3838
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WeaponSystemBox::NoHook", typeid(void (WeaponSystemBox::*)()), "554889e54156534189f64889fb488bbb48", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WeaponSystemBox::NoHook", typeid(void (WeaponSystemBox::*)()), "554889e54156534189f64889fb488bbb48", nullptr, 0, 64, &func);
 }
 
 namespace _func3839
@@ -48770,7 +48770,7 @@ void WindowFrame::Draw(int x, int y)
 namespace _func3845
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WindowFrame::__STRUCT_OVERRIDE_ANCHOR_147", typeid(void (WindowFrame::*)()), "!.55", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WindowFrame::__STRUCT_OVERRIDE_ANCHOR_147", typeid(void (WindowFrame::*)()), "!.55", nullptr, 0, 64, &func);
 }
 
 namespace _func3846
@@ -48924,7 +48924,7 @@ namespace _noop3857
 namespace _func3858
 {
     static void *func = 0;
-	static FunctionDefinition funcObj("WorldManager::__STRUCT_OVERRIDE_ANCHOR_148", typeid(void (WorldManager::*)()), ".5548", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("WorldManager::__STRUCT_OVERRIDE_ANCHOR_148", typeid(void (WorldManager::*)()), ".5548", nullptr, 0, 64, &func);
 }
 
 namespace _func3859

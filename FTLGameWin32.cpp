@@ -2148,7 +2148,7 @@ namespace _func153
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_1", typeid(void (AugmentEquipBox::*)()), ".b803000000c204009090", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("AugmentEquipBox::__STRUCT_OVERRIDE_ANCHOR_1", typeid(void (AugmentEquipBox::*)()), ".b803000000c204009090", argdata, 0, 68, &func);
 }
 
 namespace _func154
@@ -2211,7 +2211,7 @@ namespace _func158
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("AugmentStoreBox::__STRUCT_OVERRIDE_ANCHOR_2", typeid(void (AugmentStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc15", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("AugmentStoreBox::__STRUCT_OVERRIDE_ANCHOR_2", typeid(void (AugmentStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc15", argdata, 0, 68, &func);
 }
 
 namespace _func159
@@ -2260,7 +2260,7 @@ namespace _func162
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("AugmentStoreBox::__DO_NOT_HOOK_72cc5f", typeid(void (AugmentStoreBox::*)()), "!.90909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("AugmentStoreBox::__DO_NOT_HOOK_72cc5f", typeid(void (AugmentStoreBox::*)()), "!.90909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3", argdata, 0, 68, &func);
 }
 
 namespace _func163
@@ -4206,7 +4206,7 @@ namespace _func302
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Button::__STRUCT_OVERRIDE_ANCHOR_3", typeid(void (Button::*)()), "5589e55389cb83e4f083ec108b4154c701????????890424e8????????8b4358890424e8????????8b435c890424e8????????8b5dfcc9c3908d", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Button::__STRUCT_OVERRIDE_ANCHOR_3", typeid(void (Button::*)()), "5589e55389cb83e4f083ec108b4154c701????????890424e8????????8b4358890424e8????????8b435c890424e8????????8b5dfcc9c3908d", argdata, 0, 68, &func);
 }
 
 namespace _func303
@@ -6334,7 +6334,7 @@ namespace _func455
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CachedImage::__STRUCT_OVERRIDE_ANCHOR_4", typeid(void (CachedImage::*)()), ".660fefc98d41", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CachedImage::__STRUCT_OVERRIDE_ANCHOR_4", typeid(void (CachedImage::*)()), ".660fefc98d41", argdata, 0, 68, &func);
 }
 
 namespace _func456
@@ -7713,7 +7713,7 @@ namespace _func554
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CloneSystem::__DO_NOT_HOOK", typeid(void (CloneSystem::*)()), "578d????0883e4f0ff????5589e557565389ce83ec3c8b????8b??8b????", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CloneSystem::__DO_NOT_HOOK", typeid(void (CloneSystem::*)()), "578d????0883e4f0ff????5589e557565389ce83ec3c8b????8b??8b????", argdata, 0, 68, &func);
 }
 
 namespace _func555
@@ -9330,7 +9330,7 @@ namespace _func670
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CommandGui::__STRUCT_OVERRIDE_ANCHOR_5", typeid(void (CommandGui::*)()), ".807c24040074", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CommandGui::__STRUCT_OVERRIDE_ANCHOR_5", typeid(void (CommandGui::*)()), ".807c24040074", argdata, 0, 68, &func);
 }
 
 namespace _func671
@@ -13481,7 +13481,7 @@ namespace _func967
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CrewEquipBox::__STRUCT_OVERRIDE_ANCHOR_6", typeid(void (CrewEquipBox::*)()), ".b802000000c2040090", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CrewEquipBox::__STRUCT_OVERRIDE_ANCHOR_6", typeid(void (CrewEquipBox::*)()), ".b802000000c2040090", argdata, 0, 68, &func);
 }
 
 namespace _func968
@@ -16155,7 +16155,7 @@ namespace _func1159
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CrewStoreBox::__STRUCT_OVERRIDE_ANCHOR_7", typeid(void (CrewStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc16", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("CrewStoreBox::__STRUCT_OVERRIDE_ANCHOR_7", typeid(void (CrewStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc16", argdata, 0, 68, &func);
 }
 
 namespace _func1160
@@ -17296,7 +17296,7 @@ namespace _func1241
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_8", typeid(void (Door::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b91", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_8", typeid(void (Door::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b91", argdata, 0, 68, &func);
 }
 
 namespace _func1242
@@ -17359,7 +17359,7 @@ namespace _func1246
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_9", typeid(void (Door::*)()), ".578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b7d", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Door::__STRUCT_OVERRIDE_ANCHOR_9", typeid(void (Door::*)()), ".578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b7d", argdata, 0, 68, &func);
 }
 
 namespace _func1247
@@ -18612,7 +18612,7 @@ namespace _func1336
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DroneEquipBox::__DO_NOT_HOOK_52dfef", typeid(void (DroneEquipBox::*)()), "!.40c703????????8d65f45b5e5f5d8d67f85fc21000", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DroneEquipBox::__DO_NOT_HOOK_52dfef", typeid(void (DroneEquipBox::*)()), "!.40c703????????8d65f45b5e5f5d8d67f85fc21000", argdata, 0, 68, &func);
 }
 
 namespace _func1337
@@ -18689,7 +18689,7 @@ namespace _func1342
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_10", typeid(void (DroneEquipBox::*)()), ".b801000000c2040090909090909090", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DroneEquipBox::__STRUCT_OVERRIDE_ANCHOR_10", typeid(void (DroneEquipBox::*)()), ".b801000000c2040090909090909090", argdata, 0, 68, &func);
 }
 
 namespace _func1343
@@ -18766,7 +18766,7 @@ namespace _func1348
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DroneStoreBox::__STRUCT_OVERRIDE_ANCHOR_11", typeid(void (DroneStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc18", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DroneStoreBox::__STRUCT_OVERRIDE_ANCHOR_11", typeid(void (DroneStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc18", argdata, 0, 68, &func);
 }
 
 namespace _func1349
@@ -18815,7 +18815,7 @@ namespace _func1352
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DroneStoreBox::__DO_NOT_HOOK_72873f", typeid(void (DroneStoreBox::*)()), "!.4485c00f95c0c3909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DroneStoreBox::__DO_NOT_HOOK_72873f", typeid(void (DroneStoreBox::*)()), "!.4485c00f95c0c3909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3", argdata, 0, 68, &func);
 }
 
 namespace _func1353
@@ -20166,7 +20166,7 @@ namespace _func1449
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_12", typeid(void (EquipmentBox::*)()), ".8b516031", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("EquipmentBox::__STRUCT_OVERRIDE_ANCHOR_12", typeid(void (EquipmentBox::*)()), ".8b516031", argdata, 0, 68, &func);
 }
 
 namespace _func1450
@@ -20607,7 +20607,7 @@ namespace _func1482
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("EventsParser::__STRUCT_OVERRIDE_ANCHOR_13", typeid(void (EventsParser::*)()), ".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??b8010000008d65f8595b5d8d61fcc3908db42600000000c70424????????89d9e8????????83ec0485c074??c70424????????89d9e8????????83ec0485c074??31", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("EventsParser::__STRUCT_OVERRIDE_ANCHOR_13", typeid(void (EventsParser::*)()), ".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??b8010000008d65f8595b5d8d61fcc3908db42600000000c70424????????89d9e8????????83ec0485c074??c70424????????89d9e8????????83ec0485c074??31", argdata, 0, 68, &func);
 }
 
 namespace _func1483
@@ -21138,15 +21138,15 @@ void FileHelper::deleteFile(const std::string &fileName)
 namespace _func1521
 {
     static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::getResourceFile", typeid(std::string (*)()), ".8d4c240483e4f0ff71fc5589e5575653518d75d883ec488b19", argdata, 1, 2, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("FileHelper::getResourceFile", typeid(std::string (*)(const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d75d883ec488b19", argdata, 2, 2, &func);
 }
 
-std::string FileHelper::getResourceFile()
+std::string FileHelper::getResourceFile(const std::string &resourceFile)
 {
-	typedef std::string __attribute__((cdecl)) (*custom_arg_funcptr_t)();
+	typedef std::string __attribute__((cdecl)) (*custom_arg_funcptr_t)(const std::string &resourceFile_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1521::func;
-	return execfunc();
+	return execfunc(resourceFile);
 }
 
 namespace _func1522
@@ -22441,7 +22441,7 @@ namespace _func1614
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DO_NOT_HOOK_1", typeid(void (*)()), ".5589e583", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DO_NOT_HOOK_1", typeid(void (*)()), ".5589e583", argdata, 0, 68, &func);
 }
 
 namespace _func1615
@@ -22588,14 +22588,14 @@ namespace _func1625
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DO_NOT_HOOK_2", typeid(void (*)()), ".8b44", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DO_NOT_HOOK_2", typeid(void (*)()), ".8b44", argdata, 0, 68, &func);
 }
 
 namespace _func1626
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("DO_NOT_HOOK_3", typeid(void (*)()), ".8b44", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("DO_NOT_HOOK_3", typeid(void (*)()), ".8b44", argdata, 0, 68, &func);
 }
 
 namespace _func1627
@@ -25409,7 +25409,7 @@ namespace _func1832
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_46d2cf", typeid(void (MantisAnimation::*)()), "!ef090000018d65f8b8010000005b5f5d8d67f85fc38d65f831c05b5f5d8d67f85fc3", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_46d2cf", typeid(void (MantisAnimation::*)()), "!ef090000018d65f8b8010000005b5f5d8d67f85fc38d65f831c05b5f5d8d67f85fc3", argdata, 0, 68, &func);
 }
 
 namespace _func1833
@@ -25500,14 +25500,14 @@ namespace _func1839
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK", typeid(void (MantisAnimation::*)()), "5e5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308eb??", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK", typeid(void (MantisAnimation::*)()), "5e5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308eb??", argdata, 0, 68, &func);
 }
 
 namespace _func1840
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK2", typeid(void (MantisAnimation::*)()), "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK2", typeid(void (MantisAnimation::*)()), "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 0, 68, &func);
 }
 
 namespace _func1841
@@ -26984,7 +26984,7 @@ namespace _func1947
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_14", typeid(void (OxygenSystem::*)()), ".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b81c8", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_14", typeid(void (OxygenSystem::*)()), ".578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b81c8", argdata, 0, 68, &func);
 }
 
 namespace _func1948
@@ -27243,7 +27243,7 @@ namespace _func1966
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_15", typeid(void (Point::*)()), "c70101000080", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Point::__STRUCT_OVERRIDE_ANCHOR_15", typeid(void (Point::*)()), "c70101000080", argdata, 0, 68, &func);
 }
 
 namespace _func1967
@@ -27628,14 +27628,14 @@ namespace _func1994
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_16", typeid(void (PowerManager::*)()), ".8b510455", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_16", typeid(void (PowerManager::*)()), ".8b510455", argdata, 0, 68, &func);
 }
 
 namespace _func1995
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_17", typeid(void (PowerManager::*)()), ".8b41200341188b", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("PowerManager::__STRUCT_OVERRIDE_ANCHOR_17", typeid(void (PowerManager::*)()), ".8b41200341188b", argdata, 0, 68, &func);
 }
 
 namespace _func1996
@@ -29714,7 +29714,7 @@ namespace _func2145
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_46d13f", typeid(void (RockAnimation::*)()), "!b0e9????????908db426000000008dbc2700000000", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_46d13f", typeid(void (RockAnimation::*)()), "!b0e9????????908db426000000008dbc2700000000", argdata, 0, 68, &func);
 }
 
 namespace _func2146
@@ -29833,28 +29833,28 @@ namespace _func2154
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK", typeid(void (RockAnimation::*)()), "5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK", typeid(void (RockAnimation::*)()), "5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308", argdata, 0, 68, &func);
 }
 
 namespace _func2155
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK2", typeid(void (RockAnimation::*)()), ".5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK2", typeid(void (RockAnimation::*)()), ".5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308", argdata, 0, 68, &func);
 }
 
 namespace _func2156
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK3", typeid(void (RockAnimation::*)()), "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK3", typeid(void (RockAnimation::*)()), "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 0, 68, &func);
 }
 
 namespace _func2157
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK4", typeid(void (RockAnimation::*)()), ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK4", typeid(void (RockAnimation::*)()), ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 0, 68, &func);
 }
 
 namespace _func2158
@@ -30141,7 +30141,7 @@ namespace _func2178
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_18", typeid(void (Room::*)()), ".5589c889e583e4f08b5508f30f6f42", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_18", typeid(void (Room::*)()), ".5589c889e583e4f08b5508f30f6f42", argdata, 0, 68, &func);
 }
 
 namespace _func2179
@@ -30274,7 +30274,7 @@ namespace _func2188
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_19", typeid(void (Room::*)()), ".5789ca8d7c240883e4f0ff77fc5589f8", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Room::__STRUCT_OVERRIDE_ANCHOR_19", typeid(void (Room::*)()), ".5789ca8d7c240883e4f0ff77fc5589f8", argdata, 0, 68, &func);
 }
 
 namespace _func2189
@@ -30351,7 +30351,7 @@ namespace _func2194
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Room::__DO_NOT_HOOK", typeid(void (Room::*)()), "890424e8????????89742404893c2489c1c744240800000000e8????????89433883ec0c8d65f45b5e5f5d", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Room::__DO_NOT_HOOK", typeid(void (Room::*)()), "890424e8????????89742404893c2489c1c744240800000000e8????????89433883ec0c8d65f45b5e5f5d", argdata, 0, 68, &func);
 }
 
 namespace _func2195
@@ -31919,7 +31919,7 @@ namespace _func2308
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_20", typeid(void (Ship::*)()), ".578d7c240883e4f0ff77fc5589e5575383ec108b4104", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_20", typeid(void (Ship::*)()), ".578d7c240883e4f0ff77fc5589e5575383ec108b4104", argdata, 0, 68, &func);
 }
 
 namespace _func2309
@@ -31996,7 +31996,7 @@ namespace _func2314
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_21", typeid(void (Ship::*)()), ".837c2404ff74", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("Ship::__STRUCT_OVERRIDE_ANCHOR_21", typeid(void (Ship::*)()), ".837c2404ff74", argdata, 0, 68, &func);
 }
 
 namespace _func2315
@@ -33479,7 +33479,7 @@ namespace _func2423
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_22", typeid(void (ShipBuilder::*)()), ".c681a810", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipBuilder::__STRUCT_OVERRIDE_ANCHOR_22", typeid(void (ShipBuilder::*)()), ".c681a810", argdata, 0, 68, &func);
 }
 
 namespace _func2424
@@ -34466,7 +34466,7 @@ namespace _func2490
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_23", typeid(void (ShipGraph::*)()), ".578d7c240883e4f0ff77fc5589e557565383ec2c8b17", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_23", typeid(void (ShipGraph::*)()), ".578d7c240883e4f0ff77fc5589e557565383ec2c8b17", argdata, 0, 68, &func);
 }
 
 namespace _func2491
@@ -34515,7 +34515,7 @@ namespace _func2494
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_24", typeid(void (ShipGraph::*)()), ".578d7c240883e4f0ff77fc5589e557565383ec3c8b198b49", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_24", typeid(void (ShipGraph::*)()), ".578d7c240883e4f0ff77fc5589e557565383ec3c8b198b49", argdata, 0, 68, &func);
 }
 
 namespace _func2495
@@ -34550,14 +34550,14 @@ namespace _func2497
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_25", typeid(void (ShipGraph::*)()), ".8d4c240483e4f0ff71fc5589e556535183ec2c8b71048b19b9eba00eea89f0f7e989d801f2c1fe1fc1fa0529f289542404f7e98d4de001dac1fb1fc1fa0529da891424e8????????8b45e08b55e483ec088d65f4595b5e5d8d61fcc38d7426008d4c240483e4f0ff71fc5589e55183ec248b016b5104238d4df06bc02389042489542404e8????????8b4dfc8b45f083ec088b55f4c98d61fcc38db6000000008d4c240483e4f0ff71fc5589e556", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_25", typeid(void (ShipGraph::*)()), ".8d4c240483e4f0ff71fc5589e556535183ec2c8b71048b19b9eba00eea89f0f7e989d801f2c1fe1fc1fa0529f289542404f7e98d4de001dac1fb1fc1fa0529da891424e8????????8b45e08b55e483ec088d65f4595b5e5d8d61fcc38d7426008d4c240483e4f0ff71fc5589e55183ec248b016b5104238d4df06bc02389042489542404e8????????8b4dfc8b45f083ec088b55f4c98d61fcc38db6000000008d4c240483e4f0ff71fc5589e556", argdata, 0, 68, &func);
 }
 
 namespace _func2498
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_26", typeid(void (ShipGraph::*)()), ".8d4c240483e4f0ff71fc5589e55183ec248b016b5104238d4df06bc02389042489542404e8????????8b4dfc8b45f083ec088b55f4c98d61fcc38db6000000008d4c240483e4f0ff71fc5589e556", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_26", typeid(void (ShipGraph::*)()), ".8d4c240483e4f0ff71fc5589e55183ec248b016b5104238d4df06bc02389042489542404e8????????8b4dfc8b45f083ec088b55f4c98d61fcc38db6000000008d4c240483e4f0ff71fc5589e556", argdata, 0, 68, &func);
 }
 
 namespace _func2499
@@ -34606,7 +34606,7 @@ namespace _func2502
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_27", typeid(void (ShipGraph::*)()), ".5589e5837d", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipGraph::__STRUCT_OVERRIDE_ANCHOR_27", typeid(void (ShipGraph::*)()), ".5589e5837d", argdata, 0, 68, &func);
 }
 
 namespace _func2503
@@ -35627,7 +35627,7 @@ namespace _func2574
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_28", typeid(void (ShipManager::*)()), ".578d7c240883e4f0ff77fc5589e55756538d5dd08d75", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_28", typeid(void (ShipManager::*)()), ".578d7c240883e4f0ff77fc5589e55756538d5dd08d75", argdata, 0, 68, &func);
 }
 
 namespace _func2575
@@ -35928,7 +35928,7 @@ namespace _func2596
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_29", typeid(void (ShipManager::*)()), ".5781c1940000008d7c240883e4f0ff77fc5589e55753", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_29", typeid(void (ShipManager::*)()), ".5781c1940000008d7c240883e4f0ff77fc5589e55753", argdata, 0, 68, &func);
 }
 
 namespace _func2597
@@ -36005,7 +36005,7 @@ namespace _func2602
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_30", typeid(void (ShipManager::*)()), ".8b51648b416829d0c1f80285c00f", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_30", typeid(void (ShipManager::*)()), ".8b51648b416829d0c1f80285c00f", argdata, 0, 68, &func);
 }
 
 namespace _func2603
@@ -36124,14 +36124,14 @@ namespace _func2611
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_31", typeid(void (ShipManager::*)()), ".578d7c240883e4f0ff77fc5589e557565389ce83ec1c80", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_31", typeid(void (ShipManager::*)()), ".578d7c240883e4f0ff77fc5589e557565389ce83ec1c80", argdata, 0, 68, &func);
 }
 
 namespace _func2612
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_32", typeid(void (ShipManager::*)()), ".5781c1940000008d7c240883e4f0ff77fc5589e55783ec14", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_32", typeid(void (ShipManager::*)()), ".5781c1940000008d7c240883e4f0ff77fc5589e55783ec14", argdata, 0, 68, &func);
 }
 
 namespace _func2613
@@ -36208,7 +36208,7 @@ namespace _func2618
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_33", typeid(void (ShipManager::*)()), ".5589e583e4f083ec108b4104890424e8????????89", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipManager::__STRUCT_OVERRIDE_ANCHOR_33", typeid(void (ShipManager::*)()), ".5589e583e4f083ec108b4104890424e8????????89", argdata, 0, 68, &func);
 }
 
 namespace _func2619
@@ -38259,7 +38259,7 @@ namespace _func2765
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipObject::__DO_NOT_HOOK", typeid(void (ShipObject::*)()), "89b5a4feffffe9????????c70424????????e8????????89c60fb68590feffff89f1894424088b8594feffff894424048b858cfeffff890424", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipObject::__DO_NOT_HOOK", typeid(void (ShipObject::*)()), "89b5a4feffffe9????????c70424????????e8????????89c60fb68590feffff89f1894424088b8594feffff894424048b858cfeffff890424", argdata, 0, 68, &func);
 }
 
 ShipInfo **Global_ShipObject_ShipInfoList;
@@ -38413,7 +38413,7 @@ namespace _func2777
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipSelect::__STRUCT_OVERRIDE_ANCHOR_38", typeid(void (ShipSelect::*)()), ".8b4138c38db6000000008d", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("ShipSelect::__STRUCT_OVERRIDE_ANCHOR_38", typeid(void (ShipSelect::*)()), ".8b4138c38db6000000008d", argdata, 0, 68, &func);
 }
 
 namespace _func2778
@@ -39912,7 +39912,7 @@ namespace _func2883
 {
     static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("ShipSystem::__DO_NOT_HOOK", typeid(void (ShipSystem::*)()), "55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("ShipSystem::__DO_NOT_HOOK", typeid(void (ShipSystem::*)()), "55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????", argdata, 1, 69, &func);
 }
 
 GL_Primitive **ShipSystem__glowBlue;
@@ -45785,7 +45785,7 @@ namespace _func3312
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("TeleportSystem::__DO_NOT_HOOK", typeid(void (TeleportSystem::*)()), "8d????0483e4f0ff????5589e5535183ec408b15????????a1????????", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("TeleportSystem::__DO_NOT_HOOK", typeid(void (TeleportSystem::*)()), "8d????0483e4f0ff????5589e5535183ec408b15????????a1????????", argdata, 0, 68, &func);
 }
 
 namespace _func3313
@@ -46256,7 +46256,7 @@ namespace _func3345
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("TextLibrary::__STRUCT_OVERRIDE_ANCHOR_34", typeid(void (TextLibrary::*)()), ".5783c1308d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc204009066908d", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("TextLibrary::__STRUCT_OVERRIDE_ANCHOR_34", typeid(void (TextLibrary::*)()), ".5783c1308d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc204009066908d", argdata, 0, 68, &func);
 }
 
 namespace _func3346
@@ -47992,7 +47992,7 @@ namespace _func3470
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK", typeid(void (WeaponBlueprint::*)()), "5589e55389cb83e4f083ec108b81c4000000c701????????85c074??890424e8????????8b83a00000008d93a8000000c703????????39d0", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponBlueprint::__DO_NOT_HOOK", typeid(void (WeaponBlueprint::*)()), "5589e55389cb83e4f083ec108b81c4000000c701????????85c074??890424e8????????8b83a00000008d93a8000000c703????????39d0", argdata, 0, 68, &func);
 }
 
 namespace _func3471
@@ -48853,7 +48853,7 @@ namespace _func3532
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_35", typeid(void (WeaponEquipBox::*)()), ".31c0c2040090909090909090909090908b", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_35", typeid(void (WeaponEquipBox::*)()), ".31c0c2040090909090909090909090908b", argdata, 0, 68, &func);
 }
 
 namespace _func3533
@@ -48930,7 +48930,7 @@ namespace _func3538
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_36", typeid(void (WeaponStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc19", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_36", typeid(void (WeaponStoreBox::*)()), ".578d7c240883e4f0ff77fc5589e55756538d7dd08d45cc8d75d889cb83ec3c89f9c745cc19", argdata, 0, 68, &func);
 }
 
 namespace _func3539
@@ -48979,7 +48979,7 @@ namespace _func3542
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK_72c82f", typeid(void (WeaponStoreBox::*)()), "!.4085c00f95c0c3909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK_72c82f", typeid(void (WeaponStoreBox::*)()), "!.4085c00f95c0c3909090909090905589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424e8????????8b4338890424e8????????8b433c890424e8????????8b4304890424e8????????8b43188d532039d074??890424e8????????891c24e8????????8b5dfcc9c390909090909090905589e55389cb83c32083e4f083ec108b4130c701????????890424e8????????8b4314890424e8????????8b4318890424e8????????8b431c890424e8????????8b43e4890424e8????????8b43f839d874??890424e8????????8b5dfcc9c3", argdata, 0, 68, &func);
 }
 
 namespace _func3543
@@ -49014,7 +49014,7 @@ namespace _func3545
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (WeaponStoreBox::*)()), "c7442404000000008904248975d0e8????????8b55ccc7400c655f627583ec08c74010795f7765c7401461706f6e89d9c64018738945d08955d8c700????????c740046555492fc7400873746f72", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (WeaponStoreBox::*)()), "c7442404000000008904248975d0e8????????8b55ccc7400c655f627583ec08c74010795f7765c7401461706f6e89d9c64018738945d08955d8c700????????c740046555492fc7400873746f72", argdata, 0, 68, &func);
 }
 
 namespace _func3546
@@ -49903,7 +49903,7 @@ namespace _func3609
 {
     static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WorldManager::__STRUCT_OVERRIDE_ANCHOR_37", typeid(void (WorldManager::*)()), ".578d7c240883e4f0ff77fc5589e557565383ec5c89", argdata, 0, 4, &func);
+	static FunctionDefinition funcObj("WorldManager::__STRUCT_OVERRIDE_ANCHOR_37", typeid(void (WorldManager::*)()), ".578d7c240883e4f0ff77fc5589e557565383ec5c89", argdata, 0, 68, &func);
 }
 
 namespace _func3610

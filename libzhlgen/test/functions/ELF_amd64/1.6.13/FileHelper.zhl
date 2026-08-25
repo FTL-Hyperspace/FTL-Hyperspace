@@ -1,7 +1,7 @@
 "534889fb488b3f31f6e8????????85c074":  // unique sig
 static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
 ".534889fb4883ec20e8????????488d54240e488d7c241048":  // unique sig
-static cleanup __amd64 std::string FileHelper::getResourceFile();
+static cleanup __amd64 std::string FileHelper::getResourceFile(const std::string &resourceFile);
 ".534889fb4883ec10e8????????488d54":  // unique sig
 static cleanup __amd64 std::string FileHelper::getUserFolder();
 ".534889fb4883ec20e8????????488d54240f":  // unique sig

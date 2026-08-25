@@ -892,7 +892,7 @@ struct WeaponAnimation
 	LIBZHL_API void SetBoostLevel(int value);
 	LIBZHL_API void SetChargedLevel(float charged);
 	LIBZHL_API void SetFireTime(float time);
-	LIBZHL_API void SetPowered();
+	LIBZHL_API void SetPowered(bool powered);
 	LIBZHL_API bool StartFire();
 	LIBZHL_API void Update();
 	
@@ -6122,7 +6122,7 @@ struct FileHelper
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);
 	LIBZHL_API static int __stdcall fileLength_orig(int fd);
 	LIBZHL_API static int __stdcall getPosition(int file);
-	LIBZHL_API static std::string __stdcall getResourceFile();
+	LIBZHL_API static std::string __stdcall getResourceFile(const std::string &resourceFile);
 	LIBZHL_API static std::string __stdcall getSaveFile();
 	LIBZHL_API static std::string __stdcall getUserFolder();
 	LIBZHL_API static void __stdcall initFileHelper();
@@ -7722,8 +7722,8 @@ struct SoundControl;
 
 struct SoundControl
 {
-	LIBZHL_API void AddMusicStream(const std::string &name, int pos, int size);
-	LIBZHL_API void AddSoundFile(const std::string &name, void *buffer, int size);
+	LIBZHL_API void AddMusicStream(const std::string &name, Sound *sample);
+	LIBZHL_API void AddSoundFile(const std::string &name, Sound *sample);
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	LIBZHL_API void StopChannel(int channel, float fade);
