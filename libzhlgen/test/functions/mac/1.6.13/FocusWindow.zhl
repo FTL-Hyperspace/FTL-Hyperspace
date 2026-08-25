@@ -13,9 +13,9 @@ cleanup __amd64 bool FocusWindow::PriorityPopup(FocusWindow *this); // 1000b0060
 ".554889e531":  //
 cleanup __amd64 bool FocusWindow::KeyDown(FocusWindow *this, SDLKey sym); // 1000c43c0 Linux DWARF prototype catalog by linkage
 "!.554889e553504889fb488d05????250048890366":  //
-cleanup __amd64 void FocusWindow::constructor(FocusWindow *this); // 1000dc900 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void FocusWindow::constructorAbiCopy(FocusWindow *this); // 1000dc900 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void FocusWindow::constructor1(FocusWindow *this); // 1000dc950 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void FocusWindow::constructor(FocusWindow *this); // 1000dc950 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void FocusWindow::SetPosition(FocusWindow *this, Point position);
 ".55":  //

@@ -1,9 +1,9 @@
 "554889e5534883ec184889fb0f57c00f2945e048c745f000000000c645e02a|554889e5534883ec180f57c00f2945e0c645e02a":  //
-cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this); // 10011ee30 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AugmentStoreBox::constructorAbiCopy(AugmentStoreBox *this); // 10011ee30 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void AugmentStoreBox::constructor1(AugmentStoreBox *this); // 10011eec0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this); // 10011eec0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void AugmentStoreBox::constructor1(AugmentStoreBox *this, ShipManager* _ship, const AugmentBlueprint* _augment);
+cleanup __amd64 void AugmentStoreBox::constructorAbiCopy(AugmentStoreBox *this, ShipManager* _ship, const AugmentBlueprint* _augment);
 ".55":  //
 cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *shopper, const AugmentBlueprint *blue); // 10011f000 Linux DWARF prototype catalog by linkage
 ".55":  //

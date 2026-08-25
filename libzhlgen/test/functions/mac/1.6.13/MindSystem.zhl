@@ -1,7 +1,7 @@
 "554889e553504889fbe8c2??0000488d":  //
-cleanup __amd64 void MindSystem::constructor(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ed8f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void MindSystem::constructorAbiCopy(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ed8f0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void MindSystem::constructor1(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ed9a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void MindSystem::constructor(MindSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ed9a0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void MindSystem::SetBlocked(MindSystem *this, bool val); // 1001eda50 Linux DWARF prototype catalog by linkage
 ".55":  //

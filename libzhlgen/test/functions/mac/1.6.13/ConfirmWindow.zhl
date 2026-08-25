@@ -1,5 +1,5 @@
 "!554889e553504889fbe8????01":  //
-cleanup __amd64 void ConfirmWindow::constructor1(ConfirmWindow *this); // 1000c2f80 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ConfirmWindow::constructorAbiCopy(ConfirmWindow *this); // 1000c2f80 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this); // 1000c3050 Linux DWARF prototype catalog by linkage
 ".5548":  //

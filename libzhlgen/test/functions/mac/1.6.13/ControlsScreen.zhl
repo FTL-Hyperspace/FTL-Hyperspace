@@ -19,7 +19,7 @@ cleanup __amd64 void ControlsScreen::OnTouch(ControlsScreen *this, TouchAction a
 ".554889e54157415641":  //
 cleanup __amd64 bool ControlsScreen::KeyDown(ControlsScreen *this, SDLKey sym); // 1000ff0f0 Linux DWARF prototype catalog by linkage
 ".554889e553504889fb48":  //
-cleanup __amd64 void ControlsScreen::constructor1(ControlsScreen *this); // 1000ff8c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ControlsScreen::constructorAbiCopy(ControlsScreen *this); // 1000ff8c0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ControlsScreen::destructor2(ControlsScreen *this); // 1000ff990 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

@@ -9,9 +9,9 @@ static cleanup __amd64 bool CEvent::GetCtrlState(); // 1001454b0 Linux DWARF pro
 ".55":  //
 static cleanup __amd64 bool CEvent::IsTouchActive(int id); // 1001454e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CEvent::constructor(CEvent *this); // 1001454f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CEvent::constructorAbiCopy(CEvent *this); // 1001454f0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CEvent::constructor1(CEvent *this); // 100145500 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CEvent::constructor(CEvent *this); // 100145500 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CEvent::destructor2(CEvent *this); // 100145510 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

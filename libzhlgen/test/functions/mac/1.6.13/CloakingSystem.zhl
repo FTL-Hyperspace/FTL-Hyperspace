@@ -1,7 +1,7 @@
 "554889e553504889fbe8????????488d055b22|554889e553504889fbe8f2ab":  //
-cleanup __amd64 void CloakingSystem::constructor(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e92c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CloakingSystem::constructorAbiCopy(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e92c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CloakingSystem::constructor1(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e93c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CloakingSystem::constructor(CloakingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e93c0 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void CloakingSystem::destructor2(CloakingSystem *this); // 1001e94c0 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

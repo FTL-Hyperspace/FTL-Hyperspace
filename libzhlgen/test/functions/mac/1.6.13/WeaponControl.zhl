@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec684989febe":  //
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
 ".55":  //
-cleanup __amd64 void WeaponControl::constructor1(WeaponControl *this); // 10013c830 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponControl::constructorAbiCopy(WeaponControl *this); // 10013c830 Linux DWARF prototype catalog by linkage
 "!554889e553504889fb488d05????1f0048890348":  //
 cleanup __amd64 void WeaponControl::destructor2(WeaponControl *this); // 10013c840 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

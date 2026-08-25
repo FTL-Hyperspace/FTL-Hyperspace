@@ -1,7 +1,7 @@
 "!554889e553504889fb488d05??????00488903488d7b":  //
-cleanup __amd64 void GenericButton::constructor(GenericButton *this); // 1000a7ce0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void GenericButton::constructorAbiCopy(GenericButton *this); // 1000a7ce0 Linux DWARF prototype catalog by linkage
 "!.5548":  //
-cleanup __amd64 void GenericButton::constructor1(GenericButton *this); // 1000a7d90 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void GenericButton::constructor(GenericButton *this); // 1000a7d90 Linux DWARF prototype catalog by linkage
 ".5548":  //
 cleanup __amd64 void GenericButton::destructor2(GenericButton *this); // 1000a7e40 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

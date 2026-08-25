@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec184989f64889fb4d":  //
 cleanup __amd64 void UnlockArrow::constructor(UnlockArrow *this, Point pos, int status, int dir); // 10010e140 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void UnlockArrow::constructor1(UnlockArrow *this, Point pos, int status, int dir); // 10010e360 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void UnlockArrow::constructorAbiCopy(UnlockArrow *this, Point pos, int status, int dir); // 10010e360 Linux DWARF prototype catalog by linkage
 "554889e5837f04":  //
 cleanup __amd64 bool UnlockArrow::MouseMove(UnlockArrow *this, int mouseX, int mouseY);
 ".55":  //

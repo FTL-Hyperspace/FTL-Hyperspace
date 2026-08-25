@@ -1,7 +1,7 @@
 "554889e54156534883ec504889f3":  //
 cleanup __amd64 void WeaponBox::constructor(WeaponBox *this, Point loc); // 100139ff0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponBox::constructor1(WeaponBox *this, Point loc); // 10013a550 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponBox::constructorAbiCopy(WeaponBox *this, Point loc); // 10013a550 Linux DWARF prototype catalog by linkage
 "!554889e54157415653504989fe488d05????1f|!554889e5415741564154534989fe488d050b":  //
 cleanup __amd64 void WeaponBox::destructor2(WeaponBox *this); // 10013a560 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

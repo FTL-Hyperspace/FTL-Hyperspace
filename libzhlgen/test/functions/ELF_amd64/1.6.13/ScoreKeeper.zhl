@@ -45,9 +45,9 @@ cleanup __amd64 int ScoreKeeper::CalculateSectorScore(ScoreKeeper *this); // 004
 ".8b05????????f30f100d????????83":  // unique sig
 cleanup __amd64 int ScoreKeeper::CalculateScore(ScoreKeeper *this); // 00457450 DWARF original prototype
 ".415448b8":  // unique sig
-cleanup __amd64 int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
+cleanup __amd64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
 ".4157488d4608":  // unique sig
-cleanup __amd64 void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
+cleanup __amd64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& topScore, int type);
 ".8b461c85c075":  // unique sig
 cleanup __amd64 void ScoreKeeper::AddTopScore1(ScoreKeeper *this, TopScore score, int type); // 00458100 DWARF original prototype, gog_dwarf_by_linkage
 ".41574156415541544989fc5589f5":  // unique sig

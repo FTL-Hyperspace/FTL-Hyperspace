@@ -3,7 +3,7 @@ cleanup __amd64 void CommandGui::constructor(CommandGui *this);
 ".5548":  //
 cleanup __amd64 void CommandGui::OnLanguageChange(CommandGui *this); // 1000baea0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CommandGui::constructor1(CommandGui *this); // 1000bb430 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CommandGui::constructorAbiCopy(CommandGui *this); // 1000bb430 Linux DWARF prototype catalog by linkage
 "!554889e5415741564155415453504989fd498b85":  //
 cleanup __amd64 void CommandGui::destructor2(CommandGui *this); // 1000bb440 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

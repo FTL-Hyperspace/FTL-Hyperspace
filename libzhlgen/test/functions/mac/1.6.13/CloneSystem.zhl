@@ -1,7 +1,7 @@
 "554889e541574156534883ec184889fbe8":  //
 cleanup __amd64 void CloneSystem::constructor(CloneSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e9be0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CloneSystem::constructor1(CloneSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e9db0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CloneSystem::constructorAbiCopy(CloneSystem *this, int type, int roomId, int shipId, int starting_power); // 1001e9db0 Linux DWARF prototype catalog by linkage
 "554889e54863c7":  //
 static cleanup __amd64 int CloneSystem::GetCloneTime(int level);
 ".55":  //

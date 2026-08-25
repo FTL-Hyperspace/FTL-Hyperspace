@@ -103,12 +103,12 @@ struct CachedImage : CachedPrimitive
 	
 	CachedImage(const std::string& path, int x, int y)
 	{
-		constructor1(path, x, y);
+		constructor(path, x, y);
 	}
 	
 	CachedImage(const std::string& path, Centered centered)
 	{
-		constructor2(path, centered);
+		constructor(path, centered);
 	}
 
 	CachedImage()
@@ -118,19 +118,19 @@ struct CachedImage : CachedPrimitive
 	
 	CachedImage(const CachedImage &other)
 	{
-		constructor_copy(other);
+		constructor(other);
 	}
 
 	LIBZHL_API void CreatePrimitive();
-	LIBZHL_API void SetImagePath(const std::string &imagePath);
+	LIBZHL_API void SetImage(const std::string &imagePath);
 	LIBZHL_API void SetMirrored(bool _mirrored);
 	LIBZHL_API void SetPartial(float x_start, float y_start, float x_size, float y_size);
 	LIBZHL_API void SetPosition(int x, int y);
 	LIBZHL_API void SetRotation(float _rotation);
 	LIBZHL_API void SetScale(float wScale, float hScale);
-	LIBZHL_API void constructor1(const std::string &path, int x, int y);
-	LIBZHL_API void constructor2(const std::string &path, CachedImage::Centered centered);
-	LIBZHL_API void constructor_copy(const CachedImage &other);
+	LIBZHL_API void constructor(const CachedImage &other);
+	LIBZHL_API void constructor(const std::string &path, int x, int y);
+	LIBZHL_API void constructor(const std::string &path, CachedImage::Centered centered);
 	LIBZHL_API void destructor();
 	
 	std::string imageName;
@@ -1979,10 +1979,10 @@ struct CSurface
 	LIBZHL_API static int __stdcall GL_SetColor(GL_Color color);
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
 	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
+	LIBZHL_API static bool __stdcall GL_SetViewPort(int left, int bottom, int h, int w);
 	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
 	LIBZHL_API static GL_Color __stdcall GetColorTint();
 	LIBZHL_API static bool __stdcall IsFrameBufferSupported();
-	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
 	LIBZHL_API static void __stdcall StartFrame();
 	
 };
@@ -3214,8 +3214,8 @@ struct LIBZHL_INTERFACE CompleteShip
 	virtual bool IncomingFire() LIBZHL_PLACEHOLDER
 	LIBZHL_API void AddBoarders(int amount, const std::string &race, bool unk2);
 	LIBZHL_API CrewMember *AddCrewMember(const CrewBlueprint *blueprint, bool hostile);
-	LIBZHL_API CrewMember *AddCrewMember1(const std::string &race, const std::string &name, bool hostile);
-	LIBZHL_API void *AddCrewMember2(CrewMember *member, int unk);
+	LIBZHL_API void *AddCrewMember(CrewMember *member, int unk);
+	LIBZHL_API CrewMember *AddCrewMember(const std::string &race, const std::string &name, bool hostile);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API bool DeadCrew();
@@ -3442,7 +3442,7 @@ struct TextButton : GenericButton
 	LIBZHL_API Point GetSize();
 	LIBZHL_API void InitPrimitives();
 	LIBZHL_API void OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font);
-	LIBZHL_API void OnInitRect(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font);
+	LIBZHL_API void OnInit(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void ResetPrimitives();
 	LIBZHL_API void SetActiveColor(GL_Color color);
@@ -3640,14 +3640,14 @@ struct InfoBox
 	LIBZHL_API void Clear();
 	LIBZHL_API bool IsEmpty();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SetBlueprint(const AugmentBlueprint *bp);
+	LIBZHL_API void SetBlueprint(const CrewBlueprint *bp, int yShift, bool detailedCrew);
 	LIBZHL_API void SetBlueprint(const ItemBlueprint *bp);
-	LIBZHL_API void SetBlueprintAugment(const AugmentBlueprint *bp);
-	LIBZHL_API void SetBlueprintCrew(const CrewBlueprint *bp, int yShift, bool detailedCrew);
-	LIBZHL_API void SetBlueprintDrone(const DroneBlueprint *bp, int status, bool hasDroneSystem, int yShift);
-	LIBZHL_API void SetBlueprintWeapon(const WeaponBlueprint *bp, int status, bool hasWeaponSystem, int yShift);
+	LIBZHL_API void SetBlueprint(const DroneBlueprint *bp, int status, bool hasDroneSystem, int yShift);
+	LIBZHL_API void SetBlueprint(const WeaponBlueprint *bp, int status, bool hasWeaponSystem, int yShift);
 	LIBZHL_API void SetDescription(Description *desc, int width, int height, InfoBox::ExpandDir dir);
+	LIBZHL_API void SetSystem(int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 	LIBZHL_API void SetSystem(ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
-	LIBZHL_API void SetSystemId(int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 	LIBZHL_API void SetText(const std::string &title, const std::string &text, int width, int height, InfoBox::ExpandDir dir);
 	LIBZHL_API void constructor();
 	
@@ -3706,7 +3706,6 @@ struct ShipSelect
 
 	LIBZHL_API void ClearShipButtons();
 	LIBZHL_API void Close();
-	LIBZHL_API int GetSelectedShip();
 	LIBZHL_API int KeyDown(SDLKey key);
 	LIBZHL_API void MouseClick();
 	LIBZHL_API void MouseMove(int x, int y);
@@ -5026,7 +5025,7 @@ struct CrewMemberFactory
 	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
 	LIBZHL_API BoarderDrone *CreateBoarderDrone(int shipId, const DroneBlueprint *bp);
-	LIBZHL_API CrewMember *CreateCrewMember(CrewBlueprint *bp, int shipId, bool intruder);
+	LIBZHL_API CrewMember *CreateCrewmember(CrewBlueprint *bp, int shipId, bool intruder);
 	LIBZHL_API RepairDrone *CreateRepairDrone(int shipId, const DroneBlueprint *bp);
 	LIBZHL_API void GetCloneReadyList(std::vector<CrewMember*> &vec, bool player);
 	LIBZHL_API int GetCrewCount(bool enemy);
@@ -5131,11 +5130,11 @@ struct DamageMessage
 	
 	DamageMessage(float length, int amount, Pointf pos, bool unk)
 	{
-		constructor2(length, amount, pos, unk);
+		constructor(length, amount, pos, unk);
 	}
 
 	LIBZHL_API void constructor(float length, Pointf pos, DamageMessage::MessageType type);
-	LIBZHL_API void constructor2(float length, int amount, Pointf pos, bool unk);
+	LIBZHL_API void constructor(float length, int amount, Pointf pos, bool unk);
 	
 	AnimationTracker tracker;
 	Pointf position;
@@ -6121,7 +6120,7 @@ struct FileHelper
 	LIBZHL_API static void __stdcall deleteFile(const std::string &fileName);
 	LIBZHL_API static void __stdcall deleteSaveFile();
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);
-	LIBZHL_API static int __stdcall fileLength_OnlyForHooking(int fd);
+	LIBZHL_API static int __stdcall fileLength_orig(int fd);
 	LIBZHL_API static int __stdcall getPosition(int file);
 	LIBZHL_API static std::string __stdcall getResourceFile();
 	LIBZHL_API static std::string __stdcall getSaveFile();
@@ -6461,7 +6460,7 @@ struct LockdownShard
 
 	LockdownShard(int fd)
 	{
-		this->constructor3(fd);
+		this->constructor(fd);
 	}
 
 	void Initialize(bool loading, bool superFreeze);
@@ -6471,8 +6470,8 @@ struct LockdownShard
 	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void Update();
 	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal, bool superFreeze);
-	LIBZHL_API void constructor2(int lockingRoom, Pointf start, Point goal);
-	LIBZHL_API void constructor3(int fd);
+	LIBZHL_API void constructor(int lockingRoom, Pointf start, Point goal);
+	LIBZHL_API void constructor(int fd);
 	
 	Animation shard;
 	Pointf position;
@@ -6998,8 +6997,8 @@ struct ScoreKeeper
 
 	LIBZHL_API void AddExploredLocations();
 	LIBZHL_API void AddScrapCollected(int scrap);
-	LIBZHL_API int AddTopScoreList(TopScore &score, std::vector<TopScore> &topScoreList);
-	LIBZHL_API void AddTopScoreType(TopScore &topScore, int type);
+	LIBZHL_API void AddTopScore(TopScore &topScore, int type);
+	LIBZHL_API int AddTopScore(TopScore &score, std::vector<TopScore> &topScoreList);
 	LIBZHL_API void CheckTypes();
 	LIBZHL_API void CycleLeft();
 	LIBZHL_API void CycleRight();
@@ -7624,7 +7623,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool SystemLocked(int systemId);
 	LIBZHL_API int SystemRoom(int systemId);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
-	LIBZHL_API void UpdateCrewMembers();
+	LIBZHL_API void UpdateCrewmembers();
 	LIBZHL_API void UpdateEnvironment();
 	LIBZHL_API void UpgradeSystem(int id, int amount);
 	LIBZHL_API void Wait();
@@ -8312,12 +8311,12 @@ struct UpgradeBox
 	
 	UpgradeBox(Point pos, bool subsystem)
 	{
-		this->constructorEmpty(pos, subsystem);
+		this->constructor(pos, subsystem);
 	}
 	
 	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
 	{
-		this->constructorSystem(ship, sys, pos, subsystem);
+		this->constructor(ship, sys, pos, subsystem);
 	}
 	
 	~UpgradeBox()
@@ -8331,8 +8330,8 @@ struct UpgradeBox
 	LIBZHL_API void MouseRightClick(int mX, int mY);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Undo();
-	LIBZHL_API void constructorEmpty(Point pos, bool subsystem);
-	LIBZHL_API void constructorSystem(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
+	LIBZHL_API void constructor(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
+	LIBZHL_API void constructor(Point pos, bool subsystem);
 	LIBZHL_API void destructor();
 	
 	ShipSystem *system;

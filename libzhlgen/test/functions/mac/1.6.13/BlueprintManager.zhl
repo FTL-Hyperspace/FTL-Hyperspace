@@ -7,7 +7,7 @@ cleanup __amd64 void BlueprintManager::destructor1(BlueprintManager *this); // 1
 "!00000000005dc3660f1f840000000000554889e55de9????????660f1f440000":  //
 noHook __amd64 void BlueprintManager::__DO_NOT_HOOK_10017e15f(); // 10017e15f
 ".55":  //
-cleanup __amd64 void BlueprintManager::constructor1(BlueprintManager *this); // 10017e160 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BlueprintManager::constructorAbiCopy(BlueprintManager *this); // 10017e160 Linux DWARF prototype catalog by linkage
 "554889e553504889fb488d05????1c0080":  //
 cleanup __amd64 int BlueprintManager::ChooseRarityValue(BlueprintManager *this); // 10017e2e0 Linux DWARF prototype catalog by linkage
 ".55":  //

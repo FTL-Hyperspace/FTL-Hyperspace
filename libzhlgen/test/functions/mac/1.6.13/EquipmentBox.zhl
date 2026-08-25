@@ -1,13 +1,13 @@
 "554889e5534883ec184889fb4889f048c1e82048|554889e5534883ec184889fb488d054d51":  //
-cleanup __amd64 void EquipmentBox::constructor1(EquipmentBox *this, Point loc, int slot); // 1000d58d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructorAbiCopy(EquipmentBox *this, Point loc, int slot); // 1000d58d0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void EquipmentBox::InitPrimitives(EquipmentBox *this); // 1000d5a60 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot); // 1000d5b40 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EquipmentBox::constructor2(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructor(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5cd0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EquipmentBox::constructor3(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5e70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EquipmentBox::constructorAbiCopy(EquipmentBox *this, Point loc, int slot, Point size); // 1000d5e70 Linux DWARF prototype catalog by linkage
 "554889e553504889fb488d05??????00488903488b7b38":  //
 cleanup __amd64 void EquipmentBox::destructor(EquipmentBox *this); // 1000d5e80 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

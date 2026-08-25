@@ -1,5 +1,5 @@
 "!55":  //
-cleanup __amd64 void BossShip::constructor1(BossShip *this, SpaceManager* _space);
+cleanup __amd64 void BossShip::constructorAbiCopy(BossShip *this, SpaceManager* _space);
 "!.55":  //
 cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager *space); // 100001a50 Linux DWARF prototype catalog by linkage
 ".55":  //

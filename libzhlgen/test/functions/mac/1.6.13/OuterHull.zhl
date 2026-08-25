@@ -1,7 +1,7 @@
 "554889e5415741564154534881ec4001000048":  //
 cleanup __amd64 void OuterHull::constructor(OuterHull *this, int shipId); // 1001fa160 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void OuterHull::constructor1(OuterHull *this, int shipId); // 1001fa5f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void OuterHull::constructorAbiCopy(OuterHull *this, int shipId); // 1001fa5f0 Linux DWARF prototype catalog by linkage
 "554889e54156534883ec404889fb488b03":  //
 cleanup __amd64 void OuterHull::OnRender(OuterHull *this); // 1001fa600 Linux DWARF prototype catalog by linkage
 ".55":  //

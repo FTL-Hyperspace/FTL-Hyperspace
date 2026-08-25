@@ -3,7 +3,7 @@ noHook __amd64 void SystemStoreBox::__STRUCT_OVERRIDE_ANCHOR_129();
 //"554889e54157415641554154534881eca800000041":  //
 //cleanup __amd64 void SystemStoreBox::constructor(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120a00 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void SystemStoreBox::constructor1(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120d90 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SystemStoreBox::constructorAbiCopy(SystemStoreBox *this, ShipManager *shopper, Equipment *equipScreen, int item); // 100120d90 Linux DWARF prototype catalog by linkage
 "554889e58b87e001":  //
 cleanup __amd64 int SystemStoreBox::GetExtraData(SystemStoreBox *this); // 100120da0 Linux DWARF prototype catalog by linkage
 ".55":  //

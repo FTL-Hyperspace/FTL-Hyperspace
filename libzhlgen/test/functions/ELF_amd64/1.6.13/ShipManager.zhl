@@ -413,7 +413,7 @@ cleanup __amd64 bool ShipManager::DamageBeam(ShipManager *this, Pointf location1
 ".534881c6d8":  // unique sig
 cleanup __amd64 std::vector<Repairable*> ShipManager::GetFires(ShipManager *this, int roomId); // 004c63b0 DWARF original prototype
 ".415731c941564155415449":  // unique sig
-cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this); //004c63d0
+cleanup __amd64 void ShipManager::UpdateCrewmembers(ShipManager *this); //004c63d0
 "!.415431c944":  // unique sig
 cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone); //004c7840
 ".41554154554889fd534883ec08488b87":  // unique sig

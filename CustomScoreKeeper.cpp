@@ -32,11 +32,11 @@ void CustomScoreKeeper::AddTopScore(TopScore& topScore, int type = 0)
 
     if (type == 0 || type == 1)
     {
-        scoreKeeper->newestHighScore = scoreKeeper->AddTopScoreList(topScore, scoreKeeper->topScores);
+        scoreKeeper->newestHighScore = scoreKeeper->AddTopScore(topScore, scoreKeeper->topScores);
     }
     if (type == 0 || type == 2)
     {
-        scoreKeeper->newestShipBest = scoreKeeper->AddTopScoreList(topScore, customShipScores[topScore.blueprint]);
+        scoreKeeper->newestShipBest = scoreKeeper->AddTopScore(topScore, customShipScores[topScore.blueprint]);
 
         if (scoreKeeper->newestShipBest != -1)
         {
@@ -226,9 +226,9 @@ HOOK_METHOD(ScoreKeeper, SetupTopShip, (int variant) -> void)
 
 
 
-HOOK_METHOD(ScoreKeeper, AddTopScoreType, (TopScore& topScore, int type) -> void)
+HOOK_METHOD(ScoreKeeper, AddTopScore, (TopScore& topScore, int type) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::AddTopScoreType -> Begin (CustomScoreKeeper.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::AddTopScore -> Begin (CustomScoreKeeper.cpp)\n")
     if (CustomShipSelect::GetInstance()->IsCustomShip(topScore.blueprint))
     {
         CustomScoreKeeper::instance->AddTopScore(topScore, type);

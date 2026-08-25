@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ec580100004889fb8b|554889e54157415641554154534881ec7801000045":  //
 cleanup __amd64 void Door::constructor(Door *this, int _roomId1, int _roomId2, int _locX, int _locY, bool _bVertical, int _doorId, int _shipId);
 ".55":  //
-cleanup __amd64 void Door::constructor1(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); // 100063c70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Door::constructorAbiCopy(Door *this, int roomId1, int roomId2, int locX, int locY, bool bVertical, int doorId, int shipId); // 100063c70 Linux DWARF prototype catalog by linkage
 "!554889e54156534189f64889fb8bb3":  //
 cleanup __amd64 void Door::SaveState(Door *this, int fd);
 "!.55":  //

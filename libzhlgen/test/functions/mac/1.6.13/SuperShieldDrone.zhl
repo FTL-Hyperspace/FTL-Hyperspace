@@ -13,7 +13,7 @@ cleanup __amd64 bool SuperShieldDrone::HasTarget(SuperShieldDrone *this); // 100
 ".55":  //
 cleanup __amd64 void SuperShieldDrone::constructor(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 10003b350 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void SuperShieldDrone::constructor1(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 10003b4e0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SuperShieldDrone::constructorAbiCopy(SuperShieldDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 10003b4e0 Linux DWARF prototype catalog by linkage
 "554889e54156534883ec304889fbe8":  //
 cleanup __amd64 void SuperShieldDrone::OnLoop(SuperShieldDrone *this);
 ".55":  //

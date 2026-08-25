@@ -1,7 +1,7 @@
 "554889e5415741564154534883ec404d":  //
 cleanup __amd64 void Shields::constructor(Shields *this, int roomId, int shipId, int starting_power, const std::string &img); // 1001f01e0 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void Shields::constructor1(Shields *this, int roomId, int shipId, int starting_power, const std::string &img); // 1001f06a0 Linux DWARF prototype catalog
+cleanup __amd64 void Shields::constructorAbiCopy(Shields *this, int roomId, int shipId, int starting_power, const std::string &img); // 1001f06a0 Linux DWARF prototype catalog
 "554889e54157415641554154534883ec284989fd4183":  //
 cleanup __amd64 int Shields::PulsarDamage(Shields *this); // 1001f06b0 Linux DWARF prototype catalog by linkage
 "!.55":  //

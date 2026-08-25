@@ -17,11 +17,11 @@ cleanup __cdecl void CompleteShip::AddBoarders(CompleteShip *this, int amount, c
 "5589e557565381ecdc0000008b450c8b7d10":
 cleanup __cdecl CrewMember *CompleteShip::AddCrewMember(CompleteShip *this, const CrewBlueprint* blueprint, bool hostile);
 "5589e557565383ec5c8b45148b5d10":
-cleanup __cdecl CrewMember *CompleteShip::AddCrewMember1(CompleteShip *this, const std::string& race, const std::string& name, bool hostile);
+cleanup __cdecl CrewMember *CompleteShip::AddCrewMember(CompleteShip *this, const std::string& race, const std::string& name, bool hostile);
 "!.8b4424048b400889442404e9????????":
 cleanup __cdecl Drone *CompleteShip::AddDrone(CompleteShip *this, const DroneBlueprint *blueprint, int unk);
 "57565383ec108b5c24248b7424208b7c242885db":
-cleanup __cdecl void *CompleteShip::AddCrewMember2(CompleteShip *this, CrewMember *member, int unk);
+cleanup __cdecl void *CompleteShip::AddCrewMember(CompleteShip *this, CrewMember *member, int unk);
 "!8b5424048b4424088b92300100008944240489542408e9????????":
 cleanup __cdecl void CompleteShip::SaveState(CompleteShip *this, int unk);
 "5589e5565383ec208b450c8b5d088d75ec":

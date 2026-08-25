@@ -3387,9 +3387,9 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, cons
     return super(name, actualRace, intruder, roomId, init, male);
 }
 
-HOOK_METHOD(CompleteShip, AddCrewMember1, (const std::string &race, const std::string &name, bool hostile) -> CrewMember*)
+HOOK_METHOD(CompleteShip, AddCrewMember, (const std::string &race, const std::string &name, bool hostile) -> CrewMember*)
 {
-    LOG_HOOK("HOOK_METHOD -> CompleteShip::AddCrewMember1 -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::AddCrewMember -> Begin (CustomCrew.cpp)\n")
     std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(race);
     if (blueprintList.empty())
     {
@@ -3397,13 +3397,13 @@ HOOK_METHOD(CompleteShip, AddCrewMember1, (const std::string &race, const std::s
     }
     else
     {
-        return AddCrewMember1(blueprintList[random32()%blueprintList.size()], name, hostile);
+        return AddCrewMember(blueprintList[random32()%blueprintList.size()], name, hostile);
     }
 }
 
-HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId, bool intruder) -> CrewMember*)
+HOOK_METHOD(CrewMemberFactory, CreateCrewmember, (CrewBlueprint* bp, int shipId, bool intruder) -> CrewMember*)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateCrewMember -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateCrewmember -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
     CrewMember *newCrew = custom->CreateCrewMember(bp, shipId, shipId == 1);
 
@@ -4144,9 +4144,9 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
     return ret;
 }
 
-HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
+HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewmembers -> Begin (CustomCrew.cpp)\n")
     blockDamageArea = true;
     super();
     blockDamageArea = false;
@@ -4275,7 +4275,7 @@ HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, Damage dmg) -> bool)
 // This had to be rewritten because some hooks wouldn't run since their function got inlined by the compiler on MacOS
 HOOK_METHOD_PRIORITY(ShipManager, DamageBeam, 9990, (Pointf current, Pointf last, Damage damage) -> bool)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageBeam -> Begin (Misc.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageBeam -> Begin (CustomCrew.cpp)\n")
 
     // Abort is ship is jumping away or non-hostile
     if (!this->_targetable.hostile || this->bJumping)

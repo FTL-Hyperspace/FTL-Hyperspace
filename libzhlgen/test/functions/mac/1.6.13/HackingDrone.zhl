@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ec68":  //
 cleanup __amd64 void HackingDrone::constructor(HackingDrone *this, int iShipId, int selfId); // 10001dc90 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void HackingDrone::constructor1(HackingDrone *this, int iShipId, int selfId); // 10001e560 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void HackingDrone::constructorAbiCopy(HackingDrone *this, int iShipId, int selfId); // 10001e560 Linux DWARF prototype catalog by linkage
 "!554889e54156534189f64889fbe8????????f30f1083f0":  //
 cleanup __amd64 void HackingDrone::SaveState(HackingDrone *this, int fd); // 10001e570 Linux DWARF prototype catalog by linkage
 "!.55":  //

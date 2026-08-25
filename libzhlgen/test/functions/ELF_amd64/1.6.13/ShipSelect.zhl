@@ -11,7 +11,11 @@ cleanup __amd64 void ShipSelect::MouseClick(ShipSelect *this);
 "!.c647580048":  // unique sig
 cleanup __amd64 void ShipSelect::Close(ShipSelect *this);
 ".8b475cc3":  // unique sig
-cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this);
+noHook __amd64 void ShipSelect::__STRUCT_OVERRIDE_ANCHOR_41();
+// The binary calls this GetSelection and it is one instruction, a read of
+// selectedShip, which the inline in the struct below already does identically.
+// mac reached the same conclusion and anchored its copy, so no platform binds it:
+// cleanup __amd64 int ShipSelect::GetSelectedShip(ShipSelect *this);
 ".415789f241":  // unique sig
 cleanup __amd64 void ShipSelect::SelectShip(ShipSelect *this, int ship); // 00558e00 DWARF original prototype
 "!.85f6534889fb78":  // unique sig

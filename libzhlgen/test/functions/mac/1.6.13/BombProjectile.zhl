@@ -3,7 +3,9 @@ noHook __amd64 void BombProjectile::__STRUCT_OVERRIDE_ANCHOR_10();
 //"554889e54156534881":  //
 //cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100018a30 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void BombProjectile::constructor1(BombProjectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100018b10 Linux DWARF prototype catalog by linkage
+noHook __amd64 void BombProjectile::__STRUCT_OVERRIDE_ANCHOR_149();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void BombProjectile::constructorAbiCopy(BombProjectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100018b10 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void BombProjectile::destructor2(BombProjectile *this); // 100018bf0 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

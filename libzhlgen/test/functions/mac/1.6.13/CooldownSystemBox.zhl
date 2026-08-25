@@ -3,7 +3,7 @@ cleanup __amd64 GL_Color CooldownSystemBox::GetCooldownColor(CooldownSystemBox *
 ".554889e54157415641554154534883ec584189cf":  //
 cleanup __amd64 void CooldownSystemBox::constructor(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128800 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CooldownSystemBox::constructor1(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128b00 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CooldownSystemBox::constructorAbiCopy(CooldownSystemBox *this, Point loc, ShipSystem *sys, bool roundDown); // 100128b00 Linux DWARF prototype catalog by linkage
 "!554889e553504889fb488d05??????00488903488bbbb0":  //
 cleanup __amd64 void CooldownSystemBox::destructor2(CooldownSystemBox *this); // 100128b10 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

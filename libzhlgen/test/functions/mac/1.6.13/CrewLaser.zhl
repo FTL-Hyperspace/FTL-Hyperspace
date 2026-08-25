@@ -1,7 +1,7 @@
 "554889e54156534883ec200f":  //
-cleanup __amd64 void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf destination); // 1000224d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewLaser::constructorAbiCopy(CrewLaser *this, Point pos, Pointf destination); // 1000224d0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrewLaser::constructor1(CrewLaser *this, Point pos, Pointf destination); // 1000225c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewLaser::constructor(CrewLaser *this, Point pos, Pointf destination); // 1000225c0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewLaser::SetColor(CrewLaser *this, int r, int g, int b); // 1000226b0 Linux DWARF prototype catalog by linkage
 "!.554889e5534883ec38":  //

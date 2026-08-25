@@ -23,7 +23,7 @@ __thiscall void TextButton::SetAutoWidth(TextButton *this, bool autoWidth, bool 
 ".80b9b40000000075??c3":  // unique sig
 __thiscall void TextButton::UpdateAutoWidth(TextButton *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9b4":  // unique sig
-__int64 TextButton::GetSize_DO_NOT_USE_DIRECTLY(TextButton *this<ecx>);
+__int64 TextButton::GetSize_orig(TextButton *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565383ec3c8b073b":  // unique sig
 __thiscall void TextButton::SetSize(TextButton *this, Point size); // 00575cc0 DWARF original prototype
 ".5589e5565389cb83e4f083ec50":  // unique sig
@@ -31,7 +31,7 @@ __thiscall void TextButton::SetFont(TextButton *this, int font_); // 00575db0 DW
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4f0c8b07":  // unique sig
 __thiscall void TextButton::OnInit(TextButton *this, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b4708":  // unique sig
-__thiscall void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
+__thiscall void TextButton::OnInit(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b57":  // unique sig
 __thiscall void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point pos, int autoWidthMin);
 ".578d7c240883e4f0ff77fc5589e557565389cf81ec9c00":  // unique sig
@@ -52,7 +52,7 @@ public:
 	}
 	Point GetSize()
 	{
-		__int64 ret = GetSize_DO_NOT_USE_DIRECTLY();
+		__int64 ret = GetSize_orig();
 		return *((Point*)&ret);
 	}
 

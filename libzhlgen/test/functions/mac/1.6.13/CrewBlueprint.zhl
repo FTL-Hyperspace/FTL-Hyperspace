@@ -21,7 +21,7 @@ cleanup __amd64 void CrewBlueprint::RandomSkills(CrewBlueprint *this, int worldL
 ".55":  //
 cleanup __amd64 void CrewBlueprint::ChooseColors(CrewBlueprint *this); // 100193f50 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrewBlueprint::constructor1(CrewBlueprint *this); // 100194020 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewBlueprint::constructor(CrewBlueprint *this); // 100194020 Linux DWARF prototype catalog by linkage
 ".554889e541":  //
 cleanup __amd64 void CrewBlueprint::RenderIcon(CrewBlueprint *this, float opacity);
 ".554889e54156534883":  //

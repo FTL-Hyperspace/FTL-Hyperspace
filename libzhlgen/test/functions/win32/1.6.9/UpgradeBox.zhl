@@ -19,9 +19,9 @@ __thiscall void UpgradeBox::Undo(UpgradeBox *this);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b09":  // unique sig
 __thiscall void UpgradeBox::Accept(UpgradeBox *this);
 ".578d5124":  // unique sig
-__thiscall void UpgradeBox::constructorEmpty(UpgradeBox *this, Point pos, bool subsystem);
+__thiscall void UpgradeBox::constructor(UpgradeBox *this, Point pos, bool subsystem);
 ".578d7c240883e4f0ff77fc5589fa89e557565389cb83ec5c":  // unique sig
-__thiscall void UpgradeBox::constructorSystem(UpgradeBox *this, ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
+__thiscall void UpgradeBox::constructor(UpgradeBox *this, ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
 ".5589e55389cb83e4f083ec108b8110":  // unique sig
 __thiscall void UpgradeBox::destructor(UpgradeBox *this);
 
@@ -35,12 +35,12 @@ struct UpgradeBox
 
 	UpgradeBox(Point pos, bool subsystem)
 	{
-		this->constructorEmpty(pos, subsystem);
+		this->constructor(pos, subsystem);
 	}
 
 	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
 	{
-		this->constructorSystem(ship, sys, pos, subsystem);
+		this->constructor(ship, sys, pos, subsystem);
 	}
 
 	~UpgradeBox()

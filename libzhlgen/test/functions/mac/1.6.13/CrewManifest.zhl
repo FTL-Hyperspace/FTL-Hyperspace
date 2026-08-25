@@ -3,7 +3,7 @@ noHook __amd64 void CrewManifest::__STRUCT_OVERRIDE_ANCHOR_31();
 //"554889e5415741564154534881ecb000000048":  //
 //cleanup __amd64 void CrewManifest::constructor(CrewManifest *this); // 1000ccd90 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrewManifest::constructor1(CrewManifest *this); // 1000cd0c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewManifest::constructorAbiCopy(CrewManifest *this); // 1000cd0c0 Linux DWARF prototype catalog by linkage
 "554889e54156534989fe488d05??34|554889e54156534989fe488d053f":  //
 cleanup __amd64 void CrewManifest::destructor2(CrewManifest *this); // 1000cd0d0 Itanium source destructor prototype, Itanium D2 destructor
 ".5548":  //

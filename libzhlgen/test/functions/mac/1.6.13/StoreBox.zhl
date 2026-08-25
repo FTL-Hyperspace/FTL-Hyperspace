@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec384989cc4989d5|554889e54157415641554154534883ec3848894d":  //
 cleanup __amd64 void StoreBox::constructor(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e2b0 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void StoreBox::constructor1(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e570 Linux DWARF prototype catalog
+cleanup __amd64 void StoreBox::constructorAbiCopy(StoreBox *this, const std::string &buttonImage, ShipManager *shopper, Equipment *equipScreen); // 10011e570 Linux DWARF prototype catalog
 "554889e553504889fb488d05????21":  //
 cleanup __amd64 void StoreBox::destructor2(StoreBox *this); // 10011e580 Itanium source destructor prototype, Itanium D2 destructor
 ".5548":  //

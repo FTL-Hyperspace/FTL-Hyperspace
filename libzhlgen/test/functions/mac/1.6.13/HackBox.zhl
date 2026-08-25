@@ -3,7 +3,7 @@ noHook __amd64 void HackBox::__STRUCT_OVERRIDE_ANCHOR_47();
 //"554889e54157415641554154534883ec784989cc":  //
 //cleanup __amd64 void HackBox::constructor(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f26d0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void HackBox::constructor1(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f3020 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void HackBox::constructorAbiCopy(HackBox *this, Point loc, HackingSystem *sys, ShipManager *ship); // 1000f3020 Linux DWARF prototype catalog by linkage
 "!554889e54156534889fb488dbb":  //
 cleanup __amd64 void HackBox::OnLoop(HackBox *this); // 1000f3030 Linux DWARF prototype catalog by linkage
 "!.55":  //

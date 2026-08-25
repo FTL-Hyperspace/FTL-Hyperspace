@@ -3,9 +3,9 @@
 #include <cstdio>
 // NANOBOT_DEFENSE_SYSTEM Augment
 
-HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
+HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (Augments.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewmembers -> Begin (Augments.cpp)\n")
     for (auto i : vCrewList)
     {
         if (i->intruder && !i->bMindControlled && i->crewAnim->status != 6)

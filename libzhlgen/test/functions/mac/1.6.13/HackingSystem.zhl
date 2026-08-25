@@ -1,7 +1,7 @@
 "554889e5415741564154534883ec204189d748":  //
-cleanup __amd64 void HackingSystem::constructor(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecc00 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void HackingSystem::constructorAbiCopy(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecc00 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void HackingSystem::constructor1(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecd00 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void HackingSystem::constructor(HackingSystem *this, int type, int roomId, int shipId, int starting_power); // 1001ecd00 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 int HackingSystem::GetQueuedHackingCommand(HackingSystem *this); // 1001ece00 Linux DWARF prototype catalog by linkage
 ".55":  //

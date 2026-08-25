@@ -1,7 +1,7 @@
 "554889e541574156534883ec5848":  //
 cleanup __amd64 void CrewControl::constructor(CrewControl *this); // 1000c94a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrewControl::constructor1(CrewControl *this); // 1000c9770 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewControl::constructorAbiCopy(CrewControl *this); // 1000c9770 Linux DWARF prototype catalog by linkage
 "554889e54157415653504989fe498b4660":  //
 cleanup __amd64 void CrewControl::destructor(CrewControl *this); // 1000c9780 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

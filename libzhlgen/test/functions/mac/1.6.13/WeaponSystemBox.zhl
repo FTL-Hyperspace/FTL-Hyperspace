@@ -3,7 +3,9 @@ noHook __amd64 void WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_145();
 //"554889e54156534989ce4889fbb901000000e8????ffff488d05??????004889034c89b3a802000048":  //
 //cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this, Point loc, ShipSystem *sys, WeaponControl *weapControl); // 100129180 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponSystemBox::constructor1(WeaponSystemBox *this, Point loc, ShipSystem *sys, WeaponControl *weapControl); // 1001291e0 Linux DWARF prototype catalog by linkage
+noHook __amd64 void WeaponSystemBox::__STRUCT_OVERRIDE_ANCHOR_152();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void WeaponSystemBox::constructorAbiCopy(WeaponSystemBox *this, Point loc, ShipSystem *sys, WeaponControl *weapControl); // 1001291e0 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void WeaponSystemBox::destructor2(WeaponSystemBox *this); // 100129240 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

@@ -3,7 +3,7 @@ cleanup __amd64 void EventSystem::constructor(EventSystem *this); // 10014e1b0 L
 ".55":  //
 cleanup __amd64 void EventSystem::destructor1(EventSystem *this); // 10014e270 Itanium source destructor prototype, Itanium D1 destructor
 ".55":  //
-cleanup __amd64 void EventSystem::constructor1(EventSystem *this); // 10014e2b0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EventSystem::constructorAbiCopy(EventSystem *this); // 10014e2b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool EventSystem::PollEvent(EventSystem *this, int id);
 ".55":  //

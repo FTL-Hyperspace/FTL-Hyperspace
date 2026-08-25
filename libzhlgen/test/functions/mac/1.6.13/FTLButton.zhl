@@ -1,7 +1,7 @@
 "554889e553504889fbe8????fcff488d05??????00488903c6":  //
-cleanup __amd64 void FTLButton::constructor(FTLButton *this); // 1000da3b0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void FTLButton::constructorAbiCopy(FTLButton *this); // 1000da3b0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void FTLButton::constructor1(FTLButton *this); // 1000da460 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void FTLButton::constructor(FTLButton *this); // 1000da460 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void FTLButton::destructor2(FTLButton *this); // 1000da510 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

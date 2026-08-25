@@ -11,7 +11,7 @@ static cleanup __amd64 void CSurface::GL_ClearAll();
 "!.0f57db0f28d3":  // unique sig
 static cleanup __amd64 void CSurface::GL_ClearColor();
 ".4883ec08e8????????b8":  // unique sig
-static cleanup __amd64 int CSurface::SetViewPort(int left, int bottom, int h, int w);
+static cleanup __amd64 bool CSurface::GL_SetViewPort(int left, int bottom, int h, int w);
 "!.488b0d????????488b15????????4889":  // unique sig
 static cleanup __amd64 void CSurface::GL_PopScissor();
 ".4883ec1883ff01":  // unique sig

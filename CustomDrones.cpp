@@ -728,7 +728,7 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
         if (enemyShip)
         {
             boarderDrone->EmptySlot();
-            enemyShip->AddCrewMember2(boarderDrone,-1);
+            enemyShip->AddCrewMember(boarderDrone,-1);
         }
     }
     super(_deployed);

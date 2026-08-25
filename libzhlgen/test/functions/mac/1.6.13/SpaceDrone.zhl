@@ -33,11 +33,13 @@ noHook __amd64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_121();
 //".554889e54157415641554154534881ec58":  //
 //cleanup __amd64 void SpaceDrone::constructor(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100034a00 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void SpaceDrone::constructor1(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100035280 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SpaceDrone::constructorAbiCopy(SpaceDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100035280 Linux DWARF prototype catalog by linkage
 "554889e553504889fb488b03ff5038":  //
 cleanup __amd64 bool SpaceDrone::ValidTarget(SpaceDrone *this); // 100035290 Linux DWARF prototype catalog by linkage
 "!.554889e553504889fb488d":  //
-cleanup __amd64 void SpaceDrone::destructor2(SpaceDrone *this); // 100035330 Itanium source destructor prototype, Itanium D2 destructor
+noHook __amd64 void SpaceDrone::__STRUCT_OVERRIDE_ANCHOR_155();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void SpaceDrone::destructor2(SpaceDrone *this); // 100035330 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //
 cleanup __amd64 void SpaceDrone::destructor1(SpaceDrone *this); // 100035390 Itanium source destructor prototype, Itanium D1 destructor
 "!.554889e553504889fb488d05??????00488903":  //

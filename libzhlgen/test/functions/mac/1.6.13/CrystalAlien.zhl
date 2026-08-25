@@ -7,7 +7,7 @@ cleanup __amd64 void CrystalAlien::ActivatePower(CrystalAlien *this); // 10005a6
 ".55":  //
 cleanup __amd64 void CrystalAlien::constructor(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a730 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrystalAlien::constructor1(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a870 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrystalAlien::constructorAbiCopy(CrystalAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005a870 Linux DWARF prototype catalog by linkage
 "554889e553504889fbe8????ffff488d3d":  //
 cleanup __amd64 void CrystalAlien::OnLoop(CrystalAlien *this); // 10005a880 Linux DWARF prototype catalog by linkage
 ".554889e55de9????????660f1f440000554889e553504889fbe8????????4889df4883c4085b5de9????????0f1f4000554889e5b87d":  //

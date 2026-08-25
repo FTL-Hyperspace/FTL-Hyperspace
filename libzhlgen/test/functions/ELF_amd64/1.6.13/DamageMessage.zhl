@@ -7,7 +7,7 @@ cleanup __amd64 void DamageMessage::OnLoop(DamageMessage *this); // 005af0a0 DWA
 ".534889fb4883ec5085":  // unique sig
 cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, Pointf pos, DamageMessage::MessageType type);
 ".415741564155415455534889fb4881ec3803000084":  // unique sig
-cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
+cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
 
 
 struct DamageMessage 
@@ -26,6 +26,6 @@ struct DamageMessage
 	
 	DamageMessage(float length, int amount, Pointf pos, bool unk)
 	{
-		constructor2(length, amount, pos, unk);
+		constructor(length, amount, pos, unk);
 	}
 }};

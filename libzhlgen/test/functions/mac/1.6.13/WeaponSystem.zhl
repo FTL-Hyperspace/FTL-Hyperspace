@@ -1,7 +1,7 @@
 "554889e5415741564155415453504589c689c889d189f24889fbbe03":  //
 cleanup __amd64 void WeaponSystem::constructor(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001fc590 Linux DWARF prototype catalog by linkage
 ".5548":  //
-cleanup __amd64 void WeaponSystem::constructor1(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001fc730 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponSystem::constructorAbiCopy(WeaponSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001fc730 Linux DWARF prototype catalog by linkage
 "!554889e54156534989fe488d05????13":  //
 cleanup __amd64 void WeaponSystem::destructor2(WeaponSystem *this); // 1001fc740 Itanium source destructor prototype, Itanium D2 destructor
 ".5548":  //

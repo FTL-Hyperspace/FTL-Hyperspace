@@ -35,7 +35,7 @@ cleanup __amd64 void CrewMemberFactory::OnLoop(CrewMemberFactory *this);
 "!.415431c0554889fd53488b":  // unique sig
 cleanup __amd64 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this);
 ".415741564189ce41554189d5415449":  // unique sig
-cleanup __amd64 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
+cleanup __amd64 CrewMember* CrewMemberFactory::CreateCrewmember(CrewMemberFactory *this, CrewBlueprint* bp, int shipId, bool intruder);
 
 "!f30f11834802000031c9bf(???????\?)ba020000004889e6":
 CrewMemberFactory* Global_CrewMemberFactory_Factory;

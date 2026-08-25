@@ -13,7 +13,7 @@ cleanup __amd64 bool SystemBox::HasButton(SystemBox *this); // 1000f3ce0 Linux D
 ".554889e54157415641554154534881eca80000004989fe48|.554889e54157415641554154534881ecc80000004189cf":  //
 cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122630 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void SystemBox::constructor1(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122f50 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SystemBox::constructorAbiCopy(SystemBox *this, Point loc, ShipSystem *sys, bool playerUI); // 100122f50 Linux DWARF prototype catalog by linkage
 "!554889e54156534889fb488d05????21":  //
 cleanup __amd64 void SystemBox::destructor(SystemBox *this); // 100122f60 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

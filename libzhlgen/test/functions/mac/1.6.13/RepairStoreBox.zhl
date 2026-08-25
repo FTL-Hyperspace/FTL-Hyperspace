@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ecd800000089cb|554889e54157415641554154534881ecd80000000f57":  //
 cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120130 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void RepairStoreBox::constructor1(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120590 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void RepairStoreBox::constructorAbiCopy(RepairStoreBox *this, ShipManager *shopper, bool repairAll, int repairCost); // 100120590 Linux DWARF prototype catalog by linkage
 "554889e54156534883ec404889fb48":  //
 cleanup __amd64 void RepairStoreBox::Purchase(RepairStoreBox *this); // 1001205a0 Linux DWARF prototype catalog by linkage
 ".55":  //

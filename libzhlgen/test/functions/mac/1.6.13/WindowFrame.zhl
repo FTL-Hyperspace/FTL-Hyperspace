@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ecb800000041":  //
 cleanup __amd64 void WindowFrame::constructor(WindowFrame *this, int x, int y, int w, int h); // 1001755a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WindowFrame::constructor1(WindowFrame *this, int x, int y, int w, int h); // 100175df0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WindowFrame::constructorAbiCopy(WindowFrame *this, int x, int y, int w, int h); // 100175df0 Linux DWARF prototype catalog by linkage
 "554889e553504889fb488b7b10e8????????488b7b":  //
 cleanup __amd64 void WindowFrame::destructor1(WindowFrame *this); // 100175e00 Itanium source destructor prototype, Itanium D2 destructor
 "554889e553504889fb488b7b10e8????????488b7b18e8????????488b7b204883c4085b5de9????????660f1f440000554889e541":  //

@@ -1,5 +1,5 @@
 "554889e55de9????????660f1f440000554889e55de9":  //
-cleanup __amd64 void ScoreKeeper::constructor1(ScoreKeeper *this);
+cleanup __amd64 void ScoreKeeper::constructorAbiCopy(ScoreKeeper *this);
 "554889e55de9????????660f1f440000554889e54157415641554154534883ec2848":  //
 cleanup __amd64 void ScoreKeeper::destructor1(ScoreKeeper *this); // 100027f80 Itanium source destructor prototype, Itanium D1 destructor
 "554889e54157415641554154534883ec284889fb":  //
@@ -35,7 +35,9 @@ cleanup __amd64 void ScoreKeeper::CheckCrystalUnlock(ScoreKeeper *this); // 1000
 ".55":  //
 cleanup __amd64 void ScoreKeeper::LoadVersionTwo(ScoreKeeper *this, int fd); // 10002d180 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, int type); // 10002d630 Linux DWARF prototype catalog by linkage
+noHook __amd64 void ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_162();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, int type); // 10002d630 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ScoreKeeper::LoadVersionOne(ScoreKeeper *this, int fd); // 10002dde0 Linux DWARF prototype catalog by linkage
 "!.55":  //
@@ -63,7 +65,9 @@ cleanup __amd64 void ScoreKeeper::LoadVersionFour(ScoreKeeper *this, int file, i
 ".55":  //
 cleanup __amd64 void ScoreKeeper::LoadCurrent(ScoreKeeper *this, int fd, int version); // 1000329b0 Linux DWARF prototype catalog by linkage
 "554889e5415741564155415453504989d64989f7498b":  //
-cleanup __amd64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, std::vector<TopScore> *topScoreList); // 1000329c0 Linux DWARF prototype catalog
+noHook __amd64 void ScoreKeeper::__STRUCT_OVERRIDE_ANCHOR_163();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore score, std::vector<TopScore> *topScoreList); // 1000329c0 Linux DWARF prototype catalog
 "!.554889e548":  //
 cleanup __amd64 void ScoreKeeper::SetShipName(ScoreKeeper *this, const std::string &name); // 1000331e0 Linux DWARF prototype catalog
 "!.55":  //
@@ -96,9 +100,9 @@ cleanup __amd64 int ScoreKeeper::CalculateSectorScore(ScoreKeeper *this); // 100
 offsetVariable ScoreKeeper* Global_ScoreKeeper_Keeper;
 
 ".554889e54157415641554154534881ec080200004189d449":
-cleanup __amd64 void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
+cleanup __amd64 void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& topScore, int type);
 ".554889e5415741564155415453504989d64989f7498b364d":
-cleanup __amd64 int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
+cleanup __amd64 int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
 
 
 struct ScoreKeeper

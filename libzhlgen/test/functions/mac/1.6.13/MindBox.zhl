@@ -1,7 +1,7 @@
 "554889e54156534883ec6049":  //
 cleanup __amd64 void MindBox::constructor(MindBox *this, Point loc, MindSystem *sys); // 1000f1de0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void MindBox::constructor1(MindBox *this, Point loc, MindSystem *sys); // 1000f1fa0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void MindBox::constructorAbiCopy(MindBox *this, Point loc, MindSystem *sys); // 1000f1fa0 Linux DWARF prototype catalog by linkage
 "!554889e553504889fb488d05????2400488903488bbbb8":  //
 cleanup __amd64 void MindBox::destructor2(MindBox *this); // 1000f1fb0 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

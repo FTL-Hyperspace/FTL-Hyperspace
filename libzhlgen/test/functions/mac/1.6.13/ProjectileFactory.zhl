@@ -3,7 +3,7 @@ cleanup __amd64 void ProjectileFactory::constructor(ProjectileFactory *this, con
 ".55":  //
 cleanup __amd64 void ProjectileFactory::SelectChargeGoal(ProjectileFactory *this);
 ".55":  //
-cleanup __amd64 void ProjectileFactory::constructor1(ProjectileFactory *this, WeaponBlueprint *blueprint, int ownerId); // 100024f00 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ProjectileFactory::constructor(ProjectileFactory *this, WeaponBlueprint *blueprint, int ownerId); // 100024f00 Linux DWARF prototype catalog by linkage
 "554889e5488b472083":  //
 cleanup __amd64 bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this);
 "!.55":  //

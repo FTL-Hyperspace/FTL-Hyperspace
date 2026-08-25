@@ -3,7 +3,7 @@ cleanup __amd64 void Equipment::destructor(Equipment *this); // 1000c2640 Itaniu
 "!.554889e553504889fbe8??bf":  //
 cleanup __amd64 void Equipment::constructor(Equipment *this);
 ".55":  //
-cleanup __amd64 void Equipment::constructor1(Equipment *this); // 1000d0d40 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Equipment::constructorAbiCopy(Equipment *this); // 1000d0d40 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534881ec280100004989f6":  //
 cleanup __amd64 void Equipment::OnInit(Equipment *this, ShipManager* ship);
 ".55":  //

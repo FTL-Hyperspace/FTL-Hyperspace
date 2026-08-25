@@ -3,7 +3,7 @@ cleanup __amd64 void MenuScreen::constructor(MenuScreen *this); // 1000eac00 Lin
 ".55":  //
 cleanup __amd64 void MenuScreen::OnLanguageChange(MenuScreen *this);
 ".55":  //
-cleanup __amd64 void MenuScreen::constructor1(MenuScreen *this); // 1000ed070 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void MenuScreen::constructorAbiCopy(MenuScreen *this); // 1000ed070 Linux DWARF prototype catalog by linkage
 "554889e54156534989fe488d05????24":  //
 cleanup __amd64 void MenuScreen::destructor2(MenuScreen *this); // 1000ed080 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

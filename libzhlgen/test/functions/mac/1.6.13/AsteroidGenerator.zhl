@@ -1,5 +1,5 @@
 "554889e548c74728":  //
-cleanup __amd64 void AsteroidGenerator::constructor1(AsteroidGenerator *this);
+cleanup __amd64 void AsteroidGenerator::constructorAbiCopy(AsteroidGenerator *this);
 ".55":  //
 cleanup __amd64 void AsteroidGenerator::constructor(AsteroidGenerator *this); // 100014310 Linux DWARF prototype catalog by linkage
 ".55":  //

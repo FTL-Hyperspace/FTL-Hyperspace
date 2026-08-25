@@ -1,5 +1,5 @@
 "554889e5c74738":  //
-cleanup __amd64 void CreditScreen::constructor1(CreditScreen *this);
+cleanup __amd64 void CreditScreen::constructorAbiCopy(CreditScreen *this);
 ".55":  //
 cleanup __amd64 void CreditScreen::constructor(CreditScreen *this); // 1000c4430 Linux DWARF prototype catalog by linkage
 ".55":  //

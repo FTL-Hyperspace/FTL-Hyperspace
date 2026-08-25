@@ -1,5 +1,5 @@
 "554889e54156534189d64889fbe8????????48":  //
-cleanup __amd64 void TeleportSystem::constructor1(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb400 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TeleportSystem::constructorAbiCopy(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb400 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void TeleportSystem::constructor(TeleportSystem *this, int type, int roomId, int shipId, int starting_power); // 1001fb490 Linux DWARF prototype catalog by linkage
 ".55":  //

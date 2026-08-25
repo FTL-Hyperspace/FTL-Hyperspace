@@ -1,7 +1,7 @@
 "554889e54156534883ec204189f64889fb44":  //
 cleanup __amd64 void ShipManager::constructor(ShipManager *this, int shipId); // 100080540 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ShipManager::constructor1(ShipManager *this, int shipId); // 100080fd0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ShipManager::constructorAbiCopy(ShipManager *this, int shipId); // 100080fd0 Linux DWARF prototype catalog by linkage
 "554889e5415741564155415453504989fd488d05??????0049894500488d05??????0049894510|554889e54157415641554154534883ec184989fd488d05d5":  //
 cleanup __amd64 void ShipManager::destructor(ShipManager *this);
 ".55":  //
@@ -113,7 +113,7 @@ cleanup __amd64 void ShipManager::KillSpecificCrew(ShipManager *this, const std:
 "!.55":  //
 cleanup __amd64 void ShipManager::KillEveryone(ShipManager *this, bool noClone);
 ".55":  //
-cleanup __amd64 void ShipManager::UpdateCrewMembers(ShipManager *this); // 10008b520 binary calls it UpdateCrewmembers; the ZHL name keeps the capital M because it is the published API that five hooks and the Lua bindings use
+cleanup __amd64 void ShipManager::UpdateCrewmembers(ShipManager *this); // 10008b520
 ".55":  //
 cleanup __amd64 void ShipManager::Restart(ShipManager *this);
 ".554889e54157415653":  //

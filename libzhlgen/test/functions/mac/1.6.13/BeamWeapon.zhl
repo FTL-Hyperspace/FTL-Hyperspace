@@ -3,7 +3,7 @@ noHook __amd64 void BeamWeapon::__STRUCT_OVERRIDE_ANCHOR_8();
 //"554889e54157415641554154534883ec28f3":  //
 //cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015760 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void BeamWeapon::constructor1(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015a40 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BeamWeapon::constructorAbiCopy(BeamWeapon *this, Pointf position, int ownerId, int targetId, Pointf targetPosition, Pointf targetPosition2, int length, Targetable *movingTarget, float heading); // 100015a40 Linux DWARF prototype catalog by linkage
 "554889e54156534889f34989fe488b":  //
 cleanup __amd64 void BeamWeapon::SetMovingTarget(BeamWeapon *this, Targetable *target); // 100015a50 Linux DWARF prototype catalog by linkage
 "!.55":  //
@@ -13,7 +13,7 @@ cleanup __amd64 void BeamWeapon::LoadProjectile(BeamWeapon *this, int fd); // 10
 ".55":  //
 cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this, BeamWeapon *beam); // 100015dd0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void BeamWeapon::constructor1(BeamWeapon *this, BeamWeapon *beam); // 100015f10 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BeamWeapon::constructorAbiCopy(BeamWeapon *this, BeamWeapon *beam); // 100015f10 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534883ec284989??41":  //
 cleanup __amd64 void BeamWeapon::OnUpdate(BeamWeapon *this);
 ".55":  //

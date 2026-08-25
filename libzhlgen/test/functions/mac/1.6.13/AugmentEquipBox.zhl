@@ -1,5 +1,5 @@
 "554889e5415741564154534883ec104189cf":  //
-cleanup __amd64 void AugmentEquipBox::constructor1(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9c70 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AugmentEquipBox::constructorAbiCopy(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9c70 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void AugmentEquipBox::constructor(AugmentEquipBox *this, Point loc, ShipManager *shipManager, int slot); // 1000d9cd0 Linux DWARF prototype catalog by linkage
 "!.55":  //

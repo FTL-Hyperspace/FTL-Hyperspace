@@ -11,7 +11,7 @@ cleanup __amd64 void CombatDrone::OnLoop(CombatDrone *this); // 100036900 Linux 
 ".554889e54156534989f64889fb4d":  //
 cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable* target);
 ".554889e55d":  //
-cleanup __amd64 void CombatDrone::constructor1(CombatDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037020 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037020 Linux DWARF prototype catalog by linkage
 ".554889e54156534883ec50":  //
 cleanup __amd64 void CombatDrone::PickDestination(CombatDrone *this); // 100038160 Linux DWARF prototype catalog by linkage
 ".554889e553":  //

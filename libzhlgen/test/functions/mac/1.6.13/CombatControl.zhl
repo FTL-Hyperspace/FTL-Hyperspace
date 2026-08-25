@@ -5,7 +5,7 @@ cleanup __amd64 void CombatControl::UpdateSysBoxes(CombatControl *this); // 1000
 ".55":  //
 cleanup __amd64 void CombatControl::constructor(CombatControl *this);
 ".55":  //
-cleanup __amd64 void CombatControl::constructor1(CombatControl *this); // 1000b2f30 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CombatControl::constructorAbiCopy(CombatControl *this); // 1000b2f30 Linux DWARF prototype catalog by linkage
 "!554889e5415741564154534989fc4d8b":  //
 cleanup __amd64 void CombatControl::destructor2(CombatControl *this); // 1000b2f40 Itanium source destructor prototype, Itanium D2 destructor
 ".5548":  //

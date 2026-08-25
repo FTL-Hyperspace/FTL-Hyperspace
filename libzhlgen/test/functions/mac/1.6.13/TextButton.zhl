@@ -3,9 +3,11 @@ noHook __amd64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_132();
 //"554889e54156534889fb488d05??????00488903488d7b08e8????0a000f2805??????000f114310c6432001??????????????????????48????????????48??????????????????????????????43??00??????????????????????????????????????0000????????????????????c643????????????66c7434d0000c7434900000000be010000000f57c04c89f7e8????09000f57c04c89f7e8????0900488d05??????0048890348c7":  //
 //cleanup __amd64 void TextButton::constructor(TextButton *this); // 1000a89c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void TextButton::constructor1(TextButton *this); // 1000a8b20 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TextButton::constructor(TextButton *this); // 1000a8b20 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void TextButton::destructor2(TextButton *this); // 1000a8c80 Itanium source destructor prototype, Itanium D2 destructor
+noHook __amd64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_156();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void TextButton::destructor2(TextButton *this); // 1000a8c80 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void TextButton::destructor1(TextButton *this); // 1000a8ce0 Itanium source destructor prototype, Itanium D1 destructor
 "!.55":  //
@@ -31,7 +33,9 @@ cleanup __amd64 void TextButton::OnInit(TextButton *this, Point position, Point 
 ".55":  //
 cleanup __amd64 void TextButton::SetFont(TextButton *this, int font_); // 1000a9700 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void TextButton::OnInit(TextButton *this, Globals::Rect rect, int cornerInset, TextString *label, int font); // 1000a98d0 Linux DWARF prototype catalog by linkage
+noHook __amd64 void TextButton::__STRUCT_OVERRIDE_ANCHOR_164();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void TextButton::OnInit(TextButton *this, Globals::Rect rect, int cornerInset, TextString *label, int font); // 1000a98d0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void TextButton::SetAutoWidth(TextButton *this, bool autoWidth, bool autoRightAlign, int margin, int min);
 ".55":  //
@@ -49,11 +53,11 @@ cleanup __amd64 void TextButton::OnRender(TextButton *this);
 "554889e553504889fb48837b6800":
 noHook __amd64 void TextButton::NoHook();
 ".554889e5415653":
-cleanup __amd64 void TextButton::constructor(TextButton *this); // 2 instances in binary & both called - must rewrite if we want to modify it
+cleanup __amd64 void TextButton::constructorAbiCopy(TextButton *this); // 2 instances in binary & both called - must rewrite if we want to modify it
 "!.554889e553":
 cleanup __amd64 void TextButton::destructor(TextButton *this); // 3 instances in binary & 2 are called - must rewrite if we want to modify it
 ".554889e54157415641554154534883ec??448945d04989cf":
-cleanup __amd64 void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
+cleanup __amd64 void TextButton::OnInit(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 
 
 struct TextButton depends (CSurface)

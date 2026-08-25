@@ -13,23 +13,23 @@ static cleanup __amd64 int InfoBox::CalcCenterCountForSystem(int systemId, int m
 ".4883ec08e8????????488b0d":  // unique sig
 static cleanup __amd64 int InfoBox::CalcWidthForSystem(int systemId, int maxPower); // 00528f00
 ".41574589c7415641554189d531":  // unique sig
-cleanup __amd64 void InfoBox::SetBlueprintWeapon(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift); 
+cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift);
 ".80bfa0000000007507":  // unique sig
 cleanup __amd64 void InfoBox::CreateTipBox1(InfoBox *this); // 00529390 DWARF original prototype
 ".41574156415541544989f448":  // unique sig
-cleanup __amd64 void InfoBox::SetBlueprintDrone(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift); 
+cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift);
 "!.4154554889f5488d7610534889fb488d7f10e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7530488d7b30884328e8????????0fb64538488d7558488d7b588843388b45408943408b45448943448b45488943488b454c89434c0fb64550884350e8????????0fb64560488d7568488d7b68884360e8????????bf28000000c7838800000031010000c7838c00000087":  // unique sig
 cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const ItemBlueprint* bp);
 ".415741564c8d7710":  // unique sig
-cleanup __amd64 void InfoBox::SetBlueprintCrew(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
+cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const CrewBlueprint* bp, int yShift, bool detailedCrew);
 ".4154554889f5488d7610534889fb488d7f10e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7530488d7b30884328e8????????0fb64538488d7558488d7b588843388b45408943408b45448943448b45488943488b454c89434c0fb64550884350e8????????0fb64560488d7568488d7b68884360e8????????bf28000000c7838800000031010000c7838c00000096":  // unique sig
-cleanup __amd64 void InfoBox::SetBlueprintAugment(InfoBox *this, const AugmentBlueprint* bp);
+cleanup __amd64 void InfoBox::SetBlueprint(InfoBox *this, const AugmentBlueprint* bp);
 ".55534889fb4883ec28837f7c":  // unique sig
 cleanup __amd64 bool InfoBox::IsEmpty(InfoBox *this);
 ".4156415541544989fc55534881eca0":  // unique sig
 cleanup __amd64 int InfoBox::CalcBoxHeight(InfoBox *this);
 ".4157415641554589cd415441":  // unique sig
-cleanup __amd64 void InfoBox::SetSystemId(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
+cleanup __amd64 void InfoBox::SetSystem(InfoBox *this, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 ".41564589c641554189d541":  // unique sig
 cleanup __amd64 void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
 ".41574989ff41564589ce41554d":  // unique sig

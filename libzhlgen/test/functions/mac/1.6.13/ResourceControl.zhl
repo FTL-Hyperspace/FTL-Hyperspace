@@ -1,11 +1,11 @@
 "554889e548c74718":  //
-cleanup __amd64 void ResourceControl::constructor1(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ResourceControl::constructor(ResourceControl *this); // 100157420 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ResourceControl::destructor1(ResourceControl *this); // 100157590 Itanium source destructor prototype, Itanium D1 destructor
 "!3f5dc3660f1f440000554889e55de9????????660f1f440000":  //
 noHook __amd64 void ResourceControl::__DO_NOT_HOOK_10015759f(); // 10015759f
 ".55":  //
-cleanup __amd64 void ResourceControl::constructor(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ResourceControl::constructorAbiCopy(ResourceControl *this); // 1001575a0 Linux DWARF prototype catalog by linkage
 "554889e541574156534883ec184989fe0f|554889e541574156534883ec180f":  //
 cleanup __amd64 void ResourceControl::destructor2(ResourceControl *this); // 100157710 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

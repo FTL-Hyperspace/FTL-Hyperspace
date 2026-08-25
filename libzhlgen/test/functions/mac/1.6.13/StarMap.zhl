@@ -7,7 +7,7 @@ cleanup __amd64 void StarMap::InitNoFuelText(StarMap *this);
 ".55":  //
 cleanup __amd64 void StarMap::InitBossMessageBox(StarMap *this);
 ".55":  //
-cleanup __amd64 void StarMap::constructor1(StarMap *this); // 1001c4250 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void StarMap::constructorAbiCopy(StarMap *this); // 1001c4250 Linux DWARF prototype catalog by linkage
 "554889e54157415653504989fe488d05????17":  //
 cleanup __amd64 void StarMap::destructor2(StarMap *this); // 1001c4260 Itanium source destructor prototype, Itanium D2 destructor
 ".554889e55d":  //

@@ -1,7 +1,7 @@
 "554889e553504889fbbeff":  //
 cleanup __amd64 void ShipStatus::constructor(ShipStatus *this); // 100113000 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ShipStatus::constructor1(ShipStatus *this); // 1001132f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ShipStatus::constructorAbiCopy(ShipStatus *this); // 1001132f0 Linux DWARF prototype catalog by linkage
 "554889e553504889fbe8????????488bbb":  //
 cleanup __amd64 void ShipStatus::destructor2(ShipStatus *this); // 100113300 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

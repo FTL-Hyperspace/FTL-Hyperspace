@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec6889d341":  //
 cleanup __amd64 void ShipButton::constructor(ShipButton *this, int shipId, int type); // 10010e4e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ShipButton::constructor1(ShipButton *this, int shipId, int type); // 10010e970 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ShipButton::constructorAbiCopy(ShipButton *this, int shipId, int type); // 10010e970 Linux DWARF prototype catalog by linkage
 "554889e553504889fb4889d0":  //
 cleanup __amd64 void ShipButton::OnInit(ShipButton *this, const std::string& imgName, Point position);
 "!.55":  //

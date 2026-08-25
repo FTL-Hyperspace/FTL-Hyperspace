@@ -1,7 +1,7 @@
 "554889e54156534883ec2089f04889|554889e541574156534883ec1889f0":  //
 cleanup __amd64 void Fire::constructor(Fire *this, int shipId); // 100064ea0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Fire::constructor1(Fire *this, int shipId); // 100065250 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Fire::constructorAbiCopy(Fire *this, int shipId); // 100065250 Linux DWARF prototype catalog by linkage
 "554889e5415741564154534881ec20":  //
 cleanup __amd64 void Fire::OnInit(Fire *this); // 100065260 Linux DWARF prototype catalog by linkage
 ".55":  //

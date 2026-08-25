@@ -45,9 +45,9 @@ __thiscall int ScoreKeeper::CalculateSectorScore(ScoreKeeper *this); // 00441b30
 ".a1????????f30f1005????????83":  // unique sig
 __thiscall int ScoreKeeper::CalculateScore(ScoreKeeper *this); // 00441b50 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565383ec7c8b77":  // unique sig
-__thiscall int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
+__thiscall int ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
 ".578d7c240883e4f0ff77fc5589e557565389ceb9????????81ecec":  // unique sig
-__thiscall void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
+__thiscall void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore& topScore, int type);
 ".578d7c240883e4f0ff77fc5589e55783ec148b078b57048b78":  // unique sig
 __thiscall void ScoreKeeper::AddTopScore(ScoreKeeper *this, TopScore *score, int type); // 00442790 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589f889e557565389cf31f681":  // unique sig

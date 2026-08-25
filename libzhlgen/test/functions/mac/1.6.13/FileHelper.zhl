@@ -9,9 +9,9 @@ static cleanup __amd64 std::string FileHelper::getSaveFile();
 ".55":  //
 static cleanup __amd64 void FileHelper::initFileHelper();
 ".55":  //
-// Binary calls it fileLength; the _OnlyForHooking suffix keeps the bound name
+// Binary calls it fileLength; the suffix keeps the bound name
 // distinct from the reimplemented fileLength below, exactly as linux does.
-static cleanup __amd64 int FileHelper::fileLength_OnlyForHooking(int fd); // 10014e970
+static cleanup __amd64 int FileHelper::fileLength_orig(int fd); // 10014e970
 ".55":  //
 static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
 "!.55":  //

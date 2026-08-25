@@ -3,7 +3,7 @@ noHook __amd64 void BatteryBox::__STRUCT_OVERRIDE_ANCHOR_7();
 //"554889e5415741564154534883ec404889d3":  //
 //cleanup __amd64 void BatteryBox::constructor(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f16a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void BatteryBox::constructor1(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f1880 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BatteryBox::constructorAbiCopy(BatteryBox *this, Point loc, BatterySystem *sys); // 1000f1880 Linux DWARF prototype catalog by linkage
 "554889e5b8030000005dc30f1f440000554889e553504889":  //
 cleanup __amd64 int BatteryBox::GetCooldownLevel(BatteryBox *this); // 1000f1890 Linux DWARF prototype catalog by linkage
 ".55":  //

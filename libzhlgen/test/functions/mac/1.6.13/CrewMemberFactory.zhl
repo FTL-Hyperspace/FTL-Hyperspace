@@ -31,7 +31,7 @@ cleanup __amd64 int CrewMemberFactory::GetEnemyCrewCount(CrewMemberFactory *this
 ".55":  //
 static cleanup __amd64 bool CrewMemberFactory::IsRace(const std::string& species);
 ".55":  //
-cleanup __amd64 CrewMember *CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 100061470 binary calls it CreateCrewmember; the ZHL name keeps the capital M because it is the published API that hooks and the Lua bindings use
+cleanup __amd64 CrewMember *CrewMemberFactory::CreateCrewmember(CrewMemberFactory *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 100061470
 ".5548":  //
 cleanup __amd64 BoarderDrone* CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
 ".55":  //

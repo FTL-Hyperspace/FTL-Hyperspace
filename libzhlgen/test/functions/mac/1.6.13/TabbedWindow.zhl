@@ -1,7 +1,7 @@
 "554889e54157415653504989d6":  //
-cleanup __amd64 void TabbedWindow::constructor(TabbedWindow *this, int buttonType_, Point loc); // 100131df0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TabbedWindow::constructorAbiCopy(TabbedWindow *this, int buttonType_, Point loc); // 100131df0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void TabbedWindow::constructor1(TabbedWindow *this, int buttonType_, Point loc); // 100131eb0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TabbedWindow::constructor(TabbedWindow *this, int buttonType_, Point loc); // 100131eb0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void TabbedWindow::destructor2(TabbedWindow *this); // 100131f70 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

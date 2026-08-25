@@ -1,7 +1,7 @@
 "554889e553504889fb48c743580000000048c74350000000000f":  //
-cleanup __amd64 void SpaceStatus::constructor(SpaceStatus *this); // 100117530 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SpaceStatus::constructorAbiCopy(SpaceStatus *this); // 100117530 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void SpaceStatus::constructor1(SpaceStatus *this); // 1001175e0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SpaceStatus::constructor(SpaceStatus *this); // 1001175e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void SpaceStatus::destructor2(SpaceStatus *this); // 100117690 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

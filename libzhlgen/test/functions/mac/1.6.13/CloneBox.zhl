@@ -3,7 +3,7 @@ noHook __amd64 void CloneBox::__STRUCT_OVERRIDE_ANCHOR_20();
 //"554889e54157415641554154534881ecc80000004889d3":  //
 //cleanup __amd64 void CloneBox::constructor(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0490 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CloneBox::constructor1(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0c90 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CloneBox::constructorAbiCopy(CloneBox *this, Point loc, CloneSystem *clone); // 1000f0c90 Linux DWARF prototype catalog by linkage
 "!554889e553504889fb488d05????24":  //
 cleanup __amd64 void CloneBox::destructor2(CloneBox *this); // 1000f0ca0 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

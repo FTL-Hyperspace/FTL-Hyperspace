@@ -3,7 +3,7 @@ noHook __amd64 void Asteroid::__STRUCT_OVERRIDE_ANCHOR_3();
 //"554889e541574156534881ec68":  //
 //cleanup __amd64 void Asteroid::constructor(Asteroid *this, Pointf pos, int destinationSpace); // 100022170 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Asteroid::constructor1(Asteroid *this, Pointf pos, int destinationSpace); // 100022460 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Asteroid::constructorAbiCopy(Asteroid *this, Pointf pos, int destinationSpace); // 100022460 Linux DWARF prototype catalog by linkage
 "554889e5534883ec284889fb80bbc4000000000f859a|554889e553504889fbe8????????0f57c080":  //
 cleanup __amd64 void Asteroid::OnUpdate(Asteroid *this);
 ".554889e553504889fb39":  //

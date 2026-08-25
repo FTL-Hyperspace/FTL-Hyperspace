@@ -1,7 +1,7 @@
 "554889e566c787ac":  //
-cleanup __amd64 void CrewAI::constructor(CrewAI *this); // 1001781f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewAI::constructorAbiCopy(CrewAI *this); // 1001781f0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrewAI::constructor1(CrewAI *this); // 100178220 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewAI::constructor(CrewAI *this); // 100178220 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CrewAI::OnInit(CrewAI *this, ShipManager *shipManager, int boardingAI); // 100178250 Linux DWARF prototype catalog by linkage
 ".55":  //

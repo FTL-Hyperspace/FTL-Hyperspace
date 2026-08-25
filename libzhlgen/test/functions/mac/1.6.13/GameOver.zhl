@@ -1,7 +1,7 @@
 "554889e553504889fbe802fe":  //
-cleanup __amd64 void GameOver::constructor(GameOver *this); // 1000dcaf0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void GameOver::constructorAbiCopy(GameOver *this); // 1000dcaf0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void GameOver::constructor1(GameOver *this); // 1000dcba0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void GameOver::constructor(GameOver *this); // 1000dcba0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void GameOver::destructor2(GameOver *this); // 1000dcc50 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

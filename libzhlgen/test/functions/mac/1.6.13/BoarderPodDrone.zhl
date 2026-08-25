@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ec6801000049":  //
 cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _blueprint);
 ".55":  //
-cleanup __amd64 void BoarderPodDrone::constructor1(BoarderPodDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037b30 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037b30 Linux DWARF prototype catalog by linkage
 "!554889e54156534189f64889fbe8????????0fb6b339":  //
 cleanup __amd64 void BoarderPodDrone::SaveState(BoarderPodDrone *this, int fd); // 100037b40 Linux DWARF prototype catalog by linkage
 ".55":  //

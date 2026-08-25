@@ -9,7 +9,7 @@ static cleanup __cdecl std::string FileHelper::getSaveFile();
 ".8d4c240483e4f0ff71fc5589e5575653518d45b88d75d883ec68c6":  // unique sig
 static cleanup __cdecl void FileHelper::initFileHelper();
 ".8d4c240483e4f0ff71fc5589e55183ec14a1????????8b1185c074??81fa00feff7f74??c744240806":  // unique sig
-static cleanup __cdecl int FileHelper::fileLength_OnlyForHooking(int fd);
+static cleanup __cdecl int FileHelper::fileLength_orig(int fd);
 ".8d4c240483e4f031c0ff71fc5589e5575653518d75d883ec588b39668945d8c74424????????00c74424????????00c744240cffffffff8975d08b07c745d400000000c74424????????00c70424e9fd000089442408a1????????8945c4ffd083ec1885c089c20f8e????????8d041281fa0000803fbbffffffff8955c00f47c3890424e8????????8b55c08944241089c3c744240cffffffff895424148b07c74424????????00c70424e9fd000089442408ff55c483ec1885c07e??891c24e8????????8944240c8b45d48d4dd0895c2408c704240000000089442404e8????????83ec10891c24e8????????8b45d0890424ff15????????8b55":  // unique sig
 static cleanup __cdecl bool FileHelper::fileExists(const std::string& fileName);
 ".8d4c240483e4f0ff71fc5589e5575653518d45b88d75d883ec688b":  // unique sig
@@ -63,6 +63,6 @@ struct FileHelper
 {{
         static int fileLength(int fd)
 	{
-		return fileLength_OnlyForHooking(fd);
+		return fileLength_orig(fd);
 	}
 }};

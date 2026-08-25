@@ -1,9 +1,9 @@
 "554889e54157415641554154534881eca80000004189ce89|554889e54157415641554154534881eca80000004189cc":  //
 static cleanup __amd64 SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
 "!.554889e553":  //
-cleanup __amd64 void SystemControl::constructor(SystemControl *this); // 10012d860 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SystemControl::constructorAbiCopy(SystemControl *this); // 10012d860 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void SystemControl::constructor1(SystemControl *this); // 10012d9d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void SystemControl::constructor(SystemControl *this); // 10012d9d0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void SystemControl::destructor2(SystemControl *this); // 10012db40 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

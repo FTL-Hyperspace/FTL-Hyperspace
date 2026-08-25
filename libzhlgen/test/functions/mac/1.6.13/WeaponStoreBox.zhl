@@ -3,9 +3,9 @@ noHook __amd64 void WeaponStoreBox::__STRUCT_OVERRIDE_ANCHOR_144();
 //"554889e5534883ec184889fbbf20000000e8????????488945f00f2805????????0f2945e048b9795f77":  //
 //cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 100121800 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponStoreBox::constructor1(WeaponStoreBox *this); // 1001218a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this); // 1001218a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponStoreBox::constructor1(WeaponStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const WeaponBlueprint* _weaponBp);
+cleanup __amd64 void WeaponStoreBox::constructorAbiCopy(WeaponStoreBox *this, ShipManager* _ship, Equipment* _equipScreen, const WeaponBlueprint* _weaponBp);
 ".55":  //
 cleanup __amd64 void WeaponStoreBox::constructor(WeaponStoreBox *this, ShipManager *_ship, Equipment *_equipScreen, const WeaponBlueprint *_weaponBp); // 100121a00 Linux DWARF prototype catalog by linkage
 ".55":  //

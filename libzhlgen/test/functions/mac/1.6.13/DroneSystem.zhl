@@ -1,7 +1,7 @@
 "554889e5415741564155415453504589c689":  //
 cleanup __amd64 void DroneSystem::constructor(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001eabe0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void DroneSystem::constructor1(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001ead40 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DroneSystem::constructorAbiCopy(DroneSystem *this, int roomId, int shipId, int starting_power, int slot_count); // 1001ead40 Linux DWARF prototype catalog by linkage
 "!554889e553504889fb488d05??????00488903488d05??????0048894310488bbbb0":  //
 cleanup __amd64 void DroneSystem::destructor2(DroneSystem *this); // 1001ead50 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

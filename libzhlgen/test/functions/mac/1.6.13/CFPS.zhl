@@ -1,7 +1,7 @@
 "554889e5c7070000000048":  //
 cleanup __amd64 void CFPS::constructor(CFPS *this); // 100145ef0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CFPS::constructor1(CFPS *this); // 100145f20 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CFPS::constructorAbiCopy(CFPS *this); // 100145f20 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 double CFPS::GetTime(CFPS *this); // 100145f50 Linux DWARF prototype catalog by linkage
 ".55":  //

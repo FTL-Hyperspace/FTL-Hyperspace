@@ -1,7 +1,7 @@
 "554889e54156534189f64889fb48c7":  //
 cleanup __amd64 void ShipAI::constructor(ShipAI *this, bool player); // 10017cdc0 Linux DWARF prototype catalog by linkage
 "!.55":  //
-cleanup __amd64 void ShipAI::constructor1(ShipAI *this, bool player); // 10017cf10 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ShipAI::constructorAbiCopy(ShipAI *this, bool player); // 10017cf10 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
 ".55":  //

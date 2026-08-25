@@ -3,7 +3,7 @@ noHook __amd64 void WeaponEquipBox::__STRUCT_OVERRIDE_ANCHOR_142();
 //"554889e54156534883ec204889fb488d050b|554889e54156534883ec204989d6":  //
 //cleanup __amd64 void WeaponEquipBox::constructor(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot); // 1000d96b0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponEquipBox::constructor1(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot); // 1000d9860 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponEquipBox::constructorAbiCopy(WeaponEquipBox *this, Point location, WeaponSystem *sys, int slot); // 1000d9860 Linux DWARF prototype catalog by linkage
 "554889e54156534889fb488b7b58":  //
 cleanup __amd64 void WeaponEquipBox::AddItem(WeaponEquipBox *this, EquipmentBoxItem newItem); // 1000d9870 Linux DWARF prototype catalog by linkage
 ".55":  //

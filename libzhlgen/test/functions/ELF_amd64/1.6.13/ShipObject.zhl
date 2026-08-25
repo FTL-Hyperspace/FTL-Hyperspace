@@ -21,7 +21,7 @@ cleanup __amd64 bool ShipObject::AddAugmentation(ShipObject *this, const std::st
 ".415741564155415455534889fb4883ec48488d7c2420":  // unique sig
 cleanup __amd64 void ShipObject::RemoveAugmentation(ShipObject *this, const std::string& augment);
 ".415731c04156415549":  // unique sig
-cleanup __amd64 void ShipObject::AddAugmentation1(ShipObject *this, const std::string &augId, int slot); // 004da8d0 DWARF original prototype
+cleanup __amd64 void ShipObject::AddAugmentation(ShipObject *this, const std::string &augId, int slot); // 004da8d0 DWARF original prototype
 ".415741564155415455534889fb4883ec58488d7c243089":  // unique sig
 cleanup __amd64 void ShipObject::RemoveEquipment(ShipObject* this, const std::string& blueName, bool completely);
 ".415741564155415455534889fb4883ec38488d7c2420e8????????8b530831c0488d74242085d20f94c0488d14004801c2488d1490488b05????????4c8d2c":  // unique sig

@@ -33,7 +33,7 @@ cleanup __amd64 void TextButton::SetSize(TextButton *this, Point size); // 004e3
 ".41564155415455534889fb4883ec3083":  // unique sig
 cleanup __amd64 void TextButton::SetFont(TextButton *this, int font_); // 004e3840 DWARF original prototype
 ".41574156415541544989cc5548|.41574156415541544989cc":  // unique sig
-cleanup __amd64 void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
+cleanup __amd64 void TextButton::OnInit(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 ".4154488b06":  // unique sig
 cleanup __amd64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point pos, int autoWidthMin);
 ".415741564989fe4155415455534881ecb800000080":  // unique sig

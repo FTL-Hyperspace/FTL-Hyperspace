@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec184889fb48c74330|554889e54157415641554154534883ec184989ff49c7":  //
 cleanup __amd64 void CombatAI::constructor(CombatAI *this); // 100176090 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CombatAI::constructor1(CombatAI *this); // 100176640 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CombatAI::constructorAbiCopy(CombatAI *this); // 100176640 Linux DWARF prototype catalog by linkage
 "554889e54156534883ec204889fb4889":  //
 cleanup __amd64 void CombatAI::LinkShip(CombatAI *this, ShipManager *ship); // 100176650 Linux DWARF prototype catalog by linkage
 ".55":  //

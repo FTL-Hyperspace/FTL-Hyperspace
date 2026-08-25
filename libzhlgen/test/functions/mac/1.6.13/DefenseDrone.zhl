@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ec98":  //
 cleanup __amd64 void DefenseDrone::constructor(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037030 Linux DWARF prototype catalog by linkage
 ".5548":  //
-cleanup __amd64 void DefenseDrone::constructor1(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037560 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DefenseDrone::constructorAbiCopy(DefenseDrone *this, int iShipId, int selfId, DroneBlueprint *blueprint); // 100037560 Linux DWARF prototype catalog by linkage
 ".554889e541565348":  //
 cleanup __amd64 void DefenseDrone::PickDestination(DefenseDrone *this); // 100037d70 Linux DWARF prototype catalog by linkage
 "!.554889e54157":  //

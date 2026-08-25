@@ -1,11 +1,11 @@
 "554889e54157415641554154534881ec880000004989fc48|554889e54157415641554154534881ec880000004189f5":  //
-cleanup __amd64 void DamageMessage::constructor2(DamageMessage *this, float length, int damage, Pointf position, bool symbol); // 10014d530 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float length, int damage, Pointf position, bool symbol); // 10014d530 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void DamageMessage::constructor3(DamageMessage *this, float length, int damage, Pointf position, bool symbol); // 10014dce0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DamageMessage::constructorAbiCopy(DamageMessage *this, float length, int damage, Pointf position, bool symbol); // 10014dce0 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534883ec284889fb488d":  //
 cleanup __amd64 void DamageMessage::constructor(DamageMessage *this, float _length, Pointf _position, DamageMessage::MessageType _type);
 ".55":  //
-cleanup __amd64 void DamageMessage::constructor1(DamageMessage *this, float length, Pointf position, DamageMessage::MessageType type); // 10014dfb0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DamageMessage::constructorAbiCopy(DamageMessage *this, float length, Pointf position, DamageMessage::MessageType type); // 10014dfb0 Linux DWARF prototype catalog by linkage
 "554889e54156534989fe498b4e":  //
 cleanup __amd64 void DamageMessage::destructor2(DamageMessage *this); // 10014dfc0 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
@@ -31,6 +31,6 @@ struct DamageMessage
 
 	DamageMessage(float length, int amount, Pointf position, bool symbol)
 	{
-		constructor2(length, amount, position, symbol);
+		constructor(length, amount, position, symbol);
 	}
 }};

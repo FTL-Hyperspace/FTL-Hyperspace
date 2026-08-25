@@ -1,7 +1,7 @@
 "554889e548c7070000000048b8":  //
-cleanup __amd64 void PowerManager::constructor(PowerManager *this); // 1001efc60 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void PowerManager::constructorAbiCopy(PowerManager *this); // 1001efc60 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void PowerManager::constructor1(PowerManager *this); // 1001efca0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void PowerManager::constructor(PowerManager *this); // 1001efca0 Linux DWARF prototype catalog by linkage
 ".55":  //
 static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
 ".55":  //

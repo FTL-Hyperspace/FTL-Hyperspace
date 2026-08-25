@@ -1,5 +1,5 @@
 //"554889e54156534883ec204989d64889fb4889f048c1e820488d15e1":  // fail to find cross-store sig
-//cleanup __amd64 void DroneEquipBox::constructor1(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 1000d9980 Linux DWARF prototype catalog by linkage
+//cleanup __amd64 void DroneEquipBox::constructorAbiCopy(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 1000d9980 Linux DWARF prototype catalog by linkage
 "554889e55de9????????660f1f440000554889e553504889fb488b7b60":  //
 cleanup __amd64 void DroneEquipBox::constructor(DroneEquipBox *this, Point location, DroneSystem *sys, int slot); // 1000d9b30 Linux DWARF prototype catalog by linkage
 "554889e553504889fb488b7b6048":  //

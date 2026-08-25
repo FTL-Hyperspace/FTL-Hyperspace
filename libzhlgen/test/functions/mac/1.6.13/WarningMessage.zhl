@@ -1,7 +1,7 @@
 "554889e54156534889fb488d05??????004883":  //
 cleanup __amd64 void WarningMessage::destructor2(WarningMessage *this); // 1000b9390 Itanium source destructor prototype, Itanium D2 destructor
 "!.554889e54157415653504889fb488d05":  //
-cleanup __amd64 void WarningMessage::constructor1(WarningMessage *this); // 100173940 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WarningMessage::constructorAbiCopy(WarningMessage *this); // 100173940 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void WarningMessage::constructor(WarningMessage *this); // 100173aa0 Linux DWARF prototype catalog by linkage
 ".55":  //

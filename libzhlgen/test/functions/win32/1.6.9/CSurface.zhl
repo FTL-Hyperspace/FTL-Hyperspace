@@ -13,7 +13,7 @@ static cleanup __cdecl void CSurface::GL_ClearAll();
 ".55660fefc089e583e4f083ec10":  // unique sig
 static cleanup __cdecl void CSurface::GL_ClearColor();
 ".5589e583e4f083ec108b45148944240c8b4510894424088b450c894424048b4508890424e8????????b8":  // unique sig
-static cleanup __cdecl int CSurface::SetViewPort(int left, int bottom, int h, int w);
+static cleanup __cdecl bool CSurface::GL_SetViewPort(int left, int bottom, int h, int w);
 ".5589e583e4f083ec10a1????????8b":  // unique sig
 static cleanup __cdecl void CSurface::GL_PopScissor();
 ".5589e5565383e4f083ec108b45088b5d0c8b751083":  // unique sig

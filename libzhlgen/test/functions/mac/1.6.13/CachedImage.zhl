@@ -3,35 +3,35 @@ noHook __amd64 void CachedImage::__STRUCT_OVERRIDE_ANCHOR_16();
 //"554889e548c7470800000000488d":  //
 //cleanup __amd64 void CachedImage::constructor(CachedImage *this); // 10014c3c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this); // 10014c430 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructor(CachedImage *this); // 10014c430 Linux DWARF prototype catalog by linkage
 ".55":  //
 noHook __amd64 void CachedImage::__STRUCT_OVERRIDE_ANCHOR_17();
 //".55":  //
 //cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string &imageName, int x, int y); // 10014c4a0 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& _path, int _x, int _y);
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string& _path, int _x, int _y);
 ".55":  //
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string &imageName, CachedImage::Centered centered); // 10014c580 Linux DWARF prototype catalog
+cleanup __amd64 void CachedImage::constructorAbiCopy(CachedImage *this, const std::string &imageName, CachedImage::Centered centered); // 10014c580 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string &imageName, CachedImage::Centered centered); // 10014c630 Linux DWARF prototype catalog
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string &imageName, CachedImage::Centered centered); // 10014c630 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, int x, int y); // 10014c6e0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructorAbiCopy(CachedImage *this, GL_Texture *texture, int x, int y); // 10014c6e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, GL_Texture *texture, int x, int y); // 10014c740 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, int x, int y); // 10014c740 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 10014c7a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructorAbiCopy(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 10014c7a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 10014c830 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 10014c830 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedImage::constructor_copy1(CachedImage *this, const CachedImage& _source); // 10014c8c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructorAbiCopy(CachedImage *this, const CachedImage& _source); // 10014c8c0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage& _source); // 10014c920 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const CachedImage& _source); // 10014c920 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 CachedImage *CachedImage::copy_assign_1(CachedImage *this, CachedImage *rhs); // 10014c980 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void CachedImage::CreatePrimitive(CachedImage *this);
 ".55":  //
-cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string &imagePath); // 10014cc30 Linux DWARF prototype catalog
+cleanup __amd64 void CachedImage::SetImage(CachedImage *this, const std::string &imagePath); // 10014cc30 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 void CachedImage::SetImage(CachedImage *this, GL_Texture *texture); // 10014cc90 Linux DWARF prototype catalog by linkage
 ".55":  //
@@ -54,11 +54,11 @@ cleanup __amd64 void CachedImage::destructor1(CachedImage *this);
 // ".554889e553504889fb48c7430800000000488d":
 // noHook __amd64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_2();
 // ".554889e553504889fb48c7430800000000488d":
-// cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& _path, CachedImage::Centered _centered);
+// cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string& _path, CachedImage::Centered _centered);
 // ".554889e54156534989f64889fb48c7":
 // noHook __amd64 void CachedImage::DO_NOT_HOOK_FALSE_CONSTRUCTOR_3();
 // ".554889e54156534989f64889fb48c7":
-// cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage& _source);
+// cleanup __amd64 void CachedImage::constructor(CachedImage *this, const CachedImage& _source);
 // ".554889e5415653":
 // cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
 
@@ -72,12 +72,12 @@ struct CachedImage
 
 	CachedImage(const std::string& path, int x, int y)
 	{
-		constructor1(path, x, y);
+		constructor(path, x, y);
 	}
 
 	CachedImage(const std::string& path, Centered centered)
 	{
-		constructor2(path, centered);
+		constructor(path, centered);
 	}
 
 	CachedImage()
@@ -87,6 +87,6 @@ struct CachedImage
 
 	CachedImage(const CachedImage& source)
 	{
-		constructor_copy(source);
+		constructor(source);
 	}
 }};

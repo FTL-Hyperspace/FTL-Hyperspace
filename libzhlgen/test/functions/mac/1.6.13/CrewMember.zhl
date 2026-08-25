@@ -63,7 +63,7 @@ cleanup __amd64 void CrewMember::ClearTask(CrewMember *this);
 ".55":  //
 cleanup __amd64 bool CrewMember::OnInit(CrewMember *this);
 "!.55":  //
-cleanup __amd64 void CrewMember::constructor1(CrewMember *this, CrewBlueprint *myBlueprint, int shipId, bool intruder, CrewAnimation *anim); // 10004fbc0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewMember::constructor(CrewMember *this, CrewBlueprint *myBlueprint, int shipId, bool intruder, CrewAnimation *anim); // 10004fbc0 Linux DWARF prototype catalog by linkage
 ".554889e541565389":  //
 cleanup __amd64 void CrewMember::SaveState(CrewMember *this, int fileHelper);
 ".55":  //

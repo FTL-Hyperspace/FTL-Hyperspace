@@ -6,11 +6,11 @@ cleanup __cdecl void LockdownShard::Update(LockdownShard *this); //080ed8d0
 cleanup __cdecl void LockdownShard::OnRender(LockdownShard *this); //080eda70
 ".5589e5575689c65381ecfc0000008b":
 // .constprop.486 clone, GCC folded superFreeze away so it is not passed here
-cleanup __cdecl void LockdownShard::constructor2(LockdownShard *this, int lockingRoom, Pointf start, Point goal); //080f6310
+cleanup __cdecl void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal); //080f6310
 ".5589e557565381ecfc0000008b????8b????8d??28ffffff":
 cleanup __cdecl void LockdownShard::constructor(LockdownShard *this, int lockingRoom, Pointf start, Point goal, bool superFreeze); //080f6970
 ".5589e557565381ecfc0000008b????8d??28ffffff":
-cleanup __cdecl void LockdownShard::constructor3(LockdownShard *this, int fd); //080f7480
+cleanup __cdecl void LockdownShard::constructor(LockdownShard *this, int fd); //080f7480
 
 
 
@@ -25,7 +25,7 @@ struct LockdownShard
 
 	LockdownShard(int fd)
 	{
-		this->constructor3(fd);
+		this->constructor(fd);
 	}
 
 	void Initialize(bool loading, bool superFreeze);

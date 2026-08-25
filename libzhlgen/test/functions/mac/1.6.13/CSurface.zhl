@@ -1,7 +1,7 @@
 "554889e55dc3662e0f1f840000000000554889e55dc3662e0f1f840000000000554889e54889":  //
-cleanup __amd64 void CSurface::constructor(CSurface *this); // 100146120 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CSurface::constructorAbiCopy(CSurface *this); // 100146120 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CSurface::constructor1(CSurface *this); // 100146130 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CSurface::constructor(CSurface *this); // 100146130 Linux DWARF prototype catalog by linkage
 ".554889e5e8":  //
 static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
 "!.55":  //

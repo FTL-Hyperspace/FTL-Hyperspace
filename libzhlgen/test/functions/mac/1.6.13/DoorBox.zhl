@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec384989cc48":  //
 cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129980 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void DoorBox::constructor1(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129b50 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DoorBox::constructorAbiCopy(DoorBox *this, Point loc, ShipSystem *sys, ShipManager *ship); // 100129b50 Linux DWARF prototype catalog by linkage
 "!554889e5415741564155415453504189f4":  //
 cleanup __amd64 void DoorBox::OnRender(DoorBox *this, bool ignoreStatus); // 100129b60 Linux DWARF prototype catalog by linkage
 ".55":  //

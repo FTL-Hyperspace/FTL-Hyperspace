@@ -3,11 +3,11 @@ noHook __amd64 void Missile::__STRUCT_OVERRIDE_ANCHOR_57();
 //"554889e541574156534881ec18":  //
 //cleanup __amd64 void Missile::constructor(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020200 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Missile::constructor1(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020330 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Missile::constructorAbiCopy(Missile *this, Pointf position, int ownerId, int destinationSpace, Pointf destination, float heading); // 100020330 Linux DWARF prototype catalog by linkage
 "554889e553504889fbf2":  //
-cleanup __amd64 void Missile::constructor(Missile *this, Missile *missile); // 100020340 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Missile::constructorAbiCopy(Missile *this, Missile *missile); // 100020340 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Missile::constructor1(Missile *this, Missile *missile); // 1000203b0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Missile::constructor(Missile *this, Missile *missile); // 1000203b0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void Missile::OnRenderSpecific(Missile *this, int spaceId); // 100020420 Linux DWARF prototype catalog by linkage
 "!.55":  //

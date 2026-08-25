@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec184889fbe8????????4c":  //
 cleanup __amd64 void OptionsScreen::constructor(OptionsScreen *this); // 1000f4c00 Linux DWARF prototype catalog by linkage
 ".554889e55d":  //
-cleanup __amd64 void OptionsScreen::constructor1(OptionsScreen *this); // 1000f53d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void OptionsScreen::constructorAbiCopy(OptionsScreen *this); // 1000f53d0 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534881ecc80000004989fc|554889e5415741564154534881eca00000004989fc":  //
 cleanup __amd64 void OptionsScreen::OnInit(OptionsScreen *this);
 ".554889e54157415641554154534881ecf8":  //

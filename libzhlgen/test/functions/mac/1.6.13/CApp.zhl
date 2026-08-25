@@ -1,5 +1,5 @@
 "554889e553504889fbe8":  //
-cleanup __amd64 void CApp::constructor1(CApp *this);
+cleanup __amd64 void CApp::constructorAbiCopy(CApp *this);
 ".55":  //
 cleanup __amd64 void CApp::constructor(CApp *this); // 100004990 Linux DWARF prototype catalog by linkage
 ".55":  //

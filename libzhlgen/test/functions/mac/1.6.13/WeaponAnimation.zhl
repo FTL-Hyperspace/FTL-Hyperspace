@@ -5,11 +5,11 @@ cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this); // 100
 ".55":  //
 cleanup __amd64 void WeaponAnimation::ComputeDirection(WeaponAnimation *this); // 10004c120 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponAnimation::constructor1(WeaponAnimation *this); // 10004c160 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponAnimation::constructorAbiCopy(WeaponAnimation *this); // 10004c160 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534881ec??0100004c":  //
-cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c170 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponAnimation::constructorAbiCopy(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c170 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void WeaponAnimation::constructor1(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c8e0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void WeaponAnimation::constructor(WeaponAnimation *this, GL_Texture *image, AnimationDescriptor descriptor, int chargedFrame, int fireFrame, Point firepoint, Point mountPoint); // 10004c8e0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void WeaponAnimation::OnInit(WeaponAnimation *this); // 10004c920 Linux DWARF prototype catalog by linkage
 "!.55":  //

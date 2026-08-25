@@ -15,50 +15,35 @@ from collections import defaultdict
 # Use {class_nm} as placeholder for the class name extracted from the nm name
 # Use {method_nm} as placeholder for the method name extracted from the nm name
 INTENTIONAL_MISMATCHES = [
-    # Constructor/destructor overloads - ZHL uses numbered suffixes
-    # {class} expands to the class name, so Foo::constructor -> Foo::Foo
+    # A constructor cannot be declared as a named method, so ZHL calls it
+    # constructor. Every overload keeps that one name: their arguments differ,
+    # so their typeids differ, and signature matching tells them apart.
+    # {class} expands to the class name, so Foo::constructor -> Foo::Foo.
     ('*::constructor', '{class}::{class}'),
-    ('*::constructor1', '{class}::{class}'),
-    ('*::constructor2', '{class}::{class}'),
-    ('*::constructor_copy', '{class}::{class}'),
-    ('*::constructor_copy1', '{class}::{class}'),
-    ('*::constructorEmpty', '{class}::{class}'),
-    ('*::constructorEmpty1', '{class}::{class}'),
-    ('*::constructorSystem', '{class}::{class}'),
-    ('*::constructorSystem1', '{class}::{class}'),
-    ('*::COPIED_constructor', '{class}::{class}'),
+
+    # Darwin is the exception. It emits two machine-code copies of each
+    # constructor where the other platforms emit one, so the second copy needs
+    # its own name. The name constructor goes to the copy the game calls, which
+    # is the one to hook. This is the unused copy.
+    ('*::constructorAbiCopy', '{class}::{class}'),
+
+    # Destructors take no arguments, so all three share one typeid and the
+    # number is the only thing separating them: D2, D1 and D0.
     ('*::destructor', '{class}::~{class}'),
+    ('*::destructor1', '{class}::~{class}'),
     ('*::destructor2', '{class}::~{class}'),
 
-    # Method overload naming variants
-    ('ShipManager::AddCrewMember1', 'ShipManager::AddCrewMember'),
-    ('ShipManager::AddCrewMember2', 'ShipManager::AddCrewMember'),
+
+    # These are published to Lua and were so before signature matching was created.
+    # Renaming them to what the binary calls the function would break every mod
+    # that calls them, so the rename of these functions are not possible.
     ('ShipManager::AddCrewMemberFromString', 'ShipManager::AddCrewMember'),
     ('ShipManager::AddCrewMemberFromBlueprint', 'ShipManager::AddCrewMember'),
     ('ShipManager::GetSelectedCrewPoint', 'ShipManager::GetSelectedCrew'),
     ('ShipManager::ClearStatusAll', 'ShipManager::ClearStatus'),
     ('ShipManager::ClearStatusSystem', 'ShipManager::ClearStatus'),
-    ('ShipSelect::GetSelectedShip', 'ShipSelect::GetSelection'),
-    ('CompleteShip::AddCrewMember1', 'CompleteShip::AddCrewMember'),
-    ('CompleteShip::AddCrewMember2', 'CompleteShip::AddCrewMember'),
-    ('ScoreKeeper::AddTopScoreList', 'ScoreKeeper::AddTopScore'),
-    ('ScoreKeeper::AddTopScoreType', 'ScoreKeeper::AddTopScore'),
-    ('ResourceControl::GetImageId1', 'ResourceControl::GetImageId'),
     ('ResourceControl::RenderImageString', 'ResourceControl::RenderImage'),
     ('ResourceControl::CreateImagePrimitiveString', 'ResourceControl::CreateImagePrimitive'),
-    ('InfoBox::SetSystemId', 'InfoBox::SetSystem'),
-    ('InfoBox::SetBlueprintWeapon', 'InfoBox::SetBlueprint'),
-    ('InfoBox::SetBlueprintDrone', 'InfoBox::SetBlueprint'),
-    ('InfoBox::SetBlueprintAugment', 'InfoBox::SetBlueprint'),
-    ('InfoBox::SetBlueprintCrew', 'InfoBox::SetBlueprint'),
-    ('GL_Primitive::SetImagePath', 'GL_Primitive::SetImage'),
-    ('CachedImage::SetImagePath', 'CachedImage::SetImage'),
-    ('Button::OnInitRect', 'Button::OnInit'),
-    ('TextButton::OnInitRect', 'TextButton::OnInit'),
-
-    # Capitalization/spelling differences
-    ('ShipManager::UpdateCrewMembers', 'ShipManager::UpdateCrewmembers'),
-    ('CrewMemberFactory::CreateCrewMember', 'CrewMemberFactory::CreateCrewmember'),
     ('CrewMember::NeedsSlot', 'CrewMember::NeedSlot'),
 
     # Known binding issues (signature matches destructor)
@@ -67,22 +52,32 @@ INTENTIONAL_MISMATCHES = [
     # Template naming differences
     ('Spreader_Fire::*', 'Spreader<Fire>::*'),
 
-    # _orig suffix for hooked original functions
-    ('*_orig', '*'),
+    # CSurface statics demangle without the class prefix, so the class is
+    # allowed to differ but the method name still has to match. Matching the nm
+    # name against a bare * here would switch off name checking for all ~70
+    # CSurface bindings, and a drifted one would report as correct.
+    ('CSurface::*', 'CSurface::{method}'),
+    ('CSurface::*', '{method}'),
+    ('CSurface::_CreateImagePrimitive', 'CreateImagePrimitive'),
 
-    # CSurface static functions (appear without class prefix in nm)
-    ('CSurface::*', '*'),
+    # CSurface names the binary disagrees with. These two only surface on x86,
+    # which keeps symbols for the plain C functions they wrap.
+    ('CSurface::FinishFrame', 'sys_graphics_finish_frame'),
+    ('CSurface::GL_OrthoProjection', 'graphics_set_parallel_projection'),
 
 
     # additions by ranhai
     ('ShipGraph::ConnectedGridSquaresPoint', 'ShipGraph::ConnectedGridSquares'),
     ('TextLibrary::FormatText_template_TextString', '_ZN11TextLibrary10FormatTextII10TextStringEEE*'),
-    ('{class}::copy_constructor', '{class}::{class}'),
     ('{class}::copy_assign_*', '{class}::operator='),  # ZHL copy assignment functions
     ('{class}::add_assign', '{class}::operator+='),  # ZHL operator+= functions
     ('*::__STRUCT_OVERRIDE_ANCHOR_*', '*'),  # Internal ZHL anchor functions
-    ('{class}::{method_nm}_OnlyForHooking', '{class}::{method_nm}'),  # ZHL internal functions
-    ('{class}::{method_nm}_DO_NOT_USE_DIRECTLY', '{class}::{method_nm}'),  # ZHL internal functions
+    # The game's original, kept under a suffix because HS owns the plain name on
+    # that class: either its own implementation (FileHelper::fileLength,
+    # Globals::GetNextSpaceId) or a wrapper that unpacks a packed return
+    # (TextButton::GetSize and the ShipGraph ones on win32). Hook this, or call
+    # it from the wrapper. Everything else must use the default function
+    ('{class}::{method_nm}_orig', '{class}::{method_nm}'),
     ('{class}::{method_nm}0', '{class}::{method_nm}'),  # ZHL numbered overloads
     ('{class}::{method_nm}1', '{class}::{method_nm}'),  # ZHL numbered overloads
     ('{class}::{method_nm}2', '{class}::{method_nm}'),  # ZHL numbered overloads
@@ -302,26 +297,14 @@ def nop_inside_target(zhl_name, nearest_funcs):
     return any(func.split('(')[0] == target for func in nearest_funcs)
 
 def normalize_name(zhl_name):
-    """Convert ZHL name to possible nm names for matching."""
-    results = []
+    """Convert ZHL name to possible nm names for matching.
 
-    # Handle numbered constructors (constructor1, constructor2, etc.)
-    if '::constructor' in zhl_name:
-        # Remove any trailing numbers
-        base = re.sub(r'::constructor\d*', '', zhl_name)
-        class_name = base.split('::')[-1]
-        results.append(f'{base}::{class_name}')  # Class::Class
-        results.append(base)  # Just the class name for matching
-    elif '::destructor' in zhl_name:
-        # Remove any trailing numbers
-        base = re.sub(r'::destructor\d*', '', zhl_name)
-        class_name = base.split('::')[-1]
-        results.append(f'{base}::~{class_name}')  # Class::~Class
-        results.append(base)
-    else:
-        results.append(zhl_name)
-
-    return results
+    Constructors and destructors used to be rewritten here to Class::Class. That
+    hid them from INTENTIONAL_MISMATCHES, so a spelling nobody had listed still
+    passed silently, which is how constructor3 came to be checked by nothing at
+    all. They are ordinary listed exceptions now.
+    """
+    return [zhl_name]
 
 def extract_class_name(function_name):
     """Extract the immediate class name from ``Namespace::Class::method``."""

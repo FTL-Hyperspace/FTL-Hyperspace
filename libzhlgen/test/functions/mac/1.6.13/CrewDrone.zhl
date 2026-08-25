@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ec1802":  //
 cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string& _type, const std::string& _name, int _iShipId, const DroneBlueprint* _blueprint, CrewAnimation* _animation);
 ".55":  //
-cleanup __amd64 void CrewDrone::constructor1(CrewDrone *this, const std::string &type, TextString *name, int iShipId, DroneBlueprint *blueprint, CrewAnimation *anim); // 100019be0 Linux DWARF prototype catalog
+cleanup __amd64 void CrewDrone::constructor(CrewDrone *this, const std::string &type, TextString *name, int iShipId, DroneBlueprint *blueprint, CrewAnimation *anim); // 100019be0 Linux DWARF prototype catalog
 "554889e54883ec10f3":  //
 cleanup __amd64 Point CrewDrone::GetWorldLocation(CrewDrone *this); // 100019bf0 Linux DWARF prototype catalog by linkage
 ".554889e541":  //

@@ -3,7 +3,7 @@ cleanup __amd64 void IonDrone::UpdateRepair(IonDrone *this); // 100019eb0 Linux 
 ".55":  //
 cleanup __amd64 void IonDrone::constructor(IonDrone *this, int iShipId, DroneBlueprint *blueprint);
 ".554889e55de9????????660f1f440000554889e58b":  //
-cleanup __amd64 void IonDrone::constructor1(IonDrone *this, int iShipId, DroneBlueprint *blueprint); // 10001a330 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void IonDrone::constructorAbiCopy(IonDrone *this, int iShipId, DroneBlueprint *blueprint); // 10001a330 Linux DWARF prototype catalog by linkage
 "554889e58b8730":  //
 cleanup __amd64 int IonDrone::BlockRoom(IonDrone *this); // 10001a340 Linux DWARF prototype catalog by linkage
 ".55":  //

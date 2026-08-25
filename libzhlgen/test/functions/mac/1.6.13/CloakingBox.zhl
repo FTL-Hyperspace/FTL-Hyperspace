@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec684889d34989fd31":  //
 cleanup __amd64 void CloakingBox::constructor(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012b330 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CloakingBox::constructor1(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012ba80 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CloakingBox::constructorAbiCopy(CloakingBox *this, Point loc, CloakingSystem *sys); // 10012ba80 Linux DWARF prototype catalog by linkage
 "!554889e54156534989fe488d05??????00498906498bbe":  //
 cleanup __amd64 void CloakingBox::destructor2(CloakingBox *this); // 10012ba90 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

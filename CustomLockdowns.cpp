@@ -150,18 +150,18 @@ HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf s
 // Everywhere it does exist, GCC clones it as .constprop and omits superFreeze,
 // so the parameter is not passed here.
 #ifndef __APPLE__
-HOOK_METHOD_PRIORITY(LockdownShard, constructor2, 900, (int lockingRoom, Pointf start, Point goal) -> void)
+HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int lockingRoom, Pointf start, Point goal) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor2 -> Begin (CustomLockdowns.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
 	super(lockingRoom, start, goal);
 
 	Initialize(false, this->superFreeze);
 }
 #endif
 
-HOOK_METHOD_PRIORITY(LockdownShard, constructor3, 900, (int fd) -> void)
+HOOK_METHOD_PRIORITY(LockdownShard, constructor, 900, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
 	super(fd);
 
 	Initialize(true, this->superFreeze);
@@ -503,9 +503,9 @@ HOOK_METHOD(LockdownShard, SaveState, (int fd) -> void)
     FileHelper::writeInt(fd, ex->canDilate ? 1 : 0);
 }
 
-HOOK_METHOD(LockdownShard, constructor3, (int fd) -> void)
+HOOK_METHOD(LockdownShard, constructor, (int fd) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> LockdownShard::constructor3 -> Begin (CustomLockdowns.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> LockdownShard::constructor -> Begin (CustomLockdowns.cpp)\n")
 	super(fd);
 
     //Vanilla code for animation setup has assumptions about the duration of a lockdown so we just load the AnimationTracker state here

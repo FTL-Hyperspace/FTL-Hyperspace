@@ -19,7 +19,11 @@ __thiscall void ShipSelect::SelectShip1(ShipSelect *this, int ship); // 00515880
 ".5581c144":  // unique sig
 __thiscall void ShipSelect::Close(ShipSelect *this);
 ".8b4138c38db6000000008d":  // unique sig
-__thiscall int ShipSelect::GetSelectedShip(ShipSelect *this);
+noHook void ShipSelect::__STRUCT_OVERRIDE_ANCHOR_38();
+// The binary calls this GetSelection and it is one instruction, a read of
+// selectedShip, which the inline in the struct below already does identically.
+// mac reached the same conclusion and anchored its copy, so no platform binds it:
+// __thiscall int ShipSelect::GetSelectedShip(ShipSelect *this);
 ".578d7c240883e4f0ff77fc5589e557565389cf81ec0c":  // unique sig
 __thiscall void ShipSelect::Open(ShipSelect *this, int currentId, int currentType);
 ".5589e557565389ce83e4f083ec108b79208b511c89":  // unique sig

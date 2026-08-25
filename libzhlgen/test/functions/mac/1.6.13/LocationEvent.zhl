@@ -1,5 +1,5 @@
 "554889e553504889fb48c743100000000048c743080000000048c70300000000c6":  //
-cleanup __amd64 void LocationEvent::constructor1(LocationEvent *this); // 1001baf90 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void LocationEvent::constructorAbiCopy(LocationEvent *this); // 1001baf90 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void LocationEvent::constructor(LocationEvent *this); // 1001bb3d0 Linux DWARF prototype catalog by linkage
 ".554889e541":  //

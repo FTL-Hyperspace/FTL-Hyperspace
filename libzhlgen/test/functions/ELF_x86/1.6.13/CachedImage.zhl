@@ -1,15 +1,15 @@
 "565383ec248b5c24308b4308c703????????8d50f481fa????????750e":
 cleanup __cdecl void CachedImage::destructor(CachedImage *this);
 "565383ec148b4424248b5c2420c70424????????89442404":
-cleanup __cdecl void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
+cleanup __cdecl void CachedImage::SetImage(CachedImage *this, const std::string& imagePath);
 ".57565383ec108b5c24208b7424248b7c2428397310":
 cleanup __cdecl void CachedImage::SetPosition(CachedImage *this, int x, int y);
 "5383ec188b5c24208b442424c7430400000000c703????????89442404":
-cleanup __cdecl void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
+cleanup __cdecl void CachedImage::constructor(CachedImage *this, const std::string& path, int x, int y);
 "5383ec??8b5c????8b44????c7430400000000c703????????c74308????????8944????":
-cleanup __cdecl void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);
+cleanup __cdecl void CachedImage::constructor(CachedImage *this, const std::string& path, CachedImage::Centered centered);
 "565383ec148b7424248b5c24208d4608":
-cleanup __cdecl void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
+cleanup __cdecl void CachedImage::constructor(CachedImage *this, const CachedImage &other);
 "5383ec188b5c2420f30f104424240f2e4330":
 cleanup __cdecl void CachedImage::SetRotation(CachedImage *this, float _rotation);
 "565383ec148b5c24208b74242489f0":
@@ -31,12 +31,12 @@ struct CachedImage
 	
 	CachedImage(const std::string& path, int x, int y)
 	{
-		constructor1(path, x, y);
+		constructor(path, x, y);
 	}
 	
 	CachedImage(const std::string& path, Centered centered)
 	{
-		constructor2(path, centered);
+		constructor(path, centered);
 	}
 
 	CachedImage()
@@ -46,7 +46,7 @@ struct CachedImage
 	
 	CachedImage(const CachedImage &other)
 	{
-		constructor_copy(other);
+		constructor(other);
 	}
 }};
 

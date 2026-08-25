@@ -5,19 +5,19 @@ noHook void CachedImage::__STRUCT_OVERRIDE_ANCHOR_4();
 //".660fefc98d41":  // unique sig
 // __thiscall void CachedImage::constructor(CachedImage *this); // 00585570 DWARF original prototype
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b47048b0f":  // unique sig
-__thiscall void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
+__thiscall void CachedImage::constructor(CachedImage *this, const std::string& path, int x, int y);
 ".578d5110":  // unique sig
-__thiscall void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);
+__thiscall void CachedImage::constructor(CachedImage *this, const std::string& path, CachedImage::Centered centered);
 ".8d411066":  // unique sig
 __thiscall void CachedImage::constructor(CachedImage *this, GL_Texture *texture, int x, int y); // 005857e0 DWARF original prototype
 ".538b5424088d":  // unique sig
 __thiscall void CachedImage::constructor(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 00585850 DWARF original prototype
 ".578d4110":  // unique sig
-__thiscall void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
+__thiscall void CachedImage::constructor(CachedImage *this, const CachedImage &other);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b37893424e8????????8d":  // unique sig
 __thiscall CachedImage *CachedImage::copy_assign_1(CachedImage *this, CachedImage *rhs); // 00585a40
 ".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec1c":  // unique sig
-__thiscall void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
+__thiscall void CachedImage::SetImage(CachedImage *this, const std::string& imagePath);
 ".5589e5565383e4f083ec108b7508397120":  // unique sig
 __thiscall void CachedImage::SetImage(CachedImage *this, GL_Texture *texture); // 00585b50 DWARF original prototype
 ".5589e557565383e4f083ec108b7508397124":  // unique sig
@@ -46,12 +46,12 @@ struct CachedImage
 
 	CachedImage(const std::string& path, int x, int y)
 	{
-		constructor1(path, x, y);
+		constructor(path, x, y);
 	}
 
 	CachedImage(const std::string& path, Centered centered)
 	{
-		constructor2(path, centered);
+		constructor(path, centered);
 	}
 
 	CachedImage()
@@ -61,6 +61,6 @@ struct CachedImage
 
 	CachedImage(const CachedImage &other)
 	{
-		constructor_copy(other);
+		constructor(other);
 	}
 }};

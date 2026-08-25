@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec584889fbbe":  //
 cleanup __amd64 void DroneControl::constructor(DroneControl *this); // 1000cee20 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void DroneControl::constructor1(DroneControl *this); // 1000cf090 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void DroneControl::constructorAbiCopy(DroneControl *this); // 1000cf090 Linux DWARF prototype catalog by linkage
 "554889e5415741564154534883ec204989ff":  //
 cleanup __amd64 void DroneControl::OnLoop(DroneControl *this);
 ".55":  //

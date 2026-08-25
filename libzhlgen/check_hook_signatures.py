@@ -42,11 +42,13 @@ COMMENT_RE = re.compile(r'/\*.*?\*/|//[^\n]*', re.S)
 # Hooks behind a platform guard, and the platforms that therefore never compile
 # them. Absence of a definition there is expected, not a fault. Add an entry when
 # a guarded hook is reported below, with the guard that puts it here.
+# Keyed by name and argument count: overloads share a name, so LockdownShard has
+# three hooks called constructor and only the three-argument one is guarded.
 NOT_COMPILED_ON = {
-    'LockdownShard::constructor2': {'darwin'},                    # CustomLockdowns.cpp #ifndef __APPLE__
-    'ShipManager::IsSystemHacked2': {'darwin'},                   # OxygenWithoutSystem.cpp #ifndef __APPLE__
-    'DebugHelper::CrashCatcher': {'darwin', 'linux32', 'linux64'},  # Debugging.cpp #ifdef _WIN32
-    'Globals::GetNextSpaceId_orig': {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef __APPLE__
+    ('LockdownShard::constructor', 3): {'darwin'},                 # CustomLockdowns.cpp #ifndef __APPLE__
+    ('ShipManager::IsSystemHacked2', 1): {'darwin'},               # OxygenWithoutSystem.cpp #ifndef __APPLE__
+    ('DebugHelper::CrashCatcher', 1): {'darwin', 'linux32', 'linux64'},  # Debugging.cpp #ifdef _WIN32
+    ('Globals::GetNextSpaceId_orig', 0): {'linux32', 'linux64', 'win32'},  # SpaceId.cpp #else of #ifndef __APPLE__
 }
 
 
@@ -220,7 +222,8 @@ def main():
         if hook['signature'] is None:
             continue
         for platform, grouped in definitions.items():
-            if platform in NOT_COMPILED_ON.get(hook['name'], ()):
+            guard = (hook['name'], len(hook['signature'][1]))
+            if platform in NOT_COMPILED_ON.get(guard, ()):
                 continue
             candidates = grouped.get(hook['name'])
             if not candidates:

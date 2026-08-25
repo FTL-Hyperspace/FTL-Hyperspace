@@ -29,7 +29,7 @@ cleanup __amd64 void Projectile::SetMovingTarget(Projectile *this, Targetable *t
 ".554889e54157415641554154534881ec28":  //
 cleanup __amd64 void Projectile::constructor(Projectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
 ".55":  //
-cleanup __amd64 void Projectile::constructor1(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100020d20 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Projectile::constructorAbiCopy(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target); // 100020d20 Linux DWARF prototype catalog by linkage
 "554889e54157415641554154534883ec184189f64889fbf3":  //
 cleanup __amd64 void Projectile::SaveProjectile(Projectile *this, int fd); // 100020d30 Linux DWARF prototype catalog by linkage
 ".554889e54157":  //

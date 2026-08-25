@@ -1,7 +1,7 @@
 "554889e553504889fb488d05??????004889038973":  //
-cleanup __amd64 void ArmamentControl::constructor(ArmamentControl *this, int systemId); // 1000a52f0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ArmamentControl::constructorAbiCopy(ArmamentControl *this, int systemId); // 1000a52f0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ArmamentControl::constructor1(ArmamentControl *this, int systemId); // 1000a5400 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ArmamentControl::constructor(ArmamentControl *this, int systemId); // 1000a5400 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void ArmamentControl::destructor2(ArmamentControl *this); // 1000a5510 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

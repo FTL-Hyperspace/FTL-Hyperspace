@@ -1,7 +1,7 @@
 "554889e5415741564154534189cf49":  //
-cleanup __amd64 void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e80a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ArtillerySystem::constructorAbiCopy(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e80a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void ArtillerySystem::constructor1(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e8110 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void ArtillerySystem::constructor(ArtillerySystem *this, WeaponBlueprint *weapBlueprint, int roomId, int shipId, int starting_power); // 1001e8110 Linux DWARF prototype catalog by linkage
 "!.55":  //
 cleanup __amd64 void ArtillerySystem::destructor2(ArtillerySystem *this); // 1001e8180 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //

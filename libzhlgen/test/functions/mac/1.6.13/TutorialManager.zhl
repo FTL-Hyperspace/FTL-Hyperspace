@@ -7,7 +7,7 @@ cleanup __amd64 void TutorialManager::destructor1(TutorialManager *this); // 100
 "!554889e54157415653504989ff4d":  //
 cleanup __amd64 void TutorialManager::destructor2(TutorialManager *this); // 100043c10 Itanium source destructor prototype, Itanium D2 destructor
 "!.55":  //
-cleanup __amd64 void TutorialManager::constructor1(TutorialManager *this); // 100043cf0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TutorialManager::constructorAbiCopy(TutorialManager *this); // 100043cf0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);
 ".55":  //

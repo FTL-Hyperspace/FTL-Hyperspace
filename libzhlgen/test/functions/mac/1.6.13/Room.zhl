@@ -1,7 +1,7 @@
 "554889e54157415641554154534881eca801":  //
 cleanup __amd64 void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId); // 1000663e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void Room::constructor1(Room *this, int iShipId, int x, int y, int w, int h, int roomId); // 100067320 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void Room::constructorAbiCopy(Room *this, int iShipId, int x, int y, int w, int h, int roomId); // 100067320 Linux DWARF prototype catalog by linkage
 "!554889e54881c728":  //
 cleanup __amd64 void Room::TapRoom(Room *this); // 100067330 Linux DWARF prototype catalog by linkage
 ".55":  //

@@ -7,7 +7,7 @@ __thiscall void DamageMessage::OnLoop(DamageMessage *this); // 0059cda0 DWARF or
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b4f":  // unique sig
 __thiscall void DamageMessage::constructor(DamageMessage *this, float length, Pointf pos, DamageMessage::MessageType type);
 ".578d7c240883e4f0ff77fc5589e557565389ce81ec9c02":  // unique sig
-__thiscall void DamageMessage::constructor2(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
+__thiscall void DamageMessage::constructor(DamageMessage *this, float length, int amount, Pointf pos, bool unk);
 
 
 
@@ -27,6 +27,6 @@ struct DamageMessage
 
 	DamageMessage(float length, int amount, Pointf pos, bool unk)
 	{
-		constructor2(length, amount, pos, unk);
+		constructor(length, amount, pos, unk);
 	}
 }};

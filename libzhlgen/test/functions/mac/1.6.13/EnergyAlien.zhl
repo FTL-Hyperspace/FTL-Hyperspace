@@ -1,7 +1,7 @@
 "554889e54157415641554154534883ec284189cc":  //
 cleanup __amd64 void EnergyAlien::constructor(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d4e0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void EnergyAlien::constructor1(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d5d0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void EnergyAlien::constructorAbiCopy(EnergyAlien *this, CrewBlueprint *blueprint, int shipId, bool intruder); // 10005d5d0 Linux DWARF prototype catalog by linkage
 "554889e553504889fbe8????????488b83":  //
 cleanup __amd64 void EnergyAlien::OnLoop(EnergyAlien *this);
 ".55":  //

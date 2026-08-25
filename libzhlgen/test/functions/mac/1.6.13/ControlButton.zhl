@@ -1,7 +1,7 @@
 "554889e553504889fb893348":  //
-cleanup __amd64 void ControlButton::constructor(ControlButton *this, Point pos, const std::string &value); // 1000ff240 Linux DWARF prototype catalog
+cleanup __amd64 void ControlButton::constructorAbiCopy(ControlButton *this, Point pos, const std::string &value); // 1000ff240 Linux DWARF prototype catalog
 ".55":  //
-cleanup __amd64 void ControlButton::constructor1(ControlButton *this, Point pos, const std::string &value); // 1000ff2c0 Linux DWARF prototype catalog
+cleanup __amd64 void ControlButton::constructor(ControlButton *this, Point pos, const std::string &value); // 1000ff2c0 Linux DWARF prototype catalog
 ".55":  //
 cleanup __amd64 void ControlButton::SetDesc(ControlButton *this, TextString desc); // 1000ff340 Linux DWARF prototype catalog by linkage
 ".55":  //

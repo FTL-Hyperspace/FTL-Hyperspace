@@ -4148,7 +4148,7 @@ void RecallBoarders(int direction, bool force, bool effects)
                 if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
-                    playerShip->AddCrewMember2(i,targetRoom);
+                    playerShip->AddCrewMember(i,targetRoom);
                     if (effects)
                     {
                         i->StartTeleportArrive();
@@ -4173,7 +4173,7 @@ void RecallBoarders(int direction, bool force, bool effects)
                 if (canTeleport || force) // do it this way to ignore the vanilla conditions
                 {
                     i->EmptySlot();
-                    enemyShip->AddCrewMember2(i,targetRoom);
+                    enemyShip->AddCrewMember(i,targetRoom);
                     if (effects)
                     {
                         i->StartTeleportArrive();
@@ -4772,7 +4772,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         CompleteShip* replacedShip = ships[0];
         //Recall player's boarders
         RecallBoarders(1, false);
-        replacedShip->shipManager->UpdateCrewMembers();
+        replacedShip->shipManager->UpdateCrewmembers();
         commandGui->combatControl.Clear();
         replacedShip->shipManager->KillEveryone(true);
         replacedShip->shipManager->SetDestroyed();
@@ -7223,7 +7223,7 @@ bool deathEventActive = false;
 // -Dino
 HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox0 -> Begin (CustomEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
 
     if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
     {
@@ -7233,7 +7233,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateChoiceBox, -9999, (LocationEvent *event
 
 HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -9999, (LocationEvent *event) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation0 -> Begin (CustomEvents.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
 
     if (deathEventActive || !this->playerShip->shipManager->bDestroyed) // Actually virtual bool ShipManager::GetIsDying()
     {

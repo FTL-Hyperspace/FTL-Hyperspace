@@ -28,19 +28,19 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int x, int y) -> void)
 
             if (resource.weapon != nullptr && !CustomWeaponManager::instance->GetWeaponDefinition(resource.weapon->name)->hideEventTooltip)
             {
-                infoBox->SetBlueprintWeapon(resource.weapon, 0, true, 0);
+                infoBox->SetBlueprint(resource.weapon, 0, true, 0);
             }
             else if (resource.drone != nullptr)
             {
-                infoBox->SetBlueprintDrone(resource.drone, 0, true, 0);
+                infoBox->SetBlueprint(resource.drone, 0, true, 0);
             }
             else if (resource.augment != nullptr)
             {
-                infoBox->SetBlueprintAugment(resource.augment);
+                infoBox->SetBlueprint(resource.augment);
             }
             else if (!resource.crewBlue.name.empty() && resource.removeItem.empty())
             {
-                infoBox->SetBlueprintCrew(&resource.crewBlue, 0, false);
+                infoBox->SetBlueprint(&resource.crewBlue, 0, false);
             }
         }
     }

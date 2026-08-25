@@ -3,7 +3,7 @@ cleanup __amd64 void AchievementTracker::constructor(AchievementTracker *this); 
 ".55":  //
 cleanup __amd64 void AchievementTracker::destructor1(AchievementTracker *this); // 100009d70 Itanium source destructor prototype, Itanium D1 destructor
 ".554889e553":  //
-cleanup __amd64 void AchievementTracker::constructor1(AchievementTracker *this); // 10000a730 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void AchievementTracker::constructorAbiCopy(AchievementTracker *this); // 10000a730 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void AchievementTracker::destructor2(AchievementTracker *this); // 10000a930 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //

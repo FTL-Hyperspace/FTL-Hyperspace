@@ -1,15 +1,15 @@
 "554889e548c7470800000000488d05????1e0048890748c74718":  //
-cleanup __amd64 void CachedRect::constructor(CachedRect *this); // 10014cfe0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedRect::constructorAbiCopy(CachedRect *this); // 10014cfe0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedRect::constructor1(CachedRect *this); // 10014d010 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedRect::constructor(CachedRect *this); // 10014d010 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedRect::constructor(CachedRect *this, int x, int y, int w, int h); // 10014d040 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedRect::constructorAbiCopy(CachedRect *this, int x, int y, int w, int h); // 10014d040 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedRect::constructor1(CachedRect *this, int x, int y, int w, int h); // 10014d070 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedRect::constructor(CachedRect *this, int x, int y, int w, int h); // 10014d070 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedRect::constructor(CachedRect *this, CachedRect *source); // 10014d0a0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedRect::constructorAbiCopy(CachedRect *this, CachedRect *source); // 10014d0a0 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CachedRect::constructor1(CachedRect *this, CachedRect *source); // 10014d0c0 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CachedRect::constructor(CachedRect *this, CachedRect *source); // 10014d0c0 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 CachedRect *CachedRect::copy_assign_1(CachedRect *this, CachedRect *rhs); // 10014d0e0 Linux DWARF prototype catalog by linkage
 ".55":  //

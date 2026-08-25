@@ -1,5 +1,5 @@
 "554889e55de9????????660f1f440000554889e54157415641554154534883ec5848|554889e50fb6d2":  //
-cleanup __amd64 void IonDroneAnimation::constructor1(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a200 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void IonDroneAnimation::constructorAbiCopy(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a200 Linux DWARF prototype catalog by linkage
 ".554889e54157415641":  //
 cleanup __amd64 void IonDroneAnimation::constructor(IonDroneAnimation *this, int iShipId, Pointf position, bool enemy); // 10001a5a0 Linux DWARF prototype catalog by linkage
 ".55":  //

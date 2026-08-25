@@ -3,9 +3,11 @@ noHook __amd64 void CrewBox::__STRUCT_OVERRIDE_ANCHOR_26();
 //"554889e54157415641554154534881ec980000004189cf":  //
 //cleanup __amd64 void CrewBox::constructor(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c7420 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void CrewBox::constructor1(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c8000 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void CrewBox::constructorAbiCopy(CrewBox *this, Point loc, CrewMember *crew, int number); // 1000c8000 Linux DWARF prototype catalog by linkage
 "!554889e54156534889fb488bbb":  //
-cleanup __amd64 void CrewBox::destructor2(CrewBox *this); // 1000c8010 Itanium source destructor prototype, Itanium D2 destructor
+noHook __amd64 void CrewBox::__STRUCT_OVERRIDE_ANCHOR_154();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void CrewBox::destructor2(CrewBox *this); // 1000c8010 Itanium source destructor prototype, Itanium D2 destructor
 ".55":  //
 cleanup __amd64 void CrewBox::destructor1(CrewBox *this); // 1000c80e0 Itanium source destructor prototype, Itanium D1 destructor
 "!554889e54156534189f64889fb488b7b20":  //

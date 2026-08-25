@@ -3,7 +3,9 @@ noHook __amd64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_59();
 //"554889e5415741564154534189f64989ffbe":  //
 //cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eed50 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void OxygenSystem::constructor1(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eef60 Linux DWARF prototype catalog by linkage
+noHook __amd64 void OxygenSystem::__STRUCT_OVERRIDE_ANCHOR_151();
+// duplicate of another declaration at the same address, kept as an anchor so the relative scans after it do not shift:
+// cleanup __amd64 void OxygenSystem::constructorAbiCopy(OxygenSystem *this, int numRooms, int roomId, int shipId, int starting_power); // 1001eef60 Linux DWARF prototype catalog by linkage
 ".55":  //
 cleanup __amd64 void OxygenSystem::RemoveRoom(OxygenSystem *this); // 1001ef190 Linux DWARF prototype catalog by linkage
 ".55":  //

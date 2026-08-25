@@ -369,9 +369,9 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 
 // Overclocking effects
 
-HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
+HOOK_METHOD(ShipManager, UpdateCrewmembers, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (OverclockerSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewmembers -> Begin (OverclockerSystem.cpp)\n")
 
     for (auto i : vCrewList)
     {

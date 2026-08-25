@@ -5,19 +5,19 @@ noHook __amd64 void CachedImage::__STRUCT_OVERRIDE_ANCHOR_4();
 //".0f57c948c7470800000000f30f1005????????48c707????????48c74710????????48c7":  // unique sig
 //cleanup __amd64 void CachedImage::constructor(CachedImage *this); // 005a27f0 DWARF original prototype
 ".41544189cc5589d5534889fb48c7":  // unique sig
-cleanup __amd64 void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string& path, int x, int y);
 ".534889fb48c747080000000048c707????????48c7":  // unique sig
-cleanup __amd64 void CachedImage::constructor2(CachedImage *this, const std::string& path, CachedImage::Centered centered);
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const std::string& path, CachedImage::Centered centered);
 ".0f57c948c7470800000000f30f1005????????48c707????????48c74710????????4889":  // unique sig
 cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, int x, int y); // 005a2970 DWARF original prototype
 ".4889f048c747":  // unique sig
 cleanup __amd64 void CachedImage::constructor(CachedImage *this, GL_Texture *texture, CachedImage::Centered centered); // 005a29d0 DWARF original prototype
 ".554889f5488d7610534889fb488d7f1048":  // unique sig
-cleanup __amd64 void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
+cleanup __amd64 void CachedImage::constructor(CachedImage *this, const CachedImage &other);
 ".554889f5534889fb4883ec08e8????????488d75":  // unique sig
 cleanup __amd64 CachedImage *CachedImage::copy_assign_1(CachedImage *this, CachedImage *rhs); // 005a2b10
 ".55534889fbbf????????4883ec08e8????????48":  // unique sig
-cleanup __amd64 void CachedImage::SetImagePath(CachedImage *this, const std::string& imagePath);
+cleanup __amd64 void CachedImage::SetImage(CachedImage *this, const std::string& imagePath);
 ".554889f5534889fb4883ec084839":  // unique sig
 cleanup __amd64 void CachedImage::SetImage(CachedImage *this, GL_Texture *texture); // 005a2bf0 DWARF original prototype
 ".41544189d45589f553397720":  // unique sig
@@ -45,12 +45,12 @@ struct CachedImage
 
 	CachedImage(const std::string& path, int x, int y)
 	{
-		constructor1(path, x, y);
+		constructor(path, x, y);
 	}
 
 	CachedImage(const std::string& path, Centered centered)
 	{
-		constructor2(path, centered);
+		constructor(path, centered);
 	}
 
 	CachedImage()
@@ -60,7 +60,7 @@ struct CachedImage
 
 	CachedImage(const CachedImage &other)
 	{
-		constructor_copy(other);
+		constructor(other);
 	}
 }};
 

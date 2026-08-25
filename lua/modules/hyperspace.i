@@ -1160,6 +1160,10 @@ playerVariableType playerVariables;
 
 %rename("%s") TextButton;
 %rename("%s") TextButton::OnInit;
+// The Rect overload used to be called OnInitRect and was never exposed. It
+// takes the binary's name now, and %rename above matches on name alone, so it
+// has to be ignored by signature to keep the Lua API as it was.
+%rename("$ignore") TextButton::OnInit(Globals::Rect &, int, TextString &, int);
 %rename("%s") TextButton::OnRender;
 
 %nodefaultctor TextButton0;

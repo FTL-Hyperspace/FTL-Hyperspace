@@ -3,7 +3,7 @@ noHook __amd64 void TeleportBox::__STRUCT_OVERRIDE_ANCHOR_130();
 //"554889e54157415641554154534883ec684889d3":  //
 //cleanup __amd64 void TeleportBox::constructor(TeleportBox *this, Point loc, TeleportSystem *sys); // 10012a560 Linux DWARF prototype catalog by linkage
 ".55":  //
-cleanup __amd64 void TeleportBox::constructor1(TeleportBox *this, Point loc, TeleportSystem *sys); // 10012a820 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void TeleportBox::constructorAbiCopy(TeleportBox *this, Point loc, TeleportSystem *sys); // 10012a820 Linux DWARF prototype catalog by linkage
 "!554889e54157415653504889fbe8|!554889e54157415653504889fb40":  //
 cleanup __amd64 void TeleportBox::OnRender(TeleportBox *this, bool ignoreStatus); // 10012a830 Linux DWARF prototype catalog by linkage
 ".55":  //

@@ -1,7 +1,7 @@
 "554889e54157415641554154534881ec280100000f":  //
 cleanup __amd64 void PDSFire::constructor(PDSFire *this, Point _position, int _destinationSpace, Pointf _destination);
 ".55":  //
-cleanup __amd64 void PDSFire::constructor1(PDSFire *this, Point pos, int destinationSpace, Pointf destination); // 100023120 Linux DWARF prototype catalog by linkage
+cleanup __amd64 void PDSFire::constructorAbiCopy(PDSFire *this, Point pos, int destinationSpace, Pointf destination); // 100023120 Linux DWARF prototype catalog by linkage
 "554889e580bf1003":  //
 cleanup __amd64 int PDSFire::ForceRenderLayer(PDSFire *this); // 100023130 Linux DWARF prototype catalog by linkage
 ".55":  //
