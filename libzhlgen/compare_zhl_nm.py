@@ -99,10 +99,6 @@ UNCHECKED_CALL_NAMES = {
     # Declared as two Points, which is the same stack layout on x86.
     'ShipGraph::ConnectedGridSquaresPoint',
     'ShipGraph::ConnectingDoor',
-    # binary: CanFitSubsystem()
-    # The int is HS's own and Lua is bound to it, so it cannot be dropped. Known
-    # fault: the CustomSystems hook reads it even when the game passes nothing.
-    'ShipManager::CanFitSubsystem',
 }
 
 LIBCPP_STRING_RE = re.compile(
