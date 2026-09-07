@@ -28,6 +28,8 @@ cleanup __amd64 void TextButton::UpdateAutoWidth(TextButton *this);
 cleanup __amd64 int TextButton::GetIdealButtonWidth(TextButton *this);
 ".554889e553504889fbe8b2feffff488b":
 cleanup __amd64 Point TextButton::GetSize(TextButton *this);
+".554889e5":
+cleanup __amd64 void TextButton::SetSize(TextButton *this, Point size);
 "!.554889e54157415653504189ce4989d7":
 cleanup __amd64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point position, int autoWidthMin);
 ".55":

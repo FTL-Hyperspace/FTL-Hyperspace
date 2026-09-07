@@ -3627,10 +3627,310 @@ HOOK_METHOD(MenuScreen, Open, () -> void)
                     }
                 }
                 if (ach) shipAchievements.push_back({ach, Point(859, 362), 32});
+
+                // Adjust the individual achievement positions correctly for a langauge
+                this->OnLanguageChange();
             }
         }
     }
 }
+
+HOOK_METHOD_PRIORITY(CAchievement, OnRender, 9999, (Point pos, int style, bool showNew) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CAchievement::OnRender -> Begin (CustomShipSelect.cpp)\n")
+    
+    const GL_Color white = COLOR_WHITE;
+    
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate(pos.x, pos.y);
+    if (style < 2)
+    {
+        this->icon.CachedPrimitive::OnRender(white);
+
+        if (!this->unlocked)
+        {
+            CSurface::GL_RenderPrimitive(this->lockOverlay);
+            CSurface::GL_PushMatrix();
+            const int halved = this->dimension / 2;
+            CSurface::GL_Translate(halved - 8, halved - 11);
+            this->lockImage.CachedPrimitive::OnRender(white);
+            CSurface::GL_PopMatrix();
+        }
+    }
+    else
+    {
+        if (this->unlocked)
+        {
+            this->miniIconLocked.CachedPrimitive::OnRender(white);
+        }
+        else
+        {
+            this->miniIcon.CachedPrimitive::OnRender(white);
+        }
+    }
+
+    if (this->newAchievement && showNew)
+    {
+        CSurface::GL_SetColor(white);
+        Point pnt = Point(0,0);
+        if (this->dimension == 32)
+        {
+            pnt.y -= 30;
+        }
+        freetype::easy_printCenter(12, this->dimension / 2 + pnt.x, pnt.y + 47, G_->GetTextLibrary()->GetText("new_achievement"));
+        CSurface::GL_SetColor(white);
+    }
+
+    if ((this->name_id.find("_VICTORY", 0, 8) != std::string::npos) && this->unlocked)
+    {
+        CSurface::GL_PushMatrix();
+        int start;
+        int count;
+        if (this->ship.find("CRYSTAL") == std::string::npos && this->ship.find("ANAEROBIC") == std::string::npos)
+        {
+            start = 1;
+            count = 3;
+        }
+        else
+        {
+            start = 6;
+            count = 2;
+        }
+        CSurface::GL_Translate(start, 24.f);
+        for (int i = 0; i < count; i++)
+        {
+            if (this->shipDifficulties[i] == -1)
+            {
+                this->dotOff.CachedPrimitive::OnRender(white);
+            }
+            else
+            {
+                this->dotOn.CachedPrimitive::OnRender(white);
+            }
+            CSurface::GL_Translate(10.f, 0.f);
+        }
+        CSurface::GL_PopMatrix();
+    }
+
+    if (style == 0 && this->dimension != 32)
+    {
+        CSurface::GL_RenderPrimitiveWithColor(this->outline, GL_Color(200.f / 255, 200.f / 255, 200.f / 255, 1.f));
+    }
+    else if (style == 1 && this->dimension != 32)
+    {
+        CSurface::GL_RenderPrimitiveWithColor(this->outline, COLOR_BUTTON_SELECT);
+    }
+    else if (style == 2)
+    {
+        CSurface::GL_RenderPrimitiveWithColor(this->mini_outline, COLOR_BUTTON_SELECT);
+    }
+
+    CSurface::GL_PopMatrix();
+}
+
+float totalAchBoxWidth;
+HOOK_METHOD_PRIORITY(MenuScreen, OnLanguageChange, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnLanguageChange -> Begin (CustomShipSelect.cpp)\n")
+
+    this->menuWidth = static_cast<int>(mainImage->width());
+    for (TextButton* button : buttons)
+    {
+        const Pointf measured = freetype::easy_measurePrintLines(62, 0.f, 0.f, 999, button->label.GetText());
+        this->menuWidth = std::max(this->menuWidth, static_cast<int>(std::round(measured.x) + 40));
+    }
+
+    this->difficultyLabel = G_->GetTextLibrary()->GetText("menu_status_difficulty");
+    this->dlcLabel = G_->GetTextLibrary()->GetText("menu_status_ae_content");
+    this->achLabel = G_->GetTextLibrary()->GetText("menu_status_achievements");
+
+    const SettingValues* settings = G_->GetSettings();
+    const char* difficultyKey = nullptr;
+    if (settings->difficulty == 0) 
+    {
+        difficultyKey = "easy_button";
+    }
+    else if (settings->difficulty == 1)
+    {
+        difficultyKey = "normal_button";
+    }
+    else if (settings->difficulty == 2)
+    {
+        difficultyKey = "hard_button";
+    }
+    if (difficultyKey != nullptr)
+    {
+        this->difficultyText = G_->GetTextLibrary()->GetText(difficultyKey);
+    }
+    this->dlcText = G_->GetTextLibrary()->GetText(settings->bDlcEnabled ? "advanced_on_button" : "advanced_off_button");
+
+    this->difficultyWidth = std::max(
+    {
+        static_cast<int>(freetype::easy_measureWidth(13, this->difficultyLabel) + 34),
+        static_cast<int>(freetype::easy_measureWidth(62, this->difficultyText) + 30),
+        static_cast<int>(this->difficultyBox->width())   // cast to int
+    });
+    this->dlcWidth = std::max(
+    {
+        static_cast<int>(freetype::easy_measureWidth(13, this->dlcLabel) + 34),
+        static_cast<int>(freetype::easy_measureWidth(62, this->dlcText) + 30),
+        static_cast<int>(this->dlcBox->width())          // cast to int
+    });
+
+    int extraWidth = this->dlcWidth + 3 + this->difficultyWidth - static_cast<int>(this->achBox->width());
+    if (extraWidth % 10 != 0)
+    {
+        const int needed = 10 - extraWidth % 10;
+        extraWidth += needed;
+        this->difficultyWidth += needed / 2;
+        this->dlcWidth += needed - needed / 2;
+    }
+
+    this->achWidth = static_cast<int>(this->achBox->width()) + extraWidth; // int
+    this->position.x = 660 - (achWidth + 38 + this->menuWidth) / 2;
+    this->position.y = 360 - static_cast<int>(mainImage->height()) / 2;
+    this->statusPosition = Point(this->position.x + this->menuWidth + 38, 390 - static_cast<int>(mainImage->height()) / 2);
+
+    for (TextButton* button : buttons)
+    {
+        button->SetLocation(Point(this->position.x + 17, button->position.y));
+        const Point size = button->GetSize();
+        button->SetSize(Point(this->menuWidth - 34, size.y));
+
+        const Pointf measured = freetype::easy_measurePrintLines(62, 0.f, 0.f, 999, button->label.GetText());
+        this->menuWidth = std::max(this->menuWidth, static_cast<int>(std::round(measured.x) + 40));
+    }
+    this->info.location = Point(this->position.x + 200, this->position.y + 165);
+
+    CSurface::GL_DestroyPrimitive(this->menuPrimitive);
+    this->menuPrimitive = nullptr;
+
+    std::vector<GL_TexVertex> vertices;
+    constexpr float leftCap = 132.f;
+    constexpr float rightBoundary = 142.f;
+    constexpr float repeatWidth = 10.f;
+    const float x = this->statusPosition.x;
+    const float y = this->statusPosition.y + 74;
+    const float textureWidth = this->achBox->width();
+    const float textureHeight = this->achBox->height();
+
+    CSurface::AddTexVertices(&vertices, x, y, leftCap, textureHeight, 0.f, leftCap / textureWidth, 0.f, 1.f);
+    float cursor = x + leftCap;
+    for (int covered = 0; covered < extraWidth + 10; covered += 10)
+    {
+        CSurface::AddTexVertices(&vertices, cursor, y, repeatWidth, textureHeight, leftCap / textureWidth, rightBoundary / textureWidth, 0.f, 1.f);
+        cursor += repeatWidth;
+    }
+    CSurface::AddTexVertices(&vertices, cursor, y, textureWidth - rightBoundary, textureHeight, rightBoundary / textureWidth, 1.f, 0.f, 1.f);
+
+    CSurface::GL_DestroyPrimitive(this->achBoxPrimitive);
+    this->achBoxPrimitive = CSurface::GL_CreateMultiImagePrimitive(achBox, &vertices, COLOR_WHITE);
+
+    totalAchBoxWidth = (cursor - x) + (textureWidth - rightBoundary);
+
+    if (this->bOpen)
+    {
+        Point achievementPosition(this->statusPosition.x + 22 + (extraWidth + 3) / 6, this->statusPosition.y + 119);
+        for (unsigned int i = 0; i < this->shipAchievements.size(); ++i)
+        {
+            this->shipAchievements[i].position = achievementPosition;
+            if (i < 2)
+            {
+                achievementPosition.x += (extraWidth + 1) / 3 + 71;
+            }
+            else if (i == 2)
+            {
+                achievementPosition.y += 34;
+                achievementPosition.x = this->statusPosition.x + extraWidth + 245;
+            }
+            else
+            {
+                achievementPosition.y -= 34;
+            }
+        }
+    }
+}
+
+HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 9999, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnRender -> Begin (CustomShipSelect.cpp)\n")
+
+    if (this->bShowControls)
+    {
+        return super();
+        // return RenderHelpText();
+    }
+
+    const bool tutorial = G_->GetTutorialManager()->Running();
+    if (tutorial)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(150.f, 0.f, 0.f);
+    }
+    if (this->confirmDialog.bOpen)
+    {
+        CSurface::GL_SetColorTint(COLOR_TINT);
+    }
+
+    const GL_Color white = COLOR_WHITE;
+    if (this->menuPrimitive == nullptr)
+    {
+        const float textureWidth = this->mainImage->width();
+        const float textureHeight = this->mainImage->height();
+        const float menuPositionX = this->position.x;
+        const float menuPositionY = this->position.y;
+        std::vector<GL_TexVertex> vertices;
+        CSurface::AddTexVertices(&vertices, menuPositionX, menuPositionY, 81.f, textureHeight, 0.f, 81.f / textureWidth, 0.f, 1.f);
+        CSurface::AddTexVertices(&vertices, menuPositionX + 81.f, menuPositionY, this->menuWidth - 161, textureHeight, 81.f / textureWidth, 82.f / textureWidth, 0.f, 1.f);
+        CSurface::AddTexVertices(&vertices, menuPositionX + this->menuWidth - 80, menuPositionY, 80.f, textureHeight, 82.f / textureWidth, 162.f / textureWidth, 0.f, 1.f);
+        this->menuPrimitive = CSurface::GL_CreateMultiImagePrimitive(this->mainImage, &vertices, white);
+    }
+    CSurface::GL_RenderPrimitive(menuPrimitive);
+    for (TextButton* button : this->buttons)
+    {
+        button->OnRender();
+    }
+
+    if (!tutorial)
+    {
+        const float statusPositionX = this->statusPosition.x;
+        const float statusPositionY = this->statusPosition.y;
+        CSurface::GL_BlitPixelImageWide(this->difficultyBox, statusPositionX, statusPositionY, this->difficultyWidth, 72, 1.f, white, false);
+        CSurface::GL_BlitPixelImageWide(this->dlcBox, statusPositionX + this->difficultyWidth + 3, statusPositionY, this->dlcWidth, 72, 1.f, white, false);
+        CSurface::GL_RenderPrimitive(this->achBoxPrimitive);
+
+        CSurface::GL_SetColor(COLOR_BUTTON_ON);
+        freetype::easy_printCenter(13, statusPositionX + (this->difficultyWidth + 1) / 2, statusPositionY + 16, this->difficultyLabel);
+        freetype::easy_printCenter(13, statusPositionX + this->difficultyWidth + 3 + (this->dlcWidth + 1) / 2, statusPositionY + 16, this->dlcLabel);
+        freetype::easy_printCenter(13, statusPositionX + (achWidth + 1) / 2, statusPositionY + 90, this->achLabel);
+
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT); 
+        freetype::easy_printCenter(62, statusPositionX + (this->difficultyWidth + 1) / 2, statusPositionY + 40, this->difficultyText);
+        freetype::easy_printCenter(62, statusPositionX + this->difficultyWidth + 3 + (this->dlcWidth + 1) / 2, statusPositionY + 40, this->dlcText);
+        CSurface::GL_SetColor(white);
+
+        for (size_t i = 0; i < this->shipAchievements.size(); ++i)
+        {
+            const int32_t style = i < 3 ? static_cast<int32_t>(i == this->selectedAch) : ((i == this->selectedAch) ? 2 : 3);
+            this->shipAchievements[i].achievement->OnRender(this->shipAchievements[i].position, style, true);
+        }
+        if (selectedAch != -1)
+        {
+            this->info.OnRender();
+        }
+    }
+
+    if (this->confirmDialog.bOpen)
+    {
+        CSurface::GL_RemoveColorTint();
+        this->confirmDialog.OnRender();
+    }
+    if (tutorial)
+    {
+        CSurface::GL_PopMatrix();
+    }
+}
+
 //TODO: Might be nice to also show victories here (Like in the ship select menu)
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
@@ -3658,7 +3958,17 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                 {
                     //CSurface::GL_SetColor(g_defaultTextButtonColors[1]);
                     CSurface::GL_SetColor(COLOR_BUTTON_ON);
-                    freetype::easy_printCenter(13, 742, 387, G_->GetTextLibrary()->GetText("hangar_no_ship_achievements"));
+                    std::string noAchText = G_->GetTextLibrary()->GetText("hangar_no_ship_achievements");
+                    float maxTextWidth = totalAchBoxWidth - 44.f;
+                    const int textWidth = freetype::easy_measureWidth(13, noAchText);
+                    if (textWidth < maxTextWidth - 30)
+                    {
+                        freetype::easy_printCenter(12, maxTextWidth / 2.f + this->statusPosition.x, 387.f, noAchText);
+                    }
+                    else
+                    {
+                        freetype::easy_printNewlinesCentered(12, maxTextWidth / 2.f + this->statusPosition.x, 377.f, textWidth / 3 * 2, noAchText);
+                    }
                 }
                 // todo: add "ACHIEVEMENTS DISABLED" overlay for seeded runs
 
